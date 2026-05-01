@@ -103,6 +103,7 @@ class StateEnum:
     chapters: list[dict] = field(default_factory=list)  # {url, label}
     error: str | None = None
     sample_labels: list[str] = field(default_factory=list)
+    extraction_level: str = ""  # "chapter", "section_fallback", "official_generic"
 
 
 def load_targets() -> dict[str, dict]:
@@ -263,9 +264,16 @@ CHAPTER_SEG = re.compile(
     r"^(chapter|article|division|subtitle|subdivision|part)[-_][0-9a-z][0-9a-z\-\.]*$",
     re.IGNORECASE,
 )
-SECTION_SEG = re.compile(r"^(section|§|preliminary)", re.IGNORECASE)
+SECTION_SEG = re.compile(
+    # Common Justia section URL patterns:
+    #   section-X, §X, s-X, statute-X, rs-X (LA), bare numeric prefix '38-101'
+    r"^(section[-_]|§|s[-_]\d|statute[-_]|rs[-_]|\d+[a-z]?[-_]\d)",
+    re.IGNORECASE,
+)
 YEAR_NAV_LABEL = re.compile(r"^\s*\d{4}\s+", re.IGNORECASE)  # "2024 Mass. Gen. Laws"
 SIBLING_NAV_LABEL = re.compile(r"^\s*(previous|next)\s*$", re.IGNORECASE)
+# Labels that look like a section: starts with §, "Section ", or "X-Y" / "X:Y" patterns
+SECTION_LABEL = re.compile(r"^\s*(§|section\s|\d+[a-z]?[-:.]\d)", re.IGNORECASE)
 
 
 def extract_justia_chapters(html: str, base_url: str) -> list[dict]:
@@ -332,8 +340,10 @@ def extract_justia_chapters(html: str, base_url: str) -> list[dict]:
             if not children:
                 # Same level as the title itself (year-versioned twin) → skip
                 continue
-            # Skip if any child segment looks like a section
+            # Skip if any child segment looks like a section (URL or label-based)
             if any(SECTION_SEG.match(c) for c in children):
+                continue
+            if SECTION_LABEL.match(label):
                 continue
             # Path A: chapter-pattern segment somewhere in the children
             if any(CHAPTER_SEG.match(c) for c in children):
@@ -351,6 +361,58 @@ def extract_justia_chapters(html: str, base_url: str) -> list[dict]:
         seen.add(key)
         chapters.append({"url": absolute, "label": label, "slug": last})
     return chapters
+
+
+def extract_justia_sections(html: str, base_url: str) -> list[dict]:
+    """Fallback for states where the parent URL IS the chapter and children are sections.
+
+    Used when extract_justia_chapters returns 0 — typically because the user-supplied
+    parent URL is already a chapter (e.g., MA chapter-112, KY chapter-311) so children
+    are sections, or because the title has only sections directly under it (e.g., AZ).
+    Extracts links one level deeper than the title slug whose final segment looks
+    section-like (starts with 'section-', '§', 's-N', or bare numeric pattern).
+    """
+    soup = BeautifulSoup(html, "html.parser")
+    parsed_base = urllib.parse.urlparse(base_url)
+    base_segments = [s for s in parsed_base.path.split("/") if s]
+    title_slug = None
+    for seg in reversed(base_segments):
+        if re.fullmatch(r"\d{4}", seg):
+            continue
+        title_slug = seg.lower()
+        break
+
+    sections: list[dict] = []
+    seen: set[str] = set()
+    for a in soup.find_all("a", href=True):
+        href = a["href"].strip()
+        if not href or href.startswith(("#", "mailto:", "javascript:")):
+            continue
+        absolute = urllib.parse.urljoin(base_url, href)
+        u = urllib.parse.urlparse(absolute)
+        if u.netloc and u.netloc != parsed_base.netloc:
+            continue
+        path_segments = [s for s in u.path.split("/") if s]
+        if not path_segments:
+            continue
+        last = path_segments[-1]
+        label = (a.get_text(strip=True) or "").strip()
+        if not label or YEAR_NAV_LABEL.match(label) or SIBLING_NAV_LABEL.match(label):
+            continue
+        # Must look like a section by URL, label, or both
+        looks_like_section = bool(SECTION_SEG.match(last) or SECTION_LABEL.match(label))
+        if not looks_like_section:
+            continue
+        # Path scoping: must include the title slug
+        lower_segs = [s.lower() for s in path_segments]
+        if title_slug and title_slug not in lower_segs:
+            continue
+        key = (u.path,)
+        if key in seen:
+            continue
+        seen.add(key)
+        sections.append({"url": absolute, "label": label, "slug": last})
+    return sections
 
 
 def extract_official_chapters(html: str, base_url: str) -> list[dict]:
@@ -407,8 +469,16 @@ def enumerate_state(state: str, tid: str, url: str, strategy: str) -> StateEnum:
     # Pick extractor by strategy/source
     if "justia.com" in url:
         chapters = extract_justia_chapters(html, url)
+        # Fallback: if zero chapters, the parent URL probably IS the unit
+        # (e.g., MA chapter-112, KY chapter-311). Extract sections instead.
+        if len(chapters) == 0:
+            chapters = extract_justia_sections(html, url)
+            res.extraction_level = "section_fallback"
+        else:
+            res.extraction_level = "chapter"
     else:
         chapters = extract_official_chapters(html, url)
+        res.extraction_level = "official_generic"
     res.chapters = chapters
     res.chapter_count = len(chapters)
     res.sample_labels = [c["label"] for c in chapters[:8]]

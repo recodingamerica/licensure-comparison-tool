@@ -1,6 +1,6 @@
 # Profession Chapter Enumeration
 
-Across 47 states, found **5875 chapter-level entries** under each state's primary licensing title.
+Across 47 states, found **12601 chapter-level entries** under each state's primary licensing title.
 
 Each row is one state's count and a sample of chapter labels (first 8). Full details in `profession_chapters.csv` / `profession_chapters.json`.
 
@@ -8,10 +8,10 @@ Each row is one state's count and a sample of chapter labels (first 8). Full det
 
 | State | Chapters | Source | Strategy | Sample labels |
 |---|---:|---|---|---|
-| AK | 0 | law.justia.com | curl_cffi | — |
+| AK | 47 | law.justia.com | curl_cffi | Chapter 01. Centralized Licensing; Chapter 02. Miscellaneous Provisions; Chapter 03. Termination, Continuation and Reestablishment of Regulatory Boards; Chapter 04. Accountants; Chapter 06. Acupuncture |
 | AL | 67 | law.justia.com | curl_cffi | Chapter 1 - Accountants.; Chapter 1A - Alarm System Installers.; Chapter 2 - Architects.; Chapter 2A - Assisted Living Administrators.; Chapter 3 - Attorney-at-Law. |
 | AR | 3 | law.justia.com | curl_cffi | Subtitle 1 - PROFESSIONS GENERALLY (§§ 17-1-101 — 17-7-106); Subtitle 2 - NONMEDICAL PROFESSIONS (§§ 17-10-101 — 17-56-202); Subtitle 3 - MEDICAL PROFESSIONS (§§ 17-80-101 — 17-107-311) |
-| AZ | 0 | law.justia.com | curl_cffi | — |
+| AZ | 1581 | law.justia.com | curl_cffi | § 32-101 - Purpose; definitions; § 32-102 - State board of technical registration; members; vacancies; terms; § 32-103 - Qualifications of members; § 32-104 - Compensation; § 32-105 - Organization |
 | CO | 6 | law.justia.com | curl_cffi | GENERAL (§§ 12-1-101 — 12-1-103); DIVISION OF REAL ESTATE (§§ 12-10-101 — 12-10-906); DIVISION OF CONSERVATION (§§ 12-15-101 — 12-15-107); DIVISION OF PROFESSIONS AND OCCUPATIONS (§§ 12-20-101 — 12-30-209); BUSINESS PROFESSIONS AND OCCUPATIONS (§§ 12-100-101 — 12-170-117) |
 | CT | 80 | law.justia.com | curl_cffi | Chapter 369 - Healing Arts; Chapter 370 - Medicine and Surgery; Chapter 371 - Osteopathy (Repealed); Chapter 372 - Chiropractic; Chapter 373 - Naturopathy |
 | DE | 56 | law.justia.com | curl_cffi | Chapter 1. BOARD OF ACCOUNTANCY; Chapter 2. LANDSCAPE ARCHITECTS; Chapter 3. ARCHITECTURE; Chapter 4. Barbers [Repealed].; Chapter 5. PODIATRY |
@@ -22,9 +22,9 @@ Each row is one state's count and a sample of chapter labels (first 8). Full det
 | ID | 55 | law.justia.com | curl_cffi | Chapter 1 - ALLIED HEALTH ADVISORY BOARD; Chapter 2 - ACCOUNTANTS; Chapter 3 - ARCHITECTS; Chapter 4 - STATE ATHLETIC COMMISSION; Chapter 6 - PODIATRISTS |
 | IN | 81 | law.justia.com | curl_cffi | Article 0.5. Applicability of Certain Provisions in Ic 25-1; Article 1. General Provisions; Article 2. Repealed; Article 2.1. Accountants; Article 2.5. Acupuncturists |
 | KS | 70 | law.justia.com | curl_cffi | Article 1 - Secretary Of Health And Environment, Activities; Article 2 - Local Boards Of Health; Clinics; Article 3 - Control Of Contagious Diseases In Cities Of The Second Or Third Class; Article 4 - Hospitals And Other Facilities; Article 4a - Abortion Facility Licensure |
-| KY | 0 | law.justia.com | curl_cffi | — |
+| KY | 391 | law.justia.com | curl_cffi | 311.010 Repealed, 1952.; 311.020 Repealed, 1952.; 311.030 Repealed, 1952.; 311.040 Repealed, 1952.; 311.050 Repealed, 1952. |
 | LA | 2014 | law.justia.com | requests | §37:1. Definitions; §37:2. Department of Occupational Standards established; §37:3. Organization of the department; §37:4. Head of department; §37:5. Appointment of director; qualifications |
-| MA | 0 | law.justia.com | curl_cffi | — |
+| MA | 600 | law.justia.com | curl_cffi | Section 1 - Duties of Commissioner of Occupational Licensure and Commissioner of Public Health; Section 1a - Issuance of License or Certificate to Engage in Business or Profession; Statement of Obligation to Report Certain Injuries of Children; Section 1b - Acceptance of Education, Training or Servi |
 | ME | 133 | law.justia.com | curl_cffi | Chapter 1: ACCOUNTANTS (REPEALED); Chapter 1-A: GENERAL PROVISIONS; Chapter 2: NURSING HOME ADMINISTRATORS LICENSING BOARD; Chapter 2-A: AMBULANCE SERVICE (REPEALED); Chapter 2-B: MAINE EMERGENCY MEDICAL SERVICES ACT OF 1982 |
 | MI | 58 | law.justia.com | curl_cffi | Act  137 of 2020 - Repealed-Industrial Hemp Growers Act (-); Act 360 of 2002 - Repealed-Allocation of Funds to Family Planning Services (-); E.R.O. No. 2009-5 - Repealed-Executive Reorganization Order (-); E.R.O. No. 2018-2 - Repealed-Executive Reorganization Order (-); Act 443 of 1978 - Repealed-Im |
 | MN | 114 | www.revisor.mn.gov | requests | Current Statutes; Statutes by Topic (Index); Statutes Archive; Statutes Changed (Table 2); About Minnesota Statutes |
@@ -35,12 +35,12 @@ Each row is one state's count and a sample of chapter labels (first 8). Full det
 | ND | 98 | law.justia.com | curl_cffi | Chapter 43-01 - Abstracters; Chapter 43-02 - Accountants [Repealed]; Chapter 43-02.1 - Public Accountancy Act [Repealed]; Chapter 43-02.2 - Accountants; Chapter 43-03 - Architects and Landscape Architects |
 | NE | 1383 | law.justia.com | curl_cffi | 38-101 - Act, how cited.; 38-102 - Legislative findings.; 38-103 - Purposes of act.; 38-104 - Existing rules, regulations, licenses, certificates, and legal and administrative proceedings; how treated.; 38-105 - Definitions, where found. |
 | NH | 68 | law.justia.com | curl_cffi | Chapter 309-B - New Hampshire Accountancy Act; Chapter 310 - Office of Professional Licensure and Certification; Chapter 310-A - Office of Professional Licensure and Certification; Chapter 310-B - State Licensed or Certified Real Estate Appraisers; Chapter 310-C - Assessing Certification Board |
-| NJ | 0 | law.justia.com | curl_cffi | — |
+| NJ | 2285 | law.justia.com | curl_cffi | Section 45:1-1 - Persons entitled to practice, etc. under former laws unaffected; Section 45:1-2.1 - Applicability of act.; Section 45:1-2.2 - Membership of certain boards and commissions; appointment, removal, quorum.; Section 45:1-2.3 - Qualifications; rights and duties; Section 45:1-2.4 - Effect  |
 | NM | 78 | law.justia.com | curl_cffi | Article 1 - Uniform Licensing; Article 2 - Optometry; Article 3 - Nursing; Article 3A - Safe Harbor for Nurses; Article 3B - Lactation Care Provider |
 | NV | 0 | law.justia.com | curl_cffi | — |
 | NY | 37 | law.justia.com | curl_cffi | Article  130* - General Provisions; Article  131 - Medicine; Article  131-A - Definitions of Professional Misconduct Applicable to Physicians, Physician's Assistants and Specialist's Assistants; Article  131-B - Physician Assistants; Article  131-C - Specialist Assistants |
 | OH | 66 | law.justia.com | curl_cffi | Chapter 4701 / Accountancy Board Law; Chapter 4703 / Architects; Chapter 4705 / Attorneys; Chapter 4707 / Auctioneers; Chapter 4709 / Barbers |
-| OK | 0 | law.justia.com | curl_cffi | — |
+| OK | 1688 | law.justia.com | curl_cffi | §59-15.1. Short title - Declaration of policy.; §59-15.1A. Definitions.; §59-15.2. Oklahoma Accountancy Board - Membership - Qualifications - Terms.; §59-15.3. Vacancies - Disqualification - Removal.; §59-15.4. Officers - Meetings - Duties. |
 | OR | 75 | law.justia.com | curl_cffi | Chapter 536 - Water Resources Administration; Chapter 537 - Appropriation of Water Generally; Chapter 538 - Withdrawal of Certain Waters From Appropriation; Special Municipal and County Water Rights; Chapter 539 - Determination of Water Rights Initiated Before February 24, 1909; Determination of Wat |
 | PA | 4 | www.palegis.us | requests | Statutes; Consolidated Statutes; Unconsolidated Statutes; Appropriation Acts |
 | RI | 155 | law.justia.com | curl_cffi | Chapter 5-1 Architects; Chapter 5-2 Bowling Alleys, Billiard Tables, and Shooting Galleries; Chapter 5-3 Public Accountancy [Repealed.]; Chapter 5-3.1 Public Accountancy; Chapter 5-4 Coal and Coke Dealers |
@@ -52,19 +52,12 @@ Each row is one state's count and a sample of chapter labels (first 8). Full det
 | VA | 61 | law.justia.com | curl_cffi | Chapter 1 - General Provisions; Chapter 2 - General Provisions; Chapter 3 - Department of Professional and Occupational Regulation; Chapter 4 - Architects, Engineers, Surveyors, Landscape Architects and Interior Designers; Chapter 5 - Asbestos, Lead, and Home Inspection Contractors and Workers |
 | VT | 74 | law.justia.com | curl_cffi | Chapter 1 - Accountants; Chapter 3 - Architects; Chapter 5 - Barbers; Chapter 6 - Barbers and Cosmetologists; Chapter 7 - Podiatry |
 | WA | 113 | law.justia.com | curl_cffi | RCW Dispositions Title 18; Chapter 18.04 - Accountancy.; Chapter 18.06 - Acupuncture and Eastern Medicine.; Chapter 18.08 - Architects.; Chapter 18.11 - Auctioneers. |
-| WI | 0 | law.justia.com | curl_cffi | — |
+| WI | 134 | law.justia.com | curl_cffi | 440.01 - Definitions.; 440.02 - Bonds.; 440.03 - General duties and powers of the department.; 440.032 - Sign language interpreting.; 440.035 - General duties and powers of examining boards and affiliated credentialing boards. |
 | WV | 77 | law.justia.com | curl_cffi | Article 1. General Provisions Applicable to All State Boards of Examination or Registration Referred to in Chapter; Article 1A. Procedure for Regulation of Occupations and Professions; Article 1B. Provisions Applicable to Military Members and Their Spouses; Article 1C. Interstate Medical Licensure C |
 | WY | 49 | law.justia.com | curl_cffi | Chapter 1 - Licensing Generally; Chapter 2 - Abstractors; Chapter 3 - Accountants; Chapter 4 - Architects; Chapter 5 - Attorneys-at-Law |
 
 ## Suspiciously low chapter counts (extractor may need state-specific tweak)
 
-- **AK**: 0 chapters from https://law.justia.com/codes/alaska/title-08/
-- **AZ**: 0 chapters from https://law.justia.com/codes/arizona/title-32/
 - **AR**: 3 chapters from https://law.justia.com/codes/arkansas/title-17/
-- **KY**: 0 chapters from https://law.justia.com/codes/kentucky/chapter-311/
-- **MA**: 0 chapters from https://law.justia.com/codes/massachusetts/2024/part-i/title-xvi/chapter-112/
 - **NV**: 0 chapters from https://law.justia.com/codes/nevada/title-54/
-- **NJ**: 0 chapters from https://law.justia.com/codes/new-jersey/title-45/
-- **OK**: 0 chapters from https://law.justia.com/codes/oklahoma/title-59/
 - **PA**: 4 chapters from https://www.palegis.us/statutes/unconsolidated
-- **WI**: 0 chapters from https://law.justia.com/codes/wisconsin/chapter-440/
