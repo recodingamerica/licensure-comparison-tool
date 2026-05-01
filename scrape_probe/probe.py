@@ -52,6 +52,8 @@ TARGETS_CSV = ROOT / "targets.csv"
 RESULTS_DIR = ROOT / "results"
 SNAPSHOTS_DIR = RESULTS_DIR / "snapshots"
 LOG_PATH = ROOT / "logs" / "probe.log"
+LOG_PATH.parent.mkdir(parents=True, exist_ok=True)
+(ROOT / "results").mkdir(parents=True, exist_ok=True)
 
 UA_BOT = "scrape-probe/1.0 (+research; contact: abigail.haddad@gmail.com)"
 UA_BROWSER = (
