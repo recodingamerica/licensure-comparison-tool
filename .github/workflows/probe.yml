@@ -39,6 +39,10 @@ jobs:
       - name: Run probe
         run: python probe.py
 
+      - name: Run profession-chapter enumeration
+        if: always()
+        run: python enumerate.py
+
       - name: Upload results
         if: always()
         uses: actions/upload-artifact@v4
@@ -49,13 +53,19 @@ jobs:
             scrape_probe/logs/
           retention-days: 30
 
-      - name: Render report into job summary
+      - name: Render reports into job summary
         if: always()
         run: |
+          if [ -f results/enumerate_report.md ]; then
+            echo "# Profession Chapter Enumeration" >> "$GITHUB_STEP_SUMMARY"
+            cat results/enumerate_report.md >> "$GITHUB_STEP_SUMMARY"
+            echo "" >> "$GITHUB_STEP_SUMMARY"
+          fi
           if [ -f results/probe_report.md ]; then
+            echo "# Scrape Probe Report" >> "$GITHUB_STEP_SUMMARY"
             cat results/probe_report.md >> "$GITHUB_STEP_SUMMARY"
           else
-            echo "No report produced." >> "$GITHUB_STEP_SUMMARY"
+            echo "No probe report produced." >> "$GITHUB_STEP_SUMMARY"
           fi
 
       - name: Commit results to results branch
@@ -70,6 +80,7 @@ jobs:
           stamp=$(date -u +"%Y-%m-%dT%H-%M-%SZ")
           tmp=$(mktemp -d)
           cp results/probe_report.md results/probe_results.csv results/probe_results.json "$tmp/" || true
+          cp results/enumerate_report.md results/profession_chapters.csv results/profession_chapters.json "$tmp/" || true
           cd ..
           # Wipe untracked artifacts so checkout doesn't conflict
           git clean -fdx
