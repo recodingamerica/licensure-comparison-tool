@@ -71,6 +71,9 @@ jobs:
           tmp=$(mktemp -d)
           cp results/probe_report.md results/probe_results.csv results/probe_results.json "$tmp/" || true
           cd ..
+          # Wipe untracked artifacts so checkout doesn't conflict
+          git clean -fdx
+          git checkout -- .
           git fetch origin probe-results || true
           if git ls-remote --exit-code --heads origin probe-results >/dev/null 2>&1; then
             git checkout probe-results
