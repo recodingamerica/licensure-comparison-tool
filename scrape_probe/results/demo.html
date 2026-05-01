@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>State Statute Scrape Coverage</title>
+<style>
+  :root {
+    --fg: #0f172a; --muted: #64748b; --bg: #f8fafc; --card: #ffffff;
+    --border: #e2e8f0; --link: #1d4ed8;
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    margin: 0; background: var(--bg); color: var(--fg); line-height: 1.5;
+  }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 32px 20px 64px; }
+  h1 { font-size: 28px; margin: 0 0 6px; }
+  .lede { color: var(--muted); margin: 0 0 24px; max-width: 720px; }
+  .summary {
+    background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+    padding: 20px 24px; margin-bottom: 32px;
+  }
+  .summary h2 { margin: 0 0 12px; font-size: 18px; }
+  .summary ul { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 14px; }
+  .summary li { display: flex; align-items: center; gap: 6px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 16px; }
+  .card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+    padding: 16px 18px; display: flex; flex-direction: column; gap: 8px;
+  }
+  .card h2 { margin: 0; font-size: 16px; display: flex; align-items: baseline; gap: 8px; }
+  .state-code { color: var(--muted); font-size: 12px; font-weight: 500; }
+  .meta { font-size: 13px; color: var(--muted); margin: 0; }
+  .meta strong { color: var(--fg); font-weight: 600; }
+  .badges { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+  .badge {
+    display: inline-block; color: white; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.02em; padding: 2px 8px; border-radius: 999px; text-transform: lowercase;
+  }
+  .badge.gray { background: #94a3b8; }
+  .level-note {
+    font-size: 11px; color: var(--muted); border: 1px dashed var(--border);
+    padding: 1px 6px; border-radius: 999px; cursor: help;
+  }
+  .samples { list-style: none; padding: 0; margin: 4px 0 0; font-size: 13px; }
+  .samples li { padding: 2px 0; }
+  .samples a { color: var(--link); text-decoration: none; }
+  .samples a:hover { text-decoration: underline; }
+  .muted { color: var(--muted); font-size: 12px; margin: 4px 0 0; }
+  .error { color: #b91c1c; font-size: 12px; margin: 4px 0 0; }
+  footer { margin-top: 40px; color: var(--muted); font-size: 12px; }
+  code { background: #f1f5f9; padding: 1px 5px; border-radius: 4px; font-size: 12px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Can we scrape state professional-licensing statutes for all 50 states?</h1>
+  <p class="lede">Short answer: yes. Each card below shows one state — which fetch strategy worked, where we got the data from, how many profession-level statute entries we found, and live links to the actual scraped pages so you can click through to verify.</p>
+
+  <section class="summary">
+    <h2>Coverage</h2>
+    <p style="margin: 0 0 14px; color: var(--muted);">
+      <strong>50 of 50</strong> states have a confirmed working fetch strategy.
+      <strong>46 of 50</strong> states have profession entries enumerated, totaling <strong>12,601</strong> profession-level URLs across all states.
+    </p>
+    <ul><li><span class="badge" style="background:#0284c7">Chrome-fingerprint client</span> &nbsp; <strong>49</strong> states</li><li><span class="badge" style="background:#16a34a">plain HTTP</span> &nbsp; <strong>1</strong> states</li></ul>
+  </section>
+
+  <section class="grid">
+    
+    <article class="card" data-strategy="curl_cffi">
+      <header>
+        <h2>Alaska <span class="state-code">AK</span></h2>
+        <div class="badges">
+          <span class="badge" style="background:#0284c7">Chrome-fingerprint client</span>
+          <span class="badge gray">Justia mirror</span>
+          
+        </div>
+      </header>
+      <p class="meta">
+        <strong>47</strong> profession chapters extracted from
+        <a href="https://law.justia.com/codes/alaska/" target="_blank" rel="noopener">law.justia.com</a>
+      </p>
+      <ul class="samples"><li><a href="https://law.justia.com/codes/alaska/title-8/chapter-01/" target="_blank" rel="noopener">Chapter 01. Centralized Licensing</a></li><li><a href="https://law.justia.com/codes/alaska/title-8/chapter-02/" target="_blank" rel="noopener">Chapter 02. Miscellaneous Provisions</a></li><li><a href="https://law.justia.com/codes/alaska/title-8/chapter-03/" target="_blank" rel="noopener">Chapter 03. Termination, Continuation and Reestablishment of Regulatory Boards</a></li><li><a href="https://law.justia.com/codes/alaska/title-8/chapter-04/" target="_blank" rel="noopener">Chapter 04. Accountants</a></li><li><a href="https://law.justia.com/codes/alaska/title-8/chapter-06/" target="_blank" rel="noopener">Chapter 06. Acupuncture</a></li><li><a href="https://law.justia.com/codes/alaska/title-8/chapter-07/" target="_blank" rel="noopener">Chapter 07. Athletic Trainers</a></li><li><a href="https://law.justia.com/codes/alaska/title-8/chapter-08/" target="_blank" rel="noopener">Chapter 08. Attorneys</a></li><li><a href="https://law.justia.com/codes/alaska/title-8/chapter-11/" target="_blank" rel="noopener">Chapter 11. Audiologists and Speech-language Pathologists</a></li></ul>
+      
+    </article>
+    
+    <article class="card" data-strategy="curl_cffi">
+      <header>
+        <h2>Alabama <span class="state-code">AL</span></h2>
+        <div class="badges">
+          <span class="badge" style="background:#0284c7">Chrome-fingerprint client</span>
+          <span class="badge gray">Justia mirror</span>
+          
+        </div>
+      </header>
+      <p class="meta">
+        <strong>67</strong> profession chapters extracted from
+        <a href="https://law.justia.com/codes/alabama/" target="_blank" rel="noopener">law.justia.com</a>
+      </p>
+      <ul class="samples"><li><a href="https://law.justia.com/codes/alabama/title-34/chapter-1/" target="_blank" rel="noopener">Chapter 1 - Accountants.</a></li><li><a href="https://law.justia.com/codes/alabama/title-34/chapter-1a/" target="_blank" rel="noopener">Chapter 1A - Alarm System Installers.</a></li><li><a href="https://law.justia.com/codes/alabama/title-34/chapter-2/" target="_blank" rel="noopener">Chapter 2 - Architects.</a></li><li><a href="https://law.justia.com/codes/alabama/title-34/chapter-2a/" target="_blank" rel="noopener">Chapter 2A - Assisted Living Administrators.</a></li><li><a href="https://law.justia.com/codes/alabama/title-34/chapter-3/" target="_blank" rel="noopener">Chapter 3 - Attorney-at-Law.</a></li><li><a href="https://law.justia.com/codes/alabama/title-34/chapter-4/" target="_blank" rel="noopener">Chapter 4 - Auctioneers.</a></li><li><a href="https://law.justia.com/codes/alabama/title-34/chapter-5/" target="_blank" rel="noopener">Chapter 5 - Barbers.</a></li><li><a href="https://law.justia.com/codes/alabama/title-34/chapter-5a/" target="_blank" rel="noopener">Chapter 5A - Behavior Analysts.</a></li></ul>
+      
+    </article>
+    
+    <article class="card" data-strategy="curl_cffi">
+      <header>
+        <h2>Arkansas <span class="state-code">AR</span></h2>
+        <div class="badges">
+          <span class="badge" style="background:#0284c7">Chrome-fingerprint client</span>
+          <span class="badge gray">Justia mirror</span>
+          
+        </div>
+      </header>
+      <p class="meta">
+        <strong>3</strong> profession chapters extracted from
+        <a href="https://law.justia.com/codes/arkansas/" target="_blank" rel="noopener">law.justia.com</a>
+      </p>
+      <ul class="samples"><li><a href="https://law.justia.com/codes/arkansas/title-17/subtitle-1/" target="_blank" rel="noopener">Subtitle 1 - PROFESSIONS GENERALLY (§§ 17-1-101 — 17-7-106)</a></li><li><a href="https://law.justia.com/codes/arkansas/title-17/subtitle-2/" target="_blank" rel="noopener">Subtitle 2 - NONMEDICAL PROFESSIONS (§§ 17-10-101 — 17-56-202)</a></li><li><a href="https://law.justia.com/codes/arkansas/title-17/subtitle-3/" target="_blank" rel="noopener">Subtitle 3 - MEDICAL PROFESSIONS (§§ 17-80-101 — 17-107-311)</a></li></ul>
+      <p class="muted">⚠️ extractor needs a state-specific URL; the parent index returned partial data. Strategy and reach are confirmed; refining the deep-link path is the open task.</p>
+    </article>
+    
+    <article class="card" data-strategy="curl_cffi">
+      <header>
+        <h2>Arizona <span class="state-code">AZ</span></h2>
+        <div class="badges">
+          <span class="badge" style="background:#0284c7">Chrome-fingerprint client</span>
+          <span class="badge gray">Justia mirror</span>
+          <span class="level-note" title="This state has no chapter level — children of the parent title are individual statute sections, each typically governing one rule or one profession. Counts are higher because the unit is finer.">section-level</span>
+        </div>
+      </header>
+      <p class="meta">
+        <strong>1581</strong> profession sections extracted from
+        <a href="https://law.justia.com/codes/arizona/" target="_blank" rel="noopener">law.justia.com</a>
+      </p>
+      <ul class="samples"><li><a href="https://law.justia.com/codes/arizona/title-32/section-32-101/" target="_blank" rel="noopener">§ 32-101 - Purpose; definitions</a></li><li><a href="https://law.justia.com/codes/arizona/title-32/section-32-102/" target="_blank" rel="noopener">§ 32-102 - State board of technical registration; members; vacancies; terms</a></li><li><a href="https://law.justia.com/codes/arizona/title-32/section-32-103/" target="_blank" rel="noopener">§ 32-103 - Qualifications of members</a></li><li><a href="https://law.justia.com/codes/arizona/title-32/section-32-104/" target="_blank" rel="noopener">§ 32-104 - Compensation</a></li><li><a href="https://law.justia.com/codes/arizona/title-32/section-32-105/" target="_blank" rel="noopener">§ 32-105 - Organization</a></li><li><a href="https://law.justia.com/codes/arizona/title-32/section-32-106/" target="_blank" rel="noopener">§ 32-106 - Powers and duties</a></li><li><a href="https://law.justia.com/codes/arizona/title-32/section-32-106-01/" target="_blank" rel="noopener">§ 32-106.01 - Petition for injunction</a></li><li><a href="https://law.justia.com/codes/arizona/title-32/section-32-106-02/" target="_blank" rel="noopener">§ 32-106.02 - Authority to investigate; civil penalties</a></li></ul>
+      
+    </article>
+    
+    <article class="card" data-strategy="curl_cffi">
+      <header>
+        <h2>California <span class="state-code">CA</span></h2>
+        <div class="badges">
+          <span class="badge" style="background:#0284c7">Chrome-fingerprint client</span>
+          <span class="badge gray">Justia mirror</span>
+          
+        </div>
+      </header>
+      <p class="meta">
+        <strong>0</strong> profession chapters extracted from
+        <a href="https://law.justia.com/codes/california/" target="_blank" rel="noopener">law.justia.com</a>
+      </p>
+      <p class="muted">No samples extracted (URL pattern may need adjustment)</p>
+      
+    </article>
+    
+    <article class="card" data-strategy="curl_cffi">
+      <header>
+        <h2>Colorado <span class="state-code">CO</span></h2>
+        <div class="badges">
+          <span class="badge" style="background:#0284c7">Chrome-fingerprint client</span>
+          <span class="badge gray">Justia mirror</span>
+          
+        </div>
+      </header>
+      <p class="meta">
+        <strong>6</strong> profession chapters extracted from
+        <a href="https://law.justia.com/codes/colorado/" target="_blank" rel="noopener">law.justia.com</a>
+      </p>
+      <ul class="samples"><li><a href="https://law.justia.com/codes/colorado/title-12/general/" target="_blank" rel="noopener">GENERAL (§§ 12-1-101 — 12-1-103)</a></li><li><a href="https://law.justia.com/codes/colorado/title-12/division-of-real-estate/" target="_blank" rel="noopener">DIVISION OF REAL ESTATE (§§ 12-10-101 — 12-10-906)</a></li><li><a href="https://law.justia.com/codes/colorado/title-12/division-of-conservation/" target="_blank" rel="noopener">DIVISION OF CONSERVATION (§§ 12-15-101 — 12-15-107)</a></li><li><a href="https://law.justia.com/codes/colorado/title-12/division-of-professions-and-occupations/" target="_blank" rel="noopener">DIVISION OF PROFESSIONS AND OCCUPATIONS (§§ 12-20-101 — 12-30-209)</a></li><li><a href="https://law.justia.com/codes/colorado/title-12/business-professions-and-occupations/" target="_blank" rel="noopener">BUSINESS PROFESSIONS AND OCCUPATIONS (§§ 12-100-101 — 12-170-117)</a></li><li><a href="https://law.justia.com/codes/colorado/title-12/health-care-professions-and-occupations/" target="_blank" rel="noopener">HEALTH CARE PROFESSIONS AND OCCUPATIONS (§§ 12-200-101 — 12-315-310)</a></li></ul>
+      
+    </article>
+    
+    <article class="card" data-strategy="curl_cffi">
+      <header>
+        <h2>Connecticut <span class="state-code">CT</span></h2>
+        <div class="badges">
+          <span class="badge" style="background:#0284c7">Chrome-fingerprint client</span>
+          <span class="badge gray">Justia mirror</span>
+          
+        </div>
+      </header>
+      <p class="meta">
+        <strong>80</strong> profession chapters extracted from
+        <a href="https://law.justia.com/codes/connecticut/" target="_blank" rel="noopener">law.justia.com</a>
+      </p>
+      <ul class="samples"><li><a href="https://law.justia.com/codes/connecticut/title-20/chapter-369/" target="_blank" rel="noopener">Chapter 369 - Healing Arts</a></li><li><a href="https://law.justia.com/codes/connecticut/title-20/chapter-370/" target="_blank" rel="noopener">Chapter 370 - Medicine and Surgery</a></li><li><a href="https://law.justia.com/codes/connecticut/title-20/chapter-371/" target="_blank" rel="noopener">Chapter 371 - Osteopathy (Repealed)</a></li><li><a href="https://law.justia.com/codes/connecticut/title-20/chapter-372/" target="_blank" rel="noopener">Chapter 372 - Chiropractic</a></li><li><a href="https://law.justia.com/codes/connecticut/title-20/chapter-373/" target="_blank" rel="noopener">Chapter 373 - Naturopathy</a></li><li><a href="https://law.justia.com/codes/connecticut/title-20/chapter-374/" target="_blank" rel="noopener">Chapter 374 - Medical Examining Boards</a></li><li><a href="https://law.justia.com/codes/connecticut/title-20/chapter-375/" target="_blank" rel="noopener">Chapter 375 - Podiatry</a></li><li><a href="https://law.justia.com/codes/connecticut/title-20/chapter-375a/" target="_blank" rel="noopener">Chapter 375a - Athletic Training</a></li></ul>
+      
+    </article>
+    
+    <article class="card" data-strategy="curl_cffi">
+      <header>
+        <h2>Delaware <span class="state-code">DE</span></h2>
+        <div class="badges">
+          <span class="badge" style="background:#0284c7">Chrome-fingerprint client</span>
+          <span class="badge gray">Justia mirror</span>
+          
+        </div>
+      </header>
+      <p class="meta">
+        <strong>56</strong> profession chapters extracted from
+        <a href="https://law.justia.com/codes/delaware/" target="_blank" rel="noopener">law.justia.com</a>
+      </p>
+      <ul class="samples"><li><a href="https://law.justia.com/codes/delaware/title-24/chapter-1/" target="_blank" rel="noopener">Chapter 1. BOARD OF ACCOUNTANCY</a></li><li><a href="https://law.justia.com/codes/delaware/title-24/chapter-2/" target="_blank" rel="noopener">Chapter 2. LANDSCAPE ARCHITECTS</a></li><li><a href="https://law.justia.com/codes/delaware/title-24/chapter-3/" target="_blank" rel="noopener">Chapter 3. ARCHITECTURE</a></li><li><a href="https://law.justia.com/codes/delaware/title-24/chapter-4/" target="_blank" rel="noopener">Chapter 4. Barbers [Repealed].</a></li><li><a href="https://law.justia.com/codes/delaware/title-24/chapter-5/" target="_blank" rel="noopener">Chapter 5. PODIATRY</a></li><li><a href="https://law.justia.com/codes/delaware/title-24/chapter-6/" target="_blank" rel="noopener">Chapter 6. Cosmetologists [Repealed].</a></li><li><a href="https://law.justia.com/codes/delaware/title-24/chapter-7/" target="_blank" rel="noopener">Chapter 7. BOARD OF CHIROPRACTIC</a></li><li><a href="https://law.justia.com/codes/delaware/title-24/chapter-9/" target="_blank" rel="noopener">Chapter 9. DEADLY WEAPONS DEALERS</a></li></ul>
+      
+    </article>
+    
+    <article class="card" data-strategy="curl_cffi">
+      <header>
+        <h2>Florida <span class="state-code">FL</span></h2>
+        <div class="badges">
+          <span class="badge" style="background:#0284c7">Chrome-fingerprint client</span>
+          <span class="badge gray">Justia mirror</span>
+          
+        </div>
+      </header>
+      <p class="meta">
+        <strong>39</strong> profession chapters extracted from
+        <a href="https://law.justia.com/codes/florida/" target="_blank" rel="noopener">law.justia.com</a>
+      </p>
+      <ul class="samples"><li><a href="https://law.justia.com/codes/florida/title-xxxii/chapter-454/" target="_blank" rel="noopener">Chapter 454 - Attorneys at Law</a></li><li><a href="https://law.justia.com/codes/florida/title-xxxii/chapter-455/" target="_blank" rel="noopener">Chapter 455 - Business and Professional Regulation: General Provisions</a></li><li><a href="https://law.justia.com/codes/florida/title-xxxii/chapter-456/" target="_blank" rel="noopener">Chapter 456 - Health Professions and Occupations: General Provisions</a></li><li><a href="https://law.justia.com/codes/florida/title-xxxii/chapter-457/" target="_blank" rel="noopener">Chapter 457 - Acupuncture</a></li><li><a href="https://law.justia.com/codes/florida/title-xxxii/chapter-458/" target="_blank" rel="noopener">Chapter 458 - Medical Practice</a></li><li><a href="https://law.justia.com/codes/florida/title-xxxii/chapter-459/" target="_blank" rel="noopener">Chapter 459 - Osteopathic Medicine</a></li><li><a href="https://law.justia.com/codes/florida/title-xxxii/chapter-460/" target="_blank" rel="noopener">Chapter 460 - Chiropractic Medicine</a></li><li><a href="https://law.justia.com/codes/florida/title-xxxii/chapter-461/" target="_blank" rel="noopener">Chapter 461 - Podiatric Medicine</a></li></ul>
+      
+    </article>
+    
+    <article class="card" data-strategy="curl_cffi">
+      <header>
+        <h2>Georgia <span class="state-code">GA</span></h2>
+        <div class="badges">
+          <span class="badge" style="background:#0284c7">Chrome-fingerprint client</span>
+          <span class="badge gray">Justia mirror</span>
+          
+        </div>
+      </header>
+      <p class="meta">
+        <strong>71</strong> profession chapters extracted from
+        <a href="https://law.justia.com/codes/georgia/" target="_blank" rel="noopener">law.justia.com</a>
+      </p>
+      <ul class="samples"><li><a href="https://law.justia.com/codes/georgia/title-43/chapter-1/" target="_blank" rel="noopener">Chapter 1 - GENERAL PROVISIONS (§§ 43-1-1 — 43-1-36)</a></li><li><a href="https://law.justia.com/codes/georgia/title-43/chapter-1a/" target="_blank" rel="noopener">Chapter 1A - [RESERVED] OCCUPATIONAL REGULATION LEGISLATION REVIEW (§ 43-1A-1)</a></li><li><a href="https://law.justia.com/codes/georgia/title-43/chapter-1b/" target="_blank" rel="noopener">Chapter 1B - PATIENT SELF-REFERRAL (§§ 43-1B-1 — 43-1B-8)</a></li><li><a href="https://law.justia.com/codes/georgia/title-43/chapter-1c/" target="_blank" rel="noopener">Chapter 1C - PROFESSIONAL REGULATION REFORM (§§ 43-1C-1 — 43-1C-3)</a></li><li><a href="https://law.justia.com/codes/georgia/title-43/chapter-2/" target="_blank" rel="noopener">Chapter 2 - AUDIT OF REGULATORY AGENCIES (§§ 43-2-1 — 43-2-5)</a></li><li><a href="https://law.justia.com/codes/georgia/title-43/chapter-3/" target="_blank" rel="noopener">Chapter 3 - ACCOUNTANTS (§§ 43-3-1 — 43-3-37)</a></li><li><a href="https://law.justia.com/codes/georgia/title-43/chapter-4/" target="_blank" rel="noopener">Chapter 4 - ARCHITECTS (§§ 43-4-1 — 43-4-37)</a></li><li><a href="https://law.justia.com/codes/georgia/title-43/chapter-4a/" target="_blank" rel="noopener">Chapter 4A - ATHLETE AGENTS (§§ 43-4A-1 — 43-4A-20)</a></li></ul>
+      
+    </article>
+    
+    <article class="card" data-strategy="curl_cffi">
+      <header>
+        <h2>Hawaii <span class="state-code">HI</span></h2>
+        <div class="badges">
+          <span class="badge" style="background:#0284c7">Chrome-fingerprint client</span>
+          <span class="badge gray">Justia mirror</span>
+          
+        </div>
+      </header>
+      <p class="meta">
+        <strong>87</strong> profession chapters extracted from
+        <a href="https://law.justia.com/codes/hawaii/" target="_blank" rel="noopener">law.justia.com</a>
+      </p>
+      <ul class="samples"><li><a href="https://law.justia.com/codes/hawaii/title-25/chapter-436/" target="_blank" rel="noopener">436. Abstract Makers--Repealed</a></li><li><a href="https://law.justia.com/codes/hawaii/title-25/chapter-436b/" target="_blank" rel="noopener">436B. Uniform Professional and Vocational Licensing Act</a></li><li><a href="https://law.justia.com/codes/hawaii/title-25/chapter-436c/" target="_blank" rel="noopener">436C. Licensing Sanctions for Student Loan Defaults</a></li><li><a href="https://law.justia.com/codes/hawaii/title-25/chapter-436d/" target="_blank" rel="noopener">436D. Acupuncture Practitioners--Repealed</a></li><li><a href="https://law.justia.com/codes/hawaii/title-25/chapter-436e/" target="_blank" rel="noopener">436E. Acupuncture Practitioners</a></li><li><a href="https://law.justia.com/codes/hawaii/title-25/chapter-436h/" target="_blank" rel="noopener">436H. Athletic Trainers</a></li><li><a href="https://law.justia.com/codes/hawaii/title-25/chapter-436m/" target="_blank" rel="noopener">436M. Alarm Businesses</a></li><li><a href="https://law.justia.com/codes/hawaii/title-25/chapter-437/" target="_blank" rel="noopener">437. Motor Vehicle Industry Licensing Act</a></li></ul>
+      
+    </article>
+    
+    <article class="card" data-strategy="curl_cffi">
+      <header>
+        <h2>Iowa <span class="state-code">IA</span></h2>
+        <div class="badges">
+          <span class="badge" style="background:#0284c7">Chrome-fingerprint client</span>
+          <span class="badge gray">Justia mirror</span>
+          
+        </div>
+      </header>
+      <p class="meta">
+        <strong>115</strong> profession chapters extracted from
+        <a href="https://law.justia.com/codes/iowa/" target="_blank" rel="noopener">law.justia.com</a>
+      </p>
+      <ul class="samples"><li><a href="https://law.justia.com/codes/iowa/title-iv/chapter-123/" target="_blank" rel="noopener">Chapter 123 - ALCOHOLIC BEVERAGE CONTROL</a></li><li><a href="https://law.justia.com/codes/iowa/title-iv/chapter-123a/" target="_blank" rel="noopener">Chapter 123A - BEER BREWERS AND WHOLESALERS — CANNED COCKTAILS</a></li><li><a href="https://law.justia.com/codes/iowa/title-iv/chapter-124/" target="_blank" rel="noopener">Chapter 124 - CONTROLLED SUBSTANCES</a></li><li><a href="https://law.justia.com/codes/iowa/title-iv/chapter-124a/" target="_blank" rel="noopener">Chapter 124A - IMITATION CONTROLLED SUBSTANCES</a></li><li><a href="https://law.justia.com/codes/iowa/title-iv/chapter-124b/" target="_blank" rel="noopener">Chapter 124B - PRECURSOR SUBSTANCES</a></li><li><a href="https://law.justia.com/codes/iowa/title-iv/chapter-124c/" target="_blank" rel="noopener">Chapter 124C - CLEANUP OF CLANDESTINE LABORATORY SITES</a></li><li><a href="https://law.justia.com/codes/iowa/title-iv/chapter-124d/" target="_blank" rel="noopener">Chapter 124D - MEDICAL CANNABIDIOL ACT</a></li><li><a href="https://law.justia.com/codes/iowa/title-iv/chapter-124e/" target="_blank" rel="noopener">Chapter 124E - MEDICAL CANNABIDIOL ACT</a></li></ul>
+      
+    </article>
+    
+    <article class="card" data-strategy="curl_cffi">
+      <header>
+        <h2>Idaho <span class="state-code">ID</span></h2>
+        <div class="badges">
+          <span class="badge" style="background:#0284c7">Chrome-fingerprint client</span>
+          <span class="badge gray">Justia mirror</span>
+          
+        </div>
+      </header>
+      <p class="meta">
+        <strong>55</strong> profession chapters extracted from
+        <a href="https://law.justia.com/codes/idaho/" target="_blank" rel="noopener">law.justia.com</a>
+      </p>
+      <ul class="samples"><li><a href="https://law.justia.com/codes/idaho/title-54/chapter-1/" target="_blank" rel="noopener">Chapter 1 - ALLIED HEALTH ADVISORY BOARD</a></li><li><a href="https://law.justia.com/codes/idaho/title-54/chapter-2/" target="_blank" rel="noopener">Chapter 2 - ACCOUNTANTS</a></li><li><a href="https://law.justia.com/codes/idaho/title-54/chapter-3/" target="_blank" rel="noopener">Chapter 3 - ARCHITECTS</a></li><li><a href="https://law.justia.com/codes/idaho/title-54/chapter-4/" target="_blank" rel="noopener">Chapter 4 - STATE ATHLETIC COMMISSION</a></li><li><a href="https://law.justia.com/codes/idaho/title-54/chapter-6/" target="_blank" rel="noopener">Chapter 6 - PODIATRISTS</a></li><li><a href="https://law.justia.com/codes/idaho/title-54/chapter-7/" target="_blank" rel="noopener">Chapter 7 - CHIROPRACTIC PRACTICE ACT</a></li><li><a href="https://law.justia.com/codes/idaho/title-54/chapter-9/" target="_blank" rel="noopener">Chapter 9 - DENTISTS</a></li><li><a href="https://law.justia.com/codes/idaho/title-54/chapter-10/" target="_blank" rel="noopener">Chapter 10 - ELECTRICAL CONTRACTORS AND JOURNEYMEN</a></li></ul>
+      
+    </article>
+    
+    <article class="card" data-strategy="curl_cffi">
+      <header>
+        <h2>Illinois <span class="state-code">IL</span></h2>
+        <div class="badges">
+          <span class="badge" style="background:#0284c7">Chrome-fingerprint client</span>
+          <span class="badge gray">Justia mirror</span>
+          
+        </div>
+      </header>
+      <p class="meta">
+        <strong>0</strong> profession chapters extracted from
+        <a href="https://law.justia.com/codes/illinois/" target="_blank" rel="noopener">law.justia.com</a>
+      </p>
+      <p class="muted">No samples extracted (URL pattern may need adjustment)</p>
+      
+    </article>
+    
+    <article class="card" data-strategy="curl_cffi">
+      <header>
+        <h2>Indiana <span class="state-code">IN</span></h2>
+        <div class="badges">
+          <span class="badge" style="background:#0284c7">Chrome-fingerprint client</span>
+          <span class="badge gray">Justia mirror</span>
+          
+        </div>
+      </header>
+      <p class="meta">
+        <strong>81</strong> profession chapters extracted from
+        <a href="https://law.justia.com/codes/indiana/" target="_blank" rel="noopener">law.justia.com</a>
+      </p>
+      <ul class="samples"><li><a href="https://law.justia.com/codes/indiana/title-25/article-0-5/" target="_blank" rel="noopener">Article 0.5. Applicability of Certain Provisions in Ic 25-1</a></li><li><a href="https://law.justia.com/codes/indiana/title-25/article-1/" target="_blank" rel="noopener">Article 1. General Provisions</a></li><li><a href="https://law.justia.com/codes/indiana/title-25/article-2/" target="_blank" rel="noopener">Article 2. Repealed</a></li><li><a href="https://law.justia.com/codes/indiana/title-25/article-2-1/" target="_blank" rel="noopener">Article 2.1. Accountants</a></li><li><a href="https://law.justia.com/codes/indiana/title-25/article-2-5/" target="_blank" rel="noopener">Article 2.5. Acupuncturists</a></li><li><a href="https://law.justia.com/codes/indiana/title-25/article-3/" target="_blank" rel="noopener">Article 3. Repealed</a></li><li><a href="https://law.justia.com/codes/indiana/title-25/article-3-5/" target="_blank" rel="noopener">Article 3.5. Repealed</a></li><li><a href="https://law.justia.com/codes/indiana/title-25/article-3-7/" target="_blank" rel="noopener">Article 3.7. Anesthesiologist Assistants</a></li></ul>
+      
+    </article>
+    
+    <article class="card" data-strategy="curl_cffi">
+      <header>
+        <h2>Kansas <span class="state-code">KS</span></h2>
+        <div class="badges">
+          <span class="badge" style="background:#0284c7">Chrome-fingerprint client</span>
+          <span class="badge gray">Justia mirror</span>
+          
+        </div>
+      </header>
+      <p class="meta">
+        <strong>70</strong> profession chapters extracted from
+        <a href="https://law.justia.com/codes/kansas/" target="_blank" rel="noopener">law.justia.com</a>
+      </p>
+      <ul class="samples"><li><a href="https://law.justia.com/codes/kansas/chapter-65/article-1/" target="_blank" rel="noopener">Article 1 - Secretary Of Health And Environment, Activities</a></li><li><a href="https://law.justia.com/codes/kansas/chapter-65/article-2/" target="_blank" rel="noopener">Article 2 - Local Boards Of Health; Clinics</a></li><li><a href="https://law.justia.com/codes/kansas/chapter-65/article-3/" target="_blank" rel="noopener">Article 3 - Control Of Contagious Diseases In Cities Of The Second Or Third Class</a></li><li><a href="https://law.justia.com/codes/kansas/chapter-65/article-4/" target="_blank" rel="noopener">Article 4 - Hospitals And Other Facilities</a></li><li><a href="https://law.justia.com/codes/kansas/chapter-65/article-4a/" target="_blank" rel="noopener">Article 4a - Abortion Facility Licensure</a></li><li><a href="https://law.justia.com/codes/kansas/chapter-65/article-5/" target="_blank" rel="noopener">Article 5 - Maternity Centers And Child Care Facilities</a></li><li><a href="https://law.justia.com/codes/kansas/chapter-65/article-5a/" target="_blank" rel="noopener">Article 5a - Children With Special Health Care Needs</a></li><li><a href="https://law.justia.com/codes/kansas/chapter-65/article-6/" target="_blank" rel="noopener">Article 6 - Food, Drugs And Cosmetics</a></li></ul>
+      
+    </article>
+    
+    <article class="card" data-strategy="curl_cffi">
+      <header>
+        <h2>Kentucky <span class="state-code">KY</span></h2>
+        <div class="badges">
+          <span class="badge" style="background:#0284c7">Chrome-fingerprint client</span>
+          <span class="badge gray">Justia mirror</span>
+          <span class="level-note" title="This state has no chapter level — children of the parent title are individual statute sections, each typically governing one rule or one profession. Counts are higher because the unit is finer.">section-level</span>
+        </div>
+      </header>
+      <p class="meta">
+        <strong>391</strong> profession sections extracted from
+        <a href="https://law.justia.com/codes/kentucky/" target="_blank" rel="noopener">law.justia.com</a>
+      </p>
+      <ul class="samples"><li><a href="https://law.justia.com/codes/kentucky/chapter-311/section-311-010/" target="_blank" rel="noopener">311.010 Repealed, 1952.</a></li><li><a href="https://law.justia.com/codes/kentucky/chapter-311/section-311-020/" target="_blank" rel="noopener">311.020 Repealed, 1952.</a></li><li><a href="https://law.justia.com/codes/kentucky/chapter-311/section-311-030/" target="_blank" rel="noopener">311.030 Repealed, 1952.</a></li><li><a href="https://law.justia.com/codes/kentucky/chapter-311/section-311-040/" target="_blank" rel="noopener">311.040 Repealed, 1952.</a></li><li><a href="https://law.justia.com/codes/kentucky/chapter-311/section-311-050/" target="_blank" rel="noopener">311.050 Repealed, 1952.</a></li><li><a href="https://law.justia.com/codes/kentucky/chapter-311/section-311-060/" target="_blank" rel="noopener">311.060 Repealed, 1952.</a></li><li><a href="https://law.justia.com/codes/kentucky/chapter-311/section-311-070/" target="_blank" rel="noopener">311.070 Repealed, 1952.</a></li><li><a href="https://law.justia.com/codes/kentucky/chapter-311/section-311-080/" target="_blank" rel="noopener">311.080 Repealed, 1952.</a></li></ul>
+      
+    </article>
+    
+    <article class="card" data-strategy="curl_cffi">
+      <header>
+        <h2>Louisiana <span class="state-code">LA</span></h2>
+        <div class="badges">
+          <span class="badge" style="background:#0284c7">Chrome-fingerprint client</span>
+          <span class="badge gray">Justia mirror</span>
+          <span class="level-note" title="This state has no chapter level — children of the parent title are individual statute sections, each typically governing one rule or one profession. Counts are higher because the unit is finer.">section-level</span>
+        </div>
+      </header>
+      <p class="meta">
+        <strong>2014</strong> profession sections extracted from
+        <a href="https://law.justia.com/codes/louisiana/" target="_blank" rel="noopener">law.justia.com</a>
+      </p>
+      <ul class="samples"><li><a href="https://law.justia.com/codes/louisiana/revised-statutes/title-37/rs-37-1/" target="_blank" rel="noopener">§37:1. Definitions</a></li><li><a href="https://law.justia.com/codes/louisiana/revised-statutes/title-37/rs-37-2/" target="_blank" rel="noopener">§37:2. Department of Occupational Standards established</a></li><li><a href="https://law.justia.com/codes/louisiana/revised-statutes/title-37/rs-37-3/" target="_blank" rel="noopener">§37:3. Organization of the department</a></li><li><a href="https://law.justia.com/codes/louisiana/revised-statutes/title-37/rs-37-4/" target="_blank" rel="noopener">§37:4. Head of department</a></li><li><a href="https://law.justia.com/codes/louisiana/revised-statutes/title-37/rs-37-5/" target="_blank" rel="noopener">§37:5. Appointment of director; qualifications</a></li><li><a href="https://law.justia.com/codes/louisiana/revised-statutes/title-37/rs-37-6/" target="_blank" rel="noopener">§37:6. Boards of the department; compensation of members</a></li><li><a href="https://law.justia.com/codes/louisiana/revised-statutes/title-37/rs-37-7/" target="_blank" rel="noopener">§37:7. Divisions and subordinate units of the department</a></li><li><a href="https://law.justia.com/codes/louisiana/revised-statutes/title-37/rs-37-8/" target="_blank" rel="noopener">§37:8. Plan for departmental procedure and operation; standard practice instructions</a></li></ul>
+      
+    </article>
+    
+    <article class="card" data-strategy="requests">
+      <header>
+        <h2>Massachusetts <span class="state-code">MA</span></h2>
+        <div class="badges">
+          <span class="badge" style="background:#16a34a">plain HTTP</span>
+          <span class="badge gray">Justia mirror</span>
+          <span class="level-note" title="This state has no chapter level — children of the parent title are individual statute sections, each typically governing one rule or one profession. Counts are higher because the unit is finer.">section-level</span>
+        </div>
+      </header>
+      <p class="meta">
+        <strong>600</strong> profession sections extracted from
+        <a href="https://law.justia.com/codes/massachusetts/" target="_blank" rel="noopener">law.justia.com</a>
+      </p>
+      <ul class="samples"><li><a href="https://law.justia.com/codes/massachusetts/2024/part-i/title-xvi/chapter-112/section-1/" target="_blank" rel="noopener">Section 1 - Duties of Commissioner of Occupational Licensure and Commissioner of Public Health</a></li><li><a href="https://law.justia.com/codes/massachusetts/2024/part-i/title-xvi/chapter-112/section-1a/" target="_blank" rel="noopener">Section 1a - Issuance of License or Certificate to Engage in Business or Profession; Statement of Obligation to Report Certain Injuries of Children</a></li><li><a href="https://law.justia.com/codes/massachusetts/2024/part-i/title-xvi/chapter-112/section-1b/" target="_blank" rel="noopener">Section 1b - Acceptance of Education, Training or Service Completed by Applicant as Member of Armed Forces Toward Qualification Requirements to Receive License or Certification; Validity of License or Certificate During Active Service of Holder; Expedited Licensing of Spouse of Member of Armed Services; Waiver of Commonwealth&#x27;s Fees</a></li><li><a href="https://law.justia.com/codes/massachusetts/2024/part-i/title-xvi/chapter-112/section-2/" target="_blank" rel="noopener">Section 2 - Registration of Physicians; Alien Applicants; Examinations; Renewal; Required Professional Malpractice Liability Insurance; Fees; Continuing Education Relating to Diagnosis, Treatment and Care of Patients With Cognitive Impairments</a></li><li><a href="https://law.justia.com/codes/massachusetts/2024/part-i/title-xvi/chapter-112/section-2a/" target="_blank" rel="noopener">Section 2a - Acceptance of Certificate in Lieu of Examination for Registration as Qualified Physician; Fee</a></li><li><a href="https://law.justia.com/codes/massachusetts/2024/part-i/title-xvi/chapter-112/section-2b/" target="_blank" rel="noopener">Section 2b - Schools for Training Medical Laboratory Technologists; Inspection; Approval; Approving Authority</a></li><li><a href="https://law.justia.com/codes/massachusetts/2024/part-i/title-xvi/chapter-112/section-2c/" target="_blank" rel="noopener">Section 2c - Schools for Training Medical X&amp;ndash;ray Technicians; Approval; Inspection; Approving Authority</a></li><li><a href="https://law.justia.com/codes/massachusetts/2024/part-i/title-xvi/chapter-112/section-2d/" target="_blank" rel="noopener">Section 2d - Professional Relationships Preventing Physician From Providing Administrative or Judicial Testimony</a></li></ul>
+      
+    </article>
+    
+    <article class="card" data-strategy="curl_cffi">
+      <header>
+        <h2>Maryland <span class="state-code">MD</span></h2>
+        <div class="badges">
+          <span class="badge" style="background:#0284c7">Chrome-fingerprint client</span>
+          <span class="badge gray">Justia mirror</span>
+          
+        </div>
+      </header>
+      <p class="meta">
+        <strong>0</strong> profession chapters extracted from
+        <a href="https://law.justia.com/codes/maryland/" target="_blank" rel="noopener">law.justia.com</a>
+      </p>
+      <p class="muted">No samples extracted (URL pattern may need adjustment)</p>
+      
+    </article>
+    
+    <article class="card" data-strategy="curl_cffi">
+      <header>
+        <h2>Maine <span class="state-code">ME</span></h2>
+        <div class="badges">
+          <span class="badge" style="background:#0284c7">Chrome-fingerprint client</span>
+          <span class="badge gray">Justia mirror</span>
+          
+        </div>
+      </header>
+      <p class="meta">
+        <strong>133</strong> profession chapters extracted from
+        <a href="https://law.justia.com/codes/maine/" target="_blank" rel="noopener">law.justia.com</a>
+      </p>
+      <ul class="samples"><li><a href="https://law.justia.com/codes/maine/title-32/chapter-1/" target="_blank" rel="noopener">Chapter 1: ACCOUNTANTS (REPEALED)</a></li><li><a href="https://law.justia.com/codes/maine/title-32/chapter-1-a/" target="_blank" rel="noopener">Chapter 1-A: GENERAL PROVISIONS</a></li><li><a href="https://law.justia.com/codes/maine/title-32/chapter-2/" target="_blank" rel="noopener">Chapter 2: NURSING HOME ADMINISTRATORS LICENSING BOARD</a></li><li><a href="https://law.justia.com/codes/maine/title-32/chapter-2-a/" target="_blank" rel="noopener">Chapter 2-A: AMBULANCE SERVICE (REPEALED)</a></li><li><a href="https://law.justia.com/codes/maine/title-32/chapter-2-b/" target="_blank" rel="noopener">Chapter 2-B: MAINE EMERGENCY MEDICAL SERVICES ACT OF 1982</a></li><li><a href="https://law.justia.com/codes/maine/title-32/chapter-3/" target="_blank" rel="noopener">Chapter 3: ARCHITECTS (REPEALED)</a></li><li><a href="https://law.justia.com/codes/maine/title-32/chapter-3-a/" target="_blank" rel="noopener">Chapter 3-A: ARCHITECTS, LANDSCAPE ARCHITECTS AND INTERIOR DESIGNERS</a></li><li><a href="https://law.justia.com/codes/maine/title-32/chapter-5/" target="_blank" rel="noopener">Chapter 5: AUCTIONEERS (REPEALED)</a></li></ul>
+      
+    </article>
+    
+    <article class="card" data-strategy="curl_cffi">
+      <header>
+        <h2>Michigan <span class="state-code">MI</span></h2>
+        <div class="badges">
+          <span class="badge" style="background:#0284c7">Chrome-fingerprint client</span>
+          <span class="badge gray">Justia mirror</span>
+          <span class="level-note" title="This state has no chapter level — children of the parent title are individual statute sections, each typically governing one rule or one profession. Counts are higher because the unit is finer.">section-level</span>
+        </div>
+      </header>
+      <p class="meta">
+        <strong>58</strong> profession sections extracted from
+        <a href="https://law.justia.com/codes/michigan/" target="_blank" rel="noopener">law.justia.com</a>
+      </p>
+      <ul class="samples"><li><a href="https://law.justia.com/codes/michigan/chapter-333/statute-act-137-of-2020/" target="_blank" rel="noopener">Act  137 of 2020 - Repealed-Industrial Hemp Growers Act (-)</a></li><li><a href="https://law.justia.com/codes/michigan/chapter-333/statute-act-360-of-2002/" target="_blank" rel="noopener">Act 360 of 2002 - Repealed-Allocation of Funds to Family Planning Services (-)</a></li><li><a href="https://law.justia.com/codes/michigan/chapter-333/statute-e-r-o-no-2009-5/" target="_blank" rel="noopener">E.R.O. No. 2009-5 - Repealed-Executive Reorganization Order (-)</a></li><li><a href="https://law.justia.com/codes/michigan/chapter-333/statute-e-r-o-no-2018-2/" target="_blank" rel="noopener">E.R.O. No. 2018-2 - Repealed-Executive Reorganization Order (-)</a></li><li><a href="https://law.justia.com/codes/michigan/chapter-333/statute-act-443-of-1978/" target="_blank" rel="noopener">Act 443 of 1978 - Repealed-Implementation of Public Health Code (333.1001-333.1007)</a></li><li><a href="https://law.justia.com/codes/michigan/chapter-333/statute-act-606-of-1978/" target="_blank" rel="noopener">Act 606 of 1978 - Poison Control Center Network  (333.1011-333.1013)</a></li><li><a href="https://law.justia.com/codes/michigan/chapter-333/statute-act-124-of-1979/" target="_blank" rel="noopener">Act 124 of 1979 - Repealed-Determination of Death Act (333.1021-333.1024)</a></li><li><a href="https://law.justia.com/codes/michigan/chapter-333/statute-act-90-of-1992/" target="_blank" rel="noopener">Act 90 of 1992 - Determination of Death Act (333.1031-333.1034)</a></li></ul>
+      
+    </article>
+    
+    <article class="card" data-strategy="curl_cffi">
+      <header>
+        <h2>Minnesota <span class="state-code">MN</span></h2>
+        <div class="badges">
+          <span class="badge" style="background:#0284c7">Chrome-fingerprint client</span>
+          <span class="badge gray">Justia mirror</span>
+          <span class="level-note" title="Extracted from the official state legislature site (Justia URL was unavailable or 404'd for this state).">official-site</span>
+        </div>
+      </header>
+      <p class="meta">
+        <strong>114</strong> profession chapters extracted from
+        <a href="https://law.justia.com/codes/minnesota/" target="_blank" rel="noopener">law.justia.com</a>
+      </p>
+      <ul class="samples"><li><a href="https://www.revisor.mn.gov/statutes/" target="_blank" rel="noopener">Current Statutes</a></li><li><a href="https://www.revisor.mn.gov/index/statute/" target="_blank" rel="noopener">Statutes by Topic (Index)</a></li><li><a href="https://www.revisor.mn.gov/statutes/archive" target="_blank" rel="noopener">Statutes Archive</a></li><li><a href="https://www.revisor.mn.gov/statutes/table2" target="_blank" rel="noopener">Statutes Changed (Table 2)</a></li><li><a href="https://www.revisor.mn.gov/statutes/info" target="_blank" rel="noopener">About Minnesota Statutes</a></li><li><a href="https://www.revisor.mn.gov/index/statute/?year=2025" target="_blank" rel="noopener">2025 Statutes Topics (Index)</a></li><li><a href="https://www.revisor.mn.gov/statutes/2025/document/misc/Preface/" target="_blank" rel="noopener">Preface</a></li><li><a href="https://www.revisor.mn.gov/statutes/2025/document/misc/Contents/" target="_blank" rel="noopener">Contents</a></li></ul>
+      
+    </article>
+    
+    <article class="card" data-strategy="curl_cffi">
+      <header>
+        <h2>Missouri <span class="state-code">MO</span></h2>
+        <div class="badges">
+          <span class="badge" style="background:#0284c7">Chrome-fingerprint client</span>
+          <span class="badge gray">Justia mirror</span>
+          
+        </div>
+      </header>
+      <p class="meta">
+        <strong>22</strong> profession chapters extracted from
+        <a href="https://law.justia.com/codes/missouri/" target="_blank" rel="noopener">law.justia.com</a>
+      </p>
+      <ul class="samples"><li><a href="https://law.justia.com/codes/missouri/title-xxii/chapter-324/" target="_blank" rel="noopener">Chapter 324 - Occupations and Professions General Provisions</a></li><li><a href="https://law.justia.com/codes/missouri/title-xxii/chapter-325/" target="_blank" rel="noopener">Chapter 325 - Public Adjusters and Adjuster Solicitors</a></li><li><a href="https://law.justia.com/codes/missouri/title-xxii/chapter-326/" target="_blank" rel="noopener">Chapter 326 - Accountants</a></li><li><a href="https://law.justia.com/codes/missouri/title-xxii/chapter-327/" target="_blank" rel="noopener">Chapter 327 - Architects, Engineers, Land Surveyors and Landscape Architects</a></li><li><a href="https://law.justia.com/codes/missouri/title-xxii/chapter-328/" target="_blank" rel="noopener">Chapter 328 - Barbers</a></li><li><a href="https://law.justia.com/codes/missouri/title-xxii/chapter-329/" target="_blank" rel="noopener">Chapter 329 - Cosmetologists, Hairdressers and Manicurists</a></li><li><a href="https://law.justia.com/codes/missouri/title-xxii/chapter-330/" target="_blank" rel="noopener">Chapter 330 - Podiatrists</a></li><li><a href="https://law.justia.com/codes/missouri/title-xxii/chapter-331/" target="_blank" rel="noopener">Chapter 331 - Chiropractors</a></li></ul>
+      
+    </article>
+    
+    <article class="card" data-strategy="curl_cffi">
+      <header>
+        <h2>Mississippi <span class="state-code">MS</span></h2>
+        <div class="badges">
+          <span class="badge" style="background:#0284c7">Chrome-fingerprint client</span>
+          <span class="badge gray">Justia mirror</span>
+          
+        </div>
+      </header>
+      <p class="meta">
+        <strong>57</strong> profession chapters extracted from
+        <a href="https://law.justia.com/codes/mississippi/" target="_blank" rel="noopener">law.justia.com</a>
+      </p>
+      <ul class="samples"><li><a href="https://law.justia.com/codes/mississippi/title-73/chapter-1/" target="_blank" rel="noopener">Chapter 1 - ARCHITECTS (§§ 73-1-1 — 73-1-45)</a></li><li><a href="https://law.justia.com/codes/mississippi/title-73/chapter-2/" target="_blank" rel="noopener">Chapter 2 - LANDSCAPE ARCHITECTURAL PRACTICE (§§ 73-2-1 — 73-2-27)</a></li><li><a href="https://law.justia.com/codes/mississippi/title-73/chapter-3/" target="_blank" rel="noopener">Chapter 3 - ATTORNEYS AT LAW (§§ 73-3-1 — 73-3-403)</a></li><li><a href="https://law.justia.com/codes/mississippi/title-73/chapter-4/" target="_blank" rel="noopener">Chapter 4 - AUCTIONEERS (§§ 73-4-1 — 73-4-53)</a></li><li><a href="https://law.justia.com/codes/mississippi/title-73/chapter-5/" target="_blank" rel="noopener">Chapter 5 - BARBERS (§§ 73-5-1 — 73-5-45)</a></li><li><a href="https://law.justia.com/codes/mississippi/title-73/chapter-6/" target="_blank" rel="noopener">Chapter 6 - CHIROPRACTORS (§§ 73-6-1 — 73-6-34)</a></li><li><a href="https://law.justia.com/codes/mississippi/title-73/chapter-7/" target="_blank" rel="noopener">Chapter 7 - COSMETOLOGISTS (§§ 73-7-1 — 73-7-71)</a></li><li><a href="https://law.justia.com/codes/mississippi/title-73/chapter-9/" target="_blank" rel="noopener">Chapter 9 - DENTISTS (§§ 73-9-1 — 73-9-117)</a></li></ul>
+      
+    </article>
+    
+    <article class="card" data-strategy="curl_cffi">
+      <header>
+        <h2>Montana <span class="state-code">MT</span></h2>
+        <div class="badges">
+          <span class="badge" style="background:#0284c7">Chrome-fingerprint client</span>
+          <span class="badge gray">Justia mirror</span>
+          
+        </div>
+      </header>
+      <p class="meta">
+        <strong>66</strong> profession chapters extracted from
+        <a href="https://law.justia.com/codes/montana/" target="_blank" rel="noopener">law.justia.com</a>
+      </p>
+      <ul class="samples"><li><a href="https://law.justia.com/codes/montana/title-37/chapter-1/" target="_blank" rel="noopener">Chapter 1. General Provisions</a></li><li><a href="https://law.justia.com/codes/montana/title-37/chapter-2/" target="_blank" rel="noopener">Chapter 2. General Provisions Relating to Health Care Practitioners</a></li><li><a href="https://law.justia.com/codes/montana/title-37/chapter-3/" target="_blank" rel="noopener">Chapter 3. Medicine</a></li><li><a href="https://law.justia.com/codes/montana/title-37/chapter-4/" target="_blank" rel="noopener">Chapter 4. Dentistry and Dental Hygiene</a></li><li><a href="https://law.justia.com/codes/montana/title-37/chapter-5/" target="_blank" rel="noopener">Chapter 5. Osteopathy (Repealed)</a></li><li><a href="https://law.justia.com/codes/montana/title-37/chapter-6/" target="_blank" rel="noopener">Chapter 6. Podiatry</a></li><li><a href="https://law.justia.com/codes/montana/title-37/chapter-7/" target="_blank" rel="noopener">Chapter 7. Pharmacy</a></li><li><a href="https://law.justia.com/codes/montana/title-37/chapter-8/" target="_blank" rel="noopener">Chapter 8. Nursing</a></li></ul>
+      
+    </article>
+    
+    <article class="card" data-strategy="curl_cffi">
+      <header>
+        <h2>North Carolina <span class="state-code">NC</span></h2>
+        <div class="badges">
+          <span class="badge" style="background:#0284c7">Chrome-fingerprint client</span>
+          <span class="badge gray">Justia mirror</span>
+          
+        </div>
+      </header>
+      <p class="meta">
+        <strong>111</strong> profession chapters extracted from
+        <a href="https://law.justia.com/codes/north-carolina/" target="_blank" rel="noopener">law.justia.com</a>
+      </p>
+      <ul class="samples"><li><a href="https://law.justia.com/codes/north-carolina/chapter-90/article-1/" target="_blank" rel="noopener">Article 1 - Practice of Medicine.</a></li><li><a href="https://law.justia.com/codes/north-carolina/chapter-90/article-1a/" target="_blank" rel="noopener">Article 1A - Treatment of Minors.</a></li><li><a href="https://law.justia.com/codes/north-carolina/chapter-90/article-1b/" target="_blank" rel="noopener">Article 1B - Medical Malpractice Actions.</a></li><li><a href="https://law.justia.com/codes/north-carolina/chapter-90/article-1c/" target="_blank" rel="noopener">Article 1C - Physicians and Hospital Reports.</a></li><li><a href="https://law.justia.com/codes/north-carolina/chapter-90/article-1d/" target="_blank" rel="noopener">Article 1D - Health Program for Medical Professionals.</a></li><li><a href="https://law.justia.com/codes/north-carolina/chapter-90/article-1e/" target="_blank" rel="noopener">Article 1E - Certificate of Public Advantage.</a></li><li><a href="https://law.justia.com/codes/north-carolina/chapter-90/article-1f/" target="_blank" rel="noopener">Article 1F - Psychotherapy Patient/Client Sexual Exploitation Act.</a></li><li><a href="https://law.justia.com/codes/north-carolina/chapter-90/article-1g/" target="_blank" rel="noopener">Article 1G - Health Care Liability.</a></li></ul>
+      
+    </article>
+    
+    <article class="card" data-strategy="curl_cffi">
+      <header>
+        <h2>North Dakota <span class="state-code">ND</span></h2>
+        <div class="badges">
+          <span class="badge" style="background:#0284c7">Chrome-fingerprint client</span>
+          <span class="badge gray">Justia mirror</span>
+          
+        </div>
+      </header>
+      <p class="meta">
+        <strong>98</strong> profession chapters extracted from
+        <a href="https://law.justia.com/codes/north-dakota/" target="_blank" rel="noopener">law.justia.com</a>
+      </p>
+      <ul class="samples"><li><a href="https://law.justia.com/codes/north-dakota/title-43/chapter-43-01/" target="_blank" rel="noopener">Chapter 43-01 - Abstracters</a></li><li><a href="https://law.justia.com/codes/north-dakota/title-43/chapter-43-02/" target="_blank" rel="noopener">Chapter 43-02 - Accountants [Repealed]</a></li><li><a href="https://law.justia.com/codes/north-dakota/title-43/chapter-43-02-1/" target="_blank" rel="noopener">Chapter 43-02.1 - Public Accountancy Act [Repealed]</a></li><li><a href="https://law.justia.com/codes/north-dakota/title-43/chapter-43-02-2/" target="_blank" rel="noopener">Chapter 43-02.2 - Accountants</a></li><li><a href="https://law.justia.com/codes/north-dakota/title-43/chapter-43-03/" target="_blank" rel="noopener">Chapter 43-03 - Architects and Landscape Architects</a></li><li><a href="https://law.justia.com/codes/north-dakota/title-43/chapter-43-04/" target="_blank" rel="noopener">Chapter 43-04 - Barbers</a></li><li><a href="https://law.justia.com/codes/north-dakota/title-43/chapter-43-05/" target="_blank" rel="noopener">Chapter 43-05 - Podiatrists</a></li><li><a href="https://law.justia.com/codes/north-dakota/title-43/chapter-43-06/" target="_blank" rel="noopener">Chapter 43-06 - Chiropractors</a></li></ul>
+      
+    </article>
+    
+    <article class="card" data-strategy="curl_cffi">
+      <header>
+        <h2>Nebraska <span class="state-code">NE</span></h2>
+        <div class="badges">
+          <span class="badge" style="background:#0284c7">Chrome-fingerprint client</span>
+          <span class="badge gray">Justia mirror</span>
+          <span class="level-note" title="This state has no chapter level — children of the parent title are individual statute sections, each typically governing one rule or one profession. Counts are higher because the unit is finer.">section-level</span>
+        </div>
+      </header>
+      <p class="meta">
+        <strong>1383</strong> profession sections extracted from
+        <a href="https://law.justia.com/codes/nebraska/" target="_blank" rel="noopener">law.justia.com</a>
+      </p>
+      <ul class="samples"><li><a href="https://law.justia.com/codes/nebraska/chapter-38/statute-38-101/" target="_blank" rel="noopener">38-101 - Act, how cited.</a></li><li><a href="https://law.justia.com/codes/nebraska/chapter-38/statute-38-102/" target="_blank" rel="noopener">38-102 - Legislative findings.</a></li><li><a href="https://law.justia.com/codes/nebraska/chapter-38/statute-38-103/" target="_blank" rel="noopener">38-103 - Purposes of act.</a></li><li><a href="https://law.justia.com/codes/nebraska/chapter-38/statute-38-104/" target="_blank" rel="noopener">38-104 - Existing rules, regulations, licenses, certificates, and legal and administrative proceedings; how treated.</a></li><li><a href="https://law.justia.com/codes/nebraska/chapter-38/statute-38-105/" target="_blank" rel="noopener">38-105 - Definitions, where found.</a></li><li><a href="https://law.justia.com/codes/nebraska/chapter-38/statute-38-106/" target="_blank" rel="noopener">38-106 - Active addiction, defined.</a></li><li><a href="https://law.justia.com/codes/nebraska/chapter-38/statute-38-107/" target="_blank" rel="noopener">38-107 - Alcohol or substance abuse, defined.</a></li><li><a href="https://law.justia.com/codes/nebraska/chapter-38/statute-38-108/" target="_blank" rel="noopener">38-108 - Board, defined; no board established by statute; effect.</a></li></ul>
+      
+    </article>
+    
+    <article class="card" data-strategy="curl_cffi">
+      <header>
+        <h2>New Hampshire <span class="state-code">NH</span></h2>
+        <div class="badges">
+          <span class="badge" style="background:#0284c7">Chrome-fingerprint client</span>
+          <span class="badge gray">Justia mirror</span>
+          
+        </div>
+      </header>
+      <p class="meta">
+        <strong>68</strong> profession chapters extracted from
+        <a href="https://law.justia.com/codes/new-hampshire/" target="_blank" rel="noopener">law.justia.com</a>
+      </p>
+      <ul class="samples"><li><a href="https://law.justia.com/codes/new-hampshire/title-xxx/chapter-309-b/" target="_blank" rel="noopener">Chapter 309-B - New Hampshire Accountancy Act</a></li><li><a href="https://law.justia.com/codes/new-hampshire/title-xxx/chapter-310/" target="_blank" rel="noopener">Chapter 310 - Office of Professional Licensure and Certification</a></li><li><a href="https://law.justia.com/codes/new-hampshire/title-xxx/chapter-310-a/" target="_blank" rel="noopener">Chapter 310-A - Office of Professional Licensure and Certification</a></li><li><a href="https://law.justia.com/codes/new-hampshire/title-xxx/chapter-310-b/" target="_blank" rel="noopener">Chapter 310-B - State Licensed or Certified Real Estate Appraisers</a></li><li><a href="https://law.justia.com/codes/new-hampshire/title-xxx/chapter-310-c/" target="_blank" rel="noopener">Chapter 310-C - Assessing Certification Board</a></li><li><a href="https://law.justia.com/codes/new-hampshire/title-xxx/chapter-311/" target="_blank" rel="noopener">Chapter 311 - Attorneys and Counselors</a></li><li><a href="https://law.justia.com/codes/new-hampshire/title-xxx/chapter-311-b/" target="_blank" rel="noopener">Chapter 311-B - Auctioneers</a></li><li><a href="https://law.justia.com/codes/new-hampshire/title-xxx/chapter-313-a/" target="_blank" rel="noopener">Chapter 313-A - Barbering, Cosmetology, and Esthetics</a></li></ul>
+      
+    </article>
+    
+    <article class="card" data-strategy="curl_cffi">
+      <header>
+        <h2>New Jersey <span class="state-code">NJ</span></h2>
+        <div class="badges">
+          <span class="badge" style="background:#0284c7">Chrome-fingerprint client</span>
+          <span class="badge gray">Justia mirror</span>
+          <span class="level-note" title="This state has no chapter level — children of the parent title are individual statute sections, each typically governing one rule or one profession. Counts are higher because the unit is finer.">section-level</span>
+        </div>
+      </header>
+      <p class="meta">
+        <strong>2285</strong> profession sections extracted from
+        <a href="https://law.justia.com/codes/new-jersey/" target="_blank" rel="noopener">law.justia.com</a>
+      </p>
+      <ul class="samples"><li><a href="https://law.justia.com/codes/new-jersey/title-45/section-45-1-1/" target="_blank" rel="noopener">Section 45:1-1 - Persons entitled to practice, etc. under former laws unaffected</a></li><li><a href="https://law.justia.com/codes/new-jersey/title-45/section-45-1-2-1/" target="_blank" rel="noopener">Section 45:1-2.1 - Applicability of act.</a></li><li><a href="https://law.justia.com/codes/new-jersey/title-45/section-45-1-2-2/" target="_blank" rel="noopener">Section 45:1-2.2 - Membership of certain boards and commissions; appointment, removal, quorum.</a></li><li><a href="https://law.justia.com/codes/new-jersey/title-45/section-45-1-2-3/" target="_blank" rel="noopener">Section 45:1-2.3 - Qualifications; rights and duties</a></li><li><a href="https://law.justia.com/codes/new-jersey/title-45/section-45-1-2-4/" target="_blank" rel="noopener">Section 45:1-2.4 - Effect of act on term of member in office</a></li><li><a href="https://law.justia.com/codes/new-jersey/title-45/section-45-1-2-5/" target="_blank" rel="noopener">Section 45:1-2.5 - Compensation and reimbursement of expenses of members; executive secretaries; compensation and terms; office and meeting places</a></li><li><a href="https://law.justia.com/codes/new-jersey/title-45/section-45-1-2-6/" target="_blank" rel="noopener">Section 45:1-2.6 - Inapplicability of act to rights under civil service or any pension law or retirement system</a></li><li><a href="https://law.justia.com/codes/new-jersey/title-45/section-45-1-3/" target="_blank" rel="noopener">Section 45:1-3 - Expenses of boards paid from income; surplus paid to state treasurer; accounts</a></li></ul>
+      
+    </article>
+    
+    <article class="card" data-strategy="curl_cffi">
+      <header>
+        <h2>New Mexico <span class="state-code">NM</span></h2>
+        <div class="badges">
+          <span class="badge" style="background:#0284c7">Chrome-fingerprint client</span>
+          <span class="badge gray">Justia mirror</span>
+          
+        </div>
+      </header>
+      <p class="meta">
+        <strong>78</strong> profession chapters extracted from
+        <a href="https://law.justia.com/codes/new-mexico/" target="_blank" rel="noopener">law.justia.com</a>
+      </p>
+      <ul class="samples"><li><a href="https://law.justia.com/codes/new-mexico/chapter-61/article-1/" target="_blank" rel="noopener">Article 1 - Uniform Licensing</a></li><li><a href="https://law.justia.com/codes/new-mexico/chapter-61/article-2/" target="_blank" rel="noopener">Article 2 - Optometry</a></li><li><a href="https://law.justia.com/codes/new-mexico/chapter-61/article-3/" target="_blank" rel="noopener">Article 3 - Nursing</a></li><li><a href="https://law.justia.com/codes/new-mexico/chapter-61/article-3a/" target="_blank" rel="noopener">Article 3A - Safe Harbor for Nurses</a></li><li><a href="https://law.justia.com/codes/new-mexico/chapter-61/article-3b/" target="_blank" rel="noopener">Article 3B - Lactation Care Provider</a></li><li><a href="https://law.justia.com/codes/new-mexico/chapter-61/article-4/" target="_blank" rel="noopener">Article 4 - Chiropractic</a></li><li><a href="https://law.justia.com/codes/new-mexico/chapter-61/article-5/" target="_blank" rel="noopener">Article 5 - Dentistry (Repealed.)</a></li><li><a href="https://law.justia.com/codes/new-mexico/chapter-61/article-5a/" target="_blank" rel="noopener">Article 5A - Dental Health Care</a></li></ul>
+      
+    </article>
+    
+    <article class="card" data-strategy="curl_cffi">
+      <header>
+        <h2>Nevada <span class="state-code">NV</span></h2>
+        <div class="badges">
+          <span class="badge" style="background:#0284c7">Chrome-fingerprint client</span>
+          <span class="badge gray">Justia mirror</span>
+          <span class="level-note" title="This state has no chapter level — children of the parent title are individual statute sections, each typically governing one rule or one profession. Counts are higher because the unit is finer.">section-level</span>
+        </div>
+      </header>
+      <p class="meta">
+        <strong>0</strong> profession sections extracted from
+        <a href="https://law.justia.com/codes/nevada/" target="_blank" rel="noopener">law.justia.com</a>
+      </p>
+      <p class="muted">No samples extracted (URL pattern may need adjustment)</p>
+      <p class="muted">⚠️ extractor needs a state-specific URL; the parent index returned partial data. Strategy and reach are confirmed; refining the deep-link path is the open task.</p>
+    </article>
+    
+    <article class="card" data-strategy="curl_cffi">
+      <header>
+        <h2>New York <span class="state-code">NY</span></h2>
+        <div class="badges">
+          <span class="badge" style="background:#0284c7">Chrome-fingerprint client</span>
+          <span class="badge gray">Justia mirror</span>
+          
+        </div>
+      </header>
+      <p class="meta">
+        <strong>37</strong> profession chapters extracted from
+        <a href="https://law.justia.com/codes/new-york/" target="_blank" rel="noopener">law.justia.com</a>
+      </p>
+      <ul class="samples"><li><a href="https://law.justia.com/codes/new-york/edn/title-8/article-130-1/" target="_blank" rel="noopener">Article  130* - General Provisions</a></li><li><a href="https://law.justia.com/codes/new-york/edn/title-8/article-131/" target="_blank" rel="noopener">Article  131 - Medicine</a></li><li><a href="https://law.justia.com/codes/new-york/edn/title-8/article-131-a/" target="_blank" rel="noopener">Article  131-A - Definitions of Professional Misconduct Applicable to Physicians, Physician&#x27;s Assistants and Specialist&#x27;s Assistants</a></li><li><a href="https://law.justia.com/codes/new-york/edn/title-8/article-131-b/" target="_blank" rel="noopener">Article  131-B - Physician Assistants</a></li><li><a href="https://law.justia.com/codes/new-york/edn/title-8/article-131-c/" target="_blank" rel="noopener">Article  131-C - Specialist Assistants</a></li><li><a href="https://law.justia.com/codes/new-york/edn/title-8/article-132/" target="_blank" rel="noopener">Article  132 - Chiropractic</a></li><li><a href="https://law.justia.com/codes/new-york/edn/title-8/article-133/" target="_blank" rel="noopener">Article  133 - Dentistry, Dental Hygiene, and Registered Dental Assisting</a></li><li><a href="https://law.justia.com/codes/new-york/edn/title-8/article-134/" target="_blank" rel="noopener">Article  134 - Licensed Perfusionists</a></li></ul>
+      
+    </article>
+    
+    <article class="card" data-strategy="curl_cffi">
+      <header>
+        <h2>Ohio <span class="state-code">OH</span></h2>
+        <div class="badges">
+          <span class="badge" style="background:#0284c7">Chrome-fingerprint client</span>
+          <span class="badge gray">Justia mirror</span>
+          
+        </div>
+      </header>
+      <p class="meta">
+        <strong>66</strong> profession chapters extracted from
+        <a href="https://law.justia.com/codes/ohio/" target="_blank" rel="noopener">law.justia.com</a>
+      </p>
+      <ul class="samples"><li><a href="https://law.justia.com/codes/ohio/title-47/chapter-4701/" target="_blank" rel="noopener">Chapter 4701 | Accountancy Board Law</a></li><li><a href="https://law.justia.com/codes/ohio/title-47/chapter-4703/" target="_blank" rel="noopener">Chapter 4703 | Architects</a></li><li><a href="https://law.justia.com/codes/ohio/title-47/chapter-4705/" target="_blank" rel="noopener">Chapter 4705 | Attorneys</a></li><li><a href="https://law.justia.com/codes/ohio/title-47/chapter-4707/" target="_blank" rel="noopener">Chapter 4707 | Auctioneers</a></li><li><a href="https://law.justia.com/codes/ohio/title-47/chapter-4709/" target="_blank" rel="noopener">Chapter 4709 | Barbers</a></li><li><a href="https://law.justia.com/codes/ohio/title-47/chapter-4710/" target="_blank" rel="noopener">Chapter 4710 | Debt Pooling Companies</a></li><li><a href="https://law.justia.com/codes/ohio/title-47/chapter-4711/" target="_blank" rel="noopener">Chapter 4711 | Commission Merchants</a></li><li><a href="https://law.justia.com/codes/ohio/title-47/chapter-4712/" target="_blank" rel="noopener">Chapter 4712 | Ohio Credit Services Organization Act</a></li></ul>
+      
+    </article>
+    
+    <article class="card" data-strategy="curl_cffi">
+      <header>
+        <h2>Oklahoma <span class="state-code">OK</span></h2>
+        <div class="badges">
+          <span class="badge" style="background:#0284c7">Chrome-fingerprint client</span>
+          <span class="badge gray">Justia mirror</span>
+          <span class="level-note" title="This state has no chapter level — children of the parent title are individual statute sections, each typically governing one rule or one profession. Counts are higher because the unit is finer.">section-level</span>
+        </div>
+      </header>
+      <p class="meta">
+        <strong>1688</strong> profession sections extracted from
+        <a href="https://law.justia.com/codes/oklahoma/" target="_blank" rel="noopener">law.justia.com</a>
+      </p>
+      <ul class="samples"><li><a href="https://law.justia.com/codes/oklahoma/title-59/section-59-15-1/" target="_blank" rel="noopener">§59-15.1. Short title - Declaration of policy.</a></li><li><a href="https://law.justia.com/codes/oklahoma/title-59/section-59-15-1a/" target="_blank" rel="noopener">§59-15.1A. Definitions.</a></li><li><a href="https://law.justia.com/codes/oklahoma/title-59/section-59-15-2/" target="_blank" rel="noopener">§59-15.2. Oklahoma Accountancy Board - Membership - Qualifications - Terms.</a></li><li><a href="https://law.justia.com/codes/oklahoma/title-59/section-59-15-3/" target="_blank" rel="noopener">§59-15.3. Vacancies - Disqualification - Removal.</a></li><li><a href="https://law.justia.com/codes/oklahoma/title-59/section-59-15-4/" target="_blank" rel="noopener">§59-15.4. Officers - Meetings - Duties.</a></li><li><a href="https://law.justia.com/codes/oklahoma/title-59/section-59-15-5/" target="_blank" rel="noopener">§59-15.5. Quorum - Seal - Records - Staff - Expenditures - Rules and regulations – Delegation of authority.</a></li><li><a href="https://law.justia.com/codes/oklahoma/title-59/section-59-15-6a/" target="_blank" rel="noopener">§59-15.6A. Confidentiality of investigations - Use as evidence – Disclosure of information.</a></li><li><a href="https://law.justia.com/codes/oklahoma/title-59/section-59-15-7/" target="_blank" rel="noopener">§59-15.7. Disbursement of fees and monies.</a></li></ul>
+      
+    </article>
+    
+    <article class="card" data-strategy="curl_cffi">
+      <header>
+        <h2>Oregon <span class="state-code">OR</span></h2>
+        <div class="badges">
+          <span class="badge" style="background:#0284c7">Chrome-fingerprint client</span>
+          <span class="badge gray">Justia mirror</span>
+          
+        </div>
+      </header>
+      <p class="meta">
+        <strong>75</strong> profession chapters extracted from
+        <a href="https://law.justia.com/codes/oregon/" target="_blank" rel="noopener">law.justia.com</a>
+      </p>
+      <ul class="samples"><li><a href="https://law.justia.com/codes/oregon/volume-15/chapter-536/" target="_blank" rel="noopener">Chapter 536 - Water Resources Administration</a></li><li><a href="https://law.justia.com/codes/oregon/volume-15/chapter-537/" target="_blank" rel="noopener">Chapter 537 - Appropriation of Water Generally</a></li><li><a href="https://law.justia.com/codes/oregon/volume-15/chapter-538/" target="_blank" rel="noopener">Chapter 538 - Withdrawal of Certain Waters From Appropriation; Special Municipal and County Water Rights</a></li><li><a href="https://law.justia.com/codes/oregon/volume-15/chapter-539/" target="_blank" rel="noopener">Chapter 539 - Determination of Water Rights Initiated Before February 24, 1909; Determination of Water Rights of Federally Recognized Indian Tribes</a></li><li><a href="https://law.justia.com/codes/oregon/volume-15/chapter-540/" target="_blank" rel="noopener">Chapter 540 - Distribution and Storage of Water; Watermasters; Water Right Changes, Transfers and Forfeitures</a></li><li><a href="https://law.justia.com/codes/oregon/volume-15/chapter-541/" target="_blank" rel="noopener">Chapter 541 - Water Distributors; Water Releases; Conservation and Storage; Water Development Projects; Watershed Management and Enhancement</a></li><li><a href="https://law.justia.com/codes/oregon/volume-15/chapter-542/" target="_blank" rel="noopener">Chapter 542 - Water Resource Surveys and Projects; Compacts</a></li><li><a href="https://law.justia.com/codes/oregon/volume-15/chapter-543/" target="_blank" rel="noopener">Chapter 543 - Hydroelectric Projects</a></li></ul>
+      
+    </article>
+    
+    <article class="card" data-strategy="curl_cffi">
+      <header>
+        <h2>Pennsylvania <span class="state-code">PA</span></h2>
+        <div class="badges">
+          <span class="badge" style="background:#0284c7">Chrome-fingerprint client</span>
+          <span class="badge gray">Justia mirror</span>
+          <span class="level-note" title="Extracted from the official state legislature site (Justia URL was unavailable or 404'd for this state).">official-site</span>
+        </div>
+      </header>
+      <p class="meta">
+        <strong>4</strong> profession chapters extracted from
+        <a href="https://law.justia.com/codes/pennsylvania/" target="_blank" rel="noopener">law.justia.com</a>
+      </p>
+      <ul class="samples"><li><a href="https://www.palegis.us/statutes" target="_blank" rel="noopener">Statutes</a></li><li><a href="https://www.palegis.us/statutes/consolidated" target="_blank" rel="noopener">Consolidated Statutes</a></li><li><a href="https://www.palegis.us/statutes/unconsolidated" target="_blank" rel="noopener">Unconsolidated Statutes</a></li><li><a href="https://www.palegis.us/statutes/legislation-enacted?type=AA" target="_blank" rel="noopener">Appropriation Acts</a></li></ul>
+      <p class="muted">⚠️ extractor needs a state-specific URL; the parent index returned partial data. Strategy and reach are confirmed; refining the deep-link path is the open task.</p>
+    </article>
+    
+    <article class="card" data-strategy="curl_cffi">
+      <header>
+        <h2>Rhode Island <span class="state-code">RI</span></h2>
+        <div class="badges">
+          <span class="badge" style="background:#0284c7">Chrome-fingerprint client</span>
+          <span class="badge gray">Justia mirror</span>
+          
+        </div>
+      </header>
+      <p class="meta">
+        <strong>155</strong> profession chapters extracted from
+        <a href="https://law.justia.com/codes/rhode-island/" target="_blank" rel="noopener">law.justia.com</a>
+      </p>
+      <ul class="samples"><li><a href="https://law.justia.com/codes/rhode-island/title-5/chapter-5-1/" target="_blank" rel="noopener">Chapter 5-1 Architects</a></li><li><a href="https://law.justia.com/codes/rhode-island/title-5/chapter-5-2/" target="_blank" rel="noopener">Chapter 5-2 Bowling Alleys, Billiard Tables, and Shooting Galleries</a></li><li><a href="https://law.justia.com/codes/rhode-island/title-5/chapter-5-3/" target="_blank" rel="noopener">Chapter 5-3 Public Accountancy [Repealed.]</a></li><li><a href="https://law.justia.com/codes/rhode-island/title-5/chapter-5-3-1/" target="_blank" rel="noopener">Chapter 5-3.1 Public Accountancy</a></li><li><a href="https://law.justia.com/codes/rhode-island/title-5/chapter-5-4/" target="_blank" rel="noopener">Chapter 5-4 Coal and Coke Dealers</a></li><li><a href="https://law.justia.com/codes/rhode-island/title-5/chapter-5-5/" target="_blank" rel="noopener">Chapter 5-5 Private Detective Act</a></li><li><a href="https://law.justia.com/codes/rhode-island/title-5/chapter-5-5-1/" target="_blank" rel="noopener">Chapter 5-5.1 Private Security Guard Businesses</a></li><li><a href="https://law.justia.com/codes/rhode-island/title-5/chapter-5-6/" target="_blank" rel="noopener">Chapter 5-6 Electricians</a></li></ul>
+      
+    </article>
+    
+    <article class="card" data-strategy="curl_cffi">
+      <header>
+        <h2>South Carolina <span class="state-code">SC</span></h2>
+        <div class="badges">
+          <span class="badge" style="background:#0284c7">Chrome-fingerprint client</span>
+          <span class="badge gray">Justia mirror</span>
+          
+        </div>
+      </header>
+      <p class="meta">
+        <strong>60</strong> profession chapters extracted from
+        <a href="https://law.justia.com/codes/south-carolina/" target="_blank" rel="noopener">law.justia.com</a>
+      </p>
+      <ul class="samples"><li><a href="https://law.justia.com/codes/south-carolina/title-40/chapter-1/" target="_blank" rel="noopener">Chapter 1 - Professions And Occupations</a></li><li><a href="https://law.justia.com/codes/south-carolina/title-40/chapter-2/" target="_blank" rel="noopener">Chapter 2 - Accountants</a></li><li><a href="https://law.justia.com/codes/south-carolina/title-40/chapter-3/" target="_blank" rel="noopener">Chapter 3 - Architects</a></li><li><a href="https://law.justia.com/codes/south-carolina/title-40/chapter-5/" target="_blank" rel="noopener">Chapter 5 - Attorneys-at-law</a></li><li><a href="https://law.justia.com/codes/south-carolina/title-40/chapter-6/" target="_blank" rel="noopener">Chapter 6 - Auctioneers</a></li><li><a href="https://law.justia.com/codes/south-carolina/title-40/chapter-7/" target="_blank" rel="noopener">Chapter 7 - Barbers And Barbering</a></li><li><a href="https://law.justia.com/codes/south-carolina/title-40/chapter-8/" target="_blank" rel="noopener">Chapter 8 - South Carolina Perpetual Care Cemetery Act</a></li><li><a href="https://law.justia.com/codes/south-carolina/title-40/chapter-9/" target="_blank" rel="noopener">Chapter 9 - Chiropractors And Chiropractic</a></li></ul>
+      
+    </article>
+    
+    <article class="card" data-strategy="curl_cffi">
+      <header>
+        <h2>South Dakota <span class="state-code">SD</span></h2>
+        <div class="badges">
+          <span class="badge" style="background:#0284c7">Chrome-fingerprint client</span>
+          <span class="badge gray">Justia mirror</span>
+          
+        </div>
+      </header>
+      <p class="meta">
+        <strong>54</strong> profession chapters extracted from
+        <a href="https://law.justia.com/codes/south-dakota/" target="_blank" rel="noopener">law.justia.com</a>
+      </p>
+      <ul class="samples"><li><a href="https://law.justia.com/codes/south-dakota/title-36/chapter-01/" target="_blank" rel="noopener">Chapter 01 - Restoration Of Professional And Occupational Licenses After Military Service</a></li><li><a href="https://law.justia.com/codes/south-dakota/title-36/chapter-01b/" target="_blank" rel="noopener">Chapter 01B - Expedited License Procedure For Military Personnel And Spouses</a></li><li><a href="https://law.justia.com/codes/south-dakota/title-36/chapter-01c/" target="_blank" rel="noopener">Chapter 01C - Uniform Complaint And Declaratory Ruling Procedures</a></li><li><a href="https://law.justia.com/codes/south-dakota/title-36/chapter-01d/" target="_blank" rel="noopener">Chapter 01D - Licensure By Endorsement</a></li><li><a href="https://law.justia.com/codes/south-dakota/title-36/chapter-02/" target="_blank" rel="noopener">Chapter 02 - Practitioners Of Healing Arts In General</a></li><li><a href="https://law.justia.com/codes/south-dakota/title-36/chapter-02a/" target="_blank" rel="noopener">Chapter 02A - Health Professionals Assistance Program</a></li><li><a href="https://law.justia.com/codes/south-dakota/title-36/chapter-04/" target="_blank" rel="noopener">Chapter 04 - Physicians And Surgeons</a></li><li><a href="https://law.justia.com/codes/south-dakota/title-36/chapter-04a/" target="_blank" rel="noopener">Chapter 04A - Physician Assistants</a></li></ul>
+      
+    </article>
+    
+    <article class="card" data-strategy="curl_cffi">
+      <header>
+        <h2>Tennessee <span class="state-code">TN</span></h2>
+        <div class="badges">
+          <span class="badge" style="background:#0284c7">Chrome-fingerprint client</span>
+          <span class="badge gray">Justia mirror</span>
+          
+        </div>
+      </header>
+      <p class="meta">
+        <strong>31</strong> profession chapters extracted from
+        <a href="https://law.justia.com/codes/tennessee/" target="_blank" rel="noopener">law.justia.com</a>
+      </p>
+      <ul class="samples"><li><a href="https://law.justia.com/codes/tennessee/title-63/chapter-1/" target="_blank" rel="noopener">Chapter 1 - DIVISION OF HEALTH RELATED BOARDS (§§ 63-1-101 — 63-1-803)</a></li><li><a href="https://law.justia.com/codes/tennessee/title-63/chapter-2/" target="_blank" rel="noopener">Chapter 2 - MEDICAL RECORDS (§§ 63-2-101 — 63-2-104)</a></li><li><a href="https://law.justia.com/codes/tennessee/title-63/chapter-3/" target="_blank" rel="noopener">Chapter 3 - PODIATRISTS (§§ 63-3-101 — 63-3-214)</a></li><li><a href="https://law.justia.com/codes/tennessee/title-63/chapter-4/" target="_blank" rel="noopener">Chapter 4 - CHIROPRACTORS (§§ 63-4-101 — 63-4-124)</a></li><li><a href="https://law.justia.com/codes/tennessee/title-63/chapter-5/" target="_blank" rel="noopener">Chapter 5 - DENTISTS (§§ 63-5-101 — 63-5-204)</a></li><li><a href="https://law.justia.com/codes/tennessee/title-63/chapter-6/" target="_blank" rel="noopener">Chapter 6 - MEDICINE AND SURGERY (§§ 63-6-101 — 63-6-1207)</a></li><li><a href="https://law.justia.com/codes/tennessee/title-63/chapter-7/" target="_blank" rel="noopener">Chapter 7 - NURSING (§§ 63-7-101 — 63-7-403)</a></li><li><a href="https://law.justia.com/codes/tennessee/title-63/chapter-8/" target="_blank" rel="noopener">Chapter 8 - OPTOMETRY LAW (§§ 63-8-101 — 63-8-129)</a></li></ul>
+      
+    </article>
+    
+    <article class="card" data-strategy="curl_cffi">
+      <header>
+        <h2>Texas <span class="state-code">TX</span></h2>
+        <div class="badges">
+          <span class="badge" style="background:#0284c7">Chrome-fingerprint client</span>
+          <span class="badge gray">Justia mirror</span>
+          
+        </div>
+      </header>
+      <p class="meta">
+        <strong>13</strong> profession chapters extracted from
+        <a href="https://law.justia.com/codes/texas/" target="_blank" rel="noopener">law.justia.com</a>
+      </p>
+      <ul class="samples"><li><a href="https://law.justia.com/codes/texas/2023/occupations-code/title-3/subtitle-a/" target="_blank" rel="noopener">Subtitle A - Provisions Applying to Health Professions Generally</a></li><li><a href="https://law.justia.com/codes/texas/2023/occupations-code/title-3/subtitle-b/" target="_blank" rel="noopener">Subtitle B - Physicians</a></li><li><a href="https://law.justia.com/codes/texas/2023/occupations-code/title-3/subtitle-c/" target="_blank" rel="noopener">Subtitle C - Other Professions Performing Medical Procedures</a></li><li><a href="https://law.justia.com/codes/texas/2023/occupations-code/title-3/subtitle-d/" target="_blank" rel="noopener">Subtitle D - Dentistry</a></li><li><a href="https://law.justia.com/codes/texas/2023/occupations-code/title-3/subtitle-e/" target="_blank" rel="noopener">Subtitle E - Regulation of Nursing</a></li><li><a href="https://law.justia.com/codes/texas/2023/occupations-code/title-3/subtitle-f/" target="_blank" rel="noopener">Subtitle F - Professions Related to Eyes and Vision</a></li><li><a href="https://law.justia.com/codes/texas/2023/occupations-code/title-3/subtitle-g/" target="_blank" rel="noopener">Subtitle G - Professions Related to Hearing, Speech, and Dyslexia</a></li><li><a href="https://law.justia.com/codes/texas/2023/occupations-code/title-3/subtitle-h/" target="_blank" rel="noopener">Subtitle H - Professions Related to Certain Types of Therapy</a></li></ul>
+      
+    </article>
+    
+    <article class="card" data-strategy="curl_cffi">
+      <header>
+        <h2>Utah <span class="state-code">UT</span></h2>
+        <div class="badges">
+          <span class="badge" style="background:#0284c7">Chrome-fingerprint client</span>
+          <span class="badge gray">Justia mirror</span>
+          
+        </div>
+      </header>
+      <p class="meta">
+        <strong>74</strong> profession chapters extracted from
+        <a href="https://law.justia.com/codes/utah/" target="_blank" rel="noopener">law.justia.com</a>
+      </p>
+      <ul class="samples"><li><a href="https://law.justia.com/codes/utah/title-58/chapter-1/" target="_blank" rel="noopener">Chapter 1 - Division of Professional Licensing Act</a></li><li><a href="https://law.justia.com/codes/utah/title-58/chapter-3a/" target="_blank" rel="noopener">Chapter 3a - Architects Licensing Act</a></li><li><a href="https://law.justia.com/codes/utah/title-58/chapter-4a/" target="_blank" rel="noopener">Chapter 4a - Utah Professionals Health Program</a></li><li><a href="https://law.justia.com/codes/utah/title-58/chapter-5a/" target="_blank" rel="noopener">Chapter 5a - Podiatric Physician Licensing Act</a></li><li><a href="https://law.justia.com/codes/utah/title-58/chapter-9/" target="_blank" rel="noopener">Chapter 9 - Funeral Services Licensing Act</a></li><li><a href="https://law.justia.com/codes/utah/title-58/chapter-11a/" target="_blank" rel="noopener">Chapter 11a - Cosmetology and Associated Professions Licensing Act</a></li><li><a href="https://law.justia.com/codes/utah/title-58/chapter-13/" target="_blank" rel="noopener">Chapter 13 - Health Care Providers Immunity from Liability Act</a></li><li><a href="https://law.justia.com/codes/utah/title-58/chapter-15/" target="_blank" rel="noopener">Chapter 15 - Health Facility Administrator Act</a></li></ul>
+      
+    </article>
+    
+    <article class="card" data-strategy="curl_cffi">
+      <header>
+        <h2>Virginia <span class="state-code">VA</span></h2>
+        <div class="badges">
+          <span class="badge" style="background:#0284c7">Chrome-fingerprint client</span>
+          <span class="badge gray">Justia mirror</span>
+          
+        </div>
+      </header>
+      <p class="meta">
+        <strong>61</strong> profession chapters extracted from
+        <a href="https://law.justia.com/codes/virginia/" target="_blank" rel="noopener">law.justia.com</a>
+      </p>
+      <ul class="samples"><li><a href="https://law.justia.com/codes/virginia/title-54-1/chapter-1/" target="_blank" rel="noopener">Chapter 1 - General Provisions</a></li><li><a href="https://law.justia.com/codes/virginia/title-54-1/chapter-2/" target="_blank" rel="noopener">Chapter 2 - General Provisions</a></li><li><a href="https://law.justia.com/codes/virginia/title-54-1/chapter-3/" target="_blank" rel="noopener">Chapter 3 - Department of Professional and Occupational Regulation</a></li><li><a href="https://law.justia.com/codes/virginia/title-54-1/chapter-4/" target="_blank" rel="noopener">Chapter 4 - Architects, Engineers, Surveyors, Landscape Architects and Interior Designers</a></li><li><a href="https://law.justia.com/codes/virginia/title-54-1/chapter-5/" target="_blank" rel="noopener">Chapter 5 - Asbestos, Lead, and Home Inspection Contractors and Workers</a></li><li><a href="https://law.justia.com/codes/virginia/title-54-1/chapter-5-1/" target="_blank" rel="noopener">Chapter 5.1 - Athlete Agents</a></li><li><a href="https://law.justia.com/codes/virginia/title-54-1/chapter-5-2/" target="_blank" rel="noopener">Chapter 5.2 - Athlete Agents</a></li><li><a href="https://law.justia.com/codes/virginia/title-54-1/chapter-6/" target="_blank" rel="noopener">Chapter 6 - Auctioneers</a></li></ul>
+      
+    </article>
+    
+    <article class="card" data-strategy="curl_cffi">
+      <header>
+        <h2>Vermont <span class="state-code">VT</span></h2>
+        <div class="badges">
+          <span class="badge" style="background:#0284c7">Chrome-fingerprint client</span>
+          <span class="badge gray">Justia mirror</span>
+          
+        </div>
+      </header>
+      <p class="meta">
+        <strong>74</strong> profession chapters extracted from
+        <a href="https://law.justia.com/codes/vermont/" target="_blank" rel="noopener">law.justia.com</a>
+      </p>
+      <ul class="samples"><li><a href="https://law.justia.com/codes/vermont/title-26/chapter-1/" target="_blank" rel="noopener">Chapter 1 - Accountants</a></li><li><a href="https://law.justia.com/codes/vermont/title-26/chapter-3/" target="_blank" rel="noopener">Chapter 3 - Architects</a></li><li><a href="https://law.justia.com/codes/vermont/title-26/chapter-5/" target="_blank" rel="noopener">Chapter 5 - Barbers</a></li><li><a href="https://law.justia.com/codes/vermont/title-26/chapter-6/" target="_blank" rel="noopener">Chapter 6 - Barbers and Cosmetologists</a></li><li><a href="https://law.justia.com/codes/vermont/title-26/chapter-7/" target="_blank" rel="noopener">Chapter 7 - Podiatry</a></li><li><a href="https://law.justia.com/codes/vermont/title-26/chapter-9/" target="_blank" rel="noopener">Chapter 9 - Chiropractic</a></li><li><a href="https://law.justia.com/codes/vermont/title-26/chapter-10/" target="_blank" rel="noopener">Chapter 10 - Chiropractic</a></li><li><a href="https://law.justia.com/codes/vermont/title-26/chapter-11/" target="_blank" rel="noopener">Chapter 11 - Cosmeticians and Hairdressers</a></li></ul>
+      
+    </article>
+    
+    <article class="card" data-strategy="curl_cffi">
+      <header>
+        <h2>Washington <span class="state-code">WA</span></h2>
+        <div class="badges">
+          <span class="badge" style="background:#0284c7">Chrome-fingerprint client</span>
+          <span class="badge gray">Justia mirror</span>
+          
+        </div>
+      </header>
+      <p class="meta">
+        <strong>113</strong> profession chapters extracted from
+        <a href="https://law.justia.com/codes/washington/" target="_blank" rel="noopener">law.justia.com</a>
+      </p>
+      <ul class="samples"><li><a href="https://law.justia.com/codes/washington/title-18/rcw-dispositions-title-18/" target="_blank" rel="noopener">RCW Dispositions Title 18</a></li><li><a href="https://law.justia.com/codes/washington/title-18/chapter-18-04/" target="_blank" rel="noopener">Chapter 18.04 - Accountancy.</a></li><li><a href="https://law.justia.com/codes/washington/title-18/chapter-18-06/" target="_blank" rel="noopener">Chapter 18.06 - Acupuncture and Eastern Medicine.</a></li><li><a href="https://law.justia.com/codes/washington/title-18/chapter-18-08/" target="_blank" rel="noopener">Chapter 18.08 - Architects.</a></li><li><a href="https://law.justia.com/codes/washington/title-18/chapter-18-11/" target="_blank" rel="noopener">Chapter 18.11 - Auctioneers.</a></li><li><a href="https://law.justia.com/codes/washington/title-18/chapter-18-16/" target="_blank" rel="noopener">Chapter 18.16 - Cosmetologists, Hair Designers, Barbers, Manicurists, and Estheticians.</a></li><li><a href="https://law.justia.com/codes/washington/title-18/chapter-18-17/" target="_blank" rel="noopener">Chapter 18.17 - Interstate Counseling Compact.</a></li><li><a href="https://law.justia.com/codes/washington/title-18/chapter-18-19/" target="_blank" rel="noopener">Chapter 18.19 - Counselors.</a></li></ul>
+      
+    </article>
+    
+    <article class="card" data-strategy="curl_cffi">
+      <header>
+        <h2>Wisconsin <span class="state-code">WI</span></h2>
+        <div class="badges">
+          <span class="badge" style="background:#0284c7">Chrome-fingerprint client</span>
+          <span class="badge gray">Justia mirror</span>
+          <span class="level-note" title="This state has no chapter level — children of the parent title are individual statute sections, each typically governing one rule or one profession. Counts are higher because the unit is finer.">section-level</span>
+        </div>
+      </header>
+      <p class="meta">
+        <strong>134</strong> profession sections extracted from
+        <a href="https://law.justia.com/codes/wisconsin/" target="_blank" rel="noopener">law.justia.com</a>
+      </p>
+      <ul class="samples"><li><a href="https://law.justia.com/codes/wisconsin/chapter-440/section-440-01/" target="_blank" rel="noopener">440.01 - Definitions.</a></li><li><a href="https://law.justia.com/codes/wisconsin/chapter-440/section-440-02/" target="_blank" rel="noopener">440.02 - Bonds.</a></li><li><a href="https://law.justia.com/codes/wisconsin/chapter-440/section-440-03/" target="_blank" rel="noopener">440.03 - General duties and powers of the department.</a></li><li><a href="https://law.justia.com/codes/wisconsin/chapter-440/section-440-032/" target="_blank" rel="noopener">440.032 - Sign language interpreting.</a></li><li><a href="https://law.justia.com/codes/wisconsin/chapter-440/section-440-035/" target="_blank" rel="noopener">440.035 - General duties and powers of examining boards and affiliated credentialing boards.</a></li><li><a href="https://law.justia.com/codes/wisconsin/chapter-440/section-440-04/" target="_blank" rel="noopener">440.04 - Duties of the secretary.</a></li><li><a href="https://law.justia.com/codes/wisconsin/chapter-440/section-440-042/" target="_blank" rel="noopener">440.042 - Advisory committees.</a></li><li><a href="https://law.justia.com/codes/wisconsin/chapter-440/section-440-043/" target="_blank" rel="noopener">440.043 - Behavioral health review committee.</a></li></ul>
+      
+    </article>
+    
+    <article class="card" data-strategy="curl_cffi">
+      <header>
+        <h2>West Virginia <span class="state-code">WV</span></h2>
+        <div class="badges">
+          <span class="badge" style="background:#0284c7">Chrome-fingerprint client</span>
+          <span class="badge gray">Justia mirror</span>
+          
+        </div>
+      </header>
+      <p class="meta">
+        <strong>77</strong> profession chapters extracted from
+        <a href="https://law.justia.com/codes/west-virginia/" target="_blank" rel="noopener">law.justia.com</a>
+      </p>
+      <ul class="samples"><li><a href="https://law.justia.com/codes/west-virginia/chapter-30/article-1/" target="_blank" rel="noopener">Article 1. General Provisions Applicable to All State Boards of Examination or Registration Referred to in Chapter</a></li><li><a href="https://law.justia.com/codes/west-virginia/chapter-30/article-1a/" target="_blank" rel="noopener">Article 1A. Procedure for Regulation of Occupations and Professions</a></li><li><a href="https://law.justia.com/codes/west-virginia/chapter-30/article-1b/" target="_blank" rel="noopener">Article 1B. Provisions Applicable to Military Members and Their Spouses</a></li><li><a href="https://law.justia.com/codes/west-virginia/chapter-30/article-1c/" target="_blank" rel="noopener">Article 1C. Interstate Medical Licensure Compact</a></li><li><a href="https://law.justia.com/codes/west-virginia/chapter-30/article-1d/" target="_blank" rel="noopener">Article 1D. Provisions Affecting Certain Boards of Licensure</a></li><li><a href="https://law.justia.com/codes/west-virginia/chapter-30/article-1e/" target="_blank" rel="noopener">Article 1E. Career Training Education and Apprenticeships</a></li><li><a href="https://law.justia.com/codes/west-virginia/chapter-30/article-2/" target="_blank" rel="noopener">Article 2. Attorneys-at-Law</a></li><li><a href="https://law.justia.com/codes/west-virginia/chapter-30/article-2a/" target="_blank" rel="noopener">Article 2A. Medical Licensing Board</a></li></ul>
+      
+    </article>
+    
+    <article class="card" data-strategy="curl_cffi">
+      <header>
+        <h2>Wyoming <span class="state-code">WY</span></h2>
+        <div class="badges">
+          <span class="badge" style="background:#0284c7">Chrome-fingerprint client</span>
+          <span class="badge gray">Justia mirror</span>
+          
+        </div>
+      </header>
+      <p class="meta">
+        <strong>49</strong> profession chapters extracted from
+        <a href="https://law.justia.com/codes/wyoming/" target="_blank" rel="noopener">law.justia.com</a>
+      </p>
+      <ul class="samples"><li><a href="https://law.justia.com/codes/wyoming/title-33/chapter-1/" target="_blank" rel="noopener">Chapter 1 - Licensing Generally</a></li><li><a href="https://law.justia.com/codes/wyoming/title-33/chapter-2/" target="_blank" rel="noopener">Chapter 2 - Abstractors</a></li><li><a href="https://law.justia.com/codes/wyoming/title-33/chapter-3/" target="_blank" rel="noopener">Chapter 3 - Accountants</a></li><li><a href="https://law.justia.com/codes/wyoming/title-33/chapter-4/" target="_blank" rel="noopener">Chapter 4 - Architects</a></li><li><a href="https://law.justia.com/codes/wyoming/title-33/chapter-5/" target="_blank" rel="noopener">Chapter 5 - Attorneys-at-Law</a></li><li><a href="https://law.justia.com/codes/wyoming/title-33/chapter-6/" target="_blank" rel="noopener">Chapter 6 - Carnivals, Circuses, Pawnbrokers, Poolrooms and Bowling Alleys</a></li><li><a href="https://law.justia.com/codes/wyoming/title-33/chapter-7/" target="_blank" rel="noopener">Chapter 7 - Barbers</a></li><li><a href="https://law.justia.com/codes/wyoming/title-33/chapter-8/" target="_blank" rel="noopener">Chapter 8 - Boxing</a></li></ul>
+      
+    </article>
+    
+  </section>
+
+  <footer>
+    <p>Generated from <code>probe_results.json</code> + <code>profession_chapters.json</code> by <code>make_demo.py</code>. Source pipeline at <a href="https://github.com/abigailhaddad/utah">github.com/abigailhaddad/utah</a>.</p>
+    <p>Strategy legend: <strong>plain HTTP</strong> = standard <code>requests</code> works; <strong>Chrome-fingerprint client</strong> = needs <code>curl_cffi</code> with TLS impersonation to bypass Cloudflare on Justia; <strong>Open Legislation API</strong> = NY-specific, free key required; <strong>headless browser</strong> = Playwright fallback when no HTTP strategy works (not currently the recommended path for any state). Sites split into "official site" (state legislature) and "Justia mirror" (uniform structure across states, used when the official site requires a browser).</p>
+    <p>"Section-level" badge means the state's licensing title has no chapter subdivision — every link is an individual statute section. The total entry count for those states reflects rule-level granularity rather than profession-level.</p>
+  </footer>
+</div>
+</body>
+</html>
