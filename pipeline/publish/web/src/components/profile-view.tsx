@@ -207,26 +207,29 @@ export function ProfileView({ payload }: { payload: ProfilePayload }) {
         </span>
       </div>
 
-      <div className="rounded-lg border overflow-hidden">
-        <Table>
+      <div className="rounded-lg border overflow-x-auto">
+        <Table className="table-fixed">
           <TableHeader>
             <TableRow>
-              <TableHead className="w-12">State</TableHead>
-              <TableHead>Regulatory model</TableHead>
-              <TableHead>Issuing authority</TableHead>
-              <TableHead>Education</TableHead>
-              <TableHead>Post-degree exp.</TableHead>
-              <TableHead className="text-center">Exams</TableHead>
-              <TableHead className="text-center">Renewal (yrs)</TableHead>
-              <TableHead className="text-center">CE hrs / yrs</TableHead>
-              <TableHead className="text-center">Reciprocity</TableHead>
-              <TableHead className="text-center">Evidence</TableHead>
-              <TableHead className="w-16"></TableHead>
+              <TableHead className="w-[3rem]">State</TableHead>
+              <TableHead className="w-[9rem]">Regulatory model</TableHead>
+              <TableHead className="w-[12rem]">Issuing authority</TableHead>
+              <TableHead className="w-[18rem]">Education</TableHead>
+              <TableHead className="w-[8rem]">Post-degree</TableHead>
+              <TableHead className="w-[4rem] text-center">Exams</TableHead>
+              <TableHead className="w-[4.5rem] text-center">Renewal</TableHead>
+              <TableHead className="w-[4rem] text-center">CE</TableHead>
+              <TableHead className="w-[5rem] text-center">Reciprocity</TableHead>
+              <TableHead className="w-[4.5rem] text-center">Evidence</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {filtered.map((r) => (
-              <TableRow key={r.state} className="align-top">
+              <TableRow
+                key={r.state}
+                className="align-top cursor-pointer"
+                onClick={() => setOpenState(r.state)}
+              >
                 <TableCell className="font-mono text-sm">{r.state}</TableCell>
                 <TableCell>
                   {r.coverage_gap ? (
@@ -240,28 +243,26 @@ export function ProfileView({ payload }: { payload: ProfilePayload }) {
                     regChip(r.regulatory_model)
                   )}
                 </TableCell>
-                <TableCell className="text-sm"><Cell value={r.issuing_authority} /></TableCell>
-                <TableCell className="text-sm"><Cell value={r.education_degree} /></TableCell>
-                <TableCell className="text-sm"><Cell value={r.post_degree_duration} /></TableCell>
+                <TableCell className="text-sm whitespace-normal break-words" title={r.issuing_authority || ""}>
+                  <Cell value={r.issuing_authority} />
+                </TableCell>
+                <TableCell className="text-sm whitespace-normal break-words" title={r.education_degree || ""}>
+                  <Cell value={r.education_degree} />
+                </TableCell>
+                <TableCell className="text-sm whitespace-normal break-words" title={r.post_degree_duration || ""}>
+                  <Cell value={r.post_degree_duration} />
+                </TableCell>
                 <TableCell className="text-center text-sm"><Cell value={r.exams_count || null} /></TableCell>
                 <TableCell className="text-center text-sm"><Cell value={r.renewal_years} /></TableCell>
                 <TableCell className="text-center text-sm">
                   {r.ce_hours == null && r.ce_period_years == null ? (
                     <span className="text-muted-foreground">—</span>
                   ) : (
-                    <>{r.ce_hours ?? "—"} / {r.ce_period_years ?? "—"}</>
+                    <span className="whitespace-nowrap">{r.ce_hours ?? "—"} / {r.ce_period_years ?? "—"}</span>
                   )}
                 </TableCell>
                 <TableCell className="text-center"><YesNo v={r.reciprocity_available} /></TableCell>
                 <TableCell className="text-center"><VerifyBadge row={r} /></TableCell>
-                <TableCell>
-                  <button
-                    onClick={() => setOpenState(r.state)}
-                    className="text-xs font-mono uppercase tracking-wide text-muted-foreground hover:text-foreground"
-                  >
-                    view
-                  </button>
-                </TableCell>
               </TableRow>
             ))}
           </TableBody>
