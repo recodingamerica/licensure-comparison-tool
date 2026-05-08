@@ -85,16 +85,24 @@ def build_index_for(profession: str, defn: dict, hierarchies: dict[str, dict], o
         m: list[dict] = []
         if record:
             m = match_state(defn, record)
-        # Merge manual overrides (dedup by URL)
+        # Merge manual overrides (dedup by URL). Manual overrides may carry
+        # section-filter fields that pull_text consumes:
+        #   section_slug_pattern: regex on the section URL slug
+        #   section_url_list:     explicit list of section URLs
         for ov in prof_overrides.get(st, []) or []:
             if ov["url"] not in {x["url"] for x in m}:
-                m.append({
+                node = {
                     "label": ov.get("label", ""),
                     "url": ov["url"],
                     "slug": ov["url"].rstrip("/").rsplit("/", 1)[-1],
                     "via": "manual_override",
                     "note": ov.get("note", ""),
-                })
+                }
+                if ov.get("section_slug_pattern"):
+                    node["section_slug_pattern"] = ov["section_slug_pattern"]
+                if ov.get("section_url_list"):
+                    node["section_url_list"] = ov["section_url_list"]
+                m.append(node)
                 overrides_used += 1
         if not record and not m:
             by_state[st] = {"matched": [], "note": "no_hierarchy"}

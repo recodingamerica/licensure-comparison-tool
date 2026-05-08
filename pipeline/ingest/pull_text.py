@@ -214,7 +214,29 @@ def pull_state(state: str, profession: str, rows: list[dict], limit_sections: in
         url = row["chapter_url"]
         corpus.chapter_urls.append(url)
 
-        if is_section_url(url):
+        # Manual-override "section filter" mode: pull a specific list of section
+        # URLs, OR pull the chapter's children and filter by a slug regex.
+        # Used for states whose podiatry law is a section range inside a much
+        # bigger chapter (e.g. AZ §§32-801..32-859 within Title 32).
+        section_url_list = row.get("section_url_list")
+        section_slug_pattern = row.get("section_slug_pattern")
+
+        if section_url_list:
+            section_targets = [{"url": u, "label": "", "slug": u.rstrip("/").rsplit("/", 1)[-1]}
+                               for u in section_url_list]
+            log.info("  chapter %s -> %d explicit section URLs", url, len(section_targets))
+        elif section_slug_pattern:
+            status, html, err = fetch(url)
+            time.sleep(PER_HOST_DELAY)
+            if err or not html or (status and not 200 <= status < 300):
+                corpus.errors.append(f"chapter fetch {url}: {err or status}")
+                continue
+            all_sections = extract_child_links(html, url)[0]
+            pat = re.compile(section_slug_pattern)
+            section_targets = [s for s in all_sections if pat.match(s["slug"])]
+            log.info("  chapter %s -> %d sections after slug filter %r",
+                     url, len(section_targets), section_slug_pattern)
+        elif is_section_url(url):
             section_targets = [{"url": url, "label": row["chapter_label"], "slug": row["chapter_slug"]}]
         else:
             section_targets, terr = collect_section_targets(
@@ -287,12 +309,18 @@ def main() -> None:
         if only_states and state not in only_states:
             continue
         for node in payload.get("matched", []):
-            by_state.setdefault(state, []).append({
+            row = {
                 "state": state,
                 "chapter_url": node["url"],
                 "chapter_label": node["label"],
                 "chapter_slug": node.get("slug", ""),
-            })
+            }
+            # Pass-through for section-filter overrides
+            if node.get("section_slug_pattern"):
+                row["section_slug_pattern"] = node["section_slug_pattern"]
+            if node.get("section_url_list"):
+                row["section_url_list"] = node["section_url_list"]
+            by_state.setdefault(state, []).append(row)
 
     log.info("profession=%s matched %d states from %s", profession, len(by_state), index_path.name)
 

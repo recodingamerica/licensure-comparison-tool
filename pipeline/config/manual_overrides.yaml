@@ -33,6 +33,33 @@ podiatry:
     - url:   "https://law.justia.com/codes/virginia/title-54-1/chapter-29/"
       label: "Chapter 29 — Medicine and Other Healing Arts"
       note:  "VA Code § 54.1-2900 series cited by PDF; chapter 29 covers podiatrists"
+  WV:
+    - url:   "https://law.justia.com/codes/west-virginia/chapter-30/article-3/"
+      label: "Chapter 30 Article 3 — Medicine and Surgery"
+      note:  "current WV podiatry law lives here; the standalone §30-11 was repealed in 1980"
+  NV:
+    - url:   "https://law.justia.com/codes/nevada/chapter-635/"
+      label: "Chapter 635 — Podiatry (NRS)"
+      note:  "Justia's title-54 root didn't expose this; chapter URL works directly"
+  # --- section-filter overrides: states where podiatry is a section range
+  # within a much bigger chapter that section_fallback returns flat ---
+  AZ:
+    - url:                  "https://law.justia.com/codes/arizona/title-32/"
+      section_slug_pattern: '^section-32-8(0[0-9]|[1-5][0-9])(-version-\d+)?$'
+      label:                "AZ Title 32 §§32-801..32-859 — Podiatry"
+      note:                 "AZ has no chapter-level URL on Justia; filtering Title 32 by section number"
+  OK:
+    - url:                  "https://law.justia.com/codes/oklahoma/title-59/"
+      section_slug_pattern: '^section-59-1(3[5-9]|[4-5][0-9]|60(-1)?)$'
+      label:                "OK Title 59 §§59-135..59-160.1 — Podiatry Practice Act"
+  KY:
+    - url:                  "https://law.justia.com/codes/kentucky/chapter-311/"
+      section_slug_pattern: '^section-311-(38[0-9]|39[0-9]|4[0-3][0-9]|44[0])$'
+      label:                "KY KRS 311.380..311.440 — Podiatry within Chapter 311"
+  LA:
+    - url:                  "https://law.justia.com/codes/louisiana/revised-statutes/title-37/"
+      section_slug_pattern: '^rs-37-61[1-9]$|^rs-37-62[0-9]$'
+      label:                "LA RS 37:611..37:629 — Podiatry within Title 37"
 
 # Suggested but require depth-2 drill (subtitle/division covers multiple chapters):
 #   podiatry:
