@@ -4,29 +4,46 @@ Pipeline that turns state statutes into a structured, evidence-backed view of
 licensure and scope of practice for regulated professions, with a static
 DataTables viewer.
 
-Seeded from Utah's Title 58 (Occupations and Professions) — Utah's 46
-licensed professions are the canonical registry; other states fill in those
-same professions where they exist, plus get added as gaps when Utah doesn't
-license something.
+Built for Utah's Office of Professional Licensure Review (OPLR) as the
+descriptive layer that feeds their Universal Occupational Regulation Framework
+(UORF) — the prescriptive six-rung ladder OPLR uses to evaluate how strictly
+each occupation should be regulated. We answer "what does each state currently
+do?"; UORF answers "what should they do?".
 
-## Current status (2026-05-08)
+Seeded from Utah's Title 58 — Utah's 46 licensed professions are the canonical
+registry (`pipeline/config/professions.yaml`); other states fill in those
+same professions where they exist.
 
-The first end-to-end demo profession is **podiatry**. The full pipeline ran
-across 50 states and produced an interactive viewer with verbatim statutory
-quotes regex-validated against the source.
+## Current status
 
-| Stage | What it does | Status |
+Two professions are wired through end-to-end: **podiatry** and
+**public accountancy** (CPA). Demo at `localhost:8767/`.
+
+| | Podiatry | Public Accountancy |
 |---|---|---|
-| `discover/probe` | Verify each state's licensing parent URL is fetchable | Working — runs against `config/targets.csv` |
-| `discover/build_hierarchy` | Per-state structural crawl (title → chapters) | Done for all 50 states. 4 states have known quality issues (NV empty, PA wrong target URL, AR/CO need depth-2). 6 states return section labels at the top level instead of chapters (AZ, OK, MI, WI, LA — `section_fallback` mode). |
-| `discover/match_profession` | Match `professions.yaml` patterns → matched chapter nodes per state | Working. Coverage matrix at `results/profession_index/_coverage.csv`. Podiatry: **35/50** — same as our prior pull because the missing 15 are real (9 buried under Medicine chapters, 4 hierarchy-quality states, 2 misc). |
-| `ingest/pull_text` | Fetch full text for each section under matched chapters | Currently reads from a legacy CSV; needs to be rewired to consume `profession_index/<prof>.json`. Not blocking the demo — last pull is cached. |
-| `ingest/clean_text` | Source-keyed regex cleanup (Justia chrome, repealed sections) | Working. ~1.04M chars across 35 states after cleaning. |
-| `ingest/trim_state` | Haiku keep/drop classifier — drops board-composition / fund / ministerial sections | Working. ~568 sections kept across 35 states. |
-| `extract/discover_schema` | **Pass 1b** — Sonnet aggregator over all 35 trimmed corpora; outputs `discovered/<prof>.json` listing profession-specific fields with types/enums | Working. 36 podiatry-specific fields auto-discovered. |
-| `extract/extract_state` | **Pass 2** — per-state structured extraction. Every leaf field is Evidence-wrapped (value + verbatim quote + citation); each quote regex-validated against the cleaned source. | Working. Sonnet 4.6 by default (Haiku produced known misses on residency/CE/renewal). |
-| `publish/build_frontend` | Aggregate per-state records → `site/data.json` + summary stats | Working. |
-| `publish/site/` | Static viewer (jQuery + DataTables + shared-ui) | Working. Universal columns + one anatomical-scope column for the podiatry demo. Per-row evidence-verification badge. Modal shows full record with quote + citation under every claim. |
+| States with substantive records | 41–47 (chains in flight) | 32 |
+| Profession-specific fields auto-discovered | 36 | 38 |
+| Evidence quotes regex-validated against source | 98.7% (857 / 868) | 95.9% (1,078 / 1,124) |
+
+Pipeline stages, all working:
+
+| Stage | What it does |
+|---|---|
+| `discover/probe` | Verify each state's licensing parent URL is fetchable |
+| `discover/build_hierarchy` | Per-state structural crawl (title → chapters), 50 states cached |
+| `discover/match_profession` | `professions.yaml` patterns + `state_structure.yaml` overrides → matched chapter nodes |
+| `discover/suggest_overrides` | Haiku classifier that proposes chapter URLs for buried-under-parent cases (e.g. podiatry under Medicine) — proposals reviewed before promoting |
+| `discover/fetch_section_bodies` | Bulk-fetches per-section body excerpts (cached per state) — only needed for section_fallback states |
+| `discover/map_state_sections_v2` | For section_fallback states, asks Sonnet to assign each flat section to a profession using label + body excerpt |
+| `ingest/pull_text` | Consumes `profession_index/<prof>.json`, fetches section text. Supports `section_url_list` and `section_slug_pattern` overrides |
+| `ingest/clean_text` | Source-keyed regex cleanup (Justia chrome, repealed sections) |
+| `ingest/trim_state` | Haiku binary keep/drop classifier — drops board-composition / fund / ministerial sections. Never rewrites text |
+| `extract/discover_schema` | Pass 1b — Sonnet aggregator over all trimmed corpora. Outputs profession-specific fields with types, enum values, plain-English category labels |
+| `extract/extract_state` | Pass 2 — per-state structured extraction. Every leaf field is Evidence-wrapped (`{value, quote, citation}`). Quote is regex-validated against the cleaned source |
+| `extract/recategorize_fields` | Surgical re-grouping of an existing discovered file into LLM-named categories without re-extraction |
+| `extract/reverify_evidence` | Re-runs the regex check against existing structured records (lets us tighten/loosen the matcher without re-extracting) |
+| `publish/build_frontend` | Aggregates per-state records into `site/data/<prof>.json` + refreshes `professions.json` |
+| `publish/site/` | Static viewer (jQuery + DataTables + shared-ui from CDN). Home is profession picker; per-profession profile page shows table + per-row evidence-backed modal |
 
 ## How to run it
 
@@ -36,20 +53,27 @@ Setup:
 cd pipeline
 python3 -m venv .venv
 .venv/bin/pip install -r requirements.txt
-.venv/bin/playwright install chromium      # only if you'll hit JS-rendered state sites
 ```
 
-End-to-end for one profession:
+Add a profession (one that's already in `config/professions.yaml`):
 
 ```bash
-.venv/bin/python -m pipeline.discover.build_hierarchy           # one-time per state, cached
-.venv/bin/python -m pipeline.discover.match_profession --profession podiatry
-# (re-pulling text is currently broken on the new path — see Known gaps)
-.venv/bin/python -m pipeline.ingest.clean_text       --profession podiatry
-.venv/bin/python -m pipeline.ingest.trim_state       --profession podiatry
-.venv/bin/python -m pipeline.extract.discover_schema --profession podiatry
-.venv/bin/python -m pipeline.extract.extract_state   --profession podiatry
-.venv/bin/python -m pipeline.publish.build_frontend  --profession podiatry
+# 1. Match — uses state_structure.yaml overrides + professions.yaml patterns
+python -m pipeline.discover.match_profession --profession <name>
+
+# 2. (optional) For unmatched states — let Haiku propose chapter URLs:
+python -m pipeline.discover.suggest_overrides --profession <name>
+# review pipeline/results/profession_index/<name>_suggestions.json,
+# promote good ones into pipeline/config/state_structure.yaml,
+# re-run match_profession.
+
+# 3. Pull → clean → trim → discover schema → extract → publish
+python -m pipeline.ingest.pull_text          --profession <name>
+python -m pipeline.ingest.clean_text         --profession <name>
+python -m pipeline.ingest.trim_state         --profession <name>
+python -m pipeline.extract.discover_schema   --profession <name>
+python -m pipeline.extract.extract_state     --profession <name>
+python -m pipeline.publish.build_frontend    --profession <name>
 ```
 
 Serve the viewer:
@@ -63,63 +87,91 @@ python3 -m http.server 8767
 ## Architecture invariants
 
 1. **Each stage reads from the previous stage's output dir, writes to its own.** No cross-stage coupling beyond filesystem paths.
-2. **Profession is always a parameter.** "podiatry" appears only in `config/professions.yaml`.
-3. **Hierarchy is profession-agnostic** (one crawl per state, reused for every profession).
-4. **`pipeline/results/` is the only place outputs land.**
+2. **Profession is always a parameter.** `"podiatry"` appears only in `config/professions.yaml`. Adding a third profession is a config edit.
+3. **Hierarchy is profession-agnostic** — one crawl per state, reused for every profession.
+4. **State structure is the single source of truth** for per-state quirks. `config/state_structure.yaml` records the source, layout, and per-profession URL/section pattern. Match-time precedence: state_structure > label match.
 5. **Every claim is evidence-backed.** Pass 2 wraps every leaf field in `{value, quote, citation}` and a regex check verifies the quote appears in the cleaned source. Unverified quotes get flagged in the UI rather than silently dropped.
+6. **LLM-driven over hand-curation, when it scales.** Buried-chapter detection, schema discovery, profession-field categorization, section-to-profession mapping — all LLM-driven with Pydantic Literal-constrained outputs as anti-hallucination guardrails. Hand-curation is the fallback for the long tail.
 
-## Known gaps
+## Known gaps and limits
 
-- **`pull_text.py` reads from the old chapter-list CSV.** Once `match_profession.py` produces `profession_index/<prof>.json`, `pull_text.py` should consume that instead. The cached `text/podiatry/` directory still works for the current demo.
 - **`run.py` orchestrator is a stub.** Stage scripts run individually for now.
-- **15 states without podiatry coverage** — 9 are regulated under a Medicine/Healing-Arts chapter we never enumerated; 2 (NV, PA) had bad target URLs; 2 (AR, CO) need depth-2 hierarchy expansion; 2 (AZ, OK) return section_fallback mode where chapters aren't a level in the tree. Path forward is a `manual_overrides.yaml` plus a smarter section-level matcher.
-- **Only one profession wired so far.** `professions.yaml` has 46 entries seeded from Utah Title 58; the rest are unrun. Adding a profession to the demo: run `match_profession --profession <name>` then the rest of the pipeline.
-- **`config/sources.py` only has Justia.** Adding non-Justia sources (CA leginfo, MN revisor, PA legis) needs a new cleaner registered in `ingest/clean_text.py`.
+- **PA podiatry coverage gap.** palegis.us is JS-rendered + query-string-driven; FindLaw is anti-scrape; Cornell LII doesn't host state statutes. Documented as a deferred gap; would need Playwright + custom navigation or a paid source (Westlaw).
+- **Admin code (CE topical rules, application procedure specifics) not yet pulled.** `regs_targets.csv` exists but isn't wired into the ingest stage. Would close many of the visible "—" cells under CE hours.
+- **Section-mapper accuracy varies** by state. v1 (label-only) is unreliable when section labels are generic ("Definitions", "License required") — see `pipeline/notes/LEARNINGS.md` for the LA mismap. v2 (label + body excerpt) trades a one-time per-state body fetch for accuracy.
 
 ## Layout
 
 ```
 pipeline/
   config/
-    states.py          # 50 US state codes
-    sources.py         # URL host → cleaner registry
-    professions.yaml   # canonical profession registry (46 from Utah Title 58)
-    targets.csv        # per-state licensing parent URLs
-    regs_targets.csv   # per-state admin code parent URLs
+    states.py            # 50 US state codes
+    sources.py           # URL host → cleaner registry
+    professions.yaml     # canonical profession registry (46 from Utah Title 58)
+    state_structure.yaml # per-state source/layout + per-profession URL or section pattern
+    prompts.yaml         # LLM system prompts (loadable by name)
+    targets.csv          # per-state licensing parent URLs
+    regs_targets.csv     # per-state admin code parent URLs
   discover/
-    _fetch.py          # polite fetch helpers (requests → curl_cffi → playwright)
-    _extract.py        # link extractors (Justia + generic official)
+    _fetch.py            # polite fetch helpers (requests → curl_cffi → playwright)
+    _extract.py          # Justia + generic link extractors
     probe.py
     build_hierarchy.py
     match_profession.py
-    regs_probe.py      # admin code source probe (separate concern)
+    suggest_overrides.py
+    fetch_section_bodies.py
+    map_state_sections.py / _v2.py
+    regs_probe.py
   ingest/
     pull_text.py
     clean_text.py
     trim_state.py
   extract/
-    standard_model.py  # universal Pydantic base, Evidence-wrapped
+    standard_model.py    # universal Pydantic base, Evidence-wrapped
     discover_schema.py
     extract_state.py
+    recategorize_fields.py
+    reverify_evidence.py
   publish/
     build_frontend.py
     site/
+      index.html
+      profile.html
+      data/<profession>.json
+      professions.json
+  notes/
+    LEARNINGS.md
+    FIELDS.md
+    PDF_COMPARISON.md
   results/
     hierarchy/
     profession_index/
+    section_bodies/
+    section_maps/
     text/
     clean/
     trimmed/
     discovered/
     structured/
   logs/
-  paths.py             # canonical path constants
-  run.py               # orchestrator (stub)
+  paths.py               # canonical path constants
+  run.py                 # orchestrator (stub)
+  _prompts.py            # prompt loader
 ```
 
 ## Decisions worth knowing
 
 - **Trim is a Haiku binary classifier, never a text rewriter.** The model only emits `[{citation, keep, reason}]`; verbatim text is read from the cleaned corpus by citation. Eliminates one class of hallucination.
-- **Schema discovery is a separate stage.** Pass 1b runs once per profession across all states' trimmed text → a profession-specific field list with normalized enum values. Pass 2 then composes a typed Pydantic model from that list and uses it per-state. Means the field set adapts to the profession's actual variation rather than being hard-coded.
-- **Universal base + discovered profession-specific.** `standard_model.py` covers what's true for any licensed profession (license_required, education, post-degree experience, exams, renewal, CE, reciprocity). Profession-specific dimensions (anatomical scope for podiatry, CPE topics for accountancy, etc.) come from pass 1b.
-- **Sonnet for both LLM-driven stages.** Pass 1b needs the 200k+ token corpus reasoning; pass 2 turned out to need it too — Haiku missed in-corpus fields (CT residency, ME CE, KS/WA renewal). Cost: ~$5 per profession-state run. Worth it.
+- **Schema discovery is a separate stage.** Pass 1b runs once per profession across all states' trimmed text → a profession-specific field list with normalized enum values and plain-English category labels (LLM-named, not hand-coded). Pass 2 then composes a typed Pydantic model from that list and uses it per-state.
+- **Universal base + discovered profession-specific.** `standard_model.py` covers what's true for any licensed profession (license_required, education, post-degree experience, exams, renewal, CE, reciprocity, plus four UORF-aligned fields: regulatory_model, title_protection, scope_protection, disciplinary_grounds). Profession-specific dimensions come from pass 1b.
+- **Sonnet for both LLM-driven extraction stages.** Pass 1b needs the 200k+ token corpus reasoning; pass 2 turned out to need it too — Haiku missed in-corpus fields (CT residency, ME CE, KS/WA renewal). Cost: ~$5 per profession-state run.
+- **`state_structure.yaml` over `manual_overrides.yaml`.** State-keyed registry is the long-term home for per-state quirks. `source` and `layout` are state-level facts every profession in that state inherits; per-profession URLs / section patterns sit one level deeper.
+- **Frontend modal shows source link + in-context highlight.** Each evidence quote gets a `source ↗` link to the actual section page on Justia / revisor.mn.gov / etc., plus an `in context` toggle that shows the full section text with the quote highlighted in `<mark>` tags.
+
+## Notes
+
+Running notes on what we've learned during this build live in
+`pipeline/notes/`:
+- `LEARNINGS.md` — source coverage quirks, hierarchy issues per state, LLM extraction observations, architecture decisions
+- `FIELDS.md` — universal base + per-profession discovered fields for podiatry and CPA
+- `PDF_COMPARISON.md` — concrete diff vs the human-curated podiatry PDF on four states

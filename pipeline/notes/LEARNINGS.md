@@ -154,6 +154,115 @@ to find the URL convention and the right CSS selector for the body. After
 that, it slots into our pipeline as a `section_url_list` override + one
 extra selector in `extract_section_text`.
 
+## State structure index — what we found
+
+Reorganizing per-(state, profession) overrides into a state-keyed
+`state_structure.yaml` was a unifying move. The state-level facts —
+`source: justia | revisor_mn | mi_legis | …` and `layout: chapter |
+section_fallback | subtitled | external | broken` — apply to every
+profession in that state. The per-profession entry just provides the
+profession-specific URL or section pattern.
+
+Once state structure is recorded, adding a profession to an existing
+state is a one-line entry under the right state's `professions:` block.
+Adding a state we've never seen requires figuring out source + layout
+once; subsequent professions in that state slot in cheaply.
+
+`manual_overrides.yaml` was deleted — `state_structure.yaml` is the
+single source of truth.
+
+## LLM-driven section mapping — v1 is risky, v2 with body excerpts works
+
+For section_fallback states (AZ, OK, LA, WI), each profession lives in
+a number range within a giant flat title (~1500–2000 sections). To
+automate finding those ranges we built `map_state_sections.py`:
+
+- **v1 (label-only)** — sends Sonnet `(slug, label)` per section + the
+  46 profession registry, asks for per-profession section lists. Works
+  when labels are descriptive ("§32-851 Practicing podiatry without
+  license"). Fails when labels are generic.
+  Concrete failure: LA Title 37 has §§37:611-629 = podiatry, but every
+  section's label is generic ("Definitions", "License required",
+  "Qualifications"). Sonnet labeled the entire range as opticianry.
+  Lesson: labels alone aren't enough discrimination signal.
+
+- **v2 (label + body excerpt)** — adds a one-time per-state bulk fetch
+  of ~300 chars of body text per section, cached in
+  `results/section_bodies/<STATE>.json`. Sonnet then sees the actual
+  statutory text — "(1) 'Podiatry' or 'podiatric medicine' means the
+  diagnosis or treatment, or holding out…" — and can disambiguate
+  generic-labeled sections.
+  Cost: one-time body fetch per state (~40 min serialized at
+  PER_HOST_DELAY=1.2s for a 2000-section state; could parallelize),
+  plus the same Sonnet call as v1.
+
+The v1/v2 split is a useful reminder: LLMs without enough discrimination
+signal will confidently output the wrong thing. Constraining the output
+type (Pydantic Literal of valid slugs) catches hallucinated slugs but
+not mislabels.
+
+## Plain-English category labels (the advanced_tier saga)
+
+Initially I hand-coded `FieldCategory` as an enum (`scope_inclusion`,
+`advanced_tier`, `anatomy_or_procedure`, etc.) and constrained the
+schema-discovery LLM to pick one. The labels were jargony and not
+intuitive.
+
+Fix in two steps:
+1. `recategorize_fields.py` — surgical post-process that asks Sonnet to
+   regroup an existing field list into 5–8 plain-English categories. No
+   re-extraction needed; only the `category` value changes.
+2. Updated `discover_schema.py` to drop the enum entirely. Future
+   profession runs get LLM-named categories on first pass.
+
+Result for podiatry: 8 hand-coded jargon categories →
+7 LLM-named ones like *"what they can treat and where on the body"*,
+*"surgery and procedures they can perform"*, *"ankle surgery
+qualifications and limits"*, *"supervision and delegation"*.
+
+Removing the enum guardrail was fine because the categories aren't
+load-bearing for downstream code — they only group fields in the modal.
+
+## Verifier tolerance: ellipsis-elided quotes
+
+The first verifier rejected ~5% of LLM quotes because the LLM elided
+non-contiguous segments with `...`:
+
+  Original source: "Any person except a licensed podiatrist [...] who
+  practices podiatry [a long clause about diploma fraud here] shall be
+  guilty of a class D felony"
+  LLM quote:       "Any person except a licensed podiatrist ... who
+  practices podiatry ... shall be guilty of a class D felony"
+
+The matcher rejected because the elided middle part (about diploma
+fraud) didn't appear contiguously between the quoted phrases. It's
+technically the LLM tightening a wordy source, not fabrication.
+
+Fix: split the quote on `...` / `…` BEFORE normalization; require each
+part to appear in order in the corpus. Lifted podiatry from 96.5% →
+98.7% verified, CPA from 92.2% → 95.9%.
+
+The remaining ~2% unverified are probably real LLM paraphrasing slips
+or genuine misalignments — the matcher is now appropriately tolerant
+without being too loose.
+
+## Frontend evidence affordances
+
+Each evidence quote in the modal got two affordances after the user
+asked for source-clickability:
+
+- `source ↗` — opens the actual section URL in a new tab (Justia /
+  revisor.mn.gov / legislature.mi.gov / etc.). build_frontend.py threads
+  the trimmed sections through to data.json keyed off the row's full
+  record so each evidenceRow can find its source by citation.
+- `in context` — toggles an inline panel showing the full section text
+  with the quoted phrase wrapped in `<mark>` tags. Highlight matching
+  is whitespace-flexible (`\s+` regex) so source line breaks don't
+  break the match.
+
+data.json grew from ~270 KB to ~3.4 MB because every state's trimmed
+section text is now inline. Still small enough for static serving.
+
 ## Open work / known limits
 
 - Admin code (CE rules, sub-regulation) lives outside statute on most
