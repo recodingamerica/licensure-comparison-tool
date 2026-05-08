@@ -1,0 +1,45 @@
+# Per-(profession, state) chapter URL overrides.
+#
+# Used by match_profession.py: for any (profession, state) pair listed here, the
+# chapter URLs below are added to the profession's matched nodes — even if the
+# label-substring match found nothing, or in addition to whatever it found.
+#
+# Source: hand-curated from suggest_overrides.py output. Run
+#   python -m pipeline.discover.suggest_overrides --profession <name>
+# to get LLM-proposed candidates per state, review them, then promote
+# accepted entries here.
+#
+# Shape:
+#   <profession>:
+#     <STATE>:
+#       - url:   "https://..."
+#         label: "Chapter X — ..."     # human-readable, for grep/audit
+#         note:  "podiatry buried under medicine practice act"
+
+podiatry:
+  AL:
+    - url:   "https://law.justia.com/codes/alabama/title-34/chapter-24/"
+      label: "Chapter 24 — Physicians and Other Practitioners of Healing Arts"
+      note:  "podiatry regulated under healing arts; suggested by suggest_overrides (medium confidence)"
+  AK:
+    - url:   "https://law.justia.com/codes/alaska/title-8/chapter-64/"
+      label: "Chapter 64 — Medicine"
+      note:  "AK Medical Practice Act covers podiatrists; AS § 08.64 series in PDF"
+  OH:
+    - url:   "https://law.justia.com/codes/ohio/title-47/chapter-4731/"
+      label: "Chapter 4731 — Physicians; Limited Practitioners"
+      note:  "OH classifies podiatrists as 'limited practitioners' under the medical board chapter"
+  VA:
+    - url:   "https://law.justia.com/codes/virginia/title-54-1/chapter-29/"
+      label: "Chapter 29 — Medicine and Other Healing Arts"
+      note:  "VA Code § 54.1-2900 series cited by PDF; chapter 29 covers podiatrists"
+
+# Suggested but require depth-2 drill (subtitle/division covers multiple chapters):
+#   podiatry:
+#     AR: Subtitle 3 — MEDICAL PROFESSIONS (need to drill to find chapter)
+#     CA: DIVISION 2 — HEALING ARTS (Chapter 5 within is podiatry)
+#     CO: HEALTH CARE PROFESSIONS AND OCCUPATIONS (Article 290 is podiatry)
+#     TX: Subtitle C — Other Professions Performing Medical Procedures
+#
+# Section-fallback states (LA, MI, WI) skipped — different fix needed.
+# NV/PA target URLs need to be replaced in config/targets.csv.

@@ -67,15 +67,38 @@ def match_state(profession_def: dict, state_record: dict) -> list[dict]:
     return matched
 
 
-def build_index_for(profession: str, defn: dict, hierarchies: dict[str, dict]) -> dict:
+def load_overrides() -> dict:
+    """Load config/manual_overrides.yaml. Returns {} if empty/missing."""
+    path = CONFIG_DIR / "manual_overrides.yaml"
+    if not path.exists():
+        return {}
+    return yaml.safe_load(path.read_text()) or {}
+
+
+def build_index_for(profession: str, defn: dict, hierarchies: dict[str, dict], overrides: dict) -> dict:
     by_state = {}
     matched_states = 0
+    overrides_used = 0
+    prof_overrides = (overrides.get(profession) or {})
     for st in ALL_STATES:
         record = hierarchies.get(st)
-        if not record:
+        m: list[dict] = []
+        if record:
+            m = match_state(defn, record)
+        # Merge manual overrides (dedup by URL)
+        for ov in prof_overrides.get(st, []) or []:
+            if ov["url"] not in {x["url"] for x in m}:
+                m.append({
+                    "label": ov.get("label", ""),
+                    "url": ov["url"],
+                    "slug": ov["url"].rstrip("/").rsplit("/", 1)[-1],
+                    "via": "manual_override",
+                    "note": ov.get("note", ""),
+                })
+                overrides_used += 1
+        if not record and not m:
             by_state[st] = {"matched": [], "note": "no_hierarchy"}
             continue
-        m = match_state(defn, record)
         by_state[st] = {"matched": m}
         if m:
             matched_states += 1
@@ -84,7 +107,11 @@ def build_index_for(profession: str, defn: dict, hierarchies: dict[str, dict]) -
         "display": defn.get("display", profession),
         "patterns": defn.get("patterns", []),
         "excludes": defn.get("excludes", []),
-        "coverage": {"states_matched": matched_states, "states_total": len(ALL_STATES)},
+        "coverage": {
+            "states_matched": matched_states,
+            "states_total": len(ALL_STATES),
+            "overrides_used": overrides_used,
+        },
         "by_state": by_state,
     }
 
@@ -107,9 +134,13 @@ def main() -> None:
         hierarchies[d["state"]] = d
     log.info("loaded %d state hierarchies", len(hierarchies))
 
+    overrides = load_overrides()
+    if overrides:
+        log.info("loaded manual overrides for %d professions", len(overrides))
+
     coverage_rows = []
     for prof, defn in professions.items():
-        index = build_index_for(prof, defn, hierarchies)
+        index = build_index_for(prof, defn, hierarchies, overrides)
         out_path = PROFESSION_INDEX_DIR / f"{prof}.json"
         out_path.write_text(json.dumps(index, indent=2))
         log.info("[%s] %d/%d states matched", prof, index["coverage"]["states_matched"], index["coverage"]["states_total"])
