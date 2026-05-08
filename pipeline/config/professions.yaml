@@ -1,0 +1,221 @@
+# Canonical professions registry — seeded from Utah Title 58 (46 licensed professions).
+#
+# Each entry has:
+#   display:  human-readable name (used in UI titles)
+#   patterns: case-insensitive substrings used to match a state's chapter label
+#   excludes: optional substrings that, if present, disqualify a label even if `patterns` matched
+#
+# match_profession.py applies patterns to chapter labels in pipeline/results/hierarchy/<STATE>.json
+# and emits matched nodes into pipeline/results/profession_index/<profession>.json.
+#
+# Adding a profession that exists in another state but not Utah: append a new top-level entry.
+# Adding a Utah-specific quirk: extend an existing profession's patterns.
+
+# --- Health professions ---
+
+podiatry:
+  display: Podiatry / Podiatric Medicine
+  patterns: [podiatr, chiropod]
+
+medicine:
+  display: Medicine (MD)
+  patterns: ["medical practice", "medicine and surgery", " physicians "]
+  excludes: ["osteopathic", "podiatric", "naturopathic", "chiropractic", "physician assistant", "physician's assistant", "veterinar", "athletic"]
+
+osteopathic_medicine:
+  display: Osteopathic Medicine (DO)
+  patterns: [osteopath]
+
+naturopathic_medicine:
+  display: Naturopathic Medicine
+  patterns: [naturopath]
+
+chiropractic:
+  display: Chiropractic
+  patterns: [chiropract]
+
+acupuncture:
+  display: Acupuncture
+  patterns: [acupunct]
+
+physician_assistant:
+  display: Physician Assistant
+  patterns: ["physician assistant", "physician's assistant", "physicians' assistant"]
+
+anesthesiologist_assistant:
+  display: Anesthesiologist Assistant
+  patterns: ["anesthesiologist assist"]
+
+dentistry:
+  display: Dentistry & Dental Hygiene
+  patterns: [dentist, "dental hygien", "dental practice", "dental assist"]
+
+optometry:
+  display: Optometry
+  patterns: [optometr]
+
+opticianry:
+  display: Opticianry (dispensing optician)
+  patterns: ["dispensing optician", "ophthalmic dispenser"]
+
+pharmacy:
+  display: Pharmacy
+  patterns: [pharmac]
+
+veterinary:
+  display: Veterinary Medicine
+  patterns: [veterinar]
+
+nursing:
+  display: Nursing (RN / LPN / APRN)
+  patterns: [nurs]
+  excludes: ["nurse midwif", "nurse-midwif", "midwifery"]
+
+nurse_midwifery:
+  display: Nurse Midwifery
+  patterns: ["nurse midwif", "nurse-midwif"]
+
+direct_entry_midwifery:
+  display: Direct-Entry Midwifery
+  patterns: ["direct-entry midwif", "direct entry midwif", "lay midwif", "certified professional midwif"]
+
+physical_therapy:
+  display: Physical Therapy
+  patterns: ["physical therap", physiotherap]
+
+occupational_therapy:
+  display: Occupational Therapy
+  patterns: ["occupational therap"]
+
+respiratory_care:
+  display: Respiratory Care
+  patterns: ["respiratory care", "respiratory therap"]
+
+speech_language_audiology:
+  display: Speech-Language Pathology & Audiology
+  patterns: ["speech-language", "speech language", "speech path", audiolog]
+
+athletic_training:
+  display: Athletic Training
+  patterns: ["athletic train"]
+
+recreational_therapy:
+  display: Recreational Therapy
+  patterns: ["recreational therap"]
+
+dietetics:
+  display: Dietetics / Nutrition
+  patterns: [dietit, dietetic]
+
+genetic_counseling:
+  display: Genetic Counseling
+  patterns: ["genetic counsel"]
+
+hearing_instrument_specialist:
+  display: Hearing Instrument Specialist
+  patterns: ["hearing instrument", "hearing aid"]
+
+medical_interpreter:
+  display: Medical Language Interpreter
+  patterns: ["medical interpret", "healthcare interpret", "medical language interpret"]
+
+massage_therapy:
+  display: Massage Therapy
+  patterns: ["massage therap"]
+
+radiologic_technology:
+  display: Radiologic Technology
+  patterns: ["radiologic tech", "radiology technician", "radiologist assist", "radiation therap"]
+
+mental_health_counseling:
+  display: Mental Health Counseling / MFT / Clinical Social Work
+  patterns: ["mental health", "professional counsel", "marriage and family therap", "clinical social work", "licensed professional counselor"]
+
+psychology:
+  display: Psychology
+  patterns: [psycholog]
+
+music_therapy:
+  display: Music Therapy
+  patterns: ["music therap"]
+
+environmental_health:
+  display: Environmental Health Scientist / Sanitarian
+  patterns: ["environmental health scientist", sanitarian]
+
+health_facility_admin:
+  display: Health Facility Administrator
+  patterns: ["health facility admin", "nursing home admin", "long-term care admin", "long term care admin"]
+
+# --- Building / design / engineering ---
+
+architecture:
+  display: Architecture
+  patterns: [architect]
+  excludes: ["landscape architect", "naval architect"]
+
+landscape_architecture:
+  display: Landscape Architecture
+  patterns: ["landscape architect"]
+
+professional_engineering:
+  display: Professional Engineering
+  patterns: ["professional engineer", "engineers and land surveyors", "engineers, land surveyors"]
+  excludes: []
+
+land_surveying:
+  display: Land Surveying
+  patterns: ["land surveyor", "professional surveyor", "land surveying"]
+
+construction_trades:
+  display: Construction / Contractor Trades
+  patterns: ["construction trade", "contractors licens", "general contractor"]
+
+building_inspector:
+  display: Building Inspector
+  patterns: ["building inspect", "building official"]
+
+commercial_interior_design:
+  display: Interior Design (commercial)
+  patterns: ["interior design"]
+
+professional_geology:
+  display: Professional Geology
+  patterns: [geolog]
+
+# --- Business / professional services ---
+
+public_accountancy:
+  display: Public Accountancy (CPA)
+  patterns: [accountant, accountancy, "public accounting", "certified public account"]
+
+funeral_services:
+  display: Funeral Services / Embalming / Cremation
+  patterns: [funeral, mortician, embalmer, "cemetery and crematory"]
+
+cosmetology:
+  display: Cosmetology / Barbering / Esthetics / Nail Tech
+  patterns: [cosmetolog, barber, esthetic, "nail tech", "nail technician", "hair design", "hair braid"]
+
+court_reporter:
+  display: Court Reporter / Shorthand Reporter
+  patterns: ["court reporter", "shorthand reporter", "stenograph"]
+
+private_probation:
+  display: Private Probation Provider
+  patterns: ["private probation", "probation provider"]
+
+# --- Public safety / investigative ---
+
+security_personnel:
+  display: Security Personnel / Guard
+  patterns: ["security guard", "security officer", "security personnel", "private security"]
+
+polygraph_examiner:
+  display: Polygraph / Deception Detection Examiner
+  patterns: [polygraph, "deception detect"]
+
+# --- Other Utah occupations to consider adding patterns from non-Utah states later ---
+# private_investigator: [private investigator, private detective]   # not in Utah Title 58
+# real_estate_broker:   [real estate broker, real estate sales]     # in Utah Title 61, separate
+# attorneys:            [attorney, lawyer, bar admiss]               # bar admission is not in Title 58

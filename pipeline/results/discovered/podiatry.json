@@ -1,0 +1,685 @@
+{
+  "profession": "podiatry",
+  "fields": [
+    {
+      "name": "anatomical_scope_upper_boundary",
+      "category": "anatomy_or_procedure",
+      "type": "enum",
+      "enum_values": [
+        "foot_only",
+        "foot_and_ankle",
+        "foot_ankle_and_leg_below_knee",
+        "foot_ankle_and_soft_tissue_to_tibial_tuberosity",
+        "foot_ankle_and_soft_tissue_to_myotendinous_junction_triceps_surae",
+        "foot_ankle_and_soft_tissue_to_distal_tibial_metaphyseal_flare",
+        "foot_ankle_and_soft_tissue_below_mid_calf",
+        "foot_ankle_and_tendons_inserting_into_foot"
+      ],
+      "description": "The upper anatomical boundary of the podiatrist's authorized scope of practice, which varies significantly across states.",
+      "sample_quote": "the ailments of the human foot, ankle and soft tissue structures extending no higher than the distal tibial metaphyseal flair",
+      "sample_state": "TN",
+      "states_supporting": [
+        "AZ",
+        "CT",
+        "DE",
+        "FL",
+        "GA",
+        "HI",
+        "IA",
+        "ID",
+        "IL",
+        "IN",
+        "KS",
+        "MA",
+        "MD",
+        "ME",
+        "MO",
+        "MS",
+        "MT",
+        "NC",
+        "ND",
+        "NE",
+        "NH",
+        "NJ",
+        "NM",
+        "NY",
+        "OK",
+        "RI",
+        "SC",
+        "SD",
+        "TN",
+        "UT",
+        "VT",
+        "WA",
+        "WY"
+      ]
+    },
+    {
+      "name": "amputation_authorized",
+      "category": "scope_inclusion",
+      "type": "enum",
+      "enum_values": [
+        "toes_only",
+        "toes_and_parts_of_foot",
+        "transmetatarsal_and_below",
+        "chopart_joint_and_below",
+        "foot_entirety_excluded",
+        "forefoot_excluded",
+        "not_authorized"
+      ],
+      "description": "The level of amputation a podiatrist is authorized to perform, ranging from toes only to parts of the foot, with the entire foot typically excluded.",
+      "sample_quote": "The practice of podiatric medicine shall include the amputation of the toes or other parts of the foot but shall not include the amputation of the foot or leg in its entirety.",
+      "sample_state": "FL",
+      "states_supporting": [
+        "CT",
+        "DE",
+        "FL",
+        "GA",
+        "HI",
+        "IA",
+        "ID",
+        "IL",
+        "IN",
+        "KS",
+        "MA",
+        "MS",
+        "NC",
+        "ND",
+        "NE",
+        "NM",
+        "SC",
+        "TN",
+        "UT",
+        "VT",
+        "WA",
+        "WY"
+      ]
+    },
+    {
+      "name": "anesthesia_authority",
+      "category": "drug_or_anesthesia",
+      "type": "enum",
+      "enum_values": [
+        "local_only",
+        "local_and_conscious_sedation",
+        "local_and_moderate_deep_sedation",
+        "general_permitted_with_physician_supervision",
+        "general_excluded"
+      ],
+      "description": "The types of anesthesia a podiatrist is authorized to administer, with local anesthesia universally permitted and general anesthesia typically excluded or restricted.",
+      "sample_quote": "A podiatrist may not administer any anesthetic other than local anesthetic.",
+      "sample_state": "HI",
+      "states_supporting": [
+        "CT",
+        "DE",
+        "HI",
+        "IA",
+        "ID",
+        "IL",
+        "IN",
+        "KS",
+        "MA",
+        "ME",
+        "MO",
+        "MS",
+        "MT",
+        "NC",
+        "ND",
+        "NE",
+        "NM",
+        "SC",
+        "TN",
+        "UT",
+        "VT",
+        "WA",
+        "WY"
+      ]
+    },
+    {
+      "name": "ankle_surgery_authorized",
+      "category": "advanced_tier",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state authorizes podiatrists to perform surgical treatment of the ankle, often subject to additional qualifications.",
+      "sample_quote": "No podiatrist shall perform surgery on the ankle unless such person has completed a two-year post-doctoral surgical residency program prior to July 1, 2007, or a three-year post-doctoral surgical residency program on or after July 1, 2007, in reconstructive rearfoot/ankle surgery",
+      "sample_state": "KS",
+      "states_supporting": [
+        "CT",
+        "DE",
+        "FL",
+        "GA",
+        "HI",
+        "ID",
+        "IL",
+        "KS",
+        "MD",
+        "MO",
+        "MT",
+        "NC",
+        "ND",
+        "NE",
+        "SC",
+        "SD",
+        "TN",
+        "UT",
+        "VT",
+        "WA",
+        "WY"
+      ]
+    },
+    {
+      "name": "ankle_surgery_residency_requirement",
+      "category": "advanced_tier",
+      "type": "enum",
+      "enum_values": [
+        "24_month_surgical_residency",
+        "36_month_surgical_residency",
+        "2_year_pre_2007_or_3_year_post_2007",
+        "board_certification_or_qualification_required",
+        "hospital_credentialing_required",
+        "board_certification_by_ABFAS"
+      ],
+      "description": "The specific residency length or certification required for a podiatrist to perform ankle surgery.",
+      "sample_quote": "graduated on or after June 1, 2006, from a three-year residency program in podiatric medicine and surgery that was accredited, at the time of graduation, by the Council on Podiatric Medical Education; and is board certified in reconstructive rearfoot and ankle surgery by the American Board of Foot and Ankle Surgery",
+      "sample_state": "UT",
+      "states_supporting": [
+        "CT",
+        "HI",
+        "KS",
+        "MO",
+        "MT",
+        "NE",
+        "SC",
+        "TN",
+        "UT"
+      ]
+    },
+    {
+      "name": "ankle_surgery_facility_requirement",
+      "category": "facility",
+      "type": "enum",
+      "enum_values": [
+        "licensed_hospital_only",
+        "hospital_or_ambulatory_surgical_center",
+        "accredited_hospital_or_ASC",
+        "JCAHO_accredited_facility",
+        "multispecialty_ambulatory_surgical_facility"
+      ],
+      "description": "The type of facility in which ankle surgery must be performed by a podiatrist.",
+      "sample_quote": "Surgical treatment of the ankle by a podiatrist shall be performed only in a licensed acute care hospital or a licensed ambulatory surgical clinic.",
+      "sample_state": "MO",
+      "states_supporting": [
+        "CT",
+        "DE",
+        "ID",
+        "KS",
+        "MD",
+        "MO",
+        "MT",
+        "NC",
+        "NE",
+        "SC",
+        "TN",
+        "UT",
+        "VT",
+        "WY"
+      ]
+    },
+    {
+      "name": "systemic_disease_treatment_excluded",
+      "category": "scope_exclusion",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state explicitly excludes treatment of systemic diseases from the podiatric scope of practice, except as manifested in the foot.",
+      "sample_quote": "The use of such drugs and medicines in the treatment of ailments of the human foot shall not include the treatment of any systemic diseases.",
+      "sample_state": "MO",
+      "states_supporting": [
+        "CT",
+        "HI",
+        "IA",
+        "IL",
+        "MA",
+        "MO",
+        "MS",
+        "NE",
+        "WA"
+      ]
+    },
+    {
+      "name": "systemic_disease_local_manifestations_included",
+      "category": "scope_inclusion",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state explicitly includes treatment of local manifestations of systemic diseases as they appear on the foot or ankle.",
+      "sample_quote": "'Podiatric medicine' includes treatment of local manifestations of systemic diseases as they appear on the foot and ankle",
+      "sample_state": "CT",
+      "states_supporting": [
+        "CT",
+        "OK",
+        "SC",
+        "SD",
+        "UT"
+      ]
+    },
+    {
+      "name": "board_certification_body",
+      "category": "advanced_tier",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "The recognized certifying body or bodies for advanced podiatric surgery, particularly for ankle surgery privileges.",
+      "sample_quote": "board certified or board qualified by the American Board of Foot and Ankle Surgery",
+      "sample_state": "CT",
+      "states_supporting": [
+        "CT",
+        "HI",
+        "KS",
+        "MO",
+        "MT",
+        "SC",
+        "TN",
+        "UT"
+      ]
+    },
+    {
+      "name": "podiatric_assistant_authorized",
+      "category": "supervision_delegation",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state explicitly authorizes podiatric medical assistants or podiatric assistants to assist under podiatrist supervision.",
+      "sample_quote": "A podiatric medical assistant may assist a podiatrist pursuant to rules adopted by the board.",
+      "sample_state": "AZ",
+      "states_supporting": [
+        "AZ",
+        "FL",
+        "GA",
+        "ME",
+        "NE",
+        "NM",
+        "UT"
+      ]
+    },
+    {
+      "name": "podiatric_assistant_supervision_level",
+      "category": "supervision_delegation",
+      "type": "enum",
+      "enum_values": [
+        "direct_supervision_on_premises",
+        "indirect_supervision",
+        "general_supervision"
+      ],
+      "description": "The level of supervision required when a podiatrist delegates tasks to a podiatric assistant or medical assistant.",
+      "sample_quote": "a medical assistant working under the indirect supervision of a licensed podiatric physician",
+      "sample_state": "UT",
+      "states_supporting": [
+        "AZ",
+        "ME",
+        "NE",
+        "UT"
+      ]
+    },
+    {
+      "name": "xray_technician_certification_required",
+      "category": "supervision_delegation",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state requires certification or training for unlicensed personnel operating X-ray equipment in a podiatrist's office.",
+      "sample_quote": "no person shall perform X-ray procedures in a podiatrist office who does not meet these standards and who has not received a certificate of proficiency from the board",
+      "sample_state": "TN",
+      "states_supporting": [
+        "FL",
+        "NE",
+        "TN",
+        "WY"
+      ]
+    },
+    {
+      "name": "professional_liability_insurance_required",
+      "category": "other",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state requires podiatrists to maintain professional liability (malpractice) insurance as a condition of licensure or renewal.",
+      "sample_quote": "Each person licensed to practice podiatric medicine under the provisions of section 20-54 or 20-57 who provides direct patient care services shall maintain professional liability insurance or other indemnity against liability for professional malpractice.",
+      "sample_state": "CT",
+      "states_supporting": [
+        "CT",
+        "IN",
+        "KS",
+        "NJ"
+      ]
+    },
+    {
+      "name": "telehealth_authorized",
+      "category": "scope_inclusion",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state explicitly authorizes podiatrists to provide services via telehealth or telemedicine.",
+      "sample_quote": "A person licensed under this chapter may provide telehealth services as long as the licensee acts within the scope of practice of the licensee's license",
+      "sample_state": "ME",
+      "states_supporting": [
+        "DE",
+        "ME"
+      ]
+    },
+    {
+      "name": "opioid_prescribing_rules_required",
+      "category": "drug_or_anesthesia",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state has specific statutory requirements or mandates for the board to adopt rules governing opioid prescribing by podiatrists.",
+      "sample_quote": "By January 1, 2019, the board must adopt rules establishing requirements for prescribing opioid drugs.",
+      "sample_state": "WA",
+      "states_supporting": [
+        "FL",
+        "ME",
+        "SC",
+        "WA"
+      ]
+    },
+    {
+      "name": "controlled_substances_prescribing_ce_required",
+      "category": "other",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state requires continuing education specifically related to controlled substances prescribing as part of license renewal.",
+      "sample_quote": "a minimum of 2 hours of continuing education related to the safe and effective prescribing of controlled substances",
+      "sample_state": "FL",
+      "states_supporting": [
+        "FL",
+        "SC",
+        "WY"
+      ]
+    },
+    {
+      "name": "ankle_surgery_board_certification_timeline",
+      "category": "advanced_tier",
+      "type": "str",
+      "enum_values": null,
+      "description": "The time period within which a podiatrist who qualifies for ankle surgery must obtain board certification, where specified by statute.",
+      "sample_quote": "must obtain certification to perform reconstructive rearfoot/ankle surgery from the American Board of Podiatric Surgery within six (6) years of May 24, 2000, or within six (6) years of first becoming eligible for certification",
+      "sample_state": "TN",
+      "states_supporting": [
+        "TN",
+        "UT"
+      ]
+    },
+    {
+      "name": "total_ankle_replacement_authorized",
+      "category": "advanced_tier",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state explicitly addresses or authorizes total ankle replacement surgery by podiatrists.",
+      "sample_quote": "a licensed podiatrist who has provided documentation to the Department of Public Health of meeting the requirements set forth in subdivision (1) or (2) of subsection (c) of section 20-54 may apply to a hospital in the state for privileges to perform total ankle replacement surgery",
+      "sample_state": "CT",
+      "states_supporting": [
+        "CT",
+        "UT"
+      ]
+    },
+    {
+      "name": "tibial_pilon_fracture_excluded",
+      "category": "scope_exclusion",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state explicitly excludes treatment of tibial pilon fractures from the podiatric scope of practice.",
+      "sample_quote": "such podiatrist shall restrict treatment of displaced ankle fractures to the initial diagnosis and the initial attempt at closed reduction at the time of presentation and shall not treat tibial pilon fractures",
+      "sample_state": "CT",
+      "states_supporting": [
+        "CT",
+        "TN"
+      ]
+    },
+    {
+      "name": "wound_debridement_authorized",
+      "category": "scope_inclusion",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state explicitly authorizes podiatrists to perform wound debridement beyond the foot and ankle.",
+      "sample_quote": "wound debridement on the limbs and torso, by all appropriate and lawful means",
+      "sample_state": "UT",
+      "states_supporting": [
+        "UT"
+      ]
+    },
+    {
+      "name": "vaccination_authority",
+      "category": "scope_inclusion",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state explicitly authorizes podiatrists to administer vaccinations.",
+      "sample_quote": "vaccination of patients 18 years of age and older in accordance with Section 20.6 upon completion of appropriate training",
+      "sample_state": "IL",
+      "states_supporting": [
+        "IL"
+      ]
+    },
+    {
+      "name": "physician_assistant_collaboration_authorized",
+      "category": "supervision_delegation",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state explicitly authorizes podiatrists to collaborate with or supervise physician assistants.",
+      "sample_quote": "A licensed podiatrist may collaborate with a physician assistant or an orthopedic physician assistant licensed pursuant to chapter 19 of this title.",
+      "sample_state": "TN",
+      "states_supporting": [
+        "IL",
+        "NE",
+        "TN"
+      ]
+    },
+    {
+      "name": "advanced_practice_nurse_collaboration_authorized",
+      "category": "supervision_delegation",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state explicitly authorizes podiatrists to collaborate with advanced practice registered nurses.",
+      "sample_quote": "A podiatric physician in active clinical practice may collaborate with an advanced practice registered nurse in accordance with the requirements of the Nurse Practice Act.",
+      "sample_state": "IL",
+      "states_supporting": [
+        "IL"
+      ]
+    },
+    {
+      "name": "hospital_privileges_nondiscrimination",
+      "category": "facility",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state has a statutory provision prohibiting hospitals from discriminating against podiatrists in granting privileges based solely on their degree type.",
+      "sample_quote": "medical staff governing documents shall include and provide for the right to pursue and practice full clinical and surgical surgical privileges for holders of a Doctor of Podiatric Medicine (DPM) degree within the scope of his licensure",
+      "sample_state": "SC",
+      "states_supporting": [
+        "SC",
+        "RI"
+      ]
+    },
+    {
+      "name": "corrective_footwear_exemption",
+      "category": "scope_exclusion",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state explicitly exempts the fitting, recommending, or sale of corrective shoes, arch supports, or similar appliances by retail dealers from the podiatry licensing requirement.",
+      "sample_quote": "Nothing in this chapter shall be construed as prohibiting the fitting, recommending, advertising, adjusting, or sale of corrective shoes, arch supports, or similar mechanical appliances, or foot remedies by retail dealers or manufacturers.",
+      "sample_state": "MT",
+      "states_supporting": [
+        "AZ",
+        "CT",
+        "DE",
+        "FL",
+        "GA",
+        "HI",
+        "IA",
+        "ID",
+        "IL",
+        "IN",
+        "KS",
+        "MA",
+        "MD",
+        "ME",
+        "MO",
+        "MS",
+        "MT",
+        "NC",
+        "ND",
+        "NE",
+        "NH",
+        "NJ",
+        "NM",
+        "OK",
+        "RI",
+        "SC",
+        "SD",
+        "TN",
+        "UT",
+        "VT",
+        "WA",
+        "WY"
+      ]
+    },
+    {
+      "name": "clubfoot_surgery_restriction",
+      "category": "scope_exclusion",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state explicitly restricts or excludes surgical correction of clubfoot from the podiatric scope of practice.",
+      "sample_quote": "Excluded from the definition of podiatry is the amputation of the entire foot, the administration of an anesthetic other than local, and the surgical correction of clubfoot of an infant two years of age or less.",
+      "sample_state": "NC",
+      "states_supporting": [
+        "MO",
+        "NC"
+      ]
+    },
+    {
+      "name": "ankle_surgery_standard_of_care_reference",
+      "category": "advanced_tier",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state statute explicitly requires podiatrists performing ankle surgery to meet the same standard of care as orthopedic surgeons.",
+      "sample_quote": "A licensed podiatrist who performs ankle surgery must meet the same standard of care applicable to orthopedic surgeons who perform ankle surgery.",
+      "sample_state": "TN",
+      "states_supporting": [
+        "TN"
+      ]
+    },
+    {
+      "name": "impaired_practitioner_program",
+      "category": "other",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state has a statutory provision for a podiatrist health or rehabilitation program for impaired practitioners.",
+      "sample_quote": "The board may establish protocols for the operation of a professional review committee... The board has the power to contract with other agencies, individuals, firms or associations for the conduct and operation of a podiatrist health program",
+      "sample_state": "ME",
+      "states_supporting": [
+        "FL",
+        "ME",
+        "MD",
+        "MS",
+        "RI"
+      ]
+    },
+    {
+      "name": "electronic_prescribing_required",
+      "category": "drug_or_anesthesia",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state requires podiatrists to use electronic prescribing for medications, particularly controlled substances.",
+      "sample_quote": "no person licensed under this chapter shall issue any prescription unless such prescription is made by electronic prescription from the person issuing the prescription to a pharmacy",
+      "sample_state": "DE",
+      "states_supporting": [
+        "DE",
+        "ME"
+      ]
+    },
+    {
+      "name": "cosmetic_procedures_included",
+      "category": "scope_inclusion",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state explicitly includes cosmetic procedures of the foot, ankle, or leg within the podiatric scope of practice.",
+      "sample_quote": "the term 'cosmetic' means a surgical or medical procedure intended to enhance the physical appearance or function of the foot, ankle, or leg, including, but not limited to, skin problems such as blemishes, spider veins, and scar revisions",
+      "sample_state": "GA",
+      "states_supporting": [
+        "GA"
+      ]
+    },
+    {
+      "name": "preoperative_history_and_physical_authorized",
+      "category": "scope_inclusion",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state explicitly authorizes podiatrists to perform preoperative history and physical examinations on their patients.",
+      "sample_quote": "'Practice of podiatric medicine' includes the performance of a history and physical on a podiatrist's preoperative patient and upon the patient's admission into a hospital or ambulatory surgical center.",
+      "sample_state": "ME",
+      "states_supporting": [
+        "ME",
+        "ND"
+      ]
+    },
+    {
+      "name": "assistant_surgeon_role_authorized",
+      "category": "scope_inclusion",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state explicitly authorizes podiatrists to function as assistant surgeons in non-podiatric procedures.",
+      "sample_quote": "podiatrists may function as assistant surgeons in nonpodiatric procedures",
+      "sample_state": "ND",
+      "states_supporting": [
+        "ND"
+      ]
+    },
+    {
+      "name": "office_based_surgery_accreditation_required",
+      "category": "facility",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state requires that office-based surgeries performed by podiatrists be conducted in an accredited or licensed facility.",
+      "sample_quote": "No person licensed under this chapter shall perform any office-based surgery, as defined in § 122(3)y. of Title 16, in a facility unless it is accredited or licensed in accordance with § 122(3)z. of Title 16.",
+      "sample_state": "DE",
+      "states_supporting": [
+        "CT",
+        "DE",
+        "GA",
+        "ID",
+        "MD",
+        "NC",
+        "SC",
+        "TN"
+      ]
+    },
+    {
+      "name": "minor_patient_chaperone_requirement",
+      "category": "other",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state has a statutory requirement for a chaperone or third party to be present when a podiatrist treats a minor patient.",
+      "sample_quote": "A parent, guardian or other caretaker, or an adult staff member, shall be present when a person licensed under this chapter provides outpatient treatment to a minor patient who is disrobed or partially disrobed",
+      "sample_state": "DE",
+      "states_supporting": [
+        "DE"
+      ]
+    },
+    {
+      "name": "nondiscrimination_in_public_programs",
+      "category": "other",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state has a statutory provision ensuring recipients of public aid programs may choose podiatric care.",
+      "sample_quote": "No department, office, or agency of the state or county government... shall deny to the recipient or beneficiary of podiatric aid or services the freedom to choose podiatric care or services which are within the scope of activities of a podiatrist",
+      "sample_state": "HI",
+      "states_supporting": [
+        "HI",
+        "SC"
+      ]
+    },
+    {
+      "name": "noncompete_clause_restriction",
+      "category": "other",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state has a statutory provision rendering noncompete clauses in podiatrist employment contracts unenforceable.",
+      "sample_quote": "Any contract or agreement which creates or established the terms of a partnership, employment, or any other form of professional relationship with a podiatrist licensed by the board to practice in this state, which includes any restriction to the right of such podiatrist to also practice podiatry in any geographic area for any period of time after the termination of such partnership, employment, or professional relationship shall be void and unenforceable",
+      "sample_state": "NH",
+      "states_supporting": [
+        "NH"
+      ]
+    }
+  ]
+}

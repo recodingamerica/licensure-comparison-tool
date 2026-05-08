@@ -1,5 +1,34 @@
-scrape_probe/.venv/
-scrape_probe/results/snapshots/
-scrape_probe/logs/
+# Python
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
+.Python
+
+# Virtualenvs
+pipeline/.venv/
+
+# Logs
+pipeline/logs/
+
+# Snapshots from probe runs
+pipeline/results/enum_snapshots/
+pipeline/results/snapshots/
+
+# OS clutter
+.DS_Store
+*.swp
+*~
+
+# Editor / tooling
+.claude/
+.playwright-mcp/
+.idea/
+.vscode/
+
+# Transient secrets
+.env
+.env.local
+
+# Smoke-test screenshots saved into the repo root by playwright-mcp during dev
+/podiatry_*.png
