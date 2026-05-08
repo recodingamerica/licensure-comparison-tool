@@ -3,324 +3,98 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Podiatry Licensure & Scope by State</title>
+  <title>State licensing — by profession</title>
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.bootstrap5.min.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/abigailhaddad/shared-ui@main/shared.css">
 
   <style>
     :root {
       --color-primary: #1a1a2e;
       --color-accent:  #2a7fb8;
     }
-    body { padding: 1.5rem; font-family: var(--font-sans, system-ui, sans-serif); }
-    h1 { margin-bottom: .25rem; }
-    .lede { color: #555; margin-bottom: 1.25rem; }
-    .gap-row { color: #999; font-style: italic; }
-    .gap-reason { color: #999; font-size: .85em; font-style: italic; }
-    .summary-card { background: #f6f8fa; border: 1px solid #e1e4e8; border-radius: 6px; padding: .75rem 1rem; margin-bottom: 1rem; }
-    .summary-card .stat { display: inline-block; margin-right: 1.5rem; }
-    .summary-card .stat strong { color: var(--color-primary); font-size: 1.1em; }
-    .verify-badge { font-family: var(--font-mono, ui-monospace, monospace); font-size: .75em; color: #185c2e; }
-    .verify-badge.has-unverified { color: #b45309; }
-    .anatomy-cell { font-family: var(--font-mono, ui-monospace, monospace); font-size: .8em; }
-    .pill { display: inline-block; padding: .15em .55em; border-radius: 999px; font-size: .85em; line-height: 1.3; }
-    .pill-yes { background: #d1f1de; color: #185c2e; }
-    .pill-no  { background: #fce4e4; color: #6b1b1b; }
-    .pill-unknown { background: #ececec; color: #555; }
-    table.dataTable td { vertical-align: top; }
-    .modal-section { margin-bottom: 1.25rem; }
-    .modal-section h6 { color: var(--color-primary); margin-bottom: .25rem; text-transform: capitalize; }
-    .field-row { display: grid; grid-template-columns: 220px 1fr; gap: .75rem; padding: .35rem 0; border-bottom: 1px solid #eee; }
-    .field-row code { font-size: .85em; color: #444; }
-    .ev-value { font-weight: 600; }
-    .ev-quote { background: #f6f8fa; padding: .35rem .55rem; border-left: 3px solid var(--color-accent); font-style: italic; font-size: .9em; margin-top: .25rem; }
-    .ev-quote.unverified { border-left-color: #d97706; background: #fff7ed; }
-    .ev-cite { font-family: var(--font-mono, ui-monospace, monospace); font-size: .8em; color: #666; }
-    .badge-warn { background: #d97706; color: #fff; }
-    .scope-chip { display: inline-block; padding: .15em .55em; border-radius: 999px; font-size: .8em; line-height: 1.3; font-weight: 500; }
-    .scope-foot      { background: #fde2e2; color: #6b1b1b; }
-    .scope-ankle     { background: #fde9c2; color: #7a4a00; }
-    .scope-lower-leg { background: #d6e9c6; color: #1f5b1f; }
-    .scope-leg       { background: #c6d8f0; color: #16395d; }
-    .ev-source-link { font-size: .8em; margin-top: .25rem; }
+    body { padding: 2rem; font-family: var(--font-sans, system-ui, sans-serif); max-width: 880px; }
+    h1 { margin-bottom: 1rem; color: var(--color-primary); }
+    .picker-card { background: #f6f8fa; border: 1px solid #e1e4e8; border-radius: 6px; padding: 1.25rem; margin-bottom: 1.5rem; }
+    .picker-row { display: flex; gap: .75rem; align-items: center; }
+    .picker-row select { flex: 1; }
+    .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: .5rem; margin-top: 1rem; font-size: .9em; color: #555; }
+    .stats-grid strong { color: var(--color-primary); }
+    .prof-list { list-style: none; padding: 0; margin: 0; }
+    .prof-list li { padding: .65rem .85rem; border: 1px solid #e1e4e8; border-radius: 6px; margin-bottom: .5rem; display: flex; justify-content: space-between; align-items: center; }
+    .prof-list li:hover { background: #f6f8fa; border-color: var(--color-accent); }
+    .prof-list a { color: inherit; text-decoration: none; flex: 1; }
+    .prof-list .meta { color: #666; font-size: .85em; font-family: var(--font-mono, ui-monospace, monospace); }
   </style>
 </head>
 <body>
-  <h1>What can a podiatrist do in each state?</h1>
-  <p class="lede">
-    Side-by-side licensure and scope of practice across 50 states, auto-extracted from state statutes.
-    <strong>Every claim is backed by a verbatim quote</strong> regex-validated against the source — click any row to see the quotes and citations.
-  </p>
+  <h1>State licensing — by profession</h1>
 
-  <div id="summaryCard" class="summary-card"></div>
-  <div id="toolbarButtons" class="mb-2"></div>
+  <div class="picker-card">
+    <div class="picker-row">
+      <label for="profSelect" class="form-label mb-0"><strong>Pick a profession:</strong></label>
+      <select id="profSelect" class="form-select"></select>
+      <button id="goBtn" class="btn btn-primary">Open</button>
+    </div>
+    <div id="pickerStats" class="stats-grid"></div>
+  </div>
 
-  <table id="podiatry" class="table table-sm table-hover" style="width:100%">
-    <thead>
-      <tr>
-        <th>State</th>
-        <th>License</th>
-        <th>Issuing authority</th>
-        <th>Education</th>
-        <th>Post-degree experience</th>
-        <th>Exams</th>
-        <th>Renewal (yrs)</th>
-        <th>CE hrs / yrs</th>
-        <th>Reciprocity</th>
-        <th>Anatomical scope</th>
-        <th>Evidence</th>
-        <th>Details</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
-
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="https://cdn.datatables.net/2.1.8/js/dataTables.min.js"></script>
-  <script src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap5.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/gh/abigailhaddad/shared-ui@main/shared.js"></script>
+  <h5 class="mt-4 mb-2 text-muted">All available profiles</h5>
+  <ul id="profList" class="prof-list"></ul>
 
   <script>
-  // ---------- formatters ----------
-  function humanize(slug) {
-    if (slug == null || slug === '') return '';
-    return String(slug).replace(/_/g, ' ').replace(/\s+/g, ' ').trim();
-  }
-  function pill(value) {
-    if (value === true)  return '<span class="pill pill-yes">yes</span>';
-    if (value === false) return '<span class="pill pill-no">no</span>';
-    return '<span class="pill pill-unknown">—</span>';
-  }
-  function txt(value) {
-    if (value == null || value === '') return '<span class="text-muted">—</span>';
-    return escapeHtml(String(value));
-  }
-  function txtHum(value) {
-    if (value == null || value === '') return '<span class="text-muted">—</span>';
-    return escapeHtml(humanize(String(value)));
-  }
-  function gapCell(row, content) {
-    return row.coverage_gap ? `<span class="gap-row" title="${escapeHtml(row.coverage_gap_label || row.coverage_gap_reason || 'no data')}">${content}</span>` : content;
-  }
-  function verifyBadge(row) {
-    if (row.coverage_gap) return '<span class="text-muted">—</span>';
-    const v = row.evidence_verified || 0;
-    const u = row.evidence_unverified || 0;
-    if (v + u === 0) return '<span class="text-muted">—</span>';
-    const cls = u > 0 ? 'verify-badge has-unverified' : 'verify-badge';
-    const sym = u > 0 ? '⚠' : '✓';
-    return `<span class="${cls}" title="Each claim is backed by a verbatim quote validated against the source">${sym} ${v}/${v+u}</span>`;
-  }
-  function ceCell(h, p) {
-    if (h == null && p == null) return '<span class="text-muted">—</span>';
-    return `${h ?? '—'} / ${p ?? '—'}`;
-  }
-  // Bucket the 8 anatomical_scope_upper_boundary enum values into 4 colored chips
-  function scopeChip(slug) {
-    if (!slug) return '<span class="text-muted">—</span>';
-    const s = String(slug).toLowerCase();
-    let cls = 'scope-foot', label = 'foot only';
-    if (s === 'foot_only') {
-      cls = 'scope-foot'; label = 'foot only';
-    } else if (s.includes('foot_and_ankle') || s.includes('tendons_inserting')) {
-      cls = 'scope-ankle'; label = 'foot + ankle';
-    } else if (s.includes('tibial_tuberosity') || s.includes('myotendinous') || s.includes('mid_calf') || s.includes('metaphyseal')) {
-      cls = 'scope-lower-leg'; label = 'into lower leg';
-    } else if (s.includes('below_knee') || s.includes('leg')) {
-      cls = 'scope-leg'; label = 'leg below knee';
-    }
-    return `<span class="scope-chip ${cls}" title="${escapeHtml(humanize(slug))}">${label}</span>`;
+  function escapeHtml(s) {
+    const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+    return String(s == null ? '' : s).replace(/[&<>"']/g, m => map[m]);
   }
 
-  // Format a single Evidence-shaped object for the modal
-  function evidenceRow(label, ev, isList) {
-    if (ev == null) return '';
-    const value = ev.value;
-    let displayValue;
-    if (Array.isArray(value)) {
-      displayValue = value.length ? value.map(escapeHtml).join(', ') : '<span class="text-muted">—</span>';
-    } else if (typeof value === 'boolean') {
-      displayValue = value ? 'yes' : 'no';
-    } else if (value == null) {
-      displayValue = '<span class="text-muted">—</span>';
-    } else {
-      displayValue = escapeHtml(humanize(String(value)));
-    }
-    const flag = ev.unverified ? '<span class="badge badge-warn ms-2" title="Quote did not match source via regex">⚠ unverified</span>' : '';
-    const quoteCls = ev.unverified ? 'ev-quote unverified' : 'ev-quote';
-    return `<div class="field-row">
-      <code>${escapeHtml(label)}</code>
-      <div>
-        <div class="ev-value">${displayValue}${flag}</div>
-        <div class="${quoteCls}">"${escapeHtml(ev.quote || '')}" <span class="ev-cite">[${escapeHtml(ev.citation || '')}]</span></div>
-      </div>
-    </div>`;
-  }
-
-  // Plain (non-Evidence) row, e.g., for citation lists
-  function plainRow(label, value) {
-    if (value == null || (Array.isArray(value) && !value.length)) return '';
-    let display;
-    if (Array.isArray(value)) display = value.map(v => typeof v === 'object' ? escapeHtml(v.cite || JSON.stringify(v)) : escapeHtml(String(v))).join(', ');
-    else if (typeof value === 'boolean') display = value ? 'yes' : 'no';
-    else display = escapeHtml(String(value));
-    return `<div class="field-row"><code>${escapeHtml(label)}</code><div>${display}</div></div>`;
-  }
-
-  // ---------- detail modal ----------
-  function renderModal(row, fieldDefs) {
-    if (row.coverage_gap) {
-      createModal({ size: 'lg', content: `<div class="modal-section">
-        <h6>${escapeHtml(row.state)} — coverage gap</h6>
-        <p>${escapeHtml(row.coverage_gap_label || 'no data')} <code class="ms-2">${escapeHtml(row.coverage_gap_reason || '')}</code></p>
-      </div>` });
-      return;
-    }
-    const full = row._full || {};
-    const lic = full.licensure || {};
-    const scope = full.scope || {};
-    const spec = full.profession_specific || {};
-
-    const sourceLinks = (row.source_chapter_urls || [])
-      .map(u => `<a href="${escapeHtml(u)}" target="_blank" rel="noopener">${escapeHtml(u)}</a>`)
-      .join('<br>');
-
-    let html = `<div class="modal-section"><h6>${escapeHtml(row.state)} — base licensure</h6>`;
-    if (sourceLinks) {
-      html += `<div class="ev-source-link"><strong>Source:</strong><br>${sourceLinks}</div>`;
-    }
-    html += evidenceRow('license_required', lic.license_required);
-    html += evidenceRow('issuing_authority', lic.issuing_authority);
-    html += evidenceRow('age_minimum', lic.age_minimum);
-    html += evidenceRow('moral_character_required', lic.moral_character_required);
-    if (lic.education) {
-      html += evidenceRow('education.degree_required', lic.education.degree_required);
-      html += evidenceRow('education.accrediting_body', lic.education.accrediting_body);
-    }
-    if (lic.post_degree_experience) {
-      html += evidenceRow('post_degree_experience.required', lic.post_degree_experience.required);
-      html += evidenceRow('post_degree_experience.duration', lic.post_degree_experience.duration);
-      html += evidenceRow('post_degree_experience.kind', lic.post_degree_experience.kind);
-    }
-    if (lic.renewal) {
-      html += evidenceRow('renewal.interval_years', lic.renewal.interval_years);
-    }
-    if (lic.continuing_education) {
-      html += evidenceRow('CE.required', lic.continuing_education.required);
-      html += evidenceRow('CE.hours_per_period', lic.continuing_education.hours_per_period);
-      html += evidenceRow('CE.period_years', lic.continuing_education.period_years);
-      html += evidenceRow('CE.topical_requirements', lic.continuing_education.topical_requirements);
-    }
-    if (lic.reciprocity) {
-      html += evidenceRow('reciprocity.available', lic.reciprocity.available);
-      html += evidenceRow('reciprocity.requirements', lic.reciprocity.requirements);
-    }
-    if (lic.exams && lic.exams.length) {
-      html += `<div class="field-row"><code>exams</code><div>`;
-      lic.exams.forEach(e => {
-        html += `<div><strong>${escapeHtml(e.name || '')}</strong>${e.notes ? ' — ' + escapeHtml(e.notes) : ''}<div class="ev-quote">"${escapeHtml(e.quote || '')}" <span class="ev-cite">[${escapeHtml(e.citation || '')}]</span></div></div>`;
-      });
-      html += '</div></div>';
-    }
-    html += '</div>';
-
-    if (scope && (scope.definition_quote || scope.methods_authorized || scope.drug_authority)) {
-      html += `<div class="modal-section"><h6>scope of practice</h6>`;
-      html += evidenceRow('definition_quote', scope.definition_quote);
-      html += evidenceRow('methods_authorized', scope.methods_authorized);
-      html += evidenceRow('drug_authority', scope.drug_authority);
-      html += '</div>';
-    }
-
-    // Group profession-specific fields by category (only filled)
-    const byCat = {};
-    fieldDefs.forEach(f => {
-      const ev = spec[f.name];
-      if (ev == null) return;
-      (byCat[f.category] ||= []).push({def: f, ev});
-    });
-    Object.keys(byCat).sort().forEach(cat => {
-      html += `<div class="modal-section"><h6>${escapeHtml(humanize(cat))}</h6>`;
-      byCat[cat].forEach(({def, ev}) => { html += evidenceRow(def.name, ev); });
-      html += '</div>';
-    });
-
-    createModal({ size: 'lg', content: html });
-  }
-
-  // ---------- init ----------
-  fetch('data.json')
+  fetch('professions.json')
     .then(r => r.json())
-    .then(payload => {
-      const rows = payload.rows;
-      const fields = payload.discovered_fields;
+    .then(items => {
+      // items: [{ profession, display, covered, gaps, fields, verified_pct }]
+      const sel = document.getElementById('profSelect');
+      const list = document.getElementById('profList');
+      items.sort((a, b) => (b.covered || 0) - (a.covered || 0));
 
-      const ev = payload.evidence_summary || {};
-      const evTotal = (ev.verified || 0) + (ev.unverified || 0);
-      const covered = rows.filter(r => !r.coverage_gap).length;
-      const gaps = rows.length - covered;
-      const fieldsCount = (payload.discovered_fields || []).length;
-      const pct = evTotal ? (100 * (ev.verified || 0) / evTotal).toFixed(1) : '—';
-      document.getElementById('summaryCard').innerHTML =
-        `<span class="stat"><strong>${covered}</strong> states with extracted records</span>` +
-        `<span class="stat"><strong>${gaps}</strong> coverage gaps</span>` +
-        `<span class="stat"><strong>${fieldsCount}</strong> auto-discovered profession-specific fields</span>` +
-        `<span class="stat"><strong>${pct}%</strong> evidence verified (${ev.verified}/${evTotal} quotes match source)</span>`;
+      items.forEach(item => {
+        const opt = document.createElement('option');
+        opt.value = item.profession;
+        opt.textContent = item.display;
+        sel.appendChild(opt);
 
-      const dataset = rows.map(r => [
-        r.state,
-        r.coverage_gap
-          ? `<span class="gap-reason" title="${escapeHtml(r.coverage_gap_label || r.coverage_gap_reason)}">${escapeHtml(r.coverage_gap_label || '—')}</span>`
-          : pill(r.license_required),
-        gapCell(r, txt(r.issuing_authority)),
-        gapCell(r, txt(r.education_degree)),
-        gapCell(r, txt(r.post_degree_duration)),
-        gapCell(r, r.exams_count ? String(r.exams_count) : '<span class="text-muted">—</span>'),
-        gapCell(r, txt(r.renewal_years)),
-        gapCell(r, ceCell(r.ce_hours, r.ce_period_years)),
-        gapCell(r, pill(r.reciprocity_available)),
-        gapCell(r, scopeChip(r.anatomical_scope_upper_boundary)),
-        verifyBadge(r),
-        `<button class="btn btn-sm btn-outline-primary view-btn" data-state="${r.state}">view</button>`
-      ]);
-
-      const { table } = initDataTableWithFilters({
-        tableSelector: '#podiatry',
-        tableOptions: {
-          data: dataset,
-          paging: false,
-          info: false,
-          order: [[0, 'asc']],
-        },
-        fieldTypes: {
-          license:     'multiselect',
-          issuing:     'multiselect',
-          renewal:     'multiselect',
-          reciprocity: 'multiselect',
-          anatomy:     'multiselect',
-        },
-        columns: [
-          { field: 'license',     label: 'License',           index: 1 },
-          { field: 'issuing',     label: 'Issuing authority', index: 2 },
-          { field: 'renewal',     label: 'Renewal yrs',       index: 6 },
-          { field: 'reciprocity', label: 'Reciprocity',       index: 8 },
-          { field: 'anatomy',     label: 'Anatomical scope',  index: 9 },
-        ],
-        csvFilename: 'podiatry_by_state',
+        const li = document.createElement('li');
+        li.innerHTML =
+          `<a href="profile.html?p=${encodeURIComponent(item.profession)}">
+            <strong>${escapeHtml(item.display)}</strong>
+          </a>
+          <span class="meta">
+            ${item.covered}/${(item.covered || 0) + (item.gaps || 0)} states · ${item.fields} fields · ${item.verified_pct ?? '—'}% verified
+          </span>`;
+        list.appendChild(li);
       });
 
-      $('#podiatry tbody').on('click', '.view-btn', function() {
-        const st = $(this).data('state');
-        const row = rows.find(r => r.state === st);
-        if (row) renderModal(row, fields);
+      // Stats for selected profession
+      function updateStats() {
+        const item = items.find(i => i.profession === sel.value);
+        if (!item) { document.getElementById('pickerStats').innerHTML = ''; return; }
+        document.getElementById('pickerStats').innerHTML =
+          `<div><strong>${item.covered}</strong> states with extracted records</div>
+           <div><strong>${item.gaps}</strong> coverage gaps</div>
+           <div><strong>${item.fields}</strong> profession-specific fields auto-discovered</div>
+           <div><strong>${item.verified_pct}%</strong> evidence verified vs source</div>`;
+      }
+      sel.addEventListener('change', updateStats);
+      updateStats();
+
+      document.getElementById('goBtn').addEventListener('click', () => {
+        window.location = `profile.html?p=${encodeURIComponent(sel.value)}`;
+      });
+      sel.addEventListener('keydown', e => {
+        if (e.key === 'Enter') document.getElementById('goBtn').click();
       });
     })
     .catch(err => {
       document.body.insertAdjacentHTML('beforeend',
-        `<div class="alert alert-danger">Failed to load data.json: ${escapeHtml(err.message)}</div>`);
+        `<div class="alert alert-danger">Failed to load professions.json: ${escapeHtml(err.message)}</div>`);
     });
   </script>
 </body>

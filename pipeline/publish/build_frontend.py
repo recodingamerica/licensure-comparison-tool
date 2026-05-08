@@ -165,10 +165,22 @@ def build(profession: str) -> dict:
 
     return {
         "profession": profession,
+        "display": _profession_display(profession),
         "discovered_fields": discovered["fields"],
         "rows": rows,
         "evidence_summary": {"verified": verified, "unverified": unverified},
     }
+
+
+def _profession_display(profession: str) -> str:
+    """Pull a friendly display name from config/professions.yaml; fall back to title-case."""
+    try:
+        import yaml
+        from paths import CONFIG_DIR
+        cfg = yaml.safe_load((CONFIG_DIR / "professions.yaml").read_text()) or {}
+        return cfg.get(profession, {}).get("display", profession.replace("_", " ").title())
+    except Exception:
+        return profession.replace("_", " ").title()
 
 
 def _walk_evidence(node: Any):
@@ -183,22 +195,49 @@ def _walk_evidence(node: Any):
             yield from _walk_evidence(v)
 
 
+def refresh_professions_index() -> list[dict]:
+    """Rebuild publish/site/professions.json from every site/data/<prof>.json present.
+    Called after each profession build so the home page picker stays current."""
+    data_dir = SITE_DIR / "data"
+    items = []
+    for path in sorted(data_dir.glob("*.json")):
+        d = json.loads(path.read_text())
+        rows = d.get("rows", [])
+        ev = d.get("evidence_summary", {}) or {}
+        v = ev.get("verified", 0)
+        u = ev.get("unverified", 0)
+        items.append({
+            "profession": d["profession"],
+            "display": d.get("display", d["profession"]),
+            "covered": sum(1 for r in rows if not r.get("coverage_gap")),
+            "gaps":    sum(1 for r in rows if r.get("coverage_gap")),
+            "fields": len(d.get("discovered_fields", [])),
+            "verified_pct": round(100 * v / (v + u), 1) if (v + u) else None,
+        })
+    (SITE_DIR / "professions.json").write_text(json.dumps(items, indent=2))
+    return items
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--profession", required=True)
     args = ap.parse_args()
 
     SITE_DIR.mkdir(parents=True, exist_ok=True)
-    payload = build(args.profession.lower())
-    out = SITE_DIR / "data.json"
+    (SITE_DIR / "data").mkdir(parents=True, exist_ok=True)
+    profession = args.profession.lower()
+    payload = build(profession)
+    out = SITE_DIR / "data" / f"{profession}.json"
     out.write_text(json.dumps(payload, indent=2))
     summary = {
         "covered": sum(1 for r in payload["rows"] if not r["coverage_gap"]),
-        "gaps": sum(1 for r in payload["rows"] if r["coverage_gap"]),
-        "fields": len(payload["discovered_fields"]),
+        "gaps":    sum(1 for r in payload["rows"] if r["coverage_gap"]),
+        "fields":  len(payload["discovered_fields"]),
         "evidence": payload["evidence_summary"],
     }
     print(f"wrote {out}: {summary}")
+    items = refresh_professions_index()
+    print(f"refreshed professions.json with {len(items)} entries")
 
 
 if __name__ == "__main__":

@@ -20,7 +20,6 @@ Usage:
 from __future__ import annotations
 
 import argparse
-import csv
 import json
 import logging
 import re
@@ -34,11 +33,8 @@ from curl_cffi import requests as cffi_requests  # type: ignore
 
 import sys
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from paths import TEXT_DIR, LOGS_DIR, RESULTS_DIR  # noqa: E402
+from paths import TEXT_DIR, LOGS_DIR, PROFESSION_INDEX_DIR  # noqa: E402
 
-# Legacy chapter list — replaced by profession_index/<prof>.json once
-# match_profession.py runs. Until then we read from the legacy CSV.
-CHAPTERS_CSV = RESULTS_DIR.parent / "results_legacy_scrape_probe" / "profession_chapters.csv"
 LOG_PATH = LOGS_DIR / "pull_text.log"
 LOGS_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -268,30 +264,37 @@ def pull_state(state: str, profession: str, rows: list[dict], limit_sections: in
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--profession", required=True, help="Output directory / canonical name (e.g. 'podiatry')")
-    ap.add_argument("--label-match", default="", help="Substring to match in chapter_label (default: --profession value, lowercased and truncated to catch 'podiatr' etc.)")
+    ap.add_argument("--profession", required=True, help="Profession name from professions.yaml (e.g. 'podiatry')")
     ap.add_argument("--states", default="", help="Comma-separated subset of states; empty = all matching")
     ap.add_argument("--limit-sections", type=int, default=None, help="Cap sections per state (debug)")
     args = ap.parse_args()
 
     profession = args.profession.lower()
-    label_match = (args.label_match or profession).lower()
     only_states = {s.strip().upper() for s in args.states.split(",") if s.strip()}
+
+    index_path = PROFESSION_INDEX_DIR / f"{profession}.json"
+    if not index_path.exists():
+        sys.exit(f"missing profession index: {index_path} — run match_profession first")
+    index = json.loads(index_path.read_text())
 
     out_dir = TEXT_DIR / profession
     out_dir.mkdir(parents=True, exist_ok=True)
 
-    # Group rows by state
+    # Convert profession_index → the per-state row shape pull_state expects:
+    # one row per matched chapter URL, with chapter_label/chapter_slug/chapter_url.
     by_state: dict[str, list[dict]] = {}
-    with CHAPTERS_CSV.open() as f:
-        for row in csv.DictReader(f):
-            if label_match not in row["chapter_label"].lower():
-                continue
-            if only_states and row["state"] not in only_states:
-                continue
-            by_state.setdefault(row["state"], []).append(row)
+    for state, payload in index.get("by_state", {}).items():
+        if only_states and state not in only_states:
+            continue
+        for node in payload.get("matched", []):
+            by_state.setdefault(state, []).append({
+                "state": state,
+                "chapter_url": node["url"],
+                "chapter_label": node["label"],
+                "chapter_slug": node.get("slug", ""),
+            })
 
-    log.info("matched %d states for profession=%s (label_match=%r)", len(by_state), profession, label_match)
+    log.info("profession=%s matched %d states from %s", profession, len(by_state), index_path.name)
 
     summary = []
     for state in sorted(by_state):
