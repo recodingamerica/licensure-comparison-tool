@@ -24,5 +24,4 @@ CLEAN_DIR            = RESULTS_DIR / "clean"               # source-keyed cleanu
 TRIMMED_DIR          = RESULTS_DIR / "trimmed"             # LLM keep/drop
 DISCOVERED_DIR       = RESULTS_DIR / "discovered"          # pass 1b aggregator output
 STRUCTURED_DIR       = RESULTS_DIR / "structured"          # pass 2 per-state extraction
-SITE_DIR             = PIPELINE_ROOT / "publish" / "site"        # legacy jQuery+Bootstrap viewer
-WEB_PUBLIC_DIR       = PIPELINE_ROOT / "publish" / "web" / "public"  # Next.js viewer's public/ (canonical)
+WEB_PUBLIC_DIR       = PIPELINE_ROOT / "publish" / "web" / "public"  # Next.js viewer's public/

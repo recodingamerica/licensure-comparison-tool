@@ -11,7 +11,7 @@ Stages:
   trim         — ingest.trim_state          → trimmed/<prof>/<STATE>.json
   discover     — extract.discover_schema    → discovered/<prof>.json
   extract      — extract.extract_state      → structured/<prof>/<STATE>.json
-  publish      — publish.build_frontend     → publish/site/data.json
+  publish      — publish.build_frontend     → publish/web/public/data/<prof>.json
 
 NOT YET IMPLEMENTED — each step shells out to the underlying script. Once the
 hierarchy + match stages are real, this orchestrator becomes the canonical

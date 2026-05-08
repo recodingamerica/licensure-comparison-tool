@@ -42,8 +42,8 @@ Pipeline stages, all working:
 | `extract/extract_state` | Pass 2 — per-state structured extraction. Every leaf field is Evidence-wrapped (`{value, quote, citation}`). Quote is regex-validated against the cleaned source |
 | `extract/recategorize_fields` | Surgical re-grouping of an existing discovered file into LLM-named categories without re-extraction |
 | `extract/reverify_evidence` | Re-runs the regex check against existing structured records (lets us tighten/loosen the matcher without re-extracting) |
-| `publish/build_frontend` | Aggregates per-state records into `site/data/<prof>.json` + refreshes `professions.json` |
-| `publish/site/` | Static viewer (jQuery + DataTables + shared-ui from CDN). Home is profession picker; per-profession profile page shows table + per-row evidence-backed modal |
+| `publish/build_frontend` | Aggregates per-state records into `publish/web/public/data/<prof>.json` + refreshes `professions.json` |
+| `publish/web/` | Next.js + Tailwind + shadcn static-export viewer. Home is profession picker; per-profession profile page shows table + per-row evidence-backed dialog |
 
 ## How to run it
 
@@ -79,8 +79,10 @@ python -m pipeline.publish.build_frontend    --profession <name>
 Serve the viewer:
 
 ```bash
-cd pipeline/publish/site
-python3 -m http.server 8767
+cd pipeline/publish/web
+npm install
+npm run build           # static export to pipeline/publish/web/out/
+cd out && python3 -m http.server 8767
 # open http://localhost:8767/
 ```
 

@@ -19,12 +19,8 @@ from pathlib import Path
 from typing import Any
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from paths import STRUCTURED_DIR, DISCOVERED_DIR, TRIMMED_DIR, SITE_DIR, WEB_PUBLIC_DIR  # noqa: E402
+from paths import STRUCTURED_DIR, DISCOVERED_DIR, TRIMMED_DIR, WEB_PUBLIC_DIR  # noqa: E402
 from config.states import ALL_STATES  # noqa: E402
-
-# Targets we write to. WEB_PUBLIC_DIR is the canonical Next.js site;
-# SITE_DIR keeps the legacy jQuery viewer in sync until we delete it.
-PROFILE_TARGETS = [SITE_DIR, WEB_PUBLIC_DIR]
 
 
 def _ev_value(node: Any) -> Any:
@@ -210,20 +206,13 @@ def _walk_evidence(node: Any):
 
 
 def refresh_professions_index() -> list[dict]:
-    """Rebuild professions.json from every <target>/data/<prof>.json present.
-    Called after each profession build so the home page picker stays current.
-    Both legacy (site/) and new (web/public/) targets get the same file."""
+    """Rebuild professions.json from every data/<prof>.json present.
+    Called after each profession build so the home page picker stays current."""
     items: list[dict] = []
-    seen: set[str] = set()
-    for target in PROFILE_TARGETS:
-        data_dir = target / "data"
-        if not data_dir.exists():
-            continue
+    data_dir = WEB_PUBLIC_DIR / "data"
+    if data_dir.exists():
         for path in sorted(data_dir.glob("*.json")):
             d = json.loads(path.read_text())
-            if d["profession"] in seen:
-                continue
-            seen.add(d["profession"])
             rows = d.get("rows", [])
             ev = d.get("evidence_summary", {}) or {}
             v = ev.get("verified", 0)
@@ -236,10 +225,8 @@ def refresh_professions_index() -> list[dict]:
                 "fields": len(d.get("discovered_fields", [])),
                 "verified_pct": round(100 * v / (v + u), 1) if (v + u) else None,
             })
-    blob = json.dumps(items, indent=2)
-    for target in PROFILE_TARGETS:
-        if target.exists():
-            (target / "professions.json").write_text(blob)
+    if WEB_PUBLIC_DIR.exists():
+        (WEB_PUBLIC_DIR / "professions.json").write_text(json.dumps(items, indent=2))
     return items
 
 
@@ -251,12 +238,10 @@ def main() -> None:
     profession = args.profession.lower()
     payload = build(profession)
     blob = json.dumps(payload, indent=2)
-    for target in PROFILE_TARGETS:
-        target.mkdir(parents=True, exist_ok=True)
-        (target / "data").mkdir(parents=True, exist_ok=True)
-        out = target / "data" / f"{profession}.json"
-        out.write_text(blob)
-        print(f"wrote {out}")
+    (WEB_PUBLIC_DIR / "data").mkdir(parents=True, exist_ok=True)
+    out = WEB_PUBLIC_DIR / "data" / f"{profession}.json"
+    out.write_text(blob)
+    print(f"wrote {out}")
     summary = {
         "covered": sum(1 for r in payload["rows"] if not r["coverage_gap"]),
         "gaps":    sum(1 for r in payload["rows"] if r["coverage_gap"]),
