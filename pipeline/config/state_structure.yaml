@@ -46,8 +46,8 @@ OK:
 KY:
   source: justia
   layout: chapter
-  title_url: "https://law.justia.com/codes/kentucky/chapter-311/"
-  notes: "Chapter 311 (Medicine) is huge; podiatry is sections 380-440 within it. Other professions live in their own chapters."
+  title_url: "https://law.justia.com/codes/kentucky/"
+  notes: "Justia organizes KY by year (/codes/kentucky/2024/ etc.); build_hierarchy auto-redirects to latest year. Chapter 311 (Medicine) is huge — podiatry is sections 380-440 within it; other professions live in their own KRS chapters."
   professions:
     podiatry:
       url: "https://law.justia.com/codes/kentucky/chapter-311/"
@@ -172,12 +172,9 @@ TX:
 
 OR:
   source: justia
-  layout: chapter
-  notes: "ORS Chapter 677 (Regulation of Medicine) has podiatry interleaved with general medicine; trim drops irrelevant sections"
-  professions:
-    podiatry:
-      url: "https://law.justia.com/codes/oregon/2024/volume-15/chapter-677/"
-      label: "ORS Chapter 677 — Regulation of Medicine, Podiatry, and Acupuncture"
+  layout: subtitled
+  title_url: "https://law.justia.com/codes/oregon/"
+  notes: "Justia OR is year-versioned (/codes/oregon/2025/) then split into 19 volumes. build_hierarchy auto-redirects to latest year, then drills each volume so chapter labels are reachable to label-match. ORS Chapter 677 (Regulation of Medicine) holds podiatry interleaved with general medicine — trim drops irrelevant sections."
 
 # ---- Non-Justia sources ----
 

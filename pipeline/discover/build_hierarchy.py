@@ -37,6 +37,7 @@ import argparse
 import csv
 import json
 import logging
+import re
 import sys
 import time
 import urllib.parse
@@ -105,13 +106,42 @@ def pick_parent_url(state: str, targets: dict[str, dict]) -> tuple[str, str, str
     return None
 
 
+_YEAR_LINK_RE = re.compile(r'href="(/codes/[a-z-]+/(\d{4})/?)"')
+
+
+def _maybe_redirect_year_versioned(url: str, html: str) -> str | None:
+    """Some Justia state codes (KY, OR) only list year-stamped indexes at
+    /codes/<state>/. Detect that pattern and return the URL for the latest
+    year so the caller can re-fetch.
+    """
+    years = sorted(set(int(y) for _, y in _YEAR_LINK_RE.findall(html)))
+    if not years:
+        return None
+    latest = max(years)
+    base = url.rstrip("/")
+    return f"{base}/{latest}/"
+
+
 def crawl_chapters(url: str, strategy: str) -> tuple[list[dict], str, str | None]:
-    """Returns (chapters, extraction_level, error)."""
+    """Returns (chapters, extraction_level, error). For year-versioned Justia
+    state codes (KY, OR), auto-redirects from the bare state root to the
+    latest year's index before extracting chapters.
+    """
     status, html, err = fetch_with(strategy, url)
     if err or not html or (status and not 200 <= status < 300):
         return [], "", err or f"http {status}"
     if "justia.com" in url:
         chapters = extract_justia_chapters(html, url)
+        if not chapters:
+            redirect = _maybe_redirect_year_versioned(url, html)
+            if redirect:
+                log.info("  year-versioned root: redirecting to %s", redirect)
+                time.sleep(PER_HOST_DELAY)
+                status2, html2, err2 = fetch_with(strategy, redirect)
+                if not err2 and html2 and (not status2 or 200 <= status2 < 300):
+                    chapters = extract_justia_chapters(html2, redirect)
+                    html = html2
+                    url = redirect
         if chapters:
             return chapters, "chapter", None
         # Fallback: parent IS the chapter, children are sections

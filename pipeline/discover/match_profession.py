@@ -173,10 +173,22 @@ def build_index_for(
         ss_entry = (state_entry.get("professions") or {}).get(profession)
         if ss_entry:
             url = ss_entry.get("url") or state_entry.get("title_url")
-            if url and url not in {x["url"] for x in m}:
-                merged = {**ss_entry, "url": url, "_source": "state_structure"}
-                m.append(_node_from_override(merged))
-                overrides_used += 1
+            if url:
+                existing = next((x for x in m if x["url"] == url), None)
+                if existing is None:
+                    merged = {**ss_entry, "url": url, "_source": "state_structure"}
+                    m.append(_node_from_override(merged))
+                    overrides_used += 1
+                else:
+                    # Same URL was found by label match — merge in override-only
+                    # fields (section_slug_pattern, section_url_list) so we don't
+                    # silently drop them.
+                    if ss_entry.get("section_slug_pattern"):
+                        existing["section_slug_pattern"] = ss_entry["section_slug_pattern"]
+                    if ss_entry.get("section_url_list"):
+                        existing["section_url_list"] = ss_entry["section_url_list"]
+                    if ss_entry.get("section_slug_pattern") or ss_entry.get("section_url_list"):
+                        overrides_used += 1
         elif st in section_maps and profession in section_maps[st]:
             # No hand-curated entry — fall back to v2 section-map output.
             urls = section_maps[st][profession].get("section_url_list") or []
