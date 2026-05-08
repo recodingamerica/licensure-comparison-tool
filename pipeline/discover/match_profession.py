@@ -68,15 +68,57 @@ def match_state(profession_def: dict, state_record: dict) -> list[dict]:
 
 
 def load_overrides() -> dict:
-    """Load config/manual_overrides.yaml. Returns {} if empty/missing."""
+    """Load config/manual_overrides.yaml. Returns {} if empty/missing.
+    (Legacy profession-keyed format. state_structure.yaml is the preferred
+    long-term home; both are merged at match time.)"""
     path = CONFIG_DIR / "manual_overrides.yaml"
     if not path.exists():
         return {}
     return yaml.safe_load(path.read_text()) or {}
 
 
-def build_index_for(profession: str, defn: dict, hierarchies: dict[str, dict], overrides: dict) -> dict:
-    by_state = {}
+def load_state_structure() -> dict:
+    """Load config/state_structure.yaml. Returns {} if missing.
+
+    Shape:
+        STATE_CODE:
+          source: justia | revisor_mn | mi_legis | pa_complex | …
+          layout: chapter | section_fallback | subtitled | external | broken
+          professions:
+            <profession>:
+              url, section_slug_pattern, section_url_list, label, note
+    """
+    path = CONFIG_DIR / "state_structure.yaml"
+    if not path.exists():
+        return {}
+    return yaml.safe_load(path.read_text()) or {}
+
+
+def _node_from_override(ov: dict) -> dict:
+    """Build a matched-node dict from one override entry (state_structure
+    or manual_overrides shape; both have identical fields per profession)."""
+    node = {
+        "label": ov.get("label", ""),
+        "url": ov.get("url", ""),
+        "slug": (ov.get("url") or "").rstrip("/").rsplit("/", 1)[-1],
+        "via": ov.get("_source", "manual_override"),
+        "note": ov.get("note", ""),
+    }
+    if ov.get("section_slug_pattern"):
+        node["section_slug_pattern"] = ov["section_slug_pattern"]
+    if ov.get("section_url_list"):
+        node["section_url_list"] = ov["section_url_list"]
+    return node
+
+
+def build_index_for(
+    profession: str,
+    defn: dict,
+    hierarchies: dict[str, dict],
+    overrides: dict,
+    state_structure: dict,
+) -> dict:
+    by_state: dict = {}
     matched_states = 0
     overrides_used = 0
     prof_overrides = (overrides.get(profession) or {})
@@ -85,25 +127,22 @@ def build_index_for(profession: str, defn: dict, hierarchies: dict[str, dict], o
         m: list[dict] = []
         if record:
             m = match_state(defn, record)
-        # Merge manual overrides (dedup by URL). Manual overrides may carry
-        # section-filter fields that pull_text consumes:
-        #   section_slug_pattern: regex on the section URL slug
-        #   section_url_list:     explicit list of section URLs
+
+        # Precedence: state_structure (preferred) > manual_overrides (legacy)
+        # Each can contribute zero, one, or several matched nodes per (profession, state).
+        ss_for_state = (state_structure.get(st) or {}).get("professions") or {}
+        ss_entry = ss_for_state.get(profession)
+        if ss_entry:
+            ss_entry = {**ss_entry, "_source": "state_structure"}
+            if ss_entry.get("url") and ss_entry["url"] not in {x["url"] for x in m}:
+                m.append(_node_from_override(ss_entry))
+                overrides_used += 1
+
         for ov in prof_overrides.get(st, []) or []:
             if ov["url"] not in {x["url"] for x in m}:
-                node = {
-                    "label": ov.get("label", ""),
-                    "url": ov["url"],
-                    "slug": ov["url"].rstrip("/").rsplit("/", 1)[-1],
-                    "via": "manual_override",
-                    "note": ov.get("note", ""),
-                }
-                if ov.get("section_slug_pattern"):
-                    node["section_slug_pattern"] = ov["section_slug_pattern"]
-                if ov.get("section_url_list"):
-                    node["section_url_list"] = ov["section_url_list"]
-                m.append(node)
+                m.append(_node_from_override({**ov, "_source": "manual_override"}))
                 overrides_used += 1
+
         if not record and not m:
             by_state[st] = {"matched": [], "note": "no_hierarchy"}
             continue
@@ -144,11 +183,15 @@ def main() -> None:
 
     overrides = load_overrides()
     if overrides:
-        log.info("loaded manual overrides for %d professions", len(overrides))
+        log.info("loaded legacy manual_overrides for %d professions", len(overrides))
+    state_structure = load_state_structure()
+    if state_structure:
+        n_prof_entries = sum(len((s or {}).get("professions") or {}) for s in state_structure.values())
+        log.info("loaded state_structure for %d states (%d profession entries)", len(state_structure), n_prof_entries)
 
     coverage_rows = []
     for prof, defn in professions.items():
-        index = build_index_for(prof, defn, hierarchies, overrides)
+        index = build_index_for(prof, defn, hierarchies, overrides, state_structure)
         out_path = PROFESSION_INDEX_DIR / f"{prof}.json"
         out_path.write_text(json.dumps(index, indent=2))
         log.info("[%s] %d/%d states matched", prof, index["coverage"]["states_matched"], index["coverage"]["states_total"])

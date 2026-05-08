@@ -1,0 +1,253 @@
+# State-keyed structural metadata.
+#
+# Each state tells the pipeline three things:
+#   source        which cleaner / fetch strategy to use (justia, revisor_mn, mi_legis, …)
+#   layout        how the source's hierarchy is organized
+#                   chapter             — title page lists chapters; default for most Justia states
+#                   section_fallback    — title page returns flat sections (AZ, OK, MI, WI, LA on Justia)
+#                   subtitled           — title is split into subtitles/divisions; profession chapters live one level deeper (AR, CA, CO)
+#                   external            — non-Justia source (revisor_mn, mi_legis, etc.)
+#                   broken              — Justia coverage is bad; needs custom scraper or accepts gap (PA)
+#   professions   per-profession URL or section pattern within this state
+#                   url:                  direct chapter URL (most cases)
+#                   section_slug_pattern: regex on section URL slug (section_fallback states)
+#                   section_url_list:     explicit list of section URLs (non-Justia sources)
+#
+# Match-time precedence (highest first):
+#   1. state_structure.yaml   (this file — preferred long-term home)
+#   2. manual_overrides.yaml  (legacy; keeps working until migrated in)
+#   3. label-substring match  (default if neither file has an entry)
+#
+# A state with no entry here defaults to source=justia, layout=chapter, and
+# falls through to label match. Most states never need a state_structure entry.
+
+# ---- States with real layout/source quirks worth recording ----
+
+AZ:
+  source: justia
+  layout: section_fallback
+  title_url: "https://law.justia.com/codes/arizona/title-32/"
+  notes: "Title 32 has no chapter level on Justia — title page returns 1500+ flat sections; each profession is a section number range"
+  professions:
+    podiatry:
+      section_slug_pattern: '^section-32-8(0[0-9]|[1-5][0-9])(-version-\d+)?$'
+      label: "AZ Title 32 §§32-801..32-859 — Podiatry"
+
+OK:
+  source: justia
+  layout: section_fallback
+  title_url: "https://law.justia.com/codes/oklahoma/title-59/"
+  notes: "Title 59 returns flat sections; each profession is a section range (e.g. CPA §§59-15.1..59-15.36, podiatry §§59-135..59-160.1)"
+  professions:
+    podiatry:
+      section_slug_pattern: '^section-59-1(3[5-9]|[4-5][0-9]|60(-1)?)$'
+      label: "OK Title 59 §§59-135..59-160.1 — Podiatry Practice Act"
+
+KY:
+  source: justia
+  layout: chapter
+  title_url: "https://law.justia.com/codes/kentucky/chapter-311/"
+  notes: "Chapter 311 (Medicine) is huge; podiatry is sections 380-440 within it. Other professions live in their own chapters."
+  professions:
+    podiatry:
+      url: "https://law.justia.com/codes/kentucky/chapter-311/"
+      section_slug_pattern: '^section-311-(38[0-9]|39[0-9]|4[0-3][0-9]|44[0])$'
+      label: "KY KRS 311.380..311.440 — Podiatry within Chapter 311"
+
+LA:
+  source: justia
+  layout: section_fallback
+  title_url: "https://law.justia.com/codes/louisiana/revised-statutes/title-37/"
+  notes: "RS Title 37 returns flat sections; profession-specific section ranges identifiable by RS:NN:NNN slug pattern"
+  professions:
+    podiatry:
+      section_slug_pattern: '^rs-37-61[1-9]$|^rs-37-62[0-9]$'
+      label: "LA RS 37:611..37:629 — Podiatry within Title 37"
+
+WI:
+  source: justia
+  layout: section_fallback
+  title_url: "https://law.justia.com/codes/wisconsin/chapter-448/"
+  notes: "Chapter 448 (Medical Practices) returns flat sections; podiatry is §§448.60-448.69 (Subchapter VI). Other medical professions sit in different subchapters."
+  professions:
+    podiatry:
+      section_slug_pattern: '^section-448-6[0-9](-\d+)?$'
+      label: "WI Chapter 448 §§448.60..448.69 — Podiatrists subchapter"
+
+NV:
+  source: justia
+  layout: chapter_with_bad_root
+  notes: "title-54 root URL doesn't list chapters on Justia; profession chapters exist directly at /codes/nevada/chapter-NNN/"
+  professions:
+    podiatry:
+      url: "https://law.justia.com/codes/nevada/chapter-635/"
+      label: "Chapter 635 — Podiatry (NRS)"
+
+WV:
+  source: justia
+  layout: chapter
+  notes: "WV recodified — old podiatry chapter §30-11 was repealed in 1980; current law is in Medicine §30-3"
+  professions:
+    podiatry:
+      url: "https://law.justia.com/codes/west-virginia/chapter-30/article-3/"
+      label: "Chapter 30 Article 3 — Medicine and Surgery"
+
+# ---- Buried under parent chapter (label-match misses; classifier finds) ----
+
+AL:
+  source: justia
+  layout: chapter
+  notes: "AL puts podiatry under Title 34 Chapter 24 (Healing Arts); other medical professions have their own chapters"
+  professions:
+    podiatry:
+      url: "https://law.justia.com/codes/alabama/title-34/chapter-24/"
+      label: "Chapter 24 — Physicians and Other Practitioners of Healing Arts"
+
+AK:
+  source: justia
+  layout: chapter
+  notes: "AK Medical Practice Act (Chapter 64) covers podiatrists alongside physicians"
+  professions:
+    podiatry:
+      url: "https://law.justia.com/codes/alaska/title-8/chapter-64/"
+      label: "Chapter 64 — Medicine"
+
+OH:
+  source: justia
+  layout: chapter
+  professions:
+    podiatry:
+      url: "https://law.justia.com/codes/ohio/title-47/chapter-4731/"
+      label: "Chapter 4731 — Physicians; Limited Practitioners"
+
+VA:
+  source: justia
+  layout: chapter
+  professions:
+    podiatry:
+      url: "https://law.justia.com/codes/virginia/title-54-1/chapter-29/"
+      label: "Chapter 29 — Medicine and Other Healing Arts"
+
+# ---- Subtitled / divided titles (label match returns a parent; need to drill or override) ----
+
+AR:
+  source: justia
+  layout: subtitled
+  title_url: "https://law.justia.com/codes/arkansas/title-17/"
+  notes: "Title 17 splits into Subtitle 2 (Nonmedical), Subtitle 3 (Medical); profession chapters live one level deeper"
+  professions:
+    podiatry:
+      url: "https://law.justia.com/codes/arkansas/title-17/subtitle-3/chapter-96/"
+      label: "Title 17 Subtitle 3 Chapter 96 — Podiatric Medicine Practice Act"
+
+CO:
+  source: justia
+  layout: subtitled
+  title_url: "https://law.justia.com/codes/colorado/title-12/"
+  notes: "Title 12 was reorganized in 2019; podiatry recodified from Article 32 to Article 290"
+  professions:
+    podiatry:
+      url: "https://law.justia.com/codes/colorado/title-12/article-290/"
+      label: "Title 12 Article 290 — Podiatrists"
+
+CA:
+  source: justia
+  layout: subtitled
+  title_url: "https://law.justia.com/codes/california/code-bpc/"
+  notes: "Business and Professions Code; Division 2 (Healing Arts) has medical professions, Division 3 has business; podiatry is Article 22 within Division 2 / Chapter 5 (Medicine)"
+  professions:
+    podiatry:
+      url: "https://law.justia.com/codes/california/code-bpc/division-2/chapter-5/article-22/"
+      label: "BPC Division 2 Chapter 5 Article 22 — Podiatric Medicine"
+
+TX:
+  source: justia
+  layout: subtitled
+  title_url: "https://law.justia.com/codes/texas/2023/occupations-code/title-3/"
+  notes: "Occupations Code Title 3 splits by subtitle; podiatry is Subtitle C / Chapter 202"
+  professions:
+    podiatry:
+      url: "https://law.justia.com/codes/texas/2023/occupations-code/title-3/subtitle-c/chapter-202/"
+      label: "Texas Occupations Code Chapter 202 — Podiatrists"
+
+OR:
+  source: justia
+  layout: chapter
+  notes: "ORS Chapter 677 (Regulation of Medicine) has podiatry interleaved with general medicine; trim drops irrelevant sections"
+  professions:
+    podiatry:
+      url: "https://law.justia.com/codes/oregon/2024/volume-15/chapter-677/"
+      label: "ORS Chapter 677 — Regulation of Medicine, Podiatry, and Acupuncture"
+
+# ---- Non-Justia sources ----
+
+MN:
+  source: revisor_mn
+  layout: external
+  title_url: "https://www.revisor.mn.gov/statutes/"
+  notes: "Use revisor.mn.gov per-section URLs; per-section content sits in .section block"
+  professions:
+    podiatry:
+      url: "https://www.revisor.mn.gov/statutes/cite/153"
+      label: "MN Statutes Chapter 153 — Podiatry"
+      section_url_list:
+        - "https://www.revisor.mn.gov/statutes/cite/153.01"
+        - "https://www.revisor.mn.gov/statutes/cite/153.02"
+        - "https://www.revisor.mn.gov/statutes/cite/153.03"
+        - "https://www.revisor.mn.gov/statutes/cite/153.04"
+        - "https://www.revisor.mn.gov/statutes/cite/153.05"
+        - "https://www.revisor.mn.gov/statutes/cite/153.06"
+        - "https://www.revisor.mn.gov/statutes/cite/153.07"
+        - "https://www.revisor.mn.gov/statutes/cite/153.08"
+        - "https://www.revisor.mn.gov/statutes/cite/153.09"
+        - "https://www.revisor.mn.gov/statutes/cite/153.10"
+        - "https://www.revisor.mn.gov/statutes/cite/153.11"
+        - "https://www.revisor.mn.gov/statutes/cite/153.12"
+        - "https://www.revisor.mn.gov/statutes/cite/153.13"
+        - "https://www.revisor.mn.gov/statutes/cite/153.14"
+        - "https://www.revisor.mn.gov/statutes/cite/153.15"
+        - "https://www.revisor.mn.gov/statutes/cite/153.16"
+        - "https://www.revisor.mn.gov/statutes/cite/153.17"
+        - "https://www.revisor.mn.gov/statutes/cite/153.18"
+        - "https://www.revisor.mn.gov/statutes/cite/153.19"
+        - "https://www.revisor.mn.gov/statutes/cite/153.20"
+        - "https://www.revisor.mn.gov/statutes/cite/153.21"
+        - "https://www.revisor.mn.gov/statutes/cite/153.22"
+        - "https://www.revisor.mn.gov/statutes/cite/153.23"
+        - "https://www.revisor.mn.gov/statutes/cite/153.24"
+        - "https://www.revisor.mn.gov/statutes/cite/153.25"
+        - "https://www.revisor.mn.gov/statutes/cite/153.255"
+        - "https://www.revisor.mn.gov/statutes/cite/153.26"
+        - "https://www.revisor.mn.gov/statutes/cite/153.30"
+
+MI:
+  source: mi_legis
+  layout: external
+  notes: "legislature.mi.gov per-section URL pattern: ?objectName=mcl-CHAPTER-SECTION; section list per Part scrapable"
+  professions:
+    podiatry:
+      url: "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-368-1978-15-180"
+      label: "MI Public Health Code Part 180 — Podiatric Medicine and Surgery"
+      section_url_list:
+        - "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-333-18001"
+        - "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-333-18008"
+        - "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-333-18011"
+        - "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-333-18012"
+        - "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-333-18021"
+        - "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-333-18031"
+        - "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-333-18033"
+        - "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-333-18047"
+        - "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-333-18048"
+        - "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-333-18049"
+        - "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-333-18050"
+        - "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-333-18051"
+        - "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-333-18054"
+        - "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-333-18056"
+        - "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-333-18058"
+
+# ---- Known-broken sources ----
+
+PA:
+  source: pa_complex
+  layout: broken
+  notes: "Justia content for PA is sparse; palegis.us is query-string-driven and needs Playwright + custom navigation; FindLaw is anti-scrape; Cornell doesn't host PA statutes. Deferred."
