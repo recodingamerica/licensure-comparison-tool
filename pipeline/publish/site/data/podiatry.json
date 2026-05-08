@@ -4,7 +4,7 @@
   "discovered_fields": [
     {
       "name": "anatomical_scope_upper_boundary",
-      "category": "anatomy_or_procedure",
+      "category": "what they can treat and where on the body",
       "type": "enum",
       "enum_values": [
         "foot_only",
@@ -57,7 +57,7 @@
     },
     {
       "name": "amputation_authorized",
-      "category": "scope_inclusion",
+      "category": "surgery and procedures they can perform",
       "type": "enum",
       "enum_values": [
         "toes_only",
@@ -98,7 +98,7 @@
     },
     {
       "name": "anesthesia_authority",
-      "category": "drug_or_anesthesia",
+      "category": "drugs and anesthesia",
       "type": "enum",
       "enum_values": [
         "local_only",
@@ -138,7 +138,7 @@
     },
     {
       "name": "ankle_surgery_authorized",
-      "category": "advanced_tier",
+      "category": "surgery and procedures they can perform",
       "type": "bool",
       "enum_values": null,
       "description": "Whether the state authorizes podiatrists to perform surgical treatment of the ankle, often subject to additional qualifications.",
@@ -170,7 +170,7 @@
     },
     {
       "name": "ankle_surgery_residency_requirement",
-      "category": "advanced_tier",
+      "category": "ankle surgery qualifications and limits",
       "type": "enum",
       "enum_values": [
         "24_month_surgical_residency",
@@ -197,7 +197,7 @@
     },
     {
       "name": "ankle_surgery_facility_requirement",
-      "category": "facility",
+      "category": "ankle surgery qualifications and limits",
       "type": "enum",
       "enum_values": [
         "licensed_hospital_only",
@@ -228,7 +228,7 @@
     },
     {
       "name": "systemic_disease_treatment_excluded",
-      "category": "scope_exclusion",
+      "category": "what they can treat and where on the body",
       "type": "bool",
       "enum_values": null,
       "description": "Whether the state explicitly excludes treatment of systemic diseases from the podiatric scope of practice, except as manifested in the foot.",
@@ -248,7 +248,7 @@
     },
     {
       "name": "systemic_disease_local_manifestations_included",
-      "category": "scope_inclusion",
+      "category": "what they can treat and where on the body",
       "type": "bool",
       "enum_values": null,
       "description": "Whether the state explicitly includes treatment of local manifestations of systemic diseases as they appear on the foot or ankle.",
@@ -264,7 +264,7 @@
     },
     {
       "name": "board_certification_body",
-      "category": "advanced_tier",
+      "category": "ankle surgery qualifications and limits",
       "type": "list[str]",
       "enum_values": null,
       "description": "The recognized certifying body or bodies for advanced podiatric surgery, particularly for ankle surgery privileges.",
@@ -283,7 +283,7 @@
     },
     {
       "name": "podiatric_assistant_authorized",
-      "category": "supervision_delegation",
+      "category": "supervision and delegation",
       "type": "bool",
       "enum_values": null,
       "description": "Whether the state explicitly authorizes podiatric medical assistants or podiatric assistants to assist under podiatrist supervision.",
@@ -301,7 +301,7 @@
     },
     {
       "name": "podiatric_assistant_supervision_level",
-      "category": "supervision_delegation",
+      "category": "supervision and delegation",
       "type": "enum",
       "enum_values": [
         "direct_supervision_on_premises",
@@ -320,7 +320,7 @@
     },
     {
       "name": "xray_technician_certification_required",
-      "category": "supervision_delegation",
+      "category": "supervision and delegation",
       "type": "bool",
       "enum_values": null,
       "description": "Whether the state requires certification or training for unlicensed personnel operating X-ray equipment in a podiatrist's office.",
@@ -335,7 +335,7 @@
     },
     {
       "name": "professional_liability_insurance_required",
-      "category": "other",
+      "category": "practitioner rights, protections, and obligations",
       "type": "bool",
       "enum_values": null,
       "description": "Whether the state requires podiatrists to maintain professional liability (malpractice) insurance as a condition of licensure or renewal.",
@@ -350,7 +350,7 @@
     },
     {
       "name": "telehealth_authorized",
-      "category": "scope_inclusion",
+      "category": "practice setting and facility rules",
       "type": "bool",
       "enum_values": null,
       "description": "Whether the state explicitly authorizes podiatrists to provide services via telehealth or telemedicine.",
@@ -363,7 +363,7 @@
     },
     {
       "name": "opioid_prescribing_rules_required",
-      "category": "drug_or_anesthesia",
+      "category": "drugs and anesthesia",
       "type": "bool",
       "enum_values": null,
       "description": "Whether the state has specific statutory requirements or mandates for the board to adopt rules governing opioid prescribing by podiatrists.",
@@ -378,7 +378,7 @@
     },
     {
       "name": "controlled_substances_prescribing_ce_required",
-      "category": "other",
+      "category": "drugs and anesthesia",
       "type": "bool",
       "enum_values": null,
       "description": "Whether the state requires continuing education specifically related to controlled substances prescribing as part of license renewal.",
@@ -392,7 +392,7 @@
     },
     {
       "name": "ankle_surgery_board_certification_timeline",
-      "category": "advanced_tier",
+      "category": "ankle surgery qualifications and limits",
       "type": "str",
       "enum_values": null,
       "description": "The time period within which a podiatrist who qualifies for ankle surgery must obtain board certification, where specified by statute.",
@@ -405,7 +405,7 @@
     },
     {
       "name": "total_ankle_replacement_authorized",
-      "category": "advanced_tier",
+      "category": "surgery and procedures they can perform",
       "type": "bool",
       "enum_values": null,
       "description": "Whether the state explicitly addresses or authorizes total ankle replacement surgery by podiatrists.",
@@ -418,7 +418,7 @@
     },
     {
       "name": "tibial_pilon_fracture_excluded",
-      "category": "scope_exclusion",
+      "category": "what they can treat and where on the body",
       "type": "bool",
       "enum_values": null,
       "description": "Whether the state explicitly excludes treatment of tibial pilon fractures from the podiatric scope of practice.",
@@ -431,7 +431,7 @@
     },
     {
       "name": "wound_debridement_authorized",
-      "category": "scope_inclusion",
+      "category": "what they can treat and where on the body",
       "type": "bool",
       "enum_values": null,
       "description": "Whether the state explicitly authorizes podiatrists to perform wound debridement beyond the foot and ankle.",
@@ -443,7 +443,7 @@
     },
     {
       "name": "vaccination_authority",
-      "category": "scope_inclusion",
+      "category": "surgery and procedures they can perform",
       "type": "bool",
       "enum_values": null,
       "description": "Whether the state explicitly authorizes podiatrists to administer vaccinations.",
@@ -455,7 +455,7 @@
     },
     {
       "name": "physician_assistant_collaboration_authorized",
-      "category": "supervision_delegation",
+      "category": "supervision and delegation",
       "type": "bool",
       "enum_values": null,
       "description": "Whether the state explicitly authorizes podiatrists to collaborate with or supervise physician assistants.",
@@ -469,7 +469,7 @@
     },
     {
       "name": "advanced_practice_nurse_collaboration_authorized",
-      "category": "supervision_delegation",
+      "category": "supervision and delegation",
       "type": "bool",
       "enum_values": null,
       "description": "Whether the state explicitly authorizes podiatrists to collaborate with advanced practice registered nurses.",
@@ -481,7 +481,7 @@
     },
     {
       "name": "hospital_privileges_nondiscrimination",
-      "category": "facility",
+      "category": "practice setting and facility rules",
       "type": "bool",
       "enum_values": null,
       "description": "Whether the state has a statutory provision prohibiting hospitals from discriminating against podiatrists in granting privileges based solely on their degree type.",
@@ -494,7 +494,7 @@
     },
     {
       "name": "corrective_footwear_exemption",
-      "category": "scope_exclusion",
+      "category": "what they can treat and where on the body",
       "type": "bool",
       "enum_values": null,
       "description": "Whether the state explicitly exempts the fitting, recommending, or sale of corrective shoes, arch supports, or similar appliances by retail dealers from the podiatry licensing requirement.",
@@ -537,7 +537,7 @@
     },
     {
       "name": "clubfoot_surgery_restriction",
-      "category": "scope_exclusion",
+      "category": "what they can treat and where on the body",
       "type": "bool",
       "enum_values": null,
       "description": "Whether the state explicitly restricts or excludes surgical correction of clubfoot from the podiatric scope of practice.",
@@ -550,7 +550,7 @@
     },
     {
       "name": "ankle_surgery_standard_of_care_reference",
-      "category": "advanced_tier",
+      "category": "ankle surgery qualifications and limits",
       "type": "bool",
       "enum_values": null,
       "description": "Whether the state statute explicitly requires podiatrists performing ankle surgery to meet the same standard of care as orthopedic surgeons.",
@@ -562,7 +562,7 @@
     },
     {
       "name": "impaired_practitioner_program",
-      "category": "other",
+      "category": "practitioner rights, protections, and obligations",
       "type": "bool",
       "enum_values": null,
       "description": "Whether the state has a statutory provision for a podiatrist health or rehabilitation program for impaired practitioners.",
@@ -578,7 +578,7 @@
     },
     {
       "name": "electronic_prescribing_required",
-      "category": "drug_or_anesthesia",
+      "category": "drugs and anesthesia",
       "type": "bool",
       "enum_values": null,
       "description": "Whether the state requires podiatrists to use electronic prescribing for medications, particularly controlled substances.",
@@ -591,7 +591,7 @@
     },
     {
       "name": "cosmetic_procedures_included",
-      "category": "scope_inclusion",
+      "category": "what they can treat and where on the body",
       "type": "bool",
       "enum_values": null,
       "description": "Whether the state explicitly includes cosmetic procedures of the foot, ankle, or leg within the podiatric scope of practice.",
@@ -603,7 +603,7 @@
     },
     {
       "name": "preoperative_history_and_physical_authorized",
-      "category": "scope_inclusion",
+      "category": "surgery and procedures they can perform",
       "type": "bool",
       "enum_values": null,
       "description": "Whether the state explicitly authorizes podiatrists to perform preoperative history and physical examinations on their patients.",
@@ -616,7 +616,7 @@
     },
     {
       "name": "assistant_surgeon_role_authorized",
-      "category": "scope_inclusion",
+      "category": "surgery and procedures they can perform",
       "type": "bool",
       "enum_values": null,
       "description": "Whether the state explicitly authorizes podiatrists to function as assistant surgeons in non-podiatric procedures.",
@@ -628,7 +628,7 @@
     },
     {
       "name": "office_based_surgery_accreditation_required",
-      "category": "facility",
+      "category": "practice setting and facility rules",
       "type": "bool",
       "enum_values": null,
       "description": "Whether the state requires that office-based surgeries performed by podiatrists be conducted in an accredited or licensed facility.",
@@ -647,7 +647,7 @@
     },
     {
       "name": "minor_patient_chaperone_requirement",
-      "category": "other",
+      "category": "practice setting and facility rules",
       "type": "bool",
       "enum_values": null,
       "description": "Whether the state has a statutory requirement for a chaperone or third party to be present when a podiatrist treats a minor patient.",
@@ -659,7 +659,7 @@
     },
     {
       "name": "nondiscrimination_in_public_programs",
-      "category": "other",
+      "category": "practitioner rights, protections, and obligations",
       "type": "bool",
       "enum_values": null,
       "description": "Whether the state has a statutory provision ensuring recipients of public aid programs may choose podiatric care.",
@@ -672,7 +672,7 @@
     },
     {
       "name": "noncompete_clause_restriction",
-      "category": "other",
+      "category": "practitioner rights, protections, and obligations",
       "type": "bool",
       "enum_values": null,
       "description": "Whether the state has a statutory provision rendering noncompete clauses in podiatrist employment contracts unenforceable.",
@@ -15493,9 +15493,9 @@
       "state": "SC",
       "coverage_gap": false,
       "license_required": true,
-      "regulatory_model": null,
-      "title_protection": null,
-      "scope_protection": null,
+      "regulatory_model": "license",
+      "title_protection": true,
+      "scope_protection": true,
       "issuing_authority": "State Board of Podiatry Examiners",
       "education_degree": "diploma or certificate of graduation from a recognized college of podiatric medicine accredited by the Council on Podiatric Medical Education",
       "post_degree_duration": "one year",
@@ -15504,8 +15504,8 @@
       "ce_hours": 24,
       "ce_period_years": 2,
       "reciprocity_available": true,
-      "disciplinary_grounds_count": 0,
-      "evidence_verified": 31,
+      "disciplinary_grounds_count": 15,
+      "evidence_verified": 34,
       "evidence_unverified": 0,
       "_full": {
         "state": "SC",
@@ -15526,7 +15526,7 @@
           "education": {
             "degree_required": {
               "value": "diploma or certificate of graduation from a recognized college of podiatric medicine accredited by the Council on Podiatric Medical Education",
-              "quote": "received a diploma or certificate of graduation from a recognized college of podiatric medicine which has been accredited by the Council on Podiatric Medical Education",
+              "quote": "received a diploma or certificate of graduation from a recognized college of podiatric medicine which has been accredited by the Council on Podiatric Medical Education.",
               "citation": "40-51-65"
             },
             "accrediting_body": {
@@ -15538,7 +15538,7 @@
           "post_degree_experience": {
             "required": {
               "value": true,
-              "quote": "an applicant for licensure must have completed a one-year post-podiatric medical formal preceptorship or residency program approved by the American Association of Podiatric Physicians and Surgeons or the American Podiatric Medical Association",
+              "quote": "an applicant for licensure must have completed a one-year post-podiatric medical formal preceptorship or residency program approved by the American Association of Podiatric Physicians and Surgeons or the American Podiatric Medical Association.",
               "citation": "40-51-57"
             },
             "duration": {
@@ -15556,8 +15556,8 @@
             {
               "name": "National Board of Podiatry Examination",
               "required": true,
-              "notes": "Board may also use other written or oral examinations; any written exam must be nationally recognized or administered by at least one other state.",
-              "quote": "the board shall use the National Board of Podiatry Examination and may use other written or oral or written and oral examinations as the board considers necessary",
+              "notes": "Board may also use other written or oral examinations that are nationally recognized or administered by at least one other state.",
+              "quote": "For the purposes of examination the board shall use the National Board of Podiatry Examination and may use other written or oral or written and oral examinations as the board considers necessary",
               "citation": "40-51-80"
             }
           ],
@@ -15600,11 +15600,130 @@
             },
             "requirements": {
               "value": "Applicant must come from a state with requirements equal to South Carolina's standards and that extends the same reciprocal privileges to SC podiatrists; payment of a fee required.",
-              "quote": "a license may be issued to a podiatrist or a chiropodist moving to this State from a state maintaining requirements for the practice of podiatry or chiropody equal to the standard in this State and extending the same reciprocal privileges to podiatrists or chiropodists in this State",
+              "quote": "a license may be issued to a podiatrist or a chiropodist moving to this State from a state maintaining requirements for the practice of podiatry or chiropody equal to the standard in this State and extending the same reciprocal privileges to podiatrists or chiropodists in this State.",
               "citation": "40-51-110"
             }
           },
+          "regulatory_model": {
+            "value": "license",
+            "quote": "It shall be unlawful for any person to profess to be a podiatrist or chiropodist or to practice or assume the duties incident to podiatry or chiropody without first obtaining from the State Board of Podiatry Examiners a podiatry license.",
+            "citation": "40-51-50"
+          },
+          "title_protection": {
+            "value": true,
+            "quote": "It shall be unlawful for any person to profess to be a podiatrist or chiropodist or to practice or assume the duties incident to podiatry or chiropody without first obtaining from the State Board of Podiatry Examiners a podiatry license.",
+            "citation": "40-51-50"
+          },
+          "scope_protection": {
+            "value": true,
+            "quote": "Any person who shall practice or attempt to practice podiatry or chiropody in this State without having complied with the provisions of this chapter shall be guilty of a misdemeanor",
+            "citation": "40-51-220"
+          },
+          "disciplinary_grounds": [
+            {
+              "short_label": "fraud_in_obtaining_fee",
+              "description": "Obtaining a fee or promise to pay by fraud",
+              "quote": "obtains a fee or a promise or obligation to pay a fee by fraud",
+              "citation": "40-51-150"
+            },
+            {
+              "short_label": "gross_negligence_or_malpractice",
+              "description": "Gross negligence, ignorant or willful malpractice in the practice of podiatry",
+              "quote": "is guilty of gross negligence, ignorant or wilful malpractice in the practice of podiatry or chiropody",
+              "citation": "40-51-150"
+            },
+            {
+              "short_label": "violation_of_chapter",
+              "description": "Violation of any provisions of this chapter",
+              "quote": "violation of any provisions of this chapter or any immoral or dishonorable conduct",
+              "citation": "40-51-150"
+            },
+            {
+              "short_label": "immoral_or_dishonorable_conduct",
+              "description": "Immoral or dishonorable conduct",
+              "quote": "any immoral or dishonorable conduct",
+              "citation": "40-51-150"
+            },
+            {
+              "short_label": "false_fraudulent_document_in_licensing",
+              "description": "Used a false, fraudulent, or forged statement or document in connection with a licensing requirement",
+              "quote": "used a false, fraudulent, or forged statement or document or practiced a fraudulent, deceitful, or dishonest act in connection with a licensing requirement",
+              "citation": "40-51-160"
+            },
+            {
+              "short_label": "felony_or_crime_moral_turpitude",
+              "description": "Convicted of a felony or other crime involving moral turpitude, drugs, or gross immorality",
+              "quote": "has been convicted of a felony or other crime involving moral turpitude, drugs, or gross immorality",
+              "citation": "40-51-160"
+            },
+            {
+              "short_label": "addiction_to_alcohol_or_drugs",
+              "description": "Addicted to alcohol or drugs to a degree rendering the podiatrist unfit to practice",
+              "quote": "is addicted to alcohol or drugs to such a degree as to render the podiatrist unfit to practice podiatry",
+              "citation": "40-51-160"
+            },
+            {
+              "short_label": "illegal_practice_of_podiatry",
+              "description": "Convicted of the illegal or unauthorized practice of podiatry",
+              "quote": "has been convicted of the illegal or unauthorized practice of podiatry",
+              "citation": "40-51-160"
+            },
+            {
+              "short_label": "assisting_unlicensed_practice",
+              "description": "Knowingly assisted an unlicensed person to practice podiatry",
+              "quote": "has knowingly performed an act which in any way assists an unlicensed person to practice podiatry",
+              "citation": "40-51-160"
+            },
+            {
+              "short_label": "physical_or_mental_disability",
+              "description": "Sustained a physical or mental disability rendering further practice dangerous to the public",
+              "quote": "has sustained a physical or mental disability which renders further practice by the podiatrist dangerous to the public",
+              "citation": "40-51-160"
+            },
+            {
+              "short_label": "deceptive_advertising",
+              "description": "Engaged in advertising for the practice of podiatry in a deceptive or untruthful manner",
+              "quote": "has engaged in advertising for the practice of podiatry in a manner that is deceptive or untruthful",
+              "citation": "40-51-160"
+            },
+            {
+              "short_label": "dishonorable_unethical_unprofessional_conduct",
+              "description": "Guilty of dishonorable, unethical, or unprofessional conduct likely to deceive, defraud, or harm the public",
+              "quote": "is guilty of the performance of dishonorable, unethical, or unprofessional conduct that is likely to deceive, defraud, or harm the public",
+              "citation": "40-51-160"
+            },
+            {
+              "short_label": "false_statement_in_practice_document",
+              "description": "Guilty of using a false or fraudulent statement in a document connected with the practice of podiatry",
+              "quote": "is guilty of the use of a false or fraudulent statement in a document connected with the practice of podiatry",
+              "citation": "40-51-160"
+            },
+            {
+              "short_label": "obtaining_fees_fraudulently",
+              "description": "Guilty of obtaining fees under dishonorable, false, or fraudulent circumstances",
+              "quote": "is guilty of obtaining fees or assisting in obtaining fees under dishonorable, false, or fraudulent circumstances",
+              "citation": "40-51-160"
+            },
+            {
+              "short_label": "violation_of_chapter_or_regulations",
+              "description": "Violated or attempted to violate, or assisted in violating, a provision of this chapter or a regulation promulgated under it",
+              "quote": "has violated or attempted to violate, directly or indirectly, or is assisting in or abetting the violation or conspiring to violate a provision or term of this chapter or a regulation promulgated under this chapter",
+              "citation": "40-51-160"
+            }
+          ],
           "citations": [
+            {
+              "cite": "40-51-10",
+              "kind": null
+            },
+            {
+              "cite": "40-51-20",
+              "kind": null
+            },
+            {
+              "cite": "40-51-40",
+              "kind": null
+            },
             {
               "cite": "40-51-50",
               "kind": null
@@ -15618,6 +15737,10 @@
               "kind": null
             },
             {
+              "cite": "40-51-67",
+              "kind": null
+            },
+            {
               "cite": "40-51-80",
               "kind": null
             },
@@ -15626,30 +15749,67 @@
               "kind": null
             },
             {
+              "cite": "40-51-120",
+              "kind": null
+            },
+            {
               "cite": "40-51-140",
+              "kind": null
+            },
+            {
+              "cite": "40-51-150",
+              "kind": null
+            },
+            {
+              "cite": "40-51-160",
+              "kind": null
+            },
+            {
+              "cite": "40-51-200",
+              "kind": null
+            },
+            {
+              "cite": "40-51-210",
+              "kind": null
+            },
+            {
+              "cite": "40-51-220",
+              "kind": null
+            },
+            {
+              "cite": "40-51-230",
+              "kind": null
+            },
+            {
+              "cite": "40-51-240",
+              "kind": null
+            },
+            {
+              "cite": "40-51-260",
               "kind": null
             }
           ]
         },
         "scope": {
           "definition_quote": {
-            "value": "the diagnosis, surgical, medical, and mechanical treatment of all conditions of the human foot and ankle. The practice of podiatry includes the administration of local anesthesia, defined as localized infiltration only, and in conjunction with the practice of podiatry. Excluded from the definition of podiatry is the amputation of the entire foot and the administration of an anesthetic other than local.",
-            "quote": "the diagnosis, surgical, medical, and mechanical treatment of all conditions of the human foot and ankle. The practice of podiatry includes the administration of local anesthesia, defined as localized infiltration only, and in conjunction with the practice of podiatry. Excluded from the definition of podiatry is the amputation of the entire foot and the administration of an anesthetic other than local.",
+            "value": "the diagnosis, surgical, medical, and mechanical treatment of all conditions of the human foot and ankle (for RRA qualified/certified) or foot and soft tissue structures (for non-RRA). Includes administration of local anesthesia (localized infiltration only). Excludes amputation of the entire foot and administration of anesthetic other than local.",
+            "quote": "\"Podiatry\" means, depending on qualifications or certifications as provided in item (5), the diagnosis, surgical, medical, and mechanical treatment of all conditions of the human foot and ankle. The practice of podiatry includes the administration of local anesthesia, defined as localized infiltration only, and in conjunction with the practice of podiatry. Excluded from the definition of podiatry is the amputation of the entire foot and the administration of an anesthetic other than local.",
             "citation": "40-51-20"
           },
           "methods_authorized": {
             "value": [
               "diagnosis",
-              "surgical",
-              "medical",
-              "mechanical"
+              "surgical treatment",
+              "medical treatment",
+              "mechanical treatment",
+              "administration of local anesthesia"
             ],
             "quote": "the diagnosis, surgical, medical, and mechanical treatment of all conditions of the human foot and ankle",
             "citation": "40-51-20"
           },
           "drug_authority": {
-            "value": "Administration and prescription of drugs incidental to the ankle; administration of local anesthesia (localized infiltration only)",
-            "quote": "the administration and prescription of drugs incidental to the ankle, and the surgical treatment of manifestations of systemic diseases as they appear on the ankle",
+            "value": "Administration and prescription of drugs incidental to podiatric ankle surgery; local anesthesia (localized infiltration only) in conjunction with the practice of podiatry; controlled substances prescribing subject to CE requirements.",
+            "quote": "the administration and prescription of drugs incidental to the ankle",
             "citation": "40-51-20"
           },
           "citations": [
@@ -15666,12 +15826,12 @@
         "profession_specific": {
           "anatomical_scope_upper_boundary": {
             "value": "foot_ankle_and_soft_tissue_to_myotendinous_junction_triceps_surae",
-            "quote": "the portions of skin, subcutaneous tissue, fascia, muscles, tendons and nerves at or below the level of the myotendinous junction of the triceps surae",
+            "quote": "the portions of skin, subcutaneous tissue, fascia, muscles, tendons and nerves at or below the level of the myotendinous junction of the triceps surae.",
             "citation": "40-51-20"
           },
           "amputation_authorized": {
             "value": "transmetatarsal_and_below",
-            "quote": "Excluded from the definition of podiatry is the amputation of the entire foot",
+            "quote": "amputation of the leg or foot above the level of the transmetatarsal",
             "citation": "40-51-20"
           },
           "anesthesia_authority": {
@@ -15681,7 +15841,7 @@
           },
           "ankle_surgery_authorized": {
             "value": true,
-            "quote": "For podiatrists who are RRA qualified or certified, the diagnosis, surgical, medical, and mechanical treatment of all conditions of the human foot and ankle.",
+            "quote": "\"Podiatric ankle surgery\" or \"surgical treatment of the ankle\" means surgical treatment of the ankle, including the surgical treatment of the anatomical structures of the ankle",
             "citation": "40-51-20"
           },
           "ankle_surgery_residency_requirement": {
@@ -15719,7 +15879,7 @@
           "opioid_prescribing_rules_required": null,
           "controlled_substances_prescribing_ce_required": {
             "value": true,
-            "quote": "two of the requisite biennial hours of continuing education must be related to approved procedures of prescribing and monitoring controlled substances listed in Schedules II, III, and IV",
+            "quote": "If a podiatrist is authorized pursuant to state and federal law to prescribe controlled substances, two of the requisite biennial hours of continuing education must be related to approved procedures of prescribing and monitoring controlled substances listed in Schedules II, III, and IV",
             "citation": "40-51-140"
           },
           "ankle_surgery_board_certification_timeline": null,
@@ -15735,12 +15895,12 @@
           "advanced_practice_nurse_collaboration_authorized": null,
           "hospital_privileges_nondiscrimination": {
             "value": true,
-            "quote": "medical staff governing documents shall include and provide for the right to pursue and practice full clinical and surgical privileges for holders of a Doctor of Podiatric Medicine (DPM) degree within the scope of his licensure. These rights and privileges only may be limited or restricted on the basis of the demonstrated competence of an individual practitioner.",
+            "quote": "the facility shall not discriminate among people holding Doctor of Medicine, Doctor of Osteopathy, or Doctor of Podiatric Medicine degrees who are authorized by law to provide these health services.",
             "citation": "40-51-210"
           },
           "corrective_footwear_exemption": {
             "value": true,
-            "quote": "No part of this chapter shall be deemed to prohibit the fitting or sale of shoes or arch supports, excepting those shoes or arch supports or other mechanical devices or prosthetics that involve foot casting or impressions or fabricating for the feet",
+            "quote": "No part of this chapter shall be deemed to prohibit the fitting or sale of shoes or arch supports, excepting those shoes or arch supports or other mechanical devices or prosthetics that involve foot casting or impressions or fabricating for the feet, except by written prescription of a duly licensed medical doctor or chiropodist.",
             "citation": "40-51-240"
           },
           "clubfoot_surgery_restriction": null,
@@ -15884,9 +16044,9 @@
       "state": "SD",
       "coverage_gap": false,
       "license_required": true,
-      "regulatory_model": null,
-      "title_protection": null,
-      "scope_protection": null,
+      "regulatory_model": "license",
+      "title_protection": true,
+      "scope_protection": true,
       "issuing_authority": "Board of Podiatry Examiners",
       "education_degree": "Doctor of Podiatric Medicine",
       "post_degree_duration": "one year",
@@ -15895,8 +16055,8 @@
       "ce_hours": null,
       "ce_period_years": 2,
       "reciprocity_available": true,
-      "disciplinary_grounds_count": 0,
-      "evidence_verified": 20,
+      "disciplinary_grounds_count": 10,
+      "evidence_verified": 22,
       "evidence_unverified": 0,
       "_full": {
         "state": "SD",
@@ -15929,8 +16089,8 @@
               "citation": "36-8-8"
             },
             "accrediting_body": {
-              "value": "Board of Podiatry Examiners",
-              "quote": "a recognized school of podiatry approved by the board",
+              "value": "Board-approved recognized school of podiatry",
+              "quote": "from a recognized school of podiatry approved by the board",
               "citation": "36-8-8"
             }
           },
@@ -15953,7 +16113,7 @@
           },
           "exams": [
             {
-              "name": "National Board of Podiatric Medical Examiners national standardized examination parts I, II, and III",
+              "name": "National Board of Podiatric Medical Examiners Parts I, II, and III",
               "required": true,
               "notes": "Part III may be waived if applicant graduated before January 1, 2001, is currently licensed in another state, and has been in active licensed practice for at least five continuous years.",
               "quote": "Has passed the National Board of Podiatric Medical Examiners' national standardized examination parts I, II, and III",
@@ -15976,7 +16136,7 @@
             "hours_per_period": null,
             "period_years": {
               "value": 2,
-              "quote": "Every two years each person licensed to practice podiatry in this state shall provide the Board of Podiatry Examiners evidence that the person has attended or participated in continuing education",
+              "quote": "Every two years each person licensed to practice podiatry in this state shall provide the Board of Podiatry Examiners evidence",
               "citation": "36-8-23"
             },
             "topical_requirements": null
@@ -15988,14 +16148,103 @@
               "citation": "36-8-12"
             },
             "requirements": {
-              "value": "Other state must maintain requirements for the practice of podiatry equal to the standard provided by South Dakota law; application fee not to exceed five hundred dollars.",
+              "value": "Other state must maintain requirements equal to South Dakota standards; application fee not to exceed $500.",
               "quote": "The board may issue a license to podiatrists of other states maintaining requirements for the practice of podiatry equal to the standard provided by this chapter.",
               "citation": "36-8-12"
             }
           },
+          "regulatory_model": {
+            "value": "license",
+            "quote": "It is a Class 2 misdemeanor for any person to advertise or practice podiatric medicine without first obtaining from the Board of Podiatry Examiners a license and an annual license renewal.",
+            "citation": "36-8-6"
+          },
+          "title_protection": {
+            "value": true,
+            "quote": "A licensee under this chapter shall be designated as a licensed podiatrist and shall not mislead the public as to his professional qualifications.",
+            "citation": "36-8-14"
+          },
+          "scope_protection": {
+            "value": true,
+            "quote": "It is a Class 2 misdemeanor for any person to advertise or practice podiatric medicine without first obtaining from the Board of Podiatry Examiners a license and an annual license renewal.",
+            "citation": "36-8-6"
+          },
+          "disciplinary_grounds": [
+            {
+              "short_label": "fraud_in_obtaining_license",
+              "description": "Fraud or deception in procuring a license",
+              "quote": "fraud or deception in procuring a license",
+              "citation": "36-8-16"
+            },
+            {
+              "short_label": "false_statements_to_deceive_public",
+              "description": "Publication or use of untruthful or improbable statements to deceive or defraud the public or any patient",
+              "quote": "publication or use of untruthful or improbable statements with the view of deceiving or defrauding the public or any patient",
+              "citation": "36-8-16"
+            },
+            {
+              "short_label": "conviction_moral_turpitude",
+              "description": "Conviction of any offense involving moral turpitude",
+              "quote": "conviction of any offense involving moral turpitude",
+              "citation": "36-8-16"
+            },
+            {
+              "short_label": "habitual_intemperance",
+              "description": "Habitual intemperance",
+              "quote": "habitual intemperance",
+              "citation": "36-8-16"
+            },
+            {
+              "short_label": "immoral_unethical_unprofessional_dishonorable_conduct",
+              "description": "Immoral, unethical, unprofessional, or dishonorable conduct",
+              "quote": "immoral, unethical, unprofessional, or dishonorable conduct",
+              "citation": "36-8-16"
+            },
+            {
+              "short_label": "patient_solicitation_kickbacks",
+              "description": "Offering, giving, or promising gifts in return for procurement of patients for podiatric treatment",
+              "quote": "To offer, give, or promise, either directly or indirectly, any gift in return for the procurement of a patient or patients for podiatric treatment",
+              "citation": "36-8-17"
+            },
+            {
+              "short_label": "secret_remedies_or_guarantees",
+              "description": "Prescribing, dispensing, or pretending to use secret remedial agents, or guaranteeing any treatment",
+              "quote": "To prescribe, dispense, or pretend to use, in treating any patient, any secret remedial agent, or manifest or promote its use in any way, or guarantee or imply to guarantee any treatment, therapy or remedy whatsoever",
+              "citation": "36-8-17"
+            },
+            {
+              "short_label": "practicing_under_trade_name_or_false_title",
+              "description": "Practicing podiatry under a trade name, another podiatrist's name, or using any title other than podiatrist",
+              "quote": "To practice podiatry under a trade name, under the name of another podiatrist, or use any title other than that of podiatrist",
+              "citation": "36-8-17"
+            },
+            {
+              "short_label": "employing_solicitors",
+              "description": "Employing solicitors to obtain business",
+              "quote": "To employ a solicitor or solicitors to obtain business",
+              "citation": "36-8-17"
+            },
+            {
+              "short_label": "violation_of_board_rules",
+              "description": "Willfully violating rules promulgated by the Board of Podiatry Examiners",
+              "quote": "To willfully violate the rules promulgated by the Board of Podiatry Examiners",
+              "citation": "36-8-17"
+            }
+          ],
           "citations": [
             {
+              "cite": "36-8-1",
+              "kind": null
+            },
+            {
+              "cite": "36-8-3",
+              "kind": null
+            },
+            {
               "cite": "36-8-6",
+              "kind": null
+            },
+            {
+              "cite": "36-8-7",
               "kind": null
             },
             {
@@ -16007,11 +16256,35 @@
               "kind": null
             },
             {
+              "cite": "36-8-13.1",
+              "kind": null
+            },
+            {
+              "cite": "36-8-14",
+              "kind": null
+            },
+            {
               "cite": "36-8-15",
               "kind": null
             },
             {
+              "cite": "36-8-16",
+              "kind": null
+            },
+            {
+              "cite": "36-8-17",
+              "kind": null
+            },
+            {
+              "cite": "36-8-20",
+              "kind": null
+            },
+            {
               "cite": "36-8-23",
+              "kind": null
+            },
+            {
+              "cite": "36-8-25",
               "kind": null
             }
           ]
@@ -16025,24 +16298,15 @@
           "methods_authorized": {
             "value": [
               "diagnosis",
-              "treatment",
-              "all appropriate systems and means"
+              "treatment by all appropriate systems and means"
             ],
             "quote": "diagnosis and treatment of conditions affecting the human foot and their governing and related structures, and the soft tissues inserting into the foot, including the local manifestations of systemic conditions, by all appropriate systems and means",
             "citation": "36-8-1"
           },
-          "drug_authority": {
-            "value": "Podiatrists may prescribe and dispense remedial agents within the scope of podiatric practice; unprofessional conduct includes prescribing secret remedial agents.",
-            "quote": "To prescribe, dispense, or pretend to use, in treating any patient, any secret remedial agent",
-            "citation": "36-8-17"
-          },
+          "drug_authority": null,
           "citations": [
             {
               "cite": "36-8-1",
-              "kind": null
-            },
-            {
-              "cite": "36-8-17",
               "kind": null
             },
             {
@@ -16196,27 +16460,27 @@
       "state": "TN",
       "coverage_gap": false,
       "license_required": true,
-      "regulatory_model": null,
-      "title_protection": null,
-      "scope_protection": null,
+      "regulatory_model": "license",
+      "title_protection": true,
+      "scope_protection": true,
       "issuing_authority": "Board of Podiatric Medical Examiners",
       "education_degree": "Doctor of Podiatric Medicine from accredited college",
       "post_degree_duration": "at least one year",
-      "exams_count": 2,
+      "exams_count": 1,
       "renewal_years": 2,
       "ce_hours": 15,
       "ce_period_years": 1,
       "reciprocity_available": true,
-      "disciplinary_grounds_count": 0,
-      "evidence_verified": 31,
-      "evidence_unverified": 0,
+      "disciplinary_grounds_count": 18,
+      "evidence_verified": 33,
+      "evidence_unverified": 1,
       "_full": {
         "state": "TN",
         "profession": "podiatry",
         "licensure": {
           "license_required": {
             "value": true,
-            "quote": "It is unlawful for any person to practice or attempt to practice podiatry in this state unless such person has been issued a valid and current license to practice podiatry by this board",
+            "quote": "It is unlawful for any person to practice or attempt to practice podiatry in this state unless such person has been issued a valid and current license to practice podiatry by this board as provided by this chapter.",
             "citation": "63-3-107"
           },
           "issuing_authority": {
@@ -16226,8 +16490,9 @@
           },
           "age_minimum": {
             "value": 18,
-            "quote": "the person is at least eighteen (18) years of age",
-            "citation": "63-3-110"
+            "quote": "that person is at least eighteen (18) years of age",
+            "citation": "63-3-110",
+            "unverified": true
           },
           "moral_character_required": {
             "value": true,
@@ -16249,7 +16514,7 @@
           "post_degree_experience": {
             "required": {
               "value": true,
-              "quote": "Successfully complete at least a one-year residency program approved by the Council on Podiatric Medical Education or its successor organization",
+              "quote": "Successfully complete at least a one-year residency program approved by the Council on Podiatric Medical Education or its successor organization.",
               "citation": "63-3-109"
             },
             "duration": {
@@ -16265,18 +16530,11 @@
           },
           "exams": [
             {
-              "name": "Board examination (conducted or accepted by the board)",
+              "name": "Board examination (or National Board of Podiatric Medical Examiners)",
               "required": true,
-              "notes": "Board may accept report of National Board of Podiatric Medical Examiners",
+              "notes": "Board may accept NBPME report",
               "quote": "Pass the examination conducted or accepted by the board",
               "citation": "63-3-109"
-            },
-            {
-              "name": "National Board of Podiatric Medical Examiners",
-              "required": false,
-              "notes": "Board may accept this in lieu of its own examination",
-              "quote": "The board may accept the report of the National Board of Podiatric Medical Examiners on any examinee",
-              "citation": "63-3-111"
             }
           ],
           "renewal": {
@@ -16311,39 +16569,204 @@
               "citation": "63-3-114"
             },
             "requirements": {
-              "value": "Applicant must hold a valid license in another state with requirements at least equivalent to Tennessee's, and pay the required fee",
+              "value": "Applicant must hold a valid license in another state with requirements at least equivalent to Tennessee's, and pay the required fee.",
               "quote": "the requirements for licensure in such state are, in the opinion of the board, at least equivalent to the requirements for licensure provided by this chapter and that such applicant pays a fee as set by the board",
               "citation": "63-3-114"
             }
           },
+          "regulatory_model": {
+            "value": "license",
+            "quote": "It is unlawful for any person to practice or attempt to practice podiatry in this state unless such person has been issued a valid and current license to practice podiatry by this board",
+            "citation": "63-3-107"
+          },
+          "title_protection": {
+            "value": true,
+            "quote": "If any person uses any name or title that would designate that person as a podiatrist or imply that that person was or is qualified to practice podiatry under this chapter, it is deemed prima facie evidence of practicing within the meaning of this chapter.",
+            "citation": "63-3-107"
+          },
+          "scope_protection": {
+            "value": true,
+            "quote": "It is unlawful for any person to practice or attempt to practice podiatry in this state unless such person has been issued a valid and current license to practice podiatry by this board as provided by this chapter.",
+            "citation": "63-3-107"
+          },
+          "disciplinary_grounds": [
+            {
+              "short_label": "fraud_in_procuring_license",
+              "description": "Fraud in procuring a license or certificate",
+              "quote": "Fraud in procuring a license or certificate;",
+              "citation": "63-3-119"
+            },
+            {
+              "short_label": "felony_or_drug_conviction",
+              "description": "Conviction of a felony, drug offense, or offense involving moral turpitude",
+              "quote": "Conviction of a felony, conviction of any offense under state or federal drug laws or conviction of any offense involving moral turpitude;",
+              "citation": "63-3-119"
+            },
+            {
+              "short_label": "habitual_intoxication_or_drug_misuse",
+              "description": "Habitual intoxication or personal misuse of any drugs",
+              "quote": "Habitual intoxication or personal misuse of any drugs;",
+              "citation": "63-3-119"
+            },
+            {
+              "short_label": "immoral_unethical_conduct",
+              "description": "Immoral, unethical, unprofessional or dishonorable conduct",
+              "quote": "Immoral, unethical, unprofessional or dishonorable conduct;",
+              "citation": "63-3-119"
+            },
+            {
+              "short_label": "improper_solicitation",
+              "description": "Solicitation by agents or profiting from acts of persons representing themselves as agents of the licensee",
+              "quote": "Solicitation by agents or persons or profiting by the acts of those representing themselves to be agents of the licensee or the certificate holder;",
+              "citation": "63-3-119"
+            },
+            {
+              "short_label": "fee_splitting",
+              "description": "Division of fees or agreeing to split fees for bringing or referring a patient",
+              "quote": "Division of fees or agreeing to split or divide fees received for professional services with any person for bringing or referring a patient;",
+              "citation": "63-3-119"
+            },
+            {
+              "short_label": "aiding_illegal_practice",
+              "description": "Professional association to circumvent the chapter or lending one's name to another for illegal practice of podiatry",
+              "quote": "Professional connection or association with any person, firm or corporation in any manner in an effort to avoid and circumvent this chapter or lending one's name to another for the illegal practice of podiatry by such person;",
+              "citation": "63-3-119"
+            },
+            {
+              "short_label": "violation_of_chapter_or_board_order",
+              "description": "Violation or attempted violation of the chapter, any lawful board order, or any criminal statute",
+              "quote": "Violation or attempted violation, directly or indirectly, or assisting in or abetting the violation of, or conspiring to violate this chapter or any lawful order of the board;",
+              "citation": "63-3-119"
+            },
+            {
+              "short_label": "false_testimonials_for_secret_remedies",
+              "description": "Giving testimonials concerning secret therapeutic agents or proprietary preparations claiming radical cure",
+              "quote": "Giving of testimonials, directly or indirectly, concerning the supposed virtue of secret therapeutic agents or proprietary preparations, such as remedies, vaccines or other articles or materials that are offered to the public, claiming radical cure or prevention of disease by their use;",
+              "citation": "63-3-119"
+            },
+            {
+              "short_label": "fraud_or_false_statements_in_practice",
+              "description": "Making false statements or representations or fraud or deceit in the practice of podiatry",
+              "quote": "Making false statements or representations or being guilty of fraud or deceit in the practice of podiatry;",
+              "citation": "63-3-119"
+            },
+            {
+              "short_label": "invasion_of_unlicensed_field",
+              "description": "Practicing in a field in which the licensee is not licensed or not within the limits of their calling",
+              "quote": "Invasion of a field of practice in which the licensee is not licensed to practice or is not within the limits of the licensee's respective callings;",
+              "citation": "63-3-119"
+            },
+            {
+              "short_label": "improper_controlled_substance_prescribing",
+              "description": "Dispensing or prescribing controlled substances not in the course of professional practice or not in good faith",
+              "quote": "Dispensing, prescribing or otherwise distributing any controlled substance or any other drug not in the course of professional practice or not in good faith to relieve pain and suffering, or not to cure an ailment, physical infirmity or disease;",
+              "citation": "63-3-119"
+            },
+            {
+              "short_label": "illegal_drug_distribution",
+              "description": "Dispensing or prescribing controlled substances in violation of state or federal law",
+              "quote": "Dispensing, prescribing or otherwise distributing any controlled substance, controlled substance analogue or any other drug to any person in violation of any law of the state or of the United States;",
+              "citation": "63-3-119"
+            },
+            {
+              "short_label": "improper_trade_name_or_title",
+              "description": "Practicing under a trade name or using a title other than 'podiatrist'",
+              "quote": "Practicing podiatry under any trade name or a name designating a given location or the name of another podiatrist or any name other than that which appears on the practitioner's license or using any title other than \"podiatrist\"",
+              "citation": "63-3-119"
+            },
+            {
+              "short_label": "advertising_rule_violation",
+              "description": "Willful violation of board advertising regulations",
+              "quote": "Willful violation of the rules and regulations that may be promulgated by the board of podiatric medical examiners to regulate advertising by practitioners who are under the jurisdiction of the board;",
+              "citation": "63-3-119"
+            },
+            {
+              "short_label": "false_certificate",
+              "description": "Making or signing a professional certificate known to be false",
+              "quote": "Making or signing in one's professional capacity any certificate that is known to be false at the time one makes or signs such certificate;",
+              "citation": "63-3-119"
+            },
+            {
+              "short_label": "practicing_while_impaired",
+              "description": "Engaging in the practice of podiatry when mentally or physically unable to safely do so",
+              "quote": "Engaging in the practice of podiatry when mentally or physically unable to safely do so;",
+              "citation": "63-3-119"
+            },
+            {
+              "short_label": "gross_negligence_or_incompetence",
+              "description": "Gross health care liability or a pattern of negligence or incompetence in the practice of podiatry",
+              "quote": "Gross health care liability or a pattern of continued or repeated health care liability, ignorance, negligence or incompetence in the course of the practice of podiatry.",
+              "citation": "63-3-119"
+            }
+          ],
           "citations": [
             {
+              "cite": "63-3-101",
+              "kind": null
+            },
+            {
+              "cite": "63-3-106",
+              "kind": null
+            },
+            {
               "cite": "63-3-107",
-              "kind": "license required"
+              "kind": null
+            },
+            {
+              "cite": "63-3-108",
+              "kind": null
             },
             {
               "cite": "63-3-109",
-              "kind": "licensure requirements"
+              "kind": null
             },
             {
               "cite": "63-3-110",
-              "kind": "educational qualifications"
+              "kind": null
             },
             {
               "cite": "63-3-111",
-              "kind": "examination"
+              "kind": null
+            },
+            {
+              "cite": "63-3-112",
+              "kind": null
+            },
+            {
+              "cite": "63-3-113",
+              "kind": null
             },
             {
               "cite": "63-3-114",
-              "kind": "reciprocity"
+              "kind": null
             },
             {
               "cite": "63-3-115",
-              "kind": "renewal"
+              "kind": null
             },
             {
               "cite": "63-3-116",
-              "kind": "continuing education"
+              "kind": null
+            },
+            {
+              "cite": "63-3-119",
+              "kind": null
+            },
+            {
+              "cite": "63-3-123",
+              "kind": null
+            },
+            {
+              "cite": "63-3-124",
+              "kind": null
+            },
+            {
+              "cite": "63-3-125",
+              "kind": null
+            },
+            {
+              "cite": "63-3-127",
+              "kind": null
             }
           ]
         },
@@ -16357,31 +16780,32 @@
             "value": [
               "medical",
               "mechanical",
-              "surgical"
+              "surgical",
+              "drug prescribing"
             ],
-            "quote": "examines, diagnoses or treats, medically mechanically or surgically, the ailments of the human foot, ankle and soft tissue structures",
+            "quote": "examines, diagnoses or treats, medically mechanically or surgically, the ailments of the human foot, ankle and soft tissue structures extending no higher than the distal tibial metaphyseal flair, including the use and prescribing of drugs and medications",
             "citation": "63-3-101"
           },
           "drug_authority": {
-            "value": "including the use and prescribing of drugs and medications",
+            "value": "Podiatrists are authorized to prescribe drugs and medications within the scope of podiatric practice",
             "quote": "including the use and prescribing of drugs and medications",
             "citation": "63-3-101"
           },
           "citations": [
             {
               "cite": "63-3-101",
-              "kind": "scope of practice definition"
+              "kind": null
             },
             {
               "cite": "63-3-127",
-              "kind": "drug prescriptions"
+              "kind": null
             }
           ]
         },
         "profession_specific": {
           "anatomical_scope_upper_boundary": {
             "value": "foot_ankle_and_soft_tissue_to_distal_tibial_metaphyseal_flare",
-            "quote": "soft tissue structures extending no higher than the distal tibial metaphyseal flair",
+            "quote": "the ailments of the human foot, ankle and soft tissue structures extending no higher than the distal tibial metaphyseal flair",
             "citation": "63-3-101"
           },
           "amputation_authorized": {
@@ -16406,7 +16830,7 @@
           },
           "ankle_surgery_facility_requirement": {
             "value": "accredited_hospital_or_ASC",
-            "quote": "A licensed podiatrist may perform ankle surgery only in an accredited hospital or ambulatory surgical treatment center licensed under title 68 at which the podiatrist has surgical privileges to perform ankle surgery",
+            "quote": "A licensed podiatrist may perform ankle surgery only in an accredited hospital or ambulatory surgical treatment center licensed under title 68 at which the podiatrist has surgical privileges to perform ankle surgery.",
             "citation": "63-3-101"
           },
           "systemic_disease_treatment_excluded": null,
@@ -16422,7 +16846,7 @@
           "podiatric_assistant_supervision_level": null,
           "xray_technician_certification_required": {
             "value": true,
-            "quote": "no person shall perform X-ray procedures in a podiatrist office who does not meet these standards and who has not received a certificate of proficiency from the board",
+            "quote": "no person shall perform X-ray procedures in a podiatrist office who does not meet these standards and who has not received a certificate of proficiency from the board.",
             "citation": "63-3-125"
           },
           "professional_liability_insurance_required": null,
@@ -16444,20 +16868,20 @@
           "vaccination_authority": null,
           "physician_assistant_collaboration_authorized": {
             "value": true,
-            "quote": "A licensed podiatrist may collaborate with a physician assistant or an orthopedic physician assistant licensed pursuant to chapter 19 of this title",
+            "quote": "A licensed podiatrist may collaborate with a physician assistant or an orthopedic physician assistant licensed pursuant to chapter 19 of this title.",
             "citation": "63-3-101"
           },
           "advanced_practice_nurse_collaboration_authorized": null,
           "hospital_privileges_nondiscrimination": null,
           "corrective_footwear_exemption": {
             "value": true,
-            "quote": "No part or portion of this chapter shall be deemed to prohibit the usual and customary commercial sale and adjustment of foot appliances and remedies or shoes in retail stores",
+            "quote": "No part or portion of this chapter shall be deemed to prohibit the usual and customary commercial sale and adjustment of foot appliances and remedies or shoes in retail stores.",
             "citation": "63-3-124"
           },
           "clubfoot_surgery_restriction": null,
           "ankle_surgery_standard_of_care_reference": {
             "value": true,
-            "quote": "A licensed podiatrist who performs ankle surgery must meet the same standard of care applicable to orthopedic surgeons who perform ankle surgery",
+            "quote": "A licensed podiatrist who performs ankle surgery must meet the same standard of care applicable to orthopedic surgeons who perform ankle surgery.",
             "citation": "63-3-101"
           },
           "impaired_practitioner_program": null,
@@ -17046,10 +17470,10 @@
       "state": "UT",
       "coverage_gap": false,
       "license_required": true,
-      "regulatory_model": null,
-      "title_protection": null,
-      "scope_protection": null,
-      "issuing_authority": "Division",
+      "regulatory_model": "license",
+      "title_protection": true,
+      "scope_protection": true,
+      "issuing_authority": "Division of Occupational and Professional Licensing",
       "education_degree": "Doctor of Podiatric Medicine",
       "post_degree_duration": "24 months",
       "exams_count": 1,
@@ -17057,8 +17481,8 @@
       "ce_hours": 40,
       "ce_period_years": 2,
       "reciprocity_available": true,
-      "disciplinary_grounds_count": 0,
-      "evidence_verified": 28,
+      "disciplinary_grounds_count": 16,
+      "evidence_verified": 32,
       "evidence_unverified": 0,
       "_full": {
         "state": "UT",
@@ -17070,7 +17494,7 @@
             "citation": "Section 301 - License required -- License classifications."
           },
           "issuing_authority": {
-            "value": "Division",
+            "value": "Division of Occupational and Professional Licensing",
             "quote": "The division shall issue to persons qualified under this chapter a license in the classification of podiatric physician.",
             "citation": "Section 301 - License required -- License classifications."
           },
@@ -17146,31 +17570,160 @@
               "citation": "Section 306 - Exemptions from licensure."
             },
             "requirements": {
-              "value": "A person residing in another state and licensed to practice podiatry there may be called in for consultation or invited to conduct a lecture, clinic, or demonstration, so long as they do not establish a place of business or regularly engage in the practice of podiatry in the state.",
-              "quote": "a person residing in another state and licensed to practice podiatry there, who is called in for a consultation by a person licensed in this state and services provided are limited to that consultation or who is invited by a recognized school, association, society, or other body approved by the division to conduct a lecture, clinic, or demonstration of the practice of podiatry so long as that individual does not establish a place of business or regularly engage in the practice of podiatry in the state",
+              "value": "Out-of-state licensed podiatrists may practice for consultation or educational purposes without establishing a place of business or regularly engaging in practice in Utah.",
+              "quote": "a person residing in another state and licensed to practice podiatry there, who is called in for a consultation by a person licensed in this state and services provided are limited to that consultation",
               "citation": "Section 306 - Exemptions from licensure."
             }
           },
+          "regulatory_model": {
+            "value": "license",
+            "quote": "A person may not practice podiatry unless licensed or exempted from licensure under this chapter.",
+            "citation": "Section 301 - License required -- License classifications."
+          },
+          "title_protection": {
+            "value": true,
+            "quote": "using the title or name podiatric physician, podiatrist, podiatric surgeon, foot doctor, foot specialist, or D.P.M.",
+            "citation": "Section 102 - Definitions."
+          },
+          "scope_protection": {
+            "value": true,
+            "quote": "implying or representing that the individual is qualified to practice podiatry",
+            "citation": "Section 102 - Definitions."
+          },
+          "disciplinary_grounds": [
+            {
+              "short_label": "failure_to_meet_qualifications",
+              "description": "Applicant or licensee does not meet the qualifications for licensure or renewal.",
+              "quote": "does not meet the qualifications for licensure or renewal of licensure under this chapter",
+              "citation": "Section 401 - Grounds for denial of license -- Disciplinary proceedings."
+            },
+            {
+              "short_label": "criminal_conviction",
+              "description": "Guilty of a crime that demonstrates a threat to public health, safety, or welfare given the licensee's functions.",
+              "quote": "is guilty of a crime which, when considered with the functions and duties of a licensee under this chapter, demonstrates a threat or potential threat to the public health, safety, or welfare",
+              "citation": "Section 401 - Grounds for denial of license -- Disciplinary proceedings."
+            },
+            {
+              "short_label": "unlawful_or_unprofessional_conduct",
+              "description": "Guilty of unlawful conduct or unprofessional conduct as defined in the chapter or applicable rules.",
+              "quote": "is guilty of unlawful conduct related to practice under this chapter or unprofessional conduct as defined in this chapter, Section 58-1-501, or rules made under either",
+              "citation": "Section 401 - Grounds for denial of license -- Disciplinary proceedings."
+            },
+            {
+              "short_label": "fraud_in_obtaining_license",
+              "description": "Obtained or attempted to obtain a license by fraud or willful misrepresentation.",
+              "quote": "has obtained or attempted to obtain a license under this title by fraud or willful misrepresentation",
+              "citation": "Section 401 - Grounds for denial of license -- Disciplinary proceedings."
+            },
+            {
+              "short_label": "prior_disciplinary_action",
+              "description": "Had a license or certification in any profession subjected to disciplinary action demonstrating a threat to public health, safety, or welfare.",
+              "quote": "has had a license or certification to practice in any profession or occupation subjected to disciplinary action which demonstrates a threat or potential threat to the public health, safety, or welfare",
+              "citation": "Section 401 - Grounds for denial of license -- Disciplinary proceedings."
+            },
+            {
+              "short_label": "patient_confidentiality_breach",
+              "description": "Communicating patient information to a third party without patient consent, except for professional consultation.",
+              "quote": "communicating to a third party, without the consent of the patient, information the individual acquires in treating the patient, except as necessary for professional consultation regarding treatment of the patient",
+              "citation": "Section 102 - Definitions."
+            },
+            {
+              "short_label": "license_lending",
+              "description": "Allowing one's name or license to be used by an unlicensed individual.",
+              "quote": "allowing the individual's name or license to be used by an individual who is not licensed to practice podiatry under this chapter",
+              "citation": "Section 102 - Definitions."
+            },
+            {
+              "short_label": "employing_unlicensed_practitioner",
+              "description": "Employing an unlicensed individual to practice podiatry, except as permitted by statute.",
+              "quote": "except as described in Section 58-5a-306, employing, directly or indirectly, any unlicensed individual to practice podiatry",
+              "citation": "Section 102 - Definitions."
+            },
+            {
+              "short_label": "impaired_practice",
+              "description": "Using alcohol or drugs to the extent it impairs the ability to practice podiatry.",
+              "quote": "using alcohol or drugs, to the extent the individual's use of alcohol or drugs impairs the individual's ability to practice podiatry",
+              "citation": "Section 102 - Definitions."
+            },
+            {
+              "short_label": "unlawful_prescribing",
+              "description": "Unlawfully prescribing, selling, or giving away prescription drugs including controlled substances.",
+              "quote": "unlawfully prescribing, selling, or giving away any prescription drug, including controlled substances, as defined in Section 58-37-2",
+              "citation": "Section 102 - Definitions."
+            },
+            {
+              "short_label": "gross_incompetency",
+              "description": "Gross incompetency in the practice of podiatry.",
+              "quote": "gross incompetency in the practice of podiatry",
+              "citation": "Section 102 - Definitions."
+            },
+            {
+              "short_label": "false_medical_records",
+              "description": "Willfully and intentionally making a false statement or entry in hospital or medical records.",
+              "quote": "willfully and intentionally making a false statement or entry in hospital records, medical records, or reports",
+              "citation": "Section 102 - Definitions."
+            },
+            {
+              "short_label": "false_claims_for_payment",
+              "description": "Willfully making a false statement in reports or claim forms to governmental agencies or insurance companies to secure undue payment.",
+              "quote": "willfully making a false statement in reports or claim forms to governmental agencies or insurance companies with the intent to secure payment not rightfully due",
+              "citation": "Section 102 - Definitions."
+            },
+            {
+              "short_label": "false_advertising",
+              "description": "Willfully using false or fraudulent advertising.",
+              "quote": "willfully using false or fraudulent advertising",
+              "citation": "Section 102 - Definitions."
+            },
+            {
+              "short_label": "altering_records_to_conceal",
+              "description": "Falsely making or altering a medical record to conceal a wrongful act or unprofessional conduct.",
+              "quote": "falsely making an entry in, or altering, a medical record with the intent to conceal: (A) a wrongful or negligent act or omission of an individual licensed under this chapter",
+              "citation": "Section 102 - Definitions."
+            },
+            {
+              "short_label": "cannabis_law_violation",
+              "description": "Violating the requirements of the Cannabinoid Research and Medical Cannabis provisions.",
+              "quote": "violating the requirements of Title 26B, Chapter 4, Part 2, Cannabinoid Research and Medical Cannabis",
+              "citation": "Section 102 - Definitions."
+            }
+          ],
           "citations": [
             {
+              "cite": "58-5a-102",
+              "kind": "statute"
+            },
+            {
+              "cite": "58-5a-103",
+              "kind": "statute"
+            },
+            {
               "cite": "58-5a-301",
-              "kind": null
+              "kind": "statute"
             },
             {
               "cite": "58-5a-302",
-              "kind": null
+              "kind": "statute"
             },
             {
               "cite": "58-5a-303",
-              "kind": null
+              "kind": "statute"
             },
             {
               "cite": "58-5a-304",
-              "kind": null
+              "kind": "statute"
             },
             {
               "cite": "58-5a-306",
-              "kind": null
+              "kind": "statute"
+            },
+            {
+              "cite": "58-5a-401",
+              "kind": "statute"
+            },
+            {
+              "cite": "58-5a-501",
+              "kind": "statute"
             }
           ]
         },
@@ -17198,18 +17751,18 @@
           "citations": [
             {
               "cite": "58-5a-102",
-              "kind": null
+              "kind": "statute"
             },
             {
               "cite": "58-5a-103",
-              "kind": null
+              "kind": "statute"
             }
           ]
         },
         "profession_specific": {
           "anatomical_scope_upper_boundary": {
             "value": "foot_and_ankle",
-            "quote": "the diagnosis and treatment of conditions affecting the human foot and ankle and their manifestations of systemic conditions, and wound debridement on the limbs and torso, by all appropriate and lawful means",
+            "quote": "the diagnosis and treatment of conditions affecting the human foot and ankle and their manifestations of systemic conditions",
             "citation": "Section 102 - Definitions."
           },
           "amputation_authorized": {
@@ -17237,7 +17790,11 @@
             "quote": "in an ambulatory surgical facility, a general acute hospital, or a specialty hospital, as defined in Section 26B-2-201",
             "citation": "Section 103 - Scope of practice."
           },
-          "systemic_disease_treatment_excluded": null,
+          "systemic_disease_treatment_excluded": {
+            "value": false,
+            "quote": "the diagnosis and treatment of conditions affecting the human foot and ankle and their manifestations of systemic conditions",
+            "citation": "Section 102 - Definitions."
+          },
           "systemic_disease_local_manifestations_included": {
             "value": true,
             "quote": "the diagnosis and treatment of conditions affecting the human foot and ankle and their manifestations of systemic conditions",
@@ -17467,19 +18024,19 @@
       "state": "VT",
       "coverage_gap": false,
       "license_required": true,
-      "regulatory_model": null,
-      "title_protection": null,
-      "scope_protection": null,
+      "regulatory_model": "license",
+      "title_protection": true,
+      "scope_protection": true,
       "issuing_authority": "State Board of Medical Practice",
       "education_degree": "diploma or certificate of graduation from an accredited school of podiatric medicine",
-      "post_degree_duration": "at least two years (U.S./Canadian graduates) or at least three years (non-U.S./Canadian graduates)",
+      "post_degree_duration": "at least two years (U.S./Canadian graduates) or three years (non-U.S./Canadian graduates)",
       "exams_count": 1,
       "renewal_years": 2,
       "ce_hours": null,
       "ce_period_years": null,
       "reciprocity_available": true,
-      "disciplinary_grounds_count": 0,
-      "evidence_verified": 19,
+      "disciplinary_grounds_count": 14,
+      "evidence_verified": 23,
       "evidence_unverified": 0,
       "_full": {
         "state": "VT",
@@ -17520,7 +18077,7 @@
               "citation": "\u00a7 372. Licensure without examination"
             },
             "duration": {
-              "value": "at least two years (U.S./Canadian graduates) or at least three years (non-U.S./Canadian graduates)",
+              "value": "at least two years (U.S./Canadian graduates) or three years (non-U.S./Canadian graduates)",
               "quote": "shall have successfully completed at least two years of postgraduate training in a U.S. or Canadian program accredited by an organization that is acceptable to the Board",
               "citation": "\u00a7 372. Licensure without examination"
             },
@@ -17547,7 +18104,11 @@
             }
           },
           "continuing_education": {
-            "required": null,
+            "required": {
+              "value": true,
+              "quote": "the Board may, after notice and an opportunity for hearing, require reexamination as a condition of renewal if the Board finds that the licensee has failed to maintain competence in the knowledge and skills of a podiatrist.",
+              "citation": "\u00a7 373. Renewal of licensure"
+            },
             "hours_per_period": null,
             "period_years": null,
             "topical_requirements": null
@@ -17559,37 +18120,154 @@
               "citation": "\u00a7 372. Licensure without examination"
             },
             "requirements": {
-              "value": "The Board shall license the person if it deems that person has met requirements in the other jurisdiction substantially equal to those of this State; or via endorsement process requiring not more than three years of practice in good standing in another U.S. jurisdiction plus postgraduate training requirements.",
-              "quote": "The Board shall have an endorsement process for podiatrist licensure that requires not more than three years of practice in good standing in another jurisdiction within the United States, regardless of whether that jurisdiction has licensing requirements substantially equal to those of this State",
+              "value": "The Board shall license that person if it deems that person has met requirements in the other jurisdiction that are substantially equal to those of this State. An endorsement process also exists requiring not more than three years of practice in good standing in another U.S. jurisdiction plus postgraduate training.",
+              "quote": "The Board shall have an endorsement process for podiatrist licensure that requires not more than three years of practice in good standing in another jurisdiction within the United States",
               "citation": "\u00a7 372. Licensure without examination"
             }
           },
+          "regulatory_model": {
+            "value": "license",
+            "quote": "No person shall practice or attempt to practice podiatry or hold himself or herself out as being able to do so in this State without first having obtained a license under this chapter.",
+            "citation": "\u00a7 324. Prohibitions; penalties"
+          },
+          "title_protection": {
+            "value": true,
+            "quote": "No person shall use in connection with the person's name, letters, words, or insignia indicating or implying that the person is a podiatrist unless the person is licensed under this chapter.",
+            "citation": "\u00a7 324. Prohibitions; penalties"
+          },
+          "scope_protection": {
+            "value": true,
+            "quote": "No person shall practice or attempt to practice podiatry or hold himself or herself out as being able to do so in this State without first having obtained a license under this chapter.",
+            "citation": "\u00a7 324. Prohibitions; penalties"
+          },
+          "disciplinary_grounds": [
+            {
+              "short_label": "fraud_in_obtaining_license",
+              "description": "Fraud or misrepresentation in applying for or procuring a podiatry license or its renewal",
+              "quote": "fraud or misrepresentation in applying for or procuring a podiatry license or in connection with applying for or procuring a periodic renewal of a podiatry license",
+              "citation": "\u00a7 375. Unprofessional conduct"
+            },
+            {
+              "short_label": "deceptive_advertising",
+              "description": "Occupational advertising intended or tending to deceive the public",
+              "quote": "occupational advertising that is intended or has a tendency to deceive the public",
+              "citation": "\u00a7 375. Unprofessional conduct"
+            },
+            {
+              "short_label": "undue_influence_or_exploitation",
+              "description": "Exercising undue influence on or taking improper advantage of a person using the individual's services",
+              "quote": "exercising undue influence on or taking improper advantage of a person using the individual's services, or promoting the sale of professional goods or services in a manner that exploits a person for the financial gain of the practitioner or of a third party",
+              "citation": "\u00a7 375. Unprofessional conduct"
+            },
+            {
+              "short_label": "failure_to_comply_with_statutes_or_rules",
+              "description": "Failing to comply with provisions of federal or State statutes or rules governing the profession",
+              "quote": "failing to comply with provisions of federal or State statutes or rules governing the profession",
+              "citation": "\u00a7 375. Unprofessional conduct"
+            },
+            {
+              "short_label": "conviction_of_related_crime",
+              "description": "Conviction of a crime related to the profession",
+              "quote": "conviction of a crime related to the profession",
+              "citation": "\u00a7 375. Unprofessional conduct"
+            },
+            {
+              "short_label": "unfitness_to_practice",
+              "description": "Conduct that evidences unfitness to practice the profession",
+              "quote": "conduct that evidences unfitness to practice the profession",
+              "citation": "\u00a7 375. Unprofessional conduct"
+            },
+            {
+              "short_label": "false_professional_reports",
+              "description": "Making or filing false professional reports or records, or failing to file proper professional reports",
+              "quote": "making or filing false professional reports or records, impeding or obstructing the proper making or filing of professional reports or records, or failing to file the proper professional report or record",
+              "citation": "\u00a7 375. Unprofessional conduct"
+            },
+            {
+              "short_label": "practicing_while_unfit",
+              "description": "Practicing the profession when mentally or physically unfit to do so",
+              "quote": "practicing the profession when mentally or physically unfit to do so",
+              "citation": "\u00a7 375. Unprofessional conduct"
+            },
+            {
+              "short_label": "failure_to_practice_competently",
+              "description": "Failure to practice competently, including unsafe patient care or failure to conform to essential standards of acceptable and prevailing practice",
+              "quote": "failure to practice competently by reason of any cause on a single occasion or on multiple occasions constitutes unprofessional conduct",
+              "citation": "\u00a7 375. Unprofessional conduct"
+            },
+            {
+              "short_label": "practicing_beyond_scope",
+              "description": "Practicing or offering to practice beyond the scope permitted by law",
+              "quote": "practicing or offering to practice beyond the scope permitted by law",
+              "citation": "\u00a7 375. Unprofessional conduct"
+            },
+            {
+              "short_label": "accepting_incompetent_responsibilities",
+              "description": "Accepting and performing responsibilities the individual knows or has reason to know they are not competent to perform",
+              "quote": "accepting and performing responsibilities that the individual knows or has reason to know that he or she is not competent to perform",
+              "citation": "\u00a7 375. Unprofessional conduct"
+            },
+            {
+              "short_label": "material_misrepresentation",
+              "description": "Making any material misrepresentation in the practice of the profession, whether by commission or omission",
+              "quote": "making any material misrepresentation in the practice of the profession, whether by commission or omission",
+              "citation": "\u00a7 375. Unprofessional conduct"
+            },
+            {
+              "short_label": "unauthorized_controlled_substance",
+              "description": "Administering, dispensing, or prescribing any controlled substance other than as authorized by law",
+              "quote": "administering, dispensing, or prescribing any controlled substance other than as authorized by law",
+              "citation": "\u00a7 375. Unprofessional conduct"
+            },
+            {
+              "short_label": "substance_abuse",
+              "description": "Habitual or excessive use or abuse of drugs, alcohol, or other substances that impair the podiatrist's ability to practice",
+              "quote": "habitual or excessive use or abuse of drugs, alcohol, or other substances that impair the podiatrist's ability to practice",
+              "citation": "\u00a7 375. Unprofessional conduct"
+            }
+          ],
           "citations": [
             {
               "cite": "\u00a7 321. Definitions",
-              "kind": null
+              "kind": "statute"
             },
             {
               "cite": "\u00a7 324. Prohibitions; penalties",
-              "kind": null
+              "kind": "statute"
             },
             {
               "cite": "\u00a7 371. Eligibility",
-              "kind": null
+              "kind": "statute"
             },
             {
               "cite": "\u00a7 372. Licensure without examination",
-              "kind": null
+              "kind": "statute"
             },
             {
               "cite": "\u00a7 373. Renewal of licensure",
-              "kind": null
+              "kind": "statute"
+            },
+            {
+              "cite": "\u00a7 375. Unprofessional conduct",
+              "kind": "statute"
+            },
+            {
+              "cite": "\u00a7 376. Disposition of complaints",
+              "kind": "statute"
+            },
+            {
+              "cite": "\u00a7 377. Exemption",
+              "kind": "statute"
+            },
+            {
+              "cite": "\u00a7 378. Limited temporary licenses",
+              "kind": "statute"
             }
           ]
         },
         "scope": {
           "definition_quote": {
-            "value": "\"Practice of podiatry,\" by a podiatric physician, means any medical, mechanical, surgical, electrical, manipulation, strapping, or bandaging treatment of the ailments pertaining to the human foot and lower leg distal to the myotendinous junction of the triceps surae.",
+            "value": "any medical, mechanical, surgical, electrical, manipulation, strapping, or bandaging treatment of the ailments pertaining to the human foot and lower leg distal to the myotendinous junction of the triceps surae",
             "quote": "\"Practice of podiatry,\" by a podiatric physician, means any medical, mechanical, surgical, electrical, manipulation, strapping, or bandaging treatment of the ailments pertaining to the human foot and lower leg distal to the myotendinous junction of the triceps surae.",
             "citation": "\u00a7 321. Definitions"
           },
@@ -17607,18 +18285,14 @@
             "citation": "\u00a7 321. Definitions"
           },
           "drug_authority": {
-            "value": "Controlled substances may be administered, dispensed, or prescribed only as authorized by law",
+            "value": "Podiatrists may administer, dispense, or prescribe controlled substances as authorized by law",
             "quote": "administering, dispensing, or prescribing any controlled substance other than as authorized by law",
             "citation": "\u00a7 375. Unprofessional conduct"
           },
           "citations": [
             {
               "cite": "\u00a7 321. Definitions",
-              "kind": null
-            },
-            {
-              "cite": "\u00a7 375. Unprofessional conduct",
-              "kind": null
+              "kind": "statute"
             }
           ]
         },
@@ -17749,7 +18423,7 @@
       "title_protection": true,
       "scope_protection": true,
       "issuing_authority": "Board of Medicine",
-      "education_degree": "Doctor of Podiatric Medicine (D.P.M.) or equivalent",
+      "education_degree": "Doctor of Podiatric Medicine (or equivalent podiatric medical degree)",
       "post_degree_duration": "12 months",
       "exams_count": 1,
       "renewal_years": 2,
@@ -17785,7 +18459,7 @@
           },
           "education": {
             "degree_required": {
-              "value": "Doctor of Podiatric Medicine (D.P.M.) or equivalent",
+              "value": "Doctor of Podiatric Medicine (or equivalent podiatric medical degree)",
               "quote": "Has successfully completed all or such part as may be prescribed by the Board, of an educational course of study of that branch of the healing arts in which he desires a license to practice, which course of study and the educational institution providing that course of study are acceptable to the Board",
               "citation": "54.1-2930"
             },
@@ -17857,7 +18531,7 @@
           },
           "title_protection": {
             "value": true,
-            "quote": "Any person shall be regarded as practicing the healing arts who actually engages in such practice as defined in this chapter, or who opens an office for such purpose, or who advertises or announces to the public in any manner a readiness to practice or who uses in connection with his name the words or letters \"Doctor,\" \"Dr.,\" \"M.D.,\" \"D.O.,\" \"D.P.M.,\" \"D.C.,\" \"Healer,\" \"N.P.,\" or any other title",
+            "quote": "Any person shall be regarded as practicing the healing arts who actually engages in such practice as defined in this chapter, or who opens an office for such purpose, or who advertises or announces to the public in any manner a readiness to practice or who uses in connection with his name the words or letters \"Doctor,\" \"Dr.,\" \"M.D.,\" \"D.O.,\" \"D.P.M.,\" \"D.C.,\"",
             "citation": "54.1-2903"
           },
           "scope_protection": {
@@ -17874,7 +18548,7 @@
             },
             {
               "short_label": "substance_abuse",
-              "description": "Substance abuse rendering the practitioner unfit for professional obligations and duties",
+              "description": "Substance abuse rendering the licensee unfit for professional obligations and duties",
               "quote": "Substance abuse rendering him unfit for the performance of his professional obligations and duties;",
               "citation": "54.1-2915"
             },
@@ -17915,13 +18589,13 @@
               "citation": "54.1-2915"
             },
             {
-              "short_label": "fee_splitting_or_chapter_violations",
-              "description": "Violating provisions on division of fees or practicing in violation of chapter provisions",
+              "short_label": "fee_splitting_or_illegal_practice",
+              "description": "Violating provisions on division of fees or practicing in violation of this chapter",
               "quote": "Violating provisions of this chapter on division of fees or practicing any branch of the healing arts in violation of the provisions of this chapter;",
               "citation": "54.1-2915"
             },
             {
-              "short_label": "felony_or_moral_turpitude_misdemeanor",
+              "short_label": "felony_or_moral_turpitude_crime",
               "description": "Knowingly and willfully committing a felony or a misdemeanor involving moral turpitude under Commonwealth or US law",
               "quote": "Knowingly and willfully committing an act that is a felony under the laws of the Commonwealth or the United States, or any act that is a misdemeanor under such laws and involves moral turpitude;",
               "citation": "54.1-2915"
@@ -17933,8 +18607,8 @@
               "citation": "54.1-2915"
             },
             {
-              "short_label": "unethical_practice",
-              "description": "Conducting practice in a manner contrary to the standards of ethics of the branch of the healing arts",
+              "short_label": "unethical_conduct",
+              "description": "Conducting practice contrary to the standards of ethics of the branch of the healing arts",
               "quote": "Conducting his practice in a manner contrary to the standards of ethics of his branch of the healing arts;",
               "citation": "54.1-2915"
             },
@@ -17963,20 +18637,20 @@
               "citation": "54.1-2915"
             },
             {
-              "short_label": "drug_law_violations",
+              "short_label": "drug_law_violation",
               "description": "Violating any statute or regulation relating to the manufacture, distribution, dispensing, or administration of drugs",
               "quote": "Violating any provision of statute or regulation, state or federal, relating to the manufacture, distribution, dispensing, or administration of drugs;",
               "citation": "54.1-2915"
             },
             {
-              "short_label": "chapter_or_board_regulation_violations",
+              "short_label": "violation_of_chapter_or_regulations",
               "description": "Violating or cooperating with others in violating provisions of the healing arts chapters or Board regulations",
               "quote": "Violating or cooperating with others in violating any of the provisions of Chapters 1 (\u00a7 54.1-100 et seq.), 24 (\u00a7 54.1-2400 et seq.) and this chapter or regulations of the Board;",
               "citation": "54.1-2915"
             },
             {
-              "short_label": "sexual_contact_with_patient",
-              "description": "Engaging in sexual contact with a patient concurrent with and by virtue of the practitioner-patient relationship, or engaging in lewd and offensive conduct during the course of the relationship",
+              "short_label": "sexual_misconduct",
+              "description": "Engaging in sexual contact with a patient concurrent with the practitioner-patient relationship or other lewd conduct during the relationship",
               "quote": "Engaging in sexual contact with a patient concurrent with and by virtue of the practitioner and patient relationship or otherwise engaging at any time during the course of the practitioner and patient relationship in conduct of a sexual nature that a reasonable patient would consider lewd and offensive;",
               "citation": "54.1-2915"
             },
@@ -17988,18 +18662,18 @@
             },
             {
               "short_label": "adjudication_of_incompetence",
-              "description": "Adjudication of legal incompetence or incapacity in any state if still in effect and not restored",
+              "description": "Adjudication of legal incompetence or incapacity in any state if still in effect",
               "quote": "Adjudication of legal incompetence or incapacity in any state if such adjudication is in effect and the person has not been declared restored to competence or capacity;",
               "citation": "54.1-2915"
             },
             {
-              "short_label": "medical_examiner_registry_failure",
+              "short_label": "unlicensed_medical_examiner_services",
               "description": "Performing medical examiner services without being listed on the National Registry of Certified Medical Examiners",
               "quote": "Performing the services of a medical examiner as defined in 49 C.F.R. \u00a7 390.5 if, at the time such services are performed, the person performing such services is not listed on the National Registry of Certified Medical Examiners",
               "citation": "54.1-2915"
             },
             {
-              "short_label": "failure_to_file_electronic_death_certificate",
+              "short_label": "failure_to_file_death_certificate",
               "description": "Failing or refusing to complete and file electronically any medical certification in accordance with death registration requirements",
               "quote": "Failing or refusing to complete and file electronically using the Electronic Death Registration System any medical certification in accordance with the requirements of subsection C of \u00a7 32.1-263.",
               "citation": "54.1-2915"
@@ -18064,7 +18738,7 @@
         },
         "scope": {
           "definition_quote": {
-            "value": "the prevention, diagnosis, treatment, and cure or alleviation of physical conditions, diseases, pain, or infirmities of the human foot and ankle, including the medical, mechanical and surgical treatment of the ailments of the human foot and ankle, but does not include amputation of the foot proximal to the transmetatarsal level through the metatarsal shafts",
+            "value": "The practice of podiatry means the prevention, diagnosis, treatment, and cure or alleviation of physical conditions, diseases, pain, or infirmities of the human foot and ankle, including the medical, mechanical and surgical treatment of the ailments of the human foot and ankle, but does not include amputation of the foot proximal to the transmetatarsal level through the metatarsal shafts.",
             "quote": "\"Practice of podiatry\" means the prevention, diagnosis, treatment, and cure or alleviation of physical conditions, diseases, pain, or infirmities of the human foot and ankle, including the medical, mechanical and surgical treatment of the ailments of the human foot and ankle, but does not include amputation of the foot proximal to the transmetatarsal level through the metatarsal shafts.",
             "citation": "54.1-2900"
           },
@@ -18078,7 +18752,7 @@
             "citation": "54.1-2900"
           },
           "drug_authority": {
-            "value": "Podiatrists may administer or provide controlled substances to patients in bona fide medical emergencies or when pharmaceutical services are not available; may not sell controlled substances without Board of Pharmacy license",
+            "value": "Podiatrists may administer or provide controlled substances to patients in bona fide medical emergencies or when pharmaceutical services are not available; may not sell controlled substances without Board of Pharmacy licensure",
             "quote": "this prohibition shall not apply to a doctor of medicine, osteopathy or podiatry who administers controlled substances to his patients or provides controlled substances to his patient in a bona fide medical emergency or when pharmaceutical services are not available.",
             "citation": "54.1-2914"
           },
@@ -18932,10 +19606,10 @@
       "state": "WA",
       "coverage_gap": false,
       "license_required": true,
-      "regulatory_model": null,
-      "title_protection": null,
-      "scope_protection": null,
-      "issuing_authority": "Secretary of Health / Department of Health",
+      "regulatory_model": "license",
+      "title_protection": true,
+      "scope_protection": true,
+      "issuing_authority": "Washington State Department of Health / Secretary of Health",
       "education_degree": "Degree from an approved school of podiatric medicine and surgery",
       "post_degree_duration": "1 year",
       "exams_count": 2,
@@ -18944,19 +19618,19 @@
       "ce_period_years": null,
       "reciprocity_available": true,
       "disciplinary_grounds_count": 0,
-      "evidence_verified": 20,
-      "evidence_unverified": 0,
+      "evidence_verified": 22,
+      "evidence_unverified": 1,
       "_full": {
         "state": "WA",
         "profession": "podiatry",
         "licensure": {
           "license_required": {
             "value": true,
-            "quote": "No person may practice or represent himself or herself as a podiatric physician and surgeon without first applying for and receiving a license under this chapter",
-            "citation": "18.22.025"
+            "quote": "It is a violation of RCW 18.130.190 for any person to practice podiatry in this state unless the person first has obtained a license therefor.",
+            "citation": "18.22.021"
           },
           "issuing_authority": {
-            "value": "Secretary of Health / Department of Health",
+            "value": "Washington State Department of Health / Secretary of Health",
             "quote": "\"Secretary\" means the secretary of health or the secretary's designee.",
             "citation": "18.22.010"
           },
@@ -19006,7 +19680,7 @@
             {
               "name": "Board-administered or board-approved professional qualifications examination",
               "required": true,
-              "notes": "Subject areas determined by board rule; board may approve private testing agency exam",
+              "notes": "Subject areas determined by board rule; board may approve private testing agency exam.",
               "quote": "an examination administered or approved by the board to determine their professional qualifications",
               "citation": "18.22.083"
             }
@@ -19027,12 +19701,40 @@
               "citation": "18.22.082"
             },
             "requirements": {
-              "value": "Other state's licensing standards must be substantively equivalent to Washington's standards",
+              "value": "Other state's licensing standards must be substantively equivalent to Washington's standards.",
               "quote": "the secretary determines that the other state's licensing standards are substantively equivalent to the standards in this state",
               "citation": "18.22.082"
             }
           },
+          "regulatory_model": {
+            "value": "license",
+            "quote": "No person may practice or represent himself or herself as a podiatric physician and surgeon without first applying for and receiving a license under this chapter",
+            "citation": "18.22.025"
+          },
+          "title_protection": {
+            "value": true,
+            "quote": "to use the title \"podiatrist,\" \"podiatric physician and surgeon,\" or any other words or letters which designate or tend to designate to the public that the person so treating or holding himself or herself out to treat, is a podiatric physician and surgeon",
+            "citation": "18.22.210"
+          },
+          "scope_protection": {
+            "value": true,
+            "quote": "It is a violation of RCW 18.130.190 for any person to practice podiatry in this state unless the person first has obtained a license therefor.",
+            "citation": "18.22.021"
+          },
+          "disciplinary_grounds": [],
           "citations": [
+            {
+              "cite": "18.22.010",
+              "kind": null
+            },
+            {
+              "cite": "18.22.015",
+              "kind": null
+            },
+            {
+              "cite": "18.22.018",
+              "kind": null
+            },
             {
               "cite": "18.22.021",
               "kind": null
@@ -19042,7 +19744,19 @@
               "kind": null
             },
             {
+              "cite": "18.22.035",
+              "kind": null
+            },
+            {
               "cite": "18.22.040",
+              "kind": null
+            },
+            {
+              "cite": "18.22.045",
+              "kind": null
+            },
+            {
+              "cite": "18.22.060",
               "kind": null
             },
             {
@@ -19055,6 +19769,30 @@
             },
             {
               "cite": "18.22.120",
+              "kind": null
+            },
+            {
+              "cite": "18.22.125",
+              "kind": null
+            },
+            {
+              "cite": "18.22.210",
+              "kind": null
+            },
+            {
+              "cite": "18.22.230",
+              "kind": null
+            },
+            {
+              "cite": "18.22.240",
+              "kind": null
+            },
+            {
+              "cite": "18.22.800",
+              "kind": null
+            },
+            {
+              "cite": "18.22.810",
               "kind": null
             }
           ]
@@ -19077,7 +19815,7 @@
             "citation": "18.22.035"
           },
           "drug_authority": {
-            "value": "May issue prescriptions valid at any pharmacy for any drug, including narcotics, necessary in the practice of podiatry",
+            "value": "May issue prescriptions valid at any pharmacy for any drug, including narcotics, necessary in the practice of podiatry.",
             "quote": "Podiatric physicians and surgeons may issue prescriptions valid at any pharmacy for any drug, including narcotics, necessary in the practice of podiatry.",
             "citation": "18.22.035"
           },
@@ -19110,7 +19848,8 @@
           "systemic_disease_treatment_excluded": {
             "value": true,
             "quote": "Podiatrists shall not: ... (c) Treat systemic conditions.",
-            "citation": "18.22.035"
+            "citation": "18.22.035",
+            "unverified": true
           },
           "systemic_disease_local_manifestations_included": null,
           "board_certification_body": null,
@@ -19323,20 +20062,20 @@
       "state": "WY",
       "coverage_gap": false,
       "license_required": true,
-      "regulatory_model": null,
-      "title_protection": null,
-      "scope_protection": null,
+      "regulatory_model": "license",
+      "title_protection": true,
+      "scope_protection": true,
       "issuing_authority": "Board of Registration in Podiatry",
-      "education_degree": "Graduate of a school of podiatry requiring at least 4 years of instruction and 3,360 scholastic hours, plus 2 years of liberal arts or sciences",
+      "education_degree": "Graduate of a school of podiatry requiring at least four years of instruction and 3,360 scholastic hours, plus two years of liberal arts or sciences",
       "post_degree_duration": null,
       "exams_count": 1,
       "renewal_years": 1,
-      "ce_hours": 3,
+      "ce_hours": null,
       "ce_period_years": 2,
       "reciprocity_available": true,
-      "disciplinary_grounds_count": 0,
-      "evidence_verified": 24,
-      "evidence_unverified": 0,
+      "disciplinary_grounds_count": 7,
+      "evidence_verified": 23,
+      "evidence_unverified": 3,
       "_full": {
         "state": "WY",
         "profession": "podiatry",
@@ -19355,7 +20094,7 @@
           "moral_character_required": null,
           "education": {
             "degree_required": {
-              "value": "Graduate of a school of podiatry requiring at least 4 years of instruction and 3,360 scholastic hours, plus 2 years of liberal arts or sciences",
+              "value": "Graduate of a school of podiatry requiring at least four years of instruction and 3,360 scholastic hours, plus two years of liberal arts or sciences",
               "quote": "he has satisfactorily completed two (2) years in a recognized college of liberal arts or of the sciences, and that he is a graduate of a regularly established school of podiatry recognized by the American Podiatric Medical Association or its successor and the board which requires as a prerequisite to graduation the completion of at least three thousand three hundred sixty (3,360) scholastic hours of classroom work",
               "citation": "33-9-104"
             },
@@ -19382,7 +20121,7 @@
             {
               "name": "Board examination (clinical and written)",
               "required": true,
-              "notes": "Minimum passing grade of 75% average, not less than 60% in any one subject",
+              "notes": "Minimum passing grade of 75% average and not less than 60% in any one subject",
               "quote": "the applicant must pass a satisfactory examination as prepared under the rules and regulations of the board",
               "citation": "33-9-104"
             }
@@ -19400,19 +20139,15 @@
               "quote": "Application for renewal shall be accompanied by evidence satisfactory to the board of compliance with participation in continuing education activities as established by rules and regulations of the board.",
               "citation": "33-9-107"
             },
-            "hours_per_period": {
-              "value": 3,
-              "quote": "The board shall require three (3) hours of continuing education related to the responsible prescribing of controlled substances every two (2) years.",
-              "citation": "33-9-107"
-            },
+            "hours_per_period": null,
             "period_years": {
               "value": 2,
-              "quote": "three (3) hours of continuing education related to the responsible prescribing of controlled substances every two (2) years",
+              "quote": "The board shall require three (3) hours of continuing education related to the responsible prescribing of controlled substances every two (2) years.",
               "citation": "33-9-107"
             },
             "topical_requirements": {
               "value": [
-                "responsible prescribing of controlled substances"
+                "3 hours responsible prescribing of controlled substances every 2 years"
               ],
               "quote": "The board shall require three (3) hours of continuing education related to the responsible prescribing of controlled substances every two (2) years.",
               "citation": "33-9-107"
@@ -19425,11 +20160,72 @@
               "citation": "33-9-111"
             },
             "requirements": {
-              "value": "Applicant must present endorsement from their state board, hold a certificate or license issued at least one year prior to application, the issuing state must have equivalent requirements and reciprocal privileges with Wyoming, and the applicant must have passed that state's clinical podiatry examination.",
+              "value": "Must present endorsement from state board, hold a certificate or license issued at least one year prior to application, the issuing state must have equivalent requirements and reciprocal privileges with Wyoming, and applicant must have passed that state's clinical podiatry examination.",
               "quote": "the possession of a certificate of podiatry qualification or license issued to the applicant at least one (1) year prior to filing of application for reciprocal privileges",
               "citation": "33-9-111"
             }
           },
+          "regulatory_model": {
+            "value": "license",
+            "quote": "It is unlawful for a person to profess to be a podiatrist, to practice or assume the duties incident to podiatry",
+            "citation": "33-9-103"
+          },
+          "title_protection": {
+            "value": true,
+            "quote": "It is unlawful for a person to profess to be a podiatrist ... or in a sign or advertisement to use the word \"podiatrist\", \"foot correctionist\", \"foot expert\", \"foot specialist\", \"chiropodist\" or any other term or designation indicating to the public that he is holding himself out as a podiatrist",
+            "citation": "33-9-103",
+            "unverified": true
+          },
+          "scope_protection": {
+            "value": true,
+            "quote": "It is unlawful for a person to ... practice or assume the duties incident to podiatry ... without first obtaining from the board a license",
+            "citation": "33-9-103",
+            "unverified": true
+          },
+          "disciplinary_grounds": [
+            {
+              "short_label": "fraud_in_obtaining_license",
+              "description": "Obtaining a license by fraudulent representation",
+              "quote": "Obtaining a license by fraudulent representation",
+              "citation": "33-9-110"
+            },
+            {
+              "short_label": "incompetency",
+              "description": "Incompetency in practice",
+              "quote": "Incompetency in practice",
+              "citation": "33-9-110"
+            },
+            {
+              "short_label": "false_statements",
+              "description": "Use of untruthful or improbable statements to patients or in advertisements",
+              "quote": "Use of untruthful or improbable statements to patients or in his advertisements",
+              "citation": "33-9-110"
+            },
+            {
+              "short_label": "alcoholism_or_drug_abuse",
+              "description": "Alcoholism or habitual use of controlled substances",
+              "quote": "Alcoholism or habitual use of controlled substance",
+              "citation": "33-9-110"
+            },
+            {
+              "short_label": "unprofessional_conduct",
+              "description": "Unprofessional conduct",
+              "quote": "Unprofessional conduct",
+              "citation": "33-9-110"
+            },
+            {
+              "short_label": "illegal_distribution_of_controlled_substances",
+              "description": "Selling or giving away alcohol or controlled substances for illegal purposes",
+              "quote": "Selling or giving away alcohol or controlled substances for illegal purposes",
+              "citation": "33-9-110"
+            },
+            {
+              "short_label": "failure_to_meet_ce_requirements",
+              "description": "Failure to furnish evidence of satisfying continuing education requirements",
+              "quote": "Failure to furnish evidence showing the satisfaction of the requirements of continuing education required by the board",
+              "citation": "33-9-110"
+            }
+          ],
           "citations": [
             {
               "cite": "33-9-101",
@@ -19481,7 +20277,8 @@
               "medical treatment",
               "mechanical treatment",
               "surgical treatment",
-              "fitting or recommending appliances/devices/shoes"
+              "fitting or recommending appliances/devices/shoes",
+              "prescribing drugs and controlled substances"
             ],
             "quote": "the diagnosis or the medical, mechanical or surgical treatment of the ailments of the human foot, ankle and tendons that insert into the foot",
             "citation": "33-9-101"
@@ -19506,7 +20303,7 @@
           },
           "amputation_authorized": {
             "value": "toes_and_parts_of_foot",
-            "quote": "the practice of podiatric medicine shall include the amputation of the toes or other parts of the foot but shall not include the amputation of the foot or leg in its entirety",
+            "quote": "The practice of podiatric medicine shall include the amputation of the toes or other parts of the foot but shall not include the amputation of the foot or leg in its entirety.",
             "citation": "33-9-101"
           },
           "anesthesia_authority": {
@@ -19532,8 +20329,9 @@
           "podiatric_assistant_supervision_level": null,
           "xray_technician_certification_required": {
             "value": true,
-            "quote": "Any person employed by or assisting a podiatrist licensed under this chapter shall in addition to any other requirements imposed by rule and regulation of the board of registration in podiatry, successfully complete minimum safety education and training requirements specified under this section prior to operating any machine source of ionizing radiation",
-            "citation": "33-9-114"
+            "quote": "Any person employed by or assisting a podiatrist licensed under this chapter shall ... successfully complete minimum safety education and training requirements specified under this section prior to operating any machine source of ionizing radiation",
+            "citation": "33-9-114",
+            "unverified": true
           },
           "professional_liability_insurance_required": null,
           "telehealth_authorized": null,
@@ -19631,7 +20429,7 @@
     }
   ],
   "evidence_summary": {
-    "verified": 857,
-    "unverified": 11
+    "verified": 873,
+    "unverified": 16
   }
 }
