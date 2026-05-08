@@ -4,12 +4,14 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "prebuild": "node --env-file-if-exists=.env.local scripts/fetch-blob-data.mjs",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"
   },
   "dependencies": {
     "@base-ui/react": "^1.4.1",
+    "@vercel/blob": "^2.3.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^1.14.0",

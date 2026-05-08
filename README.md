@@ -42,8 +42,8 @@ Pipeline stages, all working:
 | `extract/extract_state` | Pass 2 — per-state structured extraction. Every leaf field is Evidence-wrapped (`{value, quote, citation}`). Quote is regex-validated against the cleaned source |
 | `extract/recategorize_fields` | Surgical re-grouping of an existing discovered file into LLM-named categories without re-extraction |
 | `extract/reverify_evidence` | Re-runs the regex check against existing structured records (lets us tighten/loosen the matcher without re-extracting) |
-| `publish/build_frontend` | Aggregates per-state records into `publish/web/public/data/<prof>.json` + refreshes `professions.json` |
-| `publish/web/` | Next.js + Tailwind + shadcn static-export viewer. Home is profession picker; per-profession profile page shows table + per-row evidence-backed dialog |
+| `publish/build_frontend` | Aggregates per-state records into one payload per profession and uploads to Vercel Blob at `data/<prof>.json` |
+| `publish/web/` | Next.js + Tailwind + shadcn viewer, deployed to Vercel. Prebuild step fetches every `data/*.json` from Blob and bakes it into the static pages. Site is gated by HTTP Basic Auth via middleware |
 
 ## How to run it
 
@@ -76,15 +76,32 @@ python -m pipeline.extract.extract_state     --profession <name>
 python -m pipeline.publish.build_frontend    --profession <name>
 ```
 
-Serve the viewer:
+## Frontend / data hosting
+
+The Next.js viewer is deployed to Vercel. Per-profession payloads
+(`data/<prof>.json`) live in Vercel Blob; the build's `prebuild` step
+fetches them via `@vercel/blob` and bakes them into the static pages.
+
+Local dev:
 
 ```bash
 cd pipeline/publish/web
 npm install
-npm run build           # static export to pipeline/publish/web/out/
-cd out && python3 -m http.server 8767
-# open http://localhost:8767/
+vercel link --yes --project utah-licensing   # one-time
+vercel env pull .env.local                   # syncs BLOB_READ_WRITE_TOKEN + SITE_PASSWORD
+npm run dev                                  # http://localhost:3000
 ```
+
+Deploy:
+
+```bash
+cd pipeline/publish/web
+vercel --prod
+```
+
+The site sits behind HTTP Basic Auth via `middleware.ts` — username can
+be anything, password is `SITE_PASSWORD` (set on Vercel + in
+`.env.local`).
 
 ## Architecture invariants
 

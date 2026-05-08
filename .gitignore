@@ -39,3 +39,12 @@ pipeline/publish/web/.next/
 pipeline/publish/web/out/
 pipeline/publish/web/.turbo/
 pipeline/publish/web/next-env.d.ts
+pipeline/publish/web/.vercel/
+
+# Frontend data is fetched from Vercel Blob at build time, not committed
+pipeline/publish/web/public/data/
+pipeline/publish/web/public/professions.json
+
+# State-getting pipeline review/validation artifacts (review-only, not source of truth)
+pipeline/results/section_bodies/
+pipeline/results/section_maps/
