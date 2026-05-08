@@ -1,0 +1,142 @@
+// Mirrors the shapes emitted by pipeline/publish/build_frontend.py.
+// Kept narrow — just the fields the UI reads.
+
+export type Evidence<T = unknown> = {
+  value: T;
+  quote: string;
+  citation: string;
+  unverified?: boolean;
+};
+
+export type EducationRequirement = {
+  degree_required?: Evidence<string> | null;
+  accrediting_body?: Evidence<string> | null;
+};
+
+export type PostDegreeExperience = {
+  required?: Evidence<boolean> | null;
+  duration?: Evidence<string> | null;
+  kind?: Evidence<string> | null;
+};
+
+export type ContinuingEducation = {
+  required?: Evidence<boolean> | null;
+  hours_per_period?: Evidence<number> | null;
+  period_years?: Evidence<number> | null;
+  topical_requirements?: Evidence<string[]> | null;
+};
+
+export type Renewal = {
+  interval_years?: Evidence<number> | null;
+};
+
+export type Reciprocity = {
+  available?: Evidence<boolean> | null;
+  requirements?: Evidence<string> | null;
+};
+
+export type Exam = {
+  name: string;
+  required: boolean;
+  notes?: string | null;
+  quote: string;
+  citation: string;
+};
+
+export type DisciplinaryGround = {
+  short_label: string;
+  description: string;
+  quote: string;
+  citation: string;
+};
+
+export type LicensureRequirements = {
+  license_required?: Evidence<boolean> | null;
+  issuing_authority?: Evidence<string> | null;
+  age_minimum?: Evidence<number> | null;
+  moral_character_required?: Evidence<boolean> | null;
+  education?: EducationRequirement | null;
+  post_degree_experience?: PostDegreeExperience | null;
+  exams: Exam[];
+  renewal?: Renewal | null;
+  continuing_education?: ContinuingEducation | null;
+  reciprocity?: Reciprocity | null;
+  regulatory_model?: Evidence<string> | null;
+  title_protection?: Evidence<boolean> | null;
+  scope_protection?: Evidence<boolean> | null;
+  disciplinary_grounds: DisciplinaryGround[];
+};
+
+export type ScopeOfPractice = {
+  definition_quote?: Evidence<string> | null;
+  methods_authorized?: Evidence<string[]> | null;
+  drug_authority?: Evidence<string> | null;
+};
+
+export type StructuredRecord = {
+  state: string;
+  profession: string;
+  licensure: LicensureRequirements;
+  scope: ScopeOfPractice;
+  profession_specific: Record<string, Evidence<unknown> | null>;
+};
+
+export type SectionRef = {
+  url: string;
+  citation: string;
+  label?: string;
+  text?: string;
+};
+
+export type Row = {
+  state: string;
+  coverage_gap: boolean;
+  coverage_gap_reason?: string;
+  coverage_gap_label?: string;
+  license_required: boolean | null;
+  regulatory_model: string | null;
+  title_protection: boolean | null;
+  scope_protection: boolean | null;
+  issuing_authority: string | null;
+  education_degree: string | null;
+  post_degree_duration: string | null;
+  exams_count: number;
+  renewal_years: number | null;
+  ce_hours: number | null;
+  ce_period_years: number | null;
+  reciprocity_available: boolean | null;
+  disciplinary_grounds_count: number;
+  evidence_verified: number;
+  evidence_unverified: number;
+  source_chapter_urls?: string[];
+  sections?: SectionRef[];
+  _full: StructuredRecord;
+};
+
+export type DiscoveredField = {
+  name: string;
+  category: string;
+  type: "bool" | "int" | "str" | "list[str]" | "enum";
+  enum_values?: string[] | null;
+  description: string;
+  sample_quote: string;
+  sample_state: string;
+  states_supporting: string[];
+};
+
+export type ProfilePayload = {
+  profession: string;
+  display: string;
+  discovered_fields: DiscoveredField[];
+  rows: Row[];
+  evidence_summary: { verified: number; unverified: number };
+};
+
+export type ProfessionsListEntry = {
+  profession: string;
+  display: string;
+  covered: number;
+  gaps: number;
+  fields: number;
+  verified_pct: number | null;
+};
