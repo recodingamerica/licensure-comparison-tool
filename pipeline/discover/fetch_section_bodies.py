@@ -9,6 +9,10 @@ Politeness: serialized fetches with PER_HOST_DELAY (1.2s default). For
 2000-section states this means ~40 minutes. Use --max-sections to cap
 during testing; production runs are one-time per state.
 
+Resume: every CHECKPOINT_EVERY new sections we flush to disk. If the
+process dies mid-run, just re-launch the same command — already-cached
+slugs are skipped.
+
 Usage:
   python -m pipeline.discover.fetch_section_bodies --state LA
   python -m pipeline.discover.fetch_section_bodies --state LA --max-sections 200
@@ -41,6 +45,7 @@ LOGS_DIR.mkdir(parents=True, exist_ok=True)
 
 PER_HOST_DELAY = 1.2
 EXCERPT_CHARS = 300
+CHECKPOINT_EVERY = 20
 
 logging.basicConfig(
     level=logging.INFO,
@@ -81,9 +86,8 @@ def fetch_all(state: str, max_sections: int | None) -> dict:
             text = extract_section_text(html)
             bodies[slug] = {"url": url, "label": sec.get("label", ""), "excerpt": text[:EXCERPT_CHARS]}
         new_count += 1
-        if new_count % 50 == 0:
+        if new_count % CHECKPOINT_EVERY == 0:
             log.info("[%s] %d new (%d total)", state, new_count, len(bodies))
-            # Checkpoint every 50
             out_path.write_text(json.dumps({
                 "state": state,
                 "fetched_at": datetime.now(timezone.utc).isoformat(),

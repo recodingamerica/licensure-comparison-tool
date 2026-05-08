@@ -202,6 +202,14 @@ def build_index_for(
                 }))
                 chapter_maps_used += 1
 
+        # For section_fallback states, an override with section_url_list /
+        # section_slug_pattern is the canonical set; the label-matched
+        # section nodes are subsumed by it. Drop them to keep the index
+        # clean and avoid wasted fetches downstream.
+        if (state_entry.get("layout") == "section_fallback"
+                and any(n.get("section_url_list") or n.get("section_slug_pattern") for n in m)):
+            m = [n for n in m if n.get("section_url_list") or n.get("section_slug_pattern")]
+
         if not record and not m:
             by_state[st] = {"matched": [], "note": "no_hierarchy"}
             continue
@@ -255,28 +263,46 @@ def main() -> None:
     if chapter_maps:
         log.info("loaded chapter maps for %d states: %s", len(chapter_maps), sorted(chapter_maps))
 
-    coverage_rows = []
+    rebuilt: dict[str, dict] = {}
     for prof, defn in professions.items():
         index = build_index_for(prof, defn, hierarchies, state_structure, section_maps, chapter_maps)
         out_path = PROFESSION_INDEX_DIR / f"{prof}.json"
         out_path.write_text(json.dumps(index, indent=2))
         log.info("[%s] %d/%d states matched", prof, index["coverage"]["states_matched"], index["coverage"]["states_total"])
-        coverage_rows.append({
-            "profession": prof,
-            "display": defn.get("display", ""),
-            "states_matched": index["coverage"]["states_matched"],
-            "states_total": index["coverage"]["states_total"],
-            "missing_states": ",".join(s for s in ALL_STATES if not index["by_state"][s]["matched"]),
-        })
+        rebuilt[prof] = index
 
-    # Coverage matrix
+    # Coverage matrix: union of just-rebuilt indexes plus whatever else is on disk.
+    coverage_rows: list[dict] = []
+    seen: set[str] = set()
+    for prof, index in rebuilt.items():
+        seen.add(prof)
+        coverage_rows.append(_coverage_row(prof, index))
+    for path in sorted(PROFESSION_INDEX_DIR.glob("*.json")):
+        prof = path.stem
+        if prof in seen or prof.endswith("_suggestions") or prof.startswith("_"):
+            continue
+        index = json.loads(path.read_text())
+        coverage_rows.append(_coverage_row(prof, index))
+
     cov_path = PROFESSION_INDEX_DIR / "_coverage.csv"
     with cov_path.open("w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=["profession", "display", "states_matched", "states_total", "missing_states"])
         w.writeheader()
         for row in sorted(coverage_rows, key=lambda r: -r["states_matched"]):
             w.writerow(row)
-    log.info("wrote coverage matrix: %s", cov_path)
+    log.info("wrote coverage matrix: %s (%d professions)", cov_path, len(coverage_rows))
+
+
+def _coverage_row(profession: str, index: dict) -> dict:
+    cov = index.get("coverage", {})
+    by_state = index.get("by_state", {})
+    return {
+        "profession": profession,
+        "display": index.get("display", ""),
+        "states_matched": cov.get("states_matched", 0),
+        "states_total": cov.get("states_total", len(ALL_STATES)),
+        "missing_states": ",".join(s for s in ALL_STATES if not (by_state.get(s) or {}).get("matched")),
+    }
 
 
 if __name__ == "__main__":
