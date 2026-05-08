@@ -132,15 +132,22 @@ def extract_child_links(html: str, base_url: str) -> tuple[list[dict], list[dict
 
 
 def extract_section_text(html: str) -> str:
-    """Extract the main statute text from a Justia section page.
+    """Extract the main statute text from a section page across known sources.
 
-    Justia wraps codified text in #codes-content on most pages, but some
-    state layouts leave that empty and put text in div.primary-content
-    or similar. Try a small selector cascade, then fall back to the
-    largest plausible content div.
+    Selector cascade (first hit wins, must yield > 200 chars):
+      Justia                  #codes-content, div.primary-content
+      MN revisor.mn.gov       .section
+      MI legislature.mi.gov   div[class*="section"] (Sec. NNNN block)
+    Falls back to the largest plausible content div if none match.
     """
     soup = BeautifulSoup(html, "html.parser")
-    for sel in ["#codes-content", "div.primary-content", "main #main-content"]:
+    for sel in [
+        "#codes-content",
+        "div.primary-content",
+        ".section",                      # MN revisor
+        'div[class*="section"]',         # MI legislature
+        "main #main-content",
+    ]:
         el = soup.select_one(sel)
         if el:
             text = el.get_text("\n", strip=True)

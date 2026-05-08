@@ -116,6 +116,44 @@ gaps fall into a few buckets:
   CPA's profile didn't show an empty Anatomical-scope column. General
   rule now: only universal fields land as table columns.
 
+## Non-Justia sources we've validated
+
+Once we hit the gap states, we probed alternate sources to assess
+gettability. The picture differs sharply state to state.
+
+- **MN — `revisor.mn.gov`** is the cleanest non-Justia source we found.
+  Per-section URL pattern is `https://www.revisor.mn.gov/statutes/cite/153.NN`.
+  Section content sits in a `.section` div with no JS rendering. Adding it
+  was 28 lines of `section_url_list` in `manual_overrides.yaml` plus one
+  selector in `extract_section_text()`. ~30 minutes total.
+
+- **MI — `legislature.mi.gov`** is doable but uglier. Per-section URLs use
+  a query string `?objectName=mcl-333-NNNNN`. The section content sits in
+  a `div[class*="section"]` block. Section ranges have gaps (some numbers
+  are skipped — repealed). We hand-listed the 15 podiatry sections from
+  Part 180 of the Public Health Code. ~45 minutes total.
+
+- **PA — `palegis.us`** turned out to be genuinely hard. The site is
+  query-string-driven (`uconsCheck.cfm?...&act=375`) and our probes didn't
+  surface podiatry-specific content even at the right act number. Probably
+  needs Playwright + custom navigation, or a different source entirely
+  (the human-compiled podiatry PDF used Westlaw). Documented as a deferred
+  gap.
+
+- **FindLaw** appeared to host state codes but is anti-scrape — returns a
+  small wall page (~2.7 KB) for direct URL probes regardless of the path.
+  Not a viable fallback.
+
+- **Cornell LII** doesn't host state statutes. It has US Code, CFR, Wex
+  glossary, and uniform laws. Useful for federal references but not for
+  state-by-state extraction.
+
+The pattern across these: most state legislatures publish per-section
+HTML with stable URLs. Each one needs roughly an hour of investigation
+to find the URL convention and the right CSS selector for the body. After
+that, it slots into our pipeline as a `section_url_list` override + one
+extra selector in `extract_section_text`.
+
 ## Open work / known limits
 
 - Admin code (CE rules, sub-regulation) lives outside statute on most
