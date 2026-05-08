@@ -27,6 +27,7 @@ from paths import HIERARCHY_DIR, PROFESSION_INDEX_DIR, CONFIG_DIR, LOGS_DIR, RES
 from config.states import ALL_STATES  # noqa: E402
 
 SECTION_MAPS_DIR = RESULTS_DIR / "section_maps"
+CHAPTER_MAPS_DIR = RESULTS_DIR / "chapter_maps"
 
 LOG_PATH = LOGS_DIR / "match_profession.log"
 LOGS_DIR.mkdir(parents=True, exist_ok=True)
@@ -124,17 +125,41 @@ def load_section_maps(state_structure: dict) -> dict[str, dict]:
     return out
 
 
+def load_chapter_maps() -> dict[str, dict]:
+    """Load any per-state chapter maps from results/chapter_maps/<STATE>.json.
+
+    Returns: { state: { profession: {url, chapter_slug, label} } }
+    Lower precedence than state_structure.yaml — only used as a safety net
+    when no hand-curated entry exists. Limited reliability for buried
+    chapters (e.g. podiatry inside a "Medicine and Other Healing Arts"
+    chapter), recodification cases, and subtitled-hierarchy states; see
+    map_state_chapters.py for caveats.
+    """
+    out: dict[str, dict] = {}
+    if not CHAPTER_MAPS_DIR.exists():
+        return out
+    for path in CHAPTER_MAPS_DIR.glob("*.json"):
+        st = path.stem
+        m = json.loads(path.read_text())
+        profs = m.get("professions") or {}
+        if profs:
+            out[st] = profs
+    return out
+
+
 def build_index_for(
     profession: str,
     defn: dict,
     hierarchies: dict[str, dict],
     state_structure: dict,
     section_maps: dict[str, dict],
+    chapter_maps: dict[str, dict],
 ) -> dict:
     by_state: dict = {}
     matched_states = 0
     overrides_used = 0
     section_maps_used = 0
+    chapter_maps_used = 0
     for st in ALL_STATES:
         record = hierarchies.get(st)
         m: list[dict] = []
@@ -165,6 +190,17 @@ def build_index_for(
                         "_source": "section_map_v2",
                     }))
                     section_maps_used += 1
+        elif not m and st in chapter_maps and profession in chapter_maps[st]:
+            # Last resort safety net — chapter map (labels-only LLM mapping).
+            ch = chapter_maps[st][profession]
+            url = ch.get("url")
+            if url:
+                m.append(_node_from_override({
+                    "url": url,
+                    "label": ch.get("label", ""),
+                    "_source": "chapter_map",
+                }))
+                chapter_maps_used += 1
 
         if not record and not m:
             by_state[st] = {"matched": [], "note": "no_hierarchy"}
@@ -182,6 +218,7 @@ def build_index_for(
             "states_total": len(ALL_STATES),
             "overrides_used": overrides_used,
             "section_maps_used": section_maps_used,
+            "chapter_maps_used": chapter_maps_used,
         },
         "by_state": by_state,
     }
@@ -214,9 +251,13 @@ def main() -> None:
     if section_maps:
         log.info("loaded v2 section maps for %d section_fallback states: %s", len(section_maps), sorted(section_maps))
 
+    chapter_maps = load_chapter_maps()
+    if chapter_maps:
+        log.info("loaded chapter maps for %d states: %s", len(chapter_maps), sorted(chapter_maps))
+
     coverage_rows = []
     for prof, defn in professions.items():
-        index = build_index_for(prof, defn, hierarchies, state_structure, section_maps)
+        index = build_index_for(prof, defn, hierarchies, state_structure, section_maps, chapter_maps)
         out_path = PROFESSION_INDEX_DIR / f"{prof}.json"
         out_path.write_text(json.dumps(index, indent=2))
         log.info("[%s] %d/%d states matched", prof, index["coverage"]["states_matched"], index["coverage"]["states_total"])
