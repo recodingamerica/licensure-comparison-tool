@@ -6,42 +6,70 @@ were not obvious before we started. Updated as we go.
 ## Source coverage on Justia
 
 Justia is free and structured but not uniformly complete. State-level coverage
-gaps fall into a few buckets:
+gaps fall into a few buckets, listed in order of how solvable they are
+without per-(state,profession) hand-curation:
 
-- **Profession buried under parent chapter.** Most common case. AL/AK/OH/VA
-  regulate podiatry under "Medicine" or "Healing Arts" rather than as a
-  standalone chapter. The label matcher misses these — the LLM-backed
-  `suggest_overrides.py` finds them by reading chapter labels and proposing
-  candidates for human review.
-- **Section-range within a bigger chapter.** AZ, OK, KY, LA bury podiatry
-  inside a much larger title or chapter (e.g. AZ Title 32 has 1500+ sections;
-  podiatry is §§32-801..32-859). Solved by `section_slug_pattern` overrides.
-- **Recodified or repealed.** WV §30-11 was repealed in 1980; the current
-  law is in Medicine §30-3. CO renumbered podiatry from Article 32 to
-  Article 290 in 2019. The original target URL on Justia returns the
-  obsolete chapter, not the current one.
-- **Justia layout differences.** NV's `title-54` parent doesn't list
-  chapters at all, but `/codes/nevada/chapter-635/` works directly. AZ has
-  no chapter-level URL — only sections.
+- **Year-versioned root.** KY/OR/NV's `/codes/<state>/` page only lists
+  year-stamped indexes (`/codes/kentucky/2024/`, etc.) — no chapters at the
+  bare root. `build_hierarchy.crawl_chapters` now auto-detects this shape
+  and re-fetches at the latest year. Once the year-versioned URL is
+  reachable, label-match sees the real chapter list (KY has 750 chapters,
+  NV 824) and finds profession-named chapters automatically.
+- **Subtitled / volume layer.** AR/CO/CA/TX/OR insert a subtitle or volume
+  between the title and the chapters. The hierarchy crawl stops at that
+  layer and shows generic labels ("Subtitle 3 — Medical Professions"). When
+  `state_structure.yaml` marks `layout: subtitled`, `build_hierarchy` drills
+  one level deeper and flattens the result so chapters with descriptive
+  labels ("Chapter 96 - PODIATRIC MEDICINE", "Chapter 90 - OPTOMETRISTS")
+  show up for label-match.
+- **Section-range within a bigger title.** AZ, OK, WI, LA show flat
+  section lists (no chapter level on Justia for those states); each
+  profession lives in a contiguous section range. Solved by
+  `map_state_sections_v2.py`: fetch a body-excerpt cache once per state
+  (~30 min wall time), then a single Sonnet call per state tags every
+  section with the profession it covers. `match_profession` consumes
+  `section_maps/<STATE>_v2.json` directly, so a new profession is auto-
+  covered in any state with a v2 cache — no per-profession hand-curation.
+- **Profession buried under parent chapter.** AL/AK/OH/VA regulate
+  podiatry under "Medicine" or "Healing Arts" rather than as a standalone
+  chapter. Label-match misses these. The labels-only chapter mapper
+  (`map_state_chapters.py`) was tried as an automation hook and refused to
+  assign these chapters to just one profession (correct behavior — the
+  chapter covers many), so it adds nothing here. Hand-curated
+  `state_structure.yaml` URL overrides remain the answer until we add
+  body-excerpt context + multi-profession-per-chapter handling.
+- **Recodified or repealed.** WV §30-11 was repealed in 1980; current law
+  is in Medicine §30-3. CO renumbered podiatry from Article 32 to Article
+  290 in 2019. Labels-only chapter mapping picks the historically-named
+  (now repealed) chapter; this case also needs body excerpts. Hand-curated
+  for now.
 - **Genuinely missing or paywalled.** PA's Justia has only 5 nav-style
-  chapters under Title 63 and no podiatry-specific URL. Probably needs a
-  different source (the official PA Code or Westlaw).
+  chapters under Title 63 and no podiatry-specific URL. Needs a different
+  source (the official PA Code or Westlaw). Documented as a coverage gap.
+- **External sources.** MI / MN are on `mi_legis` / `revisor_mn` rather
+  than Justia. Their hierarchy crawls and pull strategies are in
+  `_fetch.py`; profession matching for them is hand-curated inside
+  `state_structure.yaml`.
+
+Net: with year-versioned + subtitled drill + v2 section maps, common
+professions reach 46-47/50 states with no per-profession hand-curation.
 
 ## Hierarchy crawl quirks
 
-- Six states return `section_fallback` mode: AZ, OK, MI, WI, LA — and AZ/OK
-  show 1500+ "chapters" which are actually individual sections at the title
-  level. The hierarchy crawler can't distinguish a section-fallback from a
-  real chapter list, so `match_profession.py` needs the `section_slug_pattern`
-  mechanism for these.
-- AR/CO/CA show "subtitles" or "divisions" at the level the crawl stopped at
-  (one level shallow). A depth-2 crawl would expose the right chapter but
-  costs ~50 minutes extra; we're handling them via direct chapter URLs in
-  manual overrides instead.
-- NV / PA / MN have hierarchy quality issues that need state-specific URL
-  fixes in `targets.csv` (the configured parent URL is wrong for these).
-- KY/WV had a working hierarchy but the matched chapter was thin or repealed
-  — required overriding to a different chapter.
+- `build_hierarchy.crawl_chapters` runs three escalating extraction
+  strategies in order, all driven by `state_structure.yaml`:
+  1. If the root URL returns chapters → done.
+  2. Else if the page only has year-stamped index links
+     (`/codes/<state>/<YYYY>/`), pick the latest year and re-fetch.
+  3. If `layout: subtitled`, drill each top-level entry's URL into its
+     chapters and flatten the result.
+- After those, the only remaining chapter-list misses are external sources
+  (MI, MN), broken Justia (PA), and one-off layout quirks worth a yaml
+  override.
+- `section_fallback` extraction is detected automatically when chapter
+  extraction returns nothing but section extraction does — typical for
+  AZ, OK, WI, LA. `match_profession` resolves these via either a
+  hand-curated `section_slug_pattern` or, preferably, a v2 section map.
 
 ## Pattern-matching the chapter label
 

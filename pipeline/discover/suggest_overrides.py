@@ -3,8 +3,8 @@ which of the state's chapters most likely covers that profession.
 
 Output is a suggestions JSON for human review, NOT a binding addition to the
 profession index. Reviewer copies accepted suggestions into
-config/manual_overrides.yaml; match_profession.py then merges those into its
-per-profession index.
+config/state_structure.yaml under the state's `professions:` key;
+match_profession.py reads them as overrides on the next run.
 
 Hallucination guardrails:
   - chapter_label is constrained to a Literal of the actual labels in the
@@ -12,9 +12,10 @@ Hallucination guardrails:
   - confidence is an enum; "none" is the bail-out path.
   - The model is told explicitly that "no good match" is a valid answer.
 
-States with extraction_level=section_fallback (AZ, OK, MI, WI, LA) are skipped:
-their "chapter list" is 1500+ section labels, not chapter labels — different
-problem, different fix.
+States with extraction_level=section_fallback (AZ, OK, WI, LA, KY) are skipped:
+their "chapter list" is 1500+ section labels, not chapter labels — those are
+handled instead by `map_state_sections_v2.py` (chapter mapper for flat
+section lists).
 
 Inputs:  config/professions.yaml, results/hierarchy/<STATE>.json,
          results/profession_index/<profession>.json
