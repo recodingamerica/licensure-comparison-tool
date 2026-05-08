@@ -39,6 +39,12 @@
     .ev-cite { font-family: var(--font-mono, ui-monospace, monospace); font-size: .8em; color: #666; }
     .badge-warn { background: #d97706; color: #fff; }
     .ev-source-link { font-size: .8em; margin-top: .25rem; }
+    .ev-actions { font-size: .75em; margin-top: .25rem; }
+    .ev-actions a { color: var(--color-accent); text-decoration: none; margin-right: .85em; cursor: pointer; }
+    .ev-actions a:hover { text-decoration: underline; }
+    .ev-context { display: none; background: #fafbfc; border: 1px solid #e1e4e8; border-radius: 4px; padding: .65rem .85rem; margin-top: .5rem; font-size: .85em; white-space: pre-wrap; max-height: 280px; overflow-y: auto; }
+    .ev-context.show { display: block; }
+    .ev-context mark { background: #fff3a8; padding: 0 .1em; }
     .reg-chip { display: inline-block; padding: .15em .55em; border-radius: 999px; font-size: .8em; line-height: 1.3; font-weight: 500; }
     .reg-license             { background: #c6d8f0; color: #16395d; }
     .reg-mandatory_certification { background: #d6e9c6; color: #1f5b1f; }
@@ -119,7 +125,8 @@
     return `<span class="reg-chip reg-${slug}">${humanize(slug)}</span>`;
   }
 
-  function evidenceRow(label, ev) {
+  // sectionsByCite is built once per row; lookup citation → {url, text}
+  function evidenceRow(label, ev, sectionsByCite) {
     if (ev == null) return '';
     const value = ev.value;
     let displayValue;
@@ -134,13 +141,44 @@
     }
     const flag = ev.unverified ? '<span class="badge badge-warn ms-2" title="Quote did not match source via regex">⚠ unverified</span>' : '';
     const quoteCls = ev.unverified ? 'ev-quote unverified' : 'ev-quote';
+    const cite = ev.citation || '';
+    const source = (sectionsByCite || {})[cite] || (sectionsByCite || {})[cite.replace(/^\[|\]$/g, '')];
+    let actions = '';
+    if (source && source.url) {
+      actions += `<a href="${escapeHtml(source.url)}" target="_blank" rel="noopener">source ↗</a>`;
+    }
+    if (source && source.text) {
+      const ctxId = 'ctx_' + Math.random().toString(36).slice(2, 9);
+      actions += `<a class="toggle-context" data-target="${ctxId}">in context</a>`;
+      var contextHtml = `<div class="ev-context" id="${ctxId}">${highlightInText(source.text, ev.quote || '')}</div>`;
+    } else {
+      var contextHtml = '';
+    }
     return `<div class="field-row">
       <code>${escapeHtml(label)}</code>
       <div>
         <div class="ev-value">${displayValue}${flag}</div>
-        <div class="${quoteCls}">"${escapeHtml(ev.quote || '')}" <span class="ev-cite">[${escapeHtml(ev.citation || '')}]</span></div>
+        <div class="${quoteCls}">"${escapeHtml(ev.quote || '')}" <span class="ev-cite">[${escapeHtml(cite)}]</span></div>
+        ${actions ? `<div class="ev-actions">${actions}</div>` : ''}
+        ${contextHtml}
       </div>
     </div>`;
+  }
+
+  // Wrap matched substring in <mark>, tolerating whitespace and minor punctuation drift.
+  function highlightInText(text, quote) {
+    if (!quote) return escapeHtml(text);
+    // Build a regex that allows whitespace flexibility — collapse runs of whitespace
+    // in the quote to \s+ so source line breaks don't break matching.
+    const trimmed = quote.trim();
+    if (!trimmed) return escapeHtml(text);
+    const escaped = trimmed.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/\s+/g, '\\s+');
+    let pattern;
+    try { pattern = new RegExp(escaped, 'i'); } catch (e) { return escapeHtml(text); }
+    const m = text.match(pattern);
+    if (!m) return escapeHtml(text);
+    const i = text.indexOf(m[0]);
+    return escapeHtml(text.slice(0, i)) + '<mark>' + escapeHtml(m[0]) + '</mark>' + escapeHtml(text.slice(i + m[0].length));
   }
 
   function renderModal(row, fieldDefs) {
@@ -156,54 +194,64 @@
     const scope = full.scope || {};
     const spec = full.profession_specific || {};
 
+    // Build citation → {url, text} map so each evidence quote can show source + context.
+    // The LLM's citation field sometimes wraps the cite in [brackets] (input format echoed back);
+    // index both bracketed and bare so lookup works either way.
+    const sec = {};
+    (row.sections || []).forEach(s => {
+      const c = s.citation || '';
+      sec[c] = s;
+      sec[`[${c}]`] = s;
+    });
+
     const sourceLinks = (row.source_chapter_urls || [])
       .map(u => `<a href="${escapeHtml(u)}" target="_blank" rel="noopener">${escapeHtml(u)}</a>`)
       .join('<br>');
 
     let html = `<div class="modal-section"><h6>${escapeHtml(row.state)} — base licensure</h6>`;
     if (sourceLinks) {
-      html += `<div class="ev-source-link"><strong>Source:</strong><br>${sourceLinks}</div>`;
+      html += `<div class="ev-source-link"><strong>Source chapter:</strong><br>${sourceLinks}</div>`;
     }
-    html += evidenceRow('regulatory_model', lic.regulatory_model);
-    html += evidenceRow('title_protection', lic.title_protection);
-    html += evidenceRow('scope_protection', lic.scope_protection);
-    html += evidenceRow('license_required', lic.license_required);
-    html += evidenceRow('issuing_authority', lic.issuing_authority);
-    html += evidenceRow('age_minimum', lic.age_minimum);
-    html += evidenceRow('moral_character_required', lic.moral_character_required);
+    html += evidenceRow('regulatory_model', lic.regulatory_model, sec);
+    html += evidenceRow('title_protection', lic.title_protection, sec);
+    html += evidenceRow('scope_protection', lic.scope_protection, sec);
+    html += evidenceRow('license_required', lic.license_required, sec);
+    html += evidenceRow('issuing_authority', lic.issuing_authority, sec);
+    html += evidenceRow('age_minimum', lic.age_minimum, sec);
+    html += evidenceRow('moral_character_required', lic.moral_character_required, sec);
     if (lic.education) {
-      html += evidenceRow('education.degree_required', lic.education.degree_required);
-      html += evidenceRow('education.accrediting_body', lic.education.accrediting_body);
+      html += evidenceRow('education.degree_required', lic.education.degree_required, sec);
+      html += evidenceRow('education.accrediting_body', lic.education.accrediting_body, sec);
     }
     if (lic.post_degree_experience) {
-      html += evidenceRow('post_degree_experience.required', lic.post_degree_experience.required);
-      html += evidenceRow('post_degree_experience.duration', lic.post_degree_experience.duration);
-      html += evidenceRow('post_degree_experience.kind', lic.post_degree_experience.kind);
+      html += evidenceRow('post_degree_experience.required', lic.post_degree_experience.required, sec);
+      html += evidenceRow('post_degree_experience.duration', lic.post_degree_experience.duration, sec);
+      html += evidenceRow('post_degree_experience.kind', lic.post_degree_experience.kind, sec);
     }
     if (lic.renewal) {
-      html += evidenceRow('renewal.interval_years', lic.renewal.interval_years);
+      html += evidenceRow('renewal.interval_years', lic.renewal.interval_years, sec);
     }
     if (lic.continuing_education) {
-      html += evidenceRow('CE.required', lic.continuing_education.required);
-      html += evidenceRow('CE.hours_per_period', lic.continuing_education.hours_per_period);
-      html += evidenceRow('CE.period_years', lic.continuing_education.period_years);
-      html += evidenceRow('CE.topical_requirements', lic.continuing_education.topical_requirements);
+      html += evidenceRow('CE.required', lic.continuing_education.required, sec);
+      html += evidenceRow('CE.hours_per_period', lic.continuing_education.hours_per_period, sec);
+      html += evidenceRow('CE.period_years', lic.continuing_education.period_years, sec);
+      html += evidenceRow('CE.topical_requirements', lic.continuing_education.topical_requirements, sec);
     }
     if (lic.reciprocity) {
-      html += evidenceRow('reciprocity.available', lic.reciprocity.available);
-      html += evidenceRow('reciprocity.requirements', lic.reciprocity.requirements);
+      html += evidenceRow('reciprocity.available', lic.reciprocity.available, sec);
+      html += evidenceRow('reciprocity.requirements', lic.reciprocity.requirements, sec);
     }
     if (lic.exams && lic.exams.length) {
       html += `<div class="field-row"><code>exams</code><div>`;
       lic.exams.forEach(e => {
-        html += `<div><strong>${escapeHtml(e.name || '')}</strong>${e.notes ? ' — ' + escapeHtml(e.notes) : ''}<div class="ev-quote">"${escapeHtml(e.quote || '')}" <span class="ev-cite">[${escapeHtml(e.citation || '')}]</span></div></div>`;
+        html += evidenceRow(e.name || 'exam', { value: e.name || '', quote: e.quote || '', citation: e.citation || '' }, sec);
       });
       html += '</div></div>';
     }
     if (lic.disciplinary_grounds && lic.disciplinary_grounds.length) {
       html += `<div class="field-row"><code>disciplinary_grounds</code><div>`;
       lic.disciplinary_grounds.forEach(g => {
-        html += `<div style="margin-bottom:.4rem"><strong>${escapeHtml(g.short_label || '')}</strong> — ${escapeHtml(g.description || '')}<div class="ev-quote">"${escapeHtml(g.quote || '')}" <span class="ev-cite">[${escapeHtml(g.citation || '')}]</span></div></div>`;
+        html += evidenceRow(g.short_label || 'ground', { value: g.description || '', quote: g.quote || '', citation: g.citation || '' }, sec);
       });
       html += '</div></div>';
     }
@@ -211,9 +259,9 @@
 
     if (scope && (scope.definition_quote || scope.methods_authorized || scope.drug_authority)) {
       html += `<div class="modal-section"><h6>scope of practice</h6>`;
-      html += evidenceRow('definition_quote', scope.definition_quote);
-      html += evidenceRow('methods_authorized', scope.methods_authorized);
-      html += evidenceRow('drug_authority', scope.drug_authority);
+      html += evidenceRow('definition_quote', scope.definition_quote, sec);
+      html += evidenceRow('methods_authorized', scope.methods_authorized, sec);
+      html += evidenceRow('drug_authority', scope.drug_authority, sec);
       html += '</div>';
     }
 
@@ -225,11 +273,18 @@
     });
     Object.keys(byCat).sort().forEach(cat => {
       html += `<div class="modal-section"><h6>${escapeHtml(humanize(cat))}</h6>`;
-      byCat[cat].forEach(({def, ev}) => { html += evidenceRow(def.name, ev); });
+      byCat[cat].forEach(({def, ev}) => { html += evidenceRow(def.name, ev, sec); });
       html += '</div>';
     });
 
-    createModal({ size: 'lg', content: html });
+    const m = createModal({ size: 'lg', content: html });
+    // Wire the in-context toggles. Modal nodes get cleaned up on close, so this is one-shot.
+    $(m).on('click', '.toggle-context', function (e) {
+      e.preventDefault();
+      const id = $(this).data('target');
+      const el = m.querySelector('#' + id);
+      if (el) el.classList.toggle('show');
+    });
   }
 
   // ---------- init ----------

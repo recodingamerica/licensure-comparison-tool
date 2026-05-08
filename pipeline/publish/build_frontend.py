@@ -128,6 +128,7 @@ def build(profession: str) -> dict:
     have_struct = {p.stem for p in structured_dir.glob("*.json") if not p.stem.startswith("_")}
     trimmed_with_text: dict[str, int] = {}
     chapter_urls_by_state: dict[str, list[str]] = {}
+    sections_by_state: dict[str, list[dict]] = {}
     if trimmed_dir.exists():
         for p in trimmed_dir.glob("*.json"):
             if p.stem.startswith("_"):
@@ -135,6 +136,13 @@ def build(profession: str) -> dict:
             d = json.loads(p.read_text())
             trimmed_with_text[p.stem] = d.get("total_chars", 0)
             chapter_urls_by_state[p.stem] = d.get("chapter_urls", []) or []
+            # Section bodies as the LLM saw them — used for "view in context" panel
+            sections_by_state[p.stem] = [
+                {"url": s.get("url"), "citation": s.get("citation"),
+                 "label": s.get("label"), "text": s.get("text")}
+                for s in (d.get("sections") or [])
+                if s.get("text")
+            ]
 
     rows: list[dict] = []
     for st in ALL_STATES:
@@ -142,6 +150,7 @@ def build(profession: str) -> dict:
             rec = json.loads((structured_dir / f"{st}.json").read_text())
             row = hoist_row(rec)
             row["source_chapter_urls"] = chapter_urls_by_state.get(st, [])
+            row["sections"] = sections_by_state.get(st, [])
             rows.append(row)
         else:
             chars = trimmed_with_text.get(st, 0)
