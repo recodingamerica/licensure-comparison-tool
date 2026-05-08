@@ -8,9 +8,17 @@ alongside this base; those fields use the same Evidence[T] shape.
 Concrete Evidence subclasses (StrEvidence, BoolEvidence, ...) are used
 instead of a single generic so the JSON schema sent to the LLM stays clean
 — LiteLLM/Anthropic don't always handle Pydantic generics gracefully.
+
+The regulatory_model / title_protection / scope_protection fields and the
+disciplinary_grounds list are aligned with Utah OPLR's "Universal Occupational
+Regulation Framework" (UORF) — a six-rung ladder of regulatory strictness.
+Knowing where each (state, profession) sits on that ladder is the descriptive
+input the prescriptive UORF analysis consumes.
 """
 
 from __future__ import annotations
+
+from enum import Enum
 
 from pydantic import BaseModel, Field
 
@@ -37,6 +45,41 @@ class IntEvidence(BaseModel):
 
 class StrListEvidence(BaseModel):
     value: list[str]
+    quote: str
+    citation: str
+
+
+# ---------- UORF regulatory ladder ----------
+
+class RegulatoryModel(str, Enum):
+    """Six-rung ladder, low → high strictness."""
+    MARKET_FORCES = "market_forces"
+    VOLUNTARY_CERTIFICATION = "voluntary_certification"
+    REGISTRATION = "registration"
+    EXEMPTION = "exemption"
+    MANDATORY_CERTIFICATION = "mandatory_certification"
+    LICENSE = "license"
+
+
+class RegulatoryModelEvidence(BaseModel):
+    value: RegulatoryModel = Field(
+        description=(
+            "Which UORF model the state currently applies to this profession. "
+            "license=must be licensed to practice; mandatory_certification=must hold state cert "
+            "to claim title or practice scope; registration=must register but no qualification "
+            "test; exemption=narrow carve-out from a broader practice act; voluntary_certification="
+            "state cert is optional and only protects a title; market_forces=no state regulation."
+        ),
+    )
+    quote: str
+    citation: str
+
+
+class DisciplinaryGround(BaseModel):
+    """One ground on which the board may discipline a licensee. Captured as a
+    list of these per state — typically 5-15 grounds in any one statute."""
+    short_label: str = Field(description="snake_case key, e.g. 'fraud_in_obtaining_license'")
+    description: str = Field(description="One-line plain-English description")
     quote: str
     citation: str
 
@@ -114,6 +157,31 @@ class LicensureRequirements(BaseModel):
     renewal: Renewal | None = None
     continuing_education: ContinuingEducation | None = None
     reciprocity: Reciprocity | None = None
+
+    # UORF-mapped fields
+    regulatory_model: RegulatoryModelEvidence | None = Field(
+        default=None,
+        description="Which UORF model the state applies to this profession (license / mandatory_cert / registration / etc).",
+    )
+    title_protection: BoolEvidence | None = Field(
+        default=None,
+        description=(
+            "Does the state restrict use of the profession's title to licensees? "
+            "True if unlicensed people may NOT call themselves the protected title (e.g. 'podiatrist', 'CPA')."
+        ),
+    )
+    scope_protection: BoolEvidence | None = Field(
+        default=None,
+        description=(
+            "Does the state restrict practice of the profession's scope to licensees? "
+            "True if performing the scope without a license is prohibited (independent of title use)."
+        ),
+    )
+    disciplinary_grounds: list[DisciplinaryGround] = Field(
+        default_factory=list,
+        description="Grounds on which the board may discipline a licensee. Typical statutes list 5-15.",
+    )
+
     citations: list[Citation] = Field(default_factory=list)
 
 

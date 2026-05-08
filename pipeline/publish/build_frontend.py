@@ -63,16 +63,16 @@ def _count_evidence(record: dict) -> tuple[int, int]:
 
 
 def hoist_row(record: dict) -> dict:
-    """Universal columns + one profession-specific 'anatomy' column for the
-    podiatry demo (lands the most distinctive cross-state variation in the
-    table without forcing every reader into the modal)."""
+    """Universal columns. Profession-specific dimensions live in the modal."""
     lic = record.get("licensure") or {}
-    spec = record.get("profession_specific") or {}
     verified, unverified = _count_evidence(record)
     return {
         "state": record["state"],
         "coverage_gap": False,
         "license_required": _ev_value(lic.get("license_required")),
+        "regulatory_model": _ev_value(lic.get("regulatory_model")),
+        "title_protection": _ev_value(lic.get("title_protection")),
+        "scope_protection": _ev_value(lic.get("scope_protection")),
         "issuing_authority": _ev_value(lic.get("issuing_authority")),
         "education_degree": _ev_value(_g(lic, "education", "degree_required")),
         "post_degree_duration": _ev_value(_g(lic, "post_degree_experience", "duration")),
@@ -81,9 +81,7 @@ def hoist_row(record: dict) -> dict:
         "ce_hours": _ev_value(_g(lic, "continuing_education", "hours_per_period")),
         "ce_period_years": _ev_value(_g(lic, "continuing_education", "period_years")),
         "reciprocity_available": _ev_value(_g(lic, "reciprocity", "available")),
-        # Profession-specific column kept visible because it's THE distinguishing
-        # podiatry dimension across states. Generic frontend wouldn't have this.
-        "anatomical_scope_upper_boundary": _ev_value(spec.get("anatomical_scope_upper_boundary")),
+        "disciplinary_grounds_count": len(lic.get("disciplinary_grounds") or []),
         "evidence_verified": verified,
         "evidence_unverified": unverified,
         "_full": record,
@@ -104,6 +102,9 @@ def stub_row(state: str, profession: str, reason: str) -> dict:
         "coverage_gap_reason": reason,
         "coverage_gap_label": COVERAGE_REASON_LABELS.get(reason, reason),
         "license_required": None,
+        "regulatory_model": None,
+        "title_protection": None,
+        "scope_protection": None,
         "issuing_authority": None,
         "education_degree": None,
         "post_degree_duration": None,
@@ -112,7 +113,7 @@ def stub_row(state: str, profession: str, reason: str) -> dict:
         "ce_hours": None,
         "ce_period_years": None,
         "reciprocity_available": None,
-        "anatomical_scope_upper_boundary": None,
+        "disciplinary_grounds_count": 0,
         "evidence_verified": 0,
         "evidence_unverified": 0,
         "_full": {"state": state, "profession": profession},

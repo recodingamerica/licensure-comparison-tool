@@ -39,6 +39,13 @@
     .ev-cite { font-family: var(--font-mono, ui-monospace, monospace); font-size: .8em; color: #666; }
     .badge-warn { background: #d97706; color: #fff; }
     .ev-source-link { font-size: .8em; margin-top: .25rem; }
+    .reg-chip { display: inline-block; padding: .15em .55em; border-radius: 999px; font-size: .8em; line-height: 1.3; font-weight: 500; }
+    .reg-license             { background: #c6d8f0; color: #16395d; }
+    .reg-mandatory_certification { background: #d6e9c6; color: #1f5b1f; }
+    .reg-registration        { background: #fde9c2; color: #7a4a00; }
+    .reg-exemption           { background: #ececec; color: #555; }
+    .reg-voluntary_certification { background: #f6f8fa; color: #444; border: 1px solid #ccc; }
+    .reg-market_forces       { background: #fde2e2; color: #6b1b1b; }
   </style>
 </head>
 <body>
@@ -56,7 +63,7 @@
     <thead>
       <tr>
         <th>State</th>
-        <th>License</th>
+        <th>Regulatory model</th>
         <th>Issuing authority</th>
         <th>Education</th>
         <th>Post-degree experience</th>
@@ -107,6 +114,10 @@
     if (h == null && p == null) return '<span class="text-muted">—</span>';
     return `${h ?? '—'} / ${p ?? '—'}`;
   }
+  function regChip(slug) {
+    if (!slug) return '<span class="text-muted">—</span>';
+    return `<span class="reg-chip reg-${slug}">${humanize(slug)}</span>`;
+  }
 
   function evidenceRow(label, ev) {
     if (ev == null) return '';
@@ -153,6 +164,9 @@
     if (sourceLinks) {
       html += `<div class="ev-source-link"><strong>Source:</strong><br>${sourceLinks}</div>`;
     }
+    html += evidenceRow('regulatory_model', lic.regulatory_model);
+    html += evidenceRow('title_protection', lic.title_protection);
+    html += evidenceRow('scope_protection', lic.scope_protection);
     html += evidenceRow('license_required', lic.license_required);
     html += evidenceRow('issuing_authority', lic.issuing_authority);
     html += evidenceRow('age_minimum', lic.age_minimum);
@@ -183,6 +197,13 @@
       html += `<div class="field-row"><code>exams</code><div>`;
       lic.exams.forEach(e => {
         html += `<div><strong>${escapeHtml(e.name || '')}</strong>${e.notes ? ' — ' + escapeHtml(e.notes) : ''}<div class="ev-quote">"${escapeHtml(e.quote || '')}" <span class="ev-cite">[${escapeHtml(e.citation || '')}]</span></div></div>`;
+      });
+      html += '</div></div>';
+    }
+    if (lic.disciplinary_grounds && lic.disciplinary_grounds.length) {
+      html += `<div class="field-row"><code>disciplinary_grounds</code><div>`;
+      lic.disciplinary_grounds.forEach(g => {
+        html += `<div style="margin-bottom:.4rem"><strong>${escapeHtml(g.short_label || '')}</strong> — ${escapeHtml(g.description || '')}<div class="ev-quote">"${escapeHtml(g.quote || '')}" <span class="ev-cite">[${escapeHtml(g.citation || '')}]</span></div></div>`;
       });
       html += '</div></div>';
     }
@@ -244,7 +265,7 @@
         r.state,
         r.coverage_gap
           ? `<span class="gap-reason" title="${escapeHtml(r.coverage_gap_label || r.coverage_gap_reason)}">${escapeHtml(r.coverage_gap_label || '—')}</span>`
-          : pill(r.license_required),
+          : regChip(r.regulatory_model),
         gapCell(r, txt(r.issuing_authority)),
         gapCell(r, txt(r.education_degree)),
         gapCell(r, txt(r.post_degree_duration)),
@@ -265,13 +286,13 @@
           order: [[0, 'asc']],
         },
         fieldTypes: {
-          license:     'multiselect',
+          regmodel:    'multiselect',
           issuing:     'multiselect',
           renewal:     'multiselect',
           reciprocity: 'multiselect',
         },
         columns: [
-          { field: 'license',     label: 'License',           index: 1 },
+          { field: 'regmodel',    label: 'Regulatory model',  index: 1 },
           { field: 'issuing',     label: 'Issuing authority', index: 2 },
           { field: 'renewal',     label: 'Renewal yrs',       index: 6 },
           { field: 'reciprocity', label: 'Reciprocity',       index: 8 },
