@@ -248,13 +248,31 @@ def _normalize_for_match(text: str) -> str:
     return t
 
 
+_ELLIPSIS_SPLIT = __import__("re").compile(r"\s*(?:\.\s*\.\s*\.|…)\s*")
+
+
 def quote_in_corpus(quote: str, normalized_corpus: str) -> bool:
+    """Return True if `quote` appears in `normalized_corpus`, allowing the
+    LLM to elide non-contiguous segments with ellipses ('...' or '…').
+    Each segment (split on ellipsis BEFORE normalization) must appear in
+    order; intermediate corpus content is skipped."""
     if not quote:
         return False
-    nq = _normalize_for_match(quote)
-    if len(nq) < 8:
-        return False  # too short to be meaningful evidence
-    return nq in normalized_corpus
+    parts = [p for p in (s.strip() for s in _ELLIPSIS_SPLIT.split(quote)) if p]
+    if not parts:
+        return False
+    cursor = 0
+    matched_any = False
+    for part in parts:
+        nq = _normalize_for_match(part)
+        if len(nq) < 8:
+            continue  # too-short segment isn't strong evidence either way
+        idx = normalized_corpus.find(nq, cursor)
+        if idx < 0:
+            return False
+        cursor = idx + len(nq)
+        matched_any = True
+    return matched_any
 
 
 def annotate_evidence(node: Any, normalized_corpus: str) -> tuple[int, int]:
