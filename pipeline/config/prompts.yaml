@@ -80,7 +80,18 @@ discover_schema:
       6. Do NOT propose a field that simply restates a base-model field
          (e.g., "education_degree" is already covered by education.degree_required).
 
-    Group fields into a category to help downstream organization.
+    Group fields into categories to help downstream organization. The
+    `category` field is plain-English (lowercase, no underscores, no jargon)
+    and a non-expert reader should immediately understand what a category
+    contains. Aim for 5-8 categories total across the discovered field set,
+    with similar fields grouped. Good examples:
+      - "what they can treat and where on the body"
+      - "extra credentials and tiered scope"
+      - "drugs and anesthesia"
+      - "supervision and delegation"
+      - "practice setting and facility rules"
+    Bad examples (don't use these): "advanced_tier", "scope_inclusion",
+    "facility", "anatomy_or_procedure".
 
 extract_state:
   system: |

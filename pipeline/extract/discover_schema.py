@@ -66,20 +66,19 @@ class FieldType(str, __import__("enum").Enum):
     ENUM = "enum"
 
 
-class FieldCategory(str, __import__("enum").Enum):
-    SCOPE_INCLUSION = "scope_inclusion"
-    SCOPE_EXCLUSION = "scope_exclusion"
-    ANATOMY_OR_PROCEDURE = "anatomy_or_procedure"
-    ADVANCED_TIER = "advanced_tier"
-    DRUG_OR_ANESTHESIA = "drug_or_anesthesia"
-    FACILITY = "facility"
-    SUPERVISION_DELEGATION = "supervision_delegation"
-    OTHER = "other"
-
-
 class DiscoveredField(BaseModel):
     name: str = Field(description="snake_case field name, profession-agnostic when possible")
-    category: FieldCategory
+    category: str = Field(
+        description=(
+            "Plain-English category label, lowercase, no underscores or jargon. "
+            "Pick something a non-expert could understand at a glance. Aim for "
+            "5-8 categories total across the field set, with similar fields grouped. "
+            "Examples of GOOD names: 'what they can treat and where on the body', "
+            "'extra credentials and tiered scope', 'drugs and anesthesia', "
+            "'supervision and delegation'. Examples of BAD names: 'advanced_tier', "
+            "'scope_inclusion', 'facility'."
+        ),
+    )
     type: FieldType
     enum_values: list[str] | None = Field(
         default=None,
