@@ -76,12 +76,9 @@ WI:
 
 NV:
   source: justia
-  layout: chapter_with_bad_root
-  notes: "title-54 root URL doesn't list chapters on Justia; profession chapters exist directly at /codes/nevada/chapter-NNN/"
-  professions:
-    podiatry:
-      url: "https://law.justia.com/codes/nevada/chapter-635/"
-      label: "Chapter 635 — Podiatry (NRS)"
+  layout: chapter
+  title_url: "https://law.justia.com/codes/nevada/"
+  notes: "Justia NV is year-versioned (/codes/nevada/2025/) and shows a single flat list of every NRS chapter — title-54 root returns nothing useful. build_hierarchy auto-redirects to latest year so chapter labels (e.g. 'Chapter 635 - Podiatric Physicians and Podiatry Hygienists') become reachable for label-match."
 
 WV:
   source: justia
