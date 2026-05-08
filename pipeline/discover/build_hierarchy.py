@@ -51,6 +51,8 @@ from _extract import extract_justia_chapters, extract_justia_sections, extract_o
 from paths import HIERARCHY_DIR, CONFIG_DIR, LOGS_DIR  # noqa: E402
 from config.states import ALL_STATES  # noqa: E402
 
+import yaml as _yaml  # noqa: E402
+
 
 LOG_PATH = LOGS_DIR / "build_hierarchy.log"
 LOGS_DIR.mkdir(parents=True, exist_ok=True)
@@ -127,6 +129,35 @@ def crawl_sections_under(chapter_url: str) -> list[dict]:
     return extract_justia_sections(html, chapter_url)
 
 
+def crawl_subtitles(top_level: list[dict]) -> list[dict]:
+    """For subtitled states (AR, CA, CO, TX): each top-level entry is a
+    subtitle / division. Fetch each, extract its chapters, return one flat
+    chapter list with `parent_slug` annotation so we keep provenance.
+    """
+    flat: list[dict] = []
+    for parent in top_level:
+        status, html, err = fetch_with("curl_cffi", parent["url"])
+        time.sleep(PER_HOST_DELAY)
+        if err or not html or (status and not 200 <= status < 300):
+            log.warning("  subtitle %s: %s", parent["slug"], err or f"http {status}")
+            continue
+        children = extract_justia_chapters(html, parent["url"])
+        for c in children:
+            c["parent_slug"] = parent["slug"]
+        log.info("  %s: +%d chapters", parent["slug"], len(children))
+        flat.extend(children)
+    return flat
+
+
+def _load_state_layout() -> dict[str, str]:
+    """Map state → layout from state_structure.yaml (e.g. 'subtitled')."""
+    p = CONFIG_DIR / "state_structure.yaml"
+    if not p.exists():
+        return {}
+    data = _yaml.safe_load(p.read_text()) or {}
+    return {st: (e or {}).get("layout", "") for st, e in data.items()}
+
+
 def build_state(state: str, targets: dict[str, dict], depth: int, force: bool) -> dict | None:
     out_path = HIERARCHY_DIR / f"{state}.json"
     if out_path.exists() and not force:
@@ -149,6 +180,12 @@ def build_state(state: str, targets: dict[str, dict], depth: int, force: bool) -
     log.info("[%s] %s (strategy=%s)", state, url, strategy)
     chapters, level, err = crawl_chapters(url, strategy)
     time.sleep(PER_HOST_DELAY)
+
+    layout = _load_state_layout().get(state, "")
+    if layout == "subtitled" and chapters and "justia.com" in url:
+        log.info("[%s] subtitled layout: drilling %d subtitles", state, len(chapters))
+        chapters = crawl_subtitles(chapters)
+        level = "chapter"
 
     fetched_chapters = 0
     if depth >= 2 and chapters and "justia.com" in url:
