@@ -66,11 +66,12 @@ LA:
 
 WI:
   source: justia
-  layout: section_fallback
-  title_url: "https://law.justia.com/codes/wisconsin/chapter-448/"
-  notes: "Chapter 448 (Medical Practices) returns flat sections; podiatry is §§448.60-448.69 (Subchapter VI). Other medical professions sit in different subchapters."
+  layout: chapter
+  title_url: "https://law.justia.com/codes/wisconsin/"
+  notes: "Justia WI is year-versioned (/codes/wisconsin/2024/); build_hierarchy auto-redirects. Chapter 449 = Optometry, Chapter 447 = Dentistry, etc. Chapter 448 (Medical Practices) holds podiatry as a section range §§448.60-448.69."
   professions:
     podiatry:
+      url: "https://law.justia.com/codes/wisconsin/chapter-448/"
       section_slug_pattern: '^section-448-6[0-9](-\d+)?$'
       label: "WI Chapter 448 §§448.60..448.69 — Podiatrists subchapter"
 
