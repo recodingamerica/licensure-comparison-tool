@@ -63,15 +63,43 @@ def _count_evidence(record: dict) -> tuple[int, int]:
     return verified, unverified
 
 
+def _derive_credential_and_mandatory(lic: dict) -> tuple[str | None, bool | None]:
+    """Decompose the legacy single-axis regulatory_model rung into the two
+    orthogonal axes the meeting Q1 asked for. If credential_type / is_mandatory
+    were extracted directly (newer runs), prefer those; otherwise derive from
+    regulatory_model.
+
+    Returns (credential_type_value, is_mandatory_value), each may be None.
+    """
+    direct_ct = _ev_value(lic.get("credential_type"))
+    direct_im = _ev_value(lic.get("is_mandatory"))
+    if direct_ct is not None or direct_im is not None:
+        return direct_ct, direct_im
+
+    rm_val = _ev_value(lic.get("regulatory_model"))
+    if rm_val is None:
+        return None, None
+    try:
+        from pipeline.extract.standard_model import RegulatoryModel, decompose_regulatory_model
+        rung = RegulatoryModel(rm_val) if not isinstance(rm_val, RegulatoryModel) else rm_val
+        ct, im = decompose_regulatory_model(rung)
+        return ct.value, im
+    except (ValueError, KeyError):
+        return None, None
+
+
 def hoist_row(record: dict) -> dict:
     """Universal columns. Profession-specific dimensions live in the modal."""
     lic = record.get("licensure") or {}
     verified, unverified = _count_evidence(record)
+    credential_type, is_mandatory = _derive_credential_and_mandatory(lic)
     return {
         "state": record["state"],
         "coverage_gap": False,
         "license_required": _ev_value(lic.get("license_required")),
         "regulatory_model": _ev_value(lic.get("regulatory_model")),
+        "credential_type": credential_type,
+        "is_mandatory": is_mandatory,
         "title_protection": _ev_value(lic.get("title_protection")),
         "scope_protection": _ev_value(lic.get("scope_protection")),
         "issuing_authority": _ev_value(lic.get("issuing_authority")),
@@ -104,6 +132,8 @@ def stub_row(state: str, profession: str, reason: str) -> dict:
         "coverage_gap_label": COVERAGE_REASON_LABELS.get(reason, reason),
         "license_required": None,
         "regulatory_model": None,
+        "credential_type": None,
+        "is_mandatory": None,
         "title_protection": None,
         "scope_protection": None,
         "issuing_authority": None,
@@ -209,11 +239,19 @@ def _walk_evidence(node: Any):
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--profession", required=True)
+    ap.add_argument("--deploy", action="store_true",
+                    help="After uploading to blob, redeploy the Vercel project so the live site picks up the new data.")
     args = ap.parse_args()
 
     profession = args.profession.lower()
     payload = build(profession)
     body = json.dumps(payload, indent=2)
+    # Mirror to public/data/ so downstream tooling (state_similarity, review CSV)
+    # sees the same data the live site does, without round-tripping Vercel Blob.
+    local_path = Path(__file__).resolve().parent / "web" / "public" / "data" / f"{profession}.json"
+    local_path.parent.mkdir(parents=True, exist_ok=True)
+    local_path.write_text(body)
+    print(f"wrote {local_path}")
     url = upload_json(f"data/{profession}.json", body)
     print(f"uploaded data/{profession}.json → {url}")
     summary = {
@@ -223,6 +261,15 @@ def main() -> None:
         "evidence": payload["evidence_summary"],
     }
     print(f"summary: {summary}")
+
+    if args.deploy:
+        import subprocess
+        web_dir = Path(__file__).resolve().parent / "web"
+        print(f"deploying via vercel --prod from {web_dir}")
+        r = subprocess.run(["npx", "vercel", "--prod", "--yes"], cwd=web_dir)
+        if r.returncode != 0:
+            sys.exit(f"vercel deploy failed (exit {r.returncode})")
+        print("deployed")
 
 
 if __name__ == "__main__":

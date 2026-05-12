@@ -38,7 +38,7 @@ export function EvidenceRow({ label, ev, sections }: Props) {
 
   return (
     <div className="grid grid-cols-[160px_1fr] md:grid-cols-[180px_1fr] gap-x-3 py-2 border-b border-border/60 last:border-0">
-      <code className="text-xs text-muted-foreground font-mono pt-1">{label}</code>
+      <code className="text-xs text-muted-foreground font-mono pt-1 break-all">{label}</code>
       <div className="space-y-1.5">
         <div className="font-medium text-sm flex items-center gap-2">
           {formatValue(ev.value)}

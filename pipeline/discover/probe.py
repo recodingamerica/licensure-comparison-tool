@@ -61,7 +61,7 @@ UA_BROWSER = (
     "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
 )
 TIMEOUT = 25
-PER_HOST_DELAY = 1.5  # be polite
+from pipeline._fetch_config import PER_HOST_DELAY  # noqa: E402
 
 logging.basicConfig(
     level=logging.INFO,

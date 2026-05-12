@@ -46,8 +46,16 @@ def load_professions() -> dict[str, dict]:
     return yaml.safe_load(path.read_text())
 
 
+# Universal exclusion: repealed chapters shouldn't be pulled into extraction
+# (NM has 3 CPA-named chapters, two marked "(Repealed.)" — extracting their
+# placeholder text wastes LLM and confuses output. Applies to every profession.)
+_UNIVERSAL_EXCLUDES = ("(repealed.)", "(repealed)", "[repealed]")
+
+
 def label_matches(label: str, patterns: list[str], excludes: list[str]) -> bool:
     L = label.lower()
+    if any(u in L for u in _UNIVERSAL_EXCLUDES):
+        return False
     if not any(p.lower() in L for p in patterns):
         return False
     if excludes and any(e.lower() in L for e in excludes):

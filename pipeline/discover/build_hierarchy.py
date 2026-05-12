@@ -59,7 +59,7 @@ LOG_PATH = LOGS_DIR / "build_hierarchy.log"
 LOGS_DIR.mkdir(parents=True, exist_ok=True)
 HIERARCHY_DIR.mkdir(parents=True, exist_ok=True)
 
-PER_HOST_DELAY = 1.5
+from pipeline._fetch_config import PER_HOST_DELAY  # noqa: E402
 
 logging.basicConfig(
     level=logging.INFO,

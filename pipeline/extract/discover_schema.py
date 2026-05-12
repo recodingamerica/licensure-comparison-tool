@@ -25,12 +25,8 @@ from typing import Literal
 from pydantic import BaseModel, Field, ValidationError
 
 # Load shared .env
-_ENV_PATH = Path("/Users/abigailhaddad/Documents/repos/.env")
-if _ENV_PATH.exists() and not os.environ.get("ANTHROPIC_API_KEY"):
-    for line in _ENV_PATH.read_text().splitlines():
-        if "=" in line and not line.startswith("#"):
-            k, v = line.split("=", 1)
-            os.environ.setdefault(k.strip(), v.strip().strip('"').strip("'"))
+from pipeline._env import load_env  # noqa: E402
+load_env()
 
 import litellm  # noqa: E402
 

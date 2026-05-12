@@ -42,12 +42,8 @@ import yaml
 from pydantic import BaseModel, Field, ValidationError, create_model
 
 # .env loader for ANTHROPIC_API_KEY (mirrors trim_state.py / extract_state.py)
-_ENV_PATH = Path("/Users/abigailhaddad/Documents/repos/.env")
-if _ENV_PATH.exists() and not os.environ.get("ANTHROPIC_API_KEY"):
-    for line in _ENV_PATH.read_text().splitlines():
-        if "=" in line and not line.startswith("#"):
-            k, v = line.split("=", 1)
-            os.environ.setdefault(k.strip(), v.strip().strip('"').strip("'"))
+from pipeline._env import load_env  # noqa: E402
+load_env()
 
 import litellm  # noqa: E402
 
@@ -141,37 +137,17 @@ def _extract_json(raw: str) -> str:
 
 
 def call_haiku(model: str, user_msg: str, schema_cls: type[BaseModel]) -> BaseModel | None:
+    from pipeline._llm import call_structured
     schema = schema_cls.model_json_schema()
     sys_with_schema = (
         SYSTEM_PROMPT + "\n\nReturn JSON matching exactly this schema:\n"
         + json.dumps(schema, indent=2)
         + "\n\nReturn ONLY a single JSON object."
     )
-    last_err: Exception | None = None
-    for attempt in range(MAX_RETRIES + 1):
-        try:
-            resp = litellm.completion(
-                model=model,
-                messages=[
-                    {"role": "system", "content": sys_with_schema},
-                    {"role": "user", "content": user_msg},
-                ],
-                temperature=0.0,
-                max_tokens=2000,
-            )
-            raw = resp.choices[0].message.content or ""
-            data = json.loads(_extract_json(raw))
-            return schema_cls.model_validate(data)
-        except (json.JSONDecodeError, ValidationError) as e:
-            last_err = e
-            log.warning("  parse attempt %d failed: %s", attempt + 1, str(e)[:150])
-        except Exception as e:
-            last_err = e
-            log.warning("  api attempt %d failed: %s", attempt + 1, str(e)[:150])
-        if attempt < MAX_RETRIES:
-            time.sleep(1.5 ** attempt)
-    log.error("  giving up: %s", str(last_err)[:150])
-    return None
+    return call_structured(
+        model=model, system=sys_with_schema, user=user_msg, schema_cls=schema_cls,
+        max_tokens=2000, max_retries=MAX_RETRIES, logger=log,
+    )
 
 
 def suggest_for_state(profession_def: dict, hierarchy: dict, model: str) -> dict:

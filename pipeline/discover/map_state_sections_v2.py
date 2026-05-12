@@ -27,12 +27,8 @@ from typing import Literal as TLiteral
 import yaml
 from pydantic import BaseModel, Field, ValidationError, create_model
 
-_ENV_PATH = Path("/Users/abigailhaddad/Documents/repos/.env")
-if _ENV_PATH.exists() and not os.environ.get("ANTHROPIC_API_KEY"):
-    for line in _ENV_PATH.read_text().splitlines():
-        if "=" in line and not line.startswith("#"):
-            k, v = line.split("=", 1)
-            os.environ.setdefault(k.strip(), v.strip().strip('"').strip("'"))
+from pipeline._env import load_env  # noqa: E402
+load_env()
 
 import litellm  # noqa: E402
 
@@ -155,31 +151,12 @@ def map_state_with_bodies(state: str, professions: dict, model: str) -> dict | N
         SYSTEM_PROMPT + "\n\nReturn JSON matching exactly this schema:\n"
         + json.dumps(schema, indent=2) + "\n\nReturn ONLY a single JSON object."
     )
-    last_err = None
-    for attempt in range(MAX_RETRIES + 1):
-        try:
-            resp = litellm.completion(
-                model=model,
-                messages=[
-                    {"role": "system", "content": sys_with_schema},
-                    {"role": "user", "content": user},
-                ],
-                temperature=0.0,
-                max_tokens=16000,
-            )
-            data = json.loads(_extract_json(resp.choices[0].message.content or ""))
-            result = Result.model_validate(data)
-            break
-        except (json.JSONDecodeError, ValidationError) as e:
-            last_err = e
-            log.warning("  parse attempt %d failed: %s", attempt + 1, str(e)[:200])
-        except Exception as e:
-            last_err = e
-            log.warning("  api attempt %d failed: %s", attempt + 1, str(e)[:200])
-        if attempt < MAX_RETRIES:
-            time.sleep(1.5 ** attempt)
-    else:
-        log.error("  giving up: %s", str(last_err)[:200])
+    from pipeline._llm import call_structured
+    result = call_structured(
+        model=model, system=sys_with_schema, user=user, schema_cls=Result,
+        max_tokens=16000, max_retries=MAX_RETRIES, log_prefix=f"[{state}]", logger=log,
+    )
+    if result is None:
         return None
 
     out = {"state": state, "title_url": h.get("target_url"), "v": "v2-with-bodies", "professions": {}}

@@ -36,12 +36,8 @@ from typing import Literal as TLiteral
 import yaml
 from pydantic import ValidationError, create_model
 
-_ENV_PATH = Path("/Users/abigailhaddad/Documents/repos/.env")
-if _ENV_PATH.exists() and not os.environ.get("ANTHROPIC_API_KEY"):
-    for line in _ENV_PATH.read_text().splitlines():
-        if "=" in line and not line.startswith("#"):
-            k, v = line.split("=", 1)
-            os.environ.setdefault(k.strip(), v.strip().strip('"').strip("'"))
+from pipeline._env import load_env  # noqa: E402
+load_env()
 
 import litellm  # noqa: E402
 
@@ -102,6 +98,29 @@ def _extract_json(raw: str) -> str:
     return s[i:j + 1] if i >= 0 and j > i else s
 
 
+def _filter_to_profession_candidates(chapters: list[dict], professions: dict) -> list[dict]:
+    """Trim a giant chapter list down to plausible profession candidates.
+
+    Post multi-title expand, hierarchies can hit 2000-10000 entries (most
+    irrelevant: criminal procedure, water rights, taxation, etc.). Sending
+    them all to the LLM blows context + times out. Pre-filter to chapters
+    whose label mentions ANY profession-pattern keyword from professions.yaml.
+    That typically takes us from 2000 → 50-300 candidates.
+    """
+    all_keywords: set[str] = set()
+    for prof_def in professions.values():
+        for p in prof_def.get("patterns", []):
+            all_keywords.add(p.lower())
+    if not all_keywords:
+        return chapters
+    kept = []
+    for c in chapters:
+        label_lower = c.get("label", "").lower()
+        if any(kw in label_lower for kw in all_keywords):
+            kept.append(c)
+    return kept
+
+
 def map_state_chapters(state: str, professions: dict, model: str) -> dict | None:
     h_path = HIERARCHY_DIR / f"{state}.json"
     if not h_path.exists():
@@ -111,6 +130,18 @@ def map_state_chapters(state: str, professions: dict, model: str) -> dict | None
     if not chapters:
         log.warning("[%s] hierarchy has 0 chapters — nothing to map", state)
         return None
+
+    # Pre-filter when the hierarchy is huge. Otherwise the LLM call balloons
+    # past context limits or times out.
+    if len(chapters) > 300:
+        filtered = _filter_to_profession_candidates(chapters, professions)
+        log.info("[%s] pre-filter: %d → %d chapters (only those whose labels mention a profession pattern)",
+                 state, len(chapters), len(filtered))
+        chapters = filtered
+        if not chapters:
+            log.warning("[%s] no chapters survived pre-filter — saving empty map", state)
+            out = {"state": state, "title_url": h.get("target_url"), "professions": {}}
+            return out
 
     slug_to_url = {c["slug"]: c["url"] for c in chapters}
     slug_to_label = {c["slug"]: c["label"] for c in chapters}
@@ -144,31 +175,12 @@ def map_state_chapters(state: str, professions: dict, model: str) -> dict | None
         SYSTEM_PROMPT + "\n\nReturn JSON matching exactly this schema:\n"
         + json.dumps(schema, indent=2) + "\n\nReturn ONLY a single JSON object."
     )
-    last_err = None
-    for attempt in range(MAX_RETRIES + 1):
-        try:
-            resp = litellm.completion(
-                model=model,
-                messages=[
-                    {"role": "system", "content": sys_with_schema},
-                    {"role": "user", "content": user},
-                ],
-                temperature=0.0,
-                max_tokens=8000,
-            )
-            data = json.loads(_extract_json(resp.choices[0].message.content or ""))
-            result = Result.model_validate(data)
-            break
-        except (json.JSONDecodeError, ValidationError) as e:
-            last_err = e
-            log.warning("  parse attempt %d failed: %s", attempt + 1, str(e)[:200])
-        except Exception as e:
-            last_err = e
-            log.warning("  api attempt %d failed: %s", attempt + 1, str(e)[:200])
-        if attempt < MAX_RETRIES:
-            time.sleep(1.5 ** attempt)
-    else:
-        log.error("  giving up: %s", str(last_err)[:200])
+    from pipeline._llm import call_structured
+    result = call_structured(
+        model=model, system=sys_with_schema, user=user, schema_cls=Result,
+        max_tokens=8000, max_retries=MAX_RETRIES, log_prefix=f"[{state}]", logger=log,
+    )
+    if result is None:
         return None
 
     out: dict = {"state": state, "title_url": h.get("target_url"), "professions": {}}

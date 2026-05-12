@@ -52,7 +52,14 @@ class StrListEvidence(BaseModel):
 # ---------- UORF regulatory ladder ----------
 
 class RegulatoryModel(str, Enum):
-    """Six-rung ladder, low → high strictness."""
+    """Six-rung UORF ladder, low → high strictness.
+
+    Legacy single-axis representation kept for back-compat with existing
+    extracted data. New extractions should also populate `credential_type`
+    and `is_mandatory` (see below) — those decompose this rung into two
+    orthogonal axes that are easier to filter and that match the meeting
+    framing ("license / cert / registry × mandatory / voluntary").
+    """
     MARKET_FORCES = "market_forces"
     VOLUNTARY_CERTIFICATION = "voluntary_certification"
     REGISTRATION = "registration"
@@ -75,6 +82,61 @@ class RegulatoryModelEvidence(BaseModel):
     citation: str
 
 
+# ---------- Orthogonal decomposition: credential type × mandatory? ----------
+# Meeting 2026-05-12: "how do we systematically capture whether something is a
+# license, certification, or registry; whether it is mandatory or voluntary".
+# Splitting the UORF rung into two orthogonal Enums + bools lets downstream
+# filter on either axis independently ("all certifications regardless of
+# mandatory", "all mandatory regulation regardless of credential shape").
+
+class CredentialType(str, Enum):
+    """Shape of the credential the state issues, ignoring whether it's mandatory."""
+    NONE = "none"                       # No state-issued credential at all
+    REGISTRATION = "registration"        # Practitioner registers; no qualification gate
+    CERTIFICATION = "certification"      # State certifies that holder meets standards
+    LICENSE = "license"                  # State grants explicit permission to practice
+    EXEMPTION = "exemption"              # Narrow carve-out from a broader practice act
+
+
+class CredentialTypeEvidence(BaseModel):
+    value: CredentialType = Field(
+        description=(
+            "Shape of the state-issued credential for this profession, independent of "
+            "whether holding it is mandatory. "
+            "license=state grants explicit permission to practice; "
+            "certification=state certifies the holder meets qualification standards (may or may "
+            "not be required to practice); "
+            "registration=practitioner must register on a roster with no qualification test; "
+            "exemption=this profession is exempted from a broader practice-act regime; "
+            "none=no state credential exists."
+        ),
+    )
+    quote: str
+    citation: str
+
+
+# Mapping the legacy single-axis ladder to (credential_type, is_mandatory).
+# Used in tests + as a back-compat derivation when only one is populated.
+REGULATORY_MODEL_DECOMPOSITION: dict[RegulatoryModel, tuple[CredentialType, bool | None]] = {
+    RegulatoryModel.MARKET_FORCES:          (CredentialType.NONE,          False),
+    RegulatoryModel.VOLUNTARY_CERTIFICATION:(CredentialType.CERTIFICATION, False),
+    RegulatoryModel.REGISTRATION:           (CredentialType.REGISTRATION,  True),
+    RegulatoryModel.EXEMPTION:              (CredentialType.EXEMPTION,     None),
+    RegulatoryModel.MANDATORY_CERTIFICATION:(CredentialType.CERTIFICATION, True),
+    RegulatoryModel.LICENSE:                (CredentialType.LICENSE,       True),
+}
+
+
+def decompose_regulatory_model(rung: RegulatoryModel) -> tuple[CredentialType, bool | None]:
+    """Return (credential_type, is_mandatory) for a UORF rung.
+
+    For EXEMPTION the mandatory question is undefined (the exemption itself
+    is the state's decision; what's being exempted from is the broader regime),
+    so is_mandatory comes back None.
+    """
+    return REGULATORY_MODEL_DECOMPOSITION[rung]
+
+
 class DisciplinaryGround(BaseModel):
     """One ground on which the board may discipline a licensee. Captured as a
     list of these per state — typically 5-15 grounds in any one statute."""
@@ -82,6 +144,62 @@ class DisciplinaryGround(BaseModel):
     description: str = Field(description="One-line plain-English description")
     quote: str
     citation: str
+
+
+# ---------- Regulatory authority structure (meeting Q2) ----------
+# Free-text issuing_authority loses structure across states: "State Board of
+# Podiatry", "Department of Public Health", "Board within the Division of
+# Occupational Licensing within the Department of Commerce" all live in one
+# string. Decomposing into name + type + umbrella lets us filter/compare:
+# "all states where the issuing authority is a standalone board" vs "all
+# states where podiatry is under the medical board" etc.
+
+class AuthorityType(str, Enum):
+    """Shape of the regulatory authority that issues credentials."""
+    STANDALONE_BOARD = "standalone_board"      # e.g., "State Board of Podiatry"
+    SHARED_BOARD = "shared_board"              # covers multiple professions, e.g., "Board of Healing Arts"
+    DIVISION_OF_DEPARTMENT = "division"        # e.g., "Division of Occupational Licensing"
+    DEPARTMENT = "department"                  # e.g., "Department of Health"
+    JOINT = "joint"                            # multiple bodies share regulation
+    OTHER = "other"
+
+
+class AuthorityTypeEvidence(BaseModel):
+    value: AuthorityType = Field(
+        description=(
+            "Classify the issuing authority's structural shape. "
+            "standalone_board=the board is dedicated to this one profession (e.g. 'State Board of Podiatry'). "
+            "shared_board=the board governs multiple related professions (e.g. 'Board of Healing Arts' covering medicine + osteopathy + podiatry). "
+            "division=a named division/office within a larger licensing department. "
+            "department=a state cabinet department (e.g., 'Department of Public Health') directly issues credentials with no named board. "
+            "joint=two or more authorities share regulation (e.g., a board + a department both involved). "
+            "other=structure doesn't fit the above."
+        ),
+    )
+    quote: str
+    citation: str
+
+
+class RegulatoryAuthority(BaseModel):
+    """Structured representation of who regulates this profession in this state.
+    Populated alongside the legacy free-text issuing_authority for back-compat."""
+
+    name: StrEvidence | None = Field(
+        default=None,
+        description="Canonical name of the immediate authority (e.g., 'State Board of Podiatry').",
+    )
+    type: AuthorityTypeEvidence | None = Field(
+        default=None,
+        description="Structural classification of the immediate authority.",
+    )
+    umbrella_agency: StrEvidence | None = Field(
+        default=None,
+        description=(
+            "Higher-level agency that contains the immediate authority, if any. "
+            "Example: 'Division of Occupations and Professions, Department of Commerce'. "
+            "Null for standalone boards that don't sit inside a larger department."
+        ),
+    )
 
 
 # ---------- Citation list (no Evidence wrapper — these ARE the citations) ----------
@@ -149,6 +267,15 @@ class Exam(BaseModel):
 class LicensureRequirements(BaseModel):
     license_required: BoolEvidence | None = None
     issuing_authority: StrEvidence | None = None
+    regulatory_authority: RegulatoryAuthority | None = Field(
+        default=None,
+        description=(
+            "Structured decomposition of the issuing authority — name, type "
+            "(standalone board / shared board / division / department / joint), "
+            "and any umbrella agency it sits within. Populated alongside the "
+            "legacy free-text issuing_authority for back-compat."
+        ),
+    )
     age_minimum: IntEvidence | None = None
     moral_character_required: BoolEvidence | None = None
     education: EducationRequirement | None = None
@@ -158,10 +285,27 @@ class LicensureRequirements(BaseModel):
     continuing_education: ContinuingEducation | None = None
     reciprocity: Reciprocity | None = None
 
-    # UORF-mapped fields
+    # UORF-mapped fields (legacy single-axis rung; new extractions also populate
+    # credential_type + is_mandatory below for orthogonal filtering)
     regulatory_model: RegulatoryModelEvidence | None = Field(
         default=None,
         description="Which UORF model the state applies to this profession (license / mandatory_cert / registration / etc).",
+    )
+    credential_type: CredentialTypeEvidence | None = Field(
+        default=None,
+        description=(
+            "What SHAPE of credential does the state issue, independent of whether holding it is "
+            "mandatory? license / certification / registration / exemption / none. Pairs with "
+            "is_mandatory to decompose the legacy regulatory_model rung."
+        ),
+    )
+    is_mandatory: BoolEvidence | None = Field(
+        default=None,
+        description=(
+            "Is the credential MANDATORY to practice (or claim the title) in this state? "
+            "True if practicing without it is prohibited; False if optional (e.g., voluntary "
+            "certification that only protects the title for those who hold it)."
+        ),
     )
     title_protection: BoolEvidence | None = Field(
         default=None,

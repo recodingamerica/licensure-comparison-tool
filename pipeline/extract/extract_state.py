@@ -29,12 +29,8 @@ from typing import Any, Literal as TLiteral
 from pydantic import BaseModel, Field, ValidationError, create_model
 
 # Load shared .env
-_ENV_PATH = Path("/Users/abigailhaddad/Documents/repos/.env")
-if _ENV_PATH.exists() and not os.environ.get("ANTHROPIC_API_KEY"):
-    for line in _ENV_PATH.read_text().splitlines():
-        if "=" in line and not line.startswith("#"):
-            k, v = line.split("=", 1)
-            os.environ.setdefault(k.strip(), v.strip().strip('"').strip("'"))
+from pipeline._env import load_env  # noqa: E402
+load_env()
 
 import litellm  # noqa: E402
 
@@ -49,7 +45,7 @@ from standard_model import (  # noqa: E402
     StrEvidence,
     StrListEvidence,
 )
-from paths import TRIMMED_DIR, DISCOVERED_DIR, STRUCTURED_DIR, LOGS_DIR  # noqa: E402
+from paths import TRIMMED_DIR, DISCOVERED_DIR, STRUCTURED_DIR, LOGS_DIR, RESULTS_DIR  # noqa: E402
 
 LOG_PATH = LOGS_DIR / "extract_state.log"
 LOGS_DIR.mkdir(parents=True, exist_ok=True)
@@ -218,6 +214,24 @@ def build_state_text(state_corpus: dict) -> str:
     return "".join(parts)
 
 
+def load_umbrella_text(state: str) -> str:
+    """Return the state's umbrella / cross-cutting chapter text if cached,
+    else ''. Meeting Q3: practice acts often reference a general-provisions
+    chapter (definitions, board composition, fee rules) that applies to
+    multiple professions. Including it here gives the model the context it
+    needs to fill fields that the practice act itself only points to.
+    """
+    p = RESULTS_DIR / "umbrella_text" / f"{state}.json"
+    if not p.exists():
+        return ""
+    rec = json.loads(p.read_text())
+    parts = []
+    for sec in rec.get("sections", []):
+        chap_label = sec.get("umbrella_chapter_label", "")
+        parts.append(f"\n[UMBRELLA / {chap_label[:60]}] {sec.get('label','')}\n{sec.get('text','')}\n")
+    return "".join(parts)
+
+
 _TYPO_TRANS = str.maketrans({
     # smart quotes → ASCII
     "‘": "'", "’": "'", "‚": "'", "‛": "'",
@@ -314,13 +328,27 @@ def extract_one(state: str, profession: str, model: str, profile_cls: type[BaseM
         log.warning("[%s] no sections to extract from", state)
         return None
     state_text = build_state_text(raw)
-    user_msg = f"State: {state}\nProfession: {profession}\n\nTrimmed statute text:\n{state_text}"
-    log.info("[%s] extracting (%d sections, %d chars)", state, len(raw["sections"]), len(user_msg))
+    umbrella_text = load_umbrella_text(state)
+    if umbrella_text:
+        user_msg = (
+            f"State: {state}\nProfession: {profession}\n\n"
+            f"Practice act text (extract values from here primarily):\n{state_text}\n\n"
+            f"=== Cross-cutting umbrella context (definitions, board rules, "
+            f"licensing procedures that apply to this profession too) ===\n"
+            f"{umbrella_text}"
+        )
+    else:
+        user_msg = f"State: {state}\nProfession: {profession}\n\nTrimmed statute text:\n{state_text}"
+    log.info(
+        "[%s] extracting (%d sections, %d chars; umbrella=%d chars)",
+        state, len(raw["sections"]), len(user_msg), len(umbrella_text),
+    )
     result = call_model(model, SYSTEM_PROMPT, user_msg, profile_cls)
     if result is None:
         return None
     record = result.model_dump()
-    normalized_corpus = _normalize_for_match(state_text)
+    # Quotes can come from either practice-act text OR umbrella text — verify against both.
+    normalized_corpus = _normalize_for_match(state_text + "\n" + umbrella_text)
     verified, unverified = annotate_evidence(record, normalized_corpus)
     log.info("[%s] evidence: verified=%d unverified=%d", state, verified, unverified)
     return record, {"verified": verified, "unverified": unverified}

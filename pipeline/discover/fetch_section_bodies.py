@@ -43,7 +43,7 @@ BODIES_DIR.mkdir(parents=True, exist_ok=True)
 LOG_PATH = LOGS_DIR / "fetch_section_bodies.log"
 LOGS_DIR.mkdir(parents=True, exist_ok=True)
 
-PER_HOST_DELAY = 1.2
+from pipeline._fetch_config import PER_HOST_DELAY  # noqa: E402
 EXCERPT_CHARS = 300
 CHECKPOINT_EVERY = 20
 
