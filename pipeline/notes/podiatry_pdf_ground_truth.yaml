@@ -1,0 +1,80 @@
+# Hand-transcribed ground truth from
+# /Users/abigailhaddad/Downloads/DPM Podiatrist State Policy Scan - Scope Policy Scan.pdf
+# (Utah-DPM team's Westlaw-sourced human-verified policy scan).
+#
+# Only the human-verified states (per the "Number of States Human
+# Verified" column in the PDF) are transcribed. Fields per state are the
+# ones most directly mappable to our Pydantic schema:
+#   - license_required (bool)
+#   - amputation_authorized (bool)            # profession_specific
+#   - ankle_surgery_authorized (bool)         # profession_specific
+#   - anatomical_scope_upper_boundary (str)   # profession_specific
+#
+# `anatomical_scope_upper_boundary` is the highest anatomical landmark the
+# state authorizes the podiatrist to treat to. Common landmarks:
+#   - "ankle"             — foot + ankle only, no further up
+#   - "tibial_tuberosity" — below the tibial tuberosity (mid-leg)
+#   - "lower_leg"         — into the lower leg (just below the knee, e.g. CT)
+#   - "knee"              — to the knee
+# Our extraction's enum has finer-grained values; the comparison normalizes both.
+
+states:
+  AL:
+    license_required: true
+    amputation_authorized: true     # "amputation of the toes and other parts of the foot and ankle"
+    ankle_surgery_authorized: true  # ankle is in scope
+    anatomical_scope_upper_boundary: tibial_tuberosity  # "below the tibial tuberosity"
+
+  AR:
+    license_required: true
+    amputation_authorized: false    # PDF: "Podiatrists shall not perform any amputation..."
+    ankle_surgery_authorized: false # "Podiatrists shall not perform... vascular grafting"
+    anatomical_scope_upper_boundary: ankle  # "shall not perform amputation"
+
+  AZ:
+    license_required: true
+    amputation_authorized: false    # PDF: "without amputating" the foot or ankle
+    ankle_surgery_authorized: true  # ankle in scope, "physical examinations within the professional's scope of practice"
+    anatomical_scope_upper_boundary: ankle
+
+  CA:
+    license_required: true
+    amputation_authorized: true     # implied — "may perform surgical operations"
+    ankle_surgery_authorized: true
+    anatomical_scope_upper_boundary: tibial_tuberosity  # mid-leg
+
+  CO:
+    license_required: true
+    amputation_authorized: false    # PDF: "amputation of the human foot or any toe of the foot below the metatarsal-phalangeal joints"
+    ankle_surgery_authorized: true  # includes ankle
+    anatomical_scope_upper_boundary: tibial_tuberosity
+
+  CT:
+    license_required: true
+    amputation_authorized: true     # chopart joint and below
+    ankle_surgery_authorized: true  # explicit
+    anatomical_scope_upper_boundary: lower_leg  # "into the lower leg"
+
+  DE:
+    license_required: true
+    amputation_authorized: true
+    ankle_surgery_authorized: true
+    anatomical_scope_upper_boundary: tibial_tuberosity  # mid-leg
+
+  GA:
+    license_required: true
+    amputation_authorized: true     # explicit (toes, parts of foot)
+    ankle_surgery_authorized: true  # ankle in scope
+    anatomical_scope_upper_boundary: tibial_tuberosity
+
+  TN:
+    license_required: true
+    amputation_authorized: false    # "no foot or ankle amputation"
+    ankle_surgery_authorized: true  # ankle in scope but no amputation
+    anatomical_scope_upper_boundary: distal_tibial_metaphyseal_flair  # specific TN language
+
+  TX:
+    license_required: true
+    amputation_authorized: false    # "shall not perform amputation"
+    ankle_surgery_authorized: true  # ankle in scope
+    anatomical_scope_upper_boundary: tibial_tuberosity
