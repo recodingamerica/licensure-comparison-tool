@@ -195,6 +195,10 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--profession", required=True)
     ap.add_argument("--model", default=DEFAULT_MODEL)
+    ap.add_argument("--max-states", type=int, default=10,
+                    help="Cap states sent to schema-discovery LLM. Default 10. "
+                    "Large corpora (e.g. medicine, all 14 states ~1M tokens) exceed "
+                    "context. A representative sample is enough to derive fields.")
     args = ap.parse_args()
 
     profession = args.profession.lower()
@@ -203,6 +207,28 @@ def main() -> None:
         sys.exit("ANTHROPIC_API_KEY not set")
 
     corpus, states = build_corpus(profession)
+    if len(states) > args.max_states:
+        log.info("sampling %d / %d states for schema discovery (corpus would be too large)",
+                 args.max_states, len(states))
+        # Re-build corpus from first N states (alphabetical — consistent across runs)
+        kept = set(states[:args.max_states])
+        states_kept = []
+        parts = []
+        for path in sorted((TRIMMED_DIR / profession).glob("*.json")):
+            if path.name.startswith("_"):
+                continue
+            d = json.loads(path.read_text())
+            if d["state"] not in kept:
+                continue
+            if not d.get("sections"):
+                continue
+            states_kept.append(d["state"])
+            parts.append(f"\n========== STATE: {d['state']} ==========\n")
+            for sec in d["sections"]:
+                parts.append(f"\n[{sec.get('citation','')}] {sec.get('label','')}\n{sec.get('text','')}\n")
+        corpus = "".join(parts)
+        states = states_kept
+
     log.info("aggregating corpus: %d states, %d chars (~%d tokens)",
              len(states), len(corpus), len(corpus) // 4)
 

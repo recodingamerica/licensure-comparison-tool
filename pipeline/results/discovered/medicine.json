@@ -1,0 +1,300 @@
+{
+  "profession": "medicine",
+  "fields": [
+    {
+      "name": "license_status_types",
+      "category": "types of licenses and their active or inactive status",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "The distinct license status categories a physician may hold beyond a standard active license, such as inactive, retired, volunteer, temporary, or administrative.",
+      "sample_quote": "On retiring from practice and payment of an appropriate one-time fee, a licensee in good standing with the board may apply for the conversion of an active or inactive license to a retired status license.",
+      "sample_state": "AK",
+      "states_supporting": [
+        "AK",
+        "AL",
+        "GA",
+        "IA",
+        "ID"
+      ]
+    },
+    {
+      "name": "foreign_medical_graduate_requirements",
+      "category": "extra requirements for doctors trained outside the US",
+      "type": "str",
+      "enum_values": null,
+      "description": "Special additional requirements imposed on graduates of medical schools outside the United States or Canada, such as additional postgraduate training years, ECFMG certification, or separate examination standards.",
+      "sample_quote": "Applicants who are graduates of medical colleges not accredited by the Association of American Medical Colleges and the Council on Medical Education of the American Medical Association shall have successfully completed three years of postgraduate training.",
+      "sample_state": "AK",
+      "states_supporting": [
+        "AK",
+        "GA",
+        "ID"
+      ]
+    },
+    {
+      "name": "postgraduate_training_years_required",
+      "category": "extra requirements for doctors trained outside the US",
+      "type": "int",
+      "enum_values": null,
+      "description": "The minimum number of years of postgraduate internship or residency training required before a license will be issued to a standard domestic medical school graduate.",
+      "sample_quote": "Satisfactory evidence that the applicant has successfully completed one year of postgraduate internship or resident training in a hospital approved for such training by the board.",
+      "sample_state": "IA",
+      "states_supporting": [
+        "AK",
+        "GA",
+        "IA",
+        "ID"
+      ]
+    },
+    {
+      "name": "pain_management_education_required",
+      "category": "required training topics beyond general medical education",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state requires applicants or licensees to complete specific education in pain management and opioid use and addiction as a condition of licensure or renewal.",
+      "sample_quote": "Receive education in pain management and opioid use and addiction, unless the applicant has demonstrated to the satisfaction of the board that the applicant does not currently hold a valid federal Drug Enforcement Administration registration number.",
+      "sample_state": "AK",
+      "states_supporting": [
+        "AK",
+        "AL"
+      ]
+    },
+    {
+      "name": "opioid_prescribing_limits",
+      "category": "rules about prescribing opioids and controlled substances",
+      "type": "str",
+      "enum_values": null,
+      "description": "Statutory limits on the quantity or duration of opioid prescriptions a licensee may issue, including any exceptions for chronic pain, cancer, or palliative care.",
+      "sample_quote": "A licensee may not issue an initial prescription for an opioid that exceeds a seven-day supply to an adult patient for outpatient use.",
+      "sample_state": "AK",
+      "states_supporting": [
+        "AK",
+        "AL"
+      ]
+    },
+    {
+      "name": "controlled_substance_database_registration_required",
+      "category": "rules about prescribing opioids and controlled substances",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether licensees who hold a DEA registration number are required to register with or use the state's prescription drug monitoring program or controlled substance database.",
+      "sample_quote": "Require that a licensee who has a federal Drug Enforcement Administration registration number register with the controlled substance prescription database.",
+      "sample_state": "AK",
+      "states_supporting": [
+        "AK",
+        "AL"
+      ]
+    },
+    {
+      "name": "pain_management_clinic_registration_required",
+      "category": "rules about prescribing opioids and controlled substances",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether physicians providing pain management services must obtain a separate registration or license from the board in addition to their standard medical license.",
+      "sample_quote": "All physicians providing pain management services shall obtain a pain management registration from the board.",
+      "sample_state": "AL",
+      "states_supporting": [
+        "AL",
+        "GA"
+      ]
+    },
+    {
+      "name": "telehealth_prescribing_rules",
+      "category": "rules for practicing medicine remotely or across state lines",
+      "type": "str",
+      "enum_values": null,
+      "description": "Specific statutory conditions under which a physician may prescribe drugs, including controlled substances, to patients seen only via telehealth rather than in person.",
+      "sample_quote": "A prescription for a controlled substance may only be issued as a result of telehealth medical services if the telehealth visit includes synchronous audio or audio-visual communication using HIPAA compliant equipment with the prescriber responsible for the prescription and the prescriber has had at least one in-person encounter with the patient within the preceding 12 months.",
+      "sample_state": "AL",
+      "states_supporting": [
+        "AK",
+        "AL",
+        "GA"
+      ]
+    },
+    {
+      "name": "telemedicine_license_available",
+      "category": "rules for practicing medicine remotely or across state lines",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state offers a distinct telemedicine or telehealth license category for out-of-state physicians who wish to treat in-state patients remotely without obtaining a full in-state license.",
+      "sample_quote": "The board shall be authorized to issue telemedicine licenses to physicians who are licensed in other states but not licensed in this state to engage in the practice of medicine through telemedicine.",
+      "sample_state": "GA",
+      "states_supporting": [
+        "AK",
+        "GA"
+      ]
+    },
+    {
+      "name": "interstate_medical_licensure_compact_member",
+      "category": "rules for practicing medicine remotely or across state lines",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state has enacted the Interstate Medical Licensure Compact, enabling eligible physicians to obtain expedited licenses in multiple member states.",
+      "sample_quote": "The Interstate Medical Licensure Compact is hereby enacted into law and entered into with all other jurisdictions legally joining therein.",
+      "sample_state": "ID",
+      "states_supporting": [
+        "AL",
+        "GA",
+        "ID"
+      ]
+    },
+    {
+      "name": "physician_assistant_supervision_model",
+      "category": "supervision and delegation to physician assistants",
+      "type": "enum",
+      "enum_values": [
+        "direct supervision required",
+        "collaborative practice agreement",
+        "job description with board approval",
+        "facility credentialing system"
+      ],
+      "description": "The statutory model governing how physician assistants must relate to supervising or collaborating physicians, ranging from strict supervision to collaborative practice agreements.",
+      "sample_quote": "A physician assistant shall collaborate with, consult with, or refer to the appropriate member of the facility health care team as indicated by the condition of the patient; the education, experience, and competence of the physician assistant; and the community standard of care.",
+      "sample_state": "ID",
+      "states_supporting": [
+        "AK",
+        "AL",
+        "GA",
+        "ID"
+      ]
+    },
+    {
+      "name": "physician_assistant_prescriptive_authority",
+      "category": "supervision and delegation to physician assistants",
+      "type": "str",
+      "enum_values": null,
+      "description": "The scope of prescriptive authority granted to physician assistants, including which drug schedules they may prescribe and any conditions or limitations on that authority.",
+      "sample_quote": "A physician may delegate to a physician assistant, in accordance with a job description, the authority to issue a prescription drug order or orders for any dangerous drug or any Schedule III, IV, or V controlled substance. Nothing in this Code section shall be construed to authorize the written prescription drug order of a Schedule I or II controlled substance.",
+      "sample_state": "GA",
+      "states_supporting": [
+        "AK",
+        "AL",
+        "GA",
+        "ID"
+      ]
+    },
+    {
+      "name": "max_physician_assistants_per_supervising_physician",
+      "category": "supervision and delegation to physician assistants",
+      "type": "int",
+      "enum_values": null,
+      "description": "The maximum number of physician assistants or advanced practice registered nurses that a single supervising or delegating physician may oversee at one time under standard practice settings.",
+      "sample_quote": "A delegating physician may not enter into a nurse protocol agreement pursuant to this Code section or enter into a job description with a physician assistant pursuant to Code Section 43-34-103 with more than the combined equivalent of eight advanced practice registered nurses or physician assistants at any one time.",
+      "sample_state": "GA",
+      "states_supporting": [
+        "GA",
+        "ID"
+      ]
+    },
+    {
+      "name": "malpractice_reporting_required",
+      "category": "mandatory reporting and public disclosure obligations",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether licensees are required by statute to report to the board the outcome of medical malpractice claims or civil actions in which damages are paid on their behalf.",
+      "sample_quote": "A person licensed under this chapter shall report in writing to the board concerning the outcome of each medical malpractice claim or civil action in which damages have been or are to be paid by or on behalf of the licensee to the claimant or plaintiff, whether by judgment or under a settlement.",
+      "sample_state": "AK",
+      "states_supporting": [
+        "AK",
+        "AL",
+        "GA"
+      ]
+    },
+    {
+      "name": "hospital_privilege_action_reporting_required",
+      "category": "mandatory reporting and public disclosure obligations",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether hospitals are required by statute to report to the medical board when they revoke, suspend, restrict, or refuse to grant hospital privileges to a licensed physician.",
+      "sample_quote": "A hospital that revokes, suspends, conditions, restricts, or refuses to grant hospital privileges to, or imposes a consultation requirement on, a person licensed to practice medicine or osteopathy in the state shall report to the board the name and address of the person and the reasons for the action within seven working days after the action is taken.",
+      "sample_state": "AK",
+      "states_supporting": [
+        "AK",
+        "AL"
+      ]
+    },
+    {
+      "name": "impaired_physician_program_authorized",
+      "category": "programs for physicians with health or substance use issues",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state statute explicitly authorizes or requires the board to establish or contract with a program to identify, evaluate, and rehabilitate physicians impaired by substance use or mental illness.",
+      "sample_quote": "Under regulations adopted by the board, contract with private professional organizations to establish an impaired medical professionals program to identify, confront, evaluate, and treat persons licensed under this chapter who abuse alcohol, other drugs, or other substances or are mentally ill or cognitively impaired.",
+      "sample_state": "AK",
+      "states_supporting": [
+        "AK",
+        "GA",
+        "ID"
+      ]
+    },
+    {
+      "name": "compelled_mental_physical_exam_authority",
+      "category": "programs for physicians with health or substance use issues",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the board has statutory authority to order a licensee to submit to a mental or physical examination when there is probable cause to believe the licensee cannot practice safely.",
+      "sample_quote": "The board may, upon probable cause, compel a physician to submit to a mental or physical examination by designated physicians or to submit to alcohol or drug screening within a time specified by the board.",
+      "sample_state": "IA",
+      "states_supporting": [
+        "AK",
+        "AL",
+        "GA",
+        "IA",
+        "ID"
+      ]
+    },
+    {
+      "name": "administrative_medicine_license_available",
+      "category": "types of licenses and their active or inactive status",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state offers a distinct administrative medicine license for physicians who wish to perform management or advisory functions without engaging in direct patient care.",
+      "sample_quote": "An administrative medicine license does not convey the authority to practice clinical medicine, examine, care for, or treat patients, prescribe medications including controlled substances, or delegate medical acts or prescriptive authority to others.",
+      "sample_state": "IA",
+      "states_supporting": [
+        "GA",
+        "IA"
+      ]
+    },
+    {
+      "name": "locum_tenens_permit_available",
+      "category": "types of licenses and their active or inactive status",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state offers a specific temporary permit for physicians practicing as locum tenens substitutes for licensed in-state physicians.",
+      "sample_quote": "A member of the board, its executive secretary, or a person designated by the board to issue temporary permits may grant a temporary permit to a physician or osteopath for the purpose of substituting for another physician or osteopath licensed in this state.",
+      "sample_state": "AK",
+      "states_supporting": [
+        "AK",
+        "ID"
+      ]
+    },
+    {
+      "name": "sexual_misconduct_training_required",
+      "category": "required training topics beyond general medical education",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state requires physicians or medical school students to complete specific training on professional boundaries and physician sexual misconduct as a condition of licensure or renewal.",
+      "sample_quote": "On and after January 1, 2022, all physicians shall be required to receive one-time education and training, for a minimum of two hours, regarding professional boundaries and physician sexual misconduct.",
+      "sample_state": "GA",
+      "states_supporting": [
+        "GA",
+        "AK"
+      ]
+    },
+    {
+      "name": "investigational_drug_protection",
+      "category": "rules about prescribing opioids and controlled substances",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state statute explicitly protects physicians from disciplinary action for prescribing or administering investigational drugs or unapproved treatments to terminally ill patients who have given informed consent.",
+      "sample_quote": "A physician may not be subject to disciplinary action by the board for prescribing, dispensing, or administering an investigational drug, biological product, or device, or providing related treatment, to a patient for the purpose of sustaining the patient's life if the patient has a terminal illness and is ineligible or unable to participate in a current clinical trial.",
+      "sample_state": "AK",
+      "states_supporting": [
+        "AK",
+        "GA"
+      ]
+    }
+  ]
+}
