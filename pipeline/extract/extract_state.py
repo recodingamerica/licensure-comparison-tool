@@ -247,16 +247,36 @@ _TYPO_TRANS = str.maketrans({
 
 _NON_ALNUM_RE = re.compile(r"[^a-z0-9 ]+")
 
+# Strip parenthesized list markers from source BEFORE non-alnum stripping, so
+# they're surgically removed and don't become bare "1"/"a"/"i" tokens that
+# would then either (a) break match against a prose-quoted list, or (b) tempt
+# us to strip ALL bare single letters/digits, which would create false
+# positives (model wrote "a doctor" instead of "the doctor" — we don't want
+# to accept that just because we stripped the "a"). This pre-stripping
+# targets only enumeration FORMS (parenthesized or trailing dot), not bare
+# words.
+# Only parenthesized list markers — N. / a. trailing-dot patterns also appear
+# inside legal citations like "RSA 318-B:10, IX." or "Title 2, chapter 15,
+# part 17" and stripping those creates false negatives. Limit to forms that
+# can ONLY be list markers: bracketed numerals/letters/romans.
+_LIST_MARKER_RE = re.compile(
+    r"\(\s*(?:\d{1,3}|[a-z]|[ivxIVX]+)\s*\)",   # (1) (a) (iv) (IV)
+    re.IGNORECASE,
+)
+
 
 def _normalize_for_match(text: str) -> str:
     """Aggressive normalization for tolerant substring lookup:
       - lowercase
       - smart quotes / dashes → ASCII
-      - drop ALL non-alphanumeric (so enumeration markers like '(i)', 'b.',
-        '§', and quote characters don't break matches)
+      - strip parenthesized list markers '(1)', '(a)', '(iv)' and
+        'N.'-style enumeration so a prose-quoted list still matches
+      - drop ALL non-alphanumeric (so '§', quote chars, etc. don't break)
       - collapse whitespace
     """
     t = text.translate(_TYPO_TRANS).lower()
+    # Remove list markers BEFORE non-alnum strip, so they don't become bare tokens.
+    t = _LIST_MARKER_RE.sub(" ", t)
     t = _NON_ALNUM_RE.sub(" ", t)
     t = re.sub(r"\s+", " ", t).strip()
     return t
