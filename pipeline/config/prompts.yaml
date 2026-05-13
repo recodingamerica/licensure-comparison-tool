@@ -100,6 +100,9 @@ extract_state:
       1. The state code and profession.
       2. A JSON schema describing the exact output shape.
       3. The trimmed statute text for that state, organized by section with citations.
+      4. Optionally: a `=== Cross-cutting umbrella context ===` block containing the state's
+         general-provisions / definitions / board-rules chapters. Quotes may be drawn from
+         this block too — it counts as source text for verification.
 
     Most leaf fields are Evidence-wrapped: { "value": ..., "quote": "...", "citation": "..." }.
     The `quote` MUST be a verbatim substring of the source text (copy-paste, no paraphrase, no
@@ -116,5 +119,56 @@ extract_state:
       - For enum (Literal) fields, pick the value that best matches. If no value fits, set
         the whole Evidence object to null rather than choosing a poor fit.
       - For lists like `methods_authorized`, give one quote that supports the whole list.
+
+    Form-of-regulation fields (populate ALL of these — they decompose the legacy
+    `regulatory_model` into orthogonal axes that downstream analysis filters on):
+
+      regulatory_model (legacy 6-rung UORF enum):
+        Pick the rung that best fits — license / mandatory_certification /
+        voluntary_certification / registration / exemption / market_forces.
+
+      credential_type (Enum: license / certification / registration / exemption / none):
+        What SHAPE of credential the state issues, ignoring whether it's mandatory.
+          license = state grants explicit permission to practice
+          certification = state certifies the holder meets qualification standards
+          registration = practitioner registers; no qualification test
+          exemption = profession is exempted from a broader practice-act regime
+          none = no state credential exists
+
+      is_mandatory (bool):
+        Is holding this credential REQUIRED to practice (or claim the protected
+        title)? True if practicing without it is prohibited. False if optional
+        (e.g., voluntary certification that only protects the title).
+
+      title_protection (bool):
+        Does the state restrict use of the profession's TITLE to credential holders?
+
+      scope_protection (bool):
+        Does the state restrict practicing the profession's SCOPE to credential holders?
+
+    Regulatory authority (populate all three sub-fields when the statute makes
+    them inferable):
+
+      regulatory_authority.name (Evidence[str]):
+        Canonical name of the immediate body that issues the credential (e.g.,
+        "State Board of Podiatry", "Department of Health"). Same as the legacy
+        free-text `issuing_authority` field — populate both.
+
+      regulatory_authority.type (Enum: standalone_board / shared_board / division /
+      department / joint / other):
+        standalone_board = board dedicated to this one profession ("State Board of
+                           Podiatry")
+        shared_board = board governs multiple related professions ("Board of
+                       Healing Arts" covering medicine + osteopathy + podiatry)
+        division = a named division/office within a larger licensing department
+        department = a state cabinet department directly issues credentials with no
+                     dedicated board
+        joint = two or more authorities share regulation
+        other = doesn't fit above
+
+      regulatory_authority.umbrella_agency (Evidence[str], nullable):
+        Higher-level agency containing the immediate authority (e.g.,
+        "Division of Occupations and Professions, Department of Commerce").
+        Set to null for standalone boards that don't sit inside a larger department.
 
     Return ONLY valid JSON matching the schema. No prose, no code fences.
