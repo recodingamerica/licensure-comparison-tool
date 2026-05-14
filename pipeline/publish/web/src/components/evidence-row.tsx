@@ -61,9 +61,21 @@ export function EvidenceRow({ label, ev, sections }: Props) {
           }
         >
           “{ev.quote}”{" "}
-          <span className="not-italic font-mono text-muted-foreground text-[10px] ml-1">
-            [{cite}]
-          </span>
+          {source?.url ? (
+            <a
+              href={source.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="not-italic font-mono text-sky-700 hover:text-sky-900 hover:underline text-[10px] ml-1"
+              title={`Open ${cite} on Justia`}
+            >
+              [{cite}]
+            </a>
+          ) : (
+            <span className="not-italic font-mono text-muted-foreground text-[10px] ml-1">
+              [{cite}]
+            </span>
+          )}
         </div>
         {source && (
           <div className="flex items-center gap-3 text-xs">
