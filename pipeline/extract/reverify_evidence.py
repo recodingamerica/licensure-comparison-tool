@@ -22,7 +22,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from extract_state import _normalize_for_match, quote_in_corpus, annotate_evidence  # noqa: E402
+from extract_state import _normalize_for_match, quote_in_corpus, annotate_evidence, load_umbrella_text  # noqa: E402
 from paths import STRUCTURED_DIR, TRIMMED_DIR  # noqa: E402
 
 
@@ -49,6 +49,12 @@ def main() -> None:
             continue
         trim = json.loads(trim_path.read_text())
         text = "\n".join(s.get("text", "") for s in trim.get("sections", []))
+        # Include the state's umbrella context if cached — extract_state
+        # injects umbrella text at extraction time, so quotes pulled from
+        # umbrella sections need to be verified against it too.
+        umbrella = load_umbrella_text(path.stem)
+        if umbrella:
+            text = text + "\n" + umbrella
         normalized = _normalize_for_match(text)
 
         # Strip stale unverified flags so we re-evaluate from scratch
