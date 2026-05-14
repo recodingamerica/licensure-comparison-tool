@@ -1,0 +1,465 @@
+{
+  "profession": "optometry",
+  "fields": [
+    {
+      "name": "surgery_prohibited",
+      "category": "what they can and cannot do clinically",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly prohibits optometrists from performing invasive or ophthalmic surgery.",
+      "sample_quote": "Optometrists are prohibited from performing injections into the eyeball, cataract surgery, muscle surgery, retinal surgery, radial keratotomy, laser surgery, cryosurgery, or any other invasive surgery.",
+      "sample_state": "AL",
+      "states_supporting": [
+        "AL",
+        "AR",
+        "AZ",
+        "AK",
+        "CA"
+      ]
+    },
+    {
+      "name": "surgery_definition",
+      "category": "what they can and cannot do clinically",
+      "type": "str",
+      "enum_values": null,
+      "description": "Statutory definition of 'surgery' as it applies to the limits of optometric practice.",
+      "sample_quote": "'ophthalmic surgery' means an invasive procedure in which human tissue is cut, ablated, or otherwise penetrated by incision, laser, or other means to treat diseases of the human eye, alter or correct refractive error, or alter or enhance cosmetic appearance",
+      "sample_state": "AK",
+      "states_supporting": [
+        "AK",
+        "AZ",
+        "CA"
+      ]
+    },
+    {
+      "name": "foreign_body_removal_authorized",
+      "category": "what they can and cannot do clinically",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly authorizes removal of superficial foreign bodies from the eye and its appendages.",
+      "sample_quote": "A licensee may remove superficial foreign bodies from the eye and its appendages. This section is not intended to permit a licensee to perform invasive surgery.",
+      "sample_state": "AK",
+      "states_supporting": [
+        "AK",
+        "AL",
+        "AR",
+        "AZ",
+        "CA"
+      ]
+    },
+    {
+      "name": "laser_procedures_authorized",
+      "category": "what they can and cannot do clinically",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "Specific laser procedures the statute explicitly authorizes optometrists to perform.",
+      "sample_quote": "The 'practice of optometry' includes the following procedures: ... Laser capsulotomy; and Laser trabeculoplasty.",
+      "sample_state": "AR",
+      "states_supporting": [
+        "AR",
+        "CA"
+      ]
+    },
+    {
+      "name": "minor_surgical_procedures_authorized",
+      "category": "what they can and cannot do clinically",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "Minor non-laser procedural authorities explicitly granted by statute beyond foreign body removal.",
+      "sample_quote": "Injections, excluding intravenous or intraocular injections; Incision and curettage of a chalazion; Removal and biopsy of skin lesions with low risk of malignancy",
+      "sample_state": "AR",
+      "states_supporting": [
+        "AR",
+        "CA"
+      ]
+    },
+    {
+      "name": "glaucoma_treatment_authorized",
+      "category": "what they can and cannot do clinically",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly authorizes optometrists to medically treat glaucoma.",
+      "sample_quote": "If also certified under subdivision (c), using or prescribing topical and oral antiglaucoma agents for the medical treatment of all primary open-angle, exfoliation, pigmentary, and steroid-induced glaucomas in persons 18 years of age or over.",
+      "sample_state": "CA",
+      "states_supporting": [
+        "CA",
+        "AR"
+      ]
+    },
+    {
+      "name": "anaphylaxis_treatment_authorized",
+      "category": "what they can and cannot do clinically",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly authorizes optometrists to administer epinephrine or similar agents for anaphylaxis.",
+      "sample_quote": "The practice of optometry shall include the authority to administer benedryl, epinephrine, or other medication to counteract anaphylaxis or anaphylactic reaction.",
+      "sample_state": "AL",
+      "states_supporting": [
+        "AL",
+        "AR",
+        "AZ"
+      ]
+    },
+    {
+      "name": "vision_therapy_authorized",
+      "category": "what they can and cannot do clinically",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly includes vision therapy, orthoptics, or visual training within the scope of practice.",
+      "sample_quote": "the providing of developmental and perceptual therapy for the vision system",
+      "sample_state": "AL",
+      "states_supporting": [
+        "AL",
+        "AR",
+        "AZ",
+        "CA"
+      ]
+    },
+    {
+      "name": "immunization_authority",
+      "category": "what they can and cannot do clinically",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute authorizes optometrists to administer immunizations/vaccines.",
+      "sample_quote": "independent initiation and administration of immunizations for influenza, herpes zoster virus, pneumococcus, and SARS-CoV-2 ... in persons 18 years of age or over.",
+      "sample_state": "CA",
+      "states_supporting": [
+        "CA",
+        "AZ"
+      ]
+    },
+    {
+      "name": "controlled_substance_schedule_restrictions",
+      "category": "drugs and prescribing limits",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "Specific controlled substance schedules that optometrists are prohibited from or limited in prescribing.",
+      "sample_quote": "Optometrists are excluded from possessing, administering, or prescribing those pharmaceutical agents listed in Schedules I and II of the Uniform Controlled Substances Act, except hydrocodone combination drugs, regardless of their schedule, in combination with oral analgesic drugs.",
+      "sample_state": "AR",
+      "states_supporting": [
+        "AR",
+        "AL",
+        "AZ",
+        "AK",
+        "CA"
+      ]
+    },
+    {
+      "name": "opioid_prescription_day_limit",
+      "category": "drugs and prescribing limits",
+      "type": "int",
+      "enum_values": null,
+      "description": "Maximum number of days' supply for an initial opioid prescription issued by an optometrist.",
+      "sample_quote": "A licensee may not issue an initial prescription for an opioid that exceeds a four-day supply to an adult patient for outpatient use.",
+      "sample_state": "AK",
+      "states_supporting": [
+        "AK",
+        "AR"
+      ]
+    },
+    {
+      "name": "oral_pharmaceutical_authority",
+      "category": "drugs and prescribing limits",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly grants authority to prescribe oral (systemic) pharmaceutical agents, beyond topical agents.",
+      "sample_quote": "A licensee may prescribe, dispense and administer the following oral prescription pharmaceuticals for treating diseases of the eye and its adnexa",
+      "sample_state": "AZ",
+      "states_supporting": [
+        "AZ",
+        "AR",
+        "CA",
+        "AL"
+      ]
+    },
+    {
+      "name": "pharmaceutical_certification_required",
+      "category": "drugs and prescribing limits",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether a separate board certification or approval is required before an optometrist may use therapeutic pharmaceutical agents.",
+      "sample_quote": "The use and prescribing of pharmaceutical agents for the treatment of the human eye and its adjacent structures shall be limited to those optometrists approved by the board.",
+      "sample_state": "AL",
+      "states_supporting": [
+        "AL",
+        "AR",
+        "AZ",
+        "CA"
+      ]
+    },
+    {
+      "name": "dea_registration_required",
+      "category": "drugs and prescribing limits",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute requires optometrists who prescribe controlled substances to hold or register a federal DEA number.",
+      "sample_quote": "require that a licensee who has a federal Drug Enforcement Administration registration number register with the controlled substance prescription database",
+      "sample_state": "AK",
+      "states_supporting": [
+        "AK",
+        "CA"
+      ]
+    },
+    {
+      "name": "tiered_license_types",
+      "category": "extra credentials and tiered scope",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "Named license tiers or designations beyond the basic optometrist license that carry different scopes of practice.",
+      "sample_quote": "Beginning July 1, 2003, the board will issue licenses only for optometric physicians to persons who meet the requirements of this section",
+      "sample_state": "AR",
+      "states_supporting": [
+        "AR",
+        "CA"
+      ]
+    },
+    {
+      "name": "specialty_certification_types",
+      "category": "extra credentials and tiered scope",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "Named specialty certifications (beyond basic licensure) that unlock additional scope, such as therapeutic pharmaceutical agents or glaucoma treatment.",
+      "sample_quote": "In order to be certified to use therapeutic pharmaceutical agents and authorized to diagnose and treat the conditions listed in subdivisions (b) and (d) of Section 3041, an optometrist shall apply for a certificate from the board",
+      "sample_state": "CA",
+      "states_supporting": [
+        "CA",
+        "AZ",
+        "AR",
+        "AL"
+      ]
+    },
+    {
+      "name": "pharmacology_training_hours_required",
+      "category": "extra credentials and tiered scope",
+      "type": "int",
+      "enum_values": null,
+      "description": "Minimum clock hours of pharmacology or ocular disease training required for therapeutic pharmaceutical agent certification or expanded scope.",
+      "sample_quote": "a nontopical therapeutic pharmaceutical agent course of at least 23 hours approved by the board or an examination approved by the board on the treatment and management of ocular disease",
+      "sample_state": "AK",
+      "states_supporting": [
+        "AK",
+        "AL",
+        "AR",
+        "CA"
+      ]
+    },
+    {
+      "name": "supervised_clinical_internship_required",
+      "category": "extra credentials and tiered scope",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether a supervised clinical internship or preceptorship is required for expanded pharmaceutical or procedural certification.",
+      "sample_quote": "Served an internship program established by the board, supervised and certified by a board-certified ophthalmologist, which internship includes at least one hundred (100) hours of supervised clinical training",
+      "sample_state": "AR",
+      "states_supporting": [
+        "AR",
+        "CA"
+      ]
+    },
+    {
+      "name": "referral_to_physician_required",
+      "category": "supervision and coordination with other providers",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute requires optometrists to refer patients to a physician when conditions exceed the optometric scope of practice.",
+      "sample_quote": "failed to refer a patient to a physician after ascertaining the presence of ocular or systemic conditions requiring management by a physician",
+      "sample_state": "AK",
+      "states_supporting": [
+        "AK",
+        "AL",
+        "AZ",
+        "CA"
+      ]
+    },
+    {
+      "name": "comanagement_with_ophthalmologist_required",
+      "category": "supervision and coordination with other providers",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute requires co-management with an ophthalmologist for pre- or post-operative care or certain conditions.",
+      "sample_quote": "Treatment with topical and oral medications authorized in subdivision (a) related to an ocular surgery shall be comanaged with the ophthalmologist that performed the surgery",
+      "sample_state": "CA",
+      "states_supporting": [
+        "CA",
+        "AR"
+      ]
+    },
+    {
+      "name": "delegation_to_unlicensed_assistants_authorized",
+      "category": "supervision and coordination with other providers",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly authorizes optometrists to delegate routine or specified tasks to unlicensed or non-optometrist assistants.",
+      "sample_quote": "authorizing an optometrist licensed under this chapter to delegate routine services of optometry to an agent of the optometrist",
+      "sample_state": "AK",
+      "states_supporting": [
+        "AK",
+        "AL",
+        "CA"
+      ]
+    },
+    {
+      "name": "telemedicine_authorized",
+      "category": "how and where care can be delivered",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly addresses or authorizes the delivery of optometric services via telemedicine.",
+      "sample_quote": "TELEMEDICINE. A health service that is delivered by a licensed optometrist acting within the scope of his or her license and that requires the use of advanced telecommunications technology",
+      "sample_state": "AL",
+      "states_supporting": [
+        "AL",
+        "CA"
+      ]
+    },
+    {
+      "name": "mobile_office_authorized",
+      "category": "how and where care can be delivered",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly addresses or regulates the operation of mobile optometric offices (vans, trailers, etc.).",
+      "sample_quote": "'mobile optometric office' means a trailer, van, or other means of transportation in which the practice of optometry, as defined in Section 3041, is performed",
+      "sample_state": "CA",
+      "states_supporting": [
+        "CA",
+        "AK"
+      ]
+    },
+    {
+      "name": "home_visit_permit_required",
+      "category": "how and where care can be delivered",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute requires a special permit or registration to practice optometry at a patient's home residence.",
+      "sample_quote": "An optometrist who is certified as a therapeutic pharmaceutical agent pursuant to Section 3041.3 may ... submit an application to the board for a home residence permit",
+      "sample_state": "CA",
+      "states_supporting": [
+        "CA",
+        "AK"
+      ]
+    },
+    {
+      "name": "maximum_number_of_offices",
+      "category": "how and where care can be delivered",
+      "type": "int",
+      "enum_values": null,
+      "description": "Maximum number of offices a single optometrist or group may operate under the statute.",
+      "sample_quote": "No optometrist, and no two or more optometrists jointly, may have more than 11 offices.",
+      "sample_state": "CA",
+      "states_supporting": [
+        "CA",
+        "AL"
+      ]
+    },
+    {
+      "name": "contact_lens_prescription_expiration_years",
+      "category": "prescriptions and optical devices",
+      "type": "int",
+      "enum_values": null,
+      "description": "Minimum required expiration period (in years) for a contact lens prescription.",
+      "sample_quote": "A written contact lens prescription shall expire one (1) year after the date of the completion of the contact lens fitting unless there is a medical reason that warrants a prescription for less than one (1) year.",
+      "sample_state": "AR",
+      "states_supporting": [
+        "AR",
+        "CA",
+        "AZ"
+      ]
+    },
+    {
+      "name": "spectacle_prescription_release_required",
+      "category": "prescriptions and optical devices",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute requires the prescriber to provide the patient with a copy of their spectacle or eyeglass prescription at no additional charge.",
+      "sample_quote": "the optometrist or physician practicing as an ophthalmologist shall upon request of the patient provide to the patient a complete and accurate written prescription at no additional charge.",
+      "sample_state": "AR",
+      "states_supporting": [
+        "AR",
+        "CA",
+        "AZ"
+      ]
+    },
+    {
+      "name": "patient_record_retention_years",
+      "category": "patient records and documentation",
+      "type": "int",
+      "enum_values": null,
+      "description": "Minimum number of years optometrists are required to retain patient records.",
+      "sample_quote": "An optometrist shall retain a patient's records for a minimum of seven years from the date he or she completes treatment of the patient.",
+      "sample_state": "CA",
+      "states_supporting": [
+        "CA",
+        "AL"
+      ]
+    },
+    {
+      "name": "impaired_practitioner_program_established",
+      "category": "practitioner health and impairment",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute establishes or references a formal program for identifying, treating, and monitoring impaired optometrists.",
+      "sample_quote": "IMPAIRED DOCTOR OF OPTOMETRY TREATMENT PROGRAM. The Alabama Board of Optometry approved or sponsored program for the detection, intervention, and monitoring of impaired providers.",
+      "sample_state": "AL",
+      "states_supporting": [
+        "AL",
+        "AR",
+        "CA"
+      ]
+    },
+    {
+      "name": "limited_teaching_license_available",
+      "category": "special and limited license types",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute provides for a limited license for optometry faculty or instructors who are not otherwise licensed in the state.",
+      "sample_quote": "The board may, under rules and regulations to be promulgated by the board, issue limited licenses, in the case of teachers, to persons who hold an optometric degree where such persons are not licensed and registered to practice optometry in this state.",
+      "sample_state": "AL",
+      "states_supporting": [
+        "AL",
+        "CA"
+      ]
+    },
+    {
+      "name": "retired_license_status_available",
+      "category": "special and limited license types",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute provides for a formal retired license status that exempts the holder from renewal and continuing education requirements.",
+      "sample_quote": "On retiring from practice and on payment of an appropriate one-time fee, a licensee in good standing with the board may apply for the conversion of an active or inactive license to a retired status license.",
+      "sample_state": "AK",
+      "states_supporting": [
+        "AK",
+        "AL",
+        "CA"
+      ]
+    },
+    {
+      "name": "jurisprudence_exam_required",
+      "category": "special and limited license types",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly requires passage of a state law (jurisprudence) examination as a condition of licensure or endorsement.",
+      "sample_quote": "Has passed a written examination approved by the board that is designed to test the applicant's knowledge of the laws of Alaska governing the practice of optometry",
+      "sample_state": "AK",
+      "states_supporting": [
+        "AK",
+        "AR",
+        "CA",
+        "AZ"
+      ]
+    },
+    {
+      "name": "criminal_background_check_required",
+      "category": "special and limited license types",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute requires applicants to submit to a criminal background check (including fingerprinting) as part of the licensure process.",
+      "sample_quote": "Application to the Identification Bureau of the Division of Arkansas State Police for a state and national criminal background check, to be conducted by the Federal Bureau of Investigation, which shall include the taking of fingerprints.",
+      "sample_state": "AR",
+      "states_supporting": [
+        "AR",
+        "AZ",
+        "CA"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,420 @@
+{
+  "profession": "nursing",
+  "fields": [
+    {
+      "name": "license_tiers",
+      "category": "types of nursing licenses and what each one covers",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "The distinct license or certification tiers recognized in the state, each with its own scope and requirements.",
+      "sample_quote": "In order to safeguard life and health, a person practicing or offering to practice nursing for compensation shall be required to submit evidence that he or she is qualified to so practice and shall be licensed as provided in this chapter: (1) Professional nursing; (2) Advanced practice registered nursing; (3) Registered practitioner nursing; (4) Practical nursing; or (5) Psychiatric technician nursing.",
+      "sample_state": "AR",
+      "states_supporting": [
+        "AK",
+        "AL",
+        "AR",
+        "AZ",
+        "CA"
+      ]
+    },
+    {
+      "name": "aprn_role_categories",
+      "category": "types of nursing licenses and what each one covers",
+      "type": "list[str]",
+      "enum_values": [
+        "certified registered nurse anesthetist (CRNA)",
+        "certified nurse practitioner (CNP/CRNP)",
+        "certified nurse midwife (CNM)",
+        "clinical nurse specialist (CNS)"
+      ],
+      "description": "The recognized advanced practice registered nurse role categories, each with distinct scope and certification requirements.",
+      "sample_quote": "There shall be four categories of advanced practice nurses: Certified registered nurse practitioners (CRNP), certified nurse midwives (CNM), certified registered nurse anesthetists (CRNA), and clinical nurse specialists (CNS).",
+      "sample_state": "AL",
+      "states_supporting": [
+        "AK",
+        "AL",
+        "AR",
+        "AZ",
+        "CA"
+      ]
+    },
+    {
+      "name": "lpn_supervision_requirements",
+      "category": "supervision and who a nurse must work under",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "The categories of licensed professionals under whose supervision a practical or vocational nurse must work.",
+      "sample_quote": "A practical nurse shall work under the supervision of a licensed registered or advanced practice registered nurse, a licensed physician, a licensed physician assistant, or a licensed dentist.",
+      "sample_state": "AK",
+      "states_supporting": [
+        "AK",
+        "AL",
+        "AR",
+        "AZ",
+        "CA"
+      ]
+    },
+    {
+      "name": "collaborative_practice_agreement_required",
+      "category": "supervision and who a nurse must work under",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether certain advanced practice nurses (typically NPs and CNMs) must have a written collaborative practice agreement with a physician to practice or prescribe.",
+      "sample_quote": "No person may practice as a certified registered nurse practitioner or a certified nurse midwife in this state unless that person possesses a certificate of qualification issued by the Board of Nursing and practices under written protocols approved by the State Board of Medical Examiners and the Board of Nursing and signed by a qualified collaborating physician.",
+      "sample_state": "AL",
+      "states_supporting": [
+        "AL",
+        "AR",
+        "CA"
+      ]
+    },
+    {
+      "name": "full_independent_practice_available",
+      "category": "supervision and who a nurse must work under",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state provides a pathway for certain APRNs to practice fully independently without a physician collaboration or supervision requirement.",
+      "sample_quote": "As used in this section, 'full independent practice authority' means the ability of a certified nurse practitioner or a clinical nurse specialist to practice with prescriptive authority without a collaborative practice agreement.",
+      "sample_state": "AR",
+      "states_supporting": [
+        "AR",
+        "AZ",
+        "CA"
+      ]
+    },
+    {
+      "name": "full_independent_practice_experience_hours_required",
+      "category": "supervision and who a nurse must work under",
+      "type": "int",
+      "enum_values": null,
+      "description": "Number of supervised or collaborative practice hours required before an APRN may qualify for full independent practice authority.",
+      "sample_quote": "Proof of successful completion of six thousand two hundred forty (6,240) hours of practice: (i) Under a board-required agreement with a physician; or (ii) From another state, territory, or foreign country that authorizes a certified nurse practitioner or a clinical nurse specialist to practice with prescriptive authority.",
+      "sample_state": "AR",
+      "states_supporting": [
+        "AR",
+        "CA"
+      ]
+    },
+    {
+      "name": "prescriptive_authority_certificate_required",
+      "category": "prescribing and drug authority details",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether APRNs must obtain a separate board-issued certificate or number to prescribe or furnish drugs, beyond the basic APRN license.",
+      "sample_quote": "The furnishing or ordering of drugs or devices by a nurse practitioner is conditional on issuance by the board of a number to the nurse applicant who has successfully completed the requirements of subdivision (g) of Section 2836.1.",
+      "sample_state": "CA",
+      "states_supporting": [
+        "AR",
+        "AZ",
+        "CA"
+      ]
+    },
+    {
+      "name": "controlled_substance_schedule_authority",
+      "category": "prescribing and drug authority details",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "The DEA controlled substance schedules that APRNs are authorized to prescribe, which may differ by role or state.",
+      "sample_quote": "An advanced practice registered nurse's prescriptive authority shall extend only to drugs listed in Schedules III - V and, if expressly authorized by the collaborative practice agreement, also to those hydrocodone combination products reclassified from Schedule III to Schedule II.",
+      "sample_state": "AR",
+      "states_supporting": [
+        "AK",
+        "AL",
+        "AR",
+        "AZ",
+        "CA"
+      ]
+    },
+    {
+      "name": "opioid_prescribing_limits",
+      "category": "prescribing and drug authority details",
+      "type": "str",
+      "enum_values": null,
+      "description": "Statutory limits on opioid prescriptions issued by APRNs, including maximum day-supply and documentation requirements.",
+      "sample_quote": "An advanced practice registered nurse may not issue (1) an initial prescription for an opioid that exceeds a seven-day supply to an adult patient for outpatient use.",
+      "sample_state": "AK",
+      "states_supporting": [
+        "AK",
+        "AR"
+      ]
+    },
+    {
+      "name": "dea_registration_required",
+      "category": "prescribing and drug authority details",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether APRNs authorized to prescribe controlled substances must register with the federal DEA.",
+      "sample_quote": "Every certified nurse-midwife who is authorized pursuant to this section to furnish or issue a drug order for a controlled substance shall register with the United States Drug Enforcement Administration.",
+      "sample_state": "CA",
+      "states_supporting": [
+        "AK",
+        "AR",
+        "AZ",
+        "CA"
+      ]
+    },
+    {
+      "name": "controlled_substance_database_registration_required",
+      "category": "prescribing and drug authority details",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether APRNs with DEA numbers must register with the state's controlled substance prescription monitoring database.",
+      "sample_quote": "Require that a licensed advanced practice registered nurse who has a federal Drug Enforcement Administration registration number register with the controlled substance prescription database under AS 17.30.200(n).",
+      "sample_state": "AK",
+      "states_supporting": [
+        "AK",
+        "CA"
+      ]
+    },
+    {
+      "name": "nurse_aide_registry_maintained",
+      "category": "nurse aide and assistive personnel oversight",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state board maintains a registry of certified nurse aides, including disciplinary findings.",
+      "sample_quote": "The board shall maintain a registry of certified nurse aides. At a minimum, this registry must include the information required under federal regulations that are applicable to nurse aides found to have committed abuse, neglect, or misappropriation of property.",
+      "sample_state": "AK",
+      "states_supporting": [
+        "AK",
+        "AZ",
+        "CA"
+      ]
+    },
+    {
+      "name": "medication_assistant_certification_available",
+      "category": "nurse aide and assistive personnel oversight",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state has a separate certification category for medication assistants or medication assistive persons who may administer certain medications under nurse supervision.",
+      "sample_quote": "A medication assistive person means a person who is certified by the board to administer certain nonprescription and legend drugs in designated facilities.",
+      "sample_state": "AR",
+      "states_supporting": [
+        "AR",
+        "AZ",
+        "CA"
+      ]
+    },
+    {
+      "name": "delegation_to_unlicensed_personnel_authorized",
+      "category": "nurse aide and assistive personnel oversight",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether licensed nurses are explicitly authorized by statute to delegate nursing tasks to unlicensed assistive personnel under defined conditions.",
+      "sample_quote": "A registered, advanced practice registered, or practical nurse licensed under this chapter may delegate nursing duties to other persons, including unlicensed assistive personnel, under regulations adopted by the board.",
+      "sample_state": "AK",
+      "states_supporting": [
+        "AK",
+        "AL",
+        "AR",
+        "AZ",
+        "CA"
+      ]
+    },
+    {
+      "name": "employer_mandatory_reporting_required",
+      "category": "reporting obligations and whistleblower protections",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether employers of nurses are legally required to report to the board when a nurse is discharged, suspended, or resigns under circumstances related to grounds for discipline.",
+      "sample_quote": "An employer of a nurse licensed under this chapter... that discharges or suspends a nurse or nurse aide or conditions or restricts the practice of a nurse or nurse aide shall, within seven working days after the action, report to the board the name and address of the person and the reason for the action.",
+      "sample_state": "AK",
+      "states_supporting": [
+        "AK",
+        "CA"
+      ]
+    },
+    {
+      "name": "whistleblower_protection_for_delegation_refusal",
+      "category": "reporting obligations and whistleblower protections",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state provides explicit statutory protection for nurses who refuse to perform improperly delegated tasks.",
+      "sample_quote": "An employer may not discharge, threaten, or otherwise discriminate against a nurse employed by the employer regarding the nurse's compensation, terms, conditions, location, or privileges of employment for the nurse's refusal to perform a task involving nursing care delegated to the nurse by the nurse's superior if the nurse alleges that the task was improperly delegated.",
+      "sample_state": "AK",
+      "states_supporting": [
+        "AK",
+        "AL"
+      ]
+    },
+    {
+      "name": "nurse_licensure_compact_member",
+      "category": "multistate practice and interstate compacts",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state has enacted the Enhanced Nurse Licensure Compact (eNLC), allowing multistate licensure privileges.",
+      "sample_quote": "A multistate license to practice registered or licensed practical nursing issued by a home state to a resident in that state shall be recognized by each party state as authorizing a nurse to practice as a registered nurse or as a licensed practical nurse, under a multistate licensure privilege, in each party state.",
+      "sample_state": "AL",
+      "states_supporting": [
+        "AL",
+        "AR",
+        "AZ"
+      ]
+    },
+    {
+      "name": "multistate_license_option_available",
+      "category": "multistate practice and interstate compacts",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether applicants may choose between a single-state license and a multistate license when applying for licensure.",
+      "sample_quote": "An applicant for a license to practice professional nursing in Alabama may apply for either a single state license or a multistate license.",
+      "sample_state": "AL",
+      "states_supporting": [
+        "AL",
+        "AR",
+        "AZ"
+      ]
+    },
+    {
+      "name": "impaired_nurse_alternative_program_available",
+      "category": "impaired nurse programs and rehabilitation",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state has a voluntary non-disciplinary alternative or diversion program for nurses impaired by substance use or mental health conditions.",
+      "sample_quote": "The board shall establish a voluntary Disciplinary Alternative Program to promote early identification, intervention, treatment, and rehabilitation of any licensed nurse whose competence is found to be impaired or compromised because of the use or abuse of drugs, alcohol, controlled substances, chemicals, or other substances.",
+      "sample_state": "AL",
+      "states_supporting": [
+        "AL",
+        "AR",
+        "AZ",
+        "CA"
+      ]
+    },
+    {
+      "name": "rn_death_pronouncement_authorized",
+      "category": "special clinical authorities granted to nurses",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether registered nurses are explicitly authorized by statute to make a determination and pronouncement of death under specified conditions.",
+      "sample_quote": "A registered nurse licensed under this chapter may make a determination and pronouncement of death of a person under the following circumstances: an attending physician, an attending advanced practice registered nurse, or an attending physician assistant has documented in the person's medical or clinical record that the person's death is anticipated due to illness, infirmity, or disease.",
+      "sample_state": "AK",
+      "states_supporting": [
+        "AK",
+        "CA"
+      ]
+    },
+    {
+      "name": "public_health_nurse_certification_available",
+      "category": "special clinical authorities granted to nurses",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state has a separate board-issued public health nurse certification with title protection.",
+      "sample_quote": "No individual shall hold himself or herself out as a public health nurse or use a title which includes the term 'public health nurse' unless that individual is in possession of a valid California public health nurse certificate issued pursuant to this article.",
+      "sample_state": "CA",
+      "states_supporting": [
+        "CA"
+      ]
+    },
+    {
+      "name": "telehealth_prescribing_rules",
+      "category": "special clinical authorities granted to nurses",
+      "type": "str",
+      "enum_values": null,
+      "description": "Statutory rules governing when an APRN may prescribe or treat without a prior in-person physical examination, including telehealth or internet-based restrictions.",
+      "sample_quote": "The board may not impose disciplinary sanctions on an advanced practice registered nurse for rendering a diagnosis, providing treatment, or prescribing, dispensing, or administering a prescription drug that is not a controlled substance to a person without conducting a physical examination if the advanced practice registered nurse or another licensed health care provider in the medical practice is available to provide follow-up care.",
+      "sample_state": "AK",
+      "states_supporting": [
+        "AK",
+        "CA"
+      ]
+    },
+    {
+      "name": "nurse_practitioner_transition_to_practice_hours",
+      "category": "extra credentials and tiered scope for advanced practice nurses",
+      "type": "int",
+      "enum_values": null,
+      "description": "Number of supervised or collaborative practice hours a nurse practitioner must complete before qualifying for independent or expanded practice authority.",
+      "sample_quote": "Has completed a transition to practice in California of a minimum of three full-time equivalent years of practice or 4600 hours.",
+      "sample_state": "CA",
+      "states_supporting": [
+        "AR",
+        "CA"
+      ]
+    },
+    {
+      "name": "crna_physician_supervision_model",
+      "category": "extra credentials and tiered scope for advanced practice nurses",
+      "type": "enum",
+      "enum_values": [
+        "direction and presence required",
+        "direction without required presence",
+        "consultation model",
+        "coordination model"
+      ],
+      "description": "The statutory model governing the relationship between a CRNA and a physician during anesthesia administration.",
+      "sample_quote": "A certified registered nurse anesthetist may administer anesthetics under the direction of and in the presence of a physician or surgeon in connection with the preoperative, intraoperative or postoperative care of a patient.",
+      "sample_state": "AZ",
+      "states_supporting": [
+        "AL",
+        "AR",
+        "AZ",
+        "CA"
+      ]
+    },
+    {
+      "name": "cnm_out_of_hospital_birth_authorized",
+      "category": "extra credentials and tiered scope for advanced practice nurses",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether certified nurse midwives are explicitly authorized to attend births in out-of-hospital settings.",
+      "sample_quote": "The certificate to practice nurse-midwifery authorizes the holder to attend pregnancy and childbirth in an out-of-hospital setting if consistent with subdivisions (a), (b), and (c).",
+      "sample_state": "CA",
+      "states_supporting": [
+        "AR",
+        "AZ",
+        "CA"
+      ]
+    },
+    {
+      "name": "aprn_formulary_or_protocol_required",
+      "category": "extra credentials and tiered scope for advanced practice nurses",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether APRNs who prescribe must do so pursuant to a board-approved formulary or written protocol specifying permissible drugs.",
+      "sample_quote": "The drug shall be on the formulary recommended by the joint committee and adopted by the State Board of Medical Examiners and the Board of Nursing.",
+      "sample_state": "AL",
+      "states_supporting": [
+        "AL",
+        "AR",
+        "CA"
+      ]
+    },
+    {
+      "name": "nursing_education_program_clinical_hours_minimum",
+      "category": "nursing school and education program standards",
+      "type": "int",
+      "enum_values": null,
+      "description": "Minimum number of direct patient care clinical hours required in an approved prelicensure nursing education program.",
+      "sample_quote": "An approved school of nursing or nursing program shall meet a minimum of 500 direct patient care clinical hours in a board-approved clinical setting.",
+      "sample_state": "CA",
+      "states_supporting": [
+        "CA",
+        "AZ"
+      ]
+    },
+    {
+      "name": "implicit_bias_training_required_in_curriculum",
+      "category": "nursing school and education program standards",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether approved nursing education programs are required to include implicit bias training as part of graduation requirements.",
+      "sample_quote": "Graduation requirements for an approved school of nursing, or an approved nursing program, shall include one hour of direct participation in an implicit bias training.",
+      "sample_state": "CA",
+      "states_supporting": [
+        "CA"
+      ]
+    },
+    {
+      "name": "military_education_credit_required",
+      "category": "nursing school and education program standards",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether approved nursing schools are required to grant credit toward licensure for military medical education and experience.",
+      "sample_quote": "The board shall deny the application for approval made by, and shall revoke the approval given to, any school of nursing that does not give student applicants credit in the field of nursing for military education and experience by the use of challenge examinations or other methods of evaluation.",
+      "sample_state": "CA",
+      "states_supporting": [
+        "CA",
+        "AZ"
+      ]
+    }
+  ]
+}
