@@ -172,13 +172,16 @@ def write_markdown_preview(schema: DiscoveredSchema, path: Path) -> None:
     lines = [f"# Discovered fields — {schema.profession}", ""]
     by_cat: dict[str, list[DiscoveredField]] = {}
     for f in schema.fields:
-        by_cat.setdefault(f.category.value, []).append(f)
+        # category is plain-English str per the prompt (no Enum). Older runs
+        # used an Enum here; defensive .value access for those cases.
+        cat = f.category.value if hasattr(f.category, "value") else f.category
+        by_cat.setdefault(cat, []).append(f)
     for cat, fields in by_cat.items():
         lines.append(f"## {cat}")
         lines.append("")
         for f in fields:
-            type_str = f.type.value
-            if f.type == FieldType.ENUM and f.enum_values:
+            type_str = f.type.value if hasattr(f.type, "value") else f.type
+            if (f.type == FieldType.ENUM if hasattr(f.type, "ENUM") else f.type == "enum") and f.enum_values:
                 type_str = f"enum[{', '.join(f.enum_values)}]"
             states_str = ", ".join(sorted(f.states_supporting)[:8])
             if len(f.states_supporting) > 8:
