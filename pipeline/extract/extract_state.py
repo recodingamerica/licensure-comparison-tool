@@ -214,19 +214,53 @@ def build_state_text(state_corpus: dict) -> str:
     return "".join(parts)
 
 
-def load_umbrella_text(state: str) -> str:
-    """Return the state's umbrella / cross-cutting chapter text if cached,
-    else ''. Meeting Q3: practice acts often reference a general-provisions
-    chapter (definitions, board composition, fee rules) that applies to
-    multiple professions. Including it here gives the model the context it
-    needs to fill fields that the practice act itself only points to.
+def _canonical_url(url: str) -> str:
+    """Year-prefix-stripping URL key, mirroring assign_umbrella_scope."""
+    return re.sub(r"/codes/utah/\d{4}/", "/codes/utah/", url)
+
+
+def load_umbrella_text(state: str, profession: str | None = None) -> str:
+    """Return the state's umbrella / cross-cutting chapter text as injectable
+    prompt context.
+
+    Filtering rule (when `profession` is given AND we have a scope file for
+    the state in `pipeline/results/umbrella_scope/<STATE>.json`): include a
+    section iff its `scope_source` is universal (`anchor_universal` /
+    `universal`) OR `profession` is in its `applies_to_professions`. Sections
+    with `scope_source: "undetermined"` are NOT included — that's the loud
+    failure path. They show up in the scope file's `triage` array for review.
+
+    When `profession` is None (the verifier's path), include everything:
+    a quote may have been legitimately drawn from any umbrella section the
+    model saw at extraction time. Permissive verification beats
+    false-positive `unverified` flags.
+
+    Fallback: for states with no `umbrella_scope/<STATE>.json` yet (i.e.
+    states the section-level rework hasn't reached), include everything —
+    same as the verifier path. This keeps the pipeline working as we roll
+    the new approach out state-by-state.
     """
-    p = RESULTS_DIR / "umbrella_text" / f"{state}.json"
-    if not p.exists():
+    text_path = RESULTS_DIR / "umbrella_text" / f"{state}.json"
+    if not text_path.exists():
         return ""
-    rec = json.loads(p.read_text())
+    sections = (json.loads(text_path.read_text()).get("sections") or [])
+
+    scope_path = RESULTS_DIR / "umbrella_scope" / f"{state}.json"
+    if profession and scope_path.exists():
+        scope_data = json.loads(scope_path.read_text())
+        keep_urls: set[str] = set()
+        for entry in scope_data.get("sections", []):
+            src = entry.get("scope_source")
+            if src in ("anchor_universal", "universal"):
+                keep_urls.add(_canonical_url(entry.get("url", "")))
+            elif src in ("anchor_enumeration", "inherited_enumeration"):
+                if profession in (entry.get("applies_to_professions") or []):
+                    keep_urls.add(_canonical_url(entry.get("url", "")))
+            # `undetermined` sections are NOT kept — fail loudly.
+        sections = [s for s in sections if _canonical_url(s.get("url", "")) in keep_urls]
+
     parts = []
-    for sec in rec.get("sections", []):
+    for sec in sections:
         chap_label = sec.get("umbrella_chapter_label", "")
         parts.append(f"\n[UMBRELLA / {chap_label[:60]}] {sec.get('label','')}\n{sec.get('text','')}\n")
     return "".join(parts)
@@ -348,7 +382,12 @@ def extract_one(state: str, profession: str, model: str, profile_cls: type[BaseM
         log.warning("[%s] no sections to extract from", state)
         return None
     state_text = build_state_text(raw)
-    umbrella_text = load_umbrella_text(state)
+    # Filter the umbrella corpus to sections scoped to this specific
+    # profession, based on what the umbrella statute itself enumerates.
+    # See pipeline/discover/assign_umbrella_scope.py for the parser that
+    # produces `umbrella_scope/<STATE>.json`, and the load_umbrella_text
+    # docstring for the include/exclude rule.
+    umbrella_text = load_umbrella_text(state, profession)
     if umbrella_text:
         user_msg = (
             f"State: {state}\nProfession: {profession}\n\n"
@@ -360,8 +399,8 @@ def extract_one(state: str, profession: str, model: str, profile_cls: type[BaseM
     else:
         user_msg = f"State: {state}\nProfession: {profession}\n\nTrimmed statute text:\n{state_text}"
     log.info(
-        "[%s] extracting (%d sections, %d chars; umbrella=%d chars)",
-        state, len(raw["sections"]), len(user_msg), len(umbrella_text),
+        "[%s] extracting %s (%d sections, %d chars; umbrella=%d chars)",
+        state, profession, len(raw["sections"]), len(user_msg), len(umbrella_text),
     )
     result = call_model(model, SYSTEM_PROMPT, user_msg, profile_cls)
     if result is None:
