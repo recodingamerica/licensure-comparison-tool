@@ -19,8 +19,9 @@ from pathlib import Path
 from typing import Any
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from paths import STRUCTURED_DIR, DISCOVERED_DIR, TRIMMED_DIR  # noqa: E402
+from paths import STRUCTURED_DIR, DISCOVERED_DIR, TRIMMED_DIR, RESULTS_DIR  # noqa: E402
 from config.states import ALL_STATES  # noqa: E402
+from extract.locate_quote import locate_quote_in_section  # noqa: E402
 from publish.blob_upload import upload_json  # noqa: E402
 
 
@@ -38,6 +39,62 @@ def _g(d: dict | None, *path: str) -> Any:
             return None
         cur = cur.get(k)
     return cur
+
+
+def _annotate_quote_spans(record: dict, sections: list[dict]) -> tuple[int, int]:
+    """For each verified Evidence node, find the cited section's text and
+    attach `quote_spans`: a list of (start, end) char offsets into that
+    same `text` field the frontend will render. The UI then slices
+    directly — no re-derived regex, no Python-vs-TS parity drift.
+
+    The lookup mirrors evidence-row.tsx: try the raw citation, then the
+    bracket-stripped form. Unverified nodes are skipped (highlight would
+    be misleading), and nodes whose citation we can't pin to a single
+    section are left without spans (verifier may still have accepted them
+    via the combined chapter+umbrella corpus — see STATUS.md's
+    corpus-boundary case; UI shows the quote without a highlight).
+
+    Returns (with_spans, without_spans) across verified nodes.
+    """
+    by_cite: dict[str, dict] = {}
+    for s in sections:
+        cite = s.get("citation") or ""
+        if not cite:
+            continue
+        by_cite[cite] = s
+        by_cite[f"[{cite}]"] = s
+
+    with_spans = without_spans = 0
+
+    def walk(node: Any):
+        nonlocal with_spans, without_spans
+        if isinstance(node, dict):
+            if {"value", "quote", "citation"}.issubset(node.keys()):
+                if not node.get("unverified"):
+                    cite = node.get("citation") or ""
+                    sec = by_cite.get(cite) or by_cite.get(cite.strip("[]"))
+                    text = (sec or {}).get("text") or ""
+                    spans = (
+                        locate_quote_in_section(node.get("quote") or "", text)
+                        if text
+                        else None
+                    )
+                    if spans:
+                        # Pydantic dumps tuples as lists already; be explicit
+                        # so JSON output is `[[s, e], ...]` either way.
+                        node["quote_spans"] = [list(p) for p in spans]
+                        with_spans += 1
+                    else:
+                        without_spans += 1
+                return
+            for v in node.values():
+                walk(v)
+        elif isinstance(node, list):
+            for v in node:
+                walk(v)
+
+    walk(record)
+    return with_spans, without_spans
 
 
 def _count_evidence(record: dict) -> tuple[int, int]:
@@ -160,6 +217,9 @@ def build(profession: str) -> dict:
     trimmed_with_text: dict[str, int] = {}
     chapter_urls_by_state: dict[str, list[str]] = {}
     sections_by_state: dict[str, list[dict]] = {}
+
+    umbrella_text_dir = RESULTS_DIR / "umbrella_text"
+
     if trimmed_dir.exists():
         for p in trimmed_dir.glob("*.json"):
             if p.stem.startswith("_"):
@@ -168,20 +228,53 @@ def build(profession: str) -> dict:
             trimmed_with_text[p.stem] = d.get("total_chars", 0)
             chapter_urls_by_state[p.stem] = d.get("chapter_urls", []) or []
             # Section bodies as the LLM saw them — used for "view in context" panel
-            sections_by_state[p.stem] = [
+            section_list = [
                 {"url": s.get("url"), "citation": s.get("citation"),
                  "label": s.get("label"), "text": s.get("text")}
                 for s in (d.get("sections") or [])
                 if s.get("text")
             ]
+            # ALSO include umbrella sections so the UI can highlight quotes the
+            # extractor drew from umbrella context. Multiple umbrella section
+            # bodies share the same "UMBRELLA / <chapter_label>" citation prefix
+            # (that's how extract_state.load_umbrella_text labels them), so
+            # concatenate their text under a single ref per chapter.
+            umb_path = umbrella_text_dir / f"{p.stem}.json"
+            if umb_path.exists():
+                umb = json.loads(umb_path.read_text())
+                by_chap: dict[str, dict] = {}
+                for s in umb.get("sections", []):
+                    if not s.get("text"):
+                        continue
+                    chap_label = (s.get("umbrella_chapter_label") or "")[:60]
+                    cite = f"UMBRELLA / {chap_label}"
+                    if cite not in by_chap:
+                        by_chap[cite] = {
+                            "url": s.get("url"),  # first section's URL
+                            "citation": cite,
+                            "label": f"umbrella context — {chap_label}",
+                            "text": s.get("text") or "",
+                        }
+                    else:
+                        by_chap[cite]["text"] += "\n" + (s.get("text") or "")
+                section_list.extend(by_chap.values())
+            sections_by_state[p.stem] = section_list
 
     rows: list[dict] = []
+    span_with = span_without = 0
     for st in ALL_STATES:
         if st in have_struct:
             rec = json.loads((structured_dir / f"{st}.json").read_text())
             row = hoist_row(rec)
             row["source_chapter_urls"] = chapter_urls_by_state.get(st, [])
             row["sections"] = sections_by_state.get(st, [])
+            # Attach highlight spans now, against the EXACT section text we're
+            # about to publish. Computing on this side (rather than during
+            # extract/reverify) avoids any normalization drift between the
+            # text the verifier saw and the text the UI will slice.
+            w, wo = _annotate_quote_spans(row["_full"], row["sections"])
+            span_with += w
+            span_without += wo
             rows.append(row)
         else:
             chars = trimmed_with_text.get(st, 0)
@@ -209,7 +302,15 @@ def build(profession: str) -> dict:
         "display": _profession_display(profession),
         "discovered_fields": discovered["fields"],
         "rows": rows,
-        "evidence_summary": {"verified": verified, "unverified": unverified},
+        "evidence_summary": {
+            "verified": verified,
+            "unverified": unverified,
+            # How many verified nodes got per-section highlight spans
+            # vs. only verified against the combined corpus. The latter
+            # show in the UI without a yellow highlight.
+            "with_quote_spans": span_with,
+            "without_quote_spans": span_without,
+        },
     }
 
 

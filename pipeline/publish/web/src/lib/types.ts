@@ -6,6 +6,14 @@ export type Evidence<T = unknown> = {
   quote: string;
   citation: string;
   unverified?: boolean;
+  // Pre-computed character offsets into the cited section's `text`,
+  // emitted by pipeline/publish/build_frontend.py via
+  // pipeline/extract/locate_quote.py. Each pair is [start, end). Multiple
+  // pairs when the quote was elided with "..." across non-contiguous
+  // ranges. Absent when the quote couldn't be pinned to a single section
+  // (the verifier may still have accepted it against the combined
+  // corpus — render quote without a highlight in that case).
+  quote_spans?: Array<[number, number]>;
 };
 
 export type EducationRequirement = {

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import type { Evidence, SectionRef } from "@/lib/types";
 import { Badge } from "@/components/ui/badge";
-import { humanize, highlightInText } from "@/lib/format";
+import { humanize, highlightSpans, citationUrlWithFragment } from "@/lib/format";
 import { ExternalLink, ChevronDown, ChevronRight } from "lucide-react";
 
 type Props = {
@@ -34,7 +34,8 @@ export function EvidenceRow({ label, ev, sections }: Props) {
     sections[cite] || sections[cite.replace(/^\[|\]$/g, "")] || null;
   const unverified = !!ev.unverified;
 
-  const parts = source?.text ? highlightInText(source.text, ev.quote || "") : null;
+  const parts = source?.text ? highlightSpans(source.text, ev.quote_spans) : null;
+  const deepLinkUrl = citationUrlWithFragment(source?.url, source?.text, ev.quote_spans);
 
   return (
     <div className="grid grid-cols-[160px_1fr] md:grid-cols-[180px_1fr] gap-x-3 py-2 border-b border-border/60 last:border-0">
@@ -63,7 +64,7 @@ export function EvidenceRow({ label, ev, sections }: Props) {
           “{ev.quote}”{" "}
           {source?.url ? (
             <a
-              href={source.url}
+              href={deepLinkUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="not-italic font-mono text-sky-700 hover:text-sky-900 hover:underline text-[10px] ml-1"
@@ -81,7 +82,7 @@ export function EvidenceRow({ label, ev, sections }: Props) {
           <div className="flex items-center gap-3 text-xs">
             {source.url && (
               <a
-                href={source.url}
+                href={deepLinkUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-muted-foreground hover:text-foreground inline-flex items-center gap-1"
