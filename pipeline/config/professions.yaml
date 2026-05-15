@@ -2,11 +2,18 @@
 #
 # Each entry has:
 #   display:  human-readable name (used in UI titles)
+#   family:   one or more taxonomy buckets used by the umbrella scope filter
+#             (health / building_design / business / public_safety).
+#             Multi-valued for cross-cutting professions.
 #   patterns: case-insensitive substrings used to match a state's chapter label
 #   excludes: optional substrings that, if present, disqualify a label even if `patterns` matched
 #
 # match_profession.py applies patterns to chapter labels in pipeline/results/hierarchy/<STATE>.json
 # and emits matched nodes into pipeline/results/profession_index/<profession>.json.
+#
+# extract_state.load_umbrella_text uses `family` to filter which umbrella chapters
+# get injected into a given profession's LLM prompt — only chapters whose
+# scope ⊆ {universal} ∪ profession.family are included. See ARCHITECTURE.md.
 #
 # Adding a profession that exists in another state but not Utah: append a new top-level entry.
 # Adding a Utah-specific quirk: extend an existing profession's patterns.
@@ -15,208 +22,256 @@
 
 podiatry:
   display: Podiatry / Podiatric Medicine
+  family: [health]
   patterns: [podiatr, chiropod]
   onet_code: "29-1081.00"
   onet_title: Podiatrists
 
 medicine:
   display: Medicine (MD)
+  family: [health]
   patterns: ["medical practice", "medicine and surgery", " physicians "]
   excludes: ["osteopathic", "podiatric", "naturopathic", "chiropractic", "physician assistant", "physician's assistant", "veterinar", "athletic"]
 
 osteopathic_medicine:
   display: Osteopathic Medicine (DO)
+  family: [health]
   patterns: [osteopath]
 
 naturopathic_medicine:
   display: Naturopathic Medicine
+  family: [health]
   patterns: [naturopath]
 
 chiropractic:
   display: Chiropractic
+  family: [health]
   patterns: [chiropract]
 
 acupuncture:
   display: Acupuncture
+  family: [health]
   patterns: [acupunct]
 
 physician_assistant:
   display: Physician Assistant
+  family: [health]
   patterns: ["physician assistant", "physician's assistant", "physicians' assistant"]
 
 anesthesiologist_assistant:
   display: Anesthesiologist Assistant
+  family: [health]
   patterns: ["anesthesiologist assist"]
 
 dentistry:
   display: Dentistry & Dental Hygiene
+  family: [health]
   patterns: [dentist, "dental hygien", "dental practice", "dental assist"]
 
 optometry:
   display: Optometry
+  family: [health]
   patterns: [optometr]
 
 opticianry:
   display: Opticianry (dispensing optician)
+  family: [health]
   patterns: ["dispensing optician", "ophthalmic dispenser"]
 
 pharmacy:
   display: Pharmacy
+  family: [health]
   patterns: [pharmac]
 
 veterinary:
   display: Veterinary Medicine
+  family: [health]
   patterns: [veterinar]
 
 nursing:
   display: Nursing (RN / LPN / APRN)
+  family: [health]
   patterns: [nurs]
   excludes: ["nurse midwif", "nurse-midwif", "midwifery"]
 
 nurse_midwifery:
   display: Nurse Midwifery
+  family: [health]
   patterns: ["nurse midwif", "nurse-midwif"]
 
 direct_entry_midwifery:
   display: Direct-Entry Midwifery
+  family: [health]
   patterns: ["direct-entry midwif", "direct entry midwif", "lay midwif", "certified professional midwif"]
 
 physical_therapy:
   display: Physical Therapy
+  family: [health]
   patterns: ["physical therap", physiotherap]
 
 occupational_therapy:
   display: Occupational Therapy
+  family: [health]
   patterns: ["occupational therap"]
 
 respiratory_care:
   display: Respiratory Care
+  family: [health]
   patterns: ["respiratory care", "respiratory therap"]
 
 speech_language_audiology:
   display: Speech-Language Pathology & Audiology
+  family: [health]
   patterns: ["speech-language", "speech language", "speech path", audiolog]
 
 athletic_training:
   display: Athletic Training
+  family: [health]
   patterns: ["athletic train"]
 
 recreational_therapy:
   display: Recreational Therapy
+  family: [health]
   patterns: ["recreational therap"]
 
 dietetics:
   display: Dietetics / Nutrition
+  family: [health]
   patterns: [dietit, dietetic]
 
 genetic_counseling:
   display: Genetic Counseling
+  family: [health]
   patterns: ["genetic counsel"]
 
 hearing_instrument_specialist:
   display: Hearing Instrument Specialist
+  family: [health]
   patterns: ["hearing instrument", "hearing aid"]
 
 medical_interpreter:
   display: Medical Language Interpreter
+  family: [health]
   patterns: ["medical interpret", "healthcare interpret", "medical language interpret"]
 
 massage_therapy:
   display: Massage Therapy
+  family: [health]
   patterns: ["massage therap"]
 
 radiologic_technology:
   display: Radiologic Technology
+  family: [health]
   patterns: ["radiologic tech", "radiology technician", "radiologist assist", "radiation therap"]
 
 mental_health_counseling:
   display: Mental Health Counseling / MFT / Clinical Social Work
+  family: [health]
   patterns: ["mental health", "professional counsel", "marriage and family therap", "clinical social work", "licensed professional counselor"]
 
 psychology:
   display: Psychology
+  family: [health]
   patterns: [psycholog]
 
 music_therapy:
   display: Music Therapy
+  family: [health]
   patterns: ["music therap"]
 
 environmental_health:
   display: Environmental Health Scientist / Sanitarian
+  family: [health]
   patterns: ["environmental health scientist", sanitarian]
 
 health_facility_admin:
   display: Health Facility Administrator
+  family: [health, business]
   patterns: ["health facility admin", "nursing home admin", "long-term care admin", "long term care admin"]
 
 # --- Building / design / engineering ---
 
 architecture:
   display: Architecture
+  family: [building_design]
   patterns: [architect]
   excludes: ["landscape architect", "naval architect"]
 
 landscape_architecture:
   display: Landscape Architecture
+  family: [building_design]
   patterns: ["landscape architect"]
 
 professional_engineering:
   display: Professional Engineering
+  family: [building_design]
   patterns: ["professional engineer", "engineers and land surveyors", "engineers, land surveyors"]
   excludes: []
 
 land_surveying:
   display: Land Surveying
+  family: [building_design]
   patterns: ["land surveyor", "professional surveyor", "land surveying"]
 
 construction_trades:
   display: Construction / Contractor Trades
+  family: [building_design]
   patterns: ["construction trade", "contractors licens", "general contractor"]
 
 building_inspector:
   display: Building Inspector
+  family: [building_design]
   patterns: ["building inspect", "building official"]
 
 commercial_interior_design:
   display: Interior Design (commercial)
+  family: [building_design]
   patterns: ["interior design"]
 
 professional_geology:
   display: Professional Geology
+  family: [building_design]
   patterns: [geolog]
 
 # --- Business / professional services ---
 
 public_accountancy:
   display: Public Accountancy (CPA)
+  family: [business]
   patterns: [accountant, accountancy, "public accounting", "certified public account"]
   onet_code: "13-2011.00"
   onet_title: Accountants and Auditors
 
 funeral_services:
   display: Funeral Services / Embalming / Cremation
+  family: [business]
   patterns: [funeral, mortician, embalmer, "cemetery and crematory"]
 
 cosmetology:
   display: Cosmetology / Barbering / Esthetics / Nail Tech
+  family: [business]
   patterns: [cosmetolog, barber, esthetic, "nail tech", "nail technician", "hair design", "hair braid"]
 
 court_reporter:
   display: Court Reporter / Shorthand Reporter
+  family: [business]
   patterns: ["court reporter", "shorthand reporter", "stenograph"]
 
 private_probation:
   display: Private Probation Provider
+  family: [business, public_safety]
   patterns: ["private probation", "probation provider"]
 
 # --- Public safety / investigative ---
 
 security_personnel:
   display: Security Personnel / Guard
+  family: [public_safety]
   patterns: ["security guard", "security officer", "security personnel", "private security"]
 
 polygraph_examiner:
   display: Polygraph / Deception Detection Examiner
+  family: [public_safety]
   patterns: [polygraph, "deception detect"]
 
 # --- Other Utah occupations to consider adding patterns from non-Utah states later ---

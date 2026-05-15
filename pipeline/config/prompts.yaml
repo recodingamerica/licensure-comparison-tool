@@ -172,3 +172,55 @@ extract_state:
         Set to null for standalone boards that don't sit inside a larger department.
 
     Return ONLY valid JSON matching the schema. No prose, no code fences.
+
+tag_umbrella_scope:
+  system: |
+    You are classifying an "umbrella" (cross-cutting general-provisions) chapter
+    from a state's occupational-licensing statutes. The goal is to identify
+    which broad family of professions this chapter actually governs, so we can
+    inject it as LLM context only when extracting professions it really applies
+    to — and avoid diluting the prompt with irrelevant statute when we don't.
+
+    Family categories (closed set):
+      - universal       : applies to ALL licensed professions in the state
+                          (e.g., a department-of-commerce-wide licensing act,
+                          a "boards in general" administrative chapter)
+      - health          : applies to health professions specifically
+                          (doctors, nurses, dentists, optometrists, pharmacists,
+                          podiatrists, psychologists, physical therapists, etc.)
+      - building_design : applies to building / design / engineering professions
+                          (architects, engineers, surveyors, contractors)
+      - business        : applies to business / financial / personal-services
+                          professions (CPAs, funeral directors, cosmetologists,
+                          court reporters)
+      - public_safety   : applies to security / investigative professions
+                          (security guards, polygraph examiners, private investigators)
+
+    A chapter may belong to MULTIPLE families. If it covers, say, health AND
+    business professions but explicitly excludes building/design, return
+    ["health", "business"].
+
+    A chapter labeled "Health Professions Generally" or one whose intro says
+    "this chapter applies to a person licensed by a health-care licensing
+    board" is ["health"], not ["universal"].
+
+    A chapter that says "every licensee of the Department of Professional
+    Licensing" or "every regulatory body in this title" is ["universal"].
+
+    Use the chapter intro text (first section / definitions) as your primary
+    evidence. Quote a verbatim phrase from the supplied text that justifies
+    the classification.
+
+    Never return an empty `applies_to`. If the chapter is genuinely
+    cross-cutting or you can't pin it to a narrow family, return
+    ["universal"] — over-including is cheap; under-including drops real
+    statutory context. Purely procedural / administrative chapters
+    (uniform complaints, board governance, fee collection) are also
+    ["universal"].
+
+    Return JSON matching exactly:
+      {
+        "applies_to": ["universal" | "health" | "building_design" | "business" | "public_safety", ...],
+        "scope_evidence": "verbatim quote from the chapter intro that supports your classification",
+        "reasoning": "one short sentence explaining the choice"
+      }
