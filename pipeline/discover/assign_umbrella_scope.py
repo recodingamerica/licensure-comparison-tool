@@ -127,6 +127,67 @@ def _is_anchor(section: dict) -> bool:
     return bool(ANCHOR_LABEL_RE.search(section.get("label", "")))
 
 
+_PROFESSION_TERMS_CACHE: list[tuple[str, str, list[str]]] | None = None
+
+
+def _load_profession_terms() -> list[tuple[str, str, list[str]]]:
+    """Return a list of (profession_id, term_lower, excludes_lower) entries
+    from professions.yaml. One entry per pattern/alias term, sorted longest
+    first so most-specific matches win when iterating.
+
+    `term_lower` is what we substring-match against. `excludes_lower` is the
+    profession's exclude list (a hit on any exclude in the *same containing
+    term* disqualifies that profession for that term — same convention as
+    chapter-label matching).
+    """
+    global _PROFESSION_TERMS_CACHE
+    if _PROFESSION_TERMS_CACHE is not None:
+        return _PROFESSION_TERMS_CACHE
+    import yaml
+    from paths import CONFIG_DIR
+    cfg = yaml.safe_load((CONFIG_DIR / "professions.yaml").read_text()) or {}
+    entries: list[tuple[str, str, list[str]]] = []
+    for pid, pdef in cfg.items():
+        if not isinstance(pdef, dict):
+            continue
+        excludes = [e.lower() for e in (pdef.get("excludes") or [])]
+        terms = (pdef.get("patterns") or []) + (pdef.get("enumeration_aliases") or [])
+        for t in terms:
+            entries.append((pid, t.lower().strip(), excludes))
+    entries.sort(key=lambda e: -len(e[1]))  # longest first → most-specific wins
+    _PROFESSION_TERMS_CACHE = entries
+    return entries
+
+
+_SPLIT_LIST_RE = re.compile(r"\s*(?:,|;|\bor\b)\s*", re.I)
+
+
+def _match_professions_in_window(text: str) -> tuple[set[str], str]:
+    """Walk a post-trigger window of text. Split into comma/semicolon/or-
+    separated terms; for each term, find the most-specific profession match
+    from `_load_profession_terms()`. Return (set of profession_ids, first
+    evidence snippet).
+    """
+    matched: set[str] = set()
+    first_ev = ""
+    entries = _load_profession_terms()
+    # Split into candidate terms; each is a phrase like "podiatric physician"
+    # or "marital and family therapist".
+    for term in _SPLIT_LIST_RE.split(text):
+        term_clean = term.strip().strip(".:;").lower()
+        if len(term_clean) < 4 or len(term_clean) > 120:
+            continue
+        # Longest pattern wins: iterate sorted entries, accept first non-
+        # disqualified match.
+        for pid, pattern, excludes in entries:
+            if pattern in term_clean and not any(exc in term_clean for exc in excludes):
+                matched.add(pid)
+                if not first_ev and len(term_clean) < 80:
+                    first_ev = term.strip()
+                break
+    return matched, first_ev
+
+
 def _parse_one_anchor(
     text: str, rules: StateScopeRules, reverse_index: dict[str, list[str]]
 ) -> list[dict]:
@@ -145,6 +206,13 @@ def _parse_one_anchor(
 
     use_m = AS_USED_RE.search(text)
     use_target = use_m.group(1).lower() if use_m else None
+    if use_target == "subtitle":
+        use_target = "title"  # subtitle scope behaves like title-tier for our purposes
+    # If the anchor doesn't say "As used in this <X>" explicitly, default to
+    # chapter-target. A bare "Definitions." section without a scoping prefix
+    # most naturally scopes its terms to the chapter it lives in.
+    if use_target is None:
+        use_target = "chapter"
 
     # Find every trigger occurrence; from each one, scan forward up to
     # scan_window chars for chapter/section citations. This is what separates
@@ -178,6 +246,26 @@ def _parse_one_anchor(
             "cited_slugs": sorted(cited_slugs),
             "evidence": first_ev,
         })
+
+    # Profession-name list enumeration (e.g. Iowa § 147.1(3): "when applied
+    # to a physician and surgeon, podiatric physician, ... means a person
+    # licensed under this subtitle"). For each trigger occurrence, scan the
+    # post-trigger window, split into comma/semicolon-separated terms, and
+    # map each term to a canonical profession via professions.yaml.
+    for trigger_re in rules.profession_name_trigger_patterns:
+        for tm in trigger_re.finditer(text):
+            raw_tail = text[tm.end() : tm.end() + rules.scan_window]
+            boundary = DEFINITION_BOUNDARY_RE.search(raw_tail)
+            tail = raw_tail[: boundary.start()] if boundary else raw_tail
+            matched_profs, ev = _match_professions_in_window(tail)
+            if len(matched_profs) >= 2 and use_target:
+                signals.append({
+                    "target": use_target,
+                    "kind": "enumerated",
+                    "professions": sorted(matched_profs),
+                    "cited_slugs": [],  # this enumeration is by name, not slug
+                    "evidence": ev or tail[:160].strip(),
+                })
 
     # Range-form enumeration (e.g. CO Article 30: "applies to articles 200 to
     # 315 of this title 12"). When present, enumerate every integer in the

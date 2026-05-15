@@ -32,6 +32,11 @@ medicine:
   family: [health]
   patterns: ["medical practice", "medicine and surgery", " physicians "]
   excludes: ["osteopathic", "podiatric", "naturopathic", "chiropractic", "physician assistant", "physician's assistant", "veterinar", "athletic"]
+  # Prose forms used in some states' inline profession-name enumerations
+  # (e.g. Iowa: "when applied to a physician and surgeon, ..."). Read by
+  # assign_umbrella_scope's profession-name matcher; not used for chapter-
+  # label matching (that still goes through `patterns`).
+  enumeration_aliases: ["physician and surgeon"]
 
 osteopathic_medicine:
   display: Osteopathic Medicine (DO)
@@ -168,6 +173,7 @@ mental_health_counseling:
   display: Mental Health Counseling / MFT / Clinical Social Work
   family: [health]
   patterns: ["mental health", "professional counsel", "marriage and family therap", "clinical social work", "licensed professional counselor"]
+  enumeration_aliases: ["marital and family"]
 
 psychology:
   display: Psychology

@@ -53,6 +53,14 @@ class StateScopeRules:
     # count. Treated as a chapter-target enumerated signal.
     range_chapter_pattern: re.Pattern | None = None
 
+    # Optional: trigger phrases that introduce an inline profession-name list
+    # instead of a list of chapter citations. Iowa: "when applied to a
+    # physician and surgeon, podiatric physician, ... means a person licensed
+    # under this subtitle." When set, the walker scans the post-trigger
+    # window for known profession terms (using each profession's `patterns`
+    # and `enumeration_aliases` from professions.yaml).
+    profession_name_trigger_patterns: tuple[re.Pattern, ...] = ()
+
     scan_window: int = 3000
 
 
@@ -64,7 +72,14 @@ ANCHOR_LABEL_RE = re.compile(
     r"\bscope$)",  # bare "Scope" at end of label — CO uses this form, e.g. "Section 12-20-101 - Scope"
     re.I,
 )
-AS_USED_RE = re.compile(r"as used in this (title|chapter|part)", re.I)
+# "As used in this <X>" or "For (the) purpose(s) of this <X>" — both flag
+# the scope target of any enumeration that follows. `subtitle` is in here
+# for Iowa (umbrella sits at the subtitle level, e.g. Title IV Subtitle 3).
+# The walker maps `subtitle` to the `title` tier in scope selection.
+AS_USED_RE = re.compile(
+    r"(?:as\s+used\s+in|for\s+(?:the\s+)?purposes?\s+of)\s+this\s+(title|subtitle|chapter|part)",
+    re.I,
+)
 
 # Section-label keywords that hint a section narrows to specific professions.
 # Used only to flag for triage; the walker doesn't act on these in the first
@@ -166,8 +181,48 @@ CO_RULES = StateScopeRules(
 )
 
 
+# ---------------------------------------------------------------------------
+# Iowa (Title IV Subtitle 3 — Health and Related Provisions; Chapter 147 is
+# the cross-cutting umbrella for licensed health professions)
+# ---------------------------------------------------------------------------
+# Iowa doesn't enumerate practice acts by chapter number. Its scope is set
+# inside § 147.1(3) as a single inline definition:
+#
+#   "Licensed" or "certified", when applied to a physician and surgeon,
+#   podiatric physician, osteopathic physician and surgeon, ... or sign
+#   language interpreter or transliterator means a person licensed under
+#   this subtitle.
+#
+# The walker handles this by matching the trigger ("when applied to" /
+# "means a person licensed"), scanning the post-trigger window, and looking
+# up each comma-separated term in professions.yaml's `patterns` and
+# `enumeration_aliases`. The "for the purpose of this subtitle:" line at the
+# top of § 147.1 sets target=subtitle, which selects the title tier.
+IA_RULES = StateScopeRules(
+    universal_patterns=(
+        # Ch 272C § 272C.1(6) enumerates 25+ boards via "Licensing board or
+        # 'board' includes the following boards: a. ... b. ... c. ...".
+        # Many of the boards in the list cite chapter 147 (which IS the
+        # umbrella itself, not a practice act) so a chapter-citation scan
+        # captures only the boards that have their own practice-act chapter
+        # (~13 of 25). The chapter covers effectively all Iowa licensees,
+        # so treat it as universal at chapter target.
+        (re.compile(r"includes\s+the\s+following\s+boards", re.I), "chapter"),
+    ),
+    trigger_patterns=(),
+    # IA Code uses bare "chapter NNN" with optional letter suffix, e.g.
+    # "chapter 148C", "chapter 152D".
+    chapter_cite_pattern=re.compile(r"\bchapter\s+(\d+[a-z]?)\b", re.I),
+    section_cite_pattern=re.compile(r"\b(\d+[a-z]?)\.\d+\b", re.I),
+    profession_name_trigger_patterns=(
+        re.compile(r"when\s+applied\s+to\b", re.I),
+    ),
+)
+
+
 STATE_RULES: dict[str, StateScopeRules] = {
     "UT": UT_RULES,
     "FL": FL_RULES,
     "CO": CO_RULES,
+    "IA": IA_RULES,
 }
