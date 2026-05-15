@@ -66,7 +66,11 @@ logging.basicConfig(
 log = logging.getLogger("assign_umbrella_scope")
 
 
-URL_RE = re.compile(r"/chapter-([\w-]+)/(?:part-([\w-]+)/)?section-([\w.-]+)/")
+# Used only to extract the `part` segment from a section's URL. Chapter
+# grouping uses each section's `umbrella_chapter_slug` field directly so
+# state-specific slug shapes (UT's `chapter-4a`, CO's `article-30`, even
+# pseudo-slugs like `general-provisions`) all work without per-state URL regex.
+URL_PART_RE = re.compile(r"/part-([\w-]+)/")
 YEAR_PREFIX_RE = re.compile(r"/codes/[a-z-]+/\d{4}/")
 
 # Top-level definition boundary: a newline followed by `(N)"` where N is a
@@ -99,11 +103,24 @@ def dedupe_year_versions(sections: list[dict]) -> list[dict]:
 
 
 def _split_chap_part(section: dict) -> tuple[str, str] | None:
-    m = URL_RE.search(section.get("url", ""))
-    if not m:
+    """Group key for a section: the umbrella_chapter_slug (which is whatever
+    Justia calls the chapter — e.g. `chapter-4a`, `article-30`, or even
+    pseudo-slugs the discover step inferred like `general-provisions`),
+    plus the part token extracted from the URL when present.
+
+    Returns None for chapter-landing-page entries that snuck into the
+    umbrella_text record (Justia banner pages with URLs like
+    `/codes/utah/title-58/chapter-88/` and labels like `2025 Utah Code`).
+    Those aren't sections and shouldn't be scoped.
+    """
+    url = section.get("url", "")
+    if "/section-" not in url:
         return None
-    chap, part, _sec = m.groups()
-    return (f"chapter-{chap}", part or "NO_PART")
+    slug = section.get("umbrella_chapter_slug")
+    if not slug:
+        return None
+    part_m = URL_PART_RE.search(url)
+    return (slug, part_m.group(1) if part_m else "NO_PART")
 
 
 def _is_anchor(section: dict) -> bool:
@@ -141,14 +158,14 @@ def _parse_one_anchor(
             boundary = DEFINITION_BOUNDARY_RE.search(raw_tail)
             tail = raw_tail[: boundary.start()] if boundary else raw_tail
             for m in rules.chapter_cite_pattern.finditer(tail):
-                slug = f"chapter-{m.group(1).lower()}"
+                slug = f"{rules.slug_prefix}-{m.group(1).lower()}"
                 if slug in reverse_index:
                     cited_slugs.add(slug)
                     if not first_ev:
                         abs_pos = tm.end() + m.start()
                         first_ev = text[max(0, abs_pos - 60) : abs_pos + 100].strip()
             for m in rules.section_cite_pattern.finditer(tail):
-                slug = f"chapter-{m.group(1).lower()}"
+                slug = f"{rules.slug_prefix}-{m.group(1).lower()}"
                 if slug in reverse_index:
                     cited_slugs.add(slug)
 
@@ -161,6 +178,33 @@ def _parse_one_anchor(
             "cited_slugs": sorted(cited_slugs),
             "evidence": first_ev,
         })
+
+    # Range-form enumeration (e.g. CO Article 30: "applies to articles 200 to
+    # 315 of this title 12"). When present, enumerate every integer in the
+    # range, look each up as a slug, and treat the resulting set as a
+    # chapter-target scope assertion. The range pattern is self-anchoring —
+    # it doesn't need an "As used in this X" prefix because the phrasing
+    # itself is a scope statement.
+    if rules.range_chapter_pattern is not None:
+        for m in rules.range_chapter_pattern.finditer(text):
+            start_n = int(m.group(1))
+            end_n = int(m.group(2))
+            if end_n < start_n or end_n - start_n > 1000:
+                continue  # implausible; skip
+            range_slugs = {
+                f"{rules.slug_prefix}-{n}" for n in range(start_n, end_n + 1)
+            }
+            valid = sorted(range_slugs & set(reverse_index.keys()))
+            if len(valid) >= 2:
+                professions = sorted({p for s in valid for p in reverse_index[s]})
+                ev_start = max(0, m.start() - 30)
+                signals.append({
+                    "target": "chapter",
+                    "kind": "enumerated",
+                    "professions": professions,
+                    "cited_slugs": valid,
+                    "evidence": text[ev_start : m.end() + 100].strip(),
+                })
 
     return signals
 

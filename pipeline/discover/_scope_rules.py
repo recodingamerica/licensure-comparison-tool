@@ -33,12 +33,25 @@ class StateScopeRules:
     trigger_patterns: tuple[re.Pattern, ...]
 
     # How this state writes chapter citations. Group 1 = the chapter token
-    # (e.g. "5a", "31b", "457"). The slug form is `chapter-<group1>`.
+    # (e.g. "5a", "31b", "457"). The slug form is `<slug_prefix>-<group1>`.
     chapter_cite_pattern: re.Pattern
 
     # Section citations that resolve to a chapter (the chapter token is what
     # we look up in the reverse-index, not the section number).
     section_cite_pattern: re.Pattern
+
+    # Prefix used to construct reverse-index slugs from cite tokens. UT and FL
+    # use "chapter"; CO uses "article" (CO's profession_index slugs look like
+    # `article-200` because that's how Justia names them).
+    slug_prefix: str = "chapter"
+
+    # Optional: pattern that matches a *range* of chapter cites in one go,
+    # e.g. CO Article 30 § 12-30-101 says "applies to articles 200 to 315 of
+    # this title 12". Group 1 = range start, Group 2 = range end. When matched,
+    # the walker enumerates every integer in [start, end] and looks each up
+    # as `<slug_prefix>-<n>`. Only the slugs that exist in the reverse-index
+    # count. Treated as a chapter-target enumerated signal.
+    range_chapter_pattern: re.Pattern | None = None
 
     scan_window: int = 3000
 
@@ -46,7 +59,9 @@ class StateScopeRules:
 # Cross-state regularities — these have looked the same in every umbrella
 # text we've probed so far (UT, FL, CO, NE, MA).
 ANCHOR_LABEL_RE = re.compile(
-    r"(applicability|definitions|short title|scope of (?:chapter|part|article|title))",
+    r"(applicability|definitions|short title|"
+    r"scope\s+of\s+(?:chapter|part|article|title)|"
+    r"\bscope$)",  # bare "Scope" at end of label — CO uses this form, e.g. "Section 12-20-101 - Scope"
     re.I,
 )
 AS_USED_RE = re.compile(r"as used in this (title|chapter|part)", re.I)
@@ -112,7 +127,47 @@ FL_RULES = StateScopeRules(
 )
 
 
+# ---------------------------------------------------------------------------
+# Colorado (Title 12 = Professions and Occupations Act)
+# ---------------------------------------------------------------------------
+# CO's umbrella is in Title 12, with three articles that scope themselves
+# against the rest of the title:
+#   Article 1   ("This article 1 applies to every article in this title 12")
+#   Article 20  ("This article 20 applies to every article in this title 12
+#                except articles 10 and 15")
+#   Article 30  ("This article 30 applies to articles 200 to 315 of this
+#                title 12") — health-care provisions; uses a range, not a list.
+#
+# The 153 Title 10 (Insurance) sections that the discover step also pulled in
+# will not match these CO-specific universal phrases (different title number,
+# different content) and will land in triage with `undetermined` scope —
+# the right outcome for an upstream-cleanup item.
+CO_RULES = StateScopeRules(
+    universal_patterns=(
+        # CO Article 1's wording. Match any article number; require "in this
+        # title 12" to keep the Title 10 sections from accidentally matching.
+        (re.compile(r"this article\s+\d+\s+applies to every article in this title\s+12", re.I), "title"),
+    ),
+    trigger_patterns=(
+        re.compile(r"licensed\s+under\b", re.I),
+        re.compile(r"licensed\s+pursuant\s+to\b", re.I),
+    ),
+    # CO writes "article 200", "article 315" — no "Chapter" or "Title" prefix.
+    chapter_cite_pattern=re.compile(r"\barticle\s+(\d+)\b", re.I),
+    # CO section cites: "section 12-200-103", "12-30-101", etc. Middle token
+    # is the article number — that's what we look up.
+    section_cite_pattern=re.compile(r"\b(?:section\s+)?12-(\d+)-\d+\b", re.I),
+    slug_prefix="article",
+    # CO Article 30's range scope: "applies to articles 200 to 315 of this title 12".
+    range_chapter_pattern=re.compile(
+        r"applies\s+to\s+articles?\s+(\d+)\s+to\s+(\d+)\s+of\s+this\s+title\s+\d+",
+        re.I,
+    ),
+)
+
+
 STATE_RULES: dict[str, StateScopeRules] = {
     "UT": UT_RULES,
     "FL": FL_RULES,
+    "CO": CO_RULES,
 }
