@@ -150,8 +150,12 @@ export type MapRow = {
   state: string;
   raw_value: string;
   normalized: number | string | null;
-  confidence: "high" | "low";
-  note: string | null;
+  // Verbatim statute quote + citation pulled from the structured record by
+  // build_frontend.py. Absent when the source field has no Evidence at the
+  // expected dotted path (rare, but possible for sparse profession-specific
+  // fields).
+  quote?: string;
+  citation?: string;
 };
 
 export type MapPrep = {

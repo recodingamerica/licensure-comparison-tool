@@ -77,10 +77,13 @@ class NormalizedRow(BaseModel):
     state: str
     raw_value: str = Field(description="Short string of original value, for audit.")
     normalized: float | str | None = Field(
-        description="Number for continuous fields, category string for categorical, null if not addressed."
+        description=(
+            "Number for continuous fields, category string for categorical, "
+            "null if the state didn't address the field OR the raw value is "
+            "too ambiguous to land on the spec's scale. No hedging — emit "
+            "null rather than a guess."
+        )
     )
-    confidence: Literal["high", "low"] = "high"
-    note: str | None = None
 
 
 class ApplyResult(BaseModel):
@@ -93,9 +96,13 @@ class ApplyResult(BaseModel):
 def _flatten_evidence(record: dict) -> dict:
     """Pull `.value` out of every Evidence-shaped leaf, keep dotted paths.
 
-    Result: {dotted_field_name: value_or_None}.
-    Drops citations and per-section quote-only fields. Keeps free-text fields
-    too — the spec pass decides whether they're mappable.
+    Result: {dotted_field_name: value}, with None values dropped. We drop
+    nulls deliberately — they otherwise leak parent-container paths into
+    the spec pass (e.g. when a state's whole `continuing_education` block
+    is null, the walker would emit `licensure.continuing_education = None`
+    alongside the real leaf fields). The apply prompt tells the LLM to
+    emit null for any state missing a value, so dropping at the input
+    side loses no information.
     """
     out: dict[str, object] = {}
 
@@ -103,7 +110,9 @@ def _flatten_evidence(record: dict) -> dict:
         if isinstance(node, dict):
             # Evidence carrier?
             if set(node.keys()) >= {"value", "quote", "citation"} and len(node) <= 4:
-                out[prefix] = node.get("value")
+                val = node.get("value")
+                if val is not None:
+                    out[prefix] = val
                 return
             for k, v in node.items():
                 if k == "citations":
@@ -117,7 +126,8 @@ def _flatten_evidence(record: dict) -> dict:
             if all(isinstance(x, str) for x in node):
                 out[prefix] = node
         else:
-            # primitive at the root (e.g. state, profession) — skip below top-level
+            if node is None:
+                return
             if prefix and prefix not in ("state", "profession"):
                 out[prefix] = node
 

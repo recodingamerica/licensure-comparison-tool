@@ -297,7 +297,10 @@ def build(profession: str) -> dict:
             else:
                 verified += 1
 
-    map_prep = _load_map_prep(profession)
+    structured_by_state = {
+        r["state"]: r["_full"] for r in rows if not r["coverage_gap"]
+    }
+    map_prep = _load_map_prep(profession, structured_by_state)
 
     return {
         "profession": profession,
@@ -317,11 +320,31 @@ def build(profession: str) -> dict:
     }
 
 
-def _load_map_prep(profession: str) -> dict | None:
+def _resolve_evidence(record: dict, dotted: str) -> dict | None:
+    """Walk a structured record by dotted path and return the Evidence node
+    ({value, quote, citation, ...}) sitting at that path, if any.
+
+    Used to enrich map_prep rows with the verbatim statute quote — the
+    normalizer only saw `.value`, so the quote lives on the original record.
+    """
+    parts = dotted.split(".")
+    node: Any = record
+    for p in parts:
+        if not isinstance(node, dict):
+            return None
+        node = node.get(p)
+    if isinstance(node, dict) and {"value", "quote", "citation"}.issubset(node.keys()):
+        return node
+    return None
+
+
+def _load_map_prep(profession: str, structured_by_state: dict[str, dict]) -> dict | None:
     """Attach the choropleth normalization output (pipeline/map_prep/run.py)
     so the UI can render maps without re-doing the normalization client-side.
+    Also enrich each row with the verbatim statute quote + citation pulled
+    from the structured record, so the map tooltip can show the source text.
 
-    Returns {"spec": [...mappable FieldSpec...], "rows": [...NormalizedRow...]}
+    Returns {"spec": [...mappable FieldSpec...], "rows": [...NormalizedRow+quote...]}
     or None if map_prep hasn't been run for this profession yet.
     """
     src = RESULTS_DIR / "map_prep" / profession
@@ -333,7 +356,16 @@ def _load_map_prep(profession: str) -> dict | None:
     rows = json.loads(rows_path.read_text())
     # Only ship mappable specs to the UI; not_mappable fields are noise here.
     mappable = [f for f in spec.get("fields", []) if f.get("mappable")]
-    return {"spec": mappable, "rows": rows.get("rows", [])}
+
+    enriched_rows: list[dict] = []
+    for r in rows.get("rows", []):
+        rec = structured_by_state.get(r.get("state"))
+        if rec:
+            ev = _resolve_evidence(rec, r.get("field_name", ""))
+            if ev:
+                r = {**r, "quote": ev.get("quote"), "citation": ev.get("citation")}
+        enriched_rows.append(r)
+    return {"spec": mappable, "rows": enriched_rows}
 
 
 def _profession_display(profession: str) -> str:

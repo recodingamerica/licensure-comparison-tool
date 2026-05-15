@@ -60,11 +60,70 @@ function continuousScale(values: number[]) {
     .range(["#dbeafe", "#1e3a8a"]);
 }
 
-export function MapView({ mapPrep }: { mapPrep: MapPrep }) {
-  const specs = mapPrep.spec;
-  const [fieldName, setFieldName] = useState<string>(
-    specs[0]?.field_name ?? ""
-  );
+// Per-field summary used to filter + rank the dropdown. "Uniform" fields
+// (every state agrees, or only one distinct value across all non-null
+// states) get hidden — a flat-colored map carries no information. Sparse
+// fields are sorted to the bottom so the dropdown surfaces high-coverage
+// maps first.
+type FieldSummary = {
+  spec: MapFieldSpec;
+  coverage: number; // states with non-null normalized
+  distinctValues: number; // distinct non-null normalized values
+};
+
+function summarize(specs: MapFieldSpec[], rows: MapRow[]): FieldSummary[] {
+  const byField = new Map<string, MapRow[]>();
+  for (const r of rows) {
+    const list = byField.get(r.field_name) ?? [];
+    list.push(r);
+    byField.set(r.field_name, list);
+  }
+  return specs.map((spec) => {
+    const list = byField.get(spec.field_name) ?? [];
+    const nonNull = list.filter((r) => r.normalized !== null);
+    const distinct = new Set(nonNull.map((r) => r.normalized));
+    return {
+      spec,
+      coverage: nonNull.length,
+      distinctValues: distinct.size,
+    };
+  });
+}
+
+export function MapView({
+  mapPrep,
+  fieldName: fieldNameProp,
+  onFieldChange,
+}: {
+  mapPrep: MapPrep;
+  // Selected field comes from the URL via the parent so every choropleth
+  // has a permanent link. Null means "no field in URL — fall back to the
+  // first one in the dropdown".
+  fieldName: string | null;
+  onFieldChange: (f: string | null) => void;
+}) {
+  // Hide uniform fields (≤1 distinct non-null value); sort remaining by
+  // coverage descending so the most "interesting" maps are at the top.
+  const visibleSpecs = useMemo(() => {
+    const summaries = summarize(mapPrep.spec, mapPrep.rows);
+    return summaries
+      .filter((s) => s.distinctValues > 1)
+      .sort((a, b) => b.coverage - a.coverage);
+  }, [mapPrep]);
+
+  const specs = visibleSpecs.map((s) => s.spec);
+  const coverageByField = useMemo(() => {
+    const m = new Map<string, number>();
+    for (const s of visibleSpecs) m.set(s.spec.field_name, s.coverage);
+    return m;
+  }, [visibleSpecs]);
+
+  // If the URL field exists in the visible list, use it; otherwise fall
+  // back to the first one (which is what an unparameterized URL gets).
+  const fieldName =
+    fieldNameProp && specs.some((s) => s.field_name === fieldNameProp)
+      ? fieldNameProp
+      : specs[0]?.field_name ?? "";
 
   const spec = useMemo<MapFieldSpec | undefined>(
     () => specs.find((s) => s.field_name === fieldName),
@@ -143,33 +202,39 @@ export function MapView({ mapPrep }: { mapPrep: MapPrep }) {
         .filter((v): v is string => typeof v === "string")
     );
     return (
-      <div className="flex flex-wrap gap-x-4 gap-y-2 text-xs">
-        {cats.filter((c) => present.has(c)).map((c, i) => (
-          <span key={c} className="inline-flex items-center gap-1.5">
+      <div className="flex flex-col gap-1.5 text-sm max-w-sm">
+        {cats.filter((c) => present.has(c)).map((c) => (
+          <span key={c} className="flex items-start gap-2 leading-snug">
             <span
-              className="inline-block h-3 w-3 rounded-sm"
+              className="inline-block h-3 w-3 rounded-sm mt-1 shrink-0"
               style={{
                 background:
                   CATEGORICAL_PALETTE[cats.indexOf(c) % CATEGORICAL_PALETTE.length],
               }}
             />
-            <span className="font-mono">{humanize(c)}</span>
+            <span>{humanize(c)}</span>
           </span>
         ))}
-        <span className="inline-flex items-center gap-1.5">
+        <span className="flex items-start gap-2 leading-snug">
           <span
-            className="inline-block h-3 w-3 rounded-sm"
+            className="inline-block h-3 w-3 rounded-sm mt-1 shrink-0"
             style={{ background: NO_DATA_FILL }}
           />
-          <span className="font-mono text-muted-foreground">no data</span>
+          <span className="text-muted-foreground">no data</span>
         </span>
       </div>
     );
   }, [spec, byState]);
 
-  const [hover, setHover] = useState<{ state: string; value: string } | null>(
-    null
-  );
+  const [hover, setHover] = useState<{
+    state: string;
+    normalized: string;
+    raw: string;
+    quote?: string;
+    citation?: string;
+    x: number;
+    y: number;
+  } | null>(null);
 
   if (!specs.length) {
     return (
@@ -187,16 +252,19 @@ export function MapView({ mapPrep }: { mapPrep: MapPrep }) {
         <span className="text-xs font-mono uppercase tracking-widest text-muted-foreground">
           Field
         </span>
-        <Select value={fieldName} onValueChange={(v) => v && setFieldName(v)}>
+        <Select value={fieldName} onValueChange={(v) => v && onFieldChange(v)}>
           <SelectTrigger className="w-[28rem]">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
-            {specs.map((s) => (
-              <SelectItem key={s.field_name} value={s.field_name}>
-                {prettyFieldName(s.field_name)} ({s.kind})
-              </SelectItem>
-            ))}
+            {specs.map((s) => {
+              const cov = coverageByField.get(s.field_name) ?? 0;
+              return (
+                <SelectItem key={s.field_name} value={s.field_name}>
+                  {prettyFieldName(s.field_name)} ({s.kind}, {cov} states)
+                </SelectItem>
+              );
+            })}
           </SelectContent>
         </Select>
       </div>
@@ -222,11 +290,12 @@ export function MapView({ mapPrep }: { mapPrep: MapPrep }) {
                 const usps = FIPS_TO_USPS[fips];
                 const row = usps ? byState.get(usps) : undefined;
                 const fill = usps ? colorFor(usps) : NO_DATA_FILL;
-                const hoverValue = row
+                const normalizedStr = row
                   ? row.normalized === null
                     ? "no data"
                     : String(row.normalized)
                   : "no data";
+                const rawStr = row?.raw_value || "—";
                 return (
                   <Geography
                     key={geo.rsmKey}
@@ -234,8 +303,25 @@ export function MapView({ mapPrep }: { mapPrep: MapPrep }) {
                     fill={fill}
                     stroke="#ffffff"
                     strokeWidth={0.5}
-                    onMouseEnter={() => {
-                      if (usps) setHover({ state: usps, value: hoverValue });
+                    onMouseEnter={(e) => {
+                      if (usps)
+                        setHover({
+                          state: usps,
+                          normalized: normalizedStr,
+                          raw: rawStr,
+                          quote: row?.quote,
+                          citation: row?.citation,
+                          x: e.clientX,
+                          y: e.clientY,
+                        });
+                    }}
+                    onMouseMove={(e) => {
+                      if (usps)
+                        setHover((h) =>
+                          h && h.state === usps
+                            ? { ...h, x: e.clientX, y: e.clientY }
+                            : h
+                        );
                     }}
                     onMouseLeave={() => setHover(null)}
                     style={{
@@ -251,12 +337,37 @@ export function MapView({ mapPrep }: { mapPrep: MapPrep }) {
         </ComposableMap>
       </div>
 
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        {legend}
-        <div className="text-xs font-mono text-muted-foreground min-h-[1rem]">
-          {hover ? `${hover.state}: ${hover.value}` : "hover a state"}
+      <div>{legend}</div>
+
+      {hover && (
+        <div
+          className="pointer-events-none fixed z-50 max-w-lg rounded-md border bg-popover px-4 py-3 text-sm shadow-md"
+          style={{
+            left: hover.x + 12,
+            top: hover.y + 12,
+          }}
+        >
+          <div className="font-mono text-base font-semibold">{hover.state}</div>
+          <div className="mt-1">
+            {hover.normalized}
+            {hover.raw && hover.raw !== hover.normalized && (
+              <span className="ml-2 text-muted-foreground">
+                (raw: {hover.raw})
+              </span>
+            )}
+          </div>
+          {hover.quote && (
+            <div className="mt-2 border-t pt-2 leading-relaxed">
+              <div className="text-foreground">“{hover.quote}”</div>
+              {hover.citation && (
+                <div className="mt-1 font-mono text-xs text-muted-foreground">
+                  {hover.citation}
+                </div>
+              )}
+            </div>
+          )}
         </div>
-      </div>
+      )}
     </div>
   );
 }

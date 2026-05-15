@@ -314,14 +314,18 @@ map_prep_apply:
     Rules:
       1. Be faithful to the raw value — do not infer beyond what is stated.
          If a state's value is empty / null / "not specified" / "not addressed",
-         emit null (with confidence "high") rather than guessing.
-      2. If you have to make a judgment call (e.g., "2-3 years" → 2.5; or
-         mapping a state's idiosyncratic phrase to one of the spec categories),
-         set `confidence` to "low" and add a brief `note`.
+         emit null rather than guessing.
+      2. NO HEDGING. The output is binary: either a clean normalized value
+         (a number in the right unit, or one of the spec's category strings),
+         or null. If you'd otherwise want to flag a value as uncertain — e.g.
+         "2 to 3 years" for a continuous field, or a state's idiosyncratic
+         phrase that doesn't cleanly land on any spec category — emit null.
+         Downstream consumers will treat null as "no data" and that is the
+         correct read; a guess dressed in a warning is worse than a gap.
       3. Always include `raw_value` (a short string of the original) so the
          output is auditable.
       4. The output is one flat list of rows, where each row is
-         (field_name, state, raw_value, normalized, confidence, note?).
+         (field_name, state, raw_value, normalized).
       5. Do not omit (field, state) pairs for mappable fields — emit null
          rather than skipping, so downstream code can distinguish "we looked"
          from "we forgot".
@@ -335,25 +339,19 @@ map_prep_apply:
             "field_name": "licensure.age_minimum",
             "state": "AL",
             "raw_value": "19",
-            "normalized": 19,
-            "confidence": "high",
-            "note": null
+            "normalized": 19
           },
           {
             "field_name": "licensure.regulatory_model",
             "state": "UT",
             "raw_value": "license",
-            "normalized": "license",
-            "confidence": "high",
-            "note": null
+            "normalized": "license"
           },
           {
             "field_name": "licensure.age_minimum",
             "state": "CA",
             "raw_value": "null",
-            "normalized": null,
-            "confidence": "high",
-            "note": null
+            "normalized": null
           }
         ]
       }

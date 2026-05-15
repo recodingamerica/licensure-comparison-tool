@@ -1,7 +1,8 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import Link from "next/link";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import type { ProfilePayload, Row } from "@/lib/types";
 import {
   Table,
@@ -97,7 +98,33 @@ export function ProfileView({ payload }: { payload: ProfilePayload }) {
   const [regModelFilter, setRegModelFilter] = useState<string | null>(null);
   const [reciprocityFilter, setReciprocityFilter] = useState<string | null>(null);
   const [openState, setOpenState] = useState<string | null>(null);
-  const [view, setView] = useState<"table" | "map">("table");
+
+  // View + selected map field live in the URL so every (profession, view,
+  // field) combination has a permanent bookmark-able link. `view=table` and
+  // an implicit "first mappable field" are the defaults — those omit their
+  // params from the URL.
+  const router = useRouter();
+  const pathname = usePathname();
+  const params = useSearchParams();
+  const view: "table" | "map" =
+    params.get("view") === "map" && payload.map_prep ? "map" : "table";
+  const urlField = params.get("f");
+
+  const updateParams = useCallback(
+    (patch: Record<string, string | null>) => {
+      const next = new URLSearchParams(params.toString());
+      for (const [k, v] of Object.entries(patch)) {
+        if (v === null || v === "") next.delete(k);
+        else next.set(k, v);
+      }
+      router.replace(`${pathname}?${next.toString()}`, { scroll: false });
+    },
+    [params, pathname, router]
+  );
+
+  const setView = (v: "table" | "map") =>
+    updateParams({ view: v === "table" ? null : "map" });
+  const setMapField = (f: string | null) => updateParams({ f });
 
   const regModels = useMemo(() => {
     const s = new Set<string>();
@@ -192,7 +219,11 @@ export function ProfileView({ payload }: { payload: ProfilePayload }) {
       </div>
 
       {view === "map" && payload.map_prep && (
-        <MapView mapPrep={payload.map_prep} />
+        <MapView
+          mapPrep={payload.map_prep}
+          fieldName={urlField}
+          onFieldChange={setMapField}
+        />
       )}
 
       {view === "table" && (
