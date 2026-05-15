@@ -45,6 +45,10 @@ from standard_model import (  # noqa: E402
     StrEvidence,
     StrListEvidence,
 )
+from locate_quote import (  # noqa: E402
+    normalize_for_match as _normalize_for_match,
+    quote_in_corpus,
+)
 from paths import TRIMMED_DIR, DISCOVERED_DIR, STRUCTURED_DIR, LOGS_DIR, RESULTS_DIR  # noqa: E402
 
 LOG_PATH = LOGS_DIR / "extract_state.log"
@@ -216,7 +220,8 @@ def build_state_text(state_corpus: dict) -> str:
 
 def _canonical_url(url: str) -> str:
     """Year-prefix-stripping URL key, mirroring assign_umbrella_scope."""
-    return re.sub(r"/codes/utah/\d{4}/", "/codes/utah/", url)
+    import re as _re
+    return _re.sub(r"/codes/utah/\d{4}/", "/codes/utah/", url)
 
 
 def load_umbrella_text(state: str, profession: str | None = None) -> str:
@@ -264,83 +269,6 @@ def load_umbrella_text(state: str, profession: str | None = None) -> str:
         chap_label = sec.get("umbrella_chapter_label", "")
         parts.append(f"\n[UMBRELLA / {chap_label[:60]}] {sec.get('label','')}\n{sec.get('text','')}\n")
     return "".join(parts)
-
-
-_TYPO_TRANS = str.maketrans({
-    # smart quotes → ASCII
-    "‘": "'", "’": "'", "‚": "'", "‛": "'",
-    "“": '"', "”": '"', "„": '"', "‟": '"',
-    # dashes → hyphen
-    "–": "-", "—": "-", "−": "-",
-    # non-breaking & odd spaces → regular space
-    " ": " ", " ": " ", " ": " ", " ": " ",
-    # ellipsis
-    "…": "...",
-})
-
-
-_NON_ALNUM_RE = re.compile(r"[^a-z0-9 ]+")
-
-# Strip parenthesized list markers from source BEFORE non-alnum stripping, so
-# they're surgically removed and don't become bare "1"/"a"/"i" tokens that
-# would then either (a) break match against a prose-quoted list, or (b) tempt
-# us to strip ALL bare single letters/digits, which would create false
-# positives (model wrote "a doctor" instead of "the doctor" — we don't want
-# to accept that just because we stripped the "a"). This pre-stripping
-# targets only enumeration FORMS (parenthesized or trailing dot), not bare
-# words.
-# Only parenthesized list markers — N. / a. trailing-dot patterns also appear
-# inside legal citations like "RSA 318-B:10, IX." or "Title 2, chapter 15,
-# part 17" and stripping those creates false negatives. Limit to forms that
-# can ONLY be list markers: bracketed numerals/letters/romans.
-_LIST_MARKER_RE = re.compile(
-    r"\(\s*(?:\d{1,3}|[a-z]|[ivxIVX]+)\s*\)",   # (1) (a) (iv) (IV)
-    re.IGNORECASE,
-)
-
-
-def _normalize_for_match(text: str) -> str:
-    """Aggressive normalization for tolerant substring lookup:
-      - lowercase
-      - smart quotes / dashes → ASCII
-      - strip parenthesized list markers '(1)', '(a)', '(iv)' and
-        'N.'-style enumeration so a prose-quoted list still matches
-      - drop ALL non-alphanumeric (so '§', quote chars, etc. don't break)
-      - collapse whitespace
-    """
-    t = text.translate(_TYPO_TRANS).lower()
-    # Remove list markers BEFORE non-alnum strip, so they don't become bare tokens.
-    t = _LIST_MARKER_RE.sub(" ", t)
-    t = _NON_ALNUM_RE.sub(" ", t)
-    t = re.sub(r"\s+", " ", t).strip()
-    return t
-
-
-_ELLIPSIS_SPLIT = __import__("re").compile(r"\s*(?:\.\s*\.\s*\.|…)\s*")
-
-
-def quote_in_corpus(quote: str, normalized_corpus: str) -> bool:
-    """Return True if `quote` appears in `normalized_corpus`, allowing the
-    LLM to elide non-contiguous segments with ellipses ('...' or '…').
-    Each segment (split on ellipsis BEFORE normalization) must appear in
-    order; intermediate corpus content is skipped."""
-    if not quote:
-        return False
-    parts = [p for p in (s.strip() for s in _ELLIPSIS_SPLIT.split(quote)) if p]
-    if not parts:
-        return False
-    cursor = 0
-    matched_any = False
-    for part in parts:
-        nq = _normalize_for_match(part)
-        if len(nq) < 8:
-            continue  # too-short segment isn't strong evidence either way
-        idx = normalized_corpus.find(nq, cursor)
-        if idx < 0:
-            return False
-        cursor = idx + len(nq)
-        matched_any = True
-    return matched_any
 
 
 def annotate_evidence(node: Any, normalized_corpus: str) -> tuple[int, int]:

@@ -22,7 +22,8 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from extract_state import _normalize_for_match, quote_in_corpus, annotate_evidence, load_umbrella_text  # noqa: E402
+from extract_state import annotate_evidence, load_umbrella_text  # noqa: E402
+from locate_quote import normalize_for_match  # noqa: E402
 from paths import STRUCTURED_DIR, TRIMMED_DIR  # noqa: E402
 
 
@@ -55,7 +56,7 @@ def main() -> None:
         umbrella = load_umbrella_text(path.stem)
         if umbrella:
             text = text + "\n" + umbrella
-        normalized = _normalize_for_match(text)
+        normalized = normalize_for_match(text)
 
         # Strip stale unverified flags so we re-evaluate from scratch
         def strip_flags(node):
