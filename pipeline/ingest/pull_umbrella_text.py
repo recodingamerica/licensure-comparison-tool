@@ -56,9 +56,6 @@ def pull_state_umbrella(state: str, force: bool) -> dict | None:
     if not umb_path.exists():
         log.info("[%s] no umbrella_chapters file, skip", state)
         return None
-    if out_path.exists() and not force:
-        log.info("[%s] cached, skip", state)
-        return json.loads(out_path.read_text())
 
     rec = json.loads(umb_path.read_text())
     chapters = rec.get("umbrella_chapters", [])
@@ -67,8 +64,41 @@ def pull_state_umbrella(state: str, force: bool) -> dict | None:
         out_path.write_text(json.dumps({"state": state, "sections": []}, indent=2))
         return None
 
-    all_sections = []
-    for ch in chapters:
+    # Auto-healing: when umbrella_text already exists, fetch only chapters
+    # that are declared in umbrella_chapters but missing from the cache
+    # (zero sections). Lets us recover from per-chapter Justia timeouts
+    # without --force (which would re-fetch already-cached chapters and,
+    # if Justia is in another flaky window, risk wiping good data).
+    existing_record: dict | None = None
+    existing_sections: list[dict] = []
+    if out_path.exists():
+        existing_record = json.loads(out_path.read_text())
+        existing_sections = existing_record.get("sections") or []
+
+    cached_slugs = {s.get("umbrella_chapter_slug", "")
+                    for s in existing_sections if s.get("text")}
+    declared_slugs = {c.get("slug", "") for c in chapters}
+    missing_slugs = declared_slugs - cached_slugs
+
+    if force:
+        # Full re-pull: ignore everything in cache.
+        chapters_to_pull = chapters
+        kept_sections: list[dict] = []
+    elif not missing_slugs:
+        log.info("[%s] all %d chapter(s) cached, skip", state, len(chapters))
+        return existing_record
+    else:
+        chapters_to_pull = [c for c in chapters if c.get("slug") in missing_slugs]
+        # Preserve sections for chapters we're NOT re-pulling.
+        kept_sections = [s for s in existing_sections
+                         if s.get("umbrella_chapter_slug") in cached_slugs]
+        log.info(
+            "[%s] retrying %d/%d chapter(s) missing from cache: %s",
+            state, len(chapters_to_pull), len(chapters), sorted(missing_slugs),
+        )
+
+    new_sections: list[dict] = []
+    for ch in chapters_to_pull:
         url = ch["url"]
         label = ch.get("label", "")
         slug = ch.get("slug", "")
@@ -96,7 +126,7 @@ def pull_state_umbrella(state: str, force: bool) -> dict | None:
             text = extract_section_text(html)
             if not text:
                 continue
-            all_sections.append({
+            new_sections.append({
                 "url": sec_url,
                 "label": target.get("label", ""),
                 "slug": target.get("slug", ""),
@@ -106,7 +136,25 @@ def pull_state_umbrella(state: str, force: bool) -> dict | None:
                 "text_len": len(text),
             })
 
-    log.info("[%s] -> %d total umbrella sections", state, len(all_sections))
+    all_sections = kept_sections + new_sections
+    log.info(
+        "[%s] -> %d total umbrella sections (%d cached + %d newly fetched)",
+        state, len(all_sections), len(kept_sections), len(new_sections),
+    )
+
+    # Cache-write guard: don't replace a populated cache with an empty
+    # result. That's almost always a transient upstream failure (Justia
+    # rate-limiting / timeouts) rather than a real "this state has no
+    # umbrella text" signal. Without this guard, a --force re-run during
+    # a flaky window silently wipes the good data. If the caller really
+    # wants the empty record, delete the file by hand.
+    if not all_sections and existing_sections:
+        log.warning(
+            "[%s] fetched 0 sections but %d cached — keeping cache, not overwriting",
+            state, len(existing_sections),
+        )
+        return existing_record
+
     record = {
         "state": state,
         "umbrella_chapter_count": len(chapters),
