@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/select";
 import { humanize } from "@/lib/format";
 import { StateDetailDialog } from "./state-detail-dialog";
+import { MapView } from "./map-view";
 
 const PILL = {
   yes: "bg-emerald-100 text-emerald-900 hover:bg-emerald-100",
@@ -96,6 +97,7 @@ export function ProfileView({ payload }: { payload: ProfilePayload }) {
   const [regModelFilter, setRegModelFilter] = useState<string | null>(null);
   const [reciprocityFilter, setReciprocityFilter] = useState<string | null>(null);
   const [openState, setOpenState] = useState<string | null>(null);
+  const [view, setView] = useState<"table" | "map">("table");
 
   const regModels = useMemo(() => {
     const s = new Set<string>();
@@ -160,6 +162,41 @@ export function ProfileView({ payload }: { payload: ProfilePayload }) {
         />
       </div>
 
+      <div className="mb-4 inline-flex rounded-md border bg-muted/30 p-1 text-xs font-mono">
+        <button
+          onClick={() => setView("table")}
+          className={
+            "px-3 py-1 rounded " +
+            (view === "table"
+              ? "bg-background shadow-sm text-foreground"
+              : "text-muted-foreground hover:text-foreground")
+          }
+        >
+          table
+        </button>
+        <button
+          onClick={() => setView("map")}
+          className={
+            "px-3 py-1 rounded " +
+            (view === "map"
+              ? "bg-background shadow-sm text-foreground"
+              : "text-muted-foreground hover:text-foreground")
+          }
+          disabled={!payload.map_prep}
+          title={
+            payload.map_prep ? "" : "no map data yet — run map_prep for this profession"
+          }
+        >
+          map
+        </button>
+      </div>
+
+      {view === "map" && payload.map_prep && (
+        <MapView mapPrep={payload.map_prep} />
+      )}
+
+      {view === "table" && (
+      <>
       <div className="flex flex-wrap gap-3 items-center mb-4">
         <Input
           placeholder="Search state, board, education…"
@@ -268,6 +305,8 @@ export function ProfileView({ payload }: { payload: ProfilePayload }) {
           </TableBody>
         </Table>
       </div>
+      </>
+      )}
 
       <StateDetailDialog
         rows={rows}

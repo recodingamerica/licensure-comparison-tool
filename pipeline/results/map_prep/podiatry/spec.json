@@ -1,0 +1,755 @@
+{
+  "profession": "podiatry",
+  "fields": [
+    {
+      "field_name": "licensure.license_required",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether a license is required; all states report true but field is still mappable"
+    },
+    {
+      "field_name": "licensure.issuing_authority",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text names of issuing agencies, highly idiosyncratic per state"
+    },
+    {
+      "field_name": "licensure.age_minimum",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "years",
+      "categories": null,
+      "reason": "integer minimum age in years, directly comparable across states; many states have null (no stated minimum)"
+    },
+    {
+      "field_name": "licensure.moral_character_required",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false",
+        "not_addressed"
+      ],
+      "reason": "boolean requirement with some states explicitly false and many not addressing it"
+    },
+    {
+      "field_name": "licensure.education.degree_required",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text descriptions of degree requirements, not consistently categorizable"
+    },
+    {
+      "field_name": "licensure.education.accrediting_body",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text names of accrediting bodies, highly idiosyncratic per state"
+    },
+    {
+      "field_name": "licensure.post_degree_experience",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "sparse field with only null values present; no usable data"
+    },
+    {
+      "field_name": "licensure.renewal.interval_years",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "years",
+      "categories": null,
+      "reason": "numeric renewal interval in years, directly comparable across states"
+    },
+    {
+      "field_name": "licensure.continuing_education.required",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false",
+        "not_addressed"
+      ],
+      "reason": "boolean flag for CE requirement; some states have null indicating not addressed"
+    },
+    {
+      "field_name": "licensure.continuing_education.hours_per_period",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "hours",
+      "categories": null,
+      "reason": "numeric CE hours per renewal period, directly comparable across states"
+    },
+    {
+      "field_name": "licensure.continuing_education.period_years",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "years",
+      "categories": null,
+      "reason": "numeric CE period length in years, directly comparable across states"
+    },
+    {
+      "field_name": "licensure.continuing_education.topical_requirements",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text lists of topical CE requirements, highly idiosyncratic per state"
+    },
+    {
+      "field_name": "licensure.reciprocity.available",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false",
+        "not_addressed"
+      ],
+      "reason": "boolean flag for reciprocity availability; some states have null indicating not addressed"
+    },
+    {
+      "field_name": "licensure.reciprocity.requirements",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text prose descriptions of reciprocity requirements, not comparable"
+    },
+    {
+      "field_name": "licensure.regulatory_model",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "license",
+        "mandatory_certification",
+        "registration",
+        "voluntary_certification",
+        "exemption",
+        "market_forces"
+      ],
+      "reason": "values come from the UORF regulatory ladder enum; all states report license"
+    },
+    {
+      "field_name": "licensure.title_protection",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false",
+        "not_addressed"
+      ],
+      "reason": "boolean flag for title protection; one state has null"
+    },
+    {
+      "field_name": "licensure.scope_protection",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false",
+        "not_addressed"
+      ],
+      "reason": "boolean flag for scope protection across states"
+    },
+    {
+      "field_name": "scope.definition_quote",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text statutory definitions, not comparable across states"
+    },
+    {
+      "field_name": "scope.methods_authorized",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text lists of authorized methods, highly idiosyncratic and variable per state"
+    },
+    {
+      "field_name": "scope.drug_authority",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text prose descriptions of drug authority, not consistently categorizable"
+    },
+    {
+      "field_name": "profession_specific.anatomical_scope_upper_boundary",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "foot_only",
+        "foot_and_ankle",
+        "foot_ankle_and_tendons_inserting_into_foot",
+        "foot_ankle_and_soft_tissue_below_mid_calf",
+        "foot_ankle_and_soft_tissue_to_myotendinous_junction_triceps_surae",
+        "foot_ankle_and_soft_tissue_to_distal_tibial_metaphyseal_flare",
+        "foot_ankle_and_soft_tissue_to_tibial_tuberosity",
+        "foot_ankle_and_leg_below_knee",
+        "not_specified"
+      ],
+      "reason": "ordered categorical set of anatomical upper boundary labels representing increasing scope"
+    },
+    {
+      "field_name": "profession_specific.amputation_authorized",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "not_authorized",
+        "toes_only",
+        "toes_and_parts_of_foot",
+        "transmetatarsal_and_below",
+        "forefoot_excluded",
+        "chopart_joint_and_below",
+        "foot_entirety_excluded",
+        "not_addressed"
+      ],
+      "reason": "categorical set of amputation authorization levels representing increasing scope"
+    },
+    {
+      "field_name": "profession_specific.anesthesia_authority",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "local_only",
+        "local_and_conscious_sedation",
+        "local_and_moderate_deep_sedation",
+        "general_excluded",
+        "general_permitted_with_physician_supervision",
+        "not_addressed"
+      ],
+      "reason": "categorical set of anesthesia authority levels representing increasing scope"
+    },
+    {
+      "field_name": "profession_specific.ankle_surgery_authorized",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false",
+        "not_addressed"
+      ],
+      "reason": "boolean flag for ankle surgery authorization; many states have null indicating not addressed"
+    },
+    {
+      "field_name": "profession_specific.ankle_surgery_residency_requirement",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "24_month_surgical_residency",
+        "36_month_surgical_residency",
+        "2_year_pre_2007_or_3_year_post_2007",
+        "board_certification_or_qualification_required",
+        "hospital_credentialing_required",
+        "not_addressed"
+      ],
+      "reason": "categorical set of ankle surgery residency/credentialing requirements across states"
+    },
+    {
+      "field_name": "profession_specific.ankle_surgery_facility_requirement",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "licensed_hospital_only",
+        "accredited_hospital_or_asc",
+        "hospital_or_ambulatory_surgical_center",
+        "multispecialty_ambulatory_surgical_facility",
+        "jcaho_accredited_facility",
+        "not_addressed"
+      ],
+      "reason": "categorical set of facility requirements for ankle surgery across states"
+    },
+    {
+      "field_name": "profession_specific.systemic_disease_treatment_excluded",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false",
+        "not_addressed"
+      ],
+      "reason": "boolean flag for whether systemic disease treatment is explicitly excluded from scope"
+    },
+    {
+      "field_name": "profession_specific.systemic_disease_local_manifestations_included",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false",
+        "not_addressed"
+      ],
+      "reason": "boolean flag for whether local manifestations of systemic disease are included in scope"
+    },
+    {
+      "field_name": "profession_specific.board_certification_body",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text lists of certification bodies, sparse and idiosyncratic per state"
+    },
+    {
+      "field_name": "profession_specific.podiatric_assistant_authorized",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false",
+        "not_addressed"
+      ],
+      "reason": "boolean flag for whether podiatric assistants are authorized"
+    },
+    {
+      "field_name": "profession_specific.podiatric_assistant_supervision_level",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "direct_supervision_on_premises",
+        "indirect_supervision",
+        "not_addressed"
+      ],
+      "reason": "categorical supervision level for podiatric assistants across states"
+    },
+    {
+      "field_name": "profession_specific.xray_technician_certification_required",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false",
+        "not_addressed"
+      ],
+      "reason": "boolean flag for x-ray technician certification requirement"
+    },
+    {
+      "field_name": "profession_specific.professional_liability_insurance_required",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false",
+        "not_addressed"
+      ],
+      "reason": "boolean flag for professional liability insurance requirement"
+    },
+    {
+      "field_name": "profession_specific.telehealth_authorized",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false",
+        "not_addressed"
+      ],
+      "reason": "boolean flag for telehealth authorization; most states have null indicating not addressed"
+    },
+    {
+      "field_name": "profession_specific.opioid_prescribing_rules_required",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false",
+        "not_addressed"
+      ],
+      "reason": "boolean flag for whether opioid prescribing rules are explicitly required"
+    },
+    {
+      "field_name": "profession_specific.controlled_substances_prescribing_ce_required",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false",
+        "not_addressed"
+      ],
+      "reason": "boolean flag for whether CE in controlled substances prescribing is required"
+    },
+    {
+      "field_name": "profession_specific.ankle_surgery_board_certification_timeline",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "only one state (TN) has a value; free-text timeline description, not mappable"
+    },
+    {
+      "field_name": "profession_specific.total_ankle_replacement_authorized",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false",
+        "not_addressed"
+      ],
+      "reason": "boolean flag for total ankle replacement authorization; most states have null"
+    },
+    {
+      "field_name": "profession_specific.tibial_pilon_fracture_excluded",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false",
+        "not_addressed"
+      ],
+      "reason": "boolean flag for whether tibial pilon fracture treatment is excluded from scope"
+    },
+    {
+      "field_name": "profession_specific.wound_debridement_authorized",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false",
+        "not_addressed"
+      ],
+      "reason": "boolean flag for wound debridement authorization; most states have null"
+    },
+    {
+      "field_name": "profession_specific.vaccination_authority",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false",
+        "not_addressed"
+      ],
+      "reason": "boolean flag for vaccination authority; most states have null indicating not addressed"
+    },
+    {
+      "field_name": "profession_specific.physician_assistant_collaboration_authorized",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false",
+        "not_addressed"
+      ],
+      "reason": "boolean flag for physician assistant collaboration authorization"
+    },
+    {
+      "field_name": "profession_specific.advanced_practice_nurse_collaboration_authorized",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false",
+        "not_addressed"
+      ],
+      "reason": "boolean flag for advanced practice nurse collaboration authorization"
+    },
+    {
+      "field_name": "profession_specific.hospital_privileges_nondiscrimination",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false",
+        "not_addressed"
+      ],
+      "reason": "boolean flag for hospital privileges nondiscrimination provision"
+    },
+    {
+      "field_name": "profession_specific.corrective_footwear_exemption",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false",
+        "not_addressed"
+      ],
+      "reason": "boolean flag for whether corrective footwear sellers are exempted from podiatry licensing"
+    },
+    {
+      "field_name": "profession_specific.clubfoot_surgery_restriction",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false",
+        "not_addressed"
+      ],
+      "reason": "boolean flag for clubfoot surgery restriction; only NC has a value"
+    },
+    {
+      "field_name": "profession_specific.ankle_surgery_standard_of_care_reference",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false",
+        "not_addressed"
+      ],
+      "reason": "boolean flag for whether a standard of care reference is cited for ankle surgery; only TN has a value"
+    },
+    {
+      "field_name": "profession_specific.impaired_practitioner_program",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false",
+        "not_addressed"
+      ],
+      "reason": "boolean flag for existence of an impaired practitioner program"
+    },
+    {
+      "field_name": "profession_specific.electronic_prescribing_required",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false",
+        "not_addressed"
+      ],
+      "reason": "boolean flag for electronic prescribing requirement; most states have null"
+    },
+    {
+      "field_name": "profession_specific.cosmetic_procedures_included",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false",
+        "not_addressed"
+      ],
+      "reason": "boolean flag for whether cosmetic procedures are included in scope; only GA has a value"
+    },
+    {
+      "field_name": "profession_specific.preoperative_history_and_physical_authorized",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false",
+        "not_addressed"
+      ],
+      "reason": "boolean flag for preoperative history and physical authorization"
+    },
+    {
+      "field_name": "profession_specific.assistant_surgeon_role_authorized",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false",
+        "not_addressed"
+      ],
+      "reason": "boolean flag for whether podiatrists may serve as assistant surgeons"
+    },
+    {
+      "field_name": "profession_specific.office_based_surgery_accreditation_required",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false",
+        "not_addressed"
+      ],
+      "reason": "boolean flag for office-based surgery accreditation requirement"
+    },
+    {
+      "field_name": "profession_specific.minor_patient_chaperone_requirement",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false",
+        "not_addressed"
+      ],
+      "reason": "boolean flag for chaperone requirement when treating minor patients; only DE has a value"
+    },
+    {
+      "field_name": "profession_specific.nondiscrimination_in_public_programs",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false",
+        "not_addressed"
+      ],
+      "reason": "boolean flag for nondiscrimination in public programs provision"
+    },
+    {
+      "field_name": "profession_specific.noncompete_clause_restriction",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false",
+        "not_addressed"
+      ],
+      "reason": "boolean flag for noncompete clause restriction; only NH has a value"
+    },
+    {
+      "field_name": "licensure.post_degree_experience.required",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false",
+        "not_addressed"
+      ],
+      "reason": "boolean flag for whether post-degree experience is required for licensure"
+    },
+    {
+      "field_name": "licensure.post_degree_experience.duration",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text duration descriptions with inconsistent units and formats across states"
+    },
+    {
+      "field_name": "licensure.post_degree_experience.kind",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text descriptions of post-degree experience type, highly idiosyncratic per state"
+    },
+    {
+      "field_name": "licensure.reciprocity",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "sparse field with only null values; no usable data"
+    },
+    {
+      "field_name": "licensure.regulatory_authority.name",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text authority name; only one state has a value"
+    },
+    {
+      "field_name": "licensure.regulatory_authority.type",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "only one state (CT) has a value; insufficient data for choropleth mapping"
+    },
+    {
+      "field_name": "licensure.regulatory_authority.umbrella_agency",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "only one state (CT) has a value; insufficient data for choropleth mapping"
+    },
+    {
+      "field_name": "licensure.continuing_education",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "sparse field with only null values; no usable data"
+    },
+    {
+      "field_name": "licensure.credential_type",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "only one state (CT) has a value; insufficient data for choropleth mapping"
+    },
+    {
+      "field_name": "licensure.is_mandatory",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "only one state (CT) has a value; insufficient data for choropleth mapping"
+    },
+    {
+      "field_name": "licensure.disciplinary_grounds",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "sparse field with only empty arrays; no usable data"
+    },
+    {
+      "field_name": "licensure.renewal",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "sparse field with only null values; no usable data"
+    },
+    {
+      "field_name": "licensure.exams",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "sparse field with only empty arrays; no usable data"
+    },
+    {
+      "field_name": "licensure.education",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "sparse field with only one null value; no usable data"
+    }
+  ]
+}

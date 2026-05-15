@@ -132,11 +132,39 @@ export type DiscoveredField = {
   states_supporting: string[];
 };
 
+// Choropleth normalization output, produced by pipeline/map_prep/run.py and
+// attached to the per-profession payload by build_frontend.py. The spec
+// describes how each mappable field is colored (gradient vs. palette + which
+// categories); rows are the per-state normalized values.
+export type MapFieldSpec = {
+  field_name: string;
+  mappable: true;
+  kind: "continuous" | "categorical";
+  unit: string | null;
+  categories: string[] | null;
+  reason: string;
+};
+
+export type MapRow = {
+  field_name: string;
+  state: string;
+  raw_value: string;
+  normalized: number | string | null;
+  confidence: "high" | "low";
+  note: string | null;
+};
+
+export type MapPrep = {
+  spec: MapFieldSpec[];
+  rows: MapRow[];
+};
+
 export type ProfilePayload = {
   profession: string;
   display: string;
   discovered_fields: DiscoveredField[];
   rows: Row[];
+  map_prep?: MapPrep | null;
   evidence_summary: { verified: number; unverified: number };
 };
 

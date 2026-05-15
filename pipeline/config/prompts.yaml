@@ -224,3 +224,136 @@ tag_umbrella_scope:
         "scope_evidence": "verbatim quote from the chapter intro that supports your classification",
         "reasoning": "one short sentence explaining the choice"
       }
+
+map_prep_spec:
+  system: |
+    You are designing a normalization spec for a single profession's extracted
+    fields, so they can be visualized as US choropleth maps. You will see one
+    flat dump: for each field, the raw value reported by each state.
+
+    Your job is to decide, FIELD-BY-FIELD, whether the field is "mappable" and
+    — if so — how to normalize it across states so every state's value lands
+    on the same scale.
+
+    Definitions:
+      - A field is CONTINUOUS if its underlying values are numeric and ordered
+        on a single scale (years, hours, dollars, age, count, etc.). Examples:
+        age_minimum, continuing_education.hours_per_period.
+      - A field is CATEGORICAL if values come from a small, stable set of
+        named categories. Examples: regulatory_model (one of six UORF rungs),
+        anatomical_scope_upper_boundary ("foot_only" | "foot_and_ankle" | ...).
+      - A field is NOT MAPPABLE if values are free-form prose, highly
+        idiosyncratic per state, or essentially unique strings (definitions,
+        citations, long descriptions). Mark it not_mappable.
+
+    Rules:
+      1. One spec entry per field. Use the dotted field name exactly as given
+         (e.g. "licensure.age_minimum", "profession_specific.amputation_authorized").
+      2. For continuous fields: provide `unit` (a short noun phrase like
+         "years", "hours per renewal period", "USD") so values can be compared.
+         Note in `reason` any unit conversions needed (months → years, etc.).
+      3. For categorical fields: provide `categories` as the *normalized* set
+         of category labels (snake_case, lowercase). Include a category for
+         "none"/"not_applicable" if states legitimately have no value.
+      4. For booleans: treat as categorical with categories ["true","false"].
+         If the field is sometimes "conditional" or "not_addressed", add those.
+      5. Always include a one-line `reason` explaining the call. If
+         not_mappable, the reason should say why (e.g., "free-text definition").
+      6. Do NOT include any state-level data in your output — just the spec.
+         The actual normalization happens in a follow-up pass.
+
+    Return JSON matching EXACTLY this shape (keys named exactly as shown,
+    no extra keys, no omitted keys). Cover EVERY field you were shown:
+      {
+        "profession": "<profession name, echo from input>",
+        "fields": [
+          {
+            "field_name": "licensure.age_minimum",
+            "mappable": true,
+            "kind": "continuous",
+            "unit": "years",
+            "categories": null,
+            "reason": "integer minimum age, directly comparable across states"
+          },
+          {
+            "field_name": "licensure.regulatory_model",
+            "mappable": true,
+            "kind": "categorical",
+            "unit": null,
+            "categories": ["license","mandatory_certification","registration","voluntary_certification","exemption","market_forces"],
+            "reason": "values come from the UORF ladder enum"
+          },
+          {
+            "field_name": "scope.definition_quote",
+            "mappable": false,
+            "kind": "not_mappable",
+            "unit": null,
+            "categories": null,
+            "reason": "free-text statutory definitions, not comparable"
+          }
+        ]
+      }
+
+map_prep_apply:
+  system: |
+    You are normalizing one profession's extracted fields into mappable
+    values, using the spec produced by the previous pass. You will receive:
+      - the spec (which fields are continuous / categorical / not_mappable,
+        with units and category sets)
+      - the raw per-state values for those fields
+
+    Your job: for every (field, state) pair where the field is mappable,
+    output a single normalized value:
+      - continuous fields → a number in the spec's declared unit, or null if
+        the state didn't address it. Convert units when needed (e.g., months
+        → years if unit is "years"; cents → dollars if unit is "USD").
+      - categorical fields → one of the spec's `categories` strings, or null
+        if not addressed by the state.
+      - SKIP fields the spec marked not_mappable.
+
+    Rules:
+      1. Be faithful to the raw value — do not infer beyond what is stated.
+         If a state's value is empty / null / "not specified" / "not addressed",
+         emit null (with confidence "high") rather than guessing.
+      2. If you have to make a judgment call (e.g., "2-3 years" → 2.5; or
+         mapping a state's idiosyncratic phrase to one of the spec categories),
+         set `confidence` to "low" and add a brief `note`.
+      3. Always include `raw_value` (a short string of the original) so the
+         output is auditable.
+      4. The output is one flat list of rows, where each row is
+         (field_name, state, raw_value, normalized, confidence, note?).
+      5. Do not omit (field, state) pairs for mappable fields — emit null
+         rather than skipping, so downstream code can distinguish "we looked"
+         from "we forgot".
+
+    Return JSON matching EXACTLY this shape (keys named exactly as shown,
+    no extra keys, no omitted keys):
+      {
+        "profession": "<profession name, echo from input>",
+        "rows": [
+          {
+            "field_name": "licensure.age_minimum",
+            "state": "AL",
+            "raw_value": "19",
+            "normalized": 19,
+            "confidence": "high",
+            "note": null
+          },
+          {
+            "field_name": "licensure.regulatory_model",
+            "state": "UT",
+            "raw_value": "license",
+            "normalized": "license",
+            "confidence": "high",
+            "note": null
+          },
+          {
+            "field_name": "licensure.age_minimum",
+            "state": "CA",
+            "raw_value": "null",
+            "normalized": null,
+            "confidence": "high",
+            "note": null
+          }
+        ]
+      }

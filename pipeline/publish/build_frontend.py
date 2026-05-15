@@ -297,11 +297,14 @@ def build(profession: str) -> dict:
             else:
                 verified += 1
 
+    map_prep = _load_map_prep(profession)
+
     return {
         "profession": profession,
         "display": _profession_display(profession),
         "discovered_fields": discovered["fields"],
         "rows": rows,
+        "map_prep": map_prep,
         "evidence_summary": {
             "verified": verified,
             "unverified": unverified,
@@ -312,6 +315,25 @@ def build(profession: str) -> dict:
             "without_quote_spans": span_without,
         },
     }
+
+
+def _load_map_prep(profession: str) -> dict | None:
+    """Attach the choropleth normalization output (pipeline/map_prep/run.py)
+    so the UI can render maps without re-doing the normalization client-side.
+
+    Returns {"spec": [...mappable FieldSpec...], "rows": [...NormalizedRow...]}
+    or None if map_prep hasn't been run for this profession yet.
+    """
+    src = RESULTS_DIR / "map_prep" / profession
+    spec_path = src / "spec.json"
+    rows_path = src / "normalized.json"
+    if not (spec_path.exists() and rows_path.exists()):
+        return None
+    spec = json.loads(spec_path.read_text())
+    rows = json.loads(rows_path.read_text())
+    # Only ship mappable specs to the UI; not_mappable fields are noise here.
+    mappable = [f for f in spec.get("fields", []) if f.get("mappable")]
+    return {"spec": mappable, "rows": rows.get("rows", [])}
 
 
 def _profession_display(profession: str) -> str:
