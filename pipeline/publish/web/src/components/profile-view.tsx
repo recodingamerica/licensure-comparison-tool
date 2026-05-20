@@ -57,20 +57,17 @@ function TextCellRenderer({ value }: ICellRendererParams<Row, string | number | 
 
 function VerifyCell({ data }: ICellRendererParams<Row>) {
   if (!data) return null;
-  if (data.coverage_gap) return <span className="text-muted-foreground">—</span>;
-  const v = data.evidence_verified || 0;
+  if (data.coverage_gap) return null;
   const u = data.evidence_unverified || 0;
-  if (v + u === 0) return <span className="text-muted-foreground">—</span>;
+  // Verified-everywhere is the common case (>99% of rows). Stay silent so
+  // the eye can lock onto the rows that DO need attention.
+  if (u === 0) return null;
   return (
     <span
-      className={
-        "font-mono text-xs " +
-        (u > 0 ? "text-amber-700" : "text-emerald-700")
-      }
-      title="Verbatim quotes regex-checked against the cleaned source"
+      className="font-mono text-xs text-amber-700"
+      title="Quotes that did not match the cleaned source verbatim"
     >
-      {u > 0 ? "⚠ " : "✓ "}
-      {v}/{v + u}
+      ⚠ {u}
     </span>
   );
 }
@@ -652,16 +649,18 @@ function buildColumnDefs(
   },
   {
     colId: "evidence",
-    headerName: "Evidence",
-    width: 100,
-    valueGetter: (p) =>
-      p.data
-        ? `${p.data.evidence_verified}/${p.data.evidence_verified + p.data.evidence_unverified}`
-        : null,
+    headerName: "Unverified",
+    width: 110,
+    // Only the count of NOT-matched quotes per state. Cell renders blank when 0
+    // so visual scanning surfaces only the rows that need attention. Filter as
+    // a number column so users can do "unverified > 0".
+    valueGetter: (p) => p.data?.evidence_unverified ?? 0,
     cellRenderer: VerifyCell,
-    filter: "agTextColumnFilter",
+    filter: "agNumberColumnFilter",
     cellClass: "text-center",
     headerClass: "text-center",
+    headerTooltip:
+      "Number of quotes that did not match the cleaned source verbatim. Blank means all quotes verified.",
   },
 
   // ── Additional universal columns (default-hidden; opt in via Columns ▾)
@@ -970,10 +969,7 @@ export function ProfileView({ payload }: { payload: ProfilePayload }) {
   const display = payload.display || payload.profession;
   const covered = rows.filter((r) => !r.coverage_gap).length;
   const gaps = rows.length - covered;
-  const total = (evidence_summary?.verified || 0) + (evidence_summary?.unverified || 0);
-  const pct = total
-    ? ((100 * (evidence_summary?.verified || 0)) / total).toFixed(1)
-    : "—";
+  const unverifiedCount = evidence_summary?.unverified || 0;
 
   const gridRef = useRef<AgGridReact<Row>>(null);
   const [api, setApi] = useState<GridApi<Row> | null>(null);
@@ -1140,10 +1136,10 @@ export function ProfileView({ payload }: { payload: ProfilePayload }) {
         <Stat label="states with extracted records" value={covered} />
         <Stat label="coverage gaps" value={gaps} />
         <Stat label="auto-discovered profession-specific fields" value={discovered_fields.length} />
-        <Stat
-          label={`evidence verified (${evidence_summary?.verified}/${total} quotes match source)`}
-          value={`${pct}%`}
-        />
+        {/* Only surface the unverified-quote count when there's something to see. */}
+        {unverifiedCount > 0 && (
+          <Stat label="unverified quotes" value={unverifiedCount} />
+        )}
       </div>
 
       <div className="mb-4 inline-flex rounded-md border bg-muted/30 p-1 text-xs font-mono">
@@ -1259,6 +1255,8 @@ export function ProfileView({ payload }: { payload: ProfilePayload }) {
               rowClassRules={{
                 "ag-row-coverage-gap": (params) =>
                   Boolean((params.data as Row | undefined)?.coverage_gap),
+                "ag-row-unverified": (params) =>
+                  ((params.data as Row | undefined)?.evidence_unverified ?? 0) > 0,
               }}
               suppressCellFocus
               animateRows={true}

@@ -3,80 +3,111 @@
 Live site: https://utah-licensing.vercel.app (pw `utah`).
 Pipeline shape and Postgres direction: see [ARCHITECTURE.md](ARCHITECTURE.md).
 
-## Just shipped
+## Just shipped (May 20, 2026)
 
-- **Quote-highlight parity** — replaced the two-matcher setup with a single
-  Python matcher (`pipeline/extract/locate_quote.py`) that emits character
-  offsets onto each Evidence node. Frontend just slices the rendered
-  section text. No TS-side regex; no parity drift. 174 Python tests pass.
-- **Deep-link to the actual quoted clause** — citation links in the modal
-  now use URL Text Fragments (`#:~:text=...`), so clicking lands on the
-  quoted paragraph on Justia in Chrome / Edge / Safari. Falls back to the
-  bare section page in Firefox.
-- **Umbrella text fetch in progress** — pulling cross-cutting "general
-  provisions" chapters for 23 missing states, including UT itself. When
-  finished, re-running `reverify_evidence` + `build_frontend` should pick
-  up the widened corpus and add `quote_spans` for previously-unhighlighted
-  umbrella-resident quotes. No LLM cost. No re-extraction yet.
+- **Compact membership as a universal column** — `build_frontend.py:_extract_compacts`
+  pulls structured compact membership out of existing quote text via regex
+  against known interstate licensure compact names. No new LLM. 34/47
+  nursing states show NLC, 24/43 medicine show IMLC, dentistry/OH shows
+  DDH-C. Data was already extracted weeks ago, just buried in the
+  `profession_specific` discovered fields.
+- **Profile table swapped from shadcn Table to AG Grid Community.**
+  `ag-grid-react` + `ag-grid-community`, themeQuartz with tailwind-matched
+  params. Per-column filter popovers via column-header click — the
+  pull_usaspending interaction pattern. Custom `MulticheckFilter` React
+  component for low-cardinality columns (the Enterprise Set Filter
+  workalike, ~120 lines). Filter type is **auto-inferred per column** by
+  scanning unique values across rows: ≤25 distinct → multicheck, else
+  text/number. Chip bar above the table shows every active filter with ×
+  to remove. Header min-widths computed from label length so labels
+  never wrap or truncate.
+- **All ~25 universal modal fields + every per-profession discovered field
+  now registered as toggleable columns.** Default-hidden for non-default
+  ones; users opt in via the "Columns ▾" dropdown. Custom popover (not
+  Base UI's DropdownMenu — that crashed twice in earlier iterations).
+- **State-detail switched from Dialog to shadcn Sheet.** Slide-in side
+  panel from the right; table stays visible behind it. The panel's role
+  shifted from "all data for this row" (duplicates the table) to
+  "evidence drilldown" — verbatim statute quote + citation + "in context"
+  highlight per claim. `state-detail-dialog.tsx` still exports
+  `StateDetailDialog` for back-compat.
+- **Universal-field labels match Atharv's cross-comparison vocabulary.**
+  "Issuing authority" → "Licensing Authority", "Regulatory model" →
+  "Regulation (UORF)", etc. No schema rename — display layer only, so
+  the structured richness of `regulatory_authority` (name + type +
+  umbrella_agency) isn't lost.
+- **Credential type column hidden by default.** For the common
+  `license × mandatory` case it duplicates Regulation (UORF). Users opt
+  in via Columns ▾ to see the orthogonal decomposition. Cell renderer
+  no longer shows the redundant "MANDATORY" annotation under "license"
+  or "registration" — only "certification" actually has a meaningful
+  mandatory/voluntary split.
+- **Vercel npm install fixed** via `pipeline/publish/web/.npmrc` with
+  `legacy-peer-deps=true`. `react-simple-maps@3.0.0`'s peer-dep range
+  (`^16.8.0 || 17.x || 18.x`) conflicts with React 19; without the
+  override `npm install` exits 1 on Vercel and the build dies before
+  it ever reaches our code.
 
-## Next
+Also: a session-prep doc + artifacts live under `/tmp/` from this
+morning's Atharv check-in — `may20_response.md`, `compact_membership.{md,csv}`,
+`peer_sparseness.md`, `their_table_filled.md`. Useful for replaying the
+"is the data already there?" story.
 
-### 1. Umbrella scope-tagging *(explicit next once the pull finishes)*
+## Verification work — May 20 afternoon (#3 closed)
 
-Problem: today `extract_state.load_umbrella_text` injects **every**
-umbrella chapter into **every** profession's LLM prompt for that state.
-For UT (1 universal chapter) that's fine; for FL/CO/HI/AR/TN (tiered:
-universal + health-only + sometimes others) it's noise. Sonnet ignores
-it but auditability suffers and tokens inflate.
+- **97.8% → 99.94% verified across all six professions** (204 unverified
+  → 5 of 9,089 Evidence nodes). The residual 5 are real LLM
+  stitching / paraphrase — Sonnet itself returns `null` on 3 of them.
+- **`clean_text.py`**: now `html.unescape`s section text before the
+  source-specific cleaners. KY and ND were the only states with raw
+  `&quot;` / `&#039;` surviving from Justia; cleared 86 unverified
+  flags. One-off migration applied the same decode to existing
+  trimmed/clean/umbrella caches.
+- **`clean_text.py`**: also strips `Page No. N` lines from chapter-blob
+  renders (ND-only at the moment). Cleared 2 more.
+- **`pipeline/extract/repair_unverified.py`** (new): for any Evidence
+  still flagged, sends the cited section text + claim to the LLM and
+  asks for a verbatim quote. Validates with `quote_in_corpus` before
+  mutating. Haiku-then-Sonnet pass cleared 111 more. Total cost ~$0.75.
+- **`locate_quote.py`**: tested bare-form line-start list-marker
+  stripping (would fix ~26 quotes); rolled back — asymmetric with how
+  the LLM inlines markers, broke ~74 currently-verified quotes. Left
+  a comment explaining why.
+- **`pipeline/_llm.py:call_structured`** now the single LLM-call
+  helper. extract_state, trim_state, discover_schema, recategorize_fields,
+  + 3 dead `_extract_json` copies in `discover/` all routed through it.
+- **`pipeline/extract/standard_model.py:iter_evidence`** now the single
+  Evidence-tree walker. 7 callsites consolidated (annotate_evidence,
+  reverify_evidence._walk, repair_unverified, build_frontend ×3,
+  build_review_csv).
+- **`web`**: Evidence column renamed to **Unverified**. Cell blank when
+  count is 0 so the few flagged rows stand out; row gets an amber
+  left-border + soft amber fill via `.ag-row-unverified`. Header drops
+  the verified-% stat; only shows `unverified quotes: N` when N > 0.
 
-Plan:
+## Next — open priorities (May 20)
 
-1. Augment each `umbrella_chapters/<STATE>.json` chapter entry with:
-   - `parent_title_label` (one cheap fetch of the title-level URL)
-   - `first_section_text` (one extra section fetch — chapters open with
-     definitions / "applies to")
-2. One LLM call per umbrella chapter (~200 calls total) emits
-   `{scope: "universal" | "health" | "construction" | "specific:[...]",
-   evidence_quote: "..."}`. Store as flat fields on the same record.
-3. Tag each profession in `config/professions.yaml` with `family` (health
-   / financial / construction / etc.).
-4. `load_umbrella_text` filters chapters by `scope` ∩ `profession.family`.
+### 1. Default-column tuning (still open)
 
-Shape note: store these as flat fields per [ARCHITECTURE.md design
-principle #3](ARCHITECTURE.md#design-principles) so the eventual Postgres
-migration is a 1:1 column mapping.
+The Columns ▾ dropdown exposes ~50-60 columns per profession (universal
++ per-profession discovered). Today the default-visible set is the 11
+hand-picked columns from the pre-AG-Grid version. Worth a deliberate
+pass picking the ~12-15 most informative defaults per profession,
+possibly with a "compact view" / "expanded view" toggle.
 
-Effort: ~half-day. No re-extraction needed afterward unless we want the
-LLM to *use* the now-filtered umbrella context (which we'd do for UT only,
-~$2 in API spend).
+Implementation note: each `ColDef` in `buildColumnDefs` has
+`hide: true | false`. Currently most new universal + all discovered
+columns are `hide: true`. Just flip the ones that should be defaults.
+Could also persist user choice to URL state for shareable views.
 
-### 2. Field-list one-pager
+## Earlier next-up items (still open, lower priority)
 
-A printable HTML page (or markdown) enumerating universal fields (from
-`standard_model.py`) + profession-specific discovered fields (from
-`discovered/<profession>.json`) for the appendix. Source data is already
-sitting there.
-
-### 3. Regulations pipeline (Cornell LII)
-
-We don't pull regulations today — only statutes. Needed to answer "is
-there more info in regs than in statutes?" Real work — a new
-discover/ingest pair mirroring the Justia path. Scope to one profession
-+ one state first.
-
-### 4. Utah-office comparison
-
-Blocked on them sending us their working data. When it lands, a
-side-by-side of our extracted record vs. their spreadsheet for one or
-two professions.
-
-## Future direction
-
-A relational store modeled on `/Users/abigailhaddad/Documents/repos/newyork`
-(single `documents` table, `parent_id` self-FK, classification columns
-added incrementally, Drizzle + numbered SQL migrations, Neon Postgres).
-Not urgent — see [ARCHITECTURE.md § Future: Postgres](ARCHITECTURE.md#future-postgres)
-for the mapping from today's scattered JSON to that schema.
+- Field-list one-pager (printable HTML or markdown enumerating all
+  fields per profession — somewhat superseded by the Columns ▾
+  dropdown but still useful as a static appendix)
+- Regulations pipeline (Cornell LII) — admin code, not statute. Needed
+  to answer "is there more info in regs than in statutes?"
+- Utah-office comparison — blocked on them sending working data
 
 ## Reference
 
@@ -88,4 +119,8 @@ for the mapping from today's scattered JSON to that schema.
   - extract: `python -m pipeline.extract.extract_state --profession <p>`
   - re-verify quotes: `python -m pipeline.extract.reverify_evidence --profession <p>`
   - pull umbrella text: `python -m pipeline.ingest.pull_umbrella_text [--state XX]`
-  - publish: `python -m pipeline.publish.build_frontend --profession <p>` (add `--deploy` to push prod)
+  - publish data only: `python -m pipeline.publish.build_frontend --profession <p>`
+  - deploy web app: `cd pipeline/publish/web && npx vercel deploy --prod --yes`
+    (preview without `--prod`)
+- Web stack (since May 20): Next.js 16 + AG Grid Community + shadcn/ui
+  (Base UI primitives) + Tailwind 4. See memory `web_stack_notes.md`.

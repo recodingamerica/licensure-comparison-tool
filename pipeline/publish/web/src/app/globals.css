@@ -128,3 +128,12 @@
     @apply font-sans;
   }
 }
+
+/* AG Grid row class for states whose extracted quotes didn't all verify
+   against the source. Amber left-border + soft amber fill so a row stands
+   out at a glance without competing with the data. Coverage-gap rows
+   already have their own muted treatment; this layers on top harmlessly. */
+.ag-row-unverified {
+  box-shadow: inset 3px 0 0 0 #d97706; /* amber-600 */
+  background-color: #fffbeb; /* amber-50 */
+}
