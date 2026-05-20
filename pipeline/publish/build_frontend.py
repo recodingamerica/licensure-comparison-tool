@@ -14,9 +14,58 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import sys
 from pathlib import Path
 from typing import Any
+
+
+# Known interstate licensure compacts: short tag → detection pattern.
+# Surfaced as a structured `compacts: list[str]` column on each row so the UI
+# can show compact membership without changing the underlying extraction
+# schema. Patterns match the verbatim quote text already in the record.
+COMPACT_PATTERNS: list[tuple[str, re.Pattern[str]]] = [
+    ("NLC",      re.compile(r"\b(?:nurse\s+licensure\s+compact|enhanced\s+nurse\s+licensure(?:\s+compact)?|NLC)\b", re.I)),
+    ("IMLC",     re.compile(r"\b(?:interstate\s+medical\s+licensure\s+compact|IMLC)\b", re.I)),
+    ("PTC",      re.compile(r"\b(?:physical\s+therapy\s+(?:licensure\s+)?compact|PT\s+compact|PTC)\b", re.I)),
+    ("ASLP-IC",  re.compile(r"\b(?:audiology\s+(?:and\s+)?speech[\s-]language\s+(?:pathology\s+)?(?:interstate\s+)?compact|ASLP-?IC)\b", re.I)),
+    ("PSY-PACT", re.compile(r"\b(?:psychology\s+inter[\s-]?jurisdictional\s+compact|PSY-?PACT)\b", re.I)),
+    ("EMS-C",    re.compile(r"\b(?:emergency\s+medical\s+services\s+personnel\s+licensure\s+(?:interstate\s+)?compact|EMS\s+compact)\b", re.I)),
+    ("OT-C",     re.compile(r"\b(?:occupational\s+therapy\s+licensure\s+compact|OT\s+compact)\b", re.I)),
+    ("CC",       re.compile(r"\bcounseling\s+compact\b", re.I)),
+    ("DDH-C",    re.compile(r"\b(?:dentist\s+(?:and\s+dental\s+hygienist\s+)?compact|dental\s+(?:hygienist\s+)?compact)\b", re.I)),
+    ("OD-C",     re.compile(r"\b(?:optometry\s+licensure\s+compact|optometry\s+compact)\b", re.I)),
+    ("APRN-C",   re.compile(r"\b(?:advanced\s+practice\s+registered\s+nurse\s+compact|APRN\s+compact)\b", re.I)),
+]
+
+
+def _extract_compacts(record: dict) -> list[str]:
+    """Walk the extracted record for mentions of known interstate licensure
+    compacts. Returns a sorted list of compact short-tags. Surfaces existing
+    quote text — no new LLM, no schema change.
+
+    Scope note: this is a pattern-match derivation; a quote describing a compact
+    a state has NOT joined would still flag. In practice, the structured records
+    only quote compact text from chapters the state actually enacted, so the
+    false-positive rate is low. Audit the UI quote modal for confirmation.
+    """
+    found: set[str] = set()
+
+    def walk(node: Any) -> None:
+        if isinstance(node, dict):
+            for v in node.values():
+                walk(v)
+        elif isinstance(node, list):
+            for v in node:
+                walk(v)
+        elif isinstance(node, str):
+            for tag, pat in COMPACT_PATTERNS:
+                if pat.search(node):
+                    found.add(tag)
+
+    walk(record)
+    return sorted(found)
+
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from paths import STRUCTURED_DIR, DISCOVERED_DIR, TRIMMED_DIR, RESULTS_DIR  # noqa: E402
@@ -167,6 +216,7 @@ def hoist_row(record: dict) -> dict:
         "ce_hours": _ev_value(_g(lic, "continuing_education", "hours_per_period")),
         "ce_period_years": _ev_value(_g(lic, "continuing_education", "period_years")),
         "reciprocity_available": _ev_value(_g(lic, "reciprocity", "available")),
+        "compacts": _extract_compacts(record),
         "disciplinary_grounds_count": len(lic.get("disciplinary_grounds") or []),
         "evidence_verified": verified,
         "evidence_unverified": unverified,
@@ -201,6 +251,7 @@ def stub_row(state: str, profession: str, reason: str) -> dict:
         "ce_hours": None,
         "ce_period_years": None,
         "reciprocity_available": None,
+        "compacts": [],
         "disciplinary_grounds_count": 0,
         "evidence_verified": 0,
         "evidence_unverified": 0,

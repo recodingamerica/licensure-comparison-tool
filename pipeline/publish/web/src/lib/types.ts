@@ -70,6 +70,8 @@ export type LicensureRequirements = {
   continuing_education?: ContinuingEducation | null;
   reciprocity?: Reciprocity | null;
   regulatory_model?: Evidence<string> | null;
+  credential_type?: Evidence<string> | null;
+  is_mandatory?: Evidence<boolean> | null;
   title_protection?: Evidence<boolean> | null;
   scope_protection?: Evidence<boolean> | null;
   disciplinary_grounds: DisciplinaryGround[];
@@ -103,6 +105,8 @@ export type Row = {
   coverage_gap_label?: string;
   license_required: boolean | null;
   regulatory_model: string | null;
+  credential_type: string | null;
+  is_mandatory: boolean | null;
   title_protection: boolean | null;
   scope_protection: boolean | null;
   issuing_authority: string | null;
@@ -113,6 +117,7 @@ export type Row = {
   ce_hours: number | null;
   ce_period_years: number | null;
   reciprocity_available: boolean | null;
+  compacts: string[];
   disciplinary_grounds_count: number;
   evidence_verified: number;
   evidence_unverified: number;

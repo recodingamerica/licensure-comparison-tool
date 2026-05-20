@@ -9,7 +9,22 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
+import { Badge } from "@/components/ui/badge";
 import { EvidenceRow } from "./evidence-row";
+
+const COMPACT_FULL: Record<string, string> = {
+  NLC: "Nurse Licensure Compact",
+  IMLC: "Interstate Medical Licensure Compact",
+  PTC: "Physical Therapy Compact",
+  "ASLP-IC": "Audiology and Speech-Language Pathology Interstate Compact",
+  "PSY-PACT": "Psychology Interjurisdictional Compact",
+  "EMS-C": "EMS Personnel Licensure Interstate Compact",
+  "OT-C": "Occupational Therapy Licensure Compact",
+  CC: "Counseling Compact",
+  "DDH-C": "Dentist and Dental Hygienist Compact",
+  "OD-C": "Optometry Licensure Compact",
+  "APRN-C": "Advanced Practice Registered Nurse Compact",
+};
 
 type Props = {
   rows: Row[];
@@ -72,9 +87,30 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange }: Pro
     <Dialog open onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-2xl md:max-w-3xl lg:max-w-4xl max-h-[85vh] overflow-y-auto p-0 gap-0 w-[95vw]">
         <DialogHeader className="border-b px-6 py-4 sticky top-0 bg-background z-10">
-          <DialogTitle className="text-xl">
-            {row.state} — {row._full.profession.replace(/_/g, " ")}
+          <DialogTitle className="text-xl flex items-center gap-3 flex-wrap">
+            <span>{row.state} — {row._full.profession.replace(/_/g, " ")}</span>
+            {row.compacts && row.compacts.length > 0 && (
+              <span className="flex gap-1 flex-wrap">
+                {row.compacts.map((c) => (
+                  <Badge
+                    key={c}
+                    variant="secondary"
+                    className="bg-indigo-100 text-indigo-900 hover:bg-indigo-100 font-mono text-xs"
+                    title={COMPACT_FULL[c] || c}
+                  >
+                    {c}
+                  </Badge>
+                ))}
+              </span>
+            )}
           </DialogTitle>
+          {row.compacts && row.compacts.length > 0 && (
+            <p className="text-xs text-muted-foreground">
+              Member of: {row.compacts.map((c) => COMPACT_FULL[c] || c).join(", ")}
+              {" · "}
+              <span className="italic">see profession-specific fields below for source quote</span>
+            </p>
+          )}
           {row.source_chapter_urls && row.source_chapter_urls.length > 0 && (
             <DialogDescription className="text-xs font-mono break-all">
               {row.source_chapter_urls.map((u) => (
@@ -95,6 +131,8 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange }: Pro
         <div className="px-6 py-4 space-y-6">
           <Section title="Base licensure">
             <EvidenceRow label="regulatory_model" ev={lic.regulatory_model} sections={sections} />
+            <EvidenceRow label="credential_type" ev={lic.credential_type} sections={sections} />
+            <EvidenceRow label="is_mandatory" ev={lic.is_mandatory} sections={sections} />
             <EvidenceRow label="title_protection" ev={lic.title_protection} sections={sections} />
             <EvidenceRow label="scope_protection" ev={lic.scope_protection} sections={sections} />
             <EvidenceRow label="license_required" ev={lic.license_required} sections={sections} />
