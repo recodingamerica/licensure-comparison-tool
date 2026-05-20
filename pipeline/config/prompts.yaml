@@ -171,6 +171,42 @@ extract_state:
         "Division of Occupations and Professions, Department of Commerce").
         Set to null for standalone boards that don't sit inside a larger department.
 
+    Universal-comparison fields (added to match the cross-state cross-comparison
+    schema; populate when grounded in the source, leave null otherwise):
+
+      advisory_board:
+        Some states delegate licensure to a GENERIC board (e.g. "Board of Medical
+        Examiners") and add a profession-specific advisory committee alongside.
+        - advisory_board.exists: true if such an advisory body exists for THIS
+          profession; false if the licensing board is itself profession-specific
+          (no advisory body needed). Null if the statute is silent.
+        - advisory_board.name: the body's canonical name.
+        - advisory_board.authority: in the statute's own words — "advisory only",
+          "rulemaking subject to board approval", "disciplinary recommendations",
+          etc.
+
+      renewal_fee_usd:
+        License renewal fee in US dollars as an integer. Statutes that leave the
+        amount to board discretion ("fee set by rule") get null, not 0.
+
+      national_certification:
+        Name of a national CERTIFICATION body the statute recognizes or requires —
+        e.g. ABPS, NBPME, ECFMG. The body that issues the cert, not the trade
+        association.
+
+      national_association:
+        Name of a professional ASSOCIATION the statute references (typically as an
+        approver of accredited programs or CE providers) — APMA, ADA, AMA, etc.
+        Distinct from a certifying body.
+
+      Exam.jurisdiction (per exam):
+        Where the exam is owned / administered: "national (NBPME)", "state (in-house)",
+        etc. Use the statute's words.
+
+      Exam.permitted_attempts (per exam):
+        Maximum attempts allowed before re-qualification or denial. Integer, or null
+        if the statute doesn't cap it.
+
     Return ONLY valid JSON matching the schema. No prose, no code fences.
 
 tag_umbrella_scope:

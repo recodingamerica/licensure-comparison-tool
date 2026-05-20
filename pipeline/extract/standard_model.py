@@ -291,8 +291,46 @@ class Exam(BaseModel):
     name: str
     required: bool = True
     notes: str | None = None
+    jurisdiction: str | None = Field(
+        default=None,
+        description=(
+            "Where the exam is administered / who owns it — e.g. 'NBPME (national)', "
+            "'state board (in-state)', 'NCLEX-RN (national)'. Use the statute's "
+            "language; null if the source doesn't say."
+        ),
+    )
+    permitted_attempts: int | None = Field(
+        default=None,
+        description="Max attempts allowed before re-qualification. Null if not specified.",
+    )
     quote: str = Field(description="Verbatim phrase mentioning this exam")
     citation: str
+
+
+class AdvisoryBoard(BaseModel):
+    """Some states delegate licensure to a generic board (e.g. 'Board of Medical
+    Examiners') and add a profession-specific advisory body alongside it. This
+    captures whether such an advisory board exists and what authority it has."""
+    exists: BoolEvidence | None = Field(
+        default=None,
+        description=(
+            "True if a profession-specific advisory body exists alongside the main "
+            "licensing board. False if the licensing board itself is profession-specific "
+            "(no separate advisory body needed)."
+        ),
+    )
+    name: StrEvidence | None = Field(
+        default=None,
+        description="Name of the advisory board, e.g. 'Podiatry Advisory Committee'.",
+    )
+    authority: StrEvidence | None = Field(
+        default=None,
+        description=(
+            "Authority the advisory board has, in the statute's own words — e.g. "
+            "'advisory only', 'rulemaking subject to board approval', 'disciplinary "
+            "recommendations'. Free text from the statute."
+        ),
+    )
 
 
 # ---------- Top-level base components ----------
@@ -315,8 +353,45 @@ class LicensureRequirements(BaseModel):
     post_degree_experience: PostDegreeExperience | None = None
     exams: list[Exam] = Field(default_factory=list)
     renewal: Renewal | None = None
+    renewal_fee_usd: IntEvidence | None = Field(
+        default=None,
+        description=(
+            "License renewal fee in US dollars (integer). Many statutes leave the "
+            "amount to the board's discretion — leave null in that case."
+        ),
+    )
     continuing_education: ContinuingEducation | None = None
     reciprocity: Reciprocity | None = None
+
+    # Universal fields aligned with Atharv's cross-comparison schema. These
+    # round out the universal set so every profession's profile carries the
+    # same row labels.
+    advisory_board: AdvisoryBoard | None = Field(
+        default=None,
+        description=(
+            "Profession-specific advisory body sitting alongside the main licensing "
+            "board, when one exists. Populated for states that delegate licensure "
+            "to a generic board and add a specialty advisory committee."
+        ),
+    )
+    national_certification: StrEvidence | None = Field(
+        default=None,
+        description=(
+            "Name of a national CERTIFICATION the state recognizes or requires, "
+            "e.g. 'American Board of Podiatric Surgery (ABPS)' or 'National Board "
+            "of Podiatric Medical Examiners (NBPME)'. The certifying body, NOT the "
+            "association. Null if the statute doesn't reference one."
+        ),
+    )
+    national_association: StrEvidence | None = Field(
+        default=None,
+        description=(
+            "Professional ASSOCIATION the state references (e.g. for accreditation "
+            "or CE provider approval) — 'American Podiatric Medical Association "
+            "(APMA)', 'American Dental Association (ADA)'. Distinct from the "
+            "certifying body. Null if not referenced."
+        ),
+    )
 
     # UORF-mapped fields (legacy single-axis rung; new extractions also populate
     # credential_type + is_mandatory below for orthogonal filtering)

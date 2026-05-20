@@ -8,7 +8,10 @@ data gets the new columns for free.
 
 import pytest
 
-from pipeline.publish.build_frontend import _derive_credential_and_mandatory
+from pipeline.publish.build_frontend import (
+    _derive_credential_and_mandatory,
+    normalize_citation,
+)
 
 
 class TestDerivationFromLegacyRegulatoryModel:
@@ -55,3 +58,53 @@ class TestDirectFieldsPreferred:
         ct, im = _derive_credential_and_mandatory(lic)
         assert ct == "license"
         assert im is None  # we don't half-derive
+
+
+class TestNormalizeCitation:
+    """`normalize_citation` cleans up the LLM's per-state citation strings
+    so the published JSON ships a consistent display form. Idempotent."""
+
+    @pytest.mark.parametrize("raw, want", [
+        # Bracketed (KY style)
+        ("[314.031]",                            "314.031"),
+        ("[34-24-704]",                          "34-24-704"),
+        # Trailing period only
+        ("32-827.",                              "32-827"),
+        ("Section 2474.",                        "Section 2474"),
+        # `§ NN. Title` (Vermont style) — strip the title, keep the section
+        ("§ 324. Prohibitions; penalties",        "§ 324"),
+        ("§ 1721. Definitions",                   "§ 1721"),
+        # `§ 324.5` is a sub-section, NOT a title — leave it alone
+        ("§ 324.5",                               "§ 324.5"),
+        # `Section NN - Title -- ...` (Utah / Nebraska style)
+        ("Section 301 - License required -- License classifications.",
+         "Section 301"),
+        ("Section 302 - Qualifications to practice podiatry.",
+         "Section 302"),
+        # ` -- ` separator alone
+        ("65-2002 -- Definitions",                "65-2002"),
+        # UMBRELLA prefix preserved, but body cleaned
+        ("UMBRELLA / 38-167 - Boards; designated; change in name; effect.",
+         "UMBRELLA / 38-167"),
+        # Clean inputs pass through unchanged (idempotent)
+        ("311.400",                               "311.400"),
+        ("RS 37:912",                             "RS 37:912"),
+        ("20-50a",                                "20-50a"),
+        # Empty / whitespace
+        ("",                                      ""),
+        ("   ",                                   ""),
+    ])
+    def test_normalize(self, raw, want):
+        assert normalize_citation(raw) == want
+
+    def test_idempotent(self):
+        """Applying twice yields the same result as applying once."""
+        for raw in [
+            "[314.031]",
+            "§ 324. Prohibitions",
+            "Section 301 - License required",
+            "UMBRELLA / 38-167 - Boards",
+        ]:
+            once = normalize_citation(raw)
+            twice = normalize_citation(once)
+            assert once == twice

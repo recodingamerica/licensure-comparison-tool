@@ -80,6 +80,59 @@ def _ev_value(node: Any) -> Any:
     return node["value"] if is_evidence_node(node) else node
 
 
+# Trailing-title pattern for section-symbol citations: matches a section
+# number (with optional dot-separated subsections + letter suffix), then a
+# REQUIRED period + space + capital letter = start of an appended title.
+# Lets us strip "§ 324. Prohibitions" → "§ 324" while leaving "§ 324.5"
+# alone (no space after the dot, no title).
+_SECTION_TITLE_TAIL_RE = re.compile(
+    r"^(§\s*\d+(?:[.\-:]\d+)*[a-z]?)\.\s+[A-Z].*$",
+    re.UNICODE,
+)
+
+
+def normalize_citation(cite: str) -> str:
+    """Tidy a citation string for display. Idempotent.
+
+    Strips: bracket wrappers (`[314.031]` → `314.031`), trailing period,
+    ` - descriptive tail` (Utah / Nebraska style: `Section 301 - License
+    required -- ...` → `Section 301`), and trailing `. Section Title` after a
+    `§ N` form (Vermont style: `§ 324. Prohibitions` → `§ 324`).
+
+    Does NOT strip the `UMBRELLA / <chapter>` prefix — that's a deliberate
+    marker the section-text lookup uses to route umbrella-context quotes
+    back to their source chapter, and it's also useful display info ("this
+    quote came from a cross-cutting umbrella chapter").
+
+    Underlying structured records keep the LLM's original citation; this
+    normalization only changes what the published JSON ships, so the diff
+    between the LLM output and the displayed form is greppable in code.
+    """
+    if not cite:
+        return cite
+    s = cite.strip()
+    # Preserve the `UMBRELLA / ` prefix but normalize the bit AFTER it.
+    umbrella_prefix = ""
+    if s.startswith("UMBRELLA / "):
+        umbrella_prefix = "UMBRELLA / "
+        s = s[len(umbrella_prefix):].strip()
+    if s.startswith("[") and s.endswith("]"):
+        s = s[1:-1].strip()
+    if s.endswith("."):
+        s = s[:-1].strip()
+    # Try the SHORTER separator first: a string with both `Section 301 -
+    # License required -- ...` shape resolves to `Section 301` by splitting
+    # on the leftmost ` - ` (which doesn't appear as a substring of ` -- `).
+    for sep in (" - ", " -- "):
+        if sep in s:
+            s = s.split(sep, 1)[0].strip()
+            break
+    m = _SECTION_TITLE_TAIL_RE.match(s)
+    if m:
+        s = m.group(1).strip()
+    return umbrella_prefix + s
+
+
 def _g(d: dict | None, *path: str) -> Any:
     cur: Any = d
     for k in path:
@@ -324,6 +377,30 @@ def build(profession: str) -> dict:
         r["state"]: r["_full"] for r in rows if not r["coverage_gap"]
     }
     map_prep = _load_map_prep(profession, structured_by_state)
+
+    # Normalize citations in the published payload. We do this AFTER
+    # `_annotate_quote_spans` (which uses raw + bracket-variant lookups) and
+    # AFTER `_load_map_prep` (which copies citations onto map rows) so the
+    # downstream display gets consistent text without breaking the internal
+    # citation→section lookup that already ran.
+    for r in rows:
+        # iter_evidence walks any Evidence-shaped dict in the tree — finds
+        # citations under r["_full"]["licensure"], ["scope"], ["profession_specific"],
+        # and nested objects like exams[*], disciplinary_grounds[*].
+        for _, ev in iter_evidence(r):
+            cite = ev.get("citation")
+            if cite:
+                ev["citation"] = normalize_citation(cite)
+        # Section list shipped per row also carries citations — normalize
+        # those too so they line up with the Evidence-node citations the
+        # frontend uses to match a quote to its section text.
+        for s in r.get("sections") or []:
+            if s.get("citation"):
+                s["citation"] = normalize_citation(s["citation"])
+    if map_prep:
+        for mr in map_prep.get("rows") or []:
+            if mr.get("citation"):
+                mr["citation"] = normalize_citation(mr["citation"])
 
     return {
         "profession": profession,
