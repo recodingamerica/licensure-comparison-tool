@@ -206,7 +206,9 @@ function ColumnVisibilityPopover({
   onToggle: (id: string, v: boolean) => void;
 }) {
   const [open, setOpen] = useState(false);
+  const [query, setQuery] = useState("");
   const ref = useRef<HTMLDivElement>(null);
+  const searchRef = useRef<HTMLInputElement>(null);
 
   // Close on outside click + Escape
   useEffect(() => {
@@ -225,6 +227,26 @@ function ColumnVisibilityPopover({
     };
   }, [open]);
 
+  // Focus the search box on open and reset the filter on close so re-opening
+  // doesn't show a stale query.
+  useEffect(() => {
+    if (open) {
+      searchRef.current?.focus();
+    } else {
+      setQuery("");
+    }
+  }, [open]);
+
+  // Sort alphabetically by label, then narrow by case-insensitive substring
+  // match. With 50–60 columns the alphabetical sort + free-text search is
+  // the difference between scannable and unusable.
+  const filtered = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    const sorted = [...columns].sort((a, b) => a.label.localeCompare(b.label));
+    if (!q) return sorted;
+    return sorted.filter((c) => c.label.toLowerCase().includes(q));
+  }, [columns, query]);
+
   return (
     <div ref={ref} className="relative inline-block">
       <Button
@@ -239,26 +261,67 @@ function ColumnVisibilityPopover({
       {open && (
         <div
           role="menu"
-          className="absolute right-0 top-full mt-1 w-56 max-h-[60vh] overflow-y-auto rounded-md border bg-popover text-popover-foreground shadow-md z-50 p-1"
+          className="absolute right-0 top-full mt-1 w-80 max-h-[70vh] flex flex-col rounded-md border bg-popover text-popover-foreground shadow-md z-50"
         >
-          <div className="px-2 py-1.5 text-xs font-mono uppercase tracking-widest text-muted-foreground">
+          <div className="px-2 pt-2 pb-1.5 text-xs font-mono uppercase tracking-widest text-muted-foreground">
             Show / hide columns
           </div>
+          <div className="px-2 pb-2">
+            <input
+              ref={searchRef}
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search columns…"
+              className="w-full rounded border bg-background px-2 py-1 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring"
+            />
+          </div>
+          <div className="px-2 pb-1.5 text-xs text-muted-foreground flex items-center justify-between gap-2">
+            <span>
+              {filtered.length === columns.length
+                ? `${columns.length} columns`
+                : `${filtered.length} of ${columns.length} match`}
+            </span>
+            {/* Bulk actions act on the CURRENT filtered set so users can e.g.
+                search "ce_" then click "hide all" to hide every CE column. */}
+            <div className="flex gap-1">
+              <button
+                className="hover:text-foreground underline"
+                onClick={() => filtered.forEach((c) => onToggle(c.id, true))}
+              >
+                show all
+              </button>
+              <span>·</span>
+              <button
+                className="hover:text-foreground underline"
+                onClick={() => filtered.forEach((c) => onToggle(c.id, false))}
+              >
+                hide all
+              </button>
+            </div>
+          </div>
           <div className="my-1 h-px bg-border" />
-          {columns.map((c) => (
-            <label
-              key={c.id}
-              className="flex items-center gap-2 px-2 py-1.5 rounded text-sm hover:bg-accent hover:text-accent-foreground cursor-pointer"
-            >
-              <input
-                type="checkbox"
-                checked={visible.has(c.id)}
-                onChange={(e) => onToggle(c.id, e.target.checked)}
-                className="h-4 w-4 rounded border-input"
-              />
-              <span>{c.label}</span>
-            </label>
-          ))}
+          <div className="overflow-y-auto p-1">
+            {filtered.length === 0 ? (
+              <div className="px-2 py-3 text-sm text-muted-foreground text-center">
+                no columns match "{query}"
+              </div>
+            ) : (
+              filtered.map((c) => (
+                <label
+                  key={c.id}
+                  className="flex items-center gap-2 px-2 py-1.5 rounded text-sm hover:bg-accent hover:text-accent-foreground cursor-pointer"
+                >
+                  <input
+                    type="checkbox"
+                    checked={visible.has(c.id)}
+                    onChange={(e) => onToggle(c.id, e.target.checked)}
+                    className="h-4 w-4 rounded border-input"
+                  />
+                  <span>{c.label}</span>
+                </label>
+              ))
+            )}
+          </div>
         </div>
       )}
     </div>
