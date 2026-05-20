@@ -16,22 +16,18 @@ import argparse
 import json
 import logging
 import os
-import re
 import sys
-import time
 from pathlib import Path
 from typing import Literal
 
-from pydantic import BaseModel, Field, ValidationError
+from pydantic import BaseModel, Field
 
 # Load shared .env
 from pipeline._env import load_env  # noqa: E402
 load_env()
 
-import litellm  # noqa: E402
-
-import sys
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from _llm import call_structured  # noqa: E402
 from paths import TRIMMED_DIR, DISCOVERED_DIR, LOGS_DIR  # noqa: E402
 
 LOG_PATH = LOGS_DIR / "discover_schema.log"
@@ -91,25 +87,6 @@ class DiscoveredSchema(BaseModel):
     fields: list[DiscoveredField]
 
 
-_JSON_FENCE_RE = re.compile(r"```(?:json)?\s*([\s\S]*?)```")
-
-
-def _extract_json(raw: str) -> str:
-    if not raw:
-        return ""
-    m = _JSON_FENCE_RE.search(raw)
-    if m:
-        return m.group(1).strip()
-    s = raw.strip()
-    if s.startswith("{"):
-        return s
-    i = s.find("{")
-    j = s.rfind("}")
-    if i >= 0 and j > i:
-        return s[i : j + 1]
-    return s
-
-
 def build_corpus(profession: str) -> tuple[str, list[str]]:
     """Concatenate per-state trimmed corpora, prefixed with state header.
     Returns (corpus_text, states_included)."""
@@ -132,40 +109,17 @@ def build_corpus(profession: str) -> tuple[str, list[str]]:
 
 
 def call_model(model: str, system: str, user: str) -> DiscoveredSchema | None:
-    schema = DiscoveredSchema.model_json_schema()
-    sys_with_schema = (
-        system
-        + "\n\nReturn JSON matching exactly this schema:\n"
-        + json.dumps(schema, indent=2)
-        + "\n\nReturn ONLY a single JSON object. No prose, no code fences."
+    return call_structured(
+        model=model,
+        system=system,
+        user=user,
+        schema_cls=DiscoveredSchema,
+        embed_schema=True,
+        max_tokens=16000,
+        max_retries=MAX_RETRIES,
+        backoff_base=2.0,
+        logger=log,
     )
-    last_err: Exception | None = None
-    for attempt in range(MAX_RETRIES + 1):
-        try:
-            log.info("calling %s (attempt %d)", model, attempt + 1)
-            resp = litellm.completion(
-                model=model,
-                messages=[
-                    {"role": "system", "content": sys_with_schema},
-                    {"role": "user", "content": user},
-                ],
-                temperature=0.0,
-                max_tokens=16000,
-            )
-            raw = resp.choices[0].message.content or ""
-            payload = _extract_json(raw)
-            data = json.loads(payload)
-            return DiscoveredSchema.model_validate(data)
-        except (json.JSONDecodeError, ValidationError) as e:
-            last_err = e
-            log.warning("parse attempt %d failed: %s", attempt + 1, str(e)[:300])
-        except Exception as e:
-            last_err = e
-            log.warning("api attempt %d failed: %s", attempt + 1, str(e)[:300])
-        if attempt < MAX_RETRIES:
-            time.sleep(2 ** attempt)
-    log.error("giving up: %s", str(last_err)[:200])
-    return None
 
 
 def write_markdown_preview(schema: DiscoveredSchema, path: Path) -> None:

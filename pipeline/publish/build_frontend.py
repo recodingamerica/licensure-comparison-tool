@@ -71,14 +71,13 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from paths import STRUCTURED_DIR, DISCOVERED_DIR, TRIMMED_DIR, RESULTS_DIR  # noqa: E402
 from config.states import ALL_STATES  # noqa: E402
 from extract.locate_quote import locate_quote_in_section  # noqa: E402
+from extract.standard_model import is_evidence_node, iter_evidence  # noqa: E402
 from publish.blob_upload import upload_json  # noqa: E402
 
 
 def _ev_value(node: Any) -> Any:
     """If `node` is Evidence-shaped, return .value; otherwise return as-is."""
-    if isinstance(node, dict) and {"value", "quote", "citation"}.issubset(node.keys()):
-        return node["value"]
-    return node
+    return node["value"] if is_evidence_node(node) else node
 
 
 def _g(d: dict | None, *path: str) -> Any:
@@ -114,58 +113,31 @@ def _annotate_quote_spans(record: dict, sections: list[dict]) -> tuple[int, int]
         by_cite[f"[{cite}]"] = s
 
     with_spans = without_spans = 0
-
-    def walk(node: Any):
-        nonlocal with_spans, without_spans
-        if isinstance(node, dict):
-            if {"value", "quote", "citation"}.issubset(node.keys()):
-                if not node.get("unverified"):
-                    cite = node.get("citation") or ""
-                    sec = by_cite.get(cite) or by_cite.get(cite.strip("[]"))
-                    text = (sec or {}).get("text") or ""
-                    spans = (
-                        locate_quote_in_section(node.get("quote") or "", text)
-                        if text
-                        else None
-                    )
-                    if spans:
-                        # Pydantic dumps tuples as lists already; be explicit
-                        # so JSON output is `[[s, e], ...]` either way.
-                        node["quote_spans"] = [list(p) for p in spans]
-                        with_spans += 1
-                    else:
-                        without_spans += 1
-                return
-            for v in node.values():
-                walk(v)
-        elif isinstance(node, list):
-            for v in node:
-                walk(v)
-
-    walk(record)
+    for _, node in iter_evidence(record):
+        if node.get("unverified"):
+            continue
+        cite = node.get("citation") or ""
+        sec = by_cite.get(cite) or by_cite.get(cite.strip("[]"))
+        text = (sec or {}).get("text") or ""
+        spans = locate_quote_in_section(node.get("quote") or "", text) if text else None
+        if spans:
+            # Pydantic dumps tuples as lists already; be explicit so JSON
+            # output is `[[s, e], ...]` either way.
+            node["quote_spans"] = [list(p) for p in spans]
+            with_spans += 1
+        else:
+            without_spans += 1
     return with_spans, without_spans
 
 
 def _count_evidence(record: dict) -> tuple[int, int]:
     """Walk record for Evidence-shaped objects, count verified vs unverified."""
     verified = unverified = 0
-
-    def walk(node: Any):
-        nonlocal verified, unverified
-        if isinstance(node, dict):
-            if {"value", "quote", "citation"}.issubset(node.keys()):
-                if node.get("unverified"):
-                    unverified += 1
-                else:
-                    verified += 1
-                return
-            for v in node.values():
-                walk(v)
-        elif isinstance(node, list):
-            for v in node:
-                walk(v)
-
-    walk(record)
+    for _, node in iter_evidence(record):
+        if node.get("unverified"):
+            unverified += 1
+        else:
+            verified += 1
     return verified, unverified
 
 
@@ -342,7 +314,7 @@ def build(profession: str) -> dict:
     for r in rows:
         if r["coverage_gap"]:
             continue
-        for ev in _walk_evidence(r["_full"]):
+        for _, ev in iter_evidence(r["_full"]):
             if ev.get("unverified"):
                 unverified += 1
             else:
@@ -378,15 +350,12 @@ def _resolve_evidence(record: dict, dotted: str) -> dict | None:
     Used to enrich map_prep rows with the verbatim statute quote — the
     normalizer only saw `.value`, so the quote lives on the original record.
     """
-    parts = dotted.split(".")
     node: Any = record
-    for p in parts:
+    for p in dotted.split("."):
         if not isinstance(node, dict):
             return None
         node = node.get(p)
-    if isinstance(node, dict) and {"value", "quote", "citation"}.issubset(node.keys()):
-        return node
-    return None
+    return node if is_evidence_node(node) else None
 
 
 def _load_map_prep(profession: str, structured_by_state: dict[str, dict]) -> dict | None:
@@ -428,18 +397,6 @@ def _profession_display(profession: str) -> str:
         return cfg.get(profession, {}).get("display", profession.replace("_", " ").title())
     except Exception:
         return profession.replace("_", " ").title()
-
-
-def _walk_evidence(node: Any):
-    if isinstance(node, dict):
-        if {"value", "quote", "citation"}.issubset(node.keys()):
-            yield node
-            return
-        for v in node.values():
-            yield from _walk_evidence(v)
-    elif isinstance(node, list):
-        for v in node:
-            yield from _walk_evidence(v)
 
 
 def main() -> None:

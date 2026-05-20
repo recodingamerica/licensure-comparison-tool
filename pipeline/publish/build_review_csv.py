@@ -19,32 +19,24 @@ import json
 import sys
 from datetime import date
 from pathlib import Path
-from typing import Any, Iterable
+from typing import Any
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from extract.standard_model import iter_evidence  # noqa: E402
 from paths import STRUCTURED_DIR, RESULTS_DIR  # noqa: E402
 
 REVIEWS_DIR = RESULTS_DIR / "reviews"
 
 
-def is_evidence_node(node: Any) -> bool:
-    return (
-        isinstance(node, dict)
-        and {"value", "quote", "citation"}.issubset(node.keys())
-    )
-
-
-def walk_evidence(node: Any, path: tuple[str, ...] = ()) -> Iterable[tuple[str, dict]]:
-    """Yield (dotted_path, evidence_dict) for every Evidence-shaped leaf."""
-    if is_evidence_node(node):
-        yield ".".join(path), node
-        return
-    if isinstance(node, dict):
-        for k, v in node.items():
-            yield from walk_evidence(v, path + (k,))
-    elif isinstance(node, list):
-        for i, v in enumerate(node):
-            yield from walk_evidence(v, path + (f"[{i}]",))
+def _format_path(path: tuple[str | int, ...]) -> str:
+    """Render the tuple path as a dotted string with `[i]` for list indices."""
+    parts: list[str] = []
+    for p in path:
+        if isinstance(p, int):
+            parts.append(f"[{p}]")
+        else:
+            parts.append(("." if parts else "") + p)
+    return "".join(parts)
 
 
 def format_value(v: Any) -> str:
@@ -60,7 +52,8 @@ def format_value(v: Any) -> str:
 def build_rows(structured_record: dict) -> list[dict]:
     state = structured_record.get("state", "?")
     rows = []
-    for path, ev in walk_evidence(structured_record):
+    for raw_path, ev in iter_evidence(structured_record):
+        path = _format_path(raw_path)
         rows.append({
             "state": state,
             "field": path,

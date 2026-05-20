@@ -19,8 +19,41 @@ input the prescriptive UORF analysis consumes.
 from __future__ import annotations
 
 from enum import Enum
+from typing import Any, Iterator
 
 from pydantic import BaseModel, Field
+
+
+# ---------- Evidence-tree walker ----------
+
+_EVIDENCE_KEYS = frozenset({"value", "quote", "citation"})
+
+
+def is_evidence_node(node: Any) -> bool:
+    """True iff `node` is a dict with the Evidence-carrier shape."""
+    return isinstance(node, dict) and _EVIDENCE_KEYS.issubset(node.keys())
+
+
+def iter_evidence(
+    node: Any, path: tuple[str | int, ...] = ()
+) -> Iterator[tuple[tuple[str | int, ...], dict]]:
+    """Yield (path, evidence_dict) for every Evidence-shaped node in a tree.
+
+    `path` is a tuple of keys/indices from the root to the node, so callers
+    that need to know "which field is this Evidence carrying" can read it
+    directly. Single point of truth for what counts as an Evidence node —
+    the verifier, span annotator, review CSV builder, and repair script all
+    walk the same way.
+    """
+    if isinstance(node, dict):
+        if is_evidence_node(node):
+            yield path, node
+            return
+        for k, v in node.items():
+            yield from iter_evidence(v, path + (k,))
+    elif isinstance(node, list):
+        for i, v in enumerate(node):
+            yield from iter_evidence(v, path + (i,))
 
 
 # ---------- Evidence carriers ----------

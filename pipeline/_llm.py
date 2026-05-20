@@ -25,7 +25,7 @@ import json
 import logging
 import re
 import time
-from typing import TypeVar
+from typing import Callable, TypeVar
 
 from pydantic import BaseModel, ValidationError
 
@@ -49,28 +49,56 @@ def extract_json(raw: str) -> str:
     return s[i : j + 1] if 0 <= i < j else s
 
 
+def _system_with_schema(system: str, schema_cls: type[BaseModel]) -> str:
+    """Append the Pydantic JSON schema to a system prompt. Callers that want
+    the LLM constrained to a structured output pass `embed_schema=True` —
+    the schema becomes part of the system message so the model sees it
+    alongside the instructions."""
+    return (
+        system
+        + "\n\nReturn JSON matching exactly this schema:\n"
+        + json.dumps(schema_cls.model_json_schema(), indent=2)
+        + "\n\nReturn ONLY a single JSON object. No prose, no code fences."
+    )
+
+
 def call_structured(
     *,
     model: str,
     system: str,
     user: str,
     schema_cls: type[T],
+    embed_schema: bool = False,
     max_tokens: int = 8000,
     temperature: float = 0.0,
     max_retries: int = 2,
+    backoff_base: float = 1.5,
     log_prefix: str = "",
     logger: logging.Logger | None = None,
+    recover_fn: Callable[[dict, ValidationError], dict] | None = None,
 ) -> T | None:
     """Call the LLM and validate response against `schema_cls`.
 
-    Retries on JSON parse errors AND on API errors. Backoff is 1.5**attempt
-    seconds between tries. Returns the validated Pydantic model or None if
-    all retries fail (final error is logged at ERROR).
+    Retries on JSON parse errors AND on API errors. Backoff is
+    `backoff_base ** attempt` seconds between tries. Returns the validated
+    Pydantic model or None if all retries fail (final error is logged at
+    ERROR).
+
+    embed_schema: when True, the Pydantic JSON schema is appended to the
+    system prompt so the model sees the exact shape it must return. Use
+    this for tasks where the prompt itself doesn't already pin down output
+    structure.
+
+    recover_fn: optional callback invoked when validation fails. Receives
+    the parsed dict and the ValidationError; can return a modified dict
+    that will be re-validated. Used by extract_state to null out invalid
+    enum/literal fields rather than discard the whole record.
 
     log_prefix: a short identifier (e.g. "[TX]") prepended to log lines.
     """
     log = logger or logging.getLogger(__name__)
     prefix = f"{log_prefix} " if log_prefix else ""
+    system_msg = _system_with_schema(system, schema_cls) if embed_schema else system
     last_err: Exception | None = None
 
     for attempt in range(max_retries + 1):
@@ -78,7 +106,7 @@ def call_structured(
             resp = litellm.completion(
                 model=model,
                 messages=[
-                    {"role": "system", "content": system},
+                    {"role": "system", "content": system_msg},
                     {"role": "user", "content": user},
                 ],
                 temperature=temperature,
@@ -86,7 +114,13 @@ def call_structured(
             )
             raw = resp.choices[0].message.content or ""
             data = json.loads(extract_json(raw))
-            return schema_cls.model_validate(data)
+            try:
+                return schema_cls.model_validate(data)
+            except ValidationError as ve:
+                if recover_fn is None:
+                    raise
+                repaired = recover_fn(data, ve)
+                return schema_cls.model_validate(repaired)
         except (json.JSONDecodeError, ValidationError) as e:
             last_err = e
             log.warning("%sparse attempt %d failed: %s", prefix, attempt + 1, str(e)[:200])
@@ -94,7 +128,7 @@ def call_structured(
             last_err = e
             log.warning("%sapi attempt %d failed: %s", prefix, attempt + 1, str(e)[:200])
         if attempt < max_retries:
-            time.sleep(1.5 ** attempt)
+            time.sleep(backoff_base ** attempt)
 
     log.error("%sgiving up: %s", prefix, str(last_err)[:200])
     return None

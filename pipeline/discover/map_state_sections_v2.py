@@ -18,7 +18,6 @@ import argparse
 import json
 import logging
 import os
-import re
 import sys
 import time
 from pathlib import Path
@@ -79,18 +78,6 @@ Rules:
 
 Return JSON only. No prose, no fences.
 """
-
-
-_JSON_FENCE = re.compile(r"```(?:json)?\s*([\s\S]*?)```")
-
-
-def _extract_json(raw: str) -> str:
-    m = _JSON_FENCE.search(raw or "")
-    s = m.group(1).strip() if m else (raw or "").strip()
-    if s.startswith("{"):
-        return s
-    i, j = s.find("{"), s.rfind("}")
-    return s[i:j + 1] if i >= 0 and j > i else s
 
 
 def map_state_with_bodies(state: str, professions: dict, model: str) -> dict | None:

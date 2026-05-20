@@ -22,7 +22,6 @@ import logging
 import os
 import re
 import sys
-import time
 from pathlib import Path
 from typing import Any, Literal as TLiteral
 
@@ -32,11 +31,10 @@ from pydantic import BaseModel, Field, ValidationError, create_model
 from pipeline._env import load_env  # noqa: E402
 load_env()
 
-import litellm  # noqa: E402
-
 # Make sibling modules and pipeline.paths importable regardless of CWD
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from _llm import call_structured  # noqa: E402
 from standard_model import (  # noqa: E402
     BoolEvidence,
     IntEvidence,
@@ -44,6 +42,7 @@ from standard_model import (  # noqa: E402
     ScopeOfPractice,
     StrEvidence,
     StrListEvidence,
+    iter_evidence,
 )
 from locate_quote import (  # noqa: E402
     normalize_for_match as _normalize_for_match,
@@ -120,25 +119,6 @@ from _prompts import load_prompt  # noqa: E402
 SYSTEM_PROMPT = load_prompt("extract_state")
 
 
-_JSON_FENCE_RE = re.compile(r"```(?:json)?\s*([\s\S]*?)```")
-
-
-def _extract_json(raw: str) -> str:
-    if not raw:
-        return ""
-    m = _JSON_FENCE_RE.search(raw)
-    if m:
-        return m.group(1).strip()
-    s = raw.strip()
-    if s.startswith("{"):
-        return s
-    i = s.find("{")
-    j = s.rfind("}")
-    if i >= 0 and j > i:
-        return s[i : j + 1]
-    return s
-
-
 def _null_out_invalid_paths(data: dict, errors: list[dict]) -> int:
     """Walk Pydantic validation errors and set offending leaf fields to None.
     Returns count of fixes applied. Used to recover from cases where Haiku
@@ -169,46 +149,30 @@ def _null_out_invalid_paths(data: dict, errors: list[dict]) -> int:
     return fixed
 
 
+def _recover_invalid_fields(data: dict, ve: ValidationError) -> dict:
+    """Null out leaf fields the LLM filled with values outside our Pydantic
+    Literal sets. Lets call_structured re-validate the otherwise-good record
+    instead of discarding everything because one enum drifted."""
+    fixes = _null_out_invalid_paths(data, ve.errors())
+    if fixes > 0:
+        log.info("  recovered %d invalid fields → null", fixes)
+    return data
+
+
 def call_model(model: str, system: str, user: str, schema_cls: type[BaseModel]) -> BaseModel | None:
-    schema = schema_cls.model_json_schema()
-    sys_with_schema = (
-        system
-        + "\n\nSCHEMA:\n"
-        + json.dumps(schema, indent=2)
+    return call_structured(
+        model=model,
+        system=system,
+        user=user,
+        schema_cls=schema_cls,
+        embed_schema=True,
+        max_tokens=16000,
+        max_retries=MAX_RETRIES,
+        backoff_base=2.0,
+        log_prefix="  ",
+        logger=log,
+        recover_fn=_recover_invalid_fields,
     )
-    last_err: Exception | None = None
-    for attempt in range(MAX_RETRIES + 1):
-        try:
-            resp = litellm.completion(
-                model=model,
-                messages=[
-                    {"role": "system", "content": sys_with_schema},
-                    {"role": "user", "content": user},
-                ],
-                temperature=0.0,
-                max_tokens=16000,
-            )
-            raw = resp.choices[0].message.content or ""
-            payload = _extract_json(raw)
-            data = json.loads(payload)
-            try:
-                return schema_cls.model_validate(data)
-            except ValidationError as ve:
-                fixes = _null_out_invalid_paths(data, ve.errors())
-                if fixes > 0:
-                    log.info("  recovered %d invalid fields → null", fixes)
-                    return schema_cls.model_validate(data)
-                raise
-        except (json.JSONDecodeError, ValidationError) as e:
-            last_err = e
-            log.warning("  parse attempt %d failed: %s", attempt + 1, str(e)[:200])
-        except Exception as e:
-            last_err = e
-            log.warning("  api attempt %d failed: %s", attempt + 1, str(e)[:200])
-        if attempt < MAX_RETRIES:
-            time.sleep(2 ** attempt)
-    log.error("  giving up: %s", str(last_err)[:200])
-    return None
 
 
 def build_state_text(state_corpus: dict) -> str:
@@ -272,33 +236,17 @@ def load_umbrella_text(state: str, profession: str | None = None) -> str:
 
 
 def annotate_evidence(node: Any, normalized_corpus: str) -> tuple[int, int]:
-    """Walk a model_dump'd dict tree; for any Evidence-shaped object
-    (has 'value' AND 'quote' AND 'citation'), set 'unverified': True if the
-    quote can't be located in the corpus. Returns (verified, unverified) counts."""
+    """For every Evidence-shaped dict in `node`, set `unverified: True` when
+    the verbatim quote can't be located in the corpus. Returns
+    (verified, unverified) counts across the whole tree."""
     verified = unverified = 0
-    if isinstance(node, dict):
-        keys = set(node.keys())
-        if {"value", "quote", "citation"}.issubset(keys):
-            ok = quote_in_corpus(node.get("quote", ""), normalized_corpus)
-            if ok:
-                verified += 1
-            else:
-                node["unverified"] = True
-                unverified += 1
-            # Recurse into 'value' in case a list-evidence holds nested models (shouldn't here, but safe)
-            v, u = annotate_evidence(node.get("value"), normalized_corpus)
-            verified += v
-            unverified += u
-            return verified, unverified
-        for v_ in node.values():
-            v, u = annotate_evidence(v_, normalized_corpus)
-            verified += v
-            unverified += u
-    elif isinstance(node, list):
-        for item in node:
-            v, u = annotate_evidence(item, normalized_corpus)
-            verified += v
-            unverified += u
+    for _, ev_node in iter_evidence(node):
+        if quote_in_corpus(ev_node.get("quote", ""), normalized_corpus):
+            ev_node.pop("unverified", None)
+            verified += 1
+        else:
+            ev_node["unverified"] = True
+            unverified += 1
     return verified, unverified
 
 

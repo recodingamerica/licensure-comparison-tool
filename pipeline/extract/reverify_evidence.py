@@ -25,6 +25,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from extract_state import annotate_evidence, load_umbrella_text  # noqa: E402
 from locate_quote import normalize_for_match  # noqa: E402
 from paths import STRUCTURED_DIR, TRIMMED_DIR  # noqa: E402
+from standard_model import iter_evidence  # noqa: E402
 
 
 def main() -> None:
@@ -58,20 +59,10 @@ def main() -> None:
             text = text + "\n" + umbrella
         normalized = normalize_for_match(text)
 
-        # Strip stale unverified flags so we re-evaluate from scratch
-        def strip_flags(node):
-            if isinstance(node, dict):
-                if {"value", "quote", "citation"}.issubset(node.keys()):
-                    node.pop("unverified", None)
-                for v in node.values():
-                    strip_flags(v)
-            elif isinstance(node, list):
-                for v in node:
-                    strip_flags(v)
+        # Strip stale unverified flags so we re-evaluate from scratch.
+        for _, ev_node in iter_evidence(record):
+            ev_node.pop("unverified", None)
 
-        strip_flags(record)
-
-        prev_unverified = sum(1 for _ in _walk(record) if False)  # placeholder
         v, u = annotate_evidence(record, normalized)
         path.write_text(json.dumps(record, indent=2))
         overall_v += v
@@ -82,17 +73,6 @@ def main() -> None:
     total = overall_v + overall_u
     pct = (100 * overall_v / total) if total else 0.0
     print(f"\n{profession}: {overall_v}/{total} verified ({pct:.1f}%) across {states_changed} states")
-
-
-def _walk(node):
-    if isinstance(node, dict):
-        if {"value", "quote", "citation"}.issubset(node.keys()):
-            yield node
-        for v in node.values():
-            yield from _walk(v)
-    elif isinstance(node, list):
-        for v in node:
-            yield from _walk(v)
 
 
 if __name__ == "__main__":

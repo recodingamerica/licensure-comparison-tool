@@ -26,7 +26,6 @@ import json
 import logging
 import os
 import sys
-import time
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Literal as TLiteral
@@ -37,10 +36,8 @@ from pydantic import BaseModel, Field, ValidationError, create_model
 from pipeline._env import load_env  # noqa: E402
 load_env()
 
-import litellm  # noqa: E402
-
-import sys
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from _llm import call_structured  # noqa: E402
 from paths import CLEAN_DIR, TRIMMED_DIR, LOGS_DIR  # noqa: E402
 
 LOG_PATH = LOGS_DIR / "trim_state.log"
@@ -108,66 +105,19 @@ def section_input_for_llm(sections: list[dict]) -> tuple[list[str], str]:
     return citations, "\n".join(parts)
 
 
-_JSON_FENCE_RE = __import__("re").compile(r"```(?:json)?\s*([\s\S]*?)```")
-
-
-def _extract_json(raw: str) -> str:
-    """Extract a JSON object from a model response that may include fences or
-    leading/trailing prose. Falls back to the substring between the first '{'
-    and last '}'."""
-    if not raw:
-        return ""
-    m = _JSON_FENCE_RE.search(raw)
-    if m:
-        return m.group(1).strip()
-    if raw.strip().startswith("{"):
-        return raw.strip()
-    i = raw.find("{")
-    j = raw.rfind("}")
-    if i >= 0 and j > i:
-        return raw[i : j + 1]
-    return raw
-
-
 def call_model(model: str, system: str, user: str, schema_cls: type[BaseModel]) -> BaseModel | None:
-    """One call to the model with structured output via LiteLLM."""
-    schema = schema_cls.model_json_schema()
-    sys_with_schema = (
-        system
-        + "\n\nReturn JSON matching exactly this schema:\n"
-        + json.dumps(schema, indent=2)
-        + "\n\nReturn ONLY a single JSON object. No prose, no code fences."
+    """Trim-stage LLM call: structured output via the shared _llm helper."""
+    return call_structured(
+        model=model,
+        system=system,
+        user=user,
+        schema_cls=schema_cls,
+        embed_schema=True,
+        max_tokens=16000,
+        max_retries=MAX_RETRIES,
+        log_prefix="  ",
+        logger=log,
     )
-    last_err: Exception | None = None
-    for attempt in range(MAX_RETRIES + 1):
-        try:
-            resp = litellm.completion(
-                model=model,
-                messages=[
-                    {"role": "system", "content": sys_with_schema},
-                    {"role": "user", "content": user},
-                ],
-                temperature=0.0,
-                max_tokens=16000,
-            )
-            raw = resp.choices[0].message.content or ""
-            payload = _extract_json(raw)
-            data = json.loads(payload)
-            return schema_cls.model_validate(data)
-        except (json.JSONDecodeError, ValidationError, KeyError) as e:
-            last_err = e
-            log.warning("  parse attempt %d failed: %s", attempt + 1, str(e)[:200])
-            if attempt < MAX_RETRIES:
-                time.sleep(1.5 ** attempt)
-            continue
-        except Exception as e:
-            last_err = e
-            log.warning("  api attempt %d failed: %s", attempt + 1, str(e)[:200])
-            if attempt < MAX_RETRIES:
-                time.sleep(1.5 ** attempt)
-            continue
-    log.error("  giving up after %d attempts: %s", MAX_RETRIES + 1, str(last_err)[:200])
-    return None
 
 
 @dataclass

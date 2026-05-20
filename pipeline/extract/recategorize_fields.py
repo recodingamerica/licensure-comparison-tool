@@ -15,18 +15,16 @@ from __future__ import annotations
 import argparse
 import json
 import os
-import re
 import sys
 from pathlib import Path
 
-from pydantic import BaseModel, Field, ValidationError, create_model
+from pydantic import BaseModel, Field, create_model
 
 from pipeline._env import load_env  # noqa: E402
 load_env()
 
-import litellm  # noqa: E402
-
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from _llm import call_structured  # noqa: E402
 from paths import DISCOVERED_DIR  # noqa: E402
 
 DEFAULT_MODEL = "claude-sonnet-4-6"
@@ -61,18 +59,6 @@ class RegroupResult(BaseModel):
     categories: list[Category]
 
 
-_JSON_FENCE = re.compile(r"```(?:json)?\s*([\s\S]*?)```")
-
-
-def _extract_json(raw: str) -> str:
-    m = _JSON_FENCE.search(raw or "")
-    s = m.group(1).strip() if m else (raw or "").strip()
-    if s.startswith("{"):
-        return s
-    i, j = s.find("{"), s.rfind("}")
-    return s[i:j + 1] if i >= 0 and j > i else s
-
-
 def regroup(profession: str, model: str) -> None:
     path = DISCOVERED_DIR / f"{profession}.json"
     data = json.loads(path.read_text())
@@ -96,18 +82,16 @@ def regroup(profession: str, model: str) -> None:
     for f in fields:
         prompt += f"- {f['name']}: {f.get('description', '')}\n"
 
-    schema_json = Result.model_json_schema()
-    sys_with_schema = SYSTEM + "\n\nReturn JSON matching:\n" + json.dumps(schema_json, indent=2)
-
-    resp = litellm.completion(
+    result = call_structured(
         model=model,
-        messages=[{"role": "system", "content": sys_with_schema}, {"role": "user", "content": prompt}],
-        temperature=0.0,
+        system=SYSTEM,
+        user=prompt,
+        schema_cls=Result,
+        embed_schema=True,
         max_tokens=4000,
     )
-    raw = resp.choices[0].message.content or ""
-    parsed = json.loads(_extract_json(raw))
-    result = Result.model_validate(parsed)
+    if result is None:
+        sys.exit("LLM call failed after retries")
 
     # Build field_name → category_name map and apply
     name_to_cat: dict[str, str] = {}

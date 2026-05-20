@@ -32,7 +32,6 @@ import argparse
 import json
 import logging
 import os
-import re
 import sys
 import time
 from pathlib import Path
@@ -115,25 +114,6 @@ def build_suggestions_model(chapter_labels: list[str]) -> type[BaseModel]:
         suggestions=(list[Suggestion], Field(default_factory=list)),
     )
     return Result
-
-
-_JSON_FENCE_RE = re.compile(r"```(?:json)?\s*([\s\S]*?)```")
-
-
-def _extract_json(raw: str) -> str:
-    if not raw:
-        return ""
-    m = _JSON_FENCE_RE.search(raw)
-    if m:
-        return m.group(1).strip()
-    s = raw.strip()
-    if s.startswith("{"):
-        return s
-    i = s.find("{")
-    j = s.rfind("}")
-    if i >= 0 and j > i:
-        return s[i : j + 1]
-    return s
 
 
 def call_haiku(model: str, user_msg: str, schema_cls: type[BaseModel]) -> BaseModel | None:
