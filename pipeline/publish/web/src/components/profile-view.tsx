@@ -582,12 +582,15 @@ function inferFilter(
   c: ColDef<Row>,
   rows: Row[]
 ): ColDef<Row>["filter"] {
+  // Respect an explicit number filter even at low cardinality. Number-y
+  // columns (Unverified count, exams_count, etc.) want range semantics
+  // (`> 0`); the auto-multicheck would collapse them to a `{"0","1"}`
+  // checkbox list that's worse UX than the number filter.
+  if (c.filter === "agNumberColumnFilter") return "agNumberColumnFilter";
   const n = uniqueValueCount(c, rows, MULTICHECK_CARDINALITY_THRESHOLD);
   if (n === 0) return c.filter ?? "agTextColumnFilter";
   if (n <= MULTICHECK_CARDINALITY_THRESHOLD) return MulticheckFilter;
-  return c.filter === "agNumberColumnFilter"
-    ? "agNumberColumnFilter"
-    : "agTextColumnFilter";
+  return "agTextColumnFilter";
 }
 
 function buildColumnDefs(
