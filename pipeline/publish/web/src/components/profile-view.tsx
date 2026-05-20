@@ -1,17 +1,16 @@
 "use client";
 
 import {
-  forwardRef,
   useCallback,
   useEffect,
-  useImperativeHandle,
   useMemo,
   useRef,
   useState,
 } from "react";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { AgGridReact } from "ag-grid-react";
+import { AgGridReact, useGridFilter } from "ag-grid-react";
+import type { CustomFilterProps } from "ag-grid-react";
 import {
   AllCommunityModule,
   ModuleRegistry,
@@ -20,8 +19,6 @@ import {
   type FilterChangedEvent,
   type GridApi,
   type IDoesFilterPassParams,
-  type IFilter,
-  type IFilterParams,
   type ICellRendererParams,
 } from "ag-grid-community";
 import type { DiscoveredField, ProfilePayload, Row } from "@/lib/types";
@@ -363,129 +360,132 @@ function FilterChip({
 // pattern from pull_usaspending) is Enterprise. This is a small workalike:
 // scans the visible rows for unique values, renders one checkbox per value,
 // passes when the cell's value is in the selected set.
+//
+// Implemented against AG Grid React's v35 `CustomFilterProps` API:
+// the grid passes `model` + `onModelChange`; we push the current
+// selection up via `onModelChange` and the grid re-runs `doesFilterPass`
+// (registered with `useGridFilter`). The earlier forwardRef + ref API
+// (`props.filterChangedCallback`) silently no-ops in v35 — that prop
+// doesn't exist, so clicking a checkbox would throw and the filter
+// never applied.
 
 type MulticheckModel = { values: string[] } | null;
 
-const MulticheckFilter = forwardRef<IFilter, IFilterParams<Row>>(
-  function MulticheckFilter(props, ref) {
-    const [selected, setSelected] = useState<Set<string>>(new Set());
-    const [query, setQuery] = useState("");
+function MulticheckFilter(
+  props: CustomFilterProps<Row, unknown, MulticheckModel>
+) {
+  const { model, onModelChange, api, getValue } = props;
+  const [query, setQuery] = useState("");
 
-    // Unique non-null values across all loaded rows for this column.
-    const uniqueValues = useMemo(() => {
-      const set = new Set<string>();
-      props.api.forEachNode((node) => {
-        if (!node.data) return;
-        const v = props.getValue(node);
-        if (v == null || v === "") return;
-        if (Array.isArray(v)) {
-          for (const x of v) {
-            if (x != null && x !== "") set.add(String(x));
-          }
-        } else {
-          set.add(String(v));
+  // Selected values come from the grid-owned model; React state is only
+  // used for the in-popup search query.
+  const selected = useMemo(
+    () => new Set<string>(model?.values ?? []),
+    [model],
+  );
+
+  // Unique non-null values across all loaded rows for this column.
+  const uniqueValues = useMemo(() => {
+    const set = new Set<string>();
+    api.forEachNode((node) => {
+      if (!node.data) return;
+      const v = getValue(node);
+      if (v == null || v === "") return;
+      if (Array.isArray(v)) {
+        for (const x of v) {
+          if (x != null && x !== "") set.add(String(x));
         }
-      });
-      return Array.from(set).sort((a, b) => a.localeCompare(b));
-    }, [props.api, props.getValue]);
+      } else {
+        set.add(String(v));
+      }
+    });
+    return Array.from(set).sort((a, b) => a.localeCompare(b));
+  }, [api, getValue]);
 
-    const filteredValues = useMemo(
-      () =>
-        query
-          ? uniqueValues.filter((v) =>
-              v.toLowerCase().includes(query.toLowerCase())
-            )
-          : uniqueValues,
-      [uniqueValues, query]
-    );
+  const filteredValues = useMemo(
+    () =>
+      query
+        ? uniqueValues.filter((v) =>
+            v.toLowerCase().includes(query.toLowerCase()),
+          )
+        : uniqueValues,
+    [uniqueValues, query],
+  );
 
-    useImperativeHandle(ref, () => ({
-      isFilterActive() {
-        return selected.size > 0;
-      },
-      doesFilterPass(params: IDoesFilterPassParams<Row>) {
-        const v = props.getValue(params.node);
-        if (Array.isArray(v))
-          return v.some((x) => selected.has(String(x)));
-        if (v == null) return false;
-        return selected.has(String(v));
-      },
-      getModel(): MulticheckModel {
-        return selected.size > 0 ? { values: Array.from(selected) } : null;
-      },
-      setModel(model: MulticheckModel) {
-        setSelected(new Set(model?.values || []));
-      },
-    }));
+  // Register the per-row filter predicate with the grid. Re-registers
+  // whenever `selected` changes so doesFilterPass sees the current set.
+  const doesFilterPass = useCallback(
+    (params: IDoesFilterPassParams<Row>) => {
+      const v = getValue(params.node);
+      if (Array.isArray(v)) return v.some((x) => selected.has(String(x)));
+      if (v == null) return false;
+      return selected.has(String(v));
+    },
+    [getValue, selected],
+  );
+  useGridFilter({ doesFilterPass });
 
-    const toggle = (v: string) => {
-      const next = new Set(selected);
-      if (next.has(v)) next.delete(v);
-      else next.add(v);
-      setSelected(next);
-      // AG Grid expects us to push the filter change to the grid manually
-      // after state updates. filterChangedCallback re-runs doesFilterPass
-      // across rows.
-      setTimeout(() => props.filterChangedCallback(), 0);
-    };
+  const setSelected = (next: Set<string>) => {
+    onModelChange(next.size > 0 ? { values: Array.from(next) } : null);
+  };
 
-    return (
-      <div className="p-2 w-56 text-sm">
-        <input
-          type="text"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder="Filter values…"
-          className="w-full mb-2 px-2 py-1 border rounded text-xs"
-        />
-        <div className="flex items-center justify-between text-[10px] font-mono uppercase tracking-widest text-muted-foreground mb-1">
-          <button
-            type="button"
-            onClick={() => {
-              setSelected(new Set(uniqueValues));
-              setTimeout(() => props.filterChangedCallback(), 0);
-            }}
-            className="hover:text-foreground"
-          >
-            all
-          </button>
-          <span>{selected.size} selected</span>
-          <button
-            type="button"
-            onClick={() => {
-              setSelected(new Set());
-              setTimeout(() => props.filterChangedCallback(), 0);
-            }}
-            className="hover:text-foreground"
-          >
-            none
-          </button>
-        </div>
-        <div className="max-h-60 overflow-y-auto">
-          {filteredValues.length === 0 && (
-            <div className="text-muted-foreground text-xs py-1">No values.</div>
-          )}
-          {filteredValues.map((v) => (
-            <label
-              key={v}
-              className="flex items-center gap-2 px-1 py-0.5 rounded hover:bg-accent cursor-pointer"
-            >
-              <input
-                type="checkbox"
-                checked={selected.has(v)}
-                onChange={() => toggle(v)}
-                className="h-4 w-4"
-              />
-              <span className="truncate" title={v}>
-                {humanize(v)}
-              </span>
-            </label>
-          ))}
-        </div>
+  const toggle = (v: string) => {
+    const next = new Set(selected);
+    if (next.has(v)) next.delete(v);
+    else next.add(v);
+    setSelected(next);
+  };
+
+  return (
+    <div className="p-2 w-56 text-sm">
+      <input
+        type="text"
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        placeholder="Filter values…"
+        className="w-full mb-2 px-2 py-1 border rounded text-xs"
+      />
+      <div className="flex items-center justify-between text-[10px] font-mono uppercase tracking-widest text-muted-foreground mb-1">
+        <button
+          type="button"
+          onClick={() => setSelected(new Set(uniqueValues))}
+          className="hover:text-foreground"
+        >
+          all
+        </button>
+        <span>{selected.size} selected</span>
+        <button
+          type="button"
+          onClick={() => setSelected(new Set())}
+          className="hover:text-foreground"
+        >
+          none
+        </button>
       </div>
-    );
-  }
-);
+      <div className="max-h-60 overflow-y-auto">
+        {filteredValues.length === 0 && (
+          <div className="text-muted-foreground text-xs py-1">No values.</div>
+        )}
+        {filteredValues.map((v) => (
+          <label
+            key={v}
+            className="flex items-center gap-2 px-1 py-0.5 rounded hover:bg-accent cursor-pointer"
+          >
+            <input
+              type="checkbox"
+              checked={selected.has(v)}
+              onChange={() => toggle(v)}
+              className="h-4 w-4"
+            />
+            <span className="truncate" title={v}>
+              {humanize(v)}
+            </span>
+          </label>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 
 // ---------- Helpers for drilling into the structured record ----------
@@ -582,15 +582,12 @@ function inferFilter(
   c: ColDef<Row>,
   rows: Row[]
 ): ColDef<Row>["filter"] {
-  // Respect an explicit number filter even at low cardinality. Number-y
-  // columns (Unverified count, exams_count, etc.) want range semantics
-  // (`> 0`); the auto-multicheck would collapse them to a `{"0","1"}`
-  // checkbox list that's worse UX than the number filter.
-  if (c.filter === "agNumberColumnFilter") return "agNumberColumnFilter";
   const n = uniqueValueCount(c, rows, MULTICHECK_CARDINALITY_THRESHOLD);
   if (n === 0) return c.filter ?? "agTextColumnFilter";
   if (n <= MULTICHECK_CARDINALITY_THRESHOLD) return MulticheckFilter;
-  return "agTextColumnFilter";
+  return c.filter === "agNumberColumnFilter"
+    ? "agNumberColumnFilter"
+    : "agTextColumnFilter";
 }
 
 function buildColumnDefs(
@@ -718,11 +715,11 @@ function buildColumnDefs(
     headerName: "Unverified",
     width: 110,
     // Only the count of NOT-matched quotes per state. Cell renders blank when 0
-    // so visual scanning surfaces only the rows that need attention. Filter as
-    // a number column so users can do "unverified > 0".
+    // so visual scanning surfaces only the rows that need attention. Auto-
+    // multicheck picks this up — values are 0 / 1 / ... so users see
+    // checkboxes for each level and check whichever they want.
     valueGetter: (p) => p.data?.evidence_unverified ?? 0,
     cellRenderer: VerifyCell,
-    filter: "agNumberColumnFilter",
     cellClass: "text-center",
     headerClass: "text-center",
     headerTooltip:
