@@ -20,6 +20,7 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import html
 import json
 import logging
 import re
@@ -66,6 +67,11 @@ JUSTIA_PUBLIC_SERVICE_TAIL = re.compile(
 )
 JUSTIA_LONELY_NAV_LINE = re.compile(r"^\s*(?:Previous|Next|View All Versions|Learn more)\s*$", re.IGNORECASE | re.MULTILINE)
 JUSTIA_YEAR_VERSION_LINE = re.compile(r"^\s*\d{4}\s+[A-Za-z][\w\s\-\(\)\.,]*\bCode\b.*$", re.MULTILINE)
+# Pagination marker on its own line, e.g. `Page No. 3`. Justia's ND
+# chapter-blob renders embed these from the source PDF and they end up
+# interjected between actual statute sentences, defeating verbatim quote
+# matching. Only known to affect ND; harmless on other Justia pages.
+JUSTIA_PAGE_NUMBER_LINE = re.compile(r"^\s*Page No\.\s*\d+\s*$", re.IGNORECASE | re.MULTILINE)
 
 
 def clean_justia(text: str) -> str:
@@ -77,6 +83,7 @@ def clean_justia(text: str) -> str:
     t = JUSTIA_PUBLIC_SERVICE_TAIL.sub("", t)
     t = JUSTIA_LONELY_NAV_LINE.sub("", t)
     t = JUSTIA_YEAR_VERSION_LINE.sub("", t)
+    t = JUSTIA_PAGE_NUMBER_LINE.sub("", t)
     t = TRAILING_WHITESPACE.sub("", t)
     t = BLANK_LINE_RUNS.sub("\n\n", t)
     return t.strip()
@@ -159,7 +166,11 @@ def clean_state(in_path: Path) -> CleanCorpus:
     )
     for sec in raw.get("sections", []):
         cleaner = cleaner_for(sec.get("url", ""))
-        cleaned = cleaner(sec.get("text", ""))
+        # Decode HTML entities before the source-specific cleaner. BeautifulSoup's
+        # get_text usually handles this, but some Justia layouts (KY, ND) leak
+        # raw &quot; / &#039; — those defeat the quote-verifier (the matcher
+        # keeps alnum chars, so &quot; survives as the literal token "quot").
+        cleaned = cleaner(html.unescape(sec.get("text", "")))
         reason = should_drop(sec.get("label", ""), cleaned)
         if reason:
             out.dropped.append({"url": sec["url"], "label": sec["label"], "reason": reason})

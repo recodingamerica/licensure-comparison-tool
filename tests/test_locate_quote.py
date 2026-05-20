@@ -160,6 +160,28 @@ class TestLocateQuoteInSection:
         assert section[s2:e2] == "the board shall"
 
 
+class TestInlineListMarkersInQuote:
+    """When the LLM quotes ACROSS a line-break-broken list, it tends to
+    inline the marker (`chapter: 1. Practices…`). The matcher preserves
+    bare-form line-start markers in the corpus so they survive normalization
+    and the inline quote still matches. See locate_quote.py's comment on
+    `_LIST_MARKER_AT_START_RE` for the measurement that justifies this."""
+
+    def test_inline_marker_in_quote_matches_line_break_marker_in_corpus(self):
+        # AZ 32-1261 dentistry shape: corpus puts list items on their own
+        # lines; LLM joins them inline with a single space.
+        corpus = normalize_for_match(
+            "Except as otherwise provided a person is guilty of a class 6 "
+            "felony who, without a valid license:\n"
+            "1. Practices dentistry or any branch of dentistry."
+        )
+        quote = (
+            "Except as otherwise provided a person is guilty of a class 6 "
+            "felony who, without a valid license: 1. Practices dentistry"
+        )
+        assert quote_in_corpus(quote, corpus) is True
+
+
 class TestQuoteInCorpus:
     """Bool API — kept so verifier can still ask "does this quote appear
     SOMEWHERE in the combined corpus" as a looser fallback when

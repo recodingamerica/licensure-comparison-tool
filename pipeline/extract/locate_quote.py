@@ -43,6 +43,17 @@ _SMART_MAP: dict[str, str] = {
 # would either spuriously match prose-quoted lists or tempt us to strip all
 # bare single letters (which causes real false positives — see
 # test_article_swap_a_vs_the).
+#
+# We intentionally do NOT also strip bare-form markers (e.g. `1.` `A.` at
+# line start). Statute drafters often render those inline when prosed
+# together (`as prescribed by this chapter: 1. Practices dentistry…`), and
+# the LLM routinely quotes the inline form verbatim. Stripping bare markers
+# from the corpus is asymmetric — the quote keeps the `1` (mid-stream, not
+# at line start), the corpus loses it, and the substring search fails. We
+# measured: corpus-side bare stripping fixes ~26 LLM-elided quotes across
+# professions but newly breaks ~74 LLM-kept-inline ones. Net loss. LLM-
+# elided list-marker quotes remain `unverified` — that's the verifier
+# correctly flagging a tiny paraphrase.
 _LIST_MARKER_AT_START_RE = re.compile(
     r"^\(\s*(?:\d{1,3}|[a-z]|[ivxIVX]+)\s*\)",
     re.IGNORECASE,
