@@ -3,12 +3,12 @@
 import { useMemo } from "react";
 import type { DiscoveredField, Row, SectionRef } from "@/lib/types";
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-} from "@/components/ui/dialog";
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet";
 import { Badge } from "@/components/ui/badge";
 import { EvidenceRow } from "./evidence-row";
 
@@ -33,6 +33,11 @@ type Props = {
   onOpenChange: (open: boolean) => void;
 };
 
+// Renamed visually from "Dialog" → "Sheet" (slide-in side panel) because the
+// table now carries the full value set per state — the panel's job is the
+// per-claim evidence drilldown (verbatim quote + citation + source link),
+// not "all the data for this row" duplication. Keeping the export name
+// StateDetailDialog so callers don't need to change.
 export function StateDetailDialog({ rows, fields, openState, onOpenChange }: Props) {
   const row = useMemo(
     () => rows.find((r) => r.state === openState) || null,
@@ -41,9 +46,9 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange }: Pro
 
   if (!row) {
     return (
-      <Dialog open={!!openState} onOpenChange={onOpenChange}>
-        <DialogContent />
-      </Dialog>
+      <Sheet open={!!openState} onOpenChange={onOpenChange}>
+        <SheetContent side="right" />
+      </Sheet>
     );
   }
 
@@ -61,17 +66,17 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange }: Pro
 
   if (row.coverage_gap) {
     return (
-      <Dialog open onOpenChange={onOpenChange}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>{row.state} — coverage gap</DialogTitle>
-            <DialogDescription>
+      <Sheet open onOpenChange={onOpenChange}>
+        <SheetContent side="right" className="sm:max-w-md">
+          <SheetHeader>
+            <SheetTitle>{row.state} — coverage gap</SheetTitle>
+            <SheetDescription>
               {row.coverage_gap_label || "no data"}{" "}
               <code className="ml-2 text-xs">{row.coverage_gap_reason || ""}</code>
-            </DialogDescription>
-          </DialogHeader>
-        </DialogContent>
-      </Dialog>
+            </SheetDescription>
+          </SheetHeader>
+        </SheetContent>
+      </Sheet>
     );
   }
 
@@ -84,11 +89,16 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange }: Pro
   });
 
   return (
-    <Dialog open onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-2xl md:max-w-3xl lg:max-w-4xl max-h-[85vh] overflow-y-auto p-0 gap-0 w-[95vw]">
-        <DialogHeader className="border-b px-6 py-4 sticky top-0 bg-background z-10">
-          <DialogTitle className="text-xl flex items-center gap-3 flex-wrap">
-            <span>{row.state} — {row._full.profession.replace(/_/g, " ")}</span>
+    <Sheet open onOpenChange={onOpenChange}>
+      <SheetContent
+        side="right"
+        className="w-full sm:max-w-2xl lg:max-w-4xl p-0 gap-0 flex flex-col"
+      >
+        <SheetHeader className="border-b px-6 py-4 flex-shrink-0 bg-background">
+          <SheetTitle className="text-xl flex items-center gap-3 flex-wrap">
+            <span>
+              {row.state} — {row._full.profession.replace(/_/g, " ")}
+            </span>
             {row.compacts && row.compacts.length > 0 && (
               <span className="flex gap-1 flex-wrap">
                 {row.compacts.map((c) => (
@@ -103,16 +113,14 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange }: Pro
                 ))}
               </span>
             )}
-          </DialogTitle>
-          {row.compacts && row.compacts.length > 0 && (
-            <p className="text-xs text-muted-foreground">
-              Member of: {row.compacts.map((c) => COMPACT_FULL[c] || c).join(", ")}
-              {" · "}
-              <span className="italic">see profession-specific fields below for source quote</span>
-            </p>
-          )}
+          </SheetTitle>
+          <SheetDescription className="text-xs text-muted-foreground">
+            Verbatim statute quote and citation for every claim. Click{" "}
+            <em>in context</em> on any row to see the surrounding section text
+            with the quote highlighted.
+          </SheetDescription>
           {row.source_chapter_urls && row.source_chapter_urls.length > 0 && (
-            <DialogDescription className="text-xs font-mono break-all">
+            <div className="text-xs font-mono break-all space-y-0.5 mt-1">
               {row.source_chapter_urls.map((u) => (
                 <a
                   key={u}
@@ -124,11 +132,11 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange }: Pro
                   {u}
                 </a>
               ))}
-            </DialogDescription>
+            </div>
           )}
-        </DialogHeader>
+        </SheetHeader>
 
-        <div className="px-6 py-4 space-y-6">
+        <div className="px-6 py-4 space-y-6 overflow-y-auto flex-1">
           <Section title="Base licensure">
             <EvidenceRow label="regulatory_model" ev={lic.regulatory_model} sections={sections} />
             <EvidenceRow label="credential_type" ev={lic.credential_type} sections={sections} />
@@ -213,8 +221,8 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange }: Pro
               </Section>
             ))}
         </div>
-      </DialogContent>
-    </Dialog>
+      </SheetContent>
+    </Sheet>
   );
 }
 
