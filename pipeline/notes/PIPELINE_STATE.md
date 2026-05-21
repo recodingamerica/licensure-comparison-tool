@@ -53,7 +53,7 @@ Adding a new occupation produces these tiers automatically:
 - **Tier 2 — automatic if `section_maps_v2` exists (5 states: AZ, OK,
   WI, LA, KS).** Flat-section-list Justia layout. We have v2 section
   maps for some of these (already covering any new profession); others
-  need a one-time `fetch_section_bodies` + `map_state_sections_v2` run.
+  need a one-time `fetch_section_bodies` + `map_state_sections` run.
   When run, the result auto-covers every current + future profession.
 - **Tier 3 — needs per-profession hand-curation (MI, MN).** External
   sources (revisor.mn.gov, legislature.mi.gov). Hand-curated

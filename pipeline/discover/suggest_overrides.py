@@ -14,7 +14,7 @@ Hallucination guardrails:
 
 States with extraction_level=section_fallback (AZ, OK, WI, LA, KY) are skipped:
 their "chapter list" is 1500+ section labels, not chapter labels — those are
-handled instead by `map_state_sections_v2.py` (chapter mapper for flat
+handled instead by `map_state_sections.py` (chapter mapper for flat
 section lists).
 
 Inputs:  config/professions.yaml, results/hierarchy/<STATE>.json,

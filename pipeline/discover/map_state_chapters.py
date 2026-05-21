@@ -1,5 +1,5 @@
 """Map each chapter in a state's hierarchy to the profession it covers,
-in one batch per state. Mirrors map_state_sections_v2.py but for chapters
+in one batch per state. Mirrors map_state_sections.py but for chapters
 (not sections). Output: results/chapter_maps/<STATE>.json, consumed by
 match_profession.py as a fallback for chapter-layout states.
 

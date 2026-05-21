@@ -9,7 +9,7 @@ the section covers.
 Falls back to label-only for sections without a cached body.
 
 Usage:
-  python -m pipeline.discover.map_state_sections_v2 --state LA
+  python -m pipeline.discover.map_state_sections --state LA
 """
 
 from __future__ import annotations
@@ -37,7 +37,7 @@ from paths import HIERARCHY_DIR, RESULTS_DIR, CONFIG_DIR, LOGS_DIR  # noqa: E402
 SECTION_MAPS_DIR = RESULTS_DIR / "section_maps"
 BODIES_DIR = RESULTS_DIR / "section_bodies"
 SECTION_MAPS_DIR.mkdir(parents=True, exist_ok=True)
-LOG_PATH = LOGS_DIR / "map_state_sections_v2.log"
+LOG_PATH = LOGS_DIR / "map_state_sections.log"
 
 DEFAULT_MODEL = "claude-sonnet-4-6"
 MAX_RETRIES = 2
@@ -47,7 +47,7 @@ logging.basicConfig(
     format="%(asctime)s %(levelname)s %(message)s",
     handlers=[logging.FileHandler(LOG_PATH, mode="w"), logging.StreamHandler()],
 )
-log = logging.getLogger("map_state_sections_v2")
+log = logging.getLogger("map_state_sections")
 
 
 SYSTEM_PROMPT = """\

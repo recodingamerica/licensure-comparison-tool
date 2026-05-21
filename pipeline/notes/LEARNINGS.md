@@ -25,7 +25,7 @@ without per-(state,profession) hand-curation:
 - **Section-range within a bigger title.** AZ, OK, WI, LA show flat
   section lists (no chapter level on Justia for those states); each
   profession lives in a contiguous section range. Solved by
-  `map_state_sections_v2.py`: fetch a body-excerpt cache once per state
+  `map_state_sections.py`: fetch a body-excerpt cache once per state
   (~30 min wall time), then a single Sonnet call per state tags every
   section with the profession it covers. `match_profession` consumes
   `section_maps/<STATE>_v2.json` directly, so a new profession is auto-

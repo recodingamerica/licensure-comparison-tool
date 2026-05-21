@@ -1,5 +1,5 @@
 """Bulk-fetch section bodies for one state's hierarchy. Caches first-N chars
-of each section's text to disk so map_state_sections_v2 can give Sonnet
+of each section's text to disk so map_state_sections can give Sonnet
 enough context to disambiguate generic-labeled sections.
 
 Output: pipeline/results/section_bodies/<STATE>.json
