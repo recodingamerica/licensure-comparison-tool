@@ -12,6 +12,19 @@
       "quote": "\"Board\" means the State Board of Medical Practice established by chapter 23 of this title.",
       "citation": "\u00a7 321. Definitions"
     },
+    "regulatory_authority": {
+      "name": {
+        "value": "State Board of Medical Practice",
+        "quote": "\"Board\" means the State Board of Medical Practice established by chapter 23 of this title.",
+        "citation": "\u00a7 321. Definitions"
+      },
+      "type": {
+        "value": "shared_board",
+        "quote": "\"Board\" means the State Board of Medical Practice established by chapter 23 of this title.",
+        "citation": "\u00a7 321. Definitions"
+      },
+      "umbrella_agency": null
+    },
     "age_minimum": {
       "value": 18,
       "quote": "have attained the age of majority",
@@ -24,34 +37,20 @@
         "quote": "have received a diploma or certificate of graduation from an accredited school of podiatric medicine approved by the Board",
         "citation": "\u00a7 371. Eligibility"
       },
-      "accrediting_body": {
-        "value": "Board-approved accrediting body",
-        "quote": "accredited school of podiatric medicine approved by the Board",
-        "citation": "\u00a7 371. Eligibility"
-      }
+      "accrediting_body": null
     },
     "post_degree_experience": {
-      "required": {
-        "value": true,
-        "quote": "A graduate of a U.S. or Canadian podiatric school accredited by a body that is acceptable to the Board shall have successfully completed at least two years of postgraduate training in a U.S. or Canadian program accredited by an organization that is acceptable to the Board",
-        "citation": "\u00a7 372. Licensure without examination"
-      },
-      "duration": {
-        "value": "at least two years (U.S./Canadian graduates) or three years (non-U.S./Canadian graduates)",
-        "quote": "shall have successfully completed at least two years of postgraduate training in a U.S. or Canadian program accredited by an organization that is acceptable to the Board",
-        "citation": "\u00a7 372. Licensure without examination"
-      },
-      "kind": {
-        "value": "postgraduate training",
-        "quote": "successfully completed at least two years of postgraduate training in a U.S. or Canadian program accredited by an organization that is acceptable to the Board",
-        "citation": "\u00a7 372. Licensure without examination"
-      }
+      "required": null,
+      "duration": null,
+      "kind": null
     },
     "exams": [
       {
-        "name": "National Board of Podiatric Medical Examiners",
+        "name": "National Board of Podiatric Medical Examiners examinations",
         "required": true,
         "notes": "All required steps as set forth by the Board by rule",
+        "jurisdiction": "national (NBPME)",
+        "permitted_attempts": null,
         "quote": "successfully complete all required steps of the examinations given by the National Board of Podiatric Medical Examiners, as set forth by the Board by rule",
         "citation": "\u00a7 371. Eligibility"
       }
@@ -63,12 +62,9 @@
         "citation": "\u00a7 373. Renewal of licensure"
       }
     },
+    "renewal_fee_usd": null,
     "continuing_education": {
-      "required": {
-        "value": true,
-        "quote": "the Board may, after notice and an opportunity for hearing, require reexamination as a condition of renewal if the Board finds that the licensee has failed to maintain competence in the knowledge and skills of a podiatrist.",
-        "citation": "\u00a7 373. Renewal of licensure"
-      },
+      "required": null,
       "hours_per_period": null,
       "period_years": null,
       "topical_requirements": null
@@ -80,13 +76,38 @@
         "citation": "\u00a7 372. Licensure without examination"
       },
       "requirements": {
-        "value": "The Board shall license that person if it deems that person has met requirements in the other jurisdiction that are substantially equal to those of this State. An endorsement process also exists requiring not more than three years of practice in good standing in another U.S. jurisdiction plus postgraduate training.",
-        "quote": "The Board shall have an endorsement process for podiatrist licensure that requires not more than three years of practice in good standing in another jurisdiction within the United States",
+        "value": "Board must deem the applicant has met requirements in the other jurisdiction substantially equal to those of Vermont; or endorsement process requiring not more than three years of practice in good standing in another U.S. jurisdiction plus postgraduate training requirements.",
+        "quote": "The Board shall have an endorsement process for podiatrist licensure that requires not more than three years of practice in good standing in another jurisdiction within the United States, regardless of whether that jurisdiction has licensing requirements substantially equal to those of this State",
         "citation": "\u00a7 372. Licensure without examination"
       }
     },
+    "advisory_board": {
+      "exists": {
+        "value": false,
+        "quote": "\"Board\" means the State Board of Medical Practice established by chapter 23 of this title.",
+        "citation": "\u00a7 321. Definitions"
+      },
+      "name": null,
+      "authority": null
+    },
+    "national_certification": {
+      "value": "National Board of Podiatric Medical Examiners (NBPME)",
+      "quote": "successfully complete all required steps of the examinations given by the National Board of Podiatric Medical Examiners",
+      "citation": "\u00a7 371. Eligibility"
+    },
+    "national_association": null,
     "regulatory_model": {
       "value": "license",
+      "quote": "No person shall practice or attempt to practice podiatry or hold himself or herself out as being able to do so in this State without first having obtained a license under this chapter.",
+      "citation": "\u00a7 324. Prohibitions; penalties"
+    },
+    "credential_type": {
+      "value": "license",
+      "quote": "No person shall practice or attempt to practice podiatry or hold himself or herself out as being able to do so in this State without first having obtained a license under this chapter.",
+      "citation": "\u00a7 324. Prohibitions; penalties"
+    },
+    "is_mandatory": {
+      "value": true,
       "quote": "No person shall practice or attempt to practice podiatry or hold himself or herself out as being able to do so in this State without first having obtained a license under this chapter.",
       "citation": "\u00a7 324. Prohibitions; penalties"
     },
@@ -103,7 +124,7 @@
     "disciplinary_grounds": [
       {
         "short_label": "fraud_in_obtaining_license",
-        "description": "Fraud or misrepresentation in applying for or procuring a podiatry license or its renewal",
+        "description": "Fraud or misrepresentation in applying for or procuring a podiatry license or renewal",
         "quote": "fraud or misrepresentation in applying for or procuring a podiatry license or in connection with applying for or procuring a periodic renewal of a podiatry license",
         "citation": "\u00a7 375. Unprofessional conduct"
       },
@@ -174,13 +195,13 @@
         "citation": "\u00a7 375. Unprofessional conduct"
       },
       {
-        "short_label": "unauthorized_controlled_substance",
+        "short_label": "unauthorized_controlled_substance_prescribing",
         "description": "Administering, dispensing, or prescribing any controlled substance other than as authorized by law",
         "quote": "administering, dispensing, or prescribing any controlled substance other than as authorized by law",
         "citation": "\u00a7 375. Unprofessional conduct"
       },
       {
-        "short_label": "substance_abuse",
+        "short_label": "substance_abuse_impairing_practice",
         "description": "Habitual or excessive use or abuse of drugs, alcohol, or other substances that impair the podiatrist's ability to practice",
         "quote": "habitual or excessive use or abuse of drugs, alcohol, or other substances that impair the podiatrist's ability to practice",
         "citation": "\u00a7 375. Unprofessional conduct"
@@ -189,39 +210,39 @@
     "citations": [
       {
         "cite": "\u00a7 321. Definitions",
-        "kind": "statute"
+        "kind": null
       },
       {
         "cite": "\u00a7 324. Prohibitions; penalties",
-        "kind": "statute"
+        "kind": null
       },
       {
         "cite": "\u00a7 371. Eligibility",
-        "kind": "statute"
+        "kind": null
       },
       {
         "cite": "\u00a7 372. Licensure without examination",
-        "kind": "statute"
+        "kind": null
       },
       {
         "cite": "\u00a7 373. Renewal of licensure",
-        "kind": "statute"
+        "kind": null
       },
       {
         "cite": "\u00a7 375. Unprofessional conduct",
-        "kind": "statute"
+        "kind": null
       },
       {
         "cite": "\u00a7 376. Disposition of complaints",
-        "kind": "statute"
+        "kind": null
       },
       {
         "cite": "\u00a7 377. Exemption",
-        "kind": "statute"
+        "kind": null
       },
       {
         "cite": "\u00a7 378. Limited temporary licenses",
-        "kind": "statute"
+        "kind": null
       }
     ]
   },
@@ -252,7 +273,7 @@
     "citations": [
       {
         "cite": "\u00a7 321. Definitions",
-        "kind": "statute"
+        "kind": null
       }
     ]
   },
@@ -268,7 +289,7 @@
       "citation": "\u00a7 321. Definitions"
     },
     "anesthesia_authority": {
-      "value": "general_excluded",
+      "value": "general_permitted_with_physician_supervision",
       "quote": "If spinal or general anesthesia is required, it shall be administered by a health care professional regulated under this title who is authorized to administer anesthesia within the scope of his or her practice.",
       "citation": "\u00a7 321. Definitions"
     },
@@ -290,7 +311,11 @@
     "podiatric_assistant_supervision_level": null,
     "xray_technician_certification_required": null,
     "professional_liability_insurance_required": null,
-    "telehealth_authorized": null,
+    "telehealth_authorized": {
+      "value": true,
+      "quote": "This chapter shall apply to the following health care professions regulated by the Board of Medical Practice: ... (3) podiatrists.",
+      "citation": "UMBRELLA / Chapter 56 - Out-of-State Telehealth Licensure & Registratio"
+    },
     "opioid_prescribing_rules_required": null,
     "controlled_substances_prescribing_ce_required": null,
     "ankle_surgery_board_certification_timeline": null,
