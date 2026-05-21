@@ -177,10 +177,23 @@ extract_state:
       advisory_board:
         Some states delegate licensure to a GENERIC board (e.g. "Board of Medical
         Examiners") and add a profession-specific advisory committee alongside.
-        - advisory_board.exists: true if such an advisory body exists for THIS
-          profession; false if the licensing board is itself profession-specific
-          (no advisory body needed). Null if the statute is silent.
-        - advisory_board.name: the body's canonical name.
+
+        - advisory_board.exists: ALWAYS populate this with true or false. Only
+          leave null when the statute provides zero information about the
+          governing board structure — which is rare. The decision:
+            * TRUE if there is a profession-specific advisory body sitting
+              alongside a GENERIC (multi-profession) licensing board.
+            * FALSE if the licensing board IS itself profession-specific (e.g.
+              "State Board of Podiatry") — no separate advisory body is needed
+              because the dedicated board IS the regulator.
+            * FALSE is the right answer for the majority of states. Do not
+              skip this decision; null is reserved for "statute is silent
+              about any board structure", not "statute doesn't explicitly say
+              there is no advisory body".
+          The quote for false can be the section that establishes the
+          profession-specific licensing board (its existence is itself the
+          evidence that no separate advisory body is needed).
+        - advisory_board.name: the body's canonical name when one exists.
         - advisory_board.authority: in the statute's own words — "advisory only",
           "rulemaking subject to board approval", "disciplinary recommendations",
           etc.
