@@ -90,33 +90,49 @@ shape across all 50 states.
 | `display` | TEXT | "Podiatry", "Public Accountancy (CPA)" |
 | `created_at` | TIMESTAMP | |
 
-### `sections`
+### `documents`
 
-The trimmed corpus, one row per (state, profession, citation). Used as
-the join target for evidence (so we can show "view in context" against
-the actual statute text) AND as a standalone FTS target so Atharv can
-search the raw statutory language for terms we may not have explicitly
-extracted as evidence.
+Replaces what was originally planned as a flat `sections` table. Modeled
+on newyork's `regulatory_documents`: one row per regulatory entity at
+ANY level (title, chapter, subchapter, article, part, section), linked
+via `parent_id`, with a materialized `hierarchy_path` for fast tree
+rendering.
 
 | col | type | notes |
 |---|---|---|
 | `id` | BIGSERIAL PK | |
-| `state` | CHAR(2) | |
-| `profession_id` | BIGINT FK → professions | nullable when `is_umbrella=true` (umbrella sections are shared across professions per state) |
-| `url` | TEXT | Justia source URL |
-| `citation` | TEXT | normalized form (see `normalize_citation`) |
-| `label` | TEXT | section label as Justia rendered it |
-| `text` | TEXT | the cleaned statute text (full body) |
-| `is_umbrella` | BOOLEAN | true when the section came from cross-cutting chapter |
-| `text_tsv` | TSVECTOR | generated column for FTS |
+| `state` | CHAR(2) NOT NULL | |
+| `parent_id` | BIGINT FK → documents(id), nullable | parent in the regulatory tree |
+| `hierarchy_level` | VARCHAR(32) | enum: title / chapter / subchapter / article / part / section |
+| `hierarchy_path` | TEXT | materialized, e.g. `/title-32/chapter-19/section-32-851` — for fast ancestor lookup |
+| `url` | TEXT | Justia source URL (or other source) |
+| `citation` | TEXT | normalized form (see `normalize_citation`); null for title rows |
+| `label` | TEXT NOT NULL | as rendered, e.g. `§ 32-851 - Practicing podiatry without license` |
+| `text` | TEXT | full body — populated only for section-level rows, NULL for titles/chapters |
+| `text_tsv` | TSVECTOR | generated column for FTS over section text |
+| `is_umbrella` | BOOLEAN DEFAULT FALSE | true when this is a cross-cutting umbrella chapter or its sections |
+| `created_at` | TIMESTAMP | |
 
 Indexes:
-- `(state, profession_id, citation)` for evidence joins
+- `(state, hierarchy_level)` for "all titles in CA"-style queries
+- `parent_id` for tree walks
+- `hierarchy_path` (B-tree) — also useful for `LIKE '/title-32/%'` ancestor queries
 - GIN on `text_tsv` for raw-statute phrase search
 
-Storage note: ~50 MB raw text + ~80 MB FTS index. This is the bulk of
-the database size; we accept it because Atharv wants to search the
-statute language directly, not just the excerpts.
+Notes:
+- For "section_fallback" states (AZ etc., where Justia presents title-level
+  flat section lists with no chapter in between), the chapter row may be
+  synthesized OR the section's parent_id may point directly at the title.
+  Pick one — synthesize for consistency, document in the ETL.
+- Umbrella chapters appear as title/chapter rows with `is_umbrella=true`;
+  their section descendants inherit the flag. They link to professions via
+  the `umbrella_applies_to` join (below), not via parent_id.
+- `evidence.section_id` foreign-keys to `documents(id)` and is expected to
+  reference only rows where `hierarchy_level='section'`.
+
+Storage note: ~50 MB raw section text + ~80 MB FTS index + ~5 MB for
+the title/chapter rows and their indexes. Bulk of DB size; we accept it
+because raw-statute search is in scope.
 
 ### `evidence`
 
@@ -128,7 +144,7 @@ Search runs against this table.
 | `id` | BIGSERIAL PK | |
 | `state` | CHAR(2) | |
 | `profession_id` | BIGINT FK → professions | |
-| `section_id` | BIGINT FK → sections (nullable) | citation → section join |
+| `section_id` | BIGINT FK → documents(id), nullable | only references rows where hierarchy_level='section' |
 | `field_path` | TEXT | dotted: `licensure.issuing_authority`, `scope.definition_quote`, `profession_specific.opioid_prescribing_limits` |
 | `value_text` | TEXT | string form of `value` (bool → "true"/"false", lists → comma-joined) |
 | `value_jsonb` | JSONB | raw value for structured queries |
@@ -192,6 +208,34 @@ opioid_prescribing_limits" with the field's display description nearby.
 | `description` | TEXT | |
 | `type` | VARCHAR(16) | bool / int / str / list / enum |
 
+### `practice_acts`
+
+Many-to-many: which `documents` rows constitute a profession's practice
+act. Used by /search to filter "show me only sections that are
+practice-act material for nursing" and by analytics to count states
+with a recognizable practice act per profession.
+
+| col | type | notes |
+|---|---|---|
+| `profession_id` | BIGINT FK → professions(id) | |
+| `document_id` | BIGINT FK → documents(id) | typically a chapter-level row |
+| PRIMARY KEY | (profession_id, document_id) | |
+
+### `umbrella_applies_to`
+
+Many-to-many: which `documents` rows (umbrella chapters / sections) apply
+to which profession in that state. Populated from
+`pipeline/results/umbrella_scope/<STATE>.json` — the deterministic
+scope assigner already classifies umbrella sections as universal vs
+profession-specific based on statute enumerations.
+
+| col | type | notes |
+|---|---|---|
+| `document_id` | BIGINT FK → documents(id) | the umbrella chapter or section |
+| `profession_id` | BIGINT FK → professions(id) | |
+| `scope_source` | VARCHAR(32) | mirrors the scope assigner: universal / anchor_universal / anchor_enumeration / inherited_enumeration |
+| PRIMARY KEY | (document_id, profession_id) | |
+
 ## Migrations
 
 Each numbered SQL file does one thing, named for what it adds.
@@ -199,16 +243,18 @@ Each numbered SQL file does one thing, named for what it adds.
 ```
 pipeline/publish/db/migrations/
   0001_professions.sql
-  0002_sections.sql
+  0002_documents.sql                -- the regulatory-document tree (titles/chapters/sections)
   0003_evidence.sql
   0004_state_profession_profile.sql
   0005_discovered_fields.sql
-  0006_evidence_fts_index.sql       -- generates quote_tsv, adds GIN
-  0007_section_fts_index.sql        -- same for sections.text
+  0006_practice_acts.sql            -- profession → document join
+  0007_umbrella_applies_to.sql      -- umbrella scope join
+  0008_documents_fts_index.sql      -- generates text_tsv on documents, adds GIN
+  0009_evidence_fts_index.sql       -- generates quote_tsv on evidence, adds GIN
 ```
 
 Run order is lex; future migrations append. We never edit a landed
-migration — bug fixes become new migrations (`0008_fix_X.sql`).
+migration — bug fixes become new migrations (`0010_fix_X.sql`).
 
 ## ETL: `pipeline/publish/db/load.py`
 
@@ -222,15 +268,23 @@ Behavior:
 - Reads `DATABASE_URL` from `.env.local` (Vercel env pull).
 - Walks `structured/<prof>/<state>.json` and produces upserts for each
   table.
-- Uses `ON CONFLICT (state, profession_id) DO UPDATE` (or similar) to
-  make re-runs idempotent. Old rows from professions still in scope
-  get refreshed; rows from professions removed from scope are left
-  alone unless `--prune` is passed.
+- Uses `ON CONFLICT (...) DO UPDATE` (natural-key-style) to make
+  re-runs idempotent. Old rows from professions still in scope get
+  refreshed; rows from professions removed from scope are left alone
+  unless `--prune` is passed.
 - Walks Evidence via the shared `iter_evidence` helper from
   `extract/standard_model.py` so the field paths line up with the rest
   of the pipeline.
-- Logs a per-profession summary (`N evidence rows / N sections / N
-  profile rows upserted`).
+- Builds the `documents` tree from BOTH `hierarchy/<STATE>.json` (title
+  + chapter rows + URL structure) AND `trimmed/<prof>/<STATE>.json`
+  (section rows with text). `parent_id` is set by matching URL prefixes;
+  `hierarchy_path` is materialized as `/<title-slug>/<chapter-slug>/<section-slug>`.
+- Loads umbrella rows from `umbrella_text/<STATE>.json` and links them
+  to professions via `umbrella_applies_to` using
+  `umbrella_scope/<STATE>.json` as the source of truth on which sections
+  apply to which professions.
+- Logs a per-profession summary (`N evidence rows / N section rows /
+  N profile rows / N umbrella links upserted`).
 
 Hook into the publish flow: after `build_frontend.py` succeeds, run
 `load.py` for the same profession. Add a `--load-db` flag to
@@ -371,10 +425,17 @@ Before starting:
 
 ## Estimated effort
 
-- Schema + migrations: 1 day
-- Python loader: 1 day
-- /search route + UI: 1 day
+- Schema + migrations (7 tables, 2 FTS indexes): 1 day
+- Python loader — evidence + profile + discovered_fields: 1 day
+- Python loader — documents tree (titles/chapters/sections + parent_id +
+  hierarchy_path) + umbrella linking: 1.5 days (more careful work
+  because per-state URL patterns vary and section_fallback states need
+  synthesized chapter rows)
+- /search route + UI with two query targets (quote / statute) and
+  hierarchy-aware breadcrumbs: 1 day
 - Wiring, env, deploy debugging, edge cases: 1 day
 
-Total: ~4 working days of focused effort. Could compress if I'm not
-also debugging extract runs in parallel.
+Total: ~5.5 working days. The hierarchy load is the main extra cost
+vs. the original flat-`sections` plan; the wins (group by chapter,
+search constrained to title, render umbrella context) earn it for a
+project where Atharv will write his own analyses.
