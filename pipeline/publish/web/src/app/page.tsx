@@ -67,15 +67,27 @@ export default function HomePage() {
         </div>
       )}
 
-      <section className="mt-10">
-        <p className="text-xs font-mono tracking-widest uppercase text-muted-foreground mb-3">
-          Reports
+      <section className="mt-10 grid gap-3">
+        <p className="text-xs font-mono tracking-widest uppercase text-muted-foreground">
+          Tools
         </p>
+        <Link href="/search" className="block group">
+          <Card className="py-3 transition-colors hover:border-foreground/30">
+            <CardHeader className="flex flex-row items-baseline justify-between gap-4 space-y-0">
+              <CardTitle className="text-base font-medium group-hover:underline">
+                Search across all extractions
+              </CardTitle>
+              <span className="text-xs font-mono text-muted-foreground whitespace-nowrap">
+                phrase + statute search
+              </span>
+            </CardHeader>
+          </Card>
+        </Link>
         <Link href="/reports" className="block group">
           <Card className="py-3 transition-colors hover:border-foreground/30">
             <CardHeader className="flex flex-row items-baseline justify-between gap-4 space-y-0">
               <CardTitle className="text-base font-medium group-hover:underline">
-                Generated artifacts
+                Reports & artifacts
               </CardTitle>
               <span className="text-xs font-mono text-muted-foreground whitespace-nowrap">
                 scorecards & summaries
