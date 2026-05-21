@@ -73,6 +73,7 @@ def call_structured(
     temperature: float = 0.0,
     max_retries: int = 2,
     backoff_base: float = 1.5,
+    timeout: float = 300.0,
     log_prefix: str = "",
     logger: logging.Logger | None = None,
     recover_fn: Callable[[dict, ValidationError], dict] | None = None,
@@ -111,6 +112,12 @@ def call_structured(
                 ],
                 temperature=temperature,
                 max_tokens=max_tokens,
+                # Bound a single call so a hung API connection doesn't stall
+                # a multi-hour bulk run (this happened on a 760K-char VA
+                # podiatry corpus that never returned). The retry loop above
+                # turns the timeout into a transient failure, so the next
+                # state still gets attempted.
+                timeout=timeout,
             )
             raw = resp.choices[0].message.content or ""
             data = json.loads(extract_json(raw))

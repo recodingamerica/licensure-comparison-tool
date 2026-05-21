@@ -294,6 +294,16 @@ def main() -> None:
     ap.add_argument("--profession", required=True)
     ap.add_argument("--states", default="")
     ap.add_argument("--model", default=DEFAULT_MODEL)
+    ap.add_argument(
+        "--force",
+        action="store_true",
+        help=(
+            "Re-extract states that already have a structured/<state>.json. "
+            "Default is to SKIP existing — so a crashed bulk run can be resumed "
+            "without redoing work. Use this when the schema or prompt changed "
+            "and you want every state re-extracted."
+        ),
+    )
     args = ap.parse_args()
 
     profession = args.profession.lower()
@@ -314,11 +324,16 @@ def main() -> None:
 
     in_dir = TRIMMED_DIR / profession
     summary = []
+    skipped = 0
     for path in sorted(in_dir.glob("*.json")):
         if path.name.startswith("_"):
             continue
         state = path.stem
         if only and state not in only:
+            continue
+        out_path = out_dir / f"{state}.json"
+        if out_path.exists() and not args.force:
+            skipped += 1
             continue
         try:
             outcome = extract_one(state, profession, args.model, profile_cls)
@@ -329,7 +344,6 @@ def main() -> None:
             summary.append({"state": state, "ok": False})
             continue
         record, stats = outcome
-        out_path = out_dir / f"{state}.json"
         out_path.write_text(json.dumps(record, indent=2))
         spec_dump = record.get("profession_specific") or {}
         filled = sum(1 for v in spec_dump.values() if v not in (None, [], ""))
@@ -346,7 +360,10 @@ def main() -> None:
         )
 
     (out_dir / "_summary.json").write_text(json.dumps(summary, indent=2))
-    log.info("done: %d states", len(summary))
+    log.info(
+        "done: %d states extracted, %d already-present skipped (use --force to redo)",
+        len(summary), skipped,
+    )
 
 
 if __name__ == "__main__":
