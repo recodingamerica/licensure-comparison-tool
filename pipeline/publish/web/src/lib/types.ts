@@ -119,6 +119,13 @@ export type Row = {
   reciprocity_available: boolean | null;
   compacts: string[];
   disciplinary_grounds_count: number;
+  // Universal-comparison fields aligned with the cross-state schema.
+  advisory_board_exists: boolean | null;
+  advisory_board_name: string | null;
+  advisory_board_authority: string | null;
+  national_certification: string | null;
+  national_association: string | null;
+  renewal_fee_usd: number | null;
   evidence_verified: number;
   evidence_unverified: number;
   source_chapter_urls?: string[];

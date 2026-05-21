@@ -710,6 +710,77 @@ function buildColumnDefs(
     headerClass: "text-center",
     autoHeight: true,
   },
+  // ── Universal-comparison fields aligned with Atharv's cross-state schema.
+  // Header names use his vocabulary from the PDF table so the column labels
+  // line up with what he uses in his own analysis.
+  {
+    field: "advisory_board_exists",
+    headerName: "Advisory Board",
+    width: 130,
+    cellRenderer: YesNoCell,
+    filter: MulticheckFilter,
+    headerTooltip:
+      "Does a profession-specific advisory body sit alongside a generic licensing board? `no` when the licensing board itself is profession-specific.",
+    cellClass: "text-center",
+    headerClass: "text-center",
+  },
+  {
+    field: "advisory_board_name",
+    headerName: "Advisory Board Name",
+    width: 220,
+    cellRenderer: TextCellRenderer,
+    filter: "agTextColumnFilter",
+    wrapText: true,
+    autoHeight: true,
+    cellClass: "leading-snug",
+    hide: true, // mostly empty (only states with a separate advisory body)
+  },
+  {
+    field: "advisory_board_authority",
+    headerName: "Advisory Board Authority",
+    width: 260,
+    cellRenderer: TextCellRenderer,
+    filter: "agTextColumnFilter",
+    wrapText: true,
+    autoHeight: true,
+    cellClass: "leading-snug",
+    hide: true, // long free text from the statute
+  },
+  {
+    field: "national_certification",
+    headerName: "National Certification",
+    width: 220,
+    cellRenderer: TextCellRenderer,
+    filter: MulticheckFilter,
+    wrapText: true,
+    autoHeight: true,
+    cellClass: "leading-snug",
+    headerTooltip:
+      "National certifying body the statute recognizes or requires (e.g. NBPME, ABPS, ECFMG).",
+  },
+  {
+    field: "national_association",
+    headerName: "National Association",
+    width: 220,
+    cellRenderer: TextCellRenderer,
+    filter: MulticheckFilter,
+    wrapText: true,
+    autoHeight: true,
+    cellClass: "leading-snug",
+    headerTooltip:
+      "Professional association the statute references (e.g. APMA, ADA, AMA). Distinct from the certifying body.",
+  },
+  {
+    field: "renewal_fee_usd",
+    headerName: "Renewal Fee ($)",
+    width: 130,
+    cellRenderer: TextCellRenderer,
+    filter: "agNumberColumnFilter",
+    cellClass: "text-center",
+    headerClass: "text-center",
+    headerTooltip:
+      "License renewal fee in USD when fixed by statute. Blank when the statute leaves the amount to board discretion.",
+  },
   {
     colId: "evidence",
     headerName: "Unverified",

@@ -243,6 +243,15 @@ def hoist_row(record: dict) -> dict:
         "reciprocity_available": _ev_value(_g(lic, "reciprocity", "available")),
         "compacts": _extract_compacts(record),
         "disciplinary_grounds_count": len(lic.get("disciplinary_grounds") or []),
+        # Universal-comparison fields added to match the cross-state schema
+        # (see PDF cross-comparison table). Atharv's framework treats these
+        # as required universal columns alongside the older ones above.
+        "advisory_board_exists": _ev_value(_g(lic, "advisory_board", "exists")),
+        "advisory_board_name": _ev_value(_g(lic, "advisory_board", "name")),
+        "advisory_board_authority": _ev_value(_g(lic, "advisory_board", "authority")),
+        "national_certification": _ev_value(lic.get("national_certification")),
+        "national_association": _ev_value(lic.get("national_association")),
+        "renewal_fee_usd": _ev_value(lic.get("renewal_fee_usd")),
         "evidence_verified": verified,
         "evidence_unverified": unverified,
         "_full": record,
@@ -278,6 +287,12 @@ def stub_row(state: str, profession: str, reason: str) -> dict:
         "reciprocity_available": None,
         "compacts": [],
         "disciplinary_grounds_count": 0,
+        "advisory_board_exists": None,
+        "advisory_board_name": None,
+        "advisory_board_authority": None,
+        "national_certification": None,
+        "national_association": None,
+        "renewal_fee_usd": None,
         "evidence_verified": 0,
         "evidence_unverified": 0,
         "_full": {"state": state, "profession": profession},
