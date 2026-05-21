@@ -15,7 +15,7 @@
 
 import { NextResponse, type NextRequest } from "next/server";
 import { sql } from "drizzle-orm";
-import { db } from "@/db/client";
+import { getDb } from "@/db/client";
 
 export const runtime = "edge";
 
@@ -62,6 +62,7 @@ export async function GET(req: NextRequest) {
   const unverifiedOnly = params.get("unverified") === "1";
 
   const tsq = sql`plainto_tsquery('english', ${q})`;
+  const db = getDb();
 
   let quotes: QuoteHit[] = [];
   let statutes: StatuteHit[] = [];
@@ -85,7 +86,7 @@ export async function GET(req: NextRequest) {
       ORDER BY rank DESC
       LIMIT ${MAX_RESULTS}
     `);
-    quotes = (rows as unknown as QuoteHit[]).map((r) => ({ ...r, kind: "quote" }));
+    quotes = (rows.rows as unknown as QuoteHit[]).map((r) => ({ ...r, kind: "quote" }));
   }
 
   if (scope === "statutes" || scope === "both") {
@@ -115,7 +116,7 @@ export async function GET(req: NextRequest) {
       ORDER BY rank DESC
       LIMIT ${MAX_RESULTS}
     `);
-    statutes = (rows as unknown as StatuteHit[]).map((r) => ({ ...r, kind: "statute" }));
+    statutes = (rows.rows as unknown as StatuteHit[]).map((r) => ({ ...r, kind: "statute" }));
   }
 
   return NextResponse.json({ q, quotes, statutes });
