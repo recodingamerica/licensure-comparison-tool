@@ -4,6 +4,39 @@ Draft. Concrete plan for moving Utah-licensing's structured data into Neon
 Postgres so we can ship cross-state phrase search and unblock the
 "second-consumer" use cases ARCHITECTURE.md warned us to expect.
 
+## Sizing (measured, not guessed)
+
+Counted across all 6 current professions on 2026-05-21:
+
+| Table | Rows |
+|---|---|
+| `professions` | 6 |
+| `state_profession_profile` | 277 |
+| `evidence` | 9,343 |
+| `sections` (per-profession trimmed + umbrella) | 24,455 |
+| `discovered_fields` | ~150 |
+
+Storage estimate (~150 MB) — the chosen scope stores BOTH the LLM-
+extracted evidence AND the full trimmed statute text in `sections.text`
+with a tsvector FTS index, so Atharv can search the raw statute language
+directly (not just the excerpts we already extracted). Breakdown:
+
+| Component | Size |
+|---|---|
+| `evidence` rows | ~7 MB |
+| `evidence` quote FTS (GIN on tsvector) | ~10–15 MB |
+| `sections.text` | ~50 MB |
+| `sections` text FTS | ~80 MB |
+| smaller tables + indexes | < 1 MB |
+
+Neon free tier limits: 3 GB storage + 191 compute hours / month. We use
+~5% of storage; search queries on 9 K and 24 K row tables with GIN
+indexes are sub-millisecond, so compute is dominated by Vercel function
+cold starts, not by Postgres. Free tier covers current scale and the
+~2× growth from Atharv's next-occupations list (Pharmacy / Medical
+Assistant / Surgical Technologist / Chiropractor / Radiologic
+Technician).
+
 ## Goals
 
 In priority order:
@@ -61,21 +94,29 @@ shape across all 50 states.
 
 The trimmed corpus, one row per (state, profession, citation). Used as
 the join target for evidence (so we can show "view in context" against
-the actual statute text).
+the actual statute text) AND as a standalone FTS target so Atharv can
+search the raw statutory language for terms we may not have explicitly
+extracted as evidence.
 
 | col | type | notes |
 |---|---|---|
 | `id` | BIGSERIAL PK | |
 | `state` | CHAR(2) | |
-| `profession_id` | BIGINT FK → professions | |
+| `profession_id` | BIGINT FK → professions | nullable when `is_umbrella=true` (umbrella sections are shared across professions per state) |
 | `url` | TEXT | Justia source URL |
 | `citation` | TEXT | normalized form (see `normalize_citation`) |
 | `label` | TEXT | section label as Justia rendered it |
-| `text` | TEXT | the cleaned statute text |
+| `text` | TEXT | the cleaned statute text (full body) |
 | `is_umbrella` | BOOLEAN | true when the section came from cross-cutting chapter |
+| `text_tsv` | TSVECTOR | generated column for FTS |
 
-Index on `(state, profession_id, citation)` for lookups.
-Index on `text` via `tsvector` for FTS (see Search below).
+Indexes:
+- `(state, profession_id, citation)` for evidence joins
+- GIN on `text_tsv` for raw-statute phrase search
+
+Storage note: ~50 MB raw text + ~80 MB FTS index. This is the bulk of
+the database size; we accept it because Atharv wants to search the
+statute language directly, not just the excerpts.
 
 ### `evidence`
 
@@ -203,24 +244,54 @@ DB and a React page at `src/app/search/page.tsx`.
 
 Query shape:
 ```
-GET /api/search?q=<phrase>&profession=<key?>&state=<XX?>&unverified_only=<bool?>
+GET /api/search?q=<phrase>&scope=<quotes|statutes|both>
+               &profession=<key?>&state=<XX?>&unverified_only=<bool?>
 ```
 
-Postgres query (rough):
+Two query targets the route can hit:
+
+**Quotes (the extracted excerpts):** narrow, high-signal — the LLM
+already picked these as the supporting language for a structured claim.
+Result rows carry the field path so you know what claim the quote was
+backing.
+
 ```sql
 SELECT e.state, p.key AS profession, e.field_path, e.value_text,
        e.quote, e.citation, e.unverified,
+       'quote' AS scope,
        ts_rank(e.quote_tsv, plainto_tsquery('english', $1)) AS rank
 FROM evidence e
 JOIN professions p ON p.id = e.profession_id
 WHERE e.quote_tsv @@ plainto_tsquery('english', $1)
-  AND (...optional profession / state / unverified filters...)
 ORDER BY rank DESC
 LIMIT 200;
 ```
 
+**Statutes (the raw section text):** broader, finds language we may not
+have extracted. Result rows carry section metadata; a click navigates
+to the section in context.
+
+```sql
+SELECT s.state, p.key AS profession, s.citation, s.label,
+       ts_headline('english', s.text, plainto_tsquery('english', $1),
+                   'MaxFragments=2,MinWords=8,MaxWords=30') AS snippet,
+       s.is_umbrella, 'statute' AS scope,
+       ts_rank(s.text_tsv, plainto_tsquery('english', $1)) AS rank
+FROM sections s
+LEFT JOIN professions p ON p.id = s.profession_id
+WHERE s.text_tsv @@ plainto_tsquery('english', $1)
+ORDER BY rank DESC
+LIMIT 200;
+```
+
+Default scope: `both` — UNION the two queries and let the UI tab between
+them. Lets Atharv answer "find every state whose statute mentions
+'subcutaneous'" (statute scope) vs "show me every state where we
+extracted scope language containing 'subcutaneous'" (quote scope).
+
 UI:
 - A search bar at the top; results table below
+- Two tabs: "In extracted quotes (N)" vs "In statute text (M)"
 - Each row is clickable → opens the corresponding (state, profession) on
   the existing /profile page, scrolled to the relevant row
 - Filter chips for profession / state / unverified
@@ -242,15 +313,41 @@ Three stages, each commit-able and reviewable:
 
 ## Open decisions
 
-- **Neon free vs paid tier.** Free is enough for our volume (9K Evidence
-  rows). We'll likely outgrow it if/when we expand to all 50+
-  professions; revisit then.
+- **Neon free vs paid tier.** Free covers the current scale (~150 MB
+  data, sub-millisecond queries) plus the +5 occupations Atharv has
+  queued. Paid (Launch, $19/mo) buys multiple branches (dev/prod
+  separation), longer query timeouts, and autosuspend tuning. Default:
+  free until something forces an upgrade.
 - **Drizzle vs raw SQL in the search route.** Drizzle is what the
   newyork repo uses, but a single `/api/search` query might be cleaner
   as raw parameterized SQL. Default: Drizzle for parity with newyork.
-- **State-name pruning.** Today some `structured/` files use 3-char
-  state codes (per the newyork schema's `CHAR(3)` for `state`). We're
-  consistent on 2-char throughout — `CHAR(2)` here.
+- **What goes in `sections.text`?** Two candidate shapes:
+  - Trimmed text (what the LLM saw — the substantive sections, with
+    "repealed/reserved/ministerial" sections already dropped). Smaller
+    DB; matches what evidence quotes can map back to.
+  - Clean text (the full scraped corpus, including dropped sections).
+    Bigger DB (probably ~3× the size), but `/search` could find
+    language in sections we trimmed away.
+
+  Default: trimmed. Atharv's use case is "find statutory language
+  that's actually load-bearing", not "find every mention anywhere in
+  the code". If we hear "I wished I could search the dropped sections
+  too", revisit.
+- **ETL frequency / trigger.** Options:
+  - Manual: `python -m pipeline.publish.db.load --all` after each
+    publish run.
+  - Hooked into `build_frontend.py` via a `--load-db` flag.
+  - Cron / GitHub Action: nightly re-load.
+
+  Default: manual + a `--load-db` convenience flag. Pipeline runs are
+  rare enough (few times a week) that automation doesn't earn its
+  complexity yet.
+- **Historical extractions / time travel.** Right now structured/
+  files overwrite on each extract. If we want "show me how the
+  extraction for CA podiatry changed between May 12 and May 21", we'd
+  need to either keep extraction history in the DB (extra column
+  `extracted_at`, never delete) or rely on git history. Default:
+  don't store history; rely on git for that audit trail.
 - **Search-index file as interim.** If the DB takes more than a day or
   two to land, we may want to ship the flat-JSON search index as a
   stopgap. Throwaway code; takes ~2 hrs to build.
