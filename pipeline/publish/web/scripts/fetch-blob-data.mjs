@@ -31,6 +31,14 @@ for (const blob of blobs) {
   await writeFile(resolve(DATA_DIR, localName), text);
 
   const d = JSON.parse(text);
+  console.log(`fetched ${blob.pathname} (${text.length} bytes)`);
+
+  // The data/ prefix carries both per-profession data and one-off reports
+  // (e.g. scorecard.json). Profession files are the ones with `profession`
+  // + `rows`; everything else just lands on disk for the route that wants
+  // it (e.g. /reports/scorecard reads /data/scorecard.json directly).
+  if (!d.profession || !Array.isArray(d.rows)) continue;
+
   const rows = d.rows ?? [];
   const ev = d.evidence_summary ?? {};
   const v = ev.verified ?? 0;
@@ -43,7 +51,6 @@ for (const blob of blobs) {
     fields: (d.discovered_fields ?? []).length,
     verified_pct: v + u ? Math.round((1000 * v) / (v + u)) / 10 : null,
   });
-  console.log(`fetched ${blob.pathname} (${text.length} bytes)`);
 }
 
 items.sort((a, b) => a.profession.localeCompare(b.profession));

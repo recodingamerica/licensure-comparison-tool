@@ -19,6 +19,7 @@ Usage:
 
 from __future__ import annotations
 
+import datetime as dt
 import json
 import sys
 from pathlib import Path
@@ -26,7 +27,7 @@ from typing import Any, Callable
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from extract.standard_model import is_evidence_node  # noqa: E402
-from paths import RESULTS_DIR, STRUCTURED_DIR  # noqa: E402
+from paths import RESULTS_DIR, STRUCTURED_DIR, WEB_PUBLIC_DIR  # noqa: E402
 
 
 # Atharv's "Universal Category" list from the cross-comparison PDF, mapped to
@@ -169,19 +170,58 @@ def symbol(filled: int, total: int) -> str:
     return "~"
 
 
-def main() -> None:
-    rows = []
+def build_payload() -> dict:
+    """Structured scorecard for the web /reports/scorecard route. The web
+    side renders this directly — no markdown parsing — so adding fields
+    later just means extending the JSON."""
+    fields = []
     for field_label, accessor in UNIVERSAL_FIELDS:
-        cells = []
+        per_profession = {}
         for prof in PROFESSIONS:
             filled, total = fill_rate(prof, accessor)
-            sym = symbol(filled, total)
-            cells.append(f"{sym} ({filled}/{total})")
-        rows.append((field_label, cells))
+            per_profession[prof] = {
+                "filled": filled,
+                "total": total,
+                "symbol": symbol(filled, total),
+            }
+        fields.append({"label": field_label, "professions": per_profession})
+    return {
+        "generated_at": dt.datetime.now(dt.UTC).isoformat(timespec="seconds"),
+        "professions": PROFESSIONS,
+        "fields": fields,
+    }
 
-    # Markdown
+
+def main() -> None:
+    import argparse
+    ap = argparse.ArgumentParser()
+    ap.add_argument(
+        "--upload",
+        action="store_true",
+        help="Also upload data/scorecard.json to Vercel Blob (same place the per-profession data lives).",
+    )
+    args = ap.parse_args()
+
+    payload = build_payload()
+    payload_json = json.dumps(payload, indent=2)
+
+    # 1. Machine-readable JSON for the web /reports/scorecard route.
+    web_path = WEB_PUBLIC_DIR / "data" / "scorecard.json"
+    web_path.parent.mkdir(parents=True, exist_ok=True)
+    web_path.write_text(payload_json)
+    print(f"wrote {web_path}")
+
+    if args.upload:
+        from publish.blob_upload import upload_json
+        url = upload_json("data/scorecard.json", payload_json)
+        print(f"uploaded → {url}")
+
+    # 2. Markdown mirror at the original location — handy as a repo-tracked
+    # snapshot. Same shape as before, just rebuilt from the structured form.
     out_lines = [
         "# Universal Field Cross-Comparison Scorecard",
+        "",
+        f"_Generated {payload['generated_at']}_",
         "",
         "How well our extracted data matches Atharv's universal-field schema",
         "(see PDF cross-comparison table). One row per universal field, one",
@@ -193,19 +233,22 @@ def main() -> None:
         "**✗** = 0%, **—** = no data.",
         "",
     ]
-
-    header = "| Universal Category | " + " | ".join(p.title().replace("_", " ") for p in PROFESSIONS) + " |"
+    header = "| Universal Category | " + " | ".join(
+        p.title().replace("_", " ") for p in PROFESSIONS
+    ) + " |"
     sep = "|" + "---|" * (len(PROFESSIONS) + 1)
     out_lines.append(header)
     out_lines.append(sep)
-    for field_label, cells in rows:
-        out_lines.append(f"| {field_label} | " + " | ".join(cells) + " |")
+    for field in payload["fields"]:
+        cells = []
+        for prof in PROFESSIONS:
+            d = field["professions"][prof]
+            cells.append(f"{d['symbol']} ({d['filled']}/{d['total']})")
+        out_lines.append(f"| {field['label']} | " + " | ".join(cells) + " |")
 
-    output = "\n".join(out_lines) + "\n"
-    out_path = RESULTS_DIR / "cross_comparison_scorecard.md"
-    out_path.write_text(output)
-    print(f"wrote {out_path}\n")
-    print(output)
+    md_path = RESULTS_DIR / "cross_comparison_scorecard.md"
+    md_path.write_text("\n".join(out_lines) + "\n")
+    print(f"wrote {md_path}")
 
 
 if __name__ == "__main__":
