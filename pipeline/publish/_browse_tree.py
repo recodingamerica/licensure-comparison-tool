@@ -47,6 +47,33 @@ def _humanize_slug(slug: str) -> str:
     return f"{kind.capitalize()} {num}"
 
 
+# Section labels come back from Justia in a mix of forms — "Section 1600."
+# / "1601.1" / "Section 1619.1." Normalize to a consistent "§ N" so the
+# tree's leaves read uniformly. Falls back to the original label when we
+# can't extract a numeric identifier.
+def normalize_section_label(label: str) -> str:
+    if not label:
+        return label
+    # Strip a leading "Section " (case-insensitive) + trailing period.
+    s = label.strip()
+    lower = s.lower()
+    if lower.startswith("section "):
+        s = s[len("section "):]
+    # Some labels have additional descriptive text after a period or dash —
+    # keep just the section identifier prefix when there is one.
+    # e.g. "Section 1600. Composition of board" → "§ 1600 Composition of board"
+    if s and s[0].isdigit():
+        # Find where the numeric/dotted identifier ends.
+        i = 0
+        while i < len(s) and (s[i].isdigit() or s[i] in ".-"):
+            i += 1
+        if i > 0:
+            ident = s[:i].rstrip(".-")
+            rest = s[i:].strip(" -.")
+            return f"§ {ident}" + (f" — {rest}" if rest else "")
+    return s.rstrip(".")
+
+
 def _classify_segment(seg: str) -> tuple[str, str] | None:
     """Returns (level, normalized_slug) or None if segment isn't a hierarchy node."""
     for level, pat in _LEVEL_PATTERNS:
@@ -112,9 +139,14 @@ def build_tree(
     for sec in sections:
         url = sec.get("url") or ""
         path = parse_hierarchy(url)
-        dedup_key = "/".join(s for _, s in path) if path else (
-            (sec.get("citation") or "") + "|" + (sec.get("label") or "")
-        )
+        # Drop entries that DON'T resolve to a section-level leaf — Justia
+        # chapter-index pages (e.g. /codes/california/code-bpc/division-2/
+        # chapter-4/) sometimes ride along in the scrape and show up here
+        # as "2025 California Code" leaves with table-of-contents text.
+        # They're not statute content; skip them.
+        if not path or path[-1][0] != "section":
+            continue
+        dedup_key = "/".join(s for _, s in path)
         if dedup_key in seen_paths:
             continue
         seen_paths.add(dedup_key)
@@ -132,14 +164,6 @@ def build_tree(
             })
             continue
 
-        # Walk the hierarchy, getting-or-creating each branch.
-        if path[-1][0] != "section":
-            # No section-level slug in the URL — the section itself doesn't
-            # have a leaf identifier we recognize. Append as a leaf under
-            # the deepest branch we have.
-            section_slug = (sec.get("citation") or url)[:60]
-            path = path + [("section", section_slug)]
-
         # First-level branch — title (or whatever the top-most parsed level is)
         top_level, top_slug = path[0]
         if top_slug not in root_branches:
@@ -156,12 +180,14 @@ def build_tree(
                 cur["children"].append(child)
             cur = child
 
-        # Leaf — the section itself
+        # Leaf — the section itself. Normalize the displayed label so
+        # "Section 1600." and "1601.1" render uniformly ("§ 1600", "§ 1601.1").
         leaf_level, leaf_slug = path[-1]
+        raw_label = sec.get("label") or sec.get("citation") or _humanize_slug(leaf_slug)
         cur["children"].append({
             "slug": leaf_slug,
             "level": leaf_level,
-            "label": sec.get("citation") or sec.get("label") or _humanize_slug(leaf_slug),
+            "label": normalize_section_label(raw_label),
             "url": url or None,
             "section": sec,
             "children": [],

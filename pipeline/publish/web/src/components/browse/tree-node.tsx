@@ -12,6 +12,7 @@
 
 import { ChevronDown, ChevronRight } from "lucide-react";
 import type { BrowseEvidence } from "@/lib/types";
+import { professionStyle } from "@/lib/profession-colors";
 
 export type TreeNode = {
   slug: string;
@@ -96,11 +97,20 @@ export function TreeNodeView({
         </span>
         {showApplies && (
           <span
-            className="inline-flex items-center gap-1 mt-0.5 px-1.5 py-0.5 rounded text-[9px] font-mono uppercase tracking-wide bg-emerald-50 text-emerald-800 border border-emerald-200"
+            className="flex items-center gap-1 flex-wrap mt-1"
             title={`Applies to: ${leaf.applies_to!.join(", ")}`}
           >
-            <span className="w-1 h-1 rounded-full bg-emerald-500" />
-            {leaf.applies_to!.map((p) => p.replace(/_/g, " ")).join(", ")}
+            {leaf.applies_to!.map((p) => {
+              const s = professionStyle(p);
+              return (
+                <span
+                  key={p}
+                  className={`text-[9px] font-mono font-semibold px-1.5 py-0.5 rounded ${s.bg} ${s.text} border ${s.border}`}
+                >
+                  {s.abbr}
+                </span>
+              );
+            })}
           </span>
         )}
         {fieldNames.length > 0 && (

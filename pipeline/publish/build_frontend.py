@@ -218,16 +218,20 @@ def _build_browse_sections(
     # Practice-act sections (per-profession). Every such section is the
     # profession's own statute; no scope filter needed.
     for s in practice_sections:
-        if not s.get("text"):
+        # Practice-act sections also carry Justia chrome (breadcrumb,
+        # citation header, disclaimer) — strip on the way out so the
+        # browse view renders just the statute paragraphs.
+        text = clean_justia_text(s.get("text") or "")
+        if not text:
             continue
         out.append({
             "url": s.get("url"),
             "citation": s.get("citation"),
             "label": s.get("label"),
-            "text": s.get("text"),
+            "text": text,
             "scope_layer": "practice",
             "applies_to": None,
-            "evidence": _section_evidence_spans(record, s.get("text") or ""),
+            "evidence": _section_evidence_spans(record, text),
         })
 
     # Umbrella sections (individual — not aggregated by chapter).

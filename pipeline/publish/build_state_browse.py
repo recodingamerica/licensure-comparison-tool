@@ -201,7 +201,10 @@ def build_state(state: str) -> dict[str, Any] | None:
         # practice-act section is almost always coincidence).
         rec = prof_records.get(prof) or {}
         for s in practice:
-            text = s.get("text") or ""
+            # Practice-act trimmed sections also carry Justia chrome
+            # (breadcrumb + citation header + disclaimer). Strip it so the
+            # detail panel renders only the statute paragraphs.
+            text = clean_justia_text(s.get("text") or "")
             if not text:
                 continue
             sections.append({

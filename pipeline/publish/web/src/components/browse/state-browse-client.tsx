@@ -33,6 +33,7 @@ import {
   allBranchSlugs,
   type TreeNode,
 } from "./tree-node";
+import { professionStyle } from "@/lib/profession-colors";
 
 function shortFieldPath(p: string): string {
   if (p.startsWith("licensure.")) return p.slice("licensure.".length);
@@ -73,9 +74,12 @@ export function StateBrowseClient({ payload }: { payload: StateBrowsePayload }) 
   const sectionIndex = useMemo(() => buildSectionIndex(payload.sections), [payload.sections]);
 
   const [query, setQuery] = useState<string>(params.get("q") ?? "");
+  // Empty set = no profession filter, show everything (default). Selecting
+  // a chip = "filter to this profession." User's mental model matches:
+  // clicking podiatry shows podiatry; clicking it again returns to "all."
   const urlProfs = (params.get("profs") || "").split(",").filter(Boolean);
   const [activeProfs, setActiveProfs] = useState<Set<string>>(
-    () => new Set(urlProfs.length > 0 ? urlProfs : allProfessions),
+    () => new Set(urlProfs),
   );
 
   // Tree-collapse state. Default: every branch expanded so the user sees
@@ -120,9 +124,8 @@ export function StateBrowseClient({ payload }: { payload: StateBrowsePayload }) 
     else next.add(p);
     setActiveProfs(next);
     const arr = Array.from(next).sort();
-    setUrl({
-      profs: arr.length === allProfessions.length ? null : arr.join(","),
-    });
+    // Empty set = the default ("no filter, show all") so we omit the param.
+    setUrl({ profs: arr.length === 0 ? null : arr.join(",") });
   };
 
   const toggleBranch = (slug: string) => {
@@ -148,11 +151,13 @@ export function StateBrowseClient({ payload }: { payload: StateBrowsePayload }) 
     setUrl({ cite: `${s.url}` });
   };
 
-  // Profession filter: drop groups + leaves that don't apply to any
-  // selected profession. Universal always shows. Multi-prof is now a
-  // single group; we prune within its tree so only sections matching
-  // the filter remain.
+  // Profession filter: empty set means "no filter, show all." When non-
+  // empty, universal always still shows; multi-prof keeps sections whose
+  // applies_to intersects the active set; single-prof keeps only the
+  // matching profession buckets.
   const visibleGroups = useMemo<StateBrowseGroup[]>(() => {
+    const filterActive = activeProfs.size > 0;
+    if (!filterActive) return payload.groups;
     const out: StateBrowseGroup[] = [];
     for (const g of payload.groups) {
       if (g.kind === "universal") {
@@ -160,8 +165,6 @@ export function StateBrowseClient({ payload }: { payload: StateBrowsePayload }) 
       } else if (g.kind === "single") {
         if (activeProfs.has(g.profession)) out.push(g);
       } else if (g.kind === "multi") {
-        // Within multi, keep only leaves whose section.applies_to
-        // intersects the active filter set.
         const prune = (node: TreeNode): TreeNode | null => {
           if (node.level === "section") {
             const sec = node.section as StateBrowseSection | undefined;
@@ -241,19 +244,43 @@ export function StateBrowseClient({ payload }: { payload: StateBrowsePayload }) 
       </header>
 
       <div className="border-b px-6 py-2.5 flex items-center gap-3 flex-wrap bg-muted/30">
-        <span className="text-xs text-muted-foreground">show sections for:</span>
+        <span className="text-xs text-muted-foreground">
+          {activeProfs.size === 0
+            ? "filter by profession:"
+            : `filtered to ${activeProfs.size} of ${allProfessions.length}:`}
+        </span>
         <ToggleGroup variant="outline" size="sm" spacing={1}>
-          {allProfessions.map((p) => (
-            <ToggleGroupItem
-              key={p}
-              pressed={activeProfs.has(p)}
-              onPressedChange={() => toggleProf(p)}
-              className="text-xs px-2.5"
-            >
-              {p.replace(/_/g, " ")}
-            </ToggleGroupItem>
-          ))}
+          {allProfessions.map((p) => {
+            const s = professionStyle(p);
+            const on = activeProfs.has(p);
+            return (
+              <ToggleGroupItem
+                key={p}
+                pressed={on}
+                onPressedChange={() => toggleProf(p)}
+                className={
+                  "text-xs px-2.5 gap-1.5 " +
+                  (on ? `${s.bg} ${s.text} ${s.border}` : "")
+                }
+              >
+                <span className={`w-2 h-2 rounded-full ${s.dot}`} />
+                {p.replace(/_/g, " ")}
+              </ToggleGroupItem>
+            );
+          })}
         </ToggleGroup>
+        {activeProfs.size > 0 && (
+          <button
+            type="button"
+            onClick={() => {
+              setActiveProfs(new Set());
+              setUrl({ profs: null });
+            }}
+            className="text-[10px] font-mono text-muted-foreground hover:text-foreground underline"
+          >
+            clear filter
+          </button>
+        )}
         <div className="ml-auto relative">
           <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 size-3.5 text-muted-foreground pointer-events-none" />
           <Input
