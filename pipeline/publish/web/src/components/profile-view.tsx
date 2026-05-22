@@ -1423,9 +1423,13 @@ export function ProfileView({ payload }: { payload: ProfilePayload }) {
             />
           </div>
 
-          {/* Chip bar — every active filter shows as a removable chip */}
+          {/* Chip bar — every active filter shows as a removable chip.
+              Sticky to the viewport top so that while scrolling a long
+              table the user always sees what's filtering the rows below.
+              The bg fade + border-bottom prevent table cells bleeding
+              through when scrolled under. */}
           {activeChips.length > 0 && (
-            <div className="flex flex-wrap gap-2 items-center mb-3 px-1">
+            <div className="sticky top-0 z-10 -mx-1 mb-3 bg-background/95 supports-[backdrop-filter]:bg-background/80 backdrop-blur border-b border-border/60 px-1 py-2 flex flex-wrap gap-2 items-center">
               <span className="text-xs font-mono uppercase tracking-widest text-muted-foreground">
                 Active filters:
               </span>
