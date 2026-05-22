@@ -153,6 +153,14 @@ export type BrowseSection = {
   evidence: BrowseEvidence[];
 };
 
+// Tree groups for the per-profession /browse/[state]/[prof] view.
+// Layer key matches BrowseSection.scope_layer; tree is a forest of
+// TreeNode (defined in components/browse/tree-node.tsx).
+export type BrowseGroup<TreeNodeT = unknown> = {
+  key: BrowseSection["scope_layer"];
+  tree: TreeNodeT[];
+};
+
 export type BrowseEvidence = {
   field_path: string;
   value: unknown;

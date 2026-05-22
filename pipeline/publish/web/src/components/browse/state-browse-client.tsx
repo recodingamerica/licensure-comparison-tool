@@ -1,16 +1,20 @@
 "use client";
 
 // State-level browse: every regulation that touches a licensed profession
-// in this state, grouped by audience. Sibling of the per-profession
-// BrowseClient — same two-pane shape, same detail-panel rendering, but
-// the tree groups by audience (universal / multi-prof / single-prof)
-// and the filter is profession-multi-select instead of layer-toggle.
+// in this state, with the actual statute hierarchy (title → chapter/
+// article → part → section) preserved. Groups are by audience: universal
+// at top, then multi-prof buckets, then single-prof buckets. Each group
+// contains a forest of collapsible tree nodes.
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { Group, Panel, Separator } from "react-resizable-panels";
-import type { StateBrowsePayload, StateBrowseSection } from "@/lib/state-browse-types";
+import type {
+  StateBrowsePayload,
+  StateBrowseSection,
+  StateBrowseGroup,
+} from "@/lib/state-browse-types";
 import type { BrowseEvidence } from "@/lib/types";
 import { findAllSpans } from "@/lib/format";
 import { Input } from "@/components/ui/input";
@@ -23,6 +27,12 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Search } from "lucide-react";
+import {
+  TreeNodeView,
+  sectionKey,
+  allBranchSlugs,
+  type TreeNode,
+} from "./tree-node";
 
 function shortFieldPath(p: string): string {
   if (p.startsWith("licensure.")) return p.slice("licensure.".length);
@@ -31,17 +41,28 @@ function shortFieldPath(p: string): string {
   return p;
 }
 
-const AUDIENCE_LABEL: Record<StateBrowseSection["audience"], string> = {
+const AUDIENCE_LABEL: Record<StateBrowseGroup["kind"], string> = {
   universal: "Applies to everyone",
   multi: "Shared with multiple professions",
   single: "Profession-specific",
 };
 
-const AUDIENCE_DOT: Record<StateBrowseSection["audience"], string> = {
+const AUDIENCE_DOT: Record<StateBrowseGroup["kind"], string> = {
   universal: "bg-purple-500",
   multi: "bg-emerald-500",
   single: "bg-sky-500",
 };
+
+// Tag every section's URL with its audience info for the detail panel,
+// pulled from the flat sections array (cheaper than walking the tree to
+// find the matching node).
+function buildSectionIndex(
+  sections: StateBrowseSection[],
+): Map<string, StateBrowseSection> {
+  const m = new Map<string, StateBrowseSection>();
+  for (const s of sections) m.set(s.url, s);
+  return m;
+}
 
 export function StateBrowseClient({ payload }: { payload: StateBrowsePayload }) {
   const router = useRouter();
@@ -49,16 +70,35 @@ export function StateBrowseClient({ payload }: { payload: StateBrowsePayload }) 
   const params = useSearchParams();
 
   const allProfessions = payload.professions_available;
-  const [query, setQuery] = useState<string>(params.get("q") ?? "");
+  const sectionIndex = useMemo(() => buildSectionIndex(payload.sections), [payload.sections]);
 
-  // Profession multi-select: defaults to all enabled (show everything).
-  // URL param `profs=podiatry,nursing` carries the active subset.
+  const [query, setQuery] = useState<string>(params.get("q") ?? "");
   const urlProfs = (params.get("profs") || "").split(",").filter(Boolean);
   const [activeProfs, setActiveProfs] = useState<Set<string>>(
     () => new Set(urlProfs.length > 0 ? urlProfs : allProfessions),
   );
 
-  const selectedCite = params.get("cite") ?? "";
+  // Tree-collapse state. Default: every branch expanded so the user sees
+  // the whole hierarchy on load. Stored in the URL as `?closed=` (slugs
+  // the user has chosen to collapse) so links survive reload.
+  const closedParam = params.get("closed") || "";
+  const [collapsed, setCollapsed] = useState<Set<string>>(
+    () => new Set(closedParam.split(",").filter(Boolean)),
+  );
+  // expanded = ALL_BRANCHES − collapsed. We track collapsed so the default
+  // (everything open) takes zero URL space.
+  const allSlugs = useMemo(() => {
+    const all: string[] = [];
+    for (const g of payload.groups) all.push(...allBranchSlugs(g.tree));
+    return new Set(all);
+  }, [payload.groups]);
+  const expanded = useMemo(() => {
+    const e = new Set(allSlugs);
+    for (const slug of collapsed) e.delete(slug);
+    return e;
+  }, [allSlugs, collapsed]);
+
+  const selectedKey = params.get("cite") || "";
 
   const setUrl = (patch: Record<string, string | null>) => {
     const next = new URLSearchParams(params.toString());
@@ -74,81 +114,87 @@ export function StateBrowseClient({ payload }: { payload: StateBrowsePayload }) 
     setUrl({ q: v || null });
   };
 
-  const handleSelect = (s: StateBrowseSection) => setUrl({ cite: s.citation });
-
   const toggleProf = (p: string) => {
-    // Compute the next set BEFORE updating state — calling setUrl (which
-    // does router.replace) inside a setState updater is a render-phase
-    // state update on another component (Router), which React warns about.
     const next = new Set(activeProfs);
     if (next.has(p)) next.delete(p);
     else next.add(p);
     setActiveProfs(next);
     const arr = Array.from(next).sort();
     setUrl({
-      profs:
-        arr.length === allProfessions.length ? null : arr.join(","),
+      profs: arr.length === allProfessions.length ? null : arr.join(","),
     });
   };
 
-  // Filter the section list: profession filter + search.
-  const filtered = useMemo(() => {
-    const q = query.trim().toLowerCase();
-    return payload.sections.filter((s) => {
-      // Profession filter:
-      //   - universal: always show
-      //   - multi: show if ANY selected profession is in applies_to
-      //   - single: show if its profession is selected
-      if (s.audience === "single") {
-        if (s.profession && !activeProfs.has(s.profession)) return false;
-      } else if (s.audience === "multi") {
-        if (!s.applies_to?.some((p) => activeProfs.has(p))) return false;
-      }
-      // Search:
-      if (!q) return true;
-      return (
-        (s.text || "").toLowerCase().includes(q) ||
-        (s.citation || "").toLowerCase().includes(q) ||
-        (s.label || "").toLowerCase().includes(q)
-      );
-    });
-  }, [payload.sections, activeProfs, query]);
+  const toggleBranch = (slug: string) => {
+    const nextCollapsed = new Set(collapsed);
+    if (nextCollapsed.has(slug)) nextCollapsed.delete(slug);
+    else nextCollapsed.add(slug);
+    setCollapsed(nextCollapsed);
+    const arr = Array.from(nextCollapsed).sort();
+    setUrl({ closed: arr.length === 0 ? null : arr.join(",") });
+  };
 
-  // Group: universal first, then multi-prof by unique applies_to set,
-  // then single-prof by profession.
-  const groups = useMemo(() => {
-    const universal: StateBrowseSection[] = [];
-    const multiByKey: Record<string, { profs: string[]; sections: StateBrowseSection[] }> = {};
-    const singleByProf: Record<string, StateBrowseSection[]> = {};
+  const handleSelect = (section: unknown) => {
+    const s = section as StateBrowseSection;
+    setUrl({ cite: `${s.url}` });
+  };
 
-    for (const s of filtered) {
-      if (s.audience === "universal") {
-        universal.push(s);
-      } else if (s.audience === "multi") {
-        const profs = (s.applies_to ?? []).slice().sort();
-        const key = profs.join(",");
-        if (!multiByKey[key]) multiByKey[key] = { profs, sections: [] };
-        multiByKey[key].sections.push(s);
-      } else if (s.audience === "single" && s.profession) {
-        (singleByProf[s.profession] ||= []).push(s);
-      }
-    }
-    return {
-      universal,
-      multi: Object.values(multiByKey).sort(
-        (a, b) => b.sections.length - a.sections.length,
-      ),
-      single: Object.entries(singleByProf).sort(([a], [b]) => a.localeCompare(b)),
+  // Profession filter: drop groups + leaves that don't apply to any
+  // selected profession. Universal always shows.
+  const visibleGroups = useMemo<StateBrowseGroup[]>(() => {
+    const matches = (g: StateBrowseGroup): boolean => {
+      if (g.kind === "universal") return true;
+      if (g.kind === "single") return activeProfs.has(g.profession);
+      return g.applies_to.some((p) => activeProfs.has(p));
     };
-  }, [filtered]);
+    return payload.groups.filter(matches);
+  }, [payload.groups, activeProfs]);
 
+  // Search: filter the tree to leaves whose section text/citation/label
+  // contains the query. Branches with no matching descendants drop out.
+  const filteredGroups = useMemo<StateBrowseGroup[]>(() => {
+    const q = query.trim().toLowerCase();
+    if (!q) return visibleGroups;
+    const matchSection = (s: StateBrowseSection): boolean =>
+      (s.text || "").toLowerCase().includes(q) ||
+      (s.citation || "").toLowerCase().includes(q) ||
+      (s.label || "").toLowerCase().includes(q);
+    const prune = (node: TreeNode): TreeNode | null => {
+      if (node.level === "section") {
+        const sec = node.section as StateBrowseSection | undefined;
+        return sec && matchSection(sec) ? node : null;
+      }
+      const children = node.children
+        .map(prune)
+        .filter((c): c is TreeNode => c !== null);
+      if (children.length === 0) return null;
+      return { ...node, children };
+    };
+    return visibleGroups
+      .map((g) => ({ ...g, tree: g.tree.map(prune).filter((n): n is TreeNode => n !== null) }))
+      .filter((g) => g.tree.length > 0);
+  }, [visibleGroups, query]);
+
+  // Find the currently-selected section so the detail panel can render
+  // it. The URL stores the section URL (which is unique across the state
+  // payload).
   const selected: StateBrowseSection | null = useMemo(() => {
-    if (selectedCite) {
-      const hit = filtered.find((s) => s.citation === selectedCite);
+    if (selectedKey) {
+      const hit = sectionIndex.get(selectedKey);
       if (hit) return hit;
     }
-    return filtered[0] ?? null;
-  }, [filtered, selectedCite]);
+    // Default: first leaf in the first visible group.
+    for (const g of filteredGroups) {
+      const first = firstLeaf(g.tree);
+      if (first) return first;
+    }
+    return null;
+  }, [filteredGroups, sectionIndex, selectedKey]);
+
+  const totalShown = useMemo(
+    () => filteredGroups.reduce((n, g) => n + countLeaves(g.tree), 0),
+    [filteredGroups],
+  );
 
   return (
     <div className="flex flex-col h-screen">
@@ -159,11 +205,10 @@ export function StateBrowseClient({ payload }: { payload: StateBrowsePayload }) 
         <span className="text-xs text-muted-foreground">›</span>
         <span className="text-xs font-mono font-medium">{payload.state}</span>
         <span className="text-xs text-muted-foreground ml-2">
-          showing {filtered.length} of {payload.sections.length} sections
+          showing {totalShown} of {payload.sections.length} sections
         </span>
       </header>
 
-      {/* Filter bar — profession multi-select */}
       <div className="border-b px-6 py-2.5 flex items-center gap-3 flex-wrap bg-muted/30">
         <span className="text-xs text-muted-foreground">show sections for:</span>
         <ToggleGroup variant="outline" size="sm" spacing={1}>
@@ -192,75 +237,44 @@ export function StateBrowseClient({ payload }: { payload: StateBrowsePayload }) 
 
       <Group orientation="horizontal" className="flex-1 overflow-hidden flex">
         <Panel
-          defaultSize="32%"
+          defaultSize="35%"
           minSize="20%"
-          maxSize="50%"
+          maxSize="55%"
           className="overflow-y-auto py-2 border-r"
         >
-          {/* Universal */}
-          {groups.universal.length > 0 && (
-            <TreeGroup
-              header={
-                <>
-                  <span className={`w-1.5 h-1.5 rounded-full ${AUDIENCE_DOT.universal}`} />
-                  {AUDIENCE_LABEL.universal}{" "}
-                  <span className="font-mono text-muted-foreground/70 ml-1">
-                    {groups.universal.length}
-                  </span>
-                </>
-              }
-              sections={groups.universal}
-              selected={selected}
-              onSelect={handleSelect}
-            />
-          )}
-
-          {/* Multi-prof */}
-          {groups.multi.map((g) => (
-            <TreeGroup
-              key={g.profs.join(",")}
-              header={
-                <>
-                  <span className={`w-1.5 h-1.5 rounded-full ${AUDIENCE_DOT.multi}`} />
-                  Applies to: {g.profs.map((p) => p.replace(/_/g, " ")).join(", ")}{" "}
-                  <span className="font-mono text-muted-foreground/70 ml-1">
-                    {g.sections.length}
-                  </span>
-                </>
-              }
-              sections={g.sections}
-              selected={selected}
-              onSelect={handleSelect}
-            />
+          {filteredGroups.map((g) => (
+            <div key={g.key} className="mb-4">
+              <div className="px-4 py-1 text-[10px] font-mono uppercase tracking-widest text-muted-foreground flex items-center gap-1.5">
+                <span className={`w-1.5 h-1.5 rounded-full ${AUDIENCE_DOT[g.kind]}`} />
+                {g.kind === "universal" && AUDIENCE_LABEL.universal}
+                {g.kind === "multi" && (
+                  <>Applies to: {g.applies_to.map((p) => p.replace(/_/g, " ")).join(", ")}</>
+                )}
+                {g.kind === "single" && (
+                  <>{g.profession.replace(/_/g, " ")} (practice act)</>
+                )}
+              </div>
+              {g.tree.map((top) => (
+                <TreeNodeView
+                  key={`${top.level}-${top.slug}`}
+                  node={top}
+                  depth={0}
+                  selectedKey={selected?.url || ""}
+                  expanded={expanded}
+                  onToggle={toggleBranch}
+                  onSelect={handleSelect}
+                />
+              ))}
+            </div>
           ))}
-
-          {/* Single-prof */}
-          {groups.single.map(([prof, secs]) => (
-            <TreeGroup
-              key={prof}
-              header={
-                <>
-                  <span className={`w-1.5 h-1.5 rounded-full ${AUDIENCE_DOT.single}`} />
-                  {prof.replace(/_/g, " ")} (practice act){" "}
-                  <span className="font-mono text-muted-foreground/70 ml-1">
-                    {secs.length}
-                  </span>
-                </>
-              }
-              sections={secs}
-              selected={selected}
-              onSelect={handleSelect}
-            />
-          ))}
-
-          {filtered.length === 0 && (
+          {filteredGroups.length === 0 && (
             <p className="px-4 py-6 text-xs text-muted-foreground italic">
               No sections match the current filters.
             </p>
           )}
         </Panel>
         <Separator className="w-1 bg-border hover:bg-foreground/20 transition-colors" />
-        <Panel defaultSize="68%" minSize="50%" className="overflow-y-auto">
+        <Panel defaultSize="65%" minSize="45%" className="overflow-y-auto">
           {selected ? (
             <SectionDetail section={selected} searchQuery={query} />
           ) : (
@@ -274,57 +288,29 @@ export function StateBrowseClient({ payload }: { payload: StateBrowsePayload }) 
   );
 }
 
-function TreeGroup({
-  header,
-  sections,
-  selected,
-  onSelect,
-}: {
-  header: React.ReactNode;
-  sections: StateBrowseSection[];
-  selected: StateBrowseSection | null;
-  onSelect: (s: StateBrowseSection) => void;
-}) {
-  return (
-    <div className="mb-3">
-      <div className="px-4 py-1 text-[10px] font-mono uppercase tracking-widest text-muted-foreground flex items-center gap-1.5">
-        {header}
-      </div>
-      <ul>
-        {sections.map((s) => {
-          const active = selected?.citation === s.citation && selected?.url === s.url;
-          const fieldNames = Array.from(
-            new Set(s.evidence.map((e) => shortFieldPath(e.field_path))),
-          );
-          return (
-            <li key={`${s.audience}-${s.citation}-${s.url}`}>
-              <button
-                type="button"
-                onClick={() => onSelect(s)}
-                className={
-                  "w-full text-left px-4 py-1.5 text-xs hover:bg-muted/50 border-l-2 " +
-                  (active ? "bg-muted/70 border-foreground" : "border-transparent")
-                }
-              >
-                <span className="font-mono text-foreground truncate block">
-                  {s.citation || s.label || "(no citation)"}
-                </span>
-                {fieldNames.length > 0 && (
-                  <span
-                    className="text-[10px] text-muted-foreground truncate block"
-                    title={s.evidence.map((e) => e.field_path).join(", ")}
-                  >
-                    {fieldNames.join(", ")}
-                  </span>
-                )}
-              </button>
-            </li>
-          );
-        })}
-      </ul>
-    </div>
-  );
+// Helpers — tree walks
+function firstLeaf(forest: TreeNode[]): StateBrowseSection | null {
+  for (const n of forest) {
+    if (n.level === "section" && n.section) return n.section as StateBrowseSection;
+    const inner = firstLeaf(n.children);
+    if (inner) return inner;
+  }
+  return null;
 }
+
+function countLeaves(forest: TreeNode[]): number {
+  let n = 0;
+  for (const node of forest) {
+    if (node.level === "section") n++;
+    else n += countLeaves(node.children);
+  }
+  return n;
+}
+
+// Suppress unused-import warning — sectionKey is exported by tree-node
+// and used in the per-prof browse client too; keep the import here for
+// when we wire selection-by-key.
+void sectionKey;
 
 function SectionDetail({
   section,
@@ -352,6 +338,8 @@ function SectionDetail({
     [section.text, searchQuery],
   );
 
+  const audienceKind: StateBrowseGroup["kind"] = section.audience;
+
   return (
     <article className="px-8 py-6 max-w-4xl mx-auto">
       <header className="mb-4">
@@ -369,8 +357,8 @@ function SectionDetail({
         <p className="text-xs text-muted-foreground mt-0.5">{section.label}</p>
         <div className="flex items-center gap-2 mt-2 flex-wrap">
           <Badge variant="outline" className="font-mono text-[10px] gap-1.5">
-            <span className={`w-1.5 h-1.5 rounded-full ${AUDIENCE_DOT[section.audience]}`} />
-            {AUDIENCE_LABEL[section.audience]}
+            <span className={`w-1.5 h-1.5 rounded-full ${AUDIENCE_DOT[audienceKind]}`} />
+            {AUDIENCE_LABEL[audienceKind]}
           </Badge>
           {section.audience === "multi" && section.applies_to && (
             <Badge variant="secondary" className="font-mono text-[10px]">
@@ -386,7 +374,7 @@ function SectionDetail({
             <Badge
               variant="outline"
               className="font-mono text-[10px] bg-amber-100/60 text-amber-900 border-amber-300"
-              title="Each claim is an LLM-extracted field whose quote was found in this section. Hover an amber span to see all of them."
+              title="Hover an amber span to see the field name + extracted value."
             >
               {section.evidence.length} claim{section.evidence.length === 1 ? "" : "s"} drawn from this section
             </Badge>
@@ -487,10 +475,8 @@ function renderLayered(
       chars[i].search = true;
     }
   }
-
   const key = (evs: BrowseEvidence[]): string =>
     evs.map((e) => e.field_path + "@" + (e.profession ?? "")).sort().join("\x1f");
-
   const parts: RenderPart[] = [];
   let i = 0;
   while (i < text.length) {

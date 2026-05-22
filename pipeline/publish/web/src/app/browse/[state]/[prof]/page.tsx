@@ -16,6 +16,7 @@
 import { Suspense, use, useEffect, useState } from "react";
 import Link from "next/link";
 import type { BrowseSection } from "@/lib/types";
+import type { TreeNode } from "@/components/browse/tree-node";
 import { BrowseClient } from "@/components/browse/browse-client";
 
 type Params = Promise<{ state: string; prof: string }>;
@@ -24,6 +25,7 @@ type BrowsePayload = {
   state: string;
   profession: string;
   sections: BrowseSection[];
+  groups: Array<{ key: BrowseSection["scope_layer"]; tree: TreeNode[] }>;
 };
 
 function BrowseInner({ params }: { params: Params }) {
@@ -68,6 +70,7 @@ function BrowseInner({ params }: { params: Params }) {
       state={state}
       profession={prof}
       sections={payload.sections}
+      groups={payload.groups ?? []}
     />
   );
 }

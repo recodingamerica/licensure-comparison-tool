@@ -1,16 +1,13 @@
 "use client";
 
-// Two-pane document browser:
-//   left  — hierarchy tree, sections grouped by scope_layer
-//   right — selected section's full text, with two highlight layers:
-//             amber  — every quote_span where the LLM drew an extracted
-//                      claim from this section (hover for field name)
-//             yellow — every search hit (when the search input has a query)
+// Per-(state, profession) browse view. Two-pane layout:
+//   left   — hierarchy tree, sections grouped by scope_layer with the
+//            statute's own title/chapter/article/part nesting preserved.
+//   right  — selected section's full text with extracted-quote highlights
+//            (amber, hover = field + value) and search highlights (yellow).
 //
-// Selected section is carried in the URL as ?cite=<section-citation> so
-// links are shareable. Filter bar across the top has the layer chips +
-// the search input; both narrow the tree (sections without matches fall
-// out) and drive highlights in the right pane.
+// Selected section is carried in the URL as ?cite=<section-url>; layer
+// chips and search text in ?layers/?q/?closed=. Links survive reload.
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
@@ -28,11 +25,8 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Search } from "lucide-react";
+import { TreeNodeView, allBranchSlugs, type TreeNode } from "./tree-node";
 
-// Short-form for an evidence field path. The full dotted path
-// ("licensure.continuing_education.hours_per_period") is too long for
-// list rendering, but the last segment alone loses context. Compromise:
-// drop the leading "licensure." (the most common prefix), keep the rest.
 function shortFieldPath(p: string): string {
   if (p.startsWith("licensure.")) return p.slice("licensure.".length);
   if (p.startsWith("profession_specific.")) return p.slice("profession_specific.".length);
@@ -47,75 +41,56 @@ const LAYER_LABEL: Record<LayerKey, string> = {
   umbrella_enumeration: "Umbrella (this profession)",
   umbrella_universal: "Umbrella (universal)",
 };
-
 const LAYER_DOT: Record<LayerKey, string> = {
   practice: "bg-sky-500",
   umbrella_enumeration: "bg-emerald-500",
   umbrella_universal: "bg-purple-500",
 };
 
-const LAYER_TINT: Record<LayerKey, string> = {
-  practice: "border-sky-200",
-  umbrella_enumeration: "border-emerald-200",
-  umbrella_universal: "border-purple-200",
-};
+type BrowseGroup = { key: LayerKey; tree: TreeNode[] };
 
 export function BrowseClient({
   state,
   profession,
   sections,
+  groups,
 }: {
   state: string;
   profession: string;
   sections: BrowseSection[];
+  groups: BrowseGroup[];
 }) {
   const router = useRouter();
   const pathname = usePathname();
   const params = useSearchParams();
 
+  const sectionIndex = useMemo(() => {
+    const m = new Map<string, BrowseSection>();
+    for (const s of sections) m.set(s.url, s);
+    return m;
+  }, [sections]);
+
   const [query, setQuery] = useState<string>(params.get("q") ?? "");
   const [activeLayers, setActiveLayers] = useState<Set<LayerKey>>(
-    () => new Set(["practice", "umbrella_enumeration", "umbrella_universal"]),
+    () => new Set(groups.map((g) => g.key)),
   );
 
-  // Selected section's citation (the unique-ish key from BrowseSection).
-  // Reflected in the URL so links survive reload.
-  const selectedCite = params.get("cite") ?? "";
+  const closedParam = params.get("closed") || "";
+  const [collapsed, setCollapsed] = useState<Set<string>>(
+    () => new Set(closedParam.split(",").filter(Boolean)),
+  );
+  const allSlugs = useMemo(() => {
+    const all: string[] = [];
+    for (const g of groups) all.push(...allBranchSlugs(g.tree));
+    return new Set(all);
+  }, [groups]);
+  const expanded = useMemo(() => {
+    const e = new Set(allSlugs);
+    for (const slug of collapsed) e.delete(slug);
+    return e;
+  }, [allSlugs, collapsed]);
 
-  // Filter sections: layer chips AND search query (substring in text or citation).
-  const filtered = useMemo(() => {
-    const q = query.trim().toLowerCase();
-    return sections.filter((s) => {
-      if (!activeLayers.has(s.scope_layer)) return false;
-      if (!q) return true;
-      return (
-        (s.text || "").toLowerCase().includes(q) ||
-        (s.citation || "").toLowerCase().includes(q) ||
-        (s.label || "").toLowerCase().includes(q)
-      );
-    });
-  }, [sections, activeLayers, query]);
-
-  // Group filtered sections by layer for tree rendering.
-  const grouped = useMemo(() => {
-    const g: Record<LayerKey, BrowseSection[]> = {
-      practice: [],
-      umbrella_enumeration: [],
-      umbrella_universal: [],
-    };
-    for (const s of filtered) g[s.scope_layer as LayerKey].push(s);
-    return g;
-  }, [filtered]);
-
-  // Default-select the first filtered section so the right pane is never
-  // empty after a search narrows the tree.
-  const selected: BrowseSection | null = useMemo(() => {
-    if (selectedCite) {
-      const hit = filtered.find((s) => s.citation === selectedCite);
-      if (hit) return hit;
-    }
-    return filtered[0] ?? null;
-  }, [filtered, selectedCite]);
+  const selectedKey = params.get("cite") || "";
 
   const setUrl = (patch: Record<string, string | null>) => {
     const next = new URLSearchParams(params.toString());
@@ -130,21 +105,78 @@ export function BrowseClient({
     setQuery(v);
     setUrl({ q: v || null });
   };
-
-  const handleSelect = (s: BrowseSection) => setUrl({ cite: s.citation });
-
   const toggleLayer = (k: LayerKey) => {
-    setActiveLayers((prev) => {
-      const next = new Set(prev);
-      if (next.has(k)) next.delete(k);
-      else next.add(k);
-      return next;
-    });
+    const next = new Set(activeLayers);
+    if (next.has(k)) next.delete(k);
+    else next.add(k);
+    setActiveLayers(next);
   };
+  const toggleBranch = (slug: string) => {
+    const nextCollapsed = new Set(collapsed);
+    if (nextCollapsed.has(slug)) nextCollapsed.delete(slug);
+    else nextCollapsed.add(slug);
+    setCollapsed(nextCollapsed);
+    const arr = Array.from(nextCollapsed).sort();
+    setUrl({ closed: arr.length === 0 ? null : arr.join(",") });
+  };
+  const handleSelect = (section: unknown) => {
+    const s = section as BrowseSection;
+    setUrl({ cite: s.url });
+  };
+
+  // Visible groups: layer-filter applied first, then search prunes the
+  // tree to leaves whose section text/citation/label contains the query.
+  const visibleGroups = useMemo<BrowseGroup[]>(
+    () => groups.filter((g) => activeLayers.has(g.key)),
+    [groups, activeLayers],
+  );
+
+  const filteredGroups = useMemo<BrowseGroup[]>(() => {
+    const q = query.trim().toLowerCase();
+    if (!q) return visibleGroups;
+    const matchSection = (s: BrowseSection): boolean =>
+      (s.text || "").toLowerCase().includes(q) ||
+      (s.citation || "").toLowerCase().includes(q) ||
+      (s.label || "").toLowerCase().includes(q);
+    const prune = (node: TreeNode): TreeNode | null => {
+      if (node.level === "section") {
+        const sec = node.section as BrowseSection | undefined;
+        return sec && matchSection(sec) ? node : null;
+      }
+      const children = node.children
+        .map(prune)
+        .filter((c): c is TreeNode => c !== null);
+      if (children.length === 0) return null;
+      return { ...node, children };
+    };
+    return visibleGroups
+      .map((g) => ({ ...g, tree: g.tree.map(prune).filter((n): n is TreeNode => n !== null) }))
+      .filter((g) => g.tree.length > 0);
+  }, [visibleGroups, query]);
+
+  const selected: BrowseSection | null = useMemo(() => {
+    if (selectedKey) {
+      const hit = sectionIndex.get(selectedKey);
+      if (hit) return hit;
+    }
+    for (const g of filteredGroups) {
+      const first = firstLeaf(g.tree);
+      if (first) return first;
+    }
+    return null;
+  }, [filteredGroups, sectionIndex, selectedKey]);
+
+  const totalShown = useMemo(
+    () => filteredGroups.reduce((n, g) => n + countLeaves(g.tree), 0),
+    [filteredGroups],
+  );
+
+  // Count of layers present in the data — used to decide whether to show
+  // the layer toggle (≥2) or a quiet text label (1).
+  const layersPresent = groups.length;
 
   return (
     <div className="flex flex-col h-screen">
-      {/* Header / breadcrumbs */}
       <header className="border-b px-6 py-3 flex items-center gap-3 flex-wrap bg-background">
         <Link href="/" className="text-xs font-mono text-muted-foreground hover:text-foreground">
           home
@@ -159,52 +191,35 @@ export function BrowseClient({
         <span className="text-xs text-muted-foreground">›</span>
         <span className="text-xs font-mono font-medium">{state}</span>
         <span className="text-xs text-muted-foreground ml-2">
-          browsing {sections.length} sections
+          showing {totalShown} of {sections.length} sections
         </span>
       </header>
 
-      {/* Filter bar */}
       <div className="border-b px-6 py-2.5 flex items-center gap-3 flex-wrap bg-muted/30">
-        {(() => {
-          const layersPresent = (Object.keys(LAYER_LABEL) as LayerKey[]).filter(
-            (k) => sections.some((s) => s.scope_layer === k),
-          );
-          // With only one layer there's nothing to filter between — clicking
-          // the chip would just hide everything. Show a quiet text label
-          // instead. Multi-layer states get the real chip filter.
-          if (layersPresent.length <= 1) {
-            const k = layersPresent[0];
-            if (!k) return null;
-            const count = sections.filter((s) => s.scope_layer === k).length;
-            return (
-              <span className="text-xs flex items-center gap-1.5 text-muted-foreground">
-                <span className={`w-2 h-2 rounded-full ${LAYER_DOT[k]}`} />
-                {LAYER_LABEL[k]}{" "}
-                <span className="font-mono">{count}</span>
-              </span>
-            );
-          }
-          return (
-            <ToggleGroup variant="outline" size="sm" spacing={1}>
-              {layersPresent.map((k) => {
-                const count = sections.filter((s) => s.scope_layer === k).length;
-                const on = activeLayers.has(k);
-                return (
-                  <ToggleGroupItem
-                    key={k}
-                    pressed={on}
-                    onPressedChange={() => toggleLayer(k)}
-                    className="text-xs gap-1.5 px-2.5"
-                  >
-                    <span className={`w-2 h-2 rounded-full ${LAYER_DOT[k]}`} />
-                    {LAYER_LABEL[k]}
-                    <span className="font-mono text-muted-foreground">{count}</span>
-                  </ToggleGroupItem>
-                );
-              })}
-            </ToggleGroup>
-          );
-        })()}
+        {layersPresent <= 1 ? (
+          // With one layer the toggle would just hide everything — show a
+          // quiet text label instead.
+          groups[0] && (
+            <span className="text-xs flex items-center gap-1.5 text-muted-foreground">
+              <span className={`w-2 h-2 rounded-full ${LAYER_DOT[groups[0].key]}`} />
+              {LAYER_LABEL[groups[0].key]}
+            </span>
+          )
+        ) : (
+          <ToggleGroup variant="outline" size="sm" spacing={1}>
+            {groups.map((g) => (
+              <ToggleGroupItem
+                key={g.key}
+                pressed={activeLayers.has(g.key)}
+                onPressedChange={() => toggleLayer(g.key)}
+                className="text-xs gap-1.5 px-2.5"
+              >
+                <span className={`w-2 h-2 rounded-full ${LAYER_DOT[g.key]}`} />
+                {LAYER_LABEL[g.key]}
+              </ToggleGroupItem>
+            ))}
+          </ToggleGroup>
+        )}
         <div className="ml-auto relative">
           <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 size-3.5 text-muted-foreground pointer-events-none" />
           <Input
@@ -217,66 +232,40 @@ export function BrowseClient({
         </div>
       </div>
 
-      {/* Two-pane body — resizable via react-resizable-panels. The
-          Separator drags. */}
-      <Group
-        orientation="horizontal"
-        className="flex-1 overflow-hidden flex"
-      >
-        <Panel defaultSize="28%" minSize="18%" maxSize="50%" className="overflow-y-auto py-2 border-r">
-          {(Object.keys(LAYER_LABEL) as LayerKey[]).map((k) => {
-            const items = grouped[k];
-            if (items.length === 0) return null;
-            return (
-              <div key={k} className="mb-3">
-                <div className="px-4 py-1 text-[10px] font-mono uppercase tracking-widest text-muted-foreground flex items-center gap-1.5">
-                  <span className={`w-1.5 h-1.5 rounded-full ${LAYER_DOT[k]}`} />
-                  {LAYER_LABEL[k]}
-                </div>
-                <ul>
-                  {items.map((s) => {
-                    const active = selected?.citation === s.citation;
-                    return (
-                      <li key={`${s.scope_layer}-${s.citation}-${s.url}`}>
-                        <button
-                          type="button"
-                          onClick={() => handleSelect(s)}
-                          className={
-                            "w-full text-left px-4 py-1.5 text-xs hover:bg-muted/50 border-l-2 " +
-                            (active
-                              ? "bg-muted/70 border-foreground"
-                              : `border-transparent ${LAYER_TINT[k]}`)
-                          }
-                        >
-                          <span className="font-mono text-foreground truncate block">
-                            {s.citation || s.label || "(no citation)"}
-                          </span>
-                          {s.evidence.length > 0 && (
-                            <span
-                              className="text-[10px] text-muted-foreground truncate block"
-                              title={s.evidence.map((e) => e.field_path).join(", ")}
-                            >
-                              {Array.from(
-                                new Set(s.evidence.map((e) => shortFieldPath(e.field_path))),
-                              ).join(", ")}
-                            </span>
-                          )}
-                        </button>
-                      </li>
-                    );
-                  })}
-                </ul>
+      <Group orientation="horizontal" className="flex-1 overflow-hidden flex">
+        <Panel
+          defaultSize="35%"
+          minSize="20%"
+          maxSize="55%"
+          className="overflow-y-auto py-2 border-r"
+        >
+          {filteredGroups.map((g) => (
+            <div key={g.key} className="mb-4">
+              <div className="px-4 py-1 text-[10px] font-mono uppercase tracking-widest text-muted-foreground flex items-center gap-1.5">
+                <span className={`w-1.5 h-1.5 rounded-full ${LAYER_DOT[g.key]}`} />
+                {LAYER_LABEL[g.key]}
               </div>
-            );
-          })}
-          {filtered.length === 0 && (
+              {g.tree.map((top) => (
+                <TreeNodeView
+                  key={`${top.level}-${top.slug}`}
+                  node={top}
+                  depth={0}
+                  selectedKey={selected?.url || ""}
+                  expanded={expanded}
+                  onToggle={toggleBranch}
+                  onSelect={handleSelect}
+                />
+              ))}
+            </div>
+          ))}
+          {filteredGroups.length === 0 && (
             <p className="px-4 py-6 text-xs text-muted-foreground italic">
               No sections match the current filters.
             </p>
           )}
         </Panel>
         <Separator className="w-1 bg-border hover:bg-foreground/20 transition-colors" />
-        <Panel defaultSize="72%" minSize="50%" className="overflow-y-auto">
+        <Panel defaultSize="65%" minSize="45%" className="overflow-y-auto">
           {selected ? (
             <SectionDetail section={selected} searchQuery={query} />
           ) : (
@@ -290,11 +279,24 @@ export function BrowseClient({
   );
 }
 
-// Right-pane: full section text with two highlight layers. Built by walking
-// the text once, applying both quote-evidence spans (amber, hover = field
-// name) and search-query spans (yellow). Overlapping ranges resolve in
-// favor of the search highlight — the user's active query is the more
-// salient signal.
+function firstLeaf(forest: TreeNode[]): BrowseSection | null {
+  for (const n of forest) {
+    if (n.level === "section" && n.section) return n.section as BrowseSection;
+    const inner = firstLeaf(n.children);
+    if (inner) return inner;
+  }
+  return null;
+}
+
+function countLeaves(forest: TreeNode[]): number {
+  let n = 0;
+  for (const node of forest) {
+    if (node.level === "section") n++;
+    else n += countLeaves(node.children);
+  }
+  return n;
+}
+
 function SectionDetail({
   section,
   searchQuery,
@@ -315,12 +317,8 @@ function SectionDetail({
     [searchQuery, section.text],
   );
 
-  // Merge into a single layered render. Approach: build a sorted list of
-  // events (start/end with class), walk through text linearly. Search
-  // wins ties by getting placed later in the sort order.
   const parts = useMemo(
     () => renderLayered(section.text, evidenceSpans, searchHits),
-    // section.text + evidenceSpans + searchHits change in lockstep
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [section.text, searchQuery],
   );
@@ -354,7 +352,7 @@ function SectionDetail({
             <Badge
               variant="outline"
               className="font-mono text-[10px] bg-amber-100/60 text-amber-900 border-amber-300"
-              title="Each claim is an LLM-extracted field whose quote was found in this section. Multiple claims can share the same quote text — hover an amber span to see all of them."
+              title="Hover an amber span to see the field name + extracted value."
             >
               {section.evidence.length} claim{section.evidence.length === 1 ? "" : "s"} drawn from this section
             </Badge>
@@ -373,9 +371,6 @@ function SectionDetail({
                 </mark>
               );
             }
-            // p.kind === "evidence" — multiple claims may share this span;
-            // tooltip lists each one with field, value (the label we gave
-            // it), and the verbatim quoted text.
             const evs = p.evs;
             return (
               <Tooltip key={i}>
@@ -431,11 +426,6 @@ type RenderPart =
   | { kind: "evidence"; value: string; evs: BrowseEvidence[] }
   | { kind: "search"; value: string };
 
-// Layered span renderer. Search highlights take priority where they overlap
-// with evidence highlights; non-overlapping ranges render independently.
-// Multiple evidence rows can cover the same characters (different fields
-// drawing from the same quote) — we track ALL of them per char so the
-// tooltip can list every claim, not just the first one to land.
 function renderLayered(
   text: string,
   evidenceSpans: Array<{ start: number; end: number; ev: BrowseEvidence }>,
@@ -448,7 +438,6 @@ function renderLayered(
   }));
   for (const { start, end, ev } of evidenceSpans) {
     for (let i = start; i < end && i < text.length; i++) {
-      // Dedup: if the same Evidence already lands here, don't add twice.
       if (!chars[i].evs.includes(ev)) chars[i].evs.push(ev);
     }
   }
@@ -457,12 +446,8 @@ function renderLayered(
       chars[i].search = true;
     }
   }
-
-  // Build a stable key for an evs[] so we can detect "same set of claims
-  // covering this run" without comparing arrays char-by-char each step.
   const key = (evs: BrowseEvidence[]): string =>
     evs.map((e) => e.field_path).sort().join("\x1f");
-
   const parts: RenderPart[] = [];
   let i = 0;
   while (i < text.length) {
@@ -478,9 +463,6 @@ function renderLayered(
       const c2 = chars[j];
       const k2 = c2.search ? "search" : c2.evs.length > 0 ? "evidence" : "text";
       if (k2 !== kind) break;
-      // Same kind — for evidence, require the same set of claims so a
-      // boundary where one Evidence ends but another keeps going produces
-      // separate <mark> spans (different tooltip content).
       if (kind === "evidence" && key(c2.evs) !== startKey) break;
       j++;
     }

@@ -45,6 +45,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from extract.standard_model import iter_evidence  # noqa: E402
 from extract.locate_quote import locate_quote_in_section  # noqa: E402
 from publish.blob_upload import upload_json  # noqa: E402
+from publish._browse_tree import build_tree  # noqa: E402
+from publish._justia_clean import clean_justia_text  # noqa: E402
 from paths import RESULTS_DIR, TRIMMED_DIR, STRUCTURED_DIR  # noqa: E402
 from config.states import ALL_STATES  # noqa: E402
 
@@ -147,7 +149,11 @@ def build_state(state: str) -> dict[str, Any] | None:
     # 1. Umbrella sections (universal + multi-prof enumeration).
     if umb_data:
         for s in umb_data.get("sections") or []:
-            text = s.get("text") or ""
+            # Umbrella scraper preserved Justia's navigation chrome
+            # (version list, breadcrumbs, citation explainer, disclaimer).
+            # Strip it on the publish side so the browse view shows just
+            # the statute text.
+            text = clean_justia_text(s.get("text") or "")
             url = s.get("url") or ""
             if not text or not url:
                 continue
@@ -210,9 +216,57 @@ def build_state(state: str) -> dict[str, Any] | None:
                 "evidence": _section_evidence_for_profession(rec, text, prof),
             })
 
+    # Build hierarchical trees per audience group. Universal first, then
+    # multi-prof buckets keyed by their exact applies_to set, then single-
+    # prof buckets per profession. Each group's `tree` is a forest of
+    # nested branches (title → chapter/article → part → section) derived
+    # from the section URLs by _browse_tree.build_tree.
+    chapter_labels: dict[str, str] = {}
+    if umb_data:
+        for s in umb_data.get("sections") or []:
+            slug = s.get("umbrella_chapter_slug")
+            label = s.get("umbrella_chapter_label")
+            if slug and label and slug not in chapter_labels:
+                chapter_labels[slug] = label
+
+    universal = [s for s in sections if s["audience"] == "universal"]
+    multi_by_key: dict[tuple[str, ...], list[dict]] = {}
+    single_by_prof: dict[str, list[dict]] = {}
+    for s in sections:
+        if s["audience"] == "multi":
+            key = tuple(sorted(s.get("applies_to") or []))
+            multi_by_key.setdefault(key, []).append(s)
+        elif s["audience"] == "single" and s.get("profession"):
+            single_by_prof.setdefault(s["profession"], []).append(s)
+
+    groups: list[dict] = []
+    if universal:
+        groups.append({
+            "key": "universal",
+            "kind": "universal",
+            "tree": build_tree(universal, chapter_label_overrides=chapter_labels),
+        })
+    for key, secs in sorted(multi_by_key.items(), key=lambda x: (-len(x[1]), x[0])):
+        groups.append({
+            "key": "multi:" + ",".join(key),
+            "kind": "multi",
+            "applies_to": list(key),
+            "tree": build_tree(secs, chapter_label_overrides=chapter_labels),
+        })
+    for prof, secs in sorted(single_by_prof.items()):
+        groups.append({
+            "key": f"single:{prof}",
+            "kind": "single",
+            "profession": prof,
+            "tree": build_tree(secs),
+        })
+
     return {
         "state": state,
         "professions_available": sorted(prof_records.keys()),
+        "groups": groups,
+        # Keep the flat sections list too for any caller that wants it —
+        # it's redundant with the trees but small relative to the rest.
         "sections": sections,
     }
 

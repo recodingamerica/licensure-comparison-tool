@@ -2,6 +2,7 @@
 // pipeline/publish/build_state_browse.py emits per state.
 
 import type { BrowseEvidence } from "@/lib/types";
+import type { TreeNode } from "@/components/browse/tree-node";
 
 export type StateBrowseAudience = "universal" | "multi" | "single";
 
@@ -28,8 +29,19 @@ export type StateBrowseSection = {
   evidence: BrowseEvidence[];
 };
 
+export type StateBrowseGroup =
+  | { key: string; kind: "universal"; tree: TreeNode[] }
+  | { key: string; kind: "multi"; applies_to: string[]; tree: TreeNode[] }
+  | { key: string; kind: "single"; profession: string; tree: TreeNode[] };
+
 export type StateBrowsePayload = {
   state: string;
   professions_available: string[];
+  // Group order: universal first, then each unique multi-prof applies_to
+  // set, then each single-prof bucket. Each group carries a forest of
+  // TreeNodes parsed from section URLs.
+  groups: StateBrowseGroup[];
+  // Flat sections array kept for any consumer that wants it (search,
+  // count, etc.) — redundant with the trees, small relative to text.
   sections: StateBrowseSection[];
 };

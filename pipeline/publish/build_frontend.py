@@ -73,6 +73,8 @@ from config.states import ALL_STATES  # noqa: E402
 from extract.locate_quote import locate_quote_in_section  # noqa: E402
 from extract.standard_model import is_evidence_node, iter_evidence  # noqa: E402
 from publish.blob_upload import upload_json  # noqa: E402
+from publish._browse_tree import build_tree as _build_browse_tree  # noqa: E402
+from publish._justia_clean import clean_justia_text  # noqa: E402
 
 
 def _ev_value(node: Any) -> Any:
@@ -230,7 +232,9 @@ def _build_browse_sections(
 
     # Umbrella sections (individual — not aggregated by chapter).
     for s in (umbrella_state_data or {}).get("sections", []) or []:
-        text = s.get("text") or ""
+        # Same Justia-chrome strip as build_state_browse uses, so the per-
+        # profession browse view shows clean section text too.
+        text = clean_justia_text(s.get("text") or "")
         url = s.get("url") or ""
         if not text or not url:
             continue
@@ -517,6 +521,27 @@ def build(profession: str) -> dict:
                 umbrella_data_by_state.get(st),
                 umb_scope_by_state.get(st, {}),
             )
+            # Group browse_sections by scope_layer and build a hierarchy
+            # tree per layer (parsed from each section's Justia URL). The
+            # /browse/[state]/[prof] view renders these as nested
+            # collapsible nodes; flat browse_sections kept alongside for
+            # any consumer that still wants a list.
+            _chap_labels: dict[str, str] = {}
+            umb_state = umbrella_data_by_state.get(st)
+            if umb_state:
+                for _s in umb_state.get("sections") or []:
+                    _slug = _s.get("umbrella_chapter_slug")
+                    _lbl = _s.get("umbrella_chapter_label")
+                    if _slug and _lbl and _slug not in _chap_labels:
+                        _chap_labels[_slug] = _lbl
+            _by_layer: dict[str, list[dict]] = {}
+            for _bs in row["browse_sections"]:
+                _by_layer.setdefault(_bs.get("scope_layer") or "practice", []).append(_bs)
+            row["browse_groups"] = [
+                {"key": layer, "tree": _build_browse_tree(_by_layer[layer], chapter_label_overrides=_chap_labels)}
+                for layer in ("practice", "umbrella_enumeration", "umbrella_universal")
+                if _by_layer.get(layer)
+            ]
             # Attach highlight spans now, against the EXACT section text we're
             # about to publish. Computing on this side (rather than during
             # extract/reverify) avoids any normalization drift between the
@@ -668,10 +693,16 @@ def main() -> None:
     browse_dir.mkdir(parents=True, exist_ok=True)
     for row in payload["rows"]:
         bs = row.pop("browse_sections", None)
-        if bs is None:
+        bg = row.pop("browse_groups", None)
+        if bs is None and bg is None:
             continue
         st = row["state"]
-        section_payload = {"state": st, "profession": profession, "sections": bs}
+        section_payload = {
+            "state": st,
+            "profession": profession,
+            "sections": bs or [],
+            "groups": bg or [],
+        }
         section_body = json.dumps(section_payload, indent=2)
         (browse_dir / f"{st}.json").write_text(section_body)
         upload_json(f"data/{profession}/browse/{st}.json", section_body)
