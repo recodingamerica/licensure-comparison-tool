@@ -26,6 +26,7 @@ import {
 } from "@/components/ui/tooltip";
 import { Search } from "lucide-react";
 import { TreeNodeView, allBranchSlugs, type TreeNode } from "./tree-node";
+import { useProfessionMeta } from "@/lib/profession-colors";
 
 function shortFieldPath(p: string): string {
   if (p.startsWith("licensure.")) return p.slice("licensure.".length);
@@ -60,6 +61,9 @@ export function BrowseClient({
   sections: BrowseSection[];
   groups: BrowseGroup[];
 }) {
+  // Trigger /professions.json load so applies-to badges on umbrella-
+  // enumeration leaves get the proper family colors / abbreviations.
+  useProfessionMeta();
   const router = useRouter();
   const pathname = usePathname();
   const params = useSearchParams();

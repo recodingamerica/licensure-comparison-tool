@@ -2,11 +2,25 @@
 #
 # Each entry has:
 #   display:  human-readable name (used in UI titles)
+#   abbrev:   3-letter code shown on browse-view badges (defaults to first 3 letters of key)
 #   family:   one or more taxonomy buckets used by the umbrella scope filter
 #             (health / building_design / business / public_safety).
 #             Multi-valued for cross-cutting professions.
 #   patterns: case-insensitive substrings used to match a state's chapter label
 #   excludes: optional substrings that, if present, disqualify a label even if `patterns` matched
+#
+# A top-level `_families` block defines the UI color per family — applied to
+# every profession in that family. Color-per-family (not color-per-profession)
+# is what scales: humans can't reliably distinguish more than ~5-7 unique
+# hues, but we'll have 30+ professions eventually. The family color says
+# "this rule's audience is health professions" which is the more meaningful
+# signal at scale anyway.
+
+_families:
+  health:           { color: emerald, label: "Health professions" }
+  building_design:  { color: amber,   label: "Building / design" }
+  business:         { color: slate,   label: "Business / finance" }
+  public_safety:    { color: rose,    label: "Public safety" }
 #
 # match_profession.py applies patterns to chapter labels in pipeline/results/hierarchy/<STATE>.json
 # and emits matched nodes into pipeline/results/profession_index/<profession>.json.
@@ -22,6 +36,7 @@
 
 podiatry:
   display: Podiatry / Podiatric Medicine
+  abbrev: POD
   family: [health]
   patterns: [podiatr, chiropod]
   onet_code: "29-1081.00"
@@ -29,6 +44,7 @@ podiatry:
 
 medicine:
   display: Medicine (MD)
+  abbrev: MED
   family: [health]
   patterns: ["medical practice", "medicine and surgery", " physicians "]
   excludes: ["osteopathic", "podiatric", "naturopathic", "chiropractic", "physician assistant", "physician's assistant", "veterinar", "athletic"]
@@ -70,11 +86,13 @@ anesthesiologist_assistant:
 
 dentistry:
   display: Dentistry & Dental Hygiene
+  abbrev: DEN
   family: [health]
   patterns: [dentist, "dental hygien", "dental practice", "dental assist"]
 
 optometry:
   display: Optometry
+  abbrev: OPT
   family: [health]
   patterns: [optometr]
 
@@ -95,6 +113,7 @@ veterinary:
 
 nursing:
   display: Nursing (RN / LPN / APRN)
+  abbrev: NUR
   family: [health]
   patterns: [nurs]
   excludes: ["nurse midwif", "nurse-midwif", "midwifery"]
@@ -243,6 +262,7 @@ professional_geology:
 
 public_accountancy:
   display: Public Accountancy (CPA)
+  abbrev: ACT
   family: [business]
   patterns: [accountant, accountancy, "public accounting", "certified public account"]
   onet_code: "13-2011.00"

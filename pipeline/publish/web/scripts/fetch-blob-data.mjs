@@ -46,6 +46,14 @@ for (const blob of blobs) {
   items.push({
     profession: d.profession,
     display: d.display ?? d.profession,
+    // Visual metadata from professions.yaml (via build_frontend). Frontend
+    // uses these to render colored profession chips/badges; family_color
+    // is a Tailwind color name (emerald/amber/slate/rose) the frontend
+    // expands to bg-/text-/border- classes.
+    abbrev: d.abbrev ?? null,
+    family: d.family ?? null,
+    family_color: d.family_color ?? null,
+    family_label: d.family_label ?? null,
     covered: rows.filter((r) => !r.coverage_gap).length,
     gaps: rows.filter((r) => r.coverage_gap).length,
     fields: (d.discovered_fields ?? []).length,

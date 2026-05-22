@@ -33,7 +33,7 @@ import {
   allBranchSlugs,
   type TreeNode,
 } from "./tree-node";
-import { professionStyle } from "@/lib/profession-colors";
+import { professionStyle, useProfessionMeta } from "@/lib/profession-colors";
 
 function shortFieldPath(p: string): string {
   if (p.startsWith("licensure.")) return p.slice("licensure.".length);
@@ -66,6 +66,10 @@ function buildSectionIndex(
 }
 
 export function StateBrowseClient({ payload }: { payload: StateBrowsePayload }) {
+  // Triggers /professions.json load — re-renders once meta resolves so
+  // chips/badges get their proper colors and abbreviations instead of
+  // the neutral fallback.
+  useProfessionMeta();
   const router = useRouter();
   const pathname = usePathname();
   const params = useSearchParams();

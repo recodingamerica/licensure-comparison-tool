@@ -604,9 +604,16 @@ def build(profession: str) -> dict:
             if mr.get("citation"):
                 mr["citation"] = normalize_citation(mr["citation"])
 
+    meta = _profession_meta(profession)
     return {
         "profession": profession,
-        "display": _profession_display(profession),
+        "display": meta["display"],
+        # Surface the yaml-driven visual metadata so the frontend's homepage
+        # picker + browse views can color/abbreviate without hardcoding.
+        "abbrev": meta["abbrev"],
+        "family": meta["family"],
+        "family_color": meta["family_color"],
+        "family_label": meta["family_label"],
         "discovered_fields": discovered["fields"],
         "rows": rows,
         "map_prep": map_prep,
@@ -676,6 +683,48 @@ def _profession_display(profession: str) -> str:
         return cfg.get(profession, {}).get("display", profession.replace("_", " ").title())
     except Exception:
         return profession.replace("_", " ").title()
+
+
+def _profession_meta(profession: str) -> dict:
+    """All profession metadata the frontend needs to render: display name,
+    3-letter abbrev for badges, family/color for the audience-grouping
+    visual. Sourced from professions.yaml so adding a new profession only
+    means a yaml entry. Falls back to slug-derived defaults when fields
+    are absent so the frontend never crashes on missing keys.
+    """
+    try:
+        import yaml
+        from paths import CONFIG_DIR
+        cfg = yaml.safe_load((CONFIG_DIR / "professions.yaml").read_text()) or {}
+    except Exception:
+        cfg = {}
+    families = cfg.get("_families") or {}
+    entry = cfg.get(profession) or {}
+    fam_list = entry.get("family") or []
+    primary_family = fam_list[0] if fam_list else None
+    fam_meta = families.get(primary_family) or {}
+    return {
+        "key": profession,
+        "display": entry.get("display") or profession.replace("_", " ").title(),
+        "abbrev": entry.get("abbrev") or profession[:3].upper(),
+        "family": primary_family,
+        "family_color": fam_meta.get("color"),
+        "family_label": fam_meta.get("label"),
+    }
+
+
+def _all_profession_meta() -> list[dict]:
+    """Return metadata for every profession in the yaml (excluding the
+    _families config block). Used by fetch-blob-data to assemble
+    /professions.json with the visual fields the homepage + browse views
+    need."""
+    try:
+        import yaml
+        from paths import CONFIG_DIR
+        cfg = yaml.safe_load((CONFIG_DIR / "professions.yaml").read_text()) or {}
+    except Exception:
+        return []
+    return [_profession_meta(k) for k in cfg.keys() if not k.startswith("_")]
 
 
 def main() -> None:
