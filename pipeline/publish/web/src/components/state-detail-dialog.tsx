@@ -1,6 +1,7 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
+import { ChevronDown, ChevronRight } from "lucide-react";
 import type { DiscoveredField, Row, SectionRef } from "@/lib/types";
 import {
   Sheet,
@@ -143,11 +144,10 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
           )}
         </SheetHeader>
 
-        <div className="px-6 py-4 space-y-6 overflow-y-auto flex-1">
-          <StatuteTextMatches
-            query={searchQuery ?? ""}
-            sectionText={row.section_text_full ?? ""}
-          />
+        <SheetBody
+          searchQuery={searchQuery ?? ""}
+          sectionText={row.section_text_full ?? ""}
+        >
           <Section title="Base licensure">
             <EvidenceRow label="regulatory_model" ev={lic.regulatory_model} sections={sections} />
             <EvidenceRow label="credential_type" ev={lic.credential_type} sections={sections} />
@@ -231,7 +231,7 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
                 ))}
               </Section>
             ))}
-        </div>
+        </SheetBody>
       </SheetContent>
     </Sheet>
     </SearchQueryContext.Provider>
@@ -239,6 +239,53 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
 }
 
 type Evidence = NonNullable<Parameters<typeof EvidenceRow>[0]["ev"]>;
+
+// When the user is searching, the Sheet's primary job becomes "show where
+// the match is." We collapse the existing extracted-fields view behind a
+// disclosure toggle so it doesn't compete with the snippet panel for
+// attention. When not searching, the toggle is hidden and everything
+// renders flat — the original behavior.
+function SheetBody({
+  searchQuery,
+  sectionText,
+  children,
+}: {
+  searchQuery: string;
+  sectionText: string;
+  children: React.ReactNode;
+}) {
+  const searching = searchQuery.trim().length > 0;
+  const [showFields, setShowFields] = useState(false);
+
+  if (!searching) {
+    // Plain view: just the extracted-fields rendering, no snippets or
+    // toggle — identical to the pre-search experience.
+    return (
+      <div className="px-6 py-4 space-y-6 overflow-y-auto flex-1">
+        {children}
+      </div>
+    );
+  }
+
+  return (
+    <div className="px-6 py-4 space-y-4 overflow-y-auto flex-1">
+      <StatuteTextMatches query={searchQuery} sectionText={sectionText} />
+      <button
+        type="button"
+        onClick={() => setShowFields((v) => !v)}
+        className="flex items-center gap-1 text-xs font-mono uppercase tracking-widest text-muted-foreground hover:text-foreground"
+      >
+        {showFields ? (
+          <ChevronDown className="size-3" />
+        ) : (
+          <ChevronRight className="size-3" />
+        )}
+        {showFields ? "hide extracted fields" : "show extracted fields"}
+      </button>
+      {showFields && <div className="space-y-6">{children}</div>}
+    </div>
+  );
+}
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
