@@ -21,7 +21,24 @@ import { findAllSpans } from "@/lib/format";
 import { Input } from "@/components/ui/input";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { Badge } from "@/components/ui/badge";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { Search } from "lucide-react";
+
+// Short-form for an evidence field path. The full dotted path
+// ("licensure.continuing_education.hours_per_period") is too long for
+// list rendering, but the last segment alone loses context. Compromise:
+// drop the leading "licensure." (the most common prefix), keep the rest.
+function shortFieldPath(p: string): string {
+  if (p.startsWith("licensure.")) return p.slice("licensure.".length);
+  if (p.startsWith("profession_specific.")) return p.slice("profession_specific.".length);
+  if (p.startsWith("scope.")) return p.slice("scope.".length);
+  return p;
+}
 
 type LayerKey = "practice" | "umbrella_enumeration" | "umbrella_universal";
 
@@ -148,29 +165,46 @@ export function BrowseClient({
 
       {/* Filter bar */}
       <div className="border-b px-6 py-2.5 flex items-center gap-3 flex-wrap bg-muted/30">
-        <ToggleGroup
-          variant="outline"
-          size="sm"
-          spacing={1}
-        >
-          {(Object.keys(LAYER_LABEL) as LayerKey[]).map((k) => {
+        {(() => {
+          const layersPresent = (Object.keys(LAYER_LABEL) as LayerKey[]).filter(
+            (k) => sections.some((s) => s.scope_layer === k),
+          );
+          // With only one layer there's nothing to filter between — clicking
+          // the chip would just hide everything. Show a quiet text label
+          // instead. Multi-layer states get the real chip filter.
+          if (layersPresent.length <= 1) {
+            const k = layersPresent[0];
+            if (!k) return null;
             const count = sections.filter((s) => s.scope_layer === k).length;
-            if (count === 0) return null;
-            const on = activeLayers.has(k);
             return (
-              <ToggleGroupItem
-                key={k}
-                pressed={on}
-                onPressedChange={() => toggleLayer(k)}
-                className="text-xs gap-1.5 px-2.5"
-              >
+              <span className="text-xs flex items-center gap-1.5 text-muted-foreground">
                 <span className={`w-2 h-2 rounded-full ${LAYER_DOT[k]}`} />
-                {LAYER_LABEL[k]}
-                <span className="font-mono text-muted-foreground">{count}</span>
-              </ToggleGroupItem>
+                {LAYER_LABEL[k]}{" "}
+                <span className="font-mono">{count}</span>
+              </span>
             );
-          })}
-        </ToggleGroup>
+          }
+          return (
+            <ToggleGroup variant="outline" size="sm" spacing={1}>
+              {layersPresent.map((k) => {
+                const count = sections.filter((s) => s.scope_layer === k).length;
+                const on = activeLayers.has(k);
+                return (
+                  <ToggleGroupItem
+                    key={k}
+                    pressed={on}
+                    onPressedChange={() => toggleLayer(k)}
+                    className="text-xs gap-1.5 px-2.5"
+                  >
+                    <span className={`w-2 h-2 rounded-full ${LAYER_DOT[k]}`} />
+                    {LAYER_LABEL[k]}
+                    <span className="font-mono text-muted-foreground">{count}</span>
+                  </ToggleGroupItem>
+                );
+              })}
+            </ToggleGroup>
+          );
+        })()}
         <div className="ml-auto relative">
           <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 size-3.5 text-muted-foreground pointer-events-none" />
           <Input
@@ -217,11 +251,16 @@ export function BrowseClient({
                           <span className="font-mono text-foreground truncate block">
                             {s.citation || s.label || "(no citation)"}
                           </span>
-                          <span className="text-[10px] text-muted-foreground">
-                            {s.text.length.toLocaleString()} chars
-                            {s.evidence.length > 0 &&
-                              ` · ${s.evidence.length} claim${s.evidence.length === 1 ? "" : "s"}`}
-                          </span>
+                          {s.evidence.length > 0 && (
+                            <span
+                              className="text-[10px] text-muted-foreground truncate block"
+                              title={s.evidence.map((e) => e.field_path).join(", ")}
+                            >
+                              {Array.from(
+                                new Set(s.evidence.map((e) => shortFieldPath(e.field_path))),
+                              ).join(", ")}
+                            </span>
+                          )}
                         </button>
                       </li>
                     );
@@ -323,35 +362,51 @@ function SectionDetail({
         </div>
       </header>
 
-      <div className="text-sm leading-relaxed whitespace-pre-wrap">
-        {parts.map((p, i) => {
-          if (p.kind === "text") return <span key={i}>{p.value}</span>;
-          if (p.kind === "search") {
+      <TooltipProvider delay={150}>
+        <div className="text-sm leading-relaxed whitespace-pre-wrap">
+          {parts.map((p, i) => {
+            if (p.kind === "text") return <span key={i}>{p.value}</span>;
+            if (p.kind === "search") {
+              return (
+                <mark key={i} className="bg-yellow-300 rounded-sm">
+                  {p.value}
+                </mark>
+              );
+            }
+            // p.kind === "evidence" — multiple claims may share this span;
+            // tooltip lists each one in a readable layout.
+            const evs = p.evs;
             return (
-              <mark key={i} className="bg-yellow-300 rounded-sm">
-                {p.value}
-              </mark>
+              <Tooltip key={i}>
+                <TooltipTrigger
+                  render={
+                    <mark className="bg-amber-200/60 rounded-sm cursor-help">
+                      {p.value}
+                    </mark>
+                  }
+                />
+                <TooltipContent className="max-w-md text-xs leading-snug">
+                  <div className="space-y-1.5">
+                    {evs.map((e, j) => (
+                      <div key={j}>
+                        <div className="font-mono text-[11px] text-foreground">
+                          {shortFieldPath(e.field_path)}
+                        </div>
+                        <div className="text-muted-foreground">
+                          {formatVal(e.value)}
+                          {e.unverified && (
+                            <span className="ml-1.5 text-amber-700">unverified</span>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </TooltipContent>
+              </Tooltip>
             );
-          }
-          // p.kind === "evidence" — multiple claims may share this span;
-          // tooltip lists every one of them rather than dropping the rest.
-          const evs = p.evs;
-          const title = evs
-            .map((e) =>
-              `${e.field_path}: ${formatVal(e.value)}${e.unverified ? " (unverified)" : ""}`,
-            )
-            .join("\n");
-          return (
-            <mark
-              key={i}
-              className="bg-amber-200/60 rounded-sm cursor-help"
-              title={title}
-            >
-              {p.value}
-            </mark>
-          );
-        })}
-      </div>
+          })}
+        </div>
+      </TooltipProvider>
     </article>
   );
 }
