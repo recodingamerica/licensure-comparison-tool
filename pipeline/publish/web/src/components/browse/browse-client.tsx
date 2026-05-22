@@ -374,30 +374,39 @@ function SectionDetail({
               );
             }
             // p.kind === "evidence" — multiple claims may share this span;
-            // tooltip lists each one in a readable layout.
+            // tooltip lists each one with field, value (the label we gave
+            // it), and the verbatim quoted text.
             const evs = p.evs;
             return (
               <Tooltip key={i}>
                 <TooltipTrigger
                   render={
-                    <mark className="bg-amber-200/60 rounded-sm cursor-help">
+                    <mark className="bg-amber-200/60 rounded-sm">
                       {p.value}
                     </mark>
                   }
                 />
-                <TooltipContent className="max-w-md text-xs leading-snug">
-                  <div className="space-y-1.5">
+                <TooltipContent
+                  className="bg-popover text-popover-foreground border shadow-lg max-w-lg p-3 text-[13px] leading-snug"
+                  side="top"
+                >
+                  <div className="space-y-3">
                     {evs.map((e, j) => (
-                      <div key={j}>
-                        <div className="font-mono text-[11px] text-foreground">
+                      <div key={j} className={j > 0 ? "pt-3 border-t" : ""}>
+                        <div className="font-mono text-[11px] uppercase tracking-wide text-muted-foreground">
                           {shortFieldPath(e.field_path)}
                         </div>
-                        <div className="text-muted-foreground">
+                        <div className="font-semibold mt-0.5">
                           {formatVal(e.value)}
                           {e.unverified && (
-                            <span className="ml-1.5 text-amber-700">unverified</span>
+                            <span className="ml-1.5 font-normal text-amber-700 text-[11px]">unverified</span>
                           )}
                         </div>
+                        {e.quote && (
+                          <div className="italic text-muted-foreground mt-1 text-[12px]">
+                            &ldquo;{e.quote}&rdquo;
+                          </div>
+                        )}
                       </div>
                     ))}
                   </div>
