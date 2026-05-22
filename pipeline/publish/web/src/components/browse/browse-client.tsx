@@ -315,9 +315,9 @@ function SectionDetail({
             <Badge
               variant="outline"
               className="font-mono text-[10px] bg-amber-100/60 text-amber-900 border-amber-300"
-              title="Highlighted in amber below — hover for the field name + extracted value"
+              title="Each claim is an LLM-extracted field whose quote was found in this section. Multiple claims can share the same quote text — hover an amber span to see all of them."
             >
-              {section.evidence.length} extracted claim{section.evidence.length === 1 ? "" : "s"}
+              {section.evidence.length} claim{section.evidence.length === 1 ? "" : "s"} drawn from this section
             </Badge>
           )}
         </div>
@@ -333,12 +333,19 @@ function SectionDetail({
               </mark>
             );
           }
-          // p.kind === "evidence"
+          // p.kind === "evidence" — multiple claims may share this span;
+          // tooltip lists every one of them rather than dropping the rest.
+          const evs = p.evs;
+          const title = evs
+            .map((e) =>
+              `${e.field_path}: ${formatVal(e.value)}${e.unverified ? " (unverified)" : ""}`,
+            )
+            .join("\n");
           return (
             <mark
               key={i}
               className="bg-amber-200/60 rounded-sm cursor-help"
-              title={`${p.ev?.field_path}\nvalue: ${formatVal(p.ev?.value)}${p.ev?.unverified ? "\n(unverified)" : ""}`}
+              title={title}
             >
               {p.value}
             </mark>
@@ -357,25 +364,28 @@ function formatVal(v: unknown): string {
 
 type RenderPart =
   | { kind: "text"; value: string }
-  | { kind: "evidence"; value: string; ev?: BrowseEvidence }
+  | { kind: "evidence"; value: string; evs: BrowseEvidence[] }
   | { kind: "search"; value: string };
 
 // Layered span renderer. Search highlights take priority where they overlap
 // with evidence highlights; non-overlapping ranges render independently.
+// Multiple evidence rows can cover the same characters (different fields
+// drawing from the same quote) — we track ALL of them per char so the
+// tooltip can list every claim, not just the first one to land.
 function renderLayered(
   text: string,
   evidenceSpans: Array<{ start: number; end: number; ev: BrowseEvidence }>,
   searchSpans: Array<[number, number]>,
 ): RenderPart[] {
-  // Build a layered priority array of spans.
-  // Search spans are higher priority — they fully replace evidence in
-  // overlapping regions. Implementation: track per-character class, walk
-  // contiguous ranges of same class into parts.
-  type Char = { ev?: BrowseEvidence; search: boolean };
-  const chars: Char[] = Array.from({ length: text.length }, () => ({ search: false }));
+  type Char = { evs: BrowseEvidence[]; search: boolean };
+  const chars: Char[] = Array.from({ length: text.length }, () => ({
+    evs: [],
+    search: false,
+  }));
   for (const { start, end, ev } of evidenceSpans) {
     for (let i = start; i < end && i < text.length; i++) {
-      if (!chars[i].ev) chars[i].ev = ev;
+      // Dedup: if the same Evidence already lands here, don't add twice.
+      if (!chars[i].evs.includes(ev)) chars[i].evs.push(ev);
     }
   }
   for (const [start, end] of searchSpans) {
@@ -384,31 +394,37 @@ function renderLayered(
     }
   }
 
+  // Build a stable key for an evs[] so we can detect "same set of claims
+  // covering this run" without comparing arrays char-by-char each step.
+  const key = (evs: BrowseEvidence[]): string =>
+    evs.map((e) => e.field_path).sort().join("\x1f");
+
   const parts: RenderPart[] = [];
   let i = 0;
   while (i < text.length) {
     const c = chars[i];
     const kind: "text" | "evidence" | "search" = c.search
       ? "search"
-      : c.ev
+      : c.evs.length > 0
         ? "evidence"
         : "text";
+    const startKey = kind === "evidence" ? key(c.evs) : "";
     let j = i + 1;
     while (j < text.length) {
       const c2 = chars[j];
-      const k2 = c2.search ? "search" : c2.ev ? "evidence" : "text";
+      const k2 = c2.search ? "search" : c2.evs.length > 0 ? "evidence" : "text";
       if (k2 !== kind) break;
-      // Same kind — must also be the same ev pointer for evidence to stay
-      // grouped (different field paths get separate <mark> tags so the
-      // hover tooltip is correct).
-      if (kind === "evidence" && c2.ev !== c.ev) break;
+      // Same kind — for evidence, require the same set of claims so a
+      // boundary where one Evidence ends but another keeps going produces
+      // separate <mark> spans (different tooltip content).
+      if (kind === "evidence" && key(c2.evs) !== startKey) break;
       j++;
     }
     parts.push({
       kind,
       value: text.slice(i, j),
-      ...(kind === "evidence" ? { ev: c.ev } : {}),
-    });
+      ...(kind === "evidence" ? { evs: c.evs.slice() } : {}),
+    } as RenderPart);
     i = j;
   }
   return parts;
