@@ -15,16 +15,9 @@ import type {
   StateBrowseSection,
   StateBrowseGroup,
 } from "@/lib/state-browse-types";
-import { findAllSpans } from "@/lib/format";
 import { Input } from "@/components/ui/input";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { Badge } from "@/components/ui/badge";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import { Search } from "lucide-react";
 import {
   TreeNodeView,
@@ -35,12 +28,7 @@ import {
   type TreeNode,
 } from "./tree-node";
 import { professionStyle, useProfessionMeta } from "@/lib/profession-colors";
-import {
-  renderLayered,
-  flattenEvidenceSpans,
-  shortFieldPath,
-  formatEvidenceValue,
-} from "@/lib/render-layered";
+import { SectionDetail } from "./section-detail";
 
 const AUDIENCE_LABEL: Record<StateBrowseGroup["kind"], string> = {
   universal: "Applies to everyone",
@@ -353,7 +341,7 @@ export function StateBrowseClient({ payload }: { payload: StateBrowsePayload }) 
         <Separator className="w-1 bg-border hover:bg-foreground/20 transition-colors" />
         <Panel defaultSize="65%" minSize="45%" className="overflow-y-auto">
           {selected ? (
-            <SectionDetail section={selected} searchQuery={query} />
+            <StateSectionDetail section={selected} searchQuery={query} />
           ) : (
             <p className="p-8 text-sm text-muted-foreground italic">
               Select a section from the tree.
@@ -370,44 +358,20 @@ export function StateBrowseClient({ payload }: { payload: StateBrowsePayload }) 
 // when we wire selection-by-key.
 void sectionKey;
 
-function SectionDetail({
+function StateSectionDetail({
   section,
   searchQuery,
 }: {
   section: StateBrowseSection;
   searchQuery: string;
 }) {
-  const evidenceSpans = useMemo(
-    () => flattenEvidenceSpans(section.evidence),
-    [section.evidence],
-  );
-  const searchHits = useMemo(
-    () => findAllSpans(searchQuery, section.text),
-    [searchQuery, section.text],
-  );
-  const parts = useMemo(
-    () => renderLayered(section.text, evidenceSpans, searchHits),
-    [section.text, evidenceSpans, searchHits],
-  );
-
-  const audienceKind: StateBrowseGroup["kind"] = section.audience;
-
+  const audienceKind = section.audience;
   return (
-    <article className="px-8 py-6 max-w-4xl mx-auto">
-      <header className="mb-4">
-        <h2 className="text-lg font-medium flex items-baseline gap-3 flex-wrap">
-          <span className="font-mono">{section.citation}</span>
-          <a
-            href={section.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-xs font-mono text-muted-foreground hover:text-foreground underline"
-          >
-            Justia ↗
-          </a>
-        </h2>
-        <p className="text-xs text-muted-foreground mt-0.5">{section.label}</p>
-        <div className="flex items-center gap-2 mt-2 flex-wrap">
+    <SectionDetail
+      section={section}
+      searchQuery={searchQuery}
+      badges={
+        <>
           <Badge variant="outline" className="font-mono text-[10px] gap-1.5">
             <span className={`w-1.5 h-1.5 rounded-full ${AUDIENCE_DOT[audienceKind]}`} />
             {AUDIENCE_LABEL[audienceKind]}
@@ -431,68 +395,9 @@ function SectionDetail({
               {section.evidence.length} claim{section.evidence.length === 1 ? "" : "s"} drawn from this section
             </Badge>
           )}
-        </div>
-      </header>
-
-      <TooltipProvider delay={150}>
-        <div className="text-sm leading-relaxed whitespace-pre-wrap">
-          {parts.map((p, i) => {
-            if (p.kind === "text") return <span key={i}>{p.value}</span>;
-            if (p.kind === "search") {
-              return (
-                <mark key={i} className="bg-yellow-300 rounded-sm">
-                  {p.value}
-                </mark>
-              );
-            }
-            const evs = p.evs;
-            return (
-              <Tooltip key={i}>
-                <TooltipTrigger
-                  render={
-                    <mark className="bg-amber-200/60 rounded-sm">
-                      {p.value}
-                    </mark>
-                  }
-                />
-                <TooltipContent
-                  className="bg-popover text-popover-foreground border shadow-lg max-w-lg p-3 text-[13px] leading-snug"
-                  side="top"
-                >
-                  <div className="space-y-3">
-                    {evs.map((e, j) => (
-                      <div key={j} className={j > 0 ? "pt-3 border-t" : ""}>
-                        <div className="flex items-baseline justify-between gap-2">
-                          <div className="font-mono text-[11px] uppercase tracking-wide text-muted-foreground">
-                            {shortFieldPath(e.field_path)}
-                          </div>
-                          {e.profession && (
-                            <div className="font-mono text-[10px] text-muted-foreground">
-                              {e.profession.replace(/_/g, " ")}
-                            </div>
-                          )}
-                        </div>
-                        <div className="font-semibold mt-0.5">
-                          {formatEvidenceValue(e.value)}
-                          {e.unverified && (
-                            <span className="ml-1.5 font-normal text-amber-700 text-[11px]">unverified</span>
-                          )}
-                        </div>
-                        {e.quote && (
-                          <div className="italic text-muted-foreground mt-1 text-[12px]">
-                            &ldquo;{e.quote}&rdquo;
-                          </div>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                </TooltipContent>
-              </Tooltip>
-            );
-          })}
-        </div>
-      </TooltipProvider>
-    </article>
+        </>
+      }
+    />
   );
 }
 

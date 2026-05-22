@@ -14,16 +14,9 @@ import Link from "next/link";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { Group, Panel, Separator } from "react-resizable-panels";
 import type { BrowseSection } from "@/lib/types";
-import { findAllSpans } from "@/lib/format";
 import { Input } from "@/components/ui/input";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { Badge } from "@/components/ui/badge";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import { Search } from "lucide-react";
 import {
   TreeNodeView,
@@ -33,12 +26,7 @@ import {
   type TreeNode,
 } from "./tree-node";
 import { useProfessionMeta } from "@/lib/profession-colors";
-import {
-  renderLayered,
-  flattenEvidenceSpans,
-  shortFieldPath,
-  formatEvidenceValue,
-} from "@/lib/render-layered";
+import { SectionDetail } from "./section-detail";
 
 type LayerKey = "practice" | "umbrella_enumeration" | "umbrella_universal";
 
@@ -294,7 +282,7 @@ export function BrowseClient({
         <Separator className="w-1 bg-border hover:bg-foreground/20 transition-colors" />
         <Panel defaultSize="65%" minSize="45%" className="overflow-y-auto">
           {selected ? (
-            <SectionDetail section={selected} searchQuery={query} />
+            <ProfSectionDetail section={selected} searchQuery={query} />
           ) : (
             <p className="p-8 text-sm text-muted-foreground italic">
               Select a section from the tree.
@@ -306,45 +294,23 @@ export function BrowseClient({
   );
 }
 
-function SectionDetail({
+function ProfSectionDetail({
   section,
   searchQuery,
 }: {
   section: BrowseSection;
   searchQuery: string;
 }) {
-  const evidenceSpans = useMemo(
-    () => flattenEvidenceSpans(section.evidence),
-    [section.evidence],
-  );
-  const searchHits = useMemo(
-    () => findAllSpans(searchQuery, section.text),
-    [searchQuery, section.text],
-  );
-  const parts = useMemo(
-    () => renderLayered(section.text, evidenceSpans, searchHits),
-    [section.text, evidenceSpans, searchHits],
-  );
-
+  const layer = section.scope_layer as LayerKey;
   return (
-    <article className="px-8 py-6 max-w-4xl mx-auto">
-      <header className="mb-4">
-        <h2 className="text-lg font-medium flex items-baseline gap-3 flex-wrap">
-          <span className="font-mono">{section.citation}</span>
-          <a
-            href={section.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-xs font-mono text-muted-foreground hover:text-foreground underline"
-          >
-            Justia ↗
-          </a>
-        </h2>
-        <p className="text-xs text-muted-foreground mt-0.5">{section.label}</p>
-        <div className="flex items-center gap-2 mt-2 flex-wrap">
+    <SectionDetail
+      section={section}
+      searchQuery={searchQuery}
+      badges={
+        <>
           <Badge variant="outline" className="font-mono text-[10px] gap-1.5">
-            <span className={`w-1.5 h-1.5 rounded-full ${LAYER_DOT[section.scope_layer as LayerKey]}`} />
-            {LAYER_LABEL[section.scope_layer as LayerKey]}
+            <span className={`w-1.5 h-1.5 rounded-full ${LAYER_DOT[layer]}`} />
+            {LAYER_LABEL[layer]}
           </Badge>
           {section.applies_to && section.applies_to.length > 0 && (
             <Badge variant="secondary" className="font-mono text-[10px]">
@@ -360,61 +326,9 @@ function SectionDetail({
               {section.evidence.length} claim{section.evidence.length === 1 ? "" : "s"} drawn from this section
             </Badge>
           )}
-        </div>
-      </header>
-
-      <TooltipProvider delay={150}>
-        <div className="text-sm leading-relaxed whitespace-pre-wrap">
-          {parts.map((p, i) => {
-            if (p.kind === "text") return <span key={i}>{p.value}</span>;
-            if (p.kind === "search") {
-              return (
-                <mark key={i} className="bg-yellow-300 rounded-sm">
-                  {p.value}
-                </mark>
-              );
-            }
-            const evs = p.evs;
-            return (
-              <Tooltip key={i}>
-                <TooltipTrigger
-                  render={
-                    <mark className="bg-amber-200/60 rounded-sm">
-                      {p.value}
-                    </mark>
-                  }
-                />
-                <TooltipContent
-                  className="bg-popover text-popover-foreground border shadow-lg max-w-lg p-3 text-[13px] leading-snug"
-                  side="top"
-                >
-                  <div className="space-y-3">
-                    {evs.map((e, j) => (
-                      <div key={j} className={j > 0 ? "pt-3 border-t" : ""}>
-                        <div className="font-mono text-[11px] uppercase tracking-wide text-muted-foreground">
-                          {shortFieldPath(e.field_path)}
-                        </div>
-                        <div className="font-semibold mt-0.5">
-                          {formatEvidenceValue(e.value)}
-                          {e.unverified && (
-                            <span className="ml-1.5 font-normal text-amber-700 text-[11px]">unverified</span>
-                          )}
-                        </div>
-                        {e.quote && (
-                          <div className="italic text-muted-foreground mt-1 text-[12px]">
-                            &ldquo;{e.quote}&rdquo;
-                          </div>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                </TooltipContent>
-              </Tooltip>
-            );
-          })}
-        </div>
-      </TooltipProvider>
-    </article>
+        </>
+      }
+    />
   );
 }
 
