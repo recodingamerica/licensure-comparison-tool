@@ -159,6 +159,11 @@ export type BrowseEvidence = {
   quote: string;
   spans: Array<[number, number]>;
   unverified: boolean;
+  // Only present on state-level browse data — identifies which profession's
+  // extraction produced this evidence (so the UI can show "nursing drew X
+  // from this universal section"). Absent on per-profession browse data
+  // because the whole blob is already scoped to one profession.
+  profession?: string;
 };
 
 export type DiscoveredField = {

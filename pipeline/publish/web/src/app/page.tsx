@@ -5,16 +5,32 @@ import { useEffect, useState } from "react";
 import type { ProfessionsListEntry } from "@/lib/types";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 
+type StatesListEntry = {
+  state: string;
+  sections: number;
+  professions: string[];
+};
+
 export default function HomePage() {
-  const [items, setItems] = useState<ProfessionsListEntry[] | null>(null);
+  const [mode, setMode] = useState<"profession" | "state">("profession");
+  const [professions, setProfessions] = useState<ProfessionsListEntry[] | null>(null);
+  const [states, setStates] = useState<StatesListEntry[] | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch("/professions.json")
-      .then((r) => r.json())
-      .then((d: ProfessionsListEntry[]) => {
-        d.sort((a, b) => (b.covered || 0) - (a.covered || 0));
-        setItems(d);
+    Promise.all([
+      fetch("/professions.json").then((r) => (r.ok ? r.json() : [])),
+      fetch("/states.json").then((r) => (r.ok ? r.json() : [])),
+    ])
+      .then(([p, s]) => {
+        const pp = (p as ProfessionsListEntry[]).sort(
+          (a, b) => (b.covered || 0) - (a.covered || 0),
+        );
+        const ss = (s as StatesListEntry[]).sort((a, b) =>
+          a.state.localeCompare(b.state),
+        );
+        setProfessions(pp);
+        setStates(ss);
       })
       .catch((e) => setError(String(e)));
   }, []);
@@ -25,46 +41,113 @@ export default function HomePage() {
         State licensing data
       </p>
       <h1 className="text-3xl font-semibold tracking-tight mb-2">
-        Pick a profession
+        {mode === "profession" ? "Pick a profession" : "Pick a state"}
       </h1>
-      <p className="text-muted-foreground mb-8 max-w-2xl">
+      <p className="text-muted-foreground mb-6 max-w-2xl">
         Side-by-side licensure and scope of practice across U.S. states,
         auto-extracted from state statutes. Every claim is backed by a
         verbatim quote regex-validated against the source.
       </p>
 
+      {/* Mode toggle — same visual pattern as the profile-view's table/map */}
+      <div className="mb-6 inline-flex rounded-md border bg-muted/30 p-1 text-xs font-mono">
+        <button
+          onClick={() => setMode("profession")}
+          className={
+            "px-3 py-1 rounded " +
+            (mode === "profession"
+              ? "bg-background shadow-sm text-foreground"
+              : "text-muted-foreground hover:text-foreground")
+          }
+        >
+          by profession
+        </button>
+        <button
+          onClick={() => setMode("state")}
+          className={
+            "px-3 py-1 rounded " +
+            (mode === "state"
+              ? "bg-background shadow-sm text-foreground"
+              : "text-muted-foreground hover:text-foreground")
+          }
+        >
+          by state
+        </button>
+      </div>
+
       {error && (
         <div className="rounded border border-destructive bg-destructive/5 px-4 py-3 text-sm text-destructive">
-          Failed to load professions.json: {error}
+          Failed to load list data: {error}
         </div>
       )}
 
-      {!items && !error && (
-        <p className="text-sm text-muted-foreground">Loading…</p>
+      {mode === "profession" && (
+        <>
+          {!professions && !error && (
+            <p className="text-sm text-muted-foreground">Loading…</p>
+          )}
+          {professions && (
+            <div className="grid gap-3">
+              {professions.map((p) => (
+                <Link
+                  key={p.profession}
+                  href={`/profile?p=${encodeURIComponent(p.profession)}`}
+                  className="block group"
+                >
+                  <Card className="py-3 transition-colors hover:border-foreground/30">
+                    <CardHeader className="flex flex-row items-baseline justify-between gap-4 space-y-0">
+                      <CardTitle className="text-base font-medium group-hover:underline">
+                        {p.display}
+                      </CardTitle>
+                      <span className="text-xs font-mono text-muted-foreground whitespace-nowrap">
+                        {p.covered}/{(p.covered || 0) + (p.gaps || 0)} states ·{" "}
+                        {p.fields} fields · {p.verified_pct ?? "—"}% verified
+                      </span>
+                    </CardHeader>
+                  </Card>
+                </Link>
+              ))}
+            </div>
+          )}
+        </>
       )}
 
-      {items && (
-        <div className="grid gap-3">
-          {items.map((p) => (
-            <Link
-              key={p.profession}
-              href={`/profile?p=${encodeURIComponent(p.profession)}`}
-              className="block group"
-            >
-              <Card className="py-3 transition-colors hover:border-foreground/30">
-                <CardHeader className="flex flex-row items-baseline justify-between gap-4 space-y-0">
-                  <CardTitle className="text-base font-medium group-hover:underline">
-                    {p.display}
-                  </CardTitle>
-                  <span className="text-xs font-mono text-muted-foreground whitespace-nowrap">
-                    {p.covered}/{(p.covered || 0) + (p.gaps || 0)} states ·{" "}
-                    {p.fields} fields · {p.verified_pct ?? "—"}% verified
-                  </span>
-                </CardHeader>
-              </Card>
-            </Link>
-          ))}
-        </div>
+      {mode === "state" && (
+        <>
+          {!states && !error && (
+            <p className="text-sm text-muted-foreground">Loading…</p>
+          )}
+          {states && states.length === 0 && (
+            <p className="text-sm text-muted-foreground italic">
+              No state-level data published yet — run pipeline.publish.
+              build_state_browse to generate it.
+            </p>
+          )}
+          {states && states.length > 0 && (
+            <div className="grid gap-3">
+              {states.map((s) => (
+                <Link
+                  key={s.state}
+                  href={`/browse/${s.state}`}
+                  className="block group"
+                >
+                  <Card className="py-3 transition-colors hover:border-foreground/30">
+                    <CardHeader className="flex flex-row items-baseline justify-between gap-4 space-y-0">
+                      <CardTitle className="text-base font-mono font-medium group-hover:underline">
+                        {s.state}
+                      </CardTitle>
+                      <span className="text-xs font-mono text-muted-foreground whitespace-nowrap">
+                        {s.sections.toLocaleString()} sections ·{" "}
+                        {s.professions.length} profession
+                        {s.professions.length === 1 ? "" : "s"}
+                      </span>
+                    </CardHeader>
+                  </Card>
+                </Link>
+              ))}
+            </div>
+          )}
+        </>
       )}
 
       <section className="mt-10">
