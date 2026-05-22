@@ -29,12 +29,7 @@ export type TreeNode = {
   children: TreeNode[];
 };
 
-function shortFieldPath(p: string): string {
-  if (p.startsWith("licensure.")) return p.slice("licensure.".length);
-  if (p.startsWith("profession_specific.")) return p.slice("profession_specific.".length);
-  if (p.startsWith("scope.")) return p.slice("scope.".length);
-  return p;
-}
+import { shortFieldPath } from "@/lib/render-layered";
 
 type LeafPayload = {
   text?: string;
@@ -173,13 +168,6 @@ export function sectionKey(node: TreeNode): string {
   return `${node.slug}|${node.url || ""}`;
 }
 
-function countLeaves(node: TreeNode): number {
-  if (node.level === "section") return 1;
-  let n = 0;
-  for (const c of node.children) n += countLeaves(c);
-  return n;
-}
-
 // Recursive: returns all branch slugs in the forest, so callers can
 // default-expand or default-collapse them.
 export function allBranchSlugs(forest: TreeNode[]): string[] {
@@ -191,4 +179,31 @@ export function allBranchSlugs(forest: TreeNode[]): string[] {
   };
   for (const top of forest) visit(top);
   return out;
+}
+
+/** First leaf section in document order — used to default-select a
+ *  section when the URL doesn't carry one. Parameterized over the
+ *  section type because the two browse views ship slightly different
+ *  shapes. */
+export function firstLeafSection<T>(forest: TreeNode[]): T | null {
+  for (const n of forest) {
+    if (n.level === "section" && n.section) return n.section as T;
+    const inner = firstLeafSection<T>(n.children);
+    if (inner) return inner;
+  }
+  return null;
+}
+
+/** Total number of section leaves under a node OR a forest. Used for
+ *  "showing X of Y" headers and per-branch leaf counts in the tree. */
+export function countLeaves(arg: TreeNode | TreeNode[]): number {
+  if (Array.isArray(arg)) {
+    let n = 0;
+    for (const node of arg) n += countLeaves(node);
+    return n;
+  }
+  if (arg.level === "section") return 1;
+  let n = 0;
+  for (const c of arg.children) n += countLeaves(c);
+  return n;
 }

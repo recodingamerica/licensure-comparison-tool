@@ -15,7 +15,6 @@ import type {
   StateBrowseSection,
   StateBrowseGroup,
 } from "@/lib/state-browse-types";
-import type { BrowseEvidence } from "@/lib/types";
 import { findAllSpans } from "@/lib/format";
 import { Input } from "@/components/ui/input";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
@@ -31,16 +30,17 @@ import {
   TreeNodeView,
   sectionKey,
   allBranchSlugs,
+  firstLeafSection,
+  countLeaves,
   type TreeNode,
 } from "./tree-node";
 import { professionStyle, useProfessionMeta } from "@/lib/profession-colors";
-
-function shortFieldPath(p: string): string {
-  if (p.startsWith("licensure.")) return p.slice("licensure.".length);
-  if (p.startsWith("profession_specific.")) return p.slice("profession_specific.".length);
-  if (p.startsWith("scope.")) return p.slice("scope.".length);
-  return p;
-}
+import {
+  renderLayered,
+  flattenEvidenceSpans,
+  shortFieldPath,
+  formatEvidenceValue,
+} from "@/lib/render-layered";
 
 const AUDIENCE_LABEL: Record<StateBrowseGroup["kind"], string> = {
   universal: "Applies to everyone",
@@ -223,7 +223,7 @@ export function StateBrowseClient({ payload }: { payload: StateBrowsePayload }) 
     }
     // Default: first leaf in the first visible group.
     for (const g of filteredGroups) {
-      const first = firstLeaf(g.tree);
+      const first = firstLeafSection<StateBrowseSection>(g.tree);
       if (first) return first;
     }
     return null;
@@ -365,25 +365,6 @@ export function StateBrowseClient({ payload }: { payload: StateBrowsePayload }) 
   );
 }
 
-// Helpers — tree walks
-function firstLeaf(forest: TreeNode[]): StateBrowseSection | null {
-  for (const n of forest) {
-    if (n.level === "section" && n.section) return n.section as StateBrowseSection;
-    const inner = firstLeaf(n.children);
-    if (inner) return inner;
-  }
-  return null;
-}
-
-function countLeaves(forest: TreeNode[]): number {
-  let n = 0;
-  for (const node of forest) {
-    if (node.level === "section") n++;
-    else n += countLeaves(node.children);
-  }
-  return n;
-}
-
 // Suppress unused-import warning — sectionKey is exported by tree-node
 // and used in the per-prof browse client too; keep the import here for
 // when we wire selection-by-key.
@@ -396,23 +377,17 @@ function SectionDetail({
   section: StateBrowseSection;
   searchQuery: string;
 }) {
-  const evidenceSpans: Array<{ start: number; end: number; ev: BrowseEvidence }> = [];
-  for (const ev of section.evidence) {
-    for (const [s, e] of ev.spans) {
-      evidenceSpans.push({ start: s, end: e, ev });
-    }
-  }
-  evidenceSpans.sort((a, b) => a.start - b.start || a.end - b.end);
-
+  const evidenceSpans = useMemo(
+    () => flattenEvidenceSpans(section.evidence),
+    [section.evidence],
+  );
   const searchHits = useMemo(
     () => findAllSpans(searchQuery, section.text),
     [searchQuery, section.text],
   );
-
   const parts = useMemo(
     () => renderLayered(section.text, evidenceSpans, searchHits),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [section.text, searchQuery],
+    [section.text, evidenceSpans, searchHits],
   );
 
   const audienceKind: StateBrowseGroup["kind"] = section.audience;
@@ -498,7 +473,7 @@ function SectionDetail({
                           )}
                         </div>
                         <div className="font-semibold mt-0.5">
-                          {formatVal(e.value)}
+                          {formatEvidenceValue(e.value)}
                           {e.unverified && (
                             <span className="ml-1.5 font-normal text-amber-700 text-[11px]">unverified</span>
                           )}
@@ -521,63 +496,3 @@ function SectionDetail({
   );
 }
 
-function formatVal(v: unknown): string {
-  if (v === null || v === undefined) return "—";
-  if (Array.isArray(v)) return v.map(String).join(", ");
-  return String(v);
-}
-
-type RenderPart =
-  | { kind: "text"; value: string }
-  | { kind: "evidence"; value: string; evs: BrowseEvidence[] }
-  | { kind: "search"; value: string };
-
-function renderLayered(
-  text: string,
-  evidenceSpans: Array<{ start: number; end: number; ev: BrowseEvidence }>,
-  searchSpans: Array<[number, number]>,
-): RenderPart[] {
-  type Char = { evs: BrowseEvidence[]; search: boolean };
-  const chars: Char[] = Array.from({ length: text.length }, () => ({
-    evs: [],
-    search: false,
-  }));
-  for (const { start, end, ev } of evidenceSpans) {
-    for (let i = start; i < end && i < text.length; i++) {
-      if (!chars[i].evs.includes(ev)) chars[i].evs.push(ev);
-    }
-  }
-  for (const [start, end] of searchSpans) {
-    for (let i = start; i < end && i < text.length; i++) {
-      chars[i].search = true;
-    }
-  }
-  const key = (evs: BrowseEvidence[]): string =>
-    evs.map((e) => e.field_path + "@" + (e.profession ?? "")).sort().join("\x1f");
-  const parts: RenderPart[] = [];
-  let i = 0;
-  while (i < text.length) {
-    const c = chars[i];
-    const kind: "text" | "evidence" | "search" = c.search
-      ? "search"
-      : c.evs.length > 0
-        ? "evidence"
-        : "text";
-    const startKey = kind === "evidence" ? key(c.evs) : "";
-    let j = i + 1;
-    while (j < text.length) {
-      const c2 = chars[j];
-      const k2 = c2.search ? "search" : c2.evs.length > 0 ? "evidence" : "text";
-      if (k2 !== kind) break;
-      if (kind === "evidence" && key(c2.evs) !== startKey) break;
-      j++;
-    }
-    parts.push({
-      kind,
-      value: text.slice(i, j),
-      ...(kind === "evidence" ? { evs: c.evs.slice() } : {}),
-    } as RenderPart);
-    i = j;
-  }
-  return parts;
-}
