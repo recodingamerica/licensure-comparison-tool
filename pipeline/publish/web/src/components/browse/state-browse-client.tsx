@@ -25,7 +25,7 @@ import {
   allBranchSlugs,
   firstLeafSection,
   countLeaves,
-  type TreeNode,
+  pruneTree,
 } from "./tree-node";
 import { professionStyle, useProfessionMeta } from "@/lib/profession-colors";
 import { SectionDetail } from "./section-detail";
@@ -157,19 +157,9 @@ export function StateBrowseClient({ payload }: { payload: StateBrowsePayload }) 
       } else if (g.kind === "single") {
         if (activeProfs.has(g.profession)) out.push(g);
       } else if (g.kind === "multi") {
-        const prune = (node: TreeNode): TreeNode | null => {
-          if (node.level === "section") {
-            const sec = node.section as StateBrowseSection | undefined;
-            const at = sec?.applies_to ?? [];
-            return at.some((p) => activeProfs.has(p)) ? node : null;
-          }
-          const children = node.children
-            .map(prune)
-            .filter((c): c is TreeNode => c !== null);
-          if (children.length === 0) return null;
-          return { ...node, children };
-        };
-        const tree = g.tree.map(prune).filter((n): n is TreeNode => n !== null);
+        const tree = pruneTree<StateBrowseSection>(g.tree, (sec) =>
+          (sec.applies_to ?? []).some((p) => activeProfs.has(p)),
+        );
         if (tree.length > 0) out.push({ ...g, tree });
       }
     }
@@ -181,23 +171,12 @@ export function StateBrowseClient({ payload }: { payload: StateBrowsePayload }) 
   const filteredGroups = useMemo<StateBrowseGroup[]>(() => {
     const q = query.trim().toLowerCase();
     if (!q) return visibleGroups;
-    const matchSection = (s: StateBrowseSection): boolean =>
+    const matches = (s: StateBrowseSection) =>
       (s.text || "").toLowerCase().includes(q) ||
       (s.citation || "").toLowerCase().includes(q) ||
       (s.label || "").toLowerCase().includes(q);
-    const prune = (node: TreeNode): TreeNode | null => {
-      if (node.level === "section") {
-        const sec = node.section as StateBrowseSection | undefined;
-        return sec && matchSection(sec) ? node : null;
-      }
-      const children = node.children
-        .map(prune)
-        .filter((c): c is TreeNode => c !== null);
-      if (children.length === 0) return null;
-      return { ...node, children };
-    };
     return visibleGroups
-      .map((g) => ({ ...g, tree: g.tree.map(prune).filter((n): n is TreeNode => n !== null) }))
+      .map((g) => ({ ...g, tree: pruneTree<StateBrowseSection>(g.tree, matches) }))
       .filter((g) => g.tree.length > 0);
   }, [visibleGroups, query]);
 

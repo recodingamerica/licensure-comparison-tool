@@ -207,3 +207,25 @@ export function countLeaves(arg: TreeNode | TreeNode[]): number {
   for (const c of arg.children) n += countLeaves(c);
   return n;
 }
+
+/** Recursively prune a forest, keeping only leaves whose `section`
+ *  payload passes the predicate. Branches with no surviving descendants
+ *  drop out. Used by the browse clients to filter the tree by search
+ *  query or profession set without mutating the source data. */
+export function pruneTree<T>(
+  forest: TreeNode[],
+  keepLeaf: (section: T) => boolean,
+): TreeNode[] {
+  const visit = (node: TreeNode): TreeNode | null => {
+    if (node.level === "section") {
+      const sec = node.section as T | undefined;
+      return sec && keepLeaf(sec) ? node : null;
+    }
+    const children = node.children
+      .map(visit)
+      .filter((c): c is TreeNode => c !== null);
+    if (children.length === 0) return null;
+    return { ...node, children };
+  };
+  return forest.map(visit).filter((n): n is TreeNode => n !== null);
+}

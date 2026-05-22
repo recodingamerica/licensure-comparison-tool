@@ -23,6 +23,7 @@ import {
   allBranchSlugs,
   firstLeafSection,
   countLeaves,
+  pruneTree,
   type TreeNode,
 } from "./tree-node";
 import { useProfessionMeta } from "@/lib/profession-colors";
@@ -140,23 +141,12 @@ export function BrowseClient({
   const filteredGroups = useMemo<BrowseGroup[]>(() => {
     const q = query.trim().toLowerCase();
     if (!q) return visibleGroups;
-    const matchSection = (s: BrowseSection): boolean =>
+    const matches = (s: BrowseSection) =>
       (s.text || "").toLowerCase().includes(q) ||
       (s.citation || "").toLowerCase().includes(q) ||
       (s.label || "").toLowerCase().includes(q);
-    const prune = (node: TreeNode): TreeNode | null => {
-      if (node.level === "section") {
-        const sec = node.section as BrowseSection | undefined;
-        return sec && matchSection(sec) ? node : null;
-      }
-      const children = node.children
-        .map(prune)
-        .filter((c): c is TreeNode => c !== null);
-      if (children.length === 0) return null;
-      return { ...node, children };
-    };
     return visibleGroups
-      .map((g) => ({ ...g, tree: g.tree.map(prune).filter((n): n is TreeNode => n !== null) }))
+      .map((g) => ({ ...g, tree: pruneTree<BrowseSection>(g.tree, matches) }))
       .filter((g) => g.tree.length > 0);
   }, [visibleGroups, query]);
 
