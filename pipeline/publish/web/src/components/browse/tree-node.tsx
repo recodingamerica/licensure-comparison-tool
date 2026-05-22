@@ -40,6 +40,11 @@ type LeafPayload = {
   evidence?: BrowseEvidence[];
   citation?: string;
   label?: string;
+  // Only present on state-browse leaves — surfaces as a small chip on
+  // multi-profession sections so users see WHICH professions a shared
+  // statute applies to without having to open the detail pane.
+  applies_to?: string[] | null;
+  audience?: "universal" | "multi" | "single";
 };
 
 export function TreeNodeView({
@@ -64,22 +69,43 @@ export function TreeNodeView({
     const fieldNames = Array.from(
       new Set((leaf.evidence ?? []).map((e) => shortFieldPath(e.field_path))),
     );
+    // Show an "applies to: X, Y" chip when the leaf is shared between
+    // multiple professions — either because the state-browse aggregator
+    // tagged it as "multi" audience, or because the per-prof aggregator
+    // tagged it as umbrella_enumeration with multiple applies_to. The
+    // chip tells the reader "this rule isn't exclusive to the profession
+    // you came in by" without making them open the detail pane.
+    const showApplies =
+      !!leaf.applies_to &&
+      leaf.applies_to.length > 1 &&
+      leaf.audience !== "single";
     return (
       <button
         type="button"
         onClick={() => node.section && onSelect(node.section)}
         style={{ paddingLeft: 12 + depth * 12 }}
         className={
-          "w-full text-left py-1 text-xs hover:bg-muted/50 border-l-2 pr-3 " +
-          (active ? "bg-muted/70 border-foreground" : "border-transparent")
+          "w-full text-left py-1.5 pr-3 text-xs border-l-2 transition-colors " +
+          (active
+            ? "bg-muted/80 border-foreground"
+            : "border-transparent hover:border-foreground/20 hover:bg-muted/40")
         }
       >
         <span className="font-mono text-foreground truncate block">
           {node.label}
         </span>
+        {showApplies && (
+          <span
+            className="inline-flex items-center gap-1 mt-0.5 px-1.5 py-0.5 rounded text-[9px] font-mono uppercase tracking-wide bg-emerald-50 text-emerald-800 border border-emerald-200"
+            title={`Applies to: ${leaf.applies_to!.join(", ")}`}
+          >
+            <span className="w-1 h-1 rounded-full bg-emerald-500" />
+            {leaf.applies_to!.map((p) => p.replace(/_/g, " ")).join(", ")}
+          </span>
+        )}
         {fieldNames.length > 0 && (
           <span
-            className="text-[10px] text-muted-foreground truncate block"
+            className="text-[10px] text-muted-foreground truncate block mt-0.5"
             title={(leaf.evidence ?? []).map((e) => e.field_path).join(", ")}
           >
             {fieldNames.join(", ")}
@@ -89,7 +115,8 @@ export function TreeNodeView({
     );
   }
 
-  // Branch: collapsible header.
+  // Branch: collapsible header. Slightly heavier visual treatment than
+  // before — bold weight, subtle bottom border so the hierarchy reads.
   const isOpen = expanded.has(node.slug);
   return (
     <div>
@@ -97,15 +124,18 @@ export function TreeNodeView({
         type="button"
         onClick={() => onToggle(node.slug)}
         style={{ paddingLeft: 4 + depth * 12 }}
-        className="w-full text-left py-1 text-[11px] font-mono uppercase tracking-wide text-muted-foreground hover:text-foreground flex items-center gap-1"
+        className={
+          "w-full text-left py-1.5 text-[11px] font-mono font-semibold uppercase tracking-wide text-foreground/70 hover:text-foreground flex items-center gap-1 pr-3 " +
+          (depth === 0 ? "border-b border-border/40" : "")
+        }
       >
         {isOpen ? (
-          <ChevronDown className="size-3 shrink-0" />
+          <ChevronDown className="size-3 shrink-0 text-muted-foreground" />
         ) : (
-          <ChevronRight className="size-3 shrink-0" />
+          <ChevronRight className="size-3 shrink-0 text-muted-foreground" />
         )}
         <span className="truncate">{node.label}</span>
-        <span className="ml-auto font-mono text-muted-foreground/60 pr-3">
+        <span className="ml-auto font-mono text-muted-foreground/70 font-normal text-[10px]">
           {countLeaves(node)}
         </span>
       </button>

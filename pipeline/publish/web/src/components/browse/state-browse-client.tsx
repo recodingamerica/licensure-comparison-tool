@@ -133,6 +133,15 @@ export function StateBrowseClient({ payload }: { payload: StateBrowsePayload }) 
     const arr = Array.from(nextCollapsed).sort();
     setUrl({ closed: arr.length === 0 ? null : arr.join(",") });
   };
+  const expandAll = () => {
+    setCollapsed(new Set());
+    setUrl({ closed: null });
+  };
+  const collapseAll = () => {
+    const next = new Set(allSlugs);
+    setCollapsed(next);
+    setUrl({ closed: Array.from(next).sort().join(",") });
+  };
 
   const handleSelect = (section: unknown) => {
     const s = section as StateBrowseSection;
@@ -140,14 +149,36 @@ export function StateBrowseClient({ payload }: { payload: StateBrowsePayload }) 
   };
 
   // Profession filter: drop groups + leaves that don't apply to any
-  // selected profession. Universal always shows.
+  // selected profession. Universal always shows. Multi-prof is now a
+  // single group; we prune within its tree so only sections matching
+  // the filter remain.
   const visibleGroups = useMemo<StateBrowseGroup[]>(() => {
-    const matches = (g: StateBrowseGroup): boolean => {
-      if (g.kind === "universal") return true;
-      if (g.kind === "single") return activeProfs.has(g.profession);
-      return g.applies_to.some((p) => activeProfs.has(p));
-    };
-    return payload.groups.filter(matches);
+    const out: StateBrowseGroup[] = [];
+    for (const g of payload.groups) {
+      if (g.kind === "universal") {
+        out.push(g);
+      } else if (g.kind === "single") {
+        if (activeProfs.has(g.profession)) out.push(g);
+      } else if (g.kind === "multi") {
+        // Within multi, keep only leaves whose section.applies_to
+        // intersects the active filter set.
+        const prune = (node: TreeNode): TreeNode | null => {
+          if (node.level === "section") {
+            const sec = node.section as StateBrowseSection | undefined;
+            const at = sec?.applies_to ?? [];
+            return at.some((p) => activeProfs.has(p)) ? node : null;
+          }
+          const children = node.children
+            .map(prune)
+            .filter((c): c is TreeNode => c !== null);
+          if (children.length === 0) return null;
+          return { ...node, children };
+        };
+        const tree = g.tree.map(prune).filter((n): n is TreeNode => n !== null);
+        if (tree.length > 0) out.push({ ...g, tree });
+      }
+    }
+    return out;
   }, [payload.groups, activeProfs]);
 
   // Search: filter the tree to leaves whose section text/citation/label
@@ -242,14 +273,29 @@ export function StateBrowseClient({ payload }: { payload: StateBrowsePayload }) 
           maxSize="55%"
           className="overflow-y-auto py-2 border-r"
         >
+          <div className="px-4 py-1.5 flex items-center gap-2 text-[10px] font-mono text-muted-foreground">
+            <button
+              type="button"
+              onClick={expandAll}
+              className="hover:text-foreground"
+            >
+              expand all
+            </button>
+            <span className="text-muted-foreground/40">·</span>
+            <button
+              type="button"
+              onClick={collapseAll}
+              className="hover:text-foreground"
+            >
+              collapse all
+            </button>
+          </div>
           {filteredGroups.map((g) => (
             <div key={g.key} className="mb-4">
               <div className="px-4 py-1 text-[10px] font-mono uppercase tracking-widest text-muted-foreground flex items-center gap-1.5">
                 <span className={`w-1.5 h-1.5 rounded-full ${AUDIENCE_DOT[g.kind]}`} />
                 {g.kind === "universal" && AUDIENCE_LABEL.universal}
-                {g.kind === "multi" && (
-                  <>Applies to: {g.applies_to.map((p) => p.replace(/_/g, " ")).join(", ")}</>
-                )}
+                {g.kind === "multi" && <>Shared with multiple professions</>}
                 {g.kind === "single" && (
                   <>{g.profession.replace(/_/g, " ")} (practice act)</>
                 )}

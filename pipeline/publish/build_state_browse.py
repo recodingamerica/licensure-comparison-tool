@@ -230,15 +230,16 @@ def build_state(state: str) -> dict[str, Any] | None:
                 chapter_labels[slug] = label
 
     universal = [s for s in sections if s["audience"] == "universal"]
-    multi_by_key: dict[tuple[str, ...], list[dict]] = {}
+    multi = [s for s in sections if s["audience"] == "multi"]
     single_by_prof: dict[str, list[dict]] = {}
     for s in sections:
-        if s["audience"] == "multi":
-            key = tuple(sorted(s.get("applies_to") or []))
-            multi_by_key.setdefault(key, []).append(s)
-        elif s["audience"] == "single" and s.get("profession"):
+        if s["audience"] == "single" and s.get("profession"):
             single_by_prof.setdefault(s["profession"], []).append(s)
 
+    # One "Multi-profession" group instead of one per unique applies_to set
+    # — the per-section applies_to is surfaced as a chip on each leaf
+    # instead of being baked into a separate group header. Cuts visual
+    # noise on states with many enumerated chapters.
     groups: list[dict] = []
     if universal:
         groups.append({
@@ -246,12 +247,11 @@ def build_state(state: str) -> dict[str, Any] | None:
             "kind": "universal",
             "tree": build_tree(universal, chapter_label_overrides=chapter_labels),
         })
-    for key, secs in sorted(multi_by_key.items(), key=lambda x: (-len(x[1]), x[0])):
+    if multi:
         groups.append({
-            "key": "multi:" + ",".join(key),
+            "key": "multi",
             "kind": "multi",
-            "applies_to": list(key),
-            "tree": build_tree(secs, chapter_label_overrides=chapter_labels),
+            "tree": build_tree(multi, chapter_label_overrides=chapter_labels),
         })
     for prof, secs in sorted(single_by_prof.items()):
         groups.append({

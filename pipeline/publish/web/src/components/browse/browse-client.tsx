@@ -119,6 +119,15 @@ export function BrowseClient({
     const arr = Array.from(nextCollapsed).sort();
     setUrl({ closed: arr.length === 0 ? null : arr.join(",") });
   };
+  const expandAll = () => {
+    setCollapsed(new Set());
+    setUrl({ closed: null });
+  };
+  const collapseAll = () => {
+    const next = new Set(allSlugs);
+    setCollapsed(next);
+    setUrl({ closed: Array.from(next).sort().join(",") });
+  };
   const handleSelect = (section: unknown) => {
     const s = section as BrowseSection;
     setUrl({ cite: s.url });
@@ -239,6 +248,15 @@ export function BrowseClient({
           maxSize="55%"
           className="overflow-y-auto py-2 border-r"
         >
+          <div className="px-4 py-1.5 flex items-center gap-2 text-[10px] font-mono text-muted-foreground">
+            <button type="button" onClick={expandAll} className="hover:text-foreground">
+              expand all
+            </button>
+            <span className="text-muted-foreground/40">·</span>
+            <button type="button" onClick={collapseAll} className="hover:text-foreground">
+              collapse all
+            </button>
+          </div>
           {filteredGroups.map((g) => (
             <div key={g.key} className="mb-4">
               <div className="px-4 py-1 text-[10px] font-mono uppercase tracking-widest text-muted-foreground flex items-center gap-1.5">

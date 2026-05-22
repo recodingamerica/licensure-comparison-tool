@@ -31,7 +31,7 @@ export type StateBrowseSection = {
 
 export type StateBrowseGroup =
   | { key: string; kind: "universal"; tree: TreeNode[] }
-  | { key: string; kind: "multi"; applies_to: string[]; tree: TreeNode[] }
+  | { key: string; kind: "multi"; tree: TreeNode[] }
   | { key: string; kind: "single"; profession: string; tree: TreeNode[] };
 
 export type StateBrowsePayload = {
