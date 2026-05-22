@@ -782,6 +782,34 @@ function buildColumnDefs(
       "License renewal fee in USD when fixed by statute. Blank when the statute leaves the amount to board discretion.",
   },
   {
+    colId: "statute_text",
+    headerName: "Statute text",
+    width: 130,
+    // Hidden full corpus of statute language for this (state, profession).
+    // The cell intentionally renders nothing — the column exists to host
+    // the text filter. AG Grid's built-in agTextColumnFilter does
+    // case-insensitive substring matching against the valueGetter result;
+    // rows whose section_text_full contains the query stay visible.
+    valueGetter: (p) => p.data?.section_text_full ?? "",
+    cellRenderer: () => null,
+    filter: "agTextColumnFilter",
+    filterParams: {
+      // Default to "contains" so users don't have to pick an operator.
+      defaultOption: "contains",
+      // Hide the operator dropdown — too much UI for a use case where 99%
+      // of queries are "find this phrase somewhere in the statute".
+      suppressAndOrCondition: true,
+      filterOptions: ["contains"],
+      buttons: ["reset"],
+      // Don't surface the giant string in the popover's value preview.
+      caseSensitive: false,
+    },
+    cellClass: "text-center",
+    headerClass: "text-center",
+    headerTooltip:
+      "Search the full statute text shipped for this state. Case-insensitive substring match. Matches anywhere in the combined chapter + umbrella text.",
+  },
+  {
     colId: "evidence",
     headerName: "Unverified",
     width: 110,
@@ -1177,6 +1205,18 @@ export function ProfileView({ payload }: { payload: ProfilePayload }) {
     []
   );
 
+  // Active query for the "Statute text" filter, pulled from AG Grid's filter
+  // model so it stays in sync with the chip bar. Passed down to the Sheet
+  // so it can highlight matches against the same string the table was
+  // filtered by — one query, two consumers.
+  const statuteTextQuery = useMemo<string>(() => {
+    void filterTick; // recompute when AG Grid's filter model changes
+    if (!api) return "";
+    const fm = api.getFilterModel() || {};
+    const m = fm["statute_text"] as { filter?: unknown } | undefined;
+    return typeof m?.filter === "string" ? m.filter : "";
+  }, [api, filterTick]);
+
   // ── Chips: derive from grid's filterModel ─────
   type Chip = { key: string; label: string; value: string; onRemove: () => void };
   const activeChips: Chip[] = useMemo(() => {
@@ -1404,6 +1444,7 @@ export function ProfileView({ payload }: { payload: ProfilePayload }) {
         fields={discovered_fields}
         openState={openState}
         onOpenChange={(o) => !o && setOpenState(null)}
+        searchQuery={statuteTextQuery}
       />
     </main>
   );

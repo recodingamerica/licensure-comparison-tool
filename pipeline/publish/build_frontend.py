@@ -359,6 +359,15 @@ def build(profession: str) -> dict:
             row = hoist_row(rec)
             row["source_chapter_urls"] = chapter_urls_by_state.get(st, [])
             row["sections"] = sections_by_state.get(st, [])
+            # Concatenate the row's section bodies into one searchable string.
+            # Used by the table's "Statute text" filter — agTextColumnFilter
+            # does case-insensitive substring matching against this string,
+            # so anything inside any section (per-profession OR umbrella)
+            # narrows the table. Stored once per row to keep the matcher
+            # cheap. ~50–500 KB per row depending on state size.
+            row["section_text_full"] = "\n\n".join(
+                s.get("text") or "" for s in row["sections"]
+            )
             # Attach highlight spans now, against the EXACT section text we're
             # about to publish. Computing on this side (rather than during
             # extract/reverify) avoids any normalization drift between the

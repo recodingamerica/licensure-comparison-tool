@@ -130,6 +130,11 @@ export type Row = {
   evidence_unverified: number;
   source_chapter_urls?: string[];
   sections?: SectionRef[];
+  // Concatenation of every section body shipped with this row. Lives here so
+  // the table's "Statute text" filter can do plain substring matching across
+  // all the statute language for this (state, profession) without joining at
+  // query time. Large (~50–500 KB per row).
+  section_text_full?: string;
   _full: StructuredRecord;
 };
 

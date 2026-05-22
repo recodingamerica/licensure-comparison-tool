@@ -81,3 +81,37 @@ export function highlightSpans(
   if (pos < text.length) parts.push({ kind: "text", value: text.slice(pos) });
   return parts;
 }
+
+/**
+ * Find every position of `query` in `text`, case-insensitive, returning
+ * `[start, end]` spans into the ORIGINAL text. Non-overlapping, in ascending
+ * order — the contract `highlightSpans` expects.
+ *
+ * Intentionally plain substring matching, not the smart-quote / list-marker
+ * normalization used by `locate_quote_in_section`. Users typing into the
+ * Statute-text filter expect literal matches: typing "podiatrist" finds
+ * "podiatrist", not "podiatry" or "podiatrists". Substring match also
+ * matches what AG Grid's built-in `agTextColumnFilter` does for the row-
+ * filter pass, so the table inclusion and the Sheet highlights agree.
+ */
+export function findAllSpans(
+  query: string,
+  text: string,
+): Array<[number, number]> {
+  const q = query.trim().toLowerCase();
+  if (!q || !text) return [];
+  const hay = text.toLowerCase();
+  const spans: Array<[number, number]> = [];
+  let from = 0;
+  // Bound the result set so a query like "a" against a 500 KB section
+  // doesn't allocate a million spans. The first 500 highlights are plenty
+  // of signal — anything more is just visual noise.
+  const MAX = 500;
+  while (spans.length < MAX) {
+    const idx = hay.indexOf(q, from);
+    if (idx < 0) break;
+    spans.push([idx, idx + q.length]);
+    from = idx + q.length;
+  }
+  return spans;
+}

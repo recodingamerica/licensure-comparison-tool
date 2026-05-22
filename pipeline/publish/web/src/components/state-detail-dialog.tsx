@@ -10,7 +10,7 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { Badge } from "@/components/ui/badge";
-import { EvidenceRow } from "./evidence-row";
+import { EvidenceRow, SearchQueryContext } from "./evidence-row";
 
 const COMPACT_FULL: Record<string, string> = {
   NLC: "Nurse Licensure Compact",
@@ -31,6 +31,11 @@ type Props = {
   fields: DiscoveredField[];
   openState: string | null;
   onOpenChange: (open: boolean) => void;
+  // Active query for the "Statute text" column filter, passed down so the
+  // Sheet's in-context panels can highlight the user's search instead of
+  // the LLM-quote highlights. When empty, the existing quote highlights
+  // render unchanged.
+  searchQuery?: string;
 };
 
 // Renamed visually from "Dialog" → "Sheet" (slide-in side panel) because the
@@ -38,7 +43,7 @@ type Props = {
 // per-claim evidence drilldown (verbatim quote + citation + source link),
 // not "all the data for this row" duplication. Keeping the export name
 // StateDetailDialog so callers don't need to change.
-export function StateDetailDialog({ rows, fields, openState, onOpenChange }: Props) {
+export function StateDetailDialog({ rows, fields, openState, onOpenChange, searchQuery }: Props) {
   const row = useMemo(
     () => rows.find((r) => r.state === openState) || null,
     [rows, openState]
@@ -89,6 +94,7 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange }: Pro
   });
 
   return (
+    <SearchQueryContext.Provider value={searchQuery ?? ""}>
     <Sheet open onOpenChange={onOpenChange}>
       <SheetContent
         side="right"
@@ -223,6 +229,7 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange }: Pro
         </div>
       </SheetContent>
     </Sheet>
+    </SearchQueryContext.Provider>
   );
 }
 

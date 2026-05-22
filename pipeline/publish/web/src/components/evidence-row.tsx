@@ -1,10 +1,21 @@
 "use client";
 
-import { useState } from "react";
+import { createContext, useContext, useState } from "react";
 import type { Evidence, SectionRef } from "@/lib/types";
 import { Badge } from "@/components/ui/badge";
-import { humanize, highlightSpans, citationUrlWithFragment } from "@/lib/format";
+import {
+  humanize,
+  highlightSpans,
+  citationUrlWithFragment,
+  findAllSpans,
+} from "@/lib/format";
 import { ExternalLink, ChevronDown, ChevronRight } from "lucide-react";
+
+// Shared context for the active "Statute text" search query. Set at the
+// Sheet level so we don't have to thread the prop through ~27 EvidenceRow
+// call sites. When non-empty, the "in context" panel below each evidence
+// row highlights occurrences of this string instead of the LLM quote span.
+export const SearchQueryContext = createContext<string>("");
 
 type Props = {
   label: string;
@@ -27,6 +38,7 @@ function formatValue(v: unknown): React.ReactNode {
 
 export function EvidenceRow({ label, ev, sections }: Props) {
   const [open, setOpen] = useState(false);
+  const searchQuery = useContext(SearchQueryContext);
   if (!ev) return null;
 
   const cite = ev.citation || "";
@@ -34,7 +46,20 @@ export function EvidenceRow({ label, ev, sections }: Props) {
     sections[cite] || sections[cite.replace(/^\[|\]$/g, "")] || null;
   const unverified = !!ev.unverified;
 
-  const parts = source?.text ? highlightSpans(source.text, ev.quote_spans) : null;
+  // If the user has an active "Statute text" search, prefer THEIR highlight
+  // — overlay every occurrence of the query on the source text. Otherwise
+  // fall back to the LLM-extracted quote span (the existing behavior).
+  const hasSearch = searchQuery.trim().length > 0;
+  const searchSpans = hasSearch && source?.text
+    ? findAllSpans(searchQuery, source.text)
+    : [];
+  const usingSearch = hasSearch && searchSpans.length > 0;
+  const parts = source?.text
+    ? highlightSpans(
+        source.text,
+        usingSearch ? searchSpans : ev.quote_spans,
+      )
+    : null;
   const deepLinkUrl = citationUrlWithFragment(source?.url, source?.text, ev.quote_spans);
 
   return (
@@ -105,7 +130,16 @@ export function EvidenceRow({ label, ev, sections }: Props) {
           <div className="mt-1 text-[12px] leading-relaxed bg-muted/30 border rounded p-3 max-h-72 overflow-y-auto whitespace-pre-wrap">
             {parts.map((p, i) =>
               p.kind === "mark" ? (
-                <mark key={i} className="bg-amber-200/60 px-0.5 rounded-sm">
+                <mark
+                  key={i}
+                  className={
+                    usingSearch
+                      ? // User's search match — yellow so it's visually
+                        // distinct from the existing LLM-quote highlight.
+                        "bg-yellow-300 px-0.5 rounded-sm"
+                      : "bg-amber-200/60 px-0.5 rounded-sm"
+                  }
+                >
                   {p.value}
                 </mark>
               ) : (
