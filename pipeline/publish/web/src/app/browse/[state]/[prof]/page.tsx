@@ -15,28 +15,37 @@
 
 import { Suspense, use, useEffect, useState } from "react";
 import Link from "next/link";
-import type { ProfilePayload, Row } from "@/lib/types";
+import type { BrowseSection } from "@/lib/types";
 import { BrowseClient } from "@/components/browse/browse-client";
 
 type Params = Promise<{ state: string; prof: string }>;
 
+type BrowsePayload = {
+  state: string;
+  profession: string;
+  sections: BrowseSection[];
+};
+
 function BrowseInner({ params }: { params: Params }) {
   const { state: rawState, prof } = use(params);
   const state = rawState.toUpperCase();
-  const [payload, setPayload] = useState<ProfilePayload | null>(null);
+  const [payload, setPayload] = useState<BrowsePayload | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     setPayload(null);
     setError(null);
-    fetch(`/data/${encodeURIComponent(prof)}.json`)
+    // Per-(profession, state) browse file — much smaller than the main
+    // profile blob (only THIS state's sections), so the page loads fast
+    // even for big-statute states like nursing.
+    fetch(`/data/${encodeURIComponent(prof)}/browse/${encodeURIComponent(state)}.json`)
       .then((r) => {
-        if (!r.ok) throw new Error(`No data for "${prof}"`);
+        if (!r.ok) throw new Error(`No browse data for ${prof}/${state}`);
         return r.json();
       })
-      .then((d: ProfilePayload) => setPayload(d))
+      .then((d: BrowsePayload) => setPayload(d))
       .catch((e) => setError(String(e)));
-  }, [prof]);
+  }, [prof, state]);
 
   if (error) {
     return (
@@ -54,23 +63,11 @@ function BrowseInner({ params }: { params: Params }) {
     );
   }
 
-  const row = payload.rows.find((r) => r.state === state) as Row | undefined;
-  if (!row) {
-    return (
-      <main className="mx-auto max-w-2xl px-6 py-12">
-        <Link href="/" className="text-xs underline">← home</Link>
-        <h1 className="text-xl font-medium mt-4">
-          No data for {state} {prof}
-        </h1>
-      </main>
-    );
-  }
-
   return (
     <BrowseClient
       state={state}
       profession={prof}
-      sections={row.browse_sections ?? []}
+      sections={payload.sections}
     />
   );
 }

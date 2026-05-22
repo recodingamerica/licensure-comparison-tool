@@ -15,8 +15,12 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
+import { Group, Panel, Separator } from "react-resizable-panels";
 import type { BrowseSection, BrowseEvidence } from "@/lib/types";
 import { findAllSpans } from "@/lib/format";
+import { Input } from "@/components/ui/input";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { Badge } from "@/components/ui/badge";
 import { Search } from "lucide-react";
 
 type LayerKey = "practice" | "umbrella_enumeration" | "umbrella_universal";
@@ -144,46 +148,48 @@ export function BrowseClient({
 
       {/* Filter bar */}
       <div className="border-b px-6 py-2.5 flex items-center gap-3 flex-wrap bg-muted/30">
-        <div className="flex items-center gap-1.5">
+        <ToggleGroup
+          variant="outline"
+          size="sm"
+          spacing={1}
+        >
           {(Object.keys(LAYER_LABEL) as LayerKey[]).map((k) => {
-            const on = activeLayers.has(k);
             const count = sections.filter((s) => s.scope_layer === k).length;
             if (count === 0) return null;
+            const on = activeLayers.has(k);
             return (
-              <button
+              <ToggleGroupItem
                 key={k}
-                type="button"
-                onClick={() => toggleLayer(k)}
-                className={
-                  "text-xs px-2.5 py-1 rounded-full border flex items-center gap-1.5 transition " +
-                  (on
-                    ? "bg-background border-foreground/20 text-foreground"
-                    : "bg-transparent border-transparent text-muted-foreground hover:text-foreground")
-                }
+                pressed={on}
+                onPressedChange={() => toggleLayer(k)}
+                className="text-xs gap-1.5 px-2.5"
               >
                 <span className={`w-2 h-2 rounded-full ${LAYER_DOT[k]}`} />
                 {LAYER_LABEL[k]}
                 <span className="font-mono text-muted-foreground">{count}</span>
-              </button>
+              </ToggleGroupItem>
             );
           })}
-        </div>
+        </ToggleGroup>
         <div className="ml-auto relative">
-          <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 size-3.5 text-muted-foreground" />
-          <input
+          <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 size-3.5 text-muted-foreground pointer-events-none" />
+          <Input
             type="search"
             value={query}
             onChange={(e) => handleSearch(e.target.value)}
             placeholder="search this state's statute…"
-            className="text-xs pl-8 pr-3 py-1.5 rounded border bg-background w-72 focus:outline-none focus:ring-1 focus:ring-foreground/30"
+            className="pl-8 w-72 h-8 text-xs"
           />
         </div>
       </div>
 
-      {/* Two-pane body */}
-      <div className="flex-1 flex overflow-hidden">
-        {/* Tree */}
-        <aside className="w-80 lg:w-96 border-r overflow-y-auto py-2">
+      {/* Two-pane body — resizable via react-resizable-panels. The
+          Separator drags. */}
+      <Group
+        orientation="horizontal"
+        className="flex-1 overflow-hidden flex"
+      >
+        <Panel defaultSize="28%" minSize="18%" maxSize="50%" className="overflow-y-auto py-2 border-r">
           {(Object.keys(LAYER_LABEL) as LayerKey[]).map((k) => {
             const items = grouped[k];
             if (items.length === 0) return null;
@@ -229,10 +235,9 @@ export function BrowseClient({
               No sections match the current filters.
             </p>
           )}
-        </aside>
-
-        {/* Detail */}
-        <main className="flex-1 overflow-y-auto">
+        </Panel>
+        <Separator className="w-1 bg-border hover:bg-foreground/20 transition-colors" />
+        <Panel defaultSize="72%" minSize="50%" className="overflow-y-auto">
           {selected ? (
             <SectionDetail section={selected} searchQuery={query} />
           ) : (
@@ -240,8 +245,8 @@ export function BrowseClient({
               Select a section from the tree.
             </p>
           )}
-        </main>
-      </div>
+        </Panel>
+      </Group>
     </div>
   );
 }
@@ -296,18 +301,24 @@ function SectionDetail({
           </a>
         </h2>
         <p className="text-xs text-muted-foreground mt-0.5">{section.label}</p>
-        <div className="flex items-center gap-3 mt-2 text-[10px] font-mono uppercase tracking-widest text-muted-foreground">
-          <span className="flex items-center gap-1">
+        <div className="flex items-center gap-2 mt-2 flex-wrap">
+          <Badge variant="outline" className="font-mono text-[10px] gap-1.5">
             <span className={`w-1.5 h-1.5 rounded-full ${LAYER_DOT[section.scope_layer as LayerKey]}`} />
             {LAYER_LABEL[section.scope_layer as LayerKey]}
-          </span>
+          </Badge>
           {section.applies_to && section.applies_to.length > 0 && (
-            <span>
-              applies to: {section.applies_to.map((p) => p.replace(/_/g, " ")).join(", ")}
-            </span>
+            <Badge variant="secondary" className="font-mono text-[10px]">
+              applies to {section.applies_to.map((p) => p.replace(/_/g, " ")).join(", ")}
+            </Badge>
           )}
           {section.evidence.length > 0 && (
-            <span>{section.evidence.length} extracted claim{section.evidence.length === 1 ? "" : "s"}</span>
+            <Badge
+              variant="outline"
+              className="font-mono text-[10px] bg-amber-100/60 text-amber-900 border-amber-300"
+              title="Highlighted in amber below — hover for the field name + extracted value"
+            >
+              {section.evidence.length} extracted claim{section.evidence.length === 1 ? "" : "s"}
+            </Badge>
           )}
         </div>
       </header>

@@ -658,11 +658,29 @@ def main() -> None:
 
     profession = args.profession.lower()
     payload = build(profession)
+
+    # Split heavy per-section data into separate per-(profession, state) files
+    # so the main profile blob stays small. The table view loads the main
+    # blob; the /browse route loads only the state it needs. Without this,
+    # nursing alone is 67 MB — unacceptable for table-page load.
+    data_dir = Path(__file__).resolve().parent / "web" / "public" / "data"
+    browse_dir = data_dir / profession / "browse"
+    browse_dir.mkdir(parents=True, exist_ok=True)
+    for row in payload["rows"]:
+        bs = row.pop("browse_sections", None)
+        if bs is None:
+            continue
+        st = row["state"]
+        section_payload = {"state": st, "profession": profession, "sections": bs}
+        section_body = json.dumps(section_payload, indent=2)
+        (browse_dir / f"{st}.json").write_text(section_body)
+        upload_json(f"data/{profession}/browse/{st}.json", section_body)
+    print(f"uploaded {len(payload['rows'])} per-state browse files")
+
     body = json.dumps(payload, indent=2)
     # Mirror to public/data/ so downstream tooling (state_similarity, review CSV)
     # sees the same data the live site does, without round-tripping Vercel Blob.
-    local_path = Path(__file__).resolve().parent / "web" / "public" / "data" / f"{profession}.json"
-    local_path.parent.mkdir(parents=True, exist_ok=True)
+    local_path = data_dir / f"{profession}.json"
     local_path.write_text(body)
     print(f"wrote {local_path}")
     url = upload_json(f"data/{profession}.json", body)
