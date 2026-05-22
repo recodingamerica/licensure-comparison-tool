@@ -8,6 +8,7 @@ import {
   useState,
 } from "react";
 import Link from "next/link";
+import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { AgGridReact, useGridFilter } from "ag-grid-react";
 import type { CustomFilterProps } from "ag-grid-react";
@@ -1199,12 +1200,21 @@ export function ProfileView({ payload }: { payload: ProfilePayload }) {
       )
   );
 
+  // Profession slug for browse URLs. payload.profession is canonical
+  // (e.g. "podiatry"); ensure it survives even if the URL was navigated
+  // to with a casing variation.
+  const profSlug = payload.profession;
   // URL-driven view + map field (unchanged from prior version)
   const router = useRouter();
   const pathname = usePathname();
   const params = useSearchParams();
-  const view: "table" | "map" =
-    params.get("view") === "map" && payload.map_prep ? "map" : "table";
+  const viewParam = params.get("view");
+  const view: "table" | "map" | "hierarchy" =
+    viewParam === "map" && payload.map_prep
+      ? "map"
+      : viewParam === "hierarchy"
+        ? "hierarchy"
+        : "table";
   const urlField = params.get("f");
   const updateParams = useCallback(
     (patch: Record<string, string | null>) => {
@@ -1217,8 +1227,8 @@ export function ProfileView({ payload }: { payload: ProfilePayload }) {
     },
     [params, pathname, router]
   );
-  const setView = (v: "table" | "map") =>
-    updateParams({ view: v === "table" ? null : "map" });
+  const setView = (v: "table" | "map" | "hierarchy") =>
+    updateParams({ view: v === "table" ? null : v });
   const setMapField = (f: string | null) => updateParams({ f });
 
   const onFilterChanged = (_e: FilterChangedEvent) => setFilterTick((t) => t + 1);
@@ -1368,6 +1378,18 @@ export function ProfileView({ payload }: { payload: ProfilePayload }) {
         >
           map
         </button>
+        <button
+          onClick={() => setView("hierarchy")}
+          className={
+            "px-3 py-1 rounded " +
+            (view === "hierarchy"
+              ? "bg-background shadow-sm text-foreground"
+              : "text-muted-foreground hover:text-foreground")
+          }
+          title="Pick a state to read its full statute text by section"
+        >
+          hierarchy
+        </button>
       </div>
 
       {view === "map" && payload.map_prep && (
@@ -1376,6 +1398,10 @@ export function ProfileView({ payload }: { payload: ProfilePayload }) {
           fieldName={urlField}
           onFieldChange={setMapField}
         />
+      )}
+
+      {view === "hierarchy" && (
+        <HierarchyStatePicker rows={rows} profSlug={profSlug} />
       )}
 
       {view === "table" && (
@@ -1481,5 +1507,68 @@ function Stat({ label, value }: { label: string; value: string | number }) {
       <span className="font-semibold text-foreground">{value}</span>{" "}
       <span className="text-muted-foreground">{label}</span>
     </div>
+  );
+}
+
+// State picker for the hierarchy view. Lists every state the profession has
+// statute-text shipped for, styled the same as the homepage profession picker.
+// Clicking a card navigates to /browse/<state>/<prof>. Coverage gaps and
+// states with no extracted statute (probably never scraped) are excluded.
+function HierarchyStatePicker({
+  rows,
+  profSlug,
+}: {
+  rows: Row[];
+  profSlug: string;
+}) {
+  const items = rows
+    .filter((r) => !r.coverage_gap && (r.section_text_full?.length ?? 0) > 0)
+    .map((r) => ({
+      state: r.state,
+      verified: r.evidence_verified,
+      unverified: r.evidence_unverified,
+      chars: r.section_text_full?.length ?? 0,
+    }))
+    .sort((a, b) => a.state.localeCompare(b.state));
+
+  if (items.length === 0) {
+    return (
+      <p className="text-sm text-muted-foreground italic">
+        No statute text available for this profession yet.
+      </p>
+    );
+  }
+
+  return (
+    <section>
+      <p className="text-xs text-muted-foreground mb-4 max-w-2xl">
+        Pick a state to read its statute by section — practice act + the
+        cross-cutting umbrella chapters that apply, with extracted-claim
+        highlights and full-text search.
+      </p>
+      <div className="grid gap-3 max-w-3xl">
+        {items.map((s) => (
+          <Link
+            key={s.state}
+            href={`/browse/${s.state}/${encodeURIComponent(profSlug)}`}
+            className="block group"
+          >
+            <Card className="py-3 transition-colors hover:border-foreground/30">
+              <CardHeader className="flex flex-row items-baseline justify-between gap-4 space-y-0">
+                <CardTitle className="text-base font-mono font-medium group-hover:underline">
+                  {s.state}
+                </CardTitle>
+                <span className="text-xs font-mono text-muted-foreground whitespace-nowrap">
+                  {s.chars.toLocaleString()} chars · {s.verified} verified
+                  {s.unverified > 0 && (
+                    <span className="text-amber-700"> · {s.unverified} unverified</span>
+                  )}
+                </span>
+              </CardHeader>
+            </Card>
+          </Link>
+        ))}
+      </div>
+    </section>
   );
 }
