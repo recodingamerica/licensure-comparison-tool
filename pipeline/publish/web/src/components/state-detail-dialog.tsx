@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/sheet";
 import { Badge } from "@/components/ui/badge";
 import { EvidenceRow, SearchQueryContext } from "./evidence-row";
+import { searchSnippets } from "@/lib/format";
 
 const COMPACT_FULL: Record<string, string> = {
   NLC: "Nurse Licensure Compact",
@@ -143,6 +144,10 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
         </SheetHeader>
 
         <div className="px-6 py-4 space-y-6 overflow-y-auto flex-1">
+          <StatuteTextMatches
+            query={searchQuery ?? ""}
+            sectionText={row.section_text_full ?? ""}
+          />
           <Section title="Base licensure">
             <EvidenceRow label="regulatory_model" ev={lic.regulatory_model} sections={sections} />
             <EvidenceRow label="credential_type" ev={lic.credential_type} sections={sections} />
@@ -242,6 +247,49 @@ function Section({ title, children }: { title: string; children: React.ReactNode
         {title}
       </h3>
       <div>{children}</div>
+    </section>
+  );
+}
+
+// When the "Statute text" filter has a query, surface every matching snippet
+// from this state's combined statute text at the TOP of the Sheet. Each
+// snippet shows ~70 chars of context before/after the match with the term
+// highlighted yellow. Without this, users had to expand "in context" on
+// each Evidence row hoping to stumble onto the match — bad UX.
+function StatuteTextMatches({ query, sectionText }: { query: string; sectionText: string }) {
+  const q = query.trim();
+  const snippets = useMemo(
+    () => (q && sectionText ? searchSnippets(q, sectionText) : []),
+    [q, sectionText],
+  );
+  if (!q) return null;
+  return (
+    <section>
+      <h3 className="text-xs font-mono uppercase tracking-widest text-muted-foreground mb-2">
+        Statute text matches for{" "}
+        <span className="text-foreground">&ldquo;{q}&rdquo;</span>{" "}
+        <span className="text-muted-foreground">({snippets.length})</span>
+      </h3>
+      {snippets.length === 0 ? (
+        <p className="text-xs text-muted-foreground italic">
+          No matches in the combined statute text. The row matched on a
+          different field — or the filter has caught it via partial match
+          that&apos;s already been narrowed away.
+        </p>
+      ) : (
+        <ol className="space-y-2 text-[12px] leading-relaxed">
+          {snippets.map((s, i) => (
+            <li
+              key={i}
+              className="bg-yellow-50 border-l-2 border-yellow-300 px-3 py-1.5 rounded"
+            >
+              <span className="text-muted-foreground">…{s.before}</span>
+              <mark className="bg-yellow-300 px-0.5 rounded-sm">{s.match}</mark>
+              <span className="text-muted-foreground">{s.after}…</span>
+            </li>
+          ))}
+        </ol>
+      )}
     </section>
   );
 }

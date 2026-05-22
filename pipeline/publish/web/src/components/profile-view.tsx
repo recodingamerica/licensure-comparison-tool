@@ -24,7 +24,7 @@ import {
 import type { DiscoveredField, ProfilePayload, Row } from "@/lib/types";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { humanize } from "@/lib/format";
+import { humanize, findAllSpans } from "@/lib/format";
 import { StateDetailDialog } from "./state-detail-dialog";
 import { MapView } from "./map-view";
 
@@ -50,6 +50,30 @@ function TextCellRenderer({ value }: ICellRendererParams<Row, string | number | 
   if (value === null || value === undefined || value === "")
     return <span className="text-muted-foreground">—</span>;
   return <span>{value}</span>;
+}
+
+// "Statute text" cell — shows the per-row match count when the filter is
+// active, blank when not. Reads the active filter from the grid API on
+// demand so we don't have to pipe state through React. The cell only re-
+// renders when AG Grid recomputes the row (which happens on filter change).
+function StatuteTextHitsCell(params: ICellRendererParams<Row, string>) {
+  if (!params.data || params.data.coverage_gap) return null;
+  const model = (params.api.getFilterModel() ?? {})["statute_text"] as
+    | { filter?: unknown }
+    | undefined;
+  const q = typeof model?.filter === "string" ? model.filter.trim() : "";
+  if (!q) return null;
+  const text = params.value || "";
+  const hits = findAllSpans(q, text).length;
+  if (hits === 0) return null;
+  return (
+    <span
+      className="font-mono text-xs text-yellow-800"
+      title={`${hits} match${hits === 1 ? "" : "es"} for "${q}"`}
+    >
+      {hits} {hits === 1 ? "hit" : "hits"}
+    </span>
+  );
 }
 
 function VerifyCell({ data }: ICellRendererParams<Row>) {
@@ -786,12 +810,13 @@ function buildColumnDefs(
     headerName: "Statute text",
     width: 130,
     // Hidden full corpus of statute language for this (state, profession).
-    // The cell intentionally renders nothing — the column exists to host
-    // the text filter. AG Grid's built-in agTextColumnFilter does
+    // Cell shows match count when the filter is active, otherwise blank —
+    // gives the column visible signal during a search without cluttering
+    // it when not in use. AG Grid's built-in agTextColumnFilter does
     // case-insensitive substring matching against the valueGetter result;
     // rows whose section_text_full contains the query stay visible.
     valueGetter: (p) => p.data?.section_text_full ?? "",
-    cellRenderer: () => null,
+    cellRenderer: StatuteTextHitsCell,
     filter: "agTextColumnFilter",
     filterParams: {
       // Default to "contains" so users don't have to pick an operator.

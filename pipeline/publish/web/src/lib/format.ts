@@ -115,3 +115,30 @@ export function findAllSpans(
   }
   return spans;
 }
+
+export type SearchSnippet = {
+  before: string;  // up to `contextChars` of text before the match
+  match: string;   // the matched text, verbatim from the source
+  after: string;   // up to `contextChars` of text after the match
+};
+
+/**
+ * For every occurrence of `query` in `text`, return a snippet of context
+ * around it. Used by the Sheet's "Statute text matches" panel so users can
+ * see WHERE their search hits live without scrolling through the full
+ * section text. Caps at `maxSnippets` because rendering all 500 spans of
+ * "a" is useless.
+ */
+export function searchSnippets(
+  query: string,
+  text: string,
+  contextChars = 70,
+  maxSnippets = 50,
+): SearchSnippet[] {
+  const spans = findAllSpans(query, text).slice(0, maxSnippets);
+  return spans.map(([start, end]) => ({
+    before: text.slice(Math.max(0, start - contextChars), start),
+    match: text.slice(start, end),
+    after: text.slice(end, Math.min(text.length, end + contextChars)),
+  }));
+}
