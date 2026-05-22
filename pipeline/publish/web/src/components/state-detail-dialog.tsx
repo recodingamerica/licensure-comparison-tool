@@ -125,7 +125,17 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
           <SheetDescription className="text-xs text-muted-foreground">
             Verbatim statute quote and citation for every claim. Click{" "}
             <em>in context</em> on any row to see the surrounding section text
-            with the quote highlighted.
+            with the quote highlighted.{" "}
+            {(row.browse_sections?.length ?? 0) > 0 && (
+              <a
+                href={`/browse/${row.state}/${encodeURIComponent(row._full.profession)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block ml-1 font-mono text-foreground underline hover:no-underline"
+              >
+                Browse the full statute ↗
+              </a>
+            )}
           </SheetDescription>
           {row.source_chapter_urls && row.source_chapter_urls.length > 0 && (
             <div className="text-xs font-mono break-all space-y-0.5 mt-1">

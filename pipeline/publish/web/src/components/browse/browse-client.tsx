@@ -1,0 +1,404 @@
+"use client";
+
+// Two-pane document browser:
+//   left  — hierarchy tree, sections grouped by scope_layer
+//   right — selected section's full text, with two highlight layers:
+//             amber  — every quote_span where the LLM drew an extracted
+//                      claim from this section (hover for field name)
+//             yellow — every search hit (when the search input has a query)
+//
+// Selected section is carried in the URL as ?cite=<section-citation> so
+// links are shareable. Filter bar across the top has the layer chips +
+// the search input; both narrow the tree (sections without matches fall
+// out) and drive highlights in the right pane.
+
+import { useMemo, useState } from "react";
+import Link from "next/link";
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
+import type { BrowseSection, BrowseEvidence } from "@/lib/types";
+import { findAllSpans } from "@/lib/format";
+import { Search } from "lucide-react";
+
+type LayerKey = "practice" | "umbrella_enumeration" | "umbrella_universal";
+
+const LAYER_LABEL: Record<LayerKey, string> = {
+  practice: "Practice act",
+  umbrella_enumeration: "Umbrella (this profession)",
+  umbrella_universal: "Umbrella (universal)",
+};
+
+const LAYER_DOT: Record<LayerKey, string> = {
+  practice: "bg-sky-500",
+  umbrella_enumeration: "bg-emerald-500",
+  umbrella_universal: "bg-purple-500",
+};
+
+const LAYER_TINT: Record<LayerKey, string> = {
+  practice: "border-sky-200",
+  umbrella_enumeration: "border-emerald-200",
+  umbrella_universal: "border-purple-200",
+};
+
+export function BrowseClient({
+  state,
+  profession,
+  sections,
+}: {
+  state: string;
+  profession: string;
+  sections: BrowseSection[];
+}) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const params = useSearchParams();
+
+  const [query, setQuery] = useState<string>(params.get("q") ?? "");
+  const [activeLayers, setActiveLayers] = useState<Set<LayerKey>>(
+    () => new Set(["practice", "umbrella_enumeration", "umbrella_universal"]),
+  );
+
+  // Selected section's citation (the unique-ish key from BrowseSection).
+  // Reflected in the URL so links survive reload.
+  const selectedCite = params.get("cite") ?? "";
+
+  // Filter sections: layer chips AND search query (substring in text or citation).
+  const filtered = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    return sections.filter((s) => {
+      if (!activeLayers.has(s.scope_layer)) return false;
+      if (!q) return true;
+      return (
+        (s.text || "").toLowerCase().includes(q) ||
+        (s.citation || "").toLowerCase().includes(q) ||
+        (s.label || "").toLowerCase().includes(q)
+      );
+    });
+  }, [sections, activeLayers, query]);
+
+  // Group filtered sections by layer for tree rendering.
+  const grouped = useMemo(() => {
+    const g: Record<LayerKey, BrowseSection[]> = {
+      practice: [],
+      umbrella_enumeration: [],
+      umbrella_universal: [],
+    };
+    for (const s of filtered) g[s.scope_layer as LayerKey].push(s);
+    return g;
+  }, [filtered]);
+
+  // Default-select the first filtered section so the right pane is never
+  // empty after a search narrows the tree.
+  const selected: BrowseSection | null = useMemo(() => {
+    if (selectedCite) {
+      const hit = filtered.find((s) => s.citation === selectedCite);
+      if (hit) return hit;
+    }
+    return filtered[0] ?? null;
+  }, [filtered, selectedCite]);
+
+  const setUrl = (patch: Record<string, string | null>) => {
+    const next = new URLSearchParams(params.toString());
+    for (const [k, v] of Object.entries(patch)) {
+      if (v === null || v === "") next.delete(k);
+      else next.set(k, v);
+    }
+    router.replace(`${pathname}?${next.toString()}`, { scroll: false });
+  };
+
+  const handleSearch = (v: string) => {
+    setQuery(v);
+    setUrl({ q: v || null });
+  };
+
+  const handleSelect = (s: BrowseSection) => setUrl({ cite: s.citation });
+
+  const toggleLayer = (k: LayerKey) => {
+    setActiveLayers((prev) => {
+      const next = new Set(prev);
+      if (next.has(k)) next.delete(k);
+      else next.add(k);
+      return next;
+    });
+  };
+
+  return (
+    <div className="flex flex-col h-screen">
+      {/* Header / breadcrumbs */}
+      <header className="border-b px-6 py-3 flex items-center gap-3 flex-wrap bg-background">
+        <Link href="/" className="text-xs font-mono text-muted-foreground hover:text-foreground">
+          home
+        </Link>
+        <span className="text-xs text-muted-foreground">›</span>
+        <Link
+          href={`/profile?p=${encodeURIComponent(profession)}`}
+          className="text-xs font-mono text-muted-foreground hover:text-foreground"
+        >
+          {profession.replace(/_/g, " ")}
+        </Link>
+        <span className="text-xs text-muted-foreground">›</span>
+        <span className="text-xs font-mono font-medium">{state}</span>
+        <span className="text-xs text-muted-foreground ml-2">
+          browsing {sections.length} sections
+        </span>
+      </header>
+
+      {/* Filter bar */}
+      <div className="border-b px-6 py-2.5 flex items-center gap-3 flex-wrap bg-muted/30">
+        <div className="flex items-center gap-1.5">
+          {(Object.keys(LAYER_LABEL) as LayerKey[]).map((k) => {
+            const on = activeLayers.has(k);
+            const count = sections.filter((s) => s.scope_layer === k).length;
+            if (count === 0) return null;
+            return (
+              <button
+                key={k}
+                type="button"
+                onClick={() => toggleLayer(k)}
+                className={
+                  "text-xs px-2.5 py-1 rounded-full border flex items-center gap-1.5 transition " +
+                  (on
+                    ? "bg-background border-foreground/20 text-foreground"
+                    : "bg-transparent border-transparent text-muted-foreground hover:text-foreground")
+                }
+              >
+                <span className={`w-2 h-2 rounded-full ${LAYER_DOT[k]}`} />
+                {LAYER_LABEL[k]}
+                <span className="font-mono text-muted-foreground">{count}</span>
+              </button>
+            );
+          })}
+        </div>
+        <div className="ml-auto relative">
+          <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 size-3.5 text-muted-foreground" />
+          <input
+            type="search"
+            value={query}
+            onChange={(e) => handleSearch(e.target.value)}
+            placeholder="search this state's statute…"
+            className="text-xs pl-8 pr-3 py-1.5 rounded border bg-background w-72 focus:outline-none focus:ring-1 focus:ring-foreground/30"
+          />
+        </div>
+      </div>
+
+      {/* Two-pane body */}
+      <div className="flex-1 flex overflow-hidden">
+        {/* Tree */}
+        <aside className="w-80 lg:w-96 border-r overflow-y-auto py-2">
+          {(Object.keys(LAYER_LABEL) as LayerKey[]).map((k) => {
+            const items = grouped[k];
+            if (items.length === 0) return null;
+            return (
+              <div key={k} className="mb-3">
+                <div className="px-4 py-1 text-[10px] font-mono uppercase tracking-widest text-muted-foreground flex items-center gap-1.5">
+                  <span className={`w-1.5 h-1.5 rounded-full ${LAYER_DOT[k]}`} />
+                  {LAYER_LABEL[k]}
+                </div>
+                <ul>
+                  {items.map((s) => {
+                    const active = selected?.citation === s.citation;
+                    return (
+                      <li key={`${s.scope_layer}-${s.citation}-${s.url}`}>
+                        <button
+                          type="button"
+                          onClick={() => handleSelect(s)}
+                          className={
+                            "w-full text-left px-4 py-1.5 text-xs hover:bg-muted/50 border-l-2 " +
+                            (active
+                              ? "bg-muted/70 border-foreground"
+                              : `border-transparent ${LAYER_TINT[k]}`)
+                          }
+                        >
+                          <span className="font-mono text-foreground truncate block">
+                            {s.citation || s.label || "(no citation)"}
+                          </span>
+                          <span className="text-[10px] text-muted-foreground">
+                            {s.text.length.toLocaleString()} chars
+                            {s.evidence.length > 0 &&
+                              ` · ${s.evidence.length} claim${s.evidence.length === 1 ? "" : "s"}`}
+                          </span>
+                        </button>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            );
+          })}
+          {filtered.length === 0 && (
+            <p className="px-4 py-6 text-xs text-muted-foreground italic">
+              No sections match the current filters.
+            </p>
+          )}
+        </aside>
+
+        {/* Detail */}
+        <main className="flex-1 overflow-y-auto">
+          {selected ? (
+            <SectionDetail section={selected} searchQuery={query} />
+          ) : (
+            <p className="p-8 text-sm text-muted-foreground italic">
+              Select a section from the tree.
+            </p>
+          )}
+        </main>
+      </div>
+    </div>
+  );
+}
+
+// Right-pane: full section text with two highlight layers. Built by walking
+// the text once, applying both quote-evidence spans (amber, hover = field
+// name) and search-query spans (yellow). Overlapping ranges resolve in
+// favor of the search highlight — the user's active query is the more
+// salient signal.
+function SectionDetail({
+  section,
+  searchQuery,
+}: {
+  section: BrowseSection;
+  searchQuery: string;
+}) {
+  const evidenceSpans: Array<{ start: number; end: number; ev: BrowseEvidence }> = [];
+  for (const ev of section.evidence) {
+    for (const [s, e] of ev.spans) {
+      evidenceSpans.push({ start: s, end: e, ev });
+    }
+  }
+  evidenceSpans.sort((a, b) => a.start - b.start || a.end - b.end);
+
+  const searchHits = useMemo(
+    () => findAllSpans(searchQuery, section.text),
+    [searchQuery, section.text],
+  );
+
+  // Merge into a single layered render. Approach: build a sorted list of
+  // events (start/end with class), walk through text linearly. Search
+  // wins ties by getting placed later in the sort order.
+  const parts = useMemo(
+    () => renderLayered(section.text, evidenceSpans, searchHits),
+    // section.text + evidenceSpans + searchHits change in lockstep
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [section.text, searchQuery],
+  );
+
+  return (
+    <article className="px-8 py-6 max-w-4xl mx-auto">
+      <header className="mb-4">
+        <h2 className="text-lg font-medium flex items-baseline gap-3 flex-wrap">
+          <span className="font-mono">{section.citation}</span>
+          <a
+            href={section.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xs font-mono text-muted-foreground hover:text-foreground underline"
+          >
+            Justia ↗
+          </a>
+        </h2>
+        <p className="text-xs text-muted-foreground mt-0.5">{section.label}</p>
+        <div className="flex items-center gap-3 mt-2 text-[10px] font-mono uppercase tracking-widest text-muted-foreground">
+          <span className="flex items-center gap-1">
+            <span className={`w-1.5 h-1.5 rounded-full ${LAYER_DOT[section.scope_layer as LayerKey]}`} />
+            {LAYER_LABEL[section.scope_layer as LayerKey]}
+          </span>
+          {section.applies_to && section.applies_to.length > 0 && (
+            <span>
+              applies to: {section.applies_to.map((p) => p.replace(/_/g, " ")).join(", ")}
+            </span>
+          )}
+          {section.evidence.length > 0 && (
+            <span>{section.evidence.length} extracted claim{section.evidence.length === 1 ? "" : "s"}</span>
+          )}
+        </div>
+      </header>
+
+      <div className="text-sm leading-relaxed whitespace-pre-wrap">
+        {parts.map((p, i) => {
+          if (p.kind === "text") return <span key={i}>{p.value}</span>;
+          if (p.kind === "search") {
+            return (
+              <mark key={i} className="bg-yellow-300 rounded-sm">
+                {p.value}
+              </mark>
+            );
+          }
+          // p.kind === "evidence"
+          return (
+            <mark
+              key={i}
+              className="bg-amber-200/60 rounded-sm cursor-help"
+              title={`${p.ev?.field_path}\nvalue: ${formatVal(p.ev?.value)}${p.ev?.unverified ? "\n(unverified)" : ""}`}
+            >
+              {p.value}
+            </mark>
+          );
+        })}
+      </div>
+    </article>
+  );
+}
+
+function formatVal(v: unknown): string {
+  if (v === null || v === undefined) return "—";
+  if (Array.isArray(v)) return v.map(String).join(", ");
+  return String(v);
+}
+
+type RenderPart =
+  | { kind: "text"; value: string }
+  | { kind: "evidence"; value: string; ev?: BrowseEvidence }
+  | { kind: "search"; value: string };
+
+// Layered span renderer. Search highlights take priority where they overlap
+// with evidence highlights; non-overlapping ranges render independently.
+function renderLayered(
+  text: string,
+  evidenceSpans: Array<{ start: number; end: number; ev: BrowseEvidence }>,
+  searchSpans: Array<[number, number]>,
+): RenderPart[] {
+  // Build a layered priority array of spans.
+  // Search spans are higher priority — they fully replace evidence in
+  // overlapping regions. Implementation: track per-character class, walk
+  // contiguous ranges of same class into parts.
+  type Char = { ev?: BrowseEvidence; search: boolean };
+  const chars: Char[] = Array.from({ length: text.length }, () => ({ search: false }));
+  for (const { start, end, ev } of evidenceSpans) {
+    for (let i = start; i < end && i < text.length; i++) {
+      if (!chars[i].ev) chars[i].ev = ev;
+    }
+  }
+  for (const [start, end] of searchSpans) {
+    for (let i = start; i < end && i < text.length; i++) {
+      chars[i].search = true;
+    }
+  }
+
+  const parts: RenderPart[] = [];
+  let i = 0;
+  while (i < text.length) {
+    const c = chars[i];
+    const kind: "text" | "evidence" | "search" = c.search
+      ? "search"
+      : c.ev
+        ? "evidence"
+        : "text";
+    let j = i + 1;
+    while (j < text.length) {
+      const c2 = chars[j];
+      const k2 = c2.search ? "search" : c2.ev ? "evidence" : "text";
+      if (k2 !== kind) break;
+      // Same kind — must also be the same ev pointer for evidence to stay
+      // grouped (different field paths get separate <mark> tags so the
+      // hover tooltip is correct).
+      if (kind === "evidence" && c2.ev !== c.ev) break;
+      j++;
+    }
+    parts.push({
+      kind,
+      value: text.slice(i, j),
+      ...(kind === "evidence" ? { ev: c.ev } : {}),
+    });
+    i = j;
+  }
+  return parts;
+}

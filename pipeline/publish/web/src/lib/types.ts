@@ -135,7 +135,30 @@ export type Row = {
   // all the statute language for this (state, profession) without joining at
   // query time. Large (~50–500 KB per row).
   section_text_full?: string;
+  // Per-individual-section data for the /browse view. One entry per section
+  // (umbrella not aggregated, unlike row.sections), tagged with scope_layer
+  // so the tree can group practice / health umbrella / universal umbrella.
+  // Each section carries its own evidence spans anchored to its text.
+  browse_sections?: BrowseSection[];
   _full: StructuredRecord;
+};
+
+export type BrowseSection = {
+  url: string;
+  citation: string;
+  label: string;
+  text: string;
+  scope_layer: "practice" | "umbrella_universal" | "umbrella_enumeration";
+  applies_to: string[] | null;
+  evidence: BrowseEvidence[];
+};
+
+export type BrowseEvidence = {
+  field_path: string;
+  value: unknown;
+  quote: string;
+  spans: Array<[number, number]>;
+  unverified: boolean;
 };
 
 export type DiscoveredField = {

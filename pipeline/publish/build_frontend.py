@@ -142,6 +142,134 @@ def _g(d: dict | None, *path: str) -> Any:
     return cur
 
 
+def _load_umbrella_scope(state: str, scope_dir) -> dict[str, dict]:
+    """Returns {url: {scope_source, applies_to_professions}} for the state.
+
+    Built from umbrella_scope/<STATE>.json, which assign_umbrella_scope.py
+    populates. URLs in this map are canonicalized (no year prefix), matching
+    what umbrella_text/<STATE>.json emits — they're the same source.
+    """
+    p = scope_dir / f"{state}.json"
+    if not p.exists():
+        return {}
+    d = json.loads(p.read_text())
+    return {
+        s.get("url"): {
+            "scope_source": s.get("scope_source"),
+            "applies_to_professions": s.get("applies_to_professions"),
+        }
+        for s in (d.get("sections") or [])
+        if s.get("url")
+    }
+
+
+def _section_evidence_spans(record: dict, text: str) -> list[dict]:
+    """For one section's text, find every Evidence node from `record` whose
+    quote appears in it, returning a list of {field_path, value, quote,
+    spans, unverified} dicts. The frontend uses this to render highlights
+    over the section text in the browse view's detail panel.
+
+    Uses the same locate_quote_in_section matcher as _annotate_quote_spans
+    — single source of truth. An Evidence quote may match in multiple
+    sections; that's fine, both render highlights independently.
+    """
+    if not text:
+        return []
+    out: list[dict] = []
+    for path, node in iter_evidence(record):
+        quote = node.get("quote") or ""
+        if not quote:
+            continue
+        spans = locate_quote_in_section(quote, text)
+        if not spans:
+            continue
+        out.append({
+            "field_path": ".".join(str(p) for p in path),
+            "value": node.get("value"),
+            "quote": quote,
+            "spans": [list(p) for p in spans],
+            "unverified": bool(node.get("unverified")),
+        })
+    return out
+
+
+def _build_browse_sections(
+    record: dict,
+    profession: str,
+    practice_sections: list[dict],
+    umbrella_state_data: dict | None,
+    umb_scope: dict[str, dict],
+) -> list[dict]:
+    """Per-section data for the /browse/[state]/[prof] view.
+
+    Unlike row.sections (which aggregates umbrella sections by chapter for
+    backward-compat with the existing Sheet's "in context" lookup), this is
+    one entry per individual section, each tagged with a scope_layer the
+    browse view's tree groups by.
+
+    Filters umbrella sections to only those whose scope applies to the
+    current profession — universal applies to all; enumerated sections
+    include only the ones explicitly applying to this profession.
+    """
+    out: list[dict] = []
+
+    # Practice-act sections (per-profession). Every such section is the
+    # profession's own statute; no scope filter needed.
+    for s in practice_sections:
+        if not s.get("text"):
+            continue
+        out.append({
+            "url": s.get("url"),
+            "citation": s.get("citation"),
+            "label": s.get("label"),
+            "text": s.get("text"),
+            "scope_layer": "practice",
+            "applies_to": None,
+            "evidence": _section_evidence_spans(record, s.get("text") or ""),
+        })
+
+    # Umbrella sections (individual — not aggregated by chapter).
+    for s in (umbrella_state_data or {}).get("sections", []) or []:
+        text = s.get("text") or ""
+        url = s.get("url") or ""
+        if not text or not url:
+            continue
+        info = umb_scope.get(url) or {}
+        scope_source = info.get("scope_source") or ""
+        applies_to = info.get("applies_to_professions")
+
+        if scope_source in ("universal", "anchor_universal"):
+            scope_layer = "umbrella_universal"
+        elif scope_source in ("anchor_enumeration", "inherited_enumeration"):
+            scope_layer = "umbrella_enumeration"
+            # Filter: only keep sections that explicitly apply to this prof.
+            # applies_to=None means "scope assigner didn't determine" —
+            # exclude to avoid noise.
+            if not applies_to or profession not in applies_to:
+                continue
+        else:
+            # "undetermined" or empty — skip rather than guess.
+            continue
+
+        # Citation for umbrella section: use the section's own label, or fall
+        # back to the chapter label. Don't reuse the "UMBRELLA / <chap>"
+        # aggregate citation here — we want one entry per section.
+        chap_label = (s.get("umbrella_chapter_label") or "").strip()
+        label = s.get("label") or chap_label or "umbrella section"
+
+        out.append({
+            "url": url,
+            "citation": label,
+            "label": label,
+            "text": text,
+            "scope_layer": scope_layer,
+            "applies_to": applies_to,
+            "evidence": _section_evidence_spans(record, text),
+        })
+
+    return out
+
+
 def _annotate_quote_spans(record: dict, sections: list[dict]) -> tuple[int, int]:
     """For each verified Evidence node, find the cited section's text and
     attach `quote_spans`: a list of (start, end) char offsets into that
@@ -310,6 +438,12 @@ def build(profession: str) -> dict:
     sections_by_state: dict[str, list[dict]] = {}
 
     umbrella_text_dir = RESULTS_DIR / "umbrella_text"
+    umbrella_scope_dir = RESULTS_DIR / "umbrella_scope"
+
+    # Per-state raw umbrella + scope data so we can build browse_sections.
+    practice_sections_by_state: dict[str, list[dict]] = {}
+    umbrella_data_by_state: dict[str, dict] = {}
+    umb_scope_by_state: dict[str, dict[str, dict]] = {}
 
     if trimmed_dir.exists():
         for p in trimmed_dir.glob("*.json"):
@@ -325,6 +459,7 @@ def build(profession: str) -> dict:
                 for s in (d.get("sections") or [])
                 if s.get("text")
             ]
+            practice_sections_by_state[p.stem] = list(section_list)
             # ALSO include umbrella sections so the UI can highlight quotes the
             # extractor drew from umbrella context. Multiple umbrella section
             # bodies share the same "UMBRELLA / <chapter_label>" citation prefix
@@ -333,6 +468,8 @@ def build(profession: str) -> dict:
             umb_path = umbrella_text_dir / f"{p.stem}.json"
             if umb_path.exists():
                 umb = json.loads(umb_path.read_text())
+                umbrella_data_by_state[p.stem] = umb
+                umb_scope_by_state[p.stem] = _load_umbrella_scope(p.stem, umbrella_scope_dir)
                 by_chap: dict[str, dict] = {}
                 for s in umb.get("sections", []):
                     if not s.get("text"):
@@ -367,6 +504,18 @@ def build(profession: str) -> dict:
             # cheap. ~50–500 KB per row depending on state size.
             row["section_text_full"] = "\n\n".join(
                 s.get("text") or "" for s in row["sections"]
+            )
+            # Per-individual-section data for the /browse view's hierarchy
+            # tree + section detail. Different shape from row.sections (which
+            # aggregates umbrella by chapter for the Sheet's existing "in
+            # context" lookup). Each browse_section is one node in the tree,
+            # tagged with scope_layer + per-section evidence quote spans.
+            row["browse_sections"] = _build_browse_sections(
+                row["_full"],
+                profession,
+                practice_sections_by_state.get(st, []),
+                umbrella_data_by_state.get(st),
+                umb_scope_by_state.get(st, {}),
             )
             # Attach highlight spans now, against the EXACT section text we're
             # about to publish. Computing on this side (rather than during
