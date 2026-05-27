@@ -500,8 +500,14 @@ def run_walker_in_memory(
 def detect_fully_undetermined_chapters(walker_result: dict) -> set[str]:
     """Return chapter slugs where every section is undetermined.
 
-    These are almost always discover false positives (building codes, admin
-    procedure acts, etc.) rather than scope rule failures.
+    A 100%-undetermined chapter is AMBIGUOUS: it's either a genuine discover
+    false positive (a building code / admin-procedure act that shouldn't be in
+    umbrella_text at all) OR a chapter our rules simply failed to match (wrong
+    citation format, scope expressed in phrasing we don't catch). We can't tell
+    these apart automatically, so we only *report* them as candidates for a
+    human to add to `excluded_chapter_slugs` — we never auto-exclude. Auto-
+    excluding would let a broken ruleset masquerade as clean (every chapter
+    excluded → 0 undetermined → "looks done").
     """
     from collections import defaultdict
     by_chap: dict[str, list[str]] = defaultdict(list)
@@ -714,39 +720,47 @@ def main() -> None:
 
     proposal, initial_response = call_llm(state, anchors)
 
-    # Run walker in-memory to check quality and optionally refine
+    # Run walker in-memory to check quality and optionally refine. We do NOT
+    # auto-exclude fully-undetermined chapters (see
+    # detect_fully_undetermined_chapters): doing so would zero out the
+    # undetermined count and let a broken ruleset look clean. Undetermined
+    # sections stay counted so the refinement loop actually fires.
     print("Running walker check on proposed rules…")
     walker_result = run_walker_in_memory(state, proposal)
-    excluded_slugs: set[str] = set()
 
     if walker_result is not None:
-        # Detect 100%-undetermined chapters (discover false positives) and
-        # exclude them before the refinement check so they don't pollute it.
-        excluded_slugs = detect_fully_undetermined_chapters(walker_result)
-        if excluded_slugs:
-            print(f"  Auto-excluding {len(excluded_slugs)} fully-undetermined chapter(s): {sorted(excluded_slugs)}")
-            walker_result = run_walker_in_memory(state, proposal, excluded_slugs)
-
-        undetermined = get_undetermined_with_text(state, walker_result, excluded_slugs)
+        undetermined = get_undetermined_with_text(state, walker_result)
         n_undet = len(undetermined)
-        counts = walker_result["scope_source_counts"] if walker_result else {}
+        counts = walker_result["scope_source_counts"]
 
         if n_undet > UNDETERMINED_THRESHOLD:
             print(f"  {n_undet} non-narrow undetermined sections — triggering refinement pass…")
             proposal = refine_llm(state, anchors, initial_response, undetermined)
-            walker_result = run_walker_in_memory(state, proposal, excluded_slugs)
+            walker_result = run_walker_in_memory(state, proposal)
             if walker_result:
                 counts = walker_result["scope_source_counts"]
-                n_undet_after = len(get_undetermined_with_text(state, walker_result, excluded_slugs))
-                print(f"  After refinement: {n_undet_after} non-narrow undetermined")
+                n_undet = len(get_undetermined_with_text(state, walker_result))
+                print(f"  After refinement: {n_undet} non-narrow undetermined")
         else:
             print(f"  {n_undet} non-narrow undetermined — no refinement needed")
 
-        if not counts:
+        # Report (do not act on) 100%-undetermined chapters for human review.
+        candidates = detect_fully_undetermined_chapters(walker_result)
+        if candidates:
             print(
-                "\n[ERROR] Walker produced zero classified sections — the umbrella_text "
-                "for this state may be from the wrong part of the code, or the "
-                "profession_index has no matching chapters. Fix the upstream data "
+                f"  Review candidates — {len(candidates)} chapter(s) are 100% "
+                f"undetermined: {sorted(candidates)}\n"
+                f"    Decide per chapter: add to excluded_chapter_slugs if it's a "
+                f"non-occupational false positive (building code, admin procedure), "
+                f"else the rules need work for that chapter."
+            )
+
+        classified = {k: v for k, v in counts.items() if k != "undetermined"}
+        if not classified:
+            print(
+                "\n[ERROR] Walker classified zero sections — the umbrella_text for "
+                "this state may be from the wrong part of the code, the profession_index "
+                "has no matching chapters, or the citation format isn't matched. Fix "
                 "before applying these rules.",
                 file=sys.stderr,
             )
@@ -754,7 +768,7 @@ def main() -> None:
     else:
         print("  (walker check skipped — no profession_index for this state yet)")
 
-    code = render_rules_code(state, proposal, excluded_slugs)
+    code = render_rules_code(state, proposal)
     print_proposal(state, proposal, code)
 
     if args.apply:

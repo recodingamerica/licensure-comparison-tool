@@ -71,6 +71,19 @@ class StateScopeRules:
     scan_window: int = 3000
 
 
+# A URL's last path segment looks like a leaf statute section (vs. a
+# chapter/title/division landing page). Justia names leaf segments differently
+# per state — `section-58-1-102` (UT/FL/CO), `statute-622-005` (NV/NE),
+# `rs-37-1` (LA), bare integers (NY edn) — so we can't require a literal
+# "/section-". Mirrors pipeline/ingest/pull_text.py::SECTION_SEG; kept local so
+# the walker doesn't import the scraping stack (bs4/curl_cffi). Container
+# landing pages like `chapter-88` / `title-58` deliberately do NOT match, so
+# they're dropped from scope assignment.
+LEAF_SECTION_SEG = re.compile(
+    r"^(section[-_]|§|s[-_]\d|statute[-_]|rs[-_]|\d+[a-z]?[-_:.]\d|\d{3,}\b)",
+    re.I,
+)
+
 # Cross-state regularities — these have looked the same in every umbrella
 # text we've probed so far (UT, FL, CO, NE, MA).
 ANCHOR_LABEL_RE = re.compile(

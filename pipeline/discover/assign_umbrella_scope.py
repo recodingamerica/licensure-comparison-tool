@@ -51,6 +51,7 @@ from discover._scope_rules import (  # noqa: E402
     ANCHOR_LABEL_RE,
     AS_USED_RE,
     NARROW_LABEL_HINTS,
+    LEAF_SECTION_SEG,
 )
 
 UMBRELLA_TEXT_DIR = RESULTS_DIR / "umbrella_text"
@@ -111,13 +112,17 @@ def _split_chap_part(section: dict) -> tuple[str, str] | None:
     Returns None for chapter-landing-page entries that snuck into the
     umbrella_text record (Justia banner pages with URLs like
     `/codes/utah/title-58/chapter-88/` and labels like `2025 Utah Code`).
-    Those aren't sections and shouldn't be scoped.
+    Those aren't sections and shouldn't be scoped. A section is recognised by
+    its last URL segment matching LEAF_SECTION_SEG (section-/statute-/rs-/bare-
+    integer forms across states), which container segments like `chapter-88`
+    do not.
     """
     url = section.get("url", "")
-    if "/section-" not in url:
-        return None
     slug = section.get("umbrella_chapter_slug")
     if not slug:
+        return None
+    segments = [s for s in url.rstrip("/").split("/") if s]
+    if not segments or not LEAF_SECTION_SEG.match(segments[-1]):
         return None
     part_m = URL_PART_RE.search(url)
     return (slug, part_m.group(1) if part_m else "NO_PART")
