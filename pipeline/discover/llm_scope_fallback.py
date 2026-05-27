@@ -38,6 +38,7 @@ from __future__ import annotations
 import argparse
 import json
 import logging
+import re
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -264,6 +265,70 @@ def merge_scope(state: str) -> dict | None:
 
 
 # ---------------------------------------------------------------------------
+# Audit: flag LLM enumerations that may be over-inclusions / mis-mappings
+# ---------------------------------------------------------------------------
+
+# Evidence that references a chapter/title/article number suggests a cite-based
+# mapping (LLM resolved "chapter 474" -> a profession), where the profession
+# name legitimately won't appear in the text.
+_CITE_IN_EVIDENCE = re.compile(r"chapter|chs?\.|title|article|part\s+\d|\d{2,}", re.I)
+
+
+def _profession_terms_by_id() -> dict[str, list[str]]:
+    from collections import defaultdict
+    from discover.assign_umbrella_scope import _load_profession_terms
+    by_pid: dict[str, list[str]] = defaultdict(list)
+    for pid, term, _exc in _load_profession_terms():
+        by_pid[pid].append(term)
+    return by_pid
+
+
+def audit_enumerations(state: str) -> list[dict]:
+    """Review candidates: LLM enumerations whose assigned profession is NOT
+    named anywhere in its chapter's text AND whose evidence cites no
+    chapter/number. These are the higher-risk cases — the LLM may have inferred
+    a profession from the chapter's overall scope rather than the text.
+
+    Heuristic, not a verdict: grounding is checked against professions.yaml
+    terms, so board-name wording the term list doesn't cover (e.g. "State
+    Medical Board" for `medicine`) can produce false flags. Use it to direct a
+    human spot-check, not to auto-reject.
+    """
+    from collections import defaultdict
+    llm_path = UMBRELLA_SCOPE_LLM_DIR / f"{state}.json"
+    text_path = UMBRELLA_TEXT_DIR / f"{state}.json"
+    if not (llm_path.exists() and text_path.exists()):
+        return []
+    by_pid = _profession_terms_by_id()
+    chap_text: dict[str, str] = defaultdict(str)
+    url_chap: dict[str, str] = {}
+    for s in json.loads(text_path.read_text()).get("sections", []):
+        c = s.get("umbrella_chapter_slug", "")
+        chap_text[c] += " " + (s.get("text") or "").lower()
+        url_chap[s.get("url")] = c
+
+    candidates: list[dict] = []
+    for e in json.loads(llm_path.read_text()).get("decisions", []):
+        if e.get("scope_source") != "inherited_enumeration":
+            continue
+        if _CITE_IN_EVIDENCE.search(e.get("scope_evidence", "")):
+            continue  # cite-based mapping — name legitimately absent
+        ctext = chap_text.get(url_chap.get(e.get("url"), ""), "")
+        ungrounded = [
+            p for p in (e.get("applies_to_professions") or [])
+            if not any(t in ctext for t in by_pid.get(p, []))
+        ]
+        if ungrounded:
+            candidates.append({
+                "state": state,
+                "url": e.get("url"),
+                "ungrounded_professions": ungrounded,
+                "evidence": e.get("scope_evidence", "")[:140],
+            })
+    return candidates
+
+
+# ---------------------------------------------------------------------------
 # CLI
 # ---------------------------------------------------------------------------
 
@@ -307,6 +372,9 @@ def main() -> None:
                         help="All applied states that have undetermined sections")
     ap.add_argument("--model", default=DEFAULT_MODEL)
     ap.add_argument("--validate-fl", action="store_true", help="Run the FL § 455 trap check and exit")
+    ap.add_argument("--audit", action="store_true",
+                    help="Don't call the LLM — report enumeration review candidates "
+                         "(professions not grounded in the chapter text, no citation)")
     args = ap.parse_args()
 
     if args.validate_fl and not (args.state or args.states or args.all):
@@ -318,9 +386,25 @@ def main() -> None:
     elif args.states:
         targets = [s.strip().upper() for s in args.states.split(",") if s.strip()]
     elif args.all:
-        targets = _applied_states_with_undetermined()
+        if args.audit:
+            targets = sorted(p.stem for p in UMBRELLA_SCOPE_LLM_DIR.glob("*.json")
+                             if not p.stem.startswith("_"))
+        else:
+            targets = _applied_states_with_undetermined()
     else:
         sys.exit("Specify --state / --states / --all (or --validate-fl).")
+
+    if args.audit:
+        total = 0
+        for st in targets:
+            cands = audit_enumerations(st)
+            total += len(cands)
+            for c in cands:
+                leaf = c["url"].rstrip("/").split("/")[-1]
+                print(f"{st} {leaf}: {c['ungrounded_professions']} | ev: {c['evidence']}")
+        print(f"\n{total} enumeration review candidate(s) across {len(targets)} state(s) "
+              f"(heuristic — board-name wording may false-flag; spot-check, don't auto-reject)")
+        return
 
     for st in targets:
         try:

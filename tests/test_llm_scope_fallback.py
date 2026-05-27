@@ -94,6 +94,40 @@ def test_merge_overlays_llm_onto_undetermined(fake_dirs):
     assert by_url["u2"]["scope_method"] == "walker"
 
 
+def test_audit_flags_ungrounded_no_citation(fake_dirs, monkeypatch):
+    sd, ld, td = fake_dirs
+    # text: chapter c1 names "nursing" but never "podiatry"
+    (td / "XX.json").write_text(json.dumps({"sections": [
+        {"url": "u1", "umbrella_chapter_slug": "c1", "text": "the practice of nursing in this chapter"},
+    ]}))
+    # LLM enumerated podiatry (not in text) with NO citation in evidence -> flagged;
+    # nursing (in text) -> not flagged.
+    (ld / "XX.json").write_text(json.dumps({"decisions": [
+        {"url": "u1", "scope_source": "inherited_enumeration",
+         "applies_to_professions": ["nursing", "podiatry"], "scope_evidence": "registered nurses and others"},
+    ]}))
+    monkeypatch.setattr(P, "_profession_terms_by_id",
+                        lambda: {"nursing": ["nursing", "nurse"], "podiatry": ["podiatry", "podiatric"]})
+    cands = P.audit_enumerations("XX")
+    assert len(cands) == 1
+    assert cands[0]["ungrounded_professions"] == ["podiatry"]  # nursing grounded, podiatry not
+
+
+def test_audit_skips_when_evidence_has_citation(fake_dirs, monkeypatch):
+    sd, ld, td = fake_dirs
+    (td / "XX.json").write_text(json.dumps({"sections": [
+        {"url": "u1", "umbrella_chapter_slug": "c1", "text": "applies to chapter 474"},
+    ]}))
+    (ld / "XX.json").write_text(json.dumps({"decisions": [
+        {"url": "u1", "scope_source": "inherited_enumeration",
+         "applies_to_professions": ["veterinary"], "scope_evidence": "licensed under chapter 474"},
+    ]}))
+    monkeypatch.setattr(P, "_profession_terms_by_id", lambda: {"veterinary": ["veterinary", "veterinarian"]})
+    # evidence cites "chapter 474" -> cite-based mapping, not flagged even though
+    # 'veterinary' isn't in the text
+    assert P.audit_enumerations("XX") == []
+
+
 def test_merge_without_llm_file_marks_all_walker(fake_dirs):
     sd, ld, td = fake_dirs
     (sd / "XX.json").write_text(json.dumps({"sections": [
