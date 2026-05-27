@@ -29,7 +29,7 @@ from typing import Literal
 
 import anthropic
 from dotenv import load_dotenv
-from pydantic import BaseModel, model_validator
+from pydantic import BaseModel, field_validator, model_validator
 
 # Load .env from repo root (CLAUDE_API_KEY → used as Anthropic api_key)
 load_dotenv(Path(__file__).resolve().parents[2] / ".env")
@@ -73,6 +73,24 @@ class ScopeRulesProposal(BaseModel):
     range_chapter_pattern: str | None = None
     profession_name_trigger_patterns: list[str] = []
     rationale: str
+
+    @field_validator(
+        "trigger_patterns", "profession_name_trigger_patterns",
+        "universal_patterns", mode="before",
+    )
+    @classmethod
+    def _coerce_json_string_list(cls, v: object) -> object:
+        # The model occasionally returns a list field as a JSON-encoded string
+        # (e.g. trigger_patterns='["licensed\\\\s+under\\\\b", ...]'). Parse it
+        # back into a real list before normal validation runs.
+        if isinstance(v, str):
+            try:
+                parsed = json.loads(v)
+            except json.JSONDecodeError:
+                return v
+            if isinstance(parsed, list):
+                return parsed
+        return v
 
     @model_validator(mode="after")
     def validate_regex_strings(self) -> "ScopeRulesProposal":
