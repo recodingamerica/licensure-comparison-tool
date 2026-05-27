@@ -89,6 +89,11 @@ LEAF_SECTION_SEG = re.compile(
 ANCHOR_LABEL_RE = re.compile(
     r"(applicability|definitions|short title|"
     r"scope\s+of\s+(?:chapter|part|article|title)|"
+    # "Application of [the/this] chapter/part/title/act" — a scope-defining
+    # label (WA "18.235.020 - Application of chapter" enumerates which practice
+    # acts the umbrella governs). Requires "of" so it won't match application
+    # *process* labels like "Application for a license" / "Application fee".
+    r"application\s+of\s+(?:the\s+|this\s+)?(?:chapter|part|article|title|act)|"
     r"\bscope$)",  # bare "Scope" at end of label — CO uses this form, e.g. "Section 12-20-101 - Scope"
     re.I,
 )

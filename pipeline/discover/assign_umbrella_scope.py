@@ -83,6 +83,17 @@ YEAR_PREFIX_RE = re.compile(r"/codes/[a-z-]+/\d{4}/")
 DEFINITION_BOUNDARY_RE = re.compile(r'\n\s*\(\d+\)\s*"')
 
 
+def _cite_token_to_slug(token: str, slug_prefix: str) -> str:
+    """Build a reverse-index slug from a captured citation token.
+
+    Justia slugs are dash-joined (`chapter-18-22`), but some states write
+    multi-part cites with dots (WA "chapter 18.22", "18.22.010") — so we
+    normalize dots to dashes. For states whose tokens are already single
+    dash/letter forms (UT "31b", FL "456", CO "200") this is a no-op.
+    """
+    return f"{slug_prefix}-{token.lower().replace('.', '-')}"
+
+
 def _canonical_url(url: str) -> str:
     """Strip the year-version segment so 2024/foo and current/foo dedupe."""
     return YEAR_PREFIX_RE.sub(lambda m: m.group(0).rsplit("/", 2)[0] + "/", url)
@@ -231,14 +242,14 @@ def _parse_one_anchor(
             boundary = DEFINITION_BOUNDARY_RE.search(raw_tail)
             tail = raw_tail[: boundary.start()] if boundary else raw_tail
             for m in rules.chapter_cite_pattern.finditer(tail):
-                slug = f"{rules.slug_prefix}-{m.group(1).lower()}"
+                slug = _cite_token_to_slug(m.group(1), rules.slug_prefix)
                 if slug in reverse_index:
                     cited_slugs.add(slug)
                     if not first_ev:
                         abs_pos = tm.end() + m.start()
                         first_ev = text[max(0, abs_pos - 60) : abs_pos + 100].strip()
             for m in rules.section_cite_pattern.finditer(tail):
-                slug = f"{rules.slug_prefix}-{m.group(1).lower()}"
+                slug = _cite_token_to_slug(m.group(1), rules.slug_prefix)
                 if slug in reverse_index:
                     cited_slugs.add(slug)
 

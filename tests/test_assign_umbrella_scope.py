@@ -22,12 +22,15 @@ from __future__ import annotations
 
 import pytest
 
+import re
+
 from pipeline.discover.assign_umbrella_scope import (
     _split_chap_part,
+    _parse_one_anchor,
     assign_for_state,
     UMBRELLA_TEXT_DIR,
 )
-from pipeline.discover._scope_rules import LEAF_SECTION_SEG
+from pipeline.discover._scope_rules import LEAF_SECTION_SEG, StateScopeRules, ANCHOR_LABEL_RE
 
 
 # ---------------------------------------------------------------------------
@@ -102,6 +105,71 @@ def test_split_none_without_slug():
 
 def test_split_none_empty_url():
     assert _split_chap_part({"url": "", "umbrella_chapter_slug": "chapter-1"}) is None
+
+
+# ---------------------------------------------------------------------------
+# Unit: ANCHOR_LABEL_RE — "Application of chapter" is a scope anchor
+# ---------------------------------------------------------------------------
+
+@pytest.mark.parametrize("label", [
+    "18.235.020 - Application of chapter—Director's authority—Disciplinary authority.",
+    "Application of this chapter",
+    "Application of chapter",
+    "Sec. 3. Application of the chapter",
+])
+def test_anchor_matches_application_of_chapter(label):
+    assert ANCHOR_LABEL_RE.search(label)
+
+
+@pytest.mark.parametrize("label", [
+    "Application for a license",      # process, not scope
+    "Application requirements",
+    "Application fee",
+    "Renewal application",
+])
+def test_anchor_rejects_application_for_license(label):
+    assert not ANCHOR_LABEL_RE.search(label)
+
+
+# ---------------------------------------------------------------------------
+# Unit: _parse_one_anchor citation resolution (dotted vs dash slugs)
+# ---------------------------------------------------------------------------
+
+def test_parse_anchor_resolves_dotted_cites_to_dash_slugs():
+    # WA cites chapters as "18.22" / "18.108" but reverse-index slugs are
+    # dash-joined ("chapter-18-22"). The walker must normalize the dotted
+    # cite token to the dash slug, else the cites never resolve.
+    rules = StateScopeRules(
+        universal_patterns=(),
+        trigger_patterns=(re.compile(r"licensed\s+under\b", re.I),),
+        chapter_cite_pattern=re.compile(r"\bchapter\s+(\d+\.\d+)\b", re.I),
+        section_cite_pattern=re.compile(r"\b(\d+\.\d+)\.\d+\b", re.I),
+    )
+    reverse_index = {"chapter-18-22": ["podiatry"], "chapter-18-108": ["massage_therapy"]}
+    text = (
+        "As used in this chapter: a person licensed under chapter 18.22 or "
+        "chapter 18.108 means a credential holder."
+    )
+    signals = _parse_one_anchor(text, rules, reverse_index)
+    enum = [s for s in signals if s["kind"] == "enumerated"]
+    assert enum, "expected an enumerated signal from the two dotted cites"
+    assert set(enum[0]["professions"]) == {"podiatry", "massage_therapy"}
+
+
+def test_parse_anchor_dash_cites_unaffected():
+    # States that already use dash/letter tokens (UT "31b", FL "456") must be
+    # unchanged by dot normalization.
+    rules = StateScopeRules(
+        universal_patterns=(),
+        trigger_patterns=(re.compile(r"licensed\s+under\b", re.I),),
+        chapter_cite_pattern=re.compile(r"\bchapter\s+(\d+[a-z]?)\b", re.I),
+        section_cite_pattern=re.compile(r"\bsection\s+58-(\d+[a-z]?)-", re.I),
+    )
+    reverse_index = {"chapter-456": ["x"], "chapter-457": ["y"]}
+    text = "licensed under chapter 456 or chapter 457."
+    signals = _parse_one_anchor(text, rules, reverse_index)
+    enum = [s for s in signals if s["kind"] == "enumerated"]
+    assert enum and set(enum[0]["professions"]) == {"x", "y"}
 
 
 # ---------------------------------------------------------------------------
