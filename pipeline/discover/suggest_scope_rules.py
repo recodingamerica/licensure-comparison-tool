@@ -74,12 +74,8 @@ class ScopeRulesProposal(BaseModel):
     profession_name_trigger_patterns: list[str] = []
     rationale: str
 
-    @field_validator(
-        "trigger_patterns", "profession_name_trigger_patterns",
-        "universal_patterns", mode="before",
-    )
-    @classmethod
-    def _coerce_json_string_list(cls, v: object) -> object:
+    @staticmethod
+    def _json_string_to_list(v: object) -> object:
         # The model occasionally returns a list field as a JSON-encoded string
         # (e.g. trigger_patterns='["licensed\\\\s+under\\\\b", ...]'). Parse it
         # back into a real list before normal validation runs.
@@ -90,6 +86,36 @@ class ScopeRulesProposal(BaseModel):
                 return v
             if isinstance(parsed, list):
                 return parsed
+        return v
+
+    @field_validator(
+        "trigger_patterns", "profession_name_trigger_patterns", mode="before",
+    )
+    @classmethod
+    def _coerce_json_string_list(cls, v: object) -> object:
+        return cls._json_string_to_list(v)
+
+    @field_validator("universal_patterns", mode="before")
+    @classmethod
+    def _coerce_universal_patterns(cls, v: object) -> object:
+        # First undo the JSON-string-of-list quirk, then map any
+        # [pattern, target] pair entries to {pattern, target} objects. The
+        # few-shot examples render universal_patterns in tuple notation —
+        # `("this title applies...", "title")` — so the model sometimes returns
+        # each entry as a 2-element list instead of an object.
+        v = cls._json_string_to_list(v)
+        if isinstance(v, list):
+            coerced = []
+            for item in v:
+                if (
+                    isinstance(item, (list, tuple))
+                    and len(item) == 2
+                    and all(isinstance(x, str) for x in item)
+                ):
+                    coerced.append({"pattern": item[0], "target": item[1]})
+                else:
+                    coerced.append(item)
+            return coerced
         return v
 
     @model_validator(mode="after")
