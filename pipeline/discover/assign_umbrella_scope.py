@@ -366,22 +366,13 @@ def _select_scope(
     return {"kind": "undetermined", "reason": "no_anchor_signal_applies_to_this_part"}
 
 
-def assign_for_state(state: str) -> dict:
-    rules = STATE_RULES.get(state)
-    if rules is None:
-        raise SystemExit(
-            f"No scope rules for state {state!r}. Add an entry to "
-            "pipeline/discover/_scope_rules.py::STATE_RULES."
-        )
-
-    reverse_index = build_reverse_index(state)
-    if not reverse_index:
-        raise SystemExit(f"No profession_index entries for state {state!r}")
-
+def _load_grouped(state: str) -> dict[tuple[str, str], list[dict]]:
+    """Load umbrella_text, dedupe year-versions, and group sections by
+    (chapter_slug, part), dropping non-section URLs (banner/landing pages).
+    Shared by the rules-based walker and the rules-free skeleton."""
     src = UMBRELLA_TEXT_DIR / f"{state}.json"
     if not src.exists():
         raise SystemExit(f"Missing umbrella_text file: {src}")
-
     raw = json.loads(src.read_text())
     sections = dedupe_year_versions(raw.get("sections", []))
     log.info("[%s] %d sections after dedup (from %d raw)", state, len(sections), len(raw.get("sections", [])))
@@ -394,9 +385,55 @@ def assign_for_state(state: str) -> dict:
             skipped_no_url += 1
             continue
         grouped[key].append(s)
-
     if skipped_no_url:
         log.warning("[%s] %d sections had no parseable URL; dropped", state, skipped_no_url)
+    return grouped
+
+
+def skeleton_for_state(state: str) -> dict:
+    """The walker's output shape for a state with NO scope rules: every section
+    structured (same dedup/grouping/anchor detection as the real walker) but
+    left `undetermined`. This is the honest deterministic result for states we
+    deliberately don't write regex for — Pass 3 (the LLM fallback) then fills
+    these in, and the merge works uniformly across ruled and unruled states.
+    """
+    grouped = _load_grouped(state)
+    out_sections: list[dict] = []
+    for (chap, part), secs in sorted(grouped.items()):
+        for s in secs:
+            out_sections.append({
+                "url": s.get("url", ""),
+                "label": s.get("label", ""),
+                "umbrella_chapter_slug": chap,
+                "umbrella_part": part,
+                "is_anchor": _is_anchor(s),
+                "applies_to_professions": None,
+                "scope_source": "undetermined",
+                "scope_target": None,
+                "scope_evidence": "",
+            })
+    return {
+        "state": state,
+        "section_count": len(out_sections),
+        "scope_source_counts": {"undetermined": len(out_sections)} if out_sections else {},
+        "triage": [],
+        "sections": out_sections,
+    }
+
+
+def assign_for_state(state: str) -> dict:
+    rules = STATE_RULES.get(state)
+    if rules is None:
+        raise SystemExit(
+            f"No scope rules for state {state!r}. Add an entry to "
+            "pipeline/discover/_scope_rules.py::STATE_RULES."
+        )
+
+    reverse_index = build_reverse_index(state)
+    if not reverse_index:
+        raise SystemExit(f"No profession_index entries for state {state!r}")
+
+    grouped = _load_grouped(state)
 
     # Drop chapters explicitly excluded in the state's scope rules (e.g.
     # building-safety or admin-procedure chapters pulled in by the discover
@@ -493,9 +530,21 @@ def assign_for_state(state: str) -> dict:
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--state", required=True)
+    ap.add_argument(
+        "--skeleton", action="store_true",
+        help="Emit an all-undetermined skeleton (no scope rules) for LLM-only "
+             "states. Implied automatically when the state has no STATE_RULES entry.",
+    )
     args = ap.parse_args()
 
-    result = assign_for_state(args.state)
+    state = args.state
+    if args.skeleton or state not in STATE_RULES:
+        if state not in STATE_RULES:
+            log.info("[%s] no scope rules — emitting all-undetermined skeleton "
+                     "(LLM-fallback territory)", state)
+        result = skeleton_for_state(state)
+    else:
+        result = assign_for_state(state)
 
     UMBRELLA_SCOPE_DIR.mkdir(parents=True, exist_ok=True)
     out = UMBRELLA_SCOPE_DIR / f"{args.state}.json"

@@ -20,6 +20,8 @@ and skip if it's absent, so they don't fail in a data-less checkout.
 
 from __future__ import annotations
 
+import json
+
 import pytest
 
 import re
@@ -225,6 +227,35 @@ def test_golden_scope_source_counts(state, expected):
         pytest.skip(f"no committed umbrella_text for {state}")
     result = assign_for_state(state)
     assert result["scope_source_counts"] == expected
+
+
+def test_skeleton_all_undetermined_drops_landing_pages(tmp_path, monkeypatch):
+    import pipeline.discover.assign_umbrella_scope as W
+    monkeypatch.setattr(W, "UMBRELLA_TEXT_DIR", tmp_path)
+    (tmp_path / "ZZ.json").write_text(json.dumps({"sections": [
+        {"url": "https://x/codes/zz/title-1/chapter-1/section-1-1/", "label": "Definitions",
+         "umbrella_chapter_slug": "chapter-1", "text": "t"},
+        {"url": "https://x/codes/zz/title-1/chapter-1/statute-1-2/", "label": "Scope",
+         "umbrella_chapter_slug": "chapter-1", "text": "t"},
+        {"url": "https://x/codes/zz/title-1/chapter-1/", "label": "2025 Code",  # landing page
+         "umbrella_chapter_slug": "chapter-1", "text": "t"},
+    ]}))
+    r = W.skeleton_for_state("ZZ")
+    # landing page dropped (leaf 'chapter-1' isn't a section); 2 real sections kept
+    assert r["scope_source_counts"] == {"undetermined": 2}
+    assert all(s["scope_source"] == "undetermined" for s in r["sections"])
+    assert {s["url"].rstrip("/").split("/")[-1] for s in r["sections"]} == {"section-1-1", "statute-1-2"}
+
+
+def test_skeleton_empty_when_no_sections(tmp_path, monkeypatch):
+    import pipeline.discover.assign_umbrella_scope as W
+    monkeypatch.setattr(W, "UMBRELLA_TEXT_DIR", tmp_path)
+    (tmp_path / "ZZ.json").write_text(json.dumps({"sections": [
+        {"url": "https://x/codes/zz/title-1/chapter-1/", "label": "2025 Code",
+         "umbrella_chapter_slug": "chapter-1", "text": "t"},  # only a landing page
+    ]}))
+    r = W.skeleton_for_state("ZZ")
+    assert r["section_count"] == 0 and r["scope_source_counts"] == {}
 
 
 def test_fl_chapter_455_stays_undetermined():
