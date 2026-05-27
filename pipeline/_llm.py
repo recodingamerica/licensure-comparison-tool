@@ -70,7 +70,7 @@ def call_structured(
     schema_cls: type[T],
     embed_schema: bool = False,
     max_tokens: int = 8000,
-    temperature: float = 0.0,
+    temperature: float | None = 0.0,
     max_retries: int = 2,
     backoff_base: float = 1.5,
     timeout: float = 300.0,
@@ -104,13 +104,12 @@ def call_structured(
 
     for attempt in range(max_retries + 1):
         try:
-            resp = litellm.completion(
+            kwargs = dict(
                 model=model,
                 messages=[
                     {"role": "system", "content": system_msg},
                     {"role": "user", "content": user},
                 ],
-                temperature=temperature,
                 max_tokens=max_tokens,
                 # Bound a single call so a hung API connection doesn't stall
                 # a multi-hour bulk run (this happened on a 760K-char VA
@@ -119,6 +118,11 @@ def call_structured(
                 # state still gets attempted.
                 timeout=timeout,
             )
+            # temperature is removed on some models (e.g. Opus 4.7 — sending it
+            # 400s). Pass temperature=None to omit it.
+            if temperature is not None:
+                kwargs["temperature"] = temperature
+            resp = litellm.completion(**kwargs)
             raw = resp.choices[0].message.content or ""
             data = json.loads(extract_json(raw))
             try:
