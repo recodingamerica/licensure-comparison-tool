@@ -130,10 +130,38 @@
 }
 
 /* AG Grid row class for states whose extracted quotes didn't all verify
-   against the source. Amber left-border + soft amber fill so a row stands
-   out at a glance without competing with the data. Coverage-gap rows
-   already have their own muted treatment; this layers on top harmlessly. */
+   against the source. Soft amber fill flags the row at a glance; per-cell
+   .cell-unverified borders identify the specific field. No box-shadow here —
+   AG Grid splits rows across multiple DOM containers (pinned + center), so
+   an inset left-border would appear twice. */
 .ag-row-unverified {
-  box-shadow: inset 3px 0 0 0 #d97706; /* amber-600 */
   background-color: #fffbeb; /* amber-50 */
+}
+
+/* Preserve amber tint on hover — AG Grid's theme applies rowHoverColor via
+   a ::before pseudo-element using var(--ag-row-hover-color), so overriding
+   background-color does nothing. Override the variable itself so the ::before
+   inherits the amber shade instead of the theme's slate-100. */
+.ag-row-unverified.ag-row-hover {
+  --ag-row-hover-color: #fef3c7; /* amber-100 */
+}
+
+/* Per-cell unverified indicator: applied to individual cells whose Evidence
+   quote didn't match the cleaned source verbatim. Italic text + amber left
+   border pins the signal to the specific field, layering on top of the
+   row-level .ag-row-unverified treatment. */
+.cell-unverified {
+  font-style: italic;
+  box-shadow: inset 2px 0 0 0 #d97706 !important; /* amber-600 */
+}
+
+/* Hard-clip plain text cells at 3 lines. The fixed rowHeight leaves a sliver
+   of line 4 visible due to sub-pixel rendering; -webkit-line-clamp handles
+   the exact boundary cleanly. Targets only bare spans (TextCellRenderer
+   output) — chip/badge spans all have a className and are unaffected. */
+.ag-cell > span:not([class]) {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
 }

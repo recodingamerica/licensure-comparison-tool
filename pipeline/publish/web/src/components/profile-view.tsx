@@ -515,7 +515,7 @@ function MulticheckFilter(
 
 // ---------- Helpers for drilling into the structured record ----------
 
-type EvidenceLike = { value: unknown; quote?: unknown; citation?: unknown };
+type EvidenceLike = { value: unknown; quote?: unknown; citation?: unknown; unverified?: boolean };
 
 function isEvidence(x: unknown): x is EvidenceLike {
   return (
@@ -534,6 +534,18 @@ function ev(data: Row | undefined, ...path: string[]): unknown {
   }
   if (isEvidence(cur)) return cur.value;
   return cur;
+}
+
+// Like ev(), but returns true when the Evidence node at the given path
+// has unverified: true. Used to drive per-cell .cell-unverified styling.
+function evUnverified(data: Row | undefined, ...path: string[]): boolean {
+  if (!data || !data._full) return false;
+  let cur: unknown = data._full;
+  for (const p of path) {
+    if (cur == null || typeof cur !== "object") return false;
+    cur = (cur as Record<string, unknown>)[p];
+  }
+  return isEvidence(cur) && cur.unverified === true;
 }
 
 
@@ -615,6 +627,50 @@ function inferFilter(
     : "agTextColumnFilter";
 }
 
+// Maps colId / field name → the _full path whose Evidence.unverified flag
+// controls per-cell amber styling. Each entry is the argument list for
+// evUnverified(data, ...path). Compound columns (continuing_ed) that draw
+// from two Evidence nodes are listed under UNVERIFIED_COMPOUND.
+const UNVERIFIED_PATHS: Record<string, string[]> = {
+  regulatory_model:          ["licensure", "regulatory_model"],
+  issuing_authority:         ["licensure", "issuing_authority"],
+  education_degree:          ["licensure", "education", "degree_required"],
+  post_degree_duration:      ["licensure", "post_degree_experience", "duration"],
+  renewal_years:             ["licensure", "renewal", "interval_years"],
+  reciprocity_available:     ["licensure", "reciprocity", "available"],
+  advisory_board_exists:     ["licensure", "advisory_board", "exists"],
+  national_certification:    ["licensure", "national_certification"],
+  national_association:      ["licensure", "national_association"],
+  renewal_fee_usd:           ["licensure", "renewal_fee_usd"],
+  credential_type:           ["licensure", "credential_type"],
+  license_required:          ["licensure", "license_required"],
+  title_protection:          ["licensure", "title_protection"],
+  scope_protection:          ["licensure", "scope_protection"],
+  is_mandatory:              ["licensure", "is_mandatory"],
+  age_minimum:               ["licensure", "age_minimum"],
+  moral_character_required:  ["licensure", "moral_character_required"],
+  education_accrediting_body:["licensure", "education", "accrediting_body"],
+  post_degree_required:      ["licensure", "post_degree_experience", "required"],
+  post_degree_kind:          ["licensure", "post_degree_experience", "kind"],
+  ce_required:               ["licensure", "continuing_education", "required"],
+  ce_hours_per_period:       ["licensure", "continuing_education", "hours_per_period"],
+  ce_period_years:           ["licensure", "continuing_education", "period_years"],
+  ce_topical_requirements:   ["licensure", "continuing_education", "topical_requirements"],
+  reciprocity_requirements:  ["licensure", "reciprocity", "requirements"],
+  scope_definition:          ["scope", "definition_quote"],
+  scope_methods:             ["scope", "methods_authorized"],
+  scope_drug_authority:      ["scope", "drug_authority"],
+};
+
+// Columns whose value comes from more than one Evidence node — flag the cell
+// if ANY of its backing nodes is unverified.
+const UNVERIFIED_COMPOUND: Record<string, string[][]> = {
+  continuing_ed: [
+    ["licensure", "continuing_education", "hours_per_period"],
+    ["licensure", "continuing_education", "period_years"],
+  ],
+};
+
 function buildColumnDefs(
   discoveredFields: DiscoveredField[],
   rows: Row[]
@@ -645,7 +701,6 @@ function buildColumnDefs(
     filter: MulticheckFilter,
     headerTooltip:
       "Orthogonal to UORF rung: license / certification / registration / exemption + mandatory/voluntary",
-    autoHeight: true,
     // Hidden by default — for the common "license × mandatory" case it
     // duplicates the Regulation (UORF) column. Users opt in via the
     // Columns ▾ dropdown when they want the orthogonal decomposition.
@@ -658,7 +713,6 @@ function buildColumnDefs(
     cellRenderer: TextCellRenderer,
     filter: "agTextColumnFilter",
     wrapText: true,
-    autoHeight: true,
     cellClass: "leading-snug",
   },
   {
@@ -668,7 +722,6 @@ function buildColumnDefs(
     cellRenderer: TextCellRenderer,
     filter: "agTextColumnFilter",
     wrapText: true,
-    autoHeight: true,
     cellClass: "leading-snug",
   },
   {
@@ -678,7 +731,6 @@ function buildColumnDefs(
     cellRenderer: TextCellRenderer,
     filter: "agTextColumnFilter",
     wrapText: true,
-    autoHeight: true,
     cellClass: "leading-snug",
   },
   {
@@ -733,7 +785,6 @@ function buildColumnDefs(
       Array.isArray(p.value) ? p.value.join(" ") : "",
     cellClass: "text-center",
     headerClass: "text-center",
-    autoHeight: true,
   },
   // ── Universal-comparison fields aligned with Atharv's cross-state schema.
   // Header names use his vocabulary from the PDF table so the column labels
@@ -756,7 +807,6 @@ function buildColumnDefs(
     cellRenderer: TextCellRenderer,
     filter: "agTextColumnFilter",
     wrapText: true,
-    autoHeight: true,
     cellClass: "leading-snug",
     hide: true, // mostly empty (only states with a separate advisory body)
   },
@@ -767,7 +817,6 @@ function buildColumnDefs(
     cellRenderer: TextCellRenderer,
     filter: "agTextColumnFilter",
     wrapText: true,
-    autoHeight: true,
     cellClass: "leading-snug",
     hide: true, // long free text from the statute
   },
@@ -778,7 +827,6 @@ function buildColumnDefs(
     cellRenderer: TextCellRenderer,
     filter: MulticheckFilter,
     wrapText: true,
-    autoHeight: true,
     cellClass: "leading-snug",
     headerTooltip:
       "National certifying body the statute recognizes or requires (e.g. NBPME, ABPS, ECFMG).",
@@ -790,7 +838,6 @@ function buildColumnDefs(
     cellRenderer: TextCellRenderer,
     filter: MulticheckFilter,
     wrapText: true,
-    autoHeight: true,
     cellClass: "leading-snug",
     headerTooltip:
       "Professional association the statute references (e.g. APMA, ADA, AMA). Distinct from the certifying body.",
@@ -927,7 +974,6 @@ function buildColumnDefs(
     width: 200,
     hide: true,
     wrapText: true,
-    autoHeight: true,
   },
   {
     colId: "post_degree_required",
@@ -949,7 +995,6 @@ function buildColumnDefs(
     width: 180,
     hide: true,
     wrapText: true,
-    autoHeight: true,
   },
   {
     colId: "ce_required",
@@ -996,7 +1041,6 @@ function buildColumnDefs(
     width: 220,
     hide: true,
     wrapText: true,
-    autoHeight: true,
   },
   {
     colId: "reciprocity_requirements",
@@ -1007,7 +1051,6 @@ function buildColumnDefs(
     width: 260,
     hide: true,
     wrapText: true,
-    autoHeight: true,
   },
   {
     colId: "disciplinary_grounds_count",
@@ -1032,7 +1075,6 @@ function buildColumnDefs(
     width: 240,
     hide: true,
     wrapText: true,
-    autoHeight: true,
   },
   {
     colId: "scope_definition",
@@ -1041,9 +1083,7 @@ function buildColumnDefs(
     cellRenderer: TextCellRenderer,
     filter: "agTextColumnFilter",
     width: 320,
-    hide: true,
     wrapText: true,
-    autoHeight: true,
   },
   {
     colId: "scope_methods",
@@ -1057,7 +1097,6 @@ function buildColumnDefs(
     width: 220,
     hide: true,
     wrapText: true,
-    autoHeight: true,
   },
   {
     colId: "scope_drug_authority",
@@ -1068,7 +1107,6 @@ function buildColumnDefs(
     width: 220,
     hide: true,
     wrapText: true,
-    autoHeight: true,
   },
   ];
 
@@ -1097,8 +1135,15 @@ function buildColumnDefs(
       filter: f.type === "int" ? "agNumberColumnFilter" : "agTextColumnFilter",
       width: 200,
       hide: true,
-      wrapText: f.type === "str" || f.type === "list[str]",
-      autoHeight: true,
+      wrapText: true,
+      cellClassRules: {
+        "cell-unverified": (p) => {
+          const ps = p.data?._full?.profession_specific;
+          if (!ps) return false;
+          const node = (ps as Record<string, unknown>)[f.name];
+          return isEvidence(node) && node.unverified === true;
+        },
+      },
     });
   }
 
@@ -1111,6 +1156,24 @@ function buildColumnDefs(
   for (const c of cols) {
     if (c.lockVisible) continue; // state column — always text-searchable
     c.filter = inferFilter(c, rows);
+  }
+
+  // ── Wire per-cell unverified styling (amber italic border) ──
+  // For every column that has a single backing Evidence node, use
+  // UNVERIFIED_PATHS to attach cellClassRules. Compound columns that draw
+  // from multiple nodes (continuing_ed) use UNVERIFIED_COMPOUND instead.
+  // Discovered ps_* columns are handled inline in the loop above.
+  for (const c of cols) {
+    const id = (c.field as string | undefined) ?? c.colId;
+    if (!id) continue;
+    const single = UNVERIFIED_PATHS[id];
+    const multi = UNVERIFIED_COMPOUND[id];
+    const paths = single ? [single] : multi ?? [];
+    if (paths.length === 0) continue;
+    c.cellClassRules = {
+      ...c.cellClassRules,
+      "cell-unverified": (p) => paths.some((path) => evUnverified(p.data, ...path)),
+    };
   }
 
   // ── Ensure each column is at least wide enough for its header label ──
@@ -1457,6 +1520,8 @@ export function ProfileView({ payload }: { payload: ProfilePayload }) {
               theme={gridTheme}
               rowData={rows}
               columnDefs={columnDefs}
+              rowHeight={73}
+              enableBrowserTooltips={true}
               defaultColDef={{
                 sortable: true,
                 resizable: true,
@@ -1467,6 +1532,17 @@ export function ProfileView({ payload }: { payload: ProfilePayload }) {
                 // widths below are sized so this doesn't happen.
                 wrapHeaderText: false,
                 autoHeaderHeight: false,
+                // Show full cell value on hover as a native browser tooltip,
+                // but only for content that is likely to be clipped (long
+                // strings). Falsy/zero/short values are already fully visible
+                // so a tooltip is redundant — and for things like the
+                // Unverified column the raw value (0) would contradict the
+                // blank display.
+                tooltipValueGetter: (p) => {
+                  if (p.value == null || p.value === "" || p.value === 0 || p.value === false) return undefined;
+                  const s = String(p.value);
+                  return s.length > 50 ? s : undefined;
+                },
                 // Tighten wrapped-text line spacing — AG Grid's default
                 // leaves a paragraph-break-sized gap between wrapped lines.
                 cellStyle: {
@@ -1475,6 +1551,7 @@ export function ProfileView({ payload }: { payload: ProfilePayload }) {
                   paddingBottom: "8px",
                   display: "flex",
                   alignItems: "flex-start",
+                  overflow: "hidden",
                 },
               }}
               domLayout="autoHeight"
