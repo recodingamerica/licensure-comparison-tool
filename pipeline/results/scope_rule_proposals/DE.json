@@ -1,0 +1,44 @@
+{
+  "state": "DE",
+  "generated_at": "2026-05-27T17:32:31.274961+00:00",
+  "status": "zero_classified",
+  "scope_source_counts": {
+    "undetermined": 19
+  },
+  "n_undetermined": 10,
+  "candidates": [
+    "chapter-102",
+    "chapter-60"
+  ],
+  "proposal": {
+    "universal_patterns": [
+      {
+        "pattern": "this chapter applies to (?:any|every|all)\\b[^.]*",
+        "target": "chapter"
+      },
+      {
+        "pattern": "this title applies to (?:any|every|all)\\b[^.]*",
+        "target": "title"
+      },
+      {
+        "pattern": "any holder of a license[^.]*under this title",
+        "target": "title"
+      },
+      {
+        "pattern": "this part applies to (?:any|every|all)\\b[^.]*",
+        "target": "part"
+      }
+    ],
+    "trigger_patterns": [
+      "licensed\\s+(?:to\\s+practice|as|under|pursuant\\s+to|by)\\b",
+      "authorized\\s+to\\s+(?:practice|deliver)\\b",
+      "professional\\s+licensing\\s+boards\\s+existing\\s+under\\s+this\\s+title"
+    ],
+    "chapter_cite_pattern": "\\bchapter\\s+(\\d+[A-Za-z]?)\\b",
+    "section_cite_pattern": "\u00a7\\s*(\\d+)[A-Za-z]?\\d*\\b",
+    "slug_prefix": "chapter",
+    "range_chapter_pattern": null,
+    "profession_name_trigger_patterns": [],
+    "rationale": "The 10 undetermined sections fall into two groups that genuinely should NOT be treated as universal:\n\n1) Title 24 Chapter 60 (telemedicine, \u00a7\u00a7 6001-6005): This is a cross-cutting health-care-delivery chapter that lists specific boards in \u00a7 6002 (Podiatry ch. 5, Chiropractic ch. 7, Medical Licensure ch. 17, etc.). It applies only to the enumerated health-care boards, not to all occupations. \u00a7 6002 is an enumeration anchor \u2014 adding a trigger \"professional licensing boards existing under this title\" will let the walker capture the chapter cites that follow. The other sections (\u00a7\u00a7 6001, 6003, 6004, 6005) are scope/practice rules tied to that enumeration and properly remain undetermined unless they themselves contain enumeration triggers; they should surface in triage.\n\n2) Title 3 Chapter 102 (Interstate Compact for horse racing participants): This is a profession-specific compact for live horse racing participants, not an umbrella occupational scope. It should remain undetermined / be excluded as profession-specific \u2014 no universal pattern is appropriate.\n\nI added one extra trigger (\"professional licensing boards existing under this title\") to catch the \u00a7 6002 enumeration, and broadened \"licensed by\" as a variant. Universal patterns are kept conservative \u2014 none of these sections contain \"applies to every/any/all\" language warranting universal scope."
+  }
+}

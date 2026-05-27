@@ -1,0 +1,66 @@
+{
+  "state": "MS",
+  "generated_at": "2026-05-27T17:36:51.882611+00:00",
+  "status": "needs_review",
+  "scope_source_counts": {
+    "anchor_universal": 4,
+    "universal": 4,
+    "undetermined": 12
+  },
+  "n_undetermined": 10,
+  "candidates": [
+    "chapter-49",
+    "chapter-51",
+    "chapter-52",
+    "chapter-77"
+  ],
+  "proposal": {
+    "universal_patterns": [
+      {
+        "pattern": "this chapter (?:shall apply|applies) to (?:any|every|all)\\b[^.]*",
+        "target": "chapter"
+      },
+      {
+        "pattern": "this section (?:shall apply|applies) to (?:any|every|all)\\b[^.]*",
+        "target": "chapter"
+      },
+      {
+        "pattern": "\\boccupational licensing board\\b[^.]*\\b(?:any|every|all)\\b",
+        "target": "chapter"
+      },
+      {
+        "pattern": "policies provided in this chapter",
+        "target": "chapter"
+      },
+      {
+        "pattern": "promulgated by occupational licensing boards",
+        "target": "chapter"
+      },
+      {
+        "pattern": "occupational [lL]icensing [rR]eview [cC]ommission",
+        "target": "chapter"
+      },
+      {
+        "pattern": "no state board or agency that licenses health care providers",
+        "target": "chapter"
+      },
+      {
+        "pattern": "this section shall be known as the \"(?:Military Family Freedom Act|Universal Recognition of Occupational Licenses Act)\"",
+        "target": "chapter"
+      },
+      {
+        "pattern": "shall be known (?:and may be cited )?as the \"(?:Occupational Board Compliance Act|Fresh Start Act|Military Family Freedom Act|Universal Recognition of Occupational Licenses Act)\b",
+        "target": "chapter"
+      }
+    ],
+    "trigger_patterns": [
+      "licensed\\s+(?:to\\s+practice|as|under|pursuant\\s+to)\\b"
+    ],
+    "chapter_cite_pattern": "\\bChapter\\s+(\\d+)\\b",
+    "section_cite_pattern": "\\b(?:Section\\s+)?73-(\\d+)-\\d+",
+    "slug_prefix": "chapter",
+    "range_chapter_pattern": null,
+    "profession_name_trigger_patterns": [],
+    "rationale": "Refined to capture umbrella sections that didn't trigger generic universal phrasing: (1) Short titles for the named acts (Occupational Board Compliance Act, Fresh Start Act, Military Family Freedom Act, Universal Recognition of Occupational Licenses Act) \u2014 these are umbrella acts applying to all occupational licensing boards. (2) Section 73-47-3 references \"policies provided in this chapter\" and is about occupational licensing boards generally. (3) Section 73-47-7 begins \"For occupational regulations promulgated by occupational licensing boards\" \u2014 chapter-wide policy. (4) Section 73-47-9 establishes the Occupational Licensing Review Commission. (5) Section 73-49-1 applies to \"all rules and regulations\" of any board that licenses health care providers \u2014 broad enough for chapter scope. Section 73-47-11 is an exclusion, not a universal application \u2014 left undetermined. Section 73-49-3 is profession-specific (lists physicians, dentists, etc.) so deliberately not made universal. Standard cite patterns retained."
+  }
+}

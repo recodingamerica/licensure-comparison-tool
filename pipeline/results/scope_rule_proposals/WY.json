@@ -1,0 +1,42 @@
+{
+  "state": "WY",
+  "generated_at": "2026-05-27T17:43:36.332688+00:00",
+  "status": "zero_classified",
+  "scope_source_counts": {
+    "undetermined": 24
+  },
+  "n_undetermined": 10,
+  "candidates": [
+    "chapter-1"
+  ],
+  "proposal": {
+    "universal_patterns": [
+      {
+        "pattern": "this title applies to (?:any|every|all)\\b[^.]*",
+        "target": "title"
+      },
+      {
+        "pattern": "any holder of a license[^.]*under this title",
+        "target": "title"
+      },
+      {
+        "pattern": "this chapter applies to (?:any|every|all)\\b[^.]*",
+        "target": "chapter"
+      },
+      {
+        "pattern": "this article applies to (?:any|every|all)\\b[^.]*",
+        "target": "part"
+      }
+    ],
+    "trigger_patterns": [
+      "licensed\\s+(?:to\\s+practice|as|under)\\b",
+      "licensed\\s+pursuant\\s+to\\b"
+    ],
+    "chapter_cite_pattern": "\\bchapter\\s+(\\d+[a-z]?)\\b",
+    "section_cite_pattern": "\\b(?:W\\.S\\.\\s+)?33-(\\d+[a-z]?)-\\d+",
+    "slug_prefix": "chapter",
+    "range_chapter_pattern": null,
+    "profession_name_trigger_patterns": [],
+    "rationale": "The undetermined sections in Chapter 1 are administrative provisions about county sheriffs, clerks, treasurers furnishing licenses, collecting fees, fines, and penalties. They do not contain universal applicability language and do not enumerate practice acts \u2014 they apply generally to county-level license administration but the text itself uses generic language like \"any person subject to such license\" or \"this act\" without identifying a list of professions/chapters. There is no reliable regex signal to mark these as title- or chapter-wide universal, so leaving them undetermined for triage is the correct conservative choice. Patterns unchanged."
+  }
+}

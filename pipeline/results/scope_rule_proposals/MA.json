@@ -1,0 +1,92 @@
+{
+  "state": "MA",
+  "generated_at": "2026-05-27T17:35:00.719891+00:00",
+  "status": "zero_classified",
+  "scope_source_counts": {
+    "undetermined": 11
+  },
+  "n_undetermined": 10,
+  "candidates": [
+    "section-1a",
+    "section-1b",
+    "section-61",
+    "section-63",
+    "section-65",
+    "section-65a",
+    "section-65b",
+    "section-65e",
+    "section-65f",
+    "section-65g",
+    "section-88"
+  ],
+  "proposal": {
+    "universal_patterns": [
+      {
+        "pattern": "every board of registration or examination established by the commonwealth",
+        "target": "chapter"
+      },
+      {
+        "pattern": "each board of registration[^.]*under the supervision of the division of occupational licensure",
+        "target": "chapter"
+      },
+      {
+        "pattern": "each board of registration[^.]*under the supervision of the (?:department of public health|commissioner)",
+        "target": "chapter"
+      },
+      {
+        "pattern": "a board of registration under the supervision of the division of occupational licensure",
+        "target": "chapter"
+      },
+      {
+        "pattern": "each of the boards of registration and examination under the commissioner'?s supervision",
+        "target": "chapter"
+      },
+      {
+        "pattern": "boards of registration[^.]*(?:division of occupational licensure|department of public health)",
+        "target": "chapter"
+      },
+      {
+        "pattern": "issuing agency shall send such person",
+        "target": "chapter"
+      },
+      {
+        "pattern": "whenever any person[^.]*is issued or reissued a license or certificate to engage in a business or profession",
+        "target": "chapter"
+      },
+      {
+        "pattern": "(?:any|each|every)\\s+board of registration[^.]*(?:suspend|revoke|cancel|discipline)",
+        "target": "chapter"
+      },
+      {
+        "pattern": "said boards shall not defer action",
+        "target": "chapter"
+      },
+      {
+        "pattern": "whoever continues to practice a trade or profession",
+        "target": "chapter"
+      },
+      {
+        "pattern": "engages in the practice of a trade or profession for which a license",
+        "target": "chapter"
+      },
+      {
+        "pattern": "reinstating a lapsed or expired license issued by a board of registration",
+        "target": "chapter"
+      },
+      {
+        "pattern": "this chapter applies to (?:any|every|all)\\b[^.]*",
+        "target": "chapter"
+      }
+    ],
+    "trigger_patterns": [
+      "licensed\\s+(?:to\\s+practice|as|under|pursuant\\s+to)\\b",
+      "issued\\s+pursuant\\s+to\\b"
+    ],
+    "chapter_cite_pattern": "\\bchapter\\s+(\\d+[a-z]?)\\b",
+    "section_cite_pattern": "\\bsection\\s+\\d+[a-z]?\\s+of\\s+chapter\\s+(\\d+[a-z]?)\\b",
+    "slug_prefix": "chapter",
+    "range_chapter_pattern": null,
+    "profession_name_trigger_patterns": [],
+    "rationale": "Refined patterns to catch additional universal-applicability signals seen in MA Chapter 112's general provisions. Sections 1A, 1B, 61, 63, 65, 65A, 65B, 65E, 65F all use phrases like \"each board of registration under the supervision of the division of occupational licensure,\" \"a board of registration under the supervision of the division of occupational licensure,\" \"boards of registration and examination under the commissioner's supervision,\" and \"said boards\" \u2014 all signaling chapter-wide cross-board applicability. Added narrower lexical anchors for: Section 1A's \"issuing agency shall send such person\" / \"whenever any person is issued or reissued a license or certificate to engage in a business or profession\"; Section 63's \"said boards shall not defer action\"; Section 65's \"whoever continues to practice a trade or profession\"; Section 65A's \"engages in the practice of a trade or profession for which a license\"; Section 65F's \"reinstating a lapsed or expired license issued by a board of registration\". Section 65G remains profession-scoped (health care professionals) and intentionally not added as universal. Chapter/section cite patterns unchanged."
+  }
+}

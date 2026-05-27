@@ -1,0 +1,69 @@
+{
+  "state": "GA",
+  "generated_at": "2026-05-27T17:32:53.579819+00:00",
+  "status": "clean",
+  "scope_source_counts": {
+    "anchor_universal": 4,
+    "universal": 36,
+    "undetermined": 5
+  },
+  "n_undetermined": 5,
+  "candidates": [
+    "chapter-2"
+  ],
+  "proposal": {
+    "universal_patterns": [
+      {
+        "pattern": "this title applies to (?:any|every|all)\\b[^.]*",
+        "target": "title"
+      },
+      {
+        "pattern": "this chapter applies to (?:any|every|all)\\b[^.]*",
+        "target": "chapter"
+      },
+      {
+        "pattern": "this part applies to (?:any|every|all)\\b[^.]*",
+        "target": "part"
+      },
+      {
+        "pattern": "any\\s+professional\\s+licensing\\s+board[^.]*this title",
+        "target": "title"
+      },
+      {
+        "pattern": "established pursuant to this title",
+        "target": "title"
+      },
+      {
+        "pattern": "\\bany\\s+professional\\s+licensing\\s+board\\b",
+        "target": "title"
+      },
+      {
+        "pattern": "\\beach\\s+professional\\s+licensing\\s+board\\b",
+        "target": "title"
+      },
+      {
+        "pattern": "\\bthe\\s+professional\\s+licensing\\s+boards\\b",
+        "target": "title"
+      },
+      {
+        "pattern": "\\benforcement of this title\\b",
+        "target": "title"
+      },
+      {
+        "pattern": "examination\\s+(?:required|given)\\s+by\\s+(?:any\\s+|a\\s+)?professional\\s+licensing\\s+board",
+        "target": "title"
+      }
+    ],
+    "trigger_patterns": [
+      "licensed\\s+under\\b",
+      "licensed\\s+pursuant\\s+to\\b",
+      "licensed\\s+to\\s+practice\\b"
+    ],
+    "chapter_cite_pattern": "\\bChapter\\s+(\\d+[A-Za-z]?)\\b",
+    "section_cite_pattern": "\\b(?:Code\\s+Section|\u00a7)\\s*43-(\\d+[A-Za-z]?)-",
+    "slug_prefix": "chapter",
+    "range_chapter_pattern": null,
+    "profession_name_trigger_patterns": [],
+    "rationale": "Refinement: The Chapter 1 sections all govern \"the professional licensing boards\" generically \u2014 i.e., every board under Title 43. Phrases like \"any professional licensing board\", \"each professional licensing board\", \"the professional licensing boards\", and \"enforcement of this title\" are reliable title-wide universal signals in Georgia's umbrella context. Section 43-1-1 will be caught by the cross-state \"As used in this title\" handler. Added patterns covering veterans-credit sections (43-1-9 through 43-1-11) which reference examinations given by any professional licensing board. Kept narrow enough to avoid false hits in profession-specific chapters which generally name a specific board (e.g., \"the Georgia Board of Dentistry\") rather than the generic phrase."
+  }
+}

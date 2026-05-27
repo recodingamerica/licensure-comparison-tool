@@ -1,0 +1,41 @@
+{
+  "state": "ME",
+  "generated_at": "2026-05-27T17:35:48.258569+00:00",
+  "status": "zero_classified",
+  "scope_source_counts": {
+    "undetermined": 51
+  },
+  "n_undetermined": 10,
+  "candidates": [
+    "chapter-1-a",
+    "chapter-341",
+    "chapter-421"
+  ],
+  "proposal": {
+    "universal_patterns": [
+      {
+        "pattern": "this chapter applies to (?:any|every|all)\\b[^.]*",
+        "target": "chapter"
+      },
+      {
+        "pattern": "this Title applies to (?:any|every|all)\\b[^.]*",
+        "target": "title"
+      },
+      {
+        "pattern": "this Part applies to (?:any|every|all)\\b[^.]*",
+        "target": "part"
+      }
+    ],
+    "trigger_patterns": [
+      "licensed\\s+(?:to\\s+practice|as|under|pursuant\\s+to)\\b",
+      "licensing\\s+board\\s+established\\s+in\\b",
+      "licensing\\s+boards?\\s+(?:listed|established)\\s+(?:in|under)\\b"
+    ],
+    "chapter_cite_pattern": "\\bchapter\\s+(\\d+(?:-[A-Z])?)\\b",
+    "section_cite_pattern": "\\b(?:Title\\s+)?32\\s*(?:M\\.?R\\.?S\\.?(?:A\\.?)?\\s*)?(?:\u00a7|section)\\s*(\\d+)(?:-[A-Z])?",
+    "slug_prefix": "chapter",
+    "range_chapter_pattern": null,
+    "profession_name_trigger_patterns": [],
+    "rationale": "The undetermined sections in Chapter 1-A are either REPEALED stubs (no text to scope), or sections about the regulatory process for proposing new regulation (\u00a760-J, \u00a760-K, \u00a760-L \u2014 about \"applicant groups\" proposing regulation, not applying universally to licensees), or \u00a759 which references \"an occupational or professional licensing board established in Title 5, section 12004\u2011A\" \u2014 a list of all Maine licensing boards. None of these contain phrases that fit a safe universal pattern. The REPEALED sections cannot be scoped. \u00a760-J/K/L scope to applicant groups, not to licensees, so they should remain undetermined rather than be falsely marked universal. \u00a759 references Title 5 \u00a712004-A board list which would require a separate cross-reference resolver; I've added a cautious trigger pattern for \"licensing board established in\" in case it helps surface enumeration, but the actual board list is in Title 5 (out of Title 32 scope). Patterns remain unchanged otherwise \u2014 better to leave these undetermined for triage than to over-claim universality."
+  }
+}

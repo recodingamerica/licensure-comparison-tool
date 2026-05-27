@@ -1,0 +1,46 @@
+{
+  "state": "SC",
+  "generated_at": "2026-05-27T17:40:43.808185+00:00",
+  "status": "clean",
+  "scope_source_counts": {
+    "universal": 29,
+    "anchor_universal": 1
+  },
+  "n_undetermined": 0,
+  "candidates": [],
+  "proposal": {
+    "universal_patterns": [
+      {
+        "pattern": "this title applies to (?:any|every|all)\\b[^.]*",
+        "target": "title"
+      },
+      {
+        "pattern": "as used in this title\\b",
+        "target": "title"
+      },
+      {
+        "pattern": "any holder of a license[^.]*under this title",
+        "target": "title"
+      },
+      {
+        "pattern": "this chapter applies to (?:any|every|all)\\b[^.]*",
+        "target": "chapter"
+      },
+      {
+        "pattern": "this article applies to (?:any|every|all)\\b[^.]*",
+        "target": "chapter"
+      }
+    ],
+    "trigger_patterns": [
+      "licensed\\s+under\\b",
+      "licensed\\s+pursuant\\s+to\\b",
+      "licensed\\s+to\\s+practice\\b"
+    ],
+    "chapter_cite_pattern": "\\bchapter\\s+(\\d+[a-z]?)\\b",
+    "section_cite_pattern": "\\b(?:Section|\u00a7)\\s*40-(\\d+[a-z]?)-",
+    "slug_prefix": "chapter",
+    "range_chapter_pattern": null,
+    "profession_name_trigger_patterns": [],
+    "rationale": "SC Title 40 is the Professions and Occupations title; Chapter 1 contains umbrella provisions administered by the Department of Labor, Licensing and Regulation. Section 40-1-20 uses \"As used in this title\" which signals title-wide definitions. Section cites in SC look like \"Section 40-1-20\" \u2014 the chapter token is the middle segment (e.g., \"1\"). Chapter cites use bare \"Chapter NN\". Note that SC uses \"article\" within chapters as a subdivision, so article-level universal patterns are treated as chapter-tier. The narrow \"this chapter applies only to regulation by the department\" style language is deliberately excluded so DLLR-scoped provisions surface in triage."
+  }
+}

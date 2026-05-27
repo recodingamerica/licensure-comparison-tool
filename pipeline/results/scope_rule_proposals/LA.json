@@ -1,0 +1,75 @@
+{
+  "state": "LA",
+  "generated_at": "2026-05-27T17:34:35.298087+00:00",
+  "status": "zero_classified",
+  "scope_source_counts": {
+    "undetermined": 11
+  },
+  "n_undetermined": 10,
+  "candidates": [
+    "rs-37-1",
+    "rs-37-21",
+    "rs-37-23",
+    "rs-37-23-1",
+    "rs-37-23-2",
+    "rs-37-23-3",
+    "rs-37-24",
+    "rs-37-33",
+    "rs-37-34",
+    "rs-37-35",
+    "rs-37-6"
+  ],
+  "proposal": {
+    "universal_patterns": [
+      {
+        "pattern": "this Chapter applies to (?:any|every|all)\\b[^.]*",
+        "target": "chapter"
+      },
+      {
+        "pattern": "this Title applies to (?:any|every|all)\\b[^.]*",
+        "target": "title"
+      },
+      {
+        "pattern": "this Part applies to (?:any|every|all)\\b[^.]*",
+        "target": "part"
+      },
+      {
+        "pattern": "any holder of a license[^.]*under this Title",
+        "target": "title"
+      },
+      {
+        "pattern": "[Ee]ach board or commission authorized to issue a license[^.]*under this Title",
+        "target": "title"
+      },
+      {
+        "pattern": "(?:any|each) board or commission (?:created and provided for|subject to the provisions of|within)[^.]*this Title",
+        "target": "title"
+      },
+      {
+        "pattern": "[Ee]ach state entity subject to the provisions of this Title",
+        "target": "title"
+      },
+      {
+        "pattern": "[Nn]o professional or occupational (?:licensing\\s+)?board or commission shall",
+        "target": "title"
+      },
+      {
+        "pattern": "[Nn]o proceeding[^.]*by a professional or occupational board or commission",
+        "target": "title"
+      },
+      {
+        "pattern": "entity issuing licenses to engage in certain fields of work pursuant to state law",
+        "target": "title"
+      }
+    ],
+    "trigger_patterns": [
+      "licensed\\s+(?:to\\s+practice|as|under|pursuant\\s+to)\\b"
+    ],
+    "chapter_cite_pattern": "\\bChapter\\s+(\\d+[A-Za-z]?)\\b",
+    "section_cite_pattern": "\\b(?:R\\.?S\\.?\\s+)?37:(\\d+(?:\\.\\d+)?)",
+    "slug_prefix": "chapter",
+    "range_chapter_pattern": null,
+    "profession_name_trigger_patterns": [],
+    "rationale": "Several undetermined sections in Title 37's umbrella (Chapter 1) are clearly title-wide in scope but use Louisiana-specific phrasings rather than the generic \"this Title applies to\" formula. Refinements: (1) \u00a737:23 \u2014 \"Each board or commission authorized to issue a license, permit, or certificate under this Title\" \u2014 title-wide. (2) \u00a737:23.1 \u2014 \"Any board or commission created and provided for within this Title\" \u2014 title-wide. (3) \u00a737:23.2 \u2014 \"Each state entity subject to the provisions of this Title\" \u2014 title-wide. (4) \u00a737:23.3 and \u00a737:21 \u2014 apply to \"professional or occupational [licensing] board or commission\" generally (no special law applicable), which in the context of Title 37 means all licensing boards under the title. (5) \u00a737:33 and \u00a737:34 \u2014 apply to any \"entity issuing licenses to engage in certain fields of work pursuant to state law,\" a Louisiana-specific universal phrase covering all licensing entities. \u00a737:1 (mere definitions of Department/Director) and \u00a737:6 (enumerating specific merged boards) and \u00a737:24 (specific listed professions) remain non-universal and will stay undetermined, which is correct."
+  }
+}

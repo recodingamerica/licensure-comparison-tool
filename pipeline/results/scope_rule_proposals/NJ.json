@@ -1,0 +1,107 @@
+{
+  "state": "NJ",
+  "generated_at": "2026-05-27T17:38:42.868967+00:00",
+  "status": "needs_review",
+  "scope_source_counts": {
+    "undetermined": 32,
+    "anchor_universal": 7
+  },
+  "n_undetermined": 10,
+  "candidates": [
+    "section-45-1-15-2",
+    "section-45-1-15-3",
+    "section-45-1-15-6",
+    "section-45-1-15-7",
+    "section-45-1-15-9",
+    "section-45-1-17",
+    "section-45-1-17-1",
+    "section-45-1-18",
+    "section-45-1-18-1",
+    "section-45-1-2-2",
+    "section-45-1-21",
+    "section-45-1-21-3",
+    "section-45-1-21-4",
+    "section-45-1-28",
+    "section-45-1-3",
+    "section-45-1-3-3",
+    "section-45-1-30",
+    "section-45-1-31",
+    "section-45-1-32-1",
+    "section-45-1-34",
+    "section-45-1-38",
+    "section-45-1-42",
+    "section-45-1-47",
+    "section-45-1-62",
+    "section-45-1-69",
+    "section-45-1-7",
+    "section-45-1-7-10",
+    "section-45-1-7-5",
+    "section-45-1-7-6",
+    "section-45-1-7-7",
+    "section-45-1-7-8",
+    "section-45-1-9"
+  ],
+  "proposal": {
+    "universal_patterns": [
+      {
+        "pattern": "each board shall",
+        "target": "chapter"
+      },
+      {
+        "pattern": "any professional or occupational licensing board designated in section 2 of this act",
+        "target": "chapter"
+      },
+      {
+        "pattern": "licensed[^.]*pursuant to Title 45 of the Revised Statutes",
+        "target": "chapter"
+      },
+      {
+        "pattern": "all professional or occupational licens(?:es|ing)\\b",
+        "target": "chapter"
+      },
+      {
+        "pattern": "any or all professional or occupational licensing boards",
+        "target": "chapter"
+      },
+      {
+        "pattern": "a professional or occupational licensing board within the Division of Consumer Affairs",
+        "target": "chapter"
+      },
+      {
+        "pattern": "administrative fees charged by boards",
+        "target": "chapter"
+      },
+      {
+        "pattern": "uniform throughout all boards",
+        "target": "chapter"
+      },
+      {
+        "pattern": "members of the several professional boards and commissions",
+        "target": "chapter"
+      },
+      {
+        "pattern": "to obtain a professional or occupational license",
+        "target": "chapter"
+      },
+      {
+        "pattern": "the boards mentioned in section 45:1-2\\b",
+        "target": "chapter"
+      },
+      {
+        "pattern": "provisions of Title 45 of the Revised Statutes",
+        "target": "chapter"
+      }
+    ],
+    "trigger_patterns": [
+      "licensed\\s+pursuant\\s+to\\b",
+      "licensed\\s+under\\b",
+      "authorized\\s+pursuant\\s+to\\b"
+    ],
+    "chapter_cite_pattern": "\\bchapter\\s+(\\d+[A-Za-z]?)\\b",
+    "section_cite_pattern": "\\b45:(\\d+[A-Za-z]?)-\\d+",
+    "slug_prefix": "chapter",
+    "range_chapter_pattern": null,
+    "profession_name_trigger_patterns": [],
+    "rationale": "NJ's Title 45, Chapter 1 is the umbrella statute for all professional/occupational licensing boards in the Division of Consumer Affairs. Many sections that previously went undetermined describe board-wide rules: \u00a7 45:1-2.2 governs \"all members of the several professional boards and commissions\"; \u00a7 45:1-3 references \"the boards mentioned in section 45:1-2\"; \u00a7 45:1-3.3 covers \"administrative fees charged by boards\" that are \"uniform throughout all boards\"; \u00a7 45:1-7 references \"all professional or occupational licenses or certificates of registration\"; \u00a7 45:1-7.5 applies to \"a board\" generally; \u00a7\u00a7 45:1-7.6, 7.7, 7.10 reference \"a professional or occupational licensing board within the Division of Consumer Affairs\" or \"any or all\" such boards; \u00a7 45:1-7.8 applies to \"a professional or occupational license\" generally. Added narrow universal patterns to capture these board-wide phrases at chapter scope. \u00a7 45:1-9 (contractor-specific) genuinely lacks universal signals and remains undetermined, which is appropriate. Section cites in NJ are \"45:1-N\" form; chapter token is \"1\" between the colon and the dash."
+  }
+}

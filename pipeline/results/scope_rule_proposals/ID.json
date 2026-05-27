@@ -1,0 +1,47 @@
+{
+  "state": "ID",
+  "generated_at": "2026-05-27T17:33:15.407588+00:00",
+  "status": "clean",
+  "scope_source_counts": {
+    "undetermined": 3,
+    "anchor_enumeration": 1,
+    "inherited_enumeration": 6,
+    "anchor_universal": 2,
+    "universal": 12
+  },
+  "n_undetermined": 3,
+  "candidates": [
+    "chapter-1"
+  ],
+  "proposal": {
+    "universal_patterns": [
+      {
+        "pattern": "licensed or required to be licensed under this title",
+        "target": "title"
+      },
+      {
+        "pattern": "any holder of a license[^.]*under this title",
+        "target": "title"
+      },
+      {
+        "pattern": "this chapter applies to (?:any|every|all)\\b[^.]*",
+        "target": "chapter"
+      },
+      {
+        "pattern": "this title applies to (?:any|every|all)\\b[^.]*",
+        "target": "title"
+      }
+    ],
+    "trigger_patterns": [
+      "licensed\\s+(?:to\\s+practice|under|pursuant\\s+to)\\b",
+      "established\\s+in\\b",
+      "as\\s+established\\s+in\\b"
+    ],
+    "chapter_cite_pattern": "\\bchapter\\s+(\\d+)\\b",
+    "section_cite_pattern": "\\b(\\d+)-\\d+\\b",
+    "slug_prefix": "chapter",
+    "range_chapter_pattern": null,
+    "profession_name_trigger_patterns": [],
+    "rationale": "Idaho Title 54 (Professions, Vocations, and Businesses) is the umbrella. Section cites look like \"54-4401\" \u2014 but the leading \"54\" is the title number and the second segment after the dash is the section, not the chapter. Idaho chapter cites appear as \"chapter 6, title 54\" or bare \"chapter NNN\". The anchor sections shown (Allied Health Advisory Board, Virtual Care Access Act) are narrowly scoped to specific enumerated boards or to telehealth providers, not universally to all Title 54 occupations. Section 54-5703(2) does reference \"licensed or required to be licensed under this title\" \u2014 a title-level signal worth capturing. No strong chapter-wide or title-wide \"applies to every profession\" language is present, so universal_patterns are kept narrow. Trigger phrases \"licensed under\" and \"established in\" introduce chapter cites like \"chapter 6, title 54\". Note: Idaho section cites encode title-section not title-chapter-section, so section_cite_pattern cannot reliably resolve to a chapter; we provide a permissive form but rely primarily on chapter cites."
+  }
+}

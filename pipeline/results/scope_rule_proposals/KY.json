@@ -1,0 +1,29 @@
+{
+  "state": "KY",
+  "generated_at": "2026-05-27T17:34:10.104125+00:00",
+  "status": "zero_classified",
+  "scope_source_counts": {
+    "undetermined": 143
+  },
+  "n_undetermined": 10,
+  "candidates": [
+    "chapter-13a",
+    "chapter-13b",
+    "chapter-309",
+    "chapter-605"
+  ],
+  "proposal": {
+    "universal_patterns": [],
+    "trigger_patterns": [
+      "licensed\\s+under\\b",
+      "licensed\\s+pursuant\\s+to\\b",
+      "licensed\\s+to\\s+practice\\b"
+    ],
+    "chapter_cite_pattern": "\"\\\\b(?:KRS\\\\s+)?[Cc]hapter\\\\s+(\\\\d+[A-Za-z]?)\\\\b\"",
+    "section_cite_pattern": "\"\\\\bKRS\\\\s+(\\\\d+[A-Za-z]?)\\\\.\\\\d+\"",
+    "slug_prefix": "chapter",
+    "range_chapter_pattern": null,
+    "profession_name_trigger_patterns": [],
+    "rationale": "All 10 undetermined sections are in KRS Chapter 13A (Administrative Regulations) \u2014 a generic administrative procedure chapter that applies to all state agencies promulgating regulations, not specifically to occupational licensing boards. While 13A does govern how occupational licensing boards write regulations, it is not an umbrella occupational licensing statute and should not be classified as universal across the occupations chapters. Leaving them undetermined is correct; they will surface in triage. No pattern changes."
+  }
+}

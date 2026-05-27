@@ -1,0 +1,74 @@
+{
+  "state": "VT",
+  "generated_at": "2026-05-27T17:42:31.435413+00:00",
+  "status": "needs_review",
+  "scope_source_counts": {
+    "anchor_universal": 2,
+    "universal": 10,
+    "undetermined": 7
+  },
+  "n_undetermined": 7,
+  "candidates": [
+    "chapter-57"
+  ],
+  "proposal": {
+    "universal_patterns": [
+      {
+        "pattern": "this chapter shall apply to (?:any|every|all|the following)\\b[^.]*",
+        "target": "chapter"
+      },
+      {
+        "pattern": "this chapter applies to (?:any|every|all|the following)\\b[^.]*",
+        "target": "chapter"
+      },
+      {
+        "pattern": "regulation be imposed upon a profession or occupation",
+        "target": "chapter"
+      },
+      {
+        "pattern": "enter into a profession or occupation",
+        "target": "chapter"
+      },
+      {
+        "pattern": "a profession or occupation shall be regulated",
+        "target": "chapter"
+      },
+      {
+        "pattern": "all boards and advisor professions",
+        "target": "chapter"
+      },
+      {
+        "pattern": "any bill that proposes to regulate a profession or occupation",
+        "target": "chapter"
+      },
+      {
+        "pattern": "any bill to materially amend the scope of practice",
+        "target": "chapter"
+      },
+      {
+        "pattern": "review under this chapter\\b",
+        "target": "chapter"
+      },
+      {
+        "pattern": "regulatory law that is within its jurisdiction",
+        "target": "chapter"
+      },
+      {
+        "pattern": "this part applies to (?:any|every|all)\\b[^.]*",
+        "target": "part"
+      }
+    ],
+    "trigger_patterns": [
+      "licensed\\s+under\\b",
+      "licensed\\s+pursuant\\s+to\\b",
+      "licensed\\s+to\\s+practice\\b",
+      "regulated\\s+under\\s+chapter\\b"
+    ],
+    "chapter_cite_pattern": "\\bchapter\\s+(\\d+)\\b",
+    "section_cite_pattern": "(?:\u00a7|section)\\s*(\\d+)\\d{2}\\b",
+    "slug_prefix": "chapter",
+    "range_chapter_pattern": null,
+    "profession_name_trigger_patterns": [],
+    "rationale": "Vermont Title 26 has two umbrella-style chapters: Chapter 57 (telehealth, \u00a7\u00a7 3051-3052) which enumerates specific health care professions, and Chapter 59 (\u00a7\u00a7 3101-3108+) which contains the OPR general policy/review framework that genuinely applies to every regulated profession or occupation in Vermont. The chapter 59 sections (Policy, Definitions, Process for review, Criteria, Director's report, Information required of applicants, Preliminary assessment) all use the framing \"a profession or occupation\" generically and govern OPR's review of all regulatory laws. To capture these, we add chapter-level universal patterns matching phrases like \"regulation be imposed upon a profession or occupation\", \"a profession or occupation shall be regulated\", \"all boards and advisor professions\", and \"any bill that proposes to regulate a profession or occupation\". We keep narrow \"this chapter shall apply to...\" patterns for chapter 57. We deliberately do NOT add bare \"as used in this chapter\" as universal since that's handled by the walker's cross-state AS_USED_RE."
+  }
+}

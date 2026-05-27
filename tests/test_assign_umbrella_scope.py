@@ -199,6 +199,23 @@ GOLDEN_COUNTS = {
     "IA": {"anchor_enumeration": 2, "inherited_enumeration": 117, "anchor_universal": 1, "universal": 19},
     "WI": {"anchor_enumeration": 6, "inherited_enumeration": 94},
     "MO": {"inherited_enumeration": 44, "anchor_enumeration": 6},
+    # Batch-applied 2026-05-27 from validated proposals (7 clean + 9 high-yield).
+    "WV": {"anchor_universal": 4, "universal": 47, "undetermined": 1},
+    "TN": {"inherited_enumeration": 47, "anchor_enumeration": 1},
+    "NM": {"anchor_universal": 2, "universal": 43},
+    "HI": {"anchor_universal": 3, "universal": 36, "inherited_enumeration": 4, "anchor_enumeration": 1},
+    "GA": {"anchor_universal": 4, "universal": 36, "undetermined": 5},
+    "SC": {"universal": 29, "anchor_universal": 1},
+    "ID": {"undetermined": 3, "anchor_enumeration": 1, "inherited_enumeration": 6, "anchor_universal": 2, "universal": 12},
+    "TX": {"undetermined": 80, "anchor_universal": 3, "universal": 55},
+    "WA": {"inherited_enumeration": 27, "anchor_enumeration": 7, "universal": 17, "anchor_universal": 2, "undetermined": 49},
+    "MD": {"anchor_universal": 3, "universal": 47, "undetermined": 8},
+    "OR": {"undetermined": 27, "inherited_enumeration": 47, "anchor_enumeration": 3},
+    "IN": {"undetermined": 48, "inherited_enumeration": 44, "anchor_enumeration": 4},
+    "MT": {"universal": 43, "anchor_universal": 5, "undetermined": 41},
+    "CT": {"undetermined": 25, "anchor_universal": 3, "universal": 38},
+    "NV": {"anchor_universal": 3, "universal": 37, "undetermined": 77},
+    "SD": {"undetermined": 33, "universal": 37, "anchor_universal": 3},
 }
 
 

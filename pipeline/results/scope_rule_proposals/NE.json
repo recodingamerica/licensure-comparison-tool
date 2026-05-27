@@ -1,0 +1,116 @@
+{
+  "state": "NE",
+  "generated_at": "2026-05-27T17:55:36.213547+00:00",
+  "status": "needs_review",
+  "scope_source_counts": {
+    "undetermined": 42,
+    "anchor_universal": 2
+  },
+  "n_undetermined": 10,
+  "candidates": [
+    "statute-38-1-103",
+    "statute-38-1-105",
+    "statute-38-1-108",
+    "statute-38-1-110",
+    "statute-38-1-116",
+    "statute-38-1-118",
+    "statute-38-1-119",
+    "statute-38-1-120",
+    "statute-38-1-121",
+    "statute-38-1-122",
+    "statute-38-1-123",
+    "statute-38-1-137",
+    "statute-38-1-139",
+    "statute-38-104",
+    "statute-38-108",
+    "statute-38-118",
+    "statute-38-126",
+    "statute-38-128",
+    "statute-38-145",
+    "statute-38-149",
+    "statute-38-150",
+    "statute-38-151",
+    "statute-38-156",
+    "statute-38-158",
+    "statute-38-159",
+    "statute-38-160",
+    "statute-38-161",
+    "statute-38-162",
+    "statute-38-163",
+    "statute-38-164",
+    "statute-38-165",
+    "statute-38-166",
+    "statute-38-167",
+    "statute-38-168",
+    "statute-38-169",
+    "statute-38-170",
+    "statute-38-171",
+    "statute-38-172",
+    "statute-38-173",
+    "statute-38-175",
+    "statute-38-186",
+    "statute-38-190"
+  ],
+  "proposal": {
+    "universal_patterns": [
+      {
+        "pattern": "for\\s+purposes\\s+of\\s+the\\s+Uniform\\s+Credentialing\\s+Act\\b",
+        "target": "title"
+      },
+      {
+        "pattern": "under\\s+the\\s+Uniform\\s+Credentialing\\s+Act\\b",
+        "target": "title"
+      },
+      {
+        "pattern": "\\bthe\\s+Uniform\\s+Credentialing\\s+Act\\b",
+        "target": "title"
+      },
+      {
+        "pattern": "this\\s+(?:act|title)\\s+applies\\s+to\\s+(?:any|every|all)\\b[^.]*",
+        "target": "title"
+      },
+      {
+        "pattern": "this\\s+chapter\\s+applies\\s+to\\s+(?:any|every|all)\\b[^.]*",
+        "target": "chapter"
+      },
+      {
+        "pattern": "\\b(?:a|any|each|every|the)\\s+credential\\s+holder\\b",
+        "target": "title"
+      },
+      {
+        "pattern": "\\bcredentialed\\s+profession(?:s)?(?:\\s+and\\s+business(?:es)?)?\\b",
+        "target": "title"
+      },
+      {
+        "pattern": "\\bthe\\s+credentialing\\s+system\\b",
+        "target": "title"
+      },
+      {
+        "pattern": "\\brenewal\\s+of\\s+a\\s+credential\\b",
+        "target": "title"
+      },
+      {
+        "pattern": "\\breinstatement\\s+of\\s+a\\s+credential\\b",
+        "target": "title"
+      },
+      {
+        "pattern": "\\bissue(?:d|s)?\\s+by\\s+the\\s+department\\s+to\\s+an\\s+individual\\s+to\\s+engage\\s+in\\s+a\\s+profession\\b",
+        "target": "title"
+      },
+      {
+        "pattern": "\\bappointed\\s+by\\s+the\\s+State\\s+Board\\s+of\\s+Health\\b",
+        "target": "title"
+      }
+    ],
+    "trigger_patterns": [
+      "licensed\\s+(?:to\\s+practice|under|pursuant\\s+to)\\b",
+      "credentialed\\s+under\\b"
+    ],
+    "chapter_cite_pattern": "\\bsection\\s+38-(\\d+(?:,\\d+)?)\\b",
+    "section_cite_pattern": "\\bsection\\s+38-(\\d+(?:,\\d+)?)",
+    "slug_prefix": "chapter",
+    "range_chapter_pattern": null,
+    "profession_name_trigger_patterns": [],
+    "rationale": "Nebraska's Uniform Credentialing Act (Title 38) applies universally to all credentialed professions. The undetermined sections consistently reference \"the Uniform Credentialing Act,\" \"a credential holder,\" \"credentialed profession,\" or \"the credentialing system\" \u2014 all signals that the section applies act-wide. Adding patterns for these phrases plus \"the act\" / \"under the Uniform Credentialing Act\" / \"credentialed profession\" should sweep them in. Section/chapter cites use the \"38-NNN\" or \"38-1,NNN\" form. No clear list-introducing triggers appear in the anchors so triggers stay minimal."
+  }
+}

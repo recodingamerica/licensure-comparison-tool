@@ -1,0 +1,51 @@
+{
+  "state": "RI",
+  "generated_at": "2026-05-27T17:40:34.470532+00:00",
+  "status": "zero_classified",
+  "scope_source_counts": {
+    "undetermined": 42
+  },
+  "n_undetermined": 10,
+  "candidates": [
+    "chapter-23-17-10",
+    "chapter-23-17-23",
+    "chapter-23-74",
+    "chapter-5-76",
+    "chapter-5-88"
+  ],
+  "proposal": {
+    "universal_patterns": [
+      {
+        "pattern": "this chapter applies to (?:any|every|all)\\b[^.]*",
+        "target": "chapter"
+      },
+      {
+        "pattern": "as used in this chapter\\b[^.]*\\bevery (?:person|profession)",
+        "target": "chapter"
+      },
+      {
+        "pattern": "any person applying to any department, board, commission[^.]*license",
+        "target": "chapter"
+      },
+      {
+        "pattern": "every department, board, commission[^.]*license",
+        "target": "chapter"
+      },
+      {
+        "pattern": "each business/profession-related board",
+        "target": "chapter"
+      }
+    ],
+    "trigger_patterns": [
+      "licensed\\s+under\\b",
+      "licensed\\s+pursuant\\s+to\\b",
+      "licensed\\s+to\\s+practice\\b"
+    ],
+    "chapter_cite_pattern": "\\bchapter\\s+(\\d+(?:\\.\\d+)?[a-z]?)\\b",
+    "section_cite_pattern": "\u00a7\\s*(\\d+)-[\\d.]+-\\d+",
+    "slug_prefix": "chapter",
+    "range_chapter_pattern": null,
+    "profession_name_trigger_patterns": [],
+    "rationale": "Refined for RI based on review of undetermined sections. Chapter 5-76 (tax delinquency/license issuance) and Chapter 5-88 (professional service license for military/spouses) are both genuinely universal across all RI occupational licensing boards \u2014 they apply to \"any person applying to any department, board, commission, division, authority, or other agency\" for a license to conduct a profession/trade/business, and to \"each business/profession-related board\". Added targeted universal_patterns that match the distinctive phrasing of these umbrella-style chapters without being so broad as to falsely match other chapters. Citation patterns unchanged: RI uses \"chapter N of title M\" and \"\u00a7 M-C-S\" where the middle segment is the chapter token (with possible decimal chapter numbers like 17.10)."
+  }
+}

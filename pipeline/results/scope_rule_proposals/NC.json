@@ -1,0 +1,44 @@
+{
+  "state": "NC",
+  "generated_at": "2026-05-27T17:37:36.176698+00:00",
+  "status": "zero_classified",
+  "scope_source_counts": {
+    "undetermined": 69
+  },
+  "n_undetermined": 10,
+  "candidates": [
+    "chapter-150b",
+    "chapter-93b"
+  ],
+  "proposal": {
+    "universal_patterns": [
+      {
+        "pattern": "this chapter applies to (?:any|every|all)\\b[^.]*",
+        "target": "chapter"
+      },
+      {
+        "pattern": "this article applies to (?:any|every|all)\\b[^.]*",
+        "target": "part"
+      },
+      {
+        "pattern": "\\b(?:each|any|no|every)\\s+occupational\\s+licensing\\s+board\\b",
+        "target": "chapter"
+      },
+      {
+        "pattern": "\\boccupational\\s+licensing\\s+boards\\s+shall\\b",
+        "target": "chapter"
+      }
+    ],
+    "trigger_patterns": [
+      "licensed\\s+under\\b",
+      "licensed\\s+pursuant\\s+to\\b",
+      "licensed\\s+to\\s+practice\\b"
+    ],
+    "chapter_cite_pattern": "\\bChapter\\s+(\\d+[A-Za-z]?)\\b",
+    "section_cite_pattern": "\\bG\\.S\\.\\s+(\\d+[A-Za-z]?)-",
+    "slug_prefix": "chapter",
+    "range_chapter_pattern": null,
+    "profession_name_trigger_patterns": [],
+    "rationale": "Chapter 93B is NC's umbrella occupational licensing board statute. Nearly every section in Chapter 93B uses the phrase \"occupational licensing board(s)\" as the subject of a duty or prohibition (e.g., \"Each occupational licensing board shall...\", \"No occupational licensing board shall...\", \"Any occupational licensing board which...\"). This is the strong universal signal for NC \u2014 these provisions apply to every occupational licensing board in the state, and therefore to every profession regulated by such a board. Adding \"(?:each|any|no|every) occupational licensing board\" and \"occupational licensing boards shall\" as chapter-level universal patterns captures \u00a7\u00a7 93B-2 through 93B-8.2 that the walker previously left undetermined. \u00a7 93B-1 itself is the definitions section and is handled by the cross-state \"As used in this Chapter\" detector. Section/chapter cite patterns and standard triggers are unchanged."
+  }
+}

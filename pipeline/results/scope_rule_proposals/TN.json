@@ -1,0 +1,38 @@
+{
+  "state": "TN",
+  "generated_at": "2026-05-27T17:55:54.222727+00:00",
+  "status": "clean",
+  "scope_source_counts": {
+    "inherited_enumeration": 47,
+    "anchor_enumeration": 1
+  },
+  "n_undetermined": 0,
+  "candidates": [],
+  "proposal": {
+    "universal_patterns": [
+      {
+        "pattern": "this chapter applies to (?:any|every|all)\\b[^.]*",
+        "target": "chapter"
+      },
+      {
+        "pattern": "this title applies to (?:any|every|all)\\b[^.]*",
+        "target": "title"
+      },
+      {
+        "pattern": "this part applies to (?:any|every|all)\\b[^.]*",
+        "target": "part"
+      }
+    ],
+    "trigger_patterns": [
+      "licensed\\s+under\\b",
+      "licensed\\s+pursuant\\s+to\\b",
+      "licensed\\s+to\\s+practice\\b"
+    ],
+    "chapter_cite_pattern": "\\bchapter\\s+(\\d+[a-z]?)\\b",
+    "section_cite_pattern": "\\b(?:\u00a7\\s*)?63-(\\d+[a-z]?)-\\d+",
+    "slug_prefix": "chapter",
+    "range_chapter_pattern": null,
+    "profession_name_trigger_patterns": [],
+    "rationale": "Tennessee's Title 63 governs the healing arts and related professions. Section 63-1-102 enumerates practice-act chapters via \"licensed under chapter X of this title\" - a clear trigger introducing chapter citations within Title 63. Chapter cites are written as bare \"chapter N\" and section cites follow the 63-N-NNN pattern where the middle segment is the chapter token. The anchor text here is a definitions section (\"For the purposes of this chapter\") which is auto-detected by the cross-state AS_USED_RE, so we do not add it as a universal pattern. No strong universal phrases like \"every person\" or \"any holder\" appear in this anchor, so we keep universal patterns conservative and rely on trigger-based enumeration to map the listed practice-act chapters."
+  }
+}

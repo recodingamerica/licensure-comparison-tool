@@ -1,0 +1,62 @@
+{
+  "state": "VA",
+  "generated_at": "2026-05-27T17:42:08.393735+00:00",
+  "status": "zero_classified",
+  "scope_source_counts": {
+    "undetermined": 101
+  },
+  "n_undetermined": 10,
+  "candidates": [
+    "chapter-1",
+    "chapter-2",
+    "chapter-24",
+    "chapter-25",
+    "chapter-3"
+  ],
+  "proposal": {
+    "universal_patterns": [
+      {
+        "pattern": "this chapter applies to (?:any|every|all)\\b[^.]*",
+        "target": "chapter"
+      },
+      {
+        "pattern": "this title applies to (?:any|every|all)\\b[^.]*",
+        "target": "title"
+      },
+      {
+        "pattern": "this article applies to (?:any|every|all)\\b[^.]*",
+        "target": "part"
+      },
+      {
+        "pattern": "any holder of a license[^.]*under this (?:title|chapter)",
+        "target": "chapter"
+      },
+      {
+        "pattern": "regulatory boards within the Department of Professional and Occupational Regulation and the Department of Health Professions",
+        "target": "title"
+      },
+      {
+        "pattern": "wherever in this title\\b",
+        "target": "title"
+      },
+      {
+        "pattern": "any regulatory board within the Department of Professional and Occupational Regulation or the Department of Health Professions",
+        "target": "title"
+      },
+      {
+        "pattern": "any state board, or other body charged by law with the responsibility of examining persons desiring to engage in a regulated business or profession",
+        "target": "title"
+      }
+    ],
+    "trigger_patterns": [
+      "licensed\\s+(?:to\\s+practice|as|under|pursuant\\s+to)\\b",
+      "regulated\\s+pursuant\\s+to\\b"
+    ],
+    "chapter_cite_pattern": "\\bChapter\\s+(\\d+(?:\\.\\d+)?)\\b",
+    "section_cite_pattern": "\\b\u00a7\\s*54\\.1-(\\d+(?:\\.\\d+)?)",
+    "slug_prefix": "chapter",
+    "range_chapter_pattern": null,
+    "profession_name_trigger_patterns": [],
+    "rationale": "Chapter 1 of Title 54.1 contains general provisions that apply across both umbrella departments (DPOR and DHP) and thus span the entire Title 54.1. Sections like \u00a7 54.1-101, \u00a7 54.1-101.1, \u00a7 54.1-103, \u00a7 54.1-104, \u00a7 54.1-104.1 repeatedly invoke \"the Department of Professional and Occupational Regulation and the Department of Health Professions\" or \"any regulatory board within\" these departments, signaling title-wide applicability. \u00a7 54.1-101.1 uses \"Whenever in this title\" explicitly. \u00a7 54.1-102 references \"any state board... charged by law with... a regulated business or profession,\" again title-wide. I add these as title-level universal patterns. Sections that only enumerate specific named boards (like \u00a7 54.1-106) remain non-universal \u2014 they list specific practice-act boards rather than asserting universal scope, and should be handled via the existing trigger patterns or left undetermined. Chapter and section cite patterns and trigger phrases remain unchanged from the prior proposal."
+  }
+}

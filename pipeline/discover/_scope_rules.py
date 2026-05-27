@@ -294,6 +294,379 @@ MO_RULES = StateScopeRules(
 )
 
 
+
+
+# −−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−
+# West Virginia
+# −−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−
+WV_RULES = StateScopeRules(
+    universal_patterns=(
+        (re.compile(r"every board[^.]*referred to in this chapter", re.I), 'title'),
+        (re.compile(r"(?:each|all)\s+boards?\s+(?:or\s+licensing\s+authority\s+)?referred to in this chapter", re.I), 'title'),
+        (re.compile(r"the\s+boards?\s+referred\s+to\s+in\s+this\s+chapter", re.I), 'title'),
+        (re.compile(r"for the purposes of this chapter\b[^.]*", re.I), 'title'),
+        (re.compile(r"this article applies to (?:any|every|all)\b[^.]*", re.I), 'chapter'),
+        (re.compile(r"this chapter applies to (?:any|every|all)\b[^.]*", re.I), 'title'),
+    ),
+    trigger_patterns=(
+        re.compile(r"licensed\s+(?:to\s+practice|as|under|pursuant\s+to)\b", re.I),
+        re.compile(r"boards\s+governing\s+licensing\s+under\s+the\s+following\s+sections", re.I),
+    ),
+    chapter_cite_pattern=re.compile(r"\barticle\s+(\d+[a-z]?)\b", re.I),
+    section_cite_pattern=re.compile(r"\b30-(\d+[a-z]?)-\d+", re.I),
+    slug_prefix='article',
+)
+
+
+
+
+# −−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−
+# Tennessee
+# −−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−
+TN_RULES = StateScopeRules(
+    universal_patterns=(
+        (re.compile(r"this chapter applies to (?:any|every|all)\b[^.]*", re.I), 'chapter'),
+        (re.compile(r"this title applies to (?:any|every|all)\b[^.]*", re.I), 'title'),
+        (re.compile(r"this part applies to (?:any|every|all)\b[^.]*", re.I), 'part'),
+    ),
+    trigger_patterns=(
+        re.compile(r"licensed\s+under\b", re.I),
+        re.compile(r"licensed\s+pursuant\s+to\b", re.I),
+        re.compile(r"licensed\s+to\s+practice\b", re.I),
+    ),
+    chapter_cite_pattern=re.compile(r"\bchapter\s+(\d+[a-z]?)\b", re.I),
+    section_cite_pattern=re.compile(r"\b(?:§\s*)?63-(\d+[a-z]?)-\d+", re.I),
+)
+
+
+
+
+# −−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−
+# New Mexico
+# −−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−
+NM_RULES = StateScopeRules(
+    universal_patterns=(
+        (re.compile(r"licensed pursuant to Chapter 61 NMSA 1978", re.I), 'chapter'),
+        (re.compile(r"as used in the Uniform Licensing Act", re.I), 'chapter'),
+        (re.compile(r"Uniform Licensing Act is applied by law", re.I), 'chapter'),
+    ),
+    trigger_patterns=(
+        re.compile(r"licensed\s+pursuant\s+to\b", re.I),
+        re.compile(r"licensed\s+under\b", re.I),
+        re.compile(r"licensed\s+to\s+practice\b", re.I),
+    ),
+    chapter_cite_pattern=re.compile(r"\bChapter\s+61,?\s+Article\s+(\d+[A-Za-z]?)\b", re.I),
+    section_cite_pattern=re.compile(r"\b61-(\d+[A-Za-z]?)-\d+", re.I),
+    slug_prefix='article',
+)
+
+
+
+
+# −−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−
+# Hawaii
+# −−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−
+HI_RULES = StateScopeRules(
+    universal_patterns=(
+        (re.compile(r"this chapter applies to (?:any|every|all)\b[^.]*", re.I), 'chapter'),
+        (re.compile(r"applicable to the professions and vocations required by law to be regulated", re.I), 'chapter'),
+        (re.compile(r"as used in this chapter\b[^.]*\bevery (?:person|profession|vocation)", re.I), 'chapter'),
+    ),
+    trigger_patterns=(
+        re.compile(r"licensed\s+pursuant\s+to\b", re.I),
+        re.compile(r"licensed\s+under\b", re.I),
+        re.compile(r"licensed\s+to\s+practice\b", re.I),
+    ),
+    chapter_cite_pattern=re.compile(r"\bchapter\s+(\d+[a-z]?)\b", re.I),
+    section_cite_pattern=re.compile(r"\b(?:section|§)\s*(\d+[A-Za-z]?)-\d+", re.I),
+)
+
+
+
+
+# −−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−
+# Georgia
+# −−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−
+GA_RULES = StateScopeRules(
+    universal_patterns=(
+        (re.compile(r"this title applies to (?:any|every|all)\b[^.]*", re.I), 'title'),
+        (re.compile(r"this chapter applies to (?:any|every|all)\b[^.]*", re.I), 'chapter'),
+        (re.compile(r"this part applies to (?:any|every|all)\b[^.]*", re.I), 'part'),
+        (re.compile(r"any\s+professional\s+licensing\s+board[^.]*this title", re.I), 'title'),
+        (re.compile(r"established pursuant to this title", re.I), 'title'),
+        (re.compile(r"\bany\s+professional\s+licensing\s+board\b", re.I), 'title'),
+        (re.compile(r"\beach\s+professional\s+licensing\s+board\b", re.I), 'title'),
+        (re.compile(r"\bthe\s+professional\s+licensing\s+boards\b", re.I), 'title'),
+        (re.compile(r"\benforcement of this title\b", re.I), 'title'),
+        (re.compile(r"examination\s+(?:required|given)\s+by\s+(?:any\s+|a\s+)?professional\s+licensing\s+board", re.I), 'title'),
+    ),
+    trigger_patterns=(
+        re.compile(r"licensed\s+under\b", re.I),
+        re.compile(r"licensed\s+pursuant\s+to\b", re.I),
+        re.compile(r"licensed\s+to\s+practice\b", re.I),
+    ),
+    chapter_cite_pattern=re.compile(r"\bChapter\s+(\d+[A-Za-z]?)\b", re.I),
+    section_cite_pattern=re.compile(r"\b(?:Code\s+Section|§)\s*43-(\d+[A-Za-z]?)-", re.I),
+)
+
+
+
+
+# −−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−
+# South Carolina
+# −−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−
+SC_RULES = StateScopeRules(
+    universal_patterns=(
+        (re.compile(r"this title applies to (?:any|every|all)\b[^.]*", re.I), 'title'),
+        (re.compile(r"as used in this title\b", re.I), 'title'),
+        (re.compile(r"any holder of a license[^.]*under this title", re.I), 'title'),
+        (re.compile(r"this chapter applies to (?:any|every|all)\b[^.]*", re.I), 'chapter'),
+        (re.compile(r"this article applies to (?:any|every|all)\b[^.]*", re.I), 'chapter'),
+    ),
+    trigger_patterns=(
+        re.compile(r"licensed\s+under\b", re.I),
+        re.compile(r"licensed\s+pursuant\s+to\b", re.I),
+        re.compile(r"licensed\s+to\s+practice\b", re.I),
+    ),
+    chapter_cite_pattern=re.compile(r"\bchapter\s+(\d+[a-z]?)\b", re.I),
+    section_cite_pattern=re.compile(r"\b(?:Section|§)\s*40-(\d+[a-z]?)-", re.I),
+)
+
+
+
+
+# −−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−
+# Idaho
+# −−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−
+ID_RULES = StateScopeRules(
+    universal_patterns=(
+        (re.compile(r"licensed or required to be licensed under this title", re.I), 'title'),
+        (re.compile(r"any holder of a license[^.]*under this title", re.I), 'title'),
+        (re.compile(r"this chapter applies to (?:any|every|all)\b[^.]*", re.I), 'chapter'),
+        (re.compile(r"this title applies to (?:any|every|all)\b[^.]*", re.I), 'title'),
+    ),
+    trigger_patterns=(
+        re.compile(r"licensed\s+(?:to\s+practice|under|pursuant\s+to)\b", re.I),
+        re.compile(r"established\s+in\b", re.I),
+        re.compile(r"as\s+established\s+in\b", re.I),
+    ),
+    chapter_cite_pattern=re.compile(r"\bchapter\s+(\d+)\b", re.I),
+    section_cite_pattern=re.compile(r"\b(\d+)-\d+\b", re.I),
+)
+
+
+
+
+# −−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−
+# Texas
+# −−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−
+TX_RULES = StateScopeRules(
+    universal_patterns=(
+        (re.compile(r"this chapter applies to (?:any|every|all|each)\b[^.]*", re.I), 'chapter'),
+        (re.compile(r"this chapter applies to each regulatory program", re.I), 'chapter'),
+        (re.compile(r"apply to licensing and regulatory programs administered by the department", re.I), 'chapter'),
+        (re.compile(r"this subchapter applies to (?:any|every|all|each)\b[^.]*", re.I), 'part'),
+        (re.compile(r"this part applies to (?:any|every|all)\b[^.]*", re.I), 'part'),
+    ),
+    trigger_patterns=(
+        re.compile(r"licensed\s+(?:to\s+practice|as|under)\b", re.I),
+        re.compile(r"licensed\s+pursuant\s+to\b", re.I),
+        re.compile(r"licensing entities and health care practitioners under\b", re.I),
+        re.compile(r"regulates a health care practitioner under\b", re.I),
+    ),
+    chapter_cite_pattern=re.compile(r"\bChapter\s+(\d+[A-Za-z]?)\b", re.I),
+    section_cite_pattern=re.compile(r"\b(?:Section|Sec\.|§)\s*(\d+[A-Za-z]?)\.\d+", re.I),
+)
+
+
+
+
+# −−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−
+# Washington
+# −−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−
+WA_RULES = StateScopeRules(
+    universal_patterns=(
+        (re.compile(r"this chapter applies to (?:any|every|all)\b[^.]*", re.I), 'chapter'),
+        (re.compile(r"this part applies to (?:any|every|all)\b[^.]*", re.I), 'part'),
+        (re.compile('"[Hh]ealth professions?"\\s+means', re.I), 'chapter'),
+    ),
+    trigger_patterns=(
+        re.compile(r"licensed\s+under\b", re.I),
+        re.compile(r"regulated\s+under\b", re.I),
+        re.compile(r"licensed\s+pursuant\s+to\b", re.I),
+        re.compile(r"licensed\s+to\s+practice\b", re.I),
+        re.compile(r"under\s+chapters?\b", re.I),
+        re.compile(r"authority\s+under\s+this\s+chapter\s+in\s+relation\s+to", re.I),
+        re.compile(r"jurisdiction\s+in\s+relation\s+to[^.]*\bprofessions?\b", re.I),
+    ),
+    chapter_cite_pattern=re.compile(r"\bchapters?\s+(\d+\.\d+[A-Za-z]?)\b", re.I),
+    section_cite_pattern=re.compile(r"\b(?:RCW\s+)?(\d+\.\d+[A-Za-z]?)\.\d+", re.I),
+)
+
+
+
+
+# −−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−
+# Maryland
+# −−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−
+MD_RULES = StateScopeRules(
+    universal_patterns=(
+        (re.compile(r"this title applies to (?:any|every|all)\b[^.]*", re.I), 'title'),
+        (re.compile(r"this subtitle applies to (?:any|every|all)\b[^.]*", re.I), 'chapter'),
+        (re.compile(r"any (?:individual|person) licensed or certified by a board under this article", re.I), 'title'),
+        (re.compile(r"in this article the following words", re.I), 'title'),
+        (re.compile(r"each unit shall (?:issue|credit|give)\b", re.I), 'title'),
+        (re.compile(r"a unit may (?:issue|allow)\b[^.]*license", re.I), 'title'),
+        (re.compile(r"service member,\s+veteran,?\s+(?:or|and)\s+military spouse", re.I), 'title'),
+        (re.compile(r"list of the names of each unit that issues a license under this title", re.I), 'title'),
+    ),
+    trigger_patterns=(
+        re.compile(r"licensed\s+(?:to\s+practice|as|under|pursuant\s+to)\b", re.I),
+        re.compile(r"licensed\s+or\s+certified\s+(?:by|under)\b", re.I),
+    ),
+    chapter_cite_pattern=re.compile(r"\bTitle\s+(\d+(?:\.\d+)?[A-Za-z]?)\b", re.I),
+    section_cite_pattern=re.compile(r"\b(\d+(?:\.\d+)?[A-Za-z]?)-\d+", re.I),
+    slug_prefix='title',
+)
+
+
+
+
+# −−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−
+# Oregon
+# −−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−
+OR_RULES = StateScopeRules(
+    universal_patterns=(
+        (re.compile(r"any\s+state\s+board\s+or\s+commission\s+that\s+examines\s+applicants\s+for\s+licen[sc]e", re.I), 'chapter'),
+        (re.compile(r"any\s+state\s+agency\s+or\s+licensing\s+board", re.I), 'chapter'),
+        (re.compile(r"a\s+licensing\s+board,\s+commission\s+or\s+agency", re.I), 'chapter'),
+        (re.compile(r"each\s+professional\s+licensing\s+and\s+advisory\s+board", re.I), 'chapter'),
+        (re.compile(r"state\s+agency,\s+board\s+or\s+commission\s+has\s+the\s+power\s+to\s+issue\s+any\s+licen[sc]e", re.I), 'chapter'),
+    ),
+    trigger_patterns=(
+        re.compile(r"licensed\s+(?:to\s+practice|under|pursuant\s+to)\b", re.I),
+        re.compile(r"apply\s+to\s+the\s+following\s+professional\s+licensing", re.I),
+    ),
+    chapter_cite_pattern=re.compile(r"\bORS\s+chapter\s+(\d+[A-Za-z]?)\b", re.I),
+    section_cite_pattern=re.compile(r"\bORS\s+(\d+[A-Za-z]?)\.\d+", re.I),
+)
+
+
+
+
+# −−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−
+# Indiana
+# −−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−
+IN_RULES = StateScopeRules(
+    universal_patterns=(
+        (re.compile(r"all occupational and professional licen[sc]ees?[^.]*regulated under the Indiana Code", re.I), 'title'),
+        (re.compile(r"entities described in IC 25-0\.5-3 that regulate occupations or professions", re.I), 'title'),
+        (re.compile(r"this chapter applies to (?:any|every|all)\b[^.]*", re.I), 'chapter'),
+        (re.compile(r"this article applies to (?:any|every|all)\b[^.]*", re.I), 'chapter'),
+    ),
+    trigger_patterns=(
+        re.compile(r"licensed\s+(?:to\s+practice|as|under)\b", re.I),
+        re.compile(r"licensed\s+pursuant\s+to\b", re.I),
+        re.compile(r"licensed\s+or\s+certified\s+under\b", re.I),
+        re.compile(r"holds?\s+a\s+license,?\s+certificate,?\s+or\s+registration\s+under\b", re.I),
+        re.compile(r"IC\s+25-1-1\.1-4\s+applies\s+to\b", re.I),
+        re.compile(r"IC\s+25-1-2-2\.1\s+applies\s+to\b", re.I),
+    ),
+    chapter_cite_pattern=re.compile(r"\bIC\s+25-(\d+(?:\.\d+)?)\b", re.I),
+    section_cite_pattern=re.compile(r"\bIC\s+25-(\d+(?:\.\d+)?)-", re.I),
+    slug_prefix='article',
+)
+
+
+
+
+# −−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−
+# Montana
+# −−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−
+MT_RULES = StateScopeRules(
+    universal_patterns=(
+        (re.compile(r"this part governs the licensure[^.]*professions and occupations governed by this title", re.I), 'title'),
+        (re.compile(r"this title applies to (?:any|every|all)\b[^.]*", re.I), 'title'),
+        (re.compile(r"this chapter applies to (?:any|every|all)\b[^.]*", re.I), 'chapter'),
+        (re.compile(r"this part applies to (?:any|every|all)\b[^.]*", re.I), 'part'),
+    ),
+    trigger_patterns=(
+        re.compile(r"licensed\s+under\b", re.I),
+        re.compile(r"licensed\s+pursuant\s+to\b", re.I),
+        re.compile(r"licensed\s+to\s+practice\b", re.I),
+        re.compile(r"regulated\s+under\s+Title\s+37\b", re.I),
+    ),
+    chapter_cite_pattern=re.compile(r"\b(?:Title\s+37,?\s+)?[Cc]hapter\s+(\d+)\b", re.I),
+    section_cite_pattern=re.compile(r"\b37-(\d+)-\d+\b", re.I),
+)
+
+
+
+
+# −−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−
+# Connecticut
+# −−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−
+CT_RULES = StateScopeRules(
+    universal_patterns=(
+        (re.compile(r"this chapter applies to all agencies", re.I), 'chapter'),
+        (re.compile(r"this chapter applies to (?:any|every|all)\b[^.]*", re.I), 'chapter'),
+        (re.compile(r"this part applies to (?:any|every|all)\b[^.]*", re.I), 'part'),
+    ),
+    trigger_patterns=(
+        re.compile(r"licensed\s+(?:to\s+practice|as|under|pursuant\s+to)\b", re.I),
+    ),
+    chapter_cite_pattern=re.compile(r"\bchapter\s+(\d+[a-z]?)\b", re.I),
+    section_cite_pattern=re.compile(r"\bsection\s+(\d+[a-z]?)-\d+", re.I),
+)
+
+
+
+
+# −−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−
+# Nevada
+# −−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−
+NV_RULES = StateScopeRules(
+    universal_patterns=(
+        (re.compile(r"this title applies to (?:any|every|all)\b[^.]*", re.I), 'title'),
+        (re.compile(r"any (?:person|holder of a license)[^.]*under this title", re.I), 'title'),
+        (re.compile(r"this chapter applies to (?:any|every|all)\b[^.]*", re.I), 'chapter'),
+        (re.compile(r"(?:any\s+)?(?:state\s+)?(?:agency|board|commission)[^.]*authority to regulate an occupation or profession pursuant to this title", re.I), 'chapter'),
+        (re.compile(r"regulatory bod(?:y|ies)[^.]*(?:exempted\s+from\s+the\s+provisions\s+of\s+this\s+chapter|are\s+exempted\s+from\s+the\s+provisions)", re.I), 'chapter'),
+        (re.compile(r"each regulatory body shall\b", re.I), 'chapter'),
+    ),
+    trigger_patterns=(
+        re.compile(r"licensed\s+(?:to\s+practice|as|under|pursuant\s+to)\b", re.I),
+        re.compile(r"issued\s+pursuant\s+to\b", re.I),
+    ),
+    chapter_cite_pattern=re.compile(r"\bchapter\s+(\d+[A-Za-z]?)\s+of\s+NRS\b", re.I),
+    section_cite_pattern=re.compile(r"\bNRS\s+(\d+[A-Za-z]?)\.\d+", re.I),
+)
+
+
+
+
+# −−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−
+# South Dakota
+# −−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−
+SD_RULES = StateScopeRules(
+    universal_patterns=(
+        (re.compile(r"any profession regulated under titles? 13 or 36", re.I), 'title'),
+        (re.compile(r"regulated under title 36", re.I), 'title'),
+        (re.compile(r"professional or occupational licensing board, commission, or agency set forth in title 36", re.I), 'title'),
+        (re.compile(r"licensing board authorized in title 36", re.I), 'title'),
+        (re.compile(r"any occupation licensed pursuant to title 36", re.I), 'title'),
+        (re.compile(r"provisions of this chapter apply to (?:any|every|all)\b", re.I), 'chapter'),
+        (re.compile(r"this chapter shall operate retroactively", re.I), 'chapter'),
+    ),
+    trigger_patterns=(
+        re.compile(r"licensed\s+(?:to\s+practice|under|pursuant\s+to)\b", re.I),
+        re.compile(r"regulated\s+under\b", re.I),
+    ),
+    chapter_cite_pattern=re.compile(r"\bchapter\s+36-(\d+[a-z]?)\b", re.I),
+    section_cite_pattern=re.compile(r"§+\s*36-(\d+[a-z]?)-", re.I),
+)
+
+
 STATE_RULES: dict[str, StateScopeRules] = {
     "UT": UT_RULES,
     "FL": FL_RULES,
@@ -301,4 +674,20 @@ STATE_RULES: dict[str, StateScopeRules] = {
     "IA": IA_RULES,
     "WI": WI_RULES,
     "MO": MO_RULES,
+    "WV": WV_RULES,
+    "TN": TN_RULES,
+    "NM": NM_RULES,
+    "HI": HI_RULES,
+    "GA": GA_RULES,
+    "SC": SC_RULES,
+    "ID": ID_RULES,
+    "TX": TX_RULES,
+    "WA": WA_RULES,
+    "MD": MD_RULES,
+    "OR": OR_RULES,
+    "IN": IN_RULES,
+    "MT": MT_RULES,
+    "CT": CT_RULES,
+    "NV": NV_RULES,
+    "SD": SD_RULES,
 }

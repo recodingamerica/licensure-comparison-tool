@@ -73,6 +73,36 @@ def test_invalid_regex_still_rejected():
         ScopeRulesProposal(**_base(chapter_cite_pattern=r"(unbalanced"))
 
 
+def test_scalar_cite_pattern_json_string_encoded_is_decoded():
+    # Seen on TX/KY: a scalar regex field arrives as a JSON-encoded string
+    # literal (quote-wrapped, backslashes escaped) instead of the raw regex.
+    p = ScopeRulesProposal(**_base(
+        chapter_cite_pattern=r'"\\bChapter\\s+(\\d+)\\b"',
+        section_cite_pattern=r'"\\bSec\\.\\s*(\\d+)\\.\\d+"',
+    ))
+    assert p.chapter_cite_pattern == r"\bChapter\s+(\d+)\b"
+    assert p.section_cite_pattern == r"\bSec\.\s*(\d+)\.\d+"
+
+
+def test_clean_scalar_cite_pattern_untouched():
+    # A normal raw regex (not quote-wrapped) must pass through unchanged.
+    p = ScopeRulesProposal(**_base(chapter_cite_pattern=r"\bchapters?\s+(\d+\.\d+)\b"))
+    assert p.chapter_cite_pattern == r"\bchapters?\s+(\d+\.\d+)\b"
+
+
+def test_render_handles_quote_and_trailing_backslash():
+    import ast
+    import pipeline.discover.suggest_scope_rules as S
+    # Embedded double-quote and trailing backslash both break a naive raw
+    # string; render must still emit valid, re-parseable Python.
+    p = ScopeRulesProposal(**_base(
+        universal_patterns=[{"pattern": r'"health profession"\s+means', "target": "chapter"}],
+        chapter_cite_pattern="chapter\\\\",  # ends in a backslash
+    ))
+    code = S.render_rules_code("ZZ", p)
+    ast.parse(code)  # must parse
+
+
 # ---------------------------------------------------------------------------
 # Proposal persistence: --apply must replay the validated proposal exactly
 # ---------------------------------------------------------------------------

@@ -1,0 +1,53 @@
+{
+  "state": "NV",
+  "generated_at": "2026-05-27T17:39:15.216663+00:00",
+  "status": "needs_review",
+  "scope_source_counts": {
+    "anchor_universal": 3,
+    "universal": 37,
+    "undetermined": 77
+  },
+  "n_undetermined": 10,
+  "candidates": [
+    "chapter-622a",
+    "chapter-629"
+  ],
+  "proposal": {
+    "universal_patterns": [
+      {
+        "pattern": "this title applies to (?:any|every|all)\\b[^.]*",
+        "target": "title"
+      },
+      {
+        "pattern": "any (?:person|holder of a license)[^.]*under this title",
+        "target": "title"
+      },
+      {
+        "pattern": "this chapter applies to (?:any|every|all)\\b[^.]*",
+        "target": "chapter"
+      },
+      {
+        "pattern": "(?:any\\s+)?(?:state\\s+)?(?:agency|board|commission)[^.]*authority to regulate an occupation or profession pursuant to this title",
+        "target": "chapter"
+      },
+      {
+        "pattern": "regulatory bod(?:y|ies)[^.]*(?:exempted\\s+from\\s+the\\s+provisions\\s+of\\s+this\\s+chapter|are\\s+exempted\\s+from\\s+the\\s+provisions)",
+        "target": "chapter"
+      },
+      {
+        "pattern": "each regulatory body shall\\b",
+        "target": "chapter"
+      }
+    ],
+    "trigger_patterns": [
+      "licensed\\s+(?:to\\s+practice|as|under|pursuant\\s+to)\\b",
+      "issued\\s+pursuant\\s+to\\b"
+    ],
+    "chapter_cite_pattern": "\\bchapter\\s+(\\d+[A-Za-z]?)\\s+of\\s+NRS\\b",
+    "section_cite_pattern": "\\bNRS\\s+(\\d+[A-Za-z]?)\\.\\d+",
+    "slug_prefix": "chapter",
+    "range_chapter_pattern": null,
+    "profession_name_trigger_patterns": [],
+    "rationale": "Chapter 622A is Nevada's uniform administrative procedure chapter that applies to all regulatory bodies that regulate an occupation or profession pursuant to Title 54 (with limited exemptions listed in NRS 622A.120). NRS 622A.090 defines \"Regulatory body\" universally as any agency/board/commission with authority to regulate an occupation or profession pursuant to this title \u2013 this is a universal scoping signal for the chapter. Added two universal patterns: one matching the 622A.090 definition phrasing, and one matching the 622A.120 exemption list phrasing (which by listing exemptions implies the chapter applies to all other regulatory bodies). The remaining undetermined 622A.0xx definition stubs are scraper-truncated and genuinely lack scope text; they should inherit chapter-wide universal status via the 622A.090/622A.120 anchors. Kept other patterns the same."
+  }
+}

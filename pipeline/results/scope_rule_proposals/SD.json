@@ -1,0 +1,58 @@
+{
+  "state": "SD",
+  "generated_at": "2026-05-27T17:41:05.457096+00:00",
+  "status": "needs_review",
+  "scope_source_counts": {
+    "undetermined": 33,
+    "universal": 37,
+    "anchor_universal": 3
+  },
+  "n_undetermined": 10,
+  "candidates": [
+    "chapter-01",
+    "chapter-01d",
+    "chapter-02"
+  ],
+  "proposal": {
+    "universal_patterns": [
+      {
+        "pattern": "any profession regulated under titles? 13 or 36",
+        "target": "title"
+      },
+      {
+        "pattern": "regulated under title 36",
+        "target": "title"
+      },
+      {
+        "pattern": "professional or occupational licensing board, commission, or agency set forth in title 36",
+        "target": "title"
+      },
+      {
+        "pattern": "licensing board authorized in title 36",
+        "target": "title"
+      },
+      {
+        "pattern": "any occupation licensed pursuant to title 36",
+        "target": "title"
+      },
+      {
+        "pattern": "provisions of this chapter apply to (?:any|every|all)\\b",
+        "target": "chapter"
+      },
+      {
+        "pattern": "this chapter shall operate retroactively",
+        "target": "chapter"
+      }
+    ],
+    "trigger_patterns": [
+      "licensed\\s+(?:to\\s+practice|under|pursuant\\s+to)\\b",
+      "regulated\\s+under\\b"
+    ],
+    "chapter_cite_pattern": "\\bchapter\\s+36-(\\d+[a-z]?)\\b",
+    "section_cite_pattern": "\u00a7+\\s*36-(\\d+[a-z]?)-",
+    "slug_prefix": "chapter",
+    "range_chapter_pattern": null,
+    "profession_name_trigger_patterns": [],
+    "rationale": "Refined patterns for SD. Chapter 36-1 is the veterans' reinstatement chapter applying broadly to \"any profession, trade, science or business\" regulated by the state \u2014 sections 36-1-1 through 36-1-3 use general language including \"this chapter shall operate retroactively\" to all professions. Chapter 36-1D's section 36-1D-4 explicitly says \"provisions of this chapter apply to any [occupation licensed pursuant to title 36]\" \u2014 added a generic \"provisions of this chapter apply to\" universal pattern. Chapter 36-2 (Section 36-2-1, 36-2-2, 36-2-3) regulates the \"healing art\" generally and is not universal across professions \u2014 those should remain undetermined/profession-specific (medicine). Kept other patterns from the prior version. Did not add a pattern for 36-2 since it is a specific practice act for healing arts."
+  }
+}

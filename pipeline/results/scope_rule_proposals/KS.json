@@ -1,0 +1,30 @@
+{
+  "state": "KS",
+  "generated_at": "2026-05-27T17:33:53.087127+00:00",
+  "status": "zero_classified",
+  "scope_source_counts": {
+    "undetermined": 201
+  },
+  "n_undetermined": 10,
+  "candidates": [
+    "article-49",
+    "article-50",
+    "chapter-74",
+    "chapter-75",
+    "chapter-77"
+  ],
+  "proposal": {
+    "universal_patterns": [],
+    "trigger_patterns": [
+      "licensed\\s+under\\b",
+      "licensed\\s+pursuant\\s+to\\b",
+      "licensed\\s+to\\s+practice\\b"
+    ],
+    "chapter_cite_pattern": "\\bK\\.S\\.A\\.\\s+(\\d+)-\\d+",
+    "section_cite_pattern": "\\bK\\.S\\.A\\.\\s+(\\d+)-\\d+",
+    "slug_prefix": "chapter",
+    "range_chapter_pattern": null,
+    "profession_name_trigger_patterns": [],
+    "rationale": "These undetermined sections (65-4901 through 65-4914) all concern medical malpractice screening panels and related health care provider liability rules. They are scoped to the specific malpractice screening panel act, not to all licensed occupations universally. None contain language asserting application to \"every person\" or \"all professions\"; they only reference \"health care providers\" in a procedural context. Adding a universal pattern here would falsely sweep these procedural sections into the index. Correct behavior is to leave them undetermined and surface for triage. Keeping patterns as-is."
+  }
+}

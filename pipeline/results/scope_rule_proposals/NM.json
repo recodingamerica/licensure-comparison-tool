@@ -1,0 +1,38 @@
+{
+  "state": "NM",
+  "generated_at": "2026-05-27T17:55:44.903263+00:00",
+  "status": "clean",
+  "scope_source_counts": {
+    "anchor_universal": 2,
+    "universal": 43
+  },
+  "n_undetermined": 0,
+  "candidates": [],
+  "proposal": {
+    "universal_patterns": [
+      {
+        "pattern": "licensed pursuant to Chapter 61 NMSA 1978",
+        "target": "chapter"
+      },
+      {
+        "pattern": "as used in the Uniform Licensing Act",
+        "target": "chapter"
+      },
+      {
+        "pattern": "Uniform Licensing Act is applied by law",
+        "target": "chapter"
+      }
+    ],
+    "trigger_patterns": [
+      "licensed\\s+pursuant\\s+to\\b",
+      "licensed\\s+under\\b",
+      "licensed\\s+to\\s+practice\\b"
+    ],
+    "chapter_cite_pattern": "\\bChapter\\s+61,?\\s+Article\\s+(\\d+[A-Za-z]?)\\b",
+    "section_cite_pattern": "\\b61-(\\d+[A-Za-z]?)-\\d+",
+    "slug_prefix": "article",
+    "range_chapter_pattern": null,
+    "profession_name_trigger_patterns": [],
+    "rationale": "New Mexico's Uniform Licensing Act (Chapter 61, Article 1) is the umbrella. NM statutes are organized as Chapter-Article-Section, and Justia slugs are typically \"article-N\". The chapter token (i.e., the article number within Chapter 61) is the middle segment in section cites like \"61-1-2\" (Article 1) or \"61-9-1\" (Article 9). The umbrella definition of \"board\" includes any board administering a profession licensed pursuant to Chapter 61 NMSA 1978, plus catch-all \"any other state agency to which the Uniform Licensing Act is applied by law.\" Universal phrasing is keyed to \"Uniform Licensing Act\" rather than \"this chapter\" since NM uses act-name references. Standard trigger phrases capture practice-act enumerations."
+  }
+}

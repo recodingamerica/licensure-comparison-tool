@@ -117,6 +117,26 @@ class ScopeRulesProposal(BaseModel):
     def _coerce_json_string_list(cls, v: object) -> object:
         return cls._json_string_to_list(v)
 
+    @field_validator(
+        "chapter_cite_pattern", "section_cite_pattern", "range_chapter_pattern",
+        mode="before",
+    )
+    @classmethod
+    def _decode_json_string_scalar(cls, v: object) -> object:
+        # The model sometimes returns a scalar regex field as a JSON-encoded
+        # string LITERAL — wrapped in quotes with backslashes escaped, e.g.
+        # '"\\bChapter\\s+(\\d+)\\b"' — instead of the raw regex. Decode it
+        # back. Only triggers when the value is quote-wrapped, so clean raw
+        # regexes (which aren't valid JSON) pass through untouched.
+        if isinstance(v, str) and len(v) >= 2 and v[0] == '"' and v[-1] == '"':
+            try:
+                decoded = json.loads(v)
+            except ValueError:
+                return v
+            if isinstance(decoded, str):
+                return decoded
+        return v
+
     @field_validator("universal_patterns", mode="before")
     @classmethod
     def _coerce_universal_patterns(cls, v: object) -> object:
@@ -615,11 +635,13 @@ def render_rules_code(
     state_name = STATE_NAME_MAP.get(state, state)
 
     def _r(pat: str) -> str:
-        """Wrap a pattern string in a raw-string Python literal."""
-        if '"' in pat:
-            escaped = repr(pat)[1:-1]
-            return f'"{escaped}"'
-        return f'r"{pat}"'
+        """Render a pattern as a Python string literal. Prefer a raw string
+        for readability, but fall back to repr() for anything a raw string
+        can't hold — an embedded double-quote, or a trailing backslash (a raw
+        string can't end in one). repr() always yields a valid literal."""
+        if '"' not in pat and not pat.endswith("\\"):
+            return f'r"{pat}"'
+        return repr(pat)
 
     lines = [
         "",

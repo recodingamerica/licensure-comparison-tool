@@ -1,0 +1,40 @@
+{
+  "state": "AL",
+  "generated_at": "2026-05-27T17:54:45.643354+00:00",
+  "status": "zero_classified",
+  "scope_source_counts": {
+    "undetermined": 9
+  },
+  "n_undetermined": 9,
+  "candidates": [
+    "chapter-38",
+    "chapter-67"
+  ],
+  "proposal": {
+    "universal_patterns": [
+      {
+        "pattern": "this chapter applies to (?:any|every|all)\\b[^.]*",
+        "target": "chapter"
+      },
+      {
+        "pattern": "this title applies to (?:any|every|all)\\b[^.]*",
+        "target": "title"
+      },
+      {
+        "pattern": "this part applies to (?:any|every|all)\\b[^.]*",
+        "target": "part"
+      }
+    ],
+    "trigger_patterns": [
+      "licensed\\s+under\\b",
+      "licensed\\s+pursuant\\s+to\\b",
+      "licensed\\s+to\\s+practice\\b"
+    ],
+    "chapter_cite_pattern": "\\bchapter\\s+(\\d+[A-Za-z]?)\\b",
+    "section_cite_pattern": "\\b[Ss]ection\\s+34-(\\d+[A-Za-z]?)-",
+    "slug_prefix": "chapter",
+    "range_chapter_pattern": null,
+    "profession_name_trigger_patterns": [],
+    "rationale": "Chapter 38 is the Alabama Impaired Professionals' Committee chapter \u2014 it is scoped specifically to dentists, pharmacists, and hygienists under the Boards of Dental Examiners and Pharmacy (per the \u00a734-38-1 definitions). It is NOT a universal occupational licensing chapter that applies to all Title 34 professions. Similarly, Section 16-67-1 is about a State Reciprocity Committee for higher education institutions, not occupational licensing at all. None of these 9 undetermined sections contain language asserting universal applicability across professions \u2014 they are all properly left undetermined for manual triage rather than falsely promoted to universal. Keeping the patterns conservative (generic safety-net universals only) is the correct call. Section cite pattern still captures the middle chapter token in 34-CHAP-SEC format."
+  }
+}

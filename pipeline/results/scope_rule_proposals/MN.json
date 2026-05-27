@@ -1,0 +1,39 @@
+{
+  "state": "MN",
+  "generated_at": "2026-05-27T17:36:29.045214+00:00",
+  "status": "zero_classified",
+  "scope_source_counts": {
+    "undetermined": 100
+  },
+  "n_undetermined": 10,
+  "candidates": [
+    "chapters-14-15a",
+    "chapters-214-215"
+  ],
+  "proposal": {
+    "universal_patterns": [
+      {
+        "pattern": "this chapter applies to (?:any|every|all)\\b[^.]*",
+        "target": "chapter"
+      },
+      {
+        "pattern": "this section applies to (?:any|every|all)\\b[^.]*health-related licensing board",
+        "target": "chapter"
+      }
+    ],
+    "trigger_patterns": [
+      "licensed\\s+under\\b",
+      "licensed\\s+pursuant\\s+to\\b",
+      "regulated\\s+under\\b",
+      "established\\s+pursuant\\s+to\\s+section\\b",
+      "created\\s+pursuant\\s+to\\s+section\\b",
+      "established\\s+(?:by|under)\\s+section\\b"
+    ],
+    "chapter_cite_pattern": "\\bchapter\\s+(\\d+[A-Za-z]?)\\b",
+    "section_cite_pattern": "\\bsection\\s+(\\d+[A-Za-z]?)\\.\\d+",
+    "slug_prefix": "chapter",
+    "range_chapter_pattern": null,
+    "profession_name_trigger_patterns": [],
+    "rationale": "Holding patterns. The 10 undetermined sections in chapter 214 are general administrative provisions (policy statements, definitions of \"public member\", Council of Health Boards organizational rules, fee structures, coordination duties) that don't enumerate practice acts or contain explicit universal-applicability language tying them to all licensed professions. They genuinely cannot be confidently scoped from the anchor text alone \u2014 better to leave them for manual triage than to over-broaden patterns like \"this chapter\" or \"health-related licensing board\" which would falsely sweep in unrelated content. The existing narrow universal patterns and the \"established pursuant to section\" trigger continue to correctly handle 214.01's enumeration."
+  }
+}

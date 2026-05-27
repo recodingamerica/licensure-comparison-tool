@@ -1,0 +1,71 @@
+{
+  "state": "AR",
+  "generated_at": "2026-05-27T17:31:50.605004+00:00",
+  "status": "needs_review",
+  "scope_source_counts": {
+    "universal": 8,
+    "anchor_universal": 2,
+    "undetermined": 66
+  },
+  "n_undetermined": 10,
+  "candidates": [
+    "chapter-2",
+    "chapter-3",
+    "chapter-4",
+    "chapter-80"
+  ],
+  "proposal": {
+    "universal_patterns": [
+      {
+        "pattern": "this chapter applies to (?:any|every|all)\\b[^.]*",
+        "target": "chapter"
+      },
+      {
+        "pattern": "this subchapter applies to (?:any|every|all)\\b[^.]*",
+        "target": "chapter"
+      },
+      {
+        "pattern": "this title applies to (?:any|every|all)\\b[^.]*",
+        "target": "title"
+      },
+      {
+        "pattern": "any holder of a license[^.]*under this title",
+        "target": "title"
+      },
+      {
+        "pattern": "an occupational licensing entity shall\\b",
+        "target": "chapter"
+      },
+      {
+        "pattern": "each board, commission, or other entity that licenses\\b",
+        "target": "chapter"
+      },
+      {
+        "pattern": "all persons, agencies, boards, commissions,? or other licensing entities\\b",
+        "target": "chapter"
+      },
+      {
+        "pattern": "cities, counties,? or other political subdivisions[^.]*shall not enact a requirement for licensing\\b",
+        "target": "chapter"
+      },
+      {
+        "pattern": "members of the following organizations\\b",
+        "target": "chapter"
+      },
+      {
+        "pattern": "\\bin determining eligibility under this section[^.]*\\b(?:board|commission)\\b",
+        "target": "chapter"
+      }
+    ],
+    "trigger_patterns": [
+      "licensed\\s+(?:to\\s+practice|as|under|pursuant\\s+to)\\b",
+      "issuing any occupational, professional, or business license pursuant to Titles?\\b"
+    ],
+    "chapter_cite_pattern": "\\bchapter\\s+(\\d+)\\b",
+    "section_cite_pattern": "\\b(?:\u00a7|[Ss]ection)\\s*17-(\\d+)-\\d+",
+    "slug_prefix": "chapter",
+    "range_chapter_pattern": null,
+    "profession_name_trigger_patterns": [],
+    "rationale": "Refined to capture AR Title 17 Chapter 1 (Professions Generally) sections that impose cross-cutting requirements on all occupational licensing entities. Chapter 1 functions as the umbrella chapter \u2014 sections 17-1-103, 17-1-105, 17-1-107, 17-1-108, 17-1-110 all begin with \"An occupational licensing entity shall...\" which signals universal applicability across all professions licensed under Title 17. Section 17-1-104 explicitly enumerates Titles 2-6, 8, 9, 14, 15, 17, 20, 22, 23, 27 \u2014 but for our purposes the trigger pattern catches the enumeration. Section 17-1-105 uses \"Each board, commission, or other entity that licenses...\" Section 17-1-109 (Workforce Freedom Act) restricts political subdivisions from regulating any profession or occupation. Section 17-1-102 covers committee members of professional societies generally. I left 17-1-106 (repealed) and 17-2-101 (just a short title with no scoping language) unmatched \u2014 those are genuinely undetermined from anchor text alone."
+  }
+}

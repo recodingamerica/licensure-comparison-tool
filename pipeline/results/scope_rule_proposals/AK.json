@@ -1,0 +1,41 @@
+{
+  "state": "AK",
+  "generated_at": "2026-05-27T17:31:15.542268+00:00",
+  "status": "needs_review",
+  "scope_source_counts": {
+    "anchor_enumeration": 3,
+    "inherited_enumeration": 22,
+    "undetermined": 11
+  },
+  "n_undetermined": 10,
+  "candidates": [
+    "chapter-02",
+    "chapter-03"
+  ],
+  "proposal": {
+    "universal_patterns": [
+      {
+        "pattern": "this chapter applies to the\\b",
+        "target": "chapter"
+      },
+      {
+        "pattern": "boards and commissions listed in AS 08\\.01\\.010",
+        "target": "chapter"
+      }
+    ],
+    "trigger_patterns": [
+      "regulation of\\b[^.]*\\bunder\\b",
+      "licensed\\s+under\\b",
+      "licensed\\s+pursuant\\s+to\\b",
+      "regulated\\s+under\\b",
+      "licensed\\s+in\\s+(?:this|the)\\s+state\\s+(?:as\\s+a\\s+)?[^.]*\\bunder\\b",
+      "following boards have the termination date"
+    ],
+    "chapter_cite_pattern": "\\bAS\\s+08\\.(\\d+)\\b",
+    "section_cite_pattern": "\\bAS\\s+08\\.(\\d+)\\.\\d+",
+    "slug_prefix": "chapter",
+    "range_chapter_pattern": null,
+    "profession_name_trigger_patterns": [],
+    "rationale": "Refinements: Most of the chapter-02 undetermined sections are genuinely profession-specific (geologist certification, euthanasia permits, telehealth for health-care providers only, out-of-state multidisciplinary team sanctions, mental-health disclosure carve-outs) and should remain undetermined rather than being force-classified as universal. Section 08.02.110 (\"Professional designation requirements\") enumerates many practice acts via \"X licensed under AS 08.YY\" \u2014 added a broader trigger pattern \"licensed in (this|the) state as a ... under\" to catch the chiropractor-style phrasing. Section 08.03.010 enumerates termination dates for all the listed boards \u2014 added \"following boards have the termination date\" as a trigger so the AS 08.YY citations get enumerated. The chapter-02 limitation-of-liability section refers only to specific committees and is not universal. Kept chapter-level universal patterns narrow to avoid over-classifying chapter-02 miscellaneous provisions."
+  }
+}

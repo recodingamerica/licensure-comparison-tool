@@ -1,0 +1,48 @@
+{
+  "state": "OR",
+  "generated_at": "2026-05-27T17:40:13.780587+00:00",
+  "status": "needs_review",
+  "scope_source_counts": {
+    "undetermined": 27,
+    "inherited_enumeration": 47,
+    "anchor_enumeration": 3
+  },
+  "n_undetermined": 10,
+  "candidates": [
+    "chapter-670"
+  ],
+  "proposal": {
+    "universal_patterns": [
+      {
+        "pattern": "any\\s+state\\s+board\\s+or\\s+commission\\s+that\\s+examines\\s+applicants\\s+for\\s+licen[sc]e",
+        "target": "chapter"
+      },
+      {
+        "pattern": "any\\s+state\\s+agency\\s+or\\s+licensing\\s+board",
+        "target": "chapter"
+      },
+      {
+        "pattern": "a\\s+licensing\\s+board,\\s+commission\\s+or\\s+agency",
+        "target": "chapter"
+      },
+      {
+        "pattern": "each\\s+professional\\s+licensing\\s+and\\s+advisory\\s+board",
+        "target": "chapter"
+      },
+      {
+        "pattern": "state\\s+agency,\\s+board\\s+or\\s+commission\\s+has\\s+the\\s+power\\s+to\\s+issue\\s+any\\s+licen[sc]e",
+        "target": "chapter"
+      }
+    ],
+    "trigger_patterns": [
+      "licensed\\s+(?:to\\s+practice|under|pursuant\\s+to)\\b",
+      "apply\\s+to\\s+the\\s+following\\s+professional\\s+licensing"
+    ],
+    "chapter_cite_pattern": "\\bORS\\s+chapter\\s+(\\d+[A-Za-z]?)\\b",
+    "section_cite_pattern": "\\bORS\\s+(\\d+[A-Za-z]?)\\.\\d+",
+    "slug_prefix": "chapter",
+    "range_chapter_pattern": null,
+    "profession_name_trigger_patterns": [],
+    "rationale": "Chapter 670 contains generally-applicable cross-board provisions in Oregon. Several sections (670.010, 670.020, 670.280, 670.283, 670.290, 670.300) speak universally to \"any state board or commission that examines applicants for license\", \"a licensing board, commission or agency\", \"any state agency or licensing board\", and \"each professional licensing and advisory board\" \u2014 strong universal signals warranting chapter-level universal classification. Section 670.304 enumerates specific named boards rather than chapter cites, so it remains undetermined (no useful trigger for chapter-cite enumeration). Chapter 676 sections remain undetermined as they are scoped to health-professional boards via cross-references rather than universal language. Citation patterns unchanged: ORS NNN.MMM with NNN as chapter token."
+  }
+}

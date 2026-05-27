@@ -1,0 +1,48 @@
+{
+  "state": "WA",
+  "generated_at": "2026-05-27T17:42:55.224086+00:00",
+  "status": "needs_review",
+  "scope_source_counts": {
+    "inherited_enumeration": 27,
+    "anchor_enumeration": 7,
+    "universal": 17,
+    "anchor_universal": 2,
+    "undetermined": 49
+  },
+  "n_undetermined": 10,
+  "candidates": [
+    "chapter-18-130",
+    "chapter-18-410"
+  ],
+  "proposal": {
+    "universal_patterns": [
+      {
+        "pattern": "this chapter applies to (?:any|every|all)\\b[^.]*",
+        "target": "chapter"
+      },
+      {
+        "pattern": "this part applies to (?:any|every|all)\\b[^.]*",
+        "target": "part"
+      },
+      {
+        "pattern": "\"[Hh]ealth professions?\"\\s+means",
+        "target": "chapter"
+      }
+    ],
+    "trigger_patterns": [
+      "licensed\\s+under\\b",
+      "regulated\\s+under\\b",
+      "licensed\\s+pursuant\\s+to\\b",
+      "licensed\\s+to\\s+practice\\b",
+      "under\\s+chapters?\\b",
+      "authority\\s+under\\s+this\\s+chapter\\s+in\\s+relation\\s+to",
+      "jurisdiction\\s+in\\s+relation\\s+to[^.]*\\bprofessions?\\b"
+    ],
+    "chapter_cite_pattern": "\\bchapters?\\s+(\\d+\\.\\d+[A-Za-z]?)\\b",
+    "section_cite_pattern": "\\b(?:RCW\\s+)?(\\d+\\.\\d+[A-Za-z]?)\\.\\d+",
+    "slug_prefix": "chapter",
+    "range_chapter_pattern": null,
+    "profession_name_trigger_patterns": [],
+    "rationale": "Chapter 18.130 (Uniform Disciplinary Act) is structured like 18.235: \u00a7 18.130.040 says \"This chapter applies only to the secretary and the boards and commissions having jurisdiction in relation to the professions licensed under the chapters specified in this section\" and then enumerates practice-act chapters. The existing \"licensed under\" trigger should already pick those up; the undetermined sections (18.130.010 intent, .039, .042, .050, .055, .057, .060, .062, .063) are scope/enforcement provisions that don't themselves enumerate chapters \u2014 they reference \"this chapter\" generically. They cannot be universally scoped because 18.130 itself is opt-in/enumerated (only the chapters listed in 18.130.040). Leaving them undetermined is correct: they will properly resolve to chapter-18-130 via the enumerated list in 18.130.040, not via title-level universality. Added a couple of additional trigger phrases (\"authority under this chapter in relation to\", \"jurisdiction in relation to ... professions\") to make sure the enumeration in 18.130.040 / 18.235.020 is captured, but no new universal patterns \u2014 these are deliberately enumerated chapters, not title-wide."
+  }
+}

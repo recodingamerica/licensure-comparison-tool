@@ -1,0 +1,40 @@
+{
+  "state": "HI",
+  "generated_at": "2026-05-27T17:33:03.180045+00:00",
+  "status": "clean",
+  "scope_source_counts": {
+    "anchor_universal": 3,
+    "universal": 36,
+    "inherited_enumeration": 4,
+    "anchor_enumeration": 1
+  },
+  "n_undetermined": 0,
+  "candidates": [],
+  "proposal": {
+    "universal_patterns": [
+      {
+        "pattern": "this chapter applies to (?:any|every|all)\\b[^.]*",
+        "target": "chapter"
+      },
+      {
+        "pattern": "applicable to the professions and vocations required by law to be regulated",
+        "target": "chapter"
+      },
+      {
+        "pattern": "as used in this chapter\\b[^.]*\\bevery (?:person|profession|vocation)",
+        "target": "chapter"
+      }
+    ],
+    "trigger_patterns": [
+      "licensed\\s+pursuant\\s+to\\b",
+      "licensed\\s+under\\b",
+      "licensed\\s+to\\s+practice\\b"
+    ],
+    "chapter_cite_pattern": "\\bchapter\\s+(\\d+[a-z]?)\\b",
+    "section_cite_pattern": "\\b(?:section|\u00a7)\\s*(\\d+[A-Za-z]?)-\\d+",
+    "slug_prefix": "chapter",
+    "range_chapter_pattern": null,
+    "profession_name_trigger_patterns": [],
+    "rationale": "Hawaii's Title 25 Chapter 436B is the Uniform Professional and Vocational Licensing Act. Section 436B-3(a) explicitly limits the chapter to \"professions and vocations required by law to be regulated by the licensing authority\" (the DCCA director or boards under DCCA). This is NOT a universal \"all occupations in the state\" pattern \u2014 it is scoped to DCCA-regulated professions. However, within that scope it applies to every such profession, so we treat it as chapter-universal via \"as used in this chapter\" combined with the applicability language. Chapter 451D-2 enumerates practice acts via \"licensed pursuant to chapter NNN\". Hawaii chapter tokens can include letter suffixes (e.g., 436B, 436E, 463E). Section cites use the form \"section 436B-3\" where the chapter token is before the dash."
+  }
+}
