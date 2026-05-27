@@ -257,28 +257,10 @@ def run_state(state: str, model: str = DEFAULT_MODEL) -> dict | None:
 # ---------------------------------------------------------------------------
 
 def merge_scope(state: str) -> dict | None:
-    """Return the walker scope with LLM decisions overlaid onto the sections
-    the walker left undetermined. Each section gains `scope_method`
-    ("walker" or "llm")."""
-    scope_path = UMBRELLA_SCOPE_DIR / f"{state}.json"
-    if not scope_path.exists():
-        return None
-    scope = json.loads(scope_path.read_text())
-    llm_path = UMBRELLA_SCOPE_LLM_DIR / f"{state}.json"
-    llm_by_url = {}
-    if llm_path.exists():
-        llm_by_url = {d["url"]: d for d in json.loads(llm_path.read_text()).get("decisions", [])}
-
-    for s in scope.get("sections", []):
-        if s.get("scope_source") == "undetermined" and s.get("url") in llm_by_url:
-            d = llm_by_url[s["url"]]
-            s["scope_source"] = d["scope_source"]
-            s["applies_to_professions"] = d["applies_to_professions"]
-            s["scope_evidence"] = d["scope_evidence"]
-            s["scope_method"] = "llm"
-        else:
-            s.setdefault("scope_method", "walker")
-    return scope
+    """Walker scope with LLM decisions overlaid (each section tagged with
+    scope_method). Delegates to the shared loader so there's one merge."""
+    from merged_scope import load_merged_scope
+    return load_merged_scope(state)
 
 
 # ---------------------------------------------------------------------------

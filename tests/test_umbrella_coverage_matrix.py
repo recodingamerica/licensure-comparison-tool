@@ -14,10 +14,13 @@ import pytest
 @pytest.fixture
 def fake_scope_dir(tmp_path, monkeypatch):
     from pipeline.discover import umbrella_coverage_matrix as m
+    import merged_scope as ms  # top-level module the consumers import from
     sd = tmp_path / "scope"; sd.mkdir()
     ld = tmp_path / "scope_llm"; ld.mkdir()
+    # coverage globs its own dir for the state list; loading goes via merged_scope
     monkeypatch.setattr(m, "UMBRELLA_SCOPE_DIR", sd)
-    monkeypatch.setattr(m, "UMBRELLA_SCOPE_LLM_DIR", ld)
+    monkeypatch.setattr(ms, "UMBRELLA_SCOPE_DIR", sd)
+    monkeypatch.setattr(ms, "UMBRELLA_SCOPE_LLM_DIR", ld)
     return sd  # sibling LLM dir is sd.parent / "scope_llm"
 
 

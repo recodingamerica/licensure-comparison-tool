@@ -73,6 +73,7 @@ from config.states import ALL_STATES  # noqa: E402
 from extract.locate_quote import locate_quote_in_section  # noqa: E402
 from extract.standard_model import is_evidence_node, iter_evidence  # noqa: E402
 from scope_sources import is_universal, is_enumeration  # noqa: E402
+from merged_scope import merged_scope_by_url  # noqa: E402
 from publish.blob_upload import upload_json  # noqa: E402
 from publish._browse_tree import build_tree as _build_browse_tree  # noqa: E402
 from publish._justia_clean import clean_justia_text  # noqa: E402
@@ -143,27 +144,6 @@ def _g(d: dict | None, *path: str) -> Any:
             return None
         cur = cur.get(k)
     return cur
-
-
-def _load_umbrella_scope(state: str, scope_dir) -> dict[str, dict]:
-    """Returns {url: {scope_source, applies_to_professions}} for the state.
-
-    Built from umbrella_scope/<STATE>.json, which assign_umbrella_scope.py
-    populates. URLs in this map are canonicalized (no year prefix), matching
-    what umbrella_text/<STATE>.json emits — they're the same source.
-    """
-    p = scope_dir / f"{state}.json"
-    if not p.exists():
-        return {}
-    d = json.loads(p.read_text())
-    return {
-        s.get("url"): {
-            "scope_source": s.get("scope_source"),
-            "applies_to_professions": s.get("applies_to_professions"),
-        }
-        for s in (d.get("sections") or [])
-        if s.get("url")
-    }
 
 
 def _section_evidence_spans(record: dict, text: str) -> list[dict]:
@@ -447,7 +427,6 @@ def build(profession: str) -> dict:
     sections_by_state: dict[str, list[dict]] = {}
 
     umbrella_text_dir = RESULTS_DIR / "umbrella_text"
-    umbrella_scope_dir = RESULTS_DIR / "umbrella_scope"
 
     # Per-state raw umbrella + scope data so we can build browse_sections.
     practice_sections_by_state: dict[str, list[dict]] = {}
@@ -478,7 +457,7 @@ def build(profession: str) -> dict:
             if umb_path.exists():
                 umb = json.loads(umb_path.read_text())
                 umbrella_data_by_state[p.stem] = umb
-                umb_scope_by_state[p.stem] = _load_umbrella_scope(p.stem, umbrella_scope_dir)
+                umb_scope_by_state[p.stem] = merged_scope_by_url(p.stem)
                 by_chap: dict[str, dict] = {}
                 for s in umb.get("sections", []):
                     if not s.get("text"):

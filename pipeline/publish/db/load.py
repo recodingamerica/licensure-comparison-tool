@@ -60,12 +60,12 @@ from paths import (  # noqa: E402
     RESULTS_DIR,
 )
 from scope_sources import is_classified, professions_for  # noqa: E402
+from merged_scope import load_merged_scope  # noqa: E402
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 log = logging.getLogger("db.load")
 
 UMBRELLA_TEXT_DIR = RESULTS_DIR / "umbrella_text"
-UMBRELLA_SCOPE_DIR = RESULTS_DIR / "umbrella_scope"
 
 PROFESSIONS = [
     "podiatry", "nursing", "medicine", "dentistry", "optometry", "public_accountancy",
@@ -138,8 +138,9 @@ def _umbrella_text(state: str) -> dict | None:
 
 
 def _umbrella_scope(state: str) -> dict | None:
-    p = UMBRELLA_SCOPE_DIR / f"{state}.json"
-    return json.loads(p.read_text()) if p.exists() else None
+    # Merged view: walker scope with Pass-3 LLM decisions overlaid, so the DB
+    # links umbrella sections the LLM enumerated too (see pipeline/merged_scope).
+    return load_merged_scope(state)
 
 
 # ─── Documents ────────────────────────────────────────────────────────────

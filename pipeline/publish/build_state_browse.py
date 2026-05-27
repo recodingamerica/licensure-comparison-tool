@@ -45,6 +45,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from extract.standard_model import iter_evidence  # noqa: E402
 from extract.locate_quote import locate_quote_in_section  # noqa: E402
 from scope_sources import is_universal, is_enumeration  # noqa: E402
+from merged_scope import merged_scope_by_url  # noqa: E402
 from publish.blob_upload import upload_json  # noqa: E402
 from publish._browse_tree import build_tree  # noqa: E402
 from publish._justia_clean import clean_justia_text  # noqa: E402
@@ -55,7 +56,6 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(mess
 log = logging.getLogger("build_state_browse")
 
 UMBRELLA_TEXT_DIR = RESULTS_DIR / "umbrella_text"
-UMBRELLA_SCOPE_DIR = RESULTS_DIR / "umbrella_scope"
 
 PROFESSIONS = [
     "podiatry", "nursing", "medicine", "dentistry", "optometry", "public_accountancy",
@@ -63,19 +63,9 @@ PROFESSIONS = [
 
 
 def _load_scope_lookup(state: str) -> dict[str, dict]:
-    """{url → {scope_source, applies_to_professions}} for a state."""
-    p = UMBRELLA_SCOPE_DIR / f"{state}.json"
-    if not p.exists():
-        return {}
-    d = json.loads(p.read_text())
-    return {
-        s.get("url"): {
-            "scope_source": s.get("scope_source"),
-            "applies_to_professions": s.get("applies_to_professions"),
-        }
-        for s in (d.get("sections") or [])
-        if s.get("url")
-    }
+    """{url → merged section} for a state — walker scope with Pass-3 LLM
+    decisions overlaid (see pipeline/merged_scope.py)."""
+    return merged_scope_by_url(state)
 
 
 def _section_evidence_for_profession(

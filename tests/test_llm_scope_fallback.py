@@ -46,12 +46,16 @@ def test_decision_undetermined():
 
 @pytest.fixture
 def fake_dirs(tmp_path, monkeypatch):
+    import merged_scope as ms  # top-level module merge_scope() delegates to
     sd = tmp_path / "scope"; sd.mkdir()
     ld = tmp_path / "scope_llm"; ld.mkdir()
     td = tmp_path / "text"; td.mkdir()
+    # undetermined_sections reads P's dirs; merge_scope delegates to merged_scope
     monkeypatch.setattr(P, "UMBRELLA_SCOPE_DIR", sd)
     monkeypatch.setattr(P, "UMBRELLA_SCOPE_LLM_DIR", ld)
     monkeypatch.setattr(P, "UMBRELLA_TEXT_DIR", td)
+    monkeypatch.setattr(ms, "UMBRELLA_SCOPE_DIR", sd)
+    monkeypatch.setattr(ms, "UMBRELLA_SCOPE_LLM_DIR", ld)
     return sd, ld, td
 
 

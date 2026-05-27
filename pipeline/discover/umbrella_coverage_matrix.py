@@ -21,12 +21,10 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from paths import RESULTS_DIR, PROFESSION_INDEX_DIR  # noqa: E402
-from scope_sources import (  # noqa: E402
-    CLASSIFIED_SOURCES, METHOD_LLM, overlay_llm_decisions, professions_for,
-)
+from scope_sources import CLASSIFIED_SOURCES, METHOD_LLM, professions_for  # noqa: E402
+from merged_scope import load_merged_scope  # noqa: E402
 
 UMBRELLA_SCOPE_DIR = RESULTS_DIR / "umbrella_scope"
-UMBRELLA_SCOPE_LLM_DIR = RESULTS_DIR / "umbrella_scope_llm"
 
 
 def _all_professions() -> list[str]:
@@ -36,15 +34,8 @@ def _all_professions() -> list[str]:
 def _merged_sections(state: str) -> list[dict] | None:
     """Walker sections with Pass-3 LLM decisions overlaid (each tagged with a
     scope_method). Returns None if the state has no walker output."""
-    scope_path = UMBRELLA_SCOPE_DIR / f"{state}.json"
-    if not scope_path.exists():
-        return None
-    sections = json.loads(scope_path.read_text()).get("sections", [])
-    llm_path = UMBRELLA_SCOPE_LLM_DIR / f"{state}.json"
-    llm_by_url = {}
-    if llm_path.exists():
-        llm_by_url = {d["url"]: d for d in json.loads(llm_path.read_text()).get("decisions", [])}
-    return overlay_llm_decisions(sections, llm_by_url)
+    data = load_merged_scope(state)
+    return data.get("sections", []) if data is not None else None
 
 
 def coverage_summary(state: str) -> dict | None:
