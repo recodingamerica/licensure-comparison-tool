@@ -83,14 +83,20 @@ YEAR_PREFIX_RE = re.compile(r"/codes/[a-z-]+/\d{4}/")
 DEFINITION_BOUNDARY_RE = re.compile(r'\n\s*\(\d+\)\s*"')
 
 
-def _cite_token_to_slug(token: str, slug_prefix: str) -> str:
+def _cite_token_to_slug(token: str | None, slug_prefix: str) -> str:
     """Build a reverse-index slug from a captured citation token.
 
     Justia slugs are dash-joined (`chapter-18-22`), but some states write
     multi-part cites with dots (WA "chapter 18.22", "18.22.010") — so we
     normalize dots to dashes. For states whose tokens are already single
     dash/letter forms (UT "31b", FL "456", CO "200") this is a no-op.
+
+    Returns "" for a None token (an LLM-proposed pattern with an optional
+    capturing group can match with group(1) unset) — "" won't be in any
+    reverse-index, so the cite is simply skipped rather than crashing.
     """
+    if token is None:
+        return ""
     return f"{slug_prefix}-{token.lower().replace('.', '-')}"
 
 

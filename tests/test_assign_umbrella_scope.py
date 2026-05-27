@@ -156,6 +156,22 @@ def test_parse_anchor_resolves_dotted_cites_to_dash_slugs():
     assert set(enum[0]["professions"]) == {"podiatry", "massage_therapy"}
 
 
+def test_parse_anchor_optional_group_does_not_crash():
+    # An LLM-proposed cite pattern with an OPTIONAL group 1 can match with
+    # group(1) == None — the walker must skip it, not crash on .lower() (NM).
+    rules = StateScopeRules(
+        universal_patterns=(),
+        trigger_patterns=(re.compile(r"licensed\s+under\b", re.I),),
+        chapter_cite_pattern=re.compile(r"\bchapter(?:\s+(\d+))?\b", re.I),  # optional group
+        section_cite_pattern=re.compile(r"\b(\d+)\.\d+", re.I),
+    )
+    reverse_index = {"chapter-456": ["x"]}
+    text = "licensed under chapter and also chapter 456."
+    # Must not raise; the bare "chapter" (group 1 None) is skipped.
+    signals = _parse_one_anchor(text, rules, reverse_index)
+    assert isinstance(signals, list)
+
+
 def test_parse_anchor_dash_cites_unaffected():
     # States that already use dash/letter tokens (UT "31b", FL "456") must be
     # unchanged by dot normalization.

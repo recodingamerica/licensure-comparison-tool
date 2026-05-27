@@ -34,10 +34,22 @@ def test_normal_dict_form_validates():
     assert p.trigger_patterns == [r"licensed\s+under\b"]
 
 
-def test_trigger_patterns_as_json_string():
-    # Seen on HI/NC: a list field arrives as a JSON-encoded string.
-    p = ScopeRulesProposal(**_base(trigger_patterns=r'["licensed\\s+under\\b", "licensed\\s+to\\s+practice\\b"]'))
+def test_trigger_patterns_as_string_with_raw_regex_escapes():
+    # The REAL failure (AL/IN/NE/TN): the string contains single-backslash regex
+    # escapes (\s, \b) which are INVALID JSON. Must still recover, with \b kept
+    # as a word-boundary (not turned into a backspace char by ast.literal_eval).
+    raw = r'["licensed\s+under\b", "licensed\s+to\s+practice\b"]'
+    p = ScopeRulesProposal(**_base(trigger_patterns=raw))
     assert p.trigger_patterns == [r"licensed\s+under\b", r"licensed\s+to\s+practice\b"]
+    import re
+    assert re.compile(p.trigger_patterns[0], re.I).search("a licensed under b")
+
+
+def test_universal_patterns_as_string_with_raw_regex_escapes():
+    raw = r'[["this title applies to any\b", "title"]]'
+    p = ScopeRulesProposal(**_base(universal_patterns=raw))
+    assert p.universal_patterns[0].pattern == r"this title applies to any\b"
+    assert p.universal_patterns[0].target == "title"
 
 
 def test_universal_patterns_as_pair_lists():

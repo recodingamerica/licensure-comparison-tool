@@ -93,17 +93,22 @@ class ScopeRulesProposal(BaseModel):
 
     @staticmethod
     def _json_string_to_list(v: object) -> object:
-        # The model occasionally returns a list field as a JSON-encoded string
-        # (e.g. trigger_patterns='["licensed\\\\s+under\\\\b", ...]'). Parse it
-        # back into a real list before normal validation runs.
-        if isinstance(v, str):
-            try:
-                parsed = json.loads(v)
-            except json.JSONDecodeError:
-                return v
-            if isinstance(parsed, list):
-                return parsed
-        return v
+        # The model occasionally returns a list field as a string instead of a
+        # JSON array, and its elements are regexes written with literal
+        # backslashes — e.g. '["licensed\s+under\b", ...]' with SINGLE
+        # backslashes. That's invalid JSON (\s isn't a JSON escape), and parsing
+        # it as-is would also be wrong where a backslash-escape happens to be
+        # valid JSON (\b → backspace, corrupting the word-boundary). Since these
+        # fields are always raw regex, we double every backslash (making them
+        # literal) and then JSON-parse. (ast.literal_eval is NOT usable here —
+        # it would interpret \b/\n/\t as control chars.)
+        if not isinstance(v, str):
+            return v
+        try:
+            parsed = json.loads(v.replace("\\", "\\\\"))
+        except ValueError:
+            return v
+        return parsed if isinstance(parsed, list) else v
 
     @field_validator(
         "trigger_patterns", "profession_name_trigger_patterns", mode="before",
