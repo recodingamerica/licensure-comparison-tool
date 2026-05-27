@@ -31,6 +31,7 @@ import logging
 import re
 import subprocess
 import sys
+from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Literal
@@ -56,6 +57,10 @@ PROPOSALS_DIR = RESULTS_DIR / "scope_rule_proposals"
 SCOPE_RULES_PATH = Path(__file__).resolve().parent / "_scope_rules.py"
 REPO_ROOT = Path(__file__).resolve().parents[2]
 
+# Default model for proposal generation + refinement. Override with --model.
+DEFAULT_MODEL = "claude-opus-4-7"
+# Max output tokens for a proposal/refinement call.
+MAX_TOKENS = 8192
 # Truncate each section's text to keep token count manageable on large states
 MAX_TEXT_PER_SECTION = 2000
 # Max chars of text per undetermined section sent back in refinement pass
@@ -64,6 +69,9 @@ MAX_TEXT_PER_UNDET = 500
 UNDETERMINED_THRESHOLD = 5
 # Max undetermined sections to include in refinement message
 MAX_UNDET_IN_REFINEMENT = 10
+
+# scope_source values that count as a confident classification (vs undetermined).
+CLASSIFIED_SOURCES = ("anchor_universal", "universal", "anchor_enumeration", "inherited_enumeration")
 
 
 # ---------------------------------------------------------------------------
@@ -383,15 +391,15 @@ def _tool_schema() -> dict:
     }
 
 
-def call_llm(state: str, anchors: list[dict]) -> tuple[ScopeRulesProposal, object]:
+def call_llm(state: str, anchors: list[dict], model: str = DEFAULT_MODEL) -> tuple[ScopeRulesProposal, object]:
     """Call Claude to propose scope rules. Returns (proposal, raw_response)."""
     client = _get_client()
 
     print(f"Calling Claude for {state} ({len(anchors)} anchor sections)…")
 
     response = client.messages.create(
-        model="claude-opus-4-7",
-        max_tokens=8192,
+        model=model,
+        max_tokens=MAX_TOKENS,
         tools=[_tool_schema()],
         tool_choice={"type": "tool", "name": "propose_scope_rules"},
         messages=[{"role": "user", "content": _build_user_prompt(state, anchors)}],
@@ -414,6 +422,7 @@ def refine_llm(
     anchors: list[dict],
     initial_response: object,
     undetermined: list[dict],
+    model: str = DEFAULT_MODEL,
 ) -> ScopeRulesProposal:
     """Send undetermined sections back to the LLM for one refinement pass."""
     client = _get_client()
@@ -437,8 +446,8 @@ def refine_llm(
     print(f"  Refining — sending {len(undetermined)} undetermined sections back to Claude…")
 
     response = client.messages.create(
-        model="claude-opus-4-7",
-        max_tokens=8192,
+        model=model,
+        max_tokens=MAX_TOKENS,
         tools=[_tool_schema()],
         tool_choice={"type": "tool", "name": "propose_scope_rules"},
         messages=[
@@ -669,21 +678,86 @@ def print_proposal(state: str, proposal: ScopeRulesProposal, code: str) -> None:
 
 
 # ---------------------------------------------------------------------------
+# Generation result + status classification
+# ---------------------------------------------------------------------------
+
+# Per-state outcome statuses (used by single-state reporting and batch summary).
+STATUS_NO_ANCHORS = "no_anchors"
+STATUS_NO_INDEX = "no_profession_index"
+STATUS_ZERO = "zero_classified"
+STATUS_REVIEW = "needs_review"
+STATUS_CLEAN = "clean"
+STATUS_ERROR = "error"
+
+
+def classify_status(walker_result: dict | None, n_undetermined: int) -> str:
+    """Bucket a generation outcome from the walker result + the count of
+    non-narrow undetermined sections (what drives the refinement threshold)."""
+    if walker_result is None:
+        return STATUS_NO_INDEX
+    counts = walker_result.get("scope_source_counts", {}) or {}
+    classified = sum(v for k, v in counts.items() if k in CLASSIFIED_SOURCES)
+    if classified == 0:
+        return STATUS_ZERO
+    if n_undetermined > UNDETERMINED_THRESHOLD:
+        return STATUS_REVIEW
+    return STATUS_CLEAN
+
+
+@dataclass
+class GenerationResult:
+    """Outcome of generating (or reusing) a validated proposal for one state."""
+    state: str
+    status: str
+    proposal: ScopeRulesProposal | None = None
+    scope_source_counts: dict = field(default_factory=dict)
+    n_undetermined: int = 0                       # non-narrow undetermined (drives refinement)
+    candidates: list[str] = field(default_factory=list)  # 100%-undetermined chapters to review
+    saved_path: Path | None = None
+    reused: bool = False                          # True if loaded from a saved proposal
+    error: str | None = None
+
+    @property
+    def classified(self) -> int:
+        return sum(v for k, v in self.scope_source_counts.items() if k in CLASSIFIED_SOURCES)
+
+    @property
+    def undetermined(self) -> int:
+        return self.scope_source_counts.get("undetermined", 0)
+
+    @property
+    def total(self) -> int:
+        return sum(self.scope_source_counts.values())
+
+
+# ---------------------------------------------------------------------------
 # Proposal persistence — so --apply replays validated rules, not a fresh LLM call
 # ---------------------------------------------------------------------------
 
-def save_proposal(state: str, proposal: ScopeRulesProposal, walker_result: dict | None) -> Path:
+def save_proposal(
+    state: str,
+    proposal: ScopeRulesProposal,
+    walker_result: dict | None,
+    n_undetermined: int = 0,
+) -> Path:
     """Persist a validated proposal so a later --apply uses the exact rules the
     walker just checked (LLM generation is nondeterministic; apply must not
-    re-roll). Stores the proposal plus the walker's scope_source_counts as the
-    validation record.
+    re-roll). Stores the proposal plus the full validation record (status,
+    counts, undetermined count, and review-candidate chapters).
     """
+    candidates = (
+        sorted(detect_fully_undetermined_chapters(walker_result))
+        if walker_result and walker_result.get("sections") else []
+    )
     PROPOSALS_DIR.mkdir(parents=True, exist_ok=True)
     out = PROPOSALS_DIR / f"{state}.json"
     out.write_text(json.dumps({
         "state": state,
         "generated_at": datetime.now(timezone.utc).isoformat(),
+        "status": classify_status(walker_result, n_undetermined),
         "scope_source_counts": (walker_result or {}).get("scope_source_counts"),
+        "n_undetermined": n_undetermined,
+        "candidates": candidates,
         "proposal": proposal.model_dump(),
     }, indent=2))
     return out
@@ -701,6 +775,24 @@ def load_proposal(state: str) -> ScopeRulesProposal | None:
 def load_proposal_meta(state: str) -> dict:
     p = PROPOSALS_DIR / f"{state}.json"
     return json.loads(p.read_text()) if p.exists() else {}
+
+
+def result_from_saved(state: str) -> GenerationResult | None:
+    """Reconstruct a GenerationResult from a saved proposal, without re-running
+    the LLM or walker. Used to skip already-generated states on a batch re-run."""
+    meta = load_proposal_meta(state)
+    if not meta:
+        return None
+    return GenerationResult(
+        state=state,
+        status=meta.get("status", STATUS_CLEAN),
+        proposal=load_proposal(state),
+        scope_source_counts=meta.get("scope_source_counts") or {},
+        n_undetermined=meta.get("n_undetermined", 0),
+        candidates=meta.get("candidates", []),
+        saved_path=PROPOSALS_DIR / f"{state}.json",
+        reused=True,
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -765,6 +857,173 @@ def run_scope_walker(state: str) -> None:
 
 
 # ---------------------------------------------------------------------------
+# Orchestration: the single generate → validate → refine → save code path
+# ---------------------------------------------------------------------------
+
+def generate_validated_proposal(
+    state: str,
+    anchors: list[dict] | None = None,
+    model: str = DEFAULT_MODEL,
+    verbose: bool = True,
+) -> GenerationResult:
+    """The one place generation happens: LLM propose → walker validate →
+    refine (if too many undetermined) → SAVE the validated proposal.
+
+    The saved proposal is exactly what --apply later replays, so single-state
+    and batch runs share this path and can never diverge. Raises on hard
+    failures (LLM/validation errors); callers that batch should wrap in try.
+    """
+    if anchors is None:
+        anchors = load_anchor_sections(state)
+    if not anchors:
+        return GenerationResult(state=state, status=STATUS_NO_ANCHORS)
+
+    proposal, initial_response = call_llm(state, anchors, model=model)
+    if verbose:
+        print("Running walker check on proposed rules…")
+    walker_result = run_walker_in_memory(state, proposal)
+
+    n_undet = 0
+    if walker_result is not None:
+        undetermined = get_undetermined_with_text(state, walker_result)
+        n_undet = len(undetermined)
+        if n_undet > UNDETERMINED_THRESHOLD:
+            if verbose:
+                print(f"  {n_undet} non-narrow undetermined sections — triggering refinement pass…")
+            proposal = refine_llm(state, anchors, initial_response, undetermined, model=model)
+            walker_result = run_walker_in_memory(state, proposal)
+            n_undet = len(get_undetermined_with_text(state, walker_result)) if walker_result else 0
+            if verbose:
+                print(f"  After refinement: {n_undet} non-narrow undetermined")
+        elif verbose:
+            print(f"  {n_undet} non-narrow undetermined — no refinement needed")
+
+    saved = save_proposal(state, proposal, walker_result, n_undet)
+    meta = load_proposal_meta(state)
+    return GenerationResult(
+        state=state,
+        status=meta["status"],
+        proposal=proposal,
+        scope_source_counts=meta.get("scope_source_counts") or {},
+        n_undetermined=n_undet,
+        candidates=meta.get("candidates", []),
+        saved_path=saved,
+    )
+
+
+def do_generate(
+    state: str,
+    model: str = DEFAULT_MODEL,
+    regenerate: bool = False,
+    verbose: bool = True,
+) -> GenerationResult:
+    """Generate-and-save for one state, batch-safe: reuse a saved proposal
+    unless --regenerate, and turn any exception into an error result so one
+    bad state doesn't abort a batch run."""
+    if not regenerate:
+        reused = result_from_saved(state)
+        if reused is not None:
+            if verbose:
+                print(f"[{state}] reusing saved proposal (status={reused.status}); pass --regenerate to redo")
+            return reused
+    try:
+        return generate_validated_proposal(state, model=model, verbose=verbose)
+    except Exception as e:  # noqa: BLE001 — batch resilience; record and continue
+        return GenerationResult(state=state, status=STATUS_ERROR, error=f"{type(e).__name__}: {e}")
+
+
+def apply_from_saved(state: str, run: bool = False) -> bool:
+    """Append the SAVED validated proposal to _scope_rules.py (no LLM call).
+    Returns False if no saved proposal exists."""
+    proposal = load_proposal(state)
+    if proposal is None:
+        print(f"[apply] no saved proposal for {state} — generate it first "
+              f"(run without --apply, or pass --regenerate).", file=sys.stderr)
+        return False
+    meta = load_proposal_meta(state)
+    print(f"Applying saved validated proposal for {state} "
+          f"(generated {meta.get('generated_at', '?')}, "
+          f"status={meta.get('status')}, counts={meta.get('scope_source_counts')})")
+    code = render_rules_code(state, proposal)
+    print_proposal(state, proposal, code)
+    apply_rules(state, code)
+    if run:
+        run_scope_walker(state)
+    return True
+
+
+# ---------------------------------------------------------------------------
+# Target resolution + batch reporting
+# ---------------------------------------------------------------------------
+
+def _applied_states() -> set[str]:
+    from discover._scope_rules import STATE_RULES
+    return set(STATE_RULES.keys())
+
+
+def _states_with_umbrella_text() -> list[str]:
+    return sorted(
+        p.stem for p in UMBRELLA_TEXT_DIR.glob("*.json") if not p.stem.startswith("_")
+    )
+
+
+def resolve_targets(args: argparse.Namespace) -> list[str]:
+    """Expand --state / --states / --all-unapplied into a list of states."""
+    if args.state:
+        return [args.state.upper()]
+    if args.states:
+        return [s.strip().upper() for s in args.states.split(",") if s.strip()]
+    if args.all_unapplied:
+        applied = _applied_states()
+        return [s for s in _states_with_umbrella_text() if s not in applied]
+    return []
+
+
+def print_generation_report(result: GenerationResult) -> None:
+    """Detailed single-state report (counts, review candidates, errors)."""
+    if result.status == STATUS_ERROR:
+        print(f"[ERROR] {result.state}: {result.error}", file=sys.stderr)
+        return
+    if result.status == STATUS_NO_ANCHORS:
+        print(f"  {result.state}: no anchor sections found")
+        return
+    if result.status == STATUS_NO_INDEX:
+        print(f"  {result.state}: walker skipped — no profession_index yet")
+        return
+    if result.candidates:
+        print(
+            f"  Review candidates — {len(result.candidates)} chapter(s) are 100% "
+            f"undetermined: {result.candidates}\n"
+            f"    Decide per chapter: add to excluded_chapter_slugs if it's a "
+            f"non-occupational false positive (building code, admin procedure), "
+            f"else the rules need work for that chapter."
+        )
+    if result.classified == 0:
+        print(
+            "\n[ERROR] Walker classified zero sections — the umbrella_text for this "
+            "state may be from the wrong part of the code, the profession_index has no "
+            "matching chapters, or the citation format isn't matched. Fix before applying.",
+            file=sys.stderr,
+        )
+    print(f"  scope_source counts: {result.scope_source_counts}")
+
+
+def print_batch_summary(results: list[GenerationResult]) -> None:
+    """One-line-per-state status table + totals, for a batch run."""
+    order = {STATUS_CLEAN: 0, STATUS_REVIEW: 1, STATUS_ZERO: 2,
+             STATUS_NO_ANCHORS: 3, STATUS_NO_INDEX: 4, STATUS_ERROR: 5}
+    print(f"\n{'=' * 60}\nBatch summary ({len(results)} states)\n{'=' * 60}")
+    print(f"  {'state':5} {'status':16} {'cls':>4} {'undet':>6} {'%cls':>5}")
+    for r in sorted(results, key=lambda r: (order.get(r.status, 9), -r.classified)):
+        pct = round(100 * r.classified / r.total) if r.total else 0
+        suffix = f"  reused" if r.reused else ""
+        err = f"  {r.error}" if r.error else ""
+        print(f"  {r.state:5} {r.status:16} {r.classified:>4} {r.undetermined:>6} {pct:>4}%{suffix}{err}")
+    from collections import Counter
+    print(f"\n  by status: {dict(Counter(r.status for r in results))}")
+
+
+# ---------------------------------------------------------------------------
 # CLI
 # ---------------------------------------------------------------------------
 
@@ -773,110 +1032,60 @@ def main() -> None:
         description="LLM-assisted StateScopeRules generator",
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
-    ap.add_argument("--state", required=True, help="Two-letter state abbreviation (e.g. NY)")
+    target = ap.add_mutually_exclusive_group(required=True)
+    target.add_argument("--state", help="Single state abbreviation (e.g. NY)")
+    target.add_argument("--states", help="Comma-separated states (batch), e.g. NY,OH,TX")
+    target.add_argument("--all-unapplied", action="store_true",
+                        help="All states with umbrella_text but no rules in _scope_rules.py yet")
     ap.add_argument(
         "--apply",
         action="store_true",
-        help="Append rules to _scope_rules.py from the saved validated proposal "
-             "(no LLM call). Use --regenerate to force a fresh generation first.",
+        help="Append rules to _scope_rules.py from each state's saved validated "
+             "proposal (no LLM call). Generates first if none saved; --regenerate forces fresh.",
     )
     ap.add_argument(
         "--regenerate",
         action="store_true",
-        help="Force a fresh LLM generation even if a saved proposal exists "
-             "(overwrites the saved proposal).",
+        help="Force a fresh LLM generation even if a saved proposal exists.",
     )
     ap.add_argument(
         "--run",
         action="store_true",
         help="Write official umbrella_scope/<STATE>.json to disk (after --apply).",
     )
+    ap.add_argument("--model", default=DEFAULT_MODEL, help=f"LLM model (default {DEFAULT_MODEL})")
     args = ap.parse_args()
-    state = args.state.upper()
 
-    # Apply-from-saved path: replay the exact rules the walker validated. No LLM
-    # call, so the applied rules are deterministic and match what was reviewed.
-    if args.apply and not args.regenerate and load_proposal(state) is not None:
-        proposal = load_proposal(state)
-        meta = load_proposal_meta(state)
-        print(f"Applying saved validated proposal for {state} "
-              f"(generated {meta.get('generated_at', '?')}, "
-              f"counts={meta.get('scope_source_counts')})")
-        code = render_rules_code(state, proposal)
-        print_proposal(state, proposal, code)
-        apply_rules(state, code)
-        if args.run:
-            run_scope_walker(state)
-        return
+    targets = resolve_targets(args)
+    if not targets:
+        sys.exit("No target states (nothing matched --all-unapplied?).")
+    batch = len(targets) > 1
 
-    # Generate path: LLM propose → walker validate → refine → SAVE proposal.
-    anchors = load_anchor_sections(state)
-    print(f"Loaded {len(anchors)} anchor sections for {state}")
-
-    proposal, initial_response = call_llm(state, anchors)
-
-    # Run walker in-memory to check quality and optionally refine. We do NOT
-    # auto-exclude fully-undetermined chapters (see
-    # detect_fully_undetermined_chapters): doing so would zero out the
-    # undetermined count and let a broken ruleset look clean. Undetermined
-    # sections stay counted so the refinement loop actually fires.
-    print("Running walker check on proposed rules…")
-    walker_result = run_walker_in_memory(state, proposal)
-
-    if walker_result is not None:
-        undetermined = get_undetermined_with_text(state, walker_result)
-        n_undet = len(undetermined)
-        counts = walker_result["scope_source_counts"]
-
-        if n_undet > UNDETERMINED_THRESHOLD:
-            print(f"  {n_undet} non-narrow undetermined sections — triggering refinement pass…")
-            proposal = refine_llm(state, anchors, initial_response, undetermined)
-            walker_result = run_walker_in_memory(state, proposal)
-            if walker_result:
-                counts = walker_result["scope_source_counts"]
-                n_undet = len(get_undetermined_with_text(state, walker_result))
-                print(f"  After refinement: {n_undet} non-narrow undetermined")
+    results: list[GenerationResult] = []
+    for state in targets:
+        print(f"\n{'─' * 60}\n{state}\n{'─' * 60}" if batch else f"=== {state} ===")
+        if args.apply:
+            # Ensure a saved validated proposal exists, then apply it (no re-roll).
+            if args.regenerate or load_proposal(state) is None:
+                r = do_generate(state, model=args.model, regenerate=args.regenerate, verbose=not batch)
+                results.append(r)
+                if r.status not in (STATUS_CLEAN, STATUS_REVIEW):
+                    print(f"[skip-apply] {state}: status={r.status} — not applying")
+                    continue
+            apply_from_saved(state, run=args.run)
         else:
-            print(f"  {n_undet} non-narrow undetermined — no refinement needed")
+            r = do_generate(state, model=args.model, regenerate=args.regenerate, verbose=not batch)
+            results.append(r)
+            if not batch:
+                print_generation_report(r)
+                if r.proposal is not None:
+                    code = render_rules_code(state, r.proposal)
+                    print_proposal(state, r.proposal, code)
+                    if r.saved_path:
+                        print(f"  saved validated proposal → {r.saved_path.relative_to(REPO_ROOT)}")
 
-        # Report (do not act on) 100%-undetermined chapters for human review.
-        candidates = detect_fully_undetermined_chapters(walker_result)
-        if candidates:
-            print(
-                f"  Review candidates — {len(candidates)} chapter(s) are 100% "
-                f"undetermined: {sorted(candidates)}\n"
-                f"    Decide per chapter: add to excluded_chapter_slugs if it's a "
-                f"non-occupational false positive (building code, admin procedure), "
-                f"else the rules need work for that chapter."
-            )
-
-        classified = {k: v for k, v in counts.items() if k != "undetermined"}
-        if not classified:
-            print(
-                "\n[ERROR] Walker classified zero sections — the umbrella_text for "
-                "this state may be from the wrong part of the code, the profession_index "
-                "has no matching chapters, or the citation format isn't matched. Fix "
-                "before applying these rules.",
-                file=sys.stderr,
-            )
-        print(f"  scope_source counts: {counts}")
-    else:
-        print("  (walker check skipped — no profession_index for this state yet)")
-
-    # Persist the validated proposal so a later --apply replays exactly this.
-    saved = save_proposal(state, proposal, walker_result)
-    print(f"  saved validated proposal → {saved.relative_to(REPO_ROOT)}")
-
-    code = render_rules_code(state, proposal)
-    print_proposal(state, proposal, code)
-
-    if args.apply:
-        apply_rules(state, code)
-
-    if args.run:
-        if not args.apply:
-            print("[warn] --run without --apply: running walker with existing rules (if any)")
-        run_scope_walker(state)
+    if batch and results:
+        print_batch_summary(results)
 
 
 if __name__ == "__main__":
