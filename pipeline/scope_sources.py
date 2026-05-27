@@ -55,3 +55,29 @@ def professions_for(
     if is_enumeration(scope_source):
         return list(applies_to_professions or [])
     return None
+
+
+# Provenance: which layer assigned a section's scope.
+METHOD_WALKER = "walker"   # deterministic regex walker (assign_umbrella_scope)
+METHOD_LLM = "llm"         # LLM fallback (Pass 3, llm_scope_fallback)
+
+
+def overlay_llm_decisions(sections: list[dict], llm_by_url: dict[str, dict]) -> list[dict]:
+    """Overlay Pass-3 LLM decisions onto walker sections (in place).
+
+    For each section the walker left `undetermined`, if the LLM decided it
+    (keyed by url), replace its scope_source / applies_to_professions /
+    scope_evidence with the LLM's and tag scope_method='llm'. Every other
+    section keeps its walker value and is tagged scope_method='walker'.
+    Pure (no IO) so the coverage report and the web/DB consumers can share it.
+    """
+    for s in sections:
+        d = llm_by_url.get(s.get("url")) if llm_by_url else None
+        if s.get("scope_source") == "undetermined" and d is not None:
+            s["scope_source"] = d["scope_source"]
+            s["applies_to_professions"] = d.get("applies_to_professions")
+            s["scope_evidence"] = d.get("scope_evidence", "")
+            s["scope_method"] = METHOD_LLM
+        else:
+            s.setdefault("scope_method", METHOD_WALKER)
+    return sections

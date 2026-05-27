@@ -21,38 +21,60 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from paths import RESULTS_DIR, PROFESSION_INDEX_DIR  # noqa: E402
-from scope_sources import CLASSIFIED_SOURCES, professions_for  # noqa: E402
+from scope_sources import (  # noqa: E402
+    CLASSIFIED_SOURCES, METHOD_LLM, overlay_llm_decisions, professions_for,
+)
 
 UMBRELLA_SCOPE_DIR = RESULTS_DIR / "umbrella_scope"
+UMBRELLA_SCOPE_LLM_DIR = RESULTS_DIR / "umbrella_scope_llm"
 
 
 def _all_professions() -> list[str]:
     return sorted(p.stem for p in PROFESSION_INDEX_DIR.glob("*.json"))
 
 
-def coverage_summary(state: str) -> dict | None:
-    """Per-state residual view: how many umbrella sections the pipeline scoped
-    confidently vs. how many remain undetermined (the 'needs-a-human' residual).
-
-    This is the reliable detector of where automation didn't reach — it counts
-    every section in the scope file by scope_source, so the undetermined tail
-    is visible rather than silently dropped.
-    """
+def _merged_sections(state: str) -> list[dict] | None:
+    """Walker sections with Pass-3 LLM decisions overlaid (each tagged with a
+    scope_method). Returns None if the state has no walker output."""
     scope_path = UMBRELLA_SCOPE_DIR / f"{state}.json"
     if not scope_path.exists():
         return None
-    data = json.loads(scope_path.read_text())
+    sections = json.loads(scope_path.read_text()).get("sections", [])
+    llm_path = UMBRELLA_SCOPE_LLM_DIR / f"{state}.json"
+    llm_by_url = {}
+    if llm_path.exists():
+        llm_by_url = {d["url"]: d for d in json.loads(llm_path.read_text()).get("decisions", [])}
+    return overlay_llm_decisions(sections, llm_by_url)
+
+
+def coverage_summary(state: str) -> dict | None:
+    """Per-state residual view, split by who scoped each section: the
+    deterministic walker, the LLM fallback (Pass 3), or still-undetermined
+    (the 'needs-a-human' residual). The reliable detector of where automation
+    didn't reach — every section is counted, nothing silently dropped.
+    """
+    sections = _merged_sections(state)
+    if sections is None:
+        return None
     by_source: dict[str, int] = {}
-    for entry in data.get("sections", []):
+    walker_classified = llm_classified = 0
+    for entry in sections:
         src = entry.get("scope_source") or "undetermined"
         by_source[src] = by_source.get(src, 0) + 1
+        if src in CLASSIFIED_SOURCES:
+            if entry.get("scope_method") == METHOD_LLM:
+                llm_classified += 1
+            else:
+                walker_classified += 1
     total = sum(by_source.values())
-    classified = sum(by_source.get(s, 0) for s in CLASSIFIED_SOURCES)
+    classified = walker_classified + llm_classified
     undetermined = by_source.get("undetermined", 0)
     return {
         "state": state,
         "total_sections": total,
         "classified": classified,
+        "walker_classified": walker_classified,
+        "llm_classified": llm_classified,
         "undetermined": undetermined,
         "pct_classified": round(100 * classified / total, 1) if total else 0.0,
         "by_source": by_source,
@@ -60,13 +82,12 @@ def coverage_summary(state: str) -> dict | None:
 
 
 def matrix_for_state(state: str) -> list[dict]:
-    scope_path = UMBRELLA_SCOPE_DIR / f"{state}.json"
-    if not scope_path.exists():
+    sections = _merged_sections(state)
+    if sections is None:
         return []
-    data = json.loads(scope_path.read_text())
     profs = _all_professions()
     rows: list[dict] = []
-    for entry in data.get("sections", []):
+    for entry in sections:
         src = entry.get("scope_source")
         # undetermined → professions_for returns None → no rows for this section
         applicable = professions_for(src, entry.get("applies_to_professions"), profs) or []
@@ -109,14 +130,14 @@ def main():
     # Residual / coverage summary — the "what's still unresolved" detector.
     summaries = [s for s in (coverage_summary(st) for st in states) if s]
     summary_out = PROFESSION_INDEX_DIR / "_umbrella_coverage_summary.csv"
+    summary_cols = ["state", "total_sections", "classified", "walker_classified",
+                    "llm_classified", "undetermined", "pct_classified"]
     if summaries:
         with summary_out.open("w", newline="") as f:
-            w = csv.DictWriter(
-                f, fieldnames=["state", "total_sections", "classified", "undetermined", "pct_classified"]
-            )
+            w = csv.DictWriter(f, fieldnames=summary_cols)
             w.writeheader()
             for s in summaries:
-                w.writerow({k: s[k] for k in w.fieldnames})
+                w.writerow({k: s[k] for k in summary_cols})
 
     # Quick summary table to stdout
     by_state_prof: dict[tuple[str, str], int] = {}
@@ -137,18 +158,21 @@ def main():
         if len(items) > 6:
             print(f"   ...+{len(items)-6} more")
 
-    # Coverage / residual table — confident vs. undetermined per state.
+    # Coverage / residual table — split by who scoped each section: the
+    # deterministic walker, the LLM fallback, or still-undetermined.
     if summaries:
         print(f"\nCoverage summary (wrote {summary_out.name}):")
         tot_all = sum(s["total_sections"] for s in summaries)
-        cls_all = sum(s["classified"] for s in summaries)
+        walk_all = sum(s["walker_classified"] for s in summaries)
+        llm_all = sum(s["llm_classified"] for s in summaries)
         und_all = sum(s["undetermined"] for s in summaries)
-        print(f"  {'state':5} {'total':>6} {'classified':>11} {'undetermined':>13} {'%cls':>6}")
+        cls_all = walk_all + llm_all
+        print(f"  {'state':5} {'total':>6} {'walker':>7} {'llm':>5} {'undet':>6} {'%cls':>6}")
         for s in sorted(summaries, key=lambda x: x["pct_classified"]):
-            print(f"  {s['state']:5} {s['total_sections']:>6} {s['classified']:>11} "
-                  f"{s['undetermined']:>13} {s['pct_classified']:>5}%")
+            print(f"  {s['state']:5} {s['total_sections']:>6} {s['walker_classified']:>7} "
+                  f"{s['llm_classified']:>5} {s['undetermined']:>6} {s['pct_classified']:>5}%")
         pct_all = round(100 * cls_all / tot_all, 1) if tot_all else 0.0
-        print(f"  {'ALL':5} {tot_all:>6} {cls_all:>11} {und_all:>13} {pct_all:>5}%")
+        print(f"  {'ALL':5} {tot_all:>6} {walk_all:>7} {llm_all:>5} {und_all:>6} {pct_all:>5}%")
 
 
 if __name__ == "__main__":

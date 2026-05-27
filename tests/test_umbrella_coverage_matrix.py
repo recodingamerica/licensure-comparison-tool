@@ -14,8 +14,11 @@ import pytest
 @pytest.fixture
 def fake_scope_dir(tmp_path, monkeypatch):
     from pipeline.discover import umbrella_coverage_matrix as m
-    monkeypatch.setattr(m, "UMBRELLA_SCOPE_DIR", tmp_path)
-    return tmp_path
+    sd = tmp_path / "scope"; sd.mkdir()
+    ld = tmp_path / "scope_llm"; ld.mkdir()
+    monkeypatch.setattr(m, "UMBRELLA_SCOPE_DIR", sd)
+    monkeypatch.setattr(m, "UMBRELLA_SCOPE_LLM_DIR", ld)
+    return sd  # sibling LLM dir is sd.parent / "scope_llm"
 
 
 def _write(scope_dir, state, sources):
@@ -39,6 +42,22 @@ def test_summary_counts_classified_vs_undetermined(fake_scope_dir):
     assert s["classified"] == 4
     assert s["undetermined"] == 2
     assert s["pct_classified"] == round(100 * 4 / 6, 1)
+
+
+def test_summary_splits_walker_vs_llm(fake_scope_dir):
+    from pipeline.discover.umbrella_coverage_matrix import coverage_summary
+    _write(fake_scope_dir, "XX", ["universal", "undetermined", "undetermined"])
+    # Pass 3 filled one of the two undetermined (u1) with an enumeration.
+    llm_dir = fake_scope_dir.parent / "scope_llm"
+    (llm_dir / "XX.json").write_text(json.dumps({"decisions": [
+        {"url": "u1", "scope_source": "inherited_enumeration",
+         "applies_to_professions": ["nursing"], "scope_evidence": "ev"},
+    ]}))
+    s = coverage_summary("XX")
+    assert s["walker_classified"] == 1     # the universal section
+    assert s["llm_classified"] == 1        # u1, filled by Pass 3
+    assert s["classified"] == 2
+    assert s["undetermined"] == 1          # u2 still residual
 
 
 def test_summary_treats_missing_source_as_undetermined(fake_scope_dir):
