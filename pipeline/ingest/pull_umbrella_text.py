@@ -120,8 +120,8 @@ def pull_state_umbrella(state: str, force: bool) -> dict | None:
             sec_url = target["url"]
             status, html, err = fetch(sec_url)
             time.sleep(PER_HOST_DELAY)
-            if err or not html:
-                log.warning("    %s: %s", sec_url, err)
+            if err or not html or (status and not 200 <= status < 300):
+                log.warning("    %s: %s", sec_url, err or f"http {status}")
                 continue
             text = extract_section_text(html)
             if not text:

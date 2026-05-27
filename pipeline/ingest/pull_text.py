@@ -51,7 +51,7 @@ log = logging.getLogger("pull_text")
 
 # A path's last segment looks like a Justia section
 SECTION_SEG = re.compile(
-    r"^(section[-_]|§|s[-_]\d|statute[-_]|rs[-_]|\d+[a-z]?[-_:.]\d)",
+    r"^(section[-_]|§|s[-_]\d|statute[-_]|rs[-_]|\d+[a-z]?[-_:.]\d|\d{3,}\b)",
     re.IGNORECASE,
 )
 

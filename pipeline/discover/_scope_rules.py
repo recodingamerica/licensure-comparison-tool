@@ -61,6 +61,13 @@ class StateScopeRules:
     # and `enumeration_aliases` from professions.yaml).
     profession_name_trigger_patterns: tuple[re.Pattern, ...] = ()
 
+    # Chapters that were incorrectly included in umbrella_text by the discover
+    # step (e.g. building-safety codes, general administrative-procedure acts).
+    # The walker skips every section whose umbrella_chapter_slug is in this set.
+    # Auto-populated by suggest_scope_rules.py when it detects 100%-undetermined
+    # chapters after the walker check.
+    excluded_chapter_slugs: tuple[str, ...] = ()
+
     scan_window: int = 3000
 
 
@@ -220,9 +227,36 @@ IA_RULES = StateScopeRules(
 )
 
 
+
+
+# −−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−
+# Wisconsin
+# −−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−
+WI_RULES = StateScopeRules(
+    universal_patterns=(
+        (re.compile(r"in chs?\.\s*440\s+to\s+480\b", re.I), 'title'),
+        (re.compile(r"this chapter applies to (?:any|every|all)\b[^.]*", re.I), 'chapter'),
+        (re.compile(r"this subchapter applies to (?:any|every|all)\b[^.]*", re.I), 'part'),
+    ),
+    trigger_patterns=(
+        re.compile(r"licensed\s+under\b", re.I),
+        re.compile(r"licensed\s+to\s+practice\b", re.I),
+        re.compile(r"licensed\s+pursuant\s+to\b", re.I),
+        re.compile(r"credentialed\s+under\b", re.I),
+        re.compile(r"granted\s+a\s+license\s+under\b", re.I),
+    ),
+    chapter_cite_pattern=re.compile(r"\bch(?:apter)?\.?\s+(\d+[A-Za-z]?)\b", re.I),
+    section_cite_pattern=re.compile(r"\bs(?:ec(?:tion)?)?\.?\s+(\d+)\.\d+", re.I),
+    range_chapter_pattern=re.compile(r"in chs?\.\s*(\d+)\s+to\s+(\d+)\b", re.I),
+    # Auto-detected: 100% undetermined — not occupational licensing chapters
+    excluded_chapter_slugs=('chapter-101', 'chapter-227',),
+)
+
+
 STATE_RULES: dict[str, StateScopeRules] = {
     "UT": UT_RULES,
     "FL": FL_RULES,
     "CO": CO_RULES,
     "IA": IA_RULES,
+    "WI": WI_RULES,
 }

@@ -84,6 +84,20 @@ Examples of NON-umbrella (skip these):
   - Practice acts for specific professions (Podiatry, Accountancy, etc.)
   - Sub-board-specific rules
   - Sections about one profession's scope
+  - Building codes, construction safety, fire codes, or physical-safety
+    regulations (e.g. "Regulation of industry, buildings and safety") —
+    these govern structures and equipment, NOT individual professional licenses
+  - General state administrative procedure acts (rulemaking, contested cases,
+    judicial review of agency decisions) that apply to ALL state agencies, not
+    specifically to occupational licensing boards
+  - Occupational safety / workplace safety chapters (OSHA-equivalent)
+  - Environmental, product-safety, or public-health chapters unrelated to
+    individual professional licensure
+
+The key test: would this chapter apply specifically and directly to the
+GRANTING, RENEWAL, or REVOCATION of individual professional licenses?
+If it's about buildings, products, general government procedure, or physical
+safety rather than individual professional credentials, skip it.
 
 Many states have 0 umbrella chapters — that's a valid answer (return empty).
 Some have 1 (e.g., "Title 1 - Definitions" or "Chapter 1 - General Provisions").
@@ -125,15 +139,34 @@ def find_for_state(state: str, model: str, force: bool) -> dict | None:
     else:
         chapters_to_send = chapters
 
-    valid_slugs = [c["slug"] for c in chapters_to_send]
-    SlugLit = TLiteral[tuple(valid_slugs)]  # type: ignore[valid-type]
+    def _url_id(c: dict) -> str:
+        """Unique ID from last two path segments of the chapter URL.
+
+        For states like CA where many chapters share the same slug (chapter-1
+        in division-1, division-2, division-10, …), the URL uniquely identifies
+        which division's chapter-1 we mean. Falls back to slug if URL is absent
+        or has fewer than two path segments.
+        """
+        url = c.get("url", "")
+        parts = [p for p in url.rstrip("/").split("/") if p]
+        if len(parts) >= 2:
+            return f"{parts[-2]}/{parts[-1]}"
+        return c["slug"]
+
+    valid_ids = [_url_id(c) for c in chapters_to_send]
+    SlugLit = TLiteral[tuple(valid_ids)]  # type: ignore[valid-type]
     Result = create_model("UmbrellaSelection", umbrella_chapter_slugs=(list[SlugLit], ...))
 
-    chap_block = "\n".join(f"  {c['slug']}\t{c['label'][:140]}" for c in chapters_to_send)
+    # Include URL so the LLM can see division/title context (critical for states
+    # like CA where the same chapter number appears in many different divisions).
+    chap_block = "\n".join(
+        f"  {_url_id(c)}\t{c.get('url', '')}\t{c['label'][:120]}"
+        for c in chapters_to_send
+    )
     user = (
         f"State: {state}\n\n"
-        f"Chapters in this state's licensing hierarchy:\n{chap_block}\n\n"
-        f"Return the slugs of umbrella / cross-cutting chapters only."
+        f"Chapters in this state's licensing hierarchy (id | url | label):\n{chap_block}\n\n"
+        f"Return the IDs of umbrella / cross-cutting chapters only."
     )
     schema = Result.model_json_schema()
     system = (
@@ -149,13 +182,13 @@ def find_for_state(state: str, model: str, force: bool) -> dict | None:
     if result is None:
         return None
 
-    # Resolve slugs to {slug, label, url}
-    slug_to_info = {c["slug"]: c for c in chapters_to_send}
+    # Resolve IDs back to {slug, label, url}
+    id_to_info = {_url_id(c): c for c in chapters_to_send}
     resolved = []
-    for slug in result.umbrella_chapter_slugs:  # type: ignore[attr-defined]
-        info = slug_to_info[slug]
+    for uid in result.umbrella_chapter_slugs:  # type: ignore[attr-defined]
+        info = id_to_info[uid]
         resolved.append({
-            "slug": slug,
+            "slug": info.get("slug", uid.split("/")[-1]),
             "label": info.get("label", ""),
             "url": info.get("url", ""),
             "source_title_url": info.get("source_title_url"),

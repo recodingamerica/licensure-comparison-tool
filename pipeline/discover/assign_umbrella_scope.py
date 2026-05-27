@@ -376,6 +376,20 @@ def assign_for_state(state: str) -> dict:
     if skipped_no_url:
         log.warning("[%s] %d sections had no parseable URL; dropped", state, skipped_no_url)
 
+    # Drop chapters explicitly excluded in the state's scope rules (e.g.
+    # building-safety or admin-procedure chapters pulled in by the discover
+    # step that aren't occupational licensing umbrella chapters).
+    if rules.excluded_chapter_slugs:
+        excluded = set(rules.excluded_chapter_slugs)
+        n_before = sum(len(v) for v in grouped.values())
+        grouped = {k: v for k, v in grouped.items() if k[0] not in excluded}
+        n_after = sum(len(v) for v in grouped.values())
+        if n_before != n_after:
+            log.info(
+                "[%s] excluded %d sections from %d chapter(s): %s",
+                state, n_before - n_after, len(excluded), sorted(excluded),
+            )
+
     anchors_by_chap: dict[str, list[dict]] = defaultdict(list)
     for (chap, _part), secs in grouped.items():
         for s in secs:
