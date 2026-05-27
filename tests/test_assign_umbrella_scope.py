@@ -182,6 +182,7 @@ GOLDEN_COUNTS = {
     "CO": {"anchor_universal": 8, "universal": 23, "anchor_enumeration": 14, "inherited_enumeration": 20, "undetermined": 153},
     "IA": {"anchor_enumeration": 2, "inherited_enumeration": 117, "anchor_universal": 1, "universal": 19},
     "WI": {"anchor_enumeration": 6, "inherited_enumeration": 94},
+    "MO": {"inherited_enumeration": 44, "anchor_enumeration": 6},
 }
 
 

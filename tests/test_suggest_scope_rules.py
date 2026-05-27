@@ -56,3 +56,33 @@ def test_universal_patterns_as_json_string_of_pairs():
 def test_invalid_regex_still_rejected():
     with pytest.raises(Exception):
         ScopeRulesProposal(**_base(chapter_cite_pattern=r"(unbalanced"))
+
+
+# ---------------------------------------------------------------------------
+# Proposal persistence: --apply must replay the validated proposal exactly
+# ---------------------------------------------------------------------------
+
+def test_save_load_proposal_round_trips(tmp_path, monkeypatch):
+    import pipeline.discover.suggest_scope_rules as S
+    monkeypatch.setattr(S, "PROPOSALS_DIR", tmp_path)
+
+    proposal = ScopeRulesProposal(**_base(
+        universal_patterns=[{"pattern": r"this title applies to any\b", "target": "title"}],
+        trigger_patterns=[r"licensed\s+under\b", r"licensed\s+to\s+practice\b"],
+    ))
+    walker_result = {"scope_source_counts": {"universal": 40, "undetermined": 3}}
+    S.save_proposal("ZZ", proposal, walker_result)
+
+    loaded = S.load_proposal("ZZ")
+    assert loaded is not None
+    # The rendered code must be byte-identical — that's the guarantee that
+    # --apply writes the same rules the walker validated.
+    assert S.render_rules_code("ZZ", loaded) == S.render_rules_code("ZZ", proposal)
+    assert S.load_proposal_meta("ZZ")["scope_source_counts"] == {"universal": 40, "undetermined": 3}
+
+
+def test_load_proposal_none_when_absent(tmp_path, monkeypatch):
+    import pipeline.discover.suggest_scope_rules as S
+    monkeypatch.setattr(S, "PROPOSALS_DIR", tmp_path)
+    assert S.load_proposal("ZZ") is None
+    assert S.load_proposal_meta("ZZ") == {}

@@ -64,8 +64,10 @@ class StateScopeRules:
     # Chapters that were incorrectly included in umbrella_text by the discover
     # step (e.g. building-safety codes, general administrative-procedure acts).
     # The walker skips every section whose umbrella_chapter_slug is in this set.
-    # Auto-populated by suggest_scope_rules.py when it detects 100%-undetermined
-    # chapters after the walker check.
+    # Set MANUALLY after review: suggest_scope_rules.py only *reports*
+    # 100%-undetermined chapters as candidates (a 100%-undetermined chapter is
+    # ambiguous — discover false positive vs. a chapter the rules failed to
+    # match — so a human decides, see suggest_scope_rules.detect_fully_undetermined_chapters).
     excluded_chapter_slugs: tuple[str, ...] = ()
 
     scan_window: int = 3000
@@ -271,10 +273,32 @@ WI_RULES = StateScopeRules(
 )
 
 
+
+
+# −−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−
+# Missouri
+# −−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−
+MO_RULES = StateScopeRules(
+    universal_patterns=(
+        (re.compile(r"all state and political subdivision licensing authorities", re.I), 'chapter'),
+        (re.compile(r"each state licensing authority", re.I), 'chapter'),
+        (re.compile(r"any (?:occupation|profession|occupational or professional)", re.I), 'chapter'),
+    ),
+    trigger_patterns=(
+        re.compile(r"licensed\s+(?:under|pursuant\s+to)\b", re.I),
+        re.compile(r"licensure\s+of\b[^.]*\bpursuant\s+to\b", re.I),
+        re.compile(r"regulated\s+pursuant\s+to\b", re.I),
+    ),
+    chapter_cite_pattern=re.compile(r"\bchapter\s+(\d+)\b", re.I),
+    section_cite_pattern=re.compile(r"\b(?:section|sections|§|§§)\s*(\d+)\.\d+", re.I),
+)
+
+
 STATE_RULES: dict[str, StateScopeRules] = {
     "UT": UT_RULES,
     "FL": FL_RULES,
     "CO": CO_RULES,
     "IA": IA_RULES,
     "WI": WI_RULES,
+    "MO": MO_RULES,
 }

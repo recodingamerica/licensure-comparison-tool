@@ -1,0 +1,35 @@
+{
+  "state": "MO",
+  "generated_at": "2026-05-27T17:14:41.618401+00:00",
+  "scope_source_counts": {
+    "inherited_enumeration": 44,
+    "anchor_enumeration": 6
+  },
+  "proposal": {
+    "universal_patterns": [
+      {
+        "pattern": "all state and political subdivision licensing authorities",
+        "target": "chapter"
+      },
+      {
+        "pattern": "each state licensing authority",
+        "target": "chapter"
+      },
+      {
+        "pattern": "any (?:occupation|profession|occupational or professional)",
+        "target": "chapter"
+      }
+    ],
+    "trigger_patterns": [
+      "licensed\\s+(?:under|pursuant\\s+to)\\b",
+      "licensure\\s+of\\b[^.]*\\bpursuant\\s+to\\b",
+      "regulated\\s+pursuant\\s+to\\b"
+    ],
+    "chapter_cite_pattern": "\\bchapter\\s+(\\d+)\\b",
+    "section_cite_pattern": "\\b(?:section|sections|\u00a7|\u00a7\u00a7)\\s*(\\d+)\\.\\d+",
+    "slug_prefix": "chapter",
+    "range_chapter_pattern": null,
+    "profession_name_trigger_patterns": [],
+    "rationale": "Missouri's Title XXII Chapter 324 contains a number of cross-cutting umbrella provisions (Fresh Start Act, fee waiver, apprenticeship licensure, reciprocity) that apply broadly to \"licensing authorities\" across many practice-act chapters. The anchor sections enumerate practice-act chapters using forms like \"pursuant to chapter 326\", \"pursuant to chapter 330\", etc. \u2014 so the chapter cite pattern is bare \"chapter NNN\". Section cites in MO look like \"section 324.012\" or \"sections 339.010 to 339.205\" where the chapter token is the integer before the dot. Universal phrases here are narrow \u2014 Chapter 324 is itself a mixed umbrella+practice-act chapter, so I avoid broad \"this chapter applies to\" patterns (which don't appear) and instead key on the distinctive cross-cutting phrases (\"all state and political subdivision licensing authorities\", \"each state licensing authority\") that signal universal applicability. I deliberately exclude bare \"as used in this section\" since these are section-scoped definitions, not chapter-wide universals \u2014 the walker's cross-state AS_USED_RE will handle any true chapter-scoped \"as used in this chapter\" language."
+  }
+}

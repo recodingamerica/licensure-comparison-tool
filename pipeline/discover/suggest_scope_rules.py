@@ -6,14 +6,21 @@ Given a state abbreviation:
 3. Calls Claude (claude-opus-4-7) via Anthropic SDK (tool_use) with anchor text + few-shot
 4. Validates the response with Pydantic ScopeRulesProposal
 5. Runs the scope walker in-memory to check quality; refines if too many undetermined
-6. Prints rendered Python code for the new StateScopeRules entry
-7. --apply appends the entry to _scope_rules.py
-8. --run writes the official umbrella_scope/<STATE>.json to disk
+6. Saves the validated proposal to results/scope_rule_proposals/<STATE>.json
+7. Prints rendered Python code for the new StateScopeRules entry
+
+--apply replays the SAVED validated proposal (no LLM call) and appends it to
+_scope_rules.py, so the applied rules are exactly the ones the walker checked —
+LLM generation is nondeterministic, so apply must not re-roll. --regenerate
+forces a fresh generation first. --run then writes umbrella_scope/<STATE>.json.
 
 Usage:
+  # 1. generate + validate + save proposal (review the coverage):
   python -m pipeline.discover.suggest_scope_rules --state NY
-  python -m pipeline.discover.suggest_scope_rules --state OH --apply
-  python -m pipeline.discover.suggest_scope_rules --state AL --apply --run
+  # 2. apply the saved validated proposal + write the scope file:
+  python -m pipeline.discover.suggest_scope_rules --state NY --apply --run
+  # force a fresh generation before applying:
+  python -m pipeline.discover.suggest_scope_rules --state NY --apply --regenerate
 """
 
 from __future__ import annotations
@@ -24,6 +31,7 @@ import logging
 import re
 import subprocess
 import sys
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Literal
 
@@ -42,6 +50,9 @@ from paths import RESULTS_DIR  # noqa: E402
 from discover._scope_rules import ANCHOR_LABEL_RE, NARROW_LABEL_HINTS  # noqa: E402
 
 UMBRELLA_TEXT_DIR = RESULTS_DIR / "umbrella_text"
+# Validated proposals are cached here so --apply can replay the exact rules the
+# walker validated, instead of making a fresh (nondeterministic) LLM call.
+PROPOSALS_DIR = RESULTS_DIR / "scope_rule_proposals"
 SCOPE_RULES_PATH = Path(__file__).resolve().parent / "_scope_rules.py"
 REPO_ROOT = Path(__file__).resolve().parents[2]
 
@@ -658,6 +669,41 @@ def print_proposal(state: str, proposal: ScopeRulesProposal, code: str) -> None:
 
 
 # ---------------------------------------------------------------------------
+# Proposal persistence — so --apply replays validated rules, not a fresh LLM call
+# ---------------------------------------------------------------------------
+
+def save_proposal(state: str, proposal: ScopeRulesProposal, walker_result: dict | None) -> Path:
+    """Persist a validated proposal so a later --apply uses the exact rules the
+    walker just checked (LLM generation is nondeterministic; apply must not
+    re-roll). Stores the proposal plus the walker's scope_source_counts as the
+    validation record.
+    """
+    PROPOSALS_DIR.mkdir(parents=True, exist_ok=True)
+    out = PROPOSALS_DIR / f"{state}.json"
+    out.write_text(json.dumps({
+        "state": state,
+        "generated_at": datetime.now(timezone.utc).isoformat(),
+        "scope_source_counts": (walker_result or {}).get("scope_source_counts"),
+        "proposal": proposal.model_dump(),
+    }, indent=2))
+    return out
+
+
+def load_proposal(state: str) -> ScopeRulesProposal | None:
+    """Reconstruct the saved validated proposal, or None if none saved."""
+    p = PROPOSALS_DIR / f"{state}.json"
+    if not p.exists():
+        return None
+    rec = json.loads(p.read_text())
+    return ScopeRulesProposal(**rec["proposal"])
+
+
+def load_proposal_meta(state: str) -> dict:
+    p = PROPOSALS_DIR / f"{state}.json"
+    return json.loads(p.read_text()) if p.exists() else {}
+
+
+# ---------------------------------------------------------------------------
 # Apply to _scope_rules.py
 # ---------------------------------------------------------------------------
 
@@ -731,16 +777,39 @@ def main() -> None:
     ap.add_argument(
         "--apply",
         action="store_true",
-        help="Append the proposed rules to _scope_rules.py",
+        help="Append rules to _scope_rules.py from the saved validated proposal "
+             "(no LLM call). Use --regenerate to force a fresh generation first.",
+    )
+    ap.add_argument(
+        "--regenerate",
+        action="store_true",
+        help="Force a fresh LLM generation even if a saved proposal exists "
+             "(overwrites the saved proposal).",
     )
     ap.add_argument(
         "--run",
         action="store_true",
-        help="Write official umbrella_scope/<STATE>.json to disk (implies --apply has run)",
+        help="Write official umbrella_scope/<STATE>.json to disk (after --apply).",
     )
     args = ap.parse_args()
     state = args.state.upper()
 
+    # Apply-from-saved path: replay the exact rules the walker validated. No LLM
+    # call, so the applied rules are deterministic and match what was reviewed.
+    if args.apply and not args.regenerate and load_proposal(state) is not None:
+        proposal = load_proposal(state)
+        meta = load_proposal_meta(state)
+        print(f"Applying saved validated proposal for {state} "
+              f"(generated {meta.get('generated_at', '?')}, "
+              f"counts={meta.get('scope_source_counts')})")
+        code = render_rules_code(state, proposal)
+        print_proposal(state, proposal, code)
+        apply_rules(state, code)
+        if args.run:
+            run_scope_walker(state)
+        return
+
+    # Generate path: LLM propose → walker validate → refine → SAVE proposal.
     anchors = load_anchor_sections(state)
     print(f"Loaded {len(anchors)} anchor sections for {state}")
 
@@ -793,6 +862,10 @@ def main() -> None:
         print(f"  scope_source counts: {counts}")
     else:
         print("  (walker check skipped — no profession_index for this state yet)")
+
+    # Persist the validated proposal so a later --apply replays exactly this.
+    saved = save_proposal(state, proposal, walker_result)
+    print(f"  saved validated proposal → {saved.relative_to(REPO_ROOT)}")
 
     code = render_rules_code(state, proposal)
     print_proposal(state, proposal, code)
