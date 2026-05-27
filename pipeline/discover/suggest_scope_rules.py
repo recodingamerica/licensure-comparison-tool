@@ -48,6 +48,7 @@ logging.getLogger("httpx").setLevel(logging.WARNING)
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from paths import RESULTS_DIR  # noqa: E402
+from scope_sources import CLASSIFIED_SOURCES  # noqa: E402
 from discover._scope_rules import ANCHOR_LABEL_RE, NARROW_LABEL_HINTS  # noqa: E402
 
 UMBRELLA_TEXT_DIR = RESULTS_DIR / "umbrella_text"
@@ -69,9 +70,6 @@ MAX_TEXT_PER_UNDET = 500
 UNDETERMINED_THRESHOLD = 5
 # Max undetermined sections to include in refinement message
 MAX_UNDET_IN_REFINEMENT = 10
-
-# scope_source values that count as a confident classification (vs undetermined).
-CLASSIFIED_SOURCES = ("anchor_universal", "universal", "anchor_enumeration", "inherited_enumeration")
 
 
 # ---------------------------------------------------------------------------

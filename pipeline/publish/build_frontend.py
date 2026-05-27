@@ -72,6 +72,7 @@ from paths import STRUCTURED_DIR, DISCOVERED_DIR, TRIMMED_DIR, RESULTS_DIR  # no
 from config.states import ALL_STATES  # noqa: E402
 from extract.locate_quote import locate_quote_in_section  # noqa: E402
 from extract.standard_model import is_evidence_node, iter_evidence  # noqa: E402
+from scope_sources import is_universal, is_enumeration  # noqa: E402
 from publish.blob_upload import upload_json  # noqa: E402
 from publish._browse_tree import build_tree as _build_browse_tree  # noqa: E402
 from publish._justia_clean import clean_justia_text  # noqa: E402
@@ -246,9 +247,9 @@ def _build_browse_sections(
         scope_source = info.get("scope_source") or ""
         applies_to = info.get("applies_to_professions")
 
-        if scope_source in ("universal", "anchor_universal"):
+        if is_universal(scope_source):
             scope_layer = "umbrella_universal"
-        elif scope_source in ("anchor_enumeration", "inherited_enumeration"):
+        elif is_enumeration(scope_source):
             scope_layer = "umbrella_enumeration"
             # Filter: only keep sections that explicitly apply to this prof.
             # applies_to=None means "scope assigner didn't determine" —

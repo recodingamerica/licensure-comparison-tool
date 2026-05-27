@@ -21,11 +21,9 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from paths import RESULTS_DIR, PROFESSION_INDEX_DIR  # noqa: E402
+from scope_sources import CLASSIFIED_SOURCES, professions_for  # noqa: E402
 
 UMBRELLA_SCOPE_DIR = RESULTS_DIR / "umbrella_scope"
-
-
-CLASSIFIED_SOURCES = ("anchor_universal", "universal", "anchor_enumeration", "inherited_enumeration")
 
 
 def _all_professions() -> list[str]:
@@ -70,12 +68,8 @@ def matrix_for_state(state: str) -> list[dict]:
     rows: list[dict] = []
     for entry in data.get("sections", []):
         src = entry.get("scope_source")
-        if src in ("anchor_universal", "universal"):
-            applicable = profs
-        elif src in ("anchor_enumeration", "inherited_enumeration"):
-            applicable = entry.get("applies_to_professions") or []
-        else:
-            applicable = []  # undetermined → no row (we excluded these from prompts too)
+        # undetermined → professions_for returns None → no rows for this section
+        applicable = professions_for(src, entry.get("applies_to_professions"), profs) or []
         for prof in applicable:
             rows.append({
                 "state": state,

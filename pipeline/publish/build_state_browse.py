@@ -44,6 +44,7 @@ load_env()
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from extract.standard_model import iter_evidence  # noqa: E402
 from extract.locate_quote import locate_quote_in_section  # noqa: E402
+from scope_sources import is_universal, is_enumeration  # noqa: E402
 from publish.blob_upload import upload_json  # noqa: E402
 from publish._browse_tree import build_tree  # noqa: E402
 from publish._justia_clean import clean_justia_text  # noqa: E402
@@ -161,10 +162,10 @@ def build_state(state: str) -> dict[str, Any] | None:
             scope_source = info.get("scope_source") or ""
             applies_to = info.get("applies_to_professions")
 
-            if scope_source in ("universal", "anchor_universal"):
+            if is_universal(scope_source):
                 audience = "universal"
                 applies_to = None  # explicit: applies to all
-            elif scope_source in ("anchor_enumeration", "inherited_enumeration"):
+            elif is_enumeration(scope_source):
                 audience = "multi"
                 # Filter applies_to to the professions we actually track
                 # (the scope assigner may emit names beyond our 6).

@@ -59,6 +59,7 @@ from paths import (  # noqa: E402
     TRIMMED_DIR,
     RESULTS_DIR,
 )
+from scope_sources import is_classified, professions_for  # noqa: E402
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 log = logging.getLogger("db.load")
@@ -494,7 +495,7 @@ def link_umbrella_applies_to(
     inserted = 0
     for entry in scope.get("sections", []):
         src = entry.get("scope_source")
-        if src not in ("universal", "anchor_universal", "anchor_enumeration", "inherited_enumeration"):
+        if not is_classified(src):
             continue
         section_url = entry.get("url") or ""
         doc_id = url_to_doc.get(section_url)
@@ -505,10 +506,7 @@ def link_umbrella_applies_to(
         if doc_id is None:
             continue
 
-        if src in ("universal", "anchor_universal"):
-            applies = list(profession_ids.keys())
-        else:
-            applies = entry.get("applies_to_professions") or []
+        applies = professions_for(src, entry.get("applies_to_professions"), profession_ids.keys())
 
         for prof_key in applies:
             pid = profession_ids.get(prof_key)
