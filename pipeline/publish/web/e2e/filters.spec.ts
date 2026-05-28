@@ -7,7 +7,7 @@ import { expect, test, type Page, type Locator } from "@playwright/test";
 // show "0" as an option and there'd be nothing to filter for.
 // ----------------------------------------------------------------------------
 
-const NURSING_URL = "/profile?p=nursing";
+const NURSING_URL = "/professions/nursing";
 
 function header(page: Page, colId: string): Locator {
   return page

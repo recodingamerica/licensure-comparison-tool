@@ -1218,7 +1218,17 @@ function colId(c: ColDef<Row>): string {
 
 // ============================================================================
 
-export function ProfileView({ payload }: { payload: ProfilePayload }) {
+export function ProfileView({
+  payload,
+  // When ProfileView is rendered as the body of a parent route that already
+  // provides its own page chrome (heading, breadcrumb), pass embedded=true so
+  // ProfileView skips the duplicate header + back-link + outer <main>.
+  embedded = false,
+  // When the parent provides view-switching as outer tabs, pass `view` to
+  // force the rendered sub-view and we'll suppress the internal table/map/
+  // hierarchy toggle to avoid two competing tab rows.
+  view: viewOverride,
+}: { payload: ProfilePayload; embedded?: boolean; view?: "table" | "map" }) {
   const { rows, evidence_summary, discovered_fields } = payload;
   const display = payload.display || payload.profession;
   const covered = rows.filter((r) => !r.coverage_gap).length;
@@ -1275,12 +1285,9 @@ export function ProfileView({ payload }: { payload: ProfilePayload }) {
   const pathname = usePathname();
   const params = useSearchParams();
   const viewParam = params.get("view");
-  const view: "table" | "map" | "hierarchy" =
-    viewParam === "map" && payload.map_prep
-      ? "map"
-      : viewParam === "hierarchy"
-        ? "hierarchy"
-        : "table";
+  const view: "table" | "map" =
+    viewOverride ??
+    (viewParam === "map" && payload.map_prep ? "map" : "table");
   const urlField = params.get("f");
   const updateParams = useCallback(
     (patch: Record<string, string | null>) => {
@@ -1293,7 +1300,7 @@ export function ProfileView({ payload }: { payload: ProfilePayload }) {
     },
     [params, pathname, router]
   );
-  const setView = (v: "table" | "map" | "hierarchy") =>
+  const setView = (v: "table" | "map") =>
     updateParams({ view: v === "table" ? null : v });
   const setMapField = (f: string | null) => updateParams({ f });
 
@@ -1402,27 +1409,33 @@ export function ProfileView({ payload }: { payload: ProfilePayload }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [api, allToggleableIds]);
 
+  const Wrapper = embedded ? "div" : "main";
   return (
-    <main className="mx-auto max-w-7xl px-6 py-10">
-      <Link
-        href="/"
-        className="text-xs font-mono uppercase tracking-widest text-muted-foreground hover:text-foreground"
-      >
-        ← all professions
-      </Link>
+    <Wrapper className={embedded ? "" : "mx-auto max-w-7xl px-6 py-10"}>
+      {!embedded && (
+        <>
+          <Link
+            href="/"
+            className="text-xs font-mono uppercase tracking-widest text-muted-foreground hover:text-foreground"
+          >
+            ← all professions
+          </Link>
 
-      <p className="mt-6 text-xs font-mono tracking-widest uppercase text-muted-foreground">
-        Profession profile
-      </p>
-      <h1 className="text-3xl font-semibold tracking-tight mt-1 mb-2">
-        {display}
-      </h1>
-      <p className="text-muted-foreground max-w-3xl mb-6">
-        Side-by-side licensure and scope of practice across 50 states,
-        auto-extracted from state statutes. Every claim is backed by a
-        verbatim quote validated against the source — click any row to see the
-        quotes and citations. Click any column header for per-column filtering.
-      </p>
+          <p className="mt-6 text-xs font-mono tracking-widest uppercase text-muted-foreground">
+            Profession profile
+          </p>
+          <h1 className="text-3xl font-semibold tracking-tight mt-1 mb-2">
+            {display}
+          </h1>
+          <p className="text-muted-foreground max-w-3xl mb-6">
+            Side-by-side licensure and scope of practice across 50 states,
+            auto-extracted from state statutes. Every claim is backed by a
+            verbatim quote validated against the source — click any row to see
+            the quotes and citations. Click any column header for per-column
+            filtering.
+          </p>
+        </>
+      )}
 
       <div className="flex flex-wrap gap-x-8 gap-y-2 rounded-lg border bg-muted/30 px-4 py-3 mb-8 text-sm">
         <Stat label="states with extracted records" value={covered} />
@@ -1434,46 +1447,39 @@ export function ProfileView({ payload }: { payload: ProfilePayload }) {
         )}
       </div>
 
-      <div className="mb-4 inline-flex rounded-md border bg-muted/30 p-1 text-xs font-mono">
-        <button
-          onClick={() => setView("table")}
-          className={
-            "px-3 py-1 rounded " +
-            (view === "table"
-              ? "bg-background shadow-sm text-foreground"
-              : "text-muted-foreground hover:text-foreground")
-          }
-        >
-          table
-        </button>
-        <button
-          onClick={() => setView("map")}
-          className={
-            "px-3 py-1 rounded " +
-            (view === "map"
-              ? "bg-background shadow-sm text-foreground"
-              : "text-muted-foreground hover:text-foreground")
-          }
-          disabled={!payload.map_prep}
-          title={
-            payload.map_prep ? "" : "no map data yet — run map_prep for this profession"
-          }
-        >
-          map
-        </button>
-        <button
-          onClick={() => setView("hierarchy")}
-          className={
-            "px-3 py-1 rounded " +
-            (view === "hierarchy"
-              ? "bg-background shadow-sm text-foreground"
-              : "text-muted-foreground hover:text-foreground")
-          }
-          title="Pick a state to read its full statute text by section"
-        >
-          hierarchy
-        </button>
-      </div>
+      {/* Internal view toggle. Suppressed when the parent supplies the
+          `view` prop (i.e. /professions/[id] is rendering outer tabs that
+          do this job — having two rows of tab-like buttons looked janky). */}
+      {!viewOverride && (
+        <div className="mb-4 inline-flex rounded-md border bg-muted/30 p-1 text-xs font-mono">
+          <button
+            onClick={() => setView("table")}
+            className={
+              "px-3 py-1 rounded " +
+              (view === "table"
+                ? "bg-background shadow-sm text-foreground"
+                : "text-muted-foreground hover:text-foreground")
+            }
+          >
+            table
+          </button>
+          <button
+            onClick={() => setView("map")}
+            className={
+              "px-3 py-1 rounded " +
+              (view === "map"
+                ? "bg-background shadow-sm text-foreground"
+                : "text-muted-foreground hover:text-foreground")
+            }
+            disabled={!payload.map_prep}
+            title={
+              payload.map_prep ? "" : "no map data yet — run map_prep for this profession"
+            }
+          >
+            map
+          </button>
+        </div>
+      )}
 
       {view === "map" && payload.map_prep && (
         <MapView
@@ -1481,10 +1487,6 @@ export function ProfileView({ payload }: { payload: ProfilePayload }) {
           fieldName={urlField}
           onFieldChange={setMapField}
         />
-      )}
-
-      {view === "hierarchy" && (
-        <HierarchyStatePicker rows={rows} profSlug={profSlug} />
       )}
 
       {view === "table" && (
@@ -1626,7 +1628,7 @@ export function ProfileView({ payload }: { payload: ProfilePayload }) {
         onOpenChange={(o) => !o && setOpenState(null)}
         searchQuery={statuteTextQuery}
       />
-    </main>
+    </Wrapper>
   );
 }
 
@@ -1636,68 +1638,5 @@ function Stat({ label, value }: { label: string; value: string | number }) {
       <span className="font-semibold text-foreground">{value}</span>{" "}
       <span className="text-muted-foreground">{label}</span>
     </div>
-  );
-}
-
-// State picker for the hierarchy view. Lists every state the profession has
-// statute-text shipped for, styled the same as the homepage profession picker.
-// Clicking a card navigates to /browse/<state>/<prof>. Coverage gaps and
-// states with no extracted statute (probably never scraped) are excluded.
-function HierarchyStatePicker({
-  rows,
-  profSlug,
-}: {
-  rows: Row[];
-  profSlug: string;
-}) {
-  const items = rows
-    .filter((r) => !r.coverage_gap && (r.section_text_full?.length ?? 0) > 0)
-    .map((r) => ({
-      state: r.state,
-      verified: r.evidence_verified,
-      unverified: r.evidence_unverified,
-      chars: r.section_text_full?.length ?? 0,
-    }))
-    .sort((a, b) => a.state.localeCompare(b.state));
-
-  if (items.length === 0) {
-    return (
-      <p className="text-sm text-muted-foreground italic">
-        No statute text available for this profession yet.
-      </p>
-    );
-  }
-
-  return (
-    <section>
-      <p className="text-xs text-muted-foreground mb-4 max-w-2xl">
-        Pick a state to read its statute by section — practice act + the
-        cross-cutting umbrella chapters that apply, with extracted-claim
-        highlights and full-text search.
-      </p>
-      <div className="grid gap-3 max-w-3xl">
-        {items.map((s) => (
-          <Link
-            key={s.state}
-            href={`/browse/${s.state}/${encodeURIComponent(profSlug)}`}
-            className="block group"
-          >
-            <Card className="py-3 transition-colors hover:border-foreground/30">
-              <CardHeader className="flex flex-row items-baseline justify-between gap-4 space-y-0">
-                <CardTitle className="text-base font-mono font-medium group-hover:underline">
-                  {s.state}
-                </CardTitle>
-                <span className="text-xs font-mono text-muted-foreground whitespace-nowrap">
-                  {s.chars.toLocaleString()} chars · {s.verified} verified
-                  {s.unverified > 0 && (
-                    <span className="text-amber-700"> · {s.unverified} unverified</span>
-                  )}
-                </span>
-              </CardHeader>
-            </Card>
-          </Link>
-        ))}
-      </div>
-    </section>
   );
 }
