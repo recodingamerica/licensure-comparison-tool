@@ -206,6 +206,11 @@ mental_health_counseling:
   display: Mental Health Counseling / MFT / Clinical Social Work
   family: [health]
   patterns: ["mental health", "professional counsel", "marriage and family therap", "clinical social work", "licensed professional counselor"]
+  # The 'mental health' substring also matches 'environmental health' — bite
+  # observed on IL "Environmental Health Practitioner Licensing Act". Excluding
+  # 'environmental' (and a few other adjacent non-MHC contexts) keeps the
+  # pattern usable while blocking the cross-match.
+  excludes: ["environmental", "occupational health", "public health"]
   enumeration_aliases: ["marital and family"]
 
 psychology:

@@ -149,6 +149,64 @@ def candidate_new_occupations(min_states: int) -> list[dict]:
     return rows
 
 
+# Heuristic: a chapter label that's basically a plural profession noun, like
+# "Auctioneers" / "Counselors" / "Real Estate Appraisers" / "Cosmetologists".
+# Short labels (after stripping the "Chapter N - " prefix) whose noun word
+# ends in a person-suffix.
+_LABEL_PREFIX_RE = re.compile(r"^(?:Chapter|Title|Article|Division|Part|Subtitle|Act)\s+[\dA-Za-z\.\-]+\s*[:\-—–]\s*", re.I)
+_PERSON_SUFFIX_RE = re.compile(r"\b([A-Z][A-Za-z\-]+(?:ers|ors|ists|ians|ants|eers))\b")
+
+
+def looks_like_profession_label(label: str) -> str | None:
+    """Return the profession-noun phrase if the label looks like a plain
+    profession-name chapter ('Counselors', 'Auctioneers', 'Real Estate
+    Appraisers'); None otherwise."""
+    body = _LABEL_PREFIX_RE.sub("", label).strip(" .;:[]")
+    # Drop trailing parenthetical / annotation like "[Repealed]"
+    body = re.sub(r"\s*\[(?:Repealed|Reserved|Unconstitutional[^\]]*)\]\s*$", "", body, flags=re.I).strip()
+    if not body or len(body) > 80:
+        return None
+    m = _PERSON_SUFFIX_RE.search(body)
+    if not m:
+        return None
+    # If the body IS basically that noun phrase (allowing a leading modifier),
+    # treat it as a profession label. Bail on long sentences ("...required by
+    # X to do Y...").
+    if len(body.split()) > 8:
+        return None
+    return body
+
+
+def all_unmatched_chapters() -> dict[str, list[dict]]:
+    """Every chapter-level entry in any state hierarchy that's NOT claimed by
+    any profession in profession_index — no regex filter, no heuristic.
+    The recall ceiling: anything missing must be in here. For human/LLM
+    review."""
+    claimed: set[tuple[str, str]] = set()
+    for f in PROFESSION_INDEX_DIR.glob("*.json"):
+        if f.stem.startswith("_"):
+            continue
+        d = json.loads(f.read_text())
+        for st, payload in (d.get("by_state") or {}).items():
+            for m in (payload.get("matched") or []):
+                claimed.add((st, m.get("slug", "")))
+    out: dict[str, list[dict]] = {}
+    for f in sorted(HIERARCHY_DIR.glob("*.json")):
+        st = f.stem
+        d = json.loads(f.read_text())
+        unmatched = []
+        for ch in d.get("chapters", []):
+            slug = ch.get("slug", "")
+            if not _CONTAINER_SLUG.match(slug):
+                continue
+            if (st, slug) in claimed:
+                continue
+            unmatched.append({"slug": slug, "label": ch.get("label", "")})
+        if unmatched:
+            out[st] = unmatched
+    return out
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--min-states", type=int, default=3,
@@ -157,9 +215,30 @@ def main() -> None:
 
     variants = variants_per_profession()
     candidates = candidate_new_occupations(args.min_states)
+    raw_unmatched = all_unmatched_chapters()
+
+    # Second-pass candidates: labels that look like a plain profession-name
+    # chapter (plural person-noun like "Auctioneers", "Real Estate Appraisers")
+    # but were missed by the Board-of-X regex.
+    plural_candidates: dict[str, list[tuple[str, str, str]]] = defaultdict(list)
+    for st, items in raw_unmatched.items():
+        for it in items:
+            phrase = looks_like_profession_label(it["label"])
+            if phrase:
+                plural_candidates[phrase.lower()].append((st, it["slug"], it["label"]))
+    plural_rows = []
+    for phrase, hits in plural_candidates.items():
+        states = sorted({h[0] for h in hits})
+        if len(states) < args.min_states:
+            continue
+        plural_rows.append({"phrase": phrase, "n_states": len(states), "states": states,
+                            "examples": [{"state": s, "slug": sl, "label": lab} for s, sl, lab in hits[:6]]})
+    plural_rows.sort(key=lambda r: -r["n_states"])
 
     (OUT_DIR / "variants.json").write_text(json.dumps(variants, indent=2, ensure_ascii=False))
     (OUT_DIR / "candidates.json").write_text(json.dumps(candidates, indent=2, ensure_ascii=False))
+    (OUT_DIR / "plural_candidates.json").write_text(json.dumps(plural_rows, indent=2, ensure_ascii=False))
+    (OUT_DIR / "all_unmatched.json").write_text(json.dumps(raw_unmatched, indent=2, ensure_ascii=False))
 
     print(f"\n=== Variant summary — existing professions ({len(variants)}) ===")
     print("(distinct chapter-label wordings observed per profession, top 5 widest-reaching)")
@@ -177,6 +256,19 @@ def main() -> None:
         ex = r["examples"][0]
         print(f"  {r['n_states']:>3} states  '{r['phrase']}'  e.g. {ex['state']} {ex['slug']}: {ex['label'][:60]}")
     print(f"  ({len(candidates)} total — full list in {OUT_DIR/'candidates.json'})")
+
+    total_unmatched = sum(len(v) for v in raw_unmatched.values())
+    print(f"\n=== Plain-noun profession-label candidates (>= {args.min_states} states) ===")
+    print(f"  (labels like 'Auctioneers' / 'Real Estate Appraisers' that the Board-of-X regex missed)")
+    for r in plural_rows[:40]:
+        ex = r["examples"][0]
+        print(f"  {r['n_states']:>3} states  '{r['phrase']}'  e.g. {ex['state']} {ex['slug']}: {ex['label'][:60]}")
+    print(f"  ({len(plural_rows)} total — full list in {OUT_DIR/'plural_candidates.json'})")
+
+    print(f"\n=== Recall ceiling: {total_unmatched} unmatched CHAPTER-level entries across "
+          f"{len(raw_unmatched)} states ===")
+    print(f"  (every chapter-level label not in ANY profession_index — full dump in {OUT_DIR/'all_unmatched.json'})")
+    print("  Anything we're missing is in there; most are non-profession (courts, tax, schools, …).")
 
 
 if __name__ == "__main__":
