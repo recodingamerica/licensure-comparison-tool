@@ -11,6 +11,14 @@ type StatesListEntry = {
   professions: string[];
 };
 
+// Count of universal (cross-profession) columns in the /profile table.
+// Tracks the non-discovered ColDefs defined in profile-view.tsx::
+// buildColumnDefs. Update if columns are added/removed there. The home-card
+// breakdown reads "{discovered} profession-specific + {universal} universal
+// fields" — Atharv flagged the dropdown's 70+ vs home's ~29 as confusing
+// (issue #13); the breakdown makes it intuitive.
+const UNIVERSAL_FIELDS_COUNT = 44;
+
 export default function HomePage() {
   const [mode, setMode] = useState<"profession" | "state">("profession");
   const [professions, setProfessions] = useState<ProfessionsListEntry[] | null>(null);
@@ -101,7 +109,8 @@ export default function HomePage() {
                       </CardTitle>
                       <span className="text-xs font-mono text-muted-foreground whitespace-nowrap">
                         {p.covered}/{(p.covered || 0) + (p.gaps || 0)} states ·{" "}
-                        {p.fields} fields · {p.verified_pct ?? "—"}% verified
+                        {p.fields} profession-specific + {UNIVERSAL_FIELDS_COUNT} universal fields ·{" "}
+                        {p.verified_pct ?? "—"}% verified
                       </span>
                     </CardHeader>
                   </Card>

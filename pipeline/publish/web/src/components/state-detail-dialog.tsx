@@ -74,7 +74,7 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
   if (row.coverage_gap) {
     return (
       <Sheet open onOpenChange={onOpenChange}>
-        <SheetContent side="right" className="sm:max-w-md">
+        <SheetContent side="right" className="w-full sm:max-w-md lg:max-w-xl">
           <SheetHeader>
             <SheetTitle>{row.state} — coverage gap</SheetTitle>
             <SheetDescription>
@@ -100,7 +100,7 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
     <Sheet open onOpenChange={onOpenChange}>
       <SheetContent
         side="right"
-        className="w-full sm:max-w-2xl lg:max-w-4xl p-0 gap-0 flex flex-col"
+        className="w-full sm:max-w-2xl lg:max-w-[65vw] xl:max-w-[60vw] p-0 gap-0 flex flex-col"
       >
         <SheetHeader className="border-b px-6 py-4 flex-shrink-0 bg-background">
           <SheetTitle className="text-xl flex items-center gap-3 flex-wrap">
