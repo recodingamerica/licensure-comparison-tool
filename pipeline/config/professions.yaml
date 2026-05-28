@@ -46,7 +46,21 @@ medicine:
   display: Medicine (MD)
   abbrev: MED
   family: [health]
-  patterns: ["medical practice", "medicine and surgery", " physicians "]
+  # Patterns harmonize state wording variants observed in real umbrella text:
+  # "Board of Medicine" / "Medical Board" / "State Medical Examiners" /
+  # "Healing Arts" (KS) — all of which our originally-tight patterns missed.
+  # The excludes list keeps these from cross-matching osteopathic / podiatric
+  # / naturopathic / chiropractic / physician assistant / veterinary /
+  # athletic, where "medical" or "physician" wording can appear in a board
+  # name that shouldn't fold into MD.
+  patterns:
+    - "medical practice"
+    - "medicine and surgery"
+    - " physicians "
+    - "board of medicine"
+    - "medical board"
+    - "medical examiners"
+    - "healing arts"
   excludes: ["osteopathic", "podiatric", "naturopathic", "chiropractic", "physician assistant", "physician's assistant", "veterinar", "athletic"]
   # Prose forms used in some states' inline profession-name enumerations
   # (e.g. Iowa: "when applied to a physician and surgeon, ..."). Read by
@@ -198,6 +212,37 @@ psychology:
   display: Psychology
   family: [health]
   patterns: [psycholog]
+  # Excludes 'psychoanaly' so "psychoanalysis" doesn't fold into psychology
+  # — many states regulate psychoanalysis as a distinct license (VT, NY, NJ).
+  excludes: [psychoanaly]
+
+psychoanalysis:
+  display: Psychoanalysis
+  family: [health]
+  patterns: [psychoanaly]
+
+social_work:
+  display: Social Work
+  family: [health]
+  # Bare "social work" / "social worker". `mental_health_counseling` keeps
+  # "clinical social work" (longest-first matching wins for that wording), so
+  # clinical SW continues to fold into MHC and bare SW resolves here.
+  patterns: ["social work", "social worker"]
+
+alcohol_drug_counseling:
+  display: Alcohol & Drug Counseling
+  family: [health]
+  patterns:
+    - "alcohol and drug abuse counsel"
+    - "alcohol and drug counsel"
+    - "substance abuse counsel"
+    - "substance use counsel"
+    - "addiction counsel"
+
+applied_behavior_analysis:
+  display: Applied Behavior Analysis
+  family: [health]
+  patterns: ["applied behavior analy", "behavior analyst"]
 
 music_therapy:
   display: Music Therapy
