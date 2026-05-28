@@ -55,6 +55,7 @@ medicine:
   # name that shouldn't fold into MD.
   patterns:
     - "medical practice"
+    - "practice of medicine"
     - "medicine and surgery"
     - " physicians "
     - "board of medicine"
@@ -177,6 +178,26 @@ dietetics:
   family: [health]
   patterns: [dietit, dietetic]
 
+perfusionist:
+  display: Perfusionist (Cardiovascular)
+  family: [health]
+  patterns: [perfusionist, "cardiac perfus", "cardiovascular perfus"]
+
+polysomnography:
+  display: Polysomnography (Sleep Technologist)
+  family: [health]
+  patterns: [polysomnograph, "sleep technolog"]
+
+electrology:
+  display: Electrology (Hair Removal)
+  family: [health]
+  patterns: [electrologist, electrolysis]
+
+community_health_worker:
+  display: Community Health Worker
+  family: [health]
+  patterns: ["community health worker", "community health representative"]
+
 genetic_counseling:
   display: Genetic Counseling
   family: [health]
@@ -298,6 +319,21 @@ building_inspector:
   family: [building_design]
   patterns: ["building inspect", "building official"]
 
+home_inspector:
+  display: Home Inspector
+  family: [building_design]
+  patterns: ["home inspector", "home inspection"]
+
+plumbing:
+  display: Plumbers / Plumbing Contractors
+  family: [building_design]
+  patterns: ["plumber", "plumbing contractor", "journeyman plumber", "master plumber"]
+
+electrician:
+  display: Electricians / Electrical Contractors
+  family: [building_design]
+  patterns: ["electrician", "electrical contractor", "journeyman electrician", "master electrician"]
+
 commercial_interior_design:
   display: Interior Design (commercial)
   family: [building_design]
@@ -332,6 +368,50 @@ court_reporter:
   display: Court Reporter / Shorthand Reporter
   family: [business]
   patterns: ["court reporter", "shorthand reporter", "stenograph"]
+
+real_estate_appraiser:
+  display: Real Estate Appraiser
+  family: [business]
+  patterns: ["real estate appraiser", "real property appraiser", "certified real estate appraiser"]
+
+real_estate_broker:
+  display: Real Estate Brokers & Salespersons
+  family: [business]
+  patterns: ["real estate broker", "real estate salesperson", "real estate sales agent", "real estate licensee"]
+
+auctioneer:
+  display: Auctioneers
+  family: [business]
+  patterns: [auctioneer]
+
+pawnbroker:
+  display: Pawnbrokers
+  family: [business]
+  patterns: [pawnbroker, "pawn shop"]
+
+public_adjuster:
+  display: Public Insurance Adjuster
+  family: [business]
+  patterns: ["public adjuster", "public insurance adjuster"]
+  # 'insurance adjuster' alone is too broad (matches company-side claims
+  # adjusters that aren't separately licensed); keep the qualifier.
+
+money_transmitter:
+  display: Money Transmitter
+  family: [business]
+  patterns: ["money transmitter", "money transmission"]
+
+junk_dealer:
+  display: Junk Dealers / Secondhand Dealers
+  family: [business]
+  patterns: ["junk dealer", "secondhand dealer", "junk yard"]
+
+forester:
+  display: Foresters
+  family: [business]
+  patterns: ["registered forester", "licensed forester", "professional forester"]
+  # Bare 'forester' alone risks matching "Forester (game warden)" / forestry
+  # commissions that aren't a licensed profession; require a qualifier.
 
 private_probation:
   display: Private Probation Provider
