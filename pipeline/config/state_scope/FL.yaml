@@ -1,0 +1,44 @@
+# Florida umbrella-scope manifest.
+#
+# **Canonical FL trap**: § 455.017 says "This chapter applies only to the
+# regulation of professions by the department." The "department" is DBPR
+# (Department of Business and Professional Regulation). FL Ch 455 is NOT
+# universal — DOH-regulated health professions (medicine, nursing, dentistry,
+# pharmacy, optometry, podiatry, chiropractic, psychology, physical_therapy,
+# acupuncture, massage_therapy, mental_health_counseling, naturopathic_medicine,
+# opticianry, hearing_instrument_specialist, direct_entry_midwifery,
+# osteopathic_medicine, etc.) are governed by Ch 456, not 455.
+#
+# Source: § 455.01(6) defines "Profession" as "any activity, occupation,
+# profession, or vocation regulated by the department in the Divisions of
+# Certified Public Accounting, Professions, Real Estate, and Regulation."
+#
+# This is the chapter Pass 3 must NEVER call universal; --validate-fl in
+# llm_scope_fallback exists specifically to police that.
+
+chapter_applies_to:
+  chapter-455:
+    note: "DBPR-only (Divisions of CPA, Professions, Real Estate, Regulation). Excludes DOH health professions."
+    professions:
+      - architecture                # FBPE (Board of Architecture and Interior Design)
+      - commercial_interior_design  # combined with architecture
+      - construction_trades         # Construction Industry Licensing Board
+      - cosmetology                 # Board of Cosmetology
+      - funeral_services            # Division of Funeral, Cemetery, and Consumer Services
+      - land_surveying              # Board of Professional Surveyors and Mappers
+      - landscape_architecture      # Board of Landscape Architecture
+      - professional_engineering    # FBPE
+      - professional_geology        # Board of Professional Geologists
+      - public_accountancy          # Division of Certified Public Accounting
+      - real_estate_broker          # Division of Real Estate
+      - veterinary                  # Board of Veterinary Medicine (DBPR Division of Regulation)
+
+# Not included (deliberately, these are FL DOH or other-agency-regulated):
+#   medicine, nursing, dentistry, pharmacy, optometry, podiatry, chiropractic,
+#   psychology, physical_therapy, acupuncture, massage_therapy,
+#   mental_health_counseling, naturopathic_medicine, opticianry,
+#   hearing_instrument_specialist, direct_entry_midwifery, osteopathic_medicine
+#     ↑ FL DOH (Department of Health) — governed by Ch 456, not 455.
+#   security_personnel — FL Dept of Agriculture, Division of Licensing.
+#   junk_dealer — local licensing.
+#   electrology — DOH (Council of Electrolysis).

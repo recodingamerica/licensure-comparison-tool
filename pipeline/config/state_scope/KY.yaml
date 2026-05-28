@@ -1,0 +1,25 @@
+# Kentucky umbrella-scope manifest.
+#
+# Layered on top of `find_umbrella_chapters`'s candidate list. Authoritative:
+# manifest decisions win over walker regex and Pass 3 LLM for the chapters
+# they cover. See pipeline/discover/_state_scope_manifest.py and the
+# feedback memory `feedback_state_scope_manifests.md` for context.
+
+# Chapters that aren't licensing umbrella at all — pure state-wide
+# administrative law. Removed entirely from the umbrella corpus so they
+# don't count against coverage.
+umbrella_chapters_drop:
+  - chapter-13a   # Administrative regulations — KRS Ch 13A, every agency uses it
+  - chapter-13b   # Administrative hearings — sister chapter to 13A
+  - chapter-605   # Administrative matters — general state-agency admin
+
+# Not touched here (deliberately):
+#   chapter-309 "Miscellaneous occupations and professions" — NOT umbrella.
+#   It's a container holding several unrelated practice acts:
+#     309.080-089  alcohol/drug counselors
+#     309.130-138  professional art therapy (Pass 3 catches these → MHC)
+#     309.30X      dietitians / other
+#   Marking it universal would falsely attribute alcohol-drug-counseling
+#   sections to every KY licensee. Leave it for LLM Pass 3 (already enumerated
+#   9 of 50) and accept the 41 still-undetermined as honest residual until/
+#   unless we add per-section walker rules.

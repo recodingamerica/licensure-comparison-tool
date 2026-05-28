@@ -58,8 +58,9 @@ def professions_for(
 
 
 # Provenance: which layer assigned a section's scope.
-METHOD_WALKER = "walker"   # deterministic regex walker (assign_umbrella_scope)
-METHOD_LLM = "llm"         # LLM fallback (Pass 3, llm_scope_fallback)
+METHOD_WALKER = "walker"     # deterministic regex walker (assign_umbrella_scope)
+METHOD_LLM = "llm"           # LLM fallback (Pass 3, llm_scope_fallback)
+METHOD_MANIFEST = "manifest"  # per-state hardcoded yaml (config/state_scope/<ST>.yaml)
 
 
 def overlay_llm_decisions(sections: list[dict], llm_by_url: dict[str, dict]) -> list[dict]:

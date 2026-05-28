@@ -196,8 +196,17 @@ def test_parse_anchor_dash_cites_unaffected():
 
 GOLDEN_COUNTS = {
     "UT": {"anchor_universal": 3, "universal": 50, "inherited_enumeration": 14, "anchor_enumeration": 2},
-    "FL": {"undetermined": 62, "anchor_enumeration": 3, "inherited_enumeration": 98},
-    "CO": {"anchor_universal": 8, "universal": 23, "anchor_enumeration": 14, "inherited_enumeration": 20, "undetermined": 153},
+    # FL Ch 455 sections (62) moved from undetermined → inherited_enumeration
+    # via pipeline/config/state_scope/FL.yaml on 2026-05-28. Manifest applies
+    # the DBPR-only enumeration (canonical FL trap — Ch 455 is DBPR-only, not
+    # universal). FL --validate-fl still passes since the manifest fires
+    # before Pass 3, so the LLM never touches Ch 455 sections.
+    "FL": {"anchor_enumeration": 3, "inherited_enumeration": 160},
+    # CO previously had 153 undetermined sections — all from Title 10 (Insurance
+    # Code) Articles 1-2, which our profession taxonomy doesn't cover. They
+    # were dropped via pipeline/config/state_scope/CO.yaml on 2026-05-28. The
+    # rest of CO's classification is unchanged from the original golden.
+    "CO": {"anchor_universal": 8, "universal": 23, "anchor_enumeration": 14, "inherited_enumeration": 20},
     "IA": {"anchor_enumeration": 2, "inherited_enumeration": 117, "anchor_universal": 1, "universal": 19},
     "WI": {"anchor_enumeration": 6, "inherited_enumeration": 94},
     "MO": {"inherited_enumeration": 44, "anchor_enumeration": 6},
@@ -206,18 +215,24 @@ GOLDEN_COUNTS = {
     "TN": {"inherited_enumeration": 47, "anchor_enumeration": 1},
     "NM": {"anchor_universal": 2, "universal": 43},
     "HI": {"anchor_universal": 3, "universal": 36, "inherited_enumeration": 4, "anchor_enumeration": 1},
-    "GA": {"anchor_universal": 4, "universal": 36, "undetermined": 5},
+    # Golden counts below were updated 2026-05-28 after adding per-state scope
+    # manifests at pipeline/config/state_scope/<ST>.yaml. Each affected state's
+    # universal count grew or undetermined count shrank because the manifest
+    # marks cross-cutting chapters (criminal-background, military portability,
+    # general provisions, occupational-licensing audit) as universal that the
+    # walker regex didn't pick up. See feedback_state_scope_manifests.md.
+    "GA": {"anchor_universal": 4, "universal": 41},                          # +5 univ (ch-2 audit), 0 undet
     "SC": {"universal": 29, "anchor_universal": 1},
     "ID": {"undetermined": 3, "anchor_enumeration": 1, "inherited_enumeration": 6, "anchor_universal": 2, "universal": 12},
-    "TX": {"undetermined": 80, "anchor_universal": 3, "universal": 55},
-    "WA": {"inherited_enumeration": 27, "anchor_enumeration": 7, "universal": 17, "anchor_universal": 2, "undetermined": 49},
-    "MD": {"anchor_universal": 3, "universal": 47, "undetermined": 8},
-    "OR": {"undetermined": 27, "inherited_enumeration": 47, "anchor_enumeration": 3},
-    "IN": {"undetermined": 48, "inherited_enumeration": 44, "anchor_enumeration": 4},
-    "MT": {"universal": 43, "anchor_universal": 5, "undetermined": 41},
-    "CT": {"undetermined": 25, "anchor_universal": 3, "universal": 38},
-    "NV": {"anchor_universal": 3, "universal": 37, "undetermined": 77},
-    "SD": {"undetermined": 33, "universal": 37, "anchor_universal": 3},
+    "TX": {"anchor_universal": 3, "universal": 55, "inherited_enumeration": 80},     # +80 enum (TX subtitle-a + ch-101 + ch-112 → health)
+    "WA": {"inherited_enumeration": 72, "anchor_enumeration": 7, "universal": 21, "anchor_universal": 2},  # +45 enum (ch-18-130 health)
+    "MD": {"anchor_universal": 3, "universal": 55},                           # +8 univ (title-2-5 military), 0 undet
+    "OR": {"universal": 27, "inherited_enumeration": 47, "anchor_enumeration": 3},  # +25 univ (ch-670 generally), 0 undet
+    "IN": {"universal": 48, "inherited_enumeration": 44, "anchor_enumeration": 4},  # +48 univ (article-0.5), 0 undet
+    "MT": {"universal": 43, "anchor_universal": 5, "inherited_enumeration": 41},  # +41 enum (ch-2 health)
+    "CT": {"universal": 63, "anchor_universal": 3},                           # +25 univ (ch-141 + 414b), 0 undet
+    "NV": {"anchor_universal": 3, "universal": 37, "inherited_enumeration": 50},  # -27 undet (622a drop) +50 enum (ch-629 health)
+    "SD": {"universal": 44, "anchor_universal": 3, "inherited_enumeration": 26},  # +7 univ + 26 enum (healing arts)
 }
 
 
@@ -258,9 +273,15 @@ def test_skeleton_empty_when_no_sections(tmp_path, monkeypatch):
     assert r["section_count"] == 0 and r["scope_source_counts"] == {}
 
 
-def test_fl_chapter_455_stays_undetermined():
-    """§ 455.017 is DBPR-scoped, NOT universal. chapter-455 must stay fully
-    undetermined — the property that regressed in commit b61e800."""
+def test_fl_chapter_455_never_universal():
+    """§ 455.017 is DBPR-scoped, NOT universal. chapter-455 must never carry
+    a universal/anchor_universal scope_source — the FL trap that regressed
+    in commit b61e800. The valid classifications are:
+      - undetermined        (walker default before any manifest)
+      - inherited_enumeration with DBPR-only applies_to (manifest path)
+    Universal would over-attribute the chapter to DOH health professions
+    (medicine, nursing, etc.) which Ch 455 doesn't govern.
+    """
     if not (UMBRELLA_TEXT_DIR / "FL.json").exists():
         pytest.skip("no committed umbrella_text for FL")
     result = assign_for_state("FL")
@@ -269,4 +290,5 @@ def test_fl_chapter_455_stays_undetermined():
         if s["umbrella_chapter_slug"] == "chapter-455"
     ]
     assert sources_455, "expected chapter-455 sections in FL umbrella_text"
-    assert all(src == "undetermined" for src in sources_455)
+    assert all(src not in ("universal", "anchor_universal") for src in sources_455), \
+        "Ch 455 cannot be classified as universal — it's DBPR-only"

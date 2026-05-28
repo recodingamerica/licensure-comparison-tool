@@ -90,26 +90,40 @@ export default function UmbrellaIndexPage() {
         <p className="mt-2 text-sm">
           {data.states.length} states · {totals.total.toLocaleString()} sections ·{" "}
           <span className="text-foreground">{(totals.uni + totals.enu).toLocaleString()} classified</span>{" "}
-          ({totals.uni.toLocaleString()} universal, {totals.enu.toLocaleString()} enumerated) ·{" "}
+          ({totals.uni.toLocaleString()} apply to all licensees, {totals.enu.toLocaleString()} list specific professions) ·{" "}
           <span className="text-muted-foreground">{totals.und.toLocaleString()} unclassified</span>
         </p>
       </header>
 
-      <div className="flex items-center gap-3 text-sm">
-        <label htmlFor="prof" className="text-muted-foreground">
-          Sort by coverage for profession:
+      <div className="flex flex-wrap items-center gap-6 text-sm">
+        <label className="flex items-center gap-2">
+          <span className="text-muted-foreground">Sort by coverage for profession:</span>
+          <select
+            value={profFilter}
+            onChange={(e) => setProfFilter(e.target.value)}
+            className="rounded border bg-background px-2 py-1"
+          >
+            <option value="">(total sections)</option>
+            {data.professions.map((p) => (
+              <option key={p} value={p}>{fmtProf(p)}</option>
+            ))}
+          </select>
         </label>
-        <select
-          id="prof"
-          value={profFilter}
-          onChange={(e) => setProfFilter(e.target.value)}
-          className="rounded border bg-background px-2 py-1"
-        >
-          <option value="">(total sections)</option>
-          {data.professions.map((p) => (
-            <option key={p} value={p}>{fmtProf(p)}</option>
-          ))}
-        </select>
+        <label className="flex items-center gap-2">
+          <span className="text-muted-foreground">Cross-state view by profession:</span>
+          <select
+            defaultValue=""
+            onChange={(e) => {
+              if (e.target.value) window.location.href = `/umbrella/profession/${e.target.value}`;
+            }}
+            className="rounded border bg-background px-2 py-1"
+          >
+            <option value="">(pick a profession…)</option>
+            {data.professions.map((p) => (
+              <option key={p} value={p}>{fmtProf(p)}</option>
+            ))}
+          </select>
+        </label>
       </div>
 
       <table className="w-full text-sm">
@@ -117,8 +131,8 @@ export default function UmbrellaIndexPage() {
           <tr className="border-b">
             <th className="py-2 pr-4">State</th>
             <th className="py-2 pr-4 text-right">Sections</th>
-            <th className="py-2 pr-4 text-right">Universal</th>
-            <th className="py-2 pr-4 text-right">Enumerated</th>
+            <th className="py-2 pr-4 text-right">All licensees</th>
+            <th className="py-2 pr-4 text-right">Lists professions</th>
             <th className="py-2 pr-4 text-right">Unclassified</th>
             <th className="py-2 pr-4 text-right">
               {profFilter ? `${fmtProf(profFilter)} sections` : "Top professions covered"}

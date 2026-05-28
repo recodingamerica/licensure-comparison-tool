@@ -28,19 +28,8 @@ import {
   pruneTree,
 } from "./tree-node";
 import { professionStyle, useProfessionMeta } from "@/lib/profession-colors";
+import { AUDIENCE_LABEL, AUDIENCE_DOT } from "@/lib/audience";
 import { SectionDetail } from "./section-detail";
-
-const AUDIENCE_LABEL: Record<StateBrowseGroup["kind"], string> = {
-  universal: "Applies to everyone",
-  multi: "Shared with multiple professions",
-  single: "Profession-specific",
-};
-
-const AUDIENCE_DOT: Record<StateBrowseGroup["kind"], string> = {
-  universal: "bg-purple-500",
-  multi: "bg-emerald-500",
-  single: "bg-sky-500",
-};
 
 // Tag every section's URL with its audience info for the detail panel,
 // pulled from the flat sections array (cheaper than walking the tree to

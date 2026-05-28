@@ -53,6 +53,11 @@ from discover._scope_rules import (  # noqa: E402
     NARROW_LABEL_HINTS,
     LEAF_SECTION_SEG,
 )
+from discover._state_scope_manifest import (  # noqa: E402
+    load_manifest,
+    manifest_decision_for,
+)
+from scope_sources import METHOD_MANIFEST  # noqa: E402
 
 UMBRELLA_TEXT_DIR = RESULTS_DIR / "umbrella_text"
 UMBRELLA_SCOPE_DIR = RESULTS_DIR / "umbrella_scope"
@@ -368,7 +373,8 @@ def _select_scope(
 
 def _load_grouped(state: str) -> dict[tuple[str, str], list[dict]]:
     """Load umbrella_text, dedupe year-versions, and group sections by
-    (chapter_slug, part), dropping non-section URLs (banner/landing pages).
+    (chapter_slug, part), dropping non-section URLs (banner/landing pages)
+    and any chapters explicitly excluded by the state's scope manifest.
     Shared by the rules-based walker and the rules-free skeleton."""
     src = UMBRELLA_TEXT_DIR / f"{state}.json"
     if not src.exists():
@@ -387,21 +393,54 @@ def _load_grouped(state: str) -> dict[tuple[str, str], list[dict]]:
         grouped[key].append(s)
     if skipped_no_url:
         log.warning("[%s] %d sections had no parseable URL; dropped", state, skipped_no_url)
+
+    manifest = load_manifest(state)
+    if manifest.drop_chapters:
+        n_before = sum(len(v) for v in grouped.values())
+        chaps_before = {k[0] for k in grouped}
+        grouped = {k: v for k, v in grouped.items() if k[0] not in manifest.drop_chapters}
+        n_after = sum(len(v) for v in grouped.values())
+        actually_dropped = chaps_before & manifest.drop_chapters
+        if actually_dropped:
+            log.info(
+                "[%s] manifest dropped %d sections from %d chapter(s): %s",
+                state, n_before - n_after, len(actually_dropped), sorted(actually_dropped),
+            )
     return grouped
+
+
+def _apply_manifest_to_entry(decision: dict, entry: dict) -> None:
+    """In-place: fill in scope_source / applies_to / method from a manifest
+    decision. Used by both the skeleton and rules-based paths so the manifest
+    layer is the single source of truth for hardcoded scope."""
+    if decision["kind"] == "universal":
+        entry["scope_source"] = "universal"
+        entry["scope_target"] = "all_professions"
+        entry["scope_evidence"] = "manifest: chapter_universal"
+    elif decision["kind"] == "enumerated":
+        entry["applies_to_professions"] = list(decision["professions"])
+        entry["scope_source"] = "inherited_enumeration"
+        entry["scope_target"] = "chapter"
+        entry["scope_evidence"] = "manifest: chapter_applies_to"
+    entry["scope_method"] = METHOD_MANIFEST
 
 
 def skeleton_for_state(state: str) -> dict:
     """The walker's output shape for a state with NO scope rules: every section
     structured (same dedup/grouping/anchor detection as the real walker) but
-    left `undetermined`. This is the honest deterministic result for states we
-    deliberately don't write regex for — Pass 3 (the LLM fallback) then fills
-    these in, and the merge works uniformly across ruled and unruled states.
+    left `undetermined` — except where a per-state manifest hardcodes a
+    decision for the chapter. Pass 3 (LLM fallback) then fills in remaining
+    undetermined sections, and the merge works uniformly across ruled and
+    unruled states.
     """
     grouped = _load_grouped(state)
+    manifest = load_manifest(state)
     out_sections: list[dict] = []
+    source_counter: dict[str, int] = defaultdict(int)
     for (chap, part), secs in sorted(grouped.items()):
+        manifest_decision = manifest_decision_for(manifest, chap)
         for s in secs:
-            out_sections.append({
+            entry = {
                 "url": s.get("url", ""),
                 "label": s.get("label", ""),
                 "umbrella_chapter_slug": chap,
@@ -411,11 +450,15 @@ def skeleton_for_state(state: str) -> dict:
                 "scope_source": "undetermined",
                 "scope_target": None,
                 "scope_evidence": "",
-            })
+            }
+            if manifest_decision is not None:
+                _apply_manifest_to_entry(manifest_decision, entry)
+            source_counter[entry["scope_source"]] += 1
+            out_sections.append(entry)
     return {
         "state": state,
         "section_count": len(out_sections),
-        "scope_source_counts": {"undetermined": len(out_sections)} if out_sections else {},
+        "scope_source_counts": dict(source_counter),
         "triage": [],
         "sections": out_sections,
     }
@@ -449,6 +492,8 @@ def assign_for_state(state: str) -> dict:
                 state, n_before - n_after, len(excluded), sorted(excluded),
             )
 
+    manifest = load_manifest(state)
+
     anchors_by_chap: dict[str, list[dict]] = defaultdict(list)
     for (chap, _part), secs in grouped.items():
         for s in secs:
@@ -460,12 +505,19 @@ def assign_for_state(state: str) -> dict:
     source_counter: dict[str, int] = defaultdict(int)
 
     for (chap, part), secs in sorted(grouped.items()):
-        scope = _select_scope(chap, part, anchors_by_chap.get(chap, []), rules, reverse_index)
+        manifest_decision = manifest_decision_for(manifest, chap)
+        if manifest_decision is None:
+            scope = _select_scope(chap, part, anchors_by_chap.get(chap, []), rules, reverse_index)
+        else:
+            # Manifest is authoritative for this chapter — skip the regex walker
+            # so the hardcoded decision can't be undone by accidental anchor
+            # matching, and so it's auditable as scope_method="manifest".
+            scope = {"kind": "manifest", "decision": manifest_decision}
         log.info(
             "[%s] %s / %s: %d sections, %d chapter-anchors → scope=%s%s",
             state, chap, part, len(secs), len(anchors_by_chap.get(chap, [])),
             scope.get("kind"),
-            f" (target={scope.get('target')})" if scope.get("kind") != "undetermined" else "",
+            f" (target={scope.get('target')})" if scope.get("kind") not in ("undetermined", "manifest") else "",
         )
 
         for s in secs:
@@ -482,7 +534,9 @@ def assign_for_state(state: str) -> dict:
                 "scope_evidence": "",
             }
 
-            if scope["kind"] == "universal":
+            if scope["kind"] == "manifest":
+                _apply_manifest_to_entry(scope["decision"], entry)
+            elif scope["kind"] == "universal":
                 entry["scope_source"] = "anchor_universal" if is_anchor else "universal"
                 entry["scope_target"] = scope["target"]
                 entry["scope_evidence"] = scope["evidence"]

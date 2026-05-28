@@ -1,0 +1,26 @@
+# Kansas umbrella-scope manifest.
+#
+# KS's umbrella corpus was heavily polluted by find_umbrella_chapters with
+# chapters that aren't licensing content at all (1923 statute commission,
+# governor's-office operations, med-mal screening panels). 129 of 186
+# previously-undetermined sections come from these three chapters.
+
+umbrella_chapters_drop:
+  - chapter-77   # Statutes; Administrative Rules And Procedure — KSA Ch 77,
+                 # state-wide rulemaking + the 1923 revised-statutes commission.
+                 # 48 sections of pure meta-statute, not licensing umbrella.
+  - chapter-75   # State Departments; Public Officers And Employees — KSA Ch 75,
+                 # governor's office operations (oaths, messages to legislature,
+                 # signature requirements). 47 sections, no licensing content.
+  - article-49   # Healthcare Providers — KSA Article 49 covers medical-
+                 # malpractice screening panels in litigation context only.
+                 # Not a regulatory umbrella. 34 sections.
+
+# Not touched here (deliberately):
+#   chapter-74 — mixed. § 74-120 (criminal-records in licensing) is real
+#   umbrella content; § 74-127ff are about abolishing specific advisory
+#   committees (agriculture/day care/fire). Section-level granularity not
+#   yet supported in this manifest format; leave for now.
+#   article-50 — Credentialing health care personnel. Real subset content
+#   for KS health professions. Needs chapter_applies_to with a profession
+#   list once we audit which health professions it covers.

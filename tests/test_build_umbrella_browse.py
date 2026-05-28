@@ -89,3 +89,55 @@ def test_main_writes_index_with_matrix(fake_data, monkeypatch):
     assert m["medicine"] == 1     # 1 universal (not in the enumeration)
     # professions list is the union across all states' reverse_indexes
     assert set(idx["professions"]) == {"podiatry", "nursing", "medicine"}
+
+
+def test_main_writes_per_profession_files(fake_data, monkeypatch):
+    """The /umbrella/profession/<id> view needs per-profession files keyed by
+    profession id, with per-state cards. Universal sections count for every
+    profession the state regulates; enumerated sections count only for the
+    professions on their applies_to list. Undetermined never propagates."""
+    B, out_dir = fake_data
+    monkeypatch.setattr(B, "_states_with_scope", lambda: ["XX"])
+    monkeypatch.setattr("sys.argv", ["build_umbrella_browse"])
+    B.main()
+    prof_dir = out_dir / "by_profession"
+    assert prof_dir.is_dir()
+    # one file per profession the state regulates (podiatry/nursing/medicine)
+    pids = sorted(p.stem for p in prof_dir.glob("*.json") if not p.stem.startswith("_"))
+    assert pids == ["medicine", "nursing", "podiatry"]
+
+    nursing = json.loads((prof_dir / "nursing.json").read_text())
+    assert nursing["profession"] == "nursing"
+    assert nursing["state_count"] == 1
+    assert nursing["directly_enumerated_state_count"] == 1  # XX has a section listing nursing
+    # u1 universal, u2 enumerated for [nursing, podiatry] → "multi"
+    # (applies_to has 2 entries, more than just nursing alone)
+    assert nursing["coverage"] == {"universal": 1, "multi": 1, "single": 0, "unclassified_in_state": 1}
+    xx = nursing["states"][0]
+    assert xx["state"] == "XX"
+    # Undetermined u3 must not appear in the main classified set; it goes into
+    # unclassified_chapters so the UI can surface it as honest residual.
+    sections = [sec for ch in xx["chapters"] for sec in ch["sections"]]
+    by_url = {s["url"]: s for s in sections}
+    assert set(by_url) == {"u1", "u2"}
+    assert by_url["u1"]["audience_kind"] == "universal"
+    assert by_url["u2"]["audience_kind"] == "multi"
+    assert xx["coverage"]["unclassified_in_state"] == 1
+    unclassified_urls = {sec["url"]
+                        for ch in xx["unclassified_chapters"]
+                        for sec in ch["sections"]}
+    assert unclassified_urls == {"u3"}
+
+    # medicine isn't listed in the enumeration, so it only gets the universal sweep
+    medicine = json.loads((prof_dir / "medicine.json").read_text())
+    assert medicine["coverage"] == {"universal": 1, "multi": 0, "single": 0, "unclassified_in_state": 1}
+    assert medicine["directly_enumerated_state_count"] == 0
+    # unclassified residual is shared across professions the state regulates
+    assert medicine["states"][0]["coverage"]["unclassified_in_state"] == 1
+
+    # _index.json mirrors per-profession summaries for the picker
+    pidx = json.loads((prof_dir / "_index.json").read_text())
+    by_prof = {p["profession"]: p for p in pidx["professions"]}
+    assert by_prof["medicine"]["state_count"] == 1
+    assert by_prof["medicine"]["directly_enumerated_state_count"] == 0
+    assert by_prof["nursing"]["directly_enumerated_state_count"] == 1

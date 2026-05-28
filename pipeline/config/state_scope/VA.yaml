@@ -1,0 +1,84 @@
+# Virginia umbrella-scope manifest.
+#
+# Title 54.1 ("Professions and Occupations") is split into two department
+# subsets: Department of Professional and Occupational Regulation (DPOR,
+# Ch 3) and Department of Health Professions (DHP, Ch 25). Chapters 1 and 2
+# are general provisions that apply to every Title 54.1 licensee regardless
+# of department; Ch 24 covers DHP boards' general powers.
+#
+# Board lists below are transcribed from the actual statute text:
+#   § 54.1-300  enumerates DPOR boards
+#   § 54.1-2503 enumerates DHP boards
+# Then filtered through VA's reverse_index so we only assert applicability
+# for professions VA actually licenses in our taxonomy.
+
+chapter_universal:
+  - chapter-1   # General Provisions — § 54.1-100, § 54.1-101 (applies to both
+                # DPOR and DHP boards). 20 sections.
+  - chapter-2   # General Provisions — § 54.1-200 (Composition of regulatory
+                # boards), § 54.1-201 (Powers and duties). 7 sections.
+
+chapter_applies_to:
+  chapter-3:
+    note: "Department of Professional and Occupational Regulation (DPOR) — boards listed in § 54.1-300"
+    professions:
+      - architecture                # Board for Architects, Engineers, Surveyors, Interior Designers, Landscape Architects
+      - auctioneer                  # Auctioneers Board
+      - commercial_interior_design  # same board as architecture (combined VA board)
+      - construction_trades         # Board for Contractors
+      - cosmetology                 # Board for Barbers and Cosmetology
+      - hearing_instrument_specialist  # Board for Hearing Aid Specialists and Opticians
+      - home_inspector              # VA Board for Asbestos, Lead, and Home Inspectors
+      - landscape_architecture      # combined w/ architecture board
+      - opticianry                  # combined w/ hearing aid board
+      - professional_geology        # Board for Soil Scientists, Wetland Professionals, and Geologists
+      - real_estate_appraiser       # Real Estate Appraiser Board
+      - real_estate_broker          # Real Estate Board
+      - soil_classifier             # same Soil Scientists board
+
+  chapter-25:
+    note: "Department of Health Professions (DHP) — boards listed in § 54.1-2503"
+    professions:
+      - dentistry                   # Board of Dentistry
+      - funeral_services            # Board of Funeral Directors and Embalmers
+      - health_facility_admin       # Board of Long-Term Care Administrators
+      - medicine                    # Board of Medicine
+      - mental_health_counseling    # Board of Counseling
+      - nursing                     # Board of Nursing
+      - optometry                   # Board of Optometry
+      - pharmacy                    # Board of Pharmacy
+      - physical_therapy            # Board of Physical Therapy
+      - podiatry                    # under VA Board of Medicine
+      - psychology                  # Board of Psychology
+      - social_work                 # Board of Social Work
+      - speech_language_audiology   # Board of Audiology and Speech-Language Pathology
+      - veterinary                  # Board of Veterinary Medicine
+
+  chapter-24:
+    note: "General powers and duties of HEALTH regulatory boards (§ 54.1-2400). Same applicability set as Ch 25 (DHP)."
+    professions:
+      - dentistry
+      - funeral_services
+      - health_facility_admin
+      - medicine
+      - mental_health_counseling
+      - nursing
+      - optometry
+      - pharmacy
+      - physical_therapy
+      - podiatry
+      - psychology
+      - social_work
+      - speech_language_audiology
+      - veterinary
+
+# Not in either VA department-set above (regulated elsewhere in VA, outside
+# Title 54.1 Ch 3/25/24, so Ch 1+2's universal claim is technically too broad
+# for them — but the cost of being slightly broad on a few admin-style
+# sections is much smaller than ignoring all 64 undetermined Ch 3/24/25
+# sections):
+#   athlete_agent, polygraph_examiner, security_personnel — DPOR-adjacent
+#   public_accountancy — VA Board of Accountancy (separate)
+#   money_transmitter — VA Bureau of Financial Institutions
+#   pawnbroker — VA Dept of Criminal Justice Services
+#   dietetics, recreational_therapy — not specifically in DHP statute list

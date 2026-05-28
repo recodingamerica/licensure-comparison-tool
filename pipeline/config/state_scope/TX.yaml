@@ -1,0 +1,38 @@
+# Texas umbrella-scope manifest.
+# TX Occupations Code Subtitle A and Ch 101/112 govern HEALTH professions
+# only (not all occupational licenses). § 101.001+ creates the Health
+# Professions Council; § 112.001+ covers cross-cutting health-prof licensing.
+
+chapter_applies_to:
+  subtitle-a:
+    note: "Provisions Applying to Health Professions Generally"
+    professions: &tx_health
+      - acupuncture
+      - applied_behavior_analysis
+      - athletic_training
+      - chiropractic
+      - dentistry
+      - dietetics
+      - hearing_instrument_specialist
+      - massage_therapy
+      - medicine
+      - mental_health_counseling
+      - nursing
+      - occupational_therapy
+      - optometry
+      - pharmacy
+      - physical_therapy
+      - physician_assistant
+      - podiatry
+      - prosthetist_orthotist
+      - psychology
+      - respiratory_care
+      - social_work
+      - speech_language_audiology
+      - surgical_technologist
+  chapter-101:
+    note: "Health Professions Council"
+    professions: *tx_health
+  chapter-112:
+    note: "General Licensing Requirements Applicable to Multiple Health Profs"
+    professions: *tx_health

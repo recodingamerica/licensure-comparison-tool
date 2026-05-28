@@ -1,0 +1,35 @@
+# California umbrella-scope manifest.
+#
+# Title 1 of the Business & Professions Code is the Department of Consumer
+# Affairs (DCA) structure. Chapters 1-7 govern every board, bureau, and
+# commission administered by DCA — which is essentially every licensed
+# profession we track for CA (medicine, nursing, dentistry, pharmacy,
+# optometry, podiatry, psychology, physical/occupational/speech therapy,
+# chiropractic, architecture, engineering, surveying, accountancy,
+# veterinary, cosmetology, security personnel, real estate, etc.).
+#
+# § 101 literally enumerates every DCA board (Dental Board of California,
+# Medical Board of California, State Board of Optometry, etc.) but the
+# walker missed it because the enumeration is by board name, not the
+# profession-id terms in professions.yaml. Pass 3 abstained on most other
+# Ch 1-7 sections because no single section enumerates the regulated set.
+# The cleanest fix is the manifest: tag the whole chapter as universal
+# (applies to every profession the state regulates).
+
+chapter_universal:
+  - chapter-1   # The Department (B&P Code §§ 100-160) — 80 sections incl. § 101
+  - chapter-2   # The Director of Consumer Affairs (§§ 300-326) — 36 sections
+  - chapter-3   # Funds of the Department (§§ 200-220) — 19 sections
+  - chapter-5   # Examination Security (§§ 496-499) — board discipline applicable
+                # to every DCA license
+  - chapter-6   # Public Members (§§ 450-453) — qualifications of public/lay
+                # members on any DCA board
+  - chapter-7   # Licensee (§§ 460-477) — preemption of local prohibition, inactive
+                # license categories, applicable across DCA agencies
+
+# Not touched here (deliberately):
+#   chapter-1-5  Exemption From Licensure — § 900 et seq. is HEALTH-only
+#                ("health care practitioner licensed in another state...").
+#                Needs chapter_applies_to with CA health-profession list.
+#   chapter-1-6  Health Care Professional Disaster Response Act — same.
+#   chapter-4    Anti-trust immunity exists but only 1 section here. Leave.

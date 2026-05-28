@@ -118,7 +118,8 @@ function StateUmbrellaInner({ params }: { params: Promise<{ state: string }> }) 
         <h1 className="text-2xl font-semibold">{state} — umbrella scope</h1>
         <p className="text-sm text-muted-foreground">
           {data.section_count} umbrella sections across {data.chapters.length} chapter(s) ·{" "}
-          {data.coverage.universal} universal · {data.coverage.enumerated} enumerated ·{" "}
+          {data.coverage.universal} apply to all licensees ·{" "}
+          {data.coverage.enumerated} list specific professions ·{" "}
           {data.coverage.undetermined} unclassified
         </p>
       </header>

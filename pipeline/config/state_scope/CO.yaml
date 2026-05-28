@@ -1,0 +1,22 @@
+# Colorado umbrella-scope manifest.
+#
+# CO's umbrella corpus was polluted by find_umbrella_chapters with chapters
+# from Title 10 (Insurance Code), which our profession taxonomy doesn't
+# cover (CO's reverse_index has zero insurance ids — we track DORA-regulated
+# professions like dentistry, medicine, nursing, etc., not insurance
+# producers). 143 of CO's previously-undetermined sections are CO Insurance
+# Code content that isn't part of our umbrella in any meaningful sense.
+
+umbrella_chapters_drop:
+  - licenses             # CO Title 10 Article 2 "Colorado Producer Licensing
+                         # Model Act" — insurance producer licensing only.
+                         # 74 sections, all about insurance producers.
+  - general-provisions   # CO Title 10 Article 1 "General Provisions" — "the
+                         # purpose of this title is to promote the public
+                         # welfare by regulating insurance." 79 sections of
+                         # insurance code general provisions. Not part of
+                         # the DORA professional-licensing umbrella.
+
+# If CO insurance professions are added to professions.yaml in the future,
+# these chapters should come back IN with chapter_applies_to entries
+# (general-provisions → broader insurance set, licenses → insurance_producer).
