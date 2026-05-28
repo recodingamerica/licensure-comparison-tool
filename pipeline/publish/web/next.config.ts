@@ -14,8 +14,11 @@ const nextConfig: NextConfig = {
       // (whole state and per-(state, profession) respectively), linked from
       // the /states/<state> portfolio.
       {
+        // /umbrella/<state> is now the state portfolio; the tree is one
+        // click away via the "Open full statute tree" button on the
+        // portfolio, so the legacy URL just lands on the portfolio.
         source: "/umbrella/:state",
-        destination: "/states/:state?tab=umbrella",
+        destination: "/states/:state",
         permanent: true,
       },
       {

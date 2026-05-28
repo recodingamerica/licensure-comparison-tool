@@ -16,7 +16,7 @@ import type {
   StateBrowseGroup,
 } from "@/lib/state-browse-types";
 import { Input } from "@/components/ui/input";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { MultiCheckPopover, type MultiCheckItem } from "@/components/ui/multi-check-popover";
 import { Badge } from "@/components/ui/badge";
 import { Search } from "lucide-react";
 import {
@@ -63,25 +63,23 @@ export function StateBrowseClient({ payload }: { payload: StateBrowsePayload }) 
     () => new Set(urlProfs),
   );
 
-  // Tree-collapse state. Default: every branch expanded so the user sees
-  // the whole hierarchy on load. Stored in the URL as `?closed=` (slugs
-  // the user has chosen to collapse) so links survive reload.
-  const closedParam = params.get("closed") || "";
-  const [collapsed, setCollapsed] = useState<Set<string>>(
-    () => new Set(closedParam.split(",").filter(Boolean)),
-  );
-  // expanded = ALL_BRANCHES − collapsed. We track collapsed so the default
-  // (everything open) takes zero URL space.
+  // Tree-collapse state. Default: every branch COLLAPSED so the user picks
+  // what to drill into on load. Stored in the URL as `?open=` (slugs the
+  // user has chosen to expand) so links survive reload. A page-wide "expand
+  // all" sets `?open=*` (sentinel) — cleaner than enumerating every slug.
+  const openParam = params.get("open") || "";
   const allSlugs = useMemo(() => {
     const all: string[] = [];
     for (const g of payload.groups) all.push(...allBranchSlugs(g.tree));
     return new Set(all);
   }, [payload.groups]);
-  const expanded = useMemo(() => {
-    const e = new Set(allSlugs);
-    for (const slug of collapsed) e.delete(slug);
-    return e;
-  }, [allSlugs, collapsed]);
+  const [openSet, setOpenSet] = useState<Set<string>>(
+    () =>
+      openParam === "*"
+        ? new Set(allSlugs)
+        : new Set(openParam.split(",").filter(Boolean)),
+  );
+  const expanded = openSet;
 
   const selectedKey = params.get("cite") || "";
 
@@ -110,21 +108,20 @@ export function StateBrowseClient({ payload }: { payload: StateBrowsePayload }) 
   };
 
   const toggleBranch = (slug: string) => {
-    const nextCollapsed = new Set(collapsed);
-    if (nextCollapsed.has(slug)) nextCollapsed.delete(slug);
-    else nextCollapsed.add(slug);
-    setCollapsed(nextCollapsed);
-    const arr = Array.from(nextCollapsed).sort();
-    setUrl({ closed: arr.length === 0 ? null : arr.join(",") });
+    const nextOpen = new Set(openSet);
+    if (nextOpen.has(slug)) nextOpen.delete(slug);
+    else nextOpen.add(slug);
+    setOpenSet(nextOpen);
+    const arr = Array.from(nextOpen).sort();
+    setUrl({ open: arr.length === 0 ? null : arr.join(",") });
   };
   const expandAll = () => {
-    setCollapsed(new Set());
-    setUrl({ closed: null });
+    setOpenSet(new Set(allSlugs));
+    setUrl({ open: "*" });
   };
   const collapseAll = () => {
-    const next = new Set(allSlugs);
-    setCollapsed(next);
-    setUrl({ closed: Array.from(next).sort().join(",") });
+    setOpenSet(new Set());
+    setUrl({ open: null });
   };
 
   const handleSelect = (section: unknown) => {
@@ -204,43 +201,26 @@ export function StateBrowseClient({ payload }: { payload: StateBrowsePayload }) 
       </header>
 
       <div className="border-b px-6 py-2.5 flex items-center gap-3 flex-wrap bg-muted/30">
-        <span className="text-xs text-muted-foreground">
-          {activeProfs.size === 0
-            ? "filter by profession:"
-            : `filtered to ${activeProfs.size} of ${allProfessions.length}:`}
-        </span>
-        <ToggleGroup variant="outline" size="sm" spacing={1}>
-          {allProfessions.map((p) => {
-            const s = professionStyle(p);
-            const on = activeProfs.has(p);
-            return (
-              <ToggleGroupItem
-                key={p}
-                pressed={on}
-                onPressedChange={() => toggleProf(p)}
-                className={
-                  "text-xs px-2.5 gap-1.5 " +
-                  (on ? `${s.bg} ${s.text} ${s.border}` : "")
-                }
-              >
-                <span className={`w-2 h-2 rounded-full ${s.dot}`} />
-                {p.replace(/_/g, " ")}
-              </ToggleGroupItem>
-            );
-          })}
-        </ToggleGroup>
-        {activeProfs.size > 0 && (
-          <button
-            type="button"
-            onClick={() => {
-              setActiveProfs(new Set());
-              setUrl({ profs: null });
-            }}
-            className="text-[10px] font-mono text-muted-foreground hover:text-foreground underline"
-          >
-            clear filter
-          </button>
-        )}
+        <MultiCheckPopover
+          label="Professions"
+          items={allProfessions.map<MultiCheckItem>((p) => ({
+            id: p,
+            label: p.replace(/_/g, " "),
+            swatchClass: professionStyle(p).dot,
+          }))}
+          // The control treats "select all" == "no filter"; map that to an
+          // empty active set so the URL stays clean and the "show
+          // everything" default matches a fresh load.
+          selected={activeProfs.size === 0 ? new Set(allProfessions) : activeProfs}
+          onChange={(next) => {
+            const filterAll = next.size === allProfessions.length || next.size === 0;
+            const effective = filterAll ? new Set<string>() : next;
+            setActiveProfs(effective);
+            setUrl({
+              profs: effective.size === 0 ? null : Array.from(effective).sort().join(","),
+            });
+          }}
+        />
         <div className="ml-auto relative">
           <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 size-3.5 text-muted-foreground pointer-events-none" />
           <Input

@@ -17,11 +17,14 @@ import type { ProfilePayload } from "@/lib/types";
 import { ProfileView } from "@/components/profile-view";
 import { ProfessionStatutesView } from "@/components/profession-statutes-view";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { professionStyle, useProfessionMeta } from "@/lib/profession-colors";
 
 type View = "table" | "map" | "statutes";
 
 function ProfessionInner({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
+  // Trigger /professions.json load so the family-color dot resolves.
+  useProfessionMeta();
   const router = useRouter();
   const pathname = usePathname();
   const sp = useSearchParams();
@@ -92,7 +95,10 @@ function ProfessionInner({ params }: { params: Promise<{ id: string }> }) {
         </Link>
       </div>
       <header className="space-y-1">
-        <h1 className="text-2xl font-semibold">{profDisplay}</h1>
+        <h1 className="text-2xl font-semibold flex items-center gap-3">
+          <span className={`w-3 h-3 rounded-full shrink-0 ${professionStyle(id).dot}`} />
+          {profDisplay}
+        </h1>
       </header>
 
       {error && (

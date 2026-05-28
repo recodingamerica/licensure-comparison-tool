@@ -1,24 +1,24 @@
-// Shared audience taxonomy used wherever the app shows "who does this
-// regulation apply to":
-//   universal — applies to every licensed profession in the state
-//   multi     — applies to a defined set of professions (>1)
-//   single    — applies to one profession only
-//
-// Used by /browse/[state] (state-level) and /umbrella/profession/[id]
-// (profession-level). Keep labels + colors here so both views stay in sync.
+// Audience taxonomy — thin re-export over web-colors.ts (which is generated
+// from pipeline/config/web_colors.yaml). The yaml is the single source of
+// truth for color hues + labels; this module exposes the names callers
+// already use.
 
-export type AudienceKind = "universal" | "multi" | "single";
+export type { AudienceKind } from "./web-colors";
+import {
+  AUDIENCE_CLASSES,
+  AUDIENCE_KINDS as KINDS,
+  AUDIENCE_LABEL as LABEL,
+  type AudienceKind,
+} from "./web-colors";
 
-export const AUDIENCE_LABEL: Record<AudienceKind, string> = {
-  universal: "Applies to everyone",
-  multi: "Shared with multiple professions",
-  single: "Profession-specific",
-};
+export const AUDIENCE_LABEL = LABEL;
+export const AUDIENCE_KINDS = KINDS;
 
+// Map AudienceKind → "bg-…-500" dot class. Callers across the app expect a
+// flat string per kind, so we derive from AUDIENCE_CLASSES here rather than
+// have every call site read .dot.
 export const AUDIENCE_DOT: Record<AudienceKind, string> = {
-  universal: "bg-purple-500",
-  multi: "bg-emerald-500",
-  single: "bg-sky-500",
+  universal: AUDIENCE_CLASSES.universal.dot,
+  multi: AUDIENCE_CLASSES.multi.dot,
+  single: AUDIENCE_CLASSES.single.dot,
 };
-
-export const AUDIENCE_KINDS: AudienceKind[] = ["universal", "multi", "single"];

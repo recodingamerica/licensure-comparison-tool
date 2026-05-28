@@ -15,7 +15,9 @@ import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { Group, Panel, Separator } from "react-resizable-panels";
 import type { BrowseSection } from "@/lib/types";
 import { Input } from "@/components/ui/input";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+// ToggleGroup imports removed alongside the scope-layer chips — `activeLayers`
+// state still exists so direct ?layers=… URLs are honored, but no inline
+// toggle UI renders the chips.
 import { Badge } from "@/components/ui/badge";
 import { Search } from "lucide-react";
 import {
@@ -27,19 +29,24 @@ import {
   type TreeNode,
 } from "./tree-node";
 import { useProfessionMeta } from "@/lib/profession-colors";
+import { AUDIENCE_DOT, AUDIENCE_LABEL } from "@/lib/audience";
 import { SectionDetail } from "./section-detail";
 
 type LayerKey = "practice" | "umbrella_enumeration" | "umbrella_universal";
 
+// Each browse-tree layer maps 1:1 to an audience tier; route both label and
+// dot color through lib/audience.ts so we only have one source of truth and
+// the colors stay aligned with /browse/[state]'s tree and the section
+// badges on /professions/<X>?view=statutes.
 const LAYER_LABEL: Record<LayerKey, string> = {
-  practice: "Practice act",
-  umbrella_enumeration: "Umbrella (this profession)",
-  umbrella_universal: "Umbrella (universal)",
+  practice: AUDIENCE_LABEL.single + " (practice act)",
+  umbrella_enumeration: AUDIENCE_LABEL.multi,
+  umbrella_universal: AUDIENCE_LABEL.universal,
 };
 const LAYER_DOT: Record<LayerKey, string> = {
-  practice: "bg-sky-500",
-  umbrella_enumeration: "bg-emerald-500",
-  umbrella_universal: "bg-purple-500",
+  practice: AUDIENCE_DOT.single,
+  umbrella_enumeration: AUDIENCE_DOT.multi,
+  umbrella_universal: AUDIENCE_DOT.universal,
 };
 
 type BrowseGroup = { key: LayerKey; tree: TreeNode[] };
@@ -73,20 +80,22 @@ export function BrowseClient({
     () => new Set(groups.map((g) => g.key)),
   );
 
-  const closedParam = params.get("closed") || "";
-  const [collapsed, setCollapsed] = useState<Set<string>>(
-    () => new Set(closedParam.split(",").filter(Boolean)),
-  );
+  // Default-collapsed; user opens what they want. Stored as ?open=… with
+  // the sentinel `*` meaning "everything expanded" so expand-all doesn't
+  // need to enumerate every slug in the URL.
+  const openParam = params.get("open") || "";
   const allSlugs = useMemo(() => {
     const all: string[] = [];
     for (const g of groups) all.push(...allBranchSlugs(g.tree));
     return new Set(all);
   }, [groups]);
-  const expanded = useMemo(() => {
-    const e = new Set(allSlugs);
-    for (const slug of collapsed) e.delete(slug);
-    return e;
-  }, [allSlugs, collapsed]);
+  const [openSet, setOpenSet] = useState<Set<string>>(
+    () =>
+      openParam === "*"
+        ? new Set(allSlugs)
+        : new Set(openParam.split(",").filter(Boolean)),
+  );
+  const expanded = openSet;
 
   const selectedKey = params.get("cite") || "";
 
@@ -110,21 +119,20 @@ export function BrowseClient({
     setActiveLayers(next);
   };
   const toggleBranch = (slug: string) => {
-    const nextCollapsed = new Set(collapsed);
-    if (nextCollapsed.has(slug)) nextCollapsed.delete(slug);
-    else nextCollapsed.add(slug);
-    setCollapsed(nextCollapsed);
-    const arr = Array.from(nextCollapsed).sort();
-    setUrl({ closed: arr.length === 0 ? null : arr.join(",") });
+    const nextOpen = new Set(openSet);
+    if (nextOpen.has(slug)) nextOpen.delete(slug);
+    else nextOpen.add(slug);
+    setOpenSet(nextOpen);
+    const arr = Array.from(nextOpen).sort();
+    setUrl({ open: arr.length === 0 ? null : arr.join(",") });
   };
   const expandAll = () => {
-    setCollapsed(new Set());
-    setUrl({ closed: null });
+    setOpenSet(new Set(allSlugs));
+    setUrl({ open: "*" });
   };
   const collapseAll = () => {
-    const next = new Set(allSlugs);
-    setCollapsed(next);
-    setUrl({ closed: Array.from(next).sort().join(",") });
+    setOpenSet(new Set());
+    setUrl({ open: null });
   };
   const handleSelect = (section: unknown) => {
     const s = section as BrowseSection;
@@ -169,7 +177,7 @@ export function BrowseClient({
 
   // Count of layers present in the data — used to decide whether to show
   // the layer toggle (≥2) or a quiet text label (1).
-  const layersPresent = groups.length;
+  void groups.length; // layersPresent no longer used since chip removal
 
   return (
     <div className="flex flex-col h-screen">
@@ -192,30 +200,10 @@ export function BrowseClient({
       </header>
 
       <div className="border-b px-6 py-2.5 flex items-center gap-3 flex-wrap bg-muted/30">
-        {layersPresent <= 1 ? (
-          // With one layer the toggle would just hide everything — show a
-          // quiet text label instead.
-          groups[0] && (
-            <span className="text-xs flex items-center gap-1.5 text-muted-foreground">
-              <span className={`w-2 h-2 rounded-full ${LAYER_DOT[groups[0].key]}`} />
-              {LAYER_LABEL[groups[0].key]}
-            </span>
-          )
-        ) : (
-          <ToggleGroup variant="outline" size="sm" spacing={1}>
-            {groups.map((g) => (
-              <ToggleGroupItem
-                key={g.key}
-                pressed={activeLayers.has(g.key)}
-                onPressedChange={() => toggleLayer(g.key)}
-                className="text-xs gap-1.5 px-2.5"
-              >
-                <span className={`w-2 h-2 rounded-full ${LAYER_DOT[g.key]}`} />
-                {LAYER_LABEL[g.key]}
-              </ToggleGroupItem>
-            ))}
-          </ToggleGroup>
-        )}
+        {/* Scope-layer chips removed — the tree on the left already groups
+            sections by scope_layer with the same labels, so the chips were
+            duplicate navigation. Keep `activeLayers` / `toggleLayer` in case
+            a future re-introduction wants a quieter inline control. */}
         <div className="ml-auto relative">
           <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 size-3.5 text-muted-foreground pointer-events-none" />
           <Input

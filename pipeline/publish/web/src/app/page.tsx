@@ -108,7 +108,12 @@ export default function HomePage() {
                 >
                   <Card className="py-3 transition-colors hover:border-foreground/30">
                     <CardHeader className="flex flex-row items-baseline justify-between gap-4 space-y-0">
-                      <CardTitle className="text-base font-medium group-hover:underline">
+                      <CardTitle className="text-base font-medium group-hover:underline flex items-center gap-2">
+                        <span
+                          className={`w-2 h-2 rounded-full shrink-0 ${
+                            professionStyle(p.profession).dot
+                          }`}
+                        />
                         {p.display}
                       </CardTitle>
                       <span className="text-xs font-mono text-muted-foreground whitespace-nowrap">

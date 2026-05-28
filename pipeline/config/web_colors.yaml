@@ -1,0 +1,47 @@
+# Single source of truth for color tokens used in the web frontend.
+#
+# Two color taxonomies live here:
+#   1. audience  — the three tiers for who a regulation applies to
+#                  (universal / multi / single). Used on /browse trees,
+#                  /professions/<X>?view=statutes section badges, etc.
+#   2. families  — profession-family palette. Each profession in
+#                  pipeline/config/professions.yaml carries a `family_color`
+#                  string that matches one of the keys below.
+#
+# Values are Tailwind hue names so the generated TS can produce
+# bg-/text-/border-/dot- class strings without dynamic concatenation
+# (Tailwind purge needs literal classes — we emit them in the generated
+# `web-colors.ts` module).
+#
+# Edit this file → run scripts/generate-colors.mjs (also triggered by
+# `npm run predev` / `npm run prebuild`) → commits the regenerated TS.
+
+audience:
+  universal: purple
+  multi: emerald
+  single: sky
+
+# Profession family palette. Includes every hue any committed profession
+# carries via its `family_color`, plus some headroom for new families.
+# Audience hues above appear here too — collision is fine because audience
+# dots and profession dots appear in different visual contexts (audience
+# badges on section cards; profession dots on per-thing pages and home).
+families:
+  - emerald
+  - sky
+  - violet
+  - amber
+  - slate
+  - rose
+  - orange
+  - teal
+  - indigo
+  - fuchsia
+  - lime
+
+# Labels paired with audience tiers — co-located so any label change goes
+# alongside the color change.
+audience_labels:
+  universal: "Applies to everyone"
+  multi: "Shared with multiple professions"
+  single: "Profession-specific"

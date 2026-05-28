@@ -14,6 +14,7 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import type { StateBrowsePayload } from "@/lib/state-browse-types";
+import { professionStyle, useProfessionMeta } from "@/lib/profession-colors";
 
 function fmtProf(p: string) {
   return p.replace(/_/g, " ");
@@ -49,8 +50,9 @@ function ProfessionEntry({
       <div className="flex items-baseline gap-3 flex-wrap">
         <Link
           href={`/professions/${prof}/`}
-          className="text-lg font-semibold underline-offset-2 hover:underline"
+          className="text-lg font-semibold underline-offset-2 hover:underline flex items-center gap-2"
         >
+          <span className={`w-2 h-2 rounded-full shrink-0 ${professionStyle(prof).dot}`} />
           {fmtProf(prof)}
         </Link>
         <span className="text-xs text-muted-foreground flex flex-wrap items-center gap-2">
@@ -91,6 +93,8 @@ function ProfessionEntry({
 export function StateStatutesView({ payload }: { payload: StateBrowsePayload }) {
   const [profFilter] = useState<string>("all");
   void profFilter;
+  // Trigger /professions.json load so the family-color dots resolve.
+  useProfessionMeta();
 
   const summaries = useMemo(() => {
     return payload.professions_available

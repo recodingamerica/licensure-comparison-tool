@@ -30,46 +30,12 @@ export type ProfessionStyle = {
   family_label: string | null;
 };
 
-// Tailwind class lookups by hue name. Avoids dynamic class names that
-// would otherwise be purged at build time.
-const HUE_CLASSES: Record<string, Omit<ProfessionStyle, "abbr" | "display" | "family" | "family_label">> = {
-  emerald: {
-    bg: "bg-emerald-100",
-    text: "text-emerald-800",
-    border: "border-emerald-300",
-    dot: "bg-emerald-500",
-  },
-  amber: {
-    bg: "bg-amber-100",
-    text: "text-amber-800",
-    border: "border-amber-300",
-    dot: "bg-amber-500",
-  },
-  slate: {
-    bg: "bg-slate-200",
-    text: "text-slate-700",
-    border: "border-slate-300",
-    dot: "bg-slate-500",
-  },
-  rose: {
-    bg: "bg-rose-100",
-    text: "text-rose-800",
-    border: "border-rose-300",
-    dot: "bg-rose-500",
-  },
-  sky: {
-    bg: "bg-sky-100",
-    text: "text-sky-800",
-    border: "border-sky-300",
-    dot: "bg-sky-500",
-  },
-  violet: {
-    bg: "bg-violet-100",
-    text: "text-violet-800",
-    border: "border-violet-300",
-    dot: "bg-violet-500",
-  },
-};
+// Tailwind class lookups by hue name. Sourced from web-colors.ts (generated
+// from pipeline/config/web_colors.yaml). The yaml's `families:` palette is
+// kept disjoint from `audience:` hues so a profession dot and an audience
+// dot rendered side-by-side never share a color.
+import { FAMILY_CLASSES } from "./web-colors";
+const HUE_CLASSES: Record<string, Omit<ProfessionStyle, "abbr" | "display" | "family" | "family_label">> = FAMILY_CLASSES;
 
 const NEUTRAL = {
   bg: "bg-muted",
