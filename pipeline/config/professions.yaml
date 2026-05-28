@@ -172,7 +172,7 @@ athletic_training:
 recreational_therapy:
   display: Recreational Therapy
   family: [health]
-  patterns: ["recreational therap"]
+  patterns: ["recreational therap", "recreation therap", "therapeutic recreation"]
 
 dietetics:
   display: Dietetics / Nutrition
@@ -368,7 +368,11 @@ cosmetology:
 court_reporter:
   display: Court Reporter / Shorthand Reporter
   family: [business]
-  patterns: ["court reporter", "shorthand reporter", "stenograph"]
+  patterns: ["court reporter", "court reporting", "shorthand reporter", "stenograph"]
+  # Most states regulate court reporters via judicial-branch rules
+  # (Supreme Court), not occupational-licensing statute — so chapter-label
+  # recall is structurally capped around 12-15 states even with perfect
+  # patterns. The matched set represents the statutorily-licensed subset.
 
 real_estate_appraiser:
   display: Real Estate Appraiser
