@@ -1360,7 +1360,11 @@ export function ProfileView({ payload }: { payload: ProfilePayload }) {
     api?.setFilterModel(null);
   };
 
-  // ── Column visibility: drive AG Grid via API; UI is our own dropdown ──
+  // ── Column visibility: drive AG Grid via applyColumnState (v35 canonical) ──
+  // `setColumnsVisible([id], v)` silently no-ops for columns whose colId
+  // wasn't auto-promoted from `field` (i.e. the discovered ps_* columns
+  // declared with an explicit colId only). applyColumnState is the stable
+  // path that respects explicit colIds.
   const toggleColumnVisible = (id: string, visible: boolean) => {
     setVisibleColumns((prev) => {
       const next = new Set(prev);
@@ -1368,15 +1372,17 @@ export function ProfileView({ payload }: { payload: ProfilePayload }) {
       else next.delete(id);
       return next;
     });
-    if (api) api.setColumnsVisible([id], visible);
+    if (api) api.applyColumnState({ state: [{ colId: id, hide: !visible }] });
   };
 
   // Sync visibility set to grid once the grid is ready.
   useEffect(() => {
     if (!api) return;
-    for (const id of allToggleableIds) {
-      api.setColumnsVisible([id], visibleColumns.has(id));
-    }
+    const state = allToggleableIds.map((id) => ({
+      colId: id,
+      hide: !visibleColumns.has(id),
+    }));
+    api.applyColumnState({ state });
     // Run only when api or the toggleable id list changes; visibility
     // changes are pushed synchronously in toggleColumnVisible.
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -1484,6 +1490,34 @@ export function ProfileView({ payload }: { payload: ProfilePayload }) {
               visible={visibleColumns}
               onToggle={toggleColumnVisible}
             />
+
+            <Button
+              variant="outline"
+              size="sm"
+              className="font-mono text-xs"
+              disabled={!api}
+              onClick={() => {
+                if (!api) return;
+                // allColumns:true exports every column in the columnDefs
+                // regardless of current visibility — what users want from
+                // "Download CSV" is the full dataset, not just the columns
+                // they happen to have toggled on. Filtered rows still
+                // respected (so an active filter narrows the export).
+                api.exportDataAsCsv({
+                  fileName: `${profSlug}.csv`,
+                  allColumns: true,
+                  processCellCallback: (params) => {
+                    const v = params.value;
+                    if (v == null) return "";
+                    if (Array.isArray(v)) return v.join("; ");
+                    if (typeof v === "object") return JSON.stringify(v);
+                    return String(v);
+                  },
+                });
+              }}
+            >
+              Download CSV ↓
+            </Button>
           </div>
 
           {/* Chip bar — every active filter shows as a removable chip.
