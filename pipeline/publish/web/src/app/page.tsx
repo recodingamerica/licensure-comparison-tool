@@ -152,6 +152,43 @@ export default function HomePage() {
 
       <section className="mt-10">
         <p className="text-xs font-mono tracking-widest uppercase text-muted-foreground mb-3">
+          Umbrella scope
+        </p>
+        <p className="text-sm text-muted-foreground mb-3 max-w-2xl">
+          Cross-cutting statutes — board composition, discipline, criminal-background,
+          military portability — that govern many professions at once rather than one
+          practice act.
+        </p>
+        <div className="grid gap-3">
+          <Link href="/umbrella" className="block group">
+            <Card className="py-3 transition-colors hover:border-foreground/30">
+              <CardHeader className="flex flex-row items-baseline justify-between gap-4 space-y-0">
+                <CardTitle className="text-base font-medium group-hover:underline">
+                  By state
+                </CardTitle>
+                <span className="text-xs font-mono text-muted-foreground whitespace-nowrap">
+                  coverage matrix across 45 states
+                </span>
+              </CardHeader>
+            </Card>
+          </Link>
+          <Link href="/umbrella/profession/nursing" className="block group">
+            <Card className="py-3 transition-colors hover:border-foreground/30">
+              <CardHeader className="flex flex-row items-baseline justify-between gap-4 space-y-0">
+                <CardTitle className="text-base font-medium group-hover:underline">
+                  By profession (cross-state)
+                </CardTitle>
+                <span className="text-xs font-mono text-muted-foreground whitespace-nowrap">
+                  pick a profession, see every state&apos;s applicable sections
+                </span>
+              </CardHeader>
+            </Card>
+          </Link>
+        </div>
+      </section>
+
+      <section className="mt-10">
+        <p className="text-xs font-mono tracking-widest uppercase text-muted-foreground mb-3">
           Reports
         </p>
         <Link href="/reports" className="block group">
