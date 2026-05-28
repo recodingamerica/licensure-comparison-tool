@@ -62,6 +62,7 @@ medicine:
     - "medical board"
     - "medical examiners"
     - "healing arts"
+    - "interstate medical licensure compact"
   excludes: ["osteopathic", "podiatric", "naturopathic", "chiropractic", "physician assistant", "physician's assistant", "veterinar", "athletic"]
   # Prose forms used in some states' inline profession-name enumerations
   # (e.g. Iowa: "when applied to a physician and surgeon, ..."). Read by
@@ -92,7 +93,7 @@ acupuncture:
 physician_assistant:
   display: Physician Assistant
   family: [health]
-  patterns: ["physician assistant", "physician's assistant", "physicians' assistant"]
+  patterns: ["physician assistant", "physician's assistant", "physicians' assistant", "pa licensure compact"]
 
 anesthesiologist_assistant:
   display: Anesthesiologist Assistant
@@ -226,7 +227,7 @@ radiologic_technology:
 mental_health_counseling:
   display: Mental Health Counseling / MFT / Clinical Social Work
   family: [health]
-  patterns: ["mental health", "professional counsel", "marriage and family therap", "clinical social work", "licensed professional counselor"]
+  patterns: ["mental health", "professional counsel", "marriage and family therap", "clinical social work", "licensed professional counselor", "counseling compact"]
   # The 'mental health' substring also matches 'environmental health' — bite
   # observed on IL "Environmental Health Practitioner Licensing Act". Excluding
   # 'environmental' (and a few other adjacent non-MHC contexts) keeps the
@@ -278,12 +279,12 @@ music_therapy:
 environmental_health:
   display: Environmental Health Scientist / Sanitarian
   family: [health]
-  patterns: ["environmental health scientist", sanitarian]
+  patterns: ["environmental health scientist", "environmental health specialist", sanitarian]
 
 health_facility_admin:
   display: Health Facility Administrator
   family: [health, business]
-  patterns: ["health facility admin", "nursing home admin", "long-term care admin", "long term care admin"]
+  patterns: ["health facility admin", "nursing home admin", "long-term care admin", "long term care admin", "assisted living admin"]
 
 # --- Building / design / engineering ---
 
@@ -377,7 +378,7 @@ real_estate_appraiser:
 real_estate_broker:
   display: Real Estate Brokers & Salespersons
   family: [business]
-  patterns: ["real estate broker", "real estate salesperson", "real estate sales agent", "real estate licensee"]
+  patterns: ["real estate broker", "real estate salesperson", "real estate sales agent", "real estate licensee", "real estate licensing"]
 
 auctioneer:
   display: Auctioneers
@@ -409,14 +410,111 @@ junk_dealer:
 forester:
   display: Foresters
   family: [business]
-  patterns: ["registered forester", "licensed forester", "professional forester"]
-  # Bare 'forester' alone risks matching "Forester (game warden)" / forestry
-  # commissions that aren't a licensed profession; require a qualifier.
+  patterns: ["registered forester", "licensed forester", "professional forester", "foresters"]
+  # Bare singular 'forester' alone risks matching "Forester (game warden)" /
+  # forestry commissions that aren't a licensed profession; the qualified
+  # forms cover most states. The plural 'foresters' (chapter title in AL/NC/
+  # VT) is added separately — plural form is overwhelmingly the licensure-
+  # chapter convention and 'forestry' (commission) won't match it.
 
 private_probation:
   display: Private Probation Provider
   family: [business, public_safety]
   patterns: ["private probation", "probation provider"]
+
+athlete_agent:
+  display: Athlete Agent
+  family: [business]
+  patterns: ["athlete agent", "uniform athlete agents"]
+  # Uniform Athlete Agents Act adopted by ~40 states; regulates registration
+  # of agents recruiting student-athletes. Evidence: UT ch 87, plus
+  # multi-state Uniform Athlete Agents Act adoptions.
+
+livestock_dealer:
+  display: Livestock Dealer
+  family: [business]
+  patterns: ["livestock dealer"]
+  # Licensed in many ag states for the buying/reselling of livestock.
+  # Evidence: UT title 4 ch 7, CT ch 437, ND.
+
+insurance_producer:
+  display: Insurance Producer (Agent / Broker)
+  family: [business]
+  patterns: ["insurance producer", "insurance producers", "licensing producers"]
+  # The NAIC Producer Licensing Model Act category — the basic insurance-
+  # agent/broker license adopted in every state. Broader colloquial wording
+  # ("insurance agent", "insurance broker") appears in many non-licensing
+  # contexts (e.g. company-side broker activity), held back.
+  # Evidence: UT title 31A ch 23a.
+
+insurance_navigator:
+  display: Health Insurance Navigator
+  family: [business, health]
+  patterns: ["navigator license", "health insurance navigator", "exchange navigator"]
+  # ACA-created licensure category — navigators assist consumers with ACA
+  # marketplace plan selection. Licensed in ~30 states.
+  # Evidence: UT title 31A ch 23b.
+
+private_investigator:
+  display: Private Investigator / Detective
+  family: [public_safety, business]
+  patterns: ["private investigator", "private detective"]
+  # Licensed in 40+ states, often co-regulated with security guards under
+  # the same board. Evidence: 21 states show chapter-label hits
+  # (WA 18.165, DE ch 13, MT ch 60, NM art 27, LA §37, NV ch 648, …).
+
+surgical_technologist:
+  display: Surgical Technologist / Assistant
+  family: [health]
+  patterns: ["surgical technologist", "surgical assistant"]
+  # Registered/certified surgical technologist licensure adopted by an
+  # expanding set of states. Evidence: WA 18.215, IL 225/130, CO art 310,
+  # IN art 36.1, CT ch 382d.
+
+process_server:
+  display: Process Server
+  family: [public_safety, business]
+  patterns: ["process server"]
+  # Registered in CA, WA, NV, MT (often co-located with PI boards).
+
+wholesale_drug_distributor:
+  display: Wholesale Drug Distributor
+  family: [health, business]
+  patterns: ["wholesale drug distributor"]
+  # Entity license but state-regulated under pharmacy boards. Evidence:
+  # SD ch 11A, ND ch 43-15.1. "Wholesale prescription drug importation"
+  # is a different program (drug-importation policy) and intentionally
+  # excluded from patterns.
+
+public_weighmaster:
+  display: Public Weighmaster
+  family: [business]
+  patterns: [weighmaster]
+  # Certifies commercial weighings (livestock, scrap, grain). Evidence:
+  # WA 15.80, CA ch 7, CT ch 751, NV ch 582, AZ §3-3453.
+
+soil_classifier:
+  display: Soil Classifier / Soil Scientist
+  family: [business]
+  patterns: ["soil classifier", "soil scientist"]
+  # Licensed in 9 states under varying names (Classifier in southeast,
+  # Scientist elsewhere). Evidence: AL ch 32, ND 43-36, VA ch 22, NC 89F,
+  # IN art 31.5, WI ch 470 (joint with geology/hydrology board).
+
+loan_broker:
+  display: Loan Broker
+  family: [business]
+  patterns: ["loan broker"]
+  # State-licensed loan brokerage. Evidence: IA 535C, ME art 10, RI 19-14.1,
+  # KY ch 294 (combined with mortgage loan companies).
+
+prosthetist_orthotist:
+  display: Prosthetist / Orthotist / Pedorthist
+  family: [health]
+  patterns: [prosthetist, orthotist, pedorthist]
+  # Licensed in most states for fabrication and fitting of artificial
+  # limbs / braces / therapeutic footwear. Evidence: 7 states observed
+  # (AL ch 25A, KY 319B, TX ch 605, OH 4779, AR ch 107, NJ §45:12B-11, …).
 
 # --- Public safety / investigative ---
 
