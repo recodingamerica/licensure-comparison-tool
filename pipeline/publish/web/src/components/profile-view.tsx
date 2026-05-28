@@ -555,9 +555,12 @@ function evUnverified(data: Row | undefined, ...path: string[]): boolean {
 // workalike for the Enterprise Set Filter); text/number columns use the
 // built-in text/number filters.
 //
-// `hide: true` means the column is registered but not shown by default —
-// users opt in via the Columns ▾ dropdown. This lets us expose every
-// modal field as a column without overwhelming the default view.
+// `initialHide: true` means the column is registered but not shown by
+// default — users opt in via the Columns ▾ dropdown. Why `initialHide`
+// instead of `hide`: in AG Grid v35, `hide` in colDef is reapplied on
+// every render, which clobbers `applyColumnState` calls. `initialHide`
+// is consulted ONLY on first registration, so toggle stays sticky.
+// (Atharv's issue #11: column appeared "toggled on" but never showed.)
 
 // Cardinality threshold for auto-choosing the multi-checkbox filter. Columns
 // whose unique-value count across the dataset falls at or below this number
@@ -704,7 +707,7 @@ function buildColumnDefs(
     // Hidden by default — for the common "license × mandatory" case it
     // duplicates the Regulation (UORF) column. Users opt in via the
     // Columns ▾ dropdown when they want the orthogonal decomposition.
-    hide: true,
+    initialHide: true,
   },
   {
     field: "issuing_authority",
@@ -808,7 +811,7 @@ function buildColumnDefs(
     filter: "agTextColumnFilter",
     wrapText: true,
     cellClass: "leading-snug",
-    hide: true, // mostly empty (only states with a separate advisory body)
+    initialHide: true, // mostly empty (only states with a separate advisory body)
   },
   {
     field: "advisory_board_authority",
@@ -818,7 +821,7 @@ function buildColumnDefs(
     filter: "agTextColumnFilter",
     wrapText: true,
     cellClass: "leading-snug",
-    hide: true, // long free text from the statute
+    initialHide: true, // long free text from the statute
   },
   {
     field: "national_certification",
@@ -906,7 +909,7 @@ function buildColumnDefs(
     cellRenderer: YesNoCell,
     filter: MulticheckFilter,
     width: 130,
-    hide: true,
+    initialHide: true,
     cellClass: "text-center",
     headerClass: "text-center",
   },
@@ -917,7 +920,7 @@ function buildColumnDefs(
     cellRenderer: YesNoCell,
     filter: MulticheckFilter,
     width: 130,
-    hide: true,
+    initialHide: true,
     cellClass: "text-center",
     headerClass: "text-center",
   },
@@ -928,7 +931,7 @@ function buildColumnDefs(
     cellRenderer: YesNoCell,
     filter: MulticheckFilter,
     width: 130,
-    hide: true,
+    initialHide: true,
     cellClass: "text-center",
     headerClass: "text-center",
   },
@@ -939,7 +942,7 @@ function buildColumnDefs(
     cellRenderer: YesNoCell,
     filter: MulticheckFilter,
     width: 130,
-    hide: true,
+    initialHide: true,
     cellClass: "text-center",
     headerClass: "text-center",
   },
@@ -950,7 +953,7 @@ function buildColumnDefs(
     cellRenderer: TextCellRenderer,
     filter: "agNumberColumnFilter",
     width: 130,
-    hide: true,
+    initialHide: true,
     cellClass: "text-center",
     headerClass: "text-center",
   },
@@ -961,7 +964,7 @@ function buildColumnDefs(
     cellRenderer: YesNoCell,
     filter: MulticheckFilter,
     width: 160,
-    hide: true,
+    initialHide: true,
     cellClass: "text-center",
     headerClass: "text-center",
   },
@@ -972,7 +975,7 @@ function buildColumnDefs(
     cellRenderer: TextCellRenderer,
     filter: MulticheckFilter,
     width: 200,
-    hide: true,
+    initialHide: true,
     wrapText: true,
   },
   {
@@ -982,7 +985,7 @@ function buildColumnDefs(
     cellRenderer: YesNoCell,
     filter: MulticheckFilter,
     width: 160,
-    hide: true,
+    initialHide: true,
     cellClass: "text-center",
     headerClass: "text-center",
   },
@@ -993,7 +996,7 @@ function buildColumnDefs(
     cellRenderer: TextCellRenderer,
     filter: MulticheckFilter,
     width: 180,
-    hide: true,
+    initialHide: true,
     wrapText: true,
   },
   {
@@ -1003,7 +1006,7 @@ function buildColumnDefs(
     cellRenderer: YesNoCell,
     filter: MulticheckFilter,
     width: 130,
-    hide: true,
+    initialHide: true,
     cellClass: "text-center",
     headerClass: "text-center",
   },
@@ -1014,7 +1017,7 @@ function buildColumnDefs(
     cellRenderer: TextCellRenderer,
     filter: "agNumberColumnFilter",
     width: 130,
-    hide: true,
+    initialHide: true,
     cellClass: "text-center",
     headerClass: "text-center",
   },
@@ -1025,7 +1028,7 @@ function buildColumnDefs(
     cellRenderer: TextCellRenderer,
     filter: "agNumberColumnFilter",
     width: 130,
-    hide: true,
+    initialHide: true,
     cellClass: "text-center",
     headerClass: "text-center",
   },
@@ -1039,7 +1042,7 @@ function buildColumnDefs(
     cellRenderer: TextCellRenderer,
     filter: "agTextColumnFilter",
     width: 220,
-    hide: true,
+    initialHide: true,
     wrapText: true,
   },
   {
@@ -1049,7 +1052,7 @@ function buildColumnDefs(
     cellRenderer: TextCellRenderer,
     filter: "agTextColumnFilter",
     width: 260,
-    hide: true,
+    initialHide: true,
     wrapText: true,
   },
   {
@@ -1059,7 +1062,7 @@ function buildColumnDefs(
     cellRenderer: TextCellRenderer,
     filter: "agNumberColumnFilter",
     width: 130,
-    hide: true,
+    initialHide: true,
     cellClass: "text-center",
     headerClass: "text-center",
   },
@@ -1073,7 +1076,7 @@ function buildColumnDefs(
     cellRenderer: TextCellRenderer,
     filter: "agTextColumnFilter",
     width: 240,
-    hide: true,
+    initialHide: true,
     wrapText: true,
   },
   {
@@ -1095,7 +1098,7 @@ function buildColumnDefs(
     cellRenderer: TextCellRenderer,
     filter: "agTextColumnFilter",
     width: 220,
-    hide: true,
+    initialHide: true,
     wrapText: true,
   },
   {
@@ -1105,7 +1108,7 @@ function buildColumnDefs(
     cellRenderer: TextCellRenderer,
     filter: "agTextColumnFilter",
     width: 220,
-    hide: true,
+    initialHide: true,
     wrapText: true,
   },
   ];
@@ -1134,7 +1137,7 @@ function buildColumnDefs(
       // for the multicheck heuristic to pick it.
       filter: f.type === "int" ? "agNumberColumnFilter" : "agTextColumnFilter",
       width: 200,
-      hide: true,
+      initialHide: true,
       wrapText: true,
       cellClassRules: {
         "cell-unverified": (p) => {
@@ -1253,12 +1256,12 @@ export function ProfileView({ payload }: { payload: ProfilePayload }) {
   }, [columnDefs]);
 
   // visibleColumns tracks ONLY toggleable columns (state is always shown
-  // via lockVisible). Default: the columns marked hide:false in buildColumnDefs.
+  // via lockVisible). Default: columns whose initialHide isn't true.
   const [visibleColumns, setVisibleColumns] = useState<Set<string>>(
     () =>
       new Set(
         columnDefs
-          .filter((c) => !c.lockVisible && !c.hide)
+          .filter((c) => !c.lockVisible && !(c as { initialHide?: boolean }).initialHide)
           .map(colId)
       )
   );
@@ -1362,9 +1365,13 @@ export function ProfileView({ payload }: { payload: ProfilePayload }) {
 
   // ── Column visibility: drive AG Grid via applyColumnState (v35 canonical) ──
   // `setColumnsVisible([id], v)` silently no-ops for columns whose colId
-  // wasn't auto-promoted from `field` (i.e. the discovered ps_* columns
-  // declared with an explicit colId only). applyColumnState is the stable
-  // path that respects explicit colIds.
+  // wasn't auto-promoted from `field` (the discovered ps_* columns declare
+  // an explicit colId only). applyColumnState is the stable path.
+  //
+  // After making a column visible, scroll it into view: the table's total
+  // width is ~3300px on common viewports (~1050px), so a new column added
+  // at the far right is off-screen and the user can mistake "toggled on"
+  // for "didn't work" (issue #11 / Atharv's "doesn't show up when toggled").
   const toggleColumnVisible = (id: string, visible: boolean) => {
     setVisibleColumns((prev) => {
       const next = new Set(prev);
@@ -1372,7 +1379,14 @@ export function ProfileView({ payload }: { payload: ProfilePayload }) {
       else next.delete(id);
       return next;
     });
-    if (api) api.applyColumnState({ state: [{ colId: id, hide: !visible }] });
+    if (!api) return;
+    api.applyColumnState({ state: [{ colId: id, hide: !visible }] });
+    if (visible) {
+      // Defer one frame so AG Grid finishes the column-layout pass before we
+      // ask it to scroll — without the delay, ensureColumnVisible can no-op
+      // because the column's position isn't computed yet.
+      requestAnimationFrame(() => api.ensureColumnVisible(id, "middle"));
+    }
   };
 
   // Sync visibility set to grid once the grid is ready.
