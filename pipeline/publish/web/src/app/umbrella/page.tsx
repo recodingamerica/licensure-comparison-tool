@@ -12,6 +12,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
+import { Combobox, type ComboboxOption } from "@/components/ui/combobox";
 
 type Coverage = { universal: number; enumerated: number; undetermined: number };
 type IndexState = {
@@ -95,34 +96,40 @@ export default function UmbrellaIndexPage() {
         </p>
       </header>
 
-      <div className="flex flex-wrap items-center gap-6 text-sm">
-        <label className="flex items-center gap-2">
-          <span className="text-muted-foreground">Sort by coverage for profession:</span>
-          <select
-            value={profFilter}
-            onChange={(e) => setProfFilter(e.target.value)}
-            className="rounded border bg-background px-2 py-1"
-          >
-            <option value="">(total sections)</option>
-            {data.professions.map((p) => (
-              <option key={p} value={p}>{fmtProf(p)}</option>
-            ))}
-          </select>
+      <div className="border rounded bg-muted/30 px-4 py-3 grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <label className="flex flex-col gap-1 text-xs">
+          <span className="text-muted-foreground">Sort by coverage for profession</span>
+          <Combobox
+            value={profFilter || "_total"}
+            onValueChange={(v) => setProfFilter(v === "_total" ? "" : v)}
+            options={[
+              { value: "_total", label: "(total sections)" },
+              ...data.professions.map<ComboboxOption>((p) => ({
+                value: p,
+                label: fmtProf(p),
+                keywords: p,
+              })),
+            ]}
+            searchPlaceholder="Search professions…"
+            emptyText="No matching professions."
+          />
         </label>
-        <label className="flex items-center gap-2">
-          <span className="text-muted-foreground">Cross-state view by profession:</span>
-          <select
-            defaultValue=""
-            onChange={(e) => {
-              if (e.target.value) window.location.href = `/umbrella/profession/${e.target.value}`;
+        <label className="flex flex-col gap-1 text-xs">
+          <span className="text-muted-foreground">Cross-state view by profession</span>
+          <Combobox
+            value=""
+            onValueChange={(v) => {
+              if (v) window.location.href = `/umbrella/profession/${v}`;
             }}
-            className="rounded border bg-background px-2 py-1"
-          >
-            <option value="">(pick a profession…)</option>
-            {data.professions.map((p) => (
-              <option key={p} value={p}>{fmtProf(p)}</option>
-            ))}
-          </select>
+            placeholder="(pick a profession…)"
+            options={data.professions.map<ComboboxOption>((p) => ({
+              value: p,
+              label: fmtProf(p),
+              keywords: p,
+            }))}
+            searchPlaceholder="Search professions…"
+            emptyText="No matching professions."
+          />
         </label>
       </div>
 

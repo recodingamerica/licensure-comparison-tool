@@ -10,6 +10,7 @@
 import { Suspense, use, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
+import { Combobox, type ComboboxOption } from "@/components/ui/combobox";
 
 type Audience = "universal" | "enumerated" | "undetermined";
 type Section = {
@@ -124,21 +125,25 @@ function StateUmbrellaInner({ params }: { params: Promise<{ state: string }> }) 
         </p>
       </header>
 
-      <div className="flex flex-wrap items-center gap-4 text-sm">
-        <label className="flex items-center gap-2">
-          <span className="text-muted-foreground">Filter by profession:</span>
-          <select
-            value={profFilter}
-            onChange={(e) => setProfFilter(e.target.value)}
-            className="rounded border bg-background px-2 py-1"
-          >
-            <option value="">(any)</option>
-            {data.all_professions.map((p) => (
-              <option key={p} value={p}>{fmtProf(p)}</option>
-            ))}
-          </select>
+      <div className="border rounded bg-muted/30 px-4 py-3 grid grid-cols-1 sm:grid-cols-[1fr_auto] gap-3 items-end">
+        <label className="flex flex-col gap-1 text-xs">
+          <span className="text-muted-foreground">Filter by profession</span>
+          <Combobox
+            value={profFilter || "_any"}
+            onValueChange={(v) => setProfFilter(v === "_any" ? "" : v)}
+            options={[
+              { value: "_any", label: "(any)" },
+              ...data.all_professions.map<ComboboxOption>((p) => ({
+                value: p,
+                label: fmtProf(p),
+                keywords: p,
+              })),
+            ]}
+            searchPlaceholder="Search professions…"
+            emptyText="No matching professions."
+          />
         </label>
-        <label className="flex items-center gap-2">
+        <label className="flex items-center gap-2 text-xs h-9">
           <input
             type="checkbox"
             checked={showUnclassified}
