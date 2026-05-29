@@ -13,7 +13,10 @@ import { fileURLToPath } from "node:url";
 import { parse as parseYaml } from "yaml";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
-const YAML_PATH = resolve(HERE, "..", "..", "..", "config", "web_colors.yaml");
+// yaml lives inside the web/ subtree so Vercel ships it with the build —
+// Vercel only checks out the rootDirectory (web/) so a parent-dir yaml
+// would 404 on production builds.
+const YAML_PATH = resolve(HERE, "..", "config", "web_colors.yaml");
 const OUT_PATH = resolve(HERE, "..", "src", "lib", "web-colors.ts");
 
 function hueClasses(hue) {
