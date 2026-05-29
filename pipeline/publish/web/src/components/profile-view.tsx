@@ -1,5 +1,6 @@
 "use client";
 
+import type * as React from "react";
 import {
   useCallback,
   useEffect,
@@ -59,7 +60,7 @@ function TextCellRenderer({ value }: ICellRendererParams<Row, string | number | 
 // falls through to just the inner renderer's output.
 function makeBucketAwareCell(
   byState: Record<string, string>,
-): (p: ICellRendererParams<Row, string | number | null>) => JSX.Element {
+): (p: ICellRendererParams<Row, string | number | null>) => React.ReactElement {
   return function BucketAwareCell(p) {
     const state = p.data?.state;
     const bucket = state ? byState[state] : undefined;
