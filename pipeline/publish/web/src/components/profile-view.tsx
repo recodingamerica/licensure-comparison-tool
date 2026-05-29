@@ -223,7 +223,12 @@ function ColumnVisibilityPopover({
   visible,
   onToggle,
 }: {
-  columns: Array<{ id: string; label: string }>;
+  // `category` is the field's discovered_fields[].category (for profession-
+  // specific columns) or undefined for the universal cross-state columns.
+  // When present, the popover groups items under indented category headers
+  // — matches how StateDetailDialog organizes the same fields in its
+  // side modal so the two surfaces feel consistent.
+  columns: Array<{ id: string; label: string; category?: string }>;
   visible: Set<string>;
   onToggle: (id: string, v: boolean) => void;
 }) {
@@ -259,15 +264,40 @@ function ColumnVisibilityPopover({
     }
   }, [open]);
 
-  // Sort alphabetically by label, then narrow by case-insensitive substring
-  // match. With 50–60 columns the alphabetical sort + free-text search is
-  // the difference between scannable and unusable.
-  const filtered = useMemo(() => {
+  // Group by category (universal columns get the "Cross-state fields"
+  // bucket; profession-specific ones get their discovered_fields.category).
+  // Within each group, sort alphabetically. With a search query, prune to
+  // matching items first, then drop empty groups.
+  const grouped = useMemo(() => {
+    const UNIVERSAL = "Cross-state fields";
     const q = query.trim().toLowerCase();
-    const sorted = [...columns].sort((a, b) => a.label.localeCompare(b.label));
-    if (!q) return sorted;
-    return sorted.filter((c) => c.label.toLowerCase().includes(q));
+    const matches = !q
+      ? [...columns]
+      : columns.filter((c) => c.label.toLowerCase().includes(q));
+    const byCat = new Map<string, typeof columns>();
+    for (const c of matches) {
+      const cat = c.category || UNIVERSAL;
+      if (!byCat.has(cat)) byCat.set(cat, []);
+      byCat.get(cat)!.push(c);
+    }
+    // Sort items inside each group; sort group keys alphabetically with
+    // UNIVERSAL pinned to the top so the cross-state core lives first.
+    const result: Array<[string, typeof columns]> = [];
+    const cats = Array.from(byCat.keys()).sort((a, b) => {
+      if (a === UNIVERSAL) return -1;
+      if (b === UNIVERSAL) return 1;
+      return a.localeCompare(b);
+    });
+    for (const cat of cats) {
+      const items = byCat.get(cat)!.slice().sort((a, b) => a.label.localeCompare(b.label));
+      result.push([cat, items]);
+    }
+    return result;
   }, [columns, query]);
+  const totalFiltered = useMemo(
+    () => grouped.reduce((n, [, items]) => n + items.length, 0),
+    [grouped],
+  );
 
   return (
     <div ref={ref} className="relative inline-block">
@@ -299,23 +329,27 @@ function ColumnVisibilityPopover({
           </div>
           <div className="px-2 pb-1.5 text-xs text-muted-foreground flex items-center justify-between gap-2">
             <span>
-              {filtered.length === columns.length
+              {totalFiltered === columns.length
                 ? `${columns.length} columns`
-                : `${filtered.length} of ${columns.length} match`}
+                : `${totalFiltered} of ${columns.length} match`}
             </span>
             {/* Bulk actions act on the CURRENT filtered set so users can e.g.
                 search "ce_" then click "hide all" to hide every CE column. */}
             <div className="flex gap-1">
               <button
                 className="hover:text-foreground underline"
-                onClick={() => filtered.forEach((c) => onToggle(c.id, true))}
+                onClick={() =>
+                  grouped.forEach(([, items]) => items.forEach((c) => onToggle(c.id, true)))
+                }
               >
                 show all
               </button>
               <span>·</span>
               <button
                 className="hover:text-foreground underline"
-                onClick={() => filtered.forEach((c) => onToggle(c.id, false))}
+                onClick={() =>
+                  grouped.forEach(([, items]) => items.forEach((c) => onToggle(c.id, false)))
+                }
               >
                 hide all
               </button>
@@ -323,24 +357,48 @@ function ColumnVisibilityPopover({
           </div>
           <div className="my-1 h-px bg-border" />
           <div className="overflow-y-auto p-1">
-            {filtered.length === 0 ? (
+            {totalFiltered === 0 ? (
               <div className="px-2 py-3 text-sm text-muted-foreground text-center">
                 no columns match "{query}"
               </div>
             ) : (
-              filtered.map((c) => (
-                <label
-                  key={c.id}
-                  className="flex items-center gap-2 px-2 py-1.5 rounded text-sm hover:bg-accent hover:text-accent-foreground cursor-pointer"
-                >
-                  <input
-                    type="checkbox"
-                    checked={visible.has(c.id)}
-                    onChange={(e) => onToggle(c.id, e.target.checked)}
-                    className="h-4 w-4 rounded border-input"
-                  />
-                  <span>{c.label}</span>
-                </label>
+              grouped.map(([cat, items]) => (
+                <div key={cat} className="mb-1">
+                  <div className="px-2 pt-1.5 pb-1 text-[11px] font-mono uppercase tracking-widest text-muted-foreground flex items-center justify-between gap-2">
+                    <span>{cat}</span>
+                    <span className="flex gap-1 text-[10px]">
+                      <button
+                        type="button"
+                        className="hover:text-foreground underline"
+                        onClick={() => items.forEach((c) => onToggle(c.id, true))}
+                      >
+                        all
+                      </button>
+                      <span>·</span>
+                      <button
+                        type="button"
+                        className="hover:text-foreground underline"
+                        onClick={() => items.forEach((c) => onToggle(c.id, false))}
+                      >
+                        none
+                      </button>
+                    </span>
+                  </div>
+                  {items.map((c) => (
+                    <label
+                      key={c.id}
+                      className="flex items-center gap-2 pl-5 pr-2 py-1.5 rounded text-sm hover:bg-accent hover:text-accent-foreground cursor-pointer"
+                    >
+                      <input
+                        type="checkbox"
+                        checked={visible.has(c.id)}
+                        onChange={(e) => onToggle(c.id, e.target.checked)}
+                        className="h-4 w-4 rounded border-input"
+                      />
+                      <span>{c.label}</span>
+                    </label>
+                  ))}
+                </div>
               ))
             )}
           </div>
@@ -1499,10 +1557,21 @@ export function ProfileView({
             </span>
 
             <ColumnVisibilityPopover
-              columns={toggleableColumns.map((c) => ({
-                id: colId(c),
-                label: (c.headerName as string) || colId(c),
-              }))}
+              columns={toggleableColumns.map((c) => {
+                const id = colId(c);
+                // ps_<name> columns are discovered fields — pull the
+                // category from the discovered_fields list. Others remain
+                // in the universal "Cross-state fields" bucket.
+                const psName = id.startsWith("ps_") ? id.slice(3) : null;
+                const category = psName
+                  ? discovered_fields.find((f) => f.name === psName)?.category
+                  : undefined;
+                return {
+                  id,
+                  label: (c.headerName as string) || id,
+                  category,
+                };
+              })}
               visible={visibleColumns}
               onToggle={toggleColumnVisible}
             />
