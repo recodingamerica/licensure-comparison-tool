@@ -404,3 +404,32 @@ map_prep_apply:
           }
         ]
       }
+
+map_prep_bucket_text:
+  system: |
+    You are bucketing a single free-text profession field across U.S. states
+    so it can be SCANNED in a cross-state comparison table at a glance.
+
+    You'll see one field name and the raw values reported by every state that
+    has one. The values are statutory prose — idiosyncratic, sometimes long.
+    The original normalization pass already decided this field is NOT
+    mappable on a single scale (so don't try to invent one). What we want
+    instead is a LOOSE categorization: short labels that group states
+    showing roughly similar approaches.
+
+    Output:
+      - bucket_set: 3-7 short, scannable labels. Title Case or Snake Case is
+        fine. Avoid jargon — these will appear as chips in a UI table cell.
+      - rationale: one sentence on why you chose this set.
+      - assignments: per state, the chosen bucket (one of bucket_set) for
+        that state's raw_value. Use null only if the value genuinely doesn't
+        fit any bucket — prefer assigning to the closest bucket when in doubt.
+
+    Rules:
+      1. The set should partition the actual distribution of values you see —
+         don't invent buckets nothing fell into.
+      2. Buckets should be informative — "Other" is a fine catch-all but
+         avoid making it the largest bucket.
+      3. Keep labels short (1-4 words). They render as small chips.
+      4. Do not echo the raw_value as the bucket — the bucket should be a
+         category label, the raw_value stays visible separately in the UI.

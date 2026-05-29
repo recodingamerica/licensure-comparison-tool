@@ -651,7 +651,23 @@ def _load_map_prep(profession: str, structured_by_state: dict[str, dict]) -> dic
             if ev:
                 r = {**r, "quote": ev.get("quote"), "citation": ev.get("citation")}
         enriched_rows.append(r)
-    return {"spec": mappable, "rows": enriched_rows}
+
+    # Pass 3 text-bucket output (pipeline.map_prep.bucket_text). Optional —
+    # only the 6 mapped professions have run it so far. Shape: per (field,
+    # state) → bucket label, plus per-field bucket_set + rationale.
+    text_buckets_path = src / "text_buckets.json"
+    text_buckets: dict[str, dict] = {}  # field_name → {bucket_set, rationale, by_state}
+    if text_buckets_path.exists():
+        tb_raw = json.loads(text_buckets_path.read_text())
+        for entry in tb_raw.get("fields", []):
+            by_state = {a["state"]: a["bucket"] for a in entry.get("assignments", []) if a.get("bucket")}
+            text_buckets[entry["field_name"]] = {
+                "bucket_set": entry.get("bucket_set", []),
+                "rationale": entry.get("rationale", ""),
+                "by_state": by_state,
+            }
+
+    return {"spec": mappable, "rows": enriched_rows, "text_buckets": text_buckets}
 
 
 def _profession_display(profession: str) -> str:

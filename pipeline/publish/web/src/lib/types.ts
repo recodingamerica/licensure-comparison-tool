@@ -214,6 +214,16 @@ export type MapRow = {
 export type MapPrep = {
   spec: MapFieldSpec[];
   rows: MapRow[];
+  // Pass-3 LLM bucketing of the not_mappable free-text fields (added 2026-
+  // 05-28). Surfaces as a chip in the profile-view table cell + the raw text.
+  text_buckets?: Record<
+    string,
+    {
+      bucket_set: string[];
+      rationale: string;
+      by_state: Record<string, string>;
+    }
+  >;
 };
 
 export type ProfilePayload = {

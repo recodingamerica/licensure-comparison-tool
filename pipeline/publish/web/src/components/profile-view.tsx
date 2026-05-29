@@ -53,6 +53,38 @@ function TextCellRenderer({ value }: ICellRendererParams<Row, string | number | 
   return <span>{value}</span>;
 }
 
+// BucketAwareCell — wraps a renderer with a per-state bucket chip above the
+// value. Bucket comes from map_prep.text_buckets (the Pass-3 LLM bucket of
+// not_mappable free-text fields). When a state has no bucket assignment,
+// falls through to just the inner renderer's output.
+function makeBucketAwareCell(
+  byState: Record<string, string>,
+): (p: ICellRendererParams<Row, string | number | null>) => JSX.Element {
+  return function BucketAwareCell(p) {
+    const state = p.data?.state;
+    const bucket = state ? byState[state] : undefined;
+    const v = p.value;
+    const blank = v === null || v === undefined || v === "";
+    return (
+      <div className="flex flex-col gap-1 leading-snug">
+        {bucket && (
+          <Badge
+            variant="outline"
+            className="self-start font-mono text-[10px] px-1.5 py-0 bg-amber-50 text-amber-900 border-amber-300"
+          >
+            {bucket}
+          </Badge>
+        )}
+        {blank ? (
+          <span className="text-muted-foreground">—</span>
+        ) : (
+          <span className="text-sm">{v}</span>
+        )}
+      </div>
+    );
+  };
+}
+
 // "Statute text" cell — shows the per-row match count when the filter is
 // active, blank when not. Reads the active filter from the grid API on
 // demand so we don't have to pipe state through React. The cell only re-
@@ -732,9 +764,18 @@ const UNVERIFIED_COMPOUND: Record<string, string[][]> = {
   ],
 };
 
+// Maps universal column field → dotted path used as the key in
+// map_prep.text_buckets. Keep aligned with UNVERIFIED_PATHS where applicable.
+const BUCKET_PATHS: Record<string, string> = {
+  issuing_authority: "licensure.issuing_authority",
+  education_degree: "licensure.education.degree_required",
+  post_degree_duration: "licensure.post_degree_experience.duration",
+};
+
 function buildColumnDefs(
   discoveredFields: DiscoveredField[],
-  rows: Row[]
+  rows: Row[],
+  textBuckets: Record<string, { bucket_set: string[]; rationale: string; by_state: Record<string, string> }>,
 ): ColDef<Row>[] {
   const cols: ColDef<Row>[] = [
   {
@@ -771,7 +812,9 @@ function buildColumnDefs(
     field: "issuing_authority",
     headerName: "Licensing Authority",
     width: 230,
-    cellRenderer: TextCellRenderer,
+    cellRenderer: textBuckets[BUCKET_PATHS.issuing_authority]
+      ? makeBucketAwareCell(textBuckets[BUCKET_PATHS.issuing_authority].by_state)
+      : TextCellRenderer,
     filter: "agTextColumnFilter",
     wrapText: true,
     cellClass: "leading-snug",
@@ -780,7 +823,9 @@ function buildColumnDefs(
     field: "education_degree",
     headerName: "Education (Min. Degree)",
     width: 260,
-    cellRenderer: TextCellRenderer,
+    cellRenderer: textBuckets[BUCKET_PATHS.education_degree]
+      ? makeBucketAwareCell(textBuckets[BUCKET_PATHS.education_degree].by_state)
+      : TextCellRenderer,
     filter: "agTextColumnFilter",
     wrapText: true,
     cellClass: "leading-snug",
@@ -789,7 +834,9 @@ function buildColumnDefs(
     field: "post_degree_duration",
     headerName: "Professional Experience",
     width: 180,
-    cellRenderer: TextCellRenderer,
+    cellRenderer: textBuckets[BUCKET_PATHS.post_degree_duration]
+      ? makeBucketAwareCell(textBuckets[BUCKET_PATHS.post_degree_duration].by_state)
+      : TextCellRenderer,
     filter: "agTextColumnFilter",
     wrapText: true,
     cellClass: "leading-snug",
@@ -1305,7 +1352,7 @@ export function ProfileView({
   // dynamic discovered fields, with each column's filter type auto-decided
   // from observed cardinality. Memoized so AG Grid sees stable refs.
   const columnDefs = useMemo(
-    () => buildColumnDefs(discovered_fields, rows),
+    () => buildColumnDefs(discovered_fields, rows, payload.map_prep?.text_buckets ?? {}),
     [discovered_fields, rows]
   );
   const toggleableColumns = useMemo(
