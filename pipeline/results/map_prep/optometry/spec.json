@@ -1,0 +1,651 @@
+{
+  "profession": "optometry",
+  "fields": [
+    {
+      "field_name": "licensure.license_required",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether a license is required; all reported states are true"
+    },
+    {
+      "field_name": "licensure.issuing_authority",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text agency names, essentially unique per state"
+    },
+    {
+      "field_name": "licensure.regulatory_authority.name",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text agency names, essentially unique per state"
+    },
+    {
+      "field_name": "licensure.regulatory_authority.type",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "standalone_board",
+        "shared_board",
+        "department"
+      ],
+      "reason": "small stable set of organizational structure types"
+    },
+    {
+      "field_name": "licensure.regulatory_authority.umbrella_agency",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text agency names, essentially unique per state"
+    },
+    {
+      "field_name": "licensure.education.degree_required",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text statutory descriptions of degree requirements, not comparable"
+    },
+    {
+      "field_name": "licensure.education.accrediting_body",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text accrediting body names with idiosyncratic variation per state"
+    },
+    {
+      "field_name": "licensure.renewal.interval_years",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "years",
+      "categories": null,
+      "reason": "numeric renewal cycle length, directly comparable across states"
+    },
+    {
+      "field_name": "licensure.continuing_education.required",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether continuing education is required"
+    },
+    {
+      "field_name": "licensure.continuing_education.period_years",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "years",
+      "categories": null,
+      "reason": "numeric CE reporting period length, directly comparable across states"
+    },
+    {
+      "field_name": "licensure.continuing_education.topical_requirements",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text lists of topic-specific CE requirements, highly idiosyncratic per state"
+    },
+    {
+      "field_name": "licensure.reciprocity.available",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether reciprocity/endorsement licensure is available"
+    },
+    {
+      "field_name": "licensure.reciprocity.requirements",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text prose descriptions of reciprocity conditions, not comparable"
+    },
+    {
+      "field_name": "licensure.advisory_board.exists",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether an advisory board exists"
+    },
+    {
+      "field_name": "licensure.national_certification",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text names of national certification bodies, only partially reported and idiosyncratic"
+    },
+    {
+      "field_name": "licensure.national_association",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text association names, sparse and idiosyncratic per state"
+    },
+    {
+      "field_name": "licensure.regulatory_model",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "license",
+        "mandatory_certification",
+        "registration",
+        "voluntary_certification",
+        "exemption",
+        "market_forces"
+      ],
+      "reason": "values come from the UORF regulatory ladder enum; all states report 'license'"
+    },
+    {
+      "field_name": "licensure.credential_type",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "license",
+        "certificate",
+        "registration",
+        "permit"
+      ],
+      "reason": "small stable set of credential type labels; all states report 'license'"
+    },
+    {
+      "field_name": "licensure.is_mandatory",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether licensure is mandatory to practice"
+    },
+    {
+      "field_name": "licensure.title_protection",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether the title 'optometrist' is legally protected"
+    },
+    {
+      "field_name": "licensure.scope_protection",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether the scope of practice is legally protected"
+    },
+    {
+      "field_name": "scope.definition_quote",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text statutory definitions, not comparable across states"
+    },
+    {
+      "field_name": "scope.methods_authorized",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text lists of authorized methods, highly idiosyncratic and variable length per state"
+    },
+    {
+      "field_name": "scope.drug_authority",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text prose descriptions of drug prescribing authority, not comparable"
+    },
+    {
+      "field_name": "profession_specific.surgery_prohibited",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether surgery is prohibited for optometrists"
+    },
+    {
+      "field_name": "profession_specific.surgery_definition",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text statutory definitions of surgery, not comparable"
+    },
+    {
+      "field_name": "profession_specific.foreign_body_removal_authorized",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether removal of superficial foreign bodies is authorized"
+    },
+    {
+      "field_name": "profession_specific.opioid_prescription_day_limit",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "days",
+      "categories": null,
+      "reason": "numeric maximum days supply for opioid prescriptions; note some states report hours (72 hours = 3 days, 96 hours = 4 days) requiring conversion to days"
+    },
+    {
+      "field_name": "profession_specific.pharmaceutical_certification_required",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether a separate pharmaceutical certification is required"
+    },
+    {
+      "field_name": "profession_specific.dea_registration_required",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether DEA registration is explicitly required"
+    },
+    {
+      "field_name": "profession_specific.pharmacology_training_hours_required",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "hours",
+      "categories": null,
+      "reason": "numeric minimum pharmacology training hours required for certification, directly comparable"
+    },
+    {
+      "field_name": "profession_specific.referral_to_physician_required",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether referral to a physician is statutorily required in certain circumstances"
+    },
+    {
+      "field_name": "profession_specific.delegation_to_unlicensed_assistants_authorized",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether optometrists may delegate tasks to unlicensed assistants"
+    },
+    {
+      "field_name": "profession_specific.telemedicine_authorized",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether telemedicine/telehealth is explicitly authorized"
+    },
+    {
+      "field_name": "profession_specific.impaired_practitioner_program_established",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether a formal impaired practitioner program exists"
+    },
+    {
+      "field_name": "profession_specific.retired_license_status_available",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether a retired license status is available"
+    },
+    {
+      "field_name": "profession_specific.jurisprudence_exam_required",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether a jurisprudence exam is required for licensure"
+    },
+    {
+      "field_name": "licensure.age_minimum",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "years",
+      "categories": null,
+      "reason": "integer minimum age for licensure, directly comparable across states"
+    },
+    {
+      "field_name": "licensure.moral_character_required",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether good moral character is an explicit licensure requirement"
+    },
+    {
+      "field_name": "licensure.renewal_fee_usd",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "USD",
+      "categories": null,
+      "reason": "numeric renewal fee in dollars, directly comparable across states"
+    },
+    {
+      "field_name": "licensure.continuing_education.hours_per_period",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "hours per renewal period",
+      "categories": null,
+      "reason": "numeric CE hours required per renewal period, directly comparable across states"
+    },
+    {
+      "field_name": "profession_specific.anaphylaxis_treatment_authorized",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether optometrists are authorized to treat anaphylaxis"
+    },
+    {
+      "field_name": "profession_specific.vision_therapy_authorized",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether vision therapy is explicitly authorized"
+    },
+    {
+      "field_name": "profession_specific.controlled_substance_schedule_restrictions",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text lists of schedule-specific restrictions, highly idiosyncratic per state"
+    },
+    {
+      "field_name": "profession_specific.oral_pharmaceutical_authority",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether optometrists have authority to prescribe oral pharmaceuticals"
+    },
+    {
+      "field_name": "profession_specific.home_visit_permit_required",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether a permit is required for home visits"
+    },
+    {
+      "field_name": "profession_specific.limited_teaching_license_available",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether a limited teaching license is available"
+    },
+    {
+      "field_name": "licensure.post_degree_experience.required",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether post-degree experience is required for licensure"
+    },
+    {
+      "field_name": "licensure.post_degree_experience.duration",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text duration descriptions with mixed units and only three states reported"
+    },
+    {
+      "field_name": "licensure.post_degree_experience.kind",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text descriptions of experience type, only three states reported and idiosyncratic"
+    },
+    {
+      "field_name": "profession_specific.laser_procedures_authorized",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "presence of any laser procedure authorization can be mapped as boolean; specific procedure lists are not_mappable"
+    },
+    {
+      "field_name": "profession_specific.minor_surgical_procedures_authorized",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "presence of any minor surgical procedure authorization can be mapped as boolean; specific procedure lists are not_mappable"
+    },
+    {
+      "field_name": "profession_specific.tiered_license_types",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "whether a tiered license structure exists is mappable as boolean; the specific tier names are not_mappable"
+    },
+    {
+      "field_name": "profession_specific.supervised_clinical_internship_required",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether a supervised clinical internship is required for licensure"
+    },
+    {
+      "field_name": "profession_specific.contact_lens_prescription_expiration_years",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "years",
+      "categories": null,
+      "reason": "numeric contact lens prescription validity period, directly comparable across states"
+    },
+    {
+      "field_name": "profession_specific.spectacle_prescription_release_required",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether optometrists must release spectacle prescriptions to patients"
+    },
+    {
+      "field_name": "profession_specific.criminal_background_check_required",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether a criminal background check is required for licensure"
+    },
+    {
+      "field_name": "profession_specific.glaucoma_treatment_authorized",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether optometrists are authorized to treat glaucoma"
+    },
+    {
+      "field_name": "profession_specific.specialty_certification_types",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text lists of specialty certification names, highly idiosyncratic per state"
+    },
+    {
+      "field_name": "profession_specific.immunization_authority",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether optometrists are authorized to administer immunizations"
+    },
+    {
+      "field_name": "profession_specific.comanagement_with_ophthalmologist_required",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether co-management with an ophthalmologist is required in certain circumstances"
+    },
+    {
+      "field_name": "profession_specific.mobile_office_authorized",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether a mobile office is authorized"
+    },
+    {
+      "field_name": "profession_specific.maximum_number_of_offices",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "offices",
+      "categories": null,
+      "reason": "numeric cap on the number of offices an optometrist may operate, directly comparable"
+    },
+    {
+      "field_name": "profession_specific.patient_record_retention_years",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "years",
+      "categories": null,
+      "reason": "numeric minimum patient record retention period, directly comparable across states"
+    },
+    {
+      "field_name": "licensure.exams",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "only one state reported and value is an empty list; insufficient data to map"
+    },
+    {
+      "field_name": "licensure.disciplinary_grounds",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "only one state reported and value is an empty list; insufficient data to map"
+    }
+  ]
+}

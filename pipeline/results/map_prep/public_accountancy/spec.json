@@ -1,0 +1,694 @@
+{
+  "profession": "public_accountancy",
+  "fields": [
+    {
+      "field_name": "licensure.license_required",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether a license is required; all observed values are true"
+    },
+    {
+      "field_name": "licensure.issuing_authority",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text agency names, essentially unique per state and not comparable"
+    },
+    {
+      "field_name": "licensure.regulatory_authority.name",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text agency names, essentially unique per state and not comparable"
+    },
+    {
+      "field_name": "licensure.regulatory_authority.type",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "standalone_board",
+        "umbrella_agency",
+        "division",
+        "other"
+      ],
+      "reason": "small stable set of organizational types; all observed values are standalone_board"
+    },
+    {
+      "field_name": "licensure.regulatory_authority.umbrella_agency",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text agency names unique per state; only present for a subset of states"
+    },
+    {
+      "field_name": "licensure.moral_character_required",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether good moral character is a licensure requirement"
+    },
+    {
+      "field_name": "licensure.education.degree_required",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text descriptions of degree requirements with varying detail and conditions per state"
+    },
+    {
+      "field_name": "licensure.post_degree_experience.required",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether post-degree experience is required for licensure"
+    },
+    {
+      "field_name": "licensure.post_degree_experience.duration",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text durations with mixed units (years, hours, ranges, conditions) not reducible to a single numeric scale without significant interpretation"
+    },
+    {
+      "field_name": "licensure.post_degree_experience.kind",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text descriptions of experience types, highly variable and not reducible to a stable category set"
+    },
+    {
+      "field_name": "licensure.renewal.interval_years",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "years",
+      "categories": null,
+      "reason": "numeric renewal interval in years, directly comparable across states"
+    },
+    {
+      "field_name": "licensure.continuing_education.required",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether continuing education is required for renewal"
+    },
+    {
+      "field_name": "licensure.continuing_education.period_years",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "years",
+      "categories": null,
+      "reason": "numeric CE reporting period in years, directly comparable across states"
+    },
+    {
+      "field_name": "licensure.reciprocity.available",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether reciprocity/endorsement is available"
+    },
+    {
+      "field_name": "licensure.reciprocity.requirements",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text prose descriptions of reciprocity conditions, unique per state"
+    },
+    {
+      "field_name": "licensure.advisory_board.exists",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether an advisory board exists; all observed values are false"
+    },
+    {
+      "field_name": "licensure.national_certification",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text names of certifying bodies with inconsistent entries (e.g., NBPME erroneously listed for ID); not reliably categorical"
+    },
+    {
+      "field_name": "licensure.regulatory_model",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "license",
+        "mandatory_certification",
+        "registration",
+        "voluntary_certification",
+        "exemption",
+        "market_forces"
+      ],
+      "reason": "values come from the UORF regulatory model ladder; all observed values are license"
+    },
+    {
+      "field_name": "licensure.credential_type",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "license",
+        "certificate",
+        "registration",
+        "permit",
+        "other"
+      ],
+      "reason": "small stable set of credential types; all observed values are license"
+    },
+    {
+      "field_name": "licensure.is_mandatory",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether licensure is mandatory to practice"
+    },
+    {
+      "field_name": "licensure.title_protection",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether the CPA title is legally protected"
+    },
+    {
+      "field_name": "licensure.scope_protection",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether the scope of practice is legally protected"
+    },
+    {
+      "field_name": "scope.definition_quote",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text statutory definitions of practice, not comparable across states"
+    },
+    {
+      "field_name": "scope.methods_authorized",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text lists of authorized methods with inconsistent granularity and terminology per state"
+    },
+    {
+      "field_name": "profession_specific.attest_services_types",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text lists of attest service types with varying specificity per state, not reducible to a stable comparable set"
+    },
+    {
+      "field_name": "profession_specific.compilation_services_authorized",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether compilation services are explicitly authorized"
+    },
+    {
+      "field_name": "profession_specific.education_semester_hours_required",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "semester hours",
+      "categories": null,
+      "reason": "numeric minimum total semester hours of college education required for licensure, directly comparable"
+    },
+    {
+      "field_name": "profession_specific.practice_privilege_no_notice_required",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether out-of-state CPAs may practice without prior notice or fee"
+    },
+    {
+      "field_name": "profession_specific.practice_privilege_consent_conditions",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text lists of consent conditions for practice privileges, highly variable per state"
+    },
+    {
+      "field_name": "profession_specific.attest_services_require_firm_permit",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether a firm permit is required to perform attest services"
+    },
+    {
+      "field_name": "profession_specific.firm_majority_cpa_ownership_required",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether a majority of firm ownership must be held by CPAs"
+    },
+    {
+      "field_name": "profession_specific.nonlicensee_firm_owners_permitted",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether non-licensees may hold ownership interests in CPA firms"
+    },
+    {
+      "field_name": "profession_specific.peer_review_required_for_firm_renewal",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether peer review is required as a condition of firm permit renewal"
+    },
+    {
+      "field_name": "profession_specific.peer_review_max_frequency_years",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "years",
+      "categories": null,
+      "reason": "numeric maximum interval between peer reviews in years, directly comparable across states"
+    },
+    {
+      "field_name": "profession_specific.inactive_license_status_available",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether an inactive license status option exists"
+    },
+    {
+      "field_name": "profession_specific.out_of_state_firm_no_office_exemption",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether out-of-state firms without an in-state office are exempt from firm permit requirements"
+    },
+    {
+      "field_name": "profession_specific.office_supervision_by_licensed_cpa_required",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether each office must be supervised by a licensed CPA"
+    },
+    {
+      "field_name": "profession_specific.attest_report_signer_competency_requirement",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether signers of attest reports must meet specific competency requirements"
+    },
+    {
+      "field_name": "profession_specific.client_confidentiality_privilege",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether a statutory accountant-client confidentiality privilege exists"
+    },
+    {
+      "field_name": "profession_specific.working_papers_ownership_by_licensee",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether working papers are legally owned by the licensee rather than the client"
+    },
+    {
+      "field_name": "profession_specific.safe_harbor_disclaimer_language_for_nonlicensees",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether safe harbor disclaimer language exists allowing non-licensees to perform certain services"
+    },
+    {
+      "field_name": "profession_specific.foreign_accountant_practice_exception",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether foreign-credentialed accountants have a practice exception"
+    },
+    {
+      "field_name": "profession_specific.single_act_evidence_sufficient",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether a single act is sufficient evidence of unlicensed practice"
+    },
+    {
+      "field_name": "profession_specific.firm_corrective_action_period_for_ownership_noncompliance",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether firms are granted a corrective action period when ownership falls out of compliance"
+    },
+    {
+      "field_name": "profession_specific.firm_permit_required_for_attest_services",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether a firm permit is required to perform attest services; effectively duplicates attest_services_require_firm_permit but included as shown"
+    },
+    {
+      "field_name": "licensure.age_minimum",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "years",
+      "categories": null,
+      "reason": "numeric minimum age in years for licensure, directly comparable across states"
+    },
+    {
+      "field_name": "licensure.education.accrediting_body",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text descriptions of acceptable accrediting bodies, varying in specificity per state"
+    },
+    {
+      "field_name": "licensure.national_association",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text names of national associations referenced in statute, not consistently structured for comparison"
+    },
+    {
+      "field_name": "profession_specific.exam_sit_hours_minimum",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "semester hours",
+      "categories": null,
+      "reason": "numeric minimum semester hours required to sit for the CPA exam, directly comparable across states"
+    },
+    {
+      "field_name": "profession_specific.retired_license_status_available",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether a retired license status is available"
+    },
+    {
+      "field_name": "profession_specific.accounting_practitioner_tier",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether a sub-CPA accounting practitioner tier or designation exists in the state"
+    },
+    {
+      "field_name": "profession_specific.cpa_emeritus_or_retired_status_available",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether a CPA emeritus or retired status designation is available"
+    },
+    {
+      "field_name": "profession_specific.client_records_return_obligation",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether licensees have a statutory obligation to return client records"
+    },
+    {
+      "field_name": "licensure.continuing_education.hours_per_period",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "hours per renewal period",
+      "categories": null,
+      "reason": "numeric CE hours required per reporting period; periods vary by state so comparison should be paired with period_years"
+    },
+    {
+      "field_name": "profession_specific.peer_review_records_privileged",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether peer review records are legally privileged from disclosure"
+    },
+    {
+      "field_name": "profession_specific.commission_prohibition_during_attest",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether commissions are prohibited when performing attest services"
+    },
+    {
+      "field_name": "profession_specific.contingent_fee_prohibition_during_attest",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether contingent fees are prohibited when performing attest services"
+    },
+    {
+      "field_name": "profession_specific.liability_privity_limitation",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether the state limits accountant liability to parties in privity"
+    },
+    {
+      "field_name": "licensure.continuing_education.topical_requirements",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text lists of subject-area CE requirements with varying specificity per state"
+    },
+    {
+      "field_name": "profession_specific.ethics_exam_required",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether a separate ethics examination is required for licensure"
+    },
+    {
+      "field_name": "profession_specific.government_audit_cpe_requirement",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether a specific government auditing CPE requirement exists"
+    },
+    {
+      "field_name": "licensure.renewal_fee_usd",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "USD",
+      "categories": null,
+      "reason": "numeric renewal fee in US dollars, directly comparable across states"
+    },
+    {
+      "field_name": "profession_specific.ethics_cpe_hours_required",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "hours per renewal period",
+      "categories": null,
+      "reason": "numeric ethics-specific CPE hours required per renewal period, directly comparable"
+    },
+    {
+      "field_name": "profession_specific.independence_requirement_for_attest",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether independence is explicitly required by statute for attest engagements"
+    },
+    {
+      "field_name": "profession_specific.hawaii_attest_work_supplement_required",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "Hawaii-specific field with only one state value; not meaningful as a cross-state choropleth"
+    },
+    {
+      "field_name": "profession_specific.statute_of_limitations_for_accountant_negligence",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text descriptions of limitations periods with compound conditions; only two states reported"
+    },
+    {
+      "field_name": "licensure.disciplinary_grounds",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "empty arrays for all reporting states; no usable data for mapping"
+    },
+    {
+      "field_name": "profession_specific.registered_municipal_accountant_designation",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "New Jersey-specific designation with only one state value; not meaningful as a cross-state choropleth"
+    },
+    {
+      "field_name": "profession_specific.public_school_accountant_designation",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "New Jersey-specific designation with only one state value; not meaningful as a cross-state choropleth"
+    },
+    {
+      "field_name": "licensure.exams",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "empty arrays for all reporting states; no usable data for mapping"
+    }
+  ]
+}
