@@ -75,6 +75,48 @@ _ELLIPSIS_SPLIT_RE = re.compile(r"\s*(?:\.\s*\.\s*\.|…)\s*")
 _MIN_SEGMENT_LEN = 8
 
 
+# Inline legislative-history annotations the LLM naturally elides when it
+# pulls a quote. We strip them by replacing each match with same-length
+# spaces so `src_index` continues to map normalized → original positions.
+# Patterns are conservative — anchored by a year + chapter token so we
+# don't accidentally swallow substantive text.
+_ANNOTATION_PATTERNS = [
+    # Maine bracketed history: "[PL 1997, c. 265, §1 (AMD).]"
+    # Often a whole line containing one or more PL/P.L. references inside [ ].
+    re.compile(
+        r"\[\s*P\.?\s*L\.?\s+\d{4}[^\]]{0,300}\]",
+        re.IGNORECASE,
+    ),
+    # Bare "PL 1997, c. 265, §1 (AMD)" at end of sentence/paragraph (no brackets).
+    re.compile(
+        r"\bP\.?\s*L\.?\s+\d{4}\s*,\s*c\.?\s*\d+[^.)\]\n]{0,80}(?:\([A-Z]+\)\.?)?",
+        re.IGNORECASE,
+    ),
+    # Nevada-style "(Added to NRS by 1987, 1524; A 1991, 790; 2013, 2071)"
+    re.compile(
+        r"\(\s*(?:Added\s+to\s+|Amended\s+by\s+)?NRS\s+by[^)]{0,300}\)",
+        re.IGNORECASE,
+    ),
+    # Bracketed year+chapter: "[2020, c. 5, §1.]" / "[1999, c. 245, §1 (NEW).]"
+    re.compile(
+        r"\[\s*\d{4}\s*,\s*c\.?\s*\d+[^\]]{0,80}\]",
+    ),
+    # "(L. 1995, S.B. 1014)" / "L. 1995, c. 12, §3" — generic acts-of citation
+    re.compile(
+        r"\bL\.\s*\d{4}\s*,\s*(?:c\.?\s*\d+|S\.?B\.?\s*\d+|H\.?B\.?\s*\d+)[^.)]{0,80}",
+    ),
+]
+
+
+def _strip_annotations(text: str) -> str:
+    """Replace annotation runs with same-length spaces. Length-preserving so
+    downstream src_index mapping stays aligned with the original text."""
+    out = text
+    for pat in _ANNOTATION_PATTERNS:
+        out = pat.sub(lambda m: " " * len(m.group(0)), out)
+    return out
+
+
 def normalize_with_mapping(text: str) -> tuple[str, list[int]]:
     """Normalize text AND return a per-character map back to the source.
 
@@ -92,6 +134,10 @@ def normalize_with_mapping(text: str) -> tuple[str, list[int]]:
     when build_frontend.py emits quote_spans, that TS code goes away and
     this function becomes the lone matcher.
     """
+    # Stage 0: strip embedded legislative annotations (length-preserving
+    # so src_index still maps to original-text positions).
+    text = _strip_annotations(text)
+
     # Stage 1: walk char by char. Skip list markers wholesale (no
     # placeholder), expand smart-quote chars (some map to multiple output
     # chars — e.g. … -> ...), remember the ORIGINAL index each emitted
@@ -195,6 +241,41 @@ def locate_quote_in_section(
         spans.append((src_start, src_end))
         cursor = idx + len(nq)
     return spans
+
+
+def quote_fuzzy_match(
+    quote: str, normalized_corpus: str, *, min_ratio: float = 0.7
+) -> dict | None:
+    """Fuzzy fallback when `quote_in_corpus` returns False.
+
+    Returns {"ratio": float, "matched_normalized": str} when the LONGEST
+    contiguous matching block between the normalized quote and the
+    normalized corpus covers at least `min_ratio` of the quote's
+    normalized length.
+
+    `ratio` here = longest_block_size / len(normalized_quote). We
+    deliberately ignore smaller scattered matches because the sum of
+    short fragments can artificially inflate to 1.0 when every common
+    word appears separately — that flagged paraphrases as perfect
+    matches in early testing. Longest-block is a conservative anchor:
+    "the LLM verbatim-quoted at least this much of the source."
+
+    Only called on entries that already failed strict verification.
+    """
+    import difflib
+
+    nq = normalize_for_match(quote)
+    if not nq or len(nq) < _MIN_SEGMENT_LEN:
+        return None
+    sm = difflib.SequenceMatcher(None, nq, normalized_corpus, autojunk=False)
+    longest = sm.find_longest_match(0, len(nq), 0, len(normalized_corpus))
+    if longest.size < _MIN_SEGMENT_LEN:
+        return None
+    ratio = longest.size / len(nq)
+    if ratio < min_ratio:
+        return None
+    matched = normalized_corpus[longest.b : longest.b + longest.size]
+    return {"ratio": round(ratio, 3), "matched_normalized": matched}
 
 
 def quote_in_corpus(quote: str, normalized_corpus: str) -> bool:

@@ -166,13 +166,16 @@ def _section_evidence_spans(record: dict, text: str) -> list[dict]:
         spans = locate_quote_in_section(quote, text)
         if not spans:
             continue
-        out.append({
+        entry: dict = {
             "field_path": ".".join(str(p) for p in path),
             "value": node.get("value"),
             "quote": quote,
             "spans": [list(p) for p in spans],
             "unverified": bool(node.get("unverified")),
-        })
+        }
+        if "approximate" in node:
+            entry["approximate"] = node["approximate"]
+        out.append(entry)
     return out
 
 
@@ -300,15 +303,19 @@ def _annotate_quote_spans(record: dict, sections: list[dict]) -> tuple[int, int]
     return with_spans, without_spans
 
 
-def _count_evidence(record: dict) -> tuple[int, int]:
-    """Walk record for Evidence-shaped objects, count verified vs unverified."""
-    verified = unverified = 0
+def _count_evidence(record: dict) -> tuple[int, int, int]:
+    """Walk record for Evidence-shaped objects, count verified vs unverified
+    vs approximate. Approximate is a subset of unverified (the strict
+    verifier failed but the fuzzy fallback found a candidate substring)."""
+    verified = unverified = approximate = 0
     for _, node in iter_evidence(record):
         if node.get("unverified"):
             unverified += 1
+            if node.get("approximate"):
+                approximate += 1
         else:
             verified += 1
-    return verified, unverified
+    return verified, unverified, approximate
 
 
 def _derive_credential_and_mandatory(lic: dict) -> tuple[str | None, bool | None]:
@@ -339,7 +346,7 @@ def _derive_credential_and_mandatory(lic: dict) -> tuple[str | None, bool | None
 def hoist_row(record: dict) -> dict:
     """Universal columns. Profession-specific dimensions live in the modal."""
     lic = record.get("licensure") or {}
-    verified, unverified = _count_evidence(record)
+    verified, unverified, approximate = _count_evidence(record)
     credential_type, is_mandatory = _derive_credential_and_mandatory(lic)
     return {
         "state": record["state"],
@@ -371,6 +378,7 @@ def hoist_row(record: dict) -> dict:
         "renewal_fee_usd": _ev_value(lic.get("renewal_fee_usd")),
         "evidence_verified": verified,
         "evidence_unverified": unverified,
+        "evidence_approximate": approximate,
         "_full": record,
     }
 
@@ -412,6 +420,7 @@ def stub_row(state: str, profession: str, reason: str) -> dict:
         "renewal_fee_usd": None,
         "evidence_verified": 0,
         "evidence_unverified": 0,
+        "evidence_approximate": 0,
         "_full": {"state": state, "profession": profession},
     }
 

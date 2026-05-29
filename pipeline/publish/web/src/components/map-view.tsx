@@ -11,8 +11,7 @@
 // USPS codes (which is what every other layer of the pipeline uses) via
 // the table below.
 
-import { useMemo, useState } from "react";
-import { ComposableMap, Geographies, Geography } from "react-simple-maps";
+import { useMemo } from "react";
 import { scaleLinear } from "d3-scale";
 import type { MapPrep, MapFieldSpec, MapRow } from "@/lib/types";
 import {
@@ -23,22 +22,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { humanize } from "@/lib/format";
-
-const GEO_URL = "https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json";
-
-// FIPS → USPS. us-atlas keys state features by FIPS id; the rest of the
-// pipeline (and the normalized rows) uses USPS two-letter codes.
-const FIPS_TO_USPS: Record<string, string> = {
-  "01": "AL", "02": "AK", "04": "AZ", "05": "AR", "06": "CA", "08": "CO",
-  "09": "CT", "10": "DE", "11": "DC", "12": "FL", "13": "GA", "15": "HI",
-  "16": "ID", "17": "IL", "18": "IN", "19": "IA", "20": "KS", "21": "KY",
-  "22": "LA", "23": "ME", "24": "MD", "25": "MA", "26": "MI", "27": "MN",
-  "28": "MS", "29": "MO", "30": "MT", "31": "NE", "32": "NV", "33": "NH",
-  "34": "NJ", "35": "NM", "36": "NY", "37": "NC", "38": "ND", "39": "OH",
-  "40": "OK", "41": "OR", "42": "PA", "44": "RI", "45": "SC", "46": "SD",
-  "47": "TN", "48": "TX", "49": "UT", "50": "VT", "51": "VA", "53": "WA",
-  "54": "WV", "55": "WI", "56": "WY",
-};
+import { UsMap, NO_DATA_FILL } from "@/components/us-map";
 
 // Stable categorical palette — picked for distinguishability on a map at
 // state-size. Up to ~12 categories before we wrap.
@@ -47,7 +31,6 @@ const CATEGORICAL_PALETTE = [
   "#ec4899", "#14b8a6", "#f97316", "#6366f1", "#84cc16",
   "#a855f7", "#06b6d4",
 ];
-const NO_DATA_FILL = "#e5e7eb"; // tailwind zinc-200
 
 function continuousScale(values: number[]) {
   const nums = values.filter((v) => Number.isFinite(v));
@@ -226,16 +209,6 @@ export function MapView({
     );
   }, [spec, byState]);
 
-  const [hover, setHover] = useState<{
-    state: string;
-    normalized: string;
-    raw: string;
-    quote?: string;
-    citation?: string;
-    x: number;
-    y: number;
-  } | null>(null);
-
   if (!specs.length) {
     return (
       <div className="rounded border bg-muted/30 p-6 text-sm text-muted-foreground">
@@ -275,99 +248,43 @@ export function MapView({
         </p>
       )}
 
-      <div className="rounded-lg border bg-white">
-        <ComposableMap
-          projection="geoAlbersUsa"
-          projectionConfig={{ scale: 1000 }}
-          width={975}
-          height={610}
-          style={{ width: "100%", height: "auto" }}
-        >
-          <Geographies geography={GEO_URL}>
-            {({ geographies }) =>
-              geographies.map((geo) => {
-                const fips = String(geo.id).padStart(2, "0");
-                const usps = FIPS_TO_USPS[fips];
-                const row = usps ? byState.get(usps) : undefined;
-                const fill = usps ? colorFor(usps) : NO_DATA_FILL;
-                const normalizedStr = row
-                  ? row.normalized === null
-                    ? "no data"
-                    : String(row.normalized)
-                  : "no data";
-                const rawStr = row?.raw_value || "—";
-                return (
-                  <Geography
-                    key={geo.rsmKey}
-                    geography={geo}
-                    fill={fill}
-                    stroke="#ffffff"
-                    strokeWidth={0.5}
-                    onMouseEnter={(e) => {
-                      if (usps)
-                        setHover({
-                          state: usps,
-                          normalized: normalizedStr,
-                          raw: rawStr,
-                          quote: row?.quote,
-                          citation: row?.citation,
-                          x: e.clientX,
-                          y: e.clientY,
-                        });
-                    }}
-                    onMouseMove={(e) => {
-                      if (usps)
-                        setHover((h) =>
-                          h && h.state === usps
-                            ? { ...h, x: e.clientX, y: e.clientY }
-                            : h
-                        );
-                    }}
-                    onMouseLeave={() => setHover(null)}
-                    style={{
-                      default: { outline: "none" },
-                      hover: { outline: "none", opacity: 0.85 },
-                      pressed: { outline: "none" },
-                    }}
-                  />
-                );
-              })
-            }
-          </Geographies>
-        </ComposableMap>
-      </div>
-
-      <div>{legend}</div>
-
-      {hover && (
-        <div
-          className="pointer-events-none fixed z-50 max-w-lg rounded-md border bg-popover px-4 py-3 text-sm shadow-md"
-          style={{
-            left: hover.x + 12,
-            top: hover.y + 12,
-          }}
-        >
-          <div className="font-mono text-base font-semibold">{hover.state}</div>
-          <div className="mt-1">
-            {hover.normalized}
-            {hover.raw && hover.raw !== hover.normalized && (
-              <span className="ml-2 text-muted-foreground">
-                (raw: {hover.raw})
-              </span>
-            )}
-          </div>
-          {hover.quote && (
-            <div className="mt-2 border-t pt-2 leading-relaxed">
-              <div className="text-foreground">“{hover.quote}”</div>
-              {hover.citation && (
-                <div className="mt-1 font-mono text-xs text-muted-foreground">
-                  {hover.citation}
+      <UsMap
+        fillFor={colorFor}
+        renderTooltip={(state) => {
+          const row = byState.get(state);
+          const normalizedStr = row
+            ? row.normalized === null
+              ? "no data"
+              : String(row.normalized)
+            : "no data";
+          const rawStr = row?.raw_value || "—";
+          return (
+            <>
+              <div className="font-mono text-base font-semibold">{state}</div>
+              <div className="mt-1">
+                {normalizedStr}
+                {rawStr && rawStr !== normalizedStr && (
+                  <span className="ml-2 text-muted-foreground">
+                    (raw: {rawStr})
+                  </span>
+                )}
+              </div>
+              {row?.quote && (
+                <div className="mt-2 border-t pt-2 leading-relaxed">
+                  <div className="text-foreground">“{row.quote}”</div>
+                  {row.citation && (
+                    <div className="mt-1 font-mono text-xs text-muted-foreground">
+                      {row.citation}
+                    </div>
+                  )}
                 </div>
               )}
-            </div>
-          )}
-        </div>
-      )}
+            </>
+          );
+        }}
+      />
+
+      <div>{legend}</div>
     </div>
   );
 }

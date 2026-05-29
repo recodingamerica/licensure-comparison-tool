@@ -1,16 +1,76 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useMemo, useState } from "react";
 import type { ProfessionsListEntry } from "@/lib/types";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { professionStyle, useProfessionMeta } from "@/lib/profession-colors";
+import { UsMap, NO_DATA_FILL } from "@/components/us-map";
 
 type StatesListEntry = {
   state: string;
   sections: number;
   professions: string[];
 };
+
+function StateMap({
+  states,
+  error,
+  onPick,
+}: {
+  states: StatesListEntry[] | null;
+  error: string | null;
+  onPick: (state: string) => void;
+}) {
+  const byState = useMemo(() => {
+    const m = new Map<string, StatesListEntry>();
+    for (const s of states ?? []) m.set(s.state, s);
+    return m;
+  }, [states]);
+
+  // Uniform fill — the map is for navigation, not encoding. States with no
+  // data fall through to NO_DATA_FILL (zinc-200).
+  const colorFor = (state: string) =>
+    byState.has(state) ? "#bfdbfe" : NO_DATA_FILL;
+
+  if (!states && !error)
+    return <p className="text-sm text-muted-foreground">Loading…</p>;
+  if (states && states.length === 0)
+    return (
+      <p className="text-sm text-muted-foreground italic">
+        No state-level data published yet — run pipeline.publish.
+        build_state_browse to generate it.
+      </p>
+    );
+
+  return (
+    <UsMap
+      fillFor={colorFor}
+      onClick={onPick}
+      renderTooltip={(state) => {
+        const s = byState.get(state);
+        if (!s)
+          return (
+            <>
+              <div className="font-mono text-base font-semibold">{state}</div>
+              <div className="mt-1 text-muted-foreground">no data</div>
+            </>
+          );
+        return (
+          <>
+            <div className="font-mono text-base font-semibold">{s.state}</div>
+            <div className="mt-1">
+              {s.sections.toLocaleString()} sections · {s.professions.length}{" "}
+              profession{s.professions.length === 1 ? "" : "s"}
+            </div>
+            <div className="mt-1 text-xs text-muted-foreground">click to open</div>
+          </>
+        );
+      }}
+    />
+  );
+}
 
 // Count of universal (cross-profession) columns in the /profile table.
 // Tracks the non-discovered ColDefs defined in profile-view.tsx::
@@ -21,6 +81,7 @@ type StatesListEntry = {
 const UNIVERSAL_FIELDS_COUNT = 44;
 
 export default function HomePage() {
+  const router = useRouter();
   const [mode, setMode] = useState<"profession" | "state">("profession");
   const [professions, setProfessions] = useState<ProfessionsListEntry[] | null>(null);
   const [states, setStates] = useState<StatesListEntry[] | null>(null);
@@ -131,41 +192,7 @@ export default function HomePage() {
       )}
 
       {mode === "state" && (
-        <>
-          {!states && !error && (
-            <p className="text-sm text-muted-foreground">Loading…</p>
-          )}
-          {states && states.length === 0 && (
-            <p className="text-sm text-muted-foreground italic">
-              No state-level data published yet — run pipeline.publish.
-              build_state_browse to generate it.
-            </p>
-          )}
-          {states && states.length > 0 && (
-            <div className="grid gap-3">
-              {states.map((s) => (
-                <Link
-                  key={s.state}
-                  href={`/states/${s.state}`}
-                  className="block group"
-                >
-                  <Card className="py-3 transition-colors hover:border-foreground/30">
-                    <CardHeader className="flex flex-row items-baseline justify-between gap-4 space-y-0">
-                      <CardTitle className="text-base font-mono font-medium group-hover:underline">
-                        {s.state}
-                      </CardTitle>
-                      <span className="text-xs font-mono text-muted-foreground whitespace-nowrap">
-                        {s.sections.toLocaleString()} sections ·{" "}
-                        {s.professions.length} profession
-                        {s.professions.length === 1 ? "" : "s"}
-                      </span>
-                    </CardHeader>
-                  </Card>
-                </Link>
-              ))}
-            </div>
-          )}
-        </>
+        <StateMap states={states} error={error} onPick={(s) => router.push(`/states/${s}`)} />
       )}
 
       {/* Cross-cutting umbrella content is now embedded as a tab on each

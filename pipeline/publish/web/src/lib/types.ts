@@ -6,6 +6,17 @@ export type Evidence<T = unknown> = {
   quote: string;
   citation: string;
   unverified?: boolean;
+  // Set by the verifier's fuzzy fallback when the strict regex match
+  // fails but a long contiguous substring of the LLM quote DOES appear
+  // in the corpus. `ratio` is longest_matching_block / quote_length,
+  // so 0.85 = "85% of the quote text was found verbatim somewhere in
+  // the source." `matched_normalized` is that longest block in
+  // normalized form (lowercased, punctuation collapsed) — useful for
+  // surfacing "this is what we think you meant" in the UI.
+  approximate?: {
+    ratio: number;
+    matched_normalized: string;
+  };
   // Pre-computed character offsets into the cited section's `text`,
   // emitted by pipeline/publish/build_frontend.py via
   // pipeline/extract/locate_quote.py. Each pair is [start, end). Multiple
@@ -128,6 +139,10 @@ export type Row = {
   renewal_fee_usd: number | null;
   evidence_verified: number;
   evidence_unverified: number;
+  // Subset of evidence_unverified — entries that strict-fail but pass
+  // the fuzzy fallback (longest matching block ≥ 0.7 of quote length).
+  // UI uses this to show "approximate match" instead of bare unverified.
+  evidence_approximate?: number;
   source_chapter_urls?: string[];
   sections?: SectionRef[];
   // Concatenation of every section body shipped with this row. Lives here so

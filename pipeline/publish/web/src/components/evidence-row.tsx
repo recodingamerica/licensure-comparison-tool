@@ -45,6 +45,10 @@ export function EvidenceRow({ label, ev, sections }: Props) {
   const source =
     sections[cite] || sections[cite.replace(/^\[|\]$/g, "")] || null;
   const unverified = !!ev.unverified;
+  // Strict verifier failed but fuzzy fallback found a long contiguous
+  // substring. Different visual treatment than bare-unverified so the
+  // user can see "we think this is the source, but the wording shifts."
+  const approximate = ev.approximate;
 
   // If the user has an active "Statute text" search, prefer THEIR highlight
   // — overlay every occurrence of the query on the source text. Otherwise
@@ -68,7 +72,16 @@ export function EvidenceRow({ label, ev, sections }: Props) {
       <div className="space-y-1.5">
         <div className="font-medium text-sm flex items-center gap-2">
           {formatValue(ev.value)}
-          {unverified && (
+          {unverified && approximate && (
+            <Badge
+              variant="secondary"
+              className="bg-amber-100 text-amber-900 hover:bg-amber-100 text-[10px] font-mono uppercase tracking-wide"
+              title={`Strict regex match failed, but ${Math.round(approximate.ratio * 100)}% of the quote was found contiguous in the source.`}
+            >
+              ~{Math.round(approximate.ratio * 100)}% match
+            </Badge>
+          )}
+          {unverified && !approximate && (
             <Badge
               variant="secondary"
               className="bg-amber-100 text-amber-900 hover:bg-amber-100 text-[10px] font-mono uppercase tracking-wide"
@@ -103,6 +116,14 @@ export function EvidenceRow({ label, ev, sections }: Props) {
             </span>
           )}
         </div>
+        {approximate && (
+          <div className="text-[11px] not-italic px-3 py-1.5 rounded bg-amber-50 border border-amber-200 text-amber-900">
+            <span className="font-mono uppercase tracking-wide text-[9px] mr-2">
+              closest match in source
+            </span>
+            “…{approximate.matched_normalized}…”
+          </div>
+        )}
         {source && (
           <div className="flex items-center gap-3 text-xs">
             {source.url && (

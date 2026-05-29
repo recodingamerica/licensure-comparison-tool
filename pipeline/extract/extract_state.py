@@ -46,6 +46,7 @@ from standard_model import (  # noqa: E402
 )
 from locate_quote import (  # noqa: E402
     normalize_for_match as _normalize_for_match,
+    quote_fuzzy_match,
     quote_in_corpus,
 )
 from paths import TRIMMED_DIR, DISCOVERED_DIR, STRUCTURED_DIR, LOGS_DIR, RESULTS_DIR  # noqa: E402
@@ -237,15 +238,26 @@ def load_umbrella_text(state: str, profession: str | None = None) -> str:
 
 def annotate_evidence(node: Any, normalized_corpus: str) -> tuple[int, int]:
     """For every Evidence-shaped dict in `node`, set `unverified: True` when
-    the verbatim quote can't be located in the corpus. Returns
-    (verified, unverified) counts across the whole tree."""
+    the verbatim quote can't be located in the corpus. When strict
+    verification fails, run a fuzzy fallback (`quote_fuzzy_match`) and
+    attach `approximate: {ratio, matched_normalized}` on the same node so
+    the UI can surface a candidate match with an explicit confidence
+    rather than just "couldn't verify". Returns (verified, unverified)
+    counts; approximate matches still count as unverified."""
     verified = unverified = 0
     for _, ev_node in iter_evidence(node):
-        if quote_in_corpus(ev_node.get("quote", ""), normalized_corpus):
+        quote = ev_node.get("quote", "")
+        if quote_in_corpus(quote, normalized_corpus):
             ev_node.pop("unverified", None)
+            ev_node.pop("approximate", None)
             verified += 1
         else:
             ev_node["unverified"] = True
+            fuzzy = quote_fuzzy_match(quote, normalized_corpus)
+            if fuzzy is not None:
+                ev_node["approximate"] = fuzzy
+            else:
+                ev_node.pop("approximate", None)
             unverified += 1
     return verified, unverified
 
