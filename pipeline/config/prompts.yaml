@@ -129,9 +129,16 @@ extract_state:
 
       credential_type (Enum: license / certification / registration / exemption / none):
         What SHAPE of credential the state issues, ignoring whether it's mandatory.
+        Typology aligned with the Obama 2015 White House report ("Occupational
+        Licensing: A Framework for Policymakers"). See docs/lit_review/.
           license = state grants explicit permission to practice
-          certification = state certifies the holder meets qualification standards
-          registration = practitioner registers; no qualification test
+          certification = state certifies the holder meets qualification standards;
+                          only certificate holders may use the protected TITLE, but
+                          anyone may legally perform the work ("right-to-title").
+                          If using the title without certification is prohibited
+                          but doing the work is not, it's certification, not license.
+          registration = practitioner registers (state maintains a roster); no
+                         qualification test or minimal qualification check only
           exemption = profession is exempted from a broader practice-act regime
           none = no state credential exists
 
@@ -145,6 +152,27 @@ extract_state:
 
       scope_protection (bool):
         Does the state restrict practicing the profession's SCOPE to credential holders?
+
+    Alternative regulation (Obama 2015 typology — non-credential mechanisms.
+    Populate when the source text addresses them; null if the statute is silent.
+    These are INDEPENDENT of credential_type — a state may license AND require
+    bonding, or use bonding INSTEAD of a license):
+
+      alternative_regulation.bonding_required (bool):
+        True if the statute requires the practitioner or firm to post a bond
+        (funds against which consumer claims can be made). The bond is a
+        financial assurance, not a credential.
+
+      alternative_regulation.insurance_required (bool):
+        True if the statute requires the practitioner or firm to carry insurance
+        (professional liability, surety insurance, etc.). Distinct from bonding.
+
+      alternative_regulation.establishment_regulation_required (bool):
+        True if the statute regulates the ESTABLISHMENT / FIRM itself (facility
+        license, mandatory inspection of premises) as a route to consumer
+        protection, independent of any practitioner credential. Example: a state
+        that doesn't license tattoo artists but does require the tattoo parlor
+        to be inspected.
 
     Regulatory authority (populate all three sub-fields when the statute makes
     them inferable):

@@ -235,6 +235,42 @@ class RegulatoryAuthority(BaseModel):
     )
 
 
+# ---------- Alternatives to credentialing (Obama 2015 typology) ----------
+# Obama 2015 White House report ("Occupational Licensing: A Framework for
+# Policymakers") frames bonding, insurance, and establishment-level regulation
+# as ALTERNATIVES to occupational credentials. They can also coexist with a
+# credential (a state may license a contractor AND require bonding). Captured
+# separately from credential_type so a state's full regulatory posture is
+# visible. See docs/lit_review/README.md.
+
+class AlternativeRegulation(BaseModel):
+    """Non-credential regulatory mechanisms the state imposes for this profession."""
+
+    bonding_required: BoolEvidence | None = Field(
+        default=None,
+        description=(
+            "Does the statute require the practitioner or firm to post a bond "
+            "(funds against which consumer claims can be made)? Independent of "
+            "whether a credential is also required."
+        ),
+    )
+    insurance_required: BoolEvidence | None = Field(
+        default=None,
+        description=(
+            "Does the statute require the practitioner or firm to carry insurance "
+            "(e.g., professional liability, surety insurance)?"
+        ),
+    )
+    establishment_regulation_required: BoolEvidence | None = Field(
+        default=None,
+        description=(
+            "Does the statute regulate the ESTABLISHMENT / FIRM (e.g., facility "
+            "license, mandatory inspection of premises) as a route to consumer "
+            "protection, independent of any practitioner credential?"
+        ),
+    )
+
+
 # ---------- Citation list (no Evidence wrapper — these ARE the citations) ----------
 
 class Citation(BaseModel):
@@ -432,6 +468,15 @@ class LicensureRequirements(BaseModel):
     disciplinary_grounds: list[DisciplinaryGround] = Field(
         default_factory=list,
         description="Grounds on which the board may discipline a licensee. Typical statutes list 5-15.",
+    )
+
+    alternative_regulation: AlternativeRegulation | None = Field(
+        default=None,
+        description=(
+            "Non-credential regulatory mechanisms (bonding, insurance, "
+            "establishment regulation) imposed by the state. Obama 2015 "
+            "framework typology. Independent of credential_type."
+        ),
     )
 
     citations: list[Citation] = Field(default_factory=list)
