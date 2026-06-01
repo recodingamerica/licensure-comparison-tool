@@ -28,9 +28,15 @@ regex-validated against the source statute.
 - `continuing_education.topical_requirements` — list[str]
 - `reciprocity.available` — bool
 - `reciprocity.requirements` — str
-- **`regulatory_model`** — enum: `license` | `mandatory_certification` | `registration` | `exemption` | `voluntary_certification` | `market_forces` (UORF six-rung ladder)
+- **`regulatory_model`** — enum: `license` | `mandatory_certification` | `registration` | `exemption` | `voluntary_certification` | `market_forces` (UORF six-rung ladder, matches Utah OPLR Dec 2025 framework)
+- **`credential_type`** — enum: `license` | `certification` | `registration` | `exemption` | `none`. Orthogonal decomposition of the ladder rung. `certification` = right-to-title only (anyone may do the work, only certificate holders may use the protected title — Obama 2015 framing).
+- **`is_mandatory`** — bool. Pairs with `credential_type`: True if the credential is required to practice; False for voluntary cert.
 - **`title_protection`** — bool (may unlicensed people use the title?)
 - **`scope_protection`** — bool (may unlicensed people perform the scope?)
+- **`alternative_regulation`** — nested object capturing Obama 2015's non-credential mechanisms, independent of `credential_type`:
+  - `bonding_required` — bool
+  - `insurance_required` — bool
+  - `establishment_regulation_required` — bool (facility license / mandatory premises inspection)
 - **`disciplinary_grounds`** — list of `{short_label, description, quote, citation}`
 - `citations` — list of `{cite, kind}`
 

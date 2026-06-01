@@ -3,6 +3,34 @@
 Live site: https://utah-licensing.vercel.app (pw `utah`).
 Pipeline shape and Postgres direction: see [ARCHITECTURE.md](ARCHITECTURE.md).
 
+## Just shipped (May 29–31, 2026)
+
+- **External lit review closed** (issue #17). Pulled Utah OPLR's own Dec
+  2025 framework PDF, Obama 2015, CLEAR 2020, IJ License to Work 2nd ed,
+  Archbridge SOLI, plus all 17 Knee OLLRP Excel files. Writeup in
+  `docs/lit_review/README.md`; sources in `docs/lit_review/sources/`.
+- **Confirmed our UORF ladder matches Utah OPLR's published framework**
+  exactly — same 6 rungs (`market_forces` → `voluntary_certification` →
+  `registration` → `exemption` → `mandatory_certification` → `license`),
+  same low → high ordering. `standard_model.py:14`.
+- **Schema + prompt changes** (`pipeline/extract/standard_model.py` +
+  `pipeline/config/prompts.yaml`):
+  - `credential_type → certification` now uses Obama 2015's "right-to-title"
+    framing (anyone may do the work; only certificate holders may use the
+    protected title).
+  - New `LicensureRequirements.alternative_regulation` nested object with
+    three Evidence-wrapped bools: `bonding_required`, `insurance_required`,
+    `establishment_regulation_required`. Captures Obama's "alternatives to
+    credentialing." Independent of `credential_type` — a state may license
+    AND require bonding.
+- **Existing 6 professions have `alternative_regulation: null`** until
+  re-extracted. No UI surfacing yet (waiting on a profession that actually
+  exercises the values).
+- **Knee OLLRP found not to help us.** Spot-checked vs our optometry/UT
+  record: same Title 58 citations, shallower schema (8 numeric vars vs our
+  ~25 structured fields), stale (last data year = 2016). Files kept in
+  `docs/lit_review/sources/knee/` for the record; no workflow built on them.
+
 ## Just shipped (May 20, 2026)
 
 - **Compact membership as a universal column** — `build_frontend.py:_extract_compacts`
@@ -85,9 +113,17 @@ morning's Atharv check-in — `may20_response.md`, `compact_membership.{md,csv}`
   left-border + soft amber fill via `.ag-row-unverified`. Header drops
   the verified-% stat; only shows `unverified quotes: N` when N > 0.
 
-## Next — open priorities (May 20)
+## Next — open priorities
 
-### 1. Default-column tuning (still open)
+### 0. UORF rung sort key (new, from issue #17 follow-up)
+
+AG Grid "Regulation (UORF)" column currently sorts the rung names
+alphabetically — backwards relative to Utah's least → most restrictive
+ordering. Add an internal 0–5 ordinal derived from `regulatory_model`,
+used as the column's sort comparator only. Never displayed (Utah's
+framework is categorical and explicitly non-mechanistic).
+
+### 1. Default-column tuning (still open from May 20)
 
 The Columns ▾ dropdown exposes ~50-60 columns per profession (universal
 + per-profession discovered). Today the default-visible set is the 11

@@ -16,14 +16,22 @@ same professions where they exist.
 
 ## Current status
 
-Two professions are wired through end-to-end: **podiatry** and
-**public accountancy** (CPA). Demo at `localhost:8767/`.
+Six professions wired through end-to-end: **dentistry**, **medicine**,
+**nursing**, **optometry**, **podiatry**, and **public accountancy**.
+Live site: https://utah-licensing.vercel.app (pw `utah`); demo also at
+`localhost:8767/`.
 
-| | Podiatry | Public Accountancy |
-|---|---|---|
-| States with substantive records | 41–47 (chains in flight) | 32 |
-| Profession-specific fields auto-discovered | 36 | 38 |
-| Evidence quotes regex-validated against source | 98.7% (857 / 868) | 95.9% (1,078 / 1,124) |
+| Profession | States with substantive records |
+|---|---|
+| Podiatry | 49 |
+| Nursing | 47 |
+| Optometry | 47 |
+| Dentistry | 46 |
+| Public Accountancy | 45 |
+| Medicine | 43 |
+
+Across all six: 9,457 Evidence-wrapped claims; 99.5% regex-verified against
+source statute (48 unresolved as of 2026-05-31).
 
 Pipeline stages, all working:
 
