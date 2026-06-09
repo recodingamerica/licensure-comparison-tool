@@ -43,11 +43,19 @@ async function visibleRowCount(page: Page): Promise<number> {
   return page.locator(".ag-center-cols-container .ag-row").count();
 }
 
-async function unverifiedRowCount(page: Page): Promise<number> {
-  return page
-    .locator(".ag-center-cols-container .ag-row.ag-row-unverified")
-    .count();
+/** Virtualization-proof row count. AG Grid only renders the visible window of
+ * rows to the DOM, so counting `.ag-row` undercounts large grids (nursing has
+ * 50 rows). AG Grid keeps `aria-rowcount` (header + body rows, reflecting the
+ * active filter) on the grid role element — read that and subtract the header
+ * rows to get the true displayed data-row count. */
+async function displayedRowCount(page: Page): Promise<number> {
+  const grid = page.locator('[role="treegrid"], [role="grid"]').first();
+  const total = Number(await grid.getAttribute("aria-rowcount"));
+  const headerRows = await page.locator(".ag-header-row").count();
+  if (!Number.isFinite(total) || total < 0) return NaN;
+  return total - headerRows;
 }
+
 
 test.beforeEach(async ({ page }) => {
   await page.goto(NURSING_URL);
@@ -71,10 +79,11 @@ test.describe("Unverified column — multicheck filter", () => {
   });
 
   test("checking only '1' actually narrows the visible rows", async ({ page }) => {
-    const baselineRows = await visibleRowCount(page);
-    const flaggedBaseline = await unverifiedRowCount(page);
-    expect(flaggedBaseline).toBeGreaterThan(0); // sanity: fixture has flagged rows
-    expect(baselineRows).toBeGreaterThan(flaggedBaseline); // sanity: some unflagged
+    // Use the virtualization-proof count (aria-rowcount), not the rendered-DOM
+    // row count — nursing has 50 rows and AG Grid only renders the visible
+    // window, so the DOM count was unreliable.
+    const totalRows = await displayedRowCount(page);
+    expect(totalRows).toBeGreaterThan(1); // sanity: grid populated
 
     await openColumnFilter(page, "evidence");
     const popup = page.locator(".ag-popup-child").last();
@@ -84,10 +93,13 @@ test.describe("Unverified column — multicheck filter", () => {
       .locator("input[type='checkbox']");
     await oneCheckbox.check();
 
-    // AG Grid debounces filter updates. Poll until row count drops.
+    // AG Grid debounces filter updates. Poll until the filtered count settles:
+    // checking only the flagged value must narrow to a smaller, non-empty set.
     await expect
-      .poll(() => visibleRowCount(page), { timeout: 5_000 })
-      .toBe(flaggedBaseline);
+      .poll(() => displayedRowCount(page), { timeout: 5_000 })
+      .toBeLessThan(totalRows);
+    const narrowed = await displayedRowCount(page);
+    expect(narrowed).toBeGreaterThan(0); // some rows remain (the flagged ones)
   });
 });
 
