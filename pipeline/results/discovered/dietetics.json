@@ -1,0 +1,454 @@
+{
+  "profession": "dietetics",
+  "fields": [
+    {
+      "name": "license_type_structure",
+      "category": "types of credentials and license tiers",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "The distinct credential or license types recognized by the state (e.g., licensed dietitian, licensed nutritionist, dietitian-nutritionist, registered dietitian, provisionally licensed dietitian).",
+      "sample_quote": "LICENSED DIETITIAN/NUTRITIONIST. A person licensed under this chapter. TEMPORARILY LICENSED DIETITIAN/NUTRITIONIST. A person temporarily licensed under this chapter.",
+      "sample_state": "AL",
+      "states_supporting": [
+        "AK",
+        "AL",
+        "AR",
+        "CA",
+        "CT",
+        "DE",
+        "GA",
+        "HI",
+        "IA"
+      ]
+    },
+    {
+      "name": "provisional_license_available",
+      "category": "types of credentials and license tiers",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state offers a provisional or temporary license allowing practice under supervision while completing full licensure requirements.",
+      "sample_quote": "A provisional license to practice as a dietitian may be issued by the Arkansas Dietetics Licensing Board upon the filing of an application and submission of evidence of successful completion of the education requirements.",
+      "sample_state": "AR",
+      "states_supporting": [
+        "AL",
+        "AR",
+        "GA"
+      ]
+    },
+    {
+      "name": "provisional_license_duration_months",
+      "category": "types of credentials and license tiers",
+      "type": "int",
+      "enum_values": null,
+      "description": "Duration in months of a provisional or temporary license before it expires.",
+      "sample_quote": "A provisional license shall expire eighteen (18) months from the date of issuance.",
+      "sample_state": "AR",
+      "states_supporting": [
+        "AL",
+        "AR",
+        "GA"
+      ]
+    },
+    {
+      "name": "provisional_license_requires_supervision",
+      "category": "types of credentials and license tiers",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether a provisional or temporary license restricts the holder to practice only under the supervision of a fully licensed dietitian.",
+      "sample_quote": "A provisional license shall permit the holder to practice only under the supervision of a dietitian licensed in this state.",
+      "sample_state": "AR",
+      "states_supporting": [
+        "AL",
+        "AR",
+        "GA"
+      ]
+    },
+    {
+      "name": "dietetic_technician_recognized",
+      "category": "types of credentials and license tiers",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state statute explicitly recognizes a dietetic technician credential as a distinct, lower-tier role that may perform limited functions under supervision.",
+      "sample_quote": "DIETETIC TECHNICIAN. A person who is trained to perform specific dietetic functions of a licensed dietitian/nutritionist as defined by this chapter under the direct supervision of a licensed dietitian/nutritionist.",
+      "sample_state": "AL",
+      "states_supporting": [
+        "AL",
+        "AR",
+        "CA",
+        "CT",
+        "DE",
+        "GA"
+      ]
+    },
+    {
+      "name": "rd_credential_accepted_in_lieu_of_state_requirements",
+      "category": "types of credentials and license tiers",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether holding a current Registered Dietitian (RD/RDN) credential from the Commission on Dietetic Registration is explicitly accepted as satisfying all or most state licensure requirements.",
+      "sample_quote": "Persons who provide evidence of current registration as a registered dietitian awarded by the Commission on Dietetic Registration, credentialing agency of the American Dietetic Association shall be considered to have met the qualifications for licensure under this chapter.",
+      "sample_state": "DE",
+      "states_supporting": [
+        "AK",
+        "AL",
+        "AR",
+        "CA",
+        "CT",
+        "DE",
+        "GA",
+        "HI",
+        "IA"
+      ]
+    },
+    {
+      "name": "alternative_credential_pathways",
+      "category": "types of credentials and license tiers",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "Non-RD national credentials or membership bodies that the state accepts as an alternative pathway to licensure (e.g., Certified Nutrition Specialist, American Board of Nutrition diplomate).",
+      "sample_quote": "has qualified as a diplomate of the American Board of Nutrition or as a Certified Nutrition Specialist with the Certification Board for Nutrition Specialists",
+      "sample_state": "AK",
+      "states_supporting": [
+        "AK",
+        "AL"
+      ]
+    },
+    {
+      "name": "medical_nutrition_therapy_authorized",
+      "category": "what they can do clinically",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly authorizes the practice of 'medical nutrition therapy' as part of the dietitian's scope.",
+      "sample_quote": "The practice of dietetics. The synthesis and application of dietetics, primarily for the provision of nutrition care services, including medical nutrition therapy, in person or via telehealth, to prevent, manage, or treat diseases or medical conditions and promote wellness.",
+      "sample_state": "AL",
+      "states_supporting": [
+        "AL",
+        "CA",
+        "CT",
+        "DE",
+        "GA"
+      ]
+    },
+    {
+      "name": "enteral_parenteral_nutrition_authorized",
+      "category": "what they can do clinically",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly includes ordering or recommending enteral and/or parenteral nutrition within the dietitian's scope of practice.",
+      "sample_quote": "Interpreting and recommending interventions to meet nutrient needs relative to individual health status, including but not limited to medically prescribed diets, tube feedings and specialized intravenous solutions.",
+      "sample_state": "DE",
+      "states_supporting": [
+        "AL",
+        "AR",
+        "CA",
+        "CT",
+        "DE",
+        "GA",
+        "HI"
+      ]
+    },
+    {
+      "name": "diet_order_writing_authority",
+      "category": "what they can do clinically",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly grants dietitians authority to write or issue diet orders (including therapeutic diets) in institutional or hospital settings.",
+      "sample_quote": "A certified dietitian-nutritionist may write an order for a patient diet, including, but not limited to, a therapeutic diet for a patient in an institution.",
+      "sample_state": "CT",
+      "states_supporting": [
+        "AZ",
+        "CA",
+        "CT",
+        "DE"
+      ]
+    },
+    {
+      "name": "lab_test_ordering_authority",
+      "category": "what they can do clinically",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly grants dietitians authority to order medical laboratory tests related to nutrition therapy.",
+      "sample_quote": "A registered dietitian... may order medical laboratory tests related to medical nutrition therapy services when approved by the referring physician or the physician responsible for the care of the patient.",
+      "sample_state": "CA",
+      "states_supporting": [
+        "CA",
+        "CT"
+      ]
+    },
+    {
+      "name": "physician_referral_required",
+      "category": "what they can do clinically",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute requires a physician (or other authorized prescriber) referral or order before a dietitian may provide certain clinical nutrition services.",
+      "sample_quote": "a dietitian/nutritionist or registered dietitian meeting the qualifications set forth in Section 34-34-1, may, upon referral by a health care provider authorized to prescribe dietary treatments",
+      "sample_state": "AL",
+      "states_supporting": [
+        "AL",
+        "CA"
+      ]
+    },
+    {
+      "name": "diagnosis_treatment_prohibition",
+      "category": "what they can do clinically",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly prohibits dietitians from diagnosing, treating, or prescribing for human illness or otherwise practicing medicine.",
+      "sample_quote": "a person licensed to practice dietetics/nutrition or to provide nutritional care services shall not diagnose, treat, or prescribe for any human illness, injury, disease, impairment, or infirmity, or otherwise engage in the practice of medicine",
+      "sample_state": "AL",
+      "states_supporting": [
+        "AL",
+        "CA",
+        "CT"
+      ]
+    },
+    {
+      "name": "telehealth_practice_authorized",
+      "category": "what they can do clinically",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly authorizes dietitians to provide services via telehealth.",
+      "sample_quote": "The practice of dietetics. The synthesis and application of dietetics, primarily for the provision of nutrition care services, including medical nutrition therapy, in person or via telehealth, to prevent, manage, or treat diseases or medical conditions and promote wellness.",
+      "sample_state": "AL",
+      "states_supporting": [
+        "AL"
+      ]
+    },
+    {
+      "name": "supervision_ratio_limit",
+      "category": "supervision and delegation",
+      "type": "int",
+      "enum_values": null,
+      "description": "Maximum number of dietetic technicians a single registered dietitian may supervise at one time.",
+      "sample_quote": "a registered dietitian shall not supervise more than two dietetic technicians, registered at one time.",
+      "sample_state": "CA",
+      "states_supporting": [
+        "CA"
+      ]
+    },
+    {
+      "name": "direct_supervision_defined",
+      "category": "supervision and delegation",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute provides an explicit definition of 'direct supervision' for dietetic technicians or provisional licensees, including physical presence or availability requirements.",
+      "sample_quote": "'direct supervision' means the supervising registered dietitian shall be physically available to the dietetic technician, registered for consultation whenever consultation is required.",
+      "sample_state": "CA",
+      "states_supporting": [
+        "CA",
+        "AR",
+        "GA"
+      ]
+    },
+    {
+      "name": "exempt_professions_list",
+      "category": "who is exempt from the license requirement",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "Categories of other licensed professionals explicitly exempted from the dietetics licensure requirement when performing nutrition-related activities incidental to their own profession.",
+      "sample_quote": "A licensed physician, pharmacist, or nurse from engaging in the practice of dietetics if incidental to the practice of his or her profession, and if the person does not hold himself or herself out under the title of dietitian or licensed dietitian",
+      "sample_state": "AR",
+      "states_supporting": [
+        "AL",
+        "AR",
+        "CA",
+        "CT",
+        "DE",
+        "GA",
+        "IA"
+      ]
+    },
+    {
+      "name": "federal_employee_exemption",
+      "category": "who is exempt from the license requirement",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether persons employed by the federal government (including armed forces, VA, or public health service) in a dietitian or nutritionist role are explicitly exempt from state licensure.",
+      "sample_quote": "A dietitian who is serving in the armed forces or the United States Public Health Service or is employed by the Department of Veterans Affairs from engaging in the practice of dietetics, provided that the practice is related to that service or employment",
+      "sample_state": "AR",
+      "states_supporting": [
+        "AK",
+        "AL",
+        "AR",
+        "CT",
+        "DE",
+        "GA",
+        "HI",
+        "IA"
+      ]
+    },
+    {
+      "name": "weight_control_program_exemption",
+      "category": "who is exempt from the license requirement",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether persons offering weight control programs are explicitly exempt from licensure, typically conditioned on the program being reviewed or approved by a licensed or registered dietitian.",
+      "sample_quote": "A person who offers weight control programs prepared under the supervision of or approved by a registered dietitian or a licensed dietitian... if the person does not hold himself or herself out under the title of dietitian or licensed dietitian",
+      "sample_state": "AR",
+      "states_supporting": [
+        "AL",
+        "AR",
+        "CT",
+        "DE",
+        "GA"
+      ]
+    },
+    {
+      "name": "food_supplement_sales_exemption",
+      "category": "who is exempt from the license requirement",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether persons who sell, market, or provide information about food, dietary supplements, vitamins, or herbs are explicitly exempt from the dietetics licensure requirement.",
+      "sample_quote": "Nothing in this chapter is intended to prohibit any person who does not hold himself or herself out to be a dietitian or nutritionist from furnishing general nutritional information on food, food materials, or dietary supplements or from engaging in the explanation to customers about foods or food products in connection with marketing and distribution of those products",
+      "sample_state": "AL",
+      "states_supporting": [
+        "AL",
+        "AR",
+        "CT",
+        "DE",
+        "GA",
+        "IA"
+      ]
+    },
+    {
+      "name": "animal_nutrition_exemption",
+      "category": "who is exempt from the license requirement",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether persons whose nutrition practice is limited to animals are explicitly exempt from the human dietetics licensure requirement.",
+      "sample_quote": "an animal nutritionist whose activities are limited to the nutritional care of animals; animal nutritionists may use the title 'nutritionist' as long as they provide nutrition services only to animals",
+      "sample_state": "AK",
+      "states_supporting": [
+        "AK",
+        "AR"
+      ]
+    },
+    {
+      "name": "nonresident_temporary_practice_allowed",
+      "category": "who is exempt from the license requirement",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether out-of-state dietitians may practice in the state for a limited period without obtaining a state license.",
+      "sample_quote": "A nonresident dietitian practicing dietetics in this state, if: (A) The dietetics are performed for no more than one hundred eighty (180) consecutive working days",
+      "sample_state": "AR",
+      "states_supporting": [
+        "AR",
+        "GA",
+        "IA"
+      ]
+    },
+    {
+      "name": "nonresident_temporary_practice_max_days",
+      "category": "who is exempt from the license requirement",
+      "type": "int",
+      "enum_values": null,
+      "description": "Maximum number of days per year a nonresident dietitian may practice in the state without a state license.",
+      "sample_quote": "The dietetics are performed for no more than one hundred eighty (180) consecutive working days",
+      "sample_state": "AR",
+      "states_supporting": [
+        "AR",
+        "GA"
+      ]
+    },
+    {
+      "name": "interstate_compact_member",
+      "category": "interstate practice and portability",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state has enacted the Dietitian Licensure Compact, enabling multistate practice privileges.",
+      "sample_quote": "The purpose of this compact is to facilitate interstate practice of dietetics with the goal of improving public access to dietetics services.",
+      "sample_state": "AL",
+      "states_supporting": [
+        "AL"
+      ]
+    },
+    {
+      "name": "compact_privilege_jurisprudence_requirement",
+      "category": "interstate practice and portability",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether a state may require applicants for a compact practice privilege to pass a jurisprudence (state law knowledge) assessment.",
+      "sample_quote": "Meet any jurisprudence requirements established by the remote state in which the licensee is seeking a compact privilege",
+      "sample_state": "AL",
+      "states_supporting": [
+        "AL"
+      ]
+    },
+    {
+      "name": "protected_titles",
+      "category": "protected titles and credential abbreviations",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "The specific titles, words, letters, or abbreviations that are legally restricted to licensed or certified practitioners under the statute.",
+      "sample_quote": "No person shall... use the title 'Licensed Dietitian,' 'Licensed Nutritionist,' 'Nutritionist,' 'Dietitian,' use the letters 'L.D.N.', or any combination of above terms and/or abbreviations unless such a person is licensed under this chapter.",
+      "sample_state": "DE",
+      "states_supporting": [
+        "AK",
+        "AL",
+        "AR",
+        "CA",
+        "CT",
+        "DE",
+        "GA",
+        "HI",
+        "IA"
+      ]
+    },
+    {
+      "name": "nutrition_assessment_includes_biochemical_data",
+      "category": "what they can do clinically",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statutory definition of nutritional assessment explicitly includes biochemical and anthropometric data as evaluation components.",
+      "sample_quote": "Nutritional assessment means the evaluation of the nutritional needs of individuals and groups, based upon appropriate biochemical, anthropometric, physical, and dietary data, to determine nutrient needs and recommend appropriate nutritional intervention, including enteral and parenteral nutrition",
+      "sample_state": "AR",
+      "states_supporting": [
+        "AL",
+        "AR",
+        "CT",
+        "DE",
+        "GA"
+      ]
+    },
+    {
+      "name": "hospital_order_authority_requires_policy",
+      "category": "practice setting and facility rules",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether a dietitian's authority to issue orders in a hospital setting is conditioned on the hospital having written policies and procedures authorizing such orders.",
+      "sample_quote": "A hospital... may allow a registered dietitian or other qualified nutrition professional to order diets, enteral feeding, nutritional supplementation or parenteral nutrition if... The hospital's written policies and procedures allow registered dietitians or other qualified nutrition professionals to issue such orders.",
+      "sample_state": "AZ",
+      "states_supporting": [
+        "AZ",
+        "CA"
+      ]
+    },
+    {
+      "name": "inactive_license_status_available",
+      "category": "license administration",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state allows a licensee to place their license in an inactive status for a defined period.",
+      "sample_quote": "Upon request, the director may grant inactive status to a person licensed under this chapter.",
+      "sample_state": "HI",
+      "states_supporting": [
+        "DE",
+        "GA",
+        "HI"
+      ]
+    },
+    {
+      "name": "ethics_code_violation_grounds_for_discipline",
+      "category": "license administration",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether violation of a recognized professional code of ethics (e.g., the American Dietetic Association's code) is explicitly listed as a ground for disciplinary action.",
+      "sample_quote": "Has violated the Code of Ethics as established by the American Dietetic Association",
+      "sample_state": "DE",
+      "states_supporting": [
+        "DE",
+        "HI"
+      ]
+    }
+  ]
+}

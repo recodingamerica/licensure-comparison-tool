@@ -1,0 +1,639 @@
+{
+  "profession": "dietetics",
+  "fields": [
+    {
+      "field_name": "licensure.license_required",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether a state license is required to practice"
+    },
+    {
+      "field_name": "licensure.issuing_authority",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text agency names, essentially unique per state"
+    },
+    {
+      "field_name": "licensure.regulatory_authority.name",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text agency names, essentially unique per state"
+    },
+    {
+      "field_name": "licensure.regulatory_authority.type",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "standalone_board",
+        "shared_board",
+        "department",
+        "division",
+        "joint"
+      ],
+      "reason": "small stable set of governance structure types, directly comparable across states"
+    },
+    {
+      "field_name": "licensure.education.degree_required",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text descriptions of degree requirements with many state-specific nuances"
+    },
+    {
+      "field_name": "licensure.education.accrediting_body",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text names of accrediting bodies, highly variable across states"
+    },
+    {
+      "field_name": "licensure.post_degree_experience.required",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether post-degree supervised experience is required"
+    },
+    {
+      "field_name": "licensure.post_degree_experience.duration",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text mixing hours and months with complex conditional structures, not uniformly convertible"
+    },
+    {
+      "field_name": "licensure.post_degree_experience.kind",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text descriptions of experience type, too varied for consistent categorization"
+    },
+    {
+      "field_name": "licensure.exams",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "only a handful of states with empty arrays; insufficient data for meaningful mapping"
+    },
+    {
+      "field_name": "licensure.renewal.interval_years",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "years",
+      "categories": null,
+      "reason": "numeric renewal cycle length in years, directly comparable across states"
+    },
+    {
+      "field_name": "licensure.reciprocity.available",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether reciprocal licensure is available"
+    },
+    {
+      "field_name": "licensure.reciprocity.requirements",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text prose descriptions of reciprocity conditions, unique per state"
+    },
+    {
+      "field_name": "licensure.advisory_board.exists",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether a separate advisory board exists"
+    },
+    {
+      "field_name": "licensure.national_certification",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text lists of accepted national certifications, variable per state"
+    },
+    {
+      "field_name": "licensure.national_association",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text association names, idiosyncratic per state"
+    },
+    {
+      "field_name": "licensure.regulatory_model",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "license",
+        "mandatory_certification",
+        "registration",
+        "voluntary_certification",
+        "exemption",
+        "market_forces"
+      ],
+      "reason": "values come from the UORF regulatory ladder enum"
+    },
+    {
+      "field_name": "licensure.credential_type",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "license",
+        "certification",
+        "registration",
+        "none"
+      ],
+      "reason": "small stable set of credential types issued by the state"
+    },
+    {
+      "field_name": "licensure.is_mandatory",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether the credential is mandatory to practice"
+    },
+    {
+      "field_name": "licensure.title_protection",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether protected titles are established by statute"
+    },
+    {
+      "field_name": "licensure.scope_protection",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether the scope of practice is legally protected beyond title"
+    },
+    {
+      "field_name": "scope.definition_quote",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text statutory definitions of dietetics practice, not comparable"
+    },
+    {
+      "field_name": "profession_specific.license_type_structure",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text lists of license tiers unique to each state, not uniformly comparable"
+    },
+    {
+      "field_name": "profession_specific.rd_credential_accepted_in_lieu_of_state_requirements",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether CDR registered dietitian credential satisfies state requirements"
+    },
+    {
+      "field_name": "profession_specific.alternative_credential_pathways",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text lists of alternative credentials, highly variable across states"
+    },
+    {
+      "field_name": "profession_specific.exempt_professions_list",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text lists of exempt professions and conditions, unique per state"
+    },
+    {
+      "field_name": "profession_specific.federal_employee_exemption",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether federal employees are explicitly exempt from licensure requirements"
+    },
+    {
+      "field_name": "profession_specific.animal_nutrition_exemption",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether animal nutritionists are explicitly exempt"
+    },
+    {
+      "field_name": "profession_specific.nonresident_temporary_practice_allowed",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether nonresident practitioners may practice temporarily without a state license"
+    },
+    {
+      "field_name": "profession_specific.protected_titles",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text lists of protected title strings, unique per state"
+    },
+    {
+      "field_name": "licensure.age_minimum",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "years",
+      "categories": null,
+      "reason": "integer minimum age for licensure, directly comparable across states"
+    },
+    {
+      "field_name": "licensure.moral_character_required",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether good moral character is a statutory licensure requirement"
+    },
+    {
+      "field_name": "licensure.continuing_education.required",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether continuing education is required for license renewal"
+    },
+    {
+      "field_name": "scope.methods_authorized",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text lists of authorized practice methods, highly variable and idiosyncratic per state"
+    },
+    {
+      "field_name": "profession_specific.provisional_license_available",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether a provisional or temporary license is available"
+    },
+    {
+      "field_name": "profession_specific.provisional_license_duration_months",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "months",
+      "categories": null,
+      "reason": "numeric duration of provisional license in months, directly comparable across states"
+    },
+    {
+      "field_name": "profession_specific.dietetic_technician_recognized",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether dietetic technicians are formally recognized in statute or regulation"
+    },
+    {
+      "field_name": "profession_specific.medical_nutrition_therapy_authorized",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether medical nutrition therapy is explicitly authorized in scope"
+    },
+    {
+      "field_name": "profession_specific.enteral_parenteral_nutrition_authorized",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether enteral and parenteral nutrition ordering is explicitly authorized"
+    },
+    {
+      "field_name": "profession_specific.physician_referral_required",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether a physician referral is required before dietitian services"
+    },
+    {
+      "field_name": "profession_specific.diagnosis_treatment_prohibition",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether statute explicitly prohibits dietitians from diagnosing or treating medical conditions"
+    },
+    {
+      "field_name": "profession_specific.telehealth_practice_authorized",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether telehealth practice is explicitly authorized in statute or regulation"
+    },
+    {
+      "field_name": "profession_specific.direct_supervision_defined",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether direct supervision is formally defined in statute or regulation"
+    },
+    {
+      "field_name": "profession_specific.weight_control_program_exemption",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether weight control programs are explicitly exempt from licensure requirements"
+    },
+    {
+      "field_name": "profession_specific.food_supplement_sales_exemption",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether food/dietary supplement sellers are explicitly exempt from licensure requirements"
+    },
+    {
+      "field_name": "profession_specific.interstate_compact_member",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether the state is a member of the dietetics interstate compact"
+    },
+    {
+      "field_name": "profession_specific.compact_privilege_jurisprudence_requirement",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether a jurisprudence exam is required for compact privilege"
+    },
+    {
+      "field_name": "profession_specific.nutrition_assessment_includes_biochemical_data",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether biochemical data is explicitly included in the statutory definition of nutrition assessment"
+    },
+    {
+      "field_name": "profession_specific.provisional_license_requires_supervision",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether supervision is required during the provisional license period"
+    },
+    {
+      "field_name": "profession_specific.nonresident_temporary_practice_max_days",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "days",
+      "categories": null,
+      "reason": "numeric maximum days a nonresident may practice temporarily, directly comparable across states"
+    },
+    {
+      "field_name": "licensure.disciplinary_grounds",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "only one state with an empty array; insufficient and non-comparable data"
+    },
+    {
+      "field_name": "profession_specific.diet_order_writing_authority",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether dietitians are explicitly authorized to write diet orders"
+    },
+    {
+      "field_name": "profession_specific.hospital_order_authority_requires_policy",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether hospital diet order authority requires an institutional policy or protocol"
+    },
+    {
+      "field_name": "profession_specific.lab_test_ordering_authority",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether dietitians are explicitly authorized to order laboratory tests"
+    },
+    {
+      "field_name": "profession_specific.supervision_ratio_limit",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "supervised persons per dietitian",
+      "categories": null,
+      "reason": "numeric cap on the number of persons a dietitian may supervise simultaneously"
+    },
+    {
+      "field_name": "licensure.renewal_fee_usd",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "USD",
+      "categories": null,
+      "reason": "numeric license renewal fee in US dollars, directly comparable across states"
+    },
+    {
+      "field_name": "licensure.regulatory_authority.umbrella_agency",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text names of umbrella agencies, essentially unique per state"
+    },
+    {
+      "field_name": "licensure.continuing_education.hours_per_period",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "hours per renewal period",
+      "categories": null,
+      "reason": "numeric CE hours required per renewal period; use alongside period_years for rate comparison"
+    },
+    {
+      "field_name": "licensure.continuing_education.period_years",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "years",
+      "categories": null,
+      "reason": "numeric length of the continuing education reporting period in years"
+    },
+    {
+      "field_name": "scope.drug_authority",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text descriptions of drug-related authority, highly variable and only present in a few states"
+    },
+    {
+      "field_name": "profession_specific.inactive_license_status_available",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether an inactive license status is available"
+    },
+    {
+      "field_name": "profession_specific.ethics_code_violation_grounds_for_discipline",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether violation of a professional ethics code is explicit grounds for discipline"
+    },
+    {
+      "field_name": "licensure.advisory_board.name",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text advisory board names, unique per state"
+    },
+    {
+      "field_name": "licensure.advisory_board.authority",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text descriptions of advisory board authority, highly variable per state"
+    },
+    {
+      "field_name": "licensure.continuing_education.topical_requirements",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text topic lists present for only one state, not comparable across states"
+    }
+  ]
+}

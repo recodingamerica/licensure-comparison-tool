@@ -2,79 +2,385 @@
   "state": "NY",
   "profession": "medicine",
   "licensure": {
-    "license_required": null,
-    "issuing_authority": null,
-    "regulatory_authority": null,
-    "age_minimum": null,
-    "moral_character_required": null,
-    "education": null,
-    "post_degree_experience": null,
-    "exams": [],
-    "renewal": null,
-    "renewal_fee_usd": null,
-    "continuing_education": null,
-    "reciprocity": null,
-    "advisory_board": null,
-    "national_certification": null,
-    "national_association": null,
-    "regulatory_model": null,
-    "credential_type": null,
-    "is_mandatory": null,
-    "title_protection": null,
-    "scope_protection": null,
-    "disciplinary_grounds": [],
+    "license_required": {
+      "value": true,
+      "quote": "Only a person licensed or otherwise authorized under this article shall practice medicine or use the title \"physician\".",
+      "citation": "6522"
+    },
+    "issuing_authority": {
+      "value": "Education Department (Board of Regents)",
+      "quote": "Admission to practice of a profession in this state is accomplished by a license being issued to a qualified applicant by the education department.",
+      "citation": "6501"
+    },
+    "regulatory_authority": {
+      "name": {
+        "value": "New York State Education Department / Board of Regents",
+        "quote": "The board of regents shall supervise the admission to and the practice of the professions.",
+        "citation": "6506"
+      },
+      "type": {
+        "value": "shared_board",
+        "quote": "The board of regents shall supervise the admission to and the practice of the professions.",
+        "citation": "6506"
+      },
+      "umbrella_agency": {
+        "value": "New York State Education Department",
+        "quote": "The commissioner and the department shall administer the admission to and the practice of the professions.",
+        "citation": "6507"
+      }
+    },
+    "age_minimum": {
+      "value": 21,
+      "quote": "Age: be at least twenty-one years of age; however, the commissioner may waive the age requirement for applicants who have attained the age of eighteen and will be in a residency program until the age of twenty-one",
+      "citation": "6524"
+    },
+    "moral_character_required": {
+      "value": true,
+      "quote": "Character: be of good moral character as determined by the department",
+      "citation": "6524"
+    },
+    "education": {
+      "degree_required": {
+        "value": "Doctor of Medicine (M.D.) or Doctor of Osteopathy (D.O.) or equivalent degree",
+        "quote": "Education: have received an education, including a degree of doctor of medicine, \"M.D.\", or doctor of osteopathy, \"D.O.\", or equivalent degree in accordance with the commissioner's regulations",
+        "citation": "6524"
+      },
+      "accrediting_body": {
+        "value": "Liaison Committee on Medical Education",
+        "quote": "has attained a score satisfactory to a medical school approved by the Liaison Committee on Medical Education on a qualifying examination acceptable to the state board for medicine",
+        "citation": "6528"
+      }
+    },
+    "post_degree_experience": {
+      "required": {
+        "value": true,
+        "quote": "Experience: have experience satisfactory to the board and in accordance with the commissioner's regulations",
+        "citation": "6524"
+      },
+      "duration": null,
+      "kind": {
+        "value": "post-graduate hospital training / residency",
+        "quote": "has completed the post-graduate hospital training required by the Board of all applicants for licensure",
+        "citation": "6528"
+      }
+    },
+    "exams": [
+      {
+        "name": "State Board Examination for Medicine",
+        "required": true,
+        "notes": "Examination satisfactory to the board and in accordance with the commissioner's regulations",
+        "jurisdiction": "state board (New York State Board for Medicine)",
+        "permitted_attempts": null,
+        "quote": "Examination: pass an examination satisfactory to the board and in accordance with the commissioner's regulations",
+        "citation": "6524"
+      },
+      {
+        "name": "ECFMG (Educational Council for Foreign Medical Graduates) standard certificate",
+        "required": false,
+        "notes": "Required for foreign physicians seeking limited permits under 6525(1)(2); not required for candidates who satisfy 6528(a)(1)-(3)",
+        "jurisdiction": "national (ECFMG)",
+        "permitted_attempts": null,
+        "quote": "A foreign physician who holds a standard certificate from the educational council for foreign medical graduates or who has passed an examination satisfactory to the state board for medicine",
+        "citation": "6525"
+      }
+    ],
+    "renewal": {
+      "interval_years": {
+        "value": 2,
+        "quote": "a fee of five hundred seventy dollars for any biennial registration period commencing August first, nineteen hundred ninety-six and thereafter",
+        "citation": "6524"
+      }
+    },
+    "renewal_fee_usd": {
+      "value": 570,
+      "quote": "a fee of five hundred seventy dollars for any biennial registration period commencing August first, nineteen hundred ninety-six and thereafter",
+      "citation": "6524"
+    },
+    "continuing_education": {
+      "required": {
+        "value": true,
+        "quote": "the commissioner shall establish standards requiring that all persons applying, on or after January first, nineteen hundred ninety-one, initially, or for the renewal of, a license, registration or limited permit to be a physician... shall, in addition to all the other licensure, certification or permit requirements, have completed two hours of coursework or training regarding the identification and reporting of child abuse and maltreatment",
+        "citation": "6507"
+      },
+      "hours_per_period": {
+        "value": 2,
+        "quote": "have completed two hours of coursework or training regarding the identification and reporting of child abuse and maltreatment",
+        "citation": "6507"
+      },
+      "period_years": null,
+      "topical_requirements": {
+        "value": [
+          "child abuse and maltreatment identification and reporting"
+        ],
+        "quote": "have completed two hours of coursework or training regarding the identification and reporting of child abuse and maltreatment",
+        "citation": "6507"
+      }
+    },
+    "reciprocity": {
+      "available": {
+        "value": true,
+        "quote": "Indorse a license issued by a licensing board of another state or country upon the applicant fulfilling the following requirements",
+        "citation": "6506"
+      },
+      "requirements": {
+        "value": "Applicant must file application, meet educational requirements, have satisfactory experience, pass examination, be at least 21, be US citizen or lawful permanent resident, be of good moral character, and have no disqualifying prior disciplinary history",
+        "quote": "Indorse a license issued by a licensing board of another state or country upon the applicant fulfilling the following requirements: (a) Application: file an application with the department; (b) Education: meet educational requirements in accordance with the commissioner's regulations; (c) Experience: have experience satisfactory to the board and in accordance with the commissioner's regulations; (d) Examination: pass an examination satisfactory to the board and in accordance with the commissioner's regulations",
+        "citation": "6506"
+      }
+    },
+    "advisory_board": {
+      "exists": {
+        "value": false,
+        "quote": "The board of regents shall supervise the admission to and the practice of the professions.",
+        "citation": "6506"
+      },
+      "name": null,
+      "authority": null
+    },
+    "national_certification": {
+      "value": "Educational Council for Foreign Medical Graduates (ECFMG)",
+      "quote": "A foreign physician who holds a standard certificate from the educational council for foreign medical graduates or who has passed an examination satisfactory to the state board for medicine",
+      "citation": "6525"
+    },
+    "national_association": {
+      "value": "Liaison Committee on Medical Education",
+      "quote": "has attained a score satisfactory to a medical school approved by the Liaison Committee on Medical Education on a qualifying examination acceptable to the state board for medicine",
+      "citation": "6528"
+    },
+    "regulatory_model": {
+      "value": "license",
+      "quote": "Only a person licensed or otherwise authorized under this article shall practice medicine or use the title \"physician\".",
+      "citation": "6522"
+    },
+    "credential_type": {
+      "value": "license",
+      "quote": "Admission to practice of a profession in this state is accomplished by a license being issued to a qualified applicant by the education department.",
+      "citation": "6501"
+    },
+    "is_mandatory": {
+      "value": true,
+      "quote": "Only a person licensed or otherwise authorized under this article shall practice medicine or use the title \"physician\".",
+      "citation": "6522"
+    },
+    "title_protection": {
+      "value": true,
+      "quote": "Only a person licensed or otherwise authorized under this article shall practice medicine or use the title \"physician\".",
+      "citation": "6522"
+    },
+    "scope_protection": {
+      "value": true,
+      "quote": "Anyone not authorized to practice under this title who practices or offers to practice or holds himself out as being able to practice in any profession in which a license is a prerequisite to the practice of the acts... shall be guilty of a class E felony.",
+      "citation": "6512"
+    },
+    "disciplinary_grounds": [
+      {
+        "short_label": "fraud_in_obtaining_license",
+        "description": "Obtaining the license fraudulently",
+        "quote": "Obtaining the license fraudulently",
+        "citation": "6509"
+      },
+      {
+        "short_label": "fraudulent_or_incompetent_practice",
+        "description": "Practicing the profession fraudulently, beyond its authorized scope, with gross incompetence, with gross negligence on a particular occasion or negligence or incompetence on more than one occasion",
+        "quote": "Practicing the profession fraudulently, beyond its authorized scope, with gross incompetence, with gross negligence on a particular occasion or negligence or incompetence on more than one occasion",
+        "citation": "6509"
+      },
+      {
+        "short_label": "practice_while_impaired",
+        "description": "Practicing the profession while the ability to practice is impaired by alcohol, drugs, physical disability, or mental disability",
+        "quote": "Practicing the profession while the ability to practice is impaired by alcohol, drugs, physical disability, or mental disability",
+        "citation": "6509"
+      },
+      {
+        "short_label": "habitual_drug_alcohol_abuse",
+        "description": "Being habitually drunk or being dependent on, or a habitual user of narcotics, barbiturates, amphetamines, hallucinogens, or other drugs having similar effects",
+        "quote": "Being habitually drunk or being dependent on, or a habitual user of narcotics, barbiturates, amphetamines, hallucinogens, or other drugs having similar effects",
+        "citation": "6509"
+      },
+      {
+        "short_label": "criminal_conviction",
+        "description": "Being convicted of committing an act constituting a crime under New York State, federal, or other jurisdiction law",
+        "quote": "Being convicted of committing an act constituting a crime under: (i) New York State law or, (ii) Federal law or, (iii) The law of another jurisdiction",
+        "citation": "6509"
+      },
+      {
+        "short_label": "out_of_state_disciplinary_finding",
+        "description": "Having been found guilty of improper professional practice or professional misconduct by a duly authorized professional disciplinary agency of another state",
+        "quote": "Having been found guilty of improper professional practice or professional misconduct by a duly authorized professional disciplinary agency of another state where the conduct upon which the finding was based would, if committed in New York state, constitute professional misconduct under the laws of New York state",
+        "citation": "6509"
+      },
+      {
+        "short_label": "public_health_law_violation",
+        "description": "Having been found by the commissioner of health to be in violation of article thirty-three of the public health law",
+        "quote": "Having been found by the commissioner of health to be in violation of article thirty-three of the public health law.",
+        "citation": "6509"
+      },
+      {
+        "short_label": "license_revoked_another_state",
+        "description": "Having one's license to practice medicine revoked, suspended, or otherwise disciplined by another state's professional disciplinary agency for conduct that would constitute professional misconduct in New York",
+        "quote": "Having his license to practice medicine revoked, suspended or having other disciplinary action taken, or having his application for a license refused, revoked or suspended or having voluntarily or otherwise surrendered his license after a disciplinary action was instituted by a duly authorized professional disciplinary agency of another state",
+        "citation": "6509"
+      },
+      {
+        "short_label": "discriminatory_refusal_of_service",
+        "description": "Refusing to provide professional service to a person because of such person's race, creed, color, or national origin",
+        "quote": "Refusing to provide professional service to a person because of such person's race, creed, color, or national origin",
+        "citation": "6509"
+      },
+      {
+        "short_label": "aiding_unlicensed_practice",
+        "description": "Permitting, aiding or abetting an unlicensed person to perform activities requiring a license",
+        "quote": "Permitting, aiding or abetting an unlicensed person to perform activities requiring a license",
+        "citation": "6509"
+      },
+      {
+        "short_label": "practicing_while_suspended_or_failing_to_register",
+        "description": "Practicing the profession while the license is suspended, or wilfully failing to register or notify the department of any change of name or mailing address",
+        "quote": "Practicing the profession while the license is suspended, or wilfully failing to register or notify the department of any change of name or mailing address",
+        "citation": "6509"
+      },
+      {
+        "short_label": "unprofessional_conduct",
+        "description": "Committing unprofessional conduct, as defined by the board of regents in its rules or by the commissioner in regulations",
+        "quote": "Committing unprofessional conduct, as defined by the board of regents in its rules or by the commissioner in regulations approved by the board of regents",
+        "citation": "6509"
+      },
+      {
+        "short_label": "public_health_law_2803d_2805k_violation",
+        "description": "A violation of section twenty-eight hundred three-d or twenty-eight hundred five-k of the public health law",
+        "quote": "A violation of section twenty-eight hundred three-d or twenty-eight hundred five-k of the public health law.",
+        "citation": "6509"
+      },
+      {
+        "short_label": "infection_control_training_violation",
+        "description": "A violation of section six thousand five hundred five-b (infection control training) of this chapter by a professional other than one subject to paragraph (f) of subdivision one of section twenty-eight hundred five-k of the public health law",
+        "quote": "A violation of section six thousand five hundred five-b of this chapter by a professional other than a professional subject to the provisions of paragraph (f) of subdivision one of section twenty-eight hundred five-k of the public health law.",
+        "citation": "6509"
+      }
+    ],
+    "alternative_regulation": {
+      "bonding_required": null,
+      "insurance_required": null,
+      "establishment_regulation_required": null
+    },
     "citations": [
       {
-        "cite": "N.Y. Educ. Law \u00a7 6520",
-        "kind": null
+        "cite": "6521",
+        "kind": "definition of practice"
       },
       {
-        "cite": "N.Y. Educ. Law \u00a7 6521",
-        "kind": null
+        "cite": "6522",
+        "kind": "practice and title restriction"
       },
       {
-        "cite": "N.Y. Educ. Law \u00a7 6522",
-        "kind": null
+        "cite": "6524",
+        "kind": "licensure requirements"
       },
       {
-        "cite": "N.Y. Educ. Law \u00a7 6523",
-        "kind": null
+        "cite": "6525",
+        "kind": "limited permits"
       },
       {
-        "cite": "N.Y. Educ. Law \u00a7 6524",
-        "kind": null
+        "cite": "6526",
+        "kind": "exempt persons"
       },
       {
-        "cite": "N.Y. Educ. Law \u00a7 6525",
-        "kind": null
+        "cite": "6527",
+        "kind": "special provisions"
       },
       {
-        "cite": "N.Y. Educ. Law \u00a7 6526",
-        "kind": null
+        "cite": "6528",
+        "kind": "foreign medical graduate qualification"
       },
       {
-        "cite": "N.Y. Educ. Law \u00a7 6527",
-        "kind": null
+        "cite": "6529",
+        "kind": "board of regents degree power"
       },
       {
-        "cite": "N.Y. Educ. Law \u00a7 6528",
-        "kind": null
+        "cite": "6501",
+        "kind": "admission to profession"
       },
       {
-        "cite": "N.Y. Educ. Law \u00a7 6529",
-        "kind": null
+        "cite": "6502",
+        "kind": "license duration and registration"
+      },
+      {
+        "cite": "6506",
+        "kind": "board of regents supervision"
+      },
+      {
+        "cite": "6507",
+        "kind": "education department administration"
+      },
+      {
+        "cite": "6509",
+        "kind": "professional misconduct definitions"
+      },
+      {
+        "cite": "6510",
+        "kind": "misconduct proceedings"
+      },
+      {
+        "cite": "6511",
+        "kind": "penalties"
+      },
+      {
+        "cite": "6512",
+        "kind": "unauthorized practice crime"
+      },
+      {
+        "cite": "6513",
+        "kind": "unauthorized title use crime"
       }
     ]
   },
   "scope": {
-    "definition_quote": null,
-    "methods_authorized": null,
-    "drug_authority": null,
-    "citations": []
+    "definition_quote": {
+      "value": "The practice of the profession of medicine is defined as diagnosing, treating, operating or prescribing for any human disease, pain, injury, deformity or physical condition.",
+      "quote": "The practice of the profession of medicine is defined as diagnosing, treating, operating or prescribing for any human disease, pain, injury, deformity or physical condition.",
+      "citation": "6521"
+    },
+    "methods_authorized": {
+      "value": [
+        "diagnosing",
+        "treating",
+        "operating",
+        "prescribing"
+      ],
+      "quote": "diagnosing, treating, operating or prescribing for any human disease, pain, injury, deformity or physical condition",
+      "citation": "6521"
+    },
+    "drug_authority": {
+      "value": "Licensed physicians may prescribe and order patient-specific and non-patient-specific regimens for various treatments including immunizations, opioid antagonists, hormonal contraceptives, insulin, and HIV post-exposure prophylaxis",
+      "quote": "A licensed physician may prescribe and order a non-patient specific regimen to a registered professional nurse, pursuant to regulations promulgated by the commissioner",
+      "citation": "6527"
+    },
+    "citations": [
+      {
+        "cite": "6521",
+        "kind": "scope definition"
+      },
+      {
+        "cite": "6527",
+        "kind": "prescribing authority"
+      }
+    ]
   },
   "profession_specific": {
-    "license_status_types": null,
-    "foreign_medical_graduate_requirements": null,
+    "license_status_types": {
+      "value": [
+        "active",
+        "inactive",
+        "limited permit"
+      ],
+      "quote": "The licensure status of such licensee shall be \"inactive\" and he or she shall not be authorized to practice the profession",
+      "citation": "6510-b"
+    },
+    "foreign_medical_graduate_requirements": {
+      "value": "Foreign medical graduates may qualify by holding an ECFMG standard certificate or by satisfying special qualifications under §6528: studying at a WHO-recognized foreign medical school, completing all formal requirements except internship/social service, attaining a qualifying exam score satisfactory to an LCME-approved school with one year of supervised clinical training, completing required post-graduate hospital training, and passing the board examination",
+      "quote": "A foreign physician who holds a standard certificate from the educational council for foreign medical graduates or who has passed an examination satisfactory to the state board for medicine and in accordance with the commissioner's regulations",
+      "citation": "6525"
+    },
     "postgraduate_training_years_required": null,
     "pain_management_education_required": null,
     "opioid_prescribing_limits": null,
@@ -88,11 +394,19 @@
     "max_physician_assistants_per_supervising_physician": null,
     "malpractice_reporting_required": null,
     "hospital_privilege_action_reporting_required": null,
-    "impaired_physician_program_authorized": null,
+    "impaired_physician_program_authorized": {
+      "value": true,
+      "quote": "There shall be appointed within the department, by the board of regents, a committee on drug and alcohol abuse, which shall advise the board of regents on matters relating to practice by professional licensees with drug or alcohol abuse problems",
+      "citation": "6510-b"
+    },
     "compelled_mental_physical_exam_authority": null,
     "administrative_medicine_license_available": null,
     "locum_tenens_permit_available": null,
     "sexual_misconduct_training_required": null,
-    "investigational_drug_protection": null
+    "investigational_drug_protection": {
+      "value": true,
+      "quote": "The physician's use of whatever medical care, conventional or non-conventional, which effectively treats human disease, pain, injury, deformity or physical condition.",
+      "citation": "6527"
+    }
   }
 }

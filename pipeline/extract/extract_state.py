@@ -121,19 +121,32 @@ SYSTEM_PROMPT = load_prompt("extract_state")
 
 
 def _null_out_invalid_paths(data: dict, errors: list[dict]) -> int:
-    """Walk Pydantic validation errors and set offending leaf fields to None.
-    Returns count of fixes applied. Used to recover from cases where Haiku
-    returns an enum value outside our Literal set: rather than drop the whole
-    extraction, we keep the rest of the structure and null the bad field."""
+    """Walk Pydantic validation errors and null offending fields. Returns
+    count of fixes applied.
+
+    Two cases:
+      1. Leaf is a regular Literal/enum-typed field. Setting it to None is
+         enough (assuming the field is Optional in the schema).
+      2. Leaf is `value` inside an Evidence wrapper (e.g. IntEvidence.value
+         where input was None). Setting just `.value` to None doesn't help
+         because the wrapper still requires the typed field. We have to null
+         the WHOLE Evidence object at its parent key. All Evidence-wrapped
+         fields in standard_model are typed `XEvidence | None`, so nulling
+         the wrapper is safe.
+    """
     fixed = 0
     for err in errors:
         loc = err.get("loc") or ()
         if not loc:
             continue
-        # Walk to the parent of the leaf
+        # If the offending leaf is `value`, null the Evidence wrapper instead.
+        target_path = loc[:-1] if loc[-1] == "value" else loc
+        if not target_path:
+            continue
+        # Walk to the parent of target_path[-1]
         cur: Any = data
         ok = True
-        for key in loc[:-1]:
+        for key in target_path[:-1]:
             if isinstance(cur, dict) and key in cur:
                 cur = cur[key]
             elif isinstance(cur, list) and isinstance(key, int) and 0 <= key < len(cur):
@@ -143,9 +156,9 @@ def _null_out_invalid_paths(data: dict, errors: list[dict]) -> int:
                 break
         if not ok:
             continue
-        leaf = loc[-1]
-        if isinstance(cur, dict) and leaf in cur:
-            cur[leaf] = None
+        target = target_path[-1]
+        if isinstance(cur, dict) and target in cur:
+            cur[target] = None
             fixed += 1
     return fixed
 

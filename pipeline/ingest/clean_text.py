@@ -112,6 +112,24 @@ def cleaner_for(url: str) -> Callable[[str], str]:
             return fn
     return clean_generic
 
+
+# MI legislature.mi.gov doesn't surface a section ID in the page HTML the way
+# Justia does (Justia's page has the citation in a known element; MI just
+# embeds it in body text). When pull_text leaves the citation blank for an
+# MI section we can recover it from the URL: e.g. objectName=mcl-333-17011
+# → "MCL 333.17011".
+_MI_OBJECT_RE = re.compile(r"objectName=mcl-(\d+)-(\d+[a-z]?)", re.IGNORECASE)
+
+
+def derive_citation(url: str, existing: str) -> str:
+    if existing:
+        return existing
+    if "legislature.mi.gov" in url:
+        m = _MI_OBJECT_RE.search(url)
+        if m:
+            return f"MCL {m.group(1)}.{m.group(2)}"
+    return existing
+
 # --- repealed / reserved / expired detection ---
 # In labels: anything containing these tokens, case-insensitive.
 DROP_LABEL_TOKENS = re.compile(r"\b(repealed|reserved|expired|omitted|renumbered|transferred|deleted)\b", re.IGNORECASE)
@@ -144,13 +162,20 @@ class CleanCorpus:
     total_chars: int = 0
 
 
+# Future-effective repeal: "Repealed effective <DATE>" means the section is
+# STILL ACTIVE today (the repeal kicks in later). Observed on NM CPA where
+# every section in 61-28B was labeled "(Repealed effective July 1, 2030...)".
+# Skip the drop when this pattern appears.
+KEEP_FUTURE_REPEAL = re.compile(r"\brepealed\s+effective\b", re.IGNORECASE)
+
+
 def should_drop(label: str, text: str) -> str | None:
     """Return drop reason or None to keep."""
-    if DROP_LABEL_TOKENS.search(label or ""):
+    if not KEEP_FUTURE_REPEAL.search(label or "") and DROP_LABEL_TOKENS.search(label or ""):
         return "label_marked_inactive"
     if not text:
         return "empty_body"
-    if len(text) < DROP_BODY_MAX_CHARS and DROP_TEXT_MARKER.search(text):
+    if not KEEP_FUTURE_REPEAL.search(text) and len(text) < DROP_BODY_MAX_CHARS and DROP_TEXT_MARKER.search(text):
         return "body_marked_inactive"
     if len(text) < 50:
         return "trivial_body"
@@ -178,7 +203,7 @@ def clean_state(in_path: Path) -> CleanCorpus:
         out.sections.append(CleanSection(
             url=sec["url"],
             label=sec["label"],
-            citation=sec.get("citation", ""),
+            citation=derive_citation(sec["url"], sec.get("citation", "")),
             text=cleaned,
             text_len=len(cleaned),
         ))

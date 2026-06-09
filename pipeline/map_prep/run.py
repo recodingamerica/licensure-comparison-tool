@@ -75,7 +75,15 @@ class SpecResult(BaseModel):
 class NormalizedRow(BaseModel):
     field_name: str
     state: str
-    raw_value: str = Field(description="Short string of original value, for audit.")
+    raw_value: str | None = Field(
+        default=None,
+        description=(
+            "Short string of original value, for audit. Null is allowed but "
+            "STRONGLY DISCOURAGED — if a state has no raw value for this "
+            "field, omit the row entirely rather than emitting one with "
+            "null raw_value."
+        ),
+    )
     normalized: float | str | None = Field(
         description=(
             "Number for continuous fields, category string for categorical, "
@@ -108,8 +116,14 @@ def _flatten_evidence(record: dict) -> dict:
 
     def walk(node, prefix: str) -> None:
         if isinstance(node, dict):
-            # Evidence carrier?
-            if set(node.keys()) >= {"value", "quote", "citation"} and len(node) <= 4:
+            # Evidence carrier? Detect by the value/quote/citation signature
+            # alone — NOT by key count. Verified records carry extra annotation
+            # keys (`unverified`, `approximate.{ratio,matched_normalized}`) on
+            # the same node; an earlier `len(node) <= 4` cap rejected those,
+            # so the walker descended and leaked `<field>.value`,
+            # `<field>.approximate.ratio`, etc. as bogus fields. Any node
+            # carrying all three keys is an Evidence leaf by schema invariant.
+            if node.keys() >= {"value", "quote", "citation"}:
                 val = node.get("value")
                 if val is not None:
                     out[prefix] = val

@@ -54,16 +54,43 @@ medicine:
   # athletic, where "medical" or "physician" wording can appear in a board
   # name that shouldn't fold into MD.
   patterns:
+    - "medicine"
     - "medical practice"
     - "practice of medicine"
     - "medicine and surgery"
-    - " physicians "
+    - "physicians"
     - "board of medicine"
     - "medical board"
     - "medical examiners"
+    - "medical licensure"
+    - "licensure in medicine"
     - "healing arts"
     - "interstate medical licensure compact"
-  excludes: ["osteopathic", "podiatric", "naturopathic", "chiropractic", "physician assistant", "physician's assistant", "veterinar", "athletic"]
+  excludes:
+    - "osteopathic"
+    - "podiatric"
+    - "naturopathic"
+    - "chiropractic"
+    - "homeopathic"
+    - "physician assistant"
+    - "physician's assistant"
+    - "veterinar"
+    - "athletic"
+    # Alternative-medicine systems that share "medicine" in their name
+    - "natural medicine"
+    - "oriental medicine"
+    - "eastern medicine"
+    - "chinese medicine"
+    # Telehealth / scope-of-modality chapters (not the practice act)
+    - "telemedicine"
+    - "tele-medicine"
+    # Diagnostic-imaging technologists (radiology, not MD)
+    - "nuclear medicine"
+    # Research / training / non-licensure chapters
+    - "institute of medicine"
+    - "education and residency"
+    # Animals
+    - "livestock"
   # Prose forms used in some states' inline profession-name enumerations
   # (e.g. Iowa: "when applied to a physician and surgeon, ..."). Read by
   # assign_umbrella_scope's profession-name matcher; not used for chapter-
@@ -104,7 +131,7 @@ dentistry:
   display: Dentistry & Dental Hygiene
   abbrev: DEN
   family: [health]
-  patterns: [dentist, "dental hygien", "dental practice", "dental assist"]
+  patterns: [dentist, "dental hygien", "dental practice", "dental assist", "dental profession"]
 
 optometry:
   display: Optometry
@@ -132,7 +159,15 @@ nursing:
   abbrev: NUR
   family: [health]
   patterns: [nurs]
-  excludes: ["nurse midwif", "nurse-midwif", "midwifery"]
+  excludes:
+    - "nurse midwif"
+    - "nurse-midwif"
+    - "midwifery"
+    # "Nursing home" / "Nursing facility" are healthcare-facility regulation,
+    # NOT the nursing profession. WA label-match catches "Chapter 18.51 -
+    # Nursing Homes" and several Title-74 health-facility chapters without these.
+    - "nursing home"
+    - "nursing facility"
 
 nurse_midwifery:
   display: Nurse Midwifery

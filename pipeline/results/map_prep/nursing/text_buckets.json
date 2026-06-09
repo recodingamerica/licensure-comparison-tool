@@ -7,9 +7,10 @@
         "Board of Nursing",
         "State Board of Nursing",
         "Named State Board",
-        "Dept / Division"
+        "Dept / Agency (non-board)",
+        "Board + Dept Joint"
       ],
-      "rationale": "Most states use some variant of 'Board of Nursing' — split into generic short form, generic with 'State', and named (state-prefixed) boards — with a small cluster delegating to a broader department or division.",
+      "rationale": "Most states use some variant of 'Board of Nursing' as the issuing authority, so the key distinctions are: generic short form, generic with 'State', named state-specific board, a non-board government department, or a hybrid board-plus-department arrangement.",
       "assignments": [
         {
           "state": "AK",
@@ -44,7 +45,7 @@
         {
           "state": "CT",
           "raw_value": "Department of Public Health",
-          "bucket": "Dept / Division"
+          "bucket": "Dept / Agency (non-board)"
         },
         {
           "state": "DE",
@@ -54,7 +55,7 @@
         {
           "state": "FL",
           "raw_value": "Board of Nursing / Department of Health",
-          "bucket": "Dept / Division"
+          "bucket": "Board + Dept Joint"
         },
         {
           "state": "GA",
@@ -79,7 +80,7 @@
         {
           "state": "IL",
           "raw_value": "Department of Financial and Professional Regulation",
-          "bucket": "Dept / Division"
+          "bucket": "Dept / Agency (non-board)"
         },
         {
           "state": "IN",
@@ -117,6 +118,16 @@
           "bucket": "State Board of Nursing"
         },
         {
+          "state": "MI",
+          "raw_value": "Michigan Board of Nursing",
+          "bucket": "Named State Board"
+        },
+        {
+          "state": "MN",
+          "raw_value": "Minnesota Board of Nursing",
+          "bucket": "Named State Board"
+        },
+        {
           "state": "MO",
           "raw_value": "State Board of Nursing",
           "bucket": "State Board of Nursing"
@@ -143,8 +154,8 @@
         },
         {
           "state": "NE",
-          "raw_value": "Board of Nursing",
-          "bucket": "Board of Nursing"
+          "raw_value": "Nebraska Department of Health and Human Services (Division of Public Health) with recommendation of the Board of Nursing",
+          "bucket": "Board + Dept Joint"
         },
         {
           "state": "NH",
@@ -165,6 +176,11 @@
           "state": "NV",
           "raw_value": "State Board of Nursing",
           "bucket": "State Board of Nursing"
+        },
+        {
+          "state": "NY",
+          "raw_value": "New York State Education Department",
+          "bucket": "Dept / Agency (non-board)"
         },
         {
           "state": "OH",
@@ -209,7 +225,7 @@
         {
           "state": "UT",
           "raw_value": "Division of Professional Licensing",
-          "bucket": "Dept / Division"
+          "bucket": "Dept / Agency (non-board)"
         },
         {
           "state": "VA",
@@ -253,7 +269,7 @@
         "Board of Registration",
         "Other Agency"
       ],
-      "rationale": "Most states use some variant of 'Board of Nursing' — split by whether it's a bare generic name, includes 'State', or includes the state's proper name — with a small number using distinctive titles like 'Board of Examiners', 'Board of Registration', or a non-nursing-specific agency.",
+      "rationale": "Most states use some variant of 'Board of Nursing' — splitting by whether it's a bare generic name, includes 'State', or includes the state's name captures the main variation, with a few outliers using 'Examiners', 'Registration', or a non-nursing agency.",
       "assignments": [
         {
           "state": "AK",
@@ -361,6 +377,16 @@
           "bucket": "State Board of Nursing"
         },
         {
+          "state": "MI",
+          "raw_value": "Michigan Board of Nursing",
+          "bucket": "Named State Board of Nursing"
+        },
+        {
+          "state": "MN",
+          "raw_value": "Minnesota Board of Nursing",
+          "bucket": "Named State Board of Nursing"
+        },
+        {
           "state": "MO",
           "raw_value": "State Board of Nursing",
           "bucket": "State Board of Nursing"
@@ -409,6 +435,11 @@
           "state": "NV",
           "raw_value": "State Board of Nursing",
           "bucket": "State Board of Nursing"
+        },
+        {
+          "state": "NY",
+          "raw_value": "New York State Education Department",
+          "bucket": "Other Agency"
         },
         {
           "state": "OH",
@@ -491,27 +522,26 @@
       "field_name": "licensure.regulatory_authority.umbrella_agency",
       "bucket_set": [
         "Dept of Health",
-        "Consumer Affairs / Commerce",
-        "Professional Licensing Agency",
-        "Labor & Industry",
-        "Secretary of State"
+        "Consumer / Commerce",
+        "Professional Licensing",
+        "Labor & Industry"
       ],
-      "rationale": "States cluster by the type of parent agency overseeing nursing licensure: health-focused departments, consumer/commerce departments, dedicated professional licensing bodies, labor agencies, or the Secretary of State's office.",
+      "rationale": "The umbrella agencies cluster naturally into health-focused departments, consumer/commerce/economic development departments, dedicated professional licensing offices, and labor/industry departments.",
       "assignments": [
         {
           "state": "AK",
           "raw_value": "Department of Commerce, Community, and Economic Development",
-          "bucket": "Consumer Affairs / Commerce"
+          "bucket": "Consumer / Commerce"
         },
         {
           "state": "CA",
           "raw_value": "Department of Consumer Affairs",
-          "bucket": "Consumer Affairs / Commerce"
+          "bucket": "Consumer / Commerce"
         },
         {
           "state": "CO",
           "raw_value": "Division of Professions and Occupations, Department of Regulatory Agencies",
-          "bucket": "Professional Licensing Agency"
+          "bucket": "Professional Licensing"
         },
         {
           "state": "CT",
@@ -526,22 +556,22 @@
         {
           "state": "GA",
           "raw_value": "Professional Licensing Boards Division, Office of the Secretary of State",
-          "bucket": "Secretary of State"
+          "bucket": "Professional Licensing"
         },
         {
           "state": "HI",
           "raw_value": "Department of Commerce and Consumer Affairs",
-          "bucket": "Consumer Affairs / Commerce"
+          "bucket": "Consumer / Commerce"
         },
         {
           "state": "IL",
           "raw_value": "Department of Financial and Professional Regulation",
-          "bucket": "Professional Licensing Agency"
+          "bucket": "Professional Licensing"
         },
         {
           "state": "MO",
           "raw_value": "Division of Professional Registration, Department of Commerce and Insurance",
-          "bucket": "Consumer Affairs / Commerce"
+          "bucket": "Consumer / Commerce"
         },
         {
           "state": "MT",
@@ -550,18 +580,18 @@
         },
         {
           "state": "NE",
-          "raw_value": "State Board of Health",
+          "raw_value": "Division of Public Health, Department of Health and Human Services",
           "bucket": "Dept of Health"
         },
         {
           "state": "NH",
           "raw_value": "Office of Professional Licensure and Certification",
-          "bucket": "Professional Licensing Agency"
+          "bucket": "Professional Licensing"
         },
         {
           "state": "NJ",
           "raw_value": "Division of Consumer Affairs, Department of Law and Public Safety",
-          "bucket": "Consumer Affairs / Commerce"
+          "bucket": "Consumer / Commerce"
         },
         {
           "state": "RI",
@@ -581,7 +611,7 @@
         {
           "state": "UT",
           "raw_value": "Department of Commerce",
-          "bucket": "Consumer Affairs / Commerce"
+          "bucket": "Consumer / Commerce"
         },
         {
           "state": "VA",
@@ -601,10 +631,10 @@
         "Approved Program Only",
         "HS Diploma + Approved Program",
         "Diploma/Degree from Approved Program",
-        "Multi-Level (RN/LPN/APRN Specified)",
+        "Tiered by License Type",
         "Accredited Program Required"
       ],
-      "rationale": "States cluster around whether they require just an approved nursing program, explicitly add a high school diploma prerequisite, specify a diploma/degree credential from the program, differentiate requirements by license level (RN vs LPN vs APRN), or emphasize national accreditation status.",
+      "rationale": "States cluster around whether they require only an approved nursing program, explicitly add a high school diploma prerequisite, specify a diploma/degree credential from the program, differentiate requirements by license type (RN/LPN/APRN), or emphasize national accreditation status.",
       "assignments": [
         {
           "state": "AK",
@@ -629,7 +659,7 @@
         {
           "state": "CA",
           "raw_value": "Completion of board-approved nursing program (at minimum two academic years); for nurse practitioners, master's degree in nursing or related clinical field",
-          "bucket": "Multi-Level (RN/LPN/APRN Specified)"
+          "bucket": "Tiered by License Type"
         },
         {
           "state": "CO",
@@ -639,7 +669,7 @@
         {
           "state": "CT",
           "raw_value": "Degree, diploma or certificate from an accredited institution evidencing satisfactory completion of a nursing program approved by the board",
-          "bucket": "Accredited Program Required"
+          "bucket": "Diploma/Degree from Approved Program"
         },
         {
           "state": "DE",
@@ -689,7 +719,7 @@
         {
           "state": "KY",
           "raw_value": "Baccalaureate degree or higher for registered nurses; high school diploma or equivalent for licensed practical nurses",
-          "bucket": "Multi-Level (RN/LPN/APRN Specified)"
+          "bucket": "Tiered by License Type"
         },
         {
           "state": "LA",
@@ -712,9 +742,19 @@
           "bucket": "Diploma/Degree from Approved Program"
         },
         {
+          "state": "MI",
+          "raw_value": "Nursing education program approved by the board",
+          "bucket": "Approved Program Only"
+        },
+        {
+          "state": "MN",
+          "raw_value": "Approved nursing education program",
+          "bucket": "Approved Program Only"
+        },
+        {
           "state": "MO",
           "raw_value": "High school diploma or equivalent; completion of basic professional curriculum in accredited or approved school of nursing with professional nursing degree or diploma (RN); or two years high school and basic prescribed curriculum in state-accredited or approved school of nursing with nursing degree, certificate or diploma (LPN)",
-          "bucket": "Multi-Level (RN/LPN/APRN Specified)"
+          "bucket": "Tiered by License Type"
         },
         {
           "state": "MS",
@@ -724,7 +764,7 @@
         {
           "state": "MT",
           "raw_value": "Diploma from approved school of nursing for professional nursing; graduation from approved practical nursing education program for practical nursing",
-          "bucket": "Multi-Level (RN/LPN/APRN Specified)"
+          "bucket": "Tiered by License Type"
         },
         {
           "state": "NC",
@@ -738,18 +778,18 @@
         },
         {
           "state": "NE",
-          "raw_value": "diploma from an accredited program of registered nursing approved by the board",
-          "bucket": "Accredited Program Required"
+          "raw_value": "diploma from an accredited program of registered nursing approved by the board (4 years high school or equivalent); for LPN: diploma from an approved program of nursing",
+          "bucket": "Tiered by License Type"
         },
         {
           "state": "NH",
           "raw_value": "Graduate degree from accredited APRN education program for APRN; board-approved nursing education program for RN/LPN",
-          "bucket": "Multi-Level (RN/LPN/APRN Specified)"
+          "bucket": "Tiered by License Type"
         },
         {
           "state": "NJ",
-          "raw_value": "Diploma from accredited 4-year high school and completion of professional nursing study in accredited school",
-          "bucket": "HS Diploma + Approved Program"
+          "raw_value": "Diploma from accredited school of professional nursing",
+          "bucket": "Accredited Program Required"
         },
         {
           "state": "NM",
@@ -760,6 +800,11 @@
           "state": "NV",
           "raw_value": "Diploma from accredited or approved school of professional nursing",
           "bucket": "Accredited Program Required"
+        },
+        {
+          "state": "NY",
+          "raw_value": "diploma or degree in professional nursing; baccalaureate degree or higher in nursing within ten years of initial licensure",
+          "bucket": "Diploma/Degree from Approved Program"
         },
         {
           "state": "OH",
@@ -799,7 +844,7 @@
         {
           "state": "TX",
           "raw_value": "Completed program of professional or vocational nursing education (baccalaureate, associate degree, or diploma for RN; approved program for LVN)",
-          "bucket": "Multi-Level (RN/LPN/APRN Specified)"
+          "bucket": "Tiered by License Type"
         },
         {
           "state": "UT",
@@ -818,7 +863,7 @@
         },
         {
           "state": "WA",
-          "raw_value": "Graduation from an approved nursing education program",
+          "raw_value": "Graduation from an approved program of nursing",
           "bucket": "Approved Program Only"
         },
         {
@@ -841,133 +886,157 @@
     {
       "field_name": "licensure.education.accrediting_body",
       "bucket_set": [
-        "State Board of Nursing",
-        "National Nursing Body",
-        "Federal Dept of Education",
-        "Regional Accreditor",
-        "Board + National Body"
+        "State Board Only",
+        "National Accreditor",
+        "State Board + National",
+        "Federal DOE Reference",
+        "Named Agency (ACEN/CCNE)"
       ],
-      "rationale": "States cluster by whether they delegate accreditation authority to their own state board, a national nursing-specific body, the US Dept of Education, a regional accreditor, or some combination of state and national bodies.",
+      "rationale": "States cluster by whether they rely solely on their own board, a national nursing accreditor, a combination of both, the U.S. Department of Education as the authority, or explicitly name specific agencies like ACEN/CCNE.",
       "assignments": [
         {
           "state": "AK",
           "raw_value": "national nursing accrediting body",
-          "bucket": "National Nursing Body"
+          "bucket": "National Accreditor"
         },
         {
           "state": "AZ",
           "raw_value": "Board-approved programs",
-          "bucket": "State Board of Nursing"
+          "bucket": "State Board Only"
         },
         {
           "state": "CA",
           "raw_value": "Board of Registered Nursing",
-          "bucket": "State Board of Nursing"
+          "bucket": "State Board Only"
         },
         {
           "state": "FL",
           "raw_value": "Specialized nursing accrediting agency nationally recognized by the United States Secretary of Education",
-          "bucket": "National Nursing Body"
+          "bucket": "Federal DOE Reference"
         },
         {
           "state": "GA",
           "raw_value": "Commission on Colleges of the Southern Association of Colleges and Schools; regional accrediting agency recognized by the United States Department of Education",
-          "bucket": "Regional Accreditor"
+          "bucket": "Federal DOE Reference"
         },
         {
           "state": "IA",
           "raw_value": "Board of Nursing",
-          "bucket": "State Board of Nursing"
+          "bucket": "State Board Only"
         },
         {
           "state": "IN",
           "raw_value": "state board of nursing",
-          "bucket": "State Board of Nursing"
+          "bucket": "State Board Only"
+        },
+        {
+          "state": "MA",
+          "raw_value": "Board of Registration in Nursing",
+          "bucket": "State Board Only"
         },
         {
           "state": "ME",
           "raw_value": "State Board of Nursing (board-approved program)",
-          "bucket": "State Board of Nursing"
+          "bucket": "State Board Only"
+        },
+        {
+          "state": "MI",
+          "raw_value": "National board or organization (accreditation accepted by board)",
+          "bucket": "State Board + National"
+        },
+        {
+          "state": "MN",
+          "raw_value": "Minnesota Board of Nursing (or another United States nursing board, or a Canadian province)",
+          "bucket": "State Board + National"
         },
         {
           "state": "MS",
           "raw_value": "Board of Trustees of State Institutions of Higher Learning or legal accrediting agency",
-          "bucket": "State Board of Nursing"
+          "bucket": "State Board + National"
+        },
+        {
+          "state": "NE",
+          "raw_value": "Board of Nursing",
+          "bucket": "State Board Only"
         },
         {
           "state": "NH",
           "raw_value": "National Council of State Boards of Nursing; accrediting bodies recognized by United States Department of Education",
-          "bucket": "Board + National Body"
+          "bucket": "Federal DOE Reference"
+        },
+        {
+          "state": "NJ",
+          "raw_value": "New Jersey Board of Nursing",
+          "bucket": "State Board Only"
         },
         {
           "state": "NV",
           "raw_value": "Nationally recognized association or agency authorized by law to accredit schools of nursing",
-          "bucket": "National Nursing Body"
+          "bucket": "National Accreditor"
         },
         {
           "state": "OH",
           "raw_value": "Board of Nursing or National Council of State Boards of Nursing member board",
-          "bucket": "Board + National Body"
+          "bucket": "State Board + National"
         },
         {
           "state": "OR",
           "raw_value": "Oregon State Board of Nursing or accredited/approved by another state or U.S. territory",
-          "bucket": "Board + National Body"
+          "bucket": "State Board + National"
         },
         {
           "state": "SD",
           "raw_value": "South Dakota Board of Nursing",
-          "bucket": "State Board of Nursing"
+          "bucket": "State Board Only"
         },
         {
           "state": "TX",
           "raw_value": "National nursing accrediting agency selected by the board, recognized by the United States Department of Education",
-          "bucket": "National Nursing Body"
+          "bucket": "Federal DOE Reference"
         },
         {
           "state": "UT",
           "raw_value": "United States Department of Education",
-          "bucket": "Federal Dept of Education"
+          "bucket": "Federal DOE Reference"
         },
         {
           "state": "VT",
           "raw_value": "ACEN or CCNE for military service members; national accrediting agency for other applicants",
-          "bucket": "National Nursing Body"
+          "bucket": "Named Agency (ACEN/CCNE)"
         },
         {
           "state": "WA",
           "raw_value": "Washington State Board of Nursing",
-          "bucket": "State Board of Nursing"
+          "bucket": "State Board Only"
         },
         {
           "state": "WI",
           "raw_value": "Board of Nursing",
-          "bucket": "State Board of Nursing"
+          "bucket": "State Board Only"
         },
         {
           "state": "WV",
           "raw_value": "National nursing accrediting agency recognized by the United States Department of Education",
-          "bucket": "National Nursing Body"
+          "bucket": "Federal DOE Reference"
         }
       ]
     },
     {
       "field_name": "licensure.continuing_education.topical_requirements",
       "bucket_set": [
-        "Opioids & Prescribing",
-        "Mental Health & Suicide",
+        "Prescribing & Pharmacology",
         "Abuse & Trafficking",
-        "Pharmacology (APRN)",
+        "Mental Health & Suicide",
         "Bias & Cultural Competency",
-        "Multiple Topics",
+        "Mixed / Broad Requirements",
         "Jurisprudence & Ethics"
       ],
-      "rationale": "States cluster around dominant CE topic themes — controlled substances/opioids, mental health mandates, abuse/trafficking awareness, pharmacology for APRNs, bias/cultural competency, and law/ethics — with a catch-all for states requiring several distinct topics at once.",
+      "rationale": "The raw values cluster around a handful of recurring topic areas — controlled substance prescribing and pharmacology, abuse/trafficking identification, mental health and suicide prevention, bias and cultural competency, and nursing law/ethics — with several states mandating multiple distinct topic areas warranting a 'Mixed' catch-all bucket.",
       "assignments": [
         {
           "state": "AK",
           "raw_value": "pain management and opioid use and addiction (minimum 2 hours for APRNs with DEA registration)",
-          "bucket": "Opioids & Prescribing"
+          "bucket": "Prescribing & Pharmacology"
         },
         {
           "state": "CA",
@@ -987,42 +1056,52 @@
         {
           "state": "FL",
           "raw_value": "3 hours on safe and effective prescription of controlled substances (APRNs only); 2-hour course on human trafficking",
-          "bucket": "Multiple Topics"
+          "bucket": "Mixed / Broad Requirements"
         },
         {
           "state": "IN",
           "raw_value": "at least eight (8) contact hours of pharmacology",
-          "bucket": "Pharmacology (APRN)"
+          "bucket": "Prescribing & Pharmacology"
         },
         {
           "state": "KY",
           "raw_value": "1.5 hours pediatric abusive head trauma recognition and prevention; 1 hour Alzheimer's disease and dementia; 5 contact hours in pharmacology for APRNs",
-          "bucket": "Multiple Topics"
+          "bucket": "Mixed / Broad Requirements"
         },
         {
           "state": "MA",
-          "raw_value": "diagnosis, treatment and care of patients with cognitive impairments, including Alzheimer's disease and dementia",
-          "bucket": "Mental Health & Suicide"
+          "raw_value": "1-time course on diagnosis, treatment and care of patients with cognitive impairments (including Alzheimer's disease and dementia) for nurses who serve adult populations",
+          "bucket": "Mixed / Broad Requirements"
         },
         {
           "state": "ME",
           "raw_value": "opioid medication prescribing (3 hours every 2 years, for those with prescribing authority)",
-          "bucket": "Opioids & Prescribing"
+          "bucket": "Prescribing & Pharmacology"
+        },
+        {
+          "state": "MI",
+          "raw_value": "pain and symptom management; identifying victims of human trafficking",
+          "bucket": "Mixed / Broad Requirements"
         },
         {
           "state": "NH",
           "raw_value": "APRN: 20 hours specialty-specific, 5 hours pharmacology",
-          "bucket": "Pharmacology (APRN)"
+          "bucket": "Prescribing & Pharmacology"
         },
         {
           "state": "NJ",
-          "raw_value": "prescription opioid drugs, including alternatives to opioids for managing and treating pain and the risks and signs of opioid abuse, addiction, and diversion; explicit and implicit bias (for nurses providing perinatal treatment)",
-          "bucket": "Multiple Topics"
+          "raw_value": "one credit concerning prescription opioid drugs, including alternatives to opioids for managing and treating pain and the risks and signs of opioid abuse, addiction, and diversion; one credit of educational programs or topics concerning explicit and implicit bias (for nurses providing perinatal treatment and care); two credits related to end-of-life care (for advanced practice nurses); one credit in cultural competency and implicit bias training (for in-home health care providers)",
+          "bucket": "Mixed / Broad Requirements"
         },
         {
           "state": "NV",
           "raw_value": "Suicide prevention and awareness (2 hours for APRNs within 2 years of initial licensure); Medical consequences of terrorism involving weapons of mass destruction (4 hours); Cultural competency and diversity, equity and inclusion (4 hours biennially); Screening, brief intervention and referral to treatment for substance use disorder (2 hours for APRNs within 2 years of initial licensure)",
-          "bucket": "Multiple Topics"
+          "bucket": "Mixed / Broad Requirements"
+        },
+        {
+          "state": "NY",
+          "raw_value": "infection control (including sepsis and barrier precautions); child abuse and maltreatment identification and reporting (2 hours)",
+          "bucket": "Abuse & Trafficking"
         },
         {
           "state": "OH",
@@ -1032,31 +1111,30 @@
         {
           "state": "TX",
           "raw_value": "nursing jurisprudence and nursing ethics (at least 2 hours every third two-year period); forensic evidence collection (at least 2 hours for emergency room nurses); human trafficking prevention; older adult or geriatric care (at least 2 hours for applicable nurses); nutrition and metabolic health; clinical pharmacology and related pathophysiology (for APRNs with prescriptive authority)",
-          "bucket": "Multiple Topics"
+          "bucket": "Mixed / Broad Requirements"
         },
         {
           "state": "WI",
           "raw_value": "clinical pharmacology or therapeutics relevant to the advanced practice registered nurse's area of practice",
-          "bucket": "Pharmacology (APRN)"
+          "bucket": "Prescribing & Pharmacology"
         },
         {
           "state": "WY",
           "raw_value": "responsible prescribing of controlled substances; treatment of substance abuse disorders",
-          "bucket": "Opioids & Prescribing"
+          "bucket": "Prescribing & Pharmacology"
         }
       ]
     },
     {
       "field_name": "licensure.reciprocity.requirements",
       "bucket_set": [
-        "Meet State Standards",
-        "Substantially Equivalent",
-        "Active Practice Required",
         "Compact / Multistate",
-        "Continuing Competency Required",
+        "Substantially Equivalent",
+        "Meet State Qualifications",
+        "Active Practice Required",
         "Enhanced Requirements"
       ],
-      "rationale": "States cluster around whether they require exact state-standard matching, substantial equivalence, demonstrated recent practice, NLC compact membership, continuing competency conditions, or a combination of stricter layered checks (exams, background, CE hours).",
+      "rationale": "States cluster around whether they primarily rely on the Nurse Licensure Compact, require 'substantially equivalent' standards from the originating state, simply require meeting the destination state's qualifications, mandate evidence of recent active practice, or layer on additional requirements (criminal checks, jurisprudence exams, English proficiency, citizenship, etc.).",
       "assignments": [
         {
           "state": "AK",
@@ -1066,22 +1144,22 @@
         {
           "state": "AL",
           "raw_value": "Applicant must meet qualifications required of registered nurses in this state at time of graduation; board may issue license by endorsement",
-          "bucket": "Meet State Standards"
+          "bucket": "Meet State Qualifications"
         },
         {
           "state": "AR",
           "raw_value": "Applicant must meet qualifications required of registered nurses in this state at time of graduation and board recommendation",
-          "bucket": "Meet State Standards"
+          "bucket": "Meet State Qualifications"
         },
         {
           "state": "AZ",
           "raw_value": "Applicant must meet qualifications required of a registered nurse in Arizona",
-          "bucket": "Meet State Standards"
+          "bucket": "Meet State Qualifications"
         },
         {
           "state": "CA",
           "raw_value": "Applicant must be licensed in a state/territory/Canada with requirements equal to or higher than California, must have passed a comparable examination, and must meet all other requirements of Section 2736.",
-          "bucket": "Enhanced Requirements"
+          "bucket": "Substantially Equivalent"
         },
         {
           "state": "CO",
@@ -1111,17 +1189,17 @@
         {
           "state": "HI",
           "raw_value": "Applicant must have unencumbered license and meet qualifications required of registered nurses in Hawaii at time of graduation; temporary permit may be issued pending verification",
-          "bucket": "Meet State Standards"
+          "bucket": "Meet State Qualifications"
         },
         {
           "state": "IA",
           "raw_value": "Recognition based on whether foreign licensee is qualified to practice nursing; board may issue license by endorsement without examination",
-          "bucket": "Meet State Standards"
+          "bucket": "Meet State Qualifications"
         },
         {
           "state": "ID",
           "raw_value": "License in good standing from another state, territory or foreign country; may meet established board requirements",
-          "bucket": "Meet State Standards"
+          "bucket": "Meet State Qualifications"
         },
         {
           "state": "IN",
@@ -1131,7 +1209,7 @@
         {
           "state": "KS",
           "raw_value": "Verification of licensure status from original state of licensure required; board must determine applicant meets Kansas qualifications",
-          "bucket": "Meet State Standards"
+          "bucket": "Meet State Qualifications"
         },
         {
           "state": "KY",
@@ -1141,32 +1219,42 @@
         {
           "state": "LA",
           "raw_value": "Had passed an examination for licensure and met all other qualifications for licensure as a registered nurse in this state at the time initially licensed; meets other criteria established by the board",
-          "bucket": "Meet State Standards"
+          "bucket": "Meet State Qualifications"
         },
         {
           "state": "MA",
-          "raw_value": "Standards substantially the same as those of the commonwealth for nurses",
+          "raw_value": "Board must find that the other state's standards are substantially the same as Massachusetts standards for nurses or practical nurses",
           "bucket": "Substantially Equivalent"
         },
         {
           "state": "MD",
           "raw_value": "Applicant must have active unencumbered license in another state/country; education must have met Maryland standards at time of graduation; applicant must have passed similar examination in another state/country; applicant must meet other qualifications required by Maryland",
-          "bucket": "Enhanced Requirements"
+          "bucket": "Meet State Qualifications"
         },
         {
           "state": "ME",
           "raw_value": "Applicant must have graduated from an equivalent approved program, been duly licensed by examination considered equivalent to Maine's, and license must be in good standing with no cause for suspension or revocation. For non-US/Canada jurisdictions, must also pass NCLEX-RN.",
-          "bucket": "Enhanced Requirements"
+          "bucket": "Substantially Equivalent"
+        },
+        {
+          "state": "MI",
+          "raw_value": "Applicant must substantially meet Michigan requirements, hold license in another state or Canadian province with substantially equivalent standards, and meet education requirements",
+          "bucket": "Substantially Equivalent"
+        },
+        {
+          "state": "MN",
+          "raw_value": "The applicant must have qualifications equivalent to those required in Minnesota; the board also recognizes licenses from border states (Iowa, North Dakota, South Dakota, Wisconsin) under a licensure privilege arrangement.",
+          "bucket": "Substantially Equivalent"
         },
         {
           "state": "MO",
           "raw_value": "Applicant must have been licensed in another state, territory, or foreign country and must meet the qualifications that were required in that jurisdiction at the time of original licensure. Temporary permits available for up to 12 months.",
-          "bucket": "Meet State Standards"
+          "bucket": "Meet State Qualifications"
         },
         {
           "state": "MS",
           "raw_value": "Applicant must have been duly licensed in another state and meet Mississippi qualifications; military-trained applicants and military spouses subject to Sections 73-50-1 or 73-50-2",
-          "bucket": "Meet State Standards"
+          "bucket": "Meet State Qualifications"
         },
         {
           "state": "MT",
@@ -1181,12 +1269,12 @@
         {
           "state": "ND",
           "raw_value": "Current unencumbered licensure in another state or jurisdiction, or meet continued competency requirements",
-          "bucket": "Continuing Competency Required"
+          "bucket": "Active Practice Required"
         },
         {
           "state": "NE",
-          "raw_value": "Applicant must meet continuing competency requirements and standards set by the board; board must determine that another state's qualifications are substantially equivalent to or more stringent than Nebraska's minimum qualifications",
-          "bucket": "Continuing Competency Required"
+          "raw_value": "Must meet continuing competency requirements; board determines if other state's standards are substantially equivalent; Nurse Licensure Compact members may use multistate license",
+          "bucket": "Compact / Multistate"
         },
         {
           "state": "NH",
@@ -1195,17 +1283,22 @@
         },
         {
           "state": "NJ",
-          "raw_value": "Applicant must hold valid license from another state with equivalent qualifications as determined by the board",
+          "raw_value": "Applicant must have been duly licensed or registered in another state; board must determine applicant has qualifications required or equivalent qualifications. For reciprocity under general provisions, out-of-state license must reflect substantially equivalent education, training, and examination requirements.",
           "bucket": "Substantially Equivalent"
         },
         {
           "state": "NM",
           "raw_value": "Applicant must hold a valid, unrestricted license in good standing from another jurisdiction; board shall expedite issuance within thirty days",
-          "bucket": "Meet State Standards"
+          "bucket": "Meet State Qualifications"
         },
         {
           "state": "NV",
           "raw_value": "Applicant must hold valid and unrestricted license in another jurisdiction; examination requirements must be at least equivalent to Nevada's; if trained in non-English speaking jurisdiction, must pass English proficiency exam",
+          "bucket": "Enhanced Requirements"
+        },
+        {
+          "state": "NY",
+          "raw_value": "Application, education meeting commissioner's regulations, experience satisfactory to the board, pass an examination, be at least 21 years of age, be a US citizen or lawfully admitted noncitizen, be of good moral character, and have no disqualifying prior disciplinary history.",
           "bucket": "Enhanced Requirements"
         },
         {
@@ -1216,22 +1309,22 @@
         {
           "state": "OK",
           "raw_value": "Must meet Oklahoma qualifications for licensure",
-          "bucket": "Meet State Standards"
+          "bucket": "Meet State Qualifications"
         },
         {
           "state": "OR",
           "raw_value": "Applicant must be licensed in another state, meet Oregon standards, and may be required to provide evidence of competency",
-          "bucket": "Meet State Standards"
+          "bucket": "Meet State Qualifications"
         },
         {
           "state": "RI",
           "raw_value": "Applicant must be licensed by examination as a professional nurse under the laws of another state or territory and meet the qualifications required of professional nurses in Rhode Island",
-          "bucket": "Meet State Standards"
+          "bucket": "Meet State Qualifications"
         },
         {
           "state": "SC",
           "raw_value": "Must hold valid license in another state, demonstrate equivalent education, and meet continued competency requirements",
-          "bucket": "Continuing Competency Required"
+          "bucket": "Active Practice Required"
         },
         {
           "state": "SD",
@@ -1241,7 +1334,7 @@
         {
           "state": "TN",
           "raw_value": "Applicant must be duly licensed in another state or territory and meet professional nurse qualifications that were in effect in Tennessee at the time of the applicant's graduation. Board must render decision within 45 days of receiving completed application.",
-          "bucket": "Meet State Standards"
+          "bucket": "Meet State Qualifications"
         },
         {
           "state": "TX",
@@ -1256,495 +1349,293 @@
         {
           "state": "VA",
           "raw_value": "Applicant must have been licensed as a professional or registered nurse in another state, District of Columbia, or US possession/territory and meet Virginia qualifications",
-          "bucket": "Meet State Standards"
+          "bucket": "Meet State Qualifications"
         },
         {
           "state": "VT",
           "raw_value": "Current license in another U.S. jurisdiction and practice requirements set by Board rule",
-          "bucket": "Meet State Standards"
+          "bucket": "Meet State Qualifications"
         },
         {
           "state": "WA",
-          "raw_value": "Must be licensed in another state/territory and meet all other qualifications for licensing; foreign graduates must meet all qualifications and pass examinations",
-          "bucket": "Meet State Standards"
+          "raw_value": "Applicant must be licensed as RN or LPN in another state, territory, or US possession and meet all other qualifications. Foreign-educated nurses must meet all qualifications and pass examinations as determined by the board.",
+          "bucket": "Meet State Qualifications"
         },
         {
           "state": "WI",
           "raw_value": "Credentials of general and professional educational qualifications and other qualifications comparable to those required in Wisconsin; board must be satisfied from employment and professional record that holder is currently competent to practice.",
-          "bucket": "Continuing Competency Required"
-        }
-      ]
-    },
-    {
-      "field_name": "scope.methods_authorized",
-      "bucket_set": [
-        "Nursing Process Core",
-        "Broad Clinical + Admin",
-        "Care & Counsel Focus",
-        "Comprehensive + Advanced Acts",
-        "Minimal / Procedural"
-      ],
-      "rationale": "States cluster around how expansively they enumerate authorized methods: some list only the classic nursing process steps plus basics, others add broad administrative/delegation/teaching functions, a few emphasize care-and-counsel language, the most expansive include advanced practice acts or APRN prescribing, and a small number describe scope in narrow procedural terms.",
-      "assignments": [
-        {
-          "state": "AK",
-          "raw_value": "assessment of problems; counseling; teaching; administration; supervision; delegation; evaluation of nursing practice; execution of medical regimen; medical diagnosis; prescription of medical therapeutic or corrective measures",
-          "bucket": "Comprehensive + Advanced Acts"
-        },
-        {
-          "state": "AL",
-          "raw_value": "care and counselling; health promotion and maintenance; illness and injury prevention; administering medications and treatments",
-          "bucket": "Care & Counsel Focus"
-        },
-        {
-          "state": "AR",
-          "raw_value": "observation and care; health maintenance and prevention; supervision and teaching; delegation of nursing practices; medication and treatment administration",
-          "bucket": "Care & Counsel Focus"
-        },
-        {
-          "state": "CA",
-          "raw_value": "Direct and indirect patient care services ensuring safety, comfort, personal hygiene, and protection of patients; disease prevention and restorative measures; Administration of medications and therapeutic agents to implement treatment, disease prevention, or rehabilitative regimen ordered by physician, dentist, podiatrist, or clinical psychologist; Performance of skin tests, immunization techniques, and withdrawal of human blood from veins and arteries; Observation of signs and symptoms of illness, reactions to treatment, general behavior, or general physical condition; determination of abnorm",
-          "bucket": "Broad Clinical + Admin"
-        },
-        {
-          "state": "CO",
-          "raw_value": "Evaluating health status through collection and assessment of health data; Health teaching and health counseling; Providing therapy and treatment that is supportive and restorative; Executing delegated medical functions and delegated patient care functions; Referring to medical or community agencies; Reviewing and monitoring therapy and treatment plans",
-          "bucket": "Broad Clinical + Admin"
-        },
-        {
-          "state": "CT",
-          "raw_value": "diagnosing human responses to actual or potential health problems; providing supportive and restorative care; health counseling and teaching; case finding and referral; collaborating in the implementation of the total health care regimen; executing the medical regimen",
-          "bucket": "Nursing Process Core"
-        },
-        {
-          "state": "DE",
-          "raw_value": "assessing human responses to actual or potential health conditions; identifying needs and developing nursing diagnoses; implementing nursing interventions; teaching health-care practices; advocating provision of health-care services; executing regimens prescribed by licensed physicians; administering, supervising, delegating, and evaluating nursing activities; making pronouncements of death",
-          "bucket": "Broad Clinical + Admin"
-        },
-        {
-          "state": "FL",
-          "raw_value": "Observation, assessment, nursing diagnosis, planning, intervention, and evaluation of care; Health teaching and counseling; Promotion of wellness, maintenance of health, and prevention of illness; Administration of medications and treatments as prescribed; Supervision and teaching of other personnel",
-          "bucket": "Nursing Process Core"
-        },
-        {
-          "state": "GA",
-          "raw_value": "Assessing the health status of individuals and groups throughout the life span; Establishing a nursing diagnosis; Establishing nursing goals to meet identified health care needs; Planning, implementing, and evaluating nursing care; Providing for safe and effective nursing care rendered directly or indirectly; Managing and supervising the practice of nursing; Collaborating with other members of the health care team in the management of care; Teaching the theory and practice of nursing; Administering, ordering, and dispensing medications, diagnostic studies, and medical treatments authorized by ",
-          "bucket": "Comprehensive + Advanced Acts"
-        },
-        {
-          "state": "HI",
-          "raw_value": "observation; assessment; development; implementation; evaluation of a plan of care; health counseling; supervision and teaching of other personnel; administration; coordination; delegation; advanced assessment; telehealth; diagnosis; prescription; selection and administration of therapeutic measures",
-          "bucket": "Comprehensive + Advanced Acts"
-        },
-        {
-          "state": "IA",
-          "raw_value": "Formulate nursing diagnosis and conduct nursing treatment; Case finding, referral, health teaching, health counseling; Care provision which is supportive to or restorative of life and well-being; Execute regimen prescribed by a physician, advanced registered nurse practitioner, or physician assistant; Supervise and teach other personnel in the performance of activities relating to nursing care; Make pronouncement of death; Assist in administration of immunizations and vaccinations",
-          "bucket": "Broad Clinical + Admin"
-        },
-        {
-          "state": "ID",
-          "raw_value": "Assessment of health status; Identification of health care problems; Planning and implementation of care; Administration of medications and treatments; Teaching and education; Management of nursing practice; Collaboration with other health professionals",
-          "bucket": "Nursing Process Core"
-        },
-        {
-          "state": "IL",
-          "raw_value": "comprehensive nursing assessment; nursing diagnosis; nursing plan of care; nursing interventions; medication administration; health education and counseling; care coordination; patient advocacy",
-          "bucket": "Nursing Process Core"
-        },
-        {
-          "state": "IN",
-          "raw_value": "assessing health conditions; deriving nursing diagnosis; executing nursing regimen; advocating health care services; executing delegated regimens; teaching and supervising; delegating tasks",
-          "bucket": "Nursing Process Core"
-        },
-        {
-          "state": "KS",
-          "raw_value": "care; diagnosis; treatment; counsel; health teaching; administration; supervision; teaching; execution of medical regimen",
-          "bucket": "Care & Counsel Focus"
-        },
-        {
-          "state": "KY",
-          "raw_value": "care, counsel, and health teaching of the ill, injured, or infirm; maintenance of health or prevention of illness; administration of medication and treatment as prescribed; supervision, teaching of, and delegation to other personnel; performance of other nursing acts authorized or limited by the board",
-          "bucket": "Care & Counsel Focus"
-        },
-        {
-          "state": "LA",
-          "raw_value": "assessing health status; establishing nursing diagnosis; planning nursing care; implementing nursing care; delegating nursing interventions; evaluating human responses; teaching nursing; managing and supervising nursing practice; collaborating with health care providers",
-          "bucket": "Nursing Process Core"
-        },
-        {
-          "state": "MA",
-          "raw_value": "clinical decision making; development and implementation of care strategy; administration of medication; therapeutics and treatment; evaluation of responses to care and treatment; health counseling and teaching; provision of comfort measures; teaching and supervising others; participation in research",
-          "bucket": "Broad Clinical + Admin"
-        },
-        {
-          "state": "MD",
-          "raw_value": "Administration; Teaching; Counseling; Supervision, delegation, and evaluation of nursing practice; Execution of therapeutic regimen, including the administration of medication and treatment; Independent nursing functions and delegated medical functions; Performance of additional acts authorized by the Board",
-          "bucket": "Broad Clinical + Admin"
-        },
-        {
-          "state": "ME",
-          "raw_value": "diagnosis and treatment of human responses to health problems; case finding; health teaching; health counseling; provision of supportive and restorative care; execution of medical regimen as prescribed; delegation of nursing services to LPNs; delegation of nursing services to nursing assistants; delegation of nursing activities to unlicensed assistive personnel; supervision and teaching of nursing personnel; administration of medications and treatments as prescribed; teaching activities of daily living",
-          "bucket": "Broad Clinical + Admin"
-        },
-        {
-          "state": "MO",
-          "raw_value": "assessment; data collection; nursing diagnosis; nursing care; evaluation; counsel; administration of medications and treatments; coordination of health care; teaching and supervision",
-          "bucket": "Nursing Process Core"
-        },
-        {
-          "state": "MS",
-          "raw_value": "assessment; diagnosis; planning; intervention; evaluation; administration; teaching; counseling; delegation; supervision; execution of medical regimen; administration of medications and treatments",
-          "bucket": "Nursing Process Core"
-        },
-        {
-          "state": "MT",
-          "raw_value": "assessment; nursing analysis; planning; nursing intervention; evaluation; administration; teaching; counseling; supervision; delegation; administration of medications and treatments",
-          "bucket": "Nursing Process Core"
-        },
-        {
-          "state": "NC",
-          "raw_value": "Assessing the patient's physical and mental health; Recording and reporting nursing assessment results; Planning, initiating, delivering, and evaluating nursing acts; Teaching, assigning, delegating to or supervising other personnel; Collaborating with other health care providers; Implementing treatment and pharmaceutical regimens; Providing teaching and counseling about patient's health; Reporting and recording plan for care; Supervising, teaching, and evaluating nursing functions; Administering nursing programs and services; Maintaining safe and effective nursing care",
-          "bucket": "Broad Clinical + Admin"
-        },
-        {
-          "state": "ND",
-          "raw_value": "health maintenance and prevention; assessment and diagnosis of human responses; supportive and restorative care; nursing treatment; medication administration; health counseling and teaching; case finding and referral; administration, teaching, supervision, delegation, and evaluation",
-          "bucket": "Nursing Process Core"
-        },
-        {
-          "state": "NH",
-          "raw_value": "Assessment; Diagnosis; Planning; Implementation; Evaluation; Health teaching and counseling; Delegation and supervision",
-          "bucket": "Nursing Process Core"
-        },
-        {
-          "state": "NM",
-          "raw_value": "initiating and maintaining comfort measures; promoting and supporting optimal human functions and responses; establishing an environment conducive to well-being; collaborating on the health care regimen; administering medications and performing treatments; recording and reporting nursing observations; providing counseling and health teaching; delegating and supervising nursing interventions; maintaining accountability for safe and effective nursing care",
-          "bucket": "Care & Counsel Focus"
-        },
-        {
-          "state": "NV",
-          "raw_value": "observation; care and counsel; maintenance of health; prevention of illness; supervision and teaching; administration of medications and treatments",
-          "bucket": "Care & Counsel Focus"
-        },
-        {
-          "state": "OH",
-          "raw_value": "Identifying patterns of human responses to health problems; Executing nursing regimens; Assessing health status; Providing health counseling and teaching; Administering medications and treatments; Teaching, administering, supervising, delegating, and evaluating nursing practice",
-          "bucket": "Nursing Process Core"
-        },
-        {
-          "state": "OK",
-          "raw_value": "assessment of health status; analysis of assessment data; planning of care; implementation of care; delegation of tasks; evaluation of responses; teaching; management and supervision; collaboration with other health professionals; administration of medications and treatments",
-          "bucket": "Nursing Process Core"
-        },
-        {
-          "state": "OR",
-          "raw_value": "Executing medical orders; Providing supervision of nursing assistants and nurse interns; Performance of additional services recognized by board and nursing profession",
-          "bucket": "Minimal / Procedural"
-        },
-        {
-          "state": "SC",
-          "raw_value": "assessment; analysis; intervention; evaluation; administration of medications; delegation; teaching; counseling; research; consultation",
-          "bucket": "Nursing Process Core"
-        },
-        {
-          "state": "SD",
-          "raw_value": "Comprehensive nursing assessment; Developing and implementing patient-centered health care plans; Executing independent nursing strategies; Delegating and assigning nursing interventions; Teaching theory and practice of nursing; Managing, supervising, and evaluating nursing practice; Participating in health care policy development",
-          "bucket": "Broad Clinical + Admin"
-        },
-        {
-          "state": "TN",
-          "raw_value": "Responsible supervision of patients; Promotion, restoration and maintenance of health; Prevention of illness; Counseling, managing, supervising and teaching; Administration of medications and treatments; Application of nursing procedures; Nursing management of illness, injury or infirmity",
-          "bucket": "Care & Counsel Focus"
-        },
-        {
-          "state": "TX",
-          "raw_value": "observation, assessment, intervention, evaluation, rehabilitation, care and counsel, or health teachings; maintenance of health or prevention of illness; administration of medication or treatment as ordered by a physician, podiatrist, or dentist; supervision or teaching of nursing; administration, supervision, and evaluation of nursing practices, policies, and procedures; requesting, receiving, signing for, and distribution of prescription drug samples (for APRNs); performance of acts delegated by a physician; development of the nursing care plan",
-          "bucket": "Comprehensive + Advanced Acts"
-        },
-        {
-          "state": "UT",
-          "raw_value": "initiating and maintaining comfort measures; promoting and supporting human functions and responses; establishing an environment conducive to well-being; providing health counseling and teaching; collaborating with health care professionals on aspects of the health care regimen; performing delegated procedures; delegating nursing tasks to unlicensed assistive personnel; supervising delegated tasks",
-          "bucket": "Care & Counsel Focus"
-        },
-        {
-          "state": "VA",
-          "raw_value": "observation; care and counsel; maintenance of health; prevention of illness or disease; supervision and teaching; delegation of nursing tasks; administration of medications and treatments",
-          "bucket": "Care & Counsel Focus"
-        },
-        {
-          "state": "VT",
-          "raw_value": "assessment; diagnosis; planning; intervention; implementation; delegation; evaluation; teaching; management; supervision; collaboration",
-          "bucket": "Nursing Process Core"
-        },
-        {
-          "state": "WA",
-          "raw_value": "observation, assessment, diagnosis, care or counsel, and health teaching; administration, supervision, delegation, and evaluation of nursing practice; teaching of nursing; executing medical regimen as prescribed by authorized practitioners; administering medications, treatments, tests, and inoculations; prescribing legend drugs and controlled substances (APRN)",
-          "bucket": "Comprehensive + Advanced Acts"
-        },
-        {
-          "state": "WI",
-          "raw_value": "observation and recording of symptoms and reactions; execution of procedures and techniques in the treatment of the sick under supervision or direction of a physician or other licensed provider; execution of general nursing procedures and techniques; supervision of a patient and supervision and direction of licensed practical nurses and less skilled assistants",
-          "bucket": "Minimal / Procedural"
-        },
-        {
-          "state": "WV",
-          "raw_value": "assessment; treatment; counseling; procedures; patient education; administration of medication; implementation of care plan",
-          "bucket": "Nursing Process Core"
-        },
-        {
-          "state": "WY",
-          "raw_value": "assessment; diagnosis; planning; intervention; evaluation; administration; teaching; counseling; supervision; delegation; execution of medical regimen",
-          "bucket": "Nursing Process Core"
+          "bucket": "Active Practice Required"
         }
       ]
     },
     {
       "field_name": "scope.drug_authority",
       "bucket_set": [
-        "RN Admin Only",
-        "APRN Prescribe, Collaborative",
-        "APRN Prescribe, Independent",
-        "Tiered RN + APRN",
-        "Admin + Limited APRN"
+        "RN Administer Only",
+        "APRN Prescribe Independent",
+        "APRN Prescribe Collaborative",
+        "APRN Prescribe w/ Conditions",
+        "Mixed RN + APRN Tiers"
       ],
-      "rationale": "States cluster by whether drug authority is limited to RN administration under physician orders, APRN prescribing with a collaborative/protocol requirement, APRN prescribing with independent/plenary authority, or a tiered model explicitly describing different privileges for RN vs. APRN (and sometimes LPN) within the same statute.",
+      "rationale": "States cluster around whether only RNs are addressed (administer under order), whether APRNs have full independent prescriptive authority, whether APRNs prescribe under collaborative/protocol agreements, whether APRNs prescribe with specific degree or supervision conditions, or whether the statute explicitly addresses multiple license tiers with different authority levels.",
       "assignments": [
         {
           "state": "AK",
           "raw_value": "Advanced practice registered nurses may prescribe and dispense medical, therapeutic, or corrective measures under board regulations; subject to opioid prescribing limits and controlled substance restrictions",
-          "bucket": "APRN Prescribe, Independent"
+          "bucket": "APRN Prescribe w/ Conditions"
         },
         {
           "state": "AL",
           "raw_value": "Administering medications and treatments prescribed by a licensed or otherwise legally authorized physician or dentist",
-          "bucket": "RN Admin Only"
+          "bucket": "RN Administer Only"
         },
         {
           "state": "AR",
           "raw_value": "Advanced practice registered nurses with certificate of prescriptive authority may prescribe drugs, medicines, or therapeutic devices appropriate to their area of practice",
-          "bucket": "APRN Prescribe, Independent"
+          "bucket": "APRN Prescribe w/ Conditions"
         },
         {
           "state": "CA",
           "raw_value": "Registered nurses may dispense drugs or devices upon order by a licensed physician and surgeon or by a certified nurse-midwife, nurse practitioner, or physician assistant in licensed primary care clinics. APRNs (CNMs, NPs) may furnish/order drugs including controlled substances under specified conditions with board-issued furnishing numbers.",
-          "bucket": "Tiered RN + APRN"
+          "bucket": "Mixed RN + APRN Tiers"
         },
         {
           "state": "CO",
           "raw_value": "Advanced practice registered nurses and certified midwives with prescriptive authority may prescribe controlled substances and prescription drugs within their scope of practice",
-          "bucket": "APRN Prescribe, Independent"
+          "bucket": "APRN Prescribe Independent"
         },
         {
           "state": "CT",
           "raw_value": "Advanced practice registered nurses may prescribe, dispense and administer medical therapeutics and corrective measures and may request, sign for, receive and dispense drugs in the form of professional samples",
-          "bucket": "APRN Prescribe, Independent"
+          "bucket": "APRN Prescribe Independent"
         },
         {
           "state": "DE",
           "raw_value": "Registered nurses may administer medications and treatments prescribed by licensed physicians, dentists, podiatrists, or advanced practice registered nurses; APRNs may prescribe, order, procure, administer, store, dispense and furnish over the counter, legend and controlled substances pursuant to applicable state and federal laws",
-          "bucket": "Tiered RN + APRN"
+          "bucket": "Mixed RN + APRN Tiers"
         },
         {
           "state": "FL",
           "raw_value": "Nurses may administer medications and treatments as prescribed or authorized by a duly licensed practitioner. APRNs may prescribe, dispense, administer, or order any drug within the framework of an established protocol; controlled substances only if the APRN has a master's or doctoral degree in a clinical nursing specialty.",
-          "bucket": "APRN Prescribe, Collaborative"
+          "bucket": "Mixed RN + APRN Tiers"
         },
         {
           "state": "GA",
           "raw_value": "RNs may administer medications and treatments as prescribed by a physician, dentist, or podiatrist; may administer, order, and dispense medications, diagnostic studies, and medical treatments authorized by protocol when authorized by other general laws",
-          "bucket": "Admin + Limited APRN"
+          "bucket": "APRN Prescribe Collaborative"
         },
         {
           "state": "HI",
           "raw_value": "Advanced practice registered nurses may prescribe and administer over the counter drugs, legend drugs, and controlled substances within their scope of practice",
-          "bucket": "APRN Prescribe, Independent"
+          "bucket": "APRN Prescribe Independent"
         },
         {
           "state": "IA",
           "raw_value": "Under a pharmacist's order and consistent with this subsection, assist in the administration of immunizations and vaccinations and the utilization of statewide protocols",
-          "bucket": "RN Admin Only"
+          "bucket": "RN Administer Only"
         },
         {
           "state": "ID",
           "raw_value": "Administering medications and treatments as prescribed by those health care providers authorized to prescribe medication; Advanced practice registered nurses may prescribe, administer and dispense therapeutic pharmacologic agents as defined by board rules",
-          "bucket": "Tiered RN + APRN"
+          "bucket": "Mixed RN + APRN Tiers"
         },
         {
           "state": "IL",
           "raw_value": "Registered professional nurses may administer or delegate medication administration according to Section 50-75 of this Act",
-          "bucket": "RN Admin Only"
+          "bucket": "RN Administer Only"
         },
         {
           "state": "IN",
           "raw_value": "Advanced practice registered nurses may prescribe drugs, including controlled substances, under established board requirements",
-          "bucket": "APRN Prescribe, Independent"
+          "bucket": "APRN Prescribe w/ Conditions"
         },
         {
           "state": "KY",
           "raw_value": "Administration of medication and treatment as prescribed by a physician, physician assistant, dentist, or advanced practice registered nurse",
-          "bucket": "RN Admin Only"
+          "bucket": "RN Administer Only"
         },
         {
           "state": "LA",
           "raw_value": "Advanced practice registered nurses may prescribe legend and certain controlled drugs in accordance with collaborative practice agreement",
-          "bucket": "APRN Prescribe, Collaborative"
+          "bucket": "APRN Prescribe Collaborative"
         },
         {
           "state": "MA",
-          "raw_value": "Registered nurses may administer medication, therapeutics and treatment prescribed by duly authorized nurses in advanced roles, physicians, dentists, and physician assistants",
-          "bucket": "RN Admin Only"
+          "raw_value": "Advanced practice nurses (certified nurse midwives, nurse practitioners, nurse anesthetists, psychiatric nurse mental health clinical specialists) may order and prescribe medications pursuant to board regulations; NPs and CRNAs require guidelines with a supervising physician or independent-authority APRN until 2 years of supervised practice is completed",
+          "bucket": "APRN Prescribe w/ Conditions"
         },
         {
           "state": "MD",
           "raw_value": "Nurse practitioners may prescribe drugs as provided under § 8-508; nurse anesthetists may prescribe drugs under certain conditions; nurse midwives may prescribe substances commonly used in midwifery including controlled substances on Schedules II-V",
-          "bucket": "APRN Prescribe, Collaborative"
+          "bucket": "APRN Prescribe w/ Conditions"
         },
         {
           "state": "ME",
           "raw_value": "Certified nurse practitioners and certified nurse midwives who qualify as APRNs may prescribe and dispense drugs or devices in accordance with rules adopted by the board. CRNAs may prescribe controlled substances (Schedules III, IIIN, IV, V) in critical access and rural hospitals for up to 4 days supply.",
-          "bucket": "APRN Prescribe, Independent"
+          "bucket": "APRN Prescribe w/ Conditions"
+        },
+        {
+          "state": "MI",
+          "raw_value": "APRNs may prescribe nonscheduled prescription drugs independently and controlled substances (schedules 2-5) as a delegated act of a physician",
+          "bucket": "APRN Prescribe Collaborative"
+        },
+        {
+          "state": "MN",
+          "raw_value": "Advanced practice registered nurses are authorized to prescribe, procure, sign for, record, administer, and dispense over-the-counter, legend, and controlled substances, including sample drugs",
+          "bucket": "APRN Prescribe Independent"
         },
         {
           "state": "MO",
           "raw_value": "Administration of medications and treatments as prescribed by a person licensed by a state regulatory board to prescribe medications and treatments",
-          "bucket": "RN Admin Only"
+          "bucket": "RN Administer Only"
         },
         {
           "state": "MS",
           "raw_value": "Execution of medical regimen including administration of medications and treatments prescribed by licensed or legally authorized physician or dentist",
-          "bucket": "RN Admin Only"
+          "bucket": "RN Administer Only"
         },
         {
           "state": "MT",
           "raw_value": "Administration of medications and treatments prescribed by physicians, naturopathic physicians, physician assistants, optometrists, advanced practice registered nurses, dentists, osteopaths, or podiatrists authorized by state law to prescribe medications and treatments",
-          "bucket": "RN Admin Only"
+          "bucket": "RN Administer Only"
         },
         {
           "state": "ND",
           "raw_value": "Medication administration and prescriptive practices for advanced practice registered nurses",
-          "bucket": "Admin + Limited APRN"
+          "bucket": "APRN Prescribe Independent"
+        },
+        {
+          "state": "NE",
+          "raw_value": "Licensed nurses may use services of unlicensed individuals to provide assistance with personal care; nurse practitioners may prescribe therapeutic measures and medications; LPN may provide intravenous therapy if requirements met",
+          "bucket": "Mixed RN + APRN Tiers"
         },
         {
           "state": "NH",
           "raw_value": "APRN: plenary authority to possess, compound, prescribe, administer, and dispense controlled and non-controlled drugs within scope of practice; RN: no independent prescriptive authority; LPN: no independent prescriptive authority",
-          "bucket": "Tiered RN + APRN"
+          "bucket": "Mixed RN + APRN Tiers"
         },
         {
           "state": "NJ",
-          "raw_value": "Advanced practice nurses may prescribe or order medications and devices in inpatient and outpatient settings subject to joint protocols with collaborating physician",
-          "bucket": "APRN Prescribe, Collaborative"
+          "raw_value": "Advanced practice nurses may prescribe or order medications and devices pursuant to joint protocols with a collaborating physician in both inpatient and outpatient settings, including controlled dangerous substances subject to specified conditions.",
+          "bucket": "APRN Prescribe Collaborative"
         },
         {
           "state": "NM",
           "raw_value": "Administering medications prescribed by authorized persons",
-          "bucket": "RN Admin Only"
+          "bucket": "RN Administer Only"
         },
         {
           "state": "NV",
           "raw_value": "May administer medications and treatments as prescribed by advanced practice registered nurse, licensed physician, physician assistant, licensed dentist or licensed podiatric physician",
-          "bucket": "RN Admin Only"
+          "bucket": "RN Administer Only"
+        },
+        {
+          "state": "NY",
+          "raw_value": "Nurse practitioners may issue prescriptions for drugs, devices and immunizing agents in accordance with a practice agreement and practice protocols, upon obtaining a certificate from the department after completing a pharmacology program.",
+          "bucket": "APRN Prescribe Collaborative"
         },
         {
           "state": "OH",
           "raw_value": "Administering medications, treatments, and executing regimens authorized by an individual who is authorized to practice in this state and is acting within the course of the individual's professional practice",
-          "bucket": "RN Admin Only"
+          "bucket": "RN Administer Only"
         },
         {
           "state": "OK",
           "raw_value": "execution of the medical regime including the administration of medications and treatments prescribed by any person authorized by state law to so prescribe",
-          "bucket": "RN Admin Only"
+          "bucket": "RN Administer Only"
         },
         {
           "state": "SC",
           "raw_value": "Administration of medications as prescribed by authorized licensed provider",
-          "bucket": "RN Admin Only"
+          "bucket": "RN Administer Only"
         },
         {
           "state": "SD",
           "raw_value": "CRNAs may prescribe, procure, administer, and furnish pharmacological agents including over the counter, legend, and controlled drugs or substances listed on Schedule II; CNPs and CNMs may prescribe, procure, administer, and furnish pharmacological agents including over the counter, legend, and controlled drugs or substances listed on Schedule II",
-          "bucket": "APRN Prescribe, Independent"
+          "bucket": "APRN Prescribe Independent"
         },
         {
           "state": "TN",
           "raw_value": "Administration of medications and treatments as prescribed by a licensed physician, dentist, podiatrist, or nurse authorized to prescribe pursuant to § 63-7-123",
-          "bucket": "RN Admin Only"
+          "bucket": "RN Administer Only"
         },
         {
           "state": "TX",
           "raw_value": "APRNs may prescribe or order drugs or devices as delegated by a physician under applicable statutes; must have specialized education including pharmacology and receive a prescription authorization number from the board.",
-          "bucket": "APRN Prescribe, Collaborative"
+          "bucket": "APRN Prescribe Collaborative"
         },
         {
           "state": "UT",
           "raw_value": "Advanced practice registered nurses may prescribe or administer Schedule II-V controlled substances and non-controlled prescription drugs; registered nurses may administer medications under physician direction; licensed practical nurses may administer medications under direction of registered nurse, physician, or other specified health care professional",
-          "bucket": "Tiered RN + APRN"
+          "bucket": "Mixed RN + APRN Tiers"
         },
         {
           "state": "VA",
           "raw_value": "administration of medications and treatments as prescribed by any person authorized by law to prescribe such medications and treatment",
-          "bucket": "RN Admin Only"
+          "bucket": "RN Administer Only"
         },
         {
           "state": "WA",
-          "raw_value": "Advanced registered nurse practitioners may prescribe legend drugs and Schedule V controlled substances, and Schedules II through IV subject to board approval and scope of practice",
-          "bucket": "APRN Prescribe, Independent"
+          "raw_value": "Advanced registered nurse practitioners may prescribe legend drugs and controlled substances contained in Schedule V, and Schedules II through IV subject to RCW 18.79.240(1)(r) or (s). Registered nurses may administer medications under general direction of licensed practitioners.",
+          "bucket": "Mixed RN + APRN Tiers"
         },
         {
           "state": "WI",
           "raw_value": "Advanced practice registered nurses may issue prescription orders subject to board rules; includes controlled substances and prescription drugs.",
-          "bucket": "APRN Prescribe, Independent"
+          "bucket": "APRN Prescribe w/ Conditions"
         },
         {
           "state": "WV",
           "raw_value": "Administration of medications and treatments as prescribed by a licensed physician, a licensed dentist or a licensed advanced practice registered nurse",
-          "bucket": "RN Admin Only"
+          "bucket": "RN Administer Only"
         },
         {
           "state": "WY",
           "raw_value": "May administer medications and treatments prescribed by any person authorized by state law to prescribe",
-          "bucket": "RN Admin Only"
+          "bucket": "RN Administer Only"
         }
       ]
     },
     {
       "field_name": "profession_specific.aprn_role_categories",
       "bucket_set": [
-        "All 4 Standard Roles",
-        "4 Roles + Extras",
+        "All 4 APRN Roles",
+        "4 Roles + Extra",
         "3 Roles Only",
-        "Unified / Non-Enumerated"
+        "2 Roles Only",
+        "Partial / Non-Standard"
       ],
-      "rationale": "States cluster by how many of the four canonical APRN roles (NP, CRNA, CNM, CNS) they enumerate, with a small group that doesn't enumerate individual roles at all.",
+      "rationale": "States vary primarily by how many of the four standard APRN roles (NP, CNM, CRNA, CNS) they enumerate, with a few adding extra categories or using non-standard groupings.",
       "assignments": [
         {
           "state": "AK",
           "raw_value": "certified registered nurse anesthetist (CRNA); certified clinical nurse specialist (CNS); certified nurse practitioner (CNP); certified nurse midwife (CNM)",
-          "bucket": "All 4 Standard Roles"
+          "bucket": "All 4 APRN Roles"
         },
         {
           "state": "AL",
           "raw_value": "Certified Registered Nurse Practitioner (CRNP); Certified Nurse Midwife (CNM); Certified Registered Nurse Anesthetist (CRNA); Clinical Nurse Specialist (CNS)",
-          "bucket": "All 4 Standard Roles"
+          "bucket": "All 4 APRN Roles"
         },
         {
           "state": "AR",
           "raw_value": "Certified Nurse Practitioner; Certified Registered Nurse Anesthetist; Certified Nurse Midwife; Clinical Nurse Specialist",
-          "bucket": "All 4 Standard Roles"
+          "bucket": "All 4 APRN Roles"
         },
         {
           "state": "AZ",
           "raw_value": "Registered Nurse Practitioner; Certified Nurse Midwife; Clinical Nurse Specialist; Certified Registered Nurse Anesthetist",
-          "bucket": "All 4 Standard Roles"
+          "bucket": "All 4 APRN Roles"
         },
         {
           "state": "CA",
           "raw_value": "Certified Nurse-Midwife (CNM); Certified Registered Nurse Anesthetist (CRNA); Nurse Practitioner (NP); Clinical Nurse Specialist (CNS)",
-          "bucket": "All 4 Standard Roles"
+          "bucket": "All 4 APRN Roles"
         },
         {
           "state": "CO",
           "raw_value": "Certified Nurse Midwife (CNM); Clinical Nurse Specialist (CNS); Certified Registered Nurse Anesthetist (CRNA); Nurse Practitioner (NP)",
-          "bucket": "All 4 Standard Roles"
+          "bucket": "All 4 APRN Roles"
         },
         {
           "state": "CT",
@@ -1754,97 +1645,107 @@
         {
           "state": "DE",
           "raw_value": "Certified Nurse Practitioner (CNP); Certified Registered Nurse Anesthetist (CRNA); Certified Nurse Midwife (CNM); Clinical Nurse Specialist (CNS)",
-          "bucket": "All 4 Standard Roles"
+          "bucket": "All 4 APRN Roles"
         },
         {
           "state": "FL",
           "raw_value": "Certified Nurse Midwife (CNM); Certified Nurse Practitioner (CNP); Certified Registered Nurse Anesthetist (CRNA); Clinical Nurse Specialist (CNS); Psychiatric Nurse",
-          "bucket": "4 Roles + Extras"
+          "bucket": "4 Roles + Extra"
         },
         {
           "state": "GA",
           "raw_value": "Certified Nurse Midwife (CNM); Certified Nurse Practitioner (CNP); Certified Registered Nurse Anesthetist (CRNA); Clinical Nurse Specialist (CNS); Clinical Nurse Specialist in Psychiatric/Mental Health",
-          "bucket": "4 Roles + Extras"
+          "bucket": "4 Roles + Extra"
         },
         {
           "state": "IA",
           "raw_value": "Nurse Anesthetist; Nurse Practitioner; Nurse Midwife; Clinical Nurse Specialist",
-          "bucket": "All 4 Standard Roles"
+          "bucket": "All 4 APRN Roles"
         },
         {
           "state": "ID",
           "raw_value": "Certified Nurse Practitioner; Certified Nurse Midwife; Clinical Nurse Specialist; Certified Registered Nurse Anesthetist",
-          "bucket": "All 4 Standard Roles"
+          "bucket": "All 4 APRN Roles"
         },
         {
           "state": "IL",
           "raw_value": "Certified Nurse Midwife (CNM); Certified Nurse Practitioner (CNP); Certified Registered Nurse Anesthetist (CRNA); Clinical Nurse Specialist (CNS)",
-          "bucket": "All 4 Standard Roles"
+          "bucket": "All 4 APRN Roles"
         },
         {
           "state": "IN",
           "raw_value": "Nurse Practitioner; Certified Nurse Midwife; Clinical Nurse Specialist; Certified Registered Nurse Anesthetist",
-          "bucket": "All 4 Standard Roles"
+          "bucket": "All 4 APRN Roles"
         },
         {
           "state": "KY",
           "raw_value": "Certified Nurse Practitioner; Certified Registered Nurse Anesthetist; Certified Nurse Midwife; Clinical Nurse Specialist",
-          "bucket": "All 4 Standard Roles"
+          "bucket": "All 4 APRN Roles"
         },
         {
           "state": "LA",
           "raw_value": "Certified Nurse Midwife (CNM); Certified Registered Nurse Anesthetist (CRNA); Clinical Nurse Specialist (CNS); Nurse Practitioner (NP)",
-          "bucket": "All 4 Standard Roles"
+          "bucket": "All 4 APRN Roles"
         },
         {
           "state": "MA",
-          "raw_value": "Nurse Practitioner; Certified Nurse Midwife; Nurse Anesthetist; Psychiatric Nurse Mental Health Clinical Specialist",
-          "bucket": "4 Roles + Extras"
+          "raw_value": "Certified Nurse Midwife (CNM); Nurse Practitioner (NP); Nurse Anesthetist (CRNA); Psychiatric Nurse Mental Health Clinical Specialist (PNMHCS)",
+          "bucket": "4 Roles + Extra"
         },
         {
           "state": "MD",
           "raw_value": "Nurse Practitioner; Nurse Anesthetist; Nurse Midwife; Clinical Nurse Specialist",
-          "bucket": "All 4 Standard Roles"
+          "bucket": "All 4 APRN Roles"
         },
         {
           "state": "ME",
           "raw_value": "Certified Nurse Practitioner; Certified Nurse Midwife; Certified Clinical Nurse Specialist; Certified Registered Nurse Anesthetist",
-          "bucket": "All 4 Standard Roles"
+          "bucket": "All 4 APRN Roles"
+        },
+        {
+          "state": "MI",
+          "raw_value": "Nurse midwifery; Nurse anesthetist; Nurse practitioner; Clinical nurse specialist",
+          "bucket": "All 4 APRN Roles"
+        },
+        {
+          "state": "MN",
+          "raw_value": "Certified Registered Nurse Anesthetist (CRNA); Certified Nurse-Midwife (CNM); Certified Clinical Nurse Specialist (CNS); Certified Nurse Practitioner (CNP)",
+          "bucket": "All 4 APRN Roles"
         },
         {
           "state": "MO",
           "raw_value": "Certified Clinical Nurse Specialist; Certified Nurse Midwife; Certified Nurse Practitioner; Certified Registered Nurse Anesthetist",
-          "bucket": "All 4 Standard Roles"
+          "bucket": "All 4 APRN Roles"
         },
         {
           "state": "MS",
           "raw_value": "Certified Registered Nurse Anesthetist (CRNA); Certified Nurse Midwife (CNM); Certified Nurse Practitioner (CNP); Clinical Nurse Specialist (CNS)",
-          "bucket": "All 4 Standard Roles"
+          "bucket": "All 4 APRN Roles"
         },
         {
           "state": "MT",
           "raw_value": "nurse practitioners; nurse-midwives; nurse anesthetists; clinical nurse specialists",
-          "bucket": "All 4 Standard Roles"
+          "bucket": "All 4 APRN Roles"
         },
         {
           "state": "ND",
           "raw_value": "Certified Nurse Practitioner; Certified Registered Nurse Anesthetist; Certified Nurse Midwife; Certified Clinical Nurse Specialist",
-          "bucket": "All 4 Standard Roles"
+          "bucket": "All 4 APRN Roles"
         },
         {
           "state": "NE",
-          "raw_value": "Certified Registered Nurse Anesthetist; Nurse Practitioner; Clinical Nurse Specialist",
-          "bucket": "3 Roles Only"
+          "raw_value": "Nurse Practitioner; Certified Nurse Midwife; Certified Registered Nurse Anesthetist; Clinical Nurse Specialist",
+          "bucket": "All 4 APRN Roles"
         },
         {
           "state": "NH",
           "raw_value": "APRN roles as recognized by National Council of State Boards of Nursing",
-          "bucket": "Unified / Non-Enumerated"
+          "bucket": "Partial / Non-Standard"
         },
         {
           "state": "NJ",
-          "raw_value": "Advanced Practice Nurse",
-          "bucket": "Unified / Non-Enumerated"
+          "raw_value": "nurse practitioner; clinical nurse specialist; nurse practitioner/clinical nurse specialist",
+          "bucket": "Partial / Non-Standard"
         },
         {
           "state": "NM",
@@ -1854,17 +1755,22 @@
         {
           "state": "NV",
           "raw_value": "Advanced Practice Registered Nurse (general); Certified Registered Nurse Anesthetist",
-          "bucket": "Unified / Non-Enumerated"
+          "bucket": "2 Roles Only"
+        },
+        {
+          "state": "NY",
+          "raw_value": "Nurse Practitioner (NP); Clinical Nurse Specialist (CNS)",
+          "bucket": "2 Roles Only"
         },
         {
           "state": "OH",
           "raw_value": "Certified Registered Nurse Anesthetist (CRNA); Clinical Nurse Specialist (CNS); Certified Nurse-Midwife (CNM); Certified Nurse Practitioner (CNP)",
-          "bucket": "All 4 Standard Roles"
+          "bucket": "All 4 APRN Roles"
         },
         {
           "state": "OK",
           "raw_value": "Certified Registered Nurse Anesthetist; Certified Nurse-Midwife; Clinical Nurse Specialist; Certified Nurse Practitioner",
-          "bucket": "All 4 Standard Roles"
+          "bucket": "All 4 APRN Roles"
         },
         {
           "state": "OR",
@@ -1879,299 +1785,319 @@
         {
           "state": "SC",
           "raw_value": "Nurse Practitioner (NP); Certified Nurse-Midwife (CNM); Clinical Nurse Specialist (CNS); Certified Registered Nurse Anesthetist (CRNA)",
-          "bucket": "All 4 Standard Roles"
+          "bucket": "All 4 APRN Roles"
         },
         {
           "state": "SD",
           "raw_value": "Certified Registered Nurse Anesthetist (CRNA); Clinical Nurse Specialist (CNS); Certified Nurse Practitioner (CNP); Certified Nurse Midwife (CNM)",
-          "bucket": "All 4 Standard Roles"
+          "bucket": "All 4 APRN Roles"
         },
         {
           "state": "TN",
           "raw_value": "Nurse Practitioner; Nurse Anesthetist (CRNA); Nurse Midwife (CNM); Clinical Nurse Specialist",
-          "bucket": "All 4 Standard Roles"
+          "bucket": "All 4 APRN Roles"
         },
         {
           "state": "TX",
           "raw_value": "nurse practitioner; nurse midwife; nurse anesthetist; clinical nurse specialist",
-          "bucket": "All 4 Standard Roles"
+          "bucket": "All 4 APRN Roles"
         },
         {
           "state": "UT",
           "raw_value": "certified registered nurse anesthetist (CRNA); certified nurse midwife (CNM); clinical nurse specialist (CNS); certified nurse practitioner (CNP)",
-          "bucket": "All 4 Standard Roles"
+          "bucket": "All 4 APRN Roles"
         },
         {
           "state": "VA",
           "raw_value": "Certified Nurse Midwife; Certified Registered Nurse Anesthetist; Clinical Nurse Specialist; Nurse Practitioner",
-          "bucket": "All 4 Standard Roles"
+          "bucket": "All 4 APRN Roles"
         },
         {
           "state": "VT",
           "raw_value": "Nurse Practitioner; Certified Nurse Midwife; Certified Nurse Anesthetist; Clinical Nurse Specialist in Psychiatric or Mental Health Nursing",
-          "bucket": "4 Roles + Extras"
+          "bucket": "4 Roles + Extra"
         },
         {
           "state": "WA",
           "raw_value": "Advanced Registered Nurse Practitioner (ARNP) / Nurse Practitioner (NP); Certified Registered Nurse Anesthetist (CRNA)",
-          "bucket": "Unified / Non-Enumerated"
+          "bucket": "2 Roles Only"
         },
         {
           "state": "WI",
           "raw_value": "certified nurse-midwife; certified registered nurse anesthetist; clinical nurse specialist; nurse practitioner",
-          "bucket": "All 4 Standard Roles"
+          "bucket": "All 4 APRN Roles"
         },
         {
           "state": "WV",
           "raw_value": "Certified Nurse Practitioner; Certified Nurse-Midwife; Certified Registered Nurse Anesthetist; Clinical Nurse Specialist",
-          "bucket": "All 4 Standard Roles"
+          "bucket": "All 4 APRN Roles"
         }
       ]
     },
     {
       "field_name": "profession_specific.lpn_supervision_requirements",
       "bucket_set": [
-        "RN + Physician + Dentist Core",
-        "Extended Medical Roster",
-        "Broad Any Licensed Provider",
-        "RN/APRN Only",
-        "Team-Based Requirement"
+        "RN + MD + Dentist (Core)",
+        "Core + APRN",
+        "Core + APRN + PA/Other",
+        "Broad Multi-Provider",
+        "General Licensed Provider"
       ],
-      "rationale": "States cluster by how widely they define eligible supervisors: some list only the core trio (RN, physician, dentist), others add podiatrists/optometrists/chiropractors/PAs into an extended roster, a few use a broad 'any licensed health provider' catch-all, one state limits supervision to nurses only, and one frames it as a team relationship rather than named roles.",
+      "rationale": "States cluster by how expansively they define eligible supervisors: a minimal core trio (RN, MD, Dentist), that core plus APRN, that core plus APRN and PA or a few extras, a wide enumerated list of many specialties, or a broad catch-all 'any licensed health care provider' language.",
       "assignments": [
         {
           "state": "AK",
           "raw_value": "licensed registered nurse; licensed advanced practice registered nurse; licensed physician; licensed physician assistant; licensed dentist",
-          "bucket": "Extended Medical Roster"
+          "bucket": "Core + APRN + PA/Other"
         },
         {
           "state": "AL",
           "raw_value": "Licensed professional nurse; Licensed or otherwise legally authorized physician or dentist",
-          "bucket": "RN + Physician + Dentist Core"
+          "bucket": "RN + MD + Dentist (Core)"
         },
         {
           "state": "AR",
           "raw_value": "Registered nurse; Advanced practice registered nurse; Licensed physician; Licensed dentist",
-          "bucket": "RN + Physician + Dentist Core"
+          "bucket": "Core + APRN"
         },
         {
           "state": "AZ",
           "raw_value": "Physician; Registered Nurse",
-          "bucket": "RN + Physician + Dentist Core"
+          "bucket": "RN + MD + Dentist (Core)"
         },
         {
           "state": "CO",
           "raw_value": "Licensed health-care provider authorized to practice in the state",
-          "bucket": "Broad Any Licensed Provider"
+          "bucket": "General Licensed Provider"
         },
         {
           "state": "CT",
           "raw_value": "Registered Nurse; Advanced Practice Registered Nurse; Licensed Physician; Physician Assistant; Podiatrist; Optometrist; Dentist",
-          "bucket": "Extended Medical Roster"
+          "bucket": "Broad Multi-Provider"
         },
         {
           "state": "DE",
           "raw_value": "registered nurse; person licensed to practice medicine; person licensed to practice dentistry; person licensed to practice podiatry",
-          "bucket": "Extended Medical Roster"
+          "bucket": "Core + APRN + PA/Other"
         },
         {
           "state": "FL",
           "raw_value": "Registered nurse; Licensed physician; Licensed osteopathic physician; Licensed podiatric physician; Licensed dentist",
-          "bucket": "Extended Medical Roster"
+          "bucket": "Broad Multi-Provider"
         },
         {
           "state": "GA",
           "raw_value": "physician practicing medicine; dentist practicing dentistry; podiatrist practicing podiatry; registered nurse practicing nursing",
-          "bucket": "Extended Medical Roster"
+          "bucket": "Core + APRN + PA/Other"
         },
         {
           "state": "HI",
           "raw_value": "registered nurse; advanced practice registered nurse; licensed physician; other health care provider authorized by the State",
-          "bucket": "Broad Any Licensed Provider"
+          "bucket": "Core + APRN"
         },
         {
           "state": "IA",
           "raw_value": "Registered Nurse; Physician",
-          "bucket": "RN + Physician + Dentist Core"
+          "bucket": "RN + MD + Dentist (Core)"
         },
         {
           "state": "ID",
           "raw_value": "Licensed Registered Nurse; Licensed Advanced Practice Registered Nurse; Licensed Physician; Licensed Dentist",
-          "bucket": "RN + Physician + Dentist Core"
+          "bucket": "Core + APRN"
         },
         {
           "state": "IL",
           "raw_value": "registered professional nurse; advanced practice registered nurse; physician; dentist; podiatric physician; other health care professionals as determined by the Department",
-          "bucket": "Broad Any Licensed Provider"
+          "bucket": "Broad Multi-Provider"
         },
         {
           "state": "IN",
           "raw_value": "registered nurse; physician with unlimited license to practice medicine or osteopathic medicine; licensed dentist; licensed chiropractor; licensed optometrist; licensed podiatrist",
-          "bucket": "Extended Medical Roster"
+          "bucket": "Broad Multi-Provider"
         },
         {
           "state": "KS",
           "raw_value": "Registered professional nurse; Person licensed to practice medicine and surgery; Person licensed to practice dentistry",
-          "bucket": "RN + Physician + Dentist Core"
+          "bucket": "RN + MD + Dentist (Core)"
         },
         {
           "state": "KY",
           "raw_value": "registered nurse; advanced practice registered nurse; physician assistant; licensed physician; dentist",
-          "bucket": "Extended Medical Roster"
+          "bucket": "Core + APRN + PA/Other"
         },
         {
           "state": "MA",
-          "raw_value": "Registered Nurse; Licensed Practical Nurse",
-          "bucket": "RN/APRN Only"
+          "raw_value": "Nursing service performed under supervision of a registered nurse or licensed practical nurse (in convalescent or nursing home or rest home)",
+          "bucket": "RN + MD + Dentist (Core)"
         },
         {
           "state": "MD",
           "raw_value": "Licensed Practical Nurse must practice in a team relationship with at least one licensed health professional who is not a licensed practical nurse",
-          "bucket": "Team-Based Requirement"
+          "bucket": "General Licensed Provider"
         },
         {
           "state": "ME",
           "raw_value": "registered nurse; licensed physician; podiatrist; dentist",
-          "bucket": "Extended Medical Roster"
+          "bucket": "Core + APRN + PA/Other"
+        },
+        {
+          "state": "MI",
+          "raw_value": "registered professional nurse; physician; dentist",
+          "bucket": "RN + MD + Dentist (Core)"
+        },
+        {
+          "state": "MN",
+          "raw_value": "registered nurse; advanced practice registered nurse; other licensed health care provider",
+          "bucket": "Core + APRN"
         },
         {
           "state": "MO",
           "raw_value": "Person licensed by a state regulatory board to prescribe medications and treatments; Registered professional nurse",
-          "bucket": "Broad Any Licensed Provider"
+          "bucket": "General Licensed Provider"
         },
         {
           "state": "MS",
           "raw_value": "Registered nurse; Licensed physician; Licensed dentist",
-          "bucket": "RN + Physician + Dentist Core"
+          "bucket": "RN + MD + Dentist (Core)"
         },
         {
           "state": "MT",
           "raw_value": "registered nurse; physician; naturopathic physician; physician assistant; optometrist; dentist; osteopath; podiatrist",
-          "bucket": "Extended Medical Roster"
+          "bucket": "Broad Multi-Provider"
         },
         {
           "state": "NC",
           "raw_value": "Registered nurse; Physician licensed to practice medicine; Dentist; Other person authorized by State law to provide supervision",
-          "bucket": "Broad Any Licensed Provider"
+          "bucket": "RN + MD + Dentist (Core)"
         },
         {
           "state": "ND",
           "raw_value": "Registered Nurse; Specialty Practice Registered Nurse; Advanced Practice Registered Nurse; Licensed Practitioner",
-          "bucket": "Broad Any Licensed Provider"
+          "bucket": "Core + APRN"
         },
         {
           "state": "NE",
           "raw_value": "licensed practitioner; registered nurse",
-          "bucket": "Broad Any Licensed Provider"
+          "bucket": "General Licensed Provider"
         },
         {
           "state": "NH",
           "raw_value": "Registered Nurse (RN); Advanced Practice Registered Nurse (APRN); Licensed Physician; Dentist",
-          "bucket": "RN + Physician + Dentist Core"
+          "bucket": "Core + APRN"
+        },
+        {
+          "state": "NJ",
+          "raw_value": "registered nurse; licensed or otherwise legally authorized physician; dentist",
+          "bucket": "RN + MD + Dentist (Core)"
         },
         {
           "state": "NM",
           "raw_value": "Registered nurse; Physician; Dentist",
-          "bucket": "RN + Physician + Dentist Core"
+          "bucket": "RN + MD + Dentist (Core)"
         },
         {
           "state": "NV",
           "raw_value": "Registered professional nurse; Advanced practice registered nurse; Licensed physician; Physician assistant; Licensed dentist; Licensed podiatric physician",
-          "bucket": "Extended Medical Roster"
+          "bucket": "Broad Multi-Provider"
+        },
+        {
+          "state": "NY",
+          "raw_value": "registered professional nurse; licensed physician; dentist; other licensed health care provider legally authorized under this title",
+          "bucket": "RN + MD + Dentist (Core)"
         },
         {
           "state": "OH",
           "raw_value": "Registered nurse; Physician; Physician assistant; Dentist; Podiatrist; Optometrist; Chiropractor",
-          "bucket": "Extended Medical Roster"
+          "bucket": "Broad Multi-Provider"
         },
         {
           "state": "OK",
           "raw_value": "Registered Nurse; licensed physician; dentist",
-          "bucket": "RN + Physician + Dentist Core"
+          "bucket": "RN + MD + Dentist (Core)"
         },
         {
           "state": "RI",
           "raw_value": "Registered nurse; Licensed physician; Licensed dentist; Licensed podiatrist; Other licensed healthcare providers authorized by law to prescribe",
-          "bucket": "Broad Any Licensed Provider"
+          "bucket": "Core + APRN + PA/Other"
         },
         {
           "state": "SC",
           "raw_value": "Advanced Practice Registered Nurse; Registered Nurse; Licensed Physician; Licensed Dentist; Other practitioner authorized by law",
-          "bucket": "Broad Any Licensed Provider"
+          "bucket": "Core + APRN"
         },
         {
           "state": "SD",
           "raw_value": "Registered nurse; Advanced practice registered nurse; Licensed physician; Other health care provider authorized by the state",
-          "bucket": "Broad Any Licensed Provider"
+          "bucket": "Core + APRN"
         },
         {
           "state": "TN",
           "raw_value": "Licensed physician; Licensed dentist; Professional registered nurse",
-          "bucket": "RN + Physician + Dentist Core"
+          "bucket": "RN + MD + Dentist (Core)"
         },
         {
           "state": "TX",
           "raw_value": "registered nurse; physician; physician assistant; podiatrist; dentist",
-          "bucket": "Extended Medical Roster"
+          "bucket": "Core + APRN + PA/Other"
         },
         {
           "state": "UT",
           "raw_value": "registered nurse; licensed physician; other specified health care professional as defined by division rule",
-          "bucket": "Broad Any Licensed Provider"
+          "bucket": "General Licensed Provider"
         },
         {
           "state": "VA",
           "raw_value": "licensed medical practitioner; professional nurse; registered nurse; registered professional nurse; other licensed health professional authorized by regulations of the Board",
-          "bucket": "Broad Any Licensed Provider"
+          "bucket": "General Licensed Provider"
         },
         {
           "state": "VT",
           "raw_value": "registered nurse; advanced practice registered nurse; licensed physician; licensed dentist",
-          "bucket": "RN + Physician + Dentist Core"
+          "bucket": "Core + APRN"
         },
         {
           "state": "WA",
-          "raw_value": "licensed physician and surgeon; osteopathic physician and surgeon; dentist; naturopathic physician; podiatric physician and surgeon; physician assistant; advanced registered nurse practitioner; midwife; registered nurse",
-          "bucket": "Extended Medical Roster"
+          "raw_value": "licensed physician and surgeon; dentist; osteopathic physician and surgeon; physician assistant; podiatric physician and surgeon; advanced registered nurse practitioner; registered nurse; midwife",
+          "bucket": "Broad Multi-Provider"
         },
         {
           "state": "WI",
           "raw_value": "nurse; physician; podiatrist licensed under ch. 448; chiropractor licensed under ch. 446; dentist licensed under ch. 447; optometrist licensed under ch. 449",
-          "bucket": "Extended Medical Roster"
+          "bucket": "Broad Multi-Provider"
         },
         {
           "state": "WV",
           "raw_value": "registered professional nurse; licensed physician; licensed dentist",
-          "bucket": "RN + Physician + Dentist Core"
+          "bucket": "RN + MD + Dentist (Core)"
         },
         {
           "state": "WY",
           "raw_value": "licensed physician; dentist; advanced practice registered nurse; registered professional nurse",
-          "bucket": "RN + Physician + Dentist Core"
+          "bucket": "Core + APRN"
         }
       ]
     },
     {
       "field_name": "profession_specific.opioid_prescribing_limits",
       "bucket_set": [
-        "Short Supply Limit",
+        "Short Supply Cap",
         "MME/Dose Limit",
-        "Physician Oversight Required",
         "Dispense Prohibition",
-        "Broad Restrictions + Exceptions",
-        "Consultation/Referral Rules"
+        "Physician Oversight Required",
+        "Broad Discretionary Rules",
+        "Process & Evaluation Requirements"
       ],
-      "rationale": "States cluster around whether they cap days-of-supply (short hard limits), restrict dosage in MME, require physician involvement or oversight, prohibit dispensing certain schedules outright, set layered rules with named exceptions, or focus on consultation/referral thresholds.",
+      "rationale": "States cluster by the mechanism of their limit: hard supply-day caps, MME/dose ceilings, outright dispensing bans, mandated physician co-involvement, or broader rule-making/evaluation frameworks — each representing a distinctly different regulatory approach.",
       "assignments": [
         {
           "state": "AK",
           "raw_value": "Initial prescription for opioid may not exceed seven-day supply to adult patient for outpatient use; may not exceed seven-day supply to minor. Exceptions allowed for acute medical condition, chronic pain management, pain associated with cancer, palliative care, or logistical/travel barriers with documentation.",
-          "bucket": "Short Supply Limit"
+          "bucket": "Short Supply Cap"
         },
         {
           "state": "AR",
           "raw_value": "Five-day period or less for opioid prescriptions",
-          "bucket": "Short Supply Limit"
+          "bucket": "Short Supply Cap"
         },
         {
           "state": "AZ",
@@ -2181,12 +2107,12 @@
         {
           "state": "CO",
           "raw_value": "Initial prescriptions limited to seven-day supply for opioid-naive patients; may include second fill for seven-day supply. Exceptions for chronic pain, cancer pain, post-surgical pain, and palliative/hospice care.",
-          "bucket": "Short Supply Limit"
+          "bucket": "Short Supply Cap"
         },
         {
           "state": "FL",
           "raw_value": "The formulary must also limit the prescribing of Schedule II controlled substances as listed in s. 893.03 to a 7-day supply, except that such restriction does not apply to controlled substances that are psychiatric medications prescribed by psychiatric nurses.",
-          "bucket": "Short Supply Limit"
+          "bucket": "Short Supply Cap"
         },
         {
           "state": "IL",
@@ -2196,12 +2122,12 @@
         {
           "state": "KY",
           "raw_value": "Schedule II controlled substances limited to 72-hour supply without refill; hydrocodone combination products limited to 30-day supply without refill",
-          "bucket": "Short Supply Limit"
+          "bucket": "Short Supply Cap"
         },
         {
           "state": "MD",
           "raw_value": "Lowest effective dose; quantity no greater than needed for expected duration of pain, except for substance-related disorders, cancer pain, end-of-life/hospice/palliative care, or chronic pain",
-          "bucket": "Broad Restrictions + Exceptions"
+          "bucket": "MME/Dose Limit"
         },
         {
           "state": "ME",
@@ -2211,7 +2137,7 @@
         {
           "state": "NH",
           "raw_value": "APRN may prescribe opioid controlled drugs classified in schedule II through IV; subsequent evaluation required at intervals appropriate for patient, medical condition, and drug, but not less than annually",
-          "bucket": "Broad Restrictions + Exceptions"
+          "bucket": "Process & Evaluation Requirements"
         },
         {
           "state": "OH",
@@ -2221,12 +2147,12 @@
         {
           "state": "OK",
           "raw_value": "prescribing, dispensing or administering opioid drugs in excess of the maximum limits authorized in Section 2-309I of Title 63 of the Oklahoma Statutes",
-          "bucket": "Broad Restrictions + Exceptions"
+          "bucket": "Broad Discretionary Rules"
         },
         {
           "state": "SC",
           "raw_value": "Schedule II narcotic substances limited to five-day supply except for hospice, palliative care, or long-term care facility patients",
-          "bucket": "Short Supply Limit"
+          "bucket": "Short Supply Cap"
         },
         {
           "state": "TN",
@@ -2235,8 +2161,8 @@
         },
         {
           "state": "WA",
-          "raw_value": "Board must adopt rules establishing requirements for prescribing opioid drugs, including dosing criteria requiring consultation with pain management specialist above certain thresholds; APRNs must inform patients of right to refuse opioid prescription",
-          "bucket": "Consultation/Referral Rules"
+          "raw_value": "Board must adopt rules establishing requirements for prescribing opioid drugs, which may contain exemptions based on education, training, amount of opioids prescribed, patient panel, and practice environment.",
+          "bucket": "Broad Discretionary Rules"
         }
       ]
     },
@@ -2244,18 +2170,18 @@
       "field_name": "profession_specific.telehealth_prescribing_rules",
       "bucket_set": [
         "Standard of Care Parity",
-        "APRN-Specific Prescribing",
-        "Consent & Confidentiality Focus",
+        "Prescribing Rules Detailed",
+        "Consent & Confidentiality",
         "In-Person Visit Required",
-        "Board Rules Deferred",
-        "Collaborative Practice Only"
+        "Board Rules Pending",
+        "Scope & Definition Only"
       ],
-      "rationale": "States cluster around whether they emphasize equal telehealth/in-person standards, APRN prescribing specifics, patient consent/confidentiality requirements, mandatory in-person visit triggers, delegating rulemaking to the board, or limiting telehealth to collaborative practice contexts.",
+      "rationale": "States cluster around whether they focus on matching telehealth to in-person standards of care, spelling out specific prescribing conditions (schedules, timelines), emphasizing consent/confidentiality basics, mandating periodic in-person visits, deferring to future board rulemaking, or simply defining scope without prescribing detail.",
       "assignments": [
         {
           "state": "AK",
           "raw_value": "Advanced practice registered nurses may prescribe non-controlled substances without physical examination if follow-up care is available and records are sent to primary care provider with consent. May prescribe controlled substances under same conditions if complying with opioid limits. Cannot prescribe via internet questionnaire or email without prior provider-patient relationship.",
-          "bucket": "APRN-Specific Prescribing"
+          "bucket": "Prescribing Rules Detailed"
         },
         {
           "state": "AR",
@@ -2270,7 +2196,7 @@
         {
           "state": "HI",
           "raw_value": "The board shall develop and adopt rules as necessary relating to the practice of nursing in telehealth",
-          "bucket": "Board Rules Deferred"
+          "bucket": "Board Rules Pending"
         },
         {
           "state": "ID",
@@ -2280,27 +2206,42 @@
         {
           "state": "KY",
           "raw_value": "Nurses providing telehealth must ensure informed consent of the patient and maintain confidentiality of medical information",
-          "bucket": "Consent & Confidentiality Focus"
+          "bucket": "Consent & Confidentiality"
         },
         {
           "state": "ME",
           "raw_value": "Licensees may provide telehealth services within their scope of practice and in accordance with standards of practice; board must adopt rules governing telehealth services including standards and restrictions.",
-          "bucket": "Board Rules Deferred"
+          "bucket": "Board Rules Pending"
+        },
+        {
+          "state": "MI",
+          "raw_value": "A health professional providing telehealth services may prescribe drugs if acting within scope of practice; controlled substance prescribing must meet all applicable requirements; follow-up care or referral must be made available",
+          "bucket": "Prescribing Rules Detailed"
         },
         {
           "state": "MO",
           "raw_value": "An advanced practice registered nurse (APRN) providing nursing services under a collaborative practice arrangement may provide such services outside the geographic proximity requirements if the collaborating physician and advanced practice registered nurse utilize telehealth. Telehealth providers shall be required to obtain patient consent before telehealth services are initiated and ensure confidentiality of medical information.",
-          "bucket": "Collaborative Practice Only"
+          "bucket": "Consent & Confidentiality"
+        },
+        {
+          "state": "NE",
+          "raw_value": "Telehealth defined as use of medical information electronically exchanged to aid a credential holder in diagnosis or treatment; includes services originating from patient's home",
+          "bucket": "Scope & Definition Only"
         },
         {
           "state": "NH",
           "raw_value": "APRN may prescribe non-opioid and opioid controlled drugs classified in schedule II through IV by telemedicine after establishing APRN-patient relationship; subsequent in-person evaluation required at intervals appropriate for patient, medical condition, and drug, but not less than annually",
-          "bucket": "APRN-Specific Prescribing"
+          "bucket": "Prescribing Rules Detailed"
+        },
+        {
+          "state": "NJ",
+          "raw_value": "APRNs may provide health care services via telemedicine subject to same standard of care as in-person settings. Schedule II controlled dangerous substances may only be prescribed via telemedicine after an initial in-person examination, with subsequent in-person visit every three months, except for stimulants prescribed to minors under 18 when interactive real-time two-way audio/video is used and written parental consent is obtained.",
+          "bucket": "Prescribing Rules Detailed"
         },
         {
           "state": "NV",
           "raw_value": "An advanced practice registered nurse may perform acts by using equipment that transfers information concerning the medical condition of a patient in this State electronically, telephonically or by fiber optics, including, without limitation, through telehealth, from within or outside this State or the United States.",
-          "bucket": "APRN-Specific Prescribing"
+          "bucket": "Scope & Definition Only"
         },
         {
           "state": "OH",
@@ -2310,17 +2251,17 @@
         {
           "state": "SC",
           "raw_value": "An APRN may perform medical acts via telemedicine and telehealth pursuant to a practice agreement without having to be licensed to practice medicine in this State. An APRN who establishes a nurse-patient relationship solely by means of telemedicine shall adhere to the same standard of care as a licensee employing more traditional in-person medical care. An APRN may not establish a nurse-patient relationship by means of telemedicine for the purpose of prescribing medication when an in-person physical examination is necessary for diagnosis.",
-          "bucket": "APRN-Specific Prescribing"
+          "bucket": "Standard of Care Parity"
         },
         {
           "state": "TN",
           "raw_value": "An advanced practice registered nurse with a certificate of fitness issued pursuant to this chapter, who provides services in a free clinic or engages in the voluntary provision of healthcare services, may arrange for required personal review of the nurse's charts by a collaborating physician in the office or practice site of the physician or remotely via HIPAA-compliant electronic means rather than at the site of the clinic. An advanced practice registered nurse may arrange for up to ten (10) of the required annual remote site visits by a collaborating physician by HIPAA-compliant electronic ",
-          "bucket": "Collaborative Practice Only"
+          "bucket": "Scope & Definition Only"
         },
         {
           "state": "VT",
           "raw_value": "For APRNs, electronic, online, or telephonic evaluation by questionnaire is inadequate for initial patient evaluation except for specific circumstances including abortion medication provision, continuing medication for new patients, and emergency situations",
-          "bucket": "In-Person Visit Required"
+          "bucket": "Prescribing Rules Detailed"
         },
         {
           "state": "WV",
@@ -2332,57 +2273,87 @@
     {
       "field_name": "licensure.national_certification",
       "bucket_set": [
-        "NCLEX Exam",
-        "APRN Certification Required",
-        "Named Certifying Body",
-        "Board-Recognized Bodies"
+        "NCLEX Exam Body",
+        "APRN Specialty Cert",
+        "Board-Approved Certifier",
+        "Named Org (non-NCLEX)"
       ],
-      "rationale": "States cluster around four approaches: referencing the NCLEX exam specifically, requiring national certification for APRN/advanced practice roles, naming a specific credentialing organization, or delegating to a list of board-recognized certifying bodies.",
+      "rationale": "States cluster around four approaches: those citing NCLEX/NCSBN as the certification mechanism, those requiring APRN-specific specialty certification (by named or approved bodies), those deferring broadly to a board-approved/recognized certifier, and those naming a specific non-NCLEX organization.",
       "assignments": [
         {
           "state": "AR",
           "raw_value": "National certification required for advanced practice registered nurses",
-          "bucket": "APRN Certification Required"
+          "bucket": "APRN Specialty Cert"
         },
         {
           "state": "DE",
           "raw_value": "National Council of State Boards of Nursing (NCLEX)",
-          "bucket": "NCLEX Exam"
+          "bucket": "NCLEX Exam Body"
         },
         {
           "state": "HI",
           "raw_value": "National Council of State Boards of Nursing (NCSBN)",
-          "bucket": "NCLEX Exam"
+          "bucket": "NCLEX Exam Body"
         },
         {
           "state": "LA",
           "raw_value": "American Nurses Credentialing Center",
-          "bucket": "Named Certifying Body"
+          "bucket": "Named Org (non-NCLEX)"
+        },
+        {
+          "state": "MA",
+          "raw_value": "national professional or specialty certifying organization acceptable to the board",
+          "bucket": "Board-Approved Certifier"
         },
         {
           "state": "MD",
           "raw_value": "National Board of Podiatric Medical Examiners (NBPME) for nurse practitioners; American Association of Nurse Practitioners for registered nurse practitioners; national certifying bodies recognized by the Board for advanced practice registered nurses",
-          "bucket": "Board-Recognized Bodies"
+          "bucket": "APRN Specialty Cert"
+        },
+        {
+          "state": "MI",
+          "raw_value": "CGFNS International, Inc.",
+          "bucket": "Named Org (non-NCLEX)"
+        },
+        {
+          "state": "MN",
+          "raw_value": "National nurse certification organization acceptable to the board",
+          "bucket": "Board-Approved Certifier"
         },
         {
           "state": "MS",
           "raw_value": "National Council Licensure Examination (NCLEX-RN and NCLEX-PN)",
-          "bucket": "NCLEX Exam"
+          "bucket": "NCLEX Exam Body"
+        },
+        {
+          "state": "NE",
+          "raw_value": "Council on Certification of Nurse Anesthetists; approved certifying body for nurse practitioners",
+          "bucket": "APRN Specialty Cert"
         },
         {
           "state": "NH",
           "raw_value": "National Council of State Boards of Nursing recognized certifying bodies",
-          "bucket": "Board-Recognized Bodies"
+          "bucket": "Board-Approved Certifier"
+        },
+        {
+          "state": "NJ",
+          "raw_value": "National accrediting organization certification (for APN interim certification)",
+          "bucket": "APRN Specialty Cert"
+        },
+        {
+          "state": "NY",
+          "raw_value": "national certifying body (recognized by the department)",
+          "bucket": "Board-Approved Certifier"
         },
         {
           "state": "RI",
           "raw_value": "National certifying bodies recognized by the board of nursing for APRN roles",
-          "bucket": "Board-Recognized Bodies"
+          "bucket": "Board-Approved Certifier"
         },
         {
           "state": "VT",
           "raw_value": "National Board of Nursing (NCLEX-RN, NCLEX-PN)",
-          "bucket": "NCLEX Exam"
+          "bucket": "NCLEX Exam Body"
         }
       ]
     },
@@ -2392,15 +2363,15 @@
         "Full II–V",
         "II–V With Restrictions",
         "III–V Only",
-        "Limited Schedules",
-        "Role/Process Dependent"
+        "Limited/Partial II",
+        "Role-Differentiated"
       ],
-      "rationale": "States cluster by whether APRNs can prescribe all of Schedules II–V unrestricted, II–V with notable caveats (supply limits, degree requirements, board approval), only Schedules III–V, only a narrow subset, or where authority varies significantly by APRN role or procedural pathway.",
+      "rationale": "States cluster around whether they grant full Schedule II–V authority, grant Schedule II only with notable restrictions or conditions, limit APRNs to Schedules III–V, have highly fragmented or role-specific rules, or impose only narrow partial Schedule II access.",
       "assignments": [
         {
           "state": "AR",
           "raw_value": "Schedules III-V; Schedule II opioids for five-day period or less; Schedule II stimulants under specified conditions",
-          "bucket": "II–V With Restrictions"
+          "bucket": "Limited/Partial II"
         },
         {
           "state": "CA",
@@ -2435,12 +2406,17 @@
         {
           "state": "MD",
           "raw_value": "Nurse practitioners may prescribe drugs as authorized under § 8-508; Nurse midwives may prescribe controlled substances on Schedules II, III, IV, and V commonly used in midwifery; Nurse anesthetists may prescribe drugs including controlled dangerous substances",
-          "bucket": "Role/Process Dependent"
+          "bucket": "Role-Differentiated"
         },
         {
           "state": "ME",
           "raw_value": "Schedule III; Schedule IIIN; Schedule IV; Schedule V",
           "bucket": "III–V Only"
+        },
+        {
+          "state": "MI",
+          "raw_value": "Schedule 2; Schedule 3; Schedule 4; Schedule 5",
+          "bucket": "Full II–V"
         },
         {
           "state": "MS",
@@ -2450,7 +2426,12 @@
         {
           "state": "NH",
           "raw_value": "Schedule II through IV for APRN",
-          "bucket": "Limited Schedules"
+          "bucket": "II–V With Restrictions"
+        },
+        {
+          "state": "NJ",
+          "raw_value": "Schedule II (controlled dangerous substances, in inpatient and outpatient settings per joint protocols); Schedule III; Schedule IV; Schedule V",
+          "bucket": "II–V With Restrictions"
         },
         {
           "state": "NM",
@@ -2470,17 +2451,17 @@
         {
           "state": "RI",
           "raw_value": "Schedule II (stimulants for psychiatric/mental health APRNs); Schedule III; Schedule IV; Schedule V; Schedule I (may be certified for CNPs)",
-          "bucket": "Role/Process Dependent"
+          "bucket": "Role-Differentiated"
         },
         {
           "state": "SC",
           "raw_value": "Schedule III; Schedule IV; Schedule V; Schedule II nonnarcotic substances; Schedule II narcotic substances",
-          "bucket": "Full II–V"
+          "bucket": "II–V With Restrictions"
         },
         {
           "state": "SD",
           "raw_value": "Schedule II; Legend drugs; Over the counter drugs",
-          "bucket": "Limited Schedules"
+          "bucket": "Full II–V"
         },
         {
           "state": "TN",
@@ -2494,13 +2475,13 @@
         },
         {
           "state": "WA",
-          "raw_value": "Schedule II (with board approval and scope of practice); Schedule III (with board approval and scope of practice); Schedule IV (with board approval and scope of practice); Schedule V",
-          "bucket": "II–V With Restrictions"
+          "raw_value": "Schedule II (CRNAs for anesthesia; NPs if permitted by scope); Schedule III (CRNAs for anesthesia; NPs if permitted by scope); Schedule IV (CRNAs for anesthesia; NPs if permitted by scope); Schedule V",
+          "bucket": "Role-Differentiated"
         },
         {
           "state": "WV",
           "raw_value": "Schedule I prohibited; Schedule II limited to three-day supply of narcotics",
-          "bucket": "Limited Schedules"
+          "bucket": "Limited/Partial II"
         },
         {
           "state": "WY",
@@ -2512,16 +2493,17 @@
     {
       "field_name": "licensure.post_degree_experience.duration",
       "bucket_set": [
-        "Hours-Based",
-        "Months-Based",
-        "Hours or Years (Combined)"
+        "~1,000–2,000 hrs",
+        "~2,000–2,500 hrs",
+        "4,600+ hrs / 3 yrs",
+        "Months-Based"
       ],
-      "rationale": "States express post-degree experience requirements in three distinct ways: pure hours, pure months/years, or a combined hours-and-years formulation.",
+      "rationale": "States cluster around low (~1,040–2,000 hrs), mid (~2,080 hrs), and high (4,600 hrs/3 yrs) hour thresholds, plus one state expresses duration purely in calendar months, so these four buckets cleanly partition the distribution.",
       "assignments": [
         {
           "state": "CA",
           "raw_value": "minimum of three full-time equivalent years of practice or 4,600 hours",
-          "bucket": "Hours or Years (Combined)"
+          "bucket": "4,600+ hrs / 3 yrs"
         },
         {
           "state": "ME",
@@ -2529,9 +2511,19 @@
           "bucket": "Months-Based"
         },
         {
+          "state": "MN",
+          "raw_value": "2,080 hours",
+          "bucket": "~2,000–2,500 hrs"
+        },
+        {
+          "state": "NE",
+          "raw_value": "2,000 hours (nurse practitioner); transition-to-practice agreement",
+          "bucket": "~2,000–2,500 hrs"
+        },
+        {
           "state": "SD",
           "raw_value": "1,040 practice hours",
-          "bucket": "Hours-Based"
+          "bucket": "~1,000–2,000 hrs"
         }
       ]
     },
@@ -2540,9 +2532,9 @@
       "bucket_set": [
         "Transition to Practice",
         "Supervised Practice",
-        "Supervised/Collaborative Hours"
+        "Collaborative Practice"
       ],
-      "rationale": "Three distinct but related models appear: a formal 'transition to practice' pathway toward independent authority, supervised practice under an overseeing provider, and a hybrid supervised/collaborative hours requirement — each reflects a meaningfully different regulatory approach worth distinguishing in the UI.",
+      "rationale": "The five values split cleanly into three models: formal transition-to-practice programs, supervision-framed requirements, and collaborative/partnership arrangements, with SD straddling the latter two.",
       "assignments": [
         {
           "state": "CA",
@@ -2555,533 +2547,330 @@
           "bucket": "Supervised Practice"
         },
         {
+          "state": "MN",
+          "raw_value": "postgraduate collaborative practice",
+          "bucket": "Collaborative Practice"
+        },
+        {
+          "state": "NE",
+          "raw_value": "transition-to-practice agreement (nurse practitioner)",
+          "bucket": "Transition to Practice"
+        },
+        {
           "state": "SD",
           "raw_value": "supervised/collaborative practice hours (CNP/CNM)",
-          "bucket": "Supervised/Collaborative Hours"
+          "bucket": "Collaborative Practice"
         }
       ]
     },
     {
       "field_name": "licensure.national_association",
       "bucket_set": [
-        "ANA Only",
-        "ANA + Specialty Bodies",
-        "Specialty Association",
-        "State Associations",
-        "NCSBN"
+        "ANA / General Nursing",
+        "Advanced Practice Specialty",
+        "Nurse Anesthesia",
+        "State-Level Body",
+        "Accreditation / Exam Board"
       ],
-      "rationale": "States cluster by whether they reference the broad American Nurses Association alone, ANA alongside specialty certification bodies, a single specialty association, state-level associations, or the regulatory/testing body NCSBN.",
+      "rationale": "Values cluster around the general nursing umbrella (ANA), specific advanced-practice specialty associations (NPs, midwives, OB), nurse anesthesia bodies, a state-level combined association, and a credentialing/accreditation board — five meaningfully distinct approaches.",
       "assignments": [
         {
           "state": "CT",
           "raw_value": "American Nurses Association, Nurses' Association of the American College of Obstetricians and Gynecologists Certification Corporation, National Board of Pediatric Nurse Practitioners and Associates, American Association of Nurse Anesthetists",
-          "bucket": "ANA + Specialty Bodies"
+          "bucket": "ANA / General Nursing"
         },
         {
           "state": "KY",
           "raw_value": "American Nurses' Association",
-          "bucket": "ANA Only"
+          "bucket": "ANA / General Nursing"
         },
         {
           "state": "LA",
           "raw_value": "American Nurses Association",
-          "bucket": "ANA Only"
+          "bucket": "ANA / General Nursing"
+        },
+        {
+          "state": "MA",
+          "raw_value": "American College of Nurse-Midwives",
+          "bucket": "Advanced Practice Specialty"
         },
         {
           "state": "MD",
           "raw_value": "American Association of Nurse Practitioners",
-          "bucket": "Specialty Association"
+          "bucket": "Advanced Practice Specialty"
         },
         {
           "state": "MS",
           "raw_value": "Mississippi Nurses' Association and Mississippi Federation of Licensed Practical Nurses",
-          "bucket": "State Associations"
+          "bucket": "State-Level Body"
+        },
+        {
+          "state": "NE",
+          "raw_value": "Council on Accreditation of Nurse Anesthesia and Educational Programs",
+          "bucket": "Nurse Anesthesia"
         },
         {
           "state": "NH",
           "raw_value": "National Council of State Boards of Nursing",
-          "bucket": "NCSBN"
+          "bucket": "Accreditation / Exam Board"
         },
         {
           "state": "OK",
           "raw_value": "American College of Nurse-Midwives",
-          "bucket": "Specialty Association"
+          "bucket": "Advanced Practice Specialty"
         }
       ]
     },
     {
       "field_name": "licensure.disciplinary_grounds",
       "bucket_set": [
-        "Fraud-Focused List",
-        "Broad Enumerated List",
-        "Competency & Conduct Centered",
-        "Umbrella/Cross-Reference Statute",
-        "Criminal Conviction Centered"
+        "Broad Multi-Ground List",
+        "Fraud + Crime + Competence",
+        "Fraud + Crime Core",
+        "Competence & Conduct Focus",
+        "Rules & Standards Focus"
       ],
-      "rationale": "States vary primarily in how they structure disciplinary grounds: some lead with a short, fraud-anchored list; some provide broad enumerated lists covering fraud, crime, competence, substance use, and more; some center grounds on professional competency and conduct; some delegate to an umbrella disciplinary statute; and a few anchor primarily around criminal conviction language.",
+      "rationale": "States cluster by how they structure grounds: some lead with a broad enumerated list spanning fraud, crime, competence, and conduct; some stick to a classic triad of fraud/crime/competence; some emphasize rules/standards violations as the primary framing; and a few center on clinical conduct and patient-safety grounds rather than licensure fraud.",
       "assignments": [
         {
           "state": "AK",
           "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...}; {'short_label': 'felony_conviction', ...}",
-          "bucket": "Fraud-Focused List"
+          "bucket": "Fraud + Crime Core"
         },
         {
           "state": "AL",
           "raw_value": "{'short_label': 'fraud_or_deceit_in_procuring_license', ...}; {'short_label': 'felony_conviction', ...}; {'short_label': 'moral_turpitude_or_gross_immorality', ...}",
-          "bucket": "Broad Enumerated List"
+          "bucket": "Fraud + Crime + Competence"
         },
         {
           "state": "AR",
           "raw_value": "{'short_label': 'fraud_or_deceit', ...}; {'short_label': 'crime_or_gross_immorality', ...}; {'short_label': 'unfit_o...",
-          "bucket": "Broad Enumerated List"
+          "bucket": "Fraud + Crime + Competence"
         },
         {
           "state": "AZ",
-          "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...}; {'short_label': 'felony_conviction', ...}; ...",
-          "bucket": "Broad Enumerated List"
+          "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...}; {'short_label': 'felony_conviction', ...}; {'shor...",
+          "bucket": "Broad Multi-Ground List"
         },
         {
           "state": "CA",
           "raw_value": "{'short_label': 'incompetence_or_gross_negligence', ...}; {'short_label': 'conviction_practicing_medicine_without_license', ...}",
-          "bucket": "Competency & Conduct Centered"
+          "bucket": "Competence & Conduct Focus"
         },
         {
           "state": "CO",
           "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...}; {'short_label': 'criminal_conviction', ...}",
-          "bucket": "Broad Enumerated List"
+          "bucket": "Broad Multi-Ground List"
         },
         {
           "state": "CT",
           "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...}; {'short_label': 'illegal_conduct_incompetence_negligence', ...}; {'short_label': 'physical_i...",
-          "bucket": "Broad Enumerated List"
+          "bucket": "Fraud + Crime + Competence"
         },
         {
           "state": "DE",
           "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...}; {'short_label': 'conviction_substantially_related', ...}",
-          "bucket": "Broad Enumerated List"
+          "bucket": "Fraud + Crime Core"
         },
         {
           "state": "FL",
           "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...}; {'short_label': 'adverse_action_by_other_jurisdiction', ...}",
-          "bucket": "Broad Enumerated List"
+          "bucket": "Broad Multi-Ground List"
         },
         {
           "state": "GA",
           "raw_value": "{'short_label': 'felony_or_moral_turpitude_conviction', ...}",
-          "bucket": "Criminal Conviction Centered"
+          "bucket": "Fraud + Crime + Competence"
         },
         {
           "state": "HI",
           "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...}; {'short_label': 'gross_immorality', ...}; {'short_label': 'unfitness_incompetence', ...}",
-          "bucket": "Broad Enumerated List"
+          "bucket": "Fraud + Crime + Competence"
         },
         {
           "state": "IA",
           "raw_value": "{'short_label': 'willful_violation_of_board_rules', ...}; {'short_label': 'infectious_contagious_disease', ...}; {'short_label': 'license_revoked_suspended_other_st...",
-          "bucket": "Broad Enumerated List"
+          "bucket": "Rules & Standards Focus"
         },
         {
           "state": "ID",
-          "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...}; {'short_label': 'practicing_under_false_name', ...}; ...",
-          "bucket": "Fraud-Focused List"
+          "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...}; {'short_label': 'practicing_under_false_name', ...}; {'short_label...",
+          "bucket": "Fraud + Crime + Competence"
         },
         {
           "state": "IL",
           "raw_value": "{'short_label': 'material_deception', ...}; {'short_label': 'violation_of_act', ...}",
-          "bucket": "Umbrella/Cross-Reference Statute"
+          "bucket": "Rules & Standards Focus"
         },
         {
           "state": "IN",
           "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...}; {'short_label': 'illegal_practice', ...}",
-          "bucket": "Fraud-Focused List"
+          "bucket": "Fraud + Crime Core"
         },
         {
           "state": "KS",
           "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...}; {'short_label': 'felony_or_drug_offense', ...}",
-          "bucket": "Broad Enumerated List"
+          "bucket": "Fraud + Crime + Competence"
         },
         {
           "state": "KY",
           "raw_value": "{'short_label': 'fraud_or_deceit', ...}; {'short_label': 'criminal_conviction', ...}",
-          "bucket": "Broad Enumerated List"
+          "bucket": "Broad Multi-Ground List"
         },
         {
           "state": "LA",
           "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...}; {'short_label': 'criminal_conviction', ...}",
-          "bucket": "Broad Enumerated List"
+          "bucket": "Fraud + Crime + Competence"
         },
         {
           "state": "MA",
-          "raw_value": "{'short_label': 'felony_conviction', ...}; {'short_label': 'gross_misconduct', ...}; {'short_label': 'mental_illness', ...}",
-          "bucket": "Broad Enumerated List"
+          "raw_value": "{'short_label': 'felony_conviction', ...}; {'short_label': 'violation_of_regulations', ...}",
+          "bucket": "Rules & Standards Focus"
         },
         {
           "state": "MD",
           "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...}; {'short_label': 'fraudulent_use_of_license', ...}; {'short_label': 'discipline_in_another_jurisdiction', ...}",
-          "bucket": "Broad Enumerated List"
+          "bucket": "Broad Multi-Ground List"
         },
         {
           "state": "ME",
           "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...}; {'short_label': 'substance_misuse', ...}",
-          "bucket": "Broad Enumerated List"
+          "bucket": "Broad Multi-Ground List"
+        },
+        {
+          "state": "MI",
+          "raw_value": "{'short_label': 'negligence_or_failure_of_due_care', ...}; {'short_label': 'incompetence', ...}",
+          "bucket": "Competence & Conduct Focus"
+        },
+        {
+          "state": "MN",
+          "raw_value": "{'short_label': 'failure_to_demonstrate_qualifications', ...}; {'short_label': 'fraud_in_obtaining_license', ...}",
+          "bucket": "Broad Multi-Ground List"
         },
         {
           "state": "MO",
           "raw_value": "{'short_label': 'controlled_substance_use', ...}",
-          "bucket": "Competency & Conduct Centered"
+          "bucket": "Broad Multi-Ground List"
         },
         {
           "state": "MS",
           "raw_value": "{'short_label': 'fraud_or_deceit_in_licensure', ...}; {'short_label': 'felony_or_moral_turpitude_conviction', ...}",
-          "bucket": "Broad Enumerated List"
+          "bucket": "Fraud + Crime + Competence"
         },
         {
           "state": "NC",
           "raw_value": "{'short_label': 'false_information_in_license_procurement', ...}; {'short_label': 'criminal_conviction', ...}",
-          "bucket": "Broad Enumerated List"
+          "bucket": "Broad Multi-Ground List"
         },
         {
           "state": "ND",
           "raw_value": "{'short_label': 'criminal_conviction', ...}; {'short_label': 'discipline_in_another_jurisdiction', ...}",
-          "bucket": "Criminal Conviction Centered"
+          "bucket": "Broad Multi-Ground List"
+        },
+        {
+          "state": "NE",
+          "raw_value": "{'short_label': 'misrepresentation_in_obtaining_credential', ...}; {'short_label': 'immoral_or_dishonorable_conduct', ...}; {'short_label': 'substance_abuse_o...",
+          "bucket": "Broad Multi-Ground List"
         },
         {
           "state": "NH",
           "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...}; {'short_label': 'unethical_conduct', ...}",
-          "bucket": "Broad Enumerated List"
+          "bucket": "Fraud + Crime + Competence"
         },
         {
           "state": "NJ",
-          "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...}; {'short_label': 'dishonesty_fraud_deception', ...}",
-          "bucket": "Umbrella/Cross-Reference Statute"
+          "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...}; {'short_label': 'dishonesty_fraud_misrepresentation', ...}",
+          "bucket": "Broad Multi-Ground List"
         },
         {
           "state": "NM",
           "raw_value": "{'short_label': 'fraud_or_deceit', ...}; {'short_label': 'felony_conviction', ...}; {'short_label': 'unfit_or_incompetent', ...}; {'short_label': 'substance_addiction', ...}",
-          "bucket": "Broad Enumerated List"
+          "bucket": "Fraud + Crime + Competence"
         },
         {
           "state": "NV",
           "raw_value": "{'short_label': 'fraud_or_deceit_in_licensure', ...}; {'short_label': 'conviction_moral_turpitude', ...}",
-          "bucket": "Broad Enumerated List"
+          "bucket": "Fraud + Crime + Competence"
+        },
+        {
+          "state": "NY",
+          "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...}; {'short_label': 'fraudulent_or_incompetent_practice', ...}",
+          "bucket": "Fraud + Crime + Competence"
         },
         {
           "state": "OH",
           "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...}; {'short_label': 'denial_revocation_suspension_in_another_state', ...}",
-          "bucket": "Broad Enumerated List"
+          "bucket": "Broad Multi-Ground List"
         },
         {
           "state": "OK",
           "raw_value": "{'short_label': 'deceit_or_misrepresentation', ...}; {'short_label': 'felony_conviction', ...}",
-          "bucket": "Broad Enumerated List"
+          "bucket": "Fraud + Crime + Competence"
         },
         {
           "state": "OR",
           "raw_value": "{'short_label': 'criminal_conviction', ...}; {'short_label': 'gross_incompetence_negligence', ...}; {'short_label': 'fraud_misrepr...",
-          "bucket": "Competency & Conduct Centered"
+          "bucket": "Fraud + Crime + Competence"
         },
         {
           "state": "RI",
           "raw_value": "{'short_label': 'fraud_or_deceit', ...}; {'short_label': 'crime_of_gross_immorality', ...}; {'short_label': 'unfit_or_incompetent', ...}",
-          "bucket": "Broad Enumerated List"
+          "bucket": "Fraud + Crime + Competence"
         },
         {
           "state": "SC",
           "raw_value": "{'short_label': 'violation_of_federal_state_local_law', ...}; {'short_label': 'allowed_unauthorized_use_of_license', ...}",
-          "bucket": "Broad Enumerated List"
+          "bucket": "Broad Multi-Ground List"
         },
         {
           "state": "SD",
           "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...}; {'short_label': 'felony_conviction', ...}",
-          "bucket": "Fraud-Focused List"
+          "bucket": "Fraud + Crime Core"
         },
         {
           "state": "TN",
           "raw_value": "{'short_label': 'fraud_or_deceit', ...}; {'short_label': 'crime', ...}; {'short_label': 'unfit_or_incompetent', ...}",
-          "bucket": "Broad Enumerated List"
+          "bucket": "Fraud + Crime + Competence"
         },
         {
           "state": "TX",
           "raw_value": "{'short_label': 'violation_of_chapter_or_rules', ...}; {'short_label': 'fraud_in_obtaining_license', ...}",
-          "bucket": "Umbrella/Cross-Reference Statute"
+          "bucket": "Rules & Standards Focus"
         },
         {
           "state": "UT",
           "raw_value": "{'short_label': 'failure_to_safeguard_privacy', ...}; {'short_label': 'failure_to_provide_respectful_care', ...}",
-          "bucket": "Competency & Conduct Centered"
+          "bucket": "Competence & Conduct Focus"
         },
         {
           "state": "VA",
           "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...}; {'short_label': 'unprofessional_conduct', ...}; {'short_label': 'willful_violation', ...}",
-          "bucket": "Broad Enumerated List"
+          "bucket": "Rules & Standards Focus"
         },
         {
           "state": "VT",
           "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...}; {'short_label': 'diverting_drugs_or_equipment', ...}",
-          "bucket": "Broad Enumerated List"
+          "bucket": "Broad Multi-Ground List"
         },
         {
           "state": "WA",
-          "raw_value": "{'short_label': 'unprofessional_conduct', ...}; {'short_label': 'unlicensed_practice', ...}",
-          "bucket": "Umbrella/Cross-Reference Statute"
+          "raw_value": "{'short_label': 'moral_turpitude_dishonesty_corruption', ...}; {'short_label': 'misrepresentation_in_obtaining_license', ...}",
+          "bucket": "Broad Multi-Ground List"
         },
         {
           "state": "WI",
           "raw_value": "{'short_label': 'fraud_in_procuring_license', ...}; {'short_label': 'violation_of_subchapter_or_rules', ...}; {'short_label': 'unfitness_or_incompetence', ...}",
-          "bucket": "Broad Enumerated List"
+          "bucket": "Rules & Standards Focus"
         },
         {
           "state": "WV",
           "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...}; {'short_label': 'felony_conviction', ...}; {'short_label': 'negligence_incompetence', ...}",
-          "bucket": "Broad Enumerated List"
+          "bucket": "Fraud + Crime + Competence"
         },
         {
           "state": "WY",
           "raw_value": "{'short_label': 'inconsistent_with_standards', ...}; {'short_label': 'criminal_conviction', ...}",
-          "bucket": "Competency & Conduct Centered"
-        }
-      ]
-    },
-    {
-      "field_name": "licensure.exams",
-      "bucket_set": [
-        "NCLEX Only",
-        "NCLEX + Jurisprudence",
-        "NCLEX + Specialty Cert",
-        "Board-Approved Exam",
-        "State-Administered Exam"
-      ],
-      "rationale": "States cluster by whether they explicitly name NCLEX, add a jurisprudence or advanced-practice certification exam on top of NCLEX, defer entirely to a board-approved/national exam without naming NCLEX, or administer their own state-written examination.",
-      "assignments": [
-        {
-          "state": "AK",
-          "raw_value": "{'name': 'registered nursing or practical nursing licensing examination'...}",
-          "bucket": "NCLEX + Specialty Cert"
-        },
-        {
-          "state": "AL",
-          "raw_value": "{'name': 'NCLEX-RN (for registered nurses)'...}",
-          "bucket": "NCLEX Only"
-        },
-        {
-          "state": "AR",
-          "raw_value": "{'name': 'NCLEX-RN or NCLEX-PN'...}",
-          "bucket": "NCLEX Only"
-        },
-        {
-          "state": "AZ",
-          "raw_value": "{'name': 'NCLEX-RN or NCLEX-PN'...}",
-          "bucket": "NCLEX Only"
-        },
-        {
-          "state": "CA",
-          "raw_value": "{'name': 'NCLEX-RN (National Council Licensure Examination for Registered Nurses)'...}",
-          "bucket": "NCLEX + Specialty Cert"
-        },
-        {
-          "state": "CO",
-          "raw_value": "{'name': 'Written examination for professional nurses'...}",
-          "bucket": "State-Administered Exam"
-        },
-        {
-          "state": "CT",
-          "raw_value": "{'name': 'Licensure examination for registered nurses'...}",
-          "bucket": "State-Administered Exam"
-        },
-        {
-          "state": "DE",
-          "raw_value": "{'name': 'National Council of State Boards of Nursing (NCLEX-RN) examination'...}",
-          "bucket": "NCLEX Only"
-        },
-        {
-          "state": "FL",
-          "raw_value": "{'name': 'NCLEX-RN or NCLEX-PN (National Council of State Boards of Nursing Licensing Examination)'...}",
-          "bucket": "NCLEX Only"
-        },
-        {
-          "state": "GA",
-          "raw_value": "{'name': 'NCLEX-RN (board recognized licensing examination)'...}",
-          "bucket": "NCLEX Only"
-        },
-        {
-          "state": "HI",
-          "raw_value": "{'name': 'Written examination in nursing subjects'...}",
-          "bucket": "State-Administered Exam"
-        },
-        {
-          "state": "IA",
-          "raw_value": "{'name': 'National Council Licensure Examination (NCLEX)'...}",
-          "bucket": "NCLEX Only"
-        },
-        {
-          "state": "ID",
-          "raw_value": "{'name': 'NCLEX-RN (Registered Nursing)'...}",
-          "bucket": "NCLEX Only"
-        },
-        {
-          "state": "IL",
-          "raw_value": "{'name': 'Department-approved licensure examination'...}",
-          "bucket": "Board-Approved Exam"
-        },
-        {
-          "state": "IN",
-          "raw_value": "{'name': 'National Council Licensure Examination (NCLEX)'...}",
-          "bucket": "NCLEX Only"
-        },
-        {
-          "state": "KS",
-          "raw_value": "{'name': 'NCLEX-RN or equivalent'...}",
-          "bucket": "NCLEX Only"
-        },
-        {
-          "state": "KY",
-          "raw_value": "{'name': 'NCLEX-RN (National Council Licensure Examination for Registered Nurses)'...}",
-          "bucket": "NCLEX + Jurisprudence"
-        },
-        {
-          "state": "LA",
-          "raw_value": "{'name': 'NCLEX-RN'...}",
-          "bucket": "NCLEX Only"
-        },
-        {
-          "state": "MA",
-          "raw_value": "{'name': 'Board examination for registered nurses'...}",
-          "bucket": "State-Administered Exam"
-        },
-        {
-          "state": "MD",
-          "raw_value": "{'name': 'NCLEX-RN (National Council Licensure Examination for Registered Nurses)'...}",
-          "bucket": "NCLEX + Specialty Cert"
-        },
-        {
-          "state": "ME",
-          "raw_value": "{'name': 'National Council Licensure Examination (NCLEX-RN)'...}",
-          "bucket": "NCLEX Only"
-        },
-        {
-          "state": "MO",
-          "raw_value": "{'name': 'NCLEX-RN or NCLEX-PN'...}",
-          "bucket": "NCLEX Only"
-        },
-        {
-          "state": "MS",
-          "raw_value": "{'name': 'State Board Examination for Registered Nurses'...}",
-          "bucket": "Board-Approved Exam"
-        },
-        {
-          "state": "MT",
-          "raw_value": "{'name': 'Professional Nursing Licensure Examination'...}",
-          "bucket": "Board-Approved Exam"
-        },
-        {
-          "state": "NC",
-          "raw_value": "{'name': 'NCLEX-RN or NCLEX-PN'...}",
-          "bucket": "NCLEX Only"
-        },
-        {
-          "state": "ND",
-          "raw_value": "{'name': 'Examination approved by the board'...}",
-          "bucket": "Board-Approved Exam"
-        },
-        {
-          "state": "NE",
-          "raw_value": "{'name': 'Licensure examination for registered nurse'...}",
-          "bucket": "Board-Approved Exam"
-        },
-        {
-          "state": "NH",
-          "raw_value": "{'name': 'NCLEX-RN or NCLEX-PN'...}",
-          "bucket": "NCLEX Only"
-        },
-        {
-          "state": "NJ",
-          "raw_value": "{'name': 'Written examination in professional nursing'...}",
-          "bucket": "State-Administered Exam"
-        },
-        {
-          "state": "NM",
-          "raw_value": "{'name': 'National licensing examination for registered nurses'...}",
-          "bucket": "NCLEX Only"
-        },
-        {
-          "state": "NV",
-          "raw_value": "{'name': 'Professional Nurse Examination'...}",
-          "bucket": "State-Administered Exam"
-        },
-        {
-          "state": "OH",
-          "raw_value": "{'name': 'National Council Licensure Examination (NCLEX-RN or NCLEX-PN)'...}",
-          "bucket": "NCLEX Only"
-        },
-        {
-          "state": "OK",
-          "raw_value": "{'name': 'Written examination'...}",
-          "bucket": "State-Administered Exam"
-        },
-        {
-          "state": "OR",
-          "raw_value": "{'name': 'Nursing licensure examination'...}",
-          "bucket": "State-Administered Exam"
-        },
-        {
-          "state": "RI",
-          "raw_value": "{'name': 'NCLEX-RN or computerized adaptive testing examination'...}",
-          "bucket": "NCLEX Only"
-        },
-        {
-          "state": "SC",
-          "raw_value": "{'name': 'National Council Licensure Examination (NCLEX)'...}",
-          "bucket": "NCLEX Only"
-        },
-        {
-          "state": "SD",
-          "raw_value": "{'name': 'NCLEX-RN'...}",
-          "bucket": "NCLEX + Specialty Cert"
-        },
-        {
-          "state": "TN",
-          "raw_value": "{'name': 'NCLEX-RN (National Council Licensure Examination for Registered Nurses)'...}",
-          "bucket": "NCLEX Only"
-        },
-        {
-          "state": "TX",
-          "raw_value": "{'name': 'NCLEX (National Council Licensure Examination)'...}",
-          "bucket": "NCLEX + Jurisprudence"
-        },
-        {
-          "state": "UT",
-          "raw_value": "{'name': 'NCLEX-RN'...}",
-          "bucket": "NCLEX Only"
-        },
-        {
-          "state": "VA",
-          "raw_value": "{'name': 'NCLEX-RN'...}",
-          "bucket": "NCLEX Only"
-        },
-        {
-          "state": "VT",
-          "raw_value": "{'name': 'NCLEX-RN or NCLEX-PN'...}",
-          "bucket": "NCLEX Only"
-        },
-        {
-          "state": "WA",
-          "raw_value": "{'name': 'NCLEX-RN or NCLEX-PN'...}",
-          "bucket": "NCLEX Only"
-        },
-        {
-          "state": "WI",
-          "raw_value": "{'name': 'NCLEX-RN'...}",
-          "bucket": "NCLEX Only"
-        },
-        {
-          "state": "WV",
-          "raw_value": "{'name': 'NCLEX-RN'...}",
-          "bucket": "NCLEX Only"
-        },
-        {
-          "state": "WY",
-          "raw_value": "{'name': 'National nursing licensure or certification examination'...}",
-          "bucket": "Board-Approved Exam"
+          "bucket": "Rules & Standards Focus"
         }
       ]
     }

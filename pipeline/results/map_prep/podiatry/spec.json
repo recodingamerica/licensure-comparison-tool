@@ -10,7 +10,7 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether a license is required; all observed values are true but field is boolean"
+      "reason": "boolean flag indicating whether a license is required; all states true but spec should allow false"
     },
     {
       "field_name": "licensure.issuing_authority",
@@ -18,7 +18,35 @@
       "kind": "not_mappable",
       "unit": null,
       "categories": null,
-      "reason": "free-text names of issuing bodies, highly idiosyncratic per state"
+      "reason": "free-text agency names, highly idiosyncratic per state"
+    },
+    {
+      "field_name": "licensure.regulatory_authority.name",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text board names, unique strings per state"
+    },
+    {
+      "field_name": "licensure.regulatory_authority.type",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "standalone_board",
+        "shared_board",
+        "department"
+      ],
+      "reason": "small stable set of board-type categories observed across states"
+    },
+    {
+      "field_name": "licensure.regulatory_authority.umbrella_agency",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text agency names, unique per state"
     },
     {
       "field_name": "licensure.education.degree_required",
@@ -26,7 +54,7 @@
       "kind": "not_mappable",
       "unit": null,
       "categories": null,
-      "reason": "free-text descriptions of degree requirements, not comparable across states"
+      "reason": "free-text degree descriptions with idiosyncratic wording per state"
     },
     {
       "field_name": "licensure.renewal.interval_years",
@@ -34,7 +62,7 @@
       "kind": "continuous",
       "unit": "years",
       "categories": null,
-      "reason": "numeric renewal interval in years, directly comparable across states"
+      "reason": "numeric renewal cycle length in years, directly comparable across states"
     },
     {
       "field_name": "licensure.continuing_education.required",
@@ -45,7 +73,7 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether continuing education is required"
+      "reason": "boolean flag for whether CE is required for renewal"
     },
     {
       "field_name": "licensure.continuing_education.period_years",
@@ -53,7 +81,7 @@
       "kind": "continuous",
       "unit": "years",
       "categories": null,
-      "reason": "numeric CE reporting period in years, directly comparable across states"
+      "reason": "numeric CE reporting period in years, directly comparable"
     },
     {
       "field_name": "licensure.continuing_education.topical_requirements",
@@ -61,7 +89,7 @@
       "kind": "not_mappable",
       "unit": null,
       "categories": null,
-      "reason": "free-text lists of topic-specific CE requirements, highly idiosyncratic per state"
+      "reason": "free-text lists of topic-specific CE mandates, highly variable per state"
     },
     {
       "field_name": "licensure.reciprocity.available",
@@ -72,7 +100,7 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether reciprocity/endorsement is available"
+      "reason": "boolean flag for whether reciprocal licensure is available"
     },
     {
       "field_name": "licensure.reciprocity.requirements",
@@ -80,7 +108,18 @@
       "kind": "not_mappable",
       "unit": null,
       "categories": null,
-      "reason": "free-text descriptions of reciprocity conditions, unique per state"
+      "reason": "free-text prose describing reciprocity conditions, unique per state"
+    },
+    {
+      "field_name": "licensure.advisory_board.exists",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag for whether a podiatry advisory board exists"
     },
     {
       "field_name": "licensure.regulatory_model",
@@ -95,7 +134,42 @@
         "exemption",
         "market_forces"
       ],
-      "reason": "values come from the UORF regulatory ladder enum; all observed values are 'license'"
+      "reason": "values come from the UORF ladder enum; all states show license"
+    },
+    {
+      "field_name": "licensure.credential_type",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "license",
+        "certificate",
+        "registration",
+        "permit"
+      ],
+      "reason": "small stable set of credential type labels; all states show license"
+    },
+    {
+      "field_name": "licensure.is_mandatory",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag for whether licensure is mandatory to practice"
+    },
+    {
+      "field_name": "licensure.title_protection",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag for whether title protection exists in statute"
     },
     {
       "field_name": "licensure.scope_protection",
@@ -106,7 +180,7 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether the state provides statutory scope-of-practice protection"
+      "reason": "boolean flag for whether scope of practice is legally protected"
     },
     {
       "field_name": "scope.definition_quote",
@@ -122,7 +196,7 @@
       "kind": "not_mappable",
       "unit": null,
       "categories": null,
-      "reason": "free-text lists of authorized methods with inconsistent granularity across states"
+      "reason": "variable-length lists of free-text method labels, not consistently enumerated across states"
     },
     {
       "field_name": "scope.drug_authority",
@@ -130,7 +204,7 @@
       "kind": "not_mappable",
       "unit": null,
       "categories": null,
-      "reason": "free-text descriptions of drug prescribing authority, highly variable across states"
+      "reason": "free-text descriptions of drug prescribing authority, highly idiosyncratic per state"
     },
     {
       "field_name": "profession_specific.anatomical_scope_upper_boundary",
@@ -142,12 +216,11 @@
         "foot_and_ankle",
         "foot_ankle_and_tendons_inserting_into_foot",
         "foot_ankle_and_soft_tissue_below_mid_calf",
-        "foot_ankle_and_soft_tissue_to_myotendinous_junction_triceps_surae",
         "foot_ankle_and_soft_tissue_to_distal_tibial_metaphyseal_flare",
         "foot_ankle_and_soft_tissue_to_tibial_tuberosity",
-        "foot_ankle_and_leg_below_knee"
+        "foot_ankle_and_soft_tissue_to_myotendinous_junction_triceps_surae"
       ],
-      "reason": "ordered categorical set of anatomical upper boundaries for podiatric scope, comparable across states"
+      "reason": "ordered categorical set of anatomical upper boundary labels representing increasing scope"
     },
     {
       "field_name": "profession_specific.anesthesia_authority",
@@ -158,10 +231,10 @@
         "local_only",
         "local_and_conscious_sedation",
         "local_and_moderate_deep_sedation",
-        "general_excluded",
-        "general_permitted_with_physician_supervision"
+        "general_permitted_with_physician_supervision",
+        "general_excluded"
       ],
-      "reason": "stable set of anesthesia authorization levels, comparable across states"
+      "reason": "small stable set of anesthesia authority levels observed across states"
     },
     {
       "field_name": "profession_specific.systemic_disease_treatment_excluded",
@@ -172,7 +245,7 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether systemic disease treatment is explicitly excluded from scope"
+      "reason": "boolean flag for whether systemic disease treatment is explicitly excluded from scope"
     },
     {
       "field_name": "profession_specific.systemic_disease_local_manifestations_included",
@@ -183,7 +256,7 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether local manifestations of systemic disease are included in scope"
+      "reason": "boolean flag for whether local manifestations of systemic disease are included in scope"
     },
     {
       "field_name": "profession_specific.podiatric_assistant_authorized",
@@ -194,7 +267,18 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether podiatric assistants are statutorily authorized"
+      "reason": "boolean flag for whether podiatric assistants are authorized by statute"
+    },
+    {
+      "field_name": "profession_specific.telehealth_authorized",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag for whether telehealth is explicitly authorized for podiatry"
     },
     {
       "field_name": "profession_specific.opioid_prescribing_rules_required",
@@ -205,7 +289,7 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether specific opioid prescribing rules apply to podiatrists"
+      "reason": "boolean flag for whether opioid-specific prescribing rules apply to podiatrists"
     },
     {
       "field_name": "profession_specific.controlled_substances_prescribing_ce_required",
@@ -216,7 +300,7 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether CE in controlled substances prescribing is required"
+      "reason": "boolean flag for whether CE on controlled substances prescribing is mandated"
     },
     {
       "field_name": "profession_specific.impaired_practitioner_program",
@@ -227,15 +311,7 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether an impaired practitioner program exists for podiatrists"
-    },
-    {
-      "field_name": "licensure.age_minimum",
-      "mappable": true,
-      "kind": "continuous",
-      "unit": "years",
-      "categories": null,
-      "reason": "integer minimum age for licensure, directly comparable across states"
+      "reason": "boolean flag for whether an impaired practitioner program exists for podiatrists"
     },
     {
       "field_name": "licensure.moral_character_required",
@@ -246,7 +322,7 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether good moral character is a statutory licensure requirement"
+      "reason": "boolean flag for whether good moral character is a statutory licensure requirement"
     },
     {
       "field_name": "licensure.education.accrediting_body",
@@ -254,7 +330,7 @@
       "kind": "not_mappable",
       "unit": null,
       "categories": null,
-      "reason": "free-text names of accrediting bodies, idiosyncratic per state"
+      "reason": "free-text organization names, idiosyncratic per state"
     },
     {
       "field_name": "licensure.post_degree_experience.required",
@@ -265,7 +341,15 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether post-degree clinical experience is required for licensure"
+      "reason": "boolean flag for whether post-degree clinical experience is required for licensure"
+    },
+    {
+      "field_name": "licensure.post_degree_experience.duration",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text duration descriptions with inconsistent units and conditions across states"
     },
     {
       "field_name": "licensure.post_degree_experience.kind",
@@ -273,7 +357,7 @@
       "kind": "not_mappable",
       "unit": null,
       "categories": null,
-      "reason": "free-text descriptions of post-degree experience types, not consistently categorized across states"
+      "reason": "free-text labels for training type with too much variation to normalize cleanly"
     },
     {
       "field_name": "licensure.continuing_education.hours_per_period",
@@ -281,18 +365,15 @@
       "kind": "continuous",
       "unit": "hours per renewal period",
       "categories": null,
-      "reason": "numeric CE hours required per period; must be interpreted alongside period_years for true comparability but is directly mappable as reported"
+      "reason": "numeric CE hours required per period, directly comparable across states"
     },
     {
-      "field_name": "licensure.title_protection",
-      "mappable": true,
-      "kind": "categorical",
+      "field_name": "licensure.national_association",
+      "mappable": false,
+      "kind": "not_mappable",
       "unit": null,
-      "categories": [
-        "true",
-        "false"
-      ],
-      "reason": "boolean flag indicating whether the state provides statutory title protection for podiatrists"
+      "categories": null,
+      "reason": "free-text association names, not consistently enumerated"
     },
     {
       "field_name": "profession_specific.amputation_authorized",
@@ -303,12 +384,11 @@
         "not_authorized",
         "toes_only",
         "toes_and_parts_of_foot",
-        "transmetatarsal_and_below",
         "forefoot_excluded",
-        "chopart_joint_and_below",
-        "foot_entirety_excluded"
+        "transmetatarsal_and_below",
+        "chopart_joint_and_below"
       ],
-      "reason": "stable set of amputation authorization levels, comparable across states"
+      "reason": "ordered categorical set of amputation authority levels from none to most expansive"
     },
     {
       "field_name": "profession_specific.ankle_surgery_authorized",
@@ -319,7 +399,7 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether ankle surgery is within podiatric scope"
+      "reason": "boolean flag for whether ankle surgery is within podiatric scope"
     },
     {
       "field_name": "profession_specific.ankle_surgery_residency_requirement",
@@ -331,9 +411,10 @@
         "36_month_surgical_residency",
         "2_year_pre_2007_or_3_year_post_2007",
         "board_certification_or_qualification_required",
-        "hospital_credentialing_required"
+        "hospital_credentialing_required",
+        "none"
       ],
-      "reason": "stable set of residency/credentialing requirements for ankle surgery authorization"
+      "reason": "small stable set of residency/credentialing requirement types for ankle surgery"
     },
     {
       "field_name": "profession_specific.total_ankle_replacement_authorized",
@@ -344,7 +425,7 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether total ankle replacement is within podiatric scope"
+      "reason": "boolean flag for whether total ankle replacement is explicitly authorized or prohibited"
     },
     {
       "field_name": "profession_specific.corrective_footwear_exemption",
@@ -355,15 +436,31 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether corrective footwear fitting is exempt from podiatry licensure requirements"
+      "reason": "boolean flag for whether corrective footwear providers are exempt from podiatry licensing"
     },
     {
-      "field_name": "licensure.post_degree_experience.duration",
+      "field_name": "licensure.age_minimum",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "years",
+      "categories": null,
+      "reason": "integer minimum age for licensure, directly comparable across states"
+    },
+    {
+      "field_name": "licensure.renewal_fee_usd",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "USD",
+      "categories": null,
+      "reason": "numeric renewal fee in US dollars, directly comparable across states"
+    },
+    {
+      "field_name": "licensure.national_certification",
       "mappable": false,
       "kind": "not_mappable",
       "unit": null,
       "categories": null,
-      "reason": "free-text duration descriptions with inconsistent units and conditional language across states"
+      "reason": "free-text certification body names, inconsistently reported across states"
     },
     {
       "field_name": "profession_specific.ankle_surgery_facility_requirement",
@@ -372,12 +469,12 @@
       "unit": null,
       "categories": [
         "licensed_hospital_only",
-        "accredited_hospital_or_ASC",
+        "jcaho_accredited_facility",
         "hospital_or_ambulatory_surgical_center",
-        "multispecialty_ambulatory_surgical_facility",
-        "JCAHO_accredited_facility"
+        "accredited_hospital_or_asc",
+        "none"
       ],
-      "reason": "stable set of facility requirement categories for ankle surgery"
+      "reason": "small stable set of facility requirement categories for ankle surgery"
     },
     {
       "field_name": "profession_specific.podiatric_assistant_supervision_level",
@@ -386,20 +483,19 @@
       "unit": null,
       "categories": [
         "direct_supervision_on_premises",
-        "indirect_supervision"
+        "indirect_supervision",
+        "general_supervision",
+        "none"
       ],
-      "reason": "stable set of supervision level categories for podiatric assistants"
+      "reason": "ordered categorical set of supervision levels from most to least restrictive"
     },
     {
-      "field_name": "profession_specific.preoperative_history_and_physical_authorized",
-      "mappable": true,
-      "kind": "categorical",
+      "field_name": "profession_specific.board_certification_body",
+      "mappable": false,
+      "kind": "not_mappable",
       "unit": null,
-      "categories": [
-        "true",
-        "false"
-      ],
-      "reason": "boolean flag indicating whether podiatrists are authorized to perform preoperative history and physical examinations"
+      "categories": null,
+      "reason": "free-text lists of certification body names, inconsistently enumerated per state"
     },
     {
       "field_name": "profession_specific.wound_debridement_authorized",
@@ -410,7 +506,7 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether wound debridement beyond the foot is within podiatric scope"
+      "reason": "boolean flag for whether wound debridement is explicitly authorized in scope"
     },
     {
       "field_name": "profession_specific.vaccination_authority",
@@ -421,7 +517,7 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether podiatrists have statutory vaccination authority"
+      "reason": "boolean flag for whether podiatrists have vaccination authority"
     },
     {
       "field_name": "profession_specific.hospital_privileges_nondiscrimination",
@@ -432,7 +528,7 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether the state has a nondiscrimination provision for podiatrist hospital privileges"
+      "reason": "boolean flag for whether nondiscrimination in hospital privileges is mandated"
     },
     {
       "field_name": "profession_specific.assistant_surgeon_role_authorized",
@@ -443,109 +539,7 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether podiatrists may serve as assistant surgeons in non-podiatric procedures"
-    },
-    {
-      "field_name": "profession_specific.board_certification_body",
-      "mappable": false,
-      "kind": "not_mappable",
-      "unit": null,
-      "categories": null,
-      "reason": "free-text lists of accepted certification bodies, variable across states"
-    },
-    {
-      "field_name": "profession_specific.xray_technician_certification_required",
-      "mappable": true,
-      "kind": "categorical",
-      "unit": null,
-      "categories": [
-        "true",
-        "false"
-      ],
-      "reason": "boolean flag indicating whether podiatrists or their staff must hold x-ray technician certification"
-    },
-    {
-      "field_name": "profession_specific.professional_liability_insurance_required",
-      "mappable": true,
-      "kind": "categorical",
-      "unit": null,
-      "categories": [
-        "true",
-        "false"
-      ],
-      "reason": "boolean flag indicating whether professional liability insurance is statutorily required"
-    },
-    {
-      "field_name": "profession_specific.physician_assistant_collaboration_authorized",
-      "mappable": true,
-      "kind": "categorical",
-      "unit": null,
-      "categories": [
-        "true",
-        "false"
-      ],
-      "reason": "boolean flag indicating whether podiatrists may collaborate with or supervise physician assistants"
-    },
-    {
-      "field_name": "licensure.regulatory_authority.name",
-      "mappable": false,
-      "kind": "not_mappable",
-      "unit": null,
-      "categories": null,
-      "reason": "free-text name of regulatory authority, only one state reported"
-    },
-    {
-      "field_name": "licensure.regulatory_authority.type",
-      "mappable": false,
-      "kind": "not_mappable",
-      "unit": null,
-      "categories": null,
-      "reason": "only one state reported this field, insufficient data for mapping"
-    },
-    {
-      "field_name": "licensure.regulatory_authority.umbrella_agency",
-      "mappable": false,
-      "kind": "not_mappable",
-      "unit": null,
-      "categories": null,
-      "reason": "only one state reported this field, insufficient data for mapping"
-    },
-    {
-      "field_name": "licensure.credential_type",
-      "mappable": true,
-      "kind": "categorical",
-      "unit": null,
-      "categories": [
-        "license",
-        "mandatory_certification",
-        "registration",
-        "voluntary_certification",
-        "exemption",
-        "market_forces"
-      ],
-      "reason": "credential type from UORF ladder enum; only one state reported but field is mappable in principle"
-    },
-    {
-      "field_name": "licensure.is_mandatory",
-      "mappable": true,
-      "kind": "categorical",
-      "unit": null,
-      "categories": [
-        "true",
-        "false"
-      ],
-      "reason": "boolean flag indicating whether licensure is mandatory"
-    },
-    {
-      "field_name": "profession_specific.tibial_pilon_fracture_excluded",
-      "mappable": true,
-      "kind": "categorical",
-      "unit": null,
-      "categories": [
-        "true",
-        "false"
-      ],
-      "reason": "boolean flag indicating whether tibial pilon fractures are explicitly excluded from podiatric scope"
+      "reason": "boolean flag for whether podiatrists may serve as assistant surgeons"
     },
     {
       "field_name": "profession_specific.office_based_surgery_accreditation_required",
@@ -556,10 +550,10 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether office-based surgical facilities must be accredited"
+      "reason": "boolean flag for whether office-based surgery requires facility accreditation"
     },
     {
-      "field_name": "profession_specific.telehealth_authorized",
+      "field_name": "profession_specific.xray_technician_certification_required",
       "mappable": true,
       "kind": "categorical",
       "unit": null,
@@ -567,7 +561,29 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether telehealth is explicitly authorized for podiatrists"
+      "reason": "boolean flag for whether x-ray technician certification is required for podiatrists"
+    },
+    {
+      "field_name": "profession_specific.professional_liability_insurance_required",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag for whether professional liability insurance is a licensure requirement"
+    },
+    {
+      "field_name": "profession_specific.physician_assistant_collaboration_authorized",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag for whether podiatrists may collaborate with physician assistants"
     },
     {
       "field_name": "profession_specific.electronic_prescribing_required",
@@ -578,7 +594,18 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether electronic prescribing is statutorily required"
+      "reason": "boolean flag for whether electronic prescribing is mandated"
+    },
+    {
+      "field_name": "profession_specific.tibial_pilon_fracture_excluded",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag for whether tibial pilon fractures are explicitly excluded from podiatric scope"
     },
     {
       "field_name": "profession_specific.minor_patient_chaperone_requirement",
@@ -589,7 +616,7 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether a chaperone is required when treating minor patients"
+      "reason": "boolean flag for whether a chaperone is required when treating minor patients"
     },
     {
       "field_name": "profession_specific.cosmetic_procedures_included",
@@ -600,7 +627,7 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether cosmetic procedures are explicitly included in podiatric scope"
+      "reason": "boolean flag for whether cosmetic procedures are included in podiatric scope"
     },
     {
       "field_name": "profession_specific.nondiscrimination_in_public_programs",
@@ -611,15 +638,7 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether the state mandates nondiscrimination against podiatrists in public health programs"
-    },
-    {
-      "field_name": "licensure.disciplinary_grounds",
-      "mappable": false,
-      "kind": "not_mappable",
-      "unit": null,
-      "categories": null,
-      "reason": "free-text or empty lists of disciplinary grounds, not consistently structured for comparison"
+      "reason": "boolean flag for whether nondiscrimination of podiatrists in public programs is mandated"
     },
     {
       "field_name": "profession_specific.advanced_practice_nurse_collaboration_authorized",
@@ -630,15 +649,42 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether podiatrists may collaborate with or supervise advanced practice nurses"
+      "reason": "boolean flag for whether podiatrists may collaborate with advanced practice nurses"
     },
     {
-      "field_name": "licensure.exams",
+      "field_name": "licensure.disciplinary_grounds",
       "mappable": false,
       "kind": "not_mappable",
       "unit": null,
       "categories": null,
-      "reason": "empty or unstructured exam data, insufficient for comparison"
+      "reason": "free-text or empty lists of disciplinary grounds, not consistently enumerated across states"
+    },
+    {
+      "field_name": "licensure.advisory_board.name",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text advisory board names, unique per state"
+    },
+    {
+      "field_name": "licensure.advisory_board.authority",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text descriptions of advisory board authority, highly idiosyncratic per state"
+    },
+    {
+      "field_name": "profession_specific.preoperative_history_and_physical_authorized",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag for whether podiatrists may perform preoperative history and physical exams"
     },
     {
       "field_name": "profession_specific.clubfoot_surgery_restriction",
@@ -649,7 +695,7 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether clubfoot surgery is explicitly restricted for podiatrists"
+      "reason": "boolean flag for whether clubfoot surgery is explicitly restricted for podiatrists"
     },
     {
       "field_name": "profession_specific.noncompete_clause_restriction",
@@ -660,7 +706,18 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether the state restricts noncompete clauses for podiatrists"
+      "reason": "boolean flag for whether noncompete clauses are restricted for podiatrists"
+    },
+    {
+      "field_name": "licensure.alternative_regulation.insurance_required",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag for whether insurance is required as an alternative regulatory mechanism"
     },
     {
       "field_name": "profession_specific.ankle_surgery_board_certification_timeline",
@@ -668,7 +725,7 @@
       "kind": "not_mappable",
       "unit": null,
       "categories": null,
-      "reason": "free-text description of certification timeline, only one state reported and not generalizable"
+      "reason": "free-text description of a state-specific certification deadline, not generalizable"
     },
     {
       "field_name": "profession_specific.ankle_surgery_standard_of_care_reference",
@@ -679,7 +736,7 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether the state references a standard of care for ankle surgery"
+      "reason": "boolean flag for whether a standard of care reference is codified for ankle surgery"
     }
   ]
 }

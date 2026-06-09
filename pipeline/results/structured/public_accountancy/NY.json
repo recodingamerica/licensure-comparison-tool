@@ -2,122 +2,505 @@
   "state": "NY",
   "profession": "public_accountancy",
   "licensure": {
-    "license_required": null,
-    "issuing_authority": null,
-    "regulatory_authority": null,
-    "age_minimum": null,
-    "moral_character_required": null,
-    "education": null,
-    "post_degree_experience": null,
-    "exams": [],
-    "renewal": null,
-    "renewal_fee_usd": null,
-    "continuing_education": null,
-    "reciprocity": null,
-    "advisory_board": null,
+    "license_required": {
+      "value": true,
+      "quote": "Only a person licensed or otherwise authorized to practice under this article shall practice public accountancy",
+      "citation": "7402"
+    },
+    "issuing_authority": {
+      "value": "New York State Education Department",
+      "quote": "Admission to practice of a profession in this state is accomplished by a license being issued to a qualified applicant by the education department.",
+      "citation": "6501"
+    },
+    "regulatory_authority": {
+      "name": {
+        "value": "New York State Education Department",
+        "quote": "a license being issued to a qualified applicant by the education department",
+        "citation": "6501"
+      },
+      "type": {
+        "value": "department",
+        "quote": "The commissioner and the department shall administer the admission to and the practice of the professions.",
+        "citation": "6507"
+      },
+      "umbrella_agency": null
+    },
+    "age_minimum": {
+      "value": 21,
+      "quote": "Age: be at least twenty-one years of age;",
+      "citation": "7404"
+    },
+    "moral_character_required": {
+      "value": true,
+      "quote": "Character: be of good moral character as determined by the department;",
+      "citation": "7404"
+    },
+    "education": {
+      "degree_required": {
+        "value": "bachelor's or higher degree from a program in accountancy",
+        "quote": "have received an education, including a bachelor's or higher degree or a foreign equivalent from a program in accountancy",
+        "citation": "7404"
+      },
+      "accrediting_body": {
+        "value": "New York State Education Department (registered program)",
+        "quote": "a program in accountancy that is registered by the department, or deemed comparable to a registered program as determined by the department",
+        "citation": "7404"
+      }
+    },
+    "post_degree_experience": {
+      "required": {
+        "value": true,
+        "quote": "Experience: Present evidence of completion of the following experience, satisfactory to the board of regents and in accordance with the commissioner's regulations",
+        "citation": "7404"
+      },
+      "duration": {
+        "value": "one or two years depending on education path",
+        "quote": "two years of acceptable full-time experience, or the equivalent thereof, for an applicant who is applying for licensure on the basis of the education described in subparagraph a of paragraph two of this subdivision; or one year of acceptable full-time experience, or the equivalent thereof, for an applicant who is applying for licensure on the basis of the education described in subparagraph b",
+        "citation": "7404"
+      },
+      "kind": {
+        "value": "acceptable full-time experience in public accountancy",
+        "quote": "years of acceptable full-time experience, or the equivalent thereof",
+        "citation": "7404"
+      }
+    },
+    "exams": [
+      {
+        "name": "CPA Written Examination",
+        "required": true,
+        "notes": "Requirement may not be waived; educational attainment for sitting not greater than 120 semester hours",
+        "jurisdiction": "state (administered or approved by department/board)",
+        "permitted_attempts": null,
+        "quote": "pass a written examination satisfactory to the board and in accordance with the commissioner's regulations, and the requirement with respect to such examination may not be waived",
+        "citation": "7404"
+      }
+    ],
+    "renewal": {
+      "interval_years": {
+        "value": 3,
+        "quote": "a fee of two hundred ten dollars for each triennial registration period",
+        "citation": "7404"
+      }
+    },
+    "renewal_fee_usd": {
+      "value": 210,
+      "quote": "a fee of two hundred ten dollars for each triennial registration period",
+      "citation": "7404"
+    },
+    "continuing_education": {
+      "required": {
+        "value": true,
+        "quote": "Each certified public accountant and public accountant required under article one hundred thirty of this title to register triennially with the department to practice in the state shall comply with the provisions of the mandatory continuing education requirements",
+        "citation": "7409"
+      },
+      "hours_per_period": {
+        "value": 40,
+        "quote": "completing a minimum of forty contact hours of acceptable formal continuing education in recognized areas of study",
+        "citation": "7409"
+      },
+      "period_years": {
+        "value": 1,
+        "quote": "During each year of the triennial registration period",
+        "citation": "7409"
+      },
+      "topical_requirements": {
+        "value": [
+          "accounting",
+          "attest",
+          "auditing",
+          "taxation",
+          "advisory services",
+          "specialized knowledge and applications related to specialized industries"
+        ],
+        "quote": "Recognized areas of study shall include but not be limited to: accounting, attest, auditing, taxation, advisory services, specialized knowledge and applications related to specialized industries",
+        "citation": "7409"
+      }
+    },
+    "reciprocity": {
+      "available": {
+        "value": true,
+        "quote": "a certified public accountant, licensed by another state, who intends to perform any of the services in subdivision one, two or three of section seventy-four hundred one of this article may practice public accountancy in this state",
+        "citation": "7406"
+      },
+      "requirements": {
+        "value": "Must hold valid license in good standing in another state with substantially equivalent requirements, practice public accountancy in that other state as principal place of business, and have completed equivalent education and examination requirements",
+        "quote": "holds a valid license to practice public accountancy which is in good standing in the other state, practices public accountancy in another state that is such certified public accountant's principal place of business, has completed either of the professional education and experience requirements as described in paragraphs two and three of subdivision one of section seventy-four hundred four of this article, and has passed the written examination",
+        "citation": "7406"
+      }
+    },
+    "advisory_board": {
+      "exists": {
+        "value": false,
+        "quote": "The commissioner and the department shall administer the admission to and the practice of the professions.",
+        "citation": "6507"
+      },
+      "name": null,
+      "authority": null
+    },
     "national_certification": null,
     "national_association": null,
-    "regulatory_model": null,
-    "credential_type": null,
-    "is_mandatory": null,
-    "title_protection": null,
-    "scope_protection": null,
-    "disciplinary_grounds": [],
+    "regulatory_model": {
+      "value": "license",
+      "quote": "Only a person licensed or otherwise authorized to practice under this article shall practice public accountancy or use the title \"certified public accountant\" or the designation CPA or \"public accountant\" or the designation PA",
+      "citation": "7402"
+    },
+    "credential_type": {
+      "value": "license",
+      "quote": "Only a person licensed or otherwise authorized to practice under this article shall practice public accountancy",
+      "citation": "7402"
+    },
+    "is_mandatory": {
+      "value": true,
+      "quote": "Only a person licensed or otherwise authorized to practice under this article shall practice public accountancy",
+      "citation": "7402"
+    },
+    "title_protection": {
+      "value": true,
+      "quote": "Only a person licensed or otherwise authorized to practice under this article shall practice public accountancy or use the title \"certified public accountant\" or the designation CPA or \"public accountant\" or the designation PA",
+      "citation": "7402"
+    },
+    "scope_protection": {
+      "value": true,
+      "quote": "Only a person licensed or otherwise authorized to practice under this article shall practice public accountancy",
+      "citation": "7402"
+    },
+    "disciplinary_grounds": [
+      {
+        "short_label": "fraud_in_obtaining_license",
+        "description": "Obtaining the license fraudulently",
+        "quote": "Obtaining the license fraudulently,",
+        "citation": "6509"
+      },
+      {
+        "short_label": "fraudulent_or_incompetent_practice",
+        "description": "Practicing the profession fraudulently, beyond its authorized scope, with gross incompetence, gross negligence, or repeated negligence",
+        "quote": "Practicing the profession fraudulently, beyond its authorized scope, with gross incompetence, with gross negligence on a particular occasion or negligence or incompetence on more than one occasion,",
+        "citation": "6509"
+      },
+      {
+        "short_label": "impaired_practice",
+        "description": "Practicing while ability to practice is impaired by alcohol, drugs, physical disability, or mental disability",
+        "quote": "Practicing the profession while the ability to practice is impaired by alcohol, drugs, physical disability, or mental disability,",
+        "citation": "6509"
+      },
+      {
+        "short_label": "habitual_substance_abuse",
+        "description": "Being habitually drunk or dependent on or habitual user of narcotics or similar drugs",
+        "quote": "Being habitually drunk or being dependent on, or a habitual user of narcotics, barbiturates, amphetamines, hallucinogens, or other drugs having similar effects,",
+        "citation": "6509"
+      },
+      {
+        "short_label": "criminal_conviction",
+        "description": "Being convicted of a crime under New York, federal, or other jurisdiction law",
+        "quote": "Being convicted of committing an act constituting a crime under: (i) New York State law or, (ii) Federal law or, (iii) The law of another jurisdiction",
+        "citation": "6509"
+      },
+      {
+        "short_label": "professional_misconduct_finding_other_state",
+        "description": "Having been found guilty of improper professional practice or misconduct by a professional disciplinary agency of another state",
+        "quote": "Having been found guilty of improper professional practice or professional misconduct by a duly authorized professional disciplinary agency of another state",
+        "citation": "6509"
+      },
+      {
+        "short_label": "discrimination",
+        "description": "Refusing to provide professional service to a person because of race, creed, color, or national origin",
+        "quote": "Refusing to provide professional service to a person because of such person's race, creed, color, or national origin,",
+        "citation": "6509"
+      },
+      {
+        "short_label": "aiding_unlicensed_practice",
+        "description": "Permitting, aiding or abetting an unlicensed person to perform activities requiring a license",
+        "quote": "Permitting, aiding or abetting an unlicensed person to perform activities requiring a license,",
+        "citation": "6509"
+      },
+      {
+        "short_label": "practicing_while_suspended_or_failure_to_register",
+        "description": "Practicing while license is suspended, or willfully failing to register or notify department of name/address change",
+        "quote": "Practicing the profession while the license is suspended, or wilfully failing to register or notify the department of any change of name or mailing address",
+        "citation": "6509"
+      },
+      {
+        "short_label": "unprofessional_conduct",
+        "description": "Committing unprofessional conduct as defined by the board of regents or commissioner",
+        "quote": "Committing unprofessional conduct, as defined by the board of regents in its rules or by the commissioner in regulations approved by the board of regents,",
+        "citation": "6509"
+      },
+      {
+        "short_label": "firm_registration_misrepresentation",
+        "description": "Firm registration obtained by misrepresentation or suppression of material fact",
+        "quote": "That the registration was obtained by either misrepresentation or suppression of any material fact;",
+        "citation": "7408"
+      },
+      {
+        "short_label": "firm_employing_unlicensed_practitioner",
+        "description": "Firm employing a partner, member, or shareholder engaged in practice who is not licensed or authorized to practice",
+        "quote": "That any sole proprietor, partner of a partnership or limited liability partnership, member of a limited liability company or shareholder of a professional service corporation in such firm is or has been engaged in the practice of public accountancy in this state who is not licensed or otherwise authorized to practice in this state;",
+        "citation": "7408"
+      },
+      {
+        "short_label": "failure_to_undergo_peer_review",
+        "description": "Firm failed to undergo peer review of attest services at least once every three years",
+        "quote": "That the firm failed to undergo a peer review of its attest services pursuant to section seventy-four hundred ten of this article at least once every three years;",
+        "citation": "7408"
+      },
+      {
+        "short_label": "firm_professional_misconduct",
+        "description": "Firm engaged in professional misconduct",
+        "quote": "That the firm has engaged in professional misconduct pursuant to section sixty-five hundred nine of this title.",
+        "citation": "7408"
+      }
+    ],
+    "alternative_regulation": {
+      "bonding_required": null,
+      "insurance_required": null,
+      "establishment_regulation_required": {
+        "value": true,
+        "quote": "Any firm that is established for the business purpose of lawfully engaging in the practice of public accountancy pursuant to subdivisions one and two of section seventy-four hundred one of this article or uses the title \"CPA\" or \"CPA firm\" or the title \"PA\" or \"PA firm\" must register with the department.",
+        "citation": "7408"
+      }
+    },
     "citations": [
       {
-        "cite": "N.Y. Educ. Law \u00a7 7400",
-        "kind": null
+        "cite": "7401",
+        "kind": "scope of practice"
       },
       {
-        "cite": "N.Y. Educ. Law \u00a7 7401",
-        "kind": null
+        "cite": "7401-A",
+        "kind": "definitions"
       },
       {
-        "cite": "N.Y. Educ. Law \u00a7 7401-A",
-        "kind": null
+        "cite": "7402",
+        "kind": "licensure requirement"
       },
       {
-        "cite": "N.Y. Educ. Law \u00a7 7402",
-        "kind": null
+        "cite": "7404",
+        "kind": "CPA licensure requirements"
       },
       {
-        "cite": "N.Y. Educ. Law \u00a7 7403",
-        "kind": null
+        "cite": "7405",
+        "kind": "PA licensure requirements"
       },
       {
-        "cite": "N.Y. Educ. Law \u00a7 7404",
-        "kind": null
+        "cite": "7406",
+        "kind": "limited permits and practice privilege"
       },
       {
-        "cite": "N.Y. Educ. Law \u00a7 7405",
-        "kind": null
+        "cite": "7407",
+        "kind": "exempt persons"
       },
       {
-        "cite": "N.Y. Educ. Law \u00a7 7406",
-        "kind": null
+        "cite": "7408",
+        "kind": "special provisions / firm registration"
       },
       {
-        "cite": "N.Y. Educ. Law \u00a7 7407",
-        "kind": null
+        "cite": "7409",
+        "kind": "continuing education"
       },
       {
-        "cite": "N.Y. Educ. Law \u00a7 7408",
-        "kind": null
+        "cite": "7410",
+        "kind": "peer review"
       },
       {
-        "cite": "N.Y. Educ. Law \u00a7 7409",
-        "kind": null
+        "cite": "6501",
+        "kind": "admission to profession"
       },
       {
-        "cite": "N.Y. Educ. Law \u00a7 7410",
-        "kind": null
+        "cite": "6502",
+        "kind": "license duration and registration"
+      },
+      {
+        "cite": "6503",
+        "kind": "practice of profession"
+      },
+      {
+        "cite": "6506",
+        "kind": "board of regents supervision"
+      },
+      {
+        "cite": "6507",
+        "kind": "education department administration"
+      },
+      {
+        "cite": "6509",
+        "kind": "professional misconduct definitions"
+      },
+      {
+        "cite": "6510",
+        "kind": "misconduct proceedings"
+      },
+      {
+        "cite": "6511",
+        "kind": "penalties"
+      },
+      {
+        "cite": "6512",
+        "kind": "unauthorized practice"
+      },
+      {
+        "cite": "6513",
+        "kind": "unauthorized title use"
       }
     ]
   },
   "scope": {
-    "definition_quote": null,
-    "methods_authorized": null,
+    "definition_quote": {
+      "value": "The practice of the profession of public accountancy is defined as: 1. offering to perform or performing attest and/or compilation services; 2. incident to such services, offering to perform or performing professional services for clients in matters relating to accounting concepts and to the recording, presentation, or certification of financial information or data; or 3. offering to perform or performing, for other persons one or more types of services including but not limited to accounting, management advisory, financial advisory, and tax.",
+      "quote": "The practice of the profession of public accountancy is defined as: 1. offering to perform or performing attest and/or compilation services, as defined in section seventy-four hundred one-a of this article; 2. incident to the services described in subdivision one of this section, offering to perform or performing professional services for clients, in any or all matters relating to accounting concepts and to the recording, presentation, or certification of financial information or data; or 3. offering to perform or performing, for other persons one or more types of the following services including but not limited to accounting, management advisory, financial advisory, and tax",
+      "citation": "7401"
+    },
+    "methods_authorized": {
+      "value": [
+        "attest services",
+        "compilation services",
+        "accounting",
+        "management advisory",
+        "financial advisory",
+        "tax services"
+      ],
+      "quote": "offering to perform or performing attest and/or compilation services ... accounting, management advisory, financial advisory, and tax",
+      "citation": "7401"
+    },
     "drug_authority": null,
-    "citations": []
+    "citations": [
+      {
+        "cite": "7401",
+        "kind": "scope of practice"
+      },
+      {
+        "cite": "7401-A",
+        "kind": "definitions"
+      }
+    ]
   },
   "profession_specific": {
-    "attest_services_types": null,
-    "compilation_services_authorized": null,
-    "education_semester_hours_required": null,
-    "exam_sit_hours_minimum": null,
+    "attest_services_types": {
+      "value": [
+        "audit in accordance with generally accepted auditing standards",
+        "review of financial statement",
+        "examination in accordance with attestation standards",
+        "engagement in accordance with PCAOB auditing standards"
+      ],
+      "quote": "any audit to be performed in accordance with generally accepted auditing standards ... any review of a financial statement ... any examination to be performed in accordance with attestation standards ... any engagement to be performed in accordance with the auditing standards of the public company accounting oversight board.",
+      "citation": "7401-A"
+    },
+    "compilation_services_authorized": {
+      "value": true,
+      "quote": "\"Compilation\" means providing a service that presents, in the form of financial statements, information that is the representation of the management or owners of the client without undertaking to express any assurance of the accuracy of the information in the statements",
+      "citation": "7401-A"
+    },
+    "education_semester_hours_required": {
+      "value": 150,
+      "quote": "A curriculum of at least one hundred fifty semester hours in a program in accountancy",
+      "citation": "7404"
+    },
+    "exam_sit_hours_minimum": {
+      "value": 120,
+      "quote": "the required educational attainment for such examination shall not be greater than that set out in subparagraph a of paragraph two of this subdivision",
+      "citation": "7404"
+    },
     "ethics_exam_required": null,
-    "practice_privilege_no_notice_required": null,
-    "practice_privilege_consent_conditions": null,
-    "attest_services_require_firm_permit": null,
+    "practice_privilege_no_notice_required": {
+      "value": false,
+      "quote": "Any certified public accountant who, within the last seven years, immediately preceding the date on which he or she wishes to practice in New York, (i) has been the subject of any final disciplinary action ... shall so notify the department, on a form prescribed by the department, and shall not practice public accountancy in this state under paragraph a of this subdivision until he or she has received from the department written permission to do so.",
+      "citation": "7406"
+    },
+    "practice_privilege_consent_conditions": {
+      "value": [
+        "consent to personal and subject matter jurisdiction and disciplinary authority of the board of regents",
+        "comply with this article, the rules of the board of regents and the regulations of the commissioner",
+        "appointment of the secretary of state or other public official as agent upon whom process may be served"
+      ],
+      "quote": "consents to all of the following as a condition of the exercise of such practice privilege: (1) to the personal and subject matter jurisdiction and disciplinary authority of the board of regents as if the practice privilege is a license; (2) to comply with this article, the rules of the board of regents and the regulations of the commissioner; and (3) to the appointment of the secretary of state or other public official acceptable to the department, in the certified public accountant's state of licensure or the state in which the firm has its principal place of business, as the certified public accountant or firm's agent upon whom process may be served",
+      "citation": "7406",
+      "unverified": true
+    },
+    "attest_services_require_firm_permit": {
+      "value": true,
+      "quote": "An individual who has been granted practice privileges under this section who performs any of the services in subdivision one or two of section seventy-four hundred one of this article may only do so through a firm which has obtained a registration under section seventy-four hundred eight of this article.",
+      "citation": "7406"
+    },
     "firm_majority_cpa_ownership_required": null,
     "nonlicensee_firm_owners_permitted": null,
-    "peer_review_required_for_firm_renewal": null,
-    "peer_review_max_frequency_years": null,
-    "peer_review_records_privileged": null,
-    "inactive_license_status_available": null,
+    "peer_review_required_for_firm_renewal": {
+      "value": true,
+      "quote": "The department shall require as a condition to renewal of registrations under section seventy-four hundred eight of this article, that unless otherwise exempted by the department, applicants for firm registrations, undergo, no more frequently than once every three years ... peer reviews of the firm's attest services",
+      "citation": "7410"
+    },
+    "peer_review_max_frequency_years": {
+      "value": 3,
+      "quote": "undergo, no more frequently than once every three years, except pursuant to a disciplinary action brought under section seventy-four hundred eight of this article, peer reviews of the firm's attest services",
+      "citation": "7410"
+    },
+    "peer_review_records_privileged": {
+      "value": true,
+      "quote": "the reports submitted in accordance with subdivision one of this section shall be confidential and shall not constitute a public record and shall not be subject to disclosure under articles six and six-A of the public officers law",
+      "citation": "7410"
+    },
+    "inactive_license_status_available": {
+      "value": true,
+      "quote": "Certified public accountants or public accountants not engaged in practice as defined in section seventy-four hundred one of this article, shall be exempt from the mandatory continuing education requirement upon the filing of a written statement with the department declaring such status",
+      "citation": "7409"
+    },
     "retired_license_status_available": null,
-    "out_of_state_firm_no_office_exemption": null,
+    "out_of_state_firm_no_office_exemption": {
+      "value": true,
+      "quote": "Such an individual, as well as an individual with a New York license who does not have a principal place of business in New York, may provide services in subdivision three of section seventy-four hundred one of this article through a firm of certified public accountants that does not have a registration in this state but that holds a valid license, registration, or permit in another state.",
+      "citation": "7406"
+    },
     "office_supervision_by_licensed_cpa_required": null,
-    "attest_report_signer_competency_requirement": null,
+    "attest_report_signer_competency_requirement": {
+      "value": true,
+      "quote": "An individual licensee or individual practicing under subdivision two of section seventy-four hundred six of this article who signs or authorizes someone to sign the accountant's report on the financial statements on behalf of a firm shall meet the competency requirements set out in the professional standards for such services",
+      "citation": "7408"
+    },
     "client_confidentiality_privilege": null,
     "working_papers_ownership_by_licensee": null,
     "commission_prohibition_during_attest": null,
     "contingent_fee_prohibition_during_attest": null,
-    "safe_harbor_disclaimer_language_for_nonlicensees": null,
-    "foreign_accountant_practice_exception": null,
+    "safe_harbor_disclaimer_language_for_nonlicensees": {
+      "value": true,
+      "quote": "Such non-licensed individuals and non-registered entities shall include the following written language when preparing financial statements: a. \"(I, We) have prepared the accompanying financial statement(s)...\" and b. \"(I, We) have not audited or reviewed the accompanying financial statement(s) and accordingly do not express an opinion or any other form of assurance on them.\"",
+      "citation": "7408"
+    },
+    "foreign_accountant_practice_exception": {
+      "value": true,
+      "quote": "Such limited permit shall authorize the applicant to use only the title or designation under which he or she is generally known in his or her own country, followed by the name of the country from which he or she received his or her certificate, license or degree",
+      "citation": "7406",
+      "unverified": true,
+      "approximate": {
+        "ratio": 0.954,
+        "matched_normalized": " permit shall authorize the applicant to use only the title or designation under which he or she is generally known in his or her own country followed by the name of the country from which he or she received his or her certificate license or degree"
+      }
+    },
     "single_act_evidence_sufficient": null,
     "firm_corrective_action_period_for_ownership_noncompliance": null,
-    "firm_permit_required_for_attest_services": null,
+    "firm_permit_required_for_attest_services": {
+      "value": true,
+      "quote": "Any firm that is established for the business purpose of lawfully engaging in the practice of public accountancy pursuant to subdivisions one and two of section seventy-four hundred one of this article or uses the title \"CPA\" or \"CPA firm\" or the title \"PA\" or \"PA firm\" must register with the department.",
+      "citation": "7408"
+    },
     "registered_municipal_accountant_designation": null,
     "public_school_accountant_designation": null,
-    "accounting_practitioner_tier": null,
+    "accounting_practitioner_tier": {
+      "value": true,
+      "quote": "\"Public accountant\" or \"PA\" means any person who has received a license from the department as a public accountant for the practice of public accountancy.",
+      "citation": "7401-A"
+    },
     "cpa_emeritus_or_retired_status_available": null,
-    "government_audit_cpe_requirement": null,
+    "government_audit_cpe_requirement": {
+      "value": true,
+      "quote": "a firm that performs attest services for any New York state or municipal department, board, bureau, division, commission, committee, public authority, public corporation, council, office, or other governmental entity ... shall be in conformity with the requirements pursuant to the government auditing standards of the comptroller general of the United States.",
+      "citation": "7410"
+    },
     "ethics_cpe_hours_required": null,
     "hawaii_attest_work_supplement_required": null,
     "liability_privity_limitation": null,
     "statute_of_limitations_for_accountant_negligence": null,
-    "independence_requirement_for_attest": null,
+    "independence_requirement_for_attest": {
+      "value": true,
+      "quote": "\"Attest\" means providing the following public accountancy services which all require the independence of licensees:",
+      "citation": "7401-A"
+    },
     "client_records_return_obligation": null
   }
 }

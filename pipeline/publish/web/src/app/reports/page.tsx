@@ -12,6 +12,12 @@ const REPORTS = [
     blurb:
       "Per (universal field × profession), fraction of states populating each field. Mirrors Atharv's PDF cross-comparison table at full coverage.",
   },
+  {
+    href: "/reports/tag-sheet",
+    title: "Field tag sheet",
+    blurb:
+      "Plain-English tags for each profession's key licensure fields (degree, experience, licensing authority, scope, discipline), with how many states fall under each tag.",
+  },
 ];
 
 export default function ReportsPage() {

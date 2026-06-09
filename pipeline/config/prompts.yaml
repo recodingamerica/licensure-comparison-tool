@@ -449,9 +449,11 @@ map_prep_bucket_text:
       - bucket_set: 3-7 short, scannable labels. Title Case or Snake Case is
         fine. Avoid jargon — these will appear as chips in a UI table cell.
       - rationale: one sentence on why you chose this set.
-      - assignments: per state, the chosen bucket (one of bucket_set) for
-        that state's raw_value. Use null only if the value genuinely doesn't
-        fit any bucket — prefer assigning to the closest bucket when in doubt.
+      - assignments: per state, an object with ONLY {state, bucket} — the
+        bucket is one of bucket_set for that state's raw_value. Do NOT echo
+        the raw_value back; we already have it. Use null bucket only if the
+        value genuinely doesn't fit any bucket — prefer the closest bucket
+        when in doubt. Include every state from the input exactly once.
 
     Rules:
       1. The set should partition the actual distribution of values you see —
@@ -459,5 +461,63 @@ map_prep_bucket_text:
       2. Buckets should be informative — "Other" is a fine catch-all but
          avoid making it the largest bucket.
       3. Keep labels short (1-4 words). They render as small chips.
-      4. Do not echo the raw_value as the bucket — the bucket should be a
-         category label, the raw_value stays visible separately in the UI.
+      4. The bucket is a category label, never the raw_value verbatim.
+
+# Per-item bucketing runs in two phases so it scales to fields with hundreds
+# of items (e.g. podiatry disciplinary_grounds ≈ 788 items). Phase 1 designs
+# the vocabulary once over all rows; phase 2 assigns rows in chunks against
+# that fixed vocabulary. Splitting keeps each call's OUTPUT small — the old
+# single-call version timed out generating ~800 echoed assignments.
+
+map_prep_bucket_text_per_item_design:
+  system: |
+    You are designing a small category VOCABULARY for the individual items of
+    a list-of-objects profession field across U.S. states. The field is
+    something like disciplinary_grounds: each state has its own list of items,
+    and we want a shared bucket vocabulary so aggregated views can answer
+    "which states include a fraud-type ground, a criminal-conviction-type
+    ground, etc."
+
+    You will see one field name and many input rows. Each row is ONE item from
+    ONE state (the same state appears many times). Each row has:
+      - state, item_index: identify the item (you can ignore these here)
+      - item_label: the snake_case label the extraction assigned (a signal)
+      - raw_value: a plain-English one-line description (the primary signal)
+
+    Output ONLY:
+      - bucket_set: 3-9 short, scannable category labels (Title Case, 1-4
+        words) that together partition the actual distribution of items you
+        see. Don't invent buckets nothing fell into.
+      - rationale: one sentence on why this set partitions the data well.
+
+    Do NOT output any per-row assignments — only the vocabulary. A later pass
+    assigns each item to one of your buckets, so make the set complete enough
+    that every item has a natural home (a single "Other" catch-all is fine but
+    should not be the largest group).
+
+map_prep_bucket_text_per_item_assign:
+  system: |
+    You are assigning individual items of a list-of-objects profession field
+    to a FIXED category vocabulary that was already designed. Do not invent new
+    categories — use only the provided bucket_set.
+
+    You will see: the field name, the bucket_set (the allowed labels), and a
+    batch of input rows. Each row is ONE item from ONE state:
+      - state: two-letter state code
+      - item_index: 0-based position of the item in that state's list
+      - item_label: the snake_case extraction label (a signal)
+      - raw_value: a plain-English one-line description (the primary signal —
+        read this to choose the bucket)
+
+    Output:
+      - assignments: EXACTLY ONE per input row, each an object with ONLY
+        {state, item_index, bucket}. The bucket must be one of the provided
+        bucket_set, or null only if the item genuinely fits none (prefer the
+        closest bucket when in doubt). Do NOT echo item_label or raw_value.
+
+    Rules:
+      1. Use only labels from the given bucket_set — never a new one.
+      2. Process EVERY input row. Output assignment count must equal input
+         row count. Don't deduplicate, skip, or summarize.
+      3. Copy each row's state and item_index exactly so assignments join
+         back to the source items.
