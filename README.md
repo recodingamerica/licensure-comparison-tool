@@ -1,8 +1,8 @@
 # utah
 
 Pipeline that turns state statutes into a structured, evidence-backed view of
-licensure and scope of practice for regulated professions, with a static
-DataTables viewer.
+licensure and scope of practice for regulated professions, with a Next.js
+viewer (AG Grid table, choropleth maps, per-field tag sheets).
 
 Built for Utah's Office of Professional Licensure Review (OPLR) as the
 descriptive layer that feeds their Universal Occupational Regulation Framework
@@ -16,22 +16,22 @@ same professions where they exist.
 
 ## Current status
 
-Six professions wired through end-to-end: **dentistry**, **medicine**,
-**nursing**, **optometry**, **podiatry**, and **public accountancy**.
-Live site: https://utah-licensing.vercel.app (pw `utah`); demo also at
-`localhost:8767/`.
+Seven professions wired through end-to-end: **dentistry**, **dietetics**,
+**medicine**, **nursing**, **optometry**, **podiatry**, and **public
+accountancy**. Live site: https://utah-licensing.vercel.app (pw `utah`).
 
-| Profession | States with substantive records |
+| Profession | States with extracted records |
 |---|---|
+| Medicine | 50 |
+| Dentistry | 49 |
+| Nursing | 49 |
+| Optometry | 49 |
 | Podiatry | 49 |
-| Nursing | 47 |
-| Optometry | 47 |
-| Dentistry | 46 |
-| Public Accountancy | 45 |
-| Medicine | 43 |
+| Public Accountancy | 49 |
+| Dietetics | 42 |
 
-Across all six: 9,457 Evidence-wrapped claims; 99.5% regex-verified against
-source statute (48 unresolved as of 2026-05-31).
+Across all seven: ~12,150 Evidence-wrapped claims; 99.2% regex-verified against
+source statute (95 unverified as of 2026-06-09).
 
 Pipeline stages, all working:
 
@@ -50,8 +50,12 @@ Pipeline stages, all working:
 | `extract/extract_state` | Pass 2 — per-state structured extraction. Every leaf field is Evidence-wrapped (`{value, quote, citation}`). Quote is regex-validated against the cleaned source |
 | `extract/recategorize_fields` | Surgical re-grouping of an existing discovered file into LLM-named categories without re-extraction |
 | `extract/reverify_evidence` | Re-runs the regex check against existing structured records (lets us tighten/loosen the matcher without re-extracting) |
+| `map_prep/run` | Two-pass LLM normalization — decides which fields are mappable (continuous/categorical) and emits normalized values for the choropleth |
+| `map_prep/bucket_text` | Pass 3 — clusters each free-text field's values across states into a few plain-English tags (scalar + per-item, e.g. disciplinary_grounds). Feeds the tag sheet + profile bucket chips |
 | `publish/build_frontend` | Aggregates per-state records into one payload per profession and uploads to Vercel Blob at `data/<prof>.json` |
-| `publish/web/` | Next.js + Tailwind + shadcn viewer, deployed to Vercel. Prebuild step fetches every `data/*.json` from Blob and bakes it into the static pages. Site is gated by HTTP Basic Auth via middleware |
+| `publish/build_tag_sheet` | Reshapes the bucket output into the per-profession Field Tag Sheet (`data/tag_sheet.json`, the `/reports/tag-sheet` route + profile Tags tab) |
+| `eval/check_vs_oplr` | Validation — compares our UT `regulatory_model` to Utah OPLR's published periodic-review classifications (`docs/lit_review/oplr_ground_truth.csv`) |
+| `publish/web/` | Next.js + Tailwind + shadcn viewer (AG Grid table, maps, tag sheets), deployed to Vercel. Prebuild step fetches every `data/*.json` from Blob and bakes it into the static export. Site is gated by HTTP Basic Auth via middleware |
 
 ## How to run it
 
@@ -125,6 +129,7 @@ be anything, password is `SITE_PASSWORD` (set on Vercel + in
 - **`run.py` orchestrator is a stub.** Stage scripts run individually for now.
 - **PA podiatry coverage gap.** palegis.us is JS-rendered + query-string-driven; FindLaw is anti-scrape; Cornell LII doesn't host state statutes. Documented as a deferred gap; would need Playwright + custom navigation or a paid source (Westlaw).
 - **Admin code (CE topical rules, application procedure specifics) not yet pulled.** `regs_targets.csv` exists but isn't wired into the ingest stage. Would close many of the visible "—" cells under CE hours.
+- **Centralized-discipline states under-captured.** Some states put disciplinary grounds in a state-wide chapter rather than the profession act; if that umbrella chapter isn't in scope, the profession shows few/zero grounds. **Montana (Title 37-1)** is the biggest case — low/zero discipline across dentistry, nursing, optometry, accountancy. Fix is a per-state scope-manifest entry. See `gap_report.md`.
 - **Section-mapper accuracy varies** by state. v1 (label-only) is unreliable when section labels are generic ("Definitions", "License required") — see `pipeline/notes/LEARNINGS.md` for the LA mismap. v2 (label + body excerpt) trades a one-time per-state body fetch for accuracy.
 
 ## Layout
@@ -157,15 +162,21 @@ pipeline/
     standard_model.py    # universal Pydantic base, Evidence-wrapped
     discover_schema.py
     extract_state.py
+    extract_state_batch.py  # async Anthropic Batch API path (cheaper bulk re-extracts)
     recategorize_fields.py
     reverify_evidence.py
+  map_prep/
+    run.py               # pass 1/2: spec (mappable?) + normalized values for maps
+    bucket_text.py       # pass 3: cluster free-text fields into plain-English tags
+  eval/
+    check_vs_oplr.py     # compare our UT classification to OPLR ground truth
   publish/
     build_frontend.py
-    site/
-      index.html
-      profile.html
-      data/<profession>.json
-      professions.json
+    build_tag_sheet.py   # per-profession Field Tag Sheet
+    cross_comparison_scorecard.py
+    web/                 # Next.js + Tailwind + shadcn app (deployed to Vercel)
+      src/app/           # routes: /, /professions/[id], /reports/*, /states, /browse
+      public/data/       # <profession>.json + tag_sheet.json (fetched from Blob at build)
   notes/
     LEARNINGS.md
     FIELDS.md
@@ -180,6 +191,7 @@ pipeline/
     trimmed/
     discovered/
     structured/
+    map_prep/            # normalized values + text-bucket tags per profession
   logs/
   paths.py               # canonical path constants
   run.py                 # orchestrator (stub)
@@ -190,7 +202,7 @@ pipeline/
 
 - **Trim is a Haiku binary classifier, never a text rewriter.** The model only emits `[{citation, keep, reason}]`; verbatim text is read from the cleaned corpus by citation. Eliminates one class of hallucination.
 - **Schema discovery is a separate stage.** Pass 1b runs once per profession across all states' trimmed text → a profession-specific field list with normalized enum values and plain-English category labels (LLM-named, not hand-coded). Pass 2 then composes a typed Pydantic model from that list and uses it per-state.
-- **Universal base + discovered profession-specific.** `standard_model.py` covers what's true for any licensed profession (license_required, education, post-degree experience, exams, renewal, CE, reciprocity, plus four UORF-aligned fields: regulatory_model, title_protection, scope_protection, disciplinary_grounds). Profession-specific dimensions come from pass 1b.
+- **Universal base + discovered profession-specific.** `standard_model.py` covers what's true for any licensed profession (license_required, education, post-degree experience, exams, renewal, CE, reciprocity, plus the UORF-aligned fields: `regulatory_model` — the 6-rung ladder — decomposed into orthogonal `credential_type` × `is_mandatory`, with `title_protection`, `scope_protection`, `disciplinary_grounds`, and `alternative_regulation`). The rung is anchored on what the credential **protects** (Utah's rule): scope-protected → license / mandatory_cert; title-only → voluntary_certification. Profession-specific dimensions come from pass 1b.
 - **Sonnet for both LLM-driven extraction stages.** Pass 1b needs the 200k+ token corpus reasoning; pass 2 turned out to need it too — Haiku missed in-corpus fields (CT residency, ME CE, KS/WA renewal). Cost: ~$5 per profession-state run.
 - **`state_structure.yaml` over `manual_overrides.yaml`.** State-keyed registry is the long-term home for per-state quirks. `source` and `layout` are state-level facts every profession in that state inherits; per-profession URLs / section patterns sit one level deeper.
 - **Frontend modal shows source link + in-context highlight.** Each evidence quote gets a `source ↗` link to the actual section page on Justia / revisor.mn.gov / etc., plus an `in context` toggle that shows the full section text with the quote highlighted in `<mark>` tags.
