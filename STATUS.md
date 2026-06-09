@@ -3,6 +3,44 @@
 Live site: https://utah-licensing.vercel.app (pw `utah`).
 Pipeline shape and Postgres direction: see [ARCHITECTURE.md](ARCHITECTURE.md).
 
+## Just shipped (June 9, 2026)
+
+- **Field Tag Sheet + profile Tags tab.** `pipeline/publish/build_tag_sheet.py`
+  reshapes the map_prep bucket output into a per-profession sheet — the 5
+  priority fields (Min Degree, Prof Experience, Licensing Authority, Scope,
+  Discipline) on top, every other bucketed field below. Live at
+  `/reports/tag-sheet` and as a new **Tags** tab on `/professions/[id]`
+  (`components/profile-tags.tsx`, additive — reads `tag_sheet.json`, no change
+  to table/map/statutes). Hovering a tag shows its member states + the original
+  text (raw_value for scalar, ground label for per-item discipline).
+- **bucket_text robustness fix.** The pass made the LLM echo every input value
+  back, truncating large scalar fields and timing out big per-item fields.
+  Scalar now returns `{state,bucket}` only (raw_value re-attached our side);
+  per-item designs the vocabulary once then assigns in 150-row chunks. Also
+  fixed `map_prep/run.py` Evidence-leaf flatten (verifier annotations leaked
+  `<field>.value/.quote/...` as bogus fields). All 7 professions leak-free.
+- **regulatory_model prompt fix (Utah scope rule).** Anchored the rung on what
+  the credential PROTECTS: mandatory_cert/license require scope_protection;
+  title-only = voluntary_certification (right-to-title) even if the title is
+  mandated. Matches Utah OPLR's framework. Re-extracted all 42 dietetics — 7
+  corrections toward Utah's rule, 0 regressions (AK/CA/UT/VA/VT/WA
+  mandatory_cert→voluntary_cert; HI was mislabeled license→voluntary_cert).
+- **OPLR ground-truth harness.** Utah OPLR publishes per-profession periodic
+  review reports (PDFs, oplr.utah.gov) stating each occupation's current model
+  + recommendation. `docs/lit_review/oplr_ground_truth.csv` (9 professions) +
+  `pipeline/eval/check_vs_oplr.py` compare Utah's current model to our UT
+  extraction. nursing validates (license==license). Held-out test: 8 published
+  professions (PA, PT, OT, respiratory, acupuncture, athletic training,
+  hearing-instrument, SLP) extracted UT-only to check the prompt on data we
+  never tuned on — all should read current law = license (hearing-instrument
+  and SLP are the interesting cases: OPLR *recommends* a shift to mandatory
+  cert, but current law is license).
+- **Gap findings** (`gap_report.md`, `optometry_spot_check.md`): **Montana
+  Title 37-1** is a cross-profession centralized-discipline gap (low/zero
+  disciplinary grounds in dentistry, nursing, optometry, accountancy) — one
+  per-state scope-manifest entry would fix 4+ professions. OK/PA/NC have
+  deeper source-level gaps.
+
 ## Just shipped (May 29–31, 2026)
 
 - **External lit review closed** (issue #17). Pulled Utah OPLR's own Dec
