@@ -117,9 +117,11 @@ def _load_buckets(profession: str) -> tuple[dict, dict]:
 
 def _scalar_subfield(entry: dict) -> dict:
     """Reshape a scalar text_buckets entry: tag -> state count, plus the raw
-    state->tag assignments (so the web side can show a per-state table)."""
+    state->tag assignments WITH the original value text (`text`) so the web
+    side can show, per tag, which states fall under it and what they actually
+    say."""
     assignments = [
-        {"state": a["state"], "bucket": a["bucket"]}
+        {"state": a["state"], "bucket": a["bucket"], "text": a.get("raw_value", "")}
         for a in entry.get("assignments", [])
         if a.get("bucket")
     ]
@@ -147,12 +149,17 @@ def _per_item_subfield(entry: dict) -> dict:
     left empty and the web side renders the tag frequencies."""
     item_counts: dict[str, int] = {}
     state_sets: dict[str, set] = {}
+    assignments = []
     for a in entry.get("assignments", []):
         b = a.get("bucket")
         if not b:
             continue
         item_counts[b] = item_counts.get(b, 0) + 1
         state_sets.setdefault(b, set()).add(a["state"])
+        # `text` = the per-item label so hover can show each ground under a tag.
+        assignments.append(
+            {"state": a["state"], "bucket": b, "text": a.get("item_label", "")}
+        )
     tags = [
         {
             "label": b,
@@ -167,7 +174,7 @@ def _per_item_subfield(entry: dict) -> dict:
         "unit": "grounds",
         "rationale": entry.get("rationale", ""),
         "tags": tags,
-        "assignments": [],
+        "assignments": assignments,
     }
 
 

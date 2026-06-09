@@ -6,13 +6,14 @@ import { useEffect, useState, type ReactNode } from "react";
 // Shape of `public/data/tag_sheet.json` — produced by
 // `python -m pipeline.publish.build_tag_sheet`.
 type Tag = { label: string; count: number; states?: number };
+type Assignment = { state: string; bucket: string; text: string };
 type SubField = {
   field_name: string;
   kind: "scalar" | "per_item";
   unit: string;
   rationale: string;
   tags: Tag[];
-  assignments: { state: string; bucket: string }[];
+  assignments: Assignment[];
 };
 type Field = {
   label: string;
@@ -167,36 +168,80 @@ function FieldBlock({ field }: { field: Field }) {
           No bucketed tags for this field (data too sparse or not yet run).
         </p>
       )}
-      {field.subfields.map((sf) => (
-        <div key={sf.field_name} className="mb-4">
-          <p className="text-xs font-mono text-muted-foreground mb-2">
-            {sf.field_name} · {sf.unit} per tag
-          </p>
-          <div className="flex flex-wrap gap-2">
-            {sf.tags.map((t) => (
-              <span
-                key={t.label}
-                className="inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-sm"
-                title={
-                  sf.kind === "per_item" && t.states !== undefined
-                    ? `${t.count} grounds across ${t.states} states`
-                    : `${t.count} states`
-                }
-              >
-                {t.label}
-                <span className="font-mono text-xs text-muted-foreground">
-                  {t.count}
-                </span>
-              </span>
-            ))}
-          </div>
-          {sf.rationale && (
-            <p className="text-xs text-muted-foreground mt-2 max-w-3xl">
-              {sf.rationale}
+      {field.subfields.map((sf) => {
+        // Group the assignments by bucket so each tag can list its members
+        // (states + the original text) on hover.
+        const byBucket = new Map<string, Assignment[]>();
+        for (const a of sf.assignments) {
+          const arr = byBucket.get(a.bucket);
+          if (arr) arr.push(a);
+          else byBucket.set(a.bucket, [a]);
+        }
+        return (
+          <div key={sf.field_name} className="mb-4">
+            <p className="text-xs font-mono text-muted-foreground mb-2">
+              {sf.field_name} · {sf.unit} per tag ·{" "}
+              <span className="text-muted-foreground/70">hover a tag for details</span>
             </p>
-          )}
-        </div>
-      ))}
+            <div className="flex flex-wrap gap-2">
+              {sf.tags.map((t) => (
+                <TagChip
+                  key={t.label}
+                  tag={t}
+                  kind={sf.kind}
+                  members={byBucket.get(t.label) ?? []}
+                />
+              ))}
+            </div>
+            {sf.rationale && (
+              <p className="text-xs text-muted-foreground mt-2 max-w-3xl">
+                {sf.rationale}
+              </p>
+            )}
+          </div>
+        );
+      })}
     </section>
+  );
+}
+
+function TagChip({
+  tag,
+  kind,
+  members,
+}: {
+  tag: Tag;
+  kind: "scalar" | "per_item";
+  members: Assignment[];
+}) {
+  const summary =
+    kind === "per_item" && tag.states !== undefined
+      ? `${tag.count} grounds across ${tag.states} states`
+      : `${tag.count} states`;
+  return (
+    <span className="relative group inline-flex">
+      <span className="inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-sm cursor-default group-hover:border-foreground/40 group-hover:bg-muted/40">
+        {tag.label}
+        <span className="font-mono text-xs text-muted-foreground">
+          {tag.count}
+        </span>
+      </span>
+      {members.length > 0 && (
+        <div className="invisible group-hover:visible absolute z-50 left-0 top-full mt-1 w-96 max-h-72 overflow-auto rounded-lg border bg-popover text-popover-foreground shadow-lg p-3">
+          <p className="text-xs font-medium mb-2">
+            {tag.label}{" "}
+            <span className="font-normal text-muted-foreground">— {summary}</span>
+          </p>
+          <ul className="space-y-1.5">
+            {members.map((m, i) => (
+              <li key={`${m.state}-${i}`} className="text-xs leading-snug">
+                <span className="font-mono font-semibold mr-1.5">{m.state}</span>
+                <span className="text-muted-foreground">{m.text}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </span>
   );
 }
