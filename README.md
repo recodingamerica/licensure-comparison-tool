@@ -129,7 +129,7 @@ be anything, password is `SITE_PASSWORD` (set on Vercel + in
 - **`run.py` orchestrator is a stub.** Stage scripts run individually for now.
 - **PA podiatry coverage gap.** palegis.us is JS-rendered + query-string-driven; FindLaw is anti-scrape; Cornell LII doesn't host state statutes. Documented as a deferred gap; would need Playwright + custom navigation or a paid source (Westlaw).
 - **Admin code (CE topical rules, application procedure specifics) not yet pulled.** `regs_targets.csv` exists but isn't wired into the ingest stage. Would close many of the visible "—" cells under CE hours.
-- **Centralized-discipline states under-captured.** Some states put disciplinary grounds in a state-wide chapter rather than the profession act; if that umbrella chapter isn't in scope, the profession shows few/zero grounds. **Montana (Title 37-1)** is the biggest case — low/zero discipline across dentistry, nursing, optometry, accountancy. Fix is a per-state scope-manifest entry. See `gap_report.md`.
+- **Centralized-discipline states under-captured.** Some states put disciplinary grounds in a state-wide chapter rather than the profession act; if that umbrella chapter isn't in scope, the profession shows few/zero grounds. **Montana (Title 37-1)** is the biggest case — low/zero discipline across dentistry, nursing, optometry, accountancy. Fix is a per-state scope-manifest entry. See `docs/reports/gap_report.md`.
 - **Section-mapper accuracy varies** by state. v1 (label-only) is unreliable when section labels are generic ("Definitions", "License required") — see `pipeline/notes/LEARNINGS.md` for the LA mismap. v2 (label + body excerpt) trades a one-time per-state body fetch for accuracy.
 
 ## Layout

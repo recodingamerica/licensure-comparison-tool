@@ -35,7 +35,7 @@ Pipeline shape and Postgres direction: see [ARCHITECTURE.md](ARCHITECTURE.md).
   never tuned on — all should read current law = license (hearing-instrument
   and SLP are the interesting cases: OPLR *recommends* a shift to mandatory
   cert, but current law is license).
-- **Gap findings** (`gap_report.md`, `optometry_spot_check.md`): **Montana
+- **Gap findings** (`docs/reports/gap_report.md`, `docs/reports/optometry_spot_check.md`): **Montana
   Title 37-1** is a cross-profession centralized-discipline gap (low/zero
   disciplinary grounds in dentistry, nursing, optometry, accountancy) — one
   per-state scope-manifest entry would fix 4+ professions. OK/PA/NC have
