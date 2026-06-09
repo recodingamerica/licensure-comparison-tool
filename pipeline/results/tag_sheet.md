@@ -1,6 +1,6 @@
 # Field Tag Sheet
 
-_Generated 2026-06-09T17:19:23+00:00_
+_Generated 2026-06-09T18:49:34+00:00_
 
 Plain-English tags for each profession's key licensure fields, derived
 by `pipeline.map_prep.bucket_text` (no per-row hand-curation — the LLM
@@ -229,84 +229,88 @@ field name varies by profession.
 
 `licensure.education.degree_required` — states per tag:
 
-- **Bachelor's Min** (7)
-- **Bachelor's + Field Specified** (23)
-- **Master's/Doctoral Required** (2)
-- **Tiered by License Type** (6)
-- **Transitioning to Master's** (1)
+- **Bachelor's Min, Specific Major** (23)
+- **Bachelor's Min, Any Field** (7)
+- **Master's/Doctorate Required** (3)
+- **Tiered by License Type** (5)
+- **CDR Registration Proxy** (2)
+- **Transitional Requirement** (1)
 
 #### Professional Experience
 
 `licensure.post_degree_experience.kind` — states per tag:
 
-- **Supervised Practice** (19)
-- **Internship or Supervised Practice** (8)
-- **Planned Preprofessional Program** (9)
-- **General Work Experience** (1)
+- **Supervised Practice** (16)
+- **Planned Continuous Program** (7)
+- **Internship or Practice** (8)
+- **Preprofessional Experience** (5)
+- **General Experience** (2)
 
 `licensure.post_degree_experience.duration` — states per tag:
 
 - **900 Hours** (21)
 - **1,000 Hours** (3)
 - **1,200 Hours** (1)
-- **Time-Based** (1)
-- **Tiered / Multiple Paths** (1)
+- **Multiple Pathways** (1)
+- **Supervision-Based** (1)
+- **Time-Based (Months)** (1)
 
 #### Licensing Authority
 
 `licensure.issuing_authority` — states per tag:
 
 - **Dedicated Dietetics Board** (18)
-- **General Health Board** (2)
-- **Medical Board** (6)
-- **State Health Dept** (8)
-- **General Licensing Agency** (7)
+- **Medical/Physician Board** (6)
+- **Health Department** (9)
+- **Umbrella Licensing Agency** (4)
+- **General Commerce/Prof Agency** (4)
 
 `licensure.regulatory_authority.name` — states per tag:
 
 - **Dedicated Dietetics Board** (19)
 - **Medical/Health Board** (6)
-- **Public Health Agency** (8)
-- **General Licensing Agency** (8)
+- **Public Health Dept** (7)
+- **General Licensing Dept** (8)
+- **Other State Agency** (1)
 
 #### Scope of Practice
 
 `scope.methods_authorized` — states per tag:
 
-- **Broad Clinical + Ordering** (10)
-- **Standard Full Scope** (13)
-- **Assessment + Counseling Only** (7)
-- **Medical Nutrition Therapy Focus** (3)
-- **Narrow / Advisory Only** (2)
+- **Broad Assessment + Counseling** (11)
+- **Clinical + Ordering Authority** (14)
+- **Counseling + Care Plans** (7)
+- **Science Domains Only** (2)
+- **Basic Advisory Only** (2)
 
 `scope.drug_authority` — states per tag:
 
 - **Education Only** (1)
+- **Counsel, No Alter** (1)
 - **Protocol-Based Adjustments** (0)
-- **Order & Discontinue Supplements** (2)
+- **Supplements + Protocol Adjustments** (2)
 
 `scope.definition_quote` — states per tag:
 
-- **Sciences Integration** (14)
-- **Sciences + Life Cycle** (9)
-- **Sciences + Services List** (8)
-- **MNT Focused** (5)
-- **Counseling / Advisory** (2)
-- **Regulatory / Administrative** (1)
+- **Integration of Sciences Formula** (24)
+- **Enumerated Services List** (7)
+- **Medical Nutrition Therapy Focus** (5)
+- **Counseling & Assessment Only** (2)
+- **Regulatory/Authority Language** (1)
 
 #### Discipline
 
 `licensure.disciplinary_grounds` — grounds per tag:
 
-- **Fraud / Misrepresentation** (69, 34 states)
-- **Criminal Conviction** (43, 33 states)
-- **Incompetence / Negligence** (26, 20 states)
-- **Unprofessional / Unethical Conduct** (46, 30 states)
-- **Substance Abuse / Impairment** (20, 17 states)
-- **Mental / Physical Incapacity** (18, 13 states)
-- **Regulatory Violation** (74, 39 states)
-- **Aiding Unlicensed Practice** (13, 9 states)
-- **Prior Disciplinary Action** (14, 12 states)
+- **Fraud in Obtaining License** (33, 31 states)
+- **Fraud or Deception in Practice** (34, 18 states)
+- **Criminal Conviction** (40, 32 states)
+- **Incompetence or Negligence** (28, 22 states)
+- **Unprofessional or Unethical Conduct** (49, 29 states)
+- **Impairment (Substance or Mental/Physical)** (37, 21 states)
+- **Violation of Law or Board Order** (70, 37 states)
+- **Discipline by Other Jurisdiction** (15, 13 states)
+- **Aiding Unlicensed Practice or Other Misconduct** (14, 10 states)
 
 ### Other bucketed fields
 
@@ -315,80 +319,97 @@ field name varies by profession.
 `licensure.advisory_board.authority` — states per tag:
 
 - **Advisory Only** (3)
-- **Recommends to Board** (4)
-- **Consulted on Licensing & Rules** (2)
-- **Initiates Disciplinary Action** (1)
-- **Proposes Binding Rules** (1)
+- **Recommends on Licensing** (2)
+- **Recommends on Rules & Discipline** (4)
+- **Initiates Discipline** (1)
+- **Proposes Rules (Required)** (1)
 
 #### Advisory board name
 
 `licensure.advisory_board.name` — states per tag:
 
-- **Advisory Committee** (3)
+- **Advisory Committee** (4)
 - **Advisory Board/Group** (2)
 - **Council** (2)
-- **Standalone Board** (2)
+- **Practice Board** (1)
 - **Allied Health Board** (1)
+- **Standalone Board** (1)
 
 #### Alternative credential pathways
 
 `profession_specific.alternative_credential_pathways` — states per tag:
 
-- **CNS / DACBN Credentials** (7)
-- **Professional Society Membership** (2)
-- **Academic Degree Route** (1)
-- **National Registry Accepted** (1)
-- **Single Cert Body** (2)
+- **CNS / DACBN Credentials** (6)
+- **Nutrition Society Membership** (2)
+- **Degree-Based Qualification** (1)
+- **Broad Multi-Pathway** (1)
+- **Departmental Discretion** (1)
+- **Single Org Credential** (2)
 
 #### Disciplinary grounds
 
 `licensure.disciplinary_grounds` — states per tag:
 
-- **Enumerated Specific Grounds** (21)
-- **Broad Unprofessional Conduct** (11)
-- **Statute/Rule Violation Focus** (4)
-- **Cross-Reference Only** (3)
-- **Narrow/Single Ground** (2)
+- **Broad Enumerated Grounds** (13)
+- **Fraud + Unprofessional Conduct** (12)
+- **Fraud + Criminal Conviction** (8)
+- **Violations + Statutory Reference** (3)
+- **Title Protection Only** (2)
+- **General Reference to Other Statute** (3)
 
 #### Education accrediting body
 
 `licensure.education.accrediting_body` — states per tag:
 
-- **ACEND / Dietetics-Specific** (13)
-- **Regional Accreditation (Generic)** (7)
-- **Named Regional Body** (6)
-- **Federal / CHEA Reference** (5)
-- **State / Dept Authority** (2)
+- **ACEND / Dietetics-Specific** (9)
+- **Regional Accreditor (Generic)** (7)
+- **Named Regional Accreditor** (6)
+- **Dual: ACEND + Regional** (3)
+- **Federal DOE / CHEA** (7)
+- **State / Other Body** (2)
+
+#### Exams
+
+`licensure.exams` — states per tag:
+
+- **CDR Exam Only** (10)
+- **CDR or Board-Approved** (11)
+- **Board/State Exam** (9)
+- **Multiple National Exams** (4)
+- **Secretary/Dept Approved** (4)
 
 #### Exempt professions list
 
 `profession_specific.exempt_professions_list` — states per tag:
 
-- **Broad Multi-Category** (23)
-- **Other Licensed Professions** (6)
-- **Narrow / Specific** (3)
-- **Supervised Roles + Students** (0)
-- **Government & Federal Only** (0)
+- **Other Licensed Health Pros** (4)
+- **Federal/Military/Govt Employees** (2)
+- **Students & Trainees** (0)
+- **Food/Supplement Retailers** (0)
+- **Dietetic Technicians & Aides** (0)
+- **Weight Control Programs** (0)
+- **Broad Multi-Category List** (25)
 
 #### License type structure
 
 `profession_specific.license_type_structure` — states per tag:
 
 - **Dietitian Only** (9)
-- **Dietitian + Nutritionist** (13)
+- **Dietitian + Nutritionist** (12)
 - **Dietitian + Provisional** (9)
-- **Multi-Tier + Provisional** (4)
+- **Dietitian + Nutritionist + Provisional** (3)
 - **Certified (not Licensed)** (5)
-- **Technician Tier Included** (2)
+- **Multiple Tiers / Technician** (3)
 
 #### National association
 
 `licensure.national_association` — states per tag:
 
 - **American Dietetic Assoc.** (15)
-- **Academy of Nutrition & Dietetics** (11)
-- **Multiple / Dual Orgs** (2)
-- **Generic / Unspecified** (1)
+- **Academy of Nutrition & Dietetics** (8)
+- **AND + ACEND** (4)
+- **Multiple / Generic** (2)
+- **State-Level Assoc.** (1)
 
 #### National certification
 
@@ -404,30 +425,32 @@ field name varies by profession.
 `profession_specific.protected_titles` — states per tag:
 
 - **Dietitian Only** (15)
-- **Dietitian + Nutritionist** (11)
-- **Dietitian/Nutritionist Hyphenated** (6)
+- **Dietitian + Nutritionist** (13)
+- **Dietitian/Nutritionist Combo** (4)
 - **Certified Titles** (5)
-- **Broad Scope (Many Titles)** (4)
+- **Broad / Many Titles** (4)
 
 #### Reciprocity requirements
 
 `licensure.reciprocity.requirements` — states per tag:
 
-- **Equivalent Standards** (24)
+- **Equivalent Standards** (18)
+- **Equivalent + No Discipline** (5)
 - **CDR Registration Accepted** (8)
-- **Mutual/Agreement Required** (2)
-- **Board Discretion** (2)
-- **Detailed Multi-Factor** (3)
+- **Mutual Reciprocity Required** (2)
+- **Board/Rule Discretion** (5)
+- **Full Endorsement Criteria** (1)
 
 #### Regulatory authority umbrella agency
 
 `licensure.regulatory_authority.umbrella_agency` — states per tag:
 
-- **Health Department** (7)
-- **Professional Licensing Agency** (8)
-- **Consumer Affairs / Commerce** (2)
-- **Education / Regents** (1)
-- **Labor / Other** (2)
+- **Dept of Health** (5)
+- **Professional Licensing Agency** (7)
+- **Dept of Commerce/Labor** (3)
+- **Consumer/Public Safety** (1)
+- **Health & Human Services** (2)
+- **Unique/Education Board** (1)
 
 ## Medicine
 
