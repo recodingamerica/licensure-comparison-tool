@@ -38,7 +38,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from paths import MAP_PREP_DIR, RESULTS_DIR, WEB_PUBLIC_DIR  # noqa: E402
+from paths import MAP_PREP_DIR, RESULTS_DIR, WEB_PUBLIC_DIR, core_professions  # noqa: E402
 
 # The five priority fields, each mapped to the dotted bucketed-field names that
 # carry it. `source` says which bucket file to read:
@@ -254,17 +254,6 @@ def build_for_profession(profession: str) -> dict:
     return {"profession": profession, "fields": fields_out}
 
 
-def discover_professions() -> list[str]:
-    """Every profession with a Pass-3 scalar bucket file, alphabetical."""
-    if not MAP_PREP_DIR.exists():
-        return []
-    return sorted(
-        p.name
-        for p in MAP_PREP_DIR.iterdir()
-        if p.is_dir() and (p / "text_buckets.json").exists()
-    )
-
-
 def build_payload(professions: list[str]) -> dict:
     return {
         "generated_at": dt.datetime.now(dt.UTC).isoformat(timespec="seconds"),
@@ -339,7 +328,7 @@ def main() -> None:
     )
     args = ap.parse_args()
 
-    professions = args.professions or discover_professions()
+    professions = args.professions or core_professions()
     if not professions:
         raise SystemExit(
             "no professions with map_prep/<prof>/text_buckets.json — run "
