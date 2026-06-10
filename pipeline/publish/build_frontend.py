@@ -749,6 +749,7 @@ def main() -> None:
     data_dir = Path(__file__).resolve().parent / "web" / "public" / "data"
     browse_dir = data_dir / profession / "browse"
     browse_dir.mkdir(parents=True, exist_ok=True)
+    browse_total = browse_cached = 0
     for row in payload["rows"]:
         bs = row.pop("browse_sections", None)
         bg = row.pop("browse_groups", None)
@@ -763,8 +764,11 @@ def main() -> None:
         }
         section_body = json.dumps(section_payload, indent=2)
         (browse_dir / f"{st}.json").write_text(section_body)
-        upload_json(f"data/{profession}/browse/{st}.json", section_body)
-    print(f"uploaded {len(payload['rows'])} per-state browse files")
+        _, _skipped = upload_json(f"data/{profession}/browse/{st}.json", section_body)
+        browse_cached += int(_skipped)
+        browse_total += 1
+    print(f"synced {browse_total} per-state browse files "
+          f"({browse_total - browse_cached} uploaded, {browse_cached} cached/unchanged)")
 
     body = json.dumps(payload, indent=2)
     # Mirror to public/data/ so downstream tooling (state_similarity, review CSV)
@@ -772,8 +776,8 @@ def main() -> None:
     local_path = data_dir / f"{profession}.json"
     local_path.write_text(body)
     print(f"wrote {local_path}")
-    url = upload_json(f"data/{profession}.json", body)
-    print(f"uploaded data/{profession}.json → {url}")
+    url, skipped = upload_json(f"data/{profession}.json", body)
+    print(f"{'cached' if skipped else 'uploaded'} data/{profession}.json → {url}")
     summary = {
         "covered": sum(1 for r in payload["rows"] if not r["coverage_gap"]),
         "gaps":    sum(1 for r in payload["rows"] if r["coverage_gap"]),

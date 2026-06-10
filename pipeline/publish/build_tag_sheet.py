@@ -350,8 +350,8 @@ def main() -> None:
     if args.upload:
         from publish.blob_upload import upload_json
 
-        url = upload_json("data/tag_sheet.json", payload_json)
-        print(f"uploaded → {url}")
+        url, skipped = upload_json("data/tag_sheet.json", payload_json)
+        print(f"{'cached' if skipped else 'uploaded'} → {url}")
 
 
 if __name__ == "__main__":

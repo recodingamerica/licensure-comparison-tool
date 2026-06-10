@@ -272,9 +272,10 @@ def write_and_upload(state: str, payload: dict, *, upload: bool = True) -> None:
     body = json.dumps(payload, indent=2)
     out_path.write_text(body)
     if upload:
-        url = upload_json(f"data/state/{state}.json", body)
-        log.info("[%s] uploaded %d sections (%d bytes) → %s",
-                 state, len(payload["sections"]), len(body), url)
+        url, skipped = upload_json(f"data/state/{state}.json", body)
+        log.info("[%s] %s %d sections (%d bytes) → %s",
+                 state, "cached" if skipped else "uploaded",
+                 len(payload["sections"]), len(body), url)
     else:
         log.info("[%s] wrote %d sections (%d bytes, local only)",
                  state, len(payload["sections"]), len(body))
@@ -288,8 +289,9 @@ def write_states_index(entries: list[dict], *, upload: bool = True) -> None:
     body = json.dumps(entries, indent=2)
     (out_dir / "states.json").write_text(body)
     if upload:
-        url = upload_json("states.json", body)
-        log.info("wrote states.json with %d entries → %s", len(entries), url)
+        url, skipped = upload_json("states.json", body)
+        log.info("states.json (%d entries) %s → %s",
+                 len(entries), "cached" if skipped else "uploaded", url)
     else:
         log.info("wrote states.json with %d entries (local only)", len(entries))
 

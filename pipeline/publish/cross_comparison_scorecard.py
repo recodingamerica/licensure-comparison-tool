@@ -211,8 +211,8 @@ def main() -> None:
 
     if args.upload:
         from publish.blob_upload import upload_json
-        url = upload_json("data/scorecard.json", payload_json)
-        print(f"uploaded → {url}")
+        url, skipped = upload_json("data/scorecard.json", payload_json)
+        print(f"{'cached' if skipped else 'uploaded'} → {url}")
 
     # 2. Markdown mirror at the original location — handy as a repo-tracked
     # snapshot. Same shape as before, just rebuilt from the structured form.

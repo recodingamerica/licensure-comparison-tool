@@ -52,11 +52,12 @@ def _force_upload() -> bool:
     return os.environ.get("BLOB_FORCE_UPLOAD", "").lower() in ("1", "true", "yes")
 
 
-def upload_json(pathname: str, body: str) -> str:
-    """Upload a JSON string to Blob at the given pathname; return the public URL.
+def upload_json(pathname: str, body: str) -> tuple[str, bool]:
+    """Upload a JSON string to Blob at the given pathname.
 
-    Skips the network call when `body` is byte-identical to the last upload for
-    this pathname (unless BLOB_FORCE_UPLOAD is set)."""
+    Returns (public_url, skipped). `skipped` is True when `body` is
+    byte-identical to the last upload for this pathname and the network call was
+    avoided (unless BLOB_FORCE_UPLOAD is set) — so callers can log honestly."""
     if not ENV_FILE.exists():
         raise RuntimeError(
             f"{ENV_FILE} missing — run `cd pipeline/publish/web && vercel env pull .env.local` first"
@@ -66,7 +67,7 @@ def upload_json(pathname: str, body: str) -> str:
     man = _manifest()
     prev = man.get(pathname)
     if not _force_upload() and prev and prev.get("hash") == digest and prev.get("url"):
-        return prev["url"]  # unchanged — skip the node spawn + network round-trip
+        return prev["url"], True  # unchanged — skipped the node spawn + network
 
     proc = subprocess.run(
         ["node", f"--env-file={ENV_FILE}", str(UPLOAD_SCRIPT), pathname],
@@ -82,4 +83,4 @@ def upload_json(pathname: str, body: str) -> str:
     url = proc.stdout.strip()
     man[pathname] = {"hash": digest, "url": url}
     _MANIFEST_PATH.write_text(json.dumps(man, indent=2))
-    return url
+    return url, False
