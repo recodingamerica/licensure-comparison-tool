@@ -78,6 +78,12 @@ def main() -> None:
     if not all_profs:
         sys.exit("no core professions found in structured/")
 
+    # --force also forces the content-hash upload skip in blob_upload to
+    # re-upload everything (subprocesses inherit this env).
+    if args.force:
+        import os
+        os.environ["BLOB_FORCE_UPLOAD"] = "1"
+
     manifest: dict[str, str] = {}
     if MANIFEST.exists() and not args.force:
         try:
