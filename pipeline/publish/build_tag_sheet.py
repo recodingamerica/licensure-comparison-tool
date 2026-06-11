@@ -38,7 +38,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from paths import MAP_PREP_DIR, RESULTS_DIR, WEB_PUBLIC_DIR  # noqa: E402
+from paths import MAP_PREP_DIR, RESULTS_DIR, WEB_PUBLIC_DIR, core_professions  # noqa: E402
 
 # The five priority fields, each mapped to the dotted bucketed-field names that
 # carry it. `source` says which bucket file to read:
@@ -117,9 +117,11 @@ def _load_buckets(profession: str) -> tuple[dict, dict]:
 
 def _scalar_subfield(entry: dict) -> dict:
     """Reshape a scalar text_buckets entry: tag -> state count, plus the raw
-    state->tag assignments (so the web side can show a per-state table)."""
+    state->tag assignments WITH the original value text (`text`) so the web
+    side can show, per tag, which states fall under it and what they actually
+    say."""
     assignments = [
-        {"state": a["state"], "bucket": a["bucket"]}
+        {"state": a["state"], "bucket": a["bucket"], "text": a.get("raw_value", "")}
         for a in entry.get("assignments", [])
         if a.get("bucket")
     ]
@@ -147,12 +149,17 @@ def _per_item_subfield(entry: dict) -> dict:
     left empty and the web side renders the tag frequencies."""
     item_counts: dict[str, int] = {}
     state_sets: dict[str, set] = {}
+    assignments = []
     for a in entry.get("assignments", []):
         b = a.get("bucket")
         if not b:
             continue
         item_counts[b] = item_counts.get(b, 0) + 1
         state_sets.setdefault(b, set()).add(a["state"])
+        # `text` = the per-item label so hover can show each ground under a tag.
+        assignments.append(
+            {"state": a["state"], "bucket": b, "text": a.get("item_label", "")}
+        )
     tags = [
         {
             "label": b,
@@ -164,10 +171,12 @@ def _per_item_subfield(entry: dict) -> dict:
     return {
         "field_name": entry["field_name"],
         "kind": "per_item",
-        "unit": "grounds",
+        # Generic noun — this path now covers any list field (laser procedures,
+        # injections, license tiers, …), not just disciplinary grounds.
+        "unit": "items",
         "rationale": entry.get("rationale", ""),
         "tags": tags,
-        "assignments": [],
+        "assignments": assignments,
     }
 
 
@@ -227,13 +236,18 @@ def build_for_profession(profession: str) -> dict:
         )
 
     # 2. Everything else that got bucketed, alphabetical by readable label.
+    # A list[str] field that is also not_mappable gets bucketed BOTH ways
+    # (scalar: whole list → one tag; per-item: each element tagged). Per-item
+    # is strictly richer, so when a field appears in both, keep only per-item.
     others: list[tuple[str, str, dict]] = []
-    for name, entry in scalar.items():
-        if ("scalar", name) not in used and not _is_evidence_internal(name):
-            others.append((_humanize(name), name, _scalar_subfield(entry)))
     for name, entry in per_item.items():
         if ("per_item", name) not in used and not _is_evidence_internal(name):
             others.append((_humanize(name), name, _per_item_subfield(entry)))
+    for name, entry in scalar.items():
+        if name in per_item:
+            continue  # per-item version already added above
+        if ("scalar", name) not in used and not _is_evidence_internal(name):
+            others.append((_humanize(name), name, _scalar_subfield(entry)))
     for label, _name, subfield in sorted(others, key=lambda x: x[0].lower()):
         fields_out.append(
             {
@@ -245,17 +259,6 @@ def build_for_profession(profession: str) -> dict:
         )
 
     return {"profession": profession, "fields": fields_out}
-
-
-def discover_professions() -> list[str]:
-    """Every profession with a Pass-3 scalar bucket file, alphabetical."""
-    if not MAP_PREP_DIR.exists():
-        return []
-    return sorted(
-        p.name
-        for p in MAP_PREP_DIR.iterdir()
-        if p.is_dir() and (p / "text_buckets.json").exists()
-    )
 
 
 def build_payload(professions: list[str]) -> dict:
@@ -332,7 +335,7 @@ def main() -> None:
     )
     args = ap.parse_args()
 
-    professions = args.professions or discover_professions()
+    professions = args.professions or core_professions()
     if not professions:
         raise SystemExit(
             "no professions with map_prep/<prof>/text_buckets.json — run "
@@ -354,8 +357,8 @@ def main() -> None:
     if args.upload:
         from publish.blob_upload import upload_json
 
-        url = upload_json("data/tag_sheet.json", payload_json)
-        print(f"uploaded → {url}")
+        url, skipped = upload_json("data/tag_sheet.json", payload_json)
+        print(f"{'cached' if skipped else 'uploaded'} → {url}")
 
 
 if __name__ == "__main__":

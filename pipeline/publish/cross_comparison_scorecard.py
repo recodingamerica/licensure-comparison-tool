@@ -27,7 +27,7 @@ from typing import Any, Callable
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from extract.standard_model import is_evidence_node  # noqa: E402
-from paths import RESULTS_DIR, STRUCTURED_DIR, WEB_PUBLIC_DIR  # noqa: E402
+from paths import RESULTS_DIR, STRUCTURED_DIR, WEB_PUBLIC_DIR, core_professions  # noqa: E402
 
 
 # Atharv's "Universal Category" list from the cross-comparison PDF, mapped to
@@ -140,9 +140,7 @@ UNIVERSAL_FIELDS: list[tuple[str, Accessor]] = [
     ("Authorized Settings",               lambda r: _any_prof_specific(r, ["setting", "facility", "premises"])),
 ]
 
-PROFESSIONS = [
-    "podiatry", "nursing", "medicine", "dentistry", "optometry", "public_accountancy",
-]
+PROFESSIONS = core_professions()
 
 
 def fill_rate(profession: str, accessor: Accessor) -> tuple[int, int]:
@@ -213,8 +211,8 @@ def main() -> None:
 
     if args.upload:
         from publish.blob_upload import upload_json
-        url = upload_json("data/scorecard.json", payload_json)
-        print(f"uploaded → {url}")
+        url, skipped = upload_json("data/scorecard.json", payload_json)
+        print(f"{'cached' if skipped else 'uploaded'} → {url}")
 
     # 2. Markdown mirror at the original location — handy as a repo-tracked
     # snapshot. Same shape as before, just rebuilt from the structured form.

@@ -124,8 +124,32 @@ extract_state:
     `regulatory_model` into orthogonal axes that downstream analysis filters on):
 
       regulatory_model (legacy 6-rung UORF enum):
-        Pick the rung that best fits — license / mandatory_certification /
-        voluntary_certification / registration / exemption / market_forces.
+        Pick the rung using Utah OPLR's framework definitions, anchored on what
+        the credential PROTECTS — NOT merely on whether it is required:
+          - market_forces: no state credential exists.
+          - voluntary_certification: only the TITLE is protected — anyone may
+            legally perform the WORK ("right-to-title"). Use this rung for
+            title-protection schemes EVEN IF using the title without the
+            credential is prohibited. What makes it "voluntary" in Utah's
+            framework is that the scope/work is open to all (scope_protection
+            = false), not whether the title is mandated.
+          - registration: practitioner must register on a roster; no
+            qualification test (or only a minimal check). Least restrictive.
+          - exemption: a narrow scope carve-out / subset of acts from a broader
+            practice act (a "mini-license").
+          - mandatory_certification: the credential protects the SCOPE of
+            practice (you must hold it to perform the work) PLUS title, with
+            required qualifications — but lighter than licensure (longer
+            renewals, limited/no CE, no advisory board). REQUIRES
+            scope_protection = true.
+          - license: strongest — protected scope + title + the full elements
+            (mandatory entry qualifications, CE, frequent renewals, full
+            discipline, advisory board).
+        DECISIVE TEST: if scope_protection is false and only the title is
+        protected, the rung is voluntary_certification, NOT
+        mandatory_certification — regardless of whether holding the credential
+        is mandatory to use the title. mandatory_certification and license both
+        require scope_protection = true.
 
       credential_type (Enum: license / certification / registration / exemption / none):
         What SHAPE of credential the state issues, ignoring whether it's mandatory.

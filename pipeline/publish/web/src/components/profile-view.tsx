@@ -160,6 +160,56 @@ function CompactsCell({ value }: ICellRendererParams<Row, string[]>) {
   );
 }
 
+// First word of a bucket label, for a dense chip. Generalizes across
+// professions' LLM-generated bucket names (no hand-curated abbreviation map);
+// the full label + count shows on hover and in the tag-sheet panel.
+function shortCategory(label: string): string {
+  return label.split(/\s*&\s*|\s+/)[0] || label;
+}
+
+// Resolve a row's per-state category tags for a given per-item field. The
+// disciplinary field has its own top-level key; every other list field lives
+// under list_field_categories keyed by dotted field name.
+function categoriesFor(
+  data: Row | undefined,
+  key: string,
+): { label: string; count: number }[] {
+  if (!data) return [];
+  if (key === "licensure.disciplinary_grounds")
+    return data.disciplinary_categories ?? [];
+  return data.list_field_categories?.[key] ?? [];
+}
+
+// Per-state content-tag chips ("Fraud 2", "Capsulotomy (YAG) 1", …) so the
+// table surfaces WHICH items a state has, not just how many or a raw blob.
+// The backing field is passed via cellRendererParams.categoriesKey; the
+// column's valueGetter exposes the labels as an array for the multicheck
+// filter. Generic across disciplinary grounds and every discovered list field.
+function CategoryChipsCell(
+  p: ICellRendererParams<Row, string[]> & {
+    categoriesKey?: string;
+  },
+) {
+  const cats = categoriesFor(p.data, p.categoriesKey ?? "");
+  if (cats.length === 0)
+    return <span className="text-muted-foreground">—</span>;
+  return (
+    <div className="flex flex-wrap gap-1 leading-tight">
+      {cats.map((c) => (
+        <Badge
+          key={c.label}
+          variant="secondary"
+          className="bg-rose-100 text-rose-900 hover:bg-rose-100 font-normal text-[10px] px-1.5 py-0"
+          title={`${c.label} — ${c.count}`}
+        >
+          {shortCategory(c.label)}
+          <span className="ml-1 font-mono opacity-70">{c.count}</span>
+        </Badge>
+      ))}
+    </div>
+  );
+}
+
 function RegulatoryModelCell({ data, value }: ICellRendererParams<Row, string | null>) {
   if (data?.coverage_gap) {
     return (
@@ -1162,6 +1212,20 @@ function buildColumnDefs(
     wrapText: true,
   },
   {
+    colId: "disciplinary_categories",
+    headerName: "Disciplinary categories",
+    // Array of bucket labels so the multicheck filter can match a state that
+    // has, e.g., "False Advertising". The cell renderer shows label + count.
+    valueGetter: (p) =>
+      (p.data?.disciplinary_categories ?? []).map((c) => c.label),
+    valueFormatter: (p) => (Array.isArray(p.value) ? p.value.join(", ") : ""),
+    cellRenderer: CategoryChipsCell,
+    cellRendererParams: { categoriesKey: "licensure.disciplinary_grounds" },
+    filter: MulticheckFilter,
+    width: 300,
+    wrapText: true,
+  },
+  {
     colId: "disciplinary_grounds_count",
     headerName: "Disciplinary grounds (#)",
     valueGetter: (p) => p.data?.disciplinary_grounds_count,
@@ -1219,11 +1283,41 @@ function buildColumnDefs(
   },
   ];
 
+  // Discovered list fields that the per-item bucketing pass tagged (laser
+  // procedures, injections, license tiers, …). For these we chip-render the
+  // content categories instead of the raw joined string.
+  const bucketedListFields = new Set<string>();
+  for (const r of rows) {
+    if (r.list_field_categories) {
+      for (const k of Object.keys(r.list_field_categories)) bucketedListFields.add(k);
+    }
+  }
+
   // ── Dynamic profession-specific columns (varies per profession) ──
   // discoveredFields lists every per-profession discovered field. We pull
   // .value out of each row's profession_specific[field.name] Evidence wrapper.
   // All default-hidden so they don't clutter the initial view.
   for (const f of discoveredFields) {
+    const dotted = `profession_specific.${f.name}`;
+    // A list field with content buckets → render category chips + multicheck
+    // filter, the same treatment disciplinary grounds gets.
+    if (bucketedListFields.has(dotted)) {
+      cols.push({
+        colId: `ps_${f.name}`,
+        headerName: humanize(f.name),
+        headerTooltip: f.description,
+        valueGetter: (p) =>
+          (p.data?.list_field_categories?.[dotted] ?? []).map((c) => c.label),
+        valueFormatter: (p) => (Array.isArray(p.value) ? p.value.join(", ") : ""),
+        cellRenderer: CategoryChipsCell,
+        cellRendererParams: { categoriesKey: dotted },
+        filter: MulticheckFilter,
+        width: 240,
+        initialHide: true,
+        wrapText: true,
+      });
+      continue;
+    }
     cols.push({
       colId: `ps_${f.name}`,
       headerName: humanize(f.name),
@@ -1382,6 +1476,10 @@ export function ProfileView({
       )
   );
 
+  // Which #19 view preset is active (null = custom / default). Cleared the
+  // moment the user hand-toggles a column, since the set no longer matches.
+  const [activePreset, setActivePreset] = useState<string | null>(null);
+
   // Profession slug for browse URLs. payload.profession is canonical
   // (e.g. "podiatry"); ensure it survives even if the URL was navigated
   // to with a casing variation.
@@ -1486,6 +1584,7 @@ export function ProfileView({
   // at the far right is off-screen and the user can mistake "toggled on"
   // for "didn't work" (issue #11 / Atharv's "doesn't show up when toggled").
   const toggleColumnVisible = (id: string, visible: boolean) => {
+    setActivePreset(null); // hand-edit → no longer matches a preset
     setVisibleColumns((prev) => {
       const next = new Set(prev);
       if (visible) next.add(id);
@@ -1499,6 +1598,73 @@ export function ProfileView({
       // ask it to scroll — without the delay, ensureColumnVisible can no-op
       // because the column's position isn't computed yet.
       requestAnimationFrame(() => api.ensureColumnVisible(id, "middle"));
+    }
+  };
+
+  // ── View presets (#19): one-click column sets so users can focus on a
+  // dimension instead of the full ~70-column table. "Scope" pulls in the new
+  // per-item tag columns (laser, injections, …); "Discipline" the disciplinary
+  // tags; "Priority" the five headline fields. "All columns" restores the
+  // default set. Each replaces the visible set entirely (a focused view).
+  const scopeTagColIds = useMemo(() => {
+    const ids = new Set<string>();
+    for (const r of rows) {
+      if (!r.list_field_categories) continue;
+      for (const k of Object.keys(r.list_field_categories))
+        ids.add("ps_" + k.replace("profession_specific.", ""));
+    }
+    return [...ids];
+  }, [rows]);
+
+  const viewPresets = useMemo(
+    () => [
+      {
+        key: "priority",
+        label: "Priority",
+        ids: [
+          "education_degree",
+          "post_degree_duration",
+          "issuing_authority",
+          "scope_definition",
+          "disciplinary_categories",
+        ],
+      },
+      {
+        key: "scope",
+        label: "Scope",
+        ids: [
+          "scope_definition",
+          "scope_methods",
+          "scope_drug_authority",
+          ...scopeTagColIds,
+        ],
+      },
+      {
+        key: "discipline",
+        label: "Discipline",
+        ids: ["disciplinary_categories", "disciplinary_grounds_count"],
+      },
+      {
+        key: "full",
+        label: "All columns",
+        ids: columnDefs
+          .filter((c) => !c.lockVisible && !(c as { initialHide?: boolean }).initialHide)
+          .map(colId),
+      },
+    ],
+    [scopeTagColIds, columnDefs]
+  );
+
+  const applyPreset = (key: string) => {
+    const preset = viewPresets.find((p) => p.key === key);
+    if (!preset) return;
+    const show = new Set(preset.ids.filter((id) => allToggleableIds.includes(id)));
+    setVisibleColumns(show);
+    setActivePreset(key);
+    if (api) {
+      api.applyColumnState({
+        state: allToggleableIds.map((id) => ({ colId: id, hide: !show.has(id) })),
+      });
     }
   };
 
@@ -1598,10 +1764,31 @@ export function ProfileView({
       {view === "table" && (
         <>
           <div className="flex flex-wrap gap-3 items-center mb-4">
+            {/* #19 view presets: focus the table on one dimension. */}
+            <div className="inline-flex items-center gap-1 rounded-md border bg-muted/40 p-0.5 text-xs">
+              <span className="px-2 font-mono uppercase tracking-wider text-muted-foreground">
+                view
+              </span>
+              {viewPresets.map((p) => (
+                <button
+                  key={p.key}
+                  onClick={() => applyPreset(p.key)}
+                  className={
+                    "px-2.5 py-1 rounded " +
+                    (activePreset === p.key
+                      ? "bg-background shadow-sm text-foreground"
+                      : "text-muted-foreground hover:text-foreground")
+                  }
+                >
+                  {p.label}
+                </button>
+              ))}
+            </div>
+
             <span className="text-xs font-mono text-muted-foreground">
               Filter per column by clicking its header (
-              <span className="text-foreground">≡</span> icon). Toggle which
-              columns are visible from the dropdown on the right.
+              <span className="text-foreground">≡</span> icon). Or pick a view
+              above; toggle individual columns at right.
             </span>
 
             <ColumnVisibilityPopover

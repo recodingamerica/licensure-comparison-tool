@@ -26,3 +26,31 @@ DISCOVERED_DIR       = RESULTS_DIR / "discovered"          # pass 1b aggregator 
 STRUCTURED_DIR       = RESULTS_DIR / "structured"          # pass 2 per-state extraction
 MAP_PREP_DIR         = RESULTS_DIR / "map_prep"            # pass 3 normalization + text-bucket tags
 WEB_PUBLIC_DIR       = PIPELINE_ROOT / "publish" / "web" / "public"  # Next.js viewer's public/
+
+
+# Minimum extracted states for a profession to count as "fully wired" (vs. the
+# UT-only scaffolding the OPLR held-out test leaves behind, 1 state each).
+MIN_STATES_FOR_CORE = 10
+
+
+def core_professions(min_states: int = MIN_STATES_FOR_CORE) -> list[str]:
+    """The fully-wired professions — those with at least `min_states` extracted
+    states under `structured/` — alphabetical.
+
+    Single source of truth for "which professions are real," so publish stages
+    (scorecard, tag sheet, refresh_all, …) agree and don't each reinvent the
+    filter. Excludes partial scaffolding (e.g. a 1-state held-out test run).
+    """
+    if not STRUCTURED_DIR.exists():
+        return []
+    out: list[str] = []
+    for d in sorted(STRUCTURED_DIR.iterdir()):
+        if not d.is_dir():
+            continue
+        n = sum(
+            1 for f in d.iterdir()
+            if f.suffix == ".json" and not f.name.startswith("_")
+        )
+        if n >= min_states:
+            out.append(d.name)
+    return out
