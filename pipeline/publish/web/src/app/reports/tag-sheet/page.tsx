@@ -2,6 +2,14 @@
 
 import Link from "next/link";
 import { useEffect, useState, type ReactNode } from "react";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet";
+import { Button } from "@/components/ui/button";
 
 // Shape of `public/data/tag_sheet.json` — produced by
 // `python -m pipeline.publish.build_tag_sheet`.
@@ -29,6 +37,10 @@ type Payload = {
   data: ProfData[];
 };
 
+// What the pinned breakdown panel renders: the whole field, with the tag the
+// user clicked highlighted/scrolled into view.
+type PanelTarget = { profession: string; field: Field; tagLabel: string | null };
+
 function profLabel(key: string): string {
   return key
     .split("_")
@@ -36,10 +48,17 @@ function profLabel(key: string): string {
     .join(" ");
 }
 
+function tagSummary(tag: Tag, kind: "scalar" | "per_item"): string {
+  return kind === "per_item" && tag.states !== undefined
+    ? `${tag.count} items across ${tag.states} states`
+    : `${tag.count} states`;
+}
+
 export default function TagSheetPage() {
   const [data, setData] = useState<Payload | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [selected, setSelected] = useState<string>("");
+  const [panel, setPanel] = useState<PanelTarget | null>(null);
 
   useEffect(() => {
     fetch("/data/tag_sheet.json")
@@ -61,6 +80,12 @@ export default function TagSheetPage() {
 
   const prof = data?.data.find((p) => p.profession === selected) ?? null;
 
+  // Switching profession closes a stale panel (its field belongs to the old one).
+  const onSelectProf = (key: string) => {
+    setSelected(key);
+    setPanel(null);
+  };
+
   return (
     <main className="mx-auto max-w-4xl px-6 py-10">
       <Link
@@ -81,7 +106,10 @@ export default function TagSheetPage() {
         derived by clustering the actual state values for each field into a
         handful of buckets (no per-row hand-curation). Counts are states per tag
         — or disciplinary grounds per tag, for Discipline. Scope wording is
-        profession-specific, so the underlying field name varies.
+        profession-specific, so the underlying field name varies.{" "}
+        <span className="text-foreground">
+          Click any tag to pin its full breakdown in a side panel.
+        </span>
       </p>
 
       {error && (
@@ -106,7 +134,7 @@ export default function TagSheetPage() {
             <select
               id="prof"
               value={selected}
-              onChange={(e) => setSelected(e.target.value)}
+              onChange={(e) => onSelectProf(e.target.value)}
               className="rounded border bg-background px-3 py-1.5 text-sm"
             >
               {data.professions.map((p) => (
@@ -126,7 +154,13 @@ export default function TagSheetPage() {
               {prof.fields
                 .filter((f) => f.priority)
                 .map((field) => (
-                  <FieldBlock key={field.label} field={field} />
+                  <FieldBlock
+                    key={field.label}
+                    field={field}
+                    onOpenTag={(tagLabel) =>
+                      setPanel({ profession: selected, field, tagLabel })
+                    }
+                  />
                 ))}
 
               {prof.fields.some((f) => !f.priority) && (
@@ -139,7 +173,13 @@ export default function TagSheetPage() {
                   {prof.fields
                     .filter((f) => !f.priority)
                     .map((field) => (
-                      <FieldBlock key={field.label} field={field} />
+                      <FieldBlock
+                        key={field.label}
+                        field={field}
+                        onOpenTag={(tagLabel) =>
+                          setPanel({ profession: selected, field, tagLabel })
+                        }
+                      />
                     ))}
                 </>
               )}
@@ -147,6 +187,8 @@ export default function TagSheetPage() {
           )}
         </>
       )}
+
+      <BreakdownPanel target={panel} onClose={() => setPanel(null)} />
     </main>
   );
 }
@@ -159,7 +201,13 @@ function SectionHeading({ children }: { children: ReactNode }) {
   );
 }
 
-function FieldBlock({ field }: { field: Field }) {
+function FieldBlock({
+  field,
+  onOpenTag,
+}: {
+  field: Field;
+  onOpenTag: (tagLabel: string) => void;
+}) {
   return (
     <section className="mb-8">
       <h3 className="text-base font-medium mb-1">{field.label}</h3>
@@ -168,80 +216,169 @@ function FieldBlock({ field }: { field: Field }) {
           No bucketed tags for this field (data too sparse or not yet run).
         </p>
       )}
-      {field.subfields.map((sf) => {
-        // Group the assignments by bucket so each tag can list its members
-        // (states + the original text) on hover.
-        const byBucket = new Map<string, Assignment[]>();
-        for (const a of sf.assignments) {
-          const arr = byBucket.get(a.bucket);
-          if (arr) arr.push(a);
-          else byBucket.set(a.bucket, [a]);
-        }
-        return (
-          <div key={sf.field_name} className="mb-4">
-            <p className="text-xs font-mono text-muted-foreground mb-2">
-              {sf.field_name} · {sf.unit} per tag ·{" "}
-              <span className="text-muted-foreground/70">hover a tag for details</span>
-            </p>
-            <div className="flex flex-wrap gap-2">
-              {sf.tags.map((t) => (
-                <TagChip
-                  key={t.label}
-                  tag={t}
-                  kind={sf.kind}
-                  members={byBucket.get(t.label) ?? []}
-                />
-              ))}
-            </div>
-            {sf.rationale && (
-              <p className="text-xs text-muted-foreground mt-2 max-w-3xl">
-                {sf.rationale}
-              </p>
-            )}
+      {field.subfields.map((sf) => (
+        <div key={sf.field_name} className="mb-4">
+          <p className="text-xs font-mono text-muted-foreground mb-2">
+            {sf.field_name} · {sf.unit} per tag ·{" "}
+            <span className="text-muted-foreground/70">
+              click a tag to pin its breakdown
+            </span>
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {sf.tags.map((t) => (
+              <button
+                key={t.label}
+                type="button"
+                onClick={() => onOpenTag(t.label)}
+                className="inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-sm cursor-pointer hover:border-foreground/40 hover:bg-muted/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              >
+                {t.label}
+                <span className="font-mono text-xs text-muted-foreground">
+                  {t.count}
+                </span>
+              </button>
+            ))}
           </div>
-        );
-      })}
+          {sf.rationale && (
+            <p className="text-xs text-muted-foreground mt-2 max-w-3xl">
+              {sf.rationale}
+            </p>
+          )}
+        </div>
+      ))}
     </section>
   );
 }
 
-function TagChip({
-  tag,
-  kind,
-  members,
+// Builds a plain-text dump of the whole field's breakdown for copy-paste.
+function breakdownText(target: PanelTarget): string {
+  const lines: string[] = [
+    `${target.field.label} — ${profLabel(target.profession)}`,
+  ];
+  for (const sf of target.field.subfields) {
+    lines.push("", sf.field_name);
+    const byBucket = groupByBucket(sf);
+    for (const tag of sf.tags) {
+      lines.push(`  ${tag.label} (${tagSummary(tag, sf.kind)})`);
+      for (const m of byBucket.get(tag.label) ?? []) {
+        lines.push(`    ${m.state}  ${m.text}`);
+      }
+    }
+  }
+  return lines.join("\n");
+}
+
+function groupByBucket(sf: SubField): Map<string, Assignment[]> {
+  const byBucket = new Map<string, Assignment[]>();
+  for (const a of sf.assignments) {
+    const arr = byBucket.get(a.bucket);
+    if (arr) arr.push(a);
+    else byBucket.set(a.bucket, [a]);
+  }
+  return byBucket;
+}
+
+function BreakdownPanel({
+  target,
+  onClose,
 }: {
-  tag: Tag;
-  kind: "scalar" | "per_item";
-  members: Assignment[];
+  target: PanelTarget | null;
+  onClose: () => void;
 }) {
-  const summary =
-    kind === "per_item" && tag.states !== undefined
-      ? `${tag.count} grounds across ${tag.states} states`
-      : `${tag.count} states`;
+  const [copied, setCopied] = useState(false);
+
+  // Reset the "Copied" affordance whenever the panel target changes.
+  useEffect(() => {
+    setCopied(false);
+  }, [target]);
+
+  const copy = () => {
+    if (!target) return;
+    navigator.clipboard
+      .writeText(breakdownText(target))
+      .then(() => setCopied(true))
+      .catch(() => setCopied(false));
+  };
+
   return (
-    <span className="relative group inline-flex">
-      <span className="inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-sm cursor-default group-hover:border-foreground/40 group-hover:bg-muted/40">
-        {tag.label}
-        <span className="font-mono text-xs text-muted-foreground">
-          {tag.count}
-        </span>
-      </span>
-      {members.length > 0 && (
-        <div className="invisible group-hover:visible absolute z-50 left-0 top-full mt-1 w-96 max-h-72 overflow-auto rounded-lg border bg-popover text-popover-foreground shadow-lg p-3">
-          <p className="text-xs font-medium mb-2">
-            {tag.label}{" "}
-            <span className="font-normal text-muted-foreground">— {summary}</span>
-          </p>
-          <ul className="space-y-1.5">
-            {members.map((m, i) => (
-              <li key={`${m.state}-${i}`} className="text-xs leading-snug">
-                <span className="font-mono font-semibold mr-1.5">{m.state}</span>
-                <span className="text-muted-foreground">{m.text}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-    </span>
+    <Sheet open={!!target} onOpenChange={(open) => !open && onClose()}>
+      <SheetContent
+        side="right"
+        className="w-full sm:max-w-md lg:max-w-xl flex flex-col p-0"
+      >
+        {target && (
+          <>
+            <SheetHeader className="border-b px-6 py-4 flex-shrink-0 bg-background">
+              <SheetTitle className="text-lg">{target.field.label}</SheetTitle>
+              <SheetDescription>
+                {profLabel(target.profession)} — full per-state breakdown
+              </SheetDescription>
+              <div className="mt-2">
+                <Button variant="outline" size="sm" onClick={copy}>
+                  {copied ? "Copied ✓" : "Copy all"}
+                </Button>
+              </div>
+            </SheetHeader>
+
+            <div className="flex-1 overflow-auto px-6 py-4 space-y-6">
+              {target.field.subfields.map((sf) => {
+                const byBucket = groupByBucket(sf);
+                return (
+                  <div key={sf.field_name}>
+                    <p className="text-xs font-mono text-muted-foreground mb-3">
+                      {sf.field_name} · {sf.unit} per tag
+                    </p>
+                    <div className="space-y-4">
+                      {sf.tags.map((tag) => {
+                        const members = byBucket.get(tag.label) ?? [];
+                        const isFocus = tag.label === target.tagLabel;
+                        return (
+                          <div
+                            key={tag.label}
+                            className={
+                              isFocus
+                                ? "rounded-md border border-foreground/30 bg-muted/40 p-3"
+                                : "rounded-md border p-3"
+                            }
+                          >
+                            <p className="text-sm font-medium mb-2">
+                              {tag.label}{" "}
+                              <span className="font-normal text-muted-foreground">
+                                — {tagSummary(tag, sf.kind)}
+                              </span>
+                            </p>
+                            {members.length > 0 ? (
+                              <ul className="space-y-1.5">
+                                {members.map((m, i) => (
+                                  <li
+                                    key={`${m.state}-${i}`}
+                                    className="text-xs leading-snug"
+                                  >
+                                    <span className="font-mono font-semibold mr-1.5">
+                                      {m.state}
+                                    </span>
+                                    <span className="text-muted-foreground">
+                                      {m.text}
+                                    </span>
+                                  </li>
+                                ))}
+                              </ul>
+                            ) : (
+                              <p className="text-xs text-muted-foreground">
+                                No member detail recorded.
+                              </p>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </>
+        )}
+      </SheetContent>
+    </Sheet>
   );
 }

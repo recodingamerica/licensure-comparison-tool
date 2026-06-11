@@ -160,6 +160,56 @@ function CompactsCell({ value }: ICellRendererParams<Row, string[]>) {
   );
 }
 
+// First word of a bucket label, for a dense chip. Generalizes across
+// professions' LLM-generated bucket names (no hand-curated abbreviation map);
+// the full label + count shows on hover and in the tag-sheet panel.
+function shortCategory(label: string): string {
+  return label.split(/\s*&\s*|\s+/)[0] || label;
+}
+
+// Resolve a row's per-state category tags for a given per-item field. The
+// disciplinary field has its own top-level key; every other list field lives
+// under list_field_categories keyed by dotted field name.
+function categoriesFor(
+  data: Row | undefined,
+  key: string,
+): { label: string; count: number }[] {
+  if (!data) return [];
+  if (key === "licensure.disciplinary_grounds")
+    return data.disciplinary_categories ?? [];
+  return data.list_field_categories?.[key] ?? [];
+}
+
+// Per-state content-tag chips ("Fraud 2", "Capsulotomy (YAG) 1", …) so the
+// table surfaces WHICH items a state has, not just how many or a raw blob.
+// The backing field is passed via cellRendererParams.categoriesKey; the
+// column's valueGetter exposes the labels as an array for the multicheck
+// filter. Generic across disciplinary grounds and every discovered list field.
+function CategoryChipsCell(
+  p: ICellRendererParams<Row, string[]> & {
+    categoriesKey?: string;
+  },
+) {
+  const cats = categoriesFor(p.data, p.categoriesKey ?? "");
+  if (cats.length === 0)
+    return <span className="text-muted-foreground">—</span>;
+  return (
+    <div className="flex flex-wrap gap-1 leading-tight">
+      {cats.map((c) => (
+        <Badge
+          key={c.label}
+          variant="secondary"
+          className="bg-rose-100 text-rose-900 hover:bg-rose-100 font-normal text-[10px] px-1.5 py-0"
+          title={`${c.label} — ${c.count}`}
+        >
+          {shortCategory(c.label)}
+          <span className="ml-1 font-mono opacity-70">{c.count}</span>
+        </Badge>
+      ))}
+    </div>
+  );
+}
+
 function RegulatoryModelCell({ data, value }: ICellRendererParams<Row, string | null>) {
   if (data?.coverage_gap) {
     return (
@@ -1162,6 +1212,20 @@ function buildColumnDefs(
     wrapText: true,
   },
   {
+    colId: "disciplinary_categories",
+    headerName: "Disciplinary categories",
+    // Array of bucket labels so the multicheck filter can match a state that
+    // has, e.g., "False Advertising". The cell renderer shows label + count.
+    valueGetter: (p) =>
+      (p.data?.disciplinary_categories ?? []).map((c) => c.label),
+    valueFormatter: (p) => (Array.isArray(p.value) ? p.value.join(", ") : ""),
+    cellRenderer: CategoryChipsCell,
+    cellRendererParams: { categoriesKey: "licensure.disciplinary_grounds" },
+    filter: MulticheckFilter,
+    width: 300,
+    wrapText: true,
+  },
+  {
     colId: "disciplinary_grounds_count",
     headerName: "Disciplinary grounds (#)",
     valueGetter: (p) => p.data?.disciplinary_grounds_count,
@@ -1219,11 +1283,41 @@ function buildColumnDefs(
   },
   ];
 
+  // Discovered list fields that the per-item bucketing pass tagged (laser
+  // procedures, injections, license tiers, …). For these we chip-render the
+  // content categories instead of the raw joined string.
+  const bucketedListFields = new Set<string>();
+  for (const r of rows) {
+    if (r.list_field_categories) {
+      for (const k of Object.keys(r.list_field_categories)) bucketedListFields.add(k);
+    }
+  }
+
   // ── Dynamic profession-specific columns (varies per profession) ──
   // discoveredFields lists every per-profession discovered field. We pull
   // .value out of each row's profession_specific[field.name] Evidence wrapper.
   // All default-hidden so they don't clutter the initial view.
   for (const f of discoveredFields) {
+    const dotted = `profession_specific.${f.name}`;
+    // A list field with content buckets → render category chips + multicheck
+    // filter, the same treatment disciplinary grounds gets.
+    if (bucketedListFields.has(dotted)) {
+      cols.push({
+        colId: `ps_${f.name}`,
+        headerName: humanize(f.name),
+        headerTooltip: f.description,
+        valueGetter: (p) =>
+          (p.data?.list_field_categories?.[dotted] ?? []).map((c) => c.label),
+        valueFormatter: (p) => (Array.isArray(p.value) ? p.value.join(", ") : ""),
+        cellRenderer: CategoryChipsCell,
+        cellRendererParams: { categoriesKey: dotted },
+        filter: MulticheckFilter,
+        width: 240,
+        initialHide: true,
+        wrapText: true,
+      });
+      continue;
+    }
     cols.push({
       colId: `ps_${f.name}`,
       headerName: humanize(f.name),

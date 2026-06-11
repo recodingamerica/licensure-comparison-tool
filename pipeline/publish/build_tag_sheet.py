@@ -171,7 +171,9 @@ def _per_item_subfield(entry: dict) -> dict:
     return {
         "field_name": entry["field_name"],
         "kind": "per_item",
-        "unit": "grounds",
+        # Generic noun — this path now covers any list field (laser procedures,
+        # injections, license tiers, …), not just disciplinary grounds.
+        "unit": "items",
         "rationale": entry.get("rationale", ""),
         "tags": tags,
         "assignments": assignments,
@@ -234,13 +236,18 @@ def build_for_profession(profession: str) -> dict:
         )
 
     # 2. Everything else that got bucketed, alphabetical by readable label.
+    # A list[str] field that is also not_mappable gets bucketed BOTH ways
+    # (scalar: whole list → one tag; per-item: each element tagged). Per-item
+    # is strictly richer, so when a field appears in both, keep only per-item.
     others: list[tuple[str, str, dict]] = []
-    for name, entry in scalar.items():
-        if ("scalar", name) not in used and not _is_evidence_internal(name):
-            others.append((_humanize(name), name, _scalar_subfield(entry)))
     for name, entry in per_item.items():
         if ("per_item", name) not in used and not _is_evidence_internal(name):
             others.append((_humanize(name), name, _per_item_subfield(entry)))
+    for name, entry in scalar.items():
+        if name in per_item:
+            continue  # per-item version already added above
+        if ("scalar", name) not in used and not _is_evidence_internal(name):
+            others.append((_humanize(name), name, _scalar_subfield(entry)))
     for label, _name, subfield in sorted(others, key=lambda x: x[0].lower()):
         fields_out.append(
             {

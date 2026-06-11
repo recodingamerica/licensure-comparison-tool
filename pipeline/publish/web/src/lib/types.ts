@@ -67,6 +67,9 @@ export type DisciplinaryGround = {
   description: string;
   quote: string;
   citation: string;
+  // Content bucket assigned by the per-item bucketing pass (e.g. "Fraud &
+  // Misrepresentation"). Absent when the pass hasn't run for the profession.
+  category?: string;
 };
 
 export type LicensureRequirements = {
@@ -130,6 +133,12 @@ export type Row = {
   reciprocity_available: boolean | null;
   compacts: string[];
   disciplinary_grounds_count: number;
+  // Per-state content tags for disciplinary grounds (from the per-item
+  // bucketing pass), count desc. Empty when the pass hasn't run.
+  disciplinary_categories?: { label: string; count: number }[];
+  // Same, for every per-item-bucketed profession-specific list field, keyed by
+  // dotted field name (e.g. "profession_specific.laser_procedures_authorized").
+  list_field_categories?: Record<string, { label: string; count: number }[]>;
   // Universal-comparison fields aligned with the cross-state schema.
   advisory_board_exists: boolean | null;
   advisory_board_name: string | null;
@@ -239,6 +248,14 @@ export type MapPrep = {
       by_state: Record<string, string>;
     }
   >;
+  // Per-item tag breadth: for each per-item-bucketed list field, the count of
+  // distinct content categories each state falls into. Rendered as continuous
+  // "# of distinct …" choropleths (e.g. how many laser-procedure types a state
+  // authorizes). Added 2026-06-10.
+  per_item_count_fields?: {
+    field_name: string;
+    by_state_count: Record<string, number>;
+  }[];
 };
 
 export type ProfilePayload = {
