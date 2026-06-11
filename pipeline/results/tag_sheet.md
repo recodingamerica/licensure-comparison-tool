@@ -1,6 +1,6 @@
 # Field Tag Sheet
 
-_Generated 2026-06-09T17:00:14+00:00_
+_Generated 2026-06-11T02:32:10+00:00_
 
 Plain-English tags for each profession's key licensure fields, derived
 by `pipeline.map_prep.bucket_text` (no per-row hand-curation — the LLM
@@ -77,7 +77,7 @@ field name varies by profession.
 
 #### Discipline
 
-`licensure.disciplinary_grounds` — grounds per tag:
+`licensure.disciplinary_grounds` — items per tag:
 
 - **Fraud & Misrepresentation** (127, 47 states)
 - **Criminal Conviction** (57, 41 states)
@@ -93,13 +93,16 @@ field name varies by profession.
 
 #### Advanced practice eligible patient populations
 
-`profession_specific.advanced_practice_eligible_patient_populations` — states per tag:
+`profession_specific.advanced_practice_eligible_patient_populations` — items per tag:
 
-- **Broad Facility List** (16)
-- **Underserved & Income-Based** (3)
-- **Specific Vulnerable Groups** (3)
-- **Public Health Settings** (8)
-- **General Public / Minimal Restriction** (1)
+- **Long-Term Care Residents** (37, 18 states)
+- **School and Child Programs** (35, 17 states)
+- **Homebound Individuals** (12, 11 states)
+- **Correctional Facility Patients** (11, 6 states)
+- **Community Health and Safety-Net Clinics** (46, 20 states)
+- **Public Health Programs** (28, 19 states)
+- **Low-Income and Underserved Populations** (18, 14 states)
+- **Persons with Disabilities** (8, 6 states)
 
 #### Advisory board authority
 
@@ -126,32 +129,29 @@ field name varies by profession.
 
 #### Dental hygienist supervision levels
 
-`profession_specific.dental_hygienist_supervision_levels` — states per tag:
+`profession_specific.dental_hygienist_supervision_levels` — items per tag:
 
-- **Direct + General Only** (19)
-- **Direct + General + Indirect** (10)
-- **Includes Unsupervised/Public Health** (10)
-- **Includes Collaborative/Independent** (6)
-- **Single Level Only** (2)
+- **Direct Supervision** (45, 42 states)
+- **Indirect Supervision** (11, 11 states)
+- **General Supervision** (41, 39 states)
+- **Public Health Supervision** (8, 8 states)
+- **Collaborative Practice** (4, 4 states)
+- **Unsupervised Practice** (3, 3 states)
+- **Other Supervision** (7, 6 states)
 
 #### Dental therapist practice setting restrictions
 
-`profession_specific.dental_therapist_practice_setting_restrictions` — states per tag:
+`profession_specific.dental_therapist_practice_setting_restrictions` — items per tag:
 
-- **Enumerated Underserved Sites** (3)
-- **Broad Enumerated Settings** (3)
-- **Agreement-Defined Settings** (3)
-- **Tribal / Federal Focus** (1)
-
-#### Disciplinary grounds
-
-`licensure.disciplinary_grounds` — states per tag:
-
-- **Enumerated Specific Grounds** (28)
-- **Broad Unprofessional Conduct** (5)
-- **Hybrid Specific + Catch-All** (10)
-- **Criminal-Centric Focus** (4)
-- **Impairment-Forward** (2)
+- **Federally Qualified Health Centers** (7, 4 states)
+- **Tribal and Indian Health Settings** (5, 3 states)
+- **Public and Government Health Facilities** (7, 6 states)
+- **Hospital and Medical Facilities** (5, 4 states)
+- **School-Based Settings** (5, 4 states)
+- **Nonprofit and Charitable Organizations** (5, 3 states)
+- **Underserved Population Clinics** (8, 5 states)
+- **Correctional Facilities** (2, 2 states)
+- **Agreement-Defined Settings** (6, 5 states)
 
 #### Education accrediting body
 
@@ -212,14 +212,15 @@ field name varies by profession.
 
 #### Sedation anesthesia permit types
 
-`profession_specific.sedation_anesthesia_permit_types` — states per tag:
+`profession_specific.sedation_anesthesia_permit_types` — items per tag:
 
-- **2-Tier System** (13)
-- **3-Tier System** (12)
-- **4-Tier System** (5)
-- **5+ Tier System** (2)
-- **Broad/Generic Only** (3)
-- **Pediatric Distinctions** (2)
+- **Minimal Sedation / Anxiolysis** (8, 8 states)
+- **Moderate Sedation / Conscious Sedation** (35, 29 states)
+- **Deep Sedation** (12, 12 states)
+- **General Anesthesia** (28, 28 states)
+- **Nitrous Oxide / Inhalation Analgesia** (2, 2 states)
+- **Pediatric-Specific Authorization** (4, 2 states)
+- **Combined / Unspecified Permit** (19, 16 states)
 
 ## Dietetics
 
@@ -229,84 +230,88 @@ field name varies by profession.
 
 `licensure.education.degree_required` — states per tag:
 
-- **Bachelor's Min** (7)
-- **Bachelor's + Field Specified** (23)
-- **Master's/Doctoral Required** (2)
-- **Tiered by License Type** (6)
-- **Transitioning to Master's** (1)
+- **Bachelor's Min, Specific Major** (23)
+- **Bachelor's Min, Any Field** (7)
+- **Master's/Doctorate Required** (3)
+- **Tiered by License Type** (5)
+- **CDR Registration Proxy** (2)
+- **Transitional Requirement** (1)
 
 #### Professional Experience
 
 `licensure.post_degree_experience.kind` — states per tag:
 
-- **Supervised Practice** (19)
-- **Internship or Supervised Practice** (8)
-- **Planned Preprofessional Program** (9)
-- **General Work Experience** (1)
+- **Supervised Practice** (16)
+- **Planned Continuous Program** (7)
+- **Internship or Practice** (8)
+- **Preprofessional Experience** (5)
+- **General Experience** (2)
 
 `licensure.post_degree_experience.duration` — states per tag:
 
 - **900 Hours** (21)
 - **1,000 Hours** (3)
 - **1,200 Hours** (1)
-- **Time-Based** (1)
-- **Tiered / Multiple Paths** (1)
+- **Multiple Pathways** (1)
+- **Supervision-Based** (1)
+- **Time-Based (Months)** (1)
 
 #### Licensing Authority
 
 `licensure.issuing_authority` — states per tag:
 
 - **Dedicated Dietetics Board** (18)
-- **General Health Board** (2)
-- **Medical Board** (6)
-- **State Health Dept** (8)
-- **General Licensing Agency** (7)
+- **Medical/Physician Board** (6)
+- **Health Department** (9)
+- **Umbrella Licensing Agency** (4)
+- **General Commerce/Prof Agency** (4)
 
 `licensure.regulatory_authority.name` — states per tag:
 
 - **Dedicated Dietetics Board** (19)
 - **Medical/Health Board** (6)
-- **Public Health Agency** (8)
-- **General Licensing Agency** (8)
+- **Public Health Dept** (7)
+- **General Licensing Dept** (8)
+- **Other State Agency** (1)
 
 #### Scope of Practice
 
 `scope.methods_authorized` — states per tag:
 
-- **Broad Clinical + Ordering** (10)
-- **Standard Full Scope** (13)
-- **Assessment + Counseling Only** (7)
-- **Medical Nutrition Therapy Focus** (3)
-- **Narrow / Advisory Only** (2)
+- **Broad Assessment + Counseling** (11)
+- **Clinical + Ordering Authority** (14)
+- **Counseling + Care Plans** (7)
+- **Science Domains Only** (2)
+- **Basic Advisory Only** (2)
 
 `scope.drug_authority` — states per tag:
 
 - **Education Only** (1)
+- **Counsel, No Alter** (1)
 - **Protocol-Based Adjustments** (0)
-- **Order & Discontinue Supplements** (2)
+- **Supplements + Protocol Adjustments** (2)
 
 `scope.definition_quote` — states per tag:
 
-- **Sciences Integration** (14)
-- **Sciences + Life Cycle** (9)
-- **Sciences + Services List** (8)
-- **MNT Focused** (5)
-- **Counseling / Advisory** (2)
-- **Regulatory / Administrative** (1)
+- **Integration of Sciences Formula** (24)
+- **Enumerated Services List** (7)
+- **Medical Nutrition Therapy Focus** (5)
+- **Counseling & Assessment Only** (2)
+- **Regulatory/Authority Language** (1)
 
 #### Discipline
 
-`licensure.disciplinary_grounds` — grounds per tag:
+`licensure.disciplinary_grounds` — items per tag:
 
-- **Fraud / Misrepresentation** (69, 34 states)
-- **Criminal Conviction** (43, 33 states)
-- **Incompetence / Negligence** (26, 20 states)
-- **Unprofessional / Unethical Conduct** (46, 30 states)
-- **Substance Abuse / Impairment** (20, 17 states)
-- **Mental / Physical Incapacity** (18, 13 states)
-- **Regulatory Violation** (74, 39 states)
-- **Aiding Unlicensed Practice** (13, 9 states)
-- **Prior Disciplinary Action** (14, 12 states)
+- **Fraud in Obtaining License** (33, 31 states)
+- **Fraud or Deception in Practice** (34, 18 states)
+- **Criminal Conviction** (40, 32 states)
+- **Incompetence or Negligence** (28, 22 states)
+- **Unprofessional or Unethical Conduct** (49, 29 states)
+- **Impairment (Substance or Mental/Physical)** (37, 21 states)
+- **Violation of Law or Board Order** (70, 37 states)
+- **Discipline by Other Jurisdiction** (15, 13 states)
+- **Aiding Unlicensed Practice or Other Misconduct** (14, 10 states)
 
 ### Other bucketed fields
 
@@ -315,80 +320,91 @@ field name varies by profession.
 `licensure.advisory_board.authority` — states per tag:
 
 - **Advisory Only** (3)
-- **Recommends to Board** (4)
-- **Consulted on Licensing & Rules** (2)
-- **Initiates Disciplinary Action** (1)
-- **Proposes Binding Rules** (1)
+- **Recommends on Licensing** (2)
+- **Recommends on Rules & Discipline** (4)
+- **Initiates Discipline** (1)
+- **Proposes Rules (Required)** (1)
 
 #### Advisory board name
 
 `licensure.advisory_board.name` — states per tag:
 
-- **Advisory Committee** (3)
+- **Advisory Committee** (4)
 - **Advisory Board/Group** (2)
 - **Council** (2)
-- **Standalone Board** (2)
+- **Practice Board** (1)
 - **Allied Health Board** (1)
+- **Standalone Board** (1)
 
 #### Alternative credential pathways
 
-`profession_specific.alternative_credential_pathways` — states per tag:
+`profession_specific.alternative_credential_pathways` — items per tag:
 
-- **CNS / DACBN Credentials** (7)
-- **Professional Society Membership** (2)
-- **Academic Degree Route** (1)
-- **National Registry Accepted** (1)
-- **Single Cert Body** (2)
-
-#### Disciplinary grounds
-
-`licensure.disciplinary_grounds` — states per tag:
-
-- **Enumerated Specific Grounds** (21)
-- **Broad Unprofessional Conduct** (11)
-- **Statute/Rule Violation Focus** (4)
-- **Cross-Reference Only** (3)
-- **Narrow/Single Ground** (2)
+- **CNS Credential (BCNS)** (8, 8 states)
+- **DACBN Diplomate** (6, 6 states)
+- **ABN / AIN / ASCN Membership** (6, 2 states)
+- **CDR / RD Registration** (2, 2 states)
+- **Advanced Degree Pathway** (1, 1 states)
+- **Reciprocity / Other State License** (1, 1 states)
+- **General Department Discretion** (3, 2 states)
 
 #### Education accrediting body
 
 `licensure.education.accrediting_body` — states per tag:
 
-- **ACEND / Dietetics-Specific** (13)
-- **Regional Accreditation (Generic)** (7)
-- **Named Regional Body** (6)
-- **Federal / CHEA Reference** (5)
-- **State / Dept Authority** (2)
+- **ACEND / Dietetics-Specific** (9)
+- **Regional Accreditor (Generic)** (7)
+- **Named Regional Accreditor** (6)
+- **Dual: ACEND + Regional** (3)
+- **Federal DOE / CHEA** (7)
+- **State / Other Body** (2)
+
+#### Exams
+
+`licensure.exams` — states per tag:
+
+- **CDR Exam Only** (10)
+- **CDR or Board-Approved** (11)
+- **Board/State Exam** (9)
+- **Multiple National Exams** (4)
+- **Secretary/Dept Approved** (4)
 
 #### Exempt professions list
 
-`profession_specific.exempt_professions_list` — states per tag:
+`profession_specific.exempt_professions_list` — items per tag:
 
-- **Broad Multi-Category** (23)
-- **Other Licensed Professions** (6)
-- **Narrow / Specific** (3)
-- **Supervised Roles + Students** (0)
-- **Government & Federal Only** (0)
+- **Other Licensed Health Professionals** (86, 29 states)
+- **Students and Trainees** (29, 21 states)
+- **Federal or Military Personnel** (19, 16 states)
+- **Government or Public Agency Employees** (27, 21 states)
+- **Dietetic Support Staff** (28, 19 states)
+- **Food and Supplement Retailers** (26, 19 states)
+- **General Nutrition Informers** (39, 21 states)
+- **Weight Control Programs** (19, 18 states)
+- **Religious or Traditional Practitioners** (7, 7 states)
+- **Nonresident or Out-of-State Practitioners** (7, 7 states)
 
 #### License type structure
 
-`profession_specific.license_type_structure` — states per tag:
+`profession_specific.license_type_structure` — items per tag:
 
-- **Dietitian Only** (9)
-- **Dietitian + Nutritionist** (13)
-- **Dietitian + Provisional** (9)
-- **Multi-Tier + Provisional** (4)
-- **Certified (not Licensed)** (5)
-- **Technician Tier Included** (2)
+- **Licensed Dietitian** (23, 23 states)
+- **Licensed Nutritionist** (10, 10 states)
+- **Licensed Dietitian-Nutritionist** (11, 11 states)
+- **Certified Dietitian or Nutritionist** (9, 6 states)
+- **Dietetic Technician** (3, 3 states)
+- **Provisional or Temporary License** (13, 12 states)
+- **Title Protection Only** (2, 2 states)
 
 #### National association
 
 `licensure.national_association` — states per tag:
 
 - **American Dietetic Assoc.** (15)
-- **Academy of Nutrition & Dietetics** (11)
-- **Multiple / Dual Orgs** (2)
-- **Generic / Unspecified** (1)
+- **Academy of Nutrition & Dietetics** (8)
+- **AND + ACEND** (4)
+- **Multiple / Generic** (2)
+- **State-Level Assoc.** (1)
 
 #### National certification
 
@@ -401,33 +417,39 @@ field name varies by profession.
 
 #### Protected titles
 
-`profession_specific.protected_titles` — states per tag:
+`profession_specific.protected_titles` — items per tag:
 
-- **Dietitian Only** (15)
-- **Dietitian + Nutritionist** (11)
-- **Dietitian/Nutritionist Hyphenated** (6)
-- **Certified Titles** (5)
-- **Broad Scope (Many Titles)** (4)
+- **Dietitian Title** (37, 29 states)
+- **Nutritionist Title** (27, 15 states)
+- **Combined Dietitian-Nutritionist Title** (9, 9 states)
+- **Registered Credential** (16, 10 states)
+- **Licensed Credential** (40, 27 states)
+- **Certified Credential** (16, 9 states)
+- **Provisional Credential** (3, 3 states)
+- **Technician Specialist Title** (2, 2 states)
+- **Abbreviation Only** (59, 29 states)
 
 #### Reciprocity requirements
 
 `licensure.reciprocity.requirements` — states per tag:
 
-- **Equivalent Standards** (24)
+- **Equivalent Standards** (18)
+- **Equivalent + No Discipline** (5)
 - **CDR Registration Accepted** (8)
-- **Mutual/Agreement Required** (2)
-- **Board Discretion** (2)
-- **Detailed Multi-Factor** (3)
+- **Mutual Reciprocity Required** (2)
+- **Board/Rule Discretion** (5)
+- **Full Endorsement Criteria** (1)
 
 #### Regulatory authority umbrella agency
 
 `licensure.regulatory_authority.umbrella_agency` — states per tag:
 
-- **Health Department** (7)
-- **Professional Licensing Agency** (8)
-- **Consumer Affairs / Commerce** (2)
-- **Education / Regents** (1)
-- **Labor / Other** (2)
+- **Dept of Health** (5)
+- **Professional Licensing Agency** (7)
+- **Dept of Commerce/Labor** (3)
+- **Consumer/Public Safety** (1)
+- **Health & Human Services** (2)
+- **Unique/Education Board** (1)
 
 ## Medicine
 
@@ -501,7 +523,7 @@ field name varies by profession.
 
 #### Discipline
 
-`licensure.disciplinary_grounds` — grounds per tag:
+`licensure.disciplinary_grounds` — items per tag:
 
 - **Fraud & Misrepresentation** (215, 46 states)
 - **Criminal Conviction** (81, 40 states)
@@ -524,17 +546,6 @@ field name varies by profession.
 - **Specific Clinical Topic** (7)
 - **Patient Safety & Ethics** (3)
 - **Cultural & Social Competency** (0)
-
-#### Disciplinary grounds
-
-`licensure.disciplinary_grounds` — states per tag:
-
-- **Broad Enumerated List** (21)
-- **Fraud & Misrepresentation Focus** (10)
-- **Conduct & Ethics Focus** (7)
-- **Criminal Conviction Focus** (2)
-- **Impairment Focus** (2)
-- **Catch-All Unprofessional Conduct** (5)
 
 #### Education accrediting body
 
@@ -559,12 +570,17 @@ field name varies by profession.
 
 #### License status types
 
-`profession_specific.license_status_types` — states per tag:
+`profession_specific.license_status_types` — items per tag:
 
-- **Basic (3–4 types)** (11)
-- **Moderate (5–7 types)** (15)
-- **Expanded (8–11 types)** (6)
-- **Comprehensive (12+ types)** (1)
+- **Active Full License** (39, 32 states)
+- **Inactive License** (30, 26 states)
+- **Retired / Emeritus** (10, 10 states)
+- **Temporary / Provisional** (38, 24 states)
+- **Training / Resident Permit** (20, 19 states)
+- **Limited / Restricted License** (33, 22 states)
+- **Teaching / Academic License** (13, 10 states)
+- **Administrative Medicine** (11, 11 states)
+- **Volunteer / Pro Bono** (11, 11 states)
 
 #### National association
 
@@ -698,7 +714,7 @@ field name varies by profession.
 
 #### Discipline
 
-`licensure.disciplinary_grounds` — grounds per tag:
+`licensure.disciplinary_grounds` — items per tag:
 
 - **Fraud & Deception** (118, 46 states)
 - **Criminal Conviction** (59, 42 states)
@@ -714,13 +730,14 @@ field name varies by profession.
 
 #### Aprn role categories
 
-`profession_specific.aprn_role_categories` — states per tag:
+`profession_specific.aprn_role_categories` — items per tag:
 
-- **All 4 APRN Roles** (32)
-- **4 Roles + Extra** (4)
-- **3 Roles Only** (4)
-- **2 Roles Only** (3)
-- **Partial / Non-Standard** (2)
+- **Nurse Practitioner** (43, 43 states)
+- **Nurse Anesthetist** (42, 42 states)
+- **Nurse Midwife** (36, 36 states)
+- **Clinical Nurse Specialist** (40, 40 states)
+- **Psychiatric Mental Health CNS** (4, 4 states)
+- **General APRN / Other** (3, 3 states)
 
 #### Continuing education topical requirements
 
@@ -735,23 +752,16 @@ field name varies by profession.
 
 #### Controlled substance schedule authority
 
-`profession_specific.controlled_substance_schedule_authority` — states per tag:
+`profession_specific.controlled_substance_schedule_authority` — items per tag:
 
-- **Full II–V** (11)
-- **II–V With Restrictions** (7)
-- **III–V Only** (1)
-- **Limited/Partial II** (2)
-- **Role-Differentiated** (3)
-
-#### Disciplinary grounds
-
-`licensure.disciplinary_grounds` — states per tag:
-
-- **Broad Multi-Ground List** (16)
-- **Fraud + Crime + Competence** (18)
-- **Fraud + Crime Core** (4)
-- **Competence & Conduct Focus** (3)
-- **Rules & Standards Focus** (7)
+- **Schedule I** (2, 2 states)
+- **Schedule II Unrestricted** (9, 9 states)
+- **Schedule II With Restrictions** (12, 10 states)
+- **Schedule III** (17, 16 states)
+- **Schedule IV** (16, 16 states)
+- **Schedule V** (16, 16 states)
+- **Non-Controlled Drugs** (3, 2 states)
+- **Multi-Schedule Bundled** (8, 6 states)
 
 #### Education accrediting body
 
@@ -763,15 +773,32 @@ field name varies by profession.
 - **Federal DOE Reference** (6)
 - **Named Agency (ACEN/CCNE)** (1)
 
+#### License tiers
+
+`profession_specific.license_tiers` — items per tag:
+
+- **Registered Nurse (RN)** (53, 49 states)
+- **Licensed Practical Nurse (LPN/LVN)** (47, 47 states)
+- **Advanced Practice RN (APRN)** (36, 33 states)
+- **Nurse Practitioner (NP/CNP)** (22, 20 states)
+- **Nurse Anesthetist (CRNA)** (21, 21 states)
+- **Nurse Midwife (CNM)** (16, 16 states)
+- **Clinical Nurse Specialist (CNS)** (20, 20 states)
+- **Nursing Assistant / Aide** (9, 7 states)
+- **Medication Aide / Other Support** (8, 7 states)
+
 #### Lpn supervision requirements
 
-`profession_specific.lpn_supervision_requirements` — states per tag:
+`profession_specific.lpn_supervision_requirements` — items per tag:
 
-- **RN + MD + Dentist (Core)** (14)
-- **Core + APRN** (10)
-- **Core + APRN + PA/Other** (7)
-- **Broad Multi-Provider** (9)
-- **General Licensed Provider** (6)
+- **Registered Nurse** (47, 44 states)
+- **Advanced Practice Registered Nurse** (16, 16 states)
+- **Physician** (41, 37 states)
+- **Physician Assistant** (8, 8 states)
+- **Dentist** (32, 32 states)
+- **Podiatrist** (14, 14 states)
+- **Other Eye/Spine Specialist** (5, 5 states)
+- **General Licensed Practitioner** (21, 20 states)
 
 #### National association
 
@@ -890,7 +917,7 @@ field name varies by profession.
 
 #### Discipline
 
-`licensure.disciplinary_grounds` — grounds per tag:
+`licensure.disciplinary_grounds` — items per tag:
 
 - **Fraud & Misrepresentation** (127, 47 states)
 - **Criminal Conviction** (47, 39 states)
@@ -916,14 +943,15 @@ field name varies by profession.
 
 #### Controlled substance schedule restrictions
 
-`profession_specific.controlled_substance_schedule_restrictions` — states per tag:
+`profession_specific.controlled_substance_schedule_restrictions` — items per tag:
 
-- **Sched I–II Banned** (6)
-- **Sched I–II Banned, Hydrocodone Excepted** (9)
-- **Sched II Banned, Hydrocodone Excepted** (5)
-- **Partial Schedules, Supply Limits** (4)
-- **Specific Drug Limits Only** (4)
-- **Broad Prohibition + Extra Exclusions** (5)
+- **Schedule I Prohibited** (16, 16 states)
+- **Schedule II Prohibited** (13, 13 states)
+- **Schedule II Hydrocodone Exception** (18, 18 states)
+- **Schedule III–V Permitted With Limits** (11, 8 states)
+- **Supply Duration Limit** (11, 9 states)
+- **Non-Controlled Drug Exclusion** (16, 6 states)
+- **Statutory Code Reference** (5, 1 states)
 
 #### Education accrediting body
 
@@ -945,6 +973,33 @@ field name varies by profession.
 - **State Board Only** (14)
 - **National/Board-Approved** (14)
 - **State Board + Jurisprudence** (2)
+
+#### Laser procedures authorized
+
+`profession_specific.laser_procedures_authorized` — items per tag:
+
+- **Capsulotomy (YAG)** (6, 6 states)
+- **Trabeculoplasty** (5, 5 states)
+- **Peripheral Iridotomy** (3, 3 states)
+- **Refractive Laser Surgery** (1, 1 states)
+- **Diagnostic Laser Use** (2, 2 states)
+- **Therapeutic Laser (Broad)** (3, 2 states)
+- **Light Therapy (IPL/LLLT)** (2, 1 states)
+- **Broad Scope With Exclusions** (3, 3 states)
+
+#### Minor surgical procedures authorized
+
+`profession_specific.minor_surgical_procedures_authorized` — items per tag:
+
+- **Epilation / Lash Removal** (13, 13 states)
+- **Corneal Procedures** (12, 8 states)
+- **Lacrimal System Procedures** (20, 11 states)
+- **Injections** (15, 8 states)
+- **Eyelid Lesion Excision** (15, 9 states)
+- **Foreign Body Removal** (9, 7 states)
+- **Eyelid Repair / Surgery** (5, 5 states)
+- **Light / Energy Therapy** (4, 3 states)
+- **Diagnostic / Specimen Collection** (11, 6 states)
 
 #### National association
 
@@ -987,13 +1042,28 @@ field name varies by profession.
 
 #### Specialty certification types
 
-`profession_specific.specialty_certification_types` — states per tag:
+`profession_specific.specialty_certification_types` — items per tag:
 
-- **Diagnostic Only** (0)
-- **Diagnostic + Therapeutic** (7)
-- **Therapeutic Only** (5)
-- **Expanded Scope / Oral + Systemic** (6)
-- **Specialty Procedure Cert** (4)
+- **Diagnostic Pharmaceutical Agents** (9, 9 states)
+- **Topical Therapeutic Agents** (21, 20 states)
+- **Oral Pharmaceutical Agents** (7, 7 states)
+- **Injectable Agents** (2, 2 states)
+- **Glaucoma Specialty Certification** (3, 3 states)
+- **Advanced Procedures Certification** (3, 3 states)
+- **No Pharmaceutical Use** (1, 1 states)
+- **Immunization Certification** (1, 1 states)
+
+#### Tiered license types
+
+`profession_specific.tiered_license_types` — items per tag:
+
+- **Basic License** (15, 15 states)
+- **Diagnostic Pharmaceutical Authority** (7, 7 states)
+- **Therapeutic Pharmaceutical Authority** (16, 16 states)
+- **Expanded Therapeutic Authority** (3, 3 states)
+- **Glaucoma Specialist** (3, 3 states)
+- **Advanced Procedures** (4, 4 states)
+- **Limited Or Special Purpose License** (1, 1 states)
 
 ## Podiatry
 
@@ -1076,7 +1146,7 @@ field name varies by profession.
 
 #### Discipline
 
-`licensure.disciplinary_grounds` — grounds per tag:
+`licensure.disciplinary_grounds` — items per tag:
 
 - **Fraud & Misrepresentation** (122, 45 states)
 - **Criminal Conviction** (58, 40 states)
@@ -1115,13 +1185,13 @@ field name varies by profession.
 
 #### Board certification body
 
-`profession_specific.board_certification_body` — states per tag:
+`profession_specific.board_certification_body` — items per tag:
 
-- **ABPS Only** (6)
-- **ABFAS Only** (2)
-- **ABFAS + ABPM** (1)
-- **CPME-Approved Board** (1)
-- **Any Recognized Board** (3)
+- **ABFAS** (3, 3 states)
+- **ABPS / Podiatric Surgery Board** (6, 6 states)
+- **ABPM** (1, 1 states)
+- **CPME-Approved Board** (1, 1 states)
+- **Generic / Approved Body** (3, 3 states)
 
 #### Continuing education topical requirements
 
@@ -1131,17 +1201,6 @@ field name varies by profession.
 - **Substance Use & Treatment** (1)
 - **Conditional on Prescribing** (3)
 - **Multi-Topic Requirement** (2)
-
-#### Disciplinary grounds
-
-`licensure.disciplinary_grounds` — states per tag:
-
-- **Fraud & Misrepresentation** (3)
-- **Criminal Conviction** (0)
-- **Negligence & Incompetence** (2)
-- **Substance Abuse & Impairment** (4)
-- **Unprofessional Conduct** (3)
-- **Broad Multi-Ground Statute** (36)
 
 #### Education accrediting body
 
@@ -1256,7 +1315,7 @@ field name varies by profession.
 
 #### Discipline
 
-`licensure.disciplinary_grounds` — grounds per tag:
+`licensure.disciplinary_grounds` — items per tag:
 
 - **Fraud in Obtaining License** (54, 40 states)
 - **Dishonesty/Fraud/Negligence in Practice** (79, 43 states)
@@ -1272,13 +1331,16 @@ field name varies by profession.
 
 #### Attest services types
 
-`profession_specific.attest_services_types` — states per tag:
+`profession_specific.attest_services_types` — items per tag:
 
-- **Full Standards List** (14)
-- **Broad + PCAOB** (13)
-- **Broad, No PCAOB** (4)
-- **Includes Compilation** (9)
-- **Concise / High-Level** (5)
+- **Audit (SAS)** (44, 44 states)
+- **Review (SSARS)** (41, 41 states)
+- **Compilation (SSARS)** (10, 10 states)
+- **Prospective Financial Examination (SSAE)** (30, 30 states)
+- **Attestation / Agreed-Upon Procedures (SSAE)** (40, 38 states)
+- **PCAOB Engagement** (31, 31 states)
+- **Government Auditing** (3, 3 states)
+- **Other Assurance Services** (6, 6 states)
 
 #### Continuing education topical requirements
 
@@ -1288,16 +1350,6 @@ field name varies by profession.
 - **Technical + Ethics** (3)
 - **Technical Subjects Only** (2)
 - **Broad Subject List** (1)
-
-#### Disciplinary grounds
-
-`licensure.disciplinary_grounds` — states per tag:
-
-- **Fraud/Deceit Core List** (23)
-- **Broad Statutory Violation** (6)
-- **Criminal Conviction Focus** (3)
-- **Unauthorized Practice/Title** (3)
-- **Mixed/Comprehensive List** (12)
 
 #### Education accrediting body
 
@@ -1335,6 +1387,19 @@ field name varies by profession.
 - **Uniform CPA Exam** (2)
 - **AICPA + Exam Named** (1)
 - **Erroneous/Mismatch** (1)
+
+#### Practice privilege consent conditions
+
+`profession_specific.practice_privilege_consent_conditions` — items per tag:
+
+- **Jurisdiction and Disciplinary Authority** (46, 44 states)
+- **Compliance with Laws and Rules** (44, 43 states)
+- **Cease Practice if License Invalid** (40, 38 states)
+- **Agent for Service of Process** (43, 43 states)
+- **Reporting and Notification Obligations** (4, 3 states)
+- **Cooperation with Investigations** (1, 1 states)
+- **Scope of Practice Limitations** (2, 2 states)
+- **Other Conditions** (0, 0 states)
 
 #### Regulatory authority umbrella agency
 

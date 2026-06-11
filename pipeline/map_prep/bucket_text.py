@@ -74,6 +74,31 @@ log = logging.getLogger("bucket_text")
 
 _OUT_ROOT = _PIPELINE_DIR / "results" / "map_prep"
 _STRUCTURED_DIR = _PIPELINE_DIR / "results" / "structured"
+_DISCOVERED_DIR = _PIPELINE_DIR / "results" / "discovered"
+
+
+def discovered_list_fields(profession: str) -> list[str]:
+    """Dotted paths of every `list[...]`-typed profession-specific field the
+    discovery stage found for this profession (e.g.
+    `profession_specific.laser_procedures_authorized`).
+
+    These are structurally identical to `licensure.disciplinary_grounds` — a
+    per-state list whose elements we can cluster into plain-English tags — so
+    the per-item bucketer runs over all of them, not just discipline. This is
+    what makes the tagging general instead of one field at a time.
+    """
+    path = _DISCOVERED_DIR / f"{profession}.json"
+    if not path.exists():
+        return []
+    data = json.loads(path.read_text())
+    fields = data.get("fields") if isinstance(data, dict) else data
+    out: list[str] = []
+    for f in fields or []:
+        name = f.get("name") or f.get("field_name")
+        ftype = (f.get("type") or f.get("kind") or "")
+        if name and ftype.startswith("list"):
+            out.append(f"profession_specific.{name}")
+    return out
 
 MODEL = "claude-sonnet-4-6"
 
@@ -320,13 +345,28 @@ def _collect_items_for_field(profession: str, dotted: str) -> list[dict]:
                 ok = False
                 break
             cur = cur[seg]
-        if not ok or not isinstance(cur, list):
+        if not ok:
+            continue
+        # Two shapes feed this pass:
+        #   - list-of-objects, stored bare (licensure.disciplinary_grounds):
+        #     each item is a {short_label, description, …} dict.
+        #   - list[str], Evidence-wrapped (profession_specific.* discovered
+        #     fields like laser_procedures_authorized): {value: [...], quote}.
+        # Unwrap the Evidence node so both reduce to "a list of items".
+        if isinstance(cur, dict) and "value" in cur:
+            cur = cur.get("value")
+        if not isinstance(cur, list):
             continue
         for i, item in enumerate(cur):
-            if not isinstance(item, dict):
+            if isinstance(item, dict):
+                short_label = (item.get("short_label") or "").strip()
+                desc = (item.get("description") or item.get("name") or "").strip()
+            elif isinstance(item, str):
+                # A plain string list element is its own label and signal.
+                short_label = item.strip()[:80]
+                desc = item.strip()
+            else:
                 continue
-            short_label = (item.get("short_label") or "").strip()
-            desc = (item.get("description") or item.get("name") or "").strip()
             if not desc and not short_label:
                 continue
             out.append({
@@ -466,6 +506,21 @@ def run_profession_per_item(profession: str, field: str) -> None:
              profession, out_path.name, field, len(result.bucket_set), len(result.assignments))
 
 
+def run_profession_list_fields(profession: str) -> None:
+    """Per-item-bucket every discovered list field for a profession. Sparse
+    fields self-skip inside bucket_per_item_field. This is the general pass —
+    laser, injectables, sedation types, license tiers, etc. all get tagged the
+    same way disciplinary_grounds does, with no per-field configuration."""
+    fields = discovered_list_fields(profession)
+    if not fields:
+        log.info("[%s] no discovered list fields to bucket", profession)
+        return
+    log.info("[%s] per-item bucketing %d discovered list fields: %s",
+             profession, len(fields), ", ".join(fields))
+    for dotted in fields:
+        run_profession_per_item(profession, dotted)
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("profession", nargs="?", help="single profession (omit + use --all)")
@@ -484,7 +539,27 @@ def main() -> None:
         default=_DEFAULT_PER_ITEM_FIELD,
         help="Dotted field path for --per-item. Default: licensure.disciplinary_grounds.",
     )
+    ap.add_argument(
+        "--list-fields",
+        action="store_true",
+        help=(
+            "Per-item-bucket EVERY discovered list field for the profession "
+            "(laser_procedures_authorized, etc.), not just --field. The general "
+            "tagging pass; sparse fields self-skip."
+        ),
+    )
     args = ap.parse_args()
+
+    if args.list_fields:
+        if args.all:
+            for p in sorted(_OUT_ROOT.iterdir()):
+                if p.is_dir() and (p / "spec.json").exists():
+                    run_profession_list_fields(p.name)
+            return
+        if not args.profession:
+            ap.error("provide a profession or --all")
+        run_profession_list_fields(args.profession)
+        return
 
     if args.per_item:
         if args.all:

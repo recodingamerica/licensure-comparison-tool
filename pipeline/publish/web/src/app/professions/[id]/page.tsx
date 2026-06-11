@@ -16,10 +16,11 @@ import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import type { ProfilePayload } from "@/lib/types";
 import { ProfileView } from "@/components/profile-view";
 import { ProfessionStatutesView } from "@/components/profession-statutes-view";
+import { ProfileTags } from "@/components/profile-tags";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { professionStyle, useProfessionMeta } from "@/lib/profession-colors";
 
-type View = "table" | "map" | "statutes";
+type View = "table" | "map" | "statutes" | "tags";
 
 function ProfessionInner({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
@@ -62,6 +63,7 @@ function ProfessionInner({ params }: { params: Promise<{ id: string }> }) {
   const legacyTab = sp.get("tab");
   const view: View = useMemo(() => {
     if (viewParam === "map" && payload?.map_prep) return "map";
+    if (viewParam === "tags") return "tags";
     if (
       viewParam === "statutes" ||
       viewParam === "hierarchy" ||
@@ -122,6 +124,12 @@ function ProfessionInner({ params }: { params: Promise<{ id: string }> }) {
             )}
           </TabsTrigger>
           <TabsTrigger value="statutes">Statutes</TabsTrigger>
+          <TabsTrigger value="tags" disabled={!hasMap}>
+            Tags
+            {!hasMap && (
+              <span className="ml-2 text-[10px] text-muted-foreground">(no tags)</span>
+            )}
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="table" className="mt-4">
@@ -133,6 +141,9 @@ function ProfessionInner({ params }: { params: Promise<{ id: string }> }) {
         </TabsContent>
         <TabsContent value="statutes" className="mt-4">
           <ProfessionStatutesView profPayload={payload} id={id} />
+        </TabsContent>
+        <TabsContent value="tags" className="mt-4">
+          <ProfileTags professionId={id} />
         </TabsContent>
       </Tabs>
     </main>

@@ -412,6 +412,8 @@ def stub_row(state: str, profession: str, reason: str) -> dict:
         "reciprocity_available": None,
         "compacts": [],
         "disciplinary_grounds_count": 0,
+        "disciplinary_categories": [],
+        "list_field_categories": {},
         "advisory_board_exists": None,
         "advisory_board_name": None,
         "advisory_board_authority": None,
@@ -569,6 +571,56 @@ def build(profession: str) -> dict:
     }
     map_prep = _load_map_prep(profession, structured_by_state)
 
+    # Per-state content tags for every per-item-bucketed list field. Lets the
+    # UI surface, per state, "Fraud, False Advertising, …" for disciplinary
+    # grounds and "Capsulotomy (YAG), Trabeculoplasty, …" for laser procedures,
+    # etc. — instead of only a count or a raw joined string. Empty when the
+    # per-item bucketing hasn't been run.
+    per_item_cats = _load_per_item_categories(profession)
+    disc = per_item_cats.get("licensure.disciplinary_grounds", {})
+    disc_by_state = disc.get("by_state", {})
+    disc_by_state_item = disc.get("by_state_item", {})
+    # The discovered list fields live under profession_specific.* — surface them
+    # generically so the table can chip-render any of them.
+    list_fields = {
+        fn: v for fn, v in per_item_cats.items()
+        if fn.startswith("profession_specific.")
+    }
+    for r in rows:
+        if r["coverage_gap"]:
+            continue
+        st = r["state"]
+        r["disciplinary_categories"] = disc_by_state.get(st, [])
+        r["list_field_categories"] = {
+            fn: v["by_state"].get(st, [])
+            for fn, v in list_fields.items()
+            if v["by_state"].get(st)
+        }
+        # Annotate each ground with its content bucket so the modal can group
+        # grounds by category. Index order matches the per-item assignments.
+        item_buckets = disc_by_state_item.get(st, {})
+        if item_buckets:
+            grounds = (r["_full"].get("licensure") or {}).get("disciplinary_grounds") or []
+            for i, g in enumerate(grounds):
+                if isinstance(g, dict) and i in item_buckets:
+                    g["category"] = item_buckets[i]
+
+    # Expose per-item tag breadth as mappable fields: # of distinct content
+    # categories each state falls into for a list field (e.g. how many laser
+    # procedure types a state authorizes). The map view renders these as
+    # continuous choropleths. Only fields covering ≥2 states are worth a map.
+    if map_prep is not None:
+        count_fields = []
+        for fn, v in per_item_cats.items():
+            by_state_count = {
+                st: len(cats) for st, cats in v["by_state"].items() if cats
+            }
+            if len(by_state_count) >= 2:
+                count_fields.append(
+                    {"field_name": fn, "by_state_count": by_state_count}
+                )
+        map_prep["per_item_count_fields"] = count_fields
+
     # Normalize citations in the published payload. We do this AFTER
     # `_annotate_quote_spans` (which uses raw + bracket-variant lookups) and
     # AFTER `_load_map_prep` (which copies citations onto map rows) so the
@@ -679,6 +731,52 @@ def _load_map_prep(profession: str, structured_by_state: dict[str, dict]) -> dic
     return {"spec": mappable, "rows": enriched_rows, "text_buckets": text_buckets}
 
 
+def _load_per_item_categories(
+    profession: str,
+) -> dict[str, dict]:
+    """Per-state content tags for EVERY per-item-bucketed list field, from the
+    per-item bucketing pass (pipeline.map_prep.bucket_text --list-fields).
+
+    Each state's individual list elements (disciplinary grounds, laser
+    procedures, injections, license tiers, …) were assigned to a content bucket.
+    The tag sheet aggregates these across states; here we aggregate the OTHER
+    way — per state — so the table can show which categories each state falls
+    into instead of only a raw joined string.
+
+    Returns: field_name → {
+      "by_state":      state → [{"label": bucket, "count": n}, …] (count desc),
+      "by_state_item": state → {item_index: bucket},
+    }
+    Empty if the per-item pass hasn't been run for this profession.
+    """
+    path = RESULTS_DIR / "map_prep" / profession / "text_buckets_per_item.json"
+    out: dict[str, dict] = {}
+    if not path.exists():
+        return out
+    raw = json.loads(path.read_text())
+    for field_name, field in (raw.get("fields") or {}).items():
+        counts: dict[str, dict[str, int]] = {}
+        by_state_item: dict[str, dict[int, str]] = {}
+        for a in field.get("assignments", []):
+            st, bucket = a.get("state"), a.get("bucket")
+            if not st or not bucket:
+                continue
+            per_state = counts.setdefault(st, {})
+            per_state[bucket] = per_state.get(bucket, 0) + 1
+            idx = a.get("item_index")
+            if isinstance(idx, int):
+                by_state_item.setdefault(st, {})[idx] = bucket
+        by_state: dict[str, list[dict]] = {
+            st: [
+                {"label": label, "count": n}
+                for label, n in sorted(bc.items(), key=lambda kv: (-kv[1], kv[0]))
+            ]
+            for st, bc in counts.items()
+        }
+        out[field_name] = {"by_state": by_state, "by_state_item": by_state_item}
+    return out
+
+
 def _profession_display(profession: str) -> str:
     """Pull a friendly display name from config/professions.yaml; fall back to title-case."""
     try:
@@ -749,6 +847,7 @@ def main() -> None:
     data_dir = Path(__file__).resolve().parent / "web" / "public" / "data"
     browse_dir = data_dir / profession / "browse"
     browse_dir.mkdir(parents=True, exist_ok=True)
+    browse_total = browse_cached = 0
     for row in payload["rows"]:
         bs = row.pop("browse_sections", None)
         bg = row.pop("browse_groups", None)
@@ -763,8 +862,11 @@ def main() -> None:
         }
         section_body = json.dumps(section_payload, indent=2)
         (browse_dir / f"{st}.json").write_text(section_body)
-        upload_json(f"data/{profession}/browse/{st}.json", section_body)
-    print(f"uploaded {len(payload['rows'])} per-state browse files")
+        _, _skipped = upload_json(f"data/{profession}/browse/{st}.json", section_body)
+        browse_cached += int(_skipped)
+        browse_total += 1
+    print(f"synced {browse_total} per-state browse files "
+          f"({browse_total - browse_cached} uploaded, {browse_cached} cached/unchanged)")
 
     body = json.dumps(payload, indent=2)
     # Mirror to public/data/ so downstream tooling (state_similarity, review CSV)
@@ -772,8 +874,8 @@ def main() -> None:
     local_path = data_dir / f"{profession}.json"
     local_path.write_text(body)
     print(f"wrote {local_path}")
-    url = upload_json(f"data/{profession}.json", body)
-    print(f"uploaded data/{profession}.json → {url}")
+    url, skipped = upload_json(f"data/{profession}.json", body)
+    print(f"{'cached' if skipped else 'uploaded'} data/{profession}.json → {url}")
     summary = {
         "covered": sum(1 for r in payload["rows"] if not r["coverage_gap"]),
         "gaps":    sum(1 for r in payload["rows"] if r["coverage_gap"]),

@@ -2,7 +2,12 @@
 
 import { useMemo, useState } from "react";
 import { ChevronDown, ChevronRight } from "lucide-react";
-import type { DiscoveredField, Row, SectionRef } from "@/lib/types";
+import type {
+  DiscoveredField,
+  DisciplinaryGround,
+  Row,
+  SectionRef,
+} from "@/lib/types";
 import {
   Sheet,
   SheetContent,
@@ -13,6 +18,24 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { EvidenceRow, SearchQueryContext } from "./evidence-row";
 import { searchSnippets } from "@/lib/format";
+
+// Group a state's disciplinary grounds by their content category (from the
+// per-item bucketing pass), largest group first. When no ground carries a
+// category (pass not run for this profession), returns a single unlabeled
+// group so the flat list renders exactly as before.
+function groupGroundsByCategory(
+  grounds: DisciplinaryGround[],
+): [string, DisciplinaryGround[]][] {
+  if (!grounds.some((g) => g.category)) return [["", grounds]];
+  const byCat = new Map<string, DisciplinaryGround[]>();
+  for (const g of grounds) {
+    const cat = g.category || "Uncategorized";
+    const arr = byCat.get(cat);
+    if (arr) arr.push(g);
+    else byCat.set(cat, [g]);
+  }
+  return Array.from(byCat.entries()).sort((a, b) => b[1].length - a[1].length);
+}
 
 const COMPACT_FULL: Record<string, string> = {
   NLC: "Nurse Licensure Compact",
@@ -216,14 +239,25 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
 
           {lic.disciplinary_grounds && lic.disciplinary_grounds.length > 0 && (
             <Section title="Disciplinary grounds">
-              {lic.disciplinary_grounds.map((g, i) => (
-                <EvidenceRow
-                  key={i}
-                  label={g.short_label || "ground"}
-                  ev={{ value: g.description || "", quote: g.quote || "", citation: g.citation || "" }}
-                  sections={sections}
-                />
-              ))}
+              {groupGroundsByCategory(lic.disciplinary_grounds).map(
+                ([cat, grounds]) => (
+                  <div key={cat} className="mb-2">
+                    {cat && (
+                      <p className="text-xs font-mono uppercase tracking-wider text-muted-foreground mb-1">
+                        {cat} · {grounds.length}
+                      </p>
+                    )}
+                    {grounds.map((g, i) => (
+                      <EvidenceRow
+                        key={`${cat}-${i}`}
+                        label={g.short_label || "ground"}
+                        ev={{ value: g.description || "", quote: g.quote || "", citation: g.citation || "" }}
+                        sections={sections}
+                      />
+                    ))}
+                  </div>
+                ),
+              )}
             </Section>
           )}
 

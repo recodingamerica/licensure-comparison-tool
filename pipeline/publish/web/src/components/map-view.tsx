@@ -17,12 +17,52 @@ import type { MapPrep, MapFieldSpec, MapRow } from "@/lib/types";
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
+  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
 import { humanize } from "@/lib/format";
 import { UsMap, NO_DATA_FILL } from "@/components/us-map";
+
+// The five "priority" licensure concepts (mirrors PRIORITY_FIELDS in
+// pipeline/publish/build_tag_sheet.py). Each maps to the dotted bucketed-field
+// name(s) the Pass-3 bucketing may have produced; we surface whichever exist
+// as categorical "priority" choropleths grouped at the top of the field
+// dropdown. Discipline is intentionally omitted — it's per-item (a state has
+// many grounds spanning several buckets), so it isn't a single-value
+// choropleth; it lives on the tag sheet and the table's category column.
+const PRIORITY_CONCEPTS: { concept: string; candidates: string[] }[] = [
+  { concept: "Minimum Degree", candidates: ["licensure.education.degree_required"] },
+  {
+    concept: "Professional Experience",
+    candidates: [
+      "licensure.post_degree_experience.kind",
+      "licensure.post_degree_experience.duration",
+    ],
+  },
+  {
+    concept: "Licensing Authority",
+    candidates: [
+      "licensure.issuing_authority",
+      "licensure.regulatory_authority.name",
+    ],
+  },
+  {
+    concept: "Scope of Practice",
+    candidates: [
+      "scope.methods_authorized",
+      "scope.drug_authority",
+      "scope.definition_quote",
+      "profession_specific.surgery_definition",
+    ],
+  },
+];
+
+// Synthetic field_name prefix for the "# of distinct tags" breadth maps, so
+// they never collide with a real normalized field of the same dotted name.
+const COUNT_PREFIX = "count::";
 
 // Stable categorical palette — picked for distinguishability on a map at
 // state-size. Up to ~12 categories before we wrap.
@@ -53,6 +93,10 @@ type FieldSummary = {
   coverage: number; // states with non-null normalized
   distinctValues: number; // distinct non-null normalized values
 };
+
+// A synthesized priority-field spec carries its plain-English concept label
+// (e.g. "Minimum Degree") for the dropdown; otherwise it's a normal spec.
+type PrioritySpec = MapFieldSpec & { concept: string };
 
 function summarize(specs: MapFieldSpec[], rows: MapRow[]): FieldSummary[] {
   const byField = new Map<string, MapRow[]>();
@@ -85,43 +129,141 @@ export function MapView({
   fieldName: string | null;
   onFieldChange: (f: string | null) => void;
 }) {
-  // Hide uniform fields (≤1 distinct non-null value); sort remaining by
-  // coverage descending so the most "interesting" maps are at the top.
-  const visibleSpecs = useMemo(() => {
-    const summaries = summarize(mapPrep.spec, mapPrep.rows);
-    return summaries
-      .filter((s) => s.distinctValues > 1)
-      .sort((a, b) => b.coverage - a.coverage);
+  // Priority fields are the bucketed free-text fields (not_mappable, so absent
+  // from mapPrep.spec). We synthesize categorical specs + per-state rows from
+  // the Pass-3 text buckets so they can render as choropleths grouped at the
+  // top of the dropdown.
+  const { prioritySpecs, priorityRows } = useMemo(() => {
+    const specs: PrioritySpec[] = [];
+    const rows: MapRow[] = [];
+    const tb = mapPrep.text_buckets ?? {};
+    for (const { concept, candidates } of PRIORITY_CONCEPTS) {
+      for (const fn of candidates) {
+        const entry = tb[fn];
+        const byState = entry?.by_state ?? {};
+        if (!entry || Object.keys(byState).length === 0) continue;
+        specs.push({
+          field_name: fn,
+          mappable: true,
+          kind: "categorical",
+          unit: null,
+          categories: entry.bucket_set ?? [],
+          reason: entry.rationale ?? "",
+          concept,
+        });
+        for (const [state, bucket] of Object.entries(byState)) {
+          rows.push({ field_name: fn, state, raw_value: bucket, normalized: bucket });
+        }
+        break; // one map per concept — first candidate the profession produced
+      }
+    }
+    return { prioritySpecs: specs, priorityRows: rows };
   }, [mapPrep]);
 
-  const specs = visibleSpecs.map((s) => s.spec);
+  const priorityNames = useMemo(
+    () => new Set(prioritySpecs.map((s) => s.field_name)),
+    [prioritySpecs]
+  );
+
+  // "Scope breadth" maps: # of distinct content categories each state falls
+  // into for a per-item list field (laser procedures, injections, …). Rendered
+  // as continuous choropleths — higher = broader authorized scope.
+  const { breadthSpecs, breadthRows } = useMemo(() => {
+    const specs: MapFieldSpec[] = [];
+    const rows: MapRow[] = [];
+    for (const cf of mapPrep.per_item_count_fields ?? []) {
+      const entries = Object.entries(cf.by_state_count);
+      if (entries.length < 2) continue;
+      const id = COUNT_PREFIX + cf.field_name;
+      specs.push({
+        field_name: id,
+        mappable: true,
+        kind: "continuous",
+        unit: "tags",
+        categories: null,
+        reason: `Number of distinct ${prettyFieldName(cf.field_name)} categories each state falls into.`,
+      });
+      for (const [state, n] of entries) {
+        rows.push({ field_name: id, state, raw_value: String(n), normalized: n });
+      }
+    }
+    return { breadthSpecs: specs, breadthRows: rows };
+  }, [mapPrep]);
+
+  // Hide uniform fields (≤1 distinct non-null value); sort remaining by
+  // coverage descending so the most "interesting" maps are at the top.
+  // Priority fields are pulled out and shown first, so exclude them here.
+  const otherSummaries = useMemo(() => {
+    const summaries = summarize(mapPrep.spec, mapPrep.rows);
+    return summaries
+      .filter((s) => s.distinctValues > 1 && !priorityNames.has(s.spec.field_name))
+      .sort((a, b) => b.coverage - a.coverage);
+  }, [mapPrep, priorityNames]);
+
+  const otherSpecs = useMemo(
+    () => otherSummaries.map((s) => s.spec),
+    [otherSummaries]
+  );
+
+  // Priority maps first, then the rest, then the breadth maps. Drives both the
+  // dropdown order and the default selection (an unparameterized URL lands on
+  // the first priority map).
+  const allSpecs = useMemo(
+    () => [...prioritySpecs, ...otherSpecs, ...breadthSpecs],
+    [prioritySpecs, otherSpecs, breadthSpecs]
+  );
+
   const coverageByField = useMemo(() => {
     const m = new Map<string, number>();
-    for (const s of visibleSpecs) m.set(s.spec.field_name, s.coverage);
+    for (const r of priorityRows) {
+      if (r.normalized == null) continue;
+      m.set(r.field_name, (m.get(r.field_name) ?? 0) + 1);
+    }
+    for (const r of breadthRows) {
+      if (r.normalized == null) continue;
+      m.set(r.field_name, (m.get(r.field_name) ?? 0) + 1);
+    }
+    for (const s of otherSummaries) m.set(s.spec.field_name, s.coverage);
     return m;
-  }, [visibleSpecs]);
+  }, [priorityRows, breadthRows, otherSummaries]);
 
   // If the URL field exists in the visible list, use it; otherwise fall
   // back to the first one (which is what an unparameterized URL gets).
   const fieldName =
-    fieldNameProp && specs.some((s) => s.field_name === fieldNameProp)
+    fieldNameProp && allSpecs.some((s) => s.field_name === fieldNameProp)
       ? fieldNameProp
-      : specs[0]?.field_name ?? "";
+      : allSpecs[0]?.field_name ?? "";
 
   const spec = useMemo<MapFieldSpec | undefined>(
-    () => specs.find((s) => s.field_name === fieldName),
-    [specs, fieldName]
+    () => allSpecs.find((s) => s.field_name === fieldName),
+    [allSpecs, fieldName]
   );
 
-  // state → MapRow for the currently selected field
+  // state → MapRow for the currently selected field (priority rows are
+  // synthesized above; the rest come straight from mapPrep.rows).
+  const allRows = useMemo(
+    () => [...priorityRows, ...breadthRows, ...mapPrep.rows],
+    [priorityRows, breadthRows, mapPrep.rows]
+  );
   const byState = useMemo(() => {
     const out = new Map<string, MapRow>();
     if (!spec) return out;
-    for (const r of mapPrep.rows) {
+    for (const r of allRows) {
       if (r.field_name === spec.field_name) out.set(r.state, r);
     }
     return out;
-  }, [mapPrep.rows, spec]);
+  }, [allRows, spec]);
+
+  // field_name → friendly label, so the closed dropdown shows "Minimum Degree"
+  // rather than the raw dotted path.
+  const labelByField = useMemo(() => {
+    const m = new Map<string, string>();
+    for (const s of prioritySpecs) m.set(s.field_name, s.concept);
+    for (const s of otherSpecs) m.set(s.field_name, prettyFieldName(s.field_name));
+    for (const s of breadthSpecs)
+      m.set(s.field_name, breadthLabel(s.field_name));
+    return m;
+  }, [prioritySpecs, otherSpecs, breadthSpecs]);
 
   // Color mapping (depends on field kind)
   const colorFor = useMemo(() => {
@@ -209,7 +351,7 @@ export function MapView({
     );
   }, [spec, byState]);
 
-  if (!specs.length) {
+  if (!allSpecs.length) {
     return (
       <div className="rounded border bg-muted/30 p-6 text-sm text-muted-foreground">
         No mappable fields yet for this profession. Run{" "}
@@ -227,17 +369,53 @@ export function MapView({
         </span>
         <Select value={fieldName} onValueChange={(v) => v && onFieldChange(v)}>
           <SelectTrigger className="w-[28rem]">
-            <SelectValue />
+            <SelectValue>
+              {(value) =>
+                labelByField.get(value as string) ??
+                prettyFieldName(String(value ?? ""))
+              }
+            </SelectValue>
           </SelectTrigger>
           <SelectContent>
-            {specs.map((s) => {
-              const cov = coverageByField.get(s.field_name) ?? 0;
-              return (
-                <SelectItem key={s.field_name} value={s.field_name}>
-                  {prettyFieldName(s.field_name)} ({s.kind}, {cov} states)
-                </SelectItem>
-              );
-            })}
+            {prioritySpecs.length > 0 && (
+              <SelectGroup>
+                <SelectLabel>Priority fields</SelectLabel>
+                {prioritySpecs.map((s) => {
+                  const cov = coverageByField.get(s.field_name) ?? 0;
+                  return (
+                    <SelectItem key={s.field_name} value={s.field_name}>
+                      {s.concept} ({cov} states)
+                    </SelectItem>
+                  );
+                })}
+              </SelectGroup>
+            )}
+            {otherSpecs.length > 0 && (
+              <SelectGroup>
+                <SelectLabel>All mapped fields</SelectLabel>
+                {otherSpecs.map((s) => {
+                  const cov = coverageByField.get(s.field_name) ?? 0;
+                  return (
+                    <SelectItem key={s.field_name} value={s.field_name}>
+                      {prettyFieldName(s.field_name)} ({s.kind}, {cov} states)
+                    </SelectItem>
+                  );
+                })}
+              </SelectGroup>
+            )}
+            {breadthSpecs.length > 0 && (
+              <SelectGroup>
+                <SelectLabel>Scope breadth (distinct tags)</SelectLabel>
+                {breadthSpecs.map((s) => {
+                  const cov = coverageByField.get(s.field_name) ?? 0;
+                  return (
+                    <SelectItem key={s.field_name} value={s.field_name}>
+                      {breadthLabel(s.field_name)} ({cov} states)
+                    </SelectItem>
+                  );
+                })}
+              </SelectGroup>
+            )}
           </SelectContent>
         </Select>
       </div>
@@ -287,6 +465,11 @@ export function MapView({
       <div>{legend}</div>
     </div>
   );
+}
+
+// Label for a breadth (distinct-tag count) map: "# distinct <field> tags".
+function breadthLabel(id: string): string {
+  return `# distinct ${prettyFieldName(id.replace(COUNT_PREFIX, ""))} tags`;
 }
 
 // Trim "licensure." / "profession_specific." prefixes since they're noise
