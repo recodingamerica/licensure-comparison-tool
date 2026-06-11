@@ -72,6 +72,9 @@ def main() -> None:
     ap.add_argument("--professions", nargs="+", help="Limit to these (default: all core professions)")
     ap.add_argument("--force", action="store_true", help="Rebuild every profession, ignore the fingerprint cache")
     ap.add_argument("--deploy", action="store_true", help="Redeploy Vercel (prod) after refreshing")
+    ap.add_argument("--payload-only", action="store_true",
+                    help="Tags/table/map changed but browse didn't: skip per-state browse regeneration "
+                         "(the CPU hog) and the browse-builder stages. ~10x faster. Rebuilds payloads + tag sheet only.")
     args = ap.parse_args()
 
     all_profs = args.professions or core_professions()
@@ -108,23 +111,30 @@ def main() -> None:
     results: list[tuple[str, bool]] = []
 
     # 1. Per-profession payloads (+ per-state browse) — only the changed ones.
+    fe_cmd = ["--payload-only"] if args.payload_only else []
     for p in changed:
-        ok = run([PY, "-m", "pipeline.publish.build_frontend", "--profession", p],
-                 f"build_frontend {p}")
+        ok = run([PY, "-m", "pipeline.publish.build_frontend", "--profession", p, *fe_cmd],
+                 f"build_frontend {p}{' (payload-only)' if args.payload_only else ''}")
         results.append((f"build_frontend:{p}", ok))
-        if ok:
+        if ok and not args.payload_only:
+            # In payload-only mode the browse blobs are intentionally NOT
+            # rebuilt, so the fingerprint doesn't fully reflect what's on Blob —
+            # don't record it, or a later full refresh would wrongly skip.
             manifest[p] = fps[p]  # only record success
 
-    # 2-5. Global artifacts aggregate across all professions, so refresh them
-    #      whenever anything changed.
+    # 2. Tag sheet aggregates the per-item tags, so always refresh it.
     results.append(("build_tag_sheet",
                     run([PY, "-m", "pipeline.publish.build_tag_sheet", "--upload"], "build_tag_sheet")))
-    results.append(("scorecard",
-                    run([PY, "-m", "pipeline.publish.cross_comparison_scorecard", "--upload"], "scorecard")))
-    results.append(("build_state_browse",
-                    run([PY, "-m", "pipeline.publish.build_state_browse"], "build_state_browse")))
-    results.append(("build_umbrella_browse",
-                    run([PY, "-m", "pipeline.publish.build_umbrella_browse"], "build_umbrella_browse")))
+
+    # 3-5. Scorecard + browse artifacts are unaffected by a tags-only change,
+    #      so skip them in payload-only mode (they're the other slow stages).
+    if not args.payload_only:
+        results.append(("scorecard",
+                        run([PY, "-m", "pipeline.publish.cross_comparison_scorecard", "--upload"], "scorecard")))
+        results.append(("build_state_browse",
+                        run([PY, "-m", "pipeline.publish.build_state_browse"], "build_state_browse")))
+        results.append(("build_umbrella_browse",
+                        run([PY, "-m", "pipeline.publish.build_umbrella_browse"], "build_umbrella_browse")))
 
     MANIFEST.write_text(json.dumps(manifest, indent=2))
 
