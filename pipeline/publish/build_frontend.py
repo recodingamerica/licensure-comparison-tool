@@ -427,7 +427,16 @@ def stub_row(state: str, profession: str, reason: str) -> dict:
     }
 
 
-def build(profession: str) -> dict:
+def build(profession: str, payload_only: bool = False) -> dict:
+    """Build a profession's frontend payload.
+
+    payload_only=True skips the expensive per-state browse regeneration
+    (`_build_browse_sections` + `_build_browse_tree`) — the CPU hog that
+    fuzzy-matches statute text. Use it when only the table/map/tag data
+    changed (e.g. a re-bucketing) and the per-state browse blobs in Blob are
+    still current. The main payload (table rows + map_prep + tags + quote
+    highlight spans) is rebuilt fully; browse files are left untouched.
+    """
     structured_dir = STRUCTURED_DIR / profession
     discovered = json.loads((DISCOVERED_DIR / f"{profession}.json").read_text())
     trimmed_dir = TRIMMED_DIR / profession
@@ -509,34 +518,38 @@ def build(profession: str) -> dict:
             # aggregates umbrella by chapter for the Sheet's existing "in
             # context" lookup). Each browse_section is one node in the tree,
             # tagged with scope_layer + per-section evidence quote spans.
-            row["browse_sections"] = _build_browse_sections(
-                row["_full"],
-                profession,
-                practice_sections_by_state.get(st, []),
-                umbrella_data_by_state.get(st),
-                umb_scope_by_state.get(st, {}),
-            )
-            # Group browse_sections by scope_layer and build a hierarchy
-            # tree per layer (parsed from each section's Justia URL). The
-            # /browse/[state]/[prof] view renders these as nested
-            # collapsible nodes; flat browse_sections kept alongside for
-            # any consumer that still wants a list.
-            _chap_labels: dict[str, str] = {}
-            umb_state = umbrella_data_by_state.get(st)
-            if umb_state:
-                for _s in umb_state.get("sections") or []:
-                    _slug = _s.get("umbrella_chapter_slug")
-                    _lbl = _s.get("umbrella_chapter_label")
-                    if _slug and _lbl and _slug not in _chap_labels:
-                        _chap_labels[_slug] = _lbl
-            _by_layer: dict[str, list[dict]] = {}
-            for _bs in row["browse_sections"]:
-                _by_layer.setdefault(_bs.get("scope_layer") or "practice", []).append(_bs)
-            row["browse_groups"] = [
-                {"key": layer, "tree": _build_browse_tree(_by_layer[layer], chapter_label_overrides=_chap_labels)}
-                for layer in ("practice", "umbrella_enumeration", "umbrella_universal")
-                if _by_layer.get(layer)
-            ]
+            # Browse regeneration is the per-state CPU hog. Skip it when only
+            # the payload (table/map/tag data) changed — the browse blobs in
+            # Blob stay current and main() won't re-split/re-upload them.
+            if not payload_only:
+                row["browse_sections"] = _build_browse_sections(
+                    row["_full"],
+                    profession,
+                    practice_sections_by_state.get(st, []),
+                    umbrella_data_by_state.get(st),
+                    umb_scope_by_state.get(st, {}),
+                )
+                # Group browse_sections by scope_layer and build a hierarchy
+                # tree per layer (parsed from each section's Justia URL). The
+                # /browse/[state]/[prof] view renders these as nested
+                # collapsible nodes; flat browse_sections kept alongside for
+                # any consumer that still wants a list.
+                _chap_labels: dict[str, str] = {}
+                umb_state = umbrella_data_by_state.get(st)
+                if umb_state:
+                    for _s in umb_state.get("sections") or []:
+                        _slug = _s.get("umbrella_chapter_slug")
+                        _lbl = _s.get("umbrella_chapter_label")
+                        if _slug and _lbl and _slug not in _chap_labels:
+                            _chap_labels[_slug] = _lbl
+                _by_layer: dict[str, list[dict]] = {}
+                for _bs in row["browse_sections"]:
+                    _by_layer.setdefault(_bs.get("scope_layer") or "practice", []).append(_bs)
+                row["browse_groups"] = [
+                    {"key": layer, "tree": _build_browse_tree(_by_layer[layer], chapter_label_overrides=_chap_labels)}
+                    for layer in ("practice", "umbrella_enumeration", "umbrella_universal")
+                    if _by_layer.get(layer)
+                ]
             # Attach highlight spans now, against the EXACT section text we're
             # about to publish. Computing on this side (rather than during
             # extract/reverify) avoids any normalization drift between the
@@ -835,10 +848,12 @@ def main() -> None:
     ap.add_argument("--profession", required=True)
     ap.add_argument("--deploy", action="store_true",
                     help="After uploading to blob, redeploy the Vercel project so the live site picks up the new data.")
+    ap.add_argument("--payload-only", action="store_true",
+                    help="Skip browse regeneration (the per-state CPU hog); rebuild only the table/map/tag payload. Use when browse data is unchanged.")
     args = ap.parse_args()
 
     profession = args.profession.lower()
-    payload = build(profession)
+    payload = build(profession, payload_only=args.payload_only)
 
     # Split heavy per-section data into separate per-(profession, state) files
     # so the main profile blob stays small. The table view loads the main
