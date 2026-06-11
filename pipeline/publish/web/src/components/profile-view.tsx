@@ -1476,6 +1476,10 @@ export function ProfileView({
       )
   );
 
+  // Which #19 view preset is active (null = custom / default). Cleared the
+  // moment the user hand-toggles a column, since the set no longer matches.
+  const [activePreset, setActivePreset] = useState<string | null>(null);
+
   // Profession slug for browse URLs. payload.profession is canonical
   // (e.g. "podiatry"); ensure it survives even if the URL was navigated
   // to with a casing variation.
@@ -1580,6 +1584,7 @@ export function ProfileView({
   // at the far right is off-screen and the user can mistake "toggled on"
   // for "didn't work" (issue #11 / Atharv's "doesn't show up when toggled").
   const toggleColumnVisible = (id: string, visible: boolean) => {
+    setActivePreset(null); // hand-edit → no longer matches a preset
     setVisibleColumns((prev) => {
       const next = new Set(prev);
       if (visible) next.add(id);
@@ -1593,6 +1598,73 @@ export function ProfileView({
       // ask it to scroll — without the delay, ensureColumnVisible can no-op
       // because the column's position isn't computed yet.
       requestAnimationFrame(() => api.ensureColumnVisible(id, "middle"));
+    }
+  };
+
+  // ── View presets (#19): one-click column sets so users can focus on a
+  // dimension instead of the full ~70-column table. "Scope" pulls in the new
+  // per-item tag columns (laser, injections, …); "Discipline" the disciplinary
+  // tags; "Priority" the five headline fields. "All columns" restores the
+  // default set. Each replaces the visible set entirely (a focused view).
+  const scopeTagColIds = useMemo(() => {
+    const ids = new Set<string>();
+    for (const r of rows) {
+      if (!r.list_field_categories) continue;
+      for (const k of Object.keys(r.list_field_categories))
+        ids.add("ps_" + k.replace("profession_specific.", ""));
+    }
+    return [...ids];
+  }, [rows]);
+
+  const viewPresets = useMemo(
+    () => [
+      {
+        key: "priority",
+        label: "Priority",
+        ids: [
+          "education_degree",
+          "post_degree_duration",
+          "issuing_authority",
+          "scope_definition",
+          "disciplinary_categories",
+        ],
+      },
+      {
+        key: "scope",
+        label: "Scope",
+        ids: [
+          "scope_definition",
+          "scope_methods",
+          "scope_drug_authority",
+          ...scopeTagColIds,
+        ],
+      },
+      {
+        key: "discipline",
+        label: "Discipline",
+        ids: ["disciplinary_categories", "disciplinary_grounds_count"],
+      },
+      {
+        key: "full",
+        label: "All columns",
+        ids: columnDefs
+          .filter((c) => !c.lockVisible && !(c as { initialHide?: boolean }).initialHide)
+          .map(colId),
+      },
+    ],
+    [scopeTagColIds, columnDefs]
+  );
+
+  const applyPreset = (key: string) => {
+    const preset = viewPresets.find((p) => p.key === key);
+    if (!preset) return;
+    const show = new Set(preset.ids.filter((id) => allToggleableIds.includes(id)));
+    setVisibleColumns(show);
+    setActivePreset(key);
+    if (api) {
+      api.applyColumnState({
+        state: allToggleableIds.map((id) => ({ colId: id, hide: !show.has(id) })),
+      });
     }
   };
 
@@ -1692,10 +1764,31 @@ export function ProfileView({
       {view === "table" && (
         <>
           <div className="flex flex-wrap gap-3 items-center mb-4">
+            {/* #19 view presets: focus the table on one dimension. */}
+            <div className="inline-flex items-center gap-1 rounded-md border bg-muted/40 p-0.5 text-xs">
+              <span className="px-2 font-mono uppercase tracking-wider text-muted-foreground">
+                view
+              </span>
+              {viewPresets.map((p) => (
+                <button
+                  key={p.key}
+                  onClick={() => applyPreset(p.key)}
+                  className={
+                    "px-2.5 py-1 rounded " +
+                    (activePreset === p.key
+                      ? "bg-background shadow-sm text-foreground"
+                      : "text-muted-foreground hover:text-foreground")
+                  }
+                >
+                  {p.label}
+                </button>
+              ))}
+            </div>
+
             <span className="text-xs font-mono text-muted-foreground">
               Filter per column by clicking its header (
-              <span className="text-foreground">≡</span> icon). Toggle which
-              columns are visible from the dropdown on the right.
+              <span className="text-foreground">≡</span> icon). Or pick a view
+              above; toggle individual columns at right.
             </span>
 
             <ColumnVisibilityPopover
