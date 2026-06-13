@@ -1,0 +1,322 @@
+{
+  "profession": "physical_therapy",
+  "fields": [
+    {
+      "name": "direct_access_allowed",
+      "category": "whether a doctor's referral is needed",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether a physical therapist may evaluate and treat patients without a referral from another health care provider.",
+      "sample_quote": "A physical therapist may evaluate, initiate, and provide physical therapy treatment for a client without a referral from another health service provider.",
+      "sample_state": "UT",
+      "states_supporting": [
+        "UT"
+      ]
+    },
+    {
+      "name": "pta_license_required",
+      "category": "license tiers and assistant roles",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether a physical therapist assistant must hold a separate state license distinct from the physical therapist license.",
+      "sample_quote": "An applicant for a license as a physical therapist assistant shall: ... submit proof of graduation from a physical therapist assistant education program that is accredited by a recognized accreditation agency.",
+      "sample_state": "UT",
+      "states_supporting": [
+        "UT"
+      ]
+    },
+    {
+      "name": "pta_supervision_type_required",
+      "category": "license tiers and assistant roles",
+      "type": "list[str]",
+      "enum_values": [
+        "on-site supervision",
+        "general supervision"
+      ],
+      "description": "The type(s) of supervision a licensed physical therapist must provide over a physical therapist assistant during practice.",
+      "sample_quote": "A licensed physical therapist assistant is authorized to practice physical therapy under the on-site supervision or general supervision of a licensed physical therapist.",
+      "sample_state": "UT",
+      "states_supporting": [
+        "UT"
+      ]
+    },
+    {
+      "name": "aide_role_defined",
+      "category": "license tiers and assistant roles",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute defines a non-licensed physical therapy aide role with limited, supervised assistance functions.",
+      "sample_quote": "A physical therapy aide means a person who is trained, on-the-job, by a licensed physical therapist and provides routine assistance to a licensed physical therapist or licensed physical therapist assistant.",
+      "sample_state": "UT",
+      "states_supporting": [
+        "UT"
+      ]
+    },
+    {
+      "name": "aide_supervision_type_required",
+      "category": "license tiers and assistant roles",
+      "type": "list[str]",
+      "enum_values": [
+        "on-site supervision"
+      ],
+      "description": "The type of supervision required over a physical therapy aide during practice.",
+      "sample_quote": "A physical therapy aide may provide routine assistance to a licensed physical therapist ... if the physical therapy aide is under the on-site supervision of the licensed physical therapist.",
+      "sample_state": "UT",
+      "states_supporting": [
+        "UT"
+      ]
+    },
+    {
+      "name": "pta_restricted_procedures",
+      "category": "license tiers and assistant roles",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "Specific clinical procedures that a physical therapist assistant or aide is explicitly prohibited from performing.",
+      "sample_quote": "A physical therapist assistant or a physical therapy aide may not: perform a physical therapy evaluation or assessment; identify or label a physical impairment or injury; design a plan of care for a patient; perform the joint mobilization component of manual therapy; or perform the sharp selective debridement component of wound management.",
+      "sample_state": "UT",
+      "states_supporting": [
+        "UT"
+      ]
+    },
+    {
+      "name": "trigger_point_dry_needling_authorized",
+      "category": "special procedures requiring extra credentials",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether physical therapists are authorized to perform trigger point dry needling as part of physical therapy practice.",
+      "sample_quote": "Trigger point dry needling means the stimulation of a trigger point using a dry needle to treat neuromuscular pain and functional movement deficits.",
+      "sample_state": "UT",
+      "states_supporting": [
+        "UT"
+      ]
+    },
+    {
+      "name": "trigger_point_dry_needling_min_practice_years",
+      "category": "special procedures requiring extra credentials",
+      "type": "int",
+      "enum_values": null,
+      "description": "Minimum years of active physical therapy practice required before a licensee may perform trigger point dry needling.",
+      "sample_quote": "A physical therapist may practice trigger point dry needling if the physical therapist has held a license to practice physical therapy under this chapter, and has actively practiced physical therapy, for two years.",
+      "sample_state": "UT",
+      "states_supporting": [
+        "UT"
+      ]
+    },
+    {
+      "name": "trigger_point_dry_needling_course_hours",
+      "category": "special procedures requiring extra credentials",
+      "type": "int",
+      "enum_values": null,
+      "description": "Minimum total course hours required to qualify for trigger point dry needling practice.",
+      "sample_quote": "has successfully completed a course in trigger point dry needling that ... includes at least 300 total course hours, including at least 54 hours of in-person instruction and 250 supervised patient treatment sessions.",
+      "sample_state": "UT",
+      "states_supporting": [
+        "UT"
+      ]
+    },
+    {
+      "name": "trigger_point_dry_needling_registration_required",
+      "category": "special procedures requiring extra credentials",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether a physical therapist must register separately with the licensing authority to practice trigger point dry needling.",
+      "sample_quote": "registers with the division as a trigger point dry needling practitioner.",
+      "sample_state": "UT",
+      "states_supporting": [
+        "UT"
+      ]
+    },
+    {
+      "name": "animal_physical_therapy_authorized",
+      "category": "special procedures requiring extra credentials",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether physical therapists are authorized to practice physical therapy on animals under defined conditions.",
+      "sample_quote": "Animal physical therapy means practicing physical therapy or physiotherapy on an animal.",
+      "sample_state": "UT",
+      "states_supporting": [
+        "UT"
+      ]
+    },
+    {
+      "name": "animal_physical_therapy_training_hours",
+      "category": "special procedures requiring extra credentials",
+      "type": "int",
+      "enum_values": null,
+      "description": "Minimum training hours required for a physical therapist to practice animal physical therapy.",
+      "sample_quote": "A licensed physical therapist may practice animal physical therapy if the licensed physical therapist completes at least 100 hours of animal physical therapy training and education.",
+      "sample_state": "UT",
+      "states_supporting": [
+        "UT"
+      ]
+    },
+    {
+      "name": "animal_physical_therapy_veterinarian_supervision_hours",
+      "category": "special procedures requiring extra credentials",
+      "type": "int",
+      "enum_values": null,
+      "description": "Minimum hours of on-the-job training under a licensed veterinarian required to practice animal physical therapy.",
+      "sample_quote": "50 hours of on-the-job training under the supervision of a licensed veterinarian.",
+      "sample_state": "UT",
+      "states_supporting": [
+        "UT"
+      ]
+    },
+    {
+      "name": "scope_exclusions",
+      "category": "what they are not allowed to do",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "Activities explicitly excluded from the authorized scope of physical therapy practice.",
+      "sample_quote": "Physical therapy or physiotherapy does not include: diagnosing disease; performing surgery; performing acupuncture; taking x-rays; or prescribing or dispensing a drug.",
+      "sample_state": "UT",
+      "states_supporting": [
+        "UT"
+      ]
+    },
+    {
+      "name": "topical_drug_administration_authorized",
+      "category": "drugs and medications",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether physical therapists are authorized to purchase, store, and administer topical prescription medications.",
+      "sample_quote": "A licensed physical therapist may purchase, store, and administer topically applied medicinal agents, including steroids and analgesics, for wound care and for musculoskeletal treatment, using iontophoresis or phonorphoresis.",
+      "sample_state": "UT",
+      "states_supporting": [
+        "UT"
+      ]
+    },
+    {
+      "name": "aerosol_drug_administration_authorized",
+      "category": "drugs and medications",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether physical therapists are authorized to administer aerosol prescription medications in limited institutional settings.",
+      "sample_quote": "aerosols for pulmonary hygiene in an institutional setting, if a licensed respiratory therapist is not available in, or within a 10 mile radius of, the institution.",
+      "sample_state": "UT",
+      "states_supporting": [
+        "UT"
+      ]
+    },
+    {
+      "name": "drug_administration_requires_written_prescription",
+      "category": "drugs and medications",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether a physical therapist must have a written prescription from a licensed prescriber before administering any medication.",
+      "sample_quote": "A licensed physical therapist may only purchase, store, or administer a medication described in this section pursuant to a written prescription issued by a practitioner who is licensed to prescribe that medication.",
+      "sample_state": "UT",
+      "states_supporting": [
+        "UT"
+      ]
+    },
+    {
+      "name": "interstate_compact_member",
+      "category": "practicing across state lines",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state has enacted the Physical Therapy Licensure Compact allowing multi-state practice privileges.",
+      "sample_quote": "The purpose of this Compact is to facilitate interstate practice of physical therapy with the goal of improving public access to physical therapy services.",
+      "sample_state": "UT",
+      "states_supporting": [
+        "UT"
+      ]
+    },
+    {
+      "name": "compact_privilege_adverse_action_waiting_years",
+      "category": "practicing across state lines",
+      "type": "int",
+      "enum_values": null,
+      "description": "Number of years that must elapse after an adverse action before a licensee may obtain a compact privilege in a remote state.",
+      "sample_quote": "Have not had any adverse action against any license or compact privilege within the previous 2 years.",
+      "sample_state": "UT",
+      "states_supporting": [
+        "UT"
+      ]
+    },
+    {
+      "name": "jurisprudence_exam_required_for_compact_privilege",
+      "category": "practicing across state lines",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether a remote state may require a jurisprudence assessment of state-specific laws as a condition of granting a compact privilege.",
+      "sample_quote": "Meet any jurisprudence requirements established by the remote state(s) in which the licensee is seeking a compact privilege.",
+      "sample_state": "UT",
+      "states_supporting": [
+        "UT"
+      ]
+    },
+    {
+      "name": "telehealth_consultation_exemption",
+      "category": "practicing across state lines",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether an out-of-state physical therapist may provide consultation to an in-state licensee via telecommunication without obtaining a Utah license.",
+      "sample_quote": "Consultation by telecommunication means the provision of expert or professional advice by a physical therapist who is licensed outside of Utah to a licensed physical therapist or a health care provider by telecommunication or electronic communication.",
+      "sample_state": "UT",
+      "states_supporting": [
+        "UT"
+      ]
+    },
+    {
+      "name": "visiting_practitioner_exemption_days",
+      "category": "practicing across state lines",
+      "type": "int",
+      "enum_values": null,
+      "description": "Maximum number of days per calendar year an out-of-state licensed physical therapist may practice in the state without obtaining a local license.",
+      "sample_quote": "teaching, demonstrating, or providing physical therapy in connection with an educational seminar, if the person engages in this conduct in Utah no more than 60 days per calendar year.",
+      "sample_state": "UT",
+      "states_supporting": [
+        "UT"
+      ]
+    },
+    {
+      "name": "internship_certification_required",
+      "category": "supervised training and internships",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether individuals engaging in a physical therapy internship must be certified by the licensing division rather than simply enrolled in a program.",
+      "sample_quote": "An individual may not engage in an internship in physical therapy, unless the person is certified by the division or exempt from licensure under Section 58-24b-304.",
+      "sample_state": "UT",
+      "states_supporting": [
+        "UT"
+      ]
+    },
+    {
+      "name": "pt_initial_evaluation_exclusive_to_pt",
+      "category": "supervised training and internships",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the initial patient evaluation and documentation must be performed exclusively by the licensed physical therapist and cannot be delegated to an assistant or aide.",
+      "sample_quote": "In practicing physical therapy, a licensed physical therapist shall: perform the initial evaluation and documentation for each patient.",
+      "sample_state": "UT",
+      "states_supporting": [
+        "UT"
+      ]
+    },
+    {
+      "name": "protected_title_abbreviations",
+      "category": "professional titles and protected terms",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "Abbreviations and titles that are legally protected and may only be used by licensed physical therapists or assistants.",
+      "sample_quote": "It is unlawful for a person who is not a licensed physical therapist to use, in connection with the person's name or business, any of the following words or abbreviations: physical therapist; physiotherapist; PT; DPT; MPT.",
+      "sample_state": "UT",
+      "states_supporting": [
+        "UT"
+      ]
+    },
+    {
+      "name": "ethics_code_reference",
+      "category": "professional titles and protected terms",
+      "type": "str",
+      "enum_values": null,
+      "description": "The named professional ethics code or conduct standard that licensees are required to follow.",
+      "sample_quote": "A licensed physical therapist shall adhere to the standards of ethics described in the American Physical Therapy Association's Code of Ethics and Guide for Professional Conduct.",
+      "sample_state": "UT",
+      "states_supporting": [
+        "UT"
+      ]
+    }
+  ]
+}

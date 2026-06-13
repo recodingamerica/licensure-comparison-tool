@@ -274,6 +274,12 @@ def pull_state(state: str, profession: str, rows: list[dict], limit_sections: in
             status, html, err = fetch(sec["url"])
             time.sleep(PER_HOST_DELAY)
             if err or not html or (status and not 200 <= status < 300):
+                # Aggregate into corpus.errors too — otherwise a state with
+                # per-section failures looks healthy at the top level and
+                # downstream stages extract from a silently partial corpus
+                # (bit us 2026-06-12: 5 of 9 MI dietetics sections timed out
+                # and nothing flagged it).
+                corpus.errors.append(f"section fetch {sec['url']}: {err or f'http {status}'}")
                 corpus.sections.append(Section(
                     url=sec["url"], label=sec["label"],
                     citation=short_citation(sec["label"]),
@@ -347,6 +353,9 @@ def main() -> None:
             "total_chars": corpus.total_chars,
             "errors": len(corpus.errors),
         })
+        failed = sum(1 for s in corpus.sections if s.error)
+        if failed:
+            log.warning("  [%s] %d/%d sections FAILED to fetch — corpus is partial", state, failed, len(corpus.sections))
         log.info("  wrote %s (sections=%d, chars=%d)", out_path, len(corpus.sections), corpus.total_chars)
 
     (out_dir / "_summary.json").write_text(json.dumps(summary, indent=2))

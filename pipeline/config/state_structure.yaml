@@ -74,6 +74,12 @@ WI:
       url: "https://law.justia.com/codes/wisconsin/chapter-448/"
       section_slug_pattern: '^section-448-6[0-9](-\d+)?$'
       label: "WI Chapter 448 §§448.60..448.69 — Podiatrists subchapter"
+    dietetics:
+      # 448.9887/448.9888 (dietitian licensure compact, 2025 Act 20) live under
+      # their own heading after the PA compact, outside the 70-94 subchapter.
+      url: "https://law.justia.com/codes/wisconsin/chapter-448/"
+      section_slug_pattern: '^section-448-(7[0-9]|8[0-9]|9[0-4]|988[78])(-\d+)?$'
+      label: "WI Chapter 448 §§448.70..448.94 — Dietitians subchapter, plus §§448.9887-448.9888 dietitian licensure compact (2025 Act 20)"
 
 NV:
   source: justia
@@ -89,6 +95,35 @@ WV:
     podiatry:
       url: "https://law.justia.com/codes/west-virginia/chapter-30/article-3/"
       label: "Chapter 30 Article 3 — Medicine and Surgery"
+
+FL:
+  source: justia
+  layout: chapter
+  notes: "Chapter 468 (Miscellaneous Professions) is split into Parts I-XVI on Justia, each with its own part page; dietetics is Part X. Section 468.510's slug is 'section-468-51' (Justia drops the trailing zero)."
+  professions:
+    dietetics:
+      url: "https://law.justia.com/codes/florida/title-xxxii/chapter-468/part-x/"
+      section_slug_pattern: '^section-468-5(0[1-9]|1[1-8]?)$'
+      label: "FL Ch. 468 Part X §§468.501..468.518 — Dietetics and Nutrition Practice"
+
+MO:
+  source: justia
+  layout: chapter
+  notes: "Chapter 324 is a flat multi-profession chapter (general provisions, perfusionists, dietitians, massage therapy as section ranges). Dietitian Practice Act = §§324.200..324.225; adjacent §324.228 is the act's rulemaking-authority section (excluded from the range per the act's own short title)."
+  professions:
+    dietetics:
+      url: "https://law.justia.com/codes/missouri/title-xxii/chapter-324/"
+      section_slug_pattern: '^section-324-2(0[0-9]|1[0-9]|2[0-5])$'
+      label: "MO RSMo 324.200..324.225 — Dietitian Practice Act within Chapter 324"
+
+SC:
+  source: justia
+  layout: chapter
+  notes: "Justia's title-40 index lists 'Chapter 20 - South Carolina Dietetics Licensure Act' as plain text with NO hyperlink, so hierarchy build misses it. Chapter page exists; year-less URL redirects to /codes/south-carolina/2024/. Entire chapter (14 sections, 40-20-5..40-20-130) is dietetics."
+  professions:
+    dietetics:
+      url: "https://law.justia.com/codes/south-carolina/title-40/chapter-20/"
+      label: "Title 40 Chapter 20 — South Carolina Dietetics Licensure Act"
 
 # ---- Buried under parent chapter (label-match misses; classifier finds) ----
 
@@ -623,19 +658,50 @@ MN:
         - "https://www.revisor.mn.gov/statutes/cite/148.60"
         - "https://www.revisor.mn.gov/statutes/cite/148.61"
         - "https://www.revisor.mn.gov/statutes/cite/148.62"
-        - "https://www.revisor.mn.gov/statutes/cite/148.624"
-        - "https://www.revisor.mn.gov/statutes/cite/148.625"
-        - "https://www.revisor.mn.gov/statutes/cite/148.626"
         - "https://www.revisor.mn.gov/statutes/cite/148.65"
         - "https://www.revisor.mn.gov/statutes/cite/148.66"
         - "https://www.revisor.mn.gov/statutes/cite/148.67"
         - "https://www.revisor.mn.gov/statutes/cite/148.68"
+    dietetics:
+      url: "https://www.revisor.mn.gov/statutes/cite/148"
+      label: "MN Statutes Ch 148 §§148.621-.635 — Dietitians and Nutritionists"
+      section_url_list:
+        - "https://www.revisor.mn.gov/statutes/cite/148.621"
+        - "https://www.revisor.mn.gov/statutes/cite/148.622"
+        - "https://www.revisor.mn.gov/statutes/cite/148.623"
+        - "https://www.revisor.mn.gov/statutes/cite/148.624"
+        - "https://www.revisor.mn.gov/statutes/cite/148.625"
+        - "https://www.revisor.mn.gov/statutes/cite/148.626"
+        - "https://www.revisor.mn.gov/statutes/cite/148.628"
+        - "https://www.revisor.mn.gov/statutes/cite/148.629"
+        - "https://www.revisor.mn.gov/statutes/cite/148.630"
+        - "https://www.revisor.mn.gov/statutes/cite/148.631"
+        - "https://www.revisor.mn.gov/statutes/cite/148.632"
+        - "https://www.revisor.mn.gov/statutes/cite/148.633"
+        - "https://www.revisor.mn.gov/statutes/cite/148.634"
+        - "https://www.revisor.mn.gov/statutes/cite/148.635"
 
 MI:
   source: mi_legis
   layout: external
   notes: "MI custom source: legislature.mi.gov. Per-section URLs at ?objectName=mcl-CHAPTER-SECTION. Health professions live in Public Health Code (Act 368/1978) Article 15, indexed via mcl-368-1978-15-<PART>; section IDs use MCL chapter 333. Public Accountancy lives in Occupational Code (Act 299/1980) Article 7 with MCL chapter 339. Section URLs harvested via pipeline.discover.harvest_state_sections."
   professions:
+    dietetics:
+      # objectName REQUIRES the trailing period — dotless variants return HTTP 400.
+      # Part 183A re-enacted by 2024 PA 39 (eff. 4/2/2025) reusing the section
+      # numbers of the part repealed in 2014; 333.18363 remains a repealed stub.
+      url: "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-368-1978-15-183A."
+      label: "MI PHC Part 183A — Dietetics and Nutrition"
+      section_url_list:
+        - "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-333-18351"
+        - "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-333-18353"
+        - "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-333-18355"
+        - "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-333-18357"
+        - "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-333-18358"
+        - "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-333-18359"
+        - "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-333-18360"
+        - "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-333-18361"
+        - "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-333-18367"
     medicine:
       url: "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-368-1978-15-170"
       label: "MI PHC Part 170 — Medicine"

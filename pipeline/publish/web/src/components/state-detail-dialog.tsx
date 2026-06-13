@@ -105,6 +105,9 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
               <code className="ml-2 text-xs">{row.coverage_gap_reason || ""}</code>
             </SheetDescription>
           </SheetHeader>
+          {row.coverage_gap_detail && (
+            <p className="px-4 text-sm text-muted-foreground">{row.coverage_gap_detail}</p>
+          )}
         </SheetContent>
       </Sheet>
     );
