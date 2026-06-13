@@ -16,9 +16,15 @@ trim_state:
       - advanced certifications or tiered scope
       - drug, anesthesia, or supervision authority
       - delegation rules
+      - creation of the licensing board / panel / committee, or which department
+        administers or issues the credential (identifies the issuing authority —
+        dropping these misattributes who licenses the profession)
 
     DROP a section if it is administrative or unrelated to scope/qualifications:
-      - board composition, member terms, compensation, immunity
+      - board member terms, compensation, quorum, immunity — but a section whose
+        heading or text CREATES the board/panel/committee ("...is created",
+        "There is established...") is a KEEP even though it also covers
+        membership and terms
       - fund / fee administration, ministerial procedures (forms, certificate transmittal, oath wording)
       - rule-making authority on its own
       - legislative findings, severability, captions, short titles
@@ -112,6 +118,38 @@ extract_state:
     Rules:
       - Fill in every field you can ground in the source text.
       - Set a leaf field to null if the text doesn't address it. Don't invent.
+      - Adjacent is not evidence. A passage that merely TOUCHES a topic does not
+        license a value for it. Three binding examples:
+          * "the board/panel MAY recommend/establish requirements" is permissive
+            rulemaking authority — continuing_education.required is false or
+            null, never true.
+          * A clause about renewing an INACTIVE or lapsed license says nothing
+            about the active renewal cycle — renewal.interval_years stays null
+            unless the ACTIVE cycle is stated.
+          * A temporary nonresident practice exemption ("may practice N days
+            per year") is an exemption — reciprocity.available stays false or
+            null unless the statute provides licensure by endorsement or
+            reciprocity.
+      - If a restriction has a contingent or future effective date ("Beginning
+        18 months after the effective date of the initial rules..."), do NOT
+        trim that lead-in out of the quote — include it, and state the
+        contingency in the nearest notes field. Quoting only the operative
+        half asserts a mandate that may not yet be in force.
+      - scope_protection = true requires language restricting PERFORMING the
+        work to credential holders ("no person may practice/engage in X
+        unless..."). Prohibitions on DESIGNATING oneself, CLAIMING to provide
+        services, or HOLDING ONESELF OUT restrict representation only — that
+        is title protection, scope_protection = false. A statute whose only
+        prohibition is a designate/claim/hold-out clause is a title act:
+        voluntary_certification, not mandatory_certification.
+      - Cross-field consistency: decide title_protection and scope_protection
+        FIRST (from the statute's prohibition language), then derive
+        regulatory_model from them. license and mandatory_certification both
+        REQUIRE scope_protection = true; if you are going to output
+        scope_protection = false, the rung cannot be license — it is
+        voluntary_certification (or registration / market_forces as fits).
+        Never output a regulatory_model that contradicts your own protection
+        booleans.
       - The quote must be drawn from a SINGLE section. If the support spans sections, pick
         the most specific one and put the rest of the support in a separate field.
       - Quotes should be a few words to a sentence — long enough to be unambiguous, short
@@ -234,7 +272,12 @@ extract_state:
           leave null when the statute provides zero information about the
           governing board structure — which is rare. The decision:
             * TRUE if there is a profession-specific advisory body sitting
-              alongside a GENERIC (multi-profession) licensing board.
+              alongside a GENERIC (multi-profession) licensing board. This
+              includes statutorily created councils / panels / committees
+              whatever the name ("Dietetics and Nutrition Practice Council",
+              "Panel for Dietetics") — if the statute creates a profession-
+              specific body that advises or assists the licensing authority,
+              exists is TRUE even when the body's powers are delegated.
             * FALSE if the licensing board IS itself profession-specific (e.g.
               "State Board of Podiatry") — no separate advisory body is needed
               because the dedicated board IS the regulator.
@@ -253,6 +296,30 @@ extract_state:
       renewal_fee_usd:
         License renewal fee in US dollars as an integer. Statutes that leave the
         amount to board discretion ("fee set by rule") get null, not 0.
+
+    Frequent misreadings — get these right:
+
+      - continuing_education describes the STATE's renewal requirement. Hours
+        quoted from a DEFINITION of a national credential (e.g. CDR's 75-hour
+        recertification standard inside the definition of "registered
+        dietitian") are the national body's standard, NOT the state's CE
+        requirement — leave the state field null. Permissive language ("the
+        board may recommend/establish requirements") means required = false or
+        null, never true.
+      - renewal.interval_years is the cycle for ACTIVE licenses. A clause about
+        renewing an INACTIVE license is not evidence for it.
+      - reciprocity.available means licensure by endorsement / reciprocity for
+        practitioners credentialed elsewhere. A temporary nonresident practice
+        exemption (e.g. "may practice up to 30 days per year without a
+        license") is an exemption, NOT reciprocity.
+      - A carve-out preserving someone ELSE's right to a national title (e.g.
+        "a person registered with the commission may use 'registered
+        dietitian' notwithstanding this chapter") is not a state-protected
+        title — don't add such titles to protected-title lists.
+      - Prohibitions on CLAIMING, DESIGNATING, or HOLDING ONESELF OUT as a
+        practitioner restrict representation (title protection), not the work
+        itself. scope_protection = true needs language restricting PERFORMING
+        the work to credential holders.
 
       national_certification:
         Name of a national CERTIFICATION body the statute recognizes or requires —
