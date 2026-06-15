@@ -823,6 +823,28 @@ const BUCKET_PATHS: Record<string, string> = {
   post_degree_duration: "licensure.post_degree_experience.duration",
 };
 
+// UORF six-rung ladder, low → high strictness (matches RegulatoryModel enum in
+// pipeline/extract/standard_model.py). Used as a sort ordinal only — the rung
+// names are categorical and we never display the number. Sorting on the raw
+// string would order alphabetically (license < market_forces < …), which is wrong.
+const UORF_RUNG_ORDER: Record<string, number> = {
+  market_forces: 0,
+  voluntary_certification: 1,
+  registration: 2,
+  exemption: 3,
+  mandatory_certification: 4,
+  license: 5,
+};
+
+function regulatoryModelComparator(
+  a: string | null | undefined,
+  b: string | null | undefined,
+): number {
+  const rank = (v: string | null | undefined) =>
+    v != null && v in UORF_RUNG_ORDER ? UORF_RUNG_ORDER[v] : 99; // null/unknown sort last
+  return rank(a) - rank(b);
+}
+
 function buildColumnDefs(
   discoveredFields: DiscoveredField[],
   rows: Row[],
@@ -843,6 +865,7 @@ function buildColumnDefs(
     width: 170,
     cellRenderer: RegulatoryModelCell,
     filter: MulticheckFilter,
+    comparator: regulatoryModelComparator, // sort by rung strictness, not alphabetically
     headerTooltip: "Six-rung UORF ladder",
   },
   {

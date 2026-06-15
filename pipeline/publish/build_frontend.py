@@ -36,6 +36,7 @@ COMPACT_PATTERNS: list[tuple[str, re.Pattern[str]]] = [
     ("DDH-C",    re.compile(r"\b(?:dentist\s+(?:and\s+dental\s+hygienist\s+)?compact|dental\s+(?:hygienist\s+)?compact)\b", re.I)),
     ("OD-C",     re.compile(r"\b(?:optometry\s+licensure\s+compact|optometry\s+compact)\b", re.I)),
     ("APRN-C",   re.compile(r"\b(?:advanced\s+practice\s+registered\s+nurse\s+compact|APRN\s+compact)\b", re.I)),
+    ("DLC",      re.compile(r"\b(?:dietitian\s+licensure\s+compact|dietitian\s+compact|DLC)\b", re.I)),
 ]
 
 
@@ -384,18 +385,23 @@ def hoist_row(record: dict) -> dict:
 
 
 COVERAGE_REASON_LABELS = {
-    "no_chapter_located":              "No podiatry chapter found in our scrape",
+    "no_chapter_located":              "No {display} chapter found in our scrape",
     "all_sections_dropped_or_repealed":"All sections in the chapter were repealed",
     "extraction_failed":               "LLM extraction failed",
+    "no_credential_in_state_law":      "No {display} credential in state law",
 }
 
 
-def stub_row(state: str, profession: str, reason: str) -> dict:
+def stub_row(state: str, profession: str, reason: str, detail: str | None = None) -> dict:
+    label = COVERAGE_REASON_LABELS.get(reason, reason).format(
+        display=_profession_display(profession).lower()
+    )
     return {
         "state": state,
         "coverage_gap": True,
         "coverage_gap_reason": reason,
-        "coverage_gap_label": COVERAGE_REASON_LABELS.get(reason, reason),
+        "coverage_gap_label": label,
+        "coverage_gap_detail": detail,
         "license_required": None,
         "regulatory_model": None,
         "credential_type": None,
@@ -560,6 +566,10 @@ def build(profession: str, payload_only: bool = False) -> dict:
             rows.append(row)
         else:
             chars = trimmed_with_text.get(st, 0)
+            no_cred = _no_credential_states(profession)
+            if st in no_cred:
+                rows.append(stub_row(st, profession, "no_credential_in_state_law", detail=no_cred[st]))
+                continue
             if st not in trimmed_with_text:
                 reason = "no_chapter_located"
             elif chars == 0:
@@ -788,6 +798,19 @@ def _load_per_item_categories(
         }
         out[field_name] = {"by_state": by_state, "by_state_item": by_state_item}
     return out
+
+
+def _no_credential_states(profession: str) -> dict[str, str]:
+    """States declared in professions.yaml as having no credential in state
+    law for this profession — a verified true negative, not a scrape gap.
+    Returns {state: citation/explanation}."""
+    try:
+        import yaml
+        from paths import CONFIG_DIR
+        cfg = yaml.safe_load((CONFIG_DIR / "professions.yaml").read_text()) or {}
+        return cfg.get(profession, {}).get("no_credential_states") or {}
+    except Exception:
+        return {}
 
 
 def _profession_display(profession: str) -> str:
