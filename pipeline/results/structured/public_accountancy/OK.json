@@ -2,95 +2,541 @@
   "state": "OK",
   "profession": "public_accountancy",
   "licensure": {
-    "license_required": null,
-    "issuing_authority": null,
+    "license_required": {
+      "value": true,
+      "quote": "Before any individual may practice public accounting or hold himself or herself out as being engaged in the practice of public accounting as a certified public accountant or public accountant in this state, such person shall obtain a permit from the Oklahoma Accountancy Board",
+      "citation": "59-15.14A"
+    },
+    "issuing_authority": {
+      "value": "Oklahoma Accountancy Board",
+      "quote": "\"Board\" means the Oklahoma Accountancy Board",
+      "citation": "59-15.1A"
+    },
     "regulatory_authority": {
       "name": {
         "value": "Oklahoma Accountancy Board",
-        "quote": "the Oklahoma Accountancy Board",
-        "citation": "[59-15.2]"
+        "quote": "\"Board\" means the Oklahoma Accountancy Board",
+        "citation": "59-15.1A"
       },
       "type": {
         "value": "standalone_board",
-        "quote": "There is hereby re-created, to continue until July 1, 2028, in accordance with the provisions of the Oklahoma Sunset Law, the Oklahoma Accountancy Board.",
-        "citation": "[59-15.2]"
+        "quote": "There is hereby re-created, to continue until July 1, 2028, in accordance with the provisions of the Oklahoma Sunset Law, the Oklahoma Accountancy Board. The Oklahoma Accountancy Board shall have the responsibility for administering and enforcing the Oklahoma Accountancy Act.",
+        "citation": "59-15.2"
       },
       "umbrella_agency": null
     },
     "age_minimum": null,
-    "moral_character_required": null,
-    "education": null,
-    "post_degree_experience": null,
-    "exams": [],
-    "renewal": null,
-    "renewal_fee_usd": null,
-    "continuing_education": null,
-    "reciprocity": null,
+    "moral_character_required": {
+      "value": true,
+      "quote": "the Oklahoma Accountancy Board shall grant a certificate to any individual of good character who meets the applicable education, experience and testing requirements",
+      "citation": "59-15.9"
+    },
+    "education": {
+      "degree_required": {
+        "value": "150 semester hours including a baccalaureate or higher degree",
+        "quote": "An applicant for initial issuance of a certificate pursuant to this section shall show that the applicant has at least one hundred fifty (150) semester hours, or the equivalent thereof, of college education including a baccalaureate or higher degree",
+        "citation": "59-15.9"
+      },
+      "accrediting_body": {
+        "value": "accredited four-year college or university recognized by the Board",
+        "quote": "conferred by a college or university acceptable to the Board from an accredited four-year college or university in this state or any other accredited four-year college or university recognized by the Board",
+        "citation": "59-15.9"
+      }
+    },
+    "post_degree_experience": {
+      "required": {
+        "value": true,
+        "quote": "An applicant for initial issuance of a certificate under this section shall show that the applicant has had one (1) year of experience.",
+        "citation": "59-15.9"
+      },
+      "duration": {
+        "value": "1 year",
+        "quote": "the applicant has had one (1) year of experience",
+        "citation": "59-15.9"
+      },
+      "kind": {
+        "value": "accounting, attest, compilation, management advisory, financial advisory, tax or consulting work experience",
+        "quote": "Experience shall be defined by the Board by rule and shall include providing a type of service or advice involving the use of accounting, attest, compilation, management advisory, financial advisory, tax or consulting skills, and be satisfied through work experience in government, industry, academia or public practice",
+        "citation": "59-15.9"
+      }
+    },
+    "exams": [
+      {
+        "name": "Uniform Certified Public Accountant Examination",
+        "required": true,
+        "notes": "Candidates must sit after completing at least 120 semester hours; certificate not issued until 150-hour and experience requirements are met.",
+        "jurisdiction": "national (AICPA)",
+        "permitted_attempts": null,
+        "quote": "The Board shall issue certificates as certified public accountants to those applicants who have met the qualifications required by the provisions of the Oklahoma Accountancy Act and the applicable rules of the Board, and have passed an examination in accounting, auditing and related subjects",
+        "citation": "59-15.9"
+      },
+      {
+        "name": "Ethics Examination",
+        "required": true,
+        "notes": "Required for initial certificate and for reciprocity applicants on or after July 1, 2005.",
+        "jurisdiction": "state (prescribed by the Board)",
+        "permitted_attempts": null,
+        "quote": "Every applicant for the certificate of certified public accountant shall provide evidence of successful completion of an ethics examination prescribed by the Board.",
+        "citation": "59-15.9"
+      }
+    ],
+    "renewal": {
+      "interval_years": {
+        "value": 1,
+        "quote": "All permits issued shall be renewed on the last day of the individual's birth month in conjunction with the registrant's certificate or license renewal.",
+        "citation": "59-15.14A"
+      }
+    },
+    "renewal_fee_usd": {
+      "value": 200,
+      "quote": "A certificate or license shall be renewed by payment of a registration renewal fee set by the Board which shall not exceed Two Hundred Dollars ($200.00) for each two-year period.",
+      "citation": "59-15.14"
+    },
+    "continuing_education": {
+      "required": {
+        "value": true,
+        "quote": "as a condition for issuance of a certificate or license and/or renewal of a permit to practice, certificate and license holders shall furnish evidence of participation in continuing professional education.",
+        "citation": "59-15.35"
+      },
+      "hours_per_period": {
+        "value": 120,
+        "quote": "All certificate and license holders shall complete at least one hundred twenty (120) hours of continuing professional education within a three-year period",
+        "citation": "59-15.35"
+      },
+      "period_years": {
+        "value": 3,
+        "quote": "at least one hundred twenty (120) hours of continuing professional education within a three-year period with completion of not less than twenty (20) hours of continuing professional education in any year.",
+        "citation": "59-15.35"
+      },
+      "topical_requirements": null
+    },
+    "reciprocity": {
+      "available": {
+        "value": true,
+        "quote": "The Oklahoma Accountancy Board may issue a certificate to an applicant who has been authorized to practice public accounting as a certified public accountant pursuant to the laws of any jurisdiction",
+        "citation": "59-15.13"
+      },
+      "requirements": {
+        "value": "Applicant must have passed a CPA exam with equivalent grades, meet current or historical Oklahoma requirements, or have 4 years of experience within the last 10 years. Substantial equivalency pathway also available via NASBA National Qualification Appraisal Service. Ethics exam required on or after July 1, 2005.",
+        "quote": "As an alternative to the requirements of subsection A, B or C of this section, a certificate holder licensed by another jurisdiction who establishes the certificate holder's principal place of business in this state shall request the issuance of a certificate from the Board prior to establishing such principal place of business. The Board shall issue a certificate to such person who obtains from the NASBA National Qualification Appraisal Service verification that such individual's CPA qualifications are substantially equivalent to the CPA licensure requirements of the AICPA/NASBA Uniform Accountancy Act.",
+        "citation": "59-15.13"
+      }
+    },
     "advisory_board": {
       "exists": {
         "value": false,
-        "quote": "The Oklahoma Accountancy Board shall be composed of seven (7) members",
-        "citation": "[59-15.2]"
+        "quote": "There is hereby re-created, to continue until July 1, 2028, in accordance with the provisions of the Oklahoma Sunset Law, the Oklahoma Accountancy Board. The Oklahoma Accountancy Board shall have the responsibility for administering and enforcing the Oklahoma Accountancy Act.",
+        "citation": "59-15.2"
       },
       "name": null,
       "authority": null
     },
-    "national_certification": null,
-    "national_association": {
-      "value": "Oklahoma Society of Certified Public Accountants",
-      "quote": "A list of qualified persons shall be compiled and submitted to the Governor by the Oklahoma Society of Certified Public Accountants",
-      "citation": "[59-15.2]"
+    "national_certification": {
+      "value": "AICPA/NASBA Uniform Accountancy Act (Uniform CPA Examination)",
+      "quote": "\"Examination\" means all or any part of the Uniform Certified Public Accountant Examination developed and scored by the American Institute of Certified Public Accountants as approved or designated by the Board",
+      "citation": "59-15.1A"
     },
-    "regulatory_model": null,
-    "credential_type": null,
-    "is_mandatory": null,
-    "title_protection": null,
-    "scope_protection": null,
-    "disciplinary_grounds": [],
+    "national_association": {
+      "value": "American Institute of Certified Public Accountants (AICPA); National Association of State Boards of Accountancy (NASBA)",
+      "quote": "\"AICPA\" means the American Institute of Certified Public Accountants",
+      "citation": "59-15.1A"
+    },
+    "regulatory_model": {
+      "value": "license",
+      "quote": "Before any individual may practice public accounting or hold himself or herself out as being engaged in the practice of public accounting as a certified public accountant or public accountant in this state, such person shall obtain a permit from the Oklahoma Accountancy Board",
+      "citation": "59-15.14A"
+    },
+    "credential_type": {
+      "value": "license",
+      "quote": "\"Permit\" means the written authority granted annually by the Board to individuals or firms to practice public accounting in this state, which is issued pursuant to the Oklahoma Accountancy Act",
+      "citation": "59-15.1A"
+    },
+    "is_mandatory": {
+      "value": true,
+      "quote": "Any individual, corporation or partnership or any other entity who provides any of the services defined hereinabove as the \"practice of public accounting\" without holding a license and permit, or without holding a certificate and permit, shall be assessed a fine not to exceed Ten Thousand Dollars ($10,000.00) for each separate offense",
+      "citation": "59-15.14A"
+    },
+    "title_protection": {
+      "value": true,
+      "quote": "No individual, other than as described in subparagraph d of paragraph 34 of Section 15.1A of this title, shall assume or use the title or designation \"certified public accountant\" or the abbreviation \"C.P.A.\" or any other title, designation, words, letters, abbreviation, sign, card, or device tending to indicate or represent that such individual is a certified public accountant, unless such individual has received a certificate as a certified public accountant and holds a valid permit",
+      "citation": "59-15.11"
+    },
+    "scope_protection": {
+      "value": true,
+      "quote": "Only permit holders, individuals granted practice privileges under Section 15.12A of this title, or firms exempt from the permit and registration requirements under Section 15.15C of this title, who also meet the requirements of paragraph 3 of subsection A of Section 15.15 of this title, may render or offer to render any attest service, as defined herein, or issue a report on financial statements which purport to be in compliance with the Statements on Standards for Accounting and Review Services (SSARS).",
+      "citation": "59-15.1A"
+    },
+    "disciplinary_grounds": [
+      {
+        "short_label": "fraud_in_obtaining_credential",
+        "description": "Fraud or deceit in obtaining a certificate, license, practice privilege or permit",
+        "quote": "Fraud or deceit in obtaining a certificate, license, practice privilege or permit",
+        "citation": "59-15.14B"
+      },
+      {
+        "short_label": "dishonesty_fraud_gross_negligence",
+        "description": "Dishonesty, fraud, or gross negligence in accountancy or financially related activities",
+        "quote": "Dishonesty, fraud, or gross negligence in accountancy or financially related activities",
+        "citation": "59-15.14B"
+      },
+      {
+        "short_label": "felony_conviction",
+        "description": "Conviction, plea of guilty, or plea of nolo contendere of a felony in any state or federal court",
+        "quote": "Conviction, plea of guilty, or plea of nolo contendere of a felony in a court of competent jurisdiction of any state or federal court of the United States if the acts involved would have constituted a felony under the laws of this state",
+        "citation": "59-15.14B"
+      },
+      {
+        "short_label": "misdemeanor_dishonesty_fraud",
+        "description": "Conviction, plea of guilty, or plea of nolo contendere of any misdemeanor involving dishonesty or fraud",
+        "quote": "Conviction, plea of guilty, or plea of nolo contendere of any misdemeanor, an element of which is dishonesty or fraud, pursuant to the laws of the United States or any jurisdiction",
+        "citation": "59-15.14B"
+      },
+      {
+        "short_label": "failure_to_comply_professional_standards",
+        "description": "Failure to comply with professional standards regarding attest and/or compilation competency requirements",
+        "quote": "Failure to comply with professional standards in the Board's professional code of conduct to the attest and/or compilation competency requirement for those who supervise attest and/or compilation engagements and sign the report on financial statements",
+        "citation": "59-15.14B"
+      },
+      {
+        "short_label": "violation_of_act_or_rules",
+        "description": "Violation of any provision of the Oklahoma Accountancy Act and rules promulgated by the Board",
+        "quote": "Violation of any of the provisions of the Oklahoma Accountancy Act and rules promulgated for its implementation by the Board.",
+        "citation": "59-15.14B"
+      },
+      {
+        "short_label": "firm_revocation_suspension_of_partner",
+        "description": "Revocation or suspension of the certificate or license of any partner or shareholder of the firm",
+        "quote": "The revocation or suspension of the certificate or license of any partner or shareholder issued in accordance with the Oklahoma Accountancy Act",
+        "citation": "59-15.16"
+      },
+      {
+        "short_label": "firm_failure_to_maintain_permit_requirements",
+        "description": "Failure to maintain compliance with the requirements for issuance or renewal of the firm permit",
+        "quote": "Failure to maintain compliance with the requirements for issuance or renewal of the permit of the firm",
+        "citation": "59-15.16"
+      },
+      {
+        "short_label": "firm_failure_to_sign_in_firm_name",
+        "description": "Failure to sign accountants' opinions in the firm name",
+        "quote": "Failure to sign accountants' opinions in the firm name, except in instances in which a governmental agency shall require the signature to be that of an individual",
+        "citation": "59-15.16"
+      },
+      {
+        "short_label": "firm_fraud_in_obtaining_permit",
+        "description": "Fraud or deceit by any partner or shareholder in obtaining the firm permit",
+        "quote": "Fraud or deceit by any partner or shareholder in obtaining the firm permit",
+        "citation": "59-15.16"
+      },
+      {
+        "short_label": "firm_failure_to_file_tax_returns_in_firm_name",
+        "description": "Failure to file income tax returns in the name of the firm (except sole proprietorships)",
+        "quote": "Except sole proprietorships, failure to file income tax returns in the name of the firm",
+        "citation": "59-15.16"
+      },
+      {
+        "short_label": "firm_dishonesty_fraud_gross_negligence",
+        "description": "Dishonesty, fraud, or gross negligence in the practice of public accounting by any partner, shareholder, or employee of the firm",
+        "quote": "Dishonesty, fraud, or gross negligence in the practice of public accounting by any partner, shareholder, or employee of the firm in the name of the firm.",
+        "citation": "59-15.16"
+      }
+    ],
+    "alternative_regulation": {
+      "bonding_required": null,
+      "insurance_required": null,
+      "establishment_regulation_required": {
+        "value": true,
+        "quote": "The following must register with the Board under this section: 1. Any firm with an office in this state engaged in the practice of public accounting or the practice of attest services",
+        "citation": "59-15.15"
+      }
+    },
     "citations": [
       {
+        "cite": "59-15.1A",
+        "kind": "definitions"
+      },
+      {
         "cite": "59-15.2",
-        "kind": null
+        "kind": "board composition"
+      },
+      {
+        "cite": "59-15.5",
+        "kind": "board administration"
+      },
+      {
+        "cite": "59-15.8",
+        "kind": "examination qualifications"
+      },
+      {
+        "cite": "59-15.9",
+        "kind": "certificate issuance"
+      },
+      {
+        "cite": "59-15.10",
+        "kind": "examinations"
+      },
+      {
+        "cite": "59-15.11",
+        "kind": "title protection"
+      },
+      {
+        "cite": "59-15.12",
+        "kind": "employees without certification"
+      },
+      {
+        "cite": "59-15.12A",
+        "kind": "practice privileges"
+      },
+      {
+        "cite": "59-15.13",
+        "kind": "reciprocity"
+      },
+      {
+        "cite": "59-15.13A",
+        "kind": "foreign reciprocity"
+      },
+      {
+        "cite": "59-15.14",
+        "kind": "registration and renewal"
+      },
+      {
+        "cite": "59-15.14A",
+        "kind": "permits"
+      },
+      {
+        "cite": "59-15.14B",
+        "kind": "disciplinary grounds"
+      },
+      {
+        "cite": "59-15.15",
+        "kind": "firm registration"
+      },
+      {
+        "cite": "59-15.15A",
+        "kind": "firm permits"
+      },
+      {
+        "cite": "59-15.15B",
+        "kind": "designated manager"
+      },
+      {
+        "cite": "59-15.15C",
+        "kind": "unregistered firm services"
+      },
+      {
+        "cite": "59-15.16",
+        "kind": "firm revocation"
+      },
+      {
+        "cite": "59-15.24",
+        "kind": "penalties"
+      },
+      {
+        "cite": "59-15.25",
+        "kind": "misrepresentation penalties"
+      },
+      {
+        "cite": "59-15.26",
+        "kind": "false reports penalty"
+      },
+      {
+        "cite": "59-15.27",
+        "kind": "cease and desist"
+      },
+      {
+        "cite": "59-15.28",
+        "kind": "prima facie evidence"
+      },
+      {
+        "cite": "59-15.29A",
+        "kind": "injunction for title violations"
+      },
+      {
+        "cite": "59-15.29B",
+        "kind": "single act evidence"
+      },
+      {
+        "cite": "59-15.30",
+        "kind": "peer review"
+      },
+      {
+        "cite": "59-15.35",
+        "kind": "continuing professional education"
+      },
+      {
+        "cite": "59-15.36",
+        "kind": "assurance services"
+      },
+      {
+        "cite": "59-15.37",
+        "kind": "audit services restriction"
+      },
+      {
+        "cite": "59-15.38",
+        "kind": "military service waiver"
       }
     ]
   },
   "scope": {
-    "definition_quote": null,
-    "methods_authorized": null,
+    "definition_quote": {
+      "value": "\"Practice of public accounting\" refers to the activities of a registrant, an individual granted practice privileges under Section 15.12A of this title, or a firm exempt from the permit and registration requirements under Section 15.15C of this title in reference to accountancy. An individual or firm shall be deemed to be engaged in the practice of public accounting if the individual or firm holds itself out to the public in any manner as one skilled in the knowledge, science, and practice of accounting and auditing, taxation and management advisory services and is qualified to render such professional services as a certified public accountant or public accountant",
+      "quote": "\"Practice of public accounting\", also known as \"practice public accounting\", \"practice\" and \"practice accounting\", refers to the activities of a registrant, an individual granted practice privileges under Section 15.12A of this title, or a firm exempt from the permit and registration requirements under Section 15.15C of this title in reference to accountancy.",
+      "citation": "59-15.1A"
+    },
+    "methods_authorized": {
+      "value": [
+        "audit, verification, investigation, certification, presentation, or review of financial transactions and accounting records",
+        "attest services (SAS, SSARS, SSAE, PCAOB)",
+        "compilation of financial statements",
+        "tax preparation and tax consulting",
+        "management advisory services",
+        "personal financial or investment planning",
+        "bookkeeping services"
+      ],
+      "quote": "offers to prospective clients to perform or who does perform on behalf of clients professional services that involve or require an audit, verification, investigation, certification, presentation, or review of financial transactions and accounting records or an attestation concerning any other written assertion",
+      "citation": "59-15.1A"
+    },
     "drug_authority": null,
-    "citations": []
+    "citations": [
+      {
+        "cite": "59-15.1A",
+        "kind": "scope definition"
+      },
+      {
+        "cite": "59-15.36",
+        "kind": "assurance and audit services"
+      }
+    ]
   },
   "profession_specific": {
-    "attest_services_types": null,
-    "compilation_services_authorized": null,
-    "education_semester_hours_required": null,
-    "exam_sit_hours_minimum": null,
-    "ethics_exam_required": null,
-    "practice_privilege_no_notice_required": null,
-    "practice_privilege_consent_conditions": null,
-    "attest_services_require_firm_permit": null,
-    "firm_majority_cpa_ownership_required": null,
-    "nonlicensee_firm_owners_permitted": null,
-    "peer_review_required_for_firm_renewal": null,
-    "peer_review_max_frequency_years": null,
+    "attest_services_types": {
+      "value": [
+        "audit or other engagement in accordance with Statements on Auditing Standards (SAS)",
+        "review of financial statements in accordance with SSARS",
+        "examination of prospective financial information in accordance with SSAE",
+        "engagement in accordance with PCAOB Auditing Standards",
+        "engagements, review, or agreed upon procedures in accordance with SSAE"
+      ],
+      "quote": "\"Attest\" means providing the following services: a. any audit or other engagement to be performed in accordance with the Statements on Auditing Standards (SAS), b. any review of a financial statement to be performed in accordance with the Statements on Standards for Accounting and Review Services (SSARS), c. any examination of prospective financial information to be performed in accordance with the Statements on Standards for Attestation Engagements (SSAE), d. any engagement to be performed in accordance with the Auditing Standards of the Public Company Accounting Oversight Board (PCAOB)",
+      "citation": "59-15.1A"
+    },
+    "compilation_services_authorized": {
+      "value": true,
+      "quote": "\"Compilation\" when used with reference to financial statements, means presenting information in the form of financial statements which is the representation of management or owners without undertaking to express any assurance on the statements",
+      "citation": "59-15.1A"
+    },
+    "education_semester_hours_required": {
+      "value": 150,
+      "quote": "An applicant for initial issuance of a certificate pursuant to this section shall show that the applicant has at least one hundred fifty (150) semester hours, or the equivalent thereof, of college education including a baccalaureate or higher degree",
+      "citation": "59-15.9"
+    },
+    "exam_sit_hours_minimum": {
+      "value": 120,
+      "quote": "every qualification applicant to qualify as a candidate for examination for the certificate of certified public accountant shall have at least one hundred twenty (120) semester hours, or the equivalent thereof, of college education including a baccalaureate or higher degree",
+      "citation": "59-15.8"
+    },
+    "ethics_exam_required": {
+      "value": true,
+      "quote": "Every applicant for the certificate of certified public accountant shall provide evidence of successful completion of an ethics examination prescribed by the Board.",
+      "citation": "59-15.9"
+    },
+    "practice_privilege_no_notice_required": {
+      "value": true,
+      "quote": "An individual who offers or renders professional services, whether in person or by mail, telephone or electronic means, under this section shall be granted practice privileges in this state and no notice, fee or submission shall be provided by any such individual.",
+      "citation": "59-15.12A"
+    },
+    "practice_privilege_consent_conditions": {
+      "value": [
+        "consent to personal and subject matter jurisdiction and disciplinary authority of the Board",
+        "comply with the Oklahoma Accountancy Act and the Board's rules",
+        "cease offering or rendering professional services if home-state certificate or license is no longer valid",
+        "appointment of the home-state board as agent for service of process"
+      ],
+      "quote": "An individual certificate holder or license holder of another jurisdiction exercising the privilege afforded under this section, and any firm which employs that certificate holder or license holder hereby simultaneously consent, as a condition of the granting of this privilege: a. to the personal and subject matter jurisdiction and disciplinary authority of the Board, b. to comply with the Oklahoma Accountancy Act and the Board's rules, c. that in the event the certificate holder or license holder from the jurisdiction of the individual's principal place of business is no longer valid, the individual will cease offering or rendering professional services in this state individually or on behalf of a firm, and d. to the appointment of the state board which issued the certificate or license as the agent upon whom process may be served",
+      "citation": "59-15.12A"
+    },
+    "attest_services_require_firm_permit": {
+      "value": true,
+      "quote": "An individual who has been granted practice privileges under this section whose attest services described in paragraph 5 of Section 15.1A of this title may only do so through a firm which meets the requirements of paragraph 3 of subsection A of Section 15.15 of this title for exemption from the registration requirements or which has obtained a registration under Section 15.15 of this title and a permit issued under Section 15.15A of this title.",
+      "citation": "59-15.12A"
+    },
+    "firm_majority_cpa_ownership_required": {
+      "value": true,
+      "quote": "a simple majority of the ownership of the firm, in terms of financial interests and voting rights, belongs to partners or shareholders engaged in the practice of public accounting in the United States and holding a certificate as a certified public accountant in one or more jurisdictions.",
+      "citation": "59-15.15A"
+    },
+    "nonlicensee_firm_owners_permitted": {
+      "value": true,
+      "quote": "Although firms may include non-certificate holder owners, the firm and its ownership must comply with rules promulgated by the Board",
+      "citation": "59-15.15A"
+    },
+    "peer_review_required_for_firm_renewal": {
+      "value": true,
+      "quote": "As a condition for issuance or renewal of permits, the Board may require applicants who perform attest services, except compilations and those services described in subparagraph d of paragraph 5 of Section 15.1A of this title, to undergo peer reviews conducted not less than once every three (3) years.",
+      "citation": "59-15.30"
+    },
+    "peer_review_max_frequency_years": {
+      "value": 3,
+      "quote": "to undergo peer reviews conducted not less than once every three (3) years.",
+      "citation": "59-15.30"
+    },
     "peer_review_records_privileged": null,
-    "inactive_license_status_available": null,
-    "retired_license_status_available": null,
-    "out_of_state_firm_no_office_exemption": null,
-    "office_supervision_by_licensed_cpa_required": null,
-    "attest_report_signer_competency_requirement": null,
+    "inactive_license_status_available": {
+      "value": true,
+      "quote": "Provisions for exempting retired, inactive and disabled individuals as defined by the Board in the rules from the requirement of continuing professional education",
+      "citation": "59-15.35"
+    },
+    "retired_license_status_available": {
+      "value": true,
+      "quote": "The Board shall establish rules whereby the registration fee for certified public accountants and public accountants may, upon written application to the Board, be reduced or waived by the Board for registrants who have retired upon reaching retirement age",
+      "citation": "59-15.14"
+    },
+    "out_of_state_firm_no_office_exemption": {
+      "value": true,
+      "quote": "A certified public accounting or public accounting firm that is not subject to the requirements of paragraph 1 or 2 of subsection A of Section 15.15 of this title may perform services described in subsection 12 of Section 15.1A of this title and other nonattest professional services while using the title \"CPA\" or \"CPA firm\" in this state without a firm license, permit, or notice to the Board",
+      "citation": "59-15.12A"
+    },
+    "office_supervision_by_licensed_cpa_required": {
+      "value": true,
+      "quote": "each office established or maintained in this state for the practice of public accounting shall be under the direct supervision of a designated manager.",
+      "citation": "59-15.15B"
+    },
+    "attest_report_signer_competency_requirement": {
+      "value": true,
+      "quote": "Any individual licensee who is responsible for supervising attest or compilation services and signs or authorizes someone to sign the accountant's report on the financial statement on behalf of the firm shall meet the competency requirements set out in the professional standards for such services.",
+      "citation": "59-15.15A"
+    },
     "client_confidentiality_privilege": null,
     "working_papers_ownership_by_licensee": null,
     "commission_prohibition_during_attest": null,
     "contingent_fee_prohibition_during_attest": null,
-    "safe_harbor_disclaimer_language_for_nonlicensees": null,
-    "foreign_accountant_practice_exception": null,
-    "single_act_evidence_sufficient": null,
+    "safe_harbor_disclaimer_language_for_nonlicensees": {
+      "value": true,
+      "quote": "nonregistrants may use the following disclaimer language in connection with financial statements and be in compliance with the Oklahoma Accountancy Act: \"I (we) have not audited, examined or reviewed the accompanying financial statements and accordingly do not express an opinion or any other form of assurance on them.\"",
+      "citation": "59-15.1A"
+    },
+    "foreign_accountant_practice_exception": {
+      "value": true,
+      "quote": "The Board shall issue a certificate to a holder of a substantially equivalent designation issued by a foreign country",
+      "citation": "59-15.13A"
+    },
+    "single_act_evidence_sufficient": {
+      "value": true,
+      "quote": "evidence of the commission of a single action prohibited by the Oklahoma Accountancy Act shall be sufficient to justify a penalty, injunction, restraining order, or conviction, respectively, without evidence of a general course of conduct.",
+      "citation": "59-15.29B"
+    },
     "firm_corrective_action_period_for_ownership_noncompliance": null,
-    "firm_permit_required_for_attest_services": null,
+    "firm_permit_required_for_attest_services": {
+      "value": true,
+      "quote": "Only permit holders, individuals granted practice privileges under Section 15.12A of this title, or firms exempt from the permit and registration requirements under Section 15.15C of this title, who also meet the requirements of paragraph 3 of subsection A of Section 15.15 of this title, may render or offer to render any attest service",
+      "citation": "59-15.1A"
+    },
     "registered_municipal_accountant_designation": null,
     "public_school_accountant_designation": null,
-    "accounting_practitioner_tier": null,
+    "accounting_practitioner_tier": {
+      "value": true,
+      "quote": "\"License\" means the Oklahoma document issued by the Board to a candidate upon successful completion of the public accountant examination designating the holder as a public accountant pursuant to the laws of this state.",
+      "citation": "59-15.1A"
+    },
     "cpa_emeritus_or_retired_status_available": null,
     "government_audit_cpe_requirement": null,
     "ethics_cpe_hours_required": null,
