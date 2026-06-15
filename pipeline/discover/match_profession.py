@@ -229,6 +229,14 @@ def build_index_for(
         if (state_entry.get("layout") == "section_fallback"
                 and any(n.get("section_url_list") or n.get("section_slug_pattern") for n in m)):
             m = [n for n in m if n.get("section_url_list") or n.get("section_slug_pattern")]
+        # Opt-in: `authoritative: true` on a state_structure profession entry means
+        # its url IS the complete source — drop label-matched siblings (noise like
+        # adjacent articles or a whole-chapter node). Off by default, because many
+        # entries are ADDITIVE (an umbrella/general-provisions url meant to
+        # supplement the label-matched practice act, e.g. NY/WA medicine).
+        elif ss_entry and ss_entry.get("authoritative") and ss_entry.get("url"):
+            if any(n["url"] == ss_entry["url"] for n in m):
+                m = [n for n in m if n["url"] == ss_entry["url"]]
 
         if not record and not m:
             by_state[st] = {"matched": [], "note": "no_hierarchy"}
