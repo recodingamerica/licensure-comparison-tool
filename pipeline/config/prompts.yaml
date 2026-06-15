@@ -150,22 +150,32 @@ extract_state:
         voluntary_certification (or registration / market_forces as fits).
         Never output a regulatory_model that contradicts your own protection
         booleans.
-      - credential_type and regulatory_model must agree on whether a state
-        credential exists: credential_type = none and regulatory_model =
-        market_forces are the SAME finding ("no state credential exists"). If
-        the text affirmatively shows the state issues no credential of its own
-        and instead recognizes a PRIVATE national credential — e.g. a statute
-        that defines the professional by reference to a private certifying body,
-        or that merely permits a privately-credentialed practitioner to act for
-        a narrow purpose — set credential_type = none AND regulatory_model =
-        market_forces, anchored to that same quote. Do NOT leave regulatory_model
-        null while credential_type = none (or vice versa). Reserve null for true
-        uncertainty: when the supplied corpus looks truncated or the profession's
-        governing statute is simply absent. In that case credential_type is also
-        null and the state surfaces as a coverage gap — never as market_forces.
-        Absence of a license act in the corpus is NOT evidence of market_forces;
-        only affirmative text (private-credential deference, an explicit "no
-        license required", or a repealed/sunset provision) supports that rung.
+      - credential_type and regulatory_model must agree on whether a STATE
+        credential exists. The rungs license, mandatory_certification,
+        voluntary_certification, and registration ALL presuppose a credential
+        the state itself issues (a license, a certificate, or a roster entry).
+        market_forces means no such state credential exists. Therefore
+        credential_type = none REQUIRES regulatory_model = market_forces, and
+        this OVERRIDES the title/scope DECISIVE TEST above: if the state issues
+        no credential of its own, the rung is market_forces EVEN WHEN the title
+        is restricted. In particular, a consumer-protection / deceptive-trade-
+        practice statute that merely forbids misusing a professional title
+        (e.g. you may not call yourself a "dietitian" without a qualifying
+        degree) is NOT voluntary_certification — no state credential is issued,
+        so it is market_forces (title_protection may still be true). Likewise a
+        statute that defines the professional only by reference to a PRIVATE
+        national credential, or merely permits a privately-credentialed person
+        to act for a narrow purpose, is market_forces. Anchor credential_type
+        and regulatory_model to the same quote; never leave one null while
+        asserting the other.
+      - Reserve null for true uncertainty: when the supplied corpus looks
+        truncated or the profession's governing statute is simply absent. In
+        that case credential_type is also null and the state surfaces as a
+        coverage gap — never as market_forces. Absence of a license act in the
+        corpus is NOT by itself evidence of market_forces; only AFFIRMATIVE text
+        (a title-misuse/consumer-protection clause, private-credential deference,
+        an explicit "no license required", or a repealed/sunset provision)
+        supports that rung.
       - The quote must be drawn from a SINGLE section. If the support spans sections, pick
         the most specific one and put the rest of the support in a separate field.
       - Quotes should be a few words to a sentence — long enough to be unambiguous, short
