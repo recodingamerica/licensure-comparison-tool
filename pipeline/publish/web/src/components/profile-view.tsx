@@ -823,6 +823,32 @@ const BUCKET_PATHS: Record<string, string> = {
   post_degree_duration: "licensure.post_degree_experience.duration",
 };
 
+// Format a raw grid cell value for export (CSV + XLSX) so the file carries the
+// same human-readable layer the grid renders through React cellRenderers — which
+// AG Grid's exporters can't see. Mirrors YesNoCell and makeBucketAwareCell, and
+// strips newlines so a multi-line cell can't be split on import (#28). Shared by
+// both export buttons so the two outputs never drift.
+type ExportTextBuckets = Record<string, { by_state: Record<string, string> }>;
+function exportCellValue(
+  value: unknown,
+  colId: string | undefined,
+  state: string | undefined,
+  textBuckets: ExportTextBuckets,
+): string {
+  let out: string;
+  if (value == null || value === "") out = "";
+  else if (typeof value === "boolean") out = value ? "Yes" : "No";
+  else if (Array.isArray(value)) out = value.join("; ");
+  else if (typeof value === "object") out = JSON.stringify(value);
+  else out = String(value);
+  out = out.replace(/\s*\r?\n\s*/g, " ").trim();
+  const bucketPath = colId ? BUCKET_PATHS[colId] : undefined;
+  const bucket =
+    bucketPath && state ? textBuckets[bucketPath]?.by_state?.[state] : undefined;
+  if (bucket) out = out ? `${bucket} — ${out}` : bucket;
+  return out;
+}
+
 // UORF six-rung ladder, low → high strictness (matches RegulatoryModel enum in
 // pipeline/extract/standard_model.py). Used as a sort ordinal only — the rung
 // names are categorical and we never display the number. Sorting on the raw
@@ -1841,49 +1867,126 @@ export function ProfileView({
               disabled={!api}
               onClick={() => {
                 if (!api) return;
-                // The grid renders several columns through React cellRenderers
-                // (YesNoCell, makeBucketAwareCell, …) that AG Grid's CSV export
-                // can't see — it falls back to the raw cell value. So we mirror
-                // those renderers here, otherwise the export silently drops the
-                // human-readable tags users actually want (#28):
-                //   • booleans → Yes/No (YesNoCell)
-                //   • bucket-aware columns → prepend the LLM-derived tag
-                //     ("Dedicated Dietetics Board" …) that sits above the value
-                //   • collapse embedded newlines so a multi-line statute cell
-                //     can't be split across rows/cells on import into
-                //     Excel/Sheets/pandas (#28.2).
-                const textBuckets = payload.map_prep?.text_buckets ?? {};
                 // allColumns:true exports every column in the columnDefs
                 // regardless of current visibility — what users want from
                 // "Download CSV" is the full dataset, not just the columns
                 // they happen to have toggled on. Filtered rows still
                 // respected (so an active filter narrows the export).
+                const textBuckets = payload.map_prep?.text_buckets ?? {};
                 api.exportDataAsCsv({
                   fileName: `${profSlug}.csv`,
                   allColumns: true,
-                  processCellCallback: (params) => {
-                    const v = params.value;
-                    let out: string;
-                    if (v == null || v === "") out = "";
-                    else if (typeof v === "boolean") out = v ? "Yes" : "No";
-                    else if (Array.isArray(v)) out = v.join("; ");
-                    else if (typeof v === "object") out = JSON.stringify(v);
-                    else out = String(v);
-                    out = out.replace(/\s*\r?\n\s*/g, " ").trim();
-                    const cid = params.column?.getColId?.();
-                    const bucketPath = cid ? BUCKET_PATHS[cid] : undefined;
-                    const state = (params.node?.data as Row | undefined)?.state;
-                    const bucket =
-                      bucketPath && state
-                        ? textBuckets[bucketPath]?.by_state?.[state]
-                        : undefined;
-                    if (bucket) out = out ? `${bucket} — ${out}` : bucket;
-                    return out;
-                  },
+                  processCellCallback: (p) =>
+                    exportCellValue(
+                      p.value,
+                      p.column?.getColId?.(),
+                      (p.node?.data as Row | undefined)?.state,
+                      textBuckets,
+                    ),
                 });
               }}
             >
               Download CSV ↓
+            </Button>
+
+            <Button
+              variant="outline"
+              size="sm"
+              className="font-mono text-xs"
+              disabled={!api}
+              onClick={async () => {
+                if (!api) return;
+                // Workbook export (#28.3): tab 1 is the same flat table as the
+                // CSV; then one tab per state with that state's statute sections.
+                // SheetJS is ~430 KB minified, so load it on demand rather than
+                // shipping it in the route bundle for everyone.
+                const XLSX = await import("xlsx");
+                const textBuckets = payload.map_prep?.text_buckets ?? {};
+                const wb = XLSX.utils.book_new();
+
+                // Sheet 1 — reuse AG Grid's CSV writer (same filter + the shared
+                // cell formatting) and parse it back into a worksheet, so the
+                // flat sheet never drifts from "Download CSV".
+                const csv =
+                  api.getDataAsCsv({
+                    allColumns: true,
+                    processCellCallback: (p) =>
+                      exportCellValue(
+                        p.value,
+                        p.column?.getColId?.(),
+                        (p.node?.data as Row | undefined)?.state,
+                        textBuckets,
+                      ),
+                  }) ?? "";
+                const flat = XLSX.read(csv, { type: "string" });
+                XLSX.utils.book_append_sheet(
+                  wb,
+                  flat.Sheets[flat.SheetNames[0]],
+                  "All states",
+                );
+
+                // One tab per state, filtered + sorted to match the table.
+                // Newlines are preserved here (xlsx cells are multi-line), so
+                // the per-state statute text stays readable.
+                const used = new Set<string>();
+                api.forEachNodeAfterFilterAndSort((node) => {
+                  const r = node.data as Row | undefined;
+                  if (!r) return;
+                  // Sheet names: ≤31 chars, unique. State codes are 2 chars, so
+                  // the dedup guard is just belt-and-suspenders.
+                  let name = (r.state || "??").slice(0, 31);
+                  while (used.has(name))
+                    name = `${name.slice(0, 28)}_${used.size % 10}`;
+                  used.add(name);
+
+                  const aoa: string[][] = [
+                    ["Citation", "Section", "Statute text", "Source URL"],
+                  ];
+                  const secs = Array.isArray(r.sections) ? r.sections : [];
+                  for (const s of secs)
+                    aoa.push([
+                      s.citation || "",
+                      s.label || "",
+                      s.text || "",
+                      s.url || "",
+                    ]);
+                  if (secs.length === 0)
+                    aoa.push([
+                      r.coverage_gap
+                        ? r.coverage_gap_label || "No data found"
+                        : "No statute sections",
+                      "",
+                      "",
+                      "",
+                    ]);
+                  XLSX.utils.book_append_sheet(
+                    wb,
+                    XLSX.utils.aoa_to_sheet(aoa),
+                    name,
+                  );
+                });
+
+                // Excel caps a single cell at 32767 chars; a long concatenated
+                // statute (or one giant section) blows past that and the writer
+                // throws. Clamp every string cell so the export never fails —
+                // the per-state tabs + Source URL still give the full text.
+                const CELL_MAX = 32767;
+                for (const sn of wb.SheetNames) {
+                  const ws = wb.Sheets[sn];
+                  for (const addr of Object.keys(ws)) {
+                    if (addr[0] === "!") continue;
+                    const cell = ws[addr] as { v?: unknown; w?: string };
+                    if (typeof cell.v === "string" && cell.v.length > CELL_MAX) {
+                      cell.v = cell.v.slice(0, CELL_MAX - 14) + " …[truncated]";
+                      delete cell.w;
+                    }
+                  }
+                }
+
+                XLSX.writeFile(wb, `${profSlug}.xlsx`);
+              }}
+            >
+              Download workbook ↓
             </Button>
           </div>
 
