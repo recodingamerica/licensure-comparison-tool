@@ -84,6 +84,10 @@ def fetch(url: str) -> tuple[int | None, str | None, str | None]:
         return None, None, f"{type(e).__name__}: {e}"
 
 
+# A bare path segment that is a 4-digit year (Justia year-versioned snapshots).
+YEAR_SEG = re.compile(r"^(?:19|20)\d\d$")
+
+
 def is_section_url(url: str) -> bool:
     last = [s for s in urllib.parse.urlparse(url).path.split("/") if s][-1]
     return bool(SECTION_SEG.match(last))
@@ -94,11 +98,20 @@ def extract_child_links(html: str, base_url: str) -> tuple[list[dict], list[dict
 
     Returns (sections, intermediates). Sections are leaf statute URLs;
     intermediates (subchapter, subpart, ...) need another drill level.
+
+    Year-versioned Justia copies are de-duplicated (issues #6/#7): some chapter
+    pages link to several prior-year snapshots of the same content
+    (/codes/<state>/2023/..., /2024/...). Following all of them pulls the same
+    text once per year. We collapse links that are identical apart from a year
+    segment, keeping the unversioned copy if present, else the latest year — so
+    states that only publish year-stamped pages (KY, OR, IL, ...) still get
+    their current text, while true duplicates are dropped.
     """
     soup = BeautifulSoup(html, "html.parser")
     parsed = urllib.parse.urlparse(base_url)
     base_segments = [s for s in parsed.path.split("/") if s]
     title_slug = base_segments[-1].lower() if base_segments else None
+    base_canon = tuple(s for s in base_segments if not YEAR_SEG.match(s))
 
     sections: list[dict] = []
     intermediates: list[dict] = []
@@ -114,6 +127,18 @@ def extract_child_links(html: str, base_url: str) -> tuple[list[dict], list[dict
         path_segments = [s for s in u.path.split("/") if s]
         if not path_segments:
             continue
+        # Skip year-versioned snapshots of THIS page (issues #6/#7): a link whose
+        # path, with year segments stripped, equals the current page's is just a
+        # prior/parallel-year copy of the page we're already on (e.g. the page at
+        # /<state>/title-43/chapter-43-44/ linking to /<state>/2024/title-43/
+        # chapter-43-44/). Following it re-pulls the same chapter under a year.
+        # Year-stamped *children* (deeper sections) are NOT dropped here — some
+        # states only publish year-stamped section pages; those are de-duplicated
+        # by canonical path after the full walk (_dedupe_year_versions).
+        link_years = {s for s in path_segments if YEAR_SEG.match(s)}
+        canon_path = tuple(s for s in path_segments if not YEAR_SEG.match(s))
+        if link_years and canon_path == base_canon:
+            continue
         last = path_segments[-1]
         if title_slug and title_slug not in [s.lower() for s in path_segments]:
             continue
@@ -128,7 +153,26 @@ def extract_child_links(html: str, base_url: str) -> tuple[list[dict], list[dict
             sections.append(item)
         elif INTERMEDIATE_SEG.match(last):
             intermediates.append(item)
-    return sections, intermediates
+    return _dedupe_year_versions(sections), _dedupe_year_versions(intermediates)
+
+
+def _dedupe_year_versions(items: list[dict]) -> list[dict]:
+    """Collapse links that differ only by a Justia year segment (#6/#7).
+
+    Group by the path with year segments stripped; within each group keep the
+    unversioned URL if one exists, otherwise the highest year. Original order is
+    preserved. Links with no year segment are unaffected.
+    """
+    best: dict[tuple, tuple] = {}  # canon path -> (rank, url)
+    for it in items:
+        segs = [s for s in urllib.parse.urlparse(it["url"]).path.split("/") if s]
+        years = [int(s) for s in segs if YEAR_SEG.match(s)]
+        canon = tuple(s for s in segs if not YEAR_SEG.match(s))
+        rank = (1, 0) if not years else (0, max(years))  # unversioned beats any year
+        if canon not in best or rank > best[canon][0]:
+            best[canon] = (rank, it["url"])
+    keep = {url for _, url in best.values()}
+    return [it for it in items if it["url"] in keep]
 
 
 def extract_section_text(html: str) -> str:
@@ -204,7 +248,10 @@ def collect_section_targets(url: str, label: str, slug: str, depth: int, max_dep
                 log.info("    intermediate err: %s", ierr)
             all_secs.extend(secs)
         if all_secs:
-            return all_secs, None
+            # Cross-page year duplicates can survive per-page dedup (e.g. a year
+            # snapshot reached via one intermediate + the unversioned copy via
+            # another). Collapse them once the whole walk is assembled.
+            return _dedupe_year_versions(all_secs), None
     # No children at all — the URL itself may be the leaf (IL-style)
     text = extract_section_text(html)
     if len(text) > 500:
@@ -274,6 +321,12 @@ def pull_state(state: str, profession: str, rows: list[dict], limit_sections: in
             status, html, err = fetch(sec["url"])
             time.sleep(PER_HOST_DELAY)
             if err or not html or (status and not 200 <= status < 300):
+                # Aggregate into corpus.errors too — otherwise a state with
+                # per-section failures looks healthy at the top level and
+                # downstream stages extract from a silently partial corpus
+                # (bit us 2026-06-12: 5 of 9 MI dietetics sections timed out
+                # and nothing flagged it).
+                corpus.errors.append(f"section fetch {sec['url']}: {err or f'http {status}'}")
                 corpus.sections.append(Section(
                     url=sec["url"], label=sec["label"],
                     citation=short_citation(sec["label"]),
@@ -347,6 +400,9 @@ def main() -> None:
             "total_chars": corpus.total_chars,
             "errors": len(corpus.errors),
         })
+        failed = sum(1 for s in corpus.sections if s.error)
+        if failed:
+            log.warning("  [%s] %d/%d sections FAILED to fetch — corpus is partial", state, failed, len(corpus.sections))
         log.info("  wrote %s (sections=%d, chars=%d)", out_path, len(corpus.sections), corpus.total_chars)
 
     (out_dir / "_summary.json").write_text(json.dumps(summary, indent=2))

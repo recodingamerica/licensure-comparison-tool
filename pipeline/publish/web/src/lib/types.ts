@@ -117,6 +117,7 @@ export type Row = {
   coverage_gap: boolean;
   coverage_gap_reason?: string;
   coverage_gap_label?: string;
+  coverage_gap_detail?: string | null;
   license_required: boolean | null;
   regulatory_model: string | null;
   credential_type: string | null;
