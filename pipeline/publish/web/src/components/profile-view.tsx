@@ -1841,6 +1841,18 @@ export function ProfileView({
               disabled={!api}
               onClick={() => {
                 if (!api) return;
+                // The grid renders several columns through React cellRenderers
+                // (YesNoCell, makeBucketAwareCell, …) that AG Grid's CSV export
+                // can't see — it falls back to the raw cell value. So we mirror
+                // those renderers here, otherwise the export silently drops the
+                // human-readable tags users actually want (#28):
+                //   • booleans → Yes/No (YesNoCell)
+                //   • bucket-aware columns → prepend the LLM-derived tag
+                //     ("Dedicated Dietetics Board" …) that sits above the value
+                //   • collapse embedded newlines so a multi-line statute cell
+                //     can't be split across rows/cells on import into
+                //     Excel/Sheets/pandas (#28.2).
+                const textBuckets = payload.map_prep?.text_buckets ?? {};
                 // allColumns:true exports every column in the columnDefs
                 // regardless of current visibility — what users want from
                 // "Download CSV" is the full dataset, not just the columns
@@ -1851,10 +1863,22 @@ export function ProfileView({
                   allColumns: true,
                   processCellCallback: (params) => {
                     const v = params.value;
-                    if (v == null) return "";
-                    if (Array.isArray(v)) return v.join("; ");
-                    if (typeof v === "object") return JSON.stringify(v);
-                    return String(v);
+                    let out: string;
+                    if (v == null || v === "") out = "";
+                    else if (typeof v === "boolean") out = v ? "Yes" : "No";
+                    else if (Array.isArray(v)) out = v.join("; ");
+                    else if (typeof v === "object") out = JSON.stringify(v);
+                    else out = String(v);
+                    out = out.replace(/\s*\r?\n\s*/g, " ").trim();
+                    const cid = params.column?.getColId?.();
+                    const bucketPath = cid ? BUCKET_PATHS[cid] : undefined;
+                    const state = (params.node?.data as Row | undefined)?.state;
+                    const bucket =
+                      bucketPath && state
+                        ? textBuckets[bucketPath]?.by_state?.[state]
+                        : undefined;
+                    if (bucket) out = out ? `${bucket} — ${out}` : bucket;
+                    return out;
                   },
                 });
               }}
