@@ -150,6 +150,22 @@ extract_state:
         voluntary_certification (or registration / market_forces as fits).
         Never output a regulatory_model that contradicts your own protection
         booleans.
+      - credential_type and regulatory_model must agree on whether a state
+        credential exists: credential_type = none and regulatory_model =
+        market_forces are the SAME finding ("no state credential exists"). If
+        the text affirmatively shows the state issues no credential of its own
+        and instead recognizes a PRIVATE national credential — e.g. a statute
+        that defines the professional by reference to a private certifying body,
+        or that merely permits a privately-credentialed practitioner to act for
+        a narrow purpose — set credential_type = none AND regulatory_model =
+        market_forces, anchored to that same quote. Do NOT leave regulatory_model
+        null while credential_type = none (or vice versa). Reserve null for true
+        uncertainty: when the supplied corpus looks truncated or the profession's
+        governing statute is simply absent. In that case credential_type is also
+        null and the state surfaces as a coverage gap — never as market_forces.
+        Absence of a license act in the corpus is NOT evidence of market_forces;
+        only affirmative text (private-credential deference, an explicit "no
+        license required", or a repealed/sunset provision) supports that rung.
       - The quote must be drawn from a SINGLE section. If the support spans sections, pick
         the most specific one and put the rest of the support in a separate field.
       - Quotes should be a few words to a sentence — long enough to be unambiguous, short
