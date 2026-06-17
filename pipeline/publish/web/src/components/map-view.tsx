@@ -40,7 +40,14 @@ import { UsMap, NO_DATA_FILL } from "@/components/us-map";
 // sheet and the table's category column.
 const PRIORITY_CONCEPTS: { concept: string; candidates: string[] }[] = [
   { concept: "Regulation (UORF)", candidates: ["licensure.regulatory_model"] },
-  { concept: "Minimum Degree", candidates: ["licensure.education.degree_required"] },
+  {
+    // Prefer the normalized degree_level enum (#35); fall back to the older
+    // bucketed free-text field until a re-extract populates the enum.
+    concept: "Minimum Degree",
+    candidates: ["licensure.education.degree_level", "licensure.education.degree_required"],
+  },
+  { concept: "School Approval Basis", candidates: ["licensure.education.school_approval_basis"] },
+  { concept: "Experience Requirement", candidates: ["licensure.post_degree_experience.experience_source"] },
   {
     concept: "Professional Experience",
     candidates: [
