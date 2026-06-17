@@ -280,9 +280,96 @@ class Citation(BaseModel):
 
 # ---------- Sub-structures ----------
 
+class DegreeLevel(str, Enum):
+    """Normalized education floor, low -> high. Resolved to the rung even when
+    the statute uses verbiage ('six college years' -> doctorate, 'or equivalent
+    degree' -> the named level). Professional/clinical doctorates (OD, DDS, MD,
+    DPM) are `doctorate`."""
+    NONE = "none"                 # no degree required to be licensed
+    HIGH_SCHOOL = "high_school"
+    ASSOCIATE = "associate"
+    BACHELOR = "bachelor"
+    MASTER = "master"
+    DOCTORATE = "doctorate"
+
+
+class DegreeLevelEvidence(BaseModel):
+    value: DegreeLevel = Field(
+        description=(
+            "The lowest degree that gets someone licensed under ANY tier (the "
+            "FLOOR), normalized to a rung. Resolve verbiage to the rung: 'Doctor "
+            "of Optometry' / 'graduate of a school of optometry' -> doctorate; "
+            "'six college years' -> doctorate; 'baccalaureate or higher' -> "
+            "bachelor (the floor). none = licensure requires no degree."
+        ),
+    )
+    quote: str
+    citation: str
+
+
+class SchoolApprovalBasis(str, Enum):
+    """Who decides a school 'counts' — a discretionary state gate vs an
+    outsourced national standard are substantively different postures."""
+    NATIONAL_ACCREDITOR = "national_accreditor"   # named national body: ACOE, CODA, ACEND, LCME, CPME
+    REGIONAL_ACCREDITOR = "regional_accreditor"   # "regionally accredited college or university"
+    BOARD_APPROVED = "board_approved"             # discretionary approval by the state board
+    UNSPECIFIED = "unspecified"                   # "accredited" with no basis named, or silent
+
+
+class SchoolApprovalBasisEvidence(BaseModel):
+    value: SchoolApprovalBasis = Field(
+        description=(
+            "How the statute decides a school counts. national_accreditor=a named "
+            "national program accreditor (ACOE/CODA/ACEND/LCME/CPME). "
+            "regional_accreditor='regionally accredited college or university'. "
+            "board_approved='approved by the board' (discretionary state gate). "
+            "unspecified=says 'accredited' with no basis named, or silent."
+        ),
+    )
+    quote: str
+    citation: str
+
+
+class EducationTier(BaseModel):
+    """One education floor when a statute sets DIFFERENT floors for different
+    license classes (dietitian vs nutritionist) or phases the floor in by date
+    (Delaware: bachelor's pre-2024, master's after). Keeps the per-tier detail
+    retrievable even though `degree_level` records only the overall floor."""
+    license_class: str = Field(
+        description="Which class/date this floor applies to — e.g. 'licensed dietitian', "
+        "'certified nutritionist', 'applicants on or after 2024-01-01'.",
+    )
+    degree_level: DegreeLevel
+    effective_date: str | None = Field(
+        default=None,
+        description="ISO date when this floor takes effect, for date-phased tiers (e.g. '2024-01-01'). Null otherwise.",
+    )
+    quote: str
+    citation: str
+
+
 class EducationRequirement(BaseModel):
     degree_required: StrEvidence | None = None
     accrediting_body: StrEvidence | None = None
+    # Normalized signals (#35) — separate the axes the free-text conflates.
+    degree_level: DegreeLevelEvidence | None = Field(
+        default=None,
+        description="The comparable education FLOOR as a normalized rung. Populate whenever "
+        "licensure is gated on a degree; null only if the statute is silent on education.",
+    )
+    school_approval_basis: SchoolApprovalBasisEvidence | None = None
+    credential_pegged: BoolEvidence | None = Field(
+        default=None,
+        description="True if the statute pegs the education requirement to a NATIONAL CREDENTIAL "
+        "(e.g. 'registered by CDR', 'passed the NBEO') rather than (or in addition to) a stated "
+        "degree — such a state inherits whatever that national body currently requires.",
+    )
+    tiers: list[EducationTier] | None = Field(
+        default=None,
+        description="Per-tier floors when the statute sets different education levels for "
+        "different license classes, or phases the floor in by date. Omit/null when there is a "
+        "single floor. `degree_level` still records the overall floor across all tiers.",
+    )
 
 
 class ExperienceSource(str, Enum):
