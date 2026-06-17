@@ -347,6 +347,43 @@ extract_state:
         Do not skip this decision; null is reserved for "the governing statute
         is missing", not "the statute doesn't explicitly discuss experience".
 
+      education (normalized signals — fill alongside the free-text
+      degree_required, which stays as the proof quote):
+        - education.degree_level: ALWAYS populate when licensure is gated on a
+          degree; null only if the statute is silent on education. Record the
+          FLOOR — the lowest degree that licenses under ANY tier — as a
+          normalized rung (none/high_school/associate/bachelor/master/
+          doctorate). Resolve the rung even when the words don't say it:
+            * "Doctor of Optometry", "graduate of a school/college of optometry",
+              "six college years" -> doctorate (clinical doctorate regimes).
+            * "baccalaureate or higher", "baccalaureate, master's, or doctoral"
+              -> bachelor (the floor is the lowest acceptable).
+            * professional/clinical doctorates (OD, DDS, DMD, MD, DPM) -> doctorate.
+          The quote keeps the original wording as proof.
+        - education.school_approval_basis: who decides a school counts.
+          national_accreditor=a NAMED national program accreditor (ACOE, CODA,
+          ACEND, LCME, CPME, etc.). regional_accreditor="regionally accredited
+          college or university". board_approved="approved by the board" or
+          similar discretionary state approval. unspecified=says "accredited"
+          with no basis named, or silent. "board_approved" and
+          "national_accreditor" look similar in prose but are different
+          regulatory postures — read carefully.
+        - education.credential_pegged: true if the statute pegs the requirement
+          to a NATIONAL CREDENTIAL ("registered by CDR", "passed the NBEO",
+          "certified by ...") rather than, or on top of, a stated degree. These
+          states inherit whatever the national body currently requires. false
+          when the requirement is a plain stated degree; null if unclear.
+        - education.tiers: populate ONLY when the degree FLOORS actually DIFFER
+          across license classes (e.g. dietitian needs a bachelor's, nutritionist
+          a master's) or across a date phase-in (Delaware: bachelor's before
+          2024-01-01, master's on/after). If every class/date carries the SAME
+          floor, leave tiers null — do NOT create tiers just because the statute
+          names several license classes or a grandfather date when they all
+          require the same degree level (that adds no information beyond
+          degree_level). One entry per differing class/date with its
+          license_class, degree_level, and (for date phasing) effective_date as
+          an ISO date. `degree_level` still records the overall (lowest) floor.
+
       renewal_fee_usd:
         License renewal fee in US dollars as an integer. Statutes that leave the
         amount to board discretion ("fee set by rule") get null, not 0.
