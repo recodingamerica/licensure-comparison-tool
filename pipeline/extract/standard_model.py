@@ -285,9 +285,46 @@ class EducationRequirement(BaseModel):
     accrediting_body: StrEvidence | None = None
 
 
+class ExperienceSource(str, Enum):
+    """Where a post-degree supervised-experience requirement comes from. Lets a
+    blank `required` stop being ambiguous: a state can be unregulated on this
+    axis (none) or heavily regulated via the degree it points to
+    (embedded_in_credential) — those read identically today."""
+    REQUIRED_BY_STATUTE = "required_by_statute"        # statute states a separate supervised-experience requirement
+    EMBEDDED_IN_CREDENTIAL = "embedded_in_credential"  # statute defers to an accredited degree / national credential that itself includes it
+    NONE = "none"                                      # no post-degree experience needed to be licensed
+
+
+class ExperienceSourceEvidence(BaseModel):
+    value: ExperienceSource = Field(
+        description=(
+            "Where the post-degree supervised-experience requirement lives. "
+            "required_by_statute=the statute itself imposes a separate supervised "
+            "practice / residency / work-experience requirement (then fill duration/kind). "
+            "embedded_in_credential=the statute requires an accredited degree or national "
+            "credential that already includes supervised experience (e.g. an ACOE-accredited "
+            "OD, CDR registration), so the statute does not restate it. "
+            "none=no post-degree experience is required to be licensed."
+        ),
+    )
+    quote: str
+    citation: str
+
+
 class PostDegreeExperience(BaseModel):
     """Residency / supervised practice / apprenticeship — name varies, structure doesn't."""
     required: BoolEvidence | None = None
+    # Always-populated disambiguator (advisory_board.exists pattern): null only
+    # when the corpus is truncated / the governing statute isn't present.
+    experience_source: ExperienceSourceEvidence | None = Field(
+        default=None,
+        description=(
+            "ALWAYS populate (required_by_statute / embedded_in_credential / none) unless "
+            "the governing statute is absent from the corpus. Disambiguates a blank "
+            "`required`: 'none' (truly no requirement) vs 'embedded_in_credential' (the "
+            "accredited degree the statute points to carries the supervised hours)."
+        ),
+    )
     duration: StrEvidence | None = Field(
         default=None,
         description="e.g. '24 months', '1 year', '2,000 hours' (free text — units vary)",
