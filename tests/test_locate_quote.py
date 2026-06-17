@@ -216,3 +216,92 @@ class TestQuoteInCorpus:
     def test_empty_quote_returns_false(self):
         corpus = normalize_for_match("anything goes here")
         assert quote_in_corpus("", corpus) is False
+
+
+class TestPiecedVerbatimQuotes:
+    """The LLM often supports a claim by stitching together NON-adjacent
+    verbatim passages, marking the seam with an em-dash, a semicolon, or just
+    a sentence boundary rather than an explicit ellipsis. As long as every
+    piece is verbatim and in source order, the quote is honest and should
+    verify. See the _SEGMENT_SPLIT_RE comment in locate_quote.py."""
+
+    def test_em_dash_join_of_two_passages_verifies(self):
+        # DE dietetics shape: two real sentences from different points in the
+        # statute, joined by " — " (the intervening text dropped).
+        corpus = normalize_for_match(
+            "For applicants who graduated before January 1, 2024, a minimum of "
+            "a baccalaureate degree from a regionally accredited college. "
+            "The board may waive fees in cases of hardship. "
+            "For applicants who graduated on or after January 1, 2024, a "
+            "minimum of a master's degree from a regionally accredited college."
+        )
+        quote = (
+            "For applicants who graduated before January 1, 2024, a minimum of "
+            "a baccalaureate degree from a regionally accredited college. — "
+            "For applicants who graduated on or after January 1, 2024, a "
+            "minimum of a master's degree from a regionally accredited college."
+        )
+        assert quote_in_corpus(quote, corpus) is True
+
+    def test_semicolon_list_with_elided_inner_clause_verifies(self):
+        # AK dietetics shape: a verbatim "(1)…; (2)…; (3)…" list where the LLM
+        # dropped a clause that sat between items (1) and (2).
+        corpus = normalize_for_match(
+            "The requirements of this chapter do not apply to "
+            "(1) an animal nutritionist whose activities are limited to the "
+            "nutritional care of animals; animal nutritionists may use the "
+            "title nutritionist when serving only animals; "
+            "(2) a person serving as an employee of the federal government."
+        )
+        quote = (
+            "The requirements of this chapter do not apply to "
+            "(1) an animal nutritionist whose activities are limited to the "
+            "nutritional care of animals; "
+            "(2) a person serving as an employee of the federal government."
+        )
+        assert quote_in_corpus(quote, corpus) is True
+
+    def test_sentence_boundary_join_of_two_definitions_verifies(self):
+        # ND dietetics shape: two verbatim definitions joined with ". ", with
+        # unrelated text sitting between them in the source.
+        corpus = normalize_for_match(
+            "Licensed nutritionist means an individual licensed as a "
+            "nutritionist under this chapter. "
+            "The department shall set fees by rule. "
+            "Licensed registered dietitian means an individual licensed as a "
+            "dietitian under this chapter."
+        )
+        quote = (
+            "Licensed nutritionist means an individual licensed as a "
+            "nutritionist under this chapter. "
+            "Licensed registered dietitian means an individual licensed as a "
+            "dietitian under this chapter."
+        )
+        assert quote_in_corpus(quote, corpus) is True
+
+    def test_one_altered_segment_still_fails(self):
+        # The guard: even if most pieces are verbatim, a single segment with a
+        # real word swap ("master's" -> "bachelor's") must keep the quote
+        # unverified — we are not loosening to "most of it matches".
+        corpus = normalize_for_match(
+            "an applicant must hold a baccalaureate degree; "
+            "an applicant must complete a supervised practice program."
+        )
+        quote = (
+            "an applicant must hold a master's degree; "
+            "an applicant must complete a supervised practice program."
+        )
+        assert quote_in_corpus(quote, corpus) is False
+
+    def test_reordered_semicolon_segments_fail(self):
+        # In-order requirement holds across the new separators too: pieces that
+        # appear in the source but in the WRONG order do not verify.
+        corpus = normalize_for_match(
+            "first the applicant files an application; "
+            "then the board issues a license."
+        )
+        quote = (
+            "then the board issues a license; "
+            "first the applicant files an application"
+        )
+        assert quote_in_corpus(quote, corpus) is False

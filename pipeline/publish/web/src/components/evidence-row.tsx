@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useRef, useState } from "react";
 import type { Evidence, SectionRef } from "@/lib/types";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -16,6 +16,18 @@ import { ExternalLink, ChevronDown, ChevronRight } from "lucide-react";
 // call sites. When non-empty, the "in context" panel below each evidence
 // row highlights occurrences of this string instead of the LLM quote span.
 export const SearchQueryContext = createContext<string>("");
+
+// The row the user clicked through to (#34): the Sheet sets this to the
+// EvidenceRow `label` matching the grid column that was clicked. The matching
+// row scrolls itself into view, highlights, and auto-expands its statute text.
+// Context (like SearchQueryContext) so we don't thread a prop through every
+// call site. Null when the Sheet was opened without a specific field focus.
+export const FocusFieldContext = createContext<string | null>(null);
+
+// Per-state bucket labels keyed by EvidenceRow `label` (#34): the same
+// normalized tag the grid shows above bucketed cells (e.g. issuing_authority's
+// "Dedicated Dietetics Board"). Empty for rows with no bucket.
+export const BucketContext = createContext<Record<string, string>>({});
 
 type Props = {
   label: string;
@@ -37,8 +49,26 @@ function formatValue(v: unknown): React.ReactNode {
 }
 
 export function EvidenceRow({ label, ev, sections }: Props) {
-  const [open, setOpen] = useState(false);
+  const focusField = useContext(FocusFieldContext);
+  const focused = focusField !== null && focusField === label;
+  // When this row is the click-through target, expand its statute context by
+  // default so the user lands on the value AND its source text in one step.
+  const [open, setOpen] = useState(focused);
   const searchQuery = useContext(SearchQueryContext);
+  const bucket = useContext(BucketContext)[label];
+  const rowRef = useRef<HTMLDivElement>(null);
+
+  // Scroll the focused row into the middle of the Sheet after it paints. The
+  // Sheet slides in via a transform, so defer past that with rAF to land on
+  // the right final position.
+  useEffect(() => {
+    if (!focused) return;
+    const id = requestAnimationFrame(() => {
+      rowRef.current?.scrollIntoView({ block: "center", behavior: "smooth" });
+    });
+    return () => cancelAnimationFrame(id);
+  }, [focused]);
+
   if (!ev) return null;
 
   const cite = ev.citation || "";
@@ -67,30 +97,64 @@ export function EvidenceRow({ label, ev, sections }: Props) {
   const deepLinkUrl = citationUrlWithFragment(source?.url, source?.text, ev.quote_spans);
 
   return (
-    <div className="grid grid-cols-[160px_1fr] md:grid-cols-[180px_1fr] gap-x-3 py-2 border-b border-border/60 last:border-0">
+    <div
+      ref={rowRef}
+      data-field={label}
+      className={
+        "grid grid-cols-[160px_1fr] md:grid-cols-[180px_1fr] gap-x-3 py-2 border-b border-border/60 last:border-0 scroll-mt-4 " +
+        (focused
+          ? "rounded-md ring-2 ring-sky-400 bg-sky-50/60 -mx-2 px-2"
+          : "")
+      }
+    >
       <code className="text-xs text-muted-foreground font-mono pt-1 break-all">{label}</code>
       <div className="space-y-1.5">
+        {bucket && (
+          <Badge
+            variant="outline"
+            className="self-start font-mono text-[10px] px-1.5 py-0 bg-amber-50 text-amber-900 border-amber-300"
+          >
+            {bucket}
+          </Badge>
+        )}
         <div className="font-medium text-sm flex items-center gap-2">
           {formatValue(ev.value)}
           {unverified && approximate && (
             <Badge
               variant="secondary"
               className="bg-amber-100 text-amber-900 hover:bg-amber-100 text-[10px] font-mono uppercase tracking-wide"
-              title={`Strict regex match failed, but ${Math.round(approximate.ratio * 100)}% of the quote was found contiguous in the source.`}
+              title={`${Math.round(approximate.ratio * 100)}% of this quote appears word-for-word in the statute; the rest differs (usually a phrase the model shortened). Flags the quote wording — not whether the value is correct.`}
             >
-              ~{Math.round(approximate.ratio * 100)}% match
+              ~{Math.round(approximate.ratio * 100)}% verbatim
             </Badge>
           )}
           {unverified && !approximate && (
             <Badge
               variant="secondary"
               className="bg-amber-100 text-amber-900 hover:bg-amber-100 text-[10px] font-mono uppercase tracking-wide"
-              title="Quote did not match source via regex"
+              title="This quote isn't a word-for-word span of the statute — the model paraphrased or compressed the wording. Flags the quote text, not whether the value is correct."
             >
-              unverified
+              quote not verbatim
             </Badge>
           )}
         </div>
+        {unverified && (
+          <p className="text-[11px] not-italic text-muted-foreground leading-snug">
+            {approximate
+              ? `Most of this quote (${Math.round(approximate.ratio * 100)}%) appears word-for-word in the statute; the rest differs — usually a phrase the model shortened.`
+              : "This quote isn't a word-for-word span of the statute — the model paraphrased or compressed the wording."}{" "}
+            It flags the <em>quote wording</em>, not whether the value is correct
+            {source?.text ? (
+              <>
+                {" — use "}
+                <span className="font-medium">in context</span>
+                {" below to compare against the statute."}
+              </>
+            ) : (
+              "."
+            )}
+          </p>
+        )}
         <div
           className={
             "text-xs px-3 py-2 rounded border-l-2 italic " +
@@ -119,7 +183,7 @@ export function EvidenceRow({ label, ev, sections }: Props) {
         {approximate && (
           <div className="text-[11px] not-italic px-3 py-1.5 rounded bg-amber-50 border border-amber-200 text-amber-900">
             <span className="font-mono uppercase tracking-wide text-[9px] mr-2">
-              closest match in source
+              longest verbatim run found in statute
             </span>
             “…{approximate.matched_normalized}…”
           </div>
