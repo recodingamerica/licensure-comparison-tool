@@ -26,14 +26,20 @@ import {
 import { humanize } from "@/lib/format";
 import { UsMap, NO_DATA_FILL } from "@/components/us-map";
 
-// The five "priority" licensure concepts (mirrors PRIORITY_FIELDS in
-// pipeline/publish/build_tag_sheet.py). Each maps to the dotted bucketed-field
-// name(s) the Pass-3 bucketing may have produced; we surface whichever exist
-// as categorical "priority" choropleths grouped at the top of the field
-// dropdown. Discipline is intentionally omitted — it's per-item (a state has
-// many grounds spanning several buckets), so it isn't a single-value
-// choropleth; it lives on the tag sheet and the table's category column.
+// The "priority" licensure concepts (mirrors PRIORITY_FIELDS in
+// pipeline/publish/build_tag_sheet.py). Each maps to the dotted field name(s)
+// it can be sourced from; a candidate resolves either from a Pass-3 text
+// bucket (free-text fields normalized into bucket_set) or, failing that, from
+// an already-normalized mappable field in mapPrep.spec (e.g. the
+// regulatory_model enum). We surface whichever exists as a categorical
+// "priority" choropleth grouped at the top of the field dropdown — these skip
+// the "hide uniform" filter so headline concepts always appear, even when a
+// profession is uniform (e.g. every state licenses optometrists). Discipline
+// is intentionally omitted — it's per-item (a state has many grounds spanning
+// several buckets), so it isn't a single-value choropleth; it lives on the tag
+// sheet and the table's category column.
 const PRIORITY_CONCEPTS: { concept: string; candidates: string[] }[] = [
+  { concept: "Regulation (UORF)", candidates: ["licensure.regulatory_model"] },
   { concept: "Minimum Degree", candidates: ["licensure.education.degree_required"] },
   {
     concept: "Professional Experience",
@@ -137,24 +143,39 @@ export function MapView({
     const specs: PrioritySpec[] = [];
     const rows: MapRow[] = [];
     const tb = mapPrep.text_buckets ?? {};
+    const specByName = new Map(mapPrep.spec.map((s) => [s.field_name, s]));
     for (const { concept, candidates } of PRIORITY_CONCEPTS) {
+      // One map per concept — stop at the first candidate that exists.
       for (const fn of candidates) {
+        // Case 1: a Pass-3 bucketed free-text field (not in mapPrep.spec).
         const entry = tb[fn];
         const byState = entry?.by_state ?? {};
-        if (!entry || Object.keys(byState).length === 0) continue;
-        specs.push({
-          field_name: fn,
-          mappable: true,
-          kind: "categorical",
-          unit: null,
-          categories: entry.bucket_set ?? [],
-          reason: entry.rationale ?? "",
-          concept,
-        });
-        for (const [state, bucket] of Object.entries(byState)) {
-          rows.push({ field_name: fn, state, raw_value: bucket, normalized: bucket });
+        if (entry && Object.keys(byState).length > 0) {
+          specs.push({
+            field_name: fn,
+            mappable: true,
+            kind: "categorical",
+            unit: null,
+            categories: entry.bucket_set ?? [],
+            reason: entry.rationale ?? "",
+            concept,
+          });
+          for (const [state, bucket] of Object.entries(byState)) {
+            rows.push({ field_name: fn, state, raw_value: bucket, normalized: bucket });
+          }
+          break;
         }
-        break; // one map per concept — first candidate the profession produced
+        // Case 2: an already-normalized mappable field (e.g. the
+        // regulatory_model enum) — reuse its real spec + rows. priorityNames
+        // then excludes it from "All mapped fields" so it isn't shown twice.
+        const existing = specByName.get(fn);
+        if (existing) {
+          specs.push({ ...existing, concept });
+          for (const r of mapPrep.rows) {
+            if (r.field_name === fn) rows.push(r);
+          }
+          break;
+        }
       }
     }
     return { prioritySpecs: specs, priorityRows: rows };

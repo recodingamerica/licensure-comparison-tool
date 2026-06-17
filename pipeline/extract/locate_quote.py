@@ -64,9 +64,40 @@ _LIST_MARKER_PROBE_LEN = 12
 
 _ALNUM_OR_SPACE_RE = re.compile(r"[a-z0-9 ]")
 
-# Ellipsis splitter for the quote side. Matches "..." (with optional spaces
-# between dots) or a single ellipsis char. Same regex as Python's old
-# _ELLIPSIS_SPLIT and the TS ELLIPSIS_SPLIT_RE.
+# Quote-side segment splitter. When the LLM supports a claim it routinely
+# stitches together NON-ADJACENT source passages, and it marks the seam in one
+# of a few recurring ways: an explicit ellipsis, an em/en-dash join (" — "), a
+# semicolon between enumerated clauses, or a plain sentence boundary (". ").
+# We split on all of them, then require each resulting segment to appear
+# verbatim AND in source order (see quote_in_corpus / locate_quote_in_section).
+#
+# Why this is safe to broaden: splitting can only ever let us accept MORE real
+# text. A reordered or fabricated segment still fails the in-order substring
+# search, so a paraphrase never passes (see test_paraphrase_returns_false /
+# test_*_out_of_order_returns_false). Crucially, unlike corpus-side list-marker
+# stripping (see _LIST_MARKER_AT_START_RE) this touches NO normalization — it
+# only chooses where to cut the quote — so it carries none of that asymmetry
+# risk. The ellipsis branch is listed first so "..." is consumed whole before
+# the bare-sentence-boundary branch can fire inside it.
+#
+# Measured impact (2026-06): flips 28 genuinely-verbatim-but-pieced quotes from
+# unverified→verified across the published professions (e.g. a state's
+# semicolon-delimited scope list, or two verbatim definitions the model joined
+# with a period), while every quote with a real character-level discrepancy
+# stays flagged.
+_SEGMENT_SPLIT_RE = re.compile(
+    r"\s*(?:\.\s*\.\s*\.|…)\s*"  # ellipsis: "..." (spaces ok) or "…"
+    r"|\s+[-–—−]\s+"            # spaced dash join: " — "
+    r"|;\s+"                     # semicolon between clauses
+    r"|\.\s+"                    # sentence boundary: ". "
+)
+
+# The original, narrower splitter — ellipsis only. We still try this FIRST so
+# that broadening is purely ADDITIVE: any quote that verified as one contiguous
+# (or ellipsis-elided) span keeps verifying exactly as before. Finer splitting
+# can otherwise regress a quote — a short early segment may match at an earlier,
+# wrong position and overshoot the in-order cursor — so we only fall through to
+# the broadened split when the narrow one doesn't already succeed.
 _ELLIPSIS_SPLIT_RE = re.compile(r"\s*(?:\.\s*\.\s*\.|…)\s*")
 
 # Below this many normalized characters, a substring match isn't strong
@@ -193,12 +224,17 @@ def normalize_for_match(text: str) -> str:
     return normalize_with_mapping(text)[0]
 
 
-def _split_quote_to_segments(quote: str) -> list[str]:
-    """Split a quote on ellipsis, normalize each part, drop parts whose
-    normalized form is shorter than _MIN_SEGMENT_LEN. Returned segments
-    are the NORMALIZED forms, in source order."""
+def _split_quote_to_segments(
+    quote: str, split_re: re.Pattern[str] = _SEGMENT_SPLIT_RE
+) -> list[str]:
+    """Split a quote on any seam the LLM uses to join non-adjacent passages
+    (by default ellipsis, dash join, semicolon, sentence boundary — see
+    _SEGMENT_SPLIT_RE), normalize each part, and drop parts whose normalized
+    form is shorter than _MIN_SEGMENT_LEN. Pass `split_re=_ELLIPSIS_SPLIT_RE`
+    for the original ellipsis-only behavior. Returned segments are the
+    NORMALIZED forms, in source order."""
     segments: list[str] = []
-    for raw in _ELLIPSIS_SPLIT_RE.split(quote):
+    for raw in split_re.split(quote):
         raw = raw.strip()
         if not raw:
             continue
@@ -206,6 +242,20 @@ def _split_quote_to_segments(quote: str) -> list[str]:
         if len(nq) >= _MIN_SEGMENT_LEN:
             segments.append(nq)
     return segments
+
+
+def _segments_found_in_order(segments: list[str], normalized_corpus: str) -> bool:
+    """True iff every segment appears in `normalized_corpus`, each at or after
+    the end of the previous segment's match."""
+    if not segments:
+        return False
+    cursor = 0
+    for nq in segments:
+        idx = normalized_corpus.find(nq, cursor)
+        if idx < 0:
+            return False
+        cursor = idx + len(nq)
+    return True
 
 
 def locate_quote_in_section(
@@ -224,23 +274,32 @@ def locate_quote_in_section(
     """
     if not quote:
         return None
-    segments = _split_quote_to_segments(quote)
-    if not segments:
-        return None
 
     norm_section, src_index = normalize_with_mapping(section_text)
 
-    spans: list[tuple[int, int]] = []
-    cursor = 0
-    for nq in segments:
-        idx = norm_section.find(nq, cursor)
-        if idx < 0:
-            return None
-        src_start = src_index[idx]
-        src_end = src_index[idx + len(nq) - 1] + 1
-        spans.append((src_start, src_end))
-        cursor = idx + len(nq)
-    return spans
+    # Try the narrow (ellipsis-only) segmentation first so existing highlights
+    # are byte-for-byte unchanged; fall through to the broadened split only
+    # when the narrow one can't place every segment (the new pieced-quote
+    # cases). Same narrow-then-broad order as quote_in_corpus.
+    for split_re in (_ELLIPSIS_SPLIT_RE, _SEGMENT_SPLIT_RE):
+        segments = _split_quote_to_segments(quote, split_re)
+        if not segments:
+            continue
+        spans: list[tuple[int, int]] = []
+        cursor = 0
+        ok = True
+        for nq in segments:
+            idx = norm_section.find(nq, cursor)
+            if idx < 0:
+                ok = False
+                break
+            src_start = src_index[idx]
+            src_end = src_index[idx + len(nq) - 1] + 1
+            spans.append((src_start, src_end))
+            cursor = idx + len(nq)
+        if ok:
+            return spans
+    return None
 
 
 def quote_fuzzy_match(
@@ -279,9 +338,14 @@ def quote_fuzzy_match(
 
 
 def quote_in_corpus(quote: str, normalized_corpus: str) -> bool:
-    """Bool form: True iff each ellipsis-split segment of `quote` appears
-    in order in `normalized_corpus` (already normalized via
-    normalize_for_match).
+    """Bool form: True iff the quote's segments appear in order in
+    `normalized_corpus` (already normalized via normalize_for_match).
+
+    We try the narrow ellipsis-only segmentation first, then the broadened
+    one (dash/semicolon/sentence joins). Narrow-first makes the broadening
+    purely ADDITIVE: anything that verified as one contiguous/ellipsis span
+    still verifies, and the broadened split can only ADD passes for genuinely
+    pieced-but-verbatim quotes — never flip a prior pass to a fail.
 
     Kept alongside locate_quote_in_section because the verifier still
     needs the looser "match anywhere in the combined chapter+umbrella
@@ -290,13 +354,8 @@ def quote_in_corpus(quote: str, normalized_corpus: str) -> bool:
     text without belonging cleanly to any single section."""
     if not quote:
         return False
-    segments = _split_quote_to_segments(quote)
-    if not segments:
-        return False
-    cursor = 0
-    for nq in segments:
-        idx = normalized_corpus.find(nq, cursor)
-        if idx < 0:
-            return False
-        cursor = idx + len(nq)
-    return True
+    return _segments_found_in_order(
+        _split_quote_to_segments(quote, _ELLIPSIS_SPLIT_RE), normalized_corpus
+    ) or _segments_found_in_order(
+        _split_quote_to_segments(quote, _SEGMENT_SPLIT_RE), normalized_corpus
+    )

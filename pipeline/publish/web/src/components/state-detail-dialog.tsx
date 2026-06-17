@@ -16,8 +16,54 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { Badge } from "@/components/ui/badge";
-import { EvidenceRow, SearchQueryContext } from "./evidence-row";
+import {
+  EvidenceRow,
+  SearchQueryContext,
+  FocusFieldContext,
+  BucketContext,
+} from "./evidence-row";
 import { searchSnippets } from "@/lib/format";
+
+// Map a clicked grid colId (#34) to the EvidenceRow `label` it corresponds to
+// inside the Sheet. Most universal columns share the same string as their row
+// label (regulatory_model, issuing_authority, credential_type, …) so identity
+// is the default; only the columns whose label uses a different notation are
+// listed here. Profession-specific columns are "ps_<name>" and resolve to
+// "<name>". Keep aligned with UNVERIFIED_PATHS in profile-view.tsx.
+const FOCUS_LABEL_OVERRIDES: Record<string, string> = {
+  education_degree: "education.degree_required",
+  education_accrediting_body: "education.accrediting_body",
+  post_degree_required: "post_degree.required",
+  post_degree_duration: "post_degree.duration",
+  post_degree_kind: "post_degree.kind",
+  renewal_years: "renewal.interval_years",
+  ce_required: "CE.required",
+  continuing_ed: "CE.required",
+  ce_hours_per_period: "CE.hours_per_period",
+  ce_period_years: "CE.period_years",
+  ce_topical_requirements: "CE.topical_requirements",
+  reciprocity_available: "reciprocity.available",
+  reciprocity_requirements: "reciprocity.requirements",
+  scope_definition: "definition_quote",
+  scope_methods: "methods_authorized",
+  scope_drug_authority: "drug_authority",
+};
+
+function focusColIdToLabel(colId: string | null | undefined): string | null {
+  if (!colId) return null;
+  if (FOCUS_LABEL_OVERRIDES[colId]) return FOCUS_LABEL_OVERRIDES[colId];
+  if (colId.startsWith("ps_")) return colId.slice(3);
+  return colId; // identity for the same-named universal columns
+}
+
+// The three universal text-bucketed fields, mapped from their map_prep dotted
+// path to the Sheet's EvidenceRow label, so the same chip the grid shows above
+// a bucketed cell also appears on the matching row inside the Sheet.
+const BUCKET_PATH_TO_LABEL: Record<string, string> = {
+  "licensure.issuing_authority": "issuing_authority",
+  "licensure.education.degree_required": "education.degree_required",
+  "licensure.post_degree_experience.duration": "post_degree.duration",
+};
 
 // Group a state's disciplinary grounds by their content category (from the
 // per-item bucketing pass), largest group first. When no ground carries a
@@ -61,6 +107,13 @@ type Props = {
   // the LLM-quote highlights. When empty, the existing quote highlights
   // render unchanged.
   searchQuery?: string;
+  // The grid colId the user clicked through (#34). The matching EvidenceRow
+  // scrolls into view, highlights, and auto-expands its statute text. Null
+  // when the Sheet was opened without a specific field focus.
+  focusColId?: string | null;
+  // map_prep.text_buckets, used to surface the same per-state bucket chip the
+  // grid shows above bucketed cells on the matching Sheet rows (#34).
+  textBuckets?: Record<string, { by_state?: Record<string, string> }>;
 };
 
 // Renamed visually from "Dialog" → "Sheet" (slide-in side panel) because the
@@ -68,11 +121,32 @@ type Props = {
 // per-claim evidence drilldown (verbatim quote + citation + source link),
 // not "all the data for this row" duplication. Keeping the export name
 // StateDetailDialog so callers don't need to change.
-export function StateDetailDialog({ rows, fields, openState, onOpenChange, searchQuery }: Props) {
+export function StateDetailDialog({ rows, fields, openState, onOpenChange, searchQuery, focusColId, textBuckets }: Props) {
   const row = useMemo(
     () => rows.find((r) => r.state === openState) || null,
     [rows, openState]
   );
+
+  const focusLabel = useMemo(() => focusColIdToLabel(focusColId), [focusColId]);
+
+  // Per-state bucket chips keyed by EvidenceRow label. Covers the three
+  // universal text-bucketed fields plus any profession-specific bucketed list
+  // field (path "profession_specific.<name>" → row label "<name>").
+  const bucketByLabel = useMemo(() => {
+    const out: Record<string, string> = {};
+    if (!row || !textBuckets) return out;
+    for (const [path, entry] of Object.entries(textBuckets)) {
+      const b = entry?.by_state?.[row.state];
+      if (!b) continue;
+      const label =
+        BUCKET_PATH_TO_LABEL[path] ??
+        (path.startsWith("profession_specific.")
+          ? path.slice("profession_specific.".length)
+          : null);
+      if (label) out[label] = b;
+    }
+    return out;
+  }, [row, textBuckets]);
 
   if (!row) {
     return (
@@ -123,6 +197,8 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
 
   return (
     <SearchQueryContext.Provider value={searchQuery ?? ""}>
+    <FocusFieldContext.Provider value={focusLabel}>
+    <BucketContext.Provider value={bucketByLabel}>
     <Sheet open onOpenChange={onOpenChange}>
       <SheetContent
         side="right"
@@ -284,6 +360,8 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
         </SheetBody>
       </SheetContent>
     </Sheet>
+    </BucketContext.Provider>
+    </FocusFieldContext.Provider>
     </SearchQueryContext.Provider>
   );
 }

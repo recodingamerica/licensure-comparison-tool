@@ -319,6 +319,34 @@ extract_state:
           "rulemaking subject to board approval", "disciplinary recommendations",
           etc.
 
+      post_degree_experience.experience_source:
+        ALWAYS populate this (required_by_statute / embedded_in_credential /
+        none). Only leave null when the governing statute isn't present in the
+        corpus at all. It exists to disambiguate a blank `required`: a state
+        with no separate residency clause may have NO requirement, or may have a
+        heavy one that lives inside the degree it points to — those must not
+        read the same. The decision:
+          * required_by_statute — the statute ITSELF imposes a separate
+            supervised-practice / residency / apprenticeship / work-experience
+            requirement before licensure (e.g. "1 year of postgraduate
+            training", "2,000 hours of supervised practice"). Then also fill
+            duration and kind. Set `required`=true.
+          * embedded_in_credential — the statute requires an accredited degree
+            or national credential that ITSELF carries supervised clinical
+            experience, and does not restate a separate requirement. The tell:
+            licensure is gated on a professional/clinical doctorate or a named
+            national credential whose program includes supervised practice
+            (e.g. an ACOE-accredited Doctor of Optometry, a CODA dental degree,
+            CDR registration). Use this rather than `none` whenever the entry
+            degree is a clinical doctorate or board-recognized national
+            credential. The quote can be the section requiring that degree /
+            credential.
+          * none — licensure requires no post-degree supervised experience and
+            the entry credential is not one that embeds it (e.g. a written exam
+            plus a bachelor's with no clinical component). Set `required`=false.
+        Do not skip this decision; null is reserved for "the governing statute
+        is missing", not "the statute doesn't explicitly discuss experience".
+
       renewal_fee_usd:
         License renewal fee in US dollars as an integer. Statutes that leave the
         amount to board discretion ("fee set by rule") get null, not 0.
