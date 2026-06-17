@@ -27,15 +27,31 @@ export type Evidence<T = unknown> = {
   quote_spans?: Array<[number, number]>;
 };
 
+// One education floor for a license class / date phase-in (#35). Not
+// Evidence-shaped — mirrors EducationTier in standard_model.py.
+export type EducationTier = {
+  license_class: string;
+  degree_level: string;
+  effective_date?: string | null;
+  quote?: string;
+  citation?: string;
+};
+
 export type EducationRequirement = {
   degree_required?: Evidence<string> | null;
   accrediting_body?: Evidence<string> | null;
+  // Normalized signals (#35)
+  degree_level?: Evidence<string> | null;
+  school_approval_basis?: Evidence<string> | null;
+  credential_pegged?: Evidence<boolean> | null;
+  tiers?: EducationTier[] | null;
 };
 
 export type PostDegreeExperience = {
   required?: Evidence<boolean> | null;
   duration?: Evidence<string> | null;
   kind?: Evidence<string> | null;
+  experience_source?: Evidence<string> | null; // #36
 };
 
 export type ContinuingEducation = {
