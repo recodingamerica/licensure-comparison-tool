@@ -175,6 +175,72 @@ def _dedupe_year_versions(items: list[dict]) -> list[dict]:
     return [it for it in items if it["url"] in keep]
 
 
+# --- Pennsylvania legacy static endpoint (legis.state.pa.us /WU01/.../HTM) ---
+# PA isn't on Justia; it publishes each act's FULL text on one HTML page, with
+# sections delimited by hidden `div.Comment` markers of the form
+# "{year}{act:04d}u{sec}s" (e.g. "19800057u4.1s"). Unlike Justia (one URL per
+# section), one PA URL yields the whole act, so we split it here into per-section
+# records rather than fetching a URL per section. See docs/reports/pa_puller_plan.
+PA_LEGIS_HOST = "legis.state.pa.us"
+# marker = 4-digit year + 4-digit act + 'u' + suffix; section markers end in 's'
+# with a numeric section id ("1", "2.1", "4.3"); 'a'/'ax'/'c'/'h'/<sec>'v' are
+# act bounds, table-of-contents, enactment header, and per-section amendment notes.
+_PA_MARKER = re.compile(r"^(\d{4})(\d{4})u(.+)$")
+_PA_SECTION_SUFFIX = re.compile(r"^(\d+(?:\.\d+)?)s$")
+
+
+def is_pa_legis_url(url: str) -> bool:
+    return PA_LEGIS_HOST in urllib.parse.urlparse(url).netloc
+
+
+def parse_pa_act(html: str, url: str) -> list[Section]:
+    """Split one legis.state.pa.us act page into per-section records.
+
+    Walks the BodyContainer's direct children in document order. A `div.Comment`
+    whose marker is a section start ("...u<sec>s") opens a new section; every
+    following <p>/<table> accumulates into it until the next section start (so a
+    section's amendment-note marker "...<sec>v" stays inside that section).
+    Content before the first section marker (act header, table of contents,
+    enactment clause) is skipped. Returns [] if no markers are found.
+    """
+    soup = BeautifulSoup(html, "html.parser")
+    body = soup.find("div", class_="BodyContainer") or soup
+    sections: list[Section] = []
+    cur_num: str | None = None
+    cur_parts: list[str] = []
+
+    def flush() -> None:
+        nonlocal cur_num, cur_parts
+        if cur_num is not None:
+            text = "\n".join(p for p in cur_parts if p).strip().replace("\xa0", " ")
+            if text:
+                heading = text.split("\n", 1)[0][:300]
+                sections.append(Section(
+                    url=url, label=heading, citation=f"§ {cur_num}",
+                    text=text, text_len=len(text),
+                ))
+        cur_num, cur_parts = None, []
+
+    for child in body.children:
+        name = getattr(child, "name", None)
+        if name is None:
+            continue
+        if name == "div" and "Comment" in (child.get("class") or []):
+            m = _PA_MARKER.match(child.get_text(strip=True))
+            if not m:
+                continue
+            sm = _PA_SECTION_SUFFIX.match(m.group(3))
+            if sm:
+                flush()
+                cur_num, cur_parts = sm.group(1), []
+            elif m.group(3) == "ax":
+                flush()
+        elif cur_num is not None and name in ("p", "table"):
+            cur_parts.append(child.get_text(" ", strip=True))
+    flush()
+    return sections
+
+
 def extract_section_text(html: str) -> str:
     """Extract the main statute text from a section page across known sources.
 
@@ -267,6 +333,27 @@ def pull_state(state: str, profession: str, rows: list[dict], limit_sections: in
     for row in rows:
         url = row["chapter_url"]
         corpus.chapter_urls.append(url)
+
+        # Pennsylvania: one URL is the whole act; fetch once and split locally
+        # into per-section records (sections share the act URL, so the
+        # seen_section_urls URL-dedup below would wrongly collapse them — handle
+        # PA entirely here and move on).
+        if is_pa_legis_url(url):
+            status, html, err = fetch(url)
+            time.sleep(PER_HOST_DELAY)
+            if err or not html or (status and not 200 <= status < 300):
+                corpus.errors.append(f"pa_legis fetch {url}: {err or f'http {status}'}")
+                continue
+            pa_sections = parse_pa_act(html, url)
+            if not pa_sections:
+                corpus.errors.append(f"pa_legis parse {url}: 0 sections (markers not found)")
+            for sec in pa_sections:
+                if limit_sections and len(corpus.sections) >= limit_sections:
+                    break
+                corpus.sections.append(sec)
+                corpus.total_chars += sec.text_len
+            log.info("  pa_legis %s -> %d sections", url, len(pa_sections))
+            continue
 
         # Manual-override "section filter" mode: pull a specific list of section
         # URLs, OR pull the chapter's children and filter by a slug regex.

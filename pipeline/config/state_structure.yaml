@@ -7,7 +7,7 @@
 #                   section_fallback    — title page returns flat sections (AZ, OK, MI, WI, LA on Justia)
 #                   subtitled           — title is split into subtitles/divisions; profession chapters live one level deeper (AR, CA, CO)
 #                   external            — non-Justia source (revisor_mn, mi_legis, etc.)
-#                   broken              — Justia coverage is bad; needs custom scraper or accepts gap (PA)
+#                   broken              — source coverage is bad; needs custom scraper or accepts gap
 #   professions   per-profession URL or section pattern within this state
 #                   url:                  direct chapter URL (most cases)
 #                   section_slug_pattern: regex on section URL slug (section_fallback states)
@@ -3243,6 +3243,16 @@ NY:
 # ---- Known-broken sources ----
 
 PA:
-  source: pa_complex
-  layout: broken
-  notes: "Justia content for PA is sparse; palegis.us is query-string-driven and needs Playwright + custom navigation; FindLaw is anti-scrape; Cornell doesn't host PA statutes. Deferred."
+  # PA isn't on Justia; the legacy static endpoint serves each act's full text on
+  # one HTML page that the existing curl_cffi chrome fetch reads cleanly. pull_text
+  # detects the legis.state.pa.us host and splits the page into per-section records
+  # (div.Comment markers). URL form: /WU01/LI/LI/US/HTM/{year}/{sessInd}/{act:04d}..HTM
+  # — use the static page, NOT the modern uconsCheck.cfm?act=NN (301s to the JS site).
+  source: pa_legis
+  layout: external
+  notes: "Per-profession url points at the act's WU01 static page. Validated 2026-06-17 (optometry act 57/1980, 19 sections)."
+  professions:
+    optometry:
+      url: "https://www.legis.state.pa.us/WU01/LI/LI/US/HTM/1980/0/0057..HTM"
+      label: "Optometric Practice and Licensure Act (Act 57 of 1980)"
+      note: "Standalone optometry act; 63 P.S. § 244.x. Pilot for the pa_legis puller (#26)."
