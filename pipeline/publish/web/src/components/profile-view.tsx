@@ -1103,7 +1103,7 @@ function buildColumnDefs(
     cellClass: "text-center",
     headerClass: "text-center",
     headerTooltip:
-      "Number of quotes that did not match the cleaned source verbatim. Blank means all quotes verified.",
+      "How many quotes in this state's record aren't a word-for-word span of the statute (the model paraphrased or shortened the wording). It flags the quote text, not whether the values are correct. Blank means every quote matched verbatim.",
   },
 
   // ── Additional universal columns (default-hidden; opt in via Columns ▾)
@@ -1487,6 +1487,9 @@ export function ProfileView({
   const gridRef = useRef<AgGridReact<Row>>(null);
   const [api, setApi] = useState<GridApi<Row> | null>(null);
   const [openState, setOpenState] = useState<string | null>(null);
+  // The grid column the user clicked to open the Sheet (#34), so the Sheet can
+  // scroll to and highlight the matching field. Null = no specific focus.
+  const [focusColId, setFocusColId] = useState<string | null>(null);
   // Force re-render of the chip bar whenever AG Grid's filter model changes.
   // We track a tick rather than mirror the filter model into React state,
   // since the source of truth is the grid itself.
@@ -1559,9 +1562,15 @@ export function ProfileView({
 
   const onFilterChanged = (_e: FilterChangedEvent) => setFilterTick((t) => t + 1);
 
-  const handleRowClick = useCallback(
-    (event: { data: Row | undefined }) => {
-      if (event.data) setOpenState(event.data.state);
+  // Cell click (not row click) so we know WHICH column was clicked (#34) and
+  // can scroll the Sheet straight to that field. State column is excluded —
+  // it's the row identifier, not a data field worth focusing.
+  const handleCellClick = useCallback(
+    (event: { data?: Row; column?: { getColId: () => string } }) => {
+      if (!event.data) return;
+      const col = event.column?.getColId();
+      setFocusColId(col && col !== "state" ? col : null);
+      setOpenState(event.data.state);
     },
     []
   );
@@ -1671,6 +1680,7 @@ export function ProfileView({
         key: "priority",
         label: "Priority",
         ids: [
+          "regulatory_model",
           "education_degree",
           "post_degree_duration",
           "issuing_authority",
@@ -2060,7 +2070,7 @@ export function ProfileView({
               }}
               domLayout="autoHeight"
               onGridReady={(e) => setApi(e.api)}
-              onRowClicked={handleRowClick}
+              onCellClicked={handleCellClick}
               onFilterChanged={onFilterChanged}
               rowClassRules={{
                 "ag-row-coverage-gap": (params) =>
@@ -2079,8 +2089,15 @@ export function ProfileView({
         rows={rows}
         fields={discovered_fields}
         openState={openState}
-        onOpenChange={(o) => !o && setOpenState(null)}
+        onOpenChange={(o) => {
+          if (!o) {
+            setOpenState(null);
+            setFocusColId(null);
+          }
+        }}
         searchQuery={statuteTextQuery}
+        focusColId={focusColId}
+        textBuckets={payload.map_prep?.text_buckets ?? {}}
       />
     </Wrapper>
   );
