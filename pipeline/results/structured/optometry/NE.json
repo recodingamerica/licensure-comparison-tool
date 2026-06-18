@@ -4,30 +4,34 @@
   "licensure": {
     "license_required": {
       "value": true,
-      "quote": "No individual shall engage in the following practices unless such individual has obtained a credential under the Uniform Credentialing Act: ... (ee) Optometry;",
+      "quote": "No individual shall engage in the following practices unless such individual has obtained a credential under the Uniform Credentialing Act: ... (ee) Optometry",
       "citation": "38-121"
     },
     "issuing_authority": {
       "value": "Department of Health and Human Services (Division of Public Health)",
-      "quote": "License means an authorization issued by the department to an individual to engage in a profession or to a business to provide services which would otherwise be unlawful in this state in the absence of such authorization.",
+      "quote": "License means an authorization issued by the department to an individual to engage in a profession",
       "citation": "38-118"
     },
     "regulatory_authority": {
       "name": {
-        "value": "Nebraska Department of Health and Human Services",
-        "quote": "License means an authorization issued by the department to an individual to engage in a profession",
-        "citation": "38-118"
-      },
-      "type": {
-        "value": "department",
+        "value": "Nebraska Board of Optometry",
         "quote": "The board shall consist of four members, including three licensed optometrists and one public member.",
         "citation": "38-2606"
       },
-      "umbrella_agency": null
+      "type": {
+        "value": "standalone_board",
+        "quote": "The board shall consist of four members, including three licensed optometrists and one public member.",
+        "citation": "38-2606"
+      },
+      "umbrella_agency": {
+        "value": "Division of Public Health, Department of Health and Human Services",
+        "quote": "the Licensure Unit of the Division of Public Health of the Department of Health and Human Services",
+        "citation": "38-117.01"
+      }
     },
     "age_minimum": {
       "value": 19,
-      "quote": "No individual shall be issued a credential under the Uniform Credentialing Act until he or she has furnished satisfactory evidence to the department that he or she is of good character and has attained the age of nineteen years except as otherwise specifically provided by statute, rule, or regulation.",
+      "quote": "No individual shall be issued a credential under the Uniform Credentialing Act until he or she has furnished satisfactory evidence to the department that he or she is of good character and has attained the age of nineteen years",
       "citation": "38-129"
     },
     "moral_character_required": {
@@ -45,18 +49,65 @@
         "value": "accrediting organization recognized by the United States Department of Education",
         "quote": "No school of optometry shall be approved by the board as an accredited school unless the school is accredited by an accrediting organization which is recognized by the United States Department of Education.",
         "citation": "38-2616"
-      }
+      },
+      "degree_level": {
+        "value": "doctorate",
+        "quote": "Present proof that he or she is a graduate of an accredited school or college of optometry",
+        "citation": "38-2608"
+      },
+      "school_approval_basis": {
+        "value": "national_accreditor",
+        "quote": "accredited by an accrediting organization which is recognized by the United States Department of Education",
+        "citation": "38-2616"
+      },
+      "credential_pegged": {
+        "value": false,
+        "quote": "Present proof that he or she is a graduate of an accredited school or college of optometry; and (2) pass an examination approved by the board.",
+        "citation": "38-2608"
+      },
+      "tiers": null
     },
-    "post_degree_experience": null,
+    "post_degree_experience": {
+      "required": {
+        "value": false,
+        "quote": "Every applicant for a license to practice optometry shall: (1) Present proof that he or she is a graduate of an accredited school or college of optometry; and (2) pass an examination approved by the board.",
+        "citation": "38-2608"
+      },
+      "experience_source": {
+        "value": "embedded_in_credential",
+        "quote": "Present proof that he or she is a graduate of an accredited school or college of optometry",
+        "citation": "38-2608"
+      },
+      "duration": null,
+      "kind": null
+    },
     "exams": [
       {
-        "name": "Board-approved examination covering all subject matter included in the practice of optometry",
+        "name": "Optometry credentialing examination",
         "required": true,
-        "notes": "The board may approve any national or other examination to constitute part or all of the credentialing examination.",
-        "jurisdiction": null,
+        "notes": "Examination approved by the board; covers all subject matter included in the practice of optometry. National examinations may be approved by the board.",
+        "jurisdiction": "national or board-approved",
         "permitted_attempts": null,
         "quote": "pass an examination approved by the board. The examination shall cover all subject matter included in the practice of optometry.",
         "citation": "38-2608"
+      },
+      {
+        "name": "Diagnostic pharmaceutical agents examination",
+        "required": false,
+        "notes": "Required only for certification to use topical ocular pharmaceutical agents for diagnostic purposes.",
+        "jurisdiction": "board-approved",
+        "permitted_attempts": null,
+        "quote": "satisfactory completion of a pharmacology course at an institution accredited by an accrediting organization which is recognized by the United States Department of Education and approved by the board and passage of an examination approved by the board",
+        "citation": "38-2613"
+      },
+      {
+        "name": "Therapeutic pharmaceutical agents examination",
+        "required": false,
+        "notes": "Required only for certification to use ocular pharmaceutical agents for therapeutic purposes.",
+        "jurisdiction": "board-approved",
+        "permitted_attempts": null,
+        "quote": "satisfactory completion of classroom education and clinical training which emphasizes the examination, diagnosis, and treatment of the eye, ocular adnexa, and visual system offered by a school or college approved by the board and passage of an examination approved by the board",
+        "citation": "38-2614"
       }
     ],
     "renewal": {
@@ -70,8 +121,8 @@
     "continuing_education": {
       "required": {
         "value": true,
-        "quote": "The credential to practice a profession shall be renewed biennially upon request of the credentialed person and upon documentation of continuing competency pursuant to sections 38-145 and 38-146.",
-        "citation": "38-142"
+        "quote": "The appropriate board shall establish continuing competency requirements for persons seeking renewal of a credential.",
+        "citation": "38-145"
       },
       "hours_per_period": null,
       "period_years": {
@@ -84,12 +135,12 @@
     "reciprocity": {
       "available": {
         "value": true,
-        "quote": "an applicant for licensure based on a license in another state or territory of the United States or the District of Columbia must have been actively engaged in the practice of optometry for at least two of the three years immediately preceding the application for licensure in Nebraska",
-        "citation": "38-2609"
+        "quote": "This section provides an additional method of issuing a credential based on reciprocity and is supplemental to the methods of credentialing found in the various practice acts within the Uniform Credentialing Act.",
+        "citation": "38-129.02"
       },
       "requirements": {
-        "value": "Applicant must have been actively engaged in the practice of optometry for at least two of the three years immediately preceding application, and must provide satisfactory evidence of being credentialed in such other jurisdiction at a level with requirements that are at least as stringent as or more stringent than Nebraska requirements.",
-        "quote": "must have been actively engaged in the practice of optometry for at least two of the three years immediately preceding the application for licensure in Nebraska and must provide satisfactory evidence of being credentialed in such other jurisdiction at a level with requirements that are at least as stringent as or more stringent than the requirements for the comparable credential being applied for in this state.",
+        "value": "Applicant must have a current and valid credential in another state/territory/DC for at least one year; must have been actively engaged in the practice of optometry for at least two of the three years immediately preceding the application; must provide evidence that the other jurisdiction's credential standards are at least as stringent as Nebraska's.",
+        "quote": "an applicant for licensure based on a license in another state or territory of the United States or the District of Columbia must have been actively engaged in the practice of optometry for at least two of the three years immediately preceding the application for licensure in Nebraska and must provide satisfactory evidence of being credentialed in such other jurisdiction at a level with requirements that are at least as stringent as or more stringent than the requirements for the comparable credential being applied for in this state.",
         "citation": "38-2609"
       }
     },
@@ -106,7 +157,7 @@
     "national_association": null,
     "regulatory_model": {
       "value": "license",
-      "quote": "No individual shall engage in the following practices unless such individual has obtained a credential under the Uniform Credentialing Act: ... (ee) Optometry;",
+      "quote": "No individual shall engage in the following practices unless such individual has obtained a credential under the Uniform Credentialing Act: ... (ee) Optometry",
       "citation": "38-121"
     },
     "credential_type": {
@@ -116,7 +167,7 @@
     },
     "is_mandatory": {
       "value": true,
-      "quote": "No individual shall engage in the following practices unless such individual has obtained a credential under the Uniform Credentialing Act: ... (ee) Optometry;",
+      "quote": "No individual shall engage in the following practices unless such individual has obtained a credential under the Uniform Credentialing Act: ... (ee) Optometry",
       "citation": "38-121"
     },
     "title_protection": {
@@ -126,128 +177,122 @@
     },
     "scope_protection": {
       "value": true,
-      "quote": "No individual shall engage in the following practices unless such individual has obtained a credential under the Uniform Credentialing Act: ... (ee) Optometry;",
+      "quote": "No individual shall engage in the following practices unless such individual has obtained a credential under the Uniform Credentialing Act: ... (ee) Optometry",
       "citation": "38-121"
     },
     "disciplinary_grounds": [
       {
         "short_label": "misrepresentation_in_obtaining_credential",
-        "description": "Misrepresentation of material facts in procuring or attempting to procure a credential.",
-        "quote": "Misrepresentation of material facts in procuring or attempting to procure a credential;",
+        "description": "Misrepresentation of material facts in procuring or attempting to procure a credential",
+        "quote": "Misrepresentation of material facts in procuring or attempting to procure a credential",
         "citation": "38-178"
       },
       {
         "short_label": "immoral_or_dishonorable_conduct",
-        "description": "Immoral or dishonorable conduct evidencing unfitness to practice the profession.",
-        "quote": "Immoral or dishonorable conduct evidencing unfitness to practice the profession in this state;",
+        "description": "Immoral or dishonorable conduct evidencing unfitness to practice the profession",
+        "quote": "Immoral or dishonorable conduct evidencing unfitness to practice the profession in this state",
         "citation": "38-178"
       },
       {
-        "short_label": "alcohol_or_substance_abuse",
-        "description": "Abuse of, dependence on, or active addiction to alcohol, any controlled substance, or any mind-altering substance.",
-        "quote": "Abuse of, dependence on, or active addiction to alcohol, any controlled substance, or any mind-altering substance;",
+        "short_label": "substance_abuse_or_addiction",
+        "description": "Abuse of, dependence on, or active addiction to alcohol, any controlled substance, or any mind-altering substance",
+        "quote": "Abuse of, dependence on, or active addiction to alcohol, any controlled substance, or any mind-altering substance",
         "citation": "38-178"
       },
       {
         "short_label": "failure_to_comply_with_treatment_program",
-        "description": "Failure to comply with a treatment program or an aftercare program.",
+        "description": "Failure to comply with a treatment or aftercare program",
         "quote": "Failure to comply with a treatment program or an aftercare program, including, but not limited to, a program entered into under the Licensee Assistance Program",
         "citation": "38-178"
       },
       {
         "short_label": "criminal_conviction",
-        "description": "Conviction of a misdemeanor or felony with a rational connection to fitness to practice the profession.",
-        "quote": "Conviction of (a) a misdemeanor or felony under Nebraska law or federal law, or (b) a crime in any jurisdiction which, if committed within this state, would have constituted a misdemeanor or felony under Nebraska law and which has a rational connection with the fitness or capacity of the applicant or credential holder to practice the profession;",
+        "description": "Conviction of a misdemeanor or felony rationally connected with fitness to practice the profession",
+        "quote": "Conviction of (a) a misdemeanor or felony under Nebraska law or federal law, or (b) a crime in any jurisdiction which, if committed within this state, would have constituted a misdemeanor or felony under Nebraska law and which has a rational connection with the fitness or capacity of the applicant or credential holder to practice the profession",
         "citation": "38-178"
       },
       {
         "short_label": "fraudulent_or_negligent_practice",
-        "description": "Practice of the profession fraudulently, beyond its authorized scope, with gross incompetence or negligence, or in a pattern of incompetent or negligent conduct.",
-        "quote": "Practice of the profession (a) fraudulently, (b) beyond its authorized scope, (c) with gross incompetence or gross negligence, or (d) in a pattern of incompetent or negligent conduct;",
+        "description": "Practice of the profession fraudulently, beyond its authorized scope, with gross incompetence or negligence, or in a pattern of incompetent or negligent conduct",
+        "quote": "Practice of the profession (a) fraudulently, (b) beyond its authorized scope, (c) with gross incompetence or gross negligence, or (d) in a pattern of incompetent or negligent conduct",
         "citation": "38-178"
       },
       {
-        "short_label": "practice_while_impaired",
-        "description": "Practice of the profession while the ability to practice is impaired by alcohol, controlled substances, drugs, or disability.",
-        "quote": "Practice of the profession while the ability to practice is impaired by alcohol, controlled substances, drugs, mind-altering substances, physical disability, mental disability, or emotional disability;",
+        "short_label": "impaired_practice",
+        "description": "Practice while ability is impaired by alcohol, substances, or physical/mental/emotional disability",
+        "quote": "Practice of the profession while the ability to practice is impaired by alcohol, controlled substances, drugs, mind-altering substances, physical disability, mental disability, or emotional disability",
         "citation": "38-178"
       },
       {
         "short_label": "physical_or_mental_incapacity",
-        "description": "Physical or mental incapacity to practice the profession as evidenced by a legal judgment or determination.",
-        "quote": "Physical or mental incapacity to practice the profession as evidenced by a legal judgment or a determination by other lawful means;",
+        "description": "Physical or mental incapacity to practice the profession as evidenced by legal judgment or other lawful means",
+        "quote": "Physical or mental incapacity to practice the profession as evidenced by a legal judgment or a determination by other lawful means",
         "citation": "38-178"
       },
       {
         "short_label": "illness_or_disability_impairing_practice",
-        "description": "Illness, deterioration, or disability that impairs the ability to practice the profession.",
-        "quote": "Illness, deterioration, or disability that impairs the ability to practice the profession;",
+        "description": "Illness, deterioration, or disability that impairs the ability to practice the profession",
+        "quote": "Illness, deterioration, or disability that impairs the ability to practice the profession",
         "citation": "38-178"
       },
       {
-        "short_label": "aiding_unauthorized_practice",
-        "description": "Permitting, aiding, or abetting the practice of a profession by a person not credentialed to do so.",
-        "quote": "Permitting, aiding, or abetting the practice of a profession or the performance of activities requiring a credential by a person not credentialed to do so;",
+        "short_label": "aiding_unlicensed_practice",
+        "description": "Permitting, aiding, or abetting the practice of a profession by a person not credentialed to do so",
+        "quote": "Permitting, aiding, or abetting the practice of a profession or the performance of activities requiring a credential by a person not credentialed to do so",
         "citation": "38-178"
       },
       {
         "short_label": "discipline_by_another_jurisdiction",
-        "description": "Having had a credential denied, refused renewal, limited, suspended, or revoked by another state or jurisdiction.",
-        "quote": "Having had his or her credential denied, refused renewal, limited, suspended, revoked, or disciplined in any manner similar to section 38-196 by another state or jurisdiction based upon acts by the applicant or credential holder similar to acts described in this section;",
+        "description": "Having had credential denied, limited, suspended, revoked, or disciplined by another state or jurisdiction",
+        "quote": "Having had his or her credential denied, refused renewal, limited, suspended, revoked, or disciplined in any manner similar to section 38-196 by another state or jurisdiction",
         "citation": "38-178"
       },
       {
         "short_label": "deceptive_advertising",
-        "description": "Use of untruthful, deceptive, or misleading statements in advertisements.",
-        "quote": "Use of untruthful, deceptive, or misleading statements in advertisements, including failure to comply with section 38-124;",
+        "description": "Use of untruthful, deceptive, or misleading statements in advertisements",
+        "quote": "Use of untruthful, deceptive, or misleading statements in advertisements, including failure to comply with section 38-124",
         "citation": "38-178"
       },
       {
-        "short_label": "distribution_of_controlled_substances_unlawfully",
-        "description": "Distribution of intoxicating liquors, controlled substances, or drugs for other than lawful purposes.",
-        "quote": "Distribution of intoxicating liquors, controlled substances, or drugs for any other than lawful purposes;",
+        "short_label": "illegal_distribution_of_controlled_substances",
+        "description": "Distribution of intoxicating liquors, controlled substances, or drugs for other than lawful purposes",
+        "quote": "Distribution of intoxicating liquors, controlled substances, or drugs for any other than lawful purposes",
         "citation": "38-178"
       },
       {
         "short_label": "violation_of_credentialing_act",
-        "description": "Violations of the Uniform Credentialing Act or the rules and regulations relating to the particular profession.",
-        "quote": "Violations of the Uniform Credentialing Act or the rules and regulations relating to the particular profession;",
+        "description": "Violations of the Uniform Credentialing Act or rules and regulations relating to the particular profession",
+        "quote": "Violations of the Uniform Credentialing Act or the rules and regulations relating to the particular profession",
         "citation": "38-178"
       },
       {
-        "short_label": "unlawful_invasion_of_another_profession",
-        "description": "Unlawful invasion of the field of practice of any other profession regulated by the Uniform Credentialing Act.",
-        "quote": "Unlawful invasion of the field of practice of any profession regulated by the Uniform Credentialing Act which the credential holder is not credentialed to practice;",
+        "short_label": "unlawful_invasion_of_other_profession",
+        "description": "Unlawful invasion of the field of practice of any profession regulated by the Uniform Credentialing Act which the credential holder is not credentialed to practice",
+        "quote": "Unlawful invasion of the field of practice of any profession regulated by the Uniform Credentialing Act which the credential holder is not credentialed to practice",
         "citation": "38-178"
       },
       {
         "short_label": "violation_of_controlled_substances_act",
-        "description": "Violation of the Uniform Controlled Substances Act or any rules and regulations adopted pursuant to the act.",
-        "quote": "Violation of the Uniform Controlled Substances Act or any rules and regulations adopted pursuant to the act;",
+        "description": "Violation of the Uniform Controlled Substances Act or rules and regulations adopted pursuant to the act",
+        "quote": "Violation of the Uniform Controlled Substances Act or any rules and regulations adopted pursuant to the act",
         "citation": "38-178"
       },
       {
         "short_label": "failure_to_maintain_requirements",
-        "description": "Failure to maintain the requirements necessary to obtain a credential.",
-        "quote": "Failure to maintain the requirements necessary to obtain a credential;",
+        "description": "Failure to maintain the requirements necessary to obtain a credential",
+        "quote": "Failure to maintain the requirements necessary to obtain a credential",
         "citation": "38-178"
       },
       {
         "short_label": "violation_of_department_order",
-        "description": "Violation of an order issued by the department.",
-        "quote": "Violation of an order issued by the department;",
-        "citation": "38-178"
-      },
-      {
-        "short_label": "failure_to_pay_administrative_penalty",
-        "description": "Failure to pay an administrative penalty.",
-        "quote": "Failure to pay an administrative penalty;",
+        "description": "Violation of an order issued by the department",
+        "quote": "Violation of an order issued by the department",
         "citation": "38-178"
       },
       {
         "short_label": "unprofessional_conduct",
-        "description": "Unprofessional conduct as defined in section 38-179.",
-        "quote": "Unprofessional conduct as defined in section 38-179;",
+        "description": "Unprofessional conduct as defined in section 38-179",
+        "quote": "Unprofessional conduct as defined in section 38-179",
         "citation": "38-178"
       }
     ],
@@ -259,23 +304,23 @@
     "citations": [
       {
         "cite": "38-121",
-        "kind": "credential required"
+        "kind": "scope_requirement"
       },
       {
         "cite": "38-2605",
-        "kind": "scope of practice"
+        "kind": "scope_of_practice_definition"
       },
       {
         "cite": "38-2606",
-        "kind": "board composition"
+        "kind": "board_composition"
       },
       {
         "cite": "38-2607",
-        "kind": "activities not included"
+        "kind": "exclusions"
       },
       {
         "cite": "38-2608",
-        "kind": "license requirements"
+        "kind": "licensure_requirements"
       },
       {
         "cite": "38-2609",
@@ -283,93 +328,109 @@
       },
       {
         "cite": "38-2610",
-        "kind": "renewal / pharmaceutical certification"
+        "kind": "pharmaceutical_certification"
       },
       {
         "cite": "38-2611",
-        "kind": "continuing competency waiver"
+        "kind": "continuing_competency_waiver"
       },
       {
         "cite": "38-2613",
-        "kind": "diagnostic pharmaceutical agents certification"
+        "kind": "diagnostic_pharmaceutical_certification"
       },
       {
         "cite": "38-2614",
-        "kind": "therapeutic pharmaceutical agents certification"
+        "kind": "therapeutic_pharmaceutical_certification"
       },
       {
         "cite": "38-2615",
-        "kind": "applicability of certification requirements"
+        "kind": "applicability_of_pharmaceutical_requirements"
       },
       {
         "cite": "38-2616",
-        "kind": "approved schools"
+        "kind": "school_approval"
       },
       {
         "cite": "38-2617",
-        "kind": "standard of care"
+        "kind": "standard_of_care"
       },
       {
         "cite": "38-2618",
-        "kind": "optometric assistants"
+        "kind": "optometric_assistants"
       },
       {
         "cite": "38-2619",
-        "kind": "patient freedom of choice"
+        "kind": "patient_freedom_of_choice"
+      },
+      {
+        "cite": "38-129.02",
+        "kind": "reciprocity_general"
       },
       {
         "cite": "38-131",
-        "kind": "criminal background check"
+        "kind": "criminal_background_check"
+      },
+      {
+        "cite": "38-142",
+        "kind": "renewal"
+      },
+      {
+        "cite": "38-145",
+        "kind": "continuing_competency"
       },
       {
         "cite": "38-178",
-        "kind": "disciplinary grounds"
+        "kind": "disciplinary_grounds"
       },
       {
         "cite": "38-179",
-        "kind": "unprofessional conduct"
+        "kind": "unprofessional_conduct"
       }
     ]
   },
   "scope": {
     "definition_quote": {
-      "value": "The practice of optometry means one or a combination of the following: (a) The examination of the human eye to diagnose, treat, or refer for consultation or treatment any abnormal condition of the human eye, ocular adnexa, or visual system; (b) The employment of instruments, devices, pharmaceutical agents, and procedures intended for the purpose of investigating, examining, diagnosing, treating, managing, or correcting visual defects or abnormal conditions of the human eye, ocular adnexa, or visual system; (c) The prescribing and application of lenses, devices containing lenses, prisms, contact lenses, ophthalmic devices, orthoptics, vision training, pharmaceutical agents, and prosthetic devices to correct, relieve, or treat defects or abnormal conditions of the human eye, ocular adnexa, or visual system; (d) The dispensing and sale of a contact lens, including a cosmetic or plano contact lens; (e) The ordering of procedures and laboratory tests rational to the diagnosis or treatment of conditions or diseases of the human eye, ocular adnexa, or visual system; and (f) The removal of superficial eyelid, conjunctival, and corneal foreign bodies.",
-      "quote": "The practice of optometry means one or a combination of the following:",
+      "value": "The practice of optometry means one or a combination of the following: (a) The examination of the human eye to diagnose, treat, or refer for consultation or treatment any abnormal condition of the human eye, ocular adnexa, or visual system; (b) The employment of instruments, devices, pharmaceutical agents, and procedures intended for the purpose of investigating, examining, diagnosing, treating, managing, or correcting visual defects or abnormal conditions of the human eye, ocular adnexa, or visual system; (c) The prescribing and application of lenses, devices containing lenses, prisms, contact lenses, ophthalmic devices, orthoptics, vision training, pharmaceutical agents, and prosthetic devices to correct, relieve, or treat defects or abnormal conditions of the human eye, ocular adnexa, or visual system; (d) The dispensing and sale of a contact lens, including a cosmetic or plano contact lens or a contact lens containing an ocular pharmaceutical agent which an optometrist is authorized by law to prescribe and which is classified by the federal Food and Drug Administration as a drug; (e) The ordering of procedures and laboratory tests rational to the diagnosis or treatment of conditions or diseases of the human eye, ocular adnexa, or visual system; and (f) The removal of superficial eyelid, conjunctival, and corneal foreign bodies.",
+      "quote": "The practice of optometry means one or a combination of the following: (a) The examination of the human eye to diagnose, treat, or refer for consultation or treatment any abnormal condition of the human eye, ocular adnexa, or visual system",
       "citation": "38-2605"
     },
     "methods_authorized": {
       "value": [
-        "examination of the human eye",
+        "examination and diagnosis of the human eye, ocular adnexa, and visual system",
         "employment of instruments, devices, pharmaceutical agents, and procedures",
-        "prescribing and application of lenses, contact lenses, orthoptics, vision training, pharmaceutical agents, prosthetic devices",
-        "dispensing and sale of contact lenses",
-        "ordering procedures and laboratory tests",
+        "prescribing and application of lenses, prisms, contact lenses, orthoptics, vision training, pharmaceutical agents, and prosthetic devices",
+        "dispensing and sale of contact lenses including those containing ocular pharmaceutical agents",
+        "ordering of procedures and laboratory tests",
         "removal of superficial eyelid, conjunctival, and corneal foreign bodies"
       ],
-      "quote": "The examination of the human eye to diagnose, treat, or refer for consultation or treatment any abnormal condition of the human eye, ocular adnexa, or visual system",
+      "quote": "The employment of instruments, devices, pharmaceutical agents, and procedures intended for the purpose of investigating, examining, diagnosing, treating, managing, or correcting visual defects or abnormal conditions of the human eye, ocular adnexa, or visual system",
       "citation": "38-2605"
     },
     "drug_authority": {
-      "value": "Topical ocular pharmaceutical agents for diagnostic purposes (with certification); topical ocular pharmaceutical agents for therapeutic purposes including treatment of glaucoma (with certification); dispensing of contact lenses containing ocular pharmaceutical agents.",
-      "quote": "The employment of instruments, devices, pharmaceutical agents, and procedures intended for the purpose of investigating, examining, diagnosing, treating, managing, or correcting visual defects or abnormal conditions of the human eye, ocular adnexa, or visual system",
-      "citation": "38-2605"
+      "value": "Topical ocular pharmaceutical agents for diagnostic and therapeutic purposes, including treatment of glaucoma, may be used by certified optometrists; dispensing of contact lenses containing ocular pharmaceutical agents classified as drugs by the FDA is also authorized.",
+      "quote": "An optometrist licensed in this state may use topical ocular pharmaceutical agents for therapeutic purposes authorized under subdivision (1)(b) or (c) of section 38-2605 if such person is certified by the department, with the recommendation of the board, as qualified to use ocular pharmaceutical agents for therapeutic purposes, including the treatment of glaucoma.",
+      "citation": "38-2614"
     },
     "citations": [
       {
         "cite": "38-2605",
-        "kind": "scope of practice definition"
+        "kind": "scope_definition"
       },
       {
         "cite": "38-2607",
-        "kind": "activities not included"
+        "kind": "exclusions"
       },
       {
         "cite": "38-2613",
-        "kind": "diagnostic pharmaceutical agents"
+        "kind": "diagnostic_pharmaceutical_agents"
       },
       {
         "cite": "38-2614",
-        "kind": "therapeutic pharmaceutical agents"
+        "kind": "therapeutic_pharmaceutical_agents"
+      },
+      {
+        "cite": "38-2617",
+        "kind": "standard_of_care"
       }
     ]
   },
@@ -379,18 +440,26 @@
       "quote": "The practice of optometry does not include the use of surgery, the use of laser surgery, or the treatment of infantile/congenital glaucoma, which means the condition is present at birth.",
       "citation": "38-2605"
     },
-    "surgery_definition": null,
+    "surgery_definition": {
+      "value": "Surgery and laser surgery are excluded from the practice of optometry; infantile/congenital glaucoma treatment is also excluded.",
+      "quote": "The practice of optometry does not include the use of surgery, the use of laser surgery, or the treatment of infantile/congenital glaucoma, which means the condition is present at birth.",
+      "citation": "38-2605"
+    },
     "foreign_body_removal_authorized": {
       "value": true,
       "quote": "The removal of superficial eyelid, conjunctival, and corneal foreign bodies.",
       "citation": "38-2605"
     },
-    "laser_procedures_authorized": {
-      "value": [],
-      "quote": "The practice of optometry does not include the use of surgery, the use of laser surgery",
+    "laser_procedures_authorized": null,
+    "minor_surgical_procedures_authorized": {
+      "value": [
+        "removal of superficial eyelid foreign bodies",
+        "removal of superficial conjunctival foreign bodies",
+        "removal of superficial corneal foreign bodies"
+      ],
+      "quote": "The removal of superficial eyelid, conjunctival, and corneal foreign bodies.",
       "citation": "38-2605"
     },
-    "minor_surgical_procedures_authorized": null,
     "glaucoma_treatment_authorized": {
       "value": true,
       "quote": "certified by the department, with the recommendation of the board, as qualified to use ocular pharmaceutical agents for therapeutic purposes, including the treatment of glaucoma.",
@@ -419,19 +488,23 @@
     "tiered_license_types": null,
     "specialty_certification_types": {
       "value": [
-        "diagnostic pharmaceutical agent certification",
-        "therapeutic pharmaceutical agent certification"
+        "certification for diagnostic pharmaceutical agents (topical ocular)",
+        "certification for therapeutic pharmaceutical agents (topical ocular, including glaucoma treatment)"
       ],
-      "quote": "the department, with the recommendation of the board, shall state whether such person licensed in the practice of optometry has been certified to use pharmaceutical agents pursuant to section 38-2613, 38-2614, or 38-2615 and shall determine an appropriate means to further identify those persons who are certified in the diagnostic use of such agents or the therapeutic use of such agents.",
+      "quote": "In issuing a license or renewal, the department, with the recommendation of the board, shall state whether such person licensed in the practice of optometry has been certified to use pharmaceutical agents pursuant to section 38-2613, 38-2614, or 38-2615",
       "citation": "38-2610"
     },
     "pharmacology_training_hours_required": null,
     "supervised_clinical_internship_required": {
       "value": true,
-      "quote": "satisfactory completion of classroom education and clinical training which emphasizes the examination, diagnosis, and treatment of the eye, ocular adnexa, and visual system offered by a school or college approved by the board",
+      "quote": "satisfactory completion of classroom education and clinical training which emphasizes the examination, diagnosis, and treatment of the eye, ocular adnexa, and visual system offered by a school or college approved by the board and passage of an examination approved by the board",
       "citation": "38-2614"
     },
-    "referral_to_physician_required": null,
+    "referral_to_physician_required": {
+      "value": true,
+      "quote": "The examination of the human eye to diagnose, treat, or refer for consultation or treatment any abnormal condition of the human eye, ocular adnexa, or visual system",
+      "citation": "38-2605"
+    },
     "comanagement_with_ophthalmologist_required": null,
     "delegation_to_unlicensed_assistants_authorized": {
       "value": true,

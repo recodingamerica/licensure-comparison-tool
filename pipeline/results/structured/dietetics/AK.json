@@ -29,7 +29,7 @@
     "moral_character_required": null,
     "education": {
       "degree_required": {
-        "value": "master's or doctoral degree with major in human nutrition or related field (for nutritionist pathway 2)",
+        "value": "master's or doctoral degree from an accredited college or university with a major in human nutrition, public health nutrition, clinical nutrition, nutrition education, community nutrition, or food and nutrition",
         "quote": "has received a master's or doctoral degree from an accredited college or university with a major in human nutrition, public health nutrition, clinical nutrition, nutrition education, community nutrition, or food and nutrition",
         "citation": "08.38.030"
       },
@@ -37,7 +37,45 @@
         "value": "regional or national accrediting agencies recognized by the Council on Post-Secondary Accreditation and the United States Department of Education",
         "quote": "\"accredited college or university\" means a college or university accredited by the regional or national accrediting agencies recognized by the Council on Post-Secondary Accreditation and the United States Department of Education at the time the degree was conferred",
         "citation": "08.38.100"
-      }
+      },
+      "degree_level": {
+        "value": "master",
+        "quote": "has received a master's or doctoral degree from an accredited college or university",
+        "citation": "08.38.030"
+      },
+      "school_approval_basis": {
+        "value": "unspecified",
+        "quote": "accredited by the regional or national accrediting agencies recognized by the Council on Post-Secondary Accreditation and the United States Department of Education",
+        "citation": "08.38.100"
+      },
+      "credential_pegged": {
+        "value": true,
+        "quote": "submits evidence satisfactory to the department of being certified as a Registered Dietitian by the Commission on Dietetic Registration",
+        "citation": "08.38.020"
+      },
+      "tiers": [
+        {
+          "license_class": "licensed dietitian",
+          "degree_level": "bachelor",
+          "effective_date": null,
+          "quote": "submits evidence satisfactory to the department of being certified as a Registered Dietitian by the Commission on Dietetic Registration",
+          "citation": "08.38.020"
+        },
+        {
+          "license_class": "licensed nutritionist (diplomate/CNS pathway)",
+          "degree_level": "bachelor",
+          "effective_date": null,
+          "quote": "has qualified as a diplomate of the American Board of Nutrition or as a Certified Nutrition Specialist with the Certification Board for Nutrition Specialists",
+          "citation": "08.38.030"
+        },
+        {
+          "license_class": "licensed nutritionist (degree pathway)",
+          "degree_level": "master",
+          "effective_date": null,
+          "quote": "has received a master's or doctoral degree from an accredited college or university with a major in human nutrition, public health nutrition, clinical nutrition, nutrition education, community nutrition, or food and nutrition",
+          "citation": "08.38.030"
+        }
+      ]
     },
     "post_degree_experience": {
       "required": {
@@ -45,8 +83,13 @@
         "quote": "has completed a documented work experience in human nutrition or human nutrition research of at least 900 hours",
         "citation": "08.38.030"
       },
+      "experience_source": {
+        "value": "required_by_statute",
+        "quote": "has completed a documented work experience in human nutrition or human nutrition research of at least 900 hours",
+        "citation": "08.38.030"
+      },
       "duration": {
-        "value": "900 hours",
+        "value": "at least 900 hours",
         "quote": "has completed a documented work experience in human nutrition or human nutrition research of at least 900 hours",
         "citation": "08.38.030"
       },
@@ -73,7 +116,7 @@
         "citation": "08.38.050"
       },
       "requirements": {
-        "value": "Applicant must hold a current unrestricted dietitian or nutritionist license in another US state, US political jurisdiction, or Canada, and the other jurisdiction's standards must be not less stringent than Alaska's requirements.",
+        "value": "Applicant must hold a current unrestricted license in another state or political jurisdiction of the United States or Canada, and the department must determine that the other jurisdiction's standards are not less stringent than Alaska's requirements.",
         "quote": "the standards for licensure in the other jurisdiction are not less stringent than the requirements in this chapter",
         "citation": "08.38.050"
       }
@@ -88,7 +131,7 @@
       "authority": null
     },
     "national_certification": {
-      "value": "Commission on Dietetic Registration; American Board of Nutrition; Certification Board for Nutrition Specialists",
+      "value": "Commission on Dietetic Registration",
       "quote": "submits evidence satisfactory to the department of being certified as a Registered Dietitian by the Commission on Dietetic Registration",
       "citation": "08.38.020"
     },
@@ -104,11 +147,11 @@
     },
     "credential_type": {
       "value": "license",
-      "quote": "The department shall issue a dietitian license to an individual who pays the required fee",
+      "quote": "The department shall issue a dietitian license to an individual who pays the required fee, applies on a form provided by the department, and submits evidence satisfactory to the department",
       "citation": "08.38.020"
     },
     "is_mandatory": {
-      "value": false,
+      "value": true,
       "quote": "An individual may not, unless licensed as a dietitian or nutritionist by the department, use the title \"dietitian,\" \"licensed dietitian,\" \"nutritionist,\" \"licensed nutritionist,\" or an occupational title using the word \"dietitian\" or \"nutritionist.\"",
       "citation": "08.38.010"
     },
@@ -130,8 +173,8 @@
         "citation": "08.38.040"
       },
       {
-        "short_label": "fraud_in_practice",
-        "description": "Engaged in deceit, fraud, or intentional misrepresentation in the course of providing professional services or engaging in professional activities",
+        "short_label": "fraud_in_professional_services",
+        "description": "Engaged in deceit, fraud, or intentional misrepresentation in providing professional services",
         "quote": "engaged in deceit, fraud, or intentional misrepresentation in the course of providing professional services or engaging in professional activities",
         "citation": "08.38.040"
       },
@@ -142,71 +185,75 @@
         "citation": "08.38.040"
       },
       {
-        "short_label": "felony_or_relevant_crime",
-        "description": "Has been convicted of a felony or of another crime that affects the licensee's ability to continue to practice competently and safely",
+        "short_label": "felony_conviction",
+        "description": "Convicted of a felony or another crime affecting ability to practice competently and safely",
         "quote": "has been convicted of a felony or of another crime that affects the licensee's ability to continue to practice competently and safely",
         "citation": "08.38.040"
       },
       {
         "short_label": "failure_to_comply",
-        "description": "Failed to comply with the chapter, regulations adopted under it, or an order of the department",
+        "description": "Failed to comply with this chapter, regulations, or an order of the department",
         "quote": "failed to comply with this chapter, with a regulation adopted under this chapter, or with an order of the department",
         "citation": "08.38.040"
       },
       {
         "short_label": "professional_incompetence",
         "description": "Continued practice after becoming unfit due to professional incompetence",
-        "quote": "continued dietetics or nutrition practice after becoming unfit due to (A) professional incompetence",
+        "quote": "continued dietetics or nutrition practice after becoming unfit due to professional incompetence",
         "citation": "08.38.040"
       },
       {
-        "short_label": "substance_dependency",
-        "description": "Continued practice after becoming unfit due to addiction or severe dependency on alcohol or a drug that impairs the licensee's ability to practice safely",
+        "short_label": "substance_addiction",
+        "description": "Continued practice while impaired by addiction or severe dependency on alcohol or drugs",
         "quote": "addiction or severe dependency on alcohol or a drug that impairs the licensee's ability to practice safely",
         "citation": "08.38.040"
       },
       {
-        "short_label": "physical_or_mental_disability",
+        "short_label": "physical_mental_disability",
         "description": "Continued practice after becoming unfit due to physical or mental disability",
-        "quote": "physical or mental disability",
+        "quote": "continued dietetics or nutrition practice after becoming unfit due to physical or mental disability",
         "citation": "08.38.040"
       },
       {
-        "short_label": "lewd_or_immoral_conduct",
-        "description": "Engaged in lewd or immoral conduct in connection with the delivery of professional service to patients",
+        "short_label": "lewd_immoral_conduct",
+        "description": "Engaged in lewd or immoral conduct in connection with delivery of professional service to patients",
         "quote": "engaged in lewd or immoral conduct in connection with the delivery of professional service to patients",
         "citation": "08.38.040"
       }
     ],
-    "alternative_regulation": null,
+    "alternative_regulation": {
+      "bonding_required": null,
+      "insurance_required": null,
+      "establishment_regulation_required": null
+    },
     "citations": [
       {
         "cite": "08.38.010",
-        "kind": "statute"
+        "kind": "license_required"
       },
       {
         "cite": "08.38.020",
-        "kind": "statute"
+        "kind": "dietitian_licensure"
       },
       {
         "cite": "08.38.030",
-        "kind": "statute"
+        "kind": "nutritionist_licensure"
       },
       {
         "cite": "08.38.040",
-        "kind": "statute"
+        "kind": "disciplinary_grounds"
       },
       {
         "cite": "08.38.050",
-        "kind": "statute"
+        "kind": "licensure_by_credentials"
       },
       {
         "cite": "08.38.080",
-        "kind": "statute"
+        "kind": "exemptions"
       },
       {
         "cite": "08.38.100",
-        "kind": "statute"
+        "kind": "definitions"
       }
     ]
   },
@@ -221,17 +268,17 @@
     "citations": [
       {
         "cite": "08.38.100",
-        "kind": "statute"
+        "kind": "scope_definition"
       }
     ]
   },
   "profession_specific": {
     "license_type_structure": {
       "value": [
-        "dietitian license",
-        "nutritionist license"
+        "licensed dietitian",
+        "licensed nutritionist"
       ],
-      "quote": "The department shall issue a dietitian license to an individual... The department shall issue a nutritionist license to an individual",
+      "quote": "The department shall issue a dietitian license ... The department shall issue a nutritionist license",
       "citation": "08.38.020"
     },
     "provisional_license_available": null,
@@ -245,8 +292,8 @@
     },
     "alternative_credential_pathways": {
       "value": [
-        "diplomate of the American Board of Nutrition",
-        "Certified Nutrition Specialist with the Certification Board for Nutrition Specialists"
+        "American Board of Nutrition diplomate",
+        "Certified Nutrition Specialist (Certification Board for Nutrition Specialists)"
       ],
       "quote": "has qualified as a diplomate of the American Board of Nutrition or as a Certified Nutrition Specialist with the Certification Board for Nutrition Specialists",
       "citation": "08.38.030"
@@ -262,9 +309,9 @@
     "direct_supervision_defined": null,
     "exempt_professions_list": {
       "value": [
-        "animal nutritionist",
-        "federal government employee with dietitian or nutritionist job title",
-        "armed forces dietitian or nutritionist"
+        "animal nutritionist (limited to nutritional care of animals)",
+        "federal government employee whose job title includes 'dietitian' or 'nutritionist'",
+        "person serving as a dietitian or nutritionist in the armed forces of the United States"
       ],
       "quote": "The requirements of this chapter do not apply to (1) an animal nutritionist whose activities are limited to the nutritional care of animals; (2) a person who is serving as an employee of the federal government whose job title includes the term \"dietitian\" or \"nutritionist\"; or (3) a person who is serving as a dietitian or nutritionist in the armed forces of the United States",
       "citation": "08.38.080"
