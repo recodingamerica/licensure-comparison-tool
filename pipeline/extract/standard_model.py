@@ -170,6 +170,53 @@ def decompose_regulatory_model(rung: RegulatoryModel) -> tuple[CredentialType, b
     return REGULATORY_MODEL_DECOMPOSITION[rung]
 
 
+def derive_regulatory_model(
+    credential_type: "CredentialType | str | None",
+    scope_protection: bool | None,
+) -> RegulatoryModel | None:
+    """Derive the UORF rung from the orthogonal axes the extractor populates.
+
+    The rung is NOT independent data — Utah's framework *defines* it as a
+    function of which credential the state issues and whether that credential
+    gates the SCOPE of practice or only the TITLE. The model extracts those
+    axes (each with a statute quote) far more reliably than it picks the rung
+    itself, which flip-flops deterministically on title-protection schemes
+    (see eval/check_consistency.py and prompts.yaml:145-216). Computing the
+    rung from those facts instead of trusting the model's free pick makes the
+    V1/V2 consistency invariants structurally true rather than merely flagged.
+
+    Note the mapping is not a clean inverse of REGULATORY_MODEL_DECOMPOSITION:
+    a license- *or* certification-shaped credential whose scope is open
+    (scope_protection=false) is voluntary_certification ("right-to-title"),
+    even though the credential shape is a license.
+
+    Returns None when the inputs are too sparse to derive (caller keeps the
+    model's own rung): credential_type null, or a scope-bearing credential with
+    scope_protection null (can't tell voluntary vs scope-protecting).
+    """
+    cred = credential_type.value if isinstance(credential_type, CredentialType) else credential_type
+    if cred is None:
+        return None
+    if cred == CredentialType.NONE.value:
+        return RegulatoryModel.MARKET_FORCES
+    if cred == CredentialType.EXEMPTION.value:
+        return RegulatoryModel.EXEMPTION
+    if cred == CredentialType.REGISTRATION.value:
+        return RegulatoryModel.REGISTRATION
+    # license- or certification-shaped credential: scope decides whether the rung
+    # protects the WORK (license / mandatory_certification) or only the TITLE
+    # (voluntary_certification — scope open to all).
+    if scope_protection is None:
+        return None
+    if not scope_protection:
+        return RegulatoryModel.VOLUNTARY_CERTIFICATION
+    if cred == CredentialType.CERTIFICATION.value:
+        return RegulatoryModel.MANDATORY_CERTIFICATION
+    if cred == CredentialType.LICENSE.value:
+        return RegulatoryModel.LICENSE
+    return None
+
+
 class DisciplinaryGround(BaseModel):
     """One ground on which the board may discipline a licensee. Captured as a
     list of these per state — typically 5-15 grounds in any one statute."""

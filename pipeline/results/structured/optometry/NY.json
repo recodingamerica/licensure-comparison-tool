@@ -32,20 +32,41 @@
     },
     "moral_character_required": {
       "value": true,
-      "quote": "Character: be of good moral character as determined by the department",
+      "quote": "Character: be of good moral character as determined by the department;",
       "citation": "7104"
     },
     "education": {
       "degree_required": {
-        "value": "Doctor of Optometry or equivalent degree",
+        "value": "doctor of optometry or equivalent degree",
         "quote": "Education: have received an education, including a degree of doctor of optometry or equivalent degree, in accordance with the commissioner's regulations;",
         "citation": "7104"
       },
-      "accrediting_body": null
+      "accrediting_body": null,
+      "degree_level": {
+        "value": "doctorate",
+        "quote": "a degree of doctor of optometry or equivalent degree",
+        "citation": "7104"
+      },
+      "school_approval_basis": {
+        "value": "board_approved",
+        "quote": "in accordance with the commissioner's regulations",
+        "citation": "7104"
+      },
+      "credential_pegged": {
+        "value": false,
+        "quote": "have received an education, including a degree of doctor of optometry or equivalent degree, in accordance with the commissioner's regulations;",
+        "citation": "7104"
+      },
+      "tiers": null
     },
     "post_degree_experience": {
       "required": {
         "value": true,
+        "quote": "Experience: have experience satisfactory to the board and in accordance with the commissioner's regulations;",
+        "citation": "7104"
+      },
+      "experience_source": {
+        "value": "required_by_statute",
         "quote": "Experience: have experience satisfactory to the board and in accordance with the commissioner's regulations;",
         "citation": "7104"
       },
@@ -54,28 +75,37 @@
     },
     "exams": [
       {
-        "name": "Licensing Examination (board-approved)",
+        "name": "Examination satisfactory to the board",
         "required": true,
-        "notes": "Pass an examination satisfactory to the board and in accordance with the commissioner's regulations",
-        "jurisdiction": "state (board-approved)",
+        "notes": "General licensure examination; specifics left to commissioner's regulations.",
+        "jurisdiction": null,
         "permitted_attempts": null,
         "quote": "Examination: pass an examination satisfactory to the board and in accordance with the commissioner's regulations;",
         "citation": "7104"
       },
       {
-        "name": "National Board of Examiners in Optometry (NBEO) - Treatment and Management of Ocular Diseases",
-        "required": false,
-        "notes": "Required for topical therapeutic pharmaceutical agent certification, or an equivalent board-acceptable examination",
+        "name": "National Board of Examiners in Optometry – treatment and management of ocular diseases",
+        "required": true,
+        "notes": "Required for topical therapeutic pharmaceutical agent certification, or an alternative examination acceptable to the board.",
         "jurisdiction": "national (NBEO)",
         "permitted_attempts": null,
         "quote": "shall either have taken and successfully passed the treatment and management of ocular diseases portion of the National Board of Examiners in Optometry test or have taken and successfully passed an examination acceptable to the board.",
         "citation": "7101-A"
       },
       {
-        "name": "Oral Therapeutic Pharmaceutical Agent Certification Examination",
-        "required": false,
-        "notes": "Required for oral TPA certification; not required for graduates of accredited optometry programs after Jan 1, 2022 who passed NBEO",
-        "jurisdiction": "state (department-approved)",
+        "name": "Glaucoma examination (oral or written, acceptable to the board)",
+        "required": true,
+        "notes": "Required before an optometrist may use therapeutic pharmaceutical agents for treatment of glaucoma and ocular hypertension.",
+        "jurisdiction": null,
+        "permitted_attempts": null,
+        "quote": "shall have taken and successfully passed an oral or written examination acceptable by the board.",
+        "citation": "7101-A"
+      },
+      {
+        "name": "Oral therapeutic pharmaceutical agent certification examination",
+        "required": true,
+        "notes": "Required for oral therapeutic pharmaceutical agent certification; must be passed within five years of department approval of initial certification course (with exceptions for optometrists who graduated from an accredited college of optometry after January 1, 2022 and passed the NBEO or equivalent).",
+        "jurisdiction": null,
         "permitted_attempts": null,
         "quote": "have completed an oral therapeutic pharmaceutical agent certification course and have passed an examination within five years of the department's approval of the initial certification course",
         "citation": "7101-A"
@@ -106,14 +136,15 @@
       },
       "period_years": {
         "value": 3,
-        "quote": "minimum of thirty-six hours of continuing education in the area of ocular disease and pharmacology per triennial registration period",
+        "quote": "per triennial registration period",
         "citation": "7101-A"
       },
       "topical_requirements": {
         "value": [
-          "ocular disease and pharmacology (36 hours per triennial period for certified optometrists)",
-          "systemic disease and therapeutic treatment (additional 18 hours per triennial period for oral TPA-certified optometrists)",
-          "infection control (every 4 years)"
+          "ocular disease and pharmacology (36 hours, for topical and glaucoma TPA certified optometrists)",
+          "systemic disease and therapeutic treatment (additional 18 hours, for oral TPA certified optometrists)",
+          "infection control (every 4 years, all optometrists)",
+          "child abuse and maltreatment identification and reporting (2 hours, at licensure/renewal)"
         ],
         "quote": "Each optometrist certified to use oral therapeutic pharmaceutical agents shall, in addition to the minimum thirty-six hours of continuing education provided for in this subdivision, complete an additional minimum of eighteen hours of continuing education related to systemic disease and therapeutic treatment per triennial registration period.",
         "citation": "7101-A"
@@ -126,8 +157,8 @@
         "citation": "6506"
       },
       "requirements": {
-        "value": "Application, meeting educational requirements per commissioner's regulations, experience satisfactory to the board, passing an examination satisfactory to the board, age at least 21, citizenship or permanent residence, good moral character, and no disqualifying prior disciplinary history.",
-        "quote": "Indorse a license issued by a licensing board of another state or country upon the applicant fulfilling the following requirements",
+        "value": "Applicant must file an application, meet educational requirements per commissioner's regulations, have satisfactory experience, pass an examination satisfactory to the board, be at least 21 years old, be a US citizen or lawfully admitted noncitizen, be of good moral character, and have a satisfactory prior professional conduct record in other jurisdictions.",
+        "quote": "Indorse a license issued by a licensing board of another state or country upon the applicant fulfilling the following requirements: (a) Application... (b) Education... (c) Experience... (d) Examination... (e) Age... (f) Citizenship or immigration status... (g) Character...",
         "citation": "6506"
       }
     },
@@ -142,7 +173,7 @@
     },
     "national_certification": {
       "value": "National Board of Examiners in Optometry (NBEO)",
-      "quote": "shall either have taken and successfully passed the treatment and management of ocular diseases portion of the National Board of Examiners in Optometry test",
+      "quote": "the treatment and management of ocular diseases portion of the National Board of Examiners in Optometry test",
       "citation": "7101-A"
     },
     "national_association": null,
@@ -153,8 +184,8 @@
     },
     "credential_type": {
       "value": "license",
-      "quote": "Only a person licensed or exempt under this article shall practice optometry or use the title \"optometrist\".",
-      "citation": "7102"
+      "quote": "Admission to practice of a profession in this state is accomplished by a license being issued to a qualified applicant by the education department.",
+      "citation": "6501"
     },
     "is_mandatory": {
       "value": true,
@@ -174,93 +205,87 @@
     "disciplinary_grounds": [
       {
         "short_label": "fraud_in_obtaining_license",
-        "description": "Obtaining the license fraudulently",
+        "description": "Obtaining the license fraudulently.",
         "quote": "Obtaining the license fraudulently,",
         "citation": "6509"
       },
       {
         "short_label": "fraudulent_or_incompetent_practice",
-        "description": "Practicing the profession fraudulently, beyond its authorized scope, with gross incompetence, gross negligence, or negligence or incompetence on more than one occasion",
+        "description": "Practicing the profession fraudulently, beyond its authorized scope, with gross incompetence, with gross negligence on a particular occasion or negligence or incompetence on more than one occasion.",
         "quote": "Practicing the profession fraudulently, beyond its authorized scope, with gross incompetence, with gross negligence on a particular occasion or negligence or incompetence on more than one occasion,",
         "citation": "6509"
       },
       {
-        "short_label": "practicing_while_impaired",
-        "description": "Practicing the profession while impaired by alcohol, drugs, physical disability, or mental disability",
+        "short_label": "impaired_practice",
+        "description": "Practicing the profession while the ability to practice is impaired by alcohol, drugs, physical disability, or mental disability.",
         "quote": "Practicing the profession while the ability to practice is impaired by alcohol, drugs, physical disability, or mental disability,",
         "citation": "6509"
       },
       {
-        "short_label": "habitual_intoxication_or_drug_dependence",
-        "description": "Being habitually drunk or dependent on narcotics, barbiturates, amphetamines, hallucinogens, or similar drugs",
+        "short_label": "habitual_substance_abuse",
+        "description": "Being habitually drunk or being dependent on, or a habitual user of narcotics, barbiturates, amphetamines, hallucinogens, or other drugs having similar effects.",
         "quote": "Being habitually drunk or being dependent on, or a habitual user of narcotics, barbiturates, amphetamines, hallucinogens, or other drugs having similar effects,",
         "citation": "6509"
       },
       {
-        "short_label": "criminal_conviction",
-        "description": "Being convicted of a crime under New York, federal, or another jurisdiction's law",
+        "short_label": "criminal_conviction_or_discipline",
+        "description": "Being convicted of a crime under New York, federal, or another jurisdiction's law; or being found guilty of improper professional practice by another state's disciplinary agency; or being found in violation of public health law article 33; or having a license in another state revoked, suspended, or surrendered after disciplinary action.",
         "quote": "Being convicted of committing an act constituting a crime under: (i) New York State law or, (ii) Federal law or, (iii) The law of another jurisdiction",
         "citation": "6509"
       },
       {
-        "short_label": "found_guilty_of_misconduct_in_another_jurisdiction",
-        "description": "Having been found guilty of improper professional practice or professional misconduct by a duly authorized disciplinary agency of another state",
-        "quote": "Having been found guilty of improper professional practice or professional misconduct by a duly authorized professional disciplinary agency of another state",
-        "citation": "6509"
-      },
-      {
-        "short_label": "violation_of_controlled_substances_law",
-        "description": "Having been found by the commissioner of health to be in violation of article thirty-three of the public health law",
-        "quote": "Having been found by the commissioner of health to be in violation of article thirty-three of the public health law.",
-        "citation": "6509"
-      },
-      {
-        "short_label": "license_revoked_in_another_jurisdiction",
-        "description": "Having license to practice medicine revoked, suspended, or other disciplinary action taken by a duly authorized agency of another state for conduct that would constitute misconduct in New York",
-        "quote": "Having his license to practice medicine revoked, suspended or having other disciplinary action taken, or having his application for a license refused, revoked or suspended",
-        "citation": "6509"
-      },
-      {
-        "short_label": "discrimination_in_professional_service",
-        "description": "Refusing to provide professional service to a person because of race, creed, color, or national origin",
+        "short_label": "discrimination",
+        "description": "Refusing to provide professional service to a person because of such person's race, creed, color, or national origin.",
         "quote": "Refusing to provide professional service to a person because of such person's race, creed, color, or national origin,",
         "citation": "6509"
       },
       {
         "short_label": "aiding_unlicensed_practice",
-        "description": "Permitting, aiding or abetting an unlicensed person to perform activities requiring a license",
+        "description": "Permitting, aiding or abetting an unlicensed person to perform activities requiring a license.",
         "quote": "Permitting, aiding or abetting an unlicensed person to perform activities requiring a license,",
         "citation": "6509"
       },
       {
-        "short_label": "practicing_with_suspended_license_or_failure_to_register",
-        "description": "Practicing while the license is suspended, or willfully failing to register or notify the department of address changes",
+        "short_label": "practicing_while_suspended_or_failure_to_register",
+        "description": "Practicing the profession while the license is suspended, or wilfully failing to register or notify the department of any change of name or mailing address.",
         "quote": "Practicing the profession while the license is suspended, or wilfully failing to register or notify the department of any change of name or mailing address,",
         "citation": "6509"
       },
       {
         "short_label": "unprofessional_conduct",
-        "description": "Committing unprofessional conduct as defined by the board of regents or commissioner",
+        "description": "Committing unprofessional conduct, as defined by the board of regents in its rules or by the commissioner in regulations approved by the board of regents.",
         "quote": "Committing unprofessional conduct, as defined by the board of regents in its rules or by the commissioner in regulations approved by the board of regents,",
         "citation": "6509"
       },
       {
-        "short_label": "violation_of_patient_rights_law",
-        "description": "A violation of section twenty-eight hundred three-d or twenty-eight hundred five-k of the public health law",
+        "short_label": "violation_of_public_health_law",
+        "description": "A violation of section 2803-d or 2805-k of the public health law.",
         "quote": "A violation of section twenty-eight hundred three-d or twenty-eight hundred five-k of the public health law.",
         "citation": "6509"
       },
       {
-        "short_label": "violation_of_infection_control_requirements",
-        "description": "A violation of the infection control coursework requirement by a professional other than those subject to PHl 2805-k(1)(f)",
+        "short_label": "violation_of_infection_control_requirement",
+        "description": "A violation of section 6505-b (infection control training requirement) by a professional other than one subject to public health law 2805-k(f)(1).",
         "quote": "A violation of section six thousand five hundred five-b of this chapter by a professional other than a professional subject to the provisions of paragraph (f) of subdivision one of section twenty-eight hundred five-k of the public health law.",
         "citation": "6509"
       },
       {
         "short_label": "fee_splitting",
-        "description": "Directly or indirectly requesting, receiving, or participating in division, transference, assignment, rebate, splitting or refunding of a fee for professional care or service",
+        "description": "Directly or indirectly requesting, receiving, or participating in the division, transference, assignment, rebate, splitting or refunding of a fee for professional care or service.",
         "quote": "has directly or indirectly requested, received or participated in the division, transference, assignment, rebate, splitting or refunding of a fee for, or has directly requested, received or profited by means of a credit or other valuable consideration as a commission, discount or gratuity in connection with the furnishing of professional care, or service",
         "citation": "6509-a"
+      },
+      {
+        "short_label": "child_support_arrears",
+        "description": "Arrears in payment of child support or combined child and spousal support referred by a court.",
+        "quote": "The provisions of this section shall apply in all cases of licensee or registrant arrears in payment of child support or combined child and spousal support referred to the board of regents by a court",
+        "citation": "6509-b"
+      },
+      {
+        "short_label": "failure_to_comply_paternity_child_support",
+        "description": "Failure after receiving appropriate notice to comply with a summons, subpoena or warrant relating to a paternity or child support proceeding.",
+        "quote": "failure after receiving appropriate notice, to comply with a summons, subpoena or warrant relating to a paternity or child support proceeding referred to the board of regents by a court",
+        "citation": "6509-c"
       }
     ],
     "alternative_regulation": {
@@ -270,63 +295,79 @@
     },
     "citations": [
       {
-        "cite": "NY Educ. Law \u00a7 7101",
+        "cite": "NY Educ. Law § 7101",
         "kind": "statute"
       },
       {
-        "cite": "NY Educ. Law \u00a7 7101-a",
+        "cite": "NY Educ. Law § 7101-a",
         "kind": "statute"
       },
       {
-        "cite": "NY Educ. Law \u00a7 7102",
+        "cite": "NY Educ. Law § 7102",
         "kind": "statute"
       },
       {
-        "cite": "NY Educ. Law \u00a7 7104",
+        "cite": "NY Educ. Law § 7104",
         "kind": "statute"
       },
       {
-        "cite": "NY Educ. Law \u00a7 7105",
+        "cite": "NY Educ. Law § 7105",
         "kind": "statute"
       },
       {
-        "cite": "NY Educ. Law \u00a7 7106",
+        "cite": "NY Educ. Law § 7106",
         "kind": "statute"
       },
       {
-        "cite": "NY Educ. Law \u00a7 6501",
+        "cite": "NY Educ. Law § 6501",
         "kind": "statute"
       },
       {
-        "cite": "NY Educ. Law \u00a7 6502",
+        "cite": "NY Educ. Law § 6502",
         "kind": "statute"
       },
       {
-        "cite": "NY Educ. Law \u00a7 6506",
+        "cite": "NY Educ. Law § 6503",
         "kind": "statute"
       },
       {
-        "cite": "NY Educ. Law \u00a7 6507",
+        "cite": "NY Educ. Law § 6505-b",
         "kind": "statute"
       },
       {
-        "cite": "NY Educ. Law \u00a7 6509",
+        "cite": "NY Educ. Law § 6506",
         "kind": "statute"
       },
       {
-        "cite": "NY Educ. Law \u00a7 6509-a",
+        "cite": "NY Educ. Law § 6507",
         "kind": "statute"
       },
       {
-        "cite": "NY Educ. Law \u00a7 6511",
+        "cite": "NY Educ. Law § 6509",
         "kind": "statute"
       },
       {
-        "cite": "NY Educ. Law \u00a7 6512",
+        "cite": "NY Educ. Law § 6509-a",
         "kind": "statute"
       },
       {
-        "cite": "NY Educ. Law \u00a7 6513",
+        "cite": "NY Educ. Law § 6509-b",
+        "kind": "statute"
+      },
+      {
+        "cite": "NY Educ. Law § 6509-c",
+        "kind": "statute"
+      },
+      {
+        "cite": "NY Educ. Law § 6511",
+        "kind": "statute"
+      },
+      {
+        "cite": "NY Educ. Law § 6512",
+        "kind": "statute"
+      },
+      {
+        "cite": "NY Educ. Law § 6513",
         "kind": "statute"
       }
     ]
@@ -348,17 +389,17 @@
       "citation": "7101"
     },
     "drug_authority": {
-      "value": "The use of drugs by optometrists is authorized only in accordance with the provisions of this article and regulations promulgated by the commissioner; includes diagnostic pharmaceuticals, topical therapeutic pharmaceutical agents, therapeutic pharmaceutical agents for glaucoma/ocular hypertension, and oral therapeutic pharmaceutical agents (with certification).",
+      "value": "Optometrists may use drugs only in accordance with Article 143 and commissioner's regulations; authorized drugs include diagnostic pharmaceuticals, topical therapeutic pharmaceutical agents, therapeutic pharmaceutical agents for glaucoma and ocular hypertension, and oral therapeutic pharmaceutical agents (each requiring separate certification).",
       "quote": "The use of drugs by optometrists is authorized only in accordance with the provisions of this article and regulations promulgated by the commissioner.",
       "citation": "7101"
     },
     "citations": [
       {
-        "cite": "NY Educ. Law \u00a7 7101",
+        "cite": "NY Educ. Law § 7101",
         "kind": "statute"
       },
       {
-        "cite": "NY Educ. Law \u00a7 7101-a",
+        "cite": "NY Educ. Law § 7101-a",
         "kind": "statute"
       }
     ]
@@ -370,7 +411,7 @@
       "citation": "7101"
     },
     "surgery_definition": {
-      "value": "Invasive modality means any procedure in which human tissue is cut, altered, or otherwise infiltrated by mechanical or other means, and includes surgery, lasers, ionizing radiation, therapeutic ultrasound and the removal of foreign bodies from within the tissue of the eye.",
+      "value": "Invasive modality means any procedure in which human tissue is cut, altered, or otherwise infiltrated by mechanical or other means; includes surgery, lasers, ionizing radiation, therapeutic ultrasound and the removal of foreign bodies from within the tissue of the eye.",
       "quote": "invasive modality means any procedure in which human tissue is cut, altered, or otherwise infiltrated by mechanical or other means. Invasive modality includes surgery, lasers, ionizing radiation, therapeutic ultrasound and the removal of foreign bodies from within the tissue of the eye.",
       "citation": "7101"
     },
@@ -397,24 +438,24 @@
     "opioid_prescription_day_limit": null,
     "oral_pharmaceutical_authority": {
       "value": true,
-      "quote": "Oral therapeutic pharmaceutical agents shall mean those orally administered drugs used for therapeutic purposes solely for the treatment of diseases of the eye and adnexa",
+      "quote": "Those optometrists having been certified for oral therapeutic pharmaceutical agents shall be authorized to use and prescribe oral therapeutic pharmaceutical agents specified in paragraph (g) of subdivision one of this section",
       "citation": "7101-A"
     },
     "pharmaceutical_certification_required": {
       "value": true,
-      "quote": "The commissioner shall issue appropriate certificates to use therapeutic pharmaceutical agents in accordance with the provisions of this section to those optometrists who have satisfactorily completed a curriculum in general and ocular pharmacology",
+      "quote": "The commissioner shall issue appropriate certificates to use therapeutic pharmaceutical agents in accordance with the provisions of this section to those optometrists who have satisfactorily completed a curriculum in general and ocular pharmacology at a college of optometry with didactic and supervised clinical programs approved by the department",
       "citation": "7101-A"
     },
     "dea_registration_required": null,
     "tiered_license_types": null,
     "specialty_certification_types": {
       "value": [
-        "Diagnostic pharmaceutical agents certification",
-        "Topical therapeutic pharmaceutical agents certification",
-        "Therapeutic pharmaceutical agents for treatment of glaucoma and ocular hypertension certification",
-        "Oral therapeutic pharmaceutical agents certification"
+        "Certification to use diagnostic pharmaceuticals",
+        "Certification for topical therapeutic pharmaceutical agents",
+        "Certification for therapeutic pharmaceutical agents for treatment of glaucoma and ocular hypertension",
+        "Certification for oral therapeutic pharmaceutical agents"
       ],
-      "quote": "The commissioner shall issue appropriate certificates to use therapeutic pharmaceutical agents in accordance with the provisions of this section",
+      "quote": "Optometrists who have been approved and certified by the department shall be permitted to use the following drugs: (a) Diagnostic pharmaceuticals. (b) Those optometrists having been certified for topical therapeutic pharmaceutical agents... (c) Those optometrists having been certified for therapeutic pharmaceutical agents for treatment of glaucoma and ocular hypertension... (d) Those optometrists having been certified for oral therapeutic pharmaceutical agents",
       "citation": "7101-A"
     },
     "pharmacology_training_hours_required": {
@@ -424,7 +465,7 @@
     },
     "supervised_clinical_internship_required": {
       "value": true,
-      "quote": "each optometrist shall have completed at least three hundred hours of clinical training in the diagnosis, treatment and management of patients with ocular disease",
+      "quote": "each optometrist shall have completed at least three hundred hours of clinical training in the diagnosis, treatment and management of patients with ocular disease other than glaucoma and ocular hypertension",
       "citation": "7101-A"
     },
     "referral_to_physician_required": {
@@ -439,7 +480,7 @@
     },
     "delegation_to_unlicensed_assistants_authorized": {
       "value": true,
-      "quote": "A person in training or appropriately trained and deemed qualified by the supervising licensed optometrist, to assist a licensed optometrist in the care of a patient for the purpose of instilling mydriatic or cycloplegic eye drops and anesthetic eye drops",
+      "quote": "A person in training or appropriately trained and deemed qualified by the supervising licensed optometrist, to assist a licensed optometrist in the care of a patient for the purpose of instilling mydriatic or cycloplegic eye drops and anesthetic eye drops in conjunction with such dilating drops to the surface of the eye of a patient",
       "citation": "7105"
     },
     "telemedicine_authorized": null,
@@ -456,7 +497,7 @@
     },
     "limited_teaching_license_available": {
       "value": true,
-      "quote": "An optometrist licensed in another state or country who is employed on a full-time basis by a registered school of optometry as a faculty member with the rank of assistant professor or higher from conducting research and clinical demonstrations as part of such employment",
+      "quote": "An optometrist licensed in another state or country who is employed on a full-time basis by a registered school of optometry as a faculty member with the rank of assistant professor or higher from conducting research and clinical demonstrations as part of such employment, under the supervision of a licensed optometrist and on the premises of the school.",
       "citation": "7105"
     },
     "retired_license_status_available": null,
