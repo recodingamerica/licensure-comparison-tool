@@ -794,8 +794,12 @@ const UNVERIFIED_PATHS: Record<string, string[]> = {
   age_minimum:               ["licensure", "age_minimum"],
   moral_character_required:  ["licensure", "moral_character_required"],
   education_accrediting_body:["licensure", "education", "accrediting_body"],
+  education_degree_level:    ["licensure", "education", "degree_level"],
+  education_approval_basis:  ["licensure", "education", "school_approval_basis"],
+  education_credential_pegged:["licensure", "education", "credential_pegged"],
   post_degree_required:      ["licensure", "post_degree_experience", "required"],
   post_degree_kind:          ["licensure", "post_degree_experience", "kind"],
+  experience_source:         ["licensure", "post_degree_experience", "experience_source"],
   ce_required:               ["licensure", "continuing_education", "required"],
   ce_hours_per_period:       ["licensure", "continuing_education", "hours_per_period"],
   ce_period_years:           ["licensure", "continuing_education", "period_years"],
@@ -868,6 +872,27 @@ function regulatoryModelComparator(
 ): number {
   const rank = (v: string | null | undefined) =>
     v != null && v in UORF_RUNG_ORDER ? UORF_RUNG_ORDER[v] : 99; // null/unknown sort last
+  return rank(a) - rank(b);
+}
+
+// Education floor, low -> high (matches DegreeLevel enum in standard_model.py).
+// Sort ordinal only; same reason as UORF — alphabetical would order the rungs
+// nonsensically (associate < bachelor < doctorate is right; alpha isn't).
+const DEGREE_LEVEL_ORDER: Record<string, number> = {
+  none: 0,
+  high_school: 1,
+  associate: 2,
+  bachelor: 3,
+  master: 4,
+  doctorate: 5,
+};
+
+function degreeLevelComparator(
+  a: string | null | undefined,
+  b: string | null | undefined,
+): number {
+  const rank = (v: string | null | undefined) =>
+    v != null && v in DEGREE_LEVEL_ORDER ? DEGREE_LEVEL_ORDER[v] : 99;
   return rank(a) - rank(b);
 }
 
@@ -1182,6 +1207,49 @@ function buildColumnDefs(
     width: 200,
     initialHide: true,
     wrapText: true,
+  },
+  {
+    // #35: normalized education floor (enum), sorted by rung not alphabetically.
+    colId: "education_degree_level",
+    headerName: "Min degree (level)",
+    valueGetter: (p) => ev(p.data, "licensure", "education", "degree_level"),
+    cellRenderer: TextCellRenderer,
+    filter: MulticheckFilter,
+    comparator: degreeLevelComparator,
+    width: 150,
+    initialHide: true,
+  },
+  {
+    // #35: who decides a school counts (board vs national accreditor).
+    colId: "education_approval_basis",
+    headerName: "School approval basis",
+    valueGetter: (p) => ev(p.data, "licensure", "education", "school_approval_basis"),
+    cellRenderer: TextCellRenderer,
+    filter: MulticheckFilter,
+    width: 180,
+    initialHide: true,
+  },
+  {
+    // #35: pegged to a national credential (NBEO/CDR) rather than a stated degree.
+    colId: "education_credential_pegged",
+    headerName: "Credential-pegged?",
+    valueGetter: (p) => ev(p.data, "licensure", "education", "credential_pegged"),
+    cellRenderer: YesNoCell,
+    filter: MulticheckFilter,
+    width: 150,
+    initialHide: true,
+    cellClass: "text-center",
+    headerClass: "text-center",
+  },
+  {
+    // #36: where the post-degree experience requirement lives.
+    colId: "experience_source",
+    headerName: "Experience source",
+    valueGetter: (p) => ev(p.data, "licensure", "post_degree_experience", "experience_source"),
+    cellRenderer: TextCellRenderer,
+    filter: MulticheckFilter,
+    width: 180,
+    initialHide: true,
   },
   {
     colId: "post_degree_required",

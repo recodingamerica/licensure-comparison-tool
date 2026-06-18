@@ -5,6 +5,7 @@ import { ChevronDown, ChevronRight } from "lucide-react";
 import type {
   DiscoveredField,
   DisciplinaryGround,
+  EducationTier,
   Row,
   SectionRef,
 } from "@/lib/types";
@@ -22,7 +23,7 @@ import {
   FocusFieldContext,
   BucketContext,
 } from "./evidence-row";
-import { searchSnippets } from "@/lib/format";
+import { searchSnippets, humanize } from "@/lib/format";
 
 // Map a clicked grid colId (#34) to the EvidenceRow `label` it corresponds to
 // inside the Sheet. Most universal columns share the same string as their row
@@ -275,12 +276,17 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
             <EvidenceRow label="moral_character_required" ev={lic.moral_character_required} sections={sections} />
             {lic.education && (
               <>
+                <EvidenceRow label="education.degree_level" ev={lic.education.degree_level} sections={sections} />
                 <EvidenceRow label="education.degree_required" ev={lic.education.degree_required} sections={sections} />
+                <EvidenceRow label="education.school_approval_basis" ev={lic.education.school_approval_basis} sections={sections} />
                 <EvidenceRow label="education.accrediting_body" ev={lic.education.accrediting_body} sections={sections} />
+                <EvidenceRow label="education.credential_pegged" ev={lic.education.credential_pegged} sections={sections} />
+                <EducationTiers tiers={lic.education.tiers} />
               </>
             )}
             {lic.post_degree_experience && (
               <>
+                <EvidenceRow label="post_degree.experience_source" ev={lic.post_degree_experience.experience_source} sections={sections} />
                 <EvidenceRow label="post_degree.required" ev={lic.post_degree_experience.required} sections={sections} />
                 <EvidenceRow label="post_degree.duration" ev={lic.post_degree_experience.duration} sections={sections} />
                 <EvidenceRow label="post_degree.kind" ev={lic.post_degree_experience.kind} sections={sections} />
@@ -411,6 +417,33 @@ function SheetBody({
         {showFields ? "hide extracted fields" : "show extracted fields"}
       </button>
       {showFields && <div className="space-y-6">{children}</div>}
+    </div>
+  );
+}
+
+// Per-class / date-phased education floors (#35). Only renders when the state
+// actually has tiers (different floors across classes or a date phase-in);
+// `education.degree_level` already carries the single overall floor otherwise.
+function EducationTiers({ tiers }: { tiers?: EducationTier[] | null }) {
+  if (!tiers || tiers.length === 0) return null;
+  return (
+    <div className="grid grid-cols-[160px_1fr] md:grid-cols-[180px_1fr] gap-x-3 py-2 border-b border-border/60">
+      <code className="text-xs text-muted-foreground font-mono pt-1 break-all">
+        education.tiers
+      </code>
+      <div className="space-y-1.5">
+        {tiers.map((t, i) => (
+          <div key={i} className="text-sm flex flex-wrap items-baseline gap-x-2">
+            <span className="font-medium">{humanize(t.degree_level)}</span>
+            <span className="text-muted-foreground">— {t.license_class}</span>
+            {t.effective_date && (
+              <span className="font-mono text-[11px] text-muted-foreground">
+                (from {t.effective_date})
+              </span>
+            )}
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
