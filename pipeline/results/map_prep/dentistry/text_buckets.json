@@ -7,9 +7,9 @@
         "Board of Dental Examiners",
         "Board of Dentistry",
         "State Dept / Agency",
-        "Hybrid / Joint Authority"
+        "Dual Authority"
       ],
-      "rationale": "Most states use either a dedicated 'Board of Dental Examiners' or a 'Board of Dentistry' variant; a smaller cluster delegates to a state department or agency; one state splits authority between a department and a board.",
+      "rationale": "Most states use either a 'Dental Examiners' board or a 'Dentistry' board as the primary naming convention; a smaller cluster delegates to a broader state department or agency; one state splits authority between a department and a board.",
       "assignments": [
         {
           "state": "AK",
@@ -34,7 +34,7 @@
         {
           "state": "CA",
           "raw_value": "Dental Board of California",
-          "bucket": "Board of Dental Examiners"
+          "bucket": "Board of Dentistry"
         },
         {
           "state": "CO",
@@ -154,7 +154,7 @@
         {
           "state": "NE",
           "raw_value": "Department of Health and Human Services (Division of Public Health), with recommendation of the Board of Dentistry",
-          "bucket": "Hybrid / Joint Authority"
+          "bucket": "Dual Authority"
         },
         {
           "state": "NH",
@@ -194,6 +194,11 @@
         {
           "state": "OR",
           "raw_value": "Oregon Board of Dentistry",
+          "bucket": "Board of Dentistry"
+        },
+        {
+          "state": "PA",
+          "raw_value": "State Board of Dentistry",
           "bucket": "Board of Dentistry"
         },
         {
@@ -263,11 +268,11 @@
       "bucket_set": [
         "Board of Dental Examiners",
         "Board of Dentistry",
-        "Dental Board",
+        "State Dental Board",
         "Dental Commission/Other",
-        "Education Dept"
+        "Education Dept / Other Agency"
       ],
-      "rationale": "The names cluster around two dominant patterns (Examiners vs. Dentistry), a shorter 'Dental Board' shorthand, and a few outliers including NY's unique Education Department model.",
+      "rationale": "The names cluster naturally around two dominant patterns — 'Dental Examiners' boards vs. 'Dentistry' boards — with a small group of state dental boards using short 'State Dental Board' titles, a handful of outliers (commission, hygiene-inclusive, quality assurance, education dept), and one unique state agency.",
       "assignments": [
         {
           "state": "AK",
@@ -292,12 +297,12 @@
         {
           "state": "CA",
           "raw_value": "Dental Board of California",
-          "bucket": "Dental Board"
+          "bucket": "State Dental Board"
         },
         {
           "state": "CO",
           "raw_value": "Colorado Dental Board",
-          "bucket": "Dental Board"
+          "bucket": "State Dental Board"
         },
         {
           "state": "CT",
@@ -307,7 +312,7 @@
         {
           "state": "DE",
           "raw_value": "State Board of Dentistry and Dental Hygiene",
-          "bucket": "Board of Dentistry"
+          "bucket": "Dental Commission/Other"
         },
         {
           "state": "FL",
@@ -327,7 +332,7 @@
         {
           "state": "IA",
           "raw_value": "dental board",
-          "bucket": "Dental Board"
+          "bucket": "State Dental Board"
         },
         {
           "state": "ID",
@@ -347,7 +352,7 @@
         {
           "state": "KS",
           "raw_value": "Kansas Dental Board",
-          "bucket": "Dental Board"
+          "bucket": "State Dental Board"
         },
         {
           "state": "KY",
@@ -387,7 +392,7 @@
         {
           "state": "MO",
           "raw_value": "Missouri dental board",
-          "bucket": "Dental Board"
+          "bucket": "State Dental Board"
         },
         {
           "state": "MS",
@@ -437,12 +442,12 @@
         {
           "state": "NY",
           "raw_value": "New York State Education Department",
-          "bucket": "Education Dept"
+          "bucket": "Education Dept / Other Agency"
         },
         {
           "state": "OH",
           "raw_value": "State Dental Board",
-          "bucket": "Dental Board"
+          "bucket": "State Dental Board"
         },
         {
           "state": "OK",
@@ -452,6 +457,11 @@
         {
           "state": "OR",
           "raw_value": "Oregon Board of Dentistry",
+          "bucket": "Board of Dentistry"
+        },
+        {
+          "state": "PA",
+          "raw_value": "State Board of Dentistry",
           "bucket": "Board of Dentistry"
         },
         {
@@ -519,72 +529,73 @@
     {
       "field_name": "licensure.regulatory_authority.umbrella_agency",
       "bucket_set": [
-        "Health Dept",
-        "Consumer / Commerce",
-        "Licensing / Professional Reg",
+        "Dept of Health",
+        "Health Professions Agency",
+        "Consumer Affairs / Commerce",
+        "Professional Licensing Agency",
         "Labor & Industry"
       ],
-      "rationale": "The umbrella agencies cluster naturally into four approaches: health-focused departments, consumer/commerce-oriented departments, dedicated licensing/professional-regulation bodies, and labor-and-industry departments.",
+      "rationale": "States cluster around five clear models: pure health departments, dedicated health-professions bodies, consumer/commerce-oriented umbrellas, general professional/occupational licensing agencies, and labor-and-industry departments.",
       "assignments": [
         {
           "state": "AK",
           "raw_value": "Department of Commerce, Community, and Economic Development",
-          "bucket": "Consumer / Commerce"
+          "bucket": "Consumer Affairs / Commerce"
         },
         {
           "state": "CA",
           "raw_value": "Department of Consumer Affairs",
-          "bucket": "Consumer / Commerce"
+          "bucket": "Consumer Affairs / Commerce"
         },
         {
           "state": "CT",
           "raw_value": "Department of Public Health",
-          "bucket": "Health Dept"
+          "bucket": "Dept of Health"
         },
         {
           "state": "DE",
           "raw_value": "State Division of Professional Regulation",
-          "bucket": "Licensing / Professional Reg"
+          "bucket": "Professional Licensing Agency"
         },
         {
           "state": "FL",
           "raw_value": "Department of Health",
-          "bucket": "Health Dept"
+          "bucket": "Dept of Health"
         },
         {
           "state": "HI",
           "raw_value": "Department of Commerce and Consumer Affairs",
-          "bucket": "Consumer / Commerce"
+          "bucket": "Consumer Affairs / Commerce"
         },
         {
           "state": "IA",
           "raw_value": "department of inspections, appeals, and licensing",
-          "bucket": "Licensing / Professional Reg"
+          "bucket": "Professional Licensing Agency"
         },
         {
           "state": "ID",
           "raw_value": "Division of Occupational and Professional Licenses",
-          "bucket": "Licensing / Professional Reg"
+          "bucket": "Professional Licensing Agency"
         },
         {
           "state": "IL",
           "raw_value": "Department of Financial and Professional Regulation",
-          "bucket": "Licensing / Professional Reg"
+          "bucket": "Professional Licensing Agency"
         },
         {
           "state": "ME",
           "raw_value": "Department of Professional and Financial Regulation",
-          "bucket": "Licensing / Professional Reg"
+          "bucket": "Professional Licensing Agency"
         },
         {
           "state": "MI",
           "raw_value": "Department of Licensing and Regulatory Affairs",
-          "bucket": "Licensing / Professional Reg"
+          "bucket": "Professional Licensing Agency"
         },
         {
           "state": "MO",
           "raw_value": "Division of Professional Registration, Department of Commerce and Insurance",
-          "bucket": "Consumer / Commerce"
+          "bucket": "Consumer Affairs / Commerce"
         },
         {
           "state": "MT",
@@ -594,17 +605,17 @@
         {
           "state": "NE",
           "raw_value": "Division of Public Health, Department of Health and Human Services",
-          "bucket": "Health Dept"
+          "bucket": "Dept of Health"
         },
         {
           "state": "NJ",
           "raw_value": "Division of Professional Boards, Department of Law and Public Safety",
-          "bucket": "Licensing / Professional Reg"
+          "bucket": "Professional Licensing Agency"
         },
         {
           "state": "RI",
           "raw_value": "Rhode Island Department of Health",
-          "bucket": "Health Dept"
+          "bucket": "Dept of Health"
         },
         {
           "state": "SC",
@@ -614,27 +625,27 @@
         {
           "state": "TN",
           "raw_value": "Division of Health Related Boards, Department of Health",
-          "bucket": "Health Dept"
+          "bucket": "Health Professions Agency"
         },
         {
           "state": "UT",
           "raw_value": "Division of Professional Licensing, Department of Commerce",
-          "bucket": "Consumer / Commerce"
+          "bucket": "Consumer Affairs / Commerce"
         },
         {
           "state": "VA",
           "raw_value": "Department of Health Professions",
-          "bucket": "Health Dept"
+          "bucket": "Health Professions Agency"
         },
         {
           "state": "VT",
           "raw_value": "Office of Professional Regulation",
-          "bucket": "Licensing / Professional Reg"
+          "bucket": "Professional Licensing Agency"
         },
         {
           "state": "WA",
           "raw_value": "Department of Health",
-          "bucket": "Health Dept"
+          "bucket": "Dept of Health"
         }
       ]
     },
@@ -644,21 +655,22 @@
         "DDS/DMD, CODA Accredited",
         "DDS/DMD, Board Approved",
         "DDS/DMD, No Accreditor Specified",
-        "Dental Graduate, CODA Accredited",
-        "Dental Graduate, Board Approved",
-        "Other Dental Credential"
+        "Dental Degree, CODA Accredited",
+        "Dental Degree, Board Approved",
+        "Diploma/Grad, CODA Accredited",
+        "Specialty / Other"
       ],
-      "rationale": "States cluster by whether they name DDS/DMD degrees explicitly or use 'graduate/diploma/degree' language, and by whether accreditation is tied to CODA/ADA specifically, left to board approval, or unspecified.",
+      "rationale": "States vary along two axes: (1) how specifically they name the degree (DDS/DMD explicitly vs. generic 'dental degree' or 'diploma/graduation') and (2) how they specify the accreditation requirement (CODA/ADA by name, generic 'accredited,' board-approved, or none), producing these natural clusters.",
       "assignments": [
         {
           "state": "AK",
           "raw_value": "graduate of a dental school approved by the board",
-          "bucket": "Dental Graduate, Board Approved"
+          "bucket": "Dental Degree, Board Approved"
         },
         {
           "state": "AL",
           "raw_value": "graduate of a dental school or college accredited by the American Dental Association Commission on Dental Accreditation",
-          "bucket": "Dental Graduate, CODA Accredited"
+          "bucket": "Diploma/Grad, CODA Accredited"
         },
         {
           "state": "AR",
@@ -678,12 +690,12 @@
         {
           "state": "CO",
           "raw_value": "Graduate of accredited dental school or college",
-          "bucket": "Dental Graduate, CODA Accredited"
+          "bucket": "Diploma/Grad, CODA Accredited"
         },
         {
           "state": "CT",
           "raw_value": "dental degree from a dental college or from a department of dentistry of a medical college accredited by the American Dental Association's Commission on Dental Accreditation",
-          "bucket": "Dental Graduate, CODA Accredited"
+          "bucket": "Dental Degree, CODA Accredited"
         },
         {
           "state": "DE",
@@ -703,7 +715,7 @@
         {
           "state": "HI",
           "raw_value": "Diploma or certificate of graduation from a dental college accredited by the American Dental Association Commission on Dental Accreditation",
-          "bucket": "Dental Graduate, CODA Accredited"
+          "bucket": "Diploma/Grad, CODA Accredited"
         },
         {
           "state": "IA",
@@ -723,7 +735,7 @@
         {
           "state": "IN",
           "raw_value": "Doctoral degree in dentistry from an accredited dental college",
-          "bucket": "Dental Graduate, CODA Accredited"
+          "bucket": "Dental Degree, CODA Accredited"
         },
         {
           "state": "KS",
@@ -743,7 +755,7 @@
         {
           "state": "MA",
           "raw_value": "diploma from the faculty of a dental college",
-          "bucket": "Other Dental Credential"
+          "bucket": "Diploma/Grad, CODA Accredited"
         },
         {
           "state": "MD",
@@ -758,7 +770,7 @@
         {
           "state": "MI",
           "raw_value": "Graduation from an accredited dental hygiene program (for hygienists); for dental therapists, graduation from an accredited dental therapy education program",
-          "bucket": "Other Dental Credential"
+          "bucket": "Specialty / Other"
         },
         {
           "state": "MN",
@@ -768,12 +780,12 @@
         {
           "state": "MO",
           "raw_value": "degree in dentistry from an accredited dental school",
-          "bucket": "Dental Graduate, CODA Accredited"
+          "bucket": "Dental Degree, CODA Accredited"
         },
         {
           "state": "MS",
           "raw_value": "Diploma or certificate of graduation from ADA accredited dental school",
-          "bucket": "Dental Graduate, CODA Accredited"
+          "bucket": "Diploma/Grad, CODA Accredited"
         },
         {
           "state": "MT",
@@ -803,42 +815,47 @@
         {
           "state": "NJ",
           "raw_value": "Dental degree from a dental school approved by the board",
-          "bucket": "Dental Graduate, Board Approved"
+          "bucket": "Dental Degree, Board Approved"
         },
         {
           "state": "NV",
           "raw_value": "Graduate of an accredited dental school or college",
-          "bucket": "Dental Graduate, CODA Accredited"
+          "bucket": "Diploma/Grad, CODA Accredited"
         },
         {
           "state": "NY",
           "raw_value": "doctoral degree in dentistry",
-          "bucket": "DDS/DMD, No Accreditor Specified"
+          "bucket": "Dental Degree, Board Approved"
         },
         {
           "state": "OH",
           "raw_value": "Graduate of an accredited dental college or dental college located outside the United States meeting specified standards",
-          "bucket": "Dental Graduate, CODA Accredited"
+          "bucket": "Diploma/Grad, CODA Accredited"
         },
         {
           "state": "OK",
           "raw_value": "graduate of an accredited dental college",
-          "bucket": "Dental Graduate, CODA Accredited"
+          "bucket": "Diploma/Grad, CODA Accredited"
         },
         {
           "state": "OR",
           "raw_value": "Graduate of a dental school accredited by the Commission on Dental Accreditation of the American Dental Association",
-          "bucket": "Dental Graduate, CODA Accredited"
+          "bucket": "Diploma/Grad, CODA Accredited"
+        },
+        {
+          "state": "PA",
+          "raw_value": "Doctor of Dental Surgery or other established dental degree",
+          "bucket": "DDS/DMD, No Accreditor Specified"
         },
         {
           "state": "RI",
           "raw_value": "Graduation from a school of dentistry accredited by the American Dental Association Commission on Dental Accreditation",
-          "bucket": "Dental Graduate, CODA Accredited"
+          "bucket": "Diploma/Grad, CODA Accredited"
         },
         {
           "state": "SC",
           "raw_value": "graduation from a dental college or school accredited by the Commission on Dental Accreditation",
-          "bucket": "Dental Graduate, CODA Accredited"
+          "bucket": "Diploma/Grad, CODA Accredited"
         },
         {
           "state": "SD",
@@ -853,12 +870,12 @@
         {
           "state": "TX",
           "raw_value": "Graduation from a dental school accredited by the Commission on Dental Accreditation of the American Dental Association",
-          "bucket": "Dental Graduate, CODA Accredited"
+          "bucket": "Diploma/Grad, CODA Accredited"
         },
         {
           "state": "UT",
           "raw_value": "Doctor's degree in dentistry from a dental school accredited by the Commission on Dental Accreditation of the American Dental Association",
-          "bucket": "DDS/DMD, CODA Accredited"
+          "bucket": "Dental Degree, CODA Accredited"
         },
         {
           "state": "VA",
@@ -868,17 +885,17 @@
         {
           "state": "VT",
           "raw_value": "graduate of a dental college accredited by the Commission on Dental Accreditation of the American Dental Association",
-          "bucket": "Dental Graduate, CODA Accredited"
+          "bucket": "Diploma/Grad, CODA Accredited"
         },
         {
           "state": "WA",
           "raw_value": "Graduation from a dental college, school, or dental department of an institution approved by the commission",
-          "bucket": "Dental Graduate, Board Approved"
+          "bucket": "Diploma/Grad, CODA Accredited"
         },
         {
           "state": "WI",
           "raw_value": "Graduation from an accredited dental school",
-          "bucket": "Dental Graduate, CODA Accredited"
+          "bucket": "Diploma/Grad, CODA Accredited"
         },
         {
           "state": "WV",
@@ -898,10 +915,10 @@
         "CODA (full name)",
         "CODA (abbreviation)",
         "ADA only",
-        "Board-approved school",
-        "CODA or successor"
+        "Board Discretion",
+        "CODA + Successor"
       ],
-      "rationale": "Nearly all states reference CODA, but vary in how they express it — full name with ADA, abbreviation only, or via ADA shorthand — with a couple of outliers using board-approval language or a future-proofing 'or successor' clause.",
+      "rationale": "Nearly all states reference CODA, differing mainly in whether they spell out the full name with ADA attribution, use the CODA abbreviation, cite ADA alone, allow board discretion, or explicitly include successor bodies.",
       "assignments": [
         {
           "state": "AK",
@@ -931,7 +948,7 @@
         {
           "state": "CO",
           "raw_value": "Commission on Dental Accreditation or successor",
-          "bucket": "CODA or successor"
+          "bucket": "CODA + Successor"
         },
         {
           "state": "CT",
@@ -1001,7 +1018,7 @@
         {
           "state": "MD",
           "raw_value": "Board recognition of accredited dental schools",
-          "bucket": "Board-approved school"
+          "bucket": "Board Discretion"
         },
         {
           "state": "ME",
@@ -1056,7 +1073,7 @@
         {
           "state": "NJ",
           "raw_value": "Board-approved dental school",
-          "bucket": "Board-approved school"
+          "bucket": "Board Discretion"
         },
         {
           "state": "NV",
@@ -1075,6 +1092,11 @@
         },
         {
           "state": "OR",
+          "raw_value": "Commission on Dental Accreditation of the American Dental Association",
+          "bucket": "CODA (full name)"
+        },
+        {
+          "state": "PA",
           "raw_value": "Commission on Dental Accreditation of the American Dental Association",
           "bucket": "CODA (full name)"
         },
@@ -1144,12 +1166,13 @@
       "field_name": "licensure.continuing_education.topical_requirements",
       "bucket_set": [
         "Opioid/Controlled Substances",
-        "Ethics & Law",
-        "Emergency & Safety",
-        "Broad Clinical Mix",
-        "Multi-Topic Required"
+        "Ethics & Professionalism",
+        "Emergency Preparedness",
+        "Broad Clinical Topics",
+        "Multi-Topic Required",
+        "Infection Control"
       ],
-      "rationale": "The values cluster around opioid/prescribing mandates, ethics/legal requirements, emergency preparedness/safety topics, broad clinical competency lists, and states that combine several distinct required topics in one rule.",
+      "rationale": "The distribution clusters around opioid/prescribing mandates, ethics requirements, emergency/CPR training, broad clinical competency frameworks, and states that mandate several distinct topic categories together.",
       "assignments": [
         {
           "state": "AK",
@@ -1174,12 +1197,12 @@
         {
           "state": "GA",
           "raw_value": "legal ethics and professionalism in the practice of dentistry; professional boundaries; unprofessional conduct relating to sexual intimacy, abuse, misconduct, or exploitation; legislative updates and changes to the laws relating to the practice of dentistry; professional conduct and ethics; proper billing practices; professional liability; risk management",
-          "bucket": "Ethics & Law"
+          "bucket": "Ethics & Professionalism"
         },
         {
           "state": "HI",
           "raw_value": "ethics training (at least 6 hours)",
-          "bucket": "Ethics & Law"
+          "bucket": "Ethics & Professionalism"
         },
         {
           "state": "IA",
@@ -1194,7 +1217,7 @@
         {
           "state": "MI",
           "raw_value": "cardiopulmonary resuscitation",
-          "bucket": "Emergency & Safety"
+          "bucket": "Emergency Preparedness"
         },
         {
           "state": "NE",
@@ -1219,7 +1242,7 @@
         {
           "state": "OH",
           "raw_value": "Competency in treating patients who are medically compromised or who experience medical emergencies; Knowledge of pharmaceutical products and proper use of medications; Competency to diagnose oral pathology; Awareness of currently accepted methods of infection control; Basic medical and scientific subjects; Clinical and technological subjects; Subjects pertinent to health and safety",
-          "bucket": "Broad Clinical Mix"
+          "bucket": "Broad Clinical Topics"
         },
         {
           "state": "OK",
@@ -1239,12 +1262,12 @@
         {
           "state": "VT",
           "raw_value": "emergency office procedures course",
-          "bucket": "Emergency & Safety"
+          "bucket": "Emergency Preparedness"
         },
         {
           "state": "WI",
           "raw_value": "at least 25 credit hours of instruction in clinical dentistry or clinical medicine; not more than 4 of the 30 hours may be from teaching",
-          "bucket": "Broad Clinical Mix"
+          "bucket": "Broad Clinical Topics"
         },
         {
           "state": "WY",
@@ -1257,11 +1280,12 @@
       "field_name": "licensure.national_association",
       "bucket_set": [
         "ADA",
-        "ADA with Accreditor",
+        "ADA (explicit acronym)",
+        "ADA + CODA",
         "CODA Only",
         "Other Association"
       ],
-      "rationale": "Most states cite the ADA alone (with or without the parenthetical acronym), a few cite ADA together with its accreditation arm (CODA), one cites CODA alone, and one outlier cites unrelated health associations.",
+      "rationale": "States cluster by whether they cite ADA alone, ADA with an explicit acronym parenthetical, ADA combined with its accreditation arm CODA, CODA standalone, or a different association entirely.",
       "assignments": [
         {
           "state": "AK",
@@ -1301,7 +1325,7 @@
         {
           "state": "GA",
           "raw_value": "American Dental Association (ADA)",
-          "bucket": "ADA"
+          "bucket": "ADA (explicit acronym)"
         },
         {
           "state": "HI",
@@ -1326,7 +1350,7 @@
         {
           "state": "KY",
           "raw_value": "American Dental Association (ADA)",
-          "bucket": "ADA"
+          "bucket": "ADA (explicit acronym)"
         },
         {
           "state": "LA",
@@ -1341,12 +1365,12 @@
         {
           "state": "MD",
           "raw_value": "American Dental Association Commission on Dental Accreditation",
-          "bucket": "ADA with Accreditor"
+          "bucket": "ADA + CODA"
         },
         {
           "state": "ME",
           "raw_value": "American Dental Association Commission on Dental Accreditation",
-          "bucket": "ADA with Accreditor"
+          "bucket": "ADA + CODA"
         },
         {
           "state": "MI",
@@ -1366,7 +1390,7 @@
         {
           "state": "MS",
           "raw_value": "American Dental Association (ADA)",
-          "bucket": "ADA"
+          "bucket": "ADA (explicit acronym)"
         },
         {
           "state": "NC",
@@ -1381,7 +1405,7 @@
         {
           "state": "NE",
           "raw_value": "American Dental Association Commission on Dental Accreditation",
-          "bucket": "ADA with Accreditor"
+          "bucket": "ADA + CODA"
         },
         {
           "state": "NJ",
@@ -1409,6 +1433,11 @@
           "bucket": "ADA"
         },
         {
+          "state": "PA",
+          "raw_value": "American Dental Association Commission on Dental Accreditation",
+          "bucket": "ADA + CODA"
+        },
+        {
           "state": "RI",
           "raw_value": "American Dental Association",
           "bucket": "ADA"
@@ -1431,7 +1460,7 @@
         {
           "state": "VA",
           "raw_value": "American Dental Association (ADA)",
-          "bucket": "ADA"
+          "bucket": "ADA (explicit acronym)"
         },
         {
           "state": "VT",
@@ -1446,7 +1475,7 @@
         {
           "state": "WV",
           "raw_value": "American Dental Association (ADA)",
-          "bucket": "ADA"
+          "bucket": "ADA (explicit acronym)"
         },
         {
           "state": "WY",
@@ -1458,644 +1487,659 @@
     {
       "field_name": "profession_specific.advanced_practice_eligible_patient_populations",
       "bucket_set": [
-        "Broad Facility List",
-        "Underserved & Income-Based",
-        "Specific Vulnerable Groups",
-        "Public Health Settings",
-        "General Public / Minimal Restriction"
+        "Broad / Enumerated Mix",
+        "Underserved & Public Health Focus",
+        "Facility-Type List",
+        "Vulnerable Groups Named",
+        "Minimal / General"
       ],
-      "rationale": "States vary from open-ended 'general public' or single-phrase coverage, to income/insurance criteria, to short lists of vulnerable groups (elderly, disabled, children), to moderate facility-type lists, to expansive enumerations of dozens of facility and program types.",
+      "rationale": "States cluster around how they define eligible populations: some name specific facility types exhaustively, some focus on underserved/income criteria, some name vulnerable demographic groups, some give broad mixed enumerations, and a few use very short general language.",
       "assignments": [
         {
           "state": "AK",
           "raw_value": "residents in senior centers, hospitals, long-term care facilities, adult foster homes, residential care facilities, or adult congregate living facilities; residents in health care facilities, including mental health residential programs or facilities for individuals with developmental or other disabilities; persons held in local correctional facilities for juveniles or adults; persons enrolled in nursery schools, day care programs, vocational training facilities, primary schools, secondary schools, private schools, or public charter schools; persons entitled to benefits under 42 U.S.C. 1786 (S",
-          "bucket": "Broad Facility List"
+          "bucket": "Broad / Enumerated Mix"
         },
         {
           "state": "AR",
           "raw_value": "children; senior citizens; persons with developmental disabilities",
-          "bucket": "Specific Vulnerable Groups"
+          "bucket": "Vulnerable Groups Named"
         },
         {
           "state": "AZ",
           "raw_value": "health care organization or facility patients; long-term care facility patients; public health agency or institution patients; public or private school authority patients; government-sponsored program patients; private nonprofit or charitable organization patients; social service organization or program patients",
-          "bucket": "Broad Facility List"
+          "bucket": "Facility-Type List"
         },
         {
           "state": "CA",
           "raw_value": "residences of the homebound; schools; residential facilities and other institutions; dental health professional shortage areas; dental offices; medical settings that a residential facility patient has been transferred to for outpatient services",
-          "bucket": "Broad Facility List"
+          "bucket": "Broad / Enumerated Mix"
         },
         {
           "state": "CT",
           "raw_value": "public health facility",
-          "bucket": "Public Health Settings"
+          "bucket": "Minimal / General"
         },
         {
           "state": "FL",
           "raw_value": "patients in health access settings",
-          "bucket": "Public Health Settings"
+          "bucket": "Minimal / General"
         },
         {
           "state": "HI",
           "raw_value": "federally qualified health center patients; Native Hawaiian health center patients; community health center patients; rural health clinic patients; mobile dental outreach program patients",
-          "bucket": "Public Health Settings"
+          "bucket": "Underserved & Public Health Focus"
         },
         {
           "state": "IL",
           "raw_value": "Medicaid-eligible patients; uninsured patients with household income not greater than 300% of federal poverty level",
-          "bucket": "Underserved & Income-Based"
+          "bucket": "Underserved & Public Health Focus"
         },
         {
           "state": "IN",
           "raw_value": "patients in public health settings; patients in fixed charitable dental care clinics; patients in correctional institutions; patients in board-approved locations",
-          "bucket": "Public Health Settings"
+          "bucket": "Facility-Type List"
         },
         {
           "state": "KS",
           "raw_value": "children in residential and nonresidential centers for therapeutic services; children in families receiving family preservation services; children in custody of secretary for children and families; children in foster care homes; children in runaway youth programs and homeless shelters; children birth to five in public and nonpublic schools; children in youth organizations; persons with developmental disabilities; persons 65 years and older in residential centers; persons in adult care homes; persons in hospital long-term care units; persons in state institutions; homebound persons qualifying f",
-          "bucket": "Broad Facility List"
+          "bucket": "Vulnerable Groups Named"
         },
         {
           "state": "KY",
           "raw_value": "patients in dental health programs operated through Department for Public Health; patients in programs operated through governing board of health",
-          "bucket": "Public Health Settings"
+          "bucket": "Underserved & Public Health Focus"
         },
         {
           "state": "MA",
           "raw_value": "homebound residences; schools; nursing homes and long-term care facilities; clinics; hospitals; medical facilities; community health centers; mobile and portable dental health programs; Head Start programs",
-          "bucket": "Broad Facility List"
+          "bucket": "Facility-Type List"
         },
         {
           "state": "MD",
           "raw_value": "patients in dental facilities owned and operated by federal, State, or local government; patients in public health departments or public schools; patients in facilities licensed by the Department; patients in facilities operated by Department of Juvenile Services; patients in facilities providing medical care to poor, elderly, or handicapped; patients in federally qualified health centers; patients in Head Start or Early Head Start programs",
-          "bucket": "Broad Facility List"
+          "bucket": "Facility-Type List"
         },
         {
           "state": "ME",
           "raw_value": "general public (independent practice dental hygienist); patients in public health settings (public health dental hygienist)",
-          "bucket": "General Public / Minimal Restriction"
+          "bucket": "Minimal / General"
         },
         {
           "state": "MI",
           "raw_value": "dentally underserved populations served by local, state, or federal grantee health agencies",
-          "bucket": "Underserved & Income-Based"
+          "bucket": "Underserved & Public Health Focus"
         },
         {
           "state": "MN",
           "raw_value": "patients in hospitals; patients in nursing homes; patients in home health agencies; patients in group homes serving the elderly, disabled, or juveniles; patients in state-operated facilities; patients in state-agency-administered public health programs or events; patients in federal, state, or local public health facilities; patients in community clinics; patients in tribal clinics; patients served by school authorities; patients in Head Start programs; uninsured patients; Minnesota health care public program recipients served by nonprofit organizations",
-          "bucket": "Broad Facility List"
+          "bucket": "Broad / Enumerated Mix"
         },
         {
           "state": "MT",
           "raw_value": "patients or residents of facilities or programs who, due to age, infirmity, disability, or financial constraints, are unable to receive regular dental care",
-          "bucket": "Specific Vulnerable Groups"
+          "bucket": "Vulnerable Groups Named"
         },
         {
           "state": "NC",
           "raw_value": "nursing homes; rest homes; long-term care facilities; schools; rural and community clinics operated by Board-approved nonprofits; rural and community clinics operated by federal, State, county, or local governments; federally qualified health centers; other facilities identified by the Office of Rural Health and approved by the Board as serving dental access shortage areas",
-          "bucket": "Broad Facility List"
+          "bucket": "Facility-Type List"
         },
         {
           "state": "NE",
           "raw_value": "patients in a public health setting (federal, state, or local public health department or clinic, community health center, rural health clinic, or other similar program); patients in a health care or related facility (hospital, nursing facility, assisted-living facility, correctional facility, tribal clinic, or school-based preventive health program)",
-          "bucket": "Broad Facility List"
+          "bucket": "Facility-Type List"
         },
         {
           "state": "NH",
           "raw_value": "patients in schools; patients in hospitals; patients in other institutions; homebound persons",
-          "bucket": "Public Health Settings"
+          "bucket": "Facility-Type List"
         },
         {
           "state": "NV",
           "raw_value": "public health program patients; underserved populations",
-          "bucket": "Underserved & Income-Based"
+          "bucket": "Underserved & Public Health Focus"
         },
         {
           "state": "OH",
           "raw_value": "Patients in health care facilities; Patients in state correctional institutions; Patients in comprehensive child development programs; Patients in residential facilities; Patients in public schools in dental health resource shortage areas; Patients in nonpublic schools in dental health resource shortage areas; Patients in federally qualified health centers; Patients in shelters for victims of domestic violence; Patients in facilities operated by department of youth services; Patients in foster homes; Patients in nonprofit clinics; Patients receiving home health agency services; Patients in vet",
-          "bucket": "Broad Facility List"
+          "bucket": "Broad / Enumerated Mix"
         },
         {
           "state": "OK",
           "raw_value": "nursing facility patients; assisted living center patients; residential care home patients; adult day care center patients; other healthcare facility patients as approved by Board",
-          "bucket": "Specific Vulnerable Groups"
+          "bucket": "Facility-Type List"
         },
         {
           "state": "OR",
           "raw_value": "patients or residents of nursing homes; adult foster homes; residential care facilities; adult congregate living facilities; mental health residential programs; facilities for persons with mental illness; facilities for persons with developmental disabilities; local correctional facilities; juvenile detention facilities; regional correctional facilities; youth correction facilities; youth care centers; Department of Corrections institutions; public and nonprofit community health clinics; homebound adults; students or enrollees of nursery schools and day care programs; Job Corps and similar emp",
-          "bucket": "Broad Facility List"
+          "bucket": "Broad / Enumerated Mix"
+        },
+        {
+          "state": "PA",
+          "raw_value": "Schools; Correctional facilities; Health care facilities; Personal care homes; Domiciliary care settings; Older adult daily living centers; Continuing-care provider facilities; Federally qualified health centers; Public or private institutions under Federal, State or local agency jurisdiction; Other locations the board deems appropriate",
+          "bucket": "Facility-Type List"
         },
         {
           "state": "RI",
           "raw_value": "homebound residents; school populations; nursing home and long-term-care facility residents; clinic patients; hospital patients; community health center patients; mobile and portable dental-health program patients; head-start program participants; indigent patients in underserved areas; critical need population areas",
-          "bucket": "Broad Facility List"
+          "bucket": "Broad / Enumerated Mix"
         },
         {
           "state": "SC",
           "raw_value": "patients in public health settings; patients in hospitals; patients in nursing homes; patients in long term care facilities; patients in rural and community clinics; patients in health facilities operated by federal, state, county, or local governments; patients in hospices; patients in educational institutions; patients in charitable institutions",
-          "bucket": "Broad Facility List"
+          "bucket": "Facility-Type List"
         },
         {
           "state": "TX",
           "raw_value": "patients in nursing facilities; patients at school-based health centers; patients at community health centers",
-          "bucket": "Public Health Settings"
+          "bucket": "Facility-Type List"
         },
         {
           "state": "UT",
           "raw_value": "patients in public health settings",
-          "bucket": "Public Health Settings"
+          "bucket": "Minimal / General"
         },
         {
           "state": "VA",
           "raw_value": "federally qualified health center; charitable safety net facility; free clinic; long-term care facility; elementary or secondary school; Head Start program; mobile dentistry program for adults with developmental disabilities; women, infants, and children (WIC) program",
-          "bucket": "Broad Facility List"
+          "bucket": "Facility-Type List"
         },
         {
           "state": "VT",
           "raw_value": "residences; schools; nursing home and long-term care facilities; clinics; hospitals; medical facilities; community health centers; Head Start programs",
-          "bucket": "Broad Facility List"
+          "bucket": "Facility-Type List"
         },
         {
           "state": "WA",
           "raw_value": "patients in health care facilities; students and residents of health care facilities; persons in senior centers; low-income, rural, and other at-risk populations in community-based sealant programs in schools; homebound patients",
-          "bucket": "Broad Facility List"
+          "bucket": "Broad / Enumerated Mix"
         }
       ]
     },
     {
       "field_name": "licensure.reciprocity.requirements",
       "bucket_set": [
-        "5+ Yrs Practice Required",
-        "2–3 Yrs Practice Required",
-        "Hours-Based Threshold",
-        "Equivalent Standards + Good Standing",
-        "Exam-Heavy Requirements",
-        "Minimal / General Criteria"
+        "5+ Years Practice",
+        "2-3 Years Practice",
+        "Exam-Focused",
+        "Equivalency + Good Standing",
+        "Comprehensive Multi-Criteria"
       ],
-      "rationale": "States cluster primarily around how they define the practice experience threshold (years vs. hours), whether they emphasize exam passage as a central hurdle, or whether they rely mainly on a broad equivalency/good-standing standard with few additional conditions.",
+      "rationale": "States cluster primarily by the dominant theme: those requiring 5+ years of active practice, those requiring 2-3 years, those emphasizing exam passage as the main gate, those relying mainly on equivalency of standards and good standing with minimal other conditions, and those imposing a broad checklist of multiple distinct requirements (education, exams, CE, hours, references, disciplinary history, etc.).",
       "assignments": [
         {
           "state": "AL",
           "raw_value": "Applicant must hold current, valid, unrevoked license in state with equivalent standards; be engaged in active practice for 5 years or 5,000 hours; pass jurisprudence exam; have no pending disciplinary action; submit affidavits from two licensed dentists; provide official transcript; meet other criteria as required by board rule.",
-          "bucket": "5+ Yrs Practice Required"
+          "bucket": "Comprehensive Multi-Criteria"
         },
         {
           "state": "AR",
           "raw_value": "Five years of continuous practice in another state, territory, District of Columbia, or Canada with equivalent proficiency standards",
-          "bucket": "5+ Yrs Practice Required"
+          "bucket": "5+ Years Practice"
         },
         {
           "state": "AZ",
           "raw_value": "Applicant must have passed clinical examination of another state or testing agency more than five years prior, maintain substantially equivalent licensure standards, meet minimum active practice hours, and complete continuing education requirements of jurisdiction where licensed",
-          "bucket": "5+ Yrs Practice Required"
+          "bucket": "Comprehensive Multi-Criteria"
         },
         {
           "state": "CA",
           "raw_value": "Applicant must hold an active and unrestricted license from another U.S. state/territory, have at least five years of active clinical practice or equivalent, no disciplinary history, no recent exam failures, 50 units of CE within two years, and meet other documentation requirements.",
-          "bucket": "5+ Yrs Practice Required"
+          "bucket": "Comprehensive Multi-Criteria"
         },
         {
           "state": "CT",
           "raw_value": "Current valid license in good professional standing from another state or territory with commensurate standards; continuous work as licensed dentist in academic or clinical setting for at least one year immediately preceding application",
-          "bucket": "Minimal / General Criteria"
+          "bucket": "Equivalency + Good Standing"
         },
         {
           "state": "DE",
           "raw_value": "Must have current licensure in good standing in another state, District of Columbia, or U.S. territory; for dentists, must have 3 years of active dental practice in another jurisdiction; for dental hygienists, must have practiced minimum 3 of last 5 years; must pass Delaware jurisprudence and National Board exams; must meet all requirements of § 1122(c)(2) through (c)(7)",
-          "bucket": "Exam-Heavy Requirements"
+          "bucket": "Comprehensive Multi-Criteria"
         },
         {
           "state": "GA",
           "raw_value": "Applicants for provisional license by credentials must have been in full-time clinical practice or full-time faculty for five years immediately preceding the application and must hold an active dental license in good standing from another state. Must pass clinical examination given by state or regional testing agency and jurisprudence examination.",
-          "bucket": "Exam-Heavy Requirements"
+          "bucket": "Comprehensive Multi-Criteria"
         },
         {
           "state": "IA",
           "raw_value": "Applicant must hold a license from a similar dental board of another state with equivalent requirements, have passed a regional or national examination approved by the dental board or have been in legal practice for three consecutive years immediately prior to filing the application, and furnish other evidence of qualifications as required by the board.",
-          "bucket": "2–3 Yrs Practice Required"
+          "bucket": "2-3 Years Practice"
         },
         {
           "state": "ID",
           "raw_value": "Five years of clinical practice with minimum 3,500 hours, graduation from ADA-accredited dental school, successful completion of national board dental examinations, and successful completion of board-approved clinical examination",
-          "bucket": "Hours-Based Threshold"
+          "bucket": "Comprehensive Multi-Criteria"
         },
         {
           "state": "IL",
           "raw_value": "Applicant must have been lawfully licensed in another state/territory with equivalent standards, engaged in practice for at least 2 years, and provide certificate of good moral character from licensing board",
-          "bucket": "2–3 Yrs Practice Required"
+          "bucket": "2-3 Years Practice"
         },
         {
           "state": "IN",
           "raw_value": "Licensed in another state with substantially equal requirements; practiced dentistry for at least 2 of the 3 years preceding application; passes law examination; completed required continuing education hours in previous 2 years",
-          "bucket": "2–3 Yrs Practice Required"
+          "bucket": "2-3 Years Practice"
         },
         {
           "state": "KS",
           "raw_value": "Applicant must have held a license in another state for five years immediately preceding application and engaged in active practice of dentistry for at least five years prior to application",
-          "bucket": "5+ Yrs Practice Required"
+          "bucket": "5+ Years Practice"
         },
         {
           "state": "MA",
           "raw_value": "Applicant must have been lawfully in practice for at least five years in another state, present a certificate of registration and duration of practice from that state's board of dental examiners or equivalent, and the other state must require a degree of competency equal to that required in Massachusetts.",
-          "bucket": "5+ Yrs Practice Required"
+          "bucket": "5+ Years Practice"
         },
         {
           "state": "MD",
           "raw_value": "Must pass ADLEX and Maryland Dental Jurisprudence Examination, or have 5 years active practice with clinical exam and comprehensive written exam",
-          "bucket": "Exam-Heavy Requirements"
+          "bucket": "Exam-Focused"
         },
         {
           "state": "ME",
           "raw_value": "Applicant must hold a valid, substantially equivalent license in good standing for at least 3 consecutive years immediately preceding the application, or demonstrate substantially similar qualifications. Board may also issue a temporary license for 6 months upon showing a valid out-of-state license.",
-          "bucket": "2–3 Yrs Practice Required"
+          "bucket": "2-3 Years Practice"
         },
         {
           "state": "MI",
           "raw_value": "Applicant must substantially meet Michigan requirements, be licensed in a state/province with substantially equivalent standards, and may be required to appear personally for an interview.",
-          "bucket": "Equivalent Standards + Good Standing"
+          "bucket": "Equivalency + Good Standing"
         },
         {
           "state": "MN",
           "raw_value": "Must have passed all components of National Board Dental Examinations; been in active practice at least 2,000 hours within 36 months; currently licensed in another state or Canadian province without pending/final disciplinary action; good moral character; pass English proficiency test at board discretion; meet other credentialing requirements.",
-          "bucket": "Hours-Based Threshold"
+          "bucket": "Comprehensive Multi-Criteria"
         },
         {
           "state": "MO",
           "raw_value": "Licensed in another state for at least five consecutive years; qualifications at least equivalent to Missouri requirements; at least 21 years of age; good moral character and reputation. Board may require examination on Missouri laws and practical examination if licensure was denied, revoked, or suspended for incompetency.",
-          "bucket": "5+ Yrs Practice Required"
+          "bucket": "5+ Years Practice"
         },
         {
           "state": "MS",
           "raw_value": "Currently hold a valid, unrestricted and unexpired license in a state whose standards for licensure are determined by the board as equivalent to Mississippi's standards, and which state grants reciprocity or licensure by credentials to licensees of the State of Mississippi; active practice for past five years; no pending disciplinary action; passed state or regional clinical licensure examination within past five years",
-          "bucket": "5+ Yrs Practice Required"
+          "bucket": "Comprehensive Multi-Criteria"
         },
         {
           "state": "NC",
           "raw_value": "Applicant must be licensed in good standing in another state, have required education and training, pass satisfactory examinations, and meet other Board requirements",
-          "bucket": "Equivalent Standards + Good Standing"
+          "bucket": "Equivalency + Good Standing"
         },
         {
           "state": "ND",
           "raw_value": "Five years of active practice in good standing in another jurisdiction with substantially equivalent requirements; grounds for denial do not exist; payment of board-determined fee; certificate from every jurisdiction where licensed; passage of written examination on North Dakota laws and rules; and any other requirements established by board rule",
-          "bucket": "5+ Yrs Practice Required"
+          "bucket": "Comprehensive Multi-Criteria"
         },
         {
           "state": "NE",
           "raw_value": "Must meet board standards under section 38-126 and have been actively engaged in the practice of dentistry for at least one year under a license in another state, territory, or the District of Columbia. Practice in an accredited school or college of dentistry for completing a postgraduate or residency program also counts.",
-          "bucket": "Minimal / General Criteria"
+          "bucket": "Equivalency + Good Standing"
         },
         {
           "state": "NH",
           "raw_value": "Requirements or standards for certification or licensure in another state must be equivalent to or greater than New Hampshire requirements",
-          "bucket": "Equivalent Standards + Good Standing"
+          "bucket": "Equivalency + Good Standing"
         },
         {
           "state": "NJ",
           "raw_value": "Applicant must have been licensed and practiced dentistry for at least five years immediately preceding the application; must present proof by affidavit; must present a certificate from the board of dental examiners of the prior state certifying competency and good moral character; certificate must be presented not more than six months after its date of issue; and the issuing state must recognize certificates from NJ in like manner.",
-          "bucket": "5+ Yrs Practice Required"
+          "bucket": "5+ Years Practice"
         },
         {
           "state": "NV",
           "raw_value": "Applicant must hold active license in another state, have been in practice for at least 5 years, not have had license suspended or revoked, not have been refused a license, not be involved in pending disciplinary action, pay applicable fees, and submit statement regarding child support compliance",
-          "bucket": "5+ Yrs Practice Required"
+          "bucket": "5+ Years Practice"
         },
         {
           "state": "NY",
           "raw_value": "Applicant must file an application, meet educational requirements, have satisfactory experience, pass an examination, be at least 21, be a US citizen or lawful permanent resident, and be of good moral character as determined by the department.",
-          "bucket": "Exam-Heavy Requirements"
+          "bucket": "Exam-Focused"
         },
         {
           "state": "OH",
           "raw_value": "Applicant must hold a license in another state or have satisfactory work experience, government certification, or private certification in a state that does not issue a license, as described in Chapter 4796",
-          "bucket": "Minimal / General Criteria"
+          "bucket": "Equivalency + Good Standing"
         },
         {
           "state": "OK",
           "raw_value": "A dentist holding a general dentist license in good standing and having practiced for at least five hundred (500) hours within the previous five (5) years immediately prior to application and having passed a regional examination substantially equivalent to the requirements for this state may apply for licensure by credentials",
-          "bucket": "Hours-Based Threshold"
+          "bucket": "Exam-Focused"
         },
         {
           "state": "OR",
           "raw_value": "Applicants with active practice in other states for at least 3,500 hours in the five years preceding application may satisfy examination requirements through regional and national testing agencies or clinical board examinations administered by other states",
-          "bucket": "Hours-Based Threshold"
+          "bucket": "5+ Years Practice"
+        },
+        {
+          "state": "PA",
+          "raw_value": "Standards of the other state, territory, or Canada must be equal to Pennsylvania standards, and that jurisdiction must reciprocally recognize Pennsylvania licenses",
+          "bucket": "Equivalency + Good Standing"
         },
         {
           "state": "SC",
           "raw_value": "Applicants licensed in other states may obtain licensure by credentials if they have actively practiced for 5 years, passed a state or regional clinical board examination and jurisprudence exam, completed 70 hours of continuing education over 5 years, and have no disciplinary history",
-          "bucket": "Exam-Heavy Requirements"
+          "bucket": "Comprehensive Multi-Criteria"
         },
         {
           "state": "SD",
           "raw_value": "Applicant must have graduated from an ADA-accredited dental school, completed minimum 3,000 clinical hours within 5 years, passed national comprehensive and clinical exams, hold valid license in another state, have no disciplinary proceedings, meet equivalent or higher licensure requirements, provide good moral character references, and pass state laws examination",
-          "bucket": "Hours-Based Threshold"
+          "bucket": "Comprehensive Multi-Criteria"
         },
         {
           "state": "TN",
           "raw_value": "Applicant must hold valid license in another state, have no pending disciplinary charges, have not failed Tennessee exam previously, be ADA-accredited graduate, demonstrate intent to practice in Tennessee, and meet experience requirements (5 years practice/teaching or 2 years practice plus equivalent exam)",
-          "bucket": "5+ Yrs Practice Required"
+          "bucket": "Comprehensive Multi-Criteria"
         },
         {
           "state": "TX",
           "raw_value": "Applicant must be licensed in good standing in another state with substantially equivalent requirements, have no pending disciplinary actions, have graduated from a CODA-accredited school, passed a recognized national examination, passed the board's jurisprudence examination, submitted CPR certification, practiced for at least 3 years, and been endorsed by the board of dentistry in the jurisdiction where the applicant practices.",
-          "bucket": "Exam-Heavy Requirements"
+          "bucket": "Comprehensive Multi-Criteria"
         },
         {
           "state": "UT",
           "raw_value": "Applicant must be currently licensed in good standing with an unrestricted license in another jurisdiction, document having met all requirements for licensure except the degree requirement, and document having been successfully engaged in clinical practice as a dentist for not less than 6,000 hours in the five years immediately preceding the date of application for licensure.",
-          "bucket": "Hours-Based Threshold"
+          "bucket": "5+ Years Practice"
         },
         {
           "state": "VA",
           "raw_value": "Must hold current unrestricted license in another U.S. jurisdiction, be in good standing, have not committed acts constituting grounds for denial, and have been in continuous clinical practice for five of the six years immediately preceding application",
-          "bucket": "5+ Yrs Practice Required"
+          "bucket": "5+ Years Practice"
         },
         {
           "state": "VT",
           "raw_value": "Applicant must be licensed in good standing in another U.S. or Canadian jurisdiction with substantially equivalent requirements, complete an approved emergency office procedures course, pass the dentist jurisprudence examination, and meet active practice requirements. For jurisdictions with non-equivalent requirements, applicant must have at least 5 years of full-time licensed practice at 1,200+ hours per year.",
-          "bucket": "Exam-Heavy Requirements"
+          "bucket": "Comprehensive Multi-Criteria"
         },
         {
           "state": "WA",
           "raw_value": "Applicant must hold a valid license and be currently engaged in practice in another state, and either (a) be a graduate of a dental college approved by the commission, or (b) have practiced in another state for at least four years and completed a one-year postdoctoral residency approved by the commission.",
-          "bucket": "Equivalent Standards + Good Standing"
+          "bucket": "5+ Years Practice"
         },
         {
           "state": "WI",
           "raw_value": "Must meet requirements for licensure established by the examining board by rule, submit evidence of current CPR/AED proficiency, and present the license and pay the applicable fee.",
-          "bucket": "Minimal / General Criteria"
+          "bucket": "Equivalency + Good Standing"
         }
       ]
     },
     {
       "field_name": "scope.methods_authorized",
       "bucket_set": [
-        "Broad Enumerated List",
-        "Short General Terms",
-        "Surgical/Nonsurgical Framework",
-        "Detailed Procedural List",
-        "Minimal Catch-All"
+        "Brief Triad",
+        "Eval-Diag-Treat Core",
+        "Surgical/Nonsurgical Split",
+        "Detailed Enumeration",
+        "Comprehensive Catalog"
       ],
-      "rationale": "States cluster by how they structure authorized methods: a few use only 2-3 high-level terms, several use a surgical/nonsurgical framework, many use a short list of general categories, and others enumerate detailed specific procedures; a small group uses exhaustive procedural inventories.",
+      "rationale": "States cluster by how granularly they enumerate authorized methods: a few use a 3-word triad, many use a short eval/diagnose/treat core list, some split explicitly into surgical vs. nonsurgical categories, others add moderate procedural detail, and the rest provide exhaustive multi-item catalogs of specific procedures.",
       "assignments": [
         {
           "state": "AL",
           "raw_value": "medical; surgical; mechanical",
-          "bucket": "Minimal Catch-All"
+          "bucket": "Brief Triad"
         },
         {
           "state": "AR",
           "raw_value": "nonsurgical procedures; surgical procedures; related procedures; administration of anesthetics",
-          "bucket": "Surgical/Nonsurgical Framework"
+          "bucket": "Surgical/Nonsurgical Split"
         },
         {
           "state": "AZ",
           "raw_value": "diagnosis; surgical treatment; nonsurgical treatment; administering botulinum toxin type A; administering dermal fillers",
-          "bucket": "Surgical/Nonsurgical Framework"
+          "bucket": "Surgical/Nonsurgical Split"
         },
         {
           "state": "CA",
           "raw_value": "diagnosis; surgery; other treatment methods; use of drugs; use of anesthetic agents; physical evaluation",
-          "bucket": "Short General Terms"
+          "bucket": "Eval-Diag-Treat Core"
         },
         {
           "state": "CO",
           "raw_value": "evaluation; diagnosis; prevention; treatment; nonsurgical procedures; surgical procedures; related procedures",
-          "bucket": "Surgical/Nonsurgical Framework"
+          "bucket": "Surgical/Nonsurgical Split"
         },
         {
           "state": "CT",
           "raw_value": "diagnosis; evaluation; prevention; treatment by surgical or other means",
-          "bucket": "Short General Terms"
+          "bucket": "Eval-Diag-Treat Core"
         },
         {
           "state": "DE",
           "raw_value": "nonsurgical treatment; surgical treatment; related procedures",
-          "bucket": "Surgical/Nonsurgical Framework"
+          "bucket": "Surgical/Nonsurgical Split"
         },
         {
           "state": "FL",
           "raw_value": "examination; diagnosis; treatment planning; surgical operations; oral and oral-maxillofacial surgery; prescription of drugs and medicine; administration of anesthesia and sedation; use of appliances",
-          "bucket": "Broad Enumerated List"
+          "bucket": "Detailed Enumeration"
         },
         {
           "state": "GA",
           "raw_value": "evaluation; diagnosis; prevention; treatment; surgical procedures; nonsurgical procedures",
-          "bucket": "Surgical/Nonsurgical Framework"
+          "bucket": "Surgical/Nonsurgical Split"
         },
         {
           "state": "HI",
           "raw_value": "diagnosis; treatment; surgical operations; prescription; restoration of defective or missing teeth",
-          "bucket": "Short General Terms"
+          "bucket": "Eval-Diag-Treat Core"
         },
         {
           "state": "IA",
           "raw_value": "examination; diagnosis; treatment; medicine; appliance; surgery; prescribing and administering drugs; general or local anesthetics; surgical operations; tooth whitening",
-          "bucket": "Broad Enumerated List"
+          "bucket": "Detailed Enumeration"
         },
         {
           "state": "ID",
           "raw_value": "examining for diagnosis; treatment; extraction; repair; replacement; substitution; correction; diagnosing disease; treating; operating; prescribing; extracting; repairing; taking impressions; fitting; replacing; substituting; correcting; administering anesthetics; administering medicaments",
-          "bucket": "Detailed Procedural List"
+          "bucket": "Comprehensive Catalog"
         },
         {
           "state": "IL",
           "raw_value": "diagnosis and treatment of oral diseases; extraction of teeth; correction of malpositions of teeth and jaws; administration of anesthetics; prosthetic replacement of teeth; use of X-ray machines for diagnostic purposes; teeth whitening",
-          "bucket": "Broad Enumerated List"
+          "bucket": "Detailed Enumeration"
         },
         {
           "state": "IN",
           "raw_value": "nonsurgical procedures; surgical procedures; related procedures; x-ray diagnostic imaging; anesthesia administration; tooth extraction; orthodontic correction",
-          "bucket": "Surgical/Nonsurgical Framework"
+          "bucket": "Surgical/Nonsurgical Split"
         },
         {
           "state": "KS",
           "raw_value": "dental operations; oral surgery; dental services; tooth extraction; prosthetic dentures and bridges; orthodontia; anesthesia administration; x-ray and radiography; prescription of drugs and medicines",
-          "bucket": "Broad Enumerated List"
+          "bucket": "Detailed Enumeration"
         },
         {
           "state": "KY",
           "raw_value": "evaluation; diagnosis; prevention; surgical treatment; nonsurgical treatment; related treatment",
-          "bucket": "Surgical/Nonsurgical Framework"
+          "bucket": "Surgical/Nonsurgical Split"
         },
         {
           "state": "LA",
           "raw_value": "evaluation; diagnosis; prevention; treatment; nonsurgical procedures; surgical procedures; related procedures",
-          "bucket": "Surgical/Nonsurgical Framework"
+          "bucket": "Surgical/Nonsurgical Split"
         },
         {
           "state": "MA",
           "raw_value": "diagnose; treat; operate; prescribe",
-          "bucket": "Minimal Catch-All"
+          "bucket": "Brief Triad"
         },
         {
           "state": "MD",
           "raw_value": "intraoral dental services; diagnosis and treatment of dental disease; dental laboratory work; placement and adjustment of dental appliances; administration of anesthesia for dentistry",
-          "bucket": "Broad Enumerated List"
+          "bucket": "Detailed Enumeration"
         },
         {
           "state": "ME",
           "raw_value": "dental operations and oral surgery; obtaining impressions of human teeth or jaws; supplying and repairing prosthetic dentures, bridges and appliances; placing dental appliances; diagnosing and treating disease, pain, deformity, deficiency, injury or physical condition of human teeth, jaws or adjacent structures; extracting human teeth; correcting malformations of teeth and jaws; repairing or filling cavities; diagnosing malposed teeth and making appliances; taking dental x-rays and interpreting dental x-rays; prescribing drugs and administering local anesthesia, analgesia, sedation and general",
-          "bucket": "Detailed Procedural List"
+          "bucket": "Comprehensive Catalog"
         },
         {
           "state": "MI",
           "raw_value": "diagnosis; treatment; prescription; operation",
-          "bucket": "Minimal Catch-All"
+          "bucket": "Brief Triad"
         },
         {
           "state": "MN",
           "raw_value": "diagnosis and treatment of diseases and conditions of teeth, alveolar process, gums, jaw, and adjacent structures; dental operations including extraction and correction of malpositions; use of roentgen/x-ray for dental treatment and diagnostics; removal of stains and accretions from teeth; taking impressions and performing operations incident to replacement of teeth (fillings, crowns, bridges, dentures); furnishing, constructing, or repairing prosthetic dentures and dental appliances; performing clinical operations included in dental school curricula",
-          "bucket": "Detailed Procedural List"
+          "bucket": "Comprehensive Catalog"
         },
         {
           "state": "MO",
           "raw_value": "dental work; dental services; dental operations; oral surgery; diagnosis and treatment of diseases and conditions of teeth and oral regions; extraction of teeth; correction of malformations; adjustment of appliances; interpretation of dental radiographs; administration of anesthetics; removal of deposits and polishing of teeth; construction and placement of prosthetic dentures and bridges",
-          "bucket": "Detailed Procedural List"
+          "bucket": "Comprehensive Catalog"
         },
         {
           "state": "MS",
           "raw_value": "nonsurgical; surgical; related procedures",
-          "bucket": "Surgical/Nonsurgical Framework"
+          "bucket": "Surgical/Nonsurgical Split"
         },
         {
           "state": "MT",
           "raw_value": "dental operations; oral surgery; diagnosis and treatment of disease, pain, deformity, deficiency, injury, or physical condition of human teeth, jaws, or adjacent structures; extraction of human teeth; correction of malpositions of teeth or jaw; interpretation of dental roentgenograms; administration of anesthetics; construction and repair of prosthetic appliances",
-          "bucket": "Detailed Procedural List"
+          "bucket": "Detailed Enumeration"
         },
         {
           "state": "NC",
           "raw_value": "diagnosis and treatment of oral diseases and conditions; removal of stains and deposits; tooth extraction; restoration and replacement of teeth; correction of malposition; administration of anesthetics; impression taking; prosthetic denture and appliance construction; radiographic imaging and interpretation; clinical practices in dental school curricula",
-          "bucket": "Detailed Procedural List"
+          "bucket": "Comprehensive Catalog"
         },
         {
           "state": "ND",
           "raw_value": "examination; diagnosis; treatment; repair; administration of local or general anesthetics; prescriptions; surgery",
-          "bucket": "Short General Terms"
+          "bucket": "Eval-Diag-Treat Core"
         },
         {
           "state": "NE",
           "raw_value": "dental operations; oral surgery; dental services; taking impressions of human teeth, jaws; supplying artificial substitutes for natural teeth; constructing, reproducing, or repairing prosthetic dentures, bridges, appliances; placing appliances in the human mouth; diagnosing and treating disease, pain, deformity, deficiency, injury of teeth or jaws; extracting or attempting to extract human teeth; correcting malformations of teeth or jaws; repairing or filling cavities; diagnosing and adjusting appliances for malposed teeth; taking dental X-rays or roentgenograms; interpreting dental X-rays or ",
-          "bucket": "Detailed Procedural List"
+          "bucket": "Comprehensive Catalog"
         },
         {
           "state": "NH",
           "raw_value": "diagnosis; treatment; prescription; administration of dental anesthetics (general or local); teeth whitening",
-          "bucket": "Short General Terms"
+          "bucket": "Eval-Diag-Treat Core"
         },
         {
           "state": "NJ",
           "raw_value": "diagnose, treat, prescribe or operate for any disease, pain, deformity, deficiency, injury, or physical condition of the human tooth, teeth, alveolar process, gums, cheek, or jaws, or oral cavity and associated tissues; perform dental operations of any kind; use Roentgen or X-ray machine for dental treatment, dental radiograms, or dental diagnostic purposes; extract a human tooth or teeth, or correct or attempt to correct malpositions of the human teeth or jaws; diagnose, treat or remove stains or concretions from human teeth or jaws; use or administer local or general anesthetics in the treat",
-          "bucket": "Detailed Procedural List"
+          "bucket": "Comprehensive Catalog"
         },
         {
           "state": "NV",
           "raw_value": "evaluation; diagnosis; prevention; treatment; surgical; nonsurgical",
-          "bucket": "Surgical/Nonsurgical Framework"
+          "bucket": "Surgical/Nonsurgical Split"
         },
         {
           "state": "NY",
           "raw_value": "diagnosing; treating; operating; prescribing; prescribing and fabricating dental prostheses and appliances; performing physical evaluations in conjunction with dental treatment",
-          "bucket": "Short General Terms"
+          "bucket": "Eval-Diag-Treat Core"
         },
         {
           "state": "OH",
           "raw_value": "diagnosis and treatment of diseases or lesions of human teeth or jaws; correction of malpositions of teeth; taking impressions of human teeth or jaws; construction, supply, reproduction, or repair of prosthetic dentures, bridges, artificial restorations, and appliances",
-          "bucket": "Broad Enumerated List"
+          "bucket": "Detailed Enumeration"
         },
         {
           "state": "OK",
           "raw_value": "medical; surgical; mechanical",
-          "bucket": "Minimal Catch-All"
+          "bucket": "Brief Triad"
         },
         {
           "state": "OR",
           "raw_value": "examination; diagnosis; treatment planning; treatment; care; prevention; cutting; altering; repairing; removing; replacing; repositioning of hard or soft tissues; prescribing; dispensing; administering prescription drugs; administration of vaccines",
-          "bucket": "Broad Enumerated List"
+          "bucket": "Detailed Enumeration"
+        },
+        {
+          "state": "PA",
+          "raw_value": "diagnosis; treatment; surgery/operations; prescribing; physical evaluation; administration of anesthetic agents; use of ionizing radiation; fitting, constructing, and inserting artificial appliances, plates, or dentures",
+          "bucket": "Detailed Enumeration"
         },
         {
           "state": "RI",
           "raw_value": "evaluation; diagnosis; prevention; nonsurgical treatment; surgical treatment; related procedures",
-          "bucket": "Surgical/Nonsurgical Framework"
+          "bucket": "Surgical/Nonsurgical Split"
         },
         {
           "state": "SC",
           "raw_value": "diagnosis and treatment of oral diseases and lesions; tooth extraction; orthodontic procedures; prosthodontic procedures; administration of anesthetics; prescription of drugs for dental treatment; radiographic procedures",
-          "bucket": "Broad Enumerated List"
+          "bucket": "Detailed Enumeration"
         },
         {
           "state": "SD",
           "raw_value": "examination; evaluation; diagnosis; prevention; treatment; surgery; prescribing of drugs",
-          "bucket": "Short General Terms"
+          "bucket": "Eval-Diag-Treat Core"
         },
         {
           "state": "TN",
           "raw_value": "nonsurgical procedures; surgical procedures; related procedures; diagnosis; prevention; treatment",
-          "bucket": "Surgical/Nonsurgical Framework"
+          "bucket": "Surgical/Nonsurgical Split"
         },
         {
           "state": "TX",
           "raw_value": "cleaning of human teeth; removal of stains, concretions, or deposits from teeth; diagnosis, treatment, operation, or prescription for disease, pain, injury, deficiency, deformity, or physical condition of the human teeth, oral cavity, alveolar process, gums, or jaws; prescribing, making, or causing to be made impressions of the human mouth, teeth, gums, or jaws; fitting, adjusting, repairing, or substituting dental appliances, structures, prostheses, or dentures; inducing, administering, prescribing, or dispensing anesthesia or anesthetic drugs related to dentistry; surgical and adjunctive tre",
-          "bucket": "Detailed Procedural List"
+          "bucket": "Comprehensive Catalog"
         },
         {
           "state": "UT",
           "raw_value": "examination and evaluation; diagnosis; treatment; surgical procedures; prescription of therapy; teledentistry; administration of anesthetics; administration and prescription of drugs; supervision of dental hygienists and dental assistants",
-          "bucket": "Broad Enumerated List"
+          "bucket": "Detailed Enumeration"
         },
         {
           "state": "VA",
           "raw_value": "surgical procedures; nonsurgical procedures; related procedures",
-          "bucket": "Surgical/Nonsurgical Framework"
+          "bucket": "Surgical/Nonsurgical Split"
         },
         {
           "state": "VT",
           "raw_value": "diagnosis; treatment; prescription; extraction of teeth; correction of malpositions; fabrication and adjustment of prosthetic dentures and appliances; administration of general dental anesthetics; administration of local dental anesthetics",
-          "bucket": "Broad Enumerated List"
+          "bucket": "Detailed Enumeration"
         },
         {
           "state": "WA",
           "raw_value": "diagnosis; treatment; surgery; prescribing; taking impressions; oral and maxillofacial surgery; X-ray diagnosis",
-          "bucket": "Short General Terms"
+          "bucket": "Eval-Diag-Treat Core"
         },
         {
           "state": "WI",
           "raw_value": "examination; evaluation; diagnosis; prevention; treatment; surgery; administering vaccines against SARS-CoV-2 coronavirus and influenza",
-          "bucket": "Short General Terms"
+          "bucket": "Eval-Diag-Treat Core"
         },
         {
           "state": "WV",
           "raw_value": "examination and diagnosis; treatment of diseases and disorders; preventive services; prosthesis fabrication and repair; anesthesia administration; drug prescription; supervision of dental auxiliary personnel",
-          "bucket": "Broad Enumerated List"
+          "bucket": "Detailed Enumeration"
         },
         {
           "state": "WY",
           "raw_value": "examination; diagnosis; treatment; planning; care of conditions within the human oral cavity and its adjacent tissues and structures",
-          "bucket": "Short General Terms"
+          "bucket": "Eval-Diag-Treat Core"
         }
       ]
     },
     {
       "field_name": "scope.drug_authority",
       "bucket_set": [
-        "Prescribe & Administer",
+        "Prescribe & Anesthesia",
         "Prescribe Only",
-        "Anesthesia + Prescribe",
-        "Controlled Substances Focus",
         "Anesthesia Only",
-        "Vaccines Included"
+        "Controlled Substances Focus",
+        "Anesthesia Permit Required",
+        "Vaccines Included",
+        "Anesthetics Only"
       ],
-      "rationale": "States cluster around whether they explicitly address anesthesia tiers alongside prescribing, restrict or highlight controlled substances, limit authority to prescribing alone, include vaccine authority, or focus narrowly on anesthetics.",
+      "rationale": "States cluster by whether their rule emphasizes general prescribing plus anesthesia authority, prescribing alone, specific controlled substance treatment, permit-gated anesthesia, or unusual extensions like vaccine administration.",
       "assignments": [
         {
           "state": "AL",
           "raw_value": "Dentists may administer local anesthesia; may use general anesthesia, parenteral sedation, and oral conscious sedation with appropriate permits; may prescribe and administer controlled substances for dentally or facially related conditions",
-          "bucket": "Anesthesia + Prescribe"
+          "bucket": "Anesthesia Permit Required"
         },
         {
           "state": "AR",
           "raw_value": "Dentists may administer anesthetics and prescribe drugs for use in the practice of dentistry",
-          "bucket": "Anesthesia + Prescribe"
+          "bucket": "Prescribe & Anesthesia"
         },
         {
           "state": "AZ",
@@ -2110,7 +2154,7 @@
         {
           "state": "CO",
           "raw_value": "Dentists may prescribe drugs or medicine and administer local anesthesia, analgesia, minimal sedation, moderate sedation, deep sedation, or general anesthesia",
-          "bucket": "Anesthesia + Prescribe"
+          "bucket": "Prescribe & Anesthesia"
         },
         {
           "state": "DE",
@@ -2130,12 +2174,12 @@
         {
           "state": "IA",
           "raw_value": "Dentist may prescribe and administer drugs or medicine, perform surgical operations, administer general or local anesthetics, and use appliances as necessary to the proper practice of dentistry.",
-          "bucket": "Anesthesia + Prescribe"
+          "bucket": "Prescribe & Anesthesia"
         },
         {
           "state": "ID",
           "raw_value": "Administering anesthetics or medicaments in connection with dental practice",
-          "bucket": "Anesthesia Only"
+          "bucket": "Anesthetics Only"
         },
         {
           "state": "IL",
@@ -2150,7 +2194,7 @@
         {
           "state": "KS",
           "raw_value": "Dentists may prescribe drugs or medicine, administer analgesia, local anaesthetics, and may be authorized by the board to administer sedation and general anaesthetics",
-          "bucket": "Anesthesia + Prescribe"
+          "bucket": "Anesthesia Permit Required"
         },
         {
           "state": "KY",
@@ -2160,7 +2204,7 @@
         {
           "state": "LA",
           "raw_value": "A licensed dentist may administer general and local anesthetics and prescribe drugs or medicines necessary or proper in the practice of his profession",
-          "bucket": "Anesthesia + Prescribe"
+          "bucket": "Prescribe & Anesthesia"
         },
         {
           "state": "MA",
@@ -2170,12 +2214,12 @@
         {
           "state": "MD",
           "raw_value": "May administer anesthesia for purposes of dentistry; Board may adopt regulations regarding dispensing of prescription drugs",
-          "bucket": "Anesthesia + Prescribe"
+          "bucket": "Prescribe & Anesthesia"
         },
         {
           "state": "ME",
           "raw_value": "Prescribe drugs or medicine and administer local anesthesia, analgesia including nitrous oxide and oxygen inhalation and, with the appropriate permit issued by the board, administer sedation and general anesthesia necessary for proper dental treatment",
-          "bucket": "Anesthesia + Prescribe"
+          "bucket": "Anesthesia Permit Required"
         },
         {
           "state": "MI",
@@ -2195,7 +2239,7 @@
         {
           "state": "MT",
           "raw_value": "administers an anesthetic of any nature, subject to the limitations provided in 37-4-511, in connection with a dental operation",
-          "bucket": "Anesthesia Only"
+          "bucket": "Anesthetics Only"
         },
         {
           "state": "NC",
@@ -2225,12 +2269,12 @@
         {
           "state": "NV",
           "raw_value": "Dentists may administer or prescribe remedies, medicinal or otherwise, as needed in treatment of dental or oral diseases, subject to controlled substance regulations",
-          "bucket": "Prescribe & Administer"
+          "bucket": "Prescribe & Anesthesia"
         },
         {
           "state": "NY",
           "raw_value": "Dentists may prescribe for conditions of the oral and maxillofacial area; may use local anesthesia and nitrous oxide without a certificate; conscious sedation, deep sedation, or general anesthesia requires a dental anesthesia certificate.",
-          "bucket": "Anesthesia + Prescribe"
+          "bucket": "Anesthesia Permit Required"
         },
         {
           "state": "OK",
@@ -2240,17 +2284,22 @@
         {
           "state": "OR",
           "raw_value": "Prescribing, dispensing and administering of prescription drugs for purposes related to dentistry",
-          "bucket": "Prescribe & Administer"
+          "bucket": "Prescribe Only"
+        },
+        {
+          "state": "PA",
+          "raw_value": "Dentists may prescribe for disease, pain or injury of the human teeth, jaws, or associated structures; anesthetic agents may be administered",
+          "bucket": "Prescribe & Anesthesia"
         },
         {
           "state": "RI",
           "raw_value": "Dentists may administer anesthesia (local, conscious sedation, deep sedation, and general anesthesia) subject to permit requirements and board regulations",
-          "bucket": "Anesthesia Only"
+          "bucket": "Anesthesia Permit Required"
         },
         {
           "state": "SC",
           "raw_value": "Dentists may administer or prescribe drugs or therapy utilized in the treatment of dental or oral diseases",
-          "bucket": "Prescribe & Administer"
+          "bucket": "Prescribe & Anesthesia"
         },
         {
           "state": "SD",
@@ -2260,7 +2309,7 @@
         {
           "state": "TN",
           "raw_value": "Licensed dentists may dispense, prescribe or otherwise distribute drugs rational to the practice of dentistry in accordance with state and federal drug laws",
-          "bucket": "Prescribe & Administer"
+          "bucket": "Prescribe Only"
         },
         {
           "state": "TX",
@@ -2270,17 +2319,17 @@
         {
           "state": "UT",
           "raw_value": "Dentists may administer anesthetics necessary or proper in the practice of dentistry only as allowed by an anesthesia and analgesia permit obtained from the division, and may administer and prescribe drugs related to and appropriate in the practice of dentistry.",
-          "bucket": "Anesthesia + Prescribe"
+          "bucket": "Anesthesia Permit Required"
         },
         {
           "state": "VA",
           "raw_value": "Dentists may prescribe and administer drugs within scope of practice; dental hygienists may administer Schedule VI topical drugs and nitrous oxide under dentist direction",
-          "bucket": "Prescribe & Administer"
+          "bucket": "Prescribe & Anesthesia"
         },
         {
           "state": "VT",
           "raw_value": "Dentists may administer general and local dental anesthetics; nondental anesthesia only in hospitals with specific credentials and training",
-          "bucket": "Anesthesia Only"
+          "bucket": "Anesthetics Only"
         },
         {
           "state": "WA",
@@ -2307,29 +2356,30 @@
     {
       "field_name": "profession_specific.sedation_anesthesia_permit_types",
       "bucket_set": [
-        "2-Tier System",
-        "3-Tier System",
-        "4-Tier System",
-        "5+ Tier System",
-        "Broad/Generic Only",
-        "Pediatric Distinctions"
+        "2-Level Simple",
+        "3-Level Standard",
+        "4-Level Granular",
+        "5+ Level Detailed",
+        "Pediatric Distinctions",
+        "Route-Based Split",
+        "Vague/Generic"
       ],
-      "rationale": "States vary primarily by how granularly they stratify sedation levels — from simple 2-category schemes up to 5+ named tiers — with a few states notable for pediatric-specific permits or using only broad/generic labels.",
+      "rationale": "States vary primarily by how many distinct sedation tiers they define and whether they further subdivide by route of administration (enteral/parenteral), patient age (pediatric), or use only coarse permit categories — these dimensions capture the meaningful structural differences across the distribution.",
       "assignments": [
         {
           "state": "AL",
           "raw_value": "general anesthesia permit; parenteral sedation permit; oral conscious sedation permit",
-          "bucket": "3-Tier System"
+          "bucket": "Route-Based Split"
         },
         {
           "state": "AR",
           "raw_value": "general anesthesia; sedation",
-          "bucket": "2-Tier System"
+          "bucket": "2-Level Simple"
         },
         {
           "state": "AZ",
           "raw_value": "general anesthesia; sedation",
-          "bucket": "2-Tier System"
+          "bucket": "2-Level Simple"
         },
         {
           "state": "CA",
@@ -2344,162 +2394,167 @@
         {
           "state": "CT",
           "raw_value": "moderate sedation; deep sedation; general anesthesia",
-          "bucket": "3-Tier System"
+          "bucket": "3-Level Standard"
         },
         {
           "state": "FL",
           "raw_value": "general anesthesia; local anesthesia; sedation",
-          "bucket": "3-Tier System"
+          "bucket": "3-Level Standard"
         },
         {
           "state": "GA",
           "raw_value": "conscious sedation; general anesthesia",
-          "bucket": "2-Tier System"
+          "bucket": "2-Level Simple"
         },
         {
           "state": "HI",
           "raw_value": "general anesthesia; deep sedation; moderate (conscious) sedation",
-          "bucket": "3-Tier System"
+          "bucket": "3-Level Standard"
         },
         {
           "state": "IL",
           "raw_value": "moderate sedation; deep sedation; general anesthesia",
-          "bucket": "3-Tier System"
+          "bucket": "3-Level Standard"
         },
         {
           "state": "IN",
           "raw_value": "general anesthesia/deep sedation; moderate sedation using parenteral route of administration",
-          "bucket": "2-Tier System"
+          "bucket": "Route-Based Split"
         },
         {
           "state": "KS",
           "raw_value": "sedation permits; general anesthesia permits",
-          "bucket": "Broad/Generic Only"
+          "bucket": "2-Level Simple"
         },
         {
           "state": "KY",
           "raw_value": "conscious sedation; anesthesia",
-          "bucket": "2-Tier System"
+          "bucket": "2-Level Simple"
         },
         {
           "state": "LA",
           "raw_value": "nitrous oxide inhalation analgesia; enteral moderate sedation; parenteral moderate sedation; deep sedation; general anesthesia",
-          "bucket": "5+ Tier System"
+          "bucket": "5+ Level Detailed"
         },
         {
           "state": "MD",
           "raw_value": "general anesthesia; sedation",
-          "bucket": "2-Tier System"
+          "bucket": "2-Level Simple"
         },
         {
           "state": "ME",
           "raw_value": "sedation permit; general anesthesia permit",
-          "bucket": "2-Tier System"
+          "bucket": "2-Level Simple"
         },
         {
           "state": "MN",
           "raw_value": "general anesthesia; moderate sedation; contracted sedation provider",
-          "bucket": "3-Tier System"
+          "bucket": "3-Level Standard"
         },
         {
           "state": "MO",
           "raw_value": "deep sedation; general anesthesia; conscious sedation",
-          "bucket": "3-Tier System"
+          "bucket": "3-Level Standard"
         },
         {
           "state": "MS",
           "raw_value": "general anesthesia permit; I.V. sedation permit",
-          "bucket": "2-Tier System"
+          "bucket": "2-Level Simple"
         },
         {
           "state": "NC",
           "raw_value": "general anesthesia; enteral sedation; parenteral sedation",
-          "bucket": "3-Tier System"
+          "bucket": "Route-Based Split"
         },
         {
           "state": "NE",
           "raw_value": "general anesthesia; deep sedation; moderate sedation; minimal sedation",
-          "bucket": "4-Tier System"
+          "bucket": "4-Level Granular"
         },
         {
           "state": "NH",
           "raw_value": "general anesthesia; deep sedation; moderate sedation; minimal sedation",
-          "bucket": "4-Tier System"
+          "bucket": "4-Level Granular"
         },
         {
           "state": "NV",
           "raw_value": "minimal sedation; moderate sedation; deep sedation; general anesthesia",
-          "bucket": "4-Tier System"
+          "bucket": "4-Level Granular"
         },
         {
           "state": "NY",
           "raw_value": "conscious sedation; deep sedation; general anesthesia",
-          "bucket": "3-Tier System"
+          "bucket": "3-Level Standard"
         },
         {
           "state": "OH",
           "raw_value": "Conscious sedation permit; General anesthesia permit",
-          "bucket": "2-Tier System"
+          "bucket": "2-Level Simple"
         },
         {
           "state": "OK",
           "raw_value": "minimal sedation; moderate sedation; deep sedation; general anesthesia",
-          "bucket": "4-Tier System"
+          "bucket": "4-Level Granular"
         },
         {
           "state": "OR",
           "raw_value": "general anesthesia; conscious sedation",
-          "bucket": "2-Tier System"
+          "bucket": "2-Level Simple"
+        },
+        {
+          "state": "PA",
+          "raw_value": "general anesthesia; deep sedation; conscious sedation; nitrous oxide/oxygen analgesia",
+          "bucket": "4-Level Granular"
         },
         {
           "state": "RI",
           "raw_value": "conscious sedation; deep sedation; general anesthesia",
-          "bucket": "3-Tier System"
+          "bucket": "3-Level Standard"
         },
         {
           "state": "SC",
           "raw_value": "minimal sedation; moderate enteral sedation; moderate parenteral sedation; deep sedation/general anesthesia",
-          "bucket": "4-Tier System"
+          "bucket": "Route-Based Split"
         },
         {
           "state": "TN",
           "raw_value": "general anesthesia; deep sedation; conscious sedation",
-          "bucket": "3-Tier System"
+          "bucket": "3-Level Standard"
         },
         {
           "state": "TX",
           "raw_value": "nitrous oxide; level 1: minimal sedation; level 2: moderate sedation (enteral administration); level 3: moderate sedation (parenteral administration); level 4: deep sedation or general anesthesia",
-          "bucket": "5+ Tier System"
+          "bucket": "5+ Level Detailed"
         },
         {
           "state": "UT",
           "raw_value": "anesthesia and analgesia permits",
-          "bucket": "Broad/Generic Only"
+          "bucket": "Vague/Generic"
         },
         {
           "state": "VA",
           "raw_value": "conscious/moderate sedation permit; deep sedation/general anesthesia permit",
-          "bucket": "2-Tier System"
+          "bucket": "2-Level Simple"
         },
         {
           "state": "WA",
           "raw_value": "permits; certificates; registration",
-          "bucket": "Broad/Generic Only"
+          "bucket": "Vague/Generic"
         },
         {
           "state": "WI",
           "raw_value": "general anesthesia; conscious sedation",
-          "bucket": "2-Tier System"
+          "bucket": "2-Level Simple"
         },
         {
           "state": "WV",
           "raw_value": "Class 2 Permit (anxiolysis/minimal sedation); Class 3 Permit (conscious sedation/moderate sedation - limited enteral and/or comprehensive parenteral); Class 4 Permit (general anesthesia/deep conscious sedation)",
-          "bucket": "3-Tier System"
+          "bucket": "Route-Based Split"
         },
         {
           "state": "WY",
           "raw_value": "general anesthesia; parenteral sedation",
-          "bucket": "2-Tier System"
+          "bucket": "Route-Based Split"
         }
       ]
     },
@@ -2508,11 +2563,12 @@
       "bucket_set": [
         "Direct + General Only",
         "Direct + General + Indirect",
-        "Includes Unsupervised/Public Health",
-        "Includes Collaborative/Independent",
+        "Includes Public Health Tier",
+        "Includes Unsupervised/Autonomous",
+        "Collaborative/Alternative Model",
         "Single Level Only"
       ],
-      "rationale": "States cluster by how many and what kinds of supervision tiers they define: simple two-tier direct/general, three-tier with indirect, those that add an unsupervised or public-health pathway, those that include a collaborative or independent practice arrangement, and states with only a single level.",
+      "rationale": "States cluster by how many tiers they define and whether they include special pathways like public health supervision, unsupervised practice, or collaborative arrangements — the key axis for cross-state comparison.",
       "assignments": [
         {
           "state": "AL",
@@ -2527,17 +2583,17 @@
         {
           "state": "AZ",
           "raw_value": "general supervision; direct supervision; affiliated practice relationship",
-          "bucket": "Includes Collaborative/Independent"
+          "bucket": "Collaborative/Alternative Model"
         },
         {
           "state": "CA",
           "raw_value": "direct supervision; general supervision; without supervision (for certain public health and educational services)",
-          "bucket": "Includes Unsupervised/Public Health"
+          "bucket": "Includes Unsupervised/Autonomous"
         },
         {
           "state": "CO",
           "raw_value": "direct supervision; indirect supervision; unsupervised dental hygiene",
-          "bucket": "Includes Unsupervised/Public Health"
+          "bucket": "Includes Unsupervised/Autonomous"
         },
         {
           "state": "CT",
@@ -2567,7 +2623,7 @@
         {
           "state": "IA",
           "raw_value": "supervision of a licensed dentist (for therapeutic/clinical services); no supervision required (for educational services)",
-          "bucket": "Includes Unsupervised/Public Health"
+          "bucket": "Includes Unsupervised/Autonomous"
         },
         {
           "state": "ID",
@@ -2582,7 +2638,7 @@
         {
           "state": "IN",
           "raw_value": "direct supervision; prescriptive supervision",
-          "bucket": "Direct + General Only"
+          "bucket": "Collaborative/Alternative Model"
         },
         {
           "state": "KS",
@@ -2592,7 +2648,7 @@
         {
           "state": "KY",
           "raw_value": "direct supervision; general supervision; without physical presence of supervising dentist; without supervising dentist",
-          "bucket": "Includes Unsupervised/Public Health"
+          "bucket": "Includes Unsupervised/Autonomous"
         },
         {
           "state": "LA",
@@ -2617,17 +2673,17 @@
         {
           "state": "MI",
           "raw_value": "assignment; direct supervision; general supervision",
-          "bucket": "Direct + General + Indirect"
+          "bucket": "Collaborative/Alternative Model"
         },
         {
           "state": "MN",
           "raw_value": "supervision of a licensed dentist (general); collaborative practice (without patient first being examined by dentist, under collaborative agreement)",
-          "bucket": "Includes Collaborative/Independent"
+          "bucket": "Collaborative/Alternative Model"
         },
         {
           "state": "MO",
           "raw_value": "direct supervision; supervision in public health settings for fluoride treatments, teeth cleaning and sealants",
-          "bucket": "Includes Unsupervised/Public Health"
+          "bucket": "Includes Public Health Tier"
         },
         {
           "state": "MS",
@@ -2637,12 +2693,12 @@
         {
           "state": "MT",
           "raw_value": "general supervision; direct supervision; public health supervision",
-          "bucket": "Includes Unsupervised/Public Health"
+          "bucket": "Includes Public Health Tier"
         },
         {
           "state": "NC",
           "raw_value": "direct supervision; supervision under standing order (for qualified hygienists with 3+ years experience)",
-          "bucket": "Includes Collaborative/Independent"
+          "bucket": "Collaborative/Alternative Model"
         },
         {
           "state": "ND",
@@ -2657,7 +2713,7 @@
         {
           "state": "NH",
           "raw_value": "direct supervision; public health supervision",
-          "bucket": "Includes Unsupervised/Public Health"
+          "bucket": "Includes Public Health Tier"
         },
         {
           "state": "NJ",
@@ -2667,17 +2723,17 @@
         {
           "state": "NV",
           "raw_value": "direct supervision by dentist; authorization by dentist without physical presence; public health dental hygiene without authorization or supervision",
-          "bucket": "Includes Unsupervised/Public Health"
+          "bucket": "Includes Unsupervised/Autonomous"
         },
         {
           "state": "NY",
           "raw_value": "personal supervision of a licensed dentist; collaborative arrangement with a licensed and registered dentist (for hospital-based registered dental hygienists)",
-          "bucket": "Includes Collaborative/Independent"
+          "bucket": "Collaborative/Alternative Model"
         },
         {
           "state": "OH",
           "raw_value": "Direct supervision; Supervision with dentist not physically present for up to 15 consecutive business days; Supervision under approved dental hygiene programs; Oral health access supervision; Teledentistry supervision",
-          "bucket": "Includes Collaborative/Independent"
+          "bucket": "Includes Public Health Tier"
         },
         {
           "state": "OK",
@@ -2688,6 +2744,11 @@
           "state": "OR",
           "raw_value": "direct supervision; indirect supervision; general supervision",
           "bucket": "Direct + General + Indirect"
+        },
+        {
+          "state": "PA",
+          "raw_value": "direct supervision; general supervision",
+          "bucket": "Direct + General Only"
         },
         {
           "state": "RI",
@@ -2702,7 +2763,7 @@
         {
           "state": "SD",
           "raw_value": "direct supervision; indirect supervision; general supervision; collaborative supervision; personal supervision",
-          "bucket": "Includes Collaborative/Independent"
+          "bucket": "Collaborative/Alternative Model"
         },
         {
           "state": "TN",
@@ -2717,12 +2778,12 @@
         {
           "state": "UT",
           "raw_value": "general supervision; indirect supervision; direct supervision; no supervision in public health settings",
-          "bucket": "Includes Unsupervised/Public Health"
+          "bucket": "Includes Public Health Tier"
         },
         {
           "state": "VA",
           "raw_value": "general supervision; remote supervision",
-          "bucket": "Direct + General Only"
+          "bucket": "Collaborative/Alternative Model"
         },
         {
           "state": "VT",
@@ -2742,7 +2803,7 @@
         {
           "state": "WV",
           "raw_value": "direct supervision; general supervision; public health practice",
-          "bucket": "Includes Unsupervised/Public Health"
+          "bucket": "Includes Public Health Tier"
         },
         {
           "state": "WY",
@@ -2755,11 +2816,11 @@
       "field_name": "profession_specific.dental_therapist_practice_setting_restrictions",
       "bucket_set": [
         "Enumerated Underserved Sites",
-        "Broad Enumerated Settings",
-        "Agreement-Defined Settings",
-        "Tribal / Federal Focus"
+        "Tribal / Federal Sites Only",
+        "Broad Enumerated List",
+        "Agreement-Defined Settings"
       ],
-      "rationale": "States either enumerate specific site types targeting underserved/safety-net populations, enumerate a broader mix of settings beyond just underserved sites, defer entirely to a collaborative/practice agreement, or focus primarily on tribal and federal government settings.",
+      "rationale": "States cluster into those deferring entirely to a written/collaborative agreement, those limiting practice to tribal or federal government sites, those listing a focused set of underserved/safety-net facilities, and those providing a broad enumerated list spanning many setting types.",
       "assignments": [
         {
           "state": "AZ",
@@ -2774,7 +2835,7 @@
         {
           "state": "ID",
           "raw_value": "discharge of official duties on behalf of the United States government; United States public health service; Indian health service; tribal health programs contracted to perform services on behalf of the United States government; practice setting within the exterior boundaries of a tribal reservation",
-          "bucket": "Tribal / Federal Focus"
+          "bucket": "Tribal / Federal Sites Only"
         },
         {
           "state": "ME",
@@ -2784,12 +2845,12 @@
         {
           "state": "MI",
           "raw_value": "Licensed hospital; Federally qualified health center; Health facility reimbursed as federally qualified health center; Outpatient health program operated by tribe or tribal organization; Correctional facility; Dental shortage area designated by US DHHS; School-based health center; Local health department; Clinic or practice where at least 50% of patients meet underserved criteria",
-          "bucket": "Broad Enumerated Settings"
+          "bucket": "Broad Enumerated List"
         },
         {
           "state": "MN",
           "raw_value": "critical access dental provider settings; dental hygiene collaborative practice settings; medical facilities; assisted living facilities; federally qualified health centers; organizations eligible for community clinic grants; military and veterans administration hospitals, clinics, and care settings; patient's residence or home (homebound or home care eligible patients); oral health educational institutions; mobile dental units (where at least 50% of patient base is underserved)",
-          "bucket": "Broad Enumerated Settings"
+          "bucket": "Broad Enumerated List"
         },
         {
           "state": "NV",
@@ -2809,7 +2870,7 @@
         {
           "state": "WI",
           "raw_value": "A dentist with whom the dental therapist has entered into a collaborative management agreement; A dental practice; A school district or the operator of a private school or a tribal school; The operator of a school for the education of dentists or dental hygienists; A state or federal prison, a county jail, or other federal, state, county, or municipal correctional or detention facility, or a facility established to provide care for terminally ill patients; A local health department; A charitable institution open to the general public or to members of a religious sect or order; A nonprofit home",
-          "bucket": "Broad Enumerated Settings"
+          "bucket": "Broad Enumerated List"
         }
       ]
     },
@@ -2820,7 +2881,7 @@
         "Hours-Based",
         "1 Year or Residency"
       ],
-      "rationale": "Most states require a flat one-year minimum, Michigan uses an hours threshold instead, and Delaware explicitly allows a residency as an alternative to the year requirement.",
+      "rationale": "States cluster into those requiring a flat one-year minimum, one state using an hourly threshold instead, and one state offering a year-or-residency alternative — three meaningfully distinct approaches.",
       "assignments": [
         {
           "state": "CA",
@@ -2857,17 +2918,17 @@
     {
       "field_name": "licensure.post_degree_experience.kind",
       "bucket_set": [
-        "General Dentistry Residency",
+        "GPR / AEGD Residency",
         "General or Specialty Residency",
         "Internship or Residency",
         "Supervised Clinical Practice"
       ],
-      "rationale": "The values cluster around whether post-degree experience must be a general dentistry residency specifically, a broader choice of general or specialty residency, a looser internship-or-residency framing, or supervised clinical practice (a distinct non-residency pathway).",
+      "rationale": "The values cluster around four distinct post-degree experience types: programs specifically named GPR or AEGD, broader general-or-specialty residency programs, internship-or-residency pairings, and direct supervised clinical practice (unique to dental therapist pathway).",
       "assignments": [
         {
           "state": "CA",
           "raw_value": "advanced education program in general dentistry or general practice residency",
-          "bucket": "General Dentistry Residency"
+          "bucket": "GPR / AEGD Residency"
         },
         {
           "state": "CT",
@@ -2887,7 +2948,7 @@
         {
           "state": "MN",
           "raw_value": "postdoctoral general dentistry residency (GPR) or advanced education in general dentistry (AEGD) — required only for clinical exam waiver, not for licensure itself",
-          "bucket": "General Dentistry Residency"
+          "bucket": "GPR / AEGD Residency"
         },
         {
           "state": "NY",
@@ -2899,36 +2960,41 @@
     {
       "field_name": "licensure.national_certification",
       "bucket_set": [
-        "National Board Exam",
-        "Specialty Board (ABOMS)",
-        "Multiple Bodies"
+        "JCNDE / NBDE",
+        "ABOMS / Oral Surgery",
+        "Multi-Body (Oral Surgery)"
       ],
-      "rationale": "States cluster around either the JCNDE/National Board Dental Examinations pathway, the ABOMS specialty board, or a combination of multiple certifying bodies.",
+      "rationale": "Values cluster into JCNDE-administered dental board exams, ABOMS-only oral surgery certification, and one state citing multiple oral surgery and anesthesiology bodies together.",
       "assignments": [
         {
           "state": "GA",
           "raw_value": "American Board of Oral and Maxillofacial Surgery (ABOS), American Association of Oral and Maxillofacial Surgeons, American Dental Society of Anesthesiology",
-          "bucket": "Multiple Bodies"
+          "bucket": "Multi-Body (Oral Surgery)"
         },
         {
           "state": "HI",
           "raw_value": "American Board of Oral and Maxillofacial Surgery (ABOMS)",
-          "bucket": "Specialty Board (ABOMS)"
+          "bucket": "ABOMS / Oral Surgery"
         },
         {
           "state": "MA",
           "raw_value": "National Board of Dental Examiners",
-          "bucket": "National Board Exam"
+          "bucket": "JCNDE / NBDE"
         },
         {
           "state": "MN",
           "raw_value": "Joint Commission on National Dental Examinations (JCNDE) — National Board Dental Examinations",
-          "bucket": "National Board Exam"
+          "bucket": "JCNDE / NBDE"
         },
         {
           "state": "MS",
           "raw_value": "National Board Examinations of the Joint Commission on National Dental Examinations",
-          "bucket": "National Board Exam"
+          "bucket": "JCNDE / NBDE"
+        },
+        {
+          "state": "PA",
+          "raw_value": "National Dental Examining Board",
+          "bucket": "JCNDE / NBDE"
         }
       ]
     },
@@ -2937,265 +3003,271 @@
       "bucket_set": [
         "National + Clinical",
         "National + Clinical + Jurisprudence",
-        "National + Regional",
-        "State Board Only",
-        "Board Discretion"
+        "National + Jurisprudence",
+        "State/Board-Directed",
+        "National Only",
+        "Clinical + Jurisprudence"
       ],
-      "rationale": "States cluster by which combination of exam types they require: most mandate a national written exam (NBDE/JCNDE) plus some clinical exam, with a meaningful subset also requiring a state jurisprudence exam; a few rely on regional testing bodies as the clinical component; and a small group leave exam selection entirely to board discretion without naming specific exams.",
+      "rationale": "States cluster by which combination of exam types they require: national written (NBDE/JCNDE), clinical (state/regional/national), and jurisprudence; a residual bucket covers states where the board retains broad discretion with no named exam type.",
       "assignments": [
         {
           "state": "AK",
-          "raw_value": "{'name': 'Written examination approved by the board'...}",
-          "bucket": "Board Discretion"
+          "raw_value": "{'name': 'Written examination approved by the board' ...}",
+          "bucket": "State/Board-Directed"
         },
         {
           "state": "AL",
-          "raw_value": "{'name': 'Board examination or Joint Commission on National Dental Examinations'...}",
-          "bucket": "Board Discretion"
+          "raw_value": "{'name': 'Board examination or Joint Commission on National Dental Examinations' ...}",
+          "bucket": "National Only"
         },
         {
           "state": "AR",
-          "raw_value": "{'name': 'Arkansas State Board Examination'...}",
-          "bucket": "State Board Only"
+          "raw_value": "{'name': 'Arkansas State Board Examination' ...}",
+          "bucket": "State/Board-Directed"
         },
         {
           "state": "AZ",
-          "raw_value": "{'name': 'National Dental Board Examinations'...}",
+          "raw_value": "{'name': 'National Dental Board Examinations' ...}",
           "bucket": "National + Clinical"
         },
         {
           "state": "CA",
-          "raw_value": "{'name': 'National Board Dental Examination (NBDE)'...}",
-          "bucket": "National + Clinical + Jurisprudence"
+          "raw_value": "{'name': 'National Board Dental Examination (NBDE)' ...}",
+          "bucket": "National + Jurisprudence"
         },
         {
           "state": "CO",
-          "raw_value": "{'name': 'Joint Commission on National Dental Examinations'...}",
+          "raw_value": "{'name': 'Joint Commission on National Dental Examinations' ...}",
           "bucket": "National + Clinical"
         },
         {
           "state": "CT",
-          "raw_value": "{'name': 'Joint Commission on National Dental Examinations'...}",
+          "raw_value": "{'name': 'Joint Commission on National Dental Examinations' ...}",
           "bucket": "National + Clinical"
         },
         {
           "state": "DE",
-          "raw_value": "{'name': 'National Board of Dental Examiners examination'...}",
-          "bucket": "National + Clinical + Jurisprudence"
+          "raw_value": "{'name': 'National Board of Dental Examiners examination' ...}",
+          "bucket": "National + Clinical"
         },
         {
           "state": "FL",
-          "raw_value": "{'name': 'Joint Commission on National Dental Examinations (JCNDE)'...}",
+          "raw_value": "{'name': 'Joint Commission on National Dental Examinations (JCNDE)' ...}",
           "bucket": "National + Clinical"
         },
         {
           "state": "GA",
-          "raw_value": "{'name': 'Clinical examination'...}",
-          "bucket": "National + Clinical + Jurisprudence"
+          "raw_value": "{'name': 'Clinical examination' ...}",
+          "bucket": "Clinical + Jurisprudence"
         },
         {
           "state": "HI",
-          "raw_value": "{'name': 'National Board Dental Examination (Parts I and II) or Integrated National Board Dental Examination'...}",
+          "raw_value": "{'name': 'National Board Dental Examination (Parts I and II) or Integrated National Board Dental Examination' ...}",
           "bucket": "National + Clinical"
         },
         {
           "state": "IA",
-          "raw_value": "{'name': 'national board examinations of the joint commission on national dental examinations'...}",
+          "raw_value": "{'name': 'national board examinations of the joint commission on national dental examinations' ...}",
           "bucket": "National + Clinical"
         },
         {
           "state": "ID",
-          "raw_value": "{'name': 'National Board Dental Examination'...}",
+          "raw_value": "{'name': 'National Board Dental Examination' ...}",
           "bucket": "National + Clinical"
         },
         {
           "state": "IL",
-          "raw_value": "{'name': 'National Board Dental Examination'...}",
-          "bucket": "National + Regional"
+          "raw_value": "{'name': 'National Board Dental Examination' ...}",
+          "bucket": "National + Clinical"
         },
         {
           "state": "IN",
-          "raw_value": "{'name': 'National Board Dental Examination (Part I and Part II) and written jurisprudence examination'...}",
-          "bucket": "National + Clinical + Jurisprudence"
+          "raw_value": "{'name': 'National Board Dental Examination (Part I and Part II) and written jurisprudence examination' ...}",
+          "bucket": "National + Jurisprudence"
         },
         {
           "state": "KS",
-          "raw_value": "{'name': 'National Board Examination or State Clinical Examination'...}",
+          "raw_value": "{'name': 'National Board Examination or State Clinical Examination' ...}",
           "bucket": "National + Clinical"
         },
         {
           "state": "LA",
-          "raw_value": "{'name': 'Joint Commission on National Dental Examinations'...}",
-          "bucket": "National + Clinical + Jurisprudence"
+          "raw_value": "{'name': 'Joint Commission on National Dental Examinations' ...}",
+          "bucket": "National + Jurisprudence"
         },
         {
           "state": "MA",
-          "raw_value": "{'name': 'Board examination'...}",
-          "bucket": "State Board Only"
+          "raw_value": "{'name': 'Board examination' ...}",
+          "bucket": "State/Board-Directed"
         },
         {
           "state": "MD",
-          "raw_value": "{'name': 'ADLEX (American Dental Licensing Examination)'...}",
+          "raw_value": "{'name': 'ADLEX (American Dental Licensing Examination)' ...}",
           "bucket": "National + Clinical + Jurisprudence"
         },
         {
           "state": "ME",
-          "raw_value": "{'name': 'All examinations required by the board'...}",
-          "bucket": "Board Discretion"
+          "raw_value": "{'name': 'All examinations required by the board' ...}",
+          "bucket": "State/Board-Directed"
         },
         {
           "state": "MI",
-          "raw_value": "{'name': 'Comprehensive competency-based clinical examination (dental therapist)'...}",
+          "raw_value": "{'name': 'Comprehensive competency-based clinical examination (dental therapist)' ...}",
           "bucket": "National + Clinical"
         },
         {
           "state": "MN",
-          "raw_value": "{'name': 'National Board Dental Examinations'...}",
+          "raw_value": "{'name': 'National Board Dental Examinations' ...}",
           "bucket": "National + Clinical"
         },
         {
           "state": "MO",
-          "raw_value": "{'name': 'National Board Examination'...}",
+          "raw_value": "{'name': 'National Board Examination' ...}",
           "bucket": "National + Clinical"
         },
         {
           "state": "MS",
-          "raw_value": "{'name': 'National Board Examinations (Parts I and II)'...}",
+          "raw_value": "{'name': 'National Board Examinations (Parts I and II)' ...}",
           "bucket": "National + Clinical"
         },
         {
           "state": "MT",
-          "raw_value": "{'name': 'National Board Examination'...}",
-          "bucket": "National + Regional"
+          "raw_value": "{'name': 'National Board Examination' ...}",
+          "bucket": "National + Clinical"
         },
         {
           "state": "NC",
-          "raw_value": "{'name': 'Board-approved written or clinical examination'...}",
-          "bucket": "Board Discretion"
+          "raw_value": "{'name': 'Board-approved written or clinical examination' ...}",
+          "bucket": "State/Board-Directed"
         },
         {
           "state": "ND",
-          "raw_value": "{'name': 'Joint Commission on National Dental Examinations'...}",
-          "bucket": "National + Regional"
+          "raw_value": "{'name': 'Joint Commission on National Dental Examinations' ...}",
+          "bucket": "National + Clinical"
         },
         {
           "state": "NE",
-          "raw_value": "{'name': 'Integrated National Board Dental Examination (or Part I and Part II of the National Board Dental Examination)'...}",
+          "raw_value": "{'name': 'Integrated National Board Dental Examination (or Part I and Part II of the National Board Dental Examination)' ...}",
           "bucket": "National + Clinical"
         },
         {
           "state": "NH",
-          "raw_value": "{'name': 'National or regional examination'...}",
-          "bucket": "Board Discretion"
+          "raw_value": "{'name': 'National or regional examination' ...}",
+          "bucket": "State/Board-Directed"
         },
         {
           "state": "NJ",
-          "raw_value": "{'name': 'Board examination in dentistry'...}",
+          "raw_value": "{'name': 'Board examination in dentistry' ...}",
           "bucket": "National + Clinical"
         },
         {
           "state": "NV",
-          "raw_value": "{'name': 'National Board Dental Examination'...}",
-          "bucket": "National + Regional"
+          "raw_value": "{'name': 'National Board Dental Examination' ...}",
+          "bucket": "National + Clinical"
         },
         {
           "state": "NY",
-          "raw_value": "{'name': 'Written examination in dentistry'...}",
-          "bucket": "State Board Only"
+          "raw_value": "{'name': 'Written examination in dentistry' ...}",
+          "bucket": "State/Board-Directed"
         },
         {
           "state": "OH",
-          "raw_value": "{'name': 'National Board of Dental Examiners - Parts I and II'...}",
-          "bucket": "National + Clinical + Jurisprudence"
+          "raw_value": "{'name': 'National Board of Dental Examiners - Parts I and II' ...}",
+          "bucket": "National + Jurisprudence"
         },
         {
           "state": "OK",
-          "raw_value": "{'name': 'National Board Dental Examination'...}",
+          "raw_value": "{'name': 'National Board Dental Examination' ...}",
           "bucket": "National + Clinical + Jurisprudence"
         },
         {
           "state": "OR",
-          "raw_value": "{'name': 'Written, laboratory or clinical examinations'...}",
-          "bucket": "Board Discretion"
+          "raw_value": "{'name': 'Written, laboratory or clinical examinations' ...}",
+          "bucket": "State/Board-Directed"
+        },
+        {
+          "state": "PA",
+          "raw_value": "{'name': 'Dental licensure examination (clinical and written)' ...}",
+          "bucket": "State/Board-Directed"
         },
         {
           "state": "RI",
-          "raw_value": "{'name': 'Licensing examination'...}",
-          "bucket": "Board Discretion"
+          "raw_value": "{'name': 'Licensing examination' ...}",
+          "bucket": "State/Board-Directed"
         },
         {
           "state": "SC",
-          "raw_value": "{'name': 'Dental examination'...}",
-          "bucket": "State Board Only"
+          "raw_value": "{'name': 'Dental examination' ...}",
+          "bucket": "State/Board-Directed"
         },
         {
           "state": "SD",
-          "raw_value": "{'name': 'Standardized national comprehensive examination'...}",
-          "bucket": "National + Regional"
+          "raw_value": "{'name': 'Standardized national comprehensive examination' ...}",
+          "bucket": "National + Clinical"
         },
         {
           "state": "TN",
-          "raw_value": "{'name': 'American Dental Association's Commission on National Board Dental Examinations'...}",
-          "bucket": "National + Regional"
+          "raw_value": "{'name': \"American Dental Association's Commission on National Board Dental Examinations\"...}",
+          "bucket": "National + Clinical"
         },
         {
           "state": "TX",
-          "raw_value": "{'name': 'Dental licensure examination (clinical and written)'...}",
+          "raw_value": "{'name': 'Dental licensure examination (clinical and written)' ...}",
           "bucket": "National + Clinical + Jurisprudence"
         },
         {
           "state": "UT",
-          "raw_value": "{'name': 'National Board Dental Examinations'...}",
+          "raw_value": "{'name': 'National Board Dental Examinations' ...}",
           "bucket": "National + Clinical"
         },
         {
           "state": "VA",
-          "raw_value": "{'name': 'Joint Commission on National Dental Examinations (JCNDE)'...}",
+          "raw_value": "{'name': 'Joint Commission on National Dental Examinations (JCNDE)' ...}",
           "bucket": "National + Clinical"
         },
         {
           "state": "VT",
-          "raw_value": "{'name': 'Comprehensive examination approved by the Board'...}",
+          "raw_value": "{'name': 'Comprehensive examination approved by the Board' ...}",
           "bucket": "National + Clinical + Jurisprudence"
         },
         {
           "state": "WA",
-          "raw_value": "{'name': 'Dentistry Licensing Examination (practical and written)'...}",
-          "bucket": "National + Clinical"
+          "raw_value": "{'name': 'Dentistry Licensing Examination (practical and written)' ...}",
+          "bucket": "State/Board-Directed"
         },
         {
           "state": "WI",
-          "raw_value": "{'name': 'National dental examination'...}",
-          "bucket": "National + Clinical + Jurisprudence"
+          "raw_value": "{'name': 'National dental examination' ...}",
+          "bucket": "National + Jurisprudence"
         },
         {
           "state": "WV",
-          "raw_value": "{'name': 'Joint Commission on National Dental Examinations (JCNDE)'...}",
-          "bucket": "National + Regional"
+          "raw_value": "{'name': 'Joint Commission on National Dental Examinations (JCNDE)' ...}",
+          "bucket": "National + Clinical"
         },
         {
           "state": "WY",
-          "raw_value": "{'name': 'Written, Clinical and State Examination'...}",
-          "bucket": "National + Clinical + Jurisprudence"
+          "raw_value": "{'name': 'Written, Clinical and State Examination' ...}",
+          "bucket": "National + Clinical"
         }
       ]
     },
     {
       "field_name": "licensure.advisory_board.name",
       "bucket_set": [
-        "State Dental Hygienists Committee"
+        "Dental Hygienists Committee"
       ],
-      "rationale": "Both states use a dental hygienists committee structure, differing only in whether the state name is prefixed, so a single bucket covers the full distribution.",
+      "rationale": "Both states use a Dental Hygienists Committee structure, differing only in state-name prefix, so a single bucket captures the full distribution.",
       "assignments": [
         {
           "state": "NH",
           "raw_value": "Dental Hygienists Committee",
-          "bucket": "State Dental Hygienists Committee"
+          "bucket": "Dental Hygienists Committee"
         },
         {
           "state": "NM",
           "raw_value": "New Mexico Dental Hygienists Committee",
-          "bucket": "State Dental Hygienists Committee"
+          "bucket": "Dental Hygienists Committee"
         }
       ]
     },
@@ -3203,9 +3275,9 @@
       "field_name": "licensure.advisory_board.authority",
       "bucket_set": [
         "Advisory + Rulemaking Proposals",
-        "Advisory + Disciplinary Recs"
+        "Advisory + Discipline Recs"
       ],
-      "rationale": "Both states are advisory-only but differ slightly in scope; since both share advisory rulemaking proposals and NM adds disciplinary recommendations, two buckets capture the meaningful distinction, though a single combined bucket could also work given the small sample.",
+      "rationale": "Both states are advisory-only but differ slightly in scope — NH focuses on proposing rules, NM adds disciplinary recommendations alongside rulemaking, so two fine-grained buckets capture the real distinction without over-splitting.",
       "assignments": [
         {
           "state": "NH",
@@ -3215,265 +3287,272 @@
         {
           "state": "NM",
           "raw_value": "advisory only; rulemaking subject to board approval; disciplinary recommendations",
-          "bucket": "Advisory + Disciplinary Recs"
+          "bucket": "Advisory + Discipline Recs"
         }
       ]
     },
     {
       "field_name": "licensure.disciplinary_grounds",
       "bucket_set": [
-        "Enumerated Specific Grounds",
-        "Broad Unprofessional Conduct",
-        "Hybrid Specific + Catch-All",
-        "Criminal-Centric Focus",
-        "Impairment-Forward"
+        "Fraud & Misrepresentation",
+        "Criminal Conviction",
+        "Substance Abuse",
+        "Incompetence & Negligence",
+        "Unprofessional Conduct",
+        "Unlicensed Practice",
+        "Immoral / Dishonorable Conduct"
       ],
-      "rationale": "States vary primarily by whether they list granular specific violations, rely on broad unprofessional/dishonorable conduct clauses, combine both, lead with criminal conviction grounds, or emphasize impairment/substance-abuse grounds as a primary organizing principle.",
+      "rationale": "States cluster around seven recurring approaches to disciplinary grounds: fraud in obtaining licenses or fees, criminal convictions, substance abuse impairment, clinical incompetence/negligence, broad unprofessional-conduct clauses, unlicensed-practice prohibitions, and moral-character standards — each state's raw value is assigned to whichever theme dominates its ground list.",
       "assignments": [
         {
           "state": "AK",
           "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...}",
-          "bucket": "Enumerated Specific Grounds"
+          "bucket": "Fraud & Misrepresentation"
         },
         {
           "state": "AL",
           "raw_value": "{'short_label': 'fraud_deceit_misrepresentation', ...}",
-          "bucket": "Enumerated Specific Grounds"
+          "bucket": "Fraud & Misrepresentation"
         },
         {
           "state": "AR",
           "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...}",
-          "bucket": "Enumerated Specific Grounds"
+          "bucket": "Fraud & Misrepresentation"
         },
         {
           "state": "AZ",
           "raw_value": "{'short_label': 'unprofessional_conduct', ...}",
-          "bucket": "Hybrid Specific + Catch-All"
+          "bucket": "Unprofessional Conduct"
         },
         {
           "state": "CA",
           "raw_value": "{'short_label': 'fraud_in_obtaining_fee', ...}",
-          "bucket": "Enumerated Specific Grounds"
+          "bucket": "Fraud & Misrepresentation"
         },
         {
           "state": "CO",
           "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...}",
-          "bucket": "Enumerated Specific Grounds"
+          "bucket": "Fraud & Misrepresentation"
         },
         {
           "state": "CT",
           "raw_value": "{'short_label': 'fraudulent_credential', ...}",
-          "bucket": "Enumerated Specific Grounds"
+          "bucket": "Fraud & Misrepresentation"
         },
         {
           "state": "DE",
           "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...}",
-          "bucket": "Enumerated Specific Grounds"
+          "bucket": "Fraud & Misrepresentation"
         },
         {
           "state": "FL",
           "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...}",
-          "bucket": "Hybrid Specific + Catch-All"
+          "bucket": "Fraud & Misrepresentation"
         },
         {
           "state": "GA",
           "raw_value": "{'short_label': 'failed_qualifications', ...}",
-          "bucket": "Hybrid Specific + Catch-All"
+          "bucket": "Incompetence & Negligence"
         },
         {
           "state": "HI",
           "raw_value": "{'short_label': 'fraud_in_procuring_license', ...}",
-          "bucket": "Enumerated Specific Grounds"
+          "bucket": "Fraud & Misrepresentation"
         },
         {
           "state": "IA",
           "raw_value": "{'short_label': 'fraud_in_procuring_license', ...}",
-          "bucket": "Enumerated Specific Grounds"
+          "bucket": "Fraud & Misrepresentation"
         },
         {
           "state": "ID",
           "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...}",
-          "bucket": "Enumerated Specific Grounds"
+          "bucket": "Fraud & Misrepresentation"
         },
         {
           "state": "IL",
           "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...}",
-          "bucket": "Hybrid Specific + Catch-All"
+          "bucket": "Fraud & Misrepresentation"
         },
         {
           "state": "IN",
           "raw_value": "{'short_label': 'unlicensed_practice', ...}",
-          "bucket": "Criminal-Centric Focus"
+          "bucket": "Unlicensed Practice"
         },
         {
           "state": "KS",
           "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...}",
-          "bucket": "Enumerated Specific Grounds"
+          "bucket": "Fraud & Misrepresentation"
         },
         {
           "state": "KY",
           "raw_value": "{'short_label': 'violation_of_statute_or_regulation', ...}",
-          "bucket": "Hybrid Specific + Catch-All"
+          "bucket": "Unprofessional Conduct"
         },
         {
           "state": "LA",
           "raw_value": "{'short_label': 'contagious_infectious_disease', ...}",
-          "bucket": "Enumerated Specific Grounds"
+          "bucket": "Unprofessional Conduct"
         },
         {
           "state": "MA",
           "raw_value": "{'short_label': 'false_claim_of_certificate', ...}",
-          "bucket": "Enumerated Specific Grounds"
+          "bucket": "Fraud & Misrepresentation"
         },
         {
           "state": "MD",
           "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...}",
-          "bucket": "Enumerated Specific Grounds"
+          "bucket": "Fraud & Misrepresentation"
         },
         {
           "state": "ME",
           "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...}",
-          "bucket": "Hybrid Specific + Catch-All"
+          "bucket": "Fraud & Misrepresentation"
         },
         {
           "state": "MI",
           "raw_value": "{'short_label': 'negligence_or_failure_of_due_care', ...}",
-          "bucket": "Enumerated Specific Grounds"
+          "bucket": "Incompetence & Negligence"
         },
         {
           "state": "MN",
           "raw_value": "{'short_label': 'fraud_or_deception', ...}",
-          "bucket": "Enumerated Specific Grounds"
+          "bucket": "Fraud & Misrepresentation"
         },
         {
           "state": "MO",
           "raw_value": "{'short_label': 'controlled_substance_abuse', ...}",
-          "bucket": "Hybrid Specific + Catch-All"
+          "bucket": "Substance Abuse"
         },
         {
           "state": "MS",
           "raw_value": "{'short_label': 'misrepresentation_in_obtaining_license', ...}",
-          "bucket": "Enumerated Specific Grounds"
+          "bucket": "Fraud & Misrepresentation"
         },
         {
           "state": "MT",
           "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...}",
-          "bucket": "Hybrid Specific + Catch-All"
+          "bucket": "Unprofessional Conduct"
         },
         {
           "state": "NC",
           "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...}",
-          "bucket": "Enumerated Specific Grounds"
+          "bucket": "Fraud & Misrepresentation"
         },
         {
           "state": "ND",
           "raw_value": "{'short_label': 'dishonorable_unprofessional_immoral_conduct', ...}",
-          "bucket": "Broad Unprofessional Conduct"
+          "bucket": "Immoral / Dishonorable Conduct"
         },
         {
           "state": "NE",
           "raw_value": "{'short_label': 'misrepresentation_in_procuring_credential', ...}",
-          "bucket": "Enumerated Specific Grounds"
+          "bucket": "Immoral / Dishonorable Conduct"
         },
         {
           "state": "NH",
           "raw_value": "{'short_label': 'addiction_to_drugs_or_intoxicants', ...}",
-          "bucket": "Impairment-Forward"
+          "bucket": "Substance Abuse"
         },
         {
           "state": "NJ",
           "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...}",
-          "bucket": "Enumerated Specific Grounds"
+          "bucket": "Fraud & Misrepresentation"
         },
         {
           "state": "NM",
           "raw_value": "{'short_label': 'mental_illness', ...}",
-          "bucket": "Impairment-Forward"
+          "bucket": "Incompetence & Negligence"
         },
         {
           "state": "NV",
           "raw_value": "{'short_label': 'malpractice', ...}",
-          "bucket": "Hybrid Specific + Catch-All"
+          "bucket": "Incompetence & Negligence"
         },
         {
           "state": "NY",
           "raw_value": "{'short_label': 'obtaining_license_fraudulently', ...}",
-          "bucket": "Enumerated Specific Grounds"
+          "bucket": "Fraud & Misrepresentation"
         },
         {
           "state": "OH",
           "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...}",
-          "bucket": "Enumerated Specific Grounds"
+          "bucket": "Fraud & Misrepresentation"
         },
         {
           "state": "OK",
           "raw_value": "{'short_label': 'felony_conviction', ...}",
-          "bucket": "Criminal-Centric Focus"
+          "bucket": "Criminal Conviction"
         },
         {
           "state": "OR",
           "raw_value": "{'short_label': 'criminal_conviction', ...}",
-          "bucket": "Criminal-Centric Focus"
+          "bucket": "Criminal Conviction"
+        },
+        {
+          "state": "PA",
+          "raw_value": "{'short_label': 'failure_to_demonstrate_qualifications', ...}",
+          "bucket": "Incompetence & Negligence"
         },
         {
           "state": "RI",
           "raw_value": "{'short_label': 'fraudulent_license_procurement', ...}",
-          "bucket": "Enumerated Specific Grounds"
+          "bucket": "Fraud & Misrepresentation"
         },
         {
           "state": "SC",
           "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...}",
-          "bucket": "Enumerated Specific Grounds"
+          "bucket": "Fraud & Misrepresentation"
         },
         {
           "state": "SD",
           "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...}",
-          "bucket": "Enumerated Specific Grounds"
+          "bucket": "Fraud & Misrepresentation"
         },
         {
           "state": "TN",
           "raw_value": "{'short_label': 'unprofessional_dishonorable_unethical_conduct', ...}",
-          "bucket": "Broad Unprofessional Conduct"
+          "bucket": "Unprofessional Conduct"
         },
         {
           "state": "TX",
           "raw_value": "{'short_label': 'adjudged_insane', ...}",
-          "bucket": "Hybrid Specific + Catch-All"
+          "bucket": "Incompetence & Negligence"
         },
         {
           "state": "UT",
           "raw_value": "{'short_label': 'unlawful_conduct', ...}",
-          "bucket": "Broad Unprofessional Conduct"
+          "bucket": "Unprofessional Conduct"
         },
         {
           "state": "VA",
           "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...}",
-          "bucket": "Enumerated Specific Grounds"
+          "bucket": "Fraud & Misrepresentation"
         },
         {
           "state": "VT",
           "raw_value": "{'short_label': 'abandonment_of_patient', ...}",
-          "bucket": "Enumerated Specific Grounds"
+          "bucket": "Unprofessional Conduct"
         },
         {
           "state": "WA",
           "raw_value": "{'short_label': 'moral_turpitude_dishonesty_corruption', ...}",
-          "bucket": "Broad Unprofessional Conduct"
+          "bucket": "Immoral / Dishonorable Conduct"
         },
         {
           "state": "WI",
           "raw_value": "{'short_label': 'unprofessional_conduct', ...}",
-          "bucket": "Broad Unprofessional Conduct"
+          "bucket": "Unprofessional Conduct"
         },
         {
           "state": "WV",
           "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...}",
-          "bucket": "Enumerated Specific Grounds"
+          "bucket": "Fraud & Misrepresentation"
         },
         {
           "state": "WY",
           "raw_value": "{'short_label': 'conviction_felony_misdemeanor', ...}",
-          "bucket": "Criminal-Centric Focus"
+          "bucket": "Criminal Conviction"
         }
       ]
     }

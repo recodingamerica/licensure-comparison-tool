@@ -241,6 +241,40 @@ def parse_pa_act(html: str, url: str) -> list[Section]:
     return sections
 
 
+# --- Illinois (Justia serves a whole ILCS act on one page) ---
+# Like PA, IL acts arrive as ONE inline blob rather than per-section URLs, but the
+# text carries an ILCS citation marker at the head of every section
+# ("(225 ILCS 80/4.5)"). Split on those so IL gets section-level citations and a
+# navigable browse view instead of one ~80k-char blob (issue #6). Reusable as a
+# local transform on already-committed IL corpora — no re-fetch needed.
+_IL_ILCS_MARKER = re.compile(r"\((\d+\s+ILCS\s+\d+/[0-9A-Za-z.\-]+)\)")
+
+
+def looks_like_il_ilcs(text: str) -> bool:
+    return len(_IL_ILCS_MARKER.findall(text)) >= 3
+
+
+def split_il_inline(text: str, url: str) -> list[Section]:
+    """Split one ILCS act blob into per-section records on the '(NNN ILCS MM/SS)'
+    markers. citation = the ILCS ref (e.g. '225 ILCS 80/4.5'); url stays the act
+    page (IL has no reliable per-section URLs). Returns [] if no markers found."""
+    hits = list(_IL_ILCS_MARKER.finditer(text))
+    sections: list[Section] = []
+    for i, m in enumerate(hits):
+        end = hits[i + 1].start() if i + 1 < len(hits) else len(text)
+        body = text[m.start():end].strip()
+        if not body:
+            continue
+        cite = m.group(1)
+        label = cite
+        title = re.search(r"Sec\.?\s+[0-9A-Za-z.\-]+\.?\s*(.{0,120})", body)
+        if title:
+            label = f"Sec. {cite.rsplit('/', 1)[-1]}. {title.group(1).strip()}"[:300]
+        sections.append(Section(url=url, label=label, citation=cite,
+                                text=body, text_len=len(body)))
+    return sections
+
+
 def extract_section_text(html: str) -> str:
     """Extract the main statute text from a section page across known sources.
 
@@ -409,9 +443,20 @@ def pull_state(state: str, profession: str, rows: list[dict], limit_sections: in
             if limit_sections and len(corpus.sections) >= limit_sections:
                 break
 
-            # Inline text already captured by collect_section_targets (IL-style)
+            # Inline text already captured by collect_section_targets (IL-style).
+            # If it's an ILCS act blob, split it into per-section records so IL
+            # gets section-level citations + browse instead of one blob (#6).
             if "_inline_text" in sec:
                 text = sec["_inline_text"]
+                il_sections = split_il_inline(text, sec["url"]) if looks_like_il_ilcs(text) else []
+                if il_sections:
+                    for s in il_sections:
+                        if limit_sections and len(corpus.sections) >= limit_sections:
+                            break
+                        corpus.sections.append(s)
+                        corpus.total_chars += s.text_len
+                    log.info("  il_ilcs split %s -> %d sections", sec["url"], len(il_sections))
+                    continue
                 corpus.sections.append(Section(
                     url=sec["url"], label=sec["label"],
                     citation=short_citation(sec["label"]),
