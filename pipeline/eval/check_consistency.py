@@ -137,6 +137,10 @@ def main() -> None:
             w = csv.DictWriter(f, fieldnames=list(all_violations[0].keys()))
             w.writeheader()
             w.writerows(all_violations)
+    elif REPORT_PATH.exists():
+        # Clean run: drop the stale report so it never lingers showing
+        # violations that have since been fixed.
+        REPORT_PATH.unlink()
 
     # Console summary
     by_rule: dict[str, int] = {}

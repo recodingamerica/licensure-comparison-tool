@@ -29,20 +29,56 @@
     "moral_character_required": null,
     "education": {
       "degree_required": {
-        "value": "Baccalaureate or postgraduate degree (dietitian); master's or doctoral degree (nutritionist)",
+        "value": "Baccalaureate or postgraduate degree (dietitian) or master's/doctoral degree (nutritionist)",
         "quote": "has received a baccalaureate or postgraduate degree from a United States regionally accredited college or university with a major in dietetics, human nutrition, nutrition education, food and nutrition, or food services management",
         "citation": "148.624"
       },
       "accrediting_body": {
-        "value": "United States regionally accredited college or university",
-        "quote": "from a United States regionally accredited college or university",
+        "value": "Regional accrediting agencies recognized by the Council on Postsecondary Accreditation and the United States Department of Education",
+        "quote": "a college or university accredited by the regional accrediting agencies recognized by the Council on Postsecondary Accreditation, and the United States Department of Education at the time the degree was conferred",
+        "citation": "148.621"
+      },
+      "degree_level": {
+        "value": "bachelor",
+        "quote": "has received a baccalaureate or postgraduate degree from a United States regionally accredited college or university with a major in dietetics, human nutrition, nutrition education, food and nutrition, or food services management",
         "citation": "148.624"
-      }
+      },
+      "school_approval_basis": {
+        "value": "regional_accreditor",
+        "quote": "a college or university accredited by the regional accrediting agencies recognized by the Council on Postsecondary Accreditation, and the United States Department of Education at the time the degree was conferred",
+        "citation": "148.621"
+      },
+      "credential_pegged": {
+        "value": true,
+        "quote": "has a valid current registration with the commission which gives the applicant the right to use the term \"registered dietitian\" or \"RD.\"",
+        "citation": "148.624"
+      },
+      "tiers": [
+        {
+          "license_class": "licensed dietitian",
+          "degree_level": "bachelor",
+          "effective_date": null,
+          "quote": "has received a baccalaureate or postgraduate degree from a United States regionally accredited college or university with a major in dietetics, human nutrition, nutrition education, food and nutrition, or food services management",
+          "citation": "148.624"
+        },
+        {
+          "license_class": "licensed nutritionist",
+          "degree_level": "master",
+          "effective_date": null,
+          "quote": "has received a master's or doctoral degree from an accredited or approved college or university with a major in human nutrition, public health nutrition, clinical nutrition, nutrition education, community nutrition, or food and nutrition",
+          "citation": "148.624"
+        }
+      ]
     },
     "post_degree_experience": {
       "required": {
         "value": true,
-        "quote": "has completed a documented supervised preprofessional practice experience component in dietetic practice of not less than 900 hours",
+        "quote": "has completed a documented supervised preprofessional practice experience component in dietetic practice of not less than 900 hours under the supervision of a registered dietitian",
+        "citation": "148.624"
+      },
+      "experience_source": {
+        "value": "required_by_statute",
+        "quote": "has completed a documented supervised preprofessional practice experience component in dietetic practice of not less than 900 hours under the supervision of a registered dietitian",
         "citation": "148.624"
       },
       "duration": {
@@ -58,10 +94,10 @@
     },
     "exams": [
       {
-        "name": "Registration examination for dietitians",
+        "name": "Registration examination for dietitians administered by the Commission on Dietetic Registration",
         "required": true,
-        "notes": "Administered by the Commission on Dietetic Registration. Alternatively, applicant may hold a valid current registration with the commission (RD credential).",
-        "jurisdiction": "Commission on Dietetic Registration (national)",
+        "notes": "Required for the dietitian license pathway; alternatively, applicants may hold valid current registration with the commission (RD).",
+        "jurisdiction": "national (Commission on Dietetic Registration)",
         "permitted_attempts": null,
         "quote": "has successfully completed the registration examination for dietitians administered by the commission",
         "citation": "148.624"
@@ -88,7 +124,7 @@
         "citation": "148.628"
       },
       "requirements": {
-        "value": "Applicant must be licensed as a dietitian or nutritionist in another state or DC, and the board must judge that the other state's standards are not less stringent than Minnesota's requirements.",
+        "value": "Standards for licensure in the other state must be not less stringent than Minnesota requirements.",
         "quote": "provided that in the judgment of the board the standards for licensure in that state are not less stringent than the requirements set forth in sections 148.621 to 148.633",
         "citation": "148.628"
       }
@@ -104,7 +140,7 @@
     },
     "national_certification": {
       "value": "Commission on Dietetic Registration",
-      "quote": "has successfully completed the registration examination for dietitians administered by the commission",
+      "quote": "has a valid current registration with the commission which gives the applicant the right to use the term \"registered dietitian\" or \"RD.\"",
       "citation": "148.624"
     },
     "national_association": {
@@ -139,37 +175,41 @@
     },
     "disciplinary_grounds": [
       {
-        "short_label": "incompetence_or_dangerous_practice",
-        "description": "Incompetent to engage in dietetic or nutrition practice, or engaged in practice in a manner harmful or dangerous to a client or the public.",
+        "short_label": "incompetence_or_harmful_practice",
+        "description": "Incompetent to engage in dietetic or nutrition practice, or practicing in a manner harmful or dangerous to a client or the public.",
         "quote": "is incompetent to engage in dietetic or nutrition practice, or is found to be engaged in dietetic or nutrition practice in a manner harmful or dangerous to a client or to the public",
         "citation": "148.629"
       },
       {
         "short_label": "violation_of_board_rules_or_statutes",
-        "description": "Violated the rules of the board or the statutes the board is empowered to enforce.",
+        "description": "Violated the rules of the board or statutes the board is empowered to enforce.",
         "quote": "has violated the rules of the board or the statutes the board is empowered to enforce",
         "citation": "148.629"
       },
       {
-        "short_label": "bribery_or_fraudulent_licensure",
+        "short_label": "bribery_or_fraud_in_licensure",
         "description": "Obtained or attempted to obtain a license or license renewal by bribery or fraudulent representation.",
         "quote": "has obtained or attempted to obtain a license or license renewal by bribery or fraudulent representation",
         "citation": "148.629"
       },
       {
-        "short_label": "false_statement_on_board_forms",
+        "short_label": "false_statement_on_board_form",
         "description": "Knowingly made a false statement on a form required by the board for licensing or license renewal.",
         "quote": "has knowingly made a false statement on a form required by the board for licensing or license renewal",
         "citation": "148.629"
       },
       {
-        "short_label": "dietary_supplement_sales_for_financial_benefit",
-        "description": "Sold any dietary supplement product if the sale resulted in financial benefit to the individual.",
+        "short_label": "sale_of_dietary_supplement_for_financial_benefit",
+        "description": "Sold any dietary supplement product where the sale resulted in financial benefit to the individual.",
         "quote": "has sold any dietary supplement product if the sale of that product resulted in financial benefit to the individual",
         "citation": "148.629"
       }
     ],
-    "alternative_regulation": null,
+    "alternative_regulation": {
+      "bonding_required": null,
+      "insurance_required": null,
+      "establishment_regulation_required": null
+    },
     "citations": [
       {
         "cite": "148.621",
@@ -185,7 +225,7 @@
       },
       {
         "cite": "148.624",
-        "kind": "licensure and renewal"
+        "kind": "licensure requirements and renewal"
       },
       {
         "cite": "148.626",
@@ -197,7 +237,7 @@
       },
       {
         "cite": "148.629",
-        "kind": "denial, suspension, revocation"
+        "kind": "disciplinary grounds"
       },
       {
         "cite": "148.630",
@@ -235,14 +275,14 @@
       "citation": "148.621"
     },
     "drug_authority": {
-      "value": "May implement a protocol resulting in prescription of a legend drug that has been predetermined and delegated by a licensed practitioner.",
-      "quote": "A licensed dietitian or licensed nutritionist may implement a protocol that does not reference a specific patient and results in a prescription of a legend drug that has been predetermined and delegated by a licensed practitioner",
+      "value": "A licensed dietitian or licensed nutritionist may implement a protocol that does not reference a specific patient and results in a prescription of a legend drug that has been predetermined and delegated by a licensed practitioner.",
+      "quote": "A licensed dietitian or licensed nutritionist may implement a protocol that does not reference a specific patient and results in a prescription of a legend drug that has been predetermined and delegated by a licensed practitioner as defined in section 151.01, subdivision 23",
       "citation": "148.634"
     },
     "citations": [
       {
         "cite": "148.621",
-        "kind": "definitions"
+        "kind": "scope definition"
       },
       {
         "cite": "148.634",
@@ -256,8 +296,8 @@
         "licensed dietitian",
         "licensed nutritionist"
       ],
-      "quote": "No person may use the title \"dietitian,\" \"licensed dietitian,\" \"nutritionist,\" \"licensed nutritionist,\" or any occupational title using the word \"dietitian\" or \"nutritionist\" unless so licensed by the board",
-      "citation": "148.630"
+      "quote": "The board shall issue a license as a dietitian to a person... The board shall issue a license as a nutritionist to a person",
+      "citation": "148.624"
     },
     "provisional_license_available": {
       "value": true,
@@ -298,18 +338,24 @@
     "direct_supervision_defined": null,
     "exempt_professions_list": {
       "value": [
-        "students in dietetics or nutrition pursuing a degree at an accredited college or university practicing under supervision",
+        "physicians",
+        "nurses",
+        "optometrists",
+        "psychologists",
+        "pharmacists",
+        "dentists",
+        "chiropractors",
+        "home economists",
+        "persons employed by federal, state, county, or municipal agencies or educational institutions",
+        "persons pursuing a degree in dietetics or nutrition under supervision",
         "persons fulfilling professional experience requirements under supervision",
-        "persons licensed to practice medicine, nursing, optometry, psychology, pharmacy, dentistry, or chiropractic (when nutrition practice is incidental)",
-        "registered dietetic technicians, dietetic technicians, or other paraprofessionals working in programs supervised by a licensed dietitian or nutritionist",
-        "persons providing weight control services (with licensed dietitian oversight)",
-        "home economists with baccalaureate or graduate degree from an accredited college or university",
-        "persons employed by federal, state, county, or municipal agency, elementary or secondary school, regionally accredited institution of higher education, or nonprofit agency",
-        "persons furnishing nutrition information on food, food materials, or dietary supplements in connection with marketing and distribution",
-        "persons recognized in the community as providers of nutritional advice (e.g., curandero or medicine man or woman) advising based on traditional practices",
-        "animal nutritionists whose activities are limited to nutritional care of animals",
+        "registered dietetic technicians working under supervision",
+        "persons providing weight control services (with dietitian oversight)",
+        "persons furnishing nutrition information in connection with marketing and distribution of food products",
+        "traditional/cultural nutrition advisors (curandero, medicine man/woman)",
+        "animal nutritionists",
         "persons providing nutrition services without remuneration to family members",
-        "persons involved in dietary or nutritional counseling pursuant to a research study supervised by a Minnesota institution of higher learning or state agency approved by an IRB"
+        "persons involved in dietary or nutritional counseling in approved research studies"
       ],
       "quote": "Nothing in sections 148.621 to 148.633 prevents or restricts the activities of: (1) any person pursuing a degree in dietetics or nutrition at an accredited college or university who is practicing under the supervision of a licensed dietitian or licensed nutritionist",
       "citation": "148.632"
@@ -350,14 +396,14 @@
     },
     "nutrition_assessment_includes_biochemical_data": {
       "value": true,
-      "quote": "\"Nutritional assessment\" means the evaluation of the nutritional needs of individuals or groups based on appropriate biochemical, anthropometric, physical, and dietary data",
+      "quote": "\"Nutritional assessment\" means the evaluation of the nutritional needs of individuals or groups based on appropriate biochemical, anthropometric, physical, and dietary data to determine nutrient needs and recommend appropriate nutritional intake.",
       "citation": "148.621"
     },
     "hospital_order_authority_requires_policy": null,
     "inactive_license_status_available": null,
     "ethics_code_violation_grounds_for_discipline": {
       "value": true,
-      "quote": "adopt rules under chapter 14 prescribing a code of ethics for licensees",
+      "quote": "adopt rules under chapter 14 prescribing a code of ethics for licensees.",
       "citation": "148.623"
     }
   }

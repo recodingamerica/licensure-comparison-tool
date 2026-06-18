@@ -42,6 +42,7 @@ from standard_model import (  # noqa: E402
     ScopeOfPractice,
     StrEvidence,
     StrListEvidence,
+    derive_regulatory_model,
     iter_evidence,
 )
 from locate_quote import (  # noqa: E402
@@ -308,6 +309,29 @@ def extract_one(state: str, profession: str, model: str, profile_cls: type[BaseM
     if result is None:
         return None
     record = result.model_dump()
+    # Derive the UORF rung from the orthogonal axes (credential_type +
+    # scope_protection) rather than trusting the model's free pick, which
+    # flip-flops deterministically on title-protection schemes. The model's
+    # quoted scope/credential facts drive the rung; this makes the cross-field
+    # invariants in eval/check_consistency.py structurally satisfied instead of
+    # merely flagged. See standard_model.derive_regulatory_model.
+    lic = record.get("licensure") or {}
+    rm_ev = lic.get("regulatory_model")
+
+    def _ev_val(field: object) -> object:
+        return field.get("value") if isinstance(field, dict) else None
+
+    derived = derive_regulatory_model(
+        _ev_val(lic.get("credential_type")),
+        _ev_val(lic.get("scope_protection")),
+    )
+    if derived is not None and isinstance(rm_ev, dict) and rm_ev.get("value") != derived.value:
+        log.info(
+            "[%s] regulatory_model derived: %s → %s (credential_type=%s, scope_protection=%s)",
+            state, rm_ev.get("value"), derived.value,
+            _ev_val(lic.get("credential_type")), _ev_val(lic.get("scope_protection")),
+        )
+        rm_ev["value"] = derived.value
     # Quotes can come from either practice-act text OR umbrella text — verify against both.
     normalized_corpus = _normalize_for_match(state_text + "\n" + umbrella_text)
     verified, unverified = annotate_evidence(record, normalized_corpus)

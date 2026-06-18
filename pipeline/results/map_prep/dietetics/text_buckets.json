@@ -5,12 +5,12 @@
       "field_name": "licensure.issuing_authority",
       "bucket_set": [
         "Dedicated Dietetics Board",
+        "Medical/Nursing Board",
         "General Health Dept",
-        "Medical Board",
         "General Licensing Agency",
-        "Other Health Board"
+        "Other State Agency"
       ],
-      "rationale": "States cluster by the type of authority issuing dietetics licenses: a purpose-built dietetics/nutrition board, a general public health department, a medical licensing board, a generic professional licensing agency, or another health-adjacent board not fitting the above.",
+      "rationale": "States cluster into: purpose-built dietetics/nutrition boards, medical or nursing boards that absorbed the function, public health departments, general professional licensing agencies, and a small residual of other state agencies that don't fit cleanly.",
       "assignments": [
         {
           "state": "AK",
@@ -19,7 +19,7 @@
         },
         {
           "state": "AL",
-          "raw_value": "Board of Examiners for Dietetics/Nutrition Practice",
+          "raw_value": "State Board of Examiners for Dietetics/Nutrition Practice",
           "bucket": "Dedicated Dietetics Board"
         },
         {
@@ -54,18 +54,18 @@
         },
         {
           "state": "HI",
-          "raw_value": "Department of Health, Director of Health",
+          "raw_value": "Director of Health, Department of Health",
           "bucket": "General Health Dept"
         },
         {
           "state": "IA",
-          "raw_value": "board of dietetics",
+          "raw_value": "Board of Dietetics",
           "bucket": "Dedicated Dietetics Board"
         },
         {
           "state": "ID",
           "raw_value": "Idaho State Board of Medicine",
-          "bucket": "Medical Board"
+          "bucket": "Medical/Nursing Board"
         },
         {
           "state": "IL",
@@ -75,12 +75,12 @@
         {
           "state": "IN",
           "raw_value": "Medical Licensing Board of Indiana",
-          "bucket": "Medical Board"
+          "bucket": "Medical/Nursing Board"
         },
         {
           "state": "KS",
           "raw_value": "Secretary for Aging and Disability Services",
-          "bucket": "Other Health Board"
+          "bucket": "Other State Agency"
         },
         {
           "state": "KY",
@@ -119,7 +119,7 @@
         },
         {
           "state": "MO",
-          "raw_value": "Division of Professional Registration",
+          "raw_value": "Division of Professional Registration, State Committee of Dietitians",
           "bucket": "General Licensing Agency"
         },
         {
@@ -130,7 +130,7 @@
         {
           "state": "MT",
           "raw_value": "Board of Medical Examiners",
-          "bucket": "Medical Board"
+          "bucket": "Medical/Nursing Board"
         },
         {
           "state": "NC",
@@ -170,17 +170,17 @@
         {
           "state": "NY",
           "raw_value": "New York State Education Department",
-          "bucket": "General Licensing Agency"
+          "bucket": "Other State Agency"
         },
         {
           "state": "OH",
           "raw_value": "State Medical Board",
-          "bucket": "Medical Board"
+          "bucket": "Medical/Nursing Board"
         },
         {
           "state": "OK",
           "raw_value": "State Board of Medical Licensure and Supervision",
-          "bucket": "Medical Board"
+          "bucket": "Medical/Nursing Board"
         },
         {
           "state": "OR",
@@ -190,7 +190,7 @@
         {
           "state": "PA",
           "raw_value": "State Board of Nursing",
-          "bucket": "Other Health Board"
+          "bucket": "Medical/Nursing Board"
         },
         {
           "state": "RI",
@@ -205,7 +205,7 @@
         {
           "state": "SD",
           "raw_value": "State Board of Medical and Osteopathic Examiners",
-          "bucket": "Medical Board"
+          "bucket": "Medical/Nursing Board"
         },
         {
           "state": "TN",
@@ -225,7 +225,7 @@
         {
           "state": "VA",
           "raw_value": "Department of Health Professions",
-          "bucket": "General Health Dept"
+          "bucket": "General Licensing Agency"
         },
         {
           "state": "VT",
@@ -259,16 +259,15 @@
       "bucket_set": [
         "Dedicated Dietetics Board",
         "Medical/Health Board",
-        "General Licensing Dept",
-        "Public Health Dept",
-        "Other State Board"
+        "General Health Dept",
+        "General Licensing Agency"
       ],
-      "rationale": "The values cluster into: purpose-built dietetics/nutrition boards, medical or health profession boards that absorb dietetics, general professional licensing departments, public health departments, and a small residual group of other specialized bodies.",
+      "rationale": "The values cluster into boards focused specifically on dietetics/nutrition, broader medical or health-related boards, general public health departments, and catch-all professional/commercial licensing agencies.",
       "assignments": [
         {
           "state": "AK",
           "raw_value": "Department of Commerce, Community, and Economic Development",
-          "bucket": "General Licensing Dept"
+          "bucket": "General Licensing Agency"
         },
         {
           "state": "AL",
@@ -283,12 +282,12 @@
         {
           "state": "CA",
           "raw_value": "State Department of Public Health",
-          "bucket": "Public Health Dept"
+          "bucket": "General Health Dept"
         },
         {
           "state": "CT",
           "raw_value": "Department of Public Health",
-          "bucket": "Public Health Dept"
+          "bucket": "General Health Dept"
         },
         {
           "state": "DE",
@@ -297,8 +296,8 @@
         },
         {
           "state": "FL",
-          "raw_value": "Board of Medicine",
-          "bucket": "Medical/Health Board"
+          "raw_value": "Department of Health",
+          "bucket": "General Health Dept"
         },
         {
           "state": "GA",
@@ -307,12 +306,12 @@
         },
         {
           "state": "HI",
-          "raw_value": "Director of Health, Department of Health",
-          "bucket": "Public Health Dept"
+          "raw_value": "Director of Health",
+          "bucket": "General Health Dept"
         },
         {
           "state": "IA",
-          "raw_value": "board of dietetics",
+          "raw_value": "Board of Dietetics",
           "bucket": "Dedicated Dietetics Board"
         },
         {
@@ -323,7 +322,7 @@
         {
           "state": "IL",
           "raw_value": "Department of Financial and Professional Regulation",
-          "bucket": "General Licensing Dept"
+          "bucket": "General Licensing Agency"
         },
         {
           "state": "IN",
@@ -332,8 +331,8 @@
         },
         {
           "state": "KS",
-          "raw_value": "Secretary for Aging and Disability Services, Kansas Department for Aging and Disability Services",
-          "bucket": "Other State Board"
+          "raw_value": "Secretary for Aging and Disability Services",
+          "bucket": "General Health Dept"
         },
         {
           "state": "KY",
@@ -362,8 +361,8 @@
         },
         {
           "state": "MI",
-          "raw_value": "Michigan Department of Licensing and Regulatory Affairs (in consultation with the board)",
-          "bucket": "General Licensing Dept"
+          "raw_value": "Department (in consultation with the board)",
+          "bucket": "General Health Dept"
         },
         {
           "state": "MN",
@@ -378,7 +377,7 @@
         {
           "state": "MS",
           "raw_value": "Mississippi State Board of Health",
-          "bucket": "Public Health Dept"
+          "bucket": "General Health Dept"
         },
         {
           "state": "MT",
@@ -418,12 +417,12 @@
         {
           "state": "NV",
           "raw_value": "State Board of Health",
-          "bucket": "Public Health Dept"
+          "bucket": "General Health Dept"
         },
         {
           "state": "NY",
           "raw_value": "New York State Education Department",
-          "bucket": "Other State Board"
+          "bucket": "General Licensing Agency"
         },
         {
           "state": "OH",
@@ -438,7 +437,7 @@
         {
           "state": "OR",
           "raw_value": "Health Licensing Office",
-          "bucket": "General Licensing Dept"
+          "bucket": "General Health Dept"
         },
         {
           "state": "PA",
@@ -468,27 +467,27 @@
         {
           "state": "TX",
           "raw_value": "Texas Department of Licensing and Regulation",
-          "bucket": "General Licensing Dept"
+          "bucket": "General Licensing Agency"
         },
         {
           "state": "UT",
           "raw_value": "Division of Professional Licensing",
-          "bucket": "General Licensing Dept"
+          "bucket": "General Licensing Agency"
         },
         {
           "state": "VA",
           "raw_value": "Department of Health Professions",
-          "bucket": "General Licensing Dept"
+          "bucket": "General Health Dept"
         },
         {
           "state": "VT",
           "raw_value": "Director of the Office of Professional Regulation",
-          "bucket": "General Licensing Dept"
+          "bucket": "General Licensing Agency"
         },
         {
           "state": "WA",
           "raw_value": "Department of Health (Secretary of Health)",
-          "bucket": "Public Health Dept"
+          "bucket": "General Health Dept"
         },
         {
           "state": "WI",
@@ -510,249 +509,259 @@
     {
       "field_name": "licensure.education.degree_required",
       "bucket_set": [
-        "Bachelor's Min",
-        "Bachelor's (Named Field)",
-        "Master's Min",
-        "Master's Min (Named Field)",
+        "Bachelor's Min, Field-Specific",
+        "Bachelor's Min, General",
+        "Master's/Doctoral Required",
         "Tiered by License Type",
-        "Any Accredited Degree"
+        "Tiered by Grad Year",
+        "CDR/RD Registration"
       ],
-      "rationale": "States cluster by minimum degree level (bachelor's vs. master's) and whether a specific named field of study is required, with a separate bucket for states that set different degree requirements depending on the license type (dietitian vs. nutritionist pathway).",
+      "rationale": "States cluster by minimum degree level (bachelor's vs. master's/doctoral), whether a specific field of study is named, whether requirements split across license types or credential tracks, whether requirements changed by graduation date, or whether the state simply defers to CDR registration.",
       "assignments": [
         {
           "state": "AK",
-          "raw_value": "master's or doctoral degree with major in human nutrition or related field (for nutritionist pathway 2)",
-          "bucket": "Tiered by License Type"
+          "raw_value": "master's or doctoral degree from an accredited college or university with a major in human nutrition, public health nutrition, clinical nutrition, nutrition education, community nutrition, or food and nutrition",
+          "bucket": "Master's/Doctoral Required"
         },
         {
           "state": "AL",
           "raw_value": "baccalaureate or higher degree",
-          "bucket": "Bachelor's Min"
+          "bucket": "Bachelor's Min, General"
         },
         {
           "state": "AR",
-          "raw_value": "Baccalaureate or postbaccalaureate degree in human nutrition, food and nutrition, dietetics, or food systems management from a regionally accredited US college or university",
-          "bucket": "Bachelor's (Named Field)"
+          "raw_value": "Baccalaureate or postbaccalaureate degree from a regionally accredited United States college or university with a program in human nutrition, food and nutrition, dietetics, or food systems management",
+          "bucket": "Bachelor's Min, Field-Specific"
         },
         {
           "state": "CA",
-          "raw_value": "baccalaureate or higher degree",
-          "bucket": "Bachelor's Min"
+          "raw_value": "baccalaureate or higher degree from a college or university accredited by the Western Association of Schools and Colleges or other regional accreditation agency",
+          "bucket": "Bachelor's Min, General"
         },
         {
           "state": "CO",
           "raw_value": "baccalaureate, master's, or doctoral degree in human nutrition, foods and nutrition, dietetics, nutrition education, food systems management, or public health nutrition",
-          "bucket": "Bachelor's (Named Field)"
+          "bucket": "Bachelor's Min, Field-Specific"
         },
         {
           "state": "CT",
-          "raw_value": "master's degree or doctoral degree with major in human nutrition or dietetics including minimum 30 graduate semester credits",
-          "bucket": "Master's Min (Named Field)"
+          "raw_value": "master's degree or doctoral degree from an institution of higher education accredited by a regional accrediting agency, with a major course of study in human nutrition or dietetics including a minimum of thirty graduate semester credits",
+          "bucket": "Master's/Doctoral Required"
         },
         {
           "state": "DE",
-          "raw_value": "Baccalaureate degree (before January 1, 2024) or master's degree (on or after January 1, 2024) from a U.S. regionally accredited college or university with a major course of study in human nutrition, nutrition education, food and nutrition, dietetics, or food systems management",
-          "bucket": "Master's Min (Named Field)"
+          "raw_value": "For applicants who graduated before January 1, 2024, a minimum of a baccalaureate degree; for applicants who graduated on or after January 1, 2024, a minimum of a master's degree from a United States (U.S.) regionally accredited college or university.",
+          "bucket": "Tiered by Grad Year"
         },
         {
           "state": "FL",
           "raw_value": "Baccalaureate or postbaccalaureate degree with a major course of study in human nutrition, food and nutrition, dietetics, or food management",
-          "bucket": "Bachelor's (Named Field)"
+          "bucket": "Bachelor's Min, Field-Specific"
         },
         {
           "state": "GA",
-          "raw_value": "Baccalaureate or higher degree with major in dietetics, human nutrition, food and nutrition, nutrition education, or food systems management",
-          "bucket": "Bachelor's (Named Field)"
+          "raw_value": "baccalaureate or higher degree from a regionally accredited college or university with a major course of study in dietetics, human nutrition, food and nutrition, nutrition education, or food systems management",
+          "bucket": "Bachelor's Min, Field-Specific"
         },
         {
           "state": "HI",
-          "raw_value": "Baccalaureate or post-baccalaureate degree with major in dietetics, human nutrition, food and nutrition, or food systems management",
-          "bucket": "Bachelor's (Named Field)"
+          "raw_value": "baccalaureate degree or post-baccalaureate degree from a regionally accredited college or university with a major course of study in dietetics, human nutrition, food and nutrition, or food systems management",
+          "bucket": "Bachelor's Min, Field-Specific"
         },
         {
           "state": "IA",
-          "raw_value": "baccalaureate degree or postbaccalaureate degree with a major course of study in human nutrition, food and nutrition, dietetics, or food systems management",
-          "bucket": "Bachelor's (Named Field)"
+          "raw_value": "Baccalaureate degree or postbaccalaureate degree with a major course of study in human nutrition, food and nutrition, dietetics, or food systems management",
+          "bucket": "Bachelor's Min, Field-Specific"
         },
         {
           "state": "ID",
-          "raw_value": "baccalaureate degree",
-          "bucket": "Bachelor's Min"
+          "raw_value": "A minimum of a baccalaureate degree granted by a United States regionally accredited college or university or a foreign equivalent",
+          "bucket": "Bachelor's Min, General"
         },
         {
           "state": "IL",
           "raw_value": "Baccalaureate or post-baccalaureate degree with a major course of study in human nutrition, foods and nutrition, dietetics, food systems management, nutrition education, nutrition, nutrition science, clinical nutrition, applied clinical nutrition, nutrition counseling, nutrition and functional medicine, nutritional biochemistry, nutrition and integrative health, or an equivalent major course of study",
-          "bucket": "Bachelor's (Named Field)"
+          "bucket": "Bachelor's Min, Field-Specific"
         },
         {
           "state": "IN",
           "raw_value": "baccalaureate or higher degree from a regionally accredited college or university",
-          "bucket": "Bachelor's Min"
+          "bucket": "Bachelor's Min, General"
         },
         {
           "state": "KS",
           "raw_value": "baccalaureate or post-baccalaureate degree with a major course of study in human nutrition, food and nutrition, dietetics or food service management",
-          "bucket": "Bachelor's (Named Field)"
+          "bucket": "Bachelor's Min, Field-Specific"
         },
         {
           "state": "KY",
-          "raw_value": "Baccalaureate or post-baccalaureate degree with major in human nutrition, food and nutrition, dietetics, food systems management, or equivalent",
-          "bucket": "Bachelor's (Named Field)"
+          "raw_value": "baccalaureate or post-baccalaureate degree program, approved by the board, from a United States regionally-accredited college or university with a major course of study in human nutrition, food and nutrition, dietetics, food systems management, or an equivalent major course of study",
+          "bucket": "Bachelor's Min, Field-Specific"
         },
         {
           "state": "LA",
-          "raw_value": "baccalaureate or higher degree with a major course of study in human nutrition, food and nutrition, dietetics, or food systems management",
-          "bucket": "Bachelor's (Named Field)"
+          "raw_value": "Baccalaureate or higher degree with a major course of study in human nutrition, food and nutrition, dietetics, or food systems management",
+          "bucket": "Bachelor's Min, Field-Specific"
         },
         {
           "state": "MA",
-          "raw_value": "bachelor's degree or higher with a major course of study in dietetics and nutrition, human nutrition, nutrition education, or public health nutrition",
-          "bucket": "Bachelor's (Named Field)"
+          "raw_value": "a bachelor's degree or higher with a major course of study in dietetics and nutrition, human nutrition, nutrition education, or public health nutrition",
+          "bucket": "Bachelor's Min, Field-Specific"
         },
         {
           "state": "MD",
-          "raw_value": "Baccalaureate degree (minimum) or master's/doctoral degree in nutritional sciences or related field",
-          "bucket": "Bachelor's (Named Field)"
+          "raw_value": "Baccalaureate degree (minimum); master's or doctoral degree accepted as alternative pathway",
+          "bucket": "Bachelor's Min, General"
         },
         {
           "state": "ME",
           "raw_value": "baccalaureate or higher degree from an accredited college or university",
-          "bucket": "Bachelor's Min"
+          "bucket": "Bachelor's Min, General"
         },
         {
           "state": "MI",
           "raw_value": "Baccalaureate, master's, or doctoral degree from an accredited college or university",
-          "bucket": "Any Accredited Degree"
+          "bucket": "Bachelor's Min, General"
         },
         {
           "state": "MN",
-          "raw_value": "Baccalaureate or postgraduate degree (dietitian); master's or doctoral degree (nutritionist)",
+          "raw_value": "Baccalaureate or postgraduate degree (dietitian) or master's/doctoral degree (nutritionist)",
           "bucket": "Tiered by License Type"
         },
         {
           "state": "MO",
-          "raw_value": "baccalaureate degree from an acceptable educational institution accredited by a regional accrediting body",
-          "bucket": "Bachelor's Min"
+          "raw_value": "Baccalaureate degree from a regionally accredited institution plus completion of a didactic program in dietetics accredited by ACEND",
+          "bucket": "Bachelor's Min, Field-Specific"
         },
         {
           "state": "MS",
-          "raw_value": "baccalaureate or post-baccalaureate degree with a major in dietetics or equivalent",
-          "bucket": "Bachelor's (Named Field)"
+          "raw_value": "baccalaureate or post-baccalaureate degree from a college or university accredited through the United States Department of Education, Office of Postsecondary Education, with a major in dietetics or an equivalent major course of study as approved by the board",
+          "bucket": "Bachelor's Min, Field-Specific"
+        },
+        {
+          "state": "MT",
+          "raw_value": "Registered by the Commission on Dietetic Registration",
+          "bucket": "CDR/RD Registration"
         },
         {
           "state": "NC",
-          "raw_value": "Baccalaureate, master's, or doctoral degree with a major in human nutrition, foods and nutrition, dietetics, or equivalent course of study (for licensed dietitian/nutritionist); master's or doctoral degree in nutrition or clinical health care field (for licensed nutritionist)",
+          "raw_value": "Baccalaureate, master's, or doctoral degree with a major in human nutrition, foods and nutrition, dietetics, or equivalent course of study (licensed dietitian/nutritionist); master's or doctoral nutrition degree or master's/doctoral degree in a field of clinical health care (licensed nutritionist)",
           "bucket": "Tiered by License Type"
         },
         {
           "state": "ND",
-          "raw_value": "Master's or doctoral degree in nutrition or related field (for licensed nutritionist); education and experience requirements approved by CDR (for licensed registered dietitian)",
+          "raw_value": "Master's or doctoral nutrition degree (for licensed nutritionist); education and experience requirements approved by CDR (for licensed registered dietitian)",
           "bucket": "Tiered by License Type"
         },
         {
           "state": "NE",
-          "raw_value": "Master's or doctoral degree with major course of study in human nutrition, foods and nutrition, dietetics, or equivalent (for LDN pathway without RD); or master's/doctoral degree with appropriate major course of study (for LN pathway)",
-          "bucket": "Master's Min (Named Field)"
-        },
-        {
-          "state": "NH",
-          "raw_value": "Baccalaureate or higher degree with a major course of study in human nutrition, nutrition education, food and nutrition, dietetics, public health nutrition, or food systems management",
-          "bucket": "Bachelor's (Named Field)"
-        },
-        {
-          "state": "NJ",
-          "raw_value": "Baccalaureate, master's, or doctoral degree with major in human nutrition, foods and nutrition, dietetics, or equivalent; or current valid registration as a registered dietitian nutritionist with the Commission on Dietetic Registration",
-          "bucket": "Bachelor's (Named Field)"
-        },
-        {
-          "state": "NM",
-          "raw_value": "master's degree or doctorate in human nutrition, nutrition education, foods and nutrition or public health nutrition (for nutritionist); baccalaureate or higher degree (for nutrition associate); RD registration (for dietitian)",
+          "raw_value": "Master's or doctoral degree with major course of study in human nutrition, foods and nutrition, dietetics, or equivalent (for licensed dietitian nutritionist); or master's or doctoral degree with qualifying major for licensed nutritionist",
           "bucket": "Tiered by License Type"
         },
         {
+          "state": "NH",
+          "raw_value": "baccalaureate or higher degree from a college or university approved by the board with a major course of study in human nutrition, nutrition education, food and nutrition, dietetics, public health nutrition, or food systems management",
+          "bucket": "Bachelor's Min, Field-Specific"
+        },
+        {
+          "state": "NJ",
+          "raw_value": "Baccalaureate, master's, or doctoral degree with a major course of study in human nutrition, foods and nutrition, dietetics, or equivalent (for dietitian nutritionist); master's or doctoral degree in nutrition or clinical health care field (for nutritionist)",
+          "bucket": "Tiered by License Type"
+        },
+        {
+          "state": "NM",
+          "raw_value": "baccalaureate or higher degree (nutrition associate); master's degree or doctorate in human nutrition (nutritionist); valid current registration with the commission (dietitian)",
+          "bucket": "Tiered by License Type"
+        },
+        {
+          "state": "NV",
+          "raw_value": "Registered dietitian in good standing",
+          "bucket": "CDR/RD Registration"
+        },
+        {
           "state": "NY",
-          "raw_value": "bachelor's degree in dietetics/nutrition or equivalent, or associate's degree with 10 years experience",
-          "bucket": "Bachelor's (Named Field)"
+          "raw_value": "bachelor's degree in dietetics/nutrition or an equivalent major course of study from an accredited college or university, or an associate's degree with 10 years of experience",
+          "bucket": "Bachelor's Min, Field-Specific"
         },
         {
           "state": "OH",
-          "raw_value": "baccalaureate or higher degree",
-          "bucket": "Bachelor's Min"
+          "raw_value": "baccalaureate or higher degree from an institution of higher education that is approved by the board or a regional accreditation agency that is recognized by the council on postsecondary accreditation, and has completed a program consistent with the academic standards for dietitians established by the academy of nutrition and dietetics",
+          "bucket": "Bachelor's Min, Field-Specific"
         },
         {
           "state": "OK",
           "raw_value": "baccalaureate or post baccalaureate degree with a major course of study in human nutrition, food and nutrition, dietetics, or food systems management",
-          "bucket": "Bachelor's (Named Field)"
+          "bucket": "Bachelor's Min, Field-Specific"
         },
         {
           "state": "OR",
-          "raw_value": "Baccalaureate or postbaccalaureate degree in human nutrition, dietetics, foods and nutrition, or food systems management",
-          "bucket": "Bachelor's (Named Field)"
+          "raw_value": "Baccalaureate or postbaccalaureate degree from a regionally accredited college or university in the United States with a major course of study in human nutrition, dietetics, foods and nutrition or food systems management",
+          "bucket": "Bachelor's Min, Field-Specific"
         },
         {
           "state": "PA",
           "raw_value": "baccalaureate or higher degree from a Board-approved, regionally accredited college or university, including a major course of study in human nutrition, food and nutrition, dietetics or food systems management",
-          "bucket": "Bachelor's (Named Field)"
+          "bucket": "Bachelor's Min, Field-Specific"
         },
         {
           "state": "RI",
           "raw_value": "Baccalaureate or post-baccalaureate degree with a program in nutrition or dietetics",
-          "bucket": "Bachelor's (Named Field)"
+          "bucket": "Bachelor's Min, Field-Specific"
         },
         {
           "state": "SC",
-          "raw_value": "baccalaureate degree or master's degree in human nutrition, nutrition education, foods and nutrition, public health nutrition, or an equivalent major course of study",
-          "bucket": "Bachelor's (Named Field)"
+          "raw_value": "baccalaureate degree or a master's degree in human nutrition, nutrition education, foods and nutrition, public health nutrition, or an equivalent major course of study from a regionally accredited college or university",
+          "bucket": "Bachelor's Min, Field-Specific"
         },
         {
           "state": "SD",
-          "raw_value": "baccalaureate or postgraduate degree (dietetics track) or master's or doctoral degree (nutrition track)",
+          "raw_value": "Baccalaureate or postgraduate degree (dietetics track) or master's/doctoral degree (nutrition track) from an accredited college or university",
           "bucket": "Tiered by License Type"
         },
         {
           "state": "TN",
-          "raw_value": "Baccalaureate or post-baccalaureate degree in human nutrition, food and nutrition, dietetics, or food systems management",
-          "bucket": "Bachelor's (Named Field)"
+          "raw_value": "baccalaureate or post-baccalaureate degree from a regionally accredited college or university that provides a major course of study in human nutrition, food and nutrition, dietetics, or food systems management",
+          "bucket": "Bachelor's Min, Field-Specific"
         },
         {
           "state": "TX",
           "raw_value": "baccalaureate or postbaccalaureate degree with a major in human nutrition, food and nutrition, nutrition education, dietetics, or food systems management",
-          "bucket": "Bachelor's (Named Field)"
+          "bucket": "Bachelor's Min, Field-Specific"
         },
         {
           "state": "UT",
-          "raw_value": "baccalaureate or post-baccalaureate degree with a major course of study in the sciences of food, dietetics, food systems management, or an equivalent major course of study",
-          "bucket": "Bachelor's (Named Field)"
+          "raw_value": "baccalaureate or post-baccalaureate degree in dietetics or equivalent",
+          "bucket": "Bachelor's Min, Field-Specific"
         },
         {
           "state": "VA",
-          "raw_value": "baccalaureate or higher degree in nutritional sciences, community nutrition, public health nutrition, food and nutrition, dietetics, or human nutrition",
-          "bucket": "Bachelor's (Named Field)"
+          "raw_value": "baccalaureate or higher degree in nutritional sciences, community nutrition, public health nutrition, food and nutrition, dietetics, or human nutrition from a regionally accredited institution of higher education",
+          "bucket": "Bachelor's Min, Field-Specific"
         },
         {
           "state": "VT",
           "raw_value": "bachelor of arts or science or a higher degree in dietetics from an accredited college or university",
-          "bucket": "Bachelor's (Named Field)"
+          "bucket": "Bachelor's Min, Field-Specific"
         },
         {
           "state": "WA",
-          "raw_value": "Baccalaureate or higher degree in human nutrition, foods and nutrition, dietetics, or food systems management (for certified dietitian); master's or doctorate in human nutrition, nutrition education, foods and nutrition, or public health nutrition also accepted for certified nutritionist",
+          "raw_value": "Baccalaureate or higher degree in human nutrition, foods and nutrition, dietetics, or food systems management (certified dietitian); master's or doctorate in human nutrition, nutrition education, foods and nutrition, or public health nutrition (certified nutritionist pathway)",
           "bucket": "Tiered by License Type"
         },
         {
           "state": "WI",
           "raw_value": "Bachelor's, master's, or doctoral degree in human nutrition, nutrition education, food and nutrition, dietetics or food systems management from a regionally accredited program",
-          "bucket": "Bachelor's (Named Field)"
+          "bucket": "Bachelor's Min, Field-Specific"
         },
         {
           "state": "WV",
           "raw_value": "baccalaureate or post-baccalaureate degree in human nutrition, dietetics, food systems management or equivalent",
-          "bucket": "Bachelor's (Named Field)"
+          "bucket": "Bachelor's Min, Field-Specific"
         },
         {
           "state": "WY",
-          "raw_value": "baccalaureate or post baccalaureate degree",
-          "bucket": "Bachelor's Min"
+          "raw_value": "Baccalaureate or post baccalaureate degree from a United States regionally accredited college or university with a major course of study in human nutrition, nutrition education, public health nutrition, food and nutrition, dietetics, food systems management or an equivalent major course of study",
+          "bucket": "Bachelor's Min, Field-Specific"
         }
       ]
     },
@@ -762,21 +771,25 @@
         "ACEND / ADA",
         "Regional Accreditor (Generic)",
         "Named Regional Body",
-        "Regional + Federal Agency",
-        "State/Board Approved",
-        "Dual Body Reference"
+        "CHEA + US Dept of Ed",
+        "CDR / Other Dietetics Body"
       ],
-      "rationale": "States cluster by whether they defer to the dietetics-specific accreditor (ACEND/ADA), a generic regional accreditor, a named regional body (e.g. Southern Association), a regional body plus a federal agency (CHEA/USDE), a state board or division, or explicitly cite two distinct bodies in tandem.",
+      "rationale": "States cluster around whether they name ACEND/ADA specifically, defer generically to 'regionally accredited' institutions, cite a specific named regional body (e.g., SACS, WASC, NEASC), reference the CHEA+DOE dual framework, or cite a dietetics credentialing body like CDR.",
       "assignments": [
         {
           "state": "AK",
           "raw_value": "regional or national accrediting agencies recognized by the Council on Post-Secondary Accreditation and the United States Department of Education",
-          "bucket": "Regional + Federal Agency"
+          "bucket": "CHEA + US Dept of Ed"
         },
         {
           "state": "AL",
-          "raw_value": "Southern Association of Schools and Colleges or other regional accreditation agency recognized by the Council on Postsecondary Accreditation and the United States Department of Education",
+          "raw_value": "Southern Association of Schools and Colleges or other regional accreditation agency",
           "bucket": "Named Regional Body"
+        },
+        {
+          "state": "AR",
+          "raw_value": "Regional accreditor (regionally accredited United States college or university)",
+          "bucket": "Regional Accreditor (Generic)"
         },
         {
           "state": "CA",
@@ -786,12 +799,12 @@
         {
           "state": "CO",
           "raw_value": "regional or professional accrediting agency recognized by the United States department of education or the council on postsecondary accreditation",
-          "bucket": "Regional + Federal Agency"
+          "bucket": "CHEA + US Dept of Ed"
         },
         {
           "state": "CT",
           "raw_value": "regional accrediting agency recognized by the United States Department of Education",
-          "bucket": "Regional + Federal Agency"
+          "bucket": "Regional Accreditor (Generic)"
         },
         {
           "state": "DE",
@@ -801,7 +814,7 @@
         {
           "state": "FL",
           "raw_value": "Commission on Recognition of Postsecondary Accreditation and the United States Department of Education",
-          "bucket": "Regional + Federal Agency"
+          "bucket": "CHEA + US Dept of Ed"
         },
         {
           "state": "GA",
@@ -815,23 +828,23 @@
         },
         {
           "state": "IA",
-          "raw_value": "accreditation council for education in nutrition and dietetics of the academy of nutrition and dietetics",
+          "raw_value": "Accreditation Council for Education in Nutrition and Dietetics (ACEND) of the Academy of Nutrition and Dietetics",
           "bucket": "ACEND / ADA"
         },
         {
           "state": "ID",
-          "raw_value": "Accreditation Council for Education in Nutrition and Dietetics (ACEND)",
+          "raw_value": "ACEND (Accreditation Council for Education in Nutrition and Dietetics)",
           "bucket": "ACEND / ADA"
         },
         {
           "state": "IL",
           "raw_value": "Regional accrediting agency recognized by the Council for Higher Education Accreditation and the United States Department of Education",
-          "bucket": "Regional + Federal Agency"
+          "bucket": "CHEA + US Dept of Ed"
         },
         {
-          "state": "KS",
-          "raw_value": "Secretary for Aging and Disability Services",
-          "bucket": "State/Board Approved"
+          "state": "IN",
+          "raw_value": "regionally accredited college or university",
+          "bucket": "Regional Accreditor (Generic)"
         },
         {
           "state": "KY",
@@ -851,7 +864,7 @@
         {
           "state": "MD",
           "raw_value": "Commission on Dietetic Registration / Council on Higher Education and Accreditation",
-          "bucket": "Dual Body Reference"
+          "bucket": "CDR / Other Dietetics Body"
         },
         {
           "state": "ME",
@@ -865,8 +878,8 @@
         },
         {
           "state": "MN",
-          "raw_value": "United States regionally accredited college or university",
-          "bucket": "Regional Accreditor (Generic)"
+          "raw_value": "Regional accrediting agencies recognized by the Council on Postsecondary Accreditation and the United States Department of Education",
+          "bucket": "CHEA + US Dept of Ed"
         },
         {
           "state": "MO",
@@ -876,47 +889,42 @@
         {
           "state": "MS",
           "raw_value": "United States Department of Education, Office of Postsecondary Education",
-          "bucket": "Regional + Federal Agency"
+          "bucket": "Regional Accreditor (Generic)"
         },
         {
           "state": "NC",
-          "raw_value": "ACEND (Accreditation Council for Education in Nutrition and Dietetics)",
-          "bucket": "ACEND / ADA"
+          "raw_value": "Council on Higher Education Accreditation and the United States Department of Education; ACEND (for competency requirements)",
+          "bucket": "CHEA + US Dept of Ed"
         },
         {
           "state": "ND",
-          "raw_value": "Commission on Dietetic Registration of the Academy of Nutrition and Dietetics (for LRD); regional accrediting agency recognized by CHEA and US Dept of Education (for LN)",
-          "bucket": "Dual Body Reference"
+          "raw_value": "Regional accrediting agency recognized by the council on higher education accreditation and the United States department of education",
+          "bucket": "CHEA + US Dept of Ed"
         },
         {
           "state": "NE",
-          "raw_value": "Accreditation Council for Education in Nutrition and Dietetics (ACEND)",
+          "raw_value": "Accreditation Council for Education in Nutrition and Dietetics (ACEND); Council for Higher Education Accreditation and the United States Department of Education",
           "bucket": "ACEND / ADA"
         },
         {
-          "state": "NH",
-          "raw_value": "Board of Licensed Dietitians",
-          "bucket": "State/Board Approved"
-        },
-        {
           "state": "NJ",
-          "raw_value": "Accreditation Council for Education in Nutrition and Dietetics (ACEND); Council on Higher Education Accreditation and the federal Department of Education",
-          "bucket": "Dual Body Reference"
+          "raw_value": "Accreditation Council for Education in Nutrition and Dietetics (ACEND); regional accrediting agency recognized by Council on Higher Education Accreditation and the U.S. Department of Education",
+          "bucket": "ACEND / ADA"
         },
         {
           "state": "NM",
           "raw_value": "Council on Post-Secondary Accreditation",
-          "bucket": "Regional + Federal Agency"
+          "bucket": "CHEA + US Dept of Ed"
         },
         {
           "state": "NV",
-          "raw_value": "Accreditation Council for Education in Nutrition and Dietetics",
-          "bucket": "ACEND / ADA"
+          "raw_value": "Commission on Dietetic Registration",
+          "bucket": "CDR / Other Dietetics Body"
         },
         {
           "state": "NY",
           "raw_value": "accredited college or university as approved by the department",
-          "bucket": "State/Board Approved"
+          "bucket": "Regional Accreditor (Generic)"
         },
         {
           "state": "OH",
@@ -924,8 +932,13 @@
           "bucket": "ACEND / ADA"
         },
         {
+          "state": "OK",
+          "raw_value": "accredited college or university",
+          "bucket": "Regional Accreditor (Generic)"
+        },
+        {
           "state": "OR",
-          "raw_value": "Regionally accredited college or university",
+          "raw_value": "regionally accredited college or university",
           "bucket": "Regional Accreditor (Generic)"
         },
         {
@@ -934,18 +947,23 @@
           "bucket": "Regional Accreditor (Generic)"
         },
         {
+          "state": "RI",
+          "raw_value": "Regionally accredited college or university (council on postsecondary accreditation and U.S. Department of Education)",
+          "bucket": "CHEA + US Dept of Ed"
+        },
+        {
           "state": "SC",
-          "raw_value": "regionally accredited college or university as approved by the department",
+          "raw_value": "regionally accredited college or university",
           "bucket": "Regional Accreditor (Generic)"
         },
         {
           "state": "SD",
           "raw_value": "United States regional accrediting agencies recognized by the Council on Postsecondary Accreditation and the United States Department of Education",
-          "bucket": "Regional + Federal Agency"
+          "bucket": "CHEA + US Dept of Ed"
         },
         {
           "state": "TN",
-          "raw_value": "Regionally accredited college or university",
+          "raw_value": "regionally accredited college or university",
           "bucket": "Regional Accreditor (Generic)"
         },
         {
@@ -954,23 +972,18 @@
           "bucket": "Regional Accreditor (Generic)"
         },
         {
-          "state": "UT",
-          "raw_value": "college or university approved by the division",
-          "bucket": "State/Board Approved"
-        },
-        {
           "state": "VA",
           "raw_value": "regionally accredited institution of higher education",
           "bucket": "Regional Accreditor (Generic)"
         },
         {
           "state": "WA",
-          "raw_value": "Western Association of Schools and Colleges or similar accreditation agency",
+          "raw_value": "Western Association of Schools and Colleges or similar accreditation agency, or colleges and universities approved by the secretary in rule",
           "bucket": "Named Regional Body"
         },
         {
           "state": "WI",
-          "raw_value": "Regionally accredited college or university as determined by the affiliated credentialing board",
+          "raw_value": "Regionally accredited, as determined by the affiliated credentialing board",
           "bucket": "Regional Accreditor (Generic)"
         },
         {
@@ -986,13 +999,14 @@
         "900 Hours",
         "1,000 Hours",
         "1,200 Hours",
-        "Time-Based / Variable"
+        "Multiple Pathways",
+        "Time-Based"
       ],
-      "rationale": "The vast majority of states cluster at exactly 900 hours, with a small group requiring 1,000 hours, one outlier at 1,200 hours, and one state using a time/variable framing rather than a fixed hour count.",
+      "rationale": "The distribution clusters tightly around 900 or 1,000 hours, with one outlier at 1,200 hours, one state offering time-based (months) alternatives, and one state offering multiple degree-level pathways, so buckets reflect these natural groupings.",
       "assignments": [
         {
           "state": "AK",
-          "raw_value": "900 hours",
+          "raw_value": "at least 900 hours",
           "bucket": "900 Hours"
         },
         {
@@ -1012,7 +1026,7 @@
         },
         {
           "state": "CO",
-          "raw_value": "at least 900 hours",
+          "raw_value": "900 hours",
           "bucket": "900 Hours"
         },
         {
@@ -1057,13 +1071,13 @@
         },
         {
           "state": "MA",
-          "raw_value": "not less than 900 hours (internship) or 1-3 years paid experience depending on degree level",
-          "bucket": "Time-Based / Variable"
+          "raw_value": "not less than 900 hours (internship), or 3 years post-baccalaureate, or 2 years post-master's, or 1 year post-doctorate",
+          "bucket": "Multiple Pathways"
         },
         {
           "state": "ME",
-          "raw_value": "at least 6 months full-time experience in the field of dietetics, or its part-time equivalent",
-          "bucket": "Time-Based / Variable"
+          "raw_value": "at least 6 months full-time (or part-time equivalent)",
+          "bucket": "Time-Based"
         },
         {
           "state": "MI",
@@ -1097,7 +1111,7 @@
         },
         {
           "state": "NJ",
-          "raw_value": "not less than 1,200 hours",
+          "raw_value": "not less than 1,200 hours (dietitian nutritionist); not less than 1,000 hours (nutritionist)",
           "bucket": "1,200 Hours"
         },
         {
@@ -1112,17 +1126,17 @@
         },
         {
           "state": "RI",
-          "raw_value": "900 hours",
+          "raw_value": "not less than 900 hours",
           "bucket": "900 Hours"
         },
         {
           "state": "SD",
-          "raw_value": "not less than nine hundred hours",
+          "raw_value": "not less than 900 hours",
           "bucket": "900 Hours"
         },
         {
           "state": "TN",
-          "raw_value": "not less than 900 hours",
+          "raw_value": "900 hours",
           "bucket": "900 Hours"
         },
         {
@@ -1142,7 +1156,7 @@
         },
         {
           "state": "WI",
-          "raw_value": "900 hours",
+          "raw_value": "at least 900 hours",
           "bucket": "900 Hours"
         },
         {
@@ -1152,7 +1166,7 @@
         },
         {
           "state": "WY",
-          "raw_value": "not less than 900 hours",
+          "raw_value": "900 hours",
           "bucket": "900 Hours"
         }
       ]
@@ -1162,20 +1176,20 @@
       "bucket_set": [
         "Supervised Practice",
         "Preprofessional Program",
-        "Internship / Named Program",
-        "General Experience",
-        "Clinical Experience"
+        "Internship / Program Options",
+        "Accredited Program",
+        "Work / Field Experience"
       ],
-      "rationale": "Values cluster around five approaches: generic supervised practice (no program label), planned preprofessional programs, explicitly named internships or coordinated programs, loosely defined general experience, and supervised clinical experience.",
+      "rationale": "Values cluster around five approaches: generic supervised practice, structured preprofessional programs, states that explicitly list internship-or-program alternatives, states requiring an accredited/board-approved program, and looser work/field experience language.",
       "assignments": [
         {
           "state": "AK",
           "raw_value": "documented work experience in human nutrition or human nutrition research",
-          "bucket": "General Experience"
+          "bucket": "Work / Field Experience"
         },
         {
           "state": "AL",
-          "raw_value": "planned, continuous preprofessional experience component in dietetics/nutrition practices",
+          "raw_value": "planned, continuous preprofessional experience in dietetics/nutrition practice under supervision",
           "bucket": "Preprofessional Program"
         },
         {
@@ -1205,7 +1219,7 @@
         },
         {
           "state": "GA",
-          "raw_value": "supervised experience component in dietetic practice",
+          "raw_value": "supervised experience in dietetic practice",
           "bucket": "Supervised Practice"
         },
         {
@@ -1216,21 +1230,21 @@
         {
           "state": "IA",
           "raw_value": "accredited competency-based supervised experience program",
-          "bucket": "Internship / Named Program"
+          "bucket": "Accredited Program"
         },
         {
           "state": "ID",
           "raw_value": "ACEND-accredited supervised practice program",
-          "bucket": "Internship / Named Program"
+          "bucket": "Accredited Program"
         },
         {
           "state": "IL",
           "raw_value": "dietetic internship or documented supervised practice experience",
-          "bucket": "Internship / Named Program"
+          "bucket": "Internship / Program Options"
         },
         {
           "state": "IN",
-          "raw_value": "documented, supervised practice experience",
+          "raw_value": "documented, supervised practice experience in dietetics",
           "bucket": "Supervised Practice"
         },
         {
@@ -1245,27 +1259,27 @@
         },
         {
           "state": "LA",
-          "raw_value": "supervised experience",
+          "raw_value": "supervised practice",
           "bucket": "Supervised Practice"
         },
         {
           "state": "MA",
-          "raw_value": "formal post baccalaureate internship or paid professional experience",
-          "bucket": "Internship / Named Program"
+          "raw_value": "post-baccalaureate internship or paid professional experience in dietetics and nutrition",
+          "bucket": "Internship / Program Options"
         },
         {
           "state": "MD",
           "raw_value": "supervised clinical experience",
-          "bucket": "Clinical Experience"
+          "bucket": "Supervised Practice"
         },
         {
           "state": "ME",
-          "raw_value": "experience in the field of dietetics",
-          "bucket": "General Experience"
+          "raw_value": "dietetics field experience",
+          "bucket": "Work / Field Experience"
         },
         {
           "state": "MI",
-          "raw_value": "supervised practice experience",
+          "raw_value": "supervised practice experience in the practice of dietetics and nutrition",
           "bucket": "Supervised Practice"
         },
         {
@@ -1281,36 +1295,36 @@
         {
           "state": "MS",
           "raw_value": "board approved planned program of dietetics experience",
-          "bucket": "Preprofessional Program"
+          "bucket": "Accredited Program"
         },
         {
           "state": "NC",
-          "raw_value": "Board-approved internship or documented, supervised practice experience",
-          "bucket": "Internship / Named Program"
+          "raw_value": "Board-approved internship or documented supervised practice experience",
+          "bucket": "Internship / Program Options"
         },
         {
           "state": "ND",
-          "raw_value": "board-approved internship or documented supervised practice experience",
-          "bucket": "Internship / Named Program"
+          "raw_value": "board-approved internship or supervised practice experience",
+          "bucket": "Internship / Program Options"
         },
         {
           "state": "NE",
-          "raw_value": "planned clinical program / supervised practice experience",
-          "bucket": "Clinical Experience"
+          "raw_value": "planned clinical program / supervised practice experience in dietetics",
+          "bucket": "Preprofessional Program"
         },
         {
           "state": "NH",
           "raw_value": "dietetic internship, pre-professional practice program, or coordinated program",
-          "bucket": "Internship / Named Program"
+          "bucket": "Internship / Program Options"
         },
         {
           "state": "NJ",
-          "raw_value": "supervised practice experience in dietetics and nutrition",
-          "bucket": "Supervised Practice"
+          "raw_value": "planned clinical program / supervised practice experience",
+          "bucket": "Preprofessional Program"
         },
         {
           "state": "NY",
-          "raw_value": "supervised dietetic or nutrition practice experience",
+          "raw_value": "supervised dietetic or nutrition practice",
           "bucket": "Supervised Practice"
         },
         {
@@ -1321,11 +1335,11 @@
         {
           "state": "OK",
           "raw_value": "internship or preplanned professional experience program",
-          "bucket": "Internship / Named Program"
+          "bucket": "Internship / Program Options"
         },
         {
           "state": "OR",
-          "raw_value": "planned, continuous program of dietetic experience",
+          "raw_value": "planned, continuous program of dietetic experience under the supervision of a licensed dietitian",
           "bucket": "Preprofessional Program"
         },
         {
@@ -1335,8 +1349,8 @@
         },
         {
           "state": "RI",
-          "raw_value": "planned, continuous experience in dietetic practice under supervision",
-          "bucket": "Preprofessional Program"
+          "raw_value": "board-approved, planned, continuous experience in dietetic practice",
+          "bucket": "Accredited Program"
         },
         {
           "state": "SD",
@@ -1345,32 +1359,32 @@
         },
         {
           "state": "TN",
-          "raw_value": "preprofessional experience in nutrition practice under supervision of a registered dietitian",
+          "raw_value": "planned continuous preprofessional experience in nutrition practice under supervision of a registered dietitian",
           "bucket": "Preprofessional Program"
         },
         {
           "state": "TX",
           "raw_value": "internship or preplanned, documented, professional experience program in dietetics practice",
-          "bucket": "Internship / Named Program"
+          "bucket": "Internship / Program Options"
         },
         {
           "state": "UT",
-          "raw_value": "internship or preplanned professional baccalaureate or post-baccalaureate experience in a dietetic program",
-          "bucket": "Internship / Named Program"
+          "raw_value": "internship or preplanned professional dietetic experience",
+          "bucket": "Internship / Program Options"
         },
         {
           "state": "VA",
           "raw_value": "supervised clinical experience",
-          "bucket": "Clinical Experience"
+          "bucket": "Supervised Practice"
         },
         {
           "state": "VT",
-          "raw_value": "supervised practicum hours",
+          "raw_value": "supervised practicum under a CDR-registered dietitian",
           "bucket": "Supervised Practice"
         },
         {
           "state": "WA",
-          "raw_value": "preprofessional experience in dietetic practice (supervised) or coordinated undergraduate program",
+          "raw_value": "preprofessional experience in dietetic practice under supervision of a certified or registered dietitian, or coordinated undergraduate program in dietetics",
           "bucket": "Preprofessional Program"
         },
         {
@@ -1380,251 +1394,13 @@
         },
         {
           "state": "WV",
-          "raw_value": "supervised dietetic practice experience",
+          "raw_value": "supervised dietetic practice",
           "bucket": "Supervised Practice"
         },
         {
           "state": "WY",
-          "raw_value": "supervised preprofessional practice experience",
+          "raw_value": "supervised preprofessional practice experience in dietetics",
           "bucket": "Preprofessional Program"
-        }
-      ]
-    },
-    {
-      "field_name": "licensure.exams",
-      "bucket_set": [
-        "CDR Exam Only",
-        "CDR or Board-Approved",
-        "Board-Approved Flexible",
-        "State-Administered",
-        "Multiple Exams Required"
-      ],
-      "rationale": "States cluster by how tightly they tie their exam requirement to the CDR exam specifically versus giving the board/agency discretion to approve alternatives, versus running a state-developed exam, versus requiring more than one exam.",
-      "assignments": [
-        {
-          "state": "AL",
-          "raw_value": "{'name': 'Commission on Dietetic Registration examination'}",
-          "bucket": "CDR Exam Only"
-        },
-        {
-          "state": "AR",
-          "raw_value": "{'name': 'Board-approved examination'}",
-          "bucket": "CDR or Board-Approved"
-        },
-        {
-          "state": "CA",
-          "raw_value": "{'name': 'Registered Dietitian Examination'}",
-          "bucket": "Board-Approved Flexible"
-        },
-        {
-          "state": "CT",
-          "raw_value": "{'name': 'Written examination prescribed by the commissioner'}",
-          "bucket": "State-Administered"
-        },
-        {
-          "state": "DE",
-          "raw_value": "{'name': 'Examination for licensure as L.D.N.'}",
-          "bucket": "Board-Approved Flexible"
-        },
-        {
-          "state": "FL",
-          "raw_value": "{'name': 'Licensure examination'}",
-          "bucket": "Board-Approved Flexible"
-        },
-        {
-          "state": "GA",
-          "raw_value": "{'name': 'Dietetics competency examination'}",
-          "bucket": "CDR or Board-Approved"
-        },
-        {
-          "state": "HI",
-          "raw_value": "{'name': 'Registration examination for dietitians'}",
-          "bucket": "CDR Exam Only"
-        },
-        {
-          "state": "IA",
-          "raw_value": "{'name': 'commission on dietetic registration examination'}",
-          "bucket": "CDR Exam Only"
-        },
-        {
-          "state": "ID",
-          "raw_value": "{'name': 'Registration examination for registered dietitians (CDR)'}",
-          "bucket": "CDR Exam Only"
-        },
-        {
-          "state": "IL",
-          "raw_value": "{'name': 'Examination authorized by the Department'}",
-          "bucket": "CDR or Board-Approved"
-        },
-        {
-          "state": "IN",
-          "raw_value": "{'name': 'qualifying examination adopted by the board'}",
-          "bucket": "Board-Approved Flexible"
-        },
-        {
-          "state": "KS",
-          "raw_value": "{'name': 'Secretary-approved examination'}",
-          "bucket": "Board-Approved Flexible"
-        },
-        {
-          "state": "KY",
-          "raw_value": "{'name': 'Commission on Dietetic Registration national examination'}",
-          "bucket": "CDR Exam Only"
-        },
-        {
-          "state": "LA",
-          "raw_value": "{'name': 'Licensure examination as determined by the board'}",
-          "bucket": "Board-Approved Flexible"
-        },
-        {
-          "state": "MA",
-          "raw_value": "{'name': 'Licensing Examination'}",
-          "bucket": "Board-Approved Flexible"
-        },
-        {
-          "state": "MD",
-          "raw_value": "{'name': 'Board-approved examination'}",
-          "bucket": "CDR or Board-Approved"
-        },
-        {
-          "state": "ME",
-          "raw_value": "{'name': 'American Dietetic Association examination (dietitian)'}",
-          "bucket": "CDR Exam Only"
-        },
-        {
-          "state": "MI",
-          "raw_value": "{'name': 'Registration examination for dietitian nutritionists (Commission on Dietetic Registration)'}",
-          "bucket": "CDR Exam Only"
-        },
-        {
-          "state": "MN",
-          "raw_value": "{'name': 'Registration examination for dietitians'}",
-          "bucket": "CDR Exam Only"
-        },
-        {
-          "state": "MO",
-          "raw_value": "{'name': 'Registration examination for dietitians (Commission on Dietetic Registration)'}",
-          "bucket": "CDR Exam Only"
-        },
-        {
-          "state": "MS",
-          "raw_value": "{'name': 'Commission on Dietetic Registration examination'}",
-          "bucket": "CDR Exam Only"
-        },
-        {
-          "state": "NC",
-          "raw_value": "{'name': 'RDN Examination (Commission on Dietetic Registration)'}",
-          "bucket": "Multiple Exams Required"
-        },
-        {
-          "state": "ND",
-          "raw_value": "{'name': 'Examination approved and administered by the Commission on Dietetic Registration'}",
-          "bucket": "Multiple Exams Required"
-        },
-        {
-          "state": "NE",
-          "raw_value": "{'name': 'Examination for dietitian nutritionists administered by the Commission on Dietetic Registration'}",
-          "bucket": "Multiple Exams Required"
-        },
-        {
-          "state": "NH",
-          "raw_value": "{'name': 'Commission on Dietetic Registration examination'}",
-          "bucket": "CDR Exam Only"
-        },
-        {
-          "state": "NJ",
-          "raw_value": "{'name': 'Registration examination for dietitian nutritionists administered by the Commission on Dietetic Registration'}",
-          "bucket": "CDR Exam Only"
-        },
-        {
-          "state": "NM",
-          "raw_value": "{'name': 'State examination'}",
-          "bucket": "State-Administered"
-        },
-        {
-          "state": "NV",
-          "raw_value": "{'name': 'Registration Examination for Dietitians'}",
-          "bucket": "CDR Exam Only"
-        },
-        {
-          "state": "NY",
-          "raw_value": "{'name': 'Certification examination'}",
-          "bucket": "State-Administered"
-        },
-        {
-          "state": "OH",
-          "raw_value": "{'name': 'Dietitian licensure examination (approved by the board / Commission on Dietetic Registration)'}",
-          "bucket": "CDR or Board-Approved"
-        },
-        {
-          "state": "OK",
-          "raw_value": "{'name': 'Competency examination (may include Commission on Dietetic Registration examination)'}",
-          "bucket": "CDR or Board-Approved"
-        },
-        {
-          "state": "OR",
-          "raw_value": "{'name': 'Examination prescribed by the office'}",
-          "bucket": "Board-Approved Flexible"
-        },
-        {
-          "state": "PA",
-          "raw_value": "{'name': 'Board-approved dietetics-nutrition examination'}",
-          "bucket": "Board-Approved Flexible"
-        },
-        {
-          "state": "RI",
-          "raw_value": "{'name': 'Registration Examination for Dietitians'}",
-          "bucket": "CDR or Board-Approved"
-        },
-        {
-          "state": "SC",
-          "raw_value": "{'name': 'Commission on Dietetic Registration examination'}",
-          "bucket": "CDR or Board-Approved"
-        },
-        {
-          "state": "SD",
-          "raw_value": "{'name': 'Registration Examination for Dietitians'}",
-          "bucket": "Multiple Exams Required"
-        },
-        {
-          "state": "TN",
-          "raw_value": "{'name': 'National examination prepared and administered by the Commission on Dietetic Registration of the American Dietetic Association'}",
-          "bucket": "CDR Exam Only"
-        },
-        {
-          "state": "TX",
-          "raw_value": "{'name': 'License Examination'}",
-          "bucket": "Multiple Exams Required"
-        },
-        {
-          "state": "UT",
-          "raw_value": "{'name': 'competency examination approved by or given at the direction of the division'}",
-          "bucket": "State-Administered"
-        },
-        {
-          "state": "VT",
-          "raw_value": "{'name': 'Director-administered written examination on dietetics'}",
-          "bucket": "State-Administered"
-        },
-        {
-          "state": "WA",
-          "raw_value": "{'name': 'Examination for dietitians'}",
-          "bucket": "Board-Approved Flexible"
-        },
-        {
-          "state": "WI",
-          "raw_value": "{'name': 'Registration examination for dietitians established by the Commission on Dietetic Registration'}",
-          "bucket": "CDR or Board-Approved"
-        },
-        {
-          "state": "WV",
-          "raw_value": "{'name': 'Written examination in dietetics and nutrition'}",
-          "bucket": "Board-Approved Flexible"
-        },
-        {
-          "state": "WY",
-          "raw_value": "{'name': 'Registration Examination for Dietitians'}",
-          "bucket": "CDR or Board-Approved"
         }
       ]
     },
@@ -1633,62 +1409,62 @@
       "bucket_set": [
         "Equivalent Standards",
         "Equivalent + Clean Record",
-        "CDR Registration Accepted",
-        "Formal Agreement Required",
-        "Endorsement / Background Check",
-        "Rule-Delegated",
-        "Temporary / Practice Permit"
+        "CDR/Cert Recognition",
+        "Reciprocity Agreement",
+        "Endorsement/Fee Only",
+        "Temporary/Partial Practice",
+        "Full Reapplication"
       ],
-      "rationale": "States cluster around whether they require equivalent standards only, add a clean disciplinary record requirement, accept CDR registration as a standalone pathway, require a formal reciprocity agreement, rely on endorsement/background-check processes, delegate specifics to rulemaking, or issue a temporary permit for out-of-state practitioners.",
+      "rationale": "States cluster around whether they grant reciprocity based on equivalent standards alone, add a clean disciplinary record requirement, accept CDR or national certification as a standalone path, require a formal reciprocity agreement, focus primarily on endorsement mechanics, allow only temporary or limited practice, or effectively require full reapplication.",
       "assignments": [
         {
           "state": "AK",
-          "raw_value": "Applicant must hold a current unrestricted dietitian or nutritionist license in another US state, US political jurisdiction, or Canada, and the other jurisdiction's standards must be not less stringent than Alaska's requirements.",
+          "raw_value": "Applicant must hold a current unrestricted license in another state or political jurisdiction of the United States or Canada, and the department must determine that the other jurisdiction's standards are not less stringent than Alaska's requirements.",
           "bucket": "Equivalent Standards"
         },
         {
           "state": "AL",
-          "raw_value": "Standards for licensing in the other state must not be less than those required under Alabama law, as determined by the board.",
+          "raw_value": "Standards for licensing in the other state must not be less than those in Alabama, as determined by the board.",
           "bucket": "Equivalent Standards"
         },
         {
           "state": "AR",
-          "raw_value": "Standards for licensing in the other state must be not less than those required under Arkansas law, as determined by the Arkansas Dietetics Licensing Board.",
+          "raw_value": "Standards for licensing in the other state must be not less than those in Arkansas, as determined by the Arkansas Dietetics Licensing Board",
           "bucket": "Equivalent Standards"
         },
         {
           "state": "CT",
-          "raw_value": "Proof of current licensure or certification as a dietitian or nutritionist in another state, DC, or US territory with standards equal to or higher than Connecticut's; no pending disciplinary action or unresolved complaint.",
+          "raw_value": "Proof of current licensure or certification as a dietitian or nutritionist in another state, DC, or US territory with standards equal to or higher than Connecticut's; fee of $190; no pending disciplinary action or unresolved complaint.",
           "bucket": "Equivalent + Clean Record"
         },
         {
           "state": "DE",
-          "raw_value": "Standards in the other state must be reasonably equivalent to Delaware's qualifications; reciprocity applicants must follow the rules and regulations for application established under § 3809.",
+          "raw_value": "Standards for registration, certification and/or licensure in the other state must be reasonably equivalent to Delaware's requirements; applicants must follow the rules and regulations for application established under § 3809.",
           "bucket": "Equivalent Standards"
         },
         {
           "state": "FL",
-          "raw_value": "Must submit to background screening and meet requirements for licensure by endorsement under s. 456.0145, with completed application and fee.",
-          "bucket": "Endorsement / Background Check"
+          "raw_value": "Applicant must submit to background screening and meet the requirements for licensure by endorsement under s. 456.0145, with a completed application and fee.",
+          "bucket": "Endorsement/Fee Only"
         },
         {
           "state": "GA",
-          "raw_value": "Holds a valid license as a licensed dietitian issued by another state, political territory, or jurisdiction with requirements substantially equal to or greater than Georgia's requirements; OR presents evidence of registration as a registered dietitian by the Commission on Dietetic Registration of the American Dietetic Association.",
-          "bucket": "CDR Registration Accepted"
+          "raw_value": "Must hold a valid license from another state with substantially equal or greater requirements, OR be registered as a registered dietitian by the Commission on Dietetic Registration of the American Dietetic Association.",
+          "bucket": "CDR/Cert Recognition"
         },
         {
           "state": "HI",
-          "raw_value": "Applicant must hold a valid certification or license as a dietitian from another state, territory, or jurisdiction with requirements equal to or greater than Hawaii's requirements, and pay proper fees.",
+          "raw_value": "Applicant must hold a valid certification or license as a dietitian issued by another state, territory, or jurisdiction with requirements equal to or greater than Hawaii's requirements.",
           "bucket": "Equivalent Standards"
         },
         {
           "state": "IA",
-          "raw_value": "The board may enter into a reciprocal agreement with another state if that state imposes substantially equivalent licensure requirements. Upon presentation of a license from such a state, subject to board rules, the applicant shall be licensed to practice in Iowa.",
-          "bucket": "Formal Agreement Required"
+          "raw_value": "Licensing authority of other state must impose substantially equivalent requirements; board may establish conditions by rule.",
+          "bucket": "Equivalent Standards"
         },
         {
           "state": "ID",
-          "raw_value": "Applicant must present proof of current CDR registration, proof of current licensure in another state or DC with equivalent standards, and must have no disciplinary actions by any licensing board, authority, professional association, hospital, or institution.",
+          "raw_value": "Applicant must present proof of current CDR registration, proof of current licensure in another state or DC with equivalent standards, and must have no disciplinary actions by any licensing board, authority, professional association, hospital or institution.",
           "bucket": "Equivalent + Clean Record"
         },
         {
@@ -1698,118 +1474,118 @@
         },
         {
           "state": "IN",
-          "raw_value": "Applicant must present evidence of licensure in another state with equivalent requirements; exam waived; board may refuse if applicant has failed the Indiana examination.",
+          "raw_value": "Applicant must present evidence of licensure in another state with equivalent requirements; board may refuse if applicant has previously failed the Indiana examination.",
           "bucket": "Equivalent Standards"
         },
         {
           "state": "KS",
-          "raw_value": "Must be duly licensed in another state whose licensure standards are not less than Kansas standards.",
+          "raw_value": "Must be duly licensed in another state with standards not less than Kansas standards; may be licensed without examination.",
           "bucket": "Equivalent Standards"
         },
         {
           "state": "KY",
-          "raw_value": "Requirements set by board administrative regulation; statute only references fees for reciprocal licensure",
-          "bucket": "Rule-Delegated"
+          "raw_value": "Fees for reciprocal licensure or certification set by board administrative regulation.",
+          "bucket": "Endorsement/Fee Only"
         },
         {
           "state": "LA",
-          "raw_value": "Proof of current licensure in another state, DC, or US territory with standards equivalent to Louisiana requirements",
+          "raw_value": "Proof of current licensure as a dietitian or nutritionist in another state, DC, or US territory with equivalent standards",
           "bucket": "Equivalent Standards"
         },
         {
           "state": "MA",
-          "raw_value": "Standards of registration, certification and licensure in the other jurisdiction must be reasonably equivalent to those set forth in sections 198 and 199.",
+          "raw_value": "Standards of registration, certification and licensure in the other jurisdiction must be reasonably equivalent to those set forth in the Massachusetts statute.",
           "bucket": "Equivalent Standards"
         },
         {
           "state": "MD",
-          "raw_value": "Applicant must be licensed in another state or country, registered by CDR, or certified by BCNS; must pay application fee and provide evidence of meeting equivalent qualifications and comparable examination requirements.",
-          "bucket": "CDR Registration Accepted"
+          "raw_value": "Exam waiver available for applicants licensed in another state/country (with comparable exam), registered by CDR, or certified by BCNS. Applicants must also meet all other licensure qualifications and pay the application fee. Board may also adopt regulations for full reciprocal licensure under umbrella authority.",
+          "bucket": "CDR/Cert Recognition"
         },
         {
           "state": "ME",
-          "raw_value": "Board determines that the other state's requirements or standards for licensure are equivalent to or greater than Maine's; board may not impose more stringent requirements on out-of-state applicants than on in-state applicants.",
+          "raw_value": "The out-of-state applicant's state licensure requirements must be equivalent to or greater than Maine's requirements. Maine may not impose more stringent requirements on out-of-state applicants than on in-state applicants.",
           "bucket": "Equivalent Standards"
         },
         {
           "state": "MI",
-          "raw_value": "Applicant must substantially meet Michigan requirements, be licensed in a state with substantially equivalent standards, and satisfy the board as to qualifications.",
+          "raw_value": "Applicant must substantially meet MI requirements; must be licensed in a state with substantially equivalent standards; and must satisfy the board as to those equivalencies.",
           "bucket": "Equivalent Standards"
         },
         {
           "state": "MN",
-          "raw_value": "Applicant must be licensed as a dietitian or nutritionist in another state or DC, and the board must judge that the other state's standards are not less stringent than Minnesota's requirements.",
+          "raw_value": "Standards for licensure in the other state must be not less stringent than Minnesota requirements.",
           "bucket": "Equivalent Standards"
         },
         {
           "state": "MO",
-          "raw_value": "Valid current license in another country whose requirements for licensure are substantially equal to or greater than Missouri's requirements.",
+          "raw_value": "Valid current license from a country with requirements substantially equal to or greater than Missouri's licensure requirements",
           "bucket": "Equivalent Standards"
         },
         {
           "state": "MS",
-          "raw_value": "Applicant must hold current licensure in another state/DC/territory with standards equal to or greater than Mississippi's; the other jurisdiction must extend reciprocity to Mississippi licensees. Military applicants/spouses subject to Section 73-50-1 or 73-50-2.",
-          "bucket": "Formal Agreement Required"
+          "raw_value": "Applicant must hold current licensure in another state/DC/territory with standards equal to or greater than Mississippi's, and that jurisdiction must extend reciprocity to Mississippi licensees.",
+          "bucket": "Reciprocity Agreement"
         },
         {
           "state": "MT",
-          "raw_value": "Board must determine that the other state's license standards are substantially equivalent to or greater than Montana's standards, and there is no reason to deny the license under Montana law.",
+          "raw_value": "The other state's license standards must be substantially equivalent to or greater than Montana's standards, and there must be no reason to deny the license under Montana law.",
           "bucket": "Equivalent + Clean Record"
         },
         {
           "state": "NC",
-          "raw_value": "Must meet examination requirements under G.S. 90-359, hold a valid license or certification from another state or jurisdiction, and the Board must find the requirements substantially the same as NC requirements.",
+          "raw_value": "Must have met the NC examination requirements, hold a valid license or certification from another state or jurisdiction, and those requirements must be substantially the same as NC's requirements",
           "bucket": "Equivalent Standards"
         },
         {
           "state": "ND",
-          "raw_value": "Current licensure in good standing without limitations in another state with requirements at least as stringent as ND requirements",
+          "raw_value": "Current licensure in good standing, without limitations, in another state with requirements at least as stringent as North Dakota's requirements.",
           "bucket": "Equivalent + Clean Record"
         },
         {
           "state": "NE",
-          "raw_value": "Must meet requirements of the Medical Nutrition Therapy Practice Act or substantially equivalent requirements as determined by the department with recommendation of the board; alternatively may use general reciprocity pathway under 38-129.02 if credential held in another state for at least one year, not subject to discipline, and meets educational/examination requirements.",
-          "bucket": "Equivalent + Clean Record"
+          "raw_value": "Applicant must meet the requirements of the Medical Nutrition Therapy Practice Act or substantially equivalent requirements as determined by the department with recommendation of the board. Military spouses may apply for a temporary license under section 38-129.01.",
+          "bucket": "Equivalent Standards"
         },
         {
           "state": "NH",
-          "raw_value": "Licensure requirements of the other state must be equivalent to or greater than New Hampshire's requirements. Boards post lists of qualifying states and may require a New Hampshire jurisprudence exam and payment of a fee.",
+          "raw_value": "License granted if the other state's requirements are equivalent to or greater than New Hampshire's. Board must determine comparability; may also enter reciprocity agreements, multistate compacts, or establish criteria for licensure by endorsement. Temporary license available for 120 days pending full review.",
           "bucket": "Equivalent Standards"
         },
         {
           "state": "NJ",
-          "raw_value": "Licensed, registered, or certified in another state with substantially equivalent standards; payment of fee; written application on board forms.",
+          "raw_value": "Payment of a fee, submission of written application, and licensure/registration/certification by another state with substantially equivalent standards.",
           "bucket": "Equivalent Standards"
         },
         {
           "state": "NM",
-          "raw_value": "Applicant must be licensed in another state with standards not less stringent than New Mexico's requirements.",
+          "raw_value": "The board may license an applicant licensed in another state if the board judges the other state's standards are not less stringent than New Mexico's requirements.",
           "bucket": "Equivalent Standards"
         },
         {
           "state": "NV",
-          "raw_value": "Temporary license (10-day period) for out-of-state licensees whose jurisdiction has substantially equal requirements and whose license is in good standing. Also, a regulatory body shall adopt regulations for licensure by endorsement for persons with substantially similar qualifications.",
-          "bucket": "Temporary / Practice Permit"
+          "raw_value": "Applicant must hold a corresponding valid and unrestricted license in another jurisdiction with substantially similar qualifications, must not have been disciplined, and must pay applicable fees and submit fingerprints.",
+          "bucket": "Equivalent + Clean Record"
         },
         {
           "state": "NY",
-          "raw_value": "File application, meet educational requirements, have satisfactory experience, pass examination, be at least 21, be a US citizen or lawful permanent resident, be of good moral character",
-          "bucket": "Endorsement / Background Check"
+          "raw_value": "Applicant must file an application, meet educational requirements, have satisfactory experience, pass an examination, be at least 21 years of age, be a US citizen or lawful permanent resident, and be of good moral character.",
+          "bucket": "Full Reapplication"
         },
         {
           "state": "OH",
-          "raw_value": "Applicant must hold a license or permit in another state, or have satisfactory work experience, government certification, or private certification as a dietitian in a state that does not issue a license; standard Chapter 4796 out-of-state licensure procedures apply.",
-          "bucket": "Endorsement / Background Check"
+          "raw_value": "Applicant must hold a license or permit in another state, or have satisfactory work experience, government certification, or private certification in a state that does not issue such a license, in accordance with Chapter 4796 of the Revised Code.",
+          "bucket": "CDR/Cert Recognition"
         },
         {
           "state": "OK",
-          "raw_value": "Board may waive examination requirement for applicants who hold a valid license or certificate as a licensed or registered dietitian issued by another state with which Oklahoma has a reciprocity agreement, upon receipt of application and fee and recommendation of the Committee.",
-          "bucket": "Formal Agreement Required"
+          "raw_value": "Board may waive the examination requirement for an applicant who holds a valid license or certificate as a licensed or registered dietitian issued by another state with which this state has a reciprocity agreement.",
+          "bucket": "Reciprocity Agreement"
         },
         {
           "state": "OR",
-          "raw_value": "Applicant must file an application, pay applicable fees, and present satisfactory evidence of current registration with an approved credentialing body or current licensure in another state/territory with requirements not less than Oregon's.",
-          "bucket": "CDR Registration Accepted"
+          "raw_value": "Applicant must file an application, pay applicable fees, and present satisfactory evidence of current registration with an approved credentialing body or current licensure in another state/territory where requirements are not less than Oregon's.",
+          "bucket": "CDR/Cert Recognition"
         },
         {
           "state": "PA",
@@ -1818,58 +1594,58 @@
         },
         {
           "state": "RI",
-          "raw_value": "Licensure without examination is available to persons who provide evidence of current registration as a registered dietitian by the Commission on Dietetic Registration.",
-          "bucket": "CDR Registration Accepted"
+          "raw_value": "Licensure without examination is available to persons who provide evidence of current registration as a registered dietitian by the Commission on Dietetic Registration, or who meet degree requirements and have been practicing dietetics for at least one year since 1983 (grandfathering clause, time-limited).",
+          "bucket": "CDR/Cert Recognition"
         },
         {
           "state": "SC",
-          "raw_value": "Licensure from another state with requirements substantially equal to SC requirements allows up to 30 days of practice per year; up to 5 days without any license.",
-          "bucket": "Temporary / Practice Permit"
+          "raw_value": "Nonresident registered dietitians licensed in another state with substantially equal requirements may practice up to 30 days per year; separate endorsement/reciprocity licensure is not explicitly stated but the exemption implies recognition.",
+          "bucket": "Temporary/Partial Practice"
         },
         {
           "state": "SD",
-          "raw_value": "Applicant must be licensed as a dietitian or nutritionist in another state or territory and the standards for licensure in that state must not be less stringent than South Dakota requirements.",
+          "raw_value": "Applicant must be licensed as a dietitian or nutritionist in another state or territory of the United States, and the standards for licensure in that state must be not less stringent than SD requirements.",
           "bucket": "Equivalent Standards"
         },
         {
           "state": "TN",
-          "raw_value": "Proof of current licensure, certification or registration as a dietitian in another state, DC, or US territory, with substantially equivalent educational and experiential qualifications.",
+          "raw_value": "Applicant must present proof of current licensure, certification or registration as a dietitian in another state, DC, or US territory with substantially equivalent education and experience requirements, at the board's discretion.",
           "bucket": "Equivalent Standards"
         },
         {
           "state": "TX",
-          "raw_value": "Requirements for reciprocal licenses are to be established by the commission by rule; specific requirements are not detailed in the statute.",
-          "bucket": "Rule-Delegated"
+          "raw_value": "Requirements for reciprocal licenses are to be established by commission rule; no further detail specified in the statute.",
+          "bucket": "Endorsement/Fee Only"
         },
         {
           "state": "UT",
-          "raw_value": "Applicant must hold a valid dietitian license or certificate from another state or territory (with qualifications meeting chapter requirements) or be registered by the Commission on Dietetic Registration. Examination requirement may be waived; other qualifications must still be met.",
-          "bucket": "CDR Registration Accepted"
+          "raw_value": "Division may waive examination requirement for applicants holding a valid dietitian license/certificate from another state (if qualifications meet Utah requirements) or registered by CDR.",
+          "bucket": "CDR/Cert Recognition"
         },
         {
           "state": "VA",
-          "raw_value": "A current license or certificate as a dietitian or nutritionist issued by another state qualifies a person to hold themselves out as a dietitian or nutritionist in Virginia.",
-          "bucket": "Equivalent Standards"
+          "raw_value": "A current license or certificate as a dietitian or nutritionist issued by another state satisfies the title-use requirement.",
+          "bucket": "Temporary/Partial Practice"
         },
         {
           "state": "WA",
-          "raw_value": "Applicant must be licensed or certified as a dietitian in another jurisdiction with requirements equivalent to or greater than Washington's; certification without examination at secretary's discretion.",
+          "raw_value": "Must be licensed or certified as a dietitian in another jurisdiction with requirements equivalent to or greater than Washington state, as judged by the secretary",
           "bucket": "Equivalent Standards"
         },
         {
           "state": "WI",
-          "raw_value": "Applicant must hold a similar certificate or license in another state or territory and requirements must be substantially equivalent to Wisconsin's requirements under s. 448.78 (1m). Application and fee required.",
+          "raw_value": "Applicant must hold a similar certificate or license in another state or territory, and the affiliated credentialing board must determine the requirements are substantially equivalent to Wisconsin's requirements under s. 448.78 (1m).",
           "bucket": "Equivalent Standards"
         },
         {
           "state": "WV",
-          "raw_value": "Applicant must be registered by the Commission on Dietetic Registration OR hold a license as a nutritionist or dietitian in another state with standards no less stringent than WV requirements; must submit applicable fee.",
-          "bucket": "CDR Registration Accepted"
+          "raw_value": "Applicant must be registered by the Commission on Dietetic Registration OR hold a license as a nutritionist or dietitian in another state with standards no less stringent than WV requirements. Fee of $50 required.",
+          "bucket": "CDR/Cert Recognition"
         },
         {
           "state": "WY",
-          "raw_value": "Applicant must come from a state with laws at least as stringent as Wyoming's act, or be a registered dietitian if their previous state did not require licensure, and must meet the standard licensure requirements of W.S. 33-47-106.",
-          "bucket": "CDR Registration Accepted"
+          "raw_value": "Applicant must come from a state with laws at least as stringent as Wyoming's act, or be a registered dietitian from a state that does not require licensure, and must meet the standard licensure requirements of W.S. 33-47-106.",
+          "bucket": "Equivalent Standards"
         }
       ]
     },
@@ -1877,15 +1653,15 @@
       "field_name": "licensure.national_certification",
       "bucket_set": [
         "CDR Only",
-        "CDR + Multi-Board",
+        "CDR + Multi-Body",
         "Board-Approved Body"
       ],
-      "rationale": "States fall clearly into those accepting only CDR (sometimes with parenthetical or affiliation notes), those explicitly listing CDR alongside other certifying bodies (BCNS, ACBN, ABN, CBNS), and one state that defers to any board-approved credentialing body.",
+      "rationale": "States cluster into those accepting only CDR (the dominant single-body approach, with minor wording variants), those explicitly listing CDR alongside one or more additional certifying bodies (BCNS, ACBN), and those deferring to a board- or department-approved credentialing body without naming CDR specifically.",
       "assignments": [
         {
           "state": "AK",
-          "raw_value": "Commission on Dietetic Registration; American Board of Nutrition; Certification Board for Nutrition Specialists",
-          "bucket": "CDR + Multi-Board"
+          "raw_value": "Commission on Dietetic Registration",
+          "bucket": "CDR Only"
         },
         {
           "state": "AL",
@@ -1899,7 +1675,7 @@
         },
         {
           "state": "AZ",
-          "raw_value": "Commission on Dietetic Registration (credentialing agency for the Academy of Nutrition and Dietetics)",
+          "raw_value": "Commission on Dietetic Registration (credentialing agency for the American Academy of Nutrition and Dietetics)",
           "bucket": "CDR Only"
         },
         {
@@ -1909,7 +1685,7 @@
         },
         {
           "state": "CT",
-          "raw_value": "Commission on Dietetic Registration (CDR)",
+          "raw_value": "Commission on Dietetic Registration",
           "bucket": "CDR Only"
         },
         {
@@ -1929,12 +1705,12 @@
         },
         {
           "state": "HI",
-          "raw_value": "Commission on Dietetic Registration",
+          "raw_value": "Commission on Dietetic Registration (CDR)",
           "bucket": "CDR Only"
         },
         {
           "state": "IA",
-          "raw_value": "commission on dietetic registration of the academy of nutrition and dietetics",
+          "raw_value": "Commission on Dietetic Registration (CDR) of the Academy of Nutrition and Dietetics",
           "bucket": "CDR Only"
         },
         {
@@ -1945,7 +1721,7 @@
         {
           "state": "IL",
           "raw_value": "Commission on Dietetic Registration; Certification Board of Nutrition Specialists; American Clinical Board of Nutrition",
-          "bucket": "CDR + Multi-Board"
+          "bucket": "CDR + Multi-Body"
         },
         {
           "state": "IN",
@@ -1964,8 +1740,13 @@
         },
         {
           "state": "MD",
-          "raw_value": "Board for Certification of Nutrition Specialists; Commission on Dietetic Registration",
-          "bucket": "CDR + Multi-Board"
+          "raw_value": "Commission on Dietetic Registration (CDR); Board for Certification of Nutrition Specialists (BCNS)",
+          "bucket": "CDR + Multi-Body"
+        },
+        {
+          "state": "ME",
+          "raw_value": "Commission on Dietetic Registration of the American Dietetic Association",
+          "bucket": "CDR Only"
         },
         {
           "state": "MI",
@@ -1994,17 +1775,17 @@
         },
         {
           "state": "NC",
-          "raw_value": "Commission on Dietetic Registration (RDN); Board for Certification of Nutrition Specialists (CNS); American Clinical Board of Nutrition (DACBN)",
-          "bucket": "CDR + Multi-Board"
+          "raw_value": "Commission on Dietetic Registration (CDR); Board for Certification of Nutrition Specialists (BCNS); American Clinical Board of Nutrition (ACBN)",
+          "bucket": "CDR + Multi-Body"
         },
         {
           "state": "ND",
-          "raw_value": "Commission on Dietetic Registration (CDR); Board for Certification of Nutrition Specialists (BCNS); American Clinical Board of Nutrition (ACBN)",
-          "bucket": "CDR + Multi-Board"
+          "raw_value": "Commission on Dietetic Registration (CDR)",
+          "bucket": "CDR Only"
         },
         {
           "state": "NE",
-          "raw_value": "Commission on Dietetic Registration (CDR) of the Academy of Nutrition and Dietetics",
+          "raw_value": "Commission on Dietetic Registration (CDR)",
           "bucket": "CDR Only"
         },
         {
@@ -2015,11 +1796,11 @@
         {
           "state": "NJ",
           "raw_value": "Commission on Dietetic Registration (CDR); Board for Certification of Nutrition Specialists (BCNS); American Clinical Board of Nutrition (ACBN)",
-          "bucket": "CDR + Multi-Board"
+          "bucket": "CDR + Multi-Body"
         },
         {
           "state": "NM",
-          "raw_value": "Commission on Dietetic Registration (CDR)",
+          "raw_value": "Commission on Dietetic Registration",
           "bucket": "CDR Only"
         },
         {
@@ -2028,18 +1809,23 @@
           "bucket": "CDR Only"
         },
         {
+          "state": "NY",
+          "raw_value": "national dietetic association or national nutrition association having registration or membership standards acceptable to the department",
+          "bucket": "Board-Approved Body"
+        },
+        {
           "state": "OH",
           "raw_value": "Commission on Dietetic Registration (CDR)",
           "bucket": "CDR Only"
         },
         {
           "state": "OK",
-          "raw_value": "Commission on Dietetic Registration (CDR)",
+          "raw_value": "Commission on Dietetic Registration",
           "bucket": "CDR Only"
         },
         {
           "state": "OR",
-          "raw_value": "Credentialing body approved by the board (e.g., Commission on Dietetic Registration)",
+          "raw_value": "credentialing body approved by the board",
           "bucket": "Board-Approved Body"
         },
         {
@@ -2064,7 +1850,7 @@
         },
         {
           "state": "TN",
-          "raw_value": "Commission on Dietetic Registration (CDR)",
+          "raw_value": "Commission on Dietetic Registration",
           "bucket": "CDR Only"
         },
         {
@@ -2080,7 +1866,7 @@
         {
           "state": "VA",
           "raw_value": "Commission on Dietetic Registration; Board for Certification of Nutrition Specialists; American Clinical Board of Nutrition",
-          "bucket": "CDR + Multi-Board"
+          "bucket": "CDR + Multi-Body"
         },
         {
           "state": "VT",
@@ -2089,7 +1875,7 @@
         },
         {
           "state": "WA",
-          "raw_value": "Commission on Dietetic Registration",
+          "raw_value": "Commission on Dietetic Registration (CDR)",
           "bucket": "CDR Only"
         },
         {
@@ -2114,11 +1900,11 @@
       "bucket_set": [
         "American Dietetic Assoc",
         "Academy of Nutrition & Dietetics",
-        "AND via ACEND",
-        "State Association",
-        "Other / Unclear"
+        "ACEND Accreditor",
+        "Multiple Associations",
+        "State Dietetic Assoc"
       ],
-      "rationale": "The values cluster around two major national body names (the old 'American Dietetic Association' and its renamed successor 'Academy of Nutrition and Dietetics'), a subset that explicitly routes through ACEND accreditation, state-level associations, and one ambiguous multi-name entry.",
+      "rationale": "Values cluster around the old ADA name, the rebranded AND name, the accrediting body ACEND, states citing multiple bodies, and a handful of state-level associations rather than national ones.",
       "assignments": [
         {
           "state": "AK",
@@ -2133,7 +1919,7 @@
         {
           "state": "AR",
           "raw_value": "Arkansas Academy of Nutrition and Dietetics",
-          "bucket": "State Association"
+          "bucket": "State Dietetic Assoc"
         },
         {
           "state": "AZ",
@@ -2162,7 +1948,7 @@
         },
         {
           "state": "IA",
-          "raw_value": "academy of nutrition and dietetics",
+          "raw_value": "Academy of Nutrition and Dietetics",
           "bucket": "Academy of Nutrition & Dietetics"
         },
         {
@@ -2187,8 +1973,8 @@
         },
         {
           "state": "MD",
-          "raw_value": "Academy of Nutrition and Dietetics",
-          "bucket": "Academy of Nutrition & Dietetics"
+          "raw_value": "Academy of Nutrition and Dietetics; American Nutrition Association",
+          "bucket": "Multiple Associations"
         },
         {
           "state": "ME",
@@ -2198,7 +1984,7 @@
         {
           "state": "MI",
           "raw_value": "Accreditation Council for Education in Nutrition and Dietetics (ACEND)",
-          "bucket": "AND via ACEND"
+          "bucket": "ACEND Accreditor"
         },
         {
           "state": "MN",
@@ -2208,7 +1994,7 @@
         {
           "state": "MO",
           "raw_value": "Academy of Nutrition and Dietetics (via ACEND)",
-          "bucket": "AND via ACEND"
+          "bucket": "Multiple Associations"
         },
         {
           "state": "MS",
@@ -2217,8 +2003,8 @@
         },
         {
           "state": "NC",
-          "raw_value": "Academy of Nutrition and Dietetics (through ACEND accreditation)",
-          "bucket": "AND via ACEND"
+          "raw_value": "Academy of Nutrition and Dietetics (AND); ACEND (Accreditation Council for Education in Nutrition and Dietetics)",
+          "bucket": "Multiple Associations"
         },
         {
           "state": "ND",
@@ -2241,9 +2027,9 @@
           "bucket": "American Dietetic Assoc"
         },
         {
-          "state": "NY",
-          "raw_value": "national dietetic association / national nutrition association",
-          "bucket": "Other / Unclear"
+          "state": "NV",
+          "raw_value": "Accreditation Council for Education in Nutrition and Dietetics",
+          "bucket": "ACEND Accreditor"
         },
         {
           "state": "OH",
@@ -2252,8 +2038,8 @@
         },
         {
           "state": "OK",
-          "raw_value": "American Dietetic Association",
-          "bucket": "American Dietetic Assoc"
+          "raw_value": "Oklahoma Dietetic Association",
+          "bucket": "State Dietetic Assoc"
         },
         {
           "state": "PA",
@@ -2298,7 +2084,7 @@
         {
           "state": "WV",
           "raw_value": "West Virginia Dietetic Association",
-          "bucket": "State Association"
+          "bucket": "State Dietetic Assoc"
         },
         {
           "state": "WY",
@@ -2310,258 +2096,259 @@
     {
       "field_name": "profession_specific.license_type_structure",
       "bucket_set": [
-        "Dietitian Only",
-        "Dietitian + Nutritionist",
-        "Certified (not Licensed)",
-        "Includes Provisional/Temp",
-        "Includes Technician/Associate"
+        "LD Only",
+        "LD + Nutritionist",
+        "LD/LN Combined Title",
+        "Certified Dietitian",
+        "LD + Provisional/Temp",
+        "Multi-Tier w/ Nutritionist"
       ],
-      "rationale": "States cluster by whether they license dietitians only, combine dietitian and nutritionist titles, use certified instead of licensed designations, include provisional/temporary pathways as distinct license types, or extend to technician/associate tiers — these five patterns capture the meaningful variation without over-splitting.",
+      "rationale": "Buckets reflect the dominant structural patterns: single LD license, separate LD and LN licenses, a blended LD/Nutritionist title, certification-based titles, LD with only a provisional/temp pathway, and more complex multi-tier schemes that include nutritionist variants plus provisional/temp tiers.",
       "assignments": [
         {
           "state": "AK",
-          "raw_value": "dietitian license; nutritionist license",
-          "bucket": "Dietitian + Nutritionist"
+          "raw_value": "licensed dietitian; licensed nutritionist",
+          "bucket": "LD + Nutritionist"
         },
         {
           "state": "AL",
-          "raw_value": "Licensed Dietitian/Nutritionist; Temporarily Licensed Dietitian/Nutritionist; Registered Dietitian (title protected under Chapter 34)",
-          "bucket": "Includes Provisional/Temp"
+          "raw_value": "Licensed Dietitian/Nutritionist; Temporarily Licensed Dietitian/Nutritionist; Registered Dietitian (title recognized but not issued by state)",
+          "bucket": "Multi-Tier w/ Nutritionist"
         },
         {
           "state": "AR",
           "raw_value": "licensed dietitian; provisionally licensed dietitian",
-          "bucket": "Includes Provisional/Temp"
+          "bucket": "LD + Provisional/Temp"
         },
         {
           "state": "CA",
           "raw_value": "registered dietitian; dietetic technician, registered",
-          "bucket": "Includes Technician/Associate"
+          "bucket": "Multi-Tier w/ Nutritionist"
         },
         {
           "state": "CO",
           "raw_value": "dietitian; dietician; certified dietitian; certified dietician",
-          "bucket": "Certified (not Licensed)"
+          "bucket": "Certified Dietitian"
         },
         {
           "state": "CT",
           "raw_value": "Connecticut Certified Dietitian-Nutritionist",
-          "bucket": "Certified (not Licensed)"
+          "bucket": "Certified Dietitian"
         },
         {
           "state": "DE",
           "raw_value": "Licensed Dietitian/Nutritionist (L.D.N.)",
-          "bucket": "Dietitian + Nutritionist"
+          "bucket": "LD/LN Combined Title"
         },
         {
           "state": "FL",
-          "raw_value": "licensed dietitian/nutritionist; licensed nutrition counselor",
-          "bucket": "Dietitian + Nutritionist"
+          "raw_value": "Licensed Dietitian/Nutritionist; Licensed Nutrition Counselor",
+          "bucket": "LD + Nutritionist"
         },
         {
           "state": "GA",
           "raw_value": "licensed dietitian; provisionally licensed dietitian",
-          "bucket": "Includes Provisional/Temp"
+          "bucket": "LD + Provisional/Temp"
         },
         {
           "state": "HI",
           "raw_value": "licensed dietitian",
-          "bucket": "Dietitian Only"
+          "bucket": "LD Only"
         },
         {
           "state": "IA",
           "raw_value": "licensed dietitian",
-          "bucket": "Dietitian Only"
+          "bucket": "LD Only"
         },
         {
           "state": "ID",
           "raw_value": "licensed dietitian (LD); provisionally licensed dietitian",
-          "bucket": "Includes Provisional/Temp"
+          "bucket": "LD + Provisional/Temp"
         },
         {
           "state": "IL",
           "raw_value": "licensed dietitian nutritionist",
-          "bucket": "Dietitian + Nutritionist"
+          "bucket": "LD/LN Combined Title"
         },
         {
           "state": "IN",
           "raw_value": "licensed dietitian",
-          "bucket": "Dietitian Only"
+          "bucket": "LD Only"
         },
         {
           "state": "KS",
           "raw_value": "licensed dietitian",
-          "bucket": "Dietitian Only"
+          "bucket": "LD Only"
         },
         {
           "state": "KY",
           "raw_value": "licensed dietitian; certified nutritionist",
-          "bucket": "Dietitian + Nutritionist"
+          "bucket": "LD + Nutritionist"
         },
         {
           "state": "LA",
-          "raw_value": "Licensed dietitian/licensed nutritionist; Provisionally licensed dietitian/nutritionist",
-          "bucket": "Includes Provisional/Temp"
+          "raw_value": "licensed dietitian/licensed nutritionist; provisionally licensed dietitian/nutritionist",
+          "bucket": "Multi-Tier w/ Nutritionist"
         },
         {
           "state": "MA",
           "raw_value": "licensed dietitian/nutritionist",
-          "bucket": "Dietitian + Nutritionist"
+          "bucket": "LD/LN Combined Title"
         },
         {
           "state": "MD",
           "raw_value": "licensed dietitian-nutritionist",
-          "bucket": "Dietitian + Nutritionist"
+          "bucket": "LD/LN Combined Title"
         },
         {
           "state": "ME",
-          "raw_value": "Licensed dietitian; Licensed dietetic technician",
-          "bucket": "Includes Technician/Associate"
+          "raw_value": "licensed dietitian; licensed dietetic technician",
+          "bucket": "Multi-Tier w/ Nutritionist"
         },
         {
           "state": "MI",
           "raw_value": "licensed dietitian nutritionist; temporary license",
-          "bucket": "Includes Provisional/Temp"
+          "bucket": "LD + Provisional/Temp"
         },
         {
           "state": "MN",
           "raw_value": "licensed dietitian; licensed nutritionist",
-          "bucket": "Dietitian + Nutritionist"
+          "bucket": "LD + Nutritionist"
         },
         {
           "state": "MO",
           "raw_value": "Licensed Dietitian",
-          "bucket": "Dietitian Only"
+          "bucket": "LD Only"
         },
         {
           "state": "MS",
           "raw_value": "licensed dietitian; provisionally licensed dietitian",
-          "bucket": "Includes Provisional/Temp"
+          "bucket": "LD + Provisional/Temp"
         },
         {
           "state": "MT",
           "raw_value": "licensed nutritionist",
-          "bucket": "Dietitian Only"
+          "bucket": "LD Only"
         },
         {
           "state": "NC",
-          "raw_value": "licensed dietitian/nutritionist; licensed nutritionist",
-          "bucket": "Dietitian + Nutritionist"
+          "raw_value": "licensed dietitian/nutritionist; licensed nutritionist; provisional license",
+          "bucket": "Multi-Tier w/ Nutritionist"
         },
         {
           "state": "ND",
           "raw_value": "licensed registered dietitian; licensed nutritionist; provisional license",
-          "bucket": "Includes Provisional/Temp"
+          "bucket": "Multi-Tier w/ Nutritionist"
         },
         {
           "state": "NE",
           "raw_value": "licensed dietitian nutritionist; licensed nutritionist",
-          "bucket": "Dietitian + Nutritionist"
+          "bucket": "LD + Nutritionist"
         },
         {
           "state": "NH",
           "raw_value": "licensed dietitian",
-          "bucket": "Dietitian Only"
+          "bucket": "LD Only"
         },
         {
           "state": "NJ",
-          "raw_value": "licensed dietitian nutritionist; licensed nutritionist",
-          "bucket": "Dietitian + Nutritionist"
+          "raw_value": "licensed dietitian nutritionist; licensed nutritionist; temporary license",
+          "bucket": "Multi-Tier w/ Nutritionist"
         },
         {
           "state": "NM",
-          "raw_value": "licensed dietitian; licensed nutritionist; licensed nutrition associate",
-          "bucket": "Includes Technician/Associate"
+          "raw_value": "licensed dietitian; licensed nutritionist; nutrition associate",
+          "bucket": "Multi-Tier w/ Nutritionist"
         },
         {
           "state": "NV",
           "raw_value": "licensed dietitian; provisional license; temporary license",
-          "bucket": "Includes Provisional/Temp"
+          "bucket": "LD + Provisional/Temp"
         },
         {
           "state": "NY",
           "raw_value": "certified dietitian; certified dietician; certified nutritionist",
-          "bucket": "Certified (not Licensed)"
+          "bucket": "Certified Dietitian"
         },
         {
           "state": "OH",
           "raw_value": "license to practice dietetics; limited permit",
-          "bucket": "Includes Provisional/Temp"
+          "bucket": "LD + Provisional/Temp"
         },
         {
           "state": "OK",
           "raw_value": "licensed dietitian; provisional licensed dietitian",
-          "bucket": "Includes Provisional/Temp"
+          "bucket": "LD + Provisional/Temp"
         },
         {
           "state": "OR",
-          "raw_value": "Licensed Dietitian",
-          "bucket": "Dietitian Only"
+          "raw_value": "licensed dietitian",
+          "bucket": "LD Only"
         },
         {
           "state": "PA",
           "raw_value": "licensed dietitian-nutritionist",
-          "bucket": "Dietitian + Nutritionist"
+          "bucket": "LD/LN Combined Title"
         },
         {
           "state": "RI",
-          "raw_value": "licensed dietitian/nutritionist; graduate dietitian/nutritionist",
-          "bucket": "Includes Provisional/Temp"
+          "raw_value": "licensed dietitian/nutritionist",
+          "bucket": "LD/LN Combined Title"
         },
         {
           "state": "SC",
           "raw_value": "licensed dietitian",
-          "bucket": "Dietitian Only"
+          "bucket": "LD Only"
         },
         {
           "state": "SD",
           "raw_value": "licensed nutritionist",
-          "bucket": "Dietitian Only"
+          "bucket": "LD Only"
         },
         {
           "state": "TN",
-          "raw_value": "dietitian/nutritionist; licensed dietitian; licensed nutritionist",
-          "bucket": "Dietitian + Nutritionist"
+          "raw_value": "dietitian/nutritionist",
+          "bucket": "LD/LN Combined Title"
         },
         {
           "state": "TX",
           "raw_value": "licensed dietitian; provisional licensed dietitian",
-          "bucket": "Includes Provisional/Temp"
+          "bucket": "LD + Provisional/Temp"
         },
         {
           "state": "UT",
           "raw_value": "certified dietitian",
-          "bucket": "Certified (not Licensed)"
+          "bucket": "Certified Dietitian"
         },
         {
           "state": "VA",
           "raw_value": "dietitian; nutritionist",
-          "bucket": "Dietitian + Nutritionist"
+          "bucket": "LD + Nutritionist"
         },
         {
           "state": "VT",
           "raw_value": "certified dietitian",
-          "bucket": "Certified (not Licensed)"
+          "bucket": "Certified Dietitian"
         },
         {
           "state": "WA",
           "raw_value": "certified dietitian; certified nutritionist",
-          "bucket": "Certified (not Licensed)"
+          "bucket": "Certified Dietitian"
         },
         {
           "state": "WI",
-          "raw_value": "certified dietitian; compact privilege",
-          "bucket": "Certified (not Licensed)"
+          "raw_value": "certified dietitian; temporary dietitian certificate; reciprocal dietitian certificate; compact privilege",
+          "bucket": "Certified Dietitian"
         },
         {
           "state": "WV",
           "raw_value": "licensed dietitian",
-          "bucket": "Dietitian Only"
+          "bucket": "LD Only"
         },
         {
           "state": "WY",
           "raw_value": "licensed dietitian",
-          "bucket": "Dietitian Only"
+          "bucket": "LD Only"
         }
       ]
     },
@@ -2570,25 +2357,27 @@
       "bucket_set": [
         "CNS + DACBN",
         "CNS Only",
-        "Professional Memberships",
-        "Academic/Physician Referral"
+        "ABN/AIN/ASCN Memberships",
+        "Degree-Based",
+        "Board-Approved Body",
+        "Multi-Pathway Broad"
       ],
-      "rationale": "States cluster around which alternative credentials they accept: those accepting both CNS and DACBN, those accepting CNS alone, those accepting professional society memberships (AIN/ASCN/ABN), and one state relying on academic degree plus physician referral.",
+      "rationale": "States cluster by which alternative credentials they accept: the CNS+DACBN pairing, CNS alone, legacy professional society memberships (ABN/AIN/ASCN), a degree-only route, a flexible board-approved body standard, or a broad multi-pathway approach combining several of the above.",
       "assignments": [
         {
           "state": "AK",
-          "raw_value": "diplomate of the American Board of Nutrition; Certified Nutrition Specialist with the Certification Board for Nutrition Specialists",
+          "raw_value": "American Board of Nutrition diplomate; Certified Nutrition Specialist (Certification Board for Nutrition Specialists)",
           "bucket": "CNS + DACBN"
         },
         {
           "state": "AL",
           "raw_value": "American Institute of Nutrition (AIN) membership; American Society for Clinical Nutrition (ASCN) membership; American Board of Nutrition (ABN) membership",
-          "bucket": "Professional Memberships"
+          "bucket": "ABN/AIN/ASCN Memberships"
         },
         {
           "state": "CA",
-          "raw_value": "master's or higher degree in a field covering clinical nutrition sciences from an accredited college or university, deemed qualified by referring physician",
-          "bucket": "Academic/Physician Referral"
+          "raw_value": "master's or higher degree in a field covering clinical nutrition sciences from a regionally accredited college or university (other nutritional professionals)",
+          "bucket": "Degree-Based"
         },
         {
           "state": "FL",
@@ -2602,7 +2391,7 @@
         },
         {
           "state": "MD",
-          "raw_value": "Board for Certification of Nutrition Specialists (CNS)",
+          "raw_value": "Board for Certification of Nutrition Specialists (BCNS/CNS)",
           "bucket": "CNS Only"
         },
         {
@@ -2617,7 +2406,7 @@
         },
         {
           "state": "ND",
-          "raw_value": "Certified Nutrition Specialist (CNS) from Board for Certification of Nutrition Specialists; Diplomate, American Clinical Board of Nutrition (DACBN)",
+          "raw_value": "Certified Nutrition Specialist (CNS) from board for certification of nutrition specialists; Diplomate, American Clinical Board of Nutrition (DACBN)",
           "bucket": "CNS + DACBN"
         },
         {
@@ -2633,12 +2422,22 @@
         {
           "state": "NM",
           "raw_value": "American Institute of Nutrition membership; American Society for Clinical Nutrition membership; American Board of Nutrition membership",
-          "bucket": "Professional Memberships"
+          "bucket": "ABN/AIN/ASCN Memberships"
+        },
+        {
+          "state": "NY",
+          "raw_value": "registration by a national dietetic association having registration standards acceptable to the department; registration by a national nutrition association having membership and/or registration standards acceptable to the department",
+          "bucket": "Board-Approved Body"
+        },
+        {
+          "state": "OR",
+          "raw_value": "current registration as a dietitian with a credentialing body approved by the board",
+          "bucket": "Board-Approved Body"
         },
         {
           "state": "VA",
-          "raw_value": "Board for Certification of Nutrition Specialists - Certified Nutrition Specialist; American Clinical Board of Nutrition - Diplomate",
-          "bucket": "CNS + DACBN"
+          "raw_value": "Commission on Dietetic Registration (RD/RDN); Board for Certification of Nutrition Specialists (CNS); American Clinical Board of Nutrition (Diplomate); current license or certificate as a dietitian or nutritionist issued by another state; minimum requisite education, training and experience determined by the Department of Health Professions",
+          "bucket": "Multi-Pathway Broad"
         }
       ]
     },
@@ -2649,9 +2448,10 @@
         "Dietitian + Nutritionist",
         "Dietitian-Nutritionist Hyphenated",
         "Certified Titles",
-        "Broad / Extended Titles"
+        "Broad Multi-Title",
+        "Nutritionist Only"
       ],
-      "rationale": "States cluster by which title types they protect: some protect only dietitian variants, some add nutritionist as a separate co-equal title, some use a hyphenated dietitian-nutritionist compound, some use 'certified' as the credential marker, and some protect a wide array including counselors, therapists, and specialists.",
+      "rationale": "States cluster by which credential terms they protect: some protect only dietitian variants, some add nutritionist as a co-equal title, some use a hyphenated dietitian-nutritionist formulation, some use 'certified' as the credential marker, some protect a very broad list including counselors/specialists/therapists, and one protects only nutritionist titles.",
       "assignments": [
         {
           "state": "AK",
@@ -2691,11 +2491,11 @@
         {
           "state": "FL",
           "raw_value": "dietitian; licensed dietitian; nutritionist; licensed nutritionist; nutrition counselor; licensed nutrition counselor",
-          "bucket": "Broad / Extended Titles"
+          "bucket": "Broad Multi-Title"
         },
         {
           "state": "GA",
-          "raw_value": "dietitian; LD; dietetic counselor",
+          "raw_value": "dietitian; dietetic counselor; LD",
           "bucket": "Dietitian Only"
         },
         {
@@ -2776,7 +2576,7 @@
         {
           "state": "MT",
           "raw_value": "nutritionist; licensed nutritionist",
-          "bucket": "Dietitian + Nutritionist"
+          "bucket": "Nutritionist Only"
         },
         {
           "state": "NC",
@@ -2785,23 +2585,23 @@
         },
         {
           "state": "ND",
-          "raw_value": "Dietitian nutritionist; Nutritionist; Dietitian; Dietician; Nutrition counselor; Nutrition specialist; LRD; LDN; LN; Nutritional therapy practitioner; Nutritional therapy consultant; Certified nutrition therapy practitioner; Master nutrition therapist; Licensed dietitian nutritionist; Licensed registered dietitian; Licensed nutritionist",
-          "bucket": "Broad / Extended Titles"
+          "raw_value": "Dietitian nutritionist or nutritionist; Dietitian or dietician; Nutrition counselor or nutrition specialist; LRD, LDN, or LN; Nutritional therapy practitioner or nutritional therapy consultant; Certified nutrition therapy practitioner; Master nutrition therapist; Licensed dietitian nutritionist, licensed registered dietitian, or licensed nutritionist",
+          "bucket": "Broad Multi-Title"
         },
         {
           "state": "NE",
           "raw_value": "dietitian nutritionist; nutritionist; dietitian; licensed dietitian nutritionist; licensed medical nutrition therapist; licensed nutritionist; medical nutrition therapist; licensed nutrition specialist; LDN; LN",
-          "bucket": "Broad / Extended Titles"
+          "bucket": "Broad Multi-Title"
         },
         {
           "state": "NH",
-          "raw_value": "licensed dietitian; LD",
+          "raw_value": "licensed dietitian; LD; dietitian",
           "bucket": "Dietitian Only"
         },
         {
           "state": "NJ",
           "raw_value": "dietitian nutritionist; nutritionist; dietitian; dietician; nutrition counselor; nutrition specialist; LDN; LD; LN; nutritional therapy practitioner; nutritional therapy consultant; certified nutrition therapy practitioner; master nutrition therapist; licensed dietitian nutritionist; licensed nutritionist",
-          "bucket": "Broad / Extended Titles"
+          "bucket": "Broad Multi-Title"
         },
         {
           "state": "NM",
@@ -2820,17 +2620,17 @@
         },
         {
           "state": "OH",
-          "raw_value": "dietitian",
+          "raw_value": "dietitian; registered dietitian; R.D.",
           "bucket": "Dietitian Only"
         },
         {
           "state": "OK",
-          "raw_value": "licensed dietitian; LD; provisional licensed dietitian; PLD; registered dietitian; RD",
+          "raw_value": "licensed dietitian; provisional licensed dietitian; LD; PLD; registered dietitian; RD",
           "bucket": "Dietitian Only"
         },
         {
           "state": "OR",
-          "raw_value": "L.D.; Licensed Dietitian",
+          "raw_value": "Licensed Dietitian; L.D.",
           "bucket": "Dietitian Only"
         },
         {
@@ -2870,8 +2670,8 @@
         },
         {
           "state": "VA",
-          "raw_value": "dietitian; nutritionist; licensed dietitian; licensed nutritionist; certified dietitian; certified nutritionist; registered dietitian; registered nutritionist",
-          "bucket": "Broad / Extended Titles"
+          "raw_value": "dietitian; nutritionist; licensed dietitian; certified dietitian; registered dietitian; licensed nutritionist; certified nutritionist; registered nutritionist",
+          "bucket": "Broad Multi-Title"
         },
         {
           "state": "VT",
@@ -2903,402 +2703,399 @@
     {
       "field_name": "licensure.disciplinary_grounds",
       "bucket_set": [
-        "Broad Multi-Ground List",
-        "Fraud + Unprofessional Conduct Core",
-        "Violation of Statute/Rules Focus",
-        "Reference to General Statute",
-        "Narrow / Single Ground"
+        "Fraud & Misrepresentation",
+        "Unprofessional Conduct",
+        "Incompetence & Negligence",
+        "Criminal Conviction",
+        "Statutory Violations",
+        "Cross-Reference to General Law",
+        "Impairment"
       ],
-      "rationale": "States cluster by how many and what kinds of grounds they enumerate: most list fraud-in-obtaining plus unprofessional/incompetence grounds (core duo), some emphasize statutory/rule violations as the primary trigger, a few simply cross-reference a general health-professions disciplinary statute, and a handful address only one or two narrow grounds.",
+      "rationale": "The grounds cluster naturally around: obtaining licenses by fraud, broad unprofessional/unethical conduct, incompetence/negligence in practice, criminal convictions, violations of specific statutes/rules, states that simply cross-reference general professional licensing law, and impairment by substance or health — with most states listing multiple grounds spanning several of these categories, so each state is bucketed by its most distinctive or dominant ground type.",
       "assignments": [
         {
           "state": "AK",
-          "raw_value": "{'short_label': 'fraud_in_obtaining_license' ...",
-          "bucket": "Fraud + Unprofessional Conduct Core"
+          "raw_value": "{'short_label': 'fraud_in_obtaining_license'...",
+          "bucket": "Fraud & Misrepresentation"
         },
         {
           "state": "AL",
-          "raw_value": "{'short_label': 'willful_repeated_violation' ...",
-          "bucket": "Broad Multi-Ground List"
+          "raw_value": "{'short_label': 'repeated_violations_of_chapter'...",
+          "bucket": "Statutory Violations"
         },
         {
           "state": "AR",
-          "raw_value": "{'short_label': 'violation_of_chapter' ...",
-          "bucket": "Broad Multi-Ground List"
-        },
-        {
-          "state": "CA",
-          "raw_value": "{'short_label': 'practicing_inconsistently_with_requirements' ...",
-          "bucket": "Narrow / Single Ground"
+          "raw_value": "{'short_label': 'violation_of_chapter'...",
+          "bucket": "Unprofessional Conduct"
         },
         {
           "state": "CT",
-          "raw_value": "{'short_label': 'failure_to_conform_to_accepted_standards' ...",
-          "bucket": "Fraud + Unprofessional Conduct Core"
+          "raw_value": "{'short_label': 'failure_to_conform_to_accepted_standards'...",
+          "bucket": "Unprofessional Conduct"
         },
         {
           "state": "DE",
-          "raw_value": "{'short_label': 'fraud_in_obtaining_license' ...",
-          "bucket": "Broad Multi-Ground List"
+          "raw_value": "{'short_label': 'fraud_in_obtaining_license'...",
+          "bucket": "Incompetence & Negligence"
         },
         {
           "state": "FL",
-          "raw_value": "{'short_label': 'violation_of_statute_or_rules' ...",
-          "bucket": "Broad Multi-Ground List"
+          "raw_value": "{'short_label': 'violation_of_statute_or_rules'...",
+          "bucket": "Statutory Violations"
         },
         {
           "state": "GA",
-          "raw_value": "{'short_label': 'failure_to_demonstrate_qualifications' ...",
-          "bucket": "Broad Multi-Ground List"
+          "raw_value": "{'short_label': 'failure_to_demonstrate_qualifications'...",
+          "bucket": "Fraud & Misrepresentation"
         },
         {
           "state": "HI",
-          "raw_value": "{'short_label': 'criminal_conviction' ...",
-          "bucket": "Broad Multi-Ground List"
+          "raw_value": "{'short_label': 'criminal_conviction'...",
+          "bucket": "Criminal Conviction"
         },
         {
           "state": "IA",
-          "raw_value": "{'short_label': 'fraud_in_procuring_license' ...",
-          "bucket": "Broad Multi-Ground List"
+          "raw_value": "{'short_label': 'fraud_in_procuring_license'...",
+          "bucket": "Fraud & Misrepresentation"
         },
         {
           "state": "ID",
-          "raw_value": "{'short_label': 'criminal_conviction' ...",
-          "bucket": "Broad Multi-Ground List"
+          "raw_value": "{'short_label': 'criminal_conviction'...",
+          "bucket": "Criminal Conviction"
         },
         {
           "state": "IL",
-          "raw_value": "{'short_label': 'material_misstatement' ...",
-          "bucket": "Broad Multi-Ground List"
+          "raw_value": "{'short_label': 'material_misstatement'...",
+          "bucket": "Fraud & Misrepresentation"
         },
         {
           "state": "IN",
-          "raw_value": "{'short_label': 'prior_discipline_in_another_state' ...",
-          "bucket": "Broad Multi-Ground List"
+          "raw_value": "{'short_label': 'prior_discipline_in_another_state'...",
+          "bucket": "Statutory Violations"
         },
         {
           "state": "KS",
-          "raw_value": "{'short_label': 'fraud_in_obtaining_license' ...",
-          "bucket": "Fraud + Unprofessional Conduct Core"
+          "raw_value": "{'short_label': 'fraud_in_obtaining_license'...",
+          "bucket": "Unprofessional Conduct"
         },
         {
           "state": "KY",
-          "raw_value": "{'short_label': 'fraud_in_obtaining_licensure' ...",
-          "bucket": "Fraud + Unprofessional Conduct Core"
+          "raw_value": "{'short_label': 'fraud_in_obtaining_licensure'...",
+          "bucket": "Unprofessional Conduct"
         },
         {
           "state": "LA",
-          "raw_value": "{'short_label': 'fraud_in_obtaining_license' ...",
-          "bucket": "Fraud + Unprofessional Conduct Core"
+          "raw_value": "{'short_label': 'fraud_in_obtaining_license'...",
+          "bucket": "Unprofessional Conduct"
         },
         {
           "state": "MA",
-          "raw_value": "{'short_label': 'fraud_in_obtaining_license' ...",
-          "bucket": "Fraud + Unprofessional Conduct Core"
+          "raw_value": "{'short_label': 'fraud_in_obtaining_licensure'...",
+          "bucket": "Unprofessional Conduct"
         },
         {
           "state": "MD",
-          "raw_value": "{'short_label': 'fraudulent_license_procurement' ...",
-          "bucket": "Broad Multi-Ground List"
+          "raw_value": "{'short_label': 'fraud_in_obtaining_license'...",
+          "bucket": "Fraud & Misrepresentation"
         },
         {
           "state": "ME",
-          "raw_value": "{'short_label': 'general_grounds_by_reference' ...",
-          "bucket": "Reference to General Statute"
+          "raw_value": "{'short_label': 'general_statutory_grounds'...",
+          "bucket": "Cross-Reference to General Law"
         },
         {
           "state": "MI",
-          "raw_value": "{'short_label': 'negligence_or_failure_of_due_care' ...",
-          "bucket": "Broad Multi-Ground List"
+          "raw_value": "{'short_label': 'negligence_failure_of_due_care'...",
+          "bucket": "Incompetence & Negligence"
         },
         {
           "state": "MN",
-          "raw_value": "{'short_label': 'incompetence_or_dangerous_practice' ...",
-          "bucket": "Fraud + Unprofessional Conduct Core"
+          "raw_value": "{'short_label': 'incompetence_or_harmful_practice'...",
+          "bucket": "Incompetence & Negligence"
         },
         {
           "state": "MO",
-          "raw_value": "{'short_label': 'fraud_in_obtaining_license' ...",
-          "bucket": "Broad Multi-Ground List"
+          "raw_value": "{'short_label': 'fraud_in_obtaining_license'...",
+          "bucket": "Fraud & Misrepresentation"
         },
         {
           "state": "MS",
-          "raw_value": "{'short_label': 'fraud_in_obtaining_license' ...",
-          "bucket": "Fraud + Unprofessional Conduct Core"
+          "raw_value": "{'short_label': 'fraud_in_obtaining_license'...",
+          "bucket": "Unprofessional Conduct"
         },
         {
           "state": "MT",
-          "raw_value": "{'short_label': 'fraud_in_obtaining_license' ...",
-          "bucket": "Fraud + Unprofessional Conduct Core"
+          "raw_value": "{'short_label': 'fraud_in_obtaining_license'...",
+          "bucket": "Unprofessional Conduct"
         },
         {
           "state": "NC",
-          "raw_value": "{'short_label': 'fraud_in_obtaining_license' ...",
-          "bucket": "Fraud + Unprofessional Conduct Core"
+          "raw_value": "{'short_label': 'fraud_in_obtaining_license'...",
+          "bucket": "Incompetence & Negligence"
         },
         {
           "state": "ND",
-          "raw_value": "{'short_label': 'fraud_in_obtaining_license' ...",
-          "bucket": "Fraud + Unprofessional Conduct Core"
+          "raw_value": "{'short_label': 'fraud_in_obtaining_license'...",
+          "bucket": "Unprofessional Conduct"
         },
         {
           "state": "NE",
-          "raw_value": "{'short_label': 'misrepresentation_in_procuring_credential' ...",
-          "bucket": "Broad Multi-Ground List"
+          "raw_value": "{'short_label': 'misrepresentation_in_obtaining_credential'...",
+          "bucket": "Fraud & Misrepresentation"
         },
         {
           "state": "NH",
-          "raw_value": "{'short_label': 'fraud_in_obtaining_license' ...",
-          "bucket": "Fraud + Unprofessional Conduct Core"
+          "raw_value": "{'short_label': 'fraud_in_obtaining_license'...",
+          "bucket": "Incompetence & Negligence"
         },
         {
           "state": "NJ",
-          "raw_value": "{'short_label': 'fraud_in_obtaining_license' ...",
-          "bucket": "Broad Multi-Ground List"
+          "raw_value": "{'short_label': 'fraud_in_obtaining_license'...",
+          "bucket": "Fraud & Misrepresentation"
         },
         {
           "state": "NM",
-          "raw_value": "{'short_label': 'fraud_in_procurement' ...",
-          "bucket": "Fraud + Unprofessional Conduct Core"
+          "raw_value": "{'short_label': 'fraud_in_procurement'...",
+          "bucket": "Fraud & Misrepresentation"
         },
         {
           "state": "NV",
-          "raw_value": "{'short_label': 'fraud_in_procuring_license' ...",
-          "bucket": "Broad Multi-Ground List"
+          "raw_value": "{'short_label': 'fraud_in_obtaining_license'...",
+          "bucket": "Impairment"
         },
         {
           "state": "NY",
-          "raw_value": "{'short_label': 'fraudulent_obtaining_of_license' ...",
-          "bucket": "Broad Multi-Ground List"
+          "raw_value": "{'short_label': 'obtaining_certificate_fraudulently'...",
+          "bucket": "Incompetence & Negligence"
         },
         {
           "state": "OH",
-          "raw_value": "{'short_label': 'violating_chapter_or_rules' ...",
-          "bucket": "Violation of Statute/Rules Focus"
+          "raw_value": "{'short_label': 'violation_of_chapter_or_rules'...",
+          "bucket": "Statutory Violations"
         },
         {
           "state": "OK",
-          "raw_value": "{'short_label': 'violation_of_act' ...",
-          "bucket": "Violation of Statute/Rules Focus"
+          "raw_value": "{'short_label': 'violation_of_act'...",
+          "bucket": "Statutory Violations"
         },
         {
           "state": "OR",
-          "raw_value": "{'short_label': 'violation_of_practice_act' ...",
-          "bucket": "Reference to General Statute"
+          "raw_value": "{'short_label': 'violation_of_ors_691_405_to_691_485'...",
+          "bucket": "Cross-Reference to General Law"
         },
         {
           "state": "PA",
-          "raw_value": "{'short_label': 'negligence_or_incompetence' ...",
-          "bucket": "Broad Multi-Ground List"
+          "raw_value": "{'short_label': 'negligence_or_incompetence'...",
+          "bucket": "Incompetence & Negligence"
         },
         {
           "state": "RI",
-          "raw_value": "{'short_label': 'fraud_in_obtaining_license' ...",
-          "bucket": "Fraud + Unprofessional Conduct Core"
+          "raw_value": "{'short_label': 'fraud_in_procuring_license'...",
+          "bucket": "Statutory Violations"
         },
         {
           "state": "SC",
-          "raw_value": "{'short_label': 'fraud_in_obtaining_license' ...",
-          "bucket": "Broad Multi-Ground List"
+          "raw_value": "{'short_label': 'fraud_in_licensure'...",
+          "bucket": "Impairment"
         },
         {
           "state": "SD",
-          "raw_value": "{'short_label': 'harmful_or_dangerous_practice' ...",
-          "bucket": "Fraud + Unprofessional Conduct Core"
+          "raw_value": "{'short_label': 'harmful_practice'...",
+          "bucket": "Incompetence & Negligence"
         },
         {
           "state": "TN",
-          "raw_value": "{'short_label': 'fraud_in_obtaining_licensure' ...",
-          "bucket": "Fraud + Unprofessional Conduct Core"
+          "raw_value": "{'short_label': 'fraud_in_obtaining_licensure'...",
+          "bucket": "Unprofessional Conduct"
         },
         {
           "state": "TX",
-          "raw_value": "{'short_label': 'violation_of_chapter' ...",
-          "bucket": "Violation of Statute/Rules Focus"
+          "raw_value": "{'short_label': 'violation_of_chapter'...",
+          "bucket": "Statutory Violations"
         },
         {
           "state": "UT",
-          "raw_value": "{'short_label': 'unprofessional_conduct' ...",
-          "bucket": "Reference to General Statute"
-        },
-        {
-          "state": "VA",
-          "raw_value": "{'short_label': 'unauthorized_title_use' ...",
-          "bucket": "Narrow / Single Ground"
+          "raw_value": "{'short_label': 'unprofessional_conduct'...",
+          "bucket": "Unprofessional Conduct"
         },
         {
           "state": "VT",
-          "raw_value": "{'short_label': 'misusing_title' ...",
-          "bucket": "Reference to General Statute"
+          "raw_value": "{'short_label': 'misuse_of_title'...",
+          "bucket": "Cross-Reference to General Law"
         },
         {
           "state": "WA",
-          "raw_value": "{'short_label': 'moral_turpitude' ...",
-          "bucket": "Broad Multi-Ground List"
+          "raw_value": "{'short_label': 'moral_turpitude_or_corruption'...",
+          "bucket": "Unprofessional Conduct"
         },
         {
           "state": "WI",
-          "raw_value": "{'short_label': 'material_misstatement_in_application' ...",
-          "bucket": "Broad Multi-Ground List"
+          "raw_value": "{'short_label': 'misstatement_in_application'...",
+          "bucket": "Criminal Conviction"
         },
         {
           "state": "WV",
-          "raw_value": "{'short_label': 'fraud_in_obtaining_license' ...",
-          "bucket": "Fraud + Unprofessional Conduct Core"
+          "raw_value": "{'short_label': 'fraud_in_obtaining_license'...",
+          "bucket": "Incompetence & Negligence"
         },
         {
           "state": "WY",
-          "raw_value": "{'short_label': 'fraud_in_obtaining_license' ...",
-          "bucket": "Fraud + Unprofessional Conduct Core"
+          "raw_value": "{'short_label': 'fraud_in_obtaining_license'...",
+          "bucket": "Incompetence & Negligence"
         }
       ]
     },
     {
       "field_name": "licensure.regulatory_authority.umbrella_agency",
       "bucket_set": [
-        "Dept of Health",
-        "Professional Licensing Agency",
-        "Secretary of State / Commerce",
-        "Labor & Industry",
-        "Consumer Affairs / Law"
+        "Health Dept",
+        "Professional Licensing Office",
+        "Commerce / Labor / State",
+        "Consumer / Law Affairs",
+        "Aging / Disability Services"
       ],
-      "rationale": "States cluster by the type of parent agency overseeing dietetics licensure: health departments, dedicated professional licensing bodies, commerce/secretary-of-state offices, labor/industry departments, and consumer-affairs/law offices.",
+      "rationale": "States cluster by the type of parent agency overseeing dietetics licensure: health-focused departments, dedicated professional licensing bodies, general commerce/labor/state agencies, consumer/legal affairs divisions, and one outlier focused on aging/disability services.",
       "assignments": [
         {
           "state": "DE",
           "raw_value": "Division of Professional Regulation",
-          "bucket": "Professional Licensing Agency"
-        },
-        {
-          "state": "FL",
-          "raw_value": "Department of Health",
-          "bucket": "Dept of Health"
+          "bucket": "Professional Licensing Office"
         },
         {
           "state": "GA",
           "raw_value": "Professional Licensing Boards Division, Office of the Secretary of State",
-          "bucket": "Secretary of State / Commerce"
+          "bucket": "Professional Licensing Office"
+        },
+        {
+          "state": "HI",
+          "raw_value": "Department of Health",
+          "bucket": "Health Dept"
+        },
+        {
+          "state": "IA",
+          "raw_value": "Department of Inspections, Appeals, and Licensing",
+          "bucket": "Professional Licensing Office"
         },
         {
           "state": "IN",
           "raw_value": "Indiana Professional Licensing Agency",
-          "bucket": "Professional Licensing Agency"
+          "bucket": "Professional Licensing Office"
+        },
+        {
+          "state": "KS",
+          "raw_value": "Kansas Department for Aging and Disability Services",
+          "bucket": "Aging / Disability Services"
         },
         {
           "state": "LA",
           "raw_value": "Louisiana Department of Health",
-          "bucket": "Dept of Health"
+          "bucket": "Health Dept"
         },
         {
           "state": "MA",
           "raw_value": "Department of Public Health",
-          "bucket": "Dept of Health"
+          "bucket": "Health Dept"
         },
         {
           "state": "MD",
           "raw_value": "Maryland Department of Health",
-          "bucket": "Dept of Health"
+          "bucket": "Health Dept"
         },
         {
           "state": "ME",
           "raw_value": "Department of Professional and Financial Regulation",
-          "bucket": "Professional Licensing Agency"
+          "bucket": "Professional Licensing Office"
         },
         {
           "state": "MO",
           "raw_value": "Division of Professional Registration",
-          "bucket": "Professional Licensing Agency"
+          "bucket": "Professional Licensing Office"
         },
         {
           "state": "MT",
           "raw_value": "Department of Labor and Industry",
-          "bucket": "Labor & Industry"
+          "bucket": "Commerce / Labor / State"
         },
         {
           "state": "NE",
-          "raw_value": "Division of Public Health of the Department of Health and Human Services",
-          "bucket": "Dept of Health"
+          "raw_value": "Division of Public Health, Department of Health and Human Services",
+          "bucket": "Health Dept"
         },
         {
           "state": "NH",
           "raw_value": "Office of Professional Licensure and Certification",
-          "bucket": "Professional Licensing Agency"
+          "bucket": "Professional Licensing Office"
         },
         {
           "state": "NJ",
           "raw_value": "Division of Consumer Affairs, Department of Law and Public Safety",
-          "bucket": "Consumer Affairs / Law"
+          "bucket": "Consumer / Law Affairs"
         },
         {
           "state": "NM",
           "raw_value": "Regulation and Licensing Department",
-          "bucket": "Professional Licensing Agency"
+          "bucket": "Professional Licensing Office"
         },
         {
           "state": "PA",
           "raw_value": "Department of State of the Commonwealth",
-          "bucket": "Secretary of State / Commerce"
+          "bucket": "Commerce / Labor / State"
         },
         {
           "state": "RI",
           "raw_value": "Division of Professional Regulation, Rhode Island Department of Health",
-          "bucket": "Dept of Health"
+          "bucket": "Health Dept"
         },
         {
           "state": "SC",
           "raw_value": "Department of Labor, Licensing and Regulation",
-          "bucket": "Labor & Industry"
+          "bucket": "Commerce / Labor / State"
         },
         {
           "state": "TN",
           "raw_value": "Division of Health Related Boards, Department of Health",
-          "bucket": "Dept of Health"
-        },
-        {
-          "state": "TX",
-          "raw_value": "Texas Commission of Licensing and Regulation",
-          "bucket": "Professional Licensing Agency"
+          "bucket": "Health Dept"
         },
         {
           "state": "UT",
           "raw_value": "Department of Commerce",
-          "bucket": "Secretary of State / Commerce"
+          "bucket": "Commerce / Labor / State"
         },
         {
           "state": "VT",
           "raw_value": "Office of Professional Regulation",
-          "bucket": "Professional Licensing Agency"
+          "bucket": "Professional Licensing Office"
         }
       ]
     },
     {
       "field_name": "scope.drug_authority",
       "bucket_set": [
-        "Protocol-Based Adjustment",
-        "Protocol + Vitamin/Mineral Orders",
-        "Delegated Protocol Only"
+        "Dose Adjust Only",
+        "Dose Adjust + Supplements",
+        "Protocol Prescribing"
       ],
-      "rationale": "States cluster by whether drug authority is limited to protocol-based dose adjustments only, protocol-based adjustments plus explicit vitamin/mineral ordering rights, or a simpler delegated protocol prescription model.",
+      "rationale": "States cluster by how far their drug authority extends: some limit dietitians to delegated dose adjustments only, some add independent supplement prescribing, and one frames authority as protocol-based legend drug prescribing.",
       "assignments": [
         {
           "state": "MI",
-          "raw_value": "May implement prescription drug dose adjustments for specific disease treatment protocols under approved protocols and prescriber delegation; shall not prescribe or initiate drug treatment except as otherwise provided.",
-          "bucket": "Protocol-Based Adjustment"
+          "raw_value": "May implement prescription drug dose adjustments for specific disease treatment protocols under approved protocols and prescriber delegation; shall not prescribe or initiate drug treatment except as provided.",
+          "bucket": "Dose Adjust Only"
         },
         {
           "state": "MN",
-          "raw_value": "May implement a protocol resulting in prescription of a legend drug that has been predetermined and delegated by a licensed practitioner.",
-          "bucket": "Delegated Protocol Only"
+          "raw_value": "A licensed dietitian or licensed nutritionist may implement a protocol that does not reference a specific patient and results in a prescription of a legend drug that has been predetermined and delegated by a licensed practitioner.",
+          "bucket": "Protocol Prescribing"
         },
         {
           "state": "ND",
-          "raw_value": "May implement prescription drug dose adjustments for specific disease treatment protocols within limits of knowledge, skills, judgment, and current evidence-informed clinical practice guidelines as indicated in a facility approved protocol and as approved and delegated by the licensed prescriber; may prescribe vitamin and mineral supplements or discontinue unnecessary vitamins and minerals",
-          "bucket": "Protocol + Vitamin/Mineral Orders"
+          "raw_value": "May implement prescription drug dose adjustments for specific disease treatment protocols within facility-approved protocols and as delegated by licensed prescriber; may prescribe or discontinue vitamin and mineral supplements.",
+          "bucket": "Dose Adjust + Supplements"
         },
         {
           "state": "NE",
-          "raw_value": "May implement prescription drug dose adjustments for specific disease treatment protocols within limits of knowledge, skills, judgment, and clinical practice guidelines pursuant to facility-approved protocol and as approved and delegated by the licensed prescriber; may recommend and order or discontinue vitamin and mineral supplements; may NOT independently prescribe or initiate drug treatment",
-          "bucket": "Protocol + Vitamin/Mineral Orders"
+          "raw_value": "May implement prescription drug dose adjustments for specific disease treatment protocols within facility-approved protocols as approved and delegated by the licensed prescriber; may recommend and order or discontinue vitamin and mineral supplements. Cannot independently prescribe or initiate drug treatment.",
+          "bucket": "Dose Adjust + Supplements"
         }
       ]
     },
@@ -3309,10 +3106,9 @@
         "Council",
         "Advisory Committee",
         "Advisory Group / Panel",
-        "Allied Health Board",
-        "Informal Advisors"
+        "Allied Health Board"
       ],
-      "rationale": "The names cluster naturally by their governing-body noun — Board, Council, Committee, Group/Panel, a broader Allied Health board, and one state's informal advisor-appointee structure — reflecting meaningfully different structural approaches.",
+      "rationale": "The names cluster by the governing-body noun used — Board, Council, Committee, or looser Group/Panel — which reflects the structural formality and independence of the oversight body; one state rolls dietetics into a broader allied health board.",
       "assignments": [
         {
           "state": "FL",
@@ -3381,8 +3177,8 @@
         },
         {
           "state": "VT",
-          "raw_value": "Advisor appointees (dietitian advisors)",
-          "bucket": "Informal Advisors"
+          "raw_value": "Advisor appointees (dietetics advisors)",
+          "bucket": "Advisory Group / Panel"
         }
       ]
     },
@@ -3390,82 +3186,82 @@
       "field_name": "licensure.advisory_board.authority",
       "bucket_set": [
         "Pure Advisory",
-        "Advisory + Rulemaking Input",
         "Advisory + Disciplinary Role",
-        "Delegated Executive Power",
-        "Rule Proposal Required"
+        "Delegated Rulemaking",
+        "Binding Recommendations",
+        "Exam & Licensure Focus"
       ],
-      "rationale": "States cluster by how much real authority the advisory body holds — from purely consultative, to required rule proposal, to delegated enforcement power — capturing the key functional differences visible in the statutory text.",
+      "rationale": "States cluster by how much binding or operational authority the advisory body holds, ranging from purely consultative roles to bodies with delegated rulemaking, disciplinary hearing powers, or mandatory pre-adoption proposal authority.",
       "assignments": [
         {
           "state": "FL",
           "raw_value": "The board may delegate such powers and duties to the council as it may deem proper to carry out the operations and procedures necessary to effectuate the provisions of this part.",
-          "bucket": "Delegated Executive Power"
+          "bucket": "Delegated Rulemaking"
         },
         {
           "state": "HI",
-          "raw_value": "to assist with the implementation of this chapter and the rules adopted pursuant thereto",
+          "raw_value": "advisory only — assists with implementation of the chapter and rules",
           "bucket": "Pure Advisory"
         },
         {
           "state": "ID",
-          "raw_value": "Makes recommendations to the board on licensure endorsement, discipline, and disciplinary sanctions; the board acts upon its recommendation or on its own motion.",
-          "bucket": "Advisory + Rulemaking Input"
+          "raw_value": "Makes recommendations to the board on licensure by endorsement, disciplinary actions, and examination recognition; board acts upon recommendation of the allied health advisory board",
+          "bucket": "Binding Recommendations"
         },
         {
           "state": "IL",
           "raw_value": "Advisory capacity to the Secretary; Secretary considers Board recommendations on standards of professional conduct, discipline, and qualifications of candidates or licensees",
-          "bucket": "Advisory + Rulemaking Input"
+          "bucket": "Pure Advisory"
         },
         {
           "state": "MO",
-          "raw_value": "assists the division in administering and enforcing the act; adopts, publishes, and enforces rules and regulations; approves examination; issues licenses",
-          "bucket": "Delegated Executive Power"
+          "raw_value": "The committee assists the division in administering and enforcing the act, adopts rules and regulations, approves examinations, and recommends prosecutions; it has delegated rulemaking and disciplinary recommendation authority but operates within the Division of Professional Registration.",
+          "bucket": "Delegated Rulemaking"
         },
         {
           "state": "MS",
-          "raw_value": "The board shall utilize as the basis thereof the corresponding recommendations of the advisory council for rules, regulations and minimum standards for licensing of dietitians; the advisory council also evaluates reciprocity standards and receives evidence for provisional licensure applications.",
-          "bucket": "Rule Proposal Required"
+          "raw_value": "The board shall utilize the recommendations of the advisory council as the basis for rules, regulations and standards; the advisory council reviews applicants; the advisory council evaluates reciprocity standards.",
+          "bucket": "Binding Recommendations"
         },
         {
           "state": "NV",
-          "raw_value": "provide the Board with expertise and assistance in carrying out its duties pursuant to this chapter",
+          "raw_value": "to provide the Board with expertise and assistance in carrying out its duties pursuant to this chapter",
           "bucket": "Pure Advisory"
         },
         {
           "state": "OH",
-          "raw_value": "advisory only — may submit recommendations to the board on licensure requirements, rules, educational standards, fees, standards of practice, and scope of practice; no binding rulemaking authority",
-          "bucket": "Advisory + Rulemaking Input"
+          "raw_value": "advisory only — may submit recommendations to the board on licensure requirements, rules, educational standards, fees, standards of practice, and scope of practice, but has no binding authority",
+          "bucket": "Pure Advisory"
         },
         {
           "state": "OK",
           "raw_value": "assist the Board in conducting examinations for applicants and advise the Board on all matters pertaining to the licensure of dietitians",
-          "bucket": "Pure Advisory"
+          "bucket": "Exam & Licensure Focus"
         },
         {
           "state": "OR",
-          "raw_value": "Advisory only — advises the Health Licensing Office with regard to the regulation of dietitians; consulted on licensing, rulemaking, discipline, and examination matters.",
-          "bucket": "Advisory + Rulemaking Input"
+          "raw_value": "advisory only — advises the Health Licensing Office with regard to the regulation of dietitians; consulted on licensing, rulemaking, examinations, and discipline",
+          "bucket": "Pure Advisory"
         },
         {
           "state": "SC",
-          "raw_value": "advises the department in development of regulations and statutory revisions; conducts disciplinary hearings; mediates consumer complaints; disciplines licensees",
+          "raw_value": "advises the department in development of regulations and statutory revisions; also conducts disciplinary hearings and mediates consumer complaints",
           "bucket": "Advisory + Disciplinary Role"
         },
         {
           "state": "SD",
-          "raw_value": "Assists the board in all matters related to licensure, practice, education, continuing education, investigation, and discipline; makes recommendations to the board regarding rules; submits meeting minutes and recommendations to the board following each council meeting.",
-          "bucket": "Advisory + Rulemaking Input"
+          "raw_value": "Assists the board in all matters related to licensure, practice, education, continuing education, investigation, and discipline; makes recommendations to the board regarding rules; submits meeting minutes and recommendations to the board following each meeting.",
+          "bucket": "Pure Advisory"
         },
         {
           "state": "TX",
           "raw_value": "The commission may not adopt a new rule relating to the scope of practice of or a health-related standard of care for dietitians unless the rule has been proposed by the advisory board; the commission retains authority for final adoption.",
-          "bucket": "Rule Proposal Required"
+          "bucket": "Binding Recommendations"
         },
         {
           "state": "VT",
-          "raw_value": "advisory only — Director consults advisors before selecting examinations and for establishing continuing education guidelines",
-          "bucket": "Pure Advisory"
+          "raw_value": "advisory only — Director consults advisors before selecting examination and establishing continuing education guidelines; Director may adopt rules after consultation with advisor appointees",
+          "bucket": "Exam & Licensure Focus"
         }
       ]
     },
@@ -3475,7 +3271,7 @@
         "Pain & Symptom Mgmt",
         "Nutrition & Metabolism"
       ],
-      "rationale": "Only two states report values and each maps cleanly to a distinct clinical focus area, so two descriptive buckets cover the full distribution.",
+      "rationale": "The two states each mandate a distinct topical focus — one clinical/palliative and one core dietetics/metabolic — so each gets its own descriptive bucket.",
       "assignments": [
         {
           "state": "MI",
