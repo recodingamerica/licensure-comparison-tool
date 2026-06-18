@@ -54,9 +54,8 @@ from map_prep.run import (  # noqa: E402
     APPLY_CHUNK_SIZE,
 )
 from map_prep.bucket_text import (  # noqa: E402
-    FieldBuckets, PerItemFieldBuckets,
-    _collect_per_state, _collect_items_for_field,
-    _DEFAULT_PER_ITEM_FIELD,
+    FieldBuckets, _collect_per_state,
+    run_profession_per_item, run_profession_list_fields, _DEFAULT_PER_ITEM_FIELD,
 )
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
@@ -65,10 +64,6 @@ log = logging.getLogger("map_prep.refresh")
 MODEL = "claude-sonnet-4-6"
 _OUT_ROOT = _PIPELINE_DIR / "results" / "map_prep"
 _DISCOVERED_DIR = _PIPELINE_DIR / "results" / "discovered"
-
-# Fields we want per-item-bucketed (list-of-objects fields where each item should
-# get its own bucket assignment rather than collapsing the list to one bucket).
-PER_ITEM_FIELDS = ["licensure.disciplinary_grounds"]
 
 
 # Anthropic batch custom_id pattern is ^[a-zA-Z0-9_-]{1,64}$ — no dots allowed,
@@ -95,10 +90,6 @@ def _cid_apply(prof: str, chunk_i: int) -> str:
 
 def _cid_bucket_state(prof: str, field: str) -> str:
     return f"{prof}__bks_{_field_idx(prof, field)}"
-
-
-def _cid_bucket_item(prof: str, field: str) -> str:
-    return f"{prof}__bki_{_field_idx(prof, field)}"
 
 
 # ---------- Stage A: spec ----------
@@ -181,7 +172,6 @@ def stage_b_apply_and_bucket(
 
     apply_sys = _system_with_schema(load_prompt("map_prep_apply"), ApplyResult)
     bucket_state_sys = _system_with_schema(load_prompt("map_prep_bucket_text"), FieldBuckets)
-    bucket_item_sys = _system_with_schema(load_prompt("map_prep_bucket_text_per_item"), PerItemFieldBuckets)
 
     reqs: list[BatchRequest] = []
     chunks_by_prof: dict[str, int] = {}
@@ -236,25 +226,6 @@ def stage_b_apply_and_bucket(
                 max_tokens=4000,
             ))
 
-        # --- per-item bucket calls (list-of-objects fields like disciplinary_grounds) ---
-        if do_per_item:
-            for dotted in PER_ITEM_FIELDS:
-                rows = _collect_items_for_field(prof, dotted)
-                if len(rows) < 2:
-                    continue
-                user = json.dumps({
-                    "profession": prof,
-                    "field_name": dotted,
-                    "per_item_rows": rows,
-                }, ensure_ascii=False)
-                reqs.append(BatchRequest(
-                    custom_id=_cid_bucket_item(prof, dotted),
-                    system=bucket_item_sys,
-                    user=user,
-                    schema_cls=PerItemFieldBuckets,
-                    max_tokens=60000,
-                ))
-
     if not reqs:
         log.info("Stage B: no requests to submit")
         return {"cost_usd": 0, "sync_no_cache_baseline_usd": 0, "saved_pct": 0}
@@ -268,7 +239,7 @@ def stage_b_apply_and_bucket(
     # ---- Apply results to disk per profession ----
     # 1. apply chunks → assemble per profession's normalized.json
     # 2. bucket per-state → text_buckets.json per profession
-    # 3. bucket per-item → text_buckets_per_item.json per profession
+    # (per-item bucketing is delegated to bucket_text after this loop)
     for prof in professions:
         if prof not in specs:
             continue
@@ -306,21 +277,25 @@ def stage_b_apply_and_bucket(
             }, indent=2, ensure_ascii=False))
             log.info("[%s] wrote text_buckets.json (%d fields)", prof, len(field_results))
 
-        # bucket per-item
-        if do_per_item:
-            per_item_out = {"profession": prof, "fields": {}}
-            for dotted in PER_ITEM_FIELDS:
-                cid = _cid_bucket_item(prof, dotted)
-                r = results.get(cid)
-                if r is None or r.parsed is None:
-                    continue
-                per_item_out["fields"][dotted] = r.parsed.model_dump()
-            if per_item_out["fields"]:
-                (out_dir / "text_buckets_per_item.json").write_text(
-                    json.dumps(per_item_out, indent=2, ensure_ascii=False)
-                )
-                log.info("[%s] wrote text_buckets_per_item.json (%d fields)",
-                         prof, len(per_item_out["fields"]))
+    # Per-item bucketing (list-of-objects fields) runs through the canonical
+    # two-stage design→assign implementation in bucket_text — NOT a duplicated
+    # single-call batch path. That duplication is exactly what drifted and broke:
+    # it called prompt key `map_prep_bucket_text_per_item`, which the sync path
+    # long ago split into `_design`/`_assign` and removed. Delegating keeps one
+    # source of truth (and buckets every discovered list field, not just a fixed
+    # list). Sync, but per-item assign is already chunked into small calls —
+    # correctness over the marginal batch discount on this one stage.
+    if do_per_item:
+        for prof in professions:
+            if prof not in specs:
+                continue
+            # Standard list field (disciplinary_grounds) + every discovered
+            # profession_specific list field. Both are needed: discovered_list_fields
+            # only returns profession_specific.* paths, so the standard field must be
+            # bucketed explicitly (this is the pairing bucket_text's CLI exposes as
+            # `--per-item` + `--list-fields`).
+            run_profession_per_item(prof, _DEFAULT_PER_ITEM_FIELD)
+            run_profession_list_fields(prof)
 
     return aggregate_usage(results)
 
