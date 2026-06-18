@@ -77,5 +77,38 @@ act. Then attach Act 6/2018 + Act 53/2020 per-profession (WA pattern:
 
 72 other professions in `professions.yaml` still lack PA. The `pa_legis` puller is
 general — each needs (a) its PA act number/year, (b) standalone/embedded/none
-classification, (c) for embedded ones a `pa_keep_sections` list. Not started; do
-not claim coverage for these.
+classification, (c) for embedded ones a `pa_keep_sections` list.
+
+### Pilot batch 1 — 8 wired + pulled (2026-06-18)
+
+Each act's WU01 URL was verified to fetch `200` with the act title present, then
+text pulled (`pull_text --states PA`); all sections split cleanly (0 fetch errors).
+Wired into `state_structure.yaml` PA block; `match_profession` re-run so each
+profession index carries its PA node. **Not yet cleaned/trimmed/extracted** — text
+only.
+
+| Profession | Act | WU01 | Class | Sections |
+|---|---|---|---|---|
+| chiropractic | Chiropractic Practice Act (188/1986) | 1986/0/0188 | standalone | 34 |
+| pharmacy | Pharmacy Act (699/1961) | 1961/0/0699 | standalone† | 30 |
+| psychology | Professional Psychologists Practice Act (52/1972) | 1972/0/0052 | standalone | 25 |
+| social_work | Social Workers, MFT & Prof. Counselors Act (39/1987) | 1987/0/0039 | standalone‡ | 34 |
+| physical_therapy | Physical Therapy Practice Act (110/1975) | 1975/0/0110 | standalone | 23 |
+| real_estate_broker | RELRA (9/1980) | 1980/0/0009 | standalone | 65 |
+| funeral_services | Funeral Director Law (522/1951) | 1951/0/0522 | standalone† | 24 |
+| cosmetology | Cosmetology Law (86/1933) **+** Barbers' License Law (202/1931) | 1933/0/0086 + 1931/0/0202 | **multi-act** | 60 (35+25) |
+
+Notes:
+- **† `authoritative: true`** set on pharmacy and funeral_services to drop a
+  label-matched PA Justia node: pharmacy's was a year-versioned stub of the same
+  act; funeral's (`act-50`) was a **false match** — the Decedents/Estates Code's
+  "payments to funeral directors" section, not the licensing act.
+- **‡ social_work** — one act covers three credentials (LSW/LCSW, LMFT, LPC); the
+  per-credential split lives in regs (49 Pa. Code Ch. 47/48/49), not the act, so
+  the corpus is the whole act (no keep-list). `mental_health_counseling` maps to
+  this **same act** when it's wired.
+- **funeral session-year quirk:** signed Jan 14, 1952 but keyed to the **1951**
+  session (title reads "Act of Jan. 14, (1952) 1951"); a 1952 URL 404s. Same
+  pattern as podiatry/LPN.
+
+**Remaining: 64 held-out professions.** Do not claim coverage for these.
