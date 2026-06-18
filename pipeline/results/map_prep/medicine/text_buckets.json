@@ -4,18 +4,19 @@
     {
       "field_name": "licensure.issuing_authority",
       "bucket_set": [
-        "State Medical Board",
+        "Medical Board",
         "Board of Examiners",
         "Board of Licensure",
-        "Dept / Agency Umbrella",
-        "Composite / Healing Arts Board"
+        "Healing Arts Board",
+        "State Dept / Agency",
+        "Composite / Other Board"
       ],
-      "rationale": "Most states use one of a handful of structural patterns: a named 'Medical Board', a 'Board of Examiners', a 'Board of Licensure/Practice/Registration', a broader government department or agency umbrella, or a multi-profession composite/healing-arts board.",
+      "rationale": "Groups states by the dominant naming convention of their issuing authority, which reflects structural differences in how physician oversight is organized (standalone medical boards, examiner-style boards, licensure-focused boards, healing arts boards, or general state departments/agencies).",
       "assignments": [
         {
           "state": "AK",
           "raw_value": "State Medical Board",
-          "bucket": "State Medical Board"
+          "bucket": "Medical Board"
         },
         {
           "state": "AL",
@@ -25,27 +26,27 @@
         {
           "state": "AR",
           "raw_value": "Arkansas State Medical Board",
-          "bucket": "State Medical Board"
+          "bucket": "Medical Board"
         },
         {
           "state": "AZ",
           "raw_value": "Arizona Medical Board",
-          "bucket": "State Medical Board"
+          "bucket": "Medical Board"
         },
         {
           "state": "CA",
           "raw_value": "Medical Board of California",
-          "bucket": "State Medical Board"
+          "bucket": "Medical Board"
         },
         {
           "state": "CO",
           "raw_value": "Colorado Medical Board",
-          "bucket": "State Medical Board"
+          "bucket": "Medical Board"
         },
         {
           "state": "CT",
           "raw_value": "Department of Public Health",
-          "bucket": "Dept / Agency Umbrella"
+          "bucket": "State Dept / Agency"
         },
         {
           "state": "DE",
@@ -55,32 +56,32 @@
         {
           "state": "FL",
           "raw_value": "Department of Health and Board of Medicine",
-          "bucket": "Dept / Agency Umbrella"
+          "bucket": "State Dept / Agency"
         },
         {
           "state": "GA",
           "raw_value": "Georgia Composite Medical Board",
-          "bucket": "Composite / Healing Arts Board"
+          "bucket": "Composite / Other Board"
         },
         {
           "state": "HI",
           "raw_value": "Hawaii medical board",
-          "bucket": "State Medical Board"
+          "bucket": "Medical Board"
         },
         {
           "state": "IA",
           "raw_value": "Board of Medicine",
-          "bucket": "State Medical Board"
+          "bucket": "Medical Board"
         },
         {
           "state": "ID",
           "raw_value": "State Board of Medicine",
-          "bucket": "State Medical Board"
+          "bucket": "Medical Board"
         },
         {
           "state": "IL",
           "raw_value": "Department of Financial and Professional Regulation",
-          "bucket": "Dept / Agency Umbrella"
+          "bucket": "State Dept / Agency"
         },
         {
           "state": "IN",
@@ -90,7 +91,7 @@
         {
           "state": "KS",
           "raw_value": "State Board of Healing Arts",
-          "bucket": "Composite / Healing Arts Board"
+          "bucket": "Healing Arts Board"
         },
         {
           "state": "KY",
@@ -105,12 +106,12 @@
         {
           "state": "MA",
           "raw_value": "Board of Registration in Medicine",
-          "bucket": "Board of Licensure"
+          "bucket": "Composite / Other Board"
         },
         {
           "state": "MD",
           "raw_value": "State Board of Physicians",
-          "bucket": "State Medical Board"
+          "bucket": "Composite / Other Board"
         },
         {
           "state": "ME",
@@ -120,17 +121,17 @@
         {
           "state": "MI",
           "raw_value": "Michigan Board of Medicine",
-          "bucket": "State Medical Board"
+          "bucket": "Medical Board"
         },
         {
           "state": "MN",
           "raw_value": "Board of Medical Practice",
-          "bucket": "State Medical Board"
+          "bucket": "Composite / Other Board"
         },
         {
           "state": "MO",
           "raw_value": "State Board of Registration for the Healing Arts",
-          "bucket": "Composite / Healing Arts Board"
+          "bucket": "Healing Arts Board"
         },
         {
           "state": "MS",
@@ -143,19 +144,24 @@
           "bucket": "Board of Examiners"
         },
         {
+          "state": "NC",
+          "raw_value": "North Carolina Medical Board",
+          "bucket": "Medical Board"
+        },
+        {
           "state": "ND",
           "raw_value": "North Dakota Board of Medicine",
-          "bucket": "State Medical Board"
+          "bucket": "Medical Board"
         },
         {
           "state": "NE",
           "raw_value": "Division of Public Health, Department of Health and Human Services",
-          "bucket": "Dept / Agency Umbrella"
+          "bucket": "State Dept / Agency"
         },
         {
           "state": "NH",
           "raw_value": "Office of Professional Licensure and Certification",
-          "bucket": "Dept / Agency Umbrella"
+          "bucket": "State Dept / Agency"
         },
         {
           "state": "NJ",
@@ -165,7 +171,7 @@
         {
           "state": "NM",
           "raw_value": "New Mexico Medical Board",
-          "bucket": "State Medical Board"
+          "bucket": "Medical Board"
         },
         {
           "state": "NV",
@@ -175,27 +181,32 @@
         {
           "state": "NY",
           "raw_value": "Education Department (Board of Regents)",
-          "bucket": "Dept / Agency Umbrella"
+          "bucket": "State Dept / Agency"
         },
         {
           "state": "OH",
           "raw_value": "State Medical Board",
-          "bucket": "State Medical Board"
+          "bucket": "Medical Board"
+        },
+        {
+          "state": "OK",
+          "raw_value": "State Board of Medical Licensure and Supervision",
+          "bucket": "Board of Licensure"
         },
         {
           "state": "OR",
           "raw_value": "Oregon Medical Board",
-          "bucket": "State Medical Board"
+          "bucket": "Medical Board"
         },
         {
           "state": "PA",
           "raw_value": "State Board of Medicine",
-          "bucket": "State Medical Board"
+          "bucket": "Medical Board"
         },
         {
           "state": "RI",
           "raw_value": "Director of the Rhode Island Department of Health (at the direction of the Rhode Island Board of Medical Licensure and Discipline)",
-          "bucket": "Dept / Agency Umbrella"
+          "bucket": "State Dept / Agency"
         },
         {
           "state": "SC",
@@ -210,32 +221,32 @@
         {
           "state": "TN",
           "raw_value": "Board of Medical Examiners, Division of Health Related Boards, Department of Health",
-          "bucket": "Dept / Agency Umbrella"
+          "bucket": "Board of Examiners"
         },
         {
           "state": "TX",
           "raw_value": "Texas Medical Board",
-          "bucket": "State Medical Board"
+          "bucket": "Medical Board"
         },
         {
           "state": "UT",
           "raw_value": "Division of Professional Licensing",
-          "bucket": "Dept / Agency Umbrella"
+          "bucket": "State Dept / Agency"
         },
         {
           "state": "VA",
           "raw_value": "Board of Medicine",
-          "bucket": "State Medical Board"
+          "bucket": "Medical Board"
         },
         {
           "state": "VT",
           "raw_value": "Board of Medical Practice",
-          "bucket": "State Medical Board"
+          "bucket": "Composite / Other Board"
         },
         {
           "state": "WA",
           "raw_value": "Washington Medical Commission",
-          "bucket": "State Medical Board"
+          "bucket": "Composite / Other Board"
         },
         {
           "state": "WI",
@@ -245,12 +256,12 @@
         {
           "state": "WV",
           "raw_value": "West Virginia Board of Medicine",
-          "bucket": "State Medical Board"
+          "bucket": "Medical Board"
         },
         {
           "state": "WY",
           "raw_value": "Wyoming state board of medicine",
-          "bucket": "State Medical Board"
+          "bucket": "Medical Board"
         }
       ]
     },
@@ -260,12 +271,12 @@
         "Medical Board",
         "Board of Examiners",
         "Board of Licensure",
-        "Board of Practice/Registration",
+        "Board of Practice",
         "Healing Arts Board",
-        "Commission/Department",
-        "Combined Specialties Board"
+        "Commission / Dept",
+        "Composite / Multi-scope"
       ],
-      "rationale": "State bodies cluster around their naming convention — 'Medical Board', 'Board of Examiners', 'Board of Licensure/Discipline', 'Board of Practice/Registration', 'Healing Arts', a small group using 'Commission' or a non-medical department, and boards that explicitly combine medicine with another specialty (e.g., osteopathic, surgery).",
+      "rationale": "Names cluster around the core noun phrase used — 'Medical Board', 'Board of Examiners', 'Board of Licensure/Discipline', 'Board of Practice', 'Healing Arts' (broader scope), a small group under a Commission or Education Department, and one composite multi-profession board.",
       "assignments": [
         {
           "state": "AK",
@@ -275,7 +286,7 @@
         {
           "state": "AL",
           "raw_value": "Medical Licensure Commission of Alabama",
-          "bucket": "Commission/Department"
+          "bucket": "Commission / Dept"
         },
         {
           "state": "AR",
@@ -315,7 +326,7 @@
         {
           "state": "GA",
           "raw_value": "Georgia Composite Medical Board",
-          "bucket": "Medical Board"
+          "bucket": "Composite / Multi-scope"
         },
         {
           "state": "HI",
@@ -360,7 +371,7 @@
         {
           "state": "MA",
           "raw_value": "Board of Registration in Medicine",
-          "bucket": "Board of Practice/Registration"
+          "bucket": "Board of Licensure"
         },
         {
           "state": "MD",
@@ -380,7 +391,7 @@
         {
           "state": "MN",
           "raw_value": "Board of Medical Practice",
-          "bucket": "Board of Practice/Registration"
+          "bucket": "Board of Practice"
         },
         {
           "state": "MO",
@@ -398,6 +409,11 @@
           "bucket": "Board of Examiners"
         },
         {
+          "state": "NC",
+          "raw_value": "North Carolina Medical Board",
+          "bucket": "Medical Board"
+        },
+        {
           "state": "ND",
           "raw_value": "North Dakota Board of Medicine",
           "bucket": "Medical Board"
@@ -405,7 +421,7 @@
         {
           "state": "NE",
           "raw_value": "Nebraska Board of Medicine and Surgery (via State Board of Health appointment)",
-          "bucket": "Combined Specialties Board"
+          "bucket": "Medical Board"
         },
         {
           "state": "NH",
@@ -430,12 +446,17 @@
         {
           "state": "NY",
           "raw_value": "New York State Education Department / Board of Regents",
-          "bucket": "Commission/Department"
+          "bucket": "Commission / Dept"
         },
         {
           "state": "OH",
           "raw_value": "State Medical Board",
           "bucket": "Medical Board"
+        },
+        {
+          "state": "OK",
+          "raw_value": "State Board of Medical Licensure and Supervision",
+          "bucket": "Board of Licensure"
         },
         {
           "state": "OR",
@@ -460,7 +481,7 @@
         {
           "state": "SD",
           "raw_value": "Board of Medical and Osteopathic Examiners",
-          "bucket": "Combined Specialties Board"
+          "bucket": "Board of Examiners"
         },
         {
           "state": "TN",
@@ -485,12 +506,12 @@
         {
           "state": "VT",
           "raw_value": "Board of Medical Practice",
-          "bucket": "Board of Practice/Registration"
+          "bucket": "Board of Practice"
         },
         {
           "state": "WA",
           "raw_value": "Washington Medical Commission",
-          "bucket": "Commission/Department"
+          "bucket": "Commission / Dept"
         },
         {
           "state": "WI",
@@ -513,22 +534,23 @@
       "field_name": "licensure.regulatory_authority.umbrella_agency",
       "bucket_set": [
         "Dept of Health",
-        "Commerce / Consumer Affairs",
-        "Professional Licensing Agency",
-        "Education Dept",
-        "Labor & Industry"
+        "Consumer Affairs",
+        "Professional Licensing",
+        "Commerce / Economic Dev",
+        "Labor & Industry",
+        "Education Dept"
       ],
-      "rationale": "States cluster by the type of cabinet-level home for medical licensure: health-focused departments, commerce/consumer-affairs departments, dedicated professional licensing agencies, labor departments, and the outlier education department.",
+      "rationale": "States cluster by the primary mission of the umbrella agency: health-focused departments, consumer affairs bodies, dedicated professional licensing/regulation agencies, commerce/economic development departments, labor and industry departments, and education departments.",
       "assignments": [
         {
           "state": "AK",
           "raw_value": "Department of Commerce, Community, and Economic Development",
-          "bucket": "Commerce / Consumer Affairs"
+          "bucket": "Commerce / Economic Dev"
         },
         {
           "state": "CA",
           "raw_value": "Department of Consumer Affairs",
-          "bucket": "Commerce / Consumer Affairs"
+          "bucket": "Consumer Affairs"
         },
         {
           "state": "CT",
@@ -538,7 +560,7 @@
         {
           "state": "DE",
           "raw_value": "Division of Professional Regulation",
-          "bucket": "Professional Licensing Agency"
+          "bucket": "Professional Licensing"
         },
         {
           "state": "FL",
@@ -553,17 +575,17 @@
         {
           "state": "HI",
           "raw_value": "Department of Commerce and Consumer Affairs",
-          "bucket": "Commerce / Consumer Affairs"
+          "bucket": "Consumer Affairs"
         },
         {
           "state": "ID",
           "raw_value": "Division of Occupational and Professional Licenses",
-          "bucket": "Professional Licensing Agency"
+          "bucket": "Professional Licensing"
         },
         {
           "state": "IL",
           "raw_value": "Department of Financial and Professional Regulation",
-          "bucket": "Professional Licensing Agency"
+          "bucket": "Professional Licensing"
         },
         {
           "state": "MD",
@@ -573,17 +595,17 @@
         {
           "state": "ME",
           "raw_value": "Department of Professional and Financial Regulation",
-          "bucket": "Professional Licensing Agency"
+          "bucket": "Professional Licensing"
         },
         {
           "state": "MI",
           "raw_value": "Department of Licensing and Regulatory Affairs",
-          "bucket": "Professional Licensing Agency"
+          "bucket": "Professional Licensing"
         },
         {
           "state": "MO",
           "raw_value": "Division of Professional Registration, Department of Commerce and Insurance",
-          "bucket": "Commerce / Consumer Affairs"
+          "bucket": "Commerce / Economic Dev"
         },
         {
           "state": "MT",
@@ -598,12 +620,17 @@
         {
           "state": "NJ",
           "raw_value": "Division of Consumer Affairs, Department of Law and Public Safety",
-          "bucket": "Commerce / Consumer Affairs"
+          "bucket": "Consumer Affairs"
         },
         {
           "state": "NY",
           "raw_value": "New York State Education Department",
           "bucket": "Education Dept"
+        },
+        {
+          "state": "PA",
+          "raw_value": "Bureau of Professional and Occupational Affairs, Department of State",
+          "bucket": "Professional Licensing"
         },
         {
           "state": "RI",
@@ -623,7 +650,7 @@
         {
           "state": "UT",
           "raw_value": "Division of Professional Licensing, Department of Commerce",
-          "bucket": "Commerce / Consumer Affairs"
+          "bucket": "Commerce / Economic Dev"
         },
         {
           "state": "VA",
@@ -635,23 +662,23 @@
     {
       "field_name": "licensure.education.degree_required",
       "bucket_set": [
-        "MD or DO",
         "MD Only",
-        "Medical Degree (Broad)",
-        "Graduate of Med School",
-        "Accredited School + Foreign Pathway"
+        "MD or DO",
+        "Graduate/Diploma",
+        "MD or DO + Accreditation",
+        "MD or DO + Foreign Pathway"
       ],
-      "rationale": "States cluster by whether they explicitly name both MD and DO degrees, only MD, use a general 'medical degree' framing, describe the requirement as graduation from a school, or add explicit foreign/ECFMG pathways alongside accreditation requirements.",
+      "rationale": "States vary primarily on whether they name specific degrees (MD, DO, or both), whether they explicitly address foreign/international graduates, and whether they rely on graduation language rather than degree titles — these five buckets capture that distribution without over-splitting.",
       "assignments": [
         {
           "state": "AK",
           "raw_value": "Medical school degree accredited by the Association of American Medical Colleges and the Council on Medical Education of the American Medical Association",
-          "bucket": "Medical Degree (Broad)"
+          "bucket": "MD or DO + Accreditation"
         },
         {
           "state": "AR",
           "raw_value": "Graduate of recognized United States or Canadian medical school, or foreign medical school approved by the Arkansas State Medical Board",
-          "bucket": "Accredited School + Foreign Pathway"
+          "bucket": "MD or DO + Foreign Pathway"
         },
         {
           "state": "AZ",
@@ -661,12 +688,12 @@
         {
           "state": "CA",
           "raw_value": "Medical degree from an approved medical school",
-          "bucket": "Medical Degree (Broad)"
+          "bucket": "Graduate/Diploma"
         },
         {
           "state": "CO",
           "raw_value": "Doctor of Medicine (M.D.) or Doctor of Osteopathy (D.O.) from an approved medical college",
-          "bucket": "MD or DO"
+          "bucket": "MD or DO + Accreditation"
         },
         {
           "state": "CT",
@@ -681,27 +708,27 @@
         {
           "state": "FL",
           "raw_value": "Medical degree from accredited medical school or foreign medical school meeting specified standards",
-          "bucket": "Accredited School + Foreign Pathway"
+          "bucket": "MD or DO + Foreign Pathway"
         },
         {
           "state": "GA",
           "raw_value": "graduate of a legally incorporated medical school or osteopathic medical school",
-          "bucket": "Graduate of Med School"
+          "bucket": "Graduate/Diploma"
         },
         {
           "state": "HI",
           "raw_value": "M.D. or D.O. degree from accredited medical school with residency training",
-          "bucket": "MD or DO"
+          "bucket": "MD or DO + Accreditation"
         },
         {
           "state": "IA",
           "raw_value": "Diploma from an approved medical college or college of osteopathic medicine and surgery",
-          "bucket": "Graduate of Med School"
+          "bucket": "Graduate/Diploma"
         },
         {
           "state": "ID",
           "raw_value": "Graduation from an acceptable school of medicine",
-          "bucket": "Graduate of Med School"
+          "bucket": "Graduate/Diploma"
         },
         {
           "state": "IL",
@@ -716,17 +743,17 @@
         {
           "state": "KS",
           "raw_value": "Doctor of Medicine degree or Doctor of Osteopathy degree from an accredited healing arts school",
-          "bucket": "MD or DO"
+          "bucket": "MD or DO + Accreditation"
         },
         {
           "state": "KY",
           "raw_value": "Graduate of a medical or osteopathic school approved by the board",
-          "bucket": "Graduate of Med School"
+          "bucket": "Graduate/Diploma"
         },
         {
           "state": "LA",
           "raw_value": "M.D. or D.O. degree from a medical college in good standing with the board",
-          "bucket": "MD or DO"
+          "bucket": "MD or DO + Accreditation"
         },
         {
           "state": "MA",
@@ -741,57 +768,62 @@
         {
           "state": "ME",
           "raw_value": "Graduate from a medical school designated as accredited by the Liaison Committee on Medical Education, or unaccredited with ECFMG evaluation",
-          "bucket": "Accredited School + Foreign Pathway"
+          "bucket": "MD or DO + Foreign Pathway"
         },
         {
           "state": "MI",
           "raw_value": "degree in medicine",
-          "bucket": "Medical Degree (Broad)"
+          "bucket": "Graduate/Diploma"
         },
         {
           "state": "MN",
           "raw_value": "Graduate of a medical or osteopathic medical school located in the United States, its territories, or Canada",
-          "bucket": "Graduate of Med School"
+          "bucket": "Graduate/Diploma"
         },
         {
           "state": "MO",
           "raw_value": "Medical degree from accredited medical or osteopathic college",
-          "bucket": "Medical Degree (Broad)"
+          "bucket": "MD or DO + Accreditation"
         },
         {
           "state": "MS",
           "raw_value": "diploma from a reputable medical college or college of osteopathic medicine that requires a four-year course of at least thirty-two (32) weeks for each session",
-          "bucket": "Graduate of Med School"
+          "bucket": "Graduate/Diploma"
         },
         {
           "state": "MT",
           "raw_value": "Doctor of Medicine or Doctor of Osteopathy from an approved medical school",
-          "bucket": "MD or DO"
+          "bucket": "MD or DO + Accreditation"
+        },
+        {
+          "state": "NC",
+          "raw_value": "Graduate of an approved medical college with at least 130 weeks of medical education",
+          "bucket": "Graduate/Diploma"
         },
         {
           "state": "ND",
           "raw_value": "Doctor of Medicine (M.D.) or Doctor of Osteopathy (D.O.) from approved school",
-          "bucket": "MD or DO"
+          "bucket": "MD or DO + Accreditation"
         },
         {
           "state": "NE",
           "raw_value": "Graduate of an accredited school or college of medicine",
-          "bucket": "Graduate of Med School"
+          "bucket": "Graduate/Diploma"
         },
         {
           "state": "NH",
           "raw_value": "Medical degree from accredited school or UNWHO-recognized school with ECFMG certification",
-          "bucket": "Accredited School + Foreign Pathway"
+          "bucket": "MD or DO + Foreign Pathway"
         },
         {
           "state": "NJ",
           "raw_value": "Medical degree (M.D. or equivalent) from a legally incorporated professional school or college",
-          "bucket": "Medical Degree (Broad)"
+          "bucket": "Graduate/Diploma"
         },
         {
           "state": "NM",
           "raw_value": "Graduate of accredited United States or Canadian medical or osteopathic medical school",
-          "bucket": "Graduate of Med School"
+          "bucket": "Graduate/Diploma"
         },
         {
           "state": "NV",
@@ -809,39 +841,49 @@
           "bucket": "MD or DO"
         },
         {
+          "state": "OK",
+          "raw_value": "Doctor of Medicine",
+          "bucket": "MD Only"
+        },
+        {
           "state": "OR",
           "raw_value": "Doctor of Medicine or Doctor of Osteopathic Medicine",
           "bucket": "MD or DO"
         },
         {
+          "state": "PA",
+          "raw_value": "academic degree in medicine and surgery from a medical college",
+          "bucket": "Graduate/Diploma"
+        },
+        {
           "state": "RI",
           "raw_value": "Doctor of Medicine (M.D.) or Doctor of Osteopathy (D.O.) from an approved medical school",
-          "bucket": "MD or DO"
+          "bucket": "MD or DO + Accreditation"
         },
         {
           "state": "SC",
           "raw_value": "Medical school degree (M.D. or D.O.) from accredited institution",
-          "bucket": "MD or DO"
+          "bucket": "MD or DO + Accreditation"
         },
         {
           "state": "SD",
           "raw_value": "Medical or osteopathic college diploma",
-          "bucket": "Graduate of Med School"
+          "bucket": "Graduate/Diploma"
         },
         {
           "state": "TN",
           "raw_value": "Medical school degree (MD or equivalent)",
-          "bucket": "Medical Degree (Broad)"
+          "bucket": "MD Only"
         },
         {
           "state": "TX",
           "raw_value": "Doctor of Medicine (M.D.) or Doctor of Osteopathic Medicine (D.O.) from an approved medical school",
-          "bucket": "MD or DO"
+          "bucket": "MD or DO + Accreditation"
         },
         {
           "state": "UT",
           "raw_value": "Doctor of Medicine (M.D.) from LCME accredited school or equivalent foreign medical school certification",
-          "bucket": "Accredited School + Foreign Pathway"
+          "bucket": "MD or DO + Foreign Pathway"
         },
         {
           "state": "VA",
@@ -851,27 +893,27 @@
         {
           "state": "VT",
           "raw_value": "Doctor of Medicine or equivalent from accredited medical school",
-          "bucket": "MD Only"
+          "bucket": "MD or DO + Accreditation"
         },
         {
           "state": "WA",
           "raw_value": "Graduation from a school of medicine approved by the commission",
-          "bucket": "Graduate of Med School"
+          "bucket": "Graduate/Diploma"
         },
         {
           "state": "WI",
           "raw_value": "Graduate of and possesses a diploma from a medical or osteopathic college accredited by the Liaison Committee on Medical Education, the American Osteopathic Association, or a successor organization",
-          "bucket": "Graduate of Med School"
+          "bucket": "MD or DO + Accreditation"
         },
         {
           "state": "WV",
           "raw_value": "Doctor of Medicine (M.D.) or equivalent from approved school",
-          "bucket": "MD Only"
+          "bucket": "MD or DO + Accreditation"
         },
         {
           "state": "WY",
           "raw_value": "Medical degree from accredited school or equivalent",
-          "bucket": "Medical Degree (Broad)"
+          "bucket": "MD or DO + Accreditation"
         }
       ]
     },
@@ -879,13 +921,13 @@
       "field_name": "licensure.education.accrediting_body",
       "bucket_set": [
         "LCME / AOA Only",
-        "LCME / AOA + Foreign",
+        "LCME / AOA + Canadian",
+        "LCME / AOA + Foreign/ECFMG",
         "AMA / AAMC Based",
-        "ACGME / Grad Med Focus",
         "Board Discretion",
-        "Federal / WHO Reference"
+        "Multi-Body Named List"
       ],
-      "rationale": "States cluster by which named bodies they cite: LCME+AOA combos (the dominant pattern), those that add foreign school pathways (ECFMG/WHO/CACMS), older AMA/AAMC language, graduate-medical-education-focused bodies (ACGME), broad board-discretion language, and federal/WHO references.",
+      "rationale": "States cluster around which named accreditors they accept: LCME+AOA pairs (with or without Canadian schools or foreign/ECFMG pathways), older AMA/AAMC-centric language, broad board-discretion delegations, and longer multi-body enumerations that don't fit the simpler pairs.",
       "assignments": [
         {
           "state": "AK",
@@ -905,7 +947,7 @@
         {
           "state": "CA",
           "raw_value": "Liaison Committee on Medical Education; Committee on Accreditation of Canadian Medical Schools; Commission on Osteopathic College Accreditation; or ECFMG-evaluated foreign medical schools",
-          "bucket": "LCME / AOA + Foreign"
+          "bucket": "LCME / AOA + Foreign/ECFMG"
         },
         {
           "state": "CO",
@@ -925,7 +967,7 @@
         {
           "state": "FL",
           "raw_value": "United States Office of Education or equivalent; World Health Organization for foreign schools",
-          "bucket": "Federal / WHO Reference"
+          "bucket": "LCME / AOA + Foreign/ECFMG"
         },
         {
           "state": "GA",
@@ -965,7 +1007,7 @@
         {
           "state": "MD",
           "raw_value": "Accreditation Council for Graduate Medical Education (ACGME) or American Osteopathic Association (AOA)",
-          "bucket": "ACGME / Grad Med Focus"
+          "bucket": "Multi-Body Named List"
         },
         {
           "state": "ME",
@@ -985,12 +1027,17 @@
         {
           "state": "MO",
           "raw_value": "American Medical Association, Liaison Committee on Medical Education, American Osteopathic Association",
-          "bucket": "AMA / AAMC Based"
+          "bucket": "Multi-Body Named List"
         },
         {
           "state": "MT",
           "raw_value": "LCME, AOA, or World Health Organization",
-          "bucket": "LCME / AOA + Foreign"
+          "bucket": "LCME / AOA + Foreign/ECFMG"
+        },
+        {
+          "state": "NC",
+          "raw_value": "Liaison Commission on Medical Education (LCME), Committee for the Accreditation of Canadian Medical Schools, or American Osteopathic Association",
+          "bucket": "LCME / AOA + Canadian"
         },
         {
           "state": "ND",
@@ -1000,12 +1047,12 @@
         {
           "state": "NE",
           "raw_value": "Board-approved accreditation standards (Educational Commission for Foreign Medical Graduates for foreign graduates)",
-          "bucket": "LCME / AOA + Foreign"
+          "bucket": "LCME / AOA + Foreign/ECFMG"
         },
         {
           "state": "NH",
           "raw_value": "Accreditation Council for Medical Education (ACME) or United Nations World Health Organization (UNWHO)",
-          "bucket": "Federal / WHO Reference"
+          "bucket": "LCME / AOA + Foreign/ECFMG"
         },
         {
           "state": "NJ",
@@ -1015,7 +1062,7 @@
         {
           "state": "NM",
           "raw_value": "Association of American Medical Colleges, Council on Medical Education of the American Medical Association, or Commission of Osteopathic College Accreditation",
-          "bucket": "AMA / AAMC Based"
+          "bucket": "Multi-Body Named List"
         },
         {
           "state": "NV",
@@ -1033,9 +1080,19 @@
           "bucket": "LCME / AOA Only"
         },
         {
+          "state": "OK",
+          "raw_value": "Board-approved or private nonprofit accrediting body approved by the Board",
+          "bucket": "Board Discretion"
+        },
+        {
           "state": "OR",
           "raw_value": "Liaison Committee on Medical Education or American Osteopathic Association or Committee on Accreditation of Canadian Medical Schools",
-          "bucket": "LCME / AOA + Foreign"
+          "bucket": "LCME / AOA + Canadian"
+        },
+        {
+          "state": "PA",
+          "raw_value": "any accrediting body recognized by the board",
+          "bucket": "Board Discretion"
         },
         {
           "state": "RI",
@@ -1060,17 +1117,17 @@
         {
           "state": "TX",
           "raw_value": "Accrediting body officially recognized by the United States Department of Education for medical education leading to M.D. or D.O. degree",
-          "bucket": "Federal / WHO Reference"
+          "bucket": "Board Discretion"
         },
         {
           "state": "UT",
           "raw_value": "LCME (Liaison Committee on Medical Education) or Educational Commission for Foreign Medical Graduates",
-          "bucket": "LCME / AOA + Foreign"
+          "bucket": "LCME / AOA + Foreign/ECFMG"
         },
         {
           "state": "VA",
           "raw_value": "Accreditation Council for Graduate Medical Education, Liaison Committee on Medical Education, Council on Postgraduate Training of the American Osteopathic Association, Commission on Osteopathic College Accreditation, or other approved organizations",
-          "bucket": "ACGME / Grad Med Focus"
+          "bucket": "Multi-Body Named List"
         },
         {
           "state": "VT",
@@ -1095,71 +1152,72 @@
         {
           "state": "WY",
           "raw_value": "L.C.M.E., A.O.A., or E.C.F.M.G.",
-          "bucket": "LCME / AOA + Foreign"
+          "bucket": "LCME / AOA + Foreign/ECFMG"
         }
       ]
     },
     {
       "field_name": "licensure.post_degree_experience.duration",
       "bucket_set": [
-        "1 Year Min",
-        "2 Years Min",
-        "3 Years Min",
-        "1–2 Yrs (Grad-Dependent)",
-        "2–3 Yrs (Origin-Dependent)",
+        "1 Year",
+        "2 Years",
+        "3 Years",
+        "1 Yr Dom / 2 Yr IMG",
+        "1 Yr Dom / 3 Yr IMG",
+        "Tiered by Grad Date",
         "Board Discretion"
       ],
-      "rationale": "States cluster around fixed minimums of 1, 2, or 3 years, with a notable subset that tier requirements by domestic vs. foreign graduate status (1–2 or 2–3 years), and a small group that delegates duration entirely to board rule.",
+      "rationale": "States cluster around fixed durations (1, 2, or 3 years), a common domestic/IMG split at 1/2 or 1/3 years, a graduation-date-based tier, or full board discretion, capturing the main structural approaches without inventing unused categories.",
       "assignments": [
         {
           "state": "AK",
           "raw_value": "1-2 years depending on graduation date",
-          "bucket": "1–2 Yrs (Grad-Dependent)"
+          "bucket": "Tiered by Grad Date"
         },
         {
           "state": "AR",
           "raw_value": "3 years for domestic graduates; 3 years for foreign graduates with additional requirements",
-          "bucket": "3 Years Min"
+          "bucket": "3 Years"
         },
         {
           "state": "AZ",
           "raw_value": "12 months minimum",
-          "bucket": "1 Year Min"
+          "bucket": "1 Year"
         },
         {
           "state": "CA",
           "raw_value": "12 months (US/Canada graduates) or 24 months (foreign medical graduates)",
-          "bucket": "1–2 Yrs (Grad-Dependent)"
+          "bucket": "1 Yr Dom / 2 Yr IMG"
         },
         {
           "state": "CO",
           "raw_value": "At least one year",
-          "bucket": "1 Year Min"
+          "bucket": "1 Year"
         },
         {
           "state": "CT",
           "raw_value": "not less than two years",
-          "bucket": "2 Years Min"
+          "bucket": "2 Years"
         },
         {
           "state": "FL",
           "raw_value": "At least 1 year; 2 years for certain foreign medical school graduates",
-          "bucket": "1–2 Yrs (Grad-Dependent)"
+          "bucket": "1 Yr Dom / 2 Yr IMG"
         },
         {
           "state": "GA",
           "raw_value": "1 year (board-approved schools); 3 years (non-approved schools graduating after July 1, 1985)",
-          "bucket": "1–2 Yrs (Grad-Dependent)"
+          "bucket": "1 Yr Dom / 3 Yr IMG"
         },
         {
           "state": "HI",
           "raw_value": "at least one year for U.S./Canadian graduates; at least two years for foreign medical school graduates",
-          "bucket": "1–2 Yrs (Grad-Dependent)"
+          "bucket": "1 Yr Dom / 2 Yr IMG"
         },
         {
           "state": "IA",
           "raw_value": "one year (two years for ECFMG certificate holders)",
-          "bucket": "1–2 Yrs (Grad-Dependent)"
+          "bucket": "1 Yr Dom / 2 Yr IMG"
         },
         {
           "state": "ID",
@@ -1169,12 +1227,12 @@
         {
           "state": "IL",
           "raw_value": "12 months minimum for US/Canadian graduates; 24 months for certain foreign graduates",
-          "bucket": "1–2 Yrs (Grad-Dependent)"
+          "bucket": "1 Yr Dom / 2 Yr IMG"
         },
         {
           "state": "IN",
           "raw_value": "1 year",
-          "bucket": "1 Year Min"
+          "bucket": "1 Year"
         },
         {
           "state": "KS",
@@ -1189,12 +1247,12 @@
         {
           "state": "MD",
           "raw_value": "1 year minimum",
-          "bucket": "1 Year Min"
+          "bucket": "1 Year"
         },
         {
           "state": "ME",
           "raw_value": "36 months (for graduates on or after July 1, 2004); 24 months (for graduates January 1, 1970 to July 1, 2004); 12 months (for graduates before January 1, 1970)",
-          "bucket": "1–2 Yrs (Grad-Dependent)"
+          "bucket": "Tiered by Grad Date"
         },
         {
           "state": "MI",
@@ -1204,7 +1262,7 @@
         {
           "state": "MN",
           "raw_value": "one year",
-          "bucket": "1 Year Min"
+          "bucket": "1 Year"
         },
         {
           "state": "MT",
@@ -1212,49 +1270,64 @@
           "bucket": "Board Discretion"
         },
         {
+          "state": "NC",
+          "raw_value": "one year",
+          "bucket": "1 Year"
+        },
+        {
           "state": "ND",
           "raw_value": "One year for US/Canadian graduates; 24 months for international graduates",
-          "bucket": "1–2 Yrs (Grad-Dependent)"
+          "bucket": "1 Yr Dom / 2 Yr IMG"
         },
         {
           "state": "NE",
           "raw_value": "at least one year (domestic); at least two years (foreign medical graduates)",
-          "bucket": "1–2 Yrs (Grad-Dependent)"
+          "bucket": "1 Yr Dom / 2 Yr IMG"
         },
         {
           "state": "NH",
           "raw_value": "At least 2 years",
-          "bucket": "2 Years Min"
+          "bucket": "2 Years"
         },
         {
           "state": "NJ",
           "raw_value": "at least two years completed plus contract for third year",
-          "bucket": "2–3 Yrs (Origin-Dependent)"
+          "bucket": "2 Years"
         },
         {
           "state": "NM",
           "raw_value": "Two years",
-          "bucket": "2 Years Min"
+          "bucket": "2 Years"
         },
         {
           "state": "NV",
           "raw_value": "36 months",
-          "bucket": "3 Years Min"
+          "bucket": "3 Years"
         },
         {
           "state": "OH",
           "raw_value": "12 months minimum (first-year level) or 24 months for foreign medical graduates (second-year level)",
-          "bucket": "1–2 Yrs (Grad-Dependent)"
+          "bucket": "1 Yr Dom / 2 Yr IMG"
+        },
+        {
+          "state": "OK",
+          "raw_value": "12 months",
+          "bucket": "1 Year"
         },
         {
           "state": "OR",
           "raw_value": "One year (approved school) or three years (unapproved school)",
-          "bucket": "1–2 Yrs (Grad-Dependent)"
+          "bucket": "1 Yr Dom / 3 Yr IMG"
+        },
+        {
+          "state": "PA",
+          "raw_value": "two years",
+          "bucket": "2 Years"
         },
         {
           "state": "SC",
           "raw_value": "Minimum 1 year for U.S./Canada graduates; 3 years for foreign graduates (with exceptions)",
-          "bucket": "2–3 Yrs (Origin-Dependent)"
+          "bucket": "1 Yr Dom / 3 Yr IMG"
         },
         {
           "state": "SD",
@@ -1264,47 +1337,47 @@
         {
           "state": "TN",
           "raw_value": "1 year (US/Canadian graduates); 3 years (international graduates)",
-          "bucket": "2–3 Yrs (Origin-Dependent)"
+          "bucket": "1 Yr Dom / 3 Yr IMG"
         },
         {
           "state": "TX",
           "raw_value": "1 year (domestic graduates) or 2 years (foreign medical graduates)",
-          "bucket": "1–2 Yrs (Grad-Dependent)"
+          "bucket": "1 Yr Dom / 2 Yr IMG"
         },
         {
           "state": "UT",
           "raw_value": "24 months of progressive resident training",
-          "bucket": "2 Years Min"
+          "bucket": "2 Years"
         },
         {
           "state": "VA",
           "raw_value": "at least 12 months",
-          "bucket": "1 Year Min"
+          "bucket": "1 Year"
         },
         {
           "state": "VT",
           "raw_value": "2-3 years depending on medical school origin",
-          "bucket": "2–3 Yrs (Origin-Dependent)"
+          "bucket": "Tiered by Grad Date"
         },
         {
           "state": "WA",
           "raw_value": "two years",
-          "bucket": "2 Years Min"
+          "bucket": "2 Years"
         },
         {
           "state": "WI",
           "raw_value": "24 months",
-          "bucket": "2 Years Min"
+          "bucket": "2 Years"
         },
         {
           "state": "WV",
           "raw_value": "Minimum of one year for U.S./Canada graduates; minimum of two years for foreign medical graduates",
-          "bucket": "1–2 Yrs (Grad-Dependent)"
+          "bucket": "1 Yr Dom / 2 Yr IMG"
         },
         {
           "state": "WY",
           "raw_value": "at least one (1) year",
-          "bucket": "1 Year Min"
+          "bucket": "1 Year"
         }
       ]
     },
@@ -1316,7 +1389,7 @@
         "Residency, Internship, or Fellowship",
         "General Postgrad Training"
       ],
-      "rationale": "States cluster by which training types they explicitly enumerate: some name only residency, some name residency plus internship, some add fellowship, and some use broad 'postgraduate training' language without specifying program types.",
+      "rationale": "States cluster by how broadly they define eligible post-degree experience: those naming only residency, those allowing residency or internship, those explicitly adding fellowship, and those using generic 'postgraduate training' language without enumerating specific program types.",
       "assignments": [
         {
           "state": "AK",
@@ -1429,6 +1502,11 @@
           "bucket": "Residency Only"
         },
         {
+          "state": "NC",
+          "raw_value": "graduate medical education training program",
+          "bucket": "General Postgrad Training"
+        },
+        {
           "state": "ND",
           "raw_value": "Postgraduate training/residency",
           "bucket": "Residency Only"
@@ -1469,9 +1547,19 @@
           "bucket": "Residency, Internship, or Fellowship"
         },
         {
+          "state": "OK",
+          "raw_value": "progressive postgraduate medical training",
+          "bucket": "General Postgrad Training"
+        },
+        {
           "state": "OR",
           "raw_value": "approved rotating internship or residency training program",
           "bucket": "Residency or Internship"
+        },
+        {
+          "state": "PA",
+          "raw_value": "approved graduate medical training (residency)",
+          "bucket": "Residency Only"
         },
         {
           "state": "RI",
@@ -1538,18 +1626,19 @@
     {
       "field_name": "licensure.continuing_education.topical_requirements",
       "bucket_set": [
-        "Opioids / Controlled Substances",
+        "Opioid/Controlled Substances",
         "Broad Multi-Topic Mandate",
-        "Specific Clinical Topic",
-        "Patient Safety & Ethics",
-        "Cultural & Social Competency"
+        "Patient Safety & Abuse",
+        "Specialty-Specific Topics",
+        "End-of-Life & Pain",
+        "Cultural Competency Focus"
       ],
-      "rationale": "The values cluster around opioid/prescribing mandates, states requiring several distinct topic areas together, states with one narrow clinical focus, patient-safety/ethics/risk-management themes, and cultural/social competency requirements — five groups that cover the real distribution without an orphan catch-all.",
+      "rationale": "States cluster around: opioid/controlled-substance prescribing as the sole or dominant focus; broad mandates covering many disparate topics; patient safety themes (abuse, violence, errors); narrow specialty-specific or population-specific requirements; end-of-life/palliative/pain management without opioid emphasis; and cultural competency as the centerpiece.",
       "assignments": [
         {
           "state": "AK",
           "raw_value": "pain management and opioid use and addiction (minimum 2 hours)",
-          "bucket": "Opioids / Controlled Substances"
+          "bucket": "Opioid/Controlled Substances"
         },
         {
           "state": "CA",
@@ -1559,7 +1648,7 @@
         {
           "state": "CO",
           "raw_value": "Compliance with section 12-30-114 (opioid prescribing competency); Board-specified topic",
-          "bucket": "Opioids / Controlled Substances"
+          "bucket": "Opioid/Controlled Substances"
         },
         {
           "state": "CT",
@@ -1569,7 +1658,7 @@
         {
           "state": "DE",
           "raw_value": "Alzheimer's disease or other dementias (2 hours for 2027 renewal and after); Recognition of child sexual and physical abuse, exploitation and domestic violence; Reporting obligations under the Medical Practice Act and child abuse reporting",
-          "bucket": "Broad Multi-Topic Mandate"
+          "bucket": "Patient Safety & Abuse"
         },
         {
           "state": "FL",
@@ -1579,52 +1668,52 @@
         {
           "state": "GA",
           "raw_value": "one-time minimum 2 hours on professional boundaries and physician sexual misconduct (on and after January 1, 2022)",
-          "bucket": "Patient Safety & Ethics"
+          "bucket": "Patient Safety & Abuse"
         },
         {
           "state": "IA",
           "raw_value": "CDC guideline for prescribing opioids for chronic pain; limitations on dosages and length of prescriptions; risk factors for abuse; nonopioid and nonpharmacologic therapy options",
-          "bucket": "Opioids / Controlled Substances"
+          "bucket": "Opioid/Controlled Substances"
         },
         {
           "state": "KY",
           "raw_value": "pediatric abusive head trauma (1 hour, one-time for certain specialties)",
-          "bucket": "Specific Clinical Topic"
+          "bucket": "Specialty-Specific Topics"
         },
         {
           "state": "LA",
           "raw_value": "sickle cell disease treatment (1 hour initial, 1 hour refresher every 3 years for emergency medicine physicians); nutrition and metabolic health (1 hour every 4 years for specified specialties)",
-          "bucket": "Specific Clinical Topic"
+          "bucket": "Specialty-Specific Topics"
         },
         {
           "state": "MA",
           "raw_value": "diagnosis, treatment and care of patients with cognitive impairments, including Alzheimer's disease and dementia (1-time requirement for physicians serving adult populations); suicide prevention through reduction of access to lethal means (voluntary, up to 2 CE credits)",
-          "bucket": "Specific Clinical Topic"
+          "bucket": "Specialty-Specific Topics"
         },
         {
           "state": "ME",
           "raw_value": "3 hours on prescription of opioid medication every 2 years (as condition of prescribing opioid medication)",
-          "bucket": "Opioids / Controlled Substances"
+          "bucket": "Opioid/Controlled Substances"
         },
         {
           "state": "MI",
           "raw_value": "medical ethics; pain and symptom management",
-          "bucket": "Patient Safety & Ethics"
+          "bucket": "End-of-Life & Pain"
         },
         {
           "state": "MN",
           "raw_value": "fetal alcohol syndrome (for family practitioners, pediatricians, obstetricians and gynecologists, and others with primary responsibility for diagnosing/treating FAS); parental depression (for professions serving caregivers at risk of depression or their children)",
-          "bucket": "Specific Clinical Topic"
+          "bucket": "Specialty-Specific Topics"
         },
         {
           "state": "MO",
           "raw_value": "early diagnosis and treatment of autism in children",
-          "bucket": "Specific Clinical Topic"
+          "bucket": "Specialty-Specific Topics"
         },
         {
           "state": "NE",
           "raw_value": "prescribing opiates; risks and indicators of opiate addiction; emergency opiate situations; prescription drug monitoring program (0.5 hours)",
-          "bucket": "Opioids / Controlled Substances"
+          "bucket": "Opioid/Controlled Substances"
         },
         {
           "state": "NJ",
@@ -1639,70 +1728,71 @@
         {
           "state": "NY",
           "raw_value": "child abuse and maltreatment identification and reporting",
-          "bucket": "Specific Clinical Topic"
+          "bucket": "Patient Safety & Abuse"
         },
         {
           "state": "OH",
           "raw_value": "Domestic violence and its relationship to child abuse; Chronic pain diagnosis and treatment",
-          "bucket": "Broad Multi-Topic Mandate"
+          "bucket": "Patient Safety & Abuse"
         },
         {
           "state": "OR",
           "raw_value": "pain management education",
-          "bucket": "Opioids / Controlled Substances"
+          "bucket": "End-of-Life & Pain"
         },
         {
           "state": "SC",
           "raw_value": "At least 30 hours directly related to licensee's practice area; At least 2 hours on approved procedures of prescribing and monitoring controlled substances (Schedules II, III, IV)",
-          "bucket": "Opioids / Controlled Substances"
+          "bucket": "Opioid/Controlled Substances"
         },
         {
           "state": "TX",
           "raw_value": "At least 2 hours on safe and effective pain management related to prescription of opioids and other controlled substances (direct patient care physicians); At least 1 hour on identification and assistance of trafficked persons (direct patient care physicians)",
-          "bucket": "Broad Multi-Topic Mandate"
+          "bucket": "Opioid/Controlled Substances"
         },
         {
           "state": "VT",
           "raw_value": "current professional competence in recognizing need for timely appropriate consultations and referrals; knowledge of hospice, palliative care, and pain management services",
-          "bucket": "Specific Clinical Topic"
+          "bucket": "End-of-Life & Pain"
         },
         {
           "state": "WA",
           "raw_value": "professional liability risk management",
-          "bucket": "Patient Safety & Ethics"
+          "bucket": "Patient Safety & Abuse"
         },
         {
           "state": "WV",
           "raw_value": "drug diversion training; best-practice prescribing of controlled substances training; training on prescribing and administering an opioid antagonist",
-          "bucket": "Opioids / Controlled Substances"
+          "bucket": "Opioid/Controlled Substances"
         },
         {
           "state": "WY",
           "raw_value": "responsible prescribing of controlled substances; treatment of substance abuse disorders",
-          "bucket": "Opioids / Controlled Substances"
+          "bucket": "Opioid/Controlled Substances"
         }
       ]
     },
     {
       "field_name": "licensure.reciprocity.requirements",
       "bucket_set": [
-        "IMLC Compact",
+        "IMLC Pathway",
         "Equivalent Standards",
-        "Exam Equivalency Focus",
-        "Experience + Good Standing",
-        "Broad Multi-Path"
+        "Active Practice Required",
+        "National Board / Exam Focus",
+        "Formal Reciprocity Agreement",
+        "Elevated Experience Bar"
       ],
-      "rationale": "States cluster around whether they rely primarily on the IMLC compact pathway, generic 'substantially equivalent standards' language, specific exam equivalency requirements, minimum years of active practice/good standing, or a combination of multiple distinct pathways.",
+      "rationale": "States cluster around whether they rely on the IMLC compact, require only substantially equivalent standards/credentials, emphasize a minimum period of active practice, center requirements on passing a recognized national or equivalent exam, require a formal mutual-recognition agreement between boards, or impose a notably high experience/tenure threshold before endorsement.",
       "assignments": [
         {
           "state": "AK",
           "raw_value": "Active license from another state/territory/province issued after thorough examination, or passed examination as specified by board; must meet all other requirements of AS 08.64.200, 08.64.205, or 08.64.209",
-          "bucket": "Exam Equivalency Focus"
+          "bucket": "National Board / Exam Focus"
         },
         {
           "state": "AL",
           "raw_value": "Physicians may obtain expedited licensure through the Interstate Medical Licensure Compact if they meet eligibility requirements including graduation from accredited medical school, passing USMLE/COMLEX within three attempts, completing graduate medical education, holding specialty certification, possessing full unrestricted license in another member state, and meeting criminal history and disciplinary requirements.",
-          "bucket": "IMLC Compact"
+          "bucket": "IMLC Pathway"
         },
         {
           "state": "AR",
@@ -1712,12 +1802,12 @@
         {
           "state": "AZ",
           "raw_value": "Applicant must be certified by the national board of medical examiners or have successfully passed equivalent examination, or meet other specified examination combinations",
-          "bucket": "Exam Equivalency Focus"
+          "bucket": "National Board / Exam Focus"
         },
         {
           "state": "CA",
           "raw_value": "Applicant must hold unlimited license in another state/province for at least 4 years; no disciplinary action; passed equivalent exam; completed at least 1 year postgraduate training and board-specialty certification or 2 years postgraduate training or 1 year plus clinical competency exam.",
-          "bucket": "Experience + Good Standing"
+          "bucket": "Elevated Experience Bar"
         },
         {
           "state": "CO",
@@ -1727,7 +1817,7 @@
         {
           "state": "CT",
           "raw_value": "Applicant must have obtained license after examination substantially similar to or of higher quality than that required for a license in Connecticut, must have met all requirements of section 20-10 except for examination, and must be a currently practicing, competent practitioner of good professional standing",
-          "bucket": "Exam Equivalency Focus"
+          "bucket": "Equivalent Standards"
         },
         {
           "state": "DE",
@@ -1737,17 +1827,17 @@
         {
           "state": "FL",
           "raw_value": "Active unencumbered license in another state, 2 years active practice in past 4 years, no disciplinary action in past 5 years, passing score on national exam or equivalent",
-          "bucket": "Experience + Good Standing"
+          "bucket": "Active Practice Required"
         },
         {
           "state": "GA",
           "raw_value": "License without examination available to licensees of boards of other states requiring equal or higher qualifications; expedited license available under Interstate Medical Licensure Compact",
-          "bucket": "Broad Multi-Path"
+          "bucket": "IMLC Pathway"
         },
         {
           "state": "HI",
           "raw_value": "Applicant must hold current unencumbered active license in another jurisdiction with substantially equivalent or greater qualifications, have actively practiced medicine for at least two of the preceding five years, and have no disciplinary action or adverse judgments",
-          "bucket": "Experience + Good Standing"
+          "bucket": "Active Practice Required"
         },
         {
           "state": "IA",
@@ -1767,12 +1857,12 @@
         {
           "state": "IN",
           "raw_value": "Applicant must comply with minimum requirements and have passed examination in another state/territory or by recognized certifying agency approved by board; examination must be equivalent to Indiana's examination",
-          "bucket": "Exam Equivalency Focus"
+          "bucket": "National Board / Exam Focus"
         },
         {
           "state": "KS",
           "raw_value": "Applicant must have been actively engaged in practice, original license based on examination at least equal in quality to Kansas examination, and individual qualifications substantially equivalent to Kansas legal requirements",
-          "bucket": "Exam Equivalency Focus"
+          "bucket": "Active Practice Required"
         },
         {
           "state": "KY",
@@ -1787,17 +1877,17 @@
         {
           "state": "MA",
           "raw_value": "Board may grant registration without examination to those licensed in another state with equivalent standards, or diplomates of specialty boards recognized by AMA or AOA. Also without examination for graduates of Canadian medical schools licensed by the Medical Council of Canada and a provincial authority, or those licensed in Puerto Rico or Saskatchewan with 75%+ on the federation licensing exam.",
-          "bucket": "Broad Multi-Path"
+          "bucket": "National Board / Exam Focus"
         },
         {
           "state": "MD",
           "raw_value": "Applicant must be licensed in another jurisdiction with substantially equivalent requirements, be in good standing, and the other jurisdiction must offer reciprocal licensing to Maryland physicians",
-          "bucket": "Equivalent Standards"
+          "bucket": "Formal Reciprocity Agreement"
         },
         {
           "state": "ME",
           "raw_value": "Examined and certified by the National Board of Medical Examiners; or licensed by another state with equivalent examination; or graduate of nationally accredited medical school examined by Medical Council of Canada or equivalent board",
-          "bucket": "Broad Multi-Path"
+          "bucket": "National Board / Exam Focus"
         },
         {
           "state": "MI",
@@ -1807,17 +1897,17 @@
         {
           "state": "MN",
           "raw_value": "Applicant must satisfy education and training requirements; pass an acceptable licensing examination; hold a current license from the equivalent licensing agency in another state or Canada; not be under suspension or revocation; and if the exam was passed more than ten years ago, either pass SPEX within three attempts or hold current specialty board certification.",
-          "bucket": "Exam Equivalency Focus"
+          "bucket": "National Board / Exam Focus"
         },
         {
           "state": "MO",
           "raw_value": "Applicant must hold valid current license in another jurisdiction for at least one year; board may waive examination and educational requirements if other jurisdiction had minimum education requirements; military spouses may receive expedited licensure within 30 days",
-          "bucket": "Experience + Good Standing"
+          "bucket": "Equivalent Standards"
         },
         {
           "state": "MS",
           "raw_value": "Requirements in the other state must be equal to those required by the Mississippi State Board of Medical Licensure. Board may also affiliate with and recognize National Board of Medical Examiners or National Board of Examiners for Osteopathic Physicians and Surgeons diplomates. May also grant license without examination to Licentiates of the Medical Council of Canada from LCME or CACMS-accredited schools.",
-          "bucket": "Broad Multi-Path"
+          "bucket": "National Board / Exam Focus"
         },
         {
           "state": "MT",
@@ -1825,9 +1915,14 @@
           "bucket": "Equivalent Standards"
         },
         {
+          "state": "NC",
+          "raw_value": "Military relocation license available for servicemembers and spouses holding a current license in another jurisdiction with substantially equivalent requirements, in good standing, with no disciplinary actions in last 5 years, and actively practiced 20 hours/week for 2 years preceding relocation. Special purpose license available for those holding full and unrestricted license in at least one other jurisdiction with no current or pending disciplinary actions.",
+          "bucket": "Active Practice Required"
+        },
+        {
           "state": "NE",
           "raw_value": "Applicant must comply with the Interstate Medical Licensure Compact requirements or meet board-set standards; applicant licensed by state examination in another jurisdiction may be issued a license by the department with board recommendation.",
-          "bucket": "IMLC Compact"
+          "bucket": "IMLC Pathway"
         },
         {
           "state": "NH",
@@ -1837,17 +1932,17 @@
         {
           "state": "NJ",
           "raw_value": "Applicant must prove licensure in another state or certification by National Board of Medical Examiners or National Board of Examiners for Osteopathic Physicians and Surgeons, and must fulfill all other requirements (academic, age, character) applicable to examination applicants. License fee of $150 required.",
-          "bucket": "Exam Equivalency Focus"
+          "bucket": "National Board / Exam Focus"
         },
         {
           "state": "NM",
           "raw_value": "Applicant must hold a license that is current and in good standing issued by another licensing jurisdiction approved by the board and have practiced medicine or osteopathy as a licensed physician for at least three years",
-          "bucket": "Experience + Good Standing"
+          "bucket": "Active Practice Required"
         },
         {
           "state": "NV",
           "raw_value": "License must be in effect; applicant must meet statutory requirements for licensure except those in NRS 630.160; must submit proof of passage of approved examination; must meet fitness requirements; documentation must be authenticated",
-          "bucket": "Exam Equivalency Focus"
+          "bucket": "National Board / Exam Focus"
         },
         {
           "state": "NY",
@@ -1860,14 +1955,24 @@
           "bucket": "Equivalent Standards"
         },
         {
+          "state": "OK",
+          "raw_value": "Applicant must comply with all current medical licensure requirements except examination, and must have passed a medical licensure examination in another state, DC, US territory, or Canada, or the National Boards Examination, provided the Board determines equivalency.",
+          "bucket": "National Board / Exam Focus"
+        },
+        {
           "state": "OR",
           "raw_value": "Applicant must have been licensed upon written examination in the other state or territory, which must have qualifications and standards at least as high as Oregon's",
-          "bucket": "Exam Equivalency Focus"
+          "bucket": "Equivalent Standards"
+        },
+        {
+          "state": "PA",
+          "raw_value": "Reciprocity requires that the board and a licensing authority in another jurisdiction each recognize that their respective requirements are equivalent, and the applicant holds a similar license in the other jurisdiction. Endorsement allows issuance to an applicant who does not meet standard requirements but has achieved cumulative qualifications accepted as equivalent.",
+          "bucket": "Formal Reciprocity Agreement"
         },
         {
           "state": "RI",
           "raw_value": "Ten years' experience as a fully licensed physician in good standing in another state; board certification in the physician's specialty; and membership in a recognized professional organization specific to the specialty. Also available via Interstate Medical Licensure Compact expedited licensure pathway.",
-          "bucket": "Broad Multi-Path"
+          "bucket": "Elevated Experience Bar"
         },
         {
           "state": "SD",
@@ -1882,22 +1987,22 @@
         {
           "state": "TX",
           "raw_value": "Texas participates in the Interstate Medical Licensure Compact (IMLC). Physicians must meet eligibility requirements including USMLE/COMLEX passage within 3 attempts, completed GME, specialty certification, full unrestricted license in state of principal license, and no disciplinary history. Provisional licenses also available for out-of-state physicians licensed in good standing to practice in health professional shortage areas.",
-          "bucket": "IMLC Compact"
+          "bucket": "IMLC Pathway"
         },
         {
           "state": "UT",
           "raw_value": "Currently licensed with full unrestricted license in good standing in another state/territory/Canada; actively engaged in legal practice of medicine for not less than 6,000 hours during five years immediately preceding application; passed equivalent licensing examination sequence or examination in another jurisdiction",
-          "bucket": "Experience + Good Standing"
+          "bucket": "Elevated Experience Bar"
         },
         {
           "state": "VA",
           "raw_value": "Applicants must hold certificates from national boards or have credentials satisfactory to the Board; examinations and passing grades must be fully equal to Virginia requirements",
-          "bucket": "Exam Equivalency Focus"
+          "bucket": "National Board / Exam Focus"
         },
         {
           "state": "VT",
           "raw_value": "Three years of practice in good standing in another U.S. jurisdiction; postgraduate training requirements (2 years for U.S./Canadian medical school graduates, 3 years for foreign medical school graduates)",
-          "bucket": "Experience + Good Standing"
+          "bucket": "Elevated Experience Bar"
         },
         {
           "state": "WA",
@@ -1907,7 +2012,7 @@
         {
           "state": "WI",
           "raw_value": "Physician must meet eligibility requirements under the interstate medical licensure compact, including holding a full and unrestricted license in a member state designated as state of principal license, passing USMLE within 3 attempts, completing accredited graduate medical education, and holding specialty certification.",
-          "bucket": "IMLC Compact"
+          "bucket": "IMLC Pathway"
         },
         {
           "state": "WV",
@@ -1922,12 +2027,12 @@
         "AMA Only",
         "AMA + AOA",
         "AOA Only",
-        "AMA + AAMC",
         "Accreditation Body",
         "Specialty Boards",
-        "State Association Only"
+        "Multi-Org Broad",
+        "State/Regional Only"
       ],
-      "rationale": "States cluster around which top-level bodies they cite — AMA alone, AMA paired with AOA, AOA alone, accreditation-focused bodies (ACGME/LCME), specialty boards (ABMS), or state/regional associations — with a few citing AAMC as a notable secondary partner.",
+      "rationale": "States cluster by which national bodies they reference: some cite only AMA, some pair AMA+AOA, some focus on AOA alone, some emphasize accreditation councils (ACGME/LCME), some highlight specialty boards (ABMS), some list a broad mix of several org types, and a few reference only state or regional associations.",
       "assignments": [
         {
           "state": "AK",
@@ -1937,17 +2042,17 @@
         {
           "state": "AR",
           "raw_value": "American Medical Association; Accreditation Council for Graduate Medical Education; American Osteopathic Association",
-          "bucket": "AMA + AOA"
+          "bucket": "Multi-Org Broad"
         },
         {
           "state": "AZ",
           "raw_value": "American Medical Association, Association of American Medical Colleges",
-          "bucket": "AMA + AAMC"
+          "bucket": "AMA Only"
         },
         {
           "state": "CA",
           "raw_value": "American Board of Medical Specialties (ABMS); California Medical Association (CMA); Accreditation Council for Continuing Medical Education (ACCME)",
-          "bucket": "Specialty Boards"
+          "bucket": "Multi-Org Broad"
         },
         {
           "state": "CO",
@@ -1972,7 +2077,7 @@
         {
           "state": "MN",
           "raw_value": "State Medical Association; Minnesota Osteopathic Medical Society",
-          "bucket": "State Association Only"
+          "bucket": "State/Regional Only"
         },
         {
           "state": "MO",
@@ -1982,12 +2087,17 @@
         {
           "state": "MS",
           "raw_value": "American Medical Association; Association of American Medical Colleges; Canadian Medical Association; Association of Canadian Medical Colleges",
-          "bucket": "AMA + AAMC"
+          "bucket": "Multi-Org Broad"
+        },
+        {
+          "state": "NC",
+          "raw_value": "American Osteopathic Association; Liaison Commission on Medical Education; Committee for the Accreditation of Canadian Medical Schools",
+          "bucket": "Multi-Org Broad"
         },
         {
           "state": "ND",
           "raw_value": "American Board of Medical Specialties, American Osteopathic Association, Royal College of Physicians and Surgeons of Canada",
-          "bucket": "Specialty Boards"
+          "bucket": "Multi-Org Broad"
         },
         {
           "state": "NE",
@@ -1997,7 +2107,7 @@
         {
           "state": "NJ",
           "raw_value": "American Board of Medical Specialties; American Osteopathic Association; Accreditation Council for Graduate Medical Education",
-          "bucket": "Specialty Boards"
+          "bucket": "Multi-Org Broad"
         },
         {
           "state": "NY",
@@ -2008,6 +2118,11 @@
           "state": "OH",
           "raw_value": "American Medical Association, American Osteopathic Association",
           "bucket": "AMA + AOA"
+        },
+        {
+          "state": "OK",
+          "raw_value": "Accreditation Council for Graduate Medical Education (ACGME)",
+          "bucket": "Accreditation Body"
         },
         {
           "state": "OR",
@@ -2027,7 +2142,255 @@
         {
           "state": "VT",
           "raw_value": "Vermont Medical Society",
-          "bucket": "State Association Only"
+          "bucket": "State/Regional Only"
+        }
+      ]
+    },
+    {
+      "field_name": "scope.definition_quote",
+      "bucket_set": [
+        "Simple Diagnostic/Treatment",
+        "Enumerated Acts List",
+        "Holding Out + Treatment",
+        "Diagnosis + Title Use",
+        "Exam-Based / Minimal"
+      ],
+      "rationale": "States cluster by structural approach: some give a brief one-clause diagnosis/treatment definition, some enumerate distinct acts (prescribe, operate, hold out, title use) in a list, some center on 'holding out to the public' combined with treatment, some emphasize protected title use alongside clinical acts, and a rare few define scope minimally or via exam subjects rather than clinical acts.",
+      "assignments": [
+        {
+          "state": "AK",
+          "raw_value": "for a fee, donation or other consideration, to diagnose, treat, operate on, prescribe for, or administer to, any human ailment...",
+          "bucket": "Diagnosis + Title Use"
+        },
+        {
+          "state": "AL",
+          "raw_value": "The \"practice of medicine or osteopathy\" means: (1) To diagnose, treat, correct, advise, or prescribe for any human disease...",
+          "bucket": "Enumerated Acts List"
+        },
+        {
+          "state": "AR",
+          "raw_value": "Holding out oneself to the public within this state as being able to diagnose, treat, prescribe for, palliate, or prevent any human disease...",
+          "bucket": "Holding Out + Treatment"
+        },
+        {
+          "state": "AZ",
+          "raw_value": "the diagnosis, the treatment or the correction of or the attempt or the claim to be able to diagnose, treat or correct any and all human diseases...",
+          "bucket": "Simple Diagnostic/Treatment"
+        },
+        {
+          "state": "CA",
+          "raw_value": "The physician's and surgeon's certificate authorizes the holder to use drugs or devices in or upon human beings and to sever or penetrate the tissues of human beings...",
+          "bucket": "Simple Diagnostic/Treatment"
+        },
+        {
+          "state": "CO",
+          "raw_value": "Holding out one's self to the public within this state as being able to diagnose, treat, prescribe for, palliate, or prevent any human disease...",
+          "bucket": "Holding Out + Treatment"
+        },
+        {
+          "state": "CT",
+          "raw_value": "diagnose, treat, operate for or prescribe for any injury, deformity, ailment or disease, actual or imaginary, of another person, nor practice surgery",
+          "bucket": "Simple Diagnostic/Treatment"
+        },
+        {
+          "state": "DE",
+          "raw_value": "\"Practice of medicine\" or \"practice medicine\" includes: a. Advertising, holding out to the public...",
+          "bucket": "Enumerated Acts List"
+        },
+        {
+          "state": "FL",
+          "raw_value": "The diagnosis, treatment, operation, or prescription for any human disease, pain, injury, deformity, or other physical or mental condition",
+          "bucket": "Simple Diagnostic/Treatment"
+        },
+        {
+          "state": "GA",
+          "raw_value": "To practice medicine means to hold oneself out to the public as being engaged in the diagnosis or treatment of disease...",
+          "bucket": "Holding Out + Treatment"
+        },
+        {
+          "state": "HI",
+          "raw_value": "the practice of medicine by a physician or an osteopathic physician includes the use of drugs and medicines; surgery; manual medicine...",
+          "bucket": "Enumerated Acts List"
+        },
+        {
+          "state": "IA",
+          "raw_value": "Persons who publicly profess to be physicians and surgeons or osteopathic physicians and surgeons...",
+          "bucket": "Holding Out + Treatment"
+        },
+        {
+          "state": "ID",
+          "raw_value": "The investigation, diagnosis, treatment, correction, or prevention of or prescription for any human disease, ailment, injury...",
+          "bucket": "Simple Diagnostic/Treatment"
+        },
+        {
+          "state": "IN",
+          "raw_value": "Practice of medicine or osteopathic medicine means any one or a combination of the following: Holding oneself out to the public as being engaged in...",
+          "bucket": "Enumerated Acts List"
+        },
+        {
+          "state": "KS",
+          "raw_value": "Persons who publicly profess to be physicians or surgeons, or publicly profess to assume the duties incident to the practice of medicine...",
+          "bucket": "Holding Out + Treatment"
+        },
+        {
+          "state": "KY",
+          "raw_value": "the 'practice of medicine or osteopathy' means the diagnosis, treatment, or correction of any and all human conditions, ailments, diseases, injuries...",
+          "bucket": "Simple Diagnostic/Treatment"
+        },
+        {
+          "state": "LA",
+          "raw_value": "The practice of medicine, whether allopathic or osteopathic, means the holding out of one's self to the public as being engaged in the business of...",
+          "bucket": "Holding Out + Treatment"
+        },
+        {
+          "state": "MA",
+          "raw_value": "Examinations shall be in whole or in part in writing, in English, shall be of a scientific and practical character...",
+          "bucket": "Exam-Based / Minimal"
+        },
+        {
+          "state": "MD",
+          "raw_value": "\"Practice medicine\" means to engage, with or without compensation, in medical: (i) Diagnosis; (ii) Healing; (iii) Treatment; or (iv) Surgery...",
+          "bucket": "Enumerated Acts List"
+        },
+        {
+          "state": "ME",
+          "raw_value": "diagnosing, relieving in any degree or curing, or professing or attempting to diagnose, relieve or cure a human disease, ailment, defect or complaint...",
+          "bucket": "Simple Diagnostic/Treatment"
+        },
+        {
+          "state": "MI",
+          "raw_value": "the diagnosis, treatment, prevention, cure, or relieving of a human disease, ailment, defect, complaint, or other physical or mental condition...",
+          "bucket": "Simple Diagnostic/Treatment"
+        },
+        {
+          "state": "MN",
+          "raw_value": "A person not exempted under section 147.09 is 'practicing medicine' or engaged in the 'practice of medicine' if the person does any of the following...",
+          "bucket": "Enumerated Acts List"
+        },
+        {
+          "state": "MS",
+          "raw_value": "The practice of medicine shall mean to suggest, recommend, prescribe, or direct for the use of any person, any drug, medicine, appliance...",
+          "bucket": "Simple Diagnostic/Treatment"
+        },
+        {
+          "state": "MT",
+          "raw_value": "the diagnosis, treatment, or correction of or the attempt to or the holding of oneself out as being able to diagnose, treat, or correct human conditions...",
+          "bucket": "Holding Out + Treatment"
+        },
+        {
+          "state": "NC",
+          "raw_value": "The practice of medicine or surgery includes: advertising or holding out as authorized to practice medicine; offering or undertaking to prescribe...",
+          "bucket": "Enumerated Acts List"
+        },
+        {
+          "state": "ND",
+          "raw_value": "The practice of medicine includes the practice of medicine, surgery, and obstetrics. The following persons are regarded as practicing medicine...",
+          "bucket": "Enumerated Acts List"
+        },
+        {
+          "state": "NE",
+          "raw_value": "Persons who publicly profess to be physicians or surgeons or publicly profess to assume the duties incident to the practice of medicine, surgery...",
+          "bucket": "Holding Out + Treatment"
+        },
+        {
+          "state": "NH",
+          "raw_value": "Any person shall be regarded as practicing medicine under the meaning of this chapter who shall diagnose, treat, perform surgery, or prescribe any treatment...",
+          "bucket": "Simple Diagnostic/Treatment"
+        },
+        {
+          "state": "NJ",
+          "raw_value": "the phrase 'the practice of medicine or surgery'...shall include the practice of any branch of medicine and/or surgery, and any method of treatment of human ailment...",
+          "bucket": "Simple Diagnostic/Treatment"
+        },
+        {
+          "state": "NM",
+          "raw_value": "The practice of medicine consists of: (1) advertising, holding out to the public or representing in any manner that one is authorized to practice medicine...",
+          "bucket": "Enumerated Acts List"
+        },
+        {
+          "state": "NV",
+          "raw_value": "To diagnose, treat, correct, prevent or prescribe for any human disease, ailment, injury, infirmity, deformity or other condition...",
+          "bucket": "Enumerated Acts List"
+        },
+        {
+          "state": "NY",
+          "raw_value": "The practice of the profession of medicine is defined as diagnosing, treating, operating or prescribing for any human disease, pain, injury, deformity or physical condition.",
+          "bucket": "Simple Diagnostic/Treatment"
+        },
+        {
+          "state": "OK",
+          "raw_value": "Every person shall be regarded as practicing allopathic medicine within the meaning and provisions of this act, who shall append to his or her name the letters 'M.D.'...",
+          "bucket": "Diagnosis + Title Use"
+        },
+        {
+          "state": "OR",
+          "raw_value": "A person is practicing medicine if the person does one or more of the following: (1) Advertise, hold out to the public or represent in any manner...",
+          "bucket": "Enumerated Acts List"
+        },
+        {
+          "state": "PA",
+          "raw_value": "The art and science of which the objectives are the cure of diseases and the preservation of the health of man, including the practice of the healing art with or without drugs...",
+          "bucket": "Exam-Based / Minimal"
+        },
+        {
+          "state": "RI",
+          "raw_value": "Any person is regarded as practicing medicine within the meaning of this chapter who holds themself out as being able to diagnose, treat, operate, or prescribe for any person...",
+          "bucket": "Holding Out + Treatment"
+        },
+        {
+          "state": "SC",
+          "raw_value": "Practice of Medicine means: (a) advertising, holding out to the public or representing in any manner that one is authorized to practice medicine...",
+          "bucket": "Enumerated Acts List"
+        },
+        {
+          "state": "SD",
+          "raw_value": "Practice of medicine or osteopathy includes, but not by way of limitation, to append or prefix the letters M.D., or D. O. or the title of Doctor or Dr....",
+          "bucket": "Diagnosis + Title Use"
+        },
+        {
+          "state": "TN",
+          "raw_value": "Any person shall be regarded as practicing medicine within the meaning of this chapter who treats, or professes to diagnose, treat, operates on or prescribes for any physical ailment...",
+          "bucket": "Simple Diagnostic/Treatment"
+        },
+        {
+          "state": "TX",
+          "raw_value": "'Practicing medicine' means the diagnosis, treatment, or offer to treat a mental or physical disease or disorder or a physical deformity or injury by any system or method...",
+          "bucket": "Holding Out + Treatment"
+        },
+        {
+          "state": "UT",
+          "raw_value": "Practice of medicine means: to diagnose, treat, correct, administer anesthesia, or prescribe for any human disease, ailment, injury, infirmity, deformity, pain or other condition...",
+          "bucket": "Enumerated Acts List"
+        },
+        {
+          "state": "VA",
+          "raw_value": "the prevention, diagnosis, and treatment of human physical or mental ailments, conditions, diseases, pain, or infirmities by any means or method",
+          "bucket": "Simple Diagnostic/Treatment"
+        },
+        {
+          "state": "VT",
+          "raw_value": "Practice of medicine means: using the designation \"Doctor,\" \"Doctor of Medicine,\" \"Physician,\" \"Dr.,\" \"M.D.,\"...offering or undertaking to prescribe, order, give, or administer any drug or medicine...",
+          "bucket": "Diagnosis + Title Use"
+        },
+        {
+          "state": "WA",
+          "raw_value": "A person is practicing medicine if he or she does one or more of the following: (1) Offers or undertakes to diagnose, cure, advise, or prescribe for any human disease...",
+          "bucket": "Enumerated Acts List"
+        },
+        {
+          "state": "WI",
+          "raw_value": "To examine into the fact, condition or cause of human health or disease, or to treat, operate, prescribe or advise for the same, by any means or instrumentality...",
+          "bucket": "Enumerated Acts List"
+        },
+        {
+          "state": "WV",
+          "raw_value": "the diagnosis or treatment of, or operation or prescription for, any human disease, pain, injury, deformity or other physical or mental condition",
+          "bucket": "Simple Diagnostic/Treatment"
+        },
+        {
+          "state": "WY",
+          "raw_value": "Practicing medicine means any person who in any manner: (A) Advertises, holds out, or represents to the public that he is authorized to practice medicine...",
+          "bucket": "Enumerated Acts List"
         }
       ]
     },
@@ -2035,12 +2398,13 @@
       "field_name": "scope.methods_authorized",
       "bucket_set": [
         "Core Four",
-        "Broad + Modalities",
-        "Comprehensive Enumerated",
-        "High-Level Categories",
-        "Specialty Procedures"
+        "Core + Prevention",
+        "Core + Telehealth",
+        "Core + Obstetrics",
+        "Broad & Enumerated",
+        "General Categories Only"
       ],
-      "rationale": "States cluster by how granular and expansive their enumeration is: some list only 3-4 core acts (diagnose/treat/operate/prescribe), others add explicit modalities like electricity, telemedicine, or hypnosis, a few give lengthy comprehensive prose covering pregnancy management and medical necessity determinations, some use very short high-level category words (medical/surgical/pharmaceutical), and one state lists only narrow specialist procedures.",
+      "rationale": "States cluster by how many and which types of methods they enumerate: a minimal 'diagnose/treat/prescribe/surgery' core, expansions that add prevention, telehealth, obstetric/pregnancy management, or a broad catch-all list of modalities, versus states that just list high-level category labels (medical/surgical/pharmaceutical).",
       "assignments": [
         {
           "state": "AK",
@@ -2050,7 +2414,7 @@
         {
           "state": "AR",
           "raw_value": "diagnosis; treatment; prescription; palliation; prevention; drugs; surgery; manipulation; electricity; physical means; mechanical means",
-          "bucket": "Broad + Modalities"
+          "bucket": "Broad & Enumerated"
         },
         {
           "state": "AZ",
@@ -2060,12 +2424,12 @@
         {
           "state": "CA",
           "raw_value": "use of drugs or devices; surgical (sever or penetrate tissues); any and all other methods in the treatment of diseases, injuries, deformities, and other physical and mental conditions",
-          "bucket": "Comprehensive Enumerated"
+          "bucket": "Broad & Enumerated"
         },
         {
           "state": "CO",
           "raw_value": "drugs; surgery; manipulation; electricity; telemedicine; interpretation of tests",
-          "bucket": "Broad + Modalities"
+          "bucket": "Core + Telehealth"
         },
         {
           "state": "CT",
@@ -2075,7 +2439,7 @@
         {
           "state": "DE",
           "raw_value": "prescribing, ordering, giving, or administering drugs or medicine; diagnosing, correcting, and/or treating disease, illness, pain, wound, fracture, infirmity, defect, or abnormal physical or mental condition; management of pregnancy and parturition; performing surgical operations; rendering medical opinions and treatment via telemedicine/electronic means; rendering determinations of medical necessity",
-          "bucket": "Comprehensive Enumerated"
+          "bucket": "Broad & Enumerated"
         },
         {
           "state": "FL",
@@ -2090,7 +2454,7 @@
         {
           "state": "HI",
           "raw_value": "drugs and medicines; surgery; manual medicine; water; electricity; hypnotism; telehealth; interpretation of tests; osteopathic medicine",
-          "bucket": "Broad + Modalities"
+          "bucket": "Broad & Enumerated"
         },
         {
           "state": "IA",
@@ -2100,12 +2464,12 @@
         {
           "state": "IL",
           "raw_value": "medical; surgical; pharmaceutical",
-          "bucket": "High-Level Categories"
+          "bucket": "General Categories Only"
         },
         {
           "state": "IN",
           "raw_value": "diagnosis; treatment; correction; prevention; surgical operations; prescription; administration of treatment",
-          "bucket": "Broad + Modalities"
+          "bucket": "Core + Prevention"
         },
         {
           "state": "KS",
@@ -2120,52 +2484,57 @@
         {
           "state": "LA",
           "raw_value": "diagnosing; treating; curing; relieving; examining; attending childbirth",
-          "bucket": "Broad + Modalities"
+          "bucket": "Core + Obstetrics"
         },
         {
           "state": "MA",
           "raw_value": "medical; surgical",
-          "bucket": "High-Level Categories"
+          "bucket": "General Categories Only"
         },
         {
           "state": "MD",
           "raw_value": "diagnosis; healing; treatment; surgery; prescribing; acupuncture",
-          "bucket": "Broad + Modalities"
+          "bucket": "Broad & Enumerated"
         },
         {
           "state": "ME",
           "raw_value": "diagnosis; treatment by attendance or advice; prescribing drugs; furnishing drugs or medicine; appliance; manipulation; therapeutic agents",
-          "bucket": "Broad + Modalities"
+          "bucket": "Broad & Enumerated"
         },
         {
           "state": "MI",
           "raw_value": "attendance; advice; device; diagnostic test; other means",
-          "bucket": "High-Level Categories"
+          "bucket": "General Categories Only"
         },
         {
           "state": "MN",
           "raw_value": "prescribing, giving, or administering drugs or medicine; diagnosing, correcting, or treating disease, illness, pain, wound, fracture, infirmity, deformity, or defect by any means, methods, devices, or instrumentalities; performing surgical operations including invasive or noninvasive procedures involving lasers; using hypnosis for treatment or relief of bodily injury, infirmity, or disease",
-          "bucket": "Comprehensive Enumerated"
+          "bucket": "Broad & Enumerated"
         },
         {
           "state": "MS",
           "raw_value": "suggest; recommend; prescribe; direct; obstetrics; midwifery",
-          "bucket": "Broad + Modalities"
+          "bucket": "Core + Obstetrics"
         },
         {
           "state": "MT",
           "raw_value": "diagnosis; treatment; correction; electronic and technological means; telemedicine",
-          "bucket": "Broad + Modalities"
+          "bucket": "Core + Telehealth"
+        },
+        {
+          "state": "NC",
+          "raw_value": "diagnosis; prescription and administration of drugs; treatment of disease, illness, pain, wound, fracture, infirmity, defect, or abnormal physical or mental condition; surgical procedures; management of pregnancy or parturition; practice by electronic or other means including internet or telephone",
+          "bucket": "Broad & Enumerated"
         },
         {
           "state": "ND",
           "raw_value": "medical; surgical; obstetric",
-          "bucket": "High-Level Categories"
+          "bucket": "General Categories Only"
         },
         {
           "state": "NE",
           "raw_value": "diagnosis; treatment by medicine; surgery; prescribing; telehealth/electronic medium services",
-          "bucket": "Broad + Modalities"
+          "bucket": "Core + Telehealth"
         },
         {
           "state": "NH",
@@ -2180,12 +2549,12 @@
         {
           "state": "NM",
           "raw_value": "medical; surgical; diagnostic; prescriptive",
-          "bucket": "High-Level Categories"
+          "bucket": "General Categories Only"
         },
         {
           "state": "NV",
           "raw_value": "diagnosis; treatment; correction; prevention; prescription; autopsy; telehealth",
-          "bucket": "Broad + Modalities"
+          "bucket": "Core + Telehealth"
         },
         {
           "state": "NY",
@@ -2194,13 +2563,18 @@
         },
         {
           "state": "OK",
-          "raw_value": "ablation of targeted nerves; percutaneous precision needle placement within the spinal column with placement of drugs; surgical techniques such as laser or endoscopic diskectomy, intrathecal infusion pumps and spinal cord stimulators",
-          "bucket": "Specialty Procedures"
+          "raw_value": "allopathic legend drugs; surgery; manual treatment; mechanical treatment; diagnostic services; prescribing; treatment of disease, injury or deformity",
+          "bucket": "Broad & Enumerated"
         },
         {
           "state": "OR",
           "raw_value": "prescribe; administer drugs or medicine; perform surgical operations; diagnose; cure or treat by any means, methods, devices or instrumentalities",
-          "bucket": "Comprehensive Enumerated"
+          "bucket": "Broad & Enumerated"
+        },
+        {
+          "state": "PA",
+          "raw_value": "medical; surgical; with or without drugs",
+          "bucket": "General Categories Only"
         },
         {
           "state": "RI",
@@ -2210,12 +2584,12 @@
         {
           "state": "SC",
           "raw_value": "Prescribing and administering drugs and medicines; Diagnosis and treatment of disease, illness, pain, wound, fracture, infirmity, defect, or abnormal physical or mental condition; Management of pregnancy and parturition; Surgical operations; Rendering medical opinions; Determining medical necessity",
-          "bucket": "Comprehensive Enumerated"
+          "bucket": "Broad & Enumerated"
         },
         {
           "state": "SD",
           "raw_value": "medical; surgical; obstetric",
-          "bucket": "High-Level Categories"
+          "bucket": "General Categories Only"
         },
         {
           "state": "TN",
@@ -2225,42 +2599,42 @@
         {
           "state": "TX",
           "raw_value": "diagnosis; treatment; surgery; prescription of drugs and devices; delegation of medical acts",
-          "bucket": "Broad + Modalities"
+          "bucket": "Core Four"
         },
         {
           "state": "UT",
           "raw_value": "diagnosis; treatment; correction; administration of anesthesia; prescription of medications; cosmetic medical procedures",
-          "bucket": "Broad + Modalities"
+          "bucket": "Broad & Enumerated"
         },
         {
           "state": "VA",
           "raw_value": "medical; surgical; pharmaceutical",
-          "bucket": "High-Level Categories"
+          "bucket": "General Categories Only"
         },
         {
           "state": "VT",
           "raw_value": "medical; surgical; prescription of drugs and medicines; diagnosis and treatment; management of pregnancy, labor and delivery, and postpartum care",
-          "bucket": "Comprehensive Enumerated"
+          "bucket": "Core + Obstetrics"
         },
         {
           "state": "WA",
           "raw_value": "diagnosis; treatment; prescribing drugs; surgical procedures (severing or penetrating tissues); advising on human disease or conditions",
-          "bucket": "Comprehensive Enumerated"
+          "bucket": "Core Four"
         },
         {
           "state": "WI",
           "raw_value": "examination; treatment; operation; prescription; advice; diagnosis; prevention; surgical procedures",
-          "bucket": "Broad + Modalities"
+          "bucket": "Core + Prevention"
         },
         {
           "state": "WV",
           "raw_value": "diagnosis; treatment; operation; prescription; use of lasers; ionizing radiation; pulsed light; radiofrequency devices",
-          "bucket": "Broad + Modalities"
+          "bucket": "Broad & Enumerated"
         },
         {
           "state": "WY",
           "raw_value": "diagnosis; treatment; prevention; management of pregnancy and parturition; prescription of drugs",
-          "bucket": "Broad + Modalities"
+          "bucket": "Core + Obstetrics"
         }
       ]
     },
@@ -2268,27 +2642,27 @@
       "field_name": "scope.drug_authority",
       "bucket_set": [
         "Broad Full Authority",
-        "Standard with Opioid Limits",
-        "Standard with Rx Formalities",
+        "Standard With Limits",
+        "Opioid Restrictions Noted",
         "Delegation Emphasized",
-        "Basic Prescribing"
+        "Prescribe Only (Basic)"
       ],
-      "rationale": "States cluster around how much they qualify or restrict general prescribing authority: some grant broad unrestricted authority, some add explicit opioid/controlled substance caps, some focus on prescription formality requirements, some emphasize delegation to PAs/APRNs, and the remainder simply state basic prescribing rights with minimal qualification.",
+      "rationale": "States cluster by how elaborately they qualify drug authority: a few grant broad unrestricted authority, most have standard authority with general legal limits, several call out specific opioid/controlled substance restrictions, some emphasize delegation to PAs/APRNs, and a handful state only basic prescribing with minimal qualification.",
       "assignments": [
         {
           "state": "AK",
           "raw_value": "May prescribe, dispense, and administer prescription drugs and controlled substances subject to state and federal law and opioid dosage limits",
-          "bucket": "Standard with Opioid Limits"
+          "bucket": "Opioid Restrictions Noted"
         },
         {
           "state": "AR",
           "raw_value": "Physicians may prescribe, dispense, and administer drugs including controlled substances subject to board rules and state/federal law",
-          "bucket": "Broad Full Authority"
+          "bucket": "Standard With Limits"
         },
         {
           "state": "AZ",
           "raw_value": "Physicians may prescribe and dispense drugs and devices subject to board regulations and restrictions on controlled substances",
-          "bucket": "Broad Full Authority"
+          "bucket": "Standard With Limits"
         },
         {
           "state": "CA",
@@ -2298,17 +2672,17 @@
         {
           "state": "CO",
           "raw_value": "Physicians may prescribe and dispense medications, including controlled substances, subject to limitations on opioids and benzodiazepines",
-          "bucket": "Standard with Opioid Limits"
+          "bucket": "Opioid Restrictions Noted"
         },
         {
           "state": "DE",
           "raw_value": "Physicians may prescribe, order, give, or administer drugs or medicine; electronic prescribing is required with limited exceptions; prescriptions for dangerous or narcotic drugs must be for therapeutic or diagnostic purposes.",
-          "bucket": "Standard with Rx Formalities"
+          "bucket": "Standard With Limits"
         },
         {
           "state": "FL",
           "raw_value": "Physicians may prescribe legend drugs and controlled substances within the scope of professional practice and in accordance with applicable law",
-          "bucket": "Basic Prescribing"
+          "bucket": "Standard With Limits"
         },
         {
           "state": "GA",
@@ -2318,42 +2692,42 @@
         {
           "state": "HI",
           "raw_value": "Authority to prescribe and use drugs and medicines as part of medical practice",
-          "bucket": "Basic Prescribing"
+          "bucket": "Prescribe Only (Basic)"
         },
         {
           "state": "IA",
           "raw_value": "Physicians may prescribe and furnish medicine for human ailments",
-          "bucket": "Basic Prescribing"
+          "bucket": "Prescribe Only (Basic)"
         },
         {
           "state": "IL",
           "raw_value": "Physicians licensed to practice medicine in all of its branches may purchase and dispense legend drugs",
-          "bucket": "Basic Prescribing"
+          "bucket": "Prescribe Only (Basic)"
         },
         {
           "state": "IN",
           "raw_value": "Physicians may prescribe drugs and medicines as defined in statute",
-          "bucket": "Basic Prescribing"
+          "bucket": "Prescribe Only (Basic)"
         },
         {
           "state": "KS",
           "raw_value": "Authority to prescribe, recommend and furnish medicine and drugs",
-          "bucket": "Basic Prescribing"
+          "bucket": "Prescribe Only (Basic)"
         },
         {
           "state": "LA",
           "raw_value": "Physicians may prescribe, dispense, and administer drugs and controlled substances as part of medical practice, subject to legal restrictions",
-          "bucket": "Broad Full Authority"
+          "bucket": "Standard With Limits"
         },
         {
           "state": "MD",
           "raw_value": "Physicians may prescribe drugs and controlled substances as part of the practice of medicine, subject to limitations on opioid prescribing under § 1–223 of this article and other applicable laws",
-          "bucket": "Standard with Opioid Limits"
+          "bucket": "Opioid Restrictions Noted"
         },
         {
           "state": "ME",
           "raw_value": "Physicians may prescribe drugs including controlled substances; subject to opioid prescribing limits of 100 MME/day for chronic pain patients and 7-day supply for acute pain patients, with exceptions for cancer, palliative care, end-of-life, hospice, and MAT",
-          "bucket": "Standard with Opioid Limits"
+          "bucket": "Opioid Restrictions Noted"
         },
         {
           "state": "MI",
@@ -2363,42 +2737,47 @@
         {
           "state": "MN",
           "raw_value": "May prescribe, give, or administer any drug or medicine for the use of another",
-          "bucket": "Basic Prescribing"
+          "bucket": "Broad Full Authority"
         },
         {
           "state": "MS",
           "raw_value": "Physicians may prescribe, administer, and dispense drugs and medicines as part of the practice of medicine",
-          "bucket": "Broad Full Authority"
+          "bucket": "Standard With Limits"
         },
         {
           "state": "MT",
           "raw_value": "Physicians may prescribe drugs within their scope of practice",
-          "bucket": "Basic Prescribing"
+          "bucket": "Prescribe Only (Basic)"
+        },
+        {
+          "state": "NC",
+          "raw_value": "Licensed physicians may prescribe, order, give, or administer drugs or medicine; may prescribe opioid antagonists by standing order; prescribing authority subject to Board rules",
+          "bucket": "Standard With Limits"
         },
         {
           "state": "NE",
           "raw_value": "Physicians may prescribe, administer, and furnish medicines and controlled substances for medically accepted therapeutic purposes; prescribing controlled substances to oneself or family members (except in emergencies) is unprofessional conduct.",
-          "bucket": "Standard with Rx Formalities"
+          "bucket": "Standard With Limits"
         },
         {
           "state": "NH",
           "raw_value": "Physicians may prescribe controlled drugs classified in schedule II through IV by means of telemedicine, subject to subsequent evaluation and compliance with federal and state laws",
-          "bucket": "Standard with Rx Formalities"
+          "bucket": "Standard With Limits"
         },
         {
           "state": "NJ",
           "raw_value": "Physicians may prescribe Schedule II controlled dangerous substances in quantities not exceeding a 30-day supply, with authority to issue multiple prescriptions for up to a 90-day supply under certain conditions",
-          "bucket": "Standard with Opioid Limits"
+          "bucket": "Opioid Restrictions Noted"
         },
         {
           "state": "NM",
           "raw_value": "Authority to administer, dispense or prescribe drugs and medicines for the use of another person as directed by a licensed physician or as authorized pursuant to professional or occupational licensing statutes",
-          "bucket": "Basic Prescribing"
+          "bucket": "Standard With Limits"
         },
         {
           "state": "NV",
           "raw_value": "Physicians may prescribe controlled substances and dangerous drugs as authorized by law, subject to regulations and limitations",
-          "bucket": "Basic Prescribing"
+          "bucket": "Standard With Limits"
         },
         {
           "state": "NY",
@@ -2406,29 +2785,39 @@
           "bucket": "Broad Full Authority"
         },
         {
+          "state": "OK",
+          "raw_value": "Authorized to prescribe, order, give, or administer drugs or medicine; may prescribe controlled substances subject to limits",
+          "bucket": "Standard With Limits"
+        },
+        {
           "state": "OR",
           "raw_value": "Physicians may prescribe, give, or administer drugs and medicines; dispensing physicians may purchase and dispense prescription drugs to patients",
-          "bucket": "Broad Full Authority"
+          "bucket": "Standard With Limits"
+        },
+        {
+          "state": "PA",
+          "raw_value": "Medical doctors may prescribe and dispense drugs as part of the practice of medicine and surgery; physician assistants may prescribe and dispense drugs only at the direction of a physician per board regulations.",
+          "bucket": "Delegation Emphasized"
         },
         {
           "state": "RI",
           "raw_value": "Physicians may prescribe; prescriptions must contain physician's name and address; generic substitution authorized unless physician indicates 'brand name necessary'",
-          "bucket": "Standard with Rx Formalities"
+          "bucket": "Standard With Limits"
         },
         {
           "state": "SC",
           "raw_value": "Authority to prescribe, order, give, or administer drugs and medicines; controlled substance prescribing subject to DEA registration and state law",
-          "bucket": "Basic Prescribing"
+          "bucket": "Standard With Limits"
         },
         {
           "state": "SD",
           "raw_value": "Prescribe drugs, medicines, and controlled substances as permitted by law",
-          "bucket": "Basic Prescribing"
+          "bucket": "Prescribe Only (Basic)"
         },
         {
           "state": "TN",
           "raw_value": "Licensed physicians may prescribe drugs; prescriptions must be legible, signed, and on tamper-resistant paper",
-          "bucket": "Standard with Rx Formalities"
+          "bucket": "Standard With Limits"
         },
         {
           "state": "TX",
@@ -2438,209 +2827,224 @@
         {
           "state": "UT",
           "raw_value": "Physicians may prescribe prescription drugs and devices as defined in statute",
-          "bucket": "Basic Prescribing"
+          "bucket": "Prescribe Only (Basic)"
         },
         {
           "state": "VT",
           "raw_value": "Authority to prescribe, order, give, or administer drugs and medicines",
-          "bucket": "Basic Prescribing"
+          "bucket": "Prescribe Only (Basic)"
         },
         {
           "state": "WA",
           "raw_value": "Physicians may administer or prescribe drugs or medicinal preparations; may prescribe controlled substances; subject to opioid prescribing rules adopted by the commission",
-          "bucket": "Standard with Opioid Limits"
+          "bucket": "Opioid Restrictions Noted"
         },
         {
           "state": "WI",
           "raw_value": "Physicians may prescribe drugs; violations of ch. 450 or 961 (pharmacy and controlled substances) constitute unprofessional conduct.",
-          "bucket": "Standard with Rx Formalities"
+          "bucket": "Standard With Limits"
         },
         {
           "state": "WV",
           "raw_value": "Physicians may prescribe controlled substances and other drugs in accordance with accepted medical standards and in good faith therapeutic manner",
-          "bucket": "Basic Prescribing"
+          "bucket": "Standard With Limits"
         },
         {
           "state": "WY",
           "raw_value": "Offers or undertakes to prescribe, order, give or administer drugs which can only be obtained by prescription according to law",
-          "bucket": "Basic Prescribing"
+          "bucket": "Prescribe Only (Basic)"
         }
       ]
     },
     {
       "field_name": "profession_specific.license_status_types",
       "bucket_set": [
-        "Basic (3–4 types)",
-        "Moderate (5–7 types)",
-        "Expanded (8–11 types)",
-        "Comprehensive (12+ types)"
+        "Simple (3-5 types)",
+        "Moderate (6-9 types)",
+        "Complex (10-14 types)",
+        "Very Complex (15+ types)"
       ],
-      "rationale": "States vary primarily in how many distinct license/status categories they enumerate, so bucketing by count of types provides the most scannable cross-state signal.",
+      "rationale": "States vary most meaningfully by how many distinct license/status categories they recognize, so bucketing by count of types captures the real administrative complexity difference visible at a glance.",
       "assignments": [
         {
           "state": "AK",
           "raw_value": "active; inactive; retired status",
-          "bucket": "Basic (3–4 types)"
+          "bucket": "Simple (3-5 types)"
         },
         {
           "state": "AZ",
           "raw_value": "active license; inactive license; teaching license; pro bono registration; locum tenens registration; training permit; temporary license",
-          "bucket": "Moderate (5–7 types)"
+          "bucket": "Moderate (6-9 types)"
         },
         {
           "state": "CA",
           "raw_value": "active; retired; inactive; disabled; delinquent; postgraduate training license",
-          "bucket": "Moderate (5–7 types)"
+          "bucket": "Moderate (6-9 types)"
         },
         {
           "state": "CO",
           "raw_value": "active; inactive; physician training license; pro bono license; reentry license; distinguished foreign teaching physician license",
-          "bucket": "Moderate (5–7 types)"
+          "bucket": "Moderate (6-9 types)"
         },
         {
           "state": "DE",
           "raw_value": "active (certificate to practice medicine); inactive; temporary certificate (locum tenens / illness absence); temporary certificate pending certification; temporary emergency certificate; administrative medicine license; hospital/institution staff certificate (restricted)",
-          "bucket": "Moderate (5–7 types)"
+          "bucket": "Moderate (6-9 types)"
         },
         {
           "state": "FL",
           "raw_value": "active; inactive; retired; delinquent",
-          "bucket": "Basic (3–4 types)"
+          "bucket": "Simple (3-5 types)"
         },
         {
           "state": "GA",
           "raw_value": "active; inactive; administrative medicine license; teacher's license; special volunteer license; institutional license; telemedicine license; temporary license; temporary postgraduate training permit",
-          "bucket": "Expanded (8–11 types)"
+          "bucket": "Moderate (6-9 types)"
         },
         {
           "state": "HI",
           "raw_value": "active license; limited and temporary license; educational teaching license; training replacement temporary license",
-          "bucket": "Basic (3–4 types)"
+          "bucket": "Simple (3-5 types)"
         },
         {
           "state": "IA",
           "raw_value": "resident physician license; temporary license; special license; administrative medicine license",
-          "bucket": "Basic (3–4 types)"
+          "bucket": "Simple (3-5 types)"
         },
         {
           "state": "ID",
           "raw_value": "active; inactive; volunteer",
-          "bucket": "Basic (3–4 types)"
+          "bucket": "Simple (3-5 types)"
         },
         {
           "state": "IN",
           "raw_value": "unlimited license; limited license; probationary license; temporary medical permit; provisional license; inactive license; retired license",
-          "bucket": "Moderate (5–7 types)"
+          "bucket": "Moderate (6-9 types)"
         },
         {
           "state": "KS",
           "raw_value": "active license; exempt license; inactive license; federally active license; reentry active license; resident active license; institutional license; visiting professor temporary license; temporary education license; visiting clinical professor license; limited permit; postgraduate permit; special permit; temporary permit",
-          "bucket": "Comprehensive (12+ types)"
+          "bucket": "Very Complex (15+ types)"
         },
         {
           "state": "KY",
           "raw_value": "regular license; limited license; temporary permit; emergency permit; fellowship training license; special faculty license; provisional permit",
-          "bucket": "Moderate (5–7 types)"
+          "bucket": "Moderate (6-9 types)"
         },
         {
           "state": "MA",
           "raw_value": "active; inactive",
-          "bucket": "Basic (3–4 types)"
+          "bucket": "Simple (3-5 types)"
         },
         {
           "state": "ME",
           "raw_value": "active; temporary; youth camp physician; emergency 100-day; administrative medicine; resident (temporary educational certificate); inactive (withdrawn)",
-          "bucket": "Moderate (5–7 types)"
+          "bucket": "Moderate (6-9 types)"
         },
         {
           "state": "MI",
           "raw_value": "full license; limited license; educational limited license; nonclinical limited license; clinical academic limited license; temporary license; special volunteer license",
-          "bucket": "Moderate (5–7 types)"
+          "bucket": "Moderate (6-9 types)"
         },
         {
           "state": "MN",
           "raw_value": "active license; limited license (24-month, non-renewable); emeritus license; residency permit; temporary permit; license cancellation in good standing; license cancelled under disciplinary order",
-          "bucket": "Moderate (5–7 types)"
+          "bucket": "Moderate (6-9 types)"
         },
         {
           "state": "MO",
           "raw_value": "active; inactive; temporary; conditional temporary; limited; assistant physician",
-          "bucket": "Moderate (5–7 types)"
+          "bucket": "Moderate (6-9 types)"
         },
         {
           "state": "MS",
           "raw_value": "permanent license; temporary license; special volunteer medical license; limited institutional license; expedited license (Interstate Compact)",
-          "bucket": "Moderate (5–7 types)"
+          "bucket": "Simple (3-5 types)"
+        },
+        {
+          "state": "NC",
+          "raw_value": "active; inactive; resident's training license; limited volunteer license; retired limited volunteer license; special purpose license; medical school faculty license; military relocation license; internationally-trained physician employee license",
+          "bucket": "Moderate (6-9 types)"
         },
         {
           "state": "NE",
           "raw_value": "active; inactive; temporary educational permit; visiting faculty permit; reentry license; physician locum tenens",
-          "bucket": "Moderate (5–7 types)"
+          "bucket": "Moderate (6-9 types)"
         },
         {
           "state": "NH",
           "raw_value": "unrestricted permanent license; temporary license; license with restrictions; special training license; special license with conditions, limitations, or restrictions; courtesy license; administrative medicine license; inactive status",
-          "bucket": "Expanded (8–11 types)"
+          "bucket": "Moderate (6-9 types)"
         },
         {
           "state": "NJ",
           "raw_value": "active; inactive/retired; temporary; permit (residents/interns)",
-          "bucket": "Basic (3–4 types)"
+          "bucket": "Simple (3-5 types)"
         },
         {
           "state": "NV",
           "raw_value": "active; inactive; administrative; special volunteer; locum tenens; special; restricted; temporary; special purpose; authorized facility; limited (resident physician)",
-          "bucket": "Expanded (8–11 types)"
+          "bucket": "Complex (10-14 types)"
         },
         {
           "state": "NY",
           "raw_value": "active; inactive; limited permit",
-          "bucket": "Basic (3–4 types)"
+          "bucket": "Simple (3-5 types)"
+        },
+        {
+          "state": "OK",
+          "raw_value": "full and unrestricted; temporary; special; special training; special volunteer; conditional; restricted; limited (international medical school graduate); temporary critical need",
+          "bucket": "Moderate (6-9 types)"
         },
         {
           "state": "OR",
           "raw_value": "active; inactive; retired; limited; license for practice of medicine across state lines",
-          "bucket": "Moderate (5–7 types)"
+          "bucket": "Simple (3-5 types)"
+        },
+        {
+          "state": "PA",
+          "raw_value": "license without restriction; interim limited license; graduate license; institutional license; temporary license; extraterritorial license",
+          "bucket": "Moderate (6-9 types)"
         },
         {
           "state": "RI",
           "raw_value": "active; inactive; limited registration; limited international physician registration",
-          "bucket": "Basic (3–4 types)"
+          "bucket": "Simple (3-5 types)"
         },
         {
           "state": "SC",
           "raw_value": "Active license; Inactive license; Limited license; Temporary license; Academic license; Special volunteer license; Emergency limited license",
-          "bucket": "Moderate (5–7 types)"
+          "bucket": "Moderate (6-9 types)"
         },
         {
           "state": "SD",
           "raw_value": "active; resident; locum tenens; temporary permit",
-          "bucket": "Basic (3–4 types)"
+          "bucket": "Simple (3-5 types)"
         },
         {
           "state": "TN",
           "raw_value": "active; retired; inactive; special volunteer; special training; locum tenens; conditional; restricted; limited; administrative medicine",
-          "bucket": "Expanded (8–11 types)"
+          "bucket": "Complex (10-14 types)"
         },
         {
           "state": "TX",
           "raw_value": "active; inactive; retired (fee-exempt); temporary (faculty); limited (administrative medicine); limited (conceded eminence); military limited volunteer; provisional; physician-in-training permit",
-          "bucket": "Expanded (8–11 types)"
+          "bucket": "Moderate (6-9 types)"
         },
         {
           "state": "WA",
           "raw_value": "active; inactive; retired active; limited",
-          "bucket": "Basic (3–4 types)"
+          "bucket": "Simple (3-5 types)"
         },
         {
           "state": "WI",
           "raw_value": "license to practice medicine and surgery; compact license; administrative physician license; temporary license; resident educational license; restricted license (visiting physician); provisional license (international physicians)",
-          "bucket": "Moderate (5–7 types)"
+          "bucket": "Moderate (6-9 types)"
         },
         {
           "state": "WY",
           "raw_value": "active license; temporary license; restricted or conditional license; inactive license; medical training license; emeritus license; volunteer license; administrative medicine license",
-          "bucket": "Expanded (8–11 types)"
+          "bucket": "Moderate (6-9 types)"
         }
       ]
     },
@@ -2648,13 +3052,14 @@
       "field_name": "profession_specific.opioid_prescribing_limits",
       "bucket_set": [
         "Hard Day-Supply Cap",
-        "Dosage/MME Cap",
-        "Prescribing Standards Required",
-        "Board Rulemaking Authority",
-        "Narrow Scope Restriction",
-        "Protective/Permissive"
+        "MME/Dose Limit",
+        "Rulemaking Mandate",
+        "Delegation/Dispensing Limit",
+        "Safe Harbor / Protection",
+        "Database/Monitoring Requirement",
+        "Telemedicine Restriction"
       ],
-      "rationale": "States cluster by mechanism: explicit day-supply caps in statute, MME/dosage ceilings, mandated prescribing standards or treatment plans, delegation of rules to a board, restrictions scoped to a narrow situation (e.g., telemedicine or delegation), and provisions that affirmatively protect or permit prescribing rather than restrict it.",
+      "rationale": "States cluster around whether they set a concrete day-supply (or MME) ceiling in statute, delegate limit-setting to a board via rulemaking, restrict who/how opioids may be dispensed or delegated, protect prescribers acting in good faith, or focus on monitoring/database compliance rather than supply caps.",
       "assignments": [
         {
           "state": "AK",
@@ -2664,17 +3069,17 @@
         {
           "state": "AL",
           "raw_value": "Physicians may not prescribe Schedule II amphetamines and related drugs except for specific therapeutic purposes including narcolepsy, hyperkinesis, brain dysfunction, epilepsy, and clinically significant depression. Prescriptions for depression treatment are limited to 30 days unless patient is referred to a specialist.",
-          "bucket": "Narrow Scope Restriction"
+          "bucket": "Hard Day-Supply Cap"
         },
         {
           "state": "AR",
           "raw_value": "A physician shall not be subject to disciplinary action solely for prescribing dangerous or controlled drugs for relief of chronic intractable pain; board may limit Schedule II narcotics by rule",
-          "bucket": "Protective/Permissive"
+          "bucket": "Safe Harbor / Protection"
         },
         {
           "state": "AZ",
           "raw_value": "Schedule II opioids may not be dispensed by physicians except for implantable devices or opioids for medication-assisted treatment for substance use disorders",
-          "bucket": "Narrow Scope Restriction"
+          "bucket": "Delegation/Dispensing Limit"
         },
         {
           "state": "CO",
@@ -2694,27 +3099,27 @@
         {
           "state": "GA",
           "raw_value": "Board establishes minimum standards for prescribing controlled substances for pain management; pain management clinics are licensed and regulated; no specific statutory day-supply limit for physicians generally, but advanced practice registered nurses and physician assistants are limited to 5-day initial supply for hydrocodone/oxycodone in emergency situations",
-          "bucket": "Prescribing Standards Required"
+          "bucket": "Rulemaking Mandate"
         },
         {
           "state": "IA",
           "raw_value": "Boards must adopt rules establishing penalties for prescribing opioids in dosage amounts exceeding what would be prescribed by a reasonably prudent prescribing practitioner.",
-          "bucket": "Board Rulemaking Authority"
+          "bucket": "Rulemaking Mandate"
         },
         {
           "state": "KS",
           "raw_value": "The board shall adopt guidelines for the use of controlled substances for the treatment of pain",
-          "bucket": "Board Rulemaking Authority"
+          "bucket": "Rulemaking Mandate"
         },
         {
           "state": "MD",
           "raw_value": "Physicians must prescribe the lowest effective dose of an opioid and a quantity no greater than needed for the expected duration of pain, except for substance-related disorders, cancer pain, end-of-life/hospice/palliative care, or chronic pain. Dosage, quantity, and duration must be based on evidence-based clinical guidelines appropriate for the patient's age, health status, and service delivery setting.",
-          "bucket": "Dosage/MME Cap"
+          "bucket": "MME/Dose Limit"
         },
         {
           "state": "ME",
           "raw_value": "100 MME/day maximum; 7-day supply limit for acute pain; 30-day supply limit for chronic pain within a 30-day period; exceptions for cancer pain, palliative care, end-of-life/hospice care, MAT, and inpatient/surgical settings",
-          "bucket": "Dosage/MME Cap"
+          "bucket": "MME/Dose Limit"
         },
         {
           "state": "MO",
@@ -2729,7 +3134,7 @@
         {
           "state": "ND",
           "raw_value": "Opioids may only be prescribed through telemedicine if prescribed as FDA-approved medication assisted treatment for opioid use disorder or to patient in hospital or long-term care facility",
-          "bucket": "Narrow Scope Restriction"
+          "bucket": "Telemedicine Restriction"
         },
         {
           "state": "NJ",
@@ -2739,32 +3144,37 @@
         {
           "state": "NV",
           "raw_value": "Physicians may prescribe controlled substances for the treatment of intractable pain in accordance with NRS 639.23507 and 639.2391 to 639.23916, inclusive, and any regulations adopted by the State Board of Pharmacy and the Board of Medical Examiners",
-          "bucket": "Board Rulemaking Authority"
+          "bucket": "Rulemaking Mandate"
         },
         {
           "state": "OH",
           "raw_value": "Physicians must comply with drug database review requirements before prescribing opioid analgesics or benzodiazepines, except in specified circumstances such as emergency treatment, hospice care, or prescriptions for 7 days or less",
-          "bucket": "Prescribing Standards Required"
+          "bucket": "Database/Monitoring Requirement"
+        },
+        {
+          "state": "OK",
+          "raw_value": "Prescribing opioid drugs in excess of the maximum limits authorized in Section 2-309I of Title 63 of the Oklahoma Statutes constitutes unprofessional conduct.",
+          "bucket": "Hard Day-Supply Cap"
         },
         {
           "state": "TX",
           "raw_value": "Physicians may only delegate prescribing of Schedule III-V controlled substances for periods not to exceed 90 days per prescription (including refills). Schedule II controlled substances may only be delegated in hospital facility-based practices for admitted patients or emergency department patients, or as part of hospice care plans. The board must adopt guidelines for prescribing opioid antagonists.",
-          "bucket": "Narrow Scope Restriction"
+          "bucket": "Delegation/Dispensing Limit"
         },
         {
           "state": "VA",
           "raw_value": "The Board shall adopt regulations for the prescribing of opioids and products containing buprenorphine with guidelines for treatment of acute pain including limitations on dosages or day supply of drugs prescribed, and for treatment of chronic pain including requirements for development of a treatment plan, an agreement for treatment signed by the provider and patient, and periodic review of treatment",
-          "bucket": "Board Rulemaking Authority"
+          "bucket": "Rulemaking Mandate"
         },
         {
           "state": "WA",
           "raw_value": "Commission must adopt rules establishing requirements for prescribing opioid drugs, including possible exemptions based on education, training, amount of opioids prescribed, patient panel, and practice environment. Rules must address dosing criteria including a dosage amount that must not be exceeded without consultation with a pain management specialist. Rules must require informing patients of their right to refuse an opioid prescription.",
-          "bucket": "Board Rulemaking Authority"
+          "bucket": "Rulemaking Mandate"
         },
         {
           "state": "WV",
           "raw_value": "A physician who discharges his or her professional obligation to relieve the pain and suffering and promote the dignity and autonomy of dying patients in his or her care and, in so doing, exceeds the average dosage of a pain relieving controlled substance, as defined in Schedules II and III of the Uniform Controlled Substance Act, does not violate this article",
-          "bucket": "Protective/Permissive"
+          "bucket": "Safe Harbor / Protection"
         }
       ]
     },
@@ -2772,12 +3182,13 @@
       "field_name": "profession_specific.telehealth_prescribing_rules",
       "bucket_set": [
         "Prior In-Person Required",
+        "Established Relationship Required",
         "Same Standard as In-Person",
         "Controlled Substance Restrictions",
         "Licensure / Jurisdiction Focus",
-        "Flexible / Broad Allowance"
+        "Permissive / Flexible"
       ],
-      "rationale": "States cluster around whether they require a prior in-person visit before telehealth prescribing, whether they simply demand equivalent in-person standards, whether their rules center on controlled substance carve-outs, whether the statute is primarily about cross-state licensure obligations, or whether they take a permissive approach with minimal added restrictions.",
+      "rationale": "States cluster around whether they demand a prior in-person visit, require only an established relationship (which can be virtual), mandate equivalent in-person standards without specifying how, impose specific controlled-substance carve-outs, focus primarily on licensure/cross-state jurisdiction, or take a broadly permissive approach with minimal prescribing constraints.",
       "assignments": [
         {
           "state": "AK",
@@ -2792,7 +3203,7 @@
         {
           "state": "AR",
           "raw_value": "Physicians may prescribe through telemedicine if professional relationship established; audio-only technology may not be used to renew written certification; same standard of care applies as in-person",
-          "bucket": "Same Standard as In-Person"
+          "bucket": "Established Relationship Required"
         },
         {
           "state": "AZ",
@@ -2802,12 +3213,12 @@
         {
           "state": "CA",
           "raw_value": "An appropriate prior examination for prescribing does not require a synchronous interaction and can be achieved through telehealth including self-screening tools or questionnaires, provided the licensee complies with the appropriate standard of care.",
-          "bucket": "Flexible / Broad Allowance"
+          "bucket": "Permissive / Flexible"
         },
         {
           "state": "CO",
           "raw_value": "Physicians may deliver telemedicine services in compliance with HIPAA. Telemedicine is defined as the delivery of medical services through technologies including information, electronic, and communication technologies, remote monitoring technologies, and store-and-forward transfers, to facilitate assessment, diagnosis, consultation, or treatment of a patient at an originating site while the provider is at a distant site",
-          "bucket": "Flexible / Broad Allowance"
+          "bucket": "Permissive / Flexible"
         },
         {
           "state": "CT",
@@ -2862,12 +3273,12 @@
         {
           "state": "LA",
           "raw_value": "Physicians practicing telemedicine may prescribe controlled dangerous substances without an in-person examination if they hold an unrestricted license, have access to patient medical records, create medical records, and provide appropriate follow-up care. In licensed healthcare facilities, physicians may prescribe controlled substances without an in-person examination.",
-          "bucket": "Flexible / Broad Allowance"
+          "bucket": "Permissive / Flexible"
         },
         {
           "state": "MA",
           "raw_value": "Telehealth is defined to include synchronous or asynchronous audio, video, electronic media or other telecommunications technology for evaluating, diagnosing, consulting, prescribing, treating or monitoring patients. The board shall allow a licensed physician to obtain proxy credentialing and privileging for telehealth services.",
-          "bucket": "Flexible / Broad Allowance"
+          "bucket": "Permissive / Flexible"
         },
         {
           "state": "ME",
@@ -2887,7 +3298,7 @@
         {
           "state": "MO",
           "raw_value": "Physician must establish valid physician-patient relationship prior to prescribing through telemedicine, including obtaining reliable medical history, performing physical examination, having sufficient dialogue regarding treatment options, following up with patient, and maintaining contemporaneous medical record",
-          "bucket": "Prior In-Person Required"
+          "bucket": "Established Relationship Required"
         },
         {
           "state": "MS",
@@ -2912,7 +3323,7 @@
         {
           "state": "NH",
           "raw_value": "Physicians may prescribe non-opioid and opioid controlled drugs classified in schedule II through IV by means of telemedicine, with subsequent evaluation at intervals appropriate for the patient and medical condition but not less than annually, in compliance with federal and state laws. Physicians must establish a physician-patient relationship including in-person exam or telemedicine exam with identity verification, disclosure of physician information, and informed consent.",
-          "bucket": "Controlled Substance Restrictions"
+          "bucket": "Established Relationship Required"
         },
         {
           "state": "NJ",
@@ -2922,7 +3333,7 @@
         {
           "state": "NV",
           "raw_value": "Physicians may perform acts described in the practice of medicine by using equipment that transfers information concerning the medical condition of the patient electronically, telephonically or by fiber optics, including, without limitation, through telehealth, from within or outside this State or the United States",
-          "bucket": "Flexible / Broad Allowance"
+          "bucket": "Permissive / Flexible"
         },
         {
           "state": "OH",
@@ -2932,7 +3343,7 @@
         {
           "state": "OR",
           "raw_value": "A physician licensed under ORS 677.100 to 677.228 may use telemedicine to engage in the practice of medicine, including the establishment of a provider-patient relationship, diagnosis or treatment of a medical condition, or the prescription of drugs, to a patient physically located in Oregon",
-          "bucket": "Flexible / Broad Allowance"
+          "bucket": "Permissive / Flexible"
         },
         {
           "state": "SC",
@@ -2969,140 +3380,156 @@
     {
       "field_name": "profession_specific.physician_assistant_prescriptive_authority",
       "bucket_set": [
-        "Full Schedule II–V",
-        "Schedule III–V Only",
-        "Schedule II Limited",
-        "Board/Agreement Governed",
-        "Supervision/Delegation Required"
+        "Broad / Full Schedules",
+        "Schedules III–V Only",
+        "Schedule-Limited w/ Conditions",
+        "Supervisor-Delegated Scope",
+        "Board/Agreement Defined",
+        "No Independent Rx"
       ],
-      "rationale": "States cluster primarily by which controlled substance schedules PAs may prescribe (full II–V, limited II, or III–V only), with some states deferring entirely to board rules or collaborative agreement terms rather than specifying schedules in statute.",
+      "rationale": "States cluster by how broadly PAs may prescribe: those allowing Schedule II–V with few restrictions, those capped at III–V or with explicit supply/condition limits, those where authority flows entirely from supervising physician delegation or job descriptions, those that defer scope to board rules or collaborative agreements, and one that bars independent prescribing.",
       "assignments": [
         {
           "state": "AL",
           "raw_value": "A licensed assistant to a physician may prescribe legend drugs to patients if the drug type, dosage, quantity prescribed, and number of refills are authorized in an approved job description signed by the supervising physician and the drug is on the formulary approved by the Board of Medical Examiners.",
-          "bucket": "Supervision/Delegation Required"
+          "bucket": "Supervisor-Delegated Scope"
         },
         {
           "state": "CO",
           "raw_value": "A physician assistant with a collaborative agreement may prescribe and dispense medication, including controlled substances, to the extent and in the manner authorized by rules promulgated by the board",
-          "bucket": "Board/Agreement Governed"
+          "bucket": "Board/Agreement Defined"
         },
         {
           "state": "CT",
           "raw_value": "A physician assistant may prescribe and administer drugs, including controlled substances in schedule IV or V in all settings, renew prescriptions for controlled substances in schedule II, III, IV or V in all settings, prescribe and administer controlled substances in schedule II or III in all settings provided the supervising physician documents approval in the patient's medical record, and prescribe and approve the use of durable medical equipment.",
-          "bucket": "Full Schedule II–V"
+          "bucket": "Broad / Full Schedules"
         },
         {
           "state": "DE",
           "raw_value": "Physician assistants have prescriptive authority for therapeutic drugs and treatments within the scope of physician assistant practice, subject to biennial renewal. A PA working under a temporary license may not have a prescriptive practice.",
-          "bucket": "Board/Agreement Governed"
+          "bucket": "Board/Agreement Defined"
         },
         {
           "state": "FL",
           "raw_value": "A fully licensed physician assistant may prescribe or dispense any medication used in the supervising physician's practice unless listed on the formulary, including Schedule II controlled substances limited to 7-day supply",
-          "bucket": "Schedule II Limited"
+          "bucket": "Schedule-Limited w/ Conditions"
         },
         {
           "state": "GA",
           "raw_value": "Physician assistants may be delegated authority to prescribe dangerous drugs and Schedule III, IV, or V controlled substances; may prescribe hydrocodone/oxycodone in emergency situations (5-day supply limit, patient 18+, at least 1 year post-licensure experience); cannot prescribe Schedule I or II controlled substances except as noted; authority must be contained in board-approved job description",
-          "bucket": "Schedule III–V Only"
+          "bucket": "Schedules III–V Only"
         },
         {
           "state": "HI",
           "raw_value": "Physician assistants may prescribe within their scope of practice under supervision; specific drug schedules determined by board rules",
-          "bucket": "Board/Agreement Governed"
+          "bucket": "Board/Agreement Defined"
         },
         {
           "state": "IA",
           "raw_value": "Physician assistants may prescribe, dispense, order, administer, or procure prescription drugs, controlled substances, or medical devices necessary to complete a course of therapy pursuant to section 148C.4.",
-          "bucket": "Full Schedule II–V"
+          "bucket": "Broad / Full Schedules"
         },
         {
           "state": "ID",
           "raw_value": "Physician assistants have prescriptive authority as determined by the board, subject to the scope of their license and applicable state and federal laws",
-          "bucket": "Board/Agreement Governed"
+          "bucket": "Board/Agreement Defined"
         },
         {
           "state": "KY",
           "raw_value": "PA may prescribe and administer all nonscheduled legend drugs; with board approval, may prescribe Schedule III, IV, and V controlled substances to extent delegated by supervising physician; Schedule III limited to 30-day supply without refill; Schedule IV/V limited to original plus refills not exceeding 6-month supply",
-          "bucket": "Schedule III–V Only"
+          "bucket": "Schedules III–V Only"
         },
         {
           "state": "ME",
           "raw_value": "Physician assistants may prescribe and dispense prescription and legend drugs including schedule II-V controlled substances, subject to limitations on dispensing (only when pharmacy not available, in best interests of patient, or emergency exists)",
-          "bucket": "Full Schedule II–V"
+          "bucket": "Broad / Full Schedules"
         },
         {
           "state": "MI",
           "raw_value": "A physician's assistant under a practice agreement may prescribe drugs including controlled substances in schedules 2-5, in accordance with department rules and board protocols.",
-          "bucket": "Full Schedule II–V"
+          "bucket": "Broad / Full Schedules"
         },
         {
           "state": "MO",
           "raw_value": "Physician assistants may prescribe controlled substances in Schedules III, IV, and V, and Schedule II - hydrocodone, subject to collaborative practice arrangement with supervising physician. Schedule III narcotic controlled substances and Schedule II - hydrocodone prescriptions limited to one hundred twenty-hour supply without refill",
-          "bucket": "Schedule II Limited"
+          "bucket": "Schedule-Limited w/ Conditions"
+        },
+        {
+          "state": "NC",
+          "raw_value": "Physician assistants are authorized to write prescriptions for drugs subject to Board regulations, with written instructions from supervising physician about indications and contraindications; must personally consult with supervising physician before prescribing targeted controlled substances in pain management facilities for use exceeding 30 days.",
+          "bucket": "Supervisor-Delegated Scope"
         },
         {
           "state": "ND",
           "raw_value": "Physician assistants may prescribe and dispense schedule II through V substances and all legend drugs, subject to DEA registration and state/federal law compliance",
-          "bucket": "Full Schedule II–V"
+          "bucket": "Broad / Full Schedules"
         },
         {
           "state": "NE",
           "raw_value": "Physician assistants may perform medical services under a collaborative agreement with the supervision of a physician; specific prescriptive authority is governed by board rules under the Medicine and Surgery Practice Act.",
-          "bucket": "Board/Agreement Governed"
+          "bucket": "Board/Agreement Defined"
         },
         {
           "state": "NJ",
           "raw_value": "Physician assistants may order, prescribe, dispense, and administer medications and medical devices to the extent delegated by a supervising physician; may prescribe Schedule II-V controlled dangerous substances when authorized by supervising physician with certain conditions",
-          "bucket": "Supervision/Delegation Required"
+          "bucket": "Supervisor-Delegated Scope"
+        },
+        {
+          "state": "OK",
+          "raw_value": "Physician assistants may prescribe within the scope defined by the practice agreement, which shall include the scope of and any limitations on prescribing, as determined by the delegating physician and the physician assistant.",
+          "bucket": "Board/Agreement Defined"
         },
         {
           "state": "OR",
           "raw_value": "A physician associate is authorized to write prescriptions, including prescriptions for controlled substances listed in Schedules II through V",
-          "bucket": "Full Schedule II–V"
+          "bucket": "Broad / Full Schedules"
+        },
+        {
+          "state": "PA",
+          "raw_value": "A physician assistant shall not independently prescribe or dispense drugs; the board shall promulgate regulations permitting a physician assistant to prescribe and dispense drugs at the direction of a physician.",
+          "bucket": "No Independent Rx"
         },
         {
           "state": "SC",
           "raw_value": "PAs may prescribe drugs and medical devices authorized by supervising physician in written scope of practice guidelines; may prescribe Schedule II oral narcotics (initial prescription not to exceed 5-day supply) and Schedule II parenteral controlled substances in hospital settings with physician approval; subject to DEA registration and state law",
-          "bucket": "Schedule II Limited"
+          "bucket": "Schedule-Limited w/ Conditions"
         },
         {
           "state": "TN",
           "raw_value": "Physician assistants may prescribe pursuant to protocols or collaborative agreement with a supervising physician; graduate physicians may not prescribe controlled substances",
-          "bucket": "Board/Agreement Governed"
+          "bucket": "Board/Agreement Defined"
         },
         {
           "state": "TX",
           "raw_value": "Physician assistants may prescribe nonprescription drugs, dangerous drugs, and Schedule III-V controlled substances (for up to 90 days per prescription) under a prescriptive authority agreement with a supervising physician. Schedule II controlled substances may only be prescribed in hospital facility-based practices for admitted or emergency department patients, or as part of hospice care plans.",
-          "bucket": "Schedule II Limited"
+          "bucket": "Schedule-Limited w/ Conditions"
         },
         {
           "state": "WI",
           "raw_value": "Physician assistants may order, prescribe, procure, dispense, and administer prescription drugs, medical devices, services, and supplies, consistent with their experience, education, and training.",
-          "bucket": "Full Schedule II–V"
+          "bucket": "Broad / Full Schedules"
         },
         {
           "state": "WY",
           "raw_value": "Physician assistants may prescribe schedule II, III, IV or V drugs but not schedule I drugs",
-          "bucket": "Full Schedule II–V"
+          "bucket": "Broad / Full Schedules"
         }
       ]
     },
     {
       "field_name": "licensure.national_certification",
       "bucket_set": [
-        "NBME / NBEO / MCC",
+        "NBME / NBEO",
         "ECFMG",
-        "ABMS / AOA / Canadian Boards",
-        "Multi-Body Combination"
+        "ABMS / AOA / Canada",
+        "Mixed Exam Boards"
       ],
-      "rationale": "The values cluster around three dominant certifying bodies or families (NBME-type exam boards, ECFMG for foreign graduates, and ABMS/AOA/Canadian specialty boards), with a few states combining two or more of these families into a single requirement.",
+      "rationale": "States cluster around which certifying body or exam board they recognize: pure NBME/osteopathic exam boards, pure ECFMG (foreign graduates), pure specialty boards (ABMS/AOA/Canadian colleges), or a combination of multiple board types.",
       "assignments": [
         {
           "state": "CA",
           "raw_value": "National Board of Medical Examiners (NBME)",
-          "bucket": "NBME / NBEO / MCC"
+          "bucket": "NBME / NBEO"
         },
         {
           "state": "CT",
@@ -3122,22 +3549,27 @@
         {
           "state": "MD",
           "raw_value": "American Board of Medical Specialties (ABMS), American Osteopathic Association (AOA), Royal College of Physicians and Surgeons of Canada, College of Family Physicians of Canada",
-          "bucket": "ABMS / AOA / Canadian Boards"
+          "bucket": "ABMS / AOA / Canada"
         },
         {
           "state": "ME",
           "raw_value": "National Board of Medical Examiners",
-          "bucket": "NBME / NBEO / MCC"
+          "bucket": "NBME / NBEO"
         },
         {
           "state": "MN",
           "raw_value": "American Board of Medical Specialties; American Osteopathic Association; Royal College of Physicians and Surgeons of Canada; College of Family Physicians of Canada",
-          "bucket": "ABMS / AOA / Canadian Boards"
+          "bucket": "ABMS / AOA / Canada"
         },
         {
           "state": "MS",
           "raw_value": "National Board of Medical Examiners; National Board of Examiners for Osteopathic Physicians and Surgeons; Educational Council for Foreign Medical Graduates (ECFMG)",
-          "bucket": "Multi-Body Combination"
+          "bucket": "Mixed Exam Boards"
+        },
+        {
+          "state": "NC",
+          "raw_value": "American Board of Medical Specialties; Bureau of Osteopathic Specialists of American Osteopathic Association; Royal College of Physicians and Surgeons of Canada",
+          "bucket": "ABMS / AOA / Canada"
         },
         {
           "state": "NE",
@@ -3147,7 +3579,7 @@
         {
           "state": "NJ",
           "raw_value": "National Board of Medical Examiners; National Board of Examiners for Osteopathic Physicians and Surgeons",
-          "bucket": "NBME / NBEO / MCC"
+          "bucket": "NBME / NBEO"
         },
         {
           "state": "NY",
@@ -3155,9 +3587,14 @@
           "bucket": "ECFMG"
         },
         {
+          "state": "OK",
+          "raw_value": "Educational Commission for Foreign Medical Graduates (ECFMG)",
+          "bucket": "ECFMG"
+        },
+        {
           "state": "OR",
           "raw_value": "National Board of Medical Examiners / National Board of Examiners for Osteopathic Physicians and Surgeons / Medical Council of Canada",
-          "bucket": "NBME / NBEO / MCC"
+          "bucket": "Mixed Exam Boards"
         },
         {
           "state": "RI",
@@ -3167,514 +3604,282 @@
         {
           "state": "SD",
           "raw_value": "American Board of Medical Specialties",
-          "bucket": "ABMS / AOA / Canadian Boards"
+          "bucket": "ABMS / AOA / Canada"
         },
         {
           "state": "VT",
           "raw_value": "American Board of Medical Specialties (ABMS)",
-          "bucket": "ABMS / AOA / Canadian Boards"
+          "bucket": "ABMS / AOA / Canada"
         },
         {
           "state": "WA",
           "raw_value": "American Board of Medical Specialties",
-          "bucket": "ABMS / AOA / Canadian Boards"
-        }
-      ]
-    },
-    {
-      "field_name": "licensure.exams",
-      "bucket_set": [
-        "USMLE / COMLEX Required",
-        "National Exams (Multiple Options)",
-        "Board-Approved Exam",
-        "State-Administered Exam",
-        "USMLE + State Jurisprudence"
-      ],
-      "rationale": "States cluster by whether they mandate a specific national exam (USMLE/COMLEX), accept multiple national exam pathways, delegate choice to a board, administer their own state exam, or layer a state-specific requirement (like jurisprudence) on top of USMLE.",
-      "assignments": [
-        {
-          "state": "AK",
-          "raw_value": "{'name': 'Board examination in subjects determined by the board'...}",
-          "bucket": "Board-Approved Exam"
-        },
-        {
-          "state": "AL",
-          "raw_value": "{'name': 'United States Medical Licensing Examination (USMLE) or Comprehensive Osteopathic Medical Licensing Examination (COMLEX-USA)'...}",
-          "bucket": "USMLE / COMLEX Required"
-        },
-        {
-          "state": "AR",
-          "raw_value": "{'name': 'Examination approved by the Arkansas State Medical Board'...}",
-          "bucket": "Board-Approved Exam"
-        },
-        {
-          "state": "AZ",
-          "raw_value": "{'name': 'United States Medical Licensing Examination (USMLE)'...}",
-          "bucket": "USMLE / COMLEX Required"
-        },
-        {
-          "state": "CA",
-          "raw_value": "{'name': 'United States Medical Licensing Examination (USMLE) Step 3'...}",
-          "bucket": "USMLE / COMLEX Required"
-        },
-        {
-          "state": "CO",
-          "raw_value": "{'name': 'National Board of Medical Examiners (NBME) examination'...}",
-          "bucket": "National Exams (Multiple Options)"
-        },
-        {
-          "state": "CT",
-          "raw_value": "{'name': 'Medical examination prescribed by the department'...}",
-          "bucket": "State-Administered Exam"
-        },
-        {
-          "state": "DE",
-          "raw_value": "{'name': 'Professional examination (USMLE or equivalent)'...}",
-          "bucket": "Board-Approved Exam"
-        },
-        {
-          "state": "FL",
-          "raw_value": "{'name': 'United States Medical Licensing Examination (USMLE)'...}",
-          "bucket": "USMLE / COMLEX Required"
-        },
-        {
-          "state": "GA",
-          "raw_value": "{'name': 'Board-approved licensing examination'...}",
-          "bucket": "Board-Approved Exam"
-        },
-        {
-          "state": "HI",
-          "raw_value": "{'name': 'National Board of Medical Examiners (NBME)'...}",
-          "bucket": "National Exams (Multiple Options)"
-        },
-        {
-          "state": "IA",
-          "raw_value": "{'name': 'Board-prescribed examination'...}",
-          "bucket": "Board-Approved Exam"
-        },
-        {
-          "state": "ID",
-          "raw_value": "{'name': 'Written examination on fitness to practice medicine'...}",
-          "bucket": "Board-Approved Exam"
-        },
-        {
-          "state": "IL",
-          "raw_value": "{'name': 'United States Medical Licensing Examination (USMLE)'...}",
-          "bucket": "USMLE / COMLEX Required"
-        },
-        {
-          "state": "IN",
-          "raw_value": "{'name': 'Examination for licensure'...}",
-          "bucket": "Board-Approved Exam"
-        },
-        {
-          "state": "KS",
-          "raw_value": "{'name': 'National Board of Medical Examiners examination or equivalent'...}",
-          "bucket": "National Exams (Multiple Options)"
-        },
-        {
-          "state": "KY",
-          "raw_value": "{'name': 'Board-prescribed examination (USMLE or equivalent)'...}",
-          "bucket": "Board-Approved Exam"
-        },
-        {
-          "state": "LA",
-          "raw_value": "{'name': 'Board examination or national examination'...}",
-          "bucket": "Board-Approved Exam"
-        },
-        {
-          "state": "MA",
-          "raw_value": "{'name': 'Board Examination (written, scientific and practical)'...}",
-          "bucket": "State-Administered Exam"
-        },
-        {
-          "state": "MD",
-          "raw_value": "{'name': 'United States Medical Licensing Examination (USMLE) or Federation Licensing Examination (FLEX)'...}",
-          "bucket": "National Exams (Multiple Options)"
-        },
-        {
-          "state": "ME",
-          "raw_value": "{'name': 'Uniform examination of the Federation of State Medical Boards (USMLE)'...}",
-          "bucket": "National Exams (Multiple Options)"
-        },
-        {
-          "state": "MI",
-          "raw_value": "{'name': 'Initial medical licensure examination approved by the board'...}",
-          "bucket": "Board-Approved Exam"
-        },
-        {
-          "state": "MN",
-          "raw_value": "{'name': 'United States Medical Licensing Examination (USMLE)'...}",
-          "bucket": "USMLE / COMLEX Required"
-        },
-        {
-          "state": "MO",
-          "raw_value": "{'name': 'United States Medical Licensing Examination (USMLE)'...}",
-          "bucket": "National Exams (Multiple Options)"
-        },
-        {
-          "state": "MS",
-          "raw_value": "{'name': 'State Board Examination'...}",
-          "bucket": "State-Administered Exam"
-        },
-        {
-          "state": "MT",
-          "raw_value": "{'name': 'United States Medical Licensing Examination (USMLE)'...}",
-          "bucket": "National Exams (Multiple Options)"
-        },
-        {
-          "state": "ND",
-          "raw_value": "{'name': 'Medical licensure examination'...}",
-          "bucket": "Board-Approved Exam"
-        },
-        {
-          "state": "NE",
-          "raw_value": "{'name': 'Licensing examination in medicine and surgery (USMLE or equivalent)'...}",
-          "bucket": "USMLE / COMLEX Required"
-        },
-        {
-          "state": "NH",
-          "raw_value": "{'name': 'National Board of Medical/Osteopathic Examiners examinations'...}",
-          "bucket": "National Exams (Multiple Options)"
-        },
-        {
-          "state": "NJ",
-          "raw_value": "{'name': 'State Board examination / USMLE or COMLEX-USA'...}",
-          "bucket": "USMLE / COMLEX Required"
-        },
-        {
-          "state": "NM",
-          "raw_value": "{'name': 'Board-approved examination'...}",
-          "bucket": "Board-Approved Exam"
-        },
-        {
-          "state": "NV",
-          "raw_value": "{'name': 'National Board of Medical Examiners examination'...}",
-          "bucket": "National Exams (Multiple Options)"
-        },
-        {
-          "state": "NY",
-          "raw_value": "{'name': 'State Board Examination for Medicine'...}",
-          "bucket": "State-Administered Exam"
-        },
-        {
-          "state": "OH",
-          "raw_value": "{'name': 'Medical Licensing Examination'...}",
-          "bucket": "Board-Approved Exam"
-        },
-        {
-          "state": "OR",
-          "raw_value": "{'name': 'Oregon Medical Board examination'...}",
-          "bucket": "State-Administered Exam"
-        },
-        {
-          "state": "RI",
-          "raw_value": "{'name': 'United States Medical Licensing Examination (USMLE)'...}",
-          "bucket": "USMLE / COMLEX Required"
-        },
-        {
-          "state": "SC",
-          "raw_value": "{'name': 'National Board of Medical Examiners Examination'...}",
-          "bucket": "National Exams (Multiple Options)"
-        },
-        {
-          "state": "SD",
-          "raw_value": "{'name': 'Written examination'...}",
-          "bucket": "State-Administered Exam"
-        },
-        {
-          "state": "TN",
-          "raw_value": "{'name': 'United States Medical Licensing Examination (USMLE)'...}",
-          "bucket": "National Exams (Multiple Options)"
-        },
-        {
-          "state": "TX",
-          "raw_value": "{'name': 'United States Medical Licensing Examination (USMLE) or equivalent'...}",
-          "bucket": "USMLE + State Jurisprudence"
-        },
-        {
-          "state": "UT",
-          "raw_value": "{'name': 'Licensing examination sequence'...}",
-          "bucket": "Board-Approved Exam"
-        },
-        {
-          "state": "VA",
-          "raw_value": "{'name': 'National Board of Medical Examiners, Federation of State Medical Boards, or National Board of Osteopathic Medical Examiners examinations'...}",
-          "bucket": "National Exams (Multiple Options)"
-        },
-        {
-          "state": "VT",
-          "raw_value": "{'name': 'Medical licensing examination'...}",
-          "bucket": "Board-Approved Exam"
-        },
-        {
-          "state": "WA",
-          "raw_value": "{'name': 'Commission examination'...}",
-          "bucket": "State-Administered Exam"
-        },
-        {
-          "state": "WI",
-          "raw_value": "{'name': 'United States Medical Licensing Examination (USMLE)'...}",
-          "bucket": "USMLE / COMLEX Required"
-        },
-        {
-          "state": "WV",
-          "raw_value": "{'name': 'United States Medical Licensing Examination (USMLE)'...}",
-          "bucket": "USMLE / COMLEX Required"
-        },
-        {
-          "state": "WY",
-          "raw_value": "{'name': 'USMLE (United States Medical Licensing Examination)'...}",
-          "bucket": "National Exams (Multiple Options)"
+          "bucket": "ABMS / AOA / Canada"
         }
       ]
     },
     {
       "field_name": "licensure.disciplinary_grounds",
       "bucket_set": [
-        "Broad Enumerated List",
-        "Fraud & Misrepresentation Focus",
-        "Conduct & Ethics Focus",
-        "Criminal Conviction Focus",
-        "Impairment Focus",
-        "Catch-All Unprofessional Conduct"
+        "Fraud & Misrepresentation",
+        "Criminal Conviction",
+        "Unprofessional Conduct",
+        "Negligence & Incompetence",
+        "Substance Abuse",
+        "Impairment & Fitness",
+        "Enumerated Specific Acts"
       ],
-      "rationale": "States cluster by which disciplinary grounds dominate their statutory text: some lead with detailed fraud/misrepresentation provisions, others emphasize criminal convictions, others center on professional conduct and ethics, some highlight practitioner impairment, and a few use broad catch-all 'unprofessional conduct' frameworks — with many states having extensive enumerated lists spanning multiple categories.",
+      "rationale": "States cluster around whether their disciplinary grounds lead with fraud/licensing misrepresentation, criminal conviction thresholds, broad unprofessional-conduct catch-alls, clinical negligence standards, substance-abuse provisions, physical/mental fitness concerns, or granular enumerated prohibited acts — these seven reflect the dominant organizing logic visible in each state's raw value list.",
       "assignments": [
         {
           "state": "AK",
-          "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...}",
-          "bucket": "Broad Enumerated List"
+          "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...",
+          "bucket": "Fraud & Misrepresentation"
         },
         {
           "state": "AL",
-          "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...}; {'short_label': 'unprofessional_conduct', ...}",
-          "bucket": "Catch-All Unprofessional Conduct"
+          "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...",
+          "bucket": "Unprofessional Conduct"
         },
         {
           "state": "AR",
-          "raw_value": "{'short_label': 'felony_conviction', ...}; {'short_label': 'fraud_in_obtaining_license', ...}",
-          "bucket": "Broad Enumerated List"
+          "raw_value": "{'short_label': 'felony_conviction', ...",
+          "bucket": "Criminal Conviction"
         },
         {
           "state": "AZ",
-          "raw_value": "{'short_label': 'violating_federal_state_laws', ...}; {'short_label': 'disclosing_professional_secrets', ...}",
-          "bucket": "Conduct & Ethics Focus"
+          "raw_value": "{'short_label': 'violating_federal_state_laws', ...",
+          "bucket": "Unprofessional Conduct"
         },
         {
           "state": "CA",
-          "raw_value": "{'short_label': 'unprofessional_conduct_violation', ...}; {'short_label': 'gross_negligence', ...}",
-          "bucket": "Broad Enumerated List"
+          "raw_value": "{'short_label': 'unprofessional_conduct_violation', ...",
+          "bucket": "Negligence & Incompetence"
         },
         {
           "state": "CO",
-          "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...}; {'short_label': 'criminal_conviction', ...}",
-          "bucket": "Broad Enumerated List"
+          "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...",
+          "bucket": "Fraud & Misrepresentation"
         },
         {
           "state": "CT",
-          "raw_value": "{'short_label': 'physical_illness_or_loss_of_motor_skill', ...}; {'short_label': 'emotional_disorder_or_mental_illness', ...}; {'short_label': 'abuse_or_excessive_use_of_drugs', ...}",
-          "bucket": "Impairment Focus"
+          "raw_value": "{'short_label': 'physical_illness_or_loss_of_motor_skill', ...",
+          "bucket": "Impairment & Fitness"
         },
         {
           "state": "DE",
-          "raw_value": "{'short_label': 'fraud_in_certification_or_practice', ...}; {'short_label': 'crime_substantially_related_to_practi...}",
-          "bucket": "Fraud & Misrepresentation Focus"
+          "raw_value": "{'short_label': 'fraud_in_certification_or_practice', ...",
+          "bucket": "Fraud & Misrepresentation"
         },
         {
           "state": "FL",
-          "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...}; {'short_label': 'license_action_in_other_jurisdiction', ...}",
-          "bucket": "Broad Enumerated List"
+          "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...",
+          "bucket": "Fraud & Misrepresentation"
         },
         {
           "state": "GA",
-          "raw_value": "{'short_label': 'failure_to_demonstrate_qualifications', ...}; {'short_label': 'fraud_misrepresentation_in_practice_or_application', ...}",
-          "bucket": "Broad Enumerated List"
+          "raw_value": "{'short_label': 'failure_to_demonstrate_qualifications', ...",
+          "bucket": "Unprofessional Conduct"
         },
         {
           "state": "HI",
-          "raw_value": "{'short_label': 'unlawful_abortion', ...}; {'short_label': 'soliciting_patients', ...}; {'short_label': 'false_fraudulent_advertising', ...}",
-          "bucket": "Conduct & Ethics Focus"
+          "raw_value": "{'short_label': 'unlawful_abortion', ...",
+          "bucket": "Enumerated Specific Acts"
         },
         {
           "state": "IA",
-          "raw_value": "{'short_label': 'fraudulent_representation', ...}; {'short_label': 'violation_of_statute', ...}",
-          "bucket": "Fraud & Misrepresentation Focus"
+          "raw_value": "{'short_label': 'fraudulent_representation', ...",
+          "bucket": "Fraud & Misrepresentation"
         },
         {
           "state": "ID",
-          "raw_value": "{'short_label': 'felony_conviction', ...}; {'short_label': 'false_fraudulent_credentials', ...}",
-          "bucket": "Broad Enumerated List"
+          "raw_value": "{'short_label': 'felony_conviction', ...",
+          "bucket": "Criminal Conviction"
         },
         {
           "state": "IL",
-          "raw_value": "{'short_label': 'felony_conviction', ...}; {'short_label': 'gross_negligence', ...}",
-          "bucket": "Broad Enumerated List"
+          "raw_value": "{'short_label': 'felony_conviction', ...",
+          "bucket": "Criminal Conviction"
         },
         {
           "state": "IN",
-          "raw_value": "{'short_label': 'unlawful_practice', ...}; {'short_label': 'fraud_in_obtaining_license', ...}; {'short_label': 'improper_termination_physician_patient', ...}",
-          "bucket": "Broad Enumerated List"
+          "raw_value": "{'short_label': 'unlawful_practice', ...",
+          "bucket": "Enumerated Specific Acts"
         },
         {
           "state": "KS",
-          "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...}; {'short_label': 'unprofessional_conduct', ...}; {'short_label': 'felony_conviction', ...}",
-          "bucket": "Catch-All Unprofessional Conduct"
+          "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...",
+          "bucket": "Unprofessional Conduct"
         },
         {
           "state": "KY",
-          "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...}; {'short_label': 'fraud_in_examination', ...}",
-          "bucket": "Fraud & Misrepresentation Focus"
+          "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...",
+          "bucket": "Fraud & Misrepresentation"
         },
         {
           "state": "LA",
-          "raw_value": "{'short_label': 'felony_conviction', ...}; {'short_label': 'crime_related_to_practice', ...}",
-          "bucket": "Criminal Conviction Focus"
+          "raw_value": "{'short_label': 'felony_conviction', ...",
+          "bucket": "Criminal Conviction"
         },
         {
           "state": "MA",
-          "raw_value": "{'short_label': 'fraudulent_procurement_of_certificate', ...}; {'short_label': 'violation_of_laws_relating_to_practice_of_medicine', ...}",
-          "bucket": "Fraud & Misrepresentation Focus"
+          "raw_value": "{'short_label': 'fraudulent_procurement_of_certificate', ...",
+          "bucket": "Fraud & Misrepresentation"
         },
         {
           "state": "MD",
-          "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...}; {'short_label': 'fraudulent_use_of_license', ...}; {'short_label': 'immoral_or_unprofessional_conduct', ...}",
-          "bucket": "Fraud & Misrepresentation Focus"
+          "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...",
+          "bucket": "Unprofessional Conduct"
         },
         {
           "state": "ME",
-          "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...}; {'short_label': 'substance_misuse', ...}",
-          "bucket": "Broad Enumerated List"
+          "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...",
+          "bucket": "Substance Abuse"
         },
         {
           "state": "MI",
-          "raw_value": "{'short_label': 'negligence_or_failure_of_due_care', ...}",
-          "bucket": "Conduct & Ethics Focus"
+          "raw_value": "{'short_label': 'negligence_or_failure_of_due_care', ...",
+          "bucket": "Negligence & Incompetence"
         },
         {
           "state": "MN",
-          "raw_value": "{'short_label': 'failure_to_demonstrate_qualifications', ...}; {'short_label': 'fraud_in_obtaining_license', ...}",
-          "bucket": "Broad Enumerated List"
+          "raw_value": "{'short_label': 'failure_to_demonstrate_qualifications', ...",
+          "bucket": "Fraud & Misrepresentation"
         },
         {
           "state": "MO",
-          "raw_value": "{'short_label': 'controlled_substance_abuse', ...}; {'short_label': 'criminal_conviction', ...}",
-          "bucket": "Broad Enumerated List"
+          "raw_value": "{'short_label': 'controlled_substance_abuse', ...",
+          "bucket": "Substance Abuse"
         },
         {
           "state": "MS",
-          "raw_value": "{'short_label': 'habitual_narcotic_drug_use', ...}; {'short_label': 'habitual_alcohol_use', ...}",
-          "bucket": "Impairment Focus"
+          "raw_value": "{'short_label': 'habitual_narcotic_drug_use', ...",
+          "bucket": "Substance Abuse"
         },
         {
           "state": "MT",
-          "raw_value": "{'short_label': 'mental_or_physical_inability', ...}; {'short_label': 'fraud_in_obtaining_license', ...}",
-          "bucket": "Broad Enumerated List"
+          "raw_value": "{'short_label': 'mental_or_physical_inability', ...",
+          "bucket": "Impairment & Fitness"
+        },
+        {
+          "state": "NC",
+          "raw_value": "{'short_label': 'immoral_or_dishonorable_conduct', ...",
+          "bucket": "Unprofessional Conduct"
         },
         {
           "state": "ND",
-          "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...}; {'short_label': 'false_statements_about_skill', ...}",
-          "bucket": "Fraud & Misrepresentation Focus"
+          "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...",
+          "bucket": "Fraud & Misrepresentation"
         },
         {
           "state": "NE",
-          "raw_value": "{'short_label': 'misrepresentation_in_obtaining_credential', ...}; {'short_label': 'immoral_or_dishonorable_conduct', ...}",
-          "bucket": "Conduct & Ethics Focus"
+          "raw_value": "{'short_label': 'misrepresentation_in_obtaining_credential', ...",
+          "bucket": "Unprofessional Conduct"
         },
         {
           "state": "NH",
-          "raw_value": "{'short_label': 'false_information_in_application', ...}; {'short_label': 'habitual_drug_or_alcohol_use', ...}",
-          "bucket": "Broad Enumerated List"
+          "raw_value": "{'short_label': 'false_information_in_application', ...",
+          "bucket": "Substance Abuse"
         },
         {
           "state": "NJ",
-          "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...}; {'short_label': 'dishonesty_fraud_deception', ...}",
-          "bucket": "Fraud & Misrepresentation Focus"
+          "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...",
+          "bucket": "Fraud & Misrepresentation"
         },
         {
           "state": "NM",
-          "raw_value": "{'short_label': 'procuring_illegal_procedure', ...}; {'short_label': 'employing_patient_solicitor', ...}; {'short_label': 'misrepresenting_incurable_condition', ...}",
-          "bucket": "Conduct & Ethics Focus"
+          "raw_value": "{'short_label': 'procuring_illegal_procedure', ...",
+          "bucket": "Enumerated Specific Acts"
         },
         {
           "state": "NV",
-          "raw_value": "{'short_label': 'felony_conviction_relating_to_practice', ...}; {'short_label': 'violation_of_workers_compensation_law', ...}",
-          "bucket": "Criminal Conviction Focus"
+          "raw_value": "{'short_label': 'felony_conviction_relating_to_practice', ...",
+          "bucket": "Criminal Conviction"
         },
         {
           "state": "NY",
-          "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...}; {'short_label': 'fraudulent_or_incompetent_practice', ...}",
-          "bucket": "Broad Enumerated List"
+          "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...",
+          "bucket": "Negligence & Incompetence"
         },
         {
           "state": "OH",
-          "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...}; {'short_label': 'improper_use_of_license', ...}",
-          "bucket": "Broad Enumerated List"
+          "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...",
+          "bucket": "Fraud & Misrepresentation"
+        },
+        {
+          "state": "OK",
+          "raw_value": "{'short_label': 'procuring_criminal_operation', ...",
+          "bucket": "Enumerated Specific Acts"
         },
         {
           "state": "OR",
-          "raw_value": "{'short_label': 'unprofessional_or_dishonorable_conduct', ...}; {'short_label': 'soliciting_patients', ...}",
-          "bucket": "Catch-All Unprofessional Conduct"
+          "raw_value": "{'short_label': 'unprofessional_or_dishonorable_conduct', ...",
+          "bucket": "Unprofessional Conduct"
+        },
+        {
+          "state": "PA",
+          "raw_value": "{'short_label': 'failure_to_demonstrate_qualifications', ...",
+          "bucket": "Fraud & Misrepresentation"
         },
         {
           "state": "RI",
-          "raw_value": "{'short_label': 'fraudulent_procurement_of_license', ...}; {'short_label': 'deceptive_advertising', ...}; {'short_label': 'felony_conviction', ...}",
-          "bucket": "Broad Enumerated List"
+          "raw_value": "{'short_label': 'fraudulent_procurement_of_license', ...",
+          "bucket": "Fraud & Misrepresentation"
         },
         {
           "state": "SC",
-          "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...}; {'short_label': 'criminal_conviction', ...}",
-          "bucket": "Broad Enumerated List"
+          "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...",
+          "bucket": "Fraud & Misrepresentation"
         },
         {
           "state": "SD",
-          "raw_value": "{'short_label': 'criminal_abortion', ...}; {'short_label': 'cappers_steerers', ...}; {'short_label': 'incurable_disease_cure', ...}",
-          "bucket": "Conduct & Ethics Focus"
+          "raw_value": "{'short_label': 'criminal_abortion', ...",
+          "bucket": "Enumerated Specific Acts"
         },
         {
           "state": "TN",
-          "raw_value": "{'short_label': 'unprofessional_conduct', ...}; {'short_label': 'violation_of_chapter_or_criminal_statute', ...}",
-          "bucket": "Catch-All Unprofessional Conduct"
+          "raw_value": "{'short_label': 'unprofessional_conduct', ...",
+          "bucket": "Unprofessional Conduct"
         },
         {
           "state": "TX",
-          "raw_value": "{'short_label': 'prohibited_practices', ...}; {'short_label': 'felony_or_moral_turpitude_conviction', ...}",
-          "bucket": "Broad Enumerated List"
+          "raw_value": "{'short_label': 'prohibited_practices', ...",
+          "bucket": "Enumerated Specific Acts"
         },
         {
           "state": "UT",
-          "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...}; {'short_label': 'unlicensed_practice', ...}",
-          "bucket": "Fraud & Misrepresentation Focus"
+          "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...",
+          "bucket": "Fraud & Misrepresentation"
         },
         {
           "state": "VA",
-          "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...}; {'short_label': 'substance_abuse', ...}",
-          "bucket": "Broad Enumerated List"
+          "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...",
+          "bucket": "Substance Abuse"
         },
         {
           "state": "VT",
-          "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...}; {'short_label': 'misleading_advertising', ...}",
-          "bucket": "Fraud & Misrepresentation Focus"
+          "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...",
+          "bucket": "Fraud & Misrepresentation"
         },
         {
           "state": "WA",
-          "raw_value": "{'short_label': 'moral_turpitude', ...}; {'short_label': 'misrepresentation_in_obtaining_license', ...}",
-          "bucket": "Conduct & Ethics Focus"
+          "raw_value": "{'short_label': 'moral_turpitude', ...",
+          "bucket": "Unprofessional Conduct"
         },
         {
           "state": "WI",
-          "raw_value": "{'short_label': 'unprofessional_conduct', ...}",
-          "bucket": "Catch-All Unprofessional Conduct"
+          "raw_value": "{'short_label': 'unprofessional_conduct', ...",
+          "bucket": "Unprofessional Conduct"
         },
         {
           "state": "WV",
-          "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...}; {'short_label': 'criminal_conviction', ...}",
-          "bucket": "Broad Enumerated List"
+          "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...",
+          "bucket": "Criminal Conviction"
         },
         {
           "state": "WY",
-          "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...}; {'short_label': 'impersonation', ...}; {'short_label': 'false_statements', ...}",
-          "bucket": "Fraud & Misrepresentation Focus"
+          "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...",
+          "bucket": "Fraud & Misrepresentation"
         }
       ]
     }
