@@ -20,14 +20,10 @@
       },
       "type": {
         "value": "department",
-        "quote": "The executive director shall administer and enforce this chapter.",
-        "citation": "701.151"
+        "quote": "The Texas Department of Licensing and Regulation is the primary state agency responsible for the oversight of businesses, industries, general trades, and occupations that are regulated by the state and assigned to the department by the legislature.",
+        "citation": "UMBRELLA / Title 2 - General Provisions Relating to Licensing"
       },
-      "umbrella_agency": {
-        "value": "Texas Commission of Licensing and Regulation",
-        "quote": "\"Commission\" means the Texas Commission of Licensing and Regulation.",
-        "citation": "701.002"
-      }
+      "umbrella_agency": null
     },
     "age_minimum": null,
     "moral_character_required": null,
@@ -41,7 +37,23 @@
         "value": "regionally accredited college or university",
         "quote": "conferred by a college or university regionally accredited at the time of conferral",
         "citation": "701.254"
-      }
+      },
+      "degree_level": {
+        "value": "bachelor",
+        "quote": "possess a baccalaureate or postbaccalaureate degree, conferred by a college or university regionally accredited at the time of conferral",
+        "citation": "701.254"
+      },
+      "school_approval_basis": {
+        "value": "regional_accreditor",
+        "quote": "conferred by a college or university regionally accredited at the time of conferral",
+        "citation": "701.254"
+      },
+      "credential_pegged": {
+        "value": false,
+        "quote": "possess a baccalaureate or postbaccalaureate degree, conferred by a college or university regionally accredited at the time of conferral",
+        "citation": "701.254"
+      },
+      "tiers": null
     },
     "post_degree_experience": {
       "required": {
@@ -49,14 +61,19 @@
         "quote": "have completed an internship or preplanned, documented, professional experience program in dietetics practice of not less than 900 hours under the supervision of a licensed dietitian or a registered dietitian approved by the department.",
         "citation": "701.254"
       },
+      "experience_source": {
+        "value": "required_by_statute",
+        "quote": "have completed an internship or preplanned, documented, professional experience program in dietetics practice of not less than 900 hours under the supervision of a licensed dietitian or a registered dietitian approved by the department.",
+        "citation": "701.254"
+      },
       "duration": {
         "value": "not less than 900 hours",
-        "quote": "professional experience program in dietetics practice of not less than 900 hours",
+        "quote": "not less than 900 hours under the supervision of a licensed dietitian or a registered dietitian approved by the department",
         "citation": "701.254"
       },
       "kind": {
         "value": "internship or preplanned, documented, professional experience program in dietetics practice",
-        "quote": "an internship or preplanned, documented, professional experience program in dietetics practice",
+        "quote": "internship or preplanned, documented, professional experience program in dietetics practice",
         "citation": "701.254"
       }
     },
@@ -64,8 +81,8 @@
       {
         "name": "License Examination",
         "required": true,
-        "notes": "Waived for applicants who are already registered by the Commission on Dietetic Registration (CDR).",
-        "jurisdiction": "state (department) or national (Commission on Dietetic Registration or national/state testing service)",
+        "notes": "May be or include an examination given by the Commission on Dietetic Registration or a national or state testing service. Waived for applicants who are registered by the Commission on Dietetic Registration at the time of application.",
+        "jurisdiction": "state or national (Commission on Dietetic Registration or national/state testing service)",
         "permitted_attempts": null,
         "quote": "Except as provided by Subsection (f), an applicant must pass a license examination to qualify for a license under this chapter.",
         "citation": "701.253"
@@ -74,7 +91,7 @@
         "name": "Jurisprudence Examination",
         "required": true,
         "notes": "Tests knowledge of Chapter 701, commission rules, and other applicable Texas laws affecting dietetics practice.",
-        "jurisdiction": "state (department)",
+        "jurisdiction": "state (Texas Department of Licensing and Regulation)",
         "permitted_attempts": null,
         "quote": "In addition to the license examination required by Section 701.253, an applicant must pass a jurisprudence examination to qualify for a license under this chapter.",
         "citation": "701.2575"
@@ -119,7 +136,7 @@
         "citation": "701.151"
       },
       "requirements": {
-        "value": "Requirements for reciprocal licenses are to be established by the commission by rule; specific requirements are not detailed in the statute.",
+        "value": "Qualifications for reciprocal licenses to be established by rule",
         "quote": "establish the qualifications of applicants for licenses, including renewed and reciprocal licenses",
         "citation": "701.151"
       }
@@ -136,9 +153,9 @@
         "citation": "701.002"
       },
       "authority": {
-        "value": "The commission may not adopt a new rule relating to the scope of practice of or a health-related standard of care for dietitians unless the rule has been proposed by the advisory board; the commission retains authority for final adoption.",
+        "value": "Scope of practice and health-related standard of care rules may not be adopted by the commission unless proposed by the advisory board; commission retains final adoption authority",
         "quote": "The commission may not adopt a new rule relating to the scope of practice of or a health-related standard of care for a profession to which this section applies unless the rule has been proposed by the advisory board established for that profession.",
-        "citation": "51.2031"
+        "citation": "UMBRELLA / Title 2 - General Provisions Relating to Licensing"
       }
     },
     "national_certification": {
@@ -148,7 +165,7 @@
     },
     "national_association": null,
     "regulatory_model": {
-      "value": "voluntary_certification",
+      "value": "license",
       "quote": "Unless the person holds an appropriate license issued under this chapter, a person may not: (1) use the title or represent or imply that the person has the title \"licensed dietitian\" or use the letters \"LD\"",
       "citation": "701.251"
     },
@@ -158,7 +175,7 @@
       "citation": "701.258"
     },
     "is_mandatory": {
-      "value": false,
+      "value": true,
       "quote": "Unless the person holds an appropriate license issued under this chapter, a person may not: (1) use the title or represent or imply that the person has the title \"licensed dietitian\" or use the letters \"LD\"",
       "citation": "701.251"
     },
@@ -175,37 +192,31 @@
     "disciplinary_grounds": [
       {
         "short_label": "violation_of_chapter",
-        "description": "Violation of the dietetics chapter (Chapter 701)",
+        "description": "Violation of any provision of Chapter 701",
         "quote": "shall refuse to renew a license, revoke or suspend a license, place on probation a person whose license has been suspended, or reprimand a license holder for a violation of this chapter",
         "citation": "701.401"
       },
       {
         "short_label": "violation_of_rules",
-        "description": "Violation of a rule adopted under Chapter 701",
-        "quote": "a rule or code of ethics adopted under this chapter",
-        "citation": "701.401"
-      },
-      {
-        "short_label": "violation_of_code_of_ethics",
-        "description": "Violation of the code of ethics adopted under Chapter 701",
+        "description": "Violation of a rule adopted under this chapter",
         "quote": "a rule or code of ethics adopted under this chapter",
         "citation": "701.401"
       },
       {
         "short_label": "violation_of_commission_order",
         "description": "Violation of an order of the commission or executive director",
-        "quote": "an order of the commission or executive director",
+        "quote": "or an order of the commission or executive director",
         "citation": "701.401"
       },
       {
         "short_label": "failure_to_pay_administrative_penalty",
-        "description": "Failure to pay an administrative penalty imposed under Subchapter F, Chapter 51",
-        "quote": "pay an administrative penalty imposed against the person under Subchapter F, Chapter 51, unless enforcement of the penalty is stayed or a court has ordered that the administrative penalty is not owed",
+        "description": "Failure to pay an administrative penalty imposed against the person",
+        "quote": "fail to: (1) pay an administrative penalty imposed against the person under Subchapter F, Chapter 51, unless enforcement of the penalty is stayed or a court has ordered that the administrative penalty is not owed",
         "citation": "701.304"
       },
       {
         "short_label": "failure_to_complete_continuing_education",
-        "description": "Failure to complete continuing education requirements",
+        "description": "Failure to complete the continuing education requirements",
         "quote": "complete the continuing education requirements under Section 701.302",
         "citation": "701.304"
       }
@@ -246,7 +257,7 @@
       },
       {
         "cite": "701.258",
-        "kind": "qualified person entitled to license"
+        "kind": "issuance of license"
       },
       {
         "cite": "701.301",
@@ -254,7 +265,7 @@
       },
       {
         "cite": "701.302",
-        "kind": "continuing education requirements"
+        "kind": "continuing education"
       },
       {
         "cite": "701.303",
@@ -266,15 +277,11 @@
       },
       {
         "cite": "701.401",
-        "kind": "grounds for disciplinary action"
+        "kind": "disciplinary grounds"
       },
       {
         "cite": "701.1511",
         "kind": "registry"
-      },
-      {
-        "cite": "51.2031",
-        "kind": "advisory board rules"
       }
     ]
   },
@@ -299,7 +306,7 @@
     "citations": [
       {
         "cite": "701.002",
-        "kind": "definitions"
+        "kind": "definitions/scope"
       }
     ]
   },
@@ -336,7 +343,11 @@
     "lab_test_ordering_authority": null,
     "physician_referral_required": null,
     "diagnosis_treatment_prohibition": null,
-    "telehealth_practice_authorized": null,
+    "telehealth_practice_authorized": {
+      "value": true,
+      "quote": "\"Telehealth service\" means a health service, other than a telemedicine medical service or a teledentistry dental service, delivered by a health professional licensed, certified, or otherwise entitled to practice in this state and acting within the scope of the health professional's license, certification, or entitlement to a patient at a different physical location than the health professional using telecommunications or information technology.",
+      "citation": "UMBRELLA / Subtitle A - Provisions Applying to Health Professions Gener"
+    },
     "supervision_ratio_limit": null,
     "direct_supervision_defined": null,
     "exempt_professions_list": null,
