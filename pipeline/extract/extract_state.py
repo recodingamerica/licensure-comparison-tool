@@ -50,6 +50,7 @@ from locate_quote import (  # noqa: E402
     quote_in_corpus,
 )
 from paths import TRIMMED_DIR, DISCOVERED_DIR, STRUCTURED_DIR, LOGS_DIR, RESULTS_DIR  # noqa: E402
+from eval.check_consistency import check_record  # noqa: E402
 
 LOG_PATH = LOGS_DIR / "extract_state.log"
 LOGS_DIR.mkdir(parents=True, exist_ok=True)
@@ -370,6 +371,13 @@ def main() -> None:
             continue
         record, stats = outcome
         out_path.write_text(json.dumps(record, indent=2))
+        # Deterministic cross-field consistency guard: the model sometimes
+        # violates the prompt's own invariants (e.g. a title-protection rung
+        # flipping to `license` while scope_protection=false). Warn loudly so the
+        # record is re-extracted; we don't auto-rewrite (detection, not silent fix).
+        cviol = check_record(profession, state, record)
+        for v in cviol:
+            log.warning("[%s] CONSISTENCY %s: %s", state, v["rule"], v["detail"])
         spec_dump = record.get("profession_specific") or {}
         filled = sum(1 for v in spec_dump.values() if v not in (None, [], ""))
         summary.append({

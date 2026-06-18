@@ -7,14 +7,14 @@
         "Fraud in Licensure",
         "Fraud in Practice",
         "Criminal Conviction",
+        "Impairment",
         "Incompetence or Negligence",
         "Unprofessional or Unethical Conduct",
-        "Impairment",
-        "Violation of Law or Order",
-        "Discipline by Other Jurisdiction",
-        "Aiding Unlicensed Practice"
+        "Regulatory Violation",
+        "Prior Disciplinary Action",
+        "Scope and Licensing Violations"
       ],
-      "rationale": "These nine buckets map cleanly onto the dominant clusters in the data: deceptive license procurement, fraud/misrepresentation during practice, criminal convictions, competence/negligence failures, broad unprofessional/ethics violations, substance or health impairment, statutory or regulatory non-compliance, reciprocal out-of-state discipline, and facilitating unlicensed practice—together covering virtually every item with minimal overlap and no large residual.",
+      "rationale": "These nine buckets cleanly partition the data: fraudulent acts split into those targeting licensure procurement versus those occurring during practice; criminal conviction stands alone as a distinct legal event; impairment covers substance abuse and mental/physical incapacity; incompetence/negligence covers substandard skill-based practice failures; unprofessional/unethical conduct captures moral, ethical, and behavioral misconduct not otherwise categorized; regulatory violation covers failure to comply with statutes, rules, and board orders; prior disciplinary action covers out-of-jurisdiction sanctions; and scope/licensing violations covers practicing without or beyond a valid license or aiding unlicensed practice.",
       "assignments": [
         {
           "state": "AK",
@@ -44,7 +44,7 @@
           "state": "AK",
           "item_index": 4,
           "item_label": "failure_to_comply",
-          "bucket": "Violation of Law or Order"
+          "bucket": "Regulatory Violation"
         },
         {
           "state": "AK",
@@ -74,7 +74,7 @@
           "state": "AL",
           "item_index": 0,
           "item_label": "willful_repeated_violation",
-          "bucket": "Violation of Law or Order"
+          "bucket": "Regulatory Violation"
         },
         {
           "state": "AL",
@@ -98,7 +98,7 @@
           "state": "AR",
           "item_index": 0,
           "item_label": "violation_of_chapter",
-          "bucket": "Violation of Law or Order"
+          "bucket": "Regulatory Violation"
         },
         {
           "state": "AR",
@@ -128,7 +128,7 @@
           "state": "CA",
           "item_index": 0,
           "item_label": "practicing_inconsistently_with_requirements",
-          "bucket": "Violation of Law or Order"
+          "bucket": "Scope and Licensing Violations"
         },
         {
           "state": "CT",
@@ -152,7 +152,7 @@
           "state": "CT",
           "item_index": 3,
           "item_label": "illegal_conduct",
-          "bucket": "Violation of Law or Order"
+          "bucket": "Criminal Conviction"
         },
         {
           "state": "CT",
@@ -194,7 +194,7 @@
           "state": "CT",
           "item_index": 10,
           "item_label": "violation_of_chapter_provisions",
-          "bucket": "Violation of Law or Order"
+          "bucket": "Regulatory Violation"
         },
         {
           "state": "DE",
@@ -224,7 +224,7 @@
           "state": "DE",
           "item_index": 4,
           "item_label": "violation_of_chapter_or_regulations",
-          "bucket": "Violation of Law or Order"
+          "bucket": "Regulatory Violation"
         },
         {
           "state": "DE",
@@ -236,7 +236,7 @@
           "state": "FL",
           "item_index": 0,
           "item_label": "violation_of_statute_or_rules",
-          "bucket": "Violation of Law or Order"
+          "bucket": "Regulatory Violation"
         },
         {
           "state": "FL",
@@ -254,7 +254,7 @@
           "state": "FL",
           "item_index": 3,
           "item_label": "license_revoked_in_another_jurisdiction",
-          "bucket": "Discipline by Other Jurisdiction"
+          "bucket": "Prior Disciplinary Action"
         },
         {
           "state": "FL",
@@ -272,25 +272,25 @@
           "state": "FL",
           "item_index": 6,
           "item_label": "fraudulent_advertising",
-          "bucket": "Fraud in Practice"
+          "bucket": "Unprofessional or Unethical Conduct"
         },
         {
           "state": "FL",
           "item_index": 7,
           "item_label": "fraud_negligence_or_misconduct",
-          "bucket": "Incompetence or Negligence"
+          "bucket": "Fraud in Practice"
         },
         {
           "state": "FL",
           "item_index": 8,
           "item_label": "practicing_with_inactive_or_revoked_license",
-          "bucket": "Violation of Law or Order"
+          "bucket": "Scope and Licensing Violations"
         },
         {
           "state": "FL",
           "item_index": 9,
           "item_label": "treating_by_other_means",
-          "bucket": "Unprofessional or Unethical Conduct"
+          "bucket": "Scope and Licensing Violations"
         },
         {
           "state": "FL",
@@ -314,7 +314,7 @@
           "state": "FL",
           "item_index": 13,
           "item_label": "violating_chapter_or_rules",
-          "bucket": "Violation of Law or Order"
+          "bucket": "Regulatory Violation"
         },
         {
           "state": "GA",
@@ -344,7 +344,7 @@
           "state": "GA",
           "item_index": 4,
           "item_label": "prior_disciplinary_action_by_other_authority",
-          "bucket": "Discipline by Other Jurisdiction"
+          "bucket": "Prior Disciplinary Action"
         },
         {
           "state": "GA",
@@ -356,13 +356,13 @@
           "state": "GA",
           "item_index": 6,
           "item_label": "aiding_unlicensed_practice",
-          "bucket": "Aiding Unlicensed Practice"
+          "bucket": "Scope and Licensing Violations"
         },
         {
           "state": "GA",
           "item_index": 7,
           "item_label": "violation_of_law_or_board_order",
-          "bucket": "Violation of Law or Order"
+          "bucket": "Regulatory Violation"
         },
         {
           "state": "GA",
@@ -386,7 +386,7 @@
           "state": "HI",
           "item_index": 1,
           "item_label": "failure_to_report_disciplinary_action",
-          "bucket": "Violation of Law or Order"
+          "bucket": "Regulatory Violation"
         },
         {
           "state": "HI",
@@ -404,7 +404,7 @@
           "state": "HI",
           "item_index": 4,
           "item_label": "disciplinary_action_by_other_jurisdiction",
-          "bucket": "Discipline by Other Jurisdiction"
+          "bucket": "Prior Disciplinary Action"
         },
         {
           "state": "HI",
@@ -452,7 +452,7 @@
           "state": "IA",
           "item_index": 6,
           "item_label": "willful_or_repeated_violations",
-          "bucket": "Violation of Law or Order"
+          "bucket": "Regulatory Violation"
         },
         {
           "state": "IA",
@@ -470,7 +470,7 @@
           "state": "IA",
           "item_index": 9,
           "item_label": "other_acts_by_board_rule",
-          "bucket": "Violation of Law or Order"
+          "bucket": "Regulatory Violation"
         },
         {
           "state": "ID",
@@ -494,7 +494,7 @@
           "state": "ID",
           "item_index": 3,
           "item_label": "aiding_unlicensed_practice",
-          "bucket": "Aiding Unlicensed Practice"
+          "bucket": "Scope and Licensing Violations"
         },
         {
           "state": "ID",
@@ -530,25 +530,25 @@
           "state": "ID",
           "item_index": 9,
           "item_label": "practice_on_suspended_or_inactive_license",
-          "bucket": "Violation of Law or Order"
+          "bucket": "Scope and Licensing Violations"
         },
         {
           "state": "ID",
           "item_index": 10,
           "item_label": "violation_of_probation_or_restriction",
-          "bucket": "Violation of Law or Order"
+          "bucket": "Regulatory Violation"
         },
         {
           "state": "ID",
           "item_index": 11,
           "item_label": "lapsed_or_suspended_cdr_registration",
-          "bucket": "Violation of Law or Order"
+          "bucket": "Scope and Licensing Violations"
         },
         {
           "state": "ID",
           "item_index": 12,
           "item_label": "failure_to_comply_with_board_order",
-          "bucket": "Violation of Law or Order"
+          "bucket": "Regulatory Violation"
         },
         {
           "state": "IL",
@@ -560,7 +560,7 @@
           "state": "IL",
           "item_index": 1,
           "item_label": "violations_of_act",
-          "bucket": "Violation of Law or Order"
+          "bucket": "Regulatory Violation"
         },
         {
           "state": "IL",
@@ -590,13 +590,13 @@
           "state": "IL",
           "item_index": 6,
           "item_label": "aiding_unlicensed_practice",
-          "bucket": "Aiding Unlicensed Practice"
+          "bucket": "Scope and Licensing Violations"
         },
         {
           "state": "IL",
           "item_index": 7,
           "item_label": "failure_to_provide_information",
-          "bucket": "Violation of Law or Order"
+          "bucket": "Regulatory Violation"
         },
         {
           "state": "IL",
@@ -613,8 +613,8 @@
         {
           "state": "IL",
           "item_index": 10,
-          "item_label": "discipline_by_other_jurisdiction",
-          "bucket": "Discipline by Other Jurisdiction"
+          "item_label": "discipline_by_another_jurisdiction",
+          "bucket": "Prior Disciplinary Action"
         },
         {
           "state": "IL",
@@ -625,8 +625,8 @@
         {
           "state": "IL",
           "item_index": 12,
-          "item_label": "violation_of_probation_terms",
-          "bucket": "Violation of Law or Order"
+          "item_label": "violation_of_probation",
+          "bucket": "Prior Disciplinary Action"
         },
         {
           "state": "IL",
@@ -637,8 +637,8 @@
         {
           "state": "IL",
           "item_index": 14,
-          "item_label": "allowing_license_use_by_unlicensed_person",
-          "bucket": "Aiding Unlicensed Practice"
+          "item_label": "allowing_unlicensed_use_of_license",
+          "bucket": "Scope and Licensing Violations"
         },
         {
           "state": "IL",
@@ -650,7 +650,7 @@
           "state": "IL",
           "item_index": 16,
           "item_label": "gross_overcharging",
-          "bucket": "Unprofessional or Unethical Conduct"
+          "bucket": "Fraud in Practice"
         },
         {
           "state": "IL",
@@ -673,20 +673,20 @@
         {
           "state": "IL",
           "item_index": 20,
-          "item_label": "physical_illness_or_disability",
+          "item_label": "physical_illness",
           "bucket": "Impairment"
         },
         {
           "state": "IL",
           "item_index": 21,
-          "item_label": "advising_alteration_of_prescribed_drugs",
-          "bucket": "Unprofessional or Unethical Conduct"
+          "item_label": "advising_alteration_of_prescribed_drug_intake",
+          "bucket": "Scope and Licensing Violations"
         },
         {
           "state": "IN",
           "item_index": 0,
-          "item_label": "discipline_in_other_jurisdiction",
-          "bucket": "Discipline by Other Jurisdiction"
+          "item_label": "prior_discipline_in_another_state",
+          "bucket": "Prior Disciplinary Action"
         },
         {
           "state": "IN",
@@ -728,13 +728,13 @@
           "state": "KS",
           "item_index": 5,
           "item_label": "violation_of_order_or_regulation",
-          "bucket": "Violation of Law or Order"
+          "bucket": "Regulatory Violation"
         },
         {
           "state": "KS",
           "item_index": 6,
           "item_label": "violation_of_act",
-          "bucket": "Violation of Law or Order"
+          "bucket": "Regulatory Violation"
         },
         {
           "state": "KY",
@@ -764,13 +764,13 @@
           "state": "KY",
           "item_index": 4,
           "item_label": "violation_of_board_order_or_regulation",
-          "bucket": "Violation of Law or Order"
+          "bucket": "Regulatory Violation"
         },
         {
           "state": "KY",
           "item_index": 5,
           "item_label": "violation_of_chapter",
-          "bucket": "Violation of Law or Order"
+          "bucket": "Regulatory Violation"
         },
         {
           "state": "LA",
@@ -794,13 +794,13 @@
           "state": "LA",
           "item_index": 3,
           "item_label": "violating_board_order_or_regulation",
-          "bucket": "Violation of Law or Order"
+          "bucket": "Regulatory Violation"
         },
         {
           "state": "LA",
           "item_index": 4,
           "item_label": "violating_chapter_provisions",
-          "bucket": "Violation of Law or Order"
+          "bucket": "Regulatory Violation"
         },
         {
           "state": "MA",
@@ -823,14 +823,14 @@
         {
           "state": "MA",
           "item_index": 3,
-          "item_label": "conviction_of_offense_involving_moral_turpitude",
+          "item_label": "criminal_conviction_moral_turpitude",
           "bucket": "Criminal Conviction"
         },
         {
           "state": "MA",
           "item_index": 4,
-          "item_label": "violation_of_board_order_rule_regulation",
-          "bucket": "Violation of Law or Order"
+          "item_label": "violation_of_board_order_or_regulation",
+          "bucket": "Regulatory Violation"
         },
         {
           "state": "MD",
@@ -848,7 +848,7 @@
           "state": "MD",
           "item_index": 2,
           "item_label": "violation_of_title_or_regulations",
-          "bucket": "Violation of Law or Order"
+          "bucket": "Regulatory Violation"
         },
         {
           "state": "MD",
@@ -878,7 +878,7 @@
           "state": "MD",
           "item_index": 7,
           "item_label": "employing_suspended_practitioner",
-          "bucket": "Aiding Unlicensed Practice"
+          "bucket": "Scope and Licensing Violations"
         },
         {
           "state": "MD",
@@ -902,19 +902,19 @@
           "state": "MD",
           "item_index": 11,
           "item_label": "discipline_by_other_jurisdiction",
-          "bucket": "Discipline by Other Jurisdiction"
+          "bucket": "Prior Disciplinary Action"
         },
         {
           "state": "MD",
           "item_index": 12,
           "item_label": "unauthorized_person_practice",
-          "bucket": "Aiding Unlicensed Practice"
+          "bucket": "Scope and Licensing Violations"
         },
         {
           "state": "MD",
           "item_index": 13,
           "item_label": "failure_to_file_reports",
-          "bucket": "Violation of Law or Order"
+          "bucket": "Regulatory Violation"
         },
         {
           "state": "MD",
@@ -938,13 +938,121 @@
           "state": "MD",
           "item_index": 17,
           "item_label": "failure_to_cooperate_with_investigation",
-          "bucket": "Violation of Law or Order"
+          "bucket": "Regulatory Violation"
         },
         {
           "state": "ME",
           "item_index": 0,
           "item_label": "general_grounds_by_reference",
-          "bucket": "Violation of Law or Order"
+          "bucket": "Regulatory Violation"
+        },
+        {
+          "state": "MI",
+          "item_index": 0,
+          "item_label": "negligence_or_failure_of_due_care",
+          "bucket": "Incompetence or Negligence"
+        },
+        {
+          "state": "MI",
+          "item_index": 1,
+          "item_label": "incompetence",
+          "bucket": "Incompetence or Negligence"
+        },
+        {
+          "state": "MI",
+          "item_index": 2,
+          "item_label": "substance_use_disorder",
+          "bucket": "Impairment"
+        },
+        {
+          "state": "MI",
+          "item_index": 3,
+          "item_label": "mental_or_physical_inability",
+          "bucket": "Impairment"
+        },
+        {
+          "state": "MI",
+          "item_index": 4,
+          "item_label": "declaration_of_mental_incompetence",
+          "bucket": "Impairment"
+        },
+        {
+          "state": "MI",
+          "item_index": 5,
+          "item_label": "criminal_conviction",
+          "bucket": "Criminal Conviction"
+        },
+        {
+          "state": "MI",
+          "item_index": 6,
+          "item_label": "lack_of_good_moral_character",
+          "bucket": "Unprofessional or Unethical Conduct"
+        },
+        {
+          "state": "MI",
+          "item_index": 7,
+          "item_label": "fraud_in_obtaining_license",
+          "bucket": "Fraud in Licensure"
+        },
+        {
+          "state": "MI",
+          "item_index": 8,
+          "item_label": "unauthorized_use_of_license",
+          "bucket": "Scope and Licensing Violations"
+        },
+        {
+          "state": "MI",
+          "item_index": 9,
+          "item_label": "practice_outside_scope",
+          "bucket": "Scope and Licensing Violations"
+        },
+        {
+          "state": "MI",
+          "item_index": 10,
+          "item_label": "false_or_misleading_advertising",
+          "bucket": "Unprofessional or Unethical Conduct"
+        },
+        {
+          "state": "MI",
+          "item_index": 11,
+          "item_label": "fee_splitting_kickbacks",
+          "bucket": "Unprofessional or Unethical Conduct"
+        },
+        {
+          "state": "MI",
+          "item_index": 12,
+          "item_label": "fraud_in_third_party_reimbursement",
+          "bucket": "Fraud in Practice"
+        },
+        {
+          "state": "MI",
+          "item_index": 13,
+          "item_label": "misrepresentation_to_patient",
+          "bucket": "Fraud in Practice"
+        },
+        {
+          "state": "MI",
+          "item_index": 14,
+          "item_label": "betrayal_of_professional_confidence",
+          "bucket": "Unprofessional or Unethical Conduct"
+        },
+        {
+          "state": "MI",
+          "item_index": 15,
+          "item_label": "sexual_conduct_with_patient",
+          "bucket": "Unprofessional or Unethical Conduct"
+        },
+        {
+          "state": "MI",
+          "item_index": 16,
+          "item_label": "violation_of_article_or_rules",
+          "bucket": "Regulatory Violation"
+        },
+        {
+          "state": "MI",
+          "item_index": 17,
+          "item_label": "failure_to_meet_licensure_requirements",
+          "bucket": "Scope and Licensing Violations"
         },
         {
           "state": "MN",
@@ -956,7 +1064,7 @@
           "state": "MN",
           "item_index": 1,
           "item_label": "violation_of_board_rules_or_statutes",
-          "bucket": "Violation of Law or Order"
+          "bucket": "Regulatory Violation"
         },
         {
           "state": "MN",
@@ -986,13 +1094,13 @@
           "state": "MO",
           "item_index": 1,
           "item_label": "impersonation_or_license_lending",
-          "bucket": "Unprofessional or Unethical Conduct"
+          "bucket": "Scope and Licensing Violations"
         },
         {
           "state": "MO",
           "item_index": 2,
           "item_label": "disciplinary_action_another_jurisdiction",
-          "bucket": "Discipline by Other Jurisdiction"
+          "bucket": "Prior Disciplinary Action"
         },
         {
           "state": "MO",
@@ -1016,7 +1124,7 @@
           "state": "MO",
           "item_index": 6,
           "item_label": "violation_of_act_or_rules",
-          "bucket": "Violation of Law or Order"
+          "bucket": "Regulatory Violation"
         },
         {
           "state": "MO",
@@ -1046,7 +1154,7 @@
           "state": "MO",
           "item_index": 11,
           "item_label": "violation_of_drug_laws",
-          "bucket": "Violation of Law or Order"
+          "bucket": "Regulatory Violation"
         },
         {
           "state": "MO",
@@ -1076,19 +1184,19 @@
           "state": "MS",
           "item_index": 3,
           "item_label": "violating_board_order_or_regulation",
-          "bucket": "Violation of Law or Order"
+          "bucket": "Regulatory Violation"
         },
         {
           "state": "MS",
           "item_index": 4,
           "item_label": "violating_chapter_provisions",
-          "bucket": "Violation of Law or Order"
+          "bucket": "Regulatory Violation"
         },
         {
           "state": "MS",
           "item_index": 5,
           "item_label": "child_support_noncompliance",
-          "bucket": "Violation of Law or Order"
+          "bucket": "Regulatory Violation"
         },
         {
           "state": "MT",
@@ -1105,14 +1213,14 @@
         {
           "state": "MT",
           "item_index": 2,
-          "item_label": "criminal_conviction",
+          "item_label": "conviction_of_crime",
           "bucket": "Criminal Conviction"
         },
         {
           "state": "MT",
           "item_index": 3,
           "item_label": "violation_of_board_order_or_rule",
-          "bucket": "Violation of Law or Order"
+          "bucket": "Regulatory Violation"
         },
         {
           "state": "NC",
@@ -1130,7 +1238,7 @@
           "state": "NC",
           "item_index": 2,
           "item_label": "practicing_without_license",
-          "bucket": "Violation of Law or Order"
+          "bucket": "Scope and Licensing Violations"
         },
         {
           "state": "NC",
@@ -1154,7 +1262,7 @@
           "state": "NC",
           "item_index": 6,
           "item_label": "violation_of_article_or_rules",
-          "bucket": "Violation of Law or Order"
+          "bucket": "Regulatory Violation"
         },
         {
           "state": "ND",
@@ -1178,13 +1286,13 @@
           "state": "ND",
           "item_index": 3,
           "item_label": "violating_board_order_or_rule",
-          "bucket": "Violation of Law or Order"
+          "bucket": "Regulatory Violation"
         },
         {
           "state": "ND",
           "item_index": 4,
           "item_label": "violating_chapter",
-          "bucket": "Violation of Law or Order"
+          "bucket": "Regulatory Violation"
         },
         {
           "state": "NE",
@@ -1244,13 +1352,13 @@
           "state": "NE",
           "item_index": 9,
           "item_label": "aiding_unauthorized_practice",
-          "bucket": "Aiding Unlicensed Practice"
+          "bucket": "Scope and Licensing Violations"
         },
         {
           "state": "NE",
           "item_index": 10,
           "item_label": "discipline_by_another_jurisdiction",
-          "bucket": "Discipline by Other Jurisdiction"
+          "bucket": "Prior Disciplinary Action"
         },
         {
           "state": "NE",
@@ -1262,25 +1370,25 @@
           "state": "NE",
           "item_index": 12,
           "item_label": "violation_of_credentialing_act_or_regulations",
-          "bucket": "Violation of Law or Order"
+          "bucket": "Regulatory Violation"
         },
         {
           "state": "NE",
           "item_index": 13,
           "item_label": "unlawful_invasion_of_another_profession",
-          "bucket": "Aiding Unlicensed Practice"
+          "bucket": "Scope and Licensing Violations"
         },
         {
           "state": "NE",
           "item_index": 14,
           "item_label": "failure_to_maintain_credential_requirements",
-          "bucket": "Violation of Law or Order"
+          "bucket": "Scope and Licensing Violations"
         },
         {
           "state": "NE",
           "item_index": 15,
           "item_label": "violation_of_department_order",
-          "bucket": "Violation of Law or Order"
+          "bucket": "Regulatory Violation"
         },
         {
           "state": "NE",
@@ -1310,7 +1418,7 @@
           "state": "NH",
           "item_index": 3,
           "item_label": "other_chapter_violations",
-          "bucket": "Violation of Law or Order"
+          "bucket": "Regulatory Violation"
         },
         {
           "state": "NJ",
@@ -1352,13 +1460,13 @@
           "state": "NJ",
           "item_index": 6,
           "item_label": "revocation_by_other_state",
-          "bucket": "Discipline by Other Jurisdiction"
+          "bucket": "Prior Disciplinary Action"
         },
         {
           "state": "NJ",
           "item_index": 7,
           "item_label": "violation_of_act_or_regulation",
-          "bucket": "Violation of Law or Order"
+          "bucket": "Regulatory Violation"
         },
         {
           "state": "NJ",
@@ -1382,7 +1490,7 @@
           "state": "NJ",
           "item_index": 11,
           "item_label": "aiding_unlicensed_practice",
-          "bucket": "Aiding Unlicensed Practice"
+          "bucket": "Scope and Licensing Violations"
         },
         {
           "state": "NJ",
@@ -1400,7 +1508,7 @@
           "state": "NM",
           "item_index": 1,
           "item_label": "out_of_state_disciplinary_action",
-          "bucket": "Discipline by Other Jurisdiction"
+          "bucket": "Prior Disciplinary Action"
         },
         {
           "state": "NM",
@@ -1418,13 +1526,13 @@
           "state": "NM",
           "item_index": 4,
           "item_label": "failure_to_complete_ce",
-          "bucket": "Violation of Law or Order"
+          "bucket": "Regulatory Violation"
         },
         {
           "state": "NM",
           "item_index": 5,
           "item_label": "violation_of_act",
-          "bucket": "Violation of Law or Order"
+          "bucket": "Regulatory Violation"
         },
         {
           "state": "NM",
@@ -1460,13 +1568,13 @@
           "state": "NV",
           "item_index": 4,
           "item_label": "unprofessional_conduct_impersonation",
-          "bucket": "Unprofessional or Unethical Conduct"
+          "bucket": "Scope and Licensing Violations"
         },
         {
           "state": "NV",
           "item_index": 5,
           "item_label": "unprofessional_conduct_license_lending",
-          "bucket": "Aiding Unlicensed Practice"
+          "bucket": "Scope and Licensing Violations"
         },
         {
           "state": "NV",
@@ -1490,19 +1598,19 @@
           "state": "NV",
           "item_index": 9,
           "item_label": "willful_repeated_violation",
-          "bucket": "Violation of Law or Order"
+          "bucket": "Regulatory Violation"
         },
         {
           "state": "NV",
           "item_index": 10,
           "item_label": "aiding_abetting_violation",
-          "bucket": "Aiding Unlicensed Practice"
+          "bucket": "Regulatory Violation"
         },
         {
           "state": "NV",
           "item_index": 11,
           "item_label": "disciplined_in_another_state",
-          "bucket": "Discipline by Other Jurisdiction"
+          "bucket": "Prior Disciplinary Action"
         },
         {
           "state": "NV",
@@ -1514,7 +1622,7 @@
           "state": "NV",
           "item_index": 13,
           "item_label": "failure_to_comply_board_order",
-          "bucket": "Violation of Law or Order"
+          "bucket": "Regulatory Violation"
         },
         {
           "state": "NY",
@@ -1550,7 +1658,7 @@
           "state": "NY",
           "item_index": 5,
           "item_label": "out_of_state_disciplinary_finding",
-          "bucket": "Discipline by Other Jurisdiction"
+          "bucket": "Prior Disciplinary Action"
         },
         {
           "state": "NY",
@@ -1562,13 +1670,13 @@
           "state": "NY",
           "item_index": 7,
           "item_label": "aiding_unlicensed_practice",
-          "bucket": "Aiding Unlicensed Practice"
+          "bucket": "Scope and Licensing Violations"
         },
         {
           "state": "NY",
           "item_index": 8,
           "item_label": "practicing_while_suspended",
-          "bucket": "Violation of Law or Order"
+          "bucket": "Scope and Licensing Violations"
         },
         {
           "state": "NY",
@@ -1580,7 +1688,7 @@
           "state": "OH",
           "item_index": 0,
           "item_label": "violating_chapter_or_rules",
-          "bucket": "Violation of Law or Order"
+          "bucket": "Regulatory Violation"
         },
         {
           "state": "OH",
@@ -1652,7 +1760,7 @@
           "state": "OH",
           "item_index": 12,
           "item_label": "violation_of_board_limitation",
-          "bucket": "Violation of Law or Order"
+          "bucket": "Regulatory Violation"
         },
         {
           "state": "OH",
@@ -1664,19 +1772,19 @@
           "state": "OH",
           "item_index": 14,
           "item_label": "adverse_action_by_another_licensing_authority",
-          "bucket": "Discipline by Other Jurisdiction"
+          "bucket": "Prior Disciplinary Action"
         },
         {
           "state": "OH",
           "item_index": 15,
           "item_label": "revocation_by_dod_or_va",
-          "bucket": "Discipline by Other Jurisdiction"
+          "bucket": "Prior Disciplinary Action"
         },
         {
           "state": "OH",
           "item_index": 16,
           "item_label": "termination_from_medicare_medicaid",
-          "bucket": "Discipline by Other Jurisdiction"
+          "bucket": "Prior Disciplinary Action"
         },
         {
           "state": "OH",
@@ -1688,7 +1796,7 @@
           "state": "OH",
           "item_index": 18,
           "item_label": "failure_to_cooperate_with_investigation",
-          "bucket": "Violation of Law or Order"
+          "bucket": "Regulatory Violation"
         },
         {
           "state": "OH",
@@ -1700,13 +1808,13 @@
           "state": "OK",
           "item_index": 0,
           "item_label": "violation_of_act",
-          "bucket": "Violation of Law or Order"
+          "bucket": "Regulatory Violation"
         },
         {
           "state": "OK",
           "item_index": 1,
           "item_label": "violation_of_committee_rule",
-          "bucket": "Violation of Law or Order"
+          "bucket": "Regulatory Violation"
         },
         {
           "state": "OK",
@@ -1760,19 +1868,73 @@
           "state": "OK",
           "item_index": 10,
           "item_label": "license_suspended_or_revoked_elsewhere",
-          "bucket": "Discipline by Other Jurisdiction"
+          "bucket": "Prior Disciplinary Action"
         },
         {
           "state": "OR",
           "item_index": 0,
           "item_label": "violation_of_practice_act",
-          "bucket": "Violation of Law or Order"
+          "bucket": "Regulatory Violation"
         },
         {
           "state": "OR",
           "item_index": 1,
           "item_label": "grounds_listed_in_676_612",
-          "bucket": "Violation of Law or Order"
+          "bucket": "Regulatory Violation"
+        },
+        {
+          "state": "PA",
+          "item_index": 0,
+          "item_label": "negligence_or_incompetence",
+          "bucket": "Incompetence or Negligence"
+        },
+        {
+          "state": "PA",
+          "item_index": 1,
+          "item_label": "inability_to_practice_safely_dietetics",
+          "bucket": "Impairment"
+        },
+        {
+          "state": "PA",
+          "item_index": 2,
+          "item_label": "willful_violation_of_act_or_regulations",
+          "bucket": "Regulatory Violation"
+        },
+        {
+          "state": "PA",
+          "item_index": 3,
+          "item_label": "fraud_or_deceit",
+          "bucket": "Fraud in Practice"
+        },
+        {
+          "state": "PA",
+          "item_index": 4,
+          "item_label": "criminal_conviction",
+          "bucket": "Criminal Conviction"
+        },
+        {
+          "state": "PA",
+          "item_index": 5,
+          "item_label": "license_disciplined_elsewhere",
+          "bucket": "Prior Disciplinary Action"
+        },
+        {
+          "state": "PA",
+          "item_index": 6,
+          "item_label": "immediate_danger_to_public",
+          "bucket": "Incompetence or Negligence"
+        },
+        {
+          "state": "PA",
+          "item_index": 7,
+          "item_label": "controlled_substance_misuse",
+          "bucket": "Impairment"
+        },
+        {
+          "state": "PA",
+          "item_index": 8,
+          "item_label": "immoral_or_unprofessional_conduct",
+          "bucket": "Unprofessional or Unethical Conduct"
         },
         {
           "state": "RI",
@@ -1790,7 +1952,7 @@
           "state": "RI",
           "item_index": 2,
           "item_label": "willful_repeated_violation",
-          "bucket": "Violation of Law or Order"
+          "bucket": "Regulatory Violation"
         },
         {
           "state": "RI",
@@ -1807,25 +1969,25 @@
         {
           "state": "SC",
           "item_index": 1,
-          "item_label": "substance_addiction",
+          "item_label": "alcohol_or_drug_addiction",
           "bucket": "Impairment"
         },
         {
           "state": "SC",
           "item_index": 2,
-          "item_label": "conviction_unlicensed_practice",
+          "item_label": "conviction_for_illegal_practice",
           "bucket": "Criminal Conviction"
         },
         {
           "state": "SC",
           "item_index": 3,
           "item_label": "assisting_unlicensed_practice",
-          "bucket": "Aiding Unlicensed Practice"
+          "bucket": "Scope and Licensing Violations"
         },
         {
           "state": "SC",
           "item_index": 4,
-          "item_label": "physical_mental_disability",
+          "item_label": "physical_or_mental_disability",
           "bucket": "Impairment"
         },
         {
@@ -1837,20 +1999,20 @@
         {
           "state": "SC",
           "item_index": 6,
-          "item_label": "dishonorable_conduct",
+          "item_label": "dishonorable_unethical_conduct",
           "bucket": "Unprofessional or Unethical Conduct"
         },
         {
           "state": "SC",
           "item_index": 7,
-          "item_label": "false_statement_in_practice_documents",
+          "item_label": "false_statement_in_practice_document",
           "bucket": "Fraud in Practice"
         },
         {
           "state": "SC",
           "item_index": 8,
-          "item_label": "violation_of_chapter",
-          "bucket": "Violation of Law or Order"
+          "item_label": "violating_chapter_provisions",
+          "bucket": "Regulatory Violation"
         },
         {
           "state": "SC",
@@ -1861,8 +2023,8 @@
         {
           "state": "SC",
           "item_index": 10,
-          "item_label": "practice_beyond_scope",
-          "bucket": "Unprofessional or Unethical Conduct"
+          "item_label": "beyond_scope_of_practice",
+          "bucket": "Scope and Licensing Violations"
         },
         {
           "state": "SD",
@@ -1886,7 +2048,7 @@
           "state": "SD",
           "item_index": 3,
           "item_label": "failure_to_fulfill_continuing_education",
-          "bucket": "Violation of Law or Order"
+          "bucket": "Regulatory Violation"
         },
         {
           "state": "SD",
@@ -1903,50 +2065,50 @@
         {
           "state": "TN",
           "item_index": 0,
-          "item_label": "fraud_in_obtaining_license",
+          "item_label": "fraud_in_obtaining_licensure",
           "bucket": "Fraud in Licensure"
         },
         {
           "state": "TN",
           "item_index": 1,
-          "item_label": "unprofessional_conduct",
+          "item_label": "unethical_or_unprofessional_conduct",
           "bucket": "Unprofessional or Unethical Conduct"
         },
         {
           "state": "TN",
           "item_index": 2,
-          "item_label": "substance_misuse",
+          "item_label": "substance_abuse",
           "bucket": "Impairment"
         },
         {
           "state": "TN",
           "item_index": 3,
-          "item_label": "felony_conviction",
+          "item_label": "felony_or_moral_turpitude_conviction",
           "bucket": "Criminal Conviction"
         },
         {
           "state": "TN",
           "item_index": 4,
           "item_label": "violation_of_board_order_or_rule",
-          "bucket": "Violation of Law or Order"
+          "bucket": "Regulatory Violation"
         },
         {
           "state": "TN",
           "item_index": 5,
           "item_label": "violation_of_chapter",
-          "bucket": "Violation of Law or Order"
+          "bucket": "Regulatory Violation"
         },
         {
           "state": "TX",
           "item_index": 0,
           "item_label": "violation_of_chapter",
-          "bucket": "Violation of Law or Order"
+          "bucket": "Regulatory Violation"
         },
         {
           "state": "TX",
           "item_index": 1,
-          "item_label": "violation_of_rule",
-          "bucket": "Violation of Law or Order"
+          "item_label": "violation_of_rules",
+          "bucket": "Regulatory Violation"
         },
         {
           "state": "TX",
@@ -1958,25 +2120,25 @@
           "state": "TX",
           "item_index": 3,
           "item_label": "violation_of_commission_order",
-          "bucket": "Violation of Law or Order"
+          "bucket": "Regulatory Violation"
         },
         {
           "state": "TX",
           "item_index": 4,
           "item_label": "failure_to_pay_administrative_penalty",
-          "bucket": "Violation of Law or Order"
+          "bucket": "Regulatory Violation"
         },
         {
           "state": "TX",
           "item_index": 5,
           "item_label": "failure_to_complete_continuing_education",
-          "bucket": "Violation of Law or Order"
+          "bucket": "Regulatory Violation"
         },
         {
           "state": "UT",
           "item_index": 0,
           "item_label": "unprofessional_conduct",
-          "bucket": "Unprofessional or Unethical Conduct"
+          "bucket": "Regulatory Violation"
         },
         {
           "state": "UT",
@@ -2006,7 +2168,7 @@
           "state": "UT",
           "item_index": 5,
           "item_label": "practicing_without_license",
-          "bucket": "Aiding Unlicensed Practice"
+          "bucket": "Scope and Licensing Violations"
         },
         {
           "state": "UT",
@@ -2018,7 +2180,7 @@
           "state": "UT",
           "item_index": 7,
           "item_label": "violation_of_statute_or_rule",
-          "bucket": "Violation of Law or Order"
+          "bucket": "Regulatory Violation"
         },
         {
           "state": "UT",
@@ -2030,13 +2192,13 @@
           "state": "UT",
           "item_index": 9,
           "item_label": "discipline_by_other_authority",
-          "bucket": "Discipline by Other Jurisdiction"
+          "bucket": "Prior Disciplinary Action"
         },
         {
           "state": "VA",
           "item_index": 0,
           "item_label": "unauthorized_title_use",
-          "bucket": "Unprofessional or Unethical Conduct"
+          "bucket": "Scope and Licensing Violations"
         },
         {
           "state": "VT",
@@ -2078,43 +2240,43 @@
           "state": "WA",
           "item_index": 4,
           "item_label": "license_suspension_revocation_elsewhere",
-          "bucket": "Discipline by Other Jurisdiction"
+          "bucket": "Prior Disciplinary Action"
         },
         {
           "state": "WA",
           "item_index": 5,
           "item_label": "drug_law_violation",
-          "bucket": "Violation of Law or Order"
+          "bucket": "Impairment"
         },
         {
           "state": "WA",
           "item_index": 6,
           "item_label": "violation_of_statute_or_rule",
-          "bucket": "Violation of Law or Order"
+          "bucket": "Regulatory Violation"
         },
         {
           "state": "WA",
           "item_index": 7,
           "item_label": "failure_to_cooperate_with_disciplining_authority",
-          "bucket": "Violation of Law or Order"
+          "bucket": "Regulatory Violation"
         },
         {
           "state": "WA",
           "item_index": 8,
           "item_label": "failure_to_comply_with_order",
-          "bucket": "Violation of Law or Order"
+          "bucket": "Regulatory Violation"
         },
         {
           "state": "WA",
           "item_index": 9,
           "item_label": "aiding_unlicensed_practice",
-          "bucket": "Aiding Unlicensed Practice"
+          "bucket": "Scope and Licensing Violations"
         },
         {
           "state": "WA",
           "item_index": 10,
           "item_label": "practice_beyond_scope",
-          "bucket": "Unprofessional or Unethical Conduct"
+          "bucket": "Scope and Licensing Violations"
         },
         {
           "state": "WA",
@@ -2132,13 +2294,13 @@
           "state": "WA",
           "item_index": 13,
           "item_label": "contagious_disease",
-          "bucket": "Impairment"
+          "bucket": "Unprofessional or Unethical Conduct"
         },
         {
           "state": "WA",
           "item_index": 14,
           "item_label": "promotion_of_unnecessary_services",
-          "bucket": "Unprofessional or Unethical Conduct"
+          "bucket": "Fraud in Practice"
         },
         {
           "state": "WA",
@@ -2150,7 +2312,7 @@
           "state": "WA",
           "item_index": 16,
           "item_label": "secret_treatment_method",
-          "bucket": "Unprofessional or Unethical Conduct"
+          "bucket": "Fraud in Practice"
         },
         {
           "state": "WA",
@@ -2222,7 +2384,7 @@
           "state": "WI",
           "item_index": 7,
           "item_label": "violation_of_subchapter_or_rules",
-          "bucket": "Violation of Law or Order"
+          "bucket": "Regulatory Violation"
         },
         {
           "state": "WV",
@@ -2234,7 +2396,7 @@
           "state": "WV",
           "item_index": 1,
           "item_label": "gross_negligence_or_unprofessional_conduct",
-          "bucket": "Incompetence or Negligence"
+          "bucket": "Unprofessional or Unethical Conduct"
         },
         {
           "state": "WV",
@@ -2252,7 +2414,7 @@
           "state": "WV",
           "item_index": 4,
           "item_label": "willful_repeated_violation_of_article",
-          "bucket": "Violation of Law or Order"
+          "bucket": "Regulatory Violation"
         },
         {
           "state": "WY",
@@ -2282,13 +2444,13 @@
           "state": "WY",
           "item_index": 4,
           "item_label": "practice_under_illegal_or_expired_license",
-          "bucket": "Fraud in Practice"
+          "bucket": "Scope and Licensing Violations"
         },
         {
           "state": "WY",
           "item_index": 5,
           "item_label": "violation_of_act",
-          "bucket": "Violation of Law or Order"
+          "bucket": "Regulatory Violation"
         }
       ]
     },
@@ -2298,12 +2460,13 @@
         "Licensed Dietitian",
         "Licensed Nutritionist",
         "Licensed Dietitian-Nutritionist",
-        "Certified Dietitian/Nutritionist",
-        "Dietetic Technician",
+        "Certified Dietitian",
+        "Certified Nutritionist",
         "Provisional/Temporary License",
-        "Other/Special Credential"
+        "Dietetic Technician",
+        "Other Credential"
       ],
-      "rationale": "The data clusters naturally by credential type (licensed vs. certified), scope title (dietitian-only, nutritionist-only, or combined dietitian-nutritionist), technician-level credentials, and limited-duration permits (provisional, temporary, graduate), with a small catch-all for outliers like compact privileges and title-protection designations.",
+      "rationale": "The data clusters around credential type (licensed vs. certified), professional title (dietitian vs. nutritionist vs. combined), credential tier (full vs. provisional/temporary), and a small set of distinct types (dietetic technician, compact privilege, limited permit, nutrition associate) that fit in Other Credential.",
       "assignments": [
         {
           "state": "AK",
@@ -2333,7 +2496,7 @@
           "state": "AL",
           "item_index": 2,
           "item_label": "Registered Dietitian (title protected under Chapter 34)",
-          "bucket": "Other/Special Credential"
+          "bucket": "Other Credential"
         },
         {
           "state": "AR",
@@ -2351,7 +2514,7 @@
           "state": "CA",
           "item_index": 0,
           "item_label": "registered dietitian",
-          "bucket": "Other/Special Credential"
+          "bucket": "Other Credential"
         },
         {
           "state": "CA",
@@ -2360,10 +2523,34 @@
           "bucket": "Dietetic Technician"
         },
         {
+          "state": "CO",
+          "item_index": 0,
+          "item_label": "dietitian",
+          "bucket": "Licensed Dietitian"
+        },
+        {
+          "state": "CO",
+          "item_index": 1,
+          "item_label": "dietician",
+          "bucket": "Licensed Dietitian"
+        },
+        {
+          "state": "CO",
+          "item_index": 2,
+          "item_label": "certified dietitian",
+          "bucket": "Certified Dietitian"
+        },
+        {
+          "state": "CO",
+          "item_index": 3,
+          "item_label": "certified dietician",
+          "bucket": "Certified Dietitian"
+        },
+        {
           "state": "CT",
           "item_index": 0,
           "item_label": "Connecticut Certified Dietitian-Nutritionist",
-          "bucket": "Certified Dietitian/Nutritionist"
+          "bucket": "Licensed Dietitian-Nutritionist"
         },
         {
           "state": "DE",
@@ -2381,7 +2568,7 @@
           "state": "FL",
           "item_index": 1,
           "item_label": "licensed nutrition counselor",
-          "bucket": "Licensed Nutritionist"
+          "bucket": "Other Credential"
         },
         {
           "state": "GA",
@@ -2447,7 +2634,7 @@
           "state": "KY",
           "item_index": 1,
           "item_label": "certified nutritionist",
-          "bucket": "Certified Dietitian/Nutritionist"
+          "bucket": "Certified Nutritionist"
         },
         {
           "state": "LA",
@@ -2609,7 +2796,7 @@
           "state": "NM",
           "item_index": 2,
           "item_label": "licensed nutrition associate",
-          "bucket": "Other/Special Credential"
+          "bucket": "Other Credential"
         },
         {
           "state": "NV",
@@ -2633,19 +2820,19 @@
           "state": "NY",
           "item_index": 0,
           "item_label": "certified dietitian",
-          "bucket": "Certified Dietitian/Nutritionist"
+          "bucket": "Certified Dietitian"
         },
         {
           "state": "NY",
           "item_index": 1,
           "item_label": "certified dietician",
-          "bucket": "Certified Dietitian/Nutritionist"
+          "bucket": "Certified Dietitian"
         },
         {
           "state": "NY",
           "item_index": 2,
           "item_label": "certified nutritionist",
-          "bucket": "Certified Dietitian/Nutritionist"
+          "bucket": "Certified Nutritionist"
         },
         {
           "state": "OH",
@@ -2678,6 +2865,12 @@
           "bucket": "Licensed Dietitian"
         },
         {
+          "state": "PA",
+          "item_index": 0,
+          "item_label": "licensed dietitian-nutritionist",
+          "bucket": "Licensed Dietitian-Nutritionist"
+        },
+        {
           "state": "RI",
           "item_index": 0,
           "item_label": "licensed dietitian/nutritionist",
@@ -2704,14 +2897,20 @@
         {
           "state": "TN",
           "item_index": 0,
-          "item_label": "dietitian/nutritionist license",
+          "item_label": "dietitian/nutritionist",
           "bucket": "Licensed Dietitian-Nutritionist"
         },
         {
           "state": "TN",
           "item_index": 1,
-          "item_label": "temporary permit",
-          "bucket": "Provisional/Temporary License"
+          "item_label": "licensed dietitian",
+          "bucket": "Licensed Dietitian"
+        },
+        {
+          "state": "TN",
+          "item_index": 2,
+          "item_label": "licensed nutritionist",
+          "bucket": "Licensed Nutritionist"
         },
         {
           "state": "TX",
@@ -2729,7 +2928,7 @@
           "state": "UT",
           "item_index": 0,
           "item_label": "certified dietitian",
-          "bucket": "Certified Dietitian/Nutritionist"
+          "bucket": "Certified Dietitian"
         },
         {
           "state": "VA",
@@ -2747,31 +2946,31 @@
           "state": "VT",
           "item_index": 0,
           "item_label": "certified dietitian",
-          "bucket": "Certified Dietitian/Nutritionist"
+          "bucket": "Certified Dietitian"
         },
         {
           "state": "WA",
           "item_index": 0,
           "item_label": "certified dietitian",
-          "bucket": "Certified Dietitian/Nutritionist"
+          "bucket": "Certified Dietitian"
         },
         {
           "state": "WA",
           "item_index": 1,
           "item_label": "certified nutritionist",
-          "bucket": "Certified Dietitian/Nutritionist"
+          "bucket": "Certified Nutritionist"
         },
         {
           "state": "WI",
           "item_index": 0,
           "item_label": "certified dietitian",
-          "bucket": "Certified Dietitian/Nutritionist"
+          "bucket": "Certified Dietitian"
         },
         {
           "state": "WI",
           "item_index": 1,
           "item_label": "compact privilege",
-          "bucket": "Other/Special Credential"
+          "bucket": "Other Credential"
         },
         {
           "state": "WV",
@@ -2796,7 +2995,7 @@
         "Professional Society Membership",
         "Academic Degree Pathway"
       ],
-      "rationale": "The items cluster into five natural groups: the Certified Nutrition Specialist (CNS/BCNS) credential, the American Clinical Board of Nutrition Diplomate (DACBN), the American Board of Nutrition (ABN) diplomate/membership, professional society memberships (AIN, ASCN), and the one academic-degree-based pathway (CA master's degree route).",
+      "rationale": "The items cluster into five natural groups: the Certified Nutrition Specialist credential (BCNS/CBNS), the American Clinical Board of Nutrition Diplomate credential (DACBN), the American Board of Nutrition diplomate/membership, professional society memberships (AIN, ASCN), and the one academic-degree-based pathway (CA master's degree), together covering the full distribution without a large catch-all.",
       "assignments": [
         {
           "state": "AK",
@@ -2849,7 +3048,7 @@
         {
           "state": "IL",
           "item_index": 0,
-          "item_label": "Certified Nutrition Specialist (CNS) by the Board for Certification of Nutrition",
+          "item_label": "Certified Nutrition Specialist (CNS) by the Certification Board of Nutrition Spe",
           "bucket": "CNS Certification"
         },
         {
@@ -2947,48 +3146,47 @@
     "profession_specific.exempt_professions_list": {
       "field_name": "profession_specific.exempt_professions_list",
       "bucket_set": [
-        "Licensed Health Professionals",
-        "Students and Trainees",
-        "Federal or Military Employees",
+        "Other Licensed Health Professionals",
+        "Federal Military or VA Employees",
         "Government or Public Agency Employees",
-        "Dietetic Technicians and Paraprofessionals",
-        "Food Marketing and Retail",
-        "General Nutrition Information",
-        "Weight Control Services",
-        "Religious or Traditional Practice",
-        "Animal or Non-Human Nutrition"
+        "Students and Trainees",
+        "Dietetic Technicians and Support Staff",
+        "General Nutrition Information Providers",
+        "Food and Supplement Marketers",
+        "Weight Control Program Providers",
+        "Animal Nutrition or Other Specialists"
       ],
-      "rationale": "These ten buckets capture the distinct policy rationales visible across states: scope-of-practice carve-outs for already-licensed health professionals; supervised learners and post-degree trainees; federal/military personnel exempt by sovereign jurisdiction; state/local public-agency employees; supervised dietetic support staff; commercial food/supplement sellers; informal or educational nutrition information providers; weight-control program operators; faith/traditional-practice exemptions; and animal nutritionists—together covering essentially every item in the dataset with minimal overlap.",
+      "rationale": "These nine buckets cover the dominant patterns in the data: other licensed health professions exempt by scope, federal/military/VA carve-outs, broader government/public-agency employees (extension, schools, WIC), students and supervised trainees, dietetic technicians and paraprofessionals under supervision, persons giving only general (non-medical) nutrition information or coaching, food/supplement sales and marketing personnel, weight-control program operators, and a residual bucket for animal nutritionists, religious practitioners, home economists, researchers, and similar edge cases.",
       "assignments": [
         {
           "state": "AK",
           "item_index": 0,
           "item_label": "animal nutritionist",
-          "bucket": "Animal or Non-Human Nutrition"
+          "bucket": "Animal Nutrition or Other Specialists"
         },
         {
           "state": "AK",
           "item_index": 1,
           "item_label": "federal government employee with dietitian or nutritionist job title",
-          "bucket": "Federal or Military Employees"
+          "bucket": "Federal Military or VA Employees"
         },
         {
           "state": "AK",
           "item_index": 2,
           "item_label": "armed forces dietitian or nutritionist",
-          "bucket": "Federal or Military Employees"
+          "bucket": "Federal Military or VA Employees"
         },
         {
           "state": "AL",
           "item_index": 0,
           "item_label": "physician licensed to practice medicine",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "AL",
           "item_index": 1,
           "item_label": "dietetic technician (under supervision)",
-          "bucket": "Dietetic Technicians and Paraprofessionals"
+          "bucket": "Dietetic Technicians and Support Staff"
         },
         {
           "state": "AL",
@@ -3000,13 +3198,13 @@
           "state": "AL",
           "item_index": 3,
           "item_label": "armed forces / public health services / Veterans Administration / federal govern",
-          "bucket": "Federal or Military Employees"
+          "bucket": "Federal Military or VA Employees"
         },
         {
           "state": "AL",
           "item_index": 4,
           "item_label": "duly licensed health professional (when incidental to their profession)",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "AL",
@@ -3018,31 +3216,31 @@
           "state": "AL",
           "item_index": 6,
           "item_label": "hospital food service managers/directors and child nutrition program managers",
-          "bucket": "Dietetic Technicians and Paraprofessionals"
+          "bucket": "Dietetic Technicians and Support Staff"
         },
         {
           "state": "AL",
           "item_index": 7,
           "item_label": "person providing general nutritional information or food product marketing",
-          "bucket": "General Nutrition Information"
+          "bucket": "General Nutrition Information Providers"
         },
         {
           "state": "AL",
           "item_index": 8,
           "item_label": "person providing weight control services (with dietitian review)",
-          "bucket": "Weight Control Services"
+          "bucket": "Weight Control Program Providers"
         },
         {
           "state": "AR",
           "item_index": 0,
-          "item_label": "dietetics students in accredited programs",
+          "item_label": "dietetics students in approved clinical practice programs",
           "bucket": "Students and Trainees"
         },
         {
           "state": "AR",
           "item_index": 1,
-          "item_label": "armed forces / US Public Health Service / Department of Veterans Affairs dietiti",
-          "bucket": "Federal or Military Employees"
+          "item_label": "dietitians serving in the armed forces, US Public Health Service, or Department ",
+          "bucket": "Federal Military or VA Employees"
         },
         {
           "state": "AR",
@@ -3053,62 +3251,98 @@
         {
           "state": "AR",
           "item_index": 3,
-          "item_label": "licensed physicians, pharmacists, or nurses",
-          "bucket": "Licensed Health Professionals"
+          "item_label": "licensed physicians, pharmacists, or nurses (when incidental to their profession",
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "AR",
           "item_index": 4,
-          "item_label": "persons supervised by a licensed dietitian (including dietetic technicians, home",
-          "bucket": "Dietetic Technicians and Paraprofessionals"
+          "item_label": "persons employed by, supervised by, or in consultation with a licensed dietitian",
+          "bucket": "Dietetic Technicians and Support Staff"
         },
         {
           "state": "AR",
           "item_index": 5,
-          "item_label": "persons with doctoral degrees in human nutrition/food and nutrition/dietetics/pu",
-          "bucket": "Licensed Health Professionals"
+          "item_label": "persons with a doctoral degree in human nutrition, food and nutrition, dietetics",
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "AR",
           "item_index": 6,
-          "item_label": "healthcare professionals or nutritionists",
-          "bucket": "Licensed Health Professionals"
+          "item_label": "nonresident dietitians practicing for no more than 180 consecutive working days",
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "AR",
           "item_index": 7,
-          "item_label": "persons with doctoral degrees in animal nutrition whose practice is related to t",
-          "bucket": "Animal or Non-Human Nutrition"
+          "item_label": "persons offering weight control programs supervised or approved by a registered ",
+          "bucket": "Weight Control Program Providers"
+        },
+        {
+          "state": "AR",
+          "item_index": 8,
+          "item_label": "persons employed by a hospital or long-term care facility licensed by the Depart",
+          "bucket": "Dietetic Technicians and Support Staff"
+        },
+        {
+          "state": "AR",
+          "item_index": 9,
+          "item_label": "persons employed by a facility operated for those relying on treatment by prayer",
+          "bucket": "Other Licensed Health Professionals"
+        },
+        {
+          "state": "AR",
+          "item_index": 10,
+          "item_label": "persons with a doctoral degree in animal nutrition whose practice is related to ",
+          "bucket": "Animal Nutrition or Other Specialists"
+        },
+        {
+          "state": "AR",
+          "item_index": 11,
+          "item_label": "healthcare professionals or nutritionists engaging in dietetics practice",
+          "bucket": "Other Licensed Health Professionals"
+        },
+        {
+          "state": "AR",
+          "item_index": 12,
+          "item_label": "persons selling vitamins, over-the-counter healthcare products, or food suppleme",
+          "bucket": "Food and Supplement Marketers"
+        },
+        {
+          "state": "AR",
+          "item_index": 13,
+          "item_label": "nutritionists advising customers about vitamins, over-the-counter healthcare pro",
+          "bucket": "Food and Supplement Marketers"
         },
         {
           "state": "CT",
           "item_index": 0,
           "item_label": "person who does not hold themselves out as a Connecticut certified dietitian-nut",
-          "bucket": "General Nutrition Information"
+          "bucket": "General Nutrition Information Providers"
         },
         {
           "state": "CT",
           "item_index": 1,
           "item_label": "person engaged in marketing, distributing, or explaining food, food products, or",
-          "bucket": "Food Marketing and Retail"
+          "bucket": "Food and Supplement Marketers"
         },
         {
           "state": "CT",
           "item_index": 2,
           "item_label": "person providing weight control services",
-          "bucket": "Weight Control Services"
+          "bucket": "Weight Control Program Providers"
         },
         {
           "state": "CT",
           "item_index": 3,
           "item_label": "person licensed or certified under another Connecticut law engaging in their own",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "CT",
           "item_index": 4,
           "item_label": "person employed as a nutritionist by the federal government or WIC program",
-          "bucket": "Federal or Military Employees"
+          "bucket": "Federal Military or VA Employees"
         },
         {
           "state": "CT",
@@ -3120,13 +3354,13 @@
           "state": "CT",
           "item_index": 6,
           "item_label": "person registered as a diet technician by the Commission on Dietetic Registratio",
-          "bucket": "Dietetic Technicians and Paraprofessionals"
+          "bucket": "Dietetic Technicians and Support Staff"
         },
         {
           "state": "DE",
           "item_index": 0,
           "item_label": "Any person licensed in this State under any other act",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "DE",
@@ -3144,19 +3378,19 @@
           "state": "DE",
           "item_index": 3,
           "item_label": "Herbalists, retailers, or others who make recommendations regarding lifestyle or",
-          "bucket": "Food Marketing and Retail"
+          "bucket": "Food and Supplement Marketers"
         },
         {
           "state": "DE",
           "item_index": 4,
           "item_label": "Members of any religion, sect or denomination practicing tenets thereof",
-          "bucket": "Religious or Traditional Practice"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "DE",
           "item_index": 5,
           "item_label": "Persons presenting general weight control programs approved by an RD or licensed",
-          "bucket": "Weight Control Services"
+          "bucket": "Weight Control Program Providers"
         },
         {
           "state": "DE",
@@ -3168,79 +3402,79 @@
           "state": "FL",
           "item_index": 0,
           "item_label": "persons licensed under chapter 457 (acupuncture)",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "FL",
           "item_index": 1,
           "item_label": "persons licensed under chapter 458 (medicine)",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "FL",
           "item_index": 2,
           "item_label": "persons licensed under chapter 459 (osteopathic medicine)",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "FL",
           "item_index": 3,
           "item_label": "persons licensed under chapter 460 (chiropractic)",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "FL",
           "item_index": 4,
           "item_label": "persons licensed under chapter 461 (podiatric medicine)",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "FL",
           "item_index": 5,
           "item_label": "persons licensed under chapter 462 (naturopathy)",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "FL",
           "item_index": 6,
           "item_label": "persons licensed under chapter 463 (optometry)",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "FL",
           "item_index": 7,
           "item_label": "persons licensed under part I of chapter 464 (nursing)",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "FL",
           "item_index": 8,
           "item_label": "persons licensed under chapter 465 (pharmacy)",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "FL",
           "item_index": 9,
           "item_label": "persons licensed under chapter 466 (dentistry)",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "FL",
           "item_index": 10,
           "item_label": "persons licensed under chapter 480 (massage therapy)",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "FL",
           "item_index": 11,
           "item_label": "persons licensed under chapter 490 (psychology)",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "FL",
           "item_index": 12,
           "item_label": "persons licensed under chapter 491 (clinical social work, marriage and family th",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "FL",
@@ -3264,7 +3498,7 @@
           "state": "FL",
           "item_index": 16,
           "item_label": "dietetic technicians",
-          "bucket": "Dietetic Technicians and Paraprofessionals"
+          "bucket": "Dietetic Technicians and Support Staff"
         },
         {
           "state": "GA",
@@ -3276,25 +3510,25 @@
           "state": "GA",
           "item_index": 1,
           "item_label": "dietetic technicians, certified dietary managers, or dietetic aides in health ca",
-          "bucket": "Dietetic Technicians and Paraprofessionals"
+          "bucket": "Dietetic Technicians and Support Staff"
         },
         {
           "state": "GA",
           "item_index": 2,
           "item_label": "dietitians serving in the armed forces or other federal agency (related to servi",
-          "bucket": "Federal or Military Employees"
+          "bucket": "Federal Military or VA Employees"
         },
         {
           "state": "GA",
           "item_index": 3,
           "item_label": "dentists, physicians, osteopaths, chiropractors, nurses, or pharmacists (when in",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "GA",
           "item_index": 4,
           "item_label": "nonresident registered dietitians (up to 5 days without license, or up to 30 day",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "GA",
@@ -3306,253 +3540,259 @@
           "state": "GA",
           "item_index": 6,
           "item_label": "persons engaged in dietetic practice prior to July 1, 1994 (until July 1, 1995)",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "GA",
           "item_index": 7,
           "item_label": "persons providing weight control services (if program reviewed/approved by licen",
-          "bucket": "Weight Control Services"
+          "bucket": "Weight Control Program Providers"
         },
         {
           "state": "GA",
           "item_index": 8,
           "item_label": "persons marketing or distributing food, food supplements, dietary supplements, m",
-          "bucket": "Food Marketing and Retail"
+          "bucket": "Food and Supplement Marketers"
         },
         {
           "state": "GA",
           "item_index": 9,
           "item_label": "members of a religion practicing its tenets",
-          "bucket": "Religious or Traditional Practice"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "GA",
           "item_index": 10,
           "item_label": "persons with a master's or doctorate degree with major in human nutrition, food ",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "IA",
           "item_index": 0,
           "item_label": "licensed physicians and surgeons",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "IA",
           "item_index": 1,
           "item_label": "nurses",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "IA",
           "item_index": 2,
           "item_label": "chiropractors",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "IA",
           "item_index": 3,
           "item_label": "dentists",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "IA",
           "item_index": 4,
           "item_label": "dental hygienists",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "IA",
           "item_index": 5,
           "item_label": "pharmacists",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "IA",
           "item_index": 6,
           "item_label": "physical therapists",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "ID",
           "item_index": 0,
           "item_label": "Persons licensed under title 54, Idaho Code, acting within the scope of their pr",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "ID",
           "item_index": 1,
           "item_label": "Persons licensed to practice medicine and surgery",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "ID",
           "item_index": 2,
           "item_label": "Persons licensed to practice osteopathic medicine and surgery",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "ID",
           "item_index": 3,
           "item_label": "Persons licensed to practice osteopathic medicine",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "IL",
           "item_index": 0,
-          "item_label": "Any person licensed in this State under any other Act (within their licensed sco",
-          "bucket": "Licensed Health Professionals"
+          "item_label": "persons licensed in this State under any other Act engaging in their own license",
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "IL",
           "item_index": 1,
-          "item_label": "Persons employed by the United States or State government in official duties",
+          "item_label": "persons employed by the United States or State government or their agencies perf",
           "bucket": "Government or Public Agency Employees"
         },
         {
           "state": "IL",
           "item_index": 2,
-          "item_label": "Cooperative extension home economists",
-          "bucket": "Government or Public Agency Employees"
+          "item_label": "cooperative extension home economists providing general nonmedical nutrition inf",
+          "bucket": "General Nutrition Information Providers"
         },
         {
           "state": "IL",
           "item_index": 3,
-          "item_label": "Students in supervised course of study",
+          "item_label": "students pursuing a degree in dietetics or nutrition under supervised course of ",
           "bucket": "Students and Trainees"
         },
         {
           "state": "IL",
           "item_index": 4,
-          "item_label": "Individuals fulfilling post-degree supervised practice experience",
+          "item_label": "persons seeking post-degree supervised practice experience (not in independent p",
           "bucket": "Students and Trainees"
         },
         {
           "state": "IL",
           "item_index": 5,
-          "item_label": "Health food store operators or employees providing verbal nutrition information",
-          "bucket": "Food Marketing and Retail"
+          "item_label": "health food store operators/employees providing verbal nutrition information or ",
+          "bucket": "General Nutrition Information Providers"
         },
         {
           "state": "IL",
           "item_index": 6,
-          "item_label": "Educators employed by nonprofit organizations, government agencies, or accredite",
-          "bucket": "General Nutrition Information"
+          "item_label": "educators employed by nonprofit organizations, government agencies, schools, or ",
+          "bucket": "General Nutrition Information Providers"
         },
         {
           "state": "IL",
           "item_index": 7,
-          "item_label": "Persons providing medical weight control services for prediabetes or obesity und",
-          "bucket": "Weight Control Services"
+          "item_label": "persons providing medical weight control for prediabetes or obesity under approv",
+          "bucket": "Weight Control Program Providers"
         },
         {
           "state": "IL",
           "item_index": 8,
-          "item_label": "Persons engaged in education and research with masters or doctorate in nutrition",
-          "bucket": "General Nutrition Information"
+          "item_label": "persons with a master's or doctorate in nutrition conducting education and resea",
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "IL",
           "item_index": 9,
-          "item_label": "Nutrition and dietetic technicians directly supervised by a licensed dietitian n",
-          "bucket": "Dietetic Technicians and Paraprofessionals"
+          "item_label": "persons providing general nonmedical nutrition information, health coaching, wel",
+          "bucket": "General Nutrition Information Providers"
         },
         {
           "state": "IL",
           "item_index": 10,
-          "item_label": "Employees of nursing facilities relying solely on spiritual means/prayer",
-          "bucket": "Religious or Traditional Practice"
+          "item_label": "nutrition and dietetic technicians or associate/baccalaureate degree holders dir",
+          "bucket": "Dietetic Technicians and Support Staff"
         },
         {
           "state": "IL",
           "item_index": 11,
-          "item_label": "Dietary technical support persons working in hospital or regulated facility sett",
-          "bucket": "Dietetic Technicians and Paraprofessionals"
+          "item_label": "employees of nursing facilities relying on spiritual means through prayer",
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "IL",
           "item_index": 12,
-          "item_label": "Persons providing nutrition care services without remuneration to family members",
-          "bucket": "General Nutrition Information"
+          "item_label": "dietary technical support persons in hospital or regulated facility settings und",
+          "bucket": "Dietetic Technicians and Support Staff"
         },
         {
           "state": "IL",
           "item_index": 13,
-          "item_label": "Out-of-state practitioners assisting in public health emergencies (up to 6 month",
-          "bucket": "Licensed Health Professionals"
+          "item_label": "persons providing nutrition care services without remuneration to family members",
+          "bucket": "General Nutrition Information Providers"
+        },
+        {
+          "state": "IL",
+          "item_index": 14,
+          "item_label": "out-of-state practitioners temporarily assisting in a public health emergency (u",
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "KS",
           "item_index": 0,
           "item_label": "person licensed to practice the healing arts",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "KS",
           "item_index": 1,
           "item_label": "licensed dentist",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "KS",
           "item_index": 2,
           "item_label": "licensed dental hygienist",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "KS",
           "item_index": 3,
           "item_label": "licensed professional nurse",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "KS",
           "item_index": 4,
           "item_label": "licensed practical nurse",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "KS",
           "item_index": 5,
           "item_label": "licensed psychologist",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "KS",
           "item_index": 6,
           "item_label": "licensed masters level psychologist",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "KS",
           "item_index": 7,
           "item_label": "licensed pharmacist or an employee thereof",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "KS",
           "item_index": 8,
           "item_label": "physician assistant",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "KS",
           "item_index": 9,
           "item_label": "licensed professional counselor",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "KS",
           "item_index": 10,
           "item_label": "unlicensed employee of a licensed adult care home or a licensed medical care fac",
-          "bucket": "Dietetic Technicians and Paraprofessionals"
+          "bucket": "Dietetic Technicians and Support Staff"
         },
         {
           "state": "KS",
           "item_index": 11,
           "item_label": "dietetic technician or dietetic assistant",
-          "bucket": "Dietetic Technicians and Paraprofessionals"
+          "bucket": "Dietetic Technicians and Support Staff"
         },
         {
           "state": "KS",
@@ -3576,37 +3816,37 @@
           "state": "KS",
           "item_index": 15,
           "item_label": "person serving in the armed forces, public health service, veterans administrati",
-          "bucket": "Federal or Military Employees"
+          "bucket": "Federal Military or VA Employees"
         },
         {
           "state": "KS",
           "item_index": 16,
           "item_label": "person with degree in home economics",
-          "bucket": "General Nutrition Information"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "KS",
           "item_index": 17,
           "item_label": "person counseling or providing weight-control services in franchised/recognized ",
-          "bucket": "Weight Control Services"
+          "bucket": "Weight Control Program Providers"
         },
         {
           "state": "KS",
           "item_index": 18,
           "item_label": "representative of a trade association",
-          "bucket": "Food Marketing and Retail"
+          "bucket": "General Nutrition Information Providers"
         },
         {
           "state": "KS",
           "item_index": 19,
           "item_label": "licensed physical therapist",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "KS",
           "item_index": 20,
           "item_label": "dietitian licensed, registered or otherwise authorized in another state providin",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "KS",
@@ -3618,49 +3858,49 @@
           "state": "KS",
           "item_index": 22,
           "item_label": "person conducting classes or disseminating information relating to nonmedical nu",
-          "bucket": "General Nutrition Information"
+          "bucket": "General Nutrition Information Providers"
         },
         {
           "state": "KS",
           "item_index": 23,
           "item_label": "person permitted to practice under K.S.A. 65-2872a",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "KY",
           "item_index": 0,
           "item_label": "physicians",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "KY",
           "item_index": 1,
           "item_label": "osteopaths",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "KY",
           "item_index": 2,
           "item_label": "podiatrists",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "KY",
           "item_index": 3,
           "item_label": "chiropractors",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "KY",
           "item_index": 4,
           "item_label": "dentists",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "KY",
           "item_index": 5,
           "item_label": "nurses",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "KY",
@@ -3672,7 +3912,7 @@
           "state": "KY",
           "item_index": 7,
           "item_label": "dietitians serving in the Armed Forces, Public Health Service, or VA",
-          "bucket": "Federal or Military Employees"
+          "bucket": "Federal Military or VA Employees"
         },
         {
           "state": "KY",
@@ -3690,43 +3930,43 @@
           "state": "KY",
           "item_index": 10,
           "item_label": "persons employed in a hospital or nursing home performing dietary services under",
-          "bucket": "Dietetic Technicians and Paraprofessionals"
+          "bucket": "Dietetic Technicians and Support Staff"
         },
         {
           "state": "LA",
           "item_index": 0,
           "item_label": "dentistry",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "LA",
           "item_index": 1,
           "item_label": "medicine",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "LA",
           "item_index": 2,
           "item_label": "osteopathy",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "LA",
           "item_index": 3,
           "item_label": "chiropractic",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "LA",
           "item_index": 4,
           "item_label": "nursing",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "LA",
           "item_index": 5,
           "item_label": "pharmacy",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "MA",
@@ -3744,67 +3984,67 @@
           "state": "MA",
           "item_index": 2,
           "item_label": "persons furnishing information regarding food, food material, or dietary supplem",
-          "bucket": "General Nutrition Information"
+          "bucket": "General Nutrition Information Providers"
         },
         {
           "state": "MA",
           "item_index": 3,
           "item_label": "persons furnishing information about food products or dietary supplements in con",
-          "bucket": "Food Marketing and Retail"
+          "bucket": "Food and Supplement Marketers"
         },
         {
           "state": "MA",
           "item_index": 4,
           "item_label": "persons practicing a health profession otherwise authorized under chapter 112",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "MA",
           "item_index": 5,
           "item_label": "persons practicing a health profession that includes a dietetic or nutritional p",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "MD",
           "item_index": 0,
           "item_label": "individuals practicing another authorized health occupation",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "MD",
           "item_index": 1,
           "item_label": "individuals employed by or operating a health, weight loss, or fitness program p",
-          "bucket": "Weight Control Services"
+          "bucket": "Weight Control Program Providers"
         },
         {
           "state": "MD",
           "item_index": 2,
           "item_label": "individuals employed by or operating a health food store",
-          "bucket": "Food Marketing and Retail"
+          "bucket": "Food and Supplement Marketers"
         },
         {
           "state": "MD",
           "item_index": 3,
           "item_label": "individuals employed by or operating a business that sells health products inclu",
-          "bucket": "Food Marketing and Retail"
+          "bucket": "Food and Supplement Marketers"
         },
         {
           "state": "MD",
           "item_index": 4,
           "item_label": "individuals conducting classes or disseminating information related to nonmedica",
-          "bucket": "General Nutrition Information"
+          "bucket": "General Nutrition Information Providers"
         },
         {
           "state": "MD",
           "item_index": 5,
           "item_label": "individuals providing services related only to purchasing, preparation, and serv",
-          "bucket": "Dietetic Technicians and Paraprofessionals"
+          "bucket": "Dietetic Technicians and Support Staff"
         },
         {
           "state": "MD",
           "item_index": 6,
           "item_label": "individuals providing nonmedical nutritional information or distributing nutriti",
-          "bucket": "General Nutrition Information"
+          "bucket": "General Nutrition Information Providers"
         },
         {
           "state": "MD",
@@ -3816,25 +4056,25 @@
           "state": "MD",
           "item_index": 8,
           "item_label": "individuals employed by the United States government to practice dietetics",
-          "bucket": "Federal or Military Employees"
+          "bucket": "Federal Military or VA Employees"
         },
         {
           "state": "MD",
           "item_index": 9,
           "item_label": "individuals who aid in the practice of dietetics under supervision of a licensed",
-          "bucket": "Dietetic Technicians and Paraprofessionals"
+          "bucket": "Dietetic Technicians and Support Staff"
         },
         {
           "state": "ME",
           "item_index": 0,
           "item_label": "Any person licensed or registered in this State under any other law",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "ME",
           "item_index": 1,
           "item_label": "Individuals who give general nutrition-related information",
-          "bucket": "General Nutrition Information"
+          "bucket": "General Nutrition Information Providers"
         },
         {
           "state": "ME",
@@ -3846,55 +4086,67 @@
           "state": "ME",
           "item_index": 3,
           "item_label": "Persons who market or distribute food, food materials or dietary supplements or ",
-          "bucket": "Food Marketing and Retail"
+          "bucket": "Food and Supplement Marketers"
         },
         {
           "state": "ME",
           "item_index": 4,
           "item_label": "Any person who provides weight control services (subject to conditions)",
-          "bucket": "Weight Control Services"
+          "bucket": "Weight Control Program Providers"
         },
         {
           "state": "MI",
           "item_index": 0,
-          "item_label": "physician or other individual licensed under any other part or any other act per",
-          "bucket": "Licensed Health Professionals"
+          "item_label": "Physicians and other individuals licensed under any other part or act performing",
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "MI",
           "item_index": 1,
-          "item_label": "individuals providing general nonmedical nutrition information",
-          "bucket": "General Nutrition Information"
+          "item_label": "Individuals providing general nonmedical nutrition information",
+          "bucket": "General Nutrition Information Providers"
         },
         {
           "state": "MI",
           "item_index": 2,
-          "item_label": "individuals providing weight control programs approved by a dietitian nutritioni",
-          "bucket": "Weight Control Services"
+          "item_label": "Individuals providing evaluation, guidance, information, and education on food, ",
+          "bucket": "Food and Supplement Marketers"
         },
         {
           "state": "MI",
           "item_index": 3,
-          "item_label": "employees assisting a dietitian nutritionist under appropriate supervision",
-          "bucket": "Dietetic Technicians and Paraprofessionals"
+          "item_label": "Individuals providing medical weight control for prediabetes or obesity under an",
+          "bucket": "Weight Control Program Providers"
         },
         {
           "state": "MI",
           "item_index": 4,
-          "item_label": "students pursuing educational requirements",
-          "bucket": "Students and Trainees"
+          "item_label": "Employees assisting a dietitian nutritionist under appropriate supervision",
+          "bucket": "Dietetic Technicians and Support Staff"
         },
         {
           "state": "MI",
           "item_index": 5,
-          "item_label": "individuals fulfilling supervised practice experience requirements",
-          "bucket": "Students and Trainees"
+          "item_label": "Individuals providing general nonmedical nutrition information, wellness coachin",
+          "bucket": "General Nutrition Information Providers"
         },
         {
           "state": "MI",
           "item_index": 6,
-          "item_label": "operators or employees of health food stores providing verbal nutrition informat",
-          "bucket": "Food Marketing and Retail"
+          "item_label": "Students pursuing educational requirements under supervision",
+          "bucket": "Students and Trainees"
+        },
+        {
+          "state": "MI",
+          "item_index": 7,
+          "item_label": "Individuals fulfilling supervised practice experience requirements",
+          "bucket": "Students and Trainees"
+        },
+        {
+          "state": "MI",
+          "item_index": 8,
+          "item_label": "Operators or employees of health food stores providing verbal nutrition informat",
+          "bucket": "Food and Supplement Marketers"
         },
         {
           "state": "MN",
@@ -3912,25 +4164,25 @@
           "state": "MN",
           "item_index": 2,
           "item_label": "persons licensed to practice medicine, nursing, optometry, psychology, pharmacy,",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "MN",
           "item_index": 3,
           "item_label": "registered dietetic technicians, dietetic technicians, or other paraprofessional",
-          "bucket": "Dietetic Technicians and Paraprofessionals"
+          "bucket": "Dietetic Technicians and Support Staff"
         },
         {
           "state": "MN",
           "item_index": 4,
           "item_label": "persons providing weight control services (with licensed dietitian oversight)",
-          "bucket": "Weight Control Services"
+          "bucket": "Weight Control Program Providers"
         },
         {
           "state": "MN",
           "item_index": 5,
           "item_label": "home economists with baccalaureate or graduate degree from an accredited college",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "General Nutrition Information Providers"
         },
         {
           "state": "MN",
@@ -3942,25 +4194,25 @@
           "state": "MN",
           "item_index": 7,
           "item_label": "persons furnishing nutrition information on food, food materials, or dietary sup",
-          "bucket": "Food Marketing and Retail"
+          "bucket": "Food and Supplement Marketers"
         },
         {
           "state": "MN",
           "item_index": 8,
           "item_label": "persons recognized in the community as providers of nutritional advice (e.g., cu",
-          "bucket": "Religious or Traditional Practice"
+          "bucket": "General Nutrition Information Providers"
         },
         {
           "state": "MN",
           "item_index": 9,
           "item_label": "animal nutritionists whose activities are limited to nutritional care of animals",
-          "bucket": "Animal or Non-Human Nutrition"
+          "bucket": "Animal Nutrition or Other Specialists"
         },
         {
           "state": "MN",
           "item_index": 10,
           "item_label": "persons providing nutrition services without remuneration to family members",
-          "bucket": "General Nutrition Information"
+          "bucket": "General Nutrition Information Providers"
         },
         {
           "state": "MN",
@@ -3972,13 +4224,13 @@
           "state": "MO",
           "item_index": 0,
           "item_label": "Persons in the military services or working in federal facilities",
-          "bucket": "Federal or Military Employees"
+          "bucket": "Federal Military or VA Employees"
         },
         {
           "state": "MO",
           "item_index": 1,
           "item_label": "Licensed health care providers performing activities within their scope of pract",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "MO",
@@ -3990,19 +4242,19 @@
           "state": "MO",
           "item_index": 3,
           "item_label": "Individuals marketing or distributing food products including dietary supplement",
-          "bucket": "Food Marketing and Retail"
+          "bucket": "Food and Supplement Marketers"
         },
         {
           "state": "MO",
           "item_index": 4,
           "item_label": "Any person furnishing general nutrition information as to the use of food, food ",
-          "bucket": "General Nutrition Information"
+          "bucket": "General Nutrition Information Providers"
         },
         {
           "state": "MO",
           "item_index": 5,
           "item_label": "A person credentialed in the field of nutrition providing advice, counseling, or",
-          "bucket": "General Nutrition Information"
+          "bucket": "General Nutrition Information Providers"
         },
         {
           "state": "MS",
@@ -4020,19 +4272,19 @@
           "state": "MS",
           "item_index": 2,
           "item_label": "registered dietitians serving in Armed Forces, Public Health Service, or Departm",
-          "bucket": "Federal or Military Employees"
+          "bucket": "Federal Military or VA Employees"
         },
         {
           "state": "MS",
           "item_index": 3,
           "item_label": "dietetic technicians, dietetic assistants, and dietary managers under direct tec",
-          "bucket": "Dietetic Technicians and Paraprofessionals"
+          "bucket": "Dietetic Technicians and Support Staff"
         },
         {
           "state": "MS",
           "item_index": 4,
           "item_label": "persons licensed or registered in other health professions (within their scope)",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "MS",
@@ -4050,73 +4302,61 @@
           "state": "MS",
           "item_index": 7,
           "item_label": "individuals marketing or distributing food products including dietary supplement",
-          "bucket": "Food Marketing and Retail"
+          "bucket": "Food and Supplement Marketers"
         },
         {
           "state": "MS",
           "item_index": 8,
           "item_label": "persons furnishing general nutrition information about food, food materials or d",
-          "bucket": "General Nutrition Information"
+          "bucket": "General Nutrition Information Providers"
         },
         {
           "state": "MT",
           "item_index": 0,
-          "item_label": "students or interns in approved academic programs",
+          "item_label": "student or intern in an approved academic program",
           "bucket": "Students and Trainees"
         },
         {
           "state": "MT",
           "item_index": 1,
-          "item_label": "paraprofessionals with approved dietetic-nutrition training",
-          "bucket": "Dietetic Technicians and Paraprofessionals"
+          "item_label": "paraprofessional with approved dietetic-nutrition training",
+          "bucket": "Dietetic Technicians and Support Staff"
         },
         {
           "state": "MT",
           "item_index": 2,
-          "item_label": "licensed physicians",
-          "bucket": "Licensed Health Professionals"
+          "item_label": "licensed physician",
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "MT",
           "item_index": 3,
-          "item_label": "licensed nurses",
-          "bucket": "Licensed Health Professionals"
+          "item_label": "licensed nurse",
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "MT",
           "item_index": 4,
-          "item_label": "persons licensed under any other law (for their own licensed profession)",
-          "bucket": "Licensed Health Professionals"
+          "item_label": "person licensed under any other law (for their own licensed profession)",
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "MT",
           "item_index": 5,
-          "item_label": "educators or advisers employed by nonprofit agencies or accredited schools",
+          "item_label": "educator or adviser employed by a nonprofit agency acceptable to the board or by",
           "bucket": "Government or Public Agency Employees"
         },
         {
           "state": "MT",
           "item_index": 6,
-          "item_label": "persons employed by or under contract with state or federal government",
-          "bucket": "Government or Public Agency Employees"
-        },
-        {
-          "state": "MT",
-          "item_index": 7,
-          "item_label": "persons furnishing general nutritional information or dietary supplement informa",
-          "bucket": "General Nutrition Information"
-        },
-        {
-          "state": "MT",
-          "item_index": 8,
-          "item_label": "persons fulfilling state or federal regulations for nutritional health services ",
+          "item_label": "person employed by or under contract with an agency of the state or federal gove",
           "bucket": "Government or Public Agency Employees"
         },
         {
           "state": "NC",
           "item_index": 0,
           "item_label": "Health care professionals licensed under Chapter 90 acting within their licensed",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "NC",
@@ -4128,13 +4368,13 @@
           "state": "NC",
           "item_index": 2,
           "item_label": "Dietitian/nutritionists serving in the Armed Forces, Public Health Service, or V",
-          "bucket": "Federal or Military Employees"
+          "bucket": "Federal Military or VA Employees"
         },
         {
           "state": "NC",
           "item_index": 3,
           "item_label": "Persons aiding under direct supervision of licensed dietitian/nutritionist or ot",
-          "bucket": "Dietetic Technicians and Paraprofessionals"
+          "bucket": "Dietetic Technicians and Support Staff"
         },
         {
           "state": "NC",
@@ -4146,97 +4386,109 @@
           "state": "NC",
           "item_index": 5,
           "item_label": "Retailers furnishing nutrition information on goods sold at retail",
-          "bucket": "Food Marketing and Retail"
+          "bucket": "Food and Supplement Marketers"
         },
         {
           "state": "NC",
           "item_index": 6,
           "item_label": "Persons providing weight control services with dietitian oversight",
-          "bucket": "Weight Control Services"
+          "bucket": "Weight Control Program Providers"
         },
         {
           "state": "NC",
           "item_index": 7,
           "item_label": "Persons furnishing nutrition information without holding out as a dietitian or n",
-          "bucket": "General Nutrition Information"
+          "bucket": "General Nutrition Information Providers"
         },
         {
           "state": "NC",
           "item_index": 8,
           "item_label": "Herbalists furnishing nonfraudulent nutritional information without holding out ",
-          "bucket": "General Nutrition Information"
+          "bucket": "General Nutrition Information Providers"
         },
         {
           "state": "NC",
           "item_index": 9,
           "item_label": "Individuals providing nutrition services without remuneration to family members",
-          "bucket": "General Nutrition Information"
+          "bucket": "General Nutrition Information Providers"
         },
         {
           "state": "NC",
           "item_index": 10,
           "item_label": "Individuals providing nutrition information or guidance that does not constitute",
-          "bucket": "General Nutrition Information"
+          "bucket": "General Nutrition Information Providers"
         },
         {
           "state": "ND",
           "item_index": 0,
-          "item_label": "licensed health care practitioners acting within scope of licensed profession",
-          "bucket": "Licensed Health Professionals"
+          "item_label": "Licensed health care practitioners acting within scope of their licensed profess",
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "ND",
           "item_index": 1,
-          "item_label": "students or trainees under onsite supervision of a qualified supervisor",
+          "item_label": "Students or trainees under onsite supervision of a qualified supervisor",
           "bucket": "Students and Trainees"
         },
         {
           "state": "ND",
           "item_index": 2,
-          "item_label": "individuals providing support activities under general supervision",
-          "bucket": "Dietetic Technicians and Paraprofessionals"
+          "item_label": "Individuals providing support activities under general supervision of a licensed",
+          "bucket": "Dietetic Technicians and Support Staff"
         },
         {
           "state": "ND",
           "item_index": 3,
-          "item_label": "individuals serving in the armed forces",
-          "bucket": "Federal or Military Employees"
+          "item_label": "Individuals providing nutrition care services as a duty of serving in the armed ",
+          "bucket": "Federal Military or VA Employees"
         },
         {
           "state": "ND",
           "item_index": 4,
-          "item_label": "educators employed by federal, state, county, or municipal agencies or education",
-          "bucket": "Government or Public Agency Employees"
+          "item_label": "Foreign practitioners providing services via remote means as continuation of exi",
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "ND",
           "item_index": 5,
-          "item_label": "individuals with baccalaureate degree in home economics or family and consumer s",
-          "bucket": "General Nutrition Information"
+          "item_label": "Foreign practitioners providing services in consultation with a board-licensed p",
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "ND",
           "item_index": 6,
-          "item_label": "individuals marketing or distributing food, food materials, herbs, or dietary su",
-          "bucket": "Food Marketing and Retail"
+          "item_label": "Educators employed by federal, state, county, or municipal agency or educational",
+          "bucket": "Government or Public Agency Employees"
         },
         {
           "state": "ND",
           "item_index": 7,
-          "item_label": "individuals providing nonmedical weight control or general nutrition information",
-          "bucket": "General Nutrition Information"
+          "item_label": "Individuals with baccalaureate degree in home economics or family and consumer s",
+          "bucket": "General Nutrition Information Providers"
         },
         {
           "state": "ND",
           "item_index": 8,
-          "item_label": "individuals providing medical weight control for prediabetes or obesity under ap",
-          "bucket": "Weight Control Services"
+          "item_label": "Individuals who market or distribute food, food materials, herbs, or dietary sup",
+          "bucket": "Food and Supplement Marketers"
         },
         {
           "state": "ND",
           "item_index": 9,
-          "item_label": "individuals providing nutrition care services without remuneration to family mem",
-          "bucket": "General Nutrition Information"
+          "item_label": "Individuals providing general nutrition information, health coaching, holistic a",
+          "bucket": "General Nutrition Information Providers"
+        },
+        {
+          "state": "ND",
+          "item_index": 10,
+          "item_label": "Individuals providing medical weight control services under approved program or ",
+          "bucket": "Weight Control Program Providers"
+        },
+        {
+          "state": "ND",
+          "item_index": 11,
+          "item_label": "Individuals providing nutrition care services without remuneration to family mem",
+          "bucket": "General Nutrition Information Providers"
         },
         {
           "state": "NE",
@@ -4248,7 +4500,7 @@
           "state": "NE",
           "item_index": 1,
           "item_label": "persons practicing within scope of another credential issued under the Uniform C",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "NE",
@@ -4260,49 +4512,49 @@
           "state": "NE",
           "item_index": 3,
           "item_label": "nutrition or dietetic technicians working in a hospital or regulated health care",
-          "bucket": "Dietetic Technicians and Paraprofessionals"
+          "bucket": "Dietetic Technicians and Support Staff"
         },
         {
           "state": "NE",
           "item_index": 4,
           "item_label": "registered nurses and licensed practical nurses accepting or transmitting orders",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "NE",
           "item_index": 5,
           "item_label": "persons providing individualized nutrition information not constituting medical ",
-          "bucket": "General Nutrition Information"
+          "bucket": "General Nutrition Information Providers"
         },
         {
           "state": "NE",
           "item_index": 6,
           "item_label": "practitioners licensed in another state providing consultation or teaching clini",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "NE",
           "item_index": 7,
           "item_label": "persons performing individualized general nutrition-care services incidental to ",
-          "bucket": "General Nutrition Information"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "NE",
           "item_index": 8,
           "item_label": "persons marketing or distributing food, food materials, or dietary supplements",
-          "bucket": "Food Marketing and Retail"
+          "bucket": "Food and Supplement Marketers"
         },
         {
           "state": "NE",
           "item_index": 9,
           "item_label": "persons conducting classes or disseminating general nonmedical nutrition informa",
-          "bucket": "General Nutrition Information"
+          "bucket": "General Nutrition Information Providers"
         },
         {
           "state": "NE",
           "item_index": 10,
           "item_label": "persons providing care for the sick in accordance with bona fide church or relig",
-          "bucket": "Religious or Traditional Practice"
+          "bucket": "General Nutrition Information Providers"
         },
         {
           "state": "NE",
@@ -4314,7 +4566,7 @@
           "state": "NE",
           "item_index": 12,
           "item_label": "persons providing information and instructions regarding food intake or exercise",
-          "bucket": "Weight Control Services"
+          "bucket": "Weight Control Program Providers"
         },
         {
           "state": "NE",
@@ -4326,13 +4578,13 @@
           "state": "NE",
           "item_index": 14,
           "item_label": "persons presenting a general program of instruction for medical weight control f",
-          "bucket": "Weight Control Services"
+          "bucket": "Weight Control Program Providers"
         },
         {
           "state": "NH",
           "item_index": 0,
           "item_label": "armed forces dietitians",
-          "bucket": "Federal or Military Employees"
+          "bucket": "Federal Military or VA Employees"
         },
         {
           "state": "NH",
@@ -4344,19 +4596,19 @@
           "state": "NH",
           "item_index": 2,
           "item_label": "Veterans Administration employees",
-          "bucket": "Federal or Military Employees"
+          "bucket": "Federal Military or VA Employees"
         },
         {
           "state": "NH",
           "item_index": 3,
           "item_label": "persons licensed, certified, or registered under other laws of this state perfor",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "NJ",
           "item_index": 0,
           "item_label": "persons licensed to practice under Title 45 of the Revised Statutes acting withi",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "NJ",
@@ -4368,43 +4620,43 @@
           "state": "NJ",
           "item_index": 2,
           "item_label": "federal government employees and Armed Forces personnel in their official duties",
-          "bucket": "Federal or Military Employees"
+          "bucket": "Federal Military or VA Employees"
         },
         {
           "state": "NJ",
           "item_index": 3,
           "item_label": "persons providing general nutrition information without holding out as a license",
-          "bucket": "General Nutrition Information"
+          "bucket": "General Nutrition Information Providers"
         },
         {
           "state": "NJ",
           "item_index": 4,
           "item_label": "persons operating medical weight control programs approved by a licensed dietiti",
-          "bucket": "Weight Control Services"
+          "bucket": "Weight Control Program Providers"
         },
         {
           "state": "NJ",
           "item_index": 5,
           "item_label": "nutrition and dietetic technicians under supervision of a licensed dietitian nut",
-          "bucket": "Dietetic Technicians and Paraprofessionals"
+          "bucket": "Dietetic Technicians and Support Staff"
         },
         {
           "state": "NJ",
           "item_index": 6,
           "item_label": "individuals providing nutrition care services under direct supervision of a lice",
-          "bucket": "Dietetic Technicians and Paraprofessionals"
+          "bucket": "Dietetic Technicians and Support Staff"
         },
         {
           "state": "NJ",
           "item_index": 7,
           "item_label": "individuals providing non-medical nutrition information, coaching, assessments, ",
-          "bucket": "General Nutrition Information"
+          "bucket": "General Nutrition Information Providers"
         },
         {
           "state": "NM",
           "item_index": 0,
           "item_label": "other licensed health care professionals (within limits of their licensure)",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "NM",
@@ -4416,19 +4668,19 @@
           "state": "NM",
           "item_index": 2,
           "item_label": "persons furnishing oral or written nutritional information on food or dietary su",
-          "bucket": "General Nutrition Information"
+          "bucket": "General Nutrition Information Providers"
         },
         {
           "state": "NM",
           "item_index": 3,
           "item_label": "persons providing weight control services (with dietitian review/approval requir",
-          "bucket": "Weight Control Services"
+          "bucket": "Weight Control Program Providers"
         },
         {
           "state": "NM",
           "item_index": 4,
           "item_label": "dietetic technicians registered (DTR) (under supervision)",
-          "bucket": "Dietetic Technicians and Paraprofessionals"
+          "bucket": "Dietetic Technicians and Support Staff"
         },
         {
           "state": "NM",
@@ -4440,151 +4692,151 @@
           "state": "NM",
           "item_index": 6,
           "item_label": "curanderos or medicine men following traditional practices (without holding out ",
-          "bucket": "Religious or Traditional Practice"
+          "bucket": "General Nutrition Information Providers"
         },
         {
           "state": "NV",
           "item_index": 0,
           "item_label": "physician (chapters 630, 630A, 633)",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "NV",
           "item_index": 1,
           "item_label": "dentist",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "NV",
           "item_index": 2,
           "item_label": "nurse",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "NV",
           "item_index": 3,
           "item_label": "dispensing optician",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "NV",
           "item_index": 4,
           "item_label": "optometrist",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "NV",
           "item_index": 5,
           "item_label": "occupational therapist",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "NV",
           "item_index": 6,
           "item_label": "practitioner of respiratory care",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "NV",
           "item_index": 7,
           "item_label": "physical therapist",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "NV",
           "item_index": 8,
           "item_label": "podiatric physician",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "NV",
           "item_index": 9,
           "item_label": "psychologist",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "NV",
           "item_index": 10,
           "item_label": "marriage and family therapist",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "NV",
           "item_index": 11,
           "item_label": "chiropractic physician",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "NV",
           "item_index": 12,
           "item_label": "naprapath",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "NV",
           "item_index": 13,
           "item_label": "athletic trainer",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "NV",
           "item_index": 14,
           "item_label": "massage therapist",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "NV",
           "item_index": 15,
           "item_label": "reflexologist",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "NV",
           "item_index": 16,
           "item_label": "structural integration practitioner",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "NV",
           "item_index": 17,
           "item_label": "perfusionist",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "NV",
           "item_index": 18,
           "item_label": "doctor of Oriental medicine",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "NV",
           "item_index": 19,
           "item_label": "medical laboratory director or technician",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "NV",
           "item_index": 20,
           "item_label": "pharmacist",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "OH",
           "item_index": 0,
           "item_label": "Persons licensed under Title XLVII of the Revised Code acting within the scope o",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "OH",
           "item_index": 1,
           "item_label": "Dietetic technicians (graduates of approved associate degree programs) working u",
-          "bucket": "Dietetic Technicians and Paraprofessionals"
+          "bucket": "Dietetic Technicians and Support Staff"
         },
         {
           "state": "OH",
           "item_index": 2,
           "item_label": "Persons practicing dietetics related to employment in the armed forces, veteran'",
-          "bucket": "Federal or Military Employees"
+          "bucket": "Federal Military or VA Employees"
         },
         {
           "state": "OH",
@@ -4596,73 +4848,73 @@
           "state": "OH",
           "item_index": 4,
           "item_label": "Persons who completed an academy-approved program and baccalaureate or higher de",
-          "bucket": "Dietetic Technicians and Paraprofessionals"
+          "bucket": "Dietetic Technicians and Support Staff"
         },
         {
           "state": "OH",
           "item_index": 5,
           "item_label": "Persons acting under the direction and supervision of a Title XLVII licensee in ",
-          "bucket": "Dietetic Technicians and Paraprofessionals"
+          "bucket": "Dietetic Technicians and Support Staff"
         },
         {
           "state": "OH",
           "item_index": 6,
           "item_label": "Persons disseminating literature freely in the state",
-          "bucket": "General Nutrition Information"
+          "bucket": "General Nutrition Information Providers"
         },
         {
           "state": "OH",
           "item_index": 7,
           "item_label": "Persons involved in sale, marketing, distribution, or promotion/explanation of f",
-          "bucket": "Food Marketing and Retail"
+          "bucket": "Food and Supplement Marketers"
         },
         {
           "state": "OH",
           "item_index": 8,
           "item_label": "Persons offering dietary supplements for sale and making label-consistent statem",
-          "bucket": "Food Marketing and Retail"
+          "bucket": "Food and Supplement Marketers"
         },
         {
           "state": "OH",
           "item_index": 9,
           "item_label": "Persons presenting a general program of instruction for weight control approved ",
-          "bucket": "Weight Control Services"
+          "bucket": "Weight Control Program Providers"
         },
         {
           "state": "OH",
           "item_index": 10,
           "item_label": "Persons employed at a hospital to practice dietetics for the twenty years immedi",
-          "bucket": "Dietetic Technicians and Paraprofessionals"
+          "bucket": "Dietetic Technicians and Support Staff"
         },
         {
           "state": "RI",
           "item_index": 0,
           "item_label": "persons furnishing nutritional information to customers or the general public fo",
-          "bucket": "Food Marketing and Retail"
+          "bucket": "Food and Supplement Marketers"
         },
         {
           "state": "RI",
           "item_index": 1,
           "item_label": "persons providing weight-loss programs and/or health-maintenance counseling (who",
-          "bucket": "Weight Control Services"
+          "bucket": "Weight Control Program Providers"
         },
         {
           "state": "RI",
           "item_index": 2,
           "item_label": "persons licensed or certified under any other law (engaging in their own profess",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "RI",
           "item_index": 3,
           "item_label": "persons holding a doctoral degree from an accredited institution in nutrition or",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "General Nutrition Information Providers"
         },
         {
           "state": "RI",
           "item_index": 4,
           "item_label": "persons with a bachelor's degree in home economics furnishing nutrition informat",
-          "bucket": "General Nutrition Information"
+          "bucket": "General Nutrition Information Providers"
         },
         {
           "state": "RI",
@@ -4680,169 +4932,163 @@
           "state": "RI",
           "item_index": 7,
           "item_label": "family members, friends, or acquaintances providing gratuitous nutrition advice ",
-          "bucket": "General Nutrition Information"
+          "bucket": "General Nutrition Information Providers"
         },
         {
           "state": "RI",
           "item_index": 8,
           "item_label": "not-for-profit health-related agencies described in 26 U.S.C. § 501(c)(3) provid",
-          "bucket": "General Nutrition Information"
+          "bucket": "General Nutrition Information Providers"
         },
         {
           "state": "SC",
           "item_index": 0,
-          "item_label": "students enrolled in approved academic programs in dietetics",
+          "item_label": "students enrolled in an approved academic program in dietetics",
           "bucket": "Students and Trainees"
         },
         {
           "state": "SC",
           "item_index": 1,
-          "item_label": "dietitians serving in the Armed Forces or employed by federal agencies",
-          "bucket": "Federal or Military Employees"
+          "item_label": "dietitians serving in the Armed Forces or employed by a federal agency",
+          "bucket": "Federal Military or VA Employees"
         },
         {
           "state": "SC",
           "item_index": 2,
           "item_label": "licensed healthcare professionals providing diet, food, or nutrition information",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "SC",
           "item_index": 3,
-          "item_label": "employees of a physician or osteopath working in private office under direction ",
-          "bucket": "Dietetic Technicians and Paraprofessionals"
+          "item_label": "employees of a physician or osteopath working in the private office under direct",
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "SC",
           "item_index": 4,
-          "item_label": "persons performing nutrition educator activities for federal, state, county, mun",
+          "item_label": "nutrition educators employed by federal, state, county, or municipal agencies or",
           "bucket": "Government or Public Agency Employees"
         },
         {
           "state": "SC",
           "item_index": 5,
-          "item_label": "employees of a state agency practicing dietetics within official duties who are ",
+          "item_label": "state agency employees engaging in the practice of dietetics within official dut",
           "bucket": "Government or Public Agency Employees"
         },
         {
           "state": "SC",
           "item_index": 6,
-          "item_label": "nonresident registered dietitians practicing for five days without a license or ",
-          "bucket": "Licensed Health Professionals"
+          "item_label": "persons marketing or distributing food, food materials, or food supplements",
+          "bucket": "Food and Supplement Marketers"
         },
         {
           "state": "SC",
           "item_index": 7,
-          "item_label": "persons marketing or distributing food, food materials, or food supplements who ",
-          "bucket": "Food Marketing and Retail"
+          "item_label": "persons providing weight control services through a qualifying program reviewed ",
+          "bucket": "Weight Control Program Providers"
         },
         {
           "state": "SC",
           "item_index": 8,
-          "item_label": "persons providing weight control services through a program reviewed by a licens",
-          "bucket": "Weight Control Services"
-        },
-        {
-          "state": "SC",
-          "item_index": 9,
           "item_label": "faith-based promotional health programs",
-          "bucket": "Religious or Traditional Practice"
+          "bucket": "General Nutrition Information Providers"
         },
         {
           "state": "SD",
           "item_index": 0,
           "item_label": "medicine",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "SD",
           "item_index": 1,
           "item_label": "nursing",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "SD",
           "item_index": 2,
           "item_label": "pharmacy",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "SD",
           "item_index": 3,
           "item_label": "dentistry",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "SD",
           "item_index": 4,
           "item_label": "chiropractic",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "TN",
           "item_index": 0,
-          "item_label": "Persons qualified and licensed to practice other health professions (when dietet",
-          "bucket": "Licensed Health Professionals"
+          "item_label": "persons licensed to practice other health professions (when dietetics/nutrition ",
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "TN",
           "item_index": 1,
-          "item_label": "Persons licensed to practice medicine or osteopathic medicine",
-          "bucket": "Licensed Health Professionals"
+          "item_label": "persons licensed to practice medicine or osteopathic medicine",
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "TN",
           "item_index": 2,
-          "item_label": "Students enrolled in an approved academic program in dietetics (supervised cours",
+          "item_label": "students enrolled in an approved academic program in dietetics",
           "bucket": "Students and Trainees"
         },
         {
           "state": "TN",
           "item_index": 3,
-          "item_label": "Dietitians serving in the armed forces, public health service, or veterans admin",
-          "bucket": "Federal or Military Employees"
+          "item_label": "dietitians serving in the armed forces or public health service or employed by t",
+          "bucket": "Federal Military or VA Employees"
         },
         {
           "state": "TN",
           "item_index": 4,
-          "item_label": "Persons performing nutrition educator activities in federal/state/county/municip",
+          "item_label": "persons performing activities of a nutrition educator employed by a federal, sta",
           "bucket": "Government or Public Agency Employees"
         },
         {
           "state": "TN",
           "item_index": 5,
-          "item_label": "Federal/state/county/local employees involved with nutrition-related programs wi",
+          "item_label": "federal, state, county or local employees involved with nutrition-related progra",
           "bucket": "Government or Public Agency Employees"
         },
         {
           "state": "TN",
           "item_index": 6,
-          "item_label": "Persons employed in a hospital or nursing home subject to licensure by the Tenne",
-          "bucket": "Licensed Health Professionals"
+          "item_label": "persons employed in a hospital or nursing home subject to licensure by the Tenne",
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "TN",
           "item_index": 7,
-          "item_label": "Persons providing nonmedical nutrition services/information without holding them",
-          "bucket": "General Nutrition Information"
+          "item_label": "persons who do not hold themselves out as licensed/registered dietitians/nutriti",
+          "bucket": "General Nutrition Information Providers"
         },
         {
           "state": "WA",
           "item_index": 0,
           "item_label": "owners, operators or employees of health food stores",
-          "bucket": "Food Marketing and Retail"
+          "bucket": "Food and Supplement Marketers"
         },
         {
           "state": "WI",
           "item_index": 0,
           "item_label": "persons lawfully practicing within the scope of a license, permit, certificate o",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "WI",
           "item_index": 1,
           "item_label": "persons to whom a practice or procedure is delegated by such a licensed person",
-          "bucket": "Dietetic Technicians and Paraprofessionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "WI",
@@ -4854,43 +5100,43 @@
           "state": "WI",
           "item_index": 3,
           "item_label": "dietetic technicians or assistants working under supervision of a certified diet",
-          "bucket": "Dietetic Technicians and Paraprofessionals"
+          "bucket": "Dietetic Technicians and Support Staff"
         },
         {
           "state": "WI",
           "item_index": 4,
           "item_label": "dietitians serving in the U.S. armed forces, commissioned corps of the federal p",
-          "bucket": "Federal or Military Employees"
+          "bucket": "Federal Military or VA Employees"
         },
         {
           "state": "WI",
           "item_index": 5,
           "item_label": "persons who market or distribute food, food materials or dietary or food supplem",
-          "bucket": "Food Marketing and Retail"
+          "bucket": "Food and Supplement Marketers"
         },
         {
           "state": "WV",
           "item_index": 0,
           "item_label": "persons licensed, certified or registered under the laws of this state performin",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "WV",
           "item_index": 1,
           "item_label": "cooks at public or private educational institutions",
-          "bucket": "Government or Public Agency Employees"
+          "bucket": "Dietetic Technicians and Support Staff"
         },
         {
           "state": "WV",
           "item_index": 2,
           "item_label": "persons furnishing nutrition information on food, food materials or dietary supp",
-          "bucket": "Food Marketing and Retail"
+          "bucket": "Food and Supplement Marketers"
         },
         {
           "state": "WY",
           "item_index": 0,
           "item_label": "qualified member of a legally recognized profession otherwise licensed or certif",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "WY",
@@ -4902,13 +5148,13 @@
           "state": "WY",
           "item_index": 2,
           "item_label": "dietitian serving in the armed forces or commissioned corps of the public health",
-          "bucket": "Federal or Military Employees"
+          "bucket": "Federal Military or VA Employees"
         },
         {
           "state": "WY",
           "item_index": 3,
           "item_label": "dietitian employed by the veterans administration or Wyoming department of healt",
-          "bucket": "Federal or Military Employees"
+          "bucket": "Federal Military or VA Employees"
         },
         {
           "state": "WY",
@@ -4920,1407 +5166,1448 @@
           "state": "WY",
           "item_index": 5,
           "item_label": "retailer furnishing general nonmedical nutrition information",
-          "bucket": "Food Marketing and Retail"
+          "bucket": "General Nutrition Information Providers"
         },
         {
           "state": "WY",
           "item_index": 6,
           "item_label": "instructor at a United States regionally accredited college or university",
-          "bucket": "Students and Trainees"
+          "bucket": "Government or Public Agency Employees"
         },
         {
           "state": "WY",
           "item_index": 7,
           "item_label": "person providing weight control services",
-          "bucket": "Weight Control Services"
+          "bucket": "Weight Control Program Providers"
         },
         {
           "state": "WY",
           "item_index": 8,
           "item_label": "nonresident registered dietitian licensed in another state for up to 20 days ann",
-          "bucket": "Licensed Health Professionals"
+          "bucket": "Other Licensed Health Professionals"
         },
         {
           "state": "WY",
           "item_index": 9,
           "item_label": "person offering general nonmedical nutritional information related to nutritiona",
-          "bucket": "General Nutrition Information"
+          "bucket": "General Nutrition Information Providers"
         }
       ]
     },
     "profession_specific.protected_titles": {
       "field_name": "profession_specific.protected_titles",
       "bucket_set": [
-        "Dietitian Title",
-        "Nutritionist Title",
-        "Combined Dietitian-Nutritionist Title",
-        "Nutrition Therapy Title",
-        "Dietetic Technician Title",
-        "Credential Abbreviation"
+        "Dietitian (bare)",
+        "Licensed Dietitian",
+        "Registered Dietitian",
+        "Certified Dietitian",
+        "Nutritionist (bare)",
+        "Licensed Nutritionist",
+        "Certified Nutritionist",
+        "Dietitian-Nutritionist Combined",
+        "Nutrition Therapist/Specialist/Counselor",
+        "Abbreviation/Symbol Only",
+        "Dietetic Technician"
       ],
-      "rationale": "The titles cluster naturally by the core role word(s) they contain—dietitian-only, nutritionist-only, hybrid dietitian/nutritionist, nutrition therapy practitioner variants, and dietetic technician—while a separate bucket captures the many credential abbreviations (LD, RD, LDN, C.D., etc.) that appear alongside the spelled-out titles.",
+      "rationale": "The titles cluster by credential modifier (licensed, registered, certified, or bare) crossed with professional noun (dietitian, nutritionist, or combined dietitian-nutritionist), with a separate bucket for the smaller nutrition-therapy/specialist/counselor group, one for standalone abbreviations (LD, RD, L.D., etc.), and one for the dietetic technician tier, together covering every item without an oversized catch-all.",
       "assignments": [
         {
           "state": "AK",
           "item_index": 0,
           "item_label": "dietitian",
-          "bucket": "Dietitian Title"
+          "bucket": "Dietitian (bare)"
         },
         {
           "state": "AK",
           "item_index": 1,
           "item_label": "licensed dietitian",
-          "bucket": "Dietitian Title"
+          "bucket": "Licensed Dietitian"
         },
         {
           "state": "AK",
           "item_index": 2,
           "item_label": "nutritionist",
-          "bucket": "Nutritionist Title"
+          "bucket": "Nutritionist (bare)"
         },
         {
           "state": "AK",
           "item_index": 3,
           "item_label": "licensed nutritionist",
-          "bucket": "Nutritionist Title"
+          "bucket": "Licensed Nutritionist"
         },
         {
           "state": "AL",
           "item_index": 0,
           "item_label": "dietitian",
-          "bucket": "Dietitian Title"
+          "bucket": "Dietitian (bare)"
         },
         {
           "state": "AL",
           "item_index": 1,
           "item_label": "dietician",
-          "bucket": "Dietitian Title"
+          "bucket": "Dietitian (bare)"
         },
         {
           "state": "AL",
           "item_index": 2,
           "item_label": "nutritionist",
-          "bucket": "Nutritionist Title"
+          "bucket": "Nutritionist (bare)"
         },
         {
           "state": "AL",
           "item_index": 3,
           "item_label": "registered dietitian",
-          "bucket": "Dietitian Title"
+          "bucket": "Registered Dietitian"
         },
         {
           "state": "AL",
           "item_index": 4,
           "item_label": "registered dietician",
-          "bucket": "Dietitian Title"
+          "bucket": "Registered Dietitian"
         },
         {
           "state": "AL",
           "item_index": 5,
           "item_label": "D",
-          "bucket": "Credential Abbreviation"
+          "bucket": "Abbreviation/Symbol Only"
         },
         {
           "state": "AL",
           "item_index": 6,
           "item_label": "R.D.",
-          "bucket": "Credential Abbreviation"
+          "bucket": "Abbreviation/Symbol Only"
         },
         {
           "state": "AL",
           "item_index": 7,
           "item_label": "dietitian/nutritionist",
-          "bucket": "Combined Dietitian-Nutritionist Title"
+          "bucket": "Dietitian-Nutritionist Combined"
         },
         {
           "state": "AL",
           "item_index": 8,
           "item_label": "L.D.",
-          "bucket": "Credential Abbreviation"
+          "bucket": "Abbreviation/Symbol Only"
         },
         {
           "state": "AL",
           "item_index": 9,
           "item_label": "L.N.",
-          "bucket": "Credential Abbreviation"
+          "bucket": "Abbreviation/Symbol Only"
         },
         {
           "state": "AR",
           "item_index": 0,
           "item_label": "dietitian",
-          "bucket": "Dietitian Title"
+          "bucket": "Dietitian (bare)"
         },
         {
           "state": "AR",
           "item_index": 1,
           "item_label": "licensed dietitian",
-          "bucket": "Dietitian Title"
+          "bucket": "Licensed Dietitian"
         },
         {
           "state": "AR",
           "item_index": 2,
           "item_label": "provisional licensed dietitian",
-          "bucket": "Dietitian Title"
+          "bucket": "Licensed Dietitian"
         },
         {
           "state": "AR",
           "item_index": 3,
           "item_label": "L.D.",
-          "bucket": "Credential Abbreviation"
+          "bucket": "Abbreviation/Symbol Only"
         },
         {
           "state": "AR",
           "item_index": 4,
           "item_label": "P.L.D.",
-          "bucket": "Credential Abbreviation"
+          "bucket": "Abbreviation/Symbol Only"
         },
         {
           "state": "CA",
           "item_index": 0,
           "item_label": "dietetic technician, registered",
-          "bucket": "Dietetic Technician Title"
+          "bucket": "Dietetic Technician"
         },
         {
           "state": "CA",
           "item_index": 1,
           "item_label": "dietitian",
-          "bucket": "Dietitian Title"
+          "bucket": "Dietitian (bare)"
         },
         {
           "state": "CA",
           "item_index": 2,
           "item_label": "dietician",
-          "bucket": "Dietitian Title"
+          "bucket": "Dietitian (bare)"
         },
         {
           "state": "CA",
           "item_index": 3,
           "item_label": "registered dietitian",
-          "bucket": "Dietitian Title"
+          "bucket": "Registered Dietitian"
         },
         {
           "state": "CA",
           "item_index": 4,
           "item_label": "registered dietician",
-          "bucket": "Dietitian Title"
+          "bucket": "Registered Dietitian"
         },
         {
           "state": "CA",
           "item_index": 5,
           "item_label": "registered dietitian nutritionist",
-          "bucket": "Combined Dietitian-Nutritionist Title"
+          "bucket": "Dietitian-Nutritionist Combined"
         },
         {
           "state": "CA",
           "item_index": 6,
           "item_label": "RD",
-          "bucket": "Credential Abbreviation"
+          "bucket": "Abbreviation/Symbol Only"
         },
         {
           "state": "CA",
           "item_index": 7,
           "item_label": "RDN",
-          "bucket": "Credential Abbreviation"
+          "bucket": "Abbreviation/Symbol Only"
         },
         {
           "state": "CA",
           "item_index": 8,
           "item_label": "DTR",
-          "bucket": "Credential Abbreviation"
+          "bucket": "Abbreviation/Symbol Only"
+        },
+        {
+          "state": "CO",
+          "item_index": 0,
+          "item_label": "dietitian",
+          "bucket": "Dietitian (bare)"
+        },
+        {
+          "state": "CO",
+          "item_index": 1,
+          "item_label": "dietician",
+          "bucket": "Dietitian (bare)"
+        },
+        {
+          "state": "CO",
+          "item_index": 2,
+          "item_label": "certified dietitian",
+          "bucket": "Certified Dietitian"
+        },
+        {
+          "state": "CO",
+          "item_index": 3,
+          "item_label": "certified dietician",
+          "bucket": "Certified Dietitian"
+        },
+        {
+          "state": "CO",
+          "item_index": 4,
+          "item_label": "C.D.",
+          "bucket": "Abbreviation/Symbol Only"
+        },
+        {
+          "state": "CO",
+          "item_index": 5,
+          "item_label": "D.",
+          "bucket": "Abbreviation/Symbol Only"
         },
         {
           "state": "CT",
           "item_index": 0,
           "item_label": "Connecticut Certified Dietitian-Nutritionist",
-          "bucket": "Combined Dietitian-Nutritionist Title"
+          "bucket": "Dietitian-Nutritionist Combined"
         },
         {
           "state": "CT",
           "item_index": 1,
           "item_label": "Connecticut Certified Dietitian",
-          "bucket": "Dietitian Title"
+          "bucket": "Certified Dietitian"
         },
         {
           "state": "CT",
           "item_index": 2,
           "item_label": "Connecticut Certified Nutritionist",
-          "bucket": "Nutritionist Title"
+          "bucket": "Certified Nutritionist"
         },
         {
           "state": "CT",
           "item_index": 3,
           "item_label": "C.D.-N.",
-          "bucket": "Credential Abbreviation"
+          "bucket": "Abbreviation/Symbol Only"
         },
         {
           "state": "CT",
           "item_index": 4,
           "item_label": "C.D.",
-          "bucket": "Credential Abbreviation"
+          "bucket": "Abbreviation/Symbol Only"
         },
         {
           "state": "CT",
           "item_index": 5,
           "item_label": "C.N.",
-          "bucket": "Credential Abbreviation"
+          "bucket": "Abbreviation/Symbol Only"
         },
         {
           "state": "DE",
           "item_index": 0,
           "item_label": "Licensed Dietitian",
-          "bucket": "Dietitian Title"
+          "bucket": "Licensed Dietitian"
         },
         {
           "state": "DE",
           "item_index": 1,
           "item_label": "Licensed Nutritionist",
-          "bucket": "Nutritionist Title"
+          "bucket": "Licensed Nutritionist"
         },
         {
           "state": "DE",
           "item_index": 2,
           "item_label": "Nutritionist",
-          "bucket": "Nutritionist Title"
+          "bucket": "Nutritionist (bare)"
         },
         {
           "state": "DE",
           "item_index": 3,
           "item_label": "Dietitian",
-          "bucket": "Dietitian Title"
+          "bucket": "Dietitian (bare)"
         },
         {
           "state": "DE",
           "item_index": 4,
           "item_label": "L.D.N.",
-          "bucket": "Credential Abbreviation"
+          "bucket": "Abbreviation/Symbol Only"
         },
         {
           "state": "FL",
           "item_index": 0,
           "item_label": "dietitian",
-          "bucket": "Dietitian Title"
+          "bucket": "Dietitian (bare)"
         },
         {
           "state": "FL",
           "item_index": 1,
           "item_label": "licensed dietitian",
-          "bucket": "Dietitian Title"
+          "bucket": "Licensed Dietitian"
         },
         {
           "state": "FL",
           "item_index": 2,
           "item_label": "nutritionist",
-          "bucket": "Nutritionist Title"
+          "bucket": "Nutritionist (bare)"
         },
         {
           "state": "FL",
           "item_index": 3,
           "item_label": "licensed nutritionist",
-          "bucket": "Nutritionist Title"
+          "bucket": "Licensed Nutritionist"
         },
         {
           "state": "FL",
           "item_index": 4,
           "item_label": "nutrition counselor",
-          "bucket": "Nutrition Therapy Title"
+          "bucket": "Nutrition Therapist/Specialist/Counselor"
         },
         {
           "state": "FL",
           "item_index": 5,
           "item_label": "licensed nutrition counselor",
-          "bucket": "Nutrition Therapy Title"
+          "bucket": "Nutrition Therapist/Specialist/Counselor"
         },
         {
           "state": "GA",
           "item_index": 0,
           "item_label": "dietitian",
-          "bucket": "Dietitian Title"
+          "bucket": "Dietitian (bare)"
         },
         {
           "state": "GA",
           "item_index": 1,
           "item_label": "LD",
-          "bucket": "Credential Abbreviation"
+          "bucket": "Abbreviation/Symbol Only"
         },
         {
           "state": "GA",
           "item_index": 2,
           "item_label": "dietetic counselor",
-          "bucket": "Dietitian Title"
+          "bucket": "Nutrition Therapist/Specialist/Counselor"
         },
         {
           "state": "HI",
           "item_index": 0,
           "item_label": "licensed dietitian",
-          "bucket": "Dietitian Title"
+          "bucket": "Licensed Dietitian"
         },
         {
           "state": "HI",
           "item_index": 1,
           "item_label": "dietitian",
-          "bucket": "Dietitian Title"
+          "bucket": "Dietitian (bare)"
         },
         {
           "state": "HI",
           "item_index": 2,
           "item_label": "L.D.",
-          "bucket": "Credential Abbreviation"
+          "bucket": "Abbreviation/Symbol Only"
         },
         {
           "state": "IA",
           "item_index": 0,
           "item_label": "licensed dietitian",
-          "bucket": "Dietitian Title"
+          "bucket": "Licensed Dietitian"
         },
         {
           "state": "IA",
           "item_index": 1,
           "item_label": "dietitian",
-          "bucket": "Dietitian Title"
+          "bucket": "Dietitian (bare)"
         },
         {
           "state": "ID",
           "item_index": 0,
           "item_label": "dietitian",
-          "bucket": "Dietitian Title"
+          "bucket": "Dietitian (bare)"
         },
         {
           "state": "ID",
           "item_index": 1,
           "item_label": "licensed dietitian (LD)",
-          "bucket": "Dietitian Title"
+          "bucket": "Licensed Dietitian"
         },
         {
           "state": "ID",
           "item_index": 2,
           "item_label": "registered dietitian (RD)",
-          "bucket": "Dietitian Title"
+          "bucket": "Registered Dietitian"
         },
         {
           "state": "ID",
           "item_index": 3,
           "item_label": "registered dietitian nutritionist (RDN)",
-          "bucket": "Combined Dietitian-Nutritionist Title"
+          "bucket": "Dietitian-Nutritionist Combined"
         },
         {
           "state": "IL",
           "item_index": 0,
           "item_label": "licensed dietitian nutritionist",
-          "bucket": "Combined Dietitian-Nutritionist Title"
+          "bucket": "Dietitian-Nutritionist Combined"
         },
         {
           "state": "IL",
           "item_index": 1,
           "item_label": "dietitian nutritionist",
-          "bucket": "Combined Dietitian-Nutritionist Title"
+          "bucket": "Dietitian-Nutritionist Combined"
         },
         {
           "state": "IL",
           "item_index": 2,
           "item_label": "dietitian",
-          "bucket": "Dietitian Title"
+          "bucket": "Dietitian (bare)"
         },
         {
           "state": "IL",
           "item_index": 3,
           "item_label": "L.D.N.",
-          "bucket": "Credential Abbreviation"
+          "bucket": "Abbreviation/Symbol Only"
         },
         {
           "state": "IN",
           "item_index": 0,
           "item_label": "licensed dietitian",
-          "bucket": "Dietitian Title"
+          "bucket": "Licensed Dietitian"
         },
         {
           "state": "IN",
           "item_index": 1,
           "item_label": "LD",
-          "bucket": "Credential Abbreviation"
+          "bucket": "Abbreviation/Symbol Only"
         },
         {
           "state": "KS",
           "item_index": 0,
           "item_label": "dietitian",
-          "bucket": "Dietitian Title"
+          "bucket": "Dietitian (bare)"
         },
         {
           "state": "KS",
           "item_index": 1,
           "item_label": "licensed dietitian",
-          "bucket": "Dietitian Title"
+          "bucket": "Licensed Dietitian"
         },
         {
           "state": "KS",
           "item_index": 2,
           "item_label": "L.D.",
-          "bucket": "Credential Abbreviation"
+          "bucket": "Abbreviation/Symbol Only"
         },
         {
           "state": "KY",
           "item_index": 0,
           "item_label": "dietitian",
-          "bucket": "Dietitian Title"
+          "bucket": "Dietitian (bare)"
         },
         {
           "state": "KY",
           "item_index": 1,
           "item_label": "nutritionist",
-          "bucket": "Nutritionist Title"
+          "bucket": "Nutritionist (bare)"
         },
         {
           "state": "KY",
           "item_index": 2,
           "item_label": "licensed dietitian",
-          "bucket": "Dietitian Title"
+          "bucket": "Licensed Dietitian"
         },
         {
           "state": "KY",
           "item_index": 3,
           "item_label": "certified nutritionist",
-          "bucket": "Nutritionist Title"
+          "bucket": "Certified Nutritionist"
         },
         {
           "state": "KY",
           "item_index": 4,
           "item_label": "L.D.",
-          "bucket": "Credential Abbreviation"
+          "bucket": "Abbreviation/Symbol Only"
         },
         {
           "state": "KY",
           "item_index": 5,
           "item_label": "C.N.",
-          "bucket": "Credential Abbreviation"
+          "bucket": "Abbreviation/Symbol Only"
         },
         {
           "state": "LA",
           "item_index": 0,
           "item_label": "dietitian",
-          "bucket": "Dietitian Title"
+          "bucket": "Dietitian (bare)"
         },
         {
           "state": "LA",
           "item_index": 1,
           "item_label": "dietician",
-          "bucket": "Dietitian Title"
+          "bucket": "Dietitian (bare)"
         },
         {
           "state": "LA",
           "item_index": 2,
           "item_label": "nutritionist",
-          "bucket": "Nutritionist Title"
+          "bucket": "Nutritionist (bare)"
         },
         {
           "state": "MA",
           "item_index": 0,
           "item_label": "licensed dietitian/nutritionist",
-          "bucket": "Combined Dietitian-Nutritionist Title"
+          "bucket": "Dietitian-Nutritionist Combined"
         },
         {
           "state": "MD",
           "item_index": 0,
           "item_label": "dietitian-nutritionist",
-          "bucket": "Combined Dietitian-Nutritionist Title"
+          "bucket": "Dietitian-Nutritionist Combined"
         },
         {
           "state": "MD",
           "item_index": 1,
           "item_label": "licensed dietitian-nutritionist",
-          "bucket": "Combined Dietitian-Nutritionist Title"
+          "bucket": "Dietitian-Nutritionist Combined"
         },
         {
           "state": "MD",
           "item_index": 2,
           "item_label": "LDN",
-          "bucket": "Credential Abbreviation"
+          "bucket": "Abbreviation/Symbol Only"
         },
         {
           "state": "MD",
           "item_index": 3,
           "item_label": "dietitian",
-          "bucket": "Dietitian Title"
+          "bucket": "Dietitian (bare)"
         },
         {
           "state": "MD",
           "item_index": 4,
           "item_label": "licensed dietitian",
-          "bucket": "Dietitian Title"
+          "bucket": "Licensed Dietitian"
         },
         {
           "state": "MD",
           "item_index": 5,
           "item_label": "D",
-          "bucket": "Credential Abbreviation"
+          "bucket": "Abbreviation/Symbol Only"
         },
         {
           "state": "MD",
           "item_index": 6,
           "item_label": "LD",
-          "bucket": "Credential Abbreviation"
+          "bucket": "Abbreviation/Symbol Only"
         },
         {
           "state": "MD",
           "item_index": 7,
           "item_label": "nutritionist",
-          "bucket": "Nutritionist Title"
+          "bucket": "Nutritionist (bare)"
         },
         {
           "state": "MD",
           "item_index": 8,
           "item_label": "licensed nutritionist",
-          "bucket": "Nutritionist Title"
+          "bucket": "Licensed Nutritionist"
         },
         {
           "state": "MD",
           "item_index": 9,
           "item_label": "LN",
-          "bucket": "Credential Abbreviation"
+          "bucket": "Abbreviation/Symbol Only"
         },
         {
           "state": "ME",
           "item_index": 0,
           "item_label": "dietitian",
-          "bucket": "Dietitian Title"
+          "bucket": "Dietitian (bare)"
         },
         {
           "state": "ME",
           "item_index": 1,
           "item_label": "dietetic technician",
-          "bucket": "Dietetic Technician Title"
+          "bucket": "Dietetic Technician"
         },
         {
           "state": "ME",
           "item_index": 2,
           "item_label": "licensed dietitian",
-          "bucket": "Dietitian Title"
+          "bucket": "Licensed Dietitian"
         },
         {
           "state": "ME",
           "item_index": 3,
           "item_label": "licensed dietetic technician",
-          "bucket": "Dietetic Technician Title"
+          "bucket": "Dietetic Technician"
         },
         {
           "state": "MI",
           "item_index": 0,
           "item_label": "licensed dietitian nutritionist",
-          "bucket": "Combined Dietitian-Nutritionist Title"
+          "bucket": "Dietitian-Nutritionist Combined"
         },
         {
           "state": "MI",
           "item_index": 1,
           "item_label": "dietitian nutritionist",
-          "bucket": "Combined Dietitian-Nutritionist Title"
+          "bucket": "Dietitian-Nutritionist Combined"
         },
         {
           "state": "MI",
           "item_index": 2,
           "item_label": "dietitian",
-          "bucket": "Dietitian Title"
+          "bucket": "Dietitian (bare)"
         },
         {
           "state": "MI",
           "item_index": 3,
           "item_label": "dietician",
-          "bucket": "Dietitian Title"
+          "bucket": "Dietitian (bare)"
         },
         {
           "state": "MI",
           "item_index": 4,
           "item_label": "nutritionist",
-          "bucket": "Nutritionist Title"
+          "bucket": "Nutritionist (bare)"
         },
         {
           "state": "MI",
           "item_index": 5,
           "item_label": "l.d.n.",
-          "bucket": "Credential Abbreviation"
+          "bucket": "Abbreviation/Symbol Only"
         },
         {
           "state": "MN",
           "item_index": 0,
           "item_label": "dietitian",
-          "bucket": "Dietitian Title"
+          "bucket": "Dietitian (bare)"
         },
         {
           "state": "MN",
           "item_index": 1,
           "item_label": "licensed dietitian",
-          "bucket": "Dietitian Title"
+          "bucket": "Licensed Dietitian"
         },
         {
           "state": "MN",
           "item_index": 2,
           "item_label": "nutritionist",
-          "bucket": "Nutritionist Title"
+          "bucket": "Nutritionist (bare)"
         },
         {
           "state": "MN",
           "item_index": 3,
           "item_label": "licensed nutritionist",
-          "bucket": "Nutritionist Title"
+          "bucket": "Licensed Nutritionist"
         },
         {
           "state": "MO",
           "item_index": 0,
           "item_label": "Dietitian",
-          "bucket": "Dietitian Title"
+          "bucket": "Dietitian (bare)"
         },
         {
           "state": "MO",
           "item_index": 1,
           "item_label": "L.D.",
-          "bucket": "Credential Abbreviation"
+          "bucket": "Abbreviation/Symbol Only"
         },
         {
           "state": "MO",
           "item_index": 2,
           "item_label": "L.D.N.",
-          "bucket": "Credential Abbreviation"
+          "bucket": "Abbreviation/Symbol Only"
         },
         {
           "state": "MS",
           "item_index": 0,
           "item_label": "dietitian",
-          "bucket": "Dietitian Title"
+          "bucket": "Dietitian (bare)"
         },
         {
           "state": "MS",
           "item_index": 1,
           "item_label": "dietician",
-          "bucket": "Dietitian Title"
+          "bucket": "Dietitian (bare)"
         },
         {
           "state": "MS",
           "item_index": 2,
           "item_label": "nutritionist",
-          "bucket": "Nutritionist Title"
+          "bucket": "Nutritionist (bare)"
         },
         {
           "state": "MS",
           "item_index": 3,
           "item_label": "LD",
-          "bucket": "Credential Abbreviation"
+          "bucket": "Abbreviation/Symbol Only"
         },
         {
           "state": "MS",
           "item_index": 4,
           "item_label": "LN",
-          "bucket": "Credential Abbreviation"
+          "bucket": "Abbreviation/Symbol Only"
         },
         {
           "state": "MT",
           "item_index": 0,
           "item_label": "nutritionist",
-          "bucket": "Nutritionist Title"
+          "bucket": "Nutritionist (bare)"
         },
         {
           "state": "MT",
           "item_index": 1,
           "item_label": "licensed nutritionist",
-          "bucket": "Nutritionist Title"
+          "bucket": "Licensed Nutritionist"
         },
         {
           "state": "NC",
           "item_index": 0,
           "item_label": "dietitian/nutritionist",
-          "bucket": "Combined Dietitian-Nutritionist Title"
+          "bucket": "Dietitian-Nutritionist Combined"
         },
         {
           "state": "NC",
           "item_index": 1,
           "item_label": "nutritionist",
-          "bucket": "Nutritionist Title"
+          "bucket": "Nutritionist (bare)"
         },
         {
           "state": "NC",
           "item_index": 2,
           "item_label": "dietitian",
-          "bucket": "Dietitian Title"
+          "bucket": "Dietitian (bare)"
         },
         {
           "state": "NC",
           "item_index": 3,
           "item_label": "licensed nutritionist",
-          "bucket": "Nutritionist Title"
+          "bucket": "Licensed Nutritionist"
         },
         {
           "state": "NC",
           "item_index": 4,
           "item_label": "licensed dietitian/nutritionist",
-          "bucket": "Combined Dietitian-Nutritionist Title"
+          "bucket": "Dietitian-Nutritionist Combined"
         },
         {
           "state": "NC",
           "item_index": 5,
           "item_label": "LD",
-          "bucket": "Credential Abbreviation"
+          "bucket": "Abbreviation/Symbol Only"
         },
         {
           "state": "NC",
           "item_index": 6,
           "item_label": "LN",
-          "bucket": "Credential Abbreviation"
+          "bucket": "Abbreviation/Symbol Only"
         },
         {
           "state": "NC",
           "item_index": 7,
           "item_label": "LDN",
-          "bucket": "Credential Abbreviation"
+          "bucket": "Abbreviation/Symbol Only"
         },
         {
           "state": "ND",
           "item_index": 0,
-          "item_label": "dietitian nutritionist",
-          "bucket": "Combined Dietitian-Nutritionist Title"
+          "item_label": "Dietitian nutritionist",
+          "bucket": "Dietitian-Nutritionist Combined"
         },
         {
           "state": "ND",
           "item_index": 1,
-          "item_label": "nutritionist",
-          "bucket": "Nutritionist Title"
+          "item_label": "Nutritionist",
+          "bucket": "Nutritionist (bare)"
         },
         {
           "state": "ND",
           "item_index": 2,
-          "item_label": "dietitian",
-          "bucket": "Dietitian Title"
+          "item_label": "Dietitian",
+          "bucket": "Dietitian (bare)"
         },
         {
           "state": "ND",
           "item_index": 3,
-          "item_label": "dietician",
-          "bucket": "Dietitian Title"
+          "item_label": "Dietician",
+          "bucket": "Dietitian (bare)"
         },
         {
           "state": "ND",
           "item_index": 4,
-          "item_label": "nutrition counselor",
-          "bucket": "Nutrition Therapy Title"
+          "item_label": "Nutrition counselor",
+          "bucket": "Nutrition Therapist/Specialist/Counselor"
         },
         {
           "state": "ND",
           "item_index": 5,
-          "item_label": "nutrition specialist",
-          "bucket": "Nutritionist Title"
+          "item_label": "Nutrition specialist",
+          "bucket": "Nutrition Therapist/Specialist/Counselor"
         },
         {
           "state": "ND",
           "item_index": 6,
           "item_label": "LRD",
-          "bucket": "Credential Abbreviation"
+          "bucket": "Abbreviation/Symbol Only"
         },
         {
           "state": "ND",
           "item_index": 7,
           "item_label": "LDN",
-          "bucket": "Credential Abbreviation"
+          "bucket": "Abbreviation/Symbol Only"
         },
         {
           "state": "ND",
           "item_index": 8,
           "item_label": "LN",
-          "bucket": "Credential Abbreviation"
+          "bucket": "Abbreviation/Symbol Only"
         },
         {
           "state": "ND",
           "item_index": 9,
-          "item_label": "nutritional therapy practitioner",
-          "bucket": "Nutrition Therapy Title"
+          "item_label": "Nutritional therapy practitioner",
+          "bucket": "Nutrition Therapist/Specialist/Counselor"
         },
         {
           "state": "ND",
           "item_index": 10,
-          "item_label": "nutritional therapy consultant",
-          "bucket": "Nutrition Therapy Title"
+          "item_label": "Nutritional therapy consultant",
+          "bucket": "Nutrition Therapist/Specialist/Counselor"
         },
         {
           "state": "ND",
           "item_index": 11,
-          "item_label": "certified nutrition therapy practitioner",
-          "bucket": "Nutrition Therapy Title"
+          "item_label": "Certified nutrition therapy practitioner",
+          "bucket": "Nutrition Therapist/Specialist/Counselor"
         },
         {
           "state": "ND",
           "item_index": 12,
-          "item_label": "master nutrition therapist",
-          "bucket": "Nutrition Therapy Title"
+          "item_label": "Master nutrition therapist",
+          "bucket": "Nutrition Therapist/Specialist/Counselor"
         },
         {
           "state": "ND",
           "item_index": 13,
-          "item_label": "licensed dietitian nutritionist",
-          "bucket": "Combined Dietitian-Nutritionist Title"
+          "item_label": "Licensed dietitian nutritionist",
+          "bucket": "Dietitian-Nutritionist Combined"
         },
         {
           "state": "ND",
           "item_index": 14,
-          "item_label": "licensed registered dietitian",
-          "bucket": "Dietitian Title"
+          "item_label": "Licensed registered dietitian",
+          "bucket": "Registered Dietitian"
         },
         {
           "state": "ND",
           "item_index": 15,
-          "item_label": "licensed nutritionist",
-          "bucket": "Nutritionist Title"
+          "item_label": "Licensed nutritionist",
+          "bucket": "Licensed Nutritionist"
         },
         {
           "state": "NE",
           "item_index": 0,
           "item_label": "dietitian nutritionist",
-          "bucket": "Combined Dietitian-Nutritionist Title"
+          "bucket": "Dietitian-Nutritionist Combined"
         },
         {
           "state": "NE",
           "item_index": 1,
           "item_label": "nutritionist",
-          "bucket": "Nutritionist Title"
+          "bucket": "Nutritionist (bare)"
         },
         {
           "state": "NE",
           "item_index": 2,
           "item_label": "dietitian",
-          "bucket": "Dietitian Title"
+          "bucket": "Dietitian (bare)"
         },
         {
           "state": "NE",
           "item_index": 3,
           "item_label": "licensed dietitian nutritionist",
-          "bucket": "Combined Dietitian-Nutritionist Title"
+          "bucket": "Dietitian-Nutritionist Combined"
         },
         {
           "state": "NE",
           "item_index": 4,
           "item_label": "licensed medical nutrition therapist",
-          "bucket": "Nutrition Therapy Title"
+          "bucket": "Nutrition Therapist/Specialist/Counselor"
         },
         {
           "state": "NE",
           "item_index": 5,
           "item_label": "licensed nutritionist",
-          "bucket": "Nutritionist Title"
+          "bucket": "Licensed Nutritionist"
         },
         {
           "state": "NE",
           "item_index": 6,
           "item_label": "medical nutrition therapist",
-          "bucket": "Nutrition Therapy Title"
+          "bucket": "Nutrition Therapist/Specialist/Counselor"
         },
         {
           "state": "NE",
           "item_index": 7,
           "item_label": "licensed nutrition specialist",
-          "bucket": "Nutritionist Title"
+          "bucket": "Nutrition Therapist/Specialist/Counselor"
         },
         {
           "state": "NE",
           "item_index": 8,
           "item_label": "LDN",
-          "bucket": "Credential Abbreviation"
+          "bucket": "Abbreviation/Symbol Only"
         },
         {
           "state": "NE",
           "item_index": 9,
           "item_label": "LN",
-          "bucket": "Credential Abbreviation"
+          "bucket": "Abbreviation/Symbol Only"
         },
         {
           "state": "NH",
           "item_index": 0,
           "item_label": "licensed dietitian",
-          "bucket": "Dietitian Title"
+          "bucket": "Licensed Dietitian"
         },
         {
           "state": "NH",
           "item_index": 1,
           "item_label": "LD",
-          "bucket": "Credential Abbreviation"
+          "bucket": "Abbreviation/Symbol Only"
         },
         {
           "state": "NJ",
           "item_index": 0,
           "item_label": "dietitian nutritionist",
-          "bucket": "Combined Dietitian-Nutritionist Title"
+          "bucket": "Dietitian-Nutritionist Combined"
         },
         {
           "state": "NJ",
           "item_index": 1,
           "item_label": "nutritionist",
-          "bucket": "Nutritionist Title"
+          "bucket": "Nutritionist (bare)"
         },
         {
           "state": "NJ",
           "item_index": 2,
           "item_label": "dietitian",
-          "bucket": "Dietitian Title"
+          "bucket": "Dietitian (bare)"
         },
         {
           "state": "NJ",
           "item_index": 3,
           "item_label": "dietician",
-          "bucket": "Dietitian Title"
+          "bucket": "Dietitian (bare)"
         },
         {
           "state": "NJ",
           "item_index": 4,
           "item_label": "nutrition counselor",
-          "bucket": "Nutritionist Title"
+          "bucket": "Nutrition Therapist/Specialist/Counselor"
         },
         {
           "state": "NJ",
           "item_index": 5,
           "item_label": "nutrition specialist",
-          "bucket": "Nutritionist Title"
+          "bucket": "Nutrition Therapist/Specialist/Counselor"
         },
         {
           "state": "NJ",
           "item_index": 6,
           "item_label": "LDN",
-          "bucket": "Credential Abbreviation"
+          "bucket": "Abbreviation/Symbol Only"
         },
         {
           "state": "NJ",
           "item_index": 7,
           "item_label": "LD",
-          "bucket": "Credential Abbreviation"
+          "bucket": "Abbreviation/Symbol Only"
         },
         {
           "state": "NJ",
           "item_index": 8,
           "item_label": "LN",
-          "bucket": "Credential Abbreviation"
+          "bucket": "Abbreviation/Symbol Only"
         },
         {
           "state": "NJ",
           "item_index": 9,
           "item_label": "nutritional therapy practitioner",
-          "bucket": "Nutrition Therapy Title"
+          "bucket": "Nutrition Therapist/Specialist/Counselor"
         },
         {
           "state": "NJ",
           "item_index": 10,
           "item_label": "nutritional therapy consultant",
-          "bucket": "Nutrition Therapy Title"
+          "bucket": "Nutrition Therapist/Specialist/Counselor"
         },
         {
           "state": "NJ",
           "item_index": 11,
           "item_label": "certified nutrition therapy practitioner",
-          "bucket": "Nutrition Therapy Title"
+          "bucket": "Nutrition Therapist/Specialist/Counselor"
         },
         {
           "state": "NJ",
           "item_index": 12,
           "item_label": "master nutrition therapist",
-          "bucket": "Nutrition Therapy Title"
+          "bucket": "Nutrition Therapist/Specialist/Counselor"
         },
         {
           "state": "NJ",
           "item_index": 13,
           "item_label": "licensed dietitian nutritionist",
-          "bucket": "Combined Dietitian-Nutritionist Title"
+          "bucket": "Dietitian-Nutritionist Combined"
         },
         {
           "state": "NJ",
           "item_index": 14,
           "item_label": "licensed nutritionist",
-          "bucket": "Nutritionist Title"
+          "bucket": "Licensed Nutritionist"
         },
         {
           "state": "NM",
           "item_index": 0,
           "item_label": "dietitian",
-          "bucket": "Dietitian Title"
+          "bucket": "Dietitian (bare)"
         },
         {
           "state": "NM",
           "item_index": 1,
           "item_label": "nutritionist",
-          "bucket": "Nutritionist Title"
+          "bucket": "Nutritionist (bare)"
         },
         {
           "state": "NM",
           "item_index": 2,
           "item_label": "nutrition associate",
-          "bucket": "Nutritionist Title"
+          "bucket": "Nutrition Therapist/Specialist/Counselor"
         },
         {
           "state": "NV",
           "item_index": 0,
           "item_label": "L.D.",
-          "bucket": "Credential Abbreviation"
+          "bucket": "Abbreviation/Symbol Only"
         },
         {
           "state": "NV",
           "item_index": 1,
           "item_label": "licensed dietitian",
-          "bucket": "Dietitian Title"
+          "bucket": "Licensed Dietitian"
         },
         {
           "state": "NY",
           "item_index": 0,
           "item_label": "certified dietitian",
-          "bucket": "Dietitian Title"
+          "bucket": "Certified Dietitian"
         },
         {
           "state": "NY",
           "item_index": 1,
           "item_label": "certified dietician",
-          "bucket": "Dietitian Title"
+          "bucket": "Certified Dietitian"
         },
         {
           "state": "NY",
           "item_index": 2,
           "item_label": "certified nutritionist",
-          "bucket": "Nutritionist Title"
+          "bucket": "Certified Nutritionist"
         },
         {
           "state": "OH",
           "item_index": 0,
           "item_label": "dietitian",
-          "bucket": "Dietitian Title"
+          "bucket": "Dietitian (bare)"
         },
         {
           "state": "OK",
           "item_index": 0,
           "item_label": "licensed dietitian",
-          "bucket": "Dietitian Title"
+          "bucket": "Licensed Dietitian"
         },
         {
           "state": "OK",
           "item_index": 1,
           "item_label": "LD",
-          "bucket": "Credential Abbreviation"
+          "bucket": "Abbreviation/Symbol Only"
         },
         {
           "state": "OK",
           "item_index": 2,
           "item_label": "provisional licensed dietitian",
-          "bucket": "Dietitian Title"
+          "bucket": "Licensed Dietitian"
         },
         {
           "state": "OK",
           "item_index": 3,
           "item_label": "PLD",
-          "bucket": "Credential Abbreviation"
+          "bucket": "Abbreviation/Symbol Only"
         },
         {
           "state": "OK",
           "item_index": 4,
           "item_label": "registered dietitian",
-          "bucket": "Dietitian Title"
+          "bucket": "Registered Dietitian"
         },
         {
           "state": "OK",
           "item_index": 5,
           "item_label": "RD",
-          "bucket": "Credential Abbreviation"
+          "bucket": "Abbreviation/Symbol Only"
         },
         {
           "state": "OR",
           "item_index": 0,
           "item_label": "L.D.",
-          "bucket": "Credential Abbreviation"
+          "bucket": "Abbreviation/Symbol Only"
         },
         {
           "state": "OR",
           "item_index": 1,
           "item_label": "Licensed Dietitian",
-          "bucket": "Dietitian Title"
+          "bucket": "Licensed Dietitian"
+        },
+        {
+          "state": "PA",
+          "item_index": 0,
+          "item_label": "licensed dietitian-nutritionist",
+          "bucket": "Dietitian-Nutritionist Combined"
+        },
+        {
+          "state": "PA",
+          "item_index": 1,
+          "item_label": "L.D.N.",
+          "bucket": "Abbreviation/Symbol Only"
         },
         {
           "state": "RI",
           "item_index": 0,
           "item_label": "dietitian/nutritionist",
-          "bucket": "Combined Dietitian-Nutritionist Title"
+          "bucket": "Dietitian-Nutritionist Combined"
         },
         {
           "state": "RI",
           "item_index": 1,
           "item_label": "L.D.N.",
-          "bucket": "Credential Abbreviation"
+          "bucket": "Abbreviation/Symbol Only"
         },
         {
           "state": "SC",
           "item_index": 0,
           "item_label": "dietitian",
-          "bucket": "Dietitian Title"
+          "bucket": "Dietitian (bare)"
         },
         {
           "state": "SC",
           "item_index": 1,
           "item_label": "licensed dietitian",
-          "bucket": "Dietitian Title"
+          "bucket": "Licensed Dietitian"
         },
         {
           "state": "SC",
           "item_index": 2,
           "item_label": "LD",
-          "bucket": "Credential Abbreviation"
+          "bucket": "Abbreviation/Symbol Only"
         },
         {
           "state": "SD",
           "item_index": 0,
           "item_label": "nutritionist",
-          "bucket": "Nutritionist Title"
+          "bucket": "Nutritionist (bare)"
         },
         {
           "state": "SD",
           "item_index": 1,
           "item_label": "dietitian",
-          "bucket": "Dietitian Title"
+          "bucket": "Dietitian (bare)"
         },
         {
           "state": "SD",
           "item_index": 2,
           "item_label": "licensed nutritionist",
-          "bucket": "Nutritionist Title"
+          "bucket": "Licensed Nutritionist"
         },
         {
           "state": "SD",
           "item_index": 3,
           "item_label": "LN",
-          "bucket": "Credential Abbreviation"
+          "bucket": "Abbreviation/Symbol Only"
         },
         {
           "state": "TN",
           "item_index": 0,
           "item_label": "dietitian/nutritionist",
-          "bucket": "Combined Dietitian-Nutritionist Title"
+          "bucket": "Dietitian-Nutritionist Combined"
         },
         {
           "state": "TN",
           "item_index": 1,
           "item_label": "licensed dietitian",
-          "bucket": "Dietitian Title"
+          "bucket": "Licensed Dietitian"
         },
         {
           "state": "TN",
           "item_index": 2,
           "item_label": "licensed nutritionist",
-          "bucket": "Nutritionist Title"
+          "bucket": "Licensed Nutritionist"
         },
         {
           "state": "TN",
           "item_index": 3,
           "item_label": "L.D.",
-          "bucket": "Credential Abbreviation"
+          "bucket": "Abbreviation/Symbol Only"
         },
         {
           "state": "TN",
           "item_index": 4,
           "item_label": "L.N.",
-          "bucket": "Credential Abbreviation"
+          "bucket": "Abbreviation/Symbol Only"
         },
         {
           "state": "TX",
           "item_index": 0,
           "item_label": "licensed dietitian",
-          "bucket": "Dietitian Title"
+          "bucket": "Licensed Dietitian"
         },
         {
           "state": "TX",
           "item_index": 1,
-          "item_label": "provisional licensed dietitian",
-          "bucket": "Dietitian Title"
+          "item_label": "LD",
+          "bucket": "Abbreviation/Symbol Only"
         },
         {
           "state": "TX",
           "item_index": 2,
-          "item_label": "LD",
-          "bucket": "Credential Abbreviation"
+          "item_label": "registered dietitian",
+          "bucket": "Registered Dietitian"
         },
         {
           "state": "TX",
           "item_index": 3,
-          "item_label": "PLD",
-          "bucket": "Credential Abbreviation"
-        },
-        {
-          "state": "TX",
-          "item_index": 4,
-          "item_label": "registered dietitian",
-          "bucket": "Dietitian Title"
-        },
-        {
-          "state": "TX",
-          "item_index": 5,
           "item_label": "RD",
-          "bucket": "Credential Abbreviation"
+          "bucket": "Abbreviation/Symbol Only"
         },
         {
           "state": "UT",
           "item_index": 0,
           "item_label": "dietitian",
-          "bucket": "Dietitian Title"
+          "bucket": "Dietitian (bare)"
         },
         {
           "state": "UT",
           "item_index": 1,
           "item_label": "certified dietitian",
-          "bucket": "Dietitian Title"
+          "bucket": "Certified Dietitian"
         },
         {
           "state": "UT",
           "item_index": 2,
           "item_label": "registered dietitian",
-          "bucket": "Dietitian Title"
+          "bucket": "Registered Dietitian"
         },
         {
           "state": "UT",
           "item_index": 3,
           "item_label": "registered dietitian nutritionist",
-          "bucket": "Combined Dietitian-Nutritionist Title"
+          "bucket": "Registered Dietitian"
         },
         {
           "state": "UT",
           "item_index": 4,
           "item_label": "C.D.",
-          "bucket": "Credential Abbreviation"
+          "bucket": "Abbreviation/Symbol Only"
         },
         {
           "state": "UT",
           "item_index": 5,
           "item_label": "D.",
-          "bucket": "Credential Abbreviation"
+          "bucket": "Abbreviation/Symbol Only"
         },
         {
           "state": "UT",
           "item_index": 6,
           "item_label": "dietician",
-          "bucket": "Dietitian Title"
+          "bucket": "Dietitian (bare)"
         },
         {
           "state": "VA",
           "item_index": 0,
           "item_label": "dietitian",
-          "bucket": "Dietitian Title"
+          "bucket": "Dietitian (bare)"
         },
         {
           "state": "VA",
           "item_index": 1,
           "item_label": "nutritionist",
-          "bucket": "Nutritionist Title"
+          "bucket": "Nutritionist (bare)"
         },
         {
           "state": "VA",
           "item_index": 2,
           "item_label": "licensed dietitian",
-          "bucket": "Dietitian Title"
+          "bucket": "Licensed Dietitian"
         },
         {
           "state": "VA",
           "item_index": 3,
           "item_label": "licensed nutritionist",
-          "bucket": "Nutritionist Title"
+          "bucket": "Licensed Nutritionist"
         },
         {
           "state": "VA",
           "item_index": 4,
           "item_label": "certified dietitian",
-          "bucket": "Dietitian Title"
+          "bucket": "Certified Dietitian"
         },
         {
           "state": "VA",
           "item_index": 5,
           "item_label": "certified nutritionist",
-          "bucket": "Nutritionist Title"
+          "bucket": "Certified Nutritionist"
         },
         {
           "state": "VA",
           "item_index": 6,
           "item_label": "registered dietitian",
-          "bucket": "Dietitian Title"
+          "bucket": "Registered Dietitian"
         },
         {
           "state": "VA",
           "item_index": 7,
           "item_label": "registered nutritionist",
-          "bucket": "Nutritionist Title"
+          "bucket": "Registered Dietitian"
         },
         {
           "state": "VT",
           "item_index": 0,
           "item_label": "certified dietitian",
-          "bucket": "Dietitian Title"
+          "bucket": "Certified Dietitian"
         },
         {
           "state": "WA",
           "item_index": 0,
           "item_label": "Certified dietitian",
-          "bucket": "Dietitian Title"
+          "bucket": "Certified Dietitian"
         },
         {
           "state": "WA",
           "item_index": 1,
           "item_label": "certified dietician",
-          "bucket": "Dietitian Title"
+          "bucket": "Certified Dietitian"
         },
         {
           "state": "WA",
           "item_index": 2,
           "item_label": "certified nutritionist",
-          "bucket": "Nutritionist Title"
+          "bucket": "Certified Nutritionist"
         },
         {
           "state": "WA",
           "item_index": 3,
           "item_label": "D.",
-          "bucket": "Credential Abbreviation"
+          "bucket": "Abbreviation/Symbol Only"
         },
         {
           "state": "WA",
           "item_index": 4,
           "item_label": "C.D.",
-          "bucket": "Credential Abbreviation"
+          "bucket": "Abbreviation/Symbol Only"
         },
         {
           "state": "WA",
           "item_index": 5,
           "item_label": "C.N.",
-          "bucket": "Credential Abbreviation"
+          "bucket": "Abbreviation/Symbol Only"
         },
         {
           "state": "WI",
           "item_index": 0,
           "item_label": "dietitian",
-          "bucket": "Dietitian Title"
+          "bucket": "Dietitian (bare)"
         },
         {
           "state": "WI",
           "item_index": 1,
           "item_label": "certified dietitian",
-          "bucket": "Dietitian Title"
+          "bucket": "Certified Dietitian"
         },
         {
           "state": "WV",
           "item_index": 0,
           "item_label": "dietitian",
-          "bucket": "Dietitian Title"
+          "bucket": "Dietitian (bare)"
         },
         {
           "state": "WV",
           "item_index": 1,
           "item_label": "licensed dietitian",
-          "bucket": "Dietitian Title"
+          "bucket": "Licensed Dietitian"
         },
         {
           "state": "WY",
           "item_index": 0,
           "item_label": "dietitian",
-          "bucket": "Dietitian Title"
+          "bucket": "Dietitian (bare)"
         },
         {
           "state": "WY",
           "item_index": 1,
           "item_label": "licensed dietitian",
-          "bucket": "Dietitian Title"
+          "bucket": "Licensed Dietitian"
         },
         {
           "state": "WY",
           "item_index": 2,
           "item_label": "LD",
-          "bucket": "Credential Abbreviation"
+          "bucket": "Abbreviation/Symbol Only"
         }
       ]
     }

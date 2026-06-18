@@ -38,6 +38,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from paths import STRUCTURED_DIR, MAP_PREP_DIR, RESULTS_DIR, PIPELINE_ROOT, core_professions  # noqa: E402
+from eval.check_consistency import check_record  # noqa: E402
 
 PY = sys.executable
 WEB_DIR = PIPELINE_ROOT / "publish" / "web"
@@ -75,6 +76,8 @@ def main() -> None:
     ap.add_argument("--payload-only", action="store_true",
                     help="Tags/table/map changed but browse didn't: skip per-state browse regeneration "
                          "(the CPU hog) and the browse-builder stages. ~10x faster. Rebuilds payloads + tag sheet only.")
+    ap.add_argument("--skip-consistency-check", action="store_true",
+                    help="Bypass the cross-field consistency gate (not recommended).")
     args = ap.parse_args()
 
     all_profs = args.professions or core_professions()
@@ -107,6 +110,29 @@ def main() -> None:
     if not changed:
         print("\nNothing changed — site already reflects current data. Done.")
         return
+
+    # Pre-publish gate: don't ship records that violate the prompt's own
+    # cross-field invariants (e.g. a title-protection rung flipped to `license`).
+    # Covers any extract path (interactive or batch). Override with
+    # --skip-consistency-check if a flagged record is being intentionally shipped.
+    if not args.skip_consistency_check:
+        viols: list[dict] = []
+        for p in changed:
+            for jf in sorted((STRUCTURED_DIR / p).glob("*.json")):
+                if jf.stem.startswith("_"):
+                    continue
+                try:
+                    rec = json.loads(jf.read_text())
+                except json.JSONDecodeError:
+                    continue
+                viols.extend(check_record(p, jf.stem, rec))
+        if viols:
+            print(f"\n✗ consistency gate: {len(viols)} violation(s) in records to be published — NOT building.")
+            for v in viols:
+                print(f"   [{v['profession']}/{v['state']}] {v['rule']}: {v['detail']}")
+            print("Re-extract the flagged record(s), or pass --skip-consistency-check to override.")
+            sys.exit(1)
+        print("consistency gate: clean")
 
     results: list[tuple[str, bool]] = []
 
