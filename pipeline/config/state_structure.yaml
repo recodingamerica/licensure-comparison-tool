@@ -3258,10 +3258,34 @@ PA:
       note: "Standalone optometry act; 63 P.S. § 244.x. Pilot for the pa_legis puller (#26)."
     dietetics:
       url: "https://www.legis.state.pa.us/WU01/LI/LI/US/HTM/1951/0/0069..HTM"
-      label: "Professional Nursing Law (Act 69 of 1951)"
-      note: "LDN licensure is embedded in the Nursing Law (§§3.1, 6, 8, 14 = dietitian-nutritionist); trim drops the nursing-only sections (#25)."
+      label: "Professional Nursing Law (Act 69 of 1951) — LDN sections"
+      note: "LDN licensure is embedded in the Nursing Law (#25). pa_keep_sections scopes the corpus to the dietitian-nutritionist + act-wide administrative sections, dropping the nursing-scope blocks (§3 RN/CNS, §4 unauthorized practice, §8.1-8.9 CRNP/CNS/CRNA, §6.1/6.2 nursing education, §12.1 nursing CE) and repealed stubs."
+      # Sections kept: 3.1 (LDN license required), 5/6/8 (exam, qualifications,
+      # entitlement), 2/2.1/2.2 (defs, board, communication), 7 (out-of-state
+      # endorsement), 11/11.1/11.2/11.3 (license duration/renewal/fees/reports),
+      # 13/14/14.1 (penalties, discipline, impaired), 15-15.5 (suspension/
+      # revocation/reinstatement/injunction/subpoena — act-wide procedure).
+      pa_keep_sections: ["2", "2.1", "2.2", "3.1", "5", "6", "7", "8", "11", "11.1", "11.2", "11.3", "13", "14", "14.1", "15", "15.1", "15.2", "15.3", "15.4", "15.5"]
     medicine:
       url: "https://www.legis.state.pa.us/WU01/LI/LI/US/HTM/1985/0/0112..HTM"
       label: "Medical Practice Act of 1985 (Act 112 of 1985)"
       authoritative: true  # drop the junk Justia "VISITING TEAM PHYSICIAN" stub
       note: "Full act via pa_legis (64 sections); supersedes the prior 1-section Justia stub."
+    dentistry:
+      url: "https://www.legis.state.pa.us/WU01/LI/LI/US/HTM/1933/0/0076..HTM"
+      label: "The Dental Law (Act 76 of 1933)"
+      note: "Standalone; dentists + dental hygienists. 63 P.S. §§ 120-130i."
+    podiatry:
+      url: "https://www.legis.state.pa.us/WU01/LI/LI/US/HTM/1955/0/0375..HTM"
+      label: "Podiatry Practice Act (Act 375 of the 1955 session)"
+      note: "Standalone. 63 P.S. §§ 42.1-42.21. Signed Mar 1956 but keyed to the 1955 session year in the URL."
+    nursing:
+      # Nursing spans two acts: the Professional Nursing Law (RN/APRN) and the
+      # separate Practical Nurse Law (LPN). pull_text pulls url + every PA URL in
+      # section_url_list. (The Nursing Law also embeds the LDN scheme used by the
+      # dietetics profession — same act, different keep-set.)
+      url: "https://www.legis.state.pa.us/WU01/LI/LI/US/HTM/1951/0/0069..HTM"
+      label: "Professional Nursing Law (Act 69 of 1951) + Practical Nurse Law (Act 376 of 1955)"
+      section_url_list:
+        - "https://www.legis.state.pa.us/WU01/LI/LI/US/HTM/1955/0/0376..HTM"
+      note: "Two acts: 1951/0/0069 (RN/APRN) + 1955/0/0376 (LPN). 63 P.S. §§ 211-225.5 and 651-667."

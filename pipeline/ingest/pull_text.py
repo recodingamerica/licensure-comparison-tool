@@ -334,25 +334,40 @@ def pull_state(state: str, profession: str, rows: list[dict], limit_sections: in
         url = row["chapter_url"]
         corpus.chapter_urls.append(url)
 
-        # Pennsylvania: one URL is the whole act; fetch once and split locally
-        # into per-section records (sections share the act URL, so the
+        # Pennsylvania: each URL is a whole act; fetch once per act and split
+        # locally into per-section records (sections share the act URL, so the
         # seen_section_urls URL-dedup below would wrongly collapse them — handle
-        # PA entirely here and move on).
-        if is_pa_legis_url(url):
-            status, html, err = fetch(url)
-            time.sleep(PER_HOST_DELAY)
-            if err or not html or (status and not 200 <= status < 300):
-                corpus.errors.append(f"pa_legis fetch {url}: {err or f'http {status}'}")
-                continue
-            pa_sections = parse_pa_act(html, url)
-            if not pa_sections:
-                corpus.errors.append(f"pa_legis parse {url}: 0 sections (markers not found)")
-            for sec in pa_sections:
-                if limit_sections and len(corpus.sections) >= limit_sections:
-                    break
-                corpus.sections.append(sec)
-                corpus.total_chars += sec.text_len
-            log.info("  pa_legis %s -> %d sections", url, len(pa_sections))
+        # PA entirely here and move on). A profession may span more than one act
+        # (e.g. nursing = Professional Nursing Law + Practical Nurse Law); list
+        # the extra acts in section_url_list and we pull them all.
+        pa_urls = list(dict.fromkeys(
+            u for u in [url, *(row.get("section_url_list") or [])] if is_pa_legis_url(u)
+        ))
+        if pa_urls:
+            for pa_url in pa_urls:
+                status, html, err = fetch(pa_url)
+                time.sleep(PER_HOST_DELAY)
+                if err or not html or (status and not 200 <= status < 300):
+                    corpus.errors.append(f"pa_legis fetch {pa_url}: {err or f'http {status}'}")
+                    continue
+                pa_sections = parse_pa_act(html, pa_url)
+                if not pa_sections:
+                    corpus.errors.append(f"pa_legis parse {pa_url}: 0 sections (markers not found)")
+                # pa_keep_sections scopes an embedded profession to its own
+                # sections within a shared act (e.g. dietetics inside the Nursing
+                # Law). Citation is "§ <num>"; keep only the listed numbers.
+                keep = {str(k) for k in (row.get("pa_keep_sections") or [])}
+                if keep:
+                    before = len(pa_sections)
+                    pa_sections = [s for s in pa_sections
+                                   if s.citation.replace("§", "").strip() in keep]
+                    log.info("  pa_legis keep-filter: %d -> %d sections", before, len(pa_sections))
+                for sec in pa_sections:
+                    if limit_sections and len(corpus.sections) >= limit_sections:
+                        break
+                    corpus.sections.append(sec)
+                    corpus.total_chars += sec.text_len
+                log.info("  pa_legis %s -> %d sections", pa_url, len(pa_sections))
             continue
 
         # Manual-override "section filter" mode: pull a specific list of section
@@ -467,6 +482,8 @@ def main() -> None:
                 row["section_slug_pattern"] = node["section_slug_pattern"]
             if node.get("section_url_list"):
                 row["section_url_list"] = node["section_url_list"]
+            if node.get("pa_keep_sections"):
+                row["pa_keep_sections"] = node["pa_keep_sections"]
             by_state.setdefault(state, []).append(row)
 
     log.info("profession=%s matched %d states from %s", profession, len(by_state), index_path.name)

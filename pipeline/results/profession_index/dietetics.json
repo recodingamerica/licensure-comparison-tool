@@ -715,11 +715,34 @@
     "PA": {
       "matched": [
         {
-          "label": "Professional Nursing Law (Act 69 of 1951)",
+          "label": "Professional Nursing Law (Act 69 of 1951) \u2014 LDN sections",
           "url": "https://www.legis.state.pa.us/WU01/LI/LI/US/HTM/1951/0/0069..HTM",
           "slug": "0069..HTM",
           "via": "state_structure",
-          "note": "LDN licensure is embedded in the Nursing Law (\u00a7\u00a73.1, 6, 8, 14 = dietitian-nutritionist); trim drops the nursing-only sections (#25)."
+          "note": "LDN licensure is embedded in the Nursing Law (#25). pa_keep_sections scopes the corpus to the dietitian-nutritionist + act-wide administrative sections, dropping the nursing-scope blocks (\u00a73 RN/CNS, \u00a74 unauthorized practice, \u00a78.1-8.9 CRNP/CNS/CRNA, \u00a76.1/6.2 nursing education, \u00a712.1 nursing CE) and repealed stubs.",
+          "pa_keep_sections": [
+            "2",
+            "2.1",
+            "2.2",
+            "3.1",
+            "5",
+            "6",
+            "7",
+            "8",
+            "11",
+            "11.1",
+            "11.2",
+            "11.3",
+            "13",
+            "14",
+            "14.1",
+            "15",
+            "15.1",
+            "15.2",
+            "15.3",
+            "15.4",
+            "15.5"
+          ]
         }
       ]
     },
