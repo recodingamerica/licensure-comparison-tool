@@ -175,6 +175,106 @@ def _dedupe_year_versions(items: list[dict]) -> list[dict]:
     return [it for it in items if it["url"] in keep]
 
 
+# --- Pennsylvania legacy static endpoint (legis.state.pa.us /WU01/.../HTM) ---
+# PA isn't on Justia; it publishes each act's FULL text on one HTML page, with
+# sections delimited by hidden `div.Comment` markers of the form
+# "{year}{act:04d}u{sec}s" (e.g. "19800057u4.1s"). Unlike Justia (one URL per
+# section), one PA URL yields the whole act, so we split it here into per-section
+# records rather than fetching a URL per section. See docs/reports/pa_puller_plan.
+PA_LEGIS_HOST = "legis.state.pa.us"
+# marker = 4-digit year + 4-digit act + 'u' + suffix; section markers end in 's'
+# with a numeric section id ("1", "2.1", "4.3"); 'a'/'ax'/'c'/'h'/<sec>'v' are
+# act bounds, table-of-contents, enactment header, and per-section amendment notes.
+_PA_MARKER = re.compile(r"^(\d{4})(\d{4})u(.+)$")
+_PA_SECTION_SUFFIX = re.compile(r"^(\d+(?:\.\d+)?)s$")
+
+
+def is_pa_legis_url(url: str) -> bool:
+    return PA_LEGIS_HOST in urllib.parse.urlparse(url).netloc
+
+
+def parse_pa_act(html: str, url: str) -> list[Section]:
+    """Split one legis.state.pa.us act page into per-section records.
+
+    Walks the BodyContainer's direct children in document order. A `div.Comment`
+    whose marker is a section start ("...u<sec>s") opens a new section; every
+    following <p>/<table> accumulates into it until the next section start (so a
+    section's amendment-note marker "...<sec>v" stays inside that section).
+    Content before the first section marker (act header, table of contents,
+    enactment clause) is skipped. Returns [] if no markers are found.
+    """
+    soup = BeautifulSoup(html, "html.parser")
+    body = soup.find("div", class_="BodyContainer") or soup
+    sections: list[Section] = []
+    cur_num: str | None = None
+    cur_parts: list[str] = []
+
+    def flush() -> None:
+        nonlocal cur_num, cur_parts
+        if cur_num is not None:
+            text = "\n".join(p for p in cur_parts if p).strip().replace("\xa0", " ")
+            if text:
+                heading = text.split("\n", 1)[0][:300]
+                sections.append(Section(
+                    url=url, label=heading, citation=f"§ {cur_num}",
+                    text=text, text_len=len(text),
+                ))
+        cur_num, cur_parts = None, []
+
+    for child in body.children:
+        name = getattr(child, "name", None)
+        if name is None:
+            continue
+        if name == "div" and "Comment" in (child.get("class") or []):
+            m = _PA_MARKER.match(child.get_text(strip=True))
+            if not m:
+                continue
+            sm = _PA_SECTION_SUFFIX.match(m.group(3))
+            if sm:
+                flush()
+                cur_num, cur_parts = sm.group(1), []
+            elif m.group(3) == "ax":
+                flush()
+        elif cur_num is not None and name in ("p", "table"):
+            cur_parts.append(child.get_text(" ", strip=True))
+    flush()
+    return sections
+
+
+# --- Illinois (Justia serves a whole ILCS act on one page) ---
+# Like PA, IL acts arrive as ONE inline blob rather than per-section URLs, but the
+# text carries an ILCS citation marker at the head of every section
+# ("(225 ILCS 80/4.5)"). Split on those so IL gets section-level citations and a
+# navigable browse view instead of one ~80k-char blob (issue #6). Reusable as a
+# local transform on already-committed IL corpora — no re-fetch needed.
+_IL_ILCS_MARKER = re.compile(r"\((\d+\s+ILCS\s+\d+/[0-9A-Za-z.\-]+)\)")
+
+
+def looks_like_il_ilcs(text: str) -> bool:
+    return len(_IL_ILCS_MARKER.findall(text)) >= 3
+
+
+def split_il_inline(text: str, url: str) -> list[Section]:
+    """Split one ILCS act blob into per-section records on the '(NNN ILCS MM/SS)'
+    markers. citation = the ILCS ref (e.g. '225 ILCS 80/4.5'); url stays the act
+    page (IL has no reliable per-section URLs). Returns [] if no markers found."""
+    hits = list(_IL_ILCS_MARKER.finditer(text))
+    sections: list[Section] = []
+    for i, m in enumerate(hits):
+        end = hits[i + 1].start() if i + 1 < len(hits) else len(text)
+        body = text[m.start():end].strip()
+        if not body:
+            continue
+        cite = m.group(1)
+        label = cite
+        title = re.search(r"Sec\.?\s+[0-9A-Za-z.\-]+\.?\s*(.{0,120})", body)
+        if title:
+            label = f"Sec. {cite.rsplit('/', 1)[-1]}. {title.group(1).strip()}"[:300]
+        sections.append(Section(url=url, label=label, citation=cite,
+                                text=body, text_len=len(body)))
+    return sections
+
+
 def extract_section_text(html: str) -> str:
     """Extract the main statute text from a section page across known sources.
 
@@ -268,6 +368,42 @@ def pull_state(state: str, profession: str, rows: list[dict], limit_sections: in
         url = row["chapter_url"]
         corpus.chapter_urls.append(url)
 
+        # Pennsylvania: each URL is a whole act; fetch once per act and split
+        # locally into per-section records (sections share the act URL, so the
+        # seen_section_urls URL-dedup below would wrongly collapse them — handle
+        # PA entirely here and move on). A profession may span more than one act
+        # (e.g. nursing = Professional Nursing Law + Practical Nurse Law); list
+        # the extra acts in section_url_list and we pull them all.
+        pa_urls = list(dict.fromkeys(
+            u for u in [url, *(row.get("section_url_list") or [])] if is_pa_legis_url(u)
+        ))
+        if pa_urls:
+            for pa_url in pa_urls:
+                status, html, err = fetch(pa_url)
+                time.sleep(PER_HOST_DELAY)
+                if err or not html or (status and not 200 <= status < 300):
+                    corpus.errors.append(f"pa_legis fetch {pa_url}: {err or f'http {status}'}")
+                    continue
+                pa_sections = parse_pa_act(html, pa_url)
+                if not pa_sections:
+                    corpus.errors.append(f"pa_legis parse {pa_url}: 0 sections (markers not found)")
+                # pa_keep_sections scopes an embedded profession to its own
+                # sections within a shared act (e.g. dietetics inside the Nursing
+                # Law). Citation is "§ <num>"; keep only the listed numbers.
+                keep = {str(k) for k in (row.get("pa_keep_sections") or [])}
+                if keep:
+                    before = len(pa_sections)
+                    pa_sections = [s for s in pa_sections
+                                   if s.citation.replace("§", "").strip() in keep]
+                    log.info("  pa_legis keep-filter: %d -> %d sections", before, len(pa_sections))
+                for sec in pa_sections:
+                    if limit_sections and len(corpus.sections) >= limit_sections:
+                        break
+                    corpus.sections.append(sec)
+                    corpus.total_chars += sec.text_len
+                log.info("  pa_legis %s -> %d sections", pa_url, len(pa_sections))
+            continue
+
         # Manual-override "section filter" mode: pull a specific list of section
         # URLs, OR pull the chapter's children and filter by a slug regex.
         # Used for states whose podiatry law is a section range inside a much
@@ -307,9 +443,20 @@ def pull_state(state: str, profession: str, rows: list[dict], limit_sections: in
             if limit_sections and len(corpus.sections) >= limit_sections:
                 break
 
-            # Inline text already captured by collect_section_targets (IL-style)
+            # Inline text already captured by collect_section_targets (IL-style).
+            # If it's an ILCS act blob, split it into per-section records so IL
+            # gets section-level citations + browse instead of one blob (#6).
             if "_inline_text" in sec:
                 text = sec["_inline_text"]
+                il_sections = split_il_inline(text, sec["url"]) if looks_like_il_ilcs(text) else []
+                if il_sections:
+                    for s in il_sections:
+                        if limit_sections and len(corpus.sections) >= limit_sections:
+                            break
+                        corpus.sections.append(s)
+                        corpus.total_chars += s.text_len
+                    log.info("  il_ilcs split %s -> %d sections", sec["url"], len(il_sections))
+                    continue
                 corpus.sections.append(Section(
                     url=sec["url"], label=sec["label"],
                     citation=short_citation(sec["label"]),
@@ -380,6 +527,8 @@ def main() -> None:
                 row["section_slug_pattern"] = node["section_slug_pattern"]
             if node.get("section_url_list"):
                 row["section_url_list"] = node["section_url_list"]
+            if node.get("pa_keep_sections"):
+                row["pa_keep_sections"] = node["pa_keep_sections"]
             by_state.setdefault(state, []).append(row)
 
     log.info("profession=%s matched %d states from %s", profession, len(by_state), index_path.name)

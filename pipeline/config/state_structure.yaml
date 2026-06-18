@@ -7,7 +7,7 @@
 #                   section_fallback    — title page returns flat sections (AZ, OK, MI, WI, LA on Justia)
 #                   subtitled           — title is split into subtitles/divisions; profession chapters live one level deeper (AR, CA, CO)
 #                   external            — non-Justia source (revisor_mn, mi_legis, etc.)
-#                   broken              — Justia coverage is bad; needs custom scraper or accepts gap (PA)
+#                   broken              — source coverage is bad; needs custom scraper or accepts gap
 #   professions   per-profession URL or section pattern within this state
 #                   url:                  direct chapter URL (most cases)
 #                   section_slug_pattern: regex on section URL slug (section_fallback states)
@@ -3243,6 +3243,54 @@ NY:
 # ---- Known-broken sources ----
 
 PA:
-  source: pa_complex
-  layout: broken
-  notes: "Justia content for PA is sparse; palegis.us is query-string-driven and needs Playwright + custom navigation; FindLaw is anti-scrape; Cornell doesn't host PA statutes. Deferred."
+  # PA isn't on Justia; the legacy static endpoint serves each act's full text on
+  # one HTML page that the existing curl_cffi chrome fetch reads cleanly. pull_text
+  # detects the legis.state.pa.us host and splits the page into per-section records
+  # (div.Comment markers). URL form: /WU01/LI/LI/US/HTM/{year}/{sessInd}/{act:04d}..HTM
+  # — use the static page, NOT the modern uconsCheck.cfm?act=NN (301s to the JS site).
+  source: pa_legis
+  layout: external
+  notes: "Per-profession url points at the act's WU01 static page. Validated 2026-06-17 (optometry act 57/1980, 19 sections)."
+  professions:
+    optometry:
+      url: "https://www.legis.state.pa.us/WU01/LI/LI/US/HTM/1980/0/0057..HTM"
+      label: "Optometric Practice and Licensure Act (Act 57 of 1980)"
+      note: "Standalone optometry act; 63 P.S. § 244.x. Pilot for the pa_legis puller (#26)."
+    dietetics:
+      url: "https://www.legis.state.pa.us/WU01/LI/LI/US/HTM/1951/0/0069..HTM"
+      label: "Professional Nursing Law (Act 69 of 1951) — LDN sections"
+      note: "LDN licensure is embedded in the Nursing Law (#25). pa_keep_sections scopes the corpus to the dietitian-nutritionist + act-wide administrative sections, dropping the nursing-scope blocks (§3 RN/CNS, §4 unauthorized practice, §8.1-8.9 CRNP/CNS/CRNA, §6.1/6.2 nursing education, §12.1 nursing CE) and repealed stubs."
+      # Sections kept: 3.1 (LDN license required), 5/6/8 (exam, qualifications,
+      # entitlement), 2/2.1/2.2 (defs, board, communication), 7 (out-of-state
+      # endorsement), 11/11.1/11.2/11.3 (license duration/renewal/fees/reports),
+      # 13/14/14.1 (penalties, discipline, impaired), 15-15.5 (suspension/
+      # revocation/reinstatement/injunction/subpoena — act-wide procedure).
+      pa_keep_sections: ["2", "2.1", "2.2", "3.1", "5", "6", "7", "8", "11", "11.1", "11.2", "11.3", "13", "14", "14.1", "15", "15.1", "15.2", "15.3", "15.4", "15.5"]
+    medicine:
+      url: "https://www.legis.state.pa.us/WU01/LI/LI/US/HTM/1985/0/0112..HTM"
+      label: "Medical Practice Act of 1985 (Act 112 of 1985)"
+      authoritative: true  # drop the junk Justia "VISITING TEAM PHYSICIAN" stub
+      note: "Full act via pa_legis (64 sections); supersedes the prior 1-section Justia stub."
+    dentistry:
+      url: "https://www.legis.state.pa.us/WU01/LI/LI/US/HTM/1933/0/0076..HTM"
+      label: "The Dental Law (Act 76 of 1933)"
+      note: "Standalone; dentists + dental hygienists. 63 P.S. §§ 120-130i."
+    podiatry:
+      url: "https://www.legis.state.pa.us/WU01/LI/LI/US/HTM/1955/0/0375..HTM"
+      label: "Podiatry Practice Act (Act 375 of the 1955 session)"
+      note: "Standalone. 63 P.S. §§ 42.1-42.21. Signed Mar 1956 but keyed to the 1955 session year in the URL."
+    public_accountancy:
+      url: "https://www.legis.state.pa.us/WU01/LI/LI/US/HTM/1947/0/0140..HTM"
+      label: "CPA Law (Act 140 of 1947)"
+      authoritative: true  # drop the unpulled Justia 'act-27' stub (no data behind it)
+      note: "Standalone. 63 P.S. §§ 9.1 et seq. Replaces a Justia node that was matched but never pulled."
+    nursing:
+      # Nursing spans two acts: the Professional Nursing Law (RN/APRN) and the
+      # separate Practical Nurse Law (LPN). pull_text pulls url + every PA URL in
+      # section_url_list. (The Nursing Law also embeds the LDN scheme used by the
+      # dietetics profession — same act, different keep-set.)
+      url: "https://www.legis.state.pa.us/WU01/LI/LI/US/HTM/1951/0/0069..HTM"
+      label: "Professional Nursing Law (Act 69 of 1951) + Practical Nurse Law (Act 376 of 1955)"
+      section_url_list:
+        - "https://www.legis.state.pa.us/WU01/LI/LI/US/HTM/1955/0/0376..HTM"
+      note: "Two acts: 1951/0/0069 (RN/APRN) + 1955/0/0376 (LPN). 63 P.S. §§ 211-225.5 and 651-667."

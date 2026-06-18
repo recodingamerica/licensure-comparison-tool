@@ -6,10 +6,11 @@
       "bucket_set": [
         "Board of Accountancy",
         "Board of Public Accountancy",
-        "CPA/Examiner Board",
-        "State Dept / Agency"
+        "Board of CPA Examiners",
+        "Examining Board",
+        "State Department / Agency"
       ],
-      "rationale": "Most states use a dedicated board with minor name variations — splitting by whether the board name centers on 'Accountancy', 'Public Accountancy', or 'CPA/Examiners' captures meaningful naming differences, while a catch-all bucket covers the handful of states that route licensure through a broader state department.",
+      "rationale": "Most states use a dedicated board with minor naming variations around 'Accountancy' vs 'Public Accountancy' vs 'CPA Examiners', while a small number delegate to a broader state department or examining board structure.",
       "assignments": [
         {
           "state": "AK",
@@ -54,7 +55,7 @@
         {
           "state": "FL",
           "raw_value": "Department of Business and Professional Regulation",
-          "bucket": "State Dept / Agency"
+          "bucket": "State Department / Agency"
         },
         {
           "state": "GA",
@@ -69,7 +70,7 @@
         {
           "state": "IA",
           "raw_value": "Iowa Accountancy Examining Board",
-          "bucket": "CPA/Examiner Board"
+          "bucket": "Examining Board"
         },
         {
           "state": "ID",
@@ -79,7 +80,7 @@
         {
           "state": "IL",
           "raw_value": "Department of Financial and Professional Regulation",
-          "bucket": "State Dept / Agency"
+          "bucket": "State Department / Agency"
         },
         {
           "state": "IN",
@@ -98,8 +99,8 @@
         },
         {
           "state": "LA",
-          "raw_value": "Board of Certified Public Accountants (implied through board authority)",
-          "bucket": "CPA/Examiner Board"
+          "raw_value": "State Board of Certified Public Accountants of Louisiana",
+          "bucket": "Board of CPA Examiners"
         },
         {
           "state": "MA",
@@ -139,12 +140,12 @@
         {
           "state": "MT",
           "raw_value": "Department of Labor and Industry",
-          "bucket": "State Dept / Agency"
+          "bucket": "State Department / Agency"
         },
         {
           "state": "NC",
           "raw_value": "State Board of Certified Public Accountant Examiners",
-          "bucket": "CPA/Examiner Board"
+          "bucket": "Board of CPA Examiners"
         },
         {
           "state": "ND",
@@ -179,7 +180,7 @@
         {
           "state": "NY",
           "raw_value": "New York State Education Department",
-          "bucket": "State Dept / Agency"
+          "bucket": "State Department / Agency"
         },
         {
           "state": "OH",
@@ -187,8 +188,18 @@
           "bucket": "Board of Accountancy"
         },
         {
+          "state": "OK",
+          "raw_value": "Oklahoma Accountancy Board",
+          "bucket": "Board of Accountancy"
+        },
+        {
           "state": "OR",
           "raw_value": "Oregon Board of Accountancy",
+          "bucket": "Board of Accountancy"
+        },
+        {
+          "state": "PA",
+          "raw_value": "State Board of Accountancy",
           "bucket": "Board of Accountancy"
         },
         {
@@ -219,7 +230,7 @@
         {
           "state": "UT",
           "raw_value": "Division of Professional Licensing",
-          "bucket": "State Dept / Agency"
+          "bucket": "State Department / Agency"
         },
         {
           "state": "VA",
@@ -239,7 +250,7 @@
         {
           "state": "WI",
           "raw_value": "Accounting Examining Board",
-          "bucket": "CPA/Examiner Board"
+          "bucket": "Examining Board"
         },
         {
           "state": "WV",
@@ -249,7 +260,7 @@
         {
           "state": "WY",
           "raw_value": "Wyoming Board of Certified Public Accountants",
-          "bucket": "CPA/Examiner Board"
+          "bucket": "Board of CPA Examiners"
         }
       ]
     },
@@ -258,11 +269,11 @@
       "bucket_set": [
         "Board of Accountancy",
         "Board of Public Accountancy",
-        "Board of CPA Examiners",
-        "Board of Accountants",
-        "Education Department"
+        "Board of CPAs",
+        "Examining Board",
+        "Dept / Other Agency"
       ],
-      "rationale": "Names cluster by the key noun phrase used: 'Accountancy' (most common), 'Public Accountancy', 'CPA Examiners', 'Accountants' (plural), or a non-board education department — reflecting meaningfully different statutory framings.",
+      "rationale": "Names cluster around whether they say 'Accountancy' vs 'Public Accountancy' vs 'CPA Examiners/CPAs', with a small group using 'Examining Board' framing and one outlier that is a broader department rather than a dedicated board.",
       "assignments": [
         {
           "state": "AK",
@@ -317,7 +328,7 @@
         {
           "state": "IA",
           "raw_value": "Iowa Accountancy Examining Board",
-          "bucket": "Board of CPA Examiners"
+          "bucket": "Examining Board"
         },
         {
           "state": "ID",
@@ -325,9 +336,14 @@
           "bucket": "Board of Accountancy"
         },
         {
+          "state": "IL",
+          "raw_value": "Department of Financial and Professional Regulation",
+          "bucket": "Dept / Other Agency"
+        },
+        {
           "state": "IN",
           "raw_value": "State Board of Accountants",
-          "bucket": "Board of Accountants"
+          "bucket": "Board of Accountancy"
         },
         {
           "state": "KS",
@@ -341,8 +357,8 @@
         },
         {
           "state": "LA",
-          "raw_value": "Board of Certified Public Accountants",
-          "bucket": "Board of Accountants"
+          "raw_value": "State Board of Certified Public Accountants of Louisiana",
+          "bucket": "Board of CPAs"
         },
         {
           "state": "MA",
@@ -382,12 +398,12 @@
         {
           "state": "MT",
           "raw_value": "Board of Public Accountants",
-          "bucket": "Board of Accountants"
+          "bucket": "Board of Public Accountancy"
         },
         {
           "state": "NC",
           "raw_value": "State Board of Certified Public Accountant Examiners",
-          "bucket": "Board of CPA Examiners"
+          "bucket": "Examining Board"
         },
         {
           "state": "ND",
@@ -422,7 +438,7 @@
         {
           "state": "NY",
           "raw_value": "New York State Education Department",
-          "bucket": "Education Department"
+          "bucket": "Dept / Other Agency"
         },
         {
           "state": "OH",
@@ -437,6 +453,11 @@
         {
           "state": "OR",
           "raw_value": "Oregon Board of Accountancy",
+          "bucket": "Board of Accountancy"
+        },
+        {
+          "state": "PA",
+          "raw_value": "State Board of Accountancy",
           "bucket": "Board of Accountancy"
         },
         {
@@ -492,75 +513,76 @@
         {
           "state": "WY",
           "raw_value": "Wyoming Board of Certified Public Accountants",
-          "bucket": "Board of Accountants"
+          "bucket": "Board of CPAs"
         }
       ]
     },
     {
       "field_name": "licensure.regulatory_authority.umbrella_agency",
       "bucket_set": [
-        "Commerce / Consumer Affairs",
-        "Professional Licensing Division",
-        "Business & Professional Reg.",
+        "Commerce & Economic Dev",
+        "Professional Licensing Div",
+        "Business & Prof Regulation",
         "Labor & Industry",
-        "Secretary of State Office"
+        "Secretary of State",
+        "Office of Governor"
       ],
-      "rationale": "States cluster around five recognizable umbrella-agency archetypes: commerce/consumer-affairs departments, standalone professional-licensing divisions, business-and-professional-regulation departments, labor-and-industry departments, and secretary-of-state offices.",
+      "rationale": "Groups states by the character of their umbrella agency: commerce/economic development departments, dedicated professional licensing divisions/offices, business-and-professional-regulation departments, labor-and-industry departments, secretary of state offices, and the unique executive-office placement.",
       "assignments": [
         {
           "state": "AK",
           "raw_value": "Department of Commerce, Community, and Economic Development",
-          "bucket": "Commerce / Consumer Affairs"
+          "bucket": "Commerce & Economic Dev"
         },
         {
           "state": "CO",
           "raw_value": "Division of Professions and Occupations, Department of Regulatory Agencies",
-          "bucket": "Professional Licensing Division"
+          "bucket": "Professional Licensing Div"
         },
         {
           "state": "DE",
           "raw_value": "Division of Professional Regulation",
-          "bucket": "Professional Licensing Division"
+          "bucket": "Professional Licensing Div"
         },
         {
           "state": "FL",
           "raw_value": "Department of Business and Professional Regulation",
-          "bucket": "Business & Professional Reg."
+          "bucket": "Business & Prof Regulation"
         },
         {
           "state": "GA",
           "raw_value": "Professional Licensing Boards Division, Office of the Secretary of State",
-          "bucket": "Secretary of State Office"
+          "bucket": "Secretary of State"
         },
         {
           "state": "HI",
           "raw_value": "Department of Commerce and Consumer Affairs",
-          "bucket": "Commerce / Consumer Affairs"
+          "bucket": "Commerce & Economic Dev"
         },
         {
           "state": "ID",
           "raw_value": "Division of Occupational and Professional Licenses",
-          "bucket": "Professional Licensing Division"
+          "bucket": "Professional Licensing Div"
         },
         {
           "state": "LA",
-          "raw_value": "Department of Occupational Standards",
-          "bucket": "Professional Licensing Division"
+          "raw_value": "Office of the Governor",
+          "bucket": "Office of Governor"
         },
         {
           "state": "ME",
           "raw_value": "Department of Professional and Financial Regulation",
-          "bucket": "Business & Professional Reg."
+          "bucket": "Business & Prof Regulation"
         },
         {
           "state": "MI",
           "raw_value": "Department (of Licensing and Regulatory Affairs)",
-          "bucket": "Professional Licensing Division"
+          "bucket": "Professional Licensing Div"
         },
         {
           "state": "MO",
           "raw_value": "Division of Professional Registration, Department of Commerce and Insurance",
-          "bucket": "Commerce / Consumer Affairs"
+          "bucket": "Commerce & Economic Dev"
         },
         {
           "state": "MT",
@@ -570,7 +592,12 @@
         {
           "state": "NH",
           "raw_value": "Office of Professional Licensure and Certification",
-          "bucket": "Professional Licensing Division"
+          "bucket": "Professional Licensing Div"
+        },
+        {
+          "state": "PA",
+          "raw_value": "Department of State",
+          "bucket": "Secretary of State"
         },
         {
           "state": "SC",
@@ -580,230 +607,240 @@
         {
           "state": "UT",
           "raw_value": "Division of Professional Licensing, Department of Commerce",
-          "bucket": "Commerce / Consumer Affairs"
+          "bucket": "Professional Licensing Div"
         }
       ]
     },
     {
       "field_name": "licensure.education.degree_required",
       "bucket_set": [
-        "Bach + 150 hrs + Accounting",
-        "Bach + Accounting Concentration",
-        "Bach + 150 hrs (No Concentration)",
-        "Bach Degree Only",
+        "Bach + 150hrs + Acctg Conc",
+        "Bach + 150hrs, No Conc",
+        "Bach + Acctg Conc, No 150hr",
+        "Bach Only / Minimal Req",
         "Board Discretion"
       ],
-      "rationale": "States cluster around whether they require 150 semester hours, an accounting concentration/major, both, or neither, with one outlier delegating standards to the board.",
+      "rationale": "The key distinguishing dimensions are whether a state requires (1) 150 semester hours, (2) an accounting concentration/major, or (3) neither — with one state delegating requirements to board rule entirely.",
       "assignments": [
         {
           "state": "AK",
           "raw_value": "baccalaureate degree or its equivalent with at least 150 total semester hours including accounting concentration, plus two years of accounting experience",
-          "bucket": "Bach + 150 hrs + Accounting"
+          "bucket": "Bach + 150hrs + Acctg Conc"
         },
         {
           "state": "AL",
           "raw_value": "Bachelor's degree with accounting concentration plus 150 semester hours (or 225 quarter hours) total postsecondary education",
-          "bucket": "Bach + 150 hrs + Accounting"
+          "bucket": "Bach + 150hrs + Acctg Conc"
         },
         {
           "state": "AZ",
           "raw_value": "baccalaureate degree or higher degree from an accredited institution",
-          "bucket": "Bach Degree Only"
+          "bucket": "Bach Only / Minimal Req"
         },
         {
           "state": "CA",
           "raw_value": "baccalaureate or higher degree, with at least 150 semester units including 24 units in accounting and 24 units in business-related subjects",
-          "bucket": "Bach + 150 hrs + Accounting"
+          "bucket": "Bach + 150hrs + Acctg Conc"
         },
         {
           "state": "CO",
           "raw_value": "Baccalaureate or higher degree with accounting program or equivalent",
-          "bucket": "Bach + Accounting Concentration"
+          "bucket": "Bach + Acctg Conc, No 150hr"
         },
         {
           "state": "CT",
           "raw_value": "baccalaureate or higher degree with accounting concentration; 150 semester hours total after January 1, 2000",
-          "bucket": "Bach + 150 hrs + Accounting"
+          "bucket": "Bach + 150hrs + Acctg Conc"
         },
         {
           "state": "DE",
           "raw_value": "150 semester hours of college education including a baccalaureate or higher degree",
-          "bucket": "Bach + 150 hrs (No Concentration)"
+          "bucket": "Bach + 150hrs, No Conc"
         },
         {
           "state": "FL",
           "raw_value": "baccalaureate or higher degree with concentration in accounting and business",
-          "bucket": "Bach + Accounting Concentration"
+          "bucket": "Bach + Acctg Conc, No 150hr"
         },
         {
           "state": "GA",
           "raw_value": "Baccalaureate degree with accounting concentration or substantial equivalent; after January 1, 1998, total of 150 semester hours or 225 quarter hours of college education including baccalaureate degree",
-          "bucket": "Bach + 150 hrs + Accounting"
+          "bucket": "Bach + 150hrs + Acctg Conc"
         },
         {
           "state": "HI",
           "raw_value": "Baccalaureate degree with 150 semester hours total (effective December 31, 2000)",
-          "bucket": "Bach + 150 hrs (No Concentration)"
+          "bucket": "Bach + 150hrs, No Conc"
         },
         {
           "state": "IA",
           "raw_value": "baccalaureate or higher degree with concentration in accounting",
-          "bucket": "Bach + Accounting Concentration"
+          "bucket": "Bach + Acctg Conc, No 150hr"
         },
         {
           "state": "ID",
           "raw_value": "baccalaureate or higher degree with concentration in accounting, auditing and business; minimum 150 semester hours or 225 quarter hours",
-          "bucket": "Bach + 150 hrs + Accounting"
+          "bucket": "Bach + 150hrs + Acctg Conc"
         },
         {
           "state": "IL",
-          "raw_value": "baccalaureate or higher degree",
-          "bucket": "Bach Degree Only"
+          "raw_value": "baccalaureate or higher degree conferred by a college or university acceptable to the Board",
+          "bucket": "Bach Only / Minimal Req"
         },
         {
           "state": "IN",
           "raw_value": "baccalaureate or higher degree with accounting concentration",
-          "bucket": "Bach + Accounting Concentration"
+          "bucket": "Bach + Acctg Conc, No 150hr"
         },
         {
           "state": "KS",
           "raw_value": "baccalaureate or higher academic degree with at least 150 semester hours, with a concentration in accounting",
-          "bucket": "Bach + 150 hrs + Accounting"
+          "bucket": "Bach + 150hrs + Acctg Conc"
         },
         {
           "state": "KY",
           "raw_value": "baccalaureate or master's degree in accounting or equivalent",
-          "bucket": "Bach + Accounting Concentration"
+          "bucket": "Bach + Acctg Conc, No 150hr"
         },
         {
           "state": "LA",
-          "raw_value": "baccalaureate or higher degree with accounting concentration; 150 semester hours total",
-          "bucket": "Bach + 150 hrs + Accounting"
+          "raw_value": "Baccalaureate or higher degree with 150 semester hours including accounting concentration",
+          "bucket": "Bach + 150hrs + Acctg Conc"
         },
         {
           "state": "MD",
           "raw_value": "baccalaureate or higher degree with major in accounting or substantial equivalent",
-          "bucket": "Bach + Accounting Concentration"
+          "bucket": "Bach + Acctg Conc, No 150hr"
         },
         {
           "state": "ME",
           "raw_value": "4-year baccalaureate or higher degree",
-          "bucket": "Bach Degree Only"
+          "bucket": "Bach Only / Minimal Req"
         },
         {
           "state": "MI",
           "raw_value": "Baccalaureate or higher degree with a concentration in accounting (150 semester hours)",
-          "bucket": "Bach + 150 hrs + Accounting"
+          "bucket": "Bach + 150hrs + Acctg Conc"
         },
         {
           "state": "MN",
           "raw_value": "baccalaureate or higher degree with a major in accounting or a major in business with accounting emphasis, or an equivalent education",
-          "bucket": "Bach + Accounting Concentration"
+          "bucket": "Bach + Acctg Conc, No 150hr"
         },
         {
           "state": "MO",
           "raw_value": "150 semester hours of college education including a baccalaureate or higher degree with accounting concentration",
-          "bucket": "Bach + 150 hrs + Accounting"
+          "bucket": "Bach + 150hrs + Acctg Conc"
         },
         {
           "state": "MS",
           "raw_value": "baccalaureate degree with 150 collegiate-level semester hours",
-          "bucket": "Bach + 150 hrs (No Concentration)"
+          "bucket": "Bach + 150hrs, No Conc"
         },
         {
           "state": "MT",
           "raw_value": "baccalaureate degree with at least 150 semester hours of credit",
-          "bucket": "Bach + 150 hrs (No Concentration)"
+          "bucket": "Bach + 150hrs, No Conc"
         },
         {
           "state": "NC",
           "raw_value": "bachelor's or higher degree with concentration in accounting",
-          "bucket": "Bach + Accounting Concentration"
+          "bucket": "Bach + Acctg Conc, No 150hr"
         },
         {
           "state": "ND",
           "raw_value": "baccalaureate or higher degree with accounting concentration",
-          "bucket": "Bach + Accounting Concentration"
+          "bucket": "Bach + Acctg Conc, No 150hr"
         },
         {
           "state": "NE",
           "raw_value": "baccalaureate or higher degree (150 semester hours for permit; 120 semester hours to sit for exam on or after January 1, 2025)",
-          "bucket": "Bach + 150 hrs (No Concentration)"
+          "bucket": "Bach + 150hrs, No Conc"
         },
         {
           "state": "NH",
           "raw_value": "On or after July 1, 2014, at least 150 semester hours of college education including a baccalaureate or higher degree",
-          "bucket": "Bach + 150 hrs (No Concentration)"
+          "bucket": "Bach + 150hrs, No Conc"
         },
         {
           "state": "NJ",
           "raw_value": "baccalaureate or higher degree (150 semester hours required for licensure; 120 to sit for exam)",
-          "bucket": "Bach + 150 hrs (No Concentration)"
+          "bucket": "Bach + 150hrs, No Conc"
         },
         {
           "state": "NM",
           "raw_value": "Baccalaureate degree or its equivalent with 150 semester hours of college education (pre-2026); or baccalaureate/master's degree with specified accounting/business concentration (effective January 1, 2026)",
-          "bucket": "Bach + 150 hrs + Accounting"
+          "bucket": "Bach + 150hrs + Acctg Conc"
         },
         {
           "state": "NV",
           "raw_value": "baccalaureate degree or equivalent with major in accounting or substantially equivalent",
-          "bucket": "Bach + Accounting Concentration"
+          "bucket": "Bach + Acctg Conc, No 150hr"
         },
         {
           "state": "NY",
           "raw_value": "bachelor's or higher degree from a program in accountancy",
-          "bucket": "Bach + Accounting Concentration"
+          "bucket": "Bach + Acctg Conc, No 150hr"
         },
         {
           "state": "OH",
           "raw_value": "Baccalaureate, master's, or higher degree with accounting concentration",
-          "bucket": "Bach + Accounting Concentration"
+          "bucket": "Bach + Acctg Conc, No 150hr"
+        },
+        {
+          "state": "OK",
+          "raw_value": "150 semester hours including a baccalaureate or higher degree",
+          "bucket": "Bach + 150hrs, No Conc"
         },
         {
           "state": "OR",
           "raw_value": "baccalaureate or higher degree from a college or university accredited by a regional accrediting association",
-          "bucket": "Bach Degree Only"
+          "bucket": "Bach Only / Minimal Req"
+        },
+        {
+          "state": "PA",
+          "raw_value": "Baccalaureate or higher degree with 150 semester credits (or baccalaureate with 24 credits, or master's/post-graduate with 24 credits)",
+          "bucket": "Bach + 150hrs + Acctg Conc"
         },
         {
           "state": "RI",
           "raw_value": "baccalaureate degree with accounting concentration or equivalent",
-          "bucket": "Bach + Accounting Concentration"
+          "bucket": "Bach + Acctg Conc, No 150hr"
         },
         {
           "state": "SC",
           "raw_value": "baccalaureate degree or higher from an accredited institution",
-          "bucket": "Bach Degree Only"
+          "bucket": "Bach Only / Minimal Req"
         },
         {
           "state": "SD",
           "raw_value": "baccalaureate or graduate degree in accounting",
-          "bucket": "Bach + Accounting Concentration"
+          "bucket": "Bach + Acctg Conc, No 150hr"
         },
         {
           "state": "TN",
           "raw_value": "150 semester hours including baccalaureate or higher degree",
-          "bucket": "Bach + 150 hrs (No Concentration)"
+          "bucket": "Bach + 150hrs, No Conc"
         },
         {
           "state": "TX",
           "raw_value": "baccalaureate or graduate degree",
-          "bucket": "Bach Degree Only"
+          "bucket": "Bach Only / Minimal Req"
         },
         {
           "state": "UT",
           "raw_value": "bachelor's degree or master's degree with concentration in accounting and business",
-          "bucket": "Bach + Accounting Concentration"
+          "bucket": "Bach + Acctg Conc, No 150hr"
         },
         {
           "state": "VA",
           "raw_value": "baccalaureate or higher degree with accounting concentration",
-          "bucket": "Bach + Accounting Concentration"
+          "bucket": "Bach + Acctg Conc, No 150hr"
         },
         {
           "state": "VT",
           "raw_value": "baccalaureate degree and 150 or more semester hours of college credit, including a minimum of 42 semester hours of accounting, auditing, and related subjects",
-          "bucket": "Bach + 150 hrs + Accounting"
+          "bucket": "Bach + 150hrs + Acctg Conc"
         },
         {
           "state": "WA",
@@ -813,17 +850,17 @@
         {
           "state": "WI",
           "raw_value": "Bachelor's or higher degree with at least 150 semester hours including accounting and business coursework",
-          "bucket": "Bach + 150 hrs + Accounting"
+          "bucket": "Bach + 150hrs + Acctg Conc"
         },
         {
           "state": "WV",
           "raw_value": "At least one hundred fifty semester hours of college education including a baccalaureate or higher degree",
-          "bucket": "Bach + 150 hrs (No Concentration)"
+          "bucket": "Bach + 150hrs, No Conc"
         },
         {
           "state": "WY",
           "raw_value": "Baccalaureate or higher degree with accounting concentration; on or after January 1, 2012, at least 150 semester hours of college education including a baccalaureate or higher degree",
-          "bucket": "Bach + 150 hrs + Accounting"
+          "bucket": "Bach + 150hrs + Acctg Conc"
         }
       ]
     },
@@ -831,18 +868,18 @@
       "field_name": "licensure.post_degree_experience.duration",
       "bucket_set": [
         "1 Year Flat",
-        "1–2 Years (Degree-Dependent)",
-        "2 Years",
-        "2+ Years / Tiered",
+        "2 Years Flat",
+        "1–2 Years (Edu-Based)",
+        "1–3+ Years (Tiered)",
         "Hours-Based",
         "Board Discretion"
       ],
-      "rationale": "States cluster around a flat 1-year requirement, a 1-or-2-year sliding scale tied to degree level, a flat 2-year requirement, more complex multi-tier schemes, an hours-based measure, or board-set rules.",
+      "rationale": "States cluster around a flat 1-year requirement, a flat 2-year requirement, education-contingent 1-or-2-year tiers, more complex multi-path tiers (3+ options or 4-year outliers), hour-denominated requirements, or board-set rules — five natural patterns plus one catch-all for delegated rulemaking.",
       "assignments": [
         {
           "state": "AK",
           "raw_value": "two years",
-          "bucket": "2 Years"
+          "bucket": "2 Years Flat"
         },
         {
           "state": "AL",
@@ -927,17 +964,17 @@
         {
           "state": "MA",
           "raw_value": "4 years",
-          "bucket": "2+ Years / Tiered"
+          "bucket": "1–3+ Years (Tiered)"
         },
         {
           "state": "MD",
           "raw_value": "1-3 years with minimum 2,000 hours if applicant applies on or after October 1, 2000",
-          "bucket": "2+ Years / Tiered"
+          "bucket": "1–3+ Years (Tiered)"
         },
         {
           "state": "ME",
           "raw_value": "2 years",
-          "bucket": "2 Years"
+          "bucket": "2 Years Flat"
         },
         {
           "state": "MI",
@@ -947,7 +984,7 @@
         {
           "state": "MN",
           "raw_value": "one year (or two years after June 30, 2030 for bachelor's/graduate degree holders)",
-          "bucket": "1–2 Years (Degree-Dependent)"
+          "bucket": "1–2 Years (Edu-Based)"
         },
         {
           "state": "MO",
@@ -962,12 +999,12 @@
         {
           "state": "MT",
           "raw_value": "not exceeding 2 years",
-          "bucket": "2 Years"
+          "bucket": "2 Years Flat"
         },
         {
           "state": "NC",
           "raw_value": "1 to 4 years depending on educational path",
-          "bucket": "2+ Years / Tiered"
+          "bucket": "1–3+ Years (Tiered)"
         },
         {
           "state": "ND",
@@ -977,7 +1014,7 @@
         {
           "state": "NE",
           "raw_value": "2 years (public accounting firm) or 3 years (government/academia) or 2 years (Auditor of Public Accounts/Dept. of Revenue)",
-          "bucket": "2+ Years / Tiered"
+          "bucket": "1–3+ Years (Tiered)"
         },
         {
           "state": "NH",
@@ -1002,17 +1039,27 @@
         {
           "state": "NY",
           "raw_value": "one or two years depending on education path",
-          "bucket": "1–2 Years (Degree-Dependent)"
+          "bucket": "1–2 Years (Edu-Based)"
         },
         {
           "state": "OH",
           "raw_value": "1 year (or 2 years for baccalaureate degree holders)",
-          "bucket": "1–2 Years (Degree-Dependent)"
+          "bucket": "1–2 Years (Edu-Based)"
+        },
+        {
+          "state": "OK",
+          "raw_value": "1 year",
+          "bucket": "1 Year Flat"
         },
         {
           "state": "OR",
           "raw_value": "one to two years depending on degree level",
-          "bucket": "1–2 Years (Degree-Dependent)"
+          "bucket": "1–2 Years (Edu-Based)"
+        },
+        {
+          "state": "PA",
+          "raw_value": "At least one year (with 150-credit education) or at least two years (with baccalaureate-only education)",
+          "bucket": "1–2 Years (Edu-Based)"
         },
         {
           "state": "RI",
@@ -1022,7 +1069,7 @@
         {
           "state": "SC",
           "raw_value": "1-2 years depending on education level",
-          "bucket": "1–2 Years (Degree-Dependent)"
+          "bucket": "1–2 Years (Edu-Based)"
         },
         {
           "state": "SD",
@@ -1042,12 +1089,12 @@
         {
           "state": "UT",
           "raw_value": "1-2 years depending on degree level",
-          "bucket": "1–2 Years (Degree-Dependent)"
+          "bucket": "1–2 Years (Edu-Based)"
         },
         {
           "state": "VA",
           "raw_value": "2 years (baccalaureate) or 1 year (master's degree)",
-          "bucket": "1–2 Years (Degree-Dependent)"
+          "bucket": "1–2 Years (Edu-Based)"
         },
         {
           "state": "VT",
@@ -1072,20 +1119,21 @@
         {
           "state": "WY",
           "raw_value": "1 year (on or after January 1, 2012); 4 years (prior to January 1, 2012)",
-          "bucket": "1 Year Flat"
+          "bucket": "1–3+ Years (Tiered)"
         }
       ]
     },
     {
       "field_name": "licensure.post_degree_experience.kind",
       "bucket_set": [
-        "Broad Service List",
         "Public Practice Only",
-        "General Accounting",
+        "Broad Skill List",
+        "Any Sector (Broad Skill List)",
         "CPA-Supervised",
-        "Multi-Sector Broad"
+        "Board Discretion",
+        "General Accounting"
       ],
-      "rationale": "States cluster around: a standard enumerated list of accounting/attest/advisory/tax/consulting services, a simple 'public accounting practice' requirement, a generic 'accounting experience' phrase, an explicit CPA supervision requirement, or a broad multi-sector approach (government/industry/academia/public practice) without full service enumeration.",
+      "rationale": "States cluster around: those requiring public practice specifically, those listing a broad set of service skills without sector restriction, those listing broad skills but explicitly permitting government/industry/academia, those emphasizing CPA supervision, one deferring entirely to board regulation, and those using simple general 'accounting experience' language.",
       "assignments": [
         {
           "state": "AK",
@@ -1100,42 +1148,42 @@
         {
           "state": "AR",
           "raw_value": "accounting, attest, management advisory, financial advisory, tax, or consulting skills",
-          "bucket": "Broad Service List"
+          "bucket": "Broad Skill List"
         },
         {
           "state": "AZ",
           "raw_value": "accounting practice experience",
-          "bucket": "Public Practice Only"
+          "bucket": "General Accounting"
         },
         {
           "state": "CA",
           "raw_value": "qualifying experience in accounting, attest, compilation, management advisory, financial advisory, tax, or consulting skills",
-          "bucket": "Broad Service List"
+          "bucket": "Broad Skill List"
         },
         {
           "state": "CO",
           "raw_value": "Accounting, attest, compilation, management advisory, financial advisory, tax, or consulting services",
-          "bucket": "Broad Service List"
+          "bucket": "Broad Skill List"
         },
         {
           "state": "CT",
           "raw_value": "experience requirement as prescribed by board regulation",
-          "bucket": "General Accounting"
+          "bucket": "Board Discretion"
         },
         {
           "state": "DE",
           "raw_value": "supervised accounting, attest, compilation, management advisory, financial advisory, tax or consulting services",
-          "bucket": "Broad Service List"
+          "bucket": "CPA-Supervised"
         },
         {
           "state": "FL",
           "raw_value": "accounting, attest, compilation, management advisory, financial advisory, tax, or consulting services",
-          "bucket": "Broad Service List"
+          "bucket": "Broad Skill List"
         },
         {
           "state": "GA",
           "raw_value": "Accounting field experience in public accounting, industry, business, government, or college teaching",
-          "bucket": "Multi-Sector Broad"
+          "bucket": "Any Sector (Broad Skill List)"
         },
         {
           "state": "HI",
@@ -1145,22 +1193,22 @@
         {
           "state": "IA",
           "raw_value": "accounting, attest, compilation, management advisory, financial advisory, tax, or consulting skills",
-          "bucket": "Broad Service List"
+          "bucket": "Broad Skill List"
         },
         {
           "state": "ID",
           "raw_value": "accounting, attest, compilation, management advisory, financial advisory, tax or consulting services",
-          "bucket": "Broad Service List"
+          "bucket": "Broad Skill List"
         },
         {
           "state": "IL",
-          "raw_value": "accounting, audit, management advisory, financial advisory, tax, or consulting experience",
-          "bucket": "Broad Service List"
+          "raw_value": "accounting, audit, management advisory, financial advisory, tax, consulting skills, or other attestation engagements",
+          "bucket": "Broad Skill List"
         },
         {
           "state": "IN",
           "raw_value": "accounting, attest, compilation, management advisory, financial advisory, tax, or consulting services",
-          "bucket": "Broad Service List"
+          "bucket": "Broad Skill List"
         },
         {
           "state": "KS",
@@ -1174,8 +1222,8 @@
         },
         {
           "state": "LA",
-          "raw_value": "accounting, attest, management advisory, financial advisory, tax, or consulting services",
-          "bucket": "Broad Service List"
+          "raw_value": "accounting, attest, management advisory, financial advisory, tax, or consulting experience",
+          "bucket": "Broad Skill List"
         },
         {
           "state": "MA",
@@ -1185,7 +1233,7 @@
         {
           "state": "MD",
           "raw_value": "practical work experience in accounting, attest, management advisory, financial advisory, tax, or consulting services",
-          "bucket": "Broad Service List"
+          "bucket": "Broad Skill List"
         },
         {
           "state": "ME",
@@ -1195,22 +1243,22 @@
         {
           "state": "MI",
           "raw_value": "qualifying experience in government, industry, academia, or public practice",
-          "bucket": "Multi-Sector Broad"
+          "bucket": "Any Sector (Broad Skill List)"
         },
         {
           "state": "MN",
           "raw_value": "accounting, attest, compilation, management advisory, financial advisory, tax, or consulting experience",
-          "bucket": "Broad Service List"
+          "bucket": "Broad Skill List"
         },
         {
           "state": "MO",
           "raw_value": "accounting, attest, compilation, management advisory, financial advisory, tax or consulting skills including governmental accounting, budgeting or auditing",
-          "bucket": "Broad Service List"
+          "bucket": "Broad Skill List"
         },
         {
           "state": "MS",
           "raw_value": "accounting, attest, compilation, management advisory, financial advisory, tax or consulting skills",
-          "bucket": "Broad Service List"
+          "bucket": "Broad Skill List"
         },
         {
           "state": "MT",
@@ -1225,7 +1273,7 @@
         {
           "state": "ND",
           "raw_value": "accounting, attest, management advisory, financial advisory, tax, or consulting skills",
-          "bucket": "Broad Service List"
+          "bucket": "Broad Skill List"
         },
         {
           "state": "NE",
@@ -1240,12 +1288,12 @@
         {
           "state": "NJ",
           "raw_value": "experience in accounting, attest, compilation, management advisory, financial advisory, tax, or consulting skills",
-          "bucket": "Broad Service List"
+          "bucket": "Broad Skill List"
         },
         {
           "state": "NM",
           "raw_value": "accounting experience (public accountancy, government, industry, academia or public practice)",
-          "bucket": "Multi-Sector Broad"
+          "bucket": "Any Sector (Broad Skill List)"
         },
         {
           "state": "NV",
@@ -1260,7 +1308,12 @@
         {
           "state": "OH",
           "raw_value": "Public accounting, government, business, or academia experience",
-          "bucket": "Multi-Sector Broad"
+          "bucket": "Any Sector (Broad Skill List)"
+        },
+        {
+          "state": "OK",
+          "raw_value": "accounting, attest, compilation, management advisory, financial advisory, tax or consulting work experience",
+          "bucket": "Broad Skill List"
         },
         {
           "state": "OR",
@@ -1268,29 +1321,34 @@
           "bucket": "CPA-Supervised"
         },
         {
+          "state": "PA",
+          "raw_value": "Qualifying experience involving accounting, attest, compilation, management advisory, financial advisory, tax or consulting skills in government, industry, academia or public practice",
+          "bucket": "Any Sector (Broad Skill List)"
+        },
+        {
           "state": "RI",
           "raw_value": "accounting, attest, management advisory, financial advisory, tax, or consulting services",
-          "bucket": "Broad Service List"
+          "bucket": "Broad Skill List"
         },
         {
           "state": "SC",
           "raw_value": "relevant professional experience in accounting, attestation, compilation, management advisory, financial advisory, tax, or consulting",
-          "bucket": "Broad Service List"
+          "bucket": "Broad Skill List"
         },
         {
           "state": "SD",
           "raw_value": "accounting, attest, management advisory, financial advisory, tax, or consulting skills",
-          "bucket": "Broad Service List"
+          "bucket": "Broad Skill List"
         },
         {
           "state": "TN",
           "raw_value": "accounting, attest, management advisory, financial advisory, tax or consulting skills",
-          "bucket": "Broad Service List"
+          "bucket": "Broad Skill List"
         },
         {
           "state": "TX",
           "raw_value": "accounting, attest services, management or financial advisory or consulting services, tax services",
-          "bucket": "Broad Service List"
+          "bucket": "Broad Skill List"
         },
         {
           "state": "UT",
@@ -1300,7 +1358,7 @@
         {
           "state": "VA",
           "raw_value": "employment in academia, firm, government, or industry involving substantial use of accounting, financial, tax, or other relevant skills",
-          "bucket": "Multi-Sector Broad"
+          "bucket": "Any Sector (Broad Skill List)"
         },
         {
           "state": "VT",
@@ -1310,7 +1368,7 @@
         {
           "state": "WA",
           "raw_value": "accounting, issuing reports, management advisory, financial advisory, tax, tax advisory, or consulting skills in government, industry, academia, or public practice",
-          "bucket": "Multi-Sector Broad"
+          "bucket": "Any Sector (Broad Skill List)"
         },
         {
           "state": "WI",
@@ -1320,39 +1378,40 @@
         {
           "state": "WV",
           "raw_value": "accounting, attest, compilation, management advisory, financial advisory, tax or consulting services",
-          "bucket": "Broad Service List"
+          "bucket": "Broad Skill List"
         },
         {
           "state": "WY",
           "raw_value": "Public accounting experience including accounting skills, auditing, review, compilation, management advisory, financial advisory, tax or consulting services",
-          "bucket": "Broad Service List"
+          "bucket": "Public Practice Only"
         }
       ]
     },
     {
       "field_name": "licensure.national_certification",
       "bucket_set": [
-        "AICPA (Org Only)",
+        "AICPA Only",
         "Uniform CPA Exam",
-        "AICPA + Exam Named",
-        "Erroneous/Mismatch"
+        "AICPA + Uniform Exam",
+        "AICPA/NASBA Joint",
+        "Data Error"
       ],
-      "rationale": "States cluster around whether they cite only the AICPA organization, only the Uniform CPA Examination by name, both together, or contain an obviously mismatched reference (NBPME in an accountancy context).",
+      "rationale": "States cluster around whether they cite the AICPA organization alone, the Uniform CPA Examination alone, both together, the joint AICPA/NASBA framework, or contain an obvious data error (wrong profession referenced).",
       "assignments": [
         {
           "state": "AK",
           "raw_value": "American Institute of Certified Public Accountants (AICPA) - Uniform Certified Public Accountant Examination",
-          "bucket": "AICPA + Exam Named"
+          "bucket": "AICPA + Uniform Exam"
         },
         {
           "state": "AR",
           "raw_value": "American Institute of Certified Public Accountants (AICPA)",
-          "bucket": "AICPA (Org Only)"
+          "bucket": "AICPA Only"
         },
         {
           "state": "CO",
           "raw_value": "American Institute of Certified Public Accountants (AICPA)",
-          "bucket": "AICPA (Org Only)"
+          "bucket": "AICPA Only"
         },
         {
           "state": "CT",
@@ -1362,12 +1421,12 @@
         {
           "state": "DE",
           "raw_value": "American Institute of Certified Public Accountants (AICPA)",
-          "bucket": "AICPA (Org Only)"
+          "bucket": "AICPA Only"
         },
         {
           "state": "HI",
           "raw_value": "American Institute of Certified Public Accountants (AICPA)",
-          "bucket": "AICPA (Org Only)"
+          "bucket": "AICPA Only"
         },
         {
           "state": "IA",
@@ -1377,47 +1436,47 @@
         {
           "state": "ID",
           "raw_value": "National Board of Podiatric Medical Examiners (NBPME) - referenced in context of uniform CPA examination standards",
-          "bucket": "Erroneous/Mismatch"
+          "bucket": "Data Error"
         },
         {
           "state": "IN",
           "raw_value": "American Institute of Certified Public Accountants (AICPA)",
-          "bucket": "AICPA (Org Only)"
-        },
-        {
-          "state": "LA",
-          "raw_value": "American Institute of Certified Public Accountants (AICPA)",
-          "bucket": "AICPA (Org Only)"
+          "bucket": "AICPA Only"
         },
         {
           "state": "NH",
           "raw_value": "American Institute of Certified Public Accountants (AICPA)",
-          "bucket": "AICPA (Org Only)"
+          "bucket": "AICPA Only"
         },
         {
           "state": "NV",
           "raw_value": "American Institute of Certified Public Accountants (AICPA)",
-          "bucket": "AICPA (Org Only)"
+          "bucket": "AICPA Only"
         },
         {
           "state": "OH",
           "raw_value": "American Institute of Certified Public Accountants (AICPA)",
-          "bucket": "AICPA (Org Only)"
+          "bucket": "AICPA Only"
+        },
+        {
+          "state": "OK",
+          "raw_value": "AICPA/NASBA Uniform Accountancy Act (Uniform CPA Examination)",
+          "bucket": "AICPA/NASBA Joint"
         },
         {
           "state": "RI",
           "raw_value": "American Institute of Certified Public Accountants (AICPA)",
-          "bucket": "AICPA (Org Only)"
+          "bucket": "AICPA Only"
         },
         {
           "state": "TX",
           "raw_value": "American Institute of Certified Public Accountants (AICPA)",
-          "bucket": "AICPA (Org Only)"
+          "bucket": "AICPA Only"
         },
         {
           "state": "UT",
           "raw_value": "American Institute of Certified Public Accountants (AICPA)",
-          "bucket": "AICPA (Org Only)"
+          "bucket": "AICPA Only"
         }
       ]
     },
@@ -1426,16 +1485,16 @@
       "bucket_set": [
         "Attest + Advisory + Tax",
         "Attest + Compilation Only",
-        "Attest + Compilation + Tax",
-        "Broad Full Spectrum",
-        "High-Level Summary"
+        "Broad Accounting + Tax",
+        "Standards-Referenced",
+        "High-Level / Generic"
       ],
-      "rationale": "States cluster by how expansively they enumerate authorized methods: some list only core attest/compilation services, others add tax and advisory, and a few use very broad or summary language rather than itemized lists.",
+      "rationale": "States cluster by whether they authorize a full suite (attest, advisory, tax), limit scope to attest/compilation, use broad accounting-skill language, explicitly reference professional standards (SAS/SSAE/PCAOB), or describe services only at a high/generic level.",
       "assignments": [
         {
           "state": "AK",
           "raw_value": "preparing financial statements; issuing reports; furnishing management services; furnishing financial advisory services; providing consulting services; preparing tax returns; advising on tax matters; consulting on tax matters; attest functions; compilation services",
-          "bucket": "Broad Full Spectrum"
+          "bucket": "Attest + Advisory + Tax"
         },
         {
           "state": "AL",
@@ -1455,7 +1514,7 @@
         {
           "state": "CA",
           "raw_value": "audit, examination, verification, investigation, certification, presentation, or review of financial transactions and accounting records; preparation or certification of reports on audits or examinations of books or records of account, balance sheets, and other financial statements; rendering professional services relating to accounting procedure and to the recording, presentation, or certification of financial information or data; bookkeeping operations including keeping books, making trial balances, preparing statements, making audits, or preparing reports; preparation or signing of tax retu",
-          "bucket": "Broad Full Spectrum"
+          "bucket": "Broad Accounting + Tax"
         },
         {
           "state": "CO",
@@ -1499,8 +1558,8 @@
         },
         {
           "state": "IL",
-          "raw_value": "signing/affixing reports expressing assurance on financial statements; other attestation engagements; accounting services; management services; financial or consulting services; compilations; internal audit; preparation of tax returns; furnishing advice on tax matters; bookkeeping; representations of taxpayers",
-          "bucket": "Broad Full Spectrum"
+          "raw_value": "attest/audit services; other attestation engagements; accounting services; management/financial/consulting services; compilations; internal audit; tax return preparation; tax advice; bookkeeping; taxpayer representation",
+          "bucket": "Broad Accounting + Tax"
         },
         {
           "state": "IN",
@@ -1510,7 +1569,7 @@
         {
           "state": "KS",
           "raw_value": "attest services; nonattest services",
-          "bucket": "High-Level Summary"
+          "bucket": "High-Level / Generic"
         },
         {
           "state": "KY",
@@ -1519,13 +1578,13 @@
         },
         {
           "state": "LA",
-          "raw_value": "accounting; attest; management advisory; financial advisory; tax; consulting",
-          "bucket": "High-Level Summary"
+          "raw_value": "audit or other engagement in accordance with SAS or Government Auditing Standards; review or compilation in accordance with SSARS; examination, review, or agreed upon procedures engagement in accordance with SSAE; engagement in accordance with PCAOB Standards; preparation of financial statements; management advisory services; financial advisory services; tax services; consulting services",
+          "bucket": "Standards-Referenced"
         },
         {
           "state": "MA",
           "raw_value": "accounting or auditing skills including issuance of reports; management advisory or consulting services; preparation of tax returns; furnishing of advice on tax matters",
-          "bucket": "High-Level Summary"
+          "bucket": "High-Level / Generic"
         },
         {
           "state": "MD",
@@ -1565,7 +1624,7 @@
         {
           "state": "ND",
           "raw_value": "accounting skills; auditing skills; issuance of reports on financial statements",
-          "bucket": "High-Level Summary"
+          "bucket": "High-Level / Generic"
         },
         {
           "state": "NH",
@@ -1598,9 +1657,19 @@
           "bucket": "Attest + Compilation Only"
         },
         {
+          "state": "OK",
+          "raw_value": "audit, verification, investigation, certification, presentation, or review of financial transactions and accounting records; attest services (SAS, SSARS, SSAE, PCAOB); compilation of financial statements; tax preparation and tax consulting; management advisory services; personal financial or investment planning; bookkeeping services",
+          "bucket": "Standards-Referenced"
+        },
+        {
           "state": "OR",
           "raw_value": "audit; review of financial statements; examination of prospective financial information; agreed upon procedures; compilation services",
           "bucket": "Attest + Compilation Only"
+        },
+        {
+          "state": "PA",
+          "raw_value": "Attest activity (audits, reviews, compilations, attestation engagements); Management advisory or consulting services; Business valuations; Financial planning; Preparation of tax returns; Furnishing of advice on tax matters",
+          "bucket": "Attest + Advisory + Tax"
         },
         {
           "state": "RI",
@@ -1645,12 +1714,12 @@
         {
           "state": "WA",
           "raw_value": "accounting and auditing skills; issuance of reports; management advisory services; consulting services; preparation of tax returns; furnishing of advice on tax matters",
-          "bucket": "Attest + Advisory + Tax"
+          "bucket": "High-Level / Generic"
         },
         {
           "state": "WI",
           "raw_value": "audit of financial transactions and accounting records; attest services; review of financial statements; examination of prospective financial information; preparation of financial reports and schedules; professional assistance in accounting procedure and recording and presentation of financial facts; signing opinions or certificates attesting to reliability of financial information",
-          "bucket": "Attest + Compilation Only"
+          "bucket": "Broad Accounting + Tax"
         },
         {
           "state": "WV",
@@ -1665,253 +1734,15 @@
       ]
     },
     {
-      "field_name": "profession_specific.attest_services_types",
-      "bucket_set": [
-        "Full Standards List",
-        "Broad + PCAOB",
-        "Broad, No PCAOB",
-        "Includes Compilation",
-        "Concise / High-Level"
-      ],
-      "rationale": "States cluster by how exhaustively they enumerate service types and whether they include compilation, PCAOB engagements, and agreed-upon procedures, with a small group using very brief or high-level language instead of itemized standards references.",
-      "assignments": [
-        {
-          "state": "AK",
-          "raw_value": "audit or other engagement established by Statements on Auditing Standards; review of a financial statement established by Statements on Standards for Accounting and Review Services; examination of prospective financial information established by Statements on Standards for Attestation Engagements; engagement established by Auditing Standards of the Public Company Accounting Oversight Board; examination, review, or agreed upon procedure performed in accordance with standards on attestation engagements developed by national accountancy organizations",
-          "bucket": "Full Standards List"
-        },
-        {
-          "state": "AL",
-          "raw_value": "audit; review of financial statements; attestation engagements; PCAOB auditing standards engagements",
-          "bucket": "Broad + PCAOB"
-        },
-        {
-          "state": "AR",
-          "raw_value": "audit; review of financial statements; examination of prospective financial information; PCAOB engagements; agreed-upon procedures",
-          "bucket": "Broad + PCAOB"
-        },
-        {
-          "state": "CA",
-          "raw_value": "audit of a financial statement; review of a financial statement; compilation of a financial statement; examination of prospective financial information",
-          "bucket": "Includes Compilation"
-        },
-        {
-          "state": "CO",
-          "raw_value": "audit; attest; compilation",
-          "bucket": "Concise / High-Level"
-        },
-        {
-          "state": "CT",
-          "raw_value": "audit or other engagement in accordance with Statements on Auditing Standards (SAS); review of financial statement in accordance with Statements on Standards for Accounting and Review Services (SSARS); examination of prospective financial information in accordance with Statements on Standards for Attestation Engagements (SSAE); engagement in accordance with Auditing Standards of the PCAOB; examination, review or agreed upon procedures engagement in accordance with Statements on Standards for Attestation Engagements (SSAE)",
-          "bucket": "Full Standards List"
-        },
-        {
-          "state": "DE",
-          "raw_value": "audit services; review services; examination of prospective financial information; agreed upon procedures engagements; PCAOB engagements",
-          "bucket": "Broad + PCAOB"
-        },
-        {
-          "state": "FL",
-          "raw_value": "expression of opinion on financial statements; attestation as an expert in accountancy to the reliability or fairness of presentation of financial information; attestation engagements in accordance with the Statements on Standards for Attestation Engagements",
-          "bucket": "Concise / High-Level"
-        },
-        {
-          "state": "GA",
-          "raw_value": "Audits; Reviews of financial statements; Examinations of prospective financial information; Public company engagements; Examinations, reviews, or agreed upon procedures engagements",
-          "bucket": "Broad + PCAOB"
-        },
-        {
-          "state": "HI",
-          "raw_value": "audit; compilation; review; examination of prospective financial information; government auditing; public company accounting oversight board engagements",
-          "bucket": "Includes Compilation"
-        },
-        {
-          "state": "IA",
-          "raw_value": "audit; review of financial statements; attestation engagements; public company accounting oversight board engagements",
-          "bucket": "Broad + PCAOB"
-        },
-        {
-          "state": "ID",
-          "raw_value": "audit; review of financial statements; examination of prospective financial information; PCAOB engagements; examination, review or agreed-upon procedures engagements",
-          "bucket": "Broad + PCAOB"
-        },
-        {
-          "state": "IL",
-          "raw_value": "financial statement audit or other engagement in accordance with Statements on Auditing Standards; examination of prospective financial information in accordance with Statements on Standards for Attestation Engagements; engagement in accordance with Public Company Accounting Oversight Board Auditing Standards; other attestation engagements in accordance with Statements on Standards for Attestation Engagements",
-          "bucket": "Full Standards List"
-        },
-        {
-          "state": "IN",
-          "raw_value": "audit or other engagement performed in accordance with AICPA Statements on Auditing Standards (SAS); review of financial statement performed in accordance with AICPA Statements on Standards for Accounting and Review Services (SSARS); examination of prospective financial information performed in accordance with AICPA Statements on Standards for Attestation Engagements (SSAE); engagement performed in accordance with standards of Public Company Accounting Oversight Board; examination, review, or agreed upon procedure performed in accordance with SSAE",
-          "bucket": "Full Standards List"
-        },
-        {
-          "state": "KS",
-          "raw_value": "audits in accordance with statements on auditing standards (SAS); audits in accordance with the Kansas municipal audit guide; reviews of financial statements in accordance with statements on standards for accounting and review services (SSARS); engagements in accordance with statements on standards for attestation engagements (SSAE); engagements in accordance with the standards of the PCAOB",
-          "bucket": "Full Standards List"
-        },
-        {
-          "state": "KY",
-          "raw_value": "audits; reviews of financial statements; examinations of prospective financial information; attestation engagements; PCAOB auditing standards engagements",
-          "bucket": "Broad + PCAOB"
-        },
-        {
-          "state": "LA",
-          "raw_value": "audits; reviews; compilations",
-          "bucket": "Includes Compilation"
-        },
-        {
-          "state": "MA",
-          "raw_value": "attest services; compilation services",
-          "bucket": "Concise / High-Level"
-        },
-        {
-          "state": "MD",
-          "raw_value": "audit; review; compilation; examination; agreed-upon procedures; attestation engagements; PCAOB audits",
-          "bucket": "Includes Compilation"
-        },
-        {
-          "state": "ME",
-          "raw_value": "audits; reviews; compilations; examinations of prospective financial information; agreed upon procedures engagements; PCAOB engagements",
-          "bucket": "Includes Compilation"
-        },
-        {
-          "state": "MI",
-          "raw_value": "Audit or other engagement under statements on auditing standards; Review of financial statement under statements on standards for accounting and review services; Examination of prospective financial information under statements on standards for attestation engagements; Engagement under PCAOB auditing standards; Examination, review, or agreed-upon procedures under statements on standards for attestation engagements",
-          "bucket": "Full Standards List"
-        },
-        {
-          "state": "MN",
-          "raw_value": "audit or other engagement under Statements on Auditing Standards (SAS); audit or other engagement under Generally Accepted Government Auditing Standards (GAGAS); review of financial statement under Statements on Standards for Accounting and Review Services (SSARS); examination of prospective financial information under Statements on Standards for Attestation Engagements (SSAE); engagement under standards of the Public Company Accounting Oversight Board (PCAOB); examination, review, or agreed-upon procedures engagement under SSAE",
-          "bucket": "Full Standards List"
-        },
-        {
-          "state": "MO",
-          "raw_value": "audit; examination of prospective financial information; review of financial statements; agreed upon procedures; examination, review, or agreed upon procedures under SSAE",
-          "bucket": "Broad, No PCAOB"
-        },
-        {
-          "state": "MS",
-          "raw_value": "audit or other engagement in accordance with Statements on Auditing Standards (SAS); review of financial statement in accordance with Statements on Standards for Accounting and Review Services (SSARS); examination of prospective financial information in accordance with Statements on Standards for Attestation Engagements (SSAE); engagement in accordance with Auditing Standards of the Public Company Accounting Oversight Board (PCAOB); examination, review or agreed upon procedures engagement in accordance with SSAE",
-          "bucket": "Full Standards List"
-        },
-        {
-          "state": "MT",
-          "raw_value": "audit; review of financial statements; examination of prospective financial information; examination, review, or agreed-upon procedures engagement performed in accordance with statements on standards for attestation engagements; engagement performed in accordance with auditing standards of the public company oversight board",
-          "bucket": "Broad + PCAOB"
-        },
-        {
-          "state": "ND",
-          "raw_value": "audits; reviews; compilations; other attest services",
-          "bucket": "Includes Compilation"
-        },
-        {
-          "state": "NH",
-          "raw_value": "audit; review of financial statements; examination of prospective financial statements; agreed upon procedures; PCAOB auditing standards engagements",
-          "bucket": "Broad + PCAOB"
-        },
-        {
-          "state": "NJ",
-          "raw_value": "audit or other engagement in accordance with Statements on Auditing Standards (SAS); review of a financial statement in accordance with Statements on Standards for Accounting and Review Services (SSARS); examination, review, or agreed upon procedures engagement in accordance with Statements on Standards for Attestation Engagements (SSAE); engagement in accordance with standards of the Public Company Accounting Oversight Board (PCAOB)",
-          "bucket": "Full Standards List"
-        },
-        {
-          "state": "NM",
-          "raw_value": "audit or other engagement in accordance with statements on auditing standards; review of a financial statement in accordance with statement on standards for accounting and review services; engagement in accordance with statements on standards for attestation engagements adopted by the board; engagement in accordance with auditing standards of the public company accounting oversight board",
-          "bucket": "Full Standards List"
-        },
-        {
-          "state": "NV",
-          "raw_value": "audit or other engagement performed in accordance with Statements on Auditing Standards (SAS); review of financial statement performed in accordance with Statements on Standards for Accounting and Review Services (SSARS); examination of prospective financial information performed in accordance with Statements on Standards for Attestation Engagements (SSAE); engagement performed in accordance with Public Company Accounting Oversight Board standards; examination, review or agreed upon procedures engagement performed in accordance with SSAE",
-          "bucket": "Full Standards List"
-        },
-        {
-          "state": "NY",
-          "raw_value": "audit in accordance with generally accepted auditing standards; review of financial statement; examination in accordance with attestation standards; engagement in accordance with PCAOB auditing standards",
-          "bucket": "Broad + PCAOB"
-        },
-        {
-          "state": "OH",
-          "raw_value": "opinion reports; review reports; compilation reports; examination reports; agreed-upon procedures reports",
-          "bucket": "Includes Compilation"
-        },
-        {
-          "state": "OR",
-          "raw_value": "audit; review of financial statements; examination of prospective financial information; agreed upon procedures; engagements under PCAOB auditing standards",
-          "bucket": "Broad + PCAOB"
-        },
-        {
-          "state": "RI",
-          "raw_value": "audit; review of financial statements; examination of prospective financial information; examination, review, or agreed-upon procedures engagements; engagements in accordance with PCAOB standards",
-          "bucket": "Broad + PCAOB"
-        },
-        {
-          "state": "SC",
-          "raw_value": "audit; review of financial statements; examination of prospective financial information; examination, review, or agreed upon procedure",
-          "bucket": "Broad, No PCAOB"
-        },
-        {
-          "state": "SD",
-          "raw_value": "audit; review of financial statements; examination of prospective financial information; agreed upon procedures",
-          "bucket": "Broad, No PCAOB"
-        },
-        {
-          "state": "TN",
-          "raw_value": "Any audit or other engagement in accordance with SAS; Any review in accordance with SSARS; Any examination in accordance with SSAE; Issuance of any report including compilation reports prescribed by SAS, SSARS, or SSAE",
-          "bucket": "Includes Compilation"
-        },
-        {
-          "state": "TX",
-          "raw_value": "audit or other engagement in accordance with auditing standards; engagement in accordance with standards for accounting and review services; engagement in accordance with standards for attestation engagements; any other assurance service in accordance with professional standards",
-          "bucket": "Concise / High-Level"
-        },
-        {
-          "state": "UT",
-          "raw_value": "audit or other engagement in accordance with Statements on Auditing Standards (SAS); review of financial statement in accordance with Statements on Standards for Accounting and Review Services (SSARS); examination of prospective financial information in accordance with Statements on Standards for Attestation Engagements (SSAE); examination, review, or agreed upon procedures engagement in accordance with Statements on Standards for Attestation Engagements (SSAE); engagement in accordance with standards of the PCAOB",
-          "bucket": "Full Standards List"
-        },
-        {
-          "state": "VA",
-          "raw_value": "audit; review; other engagements performed in accordance with standards established by the Public Company Accounting Oversight Board, Auditing Standards Board, or Accounting and Review Services Committee of the American Institute of Certified Public Accountants",
-          "bucket": "Concise / High-Level"
-        },
-        {
-          "state": "VT",
-          "raw_value": "audit or other engagement in accordance with Statements on Auditing Standards (SAS); review of financial statement in accordance with Statement on Standards for Accounting and Review Services (SSARS); compilation of financial statement in accordance with SSARS; examination of prospective financial information in accordance with Statements on Standards for Attestation Engagements (SSAE); engagement in accordance with Public Company Accounting Oversight Board (PCAOB) auditing standards; examination, review, or agreed upon procedures engagement in accordance with SSAE",
-          "bucket": "Includes Compilation"
-        },
-        {
-          "state": "WA",
-          "raw_value": "audit or other engagement in accordance with statements on auditing standards; review of financial statement in accordance with statements on standards for accounting and review services; engagement in accordance with statements on standards for attestation engagements; engagement in accordance with public company accounting oversight board auditing standards",
-          "bucket": "Full Standards List"
-        },
-        {
-          "state": "WI",
-          "raw_value": "audit or other engagement performed in accordance with statements on auditing standards; review of a financial statement performed in accordance with statements on standards for accounting and review services; examination of prospective financial information performed in accordance with statements on standards for attestation engagements",
-          "bucket": "Broad, No PCAOB"
-        },
-        {
-          "state": "WV",
-          "raw_value": "audit; review of financial statements; examination of prospective financial information; PCAOB engagements; agreed upon procedures",
-          "bucket": "Broad + PCAOB"
-        },
-        {
-          "state": "WY",
-          "raw_value": "Audit or other engagement performed in accordance with statements on auditing standards; Review of financial statement performed in accordance with statements on standards for accounting and review services; Examination of prospective financial information performed in accordance with statement on standards for attestation engagements; Engagement performed in accordance with auditing standards of the public company accounting oversight board; Examination, review or agreed upon procedures engagement performed in accordance with statement on standards for attestation engagements",
-          "bucket": "Full Standards List"
-        }
-      ]
-    },
-    {
       "field_name": "licensure.education.accrediting_body",
       "bucket_set": [
         "Regional Accreditor",
         "Federal ED List",
-        "Board Approved",
-        "Named Business Accreditor",
+        "Board Discretion",
+        "Business Accreditor Included",
         "State-Specific Body"
       ],
-      "rationale": "States cluster around whether they require a regional accreditor specifically, defer to the federal Department of Education list, leave approval to the state board, name specific business-school accreditors (AACSB/ACBSP), or designate a unique state-level body.",
+      "rationale": "States cluster around whether they name regional accreditors explicitly, defer to a federal Department of Education list, leave it to board discretion, include business-specific accreditors (AACSB/ACBSP), or designate a state-level body — these five approaches cover the actual distribution without overlap.",
       "assignments": [
         {
           "state": "AL",
@@ -1921,7 +1752,7 @@
         {
           "state": "AZ",
           "raw_value": "accredited institution or a college or university that maintains standards comparable to those of an accredited institution",
-          "bucket": "Board Approved"
+          "bucket": "Board Discretion"
         },
         {
           "state": "CA",
@@ -1936,32 +1767,27 @@
         {
           "state": "DE",
           "raw_value": "accredited college or university acceptable to the Board",
-          "bucket": "Board Approved"
+          "bucket": "Board Discretion"
         },
         {
           "state": "FL",
           "raw_value": "accredited college or university",
-          "bucket": "Board Approved"
+          "bucket": "Board Discretion"
         },
         {
           "state": "GA",
           "raw_value": "National or regional accrediting organization recognized by the board",
-          "bucket": "Board Approved"
-        },
-        {
-          "state": "IL",
-          "raw_value": "Board of Examiners",
-          "bucket": "Board Approved"
+          "bucket": "Board Discretion"
         },
         {
           "state": "MD",
           "raw_value": "Association to Advance Collegiate Schools of Business, Accreditation Council for Business Schools and Programs, or regional accrediting associations",
-          "bucket": "Named Business Accreditor"
+          "bucket": "Business Accreditor Included"
         },
         {
           "state": "MI",
           "raw_value": "Educational institution approved by the board",
-          "bucket": "Board Approved"
+          "bucket": "Board Discretion"
         },
         {
           "state": "MN",
@@ -1971,7 +1797,7 @@
         {
           "state": "MO",
           "raw_value": "Accredited college or university recognized by the board",
-          "bucket": "Board Approved"
+          "bucket": "Board Discretion"
         },
         {
           "state": "NC",
@@ -1981,7 +1807,7 @@
         {
           "state": "NE",
           "raw_value": "regional accrediting agency recognized by the United States Department of Education",
-          "bucket": "Regional Accreditor"
+          "bucket": "Federal ED List"
         },
         {
           "state": "NJ",
@@ -1991,7 +1817,7 @@
         {
           "state": "NM",
           "raw_value": "college or university acceptable to the board",
-          "bucket": "Board Approved"
+          "bucket": "Board Discretion"
         },
         {
           "state": "NY",
@@ -1999,9 +1825,19 @@
           "bucket": "State-Specific Body"
         },
         {
+          "state": "OK",
+          "raw_value": "accredited four-year college or university recognized by the Board",
+          "bucket": "Board Discretion"
+        },
+        {
           "state": "OR",
           "raw_value": "regional accrediting association or another accrediting body recognized by the board",
           "bucket": "Regional Accreditor"
+        },
+        {
+          "state": "PA",
+          "raw_value": "Nationally recognized accrediting agency recognized by the United States Department of Education, or a college or university approved by the board",
+          "bucket": "Federal ED List"
         },
         {
           "state": "SC",
@@ -2026,9 +1862,9 @@
         "AICPA Only",
         "AICPA + NASBA",
         "AICPA + PCAOB",
-        "State Society Only"
+        "NASBA Only"
       ],
-      "rationale": "States cluster cleanly by which national bodies they cite: AICPA alone (the large majority), AICPA paired with NASBA, AICPA paired with PCAOB, or a state-level society instead of AICPA.",
+      "rationale": "States reference one to three national bodies (AICPA, NASBA, PCAOB) in distinct combinations, making those combinations the natural grouping axis.",
       "assignments": [
         {
           "state": "AL",
@@ -2086,12 +1922,22 @@
           "bucket": "AICPA Only"
         },
         {
+          "state": "IL",
+          "raw_value": "National Association of State Boards of Accountancy (NASBA)",
+          "bucket": "NASBA Only"
+        },
+        {
           "state": "IN",
           "raw_value": "American Institute of Certified Public Accountants (AICPA)",
           "bucket": "AICPA Only"
         },
         {
           "state": "KS",
+          "raw_value": "American Institute of Certified Public Accountants (AICPA)",
+          "bucket": "AICPA Only"
+        },
+        {
+          "state": "LA",
           "raw_value": "American Institute of Certified Public Accountants (AICPA)",
           "bucket": "AICPA Only"
         },
@@ -2167,8 +2013,13 @@
         },
         {
           "state": "OK",
-          "raw_value": "Oklahoma Society of Certified Public Accountants",
-          "bucket": "State Society Only"
+          "raw_value": "American Institute of Certified Public Accountants (AICPA); National Association of State Boards of Accountancy (NASBA)",
+          "bucket": "AICPA + NASBA"
+        },
+        {
+          "state": "PA",
+          "raw_value": "American Institute of Certified Public Accountants (AICPA)",
+          "bucket": "AICPA Only"
         },
         {
           "state": "RI",
@@ -2231,41 +2082,43 @@
       "field_name": "licensure.continuing_education.topical_requirements",
       "bucket_set": [
         "Ethics Only",
-        "Technical + Ethics",
-        "Technical Subjects Only",
-        "Broad Subject List"
+        "Ethics + State Law",
+        "Accounting/Audit Core",
+        "Accounting + Ethics Mix",
+        "Broad Topic Menu",
+        "Attest Focus"
       ],
-      "rationale": "States cluster by whether they mandate ethics alone, a mix of technical accounting/auditing hours plus ethics, technical subjects without explicit ethics, or a broad open-ended list of subject areas.",
+      "rationale": "States cluster by which topics they mandate: some require only ethics, some pair ethics with state-specific law, some focus on accounting/audit hours, some blend accounting with ethics percentages, some list a broad menu of acceptable subjects, and one singles out attest services.",
       "assignments": [
         {
           "state": "CA",
           "raw_value": "24 hours in governmental accounting and auditing for licensees who plan, direct, or approve financial or compliance audit reports on governmental agencies (per two-year period); 24 hours in accounting and auditing related to reporting on financial statements for licensees providing audit, review, attestation, or compilation services (per two-year period); Continuing education course on provisions of this chapter and rules of professional conduct (within a six-year period)",
-          "bucket": "Technical + Ethics"
+          "bucket": "Accounting/Audit Core"
         },
         {
           "state": "FL",
           "raw_value": "not less than 10 percent in accounting-related and auditing-related subjects; not less than 5 percent in ethics applicable to the practice of public accounting",
-          "bucket": "Technical + Ethics"
+          "bucket": "Accounting + Ethics Mix"
         },
         {
           "state": "MA",
           "raw_value": "attest function",
-          "bucket": "Technical Subjects Only"
+          "bucket": "Attest Focus"
         },
         {
           "state": "MI",
           "raw_value": "At least 8 hours per year in auditing and accounting; At least 2 hours per year in professional ethics; 1 hour per 2-year cycle in Michigan statutes and administrative rules applicable to public accountancy",
-          "bucket": "Technical + Ethics"
+          "bucket": "Accounting + Ethics Mix"
         },
         {
           "state": "NE",
           "raw_value": "accounting; auditing; related areas",
-          "bucket": "Technical Subjects Only"
+          "bucket": "Accounting/Audit Core"
         },
         {
           "state": "NY",
           "raw_value": "accounting; attest; auditing; taxation; advisory services; specialized knowledge and applications related to specialized industries",
-          "bucket": "Broad Subject List"
+          "bucket": "Broad Topic Menu"
         },
         {
           "state": "SC",
@@ -2275,7 +2128,7 @@
         {
           "state": "UT",
           "raw_value": "1 hour on Utah laws and rules; 3 hours of ethics education",
-          "bucket": "Ethics Only"
+          "bucket": "Ethics + State Law"
         },
         {
           "state": "WA",
@@ -2287,526 +2140,291 @@
     {
       "field_name": "profession_specific.statute_of_limitations_for_accountant_negligence",
       "bucket_set": [
-        "1-Year Discovery / 3-Year Absolute",
-        "2-Year Discovery / 6-Year Absolute",
-        "2-Year Discovery Only"
+        "1-Yr Discovery / 3-Yr Repose",
+        "2-Yr Discovery / 6-Yr Repose",
+        "2-Yr Board Discovery"
       ],
-      "rationale": "The three states each represent a distinct SOL structure differing in both the discovery window and whether an absolute outside limit (repose) applies, making one bucket per pattern cleanly informative.",
+      "rationale": "Each state uses a distinct limitations structure — varying the discovery window, the repose period, and who the clock runs from — so three descriptive buckets cleanly map the actual distribution.",
       "assignments": [
         {
           "state": "IN",
           "raw_value": "1 year from discovery or 3 years after service performed",
-          "bucket": "1-Year Discovery / 3-Year Absolute"
+          "bucket": "1-Yr Discovery / 3-Yr Repose"
         },
         {
           "state": "ND",
           "raw_value": "Two years from discovery or six years after service performed, whichever is earlier",
-          "bucket": "2-Year Discovery / 6-Year Absolute"
+          "bucket": "2-Yr Discovery / 6-Yr Repose"
         },
         {
           "state": "NM",
           "raw_value": "two years after discovery by the board of the violation",
-          "bucket": "2-Year Discovery Only"
+          "bucket": "2-Yr Board Discovery"
         }
       ]
     },
     {
       "field_name": "licensure.disciplinary_grounds",
       "bucket_set": [
-        "Fraud/Deceit Core List",
-        "Broad Statutory Violation",
-        "Criminal Conviction Focus",
-        "Unauthorized Practice/Title",
-        "Mixed/Comprehensive List"
+        "Fraud/Deceit Obtaining License",
+        "Dishonesty/Negligence in Practice",
+        "Criminal Conviction",
+        "Out-of-State Action",
+        "Violation of Rules/Statute",
+        "Unauthorized Title/Practice",
+        "Broad/General Grounds"
       ],
-      "rationale": "States cluster by the dominant framing of their disciplinary grounds: most list specific fraud/deceit triggers as the core enumerated grounds, some anchor discipline primarily to broad statutory or rule violations, a few emphasize criminal conviction thresholds, a few focus on unauthorized practice or title misuse, and the remainder combine multiple distinct frameworks into a comprehensive list.",
+      "rationale": "States cluster around six recurring disciplinary triggers—fraudulent licensure, practice-level misconduct, criminal convictions, reciprocal discipline from other jurisdictions, statutory/rule violations, and unauthorized use of CPA titles—with a catch-all for states whose primary framing is unusually general or omnibus.",
       "assignments": [
         {
           "state": "AK",
-          "raw_value": "{'short_label': 'fraud_or_deceit_in_obtaining_license', ...}",
-          "bucket": "Fraud/Deceit Core List"
+          "raw_value": "{'short_label': 'fraud_or_deceit_in_obtaining_license', ...",
+          "bucket": "Fraud/Deceit Obtaining License"
         },
         {
           "state": "AL",
-          "raw_value": "{'short_label': 'fraud_or_deceit_in_obtaining_license', ...}",
-          "bucket": "Fraud/Deceit Core List"
+          "raw_value": "{'short_label': 'fraud_or_deceit_in_obtaining_license', ...",
+          "bucket": "Fraud/Deceit Obtaining License"
         },
         {
           "state": "AR",
-          "raw_value": "{'short_label': 'fraud_dishonesty_deceit_in_obtaining_license', ...}",
-          "bucket": "Fraud/Deceit Core List"
+          "raw_value": "{'short_label': 'fraud_dishonesty_deceit_in_obtaining_license', ...",
+          "bucket": "Fraud/Deceit Obtaining License"
         },
         {
           "state": "AZ",
-          "raw_value": "{'short_label': 'grounds_for_revocation_or_suspension', ...}",
-          "bucket": "Broad Statutory Violation"
+          "raw_value": "{'short_label': 'grounds_for_revocation_or_suspension', ...",
+          "bucket": "Broad/General Grounds"
         },
         {
           "state": "CA",
-          "raw_value": "{'short_label': 'conviction_of_related_crime', ...}",
-          "bucket": "Criminal Conviction Focus"
+          "raw_value": "{'short_label': 'conviction_of_related_crime', ...",
+          "bucket": "Criminal Conviction"
         },
         {
           "state": "CO",
-          "raw_value": "{'short_label': 'fraud_or_deceit_in_obtaining_license', ...}",
-          "bucket": "Fraud/Deceit Core List"
+          "raw_value": "{'short_label': 'fraud_or_deceit_in_obtaining_license', ...",
+          "bucket": "Fraud/Deceit Obtaining License"
         },
         {
           "state": "CT",
-          "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...}",
-          "bucket": "Mixed/Comprehensive List"
+          "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...",
+          "bucket": "Fraud/Deceit Obtaining License"
         },
         {
           "state": "DE",
-          "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...}",
-          "bucket": "Mixed/Comprehensive List"
+          "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...",
+          "bucket": "Fraud/Deceit Obtaining License"
         },
         {
           "state": "FL",
-          "raw_value": "{'short_label': 'violation_of_chapter', ...}",
-          "bucket": "Mixed/Comprehensive List"
+          "raw_value": "{'short_label': 'violation_of_chapter', ...",
+          "bucket": "Violation of Rules/Statute"
         },
         {
           "state": "GA",
-          "raw_value": "{'short_label': 'failed_to_demonstrate_qualifications', ...}",
-          "bucket": "Mixed/Comprehensive List"
+          "raw_value": "{'short_label': 'failed_to_demonstrate_qualifications', ...",
+          "bucket": "Broad/General Grounds"
         },
         {
           "state": "HI",
-          "raw_value": "{'short_label': 'fraud_or_deceit_in_obtaining_license', ...}",
-          "bucket": "Mixed/Comprehensive List"
+          "raw_value": "{'short_label': 'fraud_or_deceit_in_obtaining_license', ...",
+          "bucket": "Fraud/Deceit Obtaining License"
         },
         {
           "state": "IA",
-          "raw_value": "{'short_label': 'fraud_or_deceit_in_obtaining_license', ...}",
-          "bucket": "Fraud/Deceit Core List"
+          "raw_value": "{'short_label': 'fraud_or_deceit_in_obtaining_license', ...",
+          "bucket": "Fraud/Deceit Obtaining License"
         },
         {
           "state": "ID",
-          "raw_value": "{'short_label': 'false_statement_or_cheating', ...}",
-          "bucket": "Fraud/Deceit Core List"
+          "raw_value": "{'short_label': 'false_statement_or_cheating', ...",
+          "bucket": "Fraud/Deceit Obtaining License"
         },
         {
           "state": "IL",
-          "raw_value": "{'short_label': 'violation_of_act_or_rules', ...}",
-          "bucket": "Mixed/Comprehensive List"
+          "raw_value": "{'short_label': 'violation_of_act_or_rules', ...",
+          "bucket": "Violation of Rules/Statute"
         },
         {
           "state": "IN",
-          "raw_value": "{'short_label': 'peer_review_fail', ...}",
-          "bucket": "Mixed/Comprehensive List"
+          "raw_value": "{'short_label': 'peer_review_fail', ...",
+          "bucket": "Dishonesty/Negligence in Practice"
         },
         {
           "state": "KS",
-          "raw_value": "{'short_label': 'fraud_dishonesty_deceit_in_obtaining_license', ...}",
-          "bucket": "Fraud/Deceit Core List"
+          "raw_value": "{'short_label': 'fraud_dishonesty_deceit_in_obtaining_license', ...",
+          "bucket": "Fraud/Deceit Obtaining License"
         },
         {
           "state": "KY",
-          "raw_value": "{'short_label': 'fraud_or_deceit_in_obtaining_license', ...}",
-          "bucket": "Fraud/Deceit Core List"
-        },
-        {
-          "state": "MA",
-          "raw_value": "{'short_label': 'practice_without_license', ...}",
-          "bucket": "Unauthorized Practice/Title"
-        },
-        {
-          "state": "MD",
-          "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...}",
-          "bucket": "Mixed/Comprehensive List"
-        },
-        {
-          "state": "ME",
-          "raw_value": "{'short_label': 'loss_of_authority_in_other_state', ...}",
-          "bucket": "Mixed/Comprehensive List"
-        },
-        {
-          "state": "MI",
-          "raw_value": "{'short_label': 'fraud_in_obtaining_credential', ...}",
-          "bucket": "Fraud/Deceit Core List"
-        },
-        {
-          "state": "MN",
-          "raw_value": "{'short_label': 'violated_statute_rule_order', ...}",
-          "bucket": "Broad Statutory Violation"
-        },
-        {
-          "state": "MO",
-          "raw_value": "{'short_label': 'controlled_substance_use', ...}",
-          "bucket": "Mixed/Comprehensive List"
-        },
-        {
-          "state": "MS",
-          "raw_value": "{'short_label': 'unprofessional_conduct', ...}",
-          "bucket": "Unauthorized Practice/Title"
-        },
-        {
-          "state": "MT",
-          "raw_value": "{'short_label': 'violation_of_statute_or_rule', ...}",
-          "bucket": "Broad Statutory Violation"
-        },
-        {
-          "state": "NC",
-          "raw_value": "{'short_label': 'felony_conviction', ...}",
-          "bucket": "Criminal Conviction Focus"
-        },
-        {
-          "state": "ND",
-          "raw_value": "{'short_label': 'fraud_or_deceit_in_obtaining_license', ...}",
-          "bucket": "Fraud/Deceit Core List"
-        },
-        {
-          "state": "NE",
-          "raw_value": "{'short_label': 'fraud_in_obtaining_credential', ...}",
-          "bucket": "Fraud/Deceit Core List"
-        },
-        {
-          "state": "NH",
-          "raw_value": "{'short_label': 'fraud_or_deceit_in_obtaining_license', ...}",
-          "bucket": "Fraud/Deceit Core List"
-        },
-        {
-          "state": "NJ",
-          "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...}",
-          "bucket": "Fraud/Deceit Core List"
-        },
-        {
-          "state": "NM",
-          "raw_value": "{'short_label': 'fraud_in_obtaining_certificate_or_permit', ...}",
-          "bucket": "Fraud/Deceit Core List"
-        },
-        {
-          "state": "NV",
-          "raw_value": "{'short_label': 'fraud_or_deceit_in_obtaining_certificate', ...}",
-          "bucket": "Fraud/Deceit Core List"
-        },
-        {
-          "state": "NY",
-          "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...}",
-          "bucket": "Mixed/Comprehensive List"
-        },
-        {
-          "state": "OH",
-          "raw_value": "{'short_label': 'fraud_or_deceit_in_obtaining_credential', ...}",
-          "bucket": "Fraud/Deceit Core List"
-        },
-        {
-          "state": "OR",
-          "raw_value": "{'short_label': 'fraud_misrepresentation_deceit', ...}",
-          "bucket": "Fraud/Deceit Core List"
-        },
-        {
-          "state": "RI",
-          "raw_value": "{'short_label': 'fraud_or_deceit_in_obtaining_license', ...}",
-          "bucket": "Fraud/Deceit Core List"
-        },
-        {
-          "state": "SC",
-          "raw_value": "{'short_label': 'felony_dishonesty_fraud', ...}",
-          "bucket": "Criminal Conviction Focus"
-        },
-        {
-          "state": "SD",
-          "raw_value": "{'short_label': 'fraud_or_deceit_in_obtaining_certificate', ...}",
-          "bucket": "Fraud/Deceit Core List"
-        },
-        {
-          "state": "TN",
-          "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...}",
-          "bucket": "Mixed/Comprehensive List"
-        },
-        {
-          "state": "TX",
-          "raw_value": "{'short_label': 'fraud_or_deceit_in_obtaining_license', ...}",
-          "bucket": "Fraud/Deceit Core List"
-        },
-        {
-          "state": "UT",
-          "raw_value": "{'short_label': 'unlawful_title_use', ...}",
-          "bucket": "Unauthorized Practice/Title"
-        },
-        {
-          "state": "VA",
-          "raw_value": "{'short_label': 'violation_of_chapter_or_regulations', ...}",
-          "bucket": "Broad Statutory Violation"
-        },
-        {
-          "state": "VT",
-          "raw_value": "{'short_label': 'conduct_prohibited_by_statute', ...}",
-          "bucket": "Broad Statutory Violation"
-        },
-        {
-          "state": "WA",
-          "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...}",
-          "bucket": "Fraud/Deceit Core List"
-        },
-        {
-          "state": "WI",
-          "raw_value": "{'short_label': 'violation_of_chapter_or_rules', ...}",
-          "bucket": "Broad Statutory Violation"
-        },
-        {
-          "state": "WV",
-          "raw_value": "{'short_label': 'fraud_or_deceit_in_obtaining_license', ...}",
-          "bucket": "Fraud/Deceit Core List"
-        },
-        {
-          "state": "WY",
-          "raw_value": "{'short_label': 'fraud_or_deceit_in_obtaining_certificate', ...}",
-          "bucket": "Fraud/Deceit Core List"
-        }
-      ]
-    },
-    {
-      "field_name": "licensure.exams",
-      "bucket_set": [
-        "CPA Exam Only",
-        "CPA + Ethics Exam",
-        "CPA + Ethics + State Exam",
-        "State-Administered Exam"
-      ],
-      "rationale": "States cluster by how many exams are required: most mandate only the national Uniform CPA Exam, several add a separate ethics exam, Utah adds both an ethics and a state-specific laws exam, while FL and NY use a distinct state-administered or state-branded exam.",
-      "assignments": [
-        {
-          "state": "AK",
-          "raw_value": "{'name': 'Uniform Certified Public Accountant Examination', ...}",
-          "bucket": "CPA Exam Only"
-        },
-        {
-          "state": "AL",
-          "raw_value": "{'name': 'Uniform CPA Examination', ...}",
-          "bucket": "CPA Exam Only"
-        },
-        {
-          "state": "AR",
-          "raw_value": "{'name': 'Uniform Certified Public Accountant Examination', ...}",
-          "bucket": "CPA Exam Only"
-        },
-        {
-          "state": "AZ",
-          "raw_value": "{'name': 'Uniform Certified Public Accountant Examination', ...}",
-          "bucket": "CPA Exam Only"
-        },
-        {
-          "state": "CA",
-          "raw_value": "{'name': 'Uniform Certified Public Accountant Examination', ...}",
-          "bucket": "CPA Exam Only"
-        },
-        {
-          "state": "CO",
-          "raw_value": "{'name': 'CPA Examination', ...}; {'name': 'Professional Ethics Examination', ...}",
-          "bucket": "CPA + Ethics Exam"
-        },
-        {
-          "state": "CT",
-          "raw_value": "{'name': 'Uniform CPA Examination', ...}",
-          "bucket": "CPA Exam Only"
-        },
-        {
-          "state": "DE",
-          "raw_value": "{'name': 'Uniform Certified Public Accountant Examination', ...}; {'name': 'AICPA Code of Ethics examination', ...}",
-          "bucket": "CPA + Ethics Exam"
-        },
-        {
-          "state": "FL",
-          "raw_value": "{'name': 'Florida Certified Public Accountant Licensure Examination', ...}",
-          "bucket": "State-Administered Exam"
-        },
-        {
-          "state": "GA",
-          "raw_value": "{'name': 'Uniform Certified Public Accountant Examination', ...}",
-          "bucket": "CPA Exam Only"
-        },
-        {
-          "state": "HI",
-          "raw_value": "{'name': 'Uniform Certified Public Accountant Examination', ...}",
-          "bucket": "CPA Exam Only"
-        },
-        {
-          "state": "IA",
-          "raw_value": "{'name': 'Certified Public Accountant Examination', ...}",
-          "bucket": "CPA Exam Only"
-        },
-        {
-          "state": "ID",
-          "raw_value": "{'name': 'Uniform CPA Examination', ...}",
-          "bucket": "CPA Exam Only"
-        },
-        {
-          "state": "IL",
-          "raw_value": "{'name': 'Uniform Certified Public Accountant Examination', ...}; {'name': 'Examination on rules of professional conduct', ...}",
-          "bucket": "CPA + Ethics Exam"
-        },
-        {
-          "state": "IN",
-          "raw_value": "{'name': 'Uniform Certified Public Accountant Examination', ...}",
-          "bucket": "CPA Exam Only"
-        },
-        {
-          "state": "KS",
-          "raw_value": "{'name': 'Uniform CPA Examination', ...}",
-          "bucket": "CPA Exam Only"
-        },
-        {
-          "state": "KY",
-          "raw_value": "{'name': 'Uniform CPA Examination', ...}",
-          "bucket": "CPA Exam Only"
+          "raw_value": "{'short_label': 'fraud_or_deceit_in_obtaining_license', ...",
+          "bucket": "Fraud/Deceit Obtaining License"
         },
         {
           "state": "LA",
-          "raw_value": "{'name': 'Uniform CPA Examination', ...}",
-          "bucket": "CPA Exam Only"
+          "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...",
+          "bucket": "Fraud/Deceit Obtaining License"
         },
         {
           "state": "MA",
-          "raw_value": "{'name': 'Uniform Certified Public Accountant Examination', ...}",
-          "bucket": "CPA Exam Only"
+          "raw_value": "{'short_label': 'practice_without_license', ...",
+          "bucket": "Unauthorized Title/Practice"
         },
         {
           "state": "MD",
-          "raw_value": "{'name': 'Uniform CPA Examination', ...}",
-          "bucket": "CPA Exam Only"
+          "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...",
+          "bucket": "Fraud/Deceit Obtaining License"
         },
         {
           "state": "ME",
-          "raw_value": "{'name': 'Uniform Certified Public Accountant Examination', ...}",
-          "bucket": "CPA Exam Only"
+          "raw_value": "{'short_label': 'loss_of_authority_in_other_state', ...",
+          "bucket": "Out-of-State Action"
         },
         {
           "state": "MI",
-          "raw_value": "{'name': 'Uniform CPA Examination', ...}",
-          "bucket": "CPA Exam Only"
+          "raw_value": "{'short_label': 'fraud_in_obtaining_credential', ...",
+          "bucket": "Fraud/Deceit Obtaining License"
         },
         {
           "state": "MN",
-          "raw_value": "{'name': 'Uniform Certified Public Accountant Examination', ...}",
-          "bucket": "CPA Exam Only"
+          "raw_value": "{'short_label': 'violated_statute_rule_order', ...",
+          "bucket": "Violation of Rules/Statute"
         },
         {
           "state": "MO",
-          "raw_value": "{'name': 'Uniform Certified Public Accountant Examination', ...}",
-          "bucket": "CPA Exam Only"
+          "raw_value": "{'short_label': 'controlled_substance_use', ...",
+          "bucket": "Broad/General Grounds"
         },
         {
           "state": "MS",
-          "raw_value": "{'name': 'Uniform Certified Public Accountant Examination', ...}",
-          "bucket": "CPA Exam Only"
+          "raw_value": "{'short_label': 'unprofessional_conduct', ...",
+          "bucket": "Broad/General Grounds"
         },
         {
           "state": "MT",
-          "raw_value": "{'name': 'Certified Public Accountant Examination', ...}; {'name': 'Professional Ethics Course', ...}",
-          "bucket": "CPA + Ethics Exam"
+          "raw_value": "{'short_label': 'violation_of_statute_or_rule', ...",
+          "bucket": "Violation of Rules/Statute"
         },
         {
           "state": "NC",
-          "raw_value": "{'name': 'Uniform CPA Examination', ...}",
-          "bucket": "CPA Exam Only"
+          "raw_value": "{'short_label': 'felony_conviction', ...",
+          "bucket": "Criminal Conviction"
         },
         {
           "state": "ND",
-          "raw_value": "{'name': 'Uniform CPA Examination', ...}",
-          "bucket": "CPA Exam Only"
+          "raw_value": "{'short_label': 'fraud_or_deceit_in_obtaining_license', ...",
+          "bucket": "Fraud/Deceit Obtaining License"
         },
         {
           "state": "NE",
-          "raw_value": "{'name': \"Uniform Certified Public Accountants' Examination\", ...}",
-          "bucket": "CPA Exam Only"
+          "raw_value": "{'short_label': 'fraud_in_obtaining_credential', ...",
+          "bucket": "Fraud/Deceit Obtaining License"
         },
         {
           "state": "NH",
-          "raw_value": "{'name': 'Uniform Certified Public Accountant Examination', ...}",
-          "bucket": "CPA Exam Only"
+          "raw_value": "{'short_label': 'fraud_or_deceit_in_obtaining_license', ...",
+          "bucket": "Fraud/Deceit Obtaining License"
         },
         {
           "state": "NJ",
-          "raw_value": "{'name': 'Uniform Certified Public Accountant Examination', ...}",
-          "bucket": "CPA Exam Only"
+          "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...",
+          "bucket": "Fraud/Deceit Obtaining License"
         },
         {
           "state": "NM",
-          "raw_value": "{'name': 'Uniform Certified Public Accountant Examination', ...}",
-          "bucket": "CPA Exam Only"
+          "raw_value": "{'short_label': 'fraud_in_obtaining_certificate_or_permit', ...",
+          "bucket": "Fraud/Deceit Obtaining License"
         },
         {
           "state": "NV",
-          "raw_value": "{'name': 'CPA Examination', ...}",
-          "bucket": "CPA Exam Only"
+          "raw_value": "{'short_label': 'fraud_or_deceit_in_obtaining_certificate', ...",
+          "bucket": "Fraud/Deceit Obtaining License"
         },
         {
           "state": "NY",
-          "raw_value": "{'name': 'CPA Written Examination', ...}",
-          "bucket": "State-Administered Exam"
+          "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...",
+          "bucket": "Fraud/Deceit Obtaining License"
         },
         {
           "state": "OH",
-          "raw_value": "{'name': 'Uniform Certified Public Accountant Examination', ...}",
-          "bucket": "CPA Exam Only"
+          "raw_value": "{'short_label': 'fraud_or_deceit_in_obtaining_credential', ...",
+          "bucket": "Fraud/Deceit Obtaining License"
+        },
+        {
+          "state": "OK",
+          "raw_value": "{'short_label': 'fraud_in_obtaining_credential', ...",
+          "bucket": "Fraud/Deceit Obtaining License"
         },
         {
           "state": "OR",
-          "raw_value": "{'name': 'Certified Public Accountant Examination', ...}; {'name': 'Code of Professional Ethics Examination', ...}",
-          "bucket": "CPA + Ethics Exam"
+          "raw_value": "{'short_label': 'fraud_misrepresentation_deceit', ...",
+          "bucket": "Fraud/Deceit Obtaining License"
+        },
+        {
+          "state": "PA",
+          "raw_value": "{'short_label': 'fraud_in_obtaining_credential', ...",
+          "bucket": "Fraud/Deceit Obtaining License"
         },
         {
           "state": "RI",
-          "raw_value": "{'name': 'Uniform Certified Public Accountant Examination', ...}",
-          "bucket": "CPA Exam Only"
+          "raw_value": "{'short_label': 'fraud_or_deceit_in_obtaining_license', ...",
+          "bucket": "Fraud/Deceit Obtaining License"
         },
         {
           "state": "SC",
-          "raw_value": "{'name': 'Uniform CPA Examination', ...}; {'name': 'Professional Ethics Examination', ...}",
-          "bucket": "CPA + Ethics Exam"
+          "raw_value": "{'short_label': 'felony_dishonesty_fraud', ...",
+          "bucket": "Criminal Conviction"
         },
         {
           "state": "SD",
-          "raw_value": "{'name': 'Uniform CPA Examination', ...}; {'name': 'Ethics examination', ...}",
-          "bucket": "CPA + Ethics Exam"
+          "raw_value": "{'short_label': 'fraud_or_deceit_in_obtaining_certificate', ...",
+          "bucket": "Fraud/Deceit Obtaining License"
         },
         {
           "state": "TN",
-          "raw_value": "{'name': 'Uniform Certified Public Accountant Examination', ...}",
-          "bucket": "CPA Exam Only"
+          "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...",
+          "bucket": "Fraud/Deceit Obtaining License"
         },
         {
           "state": "TX",
-          "raw_value": "{'name': 'Uniform CPA Examination', ...}; {'name': 'Examination on Rules of Professional Conduct', ...}",
-          "bucket": "CPA + Ethics Exam"
+          "raw_value": "{'short_label': 'fraud_or_deceit_in_obtaining_license', ...",
+          "bucket": "Fraud/Deceit Obtaining License"
         },
         {
           "state": "UT",
-          "raw_value": "{'name': 'AICPA Uniform CPA Examination', ...}; {'name': 'AICPA Examination of Professional Ethics for CPAs', ...}; {'name': 'Utah Laws and Rules Exam', ...}",
-          "bucket": "CPA + Ethics + State Exam"
+          "raw_value": "{'short_label': 'unlawful_title_use', ...",
+          "bucket": "Unauthorized Title/Practice"
         },
         {
           "state": "VA",
-          "raw_value": "{'name': 'CPA examination', ...}",
-          "bucket": "CPA Exam Only"
+          "raw_value": "{'short_label': 'violation_of_chapter_or_regulations', ...",
+          "bucket": "Violation of Rules/Statute"
         },
         {
           "state": "VT",
-          "raw_value": "{'name': 'Uniform CPA Examination', ...}",
-          "bucket": "CPA Exam Only"
+          "raw_value": "{'short_label': 'conduct_prohibited_by_statute', ...",
+          "bucket": "Violation of Rules/Statute"
         },
         {
           "state": "WA",
-          "raw_value": "{'name': 'Uniform CPA Examination', ...}",
-          "bucket": "CPA Exam Only"
+          "raw_value": "{'short_label': 'fraud_in_obtaining_license', ...",
+          "bucket": "Fraud/Deceit Obtaining License"
         },
         {
           "state": "WI",
-          "raw_value": "{'name': 'CPA Examination (AICPA)', ...}",
-          "bucket": "CPA Exam Only"
+          "raw_value": "{'short_label': 'violation_of_chapter_or_rules', ...",
+          "bucket": "Violation of Rules/Statute"
         },
         {
           "state": "WV",
-          "raw_value": "{'name': 'Uniform Certified Public Accountant Examination', ...}",
-          "bucket": "CPA Exam Only"
+          "raw_value": "{'short_label': 'fraud_or_deceit_in_obtaining_license', ...",
+          "bucket": "Fraud/Deceit Obtaining License"
         },
         {
           "state": "WY",
-          "raw_value": "{'name': 'Uniform Certified Public Accountant Examination', ...}",
-          "bucket": "CPA Exam Only"
+          "raw_value": "{'short_label': 'fraud_or_deceit_in_obtaining_certificate', ...",
+          "bucket": "Fraud/Deceit Obtaining License"
         }
       ]
     }

@@ -109,6 +109,8 @@ def _node_from_override(ov: dict) -> dict:
         node["section_slug_pattern"] = ov["section_slug_pattern"]
     if ov.get("section_url_list"):
         node["section_url_list"] = ov["section_url_list"]
+    if ov.get("pa_keep_sections"):
+        node["pa_keep_sections"] = ov["pa_keep_sections"]
     return node
 
 
