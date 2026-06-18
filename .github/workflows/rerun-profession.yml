@@ -1,0 +1,179 @@
+name: Re-run profession pipeline
+
+# Manual trigger: pick a profession from the dropdown (or "all") and re-run the
+# pipeline via pipeline/run.py, then commit the regenerated results back.
+#
+# DEFAULT steps = extract,map_prep,publish — i.e. re-extract from the ALREADY
+# COMMITTED corpora and republish. This is the safe, common case (re-run after a
+# prompt/schema change) and needs NO Justia fetching.
+#
+# Adding "pull" (or "match,pull,...") fetches Justia/legis.state.pa.us from the
+# runner — GitHub's shared IPs are often rate-limited/blocked by Justia, so a
+# full re-pull from CI may 403. Pull locally for new corpora; use CI for the
+# re-extract/republish stages.
+#
+# Required repo secrets:
+#   ANTHROPIC_API_KEY      — trim / extract / map_prep LLM calls
+#   BLOB_READ_WRITE_TOKEN  — publish (Vercel Blob upload)
+#   VERCEL_TOKEN           — only if deploy=true (vercel --prod)
+#
+# NOTE: the dropdown list below is a static mirror of professions.yaml; if you
+# add/rename a profession, regenerate it (the "all" branch reads professions.yaml
+# directly, so it always covers everything regardless of this list).
+# WARNING: "all" runs every profession sequentially — far exceeds the 6h job
+# limit and is expensive. Prefer one profession at a time; reserve "all" for a
+# deliberate full refresh split across runs.
+
+on:
+  workflow_dispatch:
+    inputs:
+      profession:
+        description: "Profession to re-run (or 'all')"
+        type: choice
+        required: true
+        default: optometry
+        options:
+          - all
+          - podiatry
+          - medicine
+          - osteopathic_medicine
+          - naturopathic_medicine
+          - chiropractic
+          - acupuncture
+          - physician_assistant
+          - anesthesiologist_assistant
+          - dentistry
+          - optometry
+          - opticianry
+          - pharmacy
+          - veterinary
+          - nursing
+          - nurse_midwifery
+          - direct_entry_midwifery
+          - physical_therapy
+          - occupational_therapy
+          - respiratory_care
+          - speech_language_audiology
+          - athletic_training
+          - recreational_therapy
+          - dietetics
+          - perfusionist
+          - polysomnography
+          - electrology
+          - community_health_worker
+          - genetic_counseling
+          - hearing_instrument_specialist
+          - medical_interpreter
+          - massage_therapy
+          - radiologic_technology
+          - mental_health_counseling
+          - psychology
+          - psychoanalysis
+          - social_work
+          - alcohol_drug_counseling
+          - applied_behavior_analysis
+          - music_therapy
+          - environmental_health
+          - health_facility_admin
+          - architecture
+          - landscape_architecture
+          - professional_engineering
+          - land_surveying
+          - construction_trades
+          - building_inspector
+          - home_inspector
+          - plumbing
+          - electrician
+          - commercial_interior_design
+          - professional_geology
+          - public_accountancy
+          - funeral_services
+          - cosmetology
+          - court_reporter
+          - real_estate_appraiser
+          - real_estate_broker
+          - auctioneer
+          - pawnbroker
+          - public_adjuster
+          - money_transmitter
+          - junk_dealer
+          - forester
+          - private_probation
+          - athlete_agent
+          - livestock_dealer
+          - insurance_producer
+          - insurance_navigator
+          - private_investigator
+          - surgical_technologist
+          - process_server
+          - wholesale_drug_distributor
+          - public_weighmaster
+          - soil_classifier
+          - loan_broker
+          - prosthetist_orthotist
+          - security_personnel
+          - polygraph_examiner
+      steps:
+        description: "Stages (comma): match,pull,clean,trim,discover,extract,map_prep,publish. Blank = all. Omit 'pull' to skip Justia."
+        type: string
+        required: false
+        default: "extract,map_prep,publish"
+      states:
+        description: "States to scope (comma, e.g. IL,PA). Blank = all."
+        type: string
+        required: false
+        default: ""
+      deploy:
+        description: "Deploy to Vercel production after publish"
+        type: boolean
+        default: false
+
+jobs:
+  rerun:
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install dependencies
+        run: pip install -r pipeline/requirements.txt
+
+      - name: Run pipeline
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          BLOB_READ_WRITE_TOKEN: ${{ secrets.BLOB_READ_WRITE_TOKEN }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: |
+          set -euo pipefail
+          ARGS=()
+          [ -n "${{ inputs.steps }}" ]  && ARGS+=(--steps "${{ inputs.steps }}")
+          [ -n "${{ inputs.states }}" ] && ARGS+=(--states "${{ inputs.states }}")
+          [ "${{ inputs.deploy }}" = "true" ] && ARGS+=(--deploy)
+          if [ "${{ inputs.profession }}" = "all" ]; then
+            mapfile -t PROFS < <(python -c "import yaml;print('\n'.join(k for k in yaml.safe_load(open('pipeline/config/professions.yaml')) if not k.startswith('_')))")
+            for p in "${PROFS[@]}"; do
+              echo "::group::$p"
+              python -m pipeline.run --profession "$p" "${ARGS[@]}"
+              echo "::endgroup::"
+            done
+          else
+            python -m pipeline.run --profession "${{ inputs.profession }}" "${ARGS[@]}"
+          fi
+
+      - name: Commit regenerated results
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add pipeline/results
+          if git diff --cached --quiet; then
+            echo "no result changes to commit"
+          else
+            git commit -m "pipeline re-run: ${{ inputs.profession }} (steps=${{ inputs.steps }})"
+            git push
+          fi
