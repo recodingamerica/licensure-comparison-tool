@@ -1,0 +1,327 @@
+{
+  "profession": "insurance_producer",
+  "fields": [
+    {
+      "name": "lines_of_authority",
+      "category": "what they are licensed to sell",
+      "type": "list[str]",
+      "enum_values": [
+        "Life",
+        "Accident and Health or Sickness",
+        "Property",
+        "Casualty",
+        "Variable Life and Variable Annuity Products",
+        "Personal Lines",
+        "Credit",
+        "Motor Vehicle Rental",
+        "Limited Line"
+      ],
+      "description": "The specific categories of insurance a producer is licensed to sell, solicit, or negotiate.",
+      "sample_quote": "\"Line of authority.\" The licensed ability to sell, solicit or negotiate particular classes or types of insurance, including the following: (1) Life. (2) Accident and health or sickness. (3) Property. (4) Casualty. (5) Variable life and variable annuity products. (6) Personal lines. (7) Credit. (8) Motor vehicle rental. (9) Limited line.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "resident_license_available",
+      "category": "what they are licensed to sell",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state issues a resident insurance producer license distinct from a nonresident license.",
+      "sample_quote": "An applicant with a principal place of residence or business within this Commonwealth may apply to the department for a resident insurance producer license.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "nonresident_license_available",
+      "category": "what they are licensed to sell",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state issues a nonresident insurance producer license for producers whose home state is elsewhere.",
+      "sample_quote": "An applicant with a principal place of residence or business outside this Commonwealth may apply for a nonresident insurance producer license.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "preexamination_education_hours",
+      "category": "education and exam prerequisites",
+      "type": "int",
+      "enum_values": null,
+      "description": "Minimum credit hours of approved pre-examination coursework required before sitting for the licensing exam.",
+      "sample_quote": "an individual who desires to be licensed as an insurance producer shall complete a minimum of 24 credit hours of approved preexamination courses.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "preexamination_ethics_hours",
+      "category": "education and exam prerequisites",
+      "type": "int",
+      "enum_values": null,
+      "description": "Minimum credit hours specifically dedicated to ethics within the required pre-examination education program.",
+      "sample_quote": "A preexamination education program approved by the department shall include no less than three credit hours on ethics.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "exam_waiver_designations",
+      "category": "education and exam prerequisites",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "Professional designations that exempt a candidate from the pre-examination education or licensing examination requirements.",
+      "sample_quote": "A person who possesses the professional designation of Chartered Life Underwriter (CLU) and is applying for life or accident and health line of authority... A person who possesses the professional designation of Chartered Property and Casualty Underwriter (CPCU)... A person who possesses the professional designation of Certified Insurance Counselor (CIC)...",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "business_entity_license_available",
+      "category": "who can hold a license",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether a business entity (non-individual) may obtain an insurance producer license in addition to individual producers.",
+      "sample_quote": "Upon designating one or more individuals licensed under this act to be responsible for the business entity's compliance with the insurance laws and regulations of the Commonwealth, a business entity may apply to the department for an insurance producer license.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "designated_licensee_required_for_business_entity",
+      "category": "who can hold a license",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether a business entity must designate one or more individually licensed producers responsible for the entity's regulatory compliance.",
+      "sample_quote": "\"Designated licensee.\" An individual who is licensed by the Insurance Department as an insurance producer and who is designated by a business entity to be responsible for the business entity's compliance with the insurance laws and regulations of this Commonwealth.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "temporary_license_available",
+      "category": "who can hold a license",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state may issue a temporary insurance producer license in specified circumstances such as death or disability of a licensee.",
+      "sample_quote": "the department may issue a temporary insurance producer license to the following persons: The surviving spouse or court-appointed personal representative of a resident individual licensee who dies or becomes mentally or physically disabled.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "temporary_license_max_days",
+      "category": "who can hold a license",
+      "type": "int",
+      "enum_values": null,
+      "description": "Maximum number of days a temporary insurance producer license may remain in effect.",
+      "sample_quote": "The temporary license shall be for a period not to exceed 180 days and is not transferable.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "appointment_required_to_represent_insurer",
+      "category": "relationship between producer and insurer",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether a producer must be formally appointed in writing by an insurer before acting as that insurer's representative.",
+      "sample_quote": "An insurance producer shall not act on behalf of or as a representative of the insurer unless the insurance producer is appointed by the insurer.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "appointment_fee",
+      "category": "relationship between producer and insurer",
+      "type": "str",
+      "enum_values": null,
+      "description": "Fee charged to the insurer for each producer appointment, including billing frequency.",
+      "sample_quote": "An appointment fee of $12.50 will be billed annually to the insurer for each producer appointed by the insurer during the preceding calendar year regardless of the length of time the producer held the appointment with the insurer.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "appointment_termination_reporting_days",
+      "category": "relationship between producer and insurer",
+      "type": "int",
+      "enum_values": null,
+      "description": "Number of days within which an insurer must notify the department after terminating a producer's appointment.",
+      "sample_quote": "An insurer which terminates an appointment pursuant to section 671-A(d) shall notify the department in writing on a form approved by the department... within 30 days following the effective date of the termination.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "written_consumer_representation_agreement_required",
+      "category": "relationship between producer and insurer",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether a producer acting on behalf of a consumer (rather than an insurer) must execute a written agreement disclosing services and fees before representing that consumer.",
+      "sample_quote": "An insurance producer acting on behalf of or representing an insurance consumer shall execute a written agreement with the insurance consumer prior to representing or acting on their behalf that: (1) delineates the services to be provided; and (2) provides full and complete disclosure of the fee to be paid to the insurance producer by the insurance consumer.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "fiduciary_duty_for_funds",
+      "category": "financial and ethical obligations",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the producer is explicitly held to a fiduciary standard for all funds received or collected in their capacity as a producer.",
+      "sample_quote": "An insurance producer shall be responsible in a fiduciary capacity for all funds received or collected as an insurance producer and shall not, without the express consent of the insurance entity on whose behalf the funds were received, mingle the funds with the producer's own funds.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "rebates_prohibited",
+      "category": "financial and ethical obligations",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly prohibits producers from offering or paying rebates of premiums or commissions as inducements.",
+      "sample_quote": "No insurance producer shall, directly or indirectly, offer, promise, allow, give, set off or pay a rebate of, or part of, a premium payable on the contract of insurance or on the insurance producer's commission... which is not specified in the contract of insurance.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "additional_fee_for_commercial_business_allowed",
+      "category": "financial and ethical obligations",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether a producer may charge a fee in addition to a commission for commercial insurance business, subject to advance written disclosure.",
+      "sample_quote": "A licensee may charge a fee in addition to a commission to a person for the sale, solicitation or negotiation of a contract of insurance for commercial business. The fee charged by the licensee shall be disclosed in advance in writing to the person and shall be reasonable in relationship to the services provided.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "misconduct_reporting_to_department_days",
+      "category": "financial and ethical obligations",
+      "type": "int",
+      "enum_values": null,
+      "description": "Number of days within which a licensee must report to the department any administrative action taken against them in another jurisdiction or by another governmental agency.",
+      "sample_quote": "A licensee shall report to the department any administrative action taken against the licensee in another jurisdiction or by another governmental agency in this Commonwealth within 30 days of the final disposition of the matter.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "financial_institution_insurance_sales_restrictions",
+      "category": "practice setting and consumer protection rules",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute imposes specific disclosure, physical separation, and anti-tying requirements on producers selling insurance on or from the premises of a financial institution.",
+      "sample_quote": "Sales of annuities or insurance, except credit insurance, by a financial institution or by a licensee employed by or affiliated with the financial institution shall take place in a location which is distinct from the area where deposits are taken and loan applications are discussed and accepted.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "conditional_loan_insurance_tying_prohibited",
+      "category": "practice setting and consumer protection rules",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly prohibits requiring a borrower to purchase insurance from a financial institution or its affiliates as a condition of a loan or deposit transaction.",
+      "sample_quote": "No financial institution or its directors, officers, employees, agents or insurance producers may require the purchase of insurance from the financial institution or its affiliates or from a designated insurer or insurance producer as a condition of a loan or deposit transaction.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "manager_exclusive_general_agent_license_required",
+      "category": "extra credentials and tiered license types",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state requires a separate license for managers and exclusive general agents who bind coverage or manage insurer business beyond ordinary production.",
+      "sample_quote": "no person shall engage in any activities requiring a manager or exclusive general agent license without being licensed as a manager or exclusive general agent by the department.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "manager_exclusive_general_agent_license_term_years",
+      "category": "extra credentials and tiered license types",
+      "type": "str",
+      "enum_values": null,
+      "description": "Maximum term length for a manager or exclusive general agent license (expressed as a period, may be less than one year).",
+      "sample_quote": "A license issued in accordance with this section shall be for a period of not more than one year.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "naic_producer_database_used_for_verification",
+      "category": "licensing administration and reciprocity",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the department may use the NAIC Producer Database to verify a producer's licensing status for reciprocal or nonresident applications.",
+      "sample_quote": "The department may verify the individual's licensing status through the Producer Database maintained by the NAIC.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "home_state_change_application_window_days",
+      "category": "licensing administration and reciprocity",
+      "type": "int",
+      "enum_values": null,
+      "description": "Number of days after establishing a new principal place of residence or business in the state within which a producer must apply to transfer their home-state license.",
+      "sample_quote": "Within 90 days of establishing a principal place of residence or business in this Commonwealth, the individual shall submit to the department a completed application indicating the lines of authority for which the individual desires to be licensed.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "lapsed_license_reinstatement_window_days",
+      "category": "licensing administration and reciprocity",
+      "type": "int",
+      "enum_values": null,
+      "description": "Maximum number of days after license lapse within which a licensee may request reinstatement without reapplying from scratch (one year expressed in context).",
+      "sample_quote": "A licensee who allows his or her license to lapse... may within one year of the license renewal date request the department to reinstate the license.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "fingerprint_submission_required",
+      "category": "licensing administration and reciprocity",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether applicants and renewing licensees must submit fingerprints to enable a national criminal history background check.",
+      "sample_quote": "the applicant's fingerprints, in order for the department to receive national criminal history records information from the Federal Bureau of Investigation Criminal Justice Information Services Division",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    }
+  ]
+}

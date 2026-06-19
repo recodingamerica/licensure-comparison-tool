@@ -1,0 +1,236 @@
+{
+  "profession": "public_adjuster",
+  "fields": [
+    {
+      "name": "business_entity_licensure_allowed",
+      "category": "who can hold a license",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether business entities (corporations, partnerships, LLCs, etc.) may obtain a public adjuster license in addition to individuals.",
+      "sample_quote": "Upon designating one or more officers or partners licensed under this act to be responsible for the business entity's compliance with the insurance laws and regulations of the Commonwealth, a business entity may apply to the department for a public adjuster license.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "designated_licensee_required_for_business_entity",
+      "category": "who can hold a license",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether a business entity must designate one or more individually licensed public adjusters responsible for the entity's regulatory compliance.",
+      "sample_quote": "if a corporation or limited liability company, individual public adjuster licenses shall be held by or secured for each officer of the corporation or limited liability company",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "resident_vs_nonresident_license_types",
+      "category": "who can hold a license",
+      "type": "list[str]",
+      "enum_values": [
+        "resident",
+        "nonresident"
+      ],
+      "description": "The license classifications available based on whether the applicant's home state is the issuing state.",
+      "sample_quote": "An individual who is a resident of this Commonwealth may apply to the department for a resident public adjuster license. An individual who is not a resident of this Commonwealth may apply for a nonresident public adjuster license.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "fingerprint_background_check_required",
+      "category": "background and character screening",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether applicants must submit fingerprints for a national criminal history background check through the FBI.",
+      "sample_quote": "the applicant's fingerprints, for the department to receive national criminal history records information from the Criminal Justice Information Services Division of the Federal Bureau of Investigation",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "prohibited_salvage_business_interest",
+      "category": "background and character screening",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether a licensee is prohibited from having any financial interest in or receiving profit from a salvage or similar business.",
+      "sample_quote": "No license as a public adjuster shall be issued to any person engaged or interested in, or receiving any profit from, nor shall the holder of any such license engage or be interested in, or receive any profit from, any salvage or similar business.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "surety_bond_required",
+      "category": "financial security requirements",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether a public adjuster must file a surety bond with the state before transacting business.",
+      "sample_quote": "Each person receiving a public adjuster's license shall, before transacting any business thereunder, execute and deliver to the Insurance Commissioner a bond in the minimum penal sum of $20,000 with such sureties as the Insurance Commissioner may approve.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "surety_bond_minimum_amount",
+      "category": "financial security requirements",
+      "type": "int",
+      "enum_values": null,
+      "description": "The minimum dollar amount of the surety bond required before a public adjuster may transact business.",
+      "sample_quote": "execute and deliver to the Insurance Commissioner a bond in the minimum penal sum of $20,000",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "written_contract_required",
+      "category": "contract and disclosure rules",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether a public adjuster must execute a written, department-approved contract with the insured before acting.",
+      "sample_quote": "No public adjuster shall, directly or indirectly, act within this Commonwealth as a public adjuster without having first entered into a contract, in writing, on a form approved by the department and executed in duplicate by the public adjuster and the insured or a duly authorized representative.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "contract_rescission_period_days",
+      "category": "contract and disclosure rules",
+      "type": "int",
+      "enum_values": null,
+      "description": "The number of calendar days after signing during which the insured may rescind the public adjuster contract.",
+      "sample_quote": "That the insured has the right to rescind the contract within three calendar days after signature.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "insurer_notification_deadline_days",
+      "category": "contract and disclosure rules",
+      "type": "int",
+      "enum_values": null,
+      "description": "The number of calendar days within which the public adjuster must notify the insured's insurer after entering into a contract.",
+      "sample_quote": "Failing to notify the insured's insurer within two calendar days of entering into a contract.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "financial_interest_disclosure_required",
+      "category": "contract and disclosure rules",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the public adjuster must provide the insured a written disclosure of any direct or indirect financial interest in other firms involved in the claim.",
+      "sample_quote": "A public adjuster shall provide the insured a written disclosure concerning a direct or indirect financial interest the public adjuster has with another party involved in an aspect of the claim other than the salary, fee, commission or other consideration established in the written contract with the insured.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "prohibited_claim_types",
+      "category": "what claims they are allowed to handle",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "Categories of claims that a public adjuster is explicitly prohibited from handling.",
+      "sample_quote": "No public adjuster shall act in any manner in relation to claims for personal injury or automobile property damage.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "claims_only_against_own_insurer",
+      "category": "what claims they are allowed to handle",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether a public adjuster may only adjust claims on behalf of an insured against that insured's own insurance carrier.",
+      "sample_quote": "No public adjuster may adjust or solicit a contract for the adjustment of any claim for losses or damages on behalf of any person except claims by an insured against his own insurance carrier.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "repair_contract_prohibition_before_settlement",
+      "category": "what claims they are allowed to handle",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether a public adjuster is prohibited from entering into a contract with the insured for repair, replacement, or demolition of damaged property prior to a verdict, award, or payment from the insurer.",
+      "sample_quote": "No public adjuster shall, directly or indirectly, through or with any person, partnership, corporation or association in which it has an indirect or beneficial interest, enter into any contract with any insured for the repair, replacement, restoration, renovation or demolition of damaged property, real or personal, at any time prior to the date a verdict or award is entered or payment is received from the insurance carrier.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "catastrophe_solicitation_prohibited",
+      "category": "conduct and disciplinary rules",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether soliciting business during an active loss-producing event such as a fire, tornado, or other catastrophe is a prohibited act.",
+      "sample_quote": "Soliciting business during the progress of a loss-producing occurrence such as a fire, tornado, severe storm or other catastrophe where the immediate safety and security of persons and property is paramount.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "max_civil_penalty_per_violation",
+      "category": "conduct and disciplinary rules",
+      "type": "int",
+      "enum_values": null,
+      "description": "The maximum civil penalty in dollars that may be imposed per violation of the public adjuster statute.",
+      "sample_quote": "the Insurance Commissioner may, at his discretion, in cases warranting such action, impose a civil penalty of not more than $5,000 for each and every violation of this act.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "license_fee_initial",
+      "category": "fees",
+      "type": "int",
+      "enum_values": null,
+      "description": "The nonrefundable initial application fee in dollars for a resident or nonresident public adjuster license.",
+      "sample_quote": "A nonrefundable $200 fee shall accompany a completed application for a resident or nonresident public adjuster license until modified by the department by regulation.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "license_fee_renewal",
+      "category": "fees",
+      "type": "int",
+      "enum_values": null,
+      "description": "The nonrefundable renewal fee in dollars for a resident or nonresident public adjuster license.",
+      "sample_quote": "Resident or nonresident renewal fee, $200.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "license_fee_lapsed_renewal",
+      "category": "fees",
+      "type": "int",
+      "enum_values": null,
+      "description": "The nonrefundable fee in dollars required to renew a lapsed public adjuster license.",
+      "sample_quote": "Lapsed license renewal fee, $400.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    }
+  ]
+}
