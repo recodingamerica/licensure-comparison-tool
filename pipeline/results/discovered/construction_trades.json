@@ -1,0 +1,245 @@
+{
+  "profession": "construction_trades",
+  "fields": [
+    {
+      "name": "registration_number_required_in_ads",
+      "category": "advertising and public disclosure rules",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the contractor's registration number must appear in all advertisements, contracts, estimates, and proposals.",
+      "sample_quote": "A contractor shall include its registration number in all advertisements distributed within this Commonwealth and on all contracts, estimates and proposals with owners in this Commonwealth.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "insurance_personal_injury_minimum_usd",
+      "category": "insurance requirements",
+      "type": "int",
+      "enum_values": null,
+      "description": "Minimum dollar amount of liability insurance covering personal injury that a contractor must maintain.",
+      "sample_quote": "proof of liability insurance covering personal injury in an amount not less than $50,000",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "insurance_property_damage_minimum_usd",
+      "category": "insurance requirements",
+      "type": "int",
+      "enum_values": null,
+      "description": "Minimum dollar amount of insurance covering property damage caused by the contractor's work.",
+      "sample_quote": "insurance covering property damage caused by the work of a home improvement contractor in an amount not less than $50,000",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "self_insurance_permitted",
+      "category": "insurance requirements",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether a contractor may satisfy insurance requirements by attesting to being self-insured rather than carrying a third-party policy.",
+      "sample_quote": "proof of insurance may include information attested to by an applicant that the applicant is self-insured and the bureau shall develop forms for this purpose",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "contract_must_be_written",
+      "category": "contract requirements",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether a home improvement contract must be in writing to be valid and enforceable against the owner.",
+      "sample_quote": "No home improvement contract shall be valid or enforceable against an owner unless it: Is in writing and legible",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "right_of_rescission_days",
+      "category": "contract requirements",
+      "type": "int",
+      "enum_values": null,
+      "description": "Number of business days within which an owner may rescind a signed home improvement contract without penalty.",
+      "sample_quote": "shall be permitted to rescind the contract without penalty regardless of where the contract was signed, within three business days of the date of signing",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "deposit_cap_fraction",
+      "category": "contract requirements",
+      "type": "str",
+      "enum_values": null,
+      "description": "Maximum fraction of the total contract price a contractor may collect as a deposit before work begins, for contracts above a threshold amount.",
+      "sample_quote": "for a home improvement contract in which the total price is more than $5,000, receive a deposit in excess of one-third of the home improvement contract price",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "deposit_cap_contract_threshold_usd",
+      "category": "contract requirements",
+      "type": "int",
+      "enum_values": null,
+      "description": "Minimum contract price above which the deposit cap rule applies.",
+      "sample_quote": "for a home improvement contract in which the total price is more than $5,000",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "change_order_must_be_written",
+      "category": "contract requirements",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether any deviation from the original plans or specifications requires a written change order signed by both parties.",
+      "sample_quote": "Deviate from or disregard plans or specifications, in any material respect, without a written change order dated and signed by both the contractor and owner",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "arbitration_clause_allowed",
+      "category": "contract requirements",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether a home improvement contract may include an arbitration clause, subject to specific formatting and disclosure requirements.",
+      "sample_quote": "Nothing in this act shall preclude the court from setting aside an arbitration clause on any basis permitted under Pennsylvania law.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "voidable_contract_clauses",
+      "category": "contract requirements",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "List of clause types that, if included in a home improvement contract, make the contract voidable by the owner.",
+      "sample_quote": "If a home improvement contract contains any of the following clauses, the home improvement contract shall be voidable by the owner: A hold harmless clause. A waiver of Federal, State or local health, life, safety or building code requirements. A confession of judgment clause.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "minimum_annual_revenue_threshold_usd",
+      "category": "who must register",
+      "type": "int",
+      "enum_values": null,
+      "description": "Minimum total cash value of home improvements in the prior taxable year below which a person is exempt from contractor registration.",
+      "sample_quote": "A person for whom the total cash value of all of that person's home improvements is less than $5,000 during the previous taxable year.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "minimum_project_value_usd",
+      "category": "who must register",
+      "type": "int",
+      "enum_values": null,
+      "description": "Minimum cash price of a single project for the work to qualify as a regulated home improvement requiring a registered contractor.",
+      "sample_quote": "the total cash price of all work agreed upon between the contractor and owner is more than $500",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "fraud_offense_defined",
+      "category": "fraud and criminal penalties",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute defines a specific criminal offense of home improvement fraud with enumerated prohibited acts.",
+      "sample_quote": "A person commits the offense of home improvement fraud if, with intent to defraud or injure anyone or with knowledge that he is facilitating a fraud or injury to be perpetrated by anyone",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "fraud_felony_threshold_usd",
+      "category": "fraud and criminal penalties",
+      "type": "int",
+      "enum_values": null,
+      "description": "Dollar amount above which a home improvement fraud violation is graded as a felony rather than a misdemeanor.",
+      "sample_quote": "a felony of the third degree if the amount involved exceeds $2,000",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "enhanced_penalty_for_elderly_victims",
+      "category": "fraud and criminal penalties",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the grading of a fraud offense is elevated by one level when the victim is 60 years of age or older.",
+      "sample_quote": "Where a person commits an offense under subsection (a) and the victim is 60 years of age or older, the grading of the offense shall be one grade higher",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "state_preempts_local_registration_fees",
+      "category": "relationship between state and local rules",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether state registration preempts local governments from imposing their own contractor registration fees or licensing requirements.",
+      "sample_quote": "Registration under this act shall preclude any requirement of payment of a fee or registration or licensing of any home improvement contractor by any political subdivision.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "local_trade_licensing_preserved",
+      "category": "relationship between state and local rules",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether existing local licensing standards for specific trades (e.g., electricians, plumbers) are preserved notwithstanding state preemption.",
+      "sample_quote": "This provision does not affect existing licensing standards in effect on the effective date of this act, with respect to electricians and plumbers and other trades, where licensing is conditioned on requirements of testing or possession of certificates obtained through specific training in electricity or plumbing or other trades.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "registration_renewal_interval_years",
+      "category": "registration administration",
+      "type": "int",
+      "enum_values": null,
+      "description": "How often, in years, a contractor must renew their registration with the issuing authority.",
+      "sample_quote": "Any registered contractor in this Commonwealth who is registered or licensed as a home improvement contractor in any other state, or political subdivision thereof, shall report this information to the bureau on the initial registration and biennial registration application.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "out_of_state_disciplinary_action_reporting_required",
+      "category": "registration administration",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether a contractor must report to the state any disciplinary action taken against them in another jurisdiction.",
+      "sample_quote": "Any disciplinary action taken in such other jurisdiction shall be reported to the bureau on the initial registration application or, if such action occurred subsequent to submission of an initial application, on the biennial registration application or within 90 days of final disposition, whichever is sooner.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    }
+  ]
+}

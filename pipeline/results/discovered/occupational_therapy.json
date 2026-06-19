@@ -3,29 +3,135 @@
   "fields": [
     {
       "name": "license_tiers",
-      "category": "license types and tiers",
+      "category": "license types and credential levels",
       "type": "list[str]",
       "enum_values": [
         "occupational therapist",
         "occupational therapy assistant",
         "occupational therapy aide"
       ],
-      "description": "The distinct license classifications or unlicensed support roles recognized by statute for this profession.",
+      "description": "The distinct license or credential classifications recognized by the state for occupational therapy practice.",
       "sample_quote": "The division shall issue to a person who qualifies under this chapter a license in the classification of: (a) occupational therapist; or (b) occupational therapy assistant.",
       "sample_state": "UT",
       "states_supporting": [
+        "PA",
         "UT"
       ]
     },
     {
-      "name": "mental_health_therapy_excluded",
-      "category": "license types and tiers",
+      "name": "ota_aide_tier_recognized",
+      "category": "license types and credential levels",
       "type": "bool",
       "enum_values": null,
-      "description": "Whether the statute explicitly prohibits licensees from engaging in the practice of mental health therapy.",
-      "sample_quote": "Nothing in this chapter shall permit an individual licensed under this chapter to engage in the practice of mental health therapy.",
+      "description": "Whether the state recognizes an unlicensed occupational therapy aide as a distinct support role with defined limitations.",
+      "sample_quote": "\"Occupational therapy aide\" means a person who is not licensed under this chapter but who provides supportive services under the supervision of an occupational therapist or occupational therapy assistant.",
       "sample_state": "UT",
       "states_supporting": [
+        "PA",
+        "UT"
+      ]
+    },
+    {
+      "name": "referral_required_for_direct_treatment",
+      "category": "referral and independent practice rules",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether a referral from another licensed health care provider is required before an occupational therapist may initiate direct treatment for a specific medical condition.",
+      "sample_quote": "Implementation of direct occupational therapy to an individual for a specific medical condition shall be based on a referral from a licensed physician, licensed optometrist, licensed podiatrist, licensed certified registered nurse practitioner or licensed physician assistant.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA",
+        "UT"
+      ]
+    },
+    {
+      "name": "referral_sources_authorized",
+      "category": "referral and independent practice rules",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "The categories of licensed providers whose referral authorizes direct occupational therapy treatment, where a referral is required.",
+      "sample_quote": "Implementation of direct occupational therapy to an individual for a specific medical condition shall be based on a referral from a licensed physician, licensed optometrist, licensed podiatrist, licensed certified registered nurse practitioner or licensed physician assistant.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA",
+        "UT"
+      ]
+    },
+    {
+      "name": "indirect_services_without_referral_permitted",
+      "category": "referral and independent practice rules",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether an occupational therapist may enter a case and provide evaluation, consultation, or indirect services without a referral.",
+      "sample_quote": "An occupational therapist may enter a case for the purposes of providing indirect services, consultation, evaluating an individual as to the need for services and other occupational therapy services for conditions such as perceptual, cognitive, sensory integration and similar conditions.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA",
+        "UT"
+      ]
+    },
+    {
+      "name": "ota_supervision_face_to_face_frequency",
+      "category": "supervision and delegation rules",
+      "type": "str",
+      "enum_values": null,
+      "description": "The minimum required frequency and modality of face-to-face contact between a supervising occupational therapist and a supervised occupational therapy assistant.",
+      "sample_quote": "meet face to face with the supervised occupational therapy assistant as often as necessary but at least once every two weeks in person or by video conference, and at least one time every month in person",
+      "sample_state": "UT",
+      "states_supporting": [
+        "PA",
+        "UT"
+      ]
+    },
+    {
+      "name": "ota_supervisor_client_review_frequency",
+      "category": "supervision and delegation rules",
+      "type": "str",
+      "enum_values": null,
+      "description": "The minimum required frequency with which the supervising occupational therapist must personally meet with each client referred to an occupational therapy assistant.",
+      "sample_quote": "meet with each client who has been referred to a supervised occupational therapy assistant at least once each month, to further assess the patient, evaluate the treatment, and modify the individual's treatment plan",
+      "sample_state": "UT",
+      "states_supporting": [
+        "PA",
+        "UT"
+      ]
+    },
+    {
+      "name": "max_ota_per_supervising_ot",
+      "category": "supervision and delegation rules",
+      "type": "str",
+      "enum_values": null,
+      "description": "The maximum number of occupational therapy assistants a single occupational therapist may supervise at one time, including any distinction between full-time and part-time assistants.",
+      "sample_quote": "supervise no more than two full-time occupational therapy assistants at one time, or four part-time occupational therapy assistants if the combined work hours of the assistants do not exceed 40 hours per week",
+      "sample_state": "UT",
+      "states_supporting": [
+        "PA",
+        "UT"
+      ]
+    },
+    {
+      "name": "ota_treatment_plan_authority",
+      "category": "supervision and delegation rules",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "The specific treatment plan actions an occupational therapy assistant is and is not authorized to perform (e.g., write, modify, contribute, maintain).",
+      "sample_quote": "An occupational therapy assistant: (b) may not write an individual treatment plan; (c) may not approve or cosign modifications to an individual treatment plan; and (d) may contribute to and maintain an individual treatment plan.",
+      "sample_state": "UT",
+      "states_supporting": [
+        "PA",
+        "UT"
+      ]
+    },
+    {
+      "name": "aide_scope_limitations",
+      "category": "supervision and delegation rules",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "The specific restrictions on what tasks an occupational therapy aide may perform, including supervision level required and task type constraints.",
+      "sample_quote": "An occupational therapy aide: (a) may only perform occupational therapy services under the direct supervision of an occupational therapist or an occupational therapy assistant; (b) may not write, modify, contribute, or maintain an individual treatment plan; and (c) may only perform tasks that are repetitive and routine for which the aide has been trained and has demonstrated competence.",
+      "sample_state": "UT",
+      "states_supporting": [
+        "PA",
         "UT"
       ]
     },
@@ -34,217 +140,141 @@
       "category": "treatment planning and documentation",
       "type": "bool",
       "enum_values": null,
-      "description": "Whether the statute requires a written individual treatment plan to be composed for each client.",
-      "sample_quote": "'Individual treatment plan' means a written record composed for each client by a person licensed under this chapter to engage in the practice of occupational therapy.",
+      "description": "Whether the state statute defines and requires a written individual treatment plan for each client receiving occupational therapy services.",
+      "sample_quote": "\"Individual treatment plan\" means a written record composed for each client by a person licensed under this chapter to engage in the practice of occupational therapy.",
       "sample_state": "UT",
       "states_supporting": [
+        "PA",
         "UT"
       ]
     },
     {
-      "name": "assistant_treatment_plan_restrictions",
-      "category": "treatment planning and documentation",
-      "type": "list[str]",
+      "name": "professional_liability_insurance_required",
+      "category": "insurance and financial responsibility",
+      "type": "bool",
       "enum_values": null,
-      "description": "Specific restrictions on what an occupational therapy assistant may or may not do with respect to the individual treatment plan.",
-      "sample_quote": "An occupational therapy assistant: (b) may not write an individual treatment plan; (c) may not approve or cosign modifications to an individual treatment plan; and (d) may contribute to and maintain an individual treatment plan.",
-      "sample_state": "UT",
+      "description": "Whether the state requires occupational therapists to obtain and maintain professional liability insurance as a condition of licensure.",
+      "sample_quote": "Effective by the next biennial period for license renewal following the effective date of this paragraph, an occupational therapist shall obtain and maintain professional liability insurance as specified in subparagraphs (ii) and (iii).",
+      "sample_state": "PA",
       "states_supporting": [
+        "PA",
         "UT"
       ]
     },
     {
-      "name": "aide_treatment_plan_restrictions",
-      "category": "treatment planning and documentation",
-      "type": "list[str]",
-      "enum_values": null,
-      "description": "Specific restrictions on what an occupational therapy aide may or may not do with respect to the individual treatment plan.",
-      "sample_quote": "An occupational therapy aide: (b) may not write, modify, contribute, or maintain an individual treatment plan; and (c) may only perform tasks that are repetitive and routine for which the aide has been trained and has demonstrated competence.",
-      "sample_state": "UT",
-      "states_supporting": [
-        "UT"
-      ]
-    },
-    {
-      "name": "supervisor_client_contact_frequency",
-      "category": "supervision and delegation",
-      "type": "str",
-      "enum_values": null,
-      "description": "How often the supervising occupational therapist must personally meet with each client referred to an occupational therapy assistant.",
-      "sample_quote": "meet with each client who has been referred to a supervised occupational therapy assistant at least once each month... except that if the interval of client care occurs one time per month or less, the occupational therapist shall meet with the client at least once every four visits",
-      "sample_state": "UT",
-      "states_supporting": [
-        "UT"
-      ]
-    },
-    {
-      "name": "supervisor_assistant_contact_frequency",
-      "category": "supervision and delegation",
-      "type": "str",
-      "enum_values": null,
-      "description": "How often the supervising occupational therapist must meet face-to-face with the supervised occupational therapy assistant.",
-      "sample_quote": "meet face to face with the supervised occupational therapy assistant as often as necessary but at least once every two weeks in person or by video conference, and at least one time every month in person",
-      "sample_state": "UT",
-      "states_supporting": [
-        "UT"
-      ]
-    },
-    {
-      "name": "max_assistants_per_supervisor",
-      "category": "supervision and delegation",
-      "type": "str",
-      "enum_values": null,
-      "description": "The maximum number of occupational therapy assistants a single supervising occupational therapist may supervise at one time.",
-      "sample_quote": "supervise no more than two full-time occupational therapy assistants at one time, or four part-time occupational therapy assistants if the combined work hours of the assistants do not exceed 40 hours per week",
-      "sample_state": "UT",
-      "states_supporting": [
-        "UT"
-      ]
-    },
-    {
-      "name": "aide_supervision_level",
-      "category": "supervision and delegation",
-      "type": "enum",
-      "enum_values": [
-        "direct supervision",
-        "general supervision"
-      ],
-      "description": "The level of supervision required when an occupational therapy aide provides services.",
-      "sample_quote": "An occupational therapy aide: (a) may only perform occupational therapy services under the direct supervision of an occupational therapist or an occupational therapy assistant",
-      "sample_state": "UT",
-      "states_supporting": [
-        "UT"
-      ]
-    },
-    {
-      "name": "fieldwork_weeks_ot",
-      "category": "fieldwork and supervised training requirements",
+      "name": "professional_liability_insurance_minimum_per_occurrence",
+      "category": "insurance and financial responsibility",
       "type": "int",
       "enum_values": null,
-      "description": "Minimum number of weeks of supervised fieldwork experience required for licensure as an occupational therapist.",
-      "sample_quote": "if applying for licensure on or after July 1, 2015, complete a minimum of 24 weeks of supervised fieldwork experience",
-      "sample_state": "UT",
+      "description": "The minimum required professional liability insurance coverage amount per occurrence or claims-made, in dollars.",
+      "sample_quote": "The level of professional liability insurance coverage shall be in the minimum amount of $1,000,000 per occurrence or claims made.",
+      "sample_state": "PA",
       "states_supporting": [
-        "UT"
-      ]
-    },
-    {
-      "name": "fieldwork_weeks_ota",
-      "category": "fieldwork and supervised training requirements",
-      "type": "int",
-      "enum_values": null,
-      "description": "Minimum number of weeks of supervised fieldwork experience required for licensure as an occupational therapy assistant.",
-      "sample_quote": "if applying for licensure on or after July 1, 2015, complete a minimum of 16 weeks of supervised fieldwork experience",
-      "sample_state": "UT",
-      "states_supporting": [
-        "UT"
-      ]
-    },
-    {
-      "name": "dry_needling_authorized",
-      "category": "advanced and specialized techniques requiring extra training",
-      "type": "bool",
-      "enum_values": null,
-      "description": "Whether occupational therapists are authorized to perform trigger point dry needling with additional training.",
-      "sample_quote": "applying physical agent modalities, managing wound care, dry needling, and using manual therapy techniques to enhance an individual's performance skills, if the occupational therapist has received the necessary training as determined by division rule in collaboration with the board",
-      "sample_state": "UT",
-      "states_supporting": [
-        "UT"
-      ]
-    },
-    {
-      "name": "dry_needling_registration_required",
-      "category": "advanced and specialized techniques requiring extra training",
-      "type": "bool",
-      "enum_values": null,
-      "description": "Whether a separate registration with the division is required before an occupational therapist may practice trigger point dry needling.",
-      "sample_quote": "An occupational therapist may practice trigger point dry needling if the occupational therapist: ... (d) registers with the division as a trigger point dry needling practitioner",
-      "sample_state": "UT",
-      "states_supporting": [
-        "UT"
-      ]
-    },
-    {
-      "name": "dry_needling_course_hours",
-      "category": "advanced and specialized techniques requiring extra training",
-      "type": "int",
-      "enum_values": null,
-      "description": "Minimum total course hours required to qualify for trigger point dry needling practice.",
-      "sample_quote": "at least 304 total course hours, including a minimum of: (A) 54 hours of in-person instruction; and (B) 250 supervised patient treatment hours",
-      "sample_state": "UT",
-      "states_supporting": [
-        "UT"
-      ]
-    },
-    {
-      "name": "physical_agent_modalities_authorized",
-      "category": "advanced and specialized techniques requiring extra training",
-      "type": "bool",
-      "enum_values": null,
-      "description": "Whether occupational therapists are authorized to apply physical agent modalities with appropriate training.",
-      "sample_quote": "applying physical agent modalities, managing wound care, and using manual therapy techniques to enhance an individual's performance skills, if the occupational therapist has received the necessary training as determined by division rule in collaboration with the board",
-      "sample_state": "UT",
-      "states_supporting": [
-        "UT"
-      ]
-    },
-    {
-      "name": "referral_required",
-      "category": "patient access and referral rules",
-      "type": "bool",
-      "enum_values": null,
-      "description": "Whether a referral from another health care provider is required before an occupational therapist may evaluate or treat a client.",
-      "sample_quote": "An occupational therapist may evaluate, initiate, and provide occupational therapy treatment for a client without a referral from another health service provider.",
-      "sample_state": "UT",
-      "states_supporting": [
-        "UT"
-      ]
-    },
-    {
-      "name": "interstate_compact_member",
-      "category": "multistate practice and telehealth",
-      "type": "bool",
-      "enum_values": null,
-      "description": "Whether the state has enacted the Occupational Therapy Licensure Compact allowing multistate practice privileges.",
-      "sample_quote": "'Compact Privilege' means the authorization, which is equivalent to a license, granted by a Remote State to allow a Licensee from another Member State to practice as an Occupational Therapist or practice as an Occupational Therapy Assistant in the Remote State under its laws and rules.",
-      "sample_state": "UT",
-      "states_supporting": [
-        "UT"
-      ]
-    },
-    {
-      "name": "telehealth_authorized",
-      "category": "multistate practice and telehealth",
-      "type": "bool",
-      "enum_values": null,
-      "description": "Whether the statute or compact expressly authorizes delivery of occupational therapy services via telehealth.",
-      "sample_quote": "'Telehealth' means the application of telecommunication technology to deliver Occupational Therapy services for assessment, intervention and/or consultation.",
-      "sample_state": "UT",
-      "states_supporting": [
-        "UT"
-      ]
-    },
-    {
-      "name": "jurisprudence_exam_required",
-      "category": "multistate practice and telehealth",
-      "type": "bool",
-      "enum_values": null,
-      "description": "Whether applicants for a compact privilege must demonstrate knowledge of the state's specific laws and rules governing occupational therapy practice.",
-      "sample_quote": "'Jurisprudence Requirement' means the assessment of an individual's knowledge of the laws and rules governing the Practice of Occupational Therapy in a State.",
-      "sample_state": "UT",
-      "states_supporting": [
+        "PA",
         "UT"
       ]
     },
     {
       "name": "criminal_background_check_required",
-      "category": "background check and fitness requirements",
+      "category": "background screening requirements",
       "type": "bool",
       "enum_values": null,
-      "description": "Whether applicants for licensure must consent to and complete a criminal background check including fingerprinting.",
-      "sample_quote": "An applicant for licensure under this chapter who requires a criminal background check shall: (a) submit fingerprint cards in a form acceptable to the division at the time the license application is filed; and (b) consent to a fingerprint background check conducted by the Bureau of Criminal Identification and the Federal Bureau of Investigation",
+      "description": "Whether applicants for licensure are required to submit to a criminal background check, including fingerprinting.",
+      "sample_quote": "consent to a fingerprint background check conducted by the Bureau of Criminal Identification and the Federal Bureau of Investigation regarding the application.",
       "sample_state": "UT",
       "states_supporting": [
+        "PA",
+        "UT"
+      ]
+    },
+    {
+      "name": "advanced_technique_training_required",
+      "category": "advanced techniques requiring extra training",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state authorizes occupational therapists to perform advanced techniques (such as physical agent modalities, manual therapy, or dry needling) only after completing additional specified training.",
+      "sample_quote": "applying physical agent modalities, managing wound care, and using manual therapy techniques to enhance an individual's performance skills, if the occupational therapist has received the necessary training as determined by division rule in collaboration with the board.",
+      "sample_state": "UT",
+      "states_supporting": [
+        "PA",
+        "UT"
+      ]
+    },
+    {
+      "name": "advanced_techniques_authorized",
+      "category": "advanced techniques requiring extra training",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "The specific advanced clinical techniques that occupational therapists are authorized to perform upon completion of required additional training.",
+      "sample_quote": "applying physical agent modalities, managing wound care, dry needling, and using manual therapy techniques to enhance an individual's performance skills, if the occupational therapist has received the necessary training as determined by division rule in collaboration with the board.",
+      "sample_state": "UT",
+      "states_supporting": [
+        "PA",
+        "UT"
+      ]
+    },
+    {
+      "name": "dry_needling_registration_required",
+      "category": "advanced techniques requiring extra training",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether occupational therapists who wish to perform trigger point dry needling must complete a separate registration process with the state beyond holding a standard OT license.",
+      "sample_quote": "An occupational therapist may practice trigger point dry needling if the occupational therapist: ... (d) registers with the division as a trigger point dry needling practitioner.",
+      "sample_state": "UT",
+      "states_supporting": [
+        "PA",
+        "UT"
+      ]
+    },
+    {
+      "name": "interstate_compact_participation",
+      "category": "multistate practice and portability",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state participates in the Occupational Therapy Licensure Compact, allowing licensees to practice across member states under a compact privilege.",
+      "sample_quote": "\"Compact Privilege\" means the authorization, which is equivalent to a license, granted by a Remote State to allow a Licensee from another Member State to practice as an Occupational Therapist or practice as an Occupational Therapy Assistant in the Remote State under its laws and rules.",
+      "sample_state": "UT",
+      "states_supporting": [
+        "PA",
+        "UT"
+      ]
+    },
+    {
+      "name": "telehealth_authorized",
+      "category": "multistate practice and portability",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state statute explicitly recognizes telehealth as an authorized modality for delivering occupational therapy services.",
+      "sample_quote": "\"Telehealth\" means the application of telecommunication technology to deliver Occupational Therapy services for assessment, intervention and/or consultation.",
+      "sample_state": "UT",
+      "states_supporting": [
+        "PA",
+        "UT"
+      ]
+    },
+    {
+      "name": "mental_health_therapy_excluded",
+      "category": "what occupational therapists are not allowed to do",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state statute explicitly prohibits occupational therapists from engaging in the practice of mental health therapy.",
+      "sample_quote": "Nothing in this chapter shall permit an individual licensed under this chapter to engage in the practice of mental health therapy.",
+      "sample_state": "UT",
+      "states_supporting": [
+        "PA",
+        "UT"
+      ]
+    },
+    {
+      "name": "impaired_professional_program_available",
+      "category": "practitioner health and discipline alternatives",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state provides a formal impaired professional or alternative monitoring program as an option in lieu of or alongside disciplinary action for licensees with substance abuse or health conditions.",
+      "sample_quote": "The board may defer and ultimately dismiss any of the types of corrective action set forth in this act for an impaired professional so long as the licensee is progressing satisfactorily in an approved treatment program.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA",
         "UT"
       ]
     }
