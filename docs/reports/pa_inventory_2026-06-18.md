@@ -84,8 +84,16 @@ classification, (c) for embedded ones a `pa_keep_sections` list.
 Each act's WU01 URL was verified to fetch `200` with the act title present, then
 text pulled (`pull_text --states PA`); all sections split cleanly (0 fetch errors).
 Wired into `state_structure.yaml` PA block; `match_profession` re-run so each
-profession index carries its PA node. **Not yet cleaned/trimmed/extracted** — text
-only.
+profession index carries its PA node.
+
+**Extracted (2026-06-19):** full pipeline run clean → trim → discover_schema →
+extract_state_batch. All 8 extracted, 0 errors, **0 consistency violations**;
+evidence near-fully verified (1 unverified quote, real_estate_broker). Batch cost
+$0.90 (47% saved). regulatory_model=license for all 8; education floors:
+chiropractic/psychology=doctorate, physical_therapy=master,
+social_work/pharmacy=bachelor, real_estate_broker/funeral_services/cosmetology=
+high_school. (pharmacy=bachelor reflects the 1961 act's stated floor, not the
+modern PharmD.) Records are structured-only — not published to the map/blob.
 
 | Profession | Act | WU01 | Class | Sections |
 |---|---|---|---|---|
