@@ -227,7 +227,6 @@ def main() -> None:
     if not in_dir.exists():
         raise SystemExit(f"input dir not found: {in_dir}")
 
-    summary = []
     for path in sorted(in_dir.glob("*.json")):
         if path.name.startswith("_"):
             continue
@@ -246,11 +245,19 @@ def main() -> None:
             state, len(corpus.sections), len(corpus.dropped), corpus.total_chars,
             sum(s.get("text_len", len(s.get("text", ""))) for s in json.loads(path.read_text()).get("sections", [])),
         )
+
+    # Cumulative summary rebuilt from every cleaned corpus on disk (not just this
+    # run's states), so a --states subset run can't drop other states' rows.
+    summary = []
+    for path in sorted(out_dir.glob("*.json")):
+        if path.name.startswith("_"):
+            continue
+        d = json.loads(path.read_text())
         summary.append({
-            "state": state,
-            "kept": len(corpus.sections),
-            "dropped": len(corpus.dropped),
-            "chars": corpus.total_chars,
+            "state": path.stem,
+            "kept": len(d.get("sections") or []),
+            "dropped": len(d.get("dropped") or []),
+            "chars": int(d.get("total_chars") or 0),
         })
     (out_dir / "_summary.json").write_text(json.dumps(summary, indent=2))
 
