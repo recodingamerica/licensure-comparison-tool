@@ -3294,3 +3294,42 @@ PA:
       section_url_list:
         - "https://www.legis.state.pa.us/WU01/LI/LI/US/HTM/1955/0/0376..HTM"
       note: "Two acts: 1951/0/0069 (RN/APRN) + 1955/0/0376 (LPN). 63 P.S. §§ 211-225.5 and 651-667."
+    # --- Held-out backlog, pilot batch 1 (verified 2026-06-18; URLs fetch 200 + title match). ---
+    chiropractic:
+      url: "https://www.legis.state.pa.us/WU01/LI/LI/US/HTM/1986/0/0188..HTM"
+      label: "Chiropractic Practice Act (Act 188 of 1986)"
+      note: "Standalone. 63 P.S. §§ 625.101 et seq. State Board of Chiropractic (BPOA)."
+    pharmacy:
+      url: "https://www.legis.state.pa.us/WU01/LI/LI/US/HTM/1961/0/0699..HTM"
+      label: "Pharmacy Act (Act 699 of 1961)"
+      authoritative: true  # drop the label-matched Justia 'act-34' Pharmacy Act stub (year-versioned/partial); WU01 act is the full source
+      note: "Standalone. 63 P.S. §§ 390-1 et seq. State Board of Pharmacy (BPOA)."
+    psychology:
+      url: "https://www.legis.state.pa.us/WU01/LI/LI/US/HTM/1972/0/0052..HTM"
+      label: "Professional Psychologists Practice Act (Act 52 of 1972)"
+      note: "Standalone. 63 P.S. §§ 1201-1218. State Board of Psychology (BPOA)."
+    social_work:
+      url: "https://www.legis.state.pa.us/WU01/LI/LI/US/HTM/1987/0/0039..HTM"
+      label: "Social Workers, Marriage and Family Therapists and Professional Counselors Act (Act 39 of 1987)"
+      note: "One act covers THREE credentials (LSW/LCSW, LMFT, LPC) — 63 P.S. §§ 1901-1922. mental_health_counseling maps to this same act when wired. Sub-scheme split lives in regs (49 Pa. Code Ch. 47/48/49), not the act, so the corpus is the full act (no keep-list)."
+    physical_therapy:
+      url: "https://www.legis.state.pa.us/WU01/LI/LI/US/HTM/1975/0/0110..HTM"
+      label: "Physical Therapy Practice Act (Act 110 of 1975)"
+      note: "Standalone. 63 P.S. §§ 1301-1313. State Board of Physical Therapy (BPOA)."
+    real_estate_broker:
+      url: "https://www.legis.state.pa.us/WU01/LI/LI/US/HTM/1980/0/0009..HTM"
+      label: "Real Estate Licensing and Registration Act / RELRA (Act 9 of 1980)"
+      note: "Standalone. 63 P.S. §§ 455.101 et seq. State Real Estate Commission (BPOA)."
+    funeral_services:
+      url: "https://www.legis.state.pa.us/WU01/LI/LI/US/HTM/1951/0/0522..HTM"
+      label: "Funeral Director Law (Act 522 of 1951)"
+      authoritative: true  # drop the FALSE label match (Justia 'act-50' = Decedents/Estates Code "payments to funeral directors", not the licensing act)
+      note: "Standalone. 63 P.S. §§ 479.1-479.20. State Board of Funeral Directors (BPOA). SESSION-YEAR QUIRK: signed Jan 14, 1952 but keyed to the 1951 session in the URL (the act's own title reads 'Act of Jan. 14, (1952) 1951'); a 1952 URL 404s."
+    cosmetology:
+      # MULTI-ACT, like nursing: PA keeps cosmetology and barbering as two separate
+      # acts under two separate boards. pull_text pulls url + every PA URL in section_url_list.
+      url: "https://www.legis.state.pa.us/WU01/LI/LI/US/HTM/1933/0/0086..HTM"
+      label: "Cosmetology Law (Act 86 of 1933) + Barbers' License Law (Act 202 of 1931)"
+      section_url_list:
+        - "https://www.legis.state.pa.us/WU01/LI/LI/US/HTM/1931/0/0202..HTM"
+      note: "Two acts: 1933/0/0086 (Cosmetology Law, 63 P.S. §§ 507-527, State Board of Cosmetology) + 1931/0/0202 (Barbers' License Law, 63 P.S. §§ 551-566.4, State Board of Barber Examiners)."
