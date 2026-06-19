@@ -284,6 +284,28 @@ export type ProfilePayload = {
   evidence_summary: { verified: number; unverified: number };
 };
 
+// Similarity / outlier analysis — produced by pipeline.analyze.similarity,
+// served at /data/analysis/<prof>.json (separate from the profession payload).
+export type Neighbor = { state: string; sim: number; n: number };
+export type KindOutlier = {
+  state: string; field: string; value: string;
+  share: number; n_states: number; total: number; importance: number; score: number;
+};
+export type StringencyOutlier = {
+  state: string; field: string; value: string;
+  z: number; direction: string; importance: number; score: number;
+};
+export type ProfileAnalysis = {
+  profession: string;
+  states: string[];
+  n_discriminating_fields: number;
+  neighbors: Record<string, Neighbor[]>;
+  distinctiveness: Record<string, number>;
+  kind_outliers: KindOutlier[];
+  stringency_outliers: StringencyOutlier[];
+  utah_note?: string;
+};
+
 export type ProfessionsListEntry = {
   profession: string;
   display: string;
