@@ -491,11 +491,50 @@ def pull_state(state: str, profession: str, rows: list[dict], limit_sections: in
     return corpus
 
 
+def _corpus_health(d: dict) -> tuple[int, int]:
+    """(ok_section_count, total_chars) for a corpus dict (asdict or loaded JSON)."""
+    secs = d.get("sections") or []
+    ok = sum(1 for s in secs if not s.get("error"))
+    return ok, int(d.get("total_chars") or 0)
+
+
+def _is_regression(new_d: dict, old_d: dict) -> str | None:
+    """Return a reason string if writing new_d over old_d would lose good data,
+    else None. Guards against Justia blocks / partial fetches (empty or collapsed
+    bodies) silently clobbering a healthy committed corpus."""
+    new_ok, new_chars = _corpus_health(new_d)
+    old_ok, old_chars = _corpus_health(old_d)
+    if old_ok == 0:
+        return None  # old was already empty/partial — nothing to protect
+    if new_ok == 0:
+        return f"new pull has 0 ok sections vs {old_ok} committed"
+    if new_ok < old_ok:
+        return f"new pull has {new_ok} ok sections vs {old_ok} committed"
+    if new_ok == old_ok and new_chars < old_chars * 0.5:
+        return f"new pull text collapsed to {new_chars} chars vs {old_chars} committed (same {new_ok} sections)"
+    return None
+
+
+def _summary_row(state: str, d: dict) -> dict:
+    secs = d.get("sections") or []
+    return {
+        "state": state,
+        "sections": len(secs),
+        "ok_sections": sum(1 for s in secs if not s.get("error")),
+        "total_chars": int(d.get("total_chars") or 0),
+        "errors": len(d.get("errors") or []),
+    }
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--profession", required=True, help="Profession name from professions.yaml (e.g. 'podiatry')")
     ap.add_argument("--states", default="", help="Comma-separated subset of states; empty = all matching")
     ap.add_argument("--limit-sections", type=int, default=None, help="Cap sections per state (debug)")
+    ap.add_argument("--force", action="store_true",
+                    help="Overwrite an existing committed corpus even if the new pull is worse "
+                         "(fewer ok sections / collapsed text). Off by default so a Justia block "
+                         "or partial fetch can't clobber good committed data.")
     args = ap.parse_args()
 
     profession = args.profession.lower()
@@ -533,7 +572,7 @@ def main() -> None:
 
     log.info("profession=%s matched %d states from %s", profession, len(by_state), index_path.name)
 
-    summary = []
+    skipped = 0
     for state in sorted(by_state):
         try:
             corpus = pull_state(state, profession, by_state[state], args.limit_sections)
@@ -541,20 +580,41 @@ def main() -> None:
             log.exception("[%s] unhandled", state)
             corpus = StateCorpus(state=state, profession=profession, errors=[f"unhandled: {e}"])
         out_path = out_dir / f"{state}.json"
-        out_path.write_text(json.dumps(asdict(corpus), indent=2))
-        summary.append({
-            "state": state,
-            "sections": len(corpus.sections),
-            "ok_sections": sum(1 for s in corpus.sections if not s.error),
-            "total_chars": corpus.total_chars,
-            "errors": len(corpus.errors),
-        })
+        new_d = asdict(corpus)
+
+        # Overwrite-guard: don't let a worse pull clobber a healthy committed corpus.
+        if out_path.exists() and not args.force:
+            try:
+                old_d = json.loads(out_path.read_text())
+            except Exception:
+                old_d = {}
+            reason = _is_regression(new_d, old_d)
+            if reason:
+                log.warning("  [%s] SKIP overwrite: %s — keeping committed corpus (use --force to override)",
+                            state, reason)
+                skipped += 1
+                continue
+
+        out_path.write_text(json.dumps(new_d, indent=2))
         failed = sum(1 for s in corpus.sections if s.error)
         if failed:
             log.warning("  [%s] %d/%d sections FAILED to fetch — corpus is partial", state, failed, len(corpus.sections))
         log.info("  wrote %s (sections=%d, chars=%d)", out_path, len(corpus.sections), corpus.total_chars)
 
+    # Cumulative summary: reflect every per-state corpus on disk, not just this
+    # run's states (so a subset re-pull doesn't drop other states' rows).
+    summary = []
+    for path in sorted(out_dir.glob("*.json")):
+        if path.name.startswith("_"):
+            continue
+        try:
+            summary.append(_summary_row(path.stem, json.loads(path.read_text())))
+        except Exception:
+            continue
     (out_dir / "_summary.json").write_text(json.dumps(summary, indent=2))
+    if skipped:
+        log.warning("done: %d states, %d overwrite(s) skipped (use --force to override)",
+                    len(by_state), skipped)
     log.info("done: %d states", len(summary))
 
 

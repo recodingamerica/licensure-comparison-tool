@@ -205,7 +205,7 @@ def main() -> None:
     if not os.environ.get("ANTHROPIC_API_KEY"):
         sys.exit("ANTHROPIC_API_KEY not set")
 
-    summary = []
+    n_run = 0
     for path in sorted(in_dir.glob("*.json")):
         if path.name.startswith("_"):
             continue
@@ -221,15 +221,24 @@ def main() -> None:
             continue
         out_path = out_dir / f"{state}.json"
         out_path.write_text(json.dumps(asdict(corpus), indent=2))
+        n_run += 1
+
+    # Cumulative summary rebuilt from every trimmed corpus on disk (not just this
+    # run's states), so a --states subset run can't drop other states' rows.
+    summary = []
+    for path in sorted(out_dir.glob("*.json")):
+        if path.name.startswith("_"):
+            continue
+        d = json.loads(path.read_text())
         summary.append({
-            "state": state,
-            "kept": len(corpus.sections),
-            "dropped": len(corpus.dropped),
-            "skipped": len(corpus.skipped),
-            "chars": corpus.total_chars,
+            "state": path.stem,
+            "kept": len(d.get("sections") or []),
+            "dropped": len(d.get("dropped") or []),
+            "skipped": len(d.get("skipped") or []),
+            "chars": int(d.get("total_chars") or 0),
         })
     (out_dir / "_summary.json").write_text(json.dumps(summary, indent=2))
-    log.info("done: %d states", len(summary))
+    log.info("done: %d states this run, %d total in summary", n_run, len(summary))
 
 
 if __name__ == "__main__":
