@@ -86,44 +86,48 @@ class StateCorpus:
 _UNBLOCK_HOSTS = ("law.justia.com",)
 
 
-def _scraperapi_key() -> str | None:
-    k = os.environ.get("SCRAPERAPI_KEY")
-    if not k:
-        try:
-            from _env import load_env
-            load_env()
-            k = os.environ.get("SCRAPERAPI_KEY")
-        except Exception:
-            pass
-    return k
-
-
-# ScraperAPI render can take 30-70s server-side; direct fetches stay snappy.
+# ScraperAPI render / proxy hops can take 30-70s; direct fetches stay snappy.
 _UNBLOCK_TIMEOUT = 75
 
 
-def _maybe_unblock(url: str) -> tuple[str, int]:
-    """Return (fetch_url, timeout). Wrap url through ScraperAPI if it's a
-    Cloudflare-blocked host and a key is configured; otherwise return url
-    unchanged (direct fetch) with the normal timeout."""
-    key = _scraperapi_key()
-    if not key:
-        return url, TIMEOUT
+def _env_get(name: str) -> str | None:
+    v = os.environ.get(name)
+    if not v:
+        try:
+            from _env import load_env
+            load_env()
+            v = os.environ.get(name)
+        except Exception:
+            pass
+    return v
+
+
+def _unblock_plan(url: str) -> tuple[str, int, dict | None]:
+    """Decide how to fetch a Cloudflare-blocked host. Returns
+    (fetch_url, timeout, proxies). Precedence: residential proxy (cheapest) >
+    ScraperAPI > direct. Non-blocked hosts always fetch direct, no proxy."""
     host = urllib.parse.urlparse(url).netloc.lower()
     if not any(h in host for h in _UNBLOCK_HOSTS):
-        return url, TIMEOUT
-    params = urllib.parse.urlencode({
-        "api_key": key, "url": url,
-        "render": "true",          # execute the CF challenge JS
-        "ultra_premium": "true",   # residential IPs that pass CF
-    })
-    return f"https://api.scraperapi.com/?{params}", _UNBLOCK_TIMEOUT
+        return url, TIMEOUT, None
+    proxy = _env_get("RESIDENTIAL_PROXY")
+    if proxy:
+        # A residential IP + curl_cffi's chrome impersonation is what passes
+        # Cloudflare; route the real request through the proxy.
+        return url, _UNBLOCK_TIMEOUT, {"http": proxy, "https": proxy}
+    key = _env_get("SCRAPERAPI_KEY")
+    if key:
+        params = urllib.parse.urlencode({
+            "api_key": key, "url": url, "render": "true", "ultra_premium": "true",
+        })
+        return f"https://api.scraperapi.com/?{params}", _UNBLOCK_TIMEOUT, None
+    return url, TIMEOUT, None
 
 
 def fetch(url: str) -> tuple[int | None, str | None, str | None]:
-    fetch_url, timeout = _maybe_unblock(url)
+    fetch_url, timeout, proxies = _unblock_plan(url)
     try:
-        r = cffi_requests.get(fetch_url, impersonate="chrome", timeout=timeout, allow_redirects=True)
+        r = cffi_requests.get(fetch_url, impersonate="chrome", timeout=timeout,
+                              allow_redirects=True, proxies=proxies)
         return r.status_code, r.text, None
     except Exception as e:
         return None, None, f"{type(e).__name__}: {e}"
@@ -133,9 +137,10 @@ def fetch_bytes(url: str) -> tuple[int | None, bytes | None, str | None]:
     """Like fetch() but returns raw bytes, so the caller controls decoding.
     Needed for Word-export state sites (NV/OR/…) served as latin1/cp1252, which
     curl_cffi's text auto-decode mangles into replacement chars."""
-    fetch_url, timeout = _maybe_unblock(url)
+    fetch_url, timeout, proxies = _unblock_plan(url)
     try:
-        r = cffi_requests.get(fetch_url, impersonate="chrome", timeout=timeout, allow_redirects=True)
+        r = cffi_requests.get(fetch_url, impersonate="chrome", timeout=timeout,
+                              allow_redirects=True, proxies=proxies)
         return r.status_code, r.content, None
     except Exception as e:
         return None, None, f"{type(e).__name__}: {e}"
