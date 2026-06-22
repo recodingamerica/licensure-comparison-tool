@@ -39,6 +39,8 @@ export type UsMapProps = {
   // Width × height SVG box. Defaults match the AlbersUSA layout MapView uses.
   width?: number;
   height?: number;
+  // Drop the bordered frame (the map sits inline in the page).
+  bare?: boolean;
 };
 
 export function UsMap({
@@ -47,13 +49,14 @@ export function UsMap({
   onClick,
   width = 975,
   height = 610,
+  bare = false,
 }: UsMapProps) {
   const [hover, setHover] = useState<{ state: string; x: number; y: number } | null>(null);
   const tip = hover ? renderTooltip(hover.state) : null;
 
   return (
     <>
-      <div className="rounded-lg border bg-white">
+      <div className={bare ? "" : "rounded-lg border bg-white"}>
         <ComposableMap
           projection="geoAlbersUsa"
           projectionConfig={{ scale: 1000 }}

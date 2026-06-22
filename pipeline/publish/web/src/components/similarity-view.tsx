@@ -169,7 +169,7 @@ export function SimilarityView({ professionId }: { professionId: string }) {
       {data.notes["UT"] && (
         <div className="border-t pt-5 space-y-3">
           <p className="text-sm leading-relaxed">{data.notes["UT"]}</p>
-          <div className="grid gap-x-10 gap-y-4 text-sm sm:grid-cols-2">{profileLists("UT", 99, 99)}</div>
+          <div className="grid gap-x-12 gap-y-4 text-sm sm:grid-cols-2">{profileLists("UT", 99, 99)}</div>
         </div>
       )}
 
@@ -178,7 +178,7 @@ export function SimilarityView({ professionId }: { professionId: string }) {
         <p className="mb-3 text-xs text-muted-foreground">
           How distinctive each state is — hover any state for where it agrees and what&apos;s unusual.
         </p>
-        <UsMap fillFor={fillFor} renderTooltip={renderTooltip} />
+        <UsMap fillFor={fillFor} renderTooltip={renderTooltip} bare />
         <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
           <span>typical</span>
           <span
