@@ -1,0 +1,233 @@
+{
+  "profession": "health_facility_admin",
+  "fields": [
+    {
+      "name": "provisional_license_available",
+      "category": "license types and temporary credentials",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether a provisional (temporary pre-full-licensure) license category exists for this profession.",
+      "sample_quote": "\"Provisional license\" is a temporary license issued to a provisional nursing home administrator.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "temporary_permit_available",
+      "category": "license types and temporary credentials",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether a temporary permit may be issued without examination in emergency or unusual circumstances (e.g., death or resignation of the licensed administrator).",
+      "sample_quote": "In the event of unusual circumstances affecting the administration of a nursing home, such as death or disability of the licensed administrator, his resignation or dismissal, or other valid reasons as determined by the board, the board may, in its discretion, issue without examination a temporary permit as nursing home administrator.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "temporary_permit_max_duration_months",
+      "category": "license types and temporary credentials",
+      "type": "int",
+      "enum_values": null,
+      "description": "Maximum duration in months for a temporary permit issued without examination.",
+      "sample_quote": "A temporary permit shall entitle the holder to serve as a nursing home administrator only in the particular facility indicated on his application, and shall be valid for a period as determined by the board, not to exceed one year from the date of issuance.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "temporary_permit_facility_restricted",
+      "category": "license types and temporary credentials",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether a temporary permit restricts the holder to practice only at the single facility named on the application.",
+      "sample_quote": "A temporary permit shall entitle the holder to serve as a nursing home administrator only in the particular facility indicated on his application.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "facility_type_covered",
+      "category": "what kind of facility this license covers",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "The type(s) of health facility whose administration falls under this licensure act.",
+      "sample_quote": "\"Nursing home\" means any institution or facility in which nursing care and related medical or other health services are provided for a period exceeding twenty-four hours, for two or more individuals.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "small_facility_shared_admin_threshold_beds",
+      "category": "what kind of facility this license covers",
+      "type": "int",
+      "enum_values": null,
+      "description": "Bed-count threshold below which a facility may share an administrator with another facility rather than having a dedicated full-time administrator.",
+      "sample_quote": "A nursing home of twenty-five beds or less may share the services of an administrator who is readily available at all times, and who can devote sufficient time to supervise the standards of the nursing home.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "citizenship_required",
+      "category": "who is eligible to apply",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether U.S. citizenship (or declared intent to become a citizen) is a stated eligibility requirement for licensure.",
+      "sample_quote": "He is at least twenty-one years old, a citizen of the United States, or that he has duly declared his intention of becoming a citizen of the United States.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "experience_substitutable_for_education",
+      "category": "who is eligible to apply",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether documented practical experience in nursing home or health facility administration may be substituted for required post-secondary education credits.",
+      "sample_quote": "A candidate who applies for examination under and pursuant to subsection (c) of this section, in lieu of the educational requirements provided for therein, may submit evidence satisfactory to the board that he has obtained one year of practical experience in nursing home administration or in related health facility administration for each year of required post-high school or post-secondary school education.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "long_term_operator_exam_exemption",
+      "category": "who is eligible to apply",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether individuals who have operated a nursing home for a specified number of years may sit for the licensing exam without meeting the standard educational prerequisites.",
+      "sample_quote": "Any person who has operated a nursing home for a period of three years or more shall be admitted to the licensing examination without the necessity of submitting written evidence of high school graduation or its equivalent.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "registration_renewal_interval_years",
+      "category": "ongoing registration and reporting requirements",
+      "type": "int",
+      "enum_values": null,
+      "description": "The interval in years at which a licensee must renew their certificate of registration with the board (distinct from the license itself).",
+      "sample_quote": "Thereafter, such individual shall biennially be required to apply to the board for a new certificate of registration and report any facts requested by the board on forms provided for such purpose.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "multi_state_licensure_reporting_required",
+      "category": "ongoing registration and reporting requirements",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether a licensee who also holds a license in another state, territory, or country must report that fact and any out-of-state disciplinary actions to the home-state board.",
+      "sample_quote": "Any licensed nursing home administrator of this Commonwealth who is also licensed to practice nursing home administration in any other state, territory or country shall report this information to the board on the biennial renewal application. Any disciplinary action taken in other states shall be reported to the board on the biennial renewal application or within ninety days of final disposition, whichever is sooner.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "out_of_state_discipline_reporting_deadline_days",
+      "category": "ongoing registration and reporting requirements",
+      "type": "int",
+      "enum_values": null,
+      "description": "Number of days after final disposition within which a licensee must report disciplinary action taken against them in another jurisdiction.",
+      "sample_quote": "Any disciplinary action taken in other states shall be reported to the board on the biennial renewal application or within ninety days of final disposition, whichever is sooner.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "board_composition_required",
+      "category": "governing board structure",
+      "type": "str",
+      "enum_values": null,
+      "description": "Statutory description of the required membership composition of the licensing board, including professional, consumer, and government representatives.",
+      "sample_quote": "The State Board of Examiners of Nursing Home Administrators shall consist of fifteen members as follows: six members shall be nursing home administrators, (two from not-for-profit facilities, two from operated-for-profit facilities and two from county facilities); three members who have been actively involved with the care of chronically ill and infirm aged patients... three members representative of the consumer; and the Secretary of Health, or his designee, the Director of the Bureau of Consumer Protection in the Office of Attorney General, or his designee, and the Commissioner of Professional and Occupational Affairs.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "board_member_term_years",
+      "category": "governing board structure",
+      "type": "int",
+      "enum_values": null,
+      "description": "Length in years of a standard board member term.",
+      "sample_quote": "The term of office of each member shall be four years from his appointment, or until his successor has been appointed and qualified, but no longer than six months beyond the four-year period.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "board_member_consecutive_term_limit",
+      "category": "governing board structure",
+      "type": "int",
+      "enum_values": null,
+      "description": "Maximum number of consecutive full terms a board member may serve.",
+      "sample_quote": "No member shall be eligible for appointment to serve more than two consecutive full terms.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "automatic_license_suspension_triggers",
+      "category": "discipline and enforcement",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "Specific events that trigger automatic (non-hearing) suspension of a license by operation of law.",
+      "sample_quote": "A license issued under this act shall automatically be suspended upon the legal commitment to an institution of a licensee because of mental incompetency from any cause... conviction of a felony under the act of April 14, 1972 (P.L.233, No.64), known as 'The Controlled Substance, Drug, Device and Cosmetic Act.'",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "temporary_suspension_max_days",
+      "category": "discipline and enforcement",
+      "type": "int",
+      "enum_values": null,
+      "description": "Maximum number of days a temporary emergency suspension may remain in effect before the board must take further formal action.",
+      "sample_quote": "The temporary suspension shall remain in effect until vacated by the board, but in no event longer than one hundred eighty days.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "revocation_reinstatement_waiting_period_years",
+      "category": "discipline and enforcement",
+      "type": "int",
+      "enum_values": null,
+      "description": "Minimum number of years a person must wait after license revocation before applying for reinstatement.",
+      "sample_quote": "Any person whose license or registration has been revoked may apply for reinstatement, after a period of at least five years, but must meet all of the licensing qualifications of this act for the license applied for, to include the examination requirement.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "interdepartmental_deficiency_reporting_required",
+      "category": "oversight and coordination with other agencies",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the licensing board is required to establish a formal reporting procedure with the state health department to exchange information about facility deficiencies and administrator disciplinary actions.",
+      "sample_quote": "The board, in cooperation with the Department of Health, shall develop a reporting procedure which requires the Department of Health to notify the board when deficiencies found in a licensed nursing home may be due to the practices of the nursing home administrator and which requires the board to notify the Department of Health of any disciplinary actions taken against a nursing home administrator licensed under this act.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    }
+  ]
+}

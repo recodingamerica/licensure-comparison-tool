@@ -1,0 +1,317 @@
+{
+  "profession": "wholesale_drug_distributor",
+  "fields": [
+    {
+      "name": "license_per_facility_required",
+      "category": "licensing and registration rules",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether a separate license must be obtained for each physical facility operated by the distributor.",
+      "sample_quote": "A person shall obtain a separate license to operate each facility.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "surety_bond_required",
+      "category": "licensing and registration rules",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether applicants must submit a surety bond as part of the license application.",
+      "sample_quote": "The applicant or owner shall submit a surety bond of $100,000 to the department with an application.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "surety_bond_amount_dollars",
+      "category": "licensing and registration rules",
+      "type": "int",
+      "enum_values": null,
+      "description": "Standard surety bond amount in dollars required with the license application.",
+      "sample_quote": "The applicant or owner shall submit a surety bond of $100,000 to the department with an application.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "surety_bond_minimum_dollars",
+      "category": "licensing and registration rules",
+      "type": "int",
+      "enum_values": null,
+      "description": "Minimum surety bond amount in dollars after any department-approved reduction.",
+      "sample_quote": "The surety bond may not be reduced to less than $25,000.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "license_application_fee_dollars",
+      "category": "licensing and registration rules",
+      "type": "int",
+      "enum_values": null,
+      "description": "One-time fee in dollars required when submitting the initial license application.",
+      "sample_quote": "Each person who applies for a license shall submit a fee of $10 with the license application.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "license_renewal_fee_dollars",
+      "category": "licensing and registration rules",
+      "type": "int",
+      "enum_values": null,
+      "description": "Fee in dollars required when renewing the wholesale distributor license.",
+      "sample_quote": "The license renewal fee shall be $100, unless changed by regulation, and shall be submitted with the completed license renewal form.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "late_renewal_fee_per_month_dollars",
+      "category": "licensing and registration rules",
+      "type": "int",
+      "enum_values": null,
+      "description": "Additional fee in dollars charged per month (or portion thereof) for late submission of a license renewal.",
+      "sample_quote": "The late submission of a completed license renewal form shall be accompanied by a late payment fee of $25 for each month or portion thereof that expired after the license renewal was due.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "revocation_reinstatement_waiting_period_years",
+      "category": "licensing and registration rules",
+      "type": "int",
+      "enum_values": null,
+      "description": "Number of years a person must wait after license revocation before applying for reinstatement.",
+      "sample_quote": "A person whose license has been revoked may not apply for reinstatement until five years have expired during which the license was revoked.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "facility_physical_requirements",
+      "category": "facility and storage standards",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "List of physical and environmental requirements that a licensed facility must meet for storage and handling of prescription drugs.",
+      "sample_quote": "Have storage areas designed to provide adequate lighting, ventilation, temperature, sanitation, humidity, space, equipment and security conditions.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "quarantine_area_required",
+      "category": "facility and storage standards",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the facility must maintain a designated quarantine area for outdated, damaged, deteriorated, misbranded, or adulterated drugs.",
+      "sample_quote": "Have a quarantine area for storage of prescription drugs that are outdated, damaged, deteriorated, misbranded or adulterated or that are in immediate or sealed secondary containers that have been opened.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "temperature_humidity_monitoring_required",
+      "category": "facility and storage standards",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the facility must use temperature and humidity recording equipment or logs to document proper drug storage conditions.",
+      "sample_quote": "Appropriate manual, electromechanical or electronic temperature and humidity recording equipment, devices or logs shall be utilized to document proper storage of prescription drugs.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "security_system_required",
+      "category": "facility and storage standards",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the facility must be equipped with an alarm and security system to detect unauthorized entry and protect against theft and diversion.",
+      "sample_quote": "The facility shall be equipped with an alarm system to detect entry after hours.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "incoming_outgoing_inspection_required",
+      "category": "facility and storage standards",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether each incoming and outgoing shipment of prescription drugs must be visually inspected for identity, contamination, and damage.",
+      "sample_quote": "Upon receipt, each outside shipping container shall be visually examined for identity and to prevent the acceptance of contaminated prescription drugs or prescription drugs that are otherwise unfit for distribution.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "recordkeeping_retention_period_years",
+      "category": "recordkeeping and reporting",
+      "type": "int",
+      "enum_values": null,
+      "description": "Number of years that distribution and inventory records must be retained and made available for inspection.",
+      "sample_quote": "Inventories and records shall be made available for inspection and photocopying by authorized Federal, State or local law enforcement agency officials for a period of two years following disposition of the drugs.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "records_remote_retrieval_deadline_days",
+      "category": "recordkeeping and reporting",
+      "type": "int",
+      "enum_values": null,
+      "description": "Number of working days within which records stored off-site and not electronically retrievable must be made available upon authorized request.",
+      "sample_quote": "Records kept at a central location apart from the facility and not electronically retrievable shall be made available for inspection within two working days of an authorized request by an authorized official of a Federal, State or local law enforcement agency.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "written_policies_and_procedures_required",
+      "category": "recordkeeping and reporting",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the licensee must establish, maintain, and adhere to written policies and procedures covering receipt, security, storage, inventory, and distribution of prescription drugs.",
+      "sample_quote": "The licensee shall establish, maintain and adhere to written policies and procedures, which shall be followed for the receipt, security, storage, inventory and distribution of prescription drugs.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "recall_withdrawal_procedure_required",
+      "category": "recordkeeping and reporting",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the licensee's written procedures must include a specific protocol for handling drug recalls and withdrawals.",
+      "sample_quote": "A procedure to be followed for handling recalls and withdrawals of prescription drugs.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "application_change_notification_period_days",
+      "category": "recordkeeping and reporting",
+      "type": "int",
+      "enum_values": null,
+      "description": "Number of days within which a licensee must notify the department of any change to information provided in the license application.",
+      "sample_quote": "A change in any information provided in the application shall be submitted to the department within 30 days after the change or as otherwise required by the department.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "dea_registration_required_for_controlled_substances",
+      "category": "controlled substances handling",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether a licensee dealing in controlled substances must separately register with the federal Drug Enforcement Administration.",
+      "sample_quote": "The licensee that deals in controlled substances shall register with the Drug Enforcement Administration (DEA) and shall comply with all applicable DEA, State and local regulations.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "excluded_transaction_types",
+      "category": "what counts as wholesale distribution",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "Categories of drug transfers or sales explicitly excluded from the definition of wholesale distribution and therefore not subject to licensure.",
+      "sample_quote": "Notwithstanding the foregoing, the phrase does not include: Intracompany sales or joining together of five or fewer pharmacies to place a direct order of medicine from the pharmaceutical manufacturer.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "virtual_manufacturer_recognized",
+      "category": "what counts as wholesale distribution",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute recognizes a 'virtual manufacturer' category for entities that hold drug approvals but never take physical possession of the drug.",
+      "sample_quote": "A person with a place of business located in this Commonwealth in the business of manufacturing and distributing a drug or medical device that: Holds the drug or device approval and label code or is otherwise identified on the product label from the United States Food and Drug Administration. At no time takes physical possession of any drug or device in this Commonwealth.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "civil_penalty_per_day_dollars",
+      "category": "penalties and enforcement",
+      "type": "int",
+      "enum_values": null,
+      "description": "Maximum civil penalty in dollars assessed per day for operating without a required license.",
+      "sample_quote": "The department shall have authority to assess a civil penalty of up to $500 for each day that a person engages in the wholesale distribution of prescription drugs without a license as required by this act.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "criminal_penalty_first_offense",
+      "category": "penalties and enforcement",
+      "type": "str",
+      "enum_values": null,
+      "description": "Criminal classification and sentencing range for a first offense of operating without a license.",
+      "sample_quote": "A person who engages in the wholesale distribution of prescription drugs without a license as required by this act commits a misdemeanor of the third degree and shall, upon conviction, be sentenced to pay a fine of not more than $2,000 and to imprisonment for not more than six months, or both, for the first violation.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "criminal_penalty_subsequent_offense",
+      "category": "penalties and enforcement",
+      "type": "str",
+      "enum_values": null,
+      "description": "Criminal sentencing range for second and subsequent offenses of operating without a license.",
+      "sample_quote": "On the second and each subsequent conviction, the person shall be sentenced to pay a fine of not less than $5,000 nor more than $20,000 or to imprisonment for not less than six months nor more than one year, or both.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "injunction_authority",
+      "category": "penalties and enforcement",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the issuing authority may seek a court injunction to stop unlicensed wholesale distribution activity.",
+      "sample_quote": "The department may maintain an action for an injunction to restrain a person from operating a facility within this Commonwealth through which it engages in the wholesale distribution of prescription drugs when that person does not have a license and a current renewal of that license.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "responsible_persons_list_required",
+      "category": "personnel and qualifications",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the licensee must maintain a list of officers, directors, managers, and other persons in charge of wholesale drug distribution, including their duties and qualifications.",
+      "sample_quote": "Establish and maintain lists of officers, directors, managers and other persons in charge of wholesale drug distribution, storage and handling, including a description of their duties and a summary of their qualifications.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    }
+  ]
+}

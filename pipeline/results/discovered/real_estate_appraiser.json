@@ -1,0 +1,242 @@
+{
+  "profession": "real_estate_appraiser",
+  "fields": [
+    {
+      "name": "credential_tiers",
+      "category": "license tiers and credential types",
+      "type": "list[str]",
+      "enum_values": [
+        "appraiser trainee",
+        "certified residential appraiser",
+        "certified general appraiser",
+        "broker/appraiser"
+      ],
+      "description": "The distinct credential levels or classifications available under the state's appraiser licensure framework.",
+      "sample_quote": "There shall be three classes of certified real estate appraisers as follows: (1) Certified residential appraiser... (2) Certified general appraiser... (3) Broker/appraiser",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "federally_related_transaction_scope",
+      "category": "what they can appraise and under what authority",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the credential authorizes appraisals required by FIRREA for federally related transactions.",
+      "sample_quote": "to perform appraisals required by the Financial Institutions Reform, Recovery, and Enforcement Act of 1989 (Public Law 101-73, 103 Stat. 183) to be performed by a State-certified or State-licensed real estate appraiser",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "nonfederally_related_transaction_scope",
+      "category": "what they can appraise and under what authority",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the credential authorizes appraisals in non-federally related transactions.",
+      "sample_quote": "Persons who are certified as residential real estate appraisers and general real estate appraisers under this act shall also have authority to perform real estate appraisals in nonfederally related transactions appropriate to their certification classification.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "property_type_scope",
+      "category": "what they can appraise and under what authority",
+      "type": "enum",
+      "enum_values": [
+        "residential only",
+        "residential and nonresidential",
+        "broker-permitted only"
+      ],
+      "description": "The category of real property types the credential holder is authorized to appraise.",
+      "sample_quote": "Certified general appraiser, which shall consist of those persons applying for and granted certification relating to the appraisal of both residential and nonresidential real property without limitation",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "trainee_supervision_required",
+      "category": "supervision and delegation",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether appraiser trainees must operate under the direct supervision of a certified appraiser.",
+      "sample_quote": "An appraiser trainee shall operate under the direct supervision of one certified residential appraiser or certified general appraiser for the purpose of completing the experience requirement for an appraiser credential.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "supervisor_experience_years",
+      "category": "supervision and delegation",
+      "type": "int",
+      "enum_values": null,
+      "description": "Minimum years of experience a supervising appraiser must have before supervising trainees.",
+      "sample_quote": "The supervisory appraiser shall be in good standing, have at least five years of experience as a certified residential appraiser or certified general appraiser",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "max_trainees_per_supervisor",
+      "category": "supervision and delegation",
+      "type": "int",
+      "enum_values": null,
+      "description": "Maximum number of appraiser trainees a single supervising appraiser may supervise at one time.",
+      "sample_quote": "shall not supervise more than three appraiser trainees",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "temporary_practice_permitted",
+      "category": "temporary and reciprocal practice",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether out-of-state appraisers may temporarily practice in the state without full licensure.",
+      "sample_quote": "the board shall recognize on a temporary basis the certification or license of an appraiser issued by another state if: (1) the property to be appraised is part of a federally related transaction; (2) the appraiser's business is of a temporary nature; and (3) the appraiser registers with the board.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "temporary_practice_conditions",
+      "category": "temporary and reciprocal practice",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "Conditions that must be met for an out-of-state appraiser to practice temporarily in the state.",
+      "sample_quote": "the property to be appraised is part of a federally related transaction; the appraiser's business is of a temporary nature; and the appraiser registers with the board.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "multi_state_licensure_reporting_required",
+      "category": "ongoing reporting and recordkeeping obligations",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether appraisers holding credentials in multiple states must report that fact and any out-of-state disciplinary actions to the home-state board.",
+      "sample_quote": "Any appraiser certified in this Commonwealth who is also certified or licensed to perform appraisals in any other state, territory or country shall report this information to the board on the biennial renewal application. Any disciplinary action taken in any other state, territory or country shall be reported to the board on the biennial renewal application, or within 90 days of disposition, whichever is sooner.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "contingent_fee_prohibited",
+      "category": "prohibited compensation and conflict of interest rules",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether it is prohibited to base appraiser compensation on the outcome, value conclusion, or a percentage of the appraised value.",
+      "sample_quote": "Accepting an appraisal assignment when the employment itself is contingent upon the appraiser's reporting a predetermined analysis or opinion, or where the fee to be paid for the performance of the appraisal assignment is contingent upon the opinion, conclusion or valuation reached",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "percentage_fee_prohibited",
+      "category": "prohibited compensation and conflict of interest rules",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether basing appraiser fees on a percentage of the final estimated value is explicitly prohibited.",
+      "sample_quote": "Basing the fee or compensation on a percentage of the final estimate of value.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "commission_split_fee_prohibited",
+      "category": "prohibited compensation and conflict of interest rules",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether accepting compensation in the form of commissions, rebates, or division of brokerage commissions is prohibited.",
+      "sample_quote": "Contracting for or accepting compensation for appraisal services in the form of a commission, rebate, division of brokerage commissions or any other similar form.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "qualifying_education_credit_for_prior_coursework",
+      "category": "education and qualifying coursework rules",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the board may grant credit toward qualifying education requirements for classroom hours completed before the board defined the required subjects.",
+      "sample_quote": "the board may give credit to an applicant for classroom hours of academic experience successfully completed prior to the board's prescription and definition of subjects pursuant to this subsection.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "continuing_education_excluded_topics",
+      "category": "education and qualifying coursework rules",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "Topics explicitly excluded from counting toward continuing education credit.",
+      "sample_quote": "No credit shall be given for any course in office management or practice building.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "trainee_qualifying_education_counts_toward_ce",
+      "category": "education and qualifying coursework rules",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether qualifying education completed after licensure as a trainee may also satisfy continuing education requirements during the same renewal period.",
+      "sample_quote": "any qualifying education completed after the issuance of the license and during the biennial licensure period may also be applied to satisfy the licensed appraiser trainee's continuing education requirements under this subsection.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "revocation_reinstatement_waiting_period_years",
+      "category": "discipline, reinstatement, and enforcement",
+      "type": "int",
+      "enum_values": null,
+      "description": "Minimum number of years a person must wait after revocation before applying for reinstatement of their credential.",
+      "sample_quote": "Any person whose certificate or license has been revoked may apply for reinstatement, after a period of at least five years",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "appraisal_standards_reference",
+      "category": "professional standards and federal compliance",
+      "type": "str",
+      "enum_values": null,
+      "description": "The named national or federal standards framework that governs how appraisals must be developed and communicated.",
+      "sample_quote": "standards of professional appraisal practice requiring that appraisals be performed in accordance with generally accepted appraisal standards as required pursuant to the Financial Institutions Reform, Recovery, and Enforcement Act of 1989",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "qualifications_board_reference",
+      "category": "professional standards and federal compliance",
+      "type": "str",
+      "enum_values": null,
+      "description": "The named national body whose qualification criteria the state adopts for education and experience requirements.",
+      "sample_quote": "in accordance with the criteria established by the Appraiser Qualifications Board of the Appraisal Foundation required pursuant to the Financial Institutions Reform, Recovery, and Enforcement Act of 1989",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    }
+  ]
+}

@@ -2,183 +2,289 @@
   "profession": "acupuncture",
   "fields": [
     {
-      "name": "nccaom_certification_required",
-      "category": "credentials and certifications beyond the basic license",
+      "name": "oriental_medicine_endorsement_available",
+      "category": "extra credentials and tiered scope",
       "type": "bool",
       "enum_values": null,
-      "description": "Whether current active NCCAOM certification is required for initial licensure and/or renewal.",
-      "sample_quote": "meet the requirements for current active certification in acupuncture under guidelines established by the National Commission for the Certification of Acupuncture and Oriental Medicine (NCCAOM) as demonstrated through a current certificate or other appropriate documentation",
-      "sample_state": "UT",
+      "description": "Whether the state offers a distinct higher-tier credential (e.g., practitioner of Oriental medicine) that expands scope beyond basic acupuncture licensure.",
+      "sample_quote": "An acupuncturist may practice Oriental medicine if the acupuncturist is licensed with the board as a practitioner of Oriental medicine.",
+      "sample_state": "PA",
       "states_supporting": [
+        "PA",
         "UT"
       ]
     },
     {
-      "name": "clean_needle_technique_certificate_required_for_injection",
-      "category": "credentials and certifications beyond the basic license",
+      "name": "oriental_medicine_endorsement_requirements",
+      "category": "extra credentials and tiered scope",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "Requirements to obtain the higher-tier Oriental medicine or herbal therapy credential, such as completing an herbology program or passing a national herbology exam.",
+      "sample_quote": "has successfully completed an acupuncture education program that includes the study of East Asian herbology and passed an East Asian herbology examination approved by the board; or has obtained national certification in East Asian herbology or Oriental medicine from a certifying organization approved by the board",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA",
+        "UT"
+      ]
+    },
+    {
+      "name": "herbal_therapy_authorized",
+      "category": "extra credentials and tiered scope",
       "type": "bool",
       "enum_values": null,
-      "description": "Whether a clean needle technique certificate from NCCAOM is required before a licensee may perform injection therapy.",
-      "sample_quote": "a licensed acupuncturist who has obtained a clean needle technique certificate from the National Commission for the Certification of Acupuncture and Oriental Medicine (NCCAOM)",
-      "sample_state": "UT",
+      "description": "Whether licensed acupuncturists (with appropriate endorsement) are authorized to use herbal preparations or recommend herbs and supplements as part of practice.",
+      "sample_quote": "The use of herbal preparations and products that contain as active ingredients parts of plants, minerals and other organic materials or a combination of these items administered according to East Asian medicine tradition to normalize function.",
+      "sample_state": "PA",
       "states_supporting": [
+        "PA",
         "UT"
       ]
     },
     {
       "name": "injection_therapy_authorized",
-      "category": "injections and substances that can be administered",
+      "category": "extra credentials and tiered scope",
       "type": "bool",
       "enum_values": null,
-      "description": "Whether licensed acupuncturists are authorized to perform injection therapy using a hypodermic needle into acupuncture points.",
-      "sample_quote": "'Injection therapy' means the use of a hypodermic needle, by a licensed acupuncturist who has obtained a clean needle technique certificate from the National Commission for the Certification of Acupuncture and Oriental Medicine (NCCAOM), to inject any of the following sterile substances in liquid form into acupuncture points on the body subcutaneously or intramuscularly",
+      "description": "Whether licensed acupuncturists may perform injection therapy (injecting sterile substances into acupuncture points) with additional certification.",
+      "sample_quote": "\"Injection therapy\" means the use of a hypodermic needle, by a licensed acupuncturist who has obtained a clean needle technique certificate from the National Commission for the Certification of Acupuncture and Oriental Medicine (NCCAOM), to inject any of the following sterile substances in liquid form into acupuncture points on the body subcutaneously or intramuscularly.",
       "sample_state": "UT",
       "states_supporting": [
-        "UT"
+        "UT",
+        "PA"
       ]
     },
     {
-      "name": "injectable_substances_authorized",
-      "category": "injections and substances that can be administered",
+      "name": "injection_therapy_permitted_substances",
+      "category": "extra credentials and tiered scope",
       "type": "list[str]",
       "enum_values": null,
-      "description": "List of sterile substances that a licensed acupuncturist is authorized to inject during injection therapy.",
-      "sample_quote": "a nutritional substance; a local anesthetic; autologous blood, if the licensee holds a current phlebotomy certification to draw blood; sterile water; dextrose; sodium bicarbonate; and sterile saline",
+      "description": "Specific sterile substances that a licensed acupuncturist is authorized to inject during injection therapy.",
+      "sample_quote": "a nutritional substance; a local anesthetic; autologous blood, if the licensee holds a current phlebotomy certification to draw blood; sterile water; dextrose; sodium bicarbonate; and sterile saline.",
       "sample_state": "UT",
       "states_supporting": [
-        "UT"
+        "UT",
+        "PA"
       ]
     },
     {
       "name": "injection_therapy_excluded_sites",
-      "category": "injections and substances that can be administered",
+      "category": "what they can treat and where on the body",
       "type": "list[str]",
       "enum_values": null,
-      "description": "Anatomical sites into which injection therapy is explicitly prohibited.",
-      "sample_quote": "'Injection therapy' does not include injecting a substance into a vein, joint, artery, blood vessel, nerve, tendon, deep organ, or the spine.",
+      "description": "Anatomical sites explicitly excluded from injection therapy.",
+      "sample_quote": "\"Injection therapy\" does not include injecting a substance into a vein, joint, artery, blood vessel, nerve, tendon, deep organ, or the spine.",
       "sample_state": "UT",
       "states_supporting": [
-        "UT"
+        "UT",
+        "PA"
       ]
     },
     {
       "name": "injection_therapy_patient_exclusions",
-      "category": "injections and substances that can be administered",
+      "category": "what they can treat and where on the body",
       "type": "list[str]",
       "enum_values": null,
-      "description": "Patient populations on whom injection therapy is prohibited (e.g., pregnant women, young children).",
-      "sample_quote": "'Injection therapy' may not be performed on a pregnant woman or a child under the age of eight.",
+      "description": "Patient populations on whom injection therapy is explicitly prohibited.",
+      "sample_quote": "\"Injection therapy\" may not be performed on a pregnant woman or a child under the age of eight.",
       "sample_state": "UT",
       "states_supporting": [
-        "UT"
+        "UT",
+        "PA"
       ]
     },
     {
       "name": "adjunctive_therapies_authorized",
-      "category": "what treatments and techniques are allowed",
+      "category": "what they can treat and where on the body",
       "type": "list[str]",
       "enum_values": null,
-      "description": "List of adjunctive or supplementary therapy modalities authorized within the scope of acupuncture practice.",
-      "sample_quote": "Adjunctive therapies within the scope of the practice of acupuncture may include: manual, mechanical, thermal, electrical, light, and electromagnetic treatments based on traditional oriental medical diagnosis and modern research",
-      "sample_state": "UT",
+      "description": "Non-needle supplemental or adjunctive modalities explicitly authorized within the acupuncture scope of practice.",
+      "sample_quote": "the use of traditional and modern oriental therapeutics, heat therapy, moxibustion, electrical and low-level laser stimulation, acupressure and other forms of massage, herbal therapy and counseling that shall include the therapeutic use of foods and supplements and lifestyle modifications",
+      "sample_state": "PA",
       "states_supporting": [
-        "UT"
-      ]
-    },
-    {
-      "name": "dietary_and_herbal_recommendations_authorized",
-      "category": "what treatments and techniques are allowed",
-      "type": "bool",
-      "enum_values": null,
-      "description": "Whether the licensee is authorized to recommend or provide dietary guidelines, herbs, supplements, homeopathics, and therapeutic exercise.",
-      "sample_quote": "the recommendation, administration, or provision of dietary guidelines, herbs, supplements, homeopathics, and therapeutic exercise based on traditional oriental medical diagnosis and modern research according to practitioner training",
-      "sample_state": "UT",
-      "states_supporting": [
-        "UT"
-      ]
-    },
-    {
-      "name": "animal_acupuncture_authorized",
-      "category": "what treatments and techniques are allowed",
-      "type": "bool",
-      "enum_values": null,
-      "description": "Whether the practice of acupuncture on animals is permitted within the scope of the license, subject to applicable conditions.",
-      "sample_quote": "the practice described in Subsections (5)(a) and (b) on an animal to the extent permitted by Subsection 58-28-307(12); the provisions of this chapter; and division rule",
-      "sample_state": "UT",
-      "states_supporting": [
-        "UT"
-      ]
-    },
-    {
-      "name": "moxibustion_authorized",
-      "category": "what treatments and techniques are allowed",
-      "type": "bool",
-      "enum_values": null,
-      "description": "Whether moxibustion (heat therapy using the herb moxa applied to acupuncture points) is explicitly authorized within the scope of practice.",
-      "sample_quote": "'Moxibustion' means a heat therapy that uses the herb moxa to heat acupuncture points of the body.",
-      "sample_state": "UT",
-      "states_supporting": [
+        "PA",
         "UT"
       ]
     },
     {
       "name": "scope_exclusions",
-      "category": "what treatments and techniques are allowed",
+      "category": "what they can treat and where on the body",
       "type": "list[str]",
       "enum_values": null,
-      "description": "Procedures or techniques explicitly excluded from the acupuncture scope of practice.",
-      "sample_quote": "'Practice of acupuncture' does not include: the manual manipulation or adjustment of the joints of the body beyond the elastic barrier; or the 'manipulation of the articulation of the spinal column'",
+      "description": "Procedures or activities explicitly excluded from the acupuncture scope of practice.",
+      "sample_quote": "\"Practice of acupuncture\" does not include: the manual manipulation or adjustment of the joints of the body beyond the elastic barrier; or the \"manipulation of the articulation of the spinal column\"",
       "sample_state": "UT",
       "states_supporting": [
-        "UT"
+        "UT",
+        "PA"
       ]
     },
     {
-      "name": "license_exempt_practitioner_types",
-      "category": "who else can practice without this license",
-      "type": "list[str]",
-      "enum_values": null,
-      "description": "Categories of other licensed professionals who may practice acupuncture without holding an acupuncturist license.",
-      "sample_quote": "an individual licensed as a physician and surgeon or osteopathic physician and surgeon... a commissioned physician or surgeon serving in the armed forces... a chiropractic physician licensed under Chapter 73",
-      "sample_state": "UT",
-      "states_supporting": [
-        "UT"
-      ]
-    },
-    {
-      "name": "authorized_professional_title",
-      "category": "professional title and credential display rules",
-      "type": "str",
-      "enum_values": null,
-      "description": "The official title and abbreviation a licensee is authorized to use in conjunction with their name or practice.",
-      "sample_quote": "'Licensed acupuncturist,' designated as 'L.Ac.,' means a person who has been licensed under this chapter to practice acupuncture.",
-      "sample_state": "UT",
-      "states_supporting": [
-        "UT"
-      ]
-    },
-    {
-      "name": "prohibited_titles",
-      "category": "professional title and credential display rules",
-      "type": "list[str]",
-      "enum_values": null,
-      "description": "Titles that a licensed acupuncturist is explicitly prohibited from using in connection with their practice.",
-      "sample_quote": "A licensed acupuncturist may not use the term 'physician,' 'physician or surgeon,' or 'doctor' in conjunction with the acupuncturist's name or practice.",
-      "sample_state": "UT",
-      "states_supporting": [
-        "UT"
-      ]
-    },
-    {
-      "name": "informed_consent_procedures_required",
-      "category": "patient rights and practice obligations",
+      "name": "animal_acupuncture_permitted",
+      "category": "what they can treat and where on the body",
       "type": "bool",
       "enum_values": null,
-      "description": "Whether applicants must establish procedures enabling patients to give informed consent to treatment as a condition of licensure.",
+      "description": "Whether licensed acupuncturists are explicitly permitted to practice acupuncture on animals under specified conditions.",
+      "sample_quote": "the practice described in Subsections (5)(a) and (b) on an animal to the extent permitted by Subsection 58-28-307(12); the provisions of this chapter; and division rule.",
+      "sample_state": "UT",
+      "states_supporting": [
+        "UT",
+        "PA"
+      ]
+    },
+    {
+      "name": "physician_diagnosis_requirement",
+      "category": "supervision and delegation",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether a physician diagnosis is required before or after a certain period of acupuncture treatment.",
+      "sample_quote": "an acupuncturist may treat a person's condition without the condition being diagnosed by a licensed physician, dentist or podiatrist for 60 calendar days from the date of the first treatment.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA",
+        "UT"
+      ]
+    },
+    {
+      "name": "physician_diagnosis_grace_period_days",
+      "category": "supervision and delegation",
+      "type": "int",
+      "enum_values": null,
+      "description": "Number of days an acupuncturist may treat a patient without a physician diagnosis before one is required.",
+      "sample_quote": "an acupuncturist may treat a person's condition without the condition being diagnosed by a licensed physician, dentist or podiatrist for 60 calendar days from the date of the first treatment.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA",
+        "UT"
+      ]
+    },
+    {
+      "name": "student_supervision_requirements",
+      "category": "supervision and delegation",
+      "type": "str",
+      "enum_values": null,
+      "description": "Rules governing supervision of acupuncture students performing procedures in educational settings.",
+      "sample_quote": "students enrolled in an acupuncture educational program from performing acupuncture or supplemental acupuncture techniques in the course of their instruction, provided that a licensed physician is readily available for consultations and that an acupuncturist is on site and responsible for the direct supervision of students.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA",
+        "UT"
+      ]
+    },
+    {
+      "name": "licensure_exempt_professions",
+      "category": "supervision and delegation",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "Other licensed health professions explicitly exempt from acupuncture licensure requirements when practicing acupuncture within their own scope.",
+      "sample_quote": "A dentist performing acupuncture in connection with the practice of dentistry, a podiatrist performing acupuncture in connection with the practice of podiatry or a veterinarian performing acupuncture on animals in connection with the practice of veterinary medicine.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA",
+        "UT"
+      ]
+    },
+    {
+      "name": "nccaom_certification_required",
+      "category": "national certification and professional standards",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether current active NCCAOM (National Commission for the Certification of Acupuncture and Oriental Medicine) certification is required for initial licensure or renewal.",
+      "sample_quote": "meet the requirements for current active certification in acupuncture under guidelines established by the National Commission for the Certification of Acupuncture and Oriental Medicine (NCCAOM) as demonstrated through a current certificate or other appropriate documentation",
+      "sample_state": "UT",
+      "states_supporting": [
+        "UT",
+        "PA"
+      ]
+    },
+    {
+      "name": "clean_needle_technique_certificate_required",
+      "category": "national certification and professional standards",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether a clean needle technique certificate (from NCCAOM or equivalent) is required to perform injection therapy.",
+      "sample_quote": "a licensee who has received the necessary training to practice injection therapy, including having obtained a clean needle technique certificate from the National Commission for the Certification of Acupuncture and Oriental Medicine (NCCAOM)",
+      "sample_state": "UT",
+      "states_supporting": [
+        "UT",
+        "PA"
+      ]
+    },
+    {
+      "name": "informed_consent_required",
+      "category": "national certification and professional standards",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly requires the acupuncturist to establish procedures enabling patients to give informed consent to treatment.",
       "sample_quote": "establish procedures, as defined by rule, which shall enable patients to give informed consent to treatment",
       "sample_state": "UT",
       "states_supporting": [
+        "UT",
+        "PA"
+      ]
+    },
+    {
+      "name": "professional_liability_insurance_required",
+      "category": "insurance and financial responsibility",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly requires licensees to maintain professional liability insurance.",
+      "sample_quote": "A licensee shall obtain and maintain, to the satisfaction of the board, professional liability insurance coverage in accordance with the provisions of this section.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA",
         "UT"
+      ]
+    },
+    {
+      "name": "professional_liability_insurance_minimum_per_occurrence",
+      "category": "insurance and financial responsibility",
+      "type": "int",
+      "enum_values": null,
+      "description": "Minimum required professional liability insurance coverage per occurrence in dollars.",
+      "sample_quote": "A licensee under this act, practicing in this Commonwealth, shall maintain a level of professional liability insurance coverage in the minimum amount of $1,000,000 per occurrence or claims made.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA",
+        "UT"
+      ]
+    },
+    {
+      "name": "title_restrictions",
+      "category": "professional titles and identification",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "Specific title terms that are restricted or prohibited for use by licensed acupuncturists.",
+      "sample_quote": "A licensed acupuncturist may not use the term \"physician,\" \"physician or surgeon,\" or \"doctor\" in conjunction with the acupuncturist's name or practice.",
+      "sample_state": "UT",
+      "states_supporting": [
+        "UT",
+        "PA"
+      ]
+    },
+    {
+      "name": "required_display_title",
+      "category": "professional titles and identification",
+      "type": "str",
+      "enum_values": null,
+      "description": "The specific title or badge text that a licensee is required to display to patients.",
+      "sample_quote": "an acupuncturist shall wear a tag or badge with lettering clearly visible to the patient bearing the acupuncturist's name and the title \"acupuncturist.\"",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA",
+        "UT"
+      ]
+    },
+    {
+      "name": "medical_practice_not_authorized",
+      "category": "professional titles and identification",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly states that an acupuncture license does not authorize the practice of medicine.",
+      "sample_quote": "Nothing in this chapter may be construed to permit the practice of medicine nor require direct payment from third party insurers directly to a person engaged in the practice of acupuncture.",
+      "sample_state": "UT",
+      "states_supporting": [
+        "UT",
+        "PA"
       ]
     }
   ]
