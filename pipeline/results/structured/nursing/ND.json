@@ -4,24 +4,24 @@
   "licensure": {
     "license_required": {
       "value": true,
-      "quote": "Any person who provides nursing care to a resident of this state must hold a current license or registration issued by the board.",
-      "citation": "[43-12.1-03]"
+      "quote": "Any person who provides nursing care to a resident of this state must hold a current license or registration issued by the board. It is unlawful for a person to practice nursing, offer to practice nursing, assist in the practice of nursing, or use any title, abbreviation, or designation to indicate that the person is practicing nursing or assisting in the practice of nursing in this state unless that person is currently licensed or registered under this chapter.",
+      "citation": "43-12.1-03"
     },
     "issuing_authority": {
       "value": "North Dakota Board of Nursing",
-      "quote": "Board means the North Dakota board of nursing.",
-      "citation": "[43-12.1-02]"
+      "quote": "\"Board\" means the North Dakota board of nursing.",
+      "citation": "43-12.1-02"
     },
     "regulatory_authority": {
       "name": {
         "value": "North Dakota Board of Nursing",
-        "quote": "Board means the North Dakota board of nursing.",
-        "citation": "[43-12.1-02]"
+        "quote": "\"Board\" means the North Dakota board of nursing.",
+        "citation": "43-12.1-02"
       },
       "type": {
         "value": "standalone_board",
         "quote": "There is a state board of nursing whose members must be appointed by the governor which must consist of five registered nurses, one advanced practice registered nurse, two licensed practical nurses, and one public member.",
-        "citation": "[43-12.1-05]"
+        "citation": "43-12.1-05"
       },
       "umbrella_agency": null
     },
@@ -29,34 +29,98 @@
     "moral_character_required": null,
     "education": {
       "degree_required": {
-        "value": "Board-approved nursing education program",
+        "value": "Completion of a board-approved nursing education program preparing the graduate for the level of licensure sought; for APRN, a graduate degree with a nursing focus",
         "quote": "Submit an official transcript that verifies completion of a board-approved in-state nursing education program that prepares the graduate for the level of licensure sought",
-        "citation": "[43-12.1-09]"
+        "citation": "43-12.1-09"
       },
-      "accrediting_body": null
+      "accrediting_body": {
+        "value": "Board-approved (in-state); state board of nursing of the jurisdiction in which the program is headquartered (out-of-state)",
+        "quote": "In-state programs must be approved by the board. Out-of-state programs must be approved by the state board of nursing of the jurisdiction in which the program is headquartered.",
+        "citation": "43-12.1-17"
+      },
+      "degree_level": {
+        "value": "associate",
+        "quote": "Must allow for a program that offers less than two academic years of course study or the equivalent",
+        "citation": "43-12.1-17"
+      },
+      "school_approval_basis": {
+        "value": "board_approved",
+        "quote": "In-state programs must be approved by the board.",
+        "citation": "43-12.1-17"
+      },
+      "credential_pegged": {
+        "value": true,
+        "quote": "Submit evidence of appropriate education and current certification in an advanced nursing role by a national nursing organization meeting criteria as established by the board.",
+        "citation": "43-12.1-09"
+      },
+      "tiers": [
+        {
+          "license_class": "licensed practical nurse",
+          "degree_level": "associate",
+          "effective_date": null,
+          "quote": "Must allow for a program that offers less than two academic years of course study or the equivalent; May not allow for a program that offers less than one academic year of course study or the equivalent.",
+          "citation": "43-12.1-17"
+        },
+        {
+          "license_class": "registered nurse",
+          "degree_level": "associate",
+          "effective_date": null,
+          "quote": "Must allow for a program that offers less than four academic years of course study or the equivalent; May not allow for a program that offers less than two academic years of course study or the equivalent.",
+          "citation": "43-12.1-17"
+        },
+        {
+          "license_class": "advanced practice registered nurse",
+          "degree_level": "master",
+          "effective_date": null,
+          "quote": "An advanced practice registered nurse applicant must have a graduate degree with a nursing focus or must have completed the educational requirements in effect when the applicant was initially licensed.",
+          "citation": "43-12.1-09"
+        }
+      ]
     },
-    "post_degree_experience": null,
+    "post_degree_experience": {
+      "required": {
+        "value": false,
+        "quote": "Submit an official transcript that verifies completion of a board-approved in-state nursing education program that prepares the graduate for the level of licensure sought",
+        "citation": "43-12.1-09"
+      },
+      "experience_source": {
+        "value": "none",
+        "quote": "Submit an official transcript that verifies completion of a board-approved in-state nursing education program that prepares the graduate for the level of licensure sought",
+        "citation": "43-12.1-09"
+      },
+      "duration": null,
+      "kind": null
+    },
     "exams": [
       {
-        "name": "Examination approved by the board",
+        "name": "NCLEX-RN or NCLEX-PN",
         "required": true,
-        "notes": "For licensure by examination",
-        "jurisdiction": null,
+        "notes": "Examination approved by the board; for multistate license, specifically NCLEX-RN\u00ae or NCLEX-PN\u00ae Examination or recognized predecessor",
+        "jurisdiction": "national",
         "permitted_attempts": null,
         "quote": "Pass an examination approved by the board.",
-        "citation": "[43-12.1-09]"
+        "citation": "43-12.1-09"
+      },
+      {
+        "name": "National certification examination (APRN)",
+        "required": true,
+        "notes": "For APRN applicants: current certification in an advanced nursing role by a national nursing organization meeting criteria established by the board",
+        "jurisdiction": "national",
+        "permitted_attempts": null,
+        "quote": "Submit evidence of appropriate education and current certification in an advanced nursing role by a national nursing organization meeting criteria as established by the board.",
+        "citation": "43-12.1-09"
       }
     ],
     "renewal": {
-      "interval_years": {
-        "value": 2,
-        "quote": "The board shall renew a current license to practice as an advanced practice registered nurse, specialty practice registered nurse, registered nurse, or licensed practical nurse if the licensee submits a renewal application, submits the appropriate fee established by the board, and meets all requirements for licensure.",
-        "citation": "[43-12.1-10]"
-      }
+      "interval_years": null
     },
     "renewal_fee_usd": null,
     "continuing_education": {
-      "required": null,
+      "required": {
+        "value": true,
+        "quote": "Adopt and enforce rules for continuing competence of licensees and registrants.",
+        "citation": "43-12.1-08"
+      },
       "hours_per_period": null,
       "period_years": null,
       "topical_requirements": null
@@ -64,181 +128,268 @@
     "reciprocity": {
       "available": {
         "value": true,
-        "quote": "Submit evidence of current unencumbered licensure in another state or jurisdiction or meet continued competency requirements as established by the board.",
-        "citation": "[43-12.1-09]"
+        "quote": "An applicant for licensure by endorsement to practice as a registered nurse or licensed practical nurse shall: Submit a completed application and appropriate fee as established by the board.",
+        "citation": "43-12.1-09"
       },
       "requirements": {
-        "value": "Current unencumbered licensure in another state or jurisdiction, or meet continued competency requirements",
-        "quote": "Submit evidence of current unencumbered licensure in another state or jurisdiction or meet continued competency requirements as established by the board.",
-        "citation": "[43-12.1-09]"
+        "value": "Applicant must submit proof of initial licensure by examination meeting ND requirements, official transcript from a nursing education program approved by the state board of nursing of the jurisdiction in which the program is headquartered, and evidence of current unencumbered licensure in another state or jurisdiction or meet continued competency requirements.",
+        "quote": "Submit proof of initial licensure by examination with the examination meeting North Dakota requirements for licensure examinations in effect at the time the applicant qualified for initial licensure.",
+        "citation": "43-12.1-09"
       }
     },
     "advisory_board": {
       "exists": {
         "value": false,
         "quote": "There is a state board of nursing whose members must be appointed by the governor which must consist of five registered nurses, one advanced practice registered nurse, two licensed practical nurses, and one public member.",
-        "citation": "[43-12.1-05]"
+        "citation": "43-12.1-05"
       },
       "name": null,
       "authority": null
     },
-    "national_certification": null,
+    "national_certification": {
+      "value": "National nursing organization (APRN certification)",
+      "quote": "Submit evidence of appropriate education and current certification in an advanced nursing role by a national nursing organization meeting criteria as established by the board.",
+      "citation": "43-12.1-09"
+    },
     "national_association": null,
     "regulatory_model": {
       "value": "license",
-      "quote": "Any person who provides nursing care to a resident of this state must hold a current license or registration issued by the board. It is unlawful for a person to practice nursing, offer to practice nursing, assist in the practice of nursing, or use any title, abbreviation, or designation to indicate that the person is practicing nursing or assisting in the practice of nursing in this state unless that person is currently licensed or registered under this chapter.",
-      "citation": "[43-12.1-03]"
+      "quote": "It is unlawful for a person to practice nursing, offer to practice nursing, assist in the practice of nursing, or use any title, abbreviation, or designation to indicate that the person is practicing nursing or assisting in the practice of nursing in this state unless that person is currently licensed or registered under this chapter.",
+      "citation": "43-12.1-03"
     },
     "credential_type": {
       "value": "license",
       "quote": "Any person who provides nursing care to a resident of this state must hold a current license or registration issued by the board.",
-      "citation": "[43-12.1-03]"
+      "citation": "43-12.1-03"
     },
     "is_mandatory": {
       "value": true,
       "quote": "It is unlawful for a person to practice nursing, offer to practice nursing, assist in the practice of nursing, or use any title, abbreviation, or designation to indicate that the person is practicing nursing or assisting in the practice of nursing in this state unless that person is currently licensed or registered under this chapter.",
-      "citation": "[43-12.1-03]"
+      "citation": "43-12.1-03"
     },
     "title_protection": {
       "value": true,
       "quote": "A person may not use the title \"nurse\" or be referred to as a \"nurse\" unless the person is currently licensed by the board or exempt under section 43-12.1-04.",
-      "citation": "[43-12.1-03]"
+      "citation": "43-12.1-03"
     },
     "scope_protection": {
       "value": true,
-      "quote": "Any person who provides nursing care to a resident of this state must hold a current license or registration issued by the board.",
-      "citation": "[43-12.1-03]"
+      "quote": "It is unlawful for a person to practice nursing, offer to practice nursing, assist in the practice of nursing, or use any title, abbreviation, or designation to indicate that the person is practicing nursing or assisting in the practice of nursing in this state unless that person is currently licensed or registered under this chapter.",
+      "citation": "43-12.1-03"
     },
     "disciplinary_grounds": [
       {
         "short_label": "criminal_conviction",
-        "description": "Arrest, charge, or conviction of a crime relating adversely to nursing practice without sufficient rehabilitation",
-        "quote": "Has been arrested, charged, or convicted by a court, or has entered a plea of nolo contendere to a crime in any jurisdiction that relates adversely to the practice of nursing and the licensee or registrant has not demonstrated sufficient rehabilitation",
-        "citation": "[43-12.1-14]"
+        "description": "Arrested, charged, or convicted of a crime that relates adversely to the practice of nursing without sufficient rehabilitation",
+        "quote": "Has been arrested, charged, or convicted by a court, or has entered a plea of nolo contendere to a crime in any jurisdiction that relates adversely to the practice of nursing and the licensee or registrant has not demonstrated sufficient rehabilitation under section 12.1-33-02.1",
+        "citation": "43-12.1-14"
       },
       {
-        "short_label": "discipline_in_another_jurisdiction",
-        "description": "Disciplined by another nursing board or had license denied, revoked, suspended, or sanctioned",
+        "short_label": "discipline_in_other_jurisdiction",
+        "description": "Disciplined by a board of nursing in another jurisdiction or had a license denied, revoked, suspended, or otherwise sanctioned",
         "quote": "Has been disciplined by a board of nursing in another jurisdiction, or has had a license or registration to practice nursing or to assist in the practice of nursing or to practice in another health care occupation or profession denied, revoked, suspended, or otherwise sanctioned",
-        "citation": "[43-12.1-14]"
+        "citation": "43-12.1-14"
       },
       {
-        "short_label": "practice_inconsistent_with_standards",
-        "description": "Engaged in practice inconsistent with standards of nursing practice",
+        "short_label": "substandard_practice",
+        "description": "Engaged in practice inconsistent with the standards of nursing practice",
         "quote": "Has engaged in any practice inconsistent with the standards of nursing practice",
-        "citation": "[43-12.1-14]"
+        "citation": "43-12.1-14"
       },
       {
         "short_label": "fraud_in_obtaining_license",
-        "description": "Obtained or attempted to obtain license by fraud or deceit, or submitted fraudulent information",
+        "description": "Obtained or attempted to obtain a license by fraud or deceit, or submitted fraudulent, deceitful, or false information",
         "quote": "Has obtained or attempted to obtain by fraud or deceit a license or registration to practice nursing, or has submitted to the board any information that is fraudulent, deceitful, or false",
-        "citation": "[43-12.1-14]"
+        "citation": "43-12.1-14"
       },
       {
         "short_label": "professional_misconduct",
-        "description": "Engaged in pattern of practice or behavior demonstrating professional misconduct",
+        "description": "Engaged in a pattern of practice or other behavior demonstrating professional misconduct",
         "quote": "Has engaged in a pattern of practice or other behavior that demonstrates professional misconduct",
-        "citation": "[43-12.1-14]"
+        "citation": "43-12.1-14"
       },
       {
-        "short_label": "diversion_of_supplies",
+        "short_label": "diversion_of_drugs",
         "description": "Diverted or attempted to divert supplies, equipment, drugs, or controlled substances for personal or unauthorized use",
         "quote": "Has diverted or attempted to divert supplies, equipment, drugs, or controlled substances for personal use or unauthorized use",
-        "citation": "[43-12.1-14]"
+        "citation": "43-12.1-14"
       },
       {
         "short_label": "unlicensed_practice",
-        "description": "Practiced nursing without current license or registration or as otherwise prohibited",
+        "description": "Practiced nursing or assisted in the practice of nursing without a current license or registration",
         "quote": "Has practiced nursing or assisted in the practice of nursing in this state without a current license or registration or as otherwise prohibited by this chapter",
-        "citation": "[43-12.1-14]"
+        "citation": "43-12.1-14"
       },
       {
-        "short_label": "failure_to_report_violations",
-        "description": "Failed to report violations of the chapter or rules",
+        "short_label": "failure_to_report_violation",
+        "description": "Failed to report any violation of this chapter or rules adopted under this chapter",
         "quote": "Has failed to report any violation of this chapter or rules adopted under this chapter",
-        "citation": "[43-12.1-14]"
+        "citation": "43-12.1-14"
       },
       {
         "short_label": "failure_to_follow_board_orders",
-        "description": "Failed to observe and follow board standards, policies, directives, and orders, or violated other provisions of the chapter",
-        "quote": "Has failed to observe and follow the duly adopted standards, policies, directives, and orders of the board, or has violated any other provision of this chapter",
-        "citation": "[43-12.1-14]"
+        "description": "Failed to observe and follow the duly adopted standards, policies, directives, and orders of the board, or violated any other provision of this chapter",
+        "quote": "Has failed to observe and follow the duly adopted standards, policies, directives, and orders of the board, or has violated any other provision of this chapter.",
+        "citation": "43-12.1-14"
       }
     ],
+    "alternative_regulation": {
+      "bonding_required": null,
+      "insurance_required": null,
+      "establishment_regulation_required": null
+    },
     "citations": [
       {
-        "cite": "43-12.1-01 et seq.",
-        "kind": null
+        "cite": "43-12.1-01",
+        "kind": "scope"
+      },
+      {
+        "cite": "43-12.1-02",
+        "kind": "definitions"
+      },
+      {
+        "cite": "43-12.1-03",
+        "kind": "license_required"
+      },
+      {
+        "cite": "43-12.1-04",
+        "kind": "exemptions"
+      },
+      {
+        "cite": "43-12.1-05",
+        "kind": "board_composition"
+      },
+      {
+        "cite": "43-12.1-06",
+        "kind": "board_qualifications"
+      },
+      {
+        "cite": "43-12.1-08",
+        "kind": "board_duties"
+      },
+      {
+        "cite": "43-12.1-09",
+        "kind": "initial_licensure"
+      },
+      {
+        "cite": "43-12.1-09.1",
+        "kind": "criminal_history"
+      },
+      {
+        "cite": "43-12.1-10",
+        "kind": "renewal"
+      },
+      {
+        "cite": "43-12.1-11",
+        "kind": "licensee_duties"
+      },
+      {
+        "cite": "43-12.1-13",
+        "kind": "disciplinary_proceedings"
+      },
+      {
+        "cite": "43-12.1-14",
+        "kind": "disciplinary_grounds"
+      },
+      {
+        "cite": "43-12.1-15",
+        "kind": "penalties"
+      },
+      {
+        "cite": "43-12.1-17",
+        "kind": "education_programs"
+      },
+      {
+        "cite": "43-12.4-01",
+        "kind": "nurse_licensure_compact"
+      },
+      {
+        "cite": "43-12.5-01",
+        "kind": "aprn_licensure_compact"
+      },
+      {
+        "cite": "23-44-01",
+        "kind": "nurse_aide_registry"
       }
     ]
   },
   "scope": {
     "definition_quote": {
-      "value": "The performance of acts utilizing specialized knowledge, skills, and abilities for people in a variety of settings. The term includes: The maintenance of health and prevention of illness; Assessing and diagnosing human responses to actual or potential health problems; Providing supportive and restorative care and nursing treatment, medication administration, health counseling and teaching, case finding and referral of individuals who are ill, injured, or experiencing changes in the normal health processes; Administration, teaching, supervision, delegation, and evaluation of health and nursing practices; Collaboration with other health care professionals in the implementation of the total health care regimen and execution of the health care regimen prescribed by a health care practitioner licensed under the laws of this state.",
-      "quote": "\"Nursing\" means the performance of acts utilizing specialized knowledge, skills, and abilities for people in a variety of settings. The term includes the following acts, which may not be deemed to include acts of medical diagnosis or treatment or the practice of medicine as defined in chapter 43-17: a. The maintenance of health and prevention of illness. b. Assessing and diagnosing human responses to actual or potential health problems. c. Providing supportive and restorative care and nursing treatment, medication administration, health counseling and teaching, case finding and referral of individuals who are ill, injured, or experiencing changes in the normal health processes. d. Administration, teaching, supervision, delegation, and evaluation of health and nursing practices. e. Collaboration with other health care professionals in the implementation of the total health care regimen and execution of the health care regimen prescribed by a health care practitioner licensed under the laws of this state.",
-      "citation": "[43-12.1-02]"
+      "value": "Nursing means the performance of acts utilizing specialized knowledge, skills, and abilities for people in a variety of settings.",
+      "quote": "\"Nursing\" means the performance of acts utilizing specialized knowledge, skills, and abilities for people in a variety of settings. The term includes the following acts, which may not be deemed to include acts of medical diagnosis or treatment or the practice of medicine as defined in chapter 43-17",
+      "citation": "43-12.1-02"
     },
     "methods_authorized": {
       "value": [
-        "health maintenance and prevention",
-        "assessment and diagnosis of human responses",
-        "supportive and restorative care",
-        "nursing treatment",
-        "medication administration",
-        "health counseling and teaching",
-        "case finding and referral",
-        "administration, teaching, supervision, delegation, and evaluation"
+        "Maintenance of health and prevention of illness",
+        "Assessing and diagnosing human responses to actual or potential health problems",
+        "Providing supportive and restorative care and nursing treatment, medication administration, health counseling and teaching, case finding and referral",
+        "Administration, teaching, supervision, delegation, and evaluation of health and nursing practices",
+        "Collaboration with other health care professionals in the implementation of the total health care regimen"
       ],
-      "quote": "The term includes the following acts, which may not be deemed to include acts of medical diagnosis or treatment or the practice of medicine as defined in chapter 43-17: a. The maintenance of health and prevention of illness. b. Assessing and diagnosing human responses to actual or potential health problems. c. Providing supportive and restorative care and nursing treatment, medication administration, health counseling and teaching, case finding and referral of individuals who are ill, injured, or experiencing changes in the normal health processes. d. Administration, teaching, supervision, delegation, and evaluation of health and nursing practices.",
-      "citation": "[43-12.1-02]"
+      "quote": "The maintenance of health and prevention of illness. Assessing and diagnosing human responses to actual or potential health problems. Providing supportive and restorative care and nursing treatment, medication administration, health counseling and teaching, case finding and referral of individuals who are ill, injured, or experiencing changes in the normal health processes. Administration, teaching, supervision, delegation, and evaluation of health and nursing practices. Collaboration with other health care professionals in the implementation of the total health care regimen and execution of the health care regimen prescribed by a health care practitioner licensed under the laws of this state.",
+      "citation": "43-12.1-02"
     },
     "drug_authority": {
-      "value": "Medication administration and prescriptive practices for advanced practice registered nurses",
+      "value": "Prescriptive practices means assessing the need for drugs, immunizing agents, or devices and writing a prescription to be filled by a licensed pharmacist (for APRNs)",
       "quote": "\"Prescriptive practices\" means assessing the need for drugs, immunizing agents, or devices and writing a prescription to be filled by a licensed pharmacist.",
-      "citation": "[43-12.1-02]"
+      "citation": "43-12.1-02"
     },
     "citations": [
       {
         "cite": "43-12.1-02",
-        "kind": null
+        "kind": "definitions_and_scope"
       }
     ]
   },
   "profession_specific": {
     "license_tiers": {
       "value": [
-        "Advanced Practice Registered Nurse (APRN)",
-        "Specialty Practice Registered Nurse (SPRN)",
-        "Registered Nurse (RN)",
-        "Licensed Practical Nurse (LPN)",
-        "Unlicensed Assistive Person"
+        "Advanced practice registered nurse (APRN)",
+        "Specialty practice registered nurse (SPRN)",
+        "Registered nurse (R.N.)",
+        "Licensed practical nurse (L.P.N.)",
+        "Unlicensed assistive person (registration)"
       ],
-      "quote": "\"Advanced practice registered nurse\" means an individual who holds a current license to practice in this state as an advanced practice registered nurse within one of the roles of certified nurse practitioner, certified registered nurse anesthetist, certified nurse midwife, or certified clinical nurse specialist... \"Specialty practice registered nurse\" means an individual who holds a current license to practice in this state as a specialty practice registered nurse and who has current certification from a national certifying body in a specific area of nursing practice... \"Registered nurse\" means an individual who holds a current license to practice in this state as a registered nurse... \"Licensed practical nurse\" means an individual who holds a current license to practice in this state as a licensed practical nurse... \"Unlicensed assistive person\" means an assistant to the nurse, who regardless of title is authorized to perform nursing interventions delegated and supervised by a nurse.",
-      "citation": "[43-12.1-02]"
+      "quote": "\"Nurse\" means an individual who is currently licensed as an advanced practice registered nurse, specialty practice registered nurse, registered nurse, or licensed practical nurse.",
+      "citation": "43-12.1-02"
     },
     "aprn_role_categories": {
       "value": [
-        "Certified Nurse Practitioner",
-        "Certified Registered Nurse Anesthetist",
-        "Certified Nurse Midwife",
-        "Certified Clinical Nurse Specialist"
+        "Certified nurse practitioner",
+        "Certified registered nurse anesthetist",
+        "Certified nurse midwife",
+        "Certified clinical nurse specialist"
       ],
       "quote": "\"Advanced practice registered nurse\" means an individual who holds a current license to practice in this state as an advanced practice registered nurse within one of the roles of certified nurse practitioner, certified registered nurse anesthetist, certified nurse midwife, or certified clinical nurse specialist, and who functions in one of the population foci as approved by the board.",
-      "citation": "[43-12.1-02]"
+      "citation": "43-12.1-02"
     },
     "lpn_supervision_requirements": {
       "value": [
-        "Registered Nurse",
-        "Specialty Practice Registered Nurse",
-        "Advanced Practice Registered Nurse",
-        "Licensed Practitioner"
+        "Registered nurse",
+        "Specialty practice registered nurse",
+        "Advanced practice registered nurse",
+        "Licensed practitioner"
       ],
       "quote": "\"Licensed practical nurse\" means an individual who holds a current license to practice in this state as a licensed practical nurse and who practices dependently under the supervision of a registered nurse, specialty practice registered nurse, advanced practice registered nurse, or licensed practitioner.",
-      "citation": "[43-12.1-02]"
+      "citation": "43-12.1-02"
     },
     "collaborative_practice_agreement_required": null,
-    "full_independent_practice_available": null,
-    "full_independent_practice_experience_hours_required": null,
+    "full_independent_practice_available": {
+      "value": true,
+      "quote": "An advanced practice registered nurse issued a multistate license may assume responsibility and accountability for patient care independent of any supervisory or collaborative relationship.",
+      "citation": "43-12.5-01"
+    },
+    "full_independent_practice_experience_hours_required": {
+      "value": 2080,
+      "quote": "Has practiced for at least two thousand eighty hours as an advanced practice registered nurse in a role and population focus congruent with the applicant's education and training.",
+      "citation": "43-12.5-01",
+      "unverified": true,
+      "approximate": {
+        "ratio": 0.876,
+        "matched_normalized": "has practiced for at least two thousand eighty hours as an advanced practice registered nurse in a role and population focus congruent with the applicant s "
+      }
+    },
     "prescriptive_authority_certificate_required": null,
     "controlled_substance_schedule_authority": null,
     "opioid_prescribing_limits": null,
@@ -246,35 +397,35 @@
     "controlled_substance_database_registration_required": null,
     "nurse_aide_registry_maintained": {
       "value": true,
-      "quote": "An individual who is registered on the department of health and human services nurse aide registry, including a certified nurse aide, home health aide, nurse aide, and medication assistant.",
-      "citation": "[43-12.1-04]"
+      "quote": "The department shall establish and administer a nurse aide registry. The registry must include disciplinary findings, including findings of abuse, neglect, or misappropriation of property, and must include the eligibility of the individual to be employed.",
+      "citation": "23-44-02"
     },
     "medication_assistant_certification_available": {
       "value": true,
-      "quote": "An individual who is registered on the department of health and human services nurse aide registry, including a certified nurse aide, home health aide, nurse aide, and medication assistant.",
-      "citation": "[43-12.1-04]"
+      "quote": "\"Medication assistant\" means an individual who is registered on the nurse aide registry and who has successfully completed the requirements of a department-approved medication assistant program for a specific employment setting.",
+      "citation": "23-44-01"
     },
     "delegation_to_unlicensed_personnel_authorized": {
       "value": true,
       "quote": "A nurse may supervise and delegate nursing interventions to an individual exempt under subsection 13 of section 43-12.1-04.",
-      "citation": "[43-12.1-16.1]"
+      "citation": "43-12.1-16.1"
     },
     "employer_mandatory_reporting_required": null,
     "whistleblower_protection_for_delegation_refusal": null,
     "nurse_licensure_compact_member": {
       "value": true,
-      "quote": "applicants for a multistate license under chapter 43-12.4",
-      "citation": "[43-12.1-09.1]"
+      "quote": "A multistate license to practice registered or licensed practical/vocational nursing issued by a home state to a resident in that state will be recognized by each party state as authorizing a nurse to practice as a registered nurse or as a licensed practical/vocational nurse, under a multistate licensure privilege, in each party state.",
+      "citation": "43-12.4-01"
     },
     "multistate_license_option_available": {
       "value": true,
-      "quote": "applicants for a multistate license under chapter 43-12.4",
-      "citation": "[43-12.1-09.1]"
+      "quote": "Individuals not residing in a party state continue to be able to apply for a party state's single-state license as provided under the laws of each party state.",
+      "citation": "43-12.4-01"
     },
     "impaired_nurse_alternative_program_available": {
       "value": true,
       "quote": "\"Alternative to discipline\" means a voluntary alternative to traditional discipline program designed for nurses with substance use disorders, behavioral health conditions, or medical health conditions.",
-      "citation": "[43-12.1-02]"
+      "citation": "43-12.1-02"
     },
     "rn_death_pronouncement_authorized": null,
     "public_health_nurse_certification_available": null,
