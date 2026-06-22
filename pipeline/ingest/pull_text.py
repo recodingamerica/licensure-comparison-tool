@@ -22,6 +22,7 @@ from __future__ import annotations
 import argparse
 import json
 import logging
+import os
 import re
 import time
 import urllib.parse
@@ -457,6 +458,78 @@ def parse_nv_chapter_html(html: str, chapter_url: str) -> list[Section]:
     return sections
 
 
+# --- New York official source (OpenLegislation API; lawId-based) ---
+# NY isn't title/chapter — it's lawId codes (EDN, EXC, PBH) + articles. The
+# Justia hierarchy still maps profession→article (e.g. .../new-york/edn/title-8/
+# article-131/), so we keep the Justia url in the index and intercept it here:
+# parse lawId+article out of the path and pull the article's sections from the
+# free OpenLegislation API (one call, sections + text inline). Needs a free key
+# in env as NY_OPENLEG_KEY (sign up at legislation.nysenate.gov). Client ported
+# from the newyork repo's backend/scripts/ny_statutes.py.
+NY_API = "https://legislation.nysenate.gov/api/3"
+_NY_JUSTIA_RE = re.compile(r"/codes/new-york/([a-z]+)/.*?article-(\d+)", re.I)
+
+
+def is_ny_justia_url(url: str) -> bool:
+    return "law.justia.com" in urllib.parse.urlparse(url).netloc and "/new-york/" in url.lower()
+
+
+def _ny_openleg_key() -> str | None:
+    k = os.environ.get("NY_OPENLEG_KEY")
+    if not k:
+        try:
+            from _env import load_env
+            load_env()
+            k = os.environ.get("NY_OPENLEG_KEY")
+        except Exception:
+            pass
+    return k
+
+
+def _ny_walk_sections(node: dict, out: list[dict]) -> None:
+    if not node:
+        return
+    if node.get("docType") == "SECTION":
+        out.append(node)
+    for c in (node.get("documents") or {}).get("items", []) or []:
+        _ny_walk_sections(c, out)
+
+
+def pull_ny_article(url: str, key: str) -> tuple[list[Section], list[str]]:
+    """Pull one NY law article's sections from OpenLegislation, mapping from the
+    Justia article url (.../new-york/<law>/.../article-<n>/)."""
+    m = _NY_JUSTIA_RE.search(url)
+    if not m:
+        return [], [f"ny: cannot parse lawId/article from {url}"]
+    law, article = m.group(1).upper(), m.group(2)
+    q = urllib.parse.urlencode({
+        "key": key, "fromLocation": f"A{article}",
+        "detail": "true", "full": "true", "depth": "2",
+    })
+    status, body, err = fetch(f"{NY_API}/laws/{law}?{q}")
+    if err or not body or (status and not 200 <= status < 300):
+        return [], [f"ny_openleg {law} A{article}: {err or f'http {status}'}"]
+    try:
+        docs = (json.loads(body).get("result") or {}).get("documents") or {}
+    except json.JSONDecodeError:
+        return [], [f"ny_openleg {law} A{article}: bad JSON"]
+    nodes: list[dict] = []
+    _ny_walk_sections(docs, nodes)
+    sections: list[Section] = []
+    for n in nodes:
+        text = (n.get("text") or "").strip()
+        if not text:
+            continue
+        sec = n.get("docLevelId") or ""
+        title = (n.get("title") or "").strip()
+        sections.append(Section(
+            url=f"https://www.nysenate.gov/legislation/laws/{law}/{sec}",
+            label=f"{sec} - {title}" if title else f"{law} {sec}",
+            citation=f"{law} {sec}", text=text, text_len=len(text),
+        ))
+    return sections, []
+
+
 # --- Illinois (Justia serves a whole ILCS act on one page) ---
 # Like PA, IL acts arrive as ONE inline blob rather than per-section URLs, but the
 # text carries an ILCS citation marker at the head of every section
@@ -647,6 +720,22 @@ def pull_state(state: str, profession: str, rows: list[dict], limit_sections: in
                 corpus.sections.append(sec)
                 corpus.total_chars += sec.text_len
             log.info("  nv %s -> %d sections", url, len(nv_sections))
+            continue
+
+        # New York: Justia url carries lawId+article; pull from OpenLegislation.
+        if is_ny_justia_url(url):
+            key = _ny_openleg_key()
+            if not key:
+                corpus.errors.append("ny: NY_OPENLEG_KEY not set (sign up at legislation.nysenate.gov)")
+                continue
+            ny_sections, ny_errors = pull_ny_article(url, key)
+            corpus.errors.extend(ny_errors)
+            for sec in ny_sections:
+                if limit_sections and len(corpus.sections) >= limit_sections:
+                    break
+                corpus.sections.append(sec)
+                corpus.total_chars += sec.text_len
+            log.info("  ny_openleg %s -> %d sections", url, len(ny_sections))
             continue
 
         # Pennsylvania: each URL is a whole act; fetch once per act and split
