@@ -82,6 +82,9 @@ export function SimilarityView({ professionId }: { professionId: string }) {
   const [dmin, dmax] = distRange;
   const span = dmax - dmin || 1;
   const insufficient = new Set(data.insufficient_states);
+  // low confidence: a compared state that answers fewer of the core questions, so
+  // its distinctiveness rides on thin overlap — don't headline it, flag it on hover.
+  const lowConf = (st: string) => (data.core_coverage[st] ?? 1) < 0.7;
 
   const fillFor = (st: string) => {
     const d = data.distinctiveness[st];
@@ -126,14 +129,15 @@ export function SimilarityView({ professionId }: { professionId: string }) {
     if (insufficient.has(st))
       return <div className="w-60 text-xs">{st} — not enough core data to compare.</div>;
     const nb = (data.neighbors[st] ?? []).slice(0, 3).map((n) => n.state);
-    const thin = (data.differs_on[st]?.length ?? 0) + (data.typical_on[st]?.length ?? 0) <= 2;
     return (
       <div className="w-72 text-xs space-y-2">
         <div>
           <span className="font-semibold text-sm">{st}</span>
           <span className="ml-2 text-muted-foreground">{data.bands[st]}</span>
           {nb.length > 0 && <div className="text-muted-foreground">most like {nb.join(", ")}</div>}
-          {thin && <div className="text-amber-700">limited data — answers few of these questions</div>}
+          {lowConf(st) && (
+            <div className="text-amber-700">limited data — answers few core questions, so this is a rough read</div>
+          )}
         </div>
         {profileSections(st, 6, 5)}
       </div>
@@ -142,7 +146,7 @@ export function SimilarityView({ professionId }: { professionId: string }) {
 
   const coreLabels = data.core_fields.map(fieldLabel);
   const drivers = ls.drivers.slice(0, 3).map((d) => fieldLabel(d.field));
-  const mostDistinct = Object.keys(data.distinctiveness).slice(0, 5);
+  const mostDistinct = Object.keys(data.distinctiveness).filter((s) => !lowConf(s)).slice(0, 5);
   const spreadVerb = SPREAD_VERB[ls.spread_label] ?? "vary";
   const driverList = joinAnd(drivers.map(lc));
   const driverTail =
@@ -152,23 +156,22 @@ export function SimilarityView({ professionId }: { professionId: string }) {
 
   return (
     <div className="space-y-5">
-      {/* Method — what the comparison is based on */}
-      <div className="rounded-md border bg-muted/20 px-4 py-3 text-xs text-muted-foreground leading-relaxed">
-        States are compared on the <strong className="text-foreground">{data.n_core} core questions</strong> most
-        states answer: {joinAnd(coreLabels.map(lc))}. Details that only some states report don&apos;t enter the
-        comparison — they appear as a state&apos;s unusual values instead.
+      {/* Insight first: how states vary on the compared questions. */}
+      <div className="text-base leading-relaxed">
+        On the {data.n_core} questions most states answer, regimes <strong>{spreadVerb}</strong>
+        {driverTail}.
+      </div>
+
+      {/* Method — the supporting fine print. */}
+      <div className="border-l-2 pl-3 text-xs text-muted-foreground leading-relaxed">
+        Compared on the questions most states answer ({joinAnd(coreLabels.map(lc))}); details only some states
+        report appear as a state&apos;s unusual values rather than entering the comparison.
         {data.insufficient_states.length > 0 && (
           <>
-            {" "}Not enough core answers to compare (shown gray):{" "}
+            {" "}Shown gray (too few core answers):{" "}
             <span className="font-mono">{data.insufficient_states.join(", ")}</span>.
           </>
         )}
-      </div>
-
-      {/* Macro — only describes the core set, no false "other fields are uniform" */}
-      <div className="text-sm leading-relaxed">
-        On these {data.n_core} questions, states <strong>{spreadVerb}</strong>
-        {driverTail}.
       </div>
 
       {/* Utah summary (deterministic) — the focus state, shown in full */}
