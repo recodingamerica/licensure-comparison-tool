@@ -298,6 +298,7 @@ export type StringencyOutlier = {
   magnitude: string;
 };
 export type TypicalField = { field: string; value: string; importance: number };
+export type DiffersField = { field: string; value: string; label: string; importance: number };
 export type Driver = {
   field: string; separation: number; importance: number; drive: number; coverage: number;
 };
@@ -324,6 +325,7 @@ export type ProfileAnalysis = {
   bands: Record<string, string>;
   notes: Record<string, string>;
   typical_on: Record<string, TypicalField[]>;
+  differs_on: Record<string, DiffersField[]>;
   kind_outliers: KindOutlier[];
   stringency_outliers: StringencyOutlier[];
 };

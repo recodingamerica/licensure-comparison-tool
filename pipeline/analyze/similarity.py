@@ -114,7 +114,13 @@ def value_distance(cfg: dict, va, vb, cont_stats) -> float | None:
 
 def rarity_label(n_states: int, total: int) -> str:
     share = n_states / total if total else 1.0
-    return "almost unique" if n_states <= 2 else "rare" if share <= 0.10 else "unusual"
+    if n_states <= 2:
+        return "almost unique"
+    if share <= 0.15:
+        return "rare"
+    if share <= 0.33:
+        return "uncommon"
+    return "a minority view"
 
 
 def stringency_label(z: float, direction: str) -> str:
@@ -380,25 +386,48 @@ def analyze(profession: str):
         else "wide"
     )
 
-    # per-state "typical_on": the higher-importance discriminating fields where the
-    # state holds the MAJORITY value (the "not unique" half of the hover card).
-    modes = {f: Counter(str(v) for v in M[f].values()).most_common(1)[0][0] for f in fields if M[f]}
-    typical = {}
-    for st in states:
-        matches = []
-        for f in fields:
-            if st in M[f] and str(M[f][st]) == modes.get(f):
-                imp = field_cfg(sem_for, f).get("importance", 0.5)
-                if imp >= 0.4:
-                    matches.append((imp, f))
-        matches.sort(reverse=True)
-        typical[st] = [{"field": f, "value": modes[f], "importance": imp} for imp, f in matches[:6]]
-
-    # controlled-vocabulary labels (calc owns the word) + deterministic per-state note
     for o in kind_out:
         o["rarity"] = rarity_label(o["n_states"], o["total"])
     for o in string_out:
         o["magnitude"] = stringency_label(o["z"], o["direction"])
+
+    # Per-state agreement vs deviation on the higher-importance CATEGORICAL fields.
+    #   typical_on: the state holds the majority value (where it agrees).
+    #   differs_on: it doesn't — the values that make it distinctive, each with a
+    #               label (ordinal extremes -> "far stricter than most"; otherwise
+    #               how-rare the value is). Together these cover every high-value
+    #               question the state answers, so a distinctive state shows many
+    #               differs rows instead of an empty card.
+    vcount = {f: Counter(str(v) for v in M[f].values()) for f in fields if M[f]}
+    modes = {f: c.most_common(1)[0][0] for f, c in vcount.items()}
+    string_by = {(o["state"], o["field"]): o["magnitude"] for o in string_out}
+
+    def hi_cat_fields(st):
+        for f in fields:
+            cfg = field_cfg(sem_for, f)
+            if cfg.get("importance", 0.5) < 0.4 or cfg.get("closeness", {}).get("kind") == "continuous":
+                continue
+            if st in M[f]:
+                yield f, cfg
+
+    typical, differs = {}, {}
+    for st in states:
+        tlist, dlist = [], []
+        for f, cfg in hi_cat_fields(st):
+            v = str(M[f][st])
+            imp = cfg.get("importance", 0.5)
+            if v == modes.get(f):
+                tlist.append((imp, {"field": f, "value": v, "importance": imp}))
+            else:
+                tot = sum(vcount[f].values())
+                label = string_by.get((st, f)) or rarity_label(vcount[f][v], tot)
+                dlist.append((imp * (1 - vcount[f][v] / tot),
+                              {"field": f, "value": v, "label": label, "importance": imp}))
+        tlist.sort(key=lambda x: x[0], reverse=True)
+        dlist.sort(key=lambda x: x[0], reverse=True)
+        typical[st] = [x for _, x in tlist[:6]]
+        differs[st] = [x for _, x in dlist[:8]]
+
     ranked = list(dict(sorted(distinct.items(), key=lambda kv: kv[1], reverse=True)))
     bands = {st: band_for(st, ranked) for st in sufficient}
     prof_display = d.get("display", profession)
@@ -407,25 +436,8 @@ def analyze(profession: str):
         if st not in sufficient:
             notes[st] = f"{st} answers too few of the core questions to compare."
             continue
-        cand = [(o["score"], {"field": o["field"], "value": o["value"], "label": o["rarity"]})
-                for o in kind_out if o["state"] == st]
-        cand += [(o["score"], {"field": o["field"], "value": o["value"], "label": o["magnitude"]})
-                 for o in string_out if o["state"] == st]
-        cand.sort(key=lambda x: x[0], reverse=True)
-        findings, seen = [], set()
-        for _, fnd in cand:
-            if fnd["field"] in seen:
-                continue
-            # continuous fields would leak a raw number into the prose ("300.0");
-            # keep the note to categorical/boolean findings.
-            if field_cfg(sem_for, fnd["field"]).get("closeness", {}).get("kind") == "continuous":
-                continue
-            seen.add(fnd["field"])
-            findings.append(fnd)
-            if len(findings) >= 2:
-                break
         nbs = [b for _s, b, _n in sims[st][:3]]
-        notes[st] = build_note(st, prof_display, bands.get(st, "typical"), nbs, findings, sem_for)
+        notes[st] = build_note(st, prof_display, bands.get(st, "typical"), nbs, differs[st][:2], sem_for)
 
     return {
         "profession": profession,
@@ -444,6 +456,7 @@ def analyze(profession: str):
         "neighbors": {a: [{"state": b, "sim": s, "n": n} for s, b, n in sims[a][:6]] for a in states},
         "distinctiveness": dict(sorted(distinct.items(), key=lambda kv: kv[1], reverse=True)),
         "typical_on": typical,
+        "differs_on": differs,
         "kind_outliers": kind_out,
         "stringency_outliers": string_out,
     }
