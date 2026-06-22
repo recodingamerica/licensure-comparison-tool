@@ -28,6 +28,13 @@ function fieldLabel(f: string): string {
   return s.charAt(0).toUpperCase() + s.slice(1);
 }
 const val = (v: string) => (v === "true" ? "yes" : v === "false" ? "no" : v.replace(/_/g, " "));
+// lower-case a label for embedding mid-sentence; join a list with an Oxford "and".
+const lc = (s: string) => (s ? s.charAt(0).toLowerCase() + s.slice(1) : s);
+function joinAnd(items: string[]): string {
+  if (items.length <= 1) return items[0] ?? "";
+  if (items.length === 2) return `${items[0]} and ${items[1]}`;
+  return `${items.slice(0, -1).join(", ")}, and ${items[items.length - 1]}`;
+}
 
 function ramp(t: number): string {
   const a = [238, 236, 228];
@@ -134,17 +141,18 @@ export function SimilarityView({ professionId }: { professionId: string }) {
   const drivers = ls.drivers.slice(0, 3).map((d) => fieldLabel(d.field));
   const mostDistinct = Object.keys(data.distinctiveness).slice(0, 5);
   const spreadVerb = SPREAD_VERB[ls.spread_label] ?? "vary";
+  const driverList = joinAnd(drivers.map(lc));
   const driverTail =
     ls.spread_label === "narrow"
-      ? `, with the most variation on ${drivers.join(", ")}`
-      : `, differing most on ${drivers.join(", ")}`;
+      ? `, with the most variation on ${driverList}`
+      : `, differing most on ${driverList}`;
 
   return (
     <div className="space-y-5">
       {/* Method — what the comparison is based on */}
       <div className="rounded-md border bg-muted/20 px-4 py-3 text-xs text-muted-foreground leading-relaxed">
         States are compared on the <strong className="text-foreground">{data.n_core} core questions</strong> most
-        states answer: {coreLabels.join(", ")}. Details that only some states report don&apos;t enter the
+        states answer: {joinAnd(coreLabels.map(lc))}. Details that only some states report don&apos;t enter the
         comparison — they appear as a state&apos;s unusual values instead.
         {data.insufficient_states.length > 0 && (
           <>
