@@ -2,12 +2,10 @@
 
 // Compare tab — the regulatory landscape for one occupation.
 //
-// Method (kept transparent in the UI on purpose):
-//   - Overlap is computed deterministically over a fixed CORE set of questions:
-//     the important fields that MOST states answer. Every state is graded on the
-//     same questions; states answering too few are shown gray, not given a score.
-//   - No percentages: it's a weighted judgment, not a measurement, so magnitude is
-//     shown as words (the calc assigns them) and as map color.
+// Method (kept transparent on purpose): overlap is computed deterministically over
+// a fixed CORE set of questions — the important fields most states answer — so every
+// state is graded on the same questions. States answering too few are shown gray.
+// No percentages: it's a weighted judgment, shown as words + map color.
 //
 // Self-fetches /data/analysis/<prof>.json (pipeline.analyze.similarity).
 
@@ -15,7 +13,6 @@ import { useEffect, useMemo, useState } from "react";
 import type { ProfileAnalysis } from "@/lib/types";
 import { UsMap, NO_DATA_FILL } from "@/components/us-map";
 
-// leaf words too generic to stand alone -> fold in the parent segment
 const GENERIC = new Set([
   "required", "available", "exists", "offered", "permitted",
   "authorized", "prohibited", "allowed", "excluded", "type",
@@ -28,7 +25,6 @@ function fieldLabel(f: string): string {
   return s.charAt(0).toUpperCase() + s.slice(1);
 }
 const val = (v: string) => (v === "true" ? "yes" : v === "false" ? "no" : v.replace(/_/g, " "));
-// lower-case a label for embedding mid-sentence; join a list with an Oxford "and".
 const lc = (s: string) => (s ? s.charAt(0).toLowerCase() + s.slice(1) : s);
 function joinAnd(items: string[]): string {
   if (items.length <= 1) return items[0] ?? "";
@@ -82,8 +78,6 @@ export function SimilarityView({ professionId }: { professionId: string }) {
   const [dmin, dmax] = distRange;
   const span = dmax - dmin || 1;
   const insufficient = new Set(data.insufficient_states);
-  // low confidence: a compared state that answers fewer of the core questions, so
-  // its distinctiveness rides on thin overlap — don't headline it, flag it on hover.
   const lowConf = (st: string) => (data.core_coverage[st] ?? 1) < 0.7;
 
   const fillFor = (st: string) => {
@@ -91,32 +85,33 @@ export function SimilarityView({ professionId }: { professionId: string }) {
     return d === undefined ? NO_DATA_FILL : ramp((d - dmin) / span);
   };
 
-  // Differs / Same sections for one state — shared by the hover and the Utah panel.
-  const profileSections = (st: string, limitDiff: number, limitSame: number) => {
+  // A state's "differs / same" lists — shared by the hover and the Utah panel.
+  const Row = ({ label, tail }: { label: string; tail: string }) => (
+    <div className="leading-snug">
+      {label} <span className="text-muted-foreground">— {tail}</span>
+    </div>
+  );
+  const heading = (t: string) => <div className="mb-1.5 text-xs text-muted-foreground">{t}</div>;
+  const profileLists = (st: string, limitDiff: number, limitSame: number) => {
     const differs = data.differs_on[st] ?? [];
     const agree = data.typical_on[st] ?? [];
     return (
       <>
         <div>
-          <div className="font-mono uppercase tracking-wide text-[10px] text-muted-foreground">Differs from most states</div>
+          {heading("Differs from most states")}
           {differs.length === 0 ? (
-            <div className="text-muted-foreground">nothing — matches the majority everywhere</div>
+            <div className="text-muted-foreground">matches the majority everywhere</div>
           ) : (
             differs.slice(0, limitDiff).map((u, i) => (
-              <div key={i}>
-                <span className="font-medium">{fieldLabel(u.field)}:</span> {val(u.value)}{" "}
-                <span className="text-muted-foreground">({u.label})</span>
-              </div>
+              <Row key={i} label={fieldLabel(u.field)} tail={`${val(u.value)} (${u.label})`} />
             ))
           )}
         </div>
         {agree.length > 0 && (
           <div>
-            <div className="font-mono uppercase tracking-wide text-[10px] text-muted-foreground">Same as most states</div>
+            {heading("Same as most states")}
             {agree.slice(0, limitSame).map((t, i) => (
-              <div key={i}>
-                <span className="font-medium">{fieldLabel(t.field)}:</span> {val(t.value)}
-              </div>
+              <Row key={i} label={fieldLabel(t.field)} tail={val(t.value)} />
             ))}
           </div>
         )}
@@ -130,16 +125,14 @@ export function SimilarityView({ professionId }: { professionId: string }) {
       return <div className="w-60 text-xs">{st} — not enough core data to compare.</div>;
     const nb = (data.neighbors[st] ?? []).slice(0, 3).map((n) => n.state);
     return (
-      <div className="w-72 text-xs space-y-2">
+      <div className="w-72 space-y-2.5 text-xs">
         <div>
-          <span className="font-semibold text-sm">{st}</span>
+          <span className="font-medium text-sm">{st}</span>
           <span className="ml-2 text-muted-foreground">{data.bands[st]}</span>
           {nb.length > 0 && <div className="text-muted-foreground">most like {nb.join(", ")}</div>}
-          {lowConf(st) && (
-            <div className="text-amber-700">limited data — answers few core questions, so this is a rough read</div>
-          )}
+          {lowConf(st) && <div className="text-amber-700">limited data — a rough read</div>}
         </div>
-        {profileSections(st, 6, 5)}
+        {profileLists(st, 6, 5)}
       </div>
     );
   };
@@ -155,50 +148,47 @@ export function SimilarityView({ professionId }: { professionId: string }) {
       : `, differing most on ${driverList}`;
 
   return (
-    <div className="space-y-5">
-      {/* Insight first: how states vary on the compared questions. */}
-      <div className="text-base leading-relaxed">
-        On the {data.n_core} questions most states answer, regimes <strong>{spreadVerb}</strong>
+    <div className="max-w-4xl space-y-6">
+      {/* Lead with the insight. */}
+      <p className="text-[15px] leading-relaxed">
+        On the {data.n_core} questions most states answer, regimes{" "}
+        <span className="font-medium">{spreadVerb}</span>
         {driverTail}.
-      </div>
+      </p>
 
-      {/* Method — the supporting fine print. */}
-      <div className="border-l-2 pl-3 text-xs text-muted-foreground leading-relaxed">
-        Compared on the questions most states answer ({joinAnd(coreLabels.map(lc))}); details only some states
-        report appear as a state&apos;s unusual values rather than entering the comparison.
+      {/* Method — quiet supporting line. */}
+      <p className="text-xs leading-relaxed text-muted-foreground">
+        Based on the questions most states answer ({joinAnd(coreLabels.map(lc))}); sparser details that only some
+        states report show up as a state&apos;s unusual values instead.
         {data.insufficient_states.length > 0 && (
-          <>
-            {" "}Shown gray (too few core answers):{" "}
-            <span className="font-mono">{data.insufficient_states.join(", ")}</span>.
-          </>
+          <> Too few answers to compare: {data.insufficient_states.join(", ")}.</>
         )}
-      </div>
+      </p>
 
-      {/* Utah summary (deterministic) — the focus state, shown in full */}
+      {/* Utah — the focus state, shown in full. */}
       {data.notes["UT"] && (
-        <div className="rounded-md border bg-muted/30 px-4 py-3 space-y-3">
-          <div className="text-sm leading-relaxed">{data.notes["UT"]}</div>
-          <div className="grid gap-x-8 gap-y-3 sm:grid-cols-2 text-xs">{profileSections("UT", 99, 99)}</div>
+        <div className="border-t pt-5 space-y-3">
+          <p className="text-sm leading-relaxed">{data.notes["UT"]}</p>
+          <div className="grid gap-x-10 gap-y-4 text-sm sm:grid-cols-2">{profileLists("UT", 99, 99)}</div>
         </div>
       )}
 
-      {/* The landscape: map colored by distinctiveness, hover for agree vs unusual */}
-      <div>
-        <div className="text-[11px] font-mono uppercase tracking-widest text-muted-foreground mb-2">
-          How distinctive each state is — hover for where it agrees &amp; what&apos;s unusual
-        </div>
+      {/* The landscape map. */}
+      <div className="border-t pt-5">
+        <p className="mb-3 text-xs text-muted-foreground">
+          How distinctive each state is — hover any state for where it agrees and what&apos;s unusual.
+        </p>
         <UsMap fillFor={fillFor} renderTooltip={renderTooltip} />
-        <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
+        <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
           <span>typical</span>
           <span
-            className="inline-block h-2 w-32 rounded"
+            className="inline-block h-2 w-28 rounded"
             style={{ background: `linear-gradient(to right, ${ramp(0)}, ${ramp(1)})` }}
           />
           <span>most distinctive</span>
-          <span className="ml-2">→ {mostDistinct.join(", ")}</span>
-          <span className="ml-2">
-            <span className="inline-block h-2 w-3 rounded align-middle" style={{ background: NO_DATA_FILL }} /> not
-            enough data
+          <span className="ml-1 text-foreground/70">{mostDistinct.join(", ")}</span>
+          <span className="ml-2 flex items-center gap-1">
+            <span className="inline-block h-2 w-3 rounded" style={{ background: NO_DATA_FILL }} /> not enough data
           </span>
         </div>
       </div>
