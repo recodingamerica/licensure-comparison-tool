@@ -263,6 +263,10 @@ export type MapPrep = {
       bucket_set: string[];
       rationale: string;
       by_state: Record<string, string>;
+      // True when this field's buckets were harmonized across professions
+      // (pipeline.map_prep.harmonize_universal, #16) — a shared label set so
+      // the same category means the same thing in every profession's table.
+      harmonized?: boolean;
     }
   >;
   // Per-item tag breadth: for each per-item-bucketed list field, the count of
@@ -287,17 +291,21 @@ export type ProfilePayload = {
 // Similarity / outlier analysis — produced by pipeline.analyze.similarity,
 // served at /data/analysis/<prof>.json (separate from the profession payload).
 export type Neighbor = { state: string; sim: number; n: number };
-export type KindOutlier = {
-  state: string; field: string; value: string;
-  share: number; n_states: number; total: number; importance: number; score: number;
-  rarity: string;
-};
-export type StringencyOutlier = {
-  state: string; field: string; value: string;
-  z: number; direction: string; importance: number; score: number;
-  magnitude: string;
-};
 export type TypicalField = { field: string; value: string; importance: number };
+// Novel/unusual policies for the Compare-tab rarity bar (#50). `kind`:
+// "coverage" = a field only a few states regulate at all; "value" = a rare
+// value on an otherwise-common field. `value` is null for coverage entries.
+export type NovelPolicy = {
+  kind: "coverage" | "value";
+  field: string;
+  label: string;
+  value: string | null;
+  states: string[];
+  n_states: number;
+  quote: string;
+  citation: string;
+  sample_state?: string | null;
+};
 export type DiffersField = { field: string; value: string; label: string; importance: number };
 export type Driver = {
   field: string; separation: number; importance: number; drive: number; coverage: number;
@@ -327,8 +335,7 @@ export type ProfileAnalysis = {
   notes: Record<string, string>;
   typical_on: Record<string, TypicalField[]>;
   differs_on: Record<string, DiffersField[]>;
-  kind_outliers: KindOutlier[];
-  stringency_outliers: StringencyOutlier[];
+  novel_policies: NovelPolicy[];
 };
 
 export type ProfessionsListEntry = {
