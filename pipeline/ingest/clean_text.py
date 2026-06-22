@@ -98,10 +98,18 @@ def clean_generic(text: str) -> str:
     return t.strip()
 
 
+# Utah le.utah.gov text comes from the chapter XML (parse_utah_chapter_xml), so
+# it carries no site chrome — version nav / disclaimers / pagination never enter
+# the corpus. Only whitespace normalization is needed; alias the generic cleaner
+# so the source is explicitly registered (and a place exists if quirks surface).
+clean_utah_le = clean_generic
+
+
 # Source dispatch: URL host substring → cleaner function.
 # Add an entry here when a new source layout shows up (e.g., leginfo.legislature.ca.gov).
 SOURCE_CLEANERS: dict[str, Callable[[str], str]] = {
     "law.justia.com": clean_justia,
+    "le.utah.gov": clean_utah_le,
 }
 
 

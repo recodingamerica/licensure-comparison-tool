@@ -241,6 +241,95 @@ def parse_pa_act(html: str, url: str) -> list[Section]:
     return sections
 
 
+# --- Utah official source (le.utah.gov publishes structured XML per chapter) ---
+# Justia is Cloudflare-blocked, but Utah's own site serves a clean, machine-
+# readable XML for each chapter: one file holds every <section> with its
+# <catchline> (title), statutory text, and <effdate>/<enddate> version dates.
+# So one fetch per chapter replaces section-by-section HTML scraping — and the
+# version dates let us keep CURRENTLY-EFFECTIVE law (Utah ships future-enacted
+# re-enactments in the same file, e.g. the 2026/2027 Title 58 Ch. 55 renumber).
+UTAH_LE_HOST = "le.utah.gov"
+
+
+def is_utah_le_url(url: str) -> bool:
+    return UTAH_LE_HOST in urllib.parse.urlparse(url).netloc
+
+
+def _utah_xml_url_from_chapter(chapter_html: str, chapter_url: str) -> str | None:
+    """The chapter page references its content fragment `C<chap>_<id>.html`; the
+    same id with a .xml extension is the structured chapter file."""
+    m = re.search(r'(C[\w.-]+?_\d+)\.html', chapter_html)
+    if not m:
+        return None
+    base = chapter_url.rsplit("/", 1)[0]
+    return f"{base}/{m.group(1)}.xml"
+
+
+def _utah_parse_date(s: str | None):
+    """Parse Utah's M/D/YYYY effective/end dates; None if absent/unparseable."""
+    if not s:
+        return None
+    try:
+        from datetime import datetime
+        return datetime.strptime(s.strip(), "%m/%d/%Y").date()
+    except ValueError:
+        return None
+
+
+def parse_utah_chapter_xml(xml_bytes: bytes, chapter_url: str) -> list[Section]:
+    """Parse a le.utah.gov chapter XML into per-section records, keeping only the
+    version of each section that is in effect today (Utah co-ships future
+    re-enactments tagged with a future <effdate>). Returns [] if unparseable."""
+    from datetime import date
+    from lxml import etree
+
+    try:
+        root = etree.fromstring(xml_bytes)
+    except etree.XMLSyntaxError:
+        return []
+
+    today = date.today()
+    chap_dir = chapter_url.rsplit("/", 1)[0]
+    # Collect candidate versions per section number, then pick the effective one.
+    by_num: dict[str, list[tuple]] = {}
+    for sec in root.findall(".//section"):
+        number = sec.get("number")
+        if not number:
+            continue
+        catchline = (sec.findtext("catchline") or "").strip()
+        eff = _utah_parse_date(sec.findtext("effdate"))
+        end = _utah_parse_date(sec.findtext("enddate"))
+        # Strip metadata children, then flatten remaining statutory text.
+        for tag in ("histories", "catchline", "effdate", "enddate"):
+            for e in sec.findall(tag):
+                sec.remove(e)
+        text = " ".join("".join(sec.itertext()).split())
+        if not text:
+            continue
+        is_current = (eff is None or eff <= today) and (end is None or end > today)
+        # Sort key: current first; among current, latest effdate; among future,
+        # earliest effdate (soonest to take effect) as a fallback.
+        rank = (1 if is_current else 0, eff or date.min)
+        by_num.setdefault(number, []).append((rank, is_current, number, catchline, text))
+
+    sections: list[Section] = []
+    for number, cands in by_num.items():
+        cands.sort(key=lambda c: c[0], reverse=True)
+        _, _, num, catchline, text = cands[0]
+        sec_part = num.rsplit("-", 1)[-1]
+        url = f"{chap_dir}/{num.rsplit('-', 1)[0]}-S{sec_part}.html"
+        label = f"Section {sec_part} - {catchline}" if catchline else f"Section {sec_part}"
+        sections.append(Section(
+            url=url, label=label, citation=num, text=text, text_len=len(text),
+        ))
+    # Document order by section number (numeric where possible).
+    def _key(s: Section):
+        tail = s.citation.rsplit("-", 1)[-1]
+        return (int(tail) if tail.isdigit() else 1_000_000, s.citation)
+    sections.sort(key=_key)
+    return sections
+
+
 # --- Illinois (Justia serves a whole ILCS act on one page) ---
 # Like PA, IL acts arrive as ONE inline blob rather than per-section URLs, but the
 # text carries an ILCS citation marker at the head of every section
@@ -367,6 +456,37 @@ def pull_state(state: str, profession: str, rows: list[dict], limit_sections: in
     for row in rows:
         url = row["chapter_url"]
         corpus.chapter_urls.append(url)
+
+        # Utah official source: le.utah.gov ships a structured XML per chapter.
+        # Fetch the chapter page, find its content fragment, swap .html->.xml,
+        # and parse all sections in one shot (no per-section fetching). Handled
+        # entirely here like PA — sections share the chapter url scheme but each
+        # gets its own section url, so move on after.
+        if is_utah_le_url(url):
+            status, html, err = fetch(url)
+            time.sleep(PER_HOST_DELAY)
+            if err or not html or (status and not 200 <= status < 300):
+                corpus.errors.append(f"utah_le fetch {url}: {err or f'http {status}'}")
+                continue
+            xml_url = _utah_xml_url_from_chapter(html, url)
+            if not xml_url:
+                corpus.errors.append(f"utah_le {url}: no XML fragment ref found")
+                continue
+            xstatus, xhtml, xerr = fetch(xml_url)
+            time.sleep(PER_HOST_DELAY)
+            if xerr or not xhtml or (xstatus and not 200 <= xstatus < 300):
+                corpus.errors.append(f"utah_le xml {xml_url}: {xerr or f'http {xstatus}'}")
+                continue
+            ut_sections = parse_utah_chapter_xml(xhtml.encode("utf-8"), url)
+            if not ut_sections:
+                corpus.errors.append(f"utah_le parse {xml_url}: 0 sections")
+            for sec in ut_sections:
+                if limit_sections and len(corpus.sections) >= limit_sections:
+                    break
+                corpus.sections.append(sec)
+                corpus.total_chars += sec.text_len
+            log.info("  utah_le %s -> %d sections", xml_url, len(ut_sections))
+            continue
 
         # Pennsylvania: each URL is a whole act; fetch once per act and split
         # locally into per-section records (sections share the act URL, so the
