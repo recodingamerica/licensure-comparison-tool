@@ -3453,3 +3453,38 @@ PA:
       authoritative: true  # drop label-matched PA Justia sibling; WU01 act is the full source
       label: "Social Workers, Marriage and Family Therapists and Professional Counselors Act (Act 39 of 1987)"
       note: "SHARED ACT with social_work — same act (63 P.S. §§ 1901-1922) licenses LPC + LMFT (and clinical social work). Per-credential qualifications at §1907."
+
+UT:
+  source: justia
+  notes: >
+    Utah co-regulates the building trades in ONE statute — Title 58 Ch. 55,
+    the Utah Construction Trades Licensing Act — covering contractors,
+    electricians, plumbers and HVAC under one board (DOPL / Construction
+    Services Commission). There is no separate electrician/plumber/HVAC
+    chapter in the Justia hierarchy. To surface them as distinct professions
+    we wire the SAME chapter url under each trade (the engineering/surveying/
+    geology + social_work/MHC shared-act pattern); per-trade scoping happens
+    at trim_state, which drops the other trades' sections from each corpus.
+    Every other UT profession continues to resolve by label-match against the
+    hierarchy — this block only overrides the four trades.
+  professions:
+    construction_trades:
+      url: "https://law.justia.com/codes/utah/title-58/chapter-55/"
+      authoritative: true  # the shared chapter IS the complete source; drop label siblings
+      label: "Chapter 55 - Utah Construction Trades Licensing Act (contractor scope)"
+      note: "SHARED ACT — same chapter feeds electrician/plumbing/hvac. construction_trades = general/specialty CONTRACTOR license."
+    electrician:
+      url: "https://law.justia.com/codes/utah/title-58/chapter-55/"
+      authoritative: true
+      label: "Chapter 55 - Utah Construction Trades Licensing Act (electrician scope)"
+      note: "SHARED ACT with construction_trades — scope to journeyman/master/residential electrician licensing within Ch. 55."
+    plumbing:
+      url: "https://law.justia.com/codes/utah/title-58/chapter-55/"
+      authoritative: true
+      label: "Chapter 55 - Utah Construction Trades Licensing Act (plumbing scope)"
+      note: "SHARED ACT with construction_trades — scope to journeyman/master/residential plumber licensing within Ch. 55."
+    hvac:
+      url: "https://law.justia.com/codes/utah/title-58/chapter-55/"
+      authoritative: true
+      label: "Chapter 55 - Utah Construction Trades Licensing Act (HVAC scope)"
+      note: "SHARED ACT with construction_trades — HVAC is a contractor classification within Ch. 55, not a standalone journeyman license."
