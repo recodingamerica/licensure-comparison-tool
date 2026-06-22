@@ -284,6 +284,53 @@ export type ProfilePayload = {
   evidence_summary: { verified: number; unverified: number };
 };
 
+// Similarity / outlier analysis — produced by pipeline.analyze.similarity,
+// served at /data/analysis/<prof>.json (separate from the profession payload).
+export type Neighbor = { state: string; sim: number; n: number };
+export type KindOutlier = {
+  state: string; field: string; value: string;
+  share: number; n_states: number; total: number; importance: number; score: number;
+  rarity: string;
+};
+export type StringencyOutlier = {
+  state: string; field: string; value: string;
+  z: number; direction: string; importance: number; score: number;
+  magnitude: string;
+};
+export type TypicalField = { field: string; value: string; importance: number };
+export type DiffersField = { field: string; value: string; label: string; importance: number };
+export type Driver = {
+  field: string; separation: number; importance: number; drive: number; coverage: number;
+};
+export type Landscape = {
+  pairwise_sim: { mean: number; min: number; max: number; stdev: number; pct_alike_90: number };
+  drivers: Driver[];
+  n_near_uniform: number;
+  n_states_total: number;
+  n_compared: number;
+  spread_label: "wide" | "moderate" | "narrow";
+};
+export type ProfileAnalysis = {
+  profession: string;
+  states: string[];
+  n_discriminating_fields: number;
+  core_fields: string[];
+  n_core: number;
+  core_importance_min: number;
+  core_coverage_min: number;
+  insufficient_states: string[];
+  core_coverage: Record<string, number>;
+  landscape: Landscape;
+  neighbors: Record<string, Neighbor[]>;
+  distinctiveness: Record<string, number>;
+  bands: Record<string, string>;
+  notes: Record<string, string>;
+  typical_on: Record<string, TypicalField[]>;
+  differs_on: Record<string, DiffersField[]>;
+  kind_outliers: KindOutlier[];
+  stringency_outliers: StringencyOutlier[];
+};
+
 export type ProfessionsListEntry = {
   profession: string;
   display: string;

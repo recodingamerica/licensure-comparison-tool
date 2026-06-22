@@ -39,6 +39,8 @@ export type UsMapProps = {
   // Width × height SVG box. Defaults match the AlbersUSA layout MapView uses.
   width?: number;
   height?: number;
+  // Drop the bordered frame (the map sits inline in the page).
+  bare?: boolean;
 };
 
 export function UsMap({
@@ -47,13 +49,14 @@ export function UsMap({
   onClick,
   width = 975,
   height = 610,
+  bare = false,
 }: UsMapProps) {
   const [hover, setHover] = useState<{ state: string; x: number; y: number } | null>(null);
   const tip = hover ? renderTooltip(hover.state) : null;
 
   return (
     <>
-      <div className="rounded-lg border bg-white">
+      <div className={bare ? "" : "rounded-lg border bg-white"}>
         <ComposableMap
           projection="geoAlbersUsa"
           projectionConfig={{ scale: 1000 }}
@@ -104,14 +107,24 @@ export function UsMap({
         </ComposableMap>
       </div>
 
-      {hover && tip && (
-        <div
-          className="pointer-events-none fixed z-50 max-w-lg rounded-md border bg-popover px-4 py-3 text-sm shadow-md"
-          style={{ left: hover.x + 12, top: hover.y + 12 }}
-        >
-          {tip}
-        </div>
-      )}
+      {hover && tip && (() => {
+        // Flip the tooltip to the left / above the cursor when it would overflow
+        // the viewport edge (otherwise far-right states like NY/ME clip).
+        const pad = 12;
+        const TW = 340, TH = 300; // approx tooltip footprint
+        const vw = typeof window !== "undefined" ? window.innerWidth : 1280;
+        const vh = typeof window !== "undefined" ? window.innerHeight : 800;
+        const left = hover.x + pad + TW > vw ? Math.max(8, hover.x - pad - TW) : hover.x + pad;
+        const top = hover.y + pad + TH > vh ? Math.max(8, hover.y - pad - TH) : hover.y + pad;
+        return (
+          <div
+            className="pointer-events-none fixed z-50 max-w-lg rounded-md border bg-popover px-4 py-3 text-sm shadow-md"
+            style={{ left, top }}
+          >
+            {tip}
+          </div>
+        );
+      })()}
     </>
   );
 }
