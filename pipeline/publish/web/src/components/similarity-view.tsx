@@ -88,34 +88,18 @@ export function SimilarityView({ professionId }: { professionId: string }) {
     return d === undefined ? NO_DATA_FILL : ramp((d - dmin) / span);
   };
 
-  const renderTooltip = (st: string) => {
-    if (!(st in data.notes)) return null;
-    if (insufficient.has(st))
-      return <div className="w-60 text-xs">{st} — not enough core data to compare.</div>;
-
-    const nb = (data.neighbors[st] ?? []).slice(0, 3).map((n) => n.state);
+  // Differs / Same sections for one state — shared by the hover and the Utah panel.
+  const profileSections = (st: string, limitDiff: number, limitSame: number) => {
     const differs = data.differs_on[st] ?? [];
     const agree = data.typical_on[st] ?? [];
-    // how many of the high-value questions this state actually answers
-    const answered = differs.length + agree.length;
-    const thin = answered <= 2;
-
     return (
-      <div className="w-72 text-xs space-y-2">
-        <div>
-          <span className="font-semibold text-sm">{st}</span>
-          <span className="ml-2 text-muted-foreground">{data.bands[st]}</span>
-          {nb.length > 0 && <div className="text-muted-foreground">most like {nb.join(", ")}</div>}
-          {thin && (
-            <div className="text-amber-700">limited data — answers few of these questions</div>
-          )}
-        </div>
+      <>
         <div>
           <div className="font-mono uppercase tracking-wide text-[10px] text-muted-foreground">Differs from most states</div>
           {differs.length === 0 ? (
             <div className="text-muted-foreground">nothing — matches the majority everywhere</div>
           ) : (
-            differs.slice(0, 6).map((u, i) => (
+            differs.slice(0, limitDiff).map((u, i) => (
               <div key={i}>
                 <span className="font-medium">{fieldLabel(u.field)}:</span> {val(u.value)}{" "}
                 <span className="text-muted-foreground">({u.label})</span>
@@ -126,13 +110,32 @@ export function SimilarityView({ professionId }: { professionId: string }) {
         {agree.length > 0 && (
           <div>
             <div className="font-mono uppercase tracking-wide text-[10px] text-muted-foreground">Same as most states</div>
-            {agree.slice(0, 5).map((t, i) => (
+            {agree.slice(0, limitSame).map((t, i) => (
               <div key={i}>
                 <span className="font-medium">{fieldLabel(t.field)}:</span> {val(t.value)}
               </div>
             ))}
           </div>
         )}
+      </>
+    );
+  };
+
+  const renderTooltip = (st: string) => {
+    if (!(st in data.notes)) return null;
+    if (insufficient.has(st))
+      return <div className="w-60 text-xs">{st} — not enough core data to compare.</div>;
+    const nb = (data.neighbors[st] ?? []).slice(0, 3).map((n) => n.state);
+    const thin = (data.differs_on[st]?.length ?? 0) + (data.typical_on[st]?.length ?? 0) <= 2;
+    return (
+      <div className="w-72 text-xs space-y-2">
+        <div>
+          <span className="font-semibold text-sm">{st}</span>
+          <span className="ml-2 text-muted-foreground">{data.bands[st]}</span>
+          {nb.length > 0 && <div className="text-muted-foreground">most like {nb.join(", ")}</div>}
+          {thin && <div className="text-amber-700">limited data — answers few of these questions</div>}
+        </div>
+        {profileSections(st, 6, 5)}
       </div>
     );
   };
@@ -168,9 +171,12 @@ export function SimilarityView({ professionId }: { professionId: string }) {
         {driverTail}.
       </div>
 
-      {/* Utah summary (deterministic) */}
+      {/* Utah summary (deterministic) — the focus state, shown in full */}
       {data.notes["UT"] && (
-        <div className="rounded-md border bg-muted/30 px-4 py-3 text-sm leading-relaxed">{data.notes["UT"]}</div>
+        <div className="rounded-md border bg-muted/30 px-4 py-3 space-y-3">
+          <div className="text-sm leading-relaxed">{data.notes["UT"]}</div>
+          <div className="grid gap-x-8 gap-y-3 sm:grid-cols-2 text-xs">{profileSections("UT", 99, 99)}</div>
+        </div>
       )}
 
       {/* The landscape: map colored by distinctiveness, hover for agree vs unusual */}
