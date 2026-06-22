@@ -4,12 +4,10 @@
 //
 // Method (kept transparent in the UI on purpose):
 //   - Overlap is computed deterministically over a fixed CORE set of questions:
-//     the important fields that MOST states actually answer. So every state is
-//     graded on the same questions, instead of whatever sparse subset two states
-//     happen to share. States that answer too few core questions are shown gray,
-//     not given a fake score.
-//   - No percentages: the comparison is a weighted judgment, not a measurement,
-//     so magnitude is shown as words (the calc assigns them) and as map color.
+//     the important fields that MOST states answer. Every state is graded on the
+//     same questions; states answering too few are shown gray, not given a score.
+//   - No percentages: it's a weighted judgment, not a measurement, so magnitude is
+//     shown as words (the calc assigns them) and as map color.
 //
 // Self-fetches /data/analysis/<prof>.json (pipeline.analyze.similarity).
 
@@ -17,14 +15,20 @@ import { useEffect, useMemo, useState } from "react";
 import type { ProfileAnalysis } from "@/lib/types";
 import { UsMap, NO_DATA_FILL } from "@/components/us-map";
 
+// leaf words too generic to stand alone -> fold in the parent segment
+const GENERIC = new Set([
+  "required", "available", "exists", "offered", "permitted",
+  "authorized", "prohibited", "allowed", "excluded", "type",
+]);
 function fieldLabel(f: string): string {
-  const leaf = f.split(".").pop() ?? f;
+  const parts = f.split(".");
+  let leaf = parts[parts.length - 1];
+  if (GENERIC.has(leaf) && parts.length >= 2) leaf = `${parts[parts.length - 2]}_${leaf}`;
   const s = leaf.replace(/_/g, " ");
   return s.charAt(0).toUpperCase() + s.slice(1);
 }
 const val = (v: string) => (v === "true" ? "yes" : v === "false" ? "no" : v.replace(/_/g, " "));
 
-// distinctiveness -> cream→amber ramp, normalized across the compared states.
 function ramp(t: number): string {
   const a = [238, 236, 228];
   const b = [180, 83, 9];
@@ -70,6 +74,7 @@ export function SimilarityView({ professionId }: { professionId: string }) {
   const ls = data.landscape;
   const [dmin, dmax] = distRange;
   const span = dmax - dmin || 1;
+  const insufficient = new Set(data.insufficient_states);
 
   const fillFor = (st: string) => {
     const d = data.distinctiveness[st];
@@ -77,17 +82,54 @@ export function SimilarityView({ professionId }: { professionId: string }) {
   };
 
   const renderTooltip = (st: string) => {
-    const note = data.notes[st];
-    if (!note) return null;
-    const typ = (data.typical_on[st] ?? []).slice(0, 3);
+    if (!(st in data.notes)) return null;
+    if (insufficient.has(st))
+      return <div className="w-60 text-xs">{st} — not enough core data to compare.</div>;
+
+    const nb = (data.neighbors[st] ?? []).slice(0, 3).map((n) => n.state);
+    // unusual values: rare categories + much-stricter/looser, each with its label
+    const seen = new Set<string>();
+    const unusual: { label: string; value: string; tag: string }[] = [];
+    for (const o of data.kind_outliers)
+      if (o.state === st && !seen.has(o.field)) {
+        seen.add(o.field);
+        unusual.push({ label: fieldLabel(o.field), value: val(o.value), tag: o.rarity });
+      }
+    for (const o of data.stringency_outliers)
+      if (o.state === st && !seen.has(o.field)) {
+        seen.add(o.field);
+        unusual.push({ label: fieldLabel(o.field), value: val(o.value), tag: o.magnitude });
+      }
+    const agree = (data.typical_on[st] ?? []).slice(0, 5);
+
     return (
-      <div className="w-64 text-xs">
-        <div className="font-semibold text-sm mb-1">{st}</div>
-        <div className="mb-1.5 leading-snug">{note}</div>
-        {typ.length > 0 && (
-          <div className="text-muted-foreground leading-snug">
-            <span className="font-mono uppercase tracking-wide text-[10px]">Typical: </span>
-            {typ.map((t) => `${fieldLabel(t.field)} ${val(t.value)}`).join("; ")}
+      <div className="w-72 text-xs space-y-2">
+        <div>
+          <span className="font-semibold text-sm">{st}</span>
+          <span className="ml-2 text-muted-foreground">{data.bands[st]}</span>
+          {nb.length > 0 && <div className="text-muted-foreground">most like {nb.join(", ")}</div>}
+        </div>
+        <div>
+          <div className="font-mono uppercase tracking-wide text-[10px] text-muted-foreground">Unusual values</div>
+          {unusual.length === 0 ? (
+            <div className="text-muted-foreground">none — typical across the board</div>
+          ) : (
+            unusual.slice(0, 6).map((u, i) => (
+              <div key={i}>
+                <span className="font-medium">{u.label}:</span> {u.value}{" "}
+                <span className="text-muted-foreground">({u.tag})</span>
+              </div>
+            ))
+          )}
+        </div>
+        {agree.length > 0 && (
+          <div>
+            <div className="font-mono uppercase tracking-wide text-[10px] text-muted-foreground">Same as most states</div>
+            {agree.map((t, i) => (
+              <div key={i}>
+                <span className="font-medium">{fieldLabel(t.field)}:</span> {val(t.value)}
+              </div>
+            ))}
           </div>
         )}
       </div>
@@ -98,28 +140,30 @@ export function SimilarityView({ professionId }: { professionId: string }) {
   const drivers = ls.drivers.slice(0, 3).map((d) => fieldLabel(d.field));
   const mostDistinct = Object.keys(data.distinctiveness).slice(0, 5);
   const spreadVerb = SPREAD_VERB[ls.spread_label] ?? "vary";
+  const driverTail =
+    ls.spread_label === "narrow"
+      ? `, with the most variation on ${drivers.join(", ")}`
+      : `, differing most on ${drivers.join(", ")}`;
 
   return (
     <div className="space-y-5">
-      {/* Method — make it clear what the comparison is based on */}
+      {/* Method — what the comparison is based on */}
       <div className="rounded-md border bg-muted/20 px-4 py-3 text-xs text-muted-foreground leading-relaxed">
         States are compared on the <strong className="text-foreground">{data.n_core} core questions</strong> most
-        states actually answer: {coreLabels.join(", ")}. The squishier, sparsely-answered details (only
-        some states have them) don&apos;t factor into the overlap — they show up as a state&apos;s
-        &ldquo;unusual&rdquo; flags instead.
+        states answer: {coreLabels.join(", ")}. Details that only some states report don&apos;t enter the
+        comparison — they appear as a state&apos;s unusual values instead.
         {data.insufficient_states.length > 0 && (
           <>
-            {" "}Too few core answers to compare (shown gray):{" "}
+            {" "}Not enough core answers to compare (shown gray):{" "}
             <span className="font-mono">{data.insufficient_states.join(", ")}</span>.
           </>
         )}
       </div>
 
-      {/* Macro story — qualitative, no percentages */}
+      {/* Macro — only describes the core set, no false "other fields are uniform" */}
       <div className="text-sm leading-relaxed">
-        On these questions, regimes <strong>{spreadVerb}</strong> across states — the differences come down
-        mostly to <strong>{drivers.join(", ")}</strong>
-        {ls.n_near_uniform > 0 && <>, while most other questions are answered the same way nearly everywhere</>}.
+        On these {data.n_core} questions, states <strong>{spreadVerb}</strong>
+        {driverTail}.
       </div>
 
       {/* Utah summary (deterministic) */}
@@ -127,10 +171,10 @@ export function SimilarityView({ professionId }: { professionId: string }) {
         <div className="rounded-md border bg-muted/30 px-4 py-3 text-sm leading-relaxed">{data.notes["UT"]}</div>
       )}
 
-      {/* The landscape: map colored by distinctiveness, hover for the per-state note */}
+      {/* The landscape: map colored by distinctiveness, hover for agree vs unusual */}
       <div>
         <div className="text-[11px] font-mono uppercase tracking-widest text-muted-foreground mb-2">
-          How distinctive each state is — hover for what&apos;s unique &amp; typical
+          How distinctive each state is — hover for where it agrees &amp; what&apos;s unusual
         </div>
         <UsMap fillFor={fillFor} renderTooltip={renderTooltip} />
         <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
