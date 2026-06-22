@@ -350,9 +350,17 @@ land_surveying:
   patterns: ["land surveyor", "professional surveyor", "land surveying"]
 
 construction_trades:
-  display: Construction / Contractor Trades
+  display: Contractors (General / Construction Trades)
+  abbrev: CON
   family: [building_design]
   patterns: ["construction trade", "contractors licens", "general contractor"]
+  # In most states (incl. UT Title 58 Ch. 55) contractors, electricians,
+  # plumbers and HVAC are co-regulated in ONE "Construction Trades" act under
+  # one board. We split them into separate professions via the shared-act
+  # pattern (same source url wired under each in state_structure.yaml; per-trade
+  # scoping happens at trim_state). construction_trades carries the
+  # general/specialty CONTRACTOR license; the journeyman/qualifier trade
+  # licenses live in electrician / plumbing / hvac.
 
 building_inspector:
   display: Building Inspector
@@ -373,6 +381,21 @@ electrician:
   display: Electricians / Electrical Contractors
   family: [building_design]
   patterns: ["electrician", "electrical contractor", "journeyman electrician", "master electrician"]
+
+hvac:
+  display: HVAC Technicians / Mechanical Contractors
+  family: [building_design]
+  patterns:
+    - "hvac"
+    - "heating, ventilat"
+    - "heating and ventilat"
+    - "air conditioning"
+    - "mechanical contractor"
+    - "refrigeration"
+  # New for the trades split. In UT (Title 58 Ch. 55) HVAC is a contractor
+  # classification within the shared Construction Trades Licensing Act rather
+  # than a standalone journeyman license — scoped out at trim_state from the
+  # shared chapter wired in state_structure.yaml.
 
 commercial_interior_design:
   display: Interior Design (commercial)
