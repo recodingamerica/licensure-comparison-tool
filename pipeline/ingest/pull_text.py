@@ -77,9 +77,53 @@ class StateCorpus:
     errors: list[str] = field(default_factory=list)
 
 
+# --- Cloudflare unblocker (opt-in, for Justia which now CF-blocks our IPs) ---
+# Justia sits behind a Cloudflare JS challenge that curl_cffi can't solve from
+# datacenter IPs. When SCRAPERAPI_KEY is set, route blocked hosts through
+# ScraperAPI's render+ultra_premium endpoint (solves the challenge server-side
+# from clean IPs). Only hosts in _UNBLOCK_HOSTS are routed — official state
+# sources (le.utah.gov, sdlegislature.gov, …) fetch direct, free, as before.
+_UNBLOCK_HOSTS = ("law.justia.com",)
+
+
+def _scraperapi_key() -> str | None:
+    k = os.environ.get("SCRAPERAPI_KEY")
+    if not k:
+        try:
+            from _env import load_env
+            load_env()
+            k = os.environ.get("SCRAPERAPI_KEY")
+        except Exception:
+            pass
+    return k
+
+
+# ScraperAPI render can take 30-70s server-side; direct fetches stay snappy.
+_UNBLOCK_TIMEOUT = 75
+
+
+def _maybe_unblock(url: str) -> tuple[str, int]:
+    """Return (fetch_url, timeout). Wrap url through ScraperAPI if it's a
+    Cloudflare-blocked host and a key is configured; otherwise return url
+    unchanged (direct fetch) with the normal timeout."""
+    key = _scraperapi_key()
+    if not key:
+        return url, TIMEOUT
+    host = urllib.parse.urlparse(url).netloc.lower()
+    if not any(h in host for h in _UNBLOCK_HOSTS):
+        return url, TIMEOUT
+    params = urllib.parse.urlencode({
+        "api_key": key, "url": url,
+        "render": "true",          # execute the CF challenge JS
+        "ultra_premium": "true",   # residential IPs that pass CF
+    })
+    return f"https://api.scraperapi.com/?{params}", _UNBLOCK_TIMEOUT
+
+
 def fetch(url: str) -> tuple[int | None, str | None, str | None]:
+    fetch_url, timeout = _maybe_unblock(url)
     try:
-        r = cffi_requests.get(url, impersonate="chrome", timeout=TIMEOUT, allow_redirects=True)
+        r = cffi_requests.get(fetch_url, impersonate="chrome", timeout=timeout, allow_redirects=True)
         return r.status_code, r.text, None
     except Exception as e:
         return None, None, f"{type(e).__name__}: {e}"
@@ -89,8 +133,9 @@ def fetch_bytes(url: str) -> tuple[int | None, bytes | None, str | None]:
     """Like fetch() but returns raw bytes, so the caller controls decoding.
     Needed for Word-export state sites (NV/OR/…) served as latin1/cp1252, which
     curl_cffi's text auto-decode mangles into replacement chars."""
+    fetch_url, timeout = _maybe_unblock(url)
     try:
-        r = cffi_requests.get(url, impersonate="chrome", timeout=TIMEOUT, allow_redirects=True)
+        r = cffi_requests.get(fetch_url, impersonate="chrome", timeout=timeout, allow_redirects=True)
         return r.status_code, r.content, None
     except Exception as e:
         return None, None, f"{type(e).__name__}: {e}"
