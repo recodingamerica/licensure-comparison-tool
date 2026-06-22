@@ -193,7 +193,10 @@ def load_matrix(profession: str):
     if not p.exists():
         sys.exit(f"no published data: {p}")
     d = json.loads(p.read_text())
-    mp = d["map_prep"]
+    mp = d.get("map_prep")
+    if not mp:
+        print(f"{profession}: no map_prep — nothing to compare; skipping.")
+        raise SystemExit(0)
     kinds = {s["field_name"]: s["kind"] for s in mp["spec"]}
     M: dict[str, dict] = defaultdict(dict)
     for r in mp["rows"]:
@@ -452,6 +455,9 @@ def analyze(profession: str):
         "core_coverage_min": CORE_COVERAGE,
         # states that don't answer enough of the core to be compared
         "insufficient_states": insufficient,
+        # how much of the core each compared state actually answers (0..1) — a
+        # confidence signal: a distinctiveness score over few core answers is shaky.
+        "core_coverage": ({st: round(core_have[st] / n_core, 2) for st in sufficient} if n_core else {}),
         "landscape": landscape,
         "neighbors": {a: [{"state": b, "sim": s, "n": n} for s, b, n in sims[a][:6]] for a in states},
         "distinctiveness": dict(sorted(distinct.items(), key=lambda kv: kv[1], reverse=True)),

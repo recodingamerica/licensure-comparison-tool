@@ -89,6 +89,14 @@ python -m pipeline.analyze.publish_analysis                          # stage for
   *note* folds the parent in (`clause()`), the UI `fieldLabel` does not yet.
 - Continuous fields are dropped from the prose note (they'd leak a raw number);
   they still drive distinctiveness.
-- `publish_analysis` must be wired into the publish pipeline so the deployed site
-  serves `/data/analysis/*.json` (currently staged locally; `public/data/` is
-  gitignored).
+
+## Publish + confidence
+
+- `refresh_all` now runs `similarity --json` per profession (deterministic, after
+  build_frontend) then `publish_analysis`, which mirrors to `public/data/analysis/`
+  AND uploads to Blob at `data/analysis/<prof>.json` — same path as the payloads,
+  so the live site serves it. `gen_semantics` (the one LLM step) stays manual.
+- `core_coverage` per state = how much of the core it answers. States below 0.7 are
+  "low confidence" (their distinctiveness rides on thin overlap): dropped from the
+  headline "most distinctive" list and flagged on hover, though still mapped.
+  Sub-60%-core states are excluded entirely (gray).

@@ -148,6 +148,15 @@ def main() -> None:
             # don't record it, or a later full refresh would wrongly skip.
             manifest[p] = fps[p]  # only record success
 
+    # 1b. Similarity / outlier analysis — deterministic (no LLM). Reads the payloads
+    #     we just built, writes results/analysis/, then publish_analysis mirrors to
+    #     public/data/analysis/ + Blob (like the payloads). Best-effort per profession
+    #     (skips ones without map_prep).
+    for p in changed:
+        run([PY, "-m", "pipeline.analyze.similarity", "--profession", p, "--json"], f"similarity {p}")
+    results.append(("publish_analysis",
+                    run([PY, "-m", "pipeline.analyze.publish_analysis"], "publish_analysis")))
+
     # 2. Tag sheet aggregates the per-item tags, so always refresh it.
     results.append(("build_tag_sheet",
                     run([PY, "-m", "pipeline.publish.build_tag_sheet", "--upload"], "build_tag_sheet")))

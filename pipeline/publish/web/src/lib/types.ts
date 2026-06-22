@@ -319,6 +319,7 @@ export type ProfileAnalysis = {
   core_importance_min: number;
   core_coverage_min: number;
   insufficient_states: string[];
+  core_coverage: Record<string, number>;
   landscape: Landscape;
   neighbors: Record<string, Neighbor[]>;
   distinctiveness: Record<string, number>;

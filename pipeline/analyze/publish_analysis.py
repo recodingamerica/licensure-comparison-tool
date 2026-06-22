@@ -1,20 +1,23 @@
 """Stage similarity/outlier analysis for the frontend.
 
-Copies results/analysis/<prof>.json -> web/public/data/analysis/<prof>.json so the
-Compare tab can fetch it (kept separate from the profession JSON so it doesn't
-couple to the build_frontend / refresh_all publish path).
+Mirrors results/analysis/<prof>.json -> web/public/data/analysis/<prof>.json (baked
+into the Next build) AND uploads to Blob at data/analysis/<prof>.json — exactly how
+build_frontend ships the profession payloads, so the Compare tab's fetch resolves
+whether the site serves /data from the build or from Blob.
 
 Usage:
   python -m pipeline.analyze.publish_analysis            # all analyzed professions
   python -m pipeline.analyze.publish_analysis --professions optometry,dietetics
+  python -m pipeline.analyze.publish_analysis --no-upload   # local mirror only (dev)
 """
 from __future__ import annotations
 
 import argparse
-import shutil
+import sys
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(REPO / "pipeline"))
 SRC = REPO / "pipeline" / "results" / "analysis"
 DST = REPO / "pipeline" / "publish" / "web" / "public" / "data" / "analysis"
 
@@ -22,6 +25,7 @@ DST = REPO / "pipeline" / "publish" / "web" / "public" / "data" / "analysis"
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--professions", help="comma-separated; default = all in results/analysis")
+    ap.add_argument("--no-upload", action="store_true", help="local public/data mirror only (skip Blob)")
     args = ap.parse_args()
     DST.mkdir(parents=True, exist_ok=True)
     profs = (
@@ -29,16 +33,28 @@ def main() -> int:
         if args.professions
         else [p.stem for p in sorted(SRC.glob("*.json"))]
     )
-    n = 0
+    upload_json = None
+    if not args.no_upload:
+        try:
+            from publish.blob_upload import upload_json  # noqa: E402
+        except Exception as e:  # noqa: BLE001
+            print(f"  (blob upload unavailable: {e} — staging local mirror only)")
+    n = up = 0
     for p in profs:
         src = SRC / f"{p}.json"
         if not src.exists():
             print(f"  skip {p}: no analysis (run pipeline.analyze.similarity --json)")
             continue
-        shutil.copyfile(src, DST / f"{p}.json")
+        body = src.read_text()
+        (DST / f"{p}.json").write_text(body)
         n += 1
-        print(f"  staged {p}")
-    print(f"staged {n} analysis files -> {DST}")
+        if upload_json:
+            try:
+                _url, skipped = upload_json(f"data/analysis/{p}.json", body)
+                up += 0 if skipped else 1
+            except Exception as e:  # noqa: BLE001
+                print(f"  blob upload failed for {p}: {e}")
+    print(f"staged {n} analysis files -> {DST}" + (f"; uploaded {up} to Blob" if upload_json else ""))
     return 0
 
 
