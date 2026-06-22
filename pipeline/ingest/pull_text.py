@@ -84,6 +84,17 @@ def fetch(url: str) -> tuple[int | None, str | None, str | None]:
         return None, None, f"{type(e).__name__}: {e}"
 
 
+def fetch_bytes(url: str) -> tuple[int | None, bytes | None, str | None]:
+    """Like fetch() but returns raw bytes, so the caller controls decoding.
+    Needed for Word-export state sites (NV/OR/…) served as latin1/cp1252, which
+    curl_cffi's text auto-decode mangles into replacement chars."""
+    try:
+        r = cffi_requests.get(url, impersonate="chrome", timeout=TIMEOUT, allow_redirects=True)
+        return r.status_code, r.content, None
+    except Exception as e:
+        return None, None, f"{type(e).__name__}: {e}"
+
+
 # A bare path segment that is a 4-digit year (Justia year-versioned snapshots).
 YEAR_SEG = re.compile(r"^(?:19|20)\d\d$")
 
@@ -399,6 +410,53 @@ def pull_sd_chapter(chapter_url: str) -> tuple[list[Section], list[str]]:
     return sections, errors
 
 
+# --- Nevada official source (leg.state.nv.us, whole-chapter HTML) ---
+# NV serves one HTML page per NRS chapter (every section inline). The page's
+# Word-export markup carries a TOC (p.COLeadline) plus the body (p.SectBody);
+# 201-ish SectBody paragraphs, of which the section OPENERS start with
+# "NRS <chap>.<sec> <catchline>." and the rest are continuation paragraphs.
+# Split on the openers. (Exemplar for the whole-chapter-HTML cluster: OR/NC/WI/
+# CT/DE share the one-fetch-per-chapter granularity but each needs its own
+# opener rule.)
+NV_HOST = "leg.state.nv.us"
+_NV_OPENER = re.compile(r"^NRS\s+(\d+[A-Za-z]?\.[0-9A-Za-z]+)\s+(.*)$")
+
+
+def is_nv_url(url: str) -> bool:
+    return NV_HOST in urllib.parse.urlparse(url).netloc and "/nrs/" in url.lower()
+
+
+def parse_nv_chapter_html(html: str, chapter_url: str) -> list[Section]:
+    soup = BeautifulSoup(html, "html.parser")
+    sections: list[Section] = []
+    cur: dict | None = None
+
+    def flush() -> None:
+        nonlocal cur
+        if cur:
+            text = " ".join(" ".join(cur["body"]).split())
+            label = cur["title"].split(". ")[0][:200] or f"NRS {cur['num']}"
+            sections.append(Section(
+                url=f"https://{NV_HOST}/nrs/NRS-{cur['num'].split('.')[0]}.html#NRS{cur['num'].replace('.', 'Sec')}",
+                label=label, citation=f"NRS {cur['num']}",
+                text=text, text_len=len(text),
+            ))
+        cur = None
+
+    for p in soup.find_all("p", class_="SectBody"):
+        t = " ".join(p.get_text(" ", strip=True).split())
+        if not t:
+            continue
+        m = _NV_OPENER.match(t)
+        if m:
+            flush()
+            cur = {"num": m.group(1), "title": m.group(2).rstrip("."), "body": [t]}
+        elif cur is not None:
+            cur["body"].append(t)
+    flush()
+    return sections
+
+
 # --- Illinois (Justia serves a whole ILCS act on one page) ---
 # Like PA, IL acts arrive as ONE inline blob rather than per-section URLs, but the
 # text carries an ILCS citation marker at the head of every section
@@ -569,6 +627,26 @@ def pull_state(state: str, profession: str, rows: list[dict], limit_sections: in
                 corpus.sections.append(sec)
                 corpus.total_chars += sec.text_len
             log.info("  sd_api %s -> %d sections", url, len(sd_sections))
+            continue
+
+        # Nevada official source: one HTML page per chapter; parse sections out.
+        # NV serves Word-export latin1 HTML, so decode bytes ourselves.
+        if is_nv_url(url):
+            status, raw, err = fetch_bytes(url)
+            time.sleep(PER_HOST_DELAY)
+            if err or not raw or (status and not 200 <= status < 300):
+                corpus.errors.append(f"nv fetch {url}: {err or f'http {status}'}")
+                continue
+            html = raw.decode("latin1", "replace")
+            nv_sections = parse_nv_chapter_html(html, url)
+            if not nv_sections:
+                corpus.errors.append(f"nv parse {url}: 0 sections")
+            for sec in nv_sections:
+                if limit_sections and len(corpus.sections) >= limit_sections:
+                    break
+                corpus.sections.append(sec)
+                corpus.total_chars += sec.text_len
+            log.info("  nv %s -> %d sections", url, len(nv_sections))
             continue
 
         # Pennsylvania: each URL is a whole act; fetch once per act and split
