@@ -3490,3 +3490,13 @@ UT:
       authoritative: true
       label: "Chapter 55 - Utah Construction Trades Licensing Act (HVAC scope)"
       note: "SHARED ACT with construction_trades — HVAC is a contractor classification within Ch. 55, not a standalone journeyman license."
+
+SD:
+  # Justia is Cloudflare-blocked; SD publishes a clean JSON API. match_profession
+  # translates each Justia-matched chapter (which maps profession→chapter) into
+  # the API cite via chapter_url_template, filling {title}/{chapter} parsed from
+  # the Justia path (zero-pad stripped, letter suffix upper-cased). pull_text
+  # then walks the API (parse_sd / pull_sd_chapter). No per-profession overrides
+  # needed — the whole state rides the template.
+  source: sd_api
+  chapter_url_template: "https://sdlegislature.gov/api/Statutes/Statute/{title}-{chapter}"

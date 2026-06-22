@@ -17,7 +17,9 @@ import argparse
 import csv
 import json
 import logging
+import re
 import sys
+import urllib.parse
 from pathlib import Path
 
 import yaml
@@ -93,6 +95,28 @@ def load_state_structure() -> dict:
     if not path.exists():
         return {}
     return yaml.safe_load(path.read_text()) or {}
+
+
+def _official_url(template: str, justia_url: str) -> str | None:
+    """Fill an official-source chapter_url_template from a Justia chapter url.
+
+    Parses {title}/{chapter}/{section} out of the Justia path and normalizes
+    each (strip zero-padding, upper-case any letter suffix), e.g.
+      .../south-dakota/title-36/chapter-06a/  +  ".../{title}-{chapter}"
+        -> ".../36-6A"
+    Returns None if a placeholder the template needs can't be filled.
+    """
+    parts: dict[str, str] = {}
+    for seg in [s for s in urllib.parse.urlparse(justia_url).path.split("/") if s]:
+        for key in ("title", "chapter", "section"):
+            if seg.startswith(key + "-"):
+                raw = seg[len(key) + 1:]
+                m = re.match(r"^0*(\d+)([a-zA-Z]*)$", raw)
+                parts[key] = (m.group(1) + m.group(2).upper()) if m else raw.upper()
+    try:
+        return template.format(**parts)
+    except KeyError:
+        return None
 
 
 def _node_from_override(ov: dict) -> dict:
@@ -239,6 +263,18 @@ def build_index_for(
         elif ss_entry and ss_entry.get("authoritative") and ss_entry.get("url"):
             if any(n["url"] == ss_entry["url"] for n in m):
                 m = [n for n in m if n["url"] == ss_entry["url"]]
+
+        # Official-source translation: states with a chapter_url_template carry
+        # their profession→chapter mapping via the Justia hierarchy, but fetch
+        # from the state's own (non-Cloudflare) source. Rewrite each matched
+        # node's url to the official url; pull_text dispatches on the new host.
+        template = (state_entry or {}).get("chapter_url_template")
+        if template and m:
+            for n in m:
+                official = _official_url(template, n.get("url", ""))
+                if official:
+                    n["justia_url"] = n["url"]
+                    n["url"] = official
 
         if not record and not m:
             by_state[st] = {"matched": [], "note": "no_hierarchy"}

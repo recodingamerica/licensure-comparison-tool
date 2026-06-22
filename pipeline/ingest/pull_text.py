@@ -330,6 +330,75 @@ def parse_utah_chapter_xml(xml_bytes: bytes, chapter_url: str) -> list[Section]:
     return sections
 
 
+# --- South Dakota official source (sdlegislature.gov JSON API) ---
+# SD's site is a JS SPA, but it's backed by a clean public JSON API:
+#   /api/Statutes/Statute/<cite>  → one node (Title / Chapter / Section), with
+#   CatchLine, Html (the body), Type, Repealed, and a `Next` cite pointer.
+# A chapter node points (via Next) at its first section; we walk Next forward,
+# staying within the chapter prefix, to enumerate every section in one pass.
+SD_API_HOST = "sdlegislature.gov"
+_SD_STATUTE_PATH = "/api/Statutes/Statute/"
+
+
+def is_sd_api_url(url: str) -> bool:
+    return SD_API_HOST in urllib.parse.urlparse(url).netloc and _SD_STATUTE_PATH in url
+
+
+def _sd_html_to_text(html: str) -> str:
+    if not html:
+        return ""
+    soup = BeautifulSoup(html, "html.parser")
+    for t in soup(["style", "head", "script"]):
+        t.decompose()
+    return " ".join(soup.get_text(" ", strip=True).split())
+
+
+def _sd_get(cite: str) -> dict | None:
+    status, text, err = fetch(f"https://{SD_API_HOST}{_SD_STATUTE_PATH}{cite}")
+    if err or not text or (status and not 200 <= status < 300):
+        return None
+    try:
+        d = json.loads(text)
+    except json.JSONDecodeError:
+        return None
+    if isinstance(d, list):
+        return d[0] if d else None
+    return d if isinstance(d, dict) else None
+
+
+def pull_sd_chapter(chapter_url: str) -> tuple[list[Section], list[str]]:
+    """Walk the SD JSON API from a chapter cite through its sections.
+    Returns (sections, errors)."""
+    cite = chapter_url.rstrip("/").rsplit("/", 1)[-1]  # .../Statute/36-4 -> 36-4
+    errors: list[str] = []
+    chap = _sd_get(cite)
+    if not chap:
+        return [], [f"sd_api fetch chapter {cite}: failed"]
+    prefix = cite + "-"
+    sections: list[Section] = []
+    seen: set[str] = set()
+    cur = chap.get("Next")
+    while cur and cur.startswith(prefix) and cur not in seen:
+        seen.add(cur)
+        time.sleep(PER_HOST_DELAY)
+        d = _sd_get(cur)
+        if not d:
+            errors.append(f"sd_api fetch {cur}: failed")
+            break
+        if d.get("Type") == "Section":
+            text = _sd_html_to_text(d.get("Html") or "")
+            label = (d.get("CatchLine") or "").strip()
+            # clean_text drops repealed/reserved; keep them but flag in label.
+            sections.append(Section(
+                url=f"https://{SD_API_HOST}/Statutes/{d.get('Statute')}",
+                label=label or f"Section {d.get('Statute')}",
+                citation=str(d.get("Statute") or cur),
+                text=text, text_len=len(text),
+            ))
+        cur = d.get("Next")
+    return sections, errors
+
+
 # --- Illinois (Justia serves a whole ILCS act on one page) ---
 # Like PA, IL acts arrive as ONE inline blob rather than per-section URLs, but the
 # text carries an ILCS citation marker at the head of every section
@@ -486,6 +555,20 @@ def pull_state(state: str, profession: str, rows: list[dict], limit_sections: in
                 corpus.sections.append(sec)
                 corpus.total_chars += sec.text_len
             log.info("  utah_le %s -> %d sections", xml_url, len(ut_sections))
+            continue
+
+        # South Dakota official source: walk the JSON API from the chapter cite
+        # through its sections. Handled here (one logical chapter = many API
+        # nodes), like PA/UT.
+        if is_sd_api_url(url):
+            sd_sections, sd_errors = pull_sd_chapter(url)
+            corpus.errors.extend(sd_errors)
+            for sec in sd_sections:
+                if limit_sections and len(corpus.sections) >= limit_sections:
+                    break
+                corpus.sections.append(sec)
+                corpus.total_chars += sec.text_len
+            log.info("  sd_api %s -> %d sections", url, len(sd_sections))
             continue
 
         # Pennsylvania: each URL is a whole act; fetch once per act and split
