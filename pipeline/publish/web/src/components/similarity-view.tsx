@@ -1,66 +1,61 @@
 "use client";
 
-// Compare tab — "what is each state like, and where is it weird."
-// Self-fetches /data/analysis/<prof>.json (produced by pipeline.analyze.similarity
-// + utah_note). Focal state defaults to UT; the prose note is Utah-only by design.
+// Compare tab — the regulatory landscape for one occupation.
+//
+// Method (kept transparent in the UI on purpose):
+//   - Overlap is computed deterministically over a fixed CORE set of questions:
+//     the important fields that MOST states actually answer. So every state is
+//     graded on the same questions, instead of whatever sparse subset two states
+//     happen to share. States that answer too few core questions are shown gray,
+//     not given a fake score.
+//   - No percentages: the comparison is a weighted judgment, not a measurement,
+//     so magnitude is shown as words (the calc assigns them) and as map color.
+//
+// Self-fetches /data/analysis/<prof>.json (pipeline.analyze.similarity).
 
 import { useEffect, useMemo, useState } from "react";
 import type { ProfileAnalysis } from "@/lib/types";
+import { UsMap, NO_DATA_FILL } from "@/components/us-map";
 
-// Dotted field name -> short human label. "profession_specific.surgery_prohibited"
-// -> "Surgery prohibited"; "licensure.education.degree_level" -> "Degree level".
 function fieldLabel(f: string): string {
   const leaf = f.split(".").pop() ?? f;
   const s = leaf.replace(/_/g, " ");
   return s.charAt(0).toUpperCase() + s.slice(1);
 }
+const val = (v: string) => (v === "true" ? "yes" : v === "false" ? "no" : v.replace(/_/g, " "));
 
-function val(v: string): string {
-  if (v === "true") return "yes";
-  if (v === "false") return "no";
-  return v;
+// distinctiveness -> cream→amber ramp, normalized across the compared states.
+function ramp(t: number): string {
+  const a = [238, 236, 228];
+  const b = [180, 83, 9];
+  const c = a.map((x, i) => Math.round(x + (b[i] - x) * Math.max(0, Math.min(1, t))));
+  return `rgb(${c[0]}, ${c[1]}, ${c[2]})`;
 }
 
-function Label({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="text-[11px] font-mono uppercase tracking-widest text-muted-foreground mb-2">
-      {children}
-    </div>
-  );
-}
+const SPREAD_VERB: Record<string, string> = {
+  wide: "vary widely",
+  moderate: "vary moderately",
+  narrow: "are broadly similar",
+};
 
 export function SimilarityView({ professionId }: { professionId: string }) {
   const [data, setData] = useState<ProfileAnalysis | null>(null);
   const [missing, setMissing] = useState(false);
-  const [focus, setFocus] = useState("UT");
 
   useEffect(() => {
     setData(null);
     setMissing(false);
     fetch(`/data/analysis/${encodeURIComponent(professionId)}.json`)
-      .then((r) => {
-        if (r.status === 404) {
-          setMissing(true);
-          return null;
-        }
-        return r.ok ? r.json() : null;
-      })
+      .then((r) => (r.status === 404 ? (setMissing(true), null) : r.ok ? r.json() : null))
       .then((d: ProfileAnalysis | null) => d && setData(d))
       .catch(() => setMissing(true));
   }, [professionId]);
 
-  // Keep focus valid for this profession; prefer UT.
-  useEffect(() => {
-    if (data && !data.states.includes(focus)) {
-      setFocus(data.states.includes("UT") ? "UT" : data.states[0]);
-    }
-  }, [data, focus]);
-
-  const distinctRank = useMemo(() => {
-    if (!data) return null;
-    const ordered = Object.keys(data.distinctiveness); // already sorted desc
-    return { rank: ordered.indexOf(focus) + 1, total: ordered.length };
-  }, [data, focus]);
+  const distRange = useMemo(() => {
+    if (!data) return [0, 1] as const;
+    const vals = Object.values(data.distinctiveness);
+    return vals.length ? ([Math.min(...vals), Math.max(...vals)] as const) : ([0, 1] as const);
+  }, [data]);
 
   if (missing)
     return (
@@ -72,119 +67,86 @@ export function SimilarityView({ professionId }: { professionId: string }) {
     );
   if (!data) return <p className="text-sm text-muted-foreground">Loading…</p>;
 
-  const neighbors = data.neighbors[focus] ?? [];
-  const kind = data.kind_outliers.filter((o) => o.state === focus);
-  const stringency = data.stringency_outliers.filter((o) => o.state === focus);
-  const noteShown = focus === "UT" && data.utah_note;
+  const ls = data.landscape;
+  const [dmin, dmax] = distRange;
+  const span = dmax - dmin || 1;
 
-  return (
-    <div className="space-y-6">
-      {/* Focal-state selector */}
-      <div className="flex items-center gap-2 text-sm">
-        <span className="text-muted-foreground">Compare</span>
-        <select
-          value={focus}
-          onChange={(e) => setFocus(e.target.value)}
-          className="rounded border bg-background px-2 py-1 text-sm font-mono"
-        >
-          {data.states.map((s) => (
-            <option key={s} value={s}>
-              {s}
-            </option>
-          ))}
-        </select>
-        <span className="text-muted-foreground">
-          to the other {data.states.length - 1} states ({data.n_discriminating_fields} fields that vary)
-        </span>
-      </div>
+  const fillFor = (st: string) => {
+    const d = data.distinctiveness[st];
+    return d === undefined ? NO_DATA_FILL : ramp((d - dmin) / span);
+  };
 
-      {/* Utah-only prose summary */}
-      {noteShown && (
-        <div className="rounded-md border bg-muted/30 px-4 py-3 text-sm leading-relaxed">
-          {data.utah_note}
-        </div>
-      )}
-
-      <div className="grid gap-6 md:grid-cols-2">
-        {/* Most similar */}
-        <section>
-          <Label>{focus} is most like</Label>
-          {neighbors.length === 0 ? (
-            <p className="text-sm text-muted-foreground">Not enough comparable fields.</p>
-          ) : (
-            <ul className="space-y-1">
-              {neighbors.slice(0, 5).map((nb) => (
-                <li key={nb.state} className="flex items-center gap-2 text-sm">
-                  <span className="font-mono w-7">{nb.state}</span>
-                  <span className="inline-block h-1.5 rounded bg-foreground/70" style={{ width: `${nb.sim * 120}px` }} />
-                  <span className="text-muted-foreground tabular-nums">
-                    {Math.round(nb.sim * 100)}%
-                  </span>
-                  <span className="text-[10px] text-muted-foreground">({nb.n} fields)</span>
-                </li>
-              ))}
-            </ul>
-          )}
-        </section>
-
-        {/* Distinctiveness leaderboard */}
-        <section>
-          <Label>Most distinctive regimes overall</Label>
-          <ul className="space-y-1">
-            {Object.entries(data.distinctiveness)
-              .slice(0, 6)
-              .map(([st, score]) => (
-                <li
-                  key={st}
-                  className={"flex items-center gap-2 text-sm " + (st === focus ? "font-semibold" : "")}
-                >
-                  <span className="font-mono w-7">{st}</span>
-                  <span className="inline-block h-1.5 rounded bg-amber-500/70" style={{ width: `${score * 220}px` }} />
-                  <span className="text-muted-foreground tabular-nums">{score.toFixed(2)}</span>
-                </li>
-              ))}
-          </ul>
-          {distinctRank && (
-            <p className="mt-2 text-xs text-muted-foreground">
-              {focus} ranks #{distinctRank.rank} of {distinctRank.total} on overall distinctiveness.
-            </p>
-          )}
-        </section>
-      </div>
-
-      {/* Where this state is weird */}
-      <section>
-        <Label>Where {focus} is unusual</Label>
-        {kind.length === 0 && stringency.length === 0 ? (
-          <p className="text-sm text-muted-foreground">
-            Nothing categorically rare or far from the norm — {focus} is typical here.
-          </p>
-        ) : (
-          <div className="space-y-2">
-            {kind.slice(0, 8).map((o, i) => (
-              <div key={"k" + i} className="flex flex-wrap items-baseline gap-x-2 text-sm">
-                <span className="font-medium">{fieldLabel(o.field)}</span>
-                <span className="font-mono text-foreground">= {val(o.value)}</span>
-                <span className="text-muted-foreground">
-                  — categorically rare: only {o.n_states} of {o.total} states
-                </span>
-              </div>
-            ))}
-            {stringency
-              .filter((s) => !kind.some((k) => k.field === s.field)) // avoid dupe lines
-              .slice(0, 8)
-              .map((o, i) => (
-                <div key={"s" + i} className="flex flex-wrap items-baseline gap-x-2 text-sm">
-                  <span className="font-medium">{fieldLabel(o.field)}</span>
-                  <span className="font-mono text-foreground">= {val(o.value)}</span>
-                  <span className="text-muted-foreground">
-                    — {o.direction.includes("strict") ? "much stricter" : "much looser"} than peers
-                  </span>
-                </div>
-              ))}
+  const renderTooltip = (st: string) => {
+    const note = data.notes[st];
+    if (!note) return null;
+    const typ = (data.typical_on[st] ?? []).slice(0, 3);
+    return (
+      <div className="w-64 text-xs">
+        <div className="font-semibold text-sm mb-1">{st}</div>
+        <div className="mb-1.5 leading-snug">{note}</div>
+        {typ.length > 0 && (
+          <div className="text-muted-foreground leading-snug">
+            <span className="font-mono uppercase tracking-wide text-[10px]">Typical: </span>
+            {typ.map((t) => `${fieldLabel(t.field)} ${val(t.value)}`).join("; ")}
           </div>
         )}
-      </section>
+      </div>
+    );
+  };
+
+  const coreLabels = data.core_fields.map(fieldLabel);
+  const drivers = ls.drivers.slice(0, 3).map((d) => fieldLabel(d.field));
+  const mostDistinct = Object.keys(data.distinctiveness).slice(0, 5);
+  const spreadVerb = SPREAD_VERB[ls.spread_label] ?? "vary";
+
+  return (
+    <div className="space-y-5">
+      {/* Method — make it clear what the comparison is based on */}
+      <div className="rounded-md border bg-muted/20 px-4 py-3 text-xs text-muted-foreground leading-relaxed">
+        States are compared on the <strong className="text-foreground">{data.n_core} core questions</strong> most
+        states actually answer: {coreLabels.join(", ")}. The squishier, sparsely-answered details (only
+        some states have them) don&apos;t factor into the overlap — they show up as a state&apos;s
+        &ldquo;unusual&rdquo; flags instead.
+        {data.insufficient_states.length > 0 && (
+          <>
+            {" "}Too few core answers to compare (shown gray):{" "}
+            <span className="font-mono">{data.insufficient_states.join(", ")}</span>.
+          </>
+        )}
+      </div>
+
+      {/* Macro story — qualitative, no percentages */}
+      <div className="text-sm leading-relaxed">
+        On these questions, regimes <strong>{spreadVerb}</strong> across states — the differences come down
+        mostly to <strong>{drivers.join(", ")}</strong>
+        {ls.n_near_uniform > 0 && <>, while most other questions are answered the same way nearly everywhere</>}.
+      </div>
+
+      {/* Utah summary (deterministic) */}
+      {data.notes["UT"] && (
+        <div className="rounded-md border bg-muted/30 px-4 py-3 text-sm leading-relaxed">{data.notes["UT"]}</div>
+      )}
+
+      {/* The landscape: map colored by distinctiveness, hover for the per-state note */}
+      <div>
+        <div className="text-[11px] font-mono uppercase tracking-widest text-muted-foreground mb-2">
+          How distinctive each state is — hover for what&apos;s unique &amp; typical
+        </div>
+        <UsMap fillFor={fillFor} renderTooltip={renderTooltip} />
+        <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
+          <span>typical</span>
+          <span
+            className="inline-block h-2 w-32 rounded"
+            style={{ background: `linear-gradient(to right, ${ramp(0)}, ${ramp(1)})` }}
+          />
+          <span>most distinctive</span>
+          <span className="ml-2">→ {mostDistinct.join(", ")}</span>
+          <span className="ml-2">
+            <span className="inline-block h-2 w-3 rounded align-middle" style={{ background: NO_DATA_FILL }} /> not
+            enough data
+          </span>
+        </div>
+      </div>
     </div>
   );
 }

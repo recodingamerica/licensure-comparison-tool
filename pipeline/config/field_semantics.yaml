@@ -20,15 +20,15 @@ _defaults:
 # reads sensibly; importance set per field below.
 universal:
   licensure.license_required:        { importance: 0.85, closeness: { kind: ordinal, order: ["false", "true"] } }
-  licensure.regulatory_model:        { importance: 1.0,  closeness: { kind: ordinal, order: [market_forces, voluntary_certification, registration, exemption, mandatory_certification, license] } }
-  licensure.credential_type:         { importance: 0.9,  closeness: { kind: ordinal, order: [none, certification, license] } }
+  licensure.regulatory_model:        { importance: 1.0,  closeness: { kind: ordinal, order: [market_forces, voluntary_certification, registration, exemption, mandatory_certification, license] }, phrase: "regulates by {value}" }
+  licensure.credential_type:         { importance: 0.9,  closeness: { kind: ordinal, order: [none, certification, license] }, phrase: "uses a {value} credential" }
   licensure.is_mandatory:            { importance: 0.8,  closeness: { kind: ordinal, order: ["false", "true"] } }
   licensure.scope_protection:        { importance: 0.8,  closeness: { kind: ordinal, order: ["false", "true"] } }
   licensure.title_protection:        { importance: 0.55, closeness: { kind: ordinal, order: ["false", "true"] } }
   licensure.education.degree_level:  { importance: 0.9,  closeness: { kind: ordinal, order: [none, high_school, associate, bachelor, master, doctorate] } }
   licensure.education.school_approval_basis: { importance: 0.6, closeness: { kind: nominal, distances: { national_accreditor|regional_accreditor: 0.4, national_accreditor|board_approved: 0.8, national_accreditor|unspecified: 1.0, regional_accreditor|board_approved: 0.7, board_approved|unspecified: 0.9 } } }
   licensure.post_degree_experience.experience_source: { importance: 0.7, closeness: { kind: nominal } }
-  licensure.regulatory_authority.type: { importance: 0.45, closeness: { kind: ordinal, order: [department, division, other, joint, shared_board, standalone_board] } }
+  licensure.regulatory_authority.type: { importance: 0.45, closeness: { kind: ordinal, order: [department, division, other, joint, shared_board, standalone_board] }, phrase: "houses oversight in a {value}" }
   licensure.continuing_education.required: { importance: 0.5, closeness: { kind: ordinal, order: ["false", "true"] } }
   licensure.reciprocity.available:   { importance: 0.4,  closeness: { kind: ordinal, order: ["false", "true"] } }
   licensure.advisory_board.exists:   { importance: 0.15, closeness: { kind: ordinal, order: ["false", "true"] } }
