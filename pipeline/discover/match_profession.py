@@ -112,7 +112,11 @@ def _official_url(template: str, justia_url: str) -> str | None:
             if seg.startswith(key + "-"):
                 raw = seg[len(key) + 1:]
                 m = re.match(r"^0*(\d+)([a-zA-Z]*)$", raw)
-                parts[key] = (m.group(1) + m.group(2).upper()) if m else raw.upper()
+                if m:
+                    parts[key] = m.group(1) + m.group(2).upper()      # 393B (SD/NV)
+                    parts[key + "_lc"] = m.group(1) + m.group(2).lower()  # 393b (CT)
+                else:
+                    parts[key] = parts[key + "_lc"] = raw
     try:
         return template.format(**parts)
     except KeyError:

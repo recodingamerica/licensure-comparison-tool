@@ -123,7 +123,94 @@ def _unblock_plan(url: str) -> tuple[str, int, dict | None]:
     return url, TIMEOUT, None
 
 
+# --- Headful-browser fetch for Cloudflare (Justia) via residential proxy ---
+# Cloudflare's "Just a moment" challenge is beaten only by a REAL browser from a
+# residential IP. We keep ONE headful Chromium open through the proxy: the first
+# Justia page solves the challenge, and the cf_clearance cookie carries the rest
+# (fast). Heavy resources (images/media/fonts/css) are blocked to conserve proxy
+# bandwidth. Lazily started, reused across the whole run, closed at exit.
+_BROWSER: dict | None = None
+
+
+def _proxy_for_playwright() -> dict | None:
+    raw = _env_get("RESIDENTIAL_PROXY")
+    if not raw:
+        return None
+    u = urllib.parse.urlparse(raw)
+    pw = urllib.parse.unquote(u.password or "")
+    # Sticky IP for the run (so one CF solve's cf_clearance carries the rest),
+    # but a FRESH IP each process (pid) so a previously-flagged IP isn't reused.
+    if "_session-" not in pw and "session-" not in pw:
+        pw = f"{pw}_session-utah{os.getpid()}_lifetime-30m"
+    return {"server": f"{u.scheme}://{u.hostname}:{u.port}",
+            "username": urllib.parse.unquote(u.username or ""),
+            "password": pw}
+
+
+def _get_browser_page():
+    global _BROWSER
+    if _BROWSER is None:
+        import atexit
+        try:
+            from patchright.sync_api import sync_playwright
+        except Exception:
+            from playwright.sync_api import sync_playwright
+        pw = sync_playwright().start()
+        browser = pw.chromium.launch(headless=False, proxy=_proxy_for_playwright())
+        ctx = browser.new_context()
+
+        # Block only images/media (biggest bandwidth, never needed for the CF
+        # challenge or the statute text). Keep CSS/JS/fonts so the challenge
+        # solves reliably.
+        def _block(route):
+            if route.request.resource_type in ("image", "media"):
+                route.abort()
+            else:
+                route.continue_()
+        ctx.route("**/*", _block)
+        page = ctx.new_page()
+        _BROWSER = {"pw": pw, "browser": browser, "ctx": ctx, "page": page}
+        atexit.register(_close_browser)
+    return _BROWSER["page"]
+
+
+def _close_browser() -> None:
+    global _BROWSER
+    if _BROWSER:
+        try:
+            _BROWSER["browser"].close(); _BROWSER["pw"].stop()
+        except Exception:
+            pass
+        _BROWSER = None
+
+
+def fetch_via_browser(url: str) -> tuple[int | None, str | None, str | None]:
+    """Fetch a Cloudflare-protected URL through the persistent headful browser +
+    residential proxy. Waits for the challenge to clear before returning HTML."""
+    try:
+        page = _get_browser_page()
+        page.goto(url, timeout=90000, wait_until="domcontentloaded")
+        for _ in range(30):
+            t = page.title().lower()
+            if "just a moment" not in t and "attention required" not in t:
+                break
+            page.wait_for_timeout(2000)
+        html = page.content()
+        if "just a moment" in page.title().lower():
+            return 403, html, "cloudflare challenge did not clear"
+        return 200, html, None
+    except Exception as e:
+        return None, None, f"{type(e).__name__}: {e}"
+
+
+def _use_browser(url: str) -> bool:
+    host = urllib.parse.urlparse(url).netloc.lower()
+    return any(h in host for h in _UNBLOCK_HOSTS) and bool(_env_get("RESIDENTIAL_PROXY"))
+
+
 def fetch(url: str) -> tuple[int | None, str | None, str | None]:
+    if _use_browser(url):
+        return fetch_via_browser(url)
     fetch_url, timeout, proxies = _unblock_plan(url)
     try:
         r = cffi_requests.get(fetch_url, impersonate="chrome", timeout=timeout,
@@ -136,13 +223,22 @@ def fetch(url: str) -> tuple[int | None, str | None, str | None]:
 def fetch_bytes(url: str) -> tuple[int | None, bytes | None, str | None]:
     """Like fetch() but returns raw bytes, so the caller controls decoding.
     Needed for Word-export state sites (NV/OR/…) served as latin1/cp1252, which
-    curl_cffi's text auto-decode mangles into replacement chars."""
+    curl_cffi's text auto-decode mangles into replacement chars. Retries with
+    verify=False on a cert error (some state sites ship an incomplete cert chain,
+    e.g. cga.ct.gov)."""
     fetch_url, timeout, proxies = _unblock_plan(url)
     try:
         r = cffi_requests.get(fetch_url, impersonate="chrome", timeout=timeout,
                               allow_redirects=True, proxies=proxies)
         return r.status_code, r.content, None
     except Exception as e:
+        if "certificate" in str(e).lower() or "ssl" in str(e).lower():
+            try:
+                r = cffi_requests.get(fetch_url, impersonate="chrome", timeout=timeout,
+                                      allow_redirects=True, proxies=proxies, verify=False)
+                return r.status_code, r.content, None
+            except Exception as e2:
+                return None, None, f"{type(e2).__name__}: {e2}"
         return None, None, f"{type(e).__name__}: {e}"
 
 
@@ -580,6 +676,36 @@ def pull_ny_article(url: str, key: str) -> tuple[list[Section], list[str]]:
     return sections, []
 
 
+# --- Connecticut official source (cga.ct.gov, whole-chapter HTML) ---
+# CT serves one HTML page per chapter (every section inline), Word-export latin1,
+# behind an incomplete SSL cert chain (fetch_bytes retries verify=False).
+# Sections are delimited inline by "Sec. <title>-<n>." markers; split on those.
+CT_HOST = "cga.ct.gov"
+_CT_MARKER = re.compile(r'(Sec\.\s+\d+-[0-9]+[a-z]*\.)')
+
+
+def is_ct_url(url: str) -> bool:
+    return CT_HOST in urllib.parse.urlparse(url).netloc and "/pub/chap_" in url
+
+
+def parse_ct_chapter_html(html: str, chapter_url: str) -> list[Section]:
+    text = BeautifulSoup(html, "html.parser").get_text("\n")
+    parts = _CT_MARKER.split(text)
+    sections: list[Section] = []
+    for i in range(1, len(parts), 2):
+        num_m = re.search(r'\d+-[0-9]+[a-z]*', parts[i])
+        body = " ".join((parts[i + 1] if i + 1 < len(parts) else "").split())
+        if not num_m or len(body) < 20:
+            continue
+        num = num_m.group(0)
+        label = body.split(". ")[0][:200]
+        sections.append(Section(
+            url=f"{chapter_url}#sec_{num}", label=label,
+            citation=f"Sec. {num}", text=body, text_len=len(body),
+        ))
+    return sections
+
+
 # --- Illinois (Justia serves a whole ILCS act on one page) ---
 # Like PA, IL acts arrive as ONE inline blob rather than per-section URLs, but the
 # text carries an ILCS citation marker at the head of every section
@@ -770,6 +896,24 @@ def pull_state(state: str, profession: str, rows: list[dict], limit_sections: in
                 corpus.sections.append(sec)
                 corpus.total_chars += sec.text_len
             log.info("  nv %s -> %d sections", url, len(nv_sections))
+            continue
+
+        # Connecticut official source: one HTML page per chapter, latin1.
+        if is_ct_url(url):
+            status, raw, err = fetch_bytes(url)
+            time.sleep(PER_HOST_DELAY)
+            if err or not raw or (status and not 200 <= status < 300):
+                corpus.errors.append(f"ct fetch {url}: {err or f'http {status}'}")
+                continue
+            ct_sections = parse_ct_chapter_html(raw.decode("latin1", "replace"), url)
+            if not ct_sections:
+                corpus.errors.append(f"ct parse {url}: 0 sections")
+            for sec in ct_sections:
+                if limit_sections and len(corpus.sections) >= limit_sections:
+                    break
+                corpus.sections.append(sec)
+                corpus.total_chars += sec.text_len
+            log.info("  ct %s -> %d sections", url, len(ct_sections))
             continue
 
         # New York: Justia url carries lawId+article; pull from OpenLegislation.
