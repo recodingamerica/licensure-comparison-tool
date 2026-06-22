@@ -87,20 +87,11 @@ export function SimilarityView({ professionId }: { professionId: string }) {
       return <div className="w-60 text-xs">{st} — not enough core data to compare.</div>;
 
     const nb = (data.neighbors[st] ?? []).slice(0, 3).map((n) => n.state);
-    // unusual values: rare categories + much-stricter/looser, each with its label
-    const seen = new Set<string>();
-    const unusual: { label: string; value: string; tag: string }[] = [];
-    for (const o of data.kind_outliers)
-      if (o.state === st && !seen.has(o.field)) {
-        seen.add(o.field);
-        unusual.push({ label: fieldLabel(o.field), value: val(o.value), tag: o.rarity });
-      }
-    for (const o of data.stringency_outliers)
-      if (o.state === st && !seen.has(o.field)) {
-        seen.add(o.field);
-        unusual.push({ label: fieldLabel(o.field), value: val(o.value), tag: o.magnitude });
-      }
-    const agree = (data.typical_on[st] ?? []).slice(0, 5);
+    const differs = data.differs_on[st] ?? [];
+    const agree = data.typical_on[st] ?? [];
+    // how many of the high-value questions this state actually answers
+    const answered = differs.length + agree.length;
+    const thin = answered <= 2;
 
     return (
       <div className="w-72 text-xs space-y-2">
@@ -108,16 +99,19 @@ export function SimilarityView({ professionId }: { professionId: string }) {
           <span className="font-semibold text-sm">{st}</span>
           <span className="ml-2 text-muted-foreground">{data.bands[st]}</span>
           {nb.length > 0 && <div className="text-muted-foreground">most like {nb.join(", ")}</div>}
+          {thin && (
+            <div className="text-amber-700">limited data — answers few of these questions</div>
+          )}
         </div>
         <div>
-          <div className="font-mono uppercase tracking-wide text-[10px] text-muted-foreground">Unusual values</div>
-          {unusual.length === 0 ? (
-            <div className="text-muted-foreground">none — typical across the board</div>
+          <div className="font-mono uppercase tracking-wide text-[10px] text-muted-foreground">Differs from most states</div>
+          {differs.length === 0 ? (
+            <div className="text-muted-foreground">nothing — matches the majority everywhere</div>
           ) : (
-            unusual.slice(0, 6).map((u, i) => (
+            differs.slice(0, 6).map((u, i) => (
               <div key={i}>
-                <span className="font-medium">{u.label}:</span> {u.value}{" "}
-                <span className="text-muted-foreground">({u.tag})</span>
+                <span className="font-medium">{fieldLabel(u.field)}:</span> {val(u.value)}{" "}
+                <span className="text-muted-foreground">({u.label})</span>
               </div>
             ))
           )}
@@ -125,7 +119,7 @@ export function SimilarityView({ professionId }: { professionId: string }) {
         {agree.length > 0 && (
           <div>
             <div className="font-mono uppercase tracking-wide text-[10px] text-muted-foreground">Same as most states</div>
-            {agree.map((t, i) => (
+            {agree.slice(0, 5).map((t, i) => (
               <div key={i}>
                 <span className="font-medium">{fieldLabel(t.field)}:</span> {val(t.value)}
               </div>
