@@ -708,6 +708,23 @@ def _resolve_evidence(record: dict, dotted: str) -> dict | None:
     return node if is_evidence_node(node) else None
 
 
+_HARMONIZED_CACHE: dict[str, dict] | None = None
+
+
+def _load_harmonized_universal() -> dict[str, dict]:
+    """Cross-profession harmonized universal buckets (#16), keyed by field_name.
+    Empty when the harmonize_universal pass hasn't run. Loaded once per process."""
+    global _HARMONIZED_CACHE
+    if _HARMONIZED_CACHE is None:
+        path = RESULTS_DIR / "map_prep" / "_harmonized" / "universal_buckets.json"
+        if path.exists():
+            data = json.loads(path.read_text())
+            _HARMONIZED_CACHE = {f["field_name"]: f for f in data.get("fields", [])}
+        else:
+            _HARMONIZED_CACHE = {}
+    return _HARMONIZED_CACHE
+
+
 def _load_map_prep(profession: str, structured_by_state: dict[str, dict]) -> dict | None:
     """Attach the choropleth normalization output (pipeline/map_prep/run.py)
     so the UI can render maps without re-doing the normalization client-side.
@@ -750,6 +767,22 @@ def _load_map_prep(profession: str, structured_by_state: dict[str, dict]) -> dic
                 "rationale": entry.get("rationale", ""),
                 "by_state": by_state,
             }
+
+    # Cross-profession harmonization (#16): for the universal fields harmonized
+    # by pipeline.map_prep.harmonize_universal, replace the per-profession buckets
+    # with the SHARED label set (this profession's slice) so the same category
+    # means the same thing across professions. `harmonized: true` lets the UI flag
+    # it. Non-harmonized fields keep their per-profession buckets.
+    for field_name, hf in _load_harmonized_universal().items():
+        by_state = hf.get("by_profession", {}).get(profession)
+        if not by_state:
+            continue
+        text_buckets[field_name] = {
+            "bucket_set": hf.get("bucket_set", []),
+            "rationale": hf.get("rationale", ""),
+            "by_state": by_state,
+            "harmonized": True,
+        }
 
     return {"spec": mappable, "rows": enriched_rows, "text_buckets": text_buckets}
 
