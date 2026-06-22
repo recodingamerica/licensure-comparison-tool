@@ -25,6 +25,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import itertools
 import statistics
 import sys
 from collections import Counter, defaultdict
@@ -40,7 +41,8 @@ OUT_DIR = REPO / "pipeline" / "results" / "analysis"
 
 RARE_SHARE = 0.20         # kind outlier: value held by <= this share of states
 STRINGENCY_Z = 1.5        # stringency outlier: |z| beyond this on an ordinal/continuous field
-MIN_COMPARABLE = 5        # neighbors need at least this many comparable fields
+CORE_IMPORTANCE = 0.4     # a field joins the "core" comparison set if it matters >= this
+CORE_COVERAGE = 0.6       # ...AND at least this fraction of states actually answer it
 
 
 # ---------------------------------------------------------------- config
@@ -54,7 +56,12 @@ def load_semantics(profession: str) -> dict:
     if prof_path.exists():
         pf = yaml.safe_load(prof_path.read_text()) or {}
         for k, v in (pf.get("fields") or {}).items():
-            fields[k] = v
+            # deep-merge per field so a per-profession entry doesn't drop the
+            # universal `phrase` (or other keys) it didn't restate.
+            if isinstance(fields.get(k), dict) and isinstance(v, dict):
+                fields[k] = {**fields[k], **v}
+            else:
+                fields[k] = v
     return {"defaults": defaults, "fields": fields}
 
 
@@ -99,6 +106,78 @@ def value_distance(cfg: dict, va, vb, cont_stats) -> float | None:
         if key in dmap:
             return float(dmap[key])
     return 1.0
+
+
+# ---------------------------------------------------------------- labels + prose
+# The calculation owns the qualitative WORD (one controlled vocabulary); the note
+# is template-assembled from those words. No LLM, fully reproducible.
+
+def rarity_label(n_states: int, total: int) -> str:
+    share = n_states / total if total else 1.0
+    return "almost unique" if n_states <= 2 else "rare" if share <= 0.10 else "unusual"
+
+
+def stringency_label(z: float, direction: str) -> str:
+    looser = "looser" if (z < 0 or "looser" in direction) else "stricter"
+    return f"far {looser} than most" if abs(z) >= 2.5 else f"{looser} than most"
+
+
+def band_for(state: str, ranked_keys: list) -> str | None:
+    if state not in ranked_keys:
+        return None
+    r, t = ranked_keys.index(state) + 1, len(ranked_keys)
+    return ("highly distinctive" if r <= t * 0.2 else
+            "moderately distinctive" if r <= t * 0.5 else
+            "fairly typical" if r <= t * 0.8 else "typical")
+
+
+_BOOL_SUFFIX = [
+    ("_required", "requires", "does not require"),
+    ("_authorized", "authorizes", "does not authorize"),
+    ("_permitted", "permits", "does not permit"),
+    ("_allowed", "allows", "does not allow"),
+    ("_prohibited", "prohibits", "does not prohibit"),
+    ("_excluded", "excludes", "does not exclude"),
+    ("_available", "offers", "does not offer"),
+    ("_offered", "offers", "does not offer"),
+    ("_exists", "has", "lacks"),
+]
+# leaf words too generic to stand alone — fold in the parent segment for meaning
+# (e.g. continuing_education.required -> "continuing_education_required").
+_GENERIC_LEAVES = {"required", "available", "exists", "offered", "permitted",
+                   "authorized", "prohibited", "allowed", "excluded", "type"}
+
+
+def clause(field: str, value, sem: dict) -> str:
+    """field=value -> a readable verb phrase. Boolean fields use name-suffix rules;
+    enum fields use an optional `phrase` template from field_semantics; else a
+    plain 'label: value' fallback."""
+    parts = field.split(".")
+    leaf = parts[-1]
+    if leaf in _GENERIC_LEAVES and len(parts) >= 2:
+        leaf = f"{parts[-2]}_{leaf}"
+    phrase = field_cfg(sem, field).get("phrase")
+    human = str(value).replace("_", " ")
+    if phrase:
+        return phrase.format(value=human)
+    v = str(value).lower()
+    if v in ("true", "false"):
+        for suf, yes, no in _BOOL_SUFFIX:
+            if leaf.endswith(suf):
+                base = leaf[: -len(suf)].replace("_", " ").strip()
+                return f"{yes if v == 'true' else no} {base}"
+        return f"{'has' if v == 'true' else 'lacks'} {leaf.replace('_', ' ')}"
+    return f"{leaf.replace('_', ' ')}: {human}"
+
+
+def build_note(state: str, prof_display: str, band: str, neighbors: list, findings: list, sem: dict) -> str:
+    lead = f"{state} is {band} in {prof_display}"
+    if neighbors:
+        lead += f", most like {', '.join(neighbors)}"
+    if findings:
+        cls = [f"{clause(f['field'], f['value'], sem)} ({f['label']})" for f in findings]
+        return lead + ". It " + " and ".join(cls) + "."
+    return lead + ", with nothing that stands out."
 
 
 # ---------------------------------------------------------------- load matrix
@@ -163,21 +242,41 @@ def similarity(a, b, fields, M, sem, cont_stats):
 def analyze(profession: str):
     d, M, states, kinds, cont_stats = load_matrix(profession)
     fields = discriminating(M, states)
+    n_states = len(states)
 
-    # neighbors + distinctiveness
+    # CORE comparison set: important fields that MOST states actually answer, so
+    # every pair is graded on the SAME questions. Otherwise overlap rides on
+    # whatever sparse subset two states happen to share, and a state that answers
+    # few questions scores a misleadingly high overlap.
+    core_fields = [
+        f for f in fields
+        if field_cfg(sem_for, f).get("importance", 0.5) >= CORE_IMPORTANCE
+        and len(M[f]) >= CORE_COVERAGE * n_states
+    ]
+    n_core = len(core_fields)
+    core_have = {st: sum(1 for f in core_fields if st in M[f]) for st in states}
+    # a state must answer most of the core to be compared at all; others are
+    # surfaced as "not enough data" rather than given a fake score.
+    sufficient = {st for st in states if n_core and core_have[st] >= CORE_COVERAGE * n_core}
+    insufficient = sorted(set(states) - sufficient)
+
+    # neighbors + distinctiveness — sufficient states only, over the core set
     sims = {}
     for a in states:
+        if a not in sufficient:
+            sims[a] = []
+            continue
         row = []
-        for b in states:
+        for b in sufficient:
             if a == b:
                 continue
-            s, n = similarity(a, b, fields, M, sem_for, cont_stats)
-            if s is not None and n >= MIN_COMPARABLE:
+            s, n = similarity(a, b, core_fields, M, sem_for, cont_stats)
+            if s is not None:
                 row.append((round(s, 3), b, n))
         row.sort(reverse=True)
         sims[a] = row
-    distinct = {a: round(1 - (statistics.mean([s for s, _, _ in sims[a]]) if sims[a] else 0), 3)
-                for a in states}
+    distinct = {a: round(1 - statistics.mean([s for s, _, _ in sims[a]]), 3)
+                for a in sufficient if sims[a]}
 
     # kind outliers: rare value AND far from mode (weighted by importance)
     kind_out = []
@@ -238,12 +337,113 @@ def analyze(profession: str):
                 })
     string_out.sort(key=lambda x: x["score"], reverse=True)
 
+    # landscape: how much states differ + what separates them — computed over the
+    # SAME core set and sufficient states as the overlap, so it's consistent.
+    suf = sorted(sufficient)
+    allpairs = []
+    for a, b in itertools.combinations(suf, 2):
+        s, n = similarity(a, b, core_fields, M, sem_for, cont_stats)
+        if s is not None:
+            allpairs.append(s)
+    drivers = []
+    for f in core_fields:
+        cfg = field_cfg(sem_for, f)
+        ds = []
+        for a, b in itertools.combinations(suf, 2):
+            va, vb = M[f].get(a), M[f].get(b)
+            if va is None or vb is None:
+                continue
+            dd = value_distance(cfg, va, vb, cont_stats.get(f, {}))
+            if dd is not None:
+                ds.append(dd)
+        if ds:
+            sep, imp = statistics.mean(ds), cfg.get("importance", 0.5)
+            drivers.append({"field": f, "separation": round(sep, 3), "importance": imp,
+                            "drive": round(sep * imp, 3), "coverage": len(M[f])})
+    drivers.sort(key=lambda d: d["drive"], reverse=True)
+    landscape = {
+        "pairwise_sim": ({
+            "mean": round(statistics.mean(allpairs), 3), "min": round(min(allpairs), 3),
+            "max": round(max(allpairs), 3), "stdev": round(statistics.pstdev(allpairs), 3),
+            "pct_alike_90": round(sum(1 for p in allpairs if p >= 0.9) / len(allpairs), 3),
+        } if allpairs else {}),
+        "drivers": drivers[:8],
+        "n_near_uniform": sum(1 for d in drivers if d["drive"] < 0.05),
+        "n_states_total": len(states),
+        "n_compared": len(suf),
+    }
+    # Qualitative spread band so the UI never has to quote a similarity %.
+    _pa = landscape["pairwise_sim"]
+    landscape["spread_label"] = (
+        "narrow" if _pa and _pa["pct_alike_90"] >= 0.7
+        else "moderate" if _pa and _pa["pct_alike_90"] >= 0.4
+        else "wide"
+    )
+
+    # per-state "typical_on": the higher-importance discriminating fields where the
+    # state holds the MAJORITY value (the "not unique" half of the hover card).
+    modes = {f: Counter(str(v) for v in M[f].values()).most_common(1)[0][0] for f in fields if M[f]}
+    typical = {}
+    for st in states:
+        matches = []
+        for f in fields:
+            if st in M[f] and str(M[f][st]) == modes.get(f):
+                imp = field_cfg(sem_for, f).get("importance", 0.5)
+                if imp >= 0.4:
+                    matches.append((imp, f))
+        matches.sort(reverse=True)
+        typical[st] = [{"field": f, "value": modes[f], "importance": imp} for imp, f in matches[:6]]
+
+    # controlled-vocabulary labels (calc owns the word) + deterministic per-state note
+    for o in kind_out:
+        o["rarity"] = rarity_label(o["n_states"], o["total"])
+    for o in string_out:
+        o["magnitude"] = stringency_label(o["z"], o["direction"])
+    ranked = list(dict(sorted(distinct.items(), key=lambda kv: kv[1], reverse=True)))
+    bands = {st: band_for(st, ranked) for st in sufficient}
+    prof_display = d.get("display", profession)
+    notes = {}
+    for st in states:
+        if st not in sufficient:
+            notes[st] = f"{st} answers too few of the core questions to compare."
+            continue
+        cand = [(o["score"], {"field": o["field"], "value": o["value"], "label": o["rarity"]})
+                for o in kind_out if o["state"] == st]
+        cand += [(o["score"], {"field": o["field"], "value": o["value"], "label": o["magnitude"]})
+                 for o in string_out if o["state"] == st]
+        cand.sort(key=lambda x: x[0], reverse=True)
+        findings, seen = [], set()
+        for _, fnd in cand:
+            if fnd["field"] in seen:
+                continue
+            # continuous fields would leak a raw number into the prose ("300.0");
+            # keep the note to categorical/boolean findings.
+            if field_cfg(sem_for, fnd["field"]).get("closeness", {}).get("kind") == "continuous":
+                continue
+            seen.add(fnd["field"])
+            findings.append(fnd)
+            if len(findings) >= 2:
+                break
+        nbs = [b for _s, b, _n in sims[st][:3]]
+        notes[st] = build_note(st, prof_display, bands.get(st, "typical"), nbs, findings, sem_for)
+
     return {
         "profession": profession,
         "states": states,
         "n_discriminating_fields": len(fields),
+        "bands": bands,
+        "notes": notes,
+        # the fixed set of questions every overlap is graded on (importance + coverage gated)
+        "core_fields": core_fields,
+        "n_core": n_core,
+        "core_importance_min": CORE_IMPORTANCE,
+        "core_coverage_min": CORE_COVERAGE,
+        # states that don't answer enough of the core to be compared
+        "insufficient_states": insufficient,
+        "landscape": landscape,
         "neighbors": {a: [{"state": b, "sim": s, "n": n} for s, b, n in sims[a][:6]] for a in states},
         "distinctiveness": dict(sorted(distinct.items(), key=lambda kv: kv[1], reverse=True)),
+        "typical_on": typical,
         "kind_outliers": kind_out,
         "stringency_outliers": string_out,
     }
