@@ -3491,6 +3491,13 @@ UT:
       label: "Chapter 55 - Utah Construction Trades Licensing Act (HVAC scope)"
       note: "SHARED ACT with construction_trades — HVAC is a contractor classification within Ch. 55, not a standalone journeyman license."
 
+CT:
+  # cga.ct.gov serves one HTML page per chapter (sections inline as "Sec. N-n.").
+  # Uses the lowercase chapter form (chap_393b.htm, not 393B). Incomplete SSL
+  # cert chain — pull_text.fetch_bytes retries verify=False. parse_ct_chapter_html.
+  source: ct_official
+  chapter_url_template: "https://www.cga.ct.gov/current/pub/chap_{chapter_lc}.htm"
+
 NV:
   # Justia is Cloudflare-blocked; NV serves one HTML page per NRS chapter.
   # Justia NV paths carry only the chapter (no title), so the template uses
