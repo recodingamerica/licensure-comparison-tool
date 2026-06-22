@@ -17,10 +17,11 @@ import type { ProfilePayload } from "@/lib/types";
 import { ProfileView } from "@/components/profile-view";
 import { ProfessionStatutesView } from "@/components/profession-statutes-view";
 import { ProfileTags } from "@/components/profile-tags";
+import { SimilarityView } from "@/components/similarity-view";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { professionStyle, useProfessionMeta } from "@/lib/profession-colors";
 
-type View = "table" | "map" | "statutes" | "tags";
+type View = "table" | "map" | "statutes" | "tags" | "compare";
 
 function ProfessionInner({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
@@ -64,6 +65,7 @@ function ProfessionInner({ params }: { params: Promise<{ id: string }> }) {
   const view: View = useMemo(() => {
     if (viewParam === "map" && payload?.map_prep) return "map";
     if (viewParam === "tags") return "tags";
+    if (viewParam === "compare") return "compare";
     if (
       viewParam === "statutes" ||
       viewParam === "hierarchy" ||
@@ -130,6 +132,12 @@ function ProfessionInner({ params }: { params: Promise<{ id: string }> }) {
               <span className="ml-2 text-[10px] text-muted-foreground">(no tags)</span>
             )}
           </TabsTrigger>
+          <TabsTrigger value="compare" disabled={!hasMap}>
+            Compare
+            {!hasMap && (
+              <span className="ml-2 text-[10px] text-muted-foreground">(no data)</span>
+            )}
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="table" className="mt-4">
@@ -144,6 +152,9 @@ function ProfessionInner({ params }: { params: Promise<{ id: string }> }) {
         </TabsContent>
         <TabsContent value="tags" className="mt-4">
           <ProfileTags professionId={id} />
+        </TabsContent>
+        <TabsContent value="compare" className="mt-4">
+          <SimilarityView professionId={id} />
         </TabsContent>
       </Tabs>
     </main>

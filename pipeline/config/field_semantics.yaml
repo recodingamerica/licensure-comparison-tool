@@ -1,0 +1,40 @@
+# Field semantics for the similarity / outlier analysis (pipeline.analyze.similarity).
+#
+# Two reviewable knobs the math can't infer on its own:
+#   importance — how much a field defines the licensing regime (0..1)
+#   closeness  — how far apart a field's values are:
+#       kind: ordinal   -> `order` list; distance = |rank gap| / (len-1)
+#       kind: nominal    -> distance 1 between distinct values (or a `distances` map)
+#       kind: continuous -> numeric; distance = scaled abs diff; enables stringency outliers
+#
+# `_defaults` apply to any field not listed. `universal` overrides apply to the
+# shared licensure.* fields. The LLM pass (pipeline.analyze.gen_semantics) layers
+# per-profession importance + profession_specific.* closeness into
+# config/field_semantics/<profession>.yaml — both editable by hand afterward.
+
+_defaults:
+  importance: 0.5
+  closeness: { kind: nominal }
+
+# Booleans get a default ordinal [false, true] so "stringency" (e.g. CE required)
+# reads sensibly; importance set per field below.
+universal:
+  licensure.license_required:        { importance: 0.85, closeness: { kind: ordinal, order: ["false", "true"] } }
+  licensure.regulatory_model:        { importance: 1.0,  closeness: { kind: ordinal, order: [market_forces, voluntary_certification, registration, exemption, mandatory_certification, license] }, phrase: "regulates by {value}" }
+  licensure.credential_type:         { importance: 0.9,  closeness: { kind: ordinal, order: [none, certification, license] }, phrase: "uses a {value} credential" }
+  licensure.is_mandatory:            { importance: 0.8,  closeness: { kind: ordinal, order: ["false", "true"] } }
+  licensure.scope_protection:        { importance: 0.8,  closeness: { kind: ordinal, order: ["false", "true"] } }
+  licensure.title_protection:        { importance: 0.55, closeness: { kind: ordinal, order: ["false", "true"] } }
+  licensure.education.degree_level:  { importance: 0.9,  closeness: { kind: ordinal, order: [none, high_school, associate, bachelor, master, doctorate] } }
+  licensure.education.school_approval_basis: { importance: 0.6, closeness: { kind: nominal, distances: { national_accreditor|regional_accreditor: 0.4, national_accreditor|board_approved: 0.8, national_accreditor|unspecified: 1.0, regional_accreditor|board_approved: 0.7, board_approved|unspecified: 0.9 } } }
+  licensure.post_degree_experience.experience_source: { importance: 0.7, closeness: { kind: nominal } }
+  licensure.regulatory_authority.type: { importance: 0.45, closeness: { kind: ordinal, order: [department, division, other, joint, shared_board, standalone_board] }, phrase: "houses oversight in a {value}" }
+  licensure.continuing_education.required: { importance: 0.5, closeness: { kind: ordinal, order: ["false", "true"] } }
+  licensure.reciprocity.available:   { importance: 0.4,  closeness: { kind: ordinal, order: ["false", "true"] } }
+  licensure.advisory_board.exists:   { importance: 0.15, closeness: { kind: ordinal, order: ["false", "true"] } }
+  # continuous universal fields
+  licensure.renewal.interval_years:        { importance: 0.25, closeness: { kind: continuous } }
+  licensure.continuing_education.period_years: { importance: 0.2, closeness: { kind: continuous } }
+  licensure.continuing_education.hours_per_period: { importance: 0.45, closeness: { kind: continuous } }
+  licensure.age_minimum:                   { importance: 0.2,  closeness: { kind: continuous } }
+  licensure.renewal_fee_usd:               { importance: 0.2,  closeness: { kind: continuous } }
