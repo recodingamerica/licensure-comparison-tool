@@ -66,6 +66,11 @@ def mapped_states(prof):
     return {s for s, v in bs.items() if v.get("matched")}
 
 
+# User needs the trades this week — pull their remaining states FIRST (hvac leads;
+# it's the biggest trade gap), then the rest of the harvest by gap descending.
+PRIORITY = ["hvac", "construction_trades", "electrician", "plumbing"]
+
+
 def gap_ordered():
     rows = []
     for r in csv.DictReader(open(f"{ROOT}/pipeline/results/profession_index/_coverage.csv")):
@@ -76,7 +81,10 @@ def gap_ordered():
         if gap > 0:
             rows.append((gap, p))
     rows.sort(reverse=True)
-    return [p for _, p in rows]
+    have_gap = {p for _, p in rows}
+    pri = [p for p in PRIORITY if p in have_gap]
+    rest = [p for _, p in rows if p not in PRIORITY]
+    return pri + rest
 
 
 def commit(prof, n):
