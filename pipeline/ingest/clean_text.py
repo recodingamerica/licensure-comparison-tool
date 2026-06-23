@@ -65,8 +65,15 @@ JUSTIA_PUBLIC_SERVICE_TAIL = re.compile(
     r"\b[\w\-\.\s]*Code section information is provided by Justia[\s\S]*?(?=\Z)",
     re.IGNORECASE,
 )
-JUSTIA_LONELY_NAV_LINE = re.compile(r"^\s*(?:Previous|Next|View All Versions|Learn more)\s*$", re.IGNORECASE | re.MULTILINE)
-JUSTIA_YEAR_VERSION_LINE = re.compile(r"^\s*\d{4}\s+[A-Za-z][\w\s\-\(\)\.,]*\bCode\b.*$", re.MULTILINE)
+JUSTIA_LONELY_NAV_LINE = re.compile(r"^\s*(?:Previous|Next|View All Versions|Learn more|Download as PDF)\s*$", re.IGNORECASE | re.MULTILINE)
+JUSTIA_YEAR_VERSION_LINE = re.compile(r"^\s*\d{4}\s+[A-Za-z][\w\s\-\(\)\.,]*\b(?:Code|Statutes?)\b.*$", re.MULTILINE)
+# Justia stamps a "Universal Citation" block (media-neutral cite + AALL blurb)
+# onto every code section; it's site furniture, not statute text. Seen across
+# all Justia states (KY, CT, ...). Strip the cite line and the boilerplate blurb.
+JUSTIA_UNIVERSAL_CITATION = re.compile(
+    r"Universal Citation:\s*\n?\s*[^\n]*\(\d{4}\)", re.IGNORECASE)
+JUSTIA_MEDIA_NEUTRAL_BLURB = re.compile(
+    r"This media-neutral citation is based[\s\S]*?official citation\.", re.IGNORECASE)
 # Pagination marker on its own line, e.g. `Page No. 3`. Justia's ND
 # chapter-blob renders embed these from the source PDF and they end up
 # interjected between actual statute sentences, defeating verbatim quote
@@ -81,6 +88,8 @@ def clean_justia(text: str) -> str:
     t = JUSTIA_VERSION_NAV.sub("", t)
     t = JUSTIA_DISCLAIMER_TAIL.sub("", t)
     t = JUSTIA_PUBLIC_SERVICE_TAIL.sub("", t)
+    t = JUSTIA_MEDIA_NEUTRAL_BLURB.sub("", t)
+    t = JUSTIA_UNIVERSAL_CITATION.sub("", t)
     t = JUSTIA_LONELY_NAV_LINE.sub("", t)
     t = JUSTIA_YEAR_VERSION_LINE.sub("", t)
     t = JUSTIA_PAGE_NUMBER_LINE.sub("", t)
