@@ -51,36 +51,38 @@ New professions also need a schema first: `python -m pipeline.extract.discover_s
 
 ## Done (handlers built + committed)
 `utah_le` (UT, XML), `sd_api` (SD, JSON), `nv` (NV, whole-chapter HTML),
-`ny_openleg` (NY, API), `ct_official` (CT), `wa_official` (WA), `va_official` (VA).
+`ny_openleg` (NY, API), `ct_official` (CT), `wa_official` (WA), `va_official` (VA),
+`me_official`/`id_official`/`mo` (per-section-via-TOC: `pull_via_toc` core +
+per-state body extractor), `md_official` (GetNext API walk, `pull_md`).
 
 Trade coverage so far (all official sources):
 - construction_trades: UT, NV, PA, CT, VA
-- electrician: UT, SD, CT, WA
-- plumbing: UT, SD, CT, WA
-- hvac: UT, CT
+- electrician: UT, SD, CT, WA, ME, ID, MD
+- plumbing: UT, SD, CT, WA, ME, ID, MO, MD
+- hvac: UT, CT, ID, MD
 
-## NEXT STEP — build the per-section-via-TOC handler
-Most remaining states are "per-section": fetch a chapter TOC, extract the section
-list, fetch each section. Build ONE general mechanism (config: toc_url_template,
-section_link_regex, section_url_template) OR per-state handlers. Specs (all TESTED
-by subagents, plain GET + browser UA, no JS unless noted):
+## NEXT STEP — the "Medium (nested/special)" cluster (RI/MT/AZ/FL/VT)
+The per-section-via-TOC handler is BUILT and ME/ID/MO/MD are DONE (commit
+"ME/ID/MO/MD per-section handlers …"). Reuse `pull_via_toc` for the per-section
+shapes below; FL is whole-chapter; MD's GetNext walker (`pull_md`) is the model
+for any other no-TOC API state. Gotchas learned: MO needed a per-PROFESSION url
+(not a state template) so its dietetics section_slug_pattern stayed on Justia;
+MD's GetNext content-negotiates (parse both bare-JSON and `<string>`-wrapped);
+ID's section body is the `span.f11s` that OPENS with the section number (earlier
+f11s spans are TITLE/CHAPTER headers).
 
-### Per-section (easy-ish) — do these next
-- **ME** (legislature.maine.gov, UTF-8): TOC `…/statutes/{T}/title{T}ch{N}sec0.html`,
-  section links via regex `title{T}sec(\d+)\.html`; section URL
-  `…/statutes/{T}/title{T}sec{n}.html`; body in `div.row.section-content`.
-  electrician=Title 32 Ch 17, plumbing=Title 32 Ch 49.
-- **ID** (legislature.idaho.gov, UTF-8): TOC `…/idstat/Title{T}/T{T}CH{N}/` (trailing
-  slash), links regex `SECT{T}-[0-9]+[A-D]?`; section URL `…/T{T}CH{N}/SECT{T}-{n}/`;
-  body in `span.f11s`. electrician=T54 Ch10, plumbing=Ch26, hvac=Ch50.
-- **MO** (revisor.mo.gov, UTF-8, strip script/style): TOC
-  `…/main/OneChapter.aspx?chapter={N}`, links regex `PageSelect\.aspx\?section=([0-9]+\.[0-9]+)`;
-  section URL `…/main/OneSection.aspx?section={N.NNN}`. plumbing=Ch 341.
-- **MD** (mgaleg.maryland.gov, UTF-8, strip scripts): no TOC page — walk the
-  GetNext API: `GET /mgawebsite/api/Laws/GetNext?articleCode={code}&sectionCode={sec}&enactments=False`
-  returns next section code; start at `{title}-101`, follow until empty. Section URL
-  `…/Laws/StatuteText?article={code}&section={N}&enactments=false&archived=false`.
-  electrician=article `gbo` Title 6, plumbing=`gbo` Title 12, hvac=`gbr` Title 9A.
+### Done — per-section-via-TOC (ME/ID/MO) + GetNext (MD)
+- **ME** (legislature.maine.gov): TOC `…/statutes/{T}/title{T}ch{N}sec0.html`,
+  links `title{T}sec(\d+)\.html`, body `div.row.section-content`. electrician=T32
+  Ch17, plumbing=T32 Ch49. (ME plumbing Ch49 is mostly REPEALED — clean drops them.)
+- **ID** (legislature.idaho.gov): TOC `…/idstat/Title{T}/T{T}CH{N}/`, links
+  `SECT({T}-[0-9]+[A-D]?)`, body = f11s opening with the section number. electrician=
+  T54 Ch10, plumbing=Ch26, hvac=Ch50.
+- **MO** (revisor.mo.gov): TOC `…/OneChapter.aspx?chapter={N}`, links anchored
+  `PageSelect\.aspx\?section=({N}\.[0-9]+)`, body `div.norm`. plumbing=Ch 341.
+- **MD** (mgaleg.maryland.gov): GetNext walk from `{title}-101`; article slug→code
+  map (business-occupations-and-professions=`gbo`, business-regulation=`gbr`);
+  body `div#StatuteText`. electrician=gbo T6, plumbing=gbo T12, hvac=gbr T9A.
 
 ### Medium (nested / special)
 - **RI** (webserver.rilegislature.gov, **UTF-8 not latin1**): TOC
