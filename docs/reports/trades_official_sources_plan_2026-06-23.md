@@ -208,3 +208,20 @@ HVAC into general contractor registration — don't force a separate HVAC pull t
 - After config change, re-run `match_profession` (per profession or all) before pull.
 - `clean_text` count must equal `text` count or the corpus is stale (re-run clean).
 - Revert test-pull artifacts for already-published professions (don't half-update).
+
+## Follow-up: section-level match incompleteness (found 2026-06-23)
+The matcher maps most (profession,state) pairs at CHAPTER level (1,428 — complete:
+the whole chapter is pulled). But ~129 map at SECTION level (flat-code states:
+NJ/NE/MA/OK/AZ), keeping only keyword-hit sections and DROPPING in-between operative
+sections (license/scope/discipline that don't repeat the profession word) — so those
+corpora are INCOMPLETE. Some are also multi-block OVER-matches (acupuncture/NJ spans
+45-2c..45-9b). Full list + candidate patterns:
+`docs/reports/section_level_incomplete_risk_2026-06-23.json`.
+
+Proper fix = `section_slug_pattern` range-scoping (AZ/OK-podiatry style, already
+supported by pull_text + state_structure.yaml), then re-pull those states:
+- 20 are turnkey (single NJ letter sub-block → `^section-45-XX-` pulls the whole act).
+- 109 need range-bound verification (numeric blocks; auto-patterning risks bleeding
+  into adjacent professions in the shared flat code).
+Run AFTER the main grind (don't mutate the index the live grind reads). The grind
+still captures partial-but-committed coverage of these states in the meantime.
