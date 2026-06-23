@@ -37,8 +37,22 @@ def log(msg):
 
 
 def pulled_states(prof):
-    d = f"{ROOT}/pipeline/results/text/{prof}"
-    return {os.path.basename(f)[:-5] for f in glob.glob(d + "/*.json")} - {"_summary"}
+    """States already pulled WITH content (>=1 ok section). A corpus that came
+    back all-error/empty is NOT counted as done, so the resumable grind retries
+    it next run instead of silently treating a failed profession as complete — a
+    permanent gap that would otherwise only surface via a blind re-scrape."""
+    out = set()
+    for fp in glob.glob(f"{ROOT}/pipeline/results/text/{prof}/*.json"):
+        st = os.path.basename(fp)[:-5]
+        if st == "_summary":
+            continue
+        try:
+            d = json.load(open(fp))
+        except Exception:  # noqa: BLE001
+            continue
+        if any(not s.get("error") for s in (d.get("sections") or [])):
+            out.add(st)
+    return out
 
 
 def mapped_states(prof):
