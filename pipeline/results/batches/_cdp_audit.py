@@ -32,7 +32,11 @@ def audit_corpus(fp):
         "total": len(secs), "ok": len(ok), "errors": len(err),
         # Truncation-at-cap is EXACTLY the cap (grind pulls). Published corpora
         # were pulled without the cap, so 896 sections is legit, not truncated.
+        # THIN: very few ok sections => likely a spurious match (wrong chapter),
+        # a flat-title section-level pull (incomplete), or a repealed chapter.
+        # The error/empty/cap checks miss these (the text is "ok", just sparse).
         "silent_bad": len(silent_bad), "cap_hit": len(secs) == CAP,
+        "thin": len(ok) <= 3,
     }
 
 
@@ -59,6 +63,8 @@ def main():
             reasons.append(f"{h['silent_bad']} silent-bad")
         if h["cap_hit"]:
             reasons.append(f"CAP-HIT ({h['total']})")
+        if h["thin"] and h["ok"] > 0:
+            reasons.append(f"THIN ({h['ok']} sec — likely incomplete/spurious)")
         if reasons:
             flagged.append((prof, st, h, reasons))
     print(f"audited {n} corpora; {len(flagged)} need attention (re-pull candidates):\n")
