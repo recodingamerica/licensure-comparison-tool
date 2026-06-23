@@ -706,6 +706,44 @@ def parse_ct_chapter_html(html: str, chapter_url: str) -> list[Section]:
     return sections
 
 
+# --- Vermont / Washington / Virginia (whole-chapter HTML, one fetch) ---
+# Each serves an entire chapter on one page with section bodies inline; split on
+# the state's section-heading marker. Same shape as CT/NV.
+WA_HOST = "leg.wa.gov"
+VA_HOST = "law.lis.virginia.gov"
+
+
+def is_wa_url(url: str) -> bool:
+    return WA_HOST in urllib.parse.urlparse(url).netloc and "/RCW/" in url
+
+
+def is_va_url(url: str) -> bool:
+    return VA_HOST in urllib.parse.urlparse(url).netloc and "/vacodefull/" in url
+
+
+def _split_whole_chapter(html: str, marker: re.Pattern, chapter_url: str,
+                         cite_prefix: str = "") -> list[Section]:
+    """Generic whole-chapter splitter: break the page text on a section-heading
+    marker; each chunk is one section. Drops TOC/short fragments."""
+    text = BeautifulSoup(html, "html.parser").get_text("\n")
+    parts = marker.split(text)
+    sections: list[Section] = []
+    for i in range(1, len(parts), 2):
+        head = parts[i].strip()
+        body = " ".join((parts[i + 1] if i + 1 < len(parts) else "").split())
+        if len(body) < 25:
+            continue
+        num_m = re.search(r'[\d.][\d.A-Za-z-]*', head)
+        num = num_m.group(0).rstrip(".") if num_m else head
+        sections.append(Section(
+            url=f"{chapter_url}#{num}",
+            label=body.split(". ")[0][:200],
+            citation=f"{cite_prefix}{num}".strip(),
+            text=body, text_len=len(body),
+        ))
+    return sections
+
+
 # --- Illinois (Justia serves a whole ILCS act on one page) ---
 # Like PA, IL acts arrive as ONE inline blob rather than per-section URLs, but the
 # text carries an ILCS citation marker at the head of every section
@@ -914,6 +952,37 @@ def pull_state(state: str, profession: str, rows: list[dict], limit_sections: in
                 corpus.sections.append(sec)
                 corpus.total_chars += sec.text_len
             log.info("  ct %s -> %d sections", url, len(ct_sections))
+            continue
+
+        # Washington / Virginia: whole-chapter HTML, one fetch. Markers are
+        # ANCHORED to this chapter's number so in-text cross-references to other
+        # chapters don't create false section breaks. (VT's chapter page is
+        # TOC-only — handled per-section elsewhere, not here.)
+        _whole = None
+        if is_wa_url(url):
+            m = re.search(r'cite=([\d.]+)', url)
+            if m:
+                _whole = (re.compile(r'(?m)^\s*(RCW\s+' + re.escape(m.group(1)) + r'\.\d+\w*)'), "")
+        elif is_va_url(url):
+            mt = re.search(r'/title([\d.]+)/chapter(\d+\w*)/', url)
+            if mt:
+                _whole = (re.compile(r'(?m)^\s*(§\s*' + re.escape(mt.group(1)) + '-' + mt.group(2) + r'\d\d\w*\.)'), "§ ")
+        if _whole is not None:
+            marker, prefix = _whole
+            status, html, err = fetch(url)
+            time.sleep(PER_HOST_DELAY)
+            if err or not html or (status and not 200 <= status < 300):
+                corpus.errors.append(f"whole-chapter fetch {url}: {err or f'http {status}'}")
+                continue
+            secs = _split_whole_chapter(html, marker, url, prefix)
+            if not secs:
+                corpus.errors.append(f"whole-chapter parse {url}: 0 sections")
+            for sec in secs:
+                if limit_sections and len(corpus.sections) >= limit_sections:
+                    break
+                corpus.sections.append(sec)
+                corpus.total_chars += sec.text_len
+            log.info("  whole-chapter %s -> %d sections", url, len(secs))
             continue
 
         # New York: Justia url carries lawId+article; pull from OpenLegislation.
