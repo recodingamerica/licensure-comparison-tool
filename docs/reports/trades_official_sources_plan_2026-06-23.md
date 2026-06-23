@@ -1,23 +1,75 @@
 # Trades via official state sources — continuation plan (2026-06-23)
 
+> ## ⏯ RESUME HERE (post-/clear handoff — read this first)
+> **Big shift this session: Justia is pullable again via CDP-attach to a real
+> Chrome (see [[project_official_source_migration]] memory). CDP-Justia is now the
+> DEFAULT source — we no longer build bespoke official-source handlers.**
+>
+> **Background CDP crawl is (or was) RUNNING** — detached, survives /clear, writes
+> to `pipeline/results/text/`. It pulls the 28 clean-chapter Justia states at a
+> polite pace. Output log: `…/tasks/b472w3l75.output` (check `results/text/` dirs
+> for actual progress; that path may be stale in a new session).
+> - electrician: AL,AR,CO,GA,HI,IA,KY,MA,ND,NH,TX
+> - plumbing: AL,AR,CO,GA,HI,IA,IN,KY,ND,NH,OR,SC,TX
+> - hvac: AL,AR,DE,TX
+>
+> **To resume / run a CDP Justia pull:** user keeps a debug Chrome open —
+> `/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --remote-debugging-port=9222 --user-data-dir="$HOME/chrome-justia-debug"`
+> (visit a Justia page once, solve the challenge). Then:
+> `JUSTIA_CDP_URL=http://localhost:9222 PULL_HOST_DELAY=7 pipeline/.venv/bin/python -m pipeline.ingest.pull_text --profession <P> --states <…> --force`
+> ONE pull process at a time (one browser); never fire side commands at the same
+> Chrome (extra tabs → reload chaos). It self-heals cf_clearance expiry: pauses
+> ≤6 min for a re-solve, then resumes.
+>
+> **PENDING (in priority order):**
+> 1. Let the crawl finish; **re-audit** all trade text (`blank-cite`, THIN<=2
+>    sections = flat-title casualty, chrome-leak). Last audit: only LA+NJ
+>    construction_trades flagged → already removed.
+> 2. **Flat-title trio OK/LA/NJ** — flat on Justia itself (title-59 / title-37 /
+>    title-45, 2000+ sections, no chapter). A whole-title pull is a RUNAWAY. Scope
+>    each trade to a section range (`section_slug_pattern` on the title, AZ-podiatry
+>    style) then pull via CDP. Hints from stray matches: elec OK§1698 plumb OK§1013
+>    hvac OK§1850.8; LA plumb RS37:1361-1380 hvac RS37:1864/1973; NJ contractor 45:5AAA.
+> 3. **clean → trim → extract** the whole new batch (batch API; ~$1-2), consistency
+>    check (`pipeline.eval.check_consistency`), then commit.
+>
+> **Two extract batches were STUCK in_progress on Anthropic's side** (Medium tier +
+> GA/SC/WV) — poll to write results when they land:
+> `pipeline.extract.extract_state_batch poll msgbatch_01BvDXkRrEkHVUWaZt3MGsng`
+> and `… msgbatch_01DqgHmD9adpmRtm5DG2s9Ko`.
+>
+> **Scope notes:** IL construction_trades = Petroleum Equipment Contractors
+> (225 ILCS 729) — narrow, review. AZ hvac match (title-3/§3-727) is spurious — skip.
+
 Self-contained handoff. Goal: pull **all four building trades** (construction_trades,
-electrician, plumbing, hvac) for **as many states as possible** from **official
-state legislature sites** — NOT Justia (Cloudflare-blocks all our IPs).
+electrician, plumbing, hvac) for **as many states as possible**. Primary source is
+now **Justia via CDP-attach** (universal); official state-legislature handlers
+(below) are kept for states already done but no longer the default.
 
 Branch: **`data/pull-all`** (off main). Commit when each state lands.
 
 ## Why we're doing it this way (settled facts — don't re-litigate)
-- **Justia hard-blocks every IP we have** (local + GitHub Actions + IPRoyal
-  residential) with a Cloudflare "Just a moment" JS challenge. curl_cffi, headless
-  + headful + patchright browsers, and free scraping-API trials all fail. A real
-  headful browser + residential IP passed ONCE, then Cloudflare flagged repeated
-  hits — unreliable for bulk. **Do not pull Justia.** Committed Justia corpora
-  (7 published professions × 50 states) stay as-is.
-- **Official state sites are the path** — most serve plain HTML/JSON, no Cloudflare.
-- Paid unblocker (Bright Data / ScraperAPI premium, ~$10 for trades) is wired in
-  `fetch()` but the user opted not to spend. Residential proxy (IPRoyal,
-  `RESIDENTIAL_PROXY` in `.env`) works for non-Cloudflare JS-only sites via
-  Playwright. NY OpenLeg key is in `.env` (`NY_OPENLEG_KEY`).
+- **Justia blocks AUTOMATED browsers** (curl_cffi, headless/headful/patchright
+  launched Chromium — even slow + jittered from a clean home IP) with a
+  Cloudflare challenge. The wall is **automation-fingerprint detection on the
+  page**, NOT IP reputation or rate — so politeness/clean-IP alone does not help.
+- **BUT Justia IS pullable via CDP-attach to the user's REAL Chrome** (2026-06-23
+  breakthrough). Connect out-of-process to a Chrome the user starts with
+  `--remote-debugging-port`; there's no in-page automation fingerprint, so the
+  challenge clears. Set `JUSTIA_CDP_URL=http://localhost:9222` + `PULL_HOST_DELAY=7`
+  and pull_text routes `law.justia.com` through it. The user solves the first
+  challenge by hand; `cf_clearance` persists; on expiry the crawl PAUSES (≤6 min)
+  for a re-solve then resumes. This makes the "JS-only" states (GA/NJ/TX/MA)
+  reachable too — no SPA handlers needed. See [[project_official_source_migration]]
+  for the full how-to. Committed corpora stay as-is; CDP is for NEW pulls.
+- **Official state sites are also a path** — most serve plain HTML/JSON, no
+  Cloudflare — and need no open browser, so they're preferred for chapter-
+  structured states. CDP-Justia is the universal fallback for the rest.
+- **Flat-title caveat:** OK (title-59), LA (title-37), NJ (title-45) are giant
+  flat "Professions" titles — a whole-title CDP pull is a 2000+ section RUNAWAY.
+  Scope each trade to a section range (AZ-podiatry `section_slug_pattern` style).
+- Paid unblocker (ScraperAPI premium, ~$10) is wired in `fetch()` as the
+  zero-manual-effort fallback. NY OpenLeg key is in `.env` (`NY_OPENLEG_KEY`).
 
 ## Architecture (how a state gets added)
 The Justia hierarchy still provides the profession→chapter MAP. We translate that
