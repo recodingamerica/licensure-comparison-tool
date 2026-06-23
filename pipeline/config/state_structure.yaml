@@ -32,6 +32,15 @@ AZ:
     podiatry:
       section_slug_pattern: '^section-32-8(0[0-9]|[1-5][0-9])(-version-\d+)?$'
       label: "AZ Title 32 §§32-801..32-859 — Podiatry"
+    # Trades: azleg.gov title page sliced to one chapter. No state-level template
+    # (would rewrite podiatry's section_fallback nodes); scoped per-profession.
+    # is_az_url intercepts the arsDetail url; pull_az slices id="chapter10" and
+    # fetches each ars/32/{id}.htm. Contractors = Title 32 Ch 10 (§§32-1101..1188).
+    # AZ HVAC is not a separate license (folded into contractor) — not pulled.
+    construction_trades:
+      url: "https://www.azleg.gov/arsDetail/?title=32&chapter=10"
+      authoritative: true
+      label: "AZ Title 32 Chapter 10 — Contractors"
 
 OK:
   source: justia
@@ -118,6 +127,14 @@ FL:
       url: "https://law.justia.com/codes/florida/title-xxxii/chapter-468/part-x/"
       section_slug_pattern: '^section-468-5(0[1-9]|1[1-8]?)$'
       label: "FL Ch. 468 Part X §§468.501..468.518 — Dietetics and Nutrition Practice"
+    # Trades: leg.state.fl.us whole-chapter page (div.Section spans). No state-level
+    # template (would rewrite dietetics' section_slug_pattern); scoped per-profession.
+    # is_fl_url intercepts; parse_fl_chapter splits the sections. The 0400-0499
+    # range in the URL is chapter 489's pre-computed band. contractor = Ch 489.
+    construction_trades:
+      url: "http://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0400-0499/0489/0489.html"
+      authoritative: true
+      label: "FL Ch. 489 — Contractors (Construction Industry Licensing)"
 
 MO:
   source: justia
@@ -3565,3 +3582,35 @@ MD:
   # gbr) and walks the GetNext API from {title}-101. MD licenses electrician
   # (gbo T6), plumbing (gbo T12), hvac (gbr T9A).
   source: md_official
+
+RI:
+  # webserver.rilegislature.gov (UTF-8). Chapter INDEX.HTM links one .htm per
+  # section; pull_ri reads the <p> run from the "§ {sec}." heading to "History of
+  # Section." Justia chapter slug carries the title (chapter-5-6 → 5-6), so the
+  # template uses {chapter} verbatim. electrician=5-6, plumbing=5-20. The
+  # construction_trades label-match lands on 5-65-2 (a sub-chapter that 404s); pin
+  # it to 5-65 (Contractors' Registration & Licensing) — authoritative drops the
+  # bad sibling.
+  source: ri_official
+  chapter_url_template: "http://webserver.rilegislature.gov/Statutes/TITLE{title}/{chapter}/INDEX.HTM"
+  professions:
+    construction_trades:
+      url: "https://law.justia.com/codes/rhode-island/title-5/chapter-5-65/"
+      authoritative: true
+      label: "Title 5 Chapter 5-65 - Contractors' Registration and Licensing Act"
+
+VT:
+  # legislature.vermont.gov (UTF-8). Chapter page is TOC-only; pull_vt follows the
+  # 5-digit section links to /statutes/section/{title}/{chap3}/{sec5} (div#main-
+  # content). {chapter:0>3} zero-pads to the 3-digit chapter form. contractor=
+  # Ch106, electrician=Ch15, plumbing=Ch39.
+  source: vt_official
+  chapter_url_template: "https://legislature.vermont.gov/statutes/chapter/{title}/{chapter:0>3}"
+
+MT:
+  # No chapter_url_template — the MCA url components are value*10 zero-padded to 4
+  # (title 37→0370) and the positional url number != the displayed statute number,
+  # so the matched node keeps its Justia url and pull_text.is_mt_justia_url
+  # intercepts it. pull_mt walks parts_index → per-part sections_index → section
+  # pages (div.section-content). electrician=T37 Ch68, plumbing=T37 Ch69.
+  source: mt_official

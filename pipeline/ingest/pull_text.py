@@ -40,7 +40,21 @@ LOG_PATH = LOGS_DIR / "pull_text.log"
 LOGS_DIR.mkdir(parents=True, exist_ok=True)
 
 TIMEOUT = 25
-PER_HOST_DELAY = 1.2
+# Per-section pause. Overridable via PULL_HOST_DELAY (seconds) — set it high for
+# a polite Justia/CDP crawl through the real browser (e.g. 7) so we're not
+# flipping pages every second. Each pause adds up to 60% random jitter so the
+# cadence is human-irregular rather than a steady machine-gun rhythm.
+import random as _random  # local alias; std random is allowed in pipeline code
+try:
+    PER_HOST_DELAY = float(os.environ.get("PULL_HOST_DELAY", "1.2"))
+except ValueError:
+    PER_HOST_DELAY = 1.2
+
+
+def polite_sleep() -> None:
+    """Sleep PER_HOST_DELAY plus up to 60% jitter (human-irregular pacing)."""
+    time.sleep(PER_HOST_DELAY * (1.0 + _random.random() * 0.6))
+
 
 logging.basicConfig(
     level=logging.INFO,
@@ -151,6 +165,22 @@ def _get_browser_page():
     global _BROWSER
     if _BROWSER is None:
         import atexit
+        # CDP attach (preferred): connect to a REAL Chrome the user started with
+        # --remote-debugging-port. Cloudflare can't see an in-page automation
+        # fingerprint (the automation is out-of-process), so the challenge clears
+        # where a launched/automated Chromium — even headful on a clean home IP —
+        # is blocked. The user solves the first challenge by hand; cf_clearance
+        # then persists in the debug profile. See docs/.../trades_official_sources.
+        cdp = _env_get("JUSTIA_CDP_URL")
+        if cdp:
+            from playwright.sync_api import sync_playwright
+            pw = sync_playwright().start()
+            browser = pw.chromium.connect_over_cdp(cdp)
+            ctx = browser.contexts[0] if browser.contexts else browser.new_context()
+            page = ctx.pages[0] if ctx.pages else ctx.new_page()
+            _BROWSER = {"pw": pw, "browser": browser, "ctx": ctx, "page": page, "cdp": True}
+            atexit.register(_close_browser)
+            return page
         try:
             from patchright.sync_api import sync_playwright
         except Exception:
@@ -178,26 +208,49 @@ def _close_browser() -> None:
     global _BROWSER
     if _BROWSER:
         try:
-            _BROWSER["browser"].close(); _BROWSER["pw"].stop()
+            # Don't close the user's real Chrome when attached over CDP — just
+            # detach. Only close browsers WE launched.
+            if not _BROWSER.get("cdp"):
+                _BROWSER["browser"].close()
+            _BROWSER["pw"].stop()
         except Exception:
             pass
         _BROWSER = None
 
 
+def _challenge_showing(page) -> bool:
+    t = (page.title() or "").lower()
+    return "just a moment" in t or "attention required" in t
+
+
 def fetch_via_browser(url: str) -> tuple[int | None, str | None, str | None]:
-    """Fetch a Cloudflare-protected URL through the persistent headful browser +
-    residential proxy. Waits for the challenge to clear before returning HTML."""
+    """Fetch a Cloudflare-protected URL through the persistent browser (CDP-
+    attached real Chrome, or residential-proxy headful Chromium). Waits for the
+    challenge to clear before returning HTML.
+
+    On a long crawl the cf_clearance cookie expires (~30 min) and the challenge
+    reappears mid-run. Rather than failing the section after 60s (which would
+    drop data), we PAUSE up to CHALLENGE_WAIT and log once, so the user can
+    re-solve it in the Chrome window and the crawl resumes where it left off.
+    """
+    CHALLENGE_WAIT = 360  # seconds to wait for a (re)solve before giving up
     try:
         page = _get_browser_page()
         page.goto(url, timeout=90000, wait_until="domcontentloaded")
-        for _ in range(30):
-            t = page.title().lower()
-            if "just a moment" not in t and "attention required" not in t:
-                break
+        warned = False
+        waited = 0.0
+        while _challenge_showing(page) and waited < CHALLENGE_WAIT:
+            if not warned:
+                log.warning("  ⏸ Cloudflare challenge on %s — SOLVE IT in the Chrome "
+                            "window; waiting up to %ds…", url, CHALLENGE_WAIT)
+                warned = True
             page.wait_for_timeout(2000)
+            waited += 2
         html = page.content()
-        if "just a moment" in page.title().lower():
-            return 403, html, "cloudflare challenge did not clear"
+        if _challenge_showing(page):
+            return 403, html, "cloudflare challenge did not clear (timed out)"
+        if warned:
+            log.info("  ▶ challenge cleared, resuming")
         return 200, html, None
     except Exception as e:
         return None, None, f"{type(e).__name__}: {e}"
@@ -205,7 +258,10 @@ def fetch_via_browser(url: str) -> tuple[int | None, str | None, str | None]:
 
 def _use_browser(url: str) -> bool:
     host = urllib.parse.urlparse(url).netloc.lower()
-    return any(h in host for h in _UNBLOCK_HOSTS) and bool(_env_get("RESIDENTIAL_PROXY"))
+    if not any(h in host for h in _UNBLOCK_HOSTS):
+        return False
+    # CDP-attached real Chrome (preferred) or residential-proxy headful browser.
+    return bool(_env_get("JUSTIA_CDP_URL") or _env_get("RESIDENTIAL_PROXY"))
 
 
 def fetch(url: str) -> tuple[int | None, str | None, str | None]:
@@ -538,7 +594,7 @@ def pull_sd_chapter(chapter_url: str) -> tuple[list[Section], list[str]]:
     cur = chap.get("Next")
     while cur and cur.startswith(prefix) and cur not in seen:
         seen.add(cur)
-        time.sleep(PER_HOST_DELAY)
+        polite_sleep()
         d = _sd_get(cur)
         if not d:
             errors.append(f"sd_api fetch {cur}: failed")
@@ -771,7 +827,7 @@ def pull_via_toc(toc_url: str, link_regex: str, make_url, body_fn, make_cite,
     section ids, fetch + extract each section page. body_fn(html, sid) returns
     (text, label); empty text drops the section. Returns (sections, errors)."""
     status, html, err = fetch(toc_url)
-    time.sleep(PER_HOST_DELAY)
+    polite_sleep()
     if err or not html or (status and not 200 <= status < 300):
         return [], [f"{source} toc {toc_url}: {err or f'http {status}'}"]
     ids = _toc_section_ids(html, link_regex)
@@ -782,7 +838,7 @@ def pull_via_toc(toc_url: str, link_regex: str, make_url, body_fn, make_cite,
     for sid in ids:
         surl = make_url(sid)
         status, shtml, serr = fetch(surl)
-        time.sleep(PER_HOST_DELAY)
+        polite_sleep()
         if serr or not shtml or (status and not 200 <= status < 300):
             errors.append(f"{source} section {surl}: {serr or f'http {status}'}")
             continue
@@ -955,7 +1011,7 @@ def pull_md(justia_url: str) -> tuple[list[Section], list[str]]:
         surl = (f"https://{MD_HOST}/mgawebsite/Laws/StatuteText"
                 f"?article={code}&section={sec}&enactments=false&archived=false")
         status, html, err = fetch(surl)
-        time.sleep(PER_HOST_DELAY)
+        polite_sleep()
         if err or not html or (status and not 200 <= status < 300):
             errors.append(f"md section {surl}: {err or f'http {status}'}")
             break
@@ -969,7 +1025,7 @@ def pull_md(justia_url: str) -> tuple[list[Section], list[str]]:
         nurl = (f"https://{MD_HOST}/mgawebsite/api/Laws/GetNext"
                 f"?articleCode={code}&sectionCode={sec}&enactments=False")
         nstatus, nbody, nerr = fetch(nurl)
-        time.sleep(PER_HOST_DELAY)
+        polite_sleep()
         if nerr or not nbody or (nstatus and not 200 <= nstatus < 300):
             break
         # GetNext content-negotiates: bare JSON ("6-102") under some headers, an
@@ -981,6 +1037,248 @@ def pull_md(justia_url: str) -> tuple[list[Section], list[str]]:
     if not sections and not errors:
         errors.append(f"md: walk from {title}-101 yielded 0 sections")
     return sections, errors
+
+
+# === Medium tier (RI / VT / MT / AZ / FL) ===
+# Rhode Island and Vermont are plain per-section-via-TOC (reuse pull_via_toc).
+# Montana is a nested parts->sections walk; Arizona is a title-page slice; Florida
+# is whole-chapter. See docs/reports/trades_official_sources_plan_2026-06-23.md.
+
+# Rhode Island — webserver.rilegislature.gov (UTF-8). Chapter INDEX.HTM links one
+# .htm page per section; the page repeats a citation line then the section as a run
+# of <p> from the "§ {sec}." heading until the "History of Section." note.
+RI_HOST = "webserver.rilegislature.gov"
+
+
+def is_ri_url(url: str) -> bool:
+    return RI_HOST in urllib.parse.urlparse(url).netloc and "/Statutes/" in url
+
+
+def _ri_body(html: str, sec: str) -> tuple[str, str]:
+    ps = [" ".join(p.get_text(" ", strip=True).split())
+          for p in BeautifulSoup(html, "html.parser").find_all("p")]
+    ps = [p for p in ps if p]
+    start = next((i for i, p in enumerate(ps)
+                  if re.match(rf"^§\s*{re.escape(sec)}\.", p)), None)
+    if start is None:
+        return "", ""
+    end = next((i for i in range(start, len(ps))
+                if ps[i].startswith("History of Section")), len(ps))
+    body = " ".join(ps[start:end])
+    label = ps[start].split(". ", 1)[0][:200]
+    return body, label
+
+
+def pull_ri(toc_url: str) -> tuple[list[Section], list[str]]:
+    m = re.search(r"/TITLE(\d+)/([^/]+)/INDEX", toc_url, re.I)
+    if not m:
+        return [], [f"ri: cannot parse title/chapter from {toc_url}"]
+    chap = m.group(2)
+    toc_dir = toc_url.rsplit("/", 1)[0]
+    return pull_via_toc(
+        toc_url,
+        rf'href="({re.escape(chap)}-[0-9.]+\.[Hh][Tt][Mm])"',
+        lambda fn: f"{toc_dir}/{fn}",
+        lambda html, fn: _ri_body(html, fn.rsplit(".", 1)[0]),
+        lambda fn: f"R.I. Gen. Laws § {fn.rsplit('.', 1)[0]}",
+        "ri",
+    )
+
+
+# Vermont — legislature.vermont.gov (UTF-8). Chapter page is TOC-only; section
+# bodies live at /statutes/section/{title}/{chap3}/{sec5} in div#main-content,
+# after a "(Cite as: ...)" header. The 5-digit url id zero-pads the display number.
+VT_HOST = "legislature.vermont.gov"
+
+
+def is_vt_url(url: str) -> bool:
+    return VT_HOST in urllib.parse.urlparse(url).netloc and "/statutes/chapter/" in url
+
+
+def _vt_body(html: str, disp: str) -> tuple[str, str]:
+    el = BeautifulSoup(html, "html.parser").find(id="main-content")
+    if not el:
+        return "", ""
+    txt = " ".join(el.get_text(" ", strip=True).split())
+    m = re.search(rf"§\s*{re.escape(disp)}\.", txt)
+    if not m:
+        return "", ""
+    body = txt[m.start():]
+    return body, body.split(". ", 1)[0][:200]
+
+
+def pull_vt(toc_url: str) -> tuple[list[Section], list[str]]:
+    m = re.search(r"/statutes/chapter/(\d+)/(\d+)", toc_url)
+    if not m:
+        return [], [f"vt: cannot parse title/chapter from {toc_url}"]
+    title, chap3 = m.group(1), m.group(2)
+    return pull_via_toc(
+        toc_url,
+        rf"statutes/section/{title}/{chap3}/(\d{{5}})",
+        lambda sid: f"https://{VT_HOST}/statutes/section/{title}/{chap3}/{sid}",
+        lambda html, sid: _vt_body(html, str(int(sid))),
+        lambda sid: f"{title} V.S.A. § {int(sid)}",
+        "vt",
+    )
+
+
+# Montana — leg.mt.gov MCA (UTF-8). Nested: parts_index -> per-part sections_index
+# -> section page (div.section-content). URL components are value*10 zero-padded
+# to 4 digits (title 37 -> 0370), and the positional url number != the displayed
+# statute number, so URLs are built from the index links, and the citation is
+# read from the section body. Intercepted from the Justia montana url (like MD).
+MT_HOST = "leg.mt.gov"
+_MT_JUSTIA_RE = re.compile(r"/codes/montana/.*?title-(\d+)/chapter-(\d+)", re.I)
+
+
+def is_mt_justia_url(url: str) -> bool:
+    return ("law.justia.com" in urllib.parse.urlparse(url).netloc
+            and "/montana/" in url.lower())
+
+
+def _mt_body(html: str) -> tuple[str, str]:
+    el = BeautifulSoup(html, "html.parser").find("div", class_="section-content")
+    if not el:
+        return "", ""
+    txt = " ".join(el.get_text(" ", strip=True).split())
+    m = re.match(r"(\d+-\d+-\d+)\s*\.?\s*", txt)
+    if not m:
+        return "", ""
+    return txt, m.group(1)
+
+
+def pull_mt(justia_url: str) -> tuple[list[Section], list[str]]:
+    m = _MT_JUSTIA_RE.search(justia_url)
+    if not m:
+        return [], [f"mt: cannot parse title/chapter from {justia_url}"]
+    title, chap = int(m.group(1)), int(m.group(2))
+    base = f"https://{MT_HOST}/bills/mca/title_{title*10:04d}/chapter_{chap*10:04d}"
+    pstatus, phtml, perr = fetch(f"{base}/parts_index.html")
+    polite_sleep()
+    if perr or not phtml or (pstatus and not 200 <= pstatus < 300):
+        return [], [f"mt parts_index {base}: {perr or f'http {pstatus}'}"]
+    parts = []
+    for p in re.findall(r"part_(\d{4})/sections_index\.html", phtml):
+        if p not in parts:
+            parts.append(p)
+    sections: list[Section] = []
+    errors: list[str] = []
+    for part in parts:
+        pdir = f"{base}/part_{part}"
+        sstatus, shtml, serr = fetch(f"{pdir}/sections_index.html")
+        polite_sleep()
+        if serr or not shtml or (sstatus and not 200 <= sstatus < 300):
+            errors.append(f"mt sections_index {pdir}: {serr or f'http {sstatus}'}")
+            continue
+        links = []
+        for ln in re.findall(r"(section_\d{4}/[\d-]+\.html)", shtml):
+            if ln not in links:
+                links.append(ln)
+        for ln in links:
+            surl = f"{pdir}/{ln}"
+            status, html, err = fetch(surl)
+            polite_sleep()
+            if err or not html or (status and not 200 <= status < 300):
+                errors.append(f"mt section {surl}: {err or f'http {status}'}")
+                continue
+            text, num = _mt_body(html)
+            if not text:
+                errors.append(f"mt section {surl}: empty body")
+                continue
+            sections.append(Section(url=surl, label=text.split(". ", 1)[0][:200],
+                                    citation=f"MCA § {num}", text=text, text_len=len(text)))
+    return sections, errors
+
+
+# Arizona — azleg.gov (UTF-8). The title page lists every chapter inline; slice the
+# HTML between id="chapter{N}" and id="chapter{N+1}", harvest ars/{T}/{id}.htm
+# links, fetch each section page (small, near-chrome-free). Title 32 Ch 10 =
+# Contractors. (AZ HVAC is not a separate license — folded into contractor.)
+AZ_HOST = "azleg.gov"
+
+
+def is_az_url(url: str) -> bool:
+    return AZ_HOST in urllib.parse.urlparse(url).netloc and "arsDetail" in url
+
+
+def _az_body(html: str, num: str) -> tuple[str, str]:
+    soup = BeautifulSoup(html, "html.parser")
+    for t in soup(["script", "style"]):
+        t.decompose()
+    txt = " ".join(soup.get_text(" ", strip=True).split())
+    m = re.search(rf"{re.escape(num)}\s*\.\s*", txt)  # the "32-1101 . " body marker
+    if not m:
+        return "", ""
+    body = txt[m.start():]
+    return body, body.split(". ", 1)[0][:200]
+
+
+def pull_az(detail_url: str) -> tuple[list[Section], list[str]]:
+    q = urllib.parse.parse_qs(urllib.parse.urlparse(detail_url).query)
+    title = (q.get("title") or [""])[0]
+    chap = (q.get("chapter") or [""])[0]
+    if not title or not chap:
+        return [], [f"az: need title & chapter in {detail_url}"]
+    status, html, err = fetch(f"https://www.{AZ_HOST}/arsDetail/?title={title}")
+    polite_sleep()
+    if err or not html or (status and not 200 <= status < 300):
+        return [], [f"az title {title}: {err or f'http {status}'}"]
+    a = html.find(f'id="chapter{chap}"')
+    if a < 0:
+        return [], [f"az: chapter{chap} anchor not found in title {title}"]
+    b = html.find(f'id="chapter{int(chap)+1}"', a)
+    chunk = html[a:b if b > 0 else len(html)]
+    ids = []
+    for sid in re.findall(rf"ars/{title}/(\d+)\.htm", chunk):
+        if sid not in ids:
+            ids.append(sid)
+    sections: list[Section] = []
+    errors: list[str] = []
+    for sid in ids:
+        num = f"{title}-{int(sid)}"  # 01101 -> 32-1101
+        surl = f"https://www.{AZ_HOST}/ars/{title}/{sid}.htm"
+        status, shtml, serr = fetch(surl)
+        polite_sleep()
+        if serr or not shtml or (status and not 200 <= status < 300):
+            errors.append(f"az section {surl}: {serr or f'http {status}'}")
+            continue
+        text, label = _az_body(shtml, num)
+        if not text:
+            errors.append(f"az section {surl}: empty body")
+            continue
+        sections.append(Section(url=surl, label=label,
+                                citation=f"A.R.S. § {num}", text=text, text_len=len(text)))
+    return sections, errors
+
+
+# Florida — leg.state.fl.us (UTF-8). One whole-chapter page; each section is a
+# div.Section with SectionNumber / Catchline / SectionBody spans. The top index
+# also emits SectionNumber spans, so require a non-trivial SectionBody.
+FL_HOST = "leg.state.fl.us"
+
+
+def is_fl_url(url: str) -> bool:
+    return FL_HOST in urllib.parse.urlparse(url).netloc and "Display_Statute" in url
+
+
+def parse_fl_chapter(html: str, url: str) -> list[Section]:
+    sections: list[Section] = []
+    for d in BeautifulSoup(html, "html.parser").select("div.Section"):
+        num_el = d.find(class_="SectionNumber")
+        body_el = d.find(class_="SectionBody")
+        if not num_el or not body_el:
+            continue
+        num = " ".join(num_el.get_text(" ", strip=True).split())
+        body = " ".join(body_el.get_text(" ", strip=True).split())
+        if len(body) < 25:
+            continue
+        cat_el = d.find(class_="Catchline")
+        catch = " ".join(cat_el.get_text(" ", strip=True).split()) if cat_el else ""
+        full = f"{num} {catch} {body}".strip()
+        sections.append(Section(
+            url=f"{url}#{num}", label=(f"{num} {catch}").strip()[:200] or num,
+            citation=f"Fla. Stat. § {num}", text=full, text_len=len(full)))
+    return sections
 
 
 # --- Illinois (Justia serves a whole ILCS act on one page) ---
@@ -1074,7 +1372,7 @@ def collect_section_targets(url: str, label: str, slug: str, depth: int, max_dep
     act lives at the chapter URL).
     """
     status, html, err = fetch(url)
-    time.sleep(PER_HOST_DELAY)
+    polite_sleep()
     if err or not html or (status and not 200 <= status < 300):
         return [], f"fetch {url}: {err or status}"
 
@@ -1117,7 +1415,7 @@ def pull_state(state: str, profession: str, rows: list[dict], limit_sections: in
         # gets its own section url, so move on after.
         if is_utah_le_url(url):
             status, html, err = fetch(url)
-            time.sleep(PER_HOST_DELAY)
+            polite_sleep()
             if err or not html or (status and not 200 <= status < 300):
                 corpus.errors.append(f"utah_le fetch {url}: {err or f'http {status}'}")
                 continue
@@ -1126,7 +1424,7 @@ def pull_state(state: str, profession: str, rows: list[dict], limit_sections: in
                 corpus.errors.append(f"utah_le {url}: no XML fragment ref found")
                 continue
             xstatus, xhtml, xerr = fetch(xml_url)
-            time.sleep(PER_HOST_DELAY)
+            polite_sleep()
             if xerr or not xhtml or (xstatus and not 200 <= xstatus < 300):
                 corpus.errors.append(f"utah_le xml {xml_url}: {xerr or f'http {xstatus}'}")
                 continue
@@ -1159,7 +1457,7 @@ def pull_state(state: str, profession: str, rows: list[dict], limit_sections: in
         # NV serves Word-export latin1 HTML, so decode bytes ourselves.
         if is_nv_url(url):
             status, raw, err = fetch_bytes(url)
-            time.sleep(PER_HOST_DELAY)
+            polite_sleep()
             if err or not raw or (status and not 200 <= status < 300):
                 corpus.errors.append(f"nv fetch {url}: {err or f'http {status}'}")
                 continue
@@ -1178,7 +1476,7 @@ def pull_state(state: str, profession: str, rows: list[dict], limit_sections: in
         # Connecticut official source: one HTML page per chapter, latin1.
         if is_ct_url(url):
             status, raw, err = fetch_bytes(url)
-            time.sleep(PER_HOST_DELAY)
+            polite_sleep()
             if err or not raw or (status and not 200 <= status < 300):
                 corpus.errors.append(f"ct fetch {url}: {err or f'http {status}'}")
                 continue
@@ -1209,7 +1507,7 @@ def pull_state(state: str, profession: str, rows: list[dict], limit_sections: in
         if _whole is not None:
             marker, prefix = _whole
             status, html, err = fetch(url)
-            time.sleep(PER_HOST_DELAY)
+            polite_sleep()
             if err or not html or (status and not 200 <= status < 300):
                 corpus.errors.append(f"whole-chapter fetch {url}: {err or f'http {status}'}")
                 continue
@@ -1252,6 +1550,21 @@ def pull_state(state: str, profession: str, rows: list[dict], limit_sections: in
             _ps = pull_mo(url)
         elif is_md_justia_url(url):
             _ps = pull_md(url)
+        elif is_ri_url(url):
+            _ps = pull_ri(url)
+        elif is_vt_url(url):
+            _ps = pull_vt(url)
+        elif is_mt_justia_url(url):
+            _ps = pull_mt(url)
+        elif is_az_url(url):
+            _ps = pull_az(url)
+        elif is_fl_url(url):
+            status, html, err = fetch(url)
+            polite_sleep()
+            if err or not html or (status and not 200 <= status < 300):
+                _ps = ([], [f"fl fetch {url}: {err or f'http {status}'}"])
+            else:
+                _ps = (parse_fl_chapter(html, url), [])
         if _ps is not None:
             ps_sections, ps_errors = _ps
             corpus.errors.extend(ps_errors)
@@ -1277,7 +1590,7 @@ def pull_state(state: str, profession: str, rows: list[dict], limit_sections: in
         if pa_urls:
             for pa_url in pa_urls:
                 status, html, err = fetch(pa_url)
-                time.sleep(PER_HOST_DELAY)
+                polite_sleep()
                 if err or not html or (status and not 200 <= status < 300):
                     corpus.errors.append(f"pa_legis fetch {pa_url}: {err or f'http {status}'}")
                     continue
@@ -1314,7 +1627,7 @@ def pull_state(state: str, profession: str, rows: list[dict], limit_sections: in
             log.info("  chapter %s -> %d explicit section URLs", url, len(section_targets))
         elif section_slug_pattern:
             status, html, err = fetch(url)
-            time.sleep(PER_HOST_DELAY)
+            polite_sleep()
             if err or not html or (status and not 200 <= status < 300):
                 corpus.errors.append(f"chapter fetch {url}: {err or status}")
                 continue
@@ -1363,7 +1676,7 @@ def pull_state(state: str, profession: str, rows: list[dict], limit_sections: in
                 continue
 
             status, html, err = fetch(sec["url"])
-            time.sleep(PER_HOST_DELAY)
+            polite_sleep()
             if err or not html or (status and not 200 <= status < 300):
                 # Aggregate into corpus.errors too — otherwise a state with
                 # per-section failures looks healthy at the top level and
