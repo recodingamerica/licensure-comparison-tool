@@ -117,6 +117,8 @@ def _official_url(template: str, justia_url: str) -> str | None:
                     parts[key + "_lc"] = m.group(1) + m.group(2).lower()  # 393b (CT)
                 else:
                     parts[key] = parts[key + "_lc"] = raw
+                # hyphen→dot form for cite-style sources (WA 19-28→19.28, VA 54-1→54.1)
+                parts[key + "_dot"] = parts[key].replace("-", ".")
     try:
         return template.format(**parts)
     except KeyError:
