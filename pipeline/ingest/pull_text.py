@@ -744,6 +744,245 @@ def _split_whole_chapter(html: str, marker: re.Pattern, chapter_url: str,
     return sections
 
 
+# --- Per-section via TOC (ME / ID / MO) ---
+# These states publish a chapter table-of-contents page that links to one HTML
+# page per section. Shared shape: fetch the TOC, regex out the section ids
+# (capture group 1), fetch each section page, pull the body with a state-specific
+# extractor. The profession→chapter MAP still rides the Justia hierarchy; a
+# chapter_url_template in state_structure.yaml rewrites the matched node to the
+# state's TOC url (filling {title}/{chapter}), and the handler re-parses what it
+# needs from that url. (MD is the odd one out — no TOC; it walks a GetNext API —
+# handled separately below.)
+def _toc_section_ids(toc_html: str, link_regex: str) -> list[str]:
+    """Ordered-unique section ids from a TOC page via a capture-group regex."""
+    ids: list[str] = []
+    seen: set[str] = set()
+    for m in re.finditer(link_regex, toc_html):
+        sid = m.group(1)
+        if sid not in seen:
+            seen.add(sid)
+            ids.append(sid)
+    return ids
+
+
+def pull_via_toc(toc_url: str, link_regex: str, make_url, body_fn, make_cite,
+                 source: str) -> tuple[list[Section], list[str]]:
+    """Generic per-section-via-TOC puller. Fetch the chapter TOC, enumerate its
+    section ids, fetch + extract each section page. body_fn(html, sid) returns
+    (text, label); empty text drops the section. Returns (sections, errors)."""
+    status, html, err = fetch(toc_url)
+    time.sleep(PER_HOST_DELAY)
+    if err or not html or (status and not 200 <= status < 300):
+        return [], [f"{source} toc {toc_url}: {err or f'http {status}'}"]
+    ids = _toc_section_ids(html, link_regex)
+    if not ids:
+        return [], [f"{source} toc {toc_url}: no section links (regex {link_regex!r})"]
+    sections: list[Section] = []
+    errors: list[str] = []
+    for sid in ids:
+        surl = make_url(sid)
+        status, shtml, serr = fetch(surl)
+        time.sleep(PER_HOST_DELAY)
+        if serr or not shtml or (status and not 200 <= status < 300):
+            errors.append(f"{source} section {surl}: {serr or f'http {status}'}")
+            continue
+        text, label = body_fn(shtml, sid)
+        if not text:
+            errors.append(f"{source} section {surl}: empty body")
+            continue
+        sections.append(Section(url=surl, label=label or make_cite(sid),
+                                citation=make_cite(sid), text=text, text_len=len(text)))
+    return sections, errors
+
+
+# Maine — legislature.maine.gov. TOC title{T}ch{N}sec0.html lists the chapter's
+# sections as title{T}sec{n}.html; section body is in div.row.section-content.
+ME_HOST = "legislature.maine.gov"
+
+
+def is_me_url(url: str) -> bool:
+    return ME_HOST in urllib.parse.urlparse(url).netloc and "/statutes/" in url
+
+
+def _me_body(html: str, sid: str) -> tuple[str, str]:
+    el = BeautifulSoup(html, "html.parser").select_one("div.row.section-content")
+    if not el:
+        return "", ""
+    text = " ".join(el.get_text(" ", strip=True).split())
+    return text, text.split(". ", 1)[0][:200]
+
+
+def pull_me(toc_url: str) -> tuple[list[Section], list[str]]:
+    m = re.search(r"/statutes/(\d+)/", toc_url)
+    if not m:
+        return [], [f"me: cannot parse title from {toc_url}"]
+    t = m.group(1)
+    return pull_via_toc(
+        toc_url,
+        rf"title{t}sec(\d+)\.html",
+        lambda sid: f"https://{ME_HOST}/statutes/{t}/title{t}sec{sid}.html",
+        _me_body,
+        lambda sid: f"{t} M.R.S. §{sid}",
+        "me",
+    )
+
+
+# Idaho — legislature.idaho.gov. TOC T{T}CH{N}/ links sections as SECT{T}-{n}/.
+# The section page repeats TITLE/CHAPTER headers as span.f11s; the statute text
+# (+ trailing bracketed history note) are the f11s spans from the one that opens
+# with the section number onward.
+ID_HOST = "legislature.idaho.gov"
+
+
+def is_id_url(url: str) -> bool:
+    return ID_HOST in urllib.parse.urlparse(url).netloc and "/idstat/" in url
+
+
+def _id_body(html: str, sid: str) -> tuple[str, str]:
+    spans = [" ".join(s.get_text(" ", strip=True).split())
+             for s in BeautifulSoup(html, "html.parser").select("span.f11s")]
+    start = next((i for i, t in enumerate(spans)
+                  if re.match(rf"^{re.escape(sid)}[.\s]", t)), None)
+    if start is None:
+        return "", ""
+    body = " ".join(t for t in spans[start:] if t)
+    return body, spans[start].split(". ", 1)[0][:200]
+
+
+def pull_id(toc_url: str) -> tuple[list[Section], list[str]]:
+    m = re.search(r"/Title(\d+)/", toc_url)
+    if not m:
+        return [], [f"id: cannot parse title from {toc_url}"]
+    t = m.group(1)
+    toc = toc_url if toc_url.endswith("/") else toc_url + "/"
+    return pull_via_toc(
+        toc,
+        rf"SECT({t}-[0-9]+[A-D]?)",
+        lambda sid: f"{toc}SECT{sid}/",
+        _id_body,
+        lambda sid: f"Idaho Code § {sid}",
+        "id",
+    )
+
+
+# Missouri — revisor.mo.gov. TOC OneChapter.aspx?chapter={N} links sections as
+# PageSelect.aspx?section={N.NNN}; body served at OneSection.aspx?section={N.NNN}
+# in div.norm (regex anchored to this chapter so cross-chapter refs don't leak).
+MO_HOST = "revisor.mo.gov"
+
+
+def is_mo_url(url: str) -> bool:
+    return MO_HOST in urllib.parse.urlparse(url).netloc and "OneChapter.aspx" in url
+
+
+def _mo_body(html: str, sid: str) -> tuple[str, str]:
+    soup = BeautifulSoup(html, "html.parser")
+    for t in soup(["script", "style"]):
+        t.decompose()
+    el = soup.select_one("div.norm")
+    if not el:
+        return "", ""
+    text = " ".join(el.get_text(" ", strip=True).split())
+    return text, text.split(". ", 1)[0][:200]
+
+
+def pull_mo(toc_url: str) -> tuple[list[Section], list[str]]:
+    m = re.search(r"chapter=(\d+)", toc_url)
+    if not m:
+        return [], [f"mo: cannot parse chapter from {toc_url}"]
+    chap = m.group(1)
+    return pull_via_toc(
+        toc_url,
+        rf"PageSelect\.aspx\?section=({chap}\.[0-9]+)",
+        lambda sid: f"https://{MO_HOST}/main/OneSection.aspx?section={sid}",
+        _mo_body,
+        lambda sid: f"RSMo § {sid}",
+        "mo",
+    )
+
+
+# Maryland — mgaleg.maryland.gov. No chapter TOC page; instead a GetNext API
+# returns the next section code within an article. We map the Justia path
+# (.../maryland/<article-slug>/title-<n>/) to MD's article code, then walk
+# GetNext from {title}-101 until the title prefix changes (= next title) or the
+# walk runs out. Section body lives at StatuteText in div#StatuteText. The
+# matched node keeps its Justia url (no chapter_url_template) and is intercepted
+# here by host, so Justia is never fetched.
+MD_HOST = "mgaleg.maryland.gov"
+_MD_JUSTIA_RE = re.compile(r"/codes/maryland/([a-z0-9-]+)/title-([0-9a-z]+)", re.I)
+# Justia groups MD articles under prose slugs; MD's own site keys them by short
+# article code. Extend as new (trade) articles are added.
+_MD_ARTICLE_CODE = {
+    "business-occupations-and-professions": "gbo",
+    "business-regulation": "gbr",
+}
+
+
+def is_md_justia_url(url: str) -> bool:
+    return ("law.justia.com" in urllib.parse.urlparse(url).netloc
+            and "/maryland/" in url.lower())
+
+
+def _md_body(html: str, sec: str) -> tuple[str, str]:
+    soup = BeautifulSoup(html, "html.parser")
+    for t in soup(["script", "style"]):
+        t.decompose()
+    el = soup.find(id="StatuteText")
+    if not el:
+        return "", ""
+    text = " ".join(el.get_text(" ", strip=True).split())
+    # Strip the leading "Article - <name> Previous Next" navigation boilerplate.
+    text = re.sub(r"^Article\s*-\s*.*?\bNext\b\s*", "", text)
+    if not text:
+        return "", ""
+    return text, text.split(". ", 1)[0][:200]
+
+
+def pull_md(justia_url: str) -> tuple[list[Section], list[str]]:
+    m = _MD_JUSTIA_RE.search(justia_url)
+    if not m:
+        return [], [f"md: cannot parse article/title from {justia_url}"]
+    slug, title = m.group(1).lower(), m.group(2).upper()
+    code = _MD_ARTICLE_CODE.get(slug)
+    if not code:
+        return [], [f"md: unknown article slug {slug!r} (add to _MD_ARTICLE_CODE)"]
+    sections: list[Section] = []
+    errors: list[str] = []
+    sec: str | None = f"{title}-101"
+    seen: set[str] = set()
+    while sec and sec not in seen and sec.startswith(f"{title}-"):
+        seen.add(sec)
+        surl = (f"https://{MD_HOST}/mgawebsite/Laws/StatuteText"
+                f"?article={code}&section={sec}&enactments=false&archived=false")
+        status, html, err = fetch(surl)
+        time.sleep(PER_HOST_DELAY)
+        if err or not html or (status and not 200 <= status < 300):
+            errors.append(f"md section {surl}: {err or f'http {status}'}")
+            break
+        text, label = _md_body(html, sec)
+        if text:
+            sections.append(Section(
+                url=surl, label=label or f"§ {sec}",
+                citation=f"Md. Code, {code.upper()} § {sec}",
+                text=text, text_len=len(text)))
+        # Advance via GetNext (returns the next section code as a quoted string).
+        nurl = (f"https://{MD_HOST}/mgawebsite/api/Laws/GetNext"
+                f"?articleCode={code}&sectionCode={sec}&enactments=False")
+        nstatus, nbody, nerr = fetch(nurl)
+        time.sleep(PER_HOST_DELAY)
+        if nerr or not nbody or (nstatus and not 200 <= nstatus < 300):
+            break
+        # GetNext content-negotiates: bare JSON ("6-102") under some headers, an
+        # XML wrapper (<string ...>6-102</string>, empty when the title ends)
+        # under curl_cffi's. Pull the inner code out of either shape.
+        xm = re.search(r"<string[^>]*>(.*?)</string>", nbody, re.S)
+        nxt = (xm.group(1) if xm else nbody).strip().strip('"').strip()
+        sec = nxt if nxt and nxt.lower() != "null" else None
+    if not sections and not errors:
+        errors.append(f"md: walk from {title}-101 yielded 0 sections")
+    return sections, errors
+
+
 # --- Illinois (Justia serves a whole ILCS act on one page) ---
 # Like PA, IL acts arrive as ONE inline blob rather than per-section URLs, but the
 # text carries an ILCS citation marker at the head of every section
@@ -999,6 +1238,31 @@ def pull_state(state: str, profession: str, rows: list[dict], limit_sections: in
                 corpus.sections.append(sec)
                 corpus.total_chars += sec.text_len
             log.info("  ny_openleg %s -> %d sections", url, len(ny_sections))
+            continue
+
+        # Per-section-via-TOC states (ME/ID/MO) and Maryland's GetNext walk.
+        # Each is self-contained (one logical chapter -> many section fetches),
+        # so handle here and move on like PA/UT/SD.
+        _ps = None
+        if is_me_url(url):
+            _ps = pull_me(url)
+        elif is_id_url(url):
+            _ps = pull_id(url)
+        elif is_mo_url(url):
+            _ps = pull_mo(url)
+        elif is_md_justia_url(url):
+            _ps = pull_md(url)
+        if _ps is not None:
+            ps_sections, ps_errors = _ps
+            corpus.errors.extend(ps_errors)
+            if not ps_sections:
+                corpus.errors.append(f"per-section {url}: 0 sections")
+            for sec in ps_sections:
+                if limit_sections and len(corpus.sections) >= limit_sections:
+                    break
+                corpus.sections.append(sec)
+                corpus.total_chars += sec.text_len
+            log.info("  per-section %s -> %d sections", url, len(ps_sections))
             continue
 
         # Pennsylvania: each URL is a whole act; fetch once per act and split
