@@ -25,8 +25,15 @@ for i in $(seq 1 75); do          # ~2.5h at 120s
   if [ -z "$(find "$TEXT" -name '*.json' -newermt '-20 minutes' 2>/dev/null)" ]; then
     echo "EVENT=POSSIBLE_HANG (no new state file in 20min — check the grind/Chrome)"; break
   fi
+  # Disk guard: pause the grind before it can fill the disk.
+  FREEKB=$(df -k . | tail -1 | awk '{print $4}')
+  if [ "$FREEKB" -lt 3145728 ]; then   # < 3GB
+    pkill -f _cdp_grind.py
+    echo "EVENT=LOW_DISK (<3GB free — PAUSED the grind to protect the disk)"; break
+  fi
 done
 echo ""
+echo "  free disk: $(df -h . | tail -1 | awk '{print $4}')"
 $PY pipeline/results/batches/_cdp_progress.py 2>/dev/null | grep -E "HARVEST|states pulled|professions complete|currently"
 if [ -n "$PROF" ]; then
   echo ""
