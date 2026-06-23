@@ -1315,6 +1315,38 @@ def split_il_inline(text: str, url: str) -> list[Section]:
     return sections
 
 
+# A fetched section can come back HTTP 200 yet contain NO statute text — an empty
+# extraction (selectors + fallback both miss) or a Cloudflare/bot page that returns
+# 200 (a soft rate-block, or a challenge whose wording the CDP check missed). If we
+# save that as an ok section, downstream stages treat the corpus as complete and the
+# only fix is re-fetching from Justia. So flag these as errors (the grind re-pulls
+# flagged sections) instead of silently shipping them. CF markers are page-specific
+# so they won't appear in real statute text.
+_BLOCK_MARKERS = (
+    "just a moment",
+    "verifying you are human",
+    "attention required! | cloudflare",
+    "needs to review the security of your connection",
+    "enable javascript and cookies to continue",
+    "cloudflare ray id",
+)
+
+
+def bad_section_text(text: str) -> str | None:
+    """Reason the extracted text is not real statute content, else None."""
+    t = (text or "").strip()
+    # 15-char floor: a real Justia/CDP section always extracts >100 chars (nav +
+    # catchline + history), so only a failed extraction lands here. Kept low so
+    # legit title-only sections from official-source handlers (e.g. CT
+    # "Ownership of businesses.") aren't false-flagged on a re-pull.
+    if len(t) < 15:
+        return f"empty/thin extraction ({len(t)} chars) — re-pull"
+    low = t.lower()
+    if any(m in low for m in _BLOCK_MARKERS):
+        return "looks like a Cloudflare/bot block page — re-pull"
+    return None
+
+
 def extract_section_text(html: str) -> str:
     """Extract the main statute text from a section page across known sources.
 
@@ -1691,6 +1723,19 @@ def pull_state(state: str, profession: str, rows: list[dict], limit_sections: in
                 ))
                 continue
             text = extract_section_text(html)
+            bad = bad_section_text(text)
+            if bad:
+                # 200 OK but no real statute text (empty extraction or a block
+                # page). Flag it so the resumable grind re-pulls rather than
+                # silently shipping a partial/corrupt corpus (would force a
+                # blind re-scrape). Keep the text for inspection.
+                corpus.errors.append(f"section {sec['url']}: {bad}")
+                corpus.sections.append(Section(
+                    url=sec["url"], label=sec["label"],
+                    citation=short_citation(sec["label"]),
+                    text=text, text_len=len(text), error=bad,
+                ))
+                continue
             corpus.sections.append(Section(
                 url=sec["url"], label=sec["label"],
                 citation=short_citation(sec["label"]),
