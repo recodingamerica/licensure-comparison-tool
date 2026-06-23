@@ -167,9 +167,30 @@ GA, MA, NJ, TX, WV — official sites are SPAs needing render. Investigate each
 exist for some; spec per-state before building.
 
 ### Hard / skip unless needed
-AR, CO, HI, MS, TN (LexisNexis cookie-wall), and TOC-only/PDF/opaque states
-(OR, WI, AK, AL, IA, ND, WY, OK, KY, LA, IL, NH, SC). Use the paid unblocker if
-these become required.
+NOTE: this list predates CDP-Justia and is now mostly OBSOLETE — CDP pulled
+AK, AL, AR, CO, GA, HI, IA, IL, KY, MA, ND, SC (and more) cleanly. What actually
+remains hard: MS, TN (LexisNexis cookie-wall) and any genuinely opaque/TOC-only
+state CDP-Justia can't reach. Re-confirm a state is hard before treating it as
+skip; use the paid unblocker only if CDP-Justia truly fails.
+
+## KY is NOT PDF-backed — false alarm, KY is fully usable (resolved 2026-06-23)
+The `section-227-160` page that *looked* PDF-only is a **"Repealed, 1954" stub**
+with no body — just a catchline + history. Live KY sections (e.g. 227.200) carry
+the **full statute text in the HTML**, after the "Download as PDF" button (which
+Justia stamps on every page, repealed or not). The CDP crawl pulled KY electrician
+fine: 127 sections, 97 kept after clean (30 repealed stubs dropped), real bodies.
+**No PDF extractor is needed.** KY is a normal Justia state; treat other "PDF"
+states in the skip list with the same skepticism before writing PDF code.
+
+**Real issue the KY sample surfaced + FIXED:** Justia stamps per-section furniture
+("Download as PDF", a "Universal Citation: / <ST> Code § X (YYYY)" block, and the
+AALL "media-neutral citation…official citation." blurb) that was leaking into clean
+text across *all* Justia states. Added strippers to `clean_text.clean_justia`
+(JUSTIA_UNIVERSAL_CITATION, JUSTIA_MEDIA_NEUTRAL_BLURB, "Download as PDF" lonely
+line, broadened the year-breadcrumb line to "…Statutes"). Verified surgical on
+committed SC/WV (0 sections dropped; only the boilerplate lines removed). This
+improves every Justia-sourced corpus on the next clean; published professions get
+it whenever they're next refreshed (don't re-clean them in a trades session).
 
 ## HVAC note
 Only some states license HVAC separately (UT, CT, ID, MD have it). WA, AZ, VA fold
