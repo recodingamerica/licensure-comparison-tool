@@ -36,7 +36,10 @@ def resolve_url(state, chapter):
     def walk(n):
         if isinstance(n, dict):
             u = n.get("url", "")
-            if f"title-{title}/" in u and (f"chapter-{ch}/" in u or f"chapter-{ch}-" in u):
+            # title-{title} may be followed by an intermediate segment (CO:
+            # /title-12/division-of-professions-and-occupations/article-20/) and
+            # the leaf may be article- OR chapter-.
+            if f"title-{title}/" in u and re.search(rf"/(?:article|chapter)-{ch}(?:[-/]|$)", u):
                 found.append(u)
             for v in n.values():
                 walk(v)
