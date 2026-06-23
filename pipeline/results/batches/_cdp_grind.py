@@ -17,11 +17,16 @@ PY = f"{ROOT}/pipeline/.venv/bin/python"
 LOG = f"{ROOT}/pipeline/results/batches/_cdp_grind.log"
 # Professions already complete or in-progress by other means — skip entirely.
 SKIP_PROFS = {"_families"}
-# Published + trades are handled separately; grind the rest. (Trades still have a
-# small gap but are managed by their own batch flow; include them last if desired.)
-TRADES = {"construction_trades", "electrician", "plumbing", "hvac"}
+# Only the 7 published professions are complete (50/50); skip them. Everything
+# else — including the 4 trades' stragglers (hvac etc.) — is fair game. The
+# section cap protects against flat-title trade runaways (OK/LA/NJ).
+TRADES = set()
 PUBLISHED = {"dentistry", "dietetics", "medicine", "nursing", "optometry",
              "podiatry", "public_accountancy"}
+# Per-state section cap: bounds runaway title-level / umbrella over-matches so one
+# bad mapping can't burn hours of the CDP window. Generous for any single niche
+# profession; states that hit it get logged for manual section-range scoping.
+SECTION_CAP = 250
 
 
 def log(msg):
@@ -37,11 +42,14 @@ def pulled_states(prof):
 
 
 def mapped_states(prof):
+    """States with a REAL (non-empty) match. by_state lists all 50 states even
+    when `matched` is empty — pulling those is a wasted no-op and inflates the
+    gap (which broke ordering), so filter to states with actual chapter rows."""
     fp = f"{ROOT}/pipeline/results/profession_index/{prof}.json"
     if not os.path.exists(fp):
         return set()
-    d = json.load(open(fp))
-    return set((d.get("by_state") or {}).keys())
+    bs = json.load(open(fp)).get("by_state") or {}
+    return {s for s, v in bs.items() if v.get("matched")}
 
 
 def gap_ordered():
@@ -79,12 +87,24 @@ def main():
         try:
             subprocess.run(
                 [PY, "-m", "pipeline.ingest.pull_text",
-                 "--profession", prof, "--states", ",".join(missing), "--force"],
+                 "--profession", prof, "--states", ",".join(missing),
+                 "--limit-sections", str(SECTION_CAP), "--force"],
                 cwd=ROOT, check=False,
             )
         except Exception as e:  # noqa: BLE001
             log(f"[{prof}] ERROR: {e!r} — continuing")
             continue
+        # Flag any state that hit the cap — likely a title-level/umbrella over-match
+        # needing manual section-range scoping, not a clean profession chapter.
+        for s in missing:
+            fp = f"{ROOT}/pipeline/results/text/{prof}/{s}.json"
+            if os.path.exists(fp):
+                try:
+                    n = len(json.load(open(fp)).get("sections") or [])
+                except Exception:  # noqa: BLE001
+                    continue
+                if n >= SECTION_CAP:
+                    log(f"[{prof}/{s}] HIT CAP ({n}>={SECTION_CAP}) — review for over-match / manual scope")
         now_have = len(pulled_states(prof))
         log(f"[{prof}] done — now have {now_have} states")
         commit(prof, now_have)
