@@ -1,45 +1,50 @@
 # Trades via official state sources — continuation plan (2026-06-23)
 
 > ## ⏯ RESUME HERE (post-/clear handoff — read this first)
-> **Big shift this session: Justia is pullable again via CDP-attach to a real
-> Chrome (see [[project_official_source_migration]] memory). CDP-Justia is now the
-> DEFAULT source — we no longer build bespoke official-source handlers.**
+> **CDP-Justia is the DEFAULT puller** (attach to the user's real Chrome on
+> :9222; see [[project_official_source_migration]]). The effort has GROWN past the
+> 4 trades into a **full-corpus harvest of ALL ~75 professions** while the CDP
+> window is open (Justia may re-block). Pulling is free (no LLM); extraction is
+> separate + costs money.
 >
-> **Background CDP crawl is (or was) RUNNING** — detached, survives /clear, writes
-> to `pipeline/results/text/`. It pulls the 28 clean-chapter Justia states at a
-> polite pace. Output log: `…/tasks/b472w3l75.output` (check `results/text/` dirs
-> for actual progress; that path may be stale in a new session).
-> - electrician: AL,AR,CO,GA,HI,IA,KY,MA,ND,NH,TX
-> - plumbing: AL,AR,CO,GA,HI,IA,IN,KY,ND,NH,OR,SC,TX
-> - hvac: AL,AR,DE,TX
+> ### Live as of 2026-06-23 ~12:40 EDT
+> - **The GRIND is running/queued**: `pipeline/results/batches/_cdp_grind.py` —
+>   resumable, ONE process, walks ~71 professions biggest-gap-first, pulls each
+>   profession's mapped-but-unpulled states (1,564 total gap), **commits per
+>   profession**, logs to `_cdp_grind.log`. Launched via `_grind_launcher.sh`
+>   (gitignored; waits for the in-flight plumbing pull to free Chrome first).
+> - **Manual job for the user:** re-solve the Cloudflare challenge in the debug
+>   Chrome whenever a pull pauses (expired `cf_clearance`), else the grind stalls.
+> - **THREE extract batches in flight** (poll to write results):
+>   `msgbatch_016WBHk2Eip8wn1PGqVECGQP` (new trades, 15), and the two older
+>   `msgbatch_01BvDXkRrEkHVUWaZt3MGsng` + `msgbatch_01DqgHmD9adpmRtm5DG2s9Ko`
+>   (RI/VT/MT/AZ/FL + GA/SC/WV). `extract_state_batch poll <id>`.
+> - **Downstream driver READY** (not yet run broadly):
+>   `pipeline/results/batches/_cdp_downstream.py` — for each profession with
+>   harvested-but-unextracted text, runs clean→trim→discover_schema(if missing)
+>   →extract_state_batch submit, EXCLUDING states already in flight (reads batch
+>   custom_ids) so it never double-spends. `--dry-run` to preview (free).
+> - **Schema gap:** 51/80 professions have a `discovered/<prof>.json` schema; the
+>   29 missing ones are niche professions the grind is harvesting — the downstream
+>   driver auto-runs `discover_schema` for them (needs their trimmed text first).
 >
-> **To resume / run a CDP Justia pull:** user keeps a debug Chrome open —
-> `/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --remote-debugging-port=9222 --user-data-dir="$HOME/chrome-justia-debug"`
-> (visit a Justia page once, solve the challenge). Then:
-> `JUSTIA_CDP_URL=http://localhost:9222 PULL_HOST_DELAY=7 pipeline/.venv/bin/python -m pipeline.ingest.pull_text --profession <P> --states <…> --force`
-> ONE pull process at a time (one browser); never fire side commands at the same
-> Chrome (extra tabs → reload chaos). It self-heals cf_clearance expiry: pauses
-> ≤6 min for a re-solve, then resumes.
+> ### Manual CDP pull (if running one by hand)
+> User keeps debug Chrome open: `--remote-debugging-port=9222
+> --user-data-dir="$HOME/chrome-justia-debug"` (solve the challenge once). Then
+> `JUSTIA_CDP_URL=http://localhost:9222 PULL_HOST_DELAY=7 pipeline/.venv/bin/python -m pipeline.ingest.pull_text --profession <P> --states <…> --force`.
+> **ONE pull process at a time** (one browser); never fire side commands at the
+> same Chrome. Self-heals cf_clearance expiry: pauses ≤6 min for a re-solve.
 >
-> **PENDING (in priority order):**
-> 1. Let the crawl finish; **re-audit** all trade text (`blank-cite`, THIN<=2
->    sections = flat-title casualty, chrome-leak). Last audit: only LA+NJ
->    construction_trades flagged → already removed.
-> 2. **Flat-title trio OK/LA/NJ** — flat on Justia itself (title-59 / title-37 /
->    title-45, 2000+ sections, no chapter). A whole-title pull is a RUNAWAY. Scope
->    each trade to a section range (`section_slug_pattern` on the title, AZ-podiatry
->    style) then pull via CDP. Hints from stray matches: elec OK§1698 plumb OK§1013
->    hvac OK§1850.8; LA plumb RS37:1361-1380 hvac RS37:1864/1973; NJ contractor 45:5AAA.
-> 3. **clean → trim → extract** the whole new batch (batch API; ~$1-2), consistency
->    check (`pipeline.eval.check_consistency`), then commit.
->
-> **Two extract batches were STUCK in_progress on Anthropic's side** (Medium tier +
-> GA/SC/WV) — poll to write results when they land:
-> `pipeline.extract.extract_state_batch poll msgbatch_01BvDXkRrEkHVUWaZt3MGsng`
-> and `… msgbatch_01DqgHmD9adpmRtm5DG2s9Ko`.
->
-> **Scope notes:** IL construction_trades = Petroleum Equipment Contractors
-> (225 ILCS 729) — narrow, review. AZ hvac match (title-3/§3-727) is spurious — skip.
+> ### Still-pending trade specifics
+> - **Flat-title trio OK/LA/NJ** — flat on Justia (title-59/37/45, 2000+ sections,
+>   no chapter). Whole-title pull is a RUNAWAY; scope each trade to a section range
+>   (`section_slug_pattern`, AZ-podiatry style). Hints: elec OK§1698 plumb OK§1013
+>   hvac OK§1850.8; LA plumb RS37:1361-1380 hvac RS37:1864/1973; NJ contractor 45:5AAA.
+> - IL construction_trades = Petroleum Equipment Contractors (225 ILCS 729) —
+>   narrow, review. AZ hvac match (title-3/§3-727) is spurious — skip.
+> - Storage decision (2026-06-23): commit raw text to git + push periodically
+>   (already durable on GitHub). NOT moving raw statutes to Vercel blob. Disk hog
+>   is `pipeline/publish/web` (2.2G regenerable), not the 85M of statutes.
 
 Self-contained handoff. Goal: pull **all four building trades** (construction_trades,
 electrician, plumbing, hvac) for **as many states as possible**. Primary source is
