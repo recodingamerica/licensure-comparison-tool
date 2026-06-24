@@ -1,0 +1,138 @@
+"""LLM-based occupation→chapter mapper (Pass 1).
+
+Replaces brittle keyword matching (match_profession) with judgment: for each
+state, hand the LLM that state's chapter list (from results/hierarchy/) plus the
+profession definition and ask which chapter(s) hold THIS profession's licensing —
+including when the label doesn't contain the profession keyword (umbrella
+"Occupational Code"/"Contractors"/"Construction Industries" chapters, or a
+classification under one contractor board). When the licensing is likely nested
+inside a broad container whose sub-articles aren't in the top-level hierarchy, the
+LLM flags the container URL to expand (Pass 2, separate).
+
+Output is a CANDIDATE file (results/profession_index/_llm_candidates/<prof>.json)
+for review — it does NOT overwrite profession_index (which carries manual
+additions). Apply selectively.
+
+Run:
+  pipeline/.venv/bin/python -m pipeline.discover.llm_map_profession --profession electrician
+  pipeline/.venv/bin/python -m pipeline.discover.llm_map_profession --profession electrician --states NM,CA,OR,WI  # subset
+"""
+from __future__ import annotations
+
+import argparse
+import json
+import re
+import sys
+from pathlib import Path
+
+import yaml
+from pydantic import BaseModel, Field
+
+from pipeline._env import load_env  # noqa: E402
+load_env()
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from _llm import call_structured  # noqa: E402
+from paths import RESULTS_DIR, CONFIG_DIR  # noqa: E402
+
+HIER_DIR = RESULTS_DIR / "hierarchy"
+OUT_DIR = RESULTS_DIR / "profession_index" / "_llm_candidates"
+MODEL = "claude-haiku-4-5-20251001"  # cheap; this is a wide first-pass screen
+
+ALL_STATES = ("AK AL AR AZ CA CO CT DE FL GA HI IA ID IL IN KS KY LA MA MD ME MI "
+              "MN MO MS MT NC ND NE NH NJ NM NV NY OH OK OR PA RI SC SD TN TX UT "
+              "VA VT WA WI WV WY").split()
+
+# Drop obvious non-licensing noise from the chapter list to keep the prompt tight.
+_NOISE = re.compile(r"\brepealed\b", re.I)
+
+
+class StateMapping(BaseModel):
+    licensed: bool = Field(description="Is this profession licensed/regulated at the STATE level in this state (vs. local-only or not regulated)?")
+    chapter_urls: list[str] = Field(default_factory=list, description="URLs of the chapter(s)/article(s) whose text contains this profession's licensing law. Empty if not licensed or if only an umbrella container can be identified.")
+    umbrella_container_url: str | None = Field(default=None, description="If the licensing is almost certainly nested inside a broad container chapter (e.g. an 'Occupational Code', 'Contractors', or 'Construction Industries' chapter) whose sub-articles are NOT shown in the list, give that container's URL to expand later. Else null.")
+    basis: str = Field(description="One sentence: which chapter label(s) and why — the evidence used. Not a confidence score.")
+
+
+def load_profession(prof: str) -> dict:
+    d = yaml.safe_load((CONFIG_DIR / "professions.yaml").read_text())
+    if prof not in d:
+        sys.exit(f"profession {prof!r} not in professions.yaml")
+    return d[prof]
+
+
+def state_chapter_list(state: str) -> list[dict]:
+    fp = HIER_DIR / f"{state}.json"
+    if not fp.exists():
+        return []
+    chapters = json.loads(fp.read_text()).get("chapters", []) or []
+    out = []
+    for c in chapters:
+        lab = (c.get("label") or "").strip()
+        if not lab or _NOISE.search(lab):
+            continue
+        out.append({"label": lab[:120], "url": c.get("url", "")})
+    return out
+
+
+SYSTEM = (
+    "You map U.S. state occupational-licensing statutes. Given one state's list of "
+    "code chapters (label + url) and one profession, identify which chapter(s) hold "
+    "that profession's LICENSING law. Key judgment: the right chapter often does NOT "
+    "contain the profession's name — it may be a broad 'Occupational Code', "
+    "'Contractors', 'Construction Industries Licensing', or 'Professions and "
+    "Occupations' chapter that licenses the profession as one classification among "
+    "many. If the profession is clearly licensed but only via such a broad container "
+    "whose sub-articles are not in the list, return that container as "
+    "umbrella_container_url (to expand later) rather than guessing. If the profession "
+    "is regulated only locally or not at the state level, set licensed=false. Be "
+    "precise; prefer the specific licensing chapter over general administrative ones."
+)
+
+
+def map_state(prof: str, defn: dict, state: str) -> dict | None:
+    chapters = state_chapter_list(state)
+    if not chapters:
+        return None
+    listing = "\n".join(f"- {c['label']}  [{c['url']}]" for c in chapters)
+    user = (
+        f"PROFESSION: {defn.get('display', prof)}\n"
+        f"(matches terms like: {', '.join(defn.get('patterns') or [])})\n\n"
+        f"STATE: {state}\nCHAPTERS:\n{listing}\n\n"
+        "Which chapter(s) hold this profession's state licensing law?"
+    )
+    res = call_structured(model=MODEL, system=SYSTEM, user=user, schema_cls=StateMapping,
+                          embed_schema=True, log_prefix=f"[{state}]")
+    if res is None:
+        return None
+    return {"state": state, **res.model_dump()}
+
+
+def main() -> None:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--profession", required=True)
+    ap.add_argument("--states", default="", help="comma-separated subset; default all")
+    args = ap.parse_args()
+    prof = args.profession.lower()
+    defn = load_profession(prof)
+    states = [s.strip().upper() for s in args.states.split(",") if s.strip()] or ALL_STATES
+
+    rows = []
+    for st in states:
+        r = map_state(prof, defn, st)
+        if r is None:
+            continue
+        rows.append(r)
+        flag = "UMBRELLA→expand" if r["umbrella_container_url"] else ("licensed" if r["licensed"] else "not-licensed")
+        print(f"  {st}: {flag} | {len(r['chapter_urls'])} chap | {r['basis'][:70]}")
+
+    OUT_DIR.mkdir(parents=True, exist_ok=True)
+    out = OUT_DIR / f"{prof}.json"
+    out.write_text(json.dumps({"profession": prof, "states": rows}, indent=1, ensure_ascii=False))
+    lic = sum(1 for r in rows if r["licensed"])
+    umb = sum(1 for r in rows if r["umbrella_container_url"])
+    print(f"\n{prof}: {lic}/{len(rows)} licensed ({umb} umbrella-to-expand) → {out}")
+
+
+if __name__ == "__main__":
+    main()
