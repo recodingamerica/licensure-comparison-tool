@@ -13,8 +13,11 @@
 > - `ps -ax | grep pull_text` → what's pulling (must be ONE; never two on one Chrome).
 > - `pipeline/.venv/bin/python pipeline/results/batches/_cdp_audit.py` → corpus health.
 >
-> **As of 2026-06-24 ~07:00:** ~21% pulled (≈350/1683 states). Grind paused briefly
-> for an MD re-pull (see in-flight). Disk ~13GB free (guard pauses grind <3GB).
+> **As of 2026-06-24 ~07:30:** ~21% pulled (≈350/1683 states), grind on `cosmetology`.
+> Earlier the grind sat dead ~07:00 because `md_then_grind.sh` ran an MD re-pull
+> inline first and `pull_md` ran away (no cap on the GetNext walk) — fixed (see
+> below) and grind restarted (recomputed gap-order, so it's early-alphabet again;
+> it'll circle back to partials). NEVER block the grind behind an inline MD pull.
 
 ## The toolkit (`pipeline/results/batches/_cdp_*.py`)
 - `_cdp_grind.py` — resumable harvest driver. ONE process, walks professions by
@@ -55,12 +58,24 @@
   contractor chapters (MS/NC/OH/OR); MI recovered from umbrella-hidden Skilled Trades Act.
 - **Audit gained**: thin-flag, and the proactive overnight audit surfaced the MD/ND issues.
 
+## DONE 2026-06-24 ~07:30 (this session)
+- **Trade extraction (was NEXT #2): COMPLETE.** Polled all 4 batches
+  (construction/electrician/plumbing/hvac) → 39 records, 0 errors. Re-extracted
+  PA+SC construction_trades (structured had been deleted prior session). Consistency:
+  493 records, 0 violations. Committed f3487e4.
+- **MD gho fix (was NEXT #1): VERIFIED working.** pharmacy/MD now pulls GHO §12-101+
+  (was erroring "unknown article slug 'health-occupations'" only in the *stale* file).
+- **pull_md runaway: FIXED (commit e1cfa32).** `pull_md` now takes `limit=` and breaks
+  the GetNext walk at the section cap; wired `pull_md(url, limit_sections)` at the call
+  site. This both fixes the empty-MD and the half-hour stall that killed the grind.
+
 ## In-flight (as of handoff)
-- MD re-pull (pharmacy/psychology/chiropractic/funeral/mental_health × MD), then the
-  grind auto-resumes + re-caffeinates (script `/tmp/md_then_grind.sh`).
-- Trade extraction batches submitted (msgbatch_0156Ce…, 011EWSs…, 0169A3Q…, +1) — poll
-  with `pipeline.extract.extract_state_batch poll <id>` to write results, then verify
-  (`check_consistency` + count `unverified` nodes).
+- **MD full re-pull running** (`/tmp/md_repull.sh`, bg): pharmacy/psychology/chiropractic/
+  funeral_services/mental_health_counseling × MD at cap 250, PULL_HOST_DELAY=2. Bounded
+  now, runs on mgaleg host (safe alongside the Justia grind). When done: run
+  clean→trim→extract for those 5 MD states (downstream only, no Justia) to land structured.
+- **ME/NH/LA/WA trades**: text present (2–10 sec) but trim dropped ALL → wrong-chapter
+  mapping vs. correct-drop; needs a scoping look (NEXT #4/#5 territory), not a re-extract.
 
 ## NEXT STEPS (prioritized)
 1. **Verify MD re-pull worked** (gho fix). If MD now pulls sections, the empty MD
