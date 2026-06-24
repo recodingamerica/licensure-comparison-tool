@@ -1,0 +1,605 @@
+{
+  "profession": "plumbing",
+  "fields": [
+    {
+      "field_name": "licensure.license_required",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether a state-level license is required"
+    },
+    {
+      "field_name": "licensure.issuing_authority",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text agency names, essentially unique per state"
+    },
+    {
+      "field_name": "licensure.regulatory_authority.name",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text agency names, essentially unique per state"
+    },
+    {
+      "field_name": "licensure.regulatory_authority.type",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "standalone_board",
+        "shared_board",
+        "department",
+        "division"
+      ],
+      "reason": "small stable set of authority structure types, directly comparable across states"
+    },
+    {
+      "field_name": "licensure.post_degree_experience.required",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether post-degree experience is required for licensure"
+    },
+    {
+      "field_name": "licensure.post_degree_experience.experience_source",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "required_by_statute",
+        "none"
+      ],
+      "reason": "small stable set indicating whether experience requirement is statutory or absent"
+    },
+    {
+      "field_name": "licensure.post_degree_experience.duration",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text descriptions with multiple tiers, mixed units (hours/years), and tier-specific values not reducible to a single number"
+    },
+    {
+      "field_name": "licensure.post_degree_experience.kind",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text descriptions of experience type, highly idiosyncratic per state"
+    },
+    {
+      "field_name": "licensure.renewal.interval_years",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "years",
+      "categories": null,
+      "reason": "numeric renewal cycle length in years, directly comparable across states"
+    },
+    {
+      "field_name": "licensure.continuing_education.required",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether continuing education is required for renewal"
+    },
+    {
+      "field_name": "licensure.reciprocity.available",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether reciprocity or endorsement pathways exist"
+    },
+    {
+      "field_name": "licensure.reciprocity.requirements",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text prose descriptions of reciprocity conditions, not comparable"
+    },
+    {
+      "field_name": "licensure.advisory_board.exists",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether a separate advisory board exists"
+    },
+    {
+      "field_name": "licensure.regulatory_model",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "license",
+        "mandatory_certification",
+        "registration",
+        "voluntary_certification",
+        "exemption",
+        "market_forces"
+      ],
+      "reason": "values come from the UORF regulatory ladder enum; all states report 'license'"
+    },
+    {
+      "field_name": "licensure.credential_type",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "license",
+        "certification",
+        "registration"
+      ],
+      "reason": "small stable set of credential types issued by states"
+    },
+    {
+      "field_name": "licensure.is_mandatory",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether licensure is mandatory to practice"
+    },
+    {
+      "field_name": "licensure.title_protection",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether the licensed title is legally protected"
+    },
+    {
+      "field_name": "licensure.scope_protection",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether the scope of practice is legally protected"
+    },
+    {
+      "field_name": "licensure.alternative_regulation.establishment_regulation_required",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether business/establishment-level regulation is required"
+    },
+    {
+      "field_name": "scope.definition_quote",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text statutory definitions, not comparable across states"
+    },
+    {
+      "field_name": "scope.methods_authorized",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "variable-length lists of free-text method descriptions, not reducible to a single comparable value"
+    },
+    {
+      "field_name": "profession_specific.license_tiers",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "variable-length lists of tier names that differ substantially across states, not directly comparable"
+    },
+    {
+      "field_name": "profession_specific.residential_building_unit_cap",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "dwelling units",
+      "categories": null,
+      "reason": "numeric cap on residential building units for restricted license scope, directly comparable"
+    },
+    {
+      "field_name": "profession_specific.apprentice_supervision_requirement",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text prose descriptions of supervision requirements, not comparable"
+    },
+    {
+      "field_name": "profession_specific.apprentice_to_supervisor_ratio_regulated",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether the apprentice-to-supervisor ratio is formally regulated"
+    },
+    {
+      "field_name": "profession_specific.journeyman_experience_pathways",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "variable-length lists of free-text pathway descriptions, not comparable"
+    },
+    {
+      "field_name": "profession_specific.master_plumber_supervisory_experience_required",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether supervisory experience is required before obtaining master plumber license"
+    },
+    {
+      "field_name": "profession_specific.gas_supply_work_included_in_scope",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether gas supply work is included in the plumbing scope of practice"
+    },
+    {
+      "field_name": "profession_specific.natural_gas_appliance_certification_required",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether a separate natural gas appliance certification is required"
+    },
+    {
+      "field_name": "profession_specific.contractor_qualifier_license_requirement",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "all values are identical free-text strings; no variation to map"
+    },
+    {
+      "field_name": "profession_specific.minor_plumbing_repair_exemption",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether minor plumbing repairs are exempt from licensure requirements"
+    },
+    {
+      "field_name": "licensure.advisory_board.name",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text board names, essentially unique per state"
+    },
+    {
+      "field_name": "licensure.advisory_board.authority",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text prose descriptions of board authority, not comparable"
+    },
+    {
+      "field_name": "profession_specific.expedited_licensure_pathway_available",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether an expedited licensure pathway exists"
+    },
+    {
+      "field_name": "profession_specific.fire_sprinkler_work_authorized",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether fire sprinkler work is within the plumbing scope of practice"
+    },
+    {
+      "field_name": "licensure.regulatory_authority.umbrella_agency",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text agency names, essentially unique per state"
+    },
+    {
+      "field_name": "licensure.education.degree_required",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text descriptions of education requirements with multiple conditional pathways, not comparable"
+    },
+    {
+      "field_name": "licensure.education.degree_level",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "none",
+        "high_school",
+        "associate",
+        "bachelor",
+        "graduate"
+      ],
+      "reason": "small stable set of education credential levels required for licensure"
+    },
+    {
+      "field_name": "licensure.education.school_approval_basis",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "board_approved",
+        "state_approved",
+        "nationally_accredited",
+        "unspecified"
+      ],
+      "reason": "small stable set of school approval mechanisms"
+    },
+    {
+      "field_name": "licensure.education.credential_pegged",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether licensure is pegged to a specific educational credential"
+    },
+    {
+      "field_name": "licensure.continuing_education.hours_per_period",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "hours per renewal period",
+      "categories": null,
+      "reason": "numeric CE hours required per renewal period, directly comparable across states"
+    },
+    {
+      "field_name": "licensure.continuing_education.period_years",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "years",
+      "categories": null,
+      "reason": "numeric length of the CE reporting period in years, directly comparable"
+    },
+    {
+      "field_name": "licensure.continuing_education.topical_requirements",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "variable-length lists of free-text topic descriptions, not comparable"
+    },
+    {
+      "field_name": "profession_specific.residential_scope_limited",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether a restricted residential-only license tier exists"
+    },
+    {
+      "field_name": "profession_specific.plumbing_trade_geographic_limit_feet",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "feet",
+      "categories": null,
+      "reason": "numeric distance from building foundation defining the plumbing scope boundary"
+    },
+    {
+      "field_name": "profession_specific.qualifier_replacement_notice_days",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "days",
+      "categories": null,
+      "reason": "numeric number of days allowed to replace a qualifying license holder after departure"
+    },
+    {
+      "field_name": "profession_specific.continuing_education_hours_plumber",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "hours per renewal period",
+      "categories": null,
+      "reason": "numeric CE hours required for plumber licensees per renewal period, directly comparable"
+    },
+    {
+      "field_name": "licensure.age_minimum",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "years",
+      "categories": null,
+      "reason": "numeric minimum age for licensure, directly comparable across states"
+    },
+    {
+      "field_name": "licensure.renewal_fee_usd",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "USD",
+      "categories": null,
+      "reason": "numeric renewal fee in US dollars, directly comparable across states"
+    },
+    {
+      "field_name": "profession_specific.qualifier_replacement_grace_period_days",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "days",
+      "categories": null,
+      "reason": "numeric grace period in days for replacing a qualifying license holder"
+    },
+    {
+      "field_name": "licensure.alternative_regulation.bonding_required",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether a surety bond is required for licensure or contractor registration"
+    },
+    {
+      "field_name": "profession_specific.natural_gas_facilities_installation_authorized",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether installation of natural gas facilities is explicitly authorized"
+    },
+    {
+      "field_name": "licensure.national_certification",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text names of national certification bodies, only two states reported"
+    },
+    {
+      "field_name": "licensure.alternative_regulation.insurance_required",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether liability insurance is required for licensure or contractor registration"
+    },
+    {
+      "field_name": "profession_specific.continuing_education_hours_contractor",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "hours per renewal period",
+      "categories": null,
+      "reason": "numeric CE hours required for plumbing contractors per renewal period, directly comparable"
+    },
+    {
+      "field_name": "licensure.moral_character_required",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether good moral character is an explicit statutory licensure requirement"
+    },
+    {
+      "field_name": "licensure.education.accrediting_body",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text names of accrediting bodies, essentially unique per state"
+    },
+    {
+      "field_name": "licensure.national_association",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text association names, only one state reported; not comparable"
+    },
+    {
+      "field_name": "licensure.exams",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "only one state reported and value is an empty list; insufficient data for mapping"
+    },
+    {
+      "field_name": "profession_specific.apprentice_unsupervised_hours_allowed",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "hours",
+      "categories": null,
+      "reason": "numeric hours an apprentice may work unsupervised; only one state but field is continuous and mappable in principle"
+    },
+    {
+      "field_name": "profession_specific.apprentice_unsupervised_training_year_threshold",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "years",
+      "categories": null,
+      "reason": "numeric training year threshold after which unsupervised hours are permitted"
+    },
+    {
+      "field_name": "profession_specific.long_term_compliance_qualifier_waiver_years",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "years",
+      "categories": null,
+      "reason": "numeric years of compliance required to qualify for a qualifier waiver"
+    },
+    {
+      "field_name": "profession_specific.small_project_dollar_threshold",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "USD",
+      "categories": null,
+      "reason": "numeric dollar threshold below which small-project exemptions apply"
+    }
+  ]
+}
