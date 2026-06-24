@@ -32,7 +32,7 @@ from pipeline._env import load_env  # noqa: E402
 load_env()
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from _llm import call_structured  # noqa: E402
+from _llm import call_structured, usage_summary  # noqa: E402
 from paths import RESULTS_DIR, CONFIG_DIR  # noqa: E402
 
 HIER_DIR = RESULTS_DIR / "hierarchy"
@@ -108,11 +108,91 @@ def map_state(prof: str, defn: dict, state: str) -> dict | None:
     return {"state": state, **res.model_dump()}
 
 
+# ---------- Batched mode: one call per state maps MANY professions ----------
+# The per-state chapter list dominates token cost; sending it once per state and
+# mapping a batch of professions against it is ~25x cheaper than one call per
+# (profession, state). Output is bounded by batching professions in groups.
+PROF_BATCH = 20
+
+
+class ProfMapping(StateMapping):
+    profession: str = Field(description="the profession key this mapping is for")
+
+
+class BatchResult(BaseModel):
+    mappings: list[ProfMapping] = Field(description="one entry per profession asked about")
+
+
+SYSTEM_BATCH = SYSTEM + (
+    "\n\nYou will be given ONE state's chapter list and SEVERAL professions. Return "
+    "a mapping for EVERY profession in the list (use its exact key)."
+)
+
+
+def map_state_batch(state: str, profs: list[tuple[str, dict]]) -> list[dict]:
+    chapters = state_chapter_list(state)
+    if not chapters:
+        return []
+    listing = "\n".join(f"- {c['label']}  [{c['url']}]" for c in chapters)
+    out: list[dict] = []
+    for i in range(0, len(profs), PROF_BATCH):
+        chunk = profs[i:i + PROF_BATCH]
+        proflines = "\n".join(
+            f"- key={k}: {d.get('display', k)} (terms: {', '.join((d.get('patterns') or [])[:6])})"
+            for k, d in chunk
+        )
+        user = (
+            f"STATE: {state}\nCHAPTERS:\n{listing}\n\n"
+            f"PROFESSIONS (map each one):\n{proflines}\n\n"
+            "For each profession key, which chapter(s) hold its state licensing law?"
+        )
+        res = call_structured(model=MODEL, system=SYSTEM_BATCH, user=user,
+                              schema_cls=BatchResult, embed_schema=True,
+                              max_tokens=8000, log_prefix=f"[{state} {i//PROF_BATCH+1}]")
+        if res is None:
+            continue
+        for m in res.mappings:
+            out.append({"state": state, **m.model_dump()})
+    return out
+
+
+def run_batched(prof_names: list[str], states: list[str]) -> None:
+    alldefs = yaml.safe_load((CONFIG_DIR / "professions.yaml").read_text())
+    profs = [(k, alldefs[k]) for k in prof_names if k in alldefs and not k.startswith("_")]
+    # accumulate per-profession rows
+    by_prof: dict[str, list[dict]] = {k: [] for k, _ in profs}
+    for st in states:
+        rows = map_state_batch(st, profs)
+        for r in rows:
+            p = r.pop("profession", None)
+            if p in by_prof:
+                by_prof[p].append(r)
+        done = sum(1 for r in rows if r.get("licensed"))
+        print(f"  {st}: mapped {len(rows)} professions ({done} licensed)")
+    OUT_DIR.mkdir(parents=True, exist_ok=True)
+    for p, rows in by_prof.items():
+        (OUT_DIR / f"{p}.json").write_text(json.dumps({"profession": p, "states": rows}, indent=1, ensure_ascii=False))
+    print(f"\nbatched: {len(profs)} professions x {len(states)} states → {OUT_DIR}")
+    print(f"USAGE: {json.dumps(usage_summary())}")
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--profession", required=True)
+    ap.add_argument("--profession", help="single profession (one call per state)")
+    ap.add_argument("--all", action="store_true", help="batched: map ALL professions (cheap; one call per state per ~20 professions)")
+    ap.add_argument("--professions", default="", help="batched: comma-separated profession subset")
     ap.add_argument("--states", default="", help="comma-separated subset; default all")
     args = ap.parse_args()
+    states = [s.strip().upper() for s in args.states.split(",") if s.strip()] or ALL_STATES
+
+    if args.all or args.professions:
+        alldefs = yaml.safe_load((CONFIG_DIR / "professions.yaml").read_text())
+        names = ([k for k in alldefs if not k.startswith("_")] if args.all
+                 else [s.strip() for s in args.professions.split(",") if s.strip()])
+        run_batched(names, states)
+        return
+    if not args.profession:
+        ap.error("give --profession, or --all / --professions for batched mode")
     prof = args.profession.lower()
     defn = load_profession(prof)
     states = [s.strip().upper() for s in args.states.split(",") if s.strip()] or ALL_STATES
@@ -132,6 +212,7 @@ def main() -> None:
     lic = sum(1 for r in rows if r["licensed"])
     umb = sum(1 for r in rows if r["umbrella_container_url"])
     print(f"\n{prof}: {lic}/{len(rows)} licensed ({umb} umbrella-to-expand) → {out}")
+    print(f"USAGE: {json.dumps(usage_summary())}")
 
 
 if __name__ == "__main__":
