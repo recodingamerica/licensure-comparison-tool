@@ -10,7 +10,27 @@ Run from repo root:
   JUSTIA_CDP_URL=http://localhost:9222 PULL_HOST_DELAY=7 \
     pipeline/.venv/bin/python pipeline/results/batches/_cdp_grind.py
 """
-import csv, glob, json, os, subprocess, sys, datetime
+import csv, glob, json, os, signal, subprocess, sys, datetime
+
+# Track the current child pull so killing the grind doesn't orphan it. An orphaned
+# pull_text keeps hammering the shared Chrome and collides with any later pull
+# (garbled 1-section "partials"). On SIGTERM/SIGINT, kill the child's whole
+# process group, then exit.
+_CHILD = None
+
+
+def _kill_child_and_exit(signum, _frame):
+    global _CHILD
+    if _CHILD and _CHILD.poll() is None:
+        try:
+            os.killpg(os.getpgid(_CHILD.pid), signal.SIGTERM)
+        except Exception:  # noqa: BLE001
+            pass
+    sys.exit(143)
+
+
+signal.signal(signal.SIGTERM, _kill_child_and_exit)
+signal.signal(signal.SIGINT, _kill_child_and_exit)
 
 ROOT = "/Users/abigailhaddad/Documents/repos/utah"
 PY = f"{ROOT}/pipeline/.venv/bin/python"
@@ -107,12 +127,17 @@ def main():
             continue
         log(f"[{prof}] pulling {len(missing)} states: {missing}")
         try:
-            subprocess.run(
+            global _CHILD
+            # start_new_session=True puts the child in its own process group so
+            # the signal handler can kill the whole group (not just the wrapper).
+            _CHILD = subprocess.Popen(
                 [PY, "-m", "pipeline.ingest.pull_text",
                  "--profession", prof, "--states", ",".join(missing),
                  "--limit-sections", str(SECTION_CAP), "--force"],
-                cwd=ROOT, check=False,
+                cwd=ROOT, start_new_session=True,
             )
+            _CHILD.wait()
+            _CHILD = None
         except Exception as e:  # noqa: BLE001
             log(f"[{prof}] ERROR: {e!r} — continuing")
             continue
