@@ -45,6 +45,9 @@ ALL_STATES = ("AK AL AR AZ CA CO CT DE FL GA HI IA ID IL IN KS KY LA MA MD ME MI
 
 # Drop obvious non-licensing noise from the chapter list to keep the prompt tight.
 _NOISE = re.compile(r"\brepealed\b", re.I)
+# A leaf SECTION url-segment (vs a chapter/article/title) — flat-title states list
+# thousands of these; the mapper wants structure granularity, not every section.
+_LEAF_SECTION = re.compile(r"^(section-|rs-\d|statute-\d|s-\d|\d+[-.]\d+[-.]\d)", re.I)
 
 
 class StateMapping(BaseModel):
@@ -71,8 +74,16 @@ def state_chapter_list(state: str) -> list[dict]:
         lab = (c.get("label") or "").strip()
         if not lab or _NOISE.search(lab):
             continue
+        # Drop individual LEAF SECTIONS — the mapper wants chapter/article/title
+        # granularity, not 1,500 flat sections (which blow the 200k context for
+        # flat-title states like AZ title-32). Section-level slugs: section-…,
+        # rs-NN-…, a trailing NN-NN-NN. Flat-title states then map to the title +
+        # are section-range-scoped separately (a known manual step).
+        last = (c.get("url", "").rstrip("/").rsplit("/", 1)[-1]).lower()
+        if _LEAF_SECTION.match(last):
+            continue
         out.append({"label": lab[:120], "url": c.get("url", "")})
-    return out
+    return out[:1200]  # safety cap (~100k tokens) so no state exceeds the 200k window
 
 
 SYSTEM = (
