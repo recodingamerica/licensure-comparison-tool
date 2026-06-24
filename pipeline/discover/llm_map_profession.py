@@ -176,14 +176,97 @@ def run_batched(prof_names: list[str], states: list[str]) -> None:
     print(f"USAGE: {json.dumps(usage_summary())}")
 
 
+# ---------- Pass 2: expand umbrella containers into specific articles ----------
+# Pass 1 flags states where the profession is licensed but only via a broad
+# container chapter whose sub-articles weren't in the hierarchy. Pass 2 fetches
+# each flagged container's article list (Justia — shares the CDP Chrome with the
+# grind via the flock, so it serializes) and asks the LLM which article(s) hold
+# the profession's license, resolving the flag to concrete chapter_urls.
+
+class ArticlePick(BaseModel):
+    licensed: bool = Field(description="Does the container actually license this profession (in one of its articles)?")
+    article_urls: list[str] = Field(default_factory=list, description="URL(s) of the specific article(s)/section-range that license this profession")
+    basis: str
+
+
+def _container_articles(container_url: str) -> list[dict]:
+    """Fetch a container chapter page and return its child article/section links."""
+    from pipeline.ingest import pull_text as pt
+    from bs4 import BeautifulSoup
+    import urllib.parse as _up
+    status, html, _ = pt.fetch(container_url)
+    if not html:
+        return []
+    base_path = _up.urlparse(container_url).path.rstrip("/")
+    soup = BeautifulSoup(html, "html.parser")
+    out, seen = [], set()
+    for a in soup.find_all("a", href=True):
+        href = a["href"]
+        path = _up.urlparse(href).path
+        # children of the container (one level deeper), not the container itself
+        if base_path in href and path.rstrip("/") != base_path:
+            lab = " ".join(a.get_text(" ", strip=True).split())
+            if lab and href not in seen and len(lab) > 4:
+                seen.add(href)
+                out.append({"label": lab[:120], "url": href})
+    return out[:200]
+
+
+def run_pass2(prof: str) -> None:
+    defn = load_profession(prof)
+    fp = OUT_DIR / f"{prof}.json"
+    if not fp.exists():
+        sys.exit(f"no Pass-1 candidate file for {prof} — run Pass 1 first")
+    d = json.loads(fp.read_text())
+    flagged = [r for r in d["states"] if r.get("umbrella_container_url")]
+    print(f"{prof}: expanding {len(flagged)} umbrella-flagged states")
+    for r in flagged:
+        arts = _container_articles(r["umbrella_container_url"])
+        if not arts:
+            print(f"  {r['state']}: container fetch empty — leaving flagged")
+            continue
+        listing = "\n".join(f"- {a['label']}  [{a['url']}]" for a in arts)
+        user = (f"PROFESSION: {defn.get('display', prof)} (terms: {', '.join(defn.get('patterns') or [])})\n"
+                f"STATE: {r['state']}\nThis is the article list inside the container "
+                f"{r['umbrella_container_url']}:\n{listing}\n\n"
+                "Which article(s) license this profession? If a specific article does, "
+                "return it. If the container licenses it as a whole (unified contractor "
+                "license, no per-trade article), licensed=true with empty article_urls. "
+                "If it doesn't license this profession at all, licensed=false.")
+        res = call_structured(model=MODEL, system=SYSTEM, user=user, schema_cls=ArticlePick,
+                              embed_schema=True, log_prefix=f"[{r['state']}]")
+        if res and res.licensed:
+            # If a specific article was found use it; otherwise the container
+            # itself IS the license (unified contractor chapter, no per-trade
+            # article — e.g. CA CSLB / NV NRS 624 license electricians as a
+            # classification, not a separate statute article).
+            r["chapter_urls"] = res.article_urls or [r["umbrella_container_url"]]
+            r["licensed"] = True
+            r["umbrella_container_url"] = None
+            print(f"  {r['state']}: resolved → {r['chapter_urls'][0].split('/codes/')[-1][:40]}")
+        else:
+            r["licensed"] = False
+            print(f"  {r['state']}: container has no matching article → not licensed")
+    fp.write_text(json.dumps(d, indent=1, ensure_ascii=False))
+    print(f"\n{prof}: Pass-2 written → {fp}")
+    print(f"USAGE: {json.dumps(usage_summary())}")
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--profession", help="single profession (one call per state)")
+    ap.add_argument("--pass2", action="store_true", help="expand umbrella-flagged states in the Pass-1 candidate file (needs --profession; uses Justia)")
     ap.add_argument("--all", action="store_true", help="batched: map ALL professions (cheap; one call per state per ~20 professions)")
     ap.add_argument("--professions", default="", help="batched: comma-separated profession subset")
     ap.add_argument("--states", default="", help="comma-separated subset; default all")
     args = ap.parse_args()
     states = [s.strip().upper() for s in args.states.split(",") if s.strip()] or ALL_STATES
+
+    if args.pass2:
+        if not args.profession:
+            ap.error("--pass2 needs --profession")
+        run_pass2(args.profession.lower())
+        return
 
     if args.all or args.professions:
         alldefs = yaml.safe_load((CONFIG_DIR / "professions.yaml").read_text())
