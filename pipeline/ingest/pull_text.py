@@ -1000,7 +1000,7 @@ def _md_body(html: str, sec: str) -> tuple[str, str]:
     return text, text.split(". ", 1)[0][:200]
 
 
-def pull_md(justia_url: str) -> tuple[list[Section], list[str]]:
+def pull_md(justia_url: str, limit: int | None = None) -> tuple[list[Section], list[str]]:
     m = _MD_JUSTIA_RE.search(justia_url)
     if not m:
         return [], [f"md: cannot parse article/title from {justia_url}"]
@@ -1012,7 +1012,13 @@ def pull_md(justia_url: str) -> tuple[list[Section], list[str]]:
     errors: list[str] = []
     sec: str | None = f"{title}-101"
     seen: set[str] = set()
+    # Bound the GetNext walk by the section cap: a MD title's Health-Occupations
+    # walk can be 1000+ sections; without this the per-section cap (applied by the
+    # caller only AFTER pull_md returns) never stops the fetch loop, so a single
+    # MD state could run for half an hour and stall the whole harvest.
     while sec and sec not in seen and sec.startswith(f"{title}-"):
+        if limit and len(sections) >= limit:
+            break
         seen.add(sec)
         surl = (f"https://{MD_HOST}/mgawebsite/Laws/StatuteText"
                 f"?article={code}&section={sec}&enactments=false&archived=false")
@@ -1619,7 +1625,7 @@ def pull_state(state: str, profession: str, rows: list[dict], limit_sections: in
         elif is_mo_url(url):
             _ps = pull_mo(url)
         elif is_md_justia_url(url):
-            _ps = pull_md(url)
+            _ps = pull_md(url, limit_sections)
         elif is_ri_url(url):
             _ps = pull_ri(url)
         elif is_vt_url(url):
