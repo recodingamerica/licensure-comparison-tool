@@ -58,6 +58,38 @@
   contractor chapters (MS/NC/OH/OR); MI recovered from umbrella-hidden Skilled Trades Act.
 - **Audit gained**: thin-flag, and the proactive overnight audit surfaced the MD/ND issues.
 
+## ⚠️ CRITICAL OPERATIONAL FIX (2026-06-24 ~08:15) — read before any re-pull
+- **Concurrent Justia pulls on one Chrome silently corrupt corpora** (pages come
+  back as 1-section "partials" that `--force` overwrites good data with). The
+  cause this session: killing the grind parent **orphaned its `pull_text` child**,
+  which kept pulling and collided with manual re-pulls.
+- **Fixed (commit 0f99950):** `pull_text` now takes an exclusive flock
+  `/tmp/justia_cdp_pull.lock` before using the CDP Chrome (2nd Justia pull WAITS,
+  doesn't collide); `_cdp_grind` runs its child in a process group and kills it on
+  SIGTERM/SIGINT. After killing the grind, still `ps -ax | grep pull_text` and
+  kill any orphan to be safe. MD/SD/NY API pulls use other hosts — never contend.
+- **Guarded re-pull helper** `/tmp/guarded_repull.sh PROF STATE MIN [LIMIT]`:
+  pulls, and if ok-sections < MIN (a partial), restores HEAD + retries 4×. Use it
+  for ALL Justia re-pulls so a partial can never regress committed data.
+- **Do NOT re-run `match_profession` to apply a state_structure.yaml change** — it
+  rebuilds the index from scratch and WIPES manual missed-match additions
+  (e.g. plumbing 33→27 states). Patch the profession_index node surgically instead
+  (set the title-page url + `section_slug_pattern` + `via:state_structure`), and
+  mirror it in state_structure.yaml for documentation.
+
+## DONE 2026-06-24 ~08:30 — TRADES Tier 1 (commit fa690d8)
+- **OK title-59 flat-title scoping** (section_slug_pattern): plumbing §§1000–1023
+  (1→48 sec), electrician §§1680–1699 (1→23), hvac §1850.x (1→19). Re-extracted.
+- **LA plumbing** scoped to State Plumbing Board §§1361–1380 (3→20). Re-extracted.
+- **LA hvac/electrician + AZ hvac = NOT separately licensed** (contractor
+  classifications); LA hvac scrap-metal false match cleared.
+- **False alarms (no action):** CA construction & IN plumbing cap-hits are complete
+  (chapter = exactly 250 / plumbing content fully captured before the cap).
+- **NH plumbing**: ch 330 repealed, no replacement found in titles XXX/XII →
+  treat as not state-licensed (residual, left as-is).
+- **Still open (deferred):** SD electrician/plumbing silent-bad (API empties);
+  GA/HI/IA/NJ plumbing 1–3 transient error-secs (marginal).
+
 ## DONE 2026-06-24 ~07:30 (this session)
 - **Trade extraction (was NEXT #2): COMPLETE.** Polled all 4 batches
   (construction/electrician/plumbing/hvac) → 39 records, 0 errors. Re-extracted
