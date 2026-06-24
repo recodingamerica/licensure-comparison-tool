@@ -145,6 +145,46 @@ def _unblock_plan(url: str) -> tuple[str, int, dict | None]:
 # bandwidth. Lazily started, reused across the whole run, closed at exit.
 _BROWSER: dict | None = None
 
+# Exclusive lock on the shared CDP Chrome. Two pull_text processes hitting the
+# SAME debug Chrome concurrently garble each other's pages (the page object is
+# shared global state) — corpora come back as 1-section "partials" that silently
+# overwrite good data. This bit us when an orphaned grind child kept pulling
+# after the parent was killed. Acquire an exclusive flock before first using the
+# browser so a second Justia pull WAITS instead of colliding. Other hosts
+# (MD/SD/NY APIs, curl_cffi) don't use the browser and never contend for it.
+_CDP_LOCK_FH = None
+_CDP_LOCK_PATH = "/tmp/justia_cdp_pull.lock"
+
+
+def _acquire_cdp_lock() -> None:
+    global _CDP_LOCK_FH
+    if _CDP_LOCK_FH is not None:
+        return
+    import fcntl
+    fh = open(_CDP_LOCK_PATH, "w")
+    try:
+        fcntl.flock(fh, fcntl.LOCK_EX | fcntl.LOCK_NB)
+    except OSError:
+        log.warning("  ⏸ another Justia pull holds the CDP lock (%s) — waiting for "
+                    "it to finish (one pull per Chrome)…", _CDP_LOCK_PATH)
+        waited = 0
+        while True:
+            try:
+                fcntl.flock(fh, fcntl.LOCK_EX | fcntl.LOCK_NB)
+                break
+            except OSError:
+                time.sleep(5)
+                waited += 5
+                if waited % 60 == 0:
+                    log.warning("  …still waiting for CDP lock (%ds)", waited)
+                if waited >= 3600:
+                    fh.close()
+                    raise SystemExit("CDP lock held >1h — aborting to avoid a "
+                                     "concurrent-pull collision; check for a stray "
+                                     "pull_text process.")
+        log.info("  ▶ acquired CDP lock, proceeding")
+    _CDP_LOCK_FH = fh
+
 
 def _proxy_for_playwright() -> dict | None:
     raw = _env_get("RESIDENTIAL_PROXY")
@@ -173,6 +213,7 @@ def _get_browser_page():
         # then persists in the debug profile. See docs/.../trades_official_sources.
         cdp = _env_get("JUSTIA_CDP_URL")
         if cdp:
+            _acquire_cdp_lock()  # serialize: one pull per shared debug Chrome
             from playwright.sync_api import sync_playwright
             pw = sync_playwright().start()
             browser = pw.chromium.connect_over_cdp(cdp)
