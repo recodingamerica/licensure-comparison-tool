@@ -60,13 +60,18 @@ keywords against chapter *labels*. It misses two big cases:
   invoke-and-wait.
 
 ## 4. Enablers to build (to make handoff realistic) — prioritized
-1. **Coverage-gap finder script (highest leverage).** Systematize what was done by
-   hand this session: for a profession, grep every state's `hierarchy/` for the
-   profession's keywords + known umbrella containers, diff against `profession_index`,
-   and emit a ranked "licensed-but-unmapped candidates" list with the chapter URL +
-   a licensed-state count vs. an external reference (IJ/NCSL as a *pointer*, per
-   [[external_data_as_pointer_not_source]]). This turns the analytic bottleneck into
-   "review a candidate list" instead of "investigate 50 states from scratch."
+1. **LLM occupation→chapter mapper (highest leverage) — PROTOTYPED.**
+   `pipeline/discover/llm_map_profession.py` (shipped): per state, the LLM reads that
+   state's chapter list (local `hierarchy/`) + the profession def and returns the
+   licensing chapter(s), flags an umbrella container to expand, or marks
+   not-state-licensed — replacing brittle keyword matching with judgment. Validated on
+   electrician: it nailed the contractor-classification (CA/NV/VA) and umbrella-nested
+   (NM/OH) cases that keyword matching misses. Writes a CANDIDATE file (doesn't
+   overwrite manual additions). **Remaining to productionize:** Pass-2 (fetch flagged
+   umbrella containers' articles → LLM picks the article), a count-vs-reality guardrail
+   (licensed-state count per profession vs. IJ/NCSL as a *pointer*, per
+   [[external_data_as_pointer_not_source]]), and a surgical apply-to-`profession_index`.
+   This turns the analytic bottleneck into "review a candidate list."
 2. **A guarded/operator-friendly Justia pull wrapper.** `/tmp/guarded_repull.sh`
    (restore-HEAD-and-retry on partials) should be promoted into the repo with docs,
    plus a one-command "start the debug Chrome" helper, so the operator isn't
