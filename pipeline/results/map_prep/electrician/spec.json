@@ -1,0 +1,713 @@
+{
+  "profession": "electrician",
+  "fields": [
+    {
+      "field_name": "licensure.license_required",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether a state-level license is required"
+    },
+    {
+      "field_name": "licensure.issuing_authority",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text agency names, essentially unique per state"
+    },
+    {
+      "field_name": "licensure.regulatory_authority.name",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text agency names, essentially unique per state"
+    },
+    {
+      "field_name": "licensure.regulatory_authority.type",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "department",
+        "standalone_board",
+        "shared_board",
+        "division"
+      ],
+      "reason": "small stable set of organizational structure types"
+    },
+    {
+      "field_name": "licensure.post_degree_experience.required",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether post-degree experience is required"
+    },
+    {
+      "field_name": "licensure.post_degree_experience.experience_source",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "none",
+        "required_by_statute"
+      ],
+      "reason": "small stable set of two values indicating source of experience requirement"
+    },
+    {
+      "field_name": "licensure.renewal.interval_years",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "years",
+      "categories": null,
+      "reason": "numeric renewal cycle length, directly comparable across states"
+    },
+    {
+      "field_name": "licensure.continuing_education.required",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether continuing education is required"
+    },
+    {
+      "field_name": "licensure.reciprocity.available",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether reciprocity is available"
+    },
+    {
+      "field_name": "licensure.reciprocity.requirements",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text prose descriptions of reciprocity conditions, not comparable"
+    },
+    {
+      "field_name": "licensure.advisory_board.exists",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether an advisory board exists"
+    },
+    {
+      "field_name": "licensure.regulatory_model",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "license",
+        "mandatory_certification",
+        "registration",
+        "voluntary_certification",
+        "exemption",
+        "market_forces"
+      ],
+      "reason": "values come from the UORF ladder enum; all states report 'license'"
+    },
+    {
+      "field_name": "licensure.credential_type",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "license",
+        "certification",
+        "registration",
+        "permit"
+      ],
+      "reason": "small stable set of credential type labels; all states report 'license'"
+    },
+    {
+      "field_name": "licensure.is_mandatory",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether licensure is mandatory"
+    },
+    {
+      "field_name": "licensure.title_protection",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether title protection exists"
+    },
+    {
+      "field_name": "licensure.scope_protection",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether scope of practice protection exists"
+    },
+    {
+      "field_name": "scope.definition_quote",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text statutory definitions, not comparable across states"
+    },
+    {
+      "field_name": "scope.methods_authorized",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text lists of authorized methods, idiosyncratic per state"
+    },
+    {
+      "field_name": "profession_specific.license_tiers",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text lists of tier names that vary widely across states, not comparable"
+    },
+    {
+      "field_name": "profession_specific.scope_exclusions",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text lists of exclusions, highly idiosyncratic per state"
+    },
+    {
+      "field_name": "profession_specific.qualifier_required",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether a qualifying individual is required for contractor licensure"
+    },
+    {
+      "field_name": "profession_specific.national_electrical_code_reference",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether the NEC is referenced in statute"
+    },
+    {
+      "field_name": "profession_specific.small_project_dollar_threshold_exemption",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "USD",
+      "categories": null,
+      "reason": "numeric dollar threshold below which work is exempt; only a few states report values"
+    },
+    {
+      "field_name": "profession_specific.utility_worker_exemption",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether utility workers are exempt from licensure requirements"
+    },
+    {
+      "field_name": "licensure.post_degree_experience.duration",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text descriptions of experience duration that vary by tier and pathway within each state, not reducible to a single comparable value"
+    },
+    {
+      "field_name": "licensure.post_degree_experience.kind",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text descriptions of experience type, idiosyncratic per state"
+    },
+    {
+      "field_name": "licensure.continuing_education.hours_per_period",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "hours per renewal period",
+      "categories": null,
+      "reason": "numeric CE hours required per renewal period, directly comparable across states"
+    },
+    {
+      "field_name": "licensure.continuing_education.period_years",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "years",
+      "categories": null,
+      "reason": "numeric length of the CE reporting period, directly comparable across states"
+    },
+    {
+      "field_name": "profession_specific.master_electrician_journeyman_experience_years",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "years",
+      "categories": null,
+      "reason": "numeric years of journeyman experience required to qualify for master electrician license"
+    },
+    {
+      "field_name": "profession_specific.electrician_continuing_education_hours",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "hours per renewal period",
+      "categories": null,
+      "reason": "numeric CE hours required, directly comparable across states"
+    },
+    {
+      "field_name": "licensure.regulatory_authority.umbrella_agency",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text agency names, essentially unique per state"
+    },
+    {
+      "field_name": "licensure.renewal_fee_usd",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "USD",
+      "categories": null,
+      "reason": "numeric renewal fee in dollars, directly comparable across states"
+    },
+    {
+      "field_name": "profession_specific.residential_project_definition",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text prose definitions of residential project scope, not comparable"
+    },
+    {
+      "field_name": "profession_specific.minor_electrical_work_distance_limit_feet",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "feet",
+      "categories": null,
+      "reason": "numeric distance limit in feet for minor electrical work exemption"
+    },
+    {
+      "field_name": "profession_specific.apprentice_supervision_ratio",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text descriptions of supervision ratios that vary by context and tier within each state"
+    },
+    {
+      "field_name": "profession_specific.qualifier_license_requirement_by_contractor_type",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text lists of qualifier requirements by contractor type, highly idiosyncratic"
+    },
+    {
+      "field_name": "profession_specific.expedited_licensure_pathway_available",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether an expedited licensure pathway exists"
+    },
+    {
+      "field_name": "licensure.education.degree_required",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text descriptions of education requirements that vary by tier and pathway, not comparable"
+    },
+    {
+      "field_name": "licensure.education.accrediting_body",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text descriptions of accrediting bodies, idiosyncratic per state"
+    },
+    {
+      "field_name": "licensure.education.degree_level",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "none",
+        "high_school",
+        "associate",
+        "bachelor",
+        "graduate"
+      ],
+      "reason": "small stable set of minimum education level categories"
+    },
+    {
+      "field_name": "licensure.education.school_approval_basis",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "board_approved",
+        "national_accreditor",
+        "unspecified"
+      ],
+      "reason": "small stable set of school approval basis categories"
+    },
+    {
+      "field_name": "licensure.education.credential_pegged",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether the credential is pegged to a specific accreditor"
+    },
+    {
+      "field_name": "licensure.continuing_education.topical_requirements",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text lists of CE topic requirements, idiosyncratic per state"
+    },
+    {
+      "field_name": "licensure.alternative_regulation.insurance_required",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether insurance is required for licensure"
+    },
+    {
+      "field_name": "profession_specific.qualifier_replacement_notice_days",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "days",
+      "categories": null,
+      "reason": "numeric days within which a replacement qualifier must be notified to the board"
+    },
+    {
+      "field_name": "profession_specific.journeyman_electrician_experience_alternative_years",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "years",
+      "categories": null,
+      "reason": "numeric years of alternative experience accepted in lieu of apprenticeship for journeyman licensure"
+    },
+    {
+      "field_name": "profession_specific.master_electrician_engineering_degree_pathway",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether an engineering degree pathway exists for master electrician licensure"
+    },
+    {
+      "field_name": "profession_specific.master_electrician_trade_school_degree_pathway",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether a trade school degree pathway exists for master electrician licensure"
+    },
+    {
+      "field_name": "profession_specific.residential_journeyman_training_program_years",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "years",
+      "categories": null,
+      "reason": "numeric years of training program required for residential journeyman electrician licensure"
+    },
+    {
+      "field_name": "profession_specific.approved_continuing_education_providers",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text lists of approved CE providers, idiosyncratic per state"
+    },
+    {
+      "field_name": "profession_specific.workers_compensation_insurance_required",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether workers compensation insurance is required"
+    },
+    {
+      "field_name": "licensure.age_minimum",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "years",
+      "categories": null,
+      "reason": "numeric minimum age in years, directly comparable across states"
+    },
+    {
+      "field_name": "profession_specific.solar_panel_electrical_work_exemption",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether solar panel electrical work is exempt from electrician licensure"
+    },
+    {
+      "field_name": "licensure.alternative_regulation.establishment_regulation_required",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether establishment-level regulation is required in addition to individual licensure"
+    },
+    {
+      "field_name": "profession_specific.minor_electrical_work_amperage_limit",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "amperes",
+      "categories": null,
+      "reason": "numeric amperage limit below which minor electrical work exemptions apply"
+    },
+    {
+      "field_name": "profession_specific.qualifier_replacement_grace_period_days",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "days",
+      "categories": null,
+      "reason": "numeric grace period in days allowed to replace a qualifying individual before license is suspended"
+    },
+    {
+      "field_name": "profession_specific.journeyman_electrician_apprenticeship_hours",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "hours",
+      "categories": null,
+      "reason": "numeric apprenticeship hours required for journeyman electrician licensure, directly comparable"
+    },
+    {
+      "field_name": "profession_specific.public_liability_insurance_required",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether public liability insurance is required"
+    },
+    {
+      "field_name": "profession_specific.financial_responsibility_bond_option",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether a surety bond may substitute for insurance as financial responsibility"
+    },
+    {
+      "field_name": "licensure.national_association",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text names of national associations referenced in statute, idiosyncratic per state"
+    },
+    {
+      "field_name": "licensure.alternative_regulation.bonding_required",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether a surety bond is required for licensure"
+    },
+    {
+      "field_name": "licensure.advisory_board.name",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text advisory board names, essentially unique per state"
+    },
+    {
+      "field_name": "licensure.advisory_board.authority",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text descriptions of advisory board authority, idiosyncratic per state"
+    },
+    {
+      "field_name": "profession_specific.residential_apprentice_supervisor_ratio_max",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "apprentices per supervisor",
+      "categories": null,
+      "reason": "numeric maximum ratio of apprentices to supervisor in residential settings"
+    },
+    {
+      "field_name": "licensure.disciplinary_grounds",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text or empty lists of disciplinary grounds, not comparable across states"
+    },
+    {
+      "field_name": "licensure.moral_character_required",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether good moral character is a statutory licensure requirement"
+    },
+    {
+      "field_name": "licensure.national_certification",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text names of national certifications referenced, only one state reports a value"
+    },
+    {
+      "field_name": "profession_specific.residential_wiring_method_restriction",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether residential wiring methods are restricted by statute"
+    },
+    {
+      "field_name": "profession_specific.voltage_limit_residential",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "volts",
+      "categories": null,
+      "reason": "numeric voltage ceiling for residential electrical work exemptions"
+    },
+    {
+      "field_name": "profession_specific.apprentice_unsupervised_hours_allowed",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "hours",
+      "categories": null,
+      "reason": "numeric hours per day an apprentice may work unsupervised"
+    },
+    {
+      "field_name": "profession_specific.apprentice_unsupervised_year_threshold",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "years",
+      "categories": null,
+      "reason": "numeric year of apprenticeship after which unsupervised work is permitted"
+    },
+    {
+      "field_name": "profession_specific.long_term_compliance_qualifier_waiver_years",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "years",
+      "categories": null,
+      "reason": "numeric years of compliance after which a qualifier waiver may be granted"
+    },
+    {
+      "field_name": "profession_specific.residential_master_electrician_journeyman_experience_years",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "years",
+      "categories": null,
+      "reason": "numeric years of journeyman experience required for residential master electrician licensure"
+    },
+    {
+      "field_name": "profession_specific.gas_appliance_work_certification_required",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether separate certification is required for gas appliance electrical work"
+    },
+    {
+      "field_name": "profession_specific.hot_tub_sign_electrical_exemption",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean indicating whether hot tub or sign electrical work is exempt from general electrician licensure"
+    }
+  ]
+}
