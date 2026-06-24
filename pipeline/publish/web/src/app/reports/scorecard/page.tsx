@@ -21,6 +21,10 @@ const PROFESSION_LABELS: Record<string, string> = {
   dentistry: "Dentistry",
   optometry: "Optometry",
   public_accountancy: "Accountancy",
+  construction_trades: "Contractors",
+  electrician: "Electricians",
+  plumbing: "Plumbers",
+  hvac: "HVAC",
 };
 
 const SYMBOL_CLASS: Record<string, string> = {

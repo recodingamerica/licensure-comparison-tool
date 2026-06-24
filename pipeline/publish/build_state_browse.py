@@ -59,6 +59,7 @@ UMBRELLA_TEXT_DIR = RESULTS_DIR / "umbrella_text"
 
 PROFESSIONS = [
     "podiatry", "nursing", "medicine", "dentistry", "optometry", "public_accountancy",
+    "construction_trades", "electrician", "plumbing", "hvac",
 ]
 
 
