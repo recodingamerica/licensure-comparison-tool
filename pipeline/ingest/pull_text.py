@@ -971,6 +971,12 @@ _MD_JUSTIA_RE = re.compile(r"/codes/maryland/([a-z0-9-]+)/title-([0-9a-z]+)", re
 _MD_ARTICLE_CODE = {
     "business-occupations-and-professions": "gbo",
     "business-regulation": "gbr",
+    "health-occupations": "gho",      # most licensed health professions (pharmacy, psychology, ...)
+    "health-general": "ghg",
+    "insurance": "gin",
+    "financial-institutions": "gfi",
+    "education": "ged",
+    "criminal-procedure": "gcp",
 }
 
 
