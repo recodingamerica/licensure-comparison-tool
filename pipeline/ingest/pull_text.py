@@ -1300,6 +1300,38 @@ def looks_like_il_ilcs(text: str) -> bool:
     return len(_IL_ILCS_MARKER.findall(text)) >= 3
 
 
+# North Dakota chapter pages render the WHOLE chapter as one inline blob (no
+# per-section links), with line-anchored "title-chapter-section." markers
+# (e.g. "43-09-01.", "43-44.1-02."). Split on those so ND gets per-section
+# records instead of one 30-50k-char blob (was 1-3 "sections" across 13
+# professions). Reusable as a local transform on committed ND corpora — no
+# re-fetch (per CLAUDE.md).
+_ND_SEC_MARKER = re.compile(r"(?m)^\s*(\d+-\d+(?:\.\d+)?-\d+(?:\.\d+)?)\.\s")
+
+
+def looks_like_nd_blob(text: str, url: str) -> bool:
+    return "north-dakota" in url.lower() and len(_ND_SEC_MARKER.findall(text)) >= 3
+
+
+def split_nd_blob(text: str, url: str) -> list[Section]:
+    """Split an ND chapter blob into per-section records on the line-anchored
+    section markers. citation = the ND section number; url stays the chapter
+    page. Returns [] if fewer than 3 markers."""
+    hits = list(_ND_SEC_MARKER.finditer(text))
+    if len(hits) < 3:
+        return []
+    sections: list[Section] = []
+    for i, m in enumerate(hits):
+        end = hits[i + 1].start() if i + 1 < len(hits) else len(text)
+        body = text[m.start():end].strip()
+        if not body:
+            continue
+        label = body.split("\n", 1)[0][:300]
+        sections.append(Section(url=url, label=label, citation=m.group(1),
+                                text=body, text_len=len(body)))
+    return sections
+
+
 def split_il_inline(text: str, url: str) -> list[Section]:
     """Split one ILCS act blob into per-section records on the '(NNN ILCS MM/SS)'
     markers. citation = the ILCS ref (e.g. '225 ILCS 80/4.5'); url stays the act
@@ -1696,14 +1728,16 @@ def pull_state(state: str, profession: str, rows: list[dict], limit_sections: in
             # gets section-level citations + browse instead of one blob (#6).
             if "_inline_text" in sec:
                 text = sec["_inline_text"]
-                il_sections = split_il_inline(text, sec["url"]) if looks_like_il_ilcs(text) else []
-                if il_sections:
-                    for s in il_sections:
+                inline_split = (split_il_inline(text, sec["url"]) if looks_like_il_ilcs(text)
+                                else split_nd_blob(text, sec["url"]) if looks_like_nd_blob(text, sec["url"])
+                                else [])
+                if inline_split:
+                    for s in inline_split:
                         if limit_sections and len(corpus.sections) >= limit_sections:
                             break
                         corpus.sections.append(s)
                         corpus.total_chars += s.text_len
-                    log.info("  il_ilcs split %s -> %d sections", sec["url"], len(il_sections))
+                    log.info("  inline-blob split %s -> %d sections", sec["url"], len(inline_split))
                     continue
                 corpus.sections.append(Section(
                     url=sec["url"], label=sec["label"],
