@@ -45,13 +45,33 @@
     "exams": [],
     "renewal": null,
     "renewal_fee_usd": null,
-    "continuing_education": null,
-    "reciprocity": null,
+    "continuing_education": {
+      "required": {
+        "value": false,
+        "quote": "Each licensing board may require and issue rules for continuing education requirements as a condition to license renewal.",
+        "citation": "272C.2"
+      },
+      "hours_per_period": null,
+      "period_years": null,
+      "topical_requirements": null
+    },
+    "reciprocity": {
+      "available": {
+        "value": true,
+        "quote": "an occupational or professional license, certificate, or registration, including a license, certificate, or registration issued by the board of educational examiners, shall be issued without an examination to a person if all of the following conditions are met",
+        "citation": "272C.12"
+      },
+      "requirements": {
+        "value": "License issued without examination if person is currently licensed in another jurisdiction with substantially similar scope of practice, license is in good standing, issuing jurisdiction imposed minimum educational requirements, person passed required exam, no revocations or discipline, no pending complaints, pays applicable fees, and no disqualifying criminal history.",
+        "quote": "The person is currently licensed, certified, or registered by at least one other issuing jurisdiction in the occupation or profession applied for with a substantially similar scope of practice and the license, certificate, or registration is in good standing in all issuing jurisdictions",
+        "citation": "272C.12"
+      }
+    },
     "advisory_board": {
       "exists": {
         "value": false,
-        "quote": "\"Director\" means the director of the department of inspections, appeals, and licensing.",
-        "citation": "91C.1"
+        "quote": "The director and inspectors of the department have jurisdiction for investigation and enforcement in cases where contractors may be in violation of the requirements of this chapter",
+        "citation": "91C.8"
       },
       "name": null,
       "authority": null
@@ -65,13 +85,13 @@
     },
     "credential_type": {
       "value": "registration",
-      "quote": "The director shall issue to each registered contractor an identifying public registration number and shall compile records showing the names and public registration numbers of all contractors registered in the state.",
+      "quote": "The director shall issue to each registered contractor an identifying public registration number",
       "citation": "91C.5"
     },
     "is_mandatory": {
       "value": true,
-      "quote": "A contractor doing business in this state shall register with the director",
-      "citation": "91C.2"
+      "quote": "A contractor who is not registered with the director as required by this chapter shall not be awarded a contract to perform work for the state or an agency of the state.",
+      "citation": "91C.7"
     },
     "title_protection": {
       "value": false,
@@ -86,21 +106,27 @@
     "disciplinary_grounds": [
       {
         "short_label": "failure_to_register",
-        "description": "Contractor fails to obtain or maintain required registration",
+        "description": "Contractor fails to obtain required registration",
         "quote": "The requirement that a contractor be registered.",
         "citation": "91C.8"
       },
       {
-        "short_label": "incomplete_or_inaccurate_registration_info",
+        "short_label": "incomplete_or_inaccurate_registration",
         "description": "Contractor's registration information is not substantially complete and accurate",
         "quote": "The requirement that the contractor's registration information be substantially complete and accurate.",
         "citation": "91C.8"
       },
       {
-        "short_label": "failure_to_file_bond",
+        "short_label": "out_of_state_contractor_no_bond",
         "description": "Out-of-state contractor fails to file required bond with the department",
         "quote": "The requirement that an out-of-state contractor file a bond with the department.",
         "citation": "91C.8"
+      },
+      {
+        "short_label": "failure_to_maintain_registration_conditions",
+        "description": "Contractor fails to maintain compliance with conditions necessary to obtain registration",
+        "quote": "The director shall revoke a registration number when the contractor fails to maintain compliance with the conditions necessary to obtain a registration.",
+        "citation": "91C.5"
       }
     ],
     "alternative_regulation": {
@@ -123,7 +149,7 @@
       },
       {
         "cite": "91C.2",
-        "kind": "registration requirements"
+        "kind": "registration_requirements"
       },
       {
         "cite": "91C.3",
@@ -131,15 +157,19 @@
       },
       {
         "cite": "91C.5",
-        "kind": "registration number and records"
+        "kind": "registration_number_records_revocation"
       },
       {
         "cite": "91C.7",
-        "kind": "bond requirements"
+        "kind": "contracts_bond"
       },
       {
         "cite": "91C.8",
-        "kind": "enforcement and penalties"
+        "kind": "enforcement_penalties"
+      },
+      {
+        "cite": "272C.12",
+        "kind": "reciprocity"
       }
     ]
   },

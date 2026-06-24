@@ -75,7 +75,7 @@
     },
     "credential_type": {
       "value": "registration",
-      "quote": "certificate of registration as a mechanical contractor",
+      "quote": "Issue and deliver to the applicant a certificate of registration as a mechanical contractor",
       "citation": "Sec. 20-341v"
     },
     "is_mandatory": {
@@ -85,8 +85,8 @@
     },
     "title_protection": {
       "value": false,
-      "quote": "No mechanical contractor shall: (1) Present or attempt to present, as its own, the certificate of another, (2) knowingly give false evidence of a material nature to the commissioner for the purpose of procuring a certificate, (3) use or attempt to use a certificate which has expired or which has been suspended or revoked, (4) offer to perform or perform any heating, piping and cooling work or any plumbing and piping work without having first obtained a certificate of registration",
-      "citation": "Sec. 20-341y"
+      "quote": "No mechanical contractor shall engage in any plumbing and piping work or any heating, piping and cooling work, or offer to perform such work, in this state without first obtaining a certificate of registration from the commissioner",
+      "citation": "Sec. 20-341t"
     },
     "scope_protection": {
       "value": true,
@@ -95,39 +95,33 @@
     },
     "disciplinary_grounds": [
       {
-        "short_label": "false_evidence_for_certificate",
+        "short_label": "presenting_anothers_certificate",
+        "description": "Presenting or attempting to present another's certificate as one's own",
+        "quote": "Present or attempt to present, as its own, the certificate of another",
+        "citation": "Sec. 20-341y"
+      },
+      {
+        "short_label": "false_evidence_to_commissioner",
         "description": "Knowingly giving false evidence of a material nature to the commissioner for the purpose of procuring a certificate",
         "quote": "knowingly give false evidence of a material nature to the commissioner for the purpose of procuring a certificate",
         "citation": "Sec. 20-341y"
       },
       {
         "short_label": "use_of_expired_or_revoked_certificate",
-        "description": "Using or attempting to use a certificate which has expired or which has been suspended or revoked",
+        "description": "Using or attempting to use a certificate which has expired or been suspended or revoked",
         "quote": "use or attempt to use a certificate which has expired or which has been suspended or revoked",
         "citation": "Sec. 20-341y"
       },
       {
-        "short_label": "presenting_anothers_certificate",
-        "description": "Presenting or attempting to present, as its own, the certificate of another",
-        "quote": "Present or attempt to present, as its own, the certificate of another",
-        "citation": "Sec. 20-341y"
-      },
-      {
         "short_label": "performing_work_without_certificate",
-        "description": "Offering to perform or performing heating, piping and cooling work or plumbing and piping work without having first obtained a certificate of registration",
-        "quote": "offer to perform or perform any heating, piping and cooling work or any plumbing and piping work without having first obtained a certificate of registration under sections 20-341s to 20-341bb, inclusive",
+        "description": "Offering to perform or performing heating, piping and cooling work or plumbing and piping work without a certificate of registration",
+        "quote": "offer to perform or perform any heating, piping and cooling work or any plumbing and piping work without having first obtained a certificate of registration",
         "citation": "Sec. 20-341y"
       },
       {
         "short_label": "misrepresenting_registration_as_endorsement",
-        "description": "Representing that the registration constitutes an endorsement of the quality of workmanship or competency by the commissioner",
+        "description": "Representing that registration constitutes an endorsement of quality of workmanship or competency by the commissioner",
         "quote": "represent in any manner that its registration constitutes an endorsement of the quality of its workmanship or of its competency by the commissioner",
-        "citation": "Sec. 20-341y"
-      },
-      {
-        "short_label": "employing_unlicensed_workers",
-        "description": "Willfully engaging employees in plumbing and piping work or heating, piping and cooling work without a certificate of registration, or supplying an employee who does not hold a valid license",
-        "quote": "A mechanical contractor who does not obtain a certificate of registration as required by section 20-341t and who wilfully engages its employees in plumbing and piping work or in heating, piping and cooling work or who wilfully supplies for employment an employee who does not hold a valid license to perform such work",
         "citation": "Sec. 20-341y"
       }
     ],
@@ -139,7 +133,7 @@
       },
       {
         "cite": "Sec. 20-341t",
-        "kind": "certificate_required"
+        "kind": "license_required"
       },
       {
         "cite": "Sec. 20-341u",
@@ -147,11 +141,11 @@
       },
       {
         "cite": "Sec. 20-341v",
-        "kind": "powers_of_commissioner"
+        "kind": "issuance"
       },
       {
         "cite": "Sec. 20-341w",
-        "kind": "refusal_to_issue"
+        "kind": "refusal"
       },
       {
         "cite": "Sec. 20-341x",
@@ -169,16 +163,23 @@
   },
   "scope": {
     "definition_quote": {
-      "value": "\"Heating, piping and cooling work\" has the same meaning as set forth in subdivision (5) of section 20-330",
-      "quote": "\"Heating, piping and cooling work\" has the same meaning as set forth in subdivision (5) of section 20-330",
+      "value": "\"Mechanical contractor\" means any corporation, association, firm, partnership or other business organization regularly offering to the public the services of its employees licensed to perform plumbing and piping work or heating, piping and cooling work in accordance with the provisions of chapter 393",
+      "quote": "\"Mechanical contractor\" means any corporation, association, firm, partnership or other business organization regularly offering to the public the services of its employees licensed to perform plumbing and piping work or heating, piping and cooling work in accordance with the provisions of chapter 393",
       "citation": "Sec. 20-341s"
     },
-    "methods_authorized": null,
+    "methods_authorized": {
+      "value": [
+        "plumbing and piping work",
+        "heating, piping and cooling work"
+      ],
+      "quote": "licensed to perform plumbing and piping work or heating, piping and cooling work in accordance with the provisions of chapter 393",
+      "citation": "Sec. 20-341s"
+    },
     "drug_authority": null,
     "citations": [
       {
         "cite": "Sec. 20-341s",
-        "kind": "definitions"
+        "kind": "definition"
       }
     ]
   },
@@ -189,13 +190,7 @@
     "prelicensure_course_hours": null,
     "business_law_course_hours": null,
     "qualifier_required": null,
-    "qualifier_license_type_required": {
-      "value": [
-        "persons licensed or registered pursuant to chapter 393"
-      ],
-      "quote": "Employs only persons licensed or registered pursuant to chapter 393 and agrees that all work shall be performed in accordance with said chapter",
-      "citation": "Sec. 20-341u"
-    },
+    "qualifier_license_type_required": null,
     "qualifier_cessation_notification_days": null,
     "qualifier_replacement_grace_period_days": null,
     "hvac_continuing_education_topic_hours_minimum": null,
