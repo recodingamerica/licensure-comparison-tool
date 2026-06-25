@@ -8,10 +8,16 @@ to compute, deterministically:
   - neighbors:      per state, the most-similar states (importance + value-distance
                     weighted agreement, coverage-normalized)
   - distinctiveness: per state, 1 - mean similarity to all others (overall "weird")
-  - kind_outliers:  (state, field) where the state's value is far from the modal
-                    value AND held by few states — "doing something categorically rare"
-  - stringency_outliers: on ordinal/continuous fields, states whose level sits
-                    unusually high/low vs the distribution — "much stricter/looser"
+  - typical_on / differs_on: per state, the high-importance categorical questions
+                    where it holds the majority value vs. where it diverges (each
+                    differs row labeled by rarity / ordinal extremity) — this is
+                    what the Compare UI renders.
+  - landscape:      profession-wide spread (qualitative band + the fields that most
+                    separate states)
+
+kind_outliers / stringency_outliers are still computed and returned for the CLI's
+debug print, but stripped from the JSON the frontend reads (the UI uses
+differs_on/typical_on instead).
 
 The math can't infer field importance or how close two categories are; those come
 from config/field_semantics.yaml (universal baseline) + config/field_semantics/
@@ -184,6 +190,73 @@ def build_note(state: str, prof_display: str, band: str, neighbors: list, findin
         cls = [f"{clause(f['field'], f['value'], sem)} ({f['label']})" for f in findings]
         return lead + ". It " + " and ".join(cls) + "."
     return lead + ", with nothing that stands out."
+
+
+# ---------------------------------------------------------------- novel policies (#50)
+# The "what does this state do that almost no one else does" surface. Two rarity
+# kinds, both reusing signal we already compute:
+#   coverage — a (usually profession_specific) field only a FEW states regulate at
+#              all, from discovered_fields.states_supporting. The genuinely novel
+#              tail that the similarity core deliberately excludes.
+#   value    — a rare VALUE on an otherwise-common field, grouped from kind_outliers.
+# Emitted up to MAX_NOVEL_STATES so the Compare-tab slider can narrow client-side.
+
+MAX_NOVEL_STATES = 15
+
+
+def _humanize_field(field: str) -> str:
+    return field.split(".")[-1].replace("_", " ")
+
+
+def build_novel_policies(d: dict, kind_out: list, sem: dict, max_states: int = MAX_NOVEL_STATES) -> list:
+    # quote/citation per (field, state) from the map_prep rows, for value-novelty
+    qmap: dict = {}
+    for r in (d.get("map_prep") or {}).get("rows", []):
+        if r.get("quote"):
+            qmap[(r["field_name"], r["state"])] = (r.get("quote", ""), r.get("citation", ""))
+
+    out: list = []
+    # coverage-novelty: discovered fields held by few states
+    for f in d.get("discovered_fields", []):
+        ss = sorted(f.get("states_supporting", []))
+        if 1 <= len(ss) <= max_states:
+            out.append({
+                "kind": "coverage",
+                "field": f["name"],
+                "label": _humanize_field(f["name"]),
+                "value": None,
+                "states": ss,
+                "n_states": len(ss),
+                "quote": f.get("sample_quote", ""),
+                "citation": "",
+                "sample_state": f.get("sample_state"),
+            })
+    # value-novelty: rare values on shared fields (kind_outliers by field+value)
+    by_fv: dict = defaultdict(list)
+    for o in kind_out:
+        by_fv[(o["field"], o["value"])].append(o["state"])
+    for (field, value), sts in by_fv.items():
+        sts = sorted(sts)
+        if not (1 <= len(sts) <= max_states):
+            continue
+        q = c = ""
+        for st in sts:
+            if (field, st) in qmap:
+                q, c = qmap[(field, st)]
+                break
+        out.append({
+            "kind": "value",
+            "field": field,
+            "label": clause(field, value, sem),
+            "value": value,
+            "states": sts,
+            "n_states": len(sts),
+            "quote": q,
+            "citation": c,
+            "sample_state": sts[0],
+        })
+    out.sort(key=lambda x: (x["n_states"], x["field"]))
+    return out
 
 
 # ---------------------------------------------------------------- load matrix
@@ -463,6 +536,10 @@ def analyze(profession: str):
         "distinctiveness": dict(sorted(distinct.items(), key=lambda kv: kv[1], reverse=True)),
         "typical_on": typical,
         "differs_on": differs,
+        # Novel/unusual policies for the Compare-tab rarity bar (#50). Kept in the
+        # written JSON (the frontend filters by the slider); kind/stringency_outliers
+        # below are CLI-debug only and stripped on --json write.
+        "novel_policies": build_novel_policies(d, kind_out, sem_for),
         "kind_outliers": kind_out,
         "stringency_outliers": string_out,
     }
@@ -497,7 +574,11 @@ def main() -> int:
 
     if args.json:
         OUT_DIR.mkdir(parents=True, exist_ok=True)
-        (OUT_DIR / f"{prof}.json").write_text(json.dumps(res, indent=2))
+        # kind/stringency outliers are CLI-debug only — the frontend reads
+        # differs_on/typical_on, so keep them out of the shipped payload.
+        payload = {k: v for k, v in res.items()
+                   if k not in ("kind_outliers", "stringency_outliers")}
+        (OUT_DIR / f"{prof}.json").write_text(json.dumps(payload, indent=2))
         print(f"\nwrote {OUT_DIR / f'{prof}.json'}")
     return 0
 
