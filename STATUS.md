@@ -3,6 +3,55 @@
 Live site: https://utah-licensing.vercel.app (pw `utah`).
 Pipeline shape and Postgres direction: see [ARCHITECTURE.md](ARCHITECTURE.md).
 
+## Just shipped (June 22, 2026)
+
+- **Compare tab / similarity-outlier feature.** Per-occupation "what is each
+  state like, where is it weird" view across the 7 fully-covered professions.
+  One LLM step codes field importance + value closeness
+  (`pipeline/analyze/gen_semantics.py` → editable `config/field_semantics/`);
+  everything else is deterministic (`pipeline/analyze/similarity.py`). Numbers-free
+  UI. Method doc: `docs/reports/similarity_outlier_analysis.md`. Scoped to the 7
+  covered professions because Compare is cross-state and the held-out professions
+  are PA-only.
+- **UORF rung sort key shipped** (closes the #17 follow-up). The "Regulation
+  (UORF)" column now sorts by least→most restrictive via
+  `regulatoryModelComparator` / `UORF_RUNG_ORDER` in `profile-view.tsx`, not
+  alphabetically. Internal 0–5 ordinal, never displayed (Utah's framework is
+  categorical and explicitly non-mechanistic).
+- **Cross-profession bucket harmonization (#16).** `bucket_text` labels each
+  free-text field per profession, so a universal field like `issuing_authority`
+  got a different label set per profession ("State Health Dept" vs "Health
+  Department"). New pass `pipeline/map_prep/harmonize_universal.py` makes ONE
+  cross-profession LLM call per universal field, emitting a SINGLE shared,
+  profession-independent label set and assigning every (profession, state) cell;
+  `build_frontend` overrides those fields' buckets with the shared set (flagged
+  `harmonized: true`). Now the chips line up — e.g. UT = "General Licensing
+  Agency", NY = "State Education Department" across all 7. Currently harmonizes
+  5 authority/accreditor/reciprocity fields (config list in the module). Like
+  `bucket_text`, it's a manual map_prep sub-stage: re-run when structured data
+  changes; the committed `results/map_prep/_harmonized/universal_buckets.json` is
+  read at build time.
+- **ND year-version de-duplication (#7).** ND's Justia pages are year-versioned;
+  the committed corpora carried each chapter 2–3× (unversioned + 2023 + 2024),
+  and the dupes propagated to the live site (nursing ND showed chapters 2–3×).
+  Applied `_dedupe_year_versions()` to the committed `text/*/ND.json` in place
+  (kept the unversioned/current-law copy), then re-ran clean → trim → extract for
+  ND across all 7 professions. No re-fetch.
+
+### Framing notes (from issue #17 lit review — `docs/lit_review/README.md`)
+
+- **Utah is a CLEAR Model E state.** CLEAR's 2020 governance typology sorts state
+  licensing structures into five board-vs-central-agency models (A–E); Utah is one
+  of only three Model E states — the centralized-agency end, where occupational
+  boards advise a single state division (DOPL/OPLR) rather than operating
+  independently. This is a one-sentence governance characterization, not a
+  per-profession field.
+- **Cosmetology is a lumped record.** Our `cosmetology` profession follows Utah
+  Title 58's single chapter, which folds barber / cosmetologist / esthetician /
+  shampooer / nail tech together. Sub-occupation credential variance (e.g. Utah may
+  license cosmetologists but only register shampooers) won't surface while we treat
+  the chapter as one record. Known limitation, not a data error.
+
 ## Just shipped (June 9, 2026)
 
 - **Field Tag Sheet + profile Tags tab.** `pipeline/publish/build_tag_sheet.py`
@@ -152,14 +201,6 @@ morning's Atharv check-in — `may20_response.md`, `compact_membership.{md,csv}`
   the verified-% stat; only shows `unverified quotes: N` when N > 0.
 
 ## Next — open priorities
-
-### 0. UORF rung sort key (new, from issue #17 follow-up)
-
-AG Grid "Regulation (UORF)" column currently sorts the rung names
-alphabetically — backwards relative to Utah's least → most restrictive
-ordering. Add an internal 0–5 ordinal derived from `regulatory_model`,
-used as the column's sort comparator only. Never displayed (Utah's
-framework is categorical and explicitly non-mechanistic).
 
 ### 1. Default-column tuning (still open from May 20)
 
