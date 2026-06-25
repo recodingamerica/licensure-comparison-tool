@@ -9,7 +9,7 @@
 //
 // Self-fetches /data/analysis/<prof>.json (pipeline.analyze.similarity).
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
 import type { ProfileAnalysis, NovelPolicy } from "@/lib/types";
 import { UsMap, NO_DATA_FILL } from "@/components/us-map";
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "@/components/ui/tooltip";
@@ -62,6 +62,27 @@ const KIND_STYLE: Record<NovelPolicy["kind"], { chip: string; active: string; ta
     fill: "rgb(3, 105, 161)",
   },
 };
+
+// One step in the "how the AI surfaced this" walkthrough (slide-4 worked
+// example): a numbered beat — quote → field → value → tag → group.
+function Beat({ n, title, color, children }: {
+  n: number; title: string; color: string; children: ReactNode;
+}) {
+  return (
+    <li className="flex gap-3">
+      <span
+        className="mt-px flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[10px] font-semibold text-white"
+        style={{ background: color }}
+      >
+        {n}
+      </span>
+      <div className="min-w-0">
+        <div className="font-medium text-foreground">{title}</div>
+        <div className="mt-0.5 leading-relaxed text-muted-foreground">{children}</div>
+      </div>
+    </li>
+  );
+}
 
 const SPREAD_VERB: Record<string, string> = {
   wide: "vary widely",
@@ -329,24 +350,62 @@ export function SimilarityView({ professionId }: { professionId: string }) {
               </div>
             </TooltipProvider>
           )}
-          {selected && (
-            <div className="mt-3 rounded-md border bg-muted/30 p-3 text-xs">
-              <div className="font-medium">{selected.label}</div>
-              <div className="mt-0.5 text-muted-foreground">
-                {selected.kind === "coverage" ? "Regulated by " : "This value held by "}
-                {selected.n_states === 1 ? "only " : ""}
-                {selected.states.join(", ")}
-              </div>
-              {selected.quote && (
-                <div
-                  className="mt-1.5 border-l-2 pl-2 text-muted-foreground"
-                  style={{ borderColor: KIND_STYLE[selected.kind].fill }}
-                >
-                  “{selected.quote}”{selected.citation ? ` — ${selected.citation}` : ""}
+          {selected && (() => {
+            const c = KIND_STYLE[selected.kind].fill;
+            const chip = "inline-block rounded bg-foreground/[0.06] px-1.5 py-0.5 font-medium text-foreground";
+            return (
+              <div className="mt-3 rounded-md border bg-muted/30 p-4 text-xs">
+                <div className="mb-3 text-[13px] font-medium text-foreground">
+                  How the AI surfaced this — beat by beat
                 </div>
-              )}
-            </div>
-          )}
+                <ol className="space-y-3">
+                  <Beat n={1} title="Read statute" color={c}>
+                    {selected.quote ? (
+                      <span className="italic">“{selected.quote}”</span>
+                    ) : (
+                      <span className="italic">no verbatim quote was captured for this value</span>
+                    )}
+                  </Beat>
+                  <Beat n={2} title="Decide the field" color={c}>
+                    The same question recurs across states, so it&apos;s tracked as its own field:{" "}
+                    <span className={chip}>{fieldLabel(selected.field)}</span>
+                  </Beat>
+                  <Beat n={3} title="Extract value" color={c}>
+                    <span className="font-medium text-foreground">
+                      {selected.sample_state ?? selected.states[0]}
+                    </span>{" "}
+                    →{" "}
+                    <span className={chip}>
+                      {selected.value != null ? val(selected.value) : "regulated"}
+                    </span>
+                    {selected.citation ? (
+                      <> — quote &amp; citation kept attached (
+                        <span className="tabular-nums">{selected.citation}</span>)
+                      </>
+                    ) : null}
+                  </Beat>
+                  <Beat n={4} title="Normalize with tags" color={c}>
+                    Placed on the shared scale as{" "}
+                    <span
+                      className="inline-block rounded px-1.5 py-0.5 font-medium text-white"
+                      style={{ background: c }}
+                    >
+                      {selected.label}
+                    </span>
+                  </Beat>
+                  <Beat n={5} title="Group" color={c}>
+                    <span className="text-sm font-semibold tabular-nums text-foreground">
+                      {selected.n_states}
+                    </span>{" "}
+                    {selected.n_states === 1 ? "state" : "states"}{" "}
+                    {selected.kind === "coverage" ? "regulate this at all" : "share this value"} —{" "}
+                    <span className="text-foreground">{selected.states.join(", ")}</span>{" "}
+                    {selected.n_states === 1 ? "is the only one." : "among them."}
+                  </Beat>
+                </ol>
+              </div>
+            );
+          })()}
         </div>
       )}
 
