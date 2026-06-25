@@ -60,6 +60,19 @@ OK:
       # Oklahoma Accountancy Act, 59 O.S. §§15.1+ (the §59-15.x range).
       section_slug_pattern: '^section-59-15-[0-9]'
       label: "OK Title 59 §§15.1+ — Oklahoma Accountancy Act"
+    plumbing:
+      # Oklahoma Plumbing License Law, 59 O.S. §§1000–1023. Label-match grabbed a
+      # single stray section; scope to the act's section range.
+      section_slug_pattern: '^section-59-10(0[0-9]|1[0-9]|2[0-3])(-.*)?$'
+      label: "OK Title 59 §§1000–1023 — Oklahoma Plumbing License Law"
+    electrician:
+      # Oklahoma Electrical License Act, 59 O.S. §§1680–1699.
+      section_slug_pattern: '^section-59-16(8[0-9]|9[0-9])(-.*)?$'
+      label: "OK Title 59 §§1680–1699 — Oklahoma Electrical License Act"
+    hvac:
+      # Oklahoma Mechanical Licensing Act, 59 O.S. §1850.x (all §1850 sub-sections).
+      section_slug_pattern: '^section-59-1850(-.*)?$'
+      label: "OK Title 59 §1850.x — Oklahoma Mechanical Licensing Act"
 
 KY:
   source: justia
@@ -85,6 +98,15 @@ LA:
     podiatry:
       section_slug_pattern: '^rs-37-61[1-9]$|^rs-37-62[0-9]$'
       label: "LA RS 37:611..37:629 — Podiatry within Title 37"
+    plumbing:
+      # State Plumbing Board, LA RS 37:1361–1380. Label-match grabbed only the 3
+      # sections with "plumber" in the title; scope to the whole board chapter.
+      section_slug_pattern: '^rs-37-13(6[1-9]|7[0-9]|80)(-\d+)?$'
+      label: "LA RS 37:1361–1380 — State Plumbing Board"
+    # LA does NOT separately license electricians or HVAC — both are classifications
+    # under the State Licensing Board for Contractors (RS 37:2150+), captured by
+    # construction_trades. hvac label-match previously grabbed scrap-metal sections
+    # (§§1864.3/1973, "air conditioning coils"); cleared in the index (matched: []).
 
 WI:
   source: justia
