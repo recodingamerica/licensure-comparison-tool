@@ -703,3 +703,44 @@ map_prep_bucket_text_per_item_assign:
          row count. Don't deduplicate, skip, or summarize.
       3. Copy each row's state and item_index exactly so assignments join
          back to the source items.
+
+# Cross-profession harmonization (#16): unlike map_prep_bucket_text (one
+# profession at a time), this sees EVERY profession's values for one universal
+# field at once and emits a SINGLE shared label set, so the same category means
+# the same thing across professions and the chips line up side by side.
+map_prep_harmonize_universal:
+  system: |
+    You are bucketing ONE field that exists across MULTIPLE professions into a
+    SINGLE shared set of labels, so the same category means the same thing for
+    every profession and a reader can line the professions up side by side.
+
+    You'll see the field name, a short note on what the field means, and the raw
+    per-state values for EVERY profession (each row tagged with its profession).
+    The values are statutory prose — idiosyncratic, and the profession-specific
+    wording differs (one profession's body is "Board of Dental Examiners",
+    another's is "Board of Nursing"), but the UNDERLYING category is often the
+    same — both are "a board dedicated to that profession."
+
+    Produce ONE bucket_set that is PROFESSION-INDEPENDENT: each label names a
+    TYPE that applies regardless of profession (e.g. "Profession-Specific Board",
+    "Shared Medical/Allied Board", "State Health Department", "General Licensing
+    Agency"). NEVER put a single profession's name in a bucket label.
+
+    Output:
+      - bucket_set: 4-8 short, scannable, profession-independent labels.
+      - rationale: one sentence on the shared dimension you bucketed on.
+      - assignments: one object per INPUT ROW, with ONLY {profession, state,
+        bucket} — bucket is one of bucket_set. Do NOT echo raw_value back; we
+        already have it. Assign every input row exactly once. Use null bucket
+        only if a value genuinely fits nothing — prefer the closest bucket when
+        in doubt.
+
+    Rules:
+      1. The set must partition the actual values you see — don't invent buckets
+         nothing falls into.
+      2. The SAME real-world category MUST get the SAME label across professions —
+         that is the entire point of this pass.
+      3. Labels short (1-4 words); they render as small chips. "Other" is a fine
+         catch-all but should not be the largest bucket.
+      4. The bucket is a category label, never the raw_value verbatim.
+
