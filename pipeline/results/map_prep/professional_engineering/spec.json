@@ -1,0 +1,568 @@
+{
+  "profession": "professional_engineering",
+  "fields": [
+    {
+      "field_name": "licensure.license_required",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether a license is required; all observed values are true"
+    },
+    {
+      "field_name": "licensure.issuing_authority",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text proper names of issuing agencies, essentially unique per state"
+    },
+    {
+      "field_name": "licensure.regulatory_authority.name",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text proper names of regulatory bodies, essentially unique per state"
+    },
+    {
+      "field_name": "licensure.regulatory_authority.type",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "standalone_board",
+        "shared_board",
+        "department",
+        "division"
+      ],
+      "reason": "small stable set of structural categories describing the type of regulatory body"
+    },
+    {
+      "field_name": "licensure.regulatory_authority.umbrella_agency",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text proper names of umbrella agencies, essentially unique per state"
+    },
+    {
+      "field_name": "licensure.moral_character_required",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether good moral character is an explicit licensure requirement"
+    },
+    {
+      "field_name": "licensure.education.degree_required",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text descriptions of degree requirements with idiosyncratic detail per state"
+    },
+    {
+      "field_name": "licensure.education.school_approval_basis",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "board_approved",
+        "national_accreditor",
+        "unspecified"
+      ],
+      "reason": "small stable set of categories describing how schools are approved for degree recognition"
+    },
+    {
+      "field_name": "licensure.education.credential_pegged",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag; all observed values are false but field is structurally boolean and mappable"
+    },
+    {
+      "field_name": "licensure.post_degree_experience.experience_source",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "required_by_statute",
+        "none"
+      ],
+      "reason": "small stable set indicating whether post-degree experience is required by statute"
+    },
+    {
+      "field_name": "licensure.renewal.interval_years",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "years",
+      "categories": null,
+      "reason": "numeric renewal cycle length in years, directly comparable across states"
+    },
+    {
+      "field_name": "licensure.continuing_education.required",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether continuing education is required for renewal"
+    },
+    {
+      "field_name": "licensure.reciprocity.available",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether reciprocal licensure is available"
+    },
+    {
+      "field_name": "licensure.reciprocity.requirements",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text prose descriptions of reciprocity requirements, highly idiosyncratic per state"
+    },
+    {
+      "field_name": "licensure.advisory_board.exists",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether a separate advisory board exists"
+    },
+    {
+      "field_name": "licensure.regulatory_model",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "license",
+        "mandatory_certification",
+        "registration",
+        "voluntary_certification",
+        "exemption",
+        "market_forces"
+      ],
+      "reason": "values come from the UORF regulatory ladder enum; all observed values are license"
+    },
+    {
+      "field_name": "licensure.credential_type",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "license",
+        "certificate",
+        "registration",
+        "permit"
+      ],
+      "reason": "small stable set of credential type labels; all observed values are license"
+    },
+    {
+      "field_name": "licensure.is_mandatory",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether licensure is mandatory; all observed values are true"
+    },
+    {
+      "field_name": "licensure.title_protection",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether the PE title is legally protected"
+    },
+    {
+      "field_name": "licensure.scope_protection",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether the scope of practice is legally protected"
+    },
+    {
+      "field_name": "licensure.alternative_regulation.establishment_regulation_required",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether engineering firms/establishments must also be regulated"
+    },
+    {
+      "field_name": "scope.definition_quote",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text statutory definitions of engineering practice, not comparable across states"
+    },
+    {
+      "field_name": "scope.methods_authorized",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "variable-length lists of free-text method descriptions, not consistently enumerable across states"
+    },
+    {
+      "field_name": "profession_specific.covers_land_surveying",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether the same board/statute covers land surveying"
+    },
+    {
+      "field_name": "profession_specific.covers_geology",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether the same board/statute covers geology"
+    },
+    {
+      "field_name": "profession_specific.engineer_intern_certificate_available",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether an engineer intern (EIT) certificate is available"
+    },
+    {
+      "field_name": "profession_specific.surveyor_in_training_certificate_available",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether a surveyor-in-training certificate is available"
+    },
+    {
+      "field_name": "profession_specific.responsible_charge_defined",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether responsible charge is explicitly defined in statute or rule"
+    },
+    {
+      "field_name": "profession_specific.seal_required_on_documents",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether a PE seal is required on engineering documents"
+    },
+    {
+      "field_name": "profession_specific.seal_document_types",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "variable-length lists of document type labels that vary idiosyncratically per state"
+    },
+    {
+      "field_name": "profession_specific.firm_practice_allowed",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether engineering firms (not just individuals) may hold authorization"
+    },
+    {
+      "field_name": "profession_specific.exemptions_from_licensure",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "variable-length lists of free-text exemption descriptions, highly idiosyncratic per state"
+    },
+    {
+      "field_name": "profession_specific.code_of_ethics_in_statute",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether a code of ethics is codified in statute or administrative rule"
+    },
+    {
+      "field_name": "profession_specific.board_engineering_disciplines_represented",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "variable-length lists of discipline names that differ idiosyncratically per state board composition"
+    },
+    {
+      "field_name": "profession_specific.board_member_responsible_charge_years_required",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "years",
+      "categories": null,
+      "reason": "numeric minimum years of responsible charge experience required for board membership, directly comparable"
+    },
+    {
+      "field_name": "profession_specific.retired_status_license_available",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether a retired or emeritus license status is available"
+    },
+    {
+      "field_name": "licensure.education.accrediting_body",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text names of accrediting bodies with inconsistent specificity across states"
+    },
+    {
+      "field_name": "licensure.education.degree_level",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "associate",
+        "bachelor",
+        "master",
+        "doctorate",
+        "none"
+      ],
+      "reason": "small stable set of degree level labels indicating minimum required degree"
+    },
+    {
+      "field_name": "licensure.post_degree_experience.required",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether post-degree experience is required for licensure"
+    },
+    {
+      "field_name": "licensure.post_degree_experience.duration",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text descriptions of experience duration with multiple conditional pathways per state, not reducible to a single number"
+    },
+    {
+      "field_name": "licensure.post_degree_experience.kind",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text qualitative descriptions of required experience character, not consistently enumerable"
+    },
+    {
+      "field_name": "licensure.national_association",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text names of national associations referenced in statute, idiosyncratic per state"
+    },
+    {
+      "field_name": "profession_specific.postgraduate_degree_experience_credit_years_max",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "years",
+      "categories": null,
+      "reason": "numeric maximum years of experience credit granted for postgraduate degrees, directly comparable"
+    },
+    {
+      "field_name": "profession_specific.multi_license_reporting_required",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether licensees must report holding licenses in other jurisdictions"
+    },
+    {
+      "field_name": "licensure.national_certification",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text names of national certification bodies referenced in statute, sparse and idiosyncratic"
+    },
+    {
+      "field_name": "licensure.age_minimum",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "years",
+      "categories": null,
+      "reason": "numeric minimum age for licensure in years, directly comparable across states"
+    },
+    {
+      "field_name": "licensure.continuing_education.hours_per_period",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "hours per renewal period",
+      "categories": null,
+      "reason": "numeric CE hours required per renewal period; periods vary by state so per-period comparison is appropriate"
+    },
+    {
+      "field_name": "licensure.continuing_education.period_years",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "years",
+      "categories": null,
+      "reason": "numeric length of the continuing education reporting period in years, directly comparable"
+    },
+    {
+      "field_name": "licensure.continuing_education.topical_requirements",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "variable-length lists of free-text topical CE requirements, highly idiosyncratic per state"
+    },
+    {
+      "field_name": "profession_specific.pdh_units_per_renewal_period",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "PDH units per renewal period",
+      "categories": null,
+      "reason": "numeric professional development hours required per renewal period, directly comparable"
+    },
+    {
+      "field_name": "licensure.renewal_fee_usd",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "USD",
+      "categories": null,
+      "reason": "numeric renewal fee in US dollars, directly comparable across states"
+    },
+    {
+      "field_name": "licensure.advisory_board.name",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text proper names of advisory boards, essentially unique per state"
+    },
+    {
+      "field_name": "licensure.advisory_board.authority",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text descriptions of advisory board authority, highly idiosyncratic per state"
+    },
+    {
+      "field_name": "licensure.exams",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "sparse empty lists with no usable comparative data across states"
+    },
+    {
+      "field_name": "licensure.disciplinary_grounds",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "sparse empty lists with no usable comparative data across states"
+    },
+    {
+      "field_name": "profession_specific.geologist_in_training_certificate_available",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether a geologist-in-training certificate is available"
+    },
+    {
+      "field_name": "licensure.alternative_regulation.insurance_required",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether professional liability insurance is required"
+    },
+    {
+      "field_name": "profession_specific.pdh_carryover_max_units",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "PDH units",
+      "categories": null,
+      "reason": "numeric maximum PDH units that may be carried over to the next renewal period, directly comparable"
+    }
+  ]
+}
