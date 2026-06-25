@@ -5,11 +5,12 @@
       "field_name": "licensure.issuing_authority",
       "bucket_set": [
         "Podiatry Board",
+        "Podiatric Medicine Board",
         "Medical Board",
         "Health Department",
-        "Licensing Agency"
+        "Multi-Prof Licensing Dept"
       ],
-      "rationale": "States cluster into four approaches: a dedicated podiatry-specific board, a general medical/healing arts board, a public health department, or a broader professional licensing agency.",
+      "rationale": "States cluster into dedicated podiatry/podiatric medicine boards, general medical boards, state health departments, and multi-profession licensing agencies, with enough variation in naming to warrant splitting podiatry-specific boards by whether they say 'Podiatry' vs 'Podiatric Medicine'.",
       "assignments": [
         {
           "state": "AK",
@@ -24,7 +25,7 @@
         {
           "state": "AR",
           "raw_value": "Arkansas Board of Podiatric Medicine",
-          "bucket": "Podiatry Board"
+          "bucket": "Podiatric Medicine Board"
         },
         {
           "state": "AZ",
@@ -34,7 +35,7 @@
         {
           "state": "CA",
           "raw_value": "California Board of Podiatric Medicine",
-          "bucket": "Podiatry Board"
+          "bucket": "Podiatric Medicine Board"
         },
         {
           "state": "CO",
@@ -79,7 +80,7 @@
         {
           "state": "IL",
           "raw_value": "Department of Financial and Professional Regulation",
-          "bucket": "Licensing Agency"
+          "bucket": "Multi-Prof Licensing Dept"
         },
         {
           "state": "IN",
@@ -109,27 +110,27 @@
         {
           "state": "MD",
           "raw_value": "State Board of Podiatric Medical Examiners",
-          "bucket": "Podiatry Board"
+          "bucket": "Podiatric Medicine Board"
         },
         {
           "state": "ME",
           "raw_value": "Board of Licensure of Podiatric Medicine",
-          "bucket": "Podiatry Board"
+          "bucket": "Podiatric Medicine Board"
         },
         {
           "state": "MI",
           "raw_value": "Michigan Board of Podiatric Medicine and Surgery",
-          "bucket": "Podiatry Board"
+          "bucket": "Podiatric Medicine Board"
         },
         {
           "state": "MN",
           "raw_value": "Board of Podiatric Medicine",
-          "bucket": "Podiatry Board"
+          "bucket": "Podiatric Medicine Board"
         },
         {
           "state": "MO",
           "raw_value": "State Board of Podiatric Medicine",
-          "bucket": "Podiatry Board"
+          "bucket": "Podiatric Medicine Board"
         },
         {
           "state": "MS",
@@ -149,7 +150,7 @@
         {
           "state": "ND",
           "raw_value": "North Dakota Board of Podiatric Medicine",
-          "bucket": "Podiatry Board"
+          "bucket": "Podiatric Medicine Board"
         },
         {
           "state": "NE",
@@ -179,7 +180,7 @@
         {
           "state": "NY",
           "raw_value": "New York State Education Department",
-          "bucket": "Licensing Agency"
+          "bucket": "Multi-Prof Licensing Dept"
         },
         {
           "state": "OH",
@@ -189,7 +190,7 @@
         {
           "state": "OK",
           "raw_value": "Board of Podiatric Medical Examiners",
-          "bucket": "Podiatry Board"
+          "bucket": "Podiatric Medicine Board"
         },
         {
           "state": "OR",
@@ -219,17 +220,17 @@
         {
           "state": "TN",
           "raw_value": "Board of Podiatric Medical Examiners",
-          "bucket": "Podiatry Board"
+          "bucket": "Podiatric Medicine Board"
         },
         {
           "state": "TX",
           "raw_value": "Texas Department of Licensing and Regulation",
-          "bucket": "Licensing Agency"
+          "bucket": "Multi-Prof Licensing Dept"
         },
         {
           "state": "UT",
           "raw_value": "Division of Professional Licensing",
-          "bucket": "Licensing Agency"
+          "bucket": "Multi-Prof Licensing Dept"
         },
         {
           "state": "VA",
@@ -244,12 +245,12 @@
         {
           "state": "WA",
           "raw_value": "Washington state podiatric medical board",
-          "bucket": "Podiatry Board"
+          "bucket": "Podiatric Medicine Board"
         },
         {
           "state": "WI",
           "raw_value": "podiatry affiliated credentialing board",
-          "bucket": "Podiatry Board"
+          "bucket": "Podiatric Medicine Board"
         },
         {
           "state": "WV",
@@ -266,13 +267,12 @@
     {
       "field_name": "licensure.regulatory_authority.name",
       "bucket_set": [
-        "Podiatry Board",
+        "Dedicated Podiatry Board",
         "Podiatric Medicine Board",
-        "Podiatry Examiners Board",
         "Medical Board",
-        "Other State Dept"
+        "Other State Agency"
       ],
-      "rationale": "Boards cluster by whether they are named around 'Podiatry' generically, 'Podiatric Medicine' specifically, 'Examiners' in the title, a general medical board (podiatry folded in), or a non-board state agency.",
+      "rationale": "The authorities split clearly into: standalone podiatry/podiatry-examiners boards (the most common), boards specifically named 'podiatric medicine', umbrella medical boards that regulate podiatry alongside other professions, and a small catch-all for departments/agencies that don't fit either pattern.",
       "assignments": [
         {
           "state": "AK",
@@ -282,7 +282,7 @@
         {
           "state": "AL",
           "raw_value": "State Board of Podiatry",
-          "bucket": "Podiatry Board"
+          "bucket": "Dedicated Podiatry Board"
         },
         {
           "state": "AR",
@@ -292,7 +292,7 @@
         {
           "state": "AZ",
           "raw_value": "State Board of Podiatry Examiners",
-          "bucket": "Podiatry Examiners Board"
+          "bucket": "Dedicated Podiatry Board"
         },
         {
           "state": "CA",
@@ -302,17 +302,17 @@
         {
           "state": "CO",
           "raw_value": "Colorado podiatry board",
-          "bucket": "Podiatry Board"
+          "bucket": "Dedicated Podiatry Board"
         },
         {
           "state": "CT",
           "raw_value": "Connecticut Board of Examiners in Podiatry",
-          "bucket": "Podiatry Examiners Board"
+          "bucket": "Dedicated Podiatry Board"
         },
         {
           "state": "DE",
           "raw_value": "State Board of Podiatry",
-          "bucket": "Podiatry Board"
+          "bucket": "Dedicated Podiatry Board"
         },
         {
           "state": "FL",
@@ -322,7 +322,7 @@
         {
           "state": "GA",
           "raw_value": "State Board of Podiatry Examiners",
-          "bucket": "Podiatry Examiners Board"
+          "bucket": "Dedicated Podiatry Board"
         },
         {
           "state": "HI",
@@ -332,22 +332,22 @@
         {
           "state": "IA",
           "raw_value": "Board of Podiatry",
-          "bucket": "Podiatry Board"
+          "bucket": "Dedicated Podiatry Board"
         },
         {
           "state": "ID",
           "raw_value": "State Board of Podiatry",
-          "bucket": "Podiatry Board"
+          "bucket": "Dedicated Podiatry Board"
         },
         {
           "state": "IL",
           "raw_value": "Department of Financial and Professional Regulation",
-          "bucket": "Other State Dept"
+          "bucket": "Other State Agency"
         },
         {
           "state": "IN",
           "raw_value": "State Board of Podiatry",
-          "bucket": "Podiatry Board"
+          "bucket": "Dedicated Podiatry Board"
         },
         {
           "state": "KS",
@@ -357,7 +357,7 @@
         {
           "state": "KY",
           "raw_value": "State Board of Podiatry",
-          "bucket": "Podiatry Board"
+          "bucket": "Dedicated Podiatry Board"
         },
         {
           "state": "LA",
@@ -367,12 +367,12 @@
         {
           "state": "MA",
           "raw_value": "Board of Registration in Podiatry",
-          "bucket": "Podiatry Board"
+          "bucket": "Dedicated Podiatry Board"
         },
         {
           "state": "MD",
           "raw_value": "State Board of Podiatric Medical Examiners",
-          "bucket": "Podiatry Examiners Board"
+          "bucket": "Podiatric Medicine Board"
         },
         {
           "state": "ME",
@@ -407,7 +407,7 @@
         {
           "state": "NC",
           "raw_value": "North Carolina Board of Podiatry Examiners",
-          "bucket": "Podiatry Examiners Board"
+          "bucket": "Dedicated Podiatry Board"
         },
         {
           "state": "ND",
@@ -417,12 +417,12 @@
         {
           "state": "NE",
           "raw_value": "Board of Podiatry",
-          "bucket": "Podiatry Board"
+          "bucket": "Dedicated Podiatry Board"
         },
         {
           "state": "NH",
           "raw_value": "State Board of Podiatry",
-          "bucket": "Podiatry Board"
+          "bucket": "Dedicated Podiatry Board"
         },
         {
           "state": "NJ",
@@ -437,12 +437,12 @@
         {
           "state": "NV",
           "raw_value": "State Board of Podiatry",
-          "bucket": "Podiatry Board"
+          "bucket": "Dedicated Podiatry Board"
         },
         {
           "state": "NY",
           "raw_value": "New York State Education Department (State Board for Podiatry)",
-          "bucket": "Other State Dept"
+          "bucket": "Other State Agency"
         },
         {
           "state": "OH",
@@ -452,7 +452,7 @@
         {
           "state": "OK",
           "raw_value": "Board of Podiatric Medical Examiners",
-          "bucket": "Podiatry Examiners Board"
+          "bucket": "Podiatric Medicine Board"
         },
         {
           "state": "OR",
@@ -462,37 +462,37 @@
         {
           "state": "PA",
           "raw_value": "State Board of Podiatry",
-          "bucket": "Podiatry Board"
+          "bucket": "Dedicated Podiatry Board"
         },
         {
           "state": "RI",
           "raw_value": "Rhode Island Board of Examiners in Podiatry",
-          "bucket": "Podiatry Examiners Board"
+          "bucket": "Dedicated Podiatry Board"
         },
         {
           "state": "SC",
           "raw_value": "Board of Podiatry Examiners",
-          "bucket": "Podiatry Examiners Board"
+          "bucket": "Dedicated Podiatry Board"
         },
         {
           "state": "SD",
           "raw_value": "Board of Podiatry Examiners",
-          "bucket": "Podiatry Examiners Board"
+          "bucket": "Dedicated Podiatry Board"
         },
         {
           "state": "TN",
           "raw_value": "Board of Podiatric Medical Examiners",
-          "bucket": "Podiatry Examiners Board"
+          "bucket": "Podiatric Medicine Board"
         },
         {
           "state": "TX",
           "raw_value": "Texas Department of Licensing and Regulation",
-          "bucket": "Other State Dept"
+          "bucket": "Other State Agency"
         },
         {
           "state": "UT",
           "raw_value": "Podiatric Physician Board",
-          "bucket": "Podiatric Medicine Board"
+          "bucket": "Dedicated Podiatry Board"
         },
         {
           "state": "VA",
@@ -512,7 +512,7 @@
         {
           "state": "WI",
           "raw_value": "podiatry affiliated credentialing board",
-          "bucket": "Podiatry Board"
+          "bucket": "Dedicated Podiatry Board"
         },
         {
           "state": "WV",
@@ -522,26 +522,27 @@
         {
           "state": "WY",
           "raw_value": "Board of Registration in Podiatry",
-          "bucket": "Podiatry Board"
+          "bucket": "Dedicated Podiatry Board"
         }
       ]
     },
     {
       "field_name": "licensure.regulatory_authority.umbrella_agency",
       "bucket_set": [
-        "Health Dept",
+        "Dept of Health",
+        "Health Professions Agency",
         "Consumer Affairs",
-        "Commerce Dept",
-        "Licensing & Regulation",
-        "Secretary of State",
-        "Labor Dept"
+        "Commerce / Economic Dev",
+        "Professional Licensing Div",
+        "Labor / Industry",
+        "Other State Agency"
       ],
-      "rationale": "States cluster by the type of parent agency overseeing podiatry licensure: health-focused departments, consumer affairs offices, commerce-oriented agencies, dedicated licensing/regulatory bodies, secretary of state offices, and labor departments.",
+      "rationale": "States cluster by the type of umbrella agency overseeing podiatry licensure — health-focused departments, dedicated professional/occupational licensing divisions, consumer affairs branches, commerce-oriented departments, and labor agencies — reflecting the dominant organizational philosophies across states.",
       "assignments": [
         {
           "state": "AK",
           "raw_value": "Department of Commerce, Community, and Economic Development",
-          "bucket": "Commerce Dept"
+          "bucket": "Commerce / Economic Dev"
         },
         {
           "state": "CA",
@@ -551,17 +552,17 @@
         {
           "state": "CT",
           "raw_value": "Department of Public Health",
-          "bucket": "Health Dept"
+          "bucket": "Dept of Health"
         },
         {
           "state": "DE",
           "raw_value": "State Division of Professional Regulation",
-          "bucket": "Licensing & Regulation"
+          "bucket": "Professional Licensing Div"
         },
         {
           "state": "GA",
           "raw_value": "Professional Licensing Boards Division, Office of the Secretary of State",
-          "bucket": "Secretary of State"
+          "bucket": "Professional Licensing Div"
         },
         {
           "state": "HI",
@@ -571,42 +572,42 @@
         {
           "state": "IA",
           "raw_value": "Department of Inspections, Appeals, and Licensing",
-          "bucket": "Licensing & Regulation"
+          "bucket": "Professional Licensing Div"
         },
         {
           "state": "ID",
           "raw_value": "Division of Occupational and Professional Licenses",
-          "bucket": "Licensing & Regulation"
+          "bucket": "Professional Licensing Div"
         },
         {
           "state": "LA",
           "raw_value": "Department of Occupational Standards",
-          "bucket": "Licensing & Regulation"
+          "bucket": "Professional Licensing Div"
         },
         {
           "state": "MI",
           "raw_value": "Department of Licensing and Regulatory Affairs",
-          "bucket": "Licensing & Regulation"
+          "bucket": "Professional Licensing Div"
         },
         {
           "state": "MN",
           "raw_value": "Department of Health",
-          "bucket": "Health Dept"
+          "bucket": "Dept of Health"
         },
         {
           "state": "MO",
           "raw_value": "Division of Professional Registration, Department of Commerce and Insurance",
-          "bucket": "Commerce Dept"
+          "bucket": "Commerce / Economic Dev"
         },
         {
           "state": "MT",
           "raw_value": "Department of Labor and Industry",
-          "bucket": "Labor Dept"
+          "bucket": "Labor / Industry"
         },
         {
           "state": "NE",
           "raw_value": "Division of Public Health, Department of Health and Human Services",
-          "bucket": "Health Dept"
+          "bucket": "Dept of Health"
         },
         {
           "state": "NJ",
@@ -616,52 +617,52 @@
         {
           "state": "NY",
           "raw_value": "New York State Education Department",
-          "bucket": "Licensing & Regulation"
+          "bucket": "Other State Agency"
         },
         {
           "state": "PA",
           "raw_value": "Department of State",
-          "bucket": "Secretary of State"
+          "bucket": "Other State Agency"
         },
         {
           "state": "RI",
           "raw_value": "Rhode Island Department of Health",
-          "bucket": "Health Dept"
+          "bucket": "Dept of Health"
         },
         {
           "state": "SC",
           "raw_value": "Department of Labor, Licensing and Regulation",
-          "bucket": "Labor Dept"
+          "bucket": "Labor / Industry"
         },
         {
           "state": "TN",
           "raw_value": "Division of Health Related Boards, Department of Health",
-          "bucket": "Health Dept"
+          "bucket": "Health Professions Agency"
         },
         {
           "state": "TX",
           "raw_value": "Texas Commission of Licensing and Regulation",
-          "bucket": "Licensing & Regulation"
+          "bucket": "Professional Licensing Div"
         },
         {
           "state": "UT",
           "raw_value": "Division of Professional Licensing, Department of Commerce",
-          "bucket": "Commerce Dept"
+          "bucket": "Commerce / Economic Dev"
         },
         {
           "state": "VA",
           "raw_value": "Department of Health Professions",
-          "bucket": "Health Dept"
+          "bucket": "Health Professions Agency"
         },
         {
           "state": "WA",
           "raw_value": "Department of Health",
-          "bucket": "Health Dept"
+          "bucket": "Dept of Health"
         },
         {
           "state": "WI",
           "raw_value": "Department of Safety and Professional Services",
-          "bucket": "Licensing & Regulation"
+          "bucket": "Labor / Industry"
         }
       ]
     },
@@ -670,17 +671,16 @@
       "bucket_set": [
         "DPM Degree",
         "DPM or Equivalent",
-        "Doctoral / Graduate Degree",
         "Graduate of Accredited School",
-        "Diploma / Certificate",
+        "Diploma/Certificate",
         "Four-Year Course"
       ],
-      "rationale": "The values cluster around whether the state names the DPM degree explicitly (with or without equivalency allowance), uses a generic doctoral/graduate framing, requires graduation from an accredited school without naming the degree, accepts a diploma or certificate, or describes the requirement in terms of years of coursework.",
+      "rationale": "States cluster around: explicit DPM degree requirements, DPM-or-equivalent language, graduation from an accredited/approved school without naming the degree, diploma/certificate of graduation language, and coursework-hour/year-based requirements without a named degree.",
       "assignments": [
         {
           "state": "AK",
           "raw_value": "Certificate of graduation from a legally chartered school of podiatry approved by the board",
-          "bucket": "Diploma / Certificate"
+          "bucket": "Diploma/Certificate"
         },
         {
           "state": "AL",
@@ -725,7 +725,7 @@
         {
           "state": "GA",
           "raw_value": "Doctoral degree from accredited college of podiatric medicine",
-          "bucket": "Doctoral / Graduate Degree"
+          "bucket": "DPM Degree"
         },
         {
           "state": "HI",
@@ -765,7 +765,7 @@
         {
           "state": "LA",
           "raw_value": "diploma or certificate of graduation from a school or college of podiatry approved by the Louisiana State Board of Medical Examiners",
-          "bucket": "Diploma / Certificate"
+          "bucket": "Diploma/Certificate"
         },
         {
           "state": "MA",
@@ -795,7 +795,7 @@
         {
           "state": "MO",
           "raw_value": "Diploma or certificate of graduation from an approved college of podiatric medicine with minimum 2 years in accredited college and 4 years in recognized college of podiatric medicine",
-          "bucket": "Diploma / Certificate"
+          "bucket": "Diploma/Certificate"
         },
         {
           "state": "MS",
@@ -814,13 +814,13 @@
         },
         {
           "state": "ND",
-          "raw_value": "Doctor of Podiatric Medicine (D.P.M.) from an accredited podiatric medical school",
-          "bucket": "DPM Degree"
+          "raw_value": "graduate of a podiatric medical school approved by the board",
+          "bucket": "Graduate of Accredited School"
         },
         {
           "state": "NE",
           "raw_value": "Graduation from a school of chiropody or podiatry approved by the board",
-          "bucket": "Graduate of Accredited School"
+          "bucket": "Diploma/Certificate"
         },
         {
           "state": "NH",
@@ -845,7 +845,7 @@
         {
           "state": "NY",
           "raw_value": "doctoral degree in podiatry",
-          "bucket": "Doctoral / Graduate Degree"
+          "bucket": "DPM Degree"
         },
         {
           "state": "OH",
@@ -905,12 +905,12 @@
         {
           "state": "VT",
           "raw_value": "diploma or certificate of graduation from an accredited school of podiatric medicine",
-          "bucket": "Diploma / Certificate"
+          "bucket": "Diploma/Certificate"
         },
         {
           "state": "WA",
           "raw_value": "Degree from an approved school of podiatric medicine and surgery",
-          "bucket": "Doctoral / Graduate Degree"
+          "bucket": "Graduate of Accredited School"
         },
         {
           "state": "WI",
@@ -932,67 +932,67 @@
     {
       "field_name": "licensure.continuing_education.topical_requirements",
       "bucket_set": [
-        "Opioid/Controlled Substances",
-        "Opioid + Addiction Treatment",
-        "Conditional Prescribers Only",
-        "Infection & Reporting"
+        "Opioid/Controlled Substance Prescribing",
+        "Substance Use Disorder & Treatment",
+        "Opioid + Drug Monitoring Program",
+        "Other Mandatory Topics"
       ],
-      "rationale": "Most states require CE focused on opioid or controlled substance prescribing, with meaningful distinctions between broad opioid-only mandates, those that add substance use disorder/treatment training, states that apply requirements only to prescribers, and the one outlier requiring infection control and abuse reporting instead.",
+      "rationale": "Most states focus on opioid or controlled-substance prescribing education, with a few adding substance-use-disorder/treatment angles or PDMP requirements; NY stands apart with entirely different mandated topics.",
       "assignments": [
         {
           "state": "AK",
           "raw_value": "pain management and opioid use and addiction (minimum 2 hours)",
-          "bucket": "Opioid + Addiction Treatment"
+          "bucket": "Opioid/Controlled Substance Prescribing"
         },
         {
           "state": "FL",
           "raw_value": "2 hours on safe and effective prescribing of controlled substances",
-          "bucket": "Opioid/Controlled Substances"
+          "bucket": "Opioid/Controlled Substance Prescribing"
         },
         {
           "state": "IA",
           "raw_value": "CDC guideline for prescribing opioids for chronic pain (if opioids prescribed)",
-          "bucket": "Conditional Prescribers Only"
+          "bucket": "Opioid/Controlled Substance Prescribing"
         },
         {
           "state": "ME",
           "raw_value": "3 hours of continuing education every 2 years on the prescription of opioid medication",
-          "bucket": "Opioid/Controlled Substances"
+          "bucket": "Opioid/Controlled Substance Prescribing"
         },
         {
           "state": "MI",
           "raw_value": "pain and symptom management",
-          "bucket": "Opioid/Controlled Substances"
+          "bucket": "Opioid/Controlled Substance Prescribing"
         },
         {
           "state": "NE",
           "raw_value": "at least 3 hours biennially regarding prescribing opiates (for podiatrists who prescribe controlled substances); 0.5 hours covering the prescription drug monitoring program",
-          "bucket": "Conditional Prescribers Only"
+          "bucket": "Opioid + Drug Monitoring Program"
         },
         {
           "state": "NV",
           "raw_value": "screening, brief intervention and referral to treatment approach to substance use disorder; training relating specifically to persons with substance use and other addictive disorders and the prescribing of opioids",
-          "bucket": "Opioid + Addiction Treatment"
+          "bucket": "Substance Use Disorder & Treatment"
         },
         {
           "state": "NY",
           "raw_value": "infection control; child abuse and maltreatment identification and reporting",
-          "bucket": "Infection & Reporting"
+          "bucket": "Other Mandatory Topics"
         },
         {
           "state": "SC",
           "raw_value": "controlled substances prescribing and monitoring (2 hours minimum if authorized to prescribe)",
-          "bucket": "Conditional Prescribers Only"
+          "bucket": "Opioid/Controlled Substance Prescribing"
         },
         {
           "state": "WV",
           "raw_value": "drug diversion training; best-practice prescribing of controlled substances training; training on prescribing and administering an opioid antagonist",
-          "bucket": "Opioid + Addiction Treatment"
+          "bucket": "Substance Use Disorder & Treatment"
         },
         {
           "state": "WY",
           "raw_value": "responsible prescribing of controlled substances",
-          "bucket": "Opioid/Controlled Substances"
+          "bucket": "Opioid/Controlled Substance Prescribing"
         }
       ]
     },
@@ -1000,27 +1000,27 @@
       "field_name": "licensure.reciprocity.requirements",
       "bucket_set": [
         "Substantially Equivalent Standards",
-        "Equivalent + Years of Practice",
+        "Equivalent + Practice History",
         "Equivalent + Mutual Reciprocity",
-        "Exam-Based Endorsement",
-        "Active License Only"
+        "Exam + Endorsement Focus",
+        "Broad / Flexible Criteria"
       ],
-      "rationale": "States cluster around whether they require only substantially equivalent standards, add a practice-duration requirement, add a mutual/reciprocal-privilege requirement, emphasize passing a recognized exam, or simply require an active license in good standing with no additional conditions spelled out.",
+      "rationale": "States cluster around whether they require only substantially equivalent standards, add a practice history requirement, additionally demand mutual/reciprocal privileges from the other state, emphasize national exam or endorsement pathways, or use broad/flexible catch-all criteria.",
       "assignments": [
         {
           "state": "AK",
           "raw_value": "Active license from a board of medical examiners in another state or territory of the United States or a province or territory of Canada issued after thorough examination; proof of continued competence as required by regulation",
-          "bucket": "Active License Only"
+          "bucket": "Substantially Equivalent Standards"
         },
         {
           "state": "AZ",
           "raw_value": "Requirements in other state substantially equal to Arizona at time of registration; lawfully practiced podiatry in other state for at least 5 years within 7 years preceding application; compliance with all other Arizona requirements",
-          "bucket": "Equivalent + Years of Practice"
+          "bucket": "Equivalent + Practice History"
         },
         {
           "state": "CA",
           "raw_value": "Must have graduated from an approved school; passed Part III of NBPME or equivalent; completed a Council on Podiatric Medical Education-approved postgraduate training program; passed any required oral/practical exam; no disqualifying acts or disciplinary history; clean disciplinary databank report from Federation of Podiatric Medical Boards.",
-          "bucket": "Exam-Based Endorsement"
+          "bucket": "Exam + Endorsement Focus"
         },
         {
           "state": "CT",
@@ -1030,12 +1030,12 @@
         {
           "state": "DE",
           "raw_value": "Proof of current licensure in good standing in another state with substantially similar standards; if standards are not substantially similar, minimum 5 years of practice after licensure required; foreign degree holders must submit certified school records for evaluation; no pending disciplinary proceedings or unresolved complaints.",
-          "bucket": "Equivalent + Years of Practice"
+          "bucket": "Substantially Equivalent Standards"
         },
         {
           "state": "FL",
           "raw_value": "10 years continuous active licensed practice in another state with same continuing education requirements",
-          "bucket": "Equivalent + Years of Practice"
+          "bucket": "Equivalent + Practice History"
         },
         {
           "state": "GA",
@@ -1050,7 +1050,7 @@
         {
           "state": "ID",
           "raw_value": "Must be currently licensed in another state and satisfy all other requirements for licensure in Idaho",
-          "bucket": "Active License Only"
+          "bucket": "Substantially Equivalent Standards"
         },
         {
           "state": "IL",
@@ -1060,7 +1060,7 @@
         {
           "state": "IN",
           "raw_value": "Applicant must be licensed in a state, territory, or possession of the United States; has passed a podiatric medical licensing examination that is substantially equivalent to the examination approved by the board; and has practiced podiatric medicine for at least five (5) years",
-          "bucket": "Equivalent + Years of Practice"
+          "bucket": "Equivalent + Practice History"
         },
         {
           "state": "KS",
@@ -1070,12 +1070,12 @@
         {
           "state": "KY",
           "raw_value": "Reciprocal licensure available to persons licensed by written examination in a state with qualifications and standards at least as high as Kentucky's, or who have passed the National Board of Podiatry Examiners examination. Board may also enter into reciprocal agreements with other state podiatry examining boards.",
-          "bucket": "Exam-Based Endorsement"
+          "bucket": "Exam + Endorsement Focus"
         },
         {
           "state": "LA",
           "raw_value": "Applicant must present a satisfactory certificate of examination from another state's board of podiatry examiners or the National Board of Podiatry Examiners, and the board must find that the certificate was issued on the equivalent of Louisiana's requirements.",
-          "bucket": "Exam-Based Endorsement"
+          "bucket": "Exam + Endorsement Focus"
         },
         {
           "state": "MA",
@@ -1085,7 +1085,7 @@
         {
           "state": "ME",
           "raw_value": "Applicant must have passed written examination of another state or national certifying agency equivalent to Maine's examination and satisfy all other requirements for licensure including postgraduate clinical training requirement",
-          "bucket": "Exam-Based Endorsement"
+          "bucket": "Exam + Endorsement Focus"
         },
         {
           "state": "MI",
@@ -1095,7 +1095,7 @@
         {
           "state": "MN",
           "raw_value": "Must satisfy requirements of subdivision 1, present evidence of current license status in other states, and if license has been revoked or disciplinary action taken, board may refuse unless public protection assured. Must submit professional liability insurance information and malpractice settlement data for preceding five years. If license is active, must show compliance with continuing education in current state. If inactive, must show participation in required continuing education hours or other evidence of competency.",
-          "bucket": "Active License Only"
+          "bucket": "Broad / Flexible Criteria"
         },
         {
           "state": "MO",
@@ -1110,17 +1110,17 @@
         {
           "state": "NC",
           "raw_value": "applicant must be currently an active, competent practitioner in good standing; have practiced at least five years immediately preceding application with at least three of those five years in a state that grants similar reciprocity to North Carolina podiatrists; currently hold a valid license in another state; have no disciplinary proceeding or unresolved complaint pending; and licensure requirements in the other state must be equivalent to or higher than those required by North Carolina",
-          "bucket": "Equivalent + Mutual Reciprocity"
+          "bucket": "Equivalent + Practice History"
         },
         {
           "state": "ND",
-          "raw_value": "Applicant must have been engaged in active practice for at least 2 years immediately preceding application, have current license in another state/province, not have had license suspended/revoked, and not have engaged in conduct warranting disciplinary action.",
-          "bucket": "Equivalent + Years of Practice"
+          "raw_value": "Reciprocal state/province must grant like privileges to ND podiatrists and maintain equal statutory requirements; applicant must have been in active practice for at least 2 years immediately preceding application; must not have had license suspended or revoked or engaged in conduct warranting disciplinary action; must pay fee not to exceed $500; must submit professional liability insurance carrier information and malpractice settlement history for prior 5 years.",
+          "bucket": "Equivalent + Mutual Reciprocity"
         },
         {
           "state": "NE",
           "raw_value": "Applicant must hold a current and valid credential in another state for at least one year, meet educational and examination requirements, have no disciplinary history, and establish Nebraska residency within 180 days of issuance.",
-          "bucket": "Active License Only"
+          "bucket": "Substantially Equivalent Standards"
         },
         {
           "state": "NJ",
@@ -1130,12 +1130,12 @@
         {
           "state": "NM",
           "raw_value": "Must meet standard licensure qualifications, file application under oath, furnish proof of national examination licensure in another jurisdiction, provide affidavit showing valid unrestricted license and at least three consecutive years of practice immediately preceding application, and pay required fees.",
-          "bucket": "Equivalent + Years of Practice"
+          "bucket": "Equivalent + Practice History"
         },
         {
           "state": "NV",
           "raw_value": "Applicant must have been licensed in another state or District of Columbia, maintained active practice within 5 years preceding application, had no disciplinary proceedings, and participated in equivalent continuing education. Alternatively, applicant may pass Board examination on Nevada law.",
-          "bucket": "Equivalent + Years of Practice"
+          "bucket": "Equivalent + Practice History"
         },
         {
           "state": "NY",
@@ -1145,7 +1145,7 @@
         {
           "state": "OH",
           "raw_value": "Applicant must hold a license in another state or have satisfactory work experience, government certification, or private certification as described in Chapter 4796",
-          "bucket": "Active License Only"
+          "bucket": "Broad / Flexible Criteria"
         },
         {
           "state": "OK",
@@ -1180,17 +1180,17 @@
         {
           "state": "TX",
           "raw_value": "Applicant must be licensed in good standing in another state with substantially equivalent requirements, pass a national or other examination recognized by the department, and be sponsored by a person licensed under this chapter (unless hardship exemption granted).",
-          "bucket": "Exam-Based Endorsement"
+          "bucket": "Exam + Endorsement Focus"
         },
         {
           "state": "VA",
           "raw_value": "Credentials must be satisfactory and examinations and passing grades required by other boards must be fully equal to those required by the Virginia Board; or applicant may hold a national board certificate acceptable to the Board.",
-          "bucket": "Exam-Based Endorsement"
+          "bucket": "Exam + Endorsement Focus"
         },
         {
           "state": "VT",
           "raw_value": "Board must deem the applicant has met requirements in the other jurisdiction substantially equal to those of Vermont; or endorsement process requiring not more than three years of practice in good standing in another U.S. jurisdiction plus postgraduate training requirements.",
-          "bucket": "Equivalent + Years of Practice"
+          "bucket": "Equivalent + Practice History"
         },
         {
           "state": "WA",
@@ -1200,7 +1200,7 @@
         {
           "state": "WI",
           "raw_value": "Applicant must be a graduate of a podiatry school, licensed as a podiatrist by another U.S. jurisdiction, the other jurisdiction required graduation from an approved or evaluated school, and the applicant has actively practiced podiatry under that license for at least 3 years immediately preceding the application date.",
-          "bucket": "Equivalent + Years of Practice"
+          "bucket": "Equivalent + Practice History"
         },
         {
           "state": "WV",
@@ -1215,16 +1215,279 @@
       ]
     },
     {
+      "field_name": "scope.definition_quote",
+      "bucket_set": [
+        "Foot Only",
+        "Foot & Ankle",
+        "Foot, Ankle & Leg",
+        "Broad / Primary Care",
+        "Procedural / Title-Based"
+      ],
+      "rationale": "The core anatomical scope drives the most meaningful cross-state distinction — states cluster around whether they limit practice to the foot, extend to the ankle, further extend up the leg, or adopt an expansive primary-care or title-based framing rather than enumerating anatomy.",
+      "assignments": [
+        {
+          "state": "AK",
+          "raw_value": "the medical, mechanical, and surgical treatment of ailments of the foot, the muscles and tendons of the leg governing the functions of the foot, and superficial lesions of the hand other than those associated with trauma; the use of preparations, medicines, and drugs as are necessary for the treatment of these ailments; the treatment of the local manifestations of systemic diseases as they appear in the hand and foot",
+          "bucket": "Foot & Ankle"
+        },
+        {
+          "state": "AL",
+          "raw_value": "The diagnosis and medical or surgical or mechanical or manipulative or electrical treatment of any ailment of the human foot or ankle and the surgical treatment of ailments of the human foot or ankle limited anatomically to the foot or ankle. The practice of podiatry shall include the amputation of the toes and other parts of the foot and ankle, but shall not include any amputation above the Chopart joint, total ankle arthroplasty, or the administration of any anesthetic other than local. A podiatrist may prescribe drugs that relate specifically to the scope of practice authorized herein.",
+          "bucket": "Foot & Ankle"
+        },
+        {
+          "state": "AR",
+          "raw_value": "the diagnosis and medical, mechanical, and surgical treatment of ailments of the human foot and ankle",
+          "bucket": "Foot & Ankle"
+        },
+        {
+          "state": "AZ",
+          "raw_value": "Diagnosing or medically, surgically, mechanically, manipulatively or electrically treating ailments of the human foot and leg but not amputating the leg or entire foot or administering an anesthetic other than local.",
+          "bucket": "Foot, Ankle & Leg"
+        },
+        {
+          "state": "CA",
+          "raw_value": "\"podiatric medicine\" means the diagnosis, medical, surgical, mechanical, manipulative, and electrical treatment of the human foot, including the ankle and tendons that insert into the foot and the nonsurgical treatment of the muscles and tendons of the leg governing the functions of the foot.",
+          "bucket": "Foot, Ankle & Leg"
+        },
+        {
+          "state": "CO",
+          "raw_value": "Holding out one's self to the public as being able to treat, prescribe for, palliate, correct, or prevent any disease, ailment, pain, injury, deformity, or physical condition of the human toe, foot, ankle, tendons that insert into the foot, and soft tissue below the mid-calf, by the use of any medical, surgical, mechanical, manipulative, or electrical treatment, including complications thereof consistent with the scope of practice",
+          "bucket": "Foot, Ankle & Leg"
+        },
+        {
+          "state": "CT",
+          "raw_value": "\"Podiatric medicine\" means the diagnosis and treatment, including medical and surgical treatment, of ailments of the foot and ankle and all the anatomical structures of the foot and ankle and the administration and prescription of drugs incidental thereto, in accordance with section 20-54.",
+          "bucket": "Foot & Ankle"
+        },
+        {
+          "state": "DE",
+          "raw_value": "the diagnosis and the medical, surgical, mechanical, manipulative and electrical treatment of all ailments of the foot and ankle",
+          "bucket": "Foot & Ankle"
+        },
+        {
+          "state": "FL",
+          "raw_value": "the diagnosis or medical, surgical, palliative, and mechanical treatment of ailments of the human foot and leg",
+          "bucket": "Foot, Ankle & Leg"
+        },
+        {
+          "state": "GA",
+          "raw_value": "Podiatric medicine, which includes chiropody, podiatry, and podiatric medicine and surgery, means that portion of the practice of medicine identified by the acts described in any one or more of the following: Charging a fee or other compensation, either directly or indirectly, for any history or physical examination of a patient in a person's office or in a hospital, clinic, or other similar facility prior to, incident to, and necessary for the diagnosis and treatment, by primary medical care, surgical or other means, of diseases, ailments, injuries, cosmetic conditions, or abnormal conditions",
+          "bucket": "Broad / Primary Care"
+        },
+        {
+          "state": "HI",
+          "raw_value": "the medical, surgical, mechanical, manipulative, and electrical diagnosis and treatment of the human foot, malleoli, and ankle, including the surgical treatment of the muscles and tendons of the leg governing the functions of the foot, but does not include amputation above the ankle, treatment of systemic conditions, or the use of any anesthetic except local anesthetic",
+          "bucket": "Foot & Ankle"
+        },
+        {
+          "state": "IA",
+          "raw_value": "Persons who diagnose, prescribe, or prescribe and furnish medicine for ailments of the human foot, or treat such ailments by medical, mechanical, or surgical treatments.",
+          "bucket": "Foot Only"
+        },
+        {
+          "state": "ID",
+          "raw_value": "Podiatry shall mean the diagnosis and mechanical, electrical, medical, physical and surgical treatment of ailments of the human foot and leg, and the casting of feet for the purpose of preparing or prescribing corrective appliances, prosthetics, and/or the making of custom shoes for corrective treatment",
+          "bucket": "Foot, Ankle & Leg"
+        },
+        {
+          "state": "IL",
+          "raw_value": "\"Podiatric medicine\" or \"podiatry\" means: (1) the diagnosis, medical, physical, or surgical treatment of the ailments of the human foot, including amputations as defined in this Section; (2) the provision of topical and local anesthesia and moderate and deep sedation, as defined by Department rule adopted under the Medical Practice Act of 1987; and (3) vaccination of patients 18 years of age and older in accordance with Section 20.6 upon completion of appropriate training.",
+          "bucket": "Foot & Ankle"
+        },
+        {
+          "state": "IN",
+          "raw_value": "Podiatric medicine means the diagnosis or medical, surgical, and mechanical treatment of the human foot and related structures",
+          "bucket": "Foot & Ankle"
+        },
+        {
+          "state": "KS",
+          "raw_value": "the diagnosis and medical and surgical treatment of all illnesses of the human foot, including the ankle and tendons which insert into the foot as well as the foot",
+          "bucket": "Foot & Ankle"
+        },
+        {
+          "state": "KY",
+          "raw_value": "Podiatry is that profession of the health sciences which deals with the examination, diagnosis, treatment, and prevention of diseases, conditions, and malfunctions affecting the human foot and its related or governing structures, by employment of medical, surgical, or other means",
+          "bucket": "Foot & Ankle"
+        },
+        {
+          "state": "LA",
+          "raw_value": "Podiatry is that profession of the health sciences which deals with the prevention, examination, diagnosis, medical, surgical, and adjuvant treatment of the human foot. The \"foot\" is defined as that part of the human anatomy which consists of the tarsal bones, metatarsal bones, phalanges, and all supportive and/or connective tissue immediately adjacent thereto not to extend past the proximal end of the talus.",
+          "bucket": "Foot Only"
+        },
+        {
+          "state": "MA",
+          "raw_value": "Podiatry as used in this chapter shall mean the diagnosis and the treatment of the structures of the human foot by medical, mechanical, surgical, manipulative and electrical means without the use of other than local anesthetics, and excepting treatment of systemic conditions, and excluding amputation of the foot or toes.",
+          "bucket": "Foot Only"
+        },
+        {
+          "state": "MD",
+          "raw_value": "to diagnose or surgically, medically, or mechanically treat the human foot or ankle, the anatomical structures that attach to the human foot, or the soft tissue below the mid–calf",
+          "bucket": "Foot, Ankle & Leg"
+        },
+        {
+          "state": "ME",
+          "raw_value": "the diagnosis and treatment of maladies of the human foot and ankle by medical, surgical or mechanical means",
+          "bucket": "Foot & Ankle"
+        },
+        {
+          "state": "MI",
+          "raw_value": "The evaluation, diagnosis, management, and prevention of conditions of the lower extremities, including local manifestations of systemic disease in the human foot and ankle, by attending to and advising patients and through the use of devices, diagnostic tests, drugs and biologicals, surgical procedures, or other means.",
+          "bucket": "Foot, Ankle & Leg"
+        },
+        {
+          "state": "MN",
+          "raw_value": "\"Podiatric medicine\" means the diagnosis or medical, mechanical, or surgical treatment of the ailments of the human hand, foot, ankle, and the soft tissue of the lower leg distal to the tibial tuberosity. Medical or surgical treatment includes partial foot amputation and excludes amputation of the hand or fingers. Use of local anesthetics is within the scope of medical and surgical management in patient care. Use of anesthetics, other than local, is excluded, except as provided in section 153.26. Podiatric medicine includes the prescribing or recommending of appliances, devices, or shoes for t",
+          "bucket": "Foot, Ankle & Leg"
+        },
+        {
+          "state": "MO",
+          "raw_value": "the diagnosis, medical, physical, or surgical treatment of the ailments of the human foot, with the exception of administration of general anesthetics, or amputation of the foot",
+          "bucket": "Foot Only"
+        },
+        {
+          "state": "MS",
+          "raw_value": "The practice of podiatric medicine is that profession concerned with the prevention, examination, diagnosis and medical, surgical and adjuvant treatment of conditions of the human foot. For the purposes of this chapter, \"foot\" means that part of the human anatomy which consists of the tarsal bones, metatarsal bones and phalanges.",
+          "bucket": "Foot Only"
+        },
+        {
+          "state": "MT",
+          "raw_value": "A podiatrist may diagnose and treat ailments of the human functional foot and ankle by all systems and means. The functional foot is the anatomical foot and any muscle, tendon, ligament, or other soft tissue structure that is directly attached to the anatomical foot and that impacts on or affects the foot or foot function. The ankle is the articulation between the talus, tibia, and fibula and their related soft tissue structures.",
+          "bucket": "Foot & Ankle"
+        },
+        {
+          "state": "NC",
+          "raw_value": "Podiatry as defined by this Article is the surgical, medical, or mechanical treatment of all ailments of the human foot and ankle, and their related soft tissue structures to the level of the myotendinous junction",
+          "bucket": "Foot & Ankle"
+        },
+        {
+          "state": "ND",
+          "raw_value": "The medical and surgical treatment and diagnosis of ailments of the human foot, ankle, and other related soft tissue structures below the tibial tuberosity that govern the functions of the foot and ankle, not including extra articular osseous injuries above the distal metaphyseal scar.",
+          "bucket": "Foot, Ankle & Leg"
+        },
+        {
+          "state": "NE",
+          "raw_value": "Practice of podiatry means the diagnosis or medical, physical, or surgical treatment of the ailments of the human foot, ankle, and related governing structures except (1) the amputation of the forefoot, (2) the general medical treatment of any systemic disease causing manifestations in the foot, and (3) the administration of anesthetics other than local.",
+          "bucket": "Foot & Ankle"
+        },
+        {
+          "state": "NH",
+          "raw_value": "the board shall issue the certificate for a licensed podiatrist to whoever satisfactorily passes an examination, and thereupon he shall have legal authority to diagnose and to treat by medical, mechanical, electrical and surgical means ailments of the human foot and lower leg",
+          "bucket": "Foot, Ankle & Leg"
+        },
+        {
+          "state": "NJ",
+          "raw_value": "\"Podiatric medicine\" or \"practice of podiatric medicine\" is defined to be the diagnosis or treatment of or the holding out of a right or ability to diagnose or treat any ailment of the human foot or ankle, including local manifestations of systemic diseases as they appear on the lower leg, foot or ankle but not treatment of systemic diseases of any other part of the body, or the holding out of a right or ability to treat the same by any one or more of the following means: local medical, mechanical, surgical, manipulative and physio-therapeutic, including the application of any of the aforement",
+          "bucket": "Foot, Ankle & Leg"
+        },
+        {
+          "state": "NM",
+          "raw_value": "engaging in that primary health care profession, the members of which examine, diagnose, treat and prevent by medical, surgical and biomechanical means ailments affecting the human foot and ankle and the structures governing their functions, but does not include amputation of the foot or the personal administration of a general anesthetic",
+          "bucket": "Foot & Ankle"
+        },
+        {
+          "state": "NV",
+          "raw_value": "Podiatry is the diagnosis, prevention and treatment of ailments of the human foot and leg.",
+          "bucket": "Foot, Ankle & Leg"
+        },
+        {
+          "state": "NY",
+          "raw_value": "The practice of the profession of podiatry is defined as diagnosing, treating, operating and prescribing for any disease, injury, deformity or other condition of the foot, and may include performing physical evaluations in conjunction with the provision of podiatric treatment.",
+          "bucket": "Foot Only"
+        },
+        {
+          "state": "OH",
+          "raw_value": "The practice of podiatric medicine and surgery consists of the medical, mechanical, and surgical treatment of ailments of the foot, the muscles and tendons of the leg governing the functions of the foot; and superficial lesions of the hand other than those associated with trauma.",
+          "bucket": "Foot Only"
+        },
+        {
+          "state": "OK",
+          "raw_value": "Podiatric medicine is that profession of the health sciences concerned with the diagnosis and treatment of conditions affecting the human foot and ankle, including the local manifestations of systemic conditions, by all appropriate systems and means.",
+          "bucket": "Foot & Ankle"
+        },
+        {
+          "state": "OR",
+          "raw_value": "The diagnosis or the medical, physical or surgical treatment of ailments of the human foot, ankle and tendons directly attached to and governing the function of the foot and ankle, except treatment involving the use of a general or spinal anesthetic unless the treatment is performed in a hospital licensed under ORS 441.025 or in an ambulatory surgical center licensed by the Oregon Health Authority and is under the supervision of or in collaboration with a podiatric physician and surgeon; and Assisting in the performance of surgery",
+          "bucket": "Foot & Ankle"
+        },
+        {
+          "state": "PA",
+          "raw_value": "the diagnosis and treatment including mechanical and surgical treatment of ailments of the foot, and those anatomical structures of the leg governing the functions of the foot and the administration and prescription of drugs incidental thereto. It shall include treatment of local manifestations of systemic diseases as they appear on the foot but shall not include amputation of the leg or foot or treatment of systemic diseases of any other part of the body.",
+          "bucket": "Foot, Ankle & Leg"
+        },
+        {
+          "state": "RI",
+          "raw_value": "Any person is practicing podiatry within the meaning of this chapter who uses or permits to be used, directly or indirectly, for profit or otherwise, for their own self or for any other person, in connection with their own name, the word \"podiatrist\" or \"podiatric physician and surgeon,\" or the title DPM, or any other words, letters, titles, or descriptive matter, personal or not, that directly or indirectly implies the practice of podiatry, or who owns, leases, maintains, or operates a podiatry business in any office or other room or rooms where podiatry operations are performed, or directly ",
+          "bucket": "Procedural / Title-Based"
+        },
+        {
+          "state": "SC",
+          "raw_value": "For podiatrists who are RRA qualified or certified, the diagnosis, surgical, medical, and mechanical treatment of all conditions of the human foot and ankle. For podiatrists who are not RRA qualified or certified, the diagnosis, surgical, medical, and mechanical treatment of all conditions of the human foot and soft tissue structures.",
+          "bucket": "Foot & Ankle"
+        },
+        {
+          "state": "SD",
+          "raw_value": "Podiatric medicine is that profession of the health sciences concerned with the diagnosis and treatment of conditions affecting the human foot and their governing and related structures, and the soft tissues inserting into the foot, including the local manifestations of systemic conditions, by all appropriate systems and means.",
+          "bucket": "Foot & Ankle"
+        },
+        {
+          "state": "TN",
+          "raw_value": "one who examines, diagnoses or treats, medically mechanically or surgically, the ailments of the human foot, ankle and soft tissue structures extending no higher than the distal tibial metaphyseal flair, including the use and prescribing of drugs and medications, but excluding the direct applications of general anesthesia by a podiatrist and the amputation of the foot",
+          "bucket": "Foot, Ankle & Leg"
+        },
+        {
+          "state": "TX",
+          "raw_value": "\"Podiatry\" means the treatment of or offer to treat any disease, disorder, physical injury, deformity, or ailment of the human foot by any system or method. The term includes podiatric medicine.",
+          "bucket": "Broad / Primary Care"
+        },
+        {
+          "state": "UT",
+          "raw_value": "the diagnosis and treatment of conditions affecting the human foot and ankle and their manifestations of systemic conditions, and wound debridement on the limbs and torso, by all appropriate and lawful means",
+          "bucket": "Foot & Ankle"
+        },
+        {
+          "state": "VA",
+          "raw_value": "\"Practice of podiatry\" means the prevention, diagnosis, treatment, and cure or alleviation of physical conditions, diseases, pain, or infirmities of the human foot and ankle, including the medical, mechanical and surgical treatment of the ailments of the human foot and ankle, but does not include amputation of the foot proximal to the transmetatarsal level through the metatarsal shafts.",
+          "bucket": "Foot & Ankle"
+        },
+        {
+          "state": "VT",
+          "raw_value": "any medical, mechanical, surgical, electrical, manipulation, strapping, or bandaging treatment of the ailments pertaining to the human foot and lower leg distal to the myotendinous junction of the triceps surae",
+          "bucket": "Foot, Ankle & Leg"
+        },
+        {
+          "state": "WA",
+          "raw_value": "The practice of podiatric medicine and surgery is the diagnosis and the medical, surgical, mechanical, manipulative, and electrical treatments of ailments of the human foot.",
+          "bucket": "Foot Only"
+        },
+        {
+          "state": "WI",
+          "raw_value": "\"Podiatry\" or \"podiatric medicine and surgery\" means that branch or system of the practice of medicine and surgery that involves treating the sick which is limited to conditions affecting the foot and ankle, but does not include the use of a general anesthetic unless administered by or under the direction of a person licensed to practice medicine and surgery under subch. II.",
+          "bucket": "Foot & Ankle"
+        },
+        {
+          "state": "WV",
+          "raw_value": "the examination, diagnosis, treatment, prevention and care of conditions and functions of the human foot and ankle by medical, surgical and other scientific knowledge and methods; with surgical treatment of the ankle authorized only when a podiatrist has been granted privileges to perform ankle surgery by a hospital's medical staff credentialing committee based on the training and experience of the podiatrist; and medical and surgical treatment of warts and other dermatological lesions of the hand which similarly occur in the foot.",
+          "bucket": "Foot & Ankle"
+        },
+        {
+          "state": "WY",
+          "raw_value": "Podiatry means the diagnosis or the medical, mechanical or surgical treatment of the ailments of the human foot, ankle and tendons that insert into the foot.",
+          "bucket": "Foot & Ankle"
+        }
+      ]
+    },
+    {
       "field_name": "scope.methods_authorized",
       "bucket_set": [
         "Med/Surg/Mech Core",
         "Med/Surg/Mech + Electrical",
         "Med/Surg/Mech + Manipulative",
-        "Diagnosis-Led Broad",
-        "Enumerated Procedures",
-        "General/All Means"
+        "Broad Enumerated",
+        "Diagnosis-Forward",
+        "Catch-All / General"
       ],
-      "rationale": "States cluster by which modalities they enumerate beyond the universal med/surg core: some stop at mechanical, some add electrical, some add manipulative, some lead with explicit diagnosis and drug authorities, some enumerate specific procedures in detail, and a few use open-ended 'all means' language.",
+      "rationale": "States cluster around a short core triad (medical/surgical/mechanical), expansions of that triad with electrical or manipulative modalities, diagnosis-explicit lists with drug/anesthesia detail, broadly enumerated procedure lists, and a few catch-all or general formulations.",
       "assignments": [
         {
           "state": "AK",
@@ -1244,27 +1507,27 @@
         {
           "state": "AZ",
           "raw_value": "medical; surgical; mechanical; manipulative; electrical",
-          "bucket": "Med/Surg/Mech + Electrical"
+          "bucket": "Med/Surg/Mech + Manipulative"
         },
         {
           "state": "CA",
           "raw_value": "medical; surgical; mechanical; manipulative; electrical",
-          "bucket": "Med/Surg/Mech + Electrical"
+          "bucket": "Med/Surg/Mech + Manipulative"
         },
         {
           "state": "CO",
           "raw_value": "medical; surgical; mechanical; manipulative; electrical",
-          "bucket": "Med/Surg/Mech + Electrical"
+          "bucket": "Med/Surg/Mech + Manipulative"
         },
         {
           "state": "CT",
           "raw_value": "medical treatment; surgical treatment; administration of drugs; prescription of drugs; dispensing of drugs",
-          "bucket": "Diagnosis-Led Broad"
+          "bucket": "Diagnosis-Forward"
         },
         {
           "state": "DE",
           "raw_value": "diagnosis; medical treatment; surgical treatment; mechanical treatment; manipulative treatment; electrical treatment",
-          "bucket": "Diagnosis-Led Broad"
+          "bucket": "Med/Surg/Mech + Electrical"
         },
         {
           "state": "FL",
@@ -1274,12 +1537,12 @@
         {
           "state": "GA",
           "raw_value": "medical care; surgical care; other means",
-          "bucket": "General/All Means"
+          "bucket": "Catch-All / General"
         },
         {
           "state": "HI",
           "raw_value": "medical; surgical; mechanical; manipulative; electrical",
-          "bucket": "Med/Surg/Mech + Electrical"
+          "bucket": "Med/Surg/Mech + Manipulative"
         },
         {
           "state": "IA",
@@ -1299,7 +1562,7 @@
         {
           "state": "IN",
           "raw_value": "diagnosis; medical treatment; surgical treatment; mechanical treatment; administration of local anesthetics",
-          "bucket": "Diagnosis-Led Broad"
+          "bucket": "Diagnosis-Forward"
         },
         {
           "state": "KS",
@@ -1309,22 +1572,22 @@
         {
           "state": "KY",
           "raw_value": "medical; surgical; other means",
-          "bucket": "General/All Means"
+          "bucket": "Catch-All / General"
         },
         {
           "state": "LA",
           "raw_value": "prevention; examination; diagnosis; medical treatment; surgical treatment; adjuvant treatment",
-          "bucket": "Diagnosis-Led Broad"
+          "bucket": "Diagnosis-Forward"
         },
         {
           "state": "MA",
           "raw_value": "medical; mechanical; surgical; manipulative; electrical",
-          "bucket": "Med/Surg/Mech + Electrical"
+          "bucket": "Med/Surg/Mech + Manipulative"
         },
         {
           "state": "MD",
           "raw_value": "diagnose; surgically treat; medically treat; mechanically treat",
-          "bucket": "Med/Surg/Mech Core"
+          "bucket": "Diagnosis-Forward"
         },
         {
           "state": "ME",
@@ -1334,12 +1597,12 @@
         {
           "state": "MI",
           "raw_value": "evaluation; diagnosis; management; prevention; use of devices; diagnostic tests; drugs and biologicals; surgical procedures; osseous and soft tissue procedures; treatment of ulcerations; nail diseases; callosities; verruca",
-          "bucket": "Enumerated Procedures"
+          "bucket": "Broad Enumerated"
         },
         {
           "state": "MN",
           "raw_value": "diagnosis; medical treatment; mechanical treatment; surgical treatment",
-          "bucket": "Diagnosis-Led Broad"
+          "bucket": "Diagnosis-Forward"
         },
         {
           "state": "MO",
@@ -1354,7 +1617,7 @@
         {
           "state": "MT",
           "raw_value": "diagnosis and treatment by all systems and means",
-          "bucket": "General/All Means"
+          "bucket": "Catch-All / General"
         },
         {
           "state": "NC",
@@ -1363,13 +1626,13 @@
         },
         {
           "state": "ND",
-          "raw_value": "medical treatment; surgical treatment; diagnosis; amputation; use of medicines and drugs; history and physical examinations; assistant surgeon role",
-          "bucket": "Enumerated Procedures"
+          "raw_value": "medical; surgical; amputation; drug/pharmaceutical; history and physical examinations; assistant surgeon in nonpodiatric procedures",
+          "bucket": "Broad Enumerated"
         },
         {
           "state": "NE",
           "raw_value": "diagnosis; medical treatment; physical treatment; surgical treatment",
-          "bucket": "Diagnosis-Led Broad"
+          "bucket": "Diagnosis-Forward"
         },
         {
           "state": "NH",
@@ -1389,12 +1652,12 @@
         {
           "state": "NV",
           "raw_value": "administer electricity; use hands and machinery; apply mechanical appliances; apply pads, adhesives, felt, plasters and medicines; prescribe and dispense controlled substances and dangerous drugs; construct models of feet; administer local anesthetic; use cutting instruments; treat effects of systemic disease on foot or leg; amputate toes",
-          "bucket": "Enumerated Procedures"
+          "bucket": "Broad Enumerated"
         },
         {
           "state": "NY",
           "raw_value": "diagnosing; treating; operating; prescribing; physical evaluations; wound care; local anesthesia; treatment under general anesthesia administered by authorized persons",
-          "bucket": "Enumerated Procedures"
+          "bucket": "Broad Enumerated"
         },
         {
           "state": "OH",
@@ -1404,32 +1667,32 @@
         {
           "state": "OK",
           "raw_value": "examining; diagnosing; recommending; prescribing; caring for; treating; massage or adjustment; fitting, building, or furnishing pads, inserts, appliances, inlays, splints, or supports; giving or using medicament or anesthetics",
-          "bucket": "Enumerated Procedures"
+          "bucket": "Broad Enumerated"
         },
         {
           "state": "OR",
           "raw_value": "diagnosis; medical treatment; physical treatment; surgical treatment; assisting in surgery",
-          "bucket": "Diagnosis-Led Broad"
+          "bucket": "Diagnosis-Forward"
         },
         {
           "state": "PA",
           "raw_value": "mechanical treatment; surgical treatment; administration of drugs; prescription of drugs",
-          "bucket": "Diagnosis-Led Broad"
+          "bucket": "Diagnosis-Forward"
         },
         {
           "state": "RI",
           "raw_value": "diagnosis; treatment; prescription; foot operations",
-          "bucket": "Diagnosis-Led Broad"
+          "bucket": "Catch-All / General"
         },
         {
           "state": "SC",
           "raw_value": "diagnosis; surgical treatment; medical treatment; mechanical treatment; administration of local anesthesia",
-          "bucket": "Diagnosis-Led Broad"
+          "bucket": "Diagnosis-Forward"
         },
         {
           "state": "SD",
           "raw_value": "diagnosis; treatment; all appropriate systems and means",
-          "bucket": "General/All Means"
+          "bucket": "Catch-All / General"
         },
         {
           "state": "TN",
@@ -1444,7 +1707,7 @@
         {
           "state": "UT",
           "raw_value": "surgical procedures on bones of the foot or ankle; biological, enzymatic, autolytic, and mechanical wound debridement on the limbs and torso",
-          "bucket": "Enumerated Procedures"
+          "bucket": "Broad Enumerated"
         },
         {
           "state": "VA",
@@ -1459,7 +1722,7 @@
         {
           "state": "WA",
           "raw_value": "medical; surgical; mechanical; manipulative; electrical",
-          "bucket": "Med/Surg/Mech + Electrical"
+          "bucket": "Med/Surg/Mech + Manipulative"
         },
         {
           "state": "WI",
@@ -1469,70 +1732,70 @@
         {
           "state": "WV",
           "raw_value": "medical; surgical; other scientific knowledge and methods",
-          "bucket": "General/All Means"
+          "bucket": "Catch-All / General"
         },
         {
           "state": "WY",
           "raw_value": "diagnosis; medical treatment; mechanical treatment; surgical treatment; fitting or recommending appliances/devices/shoes; prescribing drugs and controlled substances",
-          "bucket": "Diagnosis-Led Broad"
+          "bucket": "Broad Enumerated"
         }
       ]
     },
     {
       "field_name": "scope.drug_authority",
       "bucket_set": [
-        "Full Rx + Controlled",
-        "Scope-Limited Rx",
+        "Broad Prescriptive Authority",
+        "Scope-Limited Prescribing",
+        "Controlled Substances Explicit",
         "Local Anesthesia Only",
-        "Foot-Specific Drugs",
-        "Broad General Authority"
+        "Foot/Ankle Conditions Only"
       ],
-      "rationale": "States cluster by how broadly drug authority is framed: those explicitly authorizing full prescribing including controlled substances, those tying prescribing narrowly to the podiatric scope, those restricting to local anesthesia, those using generic 'foot ailment' language without controlled-substance specifics, and those with broad unrestricted general authority.",
+      "rationale": "States cluster by how broadly they grant drug authority: some grant near-full prescriptive rights including controlled substances explicitly, some limit to scope-of-practice drugs generally, some restrict to foot/ankle conditions, and a few restrict to local anesthesia only.",
       "assignments": [
         {
           "state": "AK",
           "raw_value": "Use of preparations, medicines, and drugs as are necessary for the treatment of ailments of the foot and related structures",
-          "bucket": "Foot-Specific Drugs"
+          "bucket": "Foot/Ankle Conditions Only"
         },
         {
           "state": "AL",
           "raw_value": "A podiatrist may prescribe drugs that relate specifically to the scope of practice authorized herein",
-          "bucket": "Scope-Limited Rx"
+          "bucket": "Scope-Limited Prescribing"
         },
         {
           "state": "CA",
           "raw_value": "Podiatrists may prescribe and administer local anesthesia; may prescribe and administer influenza and COVID-19 vaccines; may prescribe dangerous drugs for treatment of pain. Other anesthesia must be administered by another licensed health care practitioner.",
-          "bucket": "Scope-Limited Rx"
+          "bucket": "Controlled Substances Explicit"
         },
         {
           "state": "CO",
           "raw_value": "Podiatrists may prescribe medications related to the scope of podiatric medicine, subject to limitations on opioids and benzodiazepines",
-          "bucket": "Scope-Limited Rx"
+          "bucket": "Controlled Substances Explicit"
         },
         {
           "state": "CT",
           "raw_value": "May prescribe, administer and dispense drugs and controlled substances in schedule II, III, IV or V in connection with the practice of podiatric medicine",
-          "bucket": "Full Rx + Controlled"
+          "bucket": "Controlled Substances Explicit"
         },
         {
           "state": "DE",
           "raw_value": "Podiatrists may prescribe medications for the foot and ankle; electronic prescribing required with limited exceptions",
-          "bucket": "Scope-Limited Rx"
+          "bucket": "Foot/Ankle Conditions Only"
         },
         {
           "state": "FL",
           "raw_value": "A podiatric physician may prescribe drugs that relate specifically to the scope of practice authorized",
-          "bucket": "Scope-Limited Rx"
+          "bucket": "Scope-Limited Prescribing"
         },
         {
           "state": "IA",
           "raw_value": "Prescribe and administer drugs for the treatment of human foot ailments",
-          "bucket": "Foot-Specific Drugs"
+          "bucket": "Foot/Ankle Conditions Only"
         },
         {
           "state": "ID",
           "raw_value": "A podiatrist may administer narcotics and medications in the treatment of ailments of the human foot and leg in the same manner as a physician and surgeon",
-          "bucket": "Full Rx + Controlled"
+          "bucket": "Broad Prescriptive Authority"
         },
         {
           "state": "IL",
@@ -1542,12 +1805,12 @@
         {
           "state": "KS",
           "raw_value": "Authorized to prescribe such drugs or medicine as may be necessary to the proper practice of podiatry",
-          "bucket": "Broad General Authority"
+          "bucket": "Scope-Limited Prescribing"
         },
         {
           "state": "LA",
           "raw_value": "Podiatrists may prescribe, dispense, or administer legally controlled substances and dependency-inducing medications with legitimate medical justification and in a legal or legitimate manner",
-          "bucket": "Full Rx + Controlled"
+          "bucket": "Controlled Substances Explicit"
         },
         {
           "state": "MA",
@@ -1557,42 +1820,42 @@
         {
           "state": "MD",
           "raw_value": "may dispense prescription drugs subject to Board rules adopted in consultation with the State Board of Pharmacy",
-          "bucket": "Scope-Limited Rx"
+          "bucket": "Scope-Limited Prescribing"
         },
         {
           "state": "ME",
           "raw_value": "A licensed podiatrist may prescribe narcotic drugs for the treatment of ailments within the scope of the podiatrist's license with the approval of the Drug Enforcement Administration",
-          "bucket": "Full Rx + Controlled"
+          "bucket": "Controlled Substances Explicit"
         },
         {
           "state": "MI",
           "raw_value": "Podiatric physicians may use drugs and biologicals within their scope of practice",
-          "bucket": "Scope-Limited Rx"
+          "bucket": "Scope-Limited Prescribing"
         },
         {
           "state": "MN",
           "raw_value": "Podiatric medicine includes the prescribing or administering of any drugs or medications necessary or helpful to the practice of podiatric medicine",
-          "bucket": "Broad General Authority"
+          "bucket": "Broad Prescriptive Authority"
         },
         {
           "state": "MO",
           "raw_value": "Use of drugs and medicines in treatment of ailments of the human foot, excluding treatment of systemic diseases",
-          "bucket": "Foot-Specific Drugs"
+          "bucket": "Foot/Ankle Conditions Only"
         },
         {
           "state": "MS",
           "raw_value": "A podiatrist may prescribe and administer drugs and tests, excluding general and spinal anesthesia, that are essential to the practice of podiatric medicine when used for or in connection with treatment of disorders of the human foot",
-          "bucket": "Scope-Limited Rx"
+          "bucket": "Foot/Ankle Conditions Only"
         },
         {
           "state": "MT",
           "raw_value": "A licensed podiatrist may administer and prescribe drugs in accordance with 37-2-101 as a \"medical practitioner\"",
-          "bucket": "Broad General Authority"
+          "bucket": "Broad Prescriptive Authority"
         },
         {
           "state": "ND",
-          "raw_value": "Podiatrists may use such preparations, medicines, and drugs as may be necessary for the treatment of ailments of the foot and ankle",
-          "bucket": "Foot-Specific Drugs"
+          "raw_value": "The use of such preparations, medicines, and drugs as may be necessary for the treatment of such ailments.",
+          "bucket": "Foot/Ankle Conditions Only"
         },
         {
           "state": "NE",
@@ -1602,7 +1865,7 @@
         {
           "state": "NH",
           "raw_value": "Prescribing controlled drugs pursuant to RSA 318-B:41",
-          "bucket": "Full Rx + Controlled"
+          "bucket": "Controlled Substances Explicit"
         },
         {
           "state": "NJ",
@@ -1612,72 +1875,72 @@
         {
           "state": "NM",
           "raw_value": "Podiatric physicians may prescribe; selling, giving or prescribing controlled substances for illegal purposes is a disciplinary ground",
-          "bucket": "Broad General Authority"
+          "bucket": "Scope-Limited Prescribing"
         },
         {
           "state": "NV",
           "raw_value": "Prescribe and dispense controlled substances and dangerous drugs",
-          "bucket": "Full Rx + Controlled"
+          "bucket": "Controlled Substances Explicit"
         },
         {
           "state": "NY",
           "raw_value": "May prescribe and administer narcotics (after certification by department); may administer local anesthetics; treatment under general anesthesia administered by authorized persons",
-          "bucket": "Full Rx + Controlled"
+          "bucket": "Controlled Substances Explicit"
         },
         {
           "state": "OH",
           "raw_value": "Podiatrists are permitted the use of such preparations, medicines, and drugs as may be necessary for the treatment of such ailments.",
-          "bucket": "Foot-Specific Drugs"
+          "bucket": "Foot/Ankle Conditions Only"
         },
         {
           "state": "OR",
           "raw_value": "Prescribe and administer drugs within scope of practice",
-          "bucket": "Scope-Limited Rx"
+          "bucket": "Scope-Limited Prescribing"
         },
         {
           "state": "PA",
           "raw_value": "administration and prescription of drugs incidental to podiatric medicine; board shall adopt regulations establishing a list of drugs which may be administered and prescribed by podiatrist",
-          "bucket": "Scope-Limited Rx"
+          "bucket": "Scope-Limited Prescribing"
         },
         {
           "state": "RI",
           "raw_value": "Podiatrists may prescribe for lesions, diseases, disorders, or deficiencies of the pedal extremity",
-          "bucket": "Foot-Specific Drugs"
+          "bucket": "Foot/Ankle Conditions Only"
         },
         {
           "state": "SC",
           "raw_value": "Administration and prescription of drugs incidental to ankle surgery and treatment of manifestations of systemic diseases as they appear on the ankle; local anesthesia (localized infiltration only)",
-          "bucket": "Scope-Limited Rx"
+          "bucket": "Local Anesthesia Only"
         },
         {
           "state": "TN",
           "raw_value": "Podiatrists are authorized to use and prescribe drugs and medications",
-          "bucket": "Broad General Authority"
+          "bucket": "Broad Prescriptive Authority"
         },
         {
           "state": "VA",
           "raw_value": "Podiatrists may administer controlled substances to patients or provide controlled substances in a bona fide medical emergency or when pharmaceutical services are not available; may not sell controlled substances without Board of Pharmacy license",
-          "bucket": "Full Rx + Controlled"
+          "bucket": "Controlled Substances Explicit"
         },
         {
           "state": "VT",
           "raw_value": "Podiatrists may administer, dispense, or prescribe controlled substances as authorized by law",
-          "bucket": "Full Rx + Controlled"
+          "bucket": "Controlled Substances Explicit"
         },
         {
           "state": "WA",
           "raw_value": "May issue prescriptions valid at any pharmacy for any drug, including narcotics, necessary in the practice of podiatry",
-          "bucket": "Broad General Authority"
+          "bucket": "Broad Prescriptive Authority"
         },
         {
           "state": "WV",
           "raw_value": "Podiatrists have prescriptive authority including controlled substances; telemedicine prescribing of Schedule II controlled substances is restricted.",
-          "bucket": "Full Rx + Controlled"
+          "bucket": "Controlled Substances Explicit"
         },
         {
           "state": "WY",
           "raw_value": "Podiatrists are permitted to use and to prescribe drugs and controlled substances as may be necessary in the practice of podiatry.",
-          "bucket": "Full Rx + Controlled"
+          "bucket": "Controlled Substances Explicit"
         }
       ]
     },
@@ -1686,11 +1949,11 @@
       "bucket_set": [
         "CPME / APMA",
         "APMA Only",
-        "Council on Podiatry Education",
+        "Council on Podiatry Education (older)",
         "State Board",
-        "Board-Approved Flexible"
+        "Board-Approved Flexibility"
       ],
-      "rationale": "Values cluster around: the specific CPME-within-APMA body, APMA cited alone, older 'Council on Podiatry Education' (pre-CPME naming), state licensing boards as the authority, and flexible 'board-approved' language that defers to the state.",
+      "rationale": "Values cluster around: the modern CPME-within-APMA formulation, a bare APMA reference, the older 'Council on Podiatry/Podiatric Education' phrasing, a state-level board as the named body, and open-ended 'board-approved' or 'approved by the board' language.",
       "assignments": [
         {
           "state": "AL",
@@ -1730,12 +1993,12 @@
         {
           "state": "FL",
           "raw_value": "Council on Podiatry Education of the American Podiatric Medical Association",
-          "bucket": "Council on Podiatry Education"
+          "bucket": "Council on Podiatry Education (older)"
         },
         {
           "state": "GA",
           "raw_value": "Board-approved accredited college of podiatric medicine",
-          "bucket": "Board-Approved Flexible"
+          "bucket": "Board-Approved Flexibility"
         },
         {
           "state": "HI",
@@ -1760,7 +2023,7 @@
         {
           "state": "KY",
           "raw_value": "Council on Podiatry Education of the American Podiatry Association or approved by state licensing boards",
-          "bucket": "Board-Approved Flexible"
+          "bucket": "Council on Podiatry Education (older)"
         },
         {
           "state": "LA",
@@ -1775,17 +2038,17 @@
         {
           "state": "MD",
           "raw_value": "Council on Education of the American Podiatric Medical Association",
-          "bucket": "Council on Podiatry Education"
+          "bucket": "Council on Podiatry Education (older)"
         },
         {
           "state": "ME",
           "raw_value": "Council of Education of the American Podiatry Association or successor or other organization approved by the board",
-          "bucket": "Board-Approved Flexible"
+          "bucket": "Council on Podiatry Education (older)"
         },
         {
           "state": "MN",
           "raw_value": "National accrediting organization approved by the board",
-          "bucket": "Board-Approved Flexible"
+          "bucket": "Board-Approved Flexibility"
         },
         {
           "state": "MO",
@@ -1795,17 +2058,17 @@
         {
           "state": "MS",
           "raw_value": "Council on Education of the American Podiatry Association",
-          "bucket": "Council on Podiatry Education"
+          "bucket": "Council on Podiatry Education (older)"
         },
         {
           "state": "NC",
           "raw_value": "National Council on Education of the American Podiatry Association",
-          "bucket": "Council on Podiatry Education"
+          "bucket": "Council on Podiatry Education (older)"
         },
         {
           "state": "ND",
-          "raw_value": "Council on Podiatric Medical Education, American Podiatric Medical Association, or other accrediting agency approved by the board",
-          "bucket": "Board-Approved Flexible"
+          "raw_value": "recognized national accrediting organization approved by the board",
+          "bucket": "Board-Approved Flexibility"
         },
         {
           "state": "NE",
@@ -1820,7 +2083,7 @@
         {
           "state": "NJ",
           "raw_value": "Board-approved school or college of podiatric medicine",
-          "bucket": "Board-Approved Flexible"
+          "bucket": "Board-Approved Flexibility"
         },
         {
           "state": "NM",
@@ -1830,7 +2093,7 @@
         {
           "state": "NY",
           "raw_value": "accrediting agency acceptable to the department",
-          "bucket": "Board-Approved Flexible"
+          "bucket": "Board-Approved Flexibility"
         },
         {
           "state": "OH",
@@ -1875,17 +2138,17 @@
         {
           "state": "VA",
           "raw_value": "Accreditation Council for Graduate Medical Education or other organization approved by the Board",
-          "bucket": "Board-Approved Flexible"
+          "bucket": "Board-Approved Flexibility"
         },
         {
           "state": "WA",
           "raw_value": "Council of Education of the American Podiatric Medical Association",
-          "bucket": "Council on Podiatry Education"
+          "bucket": "CPME / APMA"
         },
         {
           "state": "WI",
           "raw_value": "affiliated credentialing board",
-          "bucket": "Board-Approved Flexible"
+          "bucket": "Board-Approved Flexibility"
         },
         {
           "state": "WV",
@@ -1908,7 +2171,7 @@
         "Residency Required",
         "Flexible / Conditional"
       ],
-      "rationale": "Most states cluster around 1-year, 2-year, or 3-year durations, while a few states specify only that a residency program is required without a fixed duration, and a small number have conditional or alternative pathways.",
+      "rationale": "Most states cluster around a 1-year minimum, with a few requiring 2 or 3 years; some states specify only that a residency program is required without a fixed duration, and a couple have conditional or alternative pathways that don't fit a single duration.",
       "assignments": [
         {
           "state": "AL",
@@ -1994,11 +2257,6 @@
           "state": "NC",
           "raw_value": "one year",
           "bucket": "1 Year"
-        },
-        {
-          "state": "ND",
-          "raw_value": "Clinical residency or preceptorship as approved by the board",
-          "bucket": "Residency Required"
         },
         {
           "state": "NE",
@@ -2087,11 +2345,12 @@
       "bucket_set": [
         "Podiatric Residency",
         "Residency Program",
-        "Residency or Preceptorship",
         "Postgraduate Training",
+        "Residency or Preceptorship",
+        "Residency or Fellowship",
         "Residency or Active Practice"
       ],
-      "rationale": "Values cluster around: explicitly named podiatric residencies, generic residency/program language, residency-or-preceptorship alternatives, broad postgraduate training, and one state allowing active licensed practice as an alternative.",
+      "rationale": "Values cluster around: explicitly podiatric-labeled residencies, generic residency programs, broader postgraduate training (no residency requirement specified), programs allowing preceptorship as an alternative, programs allowing fellowship as an alternative, and one state allowing active licensed practice as a substitute.",
       "assignments": [
         {
           "state": "AL",
@@ -2141,7 +2400,7 @@
         {
           "state": "IA",
           "raw_value": "Residency approved by the council on podiatric medical education",
-          "bucket": "Podiatric Residency"
+          "bucket": "Residency Program"
         },
         {
           "state": "ID",
@@ -2200,8 +2459,8 @@
         },
         {
           "state": "ND",
-          "raw_value": "Clinical residency or preceptorship",
-          "bucket": "Residency or Preceptorship"
+          "raw_value": "clinical residency",
+          "bucket": "Residency Program"
         },
         {
           "state": "NE",
@@ -2226,12 +2485,12 @@
         {
           "state": "NY",
           "raw_value": "post-graduate residency or fellowship",
-          "bucket": "Residency or Preceptorship"
+          "bucket": "Residency or Fellowship"
         },
         {
           "state": "OH",
           "raw_value": "Podiatric internship, residency, or clinical fellowship program",
-          "bucket": "Residency or Preceptorship"
+          "bucket": "Residency or Fellowship"
         },
         {
           "state": "OK",
@@ -2299,11 +2558,12 @@
       "field_name": "licensure.national_association",
       "bucket_set": [
         "APMA",
-        "CPME",
         "American Podiatry Assoc",
-        "Multiple / Other"
+        "CPME / Colleges",
+        "Multiple Associations",
+        "State Society"
       ],
-      "rationale": "Values cluster around the modern APMA (with or without abbreviation/Inc.), the older 'American Podiatry Association' name, the accrediting body CPME, and a small tail of state-specific or dual-association references.",
+      "rationale": "Values cluster around the modern APMA name (with or without acronym), the older 'American Podiatry Association' name, the accrediting body CPME, a state-level society (NY), and one state citing multiple associations.",
       "assignments": [
         {
           "state": "AL",
@@ -2323,12 +2583,12 @@
         {
           "state": "CA",
           "raw_value": "Council on Podiatric Medical Education",
-          "bucket": "CPME"
+          "bucket": "CPME / Colleges"
         },
         {
           "state": "CT",
           "raw_value": "Council on Podiatric Medical Education (CPME)",
-          "bucket": "CPME"
+          "bucket": "CPME / Colleges"
         },
         {
           "state": "DE",
@@ -2423,7 +2683,7 @@
         {
           "state": "NY",
           "raw_value": "Podiatry Society of the State of New York",
-          "bucket": "Multiple / Other"
+          "bucket": "State Society"
         },
         {
           "state": "OH",
@@ -2443,7 +2703,7 @@
         {
           "state": "SC",
           "raw_value": "American Association of Podiatric Physicians and Surgeons; American Podiatric Medical Association",
-          "bucket": "Multiple / Other"
+          "bucket": "Multiple Associations"
         },
         {
           "state": "SD",
@@ -2473,7 +2733,7 @@
         {
           "state": "WV",
           "raw_value": "Council on Podiatric Medical Education / Colleges of Podiatric Medicine",
-          "bucket": "CPME"
+          "bucket": "CPME / Colleges"
         },
         {
           "state": "WY",
@@ -2485,156 +2745,156 @@
     {
       "field_name": "licensure.national_certification",
       "bucket_set": [
-        "NBPME / Exam Board",
-        "ABPS / Surgery Board",
-        "ABFAS Surgery Board",
-        "APMA / CPME Accreditation",
-        "Multiple Boards"
+        "NBPME",
+        "ABPS / ABFAS",
+        "ABFAS + ABPM (Dual)",
+        "APMA / CPME",
+        "Specialty Board (General)"
       ],
-      "rationale": "The values cluster around four distinct certifying bodies or approaches — the NBPME exam board, the ABPS surgery board, the ABFAS surgery board, APMA/CPME accreditation bodies, and a handful of states that explicitly reference multiple boards — so these five labels capture the real distribution without over-splitting.",
+      "rationale": "The values cluster around a few recognizable certifying bodies: NBPME (exam board), ABPS/ABFAS (surgery boards), a dual ABFAS+ABPM requirement, and looser APMA/CPME accreditation references, with a small residual group citing generic specialty boards.",
       "assignments": [
         {
           "state": "AR",
           "raw_value": "Council on Podiatric Medical Education of the American Podiatric Medical Association, Inc.",
-          "bucket": "APMA / CPME Accreditation"
+          "bucket": "APMA / CPME"
         },
         {
           "state": "CA",
           "raw_value": "National Board of Podiatric Medical Examiners (NBPME)",
-          "bucket": "NBPME / Exam Board"
+          "bucket": "NBPME"
         },
         {
           "state": "CO",
           "raw_value": "American Board of Podiatric Surgery (ABPS)",
-          "bucket": "ABPS / Surgery Board"
+          "bucket": "ABPS / ABFAS"
         },
         {
           "state": "CT",
           "raw_value": "American Board of Foot and Ankle Surgery (ABFAS); American Board of Podiatric Medicine (ABPM)",
-          "bucket": "Multiple Boards"
+          "bucket": "ABFAS + ABPM (Dual)"
         },
         {
           "state": "DE",
           "raw_value": "American Board of Podiatric Surgery (ABPS)",
-          "bucket": "ABPS / Surgery Board"
+          "bucket": "ABPS / ABFAS"
         },
         {
           "state": "FL",
           "raw_value": "National Board of Podiatric Medical Examiners (NBPME)",
-          "bucket": "NBPME / Exam Board"
+          "bucket": "NBPME"
         },
         {
           "state": "HI",
           "raw_value": "National Board of Podiatric Medical Examiners",
-          "bucket": "NBPME / Exam Board"
+          "bucket": "NBPME"
         },
         {
           "state": "IN",
           "raw_value": "Council on Podiatric Medical Education",
-          "bucket": "APMA / CPME Accreditation"
+          "bucket": "APMA / CPME"
         },
         {
           "state": "KY",
           "raw_value": "National Board of Podiatry Examiners",
-          "bucket": "NBPME / Exam Board"
+          "bucket": "NBPME"
         },
         {
           "state": "LA",
           "raw_value": "National Board of Podiatry Examiners",
-          "bucket": "NBPME / Exam Board"
+          "bucket": "NBPME"
         },
         {
           "state": "MA",
           "raw_value": "American Podiatry Association specialty boards",
-          "bucket": "APMA / CPME Accreditation"
+          "bucket": "Specialty Board (General)"
         },
         {
           "state": "ME",
           "raw_value": "American Podiatric Medical Association accreditation",
-          "bucket": "APMA / CPME Accreditation"
+          "bucket": "APMA / CPME"
         },
         {
           "state": "MO",
           "raw_value": "American Board of Podiatric Surgery",
-          "bucket": "ABPS / Surgery Board"
+          "bucket": "ABPS / ABFAS"
         },
         {
           "state": "MT",
           "raw_value": "American Board of Podiatric Surgery (ABPS)",
-          "bucket": "ABPS / Surgery Board"
+          "bucket": "ABPS / ABFAS"
         },
         {
           "state": "ND",
           "raw_value": "National Board of Podiatric Medical Examiners (NBPME)",
-          "bucket": "NBPME / Exam Board"
+          "bucket": "NBPME"
         },
         {
           "state": "NE",
           "raw_value": "National Board of Podiatric Medical Examiners (NBPME)",
-          "bucket": "NBPME / Exam Board"
+          "bucket": "NBPME"
         },
         {
           "state": "NJ",
           "raw_value": "National Board of Podiatric Medical Examiners (NBPME)",
-          "bucket": "NBPME / Exam Board"
+          "bucket": "NBPME"
         },
         {
           "state": "NV",
           "raw_value": "National Board of Podiatric Medical Examiners (NBPME)",
-          "bucket": "NBPME / Exam Board"
+          "bucket": "NBPME"
         },
         {
           "state": "NY",
           "raw_value": "national certifying board (reconstructive rearfoot and ankle surgery certification)",
-          "bucket": "ABFAS Surgery Board"
+          "bucket": "Specialty Board (General)"
         },
         {
           "state": "OK",
           "raw_value": "National Board of Podiatric Examiners (NBPME)",
-          "bucket": "NBPME / Exam Board"
+          "bucket": "NBPME"
         },
         {
           "state": "SC",
           "raw_value": "American Board of Foot and Ankle Surgery (ABFAS)",
-          "bucket": "ABFAS Surgery Board"
+          "bucket": "ABPS / ABFAS"
         },
         {
           "state": "SD",
           "raw_value": "National Board of Podiatric Medical Examiners (NBPME)",
-          "bucket": "NBPME / Exam Board"
+          "bucket": "NBPME"
         },
         {
           "state": "TN",
           "raw_value": "American Board of Podiatric Surgery (ABPS)",
-          "bucket": "ABPS / Surgery Board"
+          "bucket": "ABPS / ABFAS"
         },
         {
           "state": "VA",
           "raw_value": "American Board of Podiatric Surgery",
-          "bucket": "ABPS / Surgery Board"
+          "bucket": "ABPS / ABFAS"
         },
         {
           "state": "VT",
           "raw_value": "National Board of Podiatric Medical Examiners (NBPME)",
-          "bucket": "NBPME / Exam Board"
+          "bucket": "NBPME"
         },
         {
           "state": "WV",
           "raw_value": "National Board of Podiatric Medical Examiners (NBPME) / American Podiatric Medical Licensing Examination",
-          "bucket": "Multiple Boards"
+          "bucket": "NBPME"
         }
       ]
     },
     {
       "field_name": "profession_specific.board_certification_body",
       "bucket_set": [
-        "ABPS / ABFAS Only",
-        "ABFAS + ABPM",
+        "ABPS Only",
+        "ABFAS Only",
+        "ABFAS & ABPM",
         "CPME-Approved Board",
-        "APA-Recognized Boards",
-        "Any Recognized Board"
+        "Generic National Board"
       ],
-      "rationale": "States cluster by which specific certifying body (or bodies) they name: ABPS/ABFAS alone, ABFAS paired with ABPM, the CPME umbrella, APA-recognized boards, or a generic 'nationally recognized' standard.",
+      "rationale": "States cluster around named boards (ABPS, ABFAS, or both ABFAS+ABPM), a CPME umbrella standard, or vague 'nationally recognized' language — five buckets cleanly cover the full distribution.",
       "assignments": [
         {
           "state": "CA",
@@ -2644,326 +2904,326 @@
         {
           "state": "CO",
           "raw_value": "American Board of Podiatric Surgery (ABPS)",
-          "bucket": "ABPS / ABFAS Only"
+          "bucket": "ABPS Only"
         },
         {
           "state": "CT",
           "raw_value": "American Board of Foot and Ankle Surgery (ABFAS); American Board of Podiatric Medicine (ABPM)",
-          "bucket": "ABFAS + ABPM"
+          "bucket": "ABFAS & ABPM"
         },
         {
           "state": "HI",
           "raw_value": "American Board of Podiatric Surgery",
-          "bucket": "ABPS / ABFAS Only"
+          "bucket": "ABPS Only"
         },
         {
           "state": "KS",
           "raw_value": "nationally recognized certifying organization",
-          "bucket": "Any Recognized Board"
+          "bucket": "Generic National Board"
         },
         {
           "state": "MA",
           "raw_value": "specialty boards recognized by the American Podiatry Association",
-          "bucket": "APA-Recognized Boards"
+          "bucket": "Generic National Board"
         },
         {
           "state": "MO",
           "raw_value": "American Board of Podiatric Surgery",
-          "bucket": "ABPS / ABFAS Only"
+          "bucket": "ABPS Only"
         },
         {
           "state": "MT",
           "raw_value": "American Board of Podiatric Surgery",
-          "bucket": "ABPS / ABFAS Only"
+          "bucket": "ABPS Only"
         },
         {
           "state": "NY",
           "raw_value": "national certifying board having certification standards acceptable to the department (reconstructive rearfoot and ankle surgery)",
-          "bucket": "Any Recognized Board"
+          "bucket": "Generic National Board"
         },
         {
           "state": "SC",
           "raw_value": "American Board of Foot and Ankle Surgery (ABFAS)",
-          "bucket": "ABPS / ABFAS Only"
+          "bucket": "ABFAS Only"
         },
         {
           "state": "TN",
           "raw_value": "American Board of Podiatric Surgery",
-          "bucket": "ABPS / ABFAS Only"
+          "bucket": "ABPS Only"
         },
         {
           "state": "UT",
           "raw_value": "American Board of Foot and Ankle Surgery",
-          "bucket": "ABPS / ABFAS Only"
+          "bucket": "ABFAS Only"
         },
         {
           "state": "VA",
           "raw_value": "American Board of Podiatric Surgery",
-          "bucket": "ABPS / ABFAS Only"
+          "bucket": "ABPS Only"
         }
       ]
     },
     {
       "field_name": "licensure.disciplinary_grounds",
       "bucket_set": [
-        "Fraud & Misrepresentation",
-        "Criminal Conviction",
-        "Negligence & Incompetence",
-        "Substance Abuse & Impairment",
-        "Unprofessional Conduct",
-        "Broad Omnibus List"
+        "Broad Statutory List",
+        "Fraud & Misrepresentation Focus",
+        "Criminal Conviction Focus",
+        "Competence & Negligence Focus",
+        "Impairment Focus",
+        "Conduct & Ethics Focus"
       ],
-      "rationale": "States cluster by which disciplinary ground dominates their statutory text: fraud in obtaining/using a license, criminal convictions, clinical negligence/incompetence, substance abuse or mental/physical impairment, general unprofessional-conduct standards, or a broad omnibus list combining many of the above roughly equally.",
+      "rationale": "States cluster by which disciplinary grounds they emphasize most heavily: some lead with broad omnibus lists, others center on fraud/misrepresentation in licensure, criminal convictions, clinical competence/negligence, practitioner impairment, or general professional conduct and ethics.",
       "assignments": [
         {
           "state": "AK",
-          "raw_value": "{'short_label': 'fraud_in_obtaining_license'...",
-          "bucket": "Broad Omnibus List"
+          "raw_value": "{'short_label': 'fraud_in_obtaining_license', 'description': 'Secured a license through deceit, fraud, or intentional misrepresentation', 'quote': 'secured a license through deceit, fraud, or intentional misrepresentation', 'citation': '[08.64.326]'}; {'short_label': 'fraud_in_practice', 'description': 'Engaged in deceit, fraud, or intentional misrepresentation while providing professional services', 'quote': 'engaged in deceit, fraud, or intentional misrepresentation while providing professional services or engaging in professional activities', 'citation': '[08.64.326]'}; {'short_label': 'fal",
+          "bucket": "Broad Statutory List"
         },
         {
           "state": "AL",
-          "raw_value": "{'short_label': 'conviction_moral_turpitude'...",
-          "bucket": "Broad Omnibus List"
+          "raw_value": "{'short_label': 'conviction_moral_turpitude', 'description': 'Conviction of any offense involving moral turpitude', 'quote': 'Conviction of any offense involving moral turpitude, in which case the record of conviction or a certified copy thereof certified by the clerk of the court or by the judge in which court the conviction is had shall be conclusive evidence of such conviction', 'citation': '[34-24-276]'}; {'short_label': 'unprofessional_conduct', 'description': 'Unprofessional conduct including fraud, fee-splitting, misleading advertising, or employment of unlicensed practitioners', 'quote",
+          "bucket": "Broad Statutory List"
         },
         {
           "state": "AR",
-          "raw_value": "{'short_label': 'fraud_in_obtaining_license'...",
-          "bucket": "Fraud & Misrepresentation"
+          "raw_value": "{'short_label': 'fraud_in_obtaining_license', 'description': 'Unlawfully obtaining registration through false statements or fraudulent diploma', 'quote': 'Any person who shall unlawfully obtain registration under this chapter, whether by false or untrue statements contained in the application to the Arkansas Board of Podiatric Medicine or by presenting to the board a fraudulent diploma, certificate for license, or one fraudulently obtained', 'citation': '[17-96-103]'}; {'short_label': 'practicing_without_license', 'description': 'Practicing without any registration or certificate', 'quote': 'o",
+          "bucket": "Fraud & Misrepresentation Focus"
         },
         {
           "state": "AZ",
-          "raw_value": "{'short_label': 'privileged_communication_violation'...",
-          "bucket": "Broad Omnibus List"
+          "raw_value": "{'short_label': 'privileged_communication_violation', 'description': 'Willfully revealed a privileged communication except as required by law', 'quote': 'That the applicant or licensee wilfully revealed a privileged communication except as required by law.', 'citation': '[32-852]'}; {'short_label': 'false_fraudulent_statement', 'description': 'Knowingly made a false or fraudulent statement in application or licensing or in connection with practice', 'quote': 'That the applicant or licensee knowingly made a false or fraudulent statement, written or oral, required for application or licensing or",
+          "bucket": "Broad Statutory List"
         },
         {
           "state": "CA",
-          "raw_value": "{'short_label': 'gross_negligence'...",
-          "bucket": "Negligence & Incompetence"
+          "raw_value": "{'short_label': 'gross_negligence', 'description': 'Gross negligence in the practice of podiatric medicine', 'quote': 'Gross negligence.', 'citation': '2234'}; {'short_label': 'repeated_negligent_acts', 'description': 'Two or more negligent acts or omissions in the practice of podiatric medicine', 'quote': 'Repeated negligent acts. To be repeated, there must be two or more negligent acts or omissions.', 'citation': '2234'}; {'short_label': 'incompetence', 'description': 'Incompetence in the practice of podiatric medicine', 'quote': 'Incompetence.', 'citation': '2234'}; {'short_label': 'dishone",
+          "bucket": "Competence & Negligence Focus"
         },
         {
           "state": "CO",
-          "raw_value": "{'short_label': 'fraud_in_obtaining_license'...",
-          "bucket": "Broad Omnibus List"
+          "raw_value": "{'short_label': 'fraud_in_obtaining_license', 'description': 'Resorting to fraud, misrepresentation, or material deception in applying for or securing a license', 'quote': 'Resorting to fraud, misrepresentation, or material deception, or making a misleading omission, in applying for, securing, renewing, or seeking reinstatement of a license to practice podiatry in this state or any other state', 'citation': '[12-290-108]'}; {'short_label': 'felony_conviction', 'description': 'Conviction of a felony or crime that would constitute a violation of podiatry laws', 'quote': 'Conviction of a felony o",
+          "bucket": "Broad Statutory List"
         },
         {
           "state": "CT",
-          "raw_value": "{'short_label': 'fraud_in_obtaining_license'...",
-          "bucket": "Broad Omnibus List"
+          "raw_value": "{'short_label': 'fraud_in_obtaining_license', 'description': 'Procurement of a license by fraud or material deception', 'quote': 'Procurement of a license by fraud or material deception', 'citation': '20-59'}; {'short_label': 'criminal_conviction', 'description': 'Conviction of any crime in the practice of podiatry', 'quote': 'conviction in a court of competent jurisdiction, either within or without this state, of any crime in the practice of podiatry', 'citation': '20-59'}; {'short_label': 'fraudulent_conduct', 'description': 'Fraudulent or deceptive conduct in the course of professional serv",
+          "bucket": "Fraud & Misrepresentation Focus"
         },
         {
           "state": "DE",
-          "raw_value": "{'short_label': 'fraud_in_obtaining_license'...",
-          "bucket": "Broad Omnibus List"
+          "raw_value": "{'short_label': 'fraud_in_obtaining_license', 'description': 'Employed or knowingly cooperated in fraud or material deception to acquire a license', 'quote': \"Has employed or knowingly cooperated in fraud or material deception in order to acquire a license as a podiatrist; has impersonated another person holding a license, or allowed another person to use the podiatrist's license, or aided or abetted a person not licensed as a podiatrist to represent himself or herself as a podiatrist.\", 'citation': '[§ 515. Grounds for discipline.]'}; {'short_label': 'incompetent_or_negligent_practice', 'desc",
+          "bucket": "Broad Statutory List"
         },
         {
           "state": "FL",
-          "raw_value": "{'short_label': 'fraud_in_obtaining_license'...",
-          "bucket": "Broad Omnibus List"
+          "raw_value": "{'short_label': 'fraud_in_obtaining_license', 'description': 'Attempting to obtain, obtaining, or renewing a license by bribery, fraudulent misrepresentation, or through an error', 'quote': 'Attempting to obtain, obtaining, or renewing a license to practice podiatric medicine by bribery, by fraudulent misrepresentations, or through an error of the department or the board.', 'citation': '[461.013]'}; {'short_label': 'license_revoked_elsewhere', 'description': 'Having a license revoked, suspended, or otherwise acted against in another jurisdiction', 'quote': 'Having a license to practice podiatr",
+          "bucket": "Broad Statutory List"
         },
         {
           "state": "GA",
-          "raw_value": "{'short_label': 'fraud_in_obtaining_license'...",
-          "bucket": "Broad Omnibus List"
+          "raw_value": "{'short_label': 'fraud_in_obtaining_license', 'description': 'Employment of fraud or deception or cheating in applying for a license or in taking an examination for a license', 'quote': 'Employment of fraud or deception or cheating in applying for a license or in taking an examination for a license', 'citation': '[43-35-16]'}; {'short_label': 'failure_to_demonstrate_qualifications', 'description': 'Failing to demonstrate the qualifications or standards for a license as provided by this chapter', 'quote': 'Failing to demonstrate the qualifications or standards for a license as provided by this ",
+          "bucket": "Fraud & Misrepresentation Focus"
         },
         {
           "state": "HI",
-          "raw_value": "{'short_label': 'capper_or_steerer'...",
-          "bucket": "Unprofessional Conduct"
+          "raw_value": "{'short_label': 'capper_or_steerer', 'description': 'Employing a capper or steerer', 'quote': 'Employing what is popularly known as a \"capper\" or \"steerer\"', 'citation': '[463E-6]'}; {'short_label': 'false_cure_assurance', 'description': 'Obtaining a fee on the assurance that a manifestly incurable disease can be permanently cured', 'quote': 'Obtaining any fee on the assurance that a manifestly incurable disease can be permanently cured', 'citation': '[463E-6]'}; {'short_label': 'betraying_professional_secret', 'description': 'Wilfully betraying a professional secret', 'quote': 'Wilfully betra",
+          "bucket": "Conduct & Ethics Focus"
         },
         {
           "state": "IA",
-          "raw_value": "{'short_label': 'fraud_in_procuring_license'...",
-          "bucket": "Broad Omnibus List"
+          "raw_value": "{'short_label': 'fraud_in_procuring_license', 'description': 'Fraud in procuring a license', 'quote': 'Fraud in procuring a license.', 'citation': '[147.55]'}; {'short_label': 'professional_incompetence', 'description': 'Professional incompetence', 'quote': 'Professional incompetence.', 'citation': '[147.55]'}; {'short_label': 'misleading_deceptive_fraudulent_representations', 'description': 'Knowingly making misleading, deceptive, untrue, or fraudulent representations in the practice of a profession or engaging in unethical conduct or practice harmful or detrimental to the public', 'quote': '",
+          "bucket": "Broad Statutory List"
         },
         {
           "state": "ID",
-          "raw_value": "{'short_label': 'criminal_conviction'...",
-          "bucket": "Broad Omnibus List"
+          "raw_value": "{'short_label': 'criminal_conviction', 'description': 'Found guilty of a crime deemed relevant under Idaho Code section 67-9411(1)', 'quote': 'Found guilty by a court of competent jurisdiction of a crime that is deemed relevant in accordance with section 67-9411(1), Idaho Code', 'citation': '[54-608]'}; {'short_label': 'substance_abuse', 'description': 'Repeated and excessive abuse of drugs, alcohol, or controlled substances', 'quote': 'Found by the board to be a repeated and excessive abuser of any drug, including alcohol, or any controlled substance', 'citation': '[54-608]'}; {'short_label':",
+          "bucket": "Criminal Conviction Focus"
         },
         {
           "state": "IL",
-          "raw_value": "{'short_label': 'material_misstatement'...",
-          "bucket": "Broad Omnibus List"
+          "raw_value": "{'short_label': 'material_misstatement', 'description': 'Making a material misstatement in furnishing information to the Department.', 'quote': 'Making a material misstatement in furnishing information to the Department.', 'citation': '225 ILCS 100/24'}; {'short_label': 'violations_of_act', 'description': 'Violations of this Act or of the rules adopted under this Act.', 'quote': 'Violations of this Act, or of the rules adopted under this Act.', 'citation': '225 ILCS 100/24'}; {'short_label': 'criminal_conviction', 'description': 'Conviction of a felony or of a misdemeanor involving dishonesty,",
+          "bucket": "Broad Statutory List"
         },
         {
           "state": "IN",
-          "raw_value": "{'short_label': 'impairment_from_mental_illness'...",
-          "bucket": "Substance Abuse & Impairment"
+          "raw_value": "{'short_label': 'impairment_from_mental_illness', 'description': 'Podiatrist is impaired from practicing with reasonable skill and safety because of mental illness', 'quote': 'the board determines that a podiatrist is impaired from practicing podiatric medicine with reasonable skill and safety because of a mental illness', 'citation': '[25-29-7-1]'}; {'short_label': 'impairment_from_physical_illness', 'description': 'Podiatrist is impaired from practicing with reasonable skill and safety because of physical illness', 'quote': 'the board determines that a podiatrist is impaired from practicing ",
+          "bucket": "Impairment Focus"
         },
         {
           "state": "KS",
-          "raw_value": "{'short_label': 'fraud_in_obtaining_license'...",
-          "bucket": "Broad Omnibus List"
+          "raw_value": "{'short_label': 'fraud_in_obtaining_license', 'description': 'Committed fraud in securing the license or permit', 'quote': 'Have committed fraud in securing the license or permit', 'citation': '[65-2006]'}; {'short_label': 'unprofessional_conduct', 'description': 'Engaged in unprofessional or dishonorable conduct or professional incompetency', 'quote': 'have engaged in unprofessional or dishonorable conduct or professional incompetency', 'citation': '[65-2006]'}; {'short_label': 'felony_conviction', 'description': 'Convicted of a felony if the board determines the person has not been sufficien",
+          "bucket": "Broad Statutory List"
         },
         {
           "state": "KY",
-          "raw_value": "{'short_label': 'felony_conviction'...",
-          "bucket": "Broad Omnibus List"
+          "raw_value": "{'short_label': 'felony_conviction', 'description': 'Conviction of a felony, if in accordance with KRS Chapter 335B.', 'quote': 'Has been convicted of a felony, if in accordance with KRS Chapter 335B', 'citation': '311.480'}; {'short_label': 'misdemeanor_conviction', 'description': 'Conviction of a misdemeanor, if in accordance with KRS Chapter 335B.', 'quote': 'Has been convicted of a misdemeanor, if in accordance with KRS Chapter 335B', 'citation': '311.480'}; {'short_label': 'employing_unlicensed_person', 'description': 'Employing, hiring, procuring, or inducing an unlicensed person to prac",
+          "bucket": "Criminal Conviction Focus"
         },
         {
           "state": "LA",
-          "raw_value": "{'short_label': 'conviction_of_crime'...",
-          "bucket": "Broad Omnibus List"
+          "raw_value": "{'short_label': 'conviction_of_crime', 'description': 'Conviction of a crime', 'quote': 'Conviction of a crime.', 'citation': '[37:624]'}; {'short_label': 'fraud_in_obtaining_license', 'description': 'Fraud, deceit, or perjury in obtaining a diploma or certificate', 'quote': 'Fraud, deceit, or perjury in obtaining a diploma or certificate.', 'citation': '[37:624]'}; {'short_label': 'habitual_drunkenness', 'description': 'Habitual drunkenness', 'quote': 'Habitual drunkenness.', 'citation': '[37:624]'}; {'short_label': 'habitual_drug_use', 'description': 'Habitual use of morphine, opium, cocaine",
+          "bucket": "Broad Statutory List"
         },
         {
           "state": "MA",
-          "raw_value": "{'short_label': 'intemperance_alcohol_or_narcotics'...",
-          "bucket": "Substance Abuse & Impairment"
+          "raw_value": "{'short_label': 'intemperance_alcohol_or_narcotics', 'description': 'Being intemperate in the use of alcoholic liquors or narcotic drugs', 'quote': 'such person is intemperate in the use of alcoholic liquors or narcotic drugs', 'citation': 'Section 18 - Refusal to Issue Certificate of Registration in Podiatry; Revocation'}; {'short_label': 'misconduct_moral_turpitude', 'description': 'Guilty of misconduct involving moral turpitude', 'quote': 'has been guilty of misconduct involving moral turpitude', 'citation': 'Section 18 - Refusal to Issue Certificate of Registration in Podiatry; Revocation'",
+          "bucket": "Conduct & Ethics Focus"
         },
         {
           "state": "MD",
-          "raw_value": "{'short_label': 'fraud_in_obtaining_license'...",
-          "bucket": "Broad Omnibus List"
+          "raw_value": "{'short_label': 'fraud_in_obtaining_license', 'description': 'Fraudulently or deceptively obtains or attempts to obtain a license', 'quote': 'Fraudulently or deceptively obtains or attempts to obtain a license for the applicant or licensee or for another', 'citation': '[16-311]'}; {'short_label': 'fraudulent_use_of_license', 'description': 'Fraudulently or deceptively uses a license', 'quote': 'Fraudulently or deceptively uses a license', 'citation': '[16-311]'}; {'short_label': 'felony_conviction', 'description': 'Convicted of or pleads guilty to a felony or crime involving moral turpitude', ",
+          "bucket": "Broad Statutory List"
         },
         {
           "state": "ME",
-          "raw_value": "{'short_label': 'misuse_of_alcohol_drugs_or_substances'...",
-          "bucket": "Substance Abuse & Impairment"
+          "raw_value": "{'short_label': 'misuse_of_alcohol_drugs_or_substances', 'description': 'Misuse of alcohol, drugs or other substances that has resulted or may result in performing services in a manner that endangers patient health or safety', 'quote': \"Misuse of alcohol, drugs or other substances that has resulted or may result in the applicant or licensee performing services in a manner that endangers the health or safety of the licensee's patients\", 'citation': '32 §3656'}; {'short_label': 'mental_or_physical_condition', 'description': 'Professional diagnosis of a mental or physical condition that has resul",
+          "bucket": "Impairment Focus"
         },
         {
           "state": "MI",
-          "raw_value": "{'short_label': 'negligence_or_failure_to_exercise_due_care'...",
-          "bucket": "Negligence & Incompetence"
+          "raw_value": "{'short_label': 'negligence_or_failure_to_exercise_due_care', 'description': 'Violation of general duty, consisting of negligence or failure to exercise due care, including negligent delegation or supervision, whether or not injury results.', 'quote': 'a violation of general duty, consisting of negligence or failure to exercise due care, including negligent delegation to or supervision of employees or other individuals, whether or not injury results', 'citation': '333.16221'}; {'short_label': 'incompetence', 'description': 'Personal disqualification for incompetence.', 'quote': 'Personal disqu",
+          "bucket": "Competence & Negligence Focus"
         },
         {
           "state": "MN",
-          "raw_value": "{'short_label': 'failure_to_demonstrate_qualifications'...",
-          "bucket": "Broad Omnibus List"
+          "raw_value": "{'short_label': 'failure_to_demonstrate_qualifications', 'description': 'Failure to demonstrate the qualifications or satisfy the requirements for a license contained in the chapter or rules of the board', 'quote': 'failure to demonstrate the qualifications or satisfy the requirements for a license contained in this chapter or rules of the board', 'citation': '[153.19, Subd. 1(1)]'}; {'short_label': 'fraud_in_obtaining_license', 'description': 'Obtaining a license by fraud or cheating or attempting to subvert the licensing examination process', 'quote': 'obtaining a license by fraud or cheatin",
+          "bucket": "Broad Statutory List"
         },
         {
           "state": "MO",
-          "raw_value": "{'short_label': 'controlled_substance_or_alcohol_impairment'...",
-          "bucket": "Broad Omnibus List"
+          "raw_value": "{'short_label': 'controlled_substance_or_alcohol_impairment', 'description': 'Use of controlled substance or alcoholic beverage to an extent that impairs ability to perform professional duties', 'quote': \"Use of any controlled substance, as defined in chapter 195, or alcoholic beverage to an extent that such use impairs a person's ability to perform the work of any profession licensed or regulated by this chapter\", 'citation': '[330.160]'}; {'short_label': 'criminal_conviction', 'description': 'Conviction for offense reasonably related to qualifications, functions or duties, or involving fraud",
+          "bucket": "Broad Statutory List"
         },
         {
           "state": "MS",
-          "raw_value": "{'short_label': 'habitual_narcotic_use'...",
-          "bucket": "Substance Abuse & Impairment"
+          "raw_value": "{'short_label': 'habitual_narcotic_use', 'description': 'Habitual personal use of narcotic drugs or any other drug having addiction-forming or addiction-sustaining liability', 'quote': 'Habitual personal use of narcotic drugs, or any other drug having addiction-forming or addiction-sustaining liability', 'citation': '[73-27-13]'}; {'short_label': 'habitual_alcohol_use', 'description': 'Habitual use of intoxicating liquors to an extent which affects professional competency', 'quote': 'Habitual use of intoxicating liquors, or any beverage, to an extent which affects professional competency', 'ci",
+          "bucket": "Impairment Focus"
         },
         {
           "state": "MT",
-          "raw_value": "{'short_label': 'mental_or_physical_inability'...",
-          "bucket": "Broad Omnibus List"
+          "raw_value": "{'short_label': 'mental_or_physical_inability', 'description': 'Licensee is mentally or physically unable to engage safely in the practice of podiatry', 'quote': 'is mentally or physically unable to engage safely in the practice of podiatry', 'citation': '[37-6-311]'}; {'short_label': 'fraud_in_obtaining_license', 'description': 'License was procured by fraud, misrepresentation, or through error', 'quote': 'has procured the license by fraud, misrepresentation, or through error', 'citation': '[37-6-311]'}; {'short_label': 'incompetence_adjudication', 'description': 'Licensee has been declared i",
+          "bucket": "Broad Statutory List"
         },
         {
           "state": "NC",
-          "raw_value": "{'short_label': 'fraud_in_obtaining_license'...",
-          "bucket": "Broad Omnibus List"
+          "raw_value": "{'short_label': 'fraud_in_obtaining_license', 'description': 'Engaged in fraud, deceit or misrepresentation in obtaining or attempting to obtain a license or renewal', 'quote': 'Has engaged in any act or acts of fraud, deceit or misrepresentation in obtaining or attempting to obtain a license or the renewal thereof', 'citation': '[90-202.8]'}; {'short_label': 'substance_abuse', 'description': 'Chronic or persistent user of alcohol intoxicants or habit-forming drugs or narcotics impairing ability to practice', 'quote': 'Is a chronic or persistent user of alcohol intoxicants or habit-forming dru",
+          "bucket": "Broad Statutory List"
         },
         {
           "state": "ND",
-          "raw_value": "{'short_label': 'failure_to_demonstrate_qualifications'...",
-          "bucket": "Broad Omnibus List"
+          "raw_value": "{'short_label': 'failure_to_demonstrate_qualifications', 'description': 'Failure to demonstrate the qualifications or satisfy the requirements for a license or permit under this chapter or rules of the board.', 'quote': 'Failure to demonstrate the qualification or satisfy the requirements for a license or permit under this chapter or rules of the board.', 'citation': '[43-05-16]'}; {'short_label': 'fraud_in_obtaining_license', 'description': 'Obtaining a license or permit by fraud, cheating, or use of false or fraudulent statements or documents.', 'quote': 'Obtaining a license or permit by fra",
+          "bucket": "Broad Statutory List"
         },
         {
           "state": "NE",
-          "raw_value": "{'short_label': 'misrepresentation_in_obtaining_credential'...",
-          "bucket": "Broad Omnibus List"
+          "raw_value": "{'short_label': 'misrepresentation_in_obtaining_credential', 'description': 'Misrepresentation of material facts in procuring or attempting to procure a credential', 'quote': 'Misrepresentation of material facts in procuring or attempting to procure a credential', 'citation': '38-178'}; {'short_label': 'immoral_or_dishonorable_conduct', 'description': 'Immoral or dishonorable conduct evidencing unfitness to practice the profession', 'quote': 'Immoral or dishonorable conduct evidencing unfitness to practice the profession in this state', 'citation': '38-178'}; {'short_label': 'substance_abuse_o",
+          "bucket": "Broad Statutory List"
         },
         {
           "state": "NH",
-          "raw_value": "{'short_label': 'violation_of_ethical_standards'...",
-          "bucket": "Unprofessional Conduct"
+          "raw_value": "{'short_label': 'violation_of_ethical_standards', 'description': 'Violation of ethical standards required to be met by license holders', 'quote': 'Ethical standards required to be met by each holder of any license issued under this chapter and how such license may be revoked for violation of these standards.', 'citation': '[315:4]'}; {'short_label': 'fraud_in_obtaining_license', 'description': 'Fraud or misrepresentation in obtaining a license', 'quote': 'Upon review of any application for licensure under this chapter, the board may, upon notice and the opportunity for a hearing, deny an appli",
+          "bucket": "Conduct & Ethics Focus"
         },
         {
           "state": "NJ",
-          "raw_value": "{'short_label': 'fraud_in_obtaining_license'...",
-          "bucket": "Broad Omnibus List"
+          "raw_value": "{'short_label': 'fraud_in_obtaining_license', 'description': 'Obtained a certificate, registration, license or authorization through fraud, deception, or misrepresentation', 'quote': 'Has obtained a certificate, registration, license or authorization to sit for an examination, as the case may be, through fraud, deception, or misrepresentation', 'citation': '45:1-21'}; {'short_label': 'dishonesty_fraud_deception', 'description': 'Engaged in use or employment of dishonesty, fraud, deception, misrepresentation, false promise or false pretense', 'quote': 'Has engaged in the use or employment of di",
+          "bucket": "Fraud & Misrepresentation Focus"
         },
         {
           "state": "NM",
-          "raw_value": "{'short_label': 'false_statement_in_application'...",
-          "bucket": "Fraud & Misrepresentation"
+          "raw_value": "{'short_label': 'false_statement_in_application', 'description': 'Making a false statement in any part of an application for licensure, examination or registration', 'quote': 'making a false statement in any part of an application for licensure, examination or registration pursuant to the provisions of the Podiatry Act', 'citation': '61-8-11'}; {'short_label': 'disqualifying_criminal_conviction', 'description': 'Having a disqualifying criminal conviction related to the profession of podiatry', 'quote': 'having a disqualifying criminal conviction as determined by the board. As used in this subs",
+          "bucket": "Fraud & Misrepresentation Focus"
         },
         {
           "state": "NV",
-          "raw_value": "{'short_label': 'false_statement_in_affidavit'...",
-          "bucket": "Broad Omnibus List"
+          "raw_value": "{'short_label': 'false_statement_in_affidavit', 'description': 'Making a false statement in any affidavit required for application, examination or licensure', 'quote': 'The making of a false statement in any affidavit required of the applicant for application, examination or licensure pursuant to the provisions of this chapter.', 'citation': '[635.130]'}; {'short_label': 'lending_name_to_unlicensed_person', 'description': \"Lending the use of the holder's name to an unlicensed person\", 'quote': \"Lending the use of the holder's name to an unlicensed person.\", 'citation': '[635.130]'}; {'short_la",
+          "bucket": "Broad Statutory List"
         },
         {
           "state": "NY",
-          "raw_value": "{'short_label': 'fraud_in_obtaining_license'...",
-          "bucket": "Broad Omnibus List"
+          "raw_value": "{'short_label': 'fraud_in_obtaining_license', 'description': 'Obtaining the license fraudulently', 'quote': 'Obtaining the license fraudulently,', 'citation': '6509'}; {'short_label': 'fraudulent_or_incompetent_practice', 'description': 'Practicing the profession fraudulently, beyond its authorized scope, with gross incompetence, gross negligence, or repeated negligence', 'quote': 'Practicing the profession fraudulently, beyond its authorized scope, with gross incompetence, with gross negligence on a particular occasion or negligence or incompetence on more than one occasion,', 'citation': '65",
+          "bucket": "Broad Statutory List"
         },
         {
           "state": "OH",
-          "raw_value": "{'short_label': 'fraud_in_obtaining_license'...",
-          "bucket": "Broad Omnibus List"
+          "raw_value": "{'short_label': 'fraud_in_obtaining_license', 'description': 'Fraud during examination administration or in applying for, renewing, or securing a license', 'quote': 'the individual applying for or holding the license or certificate is found by the board to have committed fraud during the administration of the examination for a license or certificate to practice or to have committed fraud, misrepresentation, or deception in applying for, renewing, or securing any license or certificate to practice', 'citation': '[4731.22]'}; {'short_label': 'failure_to_maintain_standards', 'description': 'Failu",
+          "bucket": "Broad Statutory List"
         },
         {
           "state": "OK",
-          "raw_value": "{'short_label': 'false_statement_to_board'...",
-          "bucket": "Broad Omnibus List"
+          "raw_value": "{'short_label': 'false_statement_to_board', 'description': 'Willfully making a false and material statement to the Board, either before or after the issuance of a license', 'quote': 'Willfully making a false and material statement to the Board, either before or after the issuance of a license', 'citation': '[59-148]'}; {'short_label': 'felony_conviction', 'description': 'Pleading guilty or nolo contendere to, or being convicted of, a felony crime that substantially relates to the practice of podiatric medicine and poses a reasonable threat to public safety', 'quote': 'Pleading guilty or nolo c",
+          "bucket": "Criminal Conviction Focus"
         },
         {
           "state": "OR",
-          "raw_value": "{'short_label': 'unprofessional_conduct'...",
-          "bucket": "Unprofessional Conduct"
+          "raw_value": "{'short_label': 'unprofessional_conduct', 'description': 'Conduct unbecoming a licensee or detrimental to the best interests of the public', 'quote': 'Unprofessional or dishonorable conduct', 'citation': '[677.190]'}; {'short_label': 'gross_negligence', 'description': 'Gross negligence or repeated negligence in the practice of medicine or podiatry', 'quote': 'Gross negligence or repeated negligence in the practice of medicine or podiatry', 'citation': '[677.190]'}; {'short_label': 'incapacity', 'description': 'Incapacity to practice medicine or podiatry', 'quote': 'Incapacity to practice medic",
+          "bucket": "Broad Statutory List"
         },
         {
           "state": "PA",
-          "raw_value": "{'short_label': 'fraud_in_obtaining_license'...",
-          "bucket": "Broad Omnibus List"
+          "raw_value": "{'short_label': 'fraud_in_obtaining_license', 'description': 'Practice of fraud or deceit in obtaining or attempting to obtain a license or admission to a school of podiatric medicine.', 'quote': 'The practice of fraud or deceit in obtaining or attempting to obtain a license or in obtaining admission to a school of podiatric medicine or surgery.', 'citation': '§ 16'}; {'short_label': 'criminal_conviction', 'description': 'Pleading guilty or being found guilty of a felony charge or offense involving moral turpitude or connected with the practice of podiatric medicine.', 'quote': 'Pleading guilt",
+          "bucket": "Broad Statutory List"
         },
         {
           "state": "RI",
-          "raw_value": "{'short_label': 'fraudulent_or_deceptive_license'...",
-          "bucket": "Broad Omnibus List"
+          "raw_value": "{'short_label': 'fraudulent_or_deceptive_license', 'description': 'Fraudulent or deceptive procuring or use of a license or limited registration', 'quote': 'Fraudulent or deceptive procuring or use of a license of limited registration', 'citation': '[5-29-16]'}; {'short_label': 'deceptive_advertising', 'description': 'Advertising that is intended or has a tendency to deceive the public', 'quote': 'All advertising of podiatry business that is intended or has a tendency to deceive the public', 'citation': '[5-29-16]'}; {'short_label': 'felony_conviction', 'description': 'Conviction of a felony o",
+          "bucket": "Broad Statutory List"
         },
         {
           "state": "SC",
-          "raw_value": "{'short_label': 'fraud_in_obtaining_license'...",
-          "bucket": "Broad Omnibus List"
+          "raw_value": "{'short_label': 'fraud_in_obtaining_license', 'description': 'Used false, fraudulent, or forged statement or document in connection with licensing requirement', 'quote': 'used a false, fraudulent, or forged statement or document or practiced a fraudulent, deceitful, or dishonest act in connection with a licensing requirement', 'citation': '[40-51-160]'}; {'short_label': 'felony_conviction', 'description': 'Convicted of a felony or crime involving moral turpitude, drugs, or gross immorality', 'quote': 'has been convicted of a felony or other crime involving moral turpitude, drugs, or gross immo",
+          "bucket": "Broad Statutory List"
         },
         {
           "state": "SD",
-          "raw_value": "{'short_label': 'fraud_in_obtaining_license'...",
-          "bucket": "Broad Omnibus List"
+          "raw_value": "{'short_label': 'fraud_in_obtaining_license', 'description': 'Fraud or deception in procuring a license', 'quote': 'fraud or deception in procuring a license', 'citation': '[36-8-16]'}; {'short_label': 'untruthful_statements', 'description': 'Publication or use of untruthful or improbable statements with intent to deceive or defraud', 'quote': 'publication or use of untruthful or improbable statements with the view of deceiving or defrauding the public or any patient', 'citation': '[36-8-16]'}; {'short_label': 'moral_turpitude_conviction', 'description': 'Conviction of any offense involving mo",
+          "bucket": "Broad Statutory List"
         },
         {
           "state": "TN",
-          "raw_value": "{'short_label': 'fraud_in_obtaining_license'...",
-          "bucket": "Broad Omnibus List"
+          "raw_value": "{'short_label': 'fraud_in_obtaining_license', 'description': 'Fraud in procuring a license or certificate', 'quote': 'Fraud in procuring a license or certificate', 'citation': '[63-3-119]'}; {'short_label': 'felony_conviction', 'description': 'Conviction of a felony, conviction of any offense under state or federal drug laws or conviction of any offense involving moral turpitude', 'quote': 'Conviction of a felony, conviction of any offense under state or federal drug laws or conviction of any offense involving moral turpitude', 'citation': '[63-3-119]'}; {'short_label': 'habitual_intoxication'",
+          "bucket": "Broad Statutory List"
         },
         {
           "state": "TX",
-          "raw_value": "{'short_label': 'fraud_in_obtaining_license'...",
-          "bucket": "Broad Omnibus List"
+          "raw_value": "{'short_label': 'fraud_in_obtaining_license', 'description': 'Presenting a fraudulently obtained license or engaging in fraud or deception in passing the examination', 'quote': 'presenting a license, certificate, or diploma that was illegally or fraudulently obtained or engaging in fraud or deception in passing the examination', 'citation': '[202.253]'}; {'short_label': 'amputation_conviction', 'description': 'Being convicted of an offense under Section 202.606 (amputation of foot)', 'quote': 'being convicted of an offense under Section 202.606', 'citation': '[202.253]'}; {'short_label': 'drug",
+          "bucket": "Broad Statutory List"
         },
         {
           "state": "UT",
-          "raw_value": "{'short_label': 'failure_to_meet_qualifications'...",
-          "bucket": "Broad Omnibus List"
+          "raw_value": "{'short_label': 'failure_to_meet_qualifications', 'description': 'Does not meet the qualifications for licensure or renewal of licensure', 'quote': 'does not meet the qualifications for licensure or renewal of licensure under this chapter', 'citation': '[Section 401]'}; {'short_label': 'crime_threatening_public', 'description': 'Guilty of a crime which demonstrates a threat or potential threat to the public health, safety, or welfare', 'quote': 'is guilty of a crime which, when considered with the functions and duties of a licensee under this chapter, demonstrates a threat or potential threat ",
+          "bucket": "Broad Statutory List"
         },
         {
           "state": "VA",
-          "raw_value": "{'short_label': 'fraud_in_obtaining_license'...",
-          "bucket": "Broad Omnibus List"
+          "raw_value": "{'short_label': 'fraud_in_obtaining_license', 'description': 'False statements, representations, fraud or deceit in obtaining admission to practice or in the practice of any branch of the healing arts', 'quote': 'False statements or representations or fraud or deceit in obtaining admission to the practice, or fraud or deceit in the practice of any branch of the healing arts;', 'citation': '54.1-2915'}; {'short_label': 'substance_abuse', 'description': 'Substance abuse rendering the practitioner unfit for professional obligations and duties', 'quote': 'Substance abuse rendering him unfit for th",
+          "bucket": "Broad Statutory List"
         },
         {
           "state": "VT",
-          "raw_value": "{'short_label': 'fraud_in_obtaining_license'...",
-          "bucket": "Broad Omnibus List"
+          "raw_value": "{'short_label': 'fraud_in_obtaining_license', 'description': 'Fraud or misrepresentation in applying for or procuring a podiatry license or renewal', 'quote': 'fraud or misrepresentation in applying for or procuring a podiatry license or in connection with applying for or procuring a periodic renewal of a podiatry license', 'citation': '§ 375. Unprofessional conduct'}; {'short_label': 'deceptive_advertising', 'description': 'Occupational advertising intended or tending to deceive the public', 'quote': 'occupational advertising that is intended or has a tendency to deceive the public', 'citatio",
+          "bucket": "Fraud & Misrepresentation Focus"
         },
         {
           "state": "WA",
-          "raw_value": "{'short_label': 'moral_turpitude_or_corruption'...",
-          "bucket": "Broad Omnibus List"
+          "raw_value": "{'short_label': 'moral_turpitude_or_corruption', 'description': 'Commission of any act involving moral turpitude, dishonesty, or corruption relating to the practice of the profession', 'quote': \"The commission of any act involving moral turpitude, dishonesty, or corruption relating to the practice of the person's profession, whether the act constitutes a crime or not.\", 'citation': '18.130.180'}; {'short_label': 'misrepresentation_in_obtaining_license', 'description': 'Misrepresentation or concealment of a material fact in obtaining a license or in reinstatement', 'quote': 'Misrepresentation o",
+          "bucket": "Conduct & Ethics Focus"
         },
         {
           "state": "WI",
-          "raw_value": "{'short_label': 'unprofessional_conduct'...",
-          "bucket": "Unprofessional Conduct"
+          "raw_value": "{'short_label': 'unprofessional_conduct', 'description': 'Acts or omissions constituting unprofessional conduct as defined by the affiliated credentialing board by rule, or acts by a podiatrist in violation of pharmacy or controlled substances law', 'quote': '\"Unprofessional conduct\" means an act or attempted act of commission or omission, as defined by the affiliated credentialing board by rule under s. 448.695 (1), or an act by a podiatrist in violation of ch. 450 or 961.', 'citation': '448.60'}; {'short_label': 'fee_splitting', 'description': 'Giving or receiving any fee, commission, rebate",
+          "bucket": "Conduct & Ethics Focus"
         },
         {
           "state": "WV",
-          "raw_value": "{'short_label': 'fraud_in_obtaining_license'...",
-          "bucket": "Broad Omnibus List"
+          "raw_value": "{'short_label': 'fraud_in_obtaining_license', 'description': 'Attempting to obtain or renew a license by bribery, fraudulent misrepresentation, or through known error of the board', 'quote': 'Attempting to obtain, obtaining, renewing, or attempting to renew a license or other authorization to practice medicine and surgery or podiatry by bribery, fraudulent misrepresentation, or through known error of the board', 'citation': '30-3-14'}; {'short_label': 'criminal_conviction', 'description': 'Being found guilty of a felony, crime involving moral turpitude, or crime directly related to the practic",
+          "bucket": "Broad Statutory List"
         },
         {
           "state": "WY",
-          "raw_value": "{'short_label': 'fraud_in_obtaining_license'...",
-          "bucket": "Broad Omnibus List"
+          "raw_value": "{'short_label': 'fraud_in_obtaining_license', 'description': 'Obtaining a license by fraudulent representation', 'quote': 'Obtaining a license by fraudulent representation', 'citation': '33-9-110'}; {'short_label': 'incompetency', 'description': 'Incompetency in practice', 'quote': 'Incompetency in practice', 'citation': '33-9-110'}; {'short_label': 'untruthful_statements', 'description': 'Use of untruthful or improbable statements to patients or in advertisements', 'quote': 'Use of untruthful or improbable statements to patients or in his advertisements', 'citation': '33-9-110'}; {'short_labe",
+          "bucket": "Broad Statutory List"
         }
       ]
     },
@@ -2972,10 +3232,10 @@
       "bucket_set": [
         "Advisory Committee",
         "Advisory Board",
-        "Joint Surgery Committee",
+        "Joint Advisory Committee",
         "Association Representatives"
       ],
-      "rationale": "Buckets reflect the four distinct structural forms: generic/bare advisory committees, named advisory boards with exam focus, a specialized joint surgical committee, and a professional association representative model.",
+      "rationale": "The names split naturally by structural form: generic advisory committees, named advisory boards, a joint (multi-body) committee, and one state that frames the body as association representatives rather than a standalone board.",
       "assignments": [
         {
           "state": "LA",
@@ -2995,7 +3255,7 @@
         {
           "state": "SC",
           "raw_value": "Joint Podiatric Surgery Advisory Committee",
-          "bucket": "Joint Surgery Committee"
+          "bucket": "Joint Advisory Committee"
         },
         {
           "state": "TX",
@@ -3007,28 +3267,28 @@
     {
       "field_name": "licensure.advisory_board.authority",
       "bucket_set": [
-        "Full Board Member",
+        "Full Board Role",
+        "Advisory + Rulemaking Input",
         "Advisory + Disciplinary",
-        "Advisory Only",
-        "Advisory + Rulemaking",
-        "Shared Administration"
+        "Advice Only (Broad)",
+        "Advice Only (Disciplinary)"
       ],
-      "rationale": "States vary from the advisory board being a full constituent part of the examining board, to purely advisory roles, to advisory roles with explicit disciplinary or rulemaking influence, so buckets capture the degree and domain of authority.",
+      "rationale": "States vary from granting the advisory body near-full board status, to structured rulemaking input with retained commission authority, to broad advisory roles covering policy and complaints, to narrower advisory roles focused on discipline.",
       "assignments": [
         {
           "state": "LA",
           "raw_value": "constitute and form part of the examining board",
-          "bucket": "Full Board Member"
+          "bucket": "Full Board Role"
         },
         {
           "state": "MS",
           "raw_value": "Advisory authority in disciplinary matters",
-          "bucket": "Advisory + Disciplinary"
+          "bucket": "Advice Only (Disciplinary)"
         },
         {
           "state": "NM",
           "raw_value": "The board acts with the advice of the committee; the committee holds meetings as necessary and at the request of the board; the board, with the advice of the committee, administers and enforces the Podiatry Act and promulgates rules.",
-          "bucket": "Shared Administration"
+          "bucket": "Advice Only (Broad)"
         },
         {
           "state": "SC",
@@ -3038,7 +3298,7 @@
         {
           "state": "TX",
           "raw_value": "The advisory board may propose rules relating to scope of practice, health-related standards of care, and ethical practice; the commission must either adopt the rule as proposed or return it for revision. The commission retains final authority.",
-          "bucket": "Advisory + Rulemaking"
+          "bucket": "Advisory + Rulemaking Input"
         }
       ]
     }

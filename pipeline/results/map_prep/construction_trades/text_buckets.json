@@ -7,12 +7,12 @@
         "Dedicated Contractors Board",
         "Construction Industry Board",
         "Commerce / Economic Dev Dept",
-        "Consumer Protection Agency",
         "Labor & Industry Dept",
-        "Housing / Buildings Dept",
-        "Multi-Board / Registrar"
+        "Consumer Protection Agency",
+        "Multi-Board System",
+        "Other State Agency"
       ],
-      "rationale": "States cluster by the type of body that issues contractor licenses: standalone contractor/licensing boards, construction-specific industry boards, broad commerce or economic development departments, consumer protection agencies, labor and industry departments, housing/buildings departments, and a small group with multi-board or registrar arrangements.",
+      "rationale": "The values cluster around whether licensing is handled by a standalone contractors board, a construction-specific board, a broader commerce/economic-development department, a labor-and-industry department, a consumer-protection agency, or multiple boards simultaneously, with a catch-all for outliers like the Secretary of State.",
       "assignments": [
         {
           "state": "AK",
@@ -62,7 +62,7 @@
         {
           "state": "IA",
           "raw_value": "Department of Inspections, Appeals, and Licensing",
-          "bucket": "Commerce / Economic Dev Dept"
+          "bucket": "Other State Agency"
         },
         {
           "state": "ID",
@@ -71,13 +71,13 @@
         },
         {
           "state": "IL",
-          "raw_value": "Office of the State Fire Marshal",
-          "bucket": "Multi-Board / Registrar"
+          "raw_value": "State Fire Marshal",
+          "bucket": "Other State Agency"
         },
         {
           "state": "KY",
           "raw_value": "Department of Housing, Buildings and Construction",
-          "bucket": "Housing / Buildings Dept"
+          "bucket": "Other State Agency"
         },
         {
           "state": "LA",
@@ -102,12 +102,12 @@
         {
           "state": "NC",
           "raw_value": "State Licensing Board for General Contractors; State Board of Examiners of Plumbing, Heating, and Fire Sprinkler Contractors; State Board of Examiners of Electrical Contractors; State Board of Refrigeration Contractors",
-          "bucket": "Multi-Board / Registrar"
+          "bucket": "Multi-Board System"
         },
         {
           "state": "ND",
           "raw_value": "Secretary of State (Registrar)",
-          "bucket": "Multi-Board / Registrar"
+          "bucket": "Other State Agency"
         },
         {
           "state": "NM",
@@ -122,11 +122,6 @@
         {
           "state": "OH",
           "raw_value": "Ohio Construction Industry Licensing Board",
-          "bucket": "Construction Industry Board"
-        },
-        {
-          "state": "OK",
-          "raw_value": "Construction Industries Board",
           "bucket": "Construction Industry Board"
         },
         {
@@ -157,7 +152,7 @@
         {
           "state": "UT",
           "raw_value": "Division of Professional Licensing",
-          "bucket": "Commerce / Economic Dev Dept"
+          "bucket": "Other State Agency"
         },
         {
           "state": "VA",
@@ -167,7 +162,7 @@
         {
           "state": "VT",
           "raw_value": "Office of Professional Regulation",
-          "bucket": "Commerce / Economic Dev Dept"
+          "bucket": "Other State Agency"
         },
         {
           "state": "WA",
@@ -184,39 +179,38 @@
     {
       "field_name": "licensure.regulatory_authority.name",
       "bucket_set": [
-        "Contractors Board",
+        "Dedicated Contractors Board",
         "Construction Industry Board",
         "Dept of Labor & Industry",
         "Consumer Protection Agency",
-        "General Commerce Dept",
-        "Housing/Buildings Dept"
+        "Broad Commerce/Licensing Dept"
       ],
-      "rationale": "States cluster around dedicated contractor/construction boards, broader labor or commerce departments, and consumer protection agencies — capturing the main structural approaches to regulatory authority.",
+      "rationale": "The values cluster by the type of body overseeing contractors: standalone contractor-specific boards, construction industry boards, labor/industry departments, consumer protection agencies, and broader commerce or professional licensing departments.",
       "assignments": [
         {
           "state": "AK",
           "raw_value": "Department of Commerce, Community, and Economic Development",
-          "bucket": "General Commerce Dept"
+          "bucket": "Broad Commerce/Licensing Dept"
         },
         {
           "state": "AL",
           "raw_value": "State Licensing Board for General Contractors",
-          "bucket": "Contractors Board"
+          "bucket": "Dedicated Contractors Board"
         },
         {
           "state": "AR",
           "raw_value": "Contractors Licensing Board",
-          "bucket": "Contractors Board"
+          "bucket": "Dedicated Contractors Board"
         },
         {
           "state": "AZ",
           "raw_value": "Registrar of Contractors",
-          "bucket": "Contractors Board"
+          "bucket": "Dedicated Contractors Board"
         },
         {
           "state": "CA",
           "raw_value": "Contractors State License Board",
-          "bucket": "Contractors Board"
+          "bucket": "Dedicated Contractors Board"
         },
         {
           "state": "CT",
@@ -231,37 +225,37 @@
         {
           "state": "GA",
           "raw_value": "State Licensing Board for Residential and Commercial General Contractors",
-          "bucket": "Contractors Board"
+          "bucket": "Dedicated Contractors Board"
         },
         {
           "state": "HI",
           "raw_value": "Contractors License Board",
-          "bucket": "Contractors Board"
+          "bucket": "Dedicated Contractors Board"
         },
         {
           "state": "IA",
           "raw_value": "Department of Inspections, Appeals, and Licensing",
-          "bucket": "General Commerce Dept"
+          "bucket": "Broad Commerce/Licensing Dept"
         },
         {
           "state": "ID",
           "raw_value": "Idaho Contractors Board",
-          "bucket": "Contractors Board"
+          "bucket": "Dedicated Contractors Board"
         },
         {
           "state": "IL",
           "raw_value": "Office of the State Fire Marshal",
-          "bucket": "General Commerce Dept"
+          "bucket": "Broad Commerce/Licensing Dept"
         },
         {
           "state": "KY",
           "raw_value": "Department of Housing, Buildings and Construction",
-          "bucket": "Housing/Buildings Dept"
+          "bucket": "Broad Commerce/Licensing Dept"
         },
         {
           "state": "LA",
           "raw_value": "State Licensing Board for Contractors",
-          "bucket": "Contractors Board"
+          "bucket": "Dedicated Contractors Board"
         },
         {
           "state": "MA",
@@ -276,17 +270,17 @@
         {
           "state": "MS",
           "raw_value": "State Board of Contractors",
-          "bucket": "Contractors Board"
+          "bucket": "Dedicated Contractors Board"
         },
         {
           "state": "NC",
           "raw_value": "State Licensing Board for General Contractors",
-          "bucket": "Contractors Board"
+          "bucket": "Dedicated Contractors Board"
         },
         {
           "state": "ND",
           "raw_value": "Secretary of State",
-          "bucket": "General Commerce Dept"
+          "bucket": "Broad Commerce/Licensing Dept"
         },
         {
           "state": "NM",
@@ -296,7 +290,7 @@
         {
           "state": "NV",
           "raw_value": "State Contractors Board",
-          "bucket": "Contractors Board"
+          "bucket": "Dedicated Contractors Board"
         },
         {
           "state": "OH",
@@ -304,14 +298,9 @@
           "bucket": "Construction Industry Board"
         },
         {
-          "state": "OK",
-          "raw_value": "Construction Industries Board",
-          "bucket": "Construction Industry Board"
-        },
-        {
           "state": "OR",
           "raw_value": "Construction Contractors Board",
-          "bucket": "Contractors Board"
+          "bucket": "Dedicated Contractors Board"
         },
         {
           "state": "PA",
@@ -321,32 +310,32 @@
         {
           "state": "RI",
           "raw_value": "Contractors' Registration and Licensing Board",
-          "bucket": "Contractors Board"
+          "bucket": "Dedicated Contractors Board"
         },
         {
           "state": "SC",
           "raw_value": "South Carolina Contractor's Licensing Board",
-          "bucket": "Contractors Board"
+          "bucket": "Dedicated Contractors Board"
         },
         {
           "state": "TN",
           "raw_value": "State Board for Licensing Contractors",
-          "bucket": "Contractors Board"
+          "bucket": "Dedicated Contractors Board"
         },
         {
           "state": "UT",
           "raw_value": "Division of Professional Licensing",
-          "bucket": "General Commerce Dept"
+          "bucket": "Broad Commerce/Licensing Dept"
         },
         {
           "state": "VA",
           "raw_value": "Board for Contractors",
-          "bucket": "Contractors Board"
+          "bucket": "Dedicated Contractors Board"
         },
         {
           "state": "VT",
           "raw_value": "Office of Professional Regulation",
-          "bucket": "General Commerce Dept"
+          "bucket": "Broad Commerce/Licensing Dept"
         },
         {
           "state": "WA",
@@ -356,7 +345,7 @@
         {
           "state": "WV",
           "raw_value": "West Virginia Contractor Licensing Board",
-          "bucket": "Contractors Board"
+          "bucket": "Dedicated Contractors Board"
         }
       ]
     },
@@ -365,17 +354,16 @@
       "bucket_set": [
         "Mutual Reciprocity Required",
         "Substantial Equivalency",
-        "Active Practice + Good Standing",
-        "Exam Waiver Available",
-        "Emergency / Military / Niche",
-        "Board Agreement / Regulation"
+        "Agreement-Based",
+        "Military / Emergency Only",
+        "Endorsement with Extra Steps"
       ],
-      "rationale": "States cluster around whether they require mutual/bilateral reciprocity, focus on equivalency of requirements, emphasize active practice duration and good standing, offer exam waivers as the key mechanism, limit reciprocity to narrow populations (emergency, military), or delegate details to board agreements or regulations.",
+      "rationale": "States cluster around whether reciprocity is contingent on a formal mutual agreement, substantial equivalency of requirements, a negotiated interstate compact, a narrow eligibility window (military/emergency), or endorsement processes that layer on additional state-specific requirements.",
       "assignments": [
         {
           "state": "AK",
           "raw_value": "Temporary courtesy licenses may be issued to nonresidents by regulation; military courtesy licenses available to active duty members and spouses who hold a current license in another state with substantially equivalent requirements.",
-          "bucket": "Emergency / Military / Niche"
+          "bucket": "Military / Emergency Only"
         },
         {
           "state": "AL",
@@ -385,12 +373,12 @@
         {
           "state": "AR",
           "raw_value": "Board may develop reciprocal agreements with other states with similar licensing responsibilities; umbrella statute also requires occupational licensing entities to adopt least restrictive requirements for licensure by endorsement/reciprocity for out-of-state credential holders.",
-          "bucket": "Board Agreement / Regulation"
+          "bucket": "Agreement-Based"
         },
         {
           "state": "CA",
           "raw_value": "Applicant must be licensed in a similar classification in another state that accepts California licensees reciprocally; the board must find professional qualifications and conditions of good standing are at least equal to California's; trade examination may be waived if applicant provides written certification of good standing for the previous five years.",
-          "bucket": "Exam Waiver Available"
+          "bucket": "Mutual Reciprocity Required"
         },
         {
           "state": "CT",
@@ -400,7 +388,7 @@
         {
           "state": "FL",
           "raw_value": "Applicant must meet one of: (a) passed a substantially equivalent exam and met § 489.111 requirements; (b) holds a valid license from another state/territory with substantially equivalent criteria; (c) holds a valid license under a reciprocal agreement; or (d) held a valid license for at least 10 years before application. Division I contractors and roofing contractors must complete a 2-hour Florida Building Code course.",
-          "bucket": "Substantial Equivalency"
+          "bucket": "Endorsement with Extra Steps"
         },
         {
           "state": "GA",
@@ -410,7 +398,12 @@
         {
           "state": "HI",
           "raw_value": "Emergency licensure during declared state of emergency/disaster: proof of out-of-state contractor license current and in good standing for past 2 years; liability and property damage insurance; workers' compensation insurance; financial statement; applicable fees; state tax clearance; and bond.",
-          "bucket": "Emergency / Military / Niche"
+          "bucket": "Military / Emergency Only"
+        },
+        {
+          "state": "IA",
+          "raw_value": "License issued without examination if person is currently licensed in another jurisdiction with substantially similar scope of practice, license is in good standing, issuing jurisdiction imposed minimum educational requirements, person passed required exam, no revocations or discipline, no pending complaints, pays applicable fees, and no disqualifying criminal history.",
+          "bucket": "Substantial Equivalency"
         },
         {
           "state": "ID",
@@ -424,18 +417,18 @@
         },
         {
           "state": "LA",
-          "raw_value": "The board may waive the trade examination for an applicant holding a comparable out-of-state license upon written certification from the licensing state that the applicant passed the exam and is in good standing. The business law examination is not waiveable, and the applicant must comply with all other Louisiana licensing requirements.",
-          "bucket": "Exam Waiver Available"
+          "raw_value": "Applicant must hold a comparable license in another state, provide written certification from that state that the applicant passed the examination and is in good standing. The business law requirement is not waived. Applicants must comply with all other Louisiana licensing requirements, though the board may waive other requirements for good cause.",
+          "bucket": "Endorsement with Extra Steps"
         },
         {
           "state": "MN",
           "raw_value": "Applicant must hold a valid comparable license in the qualifying state, which must administer a statewide licensing program with examination and qualifying experience comparable to Minnesota's; applicant must have held the license continuously for at least one year before applying in Minnesota.",
-          "bucket": "Active Practice + Good Standing"
+          "bucket": "Substantial Equivalency"
         },
         {
           "state": "MS",
           "raw_value": "Applicant must hold a current and valid license in good standing in another state in an occupation with similar scope of practice, held for at least one year; must meet education/experience/exam requirements; must not have grounds for refusal/suspension/revocation; must not have surrendered a license for negligence or misconduct; must not have pending complaints; and must pay applicable fees.",
-          "bucket": "Active Practice + Good Standing"
+          "bucket": "Substantial Equivalency"
         },
         {
           "state": "NC",
@@ -445,27 +438,22 @@
         {
           "state": "ND",
           "raw_value": "Out-of-state licensee must have actively used the license for 2 of the 3 years immediately preceding application, demonstrate competency, have no disqualifying disciplinary history, not be under active investigation, and pay applicable fees.",
-          "bucket": "Active Practice + Good Standing"
+          "bucket": "Substantial Equivalency"
         },
         {
           "state": "NM",
           "raw_value": "Reciprocal licensing agreement with states having equivalent licensing requirements; division must have commission consent.",
-          "bucket": "Board Agreement / Regulation"
+          "bucket": "Agreement-Based"
         },
         {
           "state": "NV",
           "raw_value": "License by endorsement available for attainable housing projects in rural areas; applicant must hold valid unrestricted license in another US jurisdiction for at least 4 consecutive years, have no disciplinary history, pass background check, and submit required statements. License expires December 31, 2029. General endorsement regulations also apply under NRS 622.530.",
-          "bucket": "Emergency / Military / Niche"
+          "bucket": "Endorsement with Extra Steps"
         },
         {
           "state": "OH",
           "raw_value": "Written reciprocity agreement between states must exist; the other state's requirements must be substantially equal to Ohio's; the other state must extend similar reciprocity to Ohio licensees; applicant pays the licensure fee.",
-          "bucket": "Mutual Reciprocity Required"
-        },
-        {
-          "state": "OK",
-          "raw_value": "Applicant must be currently licensed in another state/country/territory with substantially equivalent requirements, must have lawfully practiced the trade for 1 year immediately prior to application, must have no pending disciplinary matters, must have obtained original license by examination, and must meet all other CIB Act requirements including payment of applicable fees.",
-          "bucket": "Active Practice + Good Standing"
+          "bucket": "Agreement-Based"
         },
         {
           "state": "OR",
@@ -475,12 +463,12 @@
         {
           "state": "RI",
           "raw_value": "Available for military members and spouses licensed in another state for at least one year, subject to substantial equivalency review and disqualification criteria.",
-          "bucket": "Emergency / Military / Niche"
+          "bucket": "Military / Emergency Only"
         },
         {
           "state": "SC",
           "raw_value": "Applicant must hold a license or certificate in good standing in another state with requirements equal to or greater than SC requirements. Board must have authorized an exam waiver agreement. Applicant may exempt the technical examination if they can verify passing an essentially equivalent exam in another state. Must pass the SC Commercial Contractors Business, Law and Project Management examination and comply with all other licensing and certification requirements.",
-          "bucket": "Exam Waiver Available"
+          "bucket": "Endorsement with Extra Steps"
         },
         {
           "state": "TN",
@@ -490,12 +478,12 @@
         {
           "state": "UT",
           "raw_value": "Applicant must have been licensed in another state/district/territory with a similar scope of practice, have at least one year of experience under that license, and the license must be in good standing. Division evaluates education, credentialing examination, experience, and skills for competency.",
-          "bucket": "Active Practice + Good Standing"
+          "bucket": "Substantial Equivalency"
         },
         {
           "state": "VA",
           "raw_value": "Regulatory boards are authorized to promulgate regulations recognizing licenses or certificates issued by other states, the District of Columbia, or any territory or possession of the United States as full or partial fulfillment of qualifications for licensure or certification in the Commonwealth. Universal license recognition also available under § 54.1-205 for individuals holding a current and valid license in another state for at least three years.",
-          "bucket": "Board Agreement / Regulation"
+          "bucket": "Endorsement with Extra Steps"
         },
         {
           "state": "WV",
@@ -507,33 +495,32 @@
     {
       "field_name": "licensure.national_association",
       "bucket_set": [
-        "Home Inspector Orgs",
-        "Elevator Industry Orgs",
-        "Home Builders Orgs",
-        "General Contractors Orgs",
-        "Mixed / Multiple Sectors"
+        "Home Inspection Bodies",
+        "Elevator Industry Bodies",
+        "Home Builders Associations",
+        "General Contractors & Builders Mix"
       ],
-      "rationale": "Values cluster by trade sector (home inspection, elevator, home building, general contracting), with one state listing associations across multiple sectors warranting a mixed bucket.",
+      "rationale": "The four states cluster naturally by the type of trade association referenced: home inspection orgs, elevator industry orgs, home builder associations, and a mixed general-contractor/builder grouping.",
       "assignments": [
         {
           "state": "AK",
           "raw_value": "American Society of Home Inspectors; National Association of Home Inspectors; International Code Council",
-          "bucket": "Mixed / Multiple Sectors"
+          "bucket": "Home Inspection Bodies"
         },
         {
           "state": "KY",
           "raw_value": "National Elevator Industry Educational Program (NEIEP); National Association of Elevator Contractors (NAEC)",
-          "bucket": "Elevator Industry Orgs"
+          "bucket": "Elevator Industry Bodies"
         },
         {
           "state": "TN",
           "raw_value": "Home Builders Association of Tennessee, Inc.",
-          "bucket": "Home Builders Orgs"
+          "bucket": "Home Builders Associations"
         },
         {
           "state": "UT",
           "raw_value": "Associated General Contractors of Utah; Utah Chapter of the Associated Builders and Contractors; Utah Home Builders Association",
-          "bucket": "Mixed / Multiple Sectors"
+          "bucket": "General Contractors & Builders Mix"
         }
       ]
     },
@@ -541,13 +528,13 @@
       "field_name": "scope.definition_quote",
       "bucket_set": [
         "Broad General Contractor",
-        "Threshold / Cost-Triggered",
-        "Residential Focus",
-        "Trade-Specific",
-        "Broad + Explicit Bid Language",
-        "Short / Reference-Based"
+        "Residential / Home Improvement",
+        "Trade-Specific Only",
+        "Dual-Category (General + Mechanical)",
+        "Threshold-Anchored",
+        "Reference to Other Law"
       ],
-      "rationale": "The values split primarily by (1) how broadly the contractor is defined across all construction types, (2) whether a dollar threshold triggers applicability, (3) whether scope is narrowed to residential work, (4) whether only a specific trade is addressed, (5) whether the definition explicitly enumerates bid/offer language alongside broad scope, and (6) whether the definition is very short or defers to another source.",
+      "rationale": "States cluster by whether they define a broad, all-encompassing contractor, focus narrowly on residential/home improvement work, limit scope to specific trades, split definitions into general vs. mechanical categories, anchor the definition to a dollar threshold, or defer scope to another statute or code.",
       "assignments": [
         {
           "state": "AK",
@@ -557,7 +544,7 @@
         {
           "state": "AL",
           "raw_value": "a 'general contractor' is defined to be one who, for a fixed price, commission, fee, or wage, undertakes to construct or superintend or engage in the construction, alteration, maintenance, repair, rehabilitation, remediation, reclamation, or demolition of any building, highway, sewer, structure, site work, grading, paving, or project or any improvement in the State of Alabama where the cost of the undertaking is one hundred thousand dollars ($100,000) or more",
-          "bucket": "Threshold / Cost-Triggered"
+          "bucket": "Threshold-Anchored"
         },
         {
           "state": "AR",
@@ -567,22 +554,22 @@
         {
           "state": "AZ",
           "raw_value": "\"Contractor\": (a) Is synonymous with the term \"builder\" and means any person, firm, partnership, corporation, association or other organization, or a combination of any of them, that, for compensation, undertakes to or offers to undertake to, purports to have the capacity to undertake to, submits a bid or responds to a request for qualification or a request for proposals for construction services to, does himself or by or through others, or directly or indirectly supervises others to: (i) Construct, alter, repair, add to, subtract from, improve, move, wreck or demolish any building, highway, r",
-          "bucket": "Broad + Explicit Bid Language"
+          "bucket": "Broad General Contractor"
         },
         {
           "state": "CA",
           "raw_value": "a contractor is any person who undertakes to or offers to undertake to, or purports to have the capacity to undertake to, or submits a bid to, or does himself or herself or by or through others, construct, alter, repair, add to, subtract from, improve, move, wreck or demolish any building, highway, road, parking facility, railroad, excavation or other structure, project, development or improvement, or to do any part thereof, including the erection of scaffolding or other structures or works in connection therewith",
-          "bucket": "Broad + Explicit Bid Language"
+          "bucket": "Broad General Contractor"
         },
         {
           "state": "CT",
           "raw_value": "\"Electrical work\" means the installation, erection, maintenance, inspection, testing, alteration or repair of any wire, cable, conduit, busway, raceway, support, insulator, conductor, appliance, apparatus, fixture or equipment that generates, transforms, transmits or uses electrical energy for light, heat, power or other purposes; \"Plumbing and piping work\" means the installation, repair, replacement, alteration, maintenance, inspection or testing of gas, water and associated fixtures, tubing and piping mains and branch lines; \"Heating, piping and cooling work\" means the installation, repair, ",
-          "bucket": "Trade-Specific"
+          "bucket": "Trade-Specific Only"
         },
         {
           "state": "FL",
           "raw_value": "Contractor means the person who is qualified for, and is only responsible for, the project contracted for and means, except as exempted in this part, the person who, for compensation, undertakes to, submits a bid to, or does himself or herself or by others construct, repair, alter, remodel, add to, demolish, subtract from, or improve any building or structure, including related improvements to real estate, for others or for resale to others.",
-          "bucket": "Broad + Explicit Bid Language"
+          "bucket": "Broad General Contractor"
         },
         {
           "state": "GA",
@@ -592,12 +579,12 @@
         {
           "state": "HI",
           "raw_value": "\"Contractor\" means any person who by oneself or through others offers to undertake, or holds oneself out as being able to undertake, or does undertake to alter, add to, subtract from, improve, enhance, or beautify any realty or construct, alter, repair, add to, subtract from, improve, move, wreck, or demolish any building, highway, road, railroad, excavation, or other structure, project, development, or improvement, or do any part thereof, including the erection of scaffolding or other structures or works in connection therewith.",
-          "bucket": "Broad + Explicit Bid Language"
+          "bucket": "Broad General Contractor"
         },
         {
           "state": "IA",
           "raw_value": "\"Contractor\" means a person who engages in the business of construction, as the term \"construction\" is defined in the Iowa administrative code for purposes of chapter 96, the Iowa employment security law.",
-          "bucket": "Short / Reference-Based"
+          "bucket": "Reference to Other Law"
         },
         {
           "state": "ID",
@@ -606,38 +593,38 @@
         },
         {
           "state": "IL",
-          "raw_value": "Petroleum equipment contractor or contractor means a person, company, or corporation that installs, repairs, or removes underground storage tanks.",
-          "bucket": "Trade-Specific"
+          "raw_value": "\"Petroleum equipment contractor\" or \"contractor\" means a person, company, or corporation that installs, repairs, or removes underground storage tanks.",
+          "bucket": "Trade-Specific Only"
         },
         {
           "state": "KY",
           "raw_value": "\"Practice of heating, ventilation, and air conditioning contracting\" means the installation, maintenance, altering, remodeling, or repair of heating systems, ventilation systems, hydronic systems, burner service, or cooling systems.",
-          "bucket": "Trade-Specific"
+          "bucket": "Trade-Specific Only"
         },
         {
           "state": "LA",
-          "raw_value": "\"Contractor\" means any person who undertakes to, attempts to, or submits a price or bid or offers to construct, supervise, superintend, oversee, direct, perform, or in any manner assume charge of the construction, alteration, repair, improvement, movement, demolition, putting up, tearing down, furnishing labor, or furnishing labor together with material or equipment, or installing material or equipment",
-          "bucket": "Broad + Explicit Bid Language"
+          "raw_value": "\"Contractor\" means any person who undertakes to, attempts to, or submits a price or bid or offers to construct, supervise, superintend, oversee, direct, perform, or in any manner assume charge of the construction, alteration, repair, improvement, movement, demolition, putting up, tearing down, furnishing labor, or furnishing labor together with material or equipment, or installing material or equipment for any building, highway, road, railroad, sewer, grading, excavation, pipeline, public utility structure, project development, housing, or housing development, improvement, or any other constru",
+          "bucket": "Broad General Contractor"
         },
         {
           "state": "MA",
           "raw_value": "the reconstruction, alteration, renovation, repair, modernization, conversion, improvement, removal, or demolition, or the construction of an addition to any pre-existing owner occupied building containing at least one but not more than four dwelling units, which building or portion thereof is used or designed to be used as a residence or dwelling unit, or to structures which are adjacent to such residence or building.",
-          "bucket": "Residential Focus"
+          "bucket": "Residential / Home Improvement"
         },
         {
           "state": "MN",
           "raw_value": "\"Building construction or improvement services\" means public or private sector commercial or residential building construction or improvement services.",
-          "bucket": "Short / Reference-Based"
+          "bucket": "Broad General Contractor"
         },
         {
           "state": "MS",
           "raw_value": "\"Residential builder\" means any corporation, partnership or individual who constructs a building or structure for sale for use by another as a residence or who, for a fixed price, commission, fee, wage or other compensation, undertakes or offers to undertake the construction, or superintending of the construction, of any building or structure which is not more than three (3) floors in height, to be used by another as a residence, when the total cost of the undertaking exceeds Fifty Thousand Dollars ($50,000.00).",
-          "bucket": "Residential Focus"
+          "bucket": "Residential / Home Improvement"
         },
         {
           "state": "NC",
           "raw_value": "any person or firm or corporation who for a fixed price, commission, fee, or wage, undertakes to bid upon or to construct or who undertakes to superintend or manage...the construction of any building, highway, public utilities, grading or any improvement or structure where the cost of the undertaking is forty thousand dollars ($40,000) or more",
-          "bucket": "Threshold / Cost-Triggered"
+          "bucket": "Threshold-Anchored"
         },
         {
           "state": "ND",
@@ -647,32 +634,27 @@
         {
           "state": "NM",
           "raw_value": "\"contractor\" means any person who undertakes, offers to undertake by bid or other means or purports to have the capacity to undertake, by himself or through others, contracting. Contracting includes constructing, altering, repairing, installing or demolishing any: road, highway, bridge, parking area or related project; building, stadium or other structure; airport, subway or similar facility; park, trail, bridle path, athletic field, golf course or similar facility; dam, reservoir, canal, ditch or similar facility; sewerage or water treatment facility, power generating plant, pump station, nat",
-          "bucket": "Broad + Explicit Bid Language"
+          "bucket": "Broad General Contractor"
         },
         {
           "state": "NV",
           "raw_value": "A contractor is any person, except a registered architect or a licensed professional engineer, acting solely in a professional capacity, who undertakes to, offers to undertake to, purports to have the capacity to undertake to, or submits a bid to, or does himself, herself or itself or by or through an employee or employees of the contractor or of another contractor, construct, alter, repair, add to, subtract from, improve, move, wreck or demolish any building, highway, road, railroad, excavation or other structure, project, development or improvement, or to do any part thereof, including the e",
-          "bucket": "Broad + Explicit Bid Language"
+          "bucket": "Broad General Contractor"
         },
         {
           "state": "OH",
           "raw_value": "\"Licensed trade\" means a trade performed by a heating, ventilating, and air conditioning contractor, a refrigeration contractor, an electrical contractor, a plumbing contractor, or a hydronics contractor.",
-          "bucket": "Trade-Specific"
-        },
-        {
-          "state": "OK",
-          "raw_value": "Mechanical work means the installation, maintenance, repair, or renovation, in whole or in part, of any heating system, exhaust system, cooling system, mechanical refrigeration system or ventilation system or any equipment or piping carrying chilled water, air for ventilation purposes, or natural gas, or the installation, maintenance, repair, or renovation of process piping used to carry any liquid, substance, or material, including steam and hot water used for space heating purposes not under the jurisdiction of the Department of Labor other than minor repairs to such systems",
-          "bucket": "Trade-Specific"
+          "bucket": "Trade-Specific Only"
         },
         {
           "state": "OR",
           "raw_value": "A person that, for compensation or with the intent to sell, arranges or undertakes or offers to undertake or submits a bid to construct, alter, repair, add to, subtract from, improve, inspect, move, wreck or demolish, for another, a building, highway, road, railroad, excavation or other structure, project, development or improvement attached to real estate, or to do any part thereof.",
-          "bucket": "Broad + Explicit Bid Language"
+          "bucket": "Broad General Contractor"
         },
         {
           "state": "PA",
           "raw_value": "Any person who owns and operates a home improvement business or who undertakes, offers to undertake or agrees to perform any home improvement.",
-          "bucket": "Residential Focus"
+          "bucket": "Residential / Home Improvement"
         },
         {
           "state": "RI",
@@ -682,12 +664,12 @@
         {
           "state": "SC",
           "raw_value": "General construction means the installation, replacement, or repair of a building, structure, highway, sewer, grading, asphalt or concrete paving, or improvement of any kind to real property. Mechanical construction means the installation, replacement, or repair of plumbing, heating, air conditioning, process piping, refrigeration, lightning protection equipment, or electrical components, fixtures, or devices of any kind, excluding burglar alarm work.",
-          "bucket": "Trade-Specific"
+          "bucket": "Dual-Category (General + Mechanical)"
         },
         {
           "state": "TN",
           "raw_value": "\"Contractor\" means any person or entity that undertakes to, attempts to or submits a price or bid or offers to construct, supervise, superintend, oversee, schedule, direct or in any manner assume charge of the construction, alteration, repair, improvement, movement, demolition, putting up, tearing down or furnishing labor to install material or equipment for any building, highway, road, railroad, sewer, grading, excavation, pipeline, public utility structure, project development, housing, housing development, improvement or any other construction undertaking for which the total cost is twenty-",
-          "bucket": "Threshold / Cost-Triggered"
+          "bucket": "Threshold-Anchored"
         },
         {
           "state": "UT",
@@ -697,233 +679,223 @@
         {
           "state": "VA",
           "raw_value": "\"Contractor\" means any person, that for a fixed price, commission, fee, or percentage undertakes to bid upon, or accepts, or offers to accept, orders or contracts for performing, managing, or superintending in whole or in part, the construction, removal, repair, or improvement of any building or structure permanently annexed to real property owned, controlled, or leased by him or another person or any other improvements to such real property.",
-          "bucket": "Threshold / Cost-Triggered"
+          "bucket": "Broad General Contractor"
         },
         {
           "state": "VT",
           "raw_value": "\"residential construction\" means to build, demolish, or alter a residential dwelling unit, or a building or premises with four or fewer residential dwelling units, in this State and includes interior and exterior construction, renovation, and repair; painting; paving; roofing; weatherization; installation or repair of heating, plumbing, solar, electrical, water, or wastewater systems; and other activities the Office specifies by rule consistent with this chapter.",
-          "bucket": "Residential Focus"
+          "bucket": "Residential / Home Improvement"
         },
         {
           "state": "WA",
           "raw_value": "\"Contractor\" includes any person, firm, corporation, or other entity who or which, in the pursuit of an independent business undertakes to, or offers to undertake, or submits a bid to, construct, alter, repair, add to, subtract from, improve, develop, move, wreck, or demolish any building, highway, road, railroad, excavation or other structure, project, development, or improvement attached to real estate or to do any part thereof including the installation of carpeting or other floor covering, the erection of scaffolding or other structures or works in connection therewith, the installation or",
-          "bucket": "Broad + Explicit Bid Language"
+          "bucket": "Broad General Contractor"
         },
         {
           "state": "WV",
           "raw_value": "\"Contractor\" means a person who in any capacity for compensation, other than as an employee of another, undertakes, offers to undertake, purports to have the capacity to undertake, or submits a bid to construct, alter, repair, add to, subtract from, improve, move, wreck, or demolish any building, highway, road, railroad, structure, or excavation associated with a project, development, or improvement, or to do any part thereof, including the erection of scaffolding or other structures or works in connection therewith, where the cost of the undertaking is $5,000 or more for residential work or $",
-          "bucket": "Threshold / Cost-Triggered"
+          "bucket": "Threshold-Anchored"
         }
       ]
     },
     {
       "field_name": "scope.methods_authorized",
       "bucket_set": [
-        "General Build/Demo",
-        "Trade-Specific Only",
-        "Tiered by Project Type",
-        "Broad + Specialty List",
-        "Contractor Class Categories"
+        "Core Build/Alter/Demo",
+        "Broad + Site/Utility Work",
+        "Trade Specialties Only",
+        "Tiered Contract Classes",
+        "Comprehensive Multi-Trade",
+        "Specialty Niche (UST/HVAC)"
       ],
-      "rationale": "States cluster around: a simple core build/alter/repair/demolish list; narrow trade-specific scopes (HVAC, UST, etc.); tiered licensing by building type or project size; a broad general scope augmented with an explicit specialty list; or a formal contractor classification system (engineering/building/specialty).",
+      "rationale": "States cluster by how broadly they define authorized methods: some list only core verbs (build, alter, repair, demolish), others add site/utility/scaffolding work, several organize around named contractor tiers, a few enumerate every trade system, and outliers cover only a narrow specialty domain.",
       "assignments": [
         {
           "state": "AK",
           "raw_value": "construct; alter; repair; move; demolish; excavation and site development; erection of scaffolding",
-          "bucket": "General Build/Demo"
+          "bucket": "Broad + Site/Utility Work"
         },
         {
           "state": "AL",
           "raw_value": "construction; alteration; maintenance; repair; rehabilitation; remediation; reclamation; demolition",
-          "bucket": "General Build/Demo"
+          "bucket": "Core Build/Alter/Demo"
         },
         {
           "state": "AR",
           "raw_value": "construction; erection; alteration; demolition; repair; grading",
-          "bucket": "General Build/Demo"
+          "bucket": "Core Build/Alter/Demo"
         },
         {
           "state": "AZ",
           "raw_value": "construct; alter; repair; add to; subtract from; improve; move; wreck; demolish; connect to utility service lines and sewer; provide mechanical or structural service",
-          "bucket": "General Build/Demo"
+          "bucket": "Broad + Site/Utility Work"
         },
         {
           "state": "CA",
           "raw_value": "general engineering contracting; general building contracting; residential remodeling contracting; specialty contracting",
-          "bucket": "Contractor Class Categories"
+          "bucket": "Tiered Contract Classes"
         },
         {
           "state": "CT",
           "raw_value": "installation; erection; maintenance; inspection; testing; alteration; repair; layout; on-site fabrication; replacement",
-          "bucket": "General Build/Demo"
+          "bucket": "Core Build/Alter/Demo"
         },
         {
           "state": "FL",
           "raw_value": "construction; repair; alteration; remodeling; addition; demolition; subtraction; improvement of buildings or structures including related improvements to real estate",
-          "bucket": "General Build/Demo"
+          "bucket": "Core Build/Alter/Demo"
         },
         {
           "state": "GA",
           "raw_value": "construction of buildings, bridges, and structures; improvement, addition, repair, alteration, or remodeling of buildings or structures; construction management services (at risk to owner); design-build services; storm-water management systems on project sites",
-          "bucket": "Broad + Specialty List"
+          "bucket": "Broad + Site/Utility Work"
         },
         {
           "state": "HI",
           "raw_value": "general engineering contracting; general building contracting; specialty contracting",
-          "bucket": "Contractor Class Categories"
+          "bucket": "Tiered Contract Classes"
         },
         {
           "state": "ID",
           "raw_value": "building; altering; repairing; adding to; subtracting from; improving; reconstructing; moving; excavating; wrecking; demolishing; erection of scaffolding",
-          "bucket": "General Build/Demo"
+          "bucket": "Broad + Site/Utility Work"
         },
         {
           "state": "IL",
-          "raw_value": "installation of underground storage tanks; repair of USTs, including retrofitting and installation of cathodic protection systems; decommissioning of USTs including abandonment in place; relining of USTs; tank and piping tightness testing; testing of cathodic protection systems",
-          "bucket": "Trade-Specific Only"
+          "raw_value": "installation of underground storage tanks; repair of USTs, which shall include retrofitting and installation of cathodic protection systems; decommissioning of USTs including abandonment in place; relining of USTs; tank and piping tightness testing; testing of cathodic protection systems",
+          "bucket": "Specialty Niche (UST/HVAC)"
         },
         {
           "state": "KY",
           "raw_value": "installation; maintenance; altering; remodeling; repair of heating systems; ventilation systems; hydronic systems; burner service; cooling systems",
-          "bucket": "Trade-Specific Only"
+          "bucket": "Specialty Niche (UST/HVAC)"
         },
         {
           "state": "LA",
           "raw_value": "building construction; highway, street, and bridge construction; heavy construction; municipal and public works construction; electrical; mechanical; plumbing; hazardous materials; residential construction; mold remediation; home improvement",
-          "bucket": "Broad + Specialty List"
+          "bucket": "Tiered Contract Classes"
         },
         {
           "state": "MN",
           "raw_value": "excavation; masonry and concrete; carpentry; interior finishing; exterior finishing; drywall and plaster; residential roofing; general installation specialties",
-          "bucket": "Broad + Specialty List"
+          "bucket": "Tiered Contract Classes"
         },
         {
           "state": "MS",
           "raw_value": "residential construction (new buildings up to 3 floors for residential use, total cost over $50,000); residential improvement/remodeling (improvements to existing residences, total cost over $10,000); construction management; electrical subcontracting; plumbing subcontracting; mechanical subcontracting; HVAC subcontracting; residential solar installation (thermal and photovoltaic); commercial structures up to 7,500 sq ft (for licensed residential builders)",
-          "bucket": "Tiered by Project Type"
+          "bucket": "Comprehensive Multi-Trade"
         },
         {
           "state": "NC",
           "raw_value": "building contractor (private, public, commercial, industrial and residential buildings of all types); residential contractor (residences conforming to NC Residential Code); highway contractor; public utilities contractors (water/sewer, treatment facilities, electrical power transmission, communications, natural gas); specialty contractor (special skill construction work); plumbing contracting; heating contracting (groups 1, 2, 3); fire sprinkler contracting; electrical contracting (installing, maintaining, altering or repairing electric work, wiring, devices, appliances or equipment); refriger",
-          "bucket": "Tiered by Project Type"
+          "bucket": "Comprehensive Multi-Trade"
         },
         {
           "state": "ND",
           "raw_value": "construction; repair; alteration; dismantling; demolition",
-          "bucket": "General Build/Demo"
+          "bucket": "Core Build/Alter/Demo"
         },
         {
           "state": "NM",
           "raw_value": "constructing; altering; repairing; installing; demolishing",
-          "bucket": "General Build/Demo"
+          "bucket": "Core Build/Alter/Demo"
         },
         {
           "state": "NV",
           "raw_value": "general engineering contracting; general building contracting; specialty contracting",
-          "bucket": "Contractor Class Categories"
+          "bucket": "Tiered Contract Classes"
         },
         {
           "state": "OH",
           "raw_value": "heating, ventilating, and air conditioning contracting; refrigeration contracting; electrical contracting; plumbing contracting; hydronics contracting",
-          "bucket": "Trade-Specific Only"
-        },
-        {
-          "state": "OK",
-          "raw_value": "installation; maintenance; repair; renovation; alteration; planning; superintending; contracting",
-          "bucket": "General Build/Demo"
+          "bucket": "Trade Specialties Only"
         },
         {
           "state": "OR",
           "raw_value": "construct; alter; repair; add to; subtract from; improve; inspect; move; wreck; demolish",
-          "bucket": "General Build/Demo"
+          "bucket": "Broad + Site/Utility Work"
         },
         {
           "state": "PA",
           "raw_value": "Repair, replacement, remodeling, demolition, removal, renovation, installation, alteration, conversion, modernization, improvement, rehabilitation or sandblasting; Construction, replacement, installation or improvement of driveways, swimming pools, pool houses, porches, garages, roofs, siding, insulation, solar energy systems, security systems, flooring, patios, fences, gazebos, sheds, cabanas, landscaping, painting, doors and windows and waterproofing; Installation of central heating, air conditioning, storm windows or awnings",
-          "bucket": "Broad + Specialty List"
+          "bucket": "Comprehensive Multi-Trade"
         },
         {
           "state": "RI",
           "raw_value": "construction; alteration; repair; improvement; demolition; moving structures over public highways",
-          "bucket": "General Build/Demo"
+          "bucket": "Core Build/Alter/Demo"
         },
         {
           "state": "SC",
           "raw_value": "General construction: installation, replacement, or repair of buildings, structures, highways, sewers, grading, asphalt or concrete paving, or improvements to real property; Mechanical construction: installation, replacement, or repair of plumbing, heating, air conditioning, process piping, refrigeration, lightning protection equipment, or electrical components, fixtures, or devices; General Contractors-Building: commercial, industrial, institutional, modular, and residential building construction; General Contractors-Highway: bridges, concrete paving, asphalt paving, grading, highway incident",
-          "bucket": "Tiered by Project Type"
+          "bucket": "Comprehensive Multi-Trade"
         },
         {
           "state": "TN",
           "raw_value": "construction; alteration; repair; improvement; movement; demolition; putting up; tearing down; furnishing labor to install material or equipment",
-          "bucket": "General Build/Demo"
+          "bucket": "Core Build/Alter/Demo"
         },
         {
           "state": "UT",
           "raw_value": "construction; alteration; remodeling; repairing; wrecking or demolition; addition to or improvement of buildings and structures; installation or repair of residential or commercial natural gas appliance or combustion system; electrical work (installation, construction, alteration, change, repair, removal, or maintenance of facilities); plumbing work (installation, alteration, change, repair, removal, maintenance of pipes, fixtures, and fittings); HVAC (installation, maintenance, repair, and servicing of heating, ventilation, air conditioning systems); elevator construction, installation, alter",
-          "bucket": "Broad + Specialty List"
+          "bucket": "Comprehensive Multi-Trade"
         },
         {
           "state": "VA",
           "raw_value": "construction; removal; repair; improvement of buildings or structures permanently annexed to real property; remediation/cleanup/containment of premises; site work",
-          "bucket": "General Build/Demo"
+          "bucket": "Broad + Site/Utility Work"
         },
         {
           "state": "VT",
           "raw_value": "interior and exterior construction; renovation and repair; painting; paving; roofing; weatherization; installation or repair of heating systems; installation or repair of plumbing systems; installation or repair of solar systems; installation or repair of electrical systems; installation or repair of water or wastewater systems",
-          "bucket": "Broad + Specialty List"
+          "bucket": "Comprehensive Multi-Trade"
         },
         {
           "state": "WA",
           "raw_value": "construct; alter; repair; add to; subtract from; improve; develop; move; wreck; demolish; install carpeting or other floor covering; erect scaffolding; install or repair roofing or siding; perform tree removal services; cabinet or similar installation",
-          "bucket": "Broad + Specialty List"
+          "bucket": "Broad + Site/Utility Work"
         },
         {
           "state": "WV",
           "raw_value": "construct; alter; repair; add to; subtract from; improve; move; wreck; demolish",
-          "bucket": "General Build/Demo"
+          "bucket": "Core Build/Alter/Demo"
         }
       ]
     },
     {
       "field_name": "licensure.advisory_board.name",
       "bucket_set": [
-        "Residential Contractor Body",
-        "Housing & Construction Body",
-        "Trade-Specific Committees",
-        "Mixed Trade Boards",
-        "Informal Advisors"
+        "Residential Committee",
+        "Housing & Buildings Committee",
+        "Trades Licensing Board",
+        "General Advisors"
       ],
-      "rationale": "The values cluster by scope: bodies focused on residential contractors, broader housing/construction advisory bodies, states with multiple trade-specific committees, states with distinct licensing boards per trade, and informal advisor arrangements.",
+      "rationale": "Labels reflect the four distinct naming approaches: contractor-specific committees, broader housing/buildings framing, trade-specific licensing boards, and informal advisor panels.",
       "assignments": [
         {
           "state": "AR",
           "raw_value": "Residential Contractors Committee",
-          "bucket": "Residential Contractor Body"
+          "bucket": "Residential Committee"
         },
         {
           "state": "KY",
           "raw_value": "Housing, Buildings and Construction Advisory Committee",
-          "bucket": "Housing & Construction Body"
+          "bucket": "Housing & Buildings Committee"
         },
         {
           "state": "LA",
           "raw_value": "Residential Contractors Subcommittee",
-          "bucket": "Residential Contractor Body"
-        },
-        {
-          "state": "OK",
-          "raw_value": "State Committee of Plumbing Examiners; Committee of Electrical Examiners; Committee of Mechanical Examiners; Committee of Roofing Examiners",
-          "bucket": "Trade-Specific Committees"
+          "bucket": "Residential Committee"
         },
         {
           "state": "UT",
           "raw_value": "Electricians and Plumbers Licensing Board; Alarm System Security and Licensing Board",
-          "bucket": "Mixed Trade Boards"
+          "bucket": "Trades Licensing Board"
         },
         {
           "state": "VT",
           "raw_value": "Advisors (residential contractors and construction)",
-          "bucket": "Informal Advisors"
+          "bucket": "General Advisors"
         }
       ]
     },
@@ -931,11 +903,11 @@
       "field_name": "licensure.advisory_board.authority",
       "bucket_set": [
         "Full Regulatory Power",
-        "Delegated Sub-Board Power",
-        "Advisory + Rulemaking Input",
-        "Advisory Only"
+        "Subcommittee Powers (Board Approval)",
+        "Advisory & Consultation Only",
+        "Rulemaking Consultation Required"
       ],
-      "rationale": "States fall into a clear spectrum from boards with complete independent authority (licensing, enforcement, rulemaking) down to purely consultative roles, with two middle tiers covering delegated/conditional power and advisory-with-some-procedural-weight.",
+      "rationale": "States split cleanly across a spectrum from boards with full independent regulatory authority, to subcommittees with delegated but approval-gated powers, to bodies that are purely advisory or required as a consultation step before rulemaking.",
       "assignments": [
         {
           "state": "AR",
@@ -945,41 +917,35 @@
         {
           "state": "KY",
           "raw_value": "The department shall not promulgate administrative regulations without first receiving written comments from the committee; committee has 30 days to submit comments; comments attached to public submissions.",
-          "bucket": "Advisory + Rulemaking Input"
+          "bucket": "Rulemaking Consultation Required"
         },
         {
           "state": "LA",
-          "raw_value": "Subject to the approval of the board, the residential subcommittee has powers to adopt rules and regulations, issue/suspend/revoke licenses for residential and home improvement contractors, prescribe continuing education requirements, and enforce provisions of this Chapter.",
-          "bucket": "Delegated Sub-Board Power"
-        },
-        {
-          "state": "OK",
-          "raw_value": "Advisory capacity — assist and advise the Board on examinations, rules, standards, and licensing matters; also formulate rules and administer examinations under Board oversight",
-          "bucket": "Advisory + Rulemaking Input"
+          "raw_value": "Subject to the approval of the board, the residential subcommittee has powers and duties including: adopting rules and regulations for residential and home improvement contractors; issuing, suspending, or revoking licenses; prescribing continuing education regulations; and enforcing provisions of this Chapter.",
+          "bucket": "Subcommittee Powers (Board Approval)"
         },
         {
           "state": "UT",
           "raw_value": "recommending rules and policy to the commission; approving and establishing examination passing scores; overseeing applicant screening; assisting in establishing supervision standards; acting as presiding officer in adjudicative proceedings when authorized by the commission",
-          "bucket": "Delegated Sub-Board Power"
+          "bucket": "Advisory & Consultation Only"
         },
         {
           "state": "VT",
           "raw_value": "advisory only — Director shall seek the advice of the advisors in implementing this chapter; Director may adopt rules after consultation with an advisor",
-          "bucket": "Advisory Only"
+          "bucket": "Advisory & Consultation Only"
         }
       ]
     },
     {
       "field_name": "licensure.post_degree_experience.duration",
       "bucket_set": [
-        "1-2 Years",
-        "2-3 Years",
-        "4 Years",
+        "1–2 Years",
+        "3–4 Years",
         "5 Years",
         "Varies by License Type",
         "4 Years (Recency Required)"
       ],
-      "rationale": "States cluster around standard durations (1-2, 4, 5 years), with several notable patterns: some impose a recency window on top of the duration, and others specify different requirements by license category or trade.",
+      "rationale": "The values cluster around short fixed durations (1–2 yr), medium fixed durations (3–4 yr), one longer fixed duration (5 yr), states that embed recency windows into a 4-year requirement, and states with multiple sub-license durations that resist a single label.",
       "assignments": [
         {
           "state": "AZ",
@@ -989,12 +955,12 @@
         {
           "state": "CT",
           "raw_value": "not less than four years",
-          "bucket": "4 Years"
+          "bucket": "3–4 Years"
         },
         {
           "state": "FL",
           "raw_value": "4 years (or 1 year with baccalaureate degree)",
-          "bucket": "Varies by License Type"
+          "bucket": "3–4 Years"
         },
         {
           "state": "GA",
@@ -1014,7 +980,7 @@
         {
           "state": "NV",
           "raw_value": "4 years",
-          "bucket": "4 Years"
+          "bucket": "3–4 Years"
         },
         {
           "state": "OH",
@@ -1024,7 +990,7 @@
         {
           "state": "SC",
           "raw_value": "at least two years within the previous five years",
-          "bucket": "1-2 Years"
+          "bucket": "1–2 Years"
         },
         {
           "state": "TN",
@@ -1042,12 +1008,11 @@
       "field_name": "licensure.post_degree_experience.kind",
       "bucket_set": [
         "General Trade Experience",
-        "Skilled Worker / Foreman",
-        "Contractor / Employment",
-        "Apprenticeship",
-        "Mixed / Multiple Pathways"
+        "Contractor/Supervisory Experience",
+        "Apprenticeship Program",
+        "Mixed / Combined Paths"
       ],
-      "rationale": "States cluster around whether they accept broad trade/field experience, specific skilled-worker or foreman roles, contractor or employer-based employment, formal apprenticeship programs, or combinations of these pathways.",
+      "rationale": "States cluster around whether they require broad hands-on trade experience, specifically contractor or supervisory-level experience, a formal apprenticeship, or allow multiple pathways in combination.",
       "assignments": [
         {
           "state": "AZ",
@@ -1057,17 +1022,17 @@
         {
           "state": "CT",
           "raw_value": "bona fide apprenticeship program",
-          "bucket": "Apprenticeship"
+          "bucket": "Apprenticeship Program"
         },
         {
           "state": "FL",
           "raw_value": "active experience as skilled worker, foreman, or combination with college credits",
-          "bucket": "Mixed / Multiple Pathways"
+          "bucket": "Mixed / Combined Paths"
         },
         {
           "state": "GA",
           "raw_value": "proven experience working as or in the employment of a contractor",
-          "bucket": "Contractor / Employment"
+          "bucket": "Contractor/Supervisory Experience"
         },
         {
           "state": "KY",
@@ -1082,7 +1047,7 @@
         {
           "state": "NV",
           "raw_value": "journeyman, foreman, supervising employee, or contractor experience",
-          "bucket": "Skilled Worker / Foreman"
+          "bucket": "Contractor/Supervisory Experience"
         },
         {
           "state": "OH",
@@ -1092,17 +1057,17 @@
         {
           "state": "SC",
           "raw_value": "full-time employment in the license classification or subclassification",
-          "bucket": "Contractor / Employment"
+          "bucket": "General Trade Experience"
         },
         {
           "state": "TN",
           "raw_value": "plumbing experience / contracting experience",
-          "bucket": "Mixed / Multiple Pathways"
+          "bucket": "Mixed / Combined Paths"
         },
         {
           "state": "UT",
           "raw_value": "full-time paid employment experience in the construction industry; apprenticeship; supervised training",
-          "bucket": "Mixed / Multiple Pathways"
+          "bucket": "Mixed / Combined Paths"
         }
       ]
     },
@@ -1114,10 +1079,9 @@
         "Commerce Dept",
         "Labor, Licensing & Reg",
         "Secretary of State",
-        "Public Protection / Safety",
-        "Executive / Legal Office"
+        "Other Executive Office"
       ],
-      "rationale": "States cluster by the type of umbrella agency overseeing construction trades licensing: consumer-protection-oriented departments, business/professional regulation bodies, general commerce departments, labor-and-licensing departments, secretary of state offices, public protection/safety cabinets, and outliers housed in executive or legal offices.",
+      "rationale": "States cluster by the type of umbrella agency housing construction trade licensing: consumer affairs departments, business/professional regulation bodies, commerce departments, combined labor-licensing-regulation agencies, secretary of state offices, and a catch-all for outliers like the AG or Governor's office.",
       "assignments": [
         {
           "state": "CA",
@@ -1147,12 +1111,12 @@
         {
           "state": "KY",
           "raw_value": "Public Protection Cabinet",
-          "bucket": "Public Protection / Safety"
+          "bucket": "Other Executive Office"
         },
         {
           "state": "LA",
           "raw_value": "Office of the Governor",
-          "bucket": "Executive / Legal Office"
+          "bucket": "Other Executive Office"
         },
         {
           "state": "NM",
@@ -1167,7 +1131,7 @@
         {
           "state": "PA",
           "raw_value": "Office of Attorney General",
-          "bucket": "Executive / Legal Office"
+          "bucket": "Other Executive Office"
         },
         {
           "state": "RI",
@@ -1195,19 +1159,19 @@
       "field_name": "licensure.education.degree_required",
       "bucket_set": [
         "No Degree Required",
-        "Pre-HS / 8th Grade",
         "High School / GED",
-        "Short Course / CEUs",
-        "Associate / Technical",
+        "Short Pre-License Training",
+        "Associate / Technical Degree",
         "Bachelor's Degree",
-        "Experience Substitutes"
+        "Experience-Based Substitution",
+        "Tiered by License Type"
       ],
-      "rationale": "States cluster into distinct tiers ranging from no formal degree requirement through minimal schooling, short pre-licensure courses, associate-level, and bachelor's-level requirements, with several states explicitly allowing experience to substitute for education.",
+      "rationale": "States vary widely from no degree at all, through minimal training hours, to bachelor's degrees, with several states allowing experience to substitute for education or applying different rules by license tier, so the buckets reflect these distinct approaches.",
       "assignments": [
         {
           "state": "CT",
           "raw_value": "diploma or other evidence of graduation from the eighth grade of grammar school, or possesses an equivalent education",
-          "bucket": "Pre-HS / 8th Grade"
+          "bucket": "High School / GED"
         },
         {
           "state": "FL",
@@ -1217,17 +1181,17 @@
         {
           "state": "GA",
           "raw_value": "Baccalaureate degree from an accredited four-year college or university in engineering, architecture, construction management, building construction, or other acceptable field (for residential-light commercial and commercial general contractor); no degree required for residential-basic (experience only)",
-          "bucket": "Bachelor's Degree"
+          "bucket": "Tiered by License Type"
         },
         {
           "state": "KY",
           "raw_value": "High school diploma or High School Equivalency Diploma (home inspectors); no degree specified for elevator mechanic/HVAC",
-          "bucket": "High School / GED"
+          "bucket": "Tiered by License Type"
         },
         {
           "state": "NV",
           "raw_value": "At least 4 years of experience as a journeyman, foreman, supervising employee or contractor; training at an accredited college or university may substitute for up to 3 years",
-          "bucket": "Experience Substitutes"
+          "bucket": "Experience-Based Substitution"
         },
         {
           "state": "OR",
@@ -1237,75 +1201,70 @@
         {
           "state": "RI",
           "raw_value": "5 hours of preregistration education units",
-          "bucket": "Short Course / CEUs"
+          "bucket": "Short Pre-License Training"
         },
         {
           "state": "UT",
           "raw_value": "Associate of Applied Science or similar degree (for master plumber expedited path); graduate electrical engineer of accredited college/university (for master electrician); otherwise experience-based",
-          "bucket": "Associate / Technical"
+          "bucket": "Tiered by License Type"
         }
       ]
     },
     {
       "field_name": "licensure.continuing_education.topical_requirements",
       "bucket_set": [
-        "Codes & Regulations",
-        "Codes + Business Practices",
-        "Codes + Trade-Specific",
-        "Broad Multi-Topic",
-        "Specialty-Track by License"
+        "Code & Regulations",
+        "Business & Safety Mix",
+        "Board-Approved Courses",
+        "Trade-Specific Hours",
+        "Broad Topic Menu"
       ],
-      "rationale": "States cluster around whether they mandate code/regulatory updates only, mix codes with business practices, combine codes with trade-specific technical content, prescribe a broad multi-topic list, or differentiate requirements by license specialty type.",
+      "rationale": "States cluster around: pure code/regulation focus, a blend of business practices and safety topics, board-curated course lists, specialty/trade-differentiated hour requirements, or a wide open menu of approved topics.",
       "assignments": [
         {
           "state": "FL",
           "raw_value": "workers' compensation; business practices; workplace safety; wind mitigation methodologies (for applicable categories); laws and rules (1 hour)",
-          "bucket": "Broad Multi-Topic"
+          "bucket": "Business & Safety Mix"
         },
         {
           "state": "KY",
           "raw_value": "New and existing applicable administrative regulations of the department",
-          "bucket": "Codes & Regulations"
+          "bucket": "Code & Regulations"
         },
         {
           "state": "MN",
           "raw_value": "1 hour energy codes or energy conservation measures applicable to residential buildings; 1 hour business management strategies applicable to residential construction businesses",
-          "bucket": "Codes + Business Practices"
+          "bucket": "Business & Safety Mix"
         },
         {
           "state": "NC",
           "raw_value": "2 hours mandatory course approved by the Board; 6 hours elective courses approved by the Board",
-          "bucket": "Broad Multi-Topic"
+          "bucket": "Board-Approved Courses"
         },
         {
           "state": "NM",
           "raw_value": "8 hours code change instruction; 8 hours other industry-related and division-approved subjects",
-          "bucket": "Codes + Trade-Specific"
+          "bucket": "Code & Regulations"
         },
         {
           "state": "OH",
           "raw_value": "up to 5 hours per year in specific course requirements per specialty section curriculum",
-          "bucket": "Codes + Trade-Specific"
-        },
-        {
-          "state": "OK",
-          "raw_value": "6 hours of codes and revisions adopted by the Oklahoma Uniform Building Code Commission (OUBCC); electrical circuit theory and calculations, wiring methods, grounding and bonding, transformer and motor theory, electrical circuits and devices, control systems, alternative energy systems including energy storage, safety related to the electrical industry as defined by NFPA 70E, manufacturers' installation of equipment or parts, the Electrical License Act",
-          "bucket": "Codes + Trade-Specific"
+          "bucket": "Trade-Specific Hours"
         },
         {
           "state": "OR",
           "raw_value": "laws, regulations and business practices (3 hours); construction business practices; marketing; customer service; accounting; business law; bidding; building codes; safety; energy efficiency; trade specific subjects",
-          "bucket": "Codes + Business Practices"
+          "bucket": "Broad Topic Menu"
         },
         {
           "state": "UT",
           "raw_value": "Up to 1 hour of energy conservation (optional substitution within the 6 hours); Licensed electricians: 16 hours per two-year cycle under electrician CE program; Licensed plumbers: 12 hours per two-year cycle under plumber CE program; Licensed elevator mechanics: 8 hours per two-year cycle under elevator mechanic CE program; HVAC specialty contractors: at least 3 of 6 hours directly related to HVAC installation, repair, or replacement",
-          "bucket": "Specialty-Track by License"
+          "bucket": "Trade-Specific Hours"
         },
         {
           "state": "VA",
           "raw_value": "knowledge of code changes",
-          "bucket": "Codes & Regulations"
+          "bucket": "Code & Regulations"
         }
       ]
     },
@@ -1316,7 +1275,7 @@
         "Any Accredited College",
         "Board/Division Approved"
       ],
-      "rationale": "GA specifies a four-year institution, NV accepts any accredited college or equivalent with Board discretion, and UT defers approval to the division — three meaningfully distinct approaches to institutional recognition.",
+      "rationale": "States differ on whether they require a four-year institution specifically, accept any accredited college, or delegate approval authority to a board or division.",
       "assignments": [
         {
           "state": "GA",
@@ -1340,26 +1299,26 @@
       "bucket_set": [
         "Trade/Technical Exam",
         "Business & Law Exam",
-        "Trade + Business Exam",
-        "Prelicensure Course Exam",
-        "Broad Written/Oral Exam"
+        "Both Trade & Law Exams",
+        "General Contractor Exam",
+        "Pre-License Course Exam"
       ],
-      "rationale": "States cluster by what the exam primarily tests: trade/technical knowledge only, business/law knowledge only, a combined trade-plus-business requirement, a course-completion exam, or a broad written/oral exam with no clear subject-matter specialization.",
+      "rationale": "States cluster around whether their required exam tests technical/trade knowledge only, business/law knowledge only, both in combination, or a general contractor competency exam; Utah stands apart with a course-embedded exam model.",
       "assignments": [
         {
           "state": "AK",
           "raw_value": "{'name': 'Residential Contractor Examination', 'required': True, 'notes': 'Required for residential contractor endorsement; offered at least once each year in each judicial district; may be written or practical.', 'jurisdiction': 'state (department)', 'permitted_attempts': None, 'quote': 'passes a residential contractor examination, which shall be offered by the department at least once each year in each judicial district', 'citation': '08.18.025'}; {'name': 'Home Inspection Examination (existing homes) — American Society of Home Inspectors or National Association of Home Inspectors', 'require",
-          "bucket": "Broad Written/Oral Exam"
+          "bucket": "General Contractor Exam"
         },
         {
           "state": "AL",
           "raw_value": "{'name': 'General Contractor Licensing Examination', 'required': True, 'notes': 'Written or oral examination up to three days; board may waive or require based on application review. Subcontractors are not required to sit for any examination.', 'jurisdiction': 'state (in-house)', 'permitted_attempts': None, 'quote': 'If the application is satisfactory to the board, then the applicant may be required to take an examination to determine his or her qualifications.', 'citation': '34-8-2'}",
-          "bucket": "Broad Written/Oral Exam"
+          "bucket": "General Contractor Exam"
         },
         {
           "state": "AR",
           "raw_value": "{'name': 'Written examination for residential building contractor', 'required': True, 'notes': 'Exam waiver was available until January 1, 2012 for certain applicants with prior permits or experience.', 'jurisdiction': None, 'permitted_attempts': None, 'quote': 'a person shall not be licensed as a residential building contractor unless the person has passed a written examination prescribed by the Residential Contractors Committee.', 'citation': '17-25-509'}; {'name': 'Examination for contractor license (Contractors Licensing Board)', 'required': True, 'notes': 'Anyone failing may be reexamined",
-          "bucket": "Trade/Technical Exam"
+          "bucket": "Both Trade & Law Exams"
         },
         {
           "state": "AZ",
@@ -1369,17 +1328,17 @@
         {
           "state": "CA",
           "raw_value": "{'name': 'Contractors License Qualifying Examination', 'required': True, 'notes': 'Written examination covering knowledge and experience required for classification applied for, as well as laws and contracting business principles. Some waivers available under Section 7065.1.', 'jurisdiction': 'state (administered by CSLB or contracted organization)', 'permitted_attempts': None, 'quote': \"the registrar shall investigate, classify, and qualify applicants for contractors' licenses by written examination\", 'citation': 'Section 7065.'}",
-          "bucket": "Trade + Business Exam"
+          "bucket": "General Contractor Exam"
         },
         {
           "state": "CT",
           "raw_value": "{'name': 'State licensure examination', 'required': True, 'notes': 'Written, oral, and practical examinations as the appropriate board deems necessary. Applicants who fail three examinations in a one-year period have their apprentice permit revoked unless they apply for the next examination after the one-year period.', 'jurisdiction': 'state (Department of Consumer Protection)', 'permitted_attempts': None, 'quote': 'The department shall conduct such written, oral and practical examinations as the appropriate board, with the consent of the commissioner, deems necessary to test the knowledge of ",
-          "bucket": "Broad Written/Oral Exam"
+          "bucket": "Trade/Technical Exam"
         },
         {
           "state": "FL",
           "raw_value": "{'name': \"Contractor's examination (category-specific)\", 'required': True, 'notes': 'Applicant with baccalaureate degree in building construction from accredited 4-year college with GPA 3.0 or higher need only take and pass the business and finance portion.', 'jurisdiction': 'state (board-approved)', 'permitted_attempts': None, 'quote': 'Any person who desires to engage in contracting on a statewide basis shall, as a prerequisite thereto, establish his or her competency and qualifications to be certified pursuant to this part. To establish competency, a person shall pass the appropriate examin",
-          "bucket": "Trade + Business Exam"
+          "bucket": "Both Trade & Law Exams"
         },
         {
           "state": "GA",
@@ -1389,7 +1348,7 @@
         {
           "state": "HI",
           "raw_value": "{'name': 'Written examination', 'required': True, 'notes': 'Board determines scope, length, format (oral, written, or both), and passing score; board may contract with professional testing services.', 'jurisdiction': 'state (contractors license board)', 'permitted_attempts': None, 'quote': 'Any person unless the person has successfully passed a written examination as prescribed by the board', 'citation': '444-11'}",
-          "bucket": "Broad Written/Oral Exam"
+          "bucket": "Trade/Technical Exam"
         },
         {
           "state": "KY",
@@ -1398,37 +1357,32 @@
         },
         {
           "state": "LA",
-          "raw_value": "{'name': 'Trade examination (classification-specific)', 'required': True, 'notes': 'An applicant shall designate a qualifying party who must satisfy examination and credential requirements for each classification; the board may exempt holders of comparable out-of-state licenses from the trade portion.', 'jurisdiction': 'state (State Licensing Board for Contractors)', 'permitted_attempts': None, 'quote': 'The qualifying party shall meet all application requirements and shall satisfy any examination and credential requirement.', 'citation': 'RS 37:2156.1'}; {'name': 'Louisiana Business and Law e",
-          "bucket": "Trade + Business Exam"
+          "raw_value": "{'name': 'Trade examination (classification-specific)', 'required': True, 'notes': 'The board may waive the trade portion for applicants holding a comparable license in another state. The business law requirement is not waivable.', 'jurisdiction': None, 'permitted_attempts': None, 'quote': 'Waive the trade portion of the examination requirement for any applicant holding a license in a comparable classification in another state as determined by the board, upon written certification from the licensing state that the applicant passed the examination for the classification and is in good standing.",
+          "bucket": "Both Trade & Law Exams"
         },
         {
           "state": "MS",
           "raw_value": "{'name': 'Uniform written examination', 'required': True, 'notes': 'Board administers oral examination to applicants unable to take the written examination.', 'jurisdiction': 'state (in-house)', 'permitted_attempts': None, 'quote': 'the applicant shall be examined by the board at its next meeting using a uniform written examination prescribed by the board. The board shall administer an oral examination to applicants who are unable to take the written examination.', 'citation': '73-59-5'}",
-          "bucket": "Broad Written/Oral Exam"
+          "bucket": "General Contractor Exam"
         },
         {
           "state": "NC",
           "raw_value": "{'name': 'General Contractor Examination', 'required': True, 'notes': 'Tests practical knowledge, plans/specifications, NC Building Code, estimating, construction ethics, contractor laws, and Sedimentation Pollution Control Act knowledge.', 'jurisdiction': 'state (State Licensing Board for General Contractors)', 'permitted_attempts': None, 'quote': \"the examination shall establish (i) the ability of the applicant to make a practical application of the applicant's knowledge of the profession of contracting\", 'citation': '87-10'}; {'name': 'Plumbing, Heating, or Fire Sprinkler Contractor Examina",
-          "bucket": "Trade/Technical Exam"
+          "bucket": "Both Trade & Law Exams"
         },
         {
           "state": "NM",
           "raw_value": "{'name': \"Contractor's License Examination\", 'required': True, 'notes': 'Consists of general business knowledge, rules and regulations, and the Construction Industries Licensing Act; GB, MM, EE classifications also require technical knowledge test. May be satisfied in lieu by completing an accredited business and law course.', 'jurisdiction': 'state (Construction Industries Division)', 'permitted_attempts': None, 'quote': 'no certificate of qualification shall be issued to an individual desiring to be a qualifying party until he has passed with a satisfactory score an examination approved and ",
-          "bucket": "Trade + Business Exam"
+          "bucket": "Both Trade & Law Exams"
         },
         {
           "state": "NV",
           "raw_value": "{'name': 'Contractors License Examination', 'required': True, 'notes': 'Written or oral examinations, or both, in the discretion of the Board; may be given in specific classifications only.', 'jurisdiction': 'state (State Contractors Board)', 'permitted_attempts': None, 'quote': 'the Board may investigate, classify and qualify applicants for contractors licenses by written or oral examinations, or both, and may issue contractors licenses to qualified applicants.', 'citation': 'NRS 624.240'}",
-          "bucket": "Broad Written/Oral Exam"
+          "bucket": "General Contractor Exam"
         },
         {
           "state": "OH",
           "raw_value": "{'name': 'Contractor examination (trade-specific)', 'required': True, 'notes': 'Each specialty section designs the examination for the type of contractor it licenses. Applicant must pass within the twelve months preceding application. Applicant may retake no sooner than 60 days after most recent attempt; after 5 failures must reapply before retaking.', 'jurisdiction': 'state (Ohio Construction Industry Licensing Board specialty section)', 'permitted_attempts': 5, 'quote': 'when an applicant for licensure as a contractor in a licensed trade meets the qualifications set forth in division (B), (C",
-          "bucket": "Trade/Technical Exam"
-        },
-        {
-          "state": "OK",
-          "raw_value": "{'name': 'Journeyman Plumber / Plumbing Contractor Examination', 'required': True, 'notes': 'Uniform, practical, in whole or in part in writing. Regular exams at least twice a year. Failing applicants must wait 30 days before retaking; subsequent failures require 90-day wait.', 'jurisdiction': 'state (Construction Industries Board / State Committee of Plumbing Examiners)', 'permitted_attempts': None, 'quote': 'Examinations shall be uniform and shall be practical in nature but sufficiently strict to test the qualification and fitness of the applicant as a journeyman plumber or as a plumbing con",
           "bucket": "Trade/Technical Exam"
         },
         {
@@ -1439,7 +1393,7 @@
         {
           "state": "SC",
           "raw_value": "{'name': 'Technical examination', 'required': True, 'notes': 'Required for each classification or subclassification; must attain 70% or better. Limited to two attempts per 12-month period, then once per 6 months.', 'jurisdiction': None, 'permitted_attempts': None, 'quote': 'submit proof of having attained a grade of seventy percent or better on a technical examination where required for each classification or subclassification of licensure applied for', 'citation': '40-11-230'}; {'name': 'South Carolina law examination (Code of Laws)', 'required': True, 'notes': 'Examination of South Carolina ",
-          "bucket": "Trade + Business Exam"
+          "bucket": "Both Trade & Law Exams"
         },
         {
           "state": "TN",
@@ -1449,12 +1403,12 @@
         {
           "state": "UT",
           "raw_value": "{'name': '25-hour prelicensure course examination', 'required': True, 'notes': 'Required for general building contractor, general engineering contractor, residential and small commercial contractor, general plumbing contractor, residential plumbing contractor, general electrical contractor, residential electrical contractor. A provider-administered examination at the end of the 25-hour course is included.', 'jurisdiction': 'state (division-administered)', 'permitted_attempts': None, 'quote': 'for licensure as a general building contractor, general engineering contractor, residential and small ",
-          "bucket": "Prelicensure Course Exam"
+          "bucket": "Pre-License Course Exam"
         },
         {
           "state": "VA",
           "raw_value": "{'name': 'Contractor Designated Employee Examination (Class A)', 'required': True, 'notes': 'Oral or written examination on general knowledge of contracting, including statutory and regulatory requirements. Required for the designated employee of Class A applicants.', 'jurisdiction': 'state (Board for Contractors)', 'permitted_attempts': None, 'quote': 'the proposed designated employee shall be required by Board regulations to take an oral or written examination to determine his general knowledge of contracting, including the statutory and regulatory requirements governing contractors in the C",
-          "bucket": "Trade + Business Exam"
+          "bucket": "General Contractor Exam"
         },
         {
           "state": "WV",
@@ -1467,10 +1421,10 @@
       "field_name": "licensure.national_certification",
       "bucket_set": [
         "NICET (General)",
-        "NICET Fire Protection",
-        "NCCCO Crane Ops"
+        "NICET (Fire Protection)",
+        "NCCCO (Crane)"
       ],
-      "rationale": "The values split cleanly into two NICET variants (general vs. fire-protection-specific) and one separate crane operator body (NCCCO), covering the full distribution without any catch-all needed.",
+      "rationale": "The values split cleanly into three groups: general NICET certification, a specific NICET fire protection specialty, and the crane operator certification body (NCCCO).",
       "assignments": [
         {
           "state": "KY",
@@ -1480,12 +1434,12 @@
         {
           "state": "NC",
           "raw_value": "National Institute for Certification in Engineering Technologies (NICET) - Fire Protection Engineering Technician, Level III",
-          "bucket": "NICET Fire Protection"
+          "bucket": "NICET (Fire Protection)"
         },
         {
           "state": "UT",
           "raw_value": "National Commission for the Certification of Crane Operators (NCCCO)",
-          "bucket": "NCCCO Crane Ops"
+          "bucket": "NCCCO (Crane)"
         },
         {
           "state": "VA",
@@ -1497,42 +1451,42 @@
     {
       "field_name": "profession_specific.deposit_cap_fraction",
       "bucket_set": [
-        "1/3 Cap",
-        "1/2 Cap",
-        "Low Fixed / % Cap",
-        "1/3 or Special Order Exception"
+        "~33% Cap",
+        "~50% Cap",
+        "Low Fixed Cap",
+        "Greater-Of Formula"
       ],
-      "rationale": "States cluster around one-third or one-half deposit caps, with one state using a small fixed-dollar/percentage cap and one state layering a special-order materials exception onto the one-third baseline.",
+      "rationale": "States cluster by the effective deposit ceiling: a third, a half, a small fixed-dollar/percentage floor, or a conditional 'whichever is greater' formula that can exceed the base fraction.",
       "assignments": [
         {
           "state": "MA",
           "raw_value": "one-third of the total contract price or the actual cost of any materials or equipment of a special order or custom made nature, whichever is greater",
-          "bucket": "1/3 or Special Order Exception"
+          "bucket": "Greater-Of Formula"
         },
         {
           "state": "NV",
           "raw_value": "lesser of $1,000 or 10 percent of the aggregate contract price",
-          "bucket": "Low Fixed / % Cap"
+          "bucket": "Low Fixed Cap"
         },
         {
           "state": "OR",
           "raw_value": "50 percent",
-          "bucket": "1/2 Cap"
+          "bucket": "~50% Cap"
         },
         {
           "state": "PA",
           "raw_value": "one-third",
-          "bucket": "1/3 Cap"
+          "bucket": "~33% Cap"
         },
         {
           "state": "TN",
           "raw_value": "1/3",
-          "bucket": "1/3 Cap"
+          "bucket": "~33% Cap"
         },
         {
           "state": "VT",
           "raw_value": "one-half of the cost of labor or one-half of the price of materials, whichever is greater",
-          "bucket": "1/2 Cap"
+          "bucket": "Greater-Of Formula"
         }
       ]
     },
@@ -1541,13 +1495,13 @@
       "bucket_set": [
         "Fraud & Misrepresentation",
         "Negligence & Incompetence",
-        "Statutory & Reg Violations",
-        "Project Abandonment & Non-Performance",
         "Criminal Conviction",
-        "Licensing & Registration Violations",
-        "Consumer Protection & Financial Harm"
+        "Project Abandonment",
+        "Statutory/Reg Violations",
+        "Consumer Protection",
+        "Registration/Insurance Compliance"
       ],
-      "rationale": "States cluster around these seven themes: fraudulent applications or license procurement, negligence/incompetence in practice, broad statutory/regulatory violations, project abandonment or failure to complete, criminal convictions as grounds, administrative licensing failures (no registration, lapsed insurance), and consumer-facing harms like fund diversion or deceptive practices.",
+      "rationale": "States cluster around seven recognizable approaches to disciplinary grounds: fraud in obtaining or exercising a license, negligence/incompetence in practice, criminal conviction triggers, project abandonment or non-completion, broad statutory/regulatory violation catch-alls, consumer protection and deceptive-practice language, and administrative compliance failures (registration, insurance, bonds).",
       "assignments": [
         {
           "state": "AK",
@@ -1567,12 +1521,12 @@
         {
           "state": "AZ",
           "raw_value": "{'short_label': 'abandonment_of_contract', 'description': 'Abandonment of a contract or refusal to perform after submitting a bid without legal excuse.', 'quote': 'Abandonment of a contract or refusal to perform after submitting a bid on work without legal excuse for the abandonment or refusal.', 'citation': 'A.R.S. § 32-1154'}; {'short_label': 'departure_from_plans_or_specs', 'description': 'Departure from or disregard of plans, specifications, or building codes in a material and prejudicial manner.', 'quote': 'Departure from or disregard of: (a) Plans or specifications in any material respec",
-          "bucket": "Project Abandonment & Non-Performance"
+          "bucket": "Project Abandonment"
         },
         {
           "state": "CA",
           "raw_value": "{'short_label': 'abandonment_of_project', 'description': 'Abandoning a construction project or operation without legal excuse.', 'quote': 'Abandonment without legal excuse of any construction project or operation engaged in or undertaken by the licensee as a contractor constitutes a cause for disciplinary action.', 'citation': 'Section 7107.'}; {'short_label': 'diversion_of_funds', 'description': 'Diverting funds received for a construction project or failing to account for their use.', 'quote': 'Diversion of funds or property received for prosecution or completion of a specific construction p",
-          "bucket": "Project Abandonment & Non-Performance"
+          "bucket": "Project Abandonment"
         },
         {
           "state": "CT",
@@ -1592,21 +1546,21 @@
         {
           "state": "HI",
           "raw_value": "{'short_label': 'dishonest_fraudulent_or_deceitful_act', 'description': 'Any dishonest, fraudulent, or deceitful act as a contractor that causes substantial damage to another', 'quote': 'Any dishonest, fraudulent, or deceitful act as a contractor that causes substantial damage to another', 'citation': '444-17'}; {'short_label': 'unfair_or_deceptive_practice', 'description': 'Engaging in any unfair or deceptive act or practice as prohibited by section 480-2', 'quote': 'Engaging in any unfair or deceptive act or practice as prohibited by section 480-2', 'citation': '444-17'}; {'short_label': 'ab",
-          "bucket": "Consumer Protection & Financial Harm"
+          "bucket": "Consumer Protection"
         },
         {
           "state": "IA",
-          "raw_value": "{'short_label': 'failure_to_register', 'description': 'Contractor fails to obtain or maintain required registration', 'quote': 'The requirement that a contractor be registered.', 'citation': '91C.8'}; {'short_label': 'incomplete_or_inaccurate_registration_info', 'description': \"Contractor's registration information is not substantially complete and accurate\", 'quote': \"The requirement that the contractor's registration information be substantially complete and accurate.\", 'citation': '91C.8'}; {'short_label': 'failure_to_file_bond', 'description': 'Out-of-state contractor fails to file require",
-          "bucket": "Licensing & Registration Violations"
+          "raw_value": "{'short_label': 'failure_to_register', 'description': 'Contractor fails to obtain required registration', 'quote': 'The requirement that a contractor be registered.', 'citation': '91C.8'}; {'short_label': 'incomplete_or_inaccurate_registration', 'description': \"Contractor's registration information is not substantially complete and accurate\", 'quote': \"The requirement that the contractor's registration information be substantially complete and accurate.\", 'citation': '91C.8'}; {'short_label': 'out_of_state_contractor_no_bond', 'description': 'Out-of-state contractor fails to file required bond",
+          "bucket": "Registration/Insurance Compliance"
         },
         {
           "state": "ID",
           "raw_value": "{'short_label': 'failure_to_maintain_insurance', 'description': 'Contractor violated provisions of the chapter including failure to keep current or provide required insurance coverage.', 'quote': 'A contractor has violated any of the provisions of this chapter including, but not limited to, failure to keep current or provide insurance coverage as required by this chapter', 'citation': '54-5215'}; {'short_label': 'consumer_protection_violation', 'description': 'Contractor violated consumer protection laws including making fraudulent misrepresentations to consumers.', 'quote': 'A contractor has ",
-          "bucket": "Licensing & Registration Violations"
+          "bucket": "Registration/Insurance Compliance"
         },
         {
           "state": "IL",
-          "raw_value": "{'short_label': 'fraud_in_obtaining_license', 'description': 'Obtaining or renewing a license by the use of fraud or material deception', 'quote': 'obtaining or renewing a license by the use of fraud or material deception;', 'citation': '225 ILCS 729/65'}; {'short_label': 'professional_incompetence', 'description': 'Being professionally incompetent as manifested by poor standards of service', 'quote': 'being professionally incompetent as manifested by poor standards of service;', 'citation': '225 ILCS 729/65'}; {'short_label': 'dishonorable_conduct', 'description': 'Engaging in dishonorable, u",
+          "raw_value": "{'short_label': 'fraud_in_obtaining_license', 'description': 'Obtaining or renewing a license by use of fraud or material deception', 'quote': 'obtaining or renewing a license by the use of fraud or material deception;', 'citation': '225 ILCS 729/65'}; {'short_label': 'professional_incompetence', 'description': 'Being professionally incompetent as manifested by poor standards of service', 'quote': 'being professionally incompetent as manifested by poor standards of service;', 'citation': '225 ILCS 729/65'}; {'short_label': 'dishonorable_conduct', 'description': 'Engaging in dishonorable, uneth",
           "bucket": "Fraud & Misrepresentation"
         },
         {
@@ -1616,28 +1570,28 @@
         },
         {
           "state": "LA",
-          "raw_value": "{'short_label': 'contracting_without_license', 'description': 'Undertaking, attempting, or bidding on construction work without possessing a required license or without the proper classification.', 'quote': 'Undertaking, attempting to, or submitting a price or bid; offering to construct, supervise, superintend, oversee, direct, or in any manner assume charge of the construction, alteration, repair, improvement, movement, demolition, putting up, tearing down; furnishing labor or furnishing labor together with material or equipment; or installing material or equipment for any building, highway, ",
-          "bucket": "Licensing & Registration Violations"
+          "raw_value": "{'short_label': 'unlicensed_contracting', 'description': 'Undertaking, bidding, or performing construction work without possessing a required license or without the proper classification.', 'quote': 'Undertaking, attempting to, or submitting a price or bid; offering to construct, supervise, superintend, oversee, direct, or in any manner assume charge of the construction...without possessing a license for which a license is required or without possessing a license with the proper classification.', 'citation': '37:2158'}; {'short_label': 'false_license_claim', 'description': \"Publishing, transmi",
+          "bucket": "Statutory/Reg Violations"
         },
         {
           "state": "MA",
           "raw_value": "{'short_label': 'operating_without_registration', 'description': 'Operating without a certificate of registration issued by the director', 'quote': 'operating without a certificate of registration issued by the director;', 'citation': 'Section 17'}; {'short_label': 'abandonment_or_failure_to_perform', 'description': 'Abandoning or failing to perform, without justification, any contract or project, or deviating from plans or specifications without owner consent', 'quote': 'abandoning or failing to perform, without justification, any contract or project engaged in or undertaken by a registered c",
-          "bucket": "Project Abandonment & Non-Performance"
+          "bucket": "Project Abandonment"
         },
         {
           "state": "MN",
           "raw_value": "{'short_label': 'violations_of_applicable_law', 'description': 'Committed one or more violations of the applicable law', 'quote': 'committed one or more violations of the applicable law', 'citation': '326B.082'}; {'short_label': 'violations_of_other_chapters', 'description': 'Committed violations of chapters 176, 177, 181, 181A, 182, 268, 270C, or 363A', 'quote': 'committed one or more violations of chapter 176, 177, 181, 181A, 182, 268, 270C, or 363A', 'citation': '326B.082'}; {'short_label': 'false_or_misleading_information', 'description': 'Submitted false or misleading information to any s",
-          "bucket": "Statutory & Reg Violations"
+          "bucket": "Statutory/Reg Violations"
         },
         {
           "state": "MS",
           "raw_value": "{'short_label': 'violating_chapter_or_regulations', 'description': 'Violating any provision of the chapter or board rules pertaining to residential building or improvement', 'quote': 'Violating any of the provisions of this chapter or the rules or regulations of the board pertaining to the work of residential building or residential improvement', 'citation': '73-59-13'}; {'short_label': 'fraud_in_obtaining_license', 'description': 'Fraud, deceit or misrepresentation in obtaining a license', 'quote': 'Fraud, deceit or misrepresentation in obtaining a license', 'citation': '73-59-13'}; {'short_l",
-          "bucket": "Statutory & Reg Violations"
+          "bucket": "Statutory/Reg Violations"
         },
         {
           "state": "NC",
           "raw_value": "{'short_label': 'fraud_in_obtaining_license', 'description': 'Fraud or deceit in obtaining a general contractor license', 'quote': 'found guilty of any fraud or deceit in obtaining a license', 'citation': '87-11'}; {'short_label': 'gross_negligence', 'description': 'Gross negligence in the practice of general contracting', 'quote': 'gross negligence, incompetency, or misconduct in the practice of his or her profession', 'citation': '87-11'}; {'short_label': 'willful_violation_of_article', 'description': 'Willful violation of any provision of the general contractor licensing article', 'quote': ",
-          "bucket": "Fraud & Misrepresentation"
+          "bucket": "Negligence & Incompetence"
         },
         {
           "state": "ND",
@@ -1647,12 +1601,12 @@
         {
           "state": "NM",
           "raw_value": "{'short_label': 'willful_or_incompetent_violation', 'description': 'Willfully or by reason of incompetence violating any provision of the Construction Industries Licensing Act or any rule or regulation adopted pursuant to that act.', 'quote': 'if the licensee or qualifying party of the licensee willfully or by reason of incompetence violates any provision of the Construction Industries Licensing Act or any rule or regulation adopted pursuant to that act by the division', 'citation': '60-13-23'}; {'short_label': 'contracting_beyond_scope', 'description': 'Knowingly contracting or performing a s",
-          "bucket": "Statutory & Reg Violations"
+          "bucket": "Statutory/Reg Violations"
         },
         {
           "state": "NV",
           "raw_value": "{'short_label': 'abandonment_of_project', 'description': 'Abandonment without legal excuse of any construction project or operation.', 'quote': 'Abandonment without legal excuse of any construction project or operation.', 'citation': 'NRS 624.301'}; {'short_label': 'failure_to_complete_project', 'description': 'Failure in a material respect to complete any construction project for the price stated in the contract.', 'quote': 'Failure in a material respect to complete any construction project or operation for the price stated in the contract for the project or operation or any modification of t",
-          "bucket": "Project Abandonment & Non-Performance"
+          "bucket": "Project Abandonment"
         },
         {
           "state": "OH",
@@ -1660,24 +1614,19 @@
           "bucket": "Criminal Conviction"
         },
         {
-          "state": "OK",
-          "raw_value": "{'short_label': 'material_misstatement_in_application', 'description': 'Made a material misstatement in the application for license or renewal thereof', 'quote': 'Made a material misstatement in the application for license or renewal thereof', 'citation': 'Laws 1955, p. 369, § 10'}; {'short_label': 'loaned_or_illegally_used_license', 'description': 'Loaned or illegally used the license', 'quote': 'Loaned or illegally used the license', 'citation': 'Laws 1955, p. 369, § 10'}; {'short_label': 'incompetency', 'description': 'Demonstrated incompetency to act as a journeyman plumber or plumbing con",
-          "bucket": "Negligence & Incompetence"
-        },
-        {
           "state": "OR",
           "raw_value": "{'short_label': 'violation_of_chapter', 'description': 'Violated a provision of ORS chapter 701.', 'quote': 'Violated a provision of this chapter.', 'citation': '701.098'}; {'short_label': 'violation_of_rule_or_order', 'description': 'Violated a rule or order of the Construction Contractors Board.', 'quote': 'Violated a rule or order of the board.', 'citation': '701.098'}; {'short_label': 'failure_to_comply_with_settlement', 'description': 'Entered into a settlement agreement but failed to comply with its terms.', 'quote': 'Entered into a settlement agreement with another person under ORS 701.",
-          "bucket": "Statutory & Reg Violations"
+          "bucket": "Statutory/Reg Violations"
         },
         {
           "state": "PA",
           "raw_value": "{'short_label': 'failure_to_register', 'description': 'Failing to register as required by the act.', 'quote': 'Fail to register as required by this act.', 'citation': '§ 9'}; {'short_label': 'failure_to_refund', 'description': 'Failing to refund payment when no substantial work performed and starting date exceeded by 45 days.', 'quote': 'Fail to refund the amount paid for a home improvement within ten days of either the acceptance and execution of a return receipt for certified mail containing a written request for a refund', 'citation': '§ 9'}; {'short_label': 'false_completion_certificate', ",
-          "bucket": "Licensing & Registration Violations"
+          "bucket": "Registration/Insurance Compliance"
         },
         {
           "state": "RI",
           "raw_value": "{'short_label': 'violation_of_chapter', 'description': 'Registrant or applicant violated § 5-65-3 or any other provision of this chapter or regulations promulgated thereunder.', 'quote': 'the registrant or applicant has violated § 5-65-3 or any other provision of this chapter or the regulations promulgated thereunder', 'citation': 'R.I. Gen. Laws § 5-65-10'}; {'short_label': 'insurance_not_in_effect', 'description': 'Required insurance is not currently in effect.', 'quote': 'That the insurance required by § 5-65-7 is not currently in effect.', 'citation': 'R.I. Gen. Laws § 5-65-10'}; {'short_l",
-          "bucket": "Statutory & Reg Violations"
+          "bucket": "Statutory/Reg Violations"
         },
         {
           "state": "SC",
@@ -1692,27 +1641,27 @@
         {
           "state": "UT",
           "raw_value": "{'short_label': 'unlicensed_practice', 'description': 'Engaging in a construction trade, acting as a contractor, alarm business, or alarm company agent without being appropriately licensed or exempted.', 'quote': 'engaging in a construction trade, acting as a contractor, an alarm business or company, or an alarm company agent, or representing oneself to be engaged in a construction trade or to be acting as a contractor in a construction trade requiring licensure, unless the person doing any of these is appropriately licensed or exempted from licensure under this chapter', 'citation': 'Section ",
-          "bucket": "Licensing & Registration Violations"
+          "bucket": "Registration/Insurance Compliance"
         },
         {
           "state": "VA",
           "raw_value": "{'short_label': 'violation_of_statutes_or_regulations', 'description': 'Violation of statutes or regulations governing the practice of licensed or certified contractors', 'quote': 'The Board shall have the power to require remedial education, suspend, revoke, or deny renewal of the license or certificate of any contractor who is found to be in violation of the statutes or regulations governing the practice of licensed or certified contractors in the Commonwealth.', 'citation': '§ 54.1-1110'}; {'short_label': 'substantial_identity_of_interest_with_revoked_licensee', 'description': 'Having a sub",
-          "bucket": "Statutory & Reg Violations"
+          "bucket": "Statutory/Reg Violations"
         },
         {
           "state": "VT",
           "raw_value": "{'short_label': 'failure_to_execute_written_contract', 'description': 'Failure to enter into a written contract when required by this chapter', 'quote': 'failure to enter into a written contract when required by this chapter', 'citation': '26 V.S.A. § 5510'}; {'short_label': 'failure_to_maintain_insurance', 'description': \"Failure to maintain liability or workers' compensation insurance as required by law\", 'quote': \"failure to maintain liability or workers' compensation insurance as required by law\", 'citation': '26 V.S.A. § 5510'}; {'short_label': 'deceptive_act_in_commerce', 'description': ",
-          "bucket": "Licensing & Registration Violations"
+          "bucket": "Registration/Insurance Compliance"
         },
         {
           "state": "WA",
           "raw_value": "{'short_label': 'working_without_registration', 'description': 'Advertising, offering to do work, submitting a bid, or performing work as a contractor without being registered', 'quote': 'Advertise, offer to do work, submit a bid, or perform any work as a contractor without being registered as required by this chapter', 'citation': '18.27.020'}; {'short_label': 'working_while_suspended_or_revoked', 'description': 'Advertising, offering to do work, submitting a bid, or performing work while registration is suspended or revoked', 'quote': \"Advertise, offer to do work, submit a bid, or perform an",
-          "bucket": "Licensing & Registration Violations"
+          "bucket": "Registration/Insurance Compliance"
         },
         {
           "state": "WV",
           "raw_value": "{'short_label': 'abandonment_of_project', 'description': 'Abandonment without legal excuse of any construction project or operation undertaken by the licensee.', 'quote': 'Abandonment, without legal excuse, of any construction project or operation engaged in or undertaken by the licensee', 'citation': '30-42-15'}; {'short_label': 'failure_to_complete_project', 'description': 'Willful failure or refusal to complete a construction project with reasonable diligence, causing material injury to another.', 'quote': 'Willful failure or refusal to complete a construction project or operation with reas",
-          "bucket": "Project Abandonment & Non-Performance"
+          "bucket": "Project Abandonment"
         }
       ]
     },
@@ -1720,11 +1669,11 @@
       "field_name": "profession_specific.voidable_contract_clauses",
       "bucket_set": [
         "Waiver of Rights",
-        "Confession of Judgment",
         "Choice of Law / Forum",
-        "Broad Multi-Clause List"
+        "Broad Multi-Clause List",
+        "Confession of Judgment Only"
       ],
-      "rationale": "States vary from targeting a single clause type (confession of judgment, waiver of rights) to specifying forum/choice-of-law restrictions, to enumerating a broad set of prohibited clauses, so four buckets cleanly capture these distinct approaches.",
+      "rationale": "States cluster by scope and focus: NV voids waivers of statutory rights, OR targets out-of-state forum/law clauses, PA enumerates a wide range of prohibited clauses, and TN targets only confession-of-judgment power-of-attorney clauses.",
       "assignments": [
         {
           "state": "NV",
@@ -1744,7 +1693,7 @@
         {
           "state": "TN",
           "raw_value": "power of attorney to confess judgment",
-          "bucket": "Confession of Judgment"
+          "bucket": "Confession of Judgment Only"
         }
       ]
     }
