@@ -276,7 +276,21 @@ def locate_quote_in_section(
         return None
 
     norm_section, src_index = normalize_with_mapping(section_text)
+    return locate_quote_in_normalized(quote, norm_section, src_index)
 
+
+def locate_quote_in_normalized(
+    quote: str, norm_section: str, src_index: list[int]
+) -> list[tuple[int, int]] | None:
+    """Same as `locate_quote_in_section`, but takes the section already
+    normalized via `normalize_with_mapping`. Lets a caller that matches MANY
+    quotes against ONE section normalize it a single time instead of per quote
+    — the normalization is the expensive part (char-by-char walk), so this is
+    the hot path for build_state_browse's cross-profession evidence aggregation.
+    Behavior is byte-for-byte identical to the inline version it replaced.
+    """
+    if not quote:
+        return None
     # Try the narrow (ellipsis-only) segmentation first so existing highlights
     # are byte-for-byte unchanged; fall through to the broadened split only
     # when the narrow one can't place every segment (the new pieced-quote
@@ -296,6 +310,43 @@ def locate_quote_in_section(
             src_start = src_index[idx]
             src_end = src_index[idx + len(nq) - 1] + 1
             spans.append((src_start, src_end))
+            cursor = idx + len(nq)
+        if ok:
+            return spans
+    return None
+
+
+def split_quote_segments(quote: str) -> tuple[list[str], list[str]]:
+    """Precompute a quote's (narrow, broad) normalized segment lists ONCE, so a
+    caller matching the same quote against MANY sections doesn't re-normalize
+    the quote per section (the dominant cost in build_state_browse). Narrow =
+    ellipsis-only split, broad = full seam split — same two passes, same order,
+    as locate_quote_in_section."""
+    return (
+        _split_quote_to_segments(quote, _ELLIPSIS_SPLIT_RE),
+        _split_quote_to_segments(quote, _SEGMENT_SPLIT_RE),
+    )
+
+
+def locate_segments_in_normalized(
+    segments_narrow: list[str], segments_broad: list[str],
+    norm_section: str, src_index: list[int],
+) -> list[tuple[int, int]] | None:
+    """Like locate_quote_in_normalized, but takes the quote already split into
+    normalized segments via split_quote_segments — so BOTH the section and the
+    quote are normalized once and reused. Byte-for-byte identical result."""
+    for segments in (segments_narrow, segments_broad):
+        if not segments:
+            continue
+        spans: list[tuple[int, int]] = []
+        cursor = 0
+        ok = True
+        for nq in segments:
+            idx = norm_section.find(nq, cursor)
+            if idx < 0:
+                ok = False
+                break
+            spans.append((src_index[idx], src_index[idx + len(nq) - 1] + 1))
             cursor = idx + len(nq)
         if ok:
             return spans

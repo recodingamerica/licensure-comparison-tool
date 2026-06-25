@@ -43,7 +43,9 @@ load_env()
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from extract.standard_model import iter_evidence  # noqa: E402
-from extract.locate_quote import locate_quote_in_section  # noqa: E402
+from extract.locate_quote import (  # noqa: E402
+    normalize_with_mapping, split_quote_segments, locate_segments_in_normalized,
+)
 from scope_sources import is_universal, is_enumeration  # noqa: E402
 from merged_scope import merged_scope_by_url  # noqa: E402
 from publish.blob_upload import upload_json  # noqa: E402
@@ -70,42 +72,65 @@ def _load_scope_lookup(state: str) -> dict[str, dict]:
     return merged_scope_by_url(state)
 
 
-def _section_evidence_for_profession(
-    record: dict, text: str, profession: str,
-) -> list[dict]:
-    """For one section's text, find all Evidence in `record` whose quote
-    matches in it. Returns list of {field_path, value, quote, spans,
-    unverified, profession} — profession identifies WHICH extraction
-    pulled this quote, so the UI can show "nursing drew X from here".
-    """
-    if not text:
-        return []
+def _quote_evidence(record: dict) -> list[dict]:
+    """Flatten a record's evidence nodes ONCE, PRE-SPLITTING each quote into its
+    normalized segments (the expensive part). Computed once per profession per
+    state instead of re-normalizing the quote for every section."""
     out: list[dict] = []
     for path, node in iter_evidence(record):
         quote = node.get("quote") or ""
         if not quote:
             continue
-        spans = locate_quote_in_section(quote, text)
-        if not spans:
-            continue
+        seg_narrow, seg_broad = split_quote_segments(quote)
+        if not seg_narrow and not seg_broad:
+            continue  # quote too short to verify — never matches anyway
         out.append({
             "field_path": ".".join(str(p) for p in path),
             "value": node.get("value"),
             "quote": quote,
-            "spans": [list(p) for p in spans],
             "unverified": bool(node.get("unverified")),
+            "seg_narrow": seg_narrow,
+            "seg_broad": seg_broad,
+        })
+    return out
+
+
+def _section_evidence_for_profession(
+    ev_list: list[dict], norm_section: str, src_index: list[int], profession: str,
+) -> list[dict]:
+    """Find each precomputed quote (via _quote_evidence) inside a section already
+    normalized via normalize_with_mapping. Both the section normalization AND the
+    quote segmentation are hoisted out of the per-call loop — they were the two
+    redundant hot costs (151k redundant normalizations before)."""
+    out: list[dict] = []
+    for ev in ev_list:
+        spans = locate_segments_in_normalized(
+            ev["seg_narrow"], ev["seg_broad"], norm_section, src_index)
+        if not spans:
+            continue
+        out.append({
+            "field_path": ev["field_path"],
+            "value": ev["value"],
+            "quote": ev["quote"],
+            "spans": [list(p) for p in spans],
+            "unverified": ev["unverified"],
             "profession": profession,
         })
     return out
 
 
-def _aggregate_evidence(text: str, prof_records: dict[str, dict]) -> list[dict]:
-    """Run the evidence-quote matcher across ALL professions' structured
-    records for this state. Returns merged list of evidence-spans, each
-    tagged with which profession produced it."""
+def _aggregate_evidence(
+    text: str, prof_evidence: dict[str, list[tuple[str, Any, str, bool]]]
+) -> list[dict]:
+    """Run the evidence-quote matcher across ALL professions' precomputed
+    evidence for this state. Returns merged list of evidence-spans, each
+    tagged with which profession produced it. Normalizes `text` ONCE."""
+    if not text:
+        return []
+    norm_section, src_index = normalize_with_mapping(text)
     out: list[dict] = []
-    for prof, rec in prof_records.items():
-        out.extend(_section_evidence_for_profession(rec, text, prof))
+    for prof, ev_list in prof_evidence.items():
+        out.extend(_section_evidence_for_profession(ev_list, norm_section, src_index, prof))
     return out
 
 
@@ -132,6 +157,9 @@ def build_state(state: str) -> dict[str, Any] | None:
 
     if not prof_records:
         return None
+
+    # Flatten each profession's evidence ONCE (not per section).
+    prof_evidence = {prof: _quote_evidence(rec) for prof, rec in prof_records.items()}
 
     umb_scope = _load_scope_lookup(state)
     umb_path = UMBRELLA_TEXT_DIR / f"{state}.json"
@@ -183,7 +211,7 @@ def build_state(state: str) -> dict[str, Any] | None:
                 "applies_to": applies_to,
                 "profession": None,
                 "scope_source": scope_source,
-                "evidence": _aggregate_evidence(text, prof_records),
+                "evidence": _aggregate_evidence(text, prof_evidence),
             })
 
     # 2. Practice-act sections per profession.
@@ -192,7 +220,6 @@ def build_state(state: str) -> dict[str, Any] | None:
         # own practice-act sections — cross-profession matching would be
         # noise (e.g. a podiatry quote happening to land in a nursing
         # practice-act section is almost always coincidence).
-        rec = prof_records.get(prof) or {}
         for s in practice:
             # Practice-act trimmed sections also carry Justia chrome
             # (breadcrumb + citation header + disclaimer). Strip it so the
@@ -200,6 +227,7 @@ def build_state(state: str) -> dict[str, Any] | None:
             text = clean_justia_text(s.get("text") or "")
             if not text:
                 continue
+            norm_section, src_index = normalize_with_mapping(text)
             sections.append({
                 "url": s.get("url") or "",
                 "citation": s.get("citation") or "",
@@ -209,7 +237,7 @@ def build_state(state: str) -> dict[str, Any] | None:
                 "applies_to": [prof],
                 "profession": prof,
                 "scope_source": None,
-                "evidence": _section_evidence_for_profession(rec, text, prof),
+                "evidence": _section_evidence_for_profession(prof_evidence[prof], norm_section, src_index, prof),
             })
 
     # Build hierarchical trees per audience group. Universal first, then
