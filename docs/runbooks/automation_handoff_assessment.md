@@ -12,7 +12,7 @@ fixable*, convert it to automation (often a new LLM call); re-validate on the ne
 | Stage | What it does | Automation today | The human part (if any) |
 |---|---|---|---|
 | **0. Discover the occupation** | decide it exists + is licensed | ✅ **automated today** — `discover_occupations.py` (LLM reads each state's chapter structure, surfaces untracked occupations incl. ones nested in a broader act) | review the candidate list (judgment, light) |
-| **1. Register** (`professions.yaml`) | display name, family, match `patterns` | ⚠️ manual (hand-written patterns) | **next to automate** — draft the entry from the name via LLM |
+| **1. Register** (`professions.yaml`) | display name, family, match `patterns`, `parent_corpus` | ✅ **automated** — `register_occupation.py` (LLM drafts the entry, self-validates parent_corpus against real text) | review the draft (light) |
 | **2. Match → index** | which chapter each state maps to | ✅ automated — `match_profession` + `llm_map_profession` (LLM mapper handles umbrella-nested + judgment) | review mapper flags (`audit_llm_candidates`) |
 | **3. Pull statute text (Justia)** | fetch the corpus | 🔴 **fragile ops** — CDP Chrome + Cloudflare, rate-limited, needs babysitting | **the real handoff risk.** BUT: see "nested" below — many occupations skip this entirely |
 | **4. clean → trim → extract** | LLM → structured records | ✅ automated — `extract_state_batch` (durable, ~50% cheaper) | gated by `check_consistency` |
