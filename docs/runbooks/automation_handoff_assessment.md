@@ -45,7 +45,19 @@ the one genuinely-hard-to-hand-off step.
 automated; registration is next; the Justia harvest is the part that realistically
 stays with whoever can run the scraper (or is avoided via nested + official sources).**
 
-## Discovery output
+## Discovery output (full 50-state run)
 `pipeline.discover.discover_occupations` → `results/discover_occupations/<STATE>.json`
 + `aggregate` → `_candidates.json` (untracked occupations ranked by # states regulating
-them). The widely-regulated, currently-untracked ones are the highest-value adds.
+them).
+
+**Result: 772 distinct untracked occupations, 261 flagged as hiding inside a broader
+act.** Top by prevalence: Dental Hygienist (46 states, in Dentistry), Barber (43, in
+Cosmetology), Marriage & Family Therapist (28), Paramedic/EMT (21/19, EMS), Esthetician
+(20)/Nail Tech (15)/Manicurist (Cosmetology), Dental Assistant (12, Dentistry),
+Sanitarian (12, own), Nursing Home Administrator (12, own), Elevator Mechanic (11),
+Veterinary Technician (10), Audiologist (9), Pharmacy Technician (8), Behavior Analyst
+(7, Psychology), Nutritionist (6, Dietetics), Nurse Aide (5, Nursing), Denturist (5).
+
+The list has some out-of-scope noise (Attorney, Notary) — the human review is just
+"which of these ranked candidates do we want?", not "go find them." The widely-
+regulated nested ones are the cheapest, highest-value adds (no new Justia pull).
