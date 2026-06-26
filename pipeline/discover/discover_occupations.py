@@ -43,10 +43,11 @@ MODEL = "claude-sonnet-4-6"
 
 
 class Occupation(BaseModel):
-    name: str                    # the occupation (e.g. "Dental Hygienist")
-    chapter_label: str           # statute chapter/article it appears under
-    nested_in: str | None        # broader profession's act it hides inside, else null
-    confidence: str              # high | medium | low
+    name: str                          # the occupation (e.g. "Dental Hygienist")
+    chapter_label: str = ""            # statute chapter/article it appears under
+    nested_in: str | None = None       # broader profession's act it hides inside, else null
+    confidence: str | None = None      # high | medium | low — optional so one omitted
+                                       # field never fails validation for the whole state
 
 
 class DiscoveryResult(BaseModel):
