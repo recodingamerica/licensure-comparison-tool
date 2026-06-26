@@ -31,7 +31,21 @@ from typing import Callable
 
 import sys
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from paths import TEXT_DIR, CLEAN_DIR, LOGS_DIR  # noqa: E402
+from paths import TEXT_DIR, CLEAN_DIR, LOGS_DIR, CONFIG_DIR  # noqa: E402
+import yaml  # noqa: E402
+
+
+def corpus_profession_for(profession: str) -> str:
+    """The profession whose harvested text/<X>/ this profession reads. Normally
+    itself; for a NESTED occupation declared with `parent_corpus: <parent>` in
+    professions.yaml it's the parent — so e.g. dental_hygienist extracts from the
+    already-harvested dentistry corpus with NO new Justia pull. The whole point of
+    the nested-occupation path (see docs/runbooks/automation_handoff_assessment.md)."""
+    try:
+        conf = yaml.safe_load((CONFIG_DIR / "professions.yaml").read_text()) or {}
+        return (conf.get(profession, {}) or {}).get("parent_corpus") or profession
+    except (OSError, yaml.YAMLError):
+        return profession
 
 LOG_PATH = LOGS_DIR / "clean_text.log"
 LOGS_DIR.mkdir(parents=True, exist_ok=True)
@@ -237,12 +251,17 @@ def main() -> None:
     profession = args.profession.lower()
     only_states = {s.strip().upper() for s in args.states.split(",") if s.strip()}
 
-    in_dir = TEXT_DIR / profession
+    corpus_prof = corpus_profession_for(profession)
+    in_dir = TEXT_DIR / corpus_prof
     out_dir = CLEAN_DIR / profession
     out_dir.mkdir(parents=True, exist_ok=True)
+    if corpus_prof != profession:
+        log.info("[%s] nested occupation — reading parent corpus text/%s/ (no new pull)",
+                 profession, corpus_prof)
 
     if not in_dir.exists():
-        raise SystemExit(f"input dir not found: {in_dir}")
+        raise SystemExit(f"input dir not found: {in_dir}"
+                         + (f" (parent_corpus={corpus_prof} not harvested)" if corpus_prof != profession else ""))
 
     for path in sorted(in_dir.glob("*.json")):
         if path.name.startswith("_"):

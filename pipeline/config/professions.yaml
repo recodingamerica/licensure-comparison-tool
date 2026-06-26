@@ -1,600 +1,680 @@
-# Canonical professions registry — seeded from Utah Title 58 (46 licensed professions).
-#
-# Each entry has:
-#   display:  human-readable name (used in UI titles)
-#   abbrev:   3-letter code shown on browse-view badges (defaults to first 3 letters of key)
-#   family:   one or more taxonomy buckets used by the umbrella scope filter
-#             (health / building_design / business / public_safety).
-#             Multi-valued for cross-cutting professions.
-#   patterns: case-insensitive substrings used to match a state's chapter label
-#   excludes: optional substrings that, if present, disqualify a label even if `patterns` matched
-#
-# A top-level `_families` block defines the UI color per family — applied to
-# every profession in that family. Color-per-family (not color-per-profession)
-# is what scales: humans can't reliably distinguish more than ~5-7 unique
-# hues, but we'll have 30+ professions eventually. The family color says
-# "this rule's audience is health professions" which is the more meaningful
-# signal at scale anyway.
-
 _families:
-  health:           { color: emerald, label: "Health professions" }
-  building_design:  { color: amber,   label: "Building / design" }
-  business:         { color: slate,   label: "Business / finance" }
-  public_safety:    { color: rose,    label: "Public safety" }
-#
-# match_profession.py applies patterns to chapter labels in pipeline/results/hierarchy/<STATE>.json
-# and emits matched nodes into pipeline/results/profession_index/<profession>.json.
-#
-# extract_state.load_umbrella_text uses `family` to filter which umbrella chapters
-# get injected into a given profession's LLM prompt — only chapters whose
-# scope ⊆ {universal} ∪ profession.family are included. See ARCHITECTURE.md.
-#
-# Adding a profession that exists in another state but not Utah: append a new top-level entry.
-# Adding a Utah-specific quirk: extend an existing profession's patterns.
-
-# --- Health professions ---
-
+  health:
+    color: emerald
+    label: Health professions
+  building_design:
+    color: amber
+    label: Building / design
+  business:
+    color: slate
+    label: Business / finance
+  public_safety:
+    color: rose
+    label: Public safety
 podiatry:
   display: Podiatry / Podiatric Medicine
   abbrev: POD
-  family: [health]
-  patterns: [podiatr, chiropod]
-  onet_code: "29-1081.00"
+  family:
+  - health
+  patterns:
+  - podiatr
+  - chiropod
+  onet_code: 29-1081.00
   onet_title: Podiatrists
-
 medicine:
   display: Medicine (MD)
   abbrev: MED
-  family: [health]
-  # Patterns harmonize state wording variants observed in real umbrella text:
-  # "Board of Medicine" / "Medical Board" / "State Medical Examiners" /
-  # "Healing Arts" (KS) — all of which our originally-tight patterns missed.
-  # The excludes list keeps these from cross-matching osteopathic / podiatric
-  # / naturopathic / chiropractic / physician assistant / veterinary /
-  # athletic, where "medical" or "physician" wording can appear in a board
-  # name that shouldn't fold into MD.
+  family:
+  - health
   patterns:
-    - "medicine"
-    - "medical practice"
-    - "practice of medicine"
-    - "medicine and surgery"
-    - "physicians"
-    - "board of medicine"
-    - "medical board"
-    - "medical examiners"
-    - "medical licensure"
-    - "licensure in medicine"
-    - "healing arts"
-    - "interstate medical licensure compact"
+  - medicine
+  - medical practice
+  - practice of medicine
+  - medicine and surgery
+  - physicians
+  - board of medicine
+  - medical board
+  - medical examiners
+  - medical licensure
+  - licensure in medicine
+  - healing arts
+  - interstate medical licensure compact
   excludes:
-    - "osteopathic"
-    - "podiatric"
-    - "naturopathic"
-    - "chiropractic"
-    - "homeopathic"
-    - "physician assistant"
-    - "physician's assistant"
-    - "veterinar"
-    - "athletic"
-    # Alternative-medicine systems that share "medicine" in their name
-    - "natural medicine"
-    - "oriental medicine"
-    - "eastern medicine"
-    - "chinese medicine"
-    # Telehealth / scope-of-modality chapters (not the practice act)
-    - "telemedicine"
-    - "tele-medicine"
-    # Diagnostic-imaging technologists (radiology, not MD)
-    - "nuclear medicine"
-    # Research / training / non-licensure chapters
-    - "institute of medicine"
-    - "education and residency"
-    # Animals
-    - "livestock"
-  # Prose forms used in some states' inline profession-name enumerations
-  # (e.g. Iowa: "when applied to a physician and surgeon, ..."). Read by
-  # assign_umbrella_scope's profession-name matcher; not used for chapter-
-  # label matching (that still goes through `patterns`).
-  enumeration_aliases: ["physician and surgeon"]
-
+  - osteopathic
+  - podiatric
+  - naturopathic
+  - chiropractic
+  - homeopathic
+  - physician assistant
+  - physician's assistant
+  - veterinar
+  - athletic
+  - natural medicine
+  - oriental medicine
+  - eastern medicine
+  - chinese medicine
+  - telemedicine
+  - tele-medicine
+  - nuclear medicine
+  - institute of medicine
+  - education and residency
+  - livestock
+  enumeration_aliases:
+  - physician and surgeon
 osteopathic_medicine:
   display: Osteopathic Medicine (DO)
-  family: [health]
-  patterns: [osteopath]
-
+  family:
+  - health
+  patterns:
+  - osteopath
 naturopathic_medicine:
   display: Naturopathic Medicine
-  family: [health]
-  patterns: [naturopath]
-
+  family:
+  - health
+  patterns:
+  - naturopath
 chiropractic:
   display: Chiropractic
-  family: [health]
-  patterns: [chiropract]
-
+  family:
+  - health
+  patterns:
+  - chiropract
 acupuncture:
   display: Acupuncture
-  family: [health]
-  patterns: [acupunct]
-
+  family:
+  - health
+  patterns:
+  - acupunct
 physician_assistant:
   display: Physician Assistant
-  family: [health]
-  patterns: ["physician assistant", "physician's assistant", "physicians' assistant", "pa licensure compact"]
-
+  family:
+  - health
+  patterns:
+  - physician assistant
+  - physician's assistant
+  - physicians' assistant
+  - pa licensure compact
 anesthesiologist_assistant:
   display: Anesthesiologist Assistant
-  family: [health]
-  patterns: ["anesthesiologist assist"]
-
+  family:
+  - health
+  patterns:
+  - anesthesiologist assist
 dentistry:
   display: Dentistry & Dental Hygiene
   abbrev: DEN
-  family: [health]
-  patterns: [dentist, "dental hygien", "dental practice", "dental assist", "dental profession"]
-
+  family:
+  - health
+  patterns:
+  - dentist
+  - dental hygien
+  - dental practice
+  - dental assist
+  - dental profession
 optometry:
   display: Optometry
   abbrev: OPT
-  family: [health]
-  patterns: [optometr]
-
+  family:
+  - health
+  patterns:
+  - optometr
 opticianry:
   display: Opticianry (dispensing optician)
-  family: [health]
-  patterns: ["dispensing optician", "ophthalmic dispenser"]
-
+  family:
+  - health
+  patterns:
+  - dispensing optician
+  - ophthalmic dispenser
 pharmacy:
   display: Pharmacy
-  family: [health]
-  patterns: [pharmac]
-
+  family:
+  - health
+  patterns:
+  - pharmac
 veterinary:
   display: Veterinary Medicine
-  family: [health]
-  patterns: [veterinar]
-
+  family:
+  - health
+  patterns:
+  - veterinar
 nursing:
   display: Nursing (RN / LPN / APRN)
   abbrev: NUR
-  family: [health]
-  patterns: [nurs]
+  family:
+  - health
+  patterns:
+  - nurs
   excludes:
-    - "nurse midwif"
-    - "nurse-midwif"
-    - "midwifery"
-    # "Nursing home" / "Nursing facility" are healthcare-facility regulation,
-    # NOT the nursing profession. WA label-match catches "Chapter 18.51 -
-    # Nursing Homes" and several Title-74 health-facility chapters without these.
-    - "nursing home"
-    - "nursing facility"
-
+  - nurse midwif
+  - nurse-midwif
+  - midwifery
+  - nursing home
+  - nursing facility
 nurse_midwifery:
   display: Nurse Midwifery
-  family: [health]
-  patterns: ["nurse midwif", "nurse-midwif"]
-
+  family:
+  - health
+  patterns:
+  - nurse midwif
+  - nurse-midwif
 direct_entry_midwifery:
   display: Direct-Entry Midwifery
-  family: [health]
-  patterns: ["direct-entry midwif", "direct entry midwif", "lay midwif", "certified professional midwif"]
-
+  family:
+  - health
+  patterns:
+  - direct-entry midwif
+  - direct entry midwif
+  - lay midwif
+  - certified professional midwif
 physical_therapy:
   display: Physical Therapy
-  family: [health]
-  patterns: ["physical therap", physiotherap]
-
+  family:
+  - health
+  patterns:
+  - physical therap
+  - physiotherap
 occupational_therapy:
   display: Occupational Therapy
-  family: [health]
-  patterns: ["occupational therap"]
-
+  family:
+  - health
+  patterns:
+  - occupational therap
 respiratory_care:
   display: Respiratory Care
-  family: [health]
-  patterns: ["respiratory care", "respiratory therap"]
-
+  family:
+  - health
+  patterns:
+  - respiratory care
+  - respiratory therap
 speech_language_audiology:
   display: Speech-Language Pathology & Audiology
-  family: [health]
-  patterns: ["speech-language", "speech language", "speech path", audiolog]
-
+  family:
+  - health
+  patterns:
+  - speech-language
+  - speech language
+  - speech path
+  - audiolog
 athletic_training:
   display: Athletic Training
-  family: [health]
-  patterns: ["athletic train"]
-
+  family:
+  - health
+  patterns:
+  - athletic train
 recreational_therapy:
   display: Recreational Therapy
-  family: [health]
-  patterns: ["recreational therap", "recreation therap", "therapeutic recreation"]
-
+  family:
+  - health
+  patterns:
+  - recreational therap
+  - recreation therap
+  - therapeutic recreation
 dietetics:
   display: Dietetics / Nutrition
-  family: [health]
-  patterns: [dietit, dietetic]
-  # No-credential states are NOT hard-coded here. CO is derived from its only
-  # dietitian provision — C.R.S. §6-1-707 (title misuse as a deceptive trade
-  # practice; HB25-1220 licensure vetoed May 2025) — wired in state_structure.yaml
-  # and extracted like any other state. See feedback: never hard-code credential calls.
-
+  family:
+  - health
+  patterns:
+  - dietit
+  - dietetic
 perfusionist:
   display: Perfusionist (Cardiovascular)
-  family: [health]
-  patterns: [perfusionist, "cardiac perfus", "cardiovascular perfus"]
-
+  family:
+  - health
+  patterns:
+  - perfusionist
+  - cardiac perfus
+  - cardiovascular perfus
 polysomnography:
   display: Polysomnography (Sleep Technologist)
-  family: [health]
-  patterns: [polysomnograph, "sleep technolog"]
-
+  family:
+  - health
+  patterns:
+  - polysomnograph
+  - sleep technolog
 electrology:
   display: Electrology (Hair Removal)
-  family: [health]
-  patterns: [electrologist, electrolysis]
-
+  family:
+  - health
+  patterns:
+  - electrologist
+  - electrolysis
 community_health_worker:
   display: Community Health Worker
-  family: [health]
-  patterns: ["community health worker", "community health representative"]
-
+  family:
+  - health
+  patterns:
+  - community health worker
+  - community health representative
 genetic_counseling:
   display: Genetic Counseling
-  family: [health]
-  patterns: ["genetic counsel"]
-
+  family:
+  - health
+  patterns:
+  - genetic counsel
 hearing_instrument_specialist:
   display: Hearing Instrument Specialist
-  family: [health]
-  patterns: ["hearing instrument", "hearing aid"]
-
+  family:
+  - health
+  patterns:
+  - hearing instrument
+  - hearing aid
 medical_interpreter:
   display: Medical Language Interpreter
-  family: [health]
-  patterns: ["medical interpret", "healthcare interpret", "medical language interpret"]
-
+  family:
+  - health
+  patterns:
+  - medical interpret
+  - healthcare interpret
+  - medical language interpret
 massage_therapy:
   display: Massage Therapy
-  family: [health]
-  patterns: ["massage therap"]
-
+  family:
+  - health
+  patterns:
+  - massage therap
 radiologic_technology:
   display: Radiologic Technology
-  family: [health]
-  patterns: ["radiologic tech", "radiology technician", "radiologist assist", "radiation therap"]
-
+  family:
+  - health
+  patterns:
+  - radiologic tech
+  - radiology technician
+  - radiologist assist
+  - radiation therap
 mental_health_counseling:
   display: Mental Health Counseling / MFT / Clinical Social Work
-  family: [health]
-  patterns: ["mental health", "professional counsel", "marriage and family therap", "clinical social work", "licensed professional counselor", "counseling compact"]
-  # The 'mental health' substring also matches 'environmental health' — bite
-  # observed on IL "Environmental Health Practitioner Licensing Act". Excluding
-  # 'environmental' (and a few other adjacent non-MHC contexts) keeps the
-  # pattern usable while blocking the cross-match.
-  excludes: ["environmental", "occupational health", "public health"]
-  enumeration_aliases: ["marital and family"]
-
+  family:
+  - health
+  patterns:
+  - mental health
+  - professional counsel
+  - marriage and family therap
+  - clinical social work
+  - licensed professional counselor
+  - counseling compact
+  excludes:
+  - environmental
+  - occupational health
+  - public health
+  enumeration_aliases:
+  - marital and family
 psychology:
   display: Psychology
-  family: [health]
-  patterns: [psycholog]
-  # Excludes 'psychoanaly' so "psychoanalysis" doesn't fold into psychology
-  # — many states regulate psychoanalysis as a distinct license (VT, NY, NJ).
-  excludes: [psychoanaly]
-
+  family:
+  - health
+  patterns:
+  - psycholog
+  excludes:
+  - psychoanaly
 psychoanalysis:
   display: Psychoanalysis
-  family: [health]
-  patterns: [psychoanaly]
-
+  family:
+  - health
+  patterns:
+  - psychoanaly
 social_work:
   display: Social Work
-  family: [health]
-  # Bare "social work" / "social worker". `mental_health_counseling` keeps
-  # "clinical social work" (longest-first matching wins for that wording), so
-  # clinical SW continues to fold into MHC and bare SW resolves here.
-  patterns: ["social work", "social worker"]
-
+  family:
+  - health
+  patterns:
+  - social work
+  - social worker
 alcohol_drug_counseling:
   display: Alcohol & Drug Counseling
-  family: [health]
+  family:
+  - health
   patterns:
-    - "alcohol and drug abuse counsel"
-    - "alcohol and drug counsel"
-    - "substance abuse counsel"
-    - "substance use counsel"
-    - "addiction counsel"
-
+  - alcohol and drug abuse counsel
+  - alcohol and drug counsel
+  - substance abuse counsel
+  - substance use counsel
+  - addiction counsel
 applied_behavior_analysis:
   display: Applied Behavior Analysis
-  family: [health]
-  patterns: ["applied behavior analy", "behavior analyst"]
-
+  family:
+  - health
+  patterns:
+  - applied behavior analy
+  - behavior analyst
 music_therapy:
   display: Music Therapy
-  family: [health]
-  patterns: ["music therap"]
-
+  family:
+  - health
+  patterns:
+  - music therap
 environmental_health:
   display: Environmental Health Scientist / Sanitarian
-  family: [health]
-  patterns: ["environmental health scientist", "environmental health specialist", sanitarian]
-
+  family:
+  - health
+  patterns:
+  - environmental health scientist
+  - environmental health specialist
+  - sanitarian
 health_facility_admin:
   display: Health Facility Administrator
-  family: [health, business]
-  patterns: ["health facility admin", "nursing home admin", "long-term care admin", "long term care admin", "assisted living admin"]
-
-# --- Building / design / engineering ---
-
+  family:
+  - health
+  - business
+  patterns:
+  - health facility admin
+  - nursing home admin
+  - long-term care admin
+  - long term care admin
+  - assisted living admin
 architecture:
   display: Architecture
-  family: [building_design]
-  patterns: [architect]
-  excludes: ["landscape architect", "naval architect"]
-
+  family:
+  - building_design
+  patterns:
+  - architect
+  excludes:
+  - landscape architect
+  - naval architect
 landscape_architecture:
   display: Landscape Architecture
-  family: [building_design]
-  patterns: ["landscape architect"]
-
+  family:
+  - building_design
+  patterns:
+  - landscape architect
 professional_engineering:
   display: Professional Engineering
-  family: [building_design]
-  patterns: ["professional engineer", "engineers and land surveyors", "engineers, land surveyors"]
+  family:
+  - building_design
+  patterns:
+  - professional engineer
+  - engineers and land surveyors
+  - engineers, land surveyors
   excludes: []
-
 land_surveying:
   display: Land Surveying
-  family: [building_design]
-  patterns: ["land surveyor", "professional surveyor", "land surveying"]
-
+  family:
+  - building_design
+  patterns:
+  - land surveyor
+  - professional surveyor
+  - land surveying
 construction_trades:
   display: Contractors (General / Construction Trades)
   abbrev: CON
-  family: [building_design]
-  patterns: ["construction trade", "contractors licens", "general contractor"]
-  # In most states (incl. UT Title 58 Ch. 55) contractors, electricians,
-  # plumbers and HVAC are co-regulated in ONE "Construction Trades" act under
-  # one board. We split them into separate professions via the shared-act
-  # pattern (same source url wired under each in state_structure.yaml; per-trade
-  # scoping happens at trim_state). construction_trades carries the
-  # general/specialty CONTRACTOR license; the journeyman/qualifier trade
-  # licenses live in electrician / plumbing / hvac.
-
+  family:
+  - building_design
+  patterns:
+  - construction trade
+  - contractors licens
+  - general contractor
 building_inspector:
   display: Building Inspector
-  family: [building_design]
-  patterns: ["building inspect", "building official"]
-
+  family:
+  - building_design
+  patterns:
+  - building inspect
+  - building official
 home_inspector:
   display: Home Inspector
-  family: [building_design]
-  patterns: ["home inspector", "home inspection"]
-
+  family:
+  - building_design
+  patterns:
+  - home inspector
+  - home inspection
 plumbing:
   display: Plumbers / Plumbing Contractors
-  family: [building_design]
-  patterns: ["plumber", "plumbing contractor", "journeyman plumber", "master plumber"]
-
+  family:
+  - building_design
+  patterns:
+  - plumber
+  - plumbing contractor
+  - journeyman plumber
+  - master plumber
 electrician:
   display: Electricians / Electrical Contractors
-  family: [building_design]
-  patterns: ["electrician", "electrical contractor", "journeyman electrician", "master electrician"]
-
+  family:
+  - building_design
+  patterns:
+  - electrician
+  - electrical contractor
+  - journeyman electrician
+  - master electrician
 hvac:
   display: HVAC Technicians / Mechanical Contractors
-  family: [building_design]
+  family:
+  - building_design
   patterns:
-    - "hvac"
-    - "heating, ventilat"
-    - "heating and ventilat"
-    - "air conditioning"
-    - "mechanical contractor"
-    - "refrigeration"
-  # New for the trades split. In UT (Title 58 Ch. 55) HVAC is a contractor
-  # classification within the shared Construction Trades Licensing Act rather
-  # than a standalone journeyman license — scoped out at trim_state from the
-  # shared chapter wired in state_structure.yaml.
-
+  - hvac
+  - heating, ventilat
+  - heating and ventilat
+  - air conditioning
+  - mechanical contractor
+  - refrigeration
 commercial_interior_design:
   display: Interior Design (commercial)
-  family: [building_design]
-  patterns: ["interior design"]
-
+  family:
+  - building_design
+  patterns:
+  - interior design
 professional_geology:
   display: Professional Geology
-  family: [building_design]
-  patterns: [geolog]
-
-# --- Business / professional services ---
-
+  family:
+  - building_design
+  patterns:
+  - geolog
 public_accountancy:
   display: Public Accountancy (CPA)
   abbrev: ACT
-  family: [business]
-  patterns: [accountant, accountancy, "public accounting", "certified public account"]
-  onet_code: "13-2011.00"
+  family:
+  - business
+  patterns:
+  - accountant
+  - accountancy
+  - public accounting
+  - certified public account
+  onet_code: 13-2011.00
   onet_title: Accountants and Auditors
-
 funeral_services:
   display: Funeral Services / Embalming / Cremation
-  family: [business]
-  patterns: [funeral, mortician, embalmer, "cemetery and crematory"]
-
+  family:
+  - business
+  patterns:
+  - funeral
+  - mortician
+  - embalmer
+  - cemetery and crematory
 cosmetology:
   display: Cosmetology / Barbering / Esthetics / Nail Tech
-  family: [business]
-  patterns: [cosmetolog, barber, esthetic, "nail tech", "nail technician", "hair design", "hair braid"]
-
+  family:
+  - business
+  patterns:
+  - cosmetolog
+  - barber
+  - esthetic
+  - nail tech
+  - nail technician
+  - hair design
+  - hair braid
 court_reporter:
   display: Court Reporter / Shorthand Reporter
-  family: [business]
-  patterns: ["court reporter", "court reporting", "shorthand reporter", "stenograph"]
-  # Most states regulate court reporters via judicial-branch rules
-  # (Supreme Court), not occupational-licensing statute — so chapter-label
-  # recall is structurally capped around 12-15 states even with perfect
-  # patterns. The matched set represents the statutorily-licensed subset.
-
+  family:
+  - business
+  patterns:
+  - court reporter
+  - court reporting
+  - shorthand reporter
+  - stenograph
 real_estate_appraiser:
   display: Real Estate Appraiser
-  family: [business]
-  patterns: ["real estate appraiser", "real property appraiser", "certified real estate appraiser"]
-
+  family:
+  - business
+  patterns:
+  - real estate appraiser
+  - real property appraiser
+  - certified real estate appraiser
 real_estate_broker:
   display: Real Estate Brokers & Salespersons
-  family: [business]
-  patterns: ["real estate broker", "real estate salesperson", "real estate sales agent", "real estate licensee", "real estate licensing"]
-
+  family:
+  - business
+  patterns:
+  - real estate broker
+  - real estate salesperson
+  - real estate sales agent
+  - real estate licensee
+  - real estate licensing
 auctioneer:
   display: Auctioneers
-  family: [business]
-  patterns: [auctioneer]
-
+  family:
+  - business
+  patterns:
+  - auctioneer
 pawnbroker:
   display: Pawnbrokers
-  family: [business]
-  patterns: [pawnbroker, "pawn shop"]
-
+  family:
+  - business
+  patterns:
+  - pawnbroker
+  - pawn shop
 public_adjuster:
   display: Public Insurance Adjuster
-  family: [business]
-  patterns: ["public adjuster", "public insurance adjuster"]
-  # 'insurance adjuster' alone is too broad (matches company-side claims
-  # adjusters that aren't separately licensed); keep the qualifier.
-
+  family:
+  - business
+  patterns:
+  - public adjuster
+  - public insurance adjuster
 money_transmitter:
   display: Money Transmitter
-  family: [business]
-  patterns: ["money transmitter", "money transmission"]
-
+  family:
+  - business
+  patterns:
+  - money transmitter
+  - money transmission
 junk_dealer:
   display: Junk Dealers / Secondhand Dealers
-  family: [business]
-  patterns: ["junk dealer", "secondhand dealer", "junk yard"]
-
+  family:
+  - business
+  patterns:
+  - junk dealer
+  - secondhand dealer
+  - junk yard
 forester:
   display: Foresters
-  family: [business]
-  patterns: ["registered forester", "licensed forester", "professional forester", "foresters"]
-  # Bare singular 'forester' alone risks matching "Forester (game warden)" /
-  # forestry commissions that aren't a licensed profession; the qualified
-  # forms cover most states. The plural 'foresters' (chapter title in AL/NC/
-  # VT) is added separately — plural form is overwhelmingly the licensure-
-  # chapter convention and 'forestry' (commission) won't match it.
-
+  family:
+  - business
+  patterns:
+  - registered forester
+  - licensed forester
+  - professional forester
+  - foresters
 private_probation:
   display: Private Probation Provider
-  family: [business, public_safety]
-  patterns: ["private probation", "probation provider"]
-
+  family:
+  - business
+  - public_safety
+  patterns:
+  - private probation
+  - probation provider
 athlete_agent:
   display: Athlete Agent
-  family: [business]
-  patterns: ["athlete agent", "uniform athlete agents"]
-  # Uniform Athlete Agents Act adopted by ~40 states; regulates registration
-  # of agents recruiting student-athletes. Evidence: UT ch 87, plus
-  # multi-state Uniform Athlete Agents Act adoptions.
-
+  family:
+  - business
+  patterns:
+  - athlete agent
+  - uniform athlete agents
 livestock_dealer:
   display: Livestock Dealer
-  family: [business]
-  patterns: ["livestock dealer"]
-  # Licensed in many ag states for the buying/reselling of livestock.
-  # Evidence: UT title 4 ch 7, CT ch 437, ND.
-
+  family:
+  - business
+  patterns:
+  - livestock dealer
 insurance_producer:
   display: Insurance Producer (Agent / Broker)
-  family: [business]
-  patterns: ["insurance producer", "insurance producers", "licensing producers"]
-  # The NAIC Producer Licensing Model Act category — the basic insurance-
-  # agent/broker license adopted in every state. Broader colloquial wording
-  # ("insurance agent", "insurance broker") appears in many non-licensing
-  # contexts (e.g. company-side broker activity), held back.
-  # Evidence: UT title 31A ch 23a.
-
+  family:
+  - business
+  patterns:
+  - insurance producer
+  - insurance producers
+  - licensing producers
 insurance_navigator:
   display: Health Insurance Navigator
-  family: [business, health]
-  patterns: ["navigator license", "health insurance navigator", "exchange navigator"]
-  # ACA-created licensure category — navigators assist consumers with ACA
-  # marketplace plan selection. Licensed in ~30 states.
-  # Evidence: UT title 31A ch 23b.
-
+  family:
+  - business
+  - health
+  patterns:
+  - navigator license
+  - health insurance navigator
+  - exchange navigator
 private_investigator:
   display: Private Investigator / Detective
-  family: [public_safety, business]
-  patterns: ["private investigator", "private detective"]
-  # Licensed in 40+ states, often co-regulated with security guards under
-  # the same board. Evidence: 21 states show chapter-label hits
-  # (WA 18.165, DE ch 13, MT ch 60, NM art 27, LA §37, NV ch 648, …).
-
+  family:
+  - public_safety
+  - business
+  patterns:
+  - private investigator
+  - private detective
 surgical_technologist:
   display: Surgical Technologist / Assistant
-  family: [health]
-  patterns: ["surgical technologist", "surgical assistant"]
-  # Registered/certified surgical technologist licensure adopted by an
-  # expanding set of states. Evidence: WA 18.215, IL 225/130, CO art 310,
-  # IN art 36.1, CT ch 382d.
-
+  family:
+  - health
+  patterns:
+  - surgical technologist
+  - surgical assistant
 process_server:
   display: Process Server
-  family: [public_safety, business]
-  patterns: ["process server"]
-  # Registered in CA, WA, NV, MT (often co-located with PI boards).
-
+  family:
+  - public_safety
+  - business
+  patterns:
+  - process server
 wholesale_drug_distributor:
   display: Wholesale Drug Distributor
-  family: [health, business]
-  patterns: ["wholesale drug distributor"]
-  # Entity license but state-regulated under pharmacy boards. Evidence:
-  # SD ch 11A, ND ch 43-15.1. "Wholesale prescription drug importation"
-  # is a different program (drug-importation policy) and intentionally
-  # excluded from patterns.
-
+  family:
+  - health
+  - business
+  patterns:
+  - wholesale drug distributor
 public_weighmaster:
   display: Public Weighmaster
-  family: [business]
-  patterns: [weighmaster]
-  # Certifies commercial weighings (livestock, scrap, grain). Evidence:
-  # WA 15.80, CA ch 7, CT ch 751, NV ch 582, AZ §3-3453.
-
+  family:
+  - business
+  patterns:
+  - weighmaster
 soil_classifier:
   display: Soil Classifier / Soil Scientist
-  family: [business]
-  patterns: ["soil classifier", "soil scientist"]
-  # Licensed in 9 states under varying names (Classifier in southeast,
-  # Scientist elsewhere). Evidence: AL ch 32, ND 43-36, VA ch 22, NC 89F,
-  # IN art 31.5, WI ch 470 (joint with geology/hydrology board).
-
+  family:
+  - business
+  patterns:
+  - soil classifier
+  - soil scientist
 loan_broker:
   display: Loan Broker
-  family: [business]
-  patterns: ["loan broker"]
-  # State-licensed loan brokerage. Evidence: IA 535C, ME art 10, RI 19-14.1,
-  # KY ch 294 (combined with mortgage loan companies).
-
+  family:
+  - business
+  patterns:
+  - loan broker
 prosthetist_orthotist:
   display: Prosthetist / Orthotist / Pedorthist
-  family: [health]
-  patterns: [prosthetist, orthotist, pedorthist]
-  # Licensed in most states for fabrication and fitting of artificial
-  # limbs / braces / therapeutic footwear. Evidence: 7 states observed
-  # (AL ch 25A, KY 319B, TX ch 605, OH 4779, AR ch 107, NJ §45:12B-11, …).
-
-# --- Public safety / investigative ---
-
+  family:
+  - health
+  patterns:
+  - prosthetist
+  - orthotist
+  - pedorthist
 security_personnel:
   display: Security Personnel / Guard
-  family: [public_safety]
-  patterns: ["security guard", "security officer", "security personnel", "private security"]
-
+  family:
+  - public_safety
+  patterns:
+  - security guard
+  - security officer
+  - security personnel
+  - private security
 polygraph_examiner:
   display: Polygraph / Deception Detection Examiner
-  family: [public_safety]
-  patterns: [polygraph, "deception detect"]
-
-# --- Other Utah occupations to consider adding patterns from non-Utah states later ---
-# private_investigator: [private investigator, private detective]   # not in Utah Title 58
-# real_estate_broker:   [real estate broker, real estate sales]     # in Utah Title 61, separate
-# attorneys:            [attorney, lawyer, bar admiss]               # bar admission is not in Title 58
+  family:
+  - public_safety
+  patterns:
+  - polygraph
+  - deception detect
+dental_hygienist:
+  display: Dental Hygienist
+  family:
+  - health
+  patterns:
+  - dental hygien
+  parent_corpus: dentistry
