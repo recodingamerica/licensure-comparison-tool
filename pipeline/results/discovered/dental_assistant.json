@@ -1,0 +1,359 @@
+{
+  "profession": "dental_assistant",
+  "fields": [
+    {
+      "name": "assistant_license_type",
+      "category": "credential tiers and categories",
+      "type": "enum",
+      "enum_values": [
+        "unlicensed dental assistant",
+        "registered dental assistant",
+        "registered dental assistant in extended functions",
+        "orthodontic assistant permitholder",
+        "dental sedation assistant permitholder",
+        "certified dental assistant"
+      ],
+      "description": "The specific credential tier or category of dental assistant recognized by the state, ranging from unlicensed to advanced licensed classifications.",
+      "sample_quote": "A registered dental assistant in extended functions licensed on or after January 1, 2010, is authorized to perform all duties and procedures that a registered dental assistant is authorized to perform as specified in and limited by Section 1752.4",
+      "sample_state": "CA",
+      "states_supporting": [
+        "CA",
+        "NY",
+        "UT"
+      ]
+    },
+    {
+      "name": "supervision_level_required",
+      "category": "supervision and oversight",
+      "type": "enum",
+      "enum_values": [
+        "direct supervision",
+        "indirect supervision",
+        "general supervision",
+        "direct personal supervision",
+        "no supervision required"
+      ],
+      "description": "The level of dentist supervision required for the dental assistant to perform authorized duties, which varies by task and credential tier.",
+      "sample_quote": "Direct personal supervision, for purposes of this section, means supervision of dental procedures based on instructions given by a licensed dentist in the course of a procedure who remains in the dental office where the supportive services are being performed, personally diagnoses the condition to be treated, personally authorizes the procedures, and before dismissal of the patient, who remains the responsibility of the licensed dentist, evaluates the services performed by the registered dental assistant.",
+      "sample_state": "NY",
+      "states_supporting": [
+        "CA",
+        "NY",
+        "UT"
+      ]
+    },
+    {
+      "name": "authorized_intraoral_procedures",
+      "category": "what they can do in the mouth",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "The specific intraoral clinical procedures a dental assistant is authorized to perform, which differ by credential tier and state.",
+      "sample_quote": "A dental assistant may perform the following duties under the direct supervision and pursuant to the order, control, and full professional responsibility of a licensed dentist: Apply nonaerosol and noncaustic topical agents, including all forms of topical fluoride. Take intraoral impressions for all nonprosthodontic appliances. Take facebow transfers and bite registrations. Place and remove rubber dams or other isolation devices.",
+      "sample_state": "CA",
+      "states_supporting": [
+        "CA",
+        "NY",
+        "UT"
+      ]
+    },
+    {
+      "name": "prohibited_procedures",
+      "category": "what they can do in the mouth",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "Procedures explicitly prohibited for dental assistants regardless of credential tier, typically including diagnosis, surgery, prescribing, and placing permanent restorations.",
+      "sample_quote": "The duties of a dental assistant or a dental assistant holding a permit in orthodontic assisting or in dental sedation shall not include any of the following procedures unless specifically allowed by law: Diagnosis and comprehensive treatment planning. Placing, finishing, or removing permanent restorations. Surgery or cutting on hard and soft tissue including, but not limited to, the removal of teeth and the cutting and suturing of soft tissue. Prescribing medication.",
+      "sample_state": "CA",
+      "states_supporting": [
+        "CA",
+        "NY",
+        "UT"
+      ]
+    },
+    {
+      "name": "sedation_monitoring_authorized",
+      "category": "sedation and anesthesia support",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the dental assistant credential tier is authorized to monitor patients undergoing sedation or anesthesia using noninvasive instrumentation.",
+      "sample_quote": "Monitor patients undergoing moderate sedation, deep sedation, or general anesthesia utilizing data from noninvasive instrumentation such as pulse oximeters, electrocardiograms, capnography, blood pressure, pulse, and respiration rate monitoring devices. Evaluation of the condition of a sedated patient shall remain the responsibility of the supervising dentist or the licensed health care professional authorized to administer moderate sedation, deep sedation, or general anesthesia.",
+      "sample_state": "CA",
+      "states_supporting": [
+        "CA",
+        "NY",
+        "UT"
+      ]
+    },
+    {
+      "name": "iv_drug_administration_authorized",
+      "category": "sedation and anesthesia support",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the dental assistant is authorized to add drugs or fluids to intravenous lines under direct dentist supervision.",
+      "sample_quote": "Add drugs, medications, and fluids to intravenous lines using a syringe, provided that a supervising licensed dentist is present at the patient's chairside, limited to determining patency of intravenous line, selection of injection port, syringe insertion into injection port, occlusion of intravenous line and blood aspiration, line release, and injection of drugs for appropriate time interval. The exception to this duty is that the initial dose of a drug or medication shall be administered by the supervising licensed dentist.",
+      "sample_state": "CA",
+      "states_supporting": [
+        "CA",
+        "NY"
+      ]
+    },
+    {
+      "name": "radiography_authorized",
+      "category": "what they can do in the mouth",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the dental assistant is authorized to operate dental radiographic equipment, typically contingent on completing a board-approved radiation safety course.",
+      "sample_quote": "Operate dental radiography equipment for the purpose of oral radiography if the dental assistant has complied with the requirements of paragraph (4) of subdivision (f) of Section 1750.",
+      "sample_state": "CA",
+      "states_supporting": [
+        "CA",
+        "NY",
+        "UT"
+      ]
+    },
+    {
+      "name": "radiation_safety_course_required",
+      "category": "required training courses",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether completion of a board-approved radiation safety course is required before the dental assistant may perform radiographic procedures.",
+      "sample_quote": "To perform radiographic procedures, a dental assistant shall complete a board-approved course in radiation safety. The original or a copy of the current, valid certificate issued by a board-approved radiation safety course provider shall be publicly displayed at the treatment facility where the dental assistant performs dental services.",
+      "sample_state": "CA",
+      "states_supporting": [
+        "CA",
+        "NY",
+        "UT"
+      ]
+    },
+    {
+      "name": "infection_control_course_required",
+      "category": "required training courses",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether completion of a board-approved infection control course is a prerequisite for performing clinical duties as a dental assistant.",
+      "sample_quote": "The employer of a dental assistant shall be responsible for ensuring that the dental assistant has successfully completed a board-approved eight-hour course in infection control prior to performing any basic supportive dental procedures involving potential exposure to blood, saliva, or other potentially infectious materials.",
+      "sample_state": "CA",
+      "states_supporting": [
+        "CA",
+        "NY",
+        "UT"
+      ]
+    },
+    {
+      "name": "dental_practice_act_course_required",
+      "category": "required training courses",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether completion of a course covering the state Dental Practice Act or dental law is required for dental assistant employment or licensure.",
+      "sample_quote": "A board-approved two-hour course in the Dental Practice Act.",
+      "sample_state": "CA",
+      "states_supporting": [
+        "CA",
+        "NY"
+      ]
+    },
+    {
+      "name": "basic_life_support_required",
+      "category": "required training courses",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether current certification in basic life support (CPR) is required for dental assistants to perform patient-care duties.",
+      "sample_quote": "Current certification in basic life support issued by the American Red Cross, the American Heart Association, the American Safety and Health Institute, the American Dental Association's Continuing Education Recognition Program, or the Academy of General Dentistry's Program Approval for Continuing Education.",
+      "sample_state": "CA",
+      "states_supporting": [
+        "CA",
+        "NY",
+        "UT"
+      ]
+    },
+    {
+      "name": "coronal_polishing_authorized",
+      "category": "what they can do in the mouth",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the dental assistant credential tier is authorized to perform coronal polishing, typically requiring a separate board-approved course.",
+      "sample_quote": "To perform coronal polishing prior to licensure as a registered dental assistant, an unlicensed dental assistant shall complete a board-approved coronal polishing course and obtain a certificate of completion.",
+      "sample_state": "CA",
+      "states_supporting": [
+        "CA",
+        "NY",
+        "UT"
+      ]
+    },
+    {
+      "name": "pit_fissure_sealant_authorized",
+      "category": "what they can do in the mouth",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the dental assistant credential tier is authorized to apply pit and fissure sealants, typically restricted to registered or extended-functions levels.",
+      "sample_quote": "The placement of pit and fissure sealants may only be performed by a registered dental assistant, registered dental assistant in extended functions, registered dental hygienist, or registered dental hygienist in alternative practice.",
+      "sample_state": "CA",
+      "states_supporting": [
+        "CA",
+        "NY",
+        "UT"
+      ]
+    },
+    {
+      "name": "interim_therapeutic_restoration_authorized",
+      "category": "what they can do in the mouth",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the dental assistant credential tier is authorized to place interim therapeutic restorations (provisional restorations using hand instrumentation only, without rotary instruments).",
+      "sample_quote": "Place protective restorations, which for this purpose are identified as interim therapeutic restorations, and defined as a direct provisional restoration placed to stabilize the tooth until a licensed dentist diagnoses the need for further definitive treatment. An interim therapeutic restoration consists of the removal of soft material from the tooth using only hand instrumentation, without the use of rotary instrumentation, and subsequent placement of an adhesive restorative material.",
+      "sample_state": "CA",
+      "states_supporting": [
+        "CA",
+        "UT"
+      ]
+    },
+    {
+      "name": "orthodontic_procedures_authorized",
+      "category": "what they can do in the mouth",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "The specific orthodontic chairside procedures a dental assistant or permitholder is authorized to perform, such as placing/removing separators, ligating archwires, and bonding brackets.",
+      "sample_quote": "Prepare teeth for bonding, and select, preposition, and cure orthodontic brackets after their position has been approved by the supervising licensed dentist. Remove only orthodontic brackets and attachments with removal of the bonding material by the supervising licensed dentist. Size, fit, and cement orthodontic bands. Remove orthodontic bands and remove excess cement from supragingival surfaces of teeth with a hand instrument. Place and ligate archwires.",
+      "sample_state": "NY",
+      "states_supporting": [
+        "CA",
+        "NY",
+        "UT"
+      ]
+    },
+    {
+      "name": "expanded_functions_authorized",
+      "category": "credential tiers and categories",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the dental assistant credential tier is authorized to perform expanded functions beyond basic supportive procedures, such as placing direct restorations, taking final impressions, or administering botulinum toxin.",
+      "sample_quote": "The division shall create certifications for dental auxiliaries to perform, under the indirect supervision of a dentist, various expanded functions, including: delegated maxillofacial administration of botulinum toxin by a dental hygienist certified by the division; placement of direct restorations by a dental hygienist certified by the division or a dental assistant certified by the division; and the removal of coronal dental adhesive by a dental hygienist certified by the division or a dental assistant certified by the division.",
+      "sample_state": "UT",
+      "states_supporting": [
+        "CA",
+        "UT"
+      ]
+    },
+    {
+      "name": "work_experience_pathway_available",
+      "category": "pathways to licensure",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether a dental assistant may qualify for a registered dental assistant license through documented on-the-job work experience rather than or in addition to formal schooling.",
+      "sample_quote": "For individuals applying on or after January 1, 2010, evidence of completion of satisfactory work experience of at least 15 months as a dental assistant in California or another state and satisfactory performance on the Registered Dental Assistant Combined Written and Law and Ethics Examination administered by the board.",
+      "sample_state": "CA",
+      "states_supporting": [
+        "CA",
+        "NY",
+        "UT"
+      ]
+    },
+    {
+      "name": "preceptorship_pathway_available",
+      "category": "pathways to licensure",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether a dental assistant may qualify for licensure through a formal preceptorship program under a supervising dentist, combining supervised on-the-job training with required coursework.",
+      "sample_quote": "Completion of a preceptorship in dental assisting that includes all the following: At least 500 hours of clinical chairside work experience documented on a form furnished by the board, involving allowable duties described in Section 1750.1, directly supervised, evaluated, and documented by a preceptor.",
+      "sample_state": "CA",
+      "states_supporting": [
+        "CA",
+        "NY"
+      ]
+    },
+    {
+      "name": "minimum_work_experience_hours",
+      "category": "pathways to licensure",
+      "type": "int",
+      "enum_values": null,
+      "description": "The minimum number of hours of verifiable work experience as a dental assistant required to qualify for a registered dental assistant license via the experience pathway.",
+      "sample_quote": "Completion of satisfactory work experience performing the duties of a dental assistant, as defined in Section 1750.1, which includes at least 15 months and a minimum of 1,280 hours before the submission of the application.",
+      "sample_state": "CA",
+      "states_supporting": [
+        "CA",
+        "NY"
+      ]
+    },
+    {
+      "name": "specialty_permit_types",
+      "category": "credential tiers and categories",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "The named specialty permits available to dental assistants beyond the basic registered dental assistant license, such as orthodontic assistant or dental sedation assistant permits.",
+      "sample_quote": "The board may issue an orthodontic assistant permit to a person who files a completed application, pays the applicable fee, and provides evidence, satisfactory to the board, of the following eligibility requirements.",
+      "sample_state": "CA",
+      "states_supporting": [
+        "CA",
+        "NY",
+        "UT"
+      ]
+    },
+    {
+      "name": "license_display_required",
+      "category": "practice setting and facility rules",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the dental assistant is required to publicly display their current license or permit certificate at the treatment facility where they perform services.",
+      "sample_quote": "The original or a copy of the current, valid permit issued by the board shall be publicly displayed at the treatment facility where the permitholder performs dental services.",
+      "sample_state": "CA",
+      "states_supporting": [
+        "CA",
+        "NY"
+      ]
+    },
+    {
+      "name": "teledentistry_scope_limitations",
+      "category": "practice setting and facility rules",
+      "type": "str",
+      "enum_values": null,
+      "description": "Specific restrictions on what dental assistants or dental auxiliaries may or may not do when services are delivered via teledentistry, including which supervision levels apply remotely.",
+      "sample_quote": "A dental hygienist, other unlicensed individual supervised by a dentist, or any other provider may not carry out any duties through teledentistry that require direct or indirect supervision of a dentist.",
+      "sample_state": "UT",
+      "states_supporting": [
+        "CA",
+        "UT"
+      ]
+    },
+    {
+      "name": "public_health_setting_practice_allowed",
+      "category": "practice setting and facility rules",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether dental assistants or dental hygienists are authorized to provide services in defined public health settings such as schools, nursing homes, or mobile dental programs, potentially under reduced supervision requirements.",
+      "sample_quote": "Notwithstanding any other provision of this chapter, without general supervision and without a collaborative practice agreement with a dentist if: the dental hygienist engages in the practice of dental hygiene in a public health setting.",
+      "sample_state": "UT",
+      "states_supporting": [
+        "CA",
+        "NY",
+        "UT"
+      ]
+    },
+    {
+      "name": "employer_training_responsibility",
+      "category": "supervision and oversight",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the employing dentist or dental practice bears statutory responsibility for ensuring the dental assistant completes required training courses and maintains required certifications.",
+      "sample_quote": "The employer of a dental assistant shall be responsible for ensuring that the dental assistant has successfully completed a board-approved eight-hour course in infection control prior to performing any basic supportive dental procedures involving potential exposure to blood, saliva, or other potentially infectious materials.",
+      "sample_state": "CA",
+      "states_supporting": [
+        "CA",
+        "NY",
+        "UT"
+      ]
+    },
+    {
+      "name": "supervising_dentist_concurrent_patient_limit",
+      "category": "supervision and oversight",
+      "type": "int",
+      "enum_values": null,
+      "description": "The maximum number of extended-functions dental assistants or dental hygienists a single supervising dentist may simultaneously supervise in clinical practice.",
+      "sample_quote": "A licensed dentist may simultaneously utilize in his or her practice no more than three registered dental assistants in extended functions or registered dental hygienists in extended functions licensed pursuant to Section 1753 or 1918.",
+      "sample_state": "CA",
+      "states_supporting": [
+        "CA",
+        "NY"
+      ]
+    }
+  ]
+}
