@@ -62,11 +62,17 @@ class Verdict(BaseModel):
 
 
 SYS = (
-    "Decide whether the provided statute text is the CORRECT licensing law for the named occupation. "
-    "A general-contractor or combined-trades chapter that explicitly licenses this trade IS correct. A "
-    "criminal statute, a procurement chapter, a repealed chapter, a definitions-only fragment, or another "
-    "profession's act is wrong_chapter. Judge only from the provided text; do not use outside knowledge of "
-    "what the state's real law is."
+    "Decide whether the provided corpus CONTAINS the licensing law for the named occupation. You are given "
+    "the full list of section citations plus text sampled from across the corpus (it may be large and span "
+    "several chapters). The corpus is CORRECT (correct_licensure_text) if the occupation's own licensure "
+    "law is present ANYWHERE in it — even when bundled with a shared enforcement/administrative chapter "
+    "(e.g. a uniform disciplinary act) or some sections of an adjacent profession. A general-contractor or "
+    "combined-trades chapter that explicitly licenses the trade IS correct. Only answer wrong_chapter if the "
+    "occupation's licensure law is NOT present at all — the corpus is entirely some OTHER statute (criminal, "
+    "procurement, a different profession, a definitions-only fragment). Answer empty_or_repealed only if "
+    "there is no operative text / all repealed. Judge only from what is provided; do not use outside "
+    "knowledge of the state's real law. The citation list shows the full chapter coverage — use it: a "
+    "profession chapter that appears in the citation list counts as present even if its text wasn't sampled."
 )
 
 
@@ -81,13 +87,44 @@ def _occupation_label(profession: str) -> str:
     return f"{disp}" + (f" (a.k.a. {', '.join(pats[:4])})" if pats else "")
 
 
-def _corpus_text(profession: str, state: str) -> str:
+def _sec_cite(s: dict) -> str:
+    return str(s.get("citation") or s.get("id") or s.get("label") or "?")
+
+
+def _corpus_sample(profession: str, state: str) -> tuple[str, int]:
+    """Build a REPRESENTATIVE view of the corpus, not just its front.
+
+    A naive head-truncation flags false wrong_chapter whenever a large shared
+    chapter sorts first and pushes the profession's own chapter past the budget
+    (e.g. NJ Title 45 Ch 1 Uniform Enforcement Act = 114 sections before Ch 6
+    Dentistry; OR a couple giant VA 54.1 sections). So: (1) show the FULL list of
+    section citations so a chapter that sorts last is still visible, and (2) take
+    text evenly STRIDED across all sections so the sample spans the whole corpus.
+    Returns (sample_text, n_sections)."""
     p = TEXT_DIR / profession / f"{state}.json"
     try:
         d = json.loads(p.read_text())
     except (OSError, json.JSONDecodeError):
-        return ""
-    return "\n\n".join(s.get("text", "") for s in (d.get("sections") or []) if isinstance(s, dict))
+        return "", 0
+    secs = [s for s in (d.get("sections") or []) if isinstance(s, dict)]
+    if not secs:
+        return "", 0
+    index = ", ".join(_sec_cite(s) for s in secs)[:6000]
+    # Stride through sections so the char budget spreads across the corpus rather
+    # than front-loading; always include the first section.
+    budget = MAX_CHARS - len(index) - 200
+    order = list(range(0, len(secs), max(1, len(secs) // 60))) if len(secs) > 60 else list(range(len(secs)))
+    parts, used = [], 0
+    for i in order:
+        s = secs[i]
+        body = (s.get("text") or "")[:2500]
+        chunk = f"[{_sec_cite(s)}] {body}"
+        if used + len(chunk) > budget:
+            break
+        parts.append(chunk)
+        used += len(chunk)
+    sample = f"Section citations present ({len(secs)} total): {index}\n\n--- sampled section bodies (spread across the corpus) ---\n" + "\n\n".join(parts)
+    return sample, len(secs)
 
 
 def main() -> int:
@@ -112,13 +149,13 @@ def main() -> int:
 
     results: dict[str, dict] = {}
     for st in states:
-        txt = _corpus_text(prof, st)[:MAX_CHARS]
+        txt, _ = _corpus_sample(prof, st)
         if len(txt.strip()) < 200:
             results[st] = {"verdict": "empty_or_repealed", "reason": "corpus under 200 chars"}
             continue
         r = call_structured(model=MODEL, system=SYS, schema_cls=Verdict, embed_schema=True,
                             max_tokens=400, log_prefix=f"[{prof}/{st}]",
-                            user=f"Occupation: {occ}\nState: {st}\n\nStatute text:\n{txt}")
+                            user=f"Occupation: {occ}\nState: {st}\n\n{txt}")
         results[st] = ({"verdict": r.corpus_verdict, "reason": r.reason} if r
                        else {"verdict": "CALL_FAILED", "reason": ""})
 
