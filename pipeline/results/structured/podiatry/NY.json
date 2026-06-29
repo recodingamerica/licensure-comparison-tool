@@ -14,20 +14,16 @@
     },
     "regulatory_authority": {
       "name": {
-        "value": "New York State Education Department (State Board for Podiatry)",
-        "quote": "each applicant shall present satisfactory evidence to the state board for podiatry",
-        "citation": "7004"
-      },
-      "type": {
-        "value": "shared_board",
-        "quote": "the state board for podiatry",
-        "citation": "7004"
-      },
-      "umbrella_agency": {
         "value": "New York State Education Department",
         "quote": "Admission to practice of a profession in this state is accomplished by a license being issued to a qualified applicant by the education department.",
         "citation": "6501"
-      }
+      },
+      "type": {
+        "value": "department",
+        "quote": "The commissioner and the department shall administer the admission to and the practice of the professions.",
+        "citation": "6507"
+      },
+      "umbrella_agency": null
     },
     "age_minimum": {
       "value": 21,
@@ -42,14 +38,26 @@
     "education": {
       "degree_required": {
         "value": "doctoral degree in podiatry",
-        "quote": "have received an education, including a doctoral degree in podiatry, in accordance with the commissioner's regulations;",
+        "quote": "Education: have received an education, including a doctoral degree in podiatry, in accordance with the commissioner's regulations;",
         "citation": "7004"
       },
-      "accrediting_body": {
-        "value": "accrediting agency acceptable to the department",
-        "quote": "graduates of a program of professional education in podiatry registered by the department or accredited by an accrediting agency acceptable to the department",
-        "citation": "7007"
-      }
+      "accrediting_body": null,
+      "degree_level": {
+        "value": "doctorate",
+        "quote": "Education: have received an education, including a doctoral degree in podiatry, in accordance with the commissioner's regulations;",
+        "citation": "7004"
+      },
+      "school_approval_basis": {
+        "value": "board_approved",
+        "quote": "Education: have received an education, including a doctoral degree in podiatry, in accordance with the commissioner's regulations;",
+        "citation": "7004"
+      },
+      "credential_pegged": {
+        "value": false,
+        "quote": "Education: have received an education, including a doctoral degree in podiatry, in accordance with the commissioner's regulations;",
+        "citation": "7004"
+      },
+      "tiers": null
     },
     "post_degree_experience": {
       "required": {
@@ -57,19 +65,24 @@
         "quote": "Experience: have experience satisfactory to the board and in accordance with the commissioner's regulations;",
         "citation": "7004"
       },
+      "experience_source": {
+        "value": "required_by_statute",
+        "quote": "Experience: have experience satisfactory to the board and in accordance with the commissioner's regulations;",
+        "citation": "7004"
+      },
       "duration": null,
       "kind": {
-        "value": "post-graduate residency or fellowship",
-        "quote": "a resident or fellow in podiatric medicine participating in an approved post-graduate residency or fellowship program",
-        "citation": "7008"
+        "value": "experience satisfactory to the board",
+        "quote": "Experience: have experience satisfactory to the board and in accordance with the commissioner's regulations;",
+        "citation": "7004"
       }
     },
     "exams": [
       {
-        "name": "Department examination",
+        "name": "Podiatry licensure examination",
         "required": true,
-        "notes": "Examination satisfactory to the board and in accordance with the commissioner's regulations",
-        "jurisdiction": "state (department conducted)",
+        "notes": "Examination satisfactory to the board and in accordance with the commissioner's regulations; fee of $220 for admission to department-conducted examination and initial license, $115 for reexamination.",
+        "jurisdiction": null,
         "permitted_attempts": null,
         "quote": "Examination: pass an examination satisfactory to the board and in accordance with the commissioner's regulations;",
         "citation": "7004"
@@ -78,27 +91,23 @@
     "renewal": {
       "interval_years": {
         "value": 3,
-        "quote": "a fee of two hundred ten dollars for each triennial registration period",
+        "quote": "a fee of two hundred ten dollars for each triennial registration period.",
         "citation": "7004"
       }
     },
     "renewal_fee_usd": {
       "value": 210,
-      "quote": "a fee of two hundred ten dollars for each triennial registration period",
+      "quote": "a fee of two hundred ten dollars for each triennial registration period.",
       "citation": "7004"
     },
     "continuing_education": {
       "required": {
         "value": true,
-        "quote": "Continuing education: In accordance with the requirements of section sixty-five hundred two of the education law, at the time of re-registration with the department, each applicant shall present satisfactory evidence to the state board for podiatry that in the years prior to the filing for re-registration he attended the education programs conducted by the podiatry society of the state of New York or the equivalent of such educational programs as approved by the state board for podiatry",
+        "quote": "Continuing education: In accordance with the requirements of section sixty-five hundred two of the education law, at the time of re-registration with the department, each applicant shall present satisfactory evidence to the state board for podiatry that in the years prior to the filing for re-registration he attended the education programs conducted by the podiatry society of the state of New York or the equivalent of such educational programs as approved by the state board for podiatry in accordance with the commissioner's regulations.",
         "citation": "7004"
       },
       "hours_per_period": null,
-      "period_years": {
-        "value": 3,
-        "quote": "at the time of re-registration with the department, each applicant shall present satisfactory evidence to the state board for podiatry",
-        "citation": "7004"
-      },
+      "period_years": null,
       "topical_requirements": {
         "value": [
           "infection control",
@@ -111,32 +120,40 @@
     "reciprocity": {
       "available": {
         "value": true,
-        "quote": "the department shall issue a license to the applicant if the applicant holds a license in good standing in another state and in the opinion of the department, the requirements for licensure of such other state are substantially equivalent to the requirements for licensure in this state.",
-        "citation": "6501"
+        "quote": "Indorse a license issued by a licensing board of another state or country upon the applicant fulfilling the following requirements:",
+        "citation": "6506"
       },
       "requirements": {
-        "value": "Must hold a license in good standing in another state with substantially equivalent licensure requirements; expedited review available for military spouses",
-        "quote": "the department shall issue a license to the applicant if the applicant holds a license in good standing in another state and in the opinion of the department, the requirements for licensure of such other state are substantially equivalent to the requirements for licensure in this state.",
-        "citation": "6501"
+        "value": "Endorsement of out-of-state license requires application, meeting educational requirements, satisfactory experience, passing an examination, being at least 21, being a US citizen or permanent resident, and good moral character. Expedited review available for military spouses transferred to NY who hold a license in good standing from another state with substantially equivalent requirements.",
+        "quote": "Indorse a license issued by a licensing board of another state or country upon the applicant fulfilling the following requirements:",
+        "citation": "6506"
       }
     },
     "advisory_board": {
       "exists": {
-        "value": false,
-        "quote": "each applicant shall present satisfactory evidence to the state board for podiatry",
+        "value": true,
+        "quote": "each applicant shall present satisfactory evidence to the state board for podiatry that in the years prior to the filing for re-registration he attended the education programs conducted by the podiatry society of the state of New York or the equivalent of such educational programs as approved by the state board for podiatry in accordance with the commissioner's regulations.",
         "citation": "7004"
       },
-      "name": null,
-      "authority": null
+      "name": {
+        "value": "State Board for Podiatry",
+        "quote": "satisfactory evidence to the state board for podiatry",
+        "citation": "7004"
+      },
+      "authority": {
+        "value": "The state board for podiatry reviews qualifications, approves continuing education equivalents, and participates in professional misconduct proceedings; the Education Department issues licenses.",
+        "quote": "Experience: have experience satisfactory to the board and in accordance with the commissioner's regulations;",
+        "citation": "7004"
+      }
     },
     "national_certification": {
-      "value": "national certifying board (reconstructive rearfoot and ankle surgery certification)",
+      "value": "National certifying board for reconstructive rearfoot and ankle surgery (certification standards acceptable to the department)",
       "quote": "be certified in reconstructive rearfoot and ankle surgery by a national certifying board having certification standards acceptable to the department",
       "citation": "7009"
     },
     "national_association": {
       "value": "Podiatry Society of the State of New York",
-      "quote": "he attended the education programs conducted by the podiatry society of the state of New York or the equivalent of such educational programs as approved by the state board for podiatry",
+      "quote": "attended the education programs conducted by the podiatry society of the state of New York",
       "citation": "7004"
     },
     "regulatory_model": {
@@ -173,49 +190,49 @@
       },
       {
         "short_label": "fraudulent_or_incompetent_practice",
-        "description": "Practicing the profession fraudulently, beyond its authorized scope, with gross incompetence, gross negligence, or repeated negligence",
+        "description": "Practicing the profession fraudulently, beyond its authorized scope, with gross incompetence, with gross negligence on a particular occasion or negligence or incompetence on more than one occasion",
         "quote": "Practicing the profession fraudulently, beyond its authorized scope, with gross incompetence, with gross negligence on a particular occasion or negligence or incompetence on more than one occasion,",
         "citation": "6509"
       },
       {
-        "short_label": "practicing_while_impaired",
+        "short_label": "impaired_practice",
         "description": "Practicing the profession while the ability to practice is impaired by alcohol, drugs, physical disability, or mental disability",
         "quote": "Practicing the profession while the ability to practice is impaired by alcohol, drugs, physical disability, or mental disability,",
         "citation": "6509"
       },
       {
         "short_label": "habitual_intoxication_or_drug_dependence",
-        "description": "Being habitually drunk or dependent on or habitual user of narcotics, barbiturates, amphetamines, hallucinogens, or similar drugs",
+        "description": "Being habitually drunk or being dependent on, or a habitual user of narcotics, barbiturates, amphetamines, hallucinogens, or other drugs having similar effects",
         "quote": "Being habitually drunk or being dependent on, or a habitual user of narcotics, barbiturates, amphetamines, hallucinogens, or other drugs having similar effects,",
         "citation": "6509"
       },
       {
         "short_label": "criminal_conviction",
-        "description": "Being convicted of committing an act constituting a crime under New York, federal, or another jurisdiction's law",
+        "description": "Being convicted of committing an act constituting a crime under New York State, federal, or another jurisdiction's law",
         "quote": "Being convicted of committing an act constituting a crime under: (i) New York State law or, (ii) Federal law or, (iii) The law of another jurisdiction",
         "citation": "6509"
       },
       {
-        "short_label": "found_guilty_by_another_jurisdiction",
-        "description": "Having been found guilty of improper professional practice or professional misconduct by a professional disciplinary agency of another state",
-        "quote": "Having been found guilty of improper professional practice or professional misconduct by a duly authorized professional disciplinary agency of another state",
+        "short_label": "out_of_state_disciplinary_finding",
+        "description": "Having been found guilty of improper professional practice or professional misconduct by a duly authorized professional disciplinary agency of another state",
+        "quote": "Having been found guilty of improper professional practice or professional misconduct by a duly authorized professional disciplinary agency of another state where the conduct upon which the finding was based would, if committed in New York state, constitute professional misconduct under the laws of New York state;",
         "citation": "6509"
       },
       {
-        "short_label": "violation_of_controlled_substances_law",
+        "short_label": "violation_of_public_health_law_controlled_substances",
         "description": "Having been found by the commissioner of health to be in violation of article thirty-three of the public health law",
         "quote": "Having been found by the commissioner of health to be in violation of article thirty-three of the public health law.",
         "citation": "6509"
       },
       {
         "short_label": "out_of_state_license_revocation",
-        "description": "Having license to practice medicine revoked, suspended, or other disciplinary action taken in another state for conduct that would constitute professional misconduct in New York",
-        "quote": "Having his license to practice medicine revoked, suspended or having other disciplinary action taken, or having his application for a license refused, revoked or suspended",
+        "description": "Having a license to practice revoked, suspended or other disciplinary action taken by a duly authorized professional disciplinary agency of another state",
+        "quote": "Having his license to practice medicine revoked, suspended or having other disciplinary action taken, or having his application for a license refused, revoked or suspended or having voluntarily or otherwise surrendered his license after a disciplinary action was instituted by a duly authorized professional disciplinary agency of another state",
         "citation": "6509"
       },
       {
-        "short_label": "refusal_of_service_based_on_protected_class",
-        "description": "Refusing to provide professional service to a person because of their race, creed, color, or national origin",
+        "short_label": "discrimination_in_professional_service",
+        "description": "Refusing to provide professional service to a person because of such person's race, creed, color, or national origin",
         "quote": "Refusing to provide professional service to a person because of such person's race, creed, color, or national origin,",
         "citation": "6509"
       },
@@ -226,14 +243,14 @@
         "citation": "6509"
       },
       {
-        "short_label": "practicing_while_suspended_or_failure_to_register",
-        "description": "Practicing while license is suspended, or willfully failing to register or notify the department of name or address change",
+        "short_label": "practicing_on_suspended_license_or_failure_to_register",
+        "description": "Practicing the profession while the license is suspended, or wilfully failing to register or notify the department of any change of name or mailing address",
         "quote": "Practicing the profession while the license is suspended, or wilfully failing to register or notify the department of any change of name or mailing address,",
         "citation": "6509"
       },
       {
         "short_label": "unprofessional_conduct",
-        "description": "Committing unprofessional conduct as defined by the board of regents or commissioner",
+        "description": "Committing unprofessional conduct, as defined by the board of regents in its rules or by the commissioner in regulations approved by the board of regents",
         "quote": "Committing unprofessional conduct, as defined by the board of regents in its rules or by the commissioner in regulations approved by the board of regents,",
         "citation": "6509"
       },
@@ -244,14 +261,14 @@
         "citation": "6509"
       },
       {
-        "short_label": "violation_of_infection_control_requirement",
-        "description": "A violation of the infection control coursework/training requirement",
-        "quote": "A violation of section six thousand five hundred five-b of this chapter by a professional",
+        "short_label": "violation_of_infection_control_training_requirement",
+        "description": "A violation of the infection control coursework or training requirement",
+        "quote": "A violation of section six thousand five hundred five-b of this chapter by a professional other than a professional subject to the provisions of paragraph (f) of subdivision one of section twenty-eight hundred five-k of the public health law.",
         "citation": "6509"
       },
       {
         "short_label": "fee_splitting",
-        "description": "Directly or indirectly requesting, receiving or participating in fee splitting, rebates, or valuable consideration in connection with professional services",
+        "description": "Directly or indirectly requesting, receiving or participating in the division, transference, assignment, rebate, splitting or refunding of a fee for professional care or service",
         "quote": "has directly or indirectly requested, received or participated in the division, transference, assignment, rebate, splitting or refunding of a fee for, or has directly requested, received or profited by means of a credit or other valuable consideration as a commission, discount or gratuity in connection with the furnishing of professional care, or service",
         "citation": "6509-a"
       }
@@ -263,80 +280,80 @@
     },
     "citations": [
       {
-        "cite": "7001",
-        "kind": "scope of practice"
+        "cite": "NY Educ. Law § 7001",
+        "kind": "scope of practice definition"
       },
       {
-        "cite": "7002",
-        "kind": "license requirement"
+        "cite": "NY Educ. Law § 7002",
+        "kind": "licensure requirement and title protection"
       },
       {
-        "cite": "7004",
+        "cite": "NY Educ. Law § 7004",
         "kind": "licensure requirements"
       },
       {
-        "cite": "7005",
+        "cite": "NY Educ. Law § 7005",
         "kind": "exempt persons"
       },
       {
-        "cite": "7006",
+        "cite": "NY Educ. Law § 7006",
         "kind": "special provisions"
       },
       {
-        "cite": "7007",
+        "cite": "NY Educ. Law § 7007",
         "kind": "limited permits"
       },
       {
-        "cite": "7008",
-        "kind": "residency/fellowship permits"
+        "cite": "NY Educ. Law § 7008",
+        "kind": "limited residency and fellowship permits"
       },
       {
-        "cite": "7009",
+        "cite": "NY Educ. Law § 7009",
         "kind": "ankle surgery privileges"
       },
       {
-        "cite": "7010",
+        "cite": "NY Educ. Law § 7010",
         "kind": "ankle surgery limited permits"
       },
       {
-        "cite": "6501",
-        "kind": "admission to profession"
+        "cite": "NY Educ. Law § 6501",
+        "kind": "general licensing"
       },
       {
-        "cite": "6502",
+        "cite": "NY Educ. Law § 6502",
         "kind": "license duration and registration"
       },
       {
-        "cite": "6506",
+        "cite": "NY Educ. Law § 6506",
         "kind": "board of regents supervision"
       },
       {
-        "cite": "6507",
+        "cite": "NY Educ. Law § 6507",
         "kind": "education department administration"
       },
       {
-        "cite": "6509",
+        "cite": "NY Educ. Law § 6509",
         "kind": "professional misconduct definitions"
       },
       {
-        "cite": "6509-a",
-        "kind": "additional professional misconduct"
+        "cite": "NY Educ. Law § 6510",
+        "kind": "professional misconduct proceedings"
       },
       {
-        "cite": "6511",
-        "kind": "penalties"
+        "cite": "NY Educ. Law § 6511",
+        "kind": "penalties for professional misconduct"
       },
       {
-        "cite": "6512",
-        "kind": "unauthorized practice"
+        "cite": "NY Educ. Law § 6512",
+        "kind": "unauthorized practice as crime"
       },
       {
-        "cite": "6513",
-        "kind": "unauthorized title use"
+        "cite": "NY Educ. Law § 6513",
+        "kind": "unauthorized use of professional title as crime"
       },
       {
-        "cite": "6505-b",
-        "kind": "infection control CE"
+        "cite": "NY Educ. Law § 6505-b",
+        "kind": "infection control training requirement"
       }
     ]
   },
@@ -352,34 +369,27 @@
         "treating",
         "operating",
         "prescribing",
-        "physical evaluations",
-        "wound care",
-        "local anesthesia",
-        "treatment under general anesthesia administered by authorized persons"
+        "performing physical evaluations"
       ],
-      "quote": "diagnosing, treating, operating and prescribing for any disease, injury, deformity or other condition of the foot, and may include performing physical evaluations in conjunction with the provision of podiatric treatment",
+      "quote": "diagnosing, treating, operating and prescribing for any disease, injury, deformity or other condition of the foot, and may include performing physical evaluations in conjunction with the provision of podiatric treatment.",
       "citation": "7001"
     },
     "drug_authority": {
-      "value": "May prescribe and administer narcotics (after certification by department); may administer local anesthetics; treatment under general anesthesia administered by authorized persons",
+      "value": "Podiatrists may prescribe and administer local anesthetics for therapeutic purposes and for anesthesia; may prescribe and administer narcotics only after certification by the department in accordance with qualifications established by the commissioner; treatment may also be provided under general anesthesia administered by authorized persons.",
       "quote": "The practice of podiatry shall include administering only local anesthetics for therapeutic purposes as well as for anesthesia and treatment under general anesthesia administered by authorized persons.",
       "citation": "7001"
     },
     "citations": [
       {
-        "cite": "7001",
+        "cite": "NY Educ. Law § 7001",
         "kind": "scope of practice definition"
-      },
-      {
-        "cite": "7002",
-        "kind": "practice and title restriction"
       }
     ]
   },
   "profession_specific": {
     "anatomical_scope_upper_boundary": {
       "value": "foot_ankle_and_soft_tissue_to_myotendinous_junction_triceps_surae",
-      "quote": "the ankle and soft tissue of the leg below the tibial tuberosity if the podiatrist has obtained an issuance of a privilege to perform podiatric standard ankle surgery or advanced ankle surgery",
+      "quote": "disease, injury, deformity or other condition of the ankle and soft tissue of the leg below the tibial tuberosity if the podiatrist has obtained an issuance of a privilege to perform podiatric standard ankle surgery or advanced ankle surgery",
       "citation": "7001"
     },
     "amputation_authorized": null,
@@ -390,7 +400,7 @@
     },
     "ankle_surgery_authorized": {
       "value": true,
-      "quote": "The practice of podiatry may also include diagnosing, treating, operating and prescribing for any disease, injury, deformity or other condition of the ankle and soft tissue of the leg below the tibial tuberosity if the podiatrist has obtained an issuance of a privilege to perform podiatric standard ankle surgery or advanced ankle surgery",
+      "quote": "The practice of podiatry may also include diagnosing, treating, operating and prescribing for any disease, injury, deformity or other condition of the ankle and soft tissue of the leg below the tibial tuberosity if the podiatrist has obtained an issuance of a privilege to perform podiatric standard ankle surgery or advanced ankle surgery in accordance with section seven thousand nine of this article.",
       "citation": "7001"
     },
     "ankle_surgery_residency_requirement": {
@@ -399,23 +409,23 @@
       "citation": "7009"
     },
     "ankle_surgery_facility_requirement": {
-      "value": "licensed_hospital_only",
+      "value": "hospital_or_ambulatory_surgical_center",
       "quote": "The holder of a limited permit issued pursuant to this section shall perform podiatric ankle surgery only in a hospital or health facility licensed pursuant to article twenty-eight of the public health law and appropriately authorized to provide such surgery.",
       "citation": "7010"
     },
     "systemic_disease_treatment_excluded": {
       "value": false,
-      "quote": "diagnosing, treating, operating and prescribing for any disease, injury, deformity, other condition of, or local manifestations of systemic diseases as they appear on the foot",
+      "quote": "diagnosing, treating, operating and prescribing for any disease, injury, deformity, other condition of, or local manifestations of systemic diseases as they appear on the foot and the diagnosing, treating, and prescribing for any disease, injury, deformity, other condition of, or local manifestations of systemic diseases as they appear on the ankle",
       "citation": "7001"
     },
     "systemic_disease_local_manifestations_included": {
       "value": true,
-      "quote": "local manifestations of systemic diseases as they appear on the foot and the diagnosing, treating, and prescribing for any disease, injury, deformity, other condition of, or local manifestations of systemic diseases as they appear on the ankle",
+      "quote": "diagnosing, treating, operating and prescribing for any disease, injury, deformity, other condition of, or local manifestations of systemic diseases as they appear on the foot and the diagnosing, treating, and prescribing for any disease, injury, deformity, other condition of, or local manifestations of systemic diseases as they appear on the ankle",
       "citation": "7001"
     },
     "board_certification_body": {
       "value": [
-        "national certifying board having certification standards acceptable to the department (reconstructive rearfoot and ankle surgery)"
+        "national certifying board for reconstructive rearfoot and ankle surgery (standards acceptable to the department)"
       ],
       "quote": "be certified in reconstructive rearfoot and ankle surgery by a national certifying board having certification standards acceptable to the department",
       "citation": "7009"
@@ -432,7 +442,7 @@
     },
     "xray_technician_certification_required": {
       "value": true,
-      "quote": "operate radiographic equipment under direct supervision for the sole purpose of foot radiography provided that such person completes a course of study acceptable to the department in consultation with the department of health.",
+      "quote": "An unlicensed person providing supportive services to a podiatrist may operate radiographic equipment under direct supervision for the sole purpose of foot radiography provided that such person completes a course of study acceptable to the department in consultation with the department of health.",
       "citation": "7006"
     },
     "professional_liability_insurance_required": null,
@@ -452,7 +462,7 @@
     },
     "wound_debridement_authorized": {
       "value": true,
-      "quote": "Wound care shall not, however, extend beyond the level ending at the distal tibial tuberosity.",
+      "quote": "For the purposes of wound care however, the practice of podiatry shall include the treatment of such wounds if they are contiguous with wounds relating, originating or in the course of treatment of a wound on the foot within the podiatric scope of practice. Wound care shall not, however, extend beyond the level ending at the distal tibial tuberosity.",
       "citation": "7001"
     },
     "vaccination_authority": null,
@@ -468,7 +478,7 @@
     "ankle_surgery_standard_of_care_reference": null,
     "impaired_practitioner_program": {
       "value": true,
-      "quote": "The license and registration of a licensee who may be temporarily incapacitated for the active practice of a profession licensed pursuant to title eight of this chapter...whose alleged incapacity is the result of a problem of drug or alcohol abuse which has not resulted in harm to a patient or client, may be voluntarily surrendered to the department",
+      "quote": "There shall be appointed within the department, by the board of regents, a committee on drug and alcohol abuse, which shall advise the board of regents on matters relating to practice by professional licensees with drug or alcohol abuse problems",
       "citation": "6510-b"
     },
     "electronic_prescribing_required": null,

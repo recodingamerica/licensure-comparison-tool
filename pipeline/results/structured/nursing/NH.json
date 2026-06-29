@@ -4,66 +4,127 @@
   "licensure": {
     "license_required": {
       "value": true,
-      "quote": "No person shall practice or offer to practice nursing in this state without a license",
-      "citation": "[326-B:41]",
-      "unverified": true
+      "quote": "Any person who shall practice or attempt to practice as a registered nurse, advanced practice registered nurse, licensed practical nurse, or licensed nursing assistant in this state without a license shall be guilty of a class A misdemeanor",
+      "citation": "[326-B:41-a]"
     },
     "issuing_authority": {
       "value": "New Hampshire Board of Nursing",
-      "quote": "Board means the New Hampshire board of nursing established in RSA 326-B:3",
+      "quote": "\"Board\" means the New Hampshire board of nursing established in RSA 326-B:3.",
       "citation": "[326-B:2]"
     },
     "regulatory_authority": {
       "name": {
         "value": "New Hampshire Board of Nursing",
-        "quote": "Board means the New Hampshire board of nursing established in RSA 326-B:3",
+        "quote": "\"Board\" means the New Hampshire board of nursing established in RSA 326-B:3.",
         "citation": "[326-B:2]"
       },
       "type": {
         "value": "standalone_board",
-        "quote": "Board means the New Hampshire board of nursing established in RSA 326-B:3",
+        "quote": "\"Board\" means the New Hampshire board of nursing established in RSA 326-B:3.",
         "citation": "[326-B:2]"
       },
       "umbrella_agency": {
         "value": "Office of Professional Licensure and Certification",
-        "quote": "the office of professional licensure and certification",
-        "citation": "[326-B:2]"
+        "quote": "Every applicant for initial licensure shall submit to the office of professional licensure and certification a criminal history record release form",
+        "citation": "[326-B:15]"
       }
     },
     "age_minimum": null,
     "moral_character_required": {
       "value": true,
-      "quote": "Have committed no acts or omissions which are grounds for disciplinary action",
+      "quote": "Have committed no acts or omissions which are grounds for disciplinary action as set forth in this chapter, or, if such acts have been committed and would be grounds for disciplinary action, the board has found, after investigation, that sufficient restitution has been made.",
       "citation": "[326-B:16]"
     },
     "education": {
       "degree_required": {
-        "value": "Graduate degree from accredited APRN education program for APRN; board-approved nursing education program for RN/LPN",
-        "quote": "Have graduated with a graduate degree earned in an accredited advanced practice registered nurse education program",
+        "value": "Graduate degree from an accredited APRN education program (for APRN); graduation from a board-approved nursing education program (for RN/LPN)",
+        "quote": "Have graduated with a graduate degree earned in an accredited advanced practice registered nurse education program or have graduated before July 1, 2004 from an APRN education program accredited by a national accrediting body",
         "citation": "[326-B:18]"
       },
       "accrediting_body": {
-        "value": "National Council of State Boards of Nursing; accrediting bodies recognized by United States Department of Education",
-        "quote": "standards established by a national credentialing or certification body recognized by the National Council of State Boards of Nursing",
-        "citation": "[326-B:11]"
-      }
+        "value": "National accrediting body (for APRN); board-approved program (for RN/LPN)",
+        "quote": "Have graduated with a graduate degree earned in an accredited advanced practice registered nurse education program or have graduated before July 1, 2004 from an APRN education program accredited by a national accrediting body",
+        "citation": "[326-B:18]"
+      },
+      "degree_level": {
+        "value": "master",
+        "quote": "Have graduated with a graduate degree earned in an accredited advanced practice registered nurse education program",
+        "citation": "[326-B:18]"
+      },
+      "school_approval_basis": {
+        "value": "board_approved",
+        "quote": "graduate from or verify successful completion and eligibility for graduation from a board approved nursing education program or a program that meets criteria comparable to those established by the board",
+        "citation": "[326-B:17]"
+      },
+      "credential_pegged": {
+        "value": true,
+        "quote": "Be currently certified by a board-recognized national certifying body in the specialty for which the applicant was educated",
+        "citation": "[326-B:18]"
+      },
+      "tiers": [
+        {
+          "license_class": "APRN",
+          "degree_level": "master",
+          "effective_date": null,
+          "quote": "Have graduated with a graduate degree earned in an accredited advanced practice registered nurse education program",
+          "citation": "[326-B:18]"
+        },
+        {
+          "license_class": "RN or LPN",
+          "degree_level": "none",
+          "effective_date": null,
+          "quote": "graduate from or verify successful completion and eligibility for graduation from a board approved nursing education program or a program that meets criteria comparable to those established by the board",
+          "citation": "[326-B:17]"
+        }
+      ]
     },
-    "post_degree_experience": null,
+    "post_degree_experience": {
+      "required": {
+        "value": false,
+        "quote": "An applicant for initial APRN licensure shall: (a) Hold a current license as a registered nurse; (b) Have graduated with a graduate degree earned in an accredited advanced practice registered nurse education program",
+        "citation": "[326-B:18]"
+      },
+      "experience_source": {
+        "value": "embedded_in_credential",
+        "quote": "Be currently certified by a board-recognized national certifying body in the specialty for which the applicant was educated",
+        "citation": "[326-B:18]"
+      },
+      "duration": null,
+      "kind": null
+    },
     "exams": [
       {
         "name": "NCLEX-RN or NCLEX-PN",
         "required": true,
-        "notes": null,
-        "jurisdiction": "national (NCLEX)",
+        "notes": "Referenced in the Nurse Licensure Compact as the required exam for multistate licensure; board selects a nationally approved licensing examination.",
+        "jurisdiction": "national",
         "permitted_attempts": null,
-        "quote": "The board shall administer the examination to applicants for licensure as RN's or LPN's",
+        "quote": "Has successfully passed an NCLEX-RN or NCLEX-PN Examination or recognized predecessor, as applicable",
+        "citation": "[326-B:46]"
+      },
+      {
+        "name": "Board-approved licensing examination (RN/LPN)",
+        "required": true,
+        "notes": "The board shall administer the examination; may use a contracted entity. Board determines whether exam may be repeated.",
+        "jurisdiction": "national (board-selected)",
+        "permitted_attempts": null,
+        "quote": "The board shall administer the examination to applicants for licensure as RN's or LPN's.",
         "citation": "[326-B:17]"
+      },
+      {
+        "name": "Board-approved examination (LNA)",
+        "required": true,
+        "notes": null,
+        "jurisdiction": "board-approved",
+        "permitted_attempts": null,
+        "quote": "Pass an examination approved by the board.",
+        "citation": "[326-B:19]"
       }
     ],
     "renewal": {
       "interval_years": {
         "value": 2,
-        "quote": "All license renewals shall be issued every 2 years",
+        "quote": "All license renewals shall be issued every 2 years in accordance with RSA 310:8.",
         "citation": "[326-B:22]"
       }
     },
@@ -71,22 +132,24 @@
     "continuing_education": {
       "required": {
         "value": true,
-        "quote": "Applicants for license renewal and license reinstatement shall complete continuing education",
+        "quote": "Applicants for license renewal and license reinstatement shall complete continuing education as follows",
         "citation": "[326-B:31]"
       },
       "hours_per_period": {
         "value": 30,
-        "quote": "An LPN or an RN shall complete 30 hours of continuing education every 2 years",
+        "quote": "An LPN or an RN shall complete 30 hours of continuing education every 2 years.",
         "citation": "[326-B:31]"
       },
       "period_years": {
         "value": 2,
-        "quote": "An LPN or an RN shall complete 30 hours of continuing education every 2 years",
+        "quote": "An LPN or an RN shall complete 30 hours of continuing education every 2 years.",
         "citation": "[326-B:31]"
       },
       "topical_requirements": {
         "value": [
-          "APRN: 20 hours specialty-specific, 5 hours pharmacology"
+          "APRN: 30 hours total every 2 years, 20 hours specialty-specific, 5 hours pharmacology",
+          "LNA: 12 hours per year (4 hours medication administration for those with medication admin certificate)",
+          "CALMA: 8 hours relative to medication administration every 2 years"
         ],
         "quote": "An APRN, in addition to the continuing education requirements to renew or reinstate a license as an RN, shall complete 30 hours of continuing education every 2 years, 20 hours of which shall be specific to the specialty for which renewal or reinstatement is sought, and 5 hours of which shall be training in pharmacology appropriate to the specialty",
         "citation": "[326-B:31]"
@@ -95,38 +158,39 @@
     "reciprocity": {
       "available": {
         "value": true,
-        "quote": "The nurse licensure compact is adopted and entered into with all other jurisdictions that legally join the compact",
-        "citation": "[326-B:46]"
+        "quote": "All boards or commissions shall grant a license to an individual certified or licensed in another state if it determines that the requirements or standards for certification or licensure in that state are equivalent to, or greater than, those established in New Hampshire.",
+        "citation": "[UMBRELLA / Chapter 332-G - General Administration of Regulatory Boards ] Section 332-G:12 - Reciprocity Information."
       },
       "requirements": {
-        "value": "Multistate license available through Nurse Licensure Compact; single-state license also available",
-        "quote": "A multistate license to practice registered or licensed practical/vocational nursing issued by a home state to a resident in that state will be recognized by each party state",
+        "value": "Licensure by endorsement available if other state's requirements are equivalent to or greater than NH's. NH is also a member of the Nurse Licensure Compact (eNLC), allowing multistate licensure privileges for RNs and LPNs.",
+        "quote": "The nurse licensure compact is adopted and entered into with all other jurisdictions that legally join the compact",
         "citation": "[326-B:46]"
       }
     },
     "advisory_board": {
       "exists": {
         "value": false,
-        "quote": "Board means the New Hampshire board of nursing established in RSA 326-B:3",
+        "quote": "\"Board\" means the New Hampshire board of nursing established in RSA 326-B:3.",
         "citation": "[326-B:2]"
       },
       "name": null,
       "authority": null
     },
     "national_certification": {
-      "value": "National Council of State Boards of Nursing recognized certifying bodies",
-      "quote": "Be currently certified by a board-recognized national certifying body in the specialty for which the applicant was educated",
-      "citation": "[326-B:18]"
+      "value": "Board-recognized national certifying body (recognized by the National Council of State Boards of Nursing)",
+      "quote": "Be currently certified by a board-recognized national certifying body in the specialty for which the applicant was educated; and ... Recognition of national certifying bodies issuing specialty certifications required for licensure as an APRN which shall also be recognized by the National Council of State Boards of Nursing.",
+      "citation": "[326-B:18]",
+      "unverified": true
     },
     "national_association": {
-      "value": "National Council of State Boards of Nursing",
-      "quote": "standards established by the National Council of State Boards of Nursing",
-      "citation": "[326-B:12]"
+      "value": "National Council of State Boards of Nursing (NCSBN)",
+      "quote": "Establish reasonable and uniform standards for nursing practice consistent with the criteria identified by the National Council of State Boards of Nursing.",
+      "citation": "[326-B:4]"
     },
     "regulatory_model": {
       "value": "license",
-      "quote": "Practice as a licensee without a license or when the license to do so has been revoked or suspended or when the license to do so has lapsed.",
-      "citation": "[326-B:41]"
+      "quote": "Any person who shall practice or attempt to practice as a registered nurse, advanced practice registered nurse, licensed practical nurse, or licensed nursing assistant in this state without a license shall be guilty of a class A misdemeanor",
+      "citation": "[326-B:41-a]"
     },
     "credential_type": {
       "value": "license",
@@ -135,147 +199,264 @@
     },
     "is_mandatory": {
       "value": true,
-      "quote": "No person shall practice or offer to practice nursing in this state without a license",
-      "citation": "[326-B:41]",
-      "unverified": true
+      "quote": "Any person who shall practice or attempt to practice as a registered nurse, advanced practice registered nurse, licensed practical nurse, or licensed nursing assistant in this state without a license shall be guilty of a class A misdemeanor",
+      "citation": "[326-B:41-a]"
     },
     "title_protection": {
       "value": true,
-      "quote": "Use, in connection with the individual's name, any designation tending to imply licensure as an RN, an LPN, or an LNA unless so licensed",
+      "quote": "Use, in connection with the individual's name, any designation tending to imply licensure as an RN, an LPN, or an LNA unless so licensed.",
       "citation": "[326-B:41]"
     },
     "scope_protection": {
       "value": true,
-      "quote": "Practice as a licensee without a license or when the license to do so has been revoked or suspended",
-      "citation": "[326-B:41]"
+      "quote": "Any person who shall practice or attempt to practice as a registered nurse, advanced practice registered nurse, licensed practical nurse, or licensed nursing assistant in this state without a license shall be guilty of a class A misdemeanor",
+      "citation": "[326-B:41-a]"
     },
     "disciplinary_grounds": [
       {
-        "short_label": "fraud_in_obtaining_license",
-        "description": "Employing fraud or deceit in procuring or attempting to procure a license",
-        "quote": "Employing fraud or deceit in procuring or attempting to procure a license to practice nursing",
+        "short_label": "failure_to_demonstrate_qualifications",
+        "description": "Failing to demonstrate the qualifications or satisfy the requirements for licensure.",
+        "quote": "Failing to demonstrate the qualifications or satisfy the requirements.",
+        "citation": "[326-B:37]"
+      },
+      {
+        "short_label": "examination_security_violation",
+        "description": "Conduct that violates the security of the examination, including copying, unauthorized possession, or impersonation.",
+        "quote": "Conduct that violates the security of the examination, including, but not limited to: (1) Copying, disseminating, or receiving any portion of an examination.",
+        "citation": "[326-B:37]"
+      },
+      {
+        "short_label": "criminal_conviction",
+        "description": "Conviction or plea to a crime that relates adversely to the practice of nursing or to the ability to practice nursing.",
+        "quote": "Convictions by a court or any plea to a crime in any jurisdiction that relates adversely to the practice of nursing or to the ability to practice nursing.",
+        "citation": "[326-B:37]"
+      },
+      {
+        "short_label": "fraud_or_deceit",
+        "description": "Employing fraud or deceit in procuring a license, filing reports, or representing oneself to the board or public.",
+        "quote": "Employing fraud or deceit in procuring or attempting to procure a license to practice nursing, in filing any reports or completing client records, in representation of oneself to the board or public",
         "citation": "[326-B:37]"
       },
       {
         "short_label": "unethical_conduct",
-        "description": "Conduct likely to deceive, defraud, or harm the public or demonstrating willful or careless disregard for health or safety",
-        "quote": "Unethical conduct including but not limited to conduct likely to deceive, defraud, or harm the public or demonstrating a willful or careless disregard for the health or safety of a client",
+        "description": "Unethical conduct including conduct likely to deceive, defraud, or harm the public or willful/careless disregard for client health or safety.",
+        "quote": "Unethical conduct including but not limited to conduct likely to deceive, defraud, or harm the public or demonstrating a willful or careless disregard for the health or safety of a client.",
         "citation": "[326-B:37]"
       },
       {
-        "short_label": "failure_to_perform_safely",
-        "description": "Failure or inability to perform nursing practice with reasonable skill and safety",
-        "quote": "Failure or inability to perform nursing or nursing assistant practice as defined in this chapter, with reasonable skill and safety",
+        "short_label": "prior_license_disciplinary_action",
+        "description": "A nurse's license has been denied, revoked, suspended, or restricted in this or any other state.",
+        "quote": "If a nurse's license to practice nursing or a multi-state privilege or another health care related license or other credential has been denied, revoked, suspended, or restricted, or the licensee has been otherwise disciplined in this or any other state.",
+        "citation": "[326-B:37]"
+      },
+      {
+        "short_label": "inability_to_perform_safely",
+        "description": "Failure or inability to perform nursing practice with reasonable skill and safety.",
+        "quote": "Conduct including but not limited to failure or inability to perform nursing or nursing assistant practice as defined in this chapter, with reasonable skill and safety.",
         "citation": "[326-B:37]"
       },
       {
         "short_label": "unprofessional_conduct",
-        "description": "Departure from or failure to conform to nursing standards",
-        "quote": "Unprofessional conduct including but not limited to a departure from or failure to conform to nursing standards",
+        "description": "Unprofessional conduct including departure from nursing standards, improper delegation, or failure to supervise.",
+        "quote": "Unprofessional conduct including but not limited to: (1) A departure from or failure to conform to nursing standards, including improper management of client records.",
         "citation": "[326-B:37]"
       },
       {
-        "short_label": "improper_delegation",
-        "description": "Delegating or accepting delegation of nursing function when it could result in unsafe or ineffective care",
-        "quote": "Delegating or accepting the delegation of a nursing function or a prescribed health function when the delegation or acceptance could reasonably be expected to result in unsafe or ineffective client care",
+        "short_label": "failure_to_practice_within_modified_scope",
+        "description": "Failure to practice within a modified scope of practice or with the required accommodations as specified by the board.",
+        "quote": "Failure to practice within a modified scope of practice or with the required accommodations, as specified by the board in granting a modified license under this act.",
         "citation": "[326-B:37]"
       },
       {
-        "short_label": "failure_to_supervise",
-        "description": "Failure to supervise performance of acts by individuals working at the nurse's delegation",
-        "quote": "Failure to supervise the performance of acts by any individual working at the nurse's delegation or assignment",
-        "citation": "[326-B:37]"
-      },
-      {
-        "short_label": "unsafe_practice",
-        "description": "Nursing practice that may create unnecessary danger to client's life, health, or safety",
-        "quote": "Any nursing practice that may create unnecessary danger to a client's life, health, or safety",
+        "short_label": "dangerous_nursing_practice",
+        "description": "Any nursing practice that may create unnecessary danger to a client's life, health, or safety.",
+        "quote": "Any nursing practice that may create unnecessary danger to a client's life, health, or safety. Actual injury to a client need not be established.",
         "citation": "[326-B:37]"
       },
       {
         "short_label": "inability_to_practice_safely",
-        "description": "Inability to practice safely due to illness or mental or physical condition",
-        "quote": "Inability to practice safely, including demonstration of actual or potential inability to practice nursing with reasonable skill and safety to clients by reason of illness or as a result of any mental or physical condition",
+        "description": "Inability to practice nursing with reasonable skill and safety due to illness or mental/physical condition.",
+        "quote": "Inability to practice safely, including demonstration of actual or potential inability to practice nursing with reasonable skill and safety to clients by reason of illness or as a result of any mental or physical condition.",
         "citation": "[326-B:37]"
       },
       {
-        "short_label": "falsifying_records",
-        "description": "Falsifying reports, client documentation, or other essential health documents",
-        "quote": "Falsifying reports, client documentation, agency records, or other essential health documents",
+        "short_label": "falsifying_records_or_misconduct",
+        "description": "Falsifying reports, client documentation, failure to cooperate with board investigations, boundary violations, abuse, or threatening behavior.",
+        "quote": "Actions or conduct that include, but are not limited to, falsifying reports, client documentation, agency records, or other essential health documents, failure to cooperate with a lawful investigation conducted by the board, failure to maintain professional boundaries with clients or family members, use of excessive force upon or mistreatment or abuse of any client",
         "citation": "[326-B:37]"
       },
       {
         "short_label": "drug_diversion",
-        "description": "Diversion or attempts to divert drugs or controlled substances",
-        "quote": "Diversion or attempts to divert drugs or controlled substances",
+        "description": "Diversion or attempts to divert drugs or controlled substances.",
+        "quote": "Diversion or attempts to divert drugs or controlled substances.",
         "citation": "[326-B:37]"
       },
       {
-        "short_label": "substance_abuse",
-        "description": "Use of controlled substance or drug in manner dangerous or injurious to self or others",
-        "quote": "Use of any controlled substance or any drug or device or alcoholic beverages to an extent or in a manner dangerous or injurious to himself or herself, any other person, or the public",
+        "short_label": "failure_to_comply_with_alternative_program",
+        "description": "Failure of a licensee to comply with terms of any alternative program agreement made with the board.",
+        "quote": "Failure of a licensee to comply with terms of any alternative program agreement made with the board.",
+        "citation": "[326-B:37]"
+      },
+      {
+        "short_label": "dangerous_drug_use",
+        "description": "Use of controlled substances, drugs, or alcohol to a dangerous extent or in a manner that impairs ability to practice safely.",
+        "quote": "Use of any controlled substance or any drug or device or alcoholic beverages to an extent or in a manner dangerous or injurious to himself or herself, any other person, or the public, or to the extent that such use may impair his or her ability to conduct with safety to the public the practice of nursing.",
         "citation": "[326-B:37]"
       },
       {
         "short_label": "aiding_unlicensed_practice",
-        "description": "Knowingly aiding, assisting, advising, or allowing an unlicensed person to engage in nursing practice",
-        "quote": "Knowingly aiding, assisting, advising, or allowing an unlicensed person to engage in the practice of nursing",
+        "description": "Knowingly aiding, assisting, advising, or allowing an unlicensed person to engage in the practice of nursing.",
+        "quote": "Knowingly aiding, assisting, advising, or allowing an unlicensed person to engage in the practice of nursing.",
+        "citation": "[326-B:37]"
+      },
+      {
+        "short_label": "violating_rules_or_laws",
+        "description": "Violating a rule adopted by the board, a board order, or a state or federal law relating to nursing or controlled substances.",
+        "quote": "Violating a rule adopted by the board under RSA 541-A, an order of the board, a state or federal law relating to the practice of nursing, or a state or federal narcotics or controlled substance law.",
         "citation": "[326-B:37]"
       },
       {
         "short_label": "practicing_beyond_scope",
-        "description": "Practicing beyond the scope of practice and failing to report violations",
-        "quote": "Practicing beyond the scope of practice as stated in this chapter, and failing to report violations of this chapter",
+        "description": "Practicing beyond the scope of practice as stated in this chapter and failing to report violations.",
+        "quote": "Practicing beyond the scope of practice as stated in this chapter, and failing to report violations of this chapter.",
+        "citation": "[326-B:37]"
+      },
+      {
+        "short_label": "disciplined_in_another_jurisdiction",
+        "description": "Upon notification by the licensing authority of another jurisdiction that a licensee has been disciplined.",
+        "quote": "Upon notification by the licensing authority of another jurisdiction that a licensee has been disciplined.",
         "citation": "[326-B:37]"
       }
     ],
+    "alternative_regulation": {
+      "bonding_required": null,
+      "insurance_required": null,
+      "establishment_regulation_required": null
+    },
     "citations": [
       {
-        "cite": "RSA 326-B",
-        "kind": null
+        "cite": "RSA 326-B:2",
+        "kind": "definitions"
+      },
+      {
+        "cite": "RSA 326-B:4",
+        "kind": "powers and duties"
+      },
+      {
+        "cite": "RSA 326-B:9",
+        "kind": "rulemaking authority"
+      },
+      {
+        "cite": "RSA 326-B:11",
+        "kind": "APRN scope of practice"
+      },
+      {
+        "cite": "RSA 326-B:12",
+        "kind": "RN scope of practice"
+      },
+      {
+        "cite": "RSA 326-B:13",
+        "kind": "LPN scope of practice"
+      },
+      {
+        "cite": "RSA 326-B:14",
+        "kind": "LNA scope of practice"
+      },
+      {
+        "cite": "RSA 326-B:16",
+        "kind": "licensure requirements"
+      },
+      {
+        "cite": "RSA 326-B:17",
+        "kind": "RN/LPN initial licensure by examination"
+      },
+      {
+        "cite": "RSA 326-B:18",
+        "kind": "APRN licensure"
+      },
+      {
+        "cite": "RSA 326-B:19",
+        "kind": "LNA licensure by examination"
+      },
+      {
+        "cite": "RSA 326-B:22",
+        "kind": "license renewal"
+      },
+      {
+        "cite": "RSA 326-B:26",
+        "kind": "nursing assistant registry"
+      },
+      {
+        "cite": "RSA 326-B:31",
+        "kind": "continuing education"
+      },
+      {
+        "cite": "RSA 326-B:37",
+        "kind": "disciplinary action"
+      },
+      {
+        "cite": "RSA 326-B:41",
+        "kind": "unlawful acts"
+      },
+      {
+        "cite": "RSA 326-B:41-a",
+        "kind": "penalty"
+      },
+      {
+        "cite": "RSA 326-B:43",
+        "kind": "exemptions"
+      },
+      {
+        "cite": "RSA 326-B:46",
+        "kind": "nurse licensure compact"
       }
     ]
   },
   "scope": {
     "definition_quote": {
-      "value": "Nursing means assisting clients or groups of clients to attain or maintain optimal health by implementing a strategy of care to accomplish defined goals and by evaluating responses to nursing care and medical treatment",
-      "quote": "Nursing means assisting clients or groups of clients to attain or maintain optimal health by implementing a strategy of care to accomplish defined goals and by evaluating responses to nursing care and medical treatment",
+      "value": "Nursing means assisting clients or groups of clients to attain or maintain optimal health by implementing a strategy of care to accomplish defined goals and by evaluating responses to nursing care and medical treatment.",
+      "quote": "\"Nursing\" means assisting clients or groups of clients to attain or maintain optimal health by implementing a strategy of care to accomplish defined goals and by evaluating responses to nursing care and medical treatment.",
       "citation": "[326-B:2]"
     },
     "methods_authorized": {
       "value": [
-        "Assessment",
-        "Diagnosis",
-        "Planning",
-        "Implementation",
-        "Evaluation",
+        "Comprehensive nursing assessment of health status",
+        "Developing and implementing plans of nursing care",
+        "Delegating and assigning nursing interventions",
         "Health teaching and counseling",
-        "Delegation and supervision"
+        "Advocating for clients",
+        "Managing, supervising, and evaluating nursing practice",
+        "For APRN: advanced assessment, diagnosing, prescribing, selecting, administering, and providing therapeutic measures and treatment regimes",
+        "For APRN: obtaining consultation, collaborative management, referral, or transfer of care"
       ],
-      "quote": "Providing comprehensive nursing assessment of the health status of clients, families, groups, and communities. Collaborating with a health care team to develop an integrated client-centered plan of health care. Developing a plan of nursing strategies to be integrated within the client-centered health care plan",
-      "citation": "[326-B:12]"
+      "quote": "Performing acts of advanced assessment, diagnosing, prescribing, selecting, administering, and providing therapeutic measures and treatment regimes",
+      "citation": "[326-B:11]"
     },
     "drug_authority": {
-      "value": "APRN: plenary authority to possess, compound, prescribe, administer, and dispense controlled and non-controlled drugs within scope of practice; RN: no independent prescriptive authority; LPN: no independent prescriptive authority",
-      "quote": "An APRN shall have plenary authority to possess, compound, prescribe, administer, and dispense and distribute to clients controlled and non-controlled drugs within the scope of the APRN's practice",
+      "value": "APRNs have plenary authority to possess, compound, prescribe, administer, and dispense and distribute controlled and non-controlled drugs within their scope of practice, including schedule II-IV controlled substances via telemedicine with a subsequent in-person evaluation at least annually.",
+      "quote": "An APRN shall have plenary authority to possess, compound, prescribe, administer, and dispense and distribute to clients controlled and non-controlled drugs within the scope of the APRN's practice as defined by this chapter.",
       "citation": "[326-B:11]"
     },
     "citations": [
       {
+        "cite": "RSA 326-B:2",
+        "kind": "definitions"
+      },
+      {
         "cite": "RSA 326-B:11",
-        "kind": null
+        "kind": "APRN scope"
       },
       {
         "cite": "RSA 326-B:12",
-        "kind": null
+        "kind": "RN scope"
       },
       {
         "cite": "RSA 326-B:13",
-        "kind": null
+        "kind": "LPN scope"
       },
       {
         "cite": "RSA 326-B:14",
-        "kind": null
+        "kind": "LNA scope"
       }
     ]
   },
@@ -288,67 +469,77 @@
         "Licensed Nursing Assistant (LNA)",
         "Certified Assisted Living Medication Aide (CALMA)"
       ],
-      "quote": "Advanced practice registered nurse or APRN means a registered nurse currently licensed by the board under RSA 326-B:18. Registered nurse or RN means an individual who holds a current license to practice registered nursing. Licensed practical nurse or LPN means an individual who holds a current license to practice practical nursing. Licensed nursing assistant or LNA means an individual who holds a current license to provide client care",
-      "citation": "[326-B:2]",
-      "unverified": true
+      "quote": "\"Nurse\" means a person authorized to practice nursing and who holds a current license to provide care as an APRN, RN, or LPN.",
+      "citation": "[326-B:2]"
     },
     "aprn_role_categories": {
       "value": [
-        "APRN roles as recognized by National Council of State Boards of Nursing"
+        "Advanced Practice Registered Nurse (APRN) — role and specialty as defined by national credentialing or certification body recognized by NCSBN"
       ],
-      "quote": "The board shall not approve a new advanced practice specialty category that has not been developed by a national credentialing or certifying body recognized by the National Council of State Board of Nursing without approval of the legislature",
+      "quote": "providing such functions for which the APRN is educationally and experientially prepared and which are consistent with standards established by a national credentialing or certification body recognized by the National Council of State Boards of Nursing and approved by the board in the appropriate APRN role and specialty",
       "citation": "[326-B:11]"
     },
     "lpn_supervision_requirements": {
       "value": [
         "Registered Nurse (RN)",
         "Advanced Practice Registered Nurse (APRN)",
-        "Licensed Physician",
+        "Licensed physician",
         "Dentist"
       ],
-      "quote": "An LPN shall, with or without compensation or personal profit, practice under the supervision of an RN, APRN, licensed physician, or dentist",
+      "quote": "An LPN shall, with or without compensation or personal profit, practice under the supervision of an RN, APRN, licensed physician, or dentist.",
       "citation": "[326-B:13]"
     },
-    "collaborative_practice_agreement_required": null,
+    "collaborative_practice_agreement_required": {
+      "value": false,
+      "quote": "An APRN shall have plenary authority to possess, compound, prescribe, administer, and dispense and distribute to clients controlled and non-controlled drugs within the scope of the APRN's practice as defined by this chapter.",
+      "citation": "[326-B:11]"
+    },
     "full_independent_practice_available": {
       "value": true,
-      "quote": "An APRN shall have plenary authority to possess, compound, prescribe, administer, and dispense and distribute to clients controlled and non-controlled drugs within the scope of the APRN's practice",
+      "quote": "An APRN shall have plenary authority to possess, compound, prescribe, administer, and dispense and distribute to clients controlled and non-controlled drugs within the scope of the APRN's practice as defined by this chapter.",
       "citation": "[326-B:11]"
     },
     "full_independent_practice_experience_hours_required": null,
-    "prescriptive_authority_certificate_required": null,
+    "prescriptive_authority_certificate_required": {
+      "value": false,
+      "quote": "An APRN shall have plenary authority to possess, compound, prescribe, administer, and dispense and distribute to clients controlled and non-controlled drugs within the scope of the APRN's practice as defined by this chapter.",
+      "citation": "[326-B:11]"
+    },
     "controlled_substance_schedule_authority": {
       "value": [
-        "Schedule II through IV for APRN"
+        "Schedule II",
+        "Schedule III",
+        "Schedule IV",
+        "Non-controlled drugs"
       ],
-      "quote": "An APRN licensed under this chapter may prescribe non-opioid and opioid controlled drugs classified in schedule II through IV by means of telemedicine",
-      "citation": "[326-B:2]"
+      "quote": "An APRN licensed under this chapter may prescribe non-opioid and opioid controlled drugs classified in schedule II through IV by means of telemedicine.",
+      "citation": "[326-B:11]"
     },
     "opioid_prescribing_limits": {
-      "value": "APRN may prescribe opioid controlled drugs classified in schedule II through IV; subsequent evaluation required at intervals appropriate for patient, medical condition, and drug, but not less than annually",
-      "quote": "An APRN licensed under this chapter may prescribe non-opioid and opioid controlled drugs classified in schedule II through IV by means of telemedicine. When prescribing a non-opioid or opioid controlled drug classified in schedule II through IV by means of telemedicine, a subsequent evaluation shall be conducted by a practitioner licensed to prescribe the drug at intervals appropriate for the patient, medical condition, and drug, but not less than annually",
+      "value": "APRNs may prescribe opioid controlled drugs classified in schedule II through IV via telemedicine after establishing an APRN-patient relationship; a subsequent in-person evaluation must be conducted at intervals appropriate for the patient, medical condition, and drug, but not less than annually.",
+      "quote": "An APRN licensed under this chapter may prescribe non-opioid and opioid controlled drugs classified in schedule II through IV by means of telemedicine. When prescribing a non-opioid or opioid controlled drug classified in schedule II through IV by means of telemedicine, a subsequent evaluation shall be conducted by a practitioner licensed to prescribe the drug at intervals appropriate for the patient, medical condition, and drug, but not less than annually.",
       "citation": "[326-B:11]"
     },
     "dea_registration_required": null,
     "controlled_substance_database_registration_required": null,
     "nurse_aide_registry_maintained": {
       "value": true,
-      "quote": "The office shall maintain a registry of nursing assistants who qualify pursuant to 42 C.F.R. section 483.156",
+      "quote": "The office shall maintain a registry of nursing assistants who qualify pursuant to 42 C.F.R. section 483.156.",
       "citation": "[326-B:26]"
     },
     "medication_assistant_certification_available": {
       "value": true,
-      "quote": "Certified assisted living medication aide or CALMA means an individual who is certified by the office of professional licensure and certification to administer specific classes of and routes of medication",
-      "citation": "[326-B:2]"
+      "quote": "The office of professional licensure and certification may issue a certificate of medication administration to a current LNA",
+      "citation": "[326-B:27]"
     },
     "delegation_to_unlicensed_personnel_authorized": {
       "value": true,
-      "quote": "A nurse holding a currently valid license as an RN or an LPN may delegate specific nursing activities and tasks under the circumstances, and in accordance with the constraints, set forth in rules of the board",
+      "quote": "A nurse holding a currently valid license as an RN or an LPN may delegate specific nursing activities and tasks under the circumstances, and in accordance with the constraints, set forth in rules of the board adopted under RSA 541-A.",
       "citation": "[326-B:28]"
     },
     "employer_mandatory_reporting_required": {
       "value": true,
-      "quote": "Every individual, agency, facility, institution, or organization that employs licensed nursing personnel within the state shall report to the board within 30 days any action by a licensee that willfully violates any provision of paragraph II",
+      "quote": "Every individual, agency, facility, institution, or organization that employs licensed nursing personnel within the state shall report to the board within 30 days any action by a licensee that willfully violates any provision of paragraph II.",
       "citation": "[326-B:37]"
     },
     "whistleblower_protection_for_delegation_refusal": {
@@ -363,20 +554,20 @@
     },
     "multistate_license_option_available": {
       "value": true,
-      "quote": "A multistate license to practice registered or licensed practical/vocational nursing issued by a home state to a resident in that state will be recognized by each party state as authorizing a nurse to practice as a registered nurse (RN) or as a licensed practical/vocational nurse (LPN/VN), under a multistate licensure privilege, in each party state",
+      "quote": "\"Multistate license\" means a license to practice as a registered or a licensed practical/vocational nurse (LPN/VN) issued by a home state licensing board that authorizes the licensed nurse to practice in all party states under a multistate licensure privilege.",
       "citation": "[326-B:46]"
     },
     "impaired_nurse_alternative_program_available": {
       "value": true,
-      "quote": "The office of professional licensure and certification shall contract with other organizations to operate the alternative recovery monitoring program for licensees who are impaired by substance use disorder or mental or physical illness",
+      "quote": "The office of professional licensure and certification shall contract with other organizations to operate the alternative recovery monitoring program for licensees who are impaired by substance use disorder or mental or physical illness.",
       "citation": "[326-B:36-a]"
     },
     "rn_death_pronouncement_authorized": null,
     "public_health_nurse_certification_available": null,
     "telehealth_prescribing_rules": {
-      "value": "APRN may prescribe non-opioid and opioid controlled drugs classified in schedule II through IV by telemedicine after establishing APRN-patient relationship; subsequent in-person evaluation required at intervals appropriate for patient, medical condition, and drug, but not less than annually",
-      "quote": "An APRN licensed under this chapter may prescribe non-opioid and opioid controlled drugs classified in schedule II through IV by means of telemedicine. When prescribing a non-opioid or opioid controlled drug classified in schedule II through IV by means of telemedicine, a subsequent evaluation shall be conducted by a practitioner licensed to prescribe the drug at intervals appropriate for the patient, medical condition, and drug, but not less than annually",
-      "citation": "[326-B:11]"
+      "value": "APRNs may prescribe non-opioid and opioid controlled drugs classified in schedule II through IV via telemedicine after establishing an APRN-patient relationship. A subsequent in-person evaluation by a licensed prescriber must occur at intervals appropriate for the patient, condition, and drug, but no less than annually. Out-of-state APRNs providing services via telemedicine must be licensed in NH.",
+      "quote": "An APRN licensed under this chapter may prescribe non-opioid and opioid controlled drugs classified in schedule II through IV by means of telemedicine after establishing an advanced practice registered nurse-patient relationship with the patient. When prescribing a non-opioid or opioid controlled drug classified in schedule II through IV by means of telemedicine a subsequent in-person exam shall be conducted by a practitioner licensed to prescribe the drug at intervals appropriate for the patient, medical condition, and drug, but not less than annually.",
+      "citation": "[326-B:2]"
     },
     "nurse_practitioner_transition_to_practice_hours": null,
     "crna_physician_supervision_model": null,
@@ -386,7 +577,7 @@
     "implicit_bias_training_required_in_curriculum": null,
     "military_education_credit_required": {
       "value": true,
-      "quote": "The implementation of strategies and criteria necessary to increase the acceptance of military training and experience towards licensure for military veterans seeking to be licensed as a nurse",
+      "quote": "The implementation of strategies and criteria necessary to increase the acceptance of military training and experience towards licensure for military veterans seeking to be licensed as a nurse.",
       "citation": "[326-B:9]"
     }
   }

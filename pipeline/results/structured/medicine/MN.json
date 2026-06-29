@@ -33,19 +33,40 @@
     },
     "education": {
       "degree_required": {
-        "value": "Graduate of a medical or osteopathic medical school located in the United States, its territories, or Canada",
-        "quote": "The applicant shall present evidence satisfactory to the board of being a graduate of a medical or osteopathic medical school located in the United States, its territories, or Canada, and approved by the board",
+        "value": "Graduate of a medical or osteopathic medical school located in the United States, its territories, or Canada, and approved by the board",
+        "quote": "The applicant shall present evidence satisfactory to the board of being a graduate of a medical or osteopathic medical school located in the United States, its territories, or Canada, and approved by the board based upon its faculty, curriculum, facilities, accreditation by a recognized national accrediting organization approved by the board, and other relevant data",
         "citation": "147.02"
       },
       "accrediting_body": {
-        "value": "recognized national accrediting organization approved by the board",
+        "value": "Recognized national accrediting organization approved by the board",
         "quote": "accreditation by a recognized national accrediting organization approved by the board",
         "citation": "147.02"
-      }
+      },
+      "degree_level": {
+        "value": "doctorate",
+        "quote": "the applicant is of good moral character and satisfies the requirements of this section... graduate of a medical or osteopathic medical school",
+        "citation": "147.02"
+      },
+      "school_approval_basis": {
+        "value": "national_accreditor",
+        "quote": "accreditation by a recognized national accrediting organization approved by the board",
+        "citation": "147.02"
+      },
+      "credential_pegged": {
+        "value": false,
+        "quote": "The applicant shall present evidence satisfactory to the board of being a graduate of a medical or osteopathic medical school located in the United States, its territories, or Canada",
+        "citation": "147.02"
+      },
+      "tiers": null
     },
     "post_degree_experience": {
       "required": {
         "value": true,
+        "quote": "The applicant shall present evidence satisfactory to the board of the completion of one year of graduate, clinical medical training in a program accredited by a national accrediting organization approved by the board.",
+        "citation": "147.02"
+      },
+      "experience_source": {
+        "value": "required_by_statute",
         "quote": "The applicant shall present evidence satisfactory to the board of the completion of one year of graduate, clinical medical training in a program accredited by a national accrediting organization approved by the board.",
         "citation": "147.02"
       },
@@ -55,7 +76,7 @@
         "citation": "147.02"
       },
       "kind": {
-        "value": "graduate, clinical medical training (residency/internship)",
+        "value": "graduate clinical medical training",
         "quote": "completion of one year of graduate, clinical medical training in a program accredited by a national accrediting organization approved by the board",
         "citation": "147.02"
       }
@@ -64,28 +85,19 @@
       {
         "name": "United States Medical Licensing Examination (USMLE)",
         "required": true,
-        "notes": "Must pass steps/levels 1, 2, and 3; step/level 3 must be passed within five years of passing step/level 2 or before end of residency; each step within three attempts",
+        "notes": "Applicant must pass steps 1, 2, and 3; step 3 must be passed within 5 years of passing step 2 or before end of residency; each step within 3 attempts",
         "jurisdiction": "national (USMLE program)",
         "permitted_attempts": 3,
-        "quote": "The applicant taking the United States Medical Licensing Examination (USMLE) or Comprehensive Osteopathic Medical Licensing Examination (COMLEX-USA) must have passed steps or levels one, two, and three. The applicant must pass each of steps or levels one, two, and three with passing scores as recommended by the USMLE program or National Board of Osteopathic Medical Examiners within three attempts.",
+        "quote": "The applicant taking the United States Medical Licensing Examination (USMLE) or Comprehensive Osteopathic Medical Licensing Examination (COMLEX-USA) must have passed steps or levels one, two, and three. Step or level three must be passed within five years of passing step or level two, or before the end of residency training. The applicant must pass each of steps or levels one, two, and three with passing scores as recommended by the USMLE program or National Board of Osteopathic Medical Examiners within three attempts.",
         "citation": "147.02"
       },
       {
         "name": "Comprehensive Osteopathic Medical Licensing Examination (COMLEX-USA)",
         "required": false,
-        "notes": "Alternative to USMLE for osteopathic applicants; same attempt limits apply",
+        "notes": "Alternative to USMLE for osteopathic applicants",
         "jurisdiction": "national (National Board of Osteopathic Medical Examiners)",
         "permitted_attempts": 3,
         "quote": "The applicant taking the United States Medical Licensing Examination (USMLE) or Comprehensive Osteopathic Medical Licensing Examination (COMLEX-USA) must have passed steps or levels one, two, and three.",
-        "citation": "147.02"
-      },
-      {
-        "name": "National Board of Medical Examiners examination",
-        "required": false,
-        "notes": "Acceptable comprehensive examination for initial licensure",
-        "jurisdiction": "national (National Board of Medical Examiners)",
-        "permitted_attempts": null,
-        "quote": "The applicant must have passed a comprehensive examination for initial licensure prepared and graded by the National Board of Medical Examiners, the Federation of State Medical Boards, the Medical Council of Canada, the National Board of Osteopathic Examiners, or the appropriate state board",
         "citation": "147.02"
       },
       {
@@ -96,15 +108,6 @@
         "permitted_attempts": 3,
         "quote": "pass the special purpose examination of the Federation of State Medical Boards with a score of 75 or better within three attempts",
         "citation": "147.02"
-      },
-      {
-        "name": "Educational Council for Foreign Medical Graduates (ECFMG) certificate",
-        "required": false,
-        "notes": "Required for foreign medical school graduates",
-        "jurisdiction": "national (ECFMG)",
-        "permitted_attempts": null,
-        "quote": "The applicant shall present evidence satisfactory to the board that the applicant has been awarded a certificate by the Educational Council for Foreign Medical Graduates",
-        "citation": "147.037"
       }
     ],
     "renewal": {
@@ -129,10 +132,9 @@
       "period_years": null,
       "topical_requirements": {
         "value": [
-          "fetal alcohol syndrome (for family practitioners, pediatricians, obstetricians and gynecologists, and others with primary responsibility for diagnosing/treating FAS)",
-          "parental depression (for professions serving caregivers at risk of depression or their children)"
+          "fetal alcohol syndrome education for family practitioners, pediatricians, obstetricians and gynecologists"
         ],
-        "quote": "The Board of Medical Practice and the Board of Nursing shall require by rule that family practitioners, pediatricians, obstetricians and gynecologists, and other licensees who have primary responsibility for diagnosing and treating fetal alcohol syndrome in pregnant women or children receive education on the subject of fetal alcohol syndrome",
+        "quote": "The Board of Medical Practice and the Board of Nursing shall require by rule that family practitioners, pediatricians, obstetricians and gynecologists, and other licensees who have primary responsibility for diagnosing and treating fetal alcohol syndrome in pregnant women or children receive education on the subject of fetal alcohol syndrome and fetal alcohol effects",
         "citation": "214.12"
       }
     },
@@ -143,8 +145,8 @@
         "citation": "147.03"
       },
       "requirements": {
-        "value": "Applicant must satisfy education and training requirements; pass an acceptable licensing examination; hold a current license from the equivalent licensing agency in another state or Canada; not be under suspension or revocation; and if the exam was passed more than ten years ago, either pass SPEX within three attempts or hold current specialty board certification.",
-        "quote": "have a current license from the equivalent licensing agency in another state or Canada and, if the examination in clause (1) was passed more than ten years ago, either: (i) pass the Special Purpose Examination of the Federation of State Medical Boards (SPEX) within three attempts; or (ii) have a current certification by a specialty board of the American Board of Medical Specialties",
+        "value": "Applicant must satisfy education and training requirements, have passed an FSMB/NBME/USMLE/NBOME/MCC examination, hold a current license from equivalent agency in another state or Canada, and meet character/disciplinary requirements. If exam passed more than 10 years ago, must pass SPEX or hold current specialty board certification.",
+        "quote": "The board may issue a license to practice medicine to any person who satisfies the requirements in paragraphs (b) to (e)... have a current license from the equivalent licensing agency in another state or Canada",
         "citation": "147.03"
       }
     },
@@ -163,9 +165,9 @@
       "citation": "147.02"
     },
     "national_association": {
-      "value": "State Medical Association; Minnesota Osteopathic Medical Society",
-      "quote": "the State Medical Association, the Mental Health Association of Minnesota, and other interested persons and organizations may recommend to the governor doctors of medicine and public members qualified to serve on the board. Prior to the end of the term of an osteopathic physician, or within 60 days after an osteopathic physician membership becomes vacant, the Minnesota Osteopathic Medical Society may recommend",
-      "citation": "147.01"
+      "value": "Federation of State Medical Boards; National Board of Medical Examiners; Medical Council of Canada; National Board of Osteopathic Examiners; Liaison Committee for Medical Education; American Osteopathic Association",
+      "quote": "approved by the board... accreditation by a recognized national accrediting organization approved by the board",
+      "citation": "147.02"
     },
     "regulatory_model": {
       "value": "license",
@@ -207,38 +209,38 @@
       },
       {
         "short_label": "felony_conviction",
-        "description": "Conviction, during the previous five years, of a felony reasonably related to the practice of medicine or osteopathic medicine",
+        "description": "Conviction, during the previous five years, of a felony reasonably related to the practice of medicine",
         "quote": "Conviction, during the previous five years, of a felony reasonably related to the practice of medicine or osteopathic medicine.",
         "citation": "147.091"
       },
       {
-        "short_label": "disciplinary_action_other_jurisdiction",
-        "description": "Revocation, suspension, restriction, limitation, or other disciplinary action against the person's medical license in another state or jurisdiction",
+        "short_label": "disciplinary_action_in_other_jurisdiction",
+        "description": "Revocation, suspension, restriction, or other disciplinary action against the person's medical license in another state or jurisdiction",
         "quote": "Revocation, suspension, restriction, limitation, or other disciplinary action against the person's medical license in another state or jurisdiction, failure to report to the board that charges regarding the person's license have been brought in another state or jurisdiction, or having been refused a license by any other state or jurisdiction.",
         "citation": "147.091"
       },
       {
-        "short_label": "false_misleading_advertising",
-        "description": "Advertising which is false or misleading, or which claims without substantiation the positive cure of any disease",
+        "short_label": "false_or_misleading_advertising",
+        "description": "Advertising which is false or misleading",
         "quote": "Advertising which is false or misleading, which violates any rule of the board, or which claims without substantiation the positive cure of any disease, or professional superiority to or greater skill than that possessed by another physician.",
         "citation": "147.091"
       },
       {
-        "short_label": "violation_of_rule_or_law",
-        "description": "Violating a rule promulgated by the board or an order of the board, a state, or federal law which relates to the practice of medicine",
+        "short_label": "violation_of_law_or_rule",
+        "description": "Violating a rule promulgated by the board or an order of the board, or a state or federal law relating to the practice of medicine",
         "quote": "Violating a rule promulgated by the board or an order of the board, a state, or federal law which relates to the practice of medicine, or in part regulates the practice of medicine",
         "citation": "147.091"
       },
       {
         "short_label": "unethical_or_improper_conduct",
-        "description": "Engaging in any unethical or improper conduct, including conduct likely to deceive or harm the public or demonstrate disregard for patient health, welfare, or safety",
-        "quote": "Engaging in any unethical or improper conduct, including but not limited to: (1) conduct likely to deceive or defraud the public; (2) conduct likely to harm the public; (3) conduct that demonstrates a willful or careless disregard for the health, welfare, or safety of a patient",
+        "description": "Engaging in unethical or improper conduct including conduct likely to deceive or harm the public, incompetent practice, or creating unnecessary danger",
+        "quote": "Engaging in any unethical or improper conduct, including but not limited to: (1) conduct likely to deceive or defraud the public; (2) conduct likely to harm the public; (3) conduct that demonstrates a willful or careless disregard for the health, welfare, or safety of a patient; (4) medical practice that is professionally incompetent",
         "citation": "147.091"
       },
       {
         "short_label": "failure_to_supervise",
         "description": "Failure to provide proper supervision of licensed or unlicensed health care providers",
-        "quote": "Failure to provide proper supervision, including but not limited to supervision of a: (1) licensed or unlicensed health care provider",
+        "quote": "Failure to provide proper supervision, including but not limited to supervision of a: (1) licensed or unlicensed health care provider; and (2) physician under any agreement with the board.",
         "citation": "147.091"
       },
       {
@@ -248,8 +250,8 @@
         "citation": "147.091"
       },
       {
-        "short_label": "adjudication_incompetent_or_dangerous",
-        "description": "Adjudication by a court as mentally incompetent, mentally ill, developmentally disabled, chemically dependent, dangerous to the public, sexually dangerous, or having a sexual psychopathic personality",
+        "short_label": "adjudication_of_incapacity",
+        "description": "Adjudication by a court as mentally incompetent, mentally ill, developmentally disabled, chemically dependent, or dangerous",
         "quote": "Adjudication by a court of competent jurisdiction, within or outside this state, as: (1) mentally incompetent; (2) mentally ill; (3) developmentally disabled; (4) a chemically dependent person; (5) a person dangerous to the public",
         "citation": "147.091"
       },
@@ -261,42 +263,42 @@
       },
       {
         "short_label": "inability_to_practice_safely",
-        "description": "Inability to practice medicine with reasonable skill and safety to patients by reason of illness, intoxication, use of drugs, mental or physical condition, or aging",
+        "description": "Inability to practice medicine with reasonable skill and safety to patients by reason of illness, intoxication, drugs, mental or physical condition, or aging",
         "quote": "Inability to practice medicine with reasonable skill and safety to patients by reason of the following, including but not limited to: (1) illness; (2) intoxication; (3) use of drugs, narcotics, chemicals, or any other type of substance",
         "citation": "147.091"
       },
       {
-        "short_label": "breach_of_patient_confidentiality",
+        "short_label": "breach_of_patient_privilege",
         "description": "Revealing a privileged communication from or relating to a patient except when otherwise required or permitted by law",
         "quote": "Revealing a privileged communication from or relating to a patient except when otherwise required or permitted by law.",
         "citation": "147.091"
       },
       {
         "short_label": "failure_to_identify_osteopathic_school",
-        "description": "Failure by a doctor of osteopathic medicine to identify the school of healing in professional use of the doctor's name",
+        "description": "Failure by a doctor of osteopathic medicine to identify the school of healing in professional use of name",
         "quote": "Failure by a doctor of osteopathic medicine to identify the school of healing in the professional use of the doctor's name by one of the following terms: osteopathic physician and surgeon, doctor of osteopathic medicine, or D.O.",
         "citation": "147.091"
       },
       {
-        "short_label": "improper_medical_records_management",
+        "short_label": "improper_management_of_medical_records",
         "description": "Improper management of medical records, including failure to maintain adequate records or comply with patient requests",
         "quote": "Improper management of medical records, including failure to maintain adequate medical records, to comply with a patient's request made pursuant to sections 144.291 to 144.298, or to furnish a medical record or report required by law.",
         "citation": "147.091"
       },
       {
         "short_label": "fee_splitting",
-        "description": "Fee splitting, including paying or receiving commissions for patient referrals or prescription of drugs or devices",
+        "description": "Fee splitting, including paying or receiving commissions for patient referrals, dividing fees improperly, or dispensing for profit without disclosure",
         "quote": "Fee splitting, including without limitation: (1) paying, offering to pay, receiving, or agreeing to receive, a commission, rebate, or remuneration, directly or indirectly, primarily for the referral of patients or the prescription of drugs or devices",
         "citation": "147.091"
       },
       {
         "short_label": "abusive_or_fraudulent_billing",
-        "description": "Engaging in abusive or fraudulent billing practices, including violations of Medicare, Medicaid, or state medical assistance laws",
+        "description": "Engaging in abusive or fraudulent billing practices, including violations of Medicare and Medicaid laws",
         "quote": "Engaging in abusive or fraudulent billing practices, including violations of the federal Medicare and Medicaid laws or state medical assistance laws.",
         "citation": "147.091"
       },
       {
-        "short_label": "addiction_or_habituation",
+        "short_label": "drug_addiction_or_habituation",
         "description": "Becoming addicted or habituated to a drug or intoxicant",
         "quote": "Becoming addicted or habituated to a drug or intoxicant.",
         "citation": "147.091"
@@ -309,25 +311,25 @@
       },
       {
         "short_label": "sexual_conduct_with_patient",
-        "description": "Engaging in conduct with a patient which is sexual or may reasonably be interpreted by the patient as sexual",
+        "description": "Engaging in sexual conduct with a patient or behavior that may reasonably be interpreted as sexual by the patient",
         "quote": "Engaging in conduct with a patient which is sexual or may reasonably be interpreted by the patient as sexual, or in any verbal behavior which is seductive or sexually demeaning to a patient.",
         "citation": "147.091"
       },
       {
         "short_label": "failure_to_report_or_cooperate",
-        "description": "Failure to make required reports or to cooperate with a board investigation",
+        "description": "Failure to make required reports or to cooperate with an investigation of the board",
         "quote": "Failure to make reports as required by section 147.111 or to cooperate with an investigation of the board as required by section 147.131.",
         "citation": "147.091"
       },
       {
-        "short_label": "knowingly_false_or_misleading_information",
+        "short_label": "providing_false_or_misleading_information",
         "description": "Knowingly providing false or misleading information directly related to the care of a patient",
         "quote": "Knowingly providing false or misleading information that is directly related to the care of that patient unless done for an accepted therapeutic purpose such as the administration of a placebo.",
         "citation": "147.091"
       },
       {
         "short_label": "aiding_suicide",
-        "description": "Aiding suicide or aiding attempted suicide in violation of section 609.215",
+        "description": "Aiding suicide or aiding attempted suicide in violation of statute",
         "quote": "Aiding suicide or aiding attempted suicide in violation of section 609.215",
         "citation": "147.091"
       },
@@ -344,136 +346,142 @@
         "citation": "147.091"
       },
       {
-        "short_label": "improper_interstate_telehealth",
-        "description": "Providing interstate telehealth services other than according to section 147.032",
+        "short_label": "unauthorized_telehealth",
+        "description": "Providing interstate telehealth services other than according to the registration requirements",
         "quote": "Providing interstate telehealth services other than according to section 147.032.",
         "citation": "147.091"
       }
     ],
     "alternative_regulation": {
       "bonding_required": null,
-      "insurance_required": {
-        "value": true,
-        "quote": "The employer must carry medical malpractice insurance covering a limited license holder for the duration of the employment.",
-        "citation": "147.037"
-      },
+      "insurance_required": null,
       "establishment_regulation_required": null
     },
     "citations": [
       {
         "cite": "147.001",
-        "kind": "statute"
+        "kind": "scope and purpose"
       },
       {
         "cite": "147.01",
-        "kind": "statute"
+        "kind": "board creation and fees"
       },
       {
         "cite": "147.02",
-        "kind": "statute"
+        "kind": "examination and licensing"
       },
       {
         "cite": "147.03",
-        "kind": "statute"
+        "kind": "licensure by endorsement/reciprocity"
       },
       {
         "cite": "147.032",
-        "kind": "statute"
+        "kind": "interstate telehealth"
       },
       {
         "cite": "147.033",
-        "kind": "statute"
+        "kind": "telehealth standards"
       },
       {
         "cite": "147.035",
-        "kind": "statute"
+        "kind": "malpractice history"
       },
       {
         "cite": "147.037",
-        "kind": "statute"
+        "kind": "foreign medical school graduates"
       },
       {
         "cite": "147.0375",
-        "kind": "statute"
+        "kind": "eminent physicians"
+      },
+      {
+        "cite": "147.038",
+        "kind": "cancellation in good standing"
+      },
+      {
+        "cite": "147.039",
+        "kind": "cancellation for nonrenewal"
+      },
+      {
+        "cite": "147.0391",
+        "kind": "residency permit"
       },
       {
         "cite": "147.081",
-        "kind": "statute"
+        "kind": "practicing without license"
       },
       {
         "cite": "147.082",
-        "kind": "statute"
+        "kind": "title protection"
       },
       {
         "cite": "147.09",
-        "kind": "statute"
+        "kind": "exemptions"
       },
       {
         "cite": "147.091",
-        "kind": "statute"
+        "kind": "grounds for disciplinary action"
       },
       {
         "cite": "147.111",
-        "kind": "statute"
+        "kind": "reporting obligations"
       },
       {
         "cite": "147.141",
-        "kind": "statute"
+        "kind": "forms of disciplinary action"
       },
       {
         "cite": "147.38",
-        "kind": "statute"
+        "kind": "interstate medical licensure compact"
       }
     ]
   },
   "scope": {
     "definition_quote": {
-      "value": "A person not exempted under section 147.09 is 'practicing medicine' or engaged in the 'practice of medicine' if the person does any of the following: (1) advertises, holds out to the public, or represents in any manner that the person is authorized to practice medicine in this state; (2) offers or undertakes to prescribe, give, or administer any drug or medicine for the use of another; (3) offers or undertakes to prevent or to diagnose, correct, or treat in any manner or by any means, methods, devices, or instrumentalities, any disease, illness, pain, wound, fracture, infirmity, deformity or defect of any person; (4) offers or undertakes to perform any surgical operation including any invasive or noninvasive procedures involving the use of a laser or laser assisted device, upon any person; or (5) offers to undertake to use hypnosis for the treatment or relief of any wound, fracture, or bodily injury, infirmity, or disease.",
-      "quote": "a person not exempted under section 147.09 is \"practicing medicine\" or engaged in the \"practice of medicine\" if the person does any of the following: (1) advertises, holds out to the public, or represents in any manner that the person is authorized to practice medicine in this state",
+      "value": "a person not exempted under section 147.09 is 'practicing medicine' or engaged in the 'practice of medicine' if the person does any of the following: (1) advertises, holds out to the public, or represents in any manner that the person is authorized to practice medicine in this state; (2) offers or undertakes to prescribe, give, or administer any drug or medicine for the use of another; (3) offers or undertakes to prevent or to diagnose, correct, or treat in any manner or by any means, methods, devices, or instrumentalities, any disease, illness, pain, wound, fracture, infirmity, deformity or defect of any person; (4) offers or undertakes to perform any surgical operation including any invasive or noninvasive procedures involving the use of a laser or laser assisted device, upon any person; or (5) offers to undertake to use hypnosis for the treatment or relief of any wound, fracture, or bodily injury, infirmity, or disease.",
+      "quote": "a person not exempted under section 147.09 is \"practicing medicine\" or engaged in the \"practice of medicine\" if the person does any of the following: (1) advertises, holds out to the public, or represents in any manner that the person is authorized to practice medicine in this state; (2) offers or undertakes to prescribe, give, or administer any drug or medicine for the use of another; (3) offers or undertakes to prevent or to diagnose, correct, or treat in any manner or by any means, methods, devices, or instrumentalities, any disease, illness, pain, wound, fracture, infirmity, deformity or defect of any person; (4) offers or undertakes to perform any surgical operation including any invasive or noninvasive procedures involving the use of a laser or laser assisted device, upon any person; or (5) offers to undertake to use hypnosis for the treatment or relief of any wound, fracture, or bodily injury, infirmity, or disease.",
       "citation": "147.081"
     },
     "methods_authorized": {
       "value": [
         "prescribing, giving, or administering drugs or medicine",
-        "diagnosing, correcting, or treating disease, illness, pain, wound, fracture, infirmity, deformity, or defect by any means, methods, devices, or instrumentalities",
-        "performing surgical operations including invasive or noninvasive procedures involving lasers",
-        "using hypnosis for treatment or relief of bodily injury, infirmity, or disease"
+        "diagnosing, correcting, or treating disease, illness, pain, wound, fracture, infirmity, deformity or defect",
+        "performing surgical operations including laser procedures",
+        "using hypnosis for treatment"
       ],
-      "quote": "offers or undertakes to prescribe, give, or administer any drug or medicine for the use of another; (3) offers or undertakes to prevent or to diagnose, correct, or treat in any manner or by any means, methods, devices, or instrumentalities, any disease, illness, pain, wound, fracture, infirmity, deformity or defect of any person; (4) offers or undertakes to perform any surgical operation including any invasive or noninvasive procedures involving the use of a laser or laser assisted device",
+      "quote": "offers or undertakes to prescribe, give, or administer any drug or medicine for the use of another; (3) offers or undertakes to prevent or to diagnose, correct, or treat in any manner or by any means, methods, devices, or instrumentalities, any disease, illness, pain, wound, fracture, infirmity, deformity or defect of any person; (4) offers or undertakes to perform any surgical operation including any invasive or noninvasive procedures involving the use of a laser or laser assisted device, upon any person; or (5) offers to undertake to use hypnosis for the treatment or relief of any wound, fracture, or bodily injury, infirmity, or disease.",
       "citation": "147.081"
     },
     "drug_authority": {
-      "value": "May prescribe, give, or administer any drug or medicine for the use of another",
+      "value": "Licensed physicians may prescribe, give, or administer drugs or medicine",
       "quote": "offers or undertakes to prescribe, give, or administer any drug or medicine for the use of another",
       "citation": "147.081"
     },
     "citations": [
       {
         "cite": "147.081",
-        "kind": "statute"
+        "kind": "practice of medicine defined"
       },
       {
         "cite": "147.09",
-        "kind": "statute"
+        "kind": "exemptions from scope"
       }
     ]
   },
   "profession_specific": {
     "license_status_types": {
       "value": [
-        "active license",
-        "limited license (24-month, non-renewable)",
-        "emeritus license",
+        "active",
+        "emeritus",
+        "limited license (24-month, nonrenewable)",
         "residency permit",
-        "temporary permit",
-        "license cancellation in good standing",
-        "license cancelled under disciplinary order"
+        "temporary permit"
       ],
-      "quote": "physician emeritus license, $50; (6) nonrenewable 24-month limited license, $392",
+      "quote": "physician emeritus license, $50... nonrenewable 24-month limited license, $392... A person must have a residency permit to participate in a residency program unless licensed by the board.",
       "citation": "147.01"
     },
     "foreign_medical_graduate_requirements": {
-      "value": "Foreign medical school graduates must: graduate from a school approved as equivalent to US/Canadian schools; be awarded a certificate by the Educational Council for Foreign Medical Graduates (ECFMG) and demonstrate working ability in English; complete one year of accredited graduate clinical medical training (with limited exceptions); pass an acceptable licensing examination; and meet all other standard requirements including good moral character, no pending discipline, etc.",
+      "value": "Foreign medical school graduates must present evidence of graduation from a board-approved school, obtain ECFMG certification, demonstrate working ability in English, complete one year of accredited graduate clinical medical training, and pass USMLE or FSMB examination",
       "quote": "The applicant shall present evidence satisfactory to the board that the applicant has been awarded a certificate by the Educational Council for Foreign Medical Graduates, and the applicant has a working ability in the English language sufficient to communicate with patients and physicians and to engage in the practice of medicine.",
       "citation": "147.037"
     },
@@ -487,13 +495,13 @@
     "controlled_substance_database_registration_required": null,
     "pain_management_clinic_registration_required": null,
     "telehealth_prescribing_rules": {
-      "value": "A physician providing health care services by telehealth in this state shall be held to the same standards of practice and conduct as provided in this chapter for in-person health care services. A physician-patient relationship may be established through telehealth.",
+      "value": "A physician providing health care services by telehealth in this state shall be held to the same standards of practice and conduct as for in-person health care services; a physician-patient relationship may be established through telehealth",
       "quote": "A physician providing health care services by telehealth in this state shall be held to the same standards of practice and conduct as provided in this chapter for in-person health care services.",
       "citation": "147.033"
     },
     "telemedicine_license_available": {
       "value": true,
-      "quote": "A physician not licensed to practice medicine in this state may provide medical services to a patient located in this state through interstate telehealth if the following conditions are met",
+      "quote": "A physician not licensed to practice medicine in this state may provide medical services to a patient located in this state through interstate telehealth if the following conditions are met... the physician annually registers with the board",
       "citation": "147.032"
     },
     "interstate_medical_licensure_compact_member": {
@@ -506,7 +514,7 @@
     "max_physician_assistants_per_supervising_physician": null,
     "malpractice_reporting_required": {
       "value": true,
-      "quote": "A physician shall report to the board any personal action which would require that a report be filed with the board by any person, health care facility, business, or organization pursuant to subdivisions 2 to 6.",
+      "quote": "Four times each year as prescribed by the board, each insurer authorized to sell insurance described in section 60A.06, subdivision 1, clause (13), and providing professional liability insurance to persons regulated by the board, shall submit to the board a report concerning the regulated persons against whom professional malpractice settlements or awards have been made to the plaintiff.",
       "citation": "147.111"
     },
     "hospital_privilege_action_reporting_required": {

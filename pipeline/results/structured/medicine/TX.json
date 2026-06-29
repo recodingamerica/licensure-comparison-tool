@@ -20,63 +20,106 @@
       },
       "type": {
         "value": "standalone_board",
-        "quote": "The Texas Medical Board is an agency of the executive branch of state government with the power to regulate the practice of medicine.",
-        "citation": "152.001"
+        "quote": "The board consists of 19 members appointed by the governor with the advice and consent of the senate",
+        "citation": "152.002"
       },
       "umbrella_agency": null
     },
     "age_minimum": {
       "value": 21,
-      "quote": "is at least 21 years of age",
+      "quote": "is at least 21 years of age;",
       "citation": "155.003"
     },
     "moral_character_required": {
       "value": true,
-      "quote": "is of good professional character and has not violated Section 164.051, 164.052, or 164.053",
+      "quote": "is of good professional character and has not violated Section 164.051, 164.052, or 164.053;",
       "citation": "155.003"
     },
     "education": {
       "degree_required": {
-        "value": "Doctor of Medicine (M.D.) or Doctor of Osteopathic Medicine (D.O.) from an approved medical school",
-        "quote": "is a graduate of a medical school located in the United States or Canada and approved by the board",
+        "value": "graduate of a medical school located in the United States or Canada and approved by the board",
+        "quote": "is a graduate of a medical school located in the United States or Canada and approved by the board;",
         "citation": "155.003"
       },
       "accrediting_body": {
-        "value": "Accrediting body officially recognized by the United States Department of Education for medical education leading to M.D. or D.O. degree",
+        "value": "board-approved medical school; for foreign graduates, Educational Commission for Foreign Medical Graduates (ECFMG) certificate required",
         "quote": "All medical or osteopathic medical education an applicant receives in the United States must be accredited by an accrediting body officially recognized by the United States Department of Education as the accrediting body for medical education leading to the doctor of medicine degree or the doctor of osteopathy degree.",
         "citation": "155.003"
-      }
+      },
+      "degree_level": {
+        "value": "doctorate",
+        "quote": "is a graduate of a medical school located in the United States or Canada and approved by the board;",
+        "citation": "155.003"
+      },
+      "school_approval_basis": {
+        "value": "board_approved",
+        "quote": "is a graduate of a medical school located in the United States or Canada and approved by the board;",
+        "citation": "155.003"
+      },
+      "credential_pegged": {
+        "value": false,
+        "quote": "is a graduate of a medical school located in the United States or Canada and approved by the board;",
+        "citation": "155.003"
+      },
+      "tiers": null
     },
     "post_degree_experience": {
       "required": {
         "value": true,
-        "quote": "has either: (A) successfully completed one year of graduate medical training approved by the board in the United States or Canada; or (B) graduated from a medical school located outside the United States or Canada and has successfully completed two years of graduate medical training approved by the board in the United States or Canada",
+        "quote": "has either: (A) successfully completed one year of graduate medical training approved by the board in the United States or Canada; or (B) graduated from a medical school located outside the United States or Canada and has successfully completed two years of graduate medical training approved by the board in the United States or Canada;",
+        "citation": "155.003"
+      },
+      "experience_source": {
+        "value": "required_by_statute",
+        "quote": "has either: (A) successfully completed one year of graduate medical training approved by the board in the United States or Canada; or (B) graduated from a medical school located outside the United States or Canada and has successfully completed two years of graduate medical training approved by the board in the United States or Canada;",
         "citation": "155.003"
       },
       "duration": {
-        "value": "1 year (domestic graduates) or 2 years (foreign medical graduates)",
-        "quote": "successfully completed one year of graduate medical training approved by the board in the United States or Canada",
+        "value": "1 year (domestic graduates); 2 years (foreign medical school graduates)",
+        "quote": "successfully completed one year of graduate medical training approved by the board in the United States or Canada; or (B) graduated from a medical school located outside the United States or Canada and has successfully completed two years of graduate medical training approved by the board in the United States or Canada",
         "citation": "155.003"
       },
       "kind": {
-        "value": "graduate medical training (residency/internship)",
+        "value": "graduate medical training",
         "quote": "successfully completed one year of graduate medical training approved by the board in the United States or Canada",
         "citation": "155.003"
       }
     },
     "exams": [
       {
-        "name": "United States Medical Licensing Examination (USMLE) or equivalent",
+        "name": "United States Medical Licensing Examination (USMLE)",
         "required": true,
-        "notes": "Must pass each part within 3 attempts and within 7 years; board also accepts NBME, NBOME, FLEX, LMCC, and combinations thereof",
-        "quote": "the United States Medical Licensing Examination (USMLE) or its successor",
+        "notes": "Board may administer or accept multiple examinations; each part must be passed within 3 attempts and within 7 years generally.",
+        "jurisdiction": "national (USMLE)",
+        "permitted_attempts": 3,
+        "quote": "the United States Medical Licensing Examination (USMLE) or its successor;",
+        "citation": "155.0511"
+      },
+      {
+        "name": "National Board of Osteopathic Medical Examiners (NBOME) examination",
+        "required": false,
+        "notes": "Accepted alternative examination for osteopathic physicians.",
+        "jurisdiction": "national (NBOME)",
+        "permitted_attempts": 3,
+        "quote": "the National Board of Osteopathic Medical Examiners (NBOME) examination or its successor;",
+        "citation": "155.0511"
+      },
+      {
+        "name": "National Board of Medical Examiners (NBME) examination",
+        "required": false,
+        "notes": "Accepted alternative examination.",
+        "jurisdiction": "national (NBME)",
+        "permitted_attempts": 3,
+        "quote": "the National Board of Medical Examiners (NBME) examination or its successor;",
         "citation": "155.0511"
       },
       {
         "name": "Texas Medical Jurisprudence Examination",
         "required": true,
-        "notes": "Required of all applicants",
-        "quote": "has passed a Texas medical jurisprudence examination as determined by board rule",
+        "notes": "Required of all applicants; no cap on attempts per statute.",
+        "jurisdiction": "state (in-house)",
+        "permitted_attempts": null,
+        "quote": "has passed a Texas medical jurisprudence examination as determined by board rule.",
         "citation": "155.003"
       }
     ],
@@ -87,6 +130,7 @@
         "citation": "156.001"
       }
     },
+    "renewal_fee_usd": null,
     "continuing_education": {
       "required": {
         "value": true,
@@ -96,13 +140,13 @@
       "hours_per_period": null,
       "period_years": {
         "value": 2,
-        "quote": "establish the number of hours of continuing medical education the board determines appropriate as a prerequisite to the registration of a license under this subtitle",
-        "citation": "156.051"
+        "quote": "Each person licensed to practice medicine in this state must register with the board every two years.",
+        "citation": "156.001"
       },
       "topical_requirements": {
         "value": [
-          "At least 2 hours on safe and effective pain management related to prescription of opioids and other controlled substances (direct patient care physicians)",
-          "At least 1 hour on identification and assistance of trafficked persons (direct patient care physicians)"
+          "safe and effective pain management related to prescription of opioids and controlled substances (minimum 2 hours per renewal period for first two periods, then every 8 years)",
+          "identification and assistance of trafficked persons (minimum 1 hour)"
         ],
         "quote": "A physician licensed under this subtitle who submits an application for renewal of a license that designates a direct patient care practice must complete, in accordance with this section, not less than two hours of continuing medical education regarding safe and effective pain management related to the prescription of opioids and other controlled substances",
         "citation": "156.055"
@@ -111,15 +155,26 @@
     "reciprocity": {
       "available": {
         "value": true,
-        "quote": "the member states of the Interstate Medical Licensure Compact have allied in common purpose to develop a comprehensive process that complements the existing licensing and regulatory authority of state medical boards and provides a streamlined process that allows physicians to become licensed in multiple states",
+        "quote": "The compact creates another pathway for licensure and does not otherwise change a state's existing medical practice act.",
         "citation": "171.001"
       },
       "requirements": {
-        "value": "Texas participates in the Interstate Medical Licensure Compact (IMLC). Physicians must meet eligibility requirements including USMLE/COMLEX passage within 3 attempts, completed GME, specialty certification, full unrestricted license in state of principal license, and no disciplinary history. Provisional licenses also available for out-of-state physicians licensed in good standing to practice in health professional shortage areas.",
-        "quote": "A physician must meet the eligibility requirements as defined in Section 171.002(11) to receive an expedited license under the terms and provisions of the compact.",
-        "citation": "171.003"
+        "value": "Texas participates in the Interstate Medical Licensure Compact (Chapter 171), providing expedited licensure for eligible physicians licensed in other member states. Separately, provisional licenses are available for out-of-state licensees in health shortage areas (Sec. 155.101).",
+        "quote": "A physician seeking licensure through the compact shall file an application for an expedited license with the member board of the state selected by the physician as the state of principal license.",
+        "citation": "171.005"
       }
     },
+    "advisory_board": {
+      "exists": {
+        "value": false,
+        "quote": "The Texas Medical Board is an agency of the executive branch of state government with the power to regulate the practice of medicine.",
+        "citation": "152.001"
+      },
+      "name": null,
+      "authority": null
+    },
+    "national_certification": null,
+    "national_association": null,
     "regulatory_model": {
       "value": "license",
       "quote": "A person may not practice medicine in this state unless the person holds a license issued under this subtitle.",
@@ -142,239 +197,244 @@
     },
     "scope_protection": {
       "value": true,
-      "quote": "A person commits an offense if the person practices medicine in this state in violation of this subtitle.",
-      "citation": "165.152"
+      "quote": "A person may not practice medicine in this state unless the person holds a license issued under this subtitle.",
+      "citation": "155.001"
     },
     "disciplinary_grounds": [
       {
-        "short_label": "prohibited_practices",
-        "description": "Committing any act prohibited under Section 164.052 (fraud, deception, impersonation, illegal abortion, etc.)",
-        "quote": "commits an act prohibited under Section 164.052",
+        "short_label": "commission_of_prohibited_practice",
+        "description": "Committing an act prohibited under Section 164.052 (prohibited practices).",
+        "quote": "commits an act prohibited under Section 164.052;",
         "citation": "164.051"
       },
       {
-        "short_label": "felony_or_moral_turpitude_conviction",
-        "description": "Conviction of or deferred adjudication for a felony or misdemeanor involving moral turpitude",
-        "quote": "is convicted of, or is placed on deferred adjudication community supervision or deferred disposition for: (A) a felony; or (B) a misdemeanor involving moral turpitude",
+        "short_label": "felony_or_misdemeanor_moral_turpitude_conviction",
+        "description": "Convicted of, or placed on deferred adjudication for, a felony or misdemeanor involving moral turpitude.",
+        "quote": "is convicted of, or is placed on deferred adjudication community supervision or deferred disposition for: (A) a felony; or (B) a misdemeanor involving moral turpitude;",
         "citation": "164.051"
       },
       {
         "short_label": "violation_of_board_rule",
-        "description": "Committing or attempting to commit a direct or indirect violation of a rule adopted under this subtitle",
-        "quote": "commits or attempts to commit a direct or indirect violation of a rule adopted under this subtitle, either as a principal, accessory, or accomplice",
+        "description": "Commits or attempts to commit a direct or indirect violation of a rule adopted under this subtitle.",
+        "quote": "commits or attempts to commit a direct or indirect violation of a rule adopted under this subtitle, either as a principal, accessory, or accomplice;",
         "citation": "164.051"
       },
       {
         "short_label": "inability_to_practice_safely",
-        "description": "Unable to practice medicine with reasonable skill and safety due to illness, drunkenness, drug use, or mental/physical condition",
-        "quote": "is unable to practice medicine with reasonable skill and safety to patients because of: (A) illness; (B) drunkenness; (C) excessive use of drugs, narcotics, chemicals, or another substance; or (D) a mental or physical condition",
+        "description": "Unable to practice medicine with reasonable skill and safety due to illness, drunkenness, drug use, or mental or physical condition.",
+        "quote": "is unable to practice medicine with reasonable skill and safety to patients because of: (A) illness; (B) drunkenness; (C) excessive use of drugs, narcotics, chemicals, or another substance; or (D) a mental or physical condition;",
         "citation": "164.051"
       },
       {
-        "short_label": "adjudicated_unsound_mind",
-        "description": "Found by a court judgment to be of unsound mind",
-        "quote": "is found by a court judgment to be of unsound mind",
+        "short_label": "found_of_unsound_mind",
+        "description": "Found by a court judgment to be of unsound mind.",
+        "quote": "is found by a court judgment to be of unsound mind;",
         "citation": "164.051"
       },
       {
         "short_label": "failure_to_practice_acceptably",
-        "description": "Failure to practice medicine in an acceptable professional manner consistent with public health and welfare",
-        "quote": "fails to practice medicine in an acceptable professional manner consistent with public health and welfare",
+        "description": "Fails to practice medicine in an acceptable professional manner consistent with public health and welfare.",
+        "quote": "fails to practice medicine in an acceptable professional manner consistent with public health and welfare;",
         "citation": "164.051"
       },
       {
-        "short_label": "peer_disciplinary_action",
-        "description": "Removal, suspension, or disciplinary action by peers in a professional medical association or by a licensed hospital based on unprofessional conduct or professional incompetence likely to harm the public",
+        "short_label": "disciplinary_action_by_peers_or_hospital",
+        "description": "Removed, suspended, or disciplined by peers in a professional medical association or by a hospital, if action was based on unprofessional conduct or incompetence.",
         "quote": "is removed, suspended, or is subject to disciplinary action taken by the person's peers in a local, regional, state, or national professional medical association or society, or is disciplined by a licensed hospital or medical staff of a hospital",
         "citation": "164.051"
       },
       {
         "short_label": "repeated_meritorious_malpractice_claims",
-        "description": "Subject to repeated or recurring meritorious health care liability claims evidencing professional incompetence likely to injure the public",
-        "quote": "is subject to repeated or recurring meritorious health care liability claims that in the board's opinion evidence professional incompetence likely to injure the public",
+        "description": "Subject to repeated or recurring meritorious health care liability claims evidencing professional incompetence.",
+        "quote": "is subject to repeated or recurring meritorious health care liability claims that in the board's opinion evidence professional incompetence likely to injure the public;",
         "citation": "164.051"
       },
       {
         "short_label": "out_of_state_disciplinary_action",
-        "description": "Holds a license to practice medicine subject to disciplinary action by another state or the uniformed services based on acts prohibited under Section 164.052 or similar acts",
-        "quote": "holds a license to practice medicine subject to disciplinary action by another state, or subject to disciplinary action by the uniformed services of the United States, based on acts by the person that are prohibited under Section 164.052 or are similar to acts described by this subsection",
+        "description": "Holds a license subject to disciplinary action in another state for acts prohibited under Texas law.",
+        "quote": "holds a license to practice medicine subject to disciplinary action by another state, or subject to disciplinary action by the uniformed services of the United States, based on acts by the person that are prohibited under Section 164.052 or are similar to acts described by this subsection.",
         "citation": "164.051"
       },
       {
-        "short_label": "fraud_in_application",
-        "description": "Submitting a false or misleading statement, document, or certificate in an application for a license",
-        "quote": "submits to the board a false or misleading statement, document, or certificate in an application for a license",
-        "citation": "164.052"
-      },
-      {
-        "short_label": "fraudulent_license_or_diploma",
-        "description": "Presenting to the board a license, certificate, or diploma that was illegally or fraudulently obtained",
-        "quote": "presents to the board a license, certificate, or diploma that was illegally or fraudulently obtained",
+        "short_label": "false_statement_in_application",
+        "description": "Submits a false or misleading statement, document, or certificate in an application for a license.",
+        "quote": "submits to the board a false or misleading statement, document, or certificate in an application for a license;",
         "citation": "164.052"
       },
       {
         "short_label": "fraud_in_examination",
-        "description": "Committing fraud or deception in taking or passing an examination",
-        "quote": "commits fraud or deception in taking or passing an examination",
+        "description": "Commits fraud or deception in taking or passing an examination.",
+        "quote": "commits fraud or deception in taking or passing an examination;",
         "citation": "164.052"
       },
       {
-        "short_label": "intemperate_alcohol_or_drug_use",
-        "description": "Using alcohol or drugs in an intemperate manner that could endanger a patient's life",
-        "quote": "uses alcohol or drugs in an intemperate manner that, in the board's opinion, could endanger a patient's life",
+        "short_label": "intemperate_drug_alcohol_use",
+        "description": "Uses alcohol or drugs in an intemperate manner that could endanger a patient's life.",
+        "quote": "uses alcohol or drugs in an intemperate manner that, in the board's opinion, could endanger a patient's life;",
         "citation": "164.052"
       },
       {
         "short_label": "unprofessional_or_dishonorable_conduct",
-        "description": "Committing unprofessional or dishonorable conduct likely to deceive or defraud the public or injure the public",
-        "quote": "commits unprofessional or dishonorable conduct that is likely to deceive or defraud the public, as provided by Section 164.053, or injure the public",
+        "description": "Commits unprofessional or dishonorable conduct likely to deceive or defraud the public.",
+        "quote": "commits unprofessional or dishonorable conduct that is likely to deceive or defraud the public, as provided by Section 164.053, or injure the public;",
         "citation": "164.052"
       },
       {
-        "short_label": "false_or_deceptive_advertising",
-        "description": "Using an advertising statement that is false, misleading, or deceptive",
-        "quote": "uses an advertising statement that is false, misleading, or deceptive",
+        "short_label": "false_misleading_advertising",
+        "description": "Uses an advertising statement that is false, misleading, or deceptive.",
+        "quote": "uses an advertising statement that is false, misleading, or deceptive;",
         "citation": "164.052"
       },
       {
         "short_label": "impersonation_of_physician",
-        "description": "Impersonating a physician or permitting another to use the person's license or certificate to practice medicine",
-        "quote": "impersonates a physician or permits another to use the person's license or certificate to practice medicine in this state",
-        "citation": "164.052"
-      },
-      {
-        "short_label": "employing_suspended_physician",
-        "description": "Directly or indirectly employing a person whose license to practice medicine has been suspended, canceled, or revoked",
-        "quote": "directly or indirectly employs a person whose license to practice medicine has been suspended, canceled, or revoked",
+        "description": "Impersonates a physician or permits another to use the person's license to practice medicine.",
+        "quote": "impersonates a physician or permits another to use the person's license or certificate to practice medicine in this state;",
         "citation": "164.052"
       },
       {
         "short_label": "aiding_unlicensed_practice",
-        "description": "Directly or indirectly aiding or abetting the practice of medicine by an unlicensed person, partnership, association, or corporation",
-        "quote": "directly or indirectly aids or abets the practice of medicine by a person, partnership, association, or corporation that is not licensed to practice medicine by the board",
+        "description": "Directly or indirectly aids or abets the practice of medicine by an unlicensed person or entity.",
+        "quote": "directly or indirectly aids or abets the practice of medicine by a person, partnership, association, or corporation that is not licensed to practice medicine by the board;",
         "citation": "164.052"
       },
       {
-        "short_label": "illegal_abortion",
-        "description": "Performing or procuring a criminal abortion or performing an abortion in violation of statutory requirements",
-        "quote": "performs or procures a criminal abortion, aids or abets in the procuring of a criminal abortion, attempts to perform or procure a criminal abortion, or attempts to aid or abet the performance or procurement of a criminal abortion",
-        "citation": "164.052"
-      },
-      {
-        "short_label": "violation_of_law_in_practice",
-        "description": "Committing an act that violates any state or federal law if the act is connected with the physician's practice of medicine",
-        "quote": "commits an act that violates any state or federal law if the act is connected with the physician's practice of medicine",
-        "citation": "164.053"
-      },
-      {
-        "short_label": "failure_to_keep_drug_records",
-        "description": "Failing to keep complete and accurate records of purchases and disposals of controlled substances and dangerous drugs",
+        "short_label": "inadequate_drug_records",
+        "description": "Fails to keep complete and accurate records of purchases and disposals of controlled substances or dangerous drugs.",
         "quote": "fails to keep complete and accurate records of purchases and disposals of: (A) drugs listed in Chapter 481, Health and Safety Code; or (B) controlled substances scheduled in the Comprehensive Drug Abuse Prevention and Control Act of 1970",
         "citation": "164.053"
       },
       {
         "short_label": "prescribing_to_known_drug_abuser",
-        "description": "Writing prescriptions for or dispensing to a person known to be or who should have been known to be an abuser of narcotic drugs, controlled substances, or dangerous drugs",
-        "quote": "writes prescriptions for or dispenses to a person who: (A) is known to be an abuser of narcotic drugs, controlled substances, or dangerous drugs; or (B) the physician should have known was an abuser of narcotic drugs, controlled substances, or dangerous drugs",
+        "description": "Writes prescriptions for or dispenses to a person known or reasonably known to be a narcotic or controlled substance abuser.",
+        "quote": "writes prescriptions for or dispenses to a person who: (A) is known to be an abuser of narcotic drugs, controlled substances, or dangerous drugs; or (B) the physician should have known was an abuser",
         "citation": "164.053"
       },
       {
         "short_label": "false_or_fictitious_prescriptions",
-        "description": "Writing false or fictitious prescriptions for dangerous drugs or controlled substances",
-        "quote": "writes false or fictitious prescriptions for: (A) dangerous drugs as defined by Chapter 483, Health and Safety Code; or (B) controlled substances scheduled in Chapter 481, Health and Safety Code",
+        "description": "Writes false or fictitious prescriptions for dangerous or controlled substances.",
+        "quote": "writes false or fictitious prescriptions for: (A) dangerous drugs as defined by Chapter 483, Health and Safety Code; or (B) controlled substances",
         "citation": "164.053"
       },
       {
         "short_label": "nontherapeutic_prescribing",
-        "description": "Prescribing or administering a drug or treatment that is nontherapeutic in nature or in the manner administered or prescribed",
-        "quote": "prescribes or administers a drug or treatment that is nontherapeutic in nature or nontherapeutic in the manner the drug or treatment is administered or prescribed",
+        "description": "Prescribes or administers a drug or treatment that is nontherapeutic in nature or manner.",
+        "quote": "prescribes or administers a drug or treatment that is nontherapeutic in nature or nontherapeutic in the manner the drug or treatment is administered or prescribed;",
         "citation": "164.053"
       },
       {
         "short_label": "inadequate_supervision",
-        "description": "Failing to adequately supervise the activities of those acting under the supervision of the physician",
-        "quote": "fails to supervise adequately the activities of those acting under the supervision of the physician",
+        "description": "Fails to adequately supervise the activities of those acting under the physician's supervision.",
+        "quote": "fails to supervise adequately the activities of those acting under the supervision of the physician;",
         "citation": "164.053"
       },
       {
         "short_label": "delegation_to_unqualified_person",
-        "description": "Delegating professional medical responsibility or acts to a person the physician knows or has reason to know is not qualified by training, experience, or licensure",
-        "quote": "delegates professional medical responsibility or acts to a person if the delegating physician knows or has reason to know that the person is not qualified by training, experience, or licensure to perform the responsibility or acts",
+        "description": "Delegates professional medical responsibility to a person the physician knows or has reason to know is not qualified.",
+        "quote": "delegates professional medical responsibility or acts to a person if the delegating physician knows or has reason to know that the person is not qualified by training, experience, or licensure to perform the responsibility or acts.",
         "citation": "164.053"
       }
     ],
+    "alternative_regulation": {
+      "bonding_required": null,
+      "insurance_required": null,
+      "establishment_regulation_required": {
+        "value": true,
+        "quote": "A pain management clinic may not operate in this state unless the clinic is certified under this chapter.",
+        "citation": "168.101"
+      }
+    },
     "citations": [
       {
         "cite": "151.001",
-        "kind": "statute"
+        "kind": "short_title"
       },
       {
         "cite": "151.002",
-        "kind": "statute"
+        "kind": "definitions"
+      },
+      {
+        "cite": "151.003",
+        "kind": "legislative_findings"
       },
       {
         "cite": "152.001",
-        "kind": "statute"
+        "kind": "board_establishment"
       },
       {
         "cite": "152.002",
-        "kind": "statute"
+        "kind": "board_membership"
       },
       {
         "cite": "155.001",
-        "kind": "statute"
+        "kind": "license_required"
       },
       {
         "cite": "155.002",
-        "kind": "statute"
+        "kind": "license_issuance"
       },
       {
         "cite": "155.003",
-        "kind": "statute"
+        "kind": "eligibility_requirements"
       },
       {
         "cite": "155.004",
-        "kind": "statute"
+        "kind": "foreign_graduate_requirements"
       },
       {
         "cite": "155.051",
-        "kind": "statute"
+        "kind": "examination_required"
       },
       {
         "cite": "155.0511",
-        "kind": "statute"
+        "kind": "examinations_accepted"
+      },
+      {
+        "cite": "155.056",
+        "kind": "examination_attempt_limits"
       },
       {
         "cite": "156.001",
-        "kind": "statute"
+        "kind": "registration_renewal"
       },
       {
         "cite": "156.051",
-        "kind": "statute"
+        "kind": "continuing_education"
       },
       {
         "cite": "156.055",
-        "kind": "statute"
+        "kind": "ce_pain_management"
       },
       {
         "cite": "164.001",
-        "kind": "statute"
+        "kind": "disciplinary_authority"
       },
       {
         "cite": "164.051",
-        "kind": "statute"
+        "kind": "grounds_for_discipline"
       },
       {
         "cite": "164.052",
-        "kind": "statute"
+        "kind": "prohibited_practices"
       },
       {
         "cite": "164.053",
-        "kind": "statute"
+        "kind": "unprofessional_conduct"
+      },
+      {
+        "cite": "165.001",
+        "kind": "administrative_penalty"
+      },
+      {
+        "cite": "165.152",
+        "kind": "criminal_penalty_unauthorized_practice"
       },
       {
         "cite": "171.001",
-        "kind": "statute"
+        "kind": "interstate_compact"
+      },
+      {
+        "cite": "168.101",
+        "kind": "pain_clinic_certification"
       }
     ]
   },
@@ -388,34 +448,37 @@
       "value": [
         "diagnosis",
         "treatment",
-        "surgery",
-        "prescription of drugs and devices",
-        "delegation of medical acts"
+        "offer to treat",
+        "attempt to effect cures"
       ],
-      "quote": "the diagnosis, treatment, or offer to treat a mental or physical disease or disorder or a physical deformity or injury by any system or method",
+      "quote": "the diagnosis, treatment, or offer to treat a mental or physical disease or disorder or a physical deformity or injury by any system or method, or the attempt to effect cures of those conditions",
       "citation": "151.002"
     },
     "drug_authority": {
-      "value": "A physician licensed under this subtitle may supply a patient with any drug, remedy, or clinical supply necessary to meet the patient's immediate needs. Physicians may also prescribe and delegate prescribing of dangerous drugs and controlled substances (Schedules III-V generally; Schedule II in limited hospital/hospice settings) to qualified advanced practice registered nurses and physician assistants under prescriptive authority agreements.",
+      "value": "A physician licensed under this subtitle may supply a patient with any drug, remedy, or clinical supply necessary to meet the patient's immediate needs. May prescribe Schedule III, IV, V controlled substances and, in limited circumstances, Schedule II controlled substances via delegation. May prescribe low-THC cannabis if board-certified in relevant specialty.",
       "quote": "A physician licensed under this subtitle may supply a patient with any drug, remedy, or clinical supply necessary to meet the patient's immediate needs.",
       "citation": "158.001"
     },
     "citations": [
       {
         "cite": "151.002",
-        "kind": "statute"
+        "kind": "scope_definition"
       },
       {
         "cite": "157.001",
-        "kind": "statute"
+        "kind": "delegation_authority"
       },
       {
         "cite": "157.0511",
-        "kind": "statute"
+        "kind": "controlled_substance_delegation"
       },
       {
         "cite": "158.001",
-        "kind": "statute"
+        "kind": "drug_supply_authority"
+      },
+      {
+        "cite": "169.002",
+        "kind": "low_thc_cannabis_prescribing"
       }
     ]
   },
@@ -424,20 +487,18 @@
       "value": [
         "active",
         "inactive",
-        "retired (fee-exempt)",
         "temporary (faculty)",
-        "limited (administrative medicine)",
-        "limited (conceded eminence)",
-        "military limited volunteer",
         "provisional",
+        "military limited volunteer",
+        "limited (administrative medicine)",
         "physician-in-training permit"
       ],
       "quote": "The board may adopt rules and set reasonable fees relating to placing license holders on inactive status.",
       "citation": "156.009"
     },
     "foreign_medical_graduate_requirements": {
-      "value": "Foreign medical graduates must: (1) graduate from a school whose curriculum meets requirements for an unapproved medical school as determined by a committee of experts selected by the Texas Higher Education Coordinating Board; (2) successfully complete at least two years of approved graduate medical training in the US or Canada; (3) hold a valid ECFMG certificate; and (4) be able to communicate in English.",
-      "quote": "A license applicant who is a graduate of a medical school that is located outside the United States and Canada must present proof satisfactory to the board that the applicant: (1) is a graduate of a school whose curriculum meets the requirements for an unapproved medical school as determined by a committee of experts selected by the Texas Higher Education Coordinating Board; (2) has successfully completed at least two years of graduate medical training in the United States or Canada that was approved by the board; (3) holds a valid certificate issued by the Educational Commission for Foreign Medical Graduates; and (4) is able to communicate in English.",
+      "value": "Foreign medical school graduates must: hold a valid ECFMG certificate; complete at least 2 years of board-approved graduate medical training in the US or Canada; graduate from a school meeting curriculum requirements; and be able to communicate in English.",
+      "quote": "holds a valid certificate issued by the Educational Commission for Foreign Medical Graduates",
       "citation": "155.004"
     },
     "postgraduate_training_years_required": {
@@ -451,8 +512,8 @@
       "citation": "156.055"
     },
     "opioid_prescribing_limits": {
-      "value": "Physicians may only delegate prescribing of Schedule III-V controlled substances for periods not to exceed 90 days per prescription (including refills). Schedule II controlled substances may only be delegated in hospital facility-based practices for admitted patients or emergency department patients, or as part of hospice care plans. The board must adopt guidelines for prescribing opioid antagonists.",
-      "quote": "the prescription, including a refill of the prescription, is for a period not to exceed 90 days",
+      "value": "Delegation of Schedule II controlled substance prescribing is limited to hospital facility-based practice settings for admitted patients or emergency department patients, or for patients receiving hospice care. Physicians may only delegate Schedule III-V controlled substance prescriptions for up to 90-day periods. The board must adopt guidelines for opioid antagonist prescription.",
+      "quote": "A physician may delegate the prescribing or ordering of a controlled substance listed in Schedule II as established by the commissioner of the Department of State Health Services under Chapter 481, Health and Safety Code, only: (1) in a hospital facility-based practice under Section 157.054",
       "citation": "157.0511"
     },
     "controlled_substance_database_registration_required": null,
@@ -462,19 +523,19 @@
       "citation": "168.101"
     },
     "telehealth_prescribing_rules": {
-      "value": "A person physically located in another jurisdiction who performs an act that is part of a patient care service initiated in Texas, including acts that would affect diagnosis or treatment, is considered to be engaged in the practice of medicine in Texas and subject to board regulation. The board may adopt rules to ensure appropriate care for Medicaid and Medicare patients receiving telemedicine medical services.",
-      "quote": "A person who is physically located in another jurisdiction but who, through the use of any medium, including an electronic medium, performs an act that is part of a patient care service initiated in this state, including the taking of an x-ray examination or the preparation of pathological material for examination, and that would affect the diagnosis or treatment of the patient, is considered to be engaged in the practice of medicine in this state and is subject to appropriate regulation by the board.",
-      "citation": "151.056"
+      "value": "A valid practitioner-patient relationship exists for telemedicine if the physician has a preexisting relationship, communicates under a call coverage agreement, or provides services via synchronous audiovisual interaction, asynchronous store-and-forward technology, or other audiovisual telecommunication. Prescribing abortifacients via telemedicine is prohibited.",
+      "quote": "a practitioner-patient relationship is not present if a practitioner prescribes an abortifacient or any other drug or device that terminates a pregnancy.",
+      "citation": "111.005"
     },
     "telemedicine_license_available": {
       "value": false,
-      "quote": "A person who is physically located in another jurisdiction but who, through the use of any medium, including an electronic medium, performs an act that is part of a patient care service initiated in this state...is considered to be engaged in the practice of medicine in this state and is subject to appropriate regulation by the board.",
+      "quote": "A person who is physically located in another jurisdiction but who, through the use of any medium, including an electronic medium, performs an act that is part of a patient care service initiated in this state... is considered to be engaged in the practice of medicine in this state and is subject to appropriate regulation by the board.",
       "citation": "151.056"
     },
     "interstate_medical_licensure_compact_member": {
       "value": true,
-      "quote": "the member states of the Interstate Medical Licensure Compact have allied in common purpose to develop a comprehensive process that complements the existing licensing and regulatory authority of state medical boards and provides a streamlined process that allows physicians to become licensed in multiple states",
-      "citation": "171.001"
+      "quote": "The member states hereby create the Interstate Medical Licensure Compact Commission.",
+      "citation": "171.011"
     },
     "physician_assistant_supervision_model": {
       "value": "collaborative practice agreement",
@@ -482,13 +543,13 @@
       "citation": "157.0512"
     },
     "physician_assistant_prescriptive_authority": {
-      "value": "Physician assistants may prescribe nonprescription drugs, dangerous drugs, and Schedule III-V controlled substances (for up to 90 days per prescription) under a prescriptive authority agreement with a supervising physician. Schedule II controlled substances may only be prescribed in hospital facility-based practices for admitted or emergency department patients, or as part of hospice care plans.",
+      "value": "Physician assistants may prescribe nonprescription drugs, dangerous drugs, and Schedule III-V controlled substances (up to 90-day supply); Schedule II controlled substances only in hospital facility-based settings for admitted or ED patients or hospice patients, under a prescriptive authority agreement.",
       "quote": "A physician's authority to delegate the prescribing or ordering of a drug or device under this subchapter is limited to: (1) nonprescription drugs; (2) dangerous drugs; and (3) controlled substances to the extent provided by Subsections (b) and (b-1).",
       "citation": "157.0511"
     },
     "max_physician_assistants_per_supervising_physician": {
       "value": 7,
-      "quote": "the combined number of advanced practice registered nurses and physician assistants with whom a physician may enter into a prescriptive authority agreement may not exceed seven advanced practice registered nurses and physician assistants or the full-time equivalent of seven advanced practice registered nurses and physician assistants",
+      "quote": "the combined number of advanced practice registered nurses and physician assistants with whom a physician may enter into a prescriptive authority agreement may not exceed seven advanced practice registered nurses and physician assistants or the full-time equivalent of seven advanced practice registered nurses and physician assistants.",
       "citation": "157.0512"
     },
     "malpractice_reporting_required": {
@@ -498,7 +559,7 @@
     },
     "hospital_privilege_action_reporting_required": {
       "value": true,
-      "quote": "A medical peer review committee or health care entity shall report in writing to the board the results and circumstances of a medical peer review that: (1) adversely affects the clinical privileges of a physician for a period longer than 14 days",
+      "quote": "A medical peer review committee or health care entity shall report in writing to the board the results and circumstances of a medical peer review that: (1) adversely affects the clinical privileges of a physician for a period longer than 14 days;",
       "citation": "160.002"
     },
     "impaired_physician_program_authorized": {
@@ -516,11 +577,7 @@
       "quote": "The board shall adopt rules for the issuance of a license that limits the license holder to the practice of administrative medicine.",
       "citation": "155.009"
     },
-    "locum_tenens_permit_available": {
-      "value": true,
-      "quote": "On application, the board shall grant a provisional license to practice medicine in a location described by Subsection (e) to an applicant for a license under this subtitle who is licensed in good standing as a physician in another state.",
-      "citation": "155.101"
-    },
+    "locum_tenens_permit_available": null,
     "sexual_misconduct_training_required": null,
     "investigational_drug_protection": null
   }

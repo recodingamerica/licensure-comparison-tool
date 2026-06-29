@@ -4,63 +4,133 @@
   "licensure": {
     "license_required": {
       "value": true,
-      "quote": "In order to engage in the general administration of a nursing home, it shall be necessary to hold a nursing home administrator's license issued by the Board.",
-      "citation": "[54.1-3102]"
+      "quote": "Practice nursing unless licensed to do so under the provisions of this chapter",
+      "citation": "54.1-3008"
     },
     "issuing_authority": {
       "value": "Board of Nursing",
       "quote": "\"Board\" means the Board of Nursing.",
-      "citation": "[54.1-3000]"
+      "citation": "54.1-3000"
     },
     "regulatory_authority": {
       "name": {
         "value": "Board of Nursing",
         "quote": "\"Board\" means the Board of Nursing.",
-        "citation": "[54.1-3000]"
+        "citation": "54.1-3000"
       },
       "type": {
         "value": "standalone_board",
-        "quote": "The following boards are included within the Department: Board of Audiology and Speech-Language Pathology, Board of Counseling, Board of Dentistry, Board of Funeral Directors and Embalmers, Board of Long-Term Care Administrators, Board of Medicine, Board of Nursing, Board of Optometry, Board of Pharmacy, Board of Physical Therapy, Board of Psychology, Board of Social Work, and Board of Veterinary Medicine.",
-        "citation": "[54.1-2503]"
+        "quote": "The following boards are included within the Department: ... Board of Nursing",
+        "citation": "54.1-2503"
       },
       "umbrella_agency": {
         "value": "Department of Health Professions",
-        "quote": "The following boards are included within the Department: Board of Audiology and Speech-Language Pathology, Board of Counseling, Board of Dentistry, Board of Funeral Directors and Embalmers, Board of Long-Term Care Administrators, Board of Medicine, Board of Nursing, Board of Optometry, Board of Pharmacy, Board of Physical Therapy, Board of Psychology, Board of Social Work, and Board of Veterinary Medicine.",
-        "citation": "[54.1-2503]"
+        "quote": "The following boards are included within the Department: ... Board of Nursing",
+        "citation": "54.1-2503"
       }
     },
     "age_minimum": null,
     "moral_character_required": null,
     "education": {
       "degree_required": {
-        "value": "diploma or degree from an approved professional nursing education program",
+        "value": "Diploma or degree from an approved professional nursing education program",
         "quote": "Has received a diploma or degree from an approved professional nursing education program",
-        "citation": "[54.1-3017]"
+        "citation": "54.1-3017"
       },
-      "accrediting_body": null
+      "accrediting_body": {
+        "value": "Board of Nursing (approved program)",
+        "quote": "Has received a diploma or degree from an approved professional nursing education program",
+        "citation": "54.1-3017"
+      },
+      "degree_level": {
+        "value": "associate",
+        "quote": "Has received a diploma or degree from an approved professional nursing education program",
+        "citation": "54.1-3017"
+      },
+      "school_approval_basis": {
+        "value": "board_approved",
+        "quote": "Has received a diploma or degree from an approved professional nursing education program",
+        "citation": "54.1-3017"
+      },
+      "credential_pegged": {
+        "value": false,
+        "quote": "Has received a diploma or degree from an approved professional nursing education program",
+        "citation": "54.1-3017"
+      },
+      "tiers": [
+        {
+          "license_class": "registered nurse (RN)",
+          "degree_level": "associate",
+          "effective_date": null,
+          "quote": "Has received a diploma or degree from an approved professional nursing education program",
+          "citation": "54.1-3017"
+        },
+        {
+          "license_class": "licensed practical nurse (LPN)",
+          "degree_level": "high_school",
+          "effective_date": null,
+          "quote": "Has completed two years of high school or its equivalent; Has received a diploma from an approved practical nursing program",
+          "citation": "54.1-3020"
+        }
+      ]
     },
-    "post_degree_experience": null,
+    "post_degree_experience": {
+      "required": {
+        "value": false,
+        "quote": "Has received a diploma or degree from an approved professional nursing education program",
+        "citation": "54.1-3017"
+      },
+      "experience_source": {
+        "value": "none",
+        "quote": "Has received a diploma or degree from an approved professional nursing education program",
+        "citation": "54.1-3017"
+      },
+      "duration": null,
+      "kind": null
+    },
     "exams": [
       {
         "name": "NCLEX-RN",
         "required": true,
-        "notes": null,
-        "jurisdiction": "national",
+        "notes": "Referenced as the standard national exam for RN licensure under the Nurse Licensure Compact; also referenced as a written examination required by the Board under 54.1-3017",
+        "jurisdiction": "national (NCLEX-RN)",
+        "permitted_attempts": null,
+        "quote": "Has successfully passed an NCLEX-RN® or NCLEX-PN® Examination or recognized predecessor, as applicable",
+        "citation": "54.1-3040.3"
+      },
+      {
+        "name": "Written examination (RN)",
+        "required": true,
+        "notes": "Board-required written examination for RN licensure",
+        "jurisdiction": null,
         "permitted_attempts": null,
         "quote": "Has passed a written examination as required by the Board",
-        "citation": "[54.1-3017]"
+        "citation": "54.1-3017"
+      },
+      {
+        "name": "Written examination (LPN)",
+        "required": true,
+        "notes": "Board-required written examination for LPN licensure",
+        "jurisdiction": null,
+        "permitted_attempts": null,
+        "quote": "Has passed a written examination as required by the Board",
+        "citation": "54.1-3020"
       }
     ],
     "renewal": {
       "interval_years": {
         "value": 2,
-        "quote": "Every license issued under the provisions of this chapter shall be renewed biennially by such time as the Board may prescribe by regulation.",
-        "citation": "[54.1-3011]"
+        "quote": "Every license issued under the provisions of this chapter shall be renewed biennially",
+        "citation": "54.1-3011"
       }
     },
     "renewal_fee_usd": null,
     "continuing_education": {
-      "required": null,
+      "required": {
+        "value": true,
+        "quote": "provisions for the satisfaction of board-required continuing education for individuals registered, certified, licensed, or issued a multistate licensure privilege by a health regulatory board",
+        "citation": "54.1-2400"
+      },
       "hours_per_period": null,
       "period_years": null,
       "topical_requirements": null
@@ -69,19 +139,19 @@
       "available": {
         "value": true,
         "quote": "The Board may issue a license by endorsement to an applicant to practice professional nursing if the applicant has been licensed as a professional or registered nurse under the laws of another state, the District of Columbia, or a United States possession or territory",
-        "citation": "[54.1-3018]"
+        "citation": "54.1-3018"
       },
       "requirements": {
-        "value": "Applicant must have been licensed as a professional or registered nurse in another state, District of Columbia, or US possession/territory and meet Virginia qualifications",
-        "quote": "The Board may issue a license by endorsement to an applicant to practice professional nursing if the applicant has been licensed as a professional or registered nurse under the laws of another state, the District of Columbia, or a United States possession or territory, and, in the opinion of the Board, the applicant meets the qualifications required of registered nurses in this Commonwealth.",
-        "citation": "[54.1-3018]"
+        "value": "Applicant must have been licensed as a professional or registered nurse in another state, DC, or US possession/territory and, in the opinion of the Board, meet the qualifications required of registered nurses in Virginia.",
+        "quote": "in the opinion of the Board, the applicant meets the qualifications required of registered nurses in this Commonwealth",
+        "citation": "54.1-3018"
       }
     },
     "advisory_board": {
       "exists": {
         "value": false,
         "quote": "\"Board\" means the Board of Nursing.",
-        "citation": "[54.1-3000]"
+        "citation": "54.1-3000"
       },
       "name": null,
       "authority": null
@@ -90,165 +160,203 @@
     "national_association": null,
     "regulatory_model": {
       "value": "license",
-      "quote": "\"Professional nurse,\" \"registered nurse\" or \"registered professional nurse\" means a person who is licensed or holds a multistate licensure privilege under the provisions of this chapter to practice professional nursing",
-      "citation": "[54.1-3000]"
+      "quote": "Practice nursing unless licensed to do so under the provisions of this chapter",
+      "citation": "54.1-3008"
     },
     "credential_type": {
       "value": "license",
-      "quote": "In order to engage in the general administration of a nursing home, it shall be necessary to hold a nursing home administrator's license issued by the Board.",
-      "citation": "[54.1-3102]"
+      "quote": "Practice nursing unless licensed to do so under the provisions of this chapter",
+      "citation": "54.1-3008"
     },
     "is_mandatory": {
       "value": true,
       "quote": "Practice nursing unless licensed to do so under the provisions of this chapter",
-      "citation": "[54.1-3008]"
+      "citation": "54.1-3008"
     },
     "title_protection": {
       "value": true,
-      "quote": "Any person who holds a license or a multistate licensure privilege to practice professional nursing in Virginia shall have the right to use the title \"registered nurse\" and the abbreviation \"R.N.\" No other person shall assume such title or use such abbreviation or any other words, letters, signs or devices to indicate that the person using the same is a registered nurse.",
-      "citation": "[54.1-3016]"
+      "quote": "No other person shall assume such title or use such abbreviation or any other words, letters, signs or devices to indicate that the person using the same is a registered nurse.",
+      "citation": "54.1-3016"
     },
     "scope_protection": {
       "value": true,
       "quote": "Practice nursing unless licensed to do so under the provisions of this chapter",
-      "citation": "[54.1-3008]"
+      "citation": "54.1-3008"
     },
     "disciplinary_grounds": [
       {
         "short_label": "fraud_in_obtaining_license",
         "description": "Fraud or deceit in procuring or attempting to procure a license, certificate, or registration",
         "quote": "Fraud or deceit in procuring or attempting to procure a license, certificate, or registration",
-        "citation": "[54.1-3007]"
+        "citation": "54.1-3007"
       },
       {
         "short_label": "unprofessional_conduct",
         "description": "Unprofessional conduct",
         "quote": "Unprofessional conduct",
-        "citation": "[54.1-3007]"
+        "citation": "54.1-3007"
       },
       {
-        "short_label": "willful_violation",
-        "description": "Willful or repeated violation of any of the provisions of this chapter",
+        "short_label": "willful_or_repeated_violation",
+        "description": "Willful or repeated violation of any provision of this chapter",
         "quote": "Willful or repeated violation of any of the provisions of this chapter",
-        "citation": "[54.1-3007]"
+        "citation": "54.1-3007"
       },
       {
-        "short_label": "felony_conviction",
+        "short_label": "felony_or_moral_turpitude_conviction",
         "description": "Conviction of any felony or any misdemeanor involving moral turpitude",
         "quote": "Conviction of any felony or any misdemeanor involving moral turpitude",
-        "citation": "[54.1-3007]"
+        "citation": "54.1-3007"
       },
       {
-        "short_label": "danger_to_public",
-        "description": "Practicing in a manner contrary to the standards of ethics or in such a manner as to make his practice a danger to the health and welfare of patients or to the public",
+        "short_label": "dangerous_practice",
+        "description": "Practicing in a manner contrary to standards of ethics or making practice a danger to health and welfare of patients or the public",
         "quote": "Practicing in a manner contrary to the standards of ethics or in such a manner as to make his practice a danger to the health and welfare of patients or to the public",
-        "citation": "[54.1-3007]"
+        "citation": "54.1-3007"
       },
       {
-        "short_label": "substance_abuse",
-        "description": "Use of alcohol or drugs to the extent that such use renders him unsafe to practice, or any mental or physical illness rendering him unsafe to practice",
+        "short_label": "substance_abuse_or_mental_physical_illness",
+        "description": "Use of alcohol or drugs rendering the licensee unsafe to practice, or any mental or physical illness rendering him unsafe to practice",
         "quote": "Use of alcohol or drugs to the extent that such use renders him unsafe to practice, or any mental or physical illness rendering him unsafe to practice",
-        "citation": "[54.1-3007]"
+        "citation": "54.1-3007"
       },
       {
-        "short_label": "license_denial_revocation",
-        "description": "The denial, revocation, suspension or restriction of a license, certificate, registration, or multistate licensure privilege to practice in another state, the District of Columbia or a United States possession or territory",
+        "short_label": "license_action_in_other_jurisdiction",
+        "description": "Denial, revocation, suspension or restriction of a license in another state, DC, or US possession or territory",
         "quote": "The denial, revocation, suspension or restriction of a license, certificate, registration, or multistate licensure privilege to practice in another state, the District of Columbia or a United States possession or territory",
-        "citation": "[54.1-3007]"
+        "citation": "54.1-3007"
       },
       {
-        "short_label": "abuse_negligence_misappropriation",
+        "short_label": "abuse_negligence_or_misappropriation",
         "description": "Abuse, negligent practice, or misappropriation of a patient's or resident's property",
-        "quote": "Abuse, negligent practice, or misappropriation of a patient's or resident's property",
-        "citation": "[54.1-3007]"
+        "quote": "Abuse, negligent practice, or misappropriation of a patient's or resident's property.",
+        "citation": "54.1-3007"
       }
     ],
+    "alternative_regulation": {
+      "bonding_required": null,
+      "insurance_required": null,
+      "establishment_regulation_required": null
+    },
     "citations": [
       {
         "cite": "54.1-3000",
-        "kind": null
+        "kind": "definitions"
+      },
+      {
+        "cite": "54.1-3001",
+        "kind": "exemptions"
+      },
+      {
+        "cite": "54.1-3005",
+        "kind": "board powers and duties"
       },
       {
         "cite": "54.1-3007",
-        "kind": null
+        "kind": "disciplinary grounds"
       },
       {
         "cite": "54.1-3008",
-        "kind": null
+        "kind": "violations and penalties"
       },
       {
         "cite": "54.1-3011",
-        "kind": null
+        "kind": "renewal"
+      },
+      {
+        "cite": "54.1-3013",
+        "kind": "education program approval"
       },
       {
         "cite": "54.1-3016",
-        "kind": null
+        "kind": "title protection RN"
       },
       {
         "cite": "54.1-3017",
-        "kind": null
+        "kind": "RN qualifications"
       },
       {
         "cite": "54.1-3018",
-        "kind": null
+        "kind": "RN endorsement"
+      },
+      {
+        "cite": "54.1-3019",
+        "kind": "title protection LPN"
+      },
+      {
+        "cite": "54.1-3020",
+        "kind": "LPN qualifications"
+      },
+      {
+        "cite": "54.1-3021",
+        "kind": "LPN endorsement"
+      },
+      {
+        "cite": "54.1-3040.1",
+        "kind": "nurse licensure compact purpose"
+      },
+      {
+        "cite": "54.1-3040.3",
+        "kind": "nurse licensure compact general provisions"
+      },
+      {
+        "cite": "54.1-2503",
+        "kind": "boards within Department of Health Professions"
       }
     ]
   },
   "scope": {
     "definition_quote": {
-      "value": "\"Professional nursing,\" \"registered nursing\" or \"registered professional nursing\" means the performance for compensation of any nursing acts in the observation, care and counsel of individuals or groups who are ill, injured or experiencing changes in normal health processes or the maintenance of health; in the prevention of illness or disease; in the supervision and teaching of those who are or will be involved in nursing care; in the delegation of selected nursing tasks and procedures to appropriately trained unlicensed persons as determined by the Board; or in the administration of medications and treatments as prescribed by any person authorized by law to prescribe such medications and treatment.",
+      "value": "Professional nursing means the performance for compensation of any nursing acts in the observation, care and counsel of individuals or groups who are ill, injured or experiencing changes in normal health processes or the maintenance of health; in the prevention of illness or disease; in the supervision and teaching of those who are or will be involved in nursing care; in the delegation of selected nursing tasks and procedures to appropriately trained unlicensed persons as determined by the Board; or in the administration of medications and treatments as prescribed by any person authorized by law to prescribe such medications and treatment.",
       "quote": "\"Professional nursing,\" \"registered nursing\" or \"registered professional nursing\" means the performance for compensation of any nursing acts in the observation, care and counsel of individuals or groups who are ill, injured or experiencing changes in normal health processes or the maintenance of health; in the prevention of illness or disease; in the supervision and teaching of those who are or will be involved in nursing care; in the delegation of selected nursing tasks and procedures to appropriately trained unlicensed persons as determined by the Board; or in the administration of medications and treatments as prescribed by any person authorized by law to prescribe such medications and treatment.",
-      "citation": "[54.1-3000]"
+      "citation": "54.1-3000"
     },
     "methods_authorized": {
       "value": [
-        "observation",
-        "care and counsel",
+        "observation, care and counsel of ill, injured, or patients experiencing changes in normal health processes",
         "maintenance of health",
         "prevention of illness or disease",
-        "supervision and teaching",
-        "delegation of nursing tasks",
-        "administration of medications and treatments"
+        "supervision and teaching of nursing care personnel",
+        "delegation of selected nursing tasks to appropriately trained unlicensed persons",
+        "administration of medications and treatments as prescribed"
       ],
-      "quote": "the performance for compensation of any nursing acts in the observation, care and counsel of individuals or groups who are ill, injured or experiencing changes in normal health processes or the maintenance of health; in the prevention of illness or disease; in the supervision and teaching of those who are or will be involved in nursing care; in the delegation of selected nursing tasks and procedures to appropriately trained unlicensed persons as determined by the Board; or in the administration of medications and treatments as prescribed by any person authorized by law to prescribe such medications and treatment",
-      "citation": "[54.1-3000]"
+      "quote": "the performance for compensation of any nursing acts in the observation, care and counsel of individuals or groups who are ill, injured or experiencing changes in normal health processes or the maintenance of health; in the prevention of illness or disease; in the supervision and teaching of those who are or will be involved in nursing care; in the delegation of selected nursing tasks and procedures to appropriately trained unlicensed persons as determined by the Board; or in the administration of medications and treatments as prescribed",
+      "citation": "54.1-3000"
     },
     "drug_authority": {
-      "value": "administration of medications and treatments as prescribed by any person authorized by law to prescribe such medications and treatment",
+      "value": "Administration of medications and treatments as prescribed by any person authorized by law to prescribe such medications and treatment",
       "quote": "in the administration of medications and treatments as prescribed by any person authorized by law to prescribe such medications and treatment",
-      "citation": "[54.1-3000]"
+      "citation": "54.1-3000"
     },
     "citations": [
       {
         "cite": "54.1-3000",
-        "kind": null
+        "kind": "scope of practice definitions"
       }
     ]
   },
   "profession_specific": {
     "license_tiers": {
       "value": [
-        "Registered Nurse (RN)",
-        "Licensed Practical Nurse (LPN)",
-        "Certified Nurse Aide (CNA)",
-        "Advanced Practice Registered Nurse (APRN)",
-        "Licensed Massage Therapist",
-        "Medication Aide",
-        "Nursing Home Administrator",
-        "Assisted Living Facility Administrator"
+        "registered nurse (RN) / professional nurse",
+        "licensed practical nurse (LPN)",
+        "advanced practice registered nurse (APRN)",
+        "certified nurse aide (CNA)",
+        "medication aide (registered)",
+        "advanced registered medication aide"
       ],
-      "quote": "\"Advanced practice registered nurse\" means a certified nurse midwife, certified registered nurse anesthetist, clinical nurse specialist, or nurse practitioner who is jointly licensed by the Boards of Medicine and Nursing pursuant to \u00a7 54.1-2957",
-      "citation": "[54.1-3000]"
+      "quote": "\"Advanced practice registered nurse\" means a certified nurse midwife, certified registered nurse anesthetist, clinical nurse specialist, or nurse practitioner",
+      "citation": "54.1-3000"
     },
     "aprn_role_categories": {
       "value": [
-        "Certified Nurse Midwife",
-        "Certified Registered Nurse Anesthetist",
-        "Clinical Nurse Specialist",
-        "Nurse Practitioner"
+        "certified nurse midwife",
+        "certified registered nurse anesthetist",
+        "clinical nurse specialist",
+        "nurse practitioner"
       ],
-      "quote": "\"Advanced practice registered nurse\" means a certified nurse midwife, certified registered nurse anesthetist, clinical nurse specialist, or nurse practitioner who is jointly licensed by the Boards of Medicine and Nursing pursuant to \u00a7 54.1-2957",
-      "citation": "[54.1-3000]"
+      "quote": "\"Advanced practice registered nurse\" means a certified nurse midwife, certified registered nurse anesthetist, clinical nurse specialist, or nurse practitioner who is jointly licensed by the Boards of Medicine and Nursing pursuant to § 54.1-2957",
+      "citation": "54.1-3000"
     },
     "lpn_supervision_requirements": {
       "value": [
@@ -259,7 +367,7 @@
         "other licensed health professional authorized by regulations of the Board"
       ],
       "quote": "Practical nursing or licensed practical nursing is performed under the direction or supervision of a licensed medical practitioner, a professional nurse, registered nurse or registered professional nurse or other licensed health professional authorized by regulations of the Board.",
-      "citation": "[54.1-3000]"
+      "citation": "54.1-3000"
     },
     "collaborative_practice_agreement_required": null,
     "full_independent_practice_available": null,
@@ -272,35 +380,39 @@
     "nurse_aide_registry_maintained": {
       "value": true,
       "quote": "To certify and maintain a registry of all certified nurse aides and to promulgate regulations consistent with federal law and regulation.",
-      "citation": "[54.1-3005]"
+      "citation": "54.1-3005"
     },
     "medication_assistant_certification_available": {
       "value": true,
       "quote": "To register medication aides and promulgate regulations governing the criteria for such registration and standards of conduct for medication aides",
-      "citation": "[54.1-3005]"
+      "citation": "54.1-3005"
     },
     "delegation_to_unlicensed_personnel_authorized": {
       "value": true,
-      "quote": "in the delegation of selected nursing tasks and procedures to appropriately trained unlicensed persons as determined by the Board",
-      "citation": "[54.1-3000]"
+      "quote": "To promulgate regulations for the delegation of certain nursing tasks and procedures not involving assessment, evaluation or nursing judgment to an appropriately trained unlicensed person by and under the supervision of a registered nurse, who retains responsibility and accountability for such delegation",
+      "citation": "54.1-3005"
     },
     "employer_mandatory_reporting_required": {
       "value": true,
-      "quote": "The chief executive officer and the chief of staff of every hospital or other health care institution in the Commonwealth, the director of every licensed home health or hospice organization, the director of every accredited home health organization exempt from licensure, the administrator of every licensed assisted living facility, and the administrator of every provider licensed by the Department of Behavioral Health and Developmental Services in the Commonwealth shall report within 30 days",
-      "citation": "[54.1-2400.6]"
+      "quote": "the chief executive officer and the chief of staff of every hospital or other health care institution in the Commonwealth ... shall report within 30 days ... to the Director of the Department of Health Professions",
+      "citation": "54.1-2400.6"
     },
     "whistleblower_protection_for_delegation_refusal": null,
     "nurse_licensure_compact_member": {
       "value": true,
       "quote": "To enter into the Nurse Licensure Compact as set forth in this chapter and to promulgate regulations for its implementation",
-      "citation": "[54.1-3005]"
+      "citation": "54.1-3005"
     },
     "multistate_license_option_available": {
       "value": true,
       "quote": "A multistate license to practice registered or licensed practical/vocational nursing issued by a home state to a resident in that state will be recognized by each party state as authorizing a nurse to practice as a registered nurse (RN) or as a licensed practical/vocational nurse (LPN/VN), under a multistate licensure privilege, in each party state.",
-      "citation": "[54.1-3040.3]"
+      "citation": "54.1-3040.3"
     },
-    "impaired_nurse_alternative_program_available": null,
+    "impaired_nurse_alternative_program_available": {
+      "value": true,
+      "quote": "\"Alternative program\" means a nondisciplinary monitoring program approved by a licensing board.",
+      "citation": "54.1-3040.2"
+    },
     "rn_death_pronouncement_authorized": null,
     "public_health_nurse_certification_available": null,
     "telehealth_prescribing_rules": null,
@@ -313,7 +425,7 @@
     "military_education_credit_required": {
       "value": true,
       "quote": "The Board shall consider and may accept relevant practical experience and didactic and clinical components of education and training completed by an applicant for licensure as a registered nurse during his service as a member of any branch of the armed forces of the United States as evidence of the satisfaction of the educational requirements for licensure.",
-      "citation": "[54.1-3017]"
+      "citation": "54.1-3017"
     }
   }
 }

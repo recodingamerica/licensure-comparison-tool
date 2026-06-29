@@ -4,24 +4,24 @@
   "licensure": {
     "license_required": {
       "value": true,
-      "quote": "a person practicing or offering to practice nursing for compensation shall be required to submit evidence that he or she is qualified to so practice and shall be licensed",
-      "citation": "[17-87-101]"
+      "quote": "It is unlawful for any person not licensed by the Arkansas State Board of Nursing: (1) To practice or offer to practice professional nursing, advanced practice registered nursing, registered practitioner nursing, practical nursing, or psychiatric technician nursing",
+      "citation": "17-87-101"
     },
     "issuing_authority": {
       "value": "Arkansas State Board of Nursing",
-      "quote": "It is unlawful for any person not licensed by the Arkansas State Board of Nursing",
-      "citation": "[17-87-101]"
+      "quote": "a person practicing or offering to practice nursing for compensation shall be required to submit evidence that he or she is qualified to so practice and shall be licensed as provided in this chapter",
+      "citation": "17-87-101"
     },
     "regulatory_authority": {
       "name": {
         "value": "Arkansas State Board of Nursing",
-        "quote": "Board means the Arkansas State Board of Nursing",
-        "citation": "[17-87-102]"
+        "quote": "\"Board\" means the Arkansas State Board of Nursing",
+        "citation": "17-87-102"
       },
       "type": {
         "value": "standalone_board",
-        "quote": "Arkansas State Board of Nursing",
-        "citation": "[17-87-101]"
+        "quote": "The Arkansas State Board of Nursing shall have the following powers and responsibilities",
+        "citation": "17-87-203"
       },
       "umbrella_agency": null
     },
@@ -29,47 +29,120 @@
     "moral_character_required": null,
     "education": {
       "degree_required": {
-        "value": "approved professional nursing education program",
+        "value": "Completed the required approved professional nursing education program (RN); state-approved practical nursing curriculum (LPN); graduate program with master's degree for clinical nurse specialist",
         "quote": "Has completed the required approved professional nursing education program",
-        "citation": "[17-87-301]"
+        "citation": "17-87-301"
       },
-      "accrediting_body": null
+      "accrediting_body": {
+        "value": "Board-approved programs; Council on Accreditation of Nurse Anesthesia Educational Programs for CRNAs",
+        "quote": "a formal educational program that meets the standards of the Council on Accreditation of Nurse Anesthesia Educational Programs or another nationally recognized accrediting body",
+        "citation": "17-87-302"
+      },
+      "degree_level": {
+        "value": "high_school",
+        "quote": "Has completed an approved high school course of study or the equivalent thereof as determined by the appropriate educational agency",
+        "citation": "17-87-301"
+      },
+      "school_approval_basis": {
+        "value": "board_approved",
+        "quote": "Has completed the required approved professional nursing education program",
+        "citation": "17-87-301"
+      },
+      "credential_pegged": {
+        "value": true,
+        "quote": "national certification approved by the board under one (1) of the following roles of an advanced practice registered nurse",
+        "citation": "17-87-302"
+      },
+      "tiers": [
+        {
+          "license_class": "registered nurse (RN)",
+          "degree_level": "high_school",
+          "effective_date": null,
+          "quote": "Has completed an approved high school course of study or the equivalent thereof as determined by the appropriate educational agency; and Has completed the required approved professional nursing education program.",
+          "citation": "17-87-301"
+        },
+        {
+          "license_class": "licensed practical nurse (LPN)",
+          "degree_level": "high_school",
+          "effective_date": null,
+          "quote": "Has completed an approved high school course of study or the equivalent thereof as determined by the appropriate educational agency; and Has completed a prescribed curriculum in a state-approved program for the preparation of practical nurses",
+          "citation": "17-87-304"
+        },
+        {
+          "license_class": "clinical nurse specialist (APRN)",
+          "degree_level": "master",
+          "effective_date": null,
+          "quote": "Hold a master's degree evidencing successful completion of a graduate program in nursing, which shall include supervised clinical practice and classroom instruction in a nursing specialty",
+          "citation": "17-87-302"
+        }
+      ]
     },
-    "post_degree_experience": null,
+    "post_degree_experience": {
+      "required": {
+        "value": false,
+        "quote": "Has completed the required approved professional nursing education program",
+        "citation": "17-87-301"
+      },
+      "experience_source": {
+        "value": "none",
+        "quote": "Has completed the required approved professional nursing education program",
+        "citation": "17-87-301"
+      },
+      "duration": null,
+      "kind": null
+    },
     "exams": [
       {
-        "name": "NCLEX-RN or NCLEX-PN",
+        "name": "NCLEX-RN",
         "required": true,
-        "notes": "Examination required for licensure as registered nurse or practical nurse",
+        "notes": "Required for multistate license under compact; state statute requires passing an examination for RN licensure",
+        "jurisdiction": "national (NCLEX-RN)",
+        "permitted_attempts": null,
+        "quote": "Has successfully passed an NCLEX-RN® or NCLEX-PN® Examination or recognized predecessor, as applicable",
+        "citation": "17-87-601"
+      },
+      {
+        "name": "NCLEX-PN",
+        "required": true,
+        "notes": "Required for LPN licensure under compact",
+        "jurisdiction": "national (NCLEX-PN)",
+        "permitted_attempts": null,
+        "quote": "Has successfully passed an NCLEX-RN® or NCLEX-PN® Examination or recognized predecessor, as applicable",
+        "citation": "17-87-601"
+      },
+      {
+        "name": "National certification exam (APRN)",
+        "required": true,
+        "notes": "Required for APRN licensure; national certifying body recognized by the board",
         "jurisdiction": "national",
         "permitted_attempts": null,
-        "quote": "The applicant shall be required to pass an examination in such subjects as the board may determine",
-        "citation": "[17-87-301]"
+        "quote": "Hold current certification by a national certifying body recognized by the board in the advanced practice registered nurse role and population foci appropriate to educational preparation",
+        "citation": "17-87-302"
       }
     ],
     "renewal": {
       "interval_years": {
         "value": 2,
-        "quote": "cyclical biennial renewal of licenses",
-        "citation": "[17-87-308]"
+        "quote": "The Arkansas State Board of Nursing shall prescribe the procedure for the cyclical biennial renewal of licenses to every person licensed by the board.",
+        "citation": "17-87-308"
       }
     },
     "renewal_fee_usd": null,
     "continuing_education": {
       "required": {
         "value": true,
-        "quote": "The board shall not require more than twenty (20) hours of continuing education per year",
-        "citation": "[17-87-207]"
+        "quote": "The failure of any licensed nurse to satisfy the minimum standards for continuing education shall be grounds for disciplinary action or nonrenewal of the nurse's license, or both.",
+        "citation": "17-87-207"
       },
       "hours_per_period": {
         "value": 20,
-        "quote": "The board shall not require more than twenty (20) hours of continuing education per year",
-        "citation": "[17-87-207]"
+        "quote": "The board shall not require more than twenty (20) hours of continuing education per year.",
+        "citation": "17-87-207"
       },
       "period_years": {
         "value": 1,
-        "quote": "twenty (20) hours of continuing education per year",
-        "citation": "[17-87-207]"
+        "quote": "The board shall not require more than twenty (20) hours of continuing education per year.",
+        "citation": "17-87-207"
       },
       "topical_requirements": null
     },
@@ -77,304 +150,375 @@
       "available": {
         "value": true,
         "quote": "The board may issue a license to practice professional nursing as a registered nurse by endorsement to an applicant who has been duly licensed as a registered nurse under the laws of another state, territory, or foreign country",
-        "citation": "[17-87-301]"
+        "citation": "17-87-301"
       },
       "requirements": {
-        "value": "Applicant must meet qualifications required of registered nurses in this state at time of graduation and board recommendation",
+        "value": "Applicant must meet qualifications required of registered nurses in this state at time of graduation and board must recommend; similar endorsement available for LPN, psychiatric technician nurse, and APRN",
         "quote": "if, in the opinion of the board, the applicant meets the qualifications required of registered nurses in this state at the time of graduation and if the board so recommends",
-        "citation": "[17-87-301]"
+        "citation": "17-87-301"
       }
     },
     "advisory_board": {
       "exists": {
-        "value": false,
-        "quote": "The Prescriptive Authority Advisory Committee is created as an advisory committee to the Arkansas State Board of Nursing",
-        "citation": "[17-87-205]"
+        "value": true,
+        "quote": "The Prescriptive Authority Advisory Committee is created as an advisory committee to the Arkansas State Board of Nursing.",
+        "citation": "17-87-205"
       },
-      "name": null,
-      "authority": null
+      "name": {
+        "value": "Prescriptive Authority Advisory Committee",
+        "quote": "The Prescriptive Authority Advisory Committee is created as an advisory committee to the Arkansas State Board of Nursing.",
+        "citation": "17-87-205"
+      },
+      "authority": {
+        "value": "The committee shall assist the board in implementing the provisions of this chapter regarding prescriptive authority.",
+        "quote": "The committee shall assist the board in implementing the provisions of this chapter regarding prescriptive authority.",
+        "citation": "17-87-205"
+      }
     },
     "national_certification": {
-      "value": "National certification required for advanced practice registered nurses",
-      "quote": "an applicant shall show evidence of education approved by the Arkansas State Board of Nursing, and national certification approved by the board",
-      "citation": "[17-87-302]"
+      "value": "National certifying body recognized by the Arkansas State Board of Nursing (APRN roles)",
+      "quote": "Hold current certification by a national certifying body recognized by the board in the advanced practice registered nurse role and population foci appropriate to educational preparation",
+      "citation": "17-87-302"
     },
     "national_association": null,
     "regulatory_model": {
       "value": "license",
-      "quote": "a person practicing or offering to practice nursing for compensation shall be required to submit evidence that he or she is qualified to so practice and shall be licensed",
-      "citation": "[17-87-101]"
+      "quote": "It is unlawful for any person not licensed by the Arkansas State Board of Nursing: (1) To practice or offer to practice professional nursing, advanced practice registered nursing, registered practitioner nursing, practical nursing, or psychiatric technician nursing",
+      "citation": "17-87-101"
     },
     "credential_type": {
       "value": "license",
-      "quote": "shall be licensed as provided in this chapter: (1) Professional nursing; (2) Advanced practice registered nursing; (3) Registered practitioner nursing; (4) Practical nursing; or (5) Psychiatric technician nursing",
-      "citation": "[17-87-101]"
+      "quote": "a person practicing or offering to practice nursing for compensation shall be required to submit evidence that he or she is qualified to so practice and shall be licensed as provided in this chapter",
+      "citation": "17-87-101"
     },
     "is_mandatory": {
       "value": true,
       "quote": "It is unlawful for any person not licensed by the Arkansas State Board of Nursing: (1) To practice or offer to practice professional nursing, advanced practice registered nursing, registered practitioner nursing, practical nursing, or psychiatric technician nursing",
-      "citation": "[17-87-101]"
+      "citation": "17-87-101"
     },
     "title_protection": {
       "value": true,
-      "quote": "It is unlawful for any person not licensed by the Arkansas State Board of Nursing: (1) To practice or offer to practice professional nursing, advanced practice registered nursing, registered practitioner nursing, practical nursing, or psychiatric technician nursing; or (2) To use any sign, card, or device to indicate that the person is a professional registered nurse, an advanced practice registered nurse, a registered nurse practitioner, a licensed practical nurse, or a licensed psychiatric technician nurse.",
-      "citation": "[17-87-101]"
+      "quote": "To use any sign, card, or device to indicate that the person is a professional registered nurse, an advanced practice registered nurse, a registered nurse practitioner, a licensed practical nurse, or a licensed psychiatric technician nurse.",
+      "citation": "17-87-101"
     },
     "scope_protection": {
       "value": true,
       "quote": "It is unlawful for any person not licensed by the Arkansas State Board of Nursing: (1) To practice or offer to practice professional nursing, advanced practice registered nursing, registered practitioner nursing, practical nursing, or psychiatric technician nursing",
-      "citation": "[17-87-101]"
+      "citation": "17-87-101"
     },
     "disciplinary_grounds": [
       {
-        "short_label": "fraud_or_deceit",
-        "description": "Guilty of fraud or deceit in procuring or attempting to procure a license to practice nursing or engaged in practice without valid license",
+        "short_label": "fraud_in_obtaining_license",
+        "description": "Guilty of fraud or deceit in procuring or attempting to procure a license to practice nursing",
         "quote": "Is guilty of fraud or deceit in procuring or attempting to procure a license to practice nursing or is engaged in the practice of nursing without a valid license",
-        "citation": "[17-87-309]"
+        "citation": "17-87-309"
       },
       {
         "short_label": "crime_or_gross_immorality",
         "description": "Guilty of a crime or gross immorality",
         "quote": "Is guilty of a crime or gross immorality",
-        "citation": "[17-87-309]"
+        "citation": "17-87-309"
       },
       {
-        "short_label": "unfit_or_incompetent",
+        "short_label": "incompetence_or_negligence",
         "description": "Unfit or incompetent by reason of negligence, habits, or other causes",
         "quote": "Is unfit or incompetent by reason of negligence, habits, or other causes",
-        "citation": "[17-87-309]"
+        "citation": "17-87-309"
       },
       {
-        "short_label": "habitually_intemperate",
-        "description": "Habitually intemperate or addicted to use of habit-forming drugs",
+        "short_label": "habitual_intemperance_or_drug_addiction",
+        "description": "Habitually intemperate or addicted to habit-forming drugs",
         "quote": "Is habitually intemperate or is addicted to the use of habit-forming drugs",
-        "citation": "[17-87-309]"
+        "citation": "17-87-309"
       },
       {
-        "short_label": "mentally_incompetent",
+        "short_label": "mental_incompetence",
         "description": "Mentally incompetent",
         "quote": "Is mentally incompetent",
-        "citation": "[17-87-309]"
+        "citation": "17-87-309"
       },
       {
         "short_label": "unprofessional_conduct",
         "description": "Guilty of unprofessional conduct",
         "quote": "Is guilty of unprofessional conduct",
-        "citation": "[17-87-309]"
+        "citation": "17-87-309"
       },
       {
-        "short_label": "license_revoked_suspended",
-        "description": "Had a license, privilege to practice, certificate, or registration revoked or suspended or been placed on probation or under disciplinary order in any jurisdiction",
+        "short_label": "prior_license_action",
+        "description": "Had a license, privilege to practice, certificate, or registration revoked or suspended or placed on probation or under disciplinary order in any jurisdiction",
         "quote": "Has had a license, privilege to practice, certificate, or registration revoked or suspended or has been placed on probation or under disciplinary order in any jurisdiction",
-        "citation": "[17-87-309]"
+        "citation": "17-87-309"
       },
       {
-        "short_label": "voluntarily_surrendered_license",
+        "short_label": "voluntary_surrender_of_license",
         "description": "Voluntarily surrendered a license, privilege to practice, certification, or registration and has not been reinstated in any jurisdiction",
         "quote": "Has voluntarily surrendered a license, privilege to practice, certification, or registration and has not been reinstated in any jurisdiction",
-        "citation": "[17-87-309]"
+        "citation": "17-87-309"
       },
       {
-        "short_label": "willfully_violated_provisions",
+        "short_label": "willful_or_repeated_violations",
         "description": "Willfully or repeatedly violated any of the provisions of this chapter",
-        "quote": "Has willfully or repeatedly violated any of the provisions of this chapter",
-        "citation": "[17-87-309]"
+        "quote": "Has willfully or repeatedly violated any of the provisions of this chapter.",
+        "citation": "17-87-309"
+      },
+      {
+        "short_label": "disqualifying_criminal_conviction",
+        "description": "Found guilty of or pleads guilty or nolo contendere to any offense listed in § 17-3-102",
+        "quote": "The board shall refuse to issue or shall revoke the license of any person who is found guilty of or pleads guilty or nolo contendere to any offense listed in § 17-3-102",
+        "citation": "17-87-309"
       }
     ],
+    "alternative_regulation": {
+      "bonding_required": null,
+      "insurance_required": null,
+      "establishment_regulation_required": null
+    },
     "citations": [
       {
         "cite": "17-87-101",
-        "kind": null
+        "kind": "license_required"
       },
       {
         "cite": "17-87-102",
-        "kind": null
+        "kind": "definitions"
+      },
+      {
+        "cite": "17-87-103",
+        "kind": "exceptions"
+      },
+      {
+        "cite": "17-87-104",
+        "kind": "penalty"
+      },
+      {
+        "cite": "17-87-203",
+        "kind": "powers_and_duties"
+      },
+      {
+        "cite": "17-87-205",
+        "kind": "advisory_committee"
+      },
+      {
+        "cite": "17-87-207",
+        "kind": "continuing_education"
       },
       {
         "cite": "17-87-301",
-        "kind": null
+        "kind": "rn_qualifications"
       },
       {
         "cite": "17-87-302",
-        "kind": null
+        "kind": "aprn_qualifications"
       },
       {
         "cite": "17-87-303",
-        "kind": null
+        "kind": "rnp_qualifications"
       },
       {
         "cite": "17-87-304",
-        "kind": null
+        "kind": "lpn_qualifications"
       },
       {
         "cite": "17-87-305",
-        "kind": null
+        "kind": "lptn_qualifications"
+      },
+      {
+        "cite": "17-87-307",
+        "kind": "temporary_permits"
       },
       {
         "cite": "17-87-308",
-        "kind": null
+        "kind": "renewal"
       },
       {
         "cite": "17-87-309",
-        "kind": null
+        "kind": "disciplinary_actions"
       },
       {
         "cite": "17-87-310",
-        "kind": null
+        "kind": "prescriptive_authority"
+      },
+      {
+        "cite": "17-87-314",
+        "kind": "full_independent_practice"
+      },
+      {
+        "cite": "17-87-315",
+        "kind": "cnm_full_practice_authority"
+      },
+      {
+        "cite": "17-87-601",
+        "kind": "nurse_licensure_compact"
       }
     ]
   },
   "scope": {
     "definition_quote": {
-      "value": "Practice of professional nursing means the performance by a registered nurse or an advanced practice registered nurse for compensation of any acts involving: (A) The observation, care, and counsel of the ill, injured, or infirm; (B) The maintenance of health or prevention of illness of others; (C) The supervision and teaching of other personnel; (D) The delegation of certain nursing practices to other personnel as set forth in rules established by the board; or (E) The administration of medications and treatments as prescribed by practitioners authorized to prescribe and treat in accordance with state law when such acts require substantial specialized judgment and skill based on knowledge and application of the principles of biological, physical, and social sciences",
-      "quote": "Practice of professional nursing means the performance by a registered nurse or an advanced practice registered nurse for compensation of any acts involving: (A) The observation, care, and counsel of the ill, injured, or infirm; (B) The maintenance of health or prevention of illness of others; (C) The supervision and teaching of other personnel; (D) The delegation of certain nursing practices to other personnel as set forth in rules established by the board; or (E) The administration of medications and treatments as prescribed by practitioners authorized to prescribe and treat in accordance with state law when such acts require substantial specialized judgment and skill based on knowledge and application of the principles of biological, physical, and social sciences",
-      "citation": "[17-87-102]"
+      "value": "Practice of professional nursing means the performance by a registered nurse or an advanced practice registered nurse for compensation of any acts involving: The observation, care, and counsel of the ill, injured, or infirm; The maintenance of health or prevention of illness of others; The supervision and teaching of other personnel; The delegation of certain nursing practices to other personnel as set forth in rules established by the board; or The administration of medications and treatments as prescribed by practitioners authorized to prescribe and treat in accordance with state law when such acts require substantial specialized judgment and skill",
+      "quote": "\"Practice of professional nursing\" means the performance by a registered nurse or an advanced practice registered nurse for compensation of any acts involving: (A) The observation, care, and counsel of the ill, injured, or infirm; (B) The maintenance of health or prevention of illness of others; (C) The supervision and teaching of other personnel; (D) The delegation of certain nursing practices to other personnel as set forth in rules established by the board; or (E) The administration of medications and treatments as prescribed by practitioners authorized to prescribe and treat in accordance with state law when such acts require substantial specialized judgment and skill",
+      "citation": "17-87-102"
     },
     "methods_authorized": {
       "value": [
         "observation and care",
-        "health maintenance and prevention",
+        "counsel",
+        "health maintenance and illness prevention",
         "supervision and teaching",
         "delegation of nursing practices",
-        "medication and treatment administration"
+        "administration of medications and treatments"
       ],
-      "quote": "The observation, care, and counsel of the ill, injured, or infirm; (B) The maintenance of health or prevention of illness of others; (C) The supervision and teaching of other personnel; (D) The delegation of certain nursing practices to other personnel as set forth in rules established by the board; or (E) The administration of medications and treatments as prescribed by practitioners authorized to prescribe and treat in accordance with state law",
-      "citation": "[17-87-102]"
+      "quote": "The observation, care, and counsel of the ill, injured, or infirm; The maintenance of health or prevention of illness of others; The supervision and teaching of other personnel; The delegation of certain nursing practices to other personnel as set forth in rules established by the board; or The administration of medications and treatments as prescribed by practitioners authorized to prescribe and treat",
+      "citation": "17-87-102"
     },
     "drug_authority": {
-      "value": "Advanced practice registered nurses with certificate of prescriptive authority may prescribe drugs, medicines, or therapeutic devices appropriate to their area of practice",
-      "quote": "An advanced practice registered nurse with a certificate of prescriptive authority may receive and prescribe drugs, medicines, or therapeutic devices appropriate to the advanced practice registered nurse's area of practice",
-      "citation": "[17-87-310]"
+      "value": "APRNs with certificate of prescriptive authority may prescribe Schedules III-V; Schedule II opioids for 5-day supply or less; Schedule II stimulants under specific conditions; CRNAs may administer Schedule II drugs during perioperative periods",
+      "quote": "An advanced practice registered nurse's prescriptive authority shall extend only to drugs listed in Schedules III - V and, if expressly authorized by the collaborative practice agreement, also to those hydrocodone combination products reclassified from Schedule III to Schedule II as of October 6, 2014.",
+      "citation": "17-87-310"
     },
     "citations": [
       {
         "cite": "17-87-102",
-        "kind": null
+        "kind": "scope_definitions"
       },
       {
         "cite": "17-87-310",
-        "kind": null
+        "kind": "prescriptive_authority"
       }
     ]
   },
   "profession_specific": {
     "license_tiers": {
       "value": [
-        "Professional nursing (Registered Nurse)",
-        "Advanced practice registered nursing (Certified Nurse Practitioner, Certified Registered Nurse Anesthetist, Certified Nurse Midwife, Clinical Nurse Specialist)",
-        "Registered nurse practitioner nursing",
-        "Practical nursing (Licensed Practical Nurse)",
-        "Psychiatric technician nursing (Licensed Psychiatric Technician Nurse)"
+        "Professional nursing (RN)",
+        "Advanced practice registered nursing (APRN)",
+        "Registered nurse practitioner (RNP)",
+        "Licensed practical nursing (LPN)",
+        "Licensed psychiatric technician nursing (LPTN)"
       ],
-      "quote": "shall be licensed as provided in this chapter: (1) Professional nursing; (2) Advanced practice registered nursing; (3) Registered practitioner nursing; (4) Practical nursing; or (5) Psychiatric technician nursing",
-      "citation": "[17-87-101]"
+      "quote": "a person practicing or offering to practice nursing for compensation shall be required to submit evidence that he or she is qualified to so practice and shall be licensed as provided in this chapter: (1) Professional nursing; (2) Advanced practice registered nursing; (3) Registered practitioner nursing; (4) Practical nursing; or (5) Psychiatric technician nursing.",
+      "citation": "17-87-101"
     },
     "aprn_role_categories": {
       "value": [
-        "Certified Nurse Practitioner",
-        "Certified Registered Nurse Anesthetist",
-        "Certified Nurse Midwife",
-        "Clinical Nurse Specialist"
+        "Certified Nurse Practitioner (CNP)",
+        "Certified Registered Nurse Anesthetist (CRNA)",
+        "Certified Nurse Midwife (CNM)",
+        "Clinical Nurse Specialist (CNS)"
       ],
-      "quote": "Practice of advanced practice registered nursing includes the practice of nursing as a: (i) Certified nurse practitioner; (ii) Certified registered nurse anesthetist; (iii) Certified nurse midwife; and (iv) Clinical nurse specialist",
-      "citation": "[17-87-102]"
+      "quote": "\"Practice of advanced practice registered nursing\" includes the practice of nursing as a: (i) Certified nurse practitioner; (ii) Certified registered nurse anesthetist; (iii) Certified nurse midwife; and (iv) Clinical nurse specialist",
+      "citation": "17-87-102"
     },
     "lpn_supervision_requirements": {
       "value": [
-        "Registered nurse",
-        "Advanced practice registered nurse",
-        "Licensed physician",
-        "Licensed dentist"
+        "registered nurse",
+        "advanced practice registered nurse",
+        "licensed physician",
+        "licensed dentist"
       ],
-      "quote": "under the direction of a registered nurse, an advanced practice registered nurse, a licensed physician, or a licensed dentist",
-      "citation": "[17-87-102]"
+      "quote": "\"Practice of licensed practical nursing\" means the performance for compensation of nursing practices by a licensed practical nurse that are relevant to the care of the ill, injured, or infirm, or the delegation of certain nursing practices to other personnel as set forth in rules established by the board, under the direction of a registered nurse, an advanced practice registered nurse, a licensed physician, or a licensed dentist",
+      "citation": "17-87-102"
     },
     "collaborative_practice_agreement_required": {
       "value": true,
-      "quote": "Has either: (A) A certificate of full independent practice authority under \u00a7 17-87-314; or (B) A collaborative practice agreement with a practicing physician",
-      "citation": "[17-87-310]"
+      "quote": "Has a collaborative practice agreement with a practicing physician who is licensed under the Arkansas Medical Practices Act",
+      "citation": "17-87-310"
     },
     "full_independent_practice_available": {
       "value": true,
-      "quote": "A certified nurse practitioner or a clinical nurse specialist with a certificate of full independent practice authority may receive and prescribe drugs, medicines, or therapeutic devices appropriate to the certified nurse practitioner's area of practice or the clinical nurse specialist's area of practice",
-      "citation": "[17-87-314]"
+      "quote": "\"full independent practice authority\" means the ability of a certified nurse practitioner or a clinical nurse specialist to practice with prescriptive authority without a collaborative practice agreement",
+      "citation": "17-87-314"
     },
     "full_independent_practice_experience_hours_required": {
       "value": 6240,
       "quote": "Proof of successful completion of six thousand two hundred forty (6,240) hours of practice",
-      "citation": "[17-87-314]"
+      "citation": "17-87-314"
     },
     "prescriptive_authority_certificate_required": {
       "value": true,
       "quote": "The Arkansas State Board of Nursing may grant a certificate of prescriptive authority to an advanced practice registered nurse",
-      "citation": "[17-87-310]"
+      "citation": "17-87-310"
     },
     "controlled_substance_schedule_authority": {
       "value": [
-        "Schedules III-V",
-        "Schedule II opioids for five-day period or less",
-        "Schedule II stimulants under specified conditions"
+        "Schedule III",
+        "Schedule IV",
+        "Schedule V",
+        "Schedule II (opioids, 5-day supply or less)",
+        "Schedule II (stimulants under specific conditions)",
+        "Schedule II (CRNAs during perioperative period)"
       ],
-      "quote": "An advanced practice registered nurse's prescriptive authority shall extend only to drugs listed in Schedules III - V and, if expressly authorized by the collaborative practice agreement, also to those hydrocodone combination products reclassified from Schedule III to Schedule II as of October 6, 2014. An advanced practice registered nurse's prescriptive authority also extends to drugs listed in Schedule II if: (i) The prescription is for an opioid and the prescription is only for a five-day period or less; or (ii) The prescription is for a stimulant",
-      "citation": "[17-87-310]"
+      "quote": "An advanced practice registered nurse's prescriptive authority shall extend only to drugs listed in Schedules III - V and, if expressly authorized by the collaborative practice agreement, also to those hydrocodone combination products reclassified from Schedule III to Schedule II as of October 6, 2014.",
+      "citation": "17-87-310"
     },
     "opioid_prescribing_limits": {
-      "value": "Five-day period or less for opioid prescriptions",
+      "value": "Schedule II opioids may be prescribed only for a five-day period or less",
       "quote": "The prescription is for an opioid and the prescription is only for a five-day period or less",
-      "citation": "[17-87-310]"
+      "citation": "17-87-310"
     },
     "dea_registration_required": null,
     "controlled_substance_database_registration_required": null,
-    "nurse_aide_registry_maintained": null,
+    "nurse_aide_registry_maintained": {
+      "value": true,
+      "quote": "Is currently listed in good standing on the state's certified nurse aide registry",
+      "citation": "17-87-704"
+    },
     "medication_assistant_certification_available": {
       "value": true,
-      "quote": "Examine, certify, and renew the certification of qualified applicants for medication assistive persons",
-      "citation": "[17-87-203]"
+      "quote": "\"Medication assistive person\" means a person who is certified by the board to administer certain nonprescription and legend drugs in designated facilities",
+      "citation": "17-87-701"
     },
     "delegation_to_unlicensed_personnel_authorized": {
       "value": true,
       "quote": "The delegation of certain nursing practices to other personnel as set forth in rules established by the board",
-      "citation": "[17-87-102]"
+      "citation": "17-87-102"
     },
-    "employer_mandatory_reporting_required": null,
+    "employer_mandatory_reporting_required": {
+      "value": true,
+      "quote": "The chief executive officer or an official agent of a required reporter or his or her designee shall report to the appropriate licensing authority the following: (1) A final disciplinary action taken against a healthcare professional as a result of the diversion, misuse, or abuse of illicit drugs or controlled substances",
+      "citation": "17-80-117"
+    },
     "whistleblower_protection_for_delegation_refusal": null,
     "nurse_licensure_compact_member": {
       "value": true,
       "quote": "The Interstate Nurse Licensure Compact is enacted into law and entered into by this state with all states legally joining therein",
-      "citation": "[17-87-601]"
+      "citation": "17-87-601"
     },
     "multistate_license_option_available": {
       "value": true,
-      "quote": "A multistate license to practice registered nurse or licensed practical/vocational nursing issued by a home state to a resident in that state will be recognized by each party state",
-      "citation": "[17-87-601]"
+      "quote": "\"Single-state license\" means a nurse license issued by a party state that authorizes practice only within the issuing state and does not include a multistate licensure privilege to practice in any other party state.",
+      "citation": "17-87-601"
     },
     "impaired_nurse_alternative_program_available": {
       "value": true,
-      "quote": "The Arkansas State Board of Nursing shall create an alternative to discipline program which shall: (1) Serve as a diversion program to which the board may refer participants when appropriate in lieu of or in addition to other disciplinary action",
-      "citation": "[17-87-804]"
+      "quote": "The Arkansas State Board of Nursing shall create an alternative to discipline program which shall: (1) Serve as a diversion program to which the board may refer participants when appropriate in lieu of or in addition to other disciplinary action; and (2) Be a source of referral for participants who, on a strictly voluntary basis, desire to avail themselves of its services.",
+      "citation": "17-87-804"
     },
     "rn_death_pronouncement_authorized": null,
     "public_health_nurse_certification_available": null,
     "telehealth_prescribing_rules": {
-      "value": "Healthcare professional must establish professional relationship; telemedicine may be used if standard of care does not require in-person encounter",
-      "quote": "A healthcare professional at a distant site shall not utilize telemedicine with respect to a patient located in Arkansas unless a professional relationship exists between the healthcare professional and the patient",
-      "citation": "[17-80-403]"
+      "value": "Healthcare services provided by telemedicine, including a prescription through telemedicine, shall be held to the same standard of care as healthcare services provided in person; a professional relationship must be established",
+      "quote": "Healthcare services provided by telemedicine, including without limitation a prescription through telemedicine, shall be held to the same standard of care as healthcare services provided in person.",
+      "citation": "17-80-404"
     },
-    "nurse_practitioner_transition_to_practice_hours": null,
+    "nurse_practitioner_transition_to_practice_hours": {
+      "value": 6240,
+      "quote": "Proof of successful completion of six thousand two hundred forty (6,240) hours of practice",
+      "citation": "17-87-314"
+    },
     "crna_physician_supervision_model": {
       "value": "consultation model",
-      "quote": "the administration of anesthetics in consultation with, but not necessarily in the presence of, a licensed physician, licensed dentist, or other person lawfully entitled to order anesthesia",
-      "citation": "[17-87-102]"
+      "quote": "\"Practice of certified registered nurse anesthesia\" means the performance for compensation of advanced nursing practices by a certified registered nurse anesthetist that are relevant to the administration of anesthetics in consultation with, but not necessarily in the presence of, a licensed physician, licensed dentist, or other person lawfully entitled to order anesthesia.",
+      "citation": "17-87-102"
     },
     "cnm_out_of_hospital_birth_authorized": {
       "value": true,
-      "quote": "For a delivery outside of an accredited facility, the certified nurse midwife shall identify a licensed physician or facility, or both, with which an arrangement has been made for referral and consultation in the event of a medical complication",
-      "citation": "[17-87-315]"
+      "quote": "For a delivery outside of an accredited facility, the certified nurse midwife shall identify a licensed physician or facility, or both, with which an arrangement has been made for referral and consultation in the event of a medical complication.",
+      "citation": "17-87-315"
     },
     "aprn_formulary_or_protocol_required": {
       "value": true,
-      "quote": "A collaborative practice agreement shall include, but not be limited to, provisions addressing: (1) The availability of the collaborating physician for consultation or referral, or both; (2) Methods of management of the collaborative practice, which shall include protocols for prescriptive authority",
-      "citation": "[17-87-310]"
+      "quote": "Methods of management of the collaborative practice, which shall include protocols for prescriptive authority",
+      "citation": "17-87-310"
     },
     "nursing_education_program_clinical_hours_minimum": null,
     "implicit_bias_training_required_in_curriculum": null,

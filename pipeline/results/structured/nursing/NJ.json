@@ -36,46 +36,106 @@
     },
     "moral_character_required": {
       "value": true,
-      "quote": "is of good moral character, is not a habitual user of drugs",
+      "quote": "is of good moral character, is not a habitual user of drugs and has never been convicted",
       "citation": "45:11-26"
     },
     "education": {
       "degree_required": {
-        "value": "Diploma from accredited school of professional nursing",
+        "value": "completed a course of professional nursing study in an accredited school of professional nursing as defined by the board and holds a diploma therefrom",
         "quote": "has completed a course of professional nursing study in an accredited school of professional nursing as defined by the board and holds a diploma therefrom",
         "citation": "45:11-26"
       },
       "accrediting_body": {
-        "value": "New Jersey Board of Nursing",
-        "quote": "accredited school of professional nursing as defined by the board",
+        "value": "board-approved accredited school of professional nursing",
+        "quote": "an accredited school of professional nursing as defined by the board",
         "citation": "45:11-26"
-      }
+      },
+      "degree_level": {
+        "value": "associate",
+        "quote": "has completed a course of professional nursing study in an accredited school of professional nursing as defined by the board and holds a diploma therefrom",
+        "citation": "45:11-26"
+      },
+      "school_approval_basis": {
+        "value": "board_approved",
+        "quote": "an accredited school of professional nursing as defined by the board",
+        "citation": "45:11-26"
+      },
+      "credential_pegged": {
+        "value": false,
+        "quote": "has completed a course of professional nursing study in an accredited school of professional nursing as defined by the board and holds a diploma therefrom",
+        "citation": "45:11-26"
+      },
+      "tiers": [
+        {
+          "license_class": "registered professional nurse",
+          "degree_level": "associate",
+          "effective_date": null,
+          "quote": "has completed a course of professional nursing study in an accredited school of professional nursing as defined by the board and holds a diploma therefrom",
+          "citation": "45:11-26"
+        },
+        {
+          "license_class": "licensed practical nurse",
+          "degree_level": "high_school",
+          "effective_date": null,
+          "quote": "has completed 2 years of high school or the equivalent thereof, as determined by the New Jersey State Department of Education",
+          "citation": "45:11-27"
+        },
+        {
+          "license_class": "advanced practice nurse",
+          "degree_level": "associate",
+          "effective_date": null,
+          "quote": "Is a registered professional nurse",
+          "citation": "45:11-47"
+        }
+      ]
     },
-    "post_degree_experience": null,
+    "post_degree_experience": {
+      "required": {
+        "value": false,
+        "quote": "has completed a course of professional nursing study in an accredited school of professional nursing as defined by the board and holds a diploma therefrom",
+        "citation": "45:11-26"
+      },
+      "experience_source": {
+        "value": "none",
+        "quote": "has completed a course of professional nursing study in an accredited school of professional nursing as defined by the board and holds a diploma therefrom",
+        "citation": "45:11-26"
+      },
+      "duration": null,
+      "kind": null
+    },
     "exams": [
       {
-        "name": "NCLEX-RN",
+        "name": "NCLEX-RN / NCLEX-PN",
         "required": true,
-        "notes": "Written examination required for registered professional nurse licensure; NCLEX referenced in compact provisions",
-        "jurisdiction": "national (NCLEX-RN)",
+        "notes": "Referenced in the Nurse Licensure Compact as required for multistate licensure; the practice act requires passing a written examination approved by the board.",
+        "jurisdiction": "national",
         "permitted_attempts": null,
         "quote": "Has successfully passed an NCLEX-RN or NCLEX-PN Examination or recognized predecessor, as applicable",
         "citation": "45:11A-9"
       },
       {
-        "name": "Written examination (practical nursing)",
+        "name": "Written examination (RN)",
         "required": true,
-        "notes": "Examination required for licensed practical nurse licensure",
-        "jurisdiction": null,
+        "notes": "Board-approved written examination for registered professional nurse licensure.",
+        "jurisdiction": "state (board-approved)",
+        "permitted_attempts": null,
+        "quote": "The applicant shall be required to pass a written examination in such subjects as the board may determine",
+        "citation": "45:11-26"
+      },
+      {
+        "name": "Written examination (LPN)",
+        "required": true,
+        "notes": "Board-approved written examination for licensed practical nurse licensure.",
+        "jurisdiction": "state (board-approved)",
         "permitted_attempts": null,
         "quote": "The applicant shall be required to pass a written examination in such subjects as the board may determine",
         "citation": "45:11-27"
       },
       {
-        "name": "Written examination (advanced practice nurse)",
+        "name": "Written examination (APN)",
         "required": true,
-        "notes": "Examination approved by the board required for APN certification",
-        "jurisdiction": null,
+        "notes": "Board-approved written examination for advanced practice nurse certification.",
+        "jurisdiction": "state (board-approved)",
         "permitted_attempts": null,
         "quote": "Has passed a written examination approved by the board",
         "citation": "45:11-47"
@@ -84,7 +144,7 @@
     "renewal": {
       "interval_years": {
         "value": 2,
-        "quote": "all professional or occupational licenses or certificates of registration...shall, on and after the effective date of this act, be issued for periods of two years and be biennially renewable",
+        "quote": "all professional or occupational licenses or certificates of registration ... shall, on and after the effective date of this act, be issued for periods of two years and be biennially renewable",
         "citation": "45:1-7"
       }
     },
@@ -92,7 +152,7 @@
     "continuing_education": {
       "required": {
         "value": true,
-        "quote": "It shall from time to time prescribe rules and regulations not inconsistent with this act. (27) It may require licensees to meet continuing education requirements as a condition of relicensure.",
+        "quote": "It may require licensees to meet continuing education requirements as a condition of relicensure.",
         "citation": "45:11-24"
       },
       "hours_per_period": null,
@@ -104,11 +164,11 @@
       "topical_requirements": {
         "value": [
           "one credit concerning prescription opioid drugs, including alternatives to opioids for managing and treating pain and the risks and signs of opioid abuse, addiction, and diversion",
-          "one credit of educational programs or topics concerning explicit and implicit bias (for nurses providing perinatal treatment and care)",
-          "two credits related to end-of-life care (for advanced practice nurses)",
-          "one credit in cultural competency and implicit bias training (for in-home health care providers)"
+          "one credit of explicit and implicit bias training for nurses providing perinatal treatment and care to pregnant persons",
+          "two credits related to end-of-life care for advanced practice nurses",
+          "one credit of cultural competency and implicit bias training for nurses providing in-home health care services"
         ],
-        "quote": "include one credit of educational programs or topics concerning prescription opioid drugs, including alternatives to opioids for managing and treating pain and the risks and signs of opioid abuse, addiction, and diversion",
+        "quote": "require that the number of credits of continuing education required of each person licensed as a professional nurse or a practical nurse, as a condition of biennial license renewal, include one credit of educational programs or topics concerning prescription opioid drugs",
         "citation": "45:11-26.3"
       }
     },
@@ -119,7 +179,7 @@
         "citation": "45:11-26"
       },
       "requirements": {
-        "value": "Applicant must have been duly licensed or registered in another state; board must determine applicant has qualifications required or equivalent qualifications. For reciprocity under general provisions, out-of-state license must reflect substantially equivalent education, training, and examination requirements.",
+        "value": "Applicant must hold a valid out-of-state license and in the opinion of the board have qualifications required by this act or equivalent qualifications. Licensure by endorsement also available under general provisions for substantially equivalent education, training, and examination requirements with five years of practice within the prior five years.",
         "quote": "if in the opinion of the board the applicant has the qualifications required by this act for the licensing of professional nurses, or equivalent qualifications",
         "citation": "45:11-26"
       }
@@ -127,15 +187,15 @@
     "advisory_board": {
       "exists": {
         "value": false,
-        "quote": "the New Jersey Board of Nursing shall consist of 12 members, six of whom shall be registered professional nurses, two of whom shall be licensed practical nurses, two of whom shall be nurse educators, one of whom shall be an advanced practice nurse",
+        "quote": "the New Jersey Board of Nursing shall consist of 12 members, six of whom shall be registered professional nurses, two of whom shall be licensed practical nurses, two of whom shall be nurse educators, one of whom shall be an advanced practice nurse, and one of whom shall be an additional public member",
         "citation": "45:11-24"
       },
       "name": null,
       "authority": null
     },
     "national_certification": {
-      "value": "National accrediting organization certification (for APN interim certification)",
-      "quote": "Has been certified as a nurse practitioner, clinical nurse specialist or advanced practice nurse by a national accrediting organization",
+      "value": "National certification organizations approved by the New Jersey Board of Nursing (for APN interim certification)",
+      "quote": "Has been certified as a nurse practitioner, clinical nurse specialist or advanced practice nurse by a national accrediting organization, which: (1) is approved by the board",
       "citation": "45:11-48"
     },
     "national_association": null,
@@ -146,12 +206,12 @@
     },
     "credential_type": {
       "value": "license",
-      "quote": "upon successfully passing such examinations the applicant shall be licensed by the board to practice professional nursing",
-      "citation": "45:11-26"
+      "quote": "to practice or offer to practice professional nursing as defined by this act, unless such person holds an effective, unsuspended license as a registered nurse under this act",
+      "citation": "45:11-37"
     },
     "is_mandatory": {
       "value": true,
-      "quote": "It shall be unlawful for any person...to practice or offer to practice professional nursing as defined by this act, unless such person holds an effective, unsuspended license as a registered nurse under this act",
+      "quote": "to practice or offer to practice professional nursing as defined by this act, unless such person holds an effective, unsuspended license as a registered nurse under this act",
       "citation": "45:11-37"
     },
     "title_protection": {
@@ -167,43 +227,43 @@
     "disciplinary_grounds": [
       {
         "short_label": "fraud_in_obtaining_license",
-        "description": "Obtaining a certificate, registration, license, or authorization to sit for an examination through fraud, deception, or misrepresentation",
+        "description": "Obtained a certificate, registration, license or authorization to sit for an examination through fraud, deception, or misrepresentation",
         "quote": "Has obtained a certificate, registration, license or authorization to sit for an examination, as the case may be, through fraud, deception, or misrepresentation",
         "citation": "45:1-21"
       },
       {
-        "short_label": "dishonesty_fraud_misrepresentation",
-        "description": "Engaging in the use or employment of dishonesty, fraud, deception, misrepresentation, false promise or false pretense",
+        "short_label": "dishonesty_fraud_deception",
+        "description": "Engaged in the use or employment of dishonesty, fraud, deception, misrepresentation, false promise or false pretense",
         "quote": "Has engaged in the use or employment of dishonesty, fraud, deception, misrepresentation, false promise or false pretense",
         "citation": "45:1-21"
       },
       {
-        "short_label": "gross_negligence_malpractice_incompetence",
-        "description": "Engaging in gross negligence, gross malpractice or gross incompetence which damaged or endangered the life, health, welfare, safety or property of any person",
+        "short_label": "gross_negligence_malpractice",
+        "description": "Engaged in gross negligence, gross malpractice or gross incompetence which damaged or endangered the life, health, welfare, safety or property of any person",
         "quote": "Has engaged in gross negligence, gross malpractice or gross incompetence which damaged or endangered the life, health, welfare, safety or property of any person",
         "citation": "45:1-21"
       },
       {
         "short_label": "repeated_negligence_malpractice",
-        "description": "Engaging in repeated acts of negligence, malpractice or incompetence",
+        "description": "Engaged in repeated acts of negligence, malpractice or incompetence",
         "quote": "Has engaged in repeated acts of negligence, malpractice or incompetence",
         "citation": "45:1-21"
       },
       {
         "short_label": "professional_misconduct",
-        "description": "Engaging in professional or occupational misconduct as determined by the board",
+        "description": "Engaged in professional or occupational misconduct as may be determined by the board",
         "quote": "Has engaged in professional or occupational misconduct as may be determined by the board",
         "citation": "45:1-21"
       },
       {
         "short_label": "criminal_conviction",
-        "description": "Convicted of or engaged in acts constituting a crime or offense with a direct or substantial relationship to the regulated activity or inconsistent with public health, safety, or welfare",
+        "description": "Convicted of or engaged in acts constituting any crime or offense that has a direct or substantial relationship to the regulated activity or is inconsistent with the public's health, safety, or welfare",
         "quote": "Has been convicted of, or engaged in acts constituting, any crime or offense that has a direct or substantial relationship to the activity regulated by the board or is of a nature such that certification, registration or licensure of the person would be inconsistent with the public's health, safety, or welfare",
         "citation": "45:1-21"
       },
       {
-        "short_label": "license_revoked_another_state",
-        "description": "Having authority to engage in the regulated activity revoked or suspended by another state, agency, or authority for consistent reasons",
+        "short_label": "out_of_state_revocation_suspension",
+        "description": "Had authority to engage in the regulated activity revoked or suspended by any other state, agency or authority for reasons consistent with this section",
         "quote": "Has had his authority to engage in the activity regulated by the board revoked or suspended by any other state, agency or authority for reasons consistent with this section",
         "citation": "45:1-21"
       },
@@ -214,15 +274,15 @@
         "citation": "45:1-21"
       },
       {
-        "short_label": "incapacity",
+        "short_label": "medical_incapacity",
         "description": "Incapable, for medical or any other good cause, of discharging the functions of a licensee in a manner consistent with the public's health, safety and welfare",
         "quote": "Is incapable, for medical or any other good cause, of discharging the functions of a licensee in a manner consistent with the public's health, safety and welfare",
         "citation": "45:1-21"
       },
       {
         "short_label": "insurance_fraud",
-        "description": "Violated any provision of the insurance fraud prevention law or been adjudicated of such a violation",
-        "quote": "Has violated any provision of P.L.1983, c.320 (C.17:33A-1 et seq.) or any insurance fraud prevention law or act of another jurisdiction",
+        "description": "Violated any provision of P.L.1983, c.320 (insurance fraud prevention law) or been adjudicated of a violation or subject to a final civil/administrative order",
+        "quote": "Has violated any provision of P.L.1983, c.320 (C.17:33A-1 et seq.) or any insurance fraud prevention law",
         "citation": "45:1-21"
       },
       {
@@ -232,14 +292,14 @@
         "citation": "45:1-21"
       },
       {
-        "short_label": "improper_controlled_substance_prescribing",
-        "description": "Prescribed or dispensed controlled dangerous substances indiscriminately or without good cause, or where the substances were to be used for unauthorized consumption or distribution",
+        "short_label": "indiscriminate_controlled_substance_prescribing",
+        "description": "Prescribed or dispensed controlled dangerous substances indiscriminately or without good cause, or where the licensee knew or should have known that the substances were to be used for unauthorized consumption or distribution",
         "quote": "Has prescribed or dispensed controlled dangerous substances indiscriminately or without good cause, or where the applicant or holder knew or should have known that the substances were to be used for unauthorized consumption or distribution",
         "citation": "45:1-21"
       },
       {
         "short_label": "aiding_unlicensed_practice",
-        "description": "Permitted an unlicensed person or entity to perform an act requiring a license or certification, or aided and abetted such an unlicensed person",
+        "description": "Permitted an unlicensed person or entity to perform an act for which a license is required, or aided and abetted an unlicensed person or entity in performing such an act",
         "quote": "Has permitted an unlicensed person or entity to perform an act for which a license or certificate of registration or certification is required by the board, or aided and abetted an unlicensed person or entity in performing such an act",
         "citation": "45:1-21"
       },
@@ -252,11 +312,7 @@
     ],
     "alternative_regulation": {
       "bonding_required": null,
-      "insurance_required": {
-        "value": true,
-        "quote": "An applicant shall satisfy or shall have satisfied all applicable prerequisites required for initial licensure in this State, such as obtaining insurance, including malpractice insurance, a surety bond, or a pressure seal.",
-        "citation": "45:1-7.5"
-      },
+      "insurance_required": null,
       "establishment_regulation_required": null
     },
     "citations": [
@@ -278,7 +334,7 @@
       },
       {
         "cite": "45:11-37",
-        "kind": "violations and unlawful practice"
+        "kind": "violations / scope protection"
       },
       {
         "cite": "45:11-46",
@@ -289,20 +345,36 @@
         "kind": "APN certification requirements"
       },
       {
+        "cite": "45:11-48",
+        "kind": "APN interim certification"
+      },
+      {
         "cite": "45:11-49",
         "kind": "APN permitted duties"
+      },
+      {
+        "cite": "45:11-50",
+        "kind": "Board additional powers"
+      },
+      {
+        "cite": "45:11-26.3",
+        "kind": "CE opioid requirement"
+      },
+      {
+        "cite": "45:11-26.4",
+        "kind": "CE bias training requirement"
       },
       {
         "cite": "45:11A-9",
         "kind": "Nurse Licensure Compact"
       },
       {
-        "cite": "45:1-21",
-        "kind": "disciplinary grounds"
-      },
-      {
         "cite": "45:1-7",
         "kind": "biennial renewal"
+      },
+      {
+        "cite": "45:1-21",
+        "kind": "disciplinary grounds"
       }
     ]
   },
@@ -324,18 +396,18 @@
       "citation": "45:11-23"
     },
     "drug_authority": {
-      "value": "Advanced practice nurses may prescribe or order medications and devices pursuant to joint protocols with a collaborating physician in both inpatient and outpatient settings, including controlled dangerous substances subject to specified conditions.",
+      "value": "Advanced practice nurses may prescribe or order medications and devices in inpatient and outpatient settings pursuant to joint protocols with a collaborating physician; may also dispense narcotic drugs for maintenance or detoxification treatment if federal training and registration requirements are met.",
       "quote": "prescribing or ordering medications and devices, as authorized by subsections b. and c. of this section",
       "citation": "45:11-49"
     },
     "citations": [
       {
         "cite": "45:11-23",
-        "kind": "scope of practice definition"
+        "kind": "scope definition"
       },
       {
         "cite": "45:11-49",
-        "kind": "APN scope of practice"
+        "kind": "APN scope and drug authority"
       }
     ]
   },
@@ -346,8 +418,8 @@
         "Licensed Practical Nurse (LPN)",
         "Advanced Practice Nurse (APN)"
       ],
-      "quote": "The practice of nursing as a registered professional nurse...The practice of nursing as a licensed practical nurse...No person shall practice as an advanced practice nurse or present, call or represent himself as an advanced practice nurse unless certified",
-      "citation": "45:11-23"
+      "quote": "six of whom shall be registered professional nurses, two of whom shall be licensed practical nurses, two of whom shall be nurse educators, one of whom shall be an advanced practice nurse",
+      "citation": "45:11-24"
     },
     "aprn_role_categories": {
       "value": [
@@ -374,25 +446,16 @@
     },
     "full_independent_practice_available": {
       "value": false,
-      "quote": "the collaborating physician and advanced practice nurse shall address in the joint protocols whether prior consultation with the collaborating physician is required to initiate a prescription for a controlled dangerous substance",
+      "quote": "the prescription is written in accordance with standing orders or joint protocols developed in agreement between a collaborating physician and the advanced practice nurse, or pursuant to the specific direction of a physician",
       "citation": "45:11-49"
     },
     "full_independent_practice_experience_hours_required": null,
     "prescriptive_authority_certificate_required": {
       "value": false,
-      "quote": "the advanced practice nurse writes the prescription on a New Jersey Prescription Blank pursuant to P.L.2003, c.280 (C.45:14-40 et seq.), signs the nurse's own name to the prescription and prints the nurse's name and certification number",
+      "quote": "An advanced practice nurse may prescribe medications and devices in all other medically appropriate settings, subject to the following conditions",
       "citation": "45:11-49"
     },
-    "controlled_substance_schedule_authority": {
-      "value": [
-        "Schedule II (controlled dangerous substances, in inpatient and outpatient settings per joint protocols)",
-        "Schedule III",
-        "Schedule IV",
-        "Schedule V"
-      ],
-      "quote": "the collaborating physician and advanced practice nurse shall address in the joint protocols whether prior consultation with the collaborating physician is required to initiate an order for a controlled dangerous substance",
-      "citation": "45:11-49"
-    },
+    "controlled_substance_schedule_authority": null,
     "opioid_prescribing_limits": null,
     "dea_registration_required": null,
     "controlled_substance_database_registration_required": null,
@@ -431,8 +494,8 @@
     },
     "public_health_nurse_certification_available": null,
     "telehealth_prescribing_rules": {
-      "value": "APRNs may provide health care services via telemedicine subject to same standard of care as in-person settings. Schedule II controlled dangerous substances may only be prescribed via telemedicine after an initial in-person examination, with subsequent in-person visit every three months, except for stimulants prescribed to minors under 18 when interactive real-time two-way audio/video is used and written parental consent is obtained.",
-      "quote": "The prescription of Schedule II controlled dangerous substances through the use of telemedicine or telehealth shall be authorized only after an initial in-person examination of the patient, as provided by regulation, and a subsequent in-person visit with the patient shall be required every three months",
+      "value": "The prescription of Schedule II controlled dangerous substances through telemedicine is authorized only after an initial in-person examination of the patient, with subsequent in-person visits required every three months. Exception: stimulant Schedule II substances for minors under 18 may be prescribed via interactive real-time two-way audio/video with written parental consent waiving in-person requirements.",
+      "quote": "The prescription of Schedule II controlled dangerous substances through the use of telemedicine or telehealth shall be authorized only after an initial in-person examination of the patient, as provided by regulation, and a subsequent in-person visit with the patient shall be required every three months for the duration of time that the patient is being prescribed the Schedule II controlled dangerous substance.",
       "citation": "45:1-62"
     },
     "nurse_practitioner_transition_to_practice_hours": null,
@@ -444,11 +507,7 @@
       "citation": "45:11-49"
     },
     "nursing_education_program_clinical_hours_minimum": null,
-    "implicit_bias_training_required_in_curriculum": {
-      "value": true,
-      "quote": "The New Jersey Board of Nursing shall require that the number of credits of continuing education required of each person licensed as a professional nurse or a practical nurse who provides perinatal treatment and care to pregnant persons, as a condition of biennial license renewal, include one credit of educational programs or topics concerning explicit and implicit bias",
-      "citation": "45:11-26.4"
-    },
+    "implicit_bias_training_required_in_curriculum": null,
     "military_education_credit_required": {
       "value": true,
       "quote": "The New Jersey Board of Nursing shall encourage schools of nursing approved by the board to consider granting a nursing student, who served in the United States military, academic credit toward the student's nursing degree for the student's prior training and experience as a Naval Corpsman or Army Medic.",

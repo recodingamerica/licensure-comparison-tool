@@ -4,24 +4,24 @@
   "licensure": {
     "license_required": {
       "value": true,
-      "quote": "no person shall use the title \"nurse\" unless the person is licensed or has been licensed in the past as a registered nurse or licensed practical nurse under the Nursing Practice Act",
-      "citation": "[61-3-5]"
+      "quote": "unless licensed as a registered nurse under the Nursing Practice Act, no person shall: (1) practice professional nursing",
+      "citation": "61-3-5"
     },
     "issuing_authority": {
-      "value": "State Board of Nursing",
+      "value": "Board of Nursing",
       "quote": "\"board\" means the board of nursing",
-      "citation": "[61-3-3]"
+      "citation": "61-3-3"
     },
     "regulatory_authority": {
       "name": {
-        "value": "State Board of Nursing",
+        "value": "Board of Nursing",
         "quote": "\"board\" means the board of nursing",
-        "citation": "[61-3-3]"
+        "citation": "61-3-3"
       },
       "type": {
         "value": "standalone_board",
-        "quote": "the board of nursing",
-        "citation": "[61-3-3]"
+        "quote": "\"board\" means the board of nursing",
+        "citation": "61-3-3"
       },
       "umbrella_agency": null
     },
@@ -29,240 +29,370 @@
     "moral_character_required": null,
     "education": {
       "degree_required": {
-        "value": "Approved program of nursing for licensure as a registered nurse",
-        "quote": "furnish evidence satisfactory to the board that the applicant has successfully completed an approved program of nursing for licensure as a registered nurse and has graduated or is eligible for graduation",
-        "citation": "[61-3-13]"
+        "value": "approved program of nursing",
+        "quote": "the applicant has successfully completed an approved program of nursing for licensure as a registered nurse and has graduated or is eligible for graduation",
+        "citation": "61-3-13"
       },
-      "accrediting_body": null
+      "accrediting_body": {
+        "value": "board-approved",
+        "quote": "An institution desiring to conduct a nursing education program to prepare registered or licensed practical nurses shall apply to the board for approval",
+        "citation": "61-3-26"
+      },
+      "degree_level": {
+        "value": "none",
+        "quote": "the applicant has successfully completed an approved program of nursing for licensure as a registered nurse and has graduated or is eligible for graduation",
+        "citation": "61-3-13"
+      },
+      "school_approval_basis": {
+        "value": "board_approved",
+        "quote": "An institution desiring to conduct a nursing education program to prepare registered or licensed practical nurses shall apply to the board for approval",
+        "citation": "61-3-26"
+      },
+      "credential_pegged": {
+        "value": false,
+        "quote": "the applicant has successfully completed an approved program of nursing for licensure as a registered nurse and has graduated or is eligible for graduation",
+        "citation": "61-3-13"
+      },
+      "tiers": [
+        {
+          "license_class": "certified nurse practitioner (initial licensure on or after January 1, 2001)",
+          "degree_level": "master",
+          "effective_date": "2001-01-01",
+          "quote": "if the applicant is initially licensed by the board or a board in another jurisdiction after January 1, 2001, the program shall be at the master's level or higher",
+          "citation": "61-3-23.2"
+        },
+        {
+          "license_class": "certified registered nurse anesthetist (initial licensure on or after January 1, 2001)",
+          "degree_level": "master",
+          "effective_date": "2001-01-01",
+          "quote": "if the applicant is initially licensed by the board or a board in another licensing jurisdiction after January 1, 2001, the program shall be at a master's level or higher",
+          "citation": "61-3-23.3"
+        },
+        {
+          "license_class": "certified clinical nurse specialist",
+          "degree_level": "master",
+          "effective_date": null,
+          "quote": "has a master's degree or doctoral degree in a defined clinical nursing specialty",
+          "citation": "61-3-23.4"
+        }
+      ]
     },
-    "post_degree_experience": null,
+    "post_degree_experience": {
+      "required": {
+        "value": false,
+        "quote": "the applicant has successfully completed an approved program of nursing for licensure as a registered nurse and has graduated or is eligible for graduation",
+        "citation": "61-3-13"
+      },
+      "experience_source": {
+        "value": "none",
+        "quote": "the applicant has successfully completed an approved program of nursing for licensure as a registered nurse and has graduated or is eligible for graduation",
+        "citation": "61-3-13"
+      },
+      "duration": null,
+      "kind": null
+    },
     "exams": [
       {
-        "name": "National licensing examination for registered nurses",
+        "name": "National Licensing Examination for Registered Nurses (NCLEX-RN)",
         "required": true,
-        "notes": null,
+        "notes": "Required for licensure by examination; expedited licensure available without exam for those licensed in another jurisdiction.",
         "jurisdiction": "national",
         "permitted_attempts": null,
-        "quote": "Applicants for licensure by examination shall be required to pass the national licensing examination for registered nurses",
-        "citation": "[61-3-14]"
+        "quote": "Applicants for licensure by examination shall be required to pass the national licensing examination for registered nurses.",
+        "citation": "61-3-14"
       },
       {
-        "name": "National licensing examination for licensed practical nurses",
+        "name": "National Licensing Examination for Licensed Practical Nurses (NCLEX-PN)",
         "required": true,
-        "notes": null,
+        "notes": "Required for LPN licensure by examination; expedited licensure available without exam for those licensed in another jurisdiction.",
         "jurisdiction": "national",
         "permitted_attempts": null,
-        "quote": "Applicants for licensure by examination shall be required to pass the national licensing examination for licensed practical nurses",
-        "citation": "[61-3-19]"
+        "quote": "Applicants for licensure by examination shall be required to pass the national licensing examination for licensed practical nurses.",
+        "citation": "61-3-19"
+      },
+      {
+        "name": "National certifying examination (CNP specialty area)",
+        "required": true,
+        "notes": "Required for certified nurse practitioner licensure.",
+        "jurisdiction": "national",
+        "permitted_attempts": null,
+        "quote": "has successfully completed the national certifying examination in the applicant's specialty area",
+        "citation": "61-3-23.2"
+      },
+      {
+        "name": "National certifying examination (CNS specialty area)",
+        "required": true,
+        "notes": "Required for certified clinical nurse specialist licensure.",
+        "jurisdiction": "national",
+        "permitted_attempts": null,
+        "quote": "has successfully completed a national certifying examination in the applicant's area of specialty",
+        "citation": "61-3-23.4"
       }
     ],
     "renewal": {
       "interval_years": {
         "value": 2,
-        "quote": "renew the license every two years by the end of the applicant's renewal month",
-        "citation": "[61-3-24]"
+        "quote": "Any person licensed pursuant to the provisions of the Nursing Practice Act who intends to continue practice shall renew the license every two years",
+        "citation": "61-3-24"
       }
     },
     "renewal_fee_usd": {
       "value": 150,
-      "quote": "a fee, in an amount not to exceed one hundred fifty dollars ($150)",
-      "citation": "[61-3-24]"
+      "quote": "a fee, in an amount not to exceed one hundred fifty dollars ($150), a license valid for two years shall be issued",
+      "citation": "61-3-24"
     },
     "continuing_education": {
       "required": {
         "value": true,
-        "quote": "shall show proof of continuing education as required by the board",
-        "citation": "[61-3-24]"
+        "quote": "shall renew the license every two years by the end of the applicant's renewal month and shall show proof of continuing education as required by the board",
+        "citation": "61-3-24"
       },
       "hours_per_period": null,
-      "period_years": null,
+      "period_years": {
+        "value": 2,
+        "quote": "shall renew the license every two years by the end of the applicant's renewal month and shall show proof of continuing education as required by the board",
+        "citation": "61-3-24"
+      },
       "topical_requirements": null
     },
     "reciprocity": {
       "available": {
         "value": true,
-        "quote": "The board shall issue an expedited license to practice professional registered nursing without an examination to an applicant who has been duly licensed in another licensing jurisdiction and holds a valid, unrestricted license and is in good standing with the licensing board in that licensing jurisdiction",
-        "citation": "[61-3-14]"
+        "quote": "The board shall issue an expedited license to practice professional registered nursing without an examination to an applicant who has been duly licensed in another licensing jurisdiction and holds a valid, unrestricted license and is in good standing with the licensing board in that licensing jurisdiction.",
+        "citation": "61-3-14"
       },
       "requirements": {
-        "value": "Applicant must hold a valid, unrestricted license in good standing from another jurisdiction; board shall expedite issuance within thirty days",
-        "quote": "The board shall issue an expedited license to practice professional registered nursing without an examination to an applicant who has been duly licensed in another licensing jurisdiction and holds a valid, unrestricted license and is in good standing with the licensing board in that licensing jurisdiction. The board shall expedite the issuance of a license in accordance with Section 61-1-31.1 NMSA 1978 within thirty days",
-        "citation": "[61-3-14]"
+        "value": "Applicant must hold a valid, unrestricted license in another licensing jurisdiction and be in good standing. Board expedites issuance within thirty days. If prior jurisdiction did not require examination, board may require exam before renewal. Applicant licensed under laws of a territory or foreign country must demonstrate English proficiency.",
+        "quote": "The board shall issue an expedited license to practice professional registered nursing without an examination to an applicant who has been duly licensed in another licensing jurisdiction and holds a valid, unrestricted license and is in good standing with the licensing board in that licensing jurisdiction. The board shall expedite the issuance of a license in accordance with Section 61-1-31.1 NMSA 1978 within thirty days.",
+        "citation": "61-3-14"
       }
     },
     "advisory_board": {
       "exists": {
         "value": false,
-        "quote": "shall appoint and employ a qualified registered nurse, who shall not be a member of the board, to serve as executive officer to the board",
-        "citation": "[61-3-10]"
+        "quote": "\"board\" means the board of nursing",
+        "citation": "61-3-3"
       },
       "name": null,
       "authority": null
     },
-    "national_certification": null,
+    "national_certification": {
+      "value": "National Board of Certification and Recertification for Nurse Anesthetists",
+      "quote": "is certified by the national board of certification and recertification for nurse anesthetists",
+      "citation": "61-3-23.3"
+    },
     "national_association": null,
     "regulatory_model": {
       "value": "license",
-      "quote": "unless licensed as a registered nurse under the Nursing Practice Act, no person shall:\n(1) practice professional nursing",
-      "citation": "[61-3-5]"
+      "quote": "unless licensed as a registered nurse under the Nursing Practice Act, no person shall: (1) practice professional nursing",
+      "citation": "61-3-5"
     },
     "credential_type": {
       "value": "license",
-      "quote": "no person shall use the title \"nurse\" unless the person is licensed or has been licensed in the past as a registered nurse or licensed practical nurse under the Nursing Practice Act",
-      "citation": "[61-3-5]"
+      "quote": "unless licensed as a registered nurse under the Nursing Practice Act, no person shall: (1) practice professional nursing",
+      "citation": "61-3-5"
     },
     "is_mandatory": {
       "value": true,
-      "quote": "unless licensed as a registered nurse under the Nursing Practice Act, no person shall practice professional nursing",
-      "citation": "[61-3-5]"
+      "quote": "unless licensed as a registered nurse under the Nursing Practice Act, no person shall: (1) practice professional nursing",
+      "citation": "61-3-5"
     },
     "title_protection": {
       "value": true,
       "quote": "no person shall use the title \"nurse\" unless the person is licensed or has been licensed in the past as a registered nurse or licensed practical nurse under the Nursing Practice Act",
-      "citation": "[61-3-5]"
+      "citation": "61-3-5"
     },
     "scope_protection": {
       "value": true,
-      "quote": "unless licensed as a registered nurse under the Nursing Practice Act, no person shall practice professional nursing",
-      "citation": "[61-3-5]"
+      "quote": "unless licensed as a registered nurse under the Nursing Practice Act, no person shall: (1) practice professional nursing",
+      "citation": "61-3-5"
     },
     "disciplinary_grounds": [
       {
-        "short_label": "fraud_or_deceit",
-        "description": "Guilty of fraud or deceit in procuring or attempting to procure a license",
+        "short_label": "fraud_in_obtaining_license",
+        "description": "Guilty of fraud or deceit in procuring or attempting to procure a license or certificate of registration",
         "quote": "is guilty of fraud or deceit in procuring or attempting to procure a license or certificate of registration",
-        "citation": "[61-3-28]"
+        "citation": "61-3-28"
       },
       {
         "short_label": "felony_conviction",
         "description": "Convicted of a felony",
         "quote": "is convicted of a felony",
-        "citation": "[61-3-28]"
+        "citation": "61-3-28"
       },
       {
-        "short_label": "unfit_or_incompetent",
-        "description": "Unfit or incompetent",
+        "short_label": "unfitness_or_incompetence",
+        "description": "Unfit or incompetent to practice nursing",
         "quote": "is unfit or incompetent",
-        "citation": "[61-3-28]"
+        "citation": "61-3-28"
       },
       {
         "short_label": "substance_addiction",
         "description": "Addicted to the use of habit-forming substances",
         "quote": "is addicted to the use of habit-forming substances",
-        "citation": "[61-3-28]"
+        "citation": "61-3-28"
       },
       {
         "short_label": "mental_incompetence",
         "description": "Mentally incompetent",
         "quote": "is mentally incompetent",
-        "citation": "[61-3-28]"
+        "citation": "61-3-28"
       },
       {
         "short_label": "unprofessional_conduct",
         "description": "Guilty of unprofessional conduct as defined by board rules",
         "quote": "is guilty of unprofessional conduct as defined by the rules adopted by the board pursuant to the Nursing Practice Act",
-        "citation": "[61-3-28]"
+        "citation": "61-3-28"
       },
       {
-        "short_label": "violation_of_act",
+        "short_label": "willful_or_repeated_violations",
         "description": "Willfully or repeatedly violated provisions of the Nursing Practice Act or board rules",
         "quote": "has willfully or repeatedly violated any provisions of the Nursing Practice Act, including any rule adopted by the board pursuant to that act",
-        "citation": "[61-3-28]"
+        "citation": "61-3-28"
       },
       {
-        "short_label": "disciplinary_action_elsewhere",
-        "description": "Subject of disciplinary action in another jurisdiction for similar acts",
+        "short_label": "out_of_state_disciplinary_action",
+        "description": "Was subject to disciplinary action by another jurisdiction for acts similar to those described in this section",
         "quote": "was licensed to practice nursing in any jurisdiction, territory or possession of the United States or another country and was the subject of disciplinary action as a licensee for acts similar to acts described in this subsection",
-        "citation": "[61-3-28]"
+        "citation": "61-3-28"
       },
       {
-        "short_label": "conversion_therapy",
+        "short_label": "conversion_therapy_on_minor",
         "description": "Uses conversion therapy on a minor",
         "quote": "uses conversion therapy on a minor",
-        "citation": "[61-3-28]"
+        "citation": "61-3-28"
       }
     ],
+    "alternative_regulation": {
+      "bonding_required": null,
+      "insurance_required": null,
+      "establishment_regulation_required": null
+    },
     "citations": [
       {
-        "cite": "[61-3-3]",
-        "kind": null
+        "cite": "61-3-3",
+        "kind": "definitions"
       },
       {
-        "cite": "[61-3-5]",
-        "kind": null
+        "cite": "61-3-5",
+        "kind": "license required / scope and title protection"
       },
       {
-        "cite": "[61-3-10]",
-        "kind": null
+        "cite": "61-3-10",
+        "kind": "board powers and duties"
       },
       {
-        "cite": "[61-3-13]",
-        "kind": null
+        "cite": "61-3-13",
+        "kind": "RN qualifications"
       },
       {
-        "cite": "[61-3-14]",
-        "kind": null
+        "cite": "61-3-14",
+        "kind": "RN licensure by examination / expedited licensure"
       },
       {
-        "cite": "[61-3-16]",
-        "kind": null
+        "cite": "61-3-16",
+        "kind": "RN fees"
       },
       {
-        "cite": "[61-3-18]",
-        "kind": null
+        "cite": "61-3-18",
+        "kind": "LPN qualifications"
       },
       {
-        "cite": "[61-3-19]",
-        "kind": null
+        "cite": "61-3-19",
+        "kind": "LPN licensure by examination / expedited licensure"
       },
       {
-        "cite": "[61-3-22]",
-        "kind": null
+        "cite": "61-3-22",
+        "kind": "LPN fees"
       },
       {
-        "cite": "[61-3-24]",
-        "kind": null
+        "cite": "61-3-23.2",
+        "kind": "CNP qualifications and practice"
       },
       {
-        "cite": "[61-3-28]",
-        "kind": null
+        "cite": "61-3-23.3",
+        "kind": "CRNA qualifications and practice"
+      },
+      {
+        "cite": "61-3-23.4",
+        "kind": "CNS qualifications and practice"
+      },
+      {
+        "cite": "61-3-24",
+        "kind": "renewal"
+      },
+      {
+        "cite": "61-3-24.1",
+        "kind": "Nurse Licensure Compact"
+      },
+      {
+        "cite": "61-3-26",
+        "kind": "schools of nursing"
+      },
+      {
+        "cite": "61-3-28",
+        "kind": "disciplinary proceedings"
+      },
+      {
+        "cite": "61-3-29",
+        "kind": "exceptions"
+      },
+      {
+        "cite": "61-3-29.1",
+        "kind": "alternative to discipline program"
+      },
+      {
+        "cite": "61-3-30",
+        "kind": "violations and penalties"
       }
     ]
   },
   "scope": {
     "definition_quote": {
       "value": "assisting individuals, families or communities in maintaining or attaining optimal health, assessing and implementing a plan of care to accomplish defined goals and evaluating responses to care and treatment",
-      "quote": "assisting individuals, families or communities in maintaining or attaining optimal health, assessing and implementing a plan of care to accomplish defined goals and evaluating responses to care and treatment",
-      "citation": "[61-3-3]"
+      "quote": "\"practice of nursing\" means assisting individuals, families or communities in maintaining or attaining optimal health, assessing and implementing a plan of care to accomplish defined goals and evaluating responses to care and treatment.",
+      "citation": "61-3-3"
     },
     "methods_authorized": {
       "value": [
         "initiating and maintaining comfort measures",
         "promoting and supporting optimal human functions and responses",
-        "establishing an environment conducive to well-being",
+        "establishing an environment conducive to well-being or to the support of a dignified death",
         "collaborating on the health care regimen",
-        "administering medications and performing treatments",
-        "recording and reporting nursing observations",
+        "administering medications and performing treatments prescribed by a person authorized to prescribe",
+        "recording and reporting nursing observations, assessments, interventions and responses to health care",
         "providing counseling and health teaching",
-        "delegating and supervising nursing interventions",
+        "delegating and supervising nursing interventions that may be performed safely by others",
         "maintaining accountability for safe and effective nursing care"
       ],
-      "quote": "initiating and maintaining comfort measures; promoting and supporting optimal human functions and responses; establishing an environment conducive to well-being or to the support of a dignified death; collaborating on the health care regimen; administering medications and performing treatments prescribed by a person authorized in this state or in any other state in the United States to prescribe them; recording and reporting nursing observations, assessments, interventions and responses to health care; providing counseling and health teaching; delegating and supervising nursing interventions that may be performed safely by others and are not in conflict with the Nursing Practice Act; and maintaining accountability for safe and effective nursing care",
-      "citation": "[61-3-3]"
+      "quote": "includes but is not limited to: (1) initiating and maintaining comfort measures; (2) promoting and supporting optimal human functions and responses; (3) establishing an environment conducive to well-being or to the support of a dignified death; (4) collaborating on the health care regimen; (5) administering medications and performing treatments prescribed by a person authorized in this state or in any other state in the United States to prescribe them; (6) recording and reporting nursing observations, assessments, interventions and responses to health care; (7) providing counseling and health teaching; (8) delegating and supervising nursing interventions that may be performed safely by others and are not in conflict with the Nursing Practice Act; and (9) maintaining accountability for safe and effective nursing care",
+      "citation": "61-3-3"
     },
     "drug_authority": {
-      "value": "Administering medications prescribed by authorized persons",
-      "quote": "administering medications and performing treatments prescribed by a person authorized in this state or in any other state in the United States to prescribe them",
-      "citation": "[61-3-3]"
+      "value": "Certified nurse practitioners and certified registered nurse anesthetists who have fulfilled requirements for prescriptive authority may prescribe and distribute dangerous drugs and controlled substances in Schedules II through V of the Controlled Substances Act.",
+      "quote": "practice independently and make decisions regarding health care needs of the individual, family or community and carry out health regimens, including the prescription and distribution of dangerous drugs and controlled substances included in Schedules II through V of the Controlled Substances Act",
+      "citation": "61-3-23.2"
     },
     "citations": [
       {
-        "cite": "[61-3-3]",
-        "kind": null
+        "cite": "61-3-3",
+        "kind": "definitions — practice of nursing, professional registered nursing, licensed practical nursing"
       },
       {
-        "cite": "[61-3-6]",
-        "kind": null
+        "cite": "61-3-6",
+        "kind": "administration of anesthetics, sedatives and general anesthesia"
+      },
+      {
+        "cite": "61-3-23.2",
+        "kind": "CNP scope and prescriptive authority"
+      },
+      {
+        "cite": "61-3-23.3",
+        "kind": "CRNA scope and prescriptive authority"
+      },
+      {
+        "cite": "61-3-23.4",
+        "kind": "CNS scope and prescriptive authority"
       }
     ]
   },
@@ -273,83 +403,89 @@
         "Licensed Practical Nurse (LPN)",
         "Certified Nurse Practitioner (CNP)",
         "Certified Registered Nurse Anesthetist (CRNA)",
-        "Certified Clinical Nurse Specialist (CCNS)"
+        "Certified Clinical Nurse Specialist (CNS)"
       ],
-      "quote": "\"registered nurse\" means a nurse who practices professional registered nursing; \"licensed practical nurse\" means a nurse who practices licensed practical nursing; \"certified nurse practitioner\" means a registered nurse who is licensed by the board for advanced practice as a certified nurse practitioner; \"certified registered nurse anesthetist\" means a registered nurse who is licensed by the board for advanced practice as a certified registered nurse anesthetist; \"certified clinical nurse specialist\" means a registered nurse who is licensed by the board for advanced practice as a certified clinical nurse specialist",
-      "citation": "[61-3-3]",
-      "unverified": true
+      "quote": "\"advanced practice registered nurse\" means a certified nurse practitioner, certified registered nurse anesthetist or certified clinical nurse specialist licensed pursuant to the Nursing Practice Act",
+      "citation": "61-3-3"
     },
     "aprn_role_categories": {
       "value": [
-        "Certified Nurse Practitioner",
-        "Certified Registered Nurse Anesthetist",
-        "Certified Clinical Nurse Specialist"
+        "Certified Nurse Practitioner (CNP)",
+        "Certified Registered Nurse Anesthetist (CRNA)",
+        "Certified Clinical Nurse Specialist (CNS)"
       ],
-      "quote": "\"advanced practice\" means the practice of professional registered nursing by a registered nurse who has been prepared through additional formal education as provided in Sections 61-3-23.2 through 61-3-23.4 NMSA 1978 to function beyond the scope of practice of professional registered nursing, including certified nurse practitioners, certified registered nurse anesthetists and certified clinical nurse specialists",
-      "citation": "[61-3-3]"
+      "quote": "\"advanced practice\" means the practice of professional registered nursing by a registered nurse who has been prepared through additional formal education ... including certified nurse practitioners, certified registered nurse anesthetists and certified clinical nurse specialists",
+      "citation": "61-3-3"
     },
     "lpn_supervision_requirements": {
       "value": [
-        "Registered nurse",
-        "Physician",
-        "Dentist"
+        "registered nurse",
+        "physician",
+        "dentist"
       ],
-      "quote": "\"licensed practical nursing\" means the practice of a directed scope of nursing requiring basic knowledge of the biological, physical, social and behavioral sciences and nursing procedures, which practice is at the direction of a registered nurse, physician or dentist licensed to practice in this state",
-      "citation": "[61-3-3]"
+      "quote": "\"licensed practical nursing\" means the practice of a directed scope of nursing requiring basic knowledge of the biological, physical, social and behavioral sciences and nursing procedures, which practice is at the direction of a registered nurse, physician or dentist licensed to practice in this state.",
+      "citation": "61-3-3"
     },
-    "collaborative_practice_agreement_required": null,
+    "collaborative_practice_agreement_required": {
+      "value": false,
+      "quote": "Certified nurse practitioners may: ... (3) serve as a primary, acute, chronic, long-term and end-of-life health care provider and, as necessary, collaborate with licensed medical doctors, osteopathic physicians or podiatric physicians.",
+      "citation": "61-3-23.2"
+    },
     "full_independent_practice_available": {
       "value": true,
-      "quote": "Certified registered nurse anesthetists shall function in either an independent role or in collaboration with other health care providers in accordance with the policies of a health care facility",
-      "citation": "[61-3-23.3]"
+      "quote": "Certified nurse practitioners may: ... (2) practice independently and make decisions regarding health care needs of the individual, family or community and carry out health regimens",
+      "citation": "61-3-23.2"
     },
     "full_independent_practice_experience_hours_required": null,
-    "prescriptive_authority_certificate_required": null,
+    "prescriptive_authority_certificate_required": {
+      "value": true,
+      "quote": "Certified nurse practitioners who have fulfilled requirements for prescriptive authority may prescribe in accordance with rules promulgated by the board.",
+      "citation": "61-3-23.2"
+    },
     "controlled_substance_schedule_authority": {
       "value": [
-        "Schedules II through V"
+        "Schedule II",
+        "Schedule III",
+        "Schedule IV",
+        "Schedule V"
       ],
-      "quote": "prescription and distribution of dangerous drugs and controlled substances included in Schedules II through V of the Controlled Substances Act",
-      "citation": "[61-3-23.2]"
+      "quote": "including the prescription and distribution of dangerous drugs and controlled substances included in Schedules II through V of the Controlled Substances Act",
+      "citation": "61-3-23.2"
     },
     "opioid_prescribing_limits": null,
     "dea_registration_required": null,
     "controlled_substance_database_registration_required": null,
-    "nurse_aide_registry_maintained": {
-      "value": true,
-      "quote": "maintain a permanent register of all certified hemodialysis technicians",
-      "citation": "[61-3-10.1]"
-    },
+    "nurse_aide_registry_maintained": null,
     "medication_assistant_certification_available": {
       "value": true,
-      "quote": "A statewide program for certification of medication aides and approval of medication aide training programs is created under the board",
-      "citation": "[61-3-10.2]"
+      "quote": "A statewide program for certification of medication aides and approval of medication aide training programs is created under the board.",
+      "citation": "61-3-10.2"
     },
     "delegation_to_unlicensed_personnel_authorized": {
       "value": true,
       "quote": "delegating and supervising nursing interventions that may be performed safely by others and are not in conflict with the Nursing Practice Act",
-      "citation": "[61-3-3]"
+      "citation": "61-3-3"
     },
     "employer_mandatory_reporting_required": null,
     "whistleblower_protection_for_delegation_refusal": {
       "value": true,
-      "quote": "A health care facility shall not retaliate against, demote, suspend, terminate, discipline, discriminate against or report any action to the board of nursing when a nurse makes a good faith request for safe harbor",
-      "citation": "[61-3A-3]"
+      "quote": "A health care facility shall not retaliate against, demote, suspend, terminate, discipline, discriminate against or report any action to the board of nursing when a nurse makes a good faith request for safe harbor.",
+      "citation": "61-3A-3"
     },
     "nurse_licensure_compact_member": {
       "value": true,
       "quote": "The Nurse Licensure Compact is entered into law and entered into with all other jurisdictions legally joining therein",
-      "citation": "[61-3-24.1]"
+      "citation": "61-3-24.1"
     },
     "multistate_license_option_available": {
       "value": true,
       "quote": "shall provide a nurse applying for a first-time license, or upon renewal of a license, the option for a single or multistate license, which may incur an additional fee",
-      "citation": "[61-3-10]"
+      "citation": "61-3-10"
     },
     "impaired_nurse_alternative_program_available": {
       "value": true,
-      "quote": "The board shall establish an alternative to discipline program to rehabilitate nurses whose competencies may be impaired because of the use of habit-forming substances",
-      "citation": "[61-3-29.1]"
+      "quote": "The board shall establish an alternative to discipline program to rehabilitate nurses whose competencies may be impaired because of the use of habit-forming substances so that nurses can be treated and returned to or continue the practice of nursing in a manner that will benefit the public.",
+      "citation": "61-3-29.1"
     },
     "rn_death_pronouncement_authorized": null,
     "public_health_nurse_certification_available": null,
@@ -357,11 +493,15 @@
     "nurse_practitioner_transition_to_practice_hours": null,
     "crna_physician_supervision_model": {
       "value": "coordination model",
-      "quote": "Certified registered nurse anesthetists shall function in either an independent role or in collaboration with other health care providers in accordance with the policies of a health care facility",
-      "citation": "[61-3-23.3]"
+      "quote": "Certified registered nurse anesthetists shall function in either an independent role or in collaboration with other health care providers in accordance with the policies of a health care facility.",
+      "citation": "61-3-23.3"
     },
     "cnm_out_of_hospital_birth_authorized": null,
-    "aprn_formulary_or_protocol_required": null,
+    "aprn_formulary_or_protocol_required": {
+      "value": true,
+      "quote": "The board shall adopt rules concerning a prescriptive authority formulary for certified registered nurse anesthetists that shall be based on the scope of practice of certified registered nurse anesthetists.",
+      "citation": "61-3-23.3"
+    },
     "nursing_education_program_clinical_hours_minimum": null,
     "implicit_bias_training_required_in_curriculum": null,
     "military_education_credit_required": null
