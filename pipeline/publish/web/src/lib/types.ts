@@ -314,6 +314,9 @@ export type NovelPolicy = {
     unstated: number;
     total: number;
   } | null;
+  // Whether this rare policy is more restrictive / permissive than the norm (#52c),
+  // LLM-classified. Optional — absent on older data.
+  direction?: "more_restrictive" | "more_permissive" | "neutral" | null;
 };
 export type DiffersField = { field: string; value: string; label: string; importance: number };
 export type Driver = {
