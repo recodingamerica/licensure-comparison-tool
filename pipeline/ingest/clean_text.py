@@ -47,6 +47,22 @@ def corpus_profession_for(profession: str) -> str:
     except (OSError, yaml.YAMLError):
         return profession
 
+
+def corpus_from_overrides(profession: str) -> dict[str, str]:
+    """Per-(state, profession) corpus reuse (#53 sibling cross-ref). config/
+    corpus_overrides.yaml (shape `{profession: {STATE: sibling_profession}}`) records
+    that a state's text for `profession` already lives in a sibling's harvested corpus
+    — a combined or contractor chapter that governs several trades (e.g. TN Title 62
+    Ch.6 covers HVAC + electrician + plumber). Written by discover.cross_ref_siblings
+    so a missing trade self-heals from a sibling pull instead of logging a false gap.
+    Unlike profession-wide parent_corpus this is PER-STATE, so a profession can own its
+    corpus in 41 states and borrow a sibling's in the other 9. Returns {STATE: sibling}."""
+    try:
+        ov = yaml.safe_load((CONFIG_DIR / "corpus_overrides.yaml").read_text()) or {}
+    except (OSError, yaml.YAMLError):
+        return {}
+    return {str(s).upper(): sib for s, sib in (ov.get(profession) or {}).items() if sib}
+
 LOG_PATH = LOGS_DIR / "clean_text.log"
 LOGS_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -251,35 +267,49 @@ def main() -> None:
     profession = args.profession.lower()
     only_states = {s.strip().upper() for s in args.states.split(",") if s.strip()}
 
-    corpus_prof = corpus_profession_for(profession)
-    in_dir = TEXT_DIR / corpus_prof
+    base_prof = corpus_profession_for(profession)
+    base_dir = TEXT_DIR / base_prof
+    overrides = corpus_from_overrides(profession)
     out_dir = CLEAN_DIR / profession
     out_dir.mkdir(parents=True, exist_ok=True)
-    if corpus_prof != profession:
+    if base_prof != profession:
         log.info("[%s] nested occupation — reading parent corpus text/%s/ (no new pull)",
-                 profession, corpus_prof)
+                 profession, base_prof)
 
-    if not in_dir.exists():
-        raise SystemExit(f"input dir not found: {in_dir}"
-                         + (f" (parent_corpus={corpus_prof} not harvested)" if corpus_prof != profession else ""))
+    # Build the per-state source map: the profession's own (or parent) corpus, plus
+    # any per-state corpus_from siblings (a sibling's already-pulled combined chapter).
+    sources: dict[str, Path] = {}
+    if base_dir.exists():
+        for path in sorted(base_dir.glob("*.json")):
+            if not path.name.startswith("_"):
+                sources[path.stem.upper()] = path
+    for state, sib in overrides.items():
+        sp = TEXT_DIR / sib / f"{state}.json"
+        if sp.exists():
+            sources[state] = sp  # per-state sibling reuse wins over the base corpus
+        else:
+            log.warning("[%s] corpus_from=%s for %s but text/%s/%s.json not harvested",
+                        profession, sib, state, sib, state)
 
-    for path in sorted(in_dir.glob("*.json")):
-        if path.name.startswith("_"):
-            continue
-        state = path.stem
+    if not sources:
+        raise SystemExit(f"no source corpus for {profession}: base dir {base_dir} empty and no corpus_from overrides")
+
+    for state in sorted(sources):
         if only_states and state not in only_states:
             continue
+        path = sources[state]
         try:
             corpus = clean_state(path)
-        except Exception as e:
+        except Exception:
             log.exception("[%s] clean failed", state)
             continue
         out_path = out_dir / f"{state}.json"
         out_path.write_text(json.dumps(asdict(corpus), indent=2))
+        borrowed = path.parent.name if path.parent.name != base_prof else ""
         log.info(
-            "[%s] kept=%d dropped=%d chars=%d (was %d)",
+            "[%s] kept=%d dropped=%d chars=%d%s",
             state, len(corpus.sections), len(corpus.dropped), corpus.total_chars,
-            sum(s.get("text_len", len(s.get("text", ""))) for s in json.loads(path.read_text()).get("sections", [])),
+            f" (corpus_from {borrowed})" if borrowed else "",
         )
 
     # Cumulative summary rebuilt from every cleaned corpus on disk (not just this
