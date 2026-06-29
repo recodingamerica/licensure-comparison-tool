@@ -117,6 +117,11 @@ def main() -> int:
                          "blocked and bailing for a fresh runner (0 = never bail on blocks)")
     ap.add_argument("--limit-sections", type=int, default=None,
                     help="Cap sections per state (debug)")
+    ap.add_argument("--no-audit", action="store_true",
+                    help="Skip the post-pull corpus-correctness audit (on by default; ~$0.02/state).")
+    ap.add_argument("--gate", action="store_true",
+                    help="Exit non-zero if the post-pull audit flags any freshly-pulled corpus as "
+                         "wrong_chapter/empty (so a harvest can fail loudly on a bad pull).")
     args = ap.parse_args()
 
     professions = {p.strip().lower() for p in args.professions.split(",") if p.strip()} or None
@@ -134,6 +139,7 @@ def main() -> int:
     failed_states = 0
     consecutive_blocked = 0
     processed = 0
+    pulled_by_prof: dict[str, list[str]] = {}
 
     for profession, state, rows in work:
         if time.monotonic() >= deadline:
@@ -184,6 +190,7 @@ def main() -> int:
 
         out_path.write_text(json.dumps(new_d, indent=2))
         pulled += 1
+        pulled_by_prof.setdefault(profession, []).append(state)
         partial = sum(1 for s in corpus.sections if s.error)
         log.info("  [%s/%s] wrote sections=%d ok=%d chars=%d%s  (%d pulled / %d done of %d)",
                  profession, state, len(corpus.sections), ok, chars,
@@ -193,6 +200,33 @@ def main() -> int:
     remaining = len(build_worklist(professions))
     log.info("run complete: %d pulled, %d blocked/empty this run, %d pairs still remaining",
              pulled, failed_states, remaining)
+
+    # Post-pull corpus-correctness gate: discovery keys on chapter titles, so a pull
+    # can land on the wrong law (a criminal/procurement chapter, another profession,
+    # a repealed shell) and still look "healthy" by section count. Verdict each
+    # freshly-pulled corpus so a wrong-chapter pull is caught here, before clean →
+    # trim → extract trust it. Only audits states pulled THIS run (bounded cost).
+    bad_pulls: dict[str, list[str]] = {}
+    if pulled_by_prof and not args.no_audit:
+        from discover.audit_corpus import audit_states  # local import: heavy deps
+        for prof, sts in sorted(pulled_by_prof.items()):
+            verdicts = audit_states(prof, sorted(sts))
+            flagged = [s for s, v in verdicts.items() if v["verdict"] != "correct_licensure_text"]
+            for s in flagged:
+                log.warning("  AUDIT [%s/%s] %s — %s", prof, s,
+                            verdicts[s]["verdict"], verdicts[s]["reason"][:90])
+            if flagged:
+                bad_pulls[prof] = sorted(flagged)
+        if bad_pulls:
+            log.error("post-pull audit flagged %d wrong/empty corpus pull(s): %s — re-discover the "
+                      "right chapter (cross_ref_siblings / a state_structure override) before trusting them.",
+                      sum(len(v) for v in bad_pulls.values()),
+                      "; ".join(f"{p}: {','.join(s)}" for p, s in bad_pulls.items()))
+        else:
+            log.info("post-pull audit: all %d freshly-pulled corpora are correct licensure text.", pulled)
+
+    if args.gate and bad_pulls:
+        return EXIT_ERROR
     return EXIT_DONE if remaining == 0 else EXIT_WORK_REMAINS
 
 

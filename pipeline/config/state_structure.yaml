@@ -3548,6 +3548,29 @@ WA:
   # inline. Justia "chapter-19-28" → cite 19.28 (chapter_dot). RCW marker split.
   source: wa_official
   chapter_url_template: "https://app.leg.wa.gov/RCW/default.aspx?cite={chapter_dot}&full=true"
+  professions:
+    # WA has no standalone HVAC/mechanical license — mechanical work is performed
+    # under general contractor registration (Ch 18.27). Pin it: the 'refrigeration'
+    # pattern otherwise mis-matches RCW 9.03 (abandoned-refrigerator criminal statute).
+    # authoritative drops that noise. (Example of #53's "folded into contractor
+    # licensing" regulatory model.)
+    hvac:
+      url: "https://law.justia.com/codes/washington/title-18/chapter-18-27/"
+      authoritative: true
+      label: "WA Ch 18.27 — Registration of Contractors (HVAC via contractor registration)"
+
+ND:
+  source: justia
+  professions:
+    # Ch 43-03 "Architects and Landscape Architects" is a SHARED chapter; the
+    # label-matcher assigned it to landscape_architecture and left architecture on
+    # Ch 54-44.7 (procurement of A&E services — wrong). Pin the shared chapter under
+    # architecture too (the engineer/surveyor shared-act pattern). authoritative
+    # drops the 54-44.7 procurement node. (#53 "combined/umbrella chapter" model.)
+    architecture:
+      url: "https://law.justia.com/codes/north-dakota/title-43/chapter-43-03/"
+      authoritative: true
+      label: "ND Ch 43-03 — Architects and Landscape Architects (shared)"
 
 VA:
   # law.lis.virginia.gov /vacodefull/ serves a whole chapter inline. Justia

@@ -127,26 +127,10 @@ def _corpus_sample(profession: str, state: str) -> tuple[str, int]:
     return sample, len(secs)
 
 
-def main() -> int:
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--profession", required=True)
-    ap.add_argument("--states", help="comma-separated subset; default = all pulled")
-    ap.add_argument("--bad-only", action="store_true", help="print only the flagged states")
-    ap.add_argument("--gate", action="store_true", help="exit 1 if any state is not correct_licensure_text")
-    args = ap.parse_args()
-
-    prof = args.profession.lower()
+def audit_states(prof: str, states: list[str]) -> dict[str, dict]:
+    """Verdict each state's committed corpus for `prof`. Importable so the harvest
+    (pull_all) can gate a fresh pull, not just the CLI. Returns {state: {verdict, reason}}."""
     occ = _occupation_label(prof)
-    pdir = TEXT_DIR / prof
-    if not pdir.exists():
-        return log.error("no corpus dir: %s", pdir) or 2
-
-    states = sorted(os.path.basename(f)[:-5] for f in glob.glob(str(pdir / "*.json"))
-                    if "_summary" not in f)
-    if args.states:
-        want = {s.strip().upper() for s in args.states.split(",")}
-        states = [s for s in states if s in want]
-
     results: dict[str, dict] = {}
     for st in states:
         txt, _ = _corpus_sample(prof, st)
@@ -158,6 +142,29 @@ def main() -> int:
                             user=f"Occupation: {occ}\nState: {st}\n\n{txt}")
         results[st] = ({"verdict": r.corpus_verdict, "reason": r.reason} if r
                        else {"verdict": "CALL_FAILED", "reason": ""})
+    return results
+
+
+def main() -> int:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--profession", required=True)
+    ap.add_argument("--states", help="comma-separated subset; default = all pulled")
+    ap.add_argument("--bad-only", action="store_true", help="print only the flagged states")
+    ap.add_argument("--gate", action="store_true", help="exit 1 if any state is not correct_licensure_text")
+    args = ap.parse_args()
+
+    prof = args.profession.lower()
+    pdir = TEXT_DIR / prof
+    if not pdir.exists():
+        return log.error("no corpus dir: %s", pdir) or 2
+
+    states = sorted(os.path.basename(f)[:-5] for f in glob.glob(str(pdir / "*.json"))
+                    if "_summary" not in f)
+    if args.states:
+        want = {s.strip().upper() for s in args.states.split(",")}
+        states = [s for s in states if s in want]
+
+    results = audit_states(prof, states)
 
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     (OUT_DIR / f"{prof}.json").write_text(json.dumps(results, indent=2, sort_keys=True))
