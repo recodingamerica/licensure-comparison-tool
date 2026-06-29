@@ -154,6 +154,15 @@ def main() -> None:
     #     (skips ones without map_prep).
     for p in changed:
         run([PY, "-m", "pipeline.analyze.similarity", "--profession", p, "--json"], f"similarity {p}")
+    # 1b-direction: re-stamp novel-policy restrictive/permissive direction (#52c).
+    #   similarity (above) rewrites results/analysis/ and DROPS `direction`, so this
+    #   must run after it and before publish_analysis ships. Cached by (field,value),
+    #   so re-runs only classify genuinely-new pairs (≈ free here). Best-effort — not
+    #   gated into `results`, so a failure can't block the deploy (mirrors the
+    #   similarity loop), it just leaves direction absent that round.
+    if changed:
+        run([PY, "-m", "pipeline.analyze.classify_novel_direction",
+             "--professions", ",".join(changed)], "classify_novel_direction")
     results.append(("publish_analysis",
                     run([PY, "-m", "pipeline.analyze.publish_analysis"], "publish_analysis")))
 
