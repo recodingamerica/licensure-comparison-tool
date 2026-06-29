@@ -9,35 +9,55 @@
     },
     "issuing_authority": {
       "value": "Medical Examining Board",
-      "quote": "\"Board\" means medical examining board.",
-      "citation": "[448.015]"
+      "quote": "The board may grant licenses, including various classes of temporary licenses, to practice medicine and surgery",
+      "citation": "[448.02]"
     },
     "regulatory_authority": {
       "name": {
         "value": "Medical Examining Board",
-        "quote": "\"Board\" means medical examining board.",
-        "citation": "[448.015]"
+        "quote": "The board may grant licenses, including various classes of temporary licenses, to practice medicine and surgery",
+        "citation": "[448.02]"
       },
       "type": {
         "value": "standalone_board",
         "quote": "The board may grant licenses, including various classes of temporary licenses, to practice medicine and surgery, to practice as an administrative physician, to practice perfusion, and to practice as an anesthesiologist assistant.",
         "citation": "[448.02]"
       },
-      "umbrella_agency": null
+      "umbrella_agency": {
+        "value": "Department of Safety and Professional Services",
+        "quote": "\"Department\" means the department of safety and professional services.",
+        "citation": "[UMBRELLA / Chapter 440 - Department of safety and professional services] 440.01"
+      }
     },
     "age_minimum": null,
     "moral_character_required": null,
     "education": {
       "degree_required": {
-        "value": "Graduate of and possesses a diploma from a medical or osteopathic college accredited by the Liaison Committee on Medical Education, the American Osteopathic Association, or a successor organization",
+        "value": "Graduate of a medical or osteopathic college accredited by the Liaison Committee on Medical Education or the American Osteopathic Association",
         "quote": "the applicant is a graduate of and possesses a diploma from a medical or osteopathic college that is accredited by the Liaison Committee on Medical Education, the American Osteopathic Association, or a successor organization and that is approved by the board.",
         "citation": "[448.05]"
       },
       "accrediting_body": {
-        "value": "Liaison Committee on Medical Education or American Osteopathic Association",
+        "value": "Liaison Committee on Medical Education (LCME) or American Osteopathic Association (AOA)",
+        "quote": "accredited by the Liaison Committee on Medical Education, the American Osteopathic Association, or a successor organization and that is approved by the board.",
+        "citation": "[448.05]"
+      },
+      "degree_level": {
+        "value": "doctorate",
+        "quote": "the applicant is a graduate of and possesses a diploma from a medical or osteopathic college that is accredited by the Liaison Committee on Medical Education, the American Osteopathic Association, or a successor organization",
+        "citation": "[448.05]"
+      },
+      "school_approval_basis": {
+        "value": "national_accreditor",
         "quote": "accredited by the Liaison Committee on Medical Education, the American Osteopathic Association, or a successor organization",
         "citation": "[448.05]"
-      }
+      },
+      "credential_pegged": {
+        "value": false,
+        "quote": "the applicant is a graduate of and possesses a diploma from a medical or osteopathic college that is accredited by the Liaison Committee on Medical Education, the American Osteopathic Association, or a successor organization and that is approved by the board.",
+        "citation": "[448.05]"
+      },
+      "tiers": null
     },
     "post_degree_experience": {
       "required": {
@@ -45,14 +65,19 @@
         "quote": "The applicant has successfully completed and received credit for 24 months of postgraduate training in one or more programs accredited by the Accreditation Council for Graduate Medical Education, the American Osteopathic Association, or a successor organization.",
         "citation": "[448.05]"
       },
+      "experience_source": {
+        "value": "required_by_statute",
+        "quote": "The applicant has successfully completed and received credit for 24 months of postgraduate training in one or more programs accredited by the Accreditation Council for Graduate Medical Education, the American Osteopathic Association, or a successor organization.",
+        "citation": "[448.05]"
+      },
       "duration": {
         "value": "24 months",
-        "quote": "successfully completed and received credit for 24 months of postgraduate training",
+        "quote": "The applicant has successfully completed and received credit for 24 months of postgraduate training in one or more programs accredited by the Accreditation Council for Graduate Medical Education, the American Osteopathic Association, or a successor organization.",
         "citation": "[448.05]"
       },
       "kind": {
         "value": "postgraduate training (residency)",
-        "quote": "postgraduate training in one or more programs accredited by the Accreditation Council for Graduate Medical Education, the American Osteopathic Association, or a successor organization",
+        "quote": "24 months of postgraduate training in one or more programs accredited by the Accreditation Council for Graduate Medical Education, the American Osteopathic Association, or a successor organization.",
         "citation": "[448.05]"
       }
     },
@@ -60,8 +85,19 @@
       {
         "name": "United States Medical Licensing Examination (USMLE)",
         "required": true,
-        "notes": "Required for foreign medical graduates; board may also use national examining agency exams in lieu of its own",
-        "quote": "the applicant has passed all steps of the United States Medical Licensing Examination administered by the National Board of Medical Examiners and the Federation of State Medical Boards, or their successor organizations.",
+        "notes": "Required for foreign medical graduates; domestic graduates may use board examination process",
+        "jurisdiction": "national (National Board of Medical Examiners and Federation of State Medical Boards)",
+        "permitted_attempts": null,
+        "quote": "The applicant has passed all steps of the United States Medical Licensing Examination administered by the National Board of Medical Examiners and the Federation of State Medical Boards, or their successor organizations.",
+        "citation": "[448.05]"
+      },
+      {
+        "name": "Board examination (general)",
+        "required": true,
+        "notes": "Board may use national examining agency examinations in whole or in part; applicant who fails may be reexamined not more than twice at not less than 4-month intervals",
+        "jurisdiction": "national or state at board discretion",
+        "permitted_attempts": 3,
+        "quote": "An applicant who fails to achieve a passing grade in the required examinations may request reexamination, and may be reexamined not more than twice at not less than 4-month intervals",
         "citation": "[448.05]"
       }
     ],
@@ -72,6 +108,7 @@
         "citation": "[448.07]"
       }
     },
+    "renewal_fee_usd": null,
     "continuing_education": {
       "required": {
         "value": true,
@@ -97,10 +134,29 @@
         "citation": "[448.04]"
       },
       "requirements": {
-        "value": "Physician must meet eligibility requirements under the interstate medical licensure compact, including holding a full and unrestricted license in a member state designated as state of principal license, passing USMLE within 3 attempts, completing accredited graduate medical education, and holding specialty certification.",
-        "quote": "A physician must meet the eligibility requirements as defined in sub. (2) (k) to receive an expedited license under the terms and provisions of the compact.",
-        "citation": "[448.980]"
+        "value": "Compact license available through interstate medical licensure compact for eligible physicians; reciprocal license also available via waiver for certain applicants with licenses from other U.S. or Canadian jurisdictions.",
+        "quote": "The board may grant a compact license pursuant to the interstate medical licensure compact under s. 448.980.",
+        "citation": "[448.04]"
       }
+    },
+    "advisory_board": {
+      "exists": {
+        "value": false,
+        "quote": "The board may grant licenses, including various classes of temporary licenses, to practice medicine and surgery, to practice as an administrative physician, to practice perfusion, and to practice as an anesthesiologist assistant.",
+        "citation": "[448.02]"
+      },
+      "name": null,
+      "authority": null
+    },
+    "national_certification": {
+      "value": "Educational Council for Foreign Medical Graduates (ECFMG)",
+      "quote": "The applicant has obtained certification by the Educational Council for Foreign Medical Graduates or a successor organization.",
+      "citation": "[448.05]"
+    },
+    "national_association": {
+      "value": "Accreditation Council for Graduate Medical Education (ACGME); American Osteopathic Association (AOA)",
+      "quote": "24 months of postgraduate training in one or more programs accredited by the Accreditation Council for Graduate Medical Education, the American Osteopathic Association, or a successor organization.",
+      "citation": "[448.05]"
     },
     "regulatory_model": {
       "value": "license",
@@ -130,143 +186,144 @@
     "disciplinary_grounds": [
       {
         "short_label": "unprofessional_conduct",
-        "description": "Board may discipline for unprofessional conduct, including acts defined by rule, violations of pharmacy/controlled substance laws, and failure to report as required.",
-        "quote": "\"Unprofessional conduct\" means all of the following: 1. Those acts or attempted acts of commission or omission defined as unprofessional conduct by the board under the authority delegated to the board by s. 15.08 (5) (b). 2. Any act by a physician in violation of ch. 450 or 961. 3. Failure by a physician to report as required under s. 448.115.",
+        "description": "Acts or attempted acts defined as unprofessional conduct by the board, including violations of ch. 450 or 961 and failure to report as required",
+        "quote": "Those acts or attempted acts of commission or omission defined as unprofessional conduct by the board under the authority delegated to the board by s. 15.08 (5) (b).",
         "citation": "[448.015]"
       },
       {
         "short_label": "negligence_in_treatment",
-        "description": "Board may discipline for negligence in treatment of a patient.",
+        "description": "Negligence in treatment of a patient, as determined through disciplinary hearing",
         "quote": "the board may, when it determines that a panel established under s. 655.02, 1983 stats., has unanimously found or a court has found that a person has been negligent in treating a patient or when it finds a person guilty of unprofessional conduct or negligence in treatment, do one or more of the following: warn or reprimand that person, or limit, suspend or revoke any license or certificate granted by the board to that person.",
         "citation": "[448.02]"
       },
       {
-        "short_label": "failure_to_report_colleague_misconduct",
-        "description": "Failure by a physician to report another physician's unprofessional conduct, danger to patients, incompetence, or inability to practice safely.",
-        "quote": "A physician who has reason to believe any of the following about another physician shall promptly submit a written report to the board",
-        "citation": "[448.115]"
+        "short_label": "violation_of_informed_consent",
+        "description": "Physician violation of s. 448.30 (informed consent requirements)",
+        "quote": "An allegation that a physician has violated s. 253.10 (3), 448.30 or 450.13 (2) ... is an allegation of unprofessional conduct.",
+        "citation": "[448.02]"
       },
       {
-        "short_label": "physical_mental_professional_incompetency",
-        "description": "Board may require physical, mental, or professional competency examinations and use results in disciplinary proceedings.",
+        "short_label": "failure_to_file_death_certificate",
+        "description": "Failure to mail or present a medical certification required under s. 69.18 (2) within prescribed timeframes",
+        "quote": "failure to mail or present a medical certification required under s. 69.18 (2) within 21 days after the pronouncement of death of the person who is the subject of the required certificate ... is an allegation of unprofessional conduct.",
+        "citation": "[448.02]"
+      },
+      {
+        "short_label": "failure_to_report_colleague_misconduct",
+        "description": "Failure by a physician to report as required under s. 448.115 (duty to report another physician's unprofessional conduct)",
+        "quote": "Failure by a physician to report as required under s. 448.115.",
+        "citation": "[448.015]"
+      },
+      {
+        "short_label": "physical_mental_incompetency",
+        "description": "Board may require physical, mental, or professional competency examinations and consider results during investigation or hearing",
         "quote": "The board may require a person holding a license or certificate to undergo and may consider the results of one or more physical, mental or professional competency examinations if the board believes that the results of any such examinations may be useful to the board in conducting its investigation.",
         "citation": "[448.02]"
       },
       {
-        "short_label": "violation_of_informed_consent",
-        "description": "Violation of the duty to inform patients about alternate medical modes of treatment and associated risks.",
-        "quote": "An allegation that a physician has violated s. 253.10 (3), 448.30 or 450.13 (2) or has failed to mail or present a medical certification required under s. 69.18 (2) within 21 days after the pronouncement of death of the person who is the subject of the required certificate is an allegation of unprofessional conduct.",
-        "citation": "[448.02]"
-      },
-      {
         "short_label": "fee_splitting",
-        "description": "Giving or receiving fees, commissions, rebates, or other compensation for referrals or for services not actually rendered.",
+        "description": "Giving or receiving fees, commissions, rebates for referrals or professional services not actually rendered",
         "quote": "no person licensed or certified under this subchapter may give or receive, directly or indirectly, to or from any person, firm or corporation any fee, commission, rebate or other form of compensation or anything of value for sending, referring or otherwise inducing a person to communicate with a licensee in a professional capacity, or for any professional services not actually rendered personally or at his or her direction.",
         "citation": "[448.08]"
       },
       {
-        "short_label": "practicing_without_license",
-        "description": "Practicing medicine and surgery without a license subjects the person to malpractice liability.",
-        "quote": "Anyone practicing medicine, surgery, osteopathy, or any other form or system of treating the sick without having a license or a certificate of registration shall be liable to the penalties and liabilities for malpractice",
-        "citation": "[448.12]"
+        "short_label": "failure_to_separate_bill",
+        "description": "Failure to render individual billing statements as required by s. 448.08 (2)",
+        "quote": "Any person licensed under this subchapter who renders any medical or surgical service or assistance whatever ... shall ... render an individual statement or account of the charges therefor directly to such patient, distinct and separate from any statement or account by any physician or other person",
+        "citation": "[448.08]"
       }
     ],
+    "alternative_regulation": {
+      "bonding_required": null,
+      "insurance_required": null,
+      "establishment_regulation_required": null
+    },
     "citations": [
       {
-        "cite": "448.01",
+        "cite": "Wis. Stat. § 448.01",
         "kind": "definitions"
       },
       {
-        "cite": "448.015",
-        "kind": "definitions"
-      },
-      {
-        "cite": "448.02",
+        "cite": "Wis. Stat. § 448.02",
         "kind": "authority and discipline"
       },
       {
-        "cite": "448.03",
-        "kind": "license required"
+        "cite": "Wis. Stat. § 448.03",
+        "kind": "license required; title protection"
       },
       {
-        "cite": "448.04",
+        "cite": "Wis. Stat. § 448.04",
         "kind": "classes of license"
       },
       {
-        "cite": "448.05",
+        "cite": "Wis. Stat. § 448.05",
         "kind": "qualifications"
       },
       {
-        "cite": "448.07",
+        "cite": "Wis. Stat. § 448.07",
         "kind": "registration/renewal"
       },
       {
-        "cite": "448.08",
-        "kind": "fee splitting"
+        "cite": "Wis. Stat. § 448.08",
+        "kind": "fee splitting and billing"
       },
       {
-        "cite": "448.09",
+        "cite": "Wis. Stat. § 448.09",
         "kind": "penalties"
       },
       {
-        "cite": "448.12",
-        "kind": "malpractice"
-      },
-      {
-        "cite": "448.13",
+        "cite": "Wis. Stat. § 448.13",
         "kind": "continuing education"
       },
       {
-        "cite": "448.115",
-        "kind": "duty to report"
-      },
-      {
-        "cite": "448.30",
+        "cite": "Wis. Stat. § 448.30",
         "kind": "informed consent"
       },
       {
-        "cite": "448.40",
+        "cite": "Wis. Stat. § 448.40",
         "kind": "rules"
       },
       {
-        "cite": "448.980",
-        "kind": "interstate compact"
+        "cite": "Wis. Stat. § 448.115",
+        "kind": "duty to report"
+      },
+      {
+        "cite": "Wis. Stat. § 448.980",
+        "kind": "interstate medical licensure compact"
       }
     ]
   },
   "scope": {
     "definition_quote": {
-      "value": "To examine into the fact, condition or cause of human health or disease, or to treat, operate, prescribe or advise for the same, by any means or instrumentality; to apply principles or techniques of medical sciences in the diagnosis or prevention of any of the conditions described; to penetrate, pierce or sever the tissues of a human being; or to offer, undertake, attempt or do or hold oneself out in any manner as able to do any of the acts described.",
+      "value": "To examine into the fact, condition or cause of human health or disease, or to treat, operate, prescribe or advise for the same, by any means or instrumentality; to apply principles or techniques of medical sciences in the diagnosis or prevention; to penetrate, pierce or sever the tissues of a human being; or to hold oneself out as able to do any such acts.",
       "quote": "\"Practice of medicine and surgery\" means: (a) To examine into the fact, condition or cause of human health or disease, or to treat, operate, prescribe or advise for the same, by any means or instrumentality. (b) To apply principles or techniques of medical sciences in the diagnosis or prevention of any of the conditions described in par. (a) and in sub. (2). (c) To penetrate, pierce or sever the tissues of a human being. (d) To offer, undertake, attempt or do or hold oneself out in any manner as able to do any of the acts described in this subsection.",
       "citation": "[448.01]"
     },
     "methods_authorized": {
       "value": [
-        "examination",
+        "examination and diagnosis",
         "treatment",
-        "operation",
-        "prescription",
-        "advice",
-        "diagnosis",
-        "prevention",
-        "surgical procedures"
+        "surgery/operation",
+        "prescribing",
+        "advising",
+        "application of medical science principles"
       ],
       "quote": "To examine into the fact, condition or cause of human health or disease, or to treat, operate, prescribe or advise for the same, by any means or instrumentality.",
       "citation": "[448.01]"
     },
     "drug_authority": {
-      "value": "Physicians may prescribe drugs; violations of ch. 450 or 961 (pharmacy and controlled substances) constitute unprofessional conduct.",
+      "value": "Physicians may prescribe drugs, including opioid antagonists; controlled substance prescribing governed by ch. 450 and 961",
       "quote": "Any act by a physician in violation of ch. 450 or 961.",
       "citation": "[448.015]"
     },
     "citations": [
       {
-        "cite": "448.01",
+        "cite": "Wis. Stat. § 448.01(9)",
         "kind": "scope definition"
       },
       {
-        "cite": "448.04",
-        "kind": "license authorizes practice as defined in 448.01(9)"
+        "cite": "Wis. Stat. § 448.04(1)(a)",
+        "kind": "scope of license"
       }
     ]
   },
@@ -285,8 +342,8 @@
       "citation": "[448.02]"
     },
     "foreign_medical_graduate_requirements": {
-      "value": "Foreign medical graduates must supply evidence of: graduation from a foreign medical college credentialed by a board-approved agency; ECFMG certification; passing all steps of the USMLE; and 24 months of accredited postgraduate training.",
-      "quote": "an applicant for a license to practice medicine and surgery who is a graduate of a foreign medical college must supply evidence satisfactory to the board of all of the following: 1. That the applicant is a graduate of and possesses a diploma from a foreign medical college credentialed by an agency approved by the board. 2. That the applicant has obtained certification by the Educational Council for Foreign Medical Graduates or a successor organization. 3. That the applicant has passed all steps of the United States Medical Licensing Examination",
+      "value": "Foreign medical graduates must provide a diploma from a credentialed foreign medical college, obtain ECFMG certification, pass all steps of the USMLE, and complete 24 months of accredited postgraduate training",
+      "quote": "an applicant for a license to practice medicine and surgery who is a graduate of a foreign medical college must supply evidence satisfactory to the board of all of the following: 1. That the applicant is a graduate of and possesses a diploma from a foreign medical college credentialed by an agency approved by the board. 2. That the applicant has obtained certification by the Educational Council for Foreign Medical Graduates or a successor organization. 3. That the applicant has passed all steps of the United States Medical Licensing Examination administered by the National Board of Medical Examiners and the Federation of State Medical Boards, or their successor organizations.",
       "citation": "[448.05]"
     },
     "postgraduate_training_years_required": {
@@ -299,19 +356,23 @@
     "controlled_substance_database_registration_required": null,
     "pain_management_clinic_registration_required": null,
     "telehealth_prescribing_rules": null,
-    "telemedicine_license_available": null,
+    "telemedicine_license_available": {
+      "value": true,
+      "quote": "The board may grant a compact license pursuant to the interstate medical licensure compact under s. 448.980.",
+      "citation": "[448.04]"
+    },
     "interstate_medical_licensure_compact_member": {
       "value": true,
-      "quote": "The following compact is hereby ratified and entered into",
+      "quote": "The following compact is hereby ratified and entered into:",
       "citation": "[448.980]"
     },
     "physician_assistant_supervision_model": {
       "value": "collaborative practice agreement",
-      "quote": "a physician assistant who provides care to patients shall maintain and provide to the board upon request one of the following: a. Evidence that, pursuant to the physician assistant's employment, there is a physician who is primarily responsible for the overall direction and management of the physician assistant's professional activities ... b. A written collaborative agreement with a physician that, subject to subd. 1m., describes the physician assistant's individual scope of practice",
+      "quote": "a physician assistant who provides care to patients shall maintain and provide to the board upon request one of the following: a. Evidence that, pursuant to the physician assistant's employment, there is a physician who is primarily responsible for the overall direction and management of the physician assistant's professional activities ... b. A written collaborative agreement with a physician that ... describes the physician assistant's individual scope of practice",
       "citation": "[448.975]"
     },
     "physician_assistant_prescriptive_authority": {
-      "value": "Physician assistants may order, prescribe, procure, dispense, and administer prescription drugs, medical devices, services, and supplies, consistent with their experience, education, and training.",
+      "value": "Physician assistants may order, prescribe, procure, dispense, and administer prescription drugs, medical devices, services, and supplies consistent with their experience, education, and training",
       "quote": "Subject to subd. 2. and any rules promulgated by the board and consistent with his or her experience, education, and training, a physician assistant may order, prescribe, procure, dispense, and administer prescription drugs, medical devices, services, and supplies.",
       "citation": "[448.975]"
     },
@@ -323,7 +384,7 @@
     },
     "hospital_privilege_action_reporting_required": {
       "value": true,
-      "quote": "Within 30 days of receipt of a report under s. 50.36 (3) (c), the board shall notify the licensee, in writing, of the substance of the report.",
+      "quote": "Upon the request of a hospital, the board shall provide the hospital with all information relating to a licensee's loss, reduction or suspension of staff privileges from other hospitals and all information relating to the licensee's being found guilty of unprofessional conduct.",
       "citation": "[448.02]"
     },
     "impaired_physician_program_authorized": null,
@@ -334,7 +395,7 @@
     },
     "administrative_medicine_license_available": {
       "value": true,
-      "quote": "The board may grant an administrative physician license to an applicant who satisfies the requirements under s. 448.05 (2c).",
+      "quote": "The board may grant an administrative physician license to an applicant who satisfies the requirements under s. 448.05 (2c). The board shall issue a license under this paragraph subject to the same terms as a license issued under par. (a), except that ... the holder of a license issued under this paragraph may not engage in the practice of medicine and surgery except as otherwise authorized under s. 448.03 (2)",
       "citation": "[448.04]"
     },
     "locum_tenens_permit_available": {

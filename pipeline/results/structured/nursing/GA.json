@@ -4,8 +4,8 @@
   "licensure": {
     "license_required": {
       "value": true,
-      "quote": "any person practicing or offering to practice nursing or using the title registered professional nurse, as defined in this article, within the State of Georgia, shall be licensed as provided in this article",
-      "citation": "43-26-2"
+      "quote": "Practice nursing as a registered professional nurse or advanced practice registered nurse without a valid, current license, except as otherwise permitted under Code Section 43-26-12",
+      "citation": "43-26-10"
     },
     "issuing_authority": {
       "value": "Georgia Board of Nursing",
@@ -26,14 +26,14 @@
       "umbrella_agency": {
         "value": "Professional Licensing Boards Division, Office of the Secretary of State",
         "quote": "There is created within the office of the Secretary of State the professional licensing boards division",
-        "citation": "UMBRELLA / Chapter 1 - GENERAL PROVISIONS (\u00a7\u00a7 43-1-1 \u2014 43-1-36)"
+        "citation": "UMBRELLA / Chapter 1 - GENERAL PROVISIONS (§§ 43-1-1 — 43-1-36)"
       }
     },
     "age_minimum": null,
     "moral_character_required": null,
     "education": {
       "degree_required": {
-        "value": "Graduation from an approved nursing education program",
+        "value": "Graduated from an approved nursing education program",
         "quote": "Have graduated from an approved nursing education program, as defined in Code Section 43-26-3",
         "citation": "43-26-7"
       },
@@ -41,12 +41,55 @@
         "value": "Commission on Colleges of the Southern Association of Colleges and Schools; regional accrediting agency recognized by the United States Department of Education",
         "quote": "A postsecondary institution of higher education that is accredited by a regional accrediting agency recognized by the United States Department of Education",
         "citation": "43-26-3"
-      }
+      },
+      "degree_level": {
+        "value": "associate",
+        "quote": "Have graduated from an approved nursing education program, as defined in Code Section 43-26-3",
+        "citation": "43-26-7"
+      },
+      "school_approval_basis": {
+        "value": "regional_accreditor",
+        "quote": "A postsecondary institution of higher education that is accredited by a regional accrediting agency recognized by the United States Department of Education",
+        "citation": "43-26-3"
+      },
+      "credential_pegged": {
+        "value": false,
+        "quote": "Have graduated from an approved nursing education program, as defined in Code Section 43-26-3",
+        "citation": "43-26-7"
+      },
+      "tiers": [
+        {
+          "license_class": "licensed practical nurse",
+          "degree_level": "high_school",
+          "effective_date": null,
+          "quote": "Has graduated from high school or the equivalent thereof",
+          "citation": "43-26-36"
+        },
+        {
+          "license_class": "registered professional nurse",
+          "degree_level": "associate",
+          "effective_date": null,
+          "quote": "Have graduated from an approved nursing education program, as defined in Code Section 43-26-3",
+          "citation": "43-26-7"
+        },
+        {
+          "license_class": "advanced practice registered nurse",
+          "degree_level": "master",
+          "effective_date": "2025-09-01",
+          "quote": "Have completed an accredited graduate or postgraduate level advanced practice registered nursing program in one of the four roles specified under subparagraph (A) of paragraph (1.1) of Code Section 43-26-3 and in at least one population focus",
+          "citation": "43-26-7.1"
+        }
+      ]
     },
     "post_degree_experience": {
       "required": {
         "value": false,
-        "quote": "Any applicant who meets the requirements of this Code section shall be eligible for licensure as a registered professional nurse.",
+        "quote": "Have graduated from an approved nursing education program, as defined in Code Section 43-26-3",
+        "citation": "43-26-7"
+      },
+      "experience_source": {
+        "value": "none",
+        "quote": "Have graduated from an approved nursing education program, as defined in Code Section 43-26-3",
         "citation": "43-26-7"
       },
       "duration": null,
@@ -54,18 +97,22 @@
     },
     "exams": [
       {
-        "name": "NCLEX-RN (board recognized licensing examination)",
+        "name": "NCLEX-RN",
         "required": true,
-        "notes": "Must be passed after graduation; examination may not be taken prior to graduation",
-        "quote": "Pass a board recognized licensing examination; provided, however, that such examination may not be taken prior to graduation from the approved nursing education program.",
+        "notes": "Board recognized licensing examination for registered professional nurses; NCLEX-RN referenced in Nurse Licensure Compact provisions",
+        "jurisdiction": "national (NCLEX-RN)",
+        "permitted_attempts": null,
+        "quote": "Pass a board recognized licensing examination; provided, however, that such examination may not be taken prior to graduation from the approved nursing education program",
         "citation": "43-26-7"
       },
       {
-        "name": "NCLEX-PN (board recognized licensing examination for LPN)",
+        "name": "NCLEX-PN",
         "required": true,
-        "notes": "Required for licensure as licensed practical nurse",
-        "quote": "An applicant for licensure who has not been duly examined according to the prescribed examination approved by the board and who does not otherwise qualify for licensure under this article must apply by examination.",
-        "citation": "43-26-36"
+        "notes": "Board recognized licensing examination for licensed practical nurses",
+        "jurisdiction": "national (NCLEX-PN)",
+        "permitted_attempts": null,
+        "quote": "Has successfully passed an NCLEX-RN® or NCLEX-PN® Examination or recognized predecessor, as applicable",
+        "citation": "43-26-61"
       }
     ],
     "renewal": {
@@ -75,6 +122,7 @@
         "citation": "43-26-9"
       }
     },
+    "renewal_fee_usd": null,
     "continuing_education": {
       "required": {
         "value": true,
@@ -100,15 +148,30 @@
         "citation": "43-26-7"
       },
       "requirements": {
-        "value": "Submit verification of initial and current licensure in any other licensing jurisdiction administering a board recognized licensing examination; meet continuing competency requirements as established by the board; satisfactory criminal background check",
+        "value": "Applicant must submit verification of initial and current licensure in any other licensing jurisdiction administering a board recognized licensing examination, meet continuing competency requirements, and pass a criminal background check.",
         "quote": "Submit verification of initial and current licensure in any other licensing jurisdiction administering a board recognized licensing examination",
         "citation": "43-26-7"
       }
     },
+    "advisory_board": {
+      "exists": {
+        "value": false,
+        "quote": "The board shall be the sole professional licensing board for determining if a registered professional nurse, licensed practical nurse, or any other person has engaged illegally in the practice of nursing.",
+        "citation": "43-26-5"
+      },
+      "name": null,
+      "authority": null
+    },
+    "national_certification": {
+      "value": "National certifying body recognized by the board",
+      "quote": "Be currently certified by a national certifying body recognized by the board in an advanced practice registered nursing program in a role and population focus appropriate for educational preparation",
+      "citation": "43-26-7.1"
+    },
+    "national_association": null,
     "regulatory_model": {
       "value": "license",
-      "quote": "any person practicing or offering to practice nursing or using the title registered professional nurse, as defined in this article, within the State of Georgia, shall be licensed as provided in this article",
-      "citation": "43-26-2"
+      "quote": "Practice nursing as a registered professional nurse or advanced practice registered nurse without a valid, current license, except as otherwise permitted under Code Section 43-26-12",
+      "citation": "43-26-10"
     },
     "credential_type": {
       "value": "license",
@@ -144,31 +207,31 @@
         "citation": "43-26-11"
       },
       {
-        "short_label": "felony_or_moral_turpitude_conviction_lpn",
-        "description": "LPN: Conviction of a felony, crime involving moral turpitude, or crime violating federal or state law relating to controlled substances, dangerous drugs, or marijuana",
+        "short_label": "felony_conviction_lpn",
+        "description": "LPN: Conviction of a felony, crime involving moral turpitude, or crime violating controlled substances laws",
         "quote": "Been convicted of a felony, a crime involving moral turpitude, or any crime violating a federal or state law relating to controlled substances or dangerous drugs or marijuana in the courts of this state, any other state, territory, or country, or in the courts of the United States, including, but not limited to, a plea of nolo contendere entered to the charge",
         "citation": "43-26-40"
       },
       {
-        "short_label": "prior_license_revocation_or_discipline",
-        "description": "LPN: Had a license to practice nursing revoked, suspended, or annulled by any lawful licensing authority, or was denied a license by any lawful licensing authority",
+        "short_label": "prior_license_revocation_lpn",
+        "description": "LPN: Had a nursing license revoked, suspended, or annulled, or disciplinary action taken by any lawful licensing authority",
         "quote": "Had a license to practice nursing revoked, suspended, or annulled by any lawful licensing authority, had other disciplinary action taken by any lawful licensing authority, or was denied a license by any lawful licensing authority",
         "citation": "43-26-40"
       },
       {
-        "short_label": "unprofessional_or_unethical_conduct",
-        "description": "LPN: Engaged in unprofessional, unethical, deceptive, or deleterious conduct or practice harmful to the public, including improper charting of medication or departure from minimal standards of nursing practice",
-        "quote": "Engaged in any unprofessional, unethical, deceptive, or deleterious conduct or practice harmful to the public, which conduct or practice need not have resulted in actual injury to any person. As used in this paragraph, the term \"unprofessional conduct\" includes the improper charting of medication and any departure from, or the failure to conform to, the minimal standards of acceptable and prevailing nursing practice",
+        "short_label": "unprofessional_conduct_lpn",
+        "description": "LPN: Engaged in unprofessional, unethical, deceptive, or deleterious conduct or practice harmful to the public",
+        "quote": "Engaged in any unprofessional, unethical, deceptive, or deleterious conduct or practice harmful to the public, which conduct or practice need not have resulted in actual injury to any person.",
         "citation": "43-26-40"
       },
       {
-        "short_label": "violation_of_law_or_regulation",
-        "description": "LPN: Violated or attempted to violate a law or lawfully promulgated rule or regulation relating to the practice of nursing",
+        "short_label": "violation_of_law_or_rule_lpn",
+        "description": "LPN: Violated or attempted to violate a law or rule or regulation relating to or regulating the practice of nursing",
         "quote": "Violated or attempted to violate a law or any lawfully promulgated rule or regulation of this state, any other state, the board, the United States, or any other lawful authority, without regard to whether the violation is criminally punishable, which statute, law, or rule or regulation relates to or in part regulates the practice of nursing",
         "citation": "43-26-40"
       },
       {
-        "short_label": "violation_of_board_order",
+        "short_label": "violation_of_board_order_lpn",
         "description": "LPN: Violated a lawful order of the board previously entered in a disciplinary hearing",
         "quote": "Violated a lawful order of the board previously entered by the board in a disciplinary hearing",
         "citation": "43-26-40"
@@ -180,149 +243,161 @@
         "citation": "43-26-40"
       }
     ],
+    "alternative_regulation": {
+      "bonding_required": null,
+      "insurance_required": null,
+      "establishment_regulation_required": null
+    },
     "citations": [
       {
         "cite": "43-26-2",
-        "kind": "statute"
+        "kind": "legislative intent"
       },
       {
         "cite": "43-26-3",
-        "kind": "statute"
+        "kind": "definitions"
       },
       {
         "cite": "43-26-5",
-        "kind": "statute"
+        "kind": "board powers"
       },
       {
         "cite": "43-26-6",
-        "kind": "statute"
+        "kind": "title protection"
       },
       {
         "cite": "43-26-7",
-        "kind": "statute"
+        "kind": "RN licensure requirements"
       },
       {
         "cite": "43-26-7.1",
-        "kind": "statute"
+        "kind": "APRN licensure requirements"
       },
       {
         "cite": "43-26-8",
-        "kind": "statute"
+        "kind": "temporary permits"
       },
       {
         "cite": "43-26-9",
-        "kind": "statute"
+        "kind": "renewal and CE"
       },
       {
         "cite": "43-26-9.1",
-        "kind": "statute"
+        "kind": "inactive status"
       },
       {
         "cite": "43-26-10",
-        "kind": "statute"
+        "kind": "scope protection/prohibition"
       },
       {
         "cite": "43-26-11",
-        "kind": "statute"
+        "kind": "disciplinary grounds RN"
       },
       {
         "cite": "43-26-11.1",
-        "kind": "statute"
+        "kind": "CRNA supervision"
       },
       {
         "cite": "43-26-12",
-        "kind": "statute"
+        "kind": "exemptions"
       },
       {
         "cite": "43-26-31",
-        "kind": "statute"
+        "kind": "LPN legislative purpose"
       },
       {
         "cite": "43-26-32",
-        "kind": "statute"
+        "kind": "LPN definitions"
       },
       {
         "cite": "43-26-33",
-        "kind": "statute"
+        "kind": "LPN title protection"
       },
       {
         "cite": "43-26-36",
-        "kind": "statute"
+        "kind": "LPN licensure requirements"
       },
       {
         "cite": "43-26-36.1",
-        "kind": "statute"
+        "kind": "LPN background check"
       },
       {
         "cite": "43-26-37",
-        "kind": "statute"
+        "kind": "LPN license issuance"
       },
       {
         "cite": "43-26-38",
-        "kind": "statute"
+        "kind": "LPN endorsement"
       },
       {
         "cite": "43-26-39",
-        "kind": "statute"
+        "kind": "LPN renewal"
       },
       {
         "cite": "43-26-40",
-        "kind": "statute"
+        "kind": "LPN disciplinary grounds"
       },
       {
         "cite": "43-26-41",
-        "kind": "statute"
+        "kind": "LPN exemptions"
       },
       {
         "cite": "43-26-42",
-        "kind": "statute"
+        "kind": "LPN criminal violations"
+      },
+      {
+        "cite": "43-26-50",
+        "kind": "reporting definitions"
+      },
+      {
+        "cite": "43-26-53",
+        "kind": "reportable incidents"
       },
       {
         "cite": "43-26-61",
-        "kind": "statute"
+        "kind": "Nurse Licensure Compact"
       },
       {
         "cite": "43-26-64",
-        "kind": "statute"
+        "kind": "multistate license applicability"
       }
     ]
   },
   "scope": {
     "definition_quote": {
-      "value": "\"Practice nursing\" or \"practice of nursing\" means to perform for compensation or the performance for compensation of any act in the care and counsel of the ill, injured, or infirm, and in the promotion and maintenance of health with individuals, groups, or both throughout the life span. It requires substantial specialized knowledge of the humanities, natural sciences, social sciences, and nursing theory as a basis for assessment, nursing diagnosis, planning, intervention, and evaluation.",
+      "value": "\"Practice nursing\" or \"practice of nursing\" means to perform for compensation or the performance for compensation of any act in the care and counsel of the ill, injured, or infirm, and in the promotion and maintenance of health with individuals, groups, or both throughout the life span.",
       "quote": "\"Practice nursing\" or \"practice of nursing\" means to perform for compensation or the performance for compensation of any act in the care and counsel of the ill, injured, or infirm, and in the promotion and maintenance of health with individuals, groups, or both throughout the life span.",
       "citation": "43-26-3"
     },
     "methods_authorized": {
       "value": [
-        "Assessing the health status of individuals and groups throughout the life span",
-        "Establishing a nursing diagnosis",
-        "Establishing nursing goals to meet identified health care needs",
+        "Assessing health status of individuals and groups",
+        "Establishing nursing diagnosis",
+        "Establishing nursing goals",
         "Planning, implementing, and evaluating nursing care",
-        "Providing for safe and effective nursing care rendered directly or indirectly",
+        "Providing safe and effective nursing care directly or indirectly",
         "Managing and supervising the practice of nursing",
-        "Collaborating with other members of the health care team in the management of care",
-        "Teaching the theory and practice of nursing",
+        "Collaborating with health care team members",
+        "Teaching theory and practice of nursing",
         "Administering, ordering, and dispensing medications, diagnostic studies, and medical treatments authorized by protocol",
-        "Administering medications and treatments as prescribed by a physician, dentist, or podiatrist",
-        "Performing any other nursing act in the care and counsel of the ill, injured, or infirm"
+        "Administering medications and treatments as prescribed by physician, dentist, or podiatrist"
       ],
       "quote": "\"Practice nursing as a registered professional nurse\" means to practice nursing by performing for compensation any of the following: Assessing the health status of individuals, groups, or both throughout the life span; Establishing a nursing diagnosis; Establishing nursing goals to meet identified health care needs; Planning, implementing, and evaluating nursing care; Providing for safe and effective nursing care rendered directly or indirectly; Managing and supervising the practice of nursing; Collaborating with other members of the health care team in the management of care; Teaching the theory and practice of nursing; Administering, ordering, and dispensing medications, diagnostic studies, and medical treatments authorized by protocol",
       "citation": "43-26-3"
     },
     "drug_authority": {
-      "value": "RNs may administer medications and treatments as prescribed by a physician, dentist, or podiatrist; may administer, order, and dispense medications, diagnostic studies, and medical treatments authorized by protocol when authorized by other general laws",
+      "value": "May administer, order, and dispense medications, diagnostic studies, and medical treatments authorized by protocol when authorized by other general laws; may administer medications and treatments as prescribed by a physician, dentist, or podiatrist",
       "quote": "Administering, ordering, and dispensing medications, diagnostic studies, and medical treatments authorized by protocol, when such acts are authorized by other general laws and such acts are in conformity with those laws",
       "citation": "43-26-3"
     },
     "citations": [
       {
         "cite": "43-26-3",
-        "kind": "statute"
+        "kind": "scope definition"
       },
       {
         "cite": "43-26-32",
-        "kind": "statute"
+        "kind": "LPN scope definition"
       }
     ]
   },
@@ -330,25 +405,22 @@
     "license_tiers": {
       "value": [
         "Registered Professional Nurse (RPN)",
-        "Advanced Practice Registered Nurse (APRN) - Certified Nurse Midwife (CNM)",
-        "Advanced Practice Registered Nurse (APRN) - Certified Nurse Practitioner (CNP)",
-        "Advanced Practice Registered Nurse (APRN) - Certified Registered Nurse Anesthetist (CRNA)",
-        "Advanced Practice Registered Nurse (APRN) - Clinical Nurse Specialist (CNS)",
+        "Advanced Practice Registered Nurse (APRN) - including Certified Nurse Midwife, Certified Nurse Practitioner, Certified Registered Nurse Anesthetist, Clinical Nurse Specialist",
         "Licensed Practical Nurse (LPN)",
-        "Licensed Undergraduate Nurse (LUN)"
+        "Licensed Undergraduate Nurse (LUN) - no new certificates issued after July 1, 1975"
       ],
-      "quote": "includes certified nurse midwives, certified nurse practitioners, certified registered nurse anesthetists, clinical nurse specialists and clinical nurse specialists in psychiatric/mental health, and others recognized by the board",
-      "citation": "43-26-3"
+      "quote": "\"Nurse\" means a registered professional nurse licensed or authorized pursuant to Article 1 or Article 4 of this chapter, an advanced practice registered nurse, as defined in paragraph (1.1) of Code Section 43-26-3, or a licensed practical nurse licensed or authorized pursuant to Article 2 or Article 4 of this chapter.",
+      "citation": "43-26-50"
     },
     "aprn_role_categories": {
       "value": [
-        "Certified Nurse Midwife (CNM)",
-        "Certified Nurse Practitioner (CNP)",
-        "Certified Registered Nurse Anesthetist (CRNA)",
-        "Clinical Nurse Specialist (CNS)",
+        "Certified Nurse Midwife",
+        "Certified Nurse Practitioner",
+        "Certified Registered Nurse Anesthetist",
+        "Clinical Nurse Specialist",
         "Clinical Nurse Specialist in Psychiatric/Mental Health"
       ],
-      "quote": "a certified nurse midwife, a certified nurse practitioner, a certified registered nurse anesthetist, or a clinical nurse specialist or clinical nurse specialist in psychiatric/mental health",
+      "quote": "includes certified nurse midwives, certified nurse practitioners, certified registered nurse anesthetists, clinical nurse specialists and clinical nurse specialists in psychiatric/mental health, and others recognized by the board",
       "citation": "43-26-3"
     },
     "lpn_supervision_requirements": {
@@ -403,7 +475,7 @@
     "nurse_practitioner_transition_to_practice_hours": null,
     "crna_physician_supervision_model": {
       "value": "direction and presence required",
-      "quote": "such anesthesia may be administered by a certified registered nurse anesthetist, provided that such anesthesia is administered under the direction and responsibility of a duly licensed physician.",
+      "quote": "such anesthesia may be administered by a certified registered nurse anesthetist, provided that such anesthesia is administered under the direction and responsibility of a duly licensed physician",
       "citation": "43-26-11.1"
     },
     "cnm_out_of_hospital_birth_authorized": null,

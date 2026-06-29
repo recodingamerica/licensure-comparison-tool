@@ -28,12 +28,37 @@
     "age_minimum": null,
     "moral_character_required": null,
     "education": {
-      "degree_required": null,
-      "accrediting_body": null
+      "degree_required": {
+        "value": "150-hour educational requirement",
+        "quote": "if such state has adopted and implemented a 150 hour educational requirement as a qualification for initial licensure as a certified public accountant",
+        "citation": "Section 87b"
+      },
+      "accrediting_body": null,
+      "degree_level": {
+        "value": "bachelor",
+        "quote": "if such state has adopted and implemented a 150 hour educational requirement as a qualification for initial licensure as a certified public accountant",
+        "citation": "Section 87b"
+      },
+      "school_approval_basis": {
+        "value": "unspecified",
+        "quote": "a 150 hour educational requirement as a qualification for initial licensure as a certified public accountant",
+        "citation": "Section 87b"
+      },
+      "credential_pegged": {
+        "value": true,
+        "quote": "any person who has passed the Uniform Certified Public Accountant Examination and holds a valid certified public accountant certificate issued by any other state prior to January 1, 2012 shall be deemed exempt from the education requirements",
+        "citation": "Section 87b"
+      },
+      "tiers": null
     },
     "post_degree_experience": {
       "required": {
         "value": true,
+        "quote": "had 4 years of experience in the practice of public accountancy or equivalent, meeting requirements prescribed by the board by rule, after passing the examination upon which his certificate was based and within the ten years immediately preceding his application",
+        "citation": "Section 87b"
+      },
+      "experience_source": {
+        "value": "required_by_statute",
         "quote": "had 4 years of experience in the practice of public accountancy or equivalent, meeting requirements prescribed by the board by rule, after passing the examination upon which his certificate was based and within the ten years immediately preceding his application",
         "citation": "Section 87b"
       },
@@ -43,8 +68,8 @@
         "citation": "Section 87b"
       },
       "kind": {
-        "value": "experience in the practice of public accountancy",
-        "quote": "experience in the practice of public accountancy or equivalent, meeting requirements prescribed by the board by rule",
+        "value": "practice of public accountancy or equivalent",
+        "quote": "4 years of experience in the practice of public accountancy or equivalent, meeting requirements prescribed by the board by rule",
         "citation": "Section 87b"
       }
     },
@@ -52,8 +77,8 @@
       {
         "name": "Uniform Certified Public Accountant Examination",
         "required": true,
-        "notes": "Applicant must have passed the examination required for issuance of certificate with passing grades",
-        "jurisdiction": null,
+        "notes": "Applicant must have passed the examination required for issuance of the certificate with grades that would have been passing grades in the commonwealth.",
+        "jurisdiction": "national",
         "permitted_attempts": null,
         "quote": "The applicant passed the examination required for issuance of his certificate with grades that would have been passing grades at the time in the commonwealth",
         "citation": "Section 87b"
@@ -83,7 +108,7 @@
         "value": [
           "attest function"
         ],
-        "quote": "complete at least one hundred and sixty hours of qualified continuing professional education within twenty-four months prior to issue, of which at least eighty hours must be in the attest function",
+        "quote": "required to complete at least one hundred and sixty hours of qualified continuing professional education within twenty-four months prior to issue, of which at least eighty hours must be in the attest function",
         "citation": "Section 87b"
       }
     },
@@ -94,8 +119,8 @@
         "citation": "Section 87b"
       },
       "requirements": {
-        "value": "Applicant must have passed the exam with passing grades, meet current or prior commonwealth certificate requirements or have 4 years of experience in public accountancy within the 10 years preceding application.",
-        "quote": "The applicant passed the examination required for issuance of his certificate with grades that would have been passing grades at the time in the commonwealth",
+        "value": "Applicant must have passed the CPA exam with passing grades, meet current or historical MA requirements or have 4 years of experience, and meet other requirements specified in section 87B(d).",
+        "quote": "The board shall issue a license to a holder of a certificate issued by another state upon a showing that: (1) The applicant passed the examination required for issuance of his certificate with grades that would have been passing grades at the time in the commonwealth; (2) The applicant (A) meets all current requirements in the commonwealth for issuance of a certificate at the time application is made; or (B) at the time of the issuance of the applicant's certificate in the other state, met all such requirements then applicable in the commonwealth; or (C) had 4 years of experience in the practice of public accountancy",
         "citation": "Section 87b"
       }
     },
@@ -108,10 +133,14 @@
       "name": null,
       "authority": null
     },
-    "national_certification": null,
+    "national_certification": {
+      "value": "National Association of State Boards of Accountancy (NASBA) National Qualification Appraisal Service",
+      "quote": "the National Qualification Appraisal Service of the National Association of State Boards of Accountancy, hereinafter referred to as the NASBA, has verified to be in substantial equivalence with the certified public accountant licensure requirements of the Uniform Accountancy Act",
+      "citation": "Section 87b"
+    },
     "national_association": {
       "value": "American Institute of Certified Public Accountants (AICPA)",
-      "quote": "the American Institute of Certified Public Accountants, hereinafter referred to as the AICPA",
+      "quote": "the Uniform Accountancy Act published jointly by the NASBA and the American Institute of Certified Public Accountants, hereinafter referred to as the AICPA",
       "citation": "Section 87b"
     },
     "regulatory_model": {
@@ -154,31 +183,43 @@
       },
       {
         "short_label": "unauthorized_title_use_firm",
-        "description": "A firm using CPA/PA designation without holding a valid license and all partners/officers/members holding valid certificates and licenses",
-        "quote": "No firm shall assume or use the title or designation ''certified public accountants'', ''public accountants'' or the abbreviations ''CPA'' or ''PA''... unless: (1) the firm holds a valid license issued under section 87B1/2; and (2) all partners, officers, members and shareholders of the firm hold valid certified public accountancy certificates and licenses.",
+        "description": "A firm using the title 'certified public accountants' or 'public accountants' without a valid firm license and all partners/officers holding valid certificates and licenses",
+        "quote": "No firm shall assume or use the title or designation ''certified public accountants'', ''public accountants'' or the abbreviations ''CPA'' or ''PA'' ... unless: (1) the firm holds a valid license issued under section 87B1/2; and (2) all partners, officers, members and shareholders of the firm hold valid certified public accountancy certificates and licenses.",
         "citation": "Section 87d"
       },
       {
         "short_label": "misleading_firm_name",
-        "description": "Engaging in practice using a professional or firm name that is misleading as to legal form, personnel, or other matter",
-        "quote": "No person or firm holding a license under section eighty-seven B or eighty-seven B1/2, shall engage in the practice of public accountancy using a professional or firm name or designation which is misleading as to the legal form of the firm",
+        "description": "Engaging in the practice of public accountancy using a misleading professional or firm name or designation",
+        "quote": "No person or firm holding a license under section eighty-seven B or eighty-seven B1/2, shall engage in the practice of public accountancy using a professional or firm name or designation which is misleading as to the legal form of the firm, or as to the persons who are partners, members, officers or shareholders of the firm, or as to any other matter",
         "citation": "Section 87d"
       },
       {
-        "short_label": "confusing_title_use",
-        "description": "Using a title likely to be confused with 'certified public accountant' or 'public accountant' without holding a valid license",
+        "short_label": "unauthorized_accountant_title_use",
+        "description": "Using titles such as 'certified accountant', 'chartered accountant', or similar titles likely to be confused with CPA or PA without holding a valid license",
         "quote": "No person or firm not holding a valid license issued under section eighty-seven B or eighty-seven B1/2 shall assume or use the title or designation ''certified accountant'', ''chartered accountant'', ''enrolled accountant'', ''licensed accountant'', ''registered accountant'', ''accredited accountant'', or any other title or designation likely to be confused with the titles ''certified public accountant'' or ''public accountant''",
         "citation": "Section 87d"
       },
       {
-        "short_label": "acts_in_other_states",
-        "description": "Acts or omissions related to practice of public accountancy committed in any other state subject to disciplinary action",
+        "short_label": "out_of_state_disciplinary_acts",
+        "description": "Acts or omissions related to the practice of public accountancy committed in any other state by a Massachusetts licensee",
         "quote": "A person and a firm issued a license to practice public accountancy by the board shall be subject to disciplinary action by the board for acts or omissions related to the practice of public accountancy committed in any other state.",
         "citation": "Section 87b"
       },
       {
+        "short_label": "failure_to_meet_competency_requirements",
+        "description": "Failure by a licensee responsible for supervising, attesting, or compiling services to meet competency requirements set out in professional standards",
+        "quote": "An individual licensee or a person engaged in the practice of certified public accountancy pursuant to paragraph (2) who is responsible for supervising, attesting to or compiling services and who signs, or authorizes another to sign, an accountant's report on behalf of a firm shall meet the competency requirements set out in the professional standards for such services.",
+        "citation": "Section 87b"
+      },
+      {
+        "short_label": "violation_of_aicpa_code",
+        "description": "Failure to adhere to the AICPA Code of Professional Conduct",
+        "quote": "A licensee or person engaged in the practice of certified public accountancy shall adhere to the American Institute of Certified Public Accountants Code of Professional Conduct",
+        "citation": "Section 87b"
+      },
+      {
         "short_label": "unauthorized_disclosure_of_client_information",
-        "description": "Voluntarily disclosing confidential client information without client permission",
+        "description": "Voluntary disclosure of confidential client information without permission",
         "quote": "a licensee or any partner, member, officer, shareholder or employee of a licensee shall not voluntarily disclose information communicated to him by the client relating to and in connection with services rendered to the client by the licensee in the practice of public accountancy",
         "citation": "Section 87e"
       }
@@ -191,19 +232,19 @@
     "citations": [
       {
         "cite": "Section 87a",
-        "kind": null
+        "kind": "definitions"
       },
       {
         "cite": "Section 87b",
-        "kind": null
+        "kind": "licensure requirements"
       },
       {
         "cite": "Section 87d",
-        "kind": null
+        "kind": "restrictions and title protection"
       },
       {
         "cite": "Section 87e",
-        "kind": null
+        "kind": "records and confidentiality"
       }
     ]
   },
@@ -220,14 +261,14 @@
         "preparation of tax returns",
         "furnishing of advice on tax matters"
       ],
-      "quote": "services involving the use of accounting or auditing skills, including the issuance of reports, or of one or more kinds of management advisory or consulting services, or the preparation of tax returns or the furnishing of advice on tax matters",
+      "quote": "one or more kinds of services involving the use of accounting or auditing skills, including the issuance of reports, or of one or more kinds of management advisory or consulting services, or the preparation of tax returns or the furnishing of advice on tax matters",
       "citation": "Section 87a"
     },
     "drug_authority": null,
     "citations": [
       {
         "cite": "Section 87a",
-        "kind": null
+        "kind": "scope definition"
       }
     ]
   },
@@ -245,45 +286,41 @@
       "quote": "The prohibition contained in paragraph (a) is applicable to issuance, by a person or firm not holding a valid license, of a report using any form of language conventionally used by licensees with respect to a compilation of financial statements.",
       "citation": "Section 87d"
     },
-    "education_semester_hours_required": null,
+    "education_semester_hours_required": {
+      "value": 150,
+      "quote": "if such state has adopted and implemented a 150 hour educational requirement as a qualification for initial licensure as a certified public accountant",
+      "citation": "Section 87b"
+    },
     "exam_sit_hours_minimum": null,
     "ethics_exam_required": null,
     "practice_privilege_no_notice_required": {
       "value": true,
-      "quote": "shall not be required to obtain a certificate or license pursuant to this section, except as provided in this subsection, submit any other notice to the board or obtain a temporary practice permit from, or pay any fee to the board",
+      "quote": "Any person who qualifies for the practice privilege pursuant to this subsection may exercise such privilege in the commonwealth, without limitation on the period of time within which such person may so practice in the commonwealth as long as such person remains qualified pursuant to this subsection, and shall not be required to obtain a certificate or license pursuant to this section, except as provided in this subsection, submit any other notice to the board or obtain a temporary practice permit from, or pay any fee to the board.",
       "citation": "Section 87b"
     },
     "practice_privilege_consent_conditions": {
       "value": [
-        "consent to the disciplinary authority of the board and to the personal and subject matter jurisdiction of any duly authorized court of the commonwealth",
-        "compliance with this chapter and any regulation adopted by the board pursuant hereto",
-        "agree to cease offering or rendering professional services in the commonwealth if the certificate from the state of the person's principal place of business is no longer valid",
+        "consent to disciplinary authority of the board and personal and subject matter jurisdiction of any duly authorized court of the commonwealth",
+        "compliance with this chapter and any regulation adopted by the board",
+        "agree to cease offering or rendering professional services if the certificate from the state of the person's principal place of business is no longer valid",
         "appointment of the state board that issued the person's or firm's certificate as the person's or firm's agent upon which process may be served"
       ],
-      "quote": "shall be deemed to have consented to (i) the disciplinary authority of the board, and to the personal and subject matter jurisdiction of any duly authorized court of the commonwealth; (ii) compliance with this chapter and any regulation adopted by the board pursuant hereto; (iii) agree to cease offering or rendering professional services in the commonwealth personally and as an agent of a firm, if the certificate from the state of the person's principal place of business is no longer valid",
+      "quote": "shall be deemed to have consented to (i) the disciplinary authority of the board, and to the personal and subject matter jurisdiction of any duly authorized court of the commonwealth; (ii) compliance with this chapter and any regulation adopted by the board pursuant hereto; (iii) agree to cease offering or rendering professional services in the commonwealth personally and as an agent of a firm, if the certificate from the state of the person's principal place of business is no longer valid, or if the certificate or license from the state of the firm's principal place of business is no longer valid; and (iv) the appointment of the state board that issued the person's or firm's certificate as the person's or firm's agent upon which process may be served in any action or proceeding by the board.",
       "citation": "Section 87b"
     },
-    "attest_services_require_firm_permit": {
-      "value": true,
-      "quote": "An individual licensee or a person engaged in the practice of certified public accountancy pursuant to paragraph (2) who is responsible for supervising, attesting to or compiling services and who signs, or authorizes another to sign, an accountant's report on behalf of a firm shall meet the competency requirements set out in the professional standards for such services.",
-      "citation": "Section 87b"
-    },
+    "attest_services_require_firm_permit": null,
     "firm_majority_cpa_ownership_required": null,
     "nonlicensee_firm_owners_permitted": null,
     "peer_review_required_for_firm_renewal": null,
     "peer_review_max_frequency_years": null,
-    "peer_review_records_privileged": {
-      "value": true,
-      "quote": "nothing herein shall be construed as prohibiting the disclosure of information required to be disclosed by the standards of the public accounting profession in reporting on the examination of financial statements, or as prohibiting disclosures in court proceedings, in investigations or proceedings conducted pursuant to the provisions of this chapter, in ethical investigations conducted by private professional organizations, or in the course of quality reviews",
-      "citation": "Section 87e"
-    },
+    "peer_review_records_privileged": null,
     "inactive_license_status_available": null,
     "retired_license_status_available": null,
     "out_of_state_firm_no_office_exemption": null,
     "office_supervision_by_licensed_cpa_required": null,
     "attest_report_signer_competency_requirement": {
       "value": true,
-      "quote": "A licensee or a person engaged in the practice of certified public accountancy pursuant to paragraph (2) who signs, or authorizes another to sign, an accountant's report on behalf of a firm shall meet the competency requirements set out in the professional standards adopted by the board of professional licensure for such services.",
+      "quote": "An individual licensee or a person engaged in the practice of certified public accountancy pursuant to paragraph (2) who is responsible for supervising, attesting to or compiling services and who signs, or authorizes another to sign, an accountant's report on behalf of a firm shall meet the competency requirements set out in the professional standards for such services.",
       "citation": "Section 87b"
     },
     "client_confidentiality_privilege": {
@@ -293,7 +330,7 @@
     },
     "working_papers_ownership_by_licensee": {
       "value": true,
-      "quote": "All statements, records, schedules, working papers, and memoranda made by a licensee or a partner, member, shareholder, officer, director, or employee of a licensee, incident to, or in the course of, rendering services to a client in the practice of public accountancy... shall be and remain the property of the licensee in the absence of an express agreement between the licensee and the client to the contrary.",
+      "quote": "All statements, records, schedules, working papers, and memoranda made by a licensee or a partner, member, shareholder, officer, director, or employee of a licensee, incident to, or in the course of, rendering services to a client in the practice of public accountancy, except the reports submitted by the licensee to the client and except for records which are part of the client's records, shall be and remain the property of the licensee in the absence of an express agreement between the licensee and the client to the contrary.",
       "citation": "Section 87e"
     },
     "commission_prohibition_during_attest": null,
@@ -319,7 +356,7 @@
     "independence_requirement_for_attest": null,
     "client_records_return_obligation": {
       "value": true,
-      "quote": "A licensee shall furnish to his client or former client, upon request and reasonable notice: (1) a copy of the licensee's working papers, to the extent that such working papers include records that would ordinarily constitute part of the client's records and are not otherwise available to the client; and (2) any accounting or other records belonging to, or obtained from or on behalf of, the client",
+      "quote": "A licensee shall furnish to his client or former client, upon request and reasonable notice: (1) a copy of the licensee's working papers, to the extent that such working papers include records that would ordinarily constitute part of the client's records and are not otherwise available to the client; and (2) any accounting or other records belonging to, or obtained from or on behalf of, the client which the licensee removed from the client's premises or received for the client's account.",
       "citation": "Section 87e"
     }
   }

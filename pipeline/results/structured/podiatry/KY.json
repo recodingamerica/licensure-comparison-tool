@@ -37,7 +37,7 @@
     },
     "education": {
       "degree_required": {
-        "value": "Graduate of an approved school or college of podiatry",
+        "value": "graduated from a school or college of podiatry approved by the board",
         "quote": "Has completed a course in and graduated from a school or college of podiatry approved by the board",
         "citation": "311.420"
       },
@@ -45,23 +45,52 @@
         "value": "Council on Podiatry Education of the American Podiatry Association or approved by state licensing boards",
         "quote": "graduated from a college of podiatric medicine accredited by the Council on Podiatry Education of the American Podiatry Association or approved by state licensing boards",
         "citation": "311.380"
-      }
+      },
+      "degree_level": {
+        "value": "doctorate",
+        "quote": "graduated from a college of podiatric medicine accredited by the Council on Podiatry Education of the American Podiatry Association or approved by state licensing boards",
+        "citation": "311.380"
+      },
+      "school_approval_basis": {
+        "value": "board_approved",
+        "quote": "Has completed a course in and graduated from a school or college of podiatry approved by the board",
+        "citation": "311.420"
+      },
+      "credential_pegged": {
+        "value": false,
+        "quote": "Has completed a course in and graduated from a school or college of podiatry approved by the board",
+        "citation": "311.420"
+      },
+      "tiers": null
     },
-    "post_degree_experience": null,
+    "post_degree_experience": {
+      "required": {
+        "value": false,
+        "quote": "Has completed a course in and graduated from a school or college of podiatry approved by the board",
+        "citation": "311.420"
+      },
+      "experience_source": {
+        "value": "embedded_in_credential",
+        "quote": "graduated from a college of podiatric medicine accredited by the Council on Podiatry Education of the American Podiatry Association or approved by state licensing boards",
+        "citation": "311.380"
+      },
+      "duration": null,
+      "kind": null
+    },
     "exams": [
       {
-        "name": "Board examination (state)",
+        "name": "Board examination (podiatry)",
         "required": true,
-        "notes": "Board conducts examinations at least twice a year; may accept National Board of Podiatry examinations in lieu of written examination.",
-        "jurisdiction": "state board",
+        "notes": "Board may also accept certified, successful National Board of Podiatry examinations in lieu of its written examination",
+        "jurisdiction": "state (in-house)",
         "permitted_attempts": null,
-        "quote": "The board shall conduct examinations at least twice a year at such times and places as the board deems convenient for applicants for licenses to practice podiatry in this state",
+        "quote": "The board shall conduct examinations at least twice a year at such times and places as the board deems convenient for applicants for licenses to practice podiatry",
         "citation": "311.420"
       },
       {
-        "name": "National Board of Podiatry examinations",
+        "name": "National Board of Podiatry Examinations",
         "required": false,
-        "notes": "Accepted in lieu of the board's written examination.",
+        "notes": "Accepted in lieu of the board's written examination",
         "jurisdiction": "national (National Board of Podiatry Examiners)",
         "permitted_attempts": null,
         "quote": "the board may accept certified, successful National Board of Podiatry examinations in lieu of its written examination",
@@ -89,12 +118,12 @@
     "reciprocity": {
       "available": {
         "value": true,
-        "quote": "Issue podiatry licenses by reciprocity or endorsement, and without further examination, to persons who have been duly licensed upon written examination in another state having qualifications and standards at least as high as those of this state, or who have successfully passed an examination conducted by the National Board of Podiatry Examiners.",
+        "quote": "Issue podiatry licenses by reciprocity or endorsement, and without further examination, to persons who have been duly licensed upon written examination in another state having qualifications and standards at least as high as those of this state",
         "citation": "311.475"
       },
       "requirements": {
-        "value": "Reciprocal licensure available to persons licensed by written examination in a state with qualifications and standards at least as high as Kentucky's, or who have passed the National Board of Podiatry Examiners examination. Board may also enter into reciprocal agreements with other state podiatry examining boards.",
-        "quote": "Enter into reciprocal agreements with podiatry examining boards of other states, having qualifications and standards at least as high as those of this state, providing for reciprocal licensure without further examination of persons who have been duly licensed upon written examination.",
+        "value": "Applicant must have been duly licensed upon written examination in another state with qualifications and standards at least as high as Kentucky's, or must have successfully passed the National Board of Podiatry Examiners examination.",
+        "quote": "to persons who have been duly licensed upon written examination in another state having qualifications and standards at least as high as those of this state, or who have successfully passed an examination conducted by the National Board of Podiatry Examiners",
         "citation": "311.475"
       }
     },
@@ -145,97 +174,97 @@
     "disciplinary_grounds": [
       {
         "short_label": "felony_conviction",
-        "description": "Conviction of a felony, if in accordance with KRS Chapter 335B.",
+        "description": "Conviction of a felony, in accordance with KRS Chapter 335B",
         "quote": "Has been convicted of a felony, if in accordance with KRS Chapter 335B",
         "citation": "311.480"
       },
       {
         "short_label": "misdemeanor_conviction",
-        "description": "Conviction of a misdemeanor, if in accordance with KRS Chapter 335B.",
+        "description": "Conviction of a misdemeanor, in accordance with KRS Chapter 335B",
         "quote": "Has been convicted of a misdemeanor, if in accordance with KRS Chapter 335B",
         "citation": "311.480"
       },
       {
-        "short_label": "employing_unlicensed_person",
-        "description": "Employing, hiring, procuring, or inducing an unlicensed person to practice podiatry.",
+        "short_label": "employing_unlicensed_practitioner",
+        "description": "Employing, hiring, procuring, or inducing an unlicensed person to practice podiatry",
         "quote": "Has employed, hired, procured or induced a person not licensed to practice podiatry in this state so to practice",
         "citation": "311.480"
       },
       {
         "short_label": "aiding_unlicensed_practice",
-        "description": "Aiding or abetting an unlicensed person in the practice of podiatry.",
+        "description": "Aiding or abetting an unlicensed person in the practice of podiatry",
         "quote": "Has aided or abetted in the practice of podiatry a person not licensed to practice podiatry in this state",
         "citation": "311.480"
       },
       {
-        "short_label": "license_obtained_by_mistake",
-        "description": "License was granted upon a mistake of a material fact.",
+        "short_label": "license_obtained_by_material_mistake",
+        "description": "License was granted upon a mistake of a material fact",
         "quote": "Has been granted a license upon a mistake of a material fact",
         "citation": "311.480"
       },
       {
         "short_label": "violation_of_statute",
-        "description": "Violation of any provision of KRS 311.390 to 311.510.",
+        "description": "Violated any provision of KRS 311.390 to 311.510",
         "quote": "Has violated any provision of KRS 311.390 to 311.510",
         "citation": "311.480"
       },
       {
         "short_label": "drug_addiction",
-        "description": "Has become drug addicted.",
+        "description": "Has become drug addicted",
         "quote": "Has become drug addicted",
         "citation": "311.480"
       },
       {
         "short_label": "chronic_alcoholism",
-        "description": "Has become a chronic or persistent alcoholic.",
+        "description": "Has become a chronic or persistent alcoholic",
         "quote": "Has become a chronic or persistent alcoholic",
         "citation": "311.480"
       },
       {
         "short_label": "physical_mental_disability",
-        "description": "Has developed physical or mental disability or other condition making continued practice dangerous to patients or the public.",
+        "description": "Has developed physical or mental disability or other condition whereby continued practice is dangerous to patients or the public",
         "quote": "Has developed such physical or mental disability, or other condition whereby continued practice is dangerous to patients or to the public",
         "citation": "311.480"
       },
       {
-        "short_label": "violation_of_suspension_or_probation",
-        "description": "Violated any order of suspension or the terms or conditions of any order of probation issued by the board.",
+        "short_label": "violation_of_suspension_probation_order",
+        "description": "Violated any order of suspension or terms/conditions of any order of probation issued by the board",
         "quote": "Has violated any order of suspension, or the terms or the conditions of any order of probation, issued by the board",
         "citation": "311.480"
       },
       {
         "short_label": "practice_under_false_name",
-        "description": "Engaged in or attempted to engage in the practice of podiatry under a false or assumed name.",
+        "description": "Engaged in or attempted to engage in the practice of podiatry under a false or assumed name",
         "quote": "Has engaged in, or attempted to engage in the practice of podiatry under a false or assumed name",
         "citation": "311.480"
       },
       {
-        "short_label": "breach_of_confidentiality",
-        "description": "Willfully violated a confidential communication.",
+        "short_label": "breach_of_confidential_communication",
+        "description": "Willfully violated a confidential communication",
         "quote": "Has willfully violated a confidential communication",
         "citation": "311.480"
       },
       {
         "short_label": "gross_negligence_or_willful_misconduct",
-        "description": "Acted in a grossly negligent or willful manner inconsistent with the practice of podiatry.",
+        "description": "Acted in a grossly negligent or willful manner inconsistent with the practice of podiatry",
         "quote": "Has acted in a grossly negligent or willful manner which is inconsistent with the practice of podiatry",
         "citation": "311.480"
       },
       {
         "short_label": "incompetence",
-        "description": "Unfit or incompetent to practice podiatry by reason of gross negligence or other causes, including inability to practice with reasonable skill or safety.",
+        "description": "Unfit or incompetent to practice podiatry by reason of gross negligence or other causes, including inability to practice with reasonable skill or safety",
         "quote": "Is unfit or incompetent to practice podiatry by reason of gross negligence or other causes including but not limited to being unable to practice podiatry with reasonable skill or safety",
         "citation": "311.480"
       },
       {
         "short_label": "adverse_action_in_other_jurisdiction",
-        "description": "License denied, limited, suspended, probated, or revoked in another jurisdiction on grounds sufficient to cause such action in Kentucky.",
+        "description": "Has had a license to practice as a podiatrist denied, limited, suspended, probated, or revoked in another jurisdiction on sufficient grounds",
         "quote": "Has a license to practice as a podiatrist denied, limited, suspended, probated or revoked in another jurisdiction on grounds sufficient to cause a license to be denied, limited, suspended, probated or revoked in this Commonwealth",
         "citation": "311.480"
       },
       {
-        "short_label": "conduct_to_deceive_or_defraud",
-        "description": "Engaged in conduct likely to deceive or defraud the public.",
+        "short_label": "conduct_likely_to_deceive_or_defraud",
+        "description": "Engaged in conduct likely to deceive or defraud the public",
         "quote": "Has engaged in conduct likely to deceive or defraud the public",
         "citation": "311.480"
       }
@@ -260,7 +289,7 @@
       },
       {
         "cite": "311.410",
-        "kind": "board"
+        "kind": "board_structure"
       },
       {
         "cite": "311.420",
@@ -294,7 +323,7 @@
   },
   "scope": {
     "definition_quote": {
-      "value": "Podiatry is that profession of the health sciences which deals with the examination, diagnosis, treatment, and prevention of diseases, conditions, and malfunctions affecting the human foot and its related or governing structures, by employment of medical, surgical, or other means",
+      "value": "\"Podiatry\" is that profession of the health sciences which deals with the examination, diagnosis, treatment, and prevention of diseases, conditions, and malfunctions affecting the human foot and its related or governing structures, by employment of medical, surgical, or other means",
       "quote": "\"Podiatry\" is that profession of the health sciences which deals with the examination, diagnosis, treatment, and prevention of diseases, conditions, and malfunctions affecting the human foot and its related or governing structures, by employment of medical, surgical, or other means",
       "citation": "311.380"
     },
@@ -317,8 +346,8 @@
   },
   "profession_specific": {
     "anatomical_scope_upper_boundary": {
-      "value": "foot_only",
-      "quote": "diseases, conditions, and malfunctions affecting the human foot and its related or governing structures",
+      "value": "foot_and_ankle",
+      "quote": "deals with the examination, diagnosis, treatment, and prevention of diseases, conditions, and malfunctions affecting the human foot and its related or governing structures",
       "citation": "311.380"
     },
     "amputation_authorized": null,
@@ -331,7 +360,7 @@
     "board_certification_body": null,
     "podiatric_assistant_authorized": {
       "value": true,
-      "quote": "The board may, in good faith, adopt rules and regulations to license and control those persons who may become formally educated, or by years of employment by a licensed podiatrist, as a podiatric assistant.",
+      "quote": "The board may, in good faith, adopt rules and regulations to license and control those persons who may become formally educated, or by years of employment by a licensed podiatrist, as a podiatric assistant",
       "citation": "311.420"
     },
     "podiatric_assistant_supervision_level": null,

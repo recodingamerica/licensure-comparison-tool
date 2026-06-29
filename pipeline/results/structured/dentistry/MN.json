@@ -4,7 +4,7 @@
   "licensure": {
     "license_required": {
       "value": true,
-      "quote": "to practice or attempt to practice dentistry without a license",
+      "quote": "It is unlawful for any person to: enable an unlicensed person to practice dentistry; to practice or attempt to practice dentistry without a license",
       "citation": "150A.11"
     },
     "issuing_authority": {
@@ -20,61 +20,65 @@
       },
       "type": {
         "value": "standalone_board",
-        "quote": "the Board of Dentistry established pursuant to section 150A.02",
-        "citation": "UMBRELLA / Chapters 214 - 215 \u2014 Examining And Licensing Boards"
+        "quote": "\"Board\" means the state Board of Dentistry.",
+        "citation": "150A.01"
       },
       "umbrella_agency": null
     },
     "age_minimum": null,
     "moral_character_required": {
       "value": true,
-      "quote": "A person of good moral character who has graduated from a dental program accredited by the Commission on Dental Accreditation",
+      "quote": "A person of good moral character who has graduated from a dental program accredited by the Commission on Dental Accreditation, having submitted an application and fee as prescribed by the board, may be examined by the board",
       "citation": "150A.06"
     },
     "education": {
       "degree_required": {
-        "value": "Graduation from a dental program accredited by the Commission on Dental Accreditation (D.D.S. or D.M.D.)",
-        "quote": "graduated from a predoctoral dental education program accredited by the Commission on Dental Accreditation, or another accrediting agency recognized by the United States Department of Education for the accreditation of dentistry and dental hygiene education programs, leading to the Doctor of Dental Surgery (D.D.S.) or Doctor of Dental Medicine (D.M.D.) degree",
-        "citation": "150A.051"
+        "value": "graduated from a dental program accredited by the Commission on Dental Accreditation",
+        "quote": "A person of good moral character who has graduated from a dental program accredited by the Commission on Dental Accreditation, having submitted an application and fee as prescribed by the board, may be examined by the board",
+        "citation": "150A.06"
       },
       "accrediting_body": {
         "value": "Commission on Dental Accreditation (CODA)",
         "quote": "graduated from a dental program accredited by the Commission on Dental Accreditation",
         "citation": "150A.06"
-      }
+      },
+      "degree_level": {
+        "value": "doctorate",
+        "quote": "accept for licensure that applicants for a dentist license graduate from a predoctoral dental education program accredited by the Commission on Dental Accreditation, or another accrediting agency recognized by the United States Department of Education for the accreditation of dentistry and dental hygiene education programs, leading to the Doctor of Dental Surgery (D.D.S.) or Doctor of Dental Medicine (D.M.D.) degree",
+        "citation": "150A.051"
+      },
+      "school_approval_basis": {
+        "value": "national_accreditor",
+        "quote": "graduated from a dental program accredited by the Commission on Dental Accreditation",
+        "citation": "150A.06"
+      },
+      "credential_pegged": {
+        "value": false,
+        "quote": "A person of good moral character who has graduated from a dental program accredited by the Commission on Dental Accreditation, having submitted an application and fee as prescribed by the board, may be examined by the board",
+        "citation": "150A.06"
+      },
+      "tiers": null
     },
     "post_degree_experience": {
       "required": {
         "value": false,
-        "quote": "The board shall waive the clinical examination required for licensure for any dentist applicant who is a graduate of a dental school accredited by the Commission on Dental Accreditation, who has passed all components of the National Board Dental Examinations, and who has satisfactorily completed a postdoctoral general dentistry residency program (GPR) or an advanced education in general dentistry (AEGD) program",
+        "quote": "the board shall waive the clinical examination required for licensure for any dentist applicant who is a graduate of a dental school accredited by the Commission on Dental Accreditation, who has passed all components of the National Board Dental Examinations, and who has satisfactorily completed a postdoctoral general dentistry residency program (GPR) or an advanced education in general dentistry (AEGD) program after January 1, 2004",
         "citation": "150A.06"
       },
-      "duration": {
-        "value": "at least one year",
-        "quote": "be of at least one year's duration, and include an outcome assessment evaluation assessing the resident's competence to practice dentistry",
+      "experience_source": {
+        "value": "none",
+        "quote": "A person of good moral character who has graduated from a dental program accredited by the Commission on Dental Accreditation, having submitted an application and fee as prescribed by the board, may be examined by the board",
         "citation": "150A.06"
       },
-      "kind": {
-        "value": "postdoctoral general dentistry residency (GPR) or advanced education in general dentistry (AEGD) \u2014 required only for clinical exam waiver, not for licensure itself",
-        "quote": "satisfactorily completed a postdoctoral general dentistry residency program (GPR) or an advanced education in general dentistry (AEGD) program",
-        "citation": "150A.06"
-      }
+      "duration": null,
+      "kind": null
     },
     "exams": [
       {
-        "name": "National Board Dental Examinations",
-        "required": true,
-        "notes": "All components required; may waive clinical exam if GPR/AEGD completed",
-        "jurisdiction": "national (Joint Commission on National Dental Examinations)",
-        "permitted_attempts": null,
-        "quote": "has passed all components of the National Board Dental Examinations",
-        "citation": "150A.06"
-      },
-      {
         "name": "Clinical examination (board-approved)",
         "required": true,
-        "notes": "Applicant is ineligible to retake after failing twice until further education and training obtained",
-        "jurisdiction": "state or regional testing agency approved by the board",
+        "notes": "Applicants ineligible to retake after failing twice until further education/training obtained. May be waived for GPR/AEGD completers.",
+        "jurisdiction": null,
         "permitted_attempts": 2,
         "quote": "An applicant is ineligible to retake the clinical examination required by the board after failing it twice until further education and training are obtained as specified by the board by rule.",
         "citation": "150A.06"
@@ -82,11 +86,20 @@
       {
         "name": "Minnesota jurisprudence examination",
         "required": true,
-        "notes": "Examination of applicant's knowledge of the laws of Minnesota relating to dentistry and the rules of the board",
-        "jurisdiction": "state (Minnesota Board of Dentistry)",
+        "notes": "Examination of applicant's knowledge of the laws of Minnesota relating to dentistry and the rules of the board.",
+        "jurisdiction": "state (in-house)",
         "permitted_attempts": null,
         "quote": "The examination shall include an examination of the applicant's knowledge of the laws of Minnesota relating to dentistry and the rules of the board.",
         "citation": "150A.06"
+      },
+      {
+        "name": "National Board Dental Examinations",
+        "required": false,
+        "notes": "Required for licensure by credentials; may be used for waiver of clinical examination. Also required for compact privilege.",
+        "jurisdiction": "national (Joint Commission on National Dental Examinations)",
+        "permitted_attempts": null,
+        "quote": "accept the national board examinations of the joint commission on national dental examinations or another examination accepted by commission rule as a licensure examination",
+        "citation": "150A.051"
       }
     ],
     "renewal": {
@@ -114,12 +127,12 @@
     "reciprocity": {
       "available": {
         "value": true,
-        "quote": "Any dentist or dental hygienist may, upon application and payment of a fee established by the board, apply for licensure based on the applicant's performance record in lieu of passing an examination",
+        "quote": "Any dentist or dental hygienist may, upon application and payment of a fee established by the board, apply for licensure based on the applicant's performance record in lieu of passing an examination approved by the board",
         "citation": "150A.06"
       },
       "requirements": {
-        "value": "Must have passed all components of National Board Dental Examinations; been in active practice at least 2,000 hours within 36 months; currently licensed in another state or Canadian province without pending/final disciplinary action; good moral character; pass English proficiency test at board discretion; meet other credentialing requirements.",
-        "quote": "has been in active practice at least 2,000 hours within 36 months of the application date, or passed a board-approved reentry program within 36 months of the application date; currently has a license in another state or Canadian province and is not subject to any pending or final disciplinary action",
+        "value": "Applicant must have passed all components of the National Board Dental Examinations, been in active practice at least 2,000 hours within 36 months, hold or have held a license in another state or Canadian province in good standing, be of good moral character, and meet other credentialing requirements specified by board rule. Interstate compact also available.",
+        "quote": "Any dentist or dental hygienist may, upon application and payment of a fee established by the board, apply for licensure based on the applicant's performance record in lieu of passing an examination approved by the board",
         "citation": "150A.06"
       }
     },
@@ -133,18 +146,14 @@
       "authority": null
     },
     "national_certification": {
-      "value": "Joint Commission on National Dental Examinations (JCNDE) \u2014 National Board Dental Examinations",
+      "value": "Joint Commission on National Dental Examinations",
       "quote": "accept the national board examinations of the joint commission on national dental examinations or another examination accepted by commission rule as a licensure examination",
       "citation": "150A.051"
     },
-    "national_association": {
-      "value": "Commission on Dental Accreditation (CODA)",
-      "quote": "graduated from a dental program accredited by the Commission on Dental Accreditation",
-      "citation": "150A.06"
-    },
+    "national_association": null,
     "regulatory_model": {
       "value": "license",
-      "quote": "to practice or attempt to practice dentistry without a license",
+      "quote": "It is unlawful for any person to: enable an unlicensed person to practice dentistry; to practice or attempt to practice dentistry without a license",
       "citation": "150A.11"
     },
     "credential_type": {
@@ -159,12 +168,12 @@
     },
     "title_protection": {
       "value": true,
-      "quote": "No corporation shall practice dentistry or engage in it, or hold itself out as being entitled to practice dentistry, or furnish dental services or dentists, or advertise under or assume the title of dentists or dental surgeons or equivalent title.",
+      "quote": "to practice dentistry under the name of a corporation or company; or to practice under any name that may tend to deceive the public or imply professional superiority to or greater skill than that possessed by another dentist.",
       "citation": "150A.11"
     },
     "scope_protection": {
       "value": true,
-      "quote": "to practice or attempt to practice dentistry without a license",
+      "quote": "It is unlawful for any person to: enable an unlicensed person to practice dentistry; to practice or attempt to practice dentistry without a license",
       "citation": "150A.11"
     },
     "disciplinary_grounds": [
@@ -199,8 +208,8 @@
         "citation": "150A.08"
       },
       {
-        "short_label": "unprofessional_conduct",
-        "description": "Conduct unbecoming a person licensed to practice dentistry or conduct contrary to the best interest of the public as defined by board rules",
+        "short_label": "conduct_unbecoming",
+        "description": "Conduct unbecoming a person licensed to practice dentistry or conduct contrary to the best interest of the public",
         "quote": "conduct unbecoming a person licensed to practice dentistry, dental therapy, dental hygiene, or dental assisting, or conduct contrary to the best interest of the public, as such conduct is defined by the rules of the board",
         "citation": "150A.08"
       },
@@ -211,43 +220,43 @@
         "citation": "150A.08"
       },
       {
-        "short_label": "disability_affecting_practice",
-        "description": "Physical, mental, emotional, or other disability that adversely affects the ability to perform licensed services",
+        "short_label": "physical_mental_disability",
+        "description": "Any physical, mental, emotional, or other disability which adversely affects ability to perform the licensed service",
         "quote": "any physical, mental, emotional, or other disability which adversely affects a dentist's, dental therapist's, dental hygienist's, or dental assistant's ability to perform the service for which the person is licensed",
         "citation": "150A.08"
       },
       {
         "short_label": "out_of_state_disciplinary_action",
-        "description": "Revocation, suspension, or other disciplinary action or denial of license by another state, territory, or country based on facts that would provide a basis for discipline here",
+        "description": "Revocation, suspension, or other disciplinary action taken by a licensing authority of another state, territory, or country",
         "quote": "revocation or suspension of a license or equivalent authority to practice, or other disciplinary action or denial of a license application taken by a licensing or credentialing authority of another state, territory, or country",
         "citation": "150A.08"
       },
       {
         "short_label": "inadequate_safety_sanitary_conditions",
-        "description": "Failure to maintain adequate safety and sanitary conditions for a dental office in accordance with board rules",
+        "description": "Failure to maintain adequate safety and sanitary conditions for a dental office",
         "quote": "failure to maintain adequate safety and sanitary conditions for a dental office in accordance with the standards established by the rules of the board",
         "citation": "150A.08"
       },
       {
-        "short_label": "employing_unlicensed_persons",
+        "short_label": "enabling_unlicensed_practice",
         "description": "Employing, assisting, or enabling in any manner an unlicensed person to practice dentistry",
         "quote": "employing, assisting, or enabling in any manner an unlicensed person to practice dentistry",
         "citation": "150A.08"
       },
       {
-        "short_label": "failure_to_comply_with_board_order",
+        "short_label": "failure_to_attend_or_produce_records",
         "description": "Failure or refusal to attend, testify, and produce records as directed by the board",
         "quote": "failure or refusal to attend, testify, and produce records as directed by the board under subdivision 7",
         "citation": "150A.08"
       },
       {
-        "short_label": "violation_of_chapter_provisions",
-        "description": "Violation of or failure to comply with any other provisions of the dental practice act, board rules, or any disciplinary order",
+        "short_label": "violation_of_statute_or_rule",
+        "description": "Violation of or failure to comply with any other provisions of the dental practice act, board rules, or disciplinary orders",
         "quote": "violation of, or failure to comply with, any other provisions of sections 150A.01 to 150A.12, the rules of the Board of Dentistry, or any disciplinary order issued by the board",
         "citation": "150A.08"
       },
       {
-        "short_label": "false_or_misleading_patient_information",
+        "short_label": "false_or_misleading_information",
         "description": "Knowingly providing false or misleading information directly related to the care of a patient",
         "quote": "knowingly providing false or misleading information that is directly related to the care of that patient unless done for an accepted therapeutic purpose such as the administration of a placebo",
         "citation": "150A.08"
@@ -262,7 +271,11 @@
     "alternative_regulation": {
       "bonding_required": null,
       "insurance_required": null,
-      "establishment_regulation_required": null
+      "establishment_regulation_required": {
+        "value": true,
+        "quote": "All dental laboratories physically located in Minnesota must register with the Board of Dentistry.",
+        "citation": "150A.25"
+      }
     },
     "citations": [
       {
@@ -275,7 +288,7 @@
       },
       {
         "cite": "150A.05",
-        "kind": "scope/practice definition"
+        "kind": "scope of practice"
       },
       {
         "cite": "150A.051",
@@ -283,11 +296,11 @@
       },
       {
         "cite": "150A.055",
-        "kind": "vaccine administration"
+        "kind": "vaccines"
       },
       {
         "cite": "150A.06",
-        "kind": "licensure requirements"
+        "kind": "licensure"
       },
       {
         "cite": "150A.08",
@@ -295,11 +308,11 @@
       },
       {
         "cite": "150A.081",
-        "kind": "medical data access"
+        "kind": "medical data"
       },
       {
         "cite": "150A.09",
-        "kind": "renewal"
+        "kind": "license renewal"
       },
       {
         "cite": "150A.091",
@@ -307,7 +320,7 @@
       },
       {
         "cite": "150A.10",
-        "kind": "allied personnel"
+        "kind": "allied dental personnel"
       },
       {
         "cite": "150A.105",
@@ -335,11 +348,11 @@
       },
       {
         "cite": "150A.24",
-        "kind": "dental lab definitions"
+        "kind": "dental laboratory definitions"
       },
       {
         "cite": "150A.25",
-        "kind": "dental lab registration"
+        "kind": "dental laboratory registration"
       },
       {
         "cite": "150A.26",
@@ -351,38 +364,47 @@
       },
       {
         "cite": "150A.28",
-        "kind": "dental lab prohibition"
+        "kind": "nonregistered laboratory prohibition"
       },
       {
         "cite": "150A.31",
-        "kind": "dental lab fees"
+        "kind": "dental laboratory fees"
       }
     ]
   },
   "scope": {
     "definition_quote": {
-      "value": "A person shall be deemed to be practicing dentistry within the meaning of sections 150A.01 to 150A.12 who uses a dental degree, or designation, or card, device, directory, sign, or other media whereby the person represents an ability to diagnose, treat, prescribe, or operate for any disease, pain, deformity, deficiency, injury, or physical condition of the human tooth, teeth, alveolar process, gums or jaw, or adjacent or associated structures",
+      "value": "A person shall be deemed to be practicing dentistry within the meaning of sections 150A.01 to 150A.12: (1) who uses a dental degree, or designation, or card, device, directory, sign, or other media whereby the person represents an ability to diagnose, treat, prescribe, or operate for any disease, pain, deformity, deficiency, injury, or physical condition of the human tooth, teeth, alveolar process, gums or jaw, or adjacent or associated structures; ... (9) who performs any clinical operation included in the curricula of recognized dental schools and colleges.",
       "quote": "A person shall be deemed to be practicing dentistry within the meaning of sections 150A.01 to 150A.12: (1) who uses a dental degree, or designation, or card, device, directory, sign, or other media whereby the person represents an ability to diagnose, treat, prescribe, or operate for any disease, pain, deformity, deficiency, injury, or physical condition of the human tooth, teeth, alveolar process, gums or jaw, or adjacent or associated structures",
       "citation": "150A.05"
     },
     "methods_authorized": {
       "value": [
-        "diagnosis and treatment of diseases and conditions of teeth, alveolar process, gums, jaw, and adjacent structures",
-        "dental operations including extraction and correction of malpositions",
-        "use of roentgen/x-ray for dental treatment and diagnostics",
-        "removal of stains and accretions from teeth",
-        "taking impressions and performing operations incident to replacement of teeth (fillings, crowns, bridges, dentures)",
-        "furnishing, constructing, or repairing prosthetic dentures and dental appliances",
-        "performing clinical operations included in dental school curricula"
+        "diagnosis and treatment of diseases, pain, deformity, deficiency, injury, or physical condition of the human tooth, teeth, alveolar process, gums, or jaw",
+        "dental operations (gratuitously or for fee)",
+        "use of roentgen or x-ray machine for dental treatment or diagnostic purposes",
+        "extraction of human teeth or correction of malpositions",
+        "diagnosis, treatment, or removal of stains or accretions from human teeth or jaws",
+        "taking impressions and replacement of tooth structure (fillings, crowns, bridges, dentures)",
+        "furnishing, constructing, reproducing, or repairing prosthetic dentures, bridges, or substitutes for natural teeth",
+        "performing any clinical operation included in curricula of recognized dental schools and colleges"
       ],
-      "quote": "who extracts a human tooth or teeth, or corrects or attempts to correct malpositions of the human teeth or jaws; who offers and undertakes, by any means or method, to diagnose, treat or remove stains or accretions from human teeth or jaws; who takes impressions of the human tooth, teeth, or jaws or performs any phase of any operation incident to the replacement of a part of a tooth",
+      "quote": "who performs dental operations of any kind gratuitously, or for a fee, gift, compensation or reward, paid or to be paid, to any person or agency",
       "citation": "150A.05"
     },
-    "drug_authority": null,
+    "drug_authority": {
+      "value": "Dentists may prescribe and administer drugs within the scope of dental practice; administration of local anesthesia and general anesthesia permitted with appropriate certification.",
+      "quote": "The rules may specify training and education necessary for administering general anesthesia and intravenous conscious sedation.",
+      "citation": "150A.04"
+    },
     "citations": [
       {
         "cite": "150A.05",
         "kind": "scope of practice definition"
+      },
+      {
+        "cite": "150A.04",
+        "kind": "anesthesia/sedation rules"
       }
     ]
   },
@@ -416,10 +438,10 @@
     "specialty_advertising_disclaimer_required": null,
     "dental_hygienist_supervision_levels": {
       "value": [
-        "supervision of a licensed dentist (general)",
-        "collaborative practice (without patient first being examined by dentist, under collaborative agreement)"
+        "supervision of a licensed dentist (general supervision)",
+        "collaborative agreement (without dentist present)"
       ],
-      "quote": "All services shall be provided under supervision of a licensed dentist. \u2026 Notwithstanding subdivision 1, a dental hygienist licensed under this chapter may be employed or retained by a health care facility, program, nonprofit organization, or licensed dentist to perform the dental hygiene services listed in Minnesota Rules, part 3100.8700, subpart 1, without the patient first being examined by a licensed dentist if the dental hygienist: (1) has entered into a collaborative agreement with a licensed dentist",
+      "quote": "All services shall be provided under supervision of a licensed dentist. Any licensed dentist who shall permit any dental service by a dental hygienist other than those authorized by the Board of Dentistry, shall be deemed to be violating the provisions of sections 150A.01 to 150A.12",
       "citation": "150A.10"
     },
     "collaborative_agreement_available": {
@@ -437,17 +459,16 @@
       "value": [
         "patients in hospitals",
         "patients in nursing homes",
-        "patients in home health agencies",
+        "patients receiving home health agency services",
         "patients in group homes serving the elderly, disabled, or juveniles",
         "patients in state-operated facilities",
         "patients in state-agency-administered public health programs or events",
         "patients in federal, state, or local public health facilities",
         "patients in community clinics",
         "patients in tribal clinics",
-        "patients served by school authorities",
+        "patients under school authority",
         "patients in Head Start programs",
-        "uninsured patients",
-        "Minnesota health care public program recipients served by nonprofit organizations"
+        "patients served by nonprofit organizations serving uninsured or public program recipients"
       ],
       "quote": "a 'health care facility, program, or nonprofit organization' includes a hospital; nursing home; home health agency; group home serving the elderly, disabled, or juveniles; state-operated facility licensed by the commissioner of human services or the commissioner of corrections; a state-agency-administered public health program or event; and federal, state, or local public health facility, community clinic, tribal clinic, school authority, Head Start program, or nonprofit organization that serves individuals who are uninsured or who are Minnesota health care public program recipients",
       "citation": "150A.10"
@@ -464,16 +485,14 @@
     },
     "dental_therapist_practice_setting_restrictions": {
       "value": [
+        "settings that serve low-income, uninsured, and underserved patients",
+        "dental health professional shortage areas",
         "critical access dental provider settings",
         "dental hygiene collaborative practice settings",
-        "medical facilities",
-        "assisted living facilities",
-        "federally qualified health centers",
-        "organizations eligible for community clinic grants",
         "military and veterans administration hospitals, clinics, and care settings",
-        "patient's residence or home (homebound or home care eligible patients)",
+        "patient's residence or home (homebound patients)",
         "oral health educational institutions",
-        "mobile dental units (where at least 50% of patient base is underserved)"
+        "mobile dental units where at least 50% of patient base meets specified criteria"
       ],
       "quote": "A dental therapist licensed under this chapter is limited to primarily practicing in settings that serve low-income, uninsured, and underserved patients or in a dental health professional shortage area.",
       "citation": "150A.105"
@@ -494,7 +513,7 @@
     },
     "denture_patient_identification_marking_required": {
       "value": true,
-      "quote": "Every complete upper and lower denture and removable dental prosthesis fabricated by a dentist licensed under section 150A.06, or fabricated pursuant to the dentist's or dental therapist's work order, shall be marked with the name and Social Security number of the patient for whom the prosthesis is intended.",
+      "quote": "Every complete upper and lower denture and removable dental prosthesis fabricated by a dentist licensed under section 150A.06, or fabricated pursuant to the dentist's or dental therapist's work order, shall be marked with the name and Social Security number of the patient for whom the prosthesis is intended. The markings shall be done during fabrication and shall be permanent, legible and cosmetically acceptable.",
       "citation": "150A.21"
     },
     "teledentistry_authorized": null,
@@ -506,8 +525,16 @@
       "citation": "150A.10"
     },
     "interim_therapeutic_restoration_authorized": null,
-    "patient_record_retention_years": null,
+    "patient_record_retention_years": {
+      "value": 2,
+      "quote": "a duplicate copy to be retained in a permanent file of the dentist or dental therapist at the practice setting for a period of two years, and the original to be retained in a permanent file for a period of two years by the unlicensed person",
+      "citation": "150A.10"
+    },
     "cpr_certification_required_for_sedation": null,
-    "dental_hygienist_alternative_practice_license": null
+    "dental_hygienist_alternative_practice_license": {
+      "value": false,
+      "quote": "a dental hygienist licensed under this chapter may be employed or retained by a health care facility, program, nonprofit organization, or licensed dentist to perform the dental hygiene services listed in Minnesota Rules, part 3100.8700, subpart 1, without the patient first being examined by a licensed dentist if the dental hygienist: (1) has entered into a collaborative agreement with a licensed dentist",
+      "citation": "150A.10"
+    }
   }
 }

@@ -20,7 +20,7 @@
       },
       "type": {
         "value": "standalone_board",
-        "quote": "The Board of Nursing is created within the department and shall consist of 13 members",
+        "quote": "The Board of Nursing is created within the department and shall consist of 13 members to be appointed by the Governor and confirmed by the Senate.",
         "citation": "464.004"
       },
       "umbrella_agency": {
@@ -41,16 +41,85 @@
         "value": "Specialized nursing accrediting agency nationally recognized by the United States Secretary of Education",
         "quote": "accredited by a specialized nursing accrediting agency that is nationally recognized by the United States Secretary of Education to accredit nursing education programs",
         "citation": "464.003"
-      }
+      },
+      "degree_level": {
+        "value": "high_school",
+        "quote": "is a recipient of a high school diploma or the equivalent, and has completed the requirements for: 1. Graduation from an approved program",
+        "citation": "464.008"
+      },
+      "school_approval_basis": {
+        "value": "national_accreditor",
+        "quote": "accredited by a specialized nursing accrediting agency that is nationally recognized by the United States Secretary of Education to accredit nursing education programs",
+        "citation": "464.003"
+      },
+      "credential_pegged": {
+        "value": true,
+        "quote": "Has successfully passed an NCLEX-RN or NCLEX-PN Examination or recognized predecessor, as applicable.",
+        "citation": "464.0095"
+      },
+      "tiers": [
+        {
+          "license_class": "advanced practice registered nurse – certified nurse practitioner (graduates on or after October 1, 1998)",
+          "degree_level": "master",
+          "effective_date": "1998-10-01",
+          "quote": "For applicants graduating on or after October 1, 1998, graduation from a master's degree program is required for initial licensure as a certified nurse practitioner under paragraph (4)(a).",
+          "citation": "464.012"
+        },
+        {
+          "license_class": "advanced practice registered nurse – certified registered nurse anesthetist (graduates on or after October 1, 2001)",
+          "degree_level": "master",
+          "effective_date": "2001-10-01",
+          "quote": "For applicants graduating on or after October 1, 2001, graduation from a master's degree program is required for initial licensure as a certified registered nurse anesthetist who may perform the acts listed in paragraph (4)(b).",
+          "citation": "464.012"
+        },
+        {
+          "license_class": "advanced practice registered nurse – certified nurse midwife (graduates on or after October 1, 1998)",
+          "degree_level": "master",
+          "effective_date": "1998-10-01",
+          "quote": "For applicants graduating on or after October 1, 1998, graduation from a master's degree program is required for initial licensure as a certified nurse midwife who may perform the acts listed in paragraph (4)(c).",
+          "citation": "464.012"
+        },
+        {
+          "license_class": "advanced practice registered nurse – clinical nurse specialist (graduates on or after July 1, 2007)",
+          "degree_level": "master",
+          "effective_date": "2007-07-01",
+          "quote": "For applicants graduating on or after July 1, 2007, graduation from a master's degree program is required for initial licensure as a clinical nurse specialist who may perform the acts listed in paragraph (4)(d).",
+          "citation": "464.012"
+        }
+      ]
     },
-    "post_degree_experience": null,
+    "post_degree_experience": {
+      "required": {
+        "value": false,
+        "quote": "Graduation from an approved program",
+        "citation": "464.008"
+      },
+      "experience_source": {
+        "value": "none",
+        "quote": "Each applicant who passes the examination and provides proof of meeting the educational requirements specified in subsection (1) shall, unless denied pursuant to s. 464.018, be entitled to licensure as a registered professional nurse or a licensed practical nurse",
+        "citation": "464.008"
+      },
+      "duration": null,
+      "kind": null
+    },
     "exams": [
       {
-        "name": "NCLEX-RN or NCLEX-PN (National Council of State Boards of Nursing Licensing Examination)",
+        "name": "NCLEX-RN (National Council of State Boards of Nursing Licensing Examination – Registered Nurse)",
         "required": true,
-        "notes": "Applicants must pass the licensure examination; those who fail three consecutive times must complete a board-approved remedial course before reexamination.",
-        "quote": "Any person desiring to be licensed as a registered nurse or licensed practical nurse shall apply to the department to take the licensure examination.",
+        "notes": "Required for registered nurse licensure by examination",
+        "jurisdiction": "national (National Council of State Boards of Nursing)",
+        "permitted_attempts": null,
+        "quote": "Any applicant who fails the examination three consecutive times, regardless of the jurisdiction in which the examination is taken, shall be required to complete a board-approved remedial course before the applicant will be approved for reexamination.",
         "citation": "464.008"
+      },
+      {
+        "name": "NCLEX-PN (National Council of State Boards of Nursing Licensing Examination – Practical Nurse)",
+        "required": true,
+        "notes": "Required for licensed practical nurse licensure by examination",
+        "jurisdiction": "national (National Council of State Boards of Nursing)",
+        "permitted_attempts": null,
+        "quote": "Has successfully passed an NCLEX-RN or NCLEX-PN Examination or recognized predecessor, as applicable.",
+        "citation": "464.0095"
       }
     ],
     "renewal": {
@@ -60,6 +129,7 @@
         "citation": "464.013"
       }
     },
+    "renewal_fee_usd": null,
     "continuing_education": {
       "required": {
         "value": true,
@@ -79,7 +149,7 @@
       "topical_requirements": {
         "value": [
           "3 hours on safe and effective prescription of controlled substances (APRNs only)",
-          "2-hour course on human trafficking"
+          "2 hours on human trafficking"
         ],
         "quote": "advanced practice registered nurses licensed under s. 464.012 must complete at least 3 hours of continuing education on the safe and effective prescription of controlled substances... the board shall require each person licensed or certified under this chapter to complete a 2-hour continuing education course on human trafficking",
         "citation": "464.013"
@@ -92,10 +162,29 @@
         "citation": "464.009"
       },
       "requirements": {
-        "value": "Licensure by endorsement available for applicants who hold a valid license in another state with substantially equivalent or more stringent requirements, or who have actively practiced nursing in another state for 2 of the preceding 3 years without adverse action. Florida is also a member of the Nurse Licensure Compact, allowing multistate licensure.",
+        "value": "Licensure by endorsement available; applicant must meet requirements of s. 456.0145 (MOBILE Act) or demonstrate substantially equivalent prior license and examination. Applicant must not be under investigation in another jurisdiction. Background check required.",
         "quote": "The department shall issue the appropriate license by endorsement to practice professional or practical nursing to any applicant who, upon applying to the department and remitting a fee set by the board in an amount not to exceed $100, demonstrates to the board that he or she meets the requirements for licensure by endorsement under s. 456.0145.",
         "citation": "464.009"
       }
+    },
+    "advisory_board": {
+      "exists": {
+        "value": false,
+        "quote": "The Board of Nursing is created within the department and shall consist of 13 members to be appointed by the Governor and confirmed by the Senate.",
+        "citation": "464.004"
+      },
+      "name": null,
+      "authority": null
+    },
+    "national_certification": {
+      "value": "National Commission for Certifying Agencies / Accreditation Board for Specialty Nursing Certification",
+      "quote": "A nurse who is certified by a health care specialty program accredited by the National Commission for Certifying Agencies or the Accreditation Board for Specialty Nursing Certification is exempt from continuing education requirements.",
+      "citation": "464.013"
+    },
+    "national_association": {
+      "value": "American Nurses Credentialing Center; American Association of Nurse Anesthetists; American Association of Nurse Practitioners",
+      "quote": "Such continuing education courses must be offered by a statewide professional association of physicians in this state accredited to provide educational activities designated for the American Medical Association Physician's Recognition Award Category 1 credit, the American Nurses Credentialing Center, the American Association of Nurse Anesthetists, or the American Association of Nurse Practitioners",
+      "citation": "464.013"
     },
     "regulatory_model": {
       "value": "license",
@@ -104,8 +193,8 @@
     },
     "credential_type": {
       "value": "license",
-      "quote": "Each applicant who passes the examination and provides proof of meeting the educational requirements specified in subsection (1) shall, unless denied pursuant to s. 464.018, be entitled to licensure as a registered professional nurse or a licensed practical nurse",
-      "citation": "464.008"
+      "quote": "Practicing advanced or specialized, professional, or practical nursing, as defined in this part, unless holding an active license or certificate to do so.",
+      "citation": "464.016"
     },
     "is_mandatory": {
       "value": true,
@@ -130,38 +219,44 @@
         "citation": "464.018"
       },
       {
-        "short_label": "adverse_action_by_other_jurisdiction",
-        "description": "Having a nursing license revoked, suspended, or otherwise acted against by the licensing authority of another state, territory, or country.",
+        "short_label": "license_action_in_other_jurisdiction",
+        "description": "Having a license to practice nursing revoked, suspended, or otherwise acted against by the licensing authority of another state, territory, or country.",
         "quote": "Having a license to practice nursing revoked, suspended, or otherwise acted against, including the denial of licensure, by the licensing authority of another state, territory, or country.",
         "citation": "464.018"
       },
       {
         "short_label": "criminal_conviction_related_to_practice",
-        "description": "Being convicted of, or entering a plea to, a crime that directly relates to the practice of nursing or the ability to practice nursing.",
+        "description": "Being convicted of or entering a plea to a crime that directly relates to the practice of nursing or the ability to practice nursing.",
         "quote": "Being convicted or found guilty of, or entering a plea of guilty or nolo contendere to, regardless of adjudication, a crime in any jurisdiction which directly relates to the practice of nursing or to the ability to practice nursing.",
         "citation": "464.018"
       },
       {
-        "short_label": "conviction_of_specified_offenses",
-        "description": "Being convicted of or entering a plea to specified offenses including forcible felonies, theft, fraud, lewdness, assault, child abuse, or exploitation.",
+        "short_label": "conviction_of_enumerated_offenses",
+        "description": "Being convicted of or entering a plea to enumerated offenses including forcible felony, theft/robbery, fraudulent practices, lewdness, assault/battery, child abuse, abuse/neglect/exploitation, or for multistate licensees a federal felony.",
         "quote": "Being convicted or found guilty of, or entering a plea of guilty or nolo contendere to, regardless of adjudication, any of the following offenses: 1. A forcible felony as defined in chapter 776. 2. A violation of chapter 812, relating to theft, robbery, and related crimes.",
         "citation": "464.018"
       },
       {
-        "short_label": "false_report_or_record",
+        "short_label": "domestic_violence_or_chapter_435_offense",
+        "description": "Having been found guilty of or entered a plea to any offense prohibited under s. 435.04 or a similar statute of another jurisdiction, or having committed domestic violence.",
+        "quote": "Having been found guilty of or entered a plea of nolo contendere or guilty to, regardless of adjudication, any offense prohibited under s. 435.04 or similar statute of another jurisdiction; or having committed an act which constitutes domestic violence as defined in s. 741.28.",
+        "citation": "464.018"
+      },
+      {
+        "short_label": "false_reports_or_records",
         "description": "Making or filing a false report or record, or intentionally or negligently failing to file a required report or record.",
         "quote": "Making or filing a false report or record, which the nurse knows to be false, intentionally or negligently failing to file a report or record required by state or federal law, willfully impeding or obstructing such filing or inducing another person to do so.",
         "citation": "464.018"
       },
       {
-        "short_label": "false_misleading_advertising",
-        "description": "Engaging in false, misleading, or deceptive advertising.",
+        "short_label": "false_misleading_deceptive_advertising",
+        "description": "False, misleading, or deceptive advertising.",
         "quote": "False, misleading, or deceptive advertising.",
         "citation": "464.018"
       },
       {
         "short_label": "unprofessional_conduct",
-        "description": "Engaging in unprofessional conduct as defined by board rule.",
+        "description": "Unprofessional conduct as defined by board rule.",
         "quote": "Unprofessional conduct, as defined by board rule.",
         "citation": "464.018"
       },
@@ -173,41 +268,62 @@
       },
       {
         "short_label": "impairment",
-        "description": "Being unable to practice nursing with reasonable skill and safety due to illness, use of alcohol, drugs, narcotics, chemicals, or mental or physical condition.",
+        "description": "Being unable to practice nursing with reasonable skill and safety to patients by reason of illness or use of alcohol, drugs, narcotics, chemicals, or any other material, or as a result of any mental or physical condition.",
         "quote": "Being unable to practice nursing with reasonable skill and safety to patients by reason of illness or use of alcohol, drugs, narcotics, or chemicals or any other type of material or as a result of any mental or physical condition.",
         "citation": "464.018"
       },
       {
         "short_label": "failure_to_report_violations",
-        "description": "Failing to report to the department any person the nurse knows is in violation of the Nurse Practice Act or board rules.",
+        "description": "Failing to report to the department any person known to be in violation of the Nurse Practice Act or board rules.",
         "quote": "Failing to report to the department any person who the nurse knows is in violation of this part or of the rules of the department or the board.",
         "citation": "464.018"
       },
       {
-        "short_label": "violating_board_order_or_subpoena",
-        "description": "Knowingly violating any provision of the Nurse Practice Act, a board or department rule, or a lawful order, or failing to comply with a lawfully issued subpoena.",
+        "short_label": "violation_of_board_order_or_subpoena",
+        "description": "Knowingly violating any provision of the Nurse Practice Act, a rule of the board or department, or a lawful order previously entered in a disciplinary proceeding, or failing to comply with a lawfully issued subpoena.",
         "quote": "Knowingly violating any provision of this part, a rule of the board or the department, or a lawful order of the board or department previously entered in a disciplinary proceeding or failing to comply with a lawfully issued subpoena of the department.",
         "citation": "464.018"
       },
       {
-        "short_label": "failure_to_meet_minimal_standards",
-        "description": "Failing to meet minimal standards of acceptable and prevailing nursing practice, including engaging in acts for which the nurse is not qualified.",
+        "short_label": "failure_to_report_physician_violations",
+        "description": "Failing to report to the department any physician licensee who the nurse knows has violated the grounds for disciplinary action under chapter 458 or 459 while providing services in the same facility.",
+        "quote": "Failing to report to the department any licensee under chapter 458 or under chapter 459 who the nurse knows has violated the grounds for disciplinary action set out in the law under which that person is licensed and who provides health care services in a facility licensed under chapter 395, or a health maintenance organization certificated under part I of chapter 641, in which the nurse also provides services.",
+        "citation": "464.018"
+      },
+      {
+        "short_label": "below_minimal_standards_of_practice",
+        "description": "Failing to meet minimal standards of acceptable and prevailing nursing practice, including engaging in acts for which the nurse is not qualified by training or experience.",
         "quote": "Failing to meet minimal standards of acceptable and prevailing nursing practice, including engaging in acts for which the nurse is not qualified by training or experience.",
         "citation": "464.018"
       },
       {
+        "short_label": "violation_of_chapter_or_rules",
+        "description": "Violating any provision of chapter 464 or chapter 456, or any rules adopted pursuant thereto.",
+        "quote": "Violating any provision of this chapter or chapter 456, or any rules adopted pursuant thereto.",
+        "citation": "464.018"
+      },
+      {
         "short_label": "improper_delegation",
-        "description": "Delegating professional responsibilities to a person the nurse knows or has reason to know is not qualified to perform them.",
+        "description": "Delegating professional responsibilities to a person when the nurse knows or has reason to know that such person is not qualified by training, experience, certification, or licensure to perform them.",
         "quote": "Delegating professional responsibilities to a person when the nurse delegating such responsibilities knows or has reason to know that such person is not qualified by training, experience, certification, or licensure to perform them.",
         "citation": "464.018"
       },
       {
-        "short_label": "violating_chapter_or_rules",
-        "description": "Violating any provision of chapter 464 or chapter 456, or any rules adopted pursuant thereto.",
-        "quote": "Violating any provision of this chapter or chapter 456, or any rules adopted pursuant thereto.",
+        "short_label": "aprn_controlled_substance_violations",
+        "description": "For APRNs: Various prohibited prescribing practices including presigning blank prescription forms, prescribing controlled substances for office use, and other improper prescribing.",
+        "quote": "For an advanced practice registered nurse: 1. Presigning blank prescription forms. 2. Prescribing for office use any medicinal drug appearing on Schedule II in chapter 893.",
         "citation": "464.018"
       }
     ],
+    "alternative_regulation": {
+      "bonding_required": null,
+      "insurance_required": {
+        "value": true,
+        "quote": "An advanced practice registered nurse registered under this section must, by one of the following methods, demonstrate to the satisfaction of the board and the department financial responsibility to pay claims and costs ancillary thereto arising out of the rendering of, or the failure to render, nursing care, treatment, or services: 1. Obtaining and maintaining professional liability coverage in an amount not less than $100,000 per claim",
+        "citation": "464.0123"
+      },
+      "establishment_regulation_required": null
+    },
     "citations": [
       {
         "cite": "464.001",
@@ -223,7 +339,11 @@
       },
       {
         "cite": "464.004",
-        "kind": "board creation"
+        "kind": "board of nursing"
+      },
+      {
+        "cite": "464.006",
+        "kind": "rulemaking authority"
       },
       {
         "cite": "464.008",
@@ -235,7 +355,7 @@
       },
       {
         "cite": "464.0095",
-        "kind": "Nurse Licensure Compact"
+        "kind": "nurse licensure compact"
       },
       {
         "cite": "464.012",
@@ -250,12 +370,20 @@
         "kind": "renewal"
       },
       {
+        "cite": "464.014",
+        "kind": "inactive status"
+      },
+      {
         "cite": "464.015",
         "kind": "title protection"
       },
       {
         "cite": "464.016",
         "kind": "violations and penalties"
+      },
+      {
+        "cite": "464.017",
+        "kind": "sexual misconduct"
       },
       {
         "cite": "464.018",
@@ -268,6 +396,26 @@
       {
         "cite": "464.022",
         "kind": "exceptions"
+      },
+      {
+        "cite": "464.027",
+        "kind": "registered nurse first assistant"
+      },
+      {
+        "cite": "464.201",
+        "kind": "CNA definitions"
+      },
+      {
+        "cite": "464.202",
+        "kind": "CNA board duties"
+      },
+      {
+        "cite": "464.203",
+        "kind": "CNA certification"
+      },
+      {
+        "cite": "464.0156",
+        "kind": "delegation of duties"
       }
     ]
   },
@@ -279,38 +427,46 @@
     },
     "methods_authorized": {
       "value": [
-        "Observation, assessment, nursing diagnosis, planning, intervention, and evaluation of care",
-        "Health teaching and counseling",
-        "Promotion of wellness, maintenance of health, and prevention of illness",
-        "Administration of medications and treatments as prescribed",
-        "Supervision and teaching of other personnel"
+        "observation, assessment, nursing diagnosis, planning, intervention, and evaluation of care",
+        "health teaching and counseling",
+        "promotion of wellness, maintenance of health, and prevention of illness",
+        "administration of medications and treatments as prescribed",
+        "supervision and teaching of other personnel"
       ],
       "quote": "The observation, assessment, nursing diagnosis, planning, intervention, and evaluation of care; health teaching and counseling of the ill, injured, or infirm; and the promotion of wellness, maintenance of health, and prevention of illness of others.",
       "citation": "464.003"
     },
     "drug_authority": {
-      "value": "Nurses may administer medications and treatments as prescribed or authorized by a duly licensed practitioner. APRNs may prescribe, dispense, administer, or order any drug within the framework of an established protocol; controlled substances only if the APRN has a master's or doctoral degree in a clinical nursing specialty.",
-      "quote": "The administration of medications and treatments as prescribed or authorized by a duly licensed practitioner authorized by the laws of this state to prescribe such medications and treatments.",
-      "citation": "464.003"
+      "value": "APRNs may prescribe, dispense, administer, or order any drug within established supervisory protocol; may prescribe controlled substances only if graduated from a master's or doctoral degree program. Board committee establishes formulary for controlled substances.",
+      "quote": "Within the established framework, an advanced practice registered nurse may: (a) Prescribe, dispense, administer, or order any drug; however, an advanced practice registered nurse may prescribe or dispense a controlled substance as defined in s. 893.03 only if the advanced practice registered nurse has graduated from a program leading to a master's or doctoral degree in a clinical nursing specialty area with training in specialized practitioner skills.",
+      "citation": "464.012"
     },
     "citations": [
       {
         "cite": "464.003",
-        "kind": "definitions/scope"
+        "kind": "scope definitions"
       },
       {
         "cite": "464.012",
         "kind": "APRN scope"
+      },
+      {
+        "cite": "464.0123",
+        "kind": "autonomous practice scope"
       }
     ]
   },
   "profession_specific": {
     "license_tiers": {
       "value": [
-        "Licensed Practical Nurse (LPN)",
         "Registered Nurse (RN)",
-        "Advanced Practice Registered Nurse (APRN) - including Certified Nurse Midwife (CNM), Certified Nurse Practitioner (CNP), Certified Registered Nurse Anesthetist (CRNA), Clinical Nurse Specialist (CNS), and Psychiatric Nurse",
-        "Autonomous Advanced Practice Registered Nurse (registered under s. 464.0123)"
+        "Licensed Practical Nurse (LPN)",
+        "Advanced Practice Registered Nurse (APRN) – Certified Nurse Midwife (CNM)",
+        "Advanced Practice Registered Nurse (APRN) – Certified Nurse Practitioner (CNP)",
+        "Advanced Practice Registered Nurse (APRN) – Certified Registered Nurse Anesthetist (CRNA)",
+        "Advanced Practice Registered Nurse (APRN) – Clinical Nurse Specialist (CNS)",
+        "Advanced Practice Registered Nurse (APRN) – Psychiatric Nurse",
+        "Certified Nursing Assistant (CNA)"
       ],
       "quote": "\"Advanced practice registered nurse\" means any person licensed in this state to practice professional nursing and who is licensed in an advanced nursing practice, including certified nurse midwives, certified nurse practitioners, certified registered nurse anesthetists, clinical nurse specialists, and psychiatric nurses.",
       "citation": "464.003"
@@ -323,16 +479,16 @@
         "Clinical Nurse Specialist (CNS)",
         "Psychiatric Nurse"
       ],
-      "quote": "including certified nurse midwives, certified nurse practitioners, certified registered nurse anesthetists, clinical nurse specialists, and psychiatric nurses",
+      "quote": "\"Advanced practice registered nurse\" means any person licensed in this state to practice professional nursing and who is licensed in an advanced nursing practice, including certified nurse midwives, certified nurse practitioners, certified registered nurse anesthetists, clinical nurse specialists, and psychiatric nurses.",
       "citation": "464.003"
     },
     "lpn_supervision_requirements": {
       "value": [
-        "Registered nurse",
-        "Licensed physician",
-        "Licensed osteopathic physician",
-        "Licensed podiatric physician",
-        "Licensed dentist"
+        "registered nurse",
+        "licensed physician",
+        "licensed osteopathic physician",
+        "licensed podiatric physician",
+        "licensed dentist"
       ],
       "quote": "the promotion of wellness, maintenance of health, and prevention of illness of others under the direction of a registered nurse, a licensed physician, a licensed osteopathic physician, a licensed podiatric physician, or a licensed dentist",
       "citation": "464.003"
@@ -354,12 +510,12 @@
     },
     "prescriptive_authority_certificate_required": {
       "value": false,
-      "quote": "Within the established framework, an advanced practice registered nurse may: (a) Prescribe, dispense, administer, or order any drug; however, an advanced practice registered nurse may prescribe or dispense a controlled substance as defined in s. 893.03 only if the advanced practice registered nurse has graduated from a program leading to a master's or doctoral degree in a clinical nursing specialty area with training in specialized practitioner skills.",
+      "quote": "Within the established framework, an advanced practice registered nurse may: (a) Prescribe, dispense, administer, or order any drug",
       "citation": "464.012"
     },
     "controlled_substance_schedule_authority": {
       "value": [
-        "Schedule II (with master's or doctoral degree requirement and formulary restrictions)",
+        "Schedule II (with master's/doctoral degree; limited to 7-day supply for acute pain except psychiatric medications)",
         "Schedule III",
         "Schedule IV",
         "Schedule V"
@@ -368,7 +524,7 @@
       "citation": "464.012"
     },
     "opioid_prescribing_limits": {
-      "value": "The formulary must also limit the prescribing of Schedule II controlled substances as listed in s. 893.03 to a 7-day supply, except that such restriction does not apply to controlled substances that are psychiatric medications prescribed by psychiatric nurses.",
+      "value": "The formulary must also limit the prescribing of Schedule II controlled substances as listed in s. 893.03 to a 7-day supply, except that such restriction does not apply to controlled substances that are psychiatric medications prescribed by psychiatric nurses as defined in s. 394.455.",
       "quote": "The formulary must also limit the prescribing of Schedule II controlled substances as listed in s. 893.03 to a 7-day supply, except that such restriction does not apply to controlled substances that are psychiatric medications prescribed by psychiatric nurses as defined in s. 394.455.",
       "citation": "464.012"
     },
@@ -382,7 +538,7 @@
     "medication_assistant_certification_available": {
       "value": true,
       "quote": "Upon completion of the training, competency, and initial validation requirements under s. 464.2035 and this subsection, a certified nursing assistant whose delegated tasks include medication administration is designated as a qualified medication aide.",
-      "citation": "400.211"
+      "citation": "464.203"
     },
     "delegation_to_unlicensed_personnel_authorized": {
       "value": true,

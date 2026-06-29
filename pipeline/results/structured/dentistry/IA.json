@@ -4,7 +4,7 @@
   "licensure": {
     "license_required": {
       "value": true,
-      "quote": "it shall be unlawful for any person to practice dentistry or dental surgery or dental hygiene in this state, other than: 1. Those who are now duly licensed dentists",
+      "quote": "it shall be unlawful for any person to practice dentistry or dental surgery or dental hygiene in this state",
       "citation": "153.17"
     },
     "issuing_authority": {
@@ -33,40 +33,70 @@
     "moral_character_required": null,
     "education": {
       "degree_required": {
-        "value": "doctor of dental surgery or doctor of dental medicine degree",
-        "quote": "applicants for a dentist license graduate from a predoctoral dental education program accredited by the commission on dental accreditation or another accrediting agency recognized by the United States department of education for the accreditation of dentistry and dental hygiene education programs, leading to the doctor of dental surgery or doctor of dental medicine degree.",
+        "value": "doctor of dental surgery or doctor of dental medicine degree from a predoctoral dental education program accredited by the commission on dental accreditation",
+        "quote": "Accept for licensure that applicants for a dentist license graduate from a predoctoral dental education program accredited by the commission on dental accreditation or another accrediting agency recognized by the United States department of education for the accreditation of dentistry and dental hygiene education programs, leading to the doctor of dental surgery or doctor of dental medicine degree.",
         "citation": "147G.1"
       },
       "accrediting_body": {
-        "value": "commission on dental accreditation",
-        "quote": "graduate from a predoctoral dental education program accredited by the commission on dental accreditation or another accrediting agency recognized by the United States department of education",
+        "value": "Commission on Dental Accreditation (CODA)",
+        "quote": "accredited by the commission on dental accreditation or another accrediting agency recognized by the United States department of education for the accreditation of dentistry and dental hygiene education programs",
         "citation": "147G.1"
-      }
+      },
+      "degree_level": {
+        "value": "doctorate",
+        "quote": "leading to the doctor of dental surgery or doctor of dental medicine degree",
+        "citation": "147G.1"
+      },
+      "school_approval_basis": {
+        "value": "national_accreditor",
+        "quote": "accredited by the commission on dental accreditation or another accrediting agency recognized by the United States department of education",
+        "citation": "147G.1"
+      },
+      "credential_pegged": {
+        "value": false,
+        "quote": "graduate from a predoctoral dental education program accredited by the commission on dental accreditation or another accrediting agency recognized by the United States department of education for the accreditation of dentistry and dental hygiene education programs, leading to the doctor of dental surgery or doctor of dental medicine degree",
+        "citation": "147G.1"
+      },
+      "tiers": null
     },
-    "post_degree_experience": null,
+    "post_degree_experience": {
+      "required": {
+        "value": false,
+        "quote": "graduate from a predoctoral dental education program accredited by the commission on dental accreditation or another accrediting agency recognized by the United States department of education for the accreditation of dentistry and dental hygiene education programs, leading to the doctor of dental surgery or doctor of dental medicine degree",
+        "citation": "147G.1"
+      },
+      "experience_source": {
+        "value": "embedded_in_credential",
+        "quote": "leading to the doctor of dental surgery or doctor of dental medicine degree",
+        "citation": "147G.1"
+      },
+      "duration": null,
+      "kind": null
+    },
     "exams": [
       {
-        "name": "national board examinations of the joint commission on national dental examinations",
+        "name": "National Board Dental Examination (Joint Commission on National Dental Examinations)",
         "required": true,
-        "notes": "Dentists shall pass an examination approved by a majority of the dentist members of the dental board.",
+        "notes": "Must pass a national board examination of the joint commission on national dental examinations or another examination accepted by commission rule; dentists must pass an examination approved by a majority of the dentist members of the dental board.",
+        "jurisdiction": "national (Joint Commission on National Dental Examinations)",
+        "permitted_attempts": null,
         "quote": "Accept the national board examinations of the joint commission on national dental examinations or another examination accepted by commission rule as a licensure examination.",
         "citation": "147G.1"
       },
       {
-        "name": "clinical assessment",
+        "name": "Clinical Assessment",
         "required": true,
-        "notes": "Examination or process providing evidence of clinical competence in dentistry.",
+        "notes": "Applicants must successfully complete a clinical assessment for licensure.",
+        "jurisdiction": null,
+        "permitted_attempts": null,
         "quote": "Require for licensure that applicants successfully complete a clinical assessment.",
         "citation": "147G.1"
       }
     ],
     "renewal": {
-      "interval_years": {
-        "value": 2,
-        "quote": "Every license to practice a profession shall expire in multiyear intervals and be renewed as determined by the board upon application by the licensee.",
-        "citation": "147.10"
-      }
+      "interval_years": null
     },
+    "renewal_fee_usd": null,
     "continuing_education": {
       "required": {
         "value": true,
@@ -77,7 +107,7 @@
       "period_years": null,
       "topical_requirements": {
         "value": [
-          "opioid prescribing continuing education (for those who prescribed opioids in previous licensure cycle)"
+          "opioid prescribing continuing education for licensees who prescribed opioids during the previous licensure cycle"
         ],
         "quote": "The board of medicine, board of dentistry, board of physician assistants, board of podiatry, and board of nursing shall establish rules requiring a person licensed pursuant to section 148.3, 148C.3, 149.3, or 152.6 or chapter 153 who has prescribed opioids to a patient during the previous licensure cycle to receive continuing education credits regarding the United States centers for disease control and prevention guideline for prescribing opioids for chronic pain",
         "citation": "272C.2C"
@@ -90,24 +120,35 @@
         "citation": "153.21"
       },
       "requirements": {
-        "value": "Applicant must hold a license from a similar dental board of another state with equivalent requirements, have passed a regional or national examination approved by the dental board or have been in legal practice for three consecutive years immediately prior to filing the application, and furnish other evidence of qualifications as required by the board.",
-        "quote": "Holds a license from a similar dental board of another state, territory, or district of the United States under requirements equivalent or substantially equivalent to those of this state. 2. Has satisfied at least one of the following: a. Passed an examination administered by a regional or national testing service...b. Has for three consecutive years immediately prior to the filing of the application in this state been in a legal practice of dentistry or dental hygiene",
+        "value": "License by credentials available without examination if applicant holds equivalent license from another state and has either passed a regional or national examination approved by the dental board or has been in legal practice for three consecutive years immediately prior to application.",
+        "quote": "Holds a license from a similar dental board of another state, territory, or district of the United States under requirements equivalent or substantially equivalent to those of this state.",
         "citation": "153.21"
       }
     },
+    "advisory_board": {
+      "exists": {
+        "value": false,
+        "quote": "For dentistry, dental hygiene, and dental assisting, the dental board.",
+        "citation": "147.13"
+      },
+      "name": null,
+      "authority": null
+    },
+    "national_certification": null,
+    "national_association": null,
     "regulatory_model": {
       "value": "license",
-      "quote": "it shall be unlawful for any person to practice dentistry or dental surgery or dental hygiene in this state, other than: 1. Those who are now duly licensed dentists",
+      "quote": "it shall be unlawful for any person to practice dentistry or dental surgery or dental hygiene in this state",
       "citation": "153.17"
     },
     "credential_type": {
       "value": "license",
-      "quote": "Those who may hereafter be duly licensed as dentists or dental hygienists pursuant to the provisions of this chapter.",
+      "quote": "it shall be unlawful for any person to practice dentistry or dental surgery or dental hygiene in this state",
       "citation": "153.17"
     },
     "is_mandatory": {
       "value": true,
-      "quote": "it shall be unlawful for any person to practice dentistry or dental surgery or dental hygiene in this state, other than: 1. Those who are now duly licensed dentists",
+      "quote": "it shall be unlawful for any person to practice dentistry or dental surgery or dental hygiene in this state",
       "citation": "153.17"
     },
     "title_protection": {
@@ -117,7 +158,7 @@
     },
     "scope_protection": {
       "value": true,
-      "quote": "it shall be unlawful for any person to practice dentistry or dental surgery or dental hygiene in this state, other than: 1. Those who are now duly licensed dentists",
+      "quote": "it shall be unlawful for any person to practice dentistry or dental surgery or dental hygiene in this state",
       "citation": "153.17"
     },
     "disciplinary_grounds": [
@@ -128,20 +169,20 @@
         "citation": "153.34"
       },
       {
-        "short_label": "willful_gross_malpractice_or_neglect",
-        "description": "Willful and gross malpractice or willful and gross neglect in the practice of dentistry.",
+        "short_label": "willful_gross_malpractice",
+        "description": "Guilty of willful and gross malpractice or willful and gross neglect in practice.",
         "quote": "For being guilty of willful and gross malpractice or willful and gross neglect in the practice of dentistry, dental hygiene, or dental assisting.",
         "citation": "153.34"
       },
       {
-        "short_label": "fraud_in_representation_of_skill",
+        "short_label": "fraud_in_skill_representation",
         "description": "Fraud in representation as to skill or ability.",
         "quote": "For fraud in representation as to skill or ability.",
         "citation": "153.34"
       },
       {
         "short_label": "willful_repeated_violations",
-        "description": "Willful or repeated violations of the chapter, subtitle, or board rules.",
+        "description": "Willful or repeated violations of this chapter, subtitle, or board rules.",
         "quote": "For willful or repeated violations of this chapter, this subtitle, or the rules of the board.",
         "citation": "153.34"
       },
@@ -153,73 +194,73 @@
       },
       {
         "short_label": "failure_to_pay_fees",
-        "description": "Failure to pay license or registration fees.",
+        "description": "Failed to pay license or registration fees as provided.",
         "quote": "For having failed to pay license or registration fees as provided herein.",
         "citation": "153.34"
       },
       {
         "short_label": "gross_immorality_unprofessional_conduct",
-        "description": "Gross immorality or dishonorable or unprofessional conduct in the practice of dentistry.",
+        "description": "Gross immorality or dishonorable or unprofessional conduct in practice.",
         "quote": "For gross immorality or dishonorable or unprofessional conduct in the practice of dentistry, dental hygiene, or dental assisting.",
         "citation": "153.34"
       },
       {
         "short_label": "failure_to_maintain_competency",
-        "description": "Failure to maintain a reasonably satisfactory standard of competency in the practice of dentistry.",
+        "description": "Failure to maintain a reasonably satisfactory standard of competency in practice.",
         "quote": "For failure to maintain a reasonably satisfactory standard of competency in the practice of dentistry, dental hygiene, or dental assisting.",
         "citation": "153.34"
       },
       {
         "short_label": "violation_of_law_related_to_practice",
-        "description": "Violation of a law of this state, another state, or the United States relating to the practice of dentistry.",
+        "description": "Violation of a law of this state, another state, or the US, related to the practice of dentistry.",
         "quote": "For a violation of a law of this state, another state, or the United States, without regard to its designation as either a felony or misdemeanor, which law relates to the practice of dentistry, dental hygiene, or dental assisting.",
         "citation": "153.34"
       },
       {
         "short_label": "license_revocation_another_jurisdiction",
-        "description": "Revocation or suspension of a license or other disciplinary action by a licensing authority of another state, territory, or country.",
+        "description": "Revocation or suspension of license or other disciplinary action by a licensing authority of another state, territory, or country.",
         "quote": "The revocation or suspension of a license or registration to practice dentistry, dental hygiene, or dental assisting or other disciplinary action taken by a licensing authority of another state, territory, or country.",
         "citation": "153.34"
       },
       {
         "short_label": "aiding_unlicensed_practice",
-        "description": "Knowingly aiding, assisting, procuring, or advising a person to unlawfully practice dentistry.",
+        "description": "Knowingly aiding, assisting, procuring, or advising a person to unlawfully practice dentistry, dental hygiene, or dental assisting.",
         "quote": "Knowingly aiding, assisting, procuring, or advising a person to unlawfully practice dentistry, dental hygiene, or dental assisting.",
         "citation": "153.34"
       },
       {
-        "short_label": "adjudication_of_mental_incompetence",
+        "short_label": "adjudication_mental_incompetence",
         "description": "Adjudication of mental incompetence by a court of competent jurisdiction.",
         "quote": "For an adjudication of mental incompetence by a court of competent jurisdiction. Such adjudication shall automatically suspend a license or registration for the duration of the license or registration unless the board orders otherwise.",
         "citation": "153.34"
       },
       {
         "short_label": "inability_to_practice_safely",
-        "description": "Inability to practice with reasonable skill and safety by reason of illness, drunkenness, or habitual or excessive use of drugs or other substances, or mental or physical condition.",
+        "description": "Inability to practice with reasonable skill and safety due to illness, drunkenness, excessive use of drugs, or mental or physical condition.",
         "quote": "Inability to practice dentistry, dental hygiene, or dental assisting with reasonable skill and safety by reason of illness, drunkenness, or habitual or excessive use of drugs, intoxicants, narcotics, chemicals, or other types of materials or as a result of a mental or physical condition.",
         "citation": "153.34"
       },
       {
         "short_label": "assisting_violation_of_chapter",
-        "description": "Being a party to or assisting in any violation of any provision of the chapter.",
+        "description": "Being a party to or assisting in any violation of any provision of this chapter.",
         "quote": "For being a party to or assisting in any violation of any provision of this chapter.",
         "citation": "153.34"
       },
       {
-        "short_label": "dental_hygienist_practicing_dentistry",
-        "description": "For a dental hygienist, the practice of dentistry; and for a dentist, permitting the practice of dentistry by a dental hygienist.",
+        "short_label": "hygienist_practicing_dentistry",
+        "description": "For a dental hygienist, the practice of dentistry; for a dentist, permitting a dental hygienist to practice dentistry.",
         "quote": "For a dental hygienist, the practice of dentistry by the dental hygienist; and for a dentist, permitting the practice of dentistry by a dental hygienist by the dentist under whose supervision the dental hygienist is operating.",
         "citation": "153.34"
       },
       {
-        "short_label": "rebate_from_dental_laboratory",
+        "short_label": "receiving_rebate",
         "description": "Receiving any rebate or other thing of value from any dental laboratory or dental technician.",
         "quote": "Receiving any rebate, or other thing of value, directly or indirectly from any dental laboratory or dental technician.",
         "citation": "153.32"
       },
       {
         "short_label": "solicitation_by_cappers",
-        "description": "Solicitation of professional patronage by agents or persons known as 'cappers' or 'steerers'.",
+        "description": "Solicitation of professional patronage by agents known as 'cappers' or 'steerers'.",
         "quote": "Solicitation of professional patronage by agents or persons popularly known as \"cappers\" or \"steerers\", or profiting by the acts of those representing themselves to be agents of the licensee.",
         "citation": "153.32"
       },
@@ -231,7 +272,7 @@
       },
       {
         "short_label": "fee_splitting",
-        "description": "Division of fees or agreeing to split fees received for professional services without patient consent.",
+        "description": "Division of fees or agreeing to split fees for bringing or referring a patient without patient consent.",
         "quote": "Division of fees or agreeing to split or divide the fees received for professional services with any person for bringing or referring a patient or assisting in the care or treatment of a patient without the consent of said patient or the patient's legal representative.",
         "citation": "153.32"
       },
@@ -242,71 +283,124 @@
         "citation": "153.32"
       },
       {
-        "short_label": "falsification_in_renewal_application",
-        "description": "Filing a renewal application certificate that is not in all material respects true.",
-        "quote": "when the certificate accompanying the application of such licensee or registrant for renewal of license or registration filed with the board is not in all material respects true.",
+        "short_label": "falsification_renewal_application",
+        "description": "Certificate accompanying renewal application is not in all material respects true.",
+        "quote": "A license to practice either dentistry or dental hygiene, or registration as a dental assistant, shall be revoked or suspended in the manner and upon the grounds elsewhere provided in this chapter, and also when the certificate accompanying the application of such licensee or registrant for renewal of license or registration filed with the board is not in all material respects true.",
         "citation": "153.31"
       }
     ],
+    "alternative_regulation": {
+      "bonding_required": null,
+      "insurance_required": null,
+      "establishment_regulation_required": null
+    },
     "citations": [
       {
         "cite": "153.13",
-        "kind": "scope_of_practice_definition"
+        "kind": "scope of practice definition"
       },
       {
         "cite": "153.14",
-        "kind": "exemptions"
+        "kind": "exclusions"
       },
       {
         "cite": "153.17",
-        "kind": "unlawful_practice"
+        "kind": "unlawful practice"
+      },
+      {
+        "cite": "153.18",
+        "kind": "employment of unlicensed dentist"
+      },
+      {
+        "cite": "153.19",
+        "kind": "temporary permit"
       },
       {
         "cite": "153.20",
-        "kind": "drug_authority"
+        "kind": "drug and surgery authority"
       },
       {
         "cite": "153.21",
-        "kind": "reciprocity"
+        "kind": "license by credentials"
+      },
+      {
+        "cite": "153.22",
+        "kind": "resident license"
+      },
+      {
+        "cite": "153.23",
+        "kind": "retired volunteer license"
+      },
+      {
+        "cite": "153.24",
+        "kind": "orthodontia teledentistry"
       },
       {
         "cite": "153.31",
-        "kind": "discipline"
+        "kind": "falsification in renewal"
       },
       {
         "cite": "153.32",
-        "kind": "discipline"
+        "kind": "unprofessional conduct"
       },
       {
         "cite": "153.33",
-        "kind": "board_powers"
+        "kind": "powers of board"
+      },
+      {
+        "cite": "153.33A",
+        "kind": "dental hygiene committee"
       },
       {
         "cite": "153.34",
         "kind": "discipline"
       },
       {
-        "cite": "147.2",
-        "kind": "license_required"
+        "cite": "153.36",
+        "kind": "exceptions"
       },
       {
-        "cite": "147.13",
-        "kind": "issuing_authority"
+        "cite": "153.37",
+        "kind": "faculty permits"
       },
       {
-        "cite": "147.14",
-        "kind": "board_composition"
+        "cite": "153.38",
+        "kind": "dental assistants scope"
+      },
+      {
+        "cite": "153.39",
+        "kind": "dental assistants registration"
       },
       {
         "cite": "147G.1",
-        "kind": "compact"
+        "kind": "dentist and dental hygienist compact"
+      },
+      {
+        "cite": "147.2",
+        "kind": "license required"
+      },
+      {
+        "cite": "147.13",
+        "kind": "designation of boards"
+      },
+      {
+        "cite": "147.14",
+        "kind": "composition of boards"
+      },
+      {
+        "cite": "147.34",
+        "kind": "examinations"
+      },
+      {
+        "cite": "272C.2C",
+        "kind": "continuing education opioids"
       }
     ]
   },
   "scope": {
     "definition_quote": {
       "value": "Persons who perform examination, diagnosis, treatment, and attempted correction by any medicine, appliance, surgery, or other appropriate method of any disease, condition, disorder, lesion, injury, deformity, or defect of the oral cavity and maxillofacial area, including teeth, gums, jaws, and associated structures and tissue, which methods by education, background experience, and expertise are common to the practice of dentistry.",
-      "quote": "Persons who perform examination, diagnosis, treatment, and attempted correction by any medicine, appliance, surgery, or other appropriate method of any disease, condition, disorder, lesion, injury, deformity, or defect of the oral cavity and maxillofacial area, including teeth, gums, jaws, and associated structures and tissue",
+      "quote": "Persons who perform examination, diagnosis, treatment, and attempted correction by any medicine, appliance, surgery, or other appropriate method of any disease, condition, disorder, lesion, injury, deformity, or defect of the oral cavity and maxillofacial area, including teeth, gums, jaws, and associated structures and tissue, which methods by education, background experience, and expertise are common to the practice of dentistry.",
       "citation": "153.13"
     },
     "methods_authorized": {
@@ -314,30 +408,27 @@
         "examination",
         "diagnosis",
         "treatment",
+        "surgery",
         "medicine",
         "appliance",
-        "surgery",
-        "prescribing and administering drugs",
-        "general or local anesthetics",
-        "surgical operations",
-        "tooth whitening"
+        "tooth whitening instruction and application"
       ],
-      "quote": "A dentist shall have the right to prescribe and administer drugs or medicine, perform such surgical operations, administer general or local anesthetics and use such appliances as may be necessary to the proper practice of dentistry.",
-      "citation": "153.20"
+      "quote": "Persons who perform examination, diagnosis, treatment, and attempted correction by any medicine, appliance, surgery, or other appropriate method of any disease, condition, disorder, lesion, injury, deformity, or defect of the oral cavity and maxillofacial area",
+      "citation": "153.13"
     },
     "drug_authority": {
-      "value": "Dentist may prescribe and administer drugs or medicine, perform surgical operations, administer general or local anesthetics, and use appliances as necessary to the proper practice of dentistry.",
+      "value": "A dentist shall have the right to prescribe and administer drugs or medicine, perform such surgical operations, administer general or local anesthetics and use such appliances as may be necessary to the proper practice of dentistry.",
       "quote": "A dentist shall have the right to prescribe and administer drugs or medicine, perform such surgical operations, administer general or local anesthetics and use such appliances as may be necessary to the proper practice of dentistry.",
       "citation": "153.20"
     },
     "citations": [
       {
         "cite": "153.13",
-        "kind": "scope_definition"
+        "kind": "scope definition"
       },
       {
         "cite": "153.20",
-        "kind": "drug_authority"
+        "kind": "drug authority"
       }
     ]
   },
@@ -351,8 +442,7 @@
     "specialty_advertising_disclaimer_required": null,
     "dental_hygienist_supervision_levels": {
       "value": [
-        "supervision of a licensed dentist (for therapeutic/clinical services)",
-        "no supervision required (for educational services)"
+        "supervision of a licensed dentist"
       ],
       "quote": "Such services, except educational services, shall be performed under supervision of a licensed dentist but nothing in this section shall be construed to authorize a dental hygienist to practice dentistry.",
       "citation": "153.15"
@@ -384,9 +474,17 @@
       "quote": "The licensee performs an initial in-person or teledentistry examination of the teeth and supporting structures of the new patient prior to beginning orthodontic treatment.",
       "citation": "153.24"
     },
-    "hygienist_local_anesthesia_certification_required": null,
+    "hygienist_local_anesthesia_certification_required": {
+      "value": true,
+      "quote": "The board shall not adopt rules that delegate to a dental assistant the administration of local anesthesia or the removal of plaque, stain, calculus, or hard natural material except by toothbrush, floss, or rubber cup coronal polish.",
+      "citation": "153.38"
+    },
     "hygienist_nitrous_oxide_certification_required": null,
-    "restorative_function_endorsement_available": null,
+    "restorative_function_endorsement_available": {
+      "value": true,
+      "quote": "A registered dental assistant with additional education and training, as provided by the board by rule, may become certified to perform expanded functions or become qualified to participate in dental radiography.",
+      "citation": "153.38"
+    },
     "interim_therapeutic_restoration_authorized": null,
     "patient_record_retention_years": null,
     "cpr_certification_required_for_sedation": null,

@@ -4,230 +4,380 @@
   "licensure": {
     "license_required": {
       "value": true,
-      "quote": "A person shall not engage in the practice of... nursing... unless the person has obtained a license for that purpose from the board for the profession.",
-      "citation": "[147.2]"
+      "quote": "A person shall not engage in the practice of ... nursing ... unless the person has obtained a license for that purpose from the board for the profession.",
+      "citation": "147.2"
     },
     "issuing_authority": {
       "value": "Board of Nursing",
       "quote": "For nursing and midwifery, the board of nursing.",
-      "citation": "[147.13]"
+      "citation": "147.13"
     },
     "regulatory_authority": {
       "name": {
         "value": "Board of Nursing",
         "quote": "For nursing and midwifery, the board of nursing.",
-        "citation": "[147.13]"
+        "citation": "147.13"
       },
       "type": {
-        "value": "standalone_board",
+        "value": "shared_board",
         "quote": "For nursing and midwifery, the board of nursing.",
-        "citation": "[147.13]"
+        "citation": "147.13"
       },
-      "umbrella_agency": null
+      "umbrella_agency": {
+        "value": "Department of Inspections, Appeals, and Licensing",
+        "quote": "\"Department\" means the department of inspections, appeals, and licensing.",
+        "citation": "147.1"
+      }
     },
     "age_minimum": null,
     "moral_character_required": null,
     "education": {
       "degree_required": {
-        "value": "High school diploma or equivalent; completion of approved nursing education program",
-        "quote": "Be a graduate of an accredited high school or the equivalent... Complete a course of study approved by the board pursuant to section 152.5.",
-        "citation": "[152.7]"
+        "value": "Graduate of an accredited high school or the equivalent; complete a board-approved course of study (at least two academic years for RN, at least one academic year for LPN)",
+        "quote": "Be a graduate of an accredited high school or the equivalent. ... Complete a course of study approved by the board pursuant to section 152.5.",
+        "citation": "152.7"
       },
       "accrediting_body": {
         "value": "Board of Nursing",
         "quote": "All programs preparing a person to be a registered nurse or a licensed practical nurse shall be approved by the board.",
-        "citation": "[152.5]"
-      }
+        "citation": "152.5"
+      },
+      "degree_level": {
+        "value": "associate",
+        "quote": "Requires, for graduation of a registered nurse applicant, the completion of at least a two academic year course of study.",
+        "citation": "152.5"
+      },
+      "school_approval_basis": {
+        "value": "board_approved",
+        "quote": "All programs preparing a person to be a registered nurse or a licensed practical nurse shall be approved by the board.",
+        "citation": "152.5"
+      },
+      "credential_pegged": {
+        "value": false,
+        "quote": "Complete a course of study approved by the board pursuant to section 152.5.",
+        "citation": "152.7"
+      },
+      "tiers": [
+        {
+          "license_class": "registered nurse",
+          "degree_level": "associate",
+          "effective_date": null,
+          "quote": "Requires, for graduation of a registered nurse applicant, the completion of at least a two academic year course of study.",
+          "citation": "152.5"
+        },
+        {
+          "license_class": "licensed practical nurse",
+          "degree_level": "high_school",
+          "effective_date": null,
+          "quote": "Requires, for graduation of a licensed practical nurse applicant, the completion of at least a one academic year course of study as prescribed by the board.",
+          "citation": "152.5"
+        },
+        {
+          "license_class": "advanced registered nurse practitioner",
+          "degree_level": "bachelor",
+          "effective_date": null,
+          "quote": "Hold a current license as a registered nurse. Satisfactory completion of a formal advanced practice educational program of study in a nursing specialty area approved by the board. Hold an advanced level certification by a recognized national certifying body.",
+          "citation": "152.7"
+        }
+      ]
     },
-    "post_degree_experience": null,
+    "post_degree_experience": {
+      "required": {
+        "value": false,
+        "quote": "Pass an examination as prescribed by the board. Complete a course of study approved by the board pursuant to section 152.5.",
+        "citation": "152.7"
+      },
+      "experience_source": {
+        "value": "none",
+        "quote": "Pass an examination as prescribed by the board. Complete a course of study approved by the board pursuant to section 152.5.",
+        "citation": "152.7"
+      },
+      "duration": null,
+      "kind": null
+    },
     "exams": [
       {
-        "name": "National Council Licensure Examination (NCLEX)",
+        "name": "NCLEX-RN or NCLEX-PN (national council licensure examination)",
         "required": true,
-        "notes": null,
-        "jurisdiction": "national",
+        "notes": "The statute requires passing 'an examination as prescribed by the board'; the compact provisions reference 'national council licensure examination — registered nurse or national council licensure examination — practical nurse examination'.",
+        "jurisdiction": "national (NCSBN)",
         "permitted_attempts": null,
         "quote": "Pass an examination as prescribed by the board.",
-        "citation": "[152.7]"
+        "citation": "152.7"
+      },
+      {
+        "name": "Advanced level certification by a recognized national certifying body (ARNP)",
+        "required": true,
+        "notes": "Required for ARNP licensure; specific certifying body not named in statute.",
+        "jurisdiction": "national",
+        "permitted_attempts": null,
+        "quote": "Hold an advanced level certification by a recognized national certifying body.",
+        "citation": "152.7"
       }
     ],
     "renewal": {
-      "interval_years": null
+      "interval_years": {
+        "value": 2,
+        "quote": "Every license to practice a profession shall expire in multiyear intervals and be renewed as determined by the board upon application by the licensee.",
+        "citation": "147.10"
+      }
     },
     "renewal_fee_usd": null,
     "continuing_education": {
-      "required": null,
+      "required": {
+        "value": true,
+        "quote": "The board of medicine, board of dentistry, board of physician assistants, board of podiatry, and board of nursing shall establish rules requiring a person licensed pursuant to section ... 152.6 ... who has prescribed opioids to a patient during the previous licensure cycle to receive continuing education credits ... as a condition of license renewal.",
+        "citation": "272C.2C"
+      },
       "hours_per_period": null,
       "period_years": null,
-      "topical_requirements": null
+      "topical_requirements": {
+        "value": [
+          "CDC guideline for prescribing opioids for chronic pain (for opioid prescribers only): limitations on dosages, length of prescriptions, risk factors for abuse, nonopioid and nonpharmacologic therapy options"
+        ],
+        "quote": "receive continuing education credits regarding the United States centers for disease control and prevention guideline for prescribing opioids for chronic pain, including recommendations on limitations on dosages and the length of prescriptions, risk factors for abuse, and nonopioid and nonpharmacologic therapy options",
+        "citation": "272C.2C"
+      }
     },
     "reciprocity": {
       "available": {
         "value": true,
-        "quote": "A license possessed by an applicant from a state which has not adopted the nurse licensure compact contained in section 152E.1 or the advanced practice registered nurse compact contained in section 152E.3 shall be recognized by the board under conditions specified which indicate that the licensee meets all the qualifications required under section 152.7.",
-        "citation": "[152.8]"
+        "quote": "A license possessed by an applicant from a state which has not adopted the nurse licensure compact ... shall be recognized by the board under conditions specified which indicate that the licensee meets all the qualifications required under section 152.7. If a foreign license is recognized, the board may issue a license by endorsement without an examination being required.",
+        "citation": "152.8"
       },
       "requirements": {
-        "value": "Recognition based on whether foreign licensee is qualified to practice nursing; board may issue license by endorsement without examination",
-        "quote": "If a foreign license is recognized, the board may issue a license by endorsement without an examination being required.",
-        "citation": "[152.8]"
+        "value": "For non-compact states: foreign licensee must meet Iowa qualifications (§152.7); board may issue license by endorsement without exam. For compact states: license recognized pursuant to the nurse licensure compact (§152E.1) or APRN compact (§152E.3).",
+        "quote": "A license possessed by an applicant from a state which has not adopted the nurse licensure compact ... shall be recognized by the board under conditions specified which indicate that the licensee meets all the qualifications required under section 152.7.",
+        "citation": "152.8"
       }
     },
     "advisory_board": {
       "exists": {
         "value": false,
-        "quote": "For nursing, three registered nurses, one of whom shall be actively engaged in practice, one of whom shall be a nurse educator from a nursing education program, and one of whom shall be an advanced registered nurse practitioner; one licensed practical nurse actively engaged in practice; and one member who is not a registered nurse or licensed practical nurse and who shall represent the general public.",
-        "citation": "[147.14]"
+        "quote": "For nursing and midwifery, the board of nursing.",
+        "citation": "147.13"
       },
       "name": null,
       "authority": null
     },
-    "national_certification": null,
+    "national_certification": {
+      "value": "Recognized national certifying body (advanced level certification for ARNP)",
+      "quote": "Hold an advanced level certification by a recognized national certifying body.",
+      "citation": "152.7"
+    },
     "national_association": null,
     "regulatory_model": {
       "value": "license",
-      "quote": "A person shall not engage in the practice of... nursing... unless the person has obtained a license for that purpose from the board for the profession.",
-      "citation": "[147.2]"
+      "quote": "A person shall not engage in the practice of ... nursing ... unless the person has obtained a license for that purpose from the board for the profession.",
+      "citation": "147.2"
     },
     "credential_type": {
       "value": "license",
       "quote": "The board may license a natural person to practice as a registered nurse, as a licensed practical nurse, or as an advanced registered nurse practitioner.",
-      "citation": "[152.6]"
+      "citation": "152.6"
     },
     "is_mandatory": {
       "value": true,
-      "quote": "A person shall not engage in the practice of... nursing... unless the person has obtained a license for that purpose from the board for the profession.",
-      "citation": "[147.2]"
+      "quote": "A person shall not engage in the practice of ... nursing ... unless the person has obtained a license for that purpose from the board for the profession.",
+      "citation": "147.2"
     },
     "title_protection": {
       "value": true,
       "quote": "only a person currently licensed as a registered nurse in this state may use that title and the letters \"R.N.\" after the person's name; only a person currently licensed as a licensed practical nurse in this state may use that title and the letters \"L.P.N.\" after the person's name; and only a person currently licensed as an advanced registered nurse practitioner may use that title and the letters \"A.R.N.P.\" after the person's name.",
-      "citation": "[152.6]"
+      "citation": "152.6"
     },
     "scope_protection": {
       "value": true,
-      "quote": "The \"practice of nursing\" means the practice of a registered nurse, a licensed practical nurse, or an advanced registered nurse practitioner.",
-      "citation": "[152.1]"
+      "quote": "A person shall not engage in the practice of ... nursing ... unless the person has obtained a license for that purpose from the board for the profession.",
+      "citation": "147.2"
     },
     "disciplinary_grounds": [
+      {
+        "short_label": "fraud_in_procuring_license",
+        "description": "Fraud in procuring a license",
+        "quote": "Fraud in procuring a license.",
+        "citation": "147.55"
+      },
+      {
+        "short_label": "professional_incompetence",
+        "description": "Professional incompetence",
+        "quote": "Professional incompetence.",
+        "citation": "147.55"
+      },
+      {
+        "short_label": "misleading_representations",
+        "description": "Knowingly making misleading, deceptive, untrue, or fraudulent representations in the practice of a profession or engaging in unethical conduct or practice harmful or detrimental to the public",
+        "quote": "Knowingly making misleading, deceptive, untrue, or fraudulent representations in the practice of a profession or engaging in unethical conduct or practice harmful or detrimental to the public.",
+        "citation": "147.55"
+      },
+      {
+        "short_label": "habitual_intoxication_drug_addiction",
+        "description": "Habitual intoxication or addiction to the use of drugs",
+        "quote": "Habitual intoxication or addiction to the use of drugs.",
+        "citation": "147.55"
+      },
+      {
+        "short_label": "fraud_in_representations_of_skill",
+        "description": "Fraud in representations as to skill or ability",
+        "quote": "Fraud in representations as to skill or ability.",
+        "citation": "147.55"
+      },
+      {
+        "short_label": "untruthful_advertisements",
+        "description": "Use of untruthful or improbable statements in advertisements",
+        "quote": "Use of untruthful or improbable statements in advertisements.",
+        "citation": "147.55"
+      },
+      {
+        "short_label": "willful_repeated_violations",
+        "description": "Willful or repeated violations of the provisions of this chapter, chapter 272C, or a board's enabling statute",
+        "quote": "Willful or repeated violations of the provisions of this chapter, chapter 272C, or a board's enabling statute.",
+        "citation": "147.55"
+      },
+      {
+        "short_label": "sexual_abuse",
+        "description": "Sexual abuse in the fourth degree in violation of section 709.4A",
+        "quote": "Sexual abuse in the fourth degree in violation of section 709.4A.",
+        "citation": "147.55"
+      },
       {
         "short_label": "willful_violation_of_board_rules",
         "description": "Willful violation of the rules of the board",
         "quote": "Willful violation of the rules of the board.",
-        "citation": "[152.10]"
+        "citation": "152.10"
       },
       {
-        "short_label": "infectious_contagious_disease",
+        "short_label": "practice_with_infectious_disease",
         "description": "Continued practice while knowingly having an infectious or contagious disease which could be harmful to a patient's welfare",
         "quote": "Continued practice while knowingly having an infectious or contagious disease which could be harmful to a patient's welfare.",
-        "citation": "[152.10]"
+        "citation": "152.10"
       },
       {
-        "short_label": "license_revoked_suspended_other_state",
-        "description": "Having a license to practice nursing revoked or suspended, or having other disciplinary action taken by a licensing authority of another state, territory, or country",
+        "short_label": "out_of_state_license_revocation",
+        "description": "Having a license to practice nursing revoked, suspended, or having other disciplinary action taken by a licensing authority of another state, territory, or country",
         "quote": "Having a license to practice nursing as a registered nurse or licensed practical nurse revoked or suspended, or having other disciplinary action taken by a licensing authority of another state, territory, or country.",
-        "citation": "[152.10]"
+        "citation": "152.10"
       },
       {
-        "short_label": "aiding_unlawful_practice",
+        "short_label": "aiding_unlicensed_practice",
         "description": "Knowingly aiding, assisting, procuring, advising, or allowing a person to unlawfully practice nursing",
         "quote": "Knowingly aiding, assisting, procuring, advising, or allowing a person to unlawfully practice nursing.",
-        "citation": "[152.10]"
+        "citation": "152.10"
       },
       {
-        "short_label": "mental_incompetence",
+        "short_label": "adjudicated_mentally_incompetent",
         "description": "Being adjudicated mentally incompetent by a court of competent jurisdiction",
-        "quote": "Being adjudicated mentally incompetent by a court of competent jurisdiction.",
-        "citation": "[152.10]"
+        "quote": "Being adjudicated mentally incompetent by a court of competent jurisdiction. Such adjudication shall automatically suspend a license for the duration of the license, unless the board orders otherwise.",
+        "citation": "152.10"
       },
       {
-        "short_label": "departure_from_standard_of_practice",
-        "description": "Willful or repeated departure from or the failure to conform to the minimum standard of acceptable and prevailing practice of nursing",
+        "short_label": "departure_from_minimum_standards",
+        "description": "Willful or repeated departure from or failure to conform to the minimum standard of acceptable and prevailing practice of nursing",
         "quote": "Being guilty of willful or repeated departure from or the failure to conform to the minimum standard of acceptable and prevailing practice of nursing; however, actual injury to a patient need not be established.",
-        "citation": "[152.10]"
+        "citation": "152.10"
       },
       {
         "short_label": "inability_to_practice_safely",
-        "description": "Inability to practice nursing with reasonable skill and safety by reason of illness, excessive use of alcohol, drugs, narcotics, chemicals, or other type of material or as a result of a mental or physical condition",
+        "description": "Inability to practice nursing with reasonable skill and safety by reason of illness, excessive use of alcohol, drugs, narcotics, chemicals, or other material, or as a result of a mental or physical condition",
         "quote": "Inability to practice nursing with reasonable skill and safety by reason of illness, excessive use of alcohol, drugs, narcotics, chemicals, or other type of material or as a result of a mental or physical condition.",
-        "citation": "[152.10]"
+        "citation": "152.10"
       }
     ],
+    "alternative_regulation": {
+      "bonding_required": null,
+      "insurance_required": null,
+      "establishment_regulation_required": null
+    },
     "citations": [
       {
-        "cite": "147.2",
-        "kind": null
-      },
-      {
-        "cite": "147.13",
-        "kind": null
-      },
-      {
-        "cite": "147.14",
-        "kind": null
-      },
-      {
         "cite": "152.1",
-        "kind": null
+        "kind": "definitions"
       },
       {
         "cite": "152.5",
-        "kind": null
+        "kind": "education programs"
       },
       {
         "cite": "152.6",
-        "kind": null
+        "kind": "licenses and professional abbreviations"
       },
       {
         "cite": "152.7",
-        "kind": null
+        "kind": "applicant qualifications"
       },
       {
         "cite": "152.8",
-        "kind": null
+        "kind": "reciprocity"
       },
       {
         "cite": "152.10",
-        "kind": null
+        "kind": "license revocation or suspension"
       },
       {
         "cite": "152E.1",
-        "kind": null
+        "kind": "nurse licensure compact"
       },
       {
         "cite": "152E.3",
-        "kind": null
+        "kind": "APRN compact"
+      },
+      {
+        "cite": "147.2",
+        "kind": "license required"
+      },
+      {
+        "cite": "147.13",
+        "kind": "designation of boards"
+      },
+      {
+        "cite": "147.14",
+        "kind": "composition of boards"
+      },
+      {
+        "cite": "147.55",
+        "kind": "grounds for discipline"
+      },
+      {
+        "cite": "272C.2C",
+        "kind": "continuing education"
       }
     ]
   },
   "scope": {
     "definition_quote": {
-      "value": "The \"practice of nursing\" means the practice of a registered nurse, a licensed practical nurse, or an advanced registered nurse practitioner.",
+      "value": "The 'practice of nursing' means the practice of a registered nurse, a licensed practical nurse, or an advanced registered nurse practitioner.",
       "quote": "The \"practice of nursing\" means the practice of a registered nurse, a licensed practical nurse, or an advanced registered nurse practitioner.",
-      "citation": "[152.1]"
+      "citation": "152.1"
     },
     "methods_authorized": {
       "value": [
-        "Formulate nursing diagnosis and conduct nursing treatment",
-        "Case finding, referral, health teaching, health counseling",
-        "Care provision which is supportive to or restorative of life and well-being",
+        "Formulate nursing diagnosis and conduct nursing treatment of human responses to actual or potential health problems",
+        "Case finding, referral, health teaching, health counseling, and care provision supportive to or restorative of life and well-being",
         "Execute regimen prescribed by a physician, advanced registered nurse practitioner, or physician assistant",
-        "Supervise and teach other personnel in the performance of activities relating to nursing care",
-        "Make pronouncement of death",
-        "Assist in administration of immunizations and vaccinations"
+        "Supervise and teach other personnel in nursing care",
+        "Perform additional acts or nursing specialties approved by the board",
+        "Make pronouncement of death for anticipated patient death in specified settings",
+        "Assist in administration of immunizations and vaccinations under pharmacist order",
+        "Apply scientific principles including biological, physical, and psychosocial sciences",
+        "Perform services in the provision of supportive or restorative care under supervision (LPN)",
+        "Prescribe substances or devices including controlled substances (ARNP)"
       ],
-      "quote": "Formulate nursing diagnosis and conduct nursing treatment of human responses to actual or potential health problems through services, such as case finding, referral, health teaching, health counseling, and care provision which is supportive to or restorative of life and well-being.\n b. Execute regimen prescribed by a physician, an advanced registered nurse practitioner, or a physician assistant.\n c. Supervise and teach other personnel in the performance of activities relating to nursing care.\n d. Perform additional acts or nursing specialties which require education and training under emergency or other conditions which are recognized by the medical and nursing professions and are approved by the board as being proper to be performed by a registered nurse.\n e. Make the pronouncement of death for a patient whose death is anticipated if the death occurs in a licensed hospital, a licensed health care facility, a correctional institution listed in section 904.102, a Medicare-certified home health agency, a Medicare-certified hospice program or facility, an assisted living facility, or a residential care facility, with notice of the death to a physician, advanced registered nurse practitioner, or physician assistant.\n f. Under a pharmacist's order and consistent with this subsection, assist in the administration of immunizations and vaccinations",
-      "citation": "[152.1]"
+      "quote": "Formulate nursing diagnosis and conduct nursing treatment of human responses to actual or potential health problems through services, such as case finding, referral, health teaching, health counseling, and care provision which is supportive to or restorative of life and well-being.",
+      "citation": "152.1"
     },
     "drug_authority": {
-      "value": "Under a pharmacist's order and consistent with this subsection, assist in the administration of immunizations and vaccinations and the utilization of statewide protocols",
-      "quote": "Under a pharmacist's order and consistent with this subsection, assist in the administration of immunizations and vaccinations and the utilization of statewide protocols pursuant to section 155A.33B.",
-      "citation": "[152.1]"
+      "value": "ARNP may prescribe substances or devices including controlled substances if engaged in a nursing specialty regulated under board rules adopted in consultation with the board of medicine and board of pharmacy; RN may supply prescription drugs, controlled substances, or contraceptive devices on direct physician order when pharmacist services are not reasonably available.",
+      "quote": "a registered nurse who is licensed as an advanced registered nurse practitioner may prescribe substances or devices, including controlled substances or devices, if the nurse is engaged in the practice of a nursing specialty regulated under rules adopted by the board of nursing in consultation with the board of medicine and the board of pharmacy.",
+      "citation": "147.107"
     },
     "citations": [
       {
         "cite": "152.1",
-        "kind": null
+        "kind": "scope of practice definitions"
+      },
+      {
+        "cite": "147.107",
+        "kind": "drug prescribing authority"
       }
     ]
   },
@@ -239,25 +389,25 @@
         "Advanced Registered Nurse Practitioner (ARNP)"
       ],
       "quote": "The board may license a natural person to practice as a registered nurse, as a licensed practical nurse, or as an advanced registered nurse practitioner.",
-      "citation": "[152.6]"
+      "citation": "152.6"
     },
     "aprn_role_categories": {
       "value": [
-        "Nurse Anesthetist",
-        "Nurse Practitioner",
-        "Nurse Midwife",
-        "Clinical Nurse Specialist"
+        "nurse anesthetist",
+        "nurse practitioner",
+        "nurse midwife",
+        "clinical nurse specialist"
       ],
       "quote": "\"Advanced practice registered nurse\" means a nurse anesthetist, nurse practitioner, nurse midwife, or clinical nurse specialist to the extent a party state licenses or grants authority to practice in that advanced practice registered nurse role and title.",
-      "citation": "[152E.3]"
+      "citation": "152E.3"
     },
     "lpn_supervision_requirements": {
       "value": [
-        "Registered Nurse",
-        "Physician"
+        "registered nurse",
+        "physician"
       ],
       "quote": "Perform services in the provision of supportive or restorative care under the supervision of a registered nurse or a physician.",
-      "citation": "[152.1]"
+      "citation": "152.1"
     },
     "collaborative_practice_agreement_required": null,
     "full_independent_practice_available": null,
@@ -269,32 +419,28 @@
     "controlled_substance_database_registration_required": null,
     "nurse_aide_registry_maintained": null,
     "medication_assistant_certification_available": null,
-    "delegation_to_unlicensed_personnel_authorized": {
-      "value": true,
-      "quote": "Supervise and teach other personnel in the performance of activities relating to nursing care.",
-      "citation": "[152.1]"
-    },
+    "delegation_to_unlicensed_personnel_authorized": null,
     "employer_mandatory_reporting_required": null,
     "whistleblower_protection_for_delegation_refusal": null,
     "nurse_licensure_compact_member": {
       "value": true,
       "quote": "A multistate license to practice registered or licensed practical or vocational nursing issued by a home state to a resident in that state will be recognized by each party state as authorizing a nurse to practice as a registered nurse or as a licensed practical or vocational nurse, under a multistate licensure privilege, in each party state.",
-      "citation": "[152E.1]"
+      "citation": "152E.1"
     },
     "multistate_license_option_available": {
       "value": true,
-      "quote": "A multistate license to practice registered or licensed practical or vocational nursing issued by a home state to a resident in that state will be recognized by each party state",
-      "citation": "[152E.1]"
+      "quote": "\"Single-state license\" means a nurse license issued by a party state that authorizes practice only within the issuing state and does not include a multistate licensure privilege to practice in any other party state.",
+      "citation": "152E.1"
     },
     "impaired_nurse_alternative_program_available": {
       "value": true,
-      "quote": "Establish a licensee review committee for the purpose of evaluating and monitoring licensees who are impaired as a result of substance use disorder, dependency, or addiction, or by any mental or physical disorder or disability, and who self-report the impairment to the committee, or who are referred by the board to the committee.",
-      "citation": "[272C.3]"
+      "quote": "\"Alternative program\" means a nondisciplinary monitoring program approved by a licensing board.",
+      "citation": "152E.1"
     },
     "rn_death_pronouncement_authorized": {
       "value": true,
       "quote": "Make the pronouncement of death for a patient whose death is anticipated if the death occurs in a licensed hospital, a licensed health care facility, a correctional institution listed in section 904.102, a Medicare-certified home health agency, a Medicare-certified hospice program or facility, an assisted living facility, or a residential care facility, with notice of the death to a physician, advanced registered nurse practitioner, or physician assistant.",
-      "citation": "[152.1]"
+      "citation": "152.1"
     },
     "public_health_nurse_certification_available": null,
     "telehealth_prescribing_rules": null,
