@@ -66,7 +66,7 @@ log = logging.getLogger("cross_ref_siblings")
 
 class Confirm(BaseModel):
     licenses_practice: bool
-    governing_quote: str  # the language that shows it (empty if false)
+    governing_note: str  # short plain-text reason; NO double-quote chars (keeps JSON valid)
 
 
 def _profs() -> dict:
@@ -155,14 +155,14 @@ def main() -> int:
                     f"You decide whether a statute chapter licenses or regulates the PRACTICE of "
                     f"{display}. Answer true only if the text sets requirements to practice/be "
                     f"licensed as {display} (registration, qualifications, scope, a board) — not if "
-                    f"it merely mentions the word in passing or in a cross-reference. Quote the "
-                    f"governing language."
+                    f"it merely mentions the word in passing or in a cross-reference. In governing_note, "
+                    f"briefly say what governs it, in plain text with NO double-quote characters."
                 ),
                 user=f"Target occupation: {display}\n\nStatute text (from the {sib} corpus for {state}):\n{excerpt}",
             )
             if res and res.licenses_practice:
-                found[state] = {"sibling": sib, "quote": res.governing_quote[:200]}
-                log.info("  ✓ %s ← %s: %s", state, sib, res.governing_quote[:90])
+                found[state] = {"sibling": sib, "note": res.governing_note[:200]}
+                log.info("  ✓ %s ← %s: %s", state, sib, res.governing_note[:90])
                 break  # first confirming sibling wins
         else:
             continue
