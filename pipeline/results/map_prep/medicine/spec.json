@@ -10,7 +10,7 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether a license is required to practice"
+      "reason": "boolean flag indicating whether a license is required; all states true but field is mappable"
     },
     {
       "field_name": "licensure.issuing_authority",
@@ -37,9 +37,10 @@
         "standalone_board",
         "shared_board",
         "joint",
+        "department",
         "division"
       ],
-      "reason": "small stable set of structural categories describing how the regulatory body is organized"
+      "reason": "small stable set of structural types for the regulatory authority"
     },
     {
       "field_name": "licensure.regulatory_authority.umbrella_agency",
@@ -47,7 +48,7 @@
       "kind": "not_mappable",
       "unit": null,
       "categories": null,
-      "reason": "free-text proper names of parent agencies, essentially unique per state"
+      "reason": "free-text proper names of umbrella agencies, essentially unique per state"
     },
     {
       "field_name": "licensure.education.degree_required",
@@ -55,7 +56,7 @@
       "kind": "not_mappable",
       "unit": null,
       "categories": null,
-      "reason": "free-text descriptions of degree requirements with idiosyncratic phrasing per state"
+      "reason": "free-text statutory descriptions of degree requirements, highly idiosyncratic per state"
     },
     {
       "field_name": "licensure.education.accrediting_body",
@@ -63,7 +64,43 @@
       "kind": "not_mappable",
       "unit": null,
       "categories": null,
-      "reason": "free-text lists of accrediting organizations, highly variable across states"
+      "reason": "free-text lists of accrediting bodies varying widely per state, not reducible to a clean enum"
+    },
+    {
+      "field_name": "licensure.education.degree_level",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "doctorate",
+        "masters",
+        "bachelors",
+        "other"
+      ],
+      "reason": "small stable set of degree levels; all states report doctorate but field is mappable"
+    },
+    {
+      "field_name": "licensure.education.school_approval_basis",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "national_accreditor",
+        "board_approved",
+        "unspecified"
+      ],
+      "reason": "small stable set of approval basis categories directly comparable across states"
+    },
+    {
+      "field_name": "licensure.education.credential_pegged",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether credential is pegged to a specific accreditor version"
     },
     {
       "field_name": "licensure.post_degree_experience.required",
@@ -77,12 +114,24 @@
       "reason": "boolean flag indicating whether post-degree experience is required"
     },
     {
+      "field_name": "licensure.post_degree_experience.experience_source",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "required_by_statute",
+        "required_by_rule",
+        "none"
+      ],
+      "reason": "small stable set of categories indicating the source of the experience requirement"
+    },
+    {
       "field_name": "licensure.post_degree_experience.duration",
       "mappable": false,
       "kind": "not_mappable",
       "unit": null,
       "categories": null,
-      "reason": "free-text descriptions with conditional durations varying by graduate type; not reducible to a single numeric value per state"
+      "reason": "free-text descriptions with conditional durations (domestic vs. foreign graduates, graduation year cohorts) not reducible to a single numeric value"
     },
     {
       "field_name": "licensure.post_degree_experience.kind",
@@ -90,7 +139,7 @@
       "kind": "not_mappable",
       "unit": null,
       "categories": null,
-      "reason": "free-text descriptions of training type with idiosyncratic phrasing per state"
+      "reason": "free-text descriptions of training type that vary idiosyncratically per state"
     },
     {
       "field_name": "licensure.renewal.interval_years",
@@ -98,7 +147,7 @@
       "kind": "continuous",
       "unit": "years",
       "categories": null,
-      "reason": "numeric renewal cycle length in years, directly comparable across states"
+      "reason": "numeric renewal interval in years, directly comparable across states"
     },
     {
       "field_name": "licensure.continuing_education.required",
@@ -109,7 +158,7 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether continuing education is required for renewal"
+      "reason": "boolean flag indicating whether continuing education is required"
     },
     {
       "field_name": "licensure.continuing_education.period_years",
@@ -117,7 +166,7 @@
       "kind": "continuous",
       "unit": "years",
       "categories": null,
-      "reason": "numeric CE reporting period length in years, directly comparable across states"
+      "reason": "numeric CE reporting period in years, directly comparable across states"
     },
     {
       "field_name": "licensure.continuing_education.topical_requirements",
@@ -125,7 +174,7 @@
       "kind": "not_mappable",
       "unit": null,
       "categories": null,
-      "reason": "free-text lists of required CE topics, highly idiosyncratic per state"
+      "reason": "free-text lists of topic-specific CE mandates, highly idiosyncratic per state"
     },
     {
       "field_name": "licensure.reciprocity.available",
@@ -136,7 +185,7 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether reciprocity or endorsement licensure is available"
+      "reason": "boolean flag indicating whether reciprocity/endorsement licensure is available"
     },
     {
       "field_name": "licensure.reciprocity.requirements",
@@ -144,7 +193,7 @@
       "kind": "not_mappable",
       "unit": null,
       "categories": null,
-      "reason": "free-text prose descriptions of reciprocity conditions, not comparable across states"
+      "reason": "free-text prose descriptions of reciprocity requirements, highly idiosyncratic per state"
     },
     {
       "field_name": "licensure.advisory_board.exists",
@@ -158,12 +207,20 @@
       "reason": "boolean flag indicating whether a separate advisory board exists"
     },
     {
+      "field_name": "licensure.national_certification",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text lists of recognized national certification bodies, varying per state"
+    },
+    {
       "field_name": "licensure.national_association",
       "mappable": false,
       "kind": "not_mappable",
       "unit": null,
       "categories": null,
-      "reason": "free-text lists of referenced national associations, variable and non-exhaustive per state"
+      "reason": "free-text lists of referenced national associations, varying per state"
     },
     {
       "field_name": "licensure.regulatory_model",
@@ -178,7 +235,7 @@
         "exemption",
         "market_forces"
       ],
-      "reason": "values come from the UORF regulatory ladder enum; all states report 'license'"
+      "reason": "values come from the UORF regulatory model ladder enum; all states report license"
     },
     {
       "field_name": "licensure.credential_type",
@@ -191,7 +248,7 @@
         "registration",
         "permit"
       ],
-      "reason": "small stable set of credential type labels; all states report 'license'"
+      "reason": "small stable set of credential types; all states report license but field is mappable"
     },
     {
       "field_name": "licensure.is_mandatory",
@@ -202,7 +259,7 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether licensure is mandatory to practice"
+      "reason": "boolean flag indicating whether licensure is mandatory"
     },
     {
       "field_name": "licensure.title_protection",
@@ -213,7 +270,7 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether the physician title is legally protected"
+      "reason": "boolean flag indicating whether title protection exists"
     },
     {
       "field_name": "licensure.scope_protection",
@@ -224,7 +281,7 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether the scope of practice is legally protected"
+      "reason": "boolean flag indicating whether scope of practice protection exists"
     },
     {
       "field_name": "scope.definition_quote",
@@ -232,7 +289,7 @@
       "kind": "not_mappable",
       "unit": null,
       "categories": null,
-      "reason": "free-text statutory definitions of medical practice, not comparable across states"
+      "reason": "free-text statutory definitions of practice, not comparable across states"
     },
     {
       "field_name": "scope.methods_authorized",
@@ -240,7 +297,7 @@
       "kind": "not_mappable",
       "unit": null,
       "categories": null,
-      "reason": "free-text lists of authorized methods with idiosyncratic terminology per state"
+      "reason": "free-text lists of authorized methods varying idiosyncratically per state"
     },
     {
       "field_name": "scope.drug_authority",
@@ -248,7 +305,7 @@
       "kind": "not_mappable",
       "unit": null,
       "categories": null,
-      "reason": "free-text prose descriptions of drug prescribing authority, not comparable across states"
+      "reason": "free-text prose descriptions of drug prescribing authority, highly idiosyncratic per state"
     },
     {
       "field_name": "profession_specific.license_status_types",
@@ -256,7 +313,7 @@
       "kind": "not_mappable",
       "unit": null,
       "categories": null,
-      "reason": "free-text lists of license status categories with idiosyncratic naming per state"
+      "reason": "free-text lists of license status types varying widely per state, not reducible to a single comparable value"
     },
     {
       "field_name": "profession_specific.foreign_medical_graduate_requirements",
@@ -264,7 +321,7 @@
       "kind": "not_mappable",
       "unit": null,
       "categories": null,
-      "reason": "free-text prose descriptions of FMG requirements, highly idiosyncratic per state"
+      "reason": "free-text prose descriptions of foreign graduate requirements, highly idiosyncratic per state"
     },
     {
       "field_name": "profession_specific.postgraduate_training_years_required",
@@ -272,7 +329,7 @@
       "kind": "continuous",
       "unit": "years",
       "categories": null,
-      "reason": "numeric minimum postgraduate training years; NV value of 36 should be converted from months to years (3.0) during normalization"
+      "reason": "numeric minimum postgraduate training years required for licensure, directly comparable across states"
     },
     {
       "field_name": "profession_specific.pain_management_education_required",
@@ -291,7 +348,7 @@
       "kind": "not_mappable",
       "unit": null,
       "categories": null,
-      "reason": "free-text prose descriptions of opioid prescribing restrictions, not reducible to a single comparable value"
+      "reason": "free-text prose descriptions of opioid prescribing limits with many conditional clauses, not reducible to a single comparable value"
     },
     {
       "field_name": "profession_specific.controlled_substance_database_registration_required",
@@ -302,7 +359,7 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether registration with a controlled substance database is required"
+      "reason": "boolean flag indicating whether controlled substance database registration is required"
     },
     {
       "field_name": "profession_specific.telehealth_prescribing_rules",
@@ -313,6 +370,26 @@
       "reason": "free-text prose descriptions of telehealth prescribing rules, highly idiosyncratic per state"
     },
     {
+      "field_name": "profession_specific.physician_assistant_supervision_model",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "direct_supervision",
+        "collaborative_practice_agreement",
+        "job_description_with_board_approval"
+      ],
+      "reason": "small stable set of PA supervision model categories directly comparable across states"
+    },
+    {
+      "field_name": "profession_specific.physician_assistant_prescriptive_authority",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text prose descriptions of PA prescriptive authority with many conditional clauses, not reducible to a single comparable value"
+    },
+    {
       "field_name": "profession_specific.malpractice_reporting_required",
       "mappable": true,
       "kind": "categorical",
@@ -321,7 +398,7 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether malpractice actions must be reported to the board"
+      "reason": "boolean flag indicating whether malpractice reporting to the board is required"
     },
     {
       "field_name": "profession_specific.hospital_privilege_action_reporting_required",
@@ -332,7 +409,7 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether hospital privilege actions must be reported to the board"
+      "reason": "boolean flag indicating whether hospital privilege action reporting is required"
     },
     {
       "field_name": "profession_specific.impaired_physician_program_authorized",
@@ -343,7 +420,7 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether an impaired physician assistance program is authorized"
+      "reason": "boolean flag indicating whether an impaired physician program is authorized"
     },
     {
       "field_name": "profession_specific.compelled_mental_physical_exam_authority",
@@ -354,7 +431,7 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether the board can compel a physician to undergo mental or physical examination"
+      "reason": "boolean flag indicating whether the board has authority to compel mental/physical exams"
     },
     {
       "field_name": "profession_specific.locum_tenens_permit_available",
@@ -376,7 +453,7 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether physicians have statutory protection for prescribing investigational drugs"
+      "reason": "boolean flag indicating whether investigational drug protection exists for physicians"
     },
     {
       "field_name": "licensure.moral_character_required",
@@ -398,6 +475,17 @@
       "reason": "numeric renewal fee in US dollars, directly comparable across states"
     },
     {
+      "field_name": "licensure.alternative_regulation.establishment_regulation_required",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether establishment-level regulation is required"
+    },
+    {
       "field_name": "profession_specific.pain_management_clinic_registration_required",
       "mappable": true,
       "kind": "categorical",
@@ -406,7 +494,7 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether pain management clinics must register with the state"
+      "reason": "boolean flag indicating whether pain management clinic registration is required"
     },
     {
       "field_name": "profession_specific.telemedicine_license_available",
@@ -417,7 +505,7 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether a separate telemedicine license is available"
+      "reason": "boolean flag indicating whether a distinct telemedicine license is available"
     },
     {
       "field_name": "profession_specific.interstate_medical_licensure_compact_member",
@@ -431,24 +519,55 @@
       "reason": "boolean flag indicating whether the state is a member of the Interstate Medical Licensure Compact"
     },
     {
-      "field_name": "profession_specific.physician_assistant_supervision_model",
+      "field_name": "licensure.age_minimum",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "years",
+      "categories": null,
+      "reason": "numeric minimum age for licensure in years, directly comparable across states"
+    },
+    {
+      "field_name": "licensure.alternative_regulation.insurance_required",
       "mappable": true,
       "kind": "categorical",
       "unit": null,
       "categories": [
-        "collaborative_practice_agreement",
-        "job_description_with_board_approval",
-        "direct_supervision_required"
+        "true",
+        "false"
       ],
-      "reason": "small stable set of PA oversight model categories across reporting states"
+      "reason": "boolean flag indicating whether malpractice insurance is required for licensure"
     },
     {
-      "field_name": "profession_specific.physician_assistant_prescriptive_authority",
+      "field_name": "licensure.continuing_education.hours_per_period",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "hours per renewal period",
+      "categories": null,
+      "reason": "numeric CE hours required per renewal period, directly comparable across states"
+    },
+    {
+      "field_name": "licensure.advisory_board.name",
       "mappable": false,
       "kind": "not_mappable",
       "unit": null,
       "categories": null,
-      "reason": "free-text prose descriptions of PA prescriptive authority conditions, not reducible to a single comparable value"
+      "reason": "free-text proper names of advisory boards, essentially unique per state"
+    },
+    {
+      "field_name": "licensure.advisory_board.authority",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text prose descriptions of advisory board authority, not comparable"
+    },
+    {
+      "field_name": "profession_specific.max_physician_assistants_per_supervising_physician",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "physician assistants",
+      "categories": null,
+      "reason": "numeric maximum number of PAs per supervising physician, directly comparable across states"
     },
     {
       "field_name": "profession_specific.administrative_medicine_license_available",
@@ -462,38 +581,6 @@
       "reason": "boolean flag indicating whether an administrative medicine license is available"
     },
     {
-      "field_name": "licensure.age_minimum",
-      "mappable": true,
-      "kind": "continuous",
-      "unit": "years",
-      "categories": null,
-      "reason": "numeric minimum age in years for licensure, directly comparable across states"
-    },
-    {
-      "field_name": "licensure.continuing_education.hours_per_period",
-      "mappable": true,
-      "kind": "continuous",
-      "unit": "hours per renewal period",
-      "categories": null,
-      "reason": "numeric CE hours required per renewal period, directly comparable across states"
-    },
-    {
-      "field_name": "licensure.national_certification",
-      "mappable": false,
-      "kind": "not_mappable",
-      "unit": null,
-      "categories": null,
-      "reason": "free-text lists of referenced national certification bodies, sparse and variable across states"
-    },
-    {
-      "field_name": "profession_specific.max_physician_assistants_per_supervising_physician",
-      "mappable": true,
-      "kind": "continuous",
-      "unit": "physician assistants",
-      "categories": null,
-      "reason": "numeric maximum number of PAs a supervising physician may oversee, directly comparable across states"
-    },
-    {
       "field_name": "profession_specific.sexual_misconduct_training_required",
       "mappable": true,
       "kind": "categorical",
@@ -502,23 +589,18 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether sexual misconduct prevention training is required"
+      "reason": "boolean flag indicating whether sexual misconduct training is required for licensure or renewal"
     },
     {
-      "field_name": "licensure.exams",
-      "mappable": false,
-      "kind": "not_mappable",
+      "field_name": "licensure.alternative_regulation.bonding_required",
+      "mappable": true,
+      "kind": "categorical",
       "unit": null,
-      "categories": null,
-      "reason": "all reported values are empty arrays with no usable data"
-    },
-    {
-      "field_name": "licensure.disciplinary_grounds",
-      "mappable": false,
-      "kind": "not_mappable",
-      "unit": null,
-      "categories": null,
-      "reason": "all reported values are empty arrays with no usable data"
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether a surety bond is required for licensure"
     }
   ]
 }

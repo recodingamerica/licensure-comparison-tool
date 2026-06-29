@@ -10,7 +10,7 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether a license is required; all observed values are true"
+      "reason": "boolean flag indicating whether a license is required; all states true but field is mappable as boolean"
     },
     {
       "field_name": "licensure.issuing_authority",
@@ -18,7 +18,7 @@
       "kind": "not_mappable",
       "unit": null,
       "categories": null,
-      "reason": "free-text agency names, essentially unique strings per state"
+      "reason": "free-text name of issuing authority, essentially unique per state"
     },
     {
       "field_name": "licensure.regulatory_authority.name",
@@ -26,7 +26,7 @@
       "kind": "not_mappable",
       "unit": null,
       "categories": null,
-      "reason": "free-text agency names, essentially unique strings per state"
+      "reason": "free-text name of regulatory authority, essentially unique per state"
     },
     {
       "field_name": "licensure.regulatory_authority.type",
@@ -36,10 +36,10 @@
       "categories": [
         "standalone_board",
         "shared_board",
-        "division",
-        "other"
+        "department",
+        "division"
       ],
-      "reason": "small stable set of organizational structure types for the regulatory authority"
+      "reason": "small stable set of authority structure types, directly comparable across states"
     },
     {
       "field_name": "licensure.regulatory_authority.umbrella_agency",
@@ -47,7 +47,7 @@
       "kind": "not_mappable",
       "unit": null,
       "categories": null,
-      "reason": "free-text agency names, not present for all states and not comparable"
+      "reason": "free-text name of umbrella agency, essentially unique per state"
     },
     {
       "field_name": "licensure.education.degree_required",
@@ -55,7 +55,7 @@
       "kind": "not_mappable",
       "unit": null,
       "categories": null,
-      "reason": "free-text descriptions of education requirements, highly variable prose per state"
+      "reason": "free-text statutory description of degree requirements, highly idiosyncratic per state"
     },
     {
       "field_name": "licensure.education.accrediting_body",
@@ -63,7 +63,67 @@
       "kind": "not_mappable",
       "unit": null,
       "categories": null,
-      "reason": "free-text accrediting body descriptions, idiosyncratic per state and not consistently categorizable"
+      "reason": "free-text description of accrediting bodies, highly idiosyncratic per state"
+    },
+    {
+      "field_name": "licensure.education.degree_level",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "none",
+        "high_school",
+        "associate",
+        "bachelor",
+        "master"
+      ],
+      "reason": "ordered set of minimum degree levels required for licensure, comparable across states"
+    },
+    {
+      "field_name": "licensure.education.school_approval_basis",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "board_approved",
+        "national_accreditor",
+        "regional_accreditor"
+      ],
+      "reason": "small stable set of approval basis types, directly comparable across states"
+    },
+    {
+      "field_name": "licensure.education.credential_pegged",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether credential requirements are pegged to a specific role or level"
+    },
+    {
+      "field_name": "licensure.post_degree_experience.required",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether post-degree experience is required for licensure"
+    },
+    {
+      "field_name": "licensure.post_degree_experience.experience_source",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "none",
+        "embedded_in_credential",
+        "required_by_statute"
+      ],
+      "reason": "small stable set of experience source types, directly comparable across states"
     },
     {
       "field_name": "licensure.renewal.interval_years",
@@ -71,7 +131,7 @@
       "kind": "continuous",
       "unit": "years",
       "categories": null,
-      "reason": "numeric renewal cycle length in years, directly comparable across states"
+      "reason": "numeric renewal interval in years, directly comparable across states"
     },
     {
       "field_name": "licensure.continuing_education.required",
@@ -85,12 +145,20 @@
       "reason": "boolean flag indicating whether continuing education is required for renewal"
     },
     {
+      "field_name": "licensure.continuing_education.hours_per_period",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "hours per renewal period",
+      "categories": null,
+      "reason": "numeric CE hours required per renewal period, directly comparable across states"
+    },
+    {
       "field_name": "licensure.continuing_education.period_years",
       "mappable": true,
       "kind": "continuous",
       "unit": "years",
       "categories": null,
-      "reason": "numeric CE reporting period length in years, directly comparable across states"
+      "reason": "numeric CE period length in years, directly comparable across states"
     },
     {
       "field_name": "licensure.continuing_education.topical_requirements",
@@ -98,7 +166,7 @@
       "kind": "not_mappable",
       "unit": null,
       "categories": null,
-      "reason": "free-text lists of topic-specific CE mandates, highly idiosyncratic per state"
+      "reason": "free-text lists of topical CE requirements, highly idiosyncratic and variable per state"
     },
     {
       "field_name": "licensure.reciprocity.available",
@@ -117,7 +185,7 @@
       "kind": "not_mappable",
       "unit": null,
       "categories": null,
-      "reason": "free-text prose descriptions of reciprocity conditions, not comparable across states"
+      "reason": "free-text description of reciprocity requirements, highly idiosyncratic per state"
     },
     {
       "field_name": "licensure.advisory_board.exists",
@@ -143,7 +211,7 @@
         "exemption",
         "market_forces"
       ],
-      "reason": "values come from the UORF ladder enum; all observed values are 'license'"
+      "reason": "values come from the UORF regulatory model ladder enum"
     },
     {
       "field_name": "licensure.credential_type",
@@ -156,7 +224,7 @@
         "registration",
         "permit"
       ],
-      "reason": "small stable set of credential type labels; all observed values are 'license'"
+      "reason": "small stable set of credential types, directly comparable across states"
     },
     {
       "field_name": "licensure.is_mandatory",
@@ -178,7 +246,7 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether the professional title is legally protected"
+      "reason": "boolean flag indicating whether title protection exists in statute"
     },
     {
       "field_name": "licensure.scope_protection",
@@ -189,7 +257,7 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether the scope of practice is legally protected"
+      "reason": "boolean flag indicating whether scope of practice protection exists in statute"
     },
     {
       "field_name": "scope.definition_quote",
@@ -205,7 +273,7 @@
       "kind": "not_mappable",
       "unit": null,
       "categories": null,
-      "reason": "free-text lists of authorized methods, highly variable and idiosyncratic per state"
+      "reason": "free-text lists of authorized methods, highly idiosyncratic and variable per state"
     },
     {
       "field_name": "scope.drug_authority",
@@ -213,7 +281,7 @@
       "kind": "not_mappable",
       "unit": null,
       "categories": null,
-      "reason": "free-text descriptions of drug prescribing authority, too variable for direct comparison"
+      "reason": "free-text description of drug prescribing authority, highly idiosyncratic per state"
     },
     {
       "field_name": "profession_specific.license_tiers",
@@ -221,7 +289,7 @@
       "kind": "not_mappable",
       "unit": null,
       "categories": null,
-      "reason": "free-text lists of license tier names, variable structure and naming across states"
+      "reason": "free-text lists of license tiers, highly variable and idiosyncratic per state"
     },
     {
       "field_name": "profession_specific.aprn_role_categories",
@@ -229,7 +297,7 @@
       "kind": "not_mappable",
       "unit": null,
       "categories": null,
-      "reason": "lists of APRN role names with inconsistent naming conventions across states"
+      "reason": "free-text lists of APRN role categories, variable naming conventions per state"
     },
     {
       "field_name": "profession_specific.lpn_supervision_requirements",
@@ -237,7 +305,7 @@
       "kind": "not_mappable",
       "unit": null,
       "categories": null,
-      "reason": "free-text lists of supervising provider types, variable and not directly comparable"
+      "reason": "free-text lists of supervising provider types, highly variable per state"
     },
     {
       "field_name": "profession_specific.opioid_prescribing_limits",
@@ -245,18 +313,7 @@
       "kind": "not_mappable",
       "unit": null,
       "categories": null,
-      "reason": "free-text prose descriptions of opioid prescribing restrictions, highly idiosyncratic per state"
-    },
-    {
-      "field_name": "profession_specific.dea_registration_required",
-      "mappable": true,
-      "kind": "categorical",
-      "unit": null,
-      "categories": [
-        "true",
-        "false"
-      ],
-      "reason": "boolean flag indicating whether DEA registration is required; only a subset of states report this"
+      "reason": "free-text descriptions of opioid prescribing limits, highly idiosyncratic per state"
     },
     {
       "field_name": "profession_specific.controlled_substance_database_registration_required",
@@ -267,7 +324,7 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether registration in a controlled substance database is required"
+      "reason": "boolean flag indicating whether controlled substance database registration is required"
     },
     {
       "field_name": "profession_specific.nurse_aide_registry_maintained",
@@ -278,7 +335,7 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether the state maintains a nurse aide registry"
+      "reason": "boolean flag indicating whether a nurse aide registry is maintained by the state"
     },
     {
       "field_name": "profession_specific.delegation_to_unlicensed_personnel_authorized",
@@ -300,7 +357,7 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether employers are required to report nurse misconduct"
+      "reason": "boolean flag indicating whether employers are required to report nurse misconduct to the board"
     },
     {
       "field_name": "profession_specific.whistleblower_protection_for_delegation_refusal",
@@ -311,7 +368,7 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether nurses have whistleblower protection when refusing unsafe delegation"
+      "reason": "boolean flag indicating whether whistleblower protection exists for nurses who refuse unsafe delegation"
     },
     {
       "field_name": "profession_specific.rn_death_pronouncement_authorized",
@@ -330,7 +387,18 @@
       "kind": "not_mappable",
       "unit": null,
       "categories": null,
-      "reason": "free-text prose descriptions of telehealth prescribing rules, highly idiosyncratic per state"
+      "reason": "free-text descriptions of telehealth prescribing rules, highly idiosyncratic per state"
+    },
+    {
+      "field_name": "profession_specific.military_education_credit_required",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether military education/training credit is required to be accepted"
     },
     {
       "field_name": "licensure.moral_character_required",
@@ -341,7 +409,7 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether good moral character is a statutory licensure requirement"
+      "reason": "boolean flag indicating whether good moral character is an explicit licensure requirement"
     },
     {
       "field_name": "profession_specific.collaborative_practice_agreement_required",
@@ -352,7 +420,7 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether APRNs must have a collaborative practice agreement"
+      "reason": "boolean flag indicating whether a collaborative practice agreement is required for APRN practice"
     },
     {
       "field_name": "profession_specific.full_independent_practice_available",
@@ -363,7 +431,7 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether full independent APRN practice is authorized"
+      "reason": "boolean flag indicating whether full independent APRN practice is available in the state"
     },
     {
       "field_name": "profession_specific.prescriptive_authority_certificate_required",
@@ -396,7 +464,7 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether a multistate license option is available to nurses"
+      "reason": "boolean flag indicating whether a multistate license option is available"
     },
     {
       "field_name": "profession_specific.impaired_nurse_alternative_program_available",
@@ -418,10 +486,9 @@
         "direction_and_presence_required",
         "direction_without_required_presence",
         "coordination_model",
-        "consultation_model",
-        "none"
+        "consultation_model"
       ],
-      "reason": "small stable set of CRNA oversight model categories observed across states"
+      "reason": "small stable set of CRNA physician oversight models, directly comparable across states"
     },
     {
       "field_name": "profession_specific.aprn_formulary_or_protocol_required",
@@ -432,15 +499,23 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether APRNs must practice under a formulary or protocol"
+      "reason": "boolean flag indicating whether a formulary or protocol is required for APRN prescribing"
     },
     {
-      "field_name": "licensure.continuing_education.hours_per_period",
-      "mappable": true,
-      "kind": "continuous",
-      "unit": "hours per CE period",
+      "field_name": "licensure.advisory_board.name",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
       "categories": null,
-      "reason": "numeric CE hour requirement per reporting period; period length varies by state so unit references the state's own period"
+      "reason": "free-text name of advisory board, essentially unique per state"
+    },
+    {
+      "field_name": "licensure.advisory_board.authority",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text description of advisory board authority, highly idiosyncratic per state"
     },
     {
       "field_name": "licensure.national_certification",
@@ -448,7 +523,7 @@
       "kind": "not_mappable",
       "unit": null,
       "categories": null,
-      "reason": "free-text descriptions of national certification bodies, inconsistently reported across states"
+      "reason": "free-text description of recognized national certification bodies, highly variable per state"
     },
     {
       "field_name": "profession_specific.full_independent_practice_experience_hours_required",
@@ -456,7 +531,7 @@
       "kind": "continuous",
       "unit": "hours",
       "categories": null,
-      "reason": "numeric supervised/transition-to-practice hour requirement before independent practice; directly comparable across states"
+      "reason": "numeric hours of supervised/transitional practice required before full independent APRN practice, comparable across states"
     },
     {
       "field_name": "profession_specific.controlled_substance_schedule_authority",
@@ -464,7 +539,7 @@
       "kind": "not_mappable",
       "unit": null,
       "categories": null,
-      "reason": "free-text lists of schedule authorities with state-specific caveats, not uniformly comparable"
+      "reason": "free-text lists of controlled substance schedules with complex conditions, not reducible to a single comparable value"
     },
     {
       "field_name": "profession_specific.medication_assistant_certification_available",
@@ -475,7 +550,15 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether a medication assistant/aide certification program exists in the state"
+      "reason": "boolean flag indicating whether a medication assistant certification is available in the state"
+    },
+    {
+      "field_name": "profession_specific.nurse_practitioner_transition_to_practice_hours",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "hours",
+      "categories": null,
+      "reason": "numeric hours of supervised transition-to-practice required for nurse practitioners, comparable across states"
     },
     {
       "field_name": "profession_specific.cnm_out_of_hospital_birth_authorized",
@@ -486,10 +569,18 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether certified nurse midwives may attend out-of-hospital births"
+      "reason": "boolean flag indicating whether certified nurse midwives are authorized to attend out-of-hospital births"
     },
     {
-      "field_name": "licensure.post_degree_experience.required",
+      "field_name": "licensure.renewal_fee_usd",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "USD",
+      "categories": null,
+      "reason": "numeric renewal fee in US dollars, directly comparable across states"
+    },
+    {
+      "field_name": "profession_specific.dea_registration_required",
       "mappable": true,
       "kind": "categorical",
       "unit": null,
@@ -497,23 +588,7 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether post-degree supervised experience is required before full licensure"
-    },
-    {
-      "field_name": "licensure.post_degree_experience.duration",
-      "mappable": false,
-      "kind": "not_mappable",
-      "unit": null,
-      "categories": null,
-      "reason": "free-text descriptions mixing months, hours, and FTE years; not uniformly expressed for direct comparison"
-    },
-    {
-      "field_name": "licensure.post_degree_experience.kind",
-      "mappable": false,
-      "kind": "not_mappable",
-      "unit": null,
-      "categories": null,
-      "reason": "free-text descriptions of experience type, too few states and too variable to categorize reliably"
+      "reason": "boolean flag indicating whether DEA registration is explicitly required by state law for APRN prescribers"
     },
     {
       "field_name": "profession_specific.public_health_nurse_certification_available",
@@ -524,15 +599,7 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether a public health nurse certification is available"
-    },
-    {
-      "field_name": "profession_specific.nurse_practitioner_transition_to_practice_hours",
-      "mappable": true,
-      "kind": "continuous",
-      "unit": "hours",
-      "categories": null,
-      "reason": "numeric supervised transition-to-practice hours required for NPs; note MA and MS values appear to be years rather than hours and would need unit conversion"
+      "reason": "boolean flag indicating whether a public health nurse certification is available in the state"
     },
     {
       "field_name": "profession_specific.nursing_education_program_clinical_hours_minimum",
@@ -540,7 +607,7 @@
       "kind": "continuous",
       "unit": "hours",
       "categories": null,
-      "reason": "numeric minimum clinical hours required in nursing education programs, directly comparable"
+      "reason": "numeric minimum clinical hours required in nursing education programs, comparable across states"
     },
     {
       "field_name": "profession_specific.implicit_bias_training_required_in_curriculum",
@@ -554,7 +621,15 @@
       "reason": "boolean flag indicating whether implicit bias training is required in nursing education curriculum"
     },
     {
-      "field_name": "profession_specific.military_education_credit_required",
+      "field_name": "licensure.national_association",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text names of national associations referenced in state law, highly variable per state"
+    },
+    {
+      "field_name": "licensure.alternative_regulation.insurance_required",
       "mappable": true,
       "kind": "categorical",
       "unit": null,
@@ -562,23 +637,7 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether the state must grant credit for military education/training toward licensure"
-    },
-    {
-      "field_name": "licensure.national_association",
-      "mappable": false,
-      "kind": "not_mappable",
-      "unit": null,
-      "categories": null,
-      "reason": "free-text names of national associations referenced in statute, sparse and inconsistently reported"
-    },
-    {
-      "field_name": "licensure.renewal_fee_usd",
-      "mappable": true,
-      "kind": "continuous",
-      "unit": "USD",
-      "categories": null,
-      "reason": "numeric renewal fee in US dollars, directly comparable; only a few states report this"
+      "reason": "boolean flag indicating whether professional liability insurance is required for licensure"
     },
     {
       "field_name": "licensure.age_minimum",
@@ -586,39 +645,45 @@
       "kind": "continuous",
       "unit": "years",
       "categories": null,
-      "reason": "numeric minimum age requirement in years, directly comparable across states"
+      "reason": "numeric minimum age for licensure in years, directly comparable across states"
     },
     {
-      "field_name": "licensure.disciplinary_grounds",
+      "field_name": "licensure.post_degree_experience.kind",
       "mappable": false,
       "kind": "not_mappable",
       "unit": null,
       "categories": null,
-      "reason": "free-text or empty lists of disciplinary grounds, not consistently populated or comparable"
+      "reason": "free-text description of the type of post-degree experience required, idiosyncratic per state"
     },
     {
-      "field_name": "licensure.exams",
+      "field_name": "licensure.alternative_regulation.establishment_regulation_required",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether establishment/facility regulation is required"
+    },
+    {
+      "field_name": "licensure.post_degree_experience.duration",
       "mappable": false,
       "kind": "not_mappable",
       "unit": null,
       "categories": null,
-      "reason": "sparse and empty data, not sufficient for meaningful mapping"
+      "reason": "free-text descriptions of experience duration with mixed units and conditions, not uniformly comparable"
     },
     {
-      "field_name": "licensure.advisory_board.name",
-      "mappable": false,
-      "kind": "not_mappable",
+      "field_name": "licensure.alternative_regulation.bonding_required",
+      "mappable": true,
+      "kind": "categorical",
       "unit": null,
-      "categories": null,
-      "reason": "free-text advisory board name, only one state reports a value"
-    },
-    {
-      "field_name": "licensure.advisory_board.authority",
-      "mappable": false,
-      "kind": "not_mappable",
-      "unit": null,
-      "categories": null,
-      "reason": "free-text description of advisory board authority, only one state reports a value"
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether surety bonding is required for licensure"
     }
   ]
 }
