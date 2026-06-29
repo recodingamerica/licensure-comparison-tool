@@ -160,13 +160,48 @@ corpus-completeness gate.
 - **Where shape lives** — a new shape-first extraction pass for trades, leaving licensed
   professions on the existing path (length-1 lists), vs unifying everything.
 
-## 7. Next steps (resume order)
+## 7. Status after the full audit (all 4 trades)
 
-1. Read the architecture audit tally (below) → decide how much of trades coverage is salvageable
-   vs needs re-pull.
-2. Run the same audit across hvac/electrician/plumbing to size the corpus-correctness problem.
-3. Prototype the **post-pull coverage gate** as a discover step.
-4. Scope the frontend/comparison implications before building the trades shape pass.
+Ran the corpus-correctness audit across all four trades. **The corpus is ~95% correct — the
+mapping works; the panic was overblown.**
+
+| trade | correct | bad |
+|---|---|---|
+| architecture | 38/41 (93%) | ND, OR, AL |
+| hvac | 25/26 (96%) | WA (abandoned-fridge criminal law) |
+| electrician | 36/38 (94%) | KY (repealed), OR (fire-safety statute) |
+| plumbing | 40/41 (97%) | NH (repealed) |
+
+The auditor is **consistent** (same verdict run-to-run), **differentiates within a state**
+(WA/hvac BAD but WA/electrician + WA/plumbing OK), and **accepts contractor chapters** (AZ
+electrician/plumbing OK). The ~7 bad are all the predicted criminal/safety/procurement/repealed
+collisions — patternable, fixable. Free fix available: WA/hvac's correct law is RCW 19.28, the
+same chapter already pulled for WA/electrician → `cross_ref_siblings` fixes it with no fetch.
+
+Built this session: `discover/cross_ref_siblings.py` (sibling reuse), `discover/audit_corpus.py`
+(the gate, `--gate` exits 1 on any wrong-chapter), and per-state `corpus_from` reuse in
+`ingest/clean_text.py`. `refresh_all` now auto-re-stamps #52c direction.
+
+## 8. Next steps (resume order)
+
+**Tier 1 — cheap, durable (small):**
+1. Run `audit_corpus` across ALL professions → full corpus-health map (~$3–4).
+2. Wire the gate into the harvest/grind so future pulls self-check (no silent wrong-chapter coverage).
+3. `cross_ref_siblings --apply` the free bad/gap states (WA/hvac ← electrician, the 8 confirmed sibling fills).
+
+**Tier 2 — the real trades deliverable (large, deliberate):**
+4. Fix regime-extraction PRECISION first — it over-counts in combined chapters (WA=6, WI=7); scope
+   regimes to the target occupation. Prerequisite for trusting shape output.
+5. Scope the FRONTEND/comparison ripple (comparing regime-lists, not fields) — design before building.
+6. Build the shape-first extraction for trades; leave licensed professions on the field path (length-1).
+
+**Tier 3 — needs decisions/fetches:**
+7. #19 scope-specificity: resolve LLM-cluster-vs-hand-author with Atharv.
+8. The ~7 bad re-pulls + true gap states needing a fetch → one dedicated CDP-Chrome session.
+
+NOTE — caution against over-rotating: the corpus is mostly fine and the field model already
+produces usable trade data, so backfilling trades with the *current* model is low-value. The
+shape model is a representation/comparison improvement, not a rescue. Don't treat it as urgent.
 
 Related: GH #53; `docs/reports/trades_gaps_issue53_2026-06-26.md` (Atharv's findings);
-`pipeline/discover/cross_ref_siblings.py` (sibling reuse, built this session).
+`pipeline/discover/{cross_ref_siblings,audit_corpus}.py`.
