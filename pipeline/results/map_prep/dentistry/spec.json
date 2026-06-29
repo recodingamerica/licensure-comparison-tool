@@ -10,7 +10,7 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether a license is required; all states true but field is mappable"
+      "reason": "boolean flag indicating whether a license is required; all states are true so map will be uniform but field is valid"
     },
     {
       "field_name": "licensure.issuing_authority",
@@ -18,7 +18,7 @@
       "kind": "not_mappable",
       "unit": null,
       "categories": null,
-      "reason": "free-text agency names, essentially unique per state"
+      "reason": "free-text proper names of issuing bodies, essentially unique per state"
     },
     {
       "field_name": "licensure.regulatory_authority.name",
@@ -26,7 +26,7 @@
       "kind": "not_mappable",
       "unit": null,
       "categories": null,
-      "reason": "free-text board names, essentially unique per state"
+      "reason": "free-text proper names of regulatory bodies, essentially unique per state"
     },
     {
       "field_name": "licensure.regulatory_authority.type",
@@ -35,9 +35,12 @@
       "unit": null,
       "categories": [
         "standalone_board",
-        "shared_board"
+        "shared_board",
+        "department",
+        "division",
+        "joint"
       ],
-      "reason": "small stable set of board structure types, directly comparable across states"
+      "reason": "small stable set of structural categories describing the type of regulatory authority"
     },
     {
       "field_name": "licensure.regulatory_authority.umbrella_agency",
@@ -45,7 +48,7 @@
       "kind": "not_mappable",
       "unit": null,
       "categories": null,
-      "reason": "free-text agency names, essentially unique per state"
+      "reason": "free-text proper names of umbrella agencies, essentially unique per state"
     },
     {
       "field_name": "licensure.education.degree_required",
@@ -53,15 +56,67 @@
       "kind": "not_mappable",
       "unit": null,
       "categories": null,
-      "reason": "free-text degree descriptions, not comparably structured across states"
+      "reason": "free-text statutory descriptions of degree requirements, not comparable across states"
     },
     {
-      "field_name": "licensure.education.accrediting_body",
-      "mappable": false,
-      "kind": "not_mappable",
+      "field_name": "licensure.education.degree_level",
+      "mappable": true,
+      "kind": "categorical",
       "unit": null,
-      "categories": null,
-      "reason": "free-text accreditor names with minor variations; not meaningfully categorical for mapping"
+      "categories": [
+        "doctorate",
+        "masters",
+        "bachelors",
+        "associates",
+        "other"
+      ],
+      "reason": "all states require doctorate; small stable set of degree level categories"
+    },
+    {
+      "field_name": "licensure.education.school_approval_basis",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "national_accreditor",
+        "board_approved",
+        "unspecified"
+      ],
+      "reason": "small stable set of categories describing how dental schools are approved for licensure purposes"
+    },
+    {
+      "field_name": "licensure.education.credential_pegged",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether the credential is pegged to a specific accreditor recognition date"
+    },
+    {
+      "field_name": "licensure.post_degree_experience.required",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether post-degree experience is explicitly required by statute"
+    },
+    {
+      "field_name": "licensure.post_degree_experience.experience_source",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "required_by_statute",
+        "embedded_in_credential",
+        "none"
+      ],
+      "reason": "small stable set of categories describing the source of post-degree experience requirement"
     },
     {
       "field_name": "licensure.renewal.interval_years",
@@ -69,7 +124,7 @@
       "kind": "continuous",
       "unit": "years",
       "categories": null,
-      "reason": "numeric renewal cycle length in years, directly comparable across states"
+      "reason": "numeric renewal interval in years, directly comparable across states"
     },
     {
       "field_name": "licensure.continuing_education.required",
@@ -80,7 +135,23 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether continuing education is required for renewal"
+      "reason": "boolean flag indicating whether continuing education is required for license renewal"
+    },
+    {
+      "field_name": "licensure.continuing_education.hours_per_period",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "hours per renewal period",
+      "categories": null,
+      "reason": "numeric CE hours required per renewal period; note that period length varies by state so raw hours are not fully normalized without period_years"
+    },
+    {
+      "field_name": "licensure.continuing_education.period_years",
+      "mappable": true,
+      "kind": "continuous",
+      "unit": "years",
+      "categories": null,
+      "reason": "numeric length of the CE reporting period in years, directly comparable across states"
     },
     {
       "field_name": "licensure.continuing_education.topical_requirements",
@@ -88,7 +159,7 @@
       "kind": "not_mappable",
       "unit": null,
       "categories": null,
-      "reason": "free-text lists of topic requirements, highly idiosyncratic per state"
+      "reason": "free-text lists of required CE topics, highly idiosyncratic per state and not reducible to a common scale"
     },
     {
       "field_name": "licensure.reciprocity.available",
@@ -99,7 +170,15 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether reciprocity/endorsement licensure is available"
+      "reason": "boolean flag indicating whether reciprocity or endorsement licensure is available"
+    },
+    {
+      "field_name": "licensure.reciprocity.requirements",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text prose descriptions of reciprocity requirements, highly idiosyncratic per state"
     },
     {
       "field_name": "licensure.advisory_board.exists",
@@ -110,7 +189,7 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether an advisory board exists alongside the main board"
+      "reason": "boolean flag indicating whether a separate advisory board exists alongside the main regulatory authority"
     },
     {
       "field_name": "licensure.national_association",
@@ -118,7 +197,7 @@
       "kind": "not_mappable",
       "unit": null,
       "categories": null,
-      "reason": "free-text association names, not consistently structured for mapping"
+      "reason": "free-text names of national associations referenced in state law, not consistently categorizable"
     },
     {
       "field_name": "licensure.regulatory_model",
@@ -133,7 +212,7 @@
         "exemption",
         "market_forces"
       ],
-      "reason": "values come from the UORF ladder enum; all states report 'license'"
+      "reason": "values come from the UORF regulatory ladder enum; all states report license"
     },
     {
       "field_name": "licensure.credential_type",
@@ -146,7 +225,7 @@
         "registration",
         "permit"
       ],
-      "reason": "small stable set of credential type labels; all states report 'license'"
+      "reason": "small stable set of credential type categories; all states report license"
     },
     {
       "field_name": "licensure.is_mandatory",
@@ -168,7 +247,7 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether the title 'dentist' is legally protected"
+      "reason": "boolean flag indicating whether the title dentist is legally protected"
     },
     {
       "field_name": "licensure.scope_protection",
@@ -182,12 +261,39 @@
       "reason": "boolean flag indicating whether the scope of practice is legally protected"
     },
     {
+      "field_name": "licensure.alternative_regulation.establishment_regulation_required",
+      "mappable": true,
+      "kind": "categorical",
+      "unit": null,
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether dental establishments require separate regulation or registration"
+    },
+    {
       "field_name": "scope.definition_quote",
       "mappable": false,
       "kind": "not_mappable",
       "unit": null,
       "categories": null,
-      "reason": "free-text statutory definitions, not comparable across states"
+      "reason": "free-text statutory definitions of dentistry, not comparable across states"
+    },
+    {
+      "field_name": "scope.methods_authorized",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text lists of authorized methods, highly idiosyncratic and variable in granularity per state"
+    },
+    {
+      "field_name": "scope.drug_authority",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text prose descriptions of drug prescribing authority, not reducible to a common scale"
     },
     {
       "field_name": "profession_specific.specialist_license_available",
@@ -209,7 +315,15 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether specialists are restricted to their specialty scope"
+      "reason": "boolean flag indicating whether specialists are restricted to practicing within their specialty scope"
+    },
+    {
+      "field_name": "profession_specific.dental_hygienist_supervision_levels",
+      "mappable": false,
+      "kind": "not_mappable",
+      "unit": null,
+      "categories": null,
+      "reason": "free-text lists of supervision level labels that vary in naming and granularity across states"
     },
     {
       "field_name": "profession_specific.collaborative_agreement_available",
@@ -220,7 +334,7 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether collaborative practice agreements with hygienists are available"
+      "reason": "boolean flag indicating whether collaborative practice agreements are available for dental hygienists"
     },
     {
       "field_name": "profession_specific.collaborative_agreement_max_hygienists_per_dentist",
@@ -228,7 +342,7 @@
       "kind": "continuous",
       "unit": "hygienists per dentist",
       "categories": null,
-      "reason": "numeric cap on hygienists per supervising dentist, directly comparable across states"
+      "reason": "numeric cap on hygienists per supervising dentist under collaborative agreements, directly comparable"
     },
     {
       "field_name": "profession_specific.advanced_practice_permit_available",
@@ -239,7 +353,7 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether an advanced practice dental permit exists"
+      "reason": "boolean flag indicating whether an advanced practice or public health dental hygiene permit is available"
     },
     {
       "field_name": "profession_specific.advanced_practice_eligible_patient_populations",
@@ -247,7 +361,7 @@
       "kind": "not_mappable",
       "unit": null,
       "categories": null,
-      "reason": "free-text lists of eligible populations, highly idiosyncratic per state"
+      "reason": "free-text lists of eligible patient populations, highly idiosyncratic and variable per state"
     },
     {
       "field_name": "profession_specific.dental_office_ownership_restrictions",
@@ -258,7 +372,7 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether non-dentist ownership of dental offices is restricted"
+      "reason": "boolean flag indicating whether restrictions on non-dentist ownership of dental offices exist"
     },
     {
       "field_name": "profession_specific.opioid_prescribing_limits",
@@ -280,7 +394,7 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether registration with a controlled substance database is required"
+      "reason": "boolean flag indicating whether dentists must register with or query a controlled substance database"
     },
     {
       "field_name": "profession_specific.hygienist_local_anesthesia_certification_required",
@@ -291,7 +405,7 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether dental hygienists must hold a local anesthesia certification"
+      "reason": "boolean flag indicating whether dental hygienists must obtain separate certification to administer local anesthesia"
     },
     {
       "field_name": "profession_specific.hygienist_nitrous_oxide_certification_required",
@@ -302,7 +416,7 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether dental hygienists must hold a nitrous oxide certification"
+      "reason": "boolean flag indicating whether dental hygienists must obtain separate certification to administer nitrous oxide"
     },
     {
       "field_name": "profession_specific.restorative_function_endorsement_available",
@@ -313,7 +427,7 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether a restorative function endorsement for hygienists is available"
+      "reason": "boolean flag indicating whether a restorative function endorsement is available for dental hygienists"
     },
     {
       "field_name": "profession_specific.patient_record_retention_years",
@@ -332,7 +446,7 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether an alternative/independent practice license for hygienists exists"
+      "reason": "boolean flag indicating whether an alternative or independent practice license exists for dental hygienists"
     },
     {
       "field_name": "licensure.age_minimum",
@@ -351,31 +465,34 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether good moral character is an explicit licensure requirement"
+      "reason": "boolean flag indicating whether good moral character is an explicit statutory licensure requirement"
     },
     {
-      "field_name": "licensure.reciprocity.requirements",
+      "field_name": "licensure.education.accrediting_body",
       "mappable": false,
       "kind": "not_mappable",
       "unit": null,
       "categories": null,
-      "reason": "free-text descriptions of reciprocity requirements, highly idiosyncratic per state"
+      "reason": "free-text names of accrediting bodies with minor naming variations, not meaningfully distinguishable for mapping"
     },
     {
-      "field_name": "scope.methods_authorized",
+      "field_name": "licensure.national_certification",
       "mappable": false,
       "kind": "not_mappable",
       "unit": null,
       "categories": null,
-      "reason": "free-text lists of authorized methods, highly idiosyncratic and variable per state"
+      "reason": "free-text names of national certification bodies referenced in state law, inconsistently reported"
     },
     {
-      "field_name": "scope.drug_authority",
-      "mappable": false,
-      "kind": "not_mappable",
+      "field_name": "licensure.alternative_regulation.insurance_required",
+      "mappable": true,
+      "kind": "categorical",
       "unit": null,
-      "categories": null,
-      "reason": "free-text descriptions of drug prescribing authority, not comparably structured"
+      "categories": [
+        "true",
+        "false"
+      ],
+      "reason": "boolean flag indicating whether malpractice or liability insurance is required for dental establishment operation"
     },
     {
       "field_name": "profession_specific.sedation_anesthesia_permit_types",
@@ -383,7 +500,7 @@
       "kind": "not_mappable",
       "unit": null,
       "categories": null,
-      "reason": "free-text lists of permit type names, highly variable and idiosyncratic per state"
+      "reason": "free-text lists of permit type names that vary in naming and granularity across states"
     },
     {
       "field_name": "profession_specific.sedation_permit_onsite_inspection_required",
@@ -394,7 +511,7 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether an onsite inspection is required for sedation permits"
+      "reason": "boolean flag indicating whether an onsite inspection is required to obtain a sedation permit"
     },
     {
       "field_name": "profession_specific.sedation_adverse_event_reporting_required",
@@ -427,15 +544,7 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether a disclaimer is required when advertising a specialty"
-    },
-    {
-      "field_name": "profession_specific.dental_hygienist_supervision_levels",
-      "mappable": false,
-      "kind": "not_mappable",
-      "unit": null,
-      "categories": null,
-      "reason": "free-text lists of supervision level names, highly variable and idiosyncratic per state"
+      "reason": "boolean flag indicating whether a disclaimer is required when advertising a dental specialty"
     },
     {
       "field_name": "profession_specific.mobile_dental_facility_registration_required",
@@ -446,7 +555,7 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether mobile dental facilities must be registered with the board"
+      "reason": "boolean flag indicating whether mobile dental facilities must be separately registered with the board"
     },
     {
       "field_name": "profession_specific.mobile_facility_followup_care_protocol_required",
@@ -457,7 +566,7 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether a follow-up care protocol is required for mobile facilities"
+      "reason": "boolean flag indicating whether mobile dental facilities must have a documented follow-up care protocol"
     },
     {
       "field_name": "profession_specific.dental_laboratory_work_authorization_required",
@@ -468,7 +577,7 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether a written work authorization is required for dental lab work"
+      "reason": "boolean flag indicating whether a written authorization or prescription is required for dental laboratory work"
     },
     {
       "field_name": "profession_specific.teledentistry_authorized",
@@ -490,18 +599,7 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether CPR certification is required to hold a sedation permit"
-    },
-    {
-      "field_name": "licensure.post_degree_experience.required",
-      "mappable": true,
-      "kind": "categorical",
-      "unit": null,
-      "categories": [
-        "true",
-        "false"
-      ],
-      "reason": "boolean flag indicating whether post-degree clinical experience is required before licensure"
+      "reason": "boolean flag indicating whether CPR certification is required to obtain or maintain a sedation permit"
     },
     {
       "field_name": "licensure.renewal_fee_usd",
@@ -509,7 +607,7 @@
       "kind": "continuous",
       "unit": "USD",
       "categories": null,
-      "reason": "numeric renewal fee in US dollars, directly comparable across states"
+      "reason": "numeric license renewal fee in US dollars, directly comparable across states"
     },
     {
       "field_name": "profession_specific.dental_therapist_license_available",
@@ -520,7 +618,7 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether a dental therapist license exists in the state"
+      "reason": "boolean flag indicating whether a dental therapist license is available in the state"
     },
     {
       "field_name": "profession_specific.dental_therapist_collaborative_practice_required",
@@ -539,7 +637,7 @@
       "kind": "not_mappable",
       "unit": null,
       "categories": null,
-      "reason": "free-text lists of practice setting restrictions, highly idiosyncratic per state"
+      "reason": "free-text lists of practice setting restrictions for dental therapists, highly idiosyncratic per state"
     },
     {
       "field_name": "profession_specific.denture_patient_identification_marking_required",
@@ -561,7 +659,7 @@
         "true",
         "false"
       ],
-      "reason": "boolean flag indicating whether interim therapeutic restorations are explicitly authorized"
+      "reason": "boolean flag indicating whether interim therapeutic restorations are authorized for dental hygienists or therapists"
     },
     {
       "field_name": "licensure.post_degree_experience.duration",
@@ -569,7 +667,7 @@
       "kind": "not_mappable",
       "unit": null,
       "categories": null,
-      "reason": "free-text duration descriptions with inconsistent units and conditions across states"
+      "reason": "only three states report values and they are free-text descriptions; too sparse and inconsistent for mapping"
     },
     {
       "field_name": "licensure.post_degree_experience.kind",
@@ -577,39 +675,7 @@
       "kind": "not_mappable",
       "unit": null,
       "categories": null,
-      "reason": "free-text descriptions of experience type, not consistently structured across states"
-    },
-    {
-      "field_name": "licensure.continuing_education.period_years",
-      "mappable": true,
-      "kind": "continuous",
-      "unit": "years",
-      "categories": null,
-      "reason": "numeric CE reporting period length in years, directly comparable across states"
-    },
-    {
-      "field_name": "licensure.continuing_education.hours_per_period",
-      "mappable": true,
-      "kind": "continuous",
-      "unit": "hours per renewal period",
-      "categories": null,
-      "reason": "numeric CE hours required per renewal period, directly comparable across states"
-    },
-    {
-      "field_name": "licensure.national_certification",
-      "mappable": false,
-      "kind": "not_mappable",
-      "unit": null,
-      "categories": null,
-      "reason": "free-text certification body names, sparse and idiosyncratic per state"
-    },
-    {
-      "field_name": "licensure.exams",
-      "mappable": false,
-      "kind": "not_mappable",
-      "unit": null,
-      "categories": null,
-      "reason": "sparse and inconsistently structured exam lists, not comparable across states"
+      "reason": "free-text descriptions of residency type reported by only three states, not consistently categorizable"
     },
     {
       "field_name": "licensure.advisory_board.name",
@@ -617,7 +683,7 @@
       "kind": "not_mappable",
       "unit": null,
       "categories": null,
-      "reason": "free-text advisory board names, essentially unique per state"
+      "reason": "free-text proper names of advisory boards, reported by only three states"
     },
     {
       "field_name": "licensure.advisory_board.authority",
@@ -625,15 +691,15 @@
       "kind": "not_mappable",
       "unit": null,
       "categories": null,
-      "reason": "free-text descriptions of advisory board authority, not comparably structured"
+      "reason": "free-text prose descriptions of advisory board authority, not comparable across states"
     },
     {
-      "field_name": "licensure.disciplinary_grounds",
+      "field_name": "licensure.exams",
       "mappable": false,
       "kind": "not_mappable",
       "unit": null,
       "categories": null,
-      "reason": "free-text or sparse lists of disciplinary grounds, not comparably structured across states"
+      "reason": "only one state reports a value (empty list), insufficient and inconsistent data for mapping"
     }
   ]
 }
