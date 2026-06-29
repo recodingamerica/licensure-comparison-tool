@@ -63,6 +63,25 @@ const CAT_STYLE: Record<string, string> = {
   License: "border-indigo-300 text-indigo-700",
 };
 
+// Restrictive/permissive direction (#52c) — the second filter axis beyond Field.
+const DIRECTIONS = ["more_restrictive", "more_permissive", "neutral"] as const;
+type DirKey = (typeof DIRECTIONS)[number];
+const DIR_LABEL: Record<DirKey, string> = {
+  more_restrictive: "More restrictive",
+  more_permissive: "More permissive",
+  neutral: "Neutral",
+};
+const DIR_STYLE: Record<DirKey, string> = {
+  more_restrictive: "border-rose-300 text-rose-700",
+  more_permissive: "border-emerald-300 text-emerald-700",
+  neutral: "border-slate-300 text-slate-600",
+};
+const DIR_ACTIVE: Record<DirKey, string> = {
+  more_restrictive: "border-rose-600 bg-rose-600 text-white",
+  more_permissive: "border-emerald-600 bg-emerald-600 text-white",
+  neutral: "border-slate-500 bg-slate-500 text-white",
+};
+
 // The short teaser on the card face.
 function novelDescription(p: NovelPolicy, total: number): string {
   const lbl = fieldLabel(p.field);
@@ -190,6 +209,7 @@ export function NovelPoliciesView({ professionId }: { professionId: string }) {
   const [data, setData] = useState<ProfileAnalysis | null>(null);
   const [missing, setMissing] = useState(false);
   const [cat, setCat] = useState<string | null>(null);
+  const [dir, setDir] = useState<DirKey | null>(null);
   const [selected, setSelected] = useState<NovelPolicy | null>(null);
   // Rarity bar (moved here from the Compare tab, #52): show policies held by at
   // most K states. Defaults to the max so the tab opens on the full list.
@@ -201,6 +221,7 @@ export function NovelPoliciesView({ professionId }: { professionId: string }) {
     setMissing(false);
     setSelected(null);
     setCat(null);
+    setDir(null);
     fetch(`/data/analysis/${encodeURIComponent(professionId)}.json`)
       .then((r) => (r.status === 404 ? (setMissing(true), null) : r.ok ? r.json() : null))
       .then((d: ProfileAnalysis | null) => {
@@ -217,10 +238,11 @@ export function NovelPoliciesView({ professionId }: { professionId: string }) {
   }, [professionId]);
 
   const list = useMemo(() => {
-    const all = (data?.novel_policies ?? []).filter((p) => p.n_states <= novelK);
-    const filtered = cat ? all.filter((p) => fieldCategory(p.field) === cat) : all;
-    return filtered.sort((a, b) => a.n_states - b.n_states || a.label.localeCompare(b.label));
-  }, [data, cat, novelK]);
+    let all = (data?.novel_policies ?? []).filter((p) => p.n_states <= novelK);
+    if (cat) all = all.filter((p) => fieldCategory(p.field) === cat);
+    if (dir) all = all.filter((p) => p.direction === dir);
+    return all.sort((a, b) => a.n_states - b.n_states || a.label.localeCompare(b.label));
+  }, [data, cat, dir, novelK]);
 
   if (missing)
     return <p className="text-[15px] text-muted-foreground">No comparison data for this profession yet.</p>;
@@ -237,6 +259,10 @@ export function NovelPoliciesView({ professionId }: { professionId: string }) {
     const k = fieldCategory(p.field);
     catCounts.set(k, (catCounts.get(k) ?? 0) + 1);
   }
+  // Direction counts (#52c) — only render the axis if the data carries directions.
+  const dirCounts = new Map<DirKey, number>();
+  for (const p of inK) if (p.direction) dirCounts.set(p.direction, (dirCounts.get(p.direction) ?? 0) + 1);
+  const nDirected = [...dirCounts.values()].reduce((a, b) => a + b, 0);
 
   return (
     <div className="max-w-3xl">
@@ -262,6 +288,7 @@ export function NovelPoliciesView({ professionId }: { professionId: string }) {
               setNovelK(Number(e.target.value));
               setSelected(null);
               setCat(null);
+              setDir(null);
             }}
             className="h-1 w-40 cursor-pointer accent-foreground"
           />
@@ -295,6 +322,48 @@ export function NovelPoliciesView({ professionId }: { professionId: string }) {
           );
         })}
       </div>
+
+      {/* Direction filter — restrictive vs permissive (#52c). The "what kind"
+          axis beyond Field. Hidden if the data carries no directions. */}
+      {nDirected > 0 && (
+        <div className="mt-2 flex flex-wrap items-center gap-1.5">
+          <span className="mr-0.5 text-xs text-muted-foreground">Direction:</span>
+          <button
+            onClick={() => {
+              setDir(null);
+              setSelected(null);
+            }}
+            className={`rounded-full border px-3 py-1 text-sm transition-colors ${
+              dir === null
+                ? "border-foreground bg-foreground text-background"
+                : "border-border bg-background text-muted-foreground hover:bg-muted"
+            }`}
+          >
+            Any
+            <span className="ml-1.5 tabular-nums opacity-60">{nDirected}</span>
+          </button>
+          {DIRECTIONS.map((d) => {
+            const count = dirCounts.get(d) ?? 0;
+            if (count === 0) return null;
+            const active = dir === d;
+            return (
+              <button
+                key={d}
+                onClick={() => {
+                  setDir(active ? null : d);
+                  setSelected(null);
+                }}
+                className={`rounded-full border px-3 py-1 text-sm transition-colors ${
+                  active ? DIR_ACTIVE[d] : `${DIR_STYLE[d]} bg-background hover:bg-muted`
+                }`}
+              >
+                {DIR_LABEL[d]}
+                <span className="ml-1.5 tabular-nums opacity-60">{count}</span>
+              </button>
+            );
+          })}
+        </div>
+      )}
 
       {/* Rare-policy cards, rarest first. */}
       <div className="mt-4 space-y-2">
@@ -339,9 +408,16 @@ export function NovelPoliciesView({ professionId }: { professionId: string }) {
                         </span>
                       ))}
                     </div>
-                    <span className={`shrink-0 rounded-full border px-2 py-0.5 text-xs ${CAT_STYLE[fc]}`}>
-                      {fc}
-                    </span>
+                    <div className="flex shrink-0 items-center gap-1">
+                      {p.direction && p.direction !== "neutral" && (
+                        <span className={`rounded-full border px-2 py-0.5 text-xs ${DIR_STYLE[p.direction]}`}>
+                          {DIR_LABEL[p.direction]}
+                        </span>
+                      )}
+                      <span className={`rounded-full border px-2 py-0.5 text-xs ${CAT_STYLE[fc]}`}>
+                        {fc}
+                      </span>
+                    </div>
                   </div>
                 </button>
                 {active && <Walkthrough p={p} total={total} />}
