@@ -20,7 +20,14 @@ function fieldLabel(f: string): string {
   const s = leaf.replace(/_/g, " ");
   return s.charAt(0).toUpperCase() + s.slice(1);
 }
-const val = (v: string) => (v === "true" ? "yes" : v === "false" ? "no" : v.replace(/_/g, " "));
+const val = (v: string) => {
+  if (v === "true") return "yes";
+  if (v === "false") return "no";
+  // Whole-number values come through as "7.0" — show them as "7".
+  const n = Number(v);
+  if (v.trim() !== "" && Number.isInteger(n)) return String(n);
+  return v.replace(/_/g, " ");
+};
 
 // Match KIND_STYLE.fill in similarity-view: amber = rare authority, sky = unusual value.
 const KIND_FILL: Record<NovelPolicy["kind"], string> = {
@@ -85,6 +92,23 @@ function novelSummary(p: NovelPolicy, total: number): string {
   return `${where} answers ${lbl} with ${v} — ${tail}.`;
 }
 
+// The counterpoint to the rare value (#52): what most states do on this field —
+// the dominant answer, or "usually unspecified" when most states are silent.
+function majorityLine(p: NovelPolicy): string | null {
+  const m = p.majority;
+  if (!m) return null;
+  // A field most states simply don't have at all (coverage-novelty).
+  if (m.value == null || m.reported === 0)
+    return m.unstated > 0
+      ? `Most states (${m.unstated} of ${m.total}) don't address this at all.`
+      : null;
+  // A common field where silence outweighs the leading answer.
+  if (m.unstated > m.n)
+    return `Most states (${m.unstated} of ${m.total}) don't specify; among those that do, ${val(m.value)} leads (${m.n}).`;
+  // A common field with a clear majority answer.
+  return `Most states answer ${val(m.value)} (${m.n} of ${m.total})${m.unstated > 0 ? `; ${m.unstated} don't specify` : ""}.`;
+}
+
 // One step in the slide-4 "how the AI surfaced this" walkthrough.
 function Beat({ n, title, color, children }: {
   n: number; title: string; color: string; children: ReactNode;
@@ -111,7 +135,14 @@ function Walkthrough({ p, total }: { p: NovelPolicy; total: number }) {
   return (
     <div className="border-t bg-muted/20 p-4 text-sm">
       {/* Plain-English summary of the finding, before the mechanics (#52). */}
-      <p className="mb-3 leading-relaxed text-foreground">{novelSummary(p, total)}</p>
+      <p className="mb-2 leading-relaxed text-foreground">{novelSummary(p, total)}</p>
+      {/* What most states do — the counterpoint (#52). */}
+      {majorityLine(p) && (
+        <p className="mb-3 leading-relaxed text-muted-foreground">
+          <span className="font-medium text-foreground">Across states: </span>
+          {majorityLine(p)}
+        </p>
+      )}
       <div className="mb-3 text-[15px] font-medium text-foreground">
         How the AI surfaced this — beat by beat
       </div>

@@ -28,7 +28,14 @@ function fieldLabel(f: string): string {
   const s = leaf.replace(/_/g, " ");
   return s.charAt(0).toUpperCase() + s.slice(1);
 }
-const val = (v: string) => (v === "true" ? "yes" : v === "false" ? "no" : v.replace(/_/g, " "));
+const val = (v: string) => {
+  if (v === "true") return "yes";
+  if (v === "false") return "no";
+  // Whole-number values come through as "7.0" — show them as "7".
+  const n = Number(v);
+  if (v.trim() !== "" && Number.isInteger(n)) return String(n);
+  return v.replace(/_/g, " ");
+};
 const lc = (s: string) => (s ? s.charAt(0).toLowerCase() + s.slice(1) : s);
 function joinAnd(items: string[]): string {
   if (items.length <= 1) return items[0] ?? "";
