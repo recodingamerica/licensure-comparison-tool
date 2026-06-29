@@ -160,6 +160,16 @@ _GENERIC_LEAVES = {"required", "available", "exists", "offered", "permitted",
                    "authorized", "prohibited", "allowed", "excluded", "type"}
 
 
+def _num(value) -> str:
+    """Drop a trailing .0 from whole-number values (7.0 -> 7) for display."""
+    s = str(value)
+    try:
+        f = float(s)
+    except (TypeError, ValueError):
+        return s
+    return str(int(f)) if f == int(f) else s
+
+
 def clause(field: str, value, sem: dict) -> str:
     """field=value -> a readable verb phrase. Boolean fields use name-suffix rules;
     enum fields use an optional `phrase` template from field_semantics; else a
@@ -169,7 +179,7 @@ def clause(field: str, value, sem: dict) -> str:
     if leaf in _GENERIC_LEAVES and len(parts) >= 2:
         leaf = f"{parts[-2]}_{leaf}"
     phrase = field_cfg(sem, field).get("phrase")
-    human = str(value).replace("_", " ")
+    human = _num(value).replace("_", " ")
     if phrase:
         return phrase.format(value=human)
     v = str(value).lower()
@@ -208,7 +218,26 @@ def _humanize_field(field: str) -> str:
     return field.split(".")[-1].replace("_", " ")
 
 
-def build_novel_policies(d: dict, kind_out: list, sem: dict, max_states: int = MAX_NOVEL_STATES) -> list:
+def _field_majority(field: str, fallback_states: list, M: dict, total: int) -> dict:
+    """What MOST states do on this field — the counterpoint to the rare value
+    (#52). The dominant value among states that report the field, plus how many
+    don't report it at all, so the UI can say "majority = X" or "usually unstated".
+    For coverage-novelty (a field only a few states even have) M carries nothing,
+    so the supporting states ARE the reported set and everyone else is unstated."""
+    sv = M.get(field) or {}
+    if not sv:
+        reported = len(fallback_states)
+        return {"value": None, "n": reported, "reported": reported,
+                "unstated": max(0, total - reported), "total": total}
+    cnt = Counter(str(v) for v in sv.values())
+    value, n = cnt.most_common(1)[0]
+    reported = sum(cnt.values())
+    return {"value": value, "n": n, "reported": reported,
+            "unstated": max(0, total - reported), "total": total}
+
+
+def build_novel_policies(d: dict, kind_out: list, sem: dict, M: dict, total: int,
+                         max_states: int = MAX_NOVEL_STATES) -> list:
     # quote/citation per (field, state) from the map_prep rows, for value-novelty
     qmap: dict = {}
     for r in (d.get("map_prep") or {}).get("rows", []):
@@ -230,6 +259,7 @@ def build_novel_policies(d: dict, kind_out: list, sem: dict, max_states: int = M
                 "quote": f.get("sample_quote", ""),
                 "citation": "",
                 "sample_state": f.get("sample_state"),
+                "majority": _field_majority(f["name"], ss, M, total),
             })
     # value-novelty: rare values on shared fields (kind_outliers by field+value)
     by_fv: dict = defaultdict(list)
@@ -254,6 +284,7 @@ def build_novel_policies(d: dict, kind_out: list, sem: dict, max_states: int = M
             "quote": q,
             "citation": c,
             "sample_state": sts[0],
+            "majority": _field_majority(field, sts, M, total),
         })
     out.sort(key=lambda x: (x["n_states"], x["field"]))
     return out
@@ -358,7 +389,7 @@ def analyze(profession: str):
         row.sort(reverse=True)
         sims[a] = row
     distinct = {a: round(1 - statistics.mean([s for s, _, _ in sims[a]]), 3)
-                for a in sufficient if sims[a]}
+                for a in sorted(sufficient) if sims[a]}
 
     # kind outliers: rare value AND far from mode (weighted by importance)
     kind_out = []
@@ -504,8 +535,11 @@ def analyze(profession: str):
         typical[st] = [x for _, x in tlist[:6]]
         differs[st] = [x for _, x in dlist[:8]]
 
-    ranked = list(dict(sorted(distinct.items(), key=lambda kv: kv[1], reverse=True)))
-    bands = {st: band_for(st, ranked) for st in sufficient}
+    # Rank by distinctiveness desc; break ties by state code so the rank-based
+    # bands are deterministic (distinct is built from a set, whose iteration
+    # order — and thus tie order — otherwise varies run to run).
+    ranked = [st for st, _ in sorted(distinct.items(), key=lambda kv: (-kv[1], kv[0]))]
+    bands = {st: band_for(st, ranked) for st in sorted(sufficient)}
     prof_display = d.get("display", profession)
     notes = {}
     for st in states:
@@ -530,7 +564,7 @@ def analyze(profession: str):
         "insufficient_states": insufficient,
         # how much of the core each compared state actually answers (0..1) — a
         # confidence signal: a distinctiveness score over few core answers is shaky.
-        "core_coverage": ({st: round(core_have[st] / n_core, 2) for st in sufficient} if n_core else {}),
+        "core_coverage": ({st: round(core_have[st] / n_core, 2) for st in sorted(sufficient)} if n_core else {}),
         "landscape": landscape,
         "neighbors": {a: [{"state": b, "sim": s, "n": n} for s, b, n in sims[a][:6]] for a in states},
         "distinctiveness": dict(sorted(distinct.items(), key=lambda kv: kv[1], reverse=True)),
@@ -539,7 +573,7 @@ def analyze(profession: str):
         # Novel/unusual policies for the Compare-tab rarity bar (#50). Kept in the
         # written JSON (the frontend filters by the slider); kind/stringency_outliers
         # below are CLI-debug only and stripped on --json write.
-        "novel_policies": build_novel_policies(d, kind_out, sem_for),
+        "novel_policies": build_novel_policies(d, kind_out, sem_for, M, n_states),
         "kind_outliers": kind_out,
         "stringency_outliers": string_out,
     }

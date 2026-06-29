@@ -305,6 +305,18 @@ export type NovelPolicy = {
   quote: string;
   citation: string;
   sample_state?: string | null;
+  // What MOST states do on this field (#52): dominant value among states that
+  // report it + how many don't report it at all. Optional — absent on older data.
+  majority?: {
+    value: string | null;
+    n: number;
+    reported: number;
+    unstated: number;
+    total: number;
+  } | null;
+  // Whether this rare policy is more restrictive / permissive than the norm (#52c),
+  // LLM-classified. Optional — absent on older data.
+  direction?: "more_restrictive" | "more_permissive" | "neutral" | null;
 };
 export type DiffersField = { field: string; value: string; label: string; importance: number };
 export type Driver = {
