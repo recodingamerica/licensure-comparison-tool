@@ -34,11 +34,13 @@ load_env()
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from _llm import call_structured, usage_summary  # noqa: E402
-from paths import RESULTS_DIR  # noqa: E402
+from paths import (  # noqa: E402
+    RESULTS_DIR,
+    DISCOVERED_DIR as DISCOVERED,
+    STRUCTURED_DIR as STRUCTURED,
+    TRIMMED_DIR as TRIMMED,
+)
 
-DISCOVERED = RESULTS_DIR / "discovered"
-STRUCTURED = RESULTS_DIR / "structured"
-TRIMMED = RESULTS_DIR / "trimmed"
 OUT = RESULTS_DIR / "gap_audit"
 MODEL = "claude-sonnet-4-6"
 

@@ -26,7 +26,7 @@ load_env()
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from _llm import call_structured  # noqa: E402
-from paths import CONFIG_DIR, RESULTS_DIR  # noqa: E402
+from paths import CONFIG_DIR, RESULTS_DIR, TEXT_DIR  # noqa: E402
 
 PROF_YAML = CONFIG_DIR / "professions.yaml"
 CAND = RESULTS_DIR / "discover_occupations" / "_candidates.json"
@@ -71,7 +71,7 @@ def _parent_corpus_mentions(parent: str, patterns: list[str]) -> int:
     import glob
     pats = [p.lower() for p in patterns if p]
     hits = 0
-    for f in glob.glob(str(RESULTS_DIR / "text" / parent / "*.json")):
+    for f in glob.glob(str(TEXT_DIR / parent / "*.json")):
         if "_summary" in f:
             continue
         try:

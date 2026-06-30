@@ -30,7 +30,7 @@ from pathlib import Path
 import yaml
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from paths import CONFIG_DIR, RESULTS_DIR  # noqa: E402
+from paths import CONFIG_DIR, TEXT_DIR, STRUCTURED_DIR  # noqa: E402
 from discover import register_occupation as reg  # noqa: E402
 
 PY = sys.executable
@@ -49,12 +49,12 @@ def _run(mod_args: list[str], desc: str) -> bool:
 
 def _parent_states(parent: str) -> list[str]:
     return sorted(os.path.basename(f)[:-5]
-                  for f in glob.glob(str(RESULTS_DIR / "text" / parent / "*.json"))
+                  for f in glob.glob(str(TEXT_DIR / parent / "*.json"))
                   if "_summary" not in f)
 
 
 def _n_structured(prof: str) -> int:
-    return len([f for f in glob.glob(str(RESULTS_DIR / "structured" / prof / "*.json"))
+    return len([f for f in glob.glob(str(STRUCTURED_DIR / prof / "*.json"))
                if "_summary" not in f])
 
 
