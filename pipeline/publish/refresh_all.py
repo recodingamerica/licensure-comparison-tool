@@ -38,6 +38,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from paths import STRUCTURED_DIR, MAP_PREP_DIR, RESULTS_DIR, PIPELINE_ROOT, core_professions  # noqa: E402
+from _records import record_files  # noqa: E402
 from eval.check_consistency import check_record  # noqa: E402
 
 PY = sys.executable
@@ -118,9 +119,7 @@ def main() -> None:
     if not args.skip_consistency_check:
         viols: list[dict] = []
         for p in changed:
-            for jf in sorted((STRUCTURED_DIR / p).glob("*.json")):
-                if jf.stem.startswith("_"):
-                    continue
+            for jf in record_files(STRUCTURED_DIR / p):
                 try:
                     rec = json.loads(jf.read_text())
                 except json.JSONDecodeError as e:

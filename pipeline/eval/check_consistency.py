@@ -39,6 +39,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from paths import STRUCTURED_DIR  # noqa: E402
+from _records import record_files  # noqa: E402
 
 REPORT_PATH = STRUCTURED_DIR / "_consistency_report.csv"
 
@@ -118,9 +119,7 @@ def main() -> None:
     for pdir in prof_dirs:
         if not pdir.is_dir():
             continue
-        for jf in sorted(pdir.glob("*.json")):
-            if jf.stem.startswith("_"):
-                continue
+        for jf in record_files(pdir):
             state = jf.stem
             if only_states and state not in only_states:
                 continue

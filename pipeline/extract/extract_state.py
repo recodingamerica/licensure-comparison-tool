@@ -35,6 +35,7 @@ load_env()
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from _llm import call_structured  # noqa: E402
+from _records import record_files  # noqa: E402
 from standard_model import (  # noqa: E402
     BoolEvidence,
     IntEvidence,
@@ -375,9 +376,7 @@ def main() -> None:
     in_dir = TRIMMED_DIR / profession
     summary = []
     skipped = 0
-    for path in sorted(in_dir.glob("*.json")):
-        if path.name.startswith("_"):
-            continue
+    for path in record_files(in_dir):
         state = path.stem
         if only and state not in only:
             continue

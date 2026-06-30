@@ -38,6 +38,8 @@ _PIPELINE_DIR = Path(__file__).resolve().parent.parent
 if str(_PIPELINE_DIR) not in sys.path:
     sys.path.insert(0, str(_PIPELINE_DIR))
 
+from _records import record_files  # noqa: E402
+
 _STRUCTURED_DIR = _PIPELINE_DIR / "results" / "structured"
 _PROF_INDEX_DIR = _PIPELINE_DIR / "results" / "profession_index"
 _OUT_DIR = _PIPELINE_DIR / "results" / "gap_matrix"
@@ -119,9 +121,7 @@ def cells_for_profession(profession: str) -> list[dict]:
     rec_by_state: dict[str, dict] = {}
     prof_dir = _STRUCTURED_DIR / profession
     if prof_dir.exists():
-        for f in sorted(prof_dir.glob("*.json")):
-            if f.stem.startswith("_"):
-                continue
+        for f in record_files(prof_dir):
             try:
                 d = json.loads(f.read_text())
             except Exception as e:
