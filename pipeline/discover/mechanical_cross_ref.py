@@ -39,18 +39,34 @@ ALL_STATES = set("AL AK AZ AR CA CO CT DE FL GA HI ID IL IN IA KS KY LA ME MD MA
                  "MS MO MT NE NV NH NJ NM NY NC ND OH OK OR PA RI SC SD TN TX UT VT VA "
                  "WA WV WI WY".split())
 
-# Licensing PHRASES per trade — deliberately specific so a passing mention doesn't
-# count. A combined/contractor chapter that actually licenses the trade uses these.
-LICENSING_TERMS = {
-    "electrician": ["licensed electrician", "electrical contractor", "electrician's license",
-                    "limited licensed electrician", "journeyman electrician", "master electrician"],
-    "plumbing":    ["licensed plumber", "plumbing contractor", "journeyman plumber",
-                    "master plumber", "plumber's license"],
-    "hvac":        ["hvac contractor", "mechanical contractor", "air conditioning contractor",
-                    "refrigeration contractor", "heating contractor", "hvacr"],
+# Per-occupation: the LICENSING PHRASES that prove a sibling chapter actually regulates
+# this occupation (deliberately specific — a passing mention doesn't count), and the
+# SIBLING corpora most likely to hold the shared board/act, best first. Many occupations
+# are licensed UNDER another board we already pulled: PAs/perfusionists under the medical
+# act, midwives under nursing, surveyors under the PE board. This reuses that text — no
+# fetch, no LLM. Extend freely; it's the LLM-free counterpart to cross_ref_siblings.
+_TRADE_SIBS = ["construction_trades", "electrician", "plumbing", "hvac"]
+CONFIG: dict[str, dict] = {
+    # building trades — one contractor chapter often governs several
+    "electrician": {"terms": ["licensed electrician", "electrical contractor", "limited licensed electrician",
+                              "journeyman electrician", "master electrician"], "siblings": _TRADE_SIBS},
+    "plumbing":    {"terms": ["licensed plumber", "plumbing contractor", "journeyman plumber",
+                              "master plumber"], "siblings": _TRADE_SIBS},
+    "hvac":        {"terms": ["hvac contractor", "mechanical contractor", "air conditioning contractor",
+                              "refrigeration contractor", "hvacr"], "siblings": _TRADE_SIBS},
+    # health professions licensed under the medical / nursing practice act
+    "physician_assistant":       {"terms": ["physician assistant"], "siblings": ["medicine"]},
+    "anesthesiologist_assistant": {"terms": ["anesthesiologist assistant"], "siblings": ["medicine"]},
+    "perfusionist":              {"terms": ["perfusionist", "perfusion"], "siblings": ["medicine"]},
+    "respiratory_care":          {"terms": ["respiratory therapist", "respiratory care practitioner"], "siblings": ["medicine"]},
+    "genetic_counseling":        {"terms": ["genetic counselor"], "siblings": ["medicine"]},
+    "polysomnography":           {"terms": ["polysomnographic technologist", "polysomnography"], "siblings": ["medicine", "respiratory_care"]},
+    "nurse_midwifery":           {"terms": ["nurse-midwife", "certified nurse midwife", "nurse midwifery"], "siblings": ["nursing"]},
+    # technical / design family — shared PE-surveyor-architect boards
+    "land_surveying":            {"terms": ["land surveyor", "professional surveyor", "practice of surveying"],
+                                  "siblings": ["professional_engineering", "architecture"]},
+    "landscape_architecture":    {"terms": ["landscape architect"], "siblings": ["architecture", "professional_engineering"]},
 }
-# Sibling corpora that commonly hold a combined/contractor chapter, best first.
-DEFAULT_SIBLINGS = ["construction_trades", "electrician", "plumbing", "hvac"]
 DENSITY = 8  # total licensing-term hits in the sibling corpus to count as real coverage
 
 
@@ -69,9 +85,8 @@ def _have(profession: str, overrides: dict) -> set[str]:
     return on_disk | set((overrides.get(profession) or {}).keys())
 
 
-def find_links(profession: str, overrides: dict, siblings: list[str]) -> dict[str, tuple[str, int]]:
-    """For each blank state, the first sibling whose corpus covers the trade densely."""
-    terms = LICENSING_TERMS[profession]
+def find_links(profession: str, overrides: dict, terms: list[str], siblings: list[str]) -> dict[str, tuple[str, int]]:
+    """For each blank state, the first sibling whose corpus covers this occupation densely."""
     blank = sorted(ALL_STATES - _have(profession, overrides))
     out: dict[str, tuple[str, int]] = {}
     for st in blank:
@@ -90,23 +105,30 @@ def find_links(profession: str, overrides: dict, siblings: list[str]) -> dict[st
 
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--profession")
-    ap.add_argument("--all-trades", action="store_true", help="run for electrician, plumbing, hvac")
+    ap.add_argument("--profession", help="one occupation key from CONFIG")
+    ap.add_argument("--all", action="store_true", help="run every occupation in CONFIG")
+    ap.add_argument("--all-trades", action="store_true", help="run electrician, plumbing, hvac")
     ap.add_argument("--siblings", help="comma-separated override of the sibling pool")
     ap.add_argument("--apply", action="store_true", help="write confirmed links to corpus_overrides.yaml")
     args = ap.parse_args()
 
-    profs = ["electrician", "plumbing", "hvac"] if args.all_trades else [args.profession]
+    if args.all:
+        profs = list(CONFIG)
+    elif args.all_trades:
+        profs = ["electrician", "plumbing", "hvac"]
+    else:
+        profs = [args.profession]
     if not profs or profs == [None]:
-        return print("give --profession or --all-trades") or 2
-    siblings = ([s.strip() for s in args.siblings.split(",")] if args.siblings else DEFAULT_SIBLINGS)
+        return print("give --profession, --all-trades, or --all") or 2
 
     overrides = (yaml.safe_load(OVERRIDES.read_text()) if OVERRIDES.exists() else {}) or {}
     total = 0
     for prof in profs:
-        if prof not in LICENSING_TERMS:
-            print(f"  {prof}: no licensing-term set (only trades supported)"); continue
-        links = find_links(prof, overrides, siblings)
+        if prof not in CONFIG:
+            print(f"  {prof}: not in CONFIG (add its terms + siblings)"); continue
+        terms = CONFIG[prof]["terms"]
+        siblings = ([s.strip() for s in args.siblings.split(",")] if args.siblings else CONFIG[prof]["siblings"])
+        links = find_links(prof, overrides, terms, siblings)
         for st, (sib, score) in links.items():
             print(f"  {prof}/{st} ← {sib}  ({score} licensing-term hits)")
         if links and args.apply:
