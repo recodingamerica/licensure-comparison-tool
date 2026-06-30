@@ -95,6 +95,20 @@ licensing terms. High density = it covers the trade → wire `corpus_overrides.y
 `{trade: {STATE: construction_trades}}`. This caught TN electrician (83 mentions) +
 plumbing (94) that the LLM cross-ref refused. Threshold ~8 licensing-term mentions.
 
+`discover/mechanical_cross_ref.py` has two modes:
+- **CONFIG mode** (default) — hand-curated licensing phrases + curated sibling pool.
+  `--profession electrician [--apply]`, `--all-trades`, `--all`.
+- **Brute-force** (`--brute-force`) — no CONFIG: uses the occupation's
+  `professions.yaml` patterns and scans EVERY pulled corpus, picking the densest
+  sibling per blank state. Finds shared boards nobody configured. Output is a
+  review CANDIDATE (best-match, dry-run); `--min-score` tunes the threshold.
+- **`--all-brute`** — brute-forces every incomplete occupation and writes a review
+  worklist to `results/brute_force_candidates.md` (report-only; 209 candidates as
+  of 2026-06-30). Use it as the July-1 head-start: review the worklist, then
+  `--profession X --brute-force --apply` the confirmed ones. Eyeball each — a broad
+  umbrella title scores high without being the right scoped chapter (e.g.
+  `court_reporter ← architecture` was a co-located NH title, not a real link).
+
 ### 4. The runaway guard
 Both `pull_all --limit-sections` and `pull_text --limit-sections` default to 500: a
 whole-title over-match is capped + **loudly flagged** (capped_states), never silently
