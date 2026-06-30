@@ -1,0 +1,951 @@
+{
+  "profession": "professional_engineering",
+  "data_as_of": "2026-06-25",
+  "groups": [
+    {
+      "group": "licensure",
+      "intro": "Whether and how the state credentials this profession — the regulatory model,\ncredential type, issuing authority, entry requirements (education, exams, age,\ncharacter), fees, renewal, continuing education, and reciprocity.",
+      "fields": [
+        {
+          "field": "license_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the state requires a credential to practice this profession.",
+          "depth": 0,
+          "example": {
+            "value": true,
+            "quote": "A person may not practice or offer to practice the profession of architecture, engineering, land surveying, or landscape architecture in the state, or use in connection with the person's name or other",
+            "citation": "08.48.281"
+          }
+        },
+        {
+          "field": "issuing_authority",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Free-text name of the board/agency that issues the credential (the structured form is `regulatory_authority`).",
+          "depth": 0,
+          "example": {
+            "value": "State Board of Registration for Architects, Engineers, and Land Surveyors",
+            "quote": "There is created the State Board of Registration for Architects, Engineers, and Land Surveyors. The board shall administer the provisions of this chapter",
+            "citation": "08.48.011"
+          }
+        },
+        {
+          "field": "regulatory_authority",
+          "type": "object",
+          "vocabulary": [],
+          "meaning": "Structured decomposition of the issuing authority — name, type (standalone board / shared board / division / department / joint), and any umbrella agency it sits within. Populated alongside the legacy free-text issuing_authority for back-compat.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "regulatory_authority.name",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Canonical name of the immediate authority (e.g., 'State Board of Podiatry').",
+          "depth": 1,
+          "example": {
+            "value": "State Board of Registration for Architects, Engineers, and Land Surveyors",
+            "quote": "There is created the State Board of Registration for Architects, Engineers, and Land Surveyors.",
+            "citation": "08.48.011"
+          }
+        },
+        {
+          "field": "regulatory_authority.type",
+          "type": "enum",
+          "vocabulary": [
+            "standalone_board",
+            "shared_board",
+            "division",
+            "department",
+            "joint",
+            "other"
+          ],
+          "meaning": "Structural classification of the immediate authority.",
+          "depth": 1,
+          "example": {
+            "value": "shared_board",
+            "quote": "The board consists of two civil engineers, two land surveyors, one mining engineer, one electrical or mechanical engineer, one engineer from another branch of the profession of engineering, two archit",
+            "citation": "08.48.011"
+          }
+        },
+        {
+          "field": "regulatory_authority.umbrella_agency",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Higher-level agency that contains the immediate authority, if any. Example: 'Division of Occupations and Professions, Department of Commerce'. Null for standalone boards that don't sit inside a larger department.",
+          "depth": 1,
+          "example": {
+            "value": "Department of Commerce, Community, and Economic Development",
+            "quote": "\"department\" means the Department of Commerce, Community, and Economic Development",
+            "citation": "08.48.341"
+          }
+        },
+        {
+          "field": "age_minimum",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "Minimum age (years) to hold the credential, if the statute sets one.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "moral_character_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the statute conditions licensure on good moral character / fitness.",
+          "depth": 0,
+          "example": {
+            "value": true,
+            "quote": "An applicant for registration as an architect, engineer, land surveyor, or landscape architect must be of good character and reputation",
+            "citation": "08.48.171"
+          }
+        },
+        {
+          "field": "education",
+          "type": "object",
+          "vocabulary": [],
+          "meaning": "Education entry requirement — degree, level, accreditation, and any tiers.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "education.degree_required",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": {
+            "value": "Evidence of education, training, and experience satisfactory to the board; examination standards must at least meet requirements adopted by recognized national examining councils",
+            "quote": "shall submit evidence satisfactory to the board of the applicant's education, training, and experience",
+            "citation": "08.48.171"
+          }
+        },
+        {
+          "field": "education.accrediting_body",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": null
+        },
+        {
+          "field": "education.degree_level",
+          "type": "enum",
+          "vocabulary": [
+            "none",
+            "high_school",
+            "associate",
+            "bachelor",
+            "master",
+            "doctorate"
+          ],
+          "meaning": "The comparable education FLOOR as a normalized rung. Populate whenever licensure is gated on a degree; null only if the statute is silent on education.",
+          "depth": 1,
+          "example": null
+        },
+        {
+          "field": "education.school_approval_basis",
+          "type": "enum",
+          "vocabulary": [
+            "national_accreditor",
+            "regional_accreditor",
+            "board_approved",
+            "unspecified"
+          ],
+          "meaning": "How the statute decides a school counts. national_accreditor=a named national program accreditor (ACOE/CODA/ACEND/LCME/CPME). regional_accreditor='regionally accredited college or university'. board_approved='approved by the board' (discretionary state gate). unspecified=says 'accredited' with no basis named, or silent.",
+          "depth": 1,
+          "example": {
+            "value": "unspecified",
+            "quote": "shall submit evidence satisfactory to the board of the applicant's education, training, and experience",
+            "citation": "08.48.171"
+          }
+        },
+        {
+          "field": "education.credential_pegged",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "True if the statute pegs the education requirement to a NATIONAL CREDENTIAL (e.g. 'registered by CDR', 'passed the NBEO') rather than (or in addition to) a stated degree — such a state inherits whatever that national body currently requires.",
+          "depth": 1,
+          "example": {
+            "value": false,
+            "quote": "The procedure and standards shall at least meet the requirements adopted by recognized national examining councils for these professions.",
+            "citation": "08.48.181"
+          }
+        },
+        {
+          "field": "education.tiers",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "Per-tier floors when the statute sets different education levels for different license classes, or phases the floor in by date. Omit/null when there is a single floor. `degree_level` still records the overall floor across all tiers.",
+          "depth": 1,
+          "example": null
+        },
+        {
+          "field": "education.tiers[].license_class",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Which class/date this floor applies to — e.g. 'licensed dietitian', 'certified nutritionist', 'applicants on or after 2024-01-01'.",
+          "depth": 2,
+          "example": null
+        },
+        {
+          "field": "education.tiers[].degree_level",
+          "type": "enum",
+          "vocabulary": [
+            "none",
+            "high_school",
+            "associate",
+            "bachelor",
+            "master",
+            "doctorate"
+          ],
+          "meaning": "Normalized education floor, low -> high. Resolved to the rung even when\nthe statute uses verbiage ('six college years' -> doctorate, 'or equivalent\ndegree' -> the named level). Professional/clinical doctorates (OD, DDS, MD,\nDPM) are `doctorate`.",
+          "depth": 2,
+          "example": null
+        },
+        {
+          "field": "education.tiers[].effective_date",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "ISO date when this floor takes effect, for date-phased tiers (e.g. '2024-01-01'). Null otherwise.",
+          "depth": 2,
+          "example": null
+        },
+        {
+          "field": "post_degree_experience",
+          "type": "object",
+          "vocabulary": [],
+          "meaning": "Supervised practice / residency / apprenticeship required after the degree.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "post_degree_experience.required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": null
+        },
+        {
+          "field": "post_degree_experience.experience_source",
+          "type": "enum",
+          "vocabulary": [
+            "required_by_statute",
+            "embedded_in_credential",
+            "none"
+          ],
+          "meaning": "ALWAYS populate (required_by_statute / embedded_in_credential / none) unless the governing statute is absent from the corpus. Disambiguates a blank `required`: 'none' (truly no requirement) vs 'embedded_in_credential' (the accredited degree the statute points to carries the supervised hours).",
+          "depth": 1,
+          "example": {
+            "value": "none",
+            "quote": "shall submit evidence satisfactory to the board of the applicant's education, training, and experience",
+            "citation": "08.48.171"
+          }
+        },
+        {
+          "field": "post_degree_experience.duration",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "e.g. '24 months', '1 year', '2,000 hours' (free text — units vary)",
+          "depth": 1,
+          "example": null
+        },
+        {
+          "field": "post_degree_experience.kind",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "e.g. 'podiatric residency', 'accounting work experience', 'AXP'",
+          "depth": 1,
+          "example": null
+        },
+        {
+          "field": "exams",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "Examinations required for the credential (one entry per exam).",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "exams[].name",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": {
+            "value": "Professional Engineer Examination"
+          }
+        },
+        {
+          "field": "exams[].required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": {
+            "value": true
+          }
+        },
+        {
+          "field": "exams[].notes",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": {
+            "value": "Examinations held at least once per year; standards must meet requirements adopted by recognized national examining councils; candidates failing may apply for reexamination per board regulations"
+          }
+        },
+        {
+          "field": "exams[].jurisdiction",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Where the exam is administered / who owns it — e.g. 'NBPME (national)', 'state board (in-state)', 'NCLEX-RN (national)'. Use the statute's language; null if the source doesn't say.",
+          "depth": 1,
+          "example": {
+            "value": "state (administered by board per national examining council standards)"
+          }
+        },
+        {
+          "field": "exams[].permitted_attempts",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "Max attempts allowed before re-qualification. Null if not specified.",
+          "depth": 1,
+          "example": null
+        },
+        {
+          "field": "renewal",
+          "type": "object",
+          "vocabulary": [],
+          "meaning": "How the credential is renewed — interval and any conditions.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "renewal.interval_years",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "Most states are 1 or 2",
+          "depth": 1,
+          "example": {
+            "value": 2,
+            "quote": "Licenses shall be renewed biennially on the dates set by the department with the approval of the respective board.",
+            "citation": "UMBRELLA / Chapter 01. Centralized Licensing"
+          }
+        },
+        {
+          "field": "renewal_fee_usd",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "License renewal fee in US dollars (integer). Many statutes leave the amount to the board's discretion — leave null in that case.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "continuing_education",
+          "type": "object",
+          "vocabulary": [],
+          "meaning": "Continuing-education requirement to keep the credential active.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "continuing_education.required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": {
+            "value": true,
+            "quote": "establishing continuing education requirements for registrants that must be completed before a certificate may be renewed; the requirements may not exceed standards established by a national accrediti",
+            "citation": "08.48.101"
+          }
+        },
+        {
+          "field": "continuing_education.hours_per_period",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": null
+        },
+        {
+          "field": "continuing_education.period_years",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": null
+        },
+        {
+          "field": "continuing_education.topical_requirements",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "Specific topical CE requirements, e.g. ['1.5 hrs opioid', 'ethics']",
+          "depth": 1,
+          "example": null
+        },
+        {
+          "field": "reciprocity",
+          "type": "object",
+          "vocabulary": [],
+          "meaning": "Whether/how the state recognizes out-of-state credentials (endorsement/reciprocity).",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "reciprocity.available",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": {
+            "value": true,
+            "quote": "A person holding a certificate of registration authorizing the person to practice engineering in a state, territory, or possession of the United States, the District of Columbia, or a foreign country ",
+            "citation": "08.48.191"
+          }
+        },
+        {
+          "field": "reciprocity.requirements",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Free-form summary",
+          "depth": 1,
+          "example": {
+            "value": "Applicant must hold a certificate of registration from another US state, territory, possession, DC, or foreign country issued under requirements comparable to Alaska's requirements; application reviewed by executive administrator",
+            "quote": "A person holding a certificate of registration authorizing the person to practice engineering in a state, territory, or possession of the United States, the District of Columbia, or a foreign country ",
+            "citation": "08.48.191"
+          }
+        },
+        {
+          "field": "advisory_board",
+          "type": "object",
+          "vocabulary": [],
+          "meaning": "Profession-specific advisory body sitting alongside the main licensing board, when one exists. Populated for states that delegate licensure to a generic board and add a specialty advisory committee.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "advisory_board.exists",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "True if a profession-specific advisory body exists alongside the main licensing board. False if the licensing board itself is profession-specific (no separate advisory body needed).",
+          "depth": 1,
+          "example": {
+            "value": false,
+            "quote": "There is created the State Board of Registration for Architects, Engineers, and Land Surveyors. The board shall administer the provisions of this chapter",
+            "citation": "08.48.011"
+          }
+        },
+        {
+          "field": "advisory_board.name",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Name of the advisory board, e.g. 'Podiatry Advisory Committee'.",
+          "depth": 1,
+          "example": null
+        },
+        {
+          "field": "advisory_board.authority",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Authority the advisory board has, in the statute's own words — e.g. 'advisory only', 'rulemaking subject to board approval', 'disciplinary recommendations'. Free text from the statute.",
+          "depth": 1,
+          "example": null
+        },
+        {
+          "field": "national_certification",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Name of a national CERTIFICATION the state recognizes or requires, e.g. 'American Board of Podiatric Surgery (ABPS)' or 'National Board of Podiatric Medical Examiners (NBPME)'. The certifying body, NOT the association. Null if the statute doesn't reference one.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "national_association",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Professional ASSOCIATION the state references (e.g. for accreditation or CE provider approval) — 'American Podiatric Medical Association (APMA)', 'American Dental Association (ADA)'. Distinct from the certifying body. Null if not referenced.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "regulatory_model",
+          "type": "enum",
+          "vocabulary": [
+            "market_forces",
+            "voluntary_certification",
+            "registration",
+            "exemption",
+            "mandatory_certification",
+            "license"
+          ],
+          "meaning": "Which UORF model the state applies to this profession (license / mandatory_cert / registration / etc).",
+          "depth": 0,
+          "example": {
+            "value": "license",
+            "quote": "A person may not practice or offer to practice the profession of architecture, engineering, land surveying, or landscape architecture in the state, or use in connection with the person's name or other",
+            "citation": "08.48.281"
+          }
+        },
+        {
+          "field": "credential_type",
+          "type": "enum",
+          "vocabulary": [
+            "none",
+            "registration",
+            "certification",
+            "license",
+            "exemption"
+          ],
+          "meaning": "What SHAPE of credential does the state issue, independent of whether holding it is mandatory? license / certification / registration / exemption / none. Pairs with is_mandatory to decompose the legacy regulatory_model rung.",
+          "depth": 0,
+          "example": {
+            "value": "license",
+            "quote": "An applicant who fulfills the requirements set out by the board shall be awarded a certificate of registration authorizing the holder to offer or perform services or work for the public",
+            "citation": "08.48.211"
+          }
+        },
+        {
+          "field": "is_mandatory",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Is the credential MANDATORY to practice (or claim the title) in this state? True if practicing without it is prohibited; False if optional (e.g., voluntary certification that only protects the title for those who hold it).",
+          "depth": 0,
+          "example": {
+            "value": true,
+            "quote": "A person may not practice or offer to practice the profession of architecture, engineering, land surveying, or landscape architecture in the state",
+            "citation": "08.48.281"
+          }
+        },
+        {
+          "field": "title_protection",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Does the state restrict use of the profession's title to licensees? True if unlicensed people may NOT call themselves the protected title (e.g. 'podiatrist', 'CPA').",
+          "depth": 0,
+          "example": {
+            "value": true,
+            "quote": "use in connection with the person's name or otherwise assume or advertise a title or description tending to convey the impression that the person is an architect, an engineer, a land surveyor, or a la",
+            "citation": "08.48.281"
+          }
+        },
+        {
+          "field": "scope_protection",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Does the state restrict practice of the profession's scope to licensees? True if performing the scope without a license is prohibited (independent of title use).",
+          "depth": 0,
+          "example": {
+            "value": true,
+            "quote": "A person may not practice or offer to practice the profession of architecture, engineering, land surveying, or landscape architecture in the state",
+            "citation": "08.48.281"
+          }
+        },
+        {
+          "field": "disciplinary_grounds",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "Grounds on which the board may discipline a licensee. Typical statutes list 5-15.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "disciplinary_grounds[].short_label",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "snake_case key, e.g. 'fraud_in_obtaining_license'",
+          "depth": 1,
+          "example": {
+            "value": "fraud_in_obtaining_certificate"
+          }
+        },
+        {
+          "field": "disciplinary_grounds[].description",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "One-line plain-English description",
+          "depth": 1,
+          "example": {
+            "value": "Fraud or deceit in obtaining a certificate of registration"
+          }
+        },
+        {
+          "field": "alternative_regulation",
+          "type": "object",
+          "vocabulary": [],
+          "meaning": "Non-credential regulatory mechanisms (bonding, insurance, establishment regulation) imposed by the state. Obama 2015 framework typology. Independent of credential_type.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "alternative_regulation.bonding_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Does the statute require the practitioner or firm to post a bond (funds against which consumer claims can be made)? Independent of whether a credential is also required.",
+          "depth": 1,
+          "example": null
+        },
+        {
+          "field": "alternative_regulation.insurance_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Does the statute require the practitioner or firm to carry insurance (e.g., professional liability, surety insurance)?",
+          "depth": 1,
+          "example": null
+        },
+        {
+          "field": "alternative_regulation.establishment_regulation_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Does the statute regulate the ESTABLISHMENT / FIRM (e.g., facility license, mandatory inspection of premises) as a route to consumer protection, independent of any practitioner credential?",
+          "depth": 1,
+          "example": {
+            "value": true,
+            "quote": "a corporation, limited liability company, limited liability partnership, or limited partnership shall file with the board (1) an application for a certificate of authorization",
+            "citation": "08.48.241"
+          }
+        },
+        {
+          "field": "citations",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "Statutory citations supporting the licensure fields above.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "citations[].cite",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": {
+            "value": "08.48.011"
+          }
+        },
+        {
+          "field": "citations[].kind",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": null
+        }
+      ]
+    },
+    {
+      "group": "scope",
+      "intro": "What the practice act lets (or reserves to) this profession — the defined scope,\nauthorized methods, drug authority, and any title/scope protection. Skeleton only —\nprofession-specific scope richness lives in the discovered block.",
+      "fields": [
+        {
+          "field": "definition_quote",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Verbatim statutory definition; quote field repeats the value text.",
+          "depth": 0,
+          "example": {
+            "value": "\"practice of engineering\" means professional service or creative work, the adequate performance of which requires the specialized knowledge of applied mathematics and sciences, dealing with the design of structures, machines, equipment, utilities systems, materials, processes, works, or projects, public or private; the teaching of advanced engineering courses in institutions of higher learning; the direction of or the performance of engineering surveys, consultation, investigation, evaluation, planning, and professional observation of construction of public and private structures, works, or projects and engineering review of drawings and specifications by regulatory agencies",
+            "quote": "\"practice of engineering\" means professional service or creative work, the adequate performance of which requires the specialized knowledge of applied mathematics and sciences, dealing with the design",
+            "citation": "08.48.341"
+          }
+        },
+        {
+          "field": "methods_authorized",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "High-level methods, e.g. ['medical','surgical','mechanical']",
+          "depth": 0,
+          "example": {
+            "value": [
+              "design of structures, machines, equipment, utilities systems, materials, processes, works, or projects",
+              "teaching of advanced engineering courses in institutions of higher learning",
+              "engineering surveys",
+              "consultation",
+              "investigation",
+              "evaluation",
+              "planning",
+              "professional observation of construction",
+              "engineering review of drawings and specifications by regulatory agencies",
+              "architectural building design of minor importance (by board regulation)"
+            ],
+            "quote": "professional service or creative work, the adequate performance of which requires the specialized knowledge of applied mathematics and sciences, dealing with the design of structures, machines, equipm",
+            "citation": "08.48.341"
+          }
+        },
+        {
+          "field": "drug_authority",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Whether/how the profession may prescribe, administer, or dispense drugs.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "citations",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "Statutory citations supporting the scope fields above.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "citations[].cite",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": {
+            "value": "08.48.341"
+          }
+        },
+        {
+          "field": "citations[].kind",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": null
+        }
+      ]
+    },
+    {
+      "group": "profession_specific",
+      "intro": "Fields discovered specifically for this profession (auto-derived from its statutes); they vary profession to profession.",
+      "fields": [
+        {
+          "field": "covers_land_surveying",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the same statute and licensing board also governs professional land surveyors.",
+          "depth": 0,
+          "example": {
+            "value": true,
+            "quote": "There is created the State Board of Registration for Architects, Engineers, and Land Surveyors.",
+            "citation": "08.48.011"
+          }
+        },
+        {
+          "field": "covers_geology",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the same statute and licensing board also governs professional geologists.",
+          "depth": 0,
+          "example": {
+            "value": false,
+            "quote": "regulation of professional geologists under AS 08.02.060",
+            "citation": "UMBRELLA / Chapter 01. Centralized Licensing"
+          }
+        },
+        {
+          "field": "engineer_intern_certificate_available",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the state issues a formal intermediate certificate (engineer intern or engineer-in-training) to candidates who pass the fundamentals exam but have not yet completed experience requirements.",
+          "depth": 0,
+          "example": {
+            "value": false,
+            "quote": "Except as provided in AS 08.48.191, for registration as a professional architect, professional engineer, professional land surveyor, or professional landscape architect, a person shall be examined in ",
+            "citation": "08.48.181"
+          }
+        },
+        {
+          "field": "surveyor_in_training_certificate_available",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the state issues a formal intermediate certificate to land surveying candidates who pass the fundamentals exam but have not yet completed experience requirements.",
+          "depth": 0,
+          "example": {
+            "value": false,
+            "quote": "Except as provided in AS 08.48.191, for registration as a professional architect, professional engineer, professional land surveyor, or professional landscape architect, a person shall be examined in ",
+            "citation": "08.48.181"
+          }
+        },
+        {
+          "field": "geologist_in_training_certificate_available",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the state issues a formal intermediate certificate to geology candidates who pass the fundamentals exam but have not yet completed experience requirements.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "postgraduate_degree_experience_credit_years_max",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "Maximum number of years of experience credit that may be granted for postbaccalaureate engineering degrees earned before licensure.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "responsible_charge_defined",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the statute provides an explicit statutory definition of 'responsible charge' as a term of art for the level of oversight required for licensure and practice.",
+          "depth": 0,
+          "example": {
+            "value": true,
+            "quote": "\"responsible charge\" means the direct control and personal supervision of work",
+            "citation": "08.48.341"
+          }
+        },
+        {
+          "field": "seal_required_on_documents",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether licensees are required by statute to obtain and affix an official seal to plans, specifications, plats, and reports they issue.",
+          "depth": 0,
+          "example": {
+            "value": true,
+            "quote": "When a registrant issues final drawings, specifications, surveys, plats, plates, reports, or similar documents, the registrant shall stamp the documents with the seal and sign the seal.",
+            "citation": "08.48.221"
+          }
+        },
+        {
+          "field": "seal_document_types",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "Types of professional documents that must bear the licensee's seal and signature.",
+          "depth": 0,
+          "example": {
+            "value": [
+              "final drawings",
+              "specifications",
+              "surveys",
+              "plats",
+              "plates",
+              "reports",
+              "similar documents"
+            ],
+            "quote": "When a registrant issues final drawings, specifications, surveys, plats, plates, reports, or similar documents, the registrant shall stamp the documents with the seal and sign the seal.",
+            "citation": "08.48.221"
+          }
+        },
+        {
+          "field": "firm_practice_allowed",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether firms and corporations may lawfully offer engineering, surveying, or geology services, subject to the condition that responsible employees are licensed.",
+          "depth": 0,
+          "example": {
+            "value": true,
+            "quote": "This chapter does not prevent a corporation, limited liability company, limited liability partnership, or limited partnership from offering architectural, engineering, land surveying, or landscape arc",
+            "citation": "08.48.241"
+          }
+        },
+        {
+          "field": "exemptions_from_licensure",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "Categories of persons or activities explicitly exempted from the licensure requirement.",
+          "depth": 0,
+          "example": {
+            "value": [
+              "contractor performing work designed by a professional architect, engineer, or landscape architect",
+              "workers in building trades crafts, earthwork, grounds keeping, or nursery operations",
+              "officer or employee of the United States government practicing in official capacity",
+              "employee or subordinate of a registrant under direct supervision",
+              "associates, consultants, or specialists retained by a registrant with responsible charge remaining with the registrant",
+              "person preparing drawings for single family residence and related site work for own use",
+              "farm or ranch buildings unless public health, safety, or welfare is involved",
+              "person preparing drawings for building used as residence by not more than four families (not more than two stories)",
+              "person preparing drawings for building used as residence by not more than two families (not more than three stories) in municipality with building/residential code",
+              "garage, workshop, or similar building less than 2,000 square feet for private noncommercial purpose",
+              "specialty contractor licensed under AS 08.18 for work within specialty designed by architect/engineer/landscape architect",
+              "person furnishing drawings for alterations or repairs not changing structural system or safety of building",
+              "person employed by postsecondary educational institution to teach engineering, architectural, or landscape architectural courses",
+              "officer or employee of individual or entity practicing engineering involved only in employer's business with no public offerings",
+              "person involved in revegetation, restoration, reclamation, rehabilitation, or erosion control that board determines does not affect public health, safety, or welfare",
+              "person maintaining or directing placement of plant material that board determines does not affect public health, safety, or welfare",
+              "employee, officer, or agent of regulatory agency reviewing drawings for building code compliance",
+              "person authorized by Department of Public Safety to design fire protection systems"
+            ],
+            "quote": "This chapter does not apply to (1) a contractor performing work designed by a professional architect, engineer, or landscape architect",
+            "citation": "08.48.331"
+          }
+        },
+        {
+          "field": "code_of_ethics_in_statute",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the statute itself contains a codified code of ethics whose violation is grounds for license suspension or revocation.",
+          "depth": 0,
+          "example": {
+            "value": true,
+            "quote": "publishing a code of ethics or professional conduct for registrants and entities authorized under AS 08.48.241",
+            "citation": "08.48.101"
+          }
+        },
+        {
+          "field": "multi_license_reporting_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether licensees holding licenses in other states, territories, or countries must report that fact and any out-of-state disciplinary actions to the board.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "board_engineering_disciplines_represented",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "The major engineering disciplines that must be represented on the licensing board, as specified by statute.",
+          "depth": 0,
+          "example": {
+            "value": [
+              "civil engineering (two members)",
+              "mining engineering",
+              "electrical or mechanical engineering",
+              "another branch of engineering"
+            ],
+            "quote": "The board consists of two civil engineers, two land surveyors, one mining engineer, one electrical or mechanical engineer, one engineer from another branch of the profession of engineering, two archit",
+            "citation": "08.48.011"
+          }
+        },
+        {
+          "field": "board_member_responsible_charge_years_required",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "Minimum number of years a professional board member must have been in responsible charge of work to be eligible for appointment.",
+          "depth": 0,
+          "example": {
+            "value": 5,
+            "quote": "except for the public member, must be registered and have a minimum of five years of professional practice in the member's respective field.",
+            "citation": "08.48.031"
+          }
+        },
+        {
+          "field": "pdh_units_per_renewal_period",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "Number of Professional Development Hours (PDH) required per biennial renewal period.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "pdh_carryover_max_units",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "Maximum number of excess PDH units that may be carried forward into the next renewal period.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "retired_status_license_available",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the state offers a retired-status license that exempts the holder from continuing education requirements while prohibiting active practice.",
+          "depth": 0,
+          "example": {
+            "value": true,
+            "quote": "On retiring from practice and payment of an appropriate one-time fee, a registrant in good standing with the board may apply for the conversion of a certificate of registration to a retired status reg",
+            "citation": "08.48.215"
+          }
+        }
+      ]
+    }
+  ],
+  "example_state": "AK"
+}

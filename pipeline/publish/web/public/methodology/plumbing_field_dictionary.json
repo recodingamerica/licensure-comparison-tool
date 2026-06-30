@@ -1,0 +1,942 @@
+{
+  "profession": "plumbing",
+  "data_as_of": "2026-06-29",
+  "groups": [
+    {
+      "group": "licensure",
+      "intro": "Whether and how the state credentials this profession — the regulatory model,\ncredential type, issuing authority, entry requirements (education, exams, age,\ncharacter), fees, renewal, continuing education, and reciprocity.",
+      "fields": [
+        {
+          "field": "license_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the state requires a credential to practice this profession.",
+          "depth": 0,
+          "example": {
+            "value": true,
+            "quote": "It shall be unlawful for any person or other legal entity to contract, engage in, offer to engage, or convey the impression that he or she is certified in plumbing, gas fitting, or medical gas piping ",
+            "citation": "34-37-6"
+          }
+        },
+        {
+          "field": "issuing_authority",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Free-text name of the board/agency that issues the credential (the structured form is `regulatory_authority`).",
+          "depth": 0,
+          "example": {
+            "value": "State of Alabama Plumbers and Gas Fitters Examining Board",
+            "quote": "The board shall examine, certify, and regulate plumbers, gas fitters, and medical gas piping fitters on a statewide basis pursuant to this chapter.",
+            "citation": "34-37-1"
+          }
+        },
+        {
+          "field": "regulatory_authority",
+          "type": "object",
+          "vocabulary": [],
+          "meaning": "Structured decomposition of the issuing authority — name, type (standalone board / shared board / division / department / joint), and any umbrella agency it sits within. Populated alongside the legacy free-text issuing_authority for back-compat.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "regulatory_authority.name",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Canonical name of the immediate authority (e.g., 'State Board of Podiatry').",
+          "depth": 1,
+          "example": {
+            "value": "State of Alabama Plumbers and Gas Fitters Examining Board",
+            "quote": "The Plumbers Examining Board as created by Act No. 529 of the 1949 Regular Session of the Legislature (Acts 1949, p. 827), as amended, is renamed the State of Alabama Plumbers and Gas Fitters Examinin",
+            "citation": "34-37-2"
+          }
+        },
+        {
+          "field": "regulatory_authority.type",
+          "type": "enum",
+          "vocabulary": [
+            "standalone_board",
+            "shared_board",
+            "division",
+            "department",
+            "joint",
+            "other"
+          ],
+          "meaning": "Structural classification of the immediate authority.",
+          "depth": 1,
+          "example": {
+            "value": "standalone_board",
+            "quote": "the State of Alabama Plumbers and Gas Fitters Examining Board and the authority of the board is expanded to allow the board to examine, certify, and regulate plumbers, gas fitters, and medical gas pip",
+            "citation": "34-37-2"
+          }
+        },
+        {
+          "field": "regulatory_authority.umbrella_agency",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Higher-level agency that contains the immediate authority, if any. Example: 'Division of Occupations and Professions, Department of Commerce'. Null for standalone boards that don't sit inside a larger department.",
+          "depth": 1,
+          "example": null
+        },
+        {
+          "field": "age_minimum",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "Minimum age (years) to hold the credential, if the statute sets one.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "moral_character_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the statute conditions licensure on good moral character / fitness.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "education",
+          "type": "object",
+          "vocabulary": [],
+          "meaning": "Education entry requirement — degree, level, accreditation, and any tiers.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "education.degree_required",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": null
+        },
+        {
+          "field": "education.accrediting_body",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": null
+        },
+        {
+          "field": "education.degree_level",
+          "type": "enum",
+          "vocabulary": [
+            "none",
+            "high_school",
+            "associate",
+            "bachelor",
+            "master",
+            "doctorate"
+          ],
+          "meaning": "The comparable education FLOOR as a normalized rung. Populate whenever licensure is gated on a degree; null only if the statute is silent on education.",
+          "depth": 1,
+          "example": null
+        },
+        {
+          "field": "education.school_approval_basis",
+          "type": "enum",
+          "vocabulary": [
+            "national_accreditor",
+            "regional_accreditor",
+            "board_approved",
+            "unspecified"
+          ],
+          "meaning": "How the statute decides a school counts. national_accreditor=a named national program accreditor (ACOE/CODA/ACEND/LCME/CPME). regional_accreditor='regionally accredited college or university'. board_approved='approved by the board' (discretionary state gate). unspecified=says 'accredited' with no basis named, or silent.",
+          "depth": 1,
+          "example": null
+        },
+        {
+          "field": "education.credential_pegged",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "True if the statute pegs the education requirement to a NATIONAL CREDENTIAL (e.g. 'registered by CDR', 'passed the NBEO') rather than (or in addition to) a stated degree — such a state inherits whatever that national body currently requires.",
+          "depth": 1,
+          "example": null
+        },
+        {
+          "field": "education.tiers",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "Per-tier floors when the statute sets different education levels for different license classes, or phases the floor in by date. Omit/null when there is a single floor. `degree_level` still records the overall floor across all tiers.",
+          "depth": 1,
+          "example": null
+        },
+        {
+          "field": "education.tiers[].license_class",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Which class/date this floor applies to — e.g. 'licensed dietitian', 'certified nutritionist', 'applicants on or after 2024-01-01'.",
+          "depth": 2,
+          "example": null
+        },
+        {
+          "field": "education.tiers[].degree_level",
+          "type": "enum",
+          "vocabulary": [
+            "none",
+            "high_school",
+            "associate",
+            "bachelor",
+            "master",
+            "doctorate"
+          ],
+          "meaning": "Normalized education floor, low -> high. Resolved to the rung even when\nthe statute uses verbiage ('six college years' -> doctorate, 'or equivalent\ndegree' -> the named level). Professional/clinical doctorates (OD, DDS, MD,\nDPM) are `doctorate`.",
+          "depth": 2,
+          "example": null
+        },
+        {
+          "field": "education.tiers[].effective_date",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "ISO date when this floor takes effect, for date-phased tiers (e.g. '2024-01-01'). Null otherwise.",
+          "depth": 2,
+          "example": null
+        },
+        {
+          "field": "post_degree_experience",
+          "type": "object",
+          "vocabulary": [],
+          "meaning": "Supervised practice / residency / apprenticeship required after the degree.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "post_degree_experience.required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": {
+            "value": true,
+            "quote": "An applicant for examination for a journeyman plumber or gas fitter certificate shall submit proof that the applicant has two years of current work experience as an apprentice plumber or gas fitter or",
+            "citation": "34-37-6"
+          }
+        },
+        {
+          "field": "post_degree_experience.experience_source",
+          "type": "enum",
+          "vocabulary": [
+            "required_by_statute",
+            "embedded_in_credential",
+            "none"
+          ],
+          "meaning": "ALWAYS populate (required_by_statute / embedded_in_credential / none) unless the governing statute is absent from the corpus. Disambiguates a blank `required`: 'none' (truly no requirement) vs 'embedded_in_credential' (the accredited degree the statute points to carries the supervised hours).",
+          "depth": 1,
+          "example": {
+            "value": "required_by_statute",
+            "quote": "Applicants for examination for a master plumber certificate shall submit proof to the board that the applicant has at least one year of current work experience as a journeyman plumber.",
+            "citation": "34-37-6"
+          }
+        },
+        {
+          "field": "post_degree_experience.duration",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "e.g. '24 months', '1 year', '2,000 hours' (free text — units vary)",
+          "depth": 1,
+          "example": {
+            "value": "2 years (journeyman); 1 year (master)",
+            "quote": "An applicant for examination for a journeyman plumber or gas fitter certificate shall submit proof that the applicant has two years of current work experience as an apprentice plumber or gas fitter",
+            "citation": "34-37-6"
+          }
+        },
+        {
+          "field": "post_degree_experience.kind",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "e.g. 'podiatric residency', 'accounting work experience', 'AXP'",
+          "depth": 1,
+          "example": {
+            "value": "apprentice work experience or approved apprentice training program (journeyman); journeyman work experience (master)",
+            "quote": "has two years of current work experience as an apprentice plumber or gas fitter or has completed an apprentice training program approved by the board",
+            "citation": "34-37-6"
+          }
+        },
+        {
+          "field": "exams",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "Examinations required for the credential (one entry per exam).",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "exams[].name",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": {
+            "value": "Journeyman Plumber Examination"
+          }
+        },
+        {
+          "field": "exams[].required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": {
+            "value": true
+          }
+        },
+        {
+          "field": "exams[].notes",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": {
+            "value": "Administered by an independent examining agency; at least four examinations per year."
+          }
+        },
+        {
+          "field": "exams[].jurisdiction",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Where the exam is administered / who owns it — e.g. 'NBPME (national)', 'state board (in-state)', 'NCLEX-RN (national)'. Use the statute's language; null if the source doesn't say.",
+          "depth": 1,
+          "example": {
+            "value": "state (administered by independent examining agency)"
+          }
+        },
+        {
+          "field": "exams[].permitted_attempts",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "Max attempts allowed before re-qualification. Null if not specified.",
+          "depth": 1,
+          "example": null
+        },
+        {
+          "field": "renewal",
+          "type": "object",
+          "vocabulary": [],
+          "meaning": "How the credential is renewed — interval and any conditions.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "renewal.interval_years",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "Most states are 1 or 2",
+          "depth": 1,
+          "example": {
+            "value": 1,
+            "quote": "Any person who holds a certificate issued by the board shall be issued statewide certification upon the annual renewal of their existing certificate.",
+            "citation": "34-37-8"
+          }
+        },
+        {
+          "field": "renewal_fee_usd",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "License renewal fee in US dollars (integer). Many statutes leave the amount to the board's discretion — leave null in that case.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "continuing_education",
+          "type": "object",
+          "vocabulary": [],
+          "meaning": "Continuing-education requirement to keep the credential active.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "continuing_education.required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": {
+            "value": false,
+            "quote": "The board, by rule, may adopt continuing education requirements for licensees and may develop and produce courses, approve continuing education courses and providers, and set those fees necessary to a",
+            "citation": "34-37-8"
+          }
+        },
+        {
+          "field": "continuing_education.hours_per_period",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": null
+        },
+        {
+          "field": "continuing_education.period_years",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": null
+        },
+        {
+          "field": "continuing_education.topical_requirements",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "Specific topical CE requirements, e.g. ['1.5 hrs opioid', 'ethics']",
+          "depth": 1,
+          "example": null
+        },
+        {
+          "field": "reciprocity",
+          "type": "object",
+          "vocabulary": [],
+          "meaning": "Whether/how the state recognizes out-of-state credentials (endorsement/reciprocity).",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "reciprocity.available",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": {
+            "value": true,
+            "quote": "The board may establish reciprocal agreements with any other state licensing or certifying board which recognizes, as a minimum, the standards prescribed by the board, and may allow certified plumbers",
+            "citation": "34-37-11"
+          }
+        },
+        {
+          "field": "reciprocity.requirements",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Free-form summary",
+          "depth": 1,
+          "example": {
+            "value": "Applicant must be currently licensed in a reciprocating state that recognizes, at minimum, Alabama's standards, and must pay prescribed fees.",
+            "quote": "may allow certified plumbers and gas fitters to receive a certificate in this state without taking examinations if the plumber or gas fitter is currently licensed in the reciprocating state and upon t",
+            "citation": "34-37-11"
+          }
+        },
+        {
+          "field": "advisory_board",
+          "type": "object",
+          "vocabulary": [],
+          "meaning": "Profession-specific advisory body sitting alongside the main licensing board, when one exists. Populated for states that delegate licensure to a generic board and add a specialty advisory committee.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "advisory_board.exists",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "True if a profession-specific advisory body exists alongside the main licensing board. False if the licensing board itself is profession-specific (no separate advisory body needed).",
+          "depth": 1,
+          "example": {
+            "value": false,
+            "quote": "the State of Alabama Plumbers and Gas Fitters Examining Board and the authority of the board is expanded to allow the board to examine, certify, and regulate plumbers, gas fitters, and medical gas pip",
+            "citation": "34-37-2"
+          }
+        },
+        {
+          "field": "advisory_board.name",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Name of the advisory board, e.g. 'Podiatry Advisory Committee'.",
+          "depth": 1,
+          "example": null
+        },
+        {
+          "field": "advisory_board.authority",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Authority the advisory board has, in the statute's own words — e.g. 'advisory only', 'rulemaking subject to board approval', 'disciplinary recommendations'. Free text from the statute.",
+          "depth": 1,
+          "example": null
+        },
+        {
+          "field": "national_certification",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Name of a national CERTIFICATION the state recognizes or requires, e.g. 'American Board of Podiatric Surgery (ABPS)' or 'National Board of Podiatric Medical Examiners (NBPME)'. The certifying body, NOT the association. Null if the statute doesn't reference one.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "national_association",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Professional ASSOCIATION the state references (e.g. for accreditation or CE provider approval) — 'American Podiatric Medical Association (APMA)', 'American Dental Association (ADA)'. Distinct from the certifying body. Null if not referenced.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "regulatory_model",
+          "type": "enum",
+          "vocabulary": [
+            "market_forces",
+            "voluntary_certification",
+            "registration",
+            "exemption",
+            "mandatory_certification",
+            "license"
+          ],
+          "meaning": "Which UORF model the state applies to this profession (license / mandatory_cert / registration / etc).",
+          "depth": 0,
+          "example": {
+            "value": "license",
+            "quote": "It shall be unlawful for any person or other legal entity to contract, engage in, offer to engage, or convey the impression that he or she is certified in plumbing, gas fitting, or medical gas piping ",
+            "citation": "34-37-6"
+          }
+        },
+        {
+          "field": "credential_type",
+          "type": "enum",
+          "vocabulary": [
+            "none",
+            "registration",
+            "certification",
+            "license",
+            "exemption"
+          ],
+          "meaning": "What SHAPE of credential does the state issue, independent of whether holding it is mandatory? license / certification / registration / exemption / none. Pairs with is_mandatory to decompose the legacy regulatory_model rung.",
+          "depth": 0,
+          "example": {
+            "value": "license",
+            "quote": "The board shall examine, certify, and regulate plumbers, gas fitters, and medical gas piping fitters on a statewide basis pursuant to this chapter.",
+            "citation": "34-37-1"
+          }
+        },
+        {
+          "field": "is_mandatory",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Is the credential MANDATORY to practice (or claim the title) in this state? True if practicing without it is prohibited; False if optional (e.g., voluntary certification that only protects the title for those who hold it).",
+          "depth": 0,
+          "example": {
+            "value": true,
+            "quote": "It shall be unlawful for any person or other legal entity to contract, engage in, offer to engage, or convey the impression that he or she is certified in plumbing, gas fitting, or medical gas piping ",
+            "citation": "34-37-6"
+          }
+        },
+        {
+          "field": "title_protection",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Does the state restrict use of the profession's title to licensees? True if unlicensed people may NOT call themselves the protected title (e.g. 'podiatrist', 'CPA').",
+          "depth": 0,
+          "example": {
+            "value": true,
+            "quote": "It shall be unlawful for any person or other legal entity to contract, engage in, offer to engage, or convey the impression that he or she is certified in plumbing, gas fitting, or medical gas piping ",
+            "citation": "34-37-6"
+          }
+        },
+        {
+          "field": "scope_protection",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Does the state restrict practice of the profession's scope to licensees? True if performing the scope without a license is prohibited (independent of title use).",
+          "depth": 0,
+          "example": {
+            "value": true,
+            "quote": "It shall be unlawful for any person or other legal entity to contract, engage in, offer to engage, or convey the impression that he or she is certified in plumbing, gas fitting, or medical gas piping ",
+            "citation": "34-37-6"
+          }
+        },
+        {
+          "field": "disciplinary_grounds",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "Grounds on which the board may discipline a licensee. Typical statutes list 5-15.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "disciplinary_grounds[].short_label",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "snake_case key, e.g. 'fraud_in_obtaining_license'",
+          "depth": 1,
+          "example": {
+            "value": "concealment_or_misrepresentation_in_application"
+          }
+        },
+        {
+          "field": "disciplinary_grounds[].description",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "One-line plain-English description",
+          "depth": 1,
+          "example": {
+            "value": "Obtained a certificate or registration through concealment, misstatement, or misrepresentation of any material fact in the application."
+          }
+        },
+        {
+          "field": "alternative_regulation",
+          "type": "object",
+          "vocabulary": [],
+          "meaning": "Non-credential regulatory mechanisms (bonding, insurance, establishment regulation) imposed by the state. Obama 2015 framework typology. Independent of credential_type.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "alternative_regulation.bonding_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Does the statute require the practitioner or firm to post a bond (funds against which consumer claims can be made)? Independent of whether a credential is also required.",
+          "depth": 1,
+          "example": null
+        },
+        {
+          "field": "alternative_regulation.insurance_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Does the statute require the practitioner or firm to carry insurance (e.g., professional liability, surety insurance)?",
+          "depth": 1,
+          "example": null
+        },
+        {
+          "field": "alternative_regulation.establishment_regulation_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Does the statute regulate the ESTABLISHMENT / FIRM (e.g., facility license, mandatory inspection of premises) as a route to consumer protection, independent of any practitioner credential?",
+          "depth": 1,
+          "example": {
+            "value": true,
+            "quote": "The board shall register all legal entities engaging in, or offering to engage in, plumbing, gas fitting, or medical gas piping in this state upon forms provided by the board, and upon the applicant f",
+            "citation": "34-37-6"
+          }
+        },
+        {
+          "field": "citations",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "Statutory citations supporting the licensure fields above.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "citations[].cite",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": {
+            "value": "34-37-1"
+          }
+        },
+        {
+          "field": "citations[].kind",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": null
+        }
+      ]
+    },
+    {
+      "group": "scope",
+      "intro": "What the practice act lets (or reserves to) this profession — the defined scope,\nauthorized methods, drug authority, and any title/scope protection. Skeleton only —\nprofession-specific scope richness lives in the discovered block.",
+      "fields": [
+        {
+          "field": "definition_quote",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Verbatim statutory definition; quote field repeats the value text.",
+          "depth": 0,
+          "example": {
+            "value": "All work associated with the installation, repair, or replacement of pipes, fixtures, or other apparatus necessary either for supplying water or for removing liquid or waterborne waste located on private property. The term is also used to denote installed fixtures, backflow prevention devices, drainage, vents, and water distribution systems located on private property, and all plumbing work further defined by board rules and all codes currently adopted by the board, with the exception of work allowed by this chapter.",
+            "quote": "All work associated with the installation, repair, or replacement of pipes, fixtures, or other apparatus necessary either for supplying water or for removing liquid or waterborne waste located on priv",
+            "citation": "34-37-1"
+          }
+        },
+        {
+          "field": "methods_authorized",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "High-level methods, e.g. ['medical','surgical','mechanical']",
+          "depth": 0,
+          "example": {
+            "value": [
+              "installation",
+              "repair",
+              "replacement"
+            ],
+            "quote": "All work associated with the installation, repair, or replacement of pipes, fixtures, or other apparatus necessary either for supplying water or for removing liquid or waterborne waste located on priv",
+            "citation": "34-37-1"
+          }
+        },
+        {
+          "field": "drug_authority",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Whether/how the profession may prescribe, administer, or dispense drugs.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "citations",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "Statutory citations supporting the scope fields above.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "citations[].cite",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": {
+            "value": "34-37-1"
+          }
+        },
+        {
+          "field": "citations[].kind",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": null
+        }
+      ]
+    },
+    {
+      "group": "profession_specific",
+      "intro": "Fields discovered specifically for this profession (auto-derived from its statutes); they vary profession to profession.",
+      "fields": [
+        {
+          "field": "license_tiers",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "The distinct license classification tiers available for plumbers, from apprentice through master and contractor levels.",
+          "depth": 0,
+          "example": {
+            "value": [
+              "apprentice plumber",
+              "journeyman plumber",
+              "master plumber"
+            ],
+            "quote": "Any master plumber, master gas fitter, journeyman plumber, journeyman gas fitter, apprentice plumber, or apprentice gas fitter performing medical gas piping shall provide proof to the board",
+            "citation": "34-37-6"
+          }
+        },
+        {
+          "field": "residential_scope_limited",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether a residential-tier plumber license restricts the licensee to work only on residential buildings (typically single or multi-family dwellings up to four units).",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "residential_building_unit_cap",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "Maximum number of dwelling units in a building that a residential-tier plumber or contractor license authorizes work on.",
+          "depth": 0,
+          "example": {
+            "value": 8,
+            "quote": "A residential jobsite shall also mean up to eight attached residential dwellings located under one roof assembly.",
+            "citation": "34-37-1"
+          }
+        },
+        {
+          "field": "apprentice_supervision_requirement",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Description of which license types are authorized to directly supervise a licensed apprentice plumber.",
+          "depth": 0,
+          "example": {
+            "value": "An apprentice plumber must work directly under the supervision of a journeyman or master plumber.",
+            "quote": "shall work directly under the supervision of a journeyman or master gas fitter or plumber",
+            "citation": "34-37-1"
+          }
+        },
+        {
+          "field": "apprentice_unsupervised_hours_allowed",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "Maximum number of hours per 24-hour period that a fourth-year or later apprentice plumber may work without direct supervision.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "apprentice_unsupervised_training_year_threshold",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "The year of apprenticeship training at which an apprentice plumber first becomes eligible to work limited hours without direct supervision.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "apprentice_to_supervisor_ratio_regulated",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the statute establishes or delegates authority to set a maximum ratio of apprentice plumbers per supervising licensee.",
+          "depth": 0,
+          "example": {
+            "value": true,
+            "quote": "The board may set a ratio of apprentice plumbers and apprentice gas fitters working under the supervision of any journeyman or master plumber or gas fitter; provided, the ratio shall be not less than ",
+            "citation": "34-37-6.1"
+          }
+        },
+        {
+          "field": "journeyman_experience_pathways",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "Alternative pathways an applicant may use to satisfy the experience requirement for journeyman plumber licensure.",
+          "depth": 0,
+          "example": {
+            "value": [
+              "two years of current work experience as an apprentice plumber or gas fitter",
+              "completion of an apprentice training program approved by the board"
+            ],
+            "quote": "An applicant for examination for a journeyman plumber or gas fitter certificate shall submit proof that the applicant has two years of current work experience as an apprentice plumber or gas fitter or",
+            "citation": "34-37-6"
+          }
+        },
+        {
+          "field": "master_plumber_supervisory_experience_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether a master plumber applicant must demonstrate supervisory experience as a journeyman plumber in addition to time-in-grade.",
+          "depth": 0,
+          "example": {
+            "value": true,
+            "quote": "Applicants for examination for a master plumber certificate shall submit proof to the board that the applicant has at least one year of current work experience as a journeyman plumber.",
+            "citation": "34-37-6"
+          }
+        },
+        {
+          "field": "expedited_licensure_pathway_available",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the statute provides an expedited licensure pathway for applicants who can otherwise demonstrate equivalent knowledge and skills.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "plumbing_trade_geographic_limit_feet",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "How many feet beyond the outside walls of a building the plumbing trade definition extends.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "gas_supply_work_included_in_scope",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the delivery of gas for lighting, heating, and industrial purposes is explicitly included within the plumbing trade scope.",
+          "depth": 0,
+          "example": {
+            "value": true,
+            "quote": "The installation, repair of pipes, fixtures, fittings, appliances, or apparatus necessary for supplying natural gas for residential or commercial use from the point of delivery and all gas piping befo",
+            "citation": "34-37-1"
+          }
+        },
+        {
+          "field": "natural_gas_appliance_certification_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether a separate certification (beyond the plumbing license) is required before a licensee may install, repair, or replace a residential or commercial gas appliance or combustion system.",
+          "depth": 0,
+          "example": {
+            "value": false,
+            "quote": "This chapter shall not be construed to prevent any contractor certified by the Alabama Board of Heating, Air Conditioning, and Refrigeration Contractors from installing, replacing, or performing servi",
+            "citation": "34-37-1"
+          }
+        },
+        {
+          "field": "fire_sprinkler_work_authorized",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether a licensed journeyman plumber is authorized to perform installation, repair, or replacement of water-based fire protection systems.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "natural_gas_facilities_installation_authorized",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether a licensed plumber (as a qualifying installer) is authorized to install natural gas mains and service lines beyond the building.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "contractor_qualifier_license_requirement",
+          "type": "enum",
+          "vocabulary": [
+            "master plumber required for general plumbing contractor",
+            "master plumber or master residential plumber required for residential plumbing contractor"
+          ],
+          "meaning": "The specific individual plumber license tier that the qualifier for a plumbing contractor entity must hold.",
+          "depth": 0,
+          "example": {
+            "value": "master plumber required for general plumbing contractor",
+            "quote": "The individual shall qualify to be a certified master gas fitter or a certified master plumber, or both.",
+            "citation": "34-37-1"
+          }
+        },
+        {
+          "field": "qualifier_replacement_notice_days",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "Number of days within which a contractor must notify the licensing division after a qualifier ceases association with the business.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "qualifier_replacement_grace_period_days",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "Number of days a contractor license remains in force after a qualifier ceases association, during which a replacement qualifier must be named.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "long_term_compliance_qualifier_waiver_years",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "Number of consecutive violation-free years after which a plumbing or electrical contractor business entity may substitute an active employee license number for a named individual qualifier at renewal.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "minor_plumbing_repair_exemption",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the statute provides an exemption from licensure for minor plumbing repair work incidental to fixing a fixture or appliance in a residential or small commercial building, provided no piping or gas system is altered.",
+          "depth": 0,
+          "example": {
+            "value": true,
+            "quote": "Plumbing work performed by a property owner in or about a building owned or occupied by the owner.",
+            "citation": "34-37-15"
+          }
+        },
+        {
+          "field": "small_project_dollar_threshold",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "Maximum total project cost (labor and materials) below which an unlicensed person may perform certain construction work, with plumbing and electrical systems explicitly excluded from this exemption.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "continuing_education_hours_plumber",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "Number of continuing education hours a licensed plumber (individual, not contractor) must complete per two-year renewal cycle.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "continuing_education_hours_contractor",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "Number of continuing education hours a licensed plumbing contractor must complete per two-year renewal cycle.",
+          "depth": 0,
+          "example": null
+        }
+      ]
+    }
+  ],
+  "example_state": "AL"
+}

@@ -1,0 +1,1003 @@
+{
+  "profession": "dietetics",
+  "data_as_of": "2026-06-24",
+  "groups": [
+    {
+      "group": "licensure",
+      "intro": "Whether and how the state credentials this profession — the regulatory model,\ncredential type, issuing authority, entry requirements (education, exams, age,\ncharacter), fees, renewal, continuing education, and reciprocity.",
+      "fields": [
+        {
+          "field": "license_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the state requires a credential to practice this profession.",
+          "depth": 0,
+          "example": {
+            "value": true,
+            "quote": "An individual may not, unless licensed as a dietitian or nutritionist by the department, use the title \"dietitian,\" \"licensed dietitian,\" \"nutritionist,\" \"licensed nutritionist,\" or an occupational ti",
+            "citation": "08.38.010"
+          }
+        },
+        {
+          "field": "issuing_authority",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Free-text name of the board/agency that issues the credential (the structured form is `regulatory_authority`).",
+          "depth": 0,
+          "example": {
+            "value": "Department of Commerce, Community, and Economic Development",
+            "quote": "\"department\" means the Department of Commerce, Community, and Economic Development",
+            "citation": "08.38.100"
+          }
+        },
+        {
+          "field": "regulatory_authority",
+          "type": "object",
+          "vocabulary": [],
+          "meaning": "Structured decomposition of the issuing authority — name, type (standalone board / shared board / division / department / joint), and any umbrella agency it sits within. Populated alongside the legacy free-text issuing_authority for back-compat.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "regulatory_authority.name",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Canonical name of the immediate authority (e.g., 'State Board of Podiatry').",
+          "depth": 1,
+          "example": {
+            "value": "Department of Commerce, Community, and Economic Development",
+            "quote": "\"department\" means the Department of Commerce, Community, and Economic Development",
+            "citation": "08.38.100"
+          }
+        },
+        {
+          "field": "regulatory_authority.type",
+          "type": "enum",
+          "vocabulary": [
+            "standalone_board",
+            "shared_board",
+            "division",
+            "department",
+            "joint",
+            "other"
+          ],
+          "meaning": "Structural classification of the immediate authority.",
+          "depth": 1,
+          "example": {
+            "value": "department",
+            "quote": "\"department\" means the Department of Commerce, Community, and Economic Development",
+            "citation": "08.38.100"
+          }
+        },
+        {
+          "field": "regulatory_authority.umbrella_agency",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Higher-level agency that contains the immediate authority, if any. Example: 'Division of Occupations and Professions, Department of Commerce'. Null for standalone boards that don't sit inside a larger department.",
+          "depth": 1,
+          "example": null
+        },
+        {
+          "field": "age_minimum",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "Minimum age (years) to hold the credential, if the statute sets one.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "moral_character_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the statute conditions licensure on good moral character / fitness.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "education",
+          "type": "object",
+          "vocabulary": [],
+          "meaning": "Education entry requirement — degree, level, accreditation, and any tiers.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "education.degree_required",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": {
+            "value": "master's or doctoral degree from an accredited college or university with a major in human nutrition, public health nutrition, clinical nutrition, nutrition education, community nutrition, or food and nutrition",
+            "quote": "has received a master's or doctoral degree from an accredited college or university with a major in human nutrition, public health nutrition, clinical nutrition, nutrition education, community nutriti",
+            "citation": "08.38.030"
+          }
+        },
+        {
+          "field": "education.accrediting_body",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": {
+            "value": "regional or national accrediting agencies recognized by the Council on Post-Secondary Accreditation and the United States Department of Education",
+            "quote": "\"accredited college or university\" means a college or university accredited by the regional or national accrediting agencies recognized by the Council on Post-Secondary Accreditation and the United St",
+            "citation": "08.38.100"
+          }
+        },
+        {
+          "field": "education.degree_level",
+          "type": "enum",
+          "vocabulary": [
+            "none",
+            "high_school",
+            "associate",
+            "bachelor",
+            "master",
+            "doctorate"
+          ],
+          "meaning": "The comparable education FLOOR as a normalized rung. Populate whenever licensure is gated on a degree; null only if the statute is silent on education.",
+          "depth": 1,
+          "example": {
+            "value": "master",
+            "quote": "has received a master's or doctoral degree from an accredited college or university",
+            "citation": "08.38.030"
+          }
+        },
+        {
+          "field": "education.school_approval_basis",
+          "type": "enum",
+          "vocabulary": [
+            "national_accreditor",
+            "regional_accreditor",
+            "board_approved",
+            "unspecified"
+          ],
+          "meaning": "How the statute decides a school counts. national_accreditor=a named national program accreditor (ACOE/CODA/ACEND/LCME/CPME). regional_accreditor='regionally accredited college or university'. board_approved='approved by the board' (discretionary state gate). unspecified=says 'accredited' with no basis named, or silent.",
+          "depth": 1,
+          "example": {
+            "value": "unspecified",
+            "quote": "accredited by the regional or national accrediting agencies recognized by the Council on Post-Secondary Accreditation and the United States Department of Education",
+            "citation": "08.38.100"
+          }
+        },
+        {
+          "field": "education.credential_pegged",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "True if the statute pegs the education requirement to a NATIONAL CREDENTIAL (e.g. 'registered by CDR', 'passed the NBEO') rather than (or in addition to) a stated degree — such a state inherits whatever that national body currently requires.",
+          "depth": 1,
+          "example": {
+            "value": true,
+            "quote": "submits evidence satisfactory to the department of being certified as a Registered Dietitian by the Commission on Dietetic Registration",
+            "citation": "08.38.020"
+          }
+        },
+        {
+          "field": "education.tiers",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "Per-tier floors when the statute sets different education levels for different license classes, or phases the floor in by date. Omit/null when there is a single floor. `degree_level` still records the overall floor across all tiers.",
+          "depth": 1,
+          "example": null
+        },
+        {
+          "field": "education.tiers[].license_class",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Which class/date this floor applies to — e.g. 'licensed dietitian', 'certified nutritionist', 'applicants on or after 2024-01-01'.",
+          "depth": 2,
+          "example": {
+            "value": "licensed dietitian"
+          }
+        },
+        {
+          "field": "education.tiers[].degree_level",
+          "type": "enum",
+          "vocabulary": [
+            "none",
+            "high_school",
+            "associate",
+            "bachelor",
+            "master",
+            "doctorate"
+          ],
+          "meaning": "Normalized education floor, low -> high. Resolved to the rung even when\nthe statute uses verbiage ('six college years' -> doctorate, 'or equivalent\ndegree' -> the named level). Professional/clinical doctorates (OD, DDS, MD,\nDPM) are `doctorate`.",
+          "depth": 2,
+          "example": {
+            "value": "bachelor"
+          }
+        },
+        {
+          "field": "education.tiers[].effective_date",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "ISO date when this floor takes effect, for date-phased tiers (e.g. '2024-01-01'). Null otherwise.",
+          "depth": 2,
+          "example": null
+        },
+        {
+          "field": "post_degree_experience",
+          "type": "object",
+          "vocabulary": [],
+          "meaning": "Supervised practice / residency / apprenticeship required after the degree.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "post_degree_experience.required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": {
+            "value": true,
+            "quote": "has completed a documented work experience in human nutrition or human nutrition research of at least 900 hours",
+            "citation": "08.38.030"
+          }
+        },
+        {
+          "field": "post_degree_experience.experience_source",
+          "type": "enum",
+          "vocabulary": [
+            "required_by_statute",
+            "embedded_in_credential",
+            "none"
+          ],
+          "meaning": "ALWAYS populate (required_by_statute / embedded_in_credential / none) unless the governing statute is absent from the corpus. Disambiguates a blank `required`: 'none' (truly no requirement) vs 'embedded_in_credential' (the accredited degree the statute points to carries the supervised hours).",
+          "depth": 1,
+          "example": {
+            "value": "required_by_statute",
+            "quote": "has completed a documented work experience in human nutrition or human nutrition research of at least 900 hours",
+            "citation": "08.38.030"
+          }
+        },
+        {
+          "field": "post_degree_experience.duration",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "e.g. '24 months', '1 year', '2,000 hours' (free text — units vary)",
+          "depth": 1,
+          "example": {
+            "value": "at least 900 hours",
+            "quote": "has completed a documented work experience in human nutrition or human nutrition research of at least 900 hours",
+            "citation": "08.38.030"
+          }
+        },
+        {
+          "field": "post_degree_experience.kind",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "e.g. 'podiatric residency', 'accounting work experience', 'AXP'",
+          "depth": 1,
+          "example": {
+            "value": "documented work experience in human nutrition or human nutrition research",
+            "quote": "has completed a documented work experience in human nutrition or human nutrition research of at least 900 hours",
+            "citation": "08.38.030"
+          }
+        },
+        {
+          "field": "exams",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "Examinations required for the credential (one entry per exam).",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "exams[].name",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": null
+        },
+        {
+          "field": "exams[].required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": null
+        },
+        {
+          "field": "exams[].notes",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": null
+        },
+        {
+          "field": "exams[].jurisdiction",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Where the exam is administered / who owns it — e.g. 'NBPME (national)', 'state board (in-state)', 'NCLEX-RN (national)'. Use the statute's language; null if the source doesn't say.",
+          "depth": 1,
+          "example": null
+        },
+        {
+          "field": "exams[].permitted_attempts",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "Max attempts allowed before re-qualification. Null if not specified.",
+          "depth": 1,
+          "example": null
+        },
+        {
+          "field": "renewal",
+          "type": "object",
+          "vocabulary": [],
+          "meaning": "How the credential is renewed — interval and any conditions.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "renewal.interval_years",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "Most states are 1 or 2",
+          "depth": 1,
+          "example": {
+            "value": 2,
+            "quote": "Licenses shall be renewed biennially on the dates set by the department with the approval of the respective board.",
+            "citation": "UMBRELLA / Chapter 01. Centralized Licensing"
+          }
+        },
+        {
+          "field": "renewal_fee_usd",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "License renewal fee in US dollars (integer). Many statutes leave the amount to the board's discretion — leave null in that case.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "continuing_education",
+          "type": "object",
+          "vocabulary": [],
+          "meaning": "Continuing-education requirement to keep the credential active.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "continuing_education.required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": null
+        },
+        {
+          "field": "continuing_education.hours_per_period",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": null
+        },
+        {
+          "field": "continuing_education.period_years",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": null
+        },
+        {
+          "field": "continuing_education.topical_requirements",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "Specific topical CE requirements, e.g. ['1.5 hrs opioid', 'ethics']",
+          "depth": 1,
+          "example": null
+        },
+        {
+          "field": "reciprocity",
+          "type": "object",
+          "vocabulary": [],
+          "meaning": "Whether/how the state recognizes out-of-state credentials (endorsement/reciprocity).",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "reciprocity.available",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": {
+            "value": true,
+            "quote": "The department may issue a license to an applicant who holds a current unrestricted license as a dietitian or nutritionist in another state or political jurisdiction of the United States or Canada if,",
+            "citation": "08.38.050"
+          }
+        },
+        {
+          "field": "reciprocity.requirements",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Free-form summary",
+          "depth": 1,
+          "example": {
+            "value": "Applicant must hold a current unrestricted license in another state or political jurisdiction of the United States or Canada, and the department must determine that the other jurisdiction's standards are not less stringent than Alaska's requirements.",
+            "quote": "the standards for licensure in the other jurisdiction are not less stringent than the requirements in this chapter",
+            "citation": "08.38.050"
+          }
+        },
+        {
+          "field": "advisory_board",
+          "type": "object",
+          "vocabulary": [],
+          "meaning": "Profession-specific advisory body sitting alongside the main licensing board, when one exists. Populated for states that delegate licensure to a generic board and add a specialty advisory committee.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "advisory_board.exists",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "True if a profession-specific advisory body exists alongside the main licensing board. False if the licensing board itself is profession-specific (no separate advisory body needed).",
+          "depth": 1,
+          "example": {
+            "value": false,
+            "quote": "regulation of dietitians and nutritionists under AS 08.38",
+            "citation": "UMBRELLA / Chapter 01. Centralized Licensing"
+          }
+        },
+        {
+          "field": "advisory_board.name",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Name of the advisory board, e.g. 'Podiatry Advisory Committee'.",
+          "depth": 1,
+          "example": null
+        },
+        {
+          "field": "advisory_board.authority",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Authority the advisory board has, in the statute's own words — e.g. 'advisory only', 'rulemaking subject to board approval', 'disciplinary recommendations'. Free text from the statute.",
+          "depth": 1,
+          "example": null
+        },
+        {
+          "field": "national_certification",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Name of a national CERTIFICATION the state recognizes or requires, e.g. 'American Board of Podiatric Surgery (ABPS)' or 'National Board of Podiatric Medical Examiners (NBPME)'. The certifying body, NOT the association. Null if the statute doesn't reference one.",
+          "depth": 0,
+          "example": {
+            "value": "Commission on Dietetic Registration",
+            "quote": "submits evidence satisfactory to the department of being certified as a Registered Dietitian by the Commission on Dietetic Registration",
+            "citation": "08.38.020"
+          }
+        },
+        {
+          "field": "national_association",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Professional ASSOCIATION the state references (e.g. for accreditation or CE provider approval) — 'American Podiatric Medical Association (APMA)', 'American Dental Association (ADA)'. Distinct from the certifying body. Null if not referenced.",
+          "depth": 0,
+          "example": {
+            "value": "American Dietetic Association",
+            "quote": "\"Commission on Dietetic Registration\" means the Commission on Dietetic Registration of the American Dietetic Association",
+            "citation": "08.38.100"
+          }
+        },
+        {
+          "field": "regulatory_model",
+          "type": "enum",
+          "vocabulary": [
+            "market_forces",
+            "voluntary_certification",
+            "registration",
+            "exemption",
+            "mandatory_certification",
+            "license"
+          ],
+          "meaning": "Which UORF model the state applies to this profession (license / mandatory_cert / registration / etc).",
+          "depth": 0,
+          "example": {
+            "value": "voluntary_certification",
+            "quote": "An individual may not, unless licensed as a dietitian or nutritionist by the department, use the title \"dietitian,\" \"licensed dietitian,\" \"nutritionist,\" \"licensed nutritionist,\" or an occupational ti",
+            "citation": "08.38.010"
+          }
+        },
+        {
+          "field": "credential_type",
+          "type": "enum",
+          "vocabulary": [
+            "none",
+            "registration",
+            "certification",
+            "license",
+            "exemption"
+          ],
+          "meaning": "What SHAPE of credential does the state issue, independent of whether holding it is mandatory? license / certification / registration / exemption / none. Pairs with is_mandatory to decompose the legacy regulatory_model rung.",
+          "depth": 0,
+          "example": {
+            "value": "license",
+            "quote": "The department shall issue a dietitian license to an individual who pays the required fee, applies on a form provided by the department, and submits evidence satisfactory to the department",
+            "citation": "08.38.020"
+          }
+        },
+        {
+          "field": "is_mandatory",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Is the credential MANDATORY to practice (or claim the title) in this state? True if practicing without it is prohibited; False if optional (e.g., voluntary certification that only protects the title for those who hold it).",
+          "depth": 0,
+          "example": {
+            "value": true,
+            "quote": "An individual may not, unless licensed as a dietitian or nutritionist by the department, use the title \"dietitian,\" \"licensed dietitian,\" \"nutritionist,\" \"licensed nutritionist,\" or an occupational ti",
+            "citation": "08.38.010"
+          }
+        },
+        {
+          "field": "title_protection",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Does the state restrict use of the profession's title to licensees? True if unlicensed people may NOT call themselves the protected title (e.g. 'podiatrist', 'CPA').",
+          "depth": 0,
+          "example": {
+            "value": true,
+            "quote": "An individual may not, unless licensed as a dietitian or nutritionist by the department, use the title \"dietitian,\" \"licensed dietitian,\" \"nutritionist,\" \"licensed nutritionist,\" or an occupational ti",
+            "citation": "08.38.010"
+          }
+        },
+        {
+          "field": "scope_protection",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Does the state restrict practice of the profession's scope to licensees? True if performing the scope without a license is prohibited (independent of title use).",
+          "depth": 0,
+          "example": {
+            "value": false,
+            "quote": "An individual may not, unless licensed as a dietitian or nutritionist by the department, use the title \"dietitian,\" \"licensed dietitian,\" \"nutritionist,\" \"licensed nutritionist,\" or an occupational ti",
+            "citation": "08.38.010"
+          }
+        },
+        {
+          "field": "disciplinary_grounds",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "Grounds on which the board may discipline a licensee. Typical statutes list 5-15.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "disciplinary_grounds[].short_label",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "snake_case key, e.g. 'fraud_in_obtaining_license'",
+          "depth": 1,
+          "example": {
+            "value": "fraud_in_obtaining_license"
+          }
+        },
+        {
+          "field": "disciplinary_grounds[].description",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "One-line plain-English description",
+          "depth": 1,
+          "example": {
+            "value": "Secured or attempted to secure a license through deceit, fraud, or intentional misrepresentation"
+          }
+        },
+        {
+          "field": "alternative_regulation",
+          "type": "object",
+          "vocabulary": [],
+          "meaning": "Non-credential regulatory mechanisms (bonding, insurance, establishment regulation) imposed by the state. Obama 2015 framework typology. Independent of credential_type.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "alternative_regulation.bonding_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Does the statute require the practitioner or firm to post a bond (funds against which consumer claims can be made)? Independent of whether a credential is also required.",
+          "depth": 1,
+          "example": null
+        },
+        {
+          "field": "alternative_regulation.insurance_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Does the statute require the practitioner or firm to carry insurance (e.g., professional liability, surety insurance)?",
+          "depth": 1,
+          "example": null
+        },
+        {
+          "field": "alternative_regulation.establishment_regulation_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Does the statute regulate the ESTABLISHMENT / FIRM (e.g., facility license, mandatory inspection of premises) as a route to consumer protection, independent of any practitioner credential?",
+          "depth": 1,
+          "example": null
+        },
+        {
+          "field": "citations",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "Statutory citations supporting the licensure fields above.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "citations[].cite",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": {
+            "value": "08.38.010"
+          }
+        },
+        {
+          "field": "citations[].kind",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": {
+            "value": "license_required"
+          }
+        }
+      ]
+    },
+    {
+      "group": "scope",
+      "intro": "What the practice act lets (or reserves to) this profession — the defined scope,\nauthorized methods, drug authority, and any title/scope protection. Skeleton only —\nprofession-specific scope richness lives in the discovered block.",
+      "fields": [
+        {
+          "field": "definition_quote",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Verbatim statutory definition; quote field repeats the value text.",
+          "depth": 0,
+          "example": {
+            "value": "the integration and application of scientific principles of food, nutrition, biochemistry, physiology, food management, and behavioral and social sciences to achieve and maintain human health through the provision of nutrition care services",
+            "quote": "\"dietetics or nutrition practice\" means the integration and application of scientific principles of food, nutrition, biochemistry, physiology, food management, and behavioral and social sciences to ac",
+            "citation": "08.38.100"
+          }
+        },
+        {
+          "field": "methods_authorized",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "High-level methods, e.g. ['medical','surgical','mechanical']",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "drug_authority",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Whether/how the profession may prescribe, administer, or dispense drugs.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "citations",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "Statutory citations supporting the scope fields above.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "citations[].cite",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": {
+            "value": "08.38.100"
+          }
+        },
+        {
+          "field": "citations[].kind",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": {
+            "value": "scope_definition"
+          }
+        }
+      ]
+    },
+    {
+      "group": "profession_specific",
+      "intro": "Fields discovered specifically for this profession (auto-derived from its statutes); they vary profession to profession.",
+      "fields": [
+        {
+          "field": "license_type_structure",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "The distinct credential or license types recognized by the state (e.g., licensed dietitian, licensed nutritionist, dietitian-nutritionist, registered dietitian, provisionally licensed dietitian).",
+          "depth": 0,
+          "example": {
+            "value": [
+              "licensed dietitian",
+              "licensed nutritionist"
+            ],
+            "quote": "The department shall issue a dietitian license ... The department shall issue a nutritionist license",
+            "citation": "08.38.020"
+          }
+        },
+        {
+          "field": "provisional_license_available",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the state offers a provisional or temporary license allowing practice under supervision while completing full licensure requirements.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "provisional_license_duration_months",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "Duration in months of a provisional or temporary license before it expires.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "provisional_license_requires_supervision",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether a provisional or temporary license restricts the holder to practice only under the supervision of a fully licensed dietitian.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "dietetic_technician_recognized",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the state statute explicitly recognizes a dietetic technician credential as a distinct, lower-tier role that may perform limited functions under supervision.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "rd_credential_accepted_in_lieu_of_state_requirements",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether holding a current Registered Dietitian (RD/RDN) credential from the Commission on Dietetic Registration is explicitly accepted as satisfying all or most state licensure requirements.",
+          "depth": 0,
+          "example": {
+            "value": true,
+            "quote": "submits evidence satisfactory to the department of being certified as a Registered Dietitian by the Commission on Dietetic Registration",
+            "citation": "08.38.020"
+          }
+        },
+        {
+          "field": "alternative_credential_pathways",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "Non-RD national credentials or membership bodies that the state accepts as an alternative pathway to licensure (e.g., Certified Nutrition Specialist, American Board of Nutrition diplomate).",
+          "depth": 0,
+          "example": {
+            "value": [
+              "American Board of Nutrition diplomate",
+              "Certified Nutrition Specialist (Certification Board for Nutrition Specialists)"
+            ],
+            "quote": "has qualified as a diplomate of the American Board of Nutrition or as a Certified Nutrition Specialist with the Certification Board for Nutrition Specialists",
+            "citation": "08.38.030"
+          }
+        },
+        {
+          "field": "medical_nutrition_therapy_authorized",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the statute explicitly authorizes the practice of 'medical nutrition therapy' as part of the dietitian's scope.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "enteral_parenteral_nutrition_authorized",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the statute explicitly includes ordering or recommending enteral and/or parenteral nutrition within the dietitian's scope of practice.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "diet_order_writing_authority",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the statute explicitly grants dietitians authority to write or issue diet orders (including therapeutic diets) in institutional or hospital settings.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "lab_test_ordering_authority",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the statute explicitly grants dietitians authority to order medical laboratory tests related to nutrition therapy.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "physician_referral_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the statute requires a physician (or other authorized prescriber) referral or order before a dietitian may provide certain clinical nutrition services.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "diagnosis_treatment_prohibition",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the statute explicitly prohibits dietitians from diagnosing, treating, or prescribing for human illness or otherwise practicing medicine.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "telehealth_practice_authorized",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the statute explicitly authorizes dietitians to provide services via telehealth.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "supervision_ratio_limit",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "Maximum number of dietetic technicians a single registered dietitian may supervise at one time.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "direct_supervision_defined",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the statute provides an explicit definition of 'direct supervision' for dietetic technicians or provisional licensees, including physical presence or availability requirements.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "exempt_professions_list",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "Categories of other licensed professionals explicitly exempted from the dietetics licensure requirement when performing nutrition-related activities incidental to their own profession.",
+          "depth": 0,
+          "example": {
+            "value": [
+              "animal nutritionist (limited to nutritional care of animals)",
+              "federal government employee whose job title includes 'dietitian' or 'nutritionist'",
+              "person serving as a dietitian or nutritionist in the armed forces of the United States"
+            ],
+            "quote": "The requirements of this chapter do not apply to (1) an animal nutritionist whose activities are limited to the nutritional care of animals; (2) a person who is serving as an employee of the federal g",
+            "citation": "08.38.080"
+          }
+        },
+        {
+          "field": "federal_employee_exemption",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether persons employed by the federal government (including armed forces, VA, or public health service) in a dietitian or nutritionist role are explicitly exempt from state licensure.",
+          "depth": 0,
+          "example": {
+            "value": true,
+            "quote": "a person who is serving as an employee of the federal government whose job title includes the term \"dietitian\" or \"nutritionist\"",
+            "citation": "08.38.080"
+          }
+        },
+        {
+          "field": "weight_control_program_exemption",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether persons offering weight control programs are explicitly exempt from licensure, typically conditioned on the program being reviewed or approved by a licensed or registered dietitian.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "food_supplement_sales_exemption",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether persons who sell, market, or provide information about food, dietary supplements, vitamins, or herbs are explicitly exempt from the dietetics licensure requirement.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "animal_nutrition_exemption",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether persons whose nutrition practice is limited to animals are explicitly exempt from the human dietetics licensure requirement.",
+          "depth": 0,
+          "example": {
+            "value": true,
+            "quote": "an animal nutritionist whose activities are limited to the nutritional care of animals; animal nutritionists may use the title \"nutritionist\" as long as they provide nutrition services only to animals",
+            "citation": "08.38.080"
+          }
+        },
+        {
+          "field": "nonresident_temporary_practice_allowed",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether out-of-state dietitians may practice in the state for a limited period without obtaining a state license.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "nonresident_temporary_practice_max_days",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "Maximum number of days per year a nonresident dietitian may practice in the state without a state license.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "interstate_compact_member",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the state has enacted the Dietitian Licensure Compact, enabling multistate practice privileges.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "compact_privilege_jurisprudence_requirement",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether a state may require applicants for a compact practice privilege to pass a jurisprudence (state law knowledge) assessment.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "protected_titles",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "The specific titles, words, letters, or abbreviations that are legally restricted to licensed or certified practitioners under the statute.",
+          "depth": 0,
+          "example": {
+            "value": [
+              "dietitian",
+              "licensed dietitian",
+              "nutritionist",
+              "licensed nutritionist"
+            ],
+            "quote": "use the title \"dietitian,\" \"licensed dietitian,\" \"nutritionist,\" \"licensed nutritionist,\" or an occupational title using the word \"dietitian\" or \"nutritionist\"",
+            "citation": "08.38.010"
+          }
+        },
+        {
+          "field": "nutrition_assessment_includes_biochemical_data",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the statutory definition of nutritional assessment explicitly includes biochemical and anthropometric data as evaluation components.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "hospital_order_authority_requires_policy",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether a dietitian's authority to issue orders in a hospital setting is conditioned on the hospital having written policies and procedures authorizing such orders.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "inactive_license_status_available",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the state allows a licensee to place their license in an inactive status for a defined period.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "ethics_code_violation_grounds_for_discipline",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether violation of a recognized professional code of ethics (e.g., the American Dietetic Association's code) is explicitly listed as a ground for disciplinary action.",
+          "depth": 0,
+          "example": null
+        }
+      ]
+    }
+  ],
+  "example_state": "AK"
+}
