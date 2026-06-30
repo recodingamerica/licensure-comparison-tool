@@ -72,6 +72,54 @@ class TestFindLinks:
         assert links == {}
 
 
+class TestBruteForceLinks:
+    def test_best_scoring_sibling_wins(self, monkeypatch):
+        # Unlike find_links (first-wins), brute_force_links picks the DENSEST match.
+        blank_only = mx.ALL_STATES - {"CA"}
+        corpora = {
+            ("medicine", "CA"): " ".join(["prosthetist"] * 10),
+            ("podiatry", "CA"): " ".join(["prosthetist"] * 40),  # densest
+        }
+        _patch_corpora(monkeypatch, corpora, have=blank_only)
+        links = mx.brute_force_links("prosthetist_orthotist", {}, ["prosthetist"],
+                                     ["medicine", "podiatry"], min_score=8)
+        assert links == {"CA": ("podiatry", 40)}
+
+    def test_min_score_threshold(self, monkeypatch):
+        blank_only = mx.ALL_STATES - {"CA"}
+        corpora = {("insurance_producer", "CA"): " ".join(["public adjuster"] * 5)}
+        _patch_corpora(monkeypatch, corpora, have=blank_only)
+        # 5 hits: passes at min_score 5, fails at 6
+        assert mx.brute_force_links("public_adjuster", {}, ["public adjuster"],
+                                    ["insurance_producer"], min_score=5)
+        assert not mx.brute_force_links("public_adjuster", {}, ["public adjuster"],
+                                        ["insurance_producer"], min_score=6)
+
+    def test_self_skipped(self, monkeypatch):
+        blank_only = mx.ALL_STATES - {"CA"}
+        dense = " ".join(["surgical technologist"] * 20)
+        _patch_corpora(monkeypatch, {("surgical_technologist", "CA"): dense}, have=blank_only)
+        links = mx.brute_force_links("surgical_technologist", {}, ["surgical technologist"],
+                                     ["surgical_technologist", "medicine"], min_score=8)
+        assert links == {}
+
+    def test_already_have_state_skipped(self, monkeypatch):
+        dense = " ".join(["public adjuster"] * 20)
+        _patch_corpora(monkeypatch, {("insurance_producer", "CA"): dense}, have=mx.ALL_STATES)
+        links = mx.brute_force_links("public_adjuster", {}, ["public adjuster"],
+                                     ["insurance_producer"], min_score=8)
+        assert links == {}
+
+
+class TestLoadPatterns:
+    def test_known_profession_has_patterns(self):
+        pats = mx.load_patterns("electrician")
+        assert isinstance(pats, list) and pats  # non-empty
+
+    def test_unknown_profession_empty(self):
+        assert mx.load_patterns("definitely_not_a_profession_xyz") == []
+
+
 class TestConfigIntegrity:
     def test_density_is_positive_int(self):
         assert isinstance(mx.DENSITY, int) and mx.DENSITY > 0
