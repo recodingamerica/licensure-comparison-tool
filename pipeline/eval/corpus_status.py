@@ -19,6 +19,10 @@ Two subcommands:
                             older text (re-pull without re-clean). The real footgun.
              CLEAN_EMPTY    clean/ kept 0 sections though text/ had some
              CLEAN_GT_TEXT  clean/ has MORE sections than text/ (anomaly)
+             INDEX_ONLY     text/ is just a chapter-index page (1 tiny section, no
+                            real statute text) — "covered" but extracts as garbage
+             THIN           1-2 sections where the profession median is >=10
+                            (likely under-matched / wrong chapter)
              NEEDS_EXTRACT  no structured/ file (the backlog)
            NOTE: a plain count drop (clean < text) is normal (dedup + empty-drop)
            and is deliberately NOT flagged — only mtime staleness is.
@@ -43,6 +47,7 @@ import json
 import sys
 from collections import defaultdict
 from pathlib import Path
+from urllib.parse import urlparse
 
 _PIPELINE_DIR = Path(__file__).resolve().parent.parent
 if str(_PIPELINE_DIR) not in sys.path:
@@ -84,6 +89,25 @@ def _sec_count(fp: Path) -> int | None:
     return None
 
 
+def is_index_only(text_path: Path) -> bool:
+    """True if a text corpus is just a chapter *index* page — exactly one
+    non-error section whose URL is a chapter landing page (no `section-…`
+    segment) and whose text is tiny (<2500 chars). It passes the "has a corpus"
+    bar but contains no real statute text (the per-section drill never ran), so
+    it would extract as garbage. The high-confidence half of the thin-corpus
+    completeness check.
+    """
+    d = _load(text_path)
+    if not isinstance(d, dict):
+        return False
+    secs = [s for s in (d.get("sections") or []) if not s.get("error")]
+    if len(secs) != 1:
+        return False
+    last = [seg for seg in urlparse(secs[0].get("url", "")).path.split("/") if seg]
+    leaf = last[-1] if last else ""
+    return "section" not in leaf and secs[0].get("text_len", 0) < 2500
+
+
 def _pull_errors(fp: Path) -> int:
     d = _load(fp)
     if isinstance(d, dict):
@@ -122,6 +146,8 @@ def audit_sync(idx) -> list[dict]:
             text_n = _sec_count(tpath)
             if _pull_errors(tpath) > 0:
                 flags.append("PULL_ERROR")
+            if is_index_only(tpath):
+                flags.append("INDEX_ONLY")    # chapter-index page only, no real sections
         elif any(k in st for k in ("clean", "trimmed", "structured")):
             flags.append("NO_TEXT")
         if cpath:
@@ -144,6 +170,22 @@ def audit_sync(idx) -> list[dict]:
                 flags.append("NEEDS_EXTRACT")
         rows.append({"prof": prof, "state": state, "text_n": text_n,
                      "clean_n": clean_n, "flags": flags})
+
+    # Peer-relative THIN: a corpus with 1-2 sections where the profession's median
+    # (across states with real data) is >=10 is very likely under-matched / a wrong
+    # chapter / a flat-index page. Needs cross-corpus context, so it's a post-pass.
+    by_prof_counts: dict[str, list[int]] = defaultdict(list)
+    for r in rows:
+        if r["text_n"]:
+            by_prof_counts[r["prof"]].append(r["text_n"])
+    medians = {}
+    for p, counts in by_prof_counts.items():
+        c = sorted(counts)
+        medians[p] = c[len(c) // 2] if c else 0
+    for r in rows:
+        n = r["text_n"]
+        if n and 0 < n <= 2 and medians.get(r["prof"], 0) >= 10 and "INDEX_ONLY" not in r["flags"]:
+            r["flags"].append("THIN")
     return rows
 
 
@@ -198,6 +240,8 @@ def cmd_sync() -> int:
         "STALE_CLEAN": [r for r in rows if "STALE_CLEAN" in r["flags"]],
         "CLEAN_EMPTY": [r for r in rows if "CLEAN_EMPTY" in r["flags"]],
         "CLEAN_GT_TEXT": [r for r in rows if "CLEAN_GT_TEXT" in r["flags"]],
+        "INDEX_ONLY": [r for r in rows if "INDEX_ONLY" in r["flags"]],
+        "THIN": [r for r in rows if "THIN" in r["flags"]],
         "PULL_ERROR": [r for r in rows if "PULL_ERROR" in r["flags"]],
         "NEEDS_EXTRACT": [r for r in rows if "NEEDS_EXTRACT" in r["flags"]],
         "NO_TEXT": [r for r in rows if "NO_TEXT" in r["flags"]],
@@ -212,7 +256,8 @@ def cmd_sync() -> int:
             _print_by_prof(name, [(r["prof"], r["state"]) for r in rs])
             print()
     # sync issues (excluding the always-large NEEDS_EXTRACT backlog) → nonzero
-    blocking = sum(len(cats[k]) for k in ("STALE_CLEAN", "CLEAN_GT_TEXT", "PULL_ERROR", "NO_TEXT"))
+    blocking = sum(len(cats[k]) for k in
+                   ("STALE_CLEAN", "CLEAN_GT_TEXT", "INDEX_ONLY", "PULL_ERROR", "NO_TEXT"))
     return 1 if blocking else 0
 
 

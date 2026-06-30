@@ -87,6 +87,44 @@ def test_sync_flags(tree):
     assert "NEEDS_EXTRACT" in flat[("dietetics", "OH")]
 
 
+def _sec(url, text_len):
+    return {"url": url, "text_len": text_len}
+
+
+def test_index_only_and_thin_flags(tree):
+    w = tree["write"]
+    CH = "https://law.justia.com/codes/mississippi/title-73/chapter-21/"
+    SEC = "https://law.justia.com/codes/mississippi/title-73/chapter-21/section-73-21-1/"
+    # index-only: 1 chapter-page section, tiny text
+    w(tree["text"], "pharmacy", "MS", {"sections": [_sec(CH, 900)]})
+    # healthy peer: many real sections (gives the profession a high median)
+    w(tree["text"], "pharmacy", "CA", {"sections": [_sec(SEC, 4000) for _ in range(40)]})
+    w(tree["text"], "pharmacy", "TX", {"sections": [_sec(SEC, 4000) for _ in range(30)]})
+    # thin (not index-only): 2 real section-URL pages, but profession median is high
+    w(tree["text"], "pharmacy", "NV", {"sections": [_sec(SEC, 3000), _sec(SEC, 3000)]})
+
+    rows = ac.audit_sync(ac.index_stages())
+    flat = {(r["prof"], r["state"]): r["flags"] for r in rows}
+    assert "INDEX_ONLY" in flat[("pharmacy", "MS")]
+    assert "THIN" not in flat[("pharmacy", "MS")]      # index-only takes precedence
+    assert "THIN" in flat[("pharmacy", "NV")]
+    assert "INDEX_ONLY" not in flat[("pharmacy", "CA")]
+    assert "THIN" not in flat[("pharmacy", "CA")]
+
+
+def test_index_only_helper(tree, tmp_path):
+    import json as _json
+    # a real section URL with plenty of text is NOT index-only even if it's the only one
+    p = tmp_path / "ok.json"
+    p.write_text(_json.dumps({"sections": [
+        {"url": "https://law.justia.com/codes/x/title-1/chapter-2/section-2-5/", "text_len": 9000}]}))
+    assert ac.is_index_only(p) is False
+    p2 = tmp_path / "bad.json"
+    p2.write_text(_json.dumps({"sections": [
+        {"url": "https://law.justia.com/codes/x/title-1/chapter-2/", "text_len": 800}]}))
+    assert ac.is_index_only(p2) is True
+
+
 def test_backlog_classification(tree):
     w = tree["write"]
     # ready: text>0, clean>0, no structured
