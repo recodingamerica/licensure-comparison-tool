@@ -219,18 +219,134 @@ def generate(profession: str) -> Path:
     return md_path
 
 
+_HTML = r"""<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Field dictionary — Utah licensing pipeline</title>
+<style>
+  body { font: 15px/1.5 -apple-system, system-ui, sans-serif; margin: 0; color: #1a1a1a; }
+  header { background: #f6f7f9; border-bottom: 1px solid #e2e5e9; padding: 1rem 1.5rem; }
+  h1 { margin: 0 0 .25rem; font-size: 1.3rem; }
+  .sub { color: #555; font-size: .9rem; }
+  .toolbar { padding: .75rem 1.5rem; display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;
+             position: sticky; top: 0; background: #fff; border-bottom: 1px solid #eee; z-index: 5; }
+  .toolbar input[type=search] { flex: 1 1 18rem; padding: .4rem .6rem; border: 1px solid #ccc; border-radius: 5px; }
+  select { padding: .35rem .5rem; border: 1px solid #ccc; border-radius: 5px; }
+  label.toggle { display: inline-flex; align-items: center; gap: .4rem; font-size: .9rem; cursor: pointer; }
+  #meta { padding: .25rem 1.5rem; color: #555; font-size: .85rem; }
+  main { padding: 0 1.5rem 3rem; }
+  h2 { margin: 1.5rem 0 .25rem; font-size: 1.05rem; }
+  .intro { color: #555; font-size: .9rem; margin: 0 0 .5rem; font-style: italic; }
+  table { border-collapse: collapse; width: 100%; font-size: .9rem; }
+  th, td { text-align: left; vertical-align: top; padding: .35rem .5rem; border-bottom: 1px solid #eee; }
+  th { background: #fafbfc; position: sticky; top: 3.2rem; }
+  code { background: #f2f3f5; padding: .05rem .3rem; border-radius: 3px; font-size: .85em; }
+  .ex { color: #0a5; }
+  .vocab { color: #777; font-size: .82em; }
+  body:not(.tech) .tcol { display: none; }
+  a.dl { font-size: .85rem; }
+</style></head><body>
+<header>
+  <h1>Field dictionary</h1>
+  <div class="sub">Auto-generated from the extraction model — the methodology tracks the code.
+  Every field is an <b>Evidence</b> object: a value, the verbatim statute <b>quote</b> behind it,
+  and the <b>citation</b>. Hover an example to see its quote + citation.</div>
+</header>
+<div class="toolbar">
+  <label>Profession <select id="prof"></select></label>
+  <input id="q" type="search" placeholder="Filter by field name or meaning…" autofocus>
+  <label class="toggle"><input type="checkbox" id="tech"> Show technical (type / vocabulary)</label>
+  <span id="dl"></span>
+</div>
+<div id="meta"></div>
+<main id="out"></main>
+<script>
+var DATA = __DATA__;
+var profEl = document.getElementById('prof');
+var qEl = document.getElementById('q');
+var techEl = document.getElementById('tech');
+Object.keys(DATA).sort().forEach(function(p){
+  var o = document.createElement('option'); o.value = p; o.textContent = p; profEl.appendChild(o);
+});
+function esc(s){ return String(s == null ? '' : s).replace(/[&<>]/g, function(c){
+  return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c]; }); }
+function render(){
+  var p = profEl.value, d = DATA[p];
+  document.getElementById('meta').textContent =
+    'Reflects extracted data as of ' + (d.data_as_of || 'unknown') +
+    ' · examples from ' + p + '/' + (d.example_state || '?');
+  document.getElementById('dl').innerHTML =
+    '<a class="dl" href="' + p + '_field_dictionary.json" download>JSON</a> · ' +
+    '<a class="dl" href="' + p + '_field_dictionary.md" download>Markdown</a>';
+  var html = '';
+  d.groups.forEach(function(g){
+    html += '<h2>' + esc(g.group) + '</h2><p class="intro">' + esc(g.intro) + '</p>';
+    html += '<table><thead><tr><th>field</th><th class="tcol">type</th>' +
+            '<th>what it means</th><th>example</th></tr></thead><tbody>';
+    g.fields.forEach(function(f){
+      var pad = (f.depth || 0) * 1.4;
+      var vocab = f.vocabulary && f.vocabulary.length
+        ? '<div class="vocab">one of: ' + esc(f.vocabulary.join(', ')) + '</div>' : '';
+      var ex = f.example, exhtml = '';
+      if (ex) {
+        var tip = (ex.quote ? ex.quote : '') + (ex.citation ? '  [' + ex.citation + ']' : '');
+        exhtml = '<span class="ex" title="' + esc(tip) + '">' + esc(JSON.stringify(ex.value)) + '</span>';
+      }
+      html += '<tr data-k="' + esc((f.field + ' ' + (f.meaning||'')).toLowerCase()) + '">' +
+        '<td style="padding-left:' + (0.5 + pad) + 'rem"><code>' + esc(f.field) + '</code></td>' +
+        '<td class="tcol">' + esc(f.type) + vocab + '</td>' +
+        '<td>' + esc(f.meaning) + '</td><td>' + exhtml + '</td></tr>';
+    });
+    html += '</tbody></table>';
+  });
+  document.getElementById('out').innerHTML = html;
+  filter();
+}
+function filter(){
+  var q = qEl.value.toLowerCase();
+  document.querySelectorAll('#out tbody tr').forEach(function(tr){
+    tr.style.display = (!q || tr.getAttribute('data-k').indexOf(q) > -1) ? '' : 'none';
+  });
+}
+profEl.addEventListener('change', render);
+qEl.addEventListener('input', filter);
+techEl.addEventListener('change', function(){ document.body.classList.toggle('tech', techEl.checked); });
+render();
+</script></body></html>
+"""
+
+
+def build_html() -> Path:
+    data = {}
+    for jp in sorted(OUT_DIR.glob("*_field_dictionary.json")):
+        d = json.loads(jp.read_text())
+        data[d["profession"]] = d
+    payload = json.dumps(data, ensure_ascii=False).replace("</", "<\\/")
+    out = OUT_DIR / "index.html"
+    out.write_text(_HTML.replace("__DATA__", payload))
+    print(f"wrote {out.name} ({len(data)} professions, self-contained)")
+    record_run("field_dictionary_html", professions=len(data))
+    return out
+
+
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--profession")
     ap.add_argument("--all", action="store_true", help="every published (core) profession")
+    ap.add_argument("--html", action="store_true",
+                    help="(re)build the self-contained docs/methodology/index.html viewer")
     args = ap.parse_args()
     if args.all:
         for p in core_professions():
             generate(p)
+        build_html()
     elif args.profession:
         generate(args.profession)
+        build_html()
+    elif args.html:
+        build_html()
     else:
-        ap.error("pass --profession NAME or --all")
+        ap.error("pass --profession NAME, --all, or --html")
 
 
 if __name__ == "__main__":
