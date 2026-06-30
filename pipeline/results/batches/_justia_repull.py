@@ -7,17 +7,24 @@ Scope = exactly .scratch/jul1_prep/justia_repull.json ({prof:[states]}), the
 Commits per profession (commit-to-git durability). ONE process — shares the
 single debug Chrome.
 
-Run from repo root:
+Run from repo root (optional worklist arg; defaults to justia_repull.json):
   JUSTIA_CDP_URL=http://localhost:9222 PULL_HOST_DELAY=7 \
-    caffeinate -dimsu pipeline/.venv/bin/python pipeline/results/batches/_justia_repull.py
+    caffeinate -dimsu pipeline/.venv/bin/python pipeline/results/batches/_justia_repull.py \
+      [.scratch/jul1_prep/index_only_repull.json]
 """
 import json, os, signal, subprocess, sys, datetime
+from pathlib import Path
 
 ROOT = "/Users/abigailhaddad/Documents/repos/utah"
 PY = f"{ROOT}/pipeline/.venv/bin/python"
-WORKLIST = f"{ROOT}/.scratch/jul1_prep/justia_repull.json"
+DEFAULT_WORKLIST = f"{ROOT}/.scratch/jul1_prep/justia_repull.json"
 LOG = f"{ROOT}/pipeline/results/batches/_justia_repull.log"
 SECTION_CAP = 400  # runaway guard
+
+# Reuse the completeness check so an index-only stub (1 chapter-page section) is
+# treated as NOT done and gets re-pulled (phase-2 over index_only_repull.json).
+sys.path.insert(0, ROOT)
+from pipeline.eval.corpus_status import is_index_only  # noqa: E402
 
 _CHILD = None
 
@@ -43,11 +50,13 @@ def log(msg):
 
 
 def has_real_sections(prof, state):
-    fp = f"{ROOT}/pipeline/results/text/{prof}/{state}.json"
-    if not os.path.exists(fp):
+    fp = Path(f"{ROOT}/pipeline/results/text/{prof}/{state}.json")
+    if not fp.exists():
         return False
+    if is_index_only(fp):
+        return False  # chapter-index stub — the per-section drill never ran; re-pull
     try:
-        d = json.load(open(fp))
+        d = json.loads(fp.read_text())
     except Exception:
         return False
     secs = d.get("sections") or []
@@ -62,9 +71,11 @@ def commit(prof, n):
 
 def main():
     global _CHILD
-    worklist = json.load(open(WORKLIST))
+    wl_path = sys.argv[1] if len(sys.argv) > 1 else DEFAULT_WORKLIST
+    worklist = json.load(open(wl_path))
     total = sum(len(v) for v in worklist.values())
-    log(f"=== justia re-pull start: {total} pairs across {len(worklist)} profs ===")
+    log(f"=== justia re-pull start: {total} pairs across {len(worklist)} profs "
+        f"(worklist={os.path.basename(wl_path)}) ===")
     for prof in sorted(worklist):
         states = sorted(worklist[prof])
         todo = [s for s in states if not has_real_sections(prof, s)]
