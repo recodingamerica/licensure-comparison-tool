@@ -15,9 +15,13 @@ Two subcommands:
              PULL_ERROR     text/ file has a non-empty 'errors' list
              NO_TEXT        downstream stage exists but text/ missing
              NEEDS_CLEAN    in text/ but no clean/ file
-             STALE_CLEAN    clean/ section count != text/ section count (the footgun)
-             CLEAN_OLDER    clean/ mtime older than text/ (secondary staleness)
+             STALE_CLEAN    clean/ mtime older than text/ — clean rebuilt from an
+                            older text (re-pull without re-clean). The real footgun.
+             CLEAN_EMPTY    clean/ kept 0 sections though text/ had some
+             CLEAN_GT_TEXT  clean/ has MORE sections than text/ (anomaly)
              NEEDS_EXTRACT  no structured/ file (the backlog)
+           NOTE: a plain count drop (clean < text) is normal (dedup + empty-drop)
+           and is deliberately NOT flagged — only mtime staleness is.
 
   backlog  Classify the extract backlog (has text, no structured) into
              raw-empty / post-clean-empty / ready, bucketed by published vs
@@ -126,10 +130,16 @@ def audit_sync(idx) -> list[dict]:
             if not cpath:
                 flags.append("NEEDS_CLEAN")
             else:
-                if text_n is not None and clean_n is not None and text_n != clean_n:
-                    flags.append(f"STALE_CLEAN({text_n}!={clean_n})")
+                # Real staleness is mtime-based: clean was rebuilt from an OLDER
+                # text (re-pull without re-clean). A plain count drop
+                # (clean_n < text_n) is NORMAL — clean_text dedups year-versions
+                # and drops empty sections — so it is deliberately NOT flagged.
                 if cpath.stat().st_mtime < tpath.stat().st_mtime - 1:
-                    flags.append("CLEAN_OLDER")
+                    flags.append("STALE_CLEAN")
+                if clean_n == 0 and text_n:
+                    flags.append("CLEAN_EMPTY")       # clean dropped everything
+                elif clean_n is not None and text_n is not None and clean_n > text_n:
+                    flags.append("CLEAN_GT_TEXT")     # anomaly: clean can't add sections
             if "structured" not in st:
                 flags.append("NEEDS_EXTRACT")
         rows.append({"prof": prof, "state": state, "text_n": text_n,
@@ -184,11 +194,12 @@ def cmd_sync() -> int:
         return any(f.startswith(prefix) for f in flags)
 
     cats = {
-        "NEEDS_CLEAN": [r for r in rows if has("NEEDS_CLEAN", r["flags"])],
-        "STALE_CLEAN": [r for r in rows if has("STALE_CLEAN", r["flags"])],
-        "CLEAN_OLDER": [r for r in rows if "CLEAN_OLDER" in r["flags"] and not has("STALE_CLEAN", r["flags"])],
+        "NEEDS_CLEAN": [r for r in rows if "NEEDS_CLEAN" in r["flags"]],
+        "STALE_CLEAN": [r for r in rows if "STALE_CLEAN" in r["flags"]],
+        "CLEAN_EMPTY": [r for r in rows if "CLEAN_EMPTY" in r["flags"]],
+        "CLEAN_GT_TEXT": [r for r in rows if "CLEAN_GT_TEXT" in r["flags"]],
         "PULL_ERROR": [r for r in rows if "PULL_ERROR" in r["flags"]],
-        "NEEDS_EXTRACT": [r for r in rows if has("NEEDS_EXTRACT", r["flags"])],
+        "NEEDS_EXTRACT": [r for r in rows if "NEEDS_EXTRACT" in r["flags"]],
         "NO_TEXT": [r for r in rows if "NO_TEXT" in r["flags"]],
     }
     print(f"TOTAL (prof,state) pairs indexed: {len(rows)}")
@@ -201,7 +212,7 @@ def cmd_sync() -> int:
             _print_by_prof(name, [(r["prof"], r["state"]) for r in rs])
             print()
     # sync issues (excluding the always-large NEEDS_EXTRACT backlog) → nonzero
-    blocking = sum(len(cats[k]) for k in ("STALE_CLEAN", "PULL_ERROR", "NO_TEXT"))
+    blocking = sum(len(cats[k]) for k in ("STALE_CLEAN", "CLEAN_GT_TEXT", "PULL_ERROR", "NO_TEXT"))
     return 1 if blocking else 0
 
 

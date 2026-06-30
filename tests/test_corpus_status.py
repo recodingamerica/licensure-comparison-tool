@@ -53,14 +53,23 @@ def _secs(n):
 
 
 def test_sync_flags(tree):
+    import os
     w = tree["write"]
-    # healthy: text==clean, has structured
+    # healthy: clean newer than text, has structured
     w(tree["text"], "dietetics", "IA", _secs(3))
     w(tree["clean"], "dietetics", "IA", _secs(3))
     w(tree["structured"], "dietetics", "IA", {"foo": 1})
-    # stale clean: counts mismatch
+    # NORMAL dedup drop (clean < text) — must NOT be flagged stale
+    w(tree["text"], "dietetics", "GA", _secs(10))
+    w(tree["clean"], "dietetics", "GA", _secs(7))
+    # truly stale: clean mtime older than text mtime
     w(tree["text"], "dietetics", "OH", _secs(5))
-    w(tree["clean"], "dietetics", "OH", _secs(2))
+    w(tree["clean"], "dietetics", "OH", _secs(5))
+    os.utime(tree["clean"] / "dietetics" / "OH.json", (1, 1))
+    os.utime(tree["text"] / "dietetics" / "OH.json", (10**9, 10**9))
+    # clean dropped everything
+    w(tree["text"], "dietetics", "NM", _secs(4))
+    w(tree["clean"], "dietetics", "NM", _secs(0))
     # needs clean: text only
     w(tree["text"], "dietetics", "NV", _secs(4))
     # pull error
@@ -68,7 +77,9 @@ def test_sync_flags(tree):
 
     rows = ac.audit_sync(ac.index_stages())
     flat = {(r["prof"], r["state"]): r["flags"] for r in rows}
-    assert any(f.startswith("STALE_CLEAN") for f in flat[("dietetics", "OH")])
+    assert "STALE_CLEAN" in flat[("dietetics", "OH")]
+    assert "STALE_CLEAN" not in flat[("dietetics", "GA")]   # normal dedup, not staleness
+    assert "CLEAN_EMPTY" in flat[("dietetics", "NM")]
     assert "NEEDS_CLEAN" in flat[("dietetics", "NV")]
     assert "PULL_ERROR" in flat[("hvac", "TX")]
     # the one with structured is not in the extract backlog
