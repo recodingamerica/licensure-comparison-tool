@@ -21,6 +21,7 @@ Two subcommands:
              CLEAN_GT_TEXT  clean/ has MORE sections than text/ (anomaly)
              INDEX_ONLY     text/ is just a chapter-index page (1 tiny section, no
                             real statute text) — "covered" but extracts as garbage
+             JUNK_AS_200    a section is a Cloudflare/bot block page saved as content
              THIN           1-2 sections where the profession median is >=10
                             (likely under-matched / wrong chapter)
              NEEDS_EXTRACT  no structured/ file (the backlog)
@@ -44,8 +45,9 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import sys
-from collections import defaultdict
+from collections import Counter, defaultdict
 from pathlib import Path
 from urllib.parse import urlparse
 
@@ -87,6 +89,34 @@ def _sec_count(fp: Path) -> int | None:
     if isinstance(d, dict) and isinstance(d.get("sections"), list):
         return len(d["sections"])
     return None
+
+
+# Cloudflare/bot block-page markers. Mirror of pull_text._BLOCK_MARKERS — kept here
+# (a short constant) so corpus_status stays free of pull_text's heavy deps. A
+# block page that slipped past the pull-time guard sits in text/ as "real" content.
+_BLOCK_MARKERS = (
+    "just a moment",
+    "verifying you are human",
+    "attention required! | cloudflare",
+    "needs to review the security of your connection",
+    "enable javascript and cookies to continue",
+    "cloudflare ray id",
+)
+
+
+def has_block_page(text_path: Path) -> bool:
+    """True if any non-error section's text looks like a Cloudflare/bot block page
+    saved as content (HTTP 200 junk that passed coverage but isn't statute text)."""
+    d = _load(text_path)
+    if not isinstance(d, dict):
+        return False
+    for s in (d.get("sections") or []):
+        if s.get("error"):
+            continue
+        low = (s.get("text") or "").lower()
+        if any(m in low for m in _BLOCK_MARKERS):
+            return True
+    return False
 
 
 def is_index_only(text_path: Path) -> bool:
@@ -148,6 +178,8 @@ def audit_sync(idx) -> list[dict]:
                 flags.append("PULL_ERROR")
             if is_index_only(tpath):
                 flags.append("INDEX_ONLY")    # chapter-index page only, no real sections
+            if has_block_page(tpath):
+                flags.append("JUNK_AS_200")   # block/challenge page saved as content
         elif any(k in st for k in ("clean", "trimmed", "structured")):
             flags.append("NO_TEXT")
         if cpath:
@@ -211,6 +243,36 @@ def classify_backlog(idx):
     return raw_empty, postclean_empty, ready
 
 
+def umbrella_candidates(min_refs: int = 5) -> dict:
+    """Find shared 'umbrella' chapters a corpus depends on but we never pulled —
+    general-provisions chapters (discipline, renewal, unprofessional conduct) that a
+    profession's act heavily cites. The WA 18.130 pattern, generalized. Numeric
+    Title-Chapter cite heuristic (covers UT/IN/SD/NM/GA/SC/CO/AL/AR/... — not prose
+    cites like KRS/RS). Returns {state: {chapter: [professions...]}} for chapters an
+    UNPULLED chapter is cited >= min_refs times within a corpus."""
+    by_state: dict[str, dict[str, set]] = defaultdict(lambda: defaultdict(set))
+    if not TEXT_DIR.exists():
+        return {}
+    for fp in TEXT_DIR.glob("*/*.json"):
+        if fp.stem.startswith("_"):
+            continue
+        prof, state = fp.parent.name, fp.stem
+        d = _load(fp)
+        if not isinstance(d, dict):
+            continue
+        secs = [s for s in (d.get("sections") or []) if not s.get("error")]
+        pulled = {f"{m.group(1)}-{m.group(2)}" for s in secs
+                  if (m := re.match(r"(\d+)-(\d+)", s.get("citation", "")))}
+        if not pulled:
+            continue
+        text = " ".join((s.get("text") or "") for s in secs)
+        refs = Counter(f"{a}-{b}" for a, b in re.findall(r"\b(\d+)-(\d+)", text))
+        for ch, n in refs.items():
+            if ch not in pulled and n >= min_refs:
+                by_state[state][ch].add(prof)
+    return {st: {ch: sorted(profs) for ch, profs in chs.items()} for st, chs in by_state.items()}
+
+
 def _bucket(prof: str, overrides: set[str]) -> str:
     if prof in PUBLISHED:
         return "PUBLISHED"
@@ -241,6 +303,7 @@ def cmd_sync() -> int:
         "CLEAN_EMPTY": [r for r in rows if "CLEAN_EMPTY" in r["flags"]],
         "CLEAN_GT_TEXT": [r for r in rows if "CLEAN_GT_TEXT" in r["flags"]],
         "INDEX_ONLY": [r for r in rows if "INDEX_ONLY" in r["flags"]],
+        "JUNK_AS_200": [r for r in rows if "JUNK_AS_200" in r["flags"]],
         "THIN": [r for r in rows if "THIN" in r["flags"]],
         "PULL_ERROR": [r for r in rows if "PULL_ERROR" in r["flags"]],
         "NEEDS_EXTRACT": [r for r in rows if "NEEDS_EXTRACT" in r["flags"]],
@@ -257,7 +320,7 @@ def cmd_sync() -> int:
             print()
     # sync issues (excluding the always-large NEEDS_EXTRACT backlog) → nonzero
     blocking = sum(len(cats[k]) for k in
-                   ("STALE_CLEAN", "CLEAN_GT_TEXT", "INDEX_ONLY", "PULL_ERROR", "NO_TEXT"))
+                   ("STALE_CLEAN", "CLEAN_GT_TEXT", "INDEX_ONLY", "JUNK_AS_200", "PULL_ERROR", "NO_TEXT"))
     return 1 if blocking else 0
 
 
@@ -308,6 +371,22 @@ def cmd_backlog(write_queues: str | None) -> int:
     return 0
 
 
+def cmd_umbrella(min_refs: int, min_profs: int) -> int:
+    cand = umbrella_candidates(min_refs)
+    corpora = sum(len(profs) for chs in cand.values() for profs in chs.values())
+    strong = [(st, ch, profs) for st, chs in cand.items()
+              for ch, profs in chs.items() if len(profs) >= min_profs]
+    strong.sort(key=lambda x: -len(x[2]))
+    print(f"UMBRELLA-MISSING: shared chapters cited >= {min_refs}x but never pulled")
+    print(f"  (profession,state) corpora affected: {corpora}")
+    print(f"  strong candidates (chapter cited by >= {min_profs} professions in a state): {len(strong)}\n")
+    print(f"  {'state':6s} {'chapter':12s} {'#profs':>6s}  example professions")
+    for st, ch, profs in strong:
+        print(f"  {st:6s} {ch:12s} {len(profs):6d}  {', '.join(profs[:5])}{' …' if len(profs) > 5 else ''}")
+    # nonzero if any strong candidate — these are recoverable missing law
+    return 1 if strong else 0
+
+
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -315,12 +394,18 @@ def main() -> None:
     sp.add_parser("sync", help="cross-stage corpus-sync health report")
     s_bk = sp.add_parser("backlog", help="extract-backlog classification + queues")
     s_bk.add_argument("--write-queues", help="dir to emit queue JSONs into")
+    s_um = sp.add_parser("umbrella", help="unpulled shared/general-provisions chapters a corpus depends on")
+    s_um.add_argument("--min-refs", type=int, default=5, help="min text references to flag (default 5)")
+    s_um.add_argument("--min-profs", type=int, default=3,
+                      help="only show chapters cited by >= this many professions in a state (default 3)")
     args = ap.parse_args()
 
     if args.cmd == "sync":
         sys.exit(cmd_sync())
     elif args.cmd == "backlog":
         sys.exit(cmd_backlog(args.write_queues))
+    elif args.cmd == "umbrella":
+        sys.exit(cmd_umbrella(args.min_refs, args.min_profs))
 
 
 if __name__ == "__main__":
