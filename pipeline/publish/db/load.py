@@ -61,6 +61,7 @@ from paths import (  # noqa: E402
 )
 from scope_sources import is_classified, professions_for  # noqa: E402
 from merged_scope import load_merged_scope  # noqa: E402
+from _records import record_files  # noqa: E402
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 log = logging.getLogger("db.load")
@@ -539,10 +540,7 @@ def load_profession(
 
     if states is None:
         # Use whichever states have structured data for this profession.
-        states = sorted(
-            p.stem for p in (STRUCTURED_DIR / profession).glob("*.json")
-            if not p.stem.startswith("_")
-        )
+        states = [p.stem for p in record_files(STRUCTURED_DIR / profession)]
 
     n_docs = n_evidence = n_profiles = 0
     for st in states:
@@ -594,10 +592,7 @@ def main() -> None:
                 if only_states is not None:
                     states = only_states
                 else:
-                    states = sorted(
-                        p.stem for p in (STRUCTURED_DIR / prof).glob("*.json")
-                        if not p.stem.startswith("_")
-                    )
+                    states = [p.stem for p in record_files(STRUCTURED_DIR / prof)]
 
                 pid = profession_ids.get(prof)
                 if pid is None:

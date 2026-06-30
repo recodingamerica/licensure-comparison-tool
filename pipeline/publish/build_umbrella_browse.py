@@ -38,6 +38,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from paths import RESULTS_DIR  # noqa: E402
+from _records import record_files  # noqa: E402
 from scope_sources import is_universal, is_enumeration  # noqa: E402
 from merged_scope import load_merged_scope  # noqa: E402
 from discover._profession_reverse_index import build_reverse_index  # noqa: E402
@@ -124,7 +125,7 @@ def build_state_umbrella(state: str) -> dict | None:
 
 def _states_with_scope() -> list[str]:
     scope_dir = RESULTS_DIR / "umbrella_scope"
-    return sorted(p.stem for p in scope_dir.glob("*.json") if not p.stem.startswith("_"))
+    return [p.stem for p in record_files(scope_dir)]
 
 
 def _build_by_profession(
@@ -309,9 +310,7 @@ def main() -> None:
 
     by_prof = _build_by_profession(state_payloads, state_regulates)
     # Clean stale per-profession files (rename / removal) before writing.
-    for stale in prof_out_dir.glob("*.json"):
-        if stale.stem.startswith("_"):
-            continue
+    for stale in record_files(prof_out_dir):
         if stale.stem not in by_prof:
             stale.unlink()
     prof_index = []

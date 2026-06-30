@@ -70,6 +70,7 @@ def _extract_compacts(record: dict) -> list[str]:
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from paths import STRUCTURED_DIR, DISCOVERED_DIR, TRIMMED_DIR, RESULTS_DIR  # noqa: E402
+from _records import record_files  # noqa: E402
 from config.states import ALL_STATES  # noqa: E402
 from extract.locate_quote import locate_quote_in_section  # noqa: E402
 from extract.standard_model import is_evidence_node, iter_evidence  # noqa: E402
@@ -447,7 +448,7 @@ def build(profession: str, payload_only: bool = False) -> dict:
     discovered = json.loads((DISCOVERED_DIR / f"{profession}.json").read_text())
     trimmed_dir = TRIMMED_DIR / profession
 
-    have_struct = {p.stem for p in structured_dir.glob("*.json") if not p.stem.startswith("_")}
+    have_struct = {p.stem for p in record_files(structured_dir)}
     trimmed_with_text: dict[str, int] = {}
     chapter_urls_by_state: dict[str, list[str]] = {}
     sections_by_state: dict[str, list[dict]] = {}
@@ -460,9 +461,7 @@ def build(profession: str, payload_only: bool = False) -> dict:
     umb_scope_by_state: dict[str, dict[str, dict]] = {}
 
     if trimmed_dir.exists():
-        for p in trimmed_dir.glob("*.json"):
-            if p.stem.startswith("_"):
-                continue
+        for p in record_files(trimmed_dir):
             d = json.loads(p.read_text())
             trimmed_with_text[p.stem] = d.get("total_chars", 0)
             chapter_urls_by_state[p.stem] = d.get("chapter_urls", []) or []

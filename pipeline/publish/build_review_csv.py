@@ -24,6 +24,7 @@ from typing import Any
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from extract.standard_model import iter_evidence  # noqa: E402
 from paths import STRUCTURED_DIR, RESULTS_DIR  # noqa: E402
+from _records import record_files  # noqa: E402
 
 REVIEWS_DIR = RESULTS_DIR / "reviews"
 
@@ -83,9 +84,7 @@ def main() -> None:
     out_path = out_dir / f"{profession}.csv"
 
     all_rows: list[dict] = []
-    for f in sorted(src_dir.glob("*.json")):
-        if f.name.startswith("_"):
-            continue
+    for f in record_files(src_dir):
         rec = json.loads(f.read_text())
         all_rows.extend(build_rows(rec))
 

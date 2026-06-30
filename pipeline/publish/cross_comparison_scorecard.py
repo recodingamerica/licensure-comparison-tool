@@ -28,6 +28,7 @@ from typing import Any, Callable
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from extract.standard_model import is_evidence_node  # noqa: E402
 from paths import RESULTS_DIR, STRUCTURED_DIR, WEB_PUBLIC_DIR, core_professions  # noqa: E402
+from _records import record_files  # noqa: E402
 
 
 # Atharv's "Universal Category" list from the cross-comparison PDF, mapped to
@@ -147,9 +148,7 @@ def fill_rate(profession: str, accessor: Accessor) -> tuple[int, int]:
     """Returns (n_populated, n_states) — covered states only."""
     pdir = STRUCTURED_DIR / profession
     n = filled = 0
-    for p in sorted(pdir.glob("*.json")):
-        if p.name.startswith("_"):
-            continue
+    for p in record_files(pdir):
         rec = json.loads(p.read_text())
         n += 1
         if accessor(rec):
