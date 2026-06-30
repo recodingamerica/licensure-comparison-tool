@@ -1,0 +1,996 @@
+{
+  "profession": "medicine",
+  "data_as_of": "2026-06-29",
+  "groups": [
+    {
+      "group": "licensure",
+      "intro": "Whether and how the state credentials this profession — the regulatory model,\ncredential type, issuing authority, entry requirements (education, exams, age,\ncharacter), fees, renewal, continuing education, and reciprocity.",
+      "fields": [
+        {
+          "field": "license_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the state requires a credential to practice this profession.",
+          "depth": 0,
+          "example": {
+            "value": true,
+            "quote": "A person may not practice medicine, podiatry, or osteopathy in the state unless the person is licensed under this chapter",
+            "citation": "08.64.170"
+          }
+        },
+        {
+          "field": "issuing_authority",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Free-text name of the board/agency that issues the credential (the structured form is `regulatory_authority`).",
+          "depth": 0,
+          "example": {
+            "value": "State Medical Board",
+            "quote": "\"board\" means the State Medical Board",
+            "citation": "08.64.380"
+          }
+        },
+        {
+          "field": "regulatory_authority",
+          "type": "object",
+          "vocabulary": [],
+          "meaning": "Structured decomposition of the issuing authority — name, type (standalone board / shared board / division / department / joint), and any umbrella agency it sits within. Populated alongside the legacy free-text issuing_authority for back-compat.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "regulatory_authority.name",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Canonical name of the immediate authority (e.g., 'State Board of Podiatry').",
+          "depth": 1,
+          "example": {
+            "value": "State Medical Board",
+            "quote": "\"board\" means the State Medical Board",
+            "citation": "08.64.380"
+          }
+        },
+        {
+          "field": "regulatory_authority.type",
+          "type": "enum",
+          "vocabulary": [
+            "standalone_board",
+            "shared_board",
+            "division",
+            "department",
+            "joint",
+            "other"
+          ],
+          "meaning": "Structural classification of the immediate authority.",
+          "depth": 1,
+          "example": {
+            "value": "standalone_board",
+            "quote": "State Medical Board (AS 08.64.010)",
+            "citation": "UMBRELLA / Chapter 01. Centralized Licensing"
+          }
+        },
+        {
+          "field": "regulatory_authority.umbrella_agency",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Higher-level agency that contains the immediate authority, if any. Example: 'Division of Occupations and Professions, Department of Commerce'. Null for standalone boards that don't sit inside a larger department.",
+          "depth": 1,
+          "example": {
+            "value": "Department of Commerce, Community, and Economic Development",
+            "quote": "\"department\" means the Department of Commerce, Community, and Economic Development",
+            "citation": "08.64.380"
+          }
+        },
+        {
+          "field": "age_minimum",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "Minimum age (years) to hold the credential, if the statute sets one.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "moral_character_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the statute conditions licensure on good moral character / fitness.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "education",
+          "type": "object",
+          "vocabulary": [],
+          "meaning": "Education entry requirement — degree, level, accreditation, and any tiers.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "education.degree_required",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": {
+            "value": "Certificate of graduation from a legally chartered medical school accredited by the Association of American Medical Colleges and the Council on Medical Education of the American Medical Association",
+            "quote": "submit a certificate of graduation from a legally chartered medical school accredited by the Association of American Medical Colleges and the Council on Medical Education of the American Medical Assoc",
+            "citation": "08.64.200"
+          }
+        },
+        {
+          "field": "education.accrediting_body",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": {
+            "value": "Association of American Medical Colleges and the Council on Medical Education of the American Medical Association",
+            "quote": "accredited by the Association of American Medical Colleges and the Council on Medical Education of the American Medical Association",
+            "citation": "08.64.200"
+          }
+        },
+        {
+          "field": "education.degree_level",
+          "type": "enum",
+          "vocabulary": [
+            "none",
+            "high_school",
+            "associate",
+            "bachelor",
+            "master",
+            "doctorate"
+          ],
+          "meaning": "The comparable education FLOOR as a normalized rung. Populate whenever licensure is gated on a degree; null only if the statute is silent on education.",
+          "depth": 1,
+          "example": {
+            "value": "doctorate",
+            "quote": "submit a certificate of graduation from a legally chartered medical school accredited by the Association of American Medical Colleges and the Council on Medical Education of the American Medical Assoc",
+            "citation": "08.64.200"
+          }
+        },
+        {
+          "field": "education.school_approval_basis",
+          "type": "enum",
+          "vocabulary": [
+            "national_accreditor",
+            "regional_accreditor",
+            "board_approved",
+            "unspecified"
+          ],
+          "meaning": "How the statute decides a school counts. national_accreditor=a named national program accreditor (ACOE/CODA/ACEND/LCME/CPME). regional_accreditor='regionally accredited college or university'. board_approved='approved by the board' (discretionary state gate). unspecified=says 'accredited' with no basis named, or silent.",
+          "depth": 1,
+          "example": {
+            "value": "national_accreditor",
+            "quote": "accredited by the Association of American Medical Colleges and the Council on Medical Education of the American Medical Association",
+            "citation": "08.64.200"
+          }
+        },
+        {
+          "field": "education.credential_pegged",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "True if the statute pegs the education requirement to a NATIONAL CREDENTIAL (e.g. 'registered by CDR', 'passed the NBEO') rather than (or in addition to) a stated degree — such a state inherits whatever that national body currently requires.",
+          "depth": 1,
+          "example": {
+            "value": false,
+            "quote": "submit a certificate of graduation from a legally chartered medical school accredited by the Association of American Medical Colleges and the Council on Medical Education of the American Medical Assoc",
+            "citation": "08.64.200"
+          }
+        },
+        {
+          "field": "education.tiers",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "Per-tier floors when the statute sets different education levels for different license classes, or phases the floor in by date. Omit/null when there is a single floor. `degree_level` still records the overall floor across all tiers.",
+          "depth": 1,
+          "example": null
+        },
+        {
+          "field": "education.tiers[].license_class",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Which class/date this floor applies to — e.g. 'licensed dietitian', 'certified nutritionist', 'applicants on or after 2024-01-01'.",
+          "depth": 2,
+          "example": null
+        },
+        {
+          "field": "education.tiers[].degree_level",
+          "type": "enum",
+          "vocabulary": [
+            "none",
+            "high_school",
+            "associate",
+            "bachelor",
+            "master",
+            "doctorate"
+          ],
+          "meaning": "Normalized education floor, low -> high. Resolved to the rung even when\nthe statute uses verbiage ('six college years' -> doctorate, 'or equivalent\ndegree' -> the named level). Professional/clinical doctorates (OD, DDS, MD,\nDPM) are `doctorate`.",
+          "depth": 2,
+          "example": null
+        },
+        {
+          "field": "education.tiers[].effective_date",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "ISO date when this floor takes effect, for date-phased tiers (e.g. '2024-01-01'). Null otherwise.",
+          "depth": 2,
+          "example": null
+        },
+        {
+          "field": "post_degree_experience",
+          "type": "object",
+          "vocabulary": [],
+          "meaning": "Supervised practice / residency / apprenticeship required after the degree.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "post_degree_experience.required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": {
+            "value": true,
+            "quote": "submit a certificate from a recognized hospital or hospitals certifying that the applicant has satisfactorily performed the duties of resident physician or intern for a period of",
+            "citation": "08.64.200"
+          }
+        },
+        {
+          "field": "post_degree_experience.experience_source",
+          "type": "enum",
+          "vocabulary": [
+            "required_by_statute",
+            "embedded_in_credential",
+            "none"
+          ],
+          "meaning": "ALWAYS populate (required_by_statute / embedded_in_credential / none) unless the governing statute is absent from the corpus. Disambiguates a blank `required`: 'none' (truly no requirement) vs 'embedded_in_credential' (the accredited degree the statute points to carries the supervised hours).",
+          "depth": 1,
+          "example": {
+            "value": "required_by_statute",
+            "quote": "submit a certificate from a recognized hospital or hospitals certifying that the applicant has satisfactorily performed the duties of resident physician or intern for a period of",
+            "citation": "08.64.200"
+          }
+        },
+        {
+          "field": "post_degree_experience.duration",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "e.g. '24 months', '1 year', '2,000 hours' (free text — units vary)",
+          "depth": 1,
+          "example": {
+            "value": "One year (pre-1995 graduates) or two years (post-1995 graduates) of residency or internship",
+            "quote": "one year if the applicant graduated from medical school before January 1, 1995 ... two years if the applicant graduated from medical school on or after January 1, 1995",
+            "citation": "08.64.200"
+          }
+        },
+        {
+          "field": "post_degree_experience.kind",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "e.g. 'podiatric residency', 'accounting work experience', 'AXP'",
+          "depth": 1,
+          "example": {
+            "value": "residency or internship",
+            "quote": "satisfactorily performed the duties of resident physician or intern",
+            "citation": "08.64.200"
+          }
+        },
+        {
+          "field": "exams",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "Examinations required for the credential (one entry per exam).",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "exams[].name",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": {
+            "value": "Board examination"
+          }
+        },
+        {
+          "field": "exams[].required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": {
+            "value": true
+          }
+        },
+        {
+          "field": "exams[].notes",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": {
+            "value": "The board determines the subjects; examination may be waived under license-by-credentials provision (AS 08.64.250)."
+          }
+        },
+        {
+          "field": "exams[].jurisdiction",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Where the exam is administered / who owns it — e.g. 'NBPME (national)', 'state board (in-state)', 'NCLEX-RN (national)'. Use the statute's language; null if the source doesn't say.",
+          "depth": 1,
+          "example": {
+            "value": "state (in-house)"
+          }
+        },
+        {
+          "field": "exams[].permitted_attempts",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "Max attempts allowed before re-qualification. Null if not specified.",
+          "depth": 1,
+          "example": null
+        },
+        {
+          "field": "renewal",
+          "type": "object",
+          "vocabulary": [],
+          "meaning": "How the credential is renewed — interval and any conditions.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "renewal.interval_years",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "Most states are 1 or 2",
+          "depth": 1,
+          "example": {
+            "value": 2,
+            "quote": "The fee for a permit issued under this section is one-fourth of the fee for a biennial license",
+            "citation": "08.64.270"
+          }
+        },
+        {
+          "field": "renewal_fee_usd",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "License renewal fee in US dollars (integer). Many statutes leave the amount to the board's discretion — leave null in that case.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "continuing_education",
+          "type": "object",
+          "vocabulary": [],
+          "meaning": "Continuing-education requirement to keep the credential active.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "continuing_education.required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": {
+            "value": true,
+            "quote": "The board shall promote a high degree of competence in the practice of medicine, osteopathy, and podiatry by requiring every licensee of medicine, osteopathy, and podiatry in the state to fulfill cont",
+            "citation": "08.64.312"
+          }
+        },
+        {
+          "field": "continuing_education.hours_per_period",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": null
+        },
+        {
+          "field": "continuing_education.period_years",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": {
+            "value": 2,
+            "quote": "not less than two hours of education in pain management and opioid use and addiction in the two years preceding an application for renewal of a license",
+            "citation": "08.64.312"
+          }
+        },
+        {
+          "field": "continuing_education.topical_requirements",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "Specific topical CE requirements, e.g. ['1.5 hrs opioid', 'ethics']",
+          "depth": 1,
+          "example": {
+            "value": [
+              "pain management and opioid use and addiction (minimum 2 hours per 2-year renewal cycle)"
+            ],
+            "quote": "Continuing education requirements must include not less than two hours of education in pain management and opioid use and addiction in the two years preceding an application for renewal of a license",
+            "citation": "08.64.312"
+          }
+        },
+        {
+          "field": "reciprocity",
+          "type": "object",
+          "vocabulary": [],
+          "meaning": "Whether/how the state recognizes out-of-state credentials (endorsement/reciprocity).",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "reciprocity.available",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": {
+            "value": true,
+            "quote": "The board may waive the examination requirement and license by credentials if the physician, osteopath, or podiatry applicant meets the requirements of AS 08.64.200, 08.64.205, or 08.64.209, submits p",
+            "citation": "08.64.250"
+          }
+        },
+        {
+          "field": "reciprocity.requirements",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Free-form summary",
+          "depth": 1,
+          "example": {
+            "value": "Active license from another U.S. state/territory or Canadian province/territory issued after thorough examination; must also meet all other qualifications (education, malpractice disclosure, pain management education) and submit proof of continued competence.",
+            "quote": "The board may waive the examination requirement and license by credentials if the physician, osteopath, or podiatry applicant meets the requirements of AS 08.64.200, 08.64.205, or 08.64.209, submits p",
+            "citation": "08.64.250"
+          }
+        },
+        {
+          "field": "advisory_board",
+          "type": "object",
+          "vocabulary": [],
+          "meaning": "Profession-specific advisory body sitting alongside the main licensing board, when one exists. Populated for states that delegate licensure to a generic board and add a specialty advisory committee.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "advisory_board.exists",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "True if a profession-specific advisory body exists alongside the main licensing board. False if the licensing board itself is profession-specific (no separate advisory body needed).",
+          "depth": 1,
+          "example": {
+            "value": false,
+            "quote": "\"board\" means the State Medical Board",
+            "citation": "08.64.380"
+          }
+        },
+        {
+          "field": "advisory_board.name",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Name of the advisory board, e.g. 'Podiatry Advisory Committee'.",
+          "depth": 1,
+          "example": null
+        },
+        {
+          "field": "advisory_board.authority",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Authority the advisory board has, in the statute's own words — e.g. 'advisory only', 'rulemaking subject to board approval', 'disciplinary recommendations'. Free text from the statute.",
+          "depth": 1,
+          "example": null
+        },
+        {
+          "field": "national_certification",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Name of a national CERTIFICATION the state recognizes or requires, e.g. 'American Board of Podiatric Surgery (ABPS)' or 'National Board of Podiatric Medical Examiners (NBPME)'. The certifying body, NOT the association. Null if the statute doesn't reference one.",
+          "depth": 0,
+          "example": {
+            "value": "National Board of Examiners for Osteopathic Physicians and Surgeons; National Board of Osteopathic Medical Examiners; American Board of Medical Specialties",
+            "quote": "take the examination required by AS 08.64.210 or be certified to practice by the National Board of Examiners for Osteopathic Physicians and Surgeons or by the National Board of Osteopathic Medical Exa",
+            "citation": "08.64.205"
+          }
+        },
+        {
+          "field": "national_association",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Professional ASSOCIATION the state references (e.g. for accreditation or CE provider approval) — 'American Podiatric Medical Association (APMA)', 'American Dental Association (ADA)'. Distinct from the certifying body. Null if not referenced.",
+          "depth": 0,
+          "example": {
+            "value": "Association of American Medical Colleges; American Medical Association; American Osteopathic Association",
+            "quote": "accredited by the Association of American Medical Colleges and the Council on Medical Education of the American Medical Association",
+            "citation": "08.64.200"
+          }
+        },
+        {
+          "field": "regulatory_model",
+          "type": "enum",
+          "vocabulary": [
+            "market_forces",
+            "voluntary_certification",
+            "registration",
+            "exemption",
+            "mandatory_certification",
+            "license"
+          ],
+          "meaning": "Which UORF model the state applies to this profession (license / mandatory_cert / registration / etc).",
+          "depth": 0,
+          "example": {
+            "value": "license",
+            "quote": "A person may not practice medicine, podiatry, or osteopathy in the state unless the person is licensed under this chapter",
+            "citation": "08.64.170"
+          }
+        },
+        {
+          "field": "credential_type",
+          "type": "enum",
+          "vocabulary": [
+            "none",
+            "registration",
+            "certification",
+            "license",
+            "exemption"
+          ],
+          "meaning": "What SHAPE of credential does the state issue, independent of whether holding it is mandatory? license / certification / registration / exemption / none. Pairs with is_mandatory to decompose the legacy regulatory_model rung.",
+          "depth": 0,
+          "example": {
+            "value": "license",
+            "quote": "the board or its executive secretary shall grant a license to the applicant to practice medicine in the state",
+            "citation": "08.64.230"
+          }
+        },
+        {
+          "field": "is_mandatory",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Is the credential MANDATORY to practice (or claim the title) in this state? True if practicing without it is prohibited; False if optional (e.g., voluntary certification that only protects the title for those who hold it).",
+          "depth": 0,
+          "example": {
+            "value": true,
+            "quote": "A person may not practice medicine, podiatry, or osteopathy in the state unless the person is licensed under this chapter",
+            "citation": "08.64.170"
+          }
+        },
+        {
+          "field": "title_protection",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Does the state restrict use of the profession's title to licensees? True if unlicensed people may NOT call themselves the protected title (e.g. 'podiatrist', 'CPA').",
+          "depth": 0,
+          "example": {
+            "value": true,
+            "quote": "to use or publicly display a title in connection with a person's name including \"doctor of medicine,\" \"physician,\" \"M.D.,\" or \"doctor of osteopathic medicine\" or \"D.O.\" or a specialist designation inc",
+            "citation": "08.64.380"
+          }
+        },
+        {
+          "field": "scope_protection",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Does the state restrict practice of the profession's scope to licensees? True if performing the scope without a license is prohibited (independent of title use).",
+          "depth": 0,
+          "example": {
+            "value": true,
+            "quote": "A person may not practice medicine, podiatry, or osteopathy in the state unless the person is licensed under this chapter",
+            "citation": "08.64.170"
+          }
+        },
+        {
+          "field": "disciplinary_grounds",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "Grounds on which the board may discipline a licensee. Typical statutes list 5-15.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "disciplinary_grounds[].short_label",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "snake_case key, e.g. 'fraud_in_obtaining_license'",
+          "depth": 1,
+          "example": {
+            "value": "fraud_in_obtaining_license"
+          }
+        },
+        {
+          "field": "disciplinary_grounds[].description",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "One-line plain-English description",
+          "depth": 1,
+          "example": {
+            "value": "Secured a license through deceit, fraud, or intentional misrepresentation"
+          }
+        },
+        {
+          "field": "alternative_regulation",
+          "type": "object",
+          "vocabulary": [],
+          "meaning": "Non-credential regulatory mechanisms (bonding, insurance, establishment regulation) imposed by the state. Obama 2015 framework typology. Independent of credential_type.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "alternative_regulation.bonding_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Does the statute require the practitioner or firm to post a bond (funds against which consumer claims can be made)? Independent of whether a credential is also required.",
+          "depth": 1,
+          "example": null
+        },
+        {
+          "field": "alternative_regulation.insurance_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Does the statute require the practitioner or firm to carry insurance (e.g., professional liability, surety insurance)?",
+          "depth": 1,
+          "example": null
+        },
+        {
+          "field": "alternative_regulation.establishment_regulation_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Does the statute regulate the ESTABLISHMENT / FIRM (e.g., facility license, mandatory inspection of premises) as a route to consumer protection, independent of any practitioner credential?",
+          "depth": 1,
+          "example": null
+        },
+        {
+          "field": "citations",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "Statutory citations supporting the licensure fields above.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "citations[].cite",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": {
+            "value": "08.64.101"
+          }
+        },
+        {
+          "field": "citations[].kind",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": {
+            "value": "board duties"
+          }
+        }
+      ]
+    },
+    {
+      "group": "scope",
+      "intro": "What the practice act lets (or reserves to) this profession — the defined scope,\nauthorized methods, drug authority, and any title/scope protection. Skeleton only —\nprofession-specific scope richness lives in the discovered block.",
+      "fields": [
+        {
+          "field": "definition_quote",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Verbatim statutory definition; quote field repeats the value text.",
+          "depth": 0,
+          "example": {
+            "value": "for a fee, donation or other consideration, to diagnose, treat, operate on, prescribe for, or administer to, any human ailment, blemish, deformity, disease, disfigurement, disorder, injury, or other mental or physical condition; or to attempt to perform or represent that a person is authorized to perform any of the acts set out in this subparagraph",
+            "quote": "for a fee, donation or other consideration, to diagnose, treat, operate on, prescribe for, or administer to, any human ailment, blemish, deformity, disease, disfigurement, disorder, injury, or other m",
+            "citation": "08.64.380"
+          }
+        },
+        {
+          "field": "methods_authorized",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "High-level methods, e.g. ['medical','surgical','mechanical']",
+          "depth": 0,
+          "example": {
+            "value": [
+              "diagnose",
+              "treat",
+              "operate on",
+              "prescribe for",
+              "administer to"
+            ],
+            "quote": "to diagnose, treat, operate on, prescribe for, or administer to, any human ailment, blemish, deformity, disease, disfigurement, disorder, injury, or other mental or physical condition",
+            "citation": "08.64.380"
+          }
+        },
+        {
+          "field": "drug_authority",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Whether/how the profession may prescribe, administer, or dispense drugs.",
+          "depth": 0,
+          "example": {
+            "value": "Licensees may prescribe, dispense, and administer drugs including controlled substances, subject to opioid prescribing limits and telehealth rules.",
+            "quote": "has procured, sold, prescribed, or dispensed drugs in violation of a law regardless of whether there has been a criminal action or harm to the patient",
+            "citation": "08.64.326"
+          }
+        },
+        {
+          "field": "citations",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "Statutory citations supporting the scope fields above.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "citations[].cite",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": {
+            "value": "08.64.380"
+          }
+        },
+        {
+          "field": "citations[].kind",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": {
+            "value": "definition of practice of medicine"
+          }
+        }
+      ]
+    },
+    {
+      "group": "profession_specific",
+      "intro": "Fields discovered specifically for this profession (auto-derived from its statutes); they vary profession to profession.",
+      "fields": [
+        {
+          "field": "license_status_types",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "The distinct license status categories a physician may hold beyond a standard active license, such as inactive, retired, volunteer, temporary, or administrative.",
+          "depth": 0,
+          "example": {
+            "value": [
+              "active",
+              "inactive",
+              "retired status",
+              "temporary permit",
+              "locum tenens permit",
+              "residency/internship permit"
+            ],
+            "quote": "A licensee who does not practice in the state may hold an inactive license. A person who practices in the state, however infrequently, shall hold an active license.",
+            "citation": "08.64.313"
+          }
+        },
+        {
+          "field": "foreign_medical_graduate_requirements",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Special additional requirements imposed on graduates of medical schools outside the United States or Canada, such as additional postgraduate training years, ECFMG certification, or separate examination standards.",
+          "depth": 0,
+          "example": {
+            "value": "Foreign medical graduates must meet requirements of AS 08.64.200(a)(3)-(5) and 08.64.255, complete three years of postgraduate training (or alternative board-approved proof of competency), and pass board-specified examinations.",
+            "quote": "Applicants who are graduates of medical colleges not accredited by the Association of American Medical Colleges and the Council on Medical Education of the American Medical Association shall meet the ",
+            "citation": "08.64.225"
+          }
+        },
+        {
+          "field": "postgraduate_training_years_required",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "The minimum number of years of postgraduate internship or residency training required before a license will be issued to a standard domestic medical school graduate.",
+          "depth": 0,
+          "example": {
+            "value": 2,
+            "quote": "two years if the applicant graduated from medical school on or after January 1, 1995, as evidenced by a certificate of completion of the first year of postgraduate training from the facility where the",
+            "citation": "08.64.200"
+          }
+        },
+        {
+          "field": "pain_management_education_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the state requires applicants or licensees to complete specific education in pain management and opioid use and addiction as a condition of licensure or renewal.",
+          "depth": 0,
+          "example": {
+            "value": true,
+            "quote": "receive education in pain management and opioid use and addiction, unless the applicant has demonstrated to the satisfaction of the board that the applicant does not currently hold a valid federal Dru",
+            "citation": "08.64.200"
+          }
+        },
+        {
+          "field": "opioid_prescribing_limits",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Statutory limits on the quantity or duration of opioid prescriptions a licensee may issue, including any exceptions for chronic pain, cancer, or palliative care.",
+          "depth": 0,
+          "example": {
+            "value": "Initial opioid prescription may not exceed a seven-day supply for adult outpatients; prescriptions for minors may not exceed a seven-day supply. Exceptions exist for chronic pain, cancer, palliative care, logistical/travel barriers, and substance abuse treatment.",
+            "quote": "A licensee may not issue an initial prescription for an opioid that exceeds a seven-day supply to an adult patient for outpatient use; a prescription for an opioid that exceeds a seven-day supply to a",
+            "citation": "08.64.363"
+          }
+        },
+        {
+          "field": "controlled_substance_database_registration_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether licensees who hold a DEA registration number are required to register with or use the state's prescription drug monitoring program or controlled substance database.",
+          "depth": 0,
+          "example": {
+            "value": true,
+            "quote": "require that a licensee who has a federal Drug Enforcement Administration registration number register with the controlled substance prescription database under AS 17.30.200(n)",
+            "citation": "08.64.101"
+          }
+        },
+        {
+          "field": "pain_management_clinic_registration_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether physicians providing pain management services must obtain a separate registration or license from the board in addition to their standard medical license.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "telehealth_prescribing_rules",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Specific statutory conditions under which a physician may prescribe drugs, including controlled substances, to patients seen only via telehealth rather than in person.",
+          "depth": 0,
+          "example": {
+            "value": "Board may not impose disciplinary sanctions for prescribing non-controlled substances via telehealth if follow-up care is available and records are shared with primary care provider with patient consent; controlled substances may also be prescribed if those conditions plus opioid limits are met. Prescribing in response to internet questionnaire or email without prior physician-patient relationship is prohibited.",
+            "quote": "The board may not impose disciplinary sanctions on a physician or physician assistant for rendering a diagnosis, providing treatment, or prescribing, dispensing, or administering a prescription drug t",
+            "citation": "08.64.364"
+          }
+        },
+        {
+          "field": "telemedicine_license_available",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the state offers a distinct telemedicine or telehealth license category for out-of-state physicians who wish to treat in-state patients remotely without obtaining a full in-state license.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "interstate_medical_licensure_compact_member",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the state has enacted the Interstate Medical Licensure Compact, enabling eligible physicians to obtain expedited licenses in multiple member states.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "physician_assistant_supervision_model",
+          "type": "enum",
+          "vocabulary": [
+            "direct supervision required",
+            "collaborative practice agreement",
+            "job description with board approval",
+            "facility credentialing system"
+          ],
+          "meaning": "The statutory model governing how physician assistants must relate to supervising or collaborating physicians, ranging from strict supervision to collaborative practice agreements.",
+          "depth": 0,
+          "example": {
+            "value": "direct supervision required",
+            "quote": "a physician assistant may examine, diagnose, or treat persons under the supervision, control, and responsibility of either a physician licensed under this chapter or a physician exempted from licensin",
+            "citation": "08.64.170"
+          }
+        },
+        {
+          "field": "physician_assistant_prescriptive_authority",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "The scope of prescriptive authority granted to physician assistants, including which drug schedules they may prescribe and any conditions or limitations on that authority.",
+          "depth": 0,
+          "example": {
+            "value": "Physician assistants may prescribe drugs (including controlled substances via telehealth) subject to the same conditions as physicians under AS 08.64.364; duties related to pain management and opioid use and addiction may not be delegated.",
+            "quote": "The board may not impose disciplinary sanctions on a physician or physician assistant for rendering a diagnosis, providing treatment, or prescribing, dispensing, or administering a prescription drug t",
+            "citation": "08.64.364"
+          }
+        },
+        {
+          "field": "max_physician_assistants_per_supervising_physician",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "The maximum number of physician assistants or advanced practice registered nurses that a single supervising or delegating physician may oversee at one time under standard practice settings.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "malpractice_reporting_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether licensees are required by statute to report to the board the outcome of medical malpractice claims or civil actions in which damages are paid on their behalf.",
+          "depth": 0,
+          "example": {
+            "value": true,
+            "quote": "A person licensed under this chapter shall report in writing to the board concerning the outcome of each medical malpractice claim or civil action in which damages have been or are to be paid by or on",
+            "citation": "08.64.345"
+          }
+        },
+        {
+          "field": "hospital_privilege_action_reporting_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether hospitals are required by statute to report to the medical board when they revoke, suspend, restrict, or refuse to grant hospital privileges to a licensed physician.",
+          "depth": 0,
+          "example": {
+            "value": true,
+            "quote": "A hospital that revokes, suspends, conditions, restricts, or refuses to grant hospital privileges to, or imposes a consultation requirement on, a person licensed to practice medicine or osteopathy in ",
+            "citation": "08.64.336"
+          }
+        },
+        {
+          "field": "impaired_physician_program_authorized",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the state statute explicitly authorizes or requires the board to establish or contract with a program to identify, evaluate, and rehabilitate physicians impaired by substance use or mental illness.",
+          "depth": 0,
+          "example": {
+            "value": true,
+            "quote": "under regulations adopted by the board, contract with private professional organizations to establish an impaired medical professionals program to identify, confront, evaluate, and treat persons licen",
+            "citation": "08.64.101"
+          }
+        },
+        {
+          "field": "compelled_mental_physical_exam_authority",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the board has statutory authority to order a licensee to submit to a mental or physical examination when there is probable cause to believe the licensee cannot practice safely.",
+          "depth": 0,
+          "example": {
+            "value": true,
+            "quote": "For the purposes of an investigation under this chapter, the board may order a person to whom it has issued a license or permit to submit to a medical or psychiatric examination by a physician or othe",
+            "citation": "08.64.338"
+          }
+        },
+        {
+          "field": "administrative_medicine_license_available",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the state offers a distinct administrative medicine license for physicians who wish to perform management or advisory functions without engaging in direct patient care.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "locum_tenens_permit_available",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the state offers a specific temporary permit for physicians practicing as locum tenens substitutes for licensed in-state physicians.",
+          "depth": 0,
+          "example": {
+            "value": true,
+            "quote": "A member of the board, its executive secretary, or a person designated by the board to issue temporary permits may grant a temporary permit to a physician or osteopath for the purpose of substituting ",
+            "citation": "08.64.275"
+          }
+        },
+        {
+          "field": "sexual_misconduct_training_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the state requires physicians or medical school students to complete specific training on professional boundaries and physician sexual misconduct as a condition of licensure or renewal.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "investigational_drug_protection",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the state statute explicitly protects physicians from disciplinary action for prescribing or administering investigational drugs or unapproved treatments to terminally ill patients who have given informed consent.",
+          "depth": 0,
+          "example": {
+            "value": true,
+            "quote": "A physician may not be subject to disciplinary action by the board for prescribing, dispensing, or administering an investigational drug, biological product, or device, or providing related treatment,",
+            "citation": "08.64.367"
+          }
+        }
+      ]
+    }
+  ],
+  "example_state": "AK"
+}

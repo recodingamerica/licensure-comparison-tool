@@ -36,7 +36,7 @@ _PIPELINE_DIR = Path(__file__).resolve().parent.parent
 if str(_PIPELINE_DIR) not in sys.path:
     sys.path.insert(0, str(_PIPELINE_DIR))
 
-from paths import DISCOVERED_DIR, STRUCTURED_DIR, PIPELINE_ROOT, core_professions  # noqa: E402
+from paths import DISCOVERED_DIR, STRUCTURED_DIR, PIPELINE_ROOT, WEB_PUBLIC_DIR, core_professions  # noqa: E402
 from extract.extract_state import build_profile_model  # noqa: E402
 from _records import record_files  # noqa: E402
 from _runlog import record_run  # noqa: E402
@@ -324,7 +324,14 @@ def build_html() -> Path:
     payload = json.dumps(data, ensure_ascii=False).replace("</", "<\\/")
     out = OUT_DIR / "index.html"
     out.write_text(_HTML.replace("__DATA__", payload))
-    print(f"wrote {out.name} ({len(data)} professions, self-contained)")
+    # Mirror the viewer + per-profession json/md into the Next.js app's public dir so
+    # it deploys at /methodology/index.html (the download links are relative).
+    web_dir = WEB_PUBLIC_DIR / "methodology"
+    web_dir.mkdir(parents=True, exist_ok=True)
+    (web_dir / "index.html").write_text(out.read_text())
+    for f in OUT_DIR.glob("*_field_dictionary.*"):
+        (web_dir / f.name).write_text(f.read_text())
+    print(f"wrote {out.name} ({len(data)} professions) → docs/methodology + web/public/methodology")
     record_run("field_dictionary_html", professions=len(data))
     return out
 

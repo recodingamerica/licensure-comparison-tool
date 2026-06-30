@@ -1,0 +1,115 @@
+# Field dictionary — professional_engineering
+
+_Auto-generated from the extraction model (`standard_model.py` + the profession's discovered schema). Do not edit by hand — regenerate with `python -m pipeline.publish.generate_field_dictionary`._
+
+**Reflects extracted data as of 2026-06-25** (latest commit to `professional_engineering` records). Regenerate to refresh.
+
+Every field is an **Evidence** object: a `value`, the verbatim `quote` from the statute that supports it, and the `citation` it came from. Examples below are sampled from professional_engineering/AK.
+
+## licensure
+_Whether and how the state credentials this profession — the regulatory model,
+credential type, issuing authority, entry requirements (education, exams, age,
+character), fees, renewal, continuing education, and reciprocity._
+
+| field | type | what it means | example value |
+|---|---|---|---|
+| `license_required` | boolean | Whether the state requires a credential to practice this profession. | true |
+| `issuing_authority` | string | Free-text name of the board/agency that issues the credential (the structured form is `regulatory_authority`). | "State Board of Registration for Architects, Engineers, and  |
+| `regulatory_authority` | object | Structured decomposition of the issuing authority — name, type (standalone board / shared board / division / department / joint), and any umbrella agency it sits within. Populated alongside the legacy free-text issuing_authority for back-compat. |  |
+| &nbsp;&nbsp;&nbsp;&nbsp;`regulatory_authority.name` | string | Canonical name of the immediate authority (e.g., 'State Board of Podiatry'). | "State Board of Registration for Architects, Engineers, and  |
+| &nbsp;&nbsp;&nbsp;&nbsp;`regulatory_authority.type` | enum — one of: standalone_board, shared_board, division, department, joint, other | Structural classification of the immediate authority. | "shared_board" |
+| &nbsp;&nbsp;&nbsp;&nbsp;`regulatory_authority.umbrella_agency` | string | Higher-level agency that contains the immediate authority, if any. Example: 'Division of Occupations and Professions, Department of Commerce'. Null for standalone boards that don't sit inside a larger department. | "Department of Commerce, Community, and Economic Development |
+| `age_minimum` | integer | Minimum age (years) to hold the credential, if the statute sets one. |  |
+| `moral_character_required` | boolean | Whether the statute conditions licensure on good moral character / fitness. | true |
+| `education` | object | Education entry requirement — degree, level, accreditation, and any tiers. |  |
+| &nbsp;&nbsp;&nbsp;&nbsp;`education.degree_required` | string |  | "Evidence of education, training, and experience satisfactor |
+| &nbsp;&nbsp;&nbsp;&nbsp;`education.accrediting_body` | string |  |  |
+| &nbsp;&nbsp;&nbsp;&nbsp;`education.degree_level` | enum — one of: none, high_school, associate, bachelor, master, doctorate | The comparable education FLOOR as a normalized rung. Populate whenever licensure is gated on a degree; null only if the statute is silent on education. |  |
+| &nbsp;&nbsp;&nbsp;&nbsp;`education.school_approval_basis` | enum — one of: national_accreditor, regional_accreditor, board_approved, unspecified | How the statute decides a school counts. national_accreditor=a named national program accreditor (ACOE/CODA/ACEND/LCME/CPME). regional_accreditor='regionally accredited college or university'. board_approved='approved by the board' (discretionary state gate). unspecified=says 'accredited' with no basis named, or silent. | "unspecified" |
+| &nbsp;&nbsp;&nbsp;&nbsp;`education.credential_pegged` | boolean | True if the statute pegs the education requirement to a NATIONAL CREDENTIAL (e.g. 'registered by CDR', 'passed the NBEO') rather than (or in addition to) a stated degree — such a state inherits whatever that national body currently requires. | false |
+| &nbsp;&nbsp;&nbsp;&nbsp;`education.tiers` | list | Per-tier floors when the statute sets different education levels for different license classes, or phases the floor in by date. Omit/null when there is a single floor. `degree_level` still records the overall floor across all tiers. |  |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`education.tiers[].license_class` | string | Which class/date this floor applies to — e.g. 'licensed dietitian', 'certified nutritionist', 'applicants on or after 2024-01-01'. |  |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`education.tiers[].degree_level` | enum — one of: none, high_school, associate, bachelor, master, doctorate | Normalized education floor, low -> high. Resolved to the rung even when the statute uses verbiage ('six college years' -> doctorate, 'or equivalent degree' -> the named level). Professional/clinical doctorates (OD, DDS, MD, DPM) are `doctorate`. |  |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`education.tiers[].effective_date` | string | ISO date when this floor takes effect, for date-phased tiers (e.g. '2024-01-01'). Null otherwise. |  |
+| `post_degree_experience` | object | Supervised practice / residency / apprenticeship required after the degree. |  |
+| &nbsp;&nbsp;&nbsp;&nbsp;`post_degree_experience.required` | boolean |  |  |
+| &nbsp;&nbsp;&nbsp;&nbsp;`post_degree_experience.experience_source` | enum — one of: required_by_statute, embedded_in_credential, none | ALWAYS populate (required_by_statute / embedded_in_credential / none) unless the governing statute is absent from the corpus. Disambiguates a blank `required`: 'none' (truly no requirement) vs 'embedded_in_credential' (the accredited degree the statute points to carries the supervised hours). | "none" |
+| &nbsp;&nbsp;&nbsp;&nbsp;`post_degree_experience.duration` | string | e.g. '24 months', '1 year', '2,000 hours' (free text — units vary) |  |
+| &nbsp;&nbsp;&nbsp;&nbsp;`post_degree_experience.kind` | string | e.g. 'podiatric residency', 'accounting work experience', 'AXP' |  |
+| `exams` | list | Examinations required for the credential (one entry per exam). |  |
+| &nbsp;&nbsp;&nbsp;&nbsp;`exams[].name` | string |  | "Professional Engineer Examination" |
+| &nbsp;&nbsp;&nbsp;&nbsp;`exams[].required` | boolean |  | true |
+| &nbsp;&nbsp;&nbsp;&nbsp;`exams[].notes` | string |  | "Examinations held at least once per year; standards must me |
+| &nbsp;&nbsp;&nbsp;&nbsp;`exams[].jurisdiction` | string | Where the exam is administered / who owns it — e.g. 'NBPME (national)', 'state board (in-state)', 'NCLEX-RN (national)'. Use the statute's language; null if the source doesn't say. | "state (administered by board per national examining council |
+| &nbsp;&nbsp;&nbsp;&nbsp;`exams[].permitted_attempts` | integer | Max attempts allowed before re-qualification. Null if not specified. |  |
+| `renewal` | object | How the credential is renewed — interval and any conditions. |  |
+| &nbsp;&nbsp;&nbsp;&nbsp;`renewal.interval_years` | integer | Most states are 1 or 2 | 2 |
+| `renewal_fee_usd` | integer | License renewal fee in US dollars (integer). Many statutes leave the amount to the board's discretion — leave null in that case. |  |
+| `continuing_education` | object | Continuing-education requirement to keep the credential active. |  |
+| &nbsp;&nbsp;&nbsp;&nbsp;`continuing_education.required` | boolean |  | true |
+| &nbsp;&nbsp;&nbsp;&nbsp;`continuing_education.hours_per_period` | integer |  |  |
+| &nbsp;&nbsp;&nbsp;&nbsp;`continuing_education.period_years` | integer |  |  |
+| &nbsp;&nbsp;&nbsp;&nbsp;`continuing_education.topical_requirements` | list | Specific topical CE requirements, e.g. ['1.5 hrs opioid', 'ethics'] |  |
+| `reciprocity` | object | Whether/how the state recognizes out-of-state credentials (endorsement/reciprocity). |  |
+| &nbsp;&nbsp;&nbsp;&nbsp;`reciprocity.available` | boolean |  | true |
+| &nbsp;&nbsp;&nbsp;&nbsp;`reciprocity.requirements` | string | Free-form summary | "Applicant must hold a certificate of registration from anot |
+| `advisory_board` | object | Profession-specific advisory body sitting alongside the main licensing board, when one exists. Populated for states that delegate licensure to a generic board and add a specialty advisory committee. |  |
+| &nbsp;&nbsp;&nbsp;&nbsp;`advisory_board.exists` | boolean | True if a profession-specific advisory body exists alongside the main licensing board. False if the licensing board itself is profession-specific (no separate advisory body needed). | false |
+| &nbsp;&nbsp;&nbsp;&nbsp;`advisory_board.name` | string | Name of the advisory board, e.g. 'Podiatry Advisory Committee'. |  |
+| &nbsp;&nbsp;&nbsp;&nbsp;`advisory_board.authority` | string | Authority the advisory board has, in the statute's own words — e.g. 'advisory only', 'rulemaking subject to board approval', 'disciplinary recommendations'. Free text from the statute. |  |
+| `national_certification` | string | Name of a national CERTIFICATION the state recognizes or requires, e.g. 'American Board of Podiatric Surgery (ABPS)' or 'National Board of Podiatric Medical Examiners (NBPME)'. The certifying body, NOT the association. Null if the statute doesn't reference one. |  |
+| `national_association` | string | Professional ASSOCIATION the state references (e.g. for accreditation or CE provider approval) — 'American Podiatric Medical Association (APMA)', 'American Dental Association (ADA)'. Distinct from the certifying body. Null if not referenced. |  |
+| `regulatory_model` | enum — one of: market_forces, voluntary_certification, registration, exemption, mandatory_certification, license | Which UORF model the state applies to this profession (license / mandatory_cert / registration / etc). | "license" |
+| `credential_type` | enum — one of: none, registration, certification, license, exemption | What SHAPE of credential does the state issue, independent of whether holding it is mandatory? license / certification / registration / exemption / none. Pairs with is_mandatory to decompose the legacy regulatory_model rung. | "license" |
+| `is_mandatory` | boolean | Is the credential MANDATORY to practice (or claim the title) in this state? True if practicing without it is prohibited; False if optional (e.g., voluntary certification that only protects the title for those who hold it). | true |
+| `title_protection` | boolean | Does the state restrict use of the profession's title to licensees? True if unlicensed people may NOT call themselves the protected title (e.g. 'podiatrist', 'CPA'). | true |
+| `scope_protection` | boolean | Does the state restrict practice of the profession's scope to licensees? True if performing the scope without a license is prohibited (independent of title use). | true |
+| `disciplinary_grounds` | list | Grounds on which the board may discipline a licensee. Typical statutes list 5-15. |  |
+| &nbsp;&nbsp;&nbsp;&nbsp;`disciplinary_grounds[].short_label` | string | snake_case key, e.g. 'fraud_in_obtaining_license' | "fraud_in_obtaining_certificate" |
+| &nbsp;&nbsp;&nbsp;&nbsp;`disciplinary_grounds[].description` | string | One-line plain-English description | "Fraud or deceit in obtaining a certificate of registration" |
+| `alternative_regulation` | object | Non-credential regulatory mechanisms (bonding, insurance, establishment regulation) imposed by the state. Obama 2015 framework typology. Independent of credential_type. |  |
+| &nbsp;&nbsp;&nbsp;&nbsp;`alternative_regulation.bonding_required` | boolean | Does the statute require the practitioner or firm to post a bond (funds against which consumer claims can be made)? Independent of whether a credential is also required. |  |
+| &nbsp;&nbsp;&nbsp;&nbsp;`alternative_regulation.insurance_required` | boolean | Does the statute require the practitioner or firm to carry insurance (e.g., professional liability, surety insurance)? |  |
+| &nbsp;&nbsp;&nbsp;&nbsp;`alternative_regulation.establishment_regulation_required` | boolean | Does the statute regulate the ESTABLISHMENT / FIRM (e.g., facility license, mandatory inspection of premises) as a route to consumer protection, independent of any practitioner credential? | true |
+| `citations` | list | Statutory citations supporting the licensure fields above. |  |
+| &nbsp;&nbsp;&nbsp;&nbsp;`citations[].cite` | string |  | "08.48.011" |
+| &nbsp;&nbsp;&nbsp;&nbsp;`citations[].kind` | string |  |  |
+
+## scope
+_What the practice act lets (or reserves to) this profession — the defined scope,
+authorized methods, drug authority, and any title/scope protection. Skeleton only —
+profession-specific scope richness lives in the discovered block._
+
+| field | type | what it means | example value |
+|---|---|---|---|
+| `definition_quote` | string | Verbatim statutory definition; quote field repeats the value text. | "\"practice of engineering\" means professional service or c |
+| `methods_authorized` | list | High-level methods, e.g. ['medical','surgical','mechanical'] | ["design of structures, machines, equipment, utilities syste |
+| `drug_authority` | string | Whether/how the profession may prescribe, administer, or dispense drugs. |  |
+| `citations` | list | Statutory citations supporting the scope fields above. |  |
+| &nbsp;&nbsp;&nbsp;&nbsp;`citations[].cite` | string |  | "08.48.341" |
+| &nbsp;&nbsp;&nbsp;&nbsp;`citations[].kind` | string |  |  |
+
+## profession_specific
+_Fields discovered specifically for this profession (auto-derived from its statutes); they vary profession to profession._
+
+| field | type | what it means | example value |
+|---|---|---|---|
+| `covers_land_surveying` | boolean | Whether the same statute and licensing board also governs professional land surveyors. | true |
+| `covers_geology` | boolean | Whether the same statute and licensing board also governs professional geologists. | false |
+| `engineer_intern_certificate_available` | boolean | Whether the state issues a formal intermediate certificate (engineer intern or engineer-in-training) to candidates who pass the fundamentals exam but have not yet completed experience requirements. | false |
+| `surveyor_in_training_certificate_available` | boolean | Whether the state issues a formal intermediate certificate to land surveying candidates who pass the fundamentals exam but have not yet completed experience requirements. | false |
+| `geologist_in_training_certificate_available` | boolean | Whether the state issues a formal intermediate certificate to geology candidates who pass the fundamentals exam but have not yet completed experience requirements. |  |
+| `postgraduate_degree_experience_credit_years_max` | integer | Maximum number of years of experience credit that may be granted for postbaccalaureate engineering degrees earned before licensure. |  |
+| `responsible_charge_defined` | boolean | Whether the statute provides an explicit statutory definition of 'responsible charge' as a term of art for the level of oversight required for licensure and practice. | true |
+| `seal_required_on_documents` | boolean | Whether licensees are required by statute to obtain and affix an official seal to plans, specifications, plats, and reports they issue. | true |
+| `seal_document_types` | list | Types of professional documents that must bear the licensee's seal and signature. | ["final drawings", "specifications", "surveys", "plats", "pl |
+| `firm_practice_allowed` | boolean | Whether firms and corporations may lawfully offer engineering, surveying, or geology services, subject to the condition that responsible employees are licensed. | true |
+| `exemptions_from_licensure` | list | Categories of persons or activities explicitly exempted from the licensure requirement. | ["contractor performing work designed by a professional arch |
+| `code_of_ethics_in_statute` | boolean | Whether the statute itself contains a codified code of ethics whose violation is grounds for license suspension or revocation. | true |
+| `multi_license_reporting_required` | boolean | Whether licensees holding licenses in other states, territories, or countries must report that fact and any out-of-state disciplinary actions to the board. |  |
+| `board_engineering_disciplines_represented` | list | The major engineering disciplines that must be represented on the licensing board, as specified by statute. | ["civil engineering (two members)", "mining engineering", "e |
+| `board_member_responsible_charge_years_required` | integer | Minimum number of years a professional board member must have been in responsible charge of work to be eligible for appointment. | 5 |
+| `pdh_units_per_renewal_period` | integer | Number of Professional Development Hours (PDH) required per biennial renewal period. |  |
+| `pdh_carryover_max_units` | integer | Maximum number of excess PDH units that may be carried forward into the next renewal period. |  |
+| `retired_status_license_available` | boolean | Whether the state offers a retired-status license that exempts the holder from continuing education requirements while prohibiting active practice. | true |
+

@@ -116,10 +116,18 @@ export default function HomePage() {
       <h1 className="text-3xl font-semibold tracking-tight mb-2">
         {mode === "profession" ? "Pick a profession" : "Pick a state"}
       </h1>
-      <p className="text-muted-foreground mb-6 max-w-2xl">
+      <p className="text-muted-foreground mb-3 max-w-2xl">
         Side-by-side licensure and scope of practice across U.S. states,
         auto-extracted from state statutes. Every claim is backed by a
         verbatim quote regex-validated against the source.
+      </p>
+      <p className="mb-6 text-sm">
+        <a
+          href="/methodology/index.html"
+          className="underline underline-offset-4 hover:text-muted-foreground"
+        >
+          Field dictionary &amp; methodology →
+        </a>
       </p>
 
       {/* Mode toggle — same visual pattern as the profile-view's table/map */}

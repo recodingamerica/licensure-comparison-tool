@@ -1,0 +1,1016 @@
+{
+  "profession": "electrician",
+  "data_as_of": "2026-06-29",
+  "groups": [
+    {
+      "group": "licensure",
+      "intro": "Whether and how the state credentials this profession — the regulatory model,\ncredential type, issuing authority, entry requirements (education, exams, age,\ncharacter), fees, renewal, continuing education, and reciprocity.",
+      "fields": [
+        {
+          "field": "license_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the state requires a credential to practice this profession.",
+          "depth": 0,
+          "example": {
+            "value": true,
+            "quote": "A person may not act as an electrical administrator in the state without a license issued by the department unless the person is covered by an exclusion under AS 08.40.190.",
+            "citation": "08.40.090"
+          }
+        },
+        {
+          "field": "issuing_authority",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Free-text name of the board/agency that issues the credential (the structured form is `regulatory_authority`).",
+          "depth": 0,
+          "example": {
+            "value": "Department of Commerce, Community, and Economic Development",
+            "quote": "\"department\" means the Department of Commerce, Community, and Economic Development",
+            "citation": "08.40.200"
+          }
+        },
+        {
+          "field": "regulatory_authority",
+          "type": "object",
+          "vocabulary": [],
+          "meaning": "Structured decomposition of the issuing authority — name, type (standalone board / shared board / division / department / joint), and any umbrella agency it sits within. Populated alongside the legacy free-text issuing_authority for back-compat.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "regulatory_authority.name",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Canonical name of the immediate authority (e.g., 'State Board of Podiatry').",
+          "depth": 1,
+          "example": {
+            "value": "Department of Commerce, Community, and Economic Development",
+            "quote": "\"department\" means the Department of Commerce, Community, and Economic Development",
+            "citation": "08.40.200"
+          }
+        },
+        {
+          "field": "regulatory_authority.type",
+          "type": "enum",
+          "vocabulary": [
+            "standalone_board",
+            "shared_board",
+            "division",
+            "department",
+            "joint",
+            "other"
+          ],
+          "meaning": "Structural classification of the immediate authority.",
+          "depth": 1,
+          "example": {
+            "value": "department",
+            "quote": "\"department\" means the Department of Commerce, Community, and Economic Development",
+            "citation": "08.40.200"
+          }
+        },
+        {
+          "field": "regulatory_authority.umbrella_agency",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Higher-level agency that contains the immediate authority, if any. Example: 'Division of Occupations and Professions, Department of Commerce'. Null for standalone boards that don't sit inside a larger department.",
+          "depth": 1,
+          "example": null
+        },
+        {
+          "field": "age_minimum",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "Minimum age (years) to hold the credential, if the statute sets one.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "moral_character_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the statute conditions licensure on good moral character / fitness.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "education",
+          "type": "object",
+          "vocabulary": [],
+          "meaning": "Education entry requirement — degree, level, accreditation, and any tiers.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "education.degree_required",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": null
+        },
+        {
+          "field": "education.accrediting_body",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": null
+        },
+        {
+          "field": "education.degree_level",
+          "type": "enum",
+          "vocabulary": [
+            "none",
+            "high_school",
+            "associate",
+            "bachelor",
+            "master",
+            "doctorate"
+          ],
+          "meaning": "The comparable education FLOOR as a normalized rung. Populate whenever licensure is gated on a degree; null only if the statute is silent on education.",
+          "depth": 1,
+          "example": null
+        },
+        {
+          "field": "education.school_approval_basis",
+          "type": "enum",
+          "vocabulary": [
+            "national_accreditor",
+            "regional_accreditor",
+            "board_approved",
+            "unspecified"
+          ],
+          "meaning": "How the statute decides a school counts. national_accreditor=a named national program accreditor (ACOE/CODA/ACEND/LCME/CPME). regional_accreditor='regionally accredited college or university'. board_approved='approved by the board' (discretionary state gate). unspecified=says 'accredited' with no basis named, or silent.",
+          "depth": 1,
+          "example": null
+        },
+        {
+          "field": "education.credential_pegged",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "True if the statute pegs the education requirement to a NATIONAL CREDENTIAL (e.g. 'registered by CDR', 'passed the NBEO') rather than (or in addition to) a stated degree — such a state inherits whatever that national body currently requires.",
+          "depth": 1,
+          "example": null
+        },
+        {
+          "field": "education.tiers",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "Per-tier floors when the statute sets different education levels for different license classes, or phases the floor in by date. Omit/null when there is a single floor. `degree_level` still records the overall floor across all tiers.",
+          "depth": 1,
+          "example": null
+        },
+        {
+          "field": "education.tiers[].license_class",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Which class/date this floor applies to — e.g. 'licensed dietitian', 'certified nutritionist', 'applicants on or after 2024-01-01'.",
+          "depth": 2,
+          "example": null
+        },
+        {
+          "field": "education.tiers[].degree_level",
+          "type": "enum",
+          "vocabulary": [
+            "none",
+            "high_school",
+            "associate",
+            "bachelor",
+            "master",
+            "doctorate"
+          ],
+          "meaning": "Normalized education floor, low -> high. Resolved to the rung even when\nthe statute uses verbiage ('six college years' -> doctorate, 'or equivalent\ndegree' -> the named level). Professional/clinical doctorates (OD, DDS, MD,\nDPM) are `doctorate`.",
+          "depth": 2,
+          "example": null
+        },
+        {
+          "field": "education.tiers[].effective_date",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "ISO date when this floor takes effect, for date-phased tiers (e.g. '2024-01-01'). Null otherwise.",
+          "depth": 2,
+          "example": null
+        },
+        {
+          "field": "post_degree_experience",
+          "type": "object",
+          "vocabulary": [],
+          "meaning": "Supervised practice / residency / apprenticeship required after the degree.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "post_degree_experience.required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": {
+            "value": false,
+            "quote": "Each applicant shall be examined to determine the applicant's (1) ability to understand plans, design specifications, and engineering terms commonly used in the electrical field; (2) knowledge of elec",
+            "citation": "08.40.120"
+          }
+        },
+        {
+          "field": "post_degree_experience.experience_source",
+          "type": "enum",
+          "vocabulary": [
+            "required_by_statute",
+            "embedded_in_credential",
+            "none"
+          ],
+          "meaning": "ALWAYS populate (required_by_statute / embedded_in_credential / none) unless the governing statute is absent from the corpus. Disambiguates a blank `required`: 'none' (truly no requirement) vs 'embedded_in_credential' (the accredited degree the statute points to carries the supervised hours).",
+          "depth": 1,
+          "example": {
+            "value": "none",
+            "quote": "Each applicant shall be examined to determine the applicant's (1) ability to understand plans, design specifications, and engineering terms commonly used in the electrical field; (2) knowledge of elec",
+            "citation": "08.40.120"
+          }
+        },
+        {
+          "field": "post_degree_experience.duration",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "e.g. '24 months', '1 year', '2,000 hours' (free text — units vary)",
+          "depth": 1,
+          "example": null
+        },
+        {
+          "field": "post_degree_experience.kind",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "e.g. 'podiatric residency', 'accounting work experience', 'AXP'",
+          "depth": 1,
+          "example": null
+        },
+        {
+          "field": "exams",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "Examinations required for the credential (one entry per exam).",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "exams[].name",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": {
+            "value": "Electrical Administrator Licensing Examination"
+          }
+        },
+        {
+          "field": "exams[].required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": {
+            "value": true
+          }
+        },
+        {
+          "field": "exams[].notes",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": {
+            "value": "Examination covers ability to understand plans/specs, knowledge of electrical installations and wiring, familiarity with National Electrical Code and National Electrical Safety Code, and personal skill and ability. May be waived if applicant is licensed as electrical administrator in another state/territory and has passed equivalent exam."
+          }
+        },
+        {
+          "field": "exams[].jurisdiction",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Where the exam is administered / who owns it — e.g. 'NBPME (national)', 'state board (in-state)', 'NCLEX-RN (national)'. Use the statute's language; null if the source doesn't say.",
+          "depth": 1,
+          "example": {
+            "value": "state"
+          }
+        },
+        {
+          "field": "exams[].permitted_attempts",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "Max attempts allowed before re-qualification. Null if not specified.",
+          "depth": 1,
+          "example": null
+        },
+        {
+          "field": "renewal",
+          "type": "object",
+          "vocabulary": [],
+          "meaning": "How the credential is renewed — interval and any conditions.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "renewal.interval_years",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "Most states are 1 or 2",
+          "depth": 1,
+          "example": {
+            "value": 2,
+            "quote": "Licenses shall be renewed biennially on the dates set by the department with the approval of the respective board.",
+            "citation": "UMBRELLA / Chapter 01. Centralized Licensing"
+          }
+        },
+        {
+          "field": "renewal_fee_usd",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "License renewal fee in US dollars (integer). Many statutes leave the amount to the board's discretion — leave null in that case.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "continuing_education",
+          "type": "object",
+          "vocabulary": [],
+          "meaning": "Continuing-education requirement to keep the credential active.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "continuing_education.required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": {
+            "value": true,
+            "quote": "the department shall adopt regulations subject to AS 44.62 (Administrative Procedure Act), relating to the examination and licensing of electrical administrators and the establishing of the continued ",
+            "citation": "08.40.050"
+          }
+        },
+        {
+          "field": "continuing_education.hours_per_period",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": null
+        },
+        {
+          "field": "continuing_education.period_years",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": null
+        },
+        {
+          "field": "continuing_education.topical_requirements",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "Specific topical CE requirements, e.g. ['1.5 hrs opioid', 'ethics']",
+          "depth": 1,
+          "example": null
+        },
+        {
+          "field": "reciprocity",
+          "type": "object",
+          "vocabulary": [],
+          "meaning": "Whether/how the state recognizes out-of-state credentials (endorsement/reciprocity).",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "reciprocity.available",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": {
+            "value": true,
+            "quote": "If an applicant for a license submits proof satisfactory to the department that the applicant is licensed as an electrical administrator or the equivalent by another state or territory, that the appli",
+            "citation": "08.40.120"
+          }
+        },
+        {
+          "field": "reciprocity.requirements",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Free-form summary",
+          "depth": 1,
+          "example": {
+            "value": "Applicant must be licensed as an electrical administrator or equivalent in another state or territory, meet AK qualifications, and have passed an equivalent examination. If all three are met, the examination is waived.",
+            "quote": "If an applicant for a license submits proof satisfactory to the department that the applicant is licensed as an electrical administrator or the equivalent by another state or territory, that the appli",
+            "citation": "08.40.120"
+          }
+        },
+        {
+          "field": "advisory_board",
+          "type": "object",
+          "vocabulary": [],
+          "meaning": "Profession-specific advisory body sitting alongside the main licensing board, when one exists. Populated for states that delegate licensure to a generic board and add a specialty advisory committee.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "advisory_board.exists",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "True if a profession-specific advisory body exists alongside the main licensing board. False if the licensing board itself is profession-specific (no separate advisory body needed).",
+          "depth": 1,
+          "example": {
+            "value": false,
+            "quote": "regulation of electrical and mechanical administrators under AS 08.40",
+            "citation": "UMBRELLA / Chapter 01. Centralized Licensing"
+          }
+        },
+        {
+          "field": "advisory_board.name",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Name of the advisory board, e.g. 'Podiatry Advisory Committee'.",
+          "depth": 1,
+          "example": null
+        },
+        {
+          "field": "advisory_board.authority",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Authority the advisory board has, in the statute's own words — e.g. 'advisory only', 'rulemaking subject to board approval', 'disciplinary recommendations'. Free text from the statute.",
+          "depth": 1,
+          "example": null
+        },
+        {
+          "field": "national_certification",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Name of a national CERTIFICATION the state recognizes or requires, e.g. 'American Board of Podiatric Surgery (ABPS)' or 'National Board of Podiatric Medical Examiners (NBPME)'. The certifying body, NOT the association. Null if the statute doesn't reference one.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "national_association",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Professional ASSOCIATION the state references (e.g. for accreditation or CE provider approval) — 'American Podiatric Medical Association (APMA)', 'American Dental Association (ADA)'. Distinct from the certifying body. Null if not referenced.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "regulatory_model",
+          "type": "enum",
+          "vocabulary": [
+            "market_forces",
+            "voluntary_certification",
+            "registration",
+            "exemption",
+            "mandatory_certification",
+            "license"
+          ],
+          "meaning": "Which UORF model the state applies to this profession (license / mandatory_cert / registration / etc).",
+          "depth": 0,
+          "example": {
+            "value": "license",
+            "quote": "A person may not act as an electrical administrator in the state without a license issued by the department unless the person is covered by an exclusion under AS 08.40.190.",
+            "citation": "08.40.090"
+          }
+        },
+        {
+          "field": "credential_type",
+          "type": "enum",
+          "vocabulary": [
+            "none",
+            "registration",
+            "certification",
+            "license",
+            "exemption"
+          ],
+          "meaning": "What SHAPE of credential does the state issue, independent of whether holding it is mandatory? license / certification / registration / exemption / none. Pairs with is_mandatory to decompose the legacy regulatory_model rung.",
+          "depth": 0,
+          "example": {
+            "value": "license",
+            "quote": "A person may not act as an electrical administrator in the state without a license issued by the department unless the person is covered by an exclusion under AS 08.40.190.",
+            "citation": "08.40.090"
+          }
+        },
+        {
+          "field": "is_mandatory",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Is the credential MANDATORY to practice (or claim the title) in this state? True if practicing without it is prohibited; False if optional (e.g., voluntary certification that only protects the title for those who hold it).",
+          "depth": 0,
+          "example": {
+            "value": true,
+            "quote": "A person may not act as an electrical administrator in the state without a license issued by the department unless the person is covered by an exclusion under AS 08.40.190.",
+            "citation": "08.40.090"
+          }
+        },
+        {
+          "field": "title_protection",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Does the state restrict use of the profession's title to licensees? True if unlicensed people may NOT call themselves the protected title (e.g. 'podiatrist', 'CPA').",
+          "depth": 0,
+          "example": {
+            "value": true,
+            "quote": "A person may not act as an electrical administrator in the state without a license issued by the department unless the person is covered by an exclusion under AS 08.40.190.",
+            "citation": "08.40.090"
+          }
+        },
+        {
+          "field": "scope_protection",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Does the state restrict practice of the profession's scope to licensees? True if performing the scope without a license is prohibited (independent of title use).",
+          "depth": 0,
+          "example": {
+            "value": true,
+            "quote": "A person may not act as an electrical administrator in the state without a license issued by the department unless the person is covered by an exclusion under AS 08.40.190.",
+            "citation": "08.40.090"
+          }
+        },
+        {
+          "field": "disciplinary_grounds",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "Grounds on which the board may discipline a licensee. Typical statutes list 5-15.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "disciplinary_grounds[].short_label",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "snake_case key, e.g. 'fraud_in_obtaining_license'",
+          "depth": 1,
+          "example": {
+            "value": "fraudulent_application"
+          }
+        },
+        {
+          "field": "disciplinary_grounds[].description",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "One-line plain-English description",
+          "depth": 1,
+          "example": {
+            "value": "License application is fraudulent or misleading"
+          }
+        },
+        {
+          "field": "alternative_regulation",
+          "type": "object",
+          "vocabulary": [],
+          "meaning": "Non-credential regulatory mechanisms (bonding, insurance, establishment regulation) imposed by the state. Obama 2015 framework typology. Independent of credential_type.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "alternative_regulation.bonding_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Does the statute require the practitioner or firm to post a bond (funds against which consumer claims can be made)? Independent of whether a credential is also required.",
+          "depth": 1,
+          "example": null
+        },
+        {
+          "field": "alternative_regulation.insurance_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Does the statute require the practitioner or firm to carry insurance (e.g., professional liability, surety insurance)?",
+          "depth": 1,
+          "example": null
+        },
+        {
+          "field": "alternative_regulation.establishment_regulation_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Does the statute regulate the ESTABLISHMENT / FIRM (e.g., facility license, mandatory inspection of premises) as a route to consumer protection, independent of any practitioner credential?",
+          "depth": 1,
+          "example": null
+        },
+        {
+          "field": "citations",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "Statutory citations supporting the licensure fields above.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "citations[].cite",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": {
+            "value": "08.40.045"
+          }
+        },
+        {
+          "field": "citations[].kind",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": null
+        }
+      ]
+    },
+    {
+      "group": "scope",
+      "intro": "What the practice act lets (or reserves to) this profession — the defined scope,\nauthorized methods, drug authority, and any title/scope protection. Skeleton only —\nprofession-specific scope richness lives in the discovered block.",
+      "fields": [
+        {
+          "field": "definition_quote",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Verbatim statutory definition; quote field repeats the value text.",
+          "depth": 0,
+          "example": {
+            "value": "\"electrical administrator\" means a person who is responsible for (A) installing or repairing electrical wiring, conduits, devices, fixtures, equipment, or other electrical materials for transmitting, using, or consuming electrical energy; or (B) certifying that an installation or repair described in (A) of this paragraph complies with applicable electrical codes",
+            "quote": "\"electrical administrator\" means a person who is responsible for (A) installing or repairing electrical wiring, conduits, devices, fixtures, equipment, or other electrical materials for transmitting, ",
+            "citation": "08.40.200"
+          }
+        },
+        {
+          "field": "methods_authorized",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "High-level methods, e.g. ['medical','surgical','mechanical']",
+          "depth": 0,
+          "example": {
+            "value": [
+              "installing electrical wiring, conduits, devices, fixtures, equipment, or other electrical materials",
+              "repairing electrical wiring, conduits, devices, fixtures, equipment, or other electrical materials",
+              "certifying that installation or repair complies with applicable electrical codes"
+            ],
+            "quote": "installing or repairing electrical wiring, conduits, devices, fixtures, equipment, or other electrical materials for transmitting, using, or consuming electrical energy; or (B) certifying that an inst",
+            "citation": "08.40.200"
+          }
+        },
+        {
+          "field": "drug_authority",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Whether/how the profession may prescribe, administer, or dispense drugs.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "citations",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "Statutory citations supporting the scope fields above.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "citations[].cite",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": {
+            "value": "08.40.200"
+          }
+        },
+        {
+          "field": "citations[].kind",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": null
+        }
+      ]
+    },
+    {
+      "group": "profession_specific",
+      "intro": "Fields discovered specifically for this profession (auto-derived from its statutes); they vary profession to profession.",
+      "fields": [
+        {
+          "field": "license_tiers",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "The named tiers or classifications of electrician license available in the state, from apprentice through master and including residential variants.",
+          "depth": 0,
+          "example": {
+            "value": [
+              "electrical administrator"
+            ],
+            "quote": "The department may adopt regulations establishing categories of electrical administrators, qualifications for those categories, and the content of examinations for applicants for each category.",
+            "citation": "08.40.045"
+          }
+        },
+        {
+          "field": "residential_project_definition",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Statutory definition of what constitutes a 'residential project' for purposes of limiting or distinguishing residential electrician license scope.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "residential_wiring_method_restriction",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the residential-tier electrician license is restricted to work on buildings primarily wired with nonmetallic sheathed (NM) cable.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "voltage_limit_residential",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "Maximum voltage (line-to-line) permitted under a residential electrician license classification.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "scope_exclusions",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "Specific categories of work explicitly excluded from the definition of the electrical trade and therefore not requiring an electrician license.",
+          "depth": 0,
+          "example": {
+            "value": [
+              "utility or municipality: electrical construction and maintenance for generation and distribution of electrical current in integral utility-owned systems",
+              "utility: installation, operation, maintenance, or repair of telephone, signal, or communication systems by utility employees",
+              "manufacture, maintenance, or repair of electrical apparatus or equipment",
+              "electrical work costing not more than $5,000 involving residences or small commercial establishments in communities with population under 500 or over 50 miles from licensed electrical administrator",
+              "electrical installation on residential property owned by installer or immediate family member not intended for sale",
+              "operation, maintenance, or repair of television or radio broadcasting system and installation of radio broadcasting system under 500 watts input power (except AC power supply and wiring)",
+              "installation, maintenance, and repair of elevators by elevator industry agents/employees confined to elevator control system (excluding power supply, wiring, motor connection)",
+              "operation, maintenance, and repair of telephone and intercommunication facilities",
+              "installation, maintenance, and repair of fire alarm, intrusion alarm, or other low voltage signaling systems of 48 volts to ground or less",
+              "maintenance or repair of diesel electric engines installed on heavy construction equipment",
+              "installation in a commercial water well of submersible pump motor and wiring to well pump system controls if controls are outside a building or structure",
+              "installation in a noncommercial water well of submersible pump motor and wiring to well pump system controls",
+              "electrical maintenance or repair work performed by employee of owner or tenant of commercial property as part of work duties not offered as a service to the public"
+            ],
+            "quote": "AS 08.40.005 - 08.40.200 do not apply to any utility or municipality engaged in (1) electrical construction and maintenance of electrical wiring for the generation and distribution of electrical curre",
+            "citation": "08.40.190"
+          }
+        },
+        {
+          "field": "minor_electrical_work_amperage_limit",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "Maximum amperage for minor electrical work incidental to a mechanical or service installation that is excluded from the licensed electrical trade.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "minor_electrical_work_distance_limit_feet",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "Maximum distance in feet that wiring may be extended from an existing outlet or disconnect to qualify as minor electrical work excluded from licensure.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "apprentice_supervision_ratio",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "The maximum ratio of licensed apprentice electricians permitted under the immediate supervision of one licensed supervisor, as set by rule.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "apprentice_unsupervised_hours_allowed",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "Maximum hours per 24-hour period that a fourth-year or later apprentice electrician may work without direct supervision.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "apprentice_unsupervised_year_threshold",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "The year of apprenticeship training at which an apprentice electrician first becomes eligible to work limited hours without direct supervision.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "residential_apprentice_supervisor_ratio_max",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "Maximum number of apprentice electricians a licensed supervisor may oversee on a residential project.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "qualifier_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether a licensed electrical contractor entity must designate a qualifying individual who holds the relevant journeyman or master license and exercises material authority over the business.",
+          "depth": 0,
+          "example": {
+            "value": true,
+            "quote": "A person may not qualify for or operate as an electrical administrator for more than one registered contractor.",
+            "citation": "08.40.130"
+          }
+        },
+        {
+          "field": "qualifier_license_requirement_by_contractor_type",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "The specific electrician license tier that the qualifier for each type of electrical contractor must hold.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "qualifier_replacement_notice_days",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "Number of days within which a contractor must notify the licensing division in writing after a qualifier ceases association with the business.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "qualifier_replacement_grace_period_days",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "Number of days a contractor license remains in force after a qualifier ceases association, during which a replacement qualifier must be named.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "long_term_compliance_qualifier_waiver_years",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "Number of consecutive years of violation-free licensure after which an electrical contractor business entity may substitute an active licensed employee name for a named individual qualifier at renewal.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "journeyman_electrician_apprenticeship_hours",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "Minimum hours of full-time apprenticeship training required to qualify for a journeyman electrician license via the apprenticeship pathway.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "journeyman_electrician_experience_alternative_years",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "Years of full-time electrical experience accepted as an alternative pathway to journeyman electrician licensure in lieu of a formal apprenticeship.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "master_electrician_journeyman_experience_years",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "Years of practical experience as a journeyman electrician required to qualify for a master electrician license via the experience pathway.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "master_electrician_engineering_degree_pathway",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether a graduate electrical engineering degree from an accredited institution, combined with reduced practical experience, is an accepted pathway to master electrician licensure.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "master_electrician_trade_school_degree_pathway",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether an associate of applied sciences degree from an approved electrical trade school, combined with journeyman experience, is an accepted pathway to master electrician licensure.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "residential_journeyman_training_program_years",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "Minimum years of training in a division-approved electrical training program accepted as a pathway to residential journeyman electrician licensure.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "residential_master_electrician_journeyman_experience_years",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "Minimum years of practical experience as a residential journeyman electrician required to qualify for a residential master electrician license.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "expedited_licensure_pathway_available",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether an expedited licensure pathway exists for applicants who can clearly demonstrate equivalent knowledge and skills without meeting the standard experience or training requirements.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "electrician_continuing_education_hours",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "Total hours of continuing education a licensed electrician (journeyman through master) must complete per two-year renewal cycle.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "approved_continuing_education_providers",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "Named organizations whose courses are approved to satisfy electrician continuing education requirements.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "national_electrical_code_reference",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the statute explicitly references the National Electrical Code as the governing standard for electrical work.",
+          "depth": 0,
+          "example": {
+            "value": true,
+            "quote": "familiarity with the regulations contained in the National Electrical Code and the National Electrical Safety Code, as approved by the American National Standards Institute",
+            "citation": "08.40.120"
+          }
+        },
+        {
+          "field": "gas_appliance_work_certification_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether electricians or contractors performing installation, repair, or replacement of gas appliances or combustion systems must obtain a separate certification beyond their electrician license.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "small_project_dollar_threshold_exemption",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "Maximum total project cost (labor and materials) below which a person may perform certain construction work without a contractor license, with electrical and plumbing work explicitly excluded from this exemption.",
+          "depth": 0,
+          "example": {
+            "value": 5000,
+            "quote": "electrical work, the cost of which does not exceed $5,000, involving residences or small commercial establishments in communities that (A) have a population of under 500 according to the latest availa",
+            "citation": "08.40.190"
+          }
+        },
+        {
+          "field": "solar_panel_electrical_work_exemption",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether electrical work incidental to installing or repairing solar panels is exempt from standard electrician licensure requirements.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "hot_tub_sign_electrical_exemption",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether electrical work incidental to installing or repairing an above-ground prebuilt hot tub or on-premise signage is exempt from electrician licensure.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "utility_worker_exemption",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether persons employed by electric utilities, railroads, telephone corporations, or municipal utilities are exempt from electrician licensure for work incidental to those employers' operations.",
+          "depth": 0,
+          "example": {
+            "value": true,
+            "quote": "AS 08.40.005 - 08.40.200 do not apply to any utility or municipality engaged in (1) electrical construction and maintenance of electrical wiring for the generation and distribution of electrical curre",
+            "citation": "08.40.190"
+          }
+        },
+        {
+          "field": "financial_responsibility_bond_option",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether an electrical contractor applicant may satisfy the financial responsibility requirement by submitting a surety bond as an alternative to completing a financial questionnaire.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "workers_compensation_insurance_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether proof of workers' compensation insurance covering employees is required before the division will issue an electrical contractor license.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "public_liability_insurance_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether proof of public liability insurance in division-specified amounts is required before the division will issue an electrical contractor license.",
+          "depth": 0,
+          "example": null
+        }
+      ]
+    }
+  ],
+  "example_state": "AK"
+}
