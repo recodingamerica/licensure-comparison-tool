@@ -13,10 +13,23 @@ deliberately conservative: it requires LICENSING phrases ("licensed electrician"
 chapter that just name-drops "plumber" once won't trip it. The post-pull / pre-publish
 gates still validate downstream.
 
+There are two modes:
+  - CONFIG mode (default): hand-curated licensing phrases + a curated sibling pool.
+    Conservative, high-precision; the entries below were verified.
+  - BRUTE-FORCE mode (--brute-force): no CONFIG needed — uses the occupation's own
+    professions.yaml label patterns and scans EVERY pulled corpus, picking the
+    densest-matching sibling per blank state. Auto-discovers shared-board links
+    nobody configured (e.g. public_adjuster licensed under the insurance code,
+    prosthetist_orthotist co-located with podiatry). Output is always a review
+    CANDIDATE — the density threshold filters most noise but not all, so eyeball
+    each before --apply.
+
 Usage:
   python -m pipeline.discover.mechanical_cross_ref --profession electrician           # dry-run
   python -m pipeline.discover.mechanical_cross_ref --profession electrician --apply
   python -m pipeline.discover.mechanical_cross_ref --all-trades --apply
+  python -m pipeline.discover.mechanical_cross_ref --profession public_adjuster --brute-force
+  python -m pipeline.discover.mechanical_cross_ref --profession public_adjuster --brute-force --apply
 """
 from __future__ import annotations
 
@@ -130,38 +143,109 @@ def find_links(profession: str, overrides: dict, terms: list[str], siblings: lis
     return out
 
 
+# --- Brute-force mode: no hand-curated CONFIG, scan EVERY pulled corpus ---------
+# Where find_links uses a curated sibling pool + hand-picked licensing phrases,
+# brute-force uses the occupation's own professions.yaml label patterns as the
+# search terms and greps ALL other pulled corpora. It auto-discovers shared-board
+# links nobody configured (e.g. a contractor act that licenses plumbers). The
+# density threshold self-filters bare-noun noise — a corpus that merely name-drops
+# the occupation stays well under it; one that regulates it clears it. Output is
+# always a REVIEW candidate (best-scoring sibling per state), never auto-trusted.
+
+def _all_occupations() -> list[str]:
+    """Every occupation that has a pulled corpus dir under results/text/."""
+    return sorted(d.name for d in TEXT_DIR.iterdir()
+                  if d.is_dir() and not d.name.startswith("_"))
+
+
+def load_patterns(profession: str) -> list[str]:
+    """The occupation's label-match patterns from professions.yaml ([] if absent)."""
+    path = CONFIG_DIR / "professions.yaml"
+    defs = (yaml.safe_load(path.read_text()) if path.exists() else {}) or {}
+    return list((defs.get(profession) or {}).get("patterns") or [])
+
+
+def brute_force_links(profession: str, overrides: dict, patterns: list[str],
+                      sibling_pool: list[str], min_score: int) -> dict[str, tuple[str, int]]:
+    """For each blank state, the BEST-scoring sibling corpus that densely uses the
+    occupation's patterns. Best (not first) because there's no preference order in
+    a brute scan — the densest match is the most likely shared board."""
+    blank = sorted(ALL_STATES - _have(profession, overrides))
+    out: dict[str, tuple[str, int]] = {}
+    for st in blank:
+        best: tuple[str, int] | None = None
+        for sib in sibling_pool:
+            if sib == profession:
+                continue
+            txt = _corpus_text(sib, st)
+            if not txt:
+                continue
+            score = sum(len(re.findall(re.escape(p), txt, re.I)) for p in patterns)
+            if score >= min_score and (best is None or score > best[1]):
+                best = (sib, score)
+        if best:
+            out[st] = best
+    return out
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--profession", help="one occupation key from CONFIG")
+    ap.add_argument("--profession", help="one occupation key (from CONFIG, or any "
+                                         "professions.yaml key with --brute-force)")
     ap.add_argument("--all", action="store_true", help="run every occupation in CONFIG")
     ap.add_argument("--all-trades", action="store_true", help="run electrician, plumbing, hvac")
     ap.add_argument("--siblings", help="comma-separated override of the sibling pool")
+    ap.add_argument("--brute-force", action="store_true",
+                    help="ignore CONFIG: use the occupation's professions.yaml patterns and scan "
+                         "EVERY pulled corpus to auto-discover shared-board links. Use with "
+                         "--profession (and optionally --siblings to narrow the pool).")
+    ap.add_argument("--min-score", type=int, default=DENSITY,
+                    help=f"density threshold for --brute-force (default {DENSITY})")
     ap.add_argument("--apply", action="store_true", help="write confirmed links to corpus_overrides.yaml")
     args = ap.parse_args()
 
-    if args.all:
-        profs = list(CONFIG)
-    elif args.all_trades:
-        profs = ["electrician", "plumbing", "hvac"]
-    else:
-        profs = [args.profession]
-    if not profs or profs == [None]:
-        return print("give --profession, --all-trades, or --all") or 2
-
     overrides = (yaml.safe_load(OVERRIDES.read_text()) if OVERRIDES.exists() else {}) or {}
-    total = 0
-    for prof in profs:
-        if prof not in CONFIG:
-            print(f"  {prof}: not in CONFIG (add its terms + siblings)"); continue
-        terms = CONFIG[prof]["terms"]
-        siblings = ([s.strip() for s in args.siblings.split(",")] if args.siblings else CONFIG[prof]["siblings"])
-        links = find_links(prof, overrides, terms, siblings)
-        for st, (sib, score) in links.items():
-            print(f"  {prof}/{st} ← {sib}  ({score} licensing-term hits)")
-        if links and args.apply:
-            overrides.setdefault(prof, {}).update({st: sib for st, (sib, _) in links.items()})
-        total += len(links)
+
+    if args.brute_force:
+        if not args.profession:
+            return print("--brute-force needs --profession") or 2
+        prof = args.profession
+        patterns = load_patterns(prof)
+        if not patterns:
+            return print(f"  {prof}: no patterns in professions.yaml — can't brute-force") or 2
+        pool = ([s.strip() for s in args.siblings.split(",")] if args.siblings
+                else _all_occupations())
+        links = brute_force_links(prof, overrides, patterns, pool, args.min_score)
+        for st, (sib, score) in sorted(links.items()):
+            print(f"  {prof}/{st} ← {sib}  ({score} pattern hits)  [brute-force CANDIDATE — review]")
+        results = {prof: links}
+        total = len(links)
+    else:
+        if args.all:
+            profs = list(CONFIG)
+        elif args.all_trades:
+            profs = ["electrician", "plumbing", "hvac"]
+        else:
+            profs = [args.profession]
+        if not profs or profs == [None]:
+            return print("give --profession, --all-trades, --all, or --brute-force") or 2
+        results = {}
+        total = 0
+        for prof in profs:
+            if prof not in CONFIG:
+                print(f"  {prof}: not in CONFIG (add its terms + siblings, or use --brute-force)"); continue
+            terms = CONFIG[prof]["terms"]
+            siblings = ([s.strip() for s in args.siblings.split(",")] if args.siblings else CONFIG[prof]["siblings"])
+            links = find_links(prof, overrides, terms, siblings)
+            for st, (sib, score) in links.items():
+                print(f"  {prof}/{st} ← {sib}  ({score} licensing-term hits)")
+            results[prof] = links
+            total += len(links)
+
     if args.apply and total:
+        for prof, links in results.items():
+            if links:
+                overrides.setdefault(prof, {}).update({st: sib for st, (sib, _) in links.items()})
         OVERRIDES.write_text("# Per-(profession, state) corpus reuse (cross_ref_siblings + mechanical_cross_ref).\n"
                              + yaml.safe_dump(overrides, default_flow_style=False, sort_keys=True))
         print(f"wrote {total} link(s) to {OVERRIDES.relative_to(REPO)}")
