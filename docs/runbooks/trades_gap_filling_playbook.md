@@ -98,8 +98,11 @@ default — when hand-pulling a container, ALWAYS section-scope (#2) or pass a c
   run with `python -u` / `PYTHONUNBUFFERED=1` and check the live CDP tab URL — if it's
   advancing through the right sections, it's working, just quiet. (Killed a working
   NE pull this way.)
-- **NH's Justia DOM** didn't yield to the generic link selectors — one state can
-  resist; defer it rather than rat-holing.
+- **NH's Justia code is YEAR-PREFIXED** (`/codes/new-hampshire/2025/title-xxx/…`),
+  unlike most states — un-prefixed URL guesses 404 to a login page. When a state's
+  index "has no links", dump ALL `/codes/<state>/` hrefs first to learn its URL shape
+  (NH listed only year folders). NH architecture = Title XXX Ch 310-A (joint
+  Engineers/Architects/Surveyors board, 235 secs — trim scopes it to architecture).
 
 ## The finish (when the API is back)
 1. `verify_gap_states.py` on the remaining licensed-but-uncovered states → trustworthy
