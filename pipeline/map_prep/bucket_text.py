@@ -67,15 +67,12 @@ from _env import load_env  # noqa: E402
 from _llm import call_structured  # noqa: E402
 from _records import record_files  # noqa: E402
 from _prompts import load_prompt  # noqa: E402
+from paths import MAP_PREP_DIR as _OUT_ROOT, STRUCTURED_DIR as _STRUCTURED_DIR, DISCOVERED_DIR as _DISCOVERED_DIR  # noqa: E402
 
 load_env()
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 log = logging.getLogger("bucket_text")
-
-_OUT_ROOT = _PIPELINE_DIR / "results" / "map_prep"
-_STRUCTURED_DIR = _PIPELINE_DIR / "results" / "structured"
-_DISCOVERED_DIR = _PIPELINE_DIR / "results" / "discovered"
 
 
 def discovered_list_fields(profession: str) -> list[str]:

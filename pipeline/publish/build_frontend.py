@@ -69,7 +69,7 @@ def _extract_compacts(record: dict) -> list[str]:
 
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from paths import STRUCTURED_DIR, DISCOVERED_DIR, TRIMMED_DIR, RESULTS_DIR  # noqa: E402
+from paths import STRUCTURED_DIR, DISCOVERED_DIR, TRIMMED_DIR, RESULTS_DIR, MAP_PREP_DIR  # noqa: E402
 from _records import record_files  # noqa: E402
 from config.states import ALL_STATES  # noqa: E402
 from extract.locate_quote import locate_quote_in_section  # noqa: E402
@@ -715,7 +715,7 @@ def _load_harmonized_universal() -> dict[str, dict]:
     Empty when the harmonize_universal pass hasn't run. Loaded once per process."""
     global _HARMONIZED_CACHE
     if _HARMONIZED_CACHE is None:
-        path = RESULTS_DIR / "map_prep" / "_harmonized" / "universal_buckets.json"
+        path = MAP_PREP_DIR / "_harmonized" / "universal_buckets.json"
         if path.exists():
             data = json.loads(path.read_text())
             _HARMONIZED_CACHE = {f["field_name"]: f for f in data.get("fields", [])}
@@ -733,7 +733,7 @@ def _load_map_prep(profession: str, structured_by_state: dict[str, dict]) -> dic
     Returns {"spec": [...mappable FieldSpec...], "rows": [...NormalizedRow+quote...]}
     or None if map_prep hasn't been run for this profession yet.
     """
-    src = RESULTS_DIR / "map_prep" / profession
+    src = MAP_PREP_DIR / profession
     spec_path = src / "spec.json"
     rows_path = src / "normalized.json"
     if not (spec_path.exists() and rows_path.exists()):
@@ -804,7 +804,7 @@ def _load_per_item_categories(
     }
     Empty if the per-item pass hasn't been run for this profession.
     """
-    path = RESULTS_DIR / "map_prep" / profession / "text_buckets_per_item.json"
+    path = MAP_PREP_DIR / profession / "text_buckets_per_item.json"
     out: dict[str, dict] = {}
     if not path.exists():
         return out

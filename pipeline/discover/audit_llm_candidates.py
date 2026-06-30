@@ -32,11 +32,11 @@ load_env()
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from _llm import call_structured, usage_summary  # noqa: E402
-from paths import RESULTS_DIR, CONFIG_DIR  # noqa: E402
+from paths import PROFESSION_INDEX_DIR, CONFIG_DIR  # noqa: E402
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from llm_map_profession import state_chapter_list, MODEL  # noqa: E402
 
-CAND_DIR = RESULTS_DIR / "profession_index" / "_llm_candidates"
+CAND_DIR = PROFESSION_INDEX_DIR / "_llm_candidates"
 
 # Rough "should be widely licensed" priors — ONLY to flag anomalies for human
 # review, never written into our data. A pointer, per the external-data rule.

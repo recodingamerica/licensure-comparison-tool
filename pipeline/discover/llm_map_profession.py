@@ -33,9 +33,9 @@ load_env()
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from _llm import call_structured, usage_summary  # noqa: E402
-from paths import RESULTS_DIR, CONFIG_DIR, HIERARCHY_DIR as HIER_DIR  # noqa: E402
+from paths import CONFIG_DIR, HIERARCHY_DIR as HIER_DIR, PROFESSION_INDEX_DIR  # noqa: E402
 
-OUT_DIR = RESULTS_DIR / "profession_index" / "_llm_candidates"
+OUT_DIR = PROFESSION_INDEX_DIR / "_llm_candidates"
 MODEL = "claude-haiku-4-5-20251001"  # cheap; this is a wide first-pass screen
 
 ALL_STATES = ("AK AL AR AZ CA CO CT DE FL GA HI IA ID IL IN KS KY LA MA MD ME MI "

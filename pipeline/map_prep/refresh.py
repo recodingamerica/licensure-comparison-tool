@@ -62,8 +62,7 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(mess
 log = logging.getLogger("map_prep.refresh")
 
 MODEL = "claude-sonnet-4-6"
-_OUT_ROOT = _PIPELINE_DIR / "results" / "map_prep"
-_DISCOVERED_DIR = _PIPELINE_DIR / "results" / "discovered"
+from paths import MAP_PREP_DIR as _OUT_ROOT, DISCOVERED_DIR as _DISCOVERED_DIR  # noqa: E402
 
 
 # Anthropic batch custom_id pattern is ^[a-zA-Z0-9_-]{1,64}$ — no dots allowed,
