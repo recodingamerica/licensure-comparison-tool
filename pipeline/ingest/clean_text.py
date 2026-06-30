@@ -57,10 +57,16 @@ def corpus_from_overrides(profession: str) -> dict[str, str]:
     so a missing trade self-heals from a sibling pull instead of logging a false gap.
     Unlike profession-wide parent_corpus this is PER-STATE, so a profession can own its
     corpus in 41 states and borrow a sibling's in the other 9. Returns {STATE: sibling}."""
+    ov_path = CONFIG_DIR / "corpus_overrides.yaml"
     try:
-        ov = yaml.safe_load((CONFIG_DIR / "corpus_overrides.yaml").read_text()) or {}
-    except (OSError, yaml.YAMLError):
+        ov = yaml.safe_load(ov_path.read_text()) or {}
+    except FileNotFoundError:
+        # No overrides configured at all — legitimately empty.
         return {}
+    except (OSError, yaml.YAMLError) as e:
+        # A malformed/unreadable overrides file would SILENTLY disable every
+        # sibling-corpus borrow (→ false gaps across the whole run). Fail loud.
+        raise RuntimeError(f"corpus_overrides.yaml unreadable: {e}") from e
     return {str(s).upper(): sib for s, sib in (ov.get(profession) or {}).items() if sib}
 
 LOG_PATH = LOGS_DIR / "clean_text.log"
