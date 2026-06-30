@@ -11,7 +11,7 @@ import json
 
 import pytest
 
-import pipeline.eval.audit_corpus as ac
+import pipeline.eval.corpus_status as ac
 
 
 @pytest.fixture
