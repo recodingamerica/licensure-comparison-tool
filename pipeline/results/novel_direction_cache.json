@@ -523,6 +523,10 @@
     "direction": "more_permissive",
     "reason": "Not requiring establishment regulation at the state level reduces the regulatory burden on electrical businesses compared to the majority of states that do require it."
   },
+  "licensure.alternative_regulation.insurance_required|false": {
+    "direction": "more_permissive",
+    "reason": "Not mandating professional liability insurance for APRNs removes a financial and administrative burden that the majority of states requiring it impose, making practice less burdensome."
+  },
   "licensure.continuing_education.required|false": {
     "direction": "more_permissive",
     "reason": "Not requiring continuing education as a condition of license renewal is less burdensome than the majority of states that do require it."
@@ -539,6 +543,10 @@
     "direction": "more_permissive",
     "reason": "Using a 'registration' credential rather than a 'license' (the majority approach) typically implies a lower barrier to entry with fewer requirements, making it more permissive than the standard licensing approach."
   },
+  "licensure.education.credential_pegged|true": {
+    "direction": "more_restrictive",
+    "reason": "Pegging the credential requirement to a specific exam (National Board Dental Examination parts I and II or INBDE) adds a defined statutory hurdle that most states do not impose by statute, making entry more restrictive."
+  },
   "licensure.education.degree_level|bachelor": {
     "direction": "more_restrictive",
     "reason": "Requiring a bachelor's degree is a higher educational barrier than most states, which require no degree at all."
@@ -547,9 +555,21 @@
     "direction": "more_restrictive",
     "reason": "Requiring a high school diploma or equivalency is an educational requirement that most states don't impose, adding a barrier to entry."
   },
+  "licensure.education.degree_level|master": {
+    "direction": "more_restrictive",
+    "reason": "Requiring a master's degree for APRN licensure is a higher educational bar than the associate degree required by most states, imposing greater burden on applicants."
+  },
+  "licensure.education.school_approval_basis|board_approved": {
+    "direction": "more_restrictive",
+    "reason": "Requiring board approval of dental schools rather than relying on a national accreditor (used by 41 states) gives the board discretionary gatekeeping power, potentially limiting which graduates qualify and making entry more restrictive."
+  },
   "licensure.education.school_approval_basis|national_accreditor": {
     "direction": "more_permissive",
     "reason": "Using a national accreditor (U.S. Department of Labor) rather than board approval may be more flexible and objective, but compared to board-approved (the majority), it removes local board discretion. However, national accreditation is generally a broader, more standardized standard that can be more permissive by accepting more programs. This is a close call, but national accreditation tends to be more permissive than board-specific approval."
+  },
+  "licensure.education.school_approval_basis|regional_accreditor": {
+    "direction": "more_permissive",
+    "reason": "Accepting regional accreditation (a broad, widely recognized standard) rather than board-specific approval (used by 42 states) makes it easier for graduates of a wider range of institutions to qualify, lowering barriers to entry."
   },
   "licensure.education.school_approval_basis|unspecified": {
     "direction": "more_permissive",
@@ -562,6 +582,18 @@
   "licensure.moral_character_required|false": {
     "direction": "more_permissive",
     "reason": "Explicitly prohibiting the use of moral character or past criminal activity as a basis for denial/non-renewal removes a barrier that most states (8) maintain, making it easier for practitioners to obtain/keep licenses."
+  },
+  "licensure.post_degree_experience.experience_source|embedded_in_credential": {
+    "direction": "more_restrictive",
+    "reason": "Requiring that post-degree experience be embedded in an accredited graduate-level program adds a credential-based experience requirement that 44 states do not impose, making entry more restrictive."
+  },
+  "licensure.post_degree_experience.experience_source|none": {
+    "direction": "more_permissive",
+    "reason": "Requiring no post-degree experience (or allowing an alternative of four years of practice under a temporary permit) is less burdensome than the statutory post-degree experience requirement found in 47 other states."
+  },
+  "licensure.post_degree_experience.experience_source|required_by_statute": {
+    "direction": "more_restrictive",
+    "reason": "Requiring post-degree experience by explicit statute (a one-year accredited residency) imposes a clear additional hurdle beyond what most states require, where experience is embedded in the credential rather than separately mandated."
   },
   "licensure.post_degree_experience.required|false": {
     "direction": "more_permissive",
@@ -859,6 +891,10 @@
     "direction": "more_restrictive",
     "reason": "California requires nurse practitioners to obtain a board-issued number (prescriptive authority certificate) before furnishing or ordering drugs, adding a barrier most states don't impose."
   },
+  "profession_specific.accounting_practitioner_tier|false": {
+    "direction": "more_permissive",
+    "reason": "Lacking a lower-tier accounting practitioner license means there is no additional regulatory tier imposing requirements on a subset of practitioners, which is less burdensome than states that create and regulate such a tier."
+  },
   "profession_specific.advanced_practice_permit_available|false": {
     "direction": "more_restrictive",
     "reason": "Most states (29) offer an advanced practice permit allowing dental hygienists expanded practice options. This state prohibits independent practice entirely, limiting hygienists to supervised settings only."
@@ -866,6 +902,10 @@
   "profession_specific.amputation_authorized|chopart_joint_and_below": {
     "direction": "more_permissive",
     "reason": "Authorizing partial amputation up to the Chopart's joint is more permissive than the majority position of not authorizing amputation at all, expanding the surgical scope of podiatrists."
+  },
+  "profession_specific.amputation_authorized|foot_entirety_excluded": {
+    "direction": "more_permissive",
+    "reason": "Authorizing amputation up to (but not including) the entire foot grants podiatrists broader amputation authority than most states that do not authorize amputation at all, making practice more permissive."
   },
   "profession_specific.amputation_authorized|forefoot_excluded": {
     "direction": "more_permissive",
@@ -878,6 +918,10 @@
   "profession_specific.amputation_authorized|transmetatarsal_and_below": {
     "direction": "more_permissive",
     "reason": "Most states do not authorize amputation at all. This state permits amputation from the transmetatarsal level to the toes, which is more permissive than the majority 'not_authorized' position."
+  },
+  "profession_specific.anatomical_scope_upper_boundary|foot_ankle_and_leg_below_knee": {
+    "direction": "more_permissive",
+    "reason": "Extending the anatomical scope to include the leg below the knee (beyond just foot and ankle) grants podiatrists a broader scope of practice than most states, which is more permissive for practitioners."
   },
   "profession_specific.anatomical_scope_upper_boundary|foot_ankle_and_soft_tissue_below_mid_calf": {
     "direction": "more_permissive",
@@ -935,6 +979,14 @@
     "direction": "more_restrictive",
     "reason": "The majority allows hospital or ambulatory surgical center. Restricting ankle surgery to licensed hospitals only (excluding ASCs) is more restrictive."
   },
+  "profession_specific.ankle_surgery_facility_requirement|multispecialty_ambulatory_surgical_facility": {
+    "direction": "more_restrictive",
+    "reason": "Limiting ankle surgery to a multispecialty ambulatory surgical facility (rather than any hospital or ambulatory surgical center) is a narrower and more specific facility requirement, restricting where podiatrists may perform such procedures compared to the majority standard."
+  },
+  "profession_specific.ankle_surgery_residency_requirement|24_month_surgical_residency": {
+    "direction": "more_permissive",
+    "reason": "Requiring only a 24-month surgical residency rather than the 36-month residency required by most states that have such a requirement lowers the training burden for podiatrists seeking ankle surgery privileges."
+  },
   "profession_specific.ankle_surgery_residency_requirement|2_year_pre_2007_or_3_year_post_2007": {
     "direction": "more_restrictive",
     "reason": "The majority requires a 24-month surgical residency. This state requires a 3-year residency for those graduating after 2006, which is longer and more burdensome than the typical 24-month requirement."
@@ -946,6 +998,10 @@
   "profession_specific.ankle_surgery_residency_requirement|hospital_credentialing_required": {
     "direction": "more_restrictive",
     "reason": "The majority requires a 24-month surgical residency. This state requires hospital credentialing/surgical privileges, which is an additional institutional gatekeeping requirement that may be harder to satisfy than a residency alone, making it more restrictive."
+  },
+  "profession_specific.aprn_formulary_or_protocol_required|false": {
+    "direction": "more_permissive",
+    "reason": "Not requiring a formulary or protocol for APRN prescribing removes a procedural constraint that 18 states impose, giving APRNs broader independent prescribing authority."
   },
   "profession_specific.collaborative_agreement_available|false": {
     "direction": "more_restrictive",
@@ -1039,6 +1095,10 @@
     "direction": "more_restrictive",
     "reason": "Most states (22) offer a dental hygienist alternative practice license. This state does not, limiting hygienists to traditional supervised settings and reducing their practice options."
   },
+  "profession_specific.dental_therapist_license_available|false": {
+    "direction": "more_permissive",
+    "reason": "Not offering a dental therapist license means there is no additional licensing pathway, but from the perspective of barriers to practice for existing practitioners, the absence of this tier does not restrict them. However, for would-be dental therapists it is more restrictive. On balance, relative to the 12 states that do offer the license, this state denies an entire category of practitioners the ability to practice, which is more restrictive for that group."
+  },
   "profession_specific.denture_patient_identification_marking_required|false": {
     "direction": "more_permissive",
     "reason": "Most states (16) require denture patient identification marking. This state only requires dentists to offer the patient the opportunity for marking, not mandate it, reducing the burden on practitioners."
@@ -1046,6 +1106,10 @@
   "profession_specific.direct_supervision_defined|false": {
     "direction": "more_permissive",
     "reason": "Not defining 'direct supervision' (using only a general supervision concept) is more permissive than states that define and require direct supervision, as it imposes fewer constraints on where/how supervised practice occurs."
+  },
+  "profession_specific.education_semester_hours_required|120.0": {
+    "direction": "more_permissive",
+    "reason": "Requiring only 120 semester hours (rather than the 150 required by 46 states) lowers the educational barrier to CPA licensure, making entry easier."
   },
   "profession_specific.electrician_continuing_education_hours|10.0": {
     "direction": "more_restrictive",
@@ -1119,6 +1183,14 @@
     "direction": "more_restrictive",
     "reason": "Requiring 5 years of HVAC-specific experience is substantially more than the 2-year majority requirement, imposing a higher barrier to entry."
   },
+  "profession_specific.hygienist_local_anesthesia_certification_required|false": {
+    "direction": "more_permissive",
+    "reason": "Not requiring a separate local anesthesia certification for hygienists is less restrictive than the majority of states (33) that do require such certification, lowering the barrier to practice."
+  },
+  "profession_specific.hygienist_nitrous_oxide_certification_required|false": {
+    "direction": "more_permissive",
+    "reason": "Not requiring a separate nitrous oxide certification for hygienists lowers the barrier to practice compared to the majority of states that do require such certification."
+  },
   "profession_specific.insurance_personal_injury_minimum_usd|1000000.0": {
     "direction": "more_restrictive",
     "reason": "Requiring $1,000,000 per occurrence in personal injury liability insurance is higher than the majority value of $500,000, imposing a greater financial burden on practitioners."
@@ -1142,6 +1214,10 @@
   "profession_specific.interstate_medical_licensure_compact_member|false": {
     "direction": "more_restrictive",
     "reason": "Not being a member of the Interstate Medical Licensure Compact means physicians cannot use the streamlined compact pathway to obtain licensure, making it harder to enter practice in this state."
+  },
+  "profession_specific.investigational_drug_protection|false": {
+    "direction": "more_restrictive",
+    "reason": "Lacking a statutory protection for practitioners using investigational or nontraditional therapies means the board retains full authority to revoke licenses for such practice, imposing a greater burden compared to states that provide this protection."
   },
   "profession_specific.journeyman_electrician_apprenticeship_hours|1000.0": {
     "direction": "more_permissive",
@@ -1263,6 +1339,10 @@
     "direction": "more_restrictive",
     "reason": "A 60-amp threshold is well below the majority value of 200 amps, subjecting more electrical installations to inspection and licensing requirements."
   },
+  "profession_specific.mobile_dental_facility_registration_required|false": {
+    "direction": "more_permissive",
+    "reason": "Not requiring registration for mobile dental facilities removes a regulatory burden that most states imposing such requirements place on practitioners, making it easier to operate."
+  },
   "profession_specific.natural_gas_facilities_installation_authorized|false": {
     "direction": "more_restrictive",
     "reason": "Excluding natural gas fuel line work within buildings from the contractor's scope (while most states with a value authorize it) restricts what the contractor can do, limiting practice."
@@ -1278,6 +1358,14 @@
   "profession_specific.oral_pharmaceutical_authority|false": {
     "direction": "more_restrictive",
     "reason": "Lacking oral pharmaceutical authority is more restrictive than the majority (47/50 states grant it), limiting what optometrists can prescribe and narrowing their scope of practice."
+  },
+  "profession_specific.pain_management_education_required|false": {
+    "direction": "more_permissive",
+    "reason": "Not requiring pain management education as a condition of licensure or practice removes a continuing education or training burden that the majority of states (20) impose, making practice easier."
+  },
+  "profession_specific.pediatric_sedation_endorsement_required|false": {
+    "direction": "more_permissive",
+    "reason": "Not requiring a pediatric sedation endorsement removes a credential burden that the minority of states imposing it place on practitioners, making practice easier relative to those states."
   },
   "profession_specific.peer_review_records_privileged|false": {
     "direction": "more_restrictive",
@@ -1419,6 +1507,10 @@
     "direction": "more_permissive",
     "reason": "A 10-day rescission window is longer than the majority 3-day window, giving property owners more time to cancel \u2014 this is more permissive for owners but more burdensome for contractors, making it more restrictive on practitioners."
   },
+  "profession_specific.safe_harbor_disclaimer_language_for_nonlicensees|false": {
+    "direction": "more_restrictive",
+    "reason": "Lacking safe harbor disclaimer language for nonlicensees means unlicensed persons have no statutory protection for offering bookkeeping or related services, which is more restrictive than the 29 states that provide such a safe harbor."
+  },
   "profession_specific.small_project_dollar_threshold_exemption|100.0": {
     "direction": "more_restrictive",
     "reason": "A $100 threshold is far below the majority value of $1,000, meaning almost no work qualifies as minor and nearly all electrical work requires a license."
@@ -1486,6 +1578,10 @@
   "profession_specific.specialist_license_available|false": {
     "direction": "more_restrictive",
     "reason": "Most states (27) offer a specialist license pathway. This state does not offer one, yet still restricts specialty advertising/holding out, leaving dentists with fewer formal options to distinguish their specialty practice."
+  },
+  "profession_specific.specialty_advertising_disclaimer_required|false": {
+    "direction": "more_permissive",
+    "reason": "Not requiring a specialty advertising disclaimer is a lower burden than the majority of states that do require one, though the underlying restriction on claiming specialty status still exists."
   },
   "profession_specific.specialty_practice_scope_restriction|false": {
     "direction": "more_permissive",
