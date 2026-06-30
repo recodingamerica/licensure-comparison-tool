@@ -10,9 +10,8 @@ via extract_state_batch, and polls until done. Final summary lists Haiku
 spend (trim stage) + Sonnet batch spend (extract stage).
 
 Usage:
-  python -m pipeline.extract.re_extract_queue
   python -m pipeline.extract.re_extract_queue --queue myqueue.json
-  python -m pipeline.extract.re_extract_queue --skip-pull-trim  # just submit batch
+  python -m pipeline.extract.re_extract_queue --queue myqueue.json --skip-pull-trim  # just submit batch
 """
 
 from __future__ import annotations
@@ -29,7 +28,7 @@ _PIPELINE_DIR = Path(__file__).resolve().parent.parent
 if str(_PIPELINE_DIR) not in sys.path:
     sys.path.insert(0, str(_PIPELINE_DIR))
 
-from extract.extract_state_batch import DEFAULT_QUEUE, submit, poll  # noqa: E402
+from extract.extract_state_batch import submit, poll  # noqa: E402
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 log = logging.getLogger("re_extract_queue")
@@ -85,15 +84,12 @@ def haiku_trim_cost_from_log() -> tuple[int, int, float]:
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--queue", help="Path to a JSON file: {profession: [states]}")
+    ap.add_argument("--queue", required=True, help="Path to a JSON file: {profession: [states]}")
     ap.add_argument("--skip-pull-trim", action="store_true",
                     help="Skip upstream stages (use when trimmed files are already current)")
     args = ap.parse_args()
 
-    if args.queue:
-        queue = json.loads(Path(args.queue).read_text())
-    else:
-        queue = DEFAULT_QUEUE
+    queue = json.loads(Path(args.queue).read_text())
 
     n_pairs = sum(len(s) for s in queue.values())
     log.info("queue: %d (state, profession) pairs across %d professions", n_pairs, len(queue))

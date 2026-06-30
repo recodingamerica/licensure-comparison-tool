@@ -16,12 +16,9 @@ after submission, re-run with `poll <batch_id>` to fetch.
 
 CLI:
 
-  # Submit the default re-extract queue (the (state, profession) pairs the
-  # post-yaml-cleanup work invalidated). Saves batch metadata to
+  # Submit a queue from a JSON file (shape: {profession: [STATES]}). Runs a
+  # preflight gate first and saves batch metadata to
   # pipeline/results/batches/<batch_id>.json.
-  python -m pipeline.extract.extract_state_batch submit
-
-  # Submit a custom queue from a JSON file (shape: {profession: [STATES]}):
   python -m pipeline.extract.extract_state_batch submit --queue myqueue.json
 
   # Poll an existing batch (fetches results when ready and writes them
@@ -79,18 +76,6 @@ BATCH_DIR = RESULTS_DIR / "batches"
 BATCH_DIR.mkdir(parents=True, exist_ok=True)
 
 POLL_INTERVAL_SECS = 30
-
-# The re-extract queue created by the YAML cleanup pass (2026-06-01). Keys
-# are professions; values are states whose chapter list changed (new match,
-# corpus revision, or upstream pipeline-stage retry).
-DEFAULT_QUEUE: dict[str, list[str]] = {
-    "medicine":           ["ME", "RI", "WA", "MA", "NJ", "MS", "CA", "OR", "NE", "MN", "MI"],
-    "podiatry":           ["MA", "NJ", "NE"],
-    "dentistry":          ["ME", "MA", "NJ", "WA", "NE", "MN", "MI"],
-    "nursing":            ["MA", "NJ", "NE", "MN", "MI"],
-    "optometry":          ["MA", "NJ", "NE", "MN", "MI"],
-    "public_accountancy": ["MA", "NJ", "NE", "MN", "MI", "TN", "NM"],
-}
 
 
 def _client() -> anthropic.Anthropic:
@@ -380,7 +365,8 @@ def main() -> None:
     sp = ap.add_subparsers(dest="cmd", required=True)
 
     s_submit = sp.add_parser("submit", help="Submit a batch for the queue")
-    s_submit.add_argument("--queue", help="Path to a JSON file: {profession: [states]}")
+    s_submit.add_argument("--queue", required=True,
+                          help="Path to a JSON file: {profession: [states]}")
     s_submit.add_argument("--model", default=DEFAULT_MODEL)
     s_submit.add_argument("--force", action="store_true",
                           help="Submit even if preflight finds blockers")
@@ -394,10 +380,7 @@ def main() -> None:
     args = ap.parse_args()
 
     if args.cmd == "submit":
-        if args.queue:
-            queue = json.loads(Path(args.queue).read_text())
-        else:
-            queue = DEFAULT_QUEUE
+        queue = json.loads(Path(args.queue).read_text())
         submit(queue, model=args.model, force=args.force)
     elif args.cmd == "poll":
         poll(args.batch_id, wait=not args.no_wait)
