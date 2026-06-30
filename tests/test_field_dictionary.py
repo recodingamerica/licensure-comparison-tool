@@ -46,3 +46,31 @@ def test_examples_carry_provenance():
 def test_render_md_deterministic():
     d = gfd.build_dictionary("dietetics")
     assert gfd.render_md(d) == gfd.render_md(gfd.build_dictionary("dietetics"))
+
+
+def test_recurses_nested_submodels():
+    d = gfd.build_dictionary("dietetics")
+    lic_fields = {f["field"] for f in d["groups"][0]["fields"]}
+    # nested sub-model fields are drilled into via dotted paths
+    assert "regulatory_authority.name" in lic_fields
+    assert "regulatory_authority.type" in lic_fields
+    # list-item models too
+    assert any(f.startswith("education.tiers[].") for f in lic_fields)
+
+
+def test_records_data_freshness():
+    d = gfd.build_dictionary("dietetics")
+    # 'reflects data as of' — a git commit date (YYYY-MM-DD) or None, and it shows
+    # up in the rendered header.
+    assert "data_as_of" in d
+    if d["data_as_of"]:
+        assert d["data_as_of"][:4].isdigit()
+        assert "Reflects extracted data as of" in gfd.render_md(d)
+
+
+def test_group_intro_comes_from_docstring():
+    # The intro is the model docstring (no hand-maintained intro dict).
+    d = gfd.build_dictionary("dietetics")
+    intros = {g["group"]: g["intro"] for g in d["groups"]}
+    assert "credentials" in intros["licensure"].lower()
+    assert intros["scope"].strip()  # ScopeOfPractice docstring

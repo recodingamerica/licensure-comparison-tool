@@ -152,6 +152,13 @@ def main() -> None:
             # don't record it, or a later full refresh would wrongly skip.
             manifest[p] = fps[p]  # only record success
 
+    # 1a. Field dictionaries — regenerate the methodology-tracks-code data dictionary
+    #     for each changed profession (deterministic; reads the model + a structured
+    #     record). Keeps docs/methodology/<prof>_field_dictionary.{md,json} from drifting.
+    for p in changed:
+        run([PY, "-m", "pipeline.publish.generate_field_dictionary", "--profession", p],
+            f"field_dictionary {p}")
+
     # 1b. Similarity / outlier analysis — deterministic (no LLM). Reads the payloads
     #     we just built, writes results/analysis/, then publish_analysis mirrors to
     #     public/data/analysis/ + Blob (like the payloads). Best-effort per profession

@@ -543,8 +543,18 @@ class AdvisoryBoard(BaseModel):
 # ---------- Top-level base components ----------
 
 class LicensureRequirements(BaseModel):
-    license_required: BoolEvidence | None = None
-    issuing_authority: StrEvidence | None = None
+    """Whether and how the state credentials this profession — the regulatory model,
+    credential type, issuing authority, entry requirements (education, exams, age,
+    character), fees, renewal, continuing education, and reciprocity."""
+    license_required: BoolEvidence | None = Field(
+        default=None,
+        description="Whether the state requires a credential to practice this profession.",
+    )
+    issuing_authority: StrEvidence | None = Field(
+        default=None,
+        description="Free-text name of the board/agency that issues the credential "
+                    "(the structured form is `regulatory_authority`).",
+    )
     regulatory_authority: RegulatoryAuthority | None = Field(
         default=None,
         description=(
@@ -554,12 +564,18 @@ class LicensureRequirements(BaseModel):
             "legacy free-text issuing_authority for back-compat."
         ),
     )
-    age_minimum: IntEvidence | None = None
-    moral_character_required: BoolEvidence | None = None
-    education: EducationRequirement | None = None
-    post_degree_experience: PostDegreeExperience | None = None
-    exams: list[Exam] = Field(default_factory=list)
-    renewal: Renewal | None = None
+    age_minimum: IntEvidence | None = Field(
+        default=None, description="Minimum age (years) to hold the credential, if the statute sets one.")
+    moral_character_required: BoolEvidence | None = Field(
+        default=None, description="Whether the statute conditions licensure on good moral character / fitness.")
+    education: EducationRequirement | None = Field(
+        default=None, description="Education entry requirement — degree, level, accreditation, and any tiers.")
+    post_degree_experience: PostDegreeExperience | None = Field(
+        default=None, description="Supervised practice / residency / apprenticeship required after the degree.")
+    exams: list[Exam] = Field(
+        default_factory=list, description="Examinations required for the credential (one entry per exam).")
+    renewal: Renewal | None = Field(
+        default=None, description="How the credential is renewed — interval and any conditions.")
     renewal_fee_usd: IntEvidence | None = Field(
         default=None,
         description=(
@@ -567,8 +583,10 @@ class LicensureRequirements(BaseModel):
             "amount to the board's discretion — leave null in that case."
         ),
     )
-    continuing_education: ContinuingEducation | None = None
-    reciprocity: Reciprocity | None = None
+    continuing_education: ContinuingEducation | None = Field(
+        default=None, description="Continuing-education requirement to keep the credential active.")
+    reciprocity: Reciprocity | None = Field(
+        default=None, description="Whether/how the state recognizes out-of-state credentials (endorsement/reciprocity).")
 
     # Universal fields aligned with Atharv's cross-comparison schema. These
     # round out the universal set so every profession's profile carries the
@@ -650,11 +668,14 @@ class LicensureRequirements(BaseModel):
         ),
     )
 
-    citations: list[Citation] = Field(default_factory=list)
+    citations: list[Citation] = Field(
+        default_factory=list, description="Statutory citations supporting the licensure fields above.")
 
 
 class ScopeOfPractice(BaseModel):
-    """Skeleton only — profession-specific richness lives in the discovered block."""
+    """What the practice act lets (or reserves to) this profession — the defined scope,
+    authorized methods, drug authority, and any title/scope protection. Skeleton only —
+    profession-specific scope richness lives in the discovered block."""
     definition_quote: StrEvidence | None = Field(
         default=None,
         description="Verbatim statutory definition; quote field repeats the value text.",
@@ -663,5 +684,7 @@ class ScopeOfPractice(BaseModel):
         default=None,
         description="High-level methods, e.g. ['medical','surgical','mechanical']",
     )
-    drug_authority: StrEvidence | None = None
-    citations: list[Citation] = Field(default_factory=list)
+    drug_authority: StrEvidence | None = Field(
+        default=None, description="Whether/how the profession may prescribe, administer, or dispense drugs.")
+    citations: list[Citation] = Field(
+        default_factory=list, description="Statutory citations supporting the scope fields above.")

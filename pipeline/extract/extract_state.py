@@ -103,7 +103,10 @@ def build_profession_specific_model(discovered: dict) -> type[BaseModel]:
         py_t = EvCls | None
         desc = fspec.get("description", "")
         fields[fspec["name"]] = (py_t, Field(default=None, description=desc))
-    return create_model("ProfessionSpecific", **fields)
+    Model = create_model("ProfessionSpecific", **fields)
+    Model.__doc__ = ("Fields discovered specifically for this profession (auto-derived from its "
+                     "statutes); they vary profession to profession.")
+    return Model
 
 
 def build_profile_model(profession: str, discovered: dict) -> type[BaseModel]:
