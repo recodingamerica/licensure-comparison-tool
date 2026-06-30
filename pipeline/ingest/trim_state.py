@@ -38,6 +38,7 @@ load_env()
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from _llm import call_structured  # noqa: E402
+from _records import record_files  # noqa: E402
 from paths import CLEAN_DIR, TRIMMED_DIR, LOGS_DIR  # noqa: E402
 from ingest._trim_health import LLM_FAIL_REASON  # noqa: E402
 
@@ -221,9 +222,7 @@ def main() -> None:
 
     n_run = 0
     strict_failures: list[str] = []
-    for path in sorted(in_dir.glob("*.json")):
-        if path.name.startswith("_"):
-            continue
+    for path in record_files(in_dir):
         state = path.stem
         if only and state not in only:
             continue
@@ -244,9 +243,7 @@ def main() -> None:
     # Cumulative summary rebuilt from every trimmed corpus on disk (not just this
     # run's states), so a --states subset run can't drop other states' rows.
     summary = []
-    for path in sorted(out_dir.glob("*.json")):
-        if path.name.startswith("_"):
-            continue
+    for path in record_files(out_dir):
         d = json.loads(path.read_text())
         summary.append({
             "state": path.stem,
