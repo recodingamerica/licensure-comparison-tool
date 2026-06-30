@@ -48,6 +48,7 @@ logging.getLogger("httpx").setLevel(logging.WARNING)
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from paths import RESULTS_DIR  # noqa: E402
+from _records import record_files  # noqa: E402
 from scope_sources import CLASSIFIED_SOURCES  # noqa: E402
 from discover._scope_rules import ANCHOR_LABEL_RE, NARROW_LABEL_HINTS  # noqa: E402
 
@@ -987,9 +988,7 @@ def _applied_states() -> set[str]:
 
 
 def _states_with_umbrella_text() -> list[str]:
-    return sorted(
-        p.stem for p in UMBRELLA_TEXT_DIR.glob("*.json") if not p.stem.startswith("_")
-    )
+    return [p.stem for p in record_files(UMBRELLA_TEXT_DIR)]
 
 
 def resolve_targets(args: argparse.Namespace) -> list[str]:

@@ -52,6 +52,7 @@ sys.path.insert(0, str(REPO / "pipeline"))
 import _env  # noqa: E402
 _env.load_env()
 from _llm import call_structured, log_usage_summary  # noqa: E402
+from _records import record_files  # noqa: E402
 
 TEXT_DIR = REPO / "pipeline" / "results" / "text"
 CONFIG_DIR = REPO / "pipeline" / "config"
@@ -77,7 +78,7 @@ def _states_with_corpus(prof: str) -> set[str]:
     d = TEXT_DIR / prof
     if not d.exists():
         return set()
-    return {p.stem.upper() for p in d.glob("*.json") if not p.name.startswith("_")}
+    return {p.stem.upper() for p in record_files(d)}
 
 
 def _corpus_text(prof: str, state: str) -> str:
@@ -130,8 +131,7 @@ def main() -> int:
     siblings = [s for s in siblings if (TEXT_DIR / s).exists()]
 
     have = _states_with_corpus(target)
-    missing = sorted({p.stem.upper() for s in siblings for p in (TEXT_DIR / s).glob("*.json")
-                      if not p.name.startswith("_")} - have)
+    missing = sorted({p.stem.upper() for s in siblings for p in record_files(TEXT_DIR / s)} - have)
     if args.states:
         want = {s.strip().upper() for s in args.states.split(",")}
         missing = [s for s in missing if s in want]

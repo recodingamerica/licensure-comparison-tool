@@ -30,6 +30,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from paths import HIERARCHY_DIR, PROFESSION_INDEX_DIR, RESULTS_DIR  # noqa: E402
+from _records import record_files  # noqa: E402
 
 OUT_DIR = RESULTS_DIR / "taxonomy_harvest"
 OUT_DIR.mkdir(parents=True, exist_ok=True)
@@ -85,9 +86,7 @@ def _extract_candidates(label: str) -> list[str]:
 def variants_per_profession() -> dict[str, dict[str, list[str]]]:
     """For each canonical id, distinct chapter labels matched per state."""
     out: dict[str, dict[str, list[str]]] = {}
-    for f in sorted(PROFESSION_INDEX_DIR.glob("*.json")):
-        if f.stem.startswith("_"):
-            continue
+    for f in record_files(PROFESSION_INDEX_DIR):
         d = json.loads(f.read_text())
         per_state: dict[str, list[str]] = {}
         for st, payload in (d.get("by_state") or {}).items():
@@ -105,9 +104,7 @@ def candidate_new_occupations(min_states: int) -> list[dict]:
     Grouped by the extracted noun phrase."""
     # All labels already claimed by some profession.
     claimed: set[tuple[str, str]] = set()   # (state, slug)
-    for f in PROFESSION_INDEX_DIR.glob("*.json"):
-        if f.stem.startswith("_"):
-            continue
+    for f in record_files(PROFESSION_INDEX_DIR):
         d = json.loads(f.read_text())
         for st, payload in (d.get("by_state") or {}).items():
             for m in (payload.get("matched") or []):
@@ -183,9 +180,7 @@ def all_unmatched_chapters() -> dict[str, list[dict]]:
     The recall ceiling: anything missing must be in here. For human/LLM
     review."""
     claimed: set[tuple[str, str]] = set()
-    for f in PROFESSION_INDEX_DIR.glob("*.json"):
-        if f.stem.startswith("_"):
-            continue
+    for f in record_files(PROFESSION_INDEX_DIR):
         d = json.loads(f.read_text())
         for st, payload in (d.get("by_state") or {}).items():
             for m in (payload.get("matched") or []):

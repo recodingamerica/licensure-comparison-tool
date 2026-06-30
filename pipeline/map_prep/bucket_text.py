@@ -65,6 +65,7 @@ if str(_PIPELINE_DIR) not in sys.path:
 
 from _env import load_env  # noqa: E402
 from _llm import call_structured  # noqa: E402
+from _records import record_files  # noqa: E402
 from _prompts import load_prompt  # noqa: E402
 
 load_env()
@@ -171,9 +172,7 @@ def _collect_per_state(profession: str, dotted: str) -> list[dict]:
     prof_dir = _STRUCTURED_DIR / profession
     if not prof_dir.exists():
         return out
-    for f in sorted(prof_dir.glob("*.json")):
-        if f.stem.startswith("_"):
-            continue  # _summary.json and similar are not per-state
+    for f in record_files(prof_dir):
         rec = json.loads(f.read_text())
         if not isinstance(rec, dict):
             continue
@@ -331,9 +330,7 @@ def _collect_items_for_field(profession: str, dotted: str) -> list[dict]:
     if not prof_dir.exists():
         return out
     segs = dotted.split(".")
-    for f in sorted(prof_dir.glob("*.json")):
-        if f.stem.startswith("_"):
-            continue
+    for f in record_files(prof_dir):
         rec = json.loads(f.read_text())
         if not isinstance(rec, dict):
             continue
