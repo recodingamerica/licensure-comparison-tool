@@ -8,7 +8,11 @@ that doesn't have a hand-curated override. Locks in:
     after NM CPA hit Articles 28 + 28A repealed alongside the live 28B)
 """
 
-from pipeline.discover.match_profession import label_matches
+from pipeline.discover.match_profession import (
+    label_matches,
+    _umbrella_nodes_for,
+    _official_url,
+)
 
 
 CPA_PATTERNS = ["accountant", "accountancy", "public accounting", "certified public account"]
@@ -77,3 +81,43 @@ class TestRepealedUniversalExclude:
     def test_repealed_applies_even_with_no_pattern_excludes(self):
         # Even if the profession has no `excludes`, repealed still drops
         assert not label_matches("Chapter 30-11 - Podiatry (Repealed.)", PODIATRY_PATTERNS, excludes=[])
+
+
+class TestUmbrellaNodes:
+    """State-level additive umbrella chapters (e.g. WA Ch 18.130 for every WA
+    health profession). See docs/runbooks/wa_umbrella_mechanism.md."""
+
+    WA_UMBRELLA = {
+        "umbrella": {
+            "professions": ["medicine", "nursing", "podiatry"],
+            "chapters": [{
+                "url": "https://law.justia.com/codes/washington/title-18/chapter-18-130/",
+                "label": "WA Ch 18.130 — Uniform Disciplinary Act",
+            }],
+        }
+    }
+    WA_TEMPLATE = "https://app.leg.wa.gov/RCW/default.aspx?cite={chapter_dot}&full=true"
+
+    def test_in_scope_profession_gets_node(self):
+        nodes = _umbrella_nodes_for(self.WA_UMBRELLA, "medicine", existing_urls=set())
+        assert len(nodes) == 1
+        assert "18-130" in nodes[0]["url"]
+        assert nodes[0]["via"] == "state_structure_umbrella"
+
+    def test_out_of_scope_profession_gets_nothing(self):
+        assert _umbrella_nodes_for(self.WA_UMBRELLA, "architecture", set()) == []
+
+    def test_no_umbrella_block(self):
+        assert _umbrella_nodes_for({"source": "wa_official"}, "medicine", set()) == []
+
+    def test_already_matched_url_skipped(self):
+        url = "https://law.justia.com/codes/washington/title-18/chapter-18-130/"
+        assert _umbrella_nodes_for(self.WA_UMBRELLA, "medicine", existing_urls={url}) == []
+
+    def test_template_rewrites_umbrella_to_official_source(self):
+        # The umbrella node carries a Justia chapter url; the WA template must
+        # rewrite it to the official cite= url (so it's fetched from wa.gov, not
+        # Cloudflare-blocked Justia).
+        node = _umbrella_nodes_for(self.WA_UMBRELLA, "nursing", set())[0]
+        official = _official_url(self.WA_TEMPLATE, node["url"])
+        assert official == "https://app.leg.wa.gov/RCW/default.aspx?cite=18.130&full=true"
