@@ -27,6 +27,7 @@ import yaml
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from paths import HIERARCHY_DIR, PROFESSION_INDEX_DIR, CONFIG_DIR, LOGS_DIR, RESULTS_DIR  # noqa: E402
 from config.states import ALL_STATES  # noqa: E402
+from config.yaml_loader import safe_load_unique  # noqa: E402
 
 SECTION_MAPS_DIR = RESULTS_DIR / "section_maps"
 CHAPTER_MAPS_DIR = RESULTS_DIR / "chapter_maps"
@@ -94,7 +95,10 @@ def load_state_structure() -> dict:
     path = CONFIG_DIR / "state_structure.yaml"
     if not path.exists():
         return {}
-    return yaml.safe_load(path.read_text()) or {}
+    # safe_load_unique (not yaml.safe_load): a duplicate top-level state key
+    # would otherwise be silently dropped last-wins, taking its overrides with
+    # it. See config/yaml_loader.py.
+    return safe_load_unique(path.read_text()) or {}
 
 
 def _official_url(template: str, justia_url: str) -> str | None:
