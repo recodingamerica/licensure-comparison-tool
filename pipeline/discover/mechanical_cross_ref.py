@@ -78,6 +78,15 @@ CONFIG: dict[str, dict] = {
     "applied_behavior_analysis": {"terms": ["behavior analyst", "applied behavior analysis"], "siblings": ["psychology"]},
     "alcohol_drug_counseling":   {"terms": ["alcohol and drug counselor", "substance abuse counselor", "addiction counselor", "chemical dependency counselor"],
                                   "siblings": ["mental_health_counseling", "social_work", "psychology"]},
+    # more shared-board candidates (density self-filters the separate-board ones)
+    "electrology":               {"terms": ["electrologist", "electrolysis"], "siblings": ["cosmetology"]},
+    "radiologic_technology":     {"terms": ["radiologic technologist", "radiographer", "radiation therapist"], "siblings": ["medicine"]},
+    "athletic_training":         {"terms": ["athletic trainer", "athletic training"], "siblings": ["medicine"]},
+    "private_investigator":      {"terms": ["private investigator", "private detective"], "siblings": ["security_personnel"]},
+    "security_personnel":        {"terms": ["security guard", "security officer", "private security"], "siblings": ["private_investigator"]},
+    "home_inspector":            {"terms": ["home inspector", "home inspection"], "siblings": ["construction_trades", "building_inspector"]},
+    "public_adjuster":           {"terms": ["public adjuster", "public insurance adjuster"], "siblings": ["insurance_producer"]},
+    "commercial_interior_design": {"terms": ["interior designer", "interior design"], "siblings": ["architecture"]},
 }
 DENSITY = 8  # total licensing-term hits in the sibling corpus to count as real coverage
 
