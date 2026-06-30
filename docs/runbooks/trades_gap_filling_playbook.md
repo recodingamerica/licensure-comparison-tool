@@ -47,6 +47,19 @@ The failure modes, in rough order of frequency:
   representatively (full citation index + strided text). Any audit that truncates
   must sample representatively, or it flags whatever sorts first.
 
+## These lessons are encoded in code, not just here
+
+Prefer running the tool over re-deriving the technique:
+- `discover/mechanical_cross_ref.py` — the keyword-density sibling cross-ref (#3 below),
+  as a CLI. `--all-trades [--apply]`. LLM-free; catches what the LLM cross-ref refuses.
+- `discover/probe_justia.py` — the CDP structure-poke (#1 below) as a reusable tool:
+  `--url <U> --links [--match REGEX]` to read structure, `--url <U> --text` to confirm
+  what a number-labeled article actually is. Bakes in suppress_origin + the year-prefix
+  + the don't-run-during-a-harvest caveat.
+- `ingest/pull_all.py --limit-sections` — the runaway guard (#4), defaults to 500 + flags.
+- `discover/audit_corpus.py` — the representative-sampling gate (don't head-truncate).
+- `discover/verify_gap_states.py` — the skeptical sonnet verifier (licensed vs local-null).
+
 ## The LLM-FREE techniques (what to do when the API is capped)
 
 Pulling, cleaning, and `build_frontend` are LLM-free; only trim/extract/map_prep/the
