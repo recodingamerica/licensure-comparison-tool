@@ -1,0 +1,427 @@
+{
+  "profession": "hvac",
+  "groups": [
+    {
+      "group": "licensure",
+      "intro": "Whether and how the state credentials this profession — the regulatory model, credential type, authority, exams, fees, and renewal.",
+      "fields": [
+        {
+          "field": "license_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "",
+          "example": {
+            "value": true,
+            "quote": "A person may not act as a mechanical administrator without a license unless the person is covered by an exclusion under AS 08.40.390.",
+            "citation": "08.40.260"
+          }
+        },
+        {
+          "field": "issuing_authority",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "",
+          "example": {
+            "value": "Department of Commerce, Community, and Economic Development",
+            "quote": "\"department\" means the Department of Commerce, Community, and Economic Development except where the context otherwise requires",
+            "citation": "08.40.490"
+          }
+        },
+        {
+          "field": "regulatory_authority",
+          "type": "RegulatoryAuthority",
+          "vocabulary": [],
+          "meaning": "Structured decomposition of the issuing authority — name, type (standalone board / shared board / division / department / joint), and any umbrella agency it sits within. Populated alongside the legacy free-text issuing_authority for back-compat.",
+          "example": null
+        },
+        {
+          "field": "age_minimum",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "",
+          "example": null
+        },
+        {
+          "field": "moral_character_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "",
+          "example": null
+        },
+        {
+          "field": "education",
+          "type": "EducationRequirement",
+          "vocabulary": [],
+          "meaning": "",
+          "example": null
+        },
+        {
+          "field": "post_degree_experience",
+          "type": "PostDegreeExperience",
+          "vocabulary": [],
+          "meaning": "Residency / supervised practice / apprenticeship — name varies, structure doesn't.",
+          "example": null
+        },
+        {
+          "field": "exams",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "",
+          "example": null
+        },
+        {
+          "field": "renewal",
+          "type": "Renewal",
+          "vocabulary": [],
+          "meaning": "",
+          "example": null
+        },
+        {
+          "field": "renewal_fee_usd",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "License renewal fee in US dollars (integer). Many statutes leave the amount to the board's discretion — leave null in that case.",
+          "example": null
+        },
+        {
+          "field": "continuing_education",
+          "type": "ContinuingEducation",
+          "vocabulary": [],
+          "meaning": "",
+          "example": null
+        },
+        {
+          "field": "reciprocity",
+          "type": "Reciprocity",
+          "vocabulary": [],
+          "meaning": "",
+          "example": null
+        },
+        {
+          "field": "advisory_board",
+          "type": "AdvisoryBoard",
+          "vocabulary": [],
+          "meaning": "Profession-specific advisory body sitting alongside the main licensing board, when one exists. Populated for states that delegate licensure to a generic board and add a specialty advisory committee.",
+          "example": null
+        },
+        {
+          "field": "national_certification",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Name of a national CERTIFICATION the state recognizes or requires, e.g. 'American Board of Podiatric Surgery (ABPS)' or 'National Board of Podiatric Medical Examiners (NBPME)'. The certifying body, NOT the association. Null if the statute doesn't reference one.",
+          "example": null
+        },
+        {
+          "field": "national_association",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Professional ASSOCIATION the state references (e.g. for accreditation or CE provider approval) — 'American Podiatric Medical Association (APMA)', 'American Dental Association (ADA)'. Distinct from the certifying body. Null if not referenced.",
+          "example": null
+        },
+        {
+          "field": "regulatory_model",
+          "type": "enum",
+          "vocabulary": [
+            "market_forces",
+            "voluntary_certification",
+            "registration",
+            "exemption",
+            "mandatory_certification",
+            "license"
+          ],
+          "meaning": "Which UORF model the state applies to this profession (license / mandatory_cert / registration / etc).",
+          "example": {
+            "value": "license",
+            "quote": "A person may not act as a mechanical administrator without a license unless the person is covered by an exclusion under AS 08.40.390.",
+            "citation": "08.40.260"
+          }
+        },
+        {
+          "field": "credential_type",
+          "type": "enum",
+          "vocabulary": [
+            "none",
+            "registration",
+            "certification",
+            "license",
+            "exemption"
+          ],
+          "meaning": "What SHAPE of credential does the state issue, independent of whether holding it is mandatory? license / certification / registration / exemption / none. Pairs with is_mandatory to decompose the legacy regulatory_model rung.",
+          "example": {
+            "value": "license",
+            "quote": "A person may not act as a mechanical administrator without a license unless the person is covered by an exclusion under AS 08.40.390.",
+            "citation": "08.40.260"
+          }
+        },
+        {
+          "field": "is_mandatory",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Is the credential MANDATORY to practice (or claim the title) in this state? True if practicing without it is prohibited; False if optional (e.g., voluntary certification that only protects the title for those who hold it).",
+          "example": {
+            "value": true,
+            "quote": "A person may not act as a mechanical administrator without a license unless the person is covered by an exclusion under AS 08.40.390.",
+            "citation": "08.40.260"
+          }
+        },
+        {
+          "field": "title_protection",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Does the state restrict use of the profession's title to licensees? True if unlicensed people may NOT call themselves the protected title (e.g. 'podiatrist', 'CPA').",
+          "example": {
+            "value": true,
+            "quote": "A person may not act as a mechanical administrator without a license unless the person is covered by an exclusion under AS 08.40.390.",
+            "citation": "08.40.260"
+          }
+        },
+        {
+          "field": "scope_protection",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Does the state restrict practice of the profession's scope to licensees? True if performing the scope without a license is prohibited (independent of title use).",
+          "example": {
+            "value": true,
+            "quote": "A person may not act as a mechanical administrator without a license unless the person is covered by an exclusion under AS 08.40.390.",
+            "citation": "08.40.260"
+          }
+        },
+        {
+          "field": "disciplinary_grounds",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "Grounds on which the board may discipline a licensee. Typical statutes list 5-15.",
+          "example": null
+        },
+        {
+          "field": "alternative_regulation",
+          "type": "AlternativeRegulation",
+          "vocabulary": [],
+          "meaning": "Non-credential regulatory mechanisms (bonding, insurance, establishment regulation) imposed by the state. Obama 2015 framework typology. Independent of credential_type.",
+          "example": null
+        },
+        {
+          "field": "citations",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "",
+          "example": null
+        }
+      ]
+    },
+    {
+      "group": "scope",
+      "intro": "What the practice act lets (or reserves to) this profession — the defined scope and any title/scope protection.",
+      "fields": [
+        {
+          "field": "definition_quote",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Verbatim statutory definition; quote field repeats the value text.",
+          "example": {
+            "value": "\"mechanical administrator\" means a person who is responsible for (A) installing or modifying mechanical piping and systems, devices, fixtures, equipment, or other mechanical materials subject to the Uniform Plumbing Code, Uniform Swimming Pool, Spa, and Hot Tub Code, Uniform Solar Energy Code, and the Uniform Mechanical Code as published by the International Association of Plumbing and Mechanical Officials and the International Conference of Building Officials; or (B) certifying that an installation or modification described in (A) of this paragraph complies with the applicable codes",
+            "quote": "\"mechanical administrator\" means a person who is responsible for (A) installing or modifying mechanical piping and systems, devices, fixtures, equipment, or other mechanical materials subject to the U",
+            "citation": "08.40.490"
+          }
+        },
+        {
+          "field": "methods_authorized",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "High-level methods, e.g. ['medical','surgical','mechanical']",
+          "example": {
+            "value": [
+              "installing",
+              "modifying",
+              "certifying compliance"
+            ],
+            "quote": "installing or modifying mechanical piping and systems, devices, fixtures, equipment, or other mechanical materials",
+            "citation": "08.40.490"
+          }
+        },
+        {
+          "field": "drug_authority",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "",
+          "example": null
+        },
+        {
+          "field": "citations",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "",
+          "example": null
+        }
+      ]
+    },
+    {
+      "group": "profession_specific",
+      "intro": "Fields discovered specifically for this profession (auto-derived from its statutes; they vary profession to profession).",
+      "fields": [
+        {
+          "field": "system_components_included",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "Specific components explicitly included within the definition of an HVAC system for licensing purposes.",
+          "example": {
+            "value": [
+              "mechanical piping and systems",
+              "devices",
+              "fixtures",
+              "equipment",
+              "other mechanical materials"
+            ],
+            "quote": "installing or modifying mechanical piping and systems, devices, fixtures, equipment, or other mechanical materials subject to the Uniform Plumbing Code, Uniform Swimming Pool, Spa, and Hot Tub Code, U",
+            "citation": "08.40.490"
+          }
+        },
+        {
+          "field": "hvac_specific_experience_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the applicant must demonstrate HVAC-specific (not general construction) paid employment experience.",
+          "example": null
+        },
+        {
+          "field": "hvac_specific_experience_years",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "Number of years of full-time HVAC-specific paid employment experience required for licensure.",
+          "example": null
+        },
+        {
+          "field": "prelicensure_course_hours",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "Number of hours in the required pre-licensure course that must be completed before a contractor license is issued.",
+          "example": null
+        },
+        {
+          "field": "business_law_course_hours",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "Number of hours in a required business and law course that must be completed as part of the licensure process.",
+          "example": null
+        },
+        {
+          "field": "qualifier_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether a licensed contractor entity must designate a named individual qualifier who holds the relevant trade license and exercises material authority over the business.",
+          "example": {
+            "value": true,
+            "quote": "A person may not qualify or operate as a mechanical administrator for more than one registered contractor, corporation, joint venture, or other business entity",
+            "citation": "08.40.280"
+          }
+        },
+        {
+          "field": "qualifier_license_type_required",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "The specific individual trade license(s) that the qualifier for an HVAC contractor entity must hold.",
+          "example": {
+            "value": [
+              "mechanical administrator license"
+            ],
+            "quote": "A person may not qualify or operate as a mechanical administrator for more than one registered contractor, corporation, joint venture, or other business entity",
+            "citation": "08.40.280"
+          }
+        },
+        {
+          "field": "qualifier_cessation_notification_days",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "Number of days within which a contractor must notify the licensing division after a qualifier ceases association with the business.",
+          "example": null
+        },
+        {
+          "field": "qualifier_replacement_grace_period_days",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "Number of days a contractor license remains in force after a qualifier ceases association, during which a replacement qualifier must be named.",
+          "example": null
+        },
+        {
+          "field": "hvac_continuing_education_topic_hours_minimum",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "Minimum number of continuing education hours per renewal cycle that must directly relate to HVAC installation, repair, or replacement.",
+          "example": null
+        },
+        {
+          "field": "gas_appliance_certification_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether persons performing installation, repair, maintenance, or replacement of gas appliances or combustion systems must obtain a separate certification beyond the base contractor license.",
+          "example": null
+        },
+        {
+          "field": "natural_gas_facilities_installation_authorized",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether an HVAC contractor is authorized as a qualifying installer to install natural gas mains, service lines, and related facilities.",
+          "example": null
+        },
+        {
+          "field": "financial_responsibility_demonstration_methods",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "Acceptable methods by which a contractor applicant may demonstrate financial responsibility to the licensing authority.",
+          "example": null
+        },
+        {
+          "field": "workers_compensation_insurance_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether proof of workers' compensation insurance covering employees must be filed with the division before a license is issued.",
+          "example": null
+        },
+        {
+          "field": "public_liability_insurance_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether proof of public liability insurance in division-specified coverage amounts must be filed before a license is issued.",
+          "example": null
+        },
+        {
+          "field": "small_project_exemption_threshold_dollars",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "Dollar threshold below which a project may be performed without a contractor license, subject to stated exclusions.",
+          "example": {
+            "value": 50000,
+            "quote": "mechanical work, the cost of which does not exceed $50,000, involving residences or small commercial establishments in communities that (A) have a population of under 5,000",
+            "citation": "08.40.390"
+          }
+        },
+        {
+          "field": "hvac_exempt_from_small_project_exemption",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether HVAC system installation, repair, or replacement is explicitly excluded from the general small-project dollar-threshold exemption from licensure.",
+          "example": null
+        },
+        {
+          "field": "license_number_on_permits_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the contractor's license number must appear on all permit applications, contracts, agreements, or bids.",
+          "example": null
+        },
+        {
+          "field": "scope_expansion_by_rule_authorized",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the licensing commission may expand the authorized scope of work for an HVAC contractor beyond the statutory definition through administrative rulemaking.",
+          "example": {
+            "value": true,
+            "quote": "The department may adopt regulations establishing categories of mechanical administrators, qualifications for those categories, and the content of examinations for applicants for each category.",
+            "citation": "08.40.230"
+          }
+        }
+      ]
+    }
+  ],
+  "example_state": "AK"
+}

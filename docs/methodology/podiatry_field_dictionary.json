@@ -1,0 +1,598 @@
+{
+  "profession": "podiatry",
+  "groups": [
+    {
+      "group": "licensure",
+      "intro": "Whether and how the state credentials this profession — the regulatory model, credential type, authority, exams, fees, and renewal.",
+      "fields": [
+        {
+          "field": "license_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "",
+          "example": {
+            "value": true,
+            "quote": "A person may not practice medicine, podiatry, or osteopathy in the state unless the person is licensed under this chapter",
+            "citation": "08.64.170"
+          }
+        },
+        {
+          "field": "issuing_authority",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "",
+          "example": {
+            "value": "State Medical Board",
+            "quote": "\"board\" means the State Medical Board",
+            "citation": "08.64.380"
+          }
+        },
+        {
+          "field": "regulatory_authority",
+          "type": "RegulatoryAuthority",
+          "vocabulary": [],
+          "meaning": "Structured decomposition of the issuing authority — name, type (standalone board / shared board / division / department / joint), and any umbrella agency it sits within. Populated alongside the legacy free-text issuing_authority for back-compat.",
+          "example": null
+        },
+        {
+          "field": "age_minimum",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "",
+          "example": null
+        },
+        {
+          "field": "moral_character_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "",
+          "example": null
+        },
+        {
+          "field": "education",
+          "type": "EducationRequirement",
+          "vocabulary": [],
+          "meaning": "",
+          "example": null
+        },
+        {
+          "field": "post_degree_experience",
+          "type": "PostDegreeExperience",
+          "vocabulary": [],
+          "meaning": "Residency / supervised practice / apprenticeship — name varies, structure doesn't.",
+          "example": null
+        },
+        {
+          "field": "exams",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "",
+          "example": null
+        },
+        {
+          "field": "renewal",
+          "type": "Renewal",
+          "vocabulary": [],
+          "meaning": "",
+          "example": null
+        },
+        {
+          "field": "renewal_fee_usd",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "License renewal fee in US dollars (integer). Many statutes leave the amount to the board's discretion — leave null in that case.",
+          "example": null
+        },
+        {
+          "field": "continuing_education",
+          "type": "ContinuingEducation",
+          "vocabulary": [],
+          "meaning": "",
+          "example": null
+        },
+        {
+          "field": "reciprocity",
+          "type": "Reciprocity",
+          "vocabulary": [],
+          "meaning": "",
+          "example": null
+        },
+        {
+          "field": "advisory_board",
+          "type": "AdvisoryBoard",
+          "vocabulary": [],
+          "meaning": "Profession-specific advisory body sitting alongside the main licensing board, when one exists. Populated for states that delegate licensure to a generic board and add a specialty advisory committee.",
+          "example": null
+        },
+        {
+          "field": "national_certification",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Name of a national CERTIFICATION the state recognizes or requires, e.g. 'American Board of Podiatric Surgery (ABPS)' or 'National Board of Podiatric Medical Examiners (NBPME)'. The certifying body, NOT the association. Null if the statute doesn't reference one.",
+          "example": null
+        },
+        {
+          "field": "national_association",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Professional ASSOCIATION the state references (e.g. for accreditation or CE provider approval) — 'American Podiatric Medical Association (APMA)', 'American Dental Association (ADA)'. Distinct from the certifying body. Null if not referenced.",
+          "example": null
+        },
+        {
+          "field": "regulatory_model",
+          "type": "enum",
+          "vocabulary": [
+            "market_forces",
+            "voluntary_certification",
+            "registration",
+            "exemption",
+            "mandatory_certification",
+            "license"
+          ],
+          "meaning": "Which UORF model the state applies to this profession (license / mandatory_cert / registration / etc).",
+          "example": {
+            "value": "license",
+            "quote": "A person may not practice medicine, podiatry, or osteopathy in the state unless the person is licensed under this chapter",
+            "citation": "08.64.170"
+          }
+        },
+        {
+          "field": "credential_type",
+          "type": "enum",
+          "vocabulary": [
+            "none",
+            "registration",
+            "certification",
+            "license",
+            "exemption"
+          ],
+          "meaning": "What SHAPE of credential does the state issue, independent of whether holding it is mandatory? license / certification / registration / exemption / none. Pairs with is_mandatory to decompose the legacy regulatory_model rung.",
+          "example": {
+            "value": "license",
+            "quote": "A person may not practice medicine, podiatry, or osteopathy in the state unless the person is licensed under this chapter",
+            "citation": "08.64.170"
+          }
+        },
+        {
+          "field": "is_mandatory",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Is the credential MANDATORY to practice (or claim the title) in this state? True if practicing without it is prohibited; False if optional (e.g., voluntary certification that only protects the title for those who hold it).",
+          "example": {
+            "value": true,
+            "quote": "A person may not practice medicine, podiatry, or osteopathy in the state unless the person is licensed under this chapter",
+            "citation": "08.64.170"
+          }
+        },
+        {
+          "field": "title_protection",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Does the state restrict use of the profession's title to licensees? True if unlicensed people may NOT call themselves the protected title (e.g. 'podiatrist', 'CPA').",
+          "example": {
+            "value": true,
+            "quote": "A person may not practice medicine, podiatry, or osteopathy in the state unless the person is licensed under this chapter",
+            "citation": "08.64.170"
+          }
+        },
+        {
+          "field": "scope_protection",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Does the state restrict practice of the profession's scope to licensees? True if performing the scope without a license is prohibited (independent of title use).",
+          "example": {
+            "value": true,
+            "quote": "A person may not practice medicine, podiatry, or osteopathy in the state unless the person is licensed under this chapter",
+            "citation": "08.64.170"
+          }
+        },
+        {
+          "field": "disciplinary_grounds",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "Grounds on which the board may discipline a licensee. Typical statutes list 5-15.",
+          "example": null
+        },
+        {
+          "field": "alternative_regulation",
+          "type": "AlternativeRegulation",
+          "vocabulary": [],
+          "meaning": "Non-credential regulatory mechanisms (bonding, insurance, establishment regulation) imposed by the state. Obama 2015 framework typology. Independent of credential_type.",
+          "example": null
+        },
+        {
+          "field": "citations",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "",
+          "example": null
+        }
+      ]
+    },
+    {
+      "group": "scope",
+      "intro": "What the practice act lets (or reserves to) this profession — the defined scope and any title/scope protection.",
+      "fields": [
+        {
+          "field": "definition_quote",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Verbatim statutory definition; quote field repeats the value text.",
+          "example": {
+            "value": "the medical, mechanical, and surgical treatment of ailments of the foot, the muscles and tendons of the leg governing the functions of the foot, and superficial lesions of the hand other than those associated with trauma; the use of preparations, medicines, and drugs as are necessary for the treatment of these ailments; the treatment of the local manifestations of systemic diseases as they appear in the hand and foot",
+            "quote": "\"practice of podiatry\" means the medical, mechanical, and surgical treatment of ailments of the foot, the muscles and tendons of the leg governing the functions of the foot, and superficial lesions of",
+            "citation": "08.64.380"
+          }
+        },
+        {
+          "field": "methods_authorized",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "High-level methods, e.g. ['medical','surgical','mechanical']",
+          "example": {
+            "value": [
+              "medical",
+              "mechanical",
+              "surgical"
+            ],
+            "quote": "the medical, mechanical, and surgical treatment of ailments of the foot, the muscles and tendons of the leg governing the functions of the foot, and superficial lesions of the hand other than those as",
+            "citation": "08.64.380"
+          }
+        },
+        {
+          "field": "drug_authority",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "",
+          "example": {
+            "value": "Use of preparations, medicines, and drugs as are necessary for the treatment of foot ailments and related conditions",
+            "quote": "the use of preparations, medicines, and drugs as are necessary for the treatment of these ailments",
+            "citation": "08.64.380"
+          }
+        },
+        {
+          "field": "citations",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "",
+          "example": null
+        }
+      ]
+    },
+    {
+      "group": "profession_specific",
+      "intro": "Fields discovered specifically for this profession (auto-derived from its statutes; they vary profession to profession).",
+      "fields": [
+        {
+          "field": "anatomical_scope_upper_boundary",
+          "type": "enum",
+          "vocabulary": [
+            "foot_only",
+            "foot_and_ankle",
+            "foot_ankle_and_leg_below_knee",
+            "foot_ankle_and_soft_tissue_to_tibial_tuberosity",
+            "foot_ankle_and_soft_tissue_to_myotendinous_junction_triceps_surae",
+            "foot_ankle_and_soft_tissue_to_distal_tibial_metaphyseal_flare",
+            "foot_ankle_and_soft_tissue_below_mid_calf",
+            "foot_ankle_and_tendons_inserting_into_foot"
+          ],
+          "meaning": "The upper anatomical boundary of the podiatrist's authorized scope of practice, which varies significantly across states.",
+          "example": {
+            "value": "foot_ankle_and_tendons_inserting_into_foot",
+            "quote": "the medical, mechanical, and surgical treatment of ailments of the foot, the muscles and tendons of the leg governing the functions of the foot, and superficial lesions of the hand other than those as",
+            "citation": "08.64.380"
+          }
+        },
+        {
+          "field": "amputation_authorized",
+          "type": "enum",
+          "vocabulary": [
+            "toes_only",
+            "toes_and_parts_of_foot",
+            "transmetatarsal_and_below",
+            "chopart_joint_and_below",
+            "foot_entirety_excluded",
+            "forefoot_excluded",
+            "not_authorized"
+          ],
+          "meaning": "The level of amputation a podiatrist is authorized to perform, ranging from toes only to parts of the foot, with the entire foot typically excluded.",
+          "example": null
+        },
+        {
+          "field": "anesthesia_authority",
+          "type": "enum",
+          "vocabulary": [
+            "local_only",
+            "local_and_conscious_sedation",
+            "local_and_moderate_deep_sedation",
+            "general_permitted_with_physician_supervision",
+            "general_excluded"
+          ],
+          "meaning": "The types of anesthesia a podiatrist is authorized to administer, with local anesthesia universally permitted and general anesthesia typically excluded or restricted.",
+          "example": {
+            "value": "general_permitted_with_physician_supervision",
+            "quote": "general anaesthetics may be used only in colleges of podiatry approved by the board and in hospitals approved by the joint commission on the accreditation of hospitals, or the American Osteopathic Ass",
+            "citation": "08.64.380"
+          }
+        },
+        {
+          "field": "ankle_surgery_authorized",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the state authorizes podiatrists to perform surgical treatment of the ankle, often subject to additional qualifications.",
+          "example": null
+        },
+        {
+          "field": "ankle_surgery_residency_requirement",
+          "type": "enum",
+          "vocabulary": [
+            "24_month_surgical_residency",
+            "36_month_surgical_residency",
+            "2_year_pre_2007_or_3_year_post_2007",
+            "board_certification_or_qualification_required",
+            "hospital_credentialing_required",
+            "board_certification_by_ABFAS"
+          ],
+          "meaning": "The specific residency length or certification required for a podiatrist to perform ankle surgery.",
+          "example": null
+        },
+        {
+          "field": "ankle_surgery_facility_requirement",
+          "type": "enum",
+          "vocabulary": [
+            "licensed_hospital_only",
+            "hospital_or_ambulatory_surgical_center",
+            "accredited_hospital_or_ASC",
+            "JCAHO_accredited_facility",
+            "multispecialty_ambulatory_surgical_facility"
+          ],
+          "meaning": "The type of facility in which ankle surgery must be performed by a podiatrist.",
+          "example": null
+        },
+        {
+          "field": "systemic_disease_treatment_excluded",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the state explicitly excludes treatment of systemic diseases from the podiatric scope of practice, except as manifested in the foot.",
+          "example": {
+            "value": true,
+            "quote": "a patient shall be concurrently referred to a physician or osteopath for the treatment of the systemic disease itself",
+            "citation": "08.64.380"
+          }
+        },
+        {
+          "field": "systemic_disease_local_manifestations_included",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the state explicitly includes treatment of local manifestations of systemic diseases as they appear on the foot or ankle.",
+          "example": {
+            "value": true,
+            "quote": "the treatment of the local manifestations of systemic diseases as they appear in the hand and foot",
+            "citation": "08.64.380"
+          }
+        },
+        {
+          "field": "board_certification_body",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "The recognized certifying body or bodies for advanced podiatric surgery, particularly for ankle surgery privileges.",
+          "example": null
+        },
+        {
+          "field": "podiatric_assistant_authorized",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the state explicitly authorizes podiatric medical assistants or podiatric assistants to assist under podiatrist supervision.",
+          "example": {
+            "value": true,
+            "quote": "The board shall adopt regulations authorizing a physician, podiatrist, osteopath, or physician assistant licensed under this chapter to delegate routine medical duties to an agent of the physician, po",
+            "citation": "08.64.106"
+          }
+        },
+        {
+          "field": "podiatric_assistant_supervision_level",
+          "type": "enum",
+          "vocabulary": [
+            "direct_supervision_on_premises",
+            "indirect_supervision",
+            "general_supervision"
+          ],
+          "meaning": "The level of supervision required when a podiatrist delegates tasks to a podiatric assistant or medical assistant.",
+          "example": null
+        },
+        {
+          "field": "xray_technician_certification_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the state requires certification or training for unlicensed personnel operating X-ray equipment in a podiatrist's office.",
+          "example": null
+        },
+        {
+          "field": "professional_liability_insurance_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the state requires podiatrists to maintain professional liability (malpractice) insurance as a condition of licensure or renewal.",
+          "example": null
+        },
+        {
+          "field": "telehealth_authorized",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the state explicitly authorizes podiatrists to provide services via telehealth or telemedicine.",
+          "example": null
+        },
+        {
+          "field": "opioid_prescribing_rules_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the state has specific statutory requirements or mandates for the board to adopt rules governing opioid prescribing by podiatrists.",
+          "example": {
+            "value": true,
+            "quote": "A licensee may not issue (1) an initial prescription for an opioid that exceeds a seven-day supply to an adult patient for outpatient use",
+            "citation": "08.64.363"
+          }
+        },
+        {
+          "field": "controlled_substances_prescribing_ce_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the state requires continuing education specifically related to controlled substances prescribing as part of license renewal.",
+          "example": {
+            "value": true,
+            "quote": "Continuing education requirements must include not less than two hours of education in pain management and opioid use and addiction in the two years preceding an application for renewal of a license",
+            "citation": "08.64.312"
+          }
+        },
+        {
+          "field": "ankle_surgery_board_certification_timeline",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "The time period within which a podiatrist who qualifies for ankle surgery must obtain board certification, where specified by statute.",
+          "example": null
+        },
+        {
+          "field": "total_ankle_replacement_authorized",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the state explicitly addresses or authorizes total ankle replacement surgery by podiatrists.",
+          "example": null
+        },
+        {
+          "field": "tibial_pilon_fracture_excluded",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the state explicitly excludes treatment of tibial pilon fractures from the podiatric scope of practice.",
+          "example": null
+        },
+        {
+          "field": "wound_debridement_authorized",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the state explicitly authorizes podiatrists to perform wound debridement beyond the foot and ankle.",
+          "example": null
+        },
+        {
+          "field": "vaccination_authority",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the state explicitly authorizes podiatrists to administer vaccinations.",
+          "example": null
+        },
+        {
+          "field": "physician_assistant_collaboration_authorized",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the state explicitly authorizes podiatrists to collaborate with or supervise physician assistants.",
+          "example": {
+            "value": true,
+            "quote": "a physician assistant may examine, diagnose, or treat persons under the supervision, control, and responsibility of either a physician licensed under this chapter or a physician exempted from licensin",
+            "citation": "08.64.170"
+          }
+        },
+        {
+          "field": "advanced_practice_nurse_collaboration_authorized",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the state explicitly authorizes podiatrists to collaborate with advanced practice registered nurses.",
+          "example": null
+        },
+        {
+          "field": "hospital_privileges_nondiscrimination",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the state has a statutory provision prohibiting hospitals from discriminating against podiatrists in granting privileges based solely on their degree type.",
+          "example": null
+        },
+        {
+          "field": "corrective_footwear_exemption",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the state explicitly exempts the fitting, recommending, or sale of corrective shoes, arch supports, or similar appliances by retail dealers from the podiatry licensing requirement.",
+          "example": null
+        },
+        {
+          "field": "clubfoot_surgery_restriction",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the state explicitly restricts or excludes surgical correction of clubfoot from the podiatric scope of practice.",
+          "example": null
+        },
+        {
+          "field": "ankle_surgery_standard_of_care_reference",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the state statute explicitly requires podiatrists performing ankle surgery to meet the same standard of care as orthopedic surgeons.",
+          "example": null
+        },
+        {
+          "field": "impaired_practitioner_program",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the state has a statutory provision for a podiatrist health or rehabilitation program for impaired practitioners.",
+          "example": {
+            "value": true,
+            "quote": "under regulations adopted by the board, contract with private professional organizations to establish an impaired medical professionals program to identify, confront, evaluate, and treat persons licen",
+            "citation": "08.64.101"
+          }
+        },
+        {
+          "field": "electronic_prescribing_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the state requires podiatrists to use electronic prescribing for medications, particularly controlled substances.",
+          "example": null
+        },
+        {
+          "field": "cosmetic_procedures_included",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the state explicitly includes cosmetic procedures of the foot, ankle, or leg within the podiatric scope of practice.",
+          "example": null
+        },
+        {
+          "field": "preoperative_history_and_physical_authorized",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the state explicitly authorizes podiatrists to perform preoperative history and physical examinations on their patients.",
+          "example": null
+        },
+        {
+          "field": "assistant_surgeon_role_authorized",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the state explicitly authorizes podiatrists to function as assistant surgeons in non-podiatric procedures.",
+          "example": null
+        },
+        {
+          "field": "office_based_surgery_accreditation_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the state requires that office-based surgeries performed by podiatrists be conducted in an accredited or licensed facility.",
+          "example": null
+        },
+        {
+          "field": "minor_patient_chaperone_requirement",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the state has a statutory requirement for a chaperone or third party to be present when a podiatrist treats a minor patient.",
+          "example": null
+        },
+        {
+          "field": "nondiscrimination_in_public_programs",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the state has a statutory provision ensuring recipients of public aid programs may choose podiatric care.",
+          "example": null
+        },
+        {
+          "field": "noncompete_clause_restriction",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the state has a statutory provision rendering noncompete clauses in podiatrist employment contracts unenforceable.",
+          "example": null
+        }
+      ]
+    }
+  ],
+  "example_state": "AK"
+}

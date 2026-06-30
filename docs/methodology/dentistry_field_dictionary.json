@@ -1,0 +1,559 @@
+{
+  "profession": "dentistry",
+  "groups": [
+    {
+      "group": "licensure",
+      "intro": "Whether and how the state credentials this profession — the regulatory model, credential type, authority, exams, fees, and renewal.",
+      "fields": [
+        {
+          "field": "license_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "",
+          "example": {
+            "value": true,
+            "quote": "a person may not practice, or attempt to practice, dentistry without a license.",
+            "citation": "08.36.100"
+          }
+        },
+        {
+          "field": "issuing_authority",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "",
+          "example": {
+            "value": "Board of Dental Examiners",
+            "quote": "\"board\" means the Board of Dental Examiners",
+            "citation": "08.36.370"
+          }
+        },
+        {
+          "field": "regulatory_authority",
+          "type": "RegulatoryAuthority",
+          "vocabulary": [],
+          "meaning": "Structured decomposition of the issuing authority — name, type (standalone board / shared board / division / department / joint), and any umbrella agency it sits within. Populated alongside the legacy free-text issuing_authority for back-compat.",
+          "example": null
+        },
+        {
+          "field": "age_minimum",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "",
+          "example": null
+        },
+        {
+          "field": "moral_character_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "",
+          "example": null
+        },
+        {
+          "field": "education",
+          "type": "EducationRequirement",
+          "vocabulary": [],
+          "meaning": "",
+          "example": null
+        },
+        {
+          "field": "post_degree_experience",
+          "type": "PostDegreeExperience",
+          "vocabulary": [],
+          "meaning": "Residency / supervised practice / apprenticeship — name varies, structure doesn't.",
+          "example": null
+        },
+        {
+          "field": "exams",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "",
+          "example": null
+        },
+        {
+          "field": "renewal",
+          "type": "Renewal",
+          "vocabulary": [],
+          "meaning": "",
+          "example": null
+        },
+        {
+          "field": "renewal_fee_usd",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "License renewal fee in US dollars (integer). Many statutes leave the amount to the board's discretion — leave null in that case.",
+          "example": null
+        },
+        {
+          "field": "continuing_education",
+          "type": "ContinuingEducation",
+          "vocabulary": [],
+          "meaning": "",
+          "example": null
+        },
+        {
+          "field": "reciprocity",
+          "type": "Reciprocity",
+          "vocabulary": [],
+          "meaning": "",
+          "example": null
+        },
+        {
+          "field": "advisory_board",
+          "type": "AdvisoryBoard",
+          "vocabulary": [],
+          "meaning": "Profession-specific advisory body sitting alongside the main licensing board, when one exists. Populated for states that delegate licensure to a generic board and add a specialty advisory committee.",
+          "example": null
+        },
+        {
+          "field": "national_certification",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Name of a national CERTIFICATION the state recognizes or requires, e.g. 'American Board of Podiatric Surgery (ABPS)' or 'National Board of Podiatric Medical Examiners (NBPME)'. The certifying body, NOT the association. Null if the statute doesn't reference one.",
+          "example": null
+        },
+        {
+          "field": "national_association",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Professional ASSOCIATION the state references (e.g. for accreditation or CE provider approval) — 'American Podiatric Medical Association (APMA)', 'American Dental Association (ADA)'. Distinct from the certifying body. Null if not referenced.",
+          "example": {
+            "value": "American Association of Dental Boards",
+            "quote": "affiliate with the American Association of Dental Boards and pay annual dues to the association",
+            "citation": "08.36.070"
+          }
+        },
+        {
+          "field": "regulatory_model",
+          "type": "enum",
+          "vocabulary": [
+            "market_forces",
+            "voluntary_certification",
+            "registration",
+            "exemption",
+            "mandatory_certification",
+            "license"
+          ],
+          "meaning": "Which UORF model the state applies to this profession (license / mandatory_cert / registration / etc).",
+          "example": {
+            "value": "license",
+            "quote": "a person may not practice, or attempt to practice, dentistry without a license.",
+            "citation": "08.36.100"
+          }
+        },
+        {
+          "field": "credential_type",
+          "type": "enum",
+          "vocabulary": [
+            "none",
+            "registration",
+            "certification",
+            "license",
+            "exemption"
+          ],
+          "meaning": "What SHAPE of credential does the state issue, independent of whether holding it is mandatory? license / certification / registration / exemption / none. Pairs with is_mandatory to decompose the legacy regulatory_model rung.",
+          "example": {
+            "value": "license",
+            "quote": "The board shall issue a license to each successful dentist applicant who has paid the required fees.",
+            "citation": "08.36.240"
+          }
+        },
+        {
+          "field": "is_mandatory",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Is the credential MANDATORY to practice (or claim the title) in this state? True if practicing without it is prohibited; False if optional (e.g., voluntary certification that only protects the title for those who hold it).",
+          "example": {
+            "value": true,
+            "quote": "a person may not practice, or attempt to practice, dentistry without a license.",
+            "citation": "08.36.100"
+          }
+        },
+        {
+          "field": "title_protection",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Does the state restrict use of the profession's title to licensees? True if unlicensed people may NOT call themselves the protected title (e.g. 'podiatrist', 'CPA').",
+          "example": {
+            "value": true,
+            "quote": "uses the words \"dentist\" or \"dental surgeon\" or the letters \"D.D.S.\" or \"D.M.D.\" or other letter or title that represents the dentist as engaging in the practice of dentistry",
+            "citation": "08.36.360"
+          }
+        },
+        {
+          "field": "scope_protection",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Does the state restrict practice of the profession's scope to licensees? True if performing the scope without a license is prohibited (independent of title use).",
+          "example": {
+            "value": true,
+            "quote": "a person may not practice, or attempt to practice, dentistry without a license.",
+            "citation": "08.36.100"
+          }
+        },
+        {
+          "field": "disciplinary_grounds",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "Grounds on which the board may discipline a licensee. Typical statutes list 5-15.",
+          "example": null
+        },
+        {
+          "field": "alternative_regulation",
+          "type": "AlternativeRegulation",
+          "vocabulary": [],
+          "meaning": "Non-credential regulatory mechanisms (bonding, insurance, establishment regulation) imposed by the state. Obama 2015 framework typology. Independent of credential_type.",
+          "example": null
+        },
+        {
+          "field": "citations",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "",
+          "example": null
+        }
+      ]
+    },
+    {
+      "group": "scope",
+      "intro": "What the practice act lets (or reserves to) this profession — the defined scope and any title/scope protection.",
+      "fields": [
+        {
+          "field": "definition_quote",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Verbatim statutory definition; quote field repeats the value text.",
+          "example": {
+            "value": "A person engages in the practice of dentistry who (1) performs or holds out to the public as being able to perform dental operations; (2) diagnoses, treats, operates on, corrects, attempts to correct, or prescribes for a disease, lesion, pain, injury, deficiency, deformity, or physical condition, malocclusion or malposition of the human teeth, alveolar process, gingiva, maxilla, mandible, or adjacent tissues; (3) performs or attempts to perform an operation incident to the replacement of teeth; ...",
+            "quote": "A person engages in the practice of dentistry who (1) performs or holds out to the public as being able to perform dental operations; (2) diagnoses, treats, operates on, corrects, attempts to correct,",
+            "citation": "08.36.360"
+          }
+        },
+        {
+          "field": "methods_authorized",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "High-level methods, e.g. ['medical','surgical','mechanical']",
+          "example": {
+            "value": [
+              "diagnosis and treatment of dental diseases and conditions",
+              "operative and surgical procedures on teeth and adjacent tissues",
+              "replacement of teeth (dentures, bridges, appliances)",
+              "extraction of teeth",
+              "prescribing for dental conditions",
+              "evaluation and preventive procedures for oral cavity and maxillofacial area"
+            ],
+            "quote": "diagnoses, treats, operates on, corrects, attempts to correct, or prescribes for a disease, lesion, pain, injury, deficiency, deformity, or physical condition, malocclusion or malposition of the human",
+            "citation": "08.36.360"
+          }
+        },
+        {
+          "field": "drug_authority",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "",
+          "example": {
+            "value": "Dentists may prescribe drugs within the scope of dental practice; opioid prescriptions are subject to statutory limits (no more than 7-day supply for initial prescription to adults, no more than 7-day supply to minors)",
+            "quote": "A licensee may not issue (1) an initial prescription for an opioid that exceeds a seven-day supply to an adult patient for outpatient use; (2) a prescription for an opioid that exceeds a seven-day sup",
+            "citation": "08.36.355"
+          }
+        },
+        {
+          "field": "citations",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "",
+          "example": null
+        }
+      ]
+    },
+    {
+      "group": "profession_specific",
+      "intro": "Fields discovered specifically for this profession (auto-derived from its statutes; they vary profession to profession).",
+      "fields": [
+        {
+          "field": "sedation_anesthesia_permit_types",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "The distinct categories of sedation and anesthesia permits a dentist may obtain beyond basic local anesthesia, each requiring separate training and board approval.",
+          "example": null
+        },
+        {
+          "field": "sedation_permit_onsite_inspection_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the board may require an on-site inspection of the facility, equipment, and personnel before issuing or renewing a sedation or anesthesia permit.",
+          "example": null
+        },
+        {
+          "field": "sedation_adverse_event_reporting_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether licensees are required to report deaths, injuries, or other adverse events resulting from sedation or anesthesia to the board within a specified timeframe.",
+          "example": null
+        },
+        {
+          "field": "pediatric_sedation_endorsement_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether a separate pediatric endorsement on a sedation or anesthesia permit is required before administering sedation to patients below a specified age threshold.",
+          "example": null
+        },
+        {
+          "field": "specialist_license_available",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the state issues a separate specialist license or certificate allowing a dentist to hold themselves out to the public as a specialist in a recognized branch of dentistry.",
+          "example": {
+            "value": true,
+            "quote": "A licensed dentist may not represent to the public to be qualified in a specialized branch of dentistry through any means of public advertising using the term \"specialist,\" the name of a specialty, or",
+            "citation": "08.36.242"
+          }
+        },
+        {
+          "field": "specialty_practice_scope_restriction",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether a dentist who obtains a specialist license is restricted to practicing only within that specialty branch.",
+          "example": {
+            "value": true,
+            "quote": "The practice of a dentist who obtains a specialist license under (a) of this section is limited to the branch of dentistry in which the dentist holds a specialist license.",
+            "citation": "08.36.243"
+          }
+        },
+        {
+          "field": "specialty_advertising_disclaimer_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether dentists who advertise a practice emphasis in an area not recognized as a specialty by the board must include a specific statutory disclaimer in their advertising.",
+          "example": null
+        },
+        {
+          "field": "dental_hygienist_supervision_levels",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "The defined levels of dentist supervision under which dental hygienists may perform procedures, as enumerated in statute.",
+          "example": {
+            "value": [
+              "direct supervision",
+              "indirect supervision",
+              "general supervision"
+            ],
+            "quote": "\"direct supervision\" means the dentist is in the dental office, personally diagnoses the condition to be treated, personally authorizes the procedure, and before dismissal of the patient evaluates the",
+            "citation": "08.32.190"
+          }
+        },
+        {
+          "field": "collaborative_agreement_available",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the state authorizes a formal written collaborative agreement between a dentist and a dental hygienist that allows the hygienist to provide specified services without the dentist's physical presence.",
+          "example": {
+            "value": true,
+            "quote": "a licensed dental hygienist with a minimum of 4,000 documented hours of clinical experience within the five years preceding application for the board's approval may enter into a collaborative agreemen",
+            "citation": "08.32.115"
+          }
+        },
+        {
+          "field": "collaborative_agreement_max_hygienists_per_dentist",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "The maximum number of collaborative or affiliated practice agreements a single dentist may hold simultaneously with dental hygienists.",
+          "example": {
+            "value": 5,
+            "quote": "the board may not approve more than five collaborative agreements with a licensed dentist, not including any collaborative agreements that have been terminated.",
+            "citation": "08.32.115"
+          }
+        },
+        {
+          "field": "advanced_practice_permit_available",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the state issues an advanced practice permit or equivalent credential allowing a dental hygienist to provide services to underserved populations without a dentist's physical presence or prior examination.",
+          "example": {
+            "value": true,
+            "quote": "The board may issue an advanced practice permit to a licensed dental hygienist with a minimum of 4,000 documented hours of clinical experience.",
+            "citation": "08.32.125"
+          }
+        },
+        {
+          "field": "advanced_practice_eligible_patient_populations",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "The specific patient populations or settings for which an advanced practice or affiliated practice dental hygienist may provide services without direct dentist supervision.",
+          "example": {
+            "value": [
+              "residents in senior centers including hospitals, long-term care facilities, adult foster homes, residential care facilities, adult congregate living facilities",
+              "residents in health care facilities including mental health residential programs or facilities for individuals with developmental or other disabilities",
+              "persons held in local correctional facilities for juveniles or adults",
+              "persons enrolled in nursery schools, day care programs, vocational training facilities, primary schools, secondary schools, private schools, or public charter schools",
+              "persons entitled to WIC benefits",
+              "homebound persons",
+              "residents of a dental health professional shortage area"
+            ],
+            "quote": "A licensed dental hygienist holding an advanced practice permit may provide the services described in (a) of this section to a patient who is unable to access dental treatment because of age, infirmit",
+            "citation": "08.32.125"
+          }
+        },
+        {
+          "field": "dental_therapist_license_available",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the state licenses dental therapists as a distinct mid-level dental provider category with its own scope of practice.",
+          "example": null
+        },
+        {
+          "field": "dental_therapist_collaborative_practice_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether a dental therapist must operate under a written collaborative practice agreement with a supervising dentist in order to practice independently of direct supervision.",
+          "example": null
+        },
+        {
+          "field": "dental_therapist_practice_setting_restrictions",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "The specific practice settings or facility types in which a dental therapist is authorized to practice.",
+          "example": null
+        },
+        {
+          "field": "mobile_dental_facility_registration_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether operators of mobile dental facilities or portable dental units must register with the state dental board and comply with specific operational requirements.",
+          "example": null
+        },
+        {
+          "field": "mobile_facility_followup_care_protocol_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether operators of mobile dental facilities are required to maintain a written protocol for emergency follow-up care for patients treated at the mobile facility.",
+          "example": null
+        },
+        {
+          "field": "dental_office_ownership_restrictions",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the state restricts ownership or operation of dental offices to licensed dentists or specified entities, prohibiting non-dentist corporate ownership.",
+          "example": {
+            "value": true,
+            "quote": "Only a person who holds a valid license issued under this chapter may own, operate, or maintain a dental practice, office, or clinic.",
+            "citation": "08.36.367"
+          }
+        },
+        {
+          "field": "opioid_prescribing_limits",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the state imposes statutory limits on the quantity or duration of opioid prescriptions that a dentist may issue.",
+          "example": {
+            "value": true,
+            "quote": "A licensee may not issue (1) an initial prescription for an opioid that exceeds a seven-day supply to an adult patient for outpatient use; (2) a prescription for an opioid that exceeds a seven-day sup",
+            "citation": "08.36.355"
+          }
+        },
+        {
+          "field": "controlled_substance_database_registration_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether dentists who hold a DEA registration number are required to register with or use the state's controlled substance prescription monitoring database.",
+          "example": {
+            "value": true,
+            "quote": "require that a licensed dentist who has a federal Drug Enforcement Administration registration number register with the controlled substance prescription database under AS 17.30.200(n).",
+            "citation": "08.36.070"
+          }
+        },
+        {
+          "field": "dental_laboratory_work_authorization_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether dentists must provide a written work authorization or prescription to dental laboratories when ordering prosthetic or orthodontic appliances, with specified content requirements.",
+          "example": null
+        },
+        {
+          "field": "denture_patient_identification_marking_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether dentists are required to have complete dentures permanently marked with the patient's name or initials during fabrication for identification purposes.",
+          "example": null
+        },
+        {
+          "field": "teledentistry_authorized",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the state expressly authorizes or defines teledentistry as a permitted mode of delivering dental services.",
+          "example": null
+        },
+        {
+          "field": "hygienist_local_anesthesia_certification_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether dental hygienists must obtain a separate board-issued certificate or permit before they are authorized to administer local anesthesia.",
+          "example": {
+            "value": true,
+            "quote": "if certified by the board, administer local anesthetic agents",
+            "citation": "08.32.110"
+          }
+        },
+        {
+          "field": "hygienist_nitrous_oxide_certification_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether dental hygienists must obtain a separate board-issued certificate or permit before they are authorized to administer nitrous oxide analgesia.",
+          "example": {
+            "value": true,
+            "quote": "if certified by the board and under the direct or indirect supervision of a licensed dentist, administer and monitor nitrous oxide-oxygen conscious sedation.",
+            "citation": "08.32.110"
+          }
+        },
+        {
+          "field": "restorative_function_endorsement_available",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the state issues a restorative function endorsement or certificate allowing a dental hygienist or dental assistant to place and finish direct restorations prepared by a dentist.",
+          "example": {
+            "value": true,
+            "quote": "The board shall issue a restorative function endorsement to a licensed dental hygienist if the licensee furnishes evidence satisfactory to the board",
+            "citation": "08.32.085"
+          }
+        },
+        {
+          "field": "interim_therapeutic_restoration_authorized",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the state expressly authorizes dental hygienists or dental assistants in extended functions to place interim therapeutic restorations using hand instrumentation only.",
+          "example": null
+        },
+        {
+          "field": "patient_record_retention_years",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "The minimum number of years a licensee is required to retain patient dental records after the last date of service.",
+          "example": {
+            "value": 7,
+            "quote": "failed to maintain a patient or facility record for at least seven years after the date the record was created",
+            "citation": "08.36.315"
+          }
+        },
+        {
+          "field": "cpr_certification_required_for_sedation",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether dentists and auxiliary personnel involved in sedation procedures are required to maintain current certification in basic or advanced cardiac life support.",
+          "example": null
+        },
+        {
+          "field": "dental_hygienist_alternative_practice_license",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the state issues a distinct 'alternative practice' or equivalent license category allowing dental hygienists to practice independently in specified community or public health settings without a supervising dentist on-site.",
+          "example": {
+            "value": true,
+            "quote": "The board may issue an advanced practice permit to a licensed dental hygienist with a minimum of 4,000 documented hours of clinical experience.",
+            "citation": "08.32.125"
+          }
+        }
+      ]
+    }
+  ],
+  "example_state": "AK"
+}

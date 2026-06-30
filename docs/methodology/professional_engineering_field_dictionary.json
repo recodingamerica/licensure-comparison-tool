@@ -1,0 +1,487 @@
+{
+  "profession": "professional_engineering",
+  "groups": [
+    {
+      "group": "licensure",
+      "intro": "Whether and how the state credentials this profession — the regulatory model, credential type, authority, exams, fees, and renewal.",
+      "fields": [
+        {
+          "field": "license_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "",
+          "example": {
+            "value": true,
+            "quote": "A person may not practice or offer to practice the profession of architecture, engineering, land surveying, or landscape architecture in the state, or use in connection with the person's name or other",
+            "citation": "08.48.281"
+          }
+        },
+        {
+          "field": "issuing_authority",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "",
+          "example": {
+            "value": "State Board of Registration for Architects, Engineers, and Land Surveyors",
+            "quote": "There is created the State Board of Registration for Architects, Engineers, and Land Surveyors. The board shall administer the provisions of this chapter",
+            "citation": "08.48.011"
+          }
+        },
+        {
+          "field": "regulatory_authority",
+          "type": "RegulatoryAuthority",
+          "vocabulary": [],
+          "meaning": "Structured decomposition of the issuing authority — name, type (standalone board / shared board / division / department / joint), and any umbrella agency it sits within. Populated alongside the legacy free-text issuing_authority for back-compat.",
+          "example": null
+        },
+        {
+          "field": "age_minimum",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "",
+          "example": null
+        },
+        {
+          "field": "moral_character_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "",
+          "example": {
+            "value": true,
+            "quote": "An applicant for registration as an architect, engineer, land surveyor, or landscape architect must be of good character and reputation",
+            "citation": "08.48.171"
+          }
+        },
+        {
+          "field": "education",
+          "type": "EducationRequirement",
+          "vocabulary": [],
+          "meaning": "",
+          "example": null
+        },
+        {
+          "field": "post_degree_experience",
+          "type": "PostDegreeExperience",
+          "vocabulary": [],
+          "meaning": "Residency / supervised practice / apprenticeship — name varies, structure doesn't.",
+          "example": null
+        },
+        {
+          "field": "exams",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "",
+          "example": null
+        },
+        {
+          "field": "renewal",
+          "type": "Renewal",
+          "vocabulary": [],
+          "meaning": "",
+          "example": null
+        },
+        {
+          "field": "renewal_fee_usd",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "License renewal fee in US dollars (integer). Many statutes leave the amount to the board's discretion — leave null in that case.",
+          "example": null
+        },
+        {
+          "field": "continuing_education",
+          "type": "ContinuingEducation",
+          "vocabulary": [],
+          "meaning": "",
+          "example": null
+        },
+        {
+          "field": "reciprocity",
+          "type": "Reciprocity",
+          "vocabulary": [],
+          "meaning": "",
+          "example": null
+        },
+        {
+          "field": "advisory_board",
+          "type": "AdvisoryBoard",
+          "vocabulary": [],
+          "meaning": "Profession-specific advisory body sitting alongside the main licensing board, when one exists. Populated for states that delegate licensure to a generic board and add a specialty advisory committee.",
+          "example": null
+        },
+        {
+          "field": "national_certification",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Name of a national CERTIFICATION the state recognizes or requires, e.g. 'American Board of Podiatric Surgery (ABPS)' or 'National Board of Podiatric Medical Examiners (NBPME)'. The certifying body, NOT the association. Null if the statute doesn't reference one.",
+          "example": null
+        },
+        {
+          "field": "national_association",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Professional ASSOCIATION the state references (e.g. for accreditation or CE provider approval) — 'American Podiatric Medical Association (APMA)', 'American Dental Association (ADA)'. Distinct from the certifying body. Null if not referenced.",
+          "example": null
+        },
+        {
+          "field": "regulatory_model",
+          "type": "enum",
+          "vocabulary": [
+            "market_forces",
+            "voluntary_certification",
+            "registration",
+            "exemption",
+            "mandatory_certification",
+            "license"
+          ],
+          "meaning": "Which UORF model the state applies to this profession (license / mandatory_cert / registration / etc).",
+          "example": {
+            "value": "license",
+            "quote": "A person may not practice or offer to practice the profession of architecture, engineering, land surveying, or landscape architecture in the state, or use in connection with the person's name or other",
+            "citation": "08.48.281"
+          }
+        },
+        {
+          "field": "credential_type",
+          "type": "enum",
+          "vocabulary": [
+            "none",
+            "registration",
+            "certification",
+            "license",
+            "exemption"
+          ],
+          "meaning": "What SHAPE of credential does the state issue, independent of whether holding it is mandatory? license / certification / registration / exemption / none. Pairs with is_mandatory to decompose the legacy regulatory_model rung.",
+          "example": {
+            "value": "license",
+            "quote": "An applicant who fulfills the requirements set out by the board shall be awarded a certificate of registration authorizing the holder to offer or perform services or work for the public",
+            "citation": "08.48.211"
+          }
+        },
+        {
+          "field": "is_mandatory",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Is the credential MANDATORY to practice (or claim the title) in this state? True if practicing without it is prohibited; False if optional (e.g., voluntary certification that only protects the title for those who hold it).",
+          "example": {
+            "value": true,
+            "quote": "A person may not practice or offer to practice the profession of architecture, engineering, land surveying, or landscape architecture in the state",
+            "citation": "08.48.281"
+          }
+        },
+        {
+          "field": "title_protection",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Does the state restrict use of the profession's title to licensees? True if unlicensed people may NOT call themselves the protected title (e.g. 'podiatrist', 'CPA').",
+          "example": {
+            "value": true,
+            "quote": "use in connection with the person's name or otherwise assume or advertise a title or description tending to convey the impression that the person is an architect, an engineer, a land surveyor, or a la",
+            "citation": "08.48.281"
+          }
+        },
+        {
+          "field": "scope_protection",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Does the state restrict practice of the profession's scope to licensees? True if performing the scope without a license is prohibited (independent of title use).",
+          "example": {
+            "value": true,
+            "quote": "A person may not practice or offer to practice the profession of architecture, engineering, land surveying, or landscape architecture in the state",
+            "citation": "08.48.281"
+          }
+        },
+        {
+          "field": "disciplinary_grounds",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "Grounds on which the board may discipline a licensee. Typical statutes list 5-15.",
+          "example": null
+        },
+        {
+          "field": "alternative_regulation",
+          "type": "AlternativeRegulation",
+          "vocabulary": [],
+          "meaning": "Non-credential regulatory mechanisms (bonding, insurance, establishment regulation) imposed by the state. Obama 2015 framework typology. Independent of credential_type.",
+          "example": null
+        },
+        {
+          "field": "citations",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "",
+          "example": null
+        }
+      ]
+    },
+    {
+      "group": "scope",
+      "intro": "What the practice act lets (or reserves to) this profession — the defined scope and any title/scope protection.",
+      "fields": [
+        {
+          "field": "definition_quote",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Verbatim statutory definition; quote field repeats the value text.",
+          "example": {
+            "value": "\"practice of engineering\" means professional service or creative work, the adequate performance of which requires the specialized knowledge of applied mathematics and sciences, dealing with the design of structures, machines, equipment, utilities systems, materials, processes, works, or projects, public or private; the teaching of advanced engineering courses in institutions of higher learning; the direction of or the performance of engineering surveys, consultation, investigation, evaluation, planning, and professional observation of construction of public and private structures, works, or projects and engineering review of drawings and specifications by regulatory agencies",
+            "quote": "\"practice of engineering\" means professional service or creative work, the adequate performance of which requires the specialized knowledge of applied mathematics and sciences, dealing with the design",
+            "citation": "08.48.341"
+          }
+        },
+        {
+          "field": "methods_authorized",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "High-level methods, e.g. ['medical','surgical','mechanical']",
+          "example": {
+            "value": [
+              "design of structures, machines, equipment, utilities systems, materials, processes, works, or projects",
+              "teaching of advanced engineering courses in institutions of higher learning",
+              "engineering surveys",
+              "consultation",
+              "investigation",
+              "evaluation",
+              "planning",
+              "professional observation of construction",
+              "engineering review of drawings and specifications by regulatory agencies",
+              "architectural building design of minor importance (by board regulation)"
+            ],
+            "quote": "professional service or creative work, the adequate performance of which requires the specialized knowledge of applied mathematics and sciences, dealing with the design of structures, machines, equipm",
+            "citation": "08.48.341"
+          }
+        },
+        {
+          "field": "drug_authority",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "",
+          "example": null
+        },
+        {
+          "field": "citations",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "",
+          "example": null
+        }
+      ]
+    },
+    {
+      "group": "profession_specific",
+      "intro": "Fields discovered specifically for this profession (auto-derived from its statutes; they vary profession to profession).",
+      "fields": [
+        {
+          "field": "covers_land_surveying",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the same statute and licensing board also governs professional land surveyors.",
+          "example": {
+            "value": true,
+            "quote": "There is created the State Board of Registration for Architects, Engineers, and Land Surveyors.",
+            "citation": "08.48.011"
+          }
+        },
+        {
+          "field": "covers_geology",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the same statute and licensing board also governs professional geologists.",
+          "example": {
+            "value": false,
+            "quote": "regulation of professional geologists under AS 08.02.060",
+            "citation": "UMBRELLA / Chapter 01. Centralized Licensing"
+          }
+        },
+        {
+          "field": "engineer_intern_certificate_available",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the state issues a formal intermediate certificate (engineer intern or engineer-in-training) to candidates who pass the fundamentals exam but have not yet completed experience requirements.",
+          "example": {
+            "value": false,
+            "quote": "Except as provided in AS 08.48.191, for registration as a professional architect, professional engineer, professional land surveyor, or professional landscape architect, a person shall be examined in ",
+            "citation": "08.48.181"
+          }
+        },
+        {
+          "field": "surveyor_in_training_certificate_available",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the state issues a formal intermediate certificate to land surveying candidates who pass the fundamentals exam but have not yet completed experience requirements.",
+          "example": {
+            "value": false,
+            "quote": "Except as provided in AS 08.48.191, for registration as a professional architect, professional engineer, professional land surveyor, or professional landscape architect, a person shall be examined in ",
+            "citation": "08.48.181"
+          }
+        },
+        {
+          "field": "geologist_in_training_certificate_available",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the state issues a formal intermediate certificate to geology candidates who pass the fundamentals exam but have not yet completed experience requirements.",
+          "example": null
+        },
+        {
+          "field": "postgraduate_degree_experience_credit_years_max",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "Maximum number of years of experience credit that may be granted for postbaccalaureate engineering degrees earned before licensure.",
+          "example": null
+        },
+        {
+          "field": "responsible_charge_defined",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the statute provides an explicit statutory definition of 'responsible charge' as a term of art for the level of oversight required for licensure and practice.",
+          "example": {
+            "value": true,
+            "quote": "\"responsible charge\" means the direct control and personal supervision of work",
+            "citation": "08.48.341"
+          }
+        },
+        {
+          "field": "seal_required_on_documents",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether licensees are required by statute to obtain and affix an official seal to plans, specifications, plats, and reports they issue.",
+          "example": {
+            "value": true,
+            "quote": "When a registrant issues final drawings, specifications, surveys, plats, plates, reports, or similar documents, the registrant shall stamp the documents with the seal and sign the seal.",
+            "citation": "08.48.221"
+          }
+        },
+        {
+          "field": "seal_document_types",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "Types of professional documents that must bear the licensee's seal and signature.",
+          "example": {
+            "value": [
+              "final drawings",
+              "specifications",
+              "surveys",
+              "plats",
+              "plates",
+              "reports",
+              "similar documents"
+            ],
+            "quote": "When a registrant issues final drawings, specifications, surveys, plats, plates, reports, or similar documents, the registrant shall stamp the documents with the seal and sign the seal.",
+            "citation": "08.48.221"
+          }
+        },
+        {
+          "field": "firm_practice_allowed",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether firms and corporations may lawfully offer engineering, surveying, or geology services, subject to the condition that responsible employees are licensed.",
+          "example": {
+            "value": true,
+            "quote": "This chapter does not prevent a corporation, limited liability company, limited liability partnership, or limited partnership from offering architectural, engineering, land surveying, or landscape arc",
+            "citation": "08.48.241"
+          }
+        },
+        {
+          "field": "exemptions_from_licensure",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "Categories of persons or activities explicitly exempted from the licensure requirement.",
+          "example": {
+            "value": [
+              "contractor performing work designed by a professional architect, engineer, or landscape architect",
+              "workers in building trades crafts, earthwork, grounds keeping, or nursery operations",
+              "officer or employee of the United States government practicing in official capacity",
+              "employee or subordinate of a registrant under direct supervision",
+              "associates, consultants, or specialists retained by a registrant with responsible charge remaining with the registrant",
+              "person preparing drawings for single family residence and related site work for own use",
+              "farm or ranch buildings unless public health, safety, or welfare is involved",
+              "person preparing drawings for building used as residence by not more than four families (not more than two stories)",
+              "person preparing drawings for building used as residence by not more than two families (not more than three stories) in municipality with building/residential code",
+              "garage, workshop, or similar building less than 2,000 square feet for private noncommercial purpose",
+              "specialty contractor licensed under AS 08.18 for work within specialty designed by architect/engineer/landscape architect",
+              "person furnishing drawings for alterations or repairs not changing structural system or safety of building",
+              "person employed by postsecondary educational institution to teach engineering, architectural, or landscape architectural courses",
+              "officer or employee of individual or entity practicing engineering involved only in employer's business with no public offerings",
+              "person involved in revegetation, restoration, reclamation, rehabilitation, or erosion control that board determines does not affect public health, safety, or welfare",
+              "person maintaining or directing placement of plant material that board determines does not affect public health, safety, or welfare",
+              "employee, officer, or agent of regulatory agency reviewing drawings for building code compliance",
+              "person authorized by Department of Public Safety to design fire protection systems"
+            ],
+            "quote": "This chapter does not apply to (1) a contractor performing work designed by a professional architect, engineer, or landscape architect",
+            "citation": "08.48.331"
+          }
+        },
+        {
+          "field": "code_of_ethics_in_statute",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the statute itself contains a codified code of ethics whose violation is grounds for license suspension or revocation.",
+          "example": {
+            "value": true,
+            "quote": "publishing a code of ethics or professional conduct for registrants and entities authorized under AS 08.48.241",
+            "citation": "08.48.101"
+          }
+        },
+        {
+          "field": "multi_license_reporting_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether licensees holding licenses in other states, territories, or countries must report that fact and any out-of-state disciplinary actions to the board.",
+          "example": null
+        },
+        {
+          "field": "board_engineering_disciplines_represented",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "The major engineering disciplines that must be represented on the licensing board, as specified by statute.",
+          "example": {
+            "value": [
+              "civil engineering (two members)",
+              "mining engineering",
+              "electrical or mechanical engineering",
+              "another branch of engineering"
+            ],
+            "quote": "The board consists of two civil engineers, two land surveyors, one mining engineer, one electrical or mechanical engineer, one engineer from another branch of the profession of engineering, two archit",
+            "citation": "08.48.011"
+          }
+        },
+        {
+          "field": "board_member_responsible_charge_years_required",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "Minimum number of years a professional board member must have been in responsible charge of work to be eligible for appointment.",
+          "example": {
+            "value": 5,
+            "quote": "except for the public member, must be registered and have a minimum of five years of professional practice in the member's respective field.",
+            "citation": "08.48.031"
+          }
+        },
+        {
+          "field": "pdh_units_per_renewal_period",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "Number of Professional Development Hours (PDH) required per biennial renewal period.",
+          "example": null
+        },
+        {
+          "field": "pdh_carryover_max_units",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "Maximum number of excess PDH units that may be carried forward into the next renewal period.",
+          "example": null
+        },
+        {
+          "field": "retired_status_license_available",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the state offers a retired-status license that exempts the holder from continuing education requirements while prohibiting active practice.",
+          "example": {
+            "value": true,
+            "quote": "On retiring from practice and payment of an appropriate one-time fee, a registrant in good standing with the board may apply for the conversion of a certificate of registration to a retired status reg",
+            "citation": "08.48.215"
+          }
+        }
+      ]
+    }
+  ],
+  "example_state": "AK"
+}

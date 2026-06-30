@@ -1,0 +1,561 @@
+{
+  "profession": "optometry",
+  "groups": [
+    {
+      "group": "licensure",
+      "intro": "Whether and how the state credentials this profession — the regulatory model, credential type, authority, exams, fees, and renewal.",
+      "fields": [
+        {
+          "field": "license_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "",
+          "example": {
+            "value": true,
+            "quote": "A person may not practice, attempt to practice, or offer to practice optometry without first obtaining a license from the board.",
+            "citation": "08.72.110"
+          }
+        },
+        {
+          "field": "issuing_authority",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "",
+          "example": {
+            "value": "Board of Examiners in Optometry",
+            "quote": "There is created the Board of Examiners in Optometry to regulate and control the practice of optometry",
+            "citation": "08.72.010"
+          }
+        },
+        {
+          "field": "regulatory_authority",
+          "type": "RegulatoryAuthority",
+          "vocabulary": [],
+          "meaning": "Structured decomposition of the issuing authority — name, type (standalone board / shared board / division / department / joint), and any umbrella agency it sits within. Populated alongside the legacy free-text issuing_authority for back-compat.",
+          "example": null
+        },
+        {
+          "field": "age_minimum",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "",
+          "example": null
+        },
+        {
+          "field": "moral_character_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "",
+          "example": null
+        },
+        {
+          "field": "education",
+          "type": "EducationRequirement",
+          "vocabulary": [],
+          "meaning": "",
+          "example": null
+        },
+        {
+          "field": "post_degree_experience",
+          "type": "PostDegreeExperience",
+          "vocabulary": [],
+          "meaning": "Residency / supervised practice / apprenticeship — name varies, structure doesn't.",
+          "example": null
+        },
+        {
+          "field": "exams",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "",
+          "example": null
+        },
+        {
+          "field": "renewal",
+          "type": "Renewal",
+          "vocabulary": [],
+          "meaning": "",
+          "example": null
+        },
+        {
+          "field": "renewal_fee_usd",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "License renewal fee in US dollars (integer). Many statutes leave the amount to the board's discretion — leave null in that case.",
+          "example": null
+        },
+        {
+          "field": "continuing_education",
+          "type": "ContinuingEducation",
+          "vocabulary": [],
+          "meaning": "",
+          "example": null
+        },
+        {
+          "field": "reciprocity",
+          "type": "Reciprocity",
+          "vocabulary": [],
+          "meaning": "",
+          "example": null
+        },
+        {
+          "field": "advisory_board",
+          "type": "AdvisoryBoard",
+          "vocabulary": [],
+          "meaning": "Profession-specific advisory body sitting alongside the main licensing board, when one exists. Populated for states that delegate licensure to a generic board and add a specialty advisory committee.",
+          "example": null
+        },
+        {
+          "field": "national_certification",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Name of a national CERTIFICATION the state recognizes or requires, e.g. 'American Board of Podiatric Surgery (ABPS)' or 'National Board of Podiatric Medical Examiners (NBPME)'. The certifying body, NOT the association. Null if the statute doesn't reference one.",
+          "example": {
+            "value": "National Board of Examiners in Optometry (NBEO)",
+            "quote": "received a license to practice optometry from another state or territory of the United States or from a province of Canada that required the person to have passed the National Board of Examiners in Op",
+            "citation": "08.72.170"
+          }
+        },
+        {
+          "field": "national_association",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Professional ASSOCIATION the state references (e.g. for accreditation or CE provider approval) — 'American Podiatric Medical Association (APMA)', 'American Dental Association (ADA)'. Distinct from the certifying body. Null if not referenced.",
+          "example": {
+            "value": "American Optometric Association (AOA)",
+            "quote": "\"recognized school or college of optometry\" means a school or college approved by the American Optometric Association or a committee of the American Optometric Association.",
+            "citation": "08.72.300"
+          }
+        },
+        {
+          "field": "regulatory_model",
+          "type": "enum",
+          "vocabulary": [
+            "market_forces",
+            "voluntary_certification",
+            "registration",
+            "exemption",
+            "mandatory_certification",
+            "license"
+          ],
+          "meaning": "Which UORF model the state applies to this profession (license / mandatory_cert / registration / etc).",
+          "example": {
+            "value": "license",
+            "quote": "A person may not practice, attempt to practice, or offer to practice optometry without first obtaining a license from the board.",
+            "citation": "08.72.110"
+          }
+        },
+        {
+          "field": "credential_type",
+          "type": "enum",
+          "vocabulary": [
+            "none",
+            "registration",
+            "certification",
+            "license",
+            "exemption"
+          ],
+          "meaning": "What SHAPE of credential does the state issue, independent of whether holding it is mandatory? license / certification / registration / exemption / none. Pairs with is_mandatory to decompose the legacy regulatory_model rung.",
+          "example": {
+            "value": "license",
+            "quote": "Upon successful completion of the examination by the applicant and payment of the license fee, the board shall issue a license to the successful applicant.",
+            "citation": "08.72.150"
+          }
+        },
+        {
+          "field": "is_mandatory",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Is the credential MANDATORY to practice (or claim the title) in this state? True if practicing without it is prohibited; False if optional (e.g., voluntary certification that only protects the title for those who hold it).",
+          "example": {
+            "value": true,
+            "quote": "A person may not practice, attempt to practice, or offer to practice optometry without first obtaining a license from the board.",
+            "citation": "08.72.110"
+          }
+        },
+        {
+          "field": "title_protection",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Does the state restrict use of the profession's title to licensees? True if unlicensed people may NOT call themselves the protected title (e.g. 'podiatrist', 'CPA').",
+          "example": {
+            "value": true,
+            "quote": "A person may not falsely personate a licensed optometrist, or buy, sell, or fraudulently obtain a license issued to another",
+            "citation": "08.72.280"
+          }
+        },
+        {
+          "field": "scope_protection",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Does the state restrict practice of the profession's scope to licensees? True if performing the scope without a license is prohibited (independent of title use).",
+          "example": {
+            "value": true,
+            "quote": "A person may not practice, attempt to practice, or offer to practice optometry without first obtaining a license from the board.",
+            "citation": "08.72.110"
+          }
+        },
+        {
+          "field": "disciplinary_grounds",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "Grounds on which the board may discipline a licensee. Typical statutes list 5-15.",
+          "example": null
+        },
+        {
+          "field": "alternative_regulation",
+          "type": "AlternativeRegulation",
+          "vocabulary": [],
+          "meaning": "Non-credential regulatory mechanisms (bonding, insurance, establishment regulation) imposed by the state. Obama 2015 framework typology. Independent of credential_type.",
+          "example": null
+        },
+        {
+          "field": "citations",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "",
+          "example": null
+        }
+      ]
+    },
+    {
+      "group": "scope",
+      "intro": "What the practice act lets (or reserves to) this profession — the defined scope and any title/scope protection.",
+      "fields": [
+        {
+          "field": "definition_quote",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Verbatim statutory definition; quote field repeats the value text.",
+          "example": {
+            "value": "\"optometry\" means the examination, evaluation, diagnosis, treatment, or performance of preventive procedures related to diseases, disorders, or conditions of the human eyes or adjacent and associated structures, consistent with this chapter and regulations adopted by the board",
+            "quote": "\"optometry\" means the examination, evaluation, diagnosis, treatment, or performance of preventive procedures related to diseases, disorders, or conditions of the human eyes or adjacent and associated ",
+            "citation": "08.72.300"
+          }
+        },
+        {
+          "field": "methods_authorized",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "High-level methods, e.g. ['medical','surgical','mechanical']",
+          "example": {
+            "value": [
+              "examination",
+              "evaluation",
+              "diagnosis",
+              "treatment",
+              "performance of preventive procedures",
+              "prescription and use of pharmaceutical agents including controlled substances",
+              "removal of superficial foreign bodies from the eye and its appendages"
+            ],
+            "quote": "\"optometry\" means the examination, evaluation, diagnosis, treatment, or performance of preventive procedures related to diseases, disorders, or conditions of the human eyes or adjacent and associated ",
+            "citation": "08.72.300"
+          }
+        },
+        {
+          "field": "drug_authority",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "",
+          "example": {
+            "value": "A licensee may prescribe and use a pharmaceutical agent, including a controlled substance, in the practice of optometry if the pharmaceutical agent is used in a manner consistent with standards adopted by the board in regulation.",
+            "quote": "A licensee may prescribe and use a pharmaceutical agent, including a controlled substance, in the practice of optometry if the pharmaceutical agent is used in a manner consistent with standards adopte",
+            "citation": "08.72.272"
+          }
+        },
+        {
+          "field": "citations",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "",
+          "example": null
+        }
+      ]
+    },
+    {
+      "group": "profession_specific",
+      "intro": "Fields discovered specifically for this profession (auto-derived from its statutes; they vary profession to profession).",
+      "fields": [
+        {
+          "field": "surgery_prohibited",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the statute explicitly prohibits optometrists from performing invasive or ophthalmic surgery.",
+          "example": {
+            "value": false,
+            "quote": "A licensee may not perform ophthalmic surgery unless the procedure is (1) within the scope of the licensee's education and training from an accredited school of optometry; and (2) authorized by regula",
+            "citation": "08.72.278"
+          }
+        },
+        {
+          "field": "surgery_definition",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Statutory definition of 'surgery' as it applies to the limits of optometric practice.",
+          "example": {
+            "value": "an invasive procedure in which human tissue is cut, ablated, or otherwise penetrated by incision, laser, or other means to treat diseases of the human eye, alter or correct refractive error, or alter or enhance cosmetic appearance; does not include removal of superficial foreign bodies",
+            "quote": "\"ophthalmic surgery\" means an invasive procedure in which human tissue is cut, ablated, or otherwise penetrated by incision, laser, or other means to treat diseases of the human eye, alter or correct ",
+            "citation": "08.72.278"
+          }
+        },
+        {
+          "field": "foreign_body_removal_authorized",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the statute explicitly authorizes removal of superficial foreign bodies from the eye and its appendages.",
+          "example": {
+            "value": true,
+            "quote": "A licensee may remove superficial foreign bodies from the eye and its appendages. This section is not intended to permit a licensee to perform invasive surgery.",
+            "citation": "08.72.273"
+          }
+        },
+        {
+          "field": "laser_procedures_authorized",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "Specific laser procedures the statute explicitly authorizes optometrists to perform.",
+          "example": null
+        },
+        {
+          "field": "minor_surgical_procedures_authorized",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "Minor non-laser procedural authorities explicitly granted by statute beyond foreign body removal.",
+          "example": null
+        },
+        {
+          "field": "glaucoma_treatment_authorized",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the statute explicitly authorizes optometrists to medically treat glaucoma.",
+          "example": null
+        },
+        {
+          "field": "anaphylaxis_treatment_authorized",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the statute explicitly authorizes optometrists to administer epinephrine or similar agents for anaphylaxis.",
+          "example": null
+        },
+        {
+          "field": "vision_therapy_authorized",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the statute explicitly includes vision therapy, orthoptics, or visual training within the scope of practice.",
+          "example": null
+        },
+        {
+          "field": "immunization_authority",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the statute authorizes optometrists to administer immunizations/vaccines.",
+          "example": null
+        },
+        {
+          "field": "controlled_substance_schedule_restrictions",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "Specific controlled substance schedules that optometrists are prohibited from or limited in prescribing.",
+          "example": null
+        },
+        {
+          "field": "opioid_prescription_day_limit",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "Maximum number of days' supply for an initial opioid prescription issued by an optometrist.",
+          "example": {
+            "value": 4,
+            "quote": "an initial prescription for an opioid that exceeds a four-day supply to an adult patient for outpatient use",
+            "citation": "08.72.276"
+          }
+        },
+        {
+          "field": "oral_pharmaceutical_authority",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the statute explicitly grants authority to prescribe oral (systemic) pharmaceutical agents, beyond topical agents.",
+          "example": {
+            "value": true,
+            "quote": "a nontopical therapeutic pharmaceutical agent course of at least 23 hours approved by the board or an examination approved by the board on the treatment and management of ocular disease",
+            "citation": "08.72.140"
+          }
+        },
+        {
+          "field": "pharmaceutical_certification_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether a separate board certification or approval is required before an optometrist may use therapeutic pharmaceutical agents.",
+          "example": {
+            "value": true,
+            "quote": "shall have successfully completed (A) the written and practical portions of an examination on ocular pharmacology approved by the board ... (B) a nontopical therapeutic pharmaceutical agent course of ",
+            "citation": "08.72.140"
+          }
+        },
+        {
+          "field": "dea_registration_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the statute requires optometrists who prescribe controlled substances to hold or register a federal DEA number.",
+          "example": {
+            "value": true,
+            "quote": "require that a licensee who has a federal Drug Enforcement Administration registration number register with the controlled substance prescription database under AS 17.30.200(n)",
+            "citation": "08.72.060"
+          }
+        },
+        {
+          "field": "tiered_license_types",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "Named license tiers or designations beyond the basic optometrist license that carry different scopes of practice.",
+          "example": null
+        },
+        {
+          "field": "specialty_certification_types",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "Named specialty certifications (beyond basic licensure) that unlock additional scope, such as therapeutic pharmaceutical agents or glaucoma treatment.",
+          "example": null
+        },
+        {
+          "field": "pharmacology_training_hours_required",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "Minimum clock hours of pharmacology or ocular disease training required for therapeutic pharmaceutical agent certification or expanded scope.",
+          "example": {
+            "value": 23,
+            "quote": "a nontopical therapeutic pharmaceutical agent course of at least 23 hours approved by the board or an examination approved by the board on the treatment and management of ocular disease",
+            "citation": "08.72.140"
+          }
+        },
+        {
+          "field": "supervised_clinical_internship_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether a supervised clinical internship or preceptorship is required for expanded pharmaceutical or procedural certification.",
+          "example": null
+        },
+        {
+          "field": "referral_to_physician_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the statute requires optometrists to refer patients to a physician when conditions exceed the optometric scope of practice.",
+          "example": {
+            "value": true,
+            "quote": "failed to refer a patient to a physician after ascertaining the presence of ocular or systemic conditions requiring management by a physician",
+            "citation": "08.72.240"
+          }
+        },
+        {
+          "field": "comanagement_with_ophthalmologist_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the statute requires co-management with an ophthalmologist for pre- or post-operative care or certain conditions.",
+          "example": null
+        },
+        {
+          "field": "delegation_to_unlicensed_assistants_authorized",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the statute explicitly authorizes optometrists to delegate routine or specified tasks to unlicensed or non-optometrist assistants.",
+          "example": {
+            "value": true,
+            "quote": "authorizing an optometrist licensed under this chapter to delegate routine services of optometry to an agent of the optometrist",
+            "citation": "08.72.050"
+          }
+        },
+        {
+          "field": "telemedicine_authorized",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the statute explicitly addresses or authorizes the delivery of optometric services via telemedicine.",
+          "example": null
+        },
+        {
+          "field": "mobile_office_authorized",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the statute explicitly addresses or regulates the operation of mobile optometric offices (vans, trailers, etc.).",
+          "example": null
+        },
+        {
+          "field": "home_visit_permit_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the statute requires a special permit or registration to practice optometry at a patient's home residence.",
+          "example": null
+        },
+        {
+          "field": "maximum_number_of_offices",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "Maximum number of offices a single optometrist or group may operate under the statute.",
+          "example": null
+        },
+        {
+          "field": "contact_lens_prescription_expiration_years",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "Minimum required expiration period (in years) for a contact lens prescription.",
+          "example": null
+        },
+        {
+          "field": "spectacle_prescription_release_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the statute requires the prescriber to provide the patient with a copy of their spectacle or eyeglass prescription at no additional charge.",
+          "example": null
+        },
+        {
+          "field": "patient_record_retention_years",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "Minimum number of years optometrists are required to retain patient records.",
+          "example": null
+        },
+        {
+          "field": "impaired_practitioner_program_established",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the statute establishes or references a formal program for identifying, treating, and monitoring impaired optometrists.",
+          "example": null
+        },
+        {
+          "field": "limited_teaching_license_available",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the statute provides for a limited license for optometry faculty or instructors who are not otherwise licensed in the state.",
+          "example": null
+        },
+        {
+          "field": "retired_license_status_available",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the statute provides for a formal retired license status that exempts the holder from renewal and continuing education requirements.",
+          "example": {
+            "value": true,
+            "quote": "On retiring from practice and on payment of an appropriate one-time fee, a licensee in good standing with the board may apply for the conversion of an active or inactive license to a retired status li",
+            "citation": "08.72.185"
+          }
+        },
+        {
+          "field": "jurisprudence_exam_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the statute explicitly requires passage of a state law (jurisprudence) examination as a condition of licensure or endorsement.",
+          "example": {
+            "value": true,
+            "quote": "an examination approved by the board that is designed to test the applicant's knowledge of the laws of Alaska governing the practice of optometry and the regulations adopted under those laws",
+            "citation": "08.72.160"
+          }
+        },
+        {
+          "field": "criminal_background_check_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the statute requires applicants to submit to a criminal background check (including fingerprinting) as part of the licensure process.",
+          "example": null
+        }
+      ]
+    }
+  ],
+  "example_state": "AK"
+}

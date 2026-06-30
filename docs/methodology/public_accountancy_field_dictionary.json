@@ -1,0 +1,640 @@
+{
+  "profession": "public_accountancy",
+  "groups": [
+    {
+      "group": "licensure",
+      "intro": "Whether and how the state credentials this profession — the regulatory model, credential type, authority, exams, fees, and renewal.",
+      "fields": [
+        {
+          "field": "license_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "",
+          "example": {
+            "value": true,
+            "quote": "The board shall issue a license to engage in the practice of public accounting to an individual who meets the requirements of AS 08.04.110 - 08.04.130.",
+            "citation": "08.04.105"
+          }
+        },
+        {
+          "field": "issuing_authority",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "",
+          "example": {
+            "value": "Board of Public Accountancy",
+            "quote": "\"board\" means the Board of Public Accountancy",
+            "citation": "08.04.680"
+          }
+        },
+        {
+          "field": "regulatory_authority",
+          "type": "RegulatoryAuthority",
+          "vocabulary": [],
+          "meaning": "Structured decomposition of the issuing authority — name, type (standalone board / shared board / division / department / joint), and any umbrella agency it sits within. Populated alongside the legacy free-text issuing_authority for back-compat.",
+          "example": null
+        },
+        {
+          "field": "age_minimum",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "",
+          "example": null
+        },
+        {
+          "field": "moral_character_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "",
+          "example": {
+            "value": true,
+            "quote": "An applicant for a certified public accountant license shall be of good moral character.",
+            "citation": "08.04.110"
+          }
+        },
+        {
+          "field": "education",
+          "type": "EducationRequirement",
+          "vocabulary": [],
+          "meaning": "",
+          "example": null
+        },
+        {
+          "field": "post_degree_experience",
+          "type": "PostDegreeExperience",
+          "vocabulary": [],
+          "meaning": "Residency / supervised practice / apprenticeship — name varies, structure doesn't.",
+          "example": null
+        },
+        {
+          "field": "exams",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "",
+          "example": null
+        },
+        {
+          "field": "renewal",
+          "type": "Renewal",
+          "vocabulary": [],
+          "meaning": "",
+          "example": null
+        },
+        {
+          "field": "renewal_fee_usd",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "License renewal fee in US dollars (integer). Many statutes leave the amount to the board's discretion — leave null in that case.",
+          "example": null
+        },
+        {
+          "field": "continuing_education",
+          "type": "ContinuingEducation",
+          "vocabulary": [],
+          "meaning": "",
+          "example": null
+        },
+        {
+          "field": "reciprocity",
+          "type": "Reciprocity",
+          "vocabulary": [],
+          "meaning": "",
+          "example": null
+        },
+        {
+          "field": "advisory_board",
+          "type": "AdvisoryBoard",
+          "vocabulary": [],
+          "meaning": "Profession-specific advisory body sitting alongside the main licensing board, when one exists. Populated for states that delegate licensure to a generic board and add a specialty advisory committee.",
+          "example": null
+        },
+        {
+          "field": "national_certification",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Name of a national CERTIFICATION the state recognizes or requires, e.g. 'American Board of Podiatric Surgery (ABPS)' or 'National Board of Podiatric Medical Examiners (NBPME)'. The certifying body, NOT the association. Null if the statute doesn't reference one.",
+          "example": null
+        },
+        {
+          "field": "national_association",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Professional ASSOCIATION the state references (e.g. for accreditation or CE provider approval) — 'American Podiatric Medical Association (APMA)', 'American Dental Association (ADA)'. Distinct from the certifying body. Null if not referenced.",
+          "example": {
+            "value": "American Institute of Certified Public Accountants",
+            "quote": "The board shall use the Uniform Certified Public Accountant Examination of the American Institute of Certified Public Accountants and the institute's advisory grading service, if available.",
+            "citation": "08.04.130"
+          }
+        },
+        {
+          "field": "regulatory_model",
+          "type": "enum",
+          "vocabulary": [
+            "market_forces",
+            "voluntary_certification",
+            "registration",
+            "exemption",
+            "mandatory_certification",
+            "license"
+          ],
+          "meaning": "Which UORF model the state applies to this profession (license / mandatory_cert / registration / etc).",
+          "example": {
+            "value": "license",
+            "quote": "The board shall issue a license to engage in the practice of public accounting to an individual who meets the requirements of AS 08.04.110 - 08.04.130.",
+            "citation": "08.04.105"
+          }
+        },
+        {
+          "field": "credential_type",
+          "type": "enum",
+          "vocabulary": [
+            "none",
+            "registration",
+            "certification",
+            "license",
+            "exemption"
+          ],
+          "meaning": "What SHAPE of credential does the state issue, independent of whether holding it is mandatory? license / certification / registration / exemption / none. Pairs with is_mandatory to decompose the legacy regulatory_model rung.",
+          "example": {
+            "value": "license",
+            "quote": "The board shall issue a license to engage in the practice of public accounting to an individual who meets the requirements of AS 08.04.110 - 08.04.130.",
+            "citation": "08.04.105"
+          }
+        },
+        {
+          "field": "is_mandatory",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Is the credential MANDATORY to practice (or claim the title) in this state? True if practicing without it is prohibited; False if optional (e.g., voluntary certification that only protects the title for those who hold it).",
+          "example": {
+            "value": true,
+            "quote": "Only a person who holds a valid license, practice privilege, or permit may issue a report on behalf of another person or governmental unit.",
+            "citation": "08.04.505"
+          }
+        },
+        {
+          "field": "title_protection",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Does the state restrict use of the profession's title to licensees? True if unlicensed people may NOT call themselves the protected title (e.g. 'podiatrist', 'CPA').",
+          "example": {
+            "value": true,
+            "quote": "An individual may not assume or use the title or designation \"certified public accountant\" or the abbreviation \"CPA\" or any other title, designation, word, letter, abbreviation, sign, card, or device ",
+            "citation": "08.04.500"
+          }
+        },
+        {
+          "field": "scope_protection",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Does the state restrict practice of the profession's scope to licensees? True if performing the scope without a license is prohibited (independent of title use).",
+          "example": {
+            "value": true,
+            "quote": "Only a person who holds a valid license, practice privilege, or permit may issue a report on behalf of another person or governmental unit.",
+            "citation": "08.04.505"
+          }
+        },
+        {
+          "field": "disciplinary_grounds",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "Grounds on which the board may discipline a licensee. Typical statutes list 5-15.",
+          "example": null
+        },
+        {
+          "field": "alternative_regulation",
+          "type": "AlternativeRegulation",
+          "vocabulary": [],
+          "meaning": "Non-credential regulatory mechanisms (bonding, insurance, establishment regulation) imposed by the state. Obama 2015 framework typology. Independent of credential_type.",
+          "example": null
+        },
+        {
+          "field": "citations",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "",
+          "example": null
+        }
+      ]
+    },
+    {
+      "group": "scope",
+      "intro": "What the practice act lets (or reserves to) this profession — the defined scope and any title/scope protection.",
+      "fields": [
+        {
+          "field": "definition_quote",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Verbatim statutory definition; quote field repeats the value text.",
+          "example": {
+            "value": "the offering to perform or the performance as a person holding a license, practice privilege, or permit under this chapter of a service involving the use of accounting or auditing skills; in this paragraph, \"accounting or auditing skills\" includes preparing financial statements, issuing reports, furnishing management services, furnishing financial advisory services, providing consulting services, preparing tax returns, advising on tax matters, or consulting on tax matters",
+            "quote": "\"practice of public accounting\" means the offering to perform or the performance as a person holding a license, practice privilege, or permit under this chapter of a service involving the use of accou",
+            "citation": "08.04.680"
+          }
+        },
+        {
+          "field": "methods_authorized",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "High-level methods, e.g. ['medical','surgical','mechanical']",
+          "example": {
+            "value": [
+              "preparing financial statements",
+              "issuing reports",
+              "furnishing management services",
+              "furnishing financial advisory services",
+              "providing consulting services",
+              "preparing tax returns",
+              "advising on tax matters",
+              "consulting on tax matters"
+            ],
+            "quote": "\"accounting or auditing skills\" includes preparing financial statements, issuing reports, furnishing management services, furnishing financial advisory services, providing consulting services, prepari",
+            "citation": "08.04.680"
+          }
+        },
+        {
+          "field": "drug_authority",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "",
+          "example": null
+        },
+        {
+          "field": "citations",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "",
+          "example": null
+        }
+      ]
+    },
+    {
+      "group": "profession_specific",
+      "intro": "Fields discovered specifically for this profession (auto-derived from its statutes; they vary profession to profession).",
+      "fields": [
+        {
+          "field": "attest_services_types",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "Enumerated types of attest services that constitute the regulated scope of practice, typically defined by reference to AICPA/PCAOB standards.",
+          "example": {
+            "value": [
+              "audit or other engagement established by Statements on Auditing Standards",
+              "review of a financial statement established by Statements on Standards for Accounting and Review Services",
+              "examination of prospective financial information established by Statements on Standards for Attestation Engagements",
+              "engagement established by Auditing Standards of the Public Company Accounting Oversight Board",
+              "any examination, review, or agreed upon procedure under attestation engagement standards developed by AICPA and PCAOB"
+            ],
+            "quote": "\"attest function\" means (A) an audit or other engagement, if the performance of the audit or other engagement is established by the Statements on Auditing Standards; (B) a review of a financial statem",
+            "citation": "08.04.680"
+          }
+        },
+        {
+          "field": "compilation_services_authorized",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether compilation services (presenting financial statements as management's representation without assurance) are separately defined and regulated as a distinct service type.",
+          "example": {
+            "value": true,
+            "quote": "\"compilation service\" means a service of any compilation engagement performed in accordance with the Statements on Standards for Accounting and Review Services",
+            "citation": "08.04.680"
+          }
+        },
+        {
+          "field": "education_semester_hours_required",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "Total semester hours of college education required for initial CPA licensure (typically 150 hours post-2000).",
+          "example": {
+            "value": 150,
+            "quote": "total educational program includes at least 150 hours",
+            "citation": "08.04.120"
+          }
+        },
+        {
+          "field": "exam_sit_hours_minimum",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "Minimum semester hours of college education required before a candidate may sit for the CPA examination (often 120 hours, less than the full 150 required for licensure).",
+          "example": null
+        },
+        {
+          "field": "ethics_exam_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether a separate ethics examination (e.g., AICPA ethics exam or state-specific ethics exam) is required as a condition of initial licensure.",
+          "example": null
+        },
+        {
+          "field": "practice_privilege_no_notice_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether out-of-state CPAs with substantially equivalent qualifications may practice in the state without providing notice, paying a fee, or making any submission to the board.",
+          "example": {
+            "value": true,
+            "quote": "An individual who may engage in the practice of public accounting in this state under (a) of this section is not required to provide a notice to the board, to pay a fee to the board, or to submit docu",
+            "citation": "08.04.420"
+          }
+        },
+        {
+          "field": "practice_privilege_consent_conditions",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "Conditions to which an out-of-state CPA exercising practice privileges must consent, including board jurisdiction, compliance with state law, cessation if license lapses, and appointment of home-state board as agent for service of process.",
+          "example": {
+            "value": [
+              "consent to the personal and subject matter jurisdiction and disciplinary authority of the board",
+              "agree to comply with this chapter, including the regulations adopted by the board",
+              "agree to stop offering to engage or engaging in the practice of public accounting if the license from the state of the individual's or firm's principal place of business becomes invalid",
+              "consent to the appointment of the state board that issued the individual's license as the individual's or firm's agent for service of process"
+            ],
+            "quote": "consent to the personal and subject matter jurisdiction and disciplinary authority of the board; agree to comply with this chapter, including the regulations adopted by the board; agree that the indiv",
+            "citation": "08.04.422"
+          }
+        },
+        {
+          "field": "attest_services_require_firm_permit",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether individuals with practice privileges or individual licensees must perform certain attest services (audits, PCAOB engagements) only through a firm holding a valid permit.",
+          "example": {
+            "value": true,
+            "quote": "An individual licensed under AS 08.04.105 may not perform attest functions through a firm unless the firm holds a valid permit issued under AS 08.04.240.",
+            "citation": "08.04.565"
+          }
+        },
+        {
+          "field": "firm_majority_cpa_ownership_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether a simple majority (more than 50%) of firm ownership in terms of financial interests and voting rights must belong to licensed CPAs.",
+          "example": {
+            "value": true,
+            "quote": "more than one-half of the ownership of the firm belongs to certified public accountants of this or another state in good standing",
+            "citation": "08.04.240"
+          }
+        },
+        {
+          "field": "nonlicensee_firm_owners_permitted",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether CPA firms may include owners who are not licensed CPAs, subject to specified conditions.",
+          "example": {
+            "value": true,
+            "quote": "a firm may include owners who are not certified public accountants if (1) the firm designates a certified public accountant or an individual with practice privileges to be responsible for the proper r",
+            "citation": "08.04.240"
+          }
+        },
+        {
+          "field": "peer_review_required_for_firm_renewal",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether peer review is required as a condition for renewal of a firm permit or registration.",
+          "example": {
+            "value": true,
+            "quote": "The board shall, not more frequently than once every three years, require as a condition for renewal of a permit of a firm that the applicant firm undergo a peer review conducted as required by the bo",
+            "citation": "08.04.426"
+          }
+        },
+        {
+          "field": "peer_review_max_frequency_years",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "Maximum frequency (in years) at which peer review may be required for firm permit renewal.",
+          "example": {
+            "value": 3,
+            "quote": "The board shall, not more frequently than once every three years, require as a condition for renewal of a permit of a firm that the applicant firm undergo a peer review",
+            "citation": "08.04.426"
+          }
+        },
+        {
+          "field": "peer_review_records_privileged",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether peer review proceedings, records, and work papers are privileged and not subject to discovery or introduction into evidence in civil or administrative proceedings.",
+          "example": {
+            "value": true,
+            "quote": "a peer review be performed and the documents be maintained in a manner that is designed to preserve confidentiality",
+            "citation": "08.04.426"
+          }
+        },
+        {
+          "field": "inactive_license_status_available",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether a licensee who is not engaged in the practice of public accounting may place their license on inactive status, typically with reduced fees and no CPE requirement.",
+          "example": {
+            "value": true,
+            "quote": "an individual holding a license who is not engaged in the practice of public accounting may maintain the license in good standing by notifying the board that the individual is inactive and paying the ",
+            "citation": "08.04.410"
+          }
+        },
+        {
+          "field": "retired_license_status_available",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether a licensee may place their license on a retired status, typically with reduced or no fees and no CPE requirement, with restrictions on active practice.",
+          "example": null
+        },
+        {
+          "field": "out_of_state_firm_no_office_exemption",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether a firm without an office in the state may provide certain services (compilation, review, or non-attest services) without obtaining a firm permit, subject to specified conditions.",
+          "example": null
+        },
+        {
+          "field": "office_supervision_by_licensed_cpa_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether each office of a firm established in the state for the practice of public accounting must be under the direct supervision of a licensed CPA.",
+          "example": {
+            "value": true,
+            "quote": "Each office established or maintained in this state for the practice of public accounting shall be under the direct supervision of an individual who holds a license issued under this chapter.",
+            "citation": "08.04.360"
+          }
+        },
+        {
+          "field": "attest_report_signer_competency_requirement",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether individuals who sign or authorize signing of attest or compilation reports on behalf of a firm must meet specific competency requirements set out in professional standards.",
+          "example": {
+            "value": true,
+            "quote": "an individual who is a certified public accountant or has a practice privilege, who is responsible for supervising attest functions or compilation services in the firm, and who signs or authorizes ano",
+            "citation": "08.04.240"
+          }
+        },
+        {
+          "field": "client_confidentiality_privilege",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether communications between a licensee and client are confidential and privileged, with specified exceptions for professional standards, court proceedings, peer review, and ethical investigations.",
+          "example": {
+            "value": true,
+            "quote": "A license holder, a permit holder, or a practice privilege holder or a partner, an officer, a shareholder, a member, or an employee of a license holder, a permit holder, or a practice privilege holder",
+            "citation": "08.04.662"
+          }
+        },
+        {
+          "field": "working_papers_ownership_by_licensee",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether working papers, schedules, and memoranda made by a licensee incident to professional services remain the property of the licensee (absent contrary agreement), with restrictions on transfer without client consent.",
+          "example": {
+            "value": true,
+            "quote": "Statements, records, schedules, working papers, and memoranda made by a certified public accountant or a public accountant incident to or in the course of professional service to a client, except repo",
+            "citation": "08.04.660"
+          }
+        },
+        {
+          "field": "commission_prohibition_during_attest",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether a licensee is prohibited from receiving commissions or referral fees when also performing attest or compilation services for the same client.",
+          "example": null
+        },
+        {
+          "field": "contingent_fee_prohibition_during_attest",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether a licensee is prohibited from performing services for a contingent fee when also performing attest or compilation services for the same client, or from preparing tax returns for a contingent fee.",
+          "example": null
+        },
+        {
+          "field": "safe_harbor_disclaimer_language_for_nonlicensees",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the statute provides specific safe harbor disclaimer language that nonlicensees may use when preparing financial statements without expressing assurance, thereby avoiding unlicensed practice violations.",
+          "example": {
+            "value": true,
+            "quote": "the following disclaimer language when used by a person without a license or practice privilege in connection with financial statements: \"I (we) have prepared the accompanying (financial statements) o",
+            "citation": "08.04.680"
+          }
+        },
+        {
+          "field": "foreign_accountant_practice_exception",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether holders of foreign country accounting designations may practice in the state under limited conditions (serving only clients from their home country, using only their foreign title, not issuing reports on domestic entities).",
+          "example": {
+            "value": true,
+            "quote": "a holder of a certificate, license, or degree from a foreign country that entitles the holder to practice public accounting or the equivalent in the foreign country from providing professional service",
+            "citation": "08.04.620"
+          }
+        },
+        {
+          "field": "single_act_evidence_sufficient",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether evidence of a single prohibited act is sufficient to justify a penalty, injunction, or conviction without evidence of a general course of conduct.",
+          "example": {
+            "value": true,
+            "quote": "In any action, evidence of the commission of a single act prohibited by this chapter is sufficient to justify an injunction or a conviction without evidence of a general course of conduct.",
+            "citation": "08.04.650"
+          }
+        },
+        {
+          "field": "firm_corrective_action_period_for_ownership_noncompliance",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether firms that fall out of compliance with ownership requirements due to changes in personnel are granted a reasonable period to take corrective action before facing permit suspension or revocation.",
+          "example": {
+            "value": true,
+            "quote": "If the ownership of a firm, after the firm has received or renewed a permit, does not comply with (i) of this section, the firm shall take corrective action to comply with (i) of this section within a",
+            "citation": "08.04.240"
+          }
+        },
+        {
+          "field": "firm_permit_required_for_attest_services",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether a firm must hold a valid permit or registration to provide attest or compilation services, separate from individual licensure requirements.",
+          "example": {
+            "value": true,
+            "quote": "An individual licensed under AS 08.04.105 may not perform attest functions through a firm unless the firm holds a valid permit issued under AS 08.04.240.",
+            "citation": "08.04.565"
+          }
+        },
+        {
+          "field": "registered_municipal_accountant_designation",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the state has a specialized 'Registered Municipal Accountant' designation requiring additional examination, limited to auditing municipal or county financial statements.",
+          "example": null
+        },
+        {
+          "field": "public_school_accountant_designation",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the state has a specialized 'Public School Accountant' designation required for auditing school district financial statements.",
+          "example": null
+        },
+        {
+          "field": "accounting_practitioner_tier",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the state has a separate 'Accounting Practitioner' or 'Licensed Public Accountant' tier below CPA with its own examination, education, and scope-of-practice requirements.",
+          "example": null
+        },
+        {
+          "field": "cpa_emeritus_or_retired_status_available",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the state provides a formal 'CPA Emeritus' or 'CPA Retired' status for licensees who have permanently ceased practice, with reduced or no fees and no CPE requirement.",
+          "example": null
+        },
+        {
+          "field": "government_audit_cpe_requirement",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the state imposes additional or specific continuing professional education requirements for CPAs engaged in auditing governmental entities.",
+          "example": null
+        },
+        {
+          "field": "ethics_cpe_hours_required",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "Minimum hours of ethics-related continuing professional education required per renewal period.",
+          "example": null
+        },
+        {
+          "field": "hawaii_attest_work_supplement_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether Hawaii requires a state-specific supplemental peer review report covering Hawaii attest engagements when the primary peer review does not include Hawaii offices or engagements.",
+          "example": null
+        },
+        {
+          "field": "liability_privity_limitation",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the state limits CPA liability to third parties not in privity of contract, with exceptions for fraud, intentional misrepresentation, or known intended reliance.",
+          "example": null
+        },
+        {
+          "field": "statute_of_limitations_for_accountant_negligence",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Specific statute of limitations period for actions based on negligence or breach of contract against accountants, typically shorter than general tort limitations.",
+          "example": null
+        },
+        {
+          "field": "independence_requirement_for_attest",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the statute explicitly requires a CPA to be independent with respect to an enterprise before expressing an opinion on its financial statements.",
+          "example": null
+        },
+        {
+          "field": "client_records_return_obligation",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the statute explicitly requires a licensee to return client-provided records and furnish copies of working papers that constitute part of the client's records upon client request.",
+          "example": null
+        }
+      ]
+    }
+  ],
+  "example_state": "AK"
+}
