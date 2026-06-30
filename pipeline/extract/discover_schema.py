@@ -29,6 +29,7 @@ load_env()
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from _llm import call_structured  # noqa: E402
 from paths import TRIMMED_DIR, DISCOVERED_DIR, LOGS_DIR  # noqa: E402
+from _records import record_files  # noqa: E402
 
 LOG_PATH = LOGS_DIR / "discover_schema.log"
 LOGS_DIR.mkdir(parents=True, exist_ok=True)
@@ -95,9 +96,7 @@ def build_corpus(profession: str) -> tuple[str, list[str]]:
         sys.exit(f"missing input dir: {in_dir}")
     parts = []
     states = []
-    for path in sorted(in_dir.glob("*.json")):
-        if path.name.startswith("_"):
-            continue
+    for path in record_files(in_dir):
         d = json.loads(path.read_text())
         if not d.get("sections"):
             continue
@@ -171,9 +170,7 @@ def main() -> None:
         kept = set(states[:args.max_states])
         states_kept = []
         parts = []
-        for path in sorted((TRIMMED_DIR / profession).glob("*.json")):
-            if path.name.startswith("_"):
-                continue
+        for path in record_files(TRIMMED_DIR / profession):
             d = json.loads(path.read_text())
             if d["state"] not in kept:
                 continue

@@ -31,6 +31,7 @@ from pydantic import BaseModel
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from _llm import call_structured  # noqa: E402
+from _records import record_files  # noqa: E402
 from extract_state import load_umbrella_text  # noqa: E402
 from locate_quote import normalize_for_match, quote_in_corpus  # noqa: E402
 from paths import LOGS_DIR, STRUCTURED_DIR, TRIMMED_DIR  # noqa: E402
@@ -173,9 +174,7 @@ def main() -> None:
     reasons = Counter()
     total_unverified = 0
     total_repaired = 0
-    for path in sorted(structured_dir.glob("*.json")):
-        if path.stem.startswith("_"):
-            continue
+    for path in record_files(structured_dir):
         if only_states and path.stem not in only_states:
             continue
         record = json.loads(path.read_text())

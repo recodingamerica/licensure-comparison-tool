@@ -25,6 +25,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from extract_state import annotate_evidence, load_umbrella_text  # noqa: E402
 from locate_quote import normalize_for_match  # noqa: E402
 from paths import STRUCTURED_DIR, TRIMMED_DIR  # noqa: E402
+from _records import record_files  # noqa: E402
 from standard_model import iter_evidence  # noqa: E402
 
 
@@ -42,9 +43,7 @@ def main() -> None:
 
     overall_v = overall_u = 0
     states_changed = 0
-    for path in sorted(structured_dir.glob("*.json")):
-        if path.stem.startswith("_"):
-            continue
+    for path in record_files(structured_dir):
         record = json.loads(path.read_text())
         trim_path = trimmed_dir / f"{path.stem}.json"
         if not trim_path.exists():
