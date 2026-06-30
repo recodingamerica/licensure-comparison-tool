@@ -35,6 +35,7 @@ from curl_cffi import requests as cffi_requests  # type: ignore
 import sys
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from paths import TEXT_DIR, LOGS_DIR, PROFESSION_INDEX_DIR  # noqa: E402
+from _records import record_files  # noqa: E402
 
 LOG_PATH = LOGS_DIR / "pull_text.log"
 LOGS_DIR.mkdir(parents=True, exist_ok=True)
@@ -1959,9 +1960,7 @@ def main() -> None:
     # Cumulative summary: reflect every per-state corpus on disk, not just this
     # run's states (so a subset re-pull doesn't drop other states' rows).
     summary = []
-    for path in sorted(out_dir.glob("*.json")):
-        if path.name.startswith("_"):
-            continue
+    for path in record_files(out_dir):
         try:
             summary.append(_summary_row(path.stem, json.loads(path.read_text())))
         except Exception:

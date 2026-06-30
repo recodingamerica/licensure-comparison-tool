@@ -48,6 +48,7 @@ import litellm  # noqa: E402
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from paths import HIERARCHY_DIR, PROFESSION_INDEX_DIR, CONFIG_DIR, LOGS_DIR  # noqa: E402
+from _records import record_files  # noqa: E402
 from config.states import ALL_STATES  # noqa: E402
 
 LOG_PATH = LOGS_DIR / "suggest_overrides.log"
@@ -165,9 +166,7 @@ def suggest_for_state(profession_def: dict, hierarchy: dict, model: str) -> dict
 
 def load_hierarchies() -> dict[str, dict]:
     out = {}
-    for p in HIERARCHY_DIR.glob("*.json"):
-        if p.stem.startswith("_"):
-            continue
+    for p in record_files(HIERARCHY_DIR):
         d = json.loads(p.read_text())
         out[d["state"]] = d
     return out

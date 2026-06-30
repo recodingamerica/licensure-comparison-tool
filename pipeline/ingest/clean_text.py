@@ -32,6 +32,7 @@ from typing import Callable
 import sys
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from paths import TEXT_DIR, CLEAN_DIR, LOGS_DIR, CONFIG_DIR  # noqa: E402
+from _records import record_files  # noqa: E402
 import yaml  # noqa: E402
 
 
@@ -285,10 +286,8 @@ def main() -> None:
     # Build the per-state source map: the profession's own (or parent) corpus, plus
     # any per-state corpus_from siblings (a sibling's already-pulled combined chapter).
     sources: dict[str, Path] = {}
-    if base_dir.exists():
-        for path in sorted(base_dir.glob("*.json")):
-            if not path.name.startswith("_"):
-                sources[path.stem.upper()] = path
+    for path in record_files(base_dir):
+        sources[path.stem.upper()] = path
     for state, sib in overrides.items():
         sp = TEXT_DIR / sib / f"{state}.json"
         if sp.exists():
@@ -321,9 +320,7 @@ def main() -> None:
     # Cumulative summary rebuilt from every cleaned corpus on disk (not just this
     # run's states), so a --states subset run can't drop other states' rows.
     summary = []
-    for path in sorted(out_dir.glob("*.json")):
-        if path.name.startswith("_"):
-            continue
+    for path in record_files(out_dir):
         d = json.loads(path.read_text())
         summary.append({
             "state": path.stem,

@@ -44,6 +44,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 # Reuse the single-state machinery so corpus shape / fetch / guards stay identical.
 import pull_text as pt  # noqa: E402
+from _records import record_files  # noqa: E402
 
 log = logging.getLogger("pull_all")
 
@@ -86,10 +87,8 @@ def build_worklist(professions: set[str] | None) -> list[tuple[str, str, list[di
     """Every (profession, state, rows) pair that lacks a healthy committed corpus.
     Ordered profession-major, state-sorted, so progress is legible in logs."""
     work: list[tuple[str, str, list[dict]]] = []
-    for index_path in sorted(pt.PROFESSION_INDEX_DIR.glob("*.json")):
+    for index_path in record_files(pt.PROFESSION_INDEX_DIR):
         name = index_path.stem
-        if name.startswith("_"):
-            continue
         if professions and name not in professions:
             continue
         index = json.loads(index_path.read_text())

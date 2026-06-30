@@ -51,6 +51,7 @@ load_env()
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from paths import RESULTS_DIR, LOGS_DIR  # noqa: E402
+from _records import record_files  # noqa: E402
 from scope_sources import is_classified  # noqa: E402
 from pipeline._llm import call_structured  # noqa: E402
 from discover._profession_reverse_index import build_reverse_index  # noqa: E402
@@ -334,9 +335,7 @@ def audit_enumerations(state: str) -> list[dict]:
 
 def _applied_states_with_undetermined() -> list[str]:
     out = []
-    for p in sorted(UMBRELLA_SCOPE_DIR.glob("*.json")):
-        if p.stem.startswith("_"):
-            continue
+    for p in record_files(UMBRELLA_SCOPE_DIR):
         scope = json.loads(p.read_text())
         if any(s.get("scope_source") == "undetermined" for s in scope.get("sections", [])):
             out.append(p.stem)
@@ -387,8 +386,7 @@ def main() -> None:
         targets = [s.strip().upper() for s in args.states.split(",") if s.strip()]
     elif args.all:
         if args.audit:
-            targets = sorted(p.stem for p in UMBRELLA_SCOPE_LLM_DIR.glob("*.json")
-                             if not p.stem.startswith("_"))
+            targets = [p.stem for p in record_files(UMBRELLA_SCOPE_LLM_DIR)]
         else:
             targets = _applied_states_with_undetermined()
     else:
