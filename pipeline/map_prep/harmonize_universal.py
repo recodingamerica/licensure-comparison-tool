@@ -50,13 +50,13 @@ if str(_PIPELINE_DIR) not in sys.path:
 from _env import load_env  # noqa: E402
 from _llm import call_structured  # noqa: E402
 from _prompts import load_prompt  # noqa: E402
+from paths import MAP_PREP_DIR as _OUT_ROOT  # noqa: E402
 
 load_env()
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 log = logging.getLogger("harmonize_universal")
 
-_OUT_ROOT = _PIPELINE_DIR / "results" / "map_prep"
 _HARMONIZED_DIR = _OUT_ROOT / "_harmonized"
 MODEL = "claude-sonnet-4-6"
 
