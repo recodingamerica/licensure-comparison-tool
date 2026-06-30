@@ -1,0 +1,519 @@
+{
+  "profession": "dietetics",
+  "groups": [
+    {
+      "group": "licensure",
+      "intro": "Whether and how the state credentials this profession — the regulatory model, credential type, authority, exams, fees, and renewal.",
+      "fields": [
+        {
+          "field": "license_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "",
+          "example": {
+            "value": true,
+            "quote": "An individual may not, unless licensed as a dietitian or nutritionist by the department, use the title \"dietitian,\" \"licensed dietitian,\" \"nutritionist,\" \"licensed nutritionist,\" or an occupational ti",
+            "citation": "08.38.010"
+          }
+        },
+        {
+          "field": "issuing_authority",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "",
+          "example": {
+            "value": "Department of Commerce, Community, and Economic Development",
+            "quote": "\"department\" means the Department of Commerce, Community, and Economic Development",
+            "citation": "08.38.100"
+          }
+        },
+        {
+          "field": "regulatory_authority",
+          "type": "RegulatoryAuthority",
+          "vocabulary": [],
+          "meaning": "Structured decomposition of the issuing authority — name, type (standalone board / shared board / division / department / joint), and any umbrella agency it sits within. Populated alongside the legacy free-text issuing_authority for back-compat.",
+          "example": null
+        },
+        {
+          "field": "age_minimum",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "",
+          "example": null
+        },
+        {
+          "field": "moral_character_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "",
+          "example": null
+        },
+        {
+          "field": "education",
+          "type": "EducationRequirement",
+          "vocabulary": [],
+          "meaning": "",
+          "example": null
+        },
+        {
+          "field": "post_degree_experience",
+          "type": "PostDegreeExperience",
+          "vocabulary": [],
+          "meaning": "Residency / supervised practice / apprenticeship — name varies, structure doesn't.",
+          "example": null
+        },
+        {
+          "field": "exams",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "",
+          "example": null
+        },
+        {
+          "field": "renewal",
+          "type": "Renewal",
+          "vocabulary": [],
+          "meaning": "",
+          "example": null
+        },
+        {
+          "field": "renewal_fee_usd",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "License renewal fee in US dollars (integer). Many statutes leave the amount to the board's discretion — leave null in that case.",
+          "example": null
+        },
+        {
+          "field": "continuing_education",
+          "type": "ContinuingEducation",
+          "vocabulary": [],
+          "meaning": "",
+          "example": null
+        },
+        {
+          "field": "reciprocity",
+          "type": "Reciprocity",
+          "vocabulary": [],
+          "meaning": "",
+          "example": null
+        },
+        {
+          "field": "advisory_board",
+          "type": "AdvisoryBoard",
+          "vocabulary": [],
+          "meaning": "Profession-specific advisory body sitting alongside the main licensing board, when one exists. Populated for states that delegate licensure to a generic board and add a specialty advisory committee.",
+          "example": null
+        },
+        {
+          "field": "national_certification",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Name of a national CERTIFICATION the state recognizes or requires, e.g. 'American Board of Podiatric Surgery (ABPS)' or 'National Board of Podiatric Medical Examiners (NBPME)'. The certifying body, NOT the association. Null if the statute doesn't reference one.",
+          "example": {
+            "value": "Commission on Dietetic Registration",
+            "quote": "submits evidence satisfactory to the department of being certified as a Registered Dietitian by the Commission on Dietetic Registration",
+            "citation": "08.38.020"
+          }
+        },
+        {
+          "field": "national_association",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Professional ASSOCIATION the state references (e.g. for accreditation or CE provider approval) — 'American Podiatric Medical Association (APMA)', 'American Dental Association (ADA)'. Distinct from the certifying body. Null if not referenced.",
+          "example": {
+            "value": "American Dietetic Association",
+            "quote": "\"Commission on Dietetic Registration\" means the Commission on Dietetic Registration of the American Dietetic Association",
+            "citation": "08.38.100"
+          }
+        },
+        {
+          "field": "regulatory_model",
+          "type": "enum",
+          "vocabulary": [
+            "market_forces",
+            "voluntary_certification",
+            "registration",
+            "exemption",
+            "mandatory_certification",
+            "license"
+          ],
+          "meaning": "Which UORF model the state applies to this profession (license / mandatory_cert / registration / etc).",
+          "example": {
+            "value": "voluntary_certification",
+            "quote": "An individual may not, unless licensed as a dietitian or nutritionist by the department, use the title \"dietitian,\" \"licensed dietitian,\" \"nutritionist,\" \"licensed nutritionist,\" or an occupational ti",
+            "citation": "08.38.010"
+          }
+        },
+        {
+          "field": "credential_type",
+          "type": "enum",
+          "vocabulary": [
+            "none",
+            "registration",
+            "certification",
+            "license",
+            "exemption"
+          ],
+          "meaning": "What SHAPE of credential does the state issue, independent of whether holding it is mandatory? license / certification / registration / exemption / none. Pairs with is_mandatory to decompose the legacy regulatory_model rung.",
+          "example": {
+            "value": "license",
+            "quote": "The department shall issue a dietitian license to an individual who pays the required fee, applies on a form provided by the department, and submits evidence satisfactory to the department",
+            "citation": "08.38.020"
+          }
+        },
+        {
+          "field": "is_mandatory",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Is the credential MANDATORY to practice (or claim the title) in this state? True if practicing without it is prohibited; False if optional (e.g., voluntary certification that only protects the title for those who hold it).",
+          "example": {
+            "value": true,
+            "quote": "An individual may not, unless licensed as a dietitian or nutritionist by the department, use the title \"dietitian,\" \"licensed dietitian,\" \"nutritionist,\" \"licensed nutritionist,\" or an occupational ti",
+            "citation": "08.38.010"
+          }
+        },
+        {
+          "field": "title_protection",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Does the state restrict use of the profession's title to licensees? True if unlicensed people may NOT call themselves the protected title (e.g. 'podiatrist', 'CPA').",
+          "example": {
+            "value": true,
+            "quote": "An individual may not, unless licensed as a dietitian or nutritionist by the department, use the title \"dietitian,\" \"licensed dietitian,\" \"nutritionist,\" \"licensed nutritionist,\" or an occupational ti",
+            "citation": "08.38.010"
+          }
+        },
+        {
+          "field": "scope_protection",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Does the state restrict practice of the profession's scope to licensees? True if performing the scope without a license is prohibited (independent of title use).",
+          "example": {
+            "value": false,
+            "quote": "An individual may not, unless licensed as a dietitian or nutritionist by the department, use the title \"dietitian,\" \"licensed dietitian,\" \"nutritionist,\" \"licensed nutritionist,\" or an occupational ti",
+            "citation": "08.38.010"
+          }
+        },
+        {
+          "field": "disciplinary_grounds",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "Grounds on which the board may discipline a licensee. Typical statutes list 5-15.",
+          "example": null
+        },
+        {
+          "field": "alternative_regulation",
+          "type": "AlternativeRegulation",
+          "vocabulary": [],
+          "meaning": "Non-credential regulatory mechanisms (bonding, insurance, establishment regulation) imposed by the state. Obama 2015 framework typology. Independent of credential_type.",
+          "example": null
+        },
+        {
+          "field": "citations",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "",
+          "example": null
+        }
+      ]
+    },
+    {
+      "group": "scope",
+      "intro": "What the practice act lets (or reserves to) this profession — the defined scope and any title/scope protection.",
+      "fields": [
+        {
+          "field": "definition_quote",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Verbatim statutory definition; quote field repeats the value text.",
+          "example": {
+            "value": "the integration and application of scientific principles of food, nutrition, biochemistry, physiology, food management, and behavioral and social sciences to achieve and maintain human health through the provision of nutrition care services",
+            "quote": "\"dietetics or nutrition practice\" means the integration and application of scientific principles of food, nutrition, biochemistry, physiology, food management, and behavioral and social sciences to ac",
+            "citation": "08.38.100"
+          }
+        },
+        {
+          "field": "methods_authorized",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "High-level methods, e.g. ['medical','surgical','mechanical']",
+          "example": null
+        },
+        {
+          "field": "drug_authority",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "",
+          "example": null
+        },
+        {
+          "field": "citations",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "",
+          "example": null
+        }
+      ]
+    },
+    {
+      "group": "profession_specific",
+      "intro": "Fields discovered specifically for this profession (auto-derived from its statutes; they vary profession to profession).",
+      "fields": [
+        {
+          "field": "license_type_structure",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "The distinct credential or license types recognized by the state (e.g., licensed dietitian, licensed nutritionist, dietitian-nutritionist, registered dietitian, provisionally licensed dietitian).",
+          "example": {
+            "value": [
+              "licensed dietitian",
+              "licensed nutritionist"
+            ],
+            "quote": "The department shall issue a dietitian license ... The department shall issue a nutritionist license",
+            "citation": "08.38.020"
+          }
+        },
+        {
+          "field": "provisional_license_available",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the state offers a provisional or temporary license allowing practice under supervision while completing full licensure requirements.",
+          "example": null
+        },
+        {
+          "field": "provisional_license_duration_months",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "Duration in months of a provisional or temporary license before it expires.",
+          "example": null
+        },
+        {
+          "field": "provisional_license_requires_supervision",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether a provisional or temporary license restricts the holder to practice only under the supervision of a fully licensed dietitian.",
+          "example": null
+        },
+        {
+          "field": "dietetic_technician_recognized",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the state statute explicitly recognizes a dietetic technician credential as a distinct, lower-tier role that may perform limited functions under supervision.",
+          "example": null
+        },
+        {
+          "field": "rd_credential_accepted_in_lieu_of_state_requirements",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether holding a current Registered Dietitian (RD/RDN) credential from the Commission on Dietetic Registration is explicitly accepted as satisfying all or most state licensure requirements.",
+          "example": {
+            "value": true,
+            "quote": "submits evidence satisfactory to the department of being certified as a Registered Dietitian by the Commission on Dietetic Registration",
+            "citation": "08.38.020"
+          }
+        },
+        {
+          "field": "alternative_credential_pathways",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "Non-RD national credentials or membership bodies that the state accepts as an alternative pathway to licensure (e.g., Certified Nutrition Specialist, American Board of Nutrition diplomate).",
+          "example": {
+            "value": [
+              "American Board of Nutrition diplomate",
+              "Certified Nutrition Specialist (Certification Board for Nutrition Specialists)"
+            ],
+            "quote": "has qualified as a diplomate of the American Board of Nutrition or as a Certified Nutrition Specialist with the Certification Board for Nutrition Specialists",
+            "citation": "08.38.030"
+          }
+        },
+        {
+          "field": "medical_nutrition_therapy_authorized",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the statute explicitly authorizes the practice of 'medical nutrition therapy' as part of the dietitian's scope.",
+          "example": null
+        },
+        {
+          "field": "enteral_parenteral_nutrition_authorized",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the statute explicitly includes ordering or recommending enteral and/or parenteral nutrition within the dietitian's scope of practice.",
+          "example": null
+        },
+        {
+          "field": "diet_order_writing_authority",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the statute explicitly grants dietitians authority to write or issue diet orders (including therapeutic diets) in institutional or hospital settings.",
+          "example": null
+        },
+        {
+          "field": "lab_test_ordering_authority",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the statute explicitly grants dietitians authority to order medical laboratory tests related to nutrition therapy.",
+          "example": null
+        },
+        {
+          "field": "physician_referral_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the statute requires a physician (or other authorized prescriber) referral or order before a dietitian may provide certain clinical nutrition services.",
+          "example": null
+        },
+        {
+          "field": "diagnosis_treatment_prohibition",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the statute explicitly prohibits dietitians from diagnosing, treating, or prescribing for human illness or otherwise practicing medicine.",
+          "example": null
+        },
+        {
+          "field": "telehealth_practice_authorized",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the statute explicitly authorizes dietitians to provide services via telehealth.",
+          "example": null
+        },
+        {
+          "field": "supervision_ratio_limit",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "Maximum number of dietetic technicians a single registered dietitian may supervise at one time.",
+          "example": null
+        },
+        {
+          "field": "direct_supervision_defined",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the statute provides an explicit definition of 'direct supervision' for dietetic technicians or provisional licensees, including physical presence or availability requirements.",
+          "example": null
+        },
+        {
+          "field": "exempt_professions_list",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "Categories of other licensed professionals explicitly exempted from the dietetics licensure requirement when performing nutrition-related activities incidental to their own profession.",
+          "example": {
+            "value": [
+              "animal nutritionist (limited to nutritional care of animals)",
+              "federal government employee whose job title includes 'dietitian' or 'nutritionist'",
+              "person serving as a dietitian or nutritionist in the armed forces of the United States"
+            ],
+            "quote": "The requirements of this chapter do not apply to (1) an animal nutritionist whose activities are limited to the nutritional care of animals; (2) a person who is serving as an employee of the federal g",
+            "citation": "08.38.080"
+          }
+        },
+        {
+          "field": "federal_employee_exemption",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether persons employed by the federal government (including armed forces, VA, or public health service) in a dietitian or nutritionist role are explicitly exempt from state licensure.",
+          "example": {
+            "value": true,
+            "quote": "a person who is serving as an employee of the federal government whose job title includes the term \"dietitian\" or \"nutritionist\"",
+            "citation": "08.38.080"
+          }
+        },
+        {
+          "field": "weight_control_program_exemption",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether persons offering weight control programs are explicitly exempt from licensure, typically conditioned on the program being reviewed or approved by a licensed or registered dietitian.",
+          "example": null
+        },
+        {
+          "field": "food_supplement_sales_exemption",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether persons who sell, market, or provide information about food, dietary supplements, vitamins, or herbs are explicitly exempt from the dietetics licensure requirement.",
+          "example": null
+        },
+        {
+          "field": "animal_nutrition_exemption",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether persons whose nutrition practice is limited to animals are explicitly exempt from the human dietetics licensure requirement.",
+          "example": {
+            "value": true,
+            "quote": "an animal nutritionist whose activities are limited to the nutritional care of animals; animal nutritionists may use the title \"nutritionist\" as long as they provide nutrition services only to animals",
+            "citation": "08.38.080"
+          }
+        },
+        {
+          "field": "nonresident_temporary_practice_allowed",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether out-of-state dietitians may practice in the state for a limited period without obtaining a state license.",
+          "example": null
+        },
+        {
+          "field": "nonresident_temporary_practice_max_days",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "Maximum number of days per year a nonresident dietitian may practice in the state without a state license.",
+          "example": null
+        },
+        {
+          "field": "interstate_compact_member",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the state has enacted the Dietitian Licensure Compact, enabling multistate practice privileges.",
+          "example": null
+        },
+        {
+          "field": "compact_privilege_jurisprudence_requirement",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether a state may require applicants for a compact practice privilege to pass a jurisprudence (state law knowledge) assessment.",
+          "example": null
+        },
+        {
+          "field": "protected_titles",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "The specific titles, words, letters, or abbreviations that are legally restricted to licensed or certified practitioners under the statute.",
+          "example": {
+            "value": [
+              "dietitian",
+              "licensed dietitian",
+              "nutritionist",
+              "licensed nutritionist"
+            ],
+            "quote": "use the title \"dietitian,\" \"licensed dietitian,\" \"nutritionist,\" \"licensed nutritionist,\" or an occupational title using the word \"dietitian\" or \"nutritionist\"",
+            "citation": "08.38.010"
+          }
+        },
+        {
+          "field": "nutrition_assessment_includes_biochemical_data",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the statutory definition of nutritional assessment explicitly includes biochemical and anthropometric data as evaluation components.",
+          "example": null
+        },
+        {
+          "field": "hospital_order_authority_requires_policy",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether a dietitian's authority to issue orders in a hospital setting is conditioned on the hospital having written policies and procedures authorizing such orders.",
+          "example": null
+        },
+        {
+          "field": "inactive_license_status_available",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether the state allows a licensee to place their license in an inactive status for a defined period.",
+          "example": null
+        },
+        {
+          "field": "ethics_code_violation_grounds_for_discipline",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Whether violation of a recognized professional code of ethics (e.g., the American Dietetic Association's code) is explicitly listed as a ground for disciplinary action.",
+          "example": null
+        }
+      ]
+    }
+  ],
+  "example_state": "AK"
+}
