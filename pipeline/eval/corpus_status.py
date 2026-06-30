@@ -1,8 +1,13 @@
-"""Reproducible corpus-sync + extract-backlog audit (read-only, offline).
+"""Reproducible corpus-sync + extract-backlog status (read-only, offline).
 
 Promotes two throwaway scripts (corpus_sync_audit.py / finalize_worklist.py)
 into a tracked tool so the hand-prep behind a bulk extract is repeatable. Reads
 only `results/` and `config/`; never fetches or writes corpus data.
+
+NOTE: this is the cross-stage *sync/completeness* audit (are the pipeline stages
+in step, what's the extract backlog). It is distinct from
+`pipeline.discover.audit_corpus`, which is the LLM corpus-*correctness* gate
+(is the pulled text actually this profession's law).
 
 Two subcommands:
 
@@ -23,8 +28,8 @@ Two subcommands:
                effectively_empty.json    raw-empty + post-clean-empty (repull list)
 
 Usage:
-  python -m pipeline.eval.audit_corpus sync
-  python -m pipeline.eval.audit_corpus backlog [--write-queues out/dir]
+  python -m pipeline.eval.corpus_status sync
+  python -m pipeline.eval.corpus_status backlog [--write-queues out/dir]
 """
 
 from __future__ import annotations
