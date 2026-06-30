@@ -39,6 +39,7 @@ if str(_PIPELINE_DIR) not in sys.path:
 from paths import DISCOVERED_DIR, STRUCTURED_DIR, PIPELINE_ROOT, core_professions  # noqa: E402
 from extract.extract_state import build_profile_model  # noqa: E402
 from _records import record_files  # noqa: E402
+from _runlog import record_run  # noqa: E402
 
 OUT_DIR = PIPELINE_ROOT.parent / "docs" / "methodology"
 
@@ -214,6 +215,7 @@ def generate(profession: str) -> Path:
     json_path.write_text(json.dumps(d, indent=2, ensure_ascii=False) + "\n")
     n = sum(len(g["fields"]) for g in d["groups"])
     print(f"{profession}: wrote {n} fields → {md_path.name} + {json_path.name}")
+    record_run("field_dictionary", profession=profession, fields=n)
     return md_path
 
 

@@ -33,6 +33,7 @@ import sys
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from paths import TEXT_DIR, CLEAN_DIR, LOGS_DIR, CONFIG_DIR  # noqa: E402
 from _records import record_files  # noqa: E402
+from _runlog import record_run  # noqa: E402
 import yaml  # noqa: E402
 
 
@@ -329,6 +330,7 @@ def main() -> None:
             "chars": int(d.get("total_chars") or 0),
         })
     (out_dir / "_summary.json").write_text(json.dumps(summary, indent=2))
+    record_run("clean_text", profession=profession)
 
 
 if __name__ == "__main__":

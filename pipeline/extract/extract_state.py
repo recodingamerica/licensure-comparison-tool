@@ -36,6 +36,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from _llm import call_structured  # noqa: E402
 from _records import record_files  # noqa: E402
+from _runlog import record_run  # noqa: E402
 from standard_model import (  # noqa: E402
     BoolEvidence,
     IntEvidence,
@@ -423,6 +424,7 @@ def main() -> None:
         "done: %d states extracted, %d already-present skipped (use --force to redo)",
         len(summary), skipped,
     )
+    record_run("extract_state", profession=profession)
 
 
 if __name__ == "__main__":
