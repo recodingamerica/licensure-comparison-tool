@@ -26,10 +26,9 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from paths import RESULTS_DIR  # noqa: E402
+from paths import STRUCTURED_DIR as STRUCTURED  # noqa: E402
 
 GROUND_TRUTH = Path(__file__).resolve().parent.parent.parent / "docs" / "lit_review" / "oplr_ground_truth.csv"
-STRUCTURED = RESULTS_DIR / "structured"
 
 # Map free-text OPLR recommendation language to our RegulatoryModel enum, in
 # case a row stores the raw recommendation instead of a normalized model.

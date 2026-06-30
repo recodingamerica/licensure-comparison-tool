@@ -23,9 +23,8 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from paths import RESULTS_DIR  # noqa: E402
+from paths import PROFESSION_INDEX_DIR as INDEX_DIR  # noqa: E402
 
-INDEX_DIR = RESULTS_DIR / "profession_index"
 CAND_DIR = INDEX_DIR / "_llm_candidates"
 
 

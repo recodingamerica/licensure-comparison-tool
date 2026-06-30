@@ -35,9 +35,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from paths import RESULTS_DIR  # noqa: E402
-
-TEXT_DIR = RESULTS_DIR / "text"
+from paths import TEXT_DIR  # noqa: E402
 
 
 def _norm(t: str | None) -> str:

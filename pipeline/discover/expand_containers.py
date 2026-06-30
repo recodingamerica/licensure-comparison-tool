@@ -33,10 +33,9 @@ from pipeline._env import load_env
 load_env()
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from paths import RESULTS_DIR  # noqa: E402
+from paths import HIERARCHY_DIR as HIER_DIR  # noqa: E402
 from ingest import pull_text as pt  # noqa: E402
 
-HIER_DIR = RESULTS_DIR / "hierarchy"
 ALL_STATES = ("AK AL AR AZ CA CO CT DE FL GA HI IA ID IL IN KS KY LA MA MD ME MI "
               "MN MO MS MT NC ND NE NH NJ NM NV NY OH OK OR PA RI SC SD TN TX UT "
               "VA VT WA WI WV WY").split()

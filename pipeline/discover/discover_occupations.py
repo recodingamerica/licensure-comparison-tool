@@ -34,10 +34,9 @@ load_env()
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from _llm import call_structured, usage_summary  # noqa: E402
-from paths import RESULTS_DIR, CONFIG_DIR  # noqa: E402
+from paths import RESULTS_DIR, CONFIG_DIR, HIERARCHY_DIR as HIER_DIR  # noqa: E402
 from config.states import ALL_STATES  # noqa: E402
 
-HIER_DIR = RESULTS_DIR / "hierarchy"
 OUT_DIR = RESULTS_DIR / "discover_occupations"
 MODEL = "claude-sonnet-4-6"
 
