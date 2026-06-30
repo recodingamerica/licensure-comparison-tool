@@ -1,6 +1,6 @@
 # Field Tag Sheet
 
-_Generated 2026-06-24T16:38:27+00:00_
+_Generated 2026-06-30T01:51:08+00:00_
 
 Plain-English tags for each profession's key licensure fields, derived
 by `pipeline.map_prep.bucket_text` (no per-row hand-curation — the LLM
@@ -8,6 +8,236 @@ clustered each field's actual state values into a handful of buckets).
 Counts are states per tag (or disciplinary grounds per tag, for the
 Discipline field). Scope wording is profession-specific, so the bucketed
 field name varies by profession.
+
+## Architecture
+
+### Priority fields
+
+#### Minimum Degree
+
+`licensure.education.degree_required` — states per tag:
+
+- **NAAB Accredited Degree** (9)
+- **Accredited Degree (General)** (11)
+- **NAAB or Board Equivalent** (7)
+- **Experience May Substitute** (4)
+- **Board-Defined Requirements** (7)
+
+#### Professional Experience
+
+`licensure.post_degree_experience.kind` — states per tag:
+
+- **Named NCARB Program** (5)
+- **Supervised Practical Experience** (5)
+- **General Practical Experience** (15)
+- **Diversified Training** (2)
+- **Structured/Internship Program** (6)
+
+`licensure.post_degree_experience.duration` — states per tag:
+
+- **1 Year** (1)
+- **2 Years** (1)
+- **3 Years** (2)
+- **8 Years Combined** (3)
+- **Flexible / Up to 10 Years** (1)
+
+#### Licensing Authority
+
+`licensure.issuing_authority` — states per tag:
+
+- **Architects-Only Board** (19)
+- **Architects + Design Professions Board** (10)
+- **Architects + Engineers Board** (5)
+- **State Dept / Agency** (2)
+- **Multi-Board / Shared Authority** (3)
+
+`licensure.regulatory_authority.name` — states per tag:
+
+- **Architects Only Board** (21)
+- **Architects + Landscape Architects** (4)
+- **Architects + Interior Design** (7)
+- **Multi-Profession Board** (5)
+- **Dept / Division (Non-Board)** (2)
+
+#### Scope of Practice
+
+`scope.methods_authorized` — states per tag:
+
+- **Minimal Core** (5)
+- **Standard Scope** (20)
+- **Extended Scope** (7)
+- **Comprehensive Scope** (5)
+
+`scope.definition_quote` — states per tag:
+
+- **Design + Construction Services** (15)
+- **Design + Safety/Welfare Focus** (7)
+- **Broad Professional Services** (8)
+- **Services + Enumerated List** (6)
+- **Reference Only** (2)
+
+#### Discipline
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+### Other bucketed fields
+
+#### Continuing education subject requirement
+
+`profession_specific.continuing_education_subject_requirement` — states per tag:
+
+- **Health, Safety & Welfare** (5)
+- **State Code / Building Code** (1)
+- **Specific Mandated Topics** (1)
+- **General / Flexible Content** (1)
+
+#### Continuing education topical requirements
+
+`licensure.continuing_education.topical_requirements` — states per tag:
+
+- **Health, Safety & Welfare** (5)
+- **State Code / Law Specific** (1)
+- **Multiple Specific Topics** (1)
+
+#### Continuing education waiver conditions
+
+`profession_specific.continuing_education_waiver_conditions` — states per tag:
+
+- **Hardship / Illness** (2)
+- **Hardship + Military + Health** (3)
+- **Board Discretion** (2)
+- **New/Initial Licensee** (2)
+- **Status-Based** (1)
+
+#### Disciplinary grounds
+
+`licensure.disciplinary_grounds` — states per tag:
+
+- **Fraud & Misrepresentation** (14)
+- **Negligence & Incompetence** (8)
+- **Violation of Practice Act** (7)
+- **Criminal Conviction** (2)
+- **Unprofessional Conduct** (4)
+- **Seal & Supervision Violations** (2)
+- **Exam/Licensing Bar** (1)
+
+#### Education accrediting body
+
+`licensure.education.accrediting_body` — states per tag:
+
+- **NAAB Only** (18)
+- **NAAB + CACB** (2)
+- **NAAB (loose wording)** (2)
+- **Board-Approved** (2)
+- **Generic National Body** (4)
+
+#### Exams
+
+`licensure.exams` — states per tag:
+
+- **NCARB/ARE Mandated** (14)
+- **NCARB/ARE Adoptable** (10)
+- **Board-Prescribed Exam** (12)
+- **State Exam + NCARB Option** (3)
+
+#### Exempt building types
+
+`profession_specific.exempt_building_types` — states per tag:
+
+- **Residential + Farm Only** (14)
+- **Residential + Farm + Small Commercial** (3)
+- **Residential + Farm + Size/Cost Threshold** (17)
+- **Broad Multi-Type with Thresholds** (1)
+- **Occupancy-Based Categories** (1)
+- **Reference to Other Statute** (2)
+
+#### Firm design professional ownership minimum fraction
+
+`profession_specific.firm_design_professional_ownership_minimum_fraction` — states per tag:
+
+- **Two-Thirds Majority** (5)
+- **Simple Majority (>50%)** (1)
+- **Responsible Control Only** (1)
+- **Two-Thirds + Mixed Rules** (1)
+
+#### Firm licensed architect ownership minimum fraction
+
+`profession_specific.firm_licensed_architect_ownership_minimum_fraction` — states per tag:
+
+- **All Must Be Licensed** (2)
+- **Two-Thirds** (3)
+- **Majority** (2)
+- **One-Third** (2)
+- **At Least One Principal** (5)
+- **One Designated Officer** (3)
+
+#### National association
+
+`licensure.national_association` — states per tag:
+
+- **NAAB** (12)
+- **AIA** (2)
+- **NCARB** (1)
+
+#### National certification
+
+`licensure.national_certification` — states per tag:
+
+- **NCARB Only** (29)
+- **NCARB + NAAB** (1)
+- **Board-Recognized Body** (1)
+
+#### Permitted firm structures
+
+`profession_specific.permitted_firm_structures` — states per tag:
+
+- **Individual Only** (1)
+- **Basic (Partnership + Corp)** (6)
+- **Standard Set** (9)
+- **Broad Set** (10)
+- **Comprehensive + Specialized** (6)
+
+#### Reciprocity requirements
+
+`licensure.reciprocity.requirements` — states per tag:
+
+- **NCARB Required** (4)
+- **NCARB or Equivalent** (13)
+- **Substantial Equivalence Only** (10)
+- **Equivalence + Extra Conditions** (6)
+- **Mutual Reciprocity** (2)
+
+#### Regulatory authority umbrella agency
+
+`licensure.regulatory_authority.umbrella_agency` — states per tag:
+
+- **Consumer Affairs / Protection** (2)
+- **Professional Licensing Agency** (7)
+- **Business & Professional Regulation** (2)
+- **Commerce / Trade Dept** (2)
+- **Labor & Industry Dept** (3)
+- **Secretary of State / Education** (2)
+- **Other State Agency** (3)
+
+#### Unauthorized practice criminal penalty first offense
+
+`profession_specific.unauthorized_practice_criminal_penalty_first_offense` — states per tag:
+
+- **Named Misdemeanor Class** (12)
+- **Misdemeanor + Fine & Jail Specified** (11)
+- **Misdemeanor Only** (2)
+- **Infraction / Summary Offense** (2)
+- **Statutory Reference Only** (3)
+
+#### Unauthorized practice criminal penalty subsequent offense
+
+`profession_specific.unauthorized_practice_criminal_penalty_subsequent_offense` — states per tag:
+
+- **Felony** (2)
+- **Gross Misdemeanor** (1)
+- **Misdemeanor + Fine & Jail** (2)
+- **Misdemeanor (Class Only)** (1)
+- **Context-Specific Penalty** (1)
 
 ## Construction Trades
 
@@ -18,30 +248,28 @@ field name varies by profession.
 `licensure.education.degree_required` — states per tag:
 
 - **No Degree Required** (1)
-- **Pre-HS / 8th Grade** (1)
 - **High School / GED** (1)
-- **Short Course / CEUs** (1)
-- **Associate / Technical** (1)
-- **Bachelor's Degree** (2)
-- **Experience Substitutes** (1)
+- **Short Pre-License Training** (1)
+- **Associate / Technical Degree** (0)
+- **Bachelor's Degree** (1)
+- **Experience-Based Substitution** (1)
+- **Tiered by License Type** (3)
 
 #### Professional Experience
 
 `licensure.post_degree_experience.kind` — states per tag:
 
-- **General Trade Experience** (4)
-- **Skilled Worker / Foreman** (1)
-- **Contractor / Employment** (2)
-- **Apprenticeship** (1)
-- **Mixed / Multiple Pathways** (3)
+- **General Trade Experience** (5)
+- **Contractor/Supervisory Experience** (2)
+- **Apprenticeship Program** (1)
+- **Mixed / Combined Paths** (3)
 
 `licensure.post_degree_experience.duration` — states per tag:
 
-- **1-2 Years** (1)
-- **2-3 Years** (0)
-- **4 Years** (2)
+- **1–2 Years** (1)
+- **3–4 Years** (3)
 - **5 Years** (1)
-- **Varies by License Type** (5)
+- **Varies by License Type** (4)
 - **4 Years (Recency Required)** (2)
 
 #### Licensing Authority
@@ -49,40 +277,40 @@ field name varies by profession.
 `licensure.issuing_authority` — states per tag:
 
 - **Dedicated Contractors Board** (16)
-- **Construction Industry Board** (4)
-- **Commerce / Economic Dev Dept** (4)
-- **Consumer Protection Agency** (3)
+- **Construction Industry Board** (3)
+- **Commerce / Economic Dev Dept** (1)
 - **Labor & Industry Dept** (2)
-- **Housing / Buildings Dept** (1)
-- **Multi-Board / Registrar** (3)
+- **Consumer Protection Agency** (3)
+- **Multi-Board System** (1)
+- **Other State Agency** (6)
 
 `licensure.regulatory_authority.name` — states per tag:
 
-- **Contractors Board** (17)
-- **Construction Industry Board** (4)
+- **Dedicated Contractors Board** (17)
+- **Construction Industry Board** (3)
 - **Dept of Labor & Industry** (2)
 - **Consumer Protection Agency** (3)
-- **General Commerce Dept** (6)
-- **Housing/Buildings Dept** (1)
+- **Broad Commerce/Licensing Dept** (7)
 
 #### Scope of Practice
 
 `scope.methods_authorized` — states per tag:
 
-- **General Build/Demo** (15)
-- **Trade-Specific Only** (3)
-- **Tiered by Project Type** (3)
-- **Broad + Specialty List** (7)
-- **Contractor Class Categories** (3)
+- **Core Build/Alter/Demo** (9)
+- **Broad + Site/Utility Work** (7)
+- **Trade Specialties Only** (1)
+- **Tiered Contract Classes** (5)
+- **Comprehensive Multi-Trade** (6)
+- **Specialty Niche (UST/HVAC)** (2)
 
 `scope.definition_quote` — states per tag:
 
-- **Broad General Contractor** (7)
-- **Threshold / Cost-Triggered** (5)
-- **Residential Focus** (4)
-- **Trade-Specific** (6)
-- **Broad + Explicit Bid Language** (9)
-- **Short / Reference-Based** (2)
+- **Broad General Contractor** (18)
+- **Residential / Home Improvement** (4)
+- **Trade-Specific Only** (4)
+- **Dual-Category (General + Mechanical)** (1)
+- **Threshold-Anchored** (4)
+- **Reference to Other Law** (1)
 
 #### Discipline
 
@@ -95,50 +323,49 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 `licensure.advisory_board.authority` — states per tag:
 
 - **Full Regulatory Power** (1)
-- **Delegated Sub-Board Power** (2)
-- **Advisory + Rulemaking Input** (2)
-- **Advisory Only** (1)
+- **Subcommittee Powers (Board Approval)** (1)
+- **Advisory & Consultation Only** (2)
+- **Rulemaking Consultation Required** (1)
 
 #### Advisory board name
 
 `licensure.advisory_board.name` — states per tag:
 
-- **Residential Contractor Body** (2)
-- **Housing & Construction Body** (1)
-- **Trade-Specific Committees** (1)
-- **Mixed Trade Boards** (1)
-- **Informal Advisors** (1)
+- **Residential Committee** (2)
+- **Housing & Buildings Committee** (1)
+- **Trades Licensing Board** (1)
+- **General Advisors** (1)
 
 #### Continuing education topical requirements
 
 `licensure.continuing_education.topical_requirements` — states per tag:
 
-- **Codes & Regulations** (2)
-- **Codes + Business Practices** (2)
-- **Codes + Trade-Specific** (3)
-- **Broad Multi-Topic** (2)
-- **Specialty-Track by License** (1)
+- **Code & Regulations** (3)
+- **Business & Safety Mix** (2)
+- **Board-Approved Courses** (1)
+- **Trade-Specific Hours** (2)
+- **Broad Topic Menu** (1)
 
 #### Deposit cap fraction
 
 `profession_specific.deposit_cap_fraction` — states per tag:
 
-- **1/3 Cap** (2)
-- **1/2 Cap** (2)
-- **Low Fixed / % Cap** (1)
-- **1/3 or Special Order Exception** (1)
+- **~33% Cap** (2)
+- **~50% Cap** (1)
+- **Low Fixed Cap** (1)
+- **Greater-Of Formula** (2)
 
 #### Disciplinary grounds
 
 `licensure.disciplinary_grounds` — states per tag:
 
-- **Fraud & Misrepresentation** (8)
+- **Fraud & Misrepresentation** (7)
 - **Negligence & Incompetence** (4)
-- **Statutory & Reg Violations** (6)
-- **Project Abandonment & Non-Performance** (5)
 - **Criminal Conviction** (2)
-- **Licensing & Registration Violations** (7)
-- **Consumer Protection & Financial Harm** (1)
+- **Project Abandonment** (5)
+- **Statutory/Reg Violations** (7)
+- **Consumer Protection** (1)
+- **Registration/Insurance Compliance** (6)
 
 #### Education accrediting body
 
@@ -152,40 +379,38 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 
 `licensure.exams` — states per tag:
 
-- **Trade/Technical Exam** (9)
+- **Trade/Technical Exam** (8)
 - **Business & Law Exam** (1)
-- **Trade + Business Exam** (6)
-- **Prelicensure Course Exam** (1)
-- **Broad Written/Oral Exam** (6)
+- **Both Trade & Law Exams** (6)
+- **General Contractor Exam** (6)
+- **Pre-License Course Exam** (1)
 
 #### National association
 
 `licensure.national_association` — states per tag:
 
-- **Home Inspector Orgs** (0)
-- **Elevator Industry Orgs** (1)
-- **Home Builders Orgs** (1)
-- **General Contractors Orgs** (0)
-- **Mixed / Multiple Sectors** (2)
+- **Home Inspection Bodies** (1)
+- **Elevator Industry Bodies** (1)
+- **Home Builders Associations** (1)
+- **General Contractors & Builders Mix** (1)
 
 #### National certification
 
 `licensure.national_certification` — states per tag:
 
 - **NICET (General)** (2)
-- **NICET Fire Protection** (1)
-- **NCCCO Crane Ops** (1)
+- **NICET (Fire Protection)** (1)
+- **NCCCO (Crane)** (1)
 
 #### Reciprocity requirements
 
 `licensure.reciprocity.requirements` — states per tag:
 
 - **Mutual Reciprocity Required** (7)
-- **Substantial Equivalency** (4)
-- **Active Practice + Good Standing** (5)
-- **Exam Waiver Available** (3)
-- **Emergency / Military / Niche** (4)
-- **Board Agreement / Regulation** (3)
+- **Substantial Equivalency** (8)
+- **Agreement-Based** (3)
+- **Military / Emergency Only** (3)
+- **Endorsement with Extra Steps** (5)
 
 #### Regulatory authority umbrella agency
 
@@ -196,17 +421,16 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 - **Commerce Dept** (2)
 - **Labor, Licensing & Reg** (1)
 - **Secretary of State** (1)
-- **Public Protection / Safety** (1)
-- **Executive / Legal Office** (2)
+- **Other Executive Office** (3)
 
 #### Voidable contract clauses
 
 `profession_specific.voidable_contract_clauses` — states per tag:
 
 - **Waiver of Rights** (1)
-- **Confession of Judgment** (1)
 - **Choice of Law / Forum** (1)
 - **Broad Multi-Clause List** (1)
+- **Confession of Judgment Only** (1)
 
 ## Dentistry
 
@@ -216,65 +440,65 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 
 `licensure.education.degree_required` — states per tag:
 
-- **DDS/DMD, CODA Accredited** (6)
-- **DDS/DMD, Board/State Approved** (2)
-- **DDS/DMD, No Accreditor Specified** (8)
-- **Dental Degree, CODA Accredited** (10)
-- **Dental Degree, Board/State Approved** (5)
-- **Dental Degree, Accredited (General)** (8)
+- **DDS/DMD Named + CODA** (10)
+- **DDS/DMD Named, Board Approved** (4)
+- **Accredited School, CODA Named** (26)
+- **Accredited School, Board Approved** (8)
+- **Doctoral Degree, General** (2)
 
 #### Professional Experience
 
 `licensure.post_degree_experience.kind` — states per tag:
 
-- **General Dentistry Residency** (2)
-- **General or Specialty Residency** (2)
-- **Internship or Residency** (1)
-- **Supervised Clinical Practice** (1)
+- **GPR or Specialty Residency** (2)
+- **CODA-Approved Residency w/ Intern Title** (1)
 
 `licensure.post_degree_experience.duration` — states per tag:
 
-- **1 Year Minimum** (4)
-- **Hours-Based** (1)
-- **1 Year or Residency** (1)
+- **1 Year** (3)
 
 #### Licensing Authority
 
 `licensure.issuing_authority` — states per tag:
 
 - **Board of Dental Examiners** (12)
-- **Board of Dentistry** (18)
-- **State Dept / Agency** (9)
-- **Dental Board (Named)** (6)
-- **Specialty Board** (5)
+- **Board of Dentistry** (29)
+- **State Dept / Agency** (6)
+- **Dual Authority** (3)
 
 `licensure.regulatory_authority.name` — states per tag:
 
-- **Board of Dental Examiners** (15)
+- **Board of Dental Examiners** (13)
 - **Board of Dentistry** (20)
 - **Dental Board** (6)
-- **Commission or Dept** (4)
-- **Includes Hygiene** (2)
-- **Other Named Board** (3)
+- **Dept / Office (Non-Board)** (5)
+- **Other Dental Board** (6)
 
 #### Scope of Practice
 
 `scope.methods_authorized` — states per tag:
 
-- **Surgical + Nonsurgical** (10)
-- **Diagnosis + Treatment Core** (10)
-- **Comprehensive Enumerated** (12)
-- **Broad Clinical Scope** (12)
-- **Minimal Abstract** (4)
+- **Broad Enumerated List** (14)
+- **Concise Category List** (10)
+- **Terse High-Level Only** (11)
+- **Moderate Detail List** (15)
 
 `scope.drug_authority` — states per tag:
 
-- **Prescribe & Anesthesia** (9)
-- **Prescribe Only** (12)
-- **Anesthesia Only** (3)
-- **Controlled Substances Focus** (11)
-- **Vaccines Included** (3)
-- **Anesthesia Permit Required** (6)
+- **Basic Prescribe/Dispense** (14)
+- **Prescribe + Anesthesia** (17)
+- **Prescribe + Opioid Limits** (6)
+- **Prescribe + Anesthesia + Opioid Limits** (2)
+- **Prescribe + Expanded Authority** (7)
+- **Pharmacist Fill Reference** (4)
+
+`scope.definition_quote` — states per tag:
+
+- **Modern Comprehensive (ADA-style)** (14)
+- **Enumerated Acts** (16)
+- **Healing Art / Oral Cavity** (4)
+- **Diagnosis & Treatment (Short Form)** (9)
+- **Holds Out / Represents Self** (7)
 
 #### Discipline
 
@@ -309,25 +533,25 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 
 `licensure.advisory_board.authority` — states per tag:
 
-- **Advisory + Rulemaking Proposals** (1)
-- **Advisory + Discipline Recs** (1)
+- **Full Regulatory & Disciplinary** (1)
+- **Advisory Only** (1)
 
 #### Advisory board name
 
 `licensure.advisory_board.name` — states per tag:
 
-- **Dental Hygienists Committee** (2)
+- **Dental Commission** (1)
+- **Specialty Committee** (1)
 
 #### Continuing education topical requirements
 
 `licensure.continuing_education.topical_requirements` — states per tag:
 
-- **Opioid/Controlled Substances** (7)
-- **Ethics & Professionalism** (2)
-- **Emergency & Life Support** (2)
-- **Broad Clinical Topics** (2)
-- **Infection Control** (0)
-- **Multi-Topic Required** (7)
+- **Opioid/Controlled Substances** (10)
+- **CPR/Emergency Procedures** (5)
+- **Ethics/Jurisprudence** (2)
+- **Broad Clinical Topics** (4)
+- **Mixed Mandatory Topics** (5)
 
 #### Dental hygienist supervision levels
 
@@ -359,59 +583,52 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 
 `licensure.education.accrediting_body` — states per tag:
 
-- **CODA (full name)** (40)
-- **CODA (abbreviation)** (4)
+- **ADA / CODA (full name)** (34)
+- **CODA only** (9)
 - **ADA only** (2)
-- **Board Discretion** (2)
-
-#### Exams
-
-`licensure.exams` — states per tag:
-
-- **National + Clinical** (20)
-- **National + Clinical + Jurisprudence** (10)
-- **National + State Clinical** (5)
-- **State Board Only** (4)
-- **Board Discretion** (9)
+- **Board-recognized school** (2)
+- **Federal DOE standard** (1)
 
 #### National association
 
 `licensure.national_association` — states per tag:
 
-- **ADA** (29)
-- **ADA (explicit acronym)** (5)
-- **ADA + Accreditation Body** (4)
-- **CODA Only** (1)
-- **Other Association** (1)
+- **ADA Only** (32)
+- **ADA + CODA** (9)
+- **CODA / ADA (CODA-emphasis)** (4)
+- **AADB** (1)
+- **State Association** (1)
 
 #### National certification
 
 `licensure.national_certification` — states per tag:
 
-- **JCNDE / National Board** (4)
-- **ABOMS / Oral Surgery Board** (1)
-- **Multi-Org Listing** (1)
+- **JCNDE / NBDE** (10)
+- **ADEX** (1)
+- **ADEX + JCNDE** (2)
+- **ADA Specialty Board** (1)
+- **ABOMS (Oral Surgery)** (2)
 
 #### Reciprocity requirements
 
 `licensure.reciprocity.requirements` — states per tag:
 
-- **5+ Yrs Practice** (6)
-- **2–3 Yrs Practice** (7)
-- **Hours-Based Threshold** (4)
-- **Exam-Centric** (3)
-- **Equivalent Standards Only** (5)
-- **Comprehensive Multi-Factor** (14)
+- **Active Practice + Years** (14)
+- **Good Standing + Equivalency** (12)
+- **Credentials + Exam Required** (16)
+- **Compact / Portability Program** (3)
+- **Restricted / Conditional** (4)
+- **Minimal Requirements** (1)
 
 #### Regulatory authority umbrella agency
 
 `licensure.regulatory_authority.umbrella_agency` — states per tag:
 
-- **Health Dept** (7)
-- **Consumer Affairs** (2)
-- **Commerce Dept** (3)
-- **Licensing & Regulation** (4)
-- **Professional Regulation Office** (5)
+- **Dept of Health** (6)
+- **Dept of Commerce/Consumer Affairs** (4)
+- **Professional Licensing Agency** (8)
+- **Labor & Regulation Dept** (4)
+- **Secretary of State Office** (1)
 
 #### Sedation anesthesia permit types
 
@@ -433,21 +650,21 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 
 `licensure.education.degree_required` — states per tag:
 
-- **Bachelor's Min, Field-Specific** (29)
-- **Bachelor's Min, General** (7)
-- **Master's/Doctoral Required** (2)
-- **Tiered by License Type** (8)
-- **Tiered by Grad Year** (1)
-- **CDR/RD Registration** (2)
+- **Bachelor's Min** (8)
+- **Bachelor's Min, Named Field** (28)
+- **Master's Min** (0)
+- **Master's Min, Named Field** (2)
+- **Tiered by License Type** (9)
+- **CDR Registration Only** (2)
 
 #### Professional Experience
 
 `licensure.post_degree_experience.kind` — states per tag:
 
-- **Supervised Practice** (15)
+- **Supervised Practice** (16)
 - **Preprofessional Program** (15)
-- **Internship / Program Options** (8)
-- **Accredited Program** (4)
+- **Internship / Practicum** (9)
+- **Accredited Program** (2)
 - **Work / Field Experience** (2)
 
 `licensure.post_degree_experience.duration` — states per tag:
@@ -455,33 +672,50 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 - **900 Hours** (26)
 - **1,000 Hours** (4)
 - **1,200 Hours** (1)
-- **Multiple Pathways** (1)
+- **Multiple Tiers** (1)
 - **Time-Based** (1)
 
 #### Licensing Authority
 
 `licensure.issuing_authority` — states per tag:
 
-- **Dedicated Dietetics Board** (20)
+- **Dedicated Dietetics Board** (21)
 - **Medical/Nursing Board** (7)
-- **General Health Dept** (9)
-- **General Licensing Agency** (10)
-- **Other State Agency** (2)
+- **General Health Department** (9)
+- **General Licensing Agency** (11)
 
 `licensure.regulatory_authority.name` — states per tag:
 
 - **Dedicated Dietetics Board** (24)
-- **Medical/Health Board** (7)
-- **General Health Dept** (11)
-- **General Licensing Agency** (6)
+- **Combined Health Professions Board** (2)
+- **Medical Board** (6)
+- **State Health Department** (7)
+- **General Licensing Agency** (9)
 
 #### Scope of Practice
 
+`scope.methods_authorized` — states per tag:
+
+- **Core Assess & Counsel** (14)
+- **Core + Clinical Orders** (13)
+- **Core + Advanced Clinical** (3)
+- **Broad Clinical + Drug/Lab** (5)
+- **Narrow / Advisory Only** (6)
+- **Minimal / General Wellness** (2)
+
 `scope.drug_authority` — states per tag:
 
-- **Dose Adjust Only** (1)
-- **Dose Adjust + Supplements** (2)
-- **Protocol Prescribing** (1)
+- **Protocol-Based Dose Adjustment** (1)
+- **Protocol + Vitamin/Mineral Orders** (2)
+- **Protocol-Delegated Prescribing** (1)
+
+`scope.definition_quote` — states per tag:
+
+- **Science Integration Formula** (18)
+- **Enumerated Services List** (10)
+- **Medical Nutrition Therapy Focus** (5)
+- **Assessment & Counseling Focused** (5)
+- **Broad Health & Lifecycle** (7)
 
 #### Discipline
 
@@ -503,20 +737,21 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 
 `licensure.advisory_board.authority` — states per tag:
 
-- **Pure Advisory** (6)
-- **Advisory + Disciplinary Role** (1)
-- **Delegated Rulemaking** (2)
-- **Binding Recommendations** (3)
-- **Exam & Licensure Focus** (2)
+- **Advisory Only** (7)
+- **Recommendations Basis for Rules** (3)
+- **Delegated Rulemaking & Discipline** (2)
+- **Required Proposal Power** (1)
+- **Conducts Hearings** (1)
 
 #### Advisory board name
 
 `licensure.advisory_board.name` — states per tag:
 
-- **Board / Practice Board** (3)
-- **Council** (4)
-- **Advisory Committee** (3)
-- **Advisory Group / Panel** (3)
+- **Board / Practice Board** (2)
+- **Advisory Board / Group** (2)
+- **Advisory Committee** (2)
+- **Council** (5)
+- **Panel or Advisors** (2)
 - **Allied Health Board** (1)
 
 #### Alternative credential pathways
@@ -535,18 +770,29 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 
 `licensure.continuing_education.topical_requirements` — states per tag:
 
-- **Pain & Symptom Mgmt** (1)
-- **Nutrition & Metabolism** (1)
+- **Pain & Symptom Management** (1)
+- **Nutrition & Metabolic Health** (1)
 
 #### Education accrediting body
 
 `licensure.education.accrediting_body` — states per tag:
 
-- **ACEND / ADA** (9)
-- **Regional Accreditor (Generic)** (16)
+- **ACEND Only** (4)
+- **Regional Accreditor Only** (16)
+- **ACEND + Regional** (3)
 - **Named Regional Body** (6)
-- **CHEA + US Dept of Ed** (10)
-- **CDR / Other Dietetics Body** (2)
+- **Profession Body (non-ACEND)** (5)
+- **Dual Federal Bodies** (9)
+
+#### Exams
+
+`licensure.exams` — states per tag:
+
+- **CDR Exam Only** (12)
+- **CDR Exam (Waivable)** (13)
+- **Board-Approved (CDR Eligible)** (13)
+- **State/Dept Exam** (4)
+- **Multiple Exams Required** (3)
 
 #### Exempt professions list
 
@@ -581,16 +827,16 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 
 - **American Dietetic Assoc** (18)
 - **Academy of Nutrition & Dietetics** (11)
-- **ACEND Accreditor** (2)
-- **Multiple Associations** (3)
+- **ACEND / Accreditor** (2)
 - **State Dietetic Assoc** (3)
+- **Multiple Associations** (3)
 
 #### National certification
 
 `licensure.national_certification` — states per tag:
 
 - **CDR Only** (40)
-- **CDR + Multi-Body** (5)
+- **CDR + Multiple Bodies** (5)
 - **Board-Approved Body** (2)
 
 #### Protected titles
@@ -609,21 +855,21 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 `licensure.reciprocity.requirements` — states per tag:
 
 - **Equivalent Standards** (26)
-- **Equivalent + Clean Record** (5)
-- **CDR/Cert Recognition** (7)
-- **Reciprocity Agreement** (2)
-- **Endorsement/Fee Only** (3)
-- **Temporary/Partial Practice** (2)
-- **Full Reapplication** (1)
+- **Equivalent + Clean Record** (4)
+- **CDR Registration Accepted** (6)
+- **Exam Waiver / Endorsement** (1)
+- **Reciprocity Agreement Required** (2)
+- **Temporary / Limited Practice** (2)
+- **Non-Standard Approach** (5)
 
 #### Regulatory authority umbrella agency
 
 `licensure.regulatory_authority.umbrella_agency` — states per tag:
 
-- **Health Dept** (7)
-- **Professional Licensing Office** (9)
-- **Commerce / Labor / State** (4)
-- **Consumer / Law Affairs** (1)
+- **Health Department** (7)
+- **Professional Licensing Office** (8)
+- **Secretary of State / Commerce** (3)
+- **Consumer / Labor Affairs** (3)
 - **Aging / Disability Services** (1)
 
 ## Electrician
@@ -635,64 +881,69 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 `licensure.education.degree_required` — states per tag:
 
 - **No Formal Degree** (1)
-- **Apprenticeship / Trade Program** (4)
-- **College Credit Accepted** (3)
-- **Degree Substitutes Experience** (5)
-- **Min Basic Education** (2)
+- **HS / Basic Schooling** (2)
+- **Apprenticeship / Trade Training** (5)
+- **College Coursework (Partial Credit)** (3)
+- **Degree as Full Alternative** (4)
 
 #### Professional Experience
 
 `licensure.post_degree_experience.kind` — states per tag:
 
-- **Journeyman Experience** (7)
+- **Journeyman Experience** (6)
 - **Supervised Work Experience** (4)
-- **Apprenticeship** (4)
-- **Apprenticeship or Work Experience** (7)
-- **General Trade Experience** (4)
+- **Apprenticeship** (3)
+- **Apprenticeship or Field Experience** (8)
+- **Management/Supervisory Experience** (3)
+- **General Trade Experience** (6)
 
 `licensure.post_degree_experience.duration` — states per tag:
 
 - **~1 Year** (2)
-- **~2 Years** (3)
-- **~4 Years** (4)
-- **~5–6 Years** (2)
-- **Hours-Based (8k–16k hrs)** (5)
-- **Tiered by License Class** (10)
+- **2 Years** (2)
+- **3–4 Years** (4)
+- **5–6 Years** (3)
+- **7–8 Years / 8000 hrs** (2)
+- **Multi-Tier (varies by class)** (17)
 
 #### Licensing Authority
 
 `licensure.issuing_authority` — states per tag:
 
-- **Dedicated Electricians Board** (14)
-- **General Contractors Board** (5)
-- **Construction Industry Board** (3)
-- **Dept of Labor & Industry** (3)
-- **State Licensing Agency** (8)
+- **Dedicated Electrician Board** (15)
+- **General Contractor Board** (6)
+- **Construction Industry Board** (4)
+- **Dept of Labor** (3)
+- **Broad Licensing Agency** (10)
 
 `licensure.regulatory_authority.name` — states per tag:
 
-- **Dedicated Electrical Board** (17)
-- **Contractors Board** (8)
-- **General Licensing Division** (5)
-- **Consumer/Commerce Dept** (3)
+- **Dedicated Electrical Board** (21)
+- **General Contractors Board** (6)
+- **Construction Industry Division** (4)
+- **Broad Commerce/Consumer Dept** (4)
+- **Occupational Licensing Div** (3)
 
 #### Scope of Practice
 
 `scope.methods_authorized` — states per tag:
 
-- **Install + Repair + Maintain** (3)
-- **Install + Repair + Maintain + Alter** (10)
-- **Install + Plan/Supervise** (8)
-- **Install + Plan + Broad Scope** (5)
-- **Broad Construction Methods** (4)
+- **Install & Repair Only** (2)
+- **Install, Repair & Maintain** (14)
+- **Install, Repair, Maintain & Plan** (4)
+- **Install, Repair, Maintain & Supervise** (4)
+- **Broad Scope + Specialty Systems** (5)
+- **Construction Trade Framing** (5)
 
 `scope.definition_quote` — states per tag:
 
-- **Install/Repair Wiring & Equipment** (13)
-- **Plan/Supervise + Install** (6)
-- **Broad Electrical Work** (7)
+- **Install/Repair Wiring** (12)
+- **Install/Repair + Design/Supervise** (7)
+- **Broad Electrical Systems** (8)
 - **Specialty Contractor (Generic)** (3)
-- **Person-Centric Definition** (4)
+- **Multi-Trade / Generic** (2)
+- **Low-Voltage Included** (2)
+- **Contractor Business Scope** (4)
 
 #### Discipline
 
@@ -704,138 +955,141 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 
 `licensure.advisory_board.authority` — states per tag:
 
-- **Full Rulemaking & Admin** (1)
-- **Broad Advisory Role** (2)
-- **Recommendations Only** (1)
+- **Full Rulemaking & Enforcement** (1)
+- **Broad Advisory & Exams** (2)
+- **Advisory & Policy** (1)
 - **Narrow Consultation** (1)
 
 #### Advisory board name
 
 `licensure.advisory_board.name` — states per tag:
 
-- **Single-Trade Board** (1)
-- **Multi-Trade Board** (1)
+- **Dedicated Electrical Board** (1)
 - **Examiners Committee** (1)
-- **Advisory Board** (1)
+- **Safety & Licensing Advisory** (1)
+- **Combined Trades Board** (1)
 
 #### Apprentice supervision ratio
 
 `profession_specific.apprentice_supervision_ratio` — states per tag:
 
 - **1:1 Ratio** (2)
-- **1:2 Ratio** (1)
-- **1:3 Ratio** (6)
-- **Higher / Context-Dependent** (1)
-- **Tiered by Work Type** (3)
+- **1:2 Ratio** (2)
+- **1:3 Ratio** (5)
+- **Higher / Context-Dependent** (4)
 - **Set by Authority** (1)
 
 #### Approved continuing education providers
 
 `profession_specific.approved_continuing_education_providers` — states per tag:
 
+- **Board-Approved Only** (2)
 - **Named Trade Orgs** (2)
-- **Board/Commission Approved** (2)
-- **Academic & Apprenticeship** (1)
-- **Mixed Categories** (3)
+- **Academic Institutions** (2)
+- **Broad Multi-Source List** (3)
+- **Single Specific Provider** (1)
 
 #### Continuing education topical requirements
 
 `licensure.continuing_education.topical_requirements` — states per tag:
 
-- **NEC Only** (4)
-- **NEC + State/Local Topics** (3)
-- **NEC + Broad Electrical Topics** (2)
-- **Comprehensive Multi-Topic** (3)
-- **State Code Updates** (1)
+- **NEC / Code Updates Only** (7)
+- **NEC + Broad Technical Topics** (3)
+- **NEC + Business & Safety Mix** (2)
+- **Broad Technical List** (2)
+- **Minimal / General** (2)
 
 #### Disciplinary grounds
 
 `licensure.disciplinary_grounds` — states per tag:
 
-- **Broad Statutory List** (10)
-- **Fraud & Misrepresentation Focus** (6)
-- **Competency & Work Quality Focus** (6)
-- **Contractor Conduct Focus** (4)
-- **Unlicensed Practice Focus** (4)
-- **Minimal / Catch-All Grounds** (2)
+- **Fraud / Misrepresentation** (6)
+- **Incompetence / Negligence** (7)
+- **Statute / Rule Violation** (14)
+- **Unlicensed / Scope Violations** (5)
+- **Contract / Work Quality** (3)
+- **Catch-All / Broad Authority** (2)
 
 #### Education accrediting body
 
 `licensure.education.accrediting_body` — states per tag:
 
 - **State Board** (1)
-- **State-Specific Institution** (1)
-- **Accredited College/University** (3)
+- **Named State Institution** (1)
+- **Generic Accredited College** (3)
 - **Federal Agency** (1)
 
 #### License tiers
 
 `profession_specific.license_tiers` — states per tag:
 
-- **Apprentice → Journeyman → Master** (12)
-- **Apprentice → Journeyman → Master + Residential** (4)
-- **Broad Specialty Tiers** (3)
-- **Contractor-Class Tiers** (3)
-- **Extended Multi-Track** (9)
-- **Contractor-Focused** (2)
+- **Apprentice → Journeyman → Master** (5)
+- **Journeyman → Master → Contractor** (10)
+- **Broad Scope + Specialty Tiers** (3)
+- **Contractor Classification Only** (4)
+- **Highly Granular / Many Tiers** (9)
+- **Scope-Based (Limited/Unlimited)** (7)
 
 #### National association
 
 `licensure.national_association` — states per tag:
 
-- **Single Association** (1)
-- **Multiple Associations** (1)
+- **Fire/Safety Body** (1)
+- **Contractor Associations** (1)
+- **Multi-Association** (1)
 
 #### Qualifier license requirement by contractor type
 
 `profession_specific.qualifier_license_requirement_by_contractor_type` — states per tag:
 
-- **Master Electrician Required** (5)
-- **Master or Journeyman Required** (3)
-- **Contractor-Type Tiered** (4)
-- **Multi-Trade / Specialty Typed** (4)
-- **Exam / Qualification Based** (3)
+- **Master Electrician Required** (6)
+- **Master or Journeyman Options** (3)
+- **Multi-Type Contractor Rules** (7)
+- **Exam-Based Qualification** (4)
+- **Supervisor of Record** (1)
 
 #### Reciprocity requirements
 
 `licensure.reciprocity.requirements` — states per tag:
 
-- **Mutual Agreement Required** (12)
-- **Equivalent Standards Only** (11)
-- **Endorsement / Good Standing** (5)
-- **Universal Recognition** (1)
-- **Hybrid / Multiple Paths** (3)
+- **Mutual Agreement Required** (16)
+- **Equivalent Standards Only** (9)
+- **Endorsement / Credential Review** (4)
+- **Exam Waiver + Equivalency** (6)
+- **Universal Recognition** (2)
 
 #### Regulatory authority umbrella agency
 
 `licensure.regulatory_authority.umbrella_agency` — states per tag:
 
-- **Dept of Labor / Industry** (4)
-- **Licensing & Regulation Dept** (10)
-- **Consumer Affairs / Commerce** (3)
-- **Public Safety / Housing** (2)
-- **Secretary of State / Law** (2)
+- **Labor & Industry** (6)
+- **Licensing & Regulation** (6)
+- **Consumer Affairs** (3)
+- **Professional Regulation** (4)
+- **Commerce Dept** (2)
+- **Public Safety / Other** (4)
 
 #### Residential project definition
 
 `profession_specific.residential_project_definition` — states per tag:
 
-- **1–4 Units** (5)
-- **1–4 Units + Stories** (3)
-- **Single Unit Only** (1)
-- **Wiring/Voltage Limits** (1)
+- **1-4 Units / Low Rise** (5)
+- **1-2 Units Only** (1)
+- **Single Family Only** (2)
+- **Stories / Floors Cap** (4)
+- **Wiring / Technical Spec** (1)
 - **Broad Residential Scope** (1)
 
 #### Scope exclusions
 
 `profession_specific.scope_exclusions` — states per tag:
 
-- **Utilities & Gov Entities** (16)
-- **Owner/Homeowner Work** (3)
-- **Low Voltage & Telecom** (5)
-- **Industrial & Maintenance** (3)
-- **Minor Repairs & Appliances** (3)
-- **Specific Trade Carve-outs** (3)
+- **Utility & Gov Employees** (3)
+- **Low Voltage & Telecom** (3)
+- **Owner/Homeowner Work** (1)
+- **Minor Repairs & Appliances** (1)
+- **Agricultural & Industrial** (0)
+- **Broad Multi-Category** (30)
 
 ## Hvac
 
@@ -845,65 +1099,65 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 
 `licensure.education.degree_required` — states per tag:
 
-- **Approved Program Graduate** (1)
-- **Board-Defined Minimum** (1)
-- **Trade Program (Optional Credit)** (1)
-- **Degree or Experience Options** (1)
-- **Experience Only** (1)
+- **No Degree Required** (2)
+- **Trade/Vocational Program** (2)
+- **Bachelor's Degree Option** (2)
+- **Board-Defined Requirements** (1)
 
 #### Professional Experience
 
 `licensure.post_degree_experience.kind` — states per tag:
 
-- **General Trade Work** (6)
-- **Supervised/Directed Work** (1)
-- **Apprenticeship** (2)
-- **Journeyman-Level Work** (1)
-- **Licensed Contractor Employment** (2)
+- **General Trade Work** (5)
+- **Supervised/Directed Work** (2)
+- **Apprenticeship** (3)
+- **Contracting Employment** (4)
+- **Journeyman/Foreman Level** (1)
 
 `licensure.post_degree_experience.duration` — states per tag:
 
-- **1–2 Years** (4)
-- **3 Years** (1)
+- **~1–2 Years** (4)
+- **3 Years** (2)
 - **4 Years** (4)
 - **5 Years** (1)
-- **Hours-Based** (1)
-- **Tiered by License Type** (1)
+- **Tiered / Multiple Paths** (4)
 
 #### Licensing Authority
 
 `licensure.issuing_authority` — states per tag:
 
-- **HVAC-Specific Board** (3)
+- **HVAC-Specific Board** (4)
 - **General Contractors Board** (6)
+- **Construction Industry Board** (5)
+- **Dept of Labor/Licensing** (8)
 - **Plumbing & Mechanical Board** (2)
-- **Dept of Licensing/Labor** (5)
-- **Dept of Commerce/Consumer** (2)
 
 `licensure.regulatory_authority.name` — states per tag:
 
-- **HVAC-Specific Board** (5)
-- **Plumbing & Mechanical Board** (2)
-- **General Contractors Board** (5)
-- **Dept of Licensing & Regulation** (4)
-- **Consumer/Commerce Dept** (2)
+- **Dedicated HVAC Board** (5)
+- **Plumbing & Mechanical Board** (3)
+- **General Contractors Board** (6)
+- **Construction Industry Board** (5)
+- **State Dept / Agency** (6)
 
 #### Scope of Practice
 
 `scope.methods_authorized` — states per tag:
 
-- **Install & Repair Core** (5)
-- **Full Service Suite** (6)
-- **Design + Full Build-Out** (5)
-- **Systems Named Only** (1)
+- **Install & Repair Only** (3)
+- **Install, Maintain & Repair** (7)
+- **Full Service + Design** (1)
+- **Full Service + Design + Alteration** (9)
+- **Broad Mechanical Scope** (2)
+- **System-Type Enumerated** (3)
 
 `scope.definition_quote` — states per tag:
 
-- **Design + Install + Maintain** (5)
-- **Install + Repair + Alter** (3)
-- **Equipment/System Focused** (3)
-- **Broad Mechanical Work** (3)
-- **Contractor/Trade Role** (4)
+- **HVAC-Specific Scope** (4)
+- **Mechanical/Multi-Trade Scope** (9)
+- **Specialty Contractor (Generic)** (2)
+- **Design+Install+Maintain** (6)
+- **Install+Repair Only** (4)
 
 #### Discipline
 
@@ -915,7 +1169,7 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 
 `licensure.advisory_board.authority` — states per tag:
 
-- **Advise & Develop Exams** (1)
+- **Advise & Exam Development** (1)
 - **Advise Only** (1)
 
 #### Advisory board name
@@ -929,87 +1183,97 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 
 `licensure.continuing_education.topical_requirements` — states per tag:
 
-- **Code Changes Required** (1)
-- **HVAC Technical Skills** (1)
-- **Code + Industry Topics** (1)
+- **Code & Regulations** (2)
+- **Refrigerant/Environmental** (1)
+- **Broad Industry Topics** (2)
+- **Core HVAC Technical** (1)
+- **Board-Defined Requirements** (1)
 
 #### Disciplinary grounds
 
 `licensure.disciplinary_grounds` — states per tag:
 
-- **Fraud / Misrepresentation** (2)
-- **Incompetence / Substandard Work** (0)
-- **Statute / Rule Violation** (3)
-- **Project / Contract Failures** (2)
-- **Broad Multi-Ground List** (10)
+- **Fraud & Misrepresentation** (10)
+- **Incompetence & Negligence** (4)
+- **Statutory & Rule Violations** (4)
+- **Project Abandonment & Financial** (2)
+- **Criminal Conduct** (1)
+- **Unlicensed / Scope Issues** (3)
 
 #### Education accrediting body
 
 `licensure.education.accrediting_body` — states per tag:
 
-- **Federal + College** (1)
+- **Federal + Regional Accreditor** (1)
 - **State Board / Equivalent** (1)
 
 #### Exams
 
 `licensure.exams` — states per tag:
 
-- **State Board Exam** (5)
+- **State Board Exam** (11)
 - **State Dept Exam** (3)
-- **Tiered License Exam** (4)
-- **Trade + Law Exam** (3)
-- **Third-Party Approved Exam** (2)
+- **Two-Part Exam** (3)
+- **Multi-Level Exam** (3)
+- **Third-Party Approved** (3)
 
 #### Financial responsibility demonstration methods
 
 `profession_specific.financial_responsibility_demonstration_methods` — states per tag:
 
-- **Bond Only** (2)
-- **Insurance Only** (1)
-- **Bond or Insurance** (2)
-- **Bond or Cash Deposit** (2)
-- **Financial Statement or Bond** (3)
-- **Insurance or Self-Insurance** (1)
+- **Bond Only** (5)
+- **Insurance Only** (3)
+- **Bond + Insurance** (3)
+- **Bond + Financial Statement** (4)
+- **Insurance + Financial Statement** (0)
+- **Multiple Methods** (1)
+
+#### National certification
+
+`licensure.national_certification` — states per tag:
+
+- **EPA Certification** (1)
+- **NICET Certification** (1)
 
 #### Qualifier license type required
 
 `profession_specific.qualifier_license_type_required` — states per tag:
 
-- **Master License** (4)
+- **Master License** (3)
 - **Mechanical Contractor License** (3)
-- **HVACR-Specific License** (3)
-- **Certified Contractor** (1)
-- **Qualifying Party Certificate** (1)
+- **HVAC/AC Contractor License** (2)
+- **Certified/Classified Contractor** (3)
+- **Multi-Type / Tiered License** (5)
 
 #### Reciprocity requirements
 
 `licensure.reciprocity.requirements` — states per tag:
 
-- **Mutual Reciprocity Required** (4)
-- **Substantially Similar Standards** (5)
-- **Endorsement + Good Standing** (4)
-- **Case-by-Case / Exec Discretion** (2)
-- **Emergency Only** (1)
+- **Mutual Reciprocity Required** (6)
+- **Substantial Equivalence Only** (6)
+- **Endorsement / Recognition** (5)
+- **Emergency / Temporary Only** (2)
+- **Formal Agreement Required** (3)
 
 #### Regulatory authority umbrella agency
 
 `licensure.regulatory_authority.umbrella_agency` — states per tag:
 
-- **Dept of Labor** (3)
-- **Licensing & Regulation Dept** (6)
-- **Consumer Affairs** (2)
-- **Commerce Dept** (1)
-- **Inspections & Appeals** (1)
+- **Labor & Licensing** (3)
+- **Commerce Dept** (2)
+- **Consumer Affairs** (3)
+- **Professional Regulation** (8)
+- **Other State Office** (2)
 
 #### System components included
 
 `profession_specific.system_components_included` — states per tag:
 
-- **Core HVAC Only** (2)
-- **HVAC + Refrigeration** (3)
-- **HVAC + Refrigeration + Piping** (4)
-- **HVAC + Refrigeration + Piping + Hydronic** (2)
-- **Comprehensive (Broad Scope)** (4)
+- **Core HVAC Only** (3)
+- **HVAC + Piping/Gas** (5)
+- **HVAC + Piping + Refrigeration** (3)
+- **Comprehensive (Many Systems)** (5)
+- **Exhaustive (Equipment + Controls + Piping)** (4)
 
 ## Medicine
 
@@ -1019,71 +1283,77 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 
 `licensure.education.degree_required` — states per tag:
 
-- **MD Only** (7)
-- **MD or DO** (16)
-- **Graduate of Approved School** (17)
-- **Accredited Degree + Extra Requirements** (4)
+- **MD or DO (any approved)** (17)
+- **MD or DO (accredited only)** (12)
+- **MD only** (4)
+- **Graduate of Med School** (11)
 - **Foreign School Provisions** (5)
 
 #### Professional Experience
 
 `licensure.post_degree_experience.kind` — states per tag:
 
-- **Residency Only** (18)
-- **Residency + Internship** (12)
-- **Residency + Fellowship** (2)
-- **Residency + Internship + Fellowship** (3)
-- **General Postgrad Training** (11)
+- **Residency Only** (17)
+- **Residency or Internship** (12)
+- **Residency, Internship, or Fellowship** (5)
+- **General Postgrad Training** (12)
 
 `licensure.post_degree_experience.duration` — states per tag:
 
 - **1 Year** (9)
 - **2 Years** (9)
 - **3 Years** (2)
-- **1 Yr Domestic / 2 Yrs IMG** (9)
-- **1 Yr Domestic / 3 Yrs IMG** (5)
-- **Tiered by Grad Date** (2)
+- **1–2 Years (Tiered)** (10)
+- **1–3 Years (Tiered)** (6)
 - **Board Discretion** (6)
 
 #### Licensing Authority
 
 `licensure.issuing_authority` — states per tag:
 
-- **Medical Board** (22)
-- **Board of Examiners** (8)
-- **Board of Licensure** (7)
-- **Board of Practice/Arts** (4)
-- **State Health Dept** (4)
-- **Other State Agency** (5)
+- **State Medical Board** (19)
+- **Board of Medical Examiners** (6)
+- **Board of Medical Licensure** (7)
+- **Healing Arts Board** (2)
+- **Dept / Agency Umbrella** (9)
+- **Composite / Other Board** (7)
 
 `licensure.regulatory_authority.name` — states per tag:
 
 - **Medical Board** (23)
-- **Board of Medical Examiners** (8)
-- **Board of Medical Licensure** (10)
-- **Board of Medical Practice** (2)
+- **Board of Examiners** (8)
+- **Board of Licensure** (9)
+- **Board of Practice** (2)
 - **Healing Arts Board** (2)
-- **Dept / Education Authority** (2)
-- **Composite / Multi-Role Board** (3)
+- **Dept / Commission** (4)
+- **Multi-Profession Board** (2)
 
 #### Scope of Practice
 
 `scope.methods_authorized` — states per tag:
 
-- **Core Four** (11)
-- **Core + Rx Detail** (5)
-- **Core + Surgery Detail** (5)
-- **Broad Enumerated** (9)
-- **General Labels Only** (7)
-- **Comprehensive + Telehealth** (9)
+- **Core Four (Dx/Tx/Rx/Sx)** (14)
+- **Broad + Enumerated Methods** (16)
+- **General Medical/Surgical** (4)
+- **Extended Scope (Telehealth/Tech)** (4)
+- **OB/Pregnancy Explicit** (8)
 
 `scope.drug_authority` — states per tag:
 
-- **Broad Full Authority** (12)
-- **Standard + Opioid Limits** (7)
-- **Standard + Delegation** (4)
-- **Standard + Procedural Rules** (8)
+- **Broad Authority** (11)
+- **Broad + Opioid Limits** (7)
+- **Broad + Delegation** (4)
+- **Broad + Procedural Rules** (10)
 - **Basic Prescribing Only** (10)
+
+`scope.definition_quote` — states per tag:
+
+- **Diagnose & Treat Core** (12)
+- **Enumerated Acts List** (18)
+- **Holding Out + Acts** (7)
+- **Title Use Included** (3)
+- **Narrow / Minimal** (7)
+- **Exam-Based Definition** (1)
 
 #### Discipline
 
@@ -1105,23 +1375,44 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 
 `licensure.continuing_education.topical_requirements` — states per tag:
 
-- **Opioids / Controlled Substances** (9)
-- **Broad Multi-Topic Mandate** (5)
-- **Patient Safety & Ethics** (3)
-- **Specialty / Population Focus** (5)
-- **Abuse & Violence** (3)
-- **Pain Management** (2)
+- **Opioids / Controlled Substances** (10)
+- **Broad Multi-Topic Mandate** (6)
+- **Specialty-Specific Topics** (3)
+- **Abuse & Violence** (1)
+- **Ethics / Risk / Safety** (3)
+- **Patient Population Focus** (4)
 
 #### Education accrediting body
 
 `licensure.education.accrediting_body` — states per tag:
 
-- **LCME / AOA Only** (11)
-- **LCME + AOA + Canadian** (4)
-- **LCME + AOA + Foreign** (5)
-- **AMA / AAMC Based** (8)
+- **LCME Only** (3)
+- **LCME + AOA** (10)
+- **LCME + AOA + Canadian/Foreign** (7)
+- **AMA / AAMC Named Bodies** (7)
 - **Board Discretion** (14)
-- **Federal / WHO Based** (3)
+- **Federal/WHO Reference** (4)
+
+#### Exams
+
+`licensure.exams` — states per tag:
+
+- **USMLE / COMLEX Primary** (10)
+- **Multi-Exam Menu** (14)
+- **State Board Exam** (7)
+- **Board-Approved Flexible** (16)
+- **USMLE + State Supplement** (3)
+
+#### Foreign medical graduate requirements
+
+`profession_specific.foreign_medical_graduate_requirements` — states per tag:
+
+- **ECFMG + Extended Residency** (13)
+- **ECFMG Only / Minimal** (8)
+- **ECFMG + Standard Residency** (13)
+- **Residency-Focused / No ECFMG Specified** (3)
+- **Special Pathway / Limited License** (7)
+- **Board Discretion / Flexible** (5)
 
 #### License status types
 
@@ -1141,55 +1432,57 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 
 `licensure.national_association` — states per tag:
 
-- **AMA Only** (4)
+- **AMA Only** (3)
+- **AMA + AOA** (6)
 - **AOA Only** (2)
-- **AMA + AOA** (5)
-- **ABMS Included** (5)
-- **ACGME Included** (3)
-- **Accreditation Body** (2)
+- **Accreditation Body** (3)
+- **Board/Specialty Focus** (1)
+- **Multi-Org Broad** (6)
 - **State/Regional Only** (2)
 
 #### National certification
 
 `licensure.national_certification` — states per tag:
 
-- **NBME / NBEO** (3)
-- **ECFMG** (7)
-- **ABMS / AOA / Canadian** (6)
-- **NBME + ECFMG Combo** (0)
-- **Multi-Board Combo** (2)
+- **NBME / Osteopathic Boards** (4)
+- **ECFMG Only** (8)
+- **ABMS / Specialty Boards** (3)
+- **Multi-Body (NBME + ECFMG)** (1)
+- **Multi-Body (ABMS + Canadian)** (3)
 
 #### Opioid prescribing limits
 
 `profession_specific.opioid_prescribing_limits` — states per tag:
 
-- **Hard Day-Supply Cap** (7)
-- **MME/Dose Cap** (2)
-- **Prescriber Discretion + Guidelines** (2)
-- **Board Rulemaking Mandate** (5)
-- **Delegation / Dispensing Restriction** (4)
-- **Safe Harbor / Anti-Discipline** (2)
-- **PDMP / Process Requirement** (1)
+- **Hard Day-Supply Cap** (6)
+- **MME/Dosage Cap** (2)
+- **Chronic Pain Standards** (2)
+- **Board Guidelines Required** (6)
+- **Delegation/Telehealth Limits** (2)
+- **Protections for Pain Relief** (2)
+- **Schedule-Specific Restrictions** (3)
 
 #### Physician assistant prescriptive authority
 
 `profession_specific.physician_assistant_prescriptive_authority` — states per tag:
 
-- **Full Schedule II–V** (7)
-- **Schedule III–V Only** (3)
-- **Schedule II–V w/ Limits** (4)
-- **Delegated by Physician** (6)
-- **Board/Agreement Governed** (6)
+- **Broad / Full Schedule II-V** (7)
+- **Schedule III-V Only** (3)
+- **Schedule II-V with Restrictions** (5)
+- **Delegated by Supervising MD** (4)
+- **Board/Agreement Defined** (6)
+- **No Independent Prescribing** (1)
 
 #### Reciprocity requirements
 
 `licensure.reciprocity.requirements` — states per tag:
 
-- **IMLC Pathway** (5)
+- **IMLC Compact** (4)
 - **Equivalent Standards** (20)
-- **Active Practice Required** (7)
-- **Exam Equivalency Focus** (10)
-- **Strict Additional Criteria** (5)
+- **Equivalent + Active Practice** (11)
+- **National Board / Exam** (8)
+- **Comprehensive Multi-Factor** (4)
+- **Credential Portability Program** (1)
 
 #### Regulatory authority umbrella agency
 
@@ -1197,7 +1490,7 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 
 - **Dept of Health** (8)
 - **Consumer Affairs** (3)
-- **Commerce / Economic Dev** (3)
+- **Commerce / Trade** (3)
 - **Professional Licensing Div** (5)
 - **Labor & Industry** (2)
 - **Education Dept** (1)
@@ -1206,11 +1499,11 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 
 `profession_specific.telehealth_prescribing_rules` — states per tag:
 
-- **Controlled Substance Restrictions** (7)
 - **Prior In-Person Required** (6)
 - **Same Standard as In-Person** (6)
-- **Licensure / Jurisdiction Focus** (12)
-- **Permissive / Broad Telehealth** (6)
+- **Controlled Substance Restrictions** (7)
+- **Licensure / Jurisdictional Focus** (12)
+- **Permissive / Flexible** (6)
 
 ## Nursing
 
@@ -1220,12 +1513,11 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 
 `licensure.education.degree_required` — states per tag:
 
-- **Approved Program Only** (19)
+- **Approved Program Only** (18)
 - **HS Diploma + Approved Program** (6)
-- **Diploma/Degree from Approved Program** (11)
+- **Diploma/Degree, Approved Program** (11)
+- **Multi-Level (RN/LPN/APRN Distinct)** (10)
 - **Accredited Program Required** (5)
-- **Multi-Level / Tiered Requirements** (6)
-- **Graduate Degree for APRN** (3)
 
 #### Professional Experience
 
@@ -1239,39 +1531,56 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 `licensure.post_degree_experience.duration` — states per tag:
 
 - **~1,000 hrs** (1)
-- **~2,000 hrs** (1)
-- **~2,080 hrs** (1)
-- **24 Months** (1)
-- **4,600 hrs / 3 yrs** (1)
+- **~2,000 hrs** (2)
+- **~2,000 hrs + Agreement** (1)
+- **~4,600 hrs / 3 yrs** (1)
 
 #### Licensing Authority
 
 `licensure.issuing_authority` — states per tag:
 
-- **Board of Nursing** (8)
-- **State Board of Nursing** (11)
-- **Named State Board** (21)
-- **Dept / Agency** (4)
+- **Board of Nursing** (19)
+- **Named State Board of Nursing** (21)
+- **Dept / Agency (non-board)** (4)
 - **Board + Dept Joint** (2)
-- **Specialty Board Name** (4)
+- **Specialized Board Name** (4)
 
 `licensure.regulatory_authority.name` — states per tag:
 
 - **Board of Nursing** (11)
 - **State Board of Nursing** (11)
-- **Named State Board of Nursing** (21)
-- **Board of Examiners/Registration** (4)
-- **Dept/Division (Non-Board)** (3)
+- **Named State Board of Nursing** (20)
+- **Board of Examiners** (2)
+- **Board of Registration** (3)
+- **Dept / Division (non-board)** (3)
 
 #### Scope of Practice
 
+`scope.methods_authorized` — states per tag:
+
+- **Nursing Process + Medications + Teaching** (9)
+- **Nursing Process + Delegation + Supervision** (16)
+- **Diagnosis + Counseling + Medical Regimen** (6)
+- **Broad Enumerated List** (11)
+- **Minimal / Execution-Focused** (6)
+
 `scope.drug_authority` — states per tag:
 
-- **RN Administer Only** (14)
-- **APRN Independent Rx** (10)
-- **APRN Collaborative Rx** (6)
-- **APRN Delegated Rx** (2)
-- **Mixed RN/APRN Tiered** (12)
+- **RN Administer Only** (13)
+- **APRN Prescribe (Independent)** (9)
+- **APRN Prescribe (Collaborative)** (6)
+- **APRN Prescribe (Delegated)** (2)
+- **Mixed RN+APRN Tiers** (12)
+- **Narrow/Specific Authority** (2)
+
+`scope.definition_quote` — states per tag:
+
+- **Diagnose & Treat Responses** (5)
+- **Nursing Process Centered** (18)
+- **Observation, Care & Counsel** (5)
+- **Optimal Health Attainment** (9)
+- **Broad Collaborative Care** (6)
+- **List of Acts** (7)
 
 #### Discipline
 
@@ -1306,11 +1615,11 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 
 - **Pharmacology / Prescribing** (5)
 - **Opioids / Substance Use** (3)
+- **Abuse / Trafficking / Safety** (2)
 - **Mental Health / Suicide** (1)
-- **Abuse / Trafficking** (2)
-- **Multi-Topic Mandate** (7)
+- **Broad Multi-Topic Mix** (7)
 - **Bias / Cultural Competency** (1)
-- **Jurisprudence / Ethics** (1)
+- **Jurisprudence / Scope** (1)
 
 #### Controlled substance schedule authority
 
@@ -1329,20 +1638,21 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 `licensure.education.accrediting_body` — states per tag:
 
 - **State Board Only** (13)
-- **National Accreditor** (2)
-- **State Board + National** (7)
-- **Federal DOE Reference** (4)
-- **Named Accreditor** (2)
+- **National Accreditor** (4)
+- **USDOE Recognized** (4)
+- **State Board + National** (6)
+- **Regional/Legal Agency** (2)
 
 #### Exams
 
 `licensure.exams` — states per tag:
 
-- **NCLEX Only** (24)
+- **NCLEX Only** (28)
 - **NCLEX + Jurisprudence** (2)
-- **NCLEX + APRN Exam** (5)
-- **National Exam (Generic)** (9)
-- **State/Board Exam** (10)
+- **NCLEX + APRN Cert** (5)
+- **NCLEX + Jurisprudence + APRN** (0)
+- **Board-Prescribed Exam** (10)
+- **National Exam (Generic)** (5)
 
 #### License tiers
 
@@ -1375,67 +1685,68 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 
 `licensure.national_association` — states per tag:
 
-- **ANA / General RN** (4)
-- **Nurse Practitioners** (1)
+- **ANA / General Nursing** (4)
 - **Nurse Midwives** (2)
-- **Nurse Anesthetists** (0)
-- **State Association** (1)
-- **Accreditation / Credentialing Body** (2)
-- **Multi-Specialty List** (1)
+- **Nurse Practitioners** (1)
+- **Nurse Anesthetists** (1)
+- **State-Level Body** (1)
+- **Credentialing / Accreditation** (1)
+- **Multi-Association** (1)
 
 #### National certification
 
 `licensure.national_certification` — states per tag:
 
 - **NCLEX / NCSBN** (4)
-- **APRN Required** (2)
-- **Board-Approved Body** (7)
-- **Named Org(s)** (4)
-- **Foreign Grad Body** (1)
+- **Named Certifying Body** (4)
+- **Board-Approved Body (APRN)** (5)
+- **Board-Approved Body (General)** (5)
+- **CGFNS International** (1)
 
 #### Opioid prescribing limits
 
 `profession_specific.opioid_prescribing_limits` — states per tag:
 
-- **Short Supply Cap** (6)
-- **MME/Dose Limit** (1)
-- **Physician Oversight Required** (4)
+- **Short Supply Cap (≤7 days)** (6)
+- **Day Supply Cap (>7 days)** (1)
+- **MME/Dose Limit** (2)
+- **Physician Oversight Required** (3)
 - **Dispensing Prohibited** (1)
-- **Rules-Based / Statutory Ref** (2)
-- **Formulary / Lowest Dose** (1)
+- **Rules-Based / Referential** (2)
 
 #### Reciprocity requirements
 
 `licensure.reciprocity.requirements` — states per tag:
 
-- **Meet State Standards** (17)
-- **Substantially Equivalent** (16)
-- **Active Practice Required** (5)
-- **NLC Compact Focus** (2)
-- **Stringent Multi-Factor** (6)
-- **Reentry Standards** (2)
+- **Meet State Standards** (19)
+- **Substantially Equivalent** (12)
+- **Active Practice Required** (2)
+- **Compact + Endorsement** (4)
+- **Compact Only** (2)
+- **Strict / Multi-Step** (9)
 
 #### Regulatory authority umbrella agency
 
 `licensure.regulatory_authority.umbrella_agency` — states per tag:
 
-- **Dept of Health** (7)
-- **Commerce / Consumer Affairs** (6)
-- **Professional Licensing Office** (2)
-- **Labor & Regulation** (2)
-- **Secretary of State** (2)
+- **Dept of Health** (6)
+- **Health Professions Agency** (1)
+- **Consumer Affairs** (3)
+- **Commerce / Economic Dev** (3)
+- **Professional Licensing Office** (4)
+- **Labor & Industry** (2)
 
 #### Telehealth prescribing rules
 
 `profession_specific.telehealth_prescribing_rules` — states per tag:
 
 - **Standard of Care Parity** (5)
-- **Controlled Substance Restrictions** (2)
-- **Relationship & Consent Requirements** (3)
-- **In-Person Follow-Up Required** (3)
-- **Collaborative Practice Flexibility** (3)
+- **Controlled Substance Restrictions** (4)
+- **In-Person Visit Required** (2)
+- **Relationship & Consent Required** (2)
+- **Collaborative Practice Rules** (3)
 - **Board Rules Pending** (2)
-- **Broad Authorization** (2)
+- **Broad Telehealth Authorization** (2)
 
 ## Optometry
 
@@ -1445,53 +1756,77 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 
 `licensure.education.degree_required` — states per tag:
 
-- **OD Degree Required** (14)
-- **Graduate of Accredited School** (14)
-- **Graduate of Board-Approved School** (12)
+- **OD Degree Required** (15)
+- **Graduate of Accredited School** (19)
+- **Graduate of Board-Approved School** (7)
 - **Graduate + Min Years Specified** (8)
-- **Board Standards / Equivalent** (2)
+- **Board Standards / Equivalency** (1)
 
 #### Professional Experience
 
 `licensure.post_degree_experience.kind` — states per tag:
 
-- **Ophthalmologist-Supervised Internship** (1)
 - **Optometry Internship** (1)
 - **Supervised Clinical Experience** (1)
+- **Ophthalmologist-Supervised Internship** (1)
 
 `licensure.post_degree_experience.duration` — states per tag:
 
 - **~100 Hours** (1)
-- **~6 Months** (1)
-- **~1 Year** (1)
+- **6 Months** (1)
+- **1 Year** (1)
 
 #### Licensing Authority
 
 `licensure.issuing_authority` — states per tag:
 
-- **State Board of Optometry** (18)
-- **Board of Examiners in Optometry** (12)
-- **Named Optometry Board** (11)
-- **Health Department / Agency** (9)
+- **State Optometry Board** (28)
+- **Board of Examiners** (13)
+- **Dept of Health** (5)
+- **Other State Agency** (4)
 
 `licensure.regulatory_authority.name` — states per tag:
 
-- **Board of Optometry** (30)
-- **Board of Examiners** (12)
+- **Board of Optometry** (31)
+- **Board of Examiners** (13)
 - **Board of Registration** (2)
-- **Optometry Examining Board** (1)
-- **Non-Optometry Agency** (5)
+- **Dept / Agency (Non-Board)** (4)
 
 #### Scope of Practice
 
+`scope.methods_authorized` — states per tag:
+
+- **Basic Exam & Lenses** (2)
+- **Exam, Lenses & Topical Drugs** (7)
+- **Exam, Lenses, Oral & Topical Drugs** (14)
+- **Broad Scope + Minor Procedures** (20)
+- **Expanded Scope + Surgery/Laser** (7)
+
+`scope.drug_authority` — states per tag:
+
+- **Broad Formulary, Few Exclusions** (7)
+- **Topical + Oral, Sched III-V** (6)
+- **Topical + Oral, Hydrocodone Allowed** (18)
+- **Tiered/Certification Levels** (10)
+- **Topical Only or Limited Oral** (2)
+- **Board Formulary / Rule-Defined** (7)
+
+`scope.definition_quote` — states per tag:
+
+- **Broad Full Scope** (7)
+- **Exam Diagnose Treat** (7)
+- **No Surgery Explicit** (13)
+- **Surgery Permitted** (4)
+- **Narrow / Vision Focus** (4)
+- **Enumerated Acts List** (15)
+
 `profession_specific.surgery_definition` — states per tag:
 
-- **Broad Tissue-Based Definition** (10)
-- **Invasive + Laser Named** (10)
-- **Anesthesia-Based Threshold** (2)
-- **Enumerated Exclusions List** (8)
-- **Vague / Minimal Definition** (5)
-- **Instrument + Closure Focused** (5)
+- **Broad Tissue-Alteration Definition** (14)
+- **Invasive Procedure + Laser** (8)
+- **Anesthesia/Closure-Based Definition** (3)
+- **Enumerated Prohibited Procedures** (8)
+- **Vague / Minimal Definition** (7)
 
 #### Discipline
 
@@ -1514,11 +1849,11 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 `licensure.continuing_education.topical_requirements` — states per tag:
 
 - **Ocular Disease & Pharmacology** (7)
-- **TPA/Certified Licensees Only** (8)
-- **Opioid/Substance Use Focus** (4)
-- **Broad Optometry Topics** (1)
+- **Opioid / Substance Use** (6)
+- **Therapeutics Certification Add-On** (13)
 - **Glaucoma-Specific** (1)
-- **Mixed Multi-Tier Requirements** (9)
+- **Jurisprudence / Admin** (1)
+- **Broad Clinical Topics** (2)
 
 #### Controlled substance schedule restrictions
 
@@ -1537,11 +1872,21 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 
 `licensure.education.accrediting_body` — states per tag:
 
-- **ACOE / AOA** (9)
-- **Board Approved** (20)
-- **US Dept of Education / CHEA** (4)
-- **Regional / Professional Accreditor** (4)
-- **Other Named Body** (1)
+- **ACOE / AOA** (10)
+- **Board-Approved** (15)
+- **State Board** (5)
+- **US Dept of Ed / CHEA** (4)
+- **Regional or Professional Org** (4)
+
+#### Exams
+
+`licensure.exams` — states per tag:
+
+- **NBEO Required** (9)
+- **National Exam (Board-Approved)** (10)
+- **State Board Exam** (14)
+- **State + NBEO Combined** (11)
+- **Board Discretion** (6)
 
 #### Laser procedures authorized
 
@@ -1572,19 +1917,29 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 
 `licensure.national_association` — states per tag:
 
-- **National AOA** (8)
+- **AOA (National)** (8)
 - **AOA Accreditation Body** (2)
-- **State Optometric Assoc** (7)
-- **Other National Body** (3)
+- **State Optometric Assoc.** (7)
+- **Regulatory / Exam Board** (3)
 
 #### National certification
 
 `licensure.national_certification` — states per tag:
 
-- **NBEO** (23)
-- **NBEO (Alternate Label)** (1)
+- **NBEO** (24)
+- **NBEO (IABO variant)** (1)
 - **ARBO / CELMO** (1)
-- **IABEO / NBEO** (1)
+
+#### Reciprocity requirements
+
+`licensure.reciprocity.requirements` — states per tag:
+
+- **Equivalent Standards + Practice Hours** (14)
+- **Equivalent Standards Only** (14)
+- **Equivalent Standards + Exams Required** (12)
+- **Board Discretion** (4)
+- **Expedited/Endorsement Path** (4)
+- **Minimal / General Statement** (2)
 
 #### Regulatory authority umbrella agency
 
@@ -1592,9 +1947,9 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 
 - **Dept of Health** (9)
 - **Consumer Affairs** (3)
+- **Commerce / Economic Dev** (2)
 - **Professional Licensing Office** (7)
-- **Commerce Dept** (3)
-- **Labor & Regulation** (5)
+- **Labor / Regulation Dept** (6)
 
 #### Specialty certification types
 
@@ -1629,72 +1984,71 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 
 `licensure.education.degree_required` — states per tag:
 
-- **No Formal Degree** (2)
+- **No Formal Degree** (3)
 - **Apprenticeship / Trade Program** (5)
-- **High School / Basic Education** (2)
+- **High School / Equivalent** (2)
 - **Associate Degree** (1)
-- **Bachelor's Degree** (2)
+- **Bachelor's Degree** (3)
 - **Board Discretion** (2)
 
 #### Professional Experience
 
 `licensure.post_degree_experience.kind` — states per tag:
 
-- **Apprenticeship Only** (3)
-- **Practical Experience Only** (6)
-- **Apprenticeship or Practical** (6)
-- **Supervised Work Under Licensed Plumber** (9)
-- **Tiered by License Level** (3)
+- **Apprenticeship Only** (4)
+- **Supervised Work Experience** (8)
+- **Apprenticeship or Work Experience** (7)
+- **Tiered by License Level** (2)
+- **General Trade Experience** (7)
 
 `licensure.post_degree_experience.duration` — states per tag:
 
-- **~1–2 Years** (1)
-- **~3–4 Years** (7)
-- **~5 Years** (1)
-- **6–7+ Years** (2)
-- **Hours-Based (<6000 hrs)** (1)
-- **Hours-Based (6000+ hrs)** (2)
-- **Tiered by License Level** (13)
+- **~2 Years / Short** (2)
+- **~3 Years / Mid** (1)
+- **~4 Years / Standard** (7)
+- **~5 Years / Long** (2)
+- **Tiered by License Level** (9)
+- **Hours-Based** (7)
 
 #### Licensing Authority
 
 `licensure.issuing_authority` — states per tag:
 
-- **Dedicated Plumbing Board** (19)
-- **Contractors Board** (6)
-- **Labor Department** (3)
-- **Health Department** (2)
-- **Consumer/Occupational Licensing** (7)
+- **Dedicated Plumbing Board** (20)
+- **General Contractors Board** (7)
+- **Dept of Health / Public Health** (2)
+- **Dept of Labor / Industry** (4)
+- **Occupational Licensing Dept** (6)
 - **Local Board** (1)
 
 `licensure.regulatory_authority.name` — states per tag:
 
-- **Dedicated Plumbing Board** (17)
-- **Broader Trade/Exam Board** (4)
-- **Contractors Board** (6)
-- **Dept of Labor/Industry** (7)
-- **Dept of Health/Housing** (3)
+- **Dedicated Plumbing Board** (16)
+- **Broader Trade/Exam Board** (6)
+- **Contractors Board** (7)
+- **Dept of Labor / Industry** (7)
+- **Dept of Health / Housing** (3)
 - **Local Board** (1)
 
 #### Scope of Practice
 
 `scope.methods_authorized` — states per tag:
 
-- **Install / Repair / Replace** (5)
-- **Install / Alter / Repair / Maintain** (10)
-- **Install / Alter / Extend / Maintain** (6)
-- **Design + Install + Alter** (5)
-- **Broad Construction Scope** (3)
-- **Supervision Emphasized** (2)
-- **Detailed Systems Scope** (4)
+- **Install / Repair / Replace** (7)
+- **Install / Alter / Maintain** (4)
+- **Install / Alter / Repair / Maintain** (9)
+- **Design + Install + Supervise** (6)
+- **Broad Construction Scope** (11)
+- **Supervision / Direction Focus** (1)
 
 `scope.definition_quote` — states per tag:
 
-- **Detailed Technical Scope** (19)
-- **Concise Functional Definition** (8)
+- **Full Systems Definition** (16)
+- **Work & Materials Definition** (5)
+- **Fixtures & Apparatus Only** (6)
 - **Specialty Contractor (Generic)** (3)
-- **Partial / Cross-Reference** (5)
-- **Role-Based Definition** (3)
+- **Minimal / Partial Definition** (6)
+- **Role-Based Definition** (4)
 
 #### Discipline
 
@@ -1716,107 +2070,105 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 `licensure.advisory_board.name` — states per tag:
 
 - **Plumbing Examiners Board** (4)
-- **Plumbing Advisory Board** (1)
 - **Plumbing Board/Council** (2)
+- **Plumbers Advisory Board** (1)
 - **Broader Construction Board** (1)
-- **Specialty/Niche Board** (1)
+- **Specialty Advisory Board** (1)
 
 #### Apprentice supervision requirement
 
 `profession_specific.apprentice_supervision_requirement` — states per tag:
 
-- **Direct/Constant On-Site** (2)
+- **Direct/On-Site Supervision** (6)
 - **Direct Supervision** (11)
-- **Personal Supervision** (5)
-- **General Supervision** (13)
-- **Tiered by Year** (1)
-- **Indirect Allowed** (1)
+- **General Supervision** (10)
+- **Supervision with Exceptions** (3)
+- **Journeyman Supervised by Master** (3)
 
 #### Continuing education topical requirements
 
 `licensure.continuing_education.topical_requirements` — states per tag:
 
-- **Code Updates** (3)
-- **General Trade** (3)
-- **Health/Energy/Conservation** (2)
-- **Safety Focus** (1)
-- **Code + General Mix** (2)
+- **Code Updates** (4)
+- **Trade General** (3)
+- **Health/Safety/Environment** (3)
+- **Business & Legal** (0)
+- **Mixed Topics Required** (2)
 
 #### Contractor qualifier license requirement
 
 `profession_specific.contractor_qualifier_license_requirement` — states per tag:
 
-- **Master Plumber Required** (21)
+- **Master Plumber Required** (22)
 
 #### Education accrediting body
 
 `licensure.education.accrediting_body` — states per tag:
 
+- **State Board Approved** (1)
 - **State Apprenticeship Council** (1)
-- **Workforce Training Board** (1)
-- **Board-Approved College** (1)
+- **State Workforce Board** (1)
 - **Accredited College/University** (1)
 
 #### Exams
 
 `licensure.exams` — states per tag:
 
-- **Master + Journeyman Exams** (18)
-- **Journeyman Exam Only** (8)
-- **Master Exam Only** (3)
-- **Contractor/Qualifier Exam** (4)
+- **State Board Exam** (9)
+- **Independent/Testing Service** (4)
 - **Local Board Exam** (2)
-- **Multi-Tier (3+ Exams)** (2)
+- **Contractor License Exam** (6)
+- **Multi-Tier (Master + Journey)** (18)
 
 #### Journeyman experience pathways
 
 `profession_specific.journeyman_experience_pathways` — states per tag:
 
-- **Apprenticeship Only** (3)
-- **Hours + Apprenticeship** (3)
-- **Years + Apprenticeship** (7)
-- **Multi-Pathway w/ Credits** (9)
-- **Exam + Experience** (2)
-- **Reciprocity Included** (2)
+- **Apprenticeship Only** (6)
+- **Hours-Based Experience** (5)
+- **Multi-Pathway (Hours + School + Reciprocity)** (12)
+- **Exam-Centric** (2)
+- **Broad Equivalency** (2)
 
 #### License tiers
 
 `profession_specific.license_tiers` — states per tag:
 
-- **Apprentice–Journey–Master** (5)
-- **Apprentice–Journey–Master + Contractor** (10)
-- **Journey–Master Only** (3)
-- **Expanded / Specialty Tiers** (9)
-- **Contractor Class System** (4)
-- **Broad Multi-Category** (6)
+- **Apprentice–Journey–Master** (8)
+- **Apprentice–Journey–Master + Extras** (19)
+- **Contractor-Focused Tiers** (2)
+- **Broad Specialty/Class System** (4)
+- **Highly Expanded Tiers** (6)
 
 #### National certification
 
 `licensure.national_certification` — states per tag:
 
-- **NITC Accepted** (2)
+- **NITC** (2)
+- **NICET** (1)
 
 #### Reciprocity requirements
 
 `licensure.reciprocity.requirements` — states per tag:
 
 - **Mutual Recognition Required** (11)
-- **Equivalent Standards Only** (8)
-- **Exam Waiver + Standards** (4)
-- **Endorsement / Universal** (6)
-- **Restricted / Specialty** (2)
-- **Military / Special Path** (1)
+- **Equivalent Standards Only** (10)
+- **Exam Waiver Conditions** (4)
+- **Endorsement / Endorsement-Plus** (6)
+- **Limited / Specialty Scope** (2)
+- **Expedited / Universal Recognition** (1)
 
 #### Regulatory authority umbrella agency
 
 `licensure.regulatory_authority.umbrella_agency` — states per tag:
 
 - **Consumer Affairs / Protection** (4)
-- **Professional Licensing Agency** (8)
+- **Professional / Occupational Licensing** (8)
+- **Business & Professional Regulation** (1)
 - **Labor & Industry** (3)
-- **Commerce Department** (2)
+- **Commerce** (2)
 - **Health / Safety** (3)
-- **Trade-Specific Board** (2)
+- **Trade-Specific Agency** (2)
 
 ## Podiatry
 
@@ -1826,21 +2178,21 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 
 `licensure.education.degree_required` — states per tag:
 
-- **DPM Degree** (20)
+- **DPM Degree** (21)
 - **DPM or Equivalent** (7)
-- **Doctoral / Graduate Degree** (3)
-- **Graduate of Accredited School** (11)
-- **Diploma / Certificate** (4)
+- **Graduate of Accredited School** (12)
+- **Diploma/Certificate** (5)
 - **Four-Year Course** (5)
 
 #### Professional Experience
 
 `licensure.post_degree_experience.kind` — states per tag:
 
-- **Podiatric Residency** (19)
-- **Residency Program** (3)
-- **Residency or Preceptorship** (8)
+- **Podiatric Residency** (18)
+- **Residency Program** (5)
 - **Postgraduate Training** (9)
+- **Residency or Preceptorship** (5)
+- **Residency or Fellowship** (2)
 - **Residency or Active Practice** (1)
 
 `licensure.post_degree_experience.duration` — states per tag:
@@ -1848,44 +2200,52 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 - **1 Year** (21)
 - **2 Years** (3)
 - **3 Years** (2)
-- **Residency Required** (5)
+- **Residency Required** (4)
 - **Flexible / Conditional** (3)
 
 #### Licensing Authority
 
 `licensure.issuing_authority` — states per tag:
 
-- **Podiatry Board** (29)
+- **Podiatry Board** (17)
+- **Podiatric Medicine Board** (12)
 - **Medical Board** (13)
 - **Health Department** (4)
-- **Licensing Agency** (4)
+- **Multi-Prof Licensing Dept** (4)
 
 `licensure.regulatory_authority.name` — states per tag:
 
-- **Podiatry Board** (14)
-- **Podiatric Medicine Board** (10)
-- **Podiatry Examiners Board** (10)
+- **Dedicated Podiatry Board** (22)
+- **Podiatric Medicine Board** (12)
 - **Medical Board** (13)
-- **Other State Dept** (3)
+- **Other State Agency** (3)
 
 #### Scope of Practice
 
 `scope.methods_authorized` — states per tag:
 
-- **Med/Surg/Mech Core** (17)
-- **Med/Surg/Mech + Electrical** (10)
-- **Med/Surg/Mech + Manipulative** (1)
-- **Diagnosis-Led Broad** (11)
-- **Enumerated Procedures** (6)
-- **General/All Means** (5)
+- **Med/Surg/Mech Core** (16)
+- **Med/Surg/Mech + Electrical** (5)
+- **Med/Surg/Mech + Manipulative** (7)
+- **Broad Enumerated** (7)
+- **Diagnosis-Forward** (9)
+- **Catch-All / General** (6)
 
 `scope.drug_authority` — states per tag:
 
-- **Full Rx + Controlled** (11)
-- **Scope-Limited Rx** (11)
-- **Local Anesthesia Only** (4)
-- **Foot-Specific Drugs** (6)
-- **Broad General Authority** (6)
+- **Broad Prescriptive Authority** (5)
+- **Scope-Limited Prescribing** (8)
+- **Controlled Substances Explicit** (12)
+- **Local Anesthesia Only** (5)
+- **Foot/Ankle Conditions Only** (8)
+
+`scope.definition_quote` — states per tag:
+
+- **Foot Only** (8)
+- **Foot & Ankle** (24)
+- **Foot, Ankle & Leg** (15)
+- **Broad / Primary Care** (2)
+- **Procedural / Title-Based** (1)
 
 #### Discipline
 
@@ -1907,11 +2267,11 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 
 `licensure.advisory_board.authority` — states per tag:
 
-- **Full Board Member** (1)
-- **Advisory + Disciplinary** (2)
-- **Advisory Only** (0)
-- **Advisory + Rulemaking** (1)
-- **Shared Administration** (1)
+- **Full Board Role** (1)
+- **Advisory + Rulemaking Input** (1)
+- **Advisory + Disciplinary** (1)
+- **Advice Only (Broad)** (1)
+- **Advice Only (Disciplinary)** (1)
 
 #### Advisory board name
 
@@ -1919,7 +2279,7 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 
 - **Advisory Committee** (2)
 - **Advisory Board** (1)
-- **Joint Surgery Committee** (1)
+- **Joint Advisory Committee** (1)
 - **Association Representatives** (1)
 
 #### Board certification body
@@ -1936,60 +2296,260 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 
 `licensure.continuing_education.topical_requirements` — states per tag:
 
-- **Opioid/Controlled Substances** (4)
-- **Opioid + Addiction Treatment** (3)
-- **Conditional Prescribers Only** (3)
-- **Infection & Reporting** (1)
+- **Opioid/Controlled Substance Prescribing** (7)
+- **Substance Use Disorder & Treatment** (2)
+- **Opioid + Drug Monitoring Program** (1)
+- **Other Mandatory Topics** (1)
 
 #### Education accrediting body
 
 `licensure.education.accrediting_body` — states per tag:
 
-- **CPME / APMA** (17)
+- **CPME / APMA** (18)
 - **APMA Only** (6)
-- **Council on Podiatry Education** (5)
+- **Council on Podiatry Education (older)** (6)
 - **State Board** (4)
-- **Board-Approved Flexible** (9)
+- **Board-Approved Flexibility** (7)
 
 #### National association
 
 `licensure.national_association` — states per tag:
 
 - **APMA** (25)
-- **CPME** (3)
 - **American Podiatry Assoc** (5)
-- **Multiple / Other** (2)
+- **CPME / Colleges** (3)
+- **Multiple Associations** (1)
+- **State Society** (1)
 
 #### National certification
 
 `licensure.national_certification` — states per tag:
 
-- **NBPME / Exam Board** (12)
-- **ABPS / Surgery Board** (6)
-- **ABFAS Surgery Board** (2)
-- **APMA / CPME Accreditation** (4)
-- **Multiple Boards** (2)
+- **NBPME** (13)
+- **ABPS / ABFAS** (7)
+- **ABFAS + ABPM (Dual)** (1)
+- **APMA / CPME** (3)
+- **Specialty Board (General)** (2)
 
 #### Reciprocity requirements
 
 `licensure.reciprocity.requirements` — states per tag:
 
-- **Substantially Equivalent Standards** (13)
-- **Equivalent + Years of Practice** (9)
+- **Substantially Equivalent Standards** (17)
+- **Equivalent + Practice History** (8)
 - **Equivalent + Mutual Reciprocity** (8)
-- **Exam-Based Endorsement** (6)
-- **Active License Only** (5)
+- **Exam + Endorsement Focus** (6)
+- **Broad / Flexible Criteria** (2)
 
 #### Regulatory authority umbrella agency
 
 `licensure.regulatory_authority.umbrella_agency` — states per tag:
 
-- **Health Dept** (7)
+- **Dept of Health** (5)
+- **Health Professions Agency** (2)
 - **Consumer Affairs** (3)
-- **Commerce Dept** (3)
-- **Licensing & Regulation** (8)
-- **Secretary of State** (2)
-- **Labor Dept** (2)
+- **Commerce / Economic Dev** (3)
+- **Professional Licensing Div** (7)
+- **Labor / Industry** (3)
+- **Other State Agency** (2)
+
+## Professional Engineering
+
+### Priority fields
+
+#### Minimum Degree
+
+`licensure.education.degree_required` — states per tag:
+
+- **4-Year Board-Approved** (18)
+- **4-Year ABET-Accredited** (10)
+- **Bachelor's+ with Alternatives** (6)
+- **Flexible / Experience Substitution** (1)
+- **Board Discretion / General** (0)
+
+#### Professional Experience
+
+`licensure.post_degree_experience.kind` — states per tag:
+
+- **Progressive Experience** (8)
+- **General Engineering Work** (13)
+- **Active Practice** (2)
+- **Supervised Experience** (6)
+- **Responsible Charge** (5)
+
+`licensure.post_degree_experience.duration` — states per tag:
+
+- **4 Years (Flat)** (18)
+- **4 Years (Standard), More for Others** (5)
+- **Tiered by Degree/Path** (8)
+- **8+ Years Possible** (1)
+- **Board-Defined** (1)
+
+#### Licensing Authority
+
+`licensure.issuing_authority` — states per tag:
+
+- **PE+Surveying Board** (16)
+- **Multi-Profession Board** (7)
+- **PE-Only Board** (6)
+- **Dept / Agency (Non-Board)** (4)
+- **Examiner Board** (2)
+
+`licensure.regulatory_authority.name` — states per tag:
+
+- **PE + Surveyors Board** (15)
+- **PE + Surveyors + Architects Board** (4)
+- **PE + Surveyors + Geologists Board** (2)
+- **PE-Only Board** (6)
+- **Examiners Board** (4)
+- **General Licensing Agency** (4)
+
+#### Scope of Practice
+
+`scope.methods_authorized` — states per tag:
+
+- **Core Only** (0)
+- **Core + Construction Oversight** (14)
+- **Core + Surveys/Studies** (3)
+- **Core + Teaching** (0)
+- **Comprehensive** (16)
+
+`scope.definition_quote` — states per tag:
+
+- **Creative Work + Education + Services List** (15)
+- **Professional Service + Public Welfare** (10)
+- **Engineering Principles + Data** (4)
+- **Broad Arts & Sciences** (1)
+- **Minimal / High-Level Only** (4)
+
+#### Discipline
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+### Other bucketed fields
+
+#### Advisory board authority
+
+`licensure.advisory_board.authority` — states per tag:
+
+- **Recommend & Consult** (1)
+- **Assist on Licensing & Conduct** (1)
+
+#### Advisory board name
+
+`licensure.advisory_board.name` — states per tag:
+
+- **Engineering Only** (1)
+- **Engineering + Other Disciplines** (1)
+
+#### Board engineering disciplines represented
+
+`profession_specific.board_engineering_disciplines_represented` — states per tag:
+
+- **Named Disciplines** (3)
+- **Named + Other Catch-All** (5)
+- **Sector/Role Based** (1)
+- **Multi-Profession Board** (2)
+- **General PE + Surveying** (4)
+- **Broad/Flexible Mandate** (2)
+
+#### Continuing education topical requirements
+
+`licensure.continuing_education.topical_requirements` — states per tag:
+
+- **Ethics + Practice Areas** (1)
+- **Ethics Minimum Only** (1)
+- **Discipline Hour Minimums** (1)
+
+#### Disciplinary grounds
+
+`licensure.disciplinary_grounds` — states per tag:
+
+- **Core Triad + Violations** (13)
+- **Core Triad Only** (5)
+- **Broad Statutory List** (11)
+- **Conduct-Focused Detail** (3)
+- **Unlawful/Unprofessional Acts** (1)
+
+#### Education accrediting body
+
+`licensure.education.accrediting_body` — states per tag:
+
+- **EAC/ABET Only** (10)
+- **ABET (Multiple Commissions)** (2)
+- **ABET Generic** (2)
+- **Board-Approved** (6)
+- **State Board** (1)
+
+#### Exams
+
+`licensure.exams` — states per tag:
+
+- **FE + PE (NCEES Named)** (12)
+- **FE + PE (Generic Two-Part)** (11)
+- **FE + PE (State-Branded)** (6)
+- **Single/Unitary Exam** (3)
+- **FE + PE (Waiver Provisions)** (3)
+
+#### Exemptions from licensure
+
+`profession_specific.exemptions_from_licensure` — states per tag:
+
+- **Subordinate/Employee Only** (2)
+- **Employee + Federal Gov** (0)
+- **Employee + Federal + Utility** (4)
+- **Employee + Federal + Utility + Broad** (14)
+- **Broad Multi-Category** (11)
+- **Narrow/Minimal** (2)
+
+#### National association
+
+`licensure.national_association` — states per tag:
+
+- **NCEES** (6)
+- **ABET** (1)
+- **State Society** (3)
+- **Multiple Discipline Societies** (1)
+
+#### National certification
+
+`licensure.national_certification` — states per tag:
+
+- **NCEES (Full Name)** (6)
+- **NCEES (Legacy Name)** (1)
+
+#### Reciprocity requirements
+
+`licensure.reciprocity.requirements` — states per tag:
+
+- **Comparable Standards** (11)
+- **Comparable + Good Standing** (3)
+- **NCEES Record Pathway** (8)
+- **Equivalent + Active Years** (5)
+- **Mutual Recognition** (2)
+- **Exam May Be Required** (5)
+
+#### Regulatory authority umbrella agency
+
+`licensure.regulatory_authority.umbrella_agency` — states per tag:
+
+- **Commerce / Economic Dev** (3)
+- **Consumer Affairs / Protection** (3)
+- **Business & Professional Reg** (2)
+- **Labor & Industry** (3)
+- **Professional Licensing Agency** (3)
+- **Secretary / Dept of State** (2)
+- **Other** (3)
+
+#### Seal document types
+
+`profession_specific.seal_document_types` — states per tag:
+
+- **Core Four** (7)
+- **Core + Calculations** (3)
+- **Core + Plats/Maps** (7)
+- **Broad List** (14)
+- **Generic/Minimal** (3)
 
 ## Public Accountancy
 
@@ -1999,29 +2559,28 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 
 `licensure.education.degree_required` — states per tag:
 
-- **Bach + 150hrs + Acctg Conc** (15)
-- **Bach + 150hrs, No Conc** (10)
-- **Bach + Acctg Conc, No 150hr** (16)
-- **Bach Only / Minimal Req** (6)
+- **Bach + 150 Hours** (11)
+- **Bach + Accounting Concentration** (15)
+- **Bach + 150 + Concentration** (15)
+- **Bach Degree Only** (6)
 - **Board Discretion** (1)
 
 #### Professional Experience
 
 `licensure.post_degree_experience.kind` — states per tag:
 
-- **Public Practice Only** (8)
-- **Broad Skill List** (22)
-- **Any Sector (Broad Skill List)** (7)
-- **CPA-Supervised** (5)
-- **Board Discretion** (1)
+- **Broad Skills List** (25)
+- **Public Practice Only** (10)
 - **General Accounting** (7)
+- **Multi-Sector Broad** (7)
+- **Board-Defined** (1)
 
 `licensure.post_degree_experience.duration` — states per tag:
 
-- **1 Year Flat** (29)
-- **2 Years Flat** (3)
-- **1–2 Years (Edu-Based)** (8)
-- **1–3+ Years (Tiered)** (5)
+- **1 Year** (30)
+- **2 Years** (3)
+- **1–2 Years (Edu-Dependent)** (8)
+- **1–3+ Years (Tiered)** (4)
 - **Hours-Based** (3)
 - **Board Discretion** (1)
 
@@ -2031,27 +2590,34 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 
 - **Board of Accountancy** (29)
 - **Board of Public Accountancy** (11)
-- **Board of CPA Examiners** (3)
-- **Examining Board** (2)
-- **State Department / Agency** (5)
+- **Board of CPA Examiners** (4)
+- **Dept / Division (non-board)** (6)
 
 `licensure.regulatory_authority.name` — states per tag:
 
 - **Board of Accountancy** (30)
-- **Board of Public Accountancy** (12)
-- **Board of CPAs** (2)
-- **Examining Board** (2)
-- **Dept / Other Agency** (2)
+- **Board of Public Accountancy** (11)
+- **Board of CPA Examiners** (3)
+- **Board of Accountants** (2)
+- **Dept / Education Dept** (2)
 
 #### Scope of Practice
 
 `scope.methods_authorized` — states per tag:
 
-- **Attest + Advisory + Tax** (28)
+- **Attest + Advisory + Tax** (30)
+- **Attest + Advisory Only** (1)
 - **Attest + Compilation Only** (11)
-- **Broad Accounting + Tax** (3)
-- **Standards-Referenced** (2)
-- **High-Level / Generic** (4)
+- **Broad Accounting + Tax** (5)
+- **Standards-Referenced Scope** (1)
+
+`scope.definition_quote` — states per tag:
+
+- **Attest-Only Definition** (9)
+- **Broad Skills + Attest** (14)
+- **Broad Skills No Attest** (10)
+- **Holding-Out + Broad Skills** (7)
+- **Report Issuance Focus** (6)
 
 #### Discipline
 
@@ -2087,21 +2653,29 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 `licensure.continuing_education.topical_requirements` — states per tag:
 
 - **Ethics Only** (2)
-- **Ethics + State Law** (1)
-- **Accounting/Audit Core** (2)
-- **Accounting + Ethics Mix** (2)
-- **Broad Topic Menu** (1)
-- **Attest Focus** (1)
+- **Accounting & Auditing Core** (2)
+- **Ethics + State Law** (2)
+- **Broad Topic List** (1)
+- **Attestation / Audit Specialty** (2)
 
 #### Education accrediting body
 
 `licensure.education.accrediting_body` — states per tag:
 
-- **Regional Accreditor** (6)
-- **Federal ED List** (6)
-- **Board Discretion** (8)
-- **Business Accreditor Included** (1)
-- **State-Specific Body** (1)
+- **Regional Accreditor** (7)
+- **Federal DOE Reference** (6)
+- **Business-Specific Accreditor** (1)
+- **Board Discretion** (7)
+- **State Agency** (1)
+
+#### Exams
+
+`licensure.exams` — states per tag:
+
+- **Uniform CPA Exam Only** (37)
+- **Uniform CPA + Ethics Exam** (9)
+- **Uniform CPA + Ethics + Other** (1)
+- **State/Board-Defined Exam** (3)
 
 #### National association
 
@@ -2116,11 +2690,11 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 
 `licensure.national_certification` — states per tag:
 
-- **AICPA Only** (11)
+- **AICPA (org only)** (11)
 - **Uniform CPA Exam** (2)
 - **AICPA + Uniform Exam** (1)
 - **AICPA/NASBA Joint** (1)
-- **Data Error** (1)
+- **Erroneous Reference** (1)
 
 #### Practice privilege consent conditions
 
@@ -2134,22 +2708,31 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 - **Scope of Practice Limits** (2, 2 states)
 - **Other** (0, 0 states)
 
+#### Reciprocity requirements
+
+`licensure.reciprocity.requirements` — states per tag:
+
+- **Substantial Equivalency Only** (7)
+- **Substantial Equiv + Experience Fallback** (22)
+- **Exam + Experience + CPE** (8)
+- **Practice Privileges (No License)** (8)
+- **Reciprocal / Comparable License** (5)
+
 #### Regulatory authority umbrella agency
 
 `licensure.regulatory_authority.umbrella_agency` — states per tag:
 
-- **Commerce & Economic Dev** (3)
-- **Professional Licensing Div** (6)
-- **Business & Prof Regulation** (2)
+- **Commerce / Consumer Affairs** (4)
+- **Professional Licensing Division** (6)
+- **Business & Professional Regulation** (1)
 - **Labor & Industry** (2)
-- **Secretary of State** (2)
-- **Office of Governor** (1)
+- **Secretary of State / Dept of State** (2)
+- **Governor's Office** (1)
 
 #### Statute of limitations for accountant negligence
 
 `profession_specific.statute_of_limitations_for_accountant_negligence` — states per tag:
 
-- **1-Yr Discovery / 3-Yr Repose** (1)
-- **2-Yr Discovery / 6-Yr Repose** (1)
-- **2-Yr Board Discovery** (1)
+- **1-yr Discovery / 3-yr Absolute** (1)
+- **2-yr Discovery** (1)
 
