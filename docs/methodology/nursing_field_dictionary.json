@@ -1,15 +1,17 @@
 {
   "profession": "nursing",
+  "data_as_of": "2026-06-29",
   "groups": [
     {
       "group": "licensure",
-      "intro": "Whether and how the state credentials this profession — the regulatory model, credential type, authority, exams, fees, and renewal.",
+      "intro": "Whether and how the state credentials this profession — the regulatory model,\ncredential type, issuing authority, entry requirements (education, exams, age,\ncharacter), fees, renewal, continuing education, and reciprocity.",
       "fields": [
         {
           "field": "license_required",
           "type": "boolean",
           "vocabulary": [],
-          "meaning": "",
+          "meaning": "Whether the state requires a credential to practice this profession.",
+          "depth": 0,
           "example": {
             "value": true,
             "quote": "A person practicing or offering to practice registered, advanced practice registered, or practical nursing in the state shall submit evidence of qualification to practice and shall be licensed under t",
@@ -20,7 +22,8 @@
           "field": "issuing_authority",
           "type": "string",
           "vocabulary": [],
-          "meaning": "",
+          "meaning": "Free-text name of the board/agency that issues the credential (the structured form is `regulatory_authority`).",
+          "depth": 0,
           "example": {
             "value": "Board of Nursing",
             "quote": "\"board\" means the Board of Nursing",
@@ -29,79 +32,450 @@
         },
         {
           "field": "regulatory_authority",
-          "type": "RegulatoryAuthority",
+          "type": "object",
           "vocabulary": [],
           "meaning": "Structured decomposition of the issuing authority — name, type (standalone board / shared board / division / department / joint), and any umbrella agency it sits within. Populated alongside the legacy free-text issuing_authority for back-compat.",
+          "depth": 0,
           "example": null
+        },
+        {
+          "field": "regulatory_authority.name",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Canonical name of the immediate authority (e.g., 'State Board of Podiatry').",
+          "depth": 1,
+          "example": {
+            "value": "Board of Nursing",
+            "quote": "\"board\" means the Board of Nursing",
+            "citation": "08.68.850"
+          }
+        },
+        {
+          "field": "regulatory_authority.type",
+          "type": "enum",
+          "vocabulary": [
+            "standalone_board",
+            "shared_board",
+            "division",
+            "department",
+            "joint",
+            "other"
+          ],
+          "meaning": "Structural classification of the immediate authority.",
+          "depth": 1,
+          "example": {
+            "value": "standalone_board",
+            "quote": "\"board\" means the Board of Nursing",
+            "citation": "08.68.850"
+          }
+        },
+        {
+          "field": "regulatory_authority.umbrella_agency",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Higher-level agency that contains the immediate authority, if any. Example: 'Division of Occupations and Professions, Department of Commerce'. Null for standalone boards that don't sit inside a larger department.",
+          "depth": 1,
+          "example": {
+            "value": "Department of Commerce, Community, and Economic Development",
+            "quote": "\"department\" means the Department of Commerce, Community, and Economic Development",
+            "citation": "UMBRELLA / Chapter 01. Centralized Licensing"
+          }
         },
         {
           "field": "age_minimum",
           "type": "integer",
           "vocabulary": [],
-          "meaning": "",
+          "meaning": "Minimum age (years) to hold the credential, if the statute sets one.",
+          "depth": 0,
           "example": null
         },
         {
           "field": "moral_character_required",
           "type": "boolean",
           "vocabulary": [],
-          "meaning": "",
+          "meaning": "Whether the statute conditions licensure on good moral character / fitness.",
+          "depth": 0,
           "example": null
         },
         {
           "field": "education",
-          "type": "EducationRequirement",
+          "type": "object",
+          "vocabulary": [],
+          "meaning": "Education entry requirement — degree, level, accreditation, and any tiers.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "education.degree_required",
+          "type": "string",
           "vocabulary": [],
           "meaning": "",
+          "depth": 1,
+          "example": {
+            "value": "Completed a registered nurse education program accredited by a national nursing accrediting body and approved by the board",
+            "quote": "the applicant has successfully completed a registered nurse education program accredited by a national nursing accrediting body and approved by the board",
+            "citation": "08.68.170"
+          }
+        },
+        {
+          "field": "education.accrediting_body",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": {
+            "value": "national nursing accrediting body",
+            "quote": "a registered nurse education program accredited by a national nursing accrediting body and approved by the board",
+            "citation": "08.68.170"
+          }
+        },
+        {
+          "field": "education.degree_level",
+          "type": "enum",
+          "vocabulary": [
+            "none",
+            "high_school",
+            "associate",
+            "bachelor",
+            "master",
+            "doctorate"
+          ],
+          "meaning": "The comparable education FLOOR as a normalized rung. Populate whenever licensure is gated on a degree; null only if the statute is silent on education.",
+          "depth": 1,
+          "example": {
+            "value": "bachelor",
+            "quote": "the applicant has successfully completed a registered nurse education program accredited by a national nursing accrediting body and approved by the board",
+            "citation": "08.68.170"
+          }
+        },
+        {
+          "field": "education.school_approval_basis",
+          "type": "enum",
+          "vocabulary": [
+            "national_accreditor",
+            "regional_accreditor",
+            "board_approved",
+            "unspecified"
+          ],
+          "meaning": "How the statute decides a school counts. national_accreditor=a named national program accreditor (ACOE/CODA/ACEND/LCME/CPME). regional_accreditor='regionally accredited college or university'. board_approved='approved by the board' (discretionary state gate). unspecified=says 'accredited' with no basis named, or silent.",
+          "depth": 1,
+          "example": {
+            "value": "national_accreditor",
+            "quote": "a registered nurse education program accredited by a national nursing accrediting body and approved by the board",
+            "citation": "08.68.170"
+          }
+        },
+        {
+          "field": "education.credential_pegged",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "True if the statute pegs the education requirement to a NATIONAL CREDENTIAL (e.g. 'registered by CDR', 'passed the NBEO') rather than (or in addition to) a stated degree — such a state inherits whatever that national body currently requires.",
+          "depth": 1,
+          "example": {
+            "value": false,
+            "quote": "the applicant has successfully completed a registered nurse education program accredited by a national nursing accrediting body and approved by the board",
+            "citation": "08.68.170"
+          }
+        },
+        {
+          "field": "education.tiers",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "Per-tier floors when the statute sets different education levels for different license classes, or phases the floor in by date. Omit/null when there is a single floor. `degree_level` still records the overall floor across all tiers.",
+          "depth": 1,
+          "example": null
+        },
+        {
+          "field": "education.tiers[].license_class",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Which class/date this floor applies to — e.g. 'licensed dietitian', 'certified nutritionist', 'applicants on or after 2024-01-01'.",
+          "depth": 2,
+          "example": null
+        },
+        {
+          "field": "education.tiers[].degree_level",
+          "type": "enum",
+          "vocabulary": [
+            "none",
+            "high_school",
+            "associate",
+            "bachelor",
+            "master",
+            "doctorate"
+          ],
+          "meaning": "Normalized education floor, low -> high. Resolved to the rung even when\nthe statute uses verbiage ('six college years' -> doctorate, 'or equivalent\ndegree' -> the named level). Professional/clinical doctorates (OD, DDS, MD,\nDPM) are `doctorate`.",
+          "depth": 2,
+          "example": null
+        },
+        {
+          "field": "education.tiers[].effective_date",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "ISO date when this floor takes effect, for date-phased tiers (e.g. '2024-01-01'). Null otherwise.",
+          "depth": 2,
           "example": null
         },
         {
           "field": "post_degree_experience",
-          "type": "PostDegreeExperience",
+          "type": "object",
           "vocabulary": [],
-          "meaning": "Residency / supervised practice / apprenticeship — name varies, structure doesn't.",
+          "meaning": "Supervised practice / residency / apprenticeship required after the degree.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "post_degree_experience.required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": {
+            "value": false,
+            "quote": "An applicant for a license to practice registered nursing shall submit to the board, on forms and in the manner prescribed by the board, written evidence, verified by oath, that the applicant has succ",
+            "citation": "08.68.170"
+          }
+        },
+        {
+          "field": "post_degree_experience.experience_source",
+          "type": "enum",
+          "vocabulary": [
+            "required_by_statute",
+            "embedded_in_credential",
+            "none"
+          ],
+          "meaning": "ALWAYS populate (required_by_statute / embedded_in_credential / none) unless the governing statute is absent from the corpus. Disambiguates a blank `required`: 'none' (truly no requirement) vs 'embedded_in_credential' (the accredited degree the statute points to carries the supervised hours).",
+          "depth": 1,
+          "example": {
+            "value": "none",
+            "quote": "An applicant for a license to practice registered nursing shall submit to the board, on forms and in the manner prescribed by the board, written evidence, verified by oath, that the applicant has succ",
+            "citation": "08.68.170"
+          }
+        },
+        {
+          "field": "post_degree_experience.duration",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "e.g. '24 months', '1 year', '2,000 hours' (free text — units vary)",
+          "depth": 1,
+          "example": null
+        },
+        {
+          "field": "post_degree_experience.kind",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "e.g. 'podiatric residency', 'accounting work experience', 'AXP'",
+          "depth": 1,
           "example": null
         },
         {
           "field": "exams",
           "type": "list",
           "vocabulary": [],
+          "meaning": "Examinations required for the credential (one entry per exam).",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "exams[].name",
+          "type": "string",
+          "vocabulary": [],
           "meaning": "",
+          "depth": 1,
+          "example": {
+            "value": "Registered Nursing Licensing Examination"
+          }
+        },
+        {
+          "field": "exams[].required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": {
+            "value": true
+          }
+        },
+        {
+          "field": "exams[].notes",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": {
+            "value": "Examination prescribed by the board for RN licensure"
+          }
+        },
+        {
+          "field": "exams[].jurisdiction",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Where the exam is administered / who owns it — e.g. 'NBPME (national)', 'state board (in-state)', 'NCLEX-RN (national)'. Use the statute's language; null if the source doesn't say.",
+          "depth": 1,
+          "example": {
+            "value": "prescribed by the board"
+          }
+        },
+        {
+          "field": "exams[].permitted_attempts",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "Max attempts allowed before re-qualification. Null if not specified.",
+          "depth": 1,
           "example": null
         },
         {
           "field": "renewal",
-          "type": "Renewal",
+          "type": "object",
           "vocabulary": [],
-          "meaning": "",
+          "meaning": "How the credential is renewed — interval and any conditions.",
+          "depth": 0,
           "example": null
+        },
+        {
+          "field": "renewal.interval_years",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "Most states are 1 or 2",
+          "depth": 1,
+          "example": {
+            "value": 2,
+            "quote": "Licenses shall be renewed biennially on the dates set by the department with the approval of the respective board.",
+            "citation": "UMBRELLA / Chapter 01. Centralized Licensing"
+          }
         },
         {
           "field": "renewal_fee_usd",
           "type": "integer",
           "vocabulary": [],
           "meaning": "License renewal fee in US dollars (integer). Many statutes leave the amount to the board's discretion — leave null in that case.",
+          "depth": 0,
           "example": null
         },
         {
           "field": "continuing_education",
-          "type": "ContinuingEducation",
+          "type": "object",
+          "vocabulary": [],
+          "meaning": "Continuing-education requirement to keep the credential active.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "continuing_education.required",
+          "type": "boolean",
           "vocabulary": [],
           "meaning": "",
-          "example": null
+          "depth": 1,
+          "example": {
+            "value": true,
+            "quote": "A license to practice nursing may not be renewed unless the nurse has complied with continuing competence requirements established by the board by regulation.",
+            "citation": "08.68.276"
+          }
+        },
+        {
+          "field": "continuing_education.hours_per_period",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": {
+            "value": 2,
+            "quote": "The regulations must require that a licensee receive not less than two hours of education in pain management and opioid use and addiction in the two years preceding an application for renewal of a lic",
+            "citation": "08.68.276"
+          }
+        },
+        {
+          "field": "continuing_education.period_years",
+          "type": "integer",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": {
+            "value": 2,
+            "quote": "not less than two hours of education in pain management and opioid use and addiction in the two years preceding an application for renewal of a license",
+            "citation": "08.68.276"
+          }
+        },
+        {
+          "field": "continuing_education.topical_requirements",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "Specific topical CE requirements, e.g. ['1.5 hrs opioid', 'ethics']",
+          "depth": 1,
+          "example": {
+            "value": [
+              "pain management and opioid use and addiction (2 hours, for APRN DEA holders)"
+            ],
+            "quote": "The regulations must require that a licensee receive not less than two hours of education in pain management and opioid use and addiction in the two years preceding an application for renewal of a lic",
+            "citation": "08.68.276"
+          }
         },
         {
           "field": "reciprocity",
-          "type": "Reciprocity",
+          "type": "object",
           "vocabulary": [],
-          "meaning": "",
+          "meaning": "Whether/how the state recognizes out-of-state credentials (endorsement/reciprocity).",
+          "depth": 0,
           "example": null
         },
         {
+          "field": "reciprocity.available",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": {
+            "value": true,
+            "quote": "The board may issue a license by endorsement to practice as a registered, advanced practice registered, or practical nurse, whichever is appropriate, to an applicant who has worked as a nurse within t",
+            "citation": "08.68.200"
+          }
+        },
+        {
+          "field": "reciprocity.requirements",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Free-form summary",
+          "depth": 1,
+          "example": {
+            "value": "Applicant must be licensed in another state and, in the board's opinion, meet Alaska qualifications. Applicants who have not worked as a nurse in the past five years must also meet continuing competency requirements or complete a board-approved course of study.",
+            "quote": "The board may issue a license by endorsement to practice as a registered, advanced practice registered, or practical nurse, whichever is appropriate, to an applicant who has worked as a nurse within t",
+            "citation": "08.68.200"
+          }
+        },
+        {
           "field": "advisory_board",
-          "type": "AdvisoryBoard",
+          "type": "object",
           "vocabulary": [],
           "meaning": "Profession-specific advisory body sitting alongside the main licensing board, when one exists. Populated for states that delegate licensure to a generic board and add a specialty advisory committee.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "advisory_board.exists",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "True if a profession-specific advisory body exists alongside the main licensing board. False if the licensing board itself is profession-specific (no separate advisory body needed).",
+          "depth": 1,
+          "example": {
+            "value": false,
+            "quote": "\"board\" means the Board of Nursing",
+            "citation": "08.68.850"
+          }
+        },
+        {
+          "field": "advisory_board.name",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Name of the advisory board, e.g. 'Podiatry Advisory Committee'.",
+          "depth": 1,
+          "example": null
+        },
+        {
+          "field": "advisory_board.authority",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "Authority the advisory board has, in the statute's own words — e.g. 'advisory only', 'rulemaking subject to board approval', 'disciplinary recommendations'. Free text from the statute.",
+          "depth": 1,
           "example": null
         },
         {
@@ -109,6 +483,7 @@
           "type": "string",
           "vocabulary": [],
           "meaning": "Name of a national CERTIFICATION the state recognizes or requires, e.g. 'American Board of Podiatric Surgery (ABPS)' or 'National Board of Podiatric Medical Examiners (NBPME)'. The certifying body, NOT the association. Null if the statute doesn't reference one.",
+          "depth": 0,
           "example": null
         },
         {
@@ -116,6 +491,7 @@
           "type": "string",
           "vocabulary": [],
           "meaning": "Professional ASSOCIATION the state references (e.g. for accreditation or CE provider approval) — 'American Podiatric Medical Association (APMA)', 'American Dental Association (ADA)'. Distinct from the certifying body. Null if not referenced.",
+          "depth": 0,
           "example": null
         },
         {
@@ -130,6 +506,7 @@
             "license"
           ],
           "meaning": "Which UORF model the state applies to this profession (license / mandatory_cert / registration / etc).",
+          "depth": 0,
           "example": {
             "value": "license",
             "quote": "A person practicing or offering to practice registered, advanced practice registered, or practical nursing in the state shall submit evidence of qualification to practice and shall be licensed under t",
@@ -147,6 +524,7 @@
             "exemption"
           ],
           "meaning": "What SHAPE of credential does the state issue, independent of whether holding it is mandatory? license / certification / registration / exemption / none. Pairs with is_mandatory to decompose the legacy regulatory_model rung.",
+          "depth": 0,
           "example": {
             "value": "license",
             "quote": "A person practicing or offering to practice registered, advanced practice registered, or practical nursing in the state shall submit evidence of qualification to practice and shall be licensed under t",
@@ -158,6 +536,7 @@
           "type": "boolean",
           "vocabulary": [],
           "meaning": "Is the credential MANDATORY to practice (or claim the title) in this state? True if practicing without it is prohibited; False if optional (e.g., voluntary certification that only protects the title for those who hold it).",
+          "depth": 0,
           "example": {
             "value": true,
             "quote": "practice or offer to practice nursing without a license, unless the person is practicing within the scope of a delegation properly made under AS 08.68.805 or is giving necessary aid to the ill, injure",
@@ -169,6 +548,7 @@
           "type": "boolean",
           "vocabulary": [],
           "meaning": "Does the state restrict use of the profession's title to licensees? True if unlicensed people may NOT call themselves the protected title (e.g. 'podiatrist', 'CPA').",
+          "depth": 0,
           "example": {
             "value": true,
             "quote": "use in connection with the person's name a designation that implies that the person is a licensed nurse unless the person is licensed",
@@ -180,6 +560,7 @@
           "type": "boolean",
           "vocabulary": [],
           "meaning": "Does the state restrict practice of the profession's scope to licensees? True if performing the scope without a license is prohibited (independent of title use).",
+          "depth": 0,
           "example": {
             "value": true,
             "quote": "practice or offer to practice nursing without a license, unless the person is practicing within the scope of a delegation properly made under AS 08.68.805 or is giving necessary aid to the ill, injure",
@@ -191,33 +572,101 @@
           "type": "list",
           "vocabulary": [],
           "meaning": "Grounds on which the board may discipline a licensee. Typical statutes list 5-15.",
+          "depth": 0,
           "example": null
         },
         {
+          "field": "disciplinary_grounds[].short_label",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "snake_case key, e.g. 'fraud_in_obtaining_license'",
+          "depth": 1,
+          "example": {
+            "value": "fraud_in_obtaining_license"
+          }
+        },
+        {
+          "field": "disciplinary_grounds[].description",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "One-line plain-English description",
+          "depth": 1,
+          "example": {
+            "value": "Obtained or attempted to obtain a license by fraud or deceit"
+          }
+        },
+        {
           "field": "alternative_regulation",
-          "type": "AlternativeRegulation",
+          "type": "object",
           "vocabulary": [],
           "meaning": "Non-credential regulatory mechanisms (bonding, insurance, establishment regulation) imposed by the state. Obama 2015 framework typology. Independent of credential_type.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "alternative_regulation.bonding_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Does the statute require the practitioner or firm to post a bond (funds against which consumer claims can be made)? Independent of whether a credential is also required.",
+          "depth": 1,
+          "example": null
+        },
+        {
+          "field": "alternative_regulation.insurance_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Does the statute require the practitioner or firm to carry insurance (e.g., professional liability, surety insurance)?",
+          "depth": 1,
+          "example": null
+        },
+        {
+          "field": "alternative_regulation.establishment_regulation_required",
+          "type": "boolean",
+          "vocabulary": [],
+          "meaning": "Does the statute regulate the ESTABLISHMENT / FIRM (e.g., facility license, mandatory inspection of premises) as a route to consumer protection, independent of any practitioner credential?",
+          "depth": 1,
           "example": null
         },
         {
           "field": "citations",
           "type": "list",
           "vocabulary": [],
-          "meaning": "",
+          "meaning": "Statutory citations supporting the licensure fields above.",
+          "depth": 0,
           "example": null
+        },
+        {
+          "field": "citations[].cite",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": {
+            "value": "08.68.100"
+          }
+        },
+        {
+          "field": "citations[].kind",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": {
+            "value": "board powers"
+          }
         }
       ]
     },
     {
       "group": "scope",
-      "intro": "What the practice act lets (or reserves to) this profession — the defined scope and any title/scope protection.",
+      "intro": "What the practice act lets (or reserves to) this profession — the defined scope,\nauthorized methods, drug authority, and any title/scope protection. Skeleton only —\nprofession-specific scope richness lives in the discovered block.",
       "fields": [
         {
           "field": "definition_quote",
           "type": "string",
           "vocabulary": [],
           "meaning": "Verbatim statutory definition; quote field repeats the value text.",
+          "depth": 0,
           "example": {
             "value": "practice of registered nursing means the performance for compensation or personal profit of acts of professional service that requires substantial specialized knowledge, judgment, and skill based on the principles of biological, physiological, behavioral, and sociological sciences in assessing and responding to the health needs of individuals, families, or communities",
             "quote": "\"practice of registered nursing\" means the performance for compensation or personal profit of acts of professional service that requires substantial specialized knowledge, judgment, and skill based on",
@@ -229,6 +678,7 @@
           "type": "list",
           "vocabulary": [],
           "meaning": "High-level methods, e.g. ['medical','surgical','mechanical']",
+          "depth": 0,
           "example": {
             "value": [
               "assessment of problems, counseling, and teaching",
@@ -246,7 +696,8 @@
           "field": "drug_authority",
           "type": "string",
           "vocabulary": [],
-          "meaning": "",
+          "meaning": "Whether/how the profession may prescribe, administer, or dispense drugs.",
+          "depth": 0,
           "example": {
             "value": "APRNs may prescribe and dispense medical, therapeutic, or corrective measures under board regulations; opioid prescriptions limited to 7-day supply initially (with exceptions)",
             "quote": "\"practice of advanced practice registered nursing\" includes, in addition to the practice of registered nursing, the performance of acts of medical diagnosis and the prescription and dispensing of medi",
@@ -257,20 +708,42 @@
           "field": "citations",
           "type": "list",
           "vocabulary": [],
-          "meaning": "",
+          "meaning": "Statutory citations supporting the scope fields above.",
+          "depth": 0,
           "example": null
+        },
+        {
+          "field": "citations[].cite",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": {
+            "value": "08.68.850"
+          }
+        },
+        {
+          "field": "citations[].kind",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": {
+            "value": "definitions/scope"
+          }
         }
       ]
     },
     {
       "group": "profession_specific",
-      "intro": "Fields discovered specifically for this profession (auto-derived from its statutes; they vary profession to profession).",
+      "intro": "Fields discovered specifically for this profession (auto-derived from its statutes); they vary profession to profession.",
       "fields": [
         {
           "field": "license_tiers",
           "type": "list",
           "vocabulary": [],
           "meaning": "The distinct license or certification tiers recognized in the state, each with its own scope and requirements.",
+          "depth": 0,
           "example": {
             "value": [
               "Registered Nurse (RN)",
@@ -289,6 +762,7 @@
           "type": "list",
           "vocabulary": [],
           "meaning": "The recognized advanced practice registered nurse role categories, each with distinct scope and certification requirements.",
+          "depth": 0,
           "example": {
             "value": [
               "certified registered nurse anesthetist (CRNA)",
@@ -305,6 +779,7 @@
           "type": "list",
           "vocabulary": [],
           "meaning": "The categories of licensed professionals under whose supervision a practical or vocational nurse must work.",
+          "depth": 0,
           "example": {
             "value": [
               "licensed registered nurse",
@@ -322,6 +797,7 @@
           "type": "boolean",
           "vocabulary": [],
           "meaning": "Whether certain advanced practice nurses (typically NPs and CNMs) must have a written collaborative practice agreement with a physician to practice or prescribe.",
+          "depth": 0,
           "example": null
         },
         {
@@ -329,6 +805,7 @@
           "type": "boolean",
           "vocabulary": [],
           "meaning": "Whether the state provides a pathway for certain APRNs to practice fully independently without a physician collaboration or supervision requirement.",
+          "depth": 0,
           "example": null
         },
         {
@@ -336,6 +813,7 @@
           "type": "integer",
           "vocabulary": [],
           "meaning": "Number of supervised or collaborative practice hours required before an APRN may qualify for full independent practice authority.",
+          "depth": 0,
           "example": null
         },
         {
@@ -343,6 +821,7 @@
           "type": "boolean",
           "vocabulary": [],
           "meaning": "Whether APRNs must obtain a separate board-issued certificate or number to prescribe or furnish drugs, beyond the basic APRN license.",
+          "depth": 0,
           "example": null
         },
         {
@@ -350,6 +829,7 @@
           "type": "list",
           "vocabulary": [],
           "meaning": "The DEA controlled substance schedules that APRNs are authorized to prescribe, which may differ by role or state.",
+          "depth": 0,
           "example": null
         },
         {
@@ -357,6 +837,7 @@
           "type": "string",
           "vocabulary": [],
           "meaning": "Statutory limits on opioid prescriptions issued by APRNs, including maximum day-supply and documentation requirements.",
+          "depth": 0,
           "example": {
             "value": "An APRN may not issue an initial opioid prescription exceeding a seven-day supply to an adult outpatient, or any opioid prescription exceeding seven days to a minor; exceptions exist for chronic pain, cancer, palliative care, and logistical/travel barriers.",
             "quote": "An advanced practice registered nurse may not issue (1) an initial prescription for an opioid that exceeds a seven-day supply to an adult patient for outpatient use; (2) a prescription for an opioid t",
@@ -368,6 +849,7 @@
           "type": "boolean",
           "vocabulary": [],
           "meaning": "Whether APRNs authorized to prescribe controlled substances must register with the federal DEA.",
+          "depth": 0,
           "example": null
         },
         {
@@ -375,6 +857,7 @@
           "type": "boolean",
           "vocabulary": [],
           "meaning": "Whether APRNs with DEA numbers must register with the state's controlled substance prescription monitoring database.",
+          "depth": 0,
           "example": {
             "value": true,
             "quote": "require that a licensed advanced practice registered nurse who has a federal Drug Enforcement Administration registration number register with the controlled substance prescription database under AS 1",
@@ -386,6 +869,7 @@
           "type": "boolean",
           "vocabulary": [],
           "meaning": "Whether the state board maintains a registry of certified nurse aides, including disciplinary findings.",
+          "depth": 0,
           "example": {
             "value": true,
             "quote": "The board shall maintain a registry of certified nurse aides.",
@@ -397,6 +881,7 @@
           "type": "boolean",
           "vocabulary": [],
           "meaning": "Whether the state has a separate certification category for medication assistants or medication assistive persons who may administer certain medications under nurse supervision.",
+          "depth": 0,
           "example": null
         },
         {
@@ -404,6 +889,7 @@
           "type": "boolean",
           "vocabulary": [],
           "meaning": "Whether licensed nurses are explicitly authorized by statute to delegate nursing tasks to unlicensed assistive personnel under defined conditions.",
+          "depth": 0,
           "example": {
             "value": true,
             "quote": "A registered, advanced practice registered, or practical nurse licensed under this chapter may delegate nursing duties to other persons, including unlicensed assistive personnel, under regulations ado",
@@ -415,6 +901,7 @@
           "type": "boolean",
           "vocabulary": [],
           "meaning": "Whether employers of nurses are legally required to report to the board when a nurse is discharged, suspended, or resigns under circumstances related to grounds for discipline.",
+          "depth": 0,
           "example": {
             "value": true,
             "quote": "An employer of a nurse licensed under this chapter or a nurse aide certified under this chapter practicing within the scope of that license or certification that discharges or suspends a nurse or nurs",
@@ -426,6 +913,7 @@
           "type": "boolean",
           "vocabulary": [],
           "meaning": "Whether the state provides explicit statutory protection for nurses who refuse to perform improperly delegated tasks.",
+          "depth": 0,
           "example": {
             "value": true,
             "quote": "An employer may not discharge, threaten, or otherwise discriminate against a nurse employed by the employer regarding the nurse's compensation, terms, conditions, location, or privileges of employment",
@@ -437,6 +925,7 @@
           "type": "boolean",
           "vocabulary": [],
           "meaning": "Whether the state has enacted the Enhanced Nurse Licensure Compact (eNLC), allowing multistate licensure privileges.",
+          "depth": 0,
           "example": null
         },
         {
@@ -444,6 +933,7 @@
           "type": "boolean",
           "vocabulary": [],
           "meaning": "Whether applicants may choose between a single-state license and a multistate license when applying for licensure.",
+          "depth": 0,
           "example": null
         },
         {
@@ -451,6 +941,7 @@
           "type": "boolean",
           "vocabulary": [],
           "meaning": "Whether the state has a voluntary non-disciplinary alternative or diversion program for nurses impaired by substance use or mental health conditions.",
+          "depth": 0,
           "example": null
         },
         {
@@ -458,6 +949,7 @@
           "type": "boolean",
           "vocabulary": [],
           "meaning": "Whether registered nurses are explicitly authorized by statute to make a determination and pronouncement of death under specified conditions.",
+          "depth": 0,
           "example": {
             "value": true,
             "quote": "A registered nurse licensed under this chapter may make a determination and pronouncement of death of a person under the following circumstances",
@@ -469,6 +961,7 @@
           "type": "boolean",
           "vocabulary": [],
           "meaning": "Whether the state has a separate board-issued public health nurse certification with title protection.",
+          "depth": 0,
           "example": null
         },
         {
@@ -476,6 +969,7 @@
           "type": "string",
           "vocabulary": [],
           "meaning": "Statutory rules governing when an APRN may prescribe or treat without a prior in-person physical examination, including telehealth or internet-based restrictions.",
+          "depth": 0,
           "example": {
             "value": "An APRN may prescribe without a physical examination for non-controlled substances if follow-up care is available and the patient is offered records forwarding to primary care provider. An APRN may not prescribe in response to an Internet questionnaire or email to a patient without a prior provider-patient relationship.",
             "quote": "an advanced practice registered nurse may not prescribe, dispense, or administer a prescription drug in response to an Internet questionnaire or electronic mail message to a person with whom the advan",
@@ -487,6 +981,7 @@
           "type": "integer",
           "vocabulary": [],
           "meaning": "Number of supervised or collaborative practice hours a nurse practitioner must complete before qualifying for independent or expanded practice authority.",
+          "depth": 0,
           "example": null
         },
         {
@@ -499,6 +994,7 @@
             "coordination model"
           ],
           "meaning": "The statutory model governing the relationship between a CRNA and a physician during anesthesia administration.",
+          "depth": 0,
           "example": null
         },
         {
@@ -506,6 +1002,7 @@
           "type": "boolean",
           "vocabulary": [],
           "meaning": "Whether certified nurse midwives are explicitly authorized to attend births in out-of-hospital settings.",
+          "depth": 0,
           "example": null
         },
         {
@@ -513,6 +1010,7 @@
           "type": "boolean",
           "vocabulary": [],
           "meaning": "Whether APRNs who prescribe must do so pursuant to a board-approved formulary or written protocol specifying permissible drugs.",
+          "depth": 0,
           "example": null
         },
         {
@@ -520,6 +1018,7 @@
           "type": "integer",
           "vocabulary": [],
           "meaning": "Minimum number of direct patient care clinical hours required in an approved prelicensure nursing education program.",
+          "depth": 0,
           "example": null
         },
         {
@@ -527,6 +1026,7 @@
           "type": "boolean",
           "vocabulary": [],
           "meaning": "Whether approved nursing education programs are required to include implicit bias training as part of graduation requirements.",
+          "depth": 0,
           "example": null
         },
         {
@@ -534,6 +1034,7 @@
           "type": "boolean",
           "vocabulary": [],
           "meaning": "Whether approved nursing schools are required to grant credit toward licensure for military medical education and experience.",
+          "depth": 0,
           "example": {
             "value": true,
             "quote": "the department or applicable board shall accept military education, training, and service for some or all of the qualifications otherwise required of an applicant for a license or certificate issued u",

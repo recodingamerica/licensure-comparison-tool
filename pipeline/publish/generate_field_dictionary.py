@@ -28,6 +28,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import subprocess
 import sys
 from pathlib import Path
 
@@ -41,16 +42,10 @@ from _records import record_files  # noqa: E402
 
 OUT_DIR = PIPELINE_ROOT.parent / "docs" / "methodology"
 
-# The ONLY hand-maintained part: a one-line intro per top-level group. Everything
-# else (fields, types, vocabularies, descriptions, examples) is read from the code.
-GROUP_INTROS = {
-    "licensure": "Whether and how the state credentials this profession — the regulatory "
-                 "model, credential type, authority, exams, fees, and renewal.",
-    "scope": "What the practice act lets (or reserves to) this profession — the defined "
-             "scope and any title/scope protection.",
-    "profession_specific": "Fields discovered specifically for this profession (auto-derived "
-                            "from its statutes; they vary profession to profession).",
-}
+# Nothing in this file is hand-maintained per-field. Group intros come from the model
+# docstrings; field meanings/types/vocabularies from Field(description=) + the schema.
+EVIDENCE_KEYS = {"value", "quote", "citation"}
+MAX_DEPTH = 3
 
 
 def _resolve(schema: dict, defs: dict) -> dict:
@@ -77,29 +72,45 @@ def _value_spec(ev_schema: dict, defs: dict) -> tuple[str, list[str]]:
     return t, []
 
 
-def _field_rows(group_schema: dict, defs: dict) -> list[dict]:
-    """One row per leaf field in a group model."""
-    rows = []
-    for name, prop in (group_schema.get("properties") or {}).items():
-        # Optional fields are anyOf:[ {$ref|type}, {null} ]; pull the non-null branch.
-        branch = prop
-        if "anyOf" in prop:
-            non_null = [b for b in prop["anyOf"] if b.get("type") != "null"]
-            branch = non_null[0] if non_null else prop
-        target = _resolve(branch, defs)
+def _unwrap(prop: dict, defs: dict) -> tuple[dict, dict]:
+    """Pull the non-null branch of an Optional, return (branch, resolved_target)."""
+    branch = prop
+    if "anyOf" in prop:
+        nn = [b for b in prop["anyOf"] if b.get("type") != "null"]
+        branch = nn[0] if nn else prop
+    return branch, _resolve(branch, defs)
+
+
+def _walk(model_schema: dict, defs: dict, prefix: str = "", depth: int = 0) -> list[dict]:
+    """Recursively flatten a model's fields into rows with dotted paths. Evidence
+    wrappers are leaves; nested sub-models and list items are drilled into. The
+    universal quote/citation companions aren't emitted as rows (the doc header
+    explains every field carries them)."""
+    rows: list[dict] = []
+    for name, prop in (model_schema.get("properties") or {}).items():
+        if name in ("quote", "citation"):
+            continue
+        path = f"{prefix}{name}"
+        branch, target = _unwrap(prop, defs)
         desc = prop.get("description") or target.get("description") or ""
-        props = target.get("properties") or {}
-        if {"value", "quote", "citation"} <= set(props):           # an Evidence wrapper
+        tprops = target.get("properties") or {}
+        if EVIDENCE_KEYS <= set(tprops):                       # Evidence wrapper → leaf
             vtype, enum = _value_spec(target, defs)
-            # prefer the field-level description, fall back to value's
             if not desc:
-                desc = (props["value"].get("description") or "")
-            rows.append({"field": name, "type": vtype, "vocabulary": enum, "meaning": desc})
-        elif branch.get("type") == "array":                        # list of sub-objects
-            rows.append({"field": name, "type": "list", "vocabulary": [], "meaning": desc})
-        else:                                                      # nested sub-model
-            rows.append({"field": name, "type": target.get("title", "object"),
-                         "vocabulary": [], "meaning": desc})
+                desc = tprops["value"].get("description") or ""
+            rows.append({"field": path, "type": vtype, "vocabulary": enum, "meaning": desc, "depth": depth})
+        elif branch.get("type") == "array":                   # list of sub-objects
+            rows.append({"field": path, "type": "list", "vocabulary": [], "meaning": desc, "depth": depth})
+            _, item_t = _unwrap(branch.get("items") or {}, defs)
+            if depth < MAX_DEPTH and item_t.get("properties"):
+                rows += _walk(item_t, defs, f"{path}[].", depth + 1)
+        elif tprops and depth < MAX_DEPTH:                     # nested sub-model → recurse
+            rows.append({"field": path, "type": "object", "vocabulary": [], "meaning": desc, "depth": depth})
+            rows += _walk(target, defs, f"{path}.", depth + 1)
+        else:                                                 # scalar leaf
+            enum = list(target.get("enum") or branch.get("enum") or [])
+            t = "enum" if enum else (target.get("type") or branch.get("type") or "string")
+            rows.append({"field": path, "type": t, "vocabulary": enum, "meaning": desc, "depth": depth})
     return rows
 
 
@@ -108,11 +119,38 @@ def _example_record(profession: str) -> dict | None:
     return json.loads(files[0].read_text()) if files else None
 
 
-def _example_for(record: dict, group: str, field: str) -> dict | None:
-    leaf = ((record or {}).get(group) or {}).get(field)
-    if isinstance(leaf, dict) and "value" in leaf:
-        return {"value": leaf.get("value"), "quote": (leaf.get("quote") or "")[:200],
-                "citation": leaf.get("citation")}
+def _data_as_of(profession: str) -> str | None:
+    """Date (YYYY-MM-DD) of the last commit that touched this profession's structured
+    records — i.e. how current the data behind this dictionary is. Deterministic (git
+    history, not wall-clock), so regenerating without a data change produces no diff."""
+    try:
+        out = subprocess.run(
+            ["git", "log", "-1", "--format=%cs", "--", str(STRUCTURED_DIR / profession)],
+            cwd=PIPELINE_ROOT.parent, capture_output=True, text=True, timeout=10,
+        )
+        return out.stdout.strip() or None
+    except Exception:
+        return None
+
+
+def _example_at(record: dict, group: str, path: str) -> dict | None:
+    """Resolve a dotted (with `[]`) field path against a record; return its Evidence
+    example (value+quote+citation) or a scalar value."""
+    cur = (record or {}).get(group)
+    for seg in path.split("."):
+        if not isinstance(cur, dict):
+            return None
+        arr = seg.endswith("[]")
+        cur = cur.get(seg[:-2] if arr else seg)
+        if arr:
+            if not isinstance(cur, list) or not cur:
+                return None
+            cur = cur[0]
+    if isinstance(cur, dict) and "value" in cur:
+        return {"value": cur.get("value"), "quote": (cur.get("quote") or "")[:200],
+                "citation": cur.get("citation")}
+    if isinstance(cur, (str, int, float, bool)):
+        return {"value": cur}
     return None
 
 
@@ -129,11 +167,11 @@ def build_dictionary(profession: str) -> dict:
         if not gprop:
             continue
         gschema = _resolve(gprop, defs)
-        rows = _field_rows(gschema, defs)
+        rows = _walk(gschema, defs)
         for r in rows:
-            r["example"] = _example_for(record, gname, r["field"])
-        groups.append({"group": gname, "intro": GROUP_INTROS.get(gname, ""), "fields": rows})
-    return {"profession": profession, "groups": groups,
+            r["example"] = _example_at(record, gname, r["field"])
+        groups.append({"group": gname, "intro": gschema.get("description", ""), "fields": rows})
+    return {"profession": profession, "data_as_of": _data_as_of(profession), "groups": groups,
             "example_state": (record or {}).get("state")}
 
 
@@ -142,6 +180,9 @@ def render_md(d: dict) -> str:
     L.append("_Auto-generated from the extraction model (`standard_model.py` + the "
              "profession's discovered schema). Do not edit by hand — regenerate with "
              "`python -m pipeline.publish.generate_field_dictionary`._")
+    L.append("")
+    L.append(f"**Reflects extracted data as of {d.get('data_as_of') or 'unknown'}** "
+             f"(latest commit to `{d['profession']}` records). Regenerate to refresh.")
     L.append("")
     L.append("Every field is an **Evidence** object: a `value`, the verbatim `quote` from "
              "the statute that supports it, and the `citation` it came from. Examples below "
@@ -158,7 +199,8 @@ def render_md(d: dict) -> str:
             ex = f["example"]
             exval = "" if ex is None else json.dumps(ex["value"])[:60]
             meaning = (f["meaning"] or "").replace("\n", " ").replace("|", "\\|").strip()
-            L.append(f"| `{f['field']}` | {f['type']}{vocab} | {meaning} | {exval} |")
+            indent = "&nbsp;&nbsp;&nbsp;&nbsp;" * f.get("depth", 0)
+            L.append(f"| {indent}`{f['field']}` | {f['type']}{vocab} | {meaning} | {exval} |")
         L.append("")
     return "\n".join(L)
 
