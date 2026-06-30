@@ -51,6 +51,7 @@ from _fetch import fetch_with, shutdown_pw  # noqa: E402
 from _extract import extract_justia_chapters, extract_justia_sections, extract_official_chapters  # noqa: E402
 from paths import HIERARCHY_DIR, CONFIG_DIR, LOGS_DIR  # noqa: E402
 from config.states import ALL_STATES  # noqa: E402
+from config.yaml_loader import safe_load_unique  # noqa: E402
 
 import yaml as _yaml  # noqa: E402
 
@@ -184,7 +185,7 @@ def _load_state_layout() -> dict[str, str]:
     p = CONFIG_DIR / "state_structure.yaml"
     if not p.exists():
         return {}
-    data = _yaml.safe_load(p.read_text()) or {}
+    data = safe_load_unique(p.read_text()) or {}  # fail loud on duplicate state keys
     return {st: (e or {}).get("layout", "") for st, e in data.items()}
 
 
