@@ -112,6 +112,21 @@ def test_index_only_and_thin_flags(tree):
     assert "THIN" not in flat[("pharmacy", "CA")]
 
 
+def test_junk_as_200_flag(tree, tmp_path):
+    import json as _json
+    w = tree["write"]
+    SEC = "https://law.justia.com/codes/x/title-1/chapter-2/section-2-5/"
+    w(tree["text"], "pharmacy", "AL", {"sections": [
+        {"url": SEC, "text": "Verifying you are human. Just a moment...", "text_len": 40}]})
+    rows = ac.audit_sync(ac.index_stages())
+    flat = {(r["prof"], r["state"]): r["flags"] for r in rows}
+    assert "JUNK_AS_200" in flat[("pharmacy", "AL")]
+    # a real section is not flagged
+    p = tmp_path / "ok.json"
+    p.write_text(_json.dumps({"sections": [{"url": SEC, "text": "The board shall license...", "text_len": 4000}]}))
+    assert ac.has_block_page(p) is False
+
+
 def test_index_only_helper(tree, tmp_path):
     import json as _json
     # a real section URL with plenty of text is NOT index-only even if it's the only one
