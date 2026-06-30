@@ -123,7 +123,12 @@ def main() -> None:
                     continue
                 try:
                     rec = json.loads(jf.read_text())
-                except json.JSONDecodeError:
+                except json.JSONDecodeError as e:
+                    # A corrupt record can't be consistency-checked. Don't skip
+                    # it silently into publish — make it a gate violation so the
+                    # build halts and the bad file gets surfaced.
+                    viols.append({"profession": p, "state": jf.stem,
+                                  "rule": "unreadable_json", "detail": str(e)[:120]})
                     continue
                 viols.extend(check_record(p, jf.stem, rec))
         if viols:

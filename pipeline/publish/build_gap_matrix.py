@@ -124,7 +124,10 @@ def cells_for_profession(profession: str) -> list[dict]:
                 continue
             try:
                 d = json.loads(f.read_text())
-            except Exception:
+            except Exception as e:
+                # A corrupt record would otherwise vanish and read as a true
+                # gap (missing state). Surface it loudly instead.
+                print(f"WARN: unreadable {profession}/{f.stem}.json — {str(e)[:120]}", file=sys.stderr)
                 continue
             if isinstance(d, dict):
                 rec_by_state[f.stem] = d
