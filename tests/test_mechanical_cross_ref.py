@@ -120,6 +120,38 @@ class TestLoadPatterns:
         assert mx.load_patterns("definitely_not_a_profession_xyz") == []
 
 
+class TestIncompleteOccupations:
+    def test_all_complete_returns_empty(self, monkeypatch):
+        monkeypatch.setattr(mx, "_have", lambda occ, ov: set(mx.ALL_STATES))
+        assert mx.incomplete_occupations({}) == []
+
+    def test_none_covered_returns_patterned_occs(self, monkeypatch):
+        monkeypatch.setattr(mx, "_have", lambda occ, ov: set())
+        occs = mx.incomplete_occupations({})
+        assert "electrician" in occs and "plumbing" in occs
+        assert occs == sorted(occs)
+
+
+class TestWriteCandidateReport:
+    def test_writes_rows_and_count(self, tmp_path):
+        results = {
+            "public_adjuster": {"GA": ("insurance_producer", 82), "TN": ("insurance_producer", 154)},
+            "dental_assistant": {"AK": ("dentistry", 35)},
+        }
+        out = tmp_path / "report.md"
+        n = mx.write_candidate_report(results, out, min_score=8)
+        assert n == 3
+        text = out.read_text()
+        assert "3 candidate link(s) across 2 occupation(s)" in text
+        assert "| public_adjuster | GA | insurance_producer | 82 |" in text
+        assert "| dental_assistant | AK | dentistry | 35 |" in text
+
+    def test_empty_results(self, tmp_path):
+        out = tmp_path / "report.md"
+        assert mx.write_candidate_report({}, out, min_score=8) == 0
+        assert "0 candidate link(s)" in out.read_text()
+
+
 class TestConfigIntegrity:
     def test_density_is_positive_int(self):
         assert isinstance(mx.DENSITY, int) and mx.DENSITY > 0

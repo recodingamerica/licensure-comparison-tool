@@ -34,6 +34,7 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import functools
 import glob
 import json
 import os
@@ -110,7 +111,11 @@ CONFIG: dict[str, dict] = {
 DENSITY = 8  # total licensing-term hits in the sibling corpus to count as real coverage
 
 
+@functools.lru_cache(maxsize=None)
 def _corpus_text(profession: str, state: str) -> str:
+    # Cached: --all-brute reads each sibling corpus once across every target
+    # occupation instead of re-parsing it per occupation. Corpora don't change
+    # mid-run, so the cache is always valid.
     p = TEXT_DIR / profession / f"{state}.json"
     try:
         secs = json.loads(p.read_text()).get("sections", []) or []
@@ -165,6 +170,39 @@ def load_patterns(profession: str) -> list[str]:
     return list((defs.get(profession) or {}).get("patterns") or [])
 
 
+def incomplete_occupations(overrides: dict) -> list[str]:
+    """Every professions.yaml occupation with patterns AND at least one blank state."""
+    path = CONFIG_DIR / "professions.yaml"
+    defs = (yaml.safe_load(path.read_text()) if path.exists() else {}) or {}
+    out = [occ for occ, d in defs.items()
+           if (d or {}).get("patterns") and (ALL_STATES - _have(occ, overrides))]
+    return sorted(out)
+
+
+def write_candidate_report(results: dict[str, dict[str, tuple[str, int]]], path: Path,
+                           min_score: int) -> int:
+    """Write a markdown review worklist of brute-force candidates. Returns row count."""
+    rows = [(occ, st, sib, score)
+            for occ, links in sorted(results.items())
+            for st, (sib, score) in sorted(links.items())]
+    lines = [
+        "# Brute-force cross-ref candidates (REVIEW before applying)",
+        "",
+        f"LLM-free scan: each occupation's professions.yaml patterns grepped across every "
+        f"pulled corpus; density >= {min_score} pattern hits. These are CANDIDATES — a high "
+        f"score means a sibling corpus regulates the occupation, but eyeball each (a broad "
+        f"umbrella title can score high without being the right scoped chapter).",
+        "",
+        f"**{len(rows)} candidate link(s) across {len(results)} occupation(s).**",
+        "",
+        "| occupation | state | sibling corpus | pattern hits |",
+        "| --- | --- | --- | --- |",
+    ]
+    lines += [f"| {occ} | {st} | {sib} | {score} |" for occ, st, sib, score in rows]
+    path.write_text("\n".join(lines) + "\n")
+    return len(rows)
+
+
 def brute_force_links(profession: str, overrides: dict, patterns: list[str],
                       sibling_pool: list[str], min_score: int) -> dict[str, tuple[str, int]]:
     """For each blank state, the BEST-scoring sibling corpus that densely uses the
@@ -199,14 +237,37 @@ def main() -> int:
                     help="ignore CONFIG: use the occupation's professions.yaml patterns and scan "
                          "EVERY pulled corpus to auto-discover shared-board links. Use with "
                          "--profession (and optionally --siblings to narrow the pool).")
+    ap.add_argument("--all-brute", action="store_true",
+                    help="brute-force EVERY incomplete occupation (patterns + blank states) and "
+                         "write a review worklist to results/brute_force_candidates.md.")
     ap.add_argument("--min-score", type=int, default=DENSITY,
-                    help=f"density threshold for --brute-force (default {DENSITY})")
+                    help=f"density threshold for --brute-force/--all-brute (default {DENSITY})")
     ap.add_argument("--apply", action="store_true", help="write confirmed links to corpus_overrides.yaml")
     args = ap.parse_args()
 
     overrides = (yaml.safe_load(OVERRIDES.read_text()) if OVERRIDES.exists() else {}) or {}
 
-    if args.brute_force:
+    if args.all_brute and args.apply:
+        return print("--all-brute is report-only (candidates need review). Re-run a specific "
+                     "occupation with --brute-force --apply after reviewing the worklist.") or 2
+
+    if args.all_brute:
+        pool = ([s.strip() for s in args.siblings.split(",")] if args.siblings else _all_occupations())
+        profs = incomplete_occupations(overrides)
+        print(f"brute-forcing {len(profs)} incomplete occupation(s) over {len(pool)} corpora "
+              f"(min-score {args.min_score})…")
+        results = {}
+        for prof in profs:
+            links = brute_force_links(prof, overrides, load_patterns(prof), pool, args.min_score)
+            if links:
+                results[prof] = links
+        total = sum(len(v) for v in results.values())
+        report = REPO / "pipeline" / "results" / "brute_force_candidates.md"
+        n = write_candidate_report(results, report, args.min_score)
+        print(f"wrote {n} candidate(s) across {len(results)} occupation(s) to "
+              f"{report.relative_to(REPO)} — REVIEW before --apply")
+        return 0
+    elif args.brute_force:
         if not args.profession:
             return print("--brute-force needs --profession") or 2
         prof = args.profession
