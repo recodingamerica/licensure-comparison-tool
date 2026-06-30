@@ -121,3 +121,54 @@ class TestUmbrellaNodes:
         node = _umbrella_nodes_for(self.WA_UMBRELLA, "nursing", set())[0]
         official = _official_url(self.WA_TEMPLATE, node["url"])
         assert official == "https://app.leg.wa.gov/RCW/default.aspx?cite=18.130&full=true"
+
+
+class TestOfficialUrl:
+    """_official_url fills a state's chapter_url_template from a Justia chapter
+    url. Load-bearing for every official-source state (WA/VA/SD/NV/CT/NY…)."""
+
+    def test_wa_cite_dot_form(self):
+        out = _official_url(
+            "https://app.leg.wa.gov/RCW/default.aspx?cite={chapter_dot}&full=true",
+            "https://law.justia.com/codes/washington/title-19/chapter-19-28/",
+        )
+        assert out == "https://app.leg.wa.gov/RCW/default.aspx?cite=19.28&full=true"
+
+    def test_va_title_dot_form(self):
+        # VA: title-54-1 → title_dot 54.1
+        out = _official_url(
+            "https://law.lis.virginia.gov/vacodefull/title{title_dot}/chapter{chapter}/",
+            "https://law.justia.com/codes/virginia/title-54-1/chapter-29/",
+        )
+        assert out == "https://law.lis.virginia.gov/vacodefull/title54.1/chapter29/"
+
+    def test_letter_suffix_uppercased(self):
+        # SD-style: chapter-06a → strip zero-pad, upper letter → 6A
+        out = _official_url(
+            "https://example.gov/{title}-{chapter}",
+            "https://law.justia.com/codes/south-dakota/title-36/chapter-06a/",
+        )
+        assert out == "https://example.gov/36-6A"
+
+    def test_letter_suffix_lowercase_form(self):
+        # CT-style template uses the _lc form
+        out = _official_url(
+            "https://www.cga.ct.gov/current/pub/chap_{chapter_lc}.htm",
+            "https://law.justia.com/codes/connecticut/title-20/chapter-393b/",
+        )
+        assert out == "https://www.cga.ct.gov/current/pub/chap_393b.htm"
+
+    def test_missing_placeholder_returns_none(self):
+        # Template needs {section} but the Justia url has no section segment.
+        out = _official_url(
+            "https://example.gov/{title}/{chapter}/{section}",
+            "https://law.justia.com/codes/washington/title-18/chapter-18-130/",
+        )
+        assert out is None
+
+    def test_zero_padding_stripped(self):
+        out = _official_url(
+            "{chapter}",
+            "https://law.justia.com/codes/x/title-1/chapter-007/",
+        )
+        assert out == "7"
