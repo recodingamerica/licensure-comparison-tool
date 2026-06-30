@@ -39,6 +39,7 @@ load_env()
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from _llm import call_structured  # noqa: E402
 from paths import CLEAN_DIR, TRIMMED_DIR, LOGS_DIR  # noqa: E402
+from ingest._trim_health import LLM_FAIL_REASON  # noqa: E402
 
 LOG_PATH = LOGS_DIR / "trim_state.log"
 LOGS_DIR.mkdir(parents=True, exist_ok=True)
@@ -130,9 +131,14 @@ class TrimmedCorpus:
     dropped: list[dict] = field(default_factory=list)  # {citation, label, reason}
     skipped: list[dict] = field(default_factory=list)  # input cites with no decision
     total_chars: int = 0
+    trim_degraded: bool = False  # True if LLM failed and we fell back to keep-everything
 
 
-def trim_state(state: str, profession: str, model: str) -> TrimmedCorpus | None:
+class TrimLLMError(Exception):
+    """Raised under --strict when the trim LLM call fails (no degraded write)."""
+
+
+def trim_state(state: str, profession: str, model: str, strict: bool = False) -> TrimmedCorpus | None:
     in_path = CLEAN_DIR / profession / f"{state}.json"
     raw = json.loads(in_path.read_text())
     sections = raw.get("sections", [])
@@ -158,9 +164,15 @@ def trim_state(state: str, profession: str, model: str) -> TrimmedCorpus | None:
 
     result = call_model(model, SYSTEM_PROMPT, user_msg, schema_cls)
     if result is None:
-        log.warning("[%s] LLM failed — falling back to keep-everything", state)
+        if strict:
+            log.error("[%s] LLM failed and --strict set — refusing to write degraded trim", state)
+            raise TrimLLMError(f"{profession}/{state}")
+        # Keep the corpus (don't lose data) but flag it loudly: this is NOT a
+        # real trim, and preflight will refuse to extract it (see _trim_health).
+        log.error("[%s] LLM failed — writing DEGRADED keep-everything trim (trim_degraded=true)", state)
+        out.trim_degraded = True
         for cite, sec in zip(citations, sections):
-            out.skipped.append({"citation": cite, "label": sec.get("label", ""), "reason": "llm_failed_kept_by_default"})
+            out.skipped.append({"citation": cite, "label": sec.get("label", ""), "reason": LLM_FAIL_REASON})
             out.sections.append(sec)
             out.total_chars += sec.get("text_len", len(sec.get("text", "")))
         return out
@@ -191,6 +203,8 @@ def main() -> None:
     ap.add_argument("--profession", required=True)
     ap.add_argument("--states", default="")
     ap.add_argument("--model", default=DEFAULT_MODEL)
+    ap.add_argument("--strict", action="store_true",
+                    help="On LLM failure, exit nonzero and write nothing (no degraded keep-everything fallback)")
     args = ap.parse_args()
 
     profession = args.profession.lower()
@@ -206,6 +220,7 @@ def main() -> None:
         sys.exit("ANTHROPIC_API_KEY not set")
 
     n_run = 0
+    strict_failures: list[str] = []
     for path in sorted(in_dir.glob("*.json")):
         if path.name.startswith("_"):
             continue
@@ -213,7 +228,10 @@ def main() -> None:
         if only and state not in only:
             continue
         try:
-            corpus = trim_state(state, profession, args.model)
+            corpus = trim_state(state, profession, args.model, strict=args.strict)
+        except TrimLLMError:
+            strict_failures.append(state)
+            continue
         except Exception:
             log.exception("[%s] crashed", state)
             continue
@@ -239,6 +257,9 @@ def main() -> None:
         })
     (out_dir / "_summary.json").write_text(json.dumps(summary, indent=2))
     log.info("done: %d states this run, %d total in summary", n_run, len(summary))
+
+    if strict_failures:
+        sys.exit(f"--strict: LLM failed for {len(strict_failures)} state(s), wrote nothing for them: {strict_failures}")
 
 
 if __name__ == "__main__":
