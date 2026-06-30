@@ -115,8 +115,12 @@ def main() -> int:
     ap.add_argument("--block-threshold", type=int, default=6,
                     help="Consecutive states yielding 0 ok sections before declaring the IP "
                          "blocked and bailing for a fresh runner (0 = never bail on blocks)")
-    ap.add_argument("--limit-sections", type=int, default=None,
-                    help="Cap sections per state (debug)")
+    ap.add_argument("--limit-sections", type=int, default=500,
+                    help="Per-state section cap (default 500). A RUNAWAY GUARD: a whole-title "
+                         "over-match (e.g. a profession mapped to a 2500-section state-government "
+                         "title) would otherwise pull for hours and bloat the corpus. A state that "
+                         "hits the cap is logged loudly + flagged — not silently truncated. Pass 0 to "
+                         "disable (only for a known-huge legitimate chapter).")
     ap.add_argument("--no-audit", action="store_true",
                     help="Skip the post-pull corpus-correctness audit (on by default; ~$0.02/state).")
     ap.add_argument("--gate", action="store_true",
@@ -140,6 +144,8 @@ def main() -> int:
     consecutive_blocked = 0
     processed = 0
     pulled_by_prof: dict[str, list[str]] = {}
+    section_cap = args.limit_sections or None  # 0 → disabled
+    capped_states: list[str] = []
 
     for profession, state, rows in work:
         if time.monotonic() >= deadline:
@@ -149,7 +155,14 @@ def main() -> int:
 
         processed += 1
         try:
-            corpus = pt.pull_state(state, profession, rows, args.limit_sections)
+            corpus = pt.pull_state(state, profession, rows, section_cap)
+            if section_cap and len(corpus.sections) >= section_cap:
+                # Hit the runaway guard — almost always a whole-title over-match, not a
+                # real chapter. Flag loudly so it's reviewed, not believed as coverage.
+                log.warning("  ⚠ [%s/%s] hit the %d-section cap — likely a whole-title over-match; "
+                            "FLAGGED for review (re-map to the specific chapter, don't trust this corpus)",
+                            profession, state, section_cap)
+                capped_states.append(f"{profession}/{state}")
         except Exception as e:  # noqa: BLE001 — never let one state kill the run
             log.exception("[%s/%s] unhandled", profession, state)
             corpus = pt.StateCorpus(state=state, profession=profession, errors=[f"unhandled: {e}"])
@@ -200,6 +213,9 @@ def main() -> int:
     remaining = len(build_worklist(professions))
     log.info("run complete: %d pulled, %d blocked/empty this run, %d pairs still remaining",
              pulled, failed_states, remaining)
+    if capped_states:
+        log.warning("%d state(s) hit the %d-section runaway cap — re-map to the specific chapter "
+                    "before trusting: %s", len(capped_states), section_cap, ", ".join(capped_states))
 
     # Post-pull corpus-correctness gate: discovery keys on chapter titles, so a pull
     # can land on the wrong law (a criminal/procurement chapter, another profession,
