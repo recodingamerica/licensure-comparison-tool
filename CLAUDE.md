@@ -1,22 +1,32 @@
 # utah — state professional-licensing extraction pipeline
 
-## The fetched statute data already exists locally — do NOT re-fetch from Justia
+## The fetched statute data already exists locally — prefer it; re-fetch only when needed
 
 Every profession/state corpus we've pulled is **committed in the repo** under
-`pipeline/results/`. We are not missing data and there is **no remote bucket** to
-pull from — the Vercel blob store holds only the *published* frontend JSON
-(`data/<profession>.json`, browse files, tag sheet), not raw statutes.
-
-Justia **rate-limits / blocks bulk sequential fetching** (a mass re-pull will
-return empty/partial pages and corrupt corpora). So:
+`pipeline/results/`. There is **no remote bucket** — the Vercel blob store holds only
+the *published* frontend JSON (`data/<profession>.json`, browse files, tag sheet),
+not raw statutes. So the default is local:
 
 - Need a statute's text? Read it from `pipeline/results/text/<profession>/<state>.json`.
-- Need to *transform* corpora (e.g. de-duplicate Justia year-versioned pages)?
-  Do it **locally** on the committed files — never by re-fetching. `pull_text`'s
-  `_dedupe_year_versions()` can be applied to already-fetched `sections` in place.
-- Only fetch from Justia for a genuinely new (profession, state) not yet pulled,
-  and one at a time (the fetcher uses `curl_cffi` chrome impersonation + a
-  per-host delay; don't run two pulling processes against Justia at once).
+- Need to *transform* corpora (e.g. de-duplicate Justia year-versioned pages)? Do it
+  **locally** on the committed files. `pull_text._dedupe_year_versions()` can be applied
+  to already-fetched `sections` in place — no fetch required.
+
+**But re-fetching Justia IS possible and sometimes necessary** (failed/empty pulls,
+index-only corpora, genuinely-new pairs). Justia's wall is a Cloudflare **fingerprint**
+challenge, *not* a rate/IP block — `curl_cffi` and launched-headless browsers get
+challenge pages, but **attaching to a hand-started debug Chrome over CDP clears it**
+(see the `scraping-cloudflare-cdp` skill). To re-fetch:
+
+- Set `JUSTIA_CDP_URL=http://localhost:9222` (a debug Chrome the user started + cleared
+  the challenge in once) and a polite `PULL_HOST_DELAY` (e.g. 7). `pull_text` routes
+  Justia through CDP automatically when `JUSTIA_CDP_URL` is set.
+- **ONE pull process per Chrome** — concurrent jobs against the same browser garble
+  corpora (1-section partials). A flock guards this; don't bypass it.
+- Bulk re-pull is fine this way; `_justia_repull.py` / `_cdp_grind.py` are resumable
+  drivers that commit per profession.
+- **PA is the only state not on Justia** (`legis.state.pa.us`); ~12 other states use
+  official-source overrides by choice, but their Justia URLs are stored in the index.
 
 ## Pipeline stages (each reads the previous stage's output dir)
 
