@@ -57,7 +57,7 @@ CONFIG: dict[str, dict] = {
     # health professions licensed under the medical / nursing practice act
     "physician_assistant":       {"terms": ["physician assistant"], "siblings": ["medicine"]},
     "anesthesiologist_assistant": {"terms": ["anesthesiologist assistant"], "siblings": ["medicine"]},
-    "perfusionist":              {"terms": ["perfusionist", "perfusion"], "siblings": ["medicine"]},
+    "perfusionist":              {"terms": ["perfusionist", "perfusion"], "siblings": ["medicine", "respiratory_care"]},
     "respiratory_care":          {"terms": ["respiratory therapist", "respiratory care practitioner"], "siblings": ["medicine"]},
     "genetic_counseling":        {"terms": ["genetic counselor"], "siblings": ["medicine"]},
     "polysomnography":           {"terms": ["polysomnographic technologist", "polysomnography"], "siblings": ["medicine", "respiratory_care"]},
@@ -67,7 +67,7 @@ CONFIG: dict[str, dict] = {
                                   "siblings": ["professional_engineering", "architecture"]},
     "landscape_architecture":    {"terms": ["landscape architect"], "siblings": ["architecture", "professional_engineering"]},
     "professional_geology":      {"terms": ["professional geologist", "licensed geologist", "practice of geology"],
-                                  "siblings": ["professional_engineering"]},
+                                  "siblings": ["professional_engineering", "soil_classifier"]},
     "soil_classifier":           {"terms": ["soil classifier", "soil scientist"], "siblings": ["professional_geology", "professional_engineering"]},
     # more health professions licensed under a board we already pulled
     "osteopathic_medicine":      {"terms": ["osteopathic physician", "doctor of osteopathy", "practice of osteopathy"], "siblings": ["medicine"]},
@@ -93,8 +93,6 @@ CONFIG: dict[str, dict] = {
     "recreational_therapy":      {"terms": ["recreational therapist", "recreation therapy"], "siblings": ["occupational_therapy"]},
     "prosthetist_orthotist":     {"terms": ["prosthetist", "orthotist", "prosthetics and orthotics"], "siblings": ["medicine"]},
     "music_therapy":             {"terms": ["music therapist", "music therapy"], "siblings": ["mental_health_counseling", "occupational_therapy"]},
-    "perfusionist":              {"terms": ["perfusionist", "perfusion"], "siblings": ["medicine", "respiratory_care"]},
-    "professional_geology":      {"terms": ["professional geologist", "licensed geologist"], "siblings": ["professional_engineering", "soil_classifier"]},
 }
 DENSITY = 8  # total licensing-term hits in the sibling corpus to count as real coverage
 

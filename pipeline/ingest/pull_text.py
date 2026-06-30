@@ -1872,7 +1872,11 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--profession", required=True, help="Profession name from professions.yaml (e.g. 'podiatry')")
     ap.add_argument("--states", default="", help="Comma-separated subset of states; empty = all matching")
-    ap.add_argument("--limit-sections", type=int, default=None, help="Cap sections per state (debug)")
+    ap.add_argument("--limit-sections", type=int, default=500,
+                    help="Per-state section cap (default 500). RUNAWAY GUARD: a whole-title "
+                         "over-match (a profession mapped to a 2500-section state-government "
+                         "title) is capped + loudly FLAGGED instead of silently pulling thousands "
+                         "of sections. Pass 0 to disable, or a real chapter rarely exceeds 500.")
     ap.add_argument("--force", action="store_true",
                     help="Overwrite an existing committed corpus even if the new pull is worse "
                          "(fewer ok sections / collapsed text). Off by default so a Justia block "
@@ -1914,10 +1918,19 @@ def main() -> None:
 
     log.info("profession=%s matched %d states from %s", profession, len(by_state), index_path.name)
 
+    section_cap = args.limit_sections or None  # 0 → disabled
+    capped_states: list[str] = []
     skipped = 0
     for state in sorted(by_state):
         try:
-            corpus = pull_state(state, profession, by_state[state], args.limit_sections)
+            corpus = pull_state(state, profession, by_state[state], section_cap)
+            if section_cap and len(corpus.sections) >= section_cap:
+                # Hit the runaway guard — almost always a whole-title over-match, not a
+                # real chapter. Flag loudly so it's reviewed, not believed as coverage.
+                log.warning("  ⚠ [%s] hit the %d-section cap — likely a whole-title over-match; "
+                            "FLAGGED for review (re-map to the specific chapter / section-scope, "
+                            "don't trust this corpus)", state, section_cap)
+                capped_states.append(state)
         except Exception as e:
             log.exception("[%s] unhandled", state)
             corpus = StateCorpus(state=state, profession=profession, errors=[f"unhandled: {e}"])
@@ -1957,6 +1970,10 @@ def main() -> None:
     if skipped:
         log.warning("done: %d states, %d overwrite(s) skipped (use --force to override)",
                     len(by_state), skipped)
+    if capped_states:
+        log.warning("%d state(s) hit the %d-section runaway cap — re-map to the specific chapter "
+                    "(or section-scope) before trusting: %s",
+                    len(capped_states), section_cap, ", ".join(capped_states))
     log.info("done: %d states", len(summary))
 
 
