@@ -67,6 +67,7 @@ from extract.extract_state import (  # noqa: E402
 )
 from paths import DISCOVERED_DIR, TRIMMED_DIR, STRUCTURED_DIR, LOGS_DIR, RESULTS_DIR  # noqa: E402
 from _llm import extract_json  # noqa: E402
+from extract.preflight import run_preflight, format_report  # noqa: E402
 
 logging.basicConfig(
     level=logging.INFO,
@@ -134,8 +135,17 @@ def _system_with_schema(schema_cls: type[BaseModel]) -> str:
     )
 
 
-def submit(queue: dict[str, list[str]], model: str = DEFAULT_MODEL) -> dict:
-    """Submit a batch covering every (profession, state) in `queue`."""
+def submit(queue: dict[str, list[str]], model: str = DEFAULT_MODEL, force: bool = False) -> dict:
+    """Submit a batch covering every (profession, state) in `queue`.
+
+    Runs the preflight gate first (missing schema / trimmed / empty / poisoned).
+    On any blocker, prints the report and exits nonzero unless `force` is set.
+    """
+    report = run_preflight(queue)
+    log.info("preflight:\n%s", format_report(report))
+    if not report["ok"] and not force:
+        sys.exit("preflight FAILED — fix the blockers above or pass --force to override")
+
     requests: list[dict] = []
     skipped: list[tuple[str, str, str]] = []
     profile_classes: dict[str, type[BaseModel]] = {}
@@ -372,6 +382,8 @@ def main() -> None:
     s_submit = sp.add_parser("submit", help="Submit a batch for the queue")
     s_submit.add_argument("--queue", help="Path to a JSON file: {profession: [states]}")
     s_submit.add_argument("--model", default=DEFAULT_MODEL)
+    s_submit.add_argument("--force", action="store_true",
+                          help="Submit even if preflight finds blockers")
 
     s_poll = sp.add_parser("poll", help="Poll an existing batch and write results")
     s_poll.add_argument("batch_id")
@@ -386,7 +398,7 @@ def main() -> None:
             queue = json.loads(Path(args.queue).read_text())
         else:
             queue = DEFAULT_QUEUE
-        submit(queue, model=args.model)
+        submit(queue, model=args.model, force=args.force)
     elif args.cmd == "poll":
         poll(args.batch_id, wait=not args.no_wait)
     elif args.cmd == "list":
