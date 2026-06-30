@@ -148,6 +148,30 @@ def _node_from_override(ov: dict) -> dict:
     return node
 
 
+def _umbrella_nodes_for(state_entry: dict, profession: str, existing_urls: set[str]) -> list[dict]:
+    """Additive umbrella chapters for a profession (e.g. WA Ch 18.130, the
+    Uniform Disciplinary Act that every WA health profession defers to).
+
+    A state-level `umbrella:` block declares which professions inherit which
+    extra chapters; the nodes are ADDITIVE (not authoritative) and skip any url
+    already matched. They carry a Justia-style chapter url so the state's
+    `chapter_url_template` rewrites them to the official source like any other
+    node. Returns [] when the state has no umbrella or this profession isn't
+    in scope.
+    """
+    umbrella = state_entry.get("umbrella") or {}
+    profs = umbrella.get("professions") or []
+    if profession not in profs:
+        return []
+    nodes = []
+    for ch in umbrella.get("chapters") or []:
+        url = ch.get("url")
+        if not url or url in existing_urls:
+            continue
+        nodes.append(_node_from_override({**ch, "_source": "state_structure_umbrella"}))
+    return nodes
+
+
 def load_section_maps(state_structure: dict) -> dict[str, dict]:
     """Load per-state v2 section maps for every section_fallback state.
 
@@ -273,6 +297,15 @@ def build_index_for(
         elif ss_entry and ss_entry.get("authoritative") and ss_entry.get("url"):
             if any(n["url"] == ss_entry["url"] for n in m):
                 m = [n for n in m if n["url"] == ss_entry["url"]]
+
+        # Additive umbrella chapters (state-level): appended AFTER authoritative
+        # pruning so they survive it, BEFORE the template rewrite so they get
+        # translated to the official source. E.g. WA Ch 18.130 for every WA
+        # health profession.
+        umbrella_nodes = _umbrella_nodes_for(state_entry, profession, {n["url"] for n in m})
+        if umbrella_nodes:
+            m.extend(umbrella_nodes)
+            overrides_used += 1
 
         # Official-source translation: states with a chapter_url_template carry
         # their profession→chapter mapping via the Justia hierarchy, but fetch

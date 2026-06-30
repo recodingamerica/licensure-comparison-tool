@@ -2841,6 +2841,17 @@ WA:
   # inline. Justia "chapter-19-28" → cite 19.28 (chapter_dot). RCW marker split.
   source: wa_official
   chapter_url_template: "https://app.leg.wa.gov/RCW/default.aspx?cite={chapter_dot}&full=true"
+  # WA centralizes disciplinary grounds in Ch 18.130 (Uniform Disciplinary Act);
+  # each health profession's own chapter defers to it for grounds/complaints/
+  # sanctions. Append it as an additive umbrella node (fetched from wa_official via
+  # the template above, NOT Justia). See docs/runbooks/wa_umbrella_mechanism.md.
+  # NOTE (2026-06-30): mechanism live; the 6 WA health professions still need a
+  # re-pull + re-extract to actually ingest 18.130 — do it in the Jul-1 refresh.
+  umbrella:
+    professions: [medicine, nursing, optometry, podiatry, dentistry, public_accountancy]
+    chapters:
+      - url: "https://law.justia.com/codes/washington/title-18/chapter-18-130/"
+        label: "WA Ch 18.130 — Uniform Disciplinary Act (grounds, complaints, sanctions)"
   professions:
     # WA has no standalone HVAC/mechanical license — mechanical work is performed
     # under general contractor registration (Ch 18.27). Pin it: the 'refrigeration'
