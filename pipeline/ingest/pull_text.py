@@ -36,6 +36,7 @@ import sys
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from paths import TEXT_DIR, LOGS_DIR, PROFESSION_INDEX_DIR  # noqa: E402
 from _records import record_files  # noqa: E402
+from _runlog import record_run  # noqa: E402
 
 LOG_PATH = LOGS_DIR / "pull_text.log"
 LOGS_DIR.mkdir(parents=True, exist_ok=True)
@@ -1974,6 +1975,7 @@ def main() -> None:
                     "(or section-scope) before trusting: %s",
                     len(capped_states), section_cap, ", ".join(capped_states))
     log.info("done: %d states", len(summary))
+    record_run("pull_text", profession=profession, states=len(summary))
 
 
 if __name__ == "__main__":

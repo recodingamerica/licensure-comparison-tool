@@ -71,6 +71,7 @@ def _extract_compacts(record: dict) -> list[str]:
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from paths import STRUCTURED_DIR, DISCOVERED_DIR, TRIMMED_DIR, RESULTS_DIR, MAP_PREP_DIR  # noqa: E402
 from _records import record_files  # noqa: E402
+from _runlog import record_run  # noqa: E402
 from config.states import ALL_STATES  # noqa: E402
 from extract.locate_quote import locate_quote_in_section  # noqa: E402
 from extract.standard_model import is_evidence_node, iter_evidence  # noqa: E402
@@ -953,6 +954,8 @@ def main() -> None:
         "evidence": payload["evidence_summary"],
     }
     print(f"summary: {summary}")
+    record_run("build_frontend", profession=profession,
+               covered=summary.get("covered"), gaps=summary.get("gaps"))
 
     if args.deploy:
         import subprocess

@@ -39,6 +39,7 @@ load_env()
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from _llm import call_structured  # noqa: E402
 from _records import record_files  # noqa: E402
+from _runlog import record_run  # noqa: E402
 from paths import CLEAN_DIR, TRIMMED_DIR, LOGS_DIR  # noqa: E402
 from ingest._trim_health import LLM_FAIL_REASON  # noqa: E402
 
@@ -254,6 +255,7 @@ def main() -> None:
         })
     (out_dir / "_summary.json").write_text(json.dumps(summary, indent=2))
     log.info("done: %d states this run, %d total in summary", n_run, len(summary))
+    record_run("trim_state", profession=profession)
 
     if strict_failures:
         sys.exit(f"--strict: LLM failed for {len(strict_failures)} state(s), wrote nothing for them: {strict_failures}")
