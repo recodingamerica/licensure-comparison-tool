@@ -352,6 +352,9 @@ def list_batches() -> None:
             d = json.loads(p.read_text())
         except Exception:
             continue
+        # skip non-batch files that share this dir (queue inputs, candidate lists, etc.)
+        if not isinstance(d, dict) or ("batch_id" not in d and "submitted_at" not in d):
+            continue
         bid = d.get("batch_id", p.stem)
         submitted = d.get("submitted_at", "?")
         completed = d.get("completed_at", "")
