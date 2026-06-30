@@ -87,6 +87,14 @@ CONFIG: dict[str, dict] = {
     "home_inspector":            {"terms": ["home inspector", "home inspection"], "siblings": ["construction_trades", "building_inspector"]},
     "public_adjuster":           {"terms": ["public adjuster", "public insurance adjuster"], "siblings": ["insurance_producer"]},
     "commercial_interior_design": {"terms": ["interior designer", "interior design"], "siblings": ["architecture"]},
+    # speculative — separate-board ones self-filter to nothing via the density threshold
+    "real_estate_appraiser":     {"terms": ["real estate appraiser", "certified appraiser"], "siblings": ["real_estate_broker"]},
+    "surgical_technologist":     {"terms": ["surgical technologist", "surgical technician"], "siblings": ["nursing", "medicine"]},
+    "recreational_therapy":      {"terms": ["recreational therapist", "recreation therapy"], "siblings": ["occupational_therapy"]},
+    "prosthetist_orthotist":     {"terms": ["prosthetist", "orthotist", "prosthetics and orthotics"], "siblings": ["medicine"]},
+    "music_therapy":             {"terms": ["music therapist", "music therapy"], "siblings": ["mental_health_counseling", "occupational_therapy"]},
+    "perfusionist":              {"terms": ["perfusionist", "perfusion"], "siblings": ["medicine", "respiratory_care"]},
+    "professional_geology":      {"terms": ["professional geologist", "licensed geologist"], "siblings": ["professional_engineering", "soil_classifier"]},
 }
 DENSITY = 8  # total licensing-term hits in the sibling corpus to count as real coverage
 
