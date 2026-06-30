@@ -96,9 +96,11 @@ licensing terms. High density = it covers the trade → wire `corpus_overrides.y
 plumbing (94) that the LLM cross-ref refused. Threshold ~8 licensing-term mentions.
 
 ### 4. The runaway guard
-`pull_all --limit-sections` defaults to 500: a whole-title over-match is capped +
-**loudly flagged** (capped_states), never silently trusted. `pull_text` has no such
-default — when hand-pulling a container, ALWAYS section-scope (#2) or pass a cap.
+Both `pull_all --limit-sections` and `pull_text --limit-sections` default to 500: a
+whole-title over-match is capped + **loudly flagged** (capped_states), never silently
+trusted. (`pull_text`'s default was added 2026-06-30 — it used to be `None`, so a
+hand-pull could silently grab a 2,576-section title.) Pass `--limit-sections 0` to
+disable. Still prefer section-scoping (#2) when you know the range.
 
 ## Operational gotchas (burned in, do not relearn)
 
