@@ -59,6 +59,25 @@ _CONTAINER = re.compile(
     re.I)
 _NOISE = re.compile(r"repealed", re.I)
 
+# A generically-named GROUPING that hides subtype professions one level deeper: FL
+# "Part VI - Insurance Adjusters" holds §626.854 "Public adjuster"; "…Agents" hold
+# producer subtypes; "General Provisions" parts hold the shared umbrella sections.
+# Only nodes BELOW a container recurse on this (a top-level chapter needs _CONTAINER),
+# so depth-2 is targeted at these groupings — not a blanket expand-everything.
+_SUBGROUP = re.compile(
+    r"adjusters?|agents?|brokers?|producers?|representatives?|"
+    r"general provisions|licensing procedures?", re.I)
+
+
+def _expandable(node: dict, max_depth: int) -> bool:
+    depth = node.get("depth", 0)  # original chapters carry no depth → level 0
+    lab, url = node.get("label") or "", node.get("url") or ""
+    if depth >= max_depth or not url.startswith("http") or "law.justia.com" not in url:
+        return False
+    # level-0 chapters expand on the broad container regex; deeper nodes only if they
+    # are a generic grouping (else every leaf section would trigger a wasted fetch).
+    return bool(_CONTAINER.search(lab) or (depth >= 1 and _SUBGROUP.search(lab)))
+
 
 def container_children(url: str) -> list[dict]:
     status, html, _ = pt.fetch(url)
@@ -74,35 +93,47 @@ def container_children(url: str) -> list[dict]:
             lab = " ".join(a.get_text(" ", strip=True).split())
             if lab and len(lab) > 4 and href not in seen and not _NOISE.search(lab):
                 seen.add(href)
-                out.append({"label": lab[:140], "url": href})
+                # absolutize — Justia hrefs are relative ("/codes/..."); a relative
+                # URL breaks both _expandable (needs http) and a later fetch of this
+                # node, which is why depth-2 never fired on the parts.
+                out.append({"label": lab[:140], "url": up.urljoin(url, href)})
     return out[:5000]  # was 300 — get the full article/section list, don't truncate
 
 
-def expand_state(state: str, force: bool) -> int:
+def expand_state(state: str, force: bool, max_depth: int = 2) -> int:
+    """BFS depth-expansion. Seeds every expandable, not-yet-expanded node (so a resume
+    picks up grouping parts a prior level-1 run added), fetches its children, and
+    queues any child that is itself a container/grouping — up to max_depth."""
+    from collections import deque
     fp = HIER_DIR / f"{state}.json"
     if not fp.exists():
         print(f"  {state}: no hierarchy"); return 0
     d = json.loads(fp.read_text())
     chapters = d.get("chapters", []) or []
     existing_urls = {c.get("url") for c in chapters}
-    # already-expanded parents (so re-runs skip)
     expanded = {c.get("parent_chapter_url") for c in chapters if c.get("parent_chapter_url")}
-    containers = [c for c in chapters
-                  if _CONTAINER.search(c.get("label") or "")
-                  and (c.get("url") or "").startswith("http")
-                  and "law.justia.com" in (c.get("url") or "")
-                  and (force or c.get("url") not in expanded)]
+    queue = deque(c for c in chapters
+                  if _expandable(c, max_depth) and (force or c.get("url") not in expanded))
+    queued = {c.get("url") for c in queue}
     added = 0
-    for c in containers:
-        kids = container_children(c["url"])
+    while queue:
+        c = queue.popleft()
+        url = c.get("url")
+        if url in expanded and not force:
+            continue
+        kids = container_children(url)
         new = [k for k in kids if k["url"] not in existing_urls]
         for k in new:
-            k["parent_chapter_url"] = c["url"]
+            k["parent_chapter_url"] = url
             k["source"] = "container_expand"
+            k["depth"] = c.get("depth", 0) + 1
             chapters.append(k)
             existing_urls.add(k["url"])
+            if _expandable(k, max_depth) and k["url"] not in queued:
+                queue.append(k); queued.add(k["url"])
+        expanded.add(url)
         added += len(new)
-        print(f"  {state}: {c.get('label','')[:42]} → +{len(new)} articles")
+        print(f"  {state}: [d{c.get('depth', 0)+1}] {c.get('label','')[:40]} → +{len(new)}")
     if added:
         d["chapters"] = chapters
         fp.write_text(json.dumps(d, indent=1, ensure_ascii=False))
@@ -113,11 +144,14 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--states", default="")
     ap.add_argument("--force", action="store_true")
+    ap.add_argument("--max-depth", type=int, default=2,
+                    help="how deep to recurse: 1 = chapters→parts only; 2 (default) = also "
+                         "expand generic grouping parts (Insurance Adjusters, …Agents) to sections")
     args = ap.parse_args()
     states = [s.strip().upper() for s in args.states.split(",") if s.strip()] or ALL_STATES
     total = 0
     for st in states:
-        n = expand_state(st, args.force)
+        n = expand_state(st, args.force, args.max_depth)
         total += n
         if n:
             print(f"{st}: +{n} article entries")
