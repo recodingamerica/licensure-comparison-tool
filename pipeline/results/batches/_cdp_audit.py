@@ -8,8 +8,8 @@ Flags per (profession, state):
   - silent_bad: sections marked ok but whose text is empty/thin or a block page
     (bad_section_text). Catches corpora pulled BEFORE the in-pull guard landed
     (e.g. the grind's first profession) where corruption wasn't flagged.
-  - cap_hit: section count == SECTION_CAP (250) — likely a title-level/umbrella
-    over-match that was truncated and needs manual section-range scoping.
+  - cap_hit: section count == SECTION_CAP (5000) — a genuine whole-state-code misfire
+    (real umbrella titles are hundreds of sections, well under the backstop).
 
 Usage:
   pipeline/.venv/bin/python pipeline/results/batches/_cdp_audit.py [--profession P]
@@ -19,7 +19,7 @@ import argparse, glob, json, os, sys
 ROOT = "/Users/abigailhaddad/Documents/repos/utah"
 sys.path.insert(0, ROOT)
 from pipeline.ingest.pull_text import bad_section_text  # noqa: E402
-CAP = 250
+CAP = 5000
 
 
 def audit_corpus(fp):

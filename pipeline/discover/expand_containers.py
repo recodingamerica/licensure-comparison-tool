@@ -41,11 +41,22 @@ ALL_STATES = ("AK AL AR AZ CA CO CT DE FL GA HI IA ID IL IN KS KY LA MA MD ME MI
               "VA VT WA WI WV WY").split()
 
 # Top-level chapters that commonly CONTAIN many professions as sub-articles.
+# Container-ish = a broad chapter/title whose CHILDREN (articles/sections) hold the
+# actual professions. Broadened beyond the occupational-code umbrellas to also reach
+# where section-nested professions + shared umbrella provisions live: the Insurance
+# title (public adjuster, producer, navigator, bail bond), Health/Healing-arts titles,
+# and the general-provisions / administrative-procedure / uniform-licensing umbrellas
+# (e.g. NM 61-1, cited by 39 professions). Generous by design — "pull everything that
+# might relate to ANY profession, then map it with match_sections".
 _CONTAINER = re.compile(
     r"occupational code|professions? and occupations?|business (and professions?|"
     r"regulation|licenses?)|professional and occupational|construction industries?|"
     r"\bcontractors?\b|miscellaneous .*(profession|occupation|business)|"
-    r"regulation of .*(profession|occupation)", re.I)
+    r"regulation of .*(profession|occupation)|"
+    r"\binsurance\b|health occupations?|healing arts|health.related|"
+    r"general provisions|administrative procedure|uniform .*(licens|regulat)|"
+    r"boards? and commissions?|department of (commerce|insurance|health|licens)",
+    re.I)
 _NOISE = re.compile(r"repealed", re.I)
 
 
@@ -64,7 +75,7 @@ def container_children(url: str) -> list[dict]:
             if lab and len(lab) > 4 and href not in seen and not _NOISE.search(lab):
                 seen.add(href)
                 out.append({"label": lab[:140], "url": href})
-    return out[:300]
+    return out[:5000]  # was 300 — get the full article/section list, don't truncate
 
 
 def expand_state(state: str, force: bool) -> int:
