@@ -50,7 +50,7 @@ logging.basicConfig(
 log = logging.getLogger("pull_umbrella_text")
 
 
-def pull_state_umbrella(state: str, force: bool) -> dict | None:
+def pull_state_umbrella(state: str, force: bool, source_filter: str | None = None) -> dict | None:
     umb_path = UMBRELLA_CHAPTERS_DIR / f"{state}.json"
     out_path = UMBRELLA_TEXT_DIR / f"{state}.json"
     if not umb_path.exists():
@@ -59,8 +59,18 @@ def pull_state_umbrella(state: str, force: bool) -> dict | None:
 
     rec = json.loads(umb_path.read_text())
     chapters = rec.get("umbrella_chapters", [])
+    if source_filter:
+        # Pull ONLY chapters from this source (e.g. 'citation_audit') — the old
+        # find_umbrella_chapters LLM over-included profession-specific chapters
+        # (Medical Practice, University of Arkansas) that pollute umbrella_text and
+        # cross-contaminate every profession's extraction. Combine with --force to
+        # rebuild umbrella_text with only the accurate cited-shared chapters.
+        chapters = [c for c in chapters if c.get("source") == source_filter]
     if not chapters:
-        log.info("[%s] no umbrella chapters declared", state)
+        log.info("[%s] no umbrella chapters declared%s", state,
+                 f" with source={source_filter}" if source_filter else "")
+        if source_filter and not force:
+            return None  # don't wipe an existing cache just because this source is empty here
         out_path.write_text(json.dumps({"state": state, "sections": []}, indent=2))
         return None
 
@@ -169,6 +179,10 @@ def main() -> None:
     ap.add_argument("--state", default="")
     ap.add_argument("--states", default="")
     ap.add_argument("--force", action="store_true")
+    ap.add_argument("--source", default="",
+                    help="pull ONLY umbrella chapters with this source tag (e.g. citation_audit) "
+                         "— excludes the old find_umbrella_chapters over-picks. Use with --force "
+                         "to rebuild umbrella_text with just the accurate cited-shared chapters.")
     args = ap.parse_args()
 
     if args.state:
@@ -178,10 +192,11 @@ def main() -> None:
     else:
         targets = list(ALL_STATES)
 
-    log.info("pulling umbrella text for %d states", len(targets))
+    log.info("pulling umbrella text for %d states%s", len(targets),
+             f" (source={args.source})" if args.source else "")
     for st in targets:
         try:
-            pull_state_umbrella(st, args.force)
+            pull_state_umbrella(st, args.force, args.source or None)
         except Exception:
             log.exception("[%s] crashed", st)
 

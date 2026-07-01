@@ -37,6 +37,17 @@ from eval.corpus_status import umbrella_candidates  # noqa: E402
 
 UMBRELLA_DIR = RESULTS_DIR / "umbrella_chapters"
 
+# A cited chapter is a real UMBRELLA only if its LABEL reads cross-cutting — the
+# citation signal alone flags any cross-referenced chapter, incl profession-specific
+# ones (Nurses, Dentists, Medical Practice, Veterinarians) that would pollute
+# umbrella_text and cross-contaminate every profession's extraction. Two-factor:
+# cited by >= min_profs AND an umbrella-style label.
+_UMBRELLA_LABEL = re.compile(
+    r"general provision|uniform licens|division of profession|licensing generally|"
+    r"administrative procedure|professions? and occupations?|occupational.*(background|"
+    r"regulat)|centralized licens|health related boards|restoration of|termination and|"
+    r"expedited licens|licensure by endorsement|uniform complaint|declaratory", re.I)
+
 
 def citation_id_from_url(url: str) -> str | None:
     """The audit's 'A-B' chapter id = the last two NUMBERED path segments, leading
@@ -77,6 +88,8 @@ def build(min_refs: int, min_profs: int) -> dict[str, dict]:
             if len(profs) < min_profs:
                 continue
             node = idmap.get(ch)
+            if node and not _UMBRELLA_LABEL.search(node.get("label", "")):
+                continue  # cited, but a profession-specific chapter — not an umbrella
             if node:
                 matched.append({
                     "slug": node.get("slug") or up.urlparse(node["url"]).path.rstrip("/").rsplit("/", 1)[-1],
@@ -94,23 +107,33 @@ def build(min_refs: int, min_profs: int) -> dict[str, dict]:
 
 
 def merge_into_umbrella_chapters(result: dict[str, dict]) -> dict[str, int]:
-    """Merge matched records into results/umbrella_chapters/<STATE>.json (dedup by url)."""
+    """Reconcile citation_audit records into umbrella_chapters/<STATE>.json: drop any
+    prior source='citation_audit' entries, then add the current filtered set. This is
+    idempotent and self-cleaning — re-running after the label filter removes the
+    profession-specific chapters an earlier run wrongly wrote. Other-source (old
+    find_umbrella_chapters) entries are left untouched. Returns {state: count}."""
     written: dict[str, int] = {}
-    for state, data in result.items():
-        if not data["matched"]:
-            continue
+    states = set(result) | {f.stem for f in UMBRELLA_DIR.glob("*.json") if "_summary" not in f.stem}
+    for state in states:
         fp = UMBRELLA_DIR / f"{state}.json"
-        rec = json.loads(fp.read_text()) if fp.exists() else {"state": state, "umbrella_chapters": []}
+        if not fp.exists():
+            if not result.get(state, {}).get("matched"):
+                continue
+            rec = {"state": state, "umbrella_chapters": []}
+        else:
+            rec = json.loads(fp.read_text())
         chapters = rec.setdefault("umbrella_chapters", [])
-        have = {c.get("url") for c in chapters}
-        added = 0
-        for m in data["matched"]:
-            if m["url"] not in have:
-                chapters.append(m); have.add(m["url"]); added += 1
-        if added:
+        kept = [c for c in chapters if c.get("source") != "citation_audit"]
+        matched = result.get(state, {}).get("matched", [])
+        have = {c.get("url") for c in kept}
+        adds = [m for m in matched if m["url"] not in have]
+        new_chapters = kept + adds
+        if new_chapters != chapters:  # only write if the citation_audit set changed
             UMBRELLA_DIR.mkdir(parents=True, exist_ok=True)
+            rec["umbrella_chapters"] = new_chapters
             fp.write_text(json.dumps(rec, indent=1, ensure_ascii=False))
-            written[state] = added
+        if adds:
+            written[state] = len(adds)
     return written
 
 
