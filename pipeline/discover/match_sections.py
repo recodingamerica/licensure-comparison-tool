@@ -34,15 +34,13 @@ import glob
 import json
 import os
 import re
-import sys
 from pathlib import Path
 
 import yaml
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from paths import CONFIG_DIR, TEXT_DIR, HIERARCHY_DIR, RESULTS_DIR, PROFESSION_INDEX_DIR  # noqa: E402
-from discover.match_profession import label_matches, rebuild_index, rebuild_and_write  # noqa: E402
-from discover._mapping_overrides import add_override_entry  # noqa: E402
+from pipeline.paths import CONFIG_DIR, TEXT_DIR, HIERARCHY_DIR, RESULTS_DIR, PROFESSION_INDEX_DIR
+from pipeline.discover.match_profession import label_matches, rebuild_index, rebuild_and_write
+from pipeline.discover._mapping_overrides import add_override_entry
 
 PROF_YAML = CONFIG_DIR / "professions.yaml"
 REPORT = RESULTS_DIR / "section_match_candidates.md"

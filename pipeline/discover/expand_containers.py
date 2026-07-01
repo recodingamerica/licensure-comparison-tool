@@ -23,18 +23,15 @@ from __future__ import annotations
 import argparse
 import json
 import re
-import sys
 import urllib.parse as up
-from pathlib import Path
 
 from bs4 import BeautifulSoup
 
 from pipeline._env import load_env
 load_env()
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from paths import HIERARCHY_DIR as HIER_DIR  # noqa: E402
-from ingest import pull_text as pt  # noqa: E402
+from pipeline.paths import HIERARCHY_DIR as HIER_DIR
+from pipeline.ingest import pull_text as pt
 
 ALL_STATES = ("AK AL AR AZ CA CO CT DE FL GA HI IA ID IL IN KS KY LA MA MD ME MI "
               "MN MO MS MT NC ND NE NH NJ NM NV NY OH OK OR PA RI SC SD TN TX UT "

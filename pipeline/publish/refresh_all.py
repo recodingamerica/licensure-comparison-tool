@@ -34,12 +34,10 @@ import hashlib
 import json
 import subprocess
 import sys
-from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from paths import STRUCTURED_DIR, MAP_PREP_DIR, RESULTS_DIR, PIPELINE_ROOT, core_professions  # noqa: E402
-from _records import record_files  # noqa: E402
-from eval.check_consistency import check_record  # noqa: E402
+from pipeline.paths import STRUCTURED_DIR, MAP_PREP_DIR, RESULTS_DIR, PIPELINE_ROOT, core_professions
+from pipeline._records import record_files
+from pipeline.eval.check_consistency import check_record
 
 PY = sys.executable
 WEB_DIR = PIPELINE_ROOT / "publish" / "web"

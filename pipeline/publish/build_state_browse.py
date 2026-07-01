@@ -32,27 +32,24 @@ from __future__ import annotations
 import argparse
 import json
 import logging
-import sys
 from pathlib import Path
 from typing import Any
 
 # Make sibling modules importable.
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from _env import load_env  # noqa: E402
+from pipeline._env import load_env
 load_env()
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from extract.standard_model import iter_evidence  # noqa: E402
-from extract.locate_quote import (  # noqa: E402
+from pipeline.extract.standard_model import iter_evidence
+from pipeline.extract.locate_quote import (
     normalize_with_mapping, split_quote_segments, locate_segments_in_normalized,
 )
-from scope_sources import is_universal, is_enumeration  # noqa: E402
-from merged_scope import merged_scope_by_url  # noqa: E402
-from publish.blob_upload import upload_json  # noqa: E402
-from publish._browse_tree import build_tree  # noqa: E402
-from publish._justia_clean import clean_justia_text  # noqa: E402
-from paths import RESULTS_DIR, TRIMMED_DIR, STRUCTURED_DIR  # noqa: E402
-from config.states import ALL_STATES  # noqa: E402
+from pipeline.scope_sources import is_universal, is_enumeration
+from pipeline.merged_scope import merged_scope_by_url
+from pipeline.publish.blob_upload import upload_json
+from pipeline.publish._browse_tree import build_tree
+from pipeline.publish._justia_clean import clean_justia_text
+from pipeline.paths import RESULTS_DIR, TRIMMED_DIR, STRUCTURED_DIR
+from pipeline.config.states import ALL_STATES
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 log = logging.getLogger("build_state_browse")

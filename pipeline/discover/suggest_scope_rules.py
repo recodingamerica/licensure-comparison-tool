@@ -46,11 +46,10 @@ load_dotenv(Path(__file__).resolve().parents[2] / ".env")
 # Suppress httpx request logging from the Anthropic SDK
 logging.getLogger("httpx").setLevel(logging.WARNING)
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from paths import RESULTS_DIR  # noqa: E402
-from _records import record_files  # noqa: E402
-from scope_sources import CLASSIFIED_SOURCES  # noqa: E402
-from discover._scope_rules import ANCHOR_LABEL_RE, NARROW_LABEL_HINTS  # noqa: E402
+from pipeline.paths import RESULTS_DIR
+from pipeline._records import record_files
+from pipeline.scope_sources import CLASSIFIED_SOURCES
+from pipeline.discover._scope_rules import ANCHOR_LABEL_RE, NARROW_LABEL_HINTS
 
 UMBRELLA_TEXT_DIR = RESULTS_DIR / "umbrella_text"
 # Validated proposals are cached here so --apply can replay the exact rules the
@@ -501,7 +500,7 @@ def proposal_to_rules(
     excluded_chapter_slugs: set[str] | None = None,
 ) -> object:
     """Convert a ScopeRulesProposal to a StateScopeRules for in-memory use."""
-    from discover._scope_rules import StateScopeRules as _StateScopeRules
+    from pipeline.discover._scope_rules import StateScopeRules as _StateScopeRules
     return _StateScopeRules(
         universal_patterns=tuple(
             (re.compile(p.pattern, re.I), p.target)
@@ -536,12 +535,12 @@ def run_walker_in_memory(
     Returns None if the walker can't run (e.g. no profession_index for this state).
     """
     try:
-        import discover.assign_umbrella_scope as walker_mod
+        import pipeline.discover.assign_umbrella_scope as walker_mod
     except ImportError as e:
         print(f"[warn] Could not import walker: {e}", file=sys.stderr)
         return None
 
-    from discover._scope_rules import STATE_RULES as _STATE_RULES
+    from pipeline.discover._scope_rules import STATE_RULES as _STATE_RULES
 
     rules = proposal_to_rules(proposal, excluded_chapter_slugs)
     original = _STATE_RULES.get(state)
@@ -983,7 +982,7 @@ def apply_from_saved(state: str, run: bool = False) -> bool:
 # ---------------------------------------------------------------------------
 
 def _applied_states() -> set[str]:
-    from discover._scope_rules import STATE_RULES
+    from pipeline.discover._scope_rules import STATE_RULES
     return set(STATE_RULES.keys())
 
 

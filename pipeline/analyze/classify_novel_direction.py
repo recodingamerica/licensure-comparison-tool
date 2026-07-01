@@ -33,17 +33,15 @@ from __future__ import annotations
 import argparse
 import json
 import logging
-import sys
 from pathlib import Path
 from typing import Literal
 
 from pydantic import BaseModel
 
 REPO = Path(__file__).resolve().parents[2]
-sys.path.insert(0, str(REPO / "pipeline"))
-import _env  # noqa: E402
-_env.load_env()
-from _llm import call_structured, log_usage_summary  # noqa: E402
+from pipeline._env import load_env
+load_env()
+from pipeline._llm import call_structured, log_usage_summary
 
 ANALYSIS_DIR = REPO / "pipeline" / "results" / "analysis"
 CACHE_PATH = REPO / "pipeline" / "results" / "novel_direction_cache.json"

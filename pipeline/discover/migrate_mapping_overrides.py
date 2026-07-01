@@ -46,15 +46,13 @@ from __future__ import annotations
 
 import json
 import re
-import sys
 from collections import Counter
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from paths import HIERARCHY_DIR, PROFESSION_INDEX_DIR  # noqa: E402
-from config.states import ALL_STATES  # noqa: E402
-from discover.match_profession import build_index_for, load_professions, load_state_structure  # noqa: E402
-from discover._mapping_overrides import OVERRIDES_PATH, write_mapping_overrides  # noqa: E402
+from pipeline.paths import HIERARCHY_DIR, PROFESSION_INDEX_DIR
+from pipeline.config.states import ALL_STATES
+from pipeline.discover.match_profession import build_index_for, load_professions, load_state_structure
+from pipeline.discover._mapping_overrides import OVERRIDES_PATH, write_mapping_overrides
 
 # Retune tripwire: expected ~201 tagged residuals + ~40-50 migration_keeps.
 MIN_ADDS = 150

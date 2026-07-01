@@ -22,8 +22,7 @@ from collections import Counter
 from pathlib import Path
 from typing import Any
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from paths import RESULTS_DIR  # noqa: E402
+from pipeline.paths import RESULTS_DIR
 
 REPORTS_DIR = RESULTS_DIR / "similarity_reports"
 

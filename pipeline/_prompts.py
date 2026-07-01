@@ -1,7 +1,7 @@
 """Load LLM system prompts from config/prompts.yaml by name.
 
 Single import point so any stage that needs a prompt does:
-    from _prompts import load_prompt
+    from pipeline._prompts import load_prompt
     SYSTEM_PROMPT = load_prompt("extract_state")
 """
 

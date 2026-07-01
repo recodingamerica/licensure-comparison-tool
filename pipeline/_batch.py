@@ -11,7 +11,7 @@ a crashed poll loop doesn't lose work.
 
 Typical use:
 
-    from _batch import BatchRequest, submit_batch, poll_batch
+    from pipeline._batch import BatchRequest, submit_batch, poll_batch
 
     reqs = [
         BatchRequest(
@@ -40,13 +40,12 @@ import json
 import logging
 import time
 from dataclasses import dataclass, field
-from pathlib import Path
 from typing import Any, Iterable
 
 import anthropic
 from pydantic import BaseModel, ValidationError
 
-from _llm import extract_json  # reuse the JSON-extraction helper
+from pipeline._llm import extract_json  # reuse the JSON-extraction helper
 
 log = logging.getLogger("_batch")
 

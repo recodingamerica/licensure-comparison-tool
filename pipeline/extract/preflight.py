@@ -32,12 +32,9 @@ import sys
 from collections import defaultdict
 from pathlib import Path
 
-_PIPELINE_DIR = Path(__file__).resolve().parent.parent
-if str(_PIPELINE_DIR) not in sys.path:
-    sys.path.insert(0, str(_PIPELINE_DIR))
 
-from paths import DISCOVERED_DIR, TRIMMED_DIR  # noqa: E402
-from ingest._trim_health import is_poisoned  # noqa: E402
+from pipeline.paths import DISCOVERED_DIR, TRIMMED_DIR
+from pipeline.ingest._trim_health import is_poisoned
 
 # Ordered worst-first; the first matching condition is the reported blocker.
 BLOCKERS = ("NO_SCHEMA", "NO_TRIMMED", "EMPTY_TRIMMED", "POISONED")

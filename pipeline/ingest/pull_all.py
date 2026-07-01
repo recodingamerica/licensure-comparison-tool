@@ -34,17 +34,14 @@ import logging
 import sys
 import time
 from dataclasses import asdict
-from pathlib import Path
 
 # Match pull_text's import shim: put pipeline/ingest on the path so `import
 # pull_text` resolves, and pipeline/ on the path so pull_text's `from paths
 # import ...` resolves when it loads.
-sys.path.insert(0, str(Path(__file__).resolve().parent))
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 # Reuse the single-state machinery so corpus shape / fetch / guards stay identical.
-import pull_text as pt  # noqa: E402
-from _records import record_files  # noqa: E402
+import pipeline.ingest.pull_text as pt  # noqa: E402
+from pipeline._records import record_files
 
 log = logging.getLogger("pull_all")
 
@@ -223,7 +220,7 @@ def main() -> int:
     # trim → extract trust it. Only audits states pulled THIS run (bounded cost).
     bad_pulls: dict[str, list[str]] = {}
     if pulled_by_prof and not args.no_audit:
-        from discover.audit_corpus import audit_states  # local import: heavy deps
+        from pipeline.discover.audit_corpus import audit_states  # local import: heavy deps
         for prof, sts in sorted(pulled_by_prof.items()):
             verdicts = audit_states(prof, sorted(sts))
             flagged = [s for s, v in verdicts.items() if v["verdict"] != "correct_licensure_text"]

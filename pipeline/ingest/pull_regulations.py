@@ -21,12 +21,9 @@ from __future__ import annotations
 import argparse
 import json
 import re
-import sys
-from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from ingest import pull_text as pt  # noqa: E402
-from paths import RESULTS_DIR  # noqa: E402
+from pipeline.ingest import pull_text as pt
+from pipeline.paths import RESULTS_DIR
 
 OUT_DIR = RESULTS_DIR / "regulations_text"
 # Rule-section heading, e.g. "R156-16a-304." or "R277-419-2." — the split point.

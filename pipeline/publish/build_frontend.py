@@ -68,23 +68,22 @@ def _extract_compacts(record: dict) -> list[str]:
     return sorted(found)
 
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from paths import STRUCTURED_DIR, DISCOVERED_DIR, TRIMMED_DIR, RESULTS_DIR, MAP_PREP_DIR, CONFIG_DIR  # noqa: E402
-from _records import record_files  # noqa: E402
-from _runlog import record_run  # noqa: E402
+from pipeline.paths import STRUCTURED_DIR, DISCOVERED_DIR, TRIMMED_DIR, RESULTS_DIR, MAP_PREP_DIR, CONFIG_DIR
+from pipeline._records import record_files
+from pipeline._runlog import record_run
 import yaml  # noqa: E402
 
 # Publish toggles — the single-parameter off-switch for verified absences.
 _PUB_OPTS = yaml.safe_load((CONFIG_DIR / "publish_options.yaml").read_text()) or {}
 INCLUDE_VERIFIED_ABSENCES = bool(_PUB_OPTS.get("include_verified_absences", True))
-from config.states import ALL_STATES  # noqa: E402
-from extract.locate_quote import locate_quote_in_section  # noqa: E402
-from extract.standard_model import is_evidence_node, iter_evidence  # noqa: E402
-from scope_sources import is_universal, is_enumeration  # noqa: E402
-from merged_scope import merged_scope_by_url  # noqa: E402
-from publish.blob_upload import upload_json  # noqa: E402
-from publish._browse_tree import build_tree as _build_browse_tree  # noqa: E402
-from publish._justia_clean import clean_justia_text  # noqa: E402
+from pipeline.config.states import ALL_STATES
+from pipeline.extract.locate_quote import locate_quote_in_section
+from pipeline.extract.standard_model import is_evidence_node, iter_evidence
+from pipeline.scope_sources import is_universal, is_enumeration
+from pipeline.merged_scope import merged_scope_by_url
+from pipeline.publish.blob_upload import upload_json
+from pipeline.publish._browse_tree import build_tree as _build_browse_tree
+from pipeline.publish._justia_clean import clean_justia_text
 
 
 def _ev_value(node: Any) -> Any:
@@ -855,7 +854,7 @@ def _no_credential_states(profession: str) -> dict[str, str]:
     Returns {state: citation/explanation}."""
     try:
         import yaml
-        from paths import CONFIG_DIR
+        from pipeline.paths import CONFIG_DIR
         cfg = yaml.safe_load((CONFIG_DIR / "professions.yaml").read_text()) or {}
         return cfg.get(profession, {}).get("no_credential_states") or {}
     except Exception:
@@ -866,7 +865,7 @@ def _profession_display(profession: str) -> str:
     """Pull a friendly display name from config/professions.yaml; fall back to title-case."""
     try:
         import yaml
-        from paths import CONFIG_DIR
+        from pipeline.paths import CONFIG_DIR
         cfg = yaml.safe_load((CONFIG_DIR / "professions.yaml").read_text()) or {}
         return cfg.get(profession, {}).get("display", profession.replace("_", " ").title())
     except Exception:
@@ -882,7 +881,7 @@ def _profession_meta(profession: str) -> dict:
     """
     try:
         import yaml
-        from paths import CONFIG_DIR
+        from pipeline.paths import CONFIG_DIR
         cfg = yaml.safe_load((CONFIG_DIR / "professions.yaml").read_text()) or {}
     except Exception:
         cfg = {}
@@ -908,7 +907,7 @@ def _all_profession_meta() -> list[dict]:
     need."""
     try:
         import yaml
-        from paths import CONFIG_DIR
+        from pipeline.paths import CONFIG_DIR
         cfg = yaml.safe_load((CONFIG_DIR / "professions.yaml").read_text()) or {}
     except Exception:
         return []

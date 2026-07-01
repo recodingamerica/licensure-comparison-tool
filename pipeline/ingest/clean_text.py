@@ -29,11 +29,9 @@ from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Callable
 
-import sys
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from paths import TEXT_DIR, CLEAN_DIR, LOGS_DIR, CONFIG_DIR  # noqa: E402
-from _records import record_files  # noqa: E402
-from _runlog import record_run  # noqa: E402
+from pipeline.paths import TEXT_DIR, CLEAN_DIR, LOGS_DIR, CONFIG_DIR
+from pipeline._records import record_files
+from pipeline._runlog import record_run
 import yaml  # noqa: E402
 
 

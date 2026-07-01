@@ -26,14 +26,12 @@ Shape:
 from __future__ import annotations
 
 import logging
-import sys
 from pathlib import Path
 
 import yaml
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from paths import CONFIG_DIR  # noqa: E402
-from config.yaml_loader import safe_load_unique  # noqa: E402
+from pipeline.paths import CONFIG_DIR
+from pipeline.config.yaml_loader import safe_load_unique
 
 OVERRIDES_PATH = CONFIG_DIR / "mapping_overrides.yaml"
 

@@ -21,21 +21,16 @@ import argparse
 import json
 import logging
 import sys
-from pathlib import Path
 from typing import Any
 
-# Make sibling modules + pipeline.paths importable regardless of CWD.
-sys.path.insert(0, str(Path(__file__).resolve().parent))
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-
-from extract_state import (  # noqa: E402
+from pipeline.extract.extract_state import (
     SYSTEM_PROMPT,
     build_profile_model,
     build_state_text,
     call_model,
     load_umbrella_text,
 )
-from paths import DISCOVERED_DIR, STRUCTURED_DIR, TRIMMED_DIR  # noqa: E402
+from pipeline.paths import DISCOVERED_DIR, STRUCTURED_DIR, TRIMMED_DIR
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 log = logging.getLogger("compare_models")

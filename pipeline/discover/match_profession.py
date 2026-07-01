@@ -20,15 +20,13 @@ import logging
 import re
 import sys
 import urllib.parse
-from pathlib import Path
 
 import yaml
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from paths import HIERARCHY_DIR, PROFESSION_INDEX_DIR, CONFIG_DIR, LOGS_DIR  # noqa: E402
-from config.states import ALL_STATES  # noqa: E402
-from config.yaml_loader import safe_load_unique  # noqa: E402
-from discover._mapping_overrides import (  # noqa: E402
+from pipeline.paths import HIERARCHY_DIR, PROFESSION_INDEX_DIR, CONFIG_DIR, LOGS_DIR
+from pipeline.config.states import ALL_STATES
+from pipeline.config.yaml_loader import safe_load_unique
+from pipeline.discover._mapping_overrides import (
     load_mapping_overrides,
     apply_mapping_overrides,
     apply_override_adds,
@@ -329,6 +327,8 @@ def main() -> None:
     args = ap.parse_args()
 
     professions = load_professions()
+    # Skip config keys like _families — they're registry metadata, not professions.
+    professions = {k: v for k, v in professions.items() if not k.startswith("_")}
     if args.profession:
         if args.profession not in professions:
             sys.exit(f"profession not in registry: {args.profession}")
@@ -375,7 +375,7 @@ def main() -> None:
     with cov_path.open("w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=["profession", "display", "states_matched", "states_total", "missing_states"])
         w.writeheader()
-        for row in sorted(coverage_rows, key=lambda r: -r["states_matched"]):
+        for row in sorted(coverage_rows, key=lambda r: (-r["states_matched"], r["profession"])):
             w.writerow(row)
     log.info("wrote coverage matrix: %s (%d professions)", cov_path, len(coverage_rows))
 

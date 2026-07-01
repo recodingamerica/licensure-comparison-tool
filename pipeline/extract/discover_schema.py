@@ -17,7 +17,6 @@ import json
 import logging
 import os
 import sys
-from pathlib import Path
 from typing import Literal
 
 from pydantic import BaseModel, Field
@@ -26,10 +25,9 @@ from pydantic import BaseModel, Field
 from pipeline._env import load_env  # noqa: E402
 load_env()
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from _llm import call_structured  # noqa: E402
-from paths import TRIMMED_DIR, DISCOVERED_DIR, LOGS_DIR  # noqa: E402
-from _records import record_files  # noqa: E402
+from pipeline._llm import call_structured
+from pipeline.paths import TRIMMED_DIR, DISCOVERED_DIR, LOGS_DIR
+from pipeline._records import record_files
 
 LOG_PATH = LOGS_DIR / "discover_schema.log"
 LOGS_DIR.mkdir(parents=True, exist_ok=True)
@@ -46,7 +44,7 @@ logging.basicConfig(
 log = logging.getLogger("discover_schema")
 
 
-from _prompts import load_prompt  # noqa: E402
+from pipeline._prompts import load_prompt
 
 SYSTEM_PROMPT = load_prompt("discover_schema")
 

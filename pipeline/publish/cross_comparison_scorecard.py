@@ -21,14 +21,11 @@ from __future__ import annotations
 
 import datetime as dt
 import json
-import sys
-from pathlib import Path
 from typing import Any, Callable
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from extract.standard_model import is_evidence_node  # noqa: E402
-from paths import RESULTS_DIR, STRUCTURED_DIR, WEB_PUBLIC_DIR, core_professions  # noqa: E402
-from _records import record_files  # noqa: E402
+from pipeline.extract.standard_model import is_evidence_node
+from pipeline.paths import RESULTS_DIR, STRUCTURED_DIR, WEB_PUBLIC_DIR, core_professions
+from pipeline._records import record_files
 
 
 # Atharv's "Universal Category" list from the cross-comparison PDF, mapped to
@@ -209,7 +206,7 @@ def main() -> None:
     print(f"wrote {web_path}")
 
     if args.upload:
-        from publish.blob_upload import upload_json
+        from pipeline.publish.blob_upload import upload_json
         url, skipped = upload_json("data/scorecard.json", payload_json)
         print(f"{'cached' if skipped else 'uploaded'} → {url}")
 

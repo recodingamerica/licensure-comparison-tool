@@ -29,17 +29,13 @@ from __future__ import annotations
 import argparse
 import json
 import subprocess
-import sys
 from pathlib import Path
 
-_PIPELINE_DIR = Path(__file__).resolve().parent.parent
-if str(_PIPELINE_DIR) not in sys.path:
-    sys.path.insert(0, str(_PIPELINE_DIR))
 
-from paths import DISCOVERED_DIR, STRUCTURED_DIR, PIPELINE_ROOT, WEB_PUBLIC_DIR, core_professions  # noqa: E402
-from extract.extract_state import build_profile_model  # noqa: E402
-from _records import record_files  # noqa: E402
-from _runlog import record_run  # noqa: E402
+from pipeline.paths import DISCOVERED_DIR, STRUCTURED_DIR, PIPELINE_ROOT, WEB_PUBLIC_DIR, core_professions
+from pipeline.extract.extract_state import build_profile_model
+from pipeline._records import record_files
+from pipeline._runlog import record_run
 
 OUT_DIR = PIPELINE_ROOT.parent / "docs" / "methodology"
 

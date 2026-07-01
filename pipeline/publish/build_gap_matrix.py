@@ -31,15 +31,11 @@ import csv
 import json
 import sys
 from collections import defaultdict
-from pathlib import Path
 from typing import Any
 
-_PIPELINE_DIR = Path(__file__).resolve().parent.parent
-if str(_PIPELINE_DIR) not in sys.path:
-    sys.path.insert(0, str(_PIPELINE_DIR))
 
-from _records import record_files  # noqa: E402
-from paths import STRUCTURED_DIR as _STRUCTURED_DIR, PROFESSION_INDEX_DIR as _PROF_INDEX_DIR  # noqa: E402
+from pipeline._records import record_files
+from pipeline.paths import STRUCTURED_DIR as _STRUCTURED_DIR, PROFESSION_INDEX_DIR as _PROF_INDEX_DIR
 
 _OUT_DIR = _PIPELINE_DIR / "results" / "gap_matrix"
 

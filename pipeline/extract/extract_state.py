@@ -22,7 +22,6 @@ import logging
 import os
 import re
 import sys
-from pathlib import Path
 from typing import Any, Literal as TLiteral
 
 from pydantic import BaseModel, Field, ValidationError, create_model
@@ -32,12 +31,10 @@ from pipeline._env import load_env  # noqa: E402
 load_env()
 
 # Make sibling modules and pipeline.paths importable regardless of CWD
-sys.path.insert(0, str(Path(__file__).resolve().parent))
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from _llm import call_structured  # noqa: E402
-from _records import record_files  # noqa: E402
-from _runlog import record_run  # noqa: E402
-from standard_model import (  # noqa: E402
+from pipeline._llm import call_structured
+from pipeline._records import record_files
+from pipeline._runlog import record_run
+from pipeline.extract.standard_model import (  # noqa: E402
     BoolEvidence,
     IntEvidence,
     LicensureRequirements,
@@ -47,13 +44,13 @@ from standard_model import (  # noqa: E402
     derive_regulatory_model,
     iter_evidence,
 )
-from locate_quote import (  # noqa: E402
+from pipeline.extract.locate_quote import (  # noqa: E402
     normalize_for_match as _normalize_for_match,
     quote_fuzzy_match,
     quote_in_corpus,
 )
-from paths import TRIMMED_DIR, DISCOVERED_DIR, STRUCTURED_DIR, LOGS_DIR, RESULTS_DIR  # noqa: E402
-from eval.check_consistency import check_record  # noqa: E402
+from pipeline.paths import TRIMMED_DIR, DISCOVERED_DIR, STRUCTURED_DIR, LOGS_DIR, RESULTS_DIR
+from pipeline.eval.check_consistency import check_record
 
 LOG_PATH = LOGS_DIR / "extract_state.log"
 LOGS_DIR.mkdir(parents=True, exist_ok=True)
@@ -122,7 +119,7 @@ def build_profile_model(profession: str, discovered: dict) -> type[BaseModel]:
     )
 
 
-from _prompts import load_prompt  # noqa: E402
+from pipeline._prompts import load_prompt
 
 SYSTEM_PROMPT = load_prompt("extract_state")
 

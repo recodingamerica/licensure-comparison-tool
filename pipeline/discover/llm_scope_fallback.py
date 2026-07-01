@@ -41,7 +41,6 @@ import logging
 import re
 import sys
 from datetime import datetime, timezone
-from pathlib import Path
 from typing import Literal
 
 from pydantic import BaseModel, field_validator
@@ -49,12 +48,11 @@ from pydantic import BaseModel, field_validator
 from pipeline._env import load_env
 load_env()
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from paths import RESULTS_DIR, LOGS_DIR  # noqa: E402
-from _records import record_files  # noqa: E402
-from scope_sources import is_classified  # noqa: E402
-from pipeline._llm import call_structured  # noqa: E402
-from discover._profession_reverse_index import build_reverse_index  # noqa: E402
+from pipeline.paths import RESULTS_DIR, LOGS_DIR
+from pipeline._records import record_files
+from pipeline.scope_sources import is_classified
+from pipeline._llm import call_structured
+from pipeline.discover._profession_reverse_index import build_reverse_index
 
 UMBRELLA_TEXT_DIR = RESULTS_DIR / "umbrella_text"
 UMBRELLA_SCOPE_DIR = RESULTS_DIR / "umbrella_scope"
@@ -261,7 +259,7 @@ def run_state(state: str, model: str = DEFAULT_MODEL) -> dict | None:
 def merge_scope(state: str) -> dict | None:
     """Walker scope with LLM decisions overlaid (each section tagged with
     scope_method). Delegates to the shared loader so there's one merge."""
-    from merged_scope import load_merged_scope
+    from pipeline.merged_scope import load_merged_scope
     return load_merged_scope(state)
 
 
@@ -277,7 +275,7 @@ _CITE_IN_EVIDENCE = re.compile(r"chapter|chs?\.|title|article|part\s+\d|\d{2,}",
 
 def _profession_terms_by_id() -> dict[str, list[str]]:
     from collections import defaultdict
-    from discover.assign_umbrella_scope import _load_profession_terms
+    from pipeline.discover.assign_umbrella_scope import _load_profession_terms
     by_pid: dict[str, list[str]] = defaultdict(list)
     for pid, term, _exc in _load_profession_terms():
         by_pid[pid].append(term)

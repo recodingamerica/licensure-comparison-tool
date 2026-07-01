@@ -38,14 +38,11 @@ import argparse
 import json
 import logging
 import re
-import sys
 from collections import defaultdict
-from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from paths import RESULTS_DIR, LOGS_DIR  # noqa: E402
-from discover._profession_reverse_index import build_reverse_index  # noqa: E402
-from discover._scope_rules import (  # noqa: E402
+from pipeline.paths import RESULTS_DIR, LOGS_DIR
+from pipeline.discover._profession_reverse_index import build_reverse_index
+from pipeline.discover._scope_rules import (
     STATE_RULES,
     StateScopeRules,
     ANCHOR_LABEL_RE,
@@ -53,11 +50,11 @@ from discover._scope_rules import (  # noqa: E402
     NARROW_LABEL_HINTS,
     LEAF_SECTION_SEG,
 )
-from discover._state_scope_manifest import (  # noqa: E402
+from pipeline.discover._state_scope_manifest import (
     load_manifest,
     manifest_decision_for,
 )
-from scope_sources import METHOD_MANIFEST  # noqa: E402
+from pipeline.scope_sources import METHOD_MANIFEST
 
 UMBRELLA_TEXT_DIR = RESULTS_DIR / "umbrella_text"
 UMBRELLA_SCOPE_DIR = RESULTS_DIR / "umbrella_scope"
@@ -171,7 +168,7 @@ def _load_profession_terms() -> list[tuple[str, str, list[str]]]:
     if _PROFESSION_TERMS_CACHE is not None:
         return _PROFESSION_TERMS_CACHE
     import yaml
-    from paths import CONFIG_DIR
+    from pipeline.paths import CONFIG_DIR
     cfg = yaml.safe_load((CONFIG_DIR / "professions.yaml").read_text()) or {}
     entries: list[tuple[str, str, list[str]]] = []
     for pid, pdef in cfg.items():

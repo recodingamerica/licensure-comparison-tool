@@ -28,7 +28,6 @@ import logging
 import os
 import re
 import sys
-from pathlib import Path
 from typing import Any, Iterable
 
 import psycopg
@@ -36,22 +35,20 @@ from psycopg import sql
 from psycopg.rows import dict_row
 
 # Make sibling modules importable.
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
-from _env import load_env  # noqa: E402
+from pipeline._env import load_env
 load_env()
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from extract.standard_model import iter_evidence  # noqa: E402
-from extract.locate_quote import (  # noqa: E402
+from pipeline.extract.standard_model import iter_evidence
+from pipeline.extract.locate_quote import (
     normalize_for_match,  # unused, but kept for symmetry with build_frontend
 )
-from publish.build_frontend import (  # noqa: E402
+from pipeline.publish.build_frontend import (
     _ev_value,
     _derive_credential_and_mandatory,
     _extract_compacts,
     normalize_citation,
 )
-from paths import (  # noqa: E402
+from pipeline.paths import (
     HIERARCHY_DIR,
     PROFESSION_INDEX_DIR,
     DISCOVERED_DIR,
@@ -59,9 +56,9 @@ from paths import (  # noqa: E402
     TRIMMED_DIR,
     RESULTS_DIR,
 )
-from scope_sources import is_classified, professions_for  # noqa: E402
-from merged_scope import load_merged_scope  # noqa: E402
-from _records import record_files  # noqa: E402
+from pipeline.scope_sources import is_classified, professions_for
+from pipeline.merged_scope import load_merged_scope
+from pipeline._records import record_files
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 log = logging.getLogger("db.load")

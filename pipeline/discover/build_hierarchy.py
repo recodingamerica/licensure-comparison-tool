@@ -38,20 +38,16 @@ import csv
 import json
 import logging
 import re
-import sys
 import time
 import urllib.parse
 from datetime import datetime, timezone
 from pathlib import Path
 
-# Import siblings + paths
-sys.path.insert(0, str(Path(__file__).resolve().parent))
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from _fetch import fetch_with, shutdown_pw  # noqa: E402
-from _extract import extract_justia_chapters, extract_justia_sections, extract_official_chapters  # noqa: E402
-from paths import HIERARCHY_DIR, CONFIG_DIR, LOGS_DIR  # noqa: E402
-from config.states import ALL_STATES  # noqa: E402
-from config.yaml_loader import safe_load_unique  # noqa: E402
+from pipeline.discover._fetch import fetch_with, shutdown_pw
+from pipeline.discover._extract import extract_justia_chapters, extract_justia_sections, extract_official_chapters
+from pipeline.paths import HIERARCHY_DIR, CONFIG_DIR, LOGS_DIR
+from pipeline.config.states import ALL_STATES
+from pipeline.config.yaml_loader import safe_load_unique
 
 import yaml as _yaml  # noqa: E402
 
@@ -60,7 +56,7 @@ LOG_PATH = LOGS_DIR / "build_hierarchy.log"
 LOGS_DIR.mkdir(parents=True, exist_ok=True)
 HIERARCHY_DIR.mkdir(parents=True, exist_ok=True)
 
-from pipeline._fetch_config import PER_HOST_DELAY  # noqa: E402
+from pipeline._fetch_config import PER_HOST_DELAY
 
 logging.basicConfig(
     level=logging.INFO,

@@ -27,16 +27,14 @@ import re
 import time
 import urllib.parse
 from dataclasses import asdict, dataclass, field
-from pathlib import Path
 
 from bs4 import BeautifulSoup
 from curl_cffi import requests as cffi_requests  # type: ignore
 
 import sys
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from paths import TEXT_DIR, LOGS_DIR, PROFESSION_INDEX_DIR  # noqa: E402
-from _records import record_files  # noqa: E402
-from _runlog import record_run  # noqa: E402
+from pipeline.paths import TEXT_DIR, LOGS_DIR, PROFESSION_INDEX_DIR
+from pipeline._records import record_files
+from pipeline._runlog import record_run
 
 LOG_PATH = LOGS_DIR / "pull_text.log"
 LOGS_DIR.mkdir(parents=True, exist_ok=True)
@@ -110,7 +108,7 @@ def _env_get(name: str) -> str | None:
     v = os.environ.get(name)
     if not v:
         try:
-            from _env import load_env
+            from pipeline._env import load_env
             load_env()
             v = os.environ.get(name)
         except Exception:
@@ -730,7 +728,7 @@ def _ny_openleg_key() -> str | None:
     k = os.environ.get("NY_OPENLEG_KEY")
     if not k:
         try:
-            from _env import load_env
+            from pipeline._env import load_env
             load_env()
             k = os.environ.get("NY_OPENLEG_KEY")
         except Exception:

@@ -41,18 +41,15 @@ from datetime import datetime
 from pathlib import Path
 
 # .env loader
-_PIPELINE_DIR = Path(__file__).resolve().parent.parent
-if str(_PIPELINE_DIR) not in sys.path:
-    sys.path.insert(0, str(_PIPELINE_DIR))
 
-from _env import load_env  # noqa: E402
+from pipeline._env import load_env
 
 load_env()
 
 import anthropic  # noqa: E402
 from pydantic import BaseModel, ValidationError  # noqa: E402
 
-from extract.extract_state import (  # noqa: E402
+from pipeline.extract.extract_state import (
     SYSTEM_PROMPT,
     DEFAULT_MODEL,
     build_profile_model,
@@ -62,9 +59,9 @@ from extract.extract_state import (  # noqa: E402
     _recover_invalid_fields,
     _normalize_for_match,
 )
-from paths import DISCOVERED_DIR, TRIMMED_DIR, STRUCTURED_DIR, LOGS_DIR, RESULTS_DIR  # noqa: E402
-from _llm import extract_json  # noqa: E402
-from extract.preflight import run_preflight, format_report  # noqa: E402
+from pipeline.paths import DISCOVERED_DIR, TRIMMED_DIR, STRUCTURED_DIR, LOGS_DIR, RESULTS_DIR
+from pipeline._llm import extract_json
+from pipeline.extract.preflight import run_preflight, format_report
 
 logging.basicConfig(
     level=logging.INFO,

@@ -18,15 +18,12 @@ from __future__ import annotations
 import argparse
 import json
 import sys
-from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent))
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from extract_state import annotate_evidence, load_umbrella_text  # noqa: E402
-from locate_quote import normalize_for_match  # noqa: E402
-from paths import STRUCTURED_DIR, TRIMMED_DIR  # noqa: E402
-from _records import record_files  # noqa: E402
-from standard_model import iter_evidence  # noqa: E402
+from pipeline.extract.extract_state import annotate_evidence, load_umbrella_text  # noqa: E402
+from pipeline.extract.locate_quote import normalize_for_match  # noqa: E402
+from pipeline.paths import STRUCTURED_DIR, TRIMMED_DIR
+from pipeline._records import record_files
+from pipeline.extract.standard_model import iter_evidence  # noqa: E402
 
 
 def main() -> None:

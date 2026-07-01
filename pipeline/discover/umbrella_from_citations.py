@@ -27,13 +27,10 @@ from __future__ import annotations
 import argparse
 import json
 import re
-import sys
 import urllib.parse as up
-from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from paths import HIERARCHY_DIR, RESULTS_DIR  # noqa: E402
-from eval.corpus_status import umbrella_candidates  # noqa: E402
+from pipeline.paths import HIERARCHY_DIR, RESULTS_DIR
+from pipeline.eval.corpus_status import umbrella_candidates
 
 UMBRELLA_DIR = RESULTS_DIR / "umbrella_chapters"
 

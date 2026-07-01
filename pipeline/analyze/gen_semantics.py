@@ -19,7 +19,6 @@ from __future__ import annotations
 
 import argparse
 import json
-import sys
 from pathlib import Path
 from typing import Literal
 
@@ -27,10 +26,9 @@ import yaml
 from pydantic import BaseModel, Field
 
 REPO = Path(__file__).resolve().parents[2]
-sys.path.insert(0, str(REPO / "pipeline"))
-from _env import load_env  # noqa: E402
+from pipeline._env import load_env
 load_env()
-from _llm import call_structured  # noqa: E402
+from pipeline._llm import call_structured
 
 DATA_DIR = REPO / "pipeline" / "publish" / "web" / "public" / "data"
 OUT_DIR = REPO / "pipeline" / "config" / "field_semantics"
