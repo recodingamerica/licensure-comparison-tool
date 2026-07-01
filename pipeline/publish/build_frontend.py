@@ -69,9 +69,14 @@ def _extract_compacts(record: dict) -> list[str]:
 
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from paths import STRUCTURED_DIR, DISCOVERED_DIR, TRIMMED_DIR, RESULTS_DIR, MAP_PREP_DIR  # noqa: E402
+from paths import STRUCTURED_DIR, DISCOVERED_DIR, TRIMMED_DIR, RESULTS_DIR, MAP_PREP_DIR, CONFIG_DIR  # noqa: E402
 from _records import record_files  # noqa: E402
 from _runlog import record_run  # noqa: E402
+import yaml  # noqa: E402
+
+# Publish toggles — the single-parameter off-switch for verified absences.
+_PUB_OPTS = yaml.safe_load((CONFIG_DIR / "publish_options.yaml").read_text()) or {}
+INCLUDE_VERIFIED_ABSENCES = bool(_PUB_OPTS.get("include_verified_absences", True))
 from config.states import ALL_STATES  # noqa: E402
 from extract.locate_quote import locate_quote_in_section  # noqa: E402
 from extract.standard_model import is_evidence_node, iter_evidence  # noqa: E402
@@ -354,6 +359,11 @@ def hoist_row(record: dict) -> dict:
     return {
         "state": record["state"],
         "coverage_gap": False,
+        # Provenance: "extracted" (from statute) vs "verified_absence" (research-
+        # asserted no-state-license). The UI badges verified_absence rows clearly.
+        "data_basis": record.get("source") or "extracted",
+        "absence_basis": record.get("basis"),   # local_only / not_regulated / contractor_only
+        "absence_note": record.get("note"),
         "license_required": _ev_value(lic.get("license_required")),
         "regulatory_model": _ev_value(lic.get("regulatory_model")),
         "credential_type": credential_type,
@@ -507,6 +517,12 @@ def build(profession: str, payload_only: bool = False) -> dict:
     for st in ALL_STATES:
         if st in have_struct:
             rec = json.loads((structured_dir / f"{st}.json").read_text())
+            # OFF SWITCH (config/publish_options.yaml): when verified absences are
+            # disabled, a research-asserted no-license record falls back to an
+            # ordinary coverage gap, exactly as if we'd never asserted it.
+            if rec.get("source") == "verified_absence" and not INCLUDE_VERIFIED_ABSENCES:
+                rows.append(stub_row(st, profession, "no_credential_in_state_law"))
+                continue
             row = hoist_row(rec)
             row["source_chapter_urls"] = chapter_urls_by_state.get(st, [])
             row["sections"] = sections_by_state.get(st, [])
