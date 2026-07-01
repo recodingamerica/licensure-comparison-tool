@@ -69,10 +69,19 @@ _SUBGROUP = re.compile(
     r"general provisions|licensing procedures?", re.I)
 
 
+CHECKPOINT_EVERY = 5  # flush the hierarchy to disk every N expanded containers (CDP
+                      # fetches are slow + can wait on challenges, so checkpoint often)
+
+
 def _expandable(node: dict, max_depth: int) -> bool:
     depth = node.get("depth", 0)  # original chapters carry no depth → level 0
     lab, url = node.get("label") or "", node.get("url") or ""
     if depth >= max_depth or not url.startswith("http") or "law.justia.com" not in url:
+        return False
+    # A leaf section's label starts with its number ("626.854 - ..."); groupings read
+    # "Part VI - ...", "Chapter 626 - ...". Skip numbered leaves — expanding them is a
+    # wasted +0 fetch that slows the harvest.
+    if re.match(r"^\s*\d", lab):
         return False
     # level-0 chapters expand on the broad container regex; deeper nodes only if they
     # are a generic grouping (else every leaf section would trigger a wasted fetch).
@@ -115,7 +124,12 @@ def expand_state(state: str, force: bool, max_depth: int = 2) -> int:
     queue = deque(c for c in chapters
                   if _expandable(c, max_depth) and (force or c.get("url") not in expanded))
     queued = {c.get("url") for c in queue}
-    added = 0
+
+    def _flush():
+        d["chapters"] = chapters
+        fp.write_text(json.dumps(d, indent=1, ensure_ascii=False))
+
+    added = processed = 0
     while queue:
         c = queue.popleft()
         url = c.get("url")
@@ -133,10 +147,14 @@ def expand_state(state: str, force: bool, max_depth: int = 2) -> int:
                 queue.append(k); queued.add(k["url"])
         expanded.add(url)
         added += len(new)
-        print(f"  {state}: [d{c.get('depth', 0)+1}] {c.get('label','')[:40]} → +{len(new)}")
+        processed += 1
+        print(f"  {state}: [d{c.get('depth', 0)+1}] {c.get('label','')[:40]} → +{len(new)}", flush=True)
+        # Checkpoint mid-state so a wedge/crash/kill loses at most CHECKPOINT_EVERY
+        # containers — a resume skips already-expanded parents and continues.
+        if added and processed % CHECKPOINT_EVERY == 0:
+            _flush()
     if added:
-        d["chapters"] = chapters
-        fp.write_text(json.dumps(d, indent=1, ensure_ascii=False))
+        _flush()
     return added
 
 
