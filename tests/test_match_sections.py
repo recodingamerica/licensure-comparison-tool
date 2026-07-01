@@ -7,6 +7,8 @@ Locks in the properties that make it a trustworthy "what to pull" signal:
   - only the title/citation is searched, never the body (avoids name-drop noise)
 """
 
+import json
+
 import pipeline.discover.match_sections as ms
 
 
@@ -55,3 +57,40 @@ def test_excludes_veto_a_hit(monkeypatch):
     found = ms.match_corpus(None)
     assert "KS:nursing" in found["nurse_midwifery"]
     assert "CT:nursing" not in found.get("nurse_midwifery", {})
+
+
+# --- hierarchy_targets: what to PULL (parent container of a matched leaf) ---
+
+def test_leaf_section_target_is_its_parent_container(monkeypatch):
+    # matched leaf "626.854 Public adjuster" → pull its parent Part VI, not the bare section
+    monkeypatch.setattr(ms, "_professions", lambda: {"public_adjuster": {"patterns": ["public adjuster"]}})
+    monkeypatch.setattr(ms, "_hierarchy_nodes", lambda st: [
+        {"label": "Part VI - Insurance Adjusters", "url": "http://j/part-vi/"},
+        {"label": "626.854 - “Public adjuster” defined", "url": "http://j/part-vi/626-854/",
+         "parent_chapter_url": "http://j/part-vi/"},
+    ])
+    t = ms.hierarchy_targets("public_adjuster", "FL")
+    assert t == {"http://j/part-vi/": "Part VI - Insurance Adjusters"}  # parent, deduped
+
+
+def test_named_grouping_target_is_itself(monkeypatch):
+    # "Part IX - Athlete Agents" names the profession → pull the part directly
+    monkeypatch.setattr(ms, "_professions", lambda: {"athlete_agent": {"patterns": ["athlete agent"]}})
+    monkeypatch.setattr(ms, "_hierarchy_nodes", lambda st: [
+        {"label": "Part IX - Athlete Agents", "url": "http://j/part-ix/", "parent_chapter_url": "http://j/ch468/"},
+    ])
+    assert ms.hierarchy_targets("athlete_agent", "FL") == {"http://j/part-ix/": "Part IX - Athlete Agents"}
+
+
+def test_write_targets_merges_dedups_and_tags(monkeypatch, tmp_path):
+    monkeypatch.setattr(ms, "PROFESSION_INDEX_DIR", tmp_path)
+    monkeypatch.setattr(ms, "hierarchy_targets",
+                        lambda prof, st: {"http://j/part-vi/": "Part VI"} if st == "FL" else {})
+    # pre-existing FL node with the same url must NOT be duplicated
+    (tmp_path / "public_adjuster.json").write_text(json.dumps({
+        "profession": "public_adjuster",
+        "by_state": {"FL": {"matched": [{"url": "http://j/part-vi/", "label": "Part VI"}]}}}))
+    written = ms.write_targets("public_adjuster", ["FL", "GA"])
+    assert written == {}  # FL already had it; GA has no target
+    idx = json.loads((tmp_path / "public_adjuster.json").read_text())
+    assert len(idx["by_state"]["FL"]["matched"]) == 1  # not duplicated
