@@ -9,15 +9,15 @@ and **CDP-attach to a hand-started debug Chrome clears it** (proven: KS 0→21 s
 invalidates the premise behind a lot of prior decisions (the official-source migration, the
 "never re-fetch" doctrine, the "effectively-empty = unrecoverable" exclusions). `CLAUDE.md` updated.
 
+## Grind: DONE (overnight, 2026-07-01 02:49)
+**133 of 134 recovered (99%)** across 23 professions; raw-empty backlog **143 → 9**;
+ready-to-extract **1268**. Only failure: `professional_geology/MD` (an official-source MD
+state — belongs to the official→Justia shift bucket, not a Justia problem). The Chrome is
+now **free** for the phase-2 / official-shift work below.
+
 ## First thing next session
-1. **Push** the 39 commits (once the grind stops committing): `git push`.
-2. **Check the grind**: `python -m pipeline._runlog` and `git log --oneline | grep "CDP-Justia"`.
-   If it stopped with stragglers, re-run (resumable — skips recovered + index-only stubs):
-   ```
-   JUSTIA_CDP_URL=http://localhost:9222 PULL_HOST_DELAY=7 caffeinate -dimsu \
-     pipeline/.venv/bin/python pipeline/results/batches/_justia_repull.py
-   ```
-   (needs the hand-started debug Chrome on :9222 with the Justia challenge solved once.)
+1. **Push** the ~62 commits (grind added ~23): `git push`.
+2. (optional) mop-up re-run — should be a no-op now: `… _justia_repull.py` (resumable).
 
 ## Gated on the CDP Chrome (do when it's free / up)
 - **Phase-2 index-only re-pull** (11 Justia stubs that pulled only the chapter-index page):
