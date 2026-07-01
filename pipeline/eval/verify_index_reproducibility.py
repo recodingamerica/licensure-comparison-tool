@@ -27,12 +27,10 @@ import argparse
 import json
 import sys
 from collections import Counter
-from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from paths import HIERARCHY_DIR, PROFESSION_INDEX_DIR  # noqa: E402
-from discover.match_profession import build_index_for, load_professions, load_state_structure  # noqa: E402
-from discover._mapping_overrides import load_mapping_overrides  # noqa: E402
+from pipeline.paths import HIERARCHY_DIR, PROFESSION_INDEX_DIR
+from pipeline.discover.match_profession import build_index_for, load_professions, load_state_structure
+from pipeline.discover._mapping_overrides import load_mapping_overrides
 
 
 def _node_key(n: dict) -> str:

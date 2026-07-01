@@ -24,11 +24,8 @@ import subprocess
 import sys
 from pathlib import Path
 
-_PIPELINE_DIR = Path(__file__).resolve().parent.parent
-if str(_PIPELINE_DIR) not in sys.path:
-    sys.path.insert(0, str(_PIPELINE_DIR))
 
-from extract.extract_state_batch import submit, poll  # noqa: E402
+from pipeline.extract.extract_state_batch import submit, poll
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 log = logging.getLogger("re_extract_queue")

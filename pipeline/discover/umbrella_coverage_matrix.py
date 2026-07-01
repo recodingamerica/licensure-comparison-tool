@@ -16,13 +16,10 @@ from __future__ import annotations
 import argparse
 import csv
 import json
-import sys
-from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from paths import RESULTS_DIR, PROFESSION_INDEX_DIR  # noqa: E402
-from scope_sources import CLASSIFIED_SOURCES, METHOD_LLM, professions_for  # noqa: E402
-from merged_scope import load_merged_scope  # noqa: E402
+from pipeline.paths import RESULTS_DIR, PROFESSION_INDEX_DIR
+from pipeline.scope_sources import CLASSIFIED_SOURCES, METHOD_LLM, professions_for
+from pipeline.merged_scope import load_merged_scope
 
 UMBRELLA_SCOPE_DIR = RESULTS_DIR / "umbrella_scope"
 

@@ -24,17 +24,11 @@ from __future__ import annotations
 
 import argparse
 import json
-import sys
-from pathlib import Path
 
-_PIPELINE_DIR = Path(__file__).resolve().parent.parent
-if str(_PIPELINE_DIR) not in sys.path:
-    sys.path.insert(0, str(_PIPELINE_DIR))
+import yaml
 
-import yaml  # noqa: E402
-
-from paths import CONFIG_DIR, STRUCTURED_DIR  # noqa: E402
-from _runlog import record_run  # noqa: E402
+from pipeline.paths import CONFIG_DIR, STRUCTURED_DIR
+from pipeline._runlog import record_run
 
 MANIFEST = CONFIG_DIR / "verified_absences.yaml"
 

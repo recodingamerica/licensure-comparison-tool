@@ -25,19 +25,16 @@ import argparse
 import json
 import logging
 import re
-import sys
 import time
 import urllib.parse
 from collections import Counter, defaultdict
-from pathlib import Path
 
 import yaml
 from bs4 import BeautifulSoup
 from curl_cffi import requests as cffi_requests
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from paths import HIERARCHY_DIR, CONFIG_DIR, RESULTS_DIR, LOGS_DIR  # noqa: E402
-from _fetch_config import PER_HOST_DELAY  # noqa: E402
+from pipeline.paths import HIERARCHY_DIR, CONFIG_DIR, RESULTS_DIR, LOGS_DIR
+from pipeline._fetch_config import PER_HOST_DELAY
 
 LOG_PATH = LOGS_DIR / "audit_linkless_chapters.log"
 logging.basicConfig(

@@ -34,11 +34,8 @@ from __future__ import annotations
 import argparse
 import datetime as dt
 import json
-import sys
-from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from paths import MAP_PREP_DIR, RESULTS_DIR, WEB_PUBLIC_DIR, core_professions  # noqa: E402
+from pipeline.paths import MAP_PREP_DIR, RESULTS_DIR, WEB_PUBLIC_DIR, core_professions
 
 # The five priority fields, each mapped to the dotted bucketed-field names that
 # carry it. `source` says which bucket file to read:
@@ -355,7 +352,7 @@ def main() -> None:
     print(f"wrote {md_path}")
 
     if args.upload:
-        from publish.blob_upload import upload_json
+        from pipeline.publish.blob_upload import upload_json
 
         url, skipped = upload_json("data/tag_sheet.json", payload_json)
         print(f"{'cached' if skipped else 'uploaded'} → {url}")

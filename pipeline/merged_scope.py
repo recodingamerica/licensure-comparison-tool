@@ -15,12 +15,9 @@ re-implements the overlay.
 from __future__ import annotations
 
 import json
-from pathlib import Path
 
-import sys
-sys.path.insert(0, str(Path(__file__).resolve().parent))
-from paths import RESULTS_DIR  # noqa: E402
-from scope_sources import overlay_llm_decisions  # noqa: E402
+from pipeline.paths import RESULTS_DIR
+from pipeline.scope_sources import overlay_llm_decisions
 
 UMBRELLA_SCOPE_DIR = RESULTS_DIR / "umbrella_scope"
 UMBRELLA_SCOPE_LLM_DIR = RESULTS_DIR / "umbrella_scope_llm"

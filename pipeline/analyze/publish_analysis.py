@@ -13,11 +13,9 @@ Usage:
 from __future__ import annotations
 
 import argparse
-import sys
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[2]
-sys.path.insert(0, str(REPO / "pipeline"))
 SRC = REPO / "pipeline" / "results" / "analysis"
 DST = REPO / "pipeline" / "publish" / "web" / "public" / "data" / "analysis"
 
@@ -36,7 +34,7 @@ def main() -> int:
     upload_json = None
     if not args.no_upload:
         try:
-            from publish.blob_upload import upload_json  # noqa: E402
+            from pipeline.publish.blob_upload import upload_json  # noqa: E402
         except Exception as e:  # noqa: BLE001
             print(f"  (blob upload unavailable: {e} — staging local mirror only)")
     n = up = 0

@@ -29,31 +29,26 @@ from __future__ import annotations
 import argparse
 import json
 import logging
-import sys
-from pathlib import Path
 
-_PIPELINE_DIR = Path(__file__).resolve().parent.parent
-if str(_PIPELINE_DIR) not in sys.path:
-    sys.path.insert(0, str(_PIPELINE_DIR))
 
-from _env import load_env  # noqa: E402
+from pipeline._env import load_env
 load_env()
 
-from _batch import BatchRequest, submit_batch, poll_batch, aggregate_usage  # noqa: E402
-from _llm import _system_with_schema  # noqa: E402
-from _prompts import load_prompt  # noqa: E402
+from pipeline._batch import BatchRequest, submit_batch, poll_batch, aggregate_usage
+from pipeline._llm import _system_with_schema
+from pipeline._prompts import load_prompt
 # Generic "null the failing leaf" recover used as the default for every batch
 # call. Same one extract_state uses — guards against LLM drift returning a
 # value out of a Literal set or null where the schema expects a type.
-from extract.extract_state import _recover_invalid_fields  # noqa: E402
+from pipeline.extract.extract_state import _recover_invalid_fields
 
 # Reuse the existing scripts' Pydantic models + helper functions
-from map_prep.run import (  # noqa: E402
+from pipeline.map_prep.run import (
     SpecResult, ApplyResult, NormalizedRow,
     _load_profession, _field_index,
     APPLY_CHUNK_SIZE,
 )
-from map_prep.bucket_text import (  # noqa: E402
+from pipeline.map_prep.bucket_text import (
     FieldBuckets, _collect_per_state,
     run_profession_per_item, run_profession_list_fields, _DEFAULT_PER_ITEM_FIELD,
 )
@@ -62,7 +57,7 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(mess
 log = logging.getLogger("map_prep.refresh")
 
 MODEL = "claude-sonnet-4-6"
-from paths import MAP_PREP_DIR as _OUT_ROOT, DISCOVERED_DIR as _DISCOVERED_DIR  # noqa: E402
+from pipeline.paths import MAP_PREP_DIR as _OUT_ROOT, DISCOVERED_DIR as _DISCOVERED_DIR
 
 
 # Anthropic batch custom_id pattern is ^[a-zA-Z0-9_-]{1,64}$ — no dots allowed,

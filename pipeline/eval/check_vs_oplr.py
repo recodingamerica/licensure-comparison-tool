@@ -25,8 +25,7 @@ import json
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from paths import STRUCTURED_DIR as STRUCTURED  # noqa: E402
+from pipeline.paths import STRUCTURED_DIR as STRUCTURED
 
 GROUND_TRUTH = Path(__file__).resolve().parent.parent.parent / "docs" / "lit_review" / "oplr_ground_truth.csv"
 

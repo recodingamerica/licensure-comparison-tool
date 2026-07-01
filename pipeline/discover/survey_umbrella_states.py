@@ -17,12 +17,9 @@ from __future__ import annotations
 import csv
 import json
 import re
-import sys
 from collections import Counter, defaultdict
-from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from paths import RESULTS_DIR, PROFESSION_INDEX_DIR  # noqa: E402
+from pipeline.paths import RESULTS_DIR, PROFESSION_INDEX_DIR
 
 UMBRELLA_TEXT_DIR = RESULTS_DIR / "umbrella_text"
 UMBRELLA_CHAPTERS_DIR = RESULTS_DIR / "umbrella_chapters"
@@ -184,7 +181,7 @@ def classify(row: dict) -> str:
 
 
 def main():
-    from config.states import ALL_STATES  # noqa: E402
+    from pipeline.config.states import ALL_STATES
     OUT_PATH.parent.mkdir(parents=True, exist_ok=True)
 
     rows = [survey_state(st) for st in ALL_STATES]

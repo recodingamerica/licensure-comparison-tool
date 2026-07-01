@@ -26,12 +26,10 @@ from __future__ import annotations
 import argparse
 import json
 import sys
-from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from paths import PROFESSION_INDEX_DIR as INDEX_DIR  # noqa: E402
-from discover.match_profession import rebuild_index, rebuild_and_write  # noqa: E402
-from discover._mapping_overrides import add_override_entry, add_exclude_entry  # noqa: E402
+from pipeline.paths import PROFESSION_INDEX_DIR as INDEX_DIR
+from pipeline.discover.match_profession import rebuild_index, rebuild_and_write
+from pipeline.discover._mapping_overrides import add_override_entry, add_exclude_entry
 
 CAND_DIR = INDEX_DIR / "_llm_candidates"
 

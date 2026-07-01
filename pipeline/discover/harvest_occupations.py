@@ -24,13 +24,10 @@ import argparse
 import json
 import logging
 import re
-import sys
 from collections import Counter, defaultdict
-from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from paths import HIERARCHY_DIR, PROFESSION_INDEX_DIR, RESULTS_DIR  # noqa: E402
-from _records import record_files  # noqa: E402
+from pipeline.paths import HIERARCHY_DIR, PROFESSION_INDEX_DIR, RESULTS_DIR
+from pipeline._records import record_files
 
 OUT_DIR = RESULTS_DIR / "taxonomy_harvest"
 OUT_DIR.mkdir(parents=True, exist_ok=True)

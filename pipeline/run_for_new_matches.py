@@ -20,11 +20,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-REPO_ROOT = Path(__file__).resolve().parent.parent
-PIPELINE = Path(__file__).resolve().parent
-
-sys.path.insert(0, str(PIPELINE))
-from paths import PROFESSION_INDEX_DIR  # noqa: E402
+from pipeline.paths import PROFESSION_INDEX_DIR
 
 BEFORE_PATH = Path("/tmp/coverage_before.csv")
 AFTER_PATH = PROFESSION_INDEX_DIR / "_coverage.csv"

@@ -19,25 +19,19 @@ from __future__ import annotations
 import argparse
 import json
 import logging
-import sys
 import time
 from datetime import datetime, timezone
-from pathlib import Path
 
-# load env via shared helper (must come before any LLM-using import; not used here but kept consistent)
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from _env import load_env  # noqa: E402
+from pipeline._env import load_env
 load_env()
 
-# Project imports
-sys.path.insert(0, str(Path(__file__).resolve().parent))
-from _fetch import fetch_with, shutdown_pw  # noqa: E402
-from _extract import extract_justia_chapters  # noqa: E402
-from build_hierarchy import crawl_chapters, crawl_subtitles  # noqa: E402  reuse to handle year-versioned + section_fallback
-from paths import HIERARCHY_DIR, RESULTS_DIR, LOGS_DIR  # noqa: E402
-from config.states import ALL_STATES  # noqa: E402
+from pipeline.discover._fetch import fetch_with, shutdown_pw
+from pipeline.discover._extract import extract_justia_chapters
+from pipeline.discover.build_hierarchy import crawl_chapters, crawl_subtitles  # reuse to handle year-versioned + section_fallback
+from pipeline.paths import HIERARCHY_DIR, RESULTS_DIR, LOGS_DIR
+from pipeline.config.states import ALL_STATES
 
-import re  # noqa: E402
+import re
 
 # Subtitle wrappers between title and chapter on Justia. Match by SLUG only —
 # label-based matching false-positives on real chapters ("Chapter 161 - ...").
@@ -64,8 +58,8 @@ def _drill_one(parent: dict) -> list[dict]:
     sections — returns []. The caller should KEEP the parent as a chapter
     in that case rather than discarding it.
     """
-    from _fetch import fetch_with  # avoid circular at import time
-    from _extract import extract_justia_chapters
+    from pipeline.discover._fetch import fetch_with  # avoid circular at import time
+    from pipeline.discover._extract import extract_justia_chapters
     import time
     status, html, err = fetch_with("curl_cffi", parent["url"])
     time.sleep(PER_HOST_DELAY)

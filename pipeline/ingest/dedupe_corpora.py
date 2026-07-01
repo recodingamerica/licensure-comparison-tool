@@ -31,11 +31,9 @@ import hashlib
 import json
 import os
 import re
-import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from paths import TEXT_DIR  # noqa: E402
+from pipeline.paths import TEXT_DIR
 
 
 def _norm(t: str | None) -> str:

@@ -24,9 +24,8 @@ from pydantic import BaseModel
 from pipeline._env import load_env
 load_env()
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from _llm import call_structured  # noqa: E402
-from paths import CONFIG_DIR, RESULTS_DIR, TEXT_DIR  # noqa: E402
+from pipeline._llm import call_structured
+from pipeline.paths import CONFIG_DIR, RESULTS_DIR, TEXT_DIR
 
 PROF_YAML = CONFIG_DIR / "professions.yaml"
 CAND = RESULTS_DIR / "discover_occupations" / "_candidates.json"

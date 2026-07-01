@@ -11,12 +11,10 @@ the canonical profession id `podiatry`.
 from __future__ import annotations
 
 import json
-import sys
 from collections import defaultdict
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from paths import PROFESSION_INDEX_DIR  # noqa: E402
+from pipeline.paths import PROFESSION_INDEX_DIR
 
 
 def build_reverse_index(state: str) -> dict[str, list[str]]:

@@ -21,21 +21,16 @@ from __future__ import annotations
 import argparse
 import json
 import logging
-import sys
-from pathlib import Path
 from typing import Literal
 
 from pydantic import BaseModel, Field
 
 # Make the pipeline package importable when invoked as a script.
-_PIPELINE_DIR = Path(__file__).resolve().parent.parent
-if str(_PIPELINE_DIR) not in sys.path:
-    sys.path.insert(0, str(_PIPELINE_DIR))
 
-from _env import load_env  # noqa: E402
-from _llm import call_structured  # noqa: E402
-from _prompts import load_prompt  # noqa: E402
-from paths import STRUCTURED_DIR as _STRUCTURED_DIR, MAP_PREP_DIR as _OUT_ROOT  # noqa: E402
+from pipeline._env import load_env
+from pipeline._llm import call_structured
+from pipeline._prompts import load_prompt
+from pipeline.paths import STRUCTURED_DIR as _STRUCTURED_DIR, MAP_PREP_DIR as _OUT_ROOT
 
 load_env()
 

@@ -32,16 +32,14 @@ from __future__ import annotations
 import argparse
 import json
 import logging
-import sys
 from collections import defaultdict
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from paths import RESULTS_DIR  # noqa: E402
-from _records import record_files  # noqa: E402
-from scope_sources import is_universal, is_enumeration  # noqa: E402
-from merged_scope import load_merged_scope  # noqa: E402
-from discover._profession_reverse_index import build_reverse_index  # noqa: E402
+from pipeline.paths import RESULTS_DIR
+from pipeline._records import record_files
+from pipeline.scope_sources import is_universal, is_enumeration
+from pipeline.merged_scope import load_merged_scope
+from pipeline.discover._profession_reverse_index import build_reverse_index
 
 UMBRELLA_TEXT_DIR = RESULTS_DIR / "umbrella_text"
 OUT_DIR = Path(__file__).resolve().parent / "web" / "public" / "data" / "umbrella"

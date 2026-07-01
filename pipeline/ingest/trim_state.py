@@ -27,7 +27,6 @@ import logging
 import os
 import sys
 from dataclasses import asdict, dataclass, field
-from pathlib import Path
 from typing import Literal as TLiteral
 
 from pydantic import BaseModel, Field, ValidationError, create_model
@@ -36,12 +35,11 @@ from pydantic import BaseModel, Field, ValidationError, create_model
 from pipeline._env import load_env  # noqa: E402
 load_env()
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from _llm import call_structured  # noqa: E402
-from _records import record_files  # noqa: E402
-from _runlog import record_run  # noqa: E402
-from paths import CLEAN_DIR, TRIMMED_DIR, LOGS_DIR  # noqa: E402
-from ingest._trim_health import LLM_FAIL_REASON  # noqa: E402
+from pipeline._llm import call_structured
+from pipeline._records import record_files
+from pipeline._runlog import record_run
+from pipeline.paths import CLEAN_DIR, TRIMMED_DIR, LOGS_DIR
+from pipeline.ingest._trim_health import LLM_FAIL_REASON
 
 LOG_PATH = LOGS_DIR / "trim_state.log"
 LOGS_DIR.mkdir(parents=True, exist_ok=True)
@@ -58,7 +56,7 @@ logging.basicConfig(
 log = logging.getLogger("trim_state")
 
 
-from _prompts import load_prompt  # noqa: E402
+from pipeline._prompts import load_prompt
 
 SYSTEM_PROMPT = load_prompt("trim_state")
 

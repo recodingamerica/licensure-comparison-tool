@@ -25,17 +25,14 @@ import argparse
 import json
 import logging
 import sys
-from pathlib import Path
 from pydantic import BaseModel
 
-sys.path.insert(0, str(Path(__file__).resolve().parent))
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from _llm import call_structured  # noqa: E402
-from _records import record_files  # noqa: E402
-from extract_state import load_umbrella_text  # noqa: E402
-from locate_quote import normalize_for_match, quote_in_corpus  # noqa: E402
-from paths import LOGS_DIR, STRUCTURED_DIR, TRIMMED_DIR  # noqa: E402
-from standard_model import iter_evidence  # noqa: E402
+from pipeline._llm import call_structured
+from pipeline._records import record_files
+from pipeline.extract.extract_state import load_umbrella_text  # noqa: E402
+from pipeline.extract.locate_quote import normalize_for_match, quote_in_corpus  # noqa: E402
+from pipeline.paths import LOGS_DIR, STRUCTURED_DIR, TRIMMED_DIR
+from pipeline.extract.standard_model import iter_evidence  # noqa: E402
 
 
 LOG_PATH = LOGS_DIR / "repair_unverified.log"

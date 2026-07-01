@@ -46,7 +46,7 @@ def test_decision_undetermined():
 
 @pytest.fixture
 def fake_dirs(tmp_path, monkeypatch):
-    import merged_scope as ms  # top-level module merge_scope() delegates to
+    import pipeline.merged_scope as ms  # top-level module merge_scope() delegates to
     sd = tmp_path / "scope"; sd.mkdir()
     ld = tmp_path / "scope_llm"; ld.mkdir()
     td = tmp_path / "text"; td.mkdir()

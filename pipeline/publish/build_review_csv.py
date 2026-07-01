@@ -21,10 +21,9 @@ from datetime import date
 from pathlib import Path
 from typing import Any
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from extract.standard_model import iter_evidence  # noqa: E402
-from paths import STRUCTURED_DIR, RESULTS_DIR  # noqa: E402
-from _records import record_files  # noqa: E402
+from pipeline.extract.standard_model import iter_evidence
+from pipeline.paths import STRUCTURED_DIR, RESULTS_DIR
+from pipeline._records import record_files
 
 REVIEWS_DIR = RESULTS_DIR / "reviews"
 

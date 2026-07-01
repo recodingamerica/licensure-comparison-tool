@@ -36,10 +36,9 @@ from pathlib import Path
 
 import yaml
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from paths import CONFIG_DIR, TEXT_DIR, STRUCTURED_DIR  # noqa: E402
-from discover import register_occupation as reg  # noqa: E402
-from discover import mechanical_cross_ref as xref  # noqa: E402
+from pipeline.paths import CONFIG_DIR, TEXT_DIR, STRUCTURED_DIR
+from pipeline.discover import register_occupation as reg
+from pipeline.discover import mechanical_cross_ref as xref
 
 PY = sys.executable
 ROOT = Path(__file__).resolve().parents[2]

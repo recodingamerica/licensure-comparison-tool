@@ -16,16 +16,14 @@ import argparse
 import json
 import os
 import sys
-from pathlib import Path
 
 from pydantic import BaseModel, Field, create_model
 
 from pipeline._env import load_env  # noqa: E402
 load_env()
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from _llm import call_structured  # noqa: E402
-from paths import DISCOVERED_DIR  # noqa: E402
+from pipeline._llm import call_structured
+from pipeline.paths import DISCOVERED_DIR
 
 DEFAULT_MODEL = "claude-sonnet-4-6"
 

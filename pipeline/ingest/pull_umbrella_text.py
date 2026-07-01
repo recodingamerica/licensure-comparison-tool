@@ -15,18 +15,14 @@ from __future__ import annotations
 import argparse
 import json
 import logging
-import sys
 import time
-from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from paths import RESULTS_DIR, LOGS_DIR  # noqa: E402
-from config.states import ALL_STATES  # noqa: E402
+from pipeline.paths import RESULTS_DIR, LOGS_DIR
+from pipeline.config.states import ALL_STATES
 from pipeline._fetch_config import PER_HOST_DELAY  # noqa: E402
 
 # Reuse the existing pull infrastructure
-sys.path.insert(0, str(Path(__file__).resolve().parent))
-from pull_text import (  # noqa: E402
+from pipeline.ingest.pull_text import (  # noqa: E402
     fetch, is_section_url, extract_section_text, collect_section_targets,
 )
 
@@ -68,7 +64,7 @@ def pull_state_umbrella(state: str, force: bool, source_filter: str | None = Non
         # find_umbrella_chapters LLM over-included profession-specific chapters
         # (Medical Practice, University of Arkansas) — pulling those pollutes
         # umbrella_text and cross-contaminates every profession's extraction.
-        from discover.umbrella_from_citations import _UMBRELLA_LABEL
+        from pipeline.discover.umbrella_from_citations import _UMBRELLA_LABEL
         chapters = [c for c in chapters if _UMBRELLA_LABEL.search(c.get("label", ""))]
     if not chapters:
         # A FILTER yielding nothing means "nothing to do here" — never wipe an

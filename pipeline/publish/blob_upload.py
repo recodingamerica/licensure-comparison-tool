@@ -25,7 +25,7 @@ import json
 import os
 import subprocess
 
-from paths import PIPELINE_ROOT, RESULTS_DIR
+from pipeline.paths import PIPELINE_ROOT, RESULTS_DIR
 
 WEB_DIR = PIPELINE_ROOT / "publish" / "web"
 ENV_FILE = WEB_DIR / ".env.local"
