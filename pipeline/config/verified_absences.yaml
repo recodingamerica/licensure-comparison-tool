@@ -1,0 +1,44 @@
+# Verified absences — (profession, state) pairs confirmed to have NO state-level
+# license (regulated locally, or not regulated at all). These are NOT data gaps;
+# they are correct-blanks. Source: hand-verified research (Atharv #53 findings,
+# spot-checked against official code/legislature sites).
+#
+# apply_verified_absences.py turns each into a structured record with
+# regulatory_model=market_forces (the pipeline's existing "no state regulation"
+# value), transparently marked `source: verified_absence` so it's never confused
+# with an extracted, statute-grounded record. `citation` is the local-enabling hook
+# where one exists (municipal code, HIC act), else "" for a genuine null.
+#
+# basis: local_only            — licensed by city/county, no state license
+#        not_regulated         — no license at any level
+#        contractor_only       — only a state contractor registration, not a trade license
+
+electrician:
+  IL: {basis: local_only, citation: "65 ILCS 5/11-33-1", note: "No statewide license; municipalities register contractors (Chicago, Aurora, ...)."}
+  IN: {basis: local_only, citation: "675 IAC art. 17", note: "Electrical code only, no statewide licensing board; municipal/county."}
+  KS: {basis: local_only, citation: "", note: "No state licensing act; counties/cities license."}
+  NY: {basis: local_only, citation: "", note: "No state licensing act; NYC DOB and localities license."}
+  PA: {basis: local_only, citation: "73 P.S. § 517.1", note: "No statewide license; only HIC registration (consumer protection, not competency)."}
+
+hvac:
+  # Group C (Atharv): no statewide HVAC/mechanical license — regulated locally.
+  CO: {basis: local_only, citation: "", note: "No statewide HVAC license; local compliance only."}
+  IL: {basis: local_only, citation: "", note: "State licenses plumbers/electricians, leaves HVAC to localities."}
+  IN: {basis: local_only, citation: "", note: "No statewide HVAC license; municipal/county."}
+  KS: {basis: local_only, citation: "", note: "No statewide HVAC license; local."}
+  MO: {basis: local_only, citation: "", note: "HVAC handled locally; no statewide HVAC license."}
+  NE: {basis: local_only, citation: "", note: "No statewide HVAC license (Omaha ACAD / Lincoln handle it)."}
+  NY: {basis: local_only, citation: "", note: "No statewide HVAC-R contractor license; local."}
+  PA: {basis: local_only, citation: "73 P.S. § 517.1", note: "Only AG Home Improvement Contractor registration, not an HVAC trade license."}
+  SD: {basis: local_only, citation: "", note: "No statewide HVAC license; local."}
+  WY: {basis: local_only, citation: "", note: "State licenses plumbers/electricians, leaves HVAC to localities."}
+  MT: {basis: not_regulated, citation: "", note: "No HVAC license or board; only ordinary Construction Contractor Registration."}
+  ND: {basis: contractor_only, citation: "", note: "No HVAC license; general state contractor license on projects >= $4,000."}
+  VT: {basis: contractor_only, citation: "", note: "No HVAC contractor license; residential contractor registration >$10,000 with OPR."}
+
+plumbing:
+  KS: {basis: local_only, citation: "K.S.A. 12-1508", note: "No state license; counties/cities examine and issue a certificate of competency."}
+  NE: {basis: local_only, citation: "Neb. Rev. Stat. § 18-1907", note: "No state license; municipal boards; state registration != licensing."}
+  NY: {basis: local_only, citation: "", note: "No state plumbing credential; city/county (e.g. NYC DOB) authorities."}
+  PA: {basis: local_only, citation: "73 P.S. § 517.1", note: "No state license; only HICPA registration for residential home-improvement."}
+  WY: {basis: local_only, citation: "", note: "No statewide plumbing (or contractor) license; cities/counties handle all."}
