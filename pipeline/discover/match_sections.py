@@ -41,7 +41,8 @@ import yaml
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from paths import CONFIG_DIR, TEXT_DIR, HIERARCHY_DIR, RESULTS_DIR, PROFESSION_INDEX_DIR  # noqa: E402
-from discover.match_profession import label_matches  # noqa: E402
+from discover.match_profession import label_matches, rebuild_index, rebuild_and_write  # noqa: E402
+from discover._mapping_overrides import add_override_entry  # noqa: E402
 
 PROF_YAML = CONFIG_DIR / "professions.yaml"
 REPORT = RESULTS_DIR / "section_match_candidates.md"
@@ -117,29 +118,31 @@ def hierarchy_targets(profession: str, state: str) -> dict[str, str]:
 
 
 def write_targets(profession: str, states: list[str] | None = None) -> dict[str, list[str]]:
-    """Merge section-match containers into profession_index/<profession>.json so pull_text
+    """Merge section-match containers into config/mapping_overrides.yaml so pull_text
     pulls them — the wiring that makes the loop one command instead of a hand injection.
-    Tags each written node source='section_match' (provenance + reversible). Returns the
-    {state: [container labels]} written."""
-    path = PROFESSION_INDEX_DIR / f"{profession}.json"
-    idx = json.loads(path.read_text()) if path.exists() else {"profession": profession, "by_state": {}}
-    by_state = idx.setdefault("by_state", {})
+    Tags each written node via='section_match' (provenance + reversible). Skips urls
+    already present in the freshly-regenerated base index. Calls rebuild_and_write once
+    per profession when anything was added. Returns {state: [container labels]} written."""
     all_states = states or [Path(f).stem for f in glob.glob(str(HIERARCHY_DIR / "*.json"))
                             if "_summary" not in f]
+    # Build the current in-memory index (with existing overrides applied) to check
+    # which urls are already present before writing new ones.
+    base_idx = rebuild_index(profession)
     written: dict[str, list[str]] = {}
     for st in all_states:
         targets = hierarchy_targets(profession, st)
         if not targets:
             continue
-        matched = by_state.setdefault(st, {}).setdefault("matched", [])
-        have = {m.get("url") for m in matched}
+        existing_urls = {n.get("url") for n in
+                         (base_idx["by_state"].get(st) or {}).get("matched") or []}
         for url, label in targets.items():
-            if url and url not in have:
-                matched.append({"url": url, "label": label, "slug": "", "source": "section_match"})
+            if url and url not in existing_urls:
+                node = {"url": url, "label": label, "slug": "", "via": "section_match"}
+                add_override_entry(profession, st, node)
                 written.setdefault(st, []).append(label)
+                existing_urls.add(url)  # guard against duplicates within same run
     if written:
-        path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_text(json.dumps(idx, indent=1, ensure_ascii=False))
+        rebuild_and_write(profession)
     return written
 
 

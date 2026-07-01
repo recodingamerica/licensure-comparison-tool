@@ -83,14 +83,56 @@ def test_named_grouping_target_is_itself(monkeypatch):
 
 
 def test_write_targets_merges_dedups_and_tags(monkeypatch, tmp_path):
-    monkeypatch.setattr(ms, "PROFESSION_INDEX_DIR", tmp_path)
+    """write_targets (new behavior): creates YAML override entries tagged via='section_match',
+    skips urls already in the base index, and calls rebuild_and_write when something was added.
+    Does NOT write directly to the index JSON — that's now rebuild_and_write's job.
+    """
+    # hierarchy_targets returns one new container for FL only
     monkeypatch.setattr(ms, "hierarchy_targets",
                         lambda prof, st: {"http://j/part-vi/": "Part VI"} if st == "FL" else {})
-    # pre-existing FL node with the same url must NOT be duplicated
-    (tmp_path / "public_adjuster.json").write_text(json.dumps({
-        "profession": "public_adjuster",
-        "by_state": {"FL": {"matched": [{"url": "http://j/part-vi/", "label": "Part VI"}]}}}))
+
+    added: list[dict] = []
+    rebuilt: list[str] = []
+
+    def fake_rebuild_index(prof, mapping_overrides=None):
+        # Simulate a clean base (no pre-existing match for FL)
+        return {"by_state": {"FL": {"matched": []}}}
+
+    def fake_rebuild_and_write(prof):
+        rebuilt.append(prof)
+
+    def fake_add_override_entry(profession, state, node):
+        added.append({"profession": profession, "state": state, **node})
+
+    monkeypatch.setattr(ms, "rebuild_index", fake_rebuild_index)
+    monkeypatch.setattr(ms, "rebuild_and_write", fake_rebuild_and_write)
+    monkeypatch.setattr(ms, "add_override_entry", fake_add_override_entry)
+
     written = ms.write_targets("public_adjuster", ["FL", "GA"])
-    assert written == {}  # FL already had it; GA has no target
-    idx = json.loads((tmp_path / "public_adjuster.json").read_text())
-    assert len(idx["by_state"]["FL"]["matched"]) == 1  # not duplicated
+
+    # FL got a new target; GA had none
+    assert "FL" in written
+    assert "GA" not in written
+    # add_override_entry was called once for FL with the correct node shape
+    assert len(added) == 1
+    entry = added[0]
+    assert entry["profession"] == "public_adjuster"
+    assert entry["state"] == "FL"
+    assert entry["url"] == "http://j/part-vi/"
+    assert entry["via"] == "section_match"     # tagged correctly
+    # rebuild was triggered
+    assert rebuilt == ["public_adjuster"]
+
+    # Dedup: if url is already in the base index, it should NOT be added again
+    def fake_rebuild_index_with_existing(prof, mapping_overrides=None):
+        return {"by_state": {"FL": {"matched": [
+            {"url": "http://j/part-vi/", "label": "Part VI"}
+        ]}}}
+
+    added2: list = []
+    monkeypatch.setattr(ms, "rebuild_index", fake_rebuild_index_with_existing)
+    monkeypatch.setattr(ms, "add_override_entry", lambda prof, st, node: added2.append(node))
+
+    written2 = ms.write_targets("public_adjuster", ["FL"])
+    assert written2 == {}   # url already in base — nothing written
+    assert added2 == []

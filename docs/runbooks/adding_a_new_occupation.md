@@ -24,12 +24,14 @@ map_prep) cost money and run deliberately.
 ## 1. Match → profession_index (deterministic, no LLM, no fetch)
 - `python -m pipeline.discover.match_profession --profession <P>` builds
   `results/profession_index/<P>.json` (which chapter/section each state maps to),
-  applying `state_structure.yaml` overrides.
-- ⚠️ **Re-running this rebuilds the index from scratch and WIPES manual
-  missed-match / umbrella injections** (e.g. plumbing 33→27 states). If you only
-  need to apply a YAML override to one state, **patch the index node surgically**
-  instead (set the title-page `url` + `section_slug_pattern` + `via:state_structure`).
-  See [[reference_concurrent_pull_corruption]].
+  applying `state_structure.yaml` and `config/mapping_overrides.yaml` overrides.
+- **Re-running is safe.** Manual mapping decisions live in
+  `pipeline/config/mapping_overrides.yaml` — they are applied as the last
+  transformation in every build, so re-running the matcher never wipes them.
+  **Hand-edit the YAML, never the index JSON** (index JSON is a generated
+  artifact), then re-run:
+  `python -m pipeline.discover.match_profession --profession <P>`.
+  Gate: `pipeline/.venv/bin/python -m pipeline.eval.verify_index_reproducibility`.
 
 ## 2. Pull the statute text (Justia/official — the fragile stage)
 - `python -m pipeline.ingest.pull_text --profession <P> --states <…> --limit-sections 250`
