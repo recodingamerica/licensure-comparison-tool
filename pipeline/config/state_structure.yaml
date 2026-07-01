@@ -2944,6 +2944,13 @@ SD:
   # needed — the whole state rides the template.
   source: sd_api
   chapter_url_template: "https://sdlegislature.gov/api/Statutes/Statute/{title}-{chapter}"
+  # #53 hand-curated: SD regulates architects in the combined Board of Technical
+  # Professions chapter (Title 36 Ch 18A — engineering/architecture/surveying), so
+  # label-match on "architect" misses it. Pin it; the template rewrites to the API.
+  professions:
+    architecture:
+      url: "https://law.justia.com/codes/south-dakota/title-36/chapter-18a/"
+      label: "SD Title 36 Ch 18A — Technical Professions (architecture)"
 
 ME:
   # Per-section-via-TOC. legislature.maine.gov serves a chapter TOC
