@@ -26,6 +26,7 @@ load_env()
 
 from pipeline._llm import call_structured
 from pipeline.paths import CONFIG_DIR, RESULTS_DIR, TEXT_DIR
+from pipeline.config.loaders import load_professions
 
 PROF_YAML = CONFIG_DIR / "professions.yaml"
 CAND = RESULTS_DIR / "discover_occupations" / "_candidates.json"
@@ -61,7 +62,7 @@ list of tracked profession keys. parent_corpus MUST be one of the tracked keys o
 
 
 def tracked() -> dict:
-    return yaml.safe_load(PROF_YAML.read_text()) or {}
+    return load_professions()
 
 
 def _parent_corpus_mentions(parent: str, patterns: list[str]) -> int:

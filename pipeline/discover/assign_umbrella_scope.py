@@ -167,9 +167,8 @@ def _load_profession_terms() -> list[tuple[str, str, list[str]]]:
     global _PROFESSION_TERMS_CACHE
     if _PROFESSION_TERMS_CACHE is not None:
         return _PROFESSION_TERMS_CACHE
-    import yaml
-    from pipeline.paths import CONFIG_DIR
-    cfg = yaml.safe_load((CONFIG_DIR / "professions.yaml").read_text()) or {}
+    from pipeline.config.loaders import load_professions
+    cfg = load_professions()
     entries: list[tuple[str, str, list[str]]] = []
     for pid, pdef in cfg.items():
         if not isinstance(pdef, dict):

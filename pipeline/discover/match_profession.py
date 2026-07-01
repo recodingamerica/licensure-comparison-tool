@@ -21,11 +21,9 @@ import re
 import sys
 import urllib.parse
 
-import yaml
-
 from pipeline.paths import HIERARCHY_DIR, PROFESSION_INDEX_DIR, CONFIG_DIR, LOGS_DIR
 from pipeline.config.states import ALL_STATES
-from pipeline.config.yaml_loader import safe_load_unique
+from pipeline.config.loaders import load_professions, load_state_structure  # noqa: F401 — re-exported for backward compat
 from pipeline.discover._mapping_overrides import (
     load_mapping_overrides,
     apply_mapping_overrides,
@@ -42,11 +40,6 @@ logging.basicConfig(
     handlers=[logging.FileHandler(LOG_PATH, mode="w"), logging.StreamHandler()],
 )
 log = logging.getLogger("match_profession")
-
-
-def load_professions() -> dict[str, dict]:
-    path = CONFIG_DIR / "professions.yaml"
-    return yaml.safe_load(path.read_text())
 
 
 # Universal exclusion: repealed chapters shouldn't be pulled into extraction
@@ -83,26 +76,6 @@ def match_state(profession_def: dict, state_record: dict) -> list[dict]:
                 "slug": ch.get("slug", ""),
             })
     return matched
-
-
-def load_state_structure() -> dict:
-    """Load config/state_structure.yaml. Returns {} if missing.
-
-    Shape:
-        STATE_CODE:
-          source: justia | revisor_mn | mi_legis | pa_complex | …
-          layout: chapter | section_fallback | subtitled | external | broken
-          professions:
-            <profession>:
-              url, section_slug_pattern, section_url_list, label, note
-    """
-    path = CONFIG_DIR / "state_structure.yaml"
-    if not path.exists():
-        return {}
-    # safe_load_unique (not yaml.safe_load): a duplicate top-level state key
-    # would otherwise be silently dropped last-wins, taking its overrides with
-    # it. See config/yaml_loader.py.
-    return safe_load_unique(path.read_text()) or {}
 
 
 def _official_url(template: str, justia_url: str) -> str | None:

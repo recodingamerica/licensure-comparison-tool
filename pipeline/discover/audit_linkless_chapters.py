@@ -35,6 +35,7 @@ from curl_cffi import requests as cffi_requests
 
 from pipeline.paths import HIERARCHY_DIR, CONFIG_DIR, RESULTS_DIR, LOGS_DIR
 from pipeline._fetch_config import PER_HOST_DELAY
+from pipeline.config.loaders import load_professions
 
 LOG_PATH = LOGS_DIR / "audit_linkless_chapters.log"
 logging.basicConfig(
@@ -50,7 +51,7 @@ NOISE = re.compile(r"\b(reserved|repealed|renumbered|transferred|omitted|expired
 
 
 def profession_patterns() -> list[str]:
-    cfg = yaml.safe_load((CONFIG_DIR / "professions.yaml").read_text())
+    cfg = load_professions()
     pats: set[str] = set()
     for k, v in cfg.items():
         if k.startswith("_") or not isinstance(v, dict):

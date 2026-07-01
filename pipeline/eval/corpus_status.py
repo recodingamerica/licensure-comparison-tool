@@ -57,6 +57,7 @@ from pipeline.paths import (
     TEXT_DIR, CLEAN_DIR, TRIMMED_DIR, STRUCTURED_DIR, DISCOVERED_DIR,
     CONFIG_DIR, RESULTS_DIR,
 )
+from pipeline.config.loaders import load_corpus_overrides
 
 # The 7 professions with published map/blob payloads (per CLAUDE.md). Kept here
 # explicitly because there is no single in-code constant for them.
@@ -142,7 +143,7 @@ def _pull_errors(fp: Path) -> int:
 
 
 def _override_professions() -> set[str]:
-    ov = yaml.safe_load((CONFIG_DIR / "corpus_overrides.yaml").read_text()) or {}
+    ov = load_corpus_overrides()
     return set(ov.keys())
 
 

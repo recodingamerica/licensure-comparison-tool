@@ -48,6 +48,7 @@ from pipeline.discover._extract import extract_justia_chapters, extract_justia_s
 from pipeline.paths import HIERARCHY_DIR, CONFIG_DIR, LOGS_DIR
 from pipeline.config.states import ALL_STATES
 from pipeline.config.yaml_loader import safe_load_unique
+from pipeline.config.loaders import load_state_structure
 
 import yaml as _yaml  # noqa: E402
 
@@ -178,10 +179,7 @@ def crawl_subtitles(top_level: list[dict]) -> list[dict]:
 
 def _load_state_layout() -> dict[str, str]:
     """Map state → layout from state_structure.yaml (e.g. 'subtitled')."""
-    p = CONFIG_DIR / "state_structure.yaml"
-    if not p.exists():
-        return {}
-    data = safe_load_unique(p.read_text()) or {}  # fail loud on duplicate state keys
+    data = load_state_structure()  # safe_load_unique + {} if missing
     return {st: (e or {}).get("layout", "") for st, e in data.items()}
 
 

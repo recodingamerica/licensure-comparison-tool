@@ -39,6 +39,7 @@ REPO = Path(__file__).resolve().parents[2]
 from pipeline._env import load_env
 load_env()
 from pipeline._llm import call_structured, log_usage_summary
+from pipeline.config.loaders import load_professions
 
 TEXT_DIR = REPO / "pipeline" / "results" / "text"
 CONFIG_DIR = REPO / "pipeline" / "config"
@@ -76,7 +77,7 @@ SYS = (
 
 def _occupation_label(profession: str) -> str:
     try:
-        conf = yaml.safe_load((CONFIG_DIR / "professions.yaml").read_text()) or {}
+        conf = load_professions()
     except (OSError, yaml.YAMLError):
         conf = {}
     e = conf.get(profession) or {}

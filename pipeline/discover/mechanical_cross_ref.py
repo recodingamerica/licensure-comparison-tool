@@ -49,6 +49,8 @@ TEXT_DIR = REPO / "pipeline" / "results" / "text"
 CONFIG_DIR = REPO / "pipeline" / "config"
 OVERRIDES = CONFIG_DIR / "corpus_overrides.yaml"
 
+from pipeline.config.loaders import load_professions, load_corpus_overrides
+
 ALL_STATES = set("AL AK AZ AR CA CO CT DE FL GA HI ID IL IN IA KS KY LA ME MD MA MI MN "
                  "MS MO MT NE NV NH NJ NM NY NC ND OH OK OR PA RI SC SD TN TX UT VT VA "
                  "WA WV WI WY".split())
@@ -165,15 +167,13 @@ def _all_occupations() -> list[str]:
 
 def load_patterns(profession: str) -> list[str]:
     """The occupation's label-match patterns from professions.yaml ([] if absent)."""
-    path = CONFIG_DIR / "professions.yaml"
-    defs = (yaml.safe_load(path.read_text()) if path.exists() else {}) or {}
+    defs = load_professions()
     return list((defs.get(profession) or {}).get("patterns") or [])
 
 
 def incomplete_occupations(overrides: dict) -> list[str]:
     """Every professions.yaml occupation with patterns AND at least one blank state."""
-    path = CONFIG_DIR / "professions.yaml"
-    defs = (yaml.safe_load(path.read_text()) if path.exists() else {}) or {}
+    defs = load_professions()
     out = [occ for occ, d in defs.items()
            if (d or {}).get("patterns") and (ALL_STATES - _have(occ, overrides))]
     return sorted(out)
@@ -245,7 +245,7 @@ def main() -> int:
     ap.add_argument("--apply", action="store_true", help="write confirmed links to corpus_overrides.yaml")
     args = ap.parse_args()
 
-    overrides = (yaml.safe_load(OVERRIDES.read_text()) if OVERRIDES.exists() else {}) or {}
+    overrides = load_corpus_overrides()
 
     if args.all_brute and args.apply:
         return print("--all-brute is report-only (candidates need review). Re-run a specific "

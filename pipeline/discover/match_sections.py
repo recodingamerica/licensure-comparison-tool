@@ -36,18 +36,18 @@ import os
 import re
 from pathlib import Path
 
-import yaml
-
 from pipeline.paths import CONFIG_DIR, TEXT_DIR, HIERARCHY_DIR, RESULTS_DIR, PROFESSION_INDEX_DIR
 from pipeline.discover.match_profession import label_matches, rebuild_index, rebuild_and_write
 from pipeline.discover._mapping_overrides import add_override_entry
+from pipeline.config.loaders import load_professions
 
 PROF_YAML = CONFIG_DIR / "professions.yaml"
 REPORT = RESULTS_DIR / "section_match_candidates.md"
 
 
 def _professions() -> dict:
-    return {k: v for k, v in (yaml.safe_load(PROF_YAML.read_text()) or {}).items()
+    # Extra filter (patterns required) stays local — not baked into registry_professions()
+    return {k: v for k, v in load_professions().items()
             if not k.startswith("_") and (v or {}).get("patterns")}
 
 
