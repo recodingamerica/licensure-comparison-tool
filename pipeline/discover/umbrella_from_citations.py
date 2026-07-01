@@ -41,9 +41,10 @@ UMBRELLA_DIR = RESULTS_DIR / "umbrella_chapters"
 # cited by >= min_profs AND an umbrella-style label.
 _UMBRELLA_LABEL = re.compile(
     r"general provision|uniform licens|division of profession|licensing generally|"
-    r"administrative procedure|professions? and occupations?|occupational.*(background|"
-    r"regulat)|centralized licens|health related boards|restoration of|termination and|"
-    r"expedited licens|licensure by endorsement|uniform complaint|declaratory", re.I)
+    r"administrative procedure|professions? and occupations?|occupations? and professions?|"
+    r"occupational.*(background|regulat)|centralized licens|health related boards|"
+    r"restoration of|termination and|expedited licens|licensure by endorsement|"
+    r"uniform complaint|declaratory", re.I)
 
 
 def citation_id_from_url(url: str) -> str | None:
