@@ -26,20 +26,6 @@ The failure modes, in rough order of frequency:
 
 ## The LLM tools (and their failure modes)
 
-- `discover/cross_ref_siblings.py` — fills a blank state from a sibling trade's
-  already-pulled corpus when one chapter covers several trades. LLM-confirms the
-  chapter regulates the trade's *practice*. **False-negative risk:** it refused
-  TN electrician even though the TN contractor corpus mentions "limited licensed
-  electrician" 39×. Verify refusals with the mechanical grep below.
-- `discover/llm_map_profession.py` — haiku first-pass screen: scans a state's
-  chapter list for the licensing chapter, incl. umbrella containers. **Over-claims**
-  `licensed=true` for local-only trades (says PA/NY/IL electrician are state-licensed
-  because the state has an occupational title — they aren't). **Under-claims** too
-  (called KS/NE architecture "not licensed" — architects are licensed in all 50
-  states). It is a SCREEN, not an answer.
-- `discover/verify_gap_states.py` — the careful second pass (sonnet, skeptical,
-  must name the specific state chapter or call it local_only/not_regulated). Use
-  this to turn the haiku screen into a trustworthy licensed-vs-null line.
 - `discover/audit_corpus.py` — the post-pull gate. Verdicts whether a pulled corpus
   IS the occupation's licensing law. **Wired into `pull_all --gate`.** It caught the
   egg-refrigeration and architects-instead-of-hvac mis-pulls live. NOTE its sampler
@@ -134,8 +120,7 @@ disable. Still prefer section-scoping (#2) when you know the range.
   Engineers/Architects/Surveyors board, 235 secs — trim scopes it to architecture).
 
 ## The finish (when the API is back)
-1. `verify_gap_states.py` on the remaining licensed-but-uncovered states → trustworthy
-   licensed-vs-local-null line.
+1. Manually confirm the remaining licensed-but-uncovered states vs. the statute index.
 2. Pull the confirmed state_licensed ones (CDP + caffeinate + section-scope/cap).
 3. `clean → trim → extract` everything pulled/wired; `pull_all --gate` validates.
 4. Mark the confirmed local-only states as correct-blanks (with the chapter-absence

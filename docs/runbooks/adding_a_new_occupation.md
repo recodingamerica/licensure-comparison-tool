@@ -99,23 +99,6 @@ map_prep) cost money and run deliberately.
 3. Gate: `python -m pipeline.eval.check_consistency` (0 violations).
 4. Publish: `python -m pipeline.publish.refresh_all --professions optometry --deploy`.
 
-### B. Map a NEW occupation (automated, LLM)
-1. Structure (once per state; skip if hierarchy already deep):
-   `python -m pipeline.discover.expand_hierarchy` (breadth) then
-   `python -m pipeline.discover.expand_containers` (depth — needs Justia/CDP Chrome).
-2. Map (offline, cheap): `python -m pipeline.discover.llm_map_profession --professions <prof>`
-   (or `--all` for every profession, ~$6–7 batched).
-3. Expand umbrella flags (needs Justia): `python -m pipeline.discover.llm_map_profession --pass2 --profession <prof>`
-4. Guardrail: `python -m pipeline.discover.audit_llm_candidates` (count-vs-reality) and
-   `... --recheck --profession <prof>` (not-licensed re-check). **Review the flags.**
-5. Apply reviewed candidates: `python -m pipeline.discover.apply_llm_candidates --profession <prof> --write`
-6. Pull the mapped chapters: `python -m pipeline.ingest.pull_text --profession <prof> --states <…> --limit-sections 250`
-   (ONE pull per Chrome — [[reference_concurrent_pull_corruption]]).
-7. Extract + publish: as in workflow A (re_extract_queue → check_consistency → refresh_all --deploy).
-
-New tooling shipped for B: `llm_map_profession` (Pass-1 + `--pass2` + `--all`),
-`expand_containers` (depth), `audit_llm_candidates` (guardrail), `apply_llm_candidates`.
-
 ---
 ### Quick checklist
 1. `professions.yaml` entry exists  2. matched → `profession_index`
