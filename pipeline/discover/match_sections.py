@@ -33,13 +33,14 @@ import argparse
 import glob
 import json
 import os
+import re
 import sys
 from pathlib import Path
 
 import yaml
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from paths import CONFIG_DIR, TEXT_DIR, HIERARCHY_DIR, RESULTS_DIR  # noqa: E402
+from paths import CONFIG_DIR, TEXT_DIR, HIERARCHY_DIR, RESULTS_DIR, PROFESSION_INDEX_DIR  # noqa: E402
 from discover.match_profession import label_matches  # noqa: E402
 
 PROF_YAML = CONFIG_DIR / "professions.yaml"
@@ -76,19 +77,70 @@ def corpus_titles() -> dict[tuple[str, str], list[str]]:
     return out
 
 
-def hierarchy_titles(state: str) -> list[tuple[str, str]]:
-    """[(label, url)] for every SECTION-level node in a state's expanded hierarchy.
-    Section nodes are those expand_containers appended (carry parent_chapter_url)."""
+def _hierarchy_nodes(state: str) -> list[dict]:
+    """Every SECTION-level node (dicts) in a state's expanded hierarchy — those
+    expand_containers appended (carry parent_chapter_url)."""
     path = HIERARCHY_DIR / f"{state}.json"
     if not path.exists():
         return []
-    data = json.loads(path.read_text())
-    out: list[tuple[str, str]] = []
-    for ch in data.get("chapters", []) or []:
-        # a chapter is a "section-ish" node when it was appended by depth-expansion
-        if ch.get("parent_chapter_url") or ch.get("is_section"):
-            out.append((ch.get("label", ""), ch.get("url", "")))
-    return out
+    return [ch for ch in (json.loads(path.read_text()).get("chapters", []) or [])
+            if ch.get("parent_chapter_url") or ch.get("is_section")]
+
+
+def hierarchy_titles(state: str) -> list[tuple[str, str]]:
+    """[(label, url)] for every SECTION-level node in a state's expanded hierarchy."""
+    return [(n.get("label", ""), n.get("url", "")) for n in _hierarchy_nodes(state)]
+
+
+def hierarchy_targets(profession: str, state: str) -> dict[str, str]:
+    """{container_url: label} to PULL for a profession in a state. The rule: pull the
+    parent container of a matched leaf section (so the whole Part VI comes along, incl
+    penalty/definition sections that don't name the profession), but pull a matched
+    grouping node (e.g. "Part IX - Athlete Agents") directly. Dedups per state."""
+    d = _professions().get(profession)
+    if not d:
+        return {}
+    pats, excl = d["patterns"], d.get("excludes", [])
+    # index node → its label, so a leaf's parent label can be recovered
+    by_url = {n.get("url"): n.get("label", "") for n in _hierarchy_nodes(state)}
+    targets: dict[str, str] = {}
+    for n in _hierarchy_nodes(state):
+        lab = n.get("label", "")
+        if not label_matches(lab, pats, excl):
+            continue
+        if re.match(r"^\s*\d", lab):                 # a leaf section → pull its parent
+            turl = n.get("parent_chapter_url") or n.get("url")
+            targets[turl] = by_url.get(turl, "(parent container)")
+        else:                                        # a named part/chapter → pull it
+            targets[n.get("url")] = lab
+    return targets
+
+
+def write_targets(profession: str, states: list[str] | None = None) -> dict[str, list[str]]:
+    """Merge section-match containers into profession_index/<profession>.json so pull_text
+    pulls them — the wiring that makes the loop one command instead of a hand injection.
+    Tags each written node source='section_match' (provenance + reversible). Returns the
+    {state: [container labels]} written."""
+    path = PROFESSION_INDEX_DIR / f"{profession}.json"
+    idx = json.loads(path.read_text()) if path.exists() else {"profession": profession, "by_state": {}}
+    by_state = idx.setdefault("by_state", {})
+    all_states = states or [Path(f).stem for f in glob.glob(str(HIERARCHY_DIR / "*.json"))
+                            if "_summary" not in f]
+    written: dict[str, list[str]] = {}
+    for st in all_states:
+        targets = hierarchy_targets(profession, st)
+        if not targets:
+            continue
+        matched = by_state.setdefault(st, {}).setdefault("matched", [])
+        have = {m.get("url") for m in matched}
+        for url, label in targets.items():
+            if url and url not in have:
+                matched.append({"url": url, "label": label, "slug": "", "source": "section_match"})
+                written.setdefault(st, []).append(label)
+    if written:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps(idx, indent=1, ensure_ascii=False))
+    return written
 
 
 def match_corpus(only: str | None) -> dict[str, dict[str, list[str]]]:
@@ -136,9 +188,25 @@ def write_report(found: dict[str, dict[str, list[str]]], source: str) -> int:
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--source", choices=["corpus", "hierarchy"], default="corpus")
-    ap.add_argument("--profession", help="limit to one profession (corpus source)")
+    ap.add_argument("--profession", help="limit to one profession (corpus source; required with --write-targets)")
     ap.add_argument("--state", help="one state (hierarchy source)")
+    ap.add_argument("--write-targets", action="store_true",
+                    help="write the located containers into profession_index/<profession>.json "
+                         "as pull targets (source=section_match). Requires --profession. Review "
+                         "section_match_candidates.md first — this is what pull_text will fetch.")
     args = ap.parse_args()
+
+    if args.write_targets:
+        if not args.profession:
+            return print("--write-targets requires --profession (apply per profession after review)") or 2
+        states = [args.state] if args.state else None
+        written = write_targets(args.profession, states)
+        total = sum(len(v) for v in written.values())
+        for st, labels in sorted(written.items()):
+            print(f"  {st}: +{len(labels)} target(s) — {labels[0][:60]}")
+        print(f"wrote {total} pull target(s) across {len(written)} state(s) to "
+              f"profession_index/{args.profession}.json  →  next: pull_text --profession {args.profession}")
+        return 0
 
     if args.source == "hierarchy":
         profs = _professions()
