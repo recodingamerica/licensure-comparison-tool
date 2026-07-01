@@ -50,7 +50,8 @@ logging.basicConfig(
 log = logging.getLogger("pull_umbrella_text")
 
 
-def pull_state_umbrella(state: str, force: bool, source_filter: str | None = None) -> dict | None:
+def pull_state_umbrella(state: str, force: bool, source_filter: str | None = None,
+                        label_filter: bool = False) -> dict | None:
     umb_path = UMBRELLA_CHAPTERS_DIR / f"{state}.json"
     out_path = UMBRELLA_TEXT_DIR / f"{state}.json"
     if not umb_path.exists():
@@ -59,18 +60,23 @@ def pull_state_umbrella(state: str, force: bool, source_filter: str | None = Non
 
     rec = json.loads(umb_path.read_text())
     chapters = rec.get("umbrella_chapters", [])
+    filtering = bool(source_filter or label_filter)
     if source_filter:
-        # Pull ONLY chapters from this source (e.g. 'citation_audit') — the old
-        # find_umbrella_chapters LLM over-included profession-specific chapters
-        # (Medical Practice, University of Arkansas) that pollute umbrella_text and
-        # cross-contaminate every profession's extraction. Combine with --force to
-        # rebuild umbrella_text with only the accurate cited-shared chapters.
         chapters = [c for c in chapters if c.get("source") == source_filter]
+    if label_filter:
+        # Keep only genuinely cross-cutting chapters (any source). The old
+        # find_umbrella_chapters LLM over-included profession-specific chapters
+        # (Medical Practice, University of Arkansas) — pulling those pollutes
+        # umbrella_text and cross-contaminates every profession's extraction.
+        from discover.umbrella_from_citations import _UMBRELLA_LABEL
+        chapters = [c for c in chapters if _UMBRELLA_LABEL.search(c.get("label", ""))]
     if not chapters:
-        log.info("[%s] no umbrella chapters declared%s", state,
-                 f" with source={source_filter}" if source_filter else "")
-        if source_filter and not force:
-            return None  # don't wipe an existing cache just because this source is empty here
+        # A FILTER yielding nothing means "nothing to do here" — never wipe an
+        # existing cache (that was the --force bug). Only write empty when the state
+        # genuinely declares no umbrella chapters at all.
+        log.info("[%s] no umbrella chapters%s", state, " after filter" if filtering else " declared")
+        if filtering:
+            return None
         out_path.write_text(json.dumps({"state": state, "sections": []}, indent=2))
         return None
 
@@ -180,9 +186,11 @@ def main() -> None:
     ap.add_argument("--states", default="")
     ap.add_argument("--force", action="store_true")
     ap.add_argument("--source", default="",
-                    help="pull ONLY umbrella chapters with this source tag (e.g. citation_audit) "
-                         "— excludes the old find_umbrella_chapters over-picks. Use with --force "
-                         "to rebuild umbrella_text with just the accurate cited-shared chapters.")
+                    help="pull ONLY umbrella chapters with this source tag (e.g. citation_audit).")
+    ap.add_argument("--label-filter", action="store_true",
+                    help="pull ONLY chapters with a cross-cutting umbrella label (any source) — "
+                         "excludes the old find_umbrella_chapters profession-specific over-picks. "
+                         "Use with --force to rebuild umbrella_text clean.")
     args = ap.parse_args()
 
     if args.state:
@@ -192,11 +200,12 @@ def main() -> None:
     else:
         targets = list(ALL_STATES)
 
-    log.info("pulling umbrella text for %d states%s", len(targets),
-             f" (source={args.source})" if args.source else "")
+    log.info("pulling umbrella text for %d states%s%s", len(targets),
+             f" (source={args.source})" if args.source else "",
+             " (label-filter)" if args.label_filter else "")
     for st in targets:
         try:
-            pull_state_umbrella(st, args.force, args.source or None)
+            pull_state_umbrella(st, args.force, args.source or None, args.label_filter)
         except Exception:
             log.exception("[%s] crashed", st)
 
