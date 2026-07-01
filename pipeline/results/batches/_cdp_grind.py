@@ -43,10 +43,11 @@ SKIP_PROFS = {"_families"}
 TRADES = set()
 PUBLISHED = {"dentistry", "dietetics", "medicine", "nursing", "optometry",
              "podiatry", "public_accountancy"}
-# Per-state section cap: bounds runaway title-level / umbrella over-matches so one
-# bad mapping can't burn hours of the CDP window. Generous for any single niche
-# profession; states that hit it get logged for manual section-range scoping.
-SECTION_CAP = 250
+# Per-state section cap: a high backstop against an accidental whole-state-code pull,
+# NOT a functional limit. Was 250, which truncated umbrella/title-level corpora (an
+# umbrella title has hundreds of sections and we now WANT all of them). 5000 gives
+# every real umbrella/title full headroom while still catching a genuine misfire.
+SECTION_CAP = 5000
 
 
 def log(msg):
