@@ -25,10 +25,9 @@ from __future__ import annotations
 import argparse
 import json
 
-import yaml
-
 from pipeline.paths import CONFIG_DIR, STRUCTURED_DIR
 from pipeline._runlog import record_run
+from pipeline.config.loaders import load_verified_absences
 
 MANIFEST = CONFIG_DIR / "verified_absences.yaml"
 
@@ -69,7 +68,7 @@ def _is_extracted(path: Path) -> bool:
 
 
 def apply(only_profession: str | None, force: bool) -> int:
-    manifest = yaml.safe_load(MANIFEST.read_text()) or {}
+    manifest = load_verified_absences()
     written = skipped = 0
     for profession, states in manifest.items():
         if only_profession and profession != only_profession:

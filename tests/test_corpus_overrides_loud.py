@@ -9,21 +9,22 @@ from __future__ import annotations
 import pytest
 
 import pipeline.ingest.clean_text as ct
+import pipeline.config.loaders as loaders
 
 
 def test_missing_file_is_empty(tmp_path, monkeypatch):
-    monkeypatch.setattr(ct, "CONFIG_DIR", tmp_path)  # no corpus_overrides.yaml here
+    monkeypatch.setattr(loaders, "CONFIG_DIR", tmp_path)  # no corpus_overrides.yaml here
     assert ct.corpus_from_overrides("hvac") == {}
 
 
 def test_malformed_yaml_raises(tmp_path, monkeypatch):
     (tmp_path / "corpus_overrides.yaml").write_text("hvac: [unterminated\n  : :::")
-    monkeypatch.setattr(ct, "CONFIG_DIR", tmp_path)
+    monkeypatch.setattr(loaders, "CONFIG_DIR", tmp_path)
     with pytest.raises(RuntimeError):
         ct.corpus_from_overrides("hvac")
 
 
 def test_valid_yaml_loads(tmp_path, monkeypatch):
     (tmp_path / "corpus_overrides.yaml").write_text("hvac:\n  TN: construction_trades\n")
-    monkeypatch.setattr(ct, "CONFIG_DIR", tmp_path)
+    monkeypatch.setattr(loaders, "CONFIG_DIR", tmp_path)
     assert ct.corpus_from_overrides("hvac") == {"TN": "construction_trades"}

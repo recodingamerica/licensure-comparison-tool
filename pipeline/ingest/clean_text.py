@@ -32,7 +32,7 @@ from typing import Callable
 from pipeline.paths import TEXT_DIR, CLEAN_DIR, LOGS_DIR, CONFIG_DIR
 from pipeline._records import record_files
 from pipeline._runlog import record_run
-import yaml  # noqa: E402
+from pipeline.config.loaders import load_professions, load_corpus_overrides
 
 
 def corpus_profession_for(profession: str) -> str:
@@ -42,9 +42,9 @@ def corpus_profession_for(profession: str) -> str:
     already-harvested dentistry corpus with NO new Justia pull. The whole point of
     the nested-occupation path (see docs/runbooks/automation_handoff_assessment.md)."""
     try:
-        conf = yaml.safe_load((CONFIG_DIR / "professions.yaml").read_text()) or {}
+        conf = load_professions()
         return (conf.get(profession, {}) or {}).get("parent_corpus") or profession
-    except (OSError, yaml.YAMLError):
+    except (OSError, Exception):
         return profession
 
 
@@ -57,17 +57,9 @@ def corpus_from_overrides(profession: str) -> dict[str, str]:
     so a missing trade self-heals from a sibling pull instead of logging a false gap.
     Unlike profession-wide parent_corpus this is PER-STATE, so a profession can own its
     corpus in 41 states and borrow a sibling's in the other 9. Returns {STATE: sibling}."""
-    ov_path = CONFIG_DIR / "corpus_overrides.yaml"
-    try:
-        ov = yaml.safe_load(ov_path.read_text()) or {}
-    except FileNotFoundError:
-        # No overrides configured at all — legitimately empty.
-        return {}
-    except (OSError, yaml.YAMLError) as e:
-        # A malformed/unreadable overrides file would SILENTLY disable every
-        # sibling-corpus borrow (→ false gaps across the whole run). Fail loud.
-        raise RuntimeError(f"corpus_overrides.yaml unreadable: {e}") from e
-    return {str(s).upper(): sib for s, sib in (ov.get(profession) or {}).items() if sib}
+    # load_corpus_overrides(profession) preserves the exact error semantics:
+    # FileNotFoundError → {}, malformed → RuntimeError("corpus_overrides.yaml unreadable: …")
+    return load_corpus_overrides(profession=profession)
 
 LOG_PATH = LOGS_DIR / "clean_text.log"
 LOGS_DIR.mkdir(parents=True, exist_ok=True)

@@ -71,7 +71,8 @@ def _extract_compacts(record: dict) -> list[str]:
 from pipeline.paths import STRUCTURED_DIR, DISCOVERED_DIR, TRIMMED_DIR, RESULTS_DIR, MAP_PREP_DIR, CONFIG_DIR
 from pipeline._records import record_files
 from pipeline._runlog import record_run
-import yaml  # noqa: E402
+import yaml  # noqa: E402 — still needed for publish_options.yaml (out-of-scope for R2)
+from pipeline.config.loaders import load_professions
 
 # Publish toggles — the single-parameter off-switch for verified absences.
 _PUB_OPTS = yaml.safe_load((CONFIG_DIR / "publish_options.yaml").read_text()) or {}
@@ -853,9 +854,7 @@ def _no_credential_states(profession: str) -> dict[str, str]:
     law for this profession — a verified true negative, not a scrape gap.
     Returns {state: citation/explanation}."""
     try:
-        import yaml
-        from pipeline.paths import CONFIG_DIR
-        cfg = yaml.safe_load((CONFIG_DIR / "professions.yaml").read_text()) or {}
+        cfg = load_professions()
         return cfg.get(profession, {}).get("no_credential_states") or {}
     except Exception:
         return {}
@@ -864,9 +863,7 @@ def _no_credential_states(profession: str) -> dict[str, str]:
 def _profession_display(profession: str) -> str:
     """Pull a friendly display name from config/professions.yaml; fall back to title-case."""
     try:
-        import yaml
-        from pipeline.paths import CONFIG_DIR
-        cfg = yaml.safe_load((CONFIG_DIR / "professions.yaml").read_text()) or {}
+        cfg = load_professions()
         return cfg.get(profession, {}).get("display", profession.replace("_", " ").title())
     except Exception:
         return profession.replace("_", " ").title()
@@ -880,9 +877,7 @@ def _profession_meta(profession: str) -> dict:
     are absent so the frontend never crashes on missing keys.
     """
     try:
-        import yaml
-        from pipeline.paths import CONFIG_DIR
-        cfg = yaml.safe_load((CONFIG_DIR / "professions.yaml").read_text()) or {}
+        cfg = load_professions()
     except Exception:
         cfg = {}
     families = cfg.get("_families") or {}
@@ -906,9 +901,7 @@ def _all_profession_meta() -> list[dict]:
     /professions.json with the visual fields the homepage + browse views
     need."""
     try:
-        import yaml
-        from pipeline.paths import CONFIG_DIR
-        cfg = yaml.safe_load((CONFIG_DIR / "professions.yaml").read_text()) or {}
+        cfg = load_professions()
     except Exception:
         return []
     return [_profession_meta(k) for k in cfg.keys() if not k.startswith("_")]

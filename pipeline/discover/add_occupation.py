@@ -39,6 +39,7 @@ import yaml
 from pipeline.paths import CONFIG_DIR, TEXT_DIR, STRUCTURED_DIR
 from pipeline.discover import register_occupation as reg
 from pipeline.discover import mechanical_cross_ref as xref
+from pipeline.config.loaders import load_corpus_overrides
 
 PY = sys.executable
 ROOT = Path(__file__).resolve().parents[2]
@@ -67,7 +68,7 @@ def _n_structured(prof: str) -> int:
 
 
 def _load_overrides() -> dict:
-    return (yaml.safe_load(OVERRIDES.read_text()) if OVERRIDES.exists() else {}) or {}
+    return load_corpus_overrides()
 
 
 def corpus_plan(key: str, patterns: list[str], parent: str | None) -> dict:
