@@ -40,7 +40,13 @@ AZ:
     construction_trades:
       url: "https://www.azleg.gov/arsDetail/?title=32&chapter=10"
       authoritative: true
-      label: "AZ Title 32 Chapter 10 — Contractors"
+    # #53: AZ HVAC is licensed as a contractor classification (R-39/C-39) inside the
+    # same Ch 10 Contractors chapter — not a standalone license. Point it at Ch 10 so
+    # extraction records it as license-via-contractor-classification (not a blank).
+    hvac:
+      url: "https://www.azleg.gov/arsDetail/?title=32&chapter=10"
+      authoritative: true
+      label: "AZ Title 32 Ch 10 — Contractors (HVAC = R-39/C-39 classification)"
 
 OK:
   source: justia
