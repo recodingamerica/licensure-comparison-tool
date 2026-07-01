@@ -46,6 +46,62 @@ logging.basicConfig(
 log = logging.getLogger("pull_umbrella_text")
 
 
+def select_umbrella_chapters(
+    chapters: list[dict],
+    cached_slugs: set[str],
+    manifest_blessed: set[str],
+    manifest_dropped: set[str],
+) -> tuple[list[dict], list[tuple[str, str, str]]]:
+    """label_filter selection: keep a chapter if its label matches _UMBRELLA_LABEL
+    OR its slug is blessed (scope manifest) OR already cached with text —
+    UNLESS the manifest drops it (authoritative, wins over everything).
+
+    Returns (kept, drop_log) where drop_log is [(slug, label, reason), ...].
+    """
+    from pipeline.discover.umbrella_from_citations import _UMBRELLA_LABEL
+
+    kept: list[dict] = []
+    drop_log: list[tuple[str, str, str]] = []
+
+    for ch in chapters:
+        slug = ch.get("slug", "")
+        label = ch.get("label", "")
+
+        if slug in manifest_dropped:
+            drop_log.append((slug, label, "manifest-drop"))
+            continue
+
+        label_match = bool(_UMBRELLA_LABEL.search(label))
+        blessed = slug in manifest_blessed
+        cached = slug in cached_slugs
+
+        if label_match or blessed or cached:
+            kept.append(ch)
+        else:
+            drop_log.append((slug, label, "no-label-match-and-not-blessed"))
+
+    return kept, drop_log
+
+
+def _apply_cap(
+    section_targets: list[dict],
+    slug: str,
+    cap_hits: dict[str, dict],
+    cap: int = MAX_SECTIONS_PER_CHAPTER,
+) -> list[dict]:
+    """Apply per-chapter section cap. If the cap trips, records it in cap_hits
+    (mutates in place) and emits a WARNING. Returns the (possibly truncated) list."""
+    declared = len(section_targets)
+    if declared > cap:
+        log.warning(
+            "  cap hit for %s: declared %d -> keeping %d sections",
+            slug, declared, cap,
+        )
+        cap_hits[slug] = {"declared": declared, "kept": cap}
+        return section_targets[:cap]
+    return section_targets
+
+
 def pull_state_umbrella(state: str, force: bool, source_filter: str | None = None,
                         label_filter: bool = False) -> dict | None:
     umb_path = UMBRELLA_CHAPTERS_DIR / f"{state}.json"
@@ -59,13 +115,39 @@ def pull_state_umbrella(state: str, force: bool, source_filter: str | None = Non
     filtering = bool(source_filter or label_filter)
     if source_filter:
         chapters = [c for c in chapters if c.get("source") == source_filter]
+
     if label_filter:
         # Keep only genuinely cross-cutting chapters (any source). The old
         # find_umbrella_chapters LLM over-included profession-specific chapters
         # (Medical Practice, University of Arkansas) — pulling those pollutes
         # umbrella_text and cross-contaminates every profession's extraction.
-        from pipeline.discover.umbrella_from_citations import _UMBRELLA_LABEL
-        chapters = [c for c in chapters if _UMBRELLA_LABEL.search(c.get("label", ""))]
+        #
+        # Selection = regex OR manifest-blessed OR already-cached-with-text
+        # MINUS manifest-dropped (authoritative, wins over everything).
+        # We must read the cache BEFORE filtering so cached_slugs is available.
+
+        # Read existing cache first (needed for grandfather logic in select)
+        existing_record_pre: dict | None = None
+        existing_sections_pre: list[dict] = []
+        if out_path.exists():
+            existing_record_pre = json.loads(out_path.read_text())
+            existing_sections_pre = existing_record_pre.get("sections") or []
+        cached_slugs_pre = {s.get("umbrella_chapter_slug", "")
+                            for s in existing_sections_pre if s.get("text")}
+
+        # Load manifest for blessed/dropped sets
+        from pipeline.discover._state_scope_manifest import load_manifest
+        manifest = load_manifest(state)
+        manifest_blessed = (manifest.universal_chapters
+                            | set(manifest.chapter_applies_to.keys()))
+        manifest_dropped = manifest.drop_chapters
+
+        chapters, drop_log = select_umbrella_chapters(
+            chapters, cached_slugs_pre, manifest_blessed, manifest_dropped,
+        )
+        for slug, label, reason in drop_log:
+            log.info("[%s] drop %s (%s): %s", state, slug, reason, label[:60])
+
     if not chapters:
         # A FILTER yielding nothing means "nothing to do here" — never wipe an
         # existing cache (that was the --force bug). Only write empty when the state
@@ -110,6 +192,7 @@ def pull_state_umbrella(state: str, force: bool, source_filter: str | None = Non
         )
 
     new_sections: list[dict] = []
+    cap_hits: dict[str, dict] = {}
     for ch in chapters_to_pull:
         url = ch["url"]
         label = ch.get("label", "")
@@ -123,10 +206,7 @@ def pull_state_umbrella(state: str, force: bool, source_filter: str | None = Non
             if err:
                 log.warning("  collect_section_targets error: %s", err)
 
-        if len(section_targets) > MAX_SECTIONS_PER_CHAPTER:
-            log.info("  capping %d -> %d sections per chapter (definitions / general provisions are typically at the top)",
-                     len(section_targets), MAX_SECTIONS_PER_CHAPTER)
-            section_targets = section_targets[:MAX_SECTIONS_PER_CHAPTER]
+        section_targets = _apply_cap(section_targets, slug, cap_hits)
         log.info("  -> %d section targets", len(section_targets))
         for target in section_targets:
             sec_url = target["url"]
@@ -167,11 +247,13 @@ def pull_state_umbrella(state: str, force: bool, source_filter: str | None = Non
         )
         return existing_record
 
-    record = {
+    record: dict = {
         "state": state,
         "umbrella_chapter_count": len(chapters),
         "sections": all_sections,
     }
+    if cap_hits:
+        record["cap_hits"] = cap_hits
     out_path.write_text(json.dumps(record, indent=2))
     return record
 
