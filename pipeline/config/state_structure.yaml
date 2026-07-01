@@ -2876,7 +2876,7 @@ WA:
   # app.leg.wa.gov RCW: ?cite={title.chapter}&full=true returns the whole chapter
   # inline. Justia "chapter-19-28" → cite 19.28 (chapter_dot). RCW marker split.
   source: wa_official
-  chapter_url_template: "https://app.leg.wa.gov/RCW/default.aspx?cite={chapter_dot}&full=true"
+  # chapter_url_template retired 2026-07-01 (Justia-only decision): index carries Justia urls; pulls go via CDP/Justia.
   # WA centralizes disciplinary grounds in Ch 18.130 (Uniform Disciplinary Act);
   # each health profession's own chapter defers to it for grounds/complaints/
   # sanctions. Append it as an additive umbrella node (fetched from wa_official via
@@ -2917,7 +2917,7 @@ VA:
   # "title-54-1" → title54.1 (title_dot). § 54.1-NNNN. marker split. VA licenses
   # all building trades as one Contractors chapter (54.1 ch 11).
   source: va_official
-  chapter_url_template: "https://law.lis.virginia.gov/vacodefull/title{title_dot}/chapter{chapter}/"
+  # chapter_url_template retired 2026-07-01 (Justia-only decision): index carries Justia urls; pulls go via CDP/Justia.
   professions:
     # VA has no standalone podiatry chapter — podiatry sits under Ch 29 (Medicine
     # and Other Healing Arts), which label-match would miss. Pin it; the
@@ -2932,14 +2932,14 @@ CT:
   # Uses the lowercase chapter form (chap_393b.htm, not 393B). Incomplete SSL
   # cert chain — pull_text.fetch_bytes retries verify=False. parse_ct_chapter_html.
   source: ct_official
-  chapter_url_template: "https://www.cga.ct.gov/current/pub/chap_{chapter_lc}.htm"
+  # chapter_url_template retired 2026-07-01 (Justia-only decision): index carries Justia urls; pulls go via CDP/Justia.
 
 NV:
   # Justia is Cloudflare-blocked; NV serves one HTML page per NRS chapter.
   # Justia NV paths carry only the chapter (no title), so the template uses
   # {chapter}; pull_text.parse_nv_chapter_html splits the page into sections.
   source: nv_official
-  chapter_url_template: "https://www.leg.state.nv.us/nrs/NRS-{chapter}.html"
+  # chapter_url_template retired 2026-07-01 (Justia-only decision): index carries Justia urls; pulls go via CDP/Justia.
 
 SD:
   # Justia is Cloudflare-blocked; SD publishes a clean JSON API. match_profession
@@ -2949,7 +2949,7 @@ SD:
   # then walks the API (parse_sd / pull_sd_chapter). No per-profession overrides
   # needed — the whole state rides the template.
   source: sd_api
-  chapter_url_template: "https://sdlegislature.gov/api/Statutes/Statute/{title}-{chapter}"
+  # chapter_url_template retired 2026-07-01 (Justia-only decision): index carries Justia urls; pulls go via CDP/Justia.
   # #53 hand-curated: SD regulates architects in the combined Board of Technical
   # Professions chapter (Title 36 Ch 18A — engineering/architecture/surveying), so
   # label-match on "architect" misses it. Pin it; the template rewrites to the API.
@@ -2965,14 +2965,14 @@ ME:
   # template. pull_text.pull_me drives it. ME licenses electrician (T32 Ch17) and
   # plumbing (T32 Ch49) — both ride the label-matched Justia chapter.
   source: me_official
-  chapter_url_template: "https://legislature.maine.gov/statutes/{title}/title{title}ch{chapter}sec0.html"
+  # chapter_url_template retired 2026-07-01 (Justia-only decision): index carries Justia urls; pulls go via CDP/Justia.
 
 ID:
   # Per-section-via-TOC. legislature.idaho.gov TOC T{T}CH{N}/ links sections as
   # SECT{T}-{n}/; statute text in span.f11s. pull_text.pull_id. ID licenses
   # electrician (T54 Ch10), plumbing (T54 Ch26), hvac (T54 Ch50).
   source: id_official
-  chapter_url_template: "https://legislature.idaho.gov/statutesrules/idstat/Title{title}/T{title}CH{chapter}/"
+  # chapter_url_template retired 2026-07-01 (Justia-only decision): index carries Justia urls; pulls go via CDP/Justia.
 
 MD:
   # No chapter_url_template — mgaleg.maryland.gov has no chapter TOC page, so the
@@ -2992,7 +2992,7 @@ RI:
   # it to 5-65 (Contractors' Registration & Licensing) — authoritative drops the
   # bad sibling.
   source: ri_official
-  chapter_url_template: "http://webserver.rilegislature.gov/Statutes/TITLE{title}/{chapter}/INDEX.HTM"
+  # chapter_url_template retired 2026-07-01 (Justia-only decision): index carries Justia urls; pulls go via CDP/Justia.
   professions:
     construction_trades:
       url: "https://law.justia.com/codes/rhode-island/title-5/chapter-5-65/"
@@ -3005,7 +3005,7 @@ VT:
   # content). {chapter:0>3} zero-pads to the 3-digit chapter form. contractor=
   # Ch106, electrician=Ch15, plumbing=Ch39.
   source: vt_official
-  chapter_url_template: "https://legislature.vermont.gov/statutes/chapter/{title}/{chapter:0>3}"
+  # chapter_url_template retired 2026-07-01 (Justia-only decision): index carries Justia urls; pulls go via CDP/Justia.
 
 MT:
   # No chapter_url_template — the MCA url components are value*10 zero-padded to 4
