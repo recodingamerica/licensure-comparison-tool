@@ -46,11 +46,6 @@ Figures out the *map* — what to fetch — without fetching content yet.
 
 - `build_hierarchy.py` — for each state, lists the chapters under each
   licensing title.
-- `find_licensing_titles.py` — narrows from "all titles" to the few that
-  contain professional-licensing chapters.
-- `find_umbrella_chapters.py` — picks cross-cutting "general provisions"
-  chapters that apply to multiple professions (e.g., UT Title 58 Ch 1, the
-  DOPL Act).
 - `match_profession.py` / `expand_hierarchy.py` — picks the practice-act
   chapter for a given (state, profession).
 - `discover_schema.py` (in `extract/` but logically discovery) — examines

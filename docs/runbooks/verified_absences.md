@@ -12,8 +12,6 @@ regulation" value) that are **transparently marked** as research-asserted, and a
   the statute lives*; the LLM **derives** the values. Always prefer this.
 - **Verified absences** *assert* the value because there is **no statute to point at**.
   Only for confirmed local-only / not-regulated cases, and always marked as such.
-- For a genuine null with no statute at all, `verify_gap_states` (LLM) can instead
-  *derive* the absence from the state's statute index — preferred where feasible.
 
 ## Where to tweak
 
