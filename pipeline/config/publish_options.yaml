@@ -1,0 +1,11 @@
+# Publish-time toggles — flip a value here to change what the site shows.
+# build_frontend reads this at build time.
+
+# Verified absences: (profession, state) pairs that hand-verified research confirmed
+# have NO state license (regulated locally / not at all), stored as market_forces
+# records marked source=verified_absence (see config/verified_absences.yaml).
+#   true  -> published as real "Not state-regulated (verified)" rows, clearly marked
+#            in the UI as research-asserted (not statute-extracted).
+#   false -> the OFF SWITCH: those rows fall back to ordinary coverage gaps ("no
+#            credential found"), exactly as if we'd never asserted them.
+include_verified_absences: true

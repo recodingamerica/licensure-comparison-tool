@@ -11,7 +11,25 @@ import pytest
 from pipeline.publish.build_frontend import (
     _derive_credential_and_mandatory,
     normalize_citation,
+    hoist_row,
 )
+
+
+class TestProvenance:
+    def _rec(self, **extra):
+        return {"state": "IL", "profession": "electrician",
+                "licensure": {"regulatory_model": {"value": "market_forces"}}, **extra}
+
+    def test_extracted_default_basis(self):
+        assert hoist_row(self._rec())["data_basis"] == "extracted"
+
+    def test_verified_absence_basis_surfaced(self):
+        row = hoist_row(self._rec(source="verified_absence", basis="local_only",
+                                  note="No statewide license."))
+        assert row["data_basis"] == "verified_absence"
+        assert row["absence_basis"] == "local_only"
+        assert row["absence_note"] == "No statewide license."
+        assert row["coverage_gap"] is False   # still a real row, not a gap
 
 
 class TestDerivationFromLegacyRegulatoryModel:

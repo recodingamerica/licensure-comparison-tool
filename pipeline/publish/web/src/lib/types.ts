@@ -134,6 +134,11 @@ export type Row = {
   coverage_gap_reason?: string;
   coverage_gap_label?: string;
   coverage_gap_detail?: string | null;
+  // Provenance: "extracted" (from statute) or "verified_absence" (research-asserted
+  // no-state-license — see config/verified_absences.yaml + publish_options.yaml).
+  data_basis?: string;
+  absence_basis?: string | null;
+  absence_note?: string | null;
   license_required: boolean | null;
   regulatory_model: string | null;
   credential_type: string | null;

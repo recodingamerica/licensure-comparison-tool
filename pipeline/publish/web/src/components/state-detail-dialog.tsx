@@ -227,7 +227,24 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
                 ))}
               </span>
             )}
+            {row.data_basis === "verified_absence" && (
+              <Badge
+                variant="secondary"
+                className="bg-amber-100 text-amber-900 hover:bg-amber-100 text-xs"
+                title="This state has no state-level license for this profession. Determined from hand-verified research, not extracted from a statute — see config/verified_absences.yaml."
+              >
+                Not state-regulated · research-verified
+              </Badge>
+            )}
           </SheetTitle>
+          {row.data_basis === "verified_absence" && (
+            <div className="mt-2 rounded border border-amber-300 bg-amber-50 px-3 py-2 text-xs text-amber-900">
+              <b>No state license.</b> Regulated locally / not at the state level
+              {row.absence_basis ? ` (${row.absence_basis.replace(/_/g, " ")})` : ""}.
+              This row is <b>hand-verified research</b>, not a statute extraction — there is
+              no state statute to quote. {row.absence_note}
+            </div>
+          )}
           <SheetDescription className="text-xs text-muted-foreground">
             Verbatim statute quote and citation for every claim. Click{" "}
             <em>in context</em> on any row to see the surrounding section text
