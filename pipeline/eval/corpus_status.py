@@ -266,7 +266,13 @@ def umbrella_candidates(min_refs: int = 5) -> dict:
         if not pulled:
             continue
         text = " ".join((s.get("text") or "") for s in secs)
-        refs = Counter(f"{a}-{b}" for a, b in re.findall(r"\b(\d+)-(\d+)", text))
+        # Drop public-law / session-law refs whose second component is a 4-digit
+        # year (e.g. 'P.L. 194-2005', 'Acts 214-1993') — those aren't chapters and
+        # were polluting the umbrella candidates.
+        refs = Counter(
+            f"{a}-{b}" for a, b in re.findall(r"\b(\d+)-(\d+)", text)
+            if not (len(b) == 4 and 1900 <= int(b) <= 2099)
+        )
         for ch, n in refs.items():
             if ch not in pulled and n >= min_refs:
                 by_state[state][ch].add(prof)
