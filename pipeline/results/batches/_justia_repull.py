@@ -76,9 +76,10 @@ def main():
     total = sum(len(v) for v in worklist.values())
     log(f"=== justia re-pull start: {total} pairs across {len(worklist)} profs "
         f"(worklist={os.path.basename(wl_path)}) ===")
+    force = bool(os.environ.get("FORCE"))
     for prof in sorted(worklist):
         states = sorted(worklist[prof])
-        todo = [s for s in states if not has_real_sections(prof, s)]
+        todo = states if force else [s for s in states if not has_real_sections(prof, s)]
         if not todo:
             log(f"[{prof}] all {len(states)} already recovered — skip")
             continue
