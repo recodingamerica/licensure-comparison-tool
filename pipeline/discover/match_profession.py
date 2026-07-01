@@ -25,12 +25,14 @@ from pathlib import Path
 import yaml
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from paths import HIERARCHY_DIR, PROFESSION_INDEX_DIR, CONFIG_DIR, LOGS_DIR, RESULTS_DIR  # noqa: E402
+from paths import HIERARCHY_DIR, PROFESSION_INDEX_DIR, CONFIG_DIR, LOGS_DIR  # noqa: E402
 from config.states import ALL_STATES  # noqa: E402
 from config.yaml_loader import safe_load_unique  # noqa: E402
-
-SECTION_MAPS_DIR = RESULTS_DIR / "section_maps"
-CHAPTER_MAPS_DIR = RESULTS_DIR / "chapter_maps"
+from discover._mapping_overrides import (  # noqa: E402
+    load_mapping_overrides,
+    apply_mapping_overrides,
+    apply_override_adds,
+)
 
 LOG_PATH = LOGS_DIR / "match_profession.log"
 LOGS_DIR.mkdir(parents=True, exist_ok=True)
@@ -72,6 +74,10 @@ def match_state(profession_def: dict, state_record: dict) -> list[dict]:
     excludes = profession_def.get("excludes", [])
     matched: list[dict] = []
     for ch in state_record.get("chapters", []):
+        # Skip leaf-section nodes appended by expand_containers — they carry
+        # parent_chapter_url and are matched by match_sections, not here.
+        if ch.get("parent_chapter_url"):
+            continue
         if label_matches(ch.get("label", ""), patterns, excludes):
             matched.append({
                 "label": ch["label"],
@@ -172,62 +178,17 @@ def _umbrella_nodes_for(state_entry: dict, profession: str, existing_urls: set[s
     return nodes
 
 
-def load_section_maps(state_structure: dict) -> dict[str, dict]:
-    """Load per-state v2 section maps for every section_fallback state.
-
-    Returns: { state: { profession: {section_url_list, label} } }
-    The v2 mapper is the primary source of truth for which sections belong
-    to which profession in flat-section-list states; this lets a new
-    profession appear without per-state hand-curation, as long as v2 has
-    been run for that state.
-    """
-    out: dict[str, dict] = {}
-    for st, entry in state_structure.items():
-        if (entry or {}).get("layout") != "section_fallback":
-            continue
-        path = SECTION_MAPS_DIR / f"{st}_v2.json"
-        if not path.exists():
-            continue
-        m = json.loads(path.read_text())
-        out[st] = m.get("professions") or {}
-    return out
-
-
-def load_chapter_maps() -> dict[str, dict]:
-    """Load any per-state chapter maps from results/chapter_maps/<STATE>.json.
-
-    Returns: { state: { profession: {url, chapter_slug, label} } }
-    Lower precedence than state_structure.yaml — only used as a safety net
-    when no hand-curated entry exists. Limited reliability for buried
-    chapters (e.g. podiatry inside a "Medicine and Other Healing Arts"
-    chapter), recodification cases, and subtitled-hierarchy states; see
-    map_state_chapters.py for caveats.
-    """
-    out: dict[str, dict] = {}
-    if not CHAPTER_MAPS_DIR.exists():
-        return out
-    for path in CHAPTER_MAPS_DIR.glob("*.json"):
-        st = path.stem
-        m = json.loads(path.read_text())
-        profs = m.get("professions") or {}
-        if profs:
-            out[st] = profs
-    return out
-
-
 def build_index_for(
     profession: str,
     defn: dict,
     hierarchies: dict[str, dict],
     state_structure: dict,
-    section_maps: dict[str, dict],
-    chapter_maps: dict[str, dict],
+    mapping_overrides: dict,
 ) -> dict:
     by_state: dict = {}
     matched_states = 0
     overrides_used = 0
-    section_maps_used = 0
-    chapter_maps_used = 0
+    mapping_overrides_used = 0
     for st in ALL_STATES:
         record = hierarchies.get(st)
         m: list[dict] = []
@@ -257,30 +218,12 @@ def build_index_for(
                         existing["section_url_list"] = ss_entry["section_url_list"]
                     if ss_entry.get("section_slug_pattern") or ss_entry.get("section_url_list"):
                         overrides_used += 1
-        elif st in section_maps and profession in section_maps[st]:
-            # No hand-curated entry — fall back to v2 section-map output.
-            urls = section_maps[st][profession].get("section_url_list") or []
-            if urls:
-                title_url = state_entry.get("title_url")
-                if title_url and title_url not in {x["url"] for x in m}:
-                    m.append(_node_from_override({
-                        "url": title_url,
-                        "label": section_maps[st][profession].get("label", ""),
-                        "section_url_list": urls,
-                        "_source": "section_map_v2",
-                    }))
-                    section_maps_used += 1
-        elif not m and st in chapter_maps and profession in chapter_maps[st]:
-            # Last resort safety net — chapter map (labels-only LLM mapping).
-            ch = chapter_maps[st][profession]
-            url = ch.get("url")
-            if url:
-                m.append(_node_from_override({
-                    "url": url,
-                    "label": ch.get("label", ""),
-                    "_source": "chapter_map",
-                }))
-                chapter_maps_used += 1
+
+        # Manual mapping overrides (config/mapping_overrides.yaml), pass 1 of 2:
+        # adds are inserted HERE — where the old section_map/chapter_map fallbacks
+        # sat — so an add carrying section_url_list/section_slug_pattern subsumes
+        # bare label-matched section nodes below, exactly as the fallbacks did.
+        m = apply_override_adds(profession, st, m, mapping_overrides)
 
         # For section_fallback states, an override with section_url_list /
         # section_slug_pattern is the canonical set; the label-matched
@@ -319,6 +262,15 @@ def build_index_for(
                     n["justia_url"] = n["url"]
                     n["url"] = official
 
+        # Manual mapping overrides, pass 2 of 2 (the LAST transformation):
+        # excludes drop generated nodes (an exclude guarantees the url is out);
+        # adds are re-ensured in case a pruning rule above ate one (an add
+        # guarantees the node is in). A state with no hierarchy record but with
+        # add nodes becomes a real matched record, not a "no_hierarchy" stub.
+        m = apply_mapping_overrides(profession, st, m, mapping_overrides)
+        if (mapping_overrides.get(profession) or {}).get(st):
+            mapping_overrides_used += 1
+
         if not record and not m:
             by_state[st] = {"matched": [], "note": "no_hierarchy"}
             continue
@@ -334,11 +286,41 @@ def build_index_for(
             "states_matched": matched_states,
             "states_total": len(ALL_STATES),
             "overrides_used": overrides_used,
-            "section_maps_used": section_maps_used,
-            "chapter_maps_used": chapter_maps_used,
+            "mapping_overrides_used": mapping_overrides_used,
         },
         "by_state": by_state,
     }
+
+
+def rebuild_index(profession: str, mapping_overrides: dict | None = None) -> dict:
+    """Regenerate one profession's index IN MEMORY from committed inputs
+    (hierarchies + professions.yaml + state_structure.yaml + mapping_overrides.yaml).
+
+    mapping_overrides=None loads config/mapping_overrides.yaml; pass {} to build
+    the pure generated BASE (what the index would be with no manual patches).
+    """
+    professions = load_professions()
+    if profession not in professions:
+        raise KeyError(f"profession not in registry: {profession}")
+    hierarchies = {}
+    for path in HIERARCHY_DIR.glob("*.json"):
+        d = json.loads(path.read_text())
+        hierarchies[d["state"]] = d
+    if mapping_overrides is None:
+        mapping_overrides = load_mapping_overrides()
+    return build_index_for(profession, professions[profession], hierarchies,
+                           load_state_structure(), mapping_overrides)
+
+
+def rebuild_and_write(profession: str) -> dict:
+    """Regenerate one profession's index and write profession_index/<prof>.json.
+    Shared by the curation CLIs (match_sections --write-targets,
+    apply_llm_candidates) so the committed index is only ever written by the
+    generator — manual decisions go through config/mapping_overrides.yaml."""
+    index = rebuild_index(profession)
+    out_path = PROFESSION_INDEX_DIR / f"{profession}.json"
+    out_path.write_text(json.dumps(index, indent=2))
+    return index
 
 
 def main() -> None:
@@ -364,17 +346,13 @@ def main() -> None:
         n_prof_entries = sum(len((s or {}).get("professions") or {}) for s in state_structure.values())
         log.info("loaded state_structure for %d states (%d profession entries)", len(state_structure), n_prof_entries)
 
-    section_maps = load_section_maps(state_structure)
-    if section_maps:
-        log.info("loaded v2 section maps for %d section_fallback states: %s", len(section_maps), sorted(section_maps))
-
-    chapter_maps = load_chapter_maps()
-    if chapter_maps:
-        log.info("loaded chapter maps for %d states: %s", len(chapter_maps), sorted(chapter_maps))
+    mapping_overrides = load_mapping_overrides()
+    if mapping_overrides:
+        log.info("loaded mapping overrides for %d professions", len(mapping_overrides))
 
     rebuilt: dict[str, dict] = {}
     for prof, defn in professions.items():
-        index = build_index_for(prof, defn, hierarchies, state_structure, section_maps, chapter_maps)
+        index = build_index_for(prof, defn, hierarchies, state_structure, mapping_overrides)
         out_path = PROFESSION_INDEX_DIR / f"{prof}.json"
         out_path.write_text(json.dumps(index, indent=2))
         log.info("[%s] %d/%d states matched", prof, index["coverage"]["states_matched"], index["coverage"]["states_total"])
