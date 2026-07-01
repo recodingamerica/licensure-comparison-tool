@@ -410,6 +410,13 @@ def extract_child_links(html: str, base_url: str) -> tuple[list[dict], list[dict
             sections.append(item)
         elif INTERMEDIATE_SEG.match(last):
             intermediates.append(item)
+        elif len(canon_path) > len(base_canon) and canon_path[:len(base_canon)] == base_canon:
+            # Plain-word sub-group page under this chapter (not a keyworded
+            # subchapter/article). Justia uses these for chapters split by a
+            # heading rather than a numbered subchapter — e.g. MS title-73/
+            # chapter-13/{engineers,land-surveyors}/. It strictly extends the
+            # chapter path and isn't a leaf section, so drill it.
+            intermediates.append(item)
     return _dedupe_year_versions(sections), _dedupe_year_versions(intermediates)
 
 
