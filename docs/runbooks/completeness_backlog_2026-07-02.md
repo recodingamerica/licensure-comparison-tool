@@ -55,13 +55,31 @@ money_transmitter (13), loan_broker (5), athlete_agent, court_reporter (13).
 Loop: `expand_containers --state X` → `match_sections --write-targets` →
 `refresh_corpus`. (LLM-free; writes to mapping_overrides.yaml.)
 
-## Priority 5 — MN / MI genuine Justia flip (optional; data exists)
+## Priority 5 — "Everything except PA to Justia" flip (user directive 2026-07-02)
 
-MN (9 official URLs, revisor_mn) and MI (8, mi_legis) still fetch from official
-hosts via hand-curated `section_url_list`. Data EXISTS and is fine — flipping to
-Justia is for uniformity/durability, not to fill a gap. Lower priority; needs a
-per-section Justia mapping (their section_url_list points at official hosts).
-**PA stays official** — genuinely not on Justia.
+Precise worklist. Of 110 residual non-`law.justia.com` index URLs: 44 are PA
+(STAY — not on Justia); ~86 are relative Justia paths (`/codes/...` missing the
+host — cosmetic, normalize by prepending `https://law.justia.com`); **~24 are
+genuinely official** and need a hand-derived + leaf-verified Justia equivalent
+(NOT auto-convertible — see feedback_automated_mapping_fragile):
+
+- **MN — 9** (`revisor.mn.gov/statutes/cite/<chap>`). TRACTABLE: MN is chapter-based,
+  maps to `law.justia.com/codes/minnesota/.../chapter-<chap>`. Do first.
+- **MI — 7-8** (`legislature.mi.gov/.../mcl-368-1978-15-<sec>`). HARDER: MCL
+  section objects don't map 1:1 to Justia's structure; verify leaf text like MD.
+- **UT — 4** (`le.utah.gov`) · **AZ — 2** (`azleg.gov`) · **FL — 1** · **MO — 1**.
+
+Mechanism (per state, one at a time): comment the `source:` flag (or clear the
+official `section_url_list`), re-map the official URLs to Justia in state_structure
+/ mapping_overrides, re-run `match_profession`, VERIFY leaf text exists on Justia
+(the MD check: fetch a section, confirm >200 chars real statute), then
+`refresh_corpus --profession X --states ST`. The per-chapter completeness gate +
+overwrite-guard protect existing data if Justia comes up thin — do NOT `--force`.
+
+Also: the ~86 relative-`/codes/` URLs should be normalized to absolute Justia
+(prepend the host) so the index is uniformly `law.justia.com`.
+
+**PA stays official** — genuinely not on Justia (the one documented exception).
 
 ## Housekeeping — vestigial source flags
 
