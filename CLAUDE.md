@@ -18,15 +18,21 @@ challenge, *not* a rate/IP block — `curl_cffi` and launched-headless browsers 
 challenge pages, but **attaching to a hand-started debug Chrome over CDP clears it**
 (see the `scraping-cloudflare-cdp` skill). To re-fetch:
 
-- Set `JUSTIA_CDP_URL=http://localhost:9222` (a debug Chrome the user started + cleared
-  the challenge in once) and a polite `PULL_HOST_DELAY` (e.g. 7). `pull_text` routes
-  Justia through CDP automatically when `JUSTIA_CDP_URL` is set.
-- **ONE pull process per Chrome** — concurrent jobs against the same browser garble
-  corpora (1-section partials). A flock guards this; don't bypass it.
+- Set `JUSTIA_CDP_URL=http://127.0.0.1:9222` (a debug Chrome the user started + cleared
+  the challenge in once; use `127.0.0.1`, not `localhost`). The per-host delay now
+  lives in `config/limits.yaml` (`fetch.per_host_delay_seconds`, default 3.0, +jitter);
+  `PULL_HOST_DELAY` still overrides. `pull_text` routes Justia through CDP automatically.
+- **ONE pull process per Chrome** — concurrent jobs garble corpora. A flock guards this.
 - Bulk re-pull is fine this way; `_justia_repull.py` / `_cdp_grind.py` are resumable
   drivers that commit per profession.
-- **PA is the only state not on Justia** (`legis.state.pa.us`); ~12 other states use
-  official-source overrides by choice, but their Justia URLs are stored in the index.
+- **PA is the only state not on Justia** (`legis.state.pa.us`). MD/NV were flipped BACK
+  to Justia 2026-07-02 (source-gated dispatch — comment out `source:` to flip a state);
+  other official-source states keep their Justia URLs in the index.
+- **Before a LARGE CDP harvest, read `docs/runbooks/cdp_repull_lessons_2026-07-02.md`** —
+  the wedge failure-modes (pages[0] hijack [fixed], official-source silence, Chrome
+  auto-update mid-run), the faulthandler wedge-check, the all-or-nothing no-wipe guard,
+  and the real-fetch-vs-stale-cache detection. Do NOT run two committing processes at
+  once (git index.lock races).
 
 ## Pipeline stages (each reads the previous stage's output dir)
 
