@@ -2654,6 +2654,16 @@ UT:
     Justia, which now Cloudflare-blocks all our IPs. Every other UT profession
     still resolves by label-match against the Justia hierarchy — this block
     only overrides the four trades.
+  # UT umbrella: Title 58 Ch 1 (Division of Professional Licensing Act — DOPL
+  # powers, discipline, fees) is general provisions for ALL Title 58 trades.
+  # Declared via the state-level umbrella mechanism so it attaches to all 4 trades
+  # consistently (was a construction_trades-only mapping_overrides one-off, which
+  # silently left electrician/plumbing/hvac without it — caught by corpus_drift).
+  umbrella:
+    professions: [construction_trades, electrician, plumbing, hvac]
+    chapters:
+      - url: "https://law.justia.com/codes/utah/title-58/chapter-1/"
+        label: "Chapter 1 - Division of Professional Licensing Act (umbrella)"
   professions:
     construction_trades:
       url: "https://law.justia.com/codes/utah/title-58/chapter-55/"
