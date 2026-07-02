@@ -13,9 +13,12 @@ Loader semantics:
   load_mapping_overrides()— re-exported from pipeline.discover._mapping_overrides
   load_corpus_overrides() — corpus_overrides.yaml; {} if missing; raises on malformed
   load_verified_absences()— verified_absences.yaml; plain yaml.safe_load (no dup risk)
+  load_limits()           — limits.yaml; every data-shaping number in one place
 """
 
 from __future__ import annotations
+
+import functools
 
 import yaml
 
@@ -96,4 +99,19 @@ def load_verified_absences() -> dict:
     (same as calling yaml.safe_load(MANIFEST.read_text()) directly).
     """
     path = CONFIG_DIR / "verified_absences.yaml"
+    return yaml.safe_load(path.read_text()) or {}
+
+
+@functools.lru_cache(maxsize=1)
+def load_limits() -> dict:
+    """Load config/limits.yaml — every data-shaping number in one place.
+
+    Returns the full nested dict.  Callers read individual values with e.g.:
+        load_limits()["trim"]["section_text_cap"]
+
+    Cached: the file is read once per process.  The cache is transparent to
+    callers; module-level constants in each module stay as the canonical names
+    (they just default to the value from load_limits() at import time).
+    """
+    path = CONFIG_DIR / "limits.yaml"
     return yaml.safe_load(path.read_text()) or {}

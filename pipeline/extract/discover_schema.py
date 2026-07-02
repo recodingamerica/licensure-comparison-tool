@@ -28,6 +28,7 @@ load_env()
 from pipeline._llm import call_structured
 from pipeline.paths import TRIMMED_DIR, DISCOVERED_DIR, LOGS_DIR
 from pipeline._records import record_files
+from pipeline.config.loaders import load_limits
 
 LOG_PATH = LOGS_DIR / "discover_schema.log"
 LOGS_DIR.mkdir(parents=True, exist_ok=True)
@@ -149,10 +150,11 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--profession", required=True)
     ap.add_argument("--model", default=DEFAULT_MODEL)
-    ap.add_argument("--max-states", type=int, default=10,
-                    help="Cap states sent to schema-discovery LLM. Default 10. "
-                    "Large corpora (e.g. medicine, all 14 states ~1M tokens) exceed "
-                    "context. A representative sample is enough to derive fields.")
+    ap.add_argument("--max-states", type=int,
+                    default=load_limits()["discover_schema"]["max_states"],
+                    help="Cap states sent to schema-discovery LLM (default %(default)s, "
+                    "from config/limits.yaml). Large corpora (e.g. medicine, all 14 states "
+                    "~1M tokens) exceed context. A representative sample is enough to derive fields.")
     args = ap.parse_args()
 
     profession = args.profession.lower()

@@ -20,11 +20,17 @@ import time
 from pipeline.paths import RESULTS_DIR, LOGS_DIR
 from pipeline.config.states import ALL_STATES
 from pipeline._fetch_config import PER_HOST_DELAY  # noqa: E402
+from pipeline.config.loaders import load_limits
 
 # Reuse the existing pull infrastructure
 from pipeline.ingest.pull_text import (  # noqa: E402
     fetch, is_section_url, extract_section_text, collect_section_targets,
 )
+
+# Number of section targets above which a WARNING is emitted so the operator
+# can judge whether the chapter is genuinely umbrella law before a long pull.
+# Not a cap — all sections are pulled regardless. Read from config/limits.yaml.
+_LARGE_CHAPTER_WARN = load_limits()["umbrella"]["large_chapter_warn_threshold"]
 
 UMBRELLA_TEXT_DIR = RESULTS_DIR / "umbrella_text"
 UMBRELLA_CHAPTERS_DIR = RESULTS_DIR / "umbrella_chapters"
@@ -186,7 +192,7 @@ def pull_state_umbrella(state: str, force: bool, source_filter: str | None = Non
             if err:
                 log.warning("  collect_section_targets error: %s", err)
 
-        if len(section_targets) > 100:
+        if len(section_targets) > _LARGE_CHAPTER_WARN:
             # Not a cap — just make scale unmissable so the operator can judge
             # whether this chapter is really umbrella law before an hours-long walk.
             log.warning("  LARGE chapter: %d section targets for %s (%s) — pulling ALL of them",

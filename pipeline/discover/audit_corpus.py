@@ -39,13 +39,13 @@ REPO = Path(__file__).resolve().parents[2]
 from pipeline._env import load_env
 load_env()
 from pipeline._llm import call_structured, log_usage_summary
-from pipeline.config.loaders import load_professions
+from pipeline.config.loaders import load_professions, load_limits
 
 TEXT_DIR = REPO / "pipeline" / "results" / "text"
 CONFIG_DIR = REPO / "pipeline" / "config"
 OUT_DIR = REPO / "pipeline" / "results" / "corpus_audit"
 MODEL = "claude-sonnet-4-6"
-MAX_CHARS = 30000
+MAX_CHARS = load_limits()["audit_corpus"]["sample_max_chars"]
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 log = logging.getLogger("audit_corpus")

@@ -52,6 +52,7 @@ from pipeline.paths import RESULTS_DIR
 from pipeline._records import record_files
 from pipeline.scope_sources import CLASSIFIED_SOURCES
 from pipeline.discover._scope_rules import ANCHOR_LABEL_RE, NARROW_LABEL_HINTS
+from pipeline.config.loaders import load_limits
 
 UMBRELLA_TEXT_DIR = RESULTS_DIR / "umbrella_text"
 # Validated proposals are cached here so --apply can replay the exact rules the
@@ -65,13 +66,14 @@ DEFAULT_MODEL = "claude-opus-4-7"
 # Max output tokens for a proposal/refinement call.
 MAX_TOKENS = 8192
 # Truncate each section's text to keep token count manageable on large states
-MAX_TEXT_PER_SECTION = 2000
+# (read from config/limits.yaml so all data-shaping numbers are in one place)
+MAX_TEXT_PER_SECTION = load_limits()["scope_rules"]["max_text_per_section"]
 # Max chars of text per undetermined section sent back in refinement pass
-MAX_TEXT_PER_UNDET = 500
+MAX_TEXT_PER_UNDET = load_limits()["scope_rules"]["max_text_per_undetermined"]
 # Trigger a refinement call if this many non-narrow undetermined sections remain
 UNDETERMINED_THRESHOLD = 5
 # Max undetermined sections to include in refinement message
-MAX_UNDET_IN_REFINEMENT = 10
+MAX_UNDET_IN_REFINEMENT = load_limits()["scope_rules"]["max_undetermined_in_refinement"]
 
 
 # ---------------------------------------------------------------------------

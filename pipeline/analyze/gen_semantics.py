@@ -31,12 +31,17 @@ REPO = Path(__file__).resolve().parents[2]
 from pipeline._env import load_env
 load_env()
 from pipeline._llm import call_structured
+from pipeline.config.loaders import load_limits
 
 log = logging.getLogger(__name__)
 
 DATA_DIR = REPO / "pipeline" / "publish" / "web" / "public" / "data"
 OUT_DIR = REPO / "pipeline" / "config" / "field_semantics"
 MODEL = "claude-sonnet-4-6"
+
+# Maximum distinct field values sent to the LLM for semantic-label generation.
+# Read from config/limits.yaml so all data-shaping numbers are in one place.
+_MAX_FIELD_VALUES: int = load_limits()["gen_semantics"]["max_values"]
 
 SYSTEM = """You assign two semantic properties to each field of a state professional-licensing dataset, for one occupation. The downstream code uses these to measure which states have SIMILAR licensing regimes and which are OUTLIERS — so your judgments must reflect what actually characterizes how strictly/differently a state regulates this occupation.
 
@@ -75,11 +80,11 @@ def field_inventory(profession: str):
         if len(vs) <= 1:
             continue  # uniform fields carry no similarity signal
         all_vals = sorted(vs)
-        if len(all_vals) > 12:
-            log.warning("field %r has %d distinct values; capping LLM input at 12 "
+        if len(all_vals) > _MAX_FIELD_VALUES:
+            log.warning("field %r has %d distinct values; capping LLM input at %d "
                         "(dropping %d tail values — semantics quality knob, not data loss)",
-                        f, len(all_vals), len(all_vals) - 12)
-        inv.append({"field": f, "kind": kinds.get(f, "categorical"), "values": all_vals[:12]})
+                        f, len(all_vals), _MAX_FIELD_VALUES, len(all_vals) - _MAX_FIELD_VALUES)
+        inv.append({"field": f, "kind": kinds.get(f, "categorical"), "values": all_vals[:_MAX_FIELD_VALUES]})
     return d.get("display", profession), inv
 
 

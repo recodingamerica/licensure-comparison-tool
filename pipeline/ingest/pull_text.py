@@ -35,6 +35,7 @@ import sys
 from pipeline.paths import TEXT_DIR, LOGS_DIR, PROFESSION_INDEX_DIR
 from pipeline._records import record_files
 from pipeline._runlog import record_run
+from pipeline.config.loaders import load_limits
 
 LOG_PATH = LOGS_DIR / "pull_text.log"
 LOGS_DIR.mkdir(parents=True, exist_ok=True)
@@ -63,6 +64,9 @@ logging.basicConfig(
 )
 log = logging.getLogger("pull_text")
 
+# Maximum recursion depth when walking a chapter down to leaf sections.
+# Read from config/limits.yaml so all data-shaping numbers are visible in one place.
+SECTION_WALK_MAX_DEPTH: int = load_limits()["pull"]["section_walk_max_depth"]
 
 # A path's last segment looks like a Justia section
 SECTION_SEG = re.compile(
@@ -1488,13 +1492,22 @@ def short_citation(label: str) -> str:
     return label[:60]
 
 
-def collect_section_targets(url: str, label: str, slug: str, depth: int, max_depth: int = 2) -> tuple[list[dict], str | None]:
+def collect_section_targets(url: str, label: str, slug: str, depth: int, max_depth: int = SECTION_WALK_MAX_DEPTH) -> tuple[list[dict], str | None]:
     """Walk a chapter/subchapter URL down to leaf section URLs.
 
     Returns (section_targets, error). Side-effect: sleeps PER_HOST_DELAY between
     fetches. If the URL itself contains substantial text and no children, treats
     the URL as a single leaf section (handles IL-style pages where the entire
     act lives at the chapter URL).
+
+    max_depth defaults to 6 (from config/limits.yaml pull.section_walk_max_depth) —
+    deep enough to cover any real Justia nesting (chapter→subchapter→sub-subchapter
+    →sections).  The old default of 2 silently truncated chapters nested deeper than
+    two levels; 6 terminates naturally when a level yields leaf sections or nothing.
+
+    When the walk halts because depth >= max_depth but intermediates remain (i.e.
+    it *wanted* to go deeper), a "depth_capped" string is returned as the error so
+    callers can record it.  Already-collected sections are still returned intact.
     """
     status, html, err = fetch(url)
     polite_sleep()
@@ -1504,19 +1517,31 @@ def collect_section_targets(url: str, label: str, slug: str, depth: int, max_dep
     sections, intermediates = extract_child_links(html, url)
     if sections:
         return sections, None
+    # Depth cap reached while intermediates still exist — this is a real truncation.
+    if intermediates and depth >= max_depth:
+        msg = f"depth_capped at {url} (depth={max_depth})"
+        log.warning("collect_section_targets: %s — sections below this level were NOT fetched", msg)
+        return [], msg
     # No leaf sections — try drilling intermediates (subchapter-*, etc.) up to depth
     if intermediates and depth < max_depth:
         all_secs: list[dict] = []
+        any_depth_capped: str | None = None
         for inter in intermediates:
             secs, ierr = collect_section_targets(inter["url"], inter["label"], inter["slug"], depth + 1, max_depth)
             if ierr:
-                log.info("    intermediate err: %s", ierr)
+                if ierr.startswith("depth_capped"):
+                    any_depth_capped = ierr  # bubble up so the top-level caller records it
+                else:
+                    log.info("    intermediate err: %s", ierr)
             all_secs.extend(secs)
         if all_secs:
             # Cross-page year duplicates can survive per-page dedup (e.g. a year
             # snapshot reached via one intermediate + the unversioned copy via
             # another). Collapse them once the whole walk is assembled.
-            return _dedupe_year_versions(all_secs), None
+            # Even if some branch was depth_capped, return what we got + the signal.
+            return _dedupe_year_versions(all_secs), any_depth_capped
+        if any_depth_capped:
+            return [], any_depth_capped
     # No children at all — the URL itself may be the leaf (IL-style)
     text = extract_section_text(html)
     if len(text) > 500:
@@ -1880,11 +1905,13 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--profession", required=True, help="Profession name from professions.yaml (e.g. 'podiatry')")
     ap.add_argument("--states", default="", help="Comma-separated subset of states; empty = all matching")
-    ap.add_argument("--limit-sections", type=int, default=500,
-                    help="Per-state section cap (default 500). RUNAWAY GUARD: a whole-title "
-                         "over-match (a profession mapped to a 2500-section state-government "
-                         "title) is capped + loudly FLAGGED instead of silently pulling thousands "
-                         "of sections. Pass 0 to disable, or a real chapter rarely exceeds 500.")
+    ap.add_argument("--limit-sections", type=int,
+                    default=load_limits()["pull"]["default_limit_sections"],
+                    help="Per-state section cap (default %(default)s, from config/limits.yaml). "
+                         "RUNAWAY GUARD: a whole-title over-match (a profession mapped to a "
+                         "2500-section state-government title) is capped + loudly FLAGGED instead "
+                         "of silently pulling thousands of sections. Pass 0 to disable, or a real "
+                         "chapter rarely exceeds 500.")
     ap.add_argument("--force", action="store_true",
                     help="Overwrite an existing committed corpus even if the new pull is worse "
                          "(fewer ok sections / collapsed text). Off by default so a Justia block "
