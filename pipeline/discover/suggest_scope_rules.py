@@ -36,6 +36,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Literal
 
+log = logging.getLogger(__name__)
+
 import anthropic
 from dotenv import load_dotenv
 from pydantic import BaseModel, field_validator, model_validator
@@ -387,6 +389,10 @@ def _build_user_prompt(state: str, anchors: list[dict]) -> str:
         lines.append(f"\n--- {s.get('label', 'Unknown')} ---")
         text = s.get("text", "")
         if len(text) > MAX_TEXT_PER_SECTION:
+            cut = len(text) - MAX_TEXT_PER_SECTION
+            log.warning("[%s] anchor section %r truncated at %d chars (dropped %d chars) — "
+                        "scope language past char %d is invisible to the LLM",
+                        state, s.get("label", "?"), MAX_TEXT_PER_SECTION, cut, MAX_TEXT_PER_SECTION)
             text = text[:MAX_TEXT_PER_SECTION] + "\n[...truncated...]"
         lines.append(text)
     lines.append("=" * 60)
@@ -594,7 +600,11 @@ def get_undetermined_with_text(
     excluded_slugs: set[str] | None = None,
 ) -> list[dict]:
     """Return non-narrow undetermined sections (excluding fully-undetermined
-    chapters that are already slated for exclusion) with their text."""
+    chapters that are already slated for exclusion) with their text.
+
+    Returns at most MAX_UNDET_IN_REFINEMENT entries (the cap for the refinement
+    LLM call). Use get_undetermined_not_reviewed() to get the full list of URLs
+    that were skipped by this cap."""
     excluded_slugs = excluded_slugs or set()
     undetermined_urls = {
         s["url"] for s in walker_result["sections"]
@@ -619,7 +629,34 @@ def get_undetermined_with_text(
                 "text": text[:MAX_TEXT_PER_UNDET] + ("…" if len(text) > MAX_TEXT_PER_UNDET else ""),
             })
 
-    return result[:MAX_UNDET_IN_REFINEMENT]
+    capped = result[:MAX_UNDET_IN_REFINEMENT]
+    skipped_count = len(result) - len(capped)
+    if skipped_count > 0:
+        log.warning("[%s] refinement pass capped at %d undetermined sections; "
+                    "%d section(s) not reconsidered — written to saved proposal as "
+                    "'undetermined_not_reviewed'",
+                    state, MAX_UNDET_IN_REFINEMENT, skipped_count)
+    return capped
+
+
+def get_undetermined_not_reviewed(
+    state: str,
+    walker_result: dict,
+    excluded_slugs: set[str] | None = None,
+) -> list[str]:
+    """Return the URLs of non-narrow undetermined sections that were NOT sent to the
+    refinement LLM (because the count exceeded MAX_UNDET_IN_REFINEMENT). These sections
+    remain undetermined and their law is invisible to the extractor. Written to the
+    saved proposal artifact as 'undetermined_not_reviewed' for operator awareness."""
+    excluded_slugs = excluded_slugs or set()
+    undetermined_urls = [
+        s["url"] for s in walker_result["sections"]
+        if s["scope_source"] == "undetermined"
+        and s["umbrella_chapter_slug"] not in excluded_slugs
+        and not NARROW_LABEL_HINTS.search(s.get("label", ""))
+    ]
+    # Preserve insertion order; only the tail beyond MAX_UNDET_IN_REFINEMENT was skipped.
+    return undetermined_urls[MAX_UNDET_IN_REFINEMENT:]
 
 
 # ---------------------------------------------------------------------------
@@ -764,11 +801,14 @@ def save_proposal(
     proposal: ScopeRulesProposal,
     walker_result: dict | None,
     n_undetermined: int = 0,
+    undetermined_not_reviewed: list[str] | None = None,
 ) -> Path:
     """Persist a validated proposal so a later --apply uses the exact rules the
     walker just checked (LLM generation is nondeterministic; apply must not
     re-roll). Stores the proposal plus the full validation record (status,
-    counts, undetermined count, and review-candidate chapters).
+    counts, undetermined count, review-candidate chapters, and the URLs of any
+    undetermined sections that were NOT sent to the refinement LLM because the
+    count exceeded MAX_UNDET_IN_REFINEMENT).
     """
     candidates = (
         sorted(detect_fully_undetermined_chapters(walker_result))
@@ -783,6 +823,7 @@ def save_proposal(
         "scope_source_counts": (walker_result or {}).get("scope_source_counts"),
         "n_undetermined": n_undetermined,
         "candidates": candidates,
+        "undetermined_not_reviewed": undetermined_not_reviewed or [],
         "proposal": proposal.model_dump(),
     }, indent=2))
     return out
@@ -909,12 +950,15 @@ def generate_validated_proposal(
     walker_result = run_walker_in_memory(state, proposal)
 
     n_undet = 0
+    not_reviewed: list[str] = []
     if walker_result is not None:
         undetermined = get_undetermined_with_text(state, walker_result)
         n_undet = len(undetermined)
         if n_undet > UNDETERMINED_THRESHOLD:
             if verbose:
                 print(f"  {n_undet} non-narrow undetermined sections — triggering refinement pass…")
+            # Capture URLs that won't make it into the refinement call (A3 visibility)
+            not_reviewed = get_undetermined_not_reviewed(state, walker_result)
             proposal = refine_llm(state, anchors, initial_response, undetermined, model=model)
             walker_result = run_walker_in_memory(state, proposal)
             n_undet = len(get_undetermined_with_text(state, walker_result)) if walker_result else 0
@@ -923,7 +967,8 @@ def generate_validated_proposal(
         elif verbose:
             print(f"  {n_undet} non-narrow undetermined — no refinement needed")
 
-    saved = save_proposal(state, proposal, walker_result, n_undet)
+    saved = save_proposal(state, proposal, walker_result, n_undet,
+                          undetermined_not_reviewed=not_reviewed)
     meta = load_proposal_meta(state)
     return GenerationResult(
         state=state,

@@ -19,6 +19,8 @@ from __future__ import annotations
 
 import argparse
 import json
+import logging
+import sys
 from pathlib import Path
 from typing import Literal
 
@@ -29,6 +31,8 @@ REPO = Path(__file__).resolve().parents[2]
 from pipeline._env import load_env
 load_env()
 from pipeline._llm import call_structured
+
+log = logging.getLogger(__name__)
 
 DATA_DIR = REPO / "pipeline" / "publish" / "web" / "public" / "data"
 OUT_DIR = REPO / "pipeline" / "config" / "field_semantics"
@@ -70,7 +74,12 @@ def field_inventory(profession: str):
     for f, vs in sorted(vals.items()):
         if len(vs) <= 1:
             continue  # uniform fields carry no similarity signal
-        inv.append({"field": f, "kind": kinds.get(f, "categorical"), "values": sorted(vs)[:12]})
+        all_vals = sorted(vs)
+        if len(all_vals) > 12:
+            log.warning("field %r has %d distinct values; capping LLM input at 12 "
+                        "(dropping %d tail values — semantics quality knob, not data loss)",
+                        f, len(all_vals), len(all_vals) - 12)
+        inv.append({"field": f, "kind": kinds.get(f, "categorical"), "values": all_vals[:12]})
     return d.get("display", profession), inv
 
 

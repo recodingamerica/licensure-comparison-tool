@@ -89,6 +89,7 @@ class StateCorpus:
     sections: list[Section] = field(default_factory=list)
     total_chars: int = 0
     errors: list[str] = field(default_factory=list)
+    section_cap_hit: int | None = None  # set to the cap value when --limit-sections fires
 
 
 # --- Cloudflare unblocker (opt-in, for Justia which now CF-blocks our IPs) ---
@@ -1937,6 +1938,7 @@ def main() -> None:
                 log.warning("  ⚠ [%s] hit the %d-section cap — likely a whole-title over-match; "
                             "FLAGGED for review (re-map to the specific chapter / section-scope, "
                             "don't trust this corpus)", state, section_cap)
+                corpus.section_cap_hit = section_cap
                 capped_states.append(state)
         except Exception as e:
             log.exception("[%s] unhandled", state)

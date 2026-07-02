@@ -158,6 +158,7 @@ def main() -> int:
                 log.warning("  ⚠ [%s/%s] hit the %d-section cap — likely a whole-title over-match; "
                             "FLAGGED for review (re-map to the specific chapter, don't trust this corpus)",
                             profession, state, section_cap)
+                corpus.section_cap_hit = section_cap
                 capped_states.append(f"{profession}/{state}")
         except Exception as e:  # noqa: BLE001 — never let one state kill the run
             log.exception("[%s/%s] unhandled", profession, state)

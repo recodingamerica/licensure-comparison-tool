@@ -90,7 +90,7 @@ def _sec_cite(s: dict) -> str:
     return str(s.get("citation") or s.get("id") or s.get("label") or "?")
 
 
-def _corpus_sample(profession: str, state: str) -> tuple[str, int]:
+def _corpus_sample(profession: str, state: str) -> tuple[str, int, int, bool]:
     """Build a REPRESENTATIVE view of the corpus, not just its front.
 
     A naive head-truncation flags false wrong_chapter whenever a large shared
@@ -99,48 +99,59 @@ def _corpus_sample(profession: str, state: str) -> tuple[str, int]:
     Dentistry; OR a couple giant VA 54.1 sections). So: (1) show the FULL list of
     section citations so a chapter that sorts last is still visible, and (2) take
     text evenly STRIDED across all sections so the sample spans the whole corpus.
-    Returns (sample_text, n_sections)."""
+    Returns (sample_text, n_sections_total, n_sections_sampled, sample_truncated)."""
     p = TEXT_DIR / profession / f"{state}.json"
     try:
         d = json.loads(p.read_text())
     except (OSError, json.JSONDecodeError):
-        return "", 0
+        return "", 0, 0, False
     secs = [s for s in (d.get("sections") or []) if isinstance(s, dict)]
     if not secs:
-        return "", 0
+        return "", 0, 0, False
     index = ", ".join(_sec_cite(s) for s in secs)[:6000]
     # Stride through sections so the char budget spreads across the corpus rather
     # than front-loading; always include the first section.
     budget = MAX_CHARS - len(index) - 200
     order = list(range(0, len(secs), max(1, len(secs) // 60))) if len(secs) > 60 else list(range(len(secs)))
     parts, used = [], 0
+    truncated = False
     for i in order:
         s = secs[i]
         body = (s.get("text") or "")[:2500]
         chunk = f"[{_sec_cite(s)}] {body}"
         if used + len(chunk) > budget:
+            truncated = True
             break
         parts.append(chunk)
         used += len(chunk)
     sample = f"Section citations present ({len(secs)} total): {index}\n\n--- sampled section bodies (spread across the corpus) ---\n" + "\n\n".join(parts)
-    return sample, len(secs)
+    return sample, len(secs), len(parts), truncated
 
 
 def audit_states(prof: str, states: list[str]) -> dict[str, dict]:
     """Verdict each state's committed corpus for `prof`. Importable so the harvest
-    (pull_all) can gate a fresh pull, not just the CLI. Returns {state: {verdict, reason}}."""
+    (pull_all) can gate a fresh pull, not just the CLI.
+    Returns {state: {verdict, reason, n_sections_total, n_sections_sampled, sample_truncated}}."""
     occ = _occupation_label(prof)
     results: dict[str, dict] = {}
     for st in states:
-        txt, _ = _corpus_sample(prof, st)
+        txt, n_total, n_sampled, truncated = _corpus_sample(prof, st)
+        meta = {
+            "n_sections_total": n_total,
+            "n_sections_sampled": n_sampled,
+            "sample_truncated": truncated,
+        }
         if len(txt.strip()) < 200:
-            results[st] = {"verdict": "empty_or_repealed", "reason": "corpus under 200 chars"}
+            results[st] = {"verdict": "empty_or_repealed", "reason": "corpus under 200 chars", **meta}
             continue
+        if truncated:
+            log.warning("[%s/%s] sample truncated at budget (%d/%d sections sampled) — verdict may miss unseen sections",
+                        prof, st, n_sampled, n_total)
         r = call_structured(model=MODEL, system=SYS, schema_cls=Verdict, embed_schema=True,
                             max_tokens=400, log_prefix=f"[{prof}/{st}]",
                             user=f"Occupation: {occ}\nState: {st}\n\n{txt}")
-        results[st] = ({"verdict": r.corpus_verdict, "reason": r.reason} if r
-                       else {"verdict": "CALL_FAILED", "reason": ""})
+        results[st] = ({**{"verdict": r.corpus_verdict, "reason": r.reason}, **meta} if r
+                       else {"verdict": "CALL_FAILED", "reason": "", **meta})
     return results
 
 

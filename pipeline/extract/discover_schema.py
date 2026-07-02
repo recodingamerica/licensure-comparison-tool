@@ -161,9 +161,12 @@ def main() -> None:
         sys.exit("ANTHROPIC_API_KEY not set")
 
     corpus, states = build_corpus(profession)
+    all_states = list(states)  # full list before sampling
+    states_excluded_count = 0
     if len(states) > args.max_states:
         log.info("sampling %d / %d states for schema discovery (corpus would be too large)",
                  args.max_states, len(states))
+        states_excluded_count = len(states) - args.max_states
         # Re-build corpus from first N states (alphabetical — consistent across runs)
         kept = set(states[:args.max_states])
         states_kept = []
@@ -192,9 +195,15 @@ def main() -> None:
 
     out_json = DISCOVERED_DIR / f"{profession}.json"
     out_md = DISCOVERED_DIR / f"{profession}.md"
-    out_json.write_text(schema.model_dump_json(indent=2))
+    # A5: embed sampling metadata so downstream readers know which states
+    # informed schema discovery (fields exclusive to excluded states are invisible).
+    schema_dict = json.loads(schema.model_dump_json())
+    schema_dict["states_sampled"] = sorted(states)
+    schema_dict["states_excluded_count"] = states_excluded_count
+    out_json.write_text(json.dumps(schema_dict, indent=2))
     write_markdown_preview(schema, out_md)
-    log.info("wrote %s (%d fields) and %s", out_json, len(schema.fields), out_md)
+    log.info("wrote %s (%d fields, %d states sampled, %d excluded) and %s",
+             out_json, len(schema.fields), len(states), states_excluded_count, out_md)
 
 
 if __name__ == "__main__":
