@@ -35,7 +35,7 @@ import sys
 from pipeline.paths import TEXT_DIR, LOGS_DIR, PROFESSION_INDEX_DIR
 from pipeline._records import record_files
 from pipeline._runlog import record_run
-from pipeline.config.loaders import load_limits
+from pipeline.config.loaders import load_limits, load_state_structure
 
 LOG_PATH = LOGS_DIR / "pull_text.log"
 LOGS_DIR.mkdir(parents=True, exist_ok=True)
@@ -1567,6 +1567,11 @@ def pull_state(state: str, profession: str, rows: list[dict], limit_sections: in
     corpus = StateCorpus(state=state, profession=profession)
     seen_section_urls: set[str] = set()
 
+    # Official-source dispatch is gated on the state's `source` flag (not just the
+    # URL) so removing a `source:` override in state_structure.yaml flips that
+    # state back to the Justia/CDP path — the Justia-only migration mechanism.
+    _source = (load_state_structure().get(state) or {}).get("source") or "justia"
+
     log.info("[%s] %d matching chapter rows", state, len(rows))
     for row in rows:
         url = row["chapter_url"]
@@ -1619,7 +1624,7 @@ def pull_state(state: str, profession: str, rows: list[dict], limit_sections: in
 
         # Nevada official source: one HTML page per chapter; parse sections out.
         # NV serves Word-export latin1 HTML, so decode bytes ourselves.
-        if is_nv_url(url):
+        if is_nv_url(url) and _source == "nv_official":
             status, raw, err = fetch_bytes(url)
             polite_sleep()
             if err or not raw or (status and not 200 <= status < 300):
@@ -1712,7 +1717,7 @@ def pull_state(state: str, profession: str, rows: list[dict], limit_sections: in
             _ps = pull_id(url)
         elif is_mo_url(url):
             _ps = pull_mo(url)
-        elif is_md_justia_url(url):
+        elif is_md_justia_url(url) and _source == "md_official":
             _ps = pull_md(url, limit_sections)
         elif is_ri_url(url):
             _ps = pull_ri(url)

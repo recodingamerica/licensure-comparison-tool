@@ -208,8 +208,8 @@ GOLDEN_COUNTS = {
     # rest of CO's classification is unchanged from the original golden.
     "CO": {"anchor_universal": 8, "universal": 23, "anchor_enumeration": 14, "inherited_enumeration": 20},
     "IA": {"anchor_enumeration": 2, "inherited_enumeration": 117, "anchor_universal": 1, "universal": 19},
-    "WI": {"anchor_enumeration": 6, "inherited_enumeration": 94},
-    "MO": {"inherited_enumeration": 44, "anchor_enumeration": 6},
+    "WI": {"anchor_enumeration": 17, "inherited_enumeration": 182},  # 2026-07-02 uncapped umbrella re-pull
+    "MO": {"inherited_enumeration": 170, "anchor_enumeration": 16},  # 2026-07-02 uncapped umbrella re-pull
     # Batch-applied 2026-05-27 from validated proposals (7 clean + 9 high-yield).
     "WV": {"anchor_universal": 4, "universal": 47, "undetermined": 1},
     "TN": {"inherited_enumeration": 106, "anchor_enumeration": 12},  # 2026-07-01: ch-1 uncapped 50->118 sections
@@ -224,14 +224,14 @@ GOLDEN_COUNTS = {
     "GA": {"anchor_universal": 4, "universal": 41},                          # +5 univ (ch-2 audit), 0 undet
     "SC": {"universal": 29, "anchor_universal": 1},
     "ID": {"undetermined": 3, "anchor_enumeration": 1, "inherited_enumeration": 6, "anchor_universal": 2, "universal": 12},
-    "TX": {"anchor_universal": 3, "universal": 55, "inherited_enumeration": 80},     # +80 enum (TX subtitle-a + ch-101 + ch-112 → health)
+    "TX": {"inherited_enumeration": 195, "anchor_universal": 14, "universal": 156},  # 2026-07-02 uncapped umbrella re-pull     # +80 enum (TX subtitle-a + ch-101 + ch-112 → health)
     "WA": {"inherited_enumeration": 72, "anchor_enumeration": 7, "universal": 21, "anchor_universal": 2},  # +45 enum (ch-18-130 health)
-    "MD": {"anchor_universal": 3, "universal": 55},                           # +8 univ (title-2-5 military), 0 undet
-    "OR": {"universal": 27, "inherited_enumeration": 47, "anchor_enumeration": 3},  # +25 univ (ch-670 generally), 0 undet
+    "MD": {"anchor_universal": 7, "universal": 74},  # 2026-07-02 uncapped umbrella re-pull                           # +8 univ (title-2-5 military), 0 undet
+    "OR": {"universal": 27, "inherited_enumeration": 131, "anchor_enumeration": 11},  # 2026-07-02 uncapped umbrella re-pull  # +25 univ (ch-670 generally), 0 undet
     "IN": {"universal": 345, "inherited_enumeration": 353, "anchor_enumeration": 15},  # 2026-07-01: article-0.5+1 uncapped 100->715 sections
     "MT": {"universal": 70, "anchor_universal": 6, "inherited_enumeration": 42},  # 2026-07-01: ch-1 uncapped 50->76 sections
     "CT": {"universal": 63, "anchor_universal": 3},                           # +25 univ (ch-141 + 414b), 0 undet
-    "NV": {"anchor_universal": 3, "universal": 37, "inherited_enumeration": 50},  # -27 undet (622a drop) +50 enum (ch-629 health)
+    "NV": {"anchor_universal": 2, "universal": 37, "inherited_enumeration": 70},  # 2026-07-02 uncapped umbrella re-pull  # -27 undet (622a drop) +50 enum (ch-629 health)
     "SD": {"universal": 45, "anchor_universal": 3, "inherited_enumeration": 26, "undetermined": 10},  # 2026-07-01: uncapped; ch-26b (10 sec) undetermined — needs manifest scope decision (U2)
 }
 

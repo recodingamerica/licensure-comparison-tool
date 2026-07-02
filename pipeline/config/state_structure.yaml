@@ -2938,7 +2938,7 @@ NV:
   # Justia is Cloudflare-blocked; NV serves one HTML page per NRS chapter.
   # Justia NV paths carry only the chapter (no title), so the template uses
   # {chapter}; pull_text.parse_nv_chapter_html splits the page into sections.
-  source: nv_official
+  # source: nv_official  — FLIPPED TO JUSTIA 2026-07-02 (Justia-only).
   # chapter_url_template retired 2026-07-01 (Justia-only decision): index carries Justia urls; pulls go via CDP/Justia.
 
 SD:
@@ -2981,7 +2981,8 @@ MD:
   # article code (business-occupations-and-professions→gbo, business-regulation→
   # gbr) and walks the GetNext API from {title}-101. MD licenses electrician
   # (gbo T6), plumbing (gbo T12), hvac (gbr T9A).
-  source: md_official
+  # source: md_official  — FLIPPED TO JUSTIA 2026-07-02 (Justia-only): MD justia is
+  # deeply nested (title>subtitle>section); depth-cap fix (max_depth 6) reaches leaves.
 
 RI:
   # webserver.rilegislature.gov (UTF-8). Chapter INDEX.HTM links one .htm per
