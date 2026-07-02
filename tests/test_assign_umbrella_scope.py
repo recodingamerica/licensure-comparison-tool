@@ -212,7 +212,7 @@ GOLDEN_COUNTS = {
     "MO": {"inherited_enumeration": 44, "anchor_enumeration": 6},
     # Batch-applied 2026-05-27 from validated proposals (7 clean + 9 high-yield).
     "WV": {"anchor_universal": 4, "universal": 47, "undetermined": 1},
-    "TN": {"inherited_enumeration": 47, "anchor_enumeration": 1},
+    "TN": {"inherited_enumeration": 106, "anchor_enumeration": 12},  # 2026-07-01: ch-1 uncapped 50->118 sections
     "NM": {"anchor_universal": 2, "universal": 43},
     "HI": {"anchor_universal": 3, "universal": 36, "inherited_enumeration": 4, "anchor_enumeration": 1},
     # Golden counts below were updated 2026-05-28 after adding per-state scope
@@ -228,11 +228,11 @@ GOLDEN_COUNTS = {
     "WA": {"inherited_enumeration": 72, "anchor_enumeration": 7, "universal": 21, "anchor_universal": 2},  # +45 enum (ch-18-130 health)
     "MD": {"anchor_universal": 3, "universal": 55},                           # +8 univ (title-2-5 military), 0 undet
     "OR": {"universal": 27, "inherited_enumeration": 47, "anchor_enumeration": 3},  # +25 univ (ch-670 generally), 0 undet
-    "IN": {"universal": 48, "inherited_enumeration": 44, "anchor_enumeration": 4},  # +48 univ (article-0.5), 0 undet
-    "MT": {"universal": 43, "anchor_universal": 5, "inherited_enumeration": 41},  # +41 enum (ch-2 health)
+    "IN": {"universal": 345, "inherited_enumeration": 353, "anchor_enumeration": 15},  # 2026-07-01: article-0.5+1 uncapped 100->715 sections
+    "MT": {"universal": 70, "anchor_universal": 6, "inherited_enumeration": 42},  # 2026-07-01: ch-1 uncapped 50->76 sections
     "CT": {"universal": 63, "anchor_universal": 3},                           # +25 univ (ch-141 + 414b), 0 undet
     "NV": {"anchor_universal": 3, "universal": 37, "inherited_enumeration": 50},  # -27 undet (622a drop) +50 enum (ch-629 health)
-    "SD": {"universal": 44, "anchor_universal": 3, "inherited_enumeration": 26},  # +7 univ + 26 enum (healing arts)
+    "SD": {"universal": 45, "anchor_universal": 3, "inherited_enumeration": 26, "undetermined": 10},  # 2026-07-01: uncapped; ch-26b (10 sec) undetermined — needs manifest scope decision (U2)
 }
 
 
