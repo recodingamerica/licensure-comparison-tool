@@ -46,10 +46,11 @@ TIMEOUT = 25
 # flipping pages every second. Each pause adds up to 60% random jitter so the
 # cadence is human-irregular rather than a steady machine-gun rhythm.
 import random as _random  # local alias; std random is allowed in pipeline code
+_DELAY_DEFAULT = str(load_limits()["fetch"]["per_host_delay_seconds"])
 try:
-    PER_HOST_DELAY = float(os.environ.get("PULL_HOST_DELAY", "1.2"))
+    PER_HOST_DELAY = float(os.environ.get("PULL_HOST_DELAY", _DELAY_DEFAULT))
 except ValueError:
-    PER_HOST_DELAY = 1.2
+    PER_HOST_DELAY = float(_DELAY_DEFAULT)
 
 
 def polite_sleep() -> None:

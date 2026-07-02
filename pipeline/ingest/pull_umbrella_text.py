@@ -19,12 +19,14 @@ import time
 
 from pipeline.paths import RESULTS_DIR, LOGS_DIR
 from pipeline.config.states import ALL_STATES
-from pipeline._fetch_config import PER_HOST_DELAY  # noqa: E402
 from pipeline.config.loaders import load_limits
 
-# Reuse the existing pull infrastructure
+# Reuse the existing pull infrastructure — including polite_sleep so umbrella
+# pulls honor the SAME env-aware, jittered per-host delay as pull_text (they
+# used to import a flat 0.3s constant from _fetch_config and fire way too fast,
+# risking a Cloudflare rate-block; see config/limits.yaml fetch.per_host_delay).
 from pipeline.ingest.pull_text import (  # noqa: E402
-    fetch, is_section_url, extract_section_text, collect_section_targets,
+    fetch, is_section_url, extract_section_text, collect_section_targets, polite_sleep,
 )
 
 # Number of section targets above which a WARNING is emitted so the operator
@@ -201,7 +203,7 @@ def pull_state_umbrella(state: str, force: bool, source_filter: str | None = Non
         for target in section_targets:
             sec_url = target["url"]
             status, html, err = fetch(sec_url)
-            time.sleep(PER_HOST_DELAY)
+            polite_sleep()
             if err or not html or (status and not 200 <= status < 300):
                 log.warning("    %s: %s", sec_url, err or f"http {status}")
                 continue
