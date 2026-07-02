@@ -32,11 +32,11 @@ LOG_PATH = LOGS_DIR / "pull_umbrella_text.log"
 LOGS_DIR.mkdir(parents=True, exist_ok=True)
 UMBRELLA_TEXT_DIR.mkdir(parents=True, exist_ok=True)
 
-# Cap per umbrella chapter — some states (IN) put thousands of leaf sections
-# under one "General Provisions" chapter. We only need the topmost sections
-# (definitions, board composition, fee rules) for context injection, not the
-# entire administrative code.
-MAX_SECTIONS_PER_CHAPTER = 50
+# No per-chapter section cap: the corpus on disk is the durable asset, so the
+# puller NEVER decides relevance or truncates. A huge chapter (IN article-0.5
+# declares 345 sections) is logged loudly so the operator can judge whether it's
+# really umbrella law — that judgment belongs to a human/agent at run time, not
+# to a number in this file. Over-pulling text is not a failure mode.
 
 logging.basicConfig(
     level=logging.INFO,
@@ -81,25 +81,6 @@ def select_umbrella_chapters(
             drop_log.append((slug, label, "no-label-match-and-not-blessed"))
 
     return kept, drop_log
-
-
-def _apply_cap(
-    section_targets: list[dict],
-    slug: str,
-    cap_hits: dict[str, dict],
-    cap: int = MAX_SECTIONS_PER_CHAPTER,
-) -> list[dict]:
-    """Apply per-chapter section cap. If the cap trips, records it in cap_hits
-    (mutates in place) and emits a WARNING. Returns the (possibly truncated) list."""
-    declared = len(section_targets)
-    if declared > cap:
-        log.warning(
-            "  cap hit for %s: declared %d -> keeping %d sections",
-            slug, declared, cap,
-        )
-        cap_hits[slug] = {"declared": declared, "kept": cap}
-        return section_targets[:cap]
-    return section_targets
 
 
 def pull_state_umbrella(state: str, force: bool, source_filter: str | None = None,
@@ -192,7 +173,6 @@ def pull_state_umbrella(state: str, force: bool, source_filter: str | None = Non
         )
 
     new_sections: list[dict] = []
-    cap_hits: dict[str, dict] = {}
     for ch in chapters_to_pull:
         url = ch["url"]
         label = ch.get("label", "")
@@ -206,7 +186,11 @@ def pull_state_umbrella(state: str, force: bool, source_filter: str | None = Non
             if err:
                 log.warning("  collect_section_targets error: %s", err)
 
-        section_targets = _apply_cap(section_targets, slug, cap_hits)
+        if len(section_targets) > 100:
+            # Not a cap — just make scale unmissable so the operator can judge
+            # whether this chapter is really umbrella law before an hours-long walk.
+            log.warning("  LARGE chapter: %d section targets for %s (%s) — pulling ALL of them",
+                        len(section_targets), slug, label[:60])
         log.info("  -> %d section targets", len(section_targets))
         for target in section_targets:
             sec_url = target["url"]
@@ -252,8 +236,6 @@ def pull_state_umbrella(state: str, force: bool, source_filter: str | None = Non
         "umbrella_chapter_count": len(chapters),
         "sections": all_sections,
     }
-    if cap_hits:
-        record["cap_hits"] = cap_hits
     out_path.write_text(json.dumps(record, indent=2))
     return record
 
