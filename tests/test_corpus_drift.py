@@ -48,11 +48,10 @@ class TestChapterKey:
 
 
 class TestOfficialSourceSkip:
-    def test_ny_is_skipped_ungated_justia_intercept(self):
-        # NY has source: justia + Justia index urls, but is_ny_justia_url routes to
-        # nysenate ungated — a re-pull never moves it to Justia, so it must be
-        # treated as intentional-official (skipped) to avoid a false HOST_DRIFT.
-        assert "NY" in cd._active_official_sources()
+    def test_ny_not_skipped_after_intercept_gated(self):
+        # NY's is_ny_justia_url intercept was gated on source == ny_official
+        # (NY flipped to Justia 2026-07-02), so NY is real drift again, not skipped.
+        assert "NY" not in cd._active_official_sources()
 
     def test_active_source_state_skipped_but_retired_not(self):
         got = cd._active_official_sources()

@@ -2126,6 +2126,11 @@ MS:
 # on 2026-06-30 with a Jul-1 re-expression TODO. See reference_wa_duplicate_key_bug.
 
 NY:
+  # FLIPPED TO JUSTIA 2026-07-02: is_ny_justia_url (nysenate OpenLegislation
+  # intercept) is now GATED on source == ny_official in pull_text, so source: justia
+  # pulls NY Education Law directly from Justia. Verified parity with nysenate first
+  # (psychology/NY: 9 Justia sections == 9 nysenate, identical §§7600-7608 + real
+  # text; medicine/NY 46 sections). Set source: ny_official to revert to nysenate.
   source: justia
   layout: chapter
   notes: |

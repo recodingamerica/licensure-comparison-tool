@@ -1709,7 +1709,10 @@ def pull_state(state: str, profession: str, rows: list[dict], limit_sections: in
             continue
 
         # New York: Justia url carries lawId+article; pull from OpenLegislation.
-        if is_ny_justia_url(url):
+        # Gated on source == ny_official (2026-07-02) so NY can flip to Justia like
+        # MD/NV — with source: justia (the default) this intercept is skipped and NY
+        # pulls directly from Justia. Set source: ny_official to keep nysenate.
+        if is_ny_justia_url(url) and _source == "ny_official":
             key = _ny_openleg_key()
             if not key:
                 corpus.errors.append("ny: NY_OPENLEG_KEY not set (sign up at legislation.nysenate.gov)")
