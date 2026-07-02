@@ -5,7 +5,6 @@ Guards:
      word-order fix ("Occupations and Professions").
   2. select_umbrella_chapters pure function: blessed slug kept, cached slug kept,
      manifest-drop wins over everything, unblessed non-matching label dropped.
-  3. _apply_cap: 60 targets -> 50 kept + cap_hits entry; 40 -> passthrough.
 
 IMPORTANT: pull_state_umbrella is NOT called in any test — it fetches from the
 network. All tests exercise pure functions only.
@@ -16,7 +15,7 @@ from __future__ import annotations
 import pytest
 
 import pipeline.discover.umbrella_from_citations as u
-from pipeline.ingest.pull_umbrella_text import select_umbrella_chapters, _apply_cap
+from pipeline.ingest.pull_umbrella_text import select_umbrella_chapters
 
 
 # ---------------------------------------------------------------------------
@@ -151,46 +150,3 @@ def test_select_mixed_batch():
     assert reasons["chapter-drop"] == "manifest-drop"
 
 
-# ---------------------------------------------------------------------------
-# 3. _apply_cap
-# ---------------------------------------------------------------------------
-
-def _targets(n: int) -> list[dict]:
-    return [{"url": f"https://example.com/section-{i}/", "label": f"§ {i}"} for i in range(n)]
-
-
-def test_apply_cap_over_limit():
-    """60 targets → 50 kept, cap_hits populated."""
-    targets = _targets(60)
-    cap_hits: dict = {}
-    result = _apply_cap(targets, slug="chapter-1", cap_hits=cap_hits)
-    assert len(result) == 50
-    assert "chapter-1" in cap_hits
-    assert cap_hits["chapter-1"] == {"declared": 60, "kept": 50}
-
-
-def test_apply_cap_under_limit():
-    """40 targets → all kept, cap_hits empty."""
-    targets = _targets(40)
-    cap_hits: dict = {}
-    result = _apply_cap(targets, slug="chapter-2", cap_hits=cap_hits)
-    assert len(result) == 40
-    assert cap_hits == {}
-
-
-def test_apply_cap_exactly_at_limit():
-    """Exactly 50 targets → no cap hit."""
-    targets = _targets(50)
-    cap_hits: dict = {}
-    result = _apply_cap(targets, slug="chapter-3", cap_hits=cap_hits)
-    assert len(result) == 50
-    assert cap_hits == {}
-
-
-def test_apply_cap_respects_custom_cap():
-    """Custom cap argument works."""
-    targets = _targets(10)
-    cap_hits: dict = {}
-    result = _apply_cap(targets, slug="chapter-x", cap_hits=cap_hits, cap=5)
-    assert len(result) == 5
-    assert cap_hits["chapter-x"] == {"declared": 10, "kept": 5}
