@@ -224,8 +224,15 @@ def _get_browser_page():
             pw = sync_playwright().start()
             browser = pw.chromium.connect_over_cdp(cdp)
             ctx = browser.contexts[0] if browser.contexts else browser.new_context()
-            page = ctx.pages[0] if ctx.pages else ctx.new_page()
-            _BROWSER = {"pw": pw, "browser": browser, "ctx": ctx, "page": page, "cdp": True}
+            # Always open OUR OWN dedicated tab — never reuse ctx.pages[0]. That tab
+            # is often a chrome:// page (newtab, or whats-new after an auto-update),
+            # and page.goto() from a chrome:// URL to an https Justia URL hangs the
+            # whole pull (no error, no timeout escape — the classic "wedge"). It also
+            # hijacked/closed the user's visible tab. A fresh new_page() starts at
+            # about:blank (navigates cleanly) and shares the context's cf_clearance
+            # cookie, so nothing is lost. We close it on exit.
+            page = ctx.new_page()
+            _BROWSER = {"pw": pw, "browser": browser, "ctx": ctx, "page": page, "cdp": True, "own_page": True}
             atexit.register(_close_browser)
             return page
         try:
@@ -255,9 +262,15 @@ def _close_browser() -> None:
     global _BROWSER
     if _BROWSER:
         try:
-            # Don't close the user's real Chrome when attached over CDP — just
-            # detach. Only close browsers WE launched.
-            if not _BROWSER.get("cdp"):
+            # Over CDP: don't close the user's real Chrome — but DO close the
+            # dedicated tab we opened, so tabs don't pile up across pulls.
+            if _BROWSER.get("cdp"):
+                if _BROWSER.get("own_page"):
+                    try:
+                        _BROWSER["page"].close()
+                    except Exception:
+                        pass
+            else:
                 _BROWSER["browser"].close()
             _BROWSER["pw"].stop()
         except Exception:
