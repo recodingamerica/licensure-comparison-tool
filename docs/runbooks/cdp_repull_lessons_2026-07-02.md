@@ -84,6 +84,53 @@ at startup and the run aborts loudly if it fails.
 - `git diff --stat pipeline/results/` after a `match_profession` run must be
   EMPTY (byte-identical) — the reproducibility gate.
 
+## `refresh_corpus` — the durable, tested re-pull (supersedes the throwaways)
+
+`pipeline/ingest/refresh_corpus.py` folds every lesson above into a tested command.
+It **replaces** `.scratch/overnight_repull.py` and the `_cdp_*` batch drivers — those
+can now be deleted.
+
+```
+python -m pipeline.ingest.refresh_corpus --profession X [--states A,B]
+       [--all-professions] [--force] [--report-only]
+       [--run-id ID] [--item-timeout SECONDS] [--breaker N]
+```
+
+It re-pulls the FROZEN url map (`results/profession_index/<prof>.json`) via
+pull_text's `pull_state` (it does NOT reimplement fetching) and gates every commit:
+
+- **Chrome-live precheck** (once at start, over CDP — the `/json/version` endpoint
+  lies). Dead/challenged Chrome ⇒ abort before pulling.
+- **Per-chapter completeness** (the gap fix): the all-or-nothing guard only refuses a
+  *totally* empty pull. refresh_corpus attributes each section to its mapped chapter
+  (canonical-path prefix; single-chapter states attribute all sections to that
+  chapter, covering official-source url-rewrites) and if ANY declared chapter came
+  back with 0 sections it records `PARTIAL` and reverts — never commits a partial.
+- **Real-fetch detection**: `git diff --quiet` the corpus. Unchanged after a re-pull
+  ⇒ `NOCHANGE` (Chrome down/wedged, or already complete) — NOT counted as success.
+- **Mid-run CDP-death resilience**: a pull that raises a CDP/connection error
+  re-checks Chrome; recovered ⇒ retry the item ONCE; still dead ⇒ abort the whole run
+  loudly. A per-item wall-clock timeout (`--item-timeout`, default 2400s) stops a
+  genuine hang from wedging the run forever.
+- **Circuit breaker**: `--breaker` (default 3) consecutive non-productive results ⇒
+  abort (Chrome likely died).
+- **Per-item commit** (`git add <file>`, never `-A`), message naming prof/state +
+  old→new section counts.
+- Writes a status JSON (`results/refresh_status_<run-id>.json`).
+
+### The year-over-year diff report (recodification detection)
+
+After a run (and via `--report-only`, which rebuilds from the last status without
+fetching), it writes `docs/reports/refresh_diff_<runid>.md`, comparing each re-pulled
+corpus against its **pre-refresh committed** version (`git show HEAD:<file>` captured
+BEFORE the item commits). Severity buckets:
+
+- **likely recodification (chapter vanished)** — a chapter present last year is absent
+  now (renumbered/repealed). **Needs human eyes.**
+- **suspicious shrink (chapter dropped >30%)** — a chapter lost most of its sections.
+- **grew** — more sections / a new chapter appeared (benign).
+- **minor delta** / **no change** — noise.
+
 ## Golden tests move with the data
 
 `tests/test_assign_umbrella_scope.py` GOLDEN_COUNTS freeze per-state scope
