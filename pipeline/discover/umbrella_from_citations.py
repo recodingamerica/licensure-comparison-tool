@@ -31,6 +31,7 @@ import urllib.parse as up
 
 from pipeline.paths import HIERARCHY_DIR, RESULTS_DIR
 from pipeline.eval.corpus_status import umbrella_candidates
+from pipeline.config.loaders import load_limits
 
 UMBRELLA_DIR = RESULTS_DIR / "umbrella_chapters"
 
@@ -137,10 +138,13 @@ def merge_into_umbrella_chapters(result: dict[str, dict]) -> dict[str, int]:
 
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--min-refs", type=int, default=5,
-                    help="min times a chapter is cited within ONE corpus to count (audit threshold)")
-    ap.add_argument("--min-profs", type=int, default=3,
-                    help="only chapters shared by >= this many professions in a state (the real umbrellas)")
+    _lim = load_limits()["umbrella_from_citations"]
+    ap.add_argument("--min-refs", type=int, default=_lim["min_refs"],
+                    help="min times a chapter is cited within ONE corpus to count (audit threshold; "
+                         "default %(default)s from config/limits.yaml)")
+    ap.add_argument("--min-profs", type=int, default=_lim["min_profs"],
+                    help="only chapters shared by >= this many professions in a state (the real umbrellas; "
+                         "default %(default)s from config/limits.yaml)")
     ap.add_argument("--write", action="store_true", help="merge the pull-list into umbrella_chapters/")
     args = ap.parse_args()
 

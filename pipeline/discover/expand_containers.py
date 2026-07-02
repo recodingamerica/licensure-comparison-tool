@@ -32,6 +32,7 @@ load_env()
 
 from pipeline.paths import HIERARCHY_DIR as HIER_DIR
 from pipeline.ingest import pull_text as pt
+from pipeline.config.loaders import load_limits
 
 ALL_STATES = ("AK AL AR AZ CA CO CT DE FL GA HI IA ID IL IN KS KY LA MA MD ME MI "
               "MN MO MS MT NC ND NE NH NJ NM NV NY OH OK OR PA RI SC SD TN TX UT "
@@ -159,9 +160,11 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--states", default="")
     ap.add_argument("--force", action="store_true")
-    ap.add_argument("--max-depth", type=int, default=2,
-                    help="how deep to recurse: 1 = chapters→parts only; 2 (default) = also "
-                         "expand generic grouping parts (Insurance Adjusters, …Agents) to sections")
+    ap.add_argument("--max-depth", type=int,
+                    default=load_limits()["expand_containers"]["max_depth"],
+                    help="how deep to recurse: 1 = chapters→parts only; 2 (default, from "
+                         "config/limits.yaml) = also expand generic grouping parts "
+                         "(Insurance Adjusters, …Agents) to sections")
     args = ap.parse_args()
     states = [s.strip().upper() for s in args.states.split(",") if s.strip()] or ALL_STATES
     total = 0

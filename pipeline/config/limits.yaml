@@ -1,0 +1,95 @@
+# pipeline/config/limits.yaml
+#
+# SINGLE HOME for every number that decides what data is fetched, kept, or
+# shown to an LLM.  Changing a value here changes behavior everywhere it is
+# wired.  Caps that DROP data must also record a marker in their artifact
+# (see the silent-caps audit in tests/test_silent_caps_audit.py).
+
+trim:
+  # pipeline/ingest/trim_state.py — SECTION_TEXT_CAP
+  # Truncates each section's text before feeding to the LLM trim classifier.
+  # Sections over this limit are kept unconditionally (see rule A1 in trim_state).
+  section_text_cap: 6000
+
+pull:
+  # pipeline/ingest/pull_text.py — collect_section_targets max_depth default
+  # Maximum recursion depth when walking a chapter page down to leaf sections.
+  # Old value was 2; raised to 6 so chapters nested deeper than 2 levels
+  # (chapter→subchapter→sub-subchapter→sections) are fully collected instead of
+  # silently truncated.  The walk still terminates naturally when a level yields
+  # leaf sections or nothing.  A depth_capped error is recorded when the cap bites.
+  section_walk_max_depth: 6
+
+  # pipeline/ingest/pull_text.py — --limit-sections CLI default
+  # Per-state section cap (runaway guard).  A whole-title over-match (a profession
+  # mapped to a 2500-section state-government title) is capped + flagged instead of
+  # silently pulling thousands of sections.  Pass 0 to disable.
+  # Real profession chapters rarely exceed 500.
+  default_limit_sections: 500
+
+expand_containers:
+  # pipeline/discover/expand_containers.py — --max-depth CLI default
+  # How deep expand_containers recurses: 1 = chapters→parts only;
+  # 2 (default) = also expand generic grouping parts to sections.
+  max_depth: 2
+
+audit_corpus:
+  # pipeline/discover/audit_corpus.py — MAX_CHARS
+  # Character budget for the per-state corpus audit snapshot shown to the operator.
+  sample_max_chars: 30000
+
+gen_semantics:
+  # pipeline/analyze/gen_semantics.py — inline cap of 12 (no named constant)
+  # Maximum distinct field values sent to the LLM for semantic-label generation.
+  # Tail values beyond this limit are dropped (logged as WARNING; not data loss
+  # for the final output, only for label-generation input quality).
+  max_values: 12
+
+discover_schema:
+  # pipeline/extract/discover_schema.py — --max-states CLI default
+  # Maximum number of states whose corpora are sampled when discovering the
+  # extraction schema.  Extra states are excluded (logged).
+  max_states: 10
+
+scope_rules:
+  # pipeline/discover/suggest_scope_rules.py — MAX_TEXT_PER_SECTION
+  # Characters of each section's text sent to the LLM scope-rules proposer.
+  max_text_per_section: 2000
+
+  # pipeline/discover/suggest_scope_rules.py — MAX_TEXT_PER_UNDET
+  # Characters of each undetermined section's text sent in the refinement pass.
+  max_text_per_undetermined: 500
+
+  # pipeline/discover/suggest_scope_rules.py — MAX_UNDET_IN_REFINEMENT
+  # Maximum undetermined sections included in the refinement message.
+  # Sections beyond this limit are skipped (recorded in the result artifact).
+  max_undetermined_in_refinement: 10
+
+umbrella:
+  # pipeline/ingest/pull_umbrella_text.py — the > 100 LARGE-chapter warning
+  # When a chapter walk returns more than this many section targets, a WARNING
+  # is emitted so the operator can judge whether the chapter is genuine umbrella
+  # law before committing to a long pull.  Not a cap — all sections are pulled.
+  large_chapter_warn_threshold: 100
+
+umbrella_from_citations:
+  # pipeline/discover/umbrella_from_citations.py — --min-refs CLI default
+  # A chapter must be cited at least this many times across corpora to be
+  # considered a candidate umbrella chapter.
+  min_refs: 5
+
+  # pipeline/discover/umbrella_from_citations.py — --min-profs CLI default
+  # A chapter must be cited by at least this many distinct professions to pass
+  # the two-factor umbrella filter (cited AND umbrella-labeled).
+  min_profs: 3
+
+# ---------------------------------------------------------------------------
+# Intentionally NOT here (pure mechanics, don't shape data):
+#   PER_HOST_DELAY / PULL_HOST_DELAY  — polite crawl delay, lives in _env.py
+#   retry counts (MAX_RETRIES in trim_state.py, fetch retry in _fetch.py)
+#   chunk/batch sizes (LLM batch page sizes in _batch.py, _llm.py)
+#   pagination limits (hierarchy page walk in build_hierarchy.py)
+#   LLM output token budgets (MAX_TOKENS in suggest_scope_rules.py, gen_semantics.py)
+# These are operational/mechanical constants that don't determine what data
+# survives or is seen by an LLM; they live at their respective call sites.
+# ---------------------------------------------------------------------------

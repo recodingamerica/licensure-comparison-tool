@@ -40,12 +40,13 @@ from pipeline._records import record_files
 from pipeline._runlog import record_run
 from pipeline.paths import CLEAN_DIR, TRIMMED_DIR, LOGS_DIR
 from pipeline.ingest._trim_health import LLM_FAIL_REASON
+from pipeline.config.loaders import load_limits
 
 LOG_PATH = LOGS_DIR / "trim_state.log"
 LOGS_DIR.mkdir(parents=True, exist_ok=True)
 
 DEFAULT_MODEL = "claude-haiku-4-5-20251001"
-SECTION_TEXT_CAP = 6000  # truncate any one section's text fed to the LLM (chars)
+SECTION_TEXT_CAP = load_limits()["trim"]["section_text_cap"]  # truncate any one section's text fed to the LLM (chars)
 MAX_RETRIES = 2
 
 logging.basicConfig(
