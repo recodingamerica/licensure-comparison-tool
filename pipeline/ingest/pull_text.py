@@ -232,8 +232,25 @@ def _get_browser_page():
             # about:blank (navigates cleanly) and shares the context's cf_clearance
             # cookie, so nothing is lost. We close it on exit.
             page = ctx.new_page()
+            # Self-heal leaked tabs: a prior pull killed by `timeout`/SIGTERM never
+            # runs its atexit cleanup, so its Justia tab lingers. Close any OTHER
+            # Justia tabs now (the debug profile isn't used for browsing, and the
+            # flock guarantees no concurrent pull owns one). Keeps Chrome from
+            # accumulating dozens of tabs across a long harvest.
+            for _p in list(ctx.pages):
+                if _p is not page and "justia.com" in (_p.url or ""):
+                    try:
+                        _p.close()
+                    except Exception:
+                        pass
             _BROWSER = {"pw": pw, "browser": browser, "ctx": ctx, "page": page, "cdp": True, "own_page": True}
             atexit.register(_close_browser)
+            # Also close our own tab on SIGTERM (timeout-kill) — atexit doesn't run then.
+            try:
+                import signal
+                signal.signal(signal.SIGTERM, lambda *_a: (_close_browser(), os._exit(143)))
+            except Exception:
+                pass
             return page
         try:
             from patchright.sync_api import sync_playwright
