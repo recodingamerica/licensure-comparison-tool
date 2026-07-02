@@ -45,19 +45,20 @@ from pipeline.config.loaders import load_state_structure
 
 # States whose Justia index url is intercepted to an official source by an
 # UNGATED pull_text rule (keys off the Justia url itself, ignores `source:`), so
-# their corpus is on an official host BY DESIGN even though source == justia and
-# a re-pull can never move them to Justia. NY: is_ny_justia_url -> nysenate
-# OpenLegislation API (pull_text.py ~L1712). MT/MD's Justia intercepts are gated
-# or already carry a source: key, so they're covered by _active_official_sources.
-_UNGATED_JUSTIA_INTERCEPTS = frozenset({"NY"})
+# a re-pull can never move them to Justia. Empty since 2026-07-02: NY's
+# is_ny_justia_url intercept was GATED on source == ny_official (NY flipped to
+# Justia after verifying parity with nysenate), and MT's is_mt_justia_url is
+# covered by MT's active source: key. Kept as the documented hook for any future
+# ungated Justia-url intercept.
+_UNGATED_JUSTIA_INTERCEPTS = frozenset()
 
 
 def _active_official_sources() -> set[str]:
     """States whose corpus is on an official host BY DESIGN — a re-pull won't move
     them to Justia, so a host mismatch there is NOT drift. Two kinds:
       * an ACTIVE (uncommented) non-justia `source:` handler (a retired/commented
-        source like MN/UT/MD/NV is NOT here, so those flip back to real detection);
-      * an ungated Justia-url intercept in pull_text (NY -> nysenate)."""
+        source like MN/UT/MD/NV/NY is NOT here, so those flip back to real detection);
+      * an ungated Justia-url intercept in pull_text (currently none)."""
     ss = load_state_structure()
     keyed = {st for st, blk in ss.items()
              if isinstance(blk, dict) and (blk.get("source") or "justia") != "justia"}
