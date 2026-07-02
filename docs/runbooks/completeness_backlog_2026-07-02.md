@@ -63,23 +63,41 @@ host — cosmetic, normalize by prepending `https://law.justia.com`); **~24 are
 genuinely official** and need a hand-derived + leaf-verified Justia equivalent
 (NOT auto-convertible — see feedback_automated_mapping_fragile):
 
-- **MN — 9** (`revisor.mn.gov/statutes/cite/<chap>`). TRACTABLE: MN is chapter-based,
-  maps to `law.justia.com/codes/minnesota/.../chapter-<chap>`. Do first.
-- **MI — 7-8** (`legislature.mi.gov/.../mcl-368-1978-15-<sec>`). HARDER: MCL
-  section objects don't map 1:1 to Justia's structure; verify leaf text like MD.
-- **UT — 4** (`le.utah.gov`) · **AZ — 2** (`azleg.gov`) · **FL — 1** · **MO — 1**.
+- **MN — 9 — DONE 2026-07-02.** Justia MN is RANGE-GROUPED not year-versioned:
+  `law.justia.com/codes/minnesota/chapters-{LO}-{HI}/chapter-{N}/`. 147/147A/148/
+  150A/153 in `144-159`; 326A in `324-342`. Ch 148 shared by chiro/nursing/
+  optometry/dietetics — kept explicit section_url_lists (converted from revisor
+  cites, intersected with Justia's live 148 sections; repealed auto-dropped). All
+  9 re-pulled + committed.
+- **UT / AZ / FL / MO — DONE 2026-07-02.** UT `title-58/chapter-55` (parts;
+  source: utah_le retired), AZ `title-32` + `section_slug_pattern ^section-32-11..`
+  (contractors §§32-1101..1188), FL `chapter-489/part-i`, MO `chapter-341` (no-year).
+  AZ/FL/MO were already source:justia — only the pinned trade URLs changed.
+- **MI — 7 — STILL OPEN. The hard one.** (`legislature.mi.gov/.../mcl-368-1978-15-
+  <part>`) MCL Part-objects don't map 1:1 to Justia's structure; leaf-verify like MD.
+  May not be cleanly flippable — MI = Compiled Laws Chapter 333, parts are section
+  ranges (333.166xx etc.). Dentistry 166 / Medicine 170 / Nursing 172 / Optometry
+  174 / Podiatry 180 / Dietetics 183A + Accountancy (Occupational Code Art 7).
 
 Mechanism (per state, one at a time): comment the `source:` flag (or clear the
 official `section_url_list`), re-map the official URLs to Justia in state_structure
-/ mapping_overrides, re-run `match_profession`, VERIFY leaf text exists on Justia
-(the MD check: fetch a section, confirm >200 chars real statute), then
+/ mapping_overrides, re-run `match_profession`, **leaf-verify with
+`python -m pipeline.eval.verify_urls --url <justia-url>` (must return LIVE)**, then
 `refresh_corpus --profession X --states ST`. The per-chapter completeness gate +
 overwrite-guard protect existing data if Justia comes up thin — do NOT `--force`.
 
-Also: the ~86 relative-`/codes/` URLs should be normalized to absolute Justia
-(prepend the host) so the index is uniformly `law.justia.com`.
+Also: the ~42 relative-`/codes/` URLs should be normalized to absolute Justia
+(prepend the host) — BUT verify first whether a relative URL actually FAILS a
+re-pull (no host) rather than assuming it's only cosmetic.
+
+**Downstream still owed (LLM):** clean→trim→extract→republish the flipped corpora
+(MN 7 published profs; UT/AZ/FL/MO trades). Not user-visible until done.
 
 **PA stays official** — genuinely not on Justia (the one documented exception).
+
+**Leaf-verify is now a tool:** `pipeline/eval/verify_urls.py` (LLM-free,
+LIVE/STUB/DEAD_404/CHALLENGE). HTTP 200 is meaningless on Justia — a wrong URL form
+returns 200 + a not-found shell. Gate every new/changed Justia mapping through it.
 
 ## Housekeeping — vestigial source flags
 

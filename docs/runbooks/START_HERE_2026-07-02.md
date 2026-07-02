@@ -1,73 +1,63 @@
-# START HERE — next session (handoff 2026-07-02)
+# START HERE — next session (handoff 2026-07-02, updated PM)
 
-Tree is clean, 513 tests green, everything committed. This is a safe cold-start.
+Tree is clean, full suite green (532+), everything committed. Safe cold-start.
 
-## What got done this session (context, not TODO)
+## The "everything-except-PA to Justia" flip is nearly done
 
-- **Caps eliminated.** 30-corpus uncapped re-pull: umbrella section-cap removed,
-  fetch depth 2→6 (`depth_capped` marker), throttle unified to 3s+jitter in
-  `config/limits.yaml`. No cap/guard/depth truncation remains on disk.
-- **MD/NV flipped to Justia** (source-gated dispatch) + verified full text.
-- **9 empty corpora filled** from Justia (WA×5, CT×3, MD×1).
-- **`refresh_corpus` built** — the durable annual re-pull tool (per-chapter
-  completeness, auto-update resilience, year-over-year recodification diff).
-  It SUPERSEDES `.scratch/overnight_repull.py` and the `_cdp_*` batch drivers.
-- Tab-leak fixed (self-heal + SIGTERM). Audits + runbooks committed.
+- **MN — DONE.** 9 professions re-pulled from Justia + committed. Justia MN is
+  RANGE-GROUPED not year-versioned: `/codes/minnesota/chapters-{LO}-{HI}/chapter-
+  {N}/section-{N}-{sub}/` (147/147A/148/150A/153 in `144-159`, 326A in `324-342`).
+  Ch 148 is shared by chiro/nursing/optometry/dietetics — kept explicit
+  `section_url_list`s (converted from revisor cites, intersected with Justia's live
+  148 sections; repealed auto-dropped).
+- **UT / AZ / FL / MO trades — DONE.** UT `title-58/chapter-55` (parts; source:
+  utah_le retired) + 58-1 umbrella on all 4 trades; AZ `title-32` +
+  `section_slug_pattern` (contractors §§32-1101..1188); FL `chapter-489/part-i`;
+  MO `chapter-341` (no-year). Every url leaf-verified LIVE via `verify_urls` first.
+- **MI — STILL OPEN. The one hard remainder** (7 chapters, MCL Part-objects:
+  `mcl-368-1978-15-<part>`; MI = Compiled Laws Ch 333, parts are section ranges).
+  May not be cleanly flippable. PA stays official (the one documented exception).
 
-## THE ACTIVE GOAL: everything except PA on Justia
+## Two new LLM-free tools (built this session)
 
-Precise worklist in `completeness_backlog_2026-07-02.md` §Priority-5. It's **24
-genuinely-official URLs** to convert (NOT auto — hand-derive + leaf-verify each,
-per `feedback_automated_mapping_fragile`):
+- **`pipeline.eval.verify_urls`** — URL health probe (`LIVE|STUB|DEAD_404|CHALLENGE`).
+  HTTP 200 is meaningless on Justia; this is the leaf-verify GATE as a command.
+  Gate every new/changed Justia mapping through it. 8 tests.
+- **`pipeline.eval.corpus_drift`** — flags committed corpora that silently diverged
+  from their index mapping (HOST_DRIFT / EXTRA_CHAPTER / MISSING_CHAPTER). Skips
+  active official-source states. Run in preflight/CI. 11 tests.
+- **`refresh_corpus` EMPTY→DEAD split** — on a 0-section pull it now probes the
+  chapter url and returns `DEAD` (bad link, `url_health` set) vs `EMPTY` (live page,
+  scoping miss) instead of a silent EMPTY.
 
-| State | count | difficulty | notes |
-|---|---|---|---|
-| **MN** | 9 | tractable — DO FIRST | `revisor.mn.gov/cite/147` → Justia `chapter-147` (chapter-based; ch.148 is shared) |
-| **MI** | 7-8 | hard | MCL section objects, no 1:1 Justia map — verify leaf text like MD |
-| UT | 4 | small | `le.utah.gov` |
-| AZ | 2 | small | `azleg.gov` |
-| FL / MO | 1 each | small | |
+## ⭐ The big finding: corpus-level flip is only ~partly done
 
-Per-state recipe (one state at a time, ONE scraper):
-1. Comment the `source:` flag / clear the official `section_url_list` in
-   `state_structure.yaml`.
-2. Re-map the official URLs to their Justia equivalents (state_structure or
-   mapping_overrides.yaml).
-3. `match_profession --profession X` (or all); confirm the index nodes are now
-   `law.justia.com`.
-4. **Leaf-verify** (the MD check): fetch one section via CDP, confirm >200 chars
-   of real statute text — Justia must actually HAVE the law before flipping.
-5. `refresh_corpus --profession X --states ST` — **NOT `--force`** (the
-   per-chapter completeness gate + overwrite-guard protect existing data if
-   Justia comes up thin).
-6. Also normalize the ~86 relative `/codes/...` index URLs to absolute
-   `https://law.justia.com` (cosmetic, uniform).
+`corpus_drift` first run: **227 drifted (prof,state), 97 HOST_DRIFT — NV (40),
+MD (30), NY (25).** These states' INDEXES were bulk-flipped to Justia (Jul-1
+template retirement + MD/NV source retirement) but their CORPORA were never
+re-pulled — ~95 stale official-source corpora silently answering a Justia mapping.
+**This is the true remaining scope of "everything→Justia."** It's a large CDP
+re-pull + extract job. Re-generate the list: `python -m pipeline.eval.corpus_drift
+--host-drift-only`. (The 89 same-host EXTRA_CHAPTER cases are mostly stale umbrellas
+/ dropped chapters — lower priority; review before re-pulling.)
 
-**PA stays official** — the one documented exception (not on Justia).
+## Downstream still owed (LLM cost — needs go-ahead)
 
-## Other completeness axes (same backlog doc, lower priority)
+clean→trim→extract→republish the flipped corpora (MN's 7 published profs;
+UT/AZ/FL/MO trades). Nothing is user-visible until this runs. Per the re-extract
+gotcha, run pull→clean→trim→extract in full (skipping clean silently uses stale text).
 
-- **P2 — 63 thin corpora** (≤2 sections): `audit_corpus` triage (wrong-chapter vs
-  correct-short) before re-pull. Includes the 2 new thin CT fills from today
-  (athlete_agent CT=2, public_adjuster CT=4).
-- **P3 — umbrella backlog** (CO-heavy: 12-240/12-5/12-29/12-43/24-1/22-219/12-280,
-  + MS/RI/ND/TN/AR/WY): `umbrella_from_citations` → `pull_umbrella_text`.
-- **P4 — section-nested professions**: `expand_containers` → `match_sections`.
+## Other queued non-LLM
 
-## Queued config hygiene (from the audits, no Chrome needed)
-
-- `config/models.yaml` — 16 hardcoded model IDs → one file (`hardcoded_config_audit`).
-- `limits.yaml` threshold sweep — P3/P4 from `silent_caps_audit` (similarity /
-  corpus-health cutoffs) + unify the 3 runaway-guard values.
-- **Delete** `.scratch/overnight_repull.py` + `_cdp_*` batch drivers (superseded
-  by refresh_corpus) — deferred diet items.
-- Fix: `refresh_corpus` status JSON doesn't record per-item detail (cosmetic; the
-  commits + diff report are the real record).
+- MI flip (above). Relative `/codes/` index URLs: 42 total, mostly redundant
+  siblings, but **public_adjuster/MD is empty + hostless + section-nested** — a real
+  gap. Root is likely `probe_justia.links()` storing code-relative hrefs.
+- config hygiene: models.yaml (16 ids), limits.yaml threshold sweep, delete
+  superseded `.scratch/_cdp*` drivers.
 
 ## Before ANY harvest — read first
 
-`docs/runbooks/cdp_repull_lessons_2026-07-02.md`. Non-negotiables: ONE scraper
-(flock); start a debug Chrome, clear the challenge once (`127.0.0.1:9222`);
-`refresh_corpus` is the tool now; don't run two committing processes at once
-(git index.lock); faulthandler traceback (`kill -ABRT`) is the definitive
-wedge-check.
+`docs/runbooks/cdp_repull_lessons_2026-07-02.md`. ONE scraper (flock); start a
+debug Chrome, clear the challenge once (`127.0.0.1:9222`); `refresh_corpus` is the
+tool; don't run two committing processes at once (git index.lock); faulthandler
+(`kill -ABRT`) is the wedge-check.
