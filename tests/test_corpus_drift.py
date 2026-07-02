@@ -47,6 +47,19 @@ class TestChapterKey:
         assert k.startswith("legislature.maine.gov/statutes/32")
 
 
+class TestOfficialSourceSkip:
+    def test_ny_is_skipped_ungated_justia_intercept(self):
+        # NY has source: justia + Justia index urls, but is_ny_justia_url routes to
+        # nysenate ungated — a re-pull never moves it to Justia, so it must be
+        # treated as intentional-official (skipped) to avoid a false HOST_DRIFT.
+        assert "NY" in cd._active_official_sources()
+
+    def test_active_source_state_skipped_but_retired_not(self):
+        got = cd._active_official_sources()
+        assert "WA" in got          # active source: wa_official
+        assert "MN" not in got      # source retired/commented -> real drift detection
+
+
 class TestCovered:
     def test_index_chapter_covers_more_granular_corpus_subchapter(self):
         idx = {"law.justia.com/codes/arkansas/title-17/subtitle-2/chapter-28"}
