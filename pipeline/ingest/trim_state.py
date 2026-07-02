@@ -132,6 +132,7 @@ class TrimmedCorpus:
     skipped: list[dict] = field(default_factory=list)  # input cites with no decision
     total_chars: int = 0
     trim_degraded: bool = False  # True if LLM failed and we fell back to keep-everything
+    oversize_kept: int = 0  # sections bypassed LLM because text > SECTION_TEXT_CAP
 
 
 class TrimLLMError(Exception):
@@ -149,17 +150,45 @@ def trim_state(state: str, profession: str, model: str, strict: bool = False) ->
 
     log.info("[%s] %d sections, %d chars in", state, len(sections), sum(len(s.get("text", "")) for s in sections))
 
+    # A1: Oversize sections (text > SECTION_TEXT_CAP) are KEPT UNCONDITIONALLY —
+    # the LLM must not decide to drop what it cannot fully read. They bypass the
+    # LLM batch entirely and are marked kept_oversize=true in the output so
+    # downstream auditors know they were never evaluated by the trim LLM.
+    oversize: list[dict] = []
+    normal: list[dict] = []
+    for sec in sections:
+        if len(sec.get("text", "")) > SECTION_TEXT_CAP:
+            oversize.append(sec)
+        else:
+            normal.append(sec)
+
+    for sec in oversize:
+        flagged = dict(sec)
+        flagged["kept_oversize"] = True
+        out.sections.append(flagged)
+        out.total_chars += sec.get("text_len", len(sec.get("text", "")))
+
+    if oversize:
+        log.info("[%s] auto-kept %d oversize section(s) (text > %d chars) — bypassed LLM",
+                 state, len(oversize), SECTION_TEXT_CAP)
+    out.oversize_kept = len(oversize)
+
     # Single-section short-circuit: nothing to classify, keep verbatim. This
     # also avoids the IL case where the whole act is one inline section and
     # Haiku invents sub-cites that fail Literal validation.
-    if len(sections) == 1:
+    # Applied to the NORMAL (non-oversize) sections only.
+    if not normal:
+        log.info("[%s] no normal-sized sections remain after oversize bypass — done", state)
+        return out
+
+    if len(normal) == 1 and not oversize:
         log.info("[%s] single section — skipping LLM, keeping as-is", state)
-        for sec in sections:
+        for sec in normal:
             out.sections.append(sec)
             out.total_chars += sec.get("text_len", len(sec.get("text", "")))
         return out
 
-    citations, user_msg = section_input_for_llm(sections)
+    citations, user_msg = section_input_for_llm(normal)
     schema_cls = build_decisions_model(citations)
 
     result = call_model(model, SYSTEM_PROMPT, user_msg, schema_cls)
@@ -171,14 +200,14 @@ def trim_state(state: str, profession: str, model: str, strict: bool = False) ->
         # real trim, and preflight will refuse to extract it (see _trim_health).
         log.error("[%s] LLM failed — writing DEGRADED keep-everything trim (trim_degraded=true)", state)
         out.trim_degraded = True
-        for cite, sec in zip(citations, sections):
+        for cite, sec in zip(citations, normal):
             out.skipped.append({"citation": cite, "label": sec.get("label", ""), "reason": LLM_FAIL_REASON})
             out.sections.append(sec)
             out.total_chars += sec.get("text_len", len(sec.get("text", "")))
         return out
 
     decisions = {d.citation: d for d in result.decisions}  # type: ignore[attr-defined]
-    by_cite = {c: s for c, s in zip(citations, sections)}
+    by_cite = {c: s for c, s in zip(citations, normal)}
     for cite, sec in by_cite.items():
         d = decisions.get(cite)
         if d is None:
@@ -193,8 +222,8 @@ def trim_state(state: str, profession: str, model: str, strict: bool = False) ->
         else:
             out.dropped.append({"citation": cite, "label": sec.get("label", ""), "reason": d.reason})
 
-    log.info("[%s] kept=%d dropped=%d skipped=%d → %d chars",
-             state, len(out.sections), len(out.dropped), len(out.skipped), out.total_chars)
+    log.info("[%s] kept=%d dropped=%d skipped=%d oversize_auto-kept=%d → %d chars",
+             state, len(out.sections), len(out.dropped), len(out.skipped), out.oversize_kept, out.total_chars)
     return out
 
 

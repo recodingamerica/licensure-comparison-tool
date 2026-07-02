@@ -142,6 +142,16 @@ def _pull_errors(fp: Path) -> int:
     return 0
 
 
+def is_section_capped(text_path: Path) -> int | None:
+    """Return the cap value if the corpus was truncated by --limit-sections, else None."""
+    d = _load(text_path)
+    if isinstance(d, dict):
+        v = d.get("section_cap_hit")
+        if isinstance(v, int):
+            return v
+    return None
+
+
 def _override_professions() -> set[str]:
     ov = load_corpus_overrides()
     return set(ov.keys())
@@ -177,6 +187,9 @@ def audit_sync(idx) -> list[dict]:
                 flags.append("INDEX_ONLY")    # chapter-index page only, no real sections
             if has_block_page(tpath):
                 flags.append("JUNK_AS_200")   # block/challenge page saved as content
+            cap = is_section_capped(tpath)
+            if cap is not None:
+                flags.append(f"CAPPED({cap})")  # corpus truncated by --limit-sections
         elif any(k in st for k in ("clean", "trimmed", "structured")):
             flags.append("NO_TEXT")
         if cpath:
@@ -309,6 +322,7 @@ def cmd_sync() -> int:
         "JUNK_AS_200": [r for r in rows if "JUNK_AS_200" in r["flags"]],
         "THIN": [r for r in rows if "THIN" in r["flags"]],
         "PULL_ERROR": [r for r in rows if "PULL_ERROR" in r["flags"]],
+        "CAPPED": [r for r in rows if any(f.startswith("CAPPED(") for f in r["flags"])],
         "NEEDS_EXTRACT": [r for r in rows if "NEEDS_EXTRACT" in r["flags"]],
         "NO_TEXT": [r for r in rows if "NO_TEXT" in r["flags"]],
     }
@@ -323,7 +337,7 @@ def cmd_sync() -> int:
             print()
     # sync issues (excluding the always-large NEEDS_EXTRACT backlog) → nonzero
     blocking = sum(len(cats[k]) for k in
-                   ("STALE_CLEAN", "CLEAN_GT_TEXT", "INDEX_ONLY", "JUNK_AS_200", "PULL_ERROR", "NO_TEXT"))
+                   ("STALE_CLEAN", "CLEAN_GT_TEXT", "INDEX_ONLY", "JUNK_AS_200", "PULL_ERROR", "NO_TEXT", "CAPPED"))
     return 1 if blocking else 0
 
 
