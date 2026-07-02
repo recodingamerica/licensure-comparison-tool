@@ -32,19 +32,19 @@ AZ:
     podiatry:
       section_slug_pattern: '^section-32-8(0[0-9]|[1-5][0-9])(-version-\d+)?$'
       label: "AZ Title 32 §§32-801..32-859 — Podiatry"
-    # Trades: azleg.gov title page sliced to one chapter. No state-level template
-    # (would rewrite podiatry's section_fallback nodes); scoped per-profession.
-    # is_az_url intercepts the arsDetail url; pull_az slices id="chapter10" and
-    # fetches each ars/32/{id}.htm. Contractors = Title 32 Ch 10 (§§32-1101..1188).
-    # AZ HVAC is not a separate license (folded into contractor) — not pulled.
+    # Trades: FLIPPED TO JUSTIA 2026-07-02 (everything-except-PA directive). Justia
+    # Title 32 has no chapter level (flat sections), so contractors (Title 32 Ch 10
+    # = §§32-1101..32-1188) are scoped by section_slug_pattern against the title-32
+    # section list — same mechanism as podiatry above. Leaf-verified LIVE before flip.
     construction_trades:
-      url: "https://www.azleg.gov/arsDetail/?title=32&chapter=10"
+      section_slug_pattern: '^section-32-11(0[1-9]|[1-8][0-9])(-version-\d+)?$'
       authoritative: true
+      label: "AZ Title 32 §§32-1101..32-1188 — Contractors (Construction Industry Licensing)"
     # #53: AZ HVAC is licensed as a contractor classification (R-39/C-39) inside the
-    # same Ch 10 Contractors chapter — not a standalone license. Point it at Ch 10 so
+    # same Ch 10 Contractors chapter — not a standalone license. Same section scope so
     # extraction records it as license-via-contractor-classification (not a blank).
     hvac:
-      url: "https://www.azleg.gov/arsDetail/?title=32&chapter=10"
+      section_slug_pattern: '^section-32-11(0[1-9]|[1-8][0-9])(-version-\d+)?$'
       authoritative: true
       label: "AZ Title 32 Ch 10 — Contractors (HVAC = R-39/C-39 classification)"
 
@@ -153,14 +153,14 @@ FL:
       url: "https://law.justia.com/codes/florida/title-xxxii/chapter-468/part-x/"
       section_slug_pattern: '^section-468-5(0[1-9]|1[1-8]?)$'
       label: "FL Ch. 468 Part X §§468.501..468.518 — Dietetics and Nutrition Practice"
-    # Trades: leg.state.fl.us whole-chapter page (div.Section spans). No state-level
-    # template (would rewrite dietetics' section_slug_pattern); scoped per-profession.
-    # is_fl_url intercepts; parse_fl_chapter splits the sections. The 0400-0499
-    # range in the URL is chapter 489's pre-computed band. contractor = Ch 489.
+    # Trades: FLIPPED TO JUSTIA 2026-07-02 (everything-except-PA directive). Ch 489 is
+    # split into Parts on Justia; Part I (Construction Contracting, §§489.101..489.147)
+    # IS the contractor scope, so point at the part page and pull all of it — no
+    # pattern needed. Leaf-verified LIVE (42 sections) before flipping.
     construction_trades:
-      url: "http://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0400-0499/0489/0489.html"
+      url: "https://law.justia.com/codes/florida/title-xxxii/chapter-489/part-i/"
       authoritative: true
-      label: "FL Ch. 489 — Contractors (Construction Industry Licensing)"
+      label: "FL Ch. 489 Part I — Contractors (Construction Contracting)"
 
 MO:
   source: justia
@@ -171,15 +171,14 @@ MO:
       url: "https://law.justia.com/codes/missouri/title-xxii/chapter-324/"
       section_slug_pattern: '^section-324-2(0[0-9]|1[0-9]|2[0-5])$'
       label: "MO RSMo 324.200..324.225 — Dietitian Practice Act within Chapter 324"
-    # Trades: per-section-via-TOC off revisor.mo.gov (Justia is Cloudflare-blocked).
-    # Scoped to plumbing (not a state-level chapter_url_template) so dietetics'
-    # section_slug_pattern keeps drilling Justia untouched. The official url is
-    # OneChapter.aspx?chapter=341 — is_mo_url intercepts it and pull_mo fetches
-    # each PageSelect section (div.norm). authoritative drops the Justia sibling.
+    # Trades: FLIPPED TO JUSTIA 2026-07-02 (everything-except-PA directive). Justia
+    # serves the whole chapter (§§341.010..341.290) at chapter-341; point plumbing at
+    # it and pull all — no pattern needed. Leaf-verified LIVE (no-year form, 22
+    # sections) before flipping. authoritative drops any label-match sibling.
     plumbing:
-      url: "https://revisor.mo.gov/main/OneChapter.aspx?chapter=341"
+      url: "https://law.justia.com/codes/missouri/title-xxii/chapter-341/"
       authoritative: true
-      label: "Chapter 341 - Plumbers (Missouri Revised Statutes)"
+      label: "MO RSMo Chapter 341 — Plumbers and Plumbing"
 
 SC:
   source: justia
@@ -2638,7 +2637,10 @@ PA:
       note: "SHARED ACT with social_work — same act (63 P.S. §§ 1901-1922) licenses LPC + LMFT (and clinical social work). Per-credential qualifications at §1907."
 
 UT:
-  source: utah_le   # le.utah.gov chapter XML (Justia is Cloudflare-blocked); see pull_text.parse_utah_chapter_xml
+  # source: utah_le  — FLIPPED TO JUSTIA 2026-07-02 (everything-except-PA directive).
+  #   Justia serves Title 58 Ch 55 as Parts (part-1..part-7); the section walk
+  #   (collect_section_targets, max_depth 6) recurses parts -> section leaves.
+  #   Leaf-verified LIVE via pipeline.eval.verify_urls before flipping.
   notes: >
     Utah co-regulates the building trades in ONE statute — Title 58 Ch. 55,
     the Utah Construction Trades Licensing Act — covering contractors,
@@ -2654,22 +2656,22 @@ UT:
     only overrides the four trades.
   professions:
     construction_trades:
-      url: "https://le.utah.gov/xcode/Title58/Chapter55/58-55.html"
+      url: "https://law.justia.com/codes/utah/title-58/chapter-55/"
       authoritative: true  # the shared chapter IS the complete source; drop label siblings
       label: "Chapter 55 - Utah Construction Trades Licensing Act (contractor scope)"
       note: "SHARED ACT — same chapter feeds electrician/plumbing/hvac. construction_trades = general/specialty CONTRACTOR license."
     electrician:
-      url: "https://le.utah.gov/xcode/Title58/Chapter55/58-55.html"
+      url: "https://law.justia.com/codes/utah/title-58/chapter-55/"
       authoritative: true
       label: "Chapter 55 - Utah Construction Trades Licensing Act (electrician scope)"
       note: "SHARED ACT with construction_trades — scope to journeyman/master/residential electrician licensing within Ch. 55."
     plumbing:
-      url: "https://le.utah.gov/xcode/Title58/Chapter55/58-55.html"
+      url: "https://law.justia.com/codes/utah/title-58/chapter-55/"
       authoritative: true
       label: "Chapter 55 - Utah Construction Trades Licensing Act (plumbing scope)"
       note: "SHARED ACT with construction_trades — scope to journeyman/master/residential plumber licensing within Ch. 55."
     hvac:
-      url: "https://le.utah.gov/xcode/Title58/Chapter55/58-55.html"
+      url: "https://law.justia.com/codes/utah/title-58/chapter-55/"
       authoritative: true
       label: "Chapter 55 - Utah Construction Trades Licensing Act (HVAC scope)"
       note: "SHARED ACT with construction_trades — HVAC is a contractor classification within Ch. 55, not a standalone journeyman license."
