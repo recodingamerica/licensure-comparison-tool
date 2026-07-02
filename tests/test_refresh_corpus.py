@@ -125,6 +125,33 @@ class TestPerChapterCompleteness:
                               cwd=root, capture_output=True, text=True)
         assert len(json.loads(show.stdout)["sections"]) == 3
 
+    def test_empty_with_dead_link_is_dead(self, repo, monkeypatch):
+        root, idx_dir, text_dir = repo
+        ch = "https://law.justia.com/codes/x/title-1/chapter-1/"
+        _write_index(idx_dir, "med", {"CA": {"matched": [{"url": ch}]}})
+        _commit_corpus(root, text_dir, "med", "CA",
+                       asdict(_corpus("CA", "med", [ch], [ch + "s1"])))
+        monkeypatch.setattr(rc.pull_text, "pull_state",
+                            lambda *a, **k: _corpus("CA", "med", [ch], []))  # 0 sections
+        monkeypatch.setattr(rc, "_classify_empty", lambda urls: {u: "DEAD_404" for u in urls})
+        rec = rc.refresh_item("med", "CA", [{"chapter_url": ch}],
+                              force=False, cap=None, timeout_s=60, chrome_check=lambda: True)
+        assert rec["result"] == "DEAD"
+        assert rec["url_health"][ch] == "DEAD_404"
+
+    def test_empty_with_live_link_is_empty_not_dead(self, repo, monkeypatch):
+        root, idx_dir, text_dir = repo
+        ch = "https://law.justia.com/codes/x/title-1/chapter-1/"
+        _write_index(idx_dir, "med", {"CA": {"matched": [{"url": ch}]}})
+        _commit_corpus(root, text_dir, "med", "CA",
+                       asdict(_corpus("CA", "med", [ch], [ch + "s1"])))
+        monkeypatch.setattr(rc.pull_text, "pull_state",
+                            lambda *a, **k: _corpus("CA", "med", [ch], []))
+        monkeypatch.setattr(rc, "_classify_empty", lambda urls: {u: "LIVE" for u in urls})
+        rec = rc.refresh_item("med", "CA", [{"chapter_url": ch}],
+                              force=False, cap=None, timeout_s=60, chrome_check=lambda: True)
+        assert rec["result"] == "EMPTY"  # live link, just no matching sections
+
 
 # ---------------------------------------------------------------------------
 # Real-fetch detection

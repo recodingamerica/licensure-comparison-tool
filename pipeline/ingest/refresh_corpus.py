@@ -214,6 +214,25 @@ def _now() -> str:
     return datetime.now(timezone.utc).isoformat()
 
 
+def _classify_empty(chapter_urls: list[str]) -> dict[str, str]:
+    """When a pull comes back with 0 sections, probe each mapped chapter url to
+    say WHY it's empty: a dead/stub LINK (go find a new one — the url form is
+    wrong) vs a LIVE page that simply had no matching sections (a scoping /
+    section_slug_pattern miss). LLM-free; only runs on the rare EMPTY path so it
+    adds no cost to the happy path. Turns a silent EMPTY into an actionable one."""
+    try:
+        from pipeline.eval.verify_urls import probe
+    except Exception:
+        return {}
+    out = {}
+    for u in chapter_urls:
+        try:
+            out[u] = probe(u).get("verdict", "?")
+        except Exception as e:
+            out[u] = f"probe-error: {type(e).__name__}"
+    return out
+
+
 def refresh_item(profession: str, state: str, rows: list[dict], *,
                  force: bool, cap: int | None, timeout_s: int,
                  chrome_check=chrome_live) -> dict:
@@ -223,7 +242,11 @@ def refresh_item(profession: str, state: str, rows: list[dict], *,
       OK           — real fetch, every chapter populated, committed
       PARTIAL      — a mapped chapter came back empty; reverted, NOT committed
       NOCHANGE     — file unchanged after the re-pull (nothing fetched / already complete)
-      EMPTY        — 0 sections; reverted
+      DEAD         — 0 sections AND a mapped chapter url probes DEAD_404/STUB (the
+                     link is wrong — go find a new one); reverted. `url_health`
+                     carries the per-url verdict.
+      EMPTY        — 0 sections but the chapter urls are LIVE (a scoping / pattern
+                     miss, not a dead link); reverted. `url_health` set.
       NOFILE       — the corpus file never appeared
     On mid-run CDP death that doesn't recover, raises _CDPDead (the run loop aborts).
     """
@@ -252,6 +275,11 @@ def refresh_item(profession: str, state: str, rows: list[dict], *,
     if n == 0:
         revert(out_path)
         rec["result"] = "EMPTY"
+        # Say WHY it's empty: a dead link (find a new url) vs a live page with no
+        # matching sections. If any chapter url is a dead/stub link, flag DEAD.
+        rec["url_health"] = _classify_empty(chapter_urls)
+        if any(v in ("DEAD_404", "STUB") for v in rec["url_health"].values()):
+            rec["result"] = "DEAD"
         return rec
 
     empties = empty_chapters(chapter_urls, sections)
