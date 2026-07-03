@@ -1831,6 +1831,19 @@ def pull_state(state: str, profession: str, rows: list[dict], limit_sections: in
             section_targets, terr = collect_section_targets(
                 url, row["chapter_label"], row["chapter_slug"], depth=0,
             )
+            # Retry-on-zero: rapid sequential CDP fetches occasionally grab a
+            # stale/partial page that parses to 0 leaves even though the chapter
+            # HAS sections (verified: an isolated re-fetch always succeeds). Retry
+            # a couple times before accepting 0, so a transient hiccup doesn't get
+            # recorded as an empty corpus.
+            for _attempt in range(2):
+                if section_targets or terr:
+                    break
+                log.info("  chapter %s -> 0 leaves; retrying (attempt %d)", url, _attempt + 2)
+                polite_sleep()
+                section_targets, terr = collect_section_targets(
+                    url, row["chapter_label"], row["chapter_slug"], depth=0,
+                )
             if terr:
                 corpus.errors.append(terr)
             log.info("  chapter %s -> %d leaf sections", url, len(section_targets))
