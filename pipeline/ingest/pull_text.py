@@ -295,28 +295,6 @@ def _close_browser() -> None:
         _BROWSER = None
 
 
-def _refresh_browser_page() -> None:
-    """Swap in a fresh tab within the SAME CDP context (so the cf_clearance cookie
-    is retained), closing the old one. A page reused across a long harvest (many
-    hundreds of navigations in one process) degrades and starts returning
-    content-less pages that parse to 0 leaves even for chapters that clearly have
-    sections — an isolated re-fetch on a clean tab always succeeds. Called on the
-    retry-on-zero path to recover from that."""
-    global _BROWSER
-    if not _BROWSER or not _BROWSER.get("cdp"):
-        return
-    try:
-        old = _BROWSER.get("page")
-        _BROWSER["page"] = _BROWSER["ctx"].new_page()
-        if old is not None and _BROWSER.get("own_page"):
-            try:
-                old.close()
-            except Exception:
-                pass
-    except Exception:
-        pass
-
-
 def _challenge_showing(page) -> bool:
     t = (page.title() or "").lower()
     return "just a moment" in t or "attention required" in t
@@ -1853,20 +1831,6 @@ def pull_state(state: str, profession: str, rows: list[dict], limit_sections: in
             section_targets, terr = collect_section_targets(
                 url, row["chapter_label"], row["chapter_slug"], depth=0,
             )
-            # Retry-on-zero: rapid sequential CDP fetches occasionally grab a
-            # stale/partial page that parses to 0 leaves even though the chapter
-            # HAS sections (verified: an isolated re-fetch always succeeds). Retry
-            # a couple times before accepting 0, so a transient hiccup doesn't get
-            # recorded as an empty corpus.
-            for _attempt in range(2):
-                if section_targets or terr:
-                    break
-                log.info("  chapter %s -> 0 leaves; fresh tab + retry (attempt %d)", url, _attempt + 2)
-                _refresh_browser_page()  # a degraded long-lived tab is the usual cause
-                polite_sleep()
-                section_targets, terr = collect_section_targets(
-                    url, row["chapter_label"], row["chapter_slug"], depth=0,
-                )
             if terr:
                 corpus.errors.append(terr)
             log.info("  chapter %s -> %d leaf sections", url, len(section_targets))
