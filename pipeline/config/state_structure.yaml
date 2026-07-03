@@ -47,6 +47,18 @@ AZ:
       section_slug_pattern: '^section-32-11(0[1-9]|[1-8][0-9])(-version-\d+)?$'
       authoritative: true
       label: "AZ Title 32 Ch 10 — Contractors (HVAC = R-39/C-39 classification)"
+    # electrician/plumbing are AZ contractor specialty classifications inside the
+    # same Ch 10 (no standalone license), so they ride the same section pattern.
+    # Added 2026-07-02 (were label-matched to the old azleg.gov pull, missed in
+    # the trades flip). Flip to Justia to clear the azleg dependency.
+    electrician:
+      section_slug_pattern: '^section-32-11(0[1-9]|[1-8][0-9])(-version-\d+)?$'
+      authoritative: true
+      label: "AZ Title 32 Ch 10 — Contractors (electrical specialty classification)"
+    plumbing:
+      section_slug_pattern: '^section-32-11(0[1-9]|[1-8][0-9])(-version-\d+)?$'
+      authoritative: true
+      label: "AZ Title 32 Ch 10 — Contractors (plumbing specialty classification)"
 
 OK:
   source: justia
@@ -464,6 +476,12 @@ MN:
   # Justia section_url_list (converted from the revisor cites, intersected with Justia's
   # live 148 sections -> repealed sections auto-dropped).
   professions:
+    architecture:
+      # Straggler flipped 2026-07-02 (was a 1-section revisor.mn.gov stub, not in
+      # the MN-9 flip). MN Ch 326 is the shared design-professions chapter
+      # (architects/engineers/surveyors); scoped per-profession at trim_state.
+      url: "https://law.justia.com/codes/minnesota/chapters-324-342/chapter-326/"
+      label: "MN Statutes Ch 326 — Architects, Engineers, Land Surveyors (design professions)"
     medicine:
       url: "https://law.justia.com/codes/minnesota/chapters-144-159/chapter-147/"
       label: "MN Statutes Ch 147 — Medical Practice"
@@ -2837,4 +2855,7 @@ MT:
   # so the matched node keeps its Justia url and pull_text.is_mt_justia_url
   # intercepts it. pull_mt walks parts_index → per-part sections_index → section
   # pages (div.section-content). electrician=T37 Ch68, plumbing=T37 Ch69.
-  source: mt_official
+  # FLIPPED TO JUSTIA 2026-07-02: is_mt_justia_url now gated on source ==
+  #   mt_official, so source: justia pulls MT from Justia. Set source: mt_official
+  #   to revert. Index already carries Justia urls.
+  source: justia
