@@ -1743,7 +1743,7 @@ def pull_state(state: str, profession: str, rows: list[dict], limit_sections: in
             _ps = pull_ri(url)
         elif is_vt_url(url):
             _ps = pull_vt(url)
-        elif is_mt_justia_url(url):
+        elif is_mt_justia_url(url) and _source == "mt_official":
             _ps = pull_mt(url)
         elif is_az_url(url):
             _ps = pull_az(url)
