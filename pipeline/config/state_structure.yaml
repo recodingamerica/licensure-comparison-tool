@@ -1401,6 +1401,20 @@ VA:
     podiatry:
       url: "https://law.justia.com/codes/virginia/title-54-1/chapter-29/"
       label: "Chapter 29 — Medicine and Other Healing Arts"
+    # VA trades: all building trades are one Contractors chapter (Title 54.1 Ch 11;
+    # tradesmen at §§54.1-1128+). Added 2026-07-04 (shared-act pattern).
+    electrician:
+      url: "https://law.justia.com/codes/virginia/title-54-1/chapter-11/"
+      authoritative: true
+      label: "VA Title 54.1 Ch 11 - Contractors (electrical tradesman)"
+    plumbing:
+      url: "https://law.justia.com/codes/virginia/title-54-1/chapter-11/"
+      authoritative: true
+      label: "VA Title 54.1 Ch 11 - Contractors (plumbing tradesman)"
+    hvac:
+      url: "https://law.justia.com/codes/virginia/title-54-1/chapter-11/"
+      authoritative: true
+      label: "VA Title 54.1 Ch 11 - Contractors (HVAC tradesman)"
 
 CT:
   # cga.ct.gov serves one HTML page per chapter (sections inline as "Sec. N-n.").
@@ -1415,6 +1429,22 @@ NV:
   # {chapter}; pull_text.parse_nv_chapter_html splits the page into sections.
   # source: nv_official  — FLIPPED TO JUSTIA 2026-07-02 (Justia-only).
   # chapter_url_template retired 2026-07-01 (Justia-only decision): index carries Justia urls; pulls go via CDP/Justia.
+  # NV trades: all building trades are one Contractors chapter (NRS 624, State
+  # Contractors' Board); electrician/plumbing/hvac are specialty classifications
+  # within it (shared-act pattern, scoped at trim). Added 2026-07-04.
+  professions:
+    electrician:
+      url: "https://law.justia.com/codes/nevada/chapter-624/"
+      authoritative: true
+      label: "NV NRS Ch 624 - Contractors (electrical specialty classification)"
+    plumbing:
+      url: "https://law.justia.com/codes/nevada/chapter-624/"
+      authoritative: true
+      label: "NV NRS Ch 624 - Contractors (plumbing specialty classification)"
+    hvac:
+      url: "https://law.justia.com/codes/nevada/chapter-624/"
+      authoritative: true
+      label: "NV NRS Ch 624 - Contractors (HVAC/refrigeration specialty classification)"
 
 SD:
   # Justia is Cloudflare-blocked; SD publishes a clean JSON API. match_profession
