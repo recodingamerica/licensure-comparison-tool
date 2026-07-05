@@ -47,13 +47,24 @@ ALL_STATES = ("AK AL AR AZ CA CO CT DE FL GA HI IA ID IL IN KS KY LA MA MD ME MI
 # (e.g. NM 61-1, cited by 39 professions). Generous by design — "pull everything that
 # might relate to ANY profession, then map it with match_sections".
 _CONTAINER = re.compile(
-    r"occupational code|professions? and occupations?|business (and professions?|"
+    # occupational-code titles — flexible on order/comma/hyphen so reversed variants
+    # ("Occupations-Professions" OH, "Professions, Occupations and Businesses" NV) match.
+    r"occupational code|professions?[ ,-]+(and )?occupations?|"
+    r"occupations?[ ,-]+(and )?professions?|business (and professions?|"
     r"regulation|licenses?)|professional and occupational|construction industries?|"
     r"\bcontractors?\b|miscellaneous .*(profession|occupation|business)|"
     r"regulation of .*(profession|occupation)|"
     r"\binsurance\b|health occupations?|healing arts|health.related|"
     r"general provisions|administrative procedure|uniform .*(licens|regulat)|"
-    r"boards? and commissions?|department of (commerce|insurance|health|licens)",
+    r"boards? and commissions?|department of (commerce|insurance|health|licens)|"
+    # topical titles that hide section-nested professions (gap-harvest 2026-07-05):
+    # banking/finance (money_transmitter, loan_broker), government code (court_reporter),
+    # conservation/forest (forester), weights & measures (public_weighmaster),
+    # trade/commerce (pawnbroker), pharmacy (wholesale_drug_distributor),
+    # health & safety (building_inspector).
+    r"\bbanking\b|financial institutions?|government code|conservation|"
+    r"natural resources?|\bforest|weights?.{0,6}measures?|regulation of trade|"
+    r"\bpharmac|\bhealth and safety\b",
     re.I)
 _NOISE = re.compile(r"repealed", re.I)
 

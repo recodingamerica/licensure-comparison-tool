@@ -2,7 +2,7 @@
 
 _Auto-generated from the extraction model (`standard_model.py` + the profession's discovered schema). Do not edit by hand — regenerate with `python -m pipeline.publish.generate_field_dictionary`._
 
-**Reflects extracted data as of 2026-06-29** (latest commit to `public_accountancy` records). Regenerate to refresh.
+**Reflects extracted data as of 2026-07-05** (latest commit to `public_accountancy` records). Regenerate to refresh.
 
 Every field is an **Evidence** object: a `value`, the verbatim `quote` from the statute that supports it, and the `citation` it came from. Examples below are sampled from public_accountancy/AK.
 
@@ -52,7 +52,7 @@ character), fees, renewal, continuing education, and reciprocity._
 | &nbsp;&nbsp;&nbsp;&nbsp;`continuing_education.topical_requirements` | list | Specific topical CE requirements, e.g. ['1.5 hrs opioid', 'ethics'] |  |
 | `reciprocity` | object | Whether/how the state recognizes out-of-state credentials (endorsement/reciprocity). |  |
 | &nbsp;&nbsp;&nbsp;&nbsp;`reciprocity.available` | boolean |  | true |
-| &nbsp;&nbsp;&nbsp;&nbsp;`reciprocity.requirements` | string | Free-form summary | "Applicant must have passed the Uniform CPA Examination to r |
+| &nbsp;&nbsp;&nbsp;&nbsp;`reciprocity.requirements` | string | Free-form summary | "Applicant must have passed the Uniform CPA Examination, mee |
 | `advisory_board` | object | Profession-specific advisory body sitting alongside the main licensing board, when one exists. Populated for states that delegate licensure to a generic board and add a specialty advisory committee. |  |
 | &nbsp;&nbsp;&nbsp;&nbsp;`advisory_board.exists` | boolean | True if a profession-specific advisory body exists alongside the main licensing board. False if the licensing board itself is profession-specific (no separate advisory body needed). | false |
 | &nbsp;&nbsp;&nbsp;&nbsp;`advisory_board.name` | string | Name of the advisory board, e.g. 'Podiatry Advisory Committee'. |  |
@@ -66,7 +66,7 @@ character), fees, renewal, continuing education, and reciprocity._
 | `scope_protection` | boolean | Does the state restrict practice of the profession's scope to licensees? True if performing the scope without a license is prohibited (independent of title use). | true |
 | `disciplinary_grounds` | list | Grounds on which the board may discipline a licensee. Typical statutes list 5-15. |  |
 | &nbsp;&nbsp;&nbsp;&nbsp;`disciplinary_grounds[].short_label` | string | snake_case key, e.g. 'fraud_in_obtaining_license' | "fraud_in_obtaining_license" |
-| &nbsp;&nbsp;&nbsp;&nbsp;`disciplinary_grounds[].description` | string | One-line plain-English description | "Fraud or deceit in obtaining a license or permit" |
+| &nbsp;&nbsp;&nbsp;&nbsp;`disciplinary_grounds[].description` | string | One-line plain-English description | "Fraud or deceit in obtaining a license or permit required b |
 | `alternative_regulation` | object | Non-credential regulatory mechanisms (bonding, insurance, establishment regulation) imposed by the state. Obama 2015 framework typology. Independent of credential_type. |  |
 | &nbsp;&nbsp;&nbsp;&nbsp;`alternative_regulation.bonding_required` | boolean | Does the statute require the practitioner or firm to post a bond (funds against which consumer claims can be made)? Independent of whether a credential is also required. |  |
 | &nbsp;&nbsp;&nbsp;&nbsp;`alternative_regulation.insurance_required` | boolean | Does the statute require the practitioner or firm to carry insurance (e.g., professional liability, surety insurance)? |  |
@@ -87,14 +87,14 @@ profession-specific scope richness lives in the discovered block._
 | `drug_authority` | string | Whether/how the profession may prescribe, administer, or dispense drugs. |  |
 | `citations` | list | Statutory citations supporting the scope fields above. |  |
 | &nbsp;&nbsp;&nbsp;&nbsp;`citations[].cite` | string |  | "08.04.680" |
-| &nbsp;&nbsp;&nbsp;&nbsp;`citations[].kind` | string |  | "definitions" |
+| &nbsp;&nbsp;&nbsp;&nbsp;`citations[].kind` | string |  | "definition of practice of public accounting" |
 
 ## profession_specific
 _Fields discovered specifically for this profession (auto-derived from its statutes); they vary profession to profession._
 
 | field | type | what it means | example value |
 |---|---|---|---|
-| `attest_services_types` | list | Enumerated types of attest services that constitute the regulated scope of practice, typically defined by reference to AICPA/PCAOB standards. | ["audit or other engagement established by Statements on Aud |
+| `attest_services_types` | list | Enumerated types of attest services that constitute the regulated scope of practice, typically defined by reference to AICPA/PCAOB standards. | ["audit or other engagement under Statements on Auditing Sta |
 | `compilation_services_authorized` | boolean | Whether compilation services (presenting financial statements as management's representation without assurance) are separately defined and regulated as a distinct service type. | true |
 | `education_semester_hours_required` | integer | Total semester hours of college education required for initial CPA licensure (typically 150 hours post-2000). | 150 |
 | `exam_sit_hours_minimum` | integer | Minimum semester hours of college education required before a candidate may sit for the CPA examination (often 120 hours, less than the full 150 required for licensure). |  |
@@ -109,7 +109,7 @@ _Fields discovered specifically for this profession (auto-derived from its statu
 | `peer_review_records_privileged` | boolean | Whether peer review proceedings, records, and work papers are privileged and not subject to discovery or introduction into evidence in civil or administrative proceedings. | true |
 | `inactive_license_status_available` | boolean | Whether a licensee who is not engaged in the practice of public accounting may place their license on inactive status, typically with reduced fees and no CPE requirement. | true |
 | `retired_license_status_available` | boolean | Whether a licensee may place their license on a retired status, typically with reduced or no fees and no CPE requirement, with restrictions on active practice. |  |
-| `out_of_state_firm_no_office_exemption` | boolean | Whether a firm without an office in the state may provide certain services (compilation, review, or non-attest services) without obtaining a firm permit, subject to specified conditions. |  |
+| `out_of_state_firm_no_office_exemption` | boolean | Whether a firm without an office in the state may provide certain services (compilation, review, or non-attest services) without obtaining a firm permit, subject to specified conditions. | true |
 | `office_supervision_by_licensed_cpa_required` | boolean | Whether each office of a firm established in the state for the practice of public accounting must be under the direct supervision of a licensed CPA. | true |
 | `attest_report_signer_competency_requirement` | boolean | Whether individuals who sign or authorize signing of attest or compilation reports on behalf of a firm must meet specific competency requirements set out in professional standards. | true |
 | `client_confidentiality_privilege` | boolean | Whether communications between a licensee and client are confidential and privileged, with specified exceptions for professional standards, court proceedings, peer review, and ethical investigations. | true |

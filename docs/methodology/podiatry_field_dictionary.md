@@ -2,7 +2,7 @@
 
 _Auto-generated from the extraction model (`standard_model.py` + the profession's discovered schema). Do not edit by hand — regenerate with `python -m pipeline.publish.generate_field_dictionary`._
 
-**Reflects extracted data as of 2026-06-29** (latest commit to `podiatry` records). Regenerate to refresh.
+**Reflects extracted data as of 2026-07-05** (latest commit to `podiatry` records). Regenerate to refresh.
 
 Every field is an **Evidence** object: a `value`, the verbatim `quote` from the statute that supports it, and the `citation` it came from. Examples below are sampled from podiatry/AK.
 
@@ -23,7 +23,7 @@ character), fees, renewal, continuing education, and reciprocity._
 | `moral_character_required` | boolean | Whether the statute conditions licensure on good moral character / fitness. |  |
 | `education` | object | Education entry requirement — degree, level, accreditation, and any tiers. |  |
 | &nbsp;&nbsp;&nbsp;&nbsp;`education.degree_required` | string |  | "Certificate of graduation from a legally chartered school o |
-| &nbsp;&nbsp;&nbsp;&nbsp;`education.accrediting_body` | string |  | "board-approved school of podiatry" |
+| &nbsp;&nbsp;&nbsp;&nbsp;`education.accrediting_body` | string |  |  |
 | &nbsp;&nbsp;&nbsp;&nbsp;`education.degree_level` | enum — one of: none, high_school, associate, bachelor, master, doctorate | The comparable education FLOOR as a normalized rung. Populate whenever licensure is gated on a degree; null only if the statute is silent on education. | "doctorate" |
 | &nbsp;&nbsp;&nbsp;&nbsp;`education.school_approval_basis` | enum — one of: national_accreditor, regional_accreditor, board_approved, unspecified | How the statute decides a school counts. national_accreditor=a named national program accreditor (ACOE/CODA/ACEND/LCME/CPME). regional_accreditor='regionally accredited college or university'. board_approved='approved by the board' (discretionary state gate). unspecified=says 'accredited' with no basis named, or silent. | "board_approved" |
 | &nbsp;&nbsp;&nbsp;&nbsp;`education.credential_pegged` | boolean | True if the statute pegs the education requirement to a NATIONAL CREDENTIAL (e.g. 'registered by CDR', 'passed the NBEO') rather than (or in addition to) a stated degree — such a state inherits whatever that national body currently requires. | false |
@@ -37,10 +37,10 @@ character), fees, renewal, continuing education, and reciprocity._
 | &nbsp;&nbsp;&nbsp;&nbsp;`post_degree_experience.duration` | string | e.g. '24 months', '1 year', '2,000 hours' (free text — units vary) |  |
 | &nbsp;&nbsp;&nbsp;&nbsp;`post_degree_experience.kind` | string | e.g. 'podiatric residency', 'accounting work experience', 'AXP' |  |
 | `exams` | list | Examinations required for the credential (one entry per exam). |  |
-| &nbsp;&nbsp;&nbsp;&nbsp;`exams[].name` | string |  | "Board examination (subjects determined by the board)" |
+| &nbsp;&nbsp;&nbsp;&nbsp;`exams[].name` | string |  | "Board examination (podiatry)" |
 | &nbsp;&nbsp;&nbsp;&nbsp;`exams[].required` | boolean |  | true |
-| &nbsp;&nbsp;&nbsp;&nbsp;`exams[].notes` | string |  | "The board shall call to its aid a podiatrist of known abili |
-| &nbsp;&nbsp;&nbsp;&nbsp;`exams[].jurisdiction` | string | Where the exam is administered / who owns it — e.g. 'NBPME (national)', 'state board (in-state)', 'NCLEX-RN (national)'. Use the statute's language; null if the source doesn't say. | "state (in-house)" |
+| &nbsp;&nbsp;&nbsp;&nbsp;`exams[].notes` | string |  | "The board calls to its aid a podiatrist of known ability to |
+| &nbsp;&nbsp;&nbsp;&nbsp;`exams[].jurisdiction` | string | Where the exam is administered / who owns it — e.g. 'NBPME (national)', 'state board (in-state)', 'NCLEX-RN (national)'. Use the statute's language; null if the source doesn't say. |  |
 | &nbsp;&nbsp;&nbsp;&nbsp;`exams[].permitted_attempts` | integer | Max attempts allowed before re-qualification. Null if not specified. |  |
 | `renewal` | object | How the credential is renewed — interval and any conditions. |  |
 | &nbsp;&nbsp;&nbsp;&nbsp;`renewal.interval_years` | integer | Most states are 1 or 2 | 2 |
@@ -48,11 +48,11 @@ character), fees, renewal, continuing education, and reciprocity._
 | `continuing_education` | object | Continuing-education requirement to keep the credential active. |  |
 | &nbsp;&nbsp;&nbsp;&nbsp;`continuing_education.required` | boolean |  | true |
 | &nbsp;&nbsp;&nbsp;&nbsp;`continuing_education.hours_per_period` | integer |  |  |
-| &nbsp;&nbsp;&nbsp;&nbsp;`continuing_education.period_years` | integer |  |  |
+| &nbsp;&nbsp;&nbsp;&nbsp;`continuing_education.period_years` | integer |  | 2 |
 | &nbsp;&nbsp;&nbsp;&nbsp;`continuing_education.topical_requirements` | list | Specific topical CE requirements, e.g. ['1.5 hrs opioid', 'ethics'] | ["pain management and opioid use and addiction (minimum 2 ho |
 | `reciprocity` | object | Whether/how the state recognizes out-of-state credentials (endorsement/reciprocity). |  |
 | &nbsp;&nbsp;&nbsp;&nbsp;`reciprocity.available` | boolean |  | true |
-| &nbsp;&nbsp;&nbsp;&nbsp;`reciprocity.requirements` | string | Free-form summary | "Applicant must meet the standard podiatry qualifications, s |
+| &nbsp;&nbsp;&nbsp;&nbsp;`reciprocity.requirements` | string | Free-form summary | "Active license from a board of medical examiners in another |
 | `advisory_board` | object | Profession-specific advisory body sitting alongside the main licensing board, when one exists. Populated for states that delegate licensure to a generic board and add a specialty advisory committee. |  |
 | &nbsp;&nbsp;&nbsp;&nbsp;`advisory_board.exists` | boolean | True if a profession-specific advisory body exists alongside the main licensing board. False if the licensing board itself is profession-specific (no separate advisory body needed). | false |
 | &nbsp;&nbsp;&nbsp;&nbsp;`advisory_board.name` | string | Name of the advisory board, e.g. 'Podiatry Advisory Committee'. |  |
@@ -66,14 +66,14 @@ character), fees, renewal, continuing education, and reciprocity._
 | `scope_protection` | boolean | Does the state restrict practice of the profession's scope to licensees? True if performing the scope without a license is prohibited (independent of title use). | true |
 | `disciplinary_grounds` | list | Grounds on which the board may discipline a licensee. Typical statutes list 5-15. |  |
 | &nbsp;&nbsp;&nbsp;&nbsp;`disciplinary_grounds[].short_label` | string | snake_case key, e.g. 'fraud_in_obtaining_license' | "fraud_in_obtaining_license" |
-| &nbsp;&nbsp;&nbsp;&nbsp;`disciplinary_grounds[].description` | string | One-line plain-English description | "Securing a license through deceit, fraud, or intentional mi |
+| &nbsp;&nbsp;&nbsp;&nbsp;`disciplinary_grounds[].description` | string | One-line plain-English description | "Secured a license through deceit, fraud, or intentional mis |
 | `alternative_regulation` | object | Non-credential regulatory mechanisms (bonding, insurance, establishment regulation) imposed by the state. Obama 2015 framework typology. Independent of credential_type. |  |
 | &nbsp;&nbsp;&nbsp;&nbsp;`alternative_regulation.bonding_required` | boolean | Does the statute require the practitioner or firm to post a bond (funds against which consumer claims can be made)? Independent of whether a credential is also required. |  |
 | &nbsp;&nbsp;&nbsp;&nbsp;`alternative_regulation.insurance_required` | boolean | Does the statute require the practitioner or firm to carry insurance (e.g., professional liability, surety insurance)? |  |
 | &nbsp;&nbsp;&nbsp;&nbsp;`alternative_regulation.establishment_regulation_required` | boolean | Does the statute regulate the ESTABLISHMENT / FIRM (e.g., facility license, mandatory inspection of premises) as a route to consumer protection, independent of any practitioner credential? |  |
 | `citations` | list | Statutory citations supporting the licensure fields above. |  |
 | &nbsp;&nbsp;&nbsp;&nbsp;`citations[].cite` | string |  | "08.64.170" |
-| &nbsp;&nbsp;&nbsp;&nbsp;`citations[].kind` | string |  | "scope_protection" |
+| &nbsp;&nbsp;&nbsp;&nbsp;`citations[].kind` | string |  | "license_required" |
 
 ## scope
 _What the practice act lets (or reserves to) this profession — the defined scope,
@@ -84,10 +84,10 @@ profession-specific scope richness lives in the discovered block._
 |---|---|---|---|
 | `definition_quote` | string | Verbatim statutory definition; quote field repeats the value text. | "the medical, mechanical, and surgical treatment of ailments |
 | `methods_authorized` | list | High-level methods, e.g. ['medical','surgical','mechanical'] | ["medical", "mechanical", "surgical"] |
-| `drug_authority` | string | Whether/how the profession may prescribe, administer, or dispense drugs. | "Use of preparations, medicines, and drugs as are necessary  |
+| `drug_authority` | string | Whether/how the profession may prescribe, administer, or dispense drugs. | "May use preparations, medicines, and drugs as necessary for |
 | `citations` | list | Statutory citations supporting the scope fields above. |  |
 | &nbsp;&nbsp;&nbsp;&nbsp;`citations[].cite` | string |  | "08.64.380" |
-| &nbsp;&nbsp;&nbsp;&nbsp;`citations[].kind` | string |  | "definition" |
+| &nbsp;&nbsp;&nbsp;&nbsp;`citations[].kind` | string |  | "scope_definition" |
 
 ## profession_specific
 _Fields discovered specifically for this profession (auto-derived from its statutes); they vary profession to profession._
@@ -115,7 +115,7 @@ _Fields discovered specifically for this profession (auto-derived from its statu
 | `tibial_pilon_fracture_excluded` | boolean | Whether the state explicitly excludes treatment of tibial pilon fractures from the podiatric scope of practice. |  |
 | `wound_debridement_authorized` | boolean | Whether the state explicitly authorizes podiatrists to perform wound debridement beyond the foot and ankle. |  |
 | `vaccination_authority` | boolean | Whether the state explicitly authorizes podiatrists to administer vaccinations. |  |
-| `physician_assistant_collaboration_authorized` | boolean | Whether the state explicitly authorizes podiatrists to collaborate with or supervise physician assistants. | true |
+| `physician_assistant_collaboration_authorized` | boolean | Whether the state explicitly authorizes podiatrists to collaborate with or supervise physician assistants. |  |
 | `advanced_practice_nurse_collaboration_authorized` | boolean | Whether the state explicitly authorizes podiatrists to collaborate with advanced practice registered nurses. |  |
 | `hospital_privileges_nondiscrimination` | boolean | Whether the state has a statutory provision prohibiting hospitals from discriminating against podiatrists in granting privileges based solely on their degree type. |  |
 | `corrective_footwear_exemption` | boolean | Whether the state explicitly exempts the fitting, recommending, or sale of corrective shoes, arch supports, or similar appliances by retail dealers from the podiatry licensing requirement. |  |

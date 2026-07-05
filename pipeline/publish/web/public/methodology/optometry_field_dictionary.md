@@ -2,7 +2,7 @@
 
 _Auto-generated from the extraction model (`standard_model.py` + the profession's discovered schema). Do not edit by hand — regenerate with `python -m pipeline.publish.generate_field_dictionary`._
 
-**Reflects extracted data as of 2026-06-24** (latest commit to `optometry` records). Regenerate to refresh.
+**Reflects extracted data as of 2026-07-05** (latest commit to `optometry` records). Regenerate to refresh.
 
 Every field is an **Evidence** object: a `value`, the verbatim `quote` from the statute that supports it, and the `citation` it came from. Examples below are sampled from optometry/AK.
 
@@ -39,8 +39,8 @@ character), fees, renewal, continuing education, and reciprocity._
 | `exams` | list | Examinations required for the credential (one entry per exam). |  |
 | &nbsp;&nbsp;&nbsp;&nbsp;`exams[].name` | string |  | "National or international examination designated by the boa |
 | &nbsp;&nbsp;&nbsp;&nbsp;`exams[].required` | boolean |  | true |
-| &nbsp;&nbsp;&nbsp;&nbsp;`exams[].notes` | string |  | "All or part of a national or international examination desi |
-| &nbsp;&nbsp;&nbsp;&nbsp;`exams[].jurisdiction` | string | Where the exam is administered / who owns it — e.g. 'NBPME (national)', 'state board (in-state)', 'NCLEX-RN (national)'. Use the statute's language; null if the source doesn't say. | "national or international (board-designated)" |
+| &nbsp;&nbsp;&nbsp;&nbsp;`exams[].notes` | string |  | "First section of the two-part examination." |
+| &nbsp;&nbsp;&nbsp;&nbsp;`exams[].jurisdiction` | string | Where the exam is administered / who owns it — e.g. 'NBPME (national)', 'state board (in-state)', 'NCLEX-RN (national)'. Use the statute's language; null if the source doesn't say. | "national or international, as designated by board regulatio |
 | &nbsp;&nbsp;&nbsp;&nbsp;`exams[].permitted_attempts` | integer | Max attempts allowed before re-qualification. Null if not specified. |  |
 | `renewal` | object | How the credential is renewed — interval and any conditions. |  |
 | &nbsp;&nbsp;&nbsp;&nbsp;`renewal.interval_years` | integer | Most states are 1 or 2 | 2 |
@@ -52,13 +52,13 @@ character), fees, renewal, continuing education, and reciprocity._
 | &nbsp;&nbsp;&nbsp;&nbsp;`continuing_education.topical_requirements` | list | Specific topical CE requirements, e.g. ['1.5 hrs opioid', 'ethics'] | ["pain management and opioid use and addiction (at least 2 h |
 | `reciprocity` | object | Whether/how the state recognizes out-of-state credentials (endorsement/reciprocity). |  |
 | &nbsp;&nbsp;&nbsp;&nbsp;`reciprocity.available` | boolean |  | true |
-| &nbsp;&nbsp;&nbsp;&nbsp;`reciprocity.requirements` | string | Free-form summary | "Applicant must be a graduate of a board-recognized optometr |
+| &nbsp;&nbsp;&nbsp;&nbsp;`reciprocity.requirements` | string | Free-form summary | "Applicant must: (1) be a graduate of a board-recognized opt |
 | `advisory_board` | object | Profession-specific advisory body sitting alongside the main licensing board, when one exists. Populated for states that delegate licensure to a generic board and add a specialty advisory committee. |  |
 | &nbsp;&nbsp;&nbsp;&nbsp;`advisory_board.exists` | boolean | True if a profession-specific advisory body exists alongside the main licensing board. False if the licensing board itself is profession-specific (no separate advisory body needed). | false |
 | &nbsp;&nbsp;&nbsp;&nbsp;`advisory_board.name` | string | Name of the advisory board, e.g. 'Podiatry Advisory Committee'. |  |
 | &nbsp;&nbsp;&nbsp;&nbsp;`advisory_board.authority` | string | Authority the advisory board has, in the statute's own words — e.g. 'advisory only', 'rulemaking subject to board approval', 'disciplinary recommendations'. Free text from the statute. |  |
-| `national_certification` | string | Name of a national CERTIFICATION the state recognizes or requires, e.g. 'American Board of Podiatric Surgery (ABPS)' or 'National Board of Podiatric Medical Examiners (NBPME)'. The certifying body, NOT the association. Null if the statute doesn't reference one. | "National Board of Examiners in Optometry (NBEO)" |
-| `national_association` | string | Professional ASSOCIATION the state references (e.g. for accreditation or CE provider approval) — 'American Podiatric Medical Association (APMA)', 'American Dental Association (ADA)'. Distinct from the certifying body. Null if not referenced. | "American Optometric Association (AOA)" |
+| `national_certification` | string | Name of a national CERTIFICATION the state recognizes or requires, e.g. 'American Board of Podiatric Surgery (ABPS)' or 'National Board of Podiatric Medical Examiners (NBPME)'. The certifying body, NOT the association. Null if the statute doesn't reference one. | "National Board of Examiners in Optometry" |
+| `national_association` | string | Professional ASSOCIATION the state references (e.g. for accreditation or CE provider approval) — 'American Podiatric Medical Association (APMA)', 'American Dental Association (ADA)'. Distinct from the certifying body. Null if not referenced. | "American Optometric Association" |
 | `regulatory_model` | enum — one of: market_forces, voluntary_certification, registration, exemption, mandatory_certification, license | Which UORF model the state applies to this profession (license / mandatory_cert / registration / etc). | "license" |
 | `credential_type` | enum — one of: none, registration, certification, license, exemption | What SHAPE of credential does the state issue, independent of whether holding it is mandatory? license / certification / registration / exemption / none. Pairs with is_mandatory to decompose the legacy regulatory_model rung. | "license" |
 | `is_mandatory` | boolean | Is the credential MANDATORY to practice (or claim the title) in this state? True if practicing without it is prohibited; False if optional (e.g., voluntary certification that only protects the title for those who hold it). | true |
@@ -73,7 +73,7 @@ character), fees, renewal, continuing education, and reciprocity._
 | &nbsp;&nbsp;&nbsp;&nbsp;`alternative_regulation.establishment_regulation_required` | boolean | Does the statute regulate the ESTABLISHMENT / FIRM (e.g., facility license, mandatory inspection of premises) as a route to consumer protection, independent of any practitioner credential? |  |
 | `citations` | list | Statutory citations supporting the licensure fields above. |  |
 | &nbsp;&nbsp;&nbsp;&nbsp;`citations[].cite` | string |  | "08.72.010" |
-| &nbsp;&nbsp;&nbsp;&nbsp;`citations[].kind` | string |  |  |
+| &nbsp;&nbsp;&nbsp;&nbsp;`citations[].kind` | string |  | "board creation" |
 
 ## scope
 _What the practice act lets (or reserves to) this profession — the defined scope,
@@ -82,12 +82,12 @@ profession-specific scope richness lives in the discovered block._
 
 | field | type | what it means | example value |
 |---|---|---|---|
-| `definition_quote` | string | Verbatim statutory definition; quote field repeats the value text. | "\"optometry\" means the examination, evaluation, diagnosis, |
-| `methods_authorized` | list | High-level methods, e.g. ['medical','surgical','mechanical'] | ["examination", "evaluation", "diagnosis", "treatment", "per |
+| `definition_quote` | string | Verbatim statutory definition; quote field repeats the value text. | "the examination, evaluation, diagnosis, treatment, or perfo |
+| `methods_authorized` | list | High-level methods, e.g. ['medical','surgical','mechanical'] | ["examination", "evaluation", "diagnosis", "treatment", "pre |
 | `drug_authority` | string | Whether/how the profession may prescribe, administer, or dispense drugs. | "A licensee may prescribe and use a pharmaceutical agent, in |
 | `citations` | list | Statutory citations supporting the scope fields above. |  |
 | &nbsp;&nbsp;&nbsp;&nbsp;`citations[].cite` | string |  | "08.72.300" |
-| &nbsp;&nbsp;&nbsp;&nbsp;`citations[].kind` | string |  |  |
+| &nbsp;&nbsp;&nbsp;&nbsp;`citations[].kind` | string |  | "scope definition" |
 
 ## profession_specific
 _Fields discovered specifically for this profession (auto-derived from its statutes); they vary profession to profession._
@@ -122,7 +122,7 @@ _Fields discovered specifically for this profession (auto-derived from its statu
 | `contact_lens_prescription_expiration_years` | integer | Minimum required expiration period (in years) for a contact lens prescription. |  |
 | `spectacle_prescription_release_required` | boolean | Whether the statute requires the prescriber to provide the patient with a copy of their spectacle or eyeglass prescription at no additional charge. |  |
 | `patient_record_retention_years` | integer | Minimum number of years optometrists are required to retain patient records. |  |
-| `impaired_practitioner_program_established` | boolean | Whether the statute establishes or references a formal program for identifying, treating, and monitoring impaired optometrists. |  |
+| `impaired_practitioner_program_established` | boolean | Whether the statute establishes or references a formal program for identifying, treating, and monitoring impaired optometrists. | true |
 | `limited_teaching_license_available` | boolean | Whether the statute provides for a limited license for optometry faculty or instructors who are not otherwise licensed in the state. |  |
 | `retired_license_status_available` | boolean | Whether the statute provides for a formal retired license status that exempts the holder from renewal and continuing education requirements. | true |
 | `jurisprudence_exam_required` | boolean | Whether the statute explicitly requires passage of a state law (jurisprudence) examination as a condition of licensure or endorsement. | true |
