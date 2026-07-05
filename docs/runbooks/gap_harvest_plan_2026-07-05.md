@@ -110,6 +110,32 @@ gated. Publishing (if wanted) is a separate free `build_frontend` per profession
 **Bottleneck is CDP time, not dollars.** LLM is ~$250 total. The pilot exists to price
 the CDP before committing.
 
+## The ~1,000 is a FLOOR, not a ceiling — make the harvest a discovery flywheel
+
+The Tier-3 gap list only counts blanks in professions ALREADY in our 86-taxonomy. It is
+blind to occupations we've never named. Do NOT treat "pull the 1,000" as completeness —
+that rebuilds the same blind spot. The locator hands us the fix for free:
+
+1. Locate a known gap chapter (proven, 93%).
+2. **Harvest its PARENT container's full child list** — one cheap fetch; many professions
+   share a parent (all GA professions sit under Title 43 "Professions and Businesses"),
+   so parents dedupe hard. This is the structural context the licensing-title-rooted
+   hierarchy never captured.
+3. **Classify siblings**: LLM-free pattern-match child labels against the 86-taxonomy →
+   matched = possibly new gap cells; UNMATCHED labels = candidate NEW professions.
+4. **Haiku-classify the unmatched** (reuse `scratchpad/classify_occs.py`, the pass that
+   found EMT/optician/apiarist) → real licensed occupations get added to professions.yaml.
+5. **Feed new professions back into the locator**; loop until a round surfaces nothing new
+   (loop-until-dry, K=2 empty rounds).
+
+This unifies the two approaches: search discovers WHICH titles actually hold professions
+(across the whole state code), and those parent titles become the roots we enumerate for
+unknowns — catching occupations the 86-taxonomy never had. Restates the CLAUDE.md north
+star: "for every occupation, have every chapter that could regulate it, in every state."
+
+Implication for counts: report the flywheel's discovered-new-professions per round and
+never claim "complete" — claim "N rounds ran dry," which is honest.
+
 ## Guardrails (from CLAUDE.md + this session)
 - ONE expand/pull process per Chrome (flock). Never two committing processes (git lock).
 - Leave the debug Chrome open + solved; `caffeinate -disu` for unattended runs.
