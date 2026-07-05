@@ -1,0 +1,299 @@
+{
+  "profession": "insurance_navigator",
+  "fields": [
+    {
+      "name": "navigator_line_of_authority",
+      "category": "license types and scope of service",
+      "type": "enum",
+      "enum_values": [
+        "navigator",
+        "certified application counselor"
+      ],
+      "description": "The specific line of authority granted under a navigator license, distinguishing full navigator authority from the more limited certified application counselor authority.",
+      "sample_quote": "A license type under this chapter shall be a navigator line of authority or a certified application counselor line of authority.",
+      "sample_state": "UT",
+      "states_supporting": [
+        "UT",
+        "NY"
+      ]
+    },
+    {
+      "name": "scope_limited_to_exchange_plans",
+      "category": "license types and scope of service",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the navigator's authorized activities are restricted to plans and programs offered on a health benefit exchange, prohibiting assistance with off-exchange products.",
+      "sample_quote": "may perform, offer to perform, or advertise a service as a navigator only for a person selecting a qualified health plan or public program offered on an exchange; and may not perform, offer to perform, or advertise services as a navigator for individuals or small employer groups selecting accident and health insurance plans, qualified health plans, public programs, business, or services that are not offered on an exchange",
+      "sample_state": "UT",
+      "states_supporting": [
+        "UT",
+        "NY"
+      ]
+    },
+    {
+      "name": "plan_recommendation_prohibited",
+      "category": "license types and scope of service",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the navigator is explicitly prohibited from recommending a particular health plan to a consumer.",
+      "sample_quote": "may not recommend a particular accident and health insurance plan or qualified health plan",
+      "sample_state": "UT",
+      "states_supporting": [
+        "UT",
+        "NY"
+      ]
+    },
+    {
+      "name": "insurance_sales_prohibited",
+      "category": "license types and scope of service",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the navigator is explicitly prohibited from selling insurance.",
+      "sample_quote": "does not sell insurance",
+      "sample_state": "NY",
+      "states_supporting": [
+        "NY",
+        "UT"
+      ]
+    },
+    {
+      "name": "public_programs_covered",
+      "category": "license types and scope of service",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "The public health programs (e.g., Medicaid, CHIP) that navigators are authorized to assist consumers in enrolling in.",
+      "sample_quote": "\"Public programs\" means the state Medicaid program in Title 26B, Chapter 3, Health Care - Administration and Assistance, and Title 26B, Chapter 3, Part 9, Utah Children's Health Insurance Program.",
+      "sample_state": "UT",
+      "states_supporting": [
+        "UT",
+        "NY"
+      ]
+    },
+    {
+      "name": "premium_subsidy_assistance_authorized",
+      "category": "license types and scope of service",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the navigator is authorized to assist consumers with applying for premium subsidies through the exchange.",
+      "sample_quote": "applying for premium subsidies through an exchange",
+      "sample_state": "UT",
+      "states_supporting": [
+        "UT",
+        "NY"
+      ]
+    },
+    {
+      "name": "federal_grant_or_certification_required",
+      "category": "how navigators are authorized and overseen",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the navigator must have received a grant from and been certified by the health benefit exchange established under the ACA as a condition of operating.",
+      "sample_quote": "any person who has received a grant from and has been certified by the health benefit exchange established pursuant to section 1311 of the affordable care act, 42 U.S.C. \u00a7 18031, to act as a navigator",
+      "sample_state": "NY",
+      "states_supporting": [
+        "NY",
+        "UT"
+      ]
+    },
+    {
+      "name": "federal_training_completion_required",
+      "category": "how navigators are authorized and overseen",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the navigator must complete the training program required by the health benefit exchange (including CMS-developed programs) as a condition of licensure.",
+      "sample_quote": "has completed the training required by the health benefit exchange",
+      "sample_state": "NY",
+      "states_supporting": [
+        "NY",
+        "UT"
+      ]
+    },
+    {
+      "name": "cms_training_program_required",
+      "category": "how navigators are authorized and overseen",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the navigator's pre-license training must specifically include the training and certification program developed by the Centers for Medicare and Medicaid Services.",
+      "sample_quote": "the training required by Subsection (1) shall consist of at least 21 credit hours of training before obtaining the license, which shall include the navigator training and certification program developed by the Centers for Medicare and Medicaid Services",
+      "sample_state": "UT",
+      "states_supporting": [
+        "UT",
+        "NY"
+      ]
+    },
+    {
+      "name": "pre_license_training_hours",
+      "category": "how navigators are authorized and overseen",
+      "type": "int",
+      "enum_values": null,
+      "description": "Minimum number of training credit hours required before obtaining a navigator license (for the full navigator line of authority).",
+      "sample_quote": "the training required by Subsection (1) shall consist of at least 21 credit hours of training before obtaining the license",
+      "sample_state": "UT",
+      "states_supporting": [
+        "UT",
+        "NY"
+      ]
+    },
+    {
+      "name": "conflict_of_interest_standards_required",
+      "category": "how navigators are authorized and overseen",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the navigator must comply with conflict-of-interest standards established by federal PPACA regulations, including as part of training and character requirements.",
+      "sample_quote": "the applicant does not have a conflict of interest as defined by regulations issued under PPACA",
+      "sample_state": "UT",
+      "states_supporting": [
+        "UT",
+        "NY"
+      ]
+    },
+    {
+      "name": "compensation_source_restrictions",
+      "category": "compensation and financial rules",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "Entities from which a navigator is prohibited from receiving direct or indirect compensation for navigator services.",
+      "sample_quote": "does not receive any compensation for acting as a navigator directly or indirectly from an insured, insurance producer, or an insurer",
+      "sample_state": "NY",
+      "states_supporting": [
+        "NY",
+        "UT"
+      ]
+    },
+    {
+      "name": "exchange_compensation_permitted",
+      "category": "compensation and financial rules",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the navigator may be compensated by the exchange itself for performing navigator duties.",
+      "sample_quote": "may be compensated by the exchange for performing the duties of a navigator",
+      "sample_state": "UT",
+      "states_supporting": [
+        "UT",
+        "NY"
+      ]
+    },
+    {
+      "name": "surety_bond_required",
+      "category": "compensation and financial rules",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the navigator is required to obtain and maintain a surety bond to cover legal liability arising from erroneous acts or failures to act.",
+      "sample_quote": "a navigator shall obtain a surety bond in an amount designated by the commissioner by administrative rule to cover the legal liability of the navigator as the result of an erroneous act or failure to act in the navigator's capacity as a navigator",
+      "sample_state": "UT",
+      "states_supporting": [
+        "UT",
+        "NY"
+      ]
+    },
+    {
+      "name": "fiduciary_funds_prohibited",
+      "category": "compensation and financial rules",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the navigator is explicitly prohibited from receiving, collecting, or holding funds that would constitute fiduciary funds under insurance law.",
+      "sample_quote": "A person who has received a grant from and has been certified by the health benefit exchange ... shall not receive, collect or hold any funds that would constitute fiduciary funds within the meaning of section two thousand one hundred twenty of this article.",
+      "sample_state": "NY",
+      "states_supporting": [
+        "NY",
+        "UT"
+      ]
+    },
+    {
+      "name": "agency_license_available",
+      "category": "individual and agency licensing structure",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether a navigator agency (organizational) license is available in addition to individual navigator licenses.",
+      "sample_quote": "An organization shall be licensed as a navigator agency if the organization acts as a navigator.",
+      "sample_state": "UT",
+      "states_supporting": [
+        "UT",
+        "NY"
+      ]
+    },
+    {
+      "name": "designated_responsible_individual_required",
+      "category": "individual and agency licensing structure",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether a navigator agency must designate a specific licensed individual responsible for the agency's compliance with navigator laws and regulations.",
+      "sample_quote": "A navigator agency that does business in the state shall designate an individual who is licensed under this chapter to act on the agency's behalf.",
+      "sample_state": "UT",
+      "states_supporting": [
+        "UT",
+        "NY"
+      ]
+    },
+    {
+      "name": "license_term_years",
+      "category": "individual and agency licensing structure",
+      "type": "int",
+      "enum_values": null,
+      "description": "Duration in years of a navigator license before renewal is required.",
+      "sample_quote": "A license issued under this chapter is valid for one year.",
+      "sample_state": "UT",
+      "states_supporting": [
+        "UT",
+        "NY"
+      ]
+    },
+    {
+      "name": "licensing_exemptions",
+      "category": "who does not need a navigator license",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "Categories of persons or entities explicitly exempt from the navigator licensing requirement.",
+      "sample_quote": "The commissioner may not require a license as a navigator of: a person who is employed by or contracts with a health care facility ... to assist an individual with enrollment in a public program or an application for premium subsidy; a federally qualified health center ... an Indian health clinic or Urban Indian Health Center",
+      "sample_state": "UT",
+      "states_supporting": [
+        "UT",
+        "NY"
+      ]
+    },
+    {
+      "name": "cultural_and_linguistic_competence_training_required",
+      "category": "training content requirements",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether navigator training must include cultural and linguistic competence as a required topic.",
+      "sample_quote": "The training required by Subsection (1) shall be approved by the commissioner and shall include: ... cultural and linguistic competence",
+      "sample_state": "UT",
+      "states_supporting": [
+        "UT",
+        "NY"
+      ]
+    },
+    {
+      "name": "continuing_education_ethics_hours_required",
+      "category": "training content requirements",
+      "type": "int",
+      "enum_values": null,
+      "description": "Minimum number of continuing education hours per renewal period that must be dedicated to ethics courses.",
+      "sample_quote": "that at least two of the 12 credit hours described in Subsection (3)(a)(i) be ethics courses",
+      "sample_state": "UT",
+      "states_supporting": [
+        "UT",
+        "NY"
+      ]
+    },
+    {
+      "name": "annual_cms_recertification_required",
+      "category": "training content requirements",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether navigators must complete the annual CMS navigator or certified application counselor training and certification program as part of continuing education each license period.",
+      "sample_quote": "that a licensee complete the annual navigator training and certification program developed by the Centers for Medicare and Medicaid Services",
+      "sample_state": "UT",
+      "states_supporting": [
+        "UT",
+        "NY"
+      ]
+    }
+  ],
+  "states_sampled": [
+    "NY",
+    "UT"
+  ],
+  "states_excluded_count": 0
+}

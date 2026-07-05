@@ -2,7 +2,7 @@
 
 _Auto-generated from the extraction model (`standard_model.py` + the profession's discovered schema). Do not edit by hand — regenerate with `python -m pipeline.publish.generate_field_dictionary`._
 
-**Reflects extracted data as of 2026-06-29** (latest commit to `dentistry` records). Regenerate to refresh.
+**Reflects extracted data as of 2026-07-05** (latest commit to `dentistry` records). Regenerate to refresh.
 
 Every field is an **Evidence** object: a `value`, the verbatim `quote` from the statute that supports it, and the `citation` it came from. Examples below are sampled from dentistry/AK.
 
@@ -20,9 +20,9 @@ character), fees, renewal, continuing education, and reciprocity._
 | &nbsp;&nbsp;&nbsp;&nbsp;`regulatory_authority.type` | enum — one of: standalone_board, shared_board, division, department, joint, other | Structural classification of the immediate authority. | "shared_board" |
 | &nbsp;&nbsp;&nbsp;&nbsp;`regulatory_authority.umbrella_agency` | string | Higher-level agency that contains the immediate authority, if any. Example: 'Division of Occupations and Professions, Department of Commerce'. Null for standalone boards that don't sit inside a larger department. | "Department of Commerce, Community, and Economic Development |
 | `age_minimum` | integer | Minimum age (years) to hold the credential, if the statute sets one. |  |
-| `moral_character_required` | boolean | Whether the statute conditions licensure on good moral character / fitness. |  |
+| `moral_character_required` | boolean | Whether the statute conditions licensure on good moral character / fitness. | true |
 | `education` | object | Education entry requirement — degree, level, accreditation, and any tiers. |  |
-| &nbsp;&nbsp;&nbsp;&nbsp;`education.degree_required` | string |  | "graduate of a dental school approved by the board" |
+| &nbsp;&nbsp;&nbsp;&nbsp;`education.degree_required` | string |  | "Graduate of a board-approved dental school" |
 | &nbsp;&nbsp;&nbsp;&nbsp;`education.accrediting_body` | string |  |  |
 | &nbsp;&nbsp;&nbsp;&nbsp;`education.degree_level` | enum — one of: none, high_school, associate, bachelor, master, doctorate | The comparable education FLOOR as a normalized rung. Populate whenever licensure is gated on a degree; null only if the statute is silent on education. | "doctorate" |
 | &nbsp;&nbsp;&nbsp;&nbsp;`education.school_approval_basis` | enum — one of: national_accreditor, regional_accreditor, board_approved, unspecified | How the statute decides a school counts. national_accreditor=a named national program accreditor (ACOE/CODA/ACEND/LCME/CPME). regional_accreditor='regionally accredited college or university'. board_approved='approved by the board' (discretionary state gate). unspecified=says 'accredited' with no basis named, or silent. | "board_approved" |
@@ -39,8 +39,8 @@ character), fees, renewal, continuing education, and reciprocity._
 | `exams` | list | Examinations required for the credential (one entry per exam). |  |
 | &nbsp;&nbsp;&nbsp;&nbsp;`exams[].name` | string |  | "Written examination approved by the board" |
 | &nbsp;&nbsp;&nbsp;&nbsp;`exams[].required` | boolean |  | true |
-| &nbsp;&nbsp;&nbsp;&nbsp;`exams[].notes` | string |  | "Written examination approved by the board; must also pass c |
-| &nbsp;&nbsp;&nbsp;&nbsp;`exams[].jurisdiction` | string | Where the exam is administered / who owns it — e.g. 'NBPME (national)', 'state board (in-state)', 'NCLEX-RN (national)'. Use the statute's language; null if the source doesn't say. | "board-approved" |
+| &nbsp;&nbsp;&nbsp;&nbsp;`exams[].notes` | string |  | "Must pass written examination approved by the board" |
+| &nbsp;&nbsp;&nbsp;&nbsp;`exams[].jurisdiction` | string | Where the exam is administered / who owns it — e.g. 'NBPME (national)', 'state board (in-state)', 'NCLEX-RN (national)'. Use the statute's language; null if the source doesn't say. | "state (board-approved)" |
 | &nbsp;&nbsp;&nbsp;&nbsp;`exams[].permitted_attempts` | integer | Max attempts allowed before re-qualification. Null if not specified. |  |
 | `renewal` | object | How the credential is renewed — interval and any conditions. |  |
 | &nbsp;&nbsp;&nbsp;&nbsp;`renewal.interval_years` | integer | Most states are 1 or 2 | 2 |
@@ -52,7 +52,7 @@ character), fees, renewal, continuing education, and reciprocity._
 | &nbsp;&nbsp;&nbsp;&nbsp;`continuing_education.topical_requirements` | list | Specific topical CE requirements, e.g. ['1.5 hrs opioid', 'ethics'] | ["pain management and opioid use and addiction"] |
 | `reciprocity` | object | Whether/how the state recognizes out-of-state credentials (endorsement/reciprocity). |  |
 | &nbsp;&nbsp;&nbsp;&nbsp;`reciprocity.available` | boolean |  | true |
-| &nbsp;&nbsp;&nbsp;&nbsp;`reciprocity.requirements` | string | Free-form summary | "Applicant must meet qualifications of AS 08.36.110, submit  |
+| &nbsp;&nbsp;&nbsp;&nbsp;`reciprocity.requirements` | string | Free-form summary | "Must meet qualifications under AS 08.36.110, submit proof o |
 | `advisory_board` | object | Profession-specific advisory body sitting alongside the main licensing board, when one exists. Populated for states that delegate licensure to a generic board and add a specialty advisory committee. |  |
 | &nbsp;&nbsp;&nbsp;&nbsp;`advisory_board.exists` | boolean | True if a profession-specific advisory body exists alongside the main licensing board. False if the licensing board itself is profession-specific (no separate advisory body needed). | false |
 | &nbsp;&nbsp;&nbsp;&nbsp;`advisory_board.name` | string | Name of the advisory board, e.g. 'Podiatry Advisory Committee'. |  |
@@ -65,15 +65,15 @@ character), fees, renewal, continuing education, and reciprocity._
 | `title_protection` | boolean | Does the state restrict use of the profession's title to licensees? True if unlicensed people may NOT call themselves the protected title (e.g. 'podiatrist', 'CPA'). | true |
 | `scope_protection` | boolean | Does the state restrict practice of the profession's scope to licensees? True if performing the scope without a license is prohibited (independent of title use). | true |
 | `disciplinary_grounds` | list | Grounds on which the board may discipline a licensee. Typical statutes list 5-15. |  |
-| &nbsp;&nbsp;&nbsp;&nbsp;`disciplinary_grounds[].short_label` | string | snake_case key, e.g. 'fraud_in_obtaining_license' | "fraud_in_obtaining_license" |
+| &nbsp;&nbsp;&nbsp;&nbsp;`disciplinary_grounds[].short_label` | string | snake_case key, e.g. 'fraud_in_obtaining_license' | "fraud_to_obtain_license" |
 | &nbsp;&nbsp;&nbsp;&nbsp;`disciplinary_grounds[].description` | string | One-line plain-English description | "Used or knowingly cooperated in deceit, fraud, or intention |
 | `alternative_regulation` | object | Non-credential regulatory mechanisms (bonding, insurance, establishment regulation) imposed by the state. Obama 2015 framework typology. Independent of credential_type. |  |
 | &nbsp;&nbsp;&nbsp;&nbsp;`alternative_regulation.bonding_required` | boolean | Does the statute require the practitioner or firm to post a bond (funds against which consumer claims can be made)? Independent of whether a credential is also required. |  |
 | &nbsp;&nbsp;&nbsp;&nbsp;`alternative_regulation.insurance_required` | boolean | Does the statute require the practitioner or firm to carry insurance (e.g., professional liability, surety insurance)? |  |
-| &nbsp;&nbsp;&nbsp;&nbsp;`alternative_regulation.establishment_regulation_required` | boolean | Does the statute regulate the ESTABLISHMENT / FIRM (e.g., facility license, mandatory inspection of premises) as a route to consumer protection, independent of any practitioner credential? | true |
+| &nbsp;&nbsp;&nbsp;&nbsp;`alternative_regulation.establishment_regulation_required` | boolean | Does the statute regulate the ESTABLISHMENT / FIRM (e.g., facility license, mandatory inspection of premises) as a route to consumer protection, independent of any practitioner credential? |  |
 | `citations` | list | Statutory citations supporting the licensure fields above. |  |
-| &nbsp;&nbsp;&nbsp;&nbsp;`citations[].cite` | string |  | "08.36.100" |
-| &nbsp;&nbsp;&nbsp;&nbsp;`citations[].kind` | string |  | "license_required" |
+| &nbsp;&nbsp;&nbsp;&nbsp;`citations[].cite` | string |  | "08.36.010" |
+| &nbsp;&nbsp;&nbsp;&nbsp;`citations[].kind` | string |  | "board composition" |
 
 ## scope
 _What the practice act lets (or reserves to) this profession — the defined scope,
@@ -83,11 +83,11 @@ profession-specific scope richness lives in the discovered block._
 | field | type | what it means | example value |
 |---|---|---|---|
 | `definition_quote` | string | Verbatim statutory definition; quote field repeats the value text. | "A person engages in the practice of dentistry who (1) perfo |
-| `methods_authorized` | list | High-level methods, e.g. ['medical','surgical','mechanical'] | ["diagnosis and treatment of dental diseases and conditions" |
-| `drug_authority` | string | Whether/how the profession may prescribe, administer, or dispense drugs. | "Dentists may prescribe drugs within the scope of dental pra |
+| `methods_authorized` | list | High-level methods, e.g. ['medical','surgical','mechanical'] | ["diagnosis", "treatment", "operative procedures", "surgical |
+| `drug_authority` | string | Whether/how the profession may prescribe, administer, or dispense drugs. | "Dentists may prescribe drugs as part of the practice of den |
 | `citations` | list | Statutory citations supporting the scope fields above. |  |
 | &nbsp;&nbsp;&nbsp;&nbsp;`citations[].cite` | string |  | "08.36.360" |
-| &nbsp;&nbsp;&nbsp;&nbsp;`citations[].kind` | string |  | "scope_definition" |
+| &nbsp;&nbsp;&nbsp;&nbsp;`citations[].kind` | string |  | "practice of dentistry defined" |
 
 ## profession_specific
 _Fields discovered specifically for this profession (auto-derived from its statutes); they vary profession to profession._
@@ -105,7 +105,7 @@ _Fields discovered specifically for this profession (auto-derived from its statu
 | `collaborative_agreement_available` | boolean | Whether the state authorizes a formal written collaborative agreement between a dentist and a dental hygienist that allows the hygienist to provide specified services without the dentist's physical presence. | true |
 | `collaborative_agreement_max_hygienists_per_dentist` | integer | The maximum number of collaborative or affiliated practice agreements a single dentist may hold simultaneously with dental hygienists. | 5 |
 | `advanced_practice_permit_available` | boolean | Whether the state issues an advanced practice permit or equivalent credential allowing a dental hygienist to provide services to underserved populations without a dentist's physical presence or prior examination. | true |
-| `advanced_practice_eligible_patient_populations` | list | The specific patient populations or settings for which an advanced practice or affiliated practice dental hygienist may provide services without direct dentist supervision. | ["residents in senior centers including hospitals, long-term |
+| `advanced_practice_eligible_patient_populations` | list | The specific patient populations or settings for which an advanced practice or affiliated practice dental hygienist may provide services without direct dentist supervision. | ["residents in a senior center, including hospital, long-ter |
 | `dental_therapist_license_available` | boolean | Whether the state licenses dental therapists as a distinct mid-level dental provider category with its own scope of practice. |  |
 | `dental_therapist_collaborative_practice_required` | boolean | Whether a dental therapist must operate under a written collaborative practice agreement with a supervising dentist in order to practice independently of direct supervision. |  |
 | `dental_therapist_practice_setting_restrictions` | list | The specific practice settings or facility types in which a dental therapist is authorized to practice. |  |

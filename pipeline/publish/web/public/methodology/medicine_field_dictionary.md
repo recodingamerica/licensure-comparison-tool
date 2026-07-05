@@ -2,7 +2,7 @@
 
 _Auto-generated from the extraction model (`standard_model.py` + the profession's discovered schema). Do not edit by hand — regenerate with `python -m pipeline.publish.generate_field_dictionary`._
 
-**Reflects extracted data as of 2026-06-29** (latest commit to `medicine` records). Regenerate to refresh.
+**Reflects extracted data as of 2026-07-05** (latest commit to `medicine` records). Regenerate to refresh.
 
 Every field is an **Evidence** object: a `value`, the verbatim `quote` from the statute that supports it, and the `citation` it came from. Examples below are sampled from medicine/AK.
 
@@ -34,12 +34,12 @@ character), fees, renewal, continuing education, and reciprocity._
 | `post_degree_experience` | object | Supervised practice / residency / apprenticeship required after the degree. |  |
 | &nbsp;&nbsp;&nbsp;&nbsp;`post_degree_experience.required` | boolean |  | true |
 | &nbsp;&nbsp;&nbsp;&nbsp;`post_degree_experience.experience_source` | enum — one of: required_by_statute, embedded_in_credential, none | ALWAYS populate (required_by_statute / embedded_in_credential / none) unless the governing statute is absent from the corpus. Disambiguates a blank `required`: 'none' (truly no requirement) vs 'embedded_in_credential' (the accredited degree the statute points to carries the supervised hours). | "required_by_statute" |
-| &nbsp;&nbsp;&nbsp;&nbsp;`post_degree_experience.duration` | string | e.g. '24 months', '1 year', '2,000 hours' (free text — units vary) | "One year (pre-1995 graduates) or two years (post-1995 gradu |
-| &nbsp;&nbsp;&nbsp;&nbsp;`post_degree_experience.kind` | string | e.g. 'podiatric residency', 'accounting work experience', 'AXP' | "residency or internship" |
+| &nbsp;&nbsp;&nbsp;&nbsp;`post_degree_experience.duration` | string | e.g. '24 months', '1 year', '2,000 hours' (free text — units vary) | "one year (pre-1995 graduates) or two years (post-1995 gradu |
+| &nbsp;&nbsp;&nbsp;&nbsp;`post_degree_experience.kind` | string | e.g. 'podiatric residency', 'accounting work experience', 'AXP' | "internship or residency" |
 | `exams` | list | Examinations required for the credential (one entry per exam). |  |
 | &nbsp;&nbsp;&nbsp;&nbsp;`exams[].name` | string |  | "Board examination" |
 | &nbsp;&nbsp;&nbsp;&nbsp;`exams[].required` | boolean |  | true |
-| &nbsp;&nbsp;&nbsp;&nbsp;`exams[].notes` | string |  | "The board determines the subjects; examination may be waive |
+| &nbsp;&nbsp;&nbsp;&nbsp;`exams[].notes` | string |  | "Board sets subjects; examination may be waived for licensur |
 | &nbsp;&nbsp;&nbsp;&nbsp;`exams[].jurisdiction` | string | Where the exam is administered / who owns it — e.g. 'NBPME (national)', 'state board (in-state)', 'NCLEX-RN (national)'. Use the statute's language; null if the source doesn't say. | "state (in-house)" |
 | &nbsp;&nbsp;&nbsp;&nbsp;`exams[].permitted_attempts` | integer | Max attempts allowed before re-qualification. Null if not specified. |  |
 | `renewal` | object | How the credential is renewed — interval and any conditions. |  |
@@ -49,10 +49,10 @@ character), fees, renewal, continuing education, and reciprocity._
 | &nbsp;&nbsp;&nbsp;&nbsp;`continuing_education.required` | boolean |  | true |
 | &nbsp;&nbsp;&nbsp;&nbsp;`continuing_education.hours_per_period` | integer |  |  |
 | &nbsp;&nbsp;&nbsp;&nbsp;`continuing_education.period_years` | integer |  | 2 |
-| &nbsp;&nbsp;&nbsp;&nbsp;`continuing_education.topical_requirements` | list | Specific topical CE requirements, e.g. ['1.5 hrs opioid', 'ethics'] | ["pain management and opioid use and addiction (minimum 2 ho |
+| &nbsp;&nbsp;&nbsp;&nbsp;`continuing_education.topical_requirements` | list | Specific topical CE requirements, e.g. ['1.5 hrs opioid', 'ethics'] | ["pain management and opioid use and addiction (not less tha |
 | `reciprocity` | object | Whether/how the state recognizes out-of-state credentials (endorsement/reciprocity). |  |
 | &nbsp;&nbsp;&nbsp;&nbsp;`reciprocity.available` | boolean |  | true |
-| &nbsp;&nbsp;&nbsp;&nbsp;`reciprocity.requirements` | string | Free-form summary | "Active license from another U.S. state/territory or Canadia |
+| &nbsp;&nbsp;&nbsp;&nbsp;`reciprocity.requirements` | string | Free-form summary | "Applicant must meet education and training requirements, su |
 | `advisory_board` | object | Profession-specific advisory body sitting alongside the main licensing board, when one exists. Populated for states that delegate licensure to a generic board and add a specialty advisory committee. |  |
 | &nbsp;&nbsp;&nbsp;&nbsp;`advisory_board.exists` | boolean | True if a profession-specific advisory body exists alongside the main licensing board. False if the licensing board itself is profession-specific (no separate advisory body needed). | false |
 | &nbsp;&nbsp;&nbsp;&nbsp;`advisory_board.name` | string | Name of the advisory board, e.g. 'Podiatry Advisory Committee'. |  |
@@ -72,8 +72,8 @@ character), fees, renewal, continuing education, and reciprocity._
 | &nbsp;&nbsp;&nbsp;&nbsp;`alternative_regulation.insurance_required` | boolean | Does the statute require the practitioner or firm to carry insurance (e.g., professional liability, surety insurance)? |  |
 | &nbsp;&nbsp;&nbsp;&nbsp;`alternative_regulation.establishment_regulation_required` | boolean | Does the statute regulate the ESTABLISHMENT / FIRM (e.g., facility license, mandatory inspection of premises) as a route to consumer protection, independent of any practitioner credential? |  |
 | `citations` | list | Statutory citations supporting the licensure fields above. |  |
-| &nbsp;&nbsp;&nbsp;&nbsp;`citations[].cite` | string |  | "08.64.101" |
-| &nbsp;&nbsp;&nbsp;&nbsp;`citations[].kind` | string |  | "board duties" |
+| &nbsp;&nbsp;&nbsp;&nbsp;`citations[].cite` | string |  | "08.64.010" |
+| &nbsp;&nbsp;&nbsp;&nbsp;`citations[].kind` | string |  | "board composition" |
 
 ## scope
 _What the practice act lets (or reserves to) this profession — the defined scope,
@@ -84,10 +84,10 @@ profession-specific scope richness lives in the discovered block._
 |---|---|---|---|
 | `definition_quote` | string | Verbatim statutory definition; quote field repeats the value text. | "for a fee, donation or other consideration, to diagnose, tr |
 | `methods_authorized` | list | High-level methods, e.g. ['medical','surgical','mechanical'] | ["diagnose", "treat", "operate on", "prescribe for", "admini |
-| `drug_authority` | string | Whether/how the profession may prescribe, administer, or dispense drugs. | "Licensees may prescribe, dispense, and administer drugs inc |
+| `drug_authority` | string | Whether/how the profession may prescribe, administer, or dispense drugs. | "Physicians may prescribe and dispense prescription drugs, i |
 | `citations` | list | Statutory citations supporting the scope fields above. |  |
 | &nbsp;&nbsp;&nbsp;&nbsp;`citations[].cite` | string |  | "08.64.380" |
-| &nbsp;&nbsp;&nbsp;&nbsp;`citations[].kind` | string |  | "definition of practice of medicine" |
+| &nbsp;&nbsp;&nbsp;&nbsp;`citations[].kind` | string |  | "scope definition" |
 
 ## profession_specific
 _Fields discovered specifically for this profession (auto-derived from its statutes); they vary profession to profession._
@@ -95,13 +95,13 @@ _Fields discovered specifically for this profession (auto-derived from its statu
 | field | type | what it means | example value |
 |---|---|---|---|
 | `license_status_types` | list | The distinct license status categories a physician may hold beyond a standard active license, such as inactive, retired, volunteer, temporary, or administrative. | ["active", "inactive", "retired status", "temporary permit", |
-| `foreign_medical_graduate_requirements` | string | Special additional requirements imposed on graduates of medical schools outside the United States or Canada, such as additional postgraduate training years, ECFMG certification, or separate examination standards. | "Foreign medical graduates must meet requirements of AS 08.6 |
+| `foreign_medical_graduate_requirements` | string | Special additional requirements imposed on graduates of medical schools outside the United States or Canada, such as additional postgraduate training years, ECFMG certification, or separate examination standards. | "Foreign medical graduates (graduates of schools not accredi |
 | `postgraduate_training_years_required` | integer | The minimum number of years of postgraduate internship or residency training required before a license will be issued to a standard domestic medical school graduate. | 2 |
 | `pain_management_education_required` | boolean | Whether the state requires applicants or licensees to complete specific education in pain management and opioid use and addiction as a condition of licensure or renewal. | true |
-| `opioid_prescribing_limits` | string | Statutory limits on the quantity or duration of opioid prescriptions a licensee may issue, including any exceptions for chronic pain, cancer, or palliative care. | "Initial opioid prescription may not exceed a seven-day supp |
+| `opioid_prescribing_limits` | string | Statutory limits on the quantity or duration of opioid prescriptions a licensee may issue, including any exceptions for chronic pain, cancer, or palliative care. | "Initial prescription for an opioid may not exceed a seven-d |
 | `controlled_substance_database_registration_required` | boolean | Whether licensees who hold a DEA registration number are required to register with or use the state's prescription drug monitoring program or controlled substance database. | true |
 | `pain_management_clinic_registration_required` | boolean | Whether physicians providing pain management services must obtain a separate registration or license from the board in addition to their standard medical license. |  |
-| `telehealth_prescribing_rules` | string | Specific statutory conditions under which a physician may prescribe drugs, including controlled substances, to patients seen only via telehealth rather than in person. | "Board may not impose disciplinary sanctions for prescribing |
+| `telehealth_prescribing_rules` | string | Specific statutory conditions under which a physician may prescribe drugs, including controlled substances, to patients seen only via telehealth rather than in person. | "Board may not impose disciplinary sanctions on a physician  |
 | `telemedicine_license_available` | boolean | Whether the state offers a distinct telemedicine or telehealth license category for out-of-state physicians who wish to treat in-state patients remotely without obtaining a full in-state license. |  |
 | `interstate_medical_licensure_compact_member` | boolean | Whether the state has enacted the Interstate Medical Licensure Compact, enabling eligible physicians to obtain expedited licenses in multiple member states. |  |
 | `physician_assistant_supervision_model` | enum — one of: direct supervision required, collaborative practice agreement, job description with board approval, facility credentialing system | The statutory model governing how physician assistants must relate to supervising or collaborating physicians, ranging from strict supervision to collaborative practice agreements. | "direct supervision required" |

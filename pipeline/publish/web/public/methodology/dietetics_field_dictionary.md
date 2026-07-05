@@ -2,7 +2,7 @@
 
 _Auto-generated from the extraction model (`standard_model.py` + the profession's discovered schema). Do not edit by hand — regenerate with `python -m pipeline.publish.generate_field_dictionary`._
 
-**Reflects extracted data as of 2026-06-24** (latest commit to `dietetics` records). Regenerate to refresh.
+**Reflects extracted data as of 2026-07-05** (latest commit to `dietetics` records). Regenerate to refresh.
 
 Every field is an **Evidence** object: a `value`, the verbatim `quote` from the statute that supports it, and the `citation` it came from. Examples below are sampled from dietetics/AK.
 
@@ -25,7 +25,7 @@ character), fees, renewal, continuing education, and reciprocity._
 | &nbsp;&nbsp;&nbsp;&nbsp;`education.degree_required` | string |  | "master's or doctoral degree from an accredited college or u |
 | &nbsp;&nbsp;&nbsp;&nbsp;`education.accrediting_body` | string |  | "regional or national accrediting agencies recognized by the |
 | &nbsp;&nbsp;&nbsp;&nbsp;`education.degree_level` | enum — one of: none, high_school, associate, bachelor, master, doctorate | The comparable education FLOOR as a normalized rung. Populate whenever licensure is gated on a degree; null only if the statute is silent on education. | "master" |
-| &nbsp;&nbsp;&nbsp;&nbsp;`education.school_approval_basis` | enum — one of: national_accreditor, regional_accreditor, board_approved, unspecified | How the statute decides a school counts. national_accreditor=a named national program accreditor (ACOE/CODA/ACEND/LCME/CPME). regional_accreditor='regionally accredited college or university'. board_approved='approved by the board' (discretionary state gate). unspecified=says 'accredited' with no basis named, or silent. | "unspecified" |
+| &nbsp;&nbsp;&nbsp;&nbsp;`education.school_approval_basis` | enum — one of: national_accreditor, regional_accreditor, board_approved, unspecified | How the statute decides a school counts. national_accreditor=a named national program accreditor (ACOE/CODA/ACEND/LCME/CPME). regional_accreditor='regionally accredited college or university'. board_approved='approved by the board' (discretionary state gate). unspecified=says 'accredited' with no basis named, or silent. | "national_accreditor" |
 | &nbsp;&nbsp;&nbsp;&nbsp;`education.credential_pegged` | boolean | True if the statute pegs the education requirement to a NATIONAL CREDENTIAL (e.g. 'registered by CDR', 'passed the NBEO') rather than (or in addition to) a stated degree — such a state inherits whatever that national body currently requires. | true |
 | &nbsp;&nbsp;&nbsp;&nbsp;`education.tiers` | list | Per-tier floors when the statute sets different education levels for different license classes, or phases the floor in by date. Omit/null when there is a single floor. `degree_level` still records the overall floor across all tiers. |  |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`education.tiers[].license_class` | string | Which class/date this floor applies to — e.g. 'licensed dietitian', 'certified nutritionist', 'applicants on or after 2024-01-01'. | "licensed dietitian" |
@@ -34,7 +34,7 @@ character), fees, renewal, continuing education, and reciprocity._
 | `post_degree_experience` | object | Supervised practice / residency / apprenticeship required after the degree. |  |
 | &nbsp;&nbsp;&nbsp;&nbsp;`post_degree_experience.required` | boolean |  | true |
 | &nbsp;&nbsp;&nbsp;&nbsp;`post_degree_experience.experience_source` | enum — one of: required_by_statute, embedded_in_credential, none | ALWAYS populate (required_by_statute / embedded_in_credential / none) unless the governing statute is absent from the corpus. Disambiguates a blank `required`: 'none' (truly no requirement) vs 'embedded_in_credential' (the accredited degree the statute points to carries the supervised hours). | "required_by_statute" |
-| &nbsp;&nbsp;&nbsp;&nbsp;`post_degree_experience.duration` | string | e.g. '24 months', '1 year', '2,000 hours' (free text — units vary) | "at least 900 hours" |
+| &nbsp;&nbsp;&nbsp;&nbsp;`post_degree_experience.duration` | string | e.g. '24 months', '1 year', '2,000 hours' (free text — units vary) | "900 hours" |
 | &nbsp;&nbsp;&nbsp;&nbsp;`post_degree_experience.kind` | string | e.g. 'podiatric residency', 'accounting work experience', 'AXP' | "documented work experience in human nutrition or human nutr |
 | `exams` | list | Examinations required for the credential (one entry per exam). |  |
 | &nbsp;&nbsp;&nbsp;&nbsp;`exams[].name` | string |  |  |
@@ -73,7 +73,7 @@ character), fees, renewal, continuing education, and reciprocity._
 | &nbsp;&nbsp;&nbsp;&nbsp;`alternative_regulation.establishment_regulation_required` | boolean | Does the statute regulate the ESTABLISHMENT / FIRM (e.g., facility license, mandatory inspection of premises) as a route to consumer protection, independent of any practitioner credential? |  |
 | `citations` | list | Statutory citations supporting the licensure fields above. |  |
 | &nbsp;&nbsp;&nbsp;&nbsp;`citations[].cite` | string |  | "08.38.010" |
-| &nbsp;&nbsp;&nbsp;&nbsp;`citations[].kind` | string |  | "license_required" |
+| &nbsp;&nbsp;&nbsp;&nbsp;`citations[].kind` | string |  | "practice act" |
 
 ## scope
 _What the practice act lets (or reserves to) this profession — the defined scope,
@@ -87,7 +87,7 @@ profession-specific scope richness lives in the discovered block._
 | `drug_authority` | string | Whether/how the profession may prescribe, administer, or dispense drugs. |  |
 | `citations` | list | Statutory citations supporting the scope fields above. |  |
 | &nbsp;&nbsp;&nbsp;&nbsp;`citations[].cite` | string |  | "08.38.100" |
-| &nbsp;&nbsp;&nbsp;&nbsp;`citations[].kind` | string |  | "scope_definition" |
+| &nbsp;&nbsp;&nbsp;&nbsp;`citations[].kind` | string |  | "definitions" |
 
 ## profession_specific
 _Fields discovered specifically for this profession (auto-derived from its statutes); they vary profession to profession._
@@ -100,7 +100,7 @@ _Fields discovered specifically for this profession (auto-derived from its statu
 | `provisional_license_requires_supervision` | boolean | Whether a provisional or temporary license restricts the holder to practice only under the supervision of a fully licensed dietitian. |  |
 | `dietetic_technician_recognized` | boolean | Whether the state statute explicitly recognizes a dietetic technician credential as a distinct, lower-tier role that may perform limited functions under supervision. |  |
 | `rd_credential_accepted_in_lieu_of_state_requirements` | boolean | Whether holding a current Registered Dietitian (RD/RDN) credential from the Commission on Dietetic Registration is explicitly accepted as satisfying all or most state licensure requirements. | true |
-| `alternative_credential_pathways` | list | Non-RD national credentials or membership bodies that the state accepts as an alternative pathway to licensure (e.g., Certified Nutrition Specialist, American Board of Nutrition diplomate). | ["American Board of Nutrition diplomate", "Certified Nutriti |
+| `alternative_credential_pathways` | list | Non-RD national credentials or membership bodies that the state accepts as an alternative pathway to licensure (e.g., Certified Nutrition Specialist, American Board of Nutrition diplomate). | ["diplomate of the American Board of Nutrition", "Certified  |
 | `medical_nutrition_therapy_authorized` | boolean | Whether the statute explicitly authorizes the practice of 'medical nutrition therapy' as part of the dietitian's scope. |  |
 | `enteral_parenteral_nutrition_authorized` | boolean | Whether the statute explicitly includes ordering or recommending enteral and/or parenteral nutrition within the dietitian's scope of practice. |  |
 | `diet_order_writing_authority` | boolean | Whether the statute explicitly grants dietitians authority to write or issue diet orders (including therapeutic diets) in institutional or hospital settings. |  |
@@ -110,7 +110,7 @@ _Fields discovered specifically for this profession (auto-derived from its statu
 | `telehealth_practice_authorized` | boolean | Whether the statute explicitly authorizes dietitians to provide services via telehealth. |  |
 | `supervision_ratio_limit` | integer | Maximum number of dietetic technicians a single registered dietitian may supervise at one time. |  |
 | `direct_supervision_defined` | boolean | Whether the statute provides an explicit definition of 'direct supervision' for dietetic technicians or provisional licensees, including physical presence or availability requirements. |  |
-| `exempt_professions_list` | list | Categories of other licensed professionals explicitly exempted from the dietetics licensure requirement when performing nutrition-related activities incidental to their own profession. | ["animal nutritionist (limited to nutritional care of animal |
+| `exempt_professions_list` | list | Categories of other licensed professionals explicitly exempted from the dietetics licensure requirement when performing nutrition-related activities incidental to their own profession. | ["animal nutritionist (for animal nutrition only)", "federal |
 | `federal_employee_exemption` | boolean | Whether persons employed by the federal government (including armed forces, VA, or public health service) in a dietitian or nutritionist role are explicitly exempt from state licensure. | true |
 | `weight_control_program_exemption` | boolean | Whether persons offering weight control programs are explicitly exempt from licensure, typically conditioned on the program being reviewed or approved by a licensed or registered dietitian. |  |
 | `food_supplement_sales_exemption` | boolean | Whether persons who sell, market, or provide information about food, dietary supplements, vitamins, or herbs are explicitly exempt from the dietetics licensure requirement. |  |

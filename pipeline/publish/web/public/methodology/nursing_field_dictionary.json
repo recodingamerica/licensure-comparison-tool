@@ -1,6 +1,6 @@
 {
   "profession": "nursing",
-  "data_as_of": "2026-06-29",
+  "data_as_of": "2026-07-05",
   "groups": [
     {
       "group": "licensure",
@@ -26,8 +26,8 @@
           "depth": 0,
           "example": {
             "value": "Board of Nursing",
-            "quote": "\"board\" means the Board of Nursing",
-            "citation": "08.68.850"
+            "quote": "There is created a Board of Nursing, consisting of seven members appointed by the governor",
+            "citation": "08.68.010"
           }
         },
         {
@@ -46,8 +46,8 @@
           "depth": 1,
           "example": {
             "value": "Board of Nursing",
-            "quote": "\"board\" means the Board of Nursing",
-            "citation": "08.68.850"
+            "quote": "There is created a Board of Nursing, consisting of seven members appointed by the governor",
+            "citation": "08.68.010"
           }
         },
         {
@@ -65,8 +65,8 @@
           "depth": 1,
           "example": {
             "value": "standalone_board",
-            "quote": "\"board\" means the Board of Nursing",
-            "citation": "08.68.850"
+            "quote": "There is created a Board of Nursing, consisting of seven members appointed by the governor",
+            "citation": "08.68.010"
           }
         },
         {
@@ -77,8 +77,8 @@
           "depth": 1,
           "example": {
             "value": "Department of Commerce, Community, and Economic Development",
-            "quote": "\"department\" means the Department of Commerce, Community, and Economic Development",
-            "citation": "UMBRELLA / Chapter 01. Centralized Licensing"
+            "quote": "The Department of Commerce, Community, and Economic Development, in consultation with the board, shall employ a licensed registered nurse",
+            "citation": "08.68.111"
           }
         },
         {
@@ -112,7 +112,7 @@
           "meaning": "",
           "depth": 1,
           "example": {
-            "value": "Completed a registered nurse education program accredited by a national nursing accrediting body and approved by the board",
+            "value": "Completion of an accredited registered nurse, practical nurse, or advanced practice registered nurse education program",
             "quote": "the applicant has successfully completed a registered nurse education program accredited by a national nursing accrediting body and approved by the board",
             "citation": "08.68.170"
           }
@@ -143,9 +143,9 @@
           "meaning": "The comparable education FLOOR as a normalized rung. Populate whenever licensure is gated on a degree; null only if the statute is silent on education.",
           "depth": 1,
           "example": {
-            "value": "bachelor",
-            "quote": "the applicant has successfully completed a registered nurse education program accredited by a national nursing accrediting body and approved by the board",
-            "citation": "08.68.170"
+            "value": "associate",
+            "quote": "one member shall be a registered nurse engaged in nursing education at the associate, baccalaureate, or graduate degree level at an institution that holds national nursing accreditation",
+            "citation": "08.68.010"
           }
         },
         {
@@ -191,7 +191,9 @@
           "vocabulary": [],
           "meaning": "Which class/date this floor applies to — e.g. 'licensed dietitian', 'certified nutritionist', 'applicants on or after 2024-01-01'.",
           "depth": 2,
-          "example": null
+          "example": {
+            "value": "registered nurse"
+          }
         },
         {
           "field": "education.tiers[].degree_level",
@@ -206,7 +208,9 @@
           ],
           "meaning": "Normalized education floor, low -> high. Resolved to the rung even when\nthe statute uses verbiage ('six college years' -> doctorate, 'or equivalent\ndegree' -> the named level). Professional/clinical doctorates (OD, DDS, MD,\nDPM) are `doctorate`.",
           "depth": 2,
-          "example": null
+          "example": {
+            "value": "associate"
+          }
         },
         {
           "field": "education.tiers[].effective_date",
@@ -232,7 +236,7 @@
           "depth": 1,
           "example": {
             "value": false,
-            "quote": "An applicant for a license to practice registered nursing shall submit to the board, on forms and in the manner prescribed by the board, written evidence, verified by oath, that the applicant has succ",
+            "quote": "the applicant has successfully completed a registered nurse education program accredited by a national nursing accrediting body and approved by the board",
             "citation": "08.68.170"
           }
         },
@@ -248,7 +252,7 @@
           "depth": 1,
           "example": {
             "value": "none",
-            "quote": "An applicant for a license to practice registered nursing shall submit to the board, on forms and in the manner prescribed by the board, written evidence, verified by oath, that the applicant has succ",
+            "quote": "the applicant has successfully completed a registered nurse education program accredited by a national nursing accrediting body and approved by the board",
             "citation": "08.68.170"
           }
         },
@@ -283,7 +287,7 @@
           "meaning": "",
           "depth": 1,
           "example": {
-            "value": "Registered Nursing Licensing Examination"
+            "value": "Registered Nursing or Practical Nursing Licensing Examination"
           }
         },
         {
@@ -303,7 +307,7 @@
           "meaning": "",
           "depth": 1,
           "example": {
-            "value": "Examination prescribed by the board for RN licensure"
+            "value": "Applies to RN and LPN applicants"
           }
         },
         {
@@ -312,9 +316,7 @@
           "vocabulary": [],
           "meaning": "Where the exam is administered / who owns it — e.g. 'NBPME (national)', 'state board (in-state)', 'NCLEX-RN (national)'. Use the statute's language; null if the source doesn't say.",
           "depth": 1,
-          "example": {
-            "value": "prescribed by the board"
-          }
+          "example": null
         },
         {
           "field": "exams[].permitted_attempts",
@@ -378,11 +380,7 @@
           "vocabulary": [],
           "meaning": "",
           "depth": 1,
-          "example": {
-            "value": 2,
-            "quote": "The regulations must require that a licensee receive not less than two hours of education in pain management and opioid use and addiction in the two years preceding an application for renewal of a lic",
-            "citation": "08.68.276"
-          }
+          "example": null
         },
         {
           "field": "continuing_education.period_years",
@@ -390,11 +388,7 @@
           "vocabulary": [],
           "meaning": "",
           "depth": 1,
-          "example": {
-            "value": 2,
-            "quote": "not less than two hours of education in pain management and opioid use and addiction in the two years preceding an application for renewal of a license",
-            "citation": "08.68.276"
-          }
+          "example": null
         },
         {
           "field": "continuing_education.topical_requirements",
@@ -404,7 +398,7 @@
           "depth": 1,
           "example": {
             "value": [
-              "pain management and opioid use and addiction (2 hours, for APRN DEA holders)"
+              "pain management and opioid use and addiction (minimum 2 hours, for APRNs with DEA registration numbers)"
             ],
             "quote": "The regulations must require that a licensee receive not less than two hours of education in pain management and opioid use and addiction in the two years preceding an application for renewal of a lic",
             "citation": "08.68.276"
@@ -437,7 +431,7 @@
           "meaning": "Free-form summary",
           "depth": 1,
           "example": {
-            "value": "Applicant must be licensed in another state and, in the board's opinion, meet Alaska qualifications. Applicants who have not worked as a nurse in the past five years must also meet continuing competency requirements or complete a board-approved course of study.",
+            "value": "Applicant must be licensed in another state, meet AK qualifications under AS 08.68.170, and have worked as a nurse within the past five years; or if not worked within five years, must also meet continuing competency requirements or complete a board-approved course of study.",
             "quote": "The board may issue a license by endorsement to practice as a registered, advanced practice registered, or practical nurse, whichever is appropriate, to an applicant who has worked as a nurse within t",
             "citation": "08.68.200"
           }
@@ -458,8 +452,8 @@
           "depth": 1,
           "example": {
             "value": false,
-            "quote": "\"board\" means the Board of Nursing",
-            "citation": "08.68.850"
+            "quote": "There is created a Board of Nursing, consisting of seven members appointed by the governor",
+            "citation": "08.68.010"
           }
         },
         {
@@ -592,7 +586,7 @@
           "meaning": "One-line plain-English description",
           "depth": 1,
           "example": {
-            "value": "Obtained or attempted to obtain a license by fraud or deceit"
+            "value": "Obtained or attempted to obtain a nursing license by fraud or deceit"
           }
         },
         {
@@ -642,7 +636,7 @@
           "meaning": "",
           "depth": 1,
           "example": {
-            "value": "08.68.100"
+            "value": "08.68.010"
           }
         },
         {
@@ -652,7 +646,7 @@
           "meaning": "",
           "depth": 1,
           "example": {
-            "value": "board powers"
+            "value": "board creation"
           }
         }
       ]
@@ -681,14 +675,14 @@
           "depth": 0,
           "example": {
             "value": [
-              "assessment of problems, counseling, and teaching",
+              "assessment of problems, counseling, and teaching clients to maintain health or prevent illness and in care of ill, injured, or infirm",
               "administration, supervision, delegation, and evaluation of nursing practice",
-              "teaching others the skills of nursing",
+              "teaching others nursing skills",
               "execution of a medical regimen as prescribed by a person authorized to practice medicine",
-              "performance of acts of medical diagnosis and prescription of medical therapeutic or corrective measures (under board regulations)",
-              "for APRN: performance of acts of medical diagnosis and the prescription and dispensing of medical, therapeutic, or corrective measures"
+              "performance of acts of medical diagnosis and prescription of medical therapeutic or corrective measures under board regulations (RN)",
+              "acts of medical diagnosis and prescription and dispensing of medical, therapeutic, or corrective measures (APRN)"
             ],
-            "quote": "services that include (A) assessment of problems, counseling, and teaching ... (B) administration, supervision, delegation, and evaluation of nursing practice; (C) teaching others the skills of nursin",
+            "quote": "assessment of problems, counseling, and teaching ... administration, supervision, delegation, and evaluation of nursing practice ... teaching others the skills of nursing ... execution of a medical re",
             "citation": "08.68.850"
           }
         },
@@ -699,8 +693,8 @@
           "meaning": "Whether/how the profession may prescribe, administer, or dispense drugs.",
           "depth": 0,
           "example": {
-            "value": "APRNs may prescribe and dispense medical, therapeutic, or corrective measures under board regulations; opioid prescriptions limited to 7-day supply initially (with exceptions)",
-            "quote": "\"practice of advanced practice registered nursing\" includes, in addition to the practice of registered nursing, the performance of acts of medical diagnosis and the prescription and dispensing of medi",
+            "value": "Advanced practice registered nurses may prescribe and dispense medical, therapeutic, or corrective measures under board regulations, subject to opioid prescribing limits and DEA registration requirements for controlled substances.",
+            "quote": "\"advanced practice registered nurse\" means a registered nurse licensed to practice in the state who, because of specialized education and experience, is certified to perform acts of medical diagnosis ",
             "citation": "08.68.850"
           }
         },
@@ -746,15 +740,12 @@
           "depth": 0,
           "example": {
             "value": [
-              "Registered Nurse (RN)",
-              "Licensed Practical Nurse (LPN)",
-              "Advanced Practice Registered Nurse (APRN) - Certified Registered Nurse Anesthetist (CRNA)",
-              "Advanced Practice Registered Nurse (APRN) - Certified Clinical Nurse Specialist (CNS)",
-              "Advanced Practice Registered Nurse (APRN) - Certified Nurse Practitioner (CNP)",
-              "Advanced Practice Registered Nurse (APRN) - Certified Nurse Midwife (CNM)"
+              "licensed practical nurse (LPN)",
+              "registered nurse (RN)",
+              "advanced practice registered nurse (APRN) — including certified registered nurse anesthetist (CRNA), certified clinical nurse specialist (CNS), certified nurse practitioner (CNP), certified nurse midwife (CNM)"
             ],
-            "quote": "A person licensed to practice advanced practice registered nursing in the state as a (1) certified registered nurse anesthetist ... (2) certified clinical nurse specialist ... (3) certified nurse prac",
-            "citation": "08.68.230"
+            "quote": "A person practicing or offering to practice registered, advanced practice registered, or practical nursing in the state shall submit evidence of qualification to practice and shall be licensed under t",
+            "citation": "08.68.160"
           }
         },
         {
@@ -839,7 +830,7 @@
           "meaning": "Statutory limits on opioid prescriptions issued by APRNs, including maximum day-supply and documentation requirements.",
           "depth": 0,
           "example": {
-            "value": "An APRN may not issue an initial opioid prescription exceeding a seven-day supply to an adult outpatient, or any opioid prescription exceeding seven days to a minor; exceptions exist for chronic pain, cancer, palliative care, and logistical/travel barriers.",
+            "value": "An advanced practice registered nurse may not issue an initial prescription for an opioid exceeding a seven-day supply to an adult for outpatient use, or any opioid prescription exceeding seven days to a minor; exceptions exist for chronic pain, cancer, palliative care, or logistical/travel barriers.",
             "quote": "An advanced practice registered nurse may not issue (1) an initial prescription for an opioid that exceeds a seven-day supply to an adult patient for outpatient use; (2) a prescription for an opioid t",
             "citation": "08.68.705"
           }
@@ -850,7 +841,11 @@
           "vocabulary": [],
           "meaning": "Whether APRNs authorized to prescribe controlled substances must register with the federal DEA.",
           "depth": 0,
-          "example": null
+          "example": {
+            "value": true,
+            "quote": "require that a licensed advanced practice registered nurse who has a federal Drug Enforcement Administration registration number register with the controlled substance prescription database under AS 1",
+            "citation": "08.68.100"
+          }
         },
         {
           "field": "controlled_substance_database_registration_required",
@@ -904,7 +899,7 @@
           "depth": 0,
           "example": {
             "value": true,
-            "quote": "An employer of a nurse licensed under this chapter or a nurse aide certified under this chapter practicing within the scope of that license or certification that discharges or suspends a nurse or nurs",
+            "quote": "An employer of a nurse licensed under this chapter ... that discharges or suspends a nurse or nurse aide or conditions or restricts the practice of a nurse or nurse aide shall, within seven working da",
             "citation": "08.68.277"
           }
         },
@@ -942,7 +937,11 @@
           "vocabulary": [],
           "meaning": "Whether the state has a voluntary non-disciplinary alternative or diversion program for nurses impaired by substance use or mental health conditions.",
           "depth": 0,
-          "example": null
+          "example": {
+            "value": true,
+            "quote": "the department may contract with public agencies and private professional organizations to provide assistance and treatment to persons licensed by the board who abuse alcohol, other drugs, or other su",
+            "citation": "UMBRELLA / Chapter 01. Centralized Licensing"
+          }
         },
         {
           "field": "rn_death_pronouncement_authorized",
@@ -952,7 +951,7 @@
           "depth": 0,
           "example": {
             "value": true,
-            "quote": "A registered nurse licensed under this chapter may make a determination and pronouncement of death of a person under the following circumstances",
+            "quote": "A registered nurse licensed under this chapter may make a determination and pronouncement of death of a person",
             "citation": "08.68.700"
           }
         },
@@ -971,7 +970,7 @@
           "meaning": "Statutory rules governing when an APRN may prescribe or treat without a prior in-person physical examination, including telehealth or internet-based restrictions.",
           "depth": 0,
           "example": {
-            "value": "An APRN may prescribe without a physical examination for non-controlled substances if follow-up care is available and the patient is offered records forwarding to primary care provider. An APRN may not prescribe in response to an Internet questionnaire or email to a patient without a prior provider-patient relationship.",
+            "value": "An APRN may render a diagnosis, provide treatment, or prescribe/dispense/administer a non-controlled prescription drug without a physical examination if follow-up care is available and records are sent to the primary care provider with patient consent. Controlled substances may also be prescribed under the same conditions. However, an APRN may not prescribe in response to an Internet questionnaire or email to a person without a prior provider-patient relationship.",
             "quote": "an advanced practice registered nurse may not prescribe, dispense, or administer a prescription drug in response to an Internet questionnaire or electronic mail message to a person with whom the advan",
             "citation": "08.68.710"
           }
@@ -1037,7 +1036,7 @@
           "depth": 0,
           "example": {
             "value": true,
-            "quote": "the department or applicable board shall accept military education, training, and service for some or all of the qualifications otherwise required of an applicant for a license or certificate issued u",
+            "quote": "Notwithstanding another provision of law, the department or applicable board shall accept military education, training, and service for some or all of the qualifications otherwise required of an appli",
             "citation": "UMBRELLA / Chapter 01. Centralized Licensing"
           }
         }

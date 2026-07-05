@@ -1,0 +1,454 @@
+{
+  "profession": "optician (dispensing optician)",
+  "fields": [
+    {
+      "name": "license_tier_structure",
+      "category": "license types and tiers",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "The distinct credential tiers or categories of license available to opticians in a state (e.g., spectacle-only, contact lens, combined, registered vs. licensed).",
+      "sample_quote": "A license shall be issued for (1) the dispensing of contact lenses, or (2) the dispensing of other lenses, eyeglasses, spectacles, artificial eyes, and their appurtenances, or (3) both.",
+      "sample_state": "AK",
+      "states_supporting": [
+        "AK",
+        "AR",
+        "CA",
+        "HI"
+      ]
+    },
+    {
+      "name": "contact_lens_scope_included",
+      "category": "license types and tiers",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the optician license authorizes fitting or dispensing contact lenses (as opposed to spectacles only).",
+      "sample_quote": "The prescribing, adapting, fitting, duplicating, dispensing, modifying, selling, or supplying of contact lenses for or to the human eye is specifically excluded.",
+      "sample_state": "AR",
+      "states_supporting": [
+        "AK",
+        "AR",
+        "CA",
+        "GA",
+        "HI",
+        "KY",
+        "NC"
+      ]
+    },
+    {
+      "name": "artificial_eye_scope_included",
+      "category": "license types and tiers",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the optician license authorizes dispensing or fitting artificial eyes (ocular prosthetics).",
+      "sample_quote": "A license shall be issued for (1) the dispensing of contact lenses, or (2) the dispensing of other lenses, eyeglasses, spectacles, artificial eyes, and their appurtenances.",
+      "sample_state": "AK",
+      "states_supporting": [
+        "AK",
+        "HI"
+      ]
+    },
+    {
+      "name": "duplicate_without_prescription_allowed",
+      "category": "license types and tiers",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether a licensed optician may duplicate, replace, or reproduce lenses without a new written prescription.",
+      "sample_quote": "Duplications, replacements, reproductions or repetitions may be done without prescription, in which event any such act shall be construed to be ophthalmic dispensing, the same as if performed on the basis of a written prescription.",
+      "sample_state": "NC",
+      "states_supporting": [
+        "AK",
+        "GA",
+        "HI",
+        "KY",
+        "MA",
+        "NC"
+      ]
+    },
+    {
+      "name": "written_prescription_required",
+      "category": "prescription and dispensing rules",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether a written prescription from a licensed physician or optometrist is required before dispensing ophthalmic lenses or devices.",
+      "sample_quote": "It shall be unlawful for any dispensing optician or person engaged in the business of manufacturing, selling, or dispensing regular or safety ophthalmic materials to fill or duplicate an ophthalmic prescription without having a written prescription signed by the licensed optometrist or licensed physician skilled in disease of the eye.",
+      "sample_state": "AR",
+      "states_supporting": [
+        "AK",
+        "AR",
+        "CA",
+        "GA",
+        "HI",
+        "KY",
+        "MA",
+        "NC"
+      ]
+    },
+    {
+      "name": "prescription_expiration_enforced",
+      "category": "prescription and dispensing rules",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly prohibits filling a prescription after its stated expiration date.",
+      "sample_quote": "No person, firm or corporation licensed under this Article shall fill a prescription beyond the expiration date stated on the face thereof.",
+      "sample_state": "NC",
+      "states_supporting": [
+        "CA",
+        "NC"
+      ]
+    },
+    {
+      "name": "contact_lens_followup_required",
+      "category": "prescription and dispensing rules",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the optician is required to instruct contact lens recipients to return to the prescribing practitioner for evaluation after fitting.",
+      "sample_quote": "Dispensing opticians who dispense contact lenses shall instruct the wearer at the time the lenses are delivered to return to the prescribing and responsible optometrist or physician skilled in diseases of the eye for evaluation, approval, and follow-up care.",
+      "sample_state": "GA",
+      "states_supporting": [
+        "CA",
+        "GA",
+        "NC"
+      ]
+    },
+    {
+      "name": "contact_lens_supervision_required",
+      "category": "prescription and dispensing rules",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether fitting or dispensing contact lenses must be done under the supervision of or in conjunction with a licensed physician or optometrist.",
+      "sample_quote": "Contact lenses shall be fitted in conjunction with and under the supervision of a licensed physician or an optometrist and with a written contact-lens prescription.",
+      "sample_state": "AK",
+      "states_supporting": [
+        "AK",
+        "HI",
+        "KY"
+      ]
+    },
+    {
+      "name": "ophthalmic_materials_quality_standard",
+      "category": "prescription and dispensing rules",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "Named quality or safety standards (e.g., ANSI Z80.1) that ophthalmic lenses and materials must meet.",
+      "sample_quote": "All ophthalmic materials, including eyeglasses, spectacles, lenses, or other optical devices or materials or parts thereof, sold in the State of Arkansas must conform to standards of quality as promulgated by the American National Standards Institute, commonly known as 'Z-80.1 standards'.",
+      "sample_state": "AR",
+      "states_supporting": [
+        "AR",
+        "CT"
+      ]
+    },
+    {
+      "name": "impact_resistant_lens_required",
+      "category": "prescription and dispensing rules",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute requires that eyeglasses and sunglasses be fitted with impact-resistant lenses meeting specified standards.",
+      "sample_quote": "No person shall sell, distribute or deliver any eyeglasses or sunglasses unless they are fitted with impact resistant lenses that fully meet the definitions, specifications, test procedures and tolerances for impact resistance.",
+      "sample_state": "CT",
+      "states_supporting": [
+        "CT",
+        "NC"
+      ]
+    },
+    {
+      "name": "apprentice_to_supervisor_ratio_limit",
+      "category": "supervision and delegation",
+      "type": "int",
+      "enum_values": null,
+      "description": "Maximum number of apprentices that one licensed optician may supervise simultaneously.",
+      "sample_quote": "No more than two apprentices may be under the direct supervision of one licensed dispensing optician at the same time.",
+      "sample_state": "AK",
+      "states_supporting": [
+        "AK",
+        "AR",
+        "CA",
+        "KY"
+      ]
+    },
+    {
+      "name": "unlicensed_assistant_tasks_permitted",
+      "category": "supervision and delegation",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether unlicensed assistants (non-apprentices) may perform optician tasks under supervision of a licensed optician.",
+      "sample_quote": "A person who is not a licensed dispensing optician or a registered apprentice under AS 08.71.160 may perform dispensing optician tasks that are delegated by and performed under the regular supervision of a licensed physician, optometrist, or dispensing optician.",
+      "sample_state": "AK",
+      "states_supporting": [
+        "AK",
+        "CA",
+        "HI",
+        "NC"
+      ]
+    },
+    {
+      "name": "supervisor_physical_presence_required",
+      "category": "supervision and delegation",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the supervising licensed optician must be physically present on the premises when an unlicensed or apprentice person performs optician tasks.",
+      "sample_quote": "A supervising registered spectacle lens dispenser shall be physically present on the registered premises when an unregistered individual fits and adjusts spectacle lenses.",
+      "sample_state": "CA",
+      "states_supporting": [
+        "CA",
+        "CT",
+        "HI",
+        "NC"
+      ]
+    },
+    {
+      "name": "licensed_optician_on_premises_required",
+      "category": "practice setting and facility rules",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether a licensed optician must be present on the premises of an optical establishment during all hours that dispensing services are offered.",
+      "sample_quote": "All businesses providing retail ophthalmic dispensing services, as defined in \u00a7 17-89-102(4), to the public must have physically present a licensed or registered dispensing optician within the place of business at the time the services are provided.",
+      "sample_state": "AR",
+      "states_supporting": [
+        "AR",
+        "CA",
+        "CT",
+        "NC"
+      ]
+    },
+    {
+      "name": "optical_establishment_permit_required",
+      "category": "practice setting and facility rules",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether a separate permit or registration is required for each optical establishment or place of business (distinct from the individual optician's license).",
+      "sample_quote": "It shall be unlawful for any person or legal entity to conduct an office or place of business in this state where ophthalmic dispensing services are offered or performed unless that person or entity shall have first secured an office permit from the Arkansas Board of Dispensing Opticians.",
+      "sample_state": "AR",
+      "states_supporting": [
+        "AR",
+        "CA",
+        "CT",
+        "NC"
+      ]
+    },
+    {
+      "name": "branch_office_limit_or_permit",
+      "category": "practice setting and facility rules",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute limits the number of branch offices an optician may operate or requires a special permit for additional locations.",
+      "sample_quote": "No licensed or registered dispensing optician or other person in this state shall establish more than two (2) ophthalmic dispensing branch offices in addition to his or her principal office unless he or she shall have first secured a branch office permit from the Arkansas Board of Dispensing Opticians.",
+      "sample_state": "AR",
+      "states_supporting": [
+        "AR",
+        "CA"
+      ]
+    },
+    {
+      "name": "colocation_with_prescriber_restrictions",
+      "category": "practice setting and facility rules",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute restricts or regulates an optician's business being located adjacent to or co-located with a prescribing physician or optometrist.",
+      "sample_quote": "Engaging in conduct, including, but not limited to, establishing an ophthalmic dispensing business immediately adjacent to the office of a licensed optometrist or physician skilled in diseases of the eye in what is commonly known as a 'side-by-side' operation.",
+      "sample_state": "AR",
+      "states_supporting": [
+        "AR",
+        "CA"
+      ]
+    },
+    {
+      "name": "physician_ownership_interest_prohibited",
+      "category": "practice setting and facility rules",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether a prescribing physician or optometrist is prohibited from having a proprietary or ownership interest in a registered dispensing optician business.",
+      "sample_quote": "The board shall deny any application for registration under this chapter if any person licensed as a physician and surgeon, for whom the applicant proposes to fill any prescription, has any proprietary interest in or with the applicant.",
+      "sample_state": "CA",
+      "states_supporting": [
+        "CA",
+        "AR"
+      ]
+    },
+    {
+      "name": "advertising_disclaimer_required",
+      "category": "advertising and consumer protection",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether opticians are required to include a specific disclaimer in advertisements stating they are not licensed to perform eye examinations.",
+      "sample_quote": "Any advertisement made by, for, or in behalf of any ophthalmic dispensing firm or any dispensing optician in this state shall cause to have printed thereon, or stated in oral advertisements, the following disclaimer: 'This firm is not licensed to make eye examinations.'",
+      "sample_state": "AR",
+      "states_supporting": [
+        "AR",
+        "GA",
+        "NC"
+      ]
+    },
+    {
+      "name": "advertising_eye_exam_claim_prohibited",
+      "category": "advertising and consumer protection",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly prohibits opticians from advertising in a way that implies they provide eye examinations or full eye care services.",
+      "sample_quote": "Advertising in any manner that conveys or intends to convey the impression that eyes are examined by persons licensed under this Article or optical places of business registered under this Article.",
+      "sample_state": "NC",
+      "states_supporting": [
+        "AR",
+        "GA",
+        "HI",
+        "NC"
+      ]
+    },
+    {
+      "name": "fee_splitting_with_prescriber_prohibited",
+      "category": "advertising and consumer protection",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly prohibits opticians from splitting fees, paying rebates, or giving kickbacks to referring physicians or optometrists.",
+      "sample_quote": "It shall be unlawful for any dispensing optician, either directly or indirectly, to participate in any manner in the division, assignment, rebate, splitting, or refunding of service fees or costs of completed eyeglasses or parts thereof with a physician, optometrist, or other person or persons.",
+      "sample_state": "GA",
+      "states_supporting": [
+        "AK",
+        "GA",
+        "HI",
+        "NC"
+      ]
+    },
+    {
+      "name": "nonresident_remote_dispenser_registration",
+      "category": "practice setting and facility rules",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether out-of-state entities that ship or mail ophthalmic lenses to in-state patients must register with the state board.",
+      "sample_quote": "A person or entity located outside California shall not ship, mail, furnish, or deliver in any manner, ophthalmic lenses at retail to a patient at a California address unless the person is registered with the California State Board of Optometry.",
+      "sample_state": "CA",
+      "states_supporting": [
+        "CA",
+        "NC"
+      ]
+    },
+    {
+      "name": "apprenticeship_minimum_hours",
+      "category": "training pathway requirements",
+      "type": "int",
+      "enum_values": null,
+      "description": "Minimum number of hours of apprenticeship or supervised practical training required for licensure eligibility.",
+      "sample_quote": "Has had practical training and experience of a grade and character satisfactory to the board for not less than two years under the supervision of a licensed dispensing optician, a licensed physician, or a licensed optometrist... shall include, at a minimum, 3,000 hours of experience engaged in apprenticeship functions.",
+      "sample_state": "GA",
+      "states_supporting": [
+        "AK",
+        "GA",
+        "NC"
+      ]
+    },
+    {
+      "name": "apprenticeship_curriculum_subjects",
+      "category": "training pathway requirements",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "Specific subject areas that must be covered during an apprenticeship or training program for opticians.",
+      "sample_quote": "Shall include instruction in ophthalmic optics, optical laboratory materials and techniques, eye anatomy and physiology, related laws and regulations, ophthalmic dispensing theory and application, and basic contact lens theory.",
+      "sample_state": "GA",
+      "states_supporting": [
+        "AR",
+        "GA",
+        "NC"
+      ]
+    },
+    {
+      "name": "school_program_substitution_for_apprenticeship",
+      "category": "training pathway requirements",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether graduation from an accredited opticianry school or college program may substitute for the apprenticeship or work-experience requirement.",
+      "sample_quote": "Graduation from an associate degree program in a recognized school or college of opticianry may be substituted for the experience required by (a)(2) and (4) of this section.",
+      "sample_state": "AK",
+      "states_supporting": [
+        "AK",
+        "AR",
+        "CA",
+        "CT",
+        "GA",
+        "HI",
+        "KY",
+        "MA",
+        "NC"
+      ]
+    },
+    {
+      "name": "apprentice_registration_required",
+      "category": "training pathway requirements",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether apprentices must formally register with the state board before their training period begins and counts toward licensure.",
+      "sample_quote": "An apprentice shall register with the department before beginning employment or service as an apprentice, shall be designated as an apprentice in the records of the department.",
+      "sample_state": "AK",
+      "states_supporting": [
+        "AK",
+        "AR",
+        "CT",
+        "GA",
+        "KY",
+        "MA",
+        "NC"
+      ]
+    },
+    {
+      "name": "scope_excludes_eye_examination_and_prescribing",
+      "category": "what opticians cannot do",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly prohibits opticians from examining eyes, diagnosing conditions, or prescribing remedies.",
+      "sample_quote": "Nothing in this chapter shall be construed to authorize or permit any ophthalmic dispenser to hold himself out as being able to, or to either offer, undertake or attempt, by any means or method, to examine or exercise eyes, to fit contact lenses, or to diagnose, treat, correct, relieve, operate or prescribe for any human ailment.",
+      "sample_state": "KY",
+      "states_supporting": [
+        "AK",
+        "AR",
+        "GA",
+        "HI",
+        "KY",
+        "NC"
+      ]
+    },
+    {
+      "name": "unlicensed_mechanical_work_exemption",
+      "category": "what opticians cannot do",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly exempts unlicensed persons performing purely mechanical work on inert optical materials in a lab or shop from licensure requirements.",
+      "sample_quote": "Nothing in this chapter shall be construed to prohibit an unlicensed person from performing merely mechanical work upon inert materials in an optical office or laboratory.",
+      "sample_state": "GA",
+      "states_supporting": [
+        "AK",
+        "GA",
+        "KY",
+        "NC"
+      ]
+    },
+    {
+      "name": "ready_made_nonprescription_eyewear_exemption",
+      "category": "what opticians cannot do",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute exempts the sale of completely preassembled, non-prescription eyeglasses or sunglasses as merchandise from optician licensure requirements.",
+      "sample_quote": "Persons, firms, and corporations that sell completely assembled eyeglasses or spectacles without advice or aid as to their selection, as merchandise, from permanently located or established places of business shall not be subject to this chapter.",
+      "sample_state": "KY",
+      "states_supporting": [
+        "AK",
+        "AR",
+        "CA",
+        "GA",
+        "HI",
+        "KY",
+        "NC"
+      ]
+    }
+  ],
+  "states_sampled": [
+    "AK",
+    "AR",
+    "AZ",
+    "CA",
+    "CT",
+    "GA",
+    "HI",
+    "KY",
+    "MA",
+    "NC"
+  ],
+  "states_excluded_count": 11
+}
