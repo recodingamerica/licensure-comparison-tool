@@ -19,14 +19,9 @@
         "citation": "34-24-311"
       },
       "type": {
-        "value": "joint",
-        "quote": "the commission shall have the exclusive power and authority to issue, revoke, and reinstate all licenses authorizing the licensee to practice medicine or osteopathy in the State of Alabama. The commission shall have the authority to promulgate such reasonable rules and regulations as it deems proper for implementing and carrying out the provisions of this article. However, prior to exercising its power and authority to issue, revoke, or reinstate licenses, or to promulgate rules and regulations, the Medical Licensure Commission shall receive and consider but not be bound by the recommendation of the State Board of Medical Examiners.",
-        "citation": "34-24-311",
-        "unverified": true,
-        "approximate": {
-          "ratio": 0.995,
-          "matched_normalized": " commission shall have the exclusive power and authority to issue revoke and reinstate all licenses authorizing the licensee to practice medicine or osteopathy in the state of alabama the commission shall have the authority to promulgate such reasonable rules and regulations as it deems proper for implementing and carrying out the provisions of this article however prior to exercising its power and authority to issue revoke or reinstate licenses or to promulgate rules and regulations the medical licensure commission shall receive and consider but not be bound by the recommendation of the state board of medical examiners"
-        }
+        "value": "standalone_board",
+        "quote": "There is created the Medical Licensure Commission composed of seven physicians, each of whom shall be either a doctor of medicine or a doctor of osteopathy and be licensed to practice medicine or osteopathy in this state.",
+        "citation": "34-24-310"
       },
       "umbrella_agency": null
     },
@@ -71,7 +66,7 @@
         "citation": "34-24-521"
       },
       "experience_source": {
-        "value": "required_by_statute",
+        "value": "embedded_in_credential",
         "quote": "Successfully completed graduate medical education approved by the Accreditation Council for Graduate Medical Education or the American Osteopathic Association",
         "citation": "34-24-521"
       },
@@ -86,20 +81,29 @@
       {
         "name": "United States Medical Licensing Examination (USMLE)",
         "required": true,
-        "notes": "Each component must be passed within three attempts; applies to IMLC expedited licensure pathway",
+        "notes": "All components must be passed within three attempts; applies to allopathic physicians via the Interstate Medical Licensure Compact definition",
         "jurisdiction": "national (USMLE)",
         "permitted_attempts": 3,
-        "quote": "Passed each component of the United States Medical Licensing Examination (USMLE) or the Comprehensive Osteopathic Medical Licensing Examination (COMLEX-USA) within three attempts, or any of its predecessor examinations accepted by a state medical board as an equivalent examination for licensure purposes",
+        "quote": "Passed each component of the United States Medical Licensing Examination (USMLE) or the Comprehensive Osteopathic Medical Licensing Examination (COMLEX-USA) within three attempts",
         "citation": "34-24-521"
       },
       {
         "name": "Comprehensive Osteopathic Medical Licensing Examination (COMLEX-USA)",
         "required": true,
-        "notes": "Alternative to USMLE; each component must be passed within three attempts; applies to IMLC expedited licensure pathway",
-        "jurisdiction": "national (NBOME)",
+        "notes": "Alternative to USMLE for osteopathic physicians; all components must be passed within three attempts",
+        "jurisdiction": "national (COMLEX-USA)",
         "permitted_attempts": 3,
         "quote": "Passed each component of the United States Medical Licensing Examination (USMLE) or the Comprehensive Osteopathic Medical Licensing Examination (COMLEX-USA) within three attempts",
         "citation": "34-24-521"
+      },
+      {
+        "name": "State Board of Medical Examiners examination",
+        "required": true,
+        "notes": "Standard examination administered by the State Board of Medical Examiners as part of the certificate of qualification process",
+        "jurisdiction": "state (Alabama Board of Medical Examiners)",
+        "permitted_attempts": null,
+        "quote": "It shall be the duty of the State Board of Medical Examiners to issue a certificate of qualification to the Medical Licensure Commission certifying each applicant for a license who has successfully passed the required examination",
+        "citation": "34-24-330"
       }
     ],
     "renewal": {
@@ -109,15 +113,11 @@
         "citation": "34-24-337"
       }
     },
-    "renewal_fee_usd": {
-      "value": 500,
-      "quote": "Each applicant for registration shall submit with the application payment in an amount to be set by the commission, not to exceed five hundred dollars ($500), as a registration fee.",
-      "citation": "34-24-337"
-    },
+    "renewal_fee_usd": null,
     "continuing_education": {
       "required": {
         "value": true,
-        "quote": "After that date, successful completion of the requirements of the continuing medical education program shall be a requisite for license renewal.",
+        "quote": "The board shall adopt a program of continuing medical education for all licensees living in the State of Alabama not later than October 1, 1991. After that date, successful completion of the requirements of the continuing medical education program shall be a requisite for license renewal.",
         "citation": "34-24-336"
       },
       "hours_per_period": null,
@@ -127,31 +127,35 @@
     "reciprocity": {
       "available": {
         "value": true,
-        "quote": "The compact creates another pathway for licensure and does not otherwise change a state's existing medical practice act.",
-        "citation": "34-24-520"
+        "quote": "It shall be the duty of the State Board of Medical Examiners to issue a certificate of qualification to the Medical Licensure Commission certifying each applicant for a license who has successfully passed the required examination or whose application for a license or certificate of qualification by reciprocity has been acted upon favorably by the board",
+        "citation": "34-24-330"
       },
       "requirements": {
-        "value": "Alabama participates in the Interstate Medical Licensure Compact (IMLC). Physicians eligible under the compact criteria (LCME/COCA-accredited medical school graduate, passed USMLE/COMLEX within 3 attempts, completed ACGME/AOA-approved GME, holds specialty certification, clean disciplinary record) may obtain an expedited license. Separately, the Board may act favorably on reciprocity applications under standard state law.",
-        "quote": "provides a streamlined process that allows physicians to become licensed in multiple states, thereby enhancing the portability of a medical license",
-        "citation": "34-24-520"
+        "value": "Application for license or certificate of qualification by reciprocity must be acted upon favorably by the State Board of Medical Examiners, which then issues a certificate of qualification to the Medical Licensure Commission. Also available via the Interstate Medical Licensure Compact expedited licensure process.",
+        "quote": "whose application for a license or certificate of qualification by reciprocity has been acted upon favorably by the board",
+        "citation": "34-24-330"
       }
     },
     "advisory_board": {
       "exists": {
-        "value": false,
-        "quote": "There is created the Medical Licensure Commission composed of seven physicians, each of whom shall be either a doctor of medicine or a doctor of osteopathy and be licensed to practice medicine or osteopathy in this state.",
-        "citation": "34-24-310"
+        "value": true,
+        "quote": "prior to exercising its power and authority to issue, revoke, or reinstate licenses, or to promulgate rules and regulations, the Medical Licensure Commission shall receive and consider but not be bound by the recommendation of the State Board of Medical Examiners.",
+        "citation": "34-24-311"
       },
-      "name": null,
-      "authority": null
+      "name": {
+        "value": "State Board of Medical Examiners",
+        "quote": "prior to exercising its power and authority to issue, revoke, or reinstate licenses, or to promulgate rules and regulations, the Medical Licensure Commission shall receive and consider but not be bound by the recommendation of the State Board of Medical Examiners.",
+        "citation": "34-24-311"
+      },
+      "authority": {
+        "value": "advisory only — the Medical Licensure Commission shall receive and consider but not be bound by the recommendation of the State Board of Medical Examiners",
+        "quote": "the Medical Licensure Commission shall receive and consider but not be bound by the recommendation of the State Board of Medical Examiners",
+        "citation": "34-24-311"
+      }
     },
-    "national_certification": {
-      "value": "American Board of Medical Specialties (ABMS) or American Osteopathic Association's Bureau of Osteopathic Specialists",
-      "quote": "Holds specialty certification or a time-unlimited specialty certificate recognized by the American Board of Medical Specialties or the American Osteopathic Association's Bureau of Osteopathic Specialists",
-      "citation": "34-24-521"
-    },
+    "national_certification": null,
     "national_association": {
-      "value": "Accreditation Council for Graduate Medical Education (ACGME) and American Osteopathic Association (AOA)",
+      "value": "American Osteopathic Association",
       "quote": "Successfully completed graduate medical education approved by the Accreditation Council for Graduate Medical Education or the American Osteopathic Association",
       "citation": "34-24-521"
     },
@@ -189,13 +193,13 @@
       },
       {
         "short_label": "unprofessional_conduct",
-        "description": "Unprofessional conduct as defined by statute or commission rules",
+        "description": "Unprofessional conduct as defined in the statute or commission rules",
         "quote": "Unprofessional conduct as defined herein or in the rules and regulations promulgated by the commission.",
         "citation": "34-24-360"
       },
       {
         "short_label": "endangering_patient_health",
-        "description": "Practicing medicine in a manner that endangers the health of patients",
+        "description": "Practicing medicine or osteopathy in a manner that endangers patient health",
         "quote": "Practicing medicine or osteopathy in such a manner as to endanger the health of the patients of the practitioner.",
         "citation": "34-24-360"
       },
@@ -206,68 +210,68 @@
         "citation": "34-24-360"
       },
       {
-        "short_label": "crime_reflecting_inability_to_practice",
-        "description": "Conviction of any crime reflecting inability to practice medicine with due regard for health or safety of patients",
+        "short_label": "conviction_reflecting_patient_safety",
+        "description": "Conviction of any crime reflecting inability to practice with due regard for patient health or safety",
         "quote": "Conviction of any crime or offense which reflects the inability of the practitioner to practice medicine or osteopathy with due regard for the health or safety of his or her patients",
         "citation": "34-24-360"
       },
       {
         "short_label": "controlled_substance_violation",
-        "description": "Conviction for violation of federal or state law relating to controlled substances",
+        "description": "Conviction for violation of a federal or state law relating to controlled substances",
         "quote": "Conviction for any violation of a federal or state law relating to controlled substances",
         "citation": "34-24-360"
       },
       {
         "short_label": "false_statements_about_qualifications",
-        "description": "Use of untruthful, deceptive, or improbable statements concerning qualifications or effects of treatment",
+        "description": "Use of untruthful, deceptive, or improbable statements concerning qualifications or treatment results",
         "quote": "Use of any untruthful or deceptive or improbable statements concerning the licensee's qualifications or the effects or results of his or her proposed treatment.",
         "citation": "34-24-360"
       },
       {
-        "short_label": "illegal_distribution_controlled_substances",
-        "description": "Distribution of controlled substances for other than a legitimate medical purpose",
+        "short_label": "improper_controlled_substance_distribution",
+        "description": "Distributing controlled substances for other than a legitimate medical purpose",
         "quote": "Distribution by prescribing, dispensing, furnishing, or supplying of controlled substances to any person or patient for any reason other than a legitimate medical purpose.",
         "citation": "34-24-360"
       },
       {
         "short_label": "gross_or_repeated_malpractice",
-        "description": "Gross malpractice, repeated malpractice, or gross negligence in the practice of medicine",
+        "description": "Gross malpractice, repeated malpractice, or gross negligence in the practice of medicine or osteopathy",
         "quote": "Gross malpractice or repeated malpractice or gross negligence in the practice of medicine or osteopathy.",
         "citation": "34-24-360"
       },
       {
         "short_label": "fee_splitting",
-        "description": "Division or splitting of fees received for professional services for bringing or referring a patient",
+        "description": "Division or agreement to split fees for patient referrals",
         "quote": "Division of fees or agreement to split or divide the fees received for professional services with any person for bringing or referring a patient.",
         "citation": "34-24-360"
       },
       {
-        "short_label": "unnecessary_diagnostic_tests",
+        "short_label": "unnecessary_services",
         "description": "Performance of unnecessary diagnostic tests or medical or surgical services",
         "quote": "Performance of unnecessary diagnostic tests or medical or surgical services.",
         "citation": "34-24-360"
       },
       {
         "short_label": "excessive_or_fraudulent_billing",
-        "description": "Charging grossly excessive fees or filing false/fraudulent claims to third-party payors",
+        "description": "Charging grossly excessive fees or filing false or fraudulent claims to third-party payors",
         "quote": "Charging fees determined by the commission to be grossly excessive or intentionally filing or causing to be filed false or fraudulent claims, as defined by the commission, for medical or surgical services to any private or government third party payor",
         "citation": "34-24-360"
       },
       {
         "short_label": "aiding_unlicensed_practice",
-        "description": "Aiding or abetting the practice of medicine by any person not licensed by the commission",
+        "description": "Aiding or abetting the practice of medicine by an unlicensed person",
         "quote": "Aiding or abetting the practice of medicine by any person not licensed by the commission.",
         "citation": "34-24-360"
       },
       {
         "short_label": "medicare_medicaid_fraud_conviction",
-        "description": "Conviction of fraud in filing Medicare, Medicaid, or other third-party payor claims",
+        "description": "Conviction of fraud in filing Medicare or Medicaid or third-party payor claims",
         "quote": "Conviction of fraud in filing Medicare or Medicaid claims or conviction of fraud in filing claims to any third party payor",
         "citation": "34-24-360"
       },
       {
         "short_label": "out_of_state_disciplinary_action",
-        "description": "Disciplinary action taken by another state against the licensee based on similar acts",
+        "description": "Disciplinary action by another state based on similar acts",
         "quote": "Any disciplinary action taken by another state against a licensee to practice medicine or osteopathy, based upon acts by the licensee similar to acts described in this section",
         "citation": "34-24-360"
       },
@@ -279,42 +283,42 @@
       },
       {
         "short_label": "fraudulent_statements_to_commission_or_board",
-        "description": "Making any fraudulent or untrue statement to the commission or to the State Board of Medical Examiners",
+        "description": "Making fraudulent or untrue statements to the commission or the State Board of Medical Examiners",
         "quote": "Making any fraudulent or untrue statement to the commission or to the State Board of Medical Examiners.",
         "citation": "34-24-360"
       },
       {
-        "short_label": "hospital_privilege_termination",
-        "description": "Termination, revocation, probation, restriction, denial, or resignation of hospital staff privileges related to negligence, incompetence, moral turpitude, sexual misconduct, or substance abuse",
+        "short_label": "hospital_privilege_revocation",
+        "description": "Termination, revocation, or restriction of hospital staff privileges related to negligence, incompetence, moral turpitude, sexual misconduct, or substance abuse",
         "quote": "The termination, revocation, probation, restriction, denial, failure to renew, suspension, reduction, or resignation of staff privileges of a licensee by a hospital in this or any other state when such action is related to negligence or incompetence in the practice of medicine, moral turpitude, sexual misconduct, abusive or disruptive behavior, or drug or alcohol abuse.",
         "citation": "34-24-360"
       },
       {
-        "short_label": "physical_mental_impairment",
-        "description": "Being unable to practice medicine with reasonable skill and safety by reason of illness, substance abuse, or mental or physical condition",
+        "short_label": "physical_mental_incapacity",
+        "description": "Being unable to practice medicine or osteopathy with reasonable skill and safety due to illness, substance abuse, or mental or physical condition",
         "quote": "Being unable to practice medicine or osteopathy with reasonable skill and safety to patients by reason of illness, inebriation, excessive use of drugs, narcotics, alcohol, chemicals, or any other substance, or as a result of any mental or physical condition.",
         "citation": "34-24-360"
       },
       {
         "short_label": "lack_of_medical_knowledge_or_competency",
-        "description": "Being unable to practice medicine with reasonable skill and safety due to demonstrated lack of basic medical knowledge or clinical competency",
+        "description": "Being unable to practice with reasonable skill and safety due to demonstrated lack of basic medical knowledge or clinical competency",
         "quote": "Being unable to practice medicine or osteopathy with reasonable skill and safety to patients by reason of a demonstrated lack of basic medical knowledge or clinical competency.",
         "citation": "34-24-360"
       },
       {
         "short_label": "excessive_schedule_ii_prescribing",
-        "description": "Excessive prescribing, dispensing, furnishing, or supplying of a Schedule II controlled substance outside permitted therapeutic purposes",
+        "description": "Excessive prescribing, dispensing, furnishing, or supplying of a Schedule II controlled substance outside permitted therapeutic uses",
         "quote": "Excessive prescribing, dispensing, furnishing, or supplying of a Schedule II controlled substance.",
         "citation": "34-24-360"
       },
       {
-        "short_label": "failure_to_maintain_medical_records",
-        "description": "Failure to maintain for a patient a medical record which meets the minimum standards of commission rules",
+        "short_label": "inadequate_medical_records",
+        "description": "Failure to maintain patient medical records meeting minimum standards",
         "quote": "Failure to maintain for a patient a medical record which meets the minimum standards stated in the rules and regulations promulgated by the commission.",
         "citation": "34-24-360"
       },
       {
-        "short_label": "failure_to_comply_with_board_or_commission_rules",
+        "short_label": "failure_to_comply_with_board_rules",
         "description": "Failure to comply with any rule of the Board of Medical Examiners or Medical Licensure Commission",
         "quote": "Failure to comply with any rule of the Board of Medical Examiners or Medical Licensure Commission.",
         "citation": "34-24-360"
@@ -323,11 +327,7 @@
     "alternative_regulation": {
       "bonding_required": null,
       "insurance_required": null,
-      "establishment_regulation_required": {
-        "value": true,
-        "quote": "All physicians providing pain management services shall obtain a pain management registration from the board.",
-        "citation": "34-24-604"
-      }
+      "establishment_regulation_required": null
     },
     "citations": [
       {
@@ -335,24 +335,36 @@
         "kind": "scope definition"
       },
       {
+        "cite": "34-24-50.1",
+        "kind": "definitions"
+      },
+      {
         "cite": "34-24-51",
-        "kind": "license requirement and penalty"
+        "kind": "license required / criminal penalty"
+      },
+      {
+        "cite": "34-24-52",
+        "kind": "injunctive proceedings"
       },
       {
         "cite": "34-24-53",
-        "kind": "Board of Medical Examiners establishment"
+        "kind": "board powers"
+      },
+      {
+        "cite": "34-24-53.1",
+        "kind": "rulemaking authority"
       },
       {
         "cite": "34-24-310",
-        "kind": "Medical Licensure Commission creation"
+        "kind": "Medical Licensure Commission composition"
       },
       {
         "cite": "34-24-311",
-        "kind": "commission authority"
+        "kind": "Medical Licensure Commission general authority"
       },
       {
         "cite": "34-24-330",
-        "kind": "certificate of qualification"
+        "kind": "certificate of qualification / reciprocity"
       },
       {
         "cite": "34-24-333",
@@ -379,12 +391,16 @@
         "kind": "administrative fines"
       },
       {
+        "cite": "34-24-400",
+        "kind": "impaired physician program"
+      },
+      {
         "cite": "34-24-520",
-        "kind": "IMLC purpose"
+        "kind": "Interstate Medical Licensure Compact purpose"
       },
       {
         "cite": "34-24-521",
-        "kind": "IMLC definitions including physician and practice of medicine"
+        "kind": "IMLC definitions including physician qualifications"
       },
       {
         "cite": "34-24-602",
@@ -410,7 +426,7 @@
   },
   "scope": {
     "definition_quote": {
-      "value": "The 'practice of medicine or osteopathy' means: (1) To diagnose, treat, correct, advise, or prescribe for any human disease, ailment, injury, infirmity, deformity, pain, or other condition, physical or mental, real or imaginary, by any means or instrumentality; (2) To maintain an office or place of business for the purpose of doing acts described in subdivision (1), whether for compensation or not; (3) To use, in the conduct of any occupation or profession pertaining to the diagnosis or treatment of human disease or conditions, the designation 'doctor,' 'doctor of medicine,' 'doctor of osteopathy,' 'physician,' 'surgeon,' 'physician and surgeon,' 'Dr.,' 'M.D.,' or any combination thereof...",
+      "value": "The 'practice of medicine or osteopathy' means: (1) To diagnose, treat, correct, advise, or prescribe for any human disease, ailment, injury, infirmity, deformity, pain, or other condition, physical or mental, real or imaginary, by any means or instrumentality; (2) To maintain an office or place of business for the purpose of doing acts described in subdivision (1), whether for compensation or not; (3) To use, in the conduct of any occupation or profession pertaining to the diagnosis or treatment of human disease or conditions, the designation 'doctor,' 'doctor of medicine,' 'doctor of osteopathy,' 'physician,' 'surgeon,' 'physician and surgeon,' 'Dr.,' 'M.D.,' or any combination thereof unless such a designation additionally contains the description of another branch of the healing arts for which a person has a license.",
       "quote": "The \"practice of medicine or osteopathy\" means: (1) To diagnose, treat, correct, advise, or prescribe for any human disease, ailment, injury, infirmity, deformity, pain, or other condition, physical or mental, real or imaginary, by any means or instrumentality",
       "citation": "34-24-50"
     },
@@ -419,14 +435,15 @@
         "diagnosis",
         "treatment",
         "correction",
-        "advising",
-        "prescribing"
+        "advice",
+        "prescription",
+        "any means or instrumentality"
       ],
       "quote": "To diagnose, treat, correct, advise, or prescribe for any human disease, ailment, injury, infirmity, deformity, pain, or other condition, physical or mental, real or imaginary, by any means or instrumentality",
       "citation": "34-24-50"
     },
     "drug_authority": {
-      "value": "Physicians may prescribe legend drugs and controlled substances. Prescribing or dispensing controlled substances for other than a legitimate medical purpose is a disciplinary ground. Telehealth prescribing of controlled substances requires prior in-person encounter within 12 months.",
+      "value": "Physicians may prescribe, dispense, furnish, and supply drugs including controlled substances for legitimate medical purposes; telehealth prescribing of controlled substances requires at least one prior in-person encounter within 12 months and synchronous audio or audio-visual communication.",
       "quote": "Distribution by prescribing, dispensing, furnishing, or supplying of controlled substances to any person or patient for any reason other than a legitimate medical purpose.",
       "citation": "34-24-360"
     },
@@ -437,7 +454,7 @@
       },
       {
         "cite": "34-24-360",
-        "kind": "drug prescribing limits"
+        "kind": "drug authority / disciplinary context"
       },
       {
         "cite": "34-24-704",
@@ -449,29 +466,29 @@
     "license_status_types": {
       "value": [
         "active",
-        "inactive",
+        "inactive (automatic upon nonpayment)",
+        "retired",
+        "restricted",
         "suspended",
         "revoked",
-        "restricted",
-        "probation",
-        "retired senior volunteer"
+        "temporary (Retired Senior Volunteer Program)"
       ],
       "quote": "When any licensee shall fail to register and pay the annual registration fee and late fee on or before January 31, as provided in this section, the license of such person shall automatically become inactive",
       "citation": "34-24-337"
     },
     "foreign_medical_graduate_requirements": {
-      "value": "A physician who is a graduate of a medical school listed in the International Medical Education Directory or its equivalent may qualify for the IMLC expedited license pathway. Otherwise, foreign graduates must comply with all standard Alabama licensure requirements.",
+      "value": "Foreign medical graduates must hold a degree from a medical school listed in the International Medical Education Directory or its equivalent and must meet all other compact eligibility requirements including passing USMLE or COMLEX-USA within three attempts and completing ACGME- or AOA-approved graduate medical education.",
       "quote": "Is a graduate of a medical school accredited by the Liaison Committee on Medical Education, the Commission on Osteopathic College Accreditation, or a medical school listed in the International Medical Education Directory or its equivalent",
       "citation": "34-24-521"
     },
     "postgraduate_training_years_required": null,
     "pain_management_education_required": {
       "value": true,
-      "quote": "Each physician serving as the medical director at a practice location shall meet at least one of the following requirements: (1) Successful completion of a residency program in physical medicine and rehabilitation, anesthesiology, addiction medicine, neurology, neurosurgery, family practice, preventive medicine, internal medicine, surgery, orthopedics, or psychiatry approved by the Accreditation Council for Graduate Medical Education",
+      "quote": "Each physician serving as the medical director at a practice location shall meet at least one of the following requirements: (1) Successful completion of a residency program in physical medicine and rehabilitation, anesthesiology, addiction medicine, neurology, neurosurgery, family practice, preventive medicine, internal medicine, surgery, orthopedics, or psychiatry approved by the Accreditation Council for Graduate Medical Education or the American Osteopathic Association Bureau of Osteopathic Specialists.",
       "citation": "34-24-606"
     },
     "opioid_prescribing_limits": {
-      "value": "Schedule II stimulant drugs (amphetamines, sympathomimetic amines) may only be prescribed for specified therapeutic indications including narcolepsy, hyperkinesis, brain dysfunction, epilepsy, and clinically significant depression refractory to other treatment (limited to 30 days unless referred to a specialist). Records of prescribing must be maintained and available for inspection.",
+      "value": "Excessive prescribing of Schedule II controlled substances is a disciplinary ground. Schedule II amphetamines, anorectic drugs, and stimulants may only be prescribed for narcolepsy, hyperkinesis, brain dysfunction, epilepsy, or clinically significant depression (with referral required after 30 days). Those Schedule II stimulants may not be prescribed for exogenous obesity.",
       "quote": "Excessive prescribing, dispensing, furnishing, or supplying of a Schedule II controlled substance. A physician or osteopath violates this subdivision if he or she prescribes, orders, dispenses, administers, supplies, or otherwise distributes any Schedule II amphetamine or Schedule II amphetamine like anorectic drug",
       "citation": "34-24-360"
     },
@@ -486,7 +503,7 @@
       "citation": "34-24-604"
     },
     "telehealth_prescribing_rules": {
-      "value": "A prescriber may prescribe legend drugs, medical supplies, or controlled substances via telehealth if authorized under applicable law. Controlled substance prescriptions via telehealth require: (1) synchronous audio or audio-visual HIPAA-compliant communication, (2) at least one prior in-person encounter within the preceding 12 months, and (3) established legitimate medical purpose within the preceding 12 months. Emergency exceptions apply.",
+      "value": "A prescriber may prescribe a legend drug or controlled substance via telehealth if authorized under state and federal law. Controlled substance prescriptions via telehealth require: (1) synchronous audio or audio-visual HIPAA-compliant communication with the prescribing physician, (2) at least one prior in-person encounter within the preceding 12 months, and (3) a legitimate medical purpose established within the preceding 12 months. Emergency exceptions apply.",
       "quote": "A prescription for a controlled substance may only be issued as a result of telehealth medical services if each of the following apply: a. The telehealth visit includes synchronous audio or audio-visual communication using HIPAA compliant equipment with the prescriber responsible for the prescription. b. The prescriber has had at least one in-person encounter with the patient within the preceding 12 months. c. The prescriber has established a legitimate medical purpose for issuing the prescription within the preceding 12 months.",
       "citation": "34-24-704"
     },
@@ -497,7 +514,7 @@
     },
     "interstate_medical_licensure_compact_member": {
       "value": true,
-      "quote": "the member states of the Interstate Medical Licensure Compact have allied in common purpose to develop a comprehensive process that complements the existing licensing and regulatory authority of state medical boards",
+      "quote": "In order to strengthen access to health care, and in recognition of the advances in the delivery of health care, the member states of the Interstate Medical Licensure Compact have allied in common purpose to develop a comprehensive process that complements the existing licensing and regulatory authority of state medical boards",
       "citation": "34-24-520"
     },
     "physician_assistant_supervision_model": {
@@ -506,7 +523,7 @@
       "citation": "34-24-290"
     },
     "physician_assistant_prescriptive_authority": {
-      "value": "A licensed assistant to physician registered to a licensed physician under an approved job description may prescribe legend drugs where the drug type, dosage, quantity, and refills are authorized in the approved job description and the drug is on the board-approved formulary. Assistants may not prescribe controlled substances on their own initiative unless specifically ordered by the physician.",
+      "value": "A licensed assistant to physician may prescribe legend drugs authorized in an approved job description signed by the supervising physician and on the formulary approved under Board of Medical Examiners guidelines. Assistants may administer any legend drug they are authorized to prescribe. Temporary license holders have no prescriptive privileges. Controlled substances may not be prescribed unless specifically ordered by the supervising physician.",
       "quote": "A licensed assistant to a physician registered to a licensed physician practicing under a job description approved in the manner prescribed by this article may prescribe legend drugs to patients, subject to both of the following conditions: (1) The drug type, dosage, quantity prescribed, and number of refills shall be authorized in an approved job description signed by the physicians to whom the assistant is registered. (2) The drug shall be on the formulary approved under the guidelines of the Board of Medical Examiners.",
       "citation": "34-24-292"
     },
@@ -519,12 +536,12 @@
     },
     "impaired_physician_program_authorized": {
       "value": true,
-      "quote": "the board may contract with the Alabama Physician Wellness Committee, or any other nonprofit professional organization or nonprofit society that in its discretion it deems appropriate.",
-      "citation": "34-24-602"
+      "quote": "It shall be the duty and obligation of the State Board of Medical Examiners to promote the early identification, intervention, treatment, and rehabilitation of physicians and osteopaths licensed to practice medicine in the State of Alabama who may be impaired by reason of illness, inebriation, excessive use of drugs, narcotics, alcohol, chemicals, or other substances or as a result of any physical or mental condition.",
+      "citation": "34-24-400"
     },
     "compelled_mental_physical_exam_authority": {
       "value": true,
-      "quote": "upon a showing of probable cause to the board or commission that the doctor is not capable of practicing medicine or osteopathy with reasonable skill and safety to patients, the board or commission may order and direct the doctor in question to submit to either a physical, mental, or laboratory examination or any combination of such examinations to be performed by a physician or osteopath designated by the board.",
+      "quote": "upon a showing of probable cause to the board or commission that the doctor is not capable of practicing medicine or osteopathy with reasonable skill and safety to patients, the board or commission may order and direct the doctor in question to submit to either a physical, mental, or laboratory examination or any combination of such examinations",
       "citation": "34-24-360"
     },
     "administrative_medicine_license_available": null,

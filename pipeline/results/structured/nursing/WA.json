@@ -9,13 +9,8 @@
     },
     "issuing_authority": {
       "value": "Washington State Board of Nursing",
-      "quote": "The state board of nursing is established, consisting of fifteen members to be appointed by the governor to four-year terms.",
-      "citation": "[18.79.070]",
-      "unverified": true,
-      "approximate": {
-        "ratio": 0.926,
-        "matched_normalized": " board of nursing is established consisting of fifteen members to be appointed by the governor to four year terms"
-      }
+      "quote": "The board of nursing as established in chapter 18.79 RCW governing licenses and registrations issued under that chapter and under chapter 18.80 RCW",
+      "citation": "[]"
     },
     "regulatory_authority": {
       "name": {
@@ -38,33 +33,33 @@
           "matched_normalized": " board of nursing is established consisting of fifteen members to be appointed by the governor to four year terms"
         }
       },
-      "umbrella_agency": {
-        "value": "Department of Health",
-        "quote": "\"Department\" means the department of health.",
-        "citation": "[18.79.020]"
-      }
+      "umbrella_agency": null
     },
     "age_minimum": {
       "value": 18,
       "quote": "Written official evidence that the applicant is over the age of eighteen",
       "citation": "[18.79.160]"
     },
-    "moral_character_required": null,
+    "moral_character_required": {
+      "value": true,
+      "quote": "At the time of submission of the application, the applicant for a license to practice as a registered nurse, advanced registered nurse practitioner, or licensed practical nurse must not be in violation of chapter 18.130 RCW or this chapter.",
+      "citation": "[18.79.160]"
+    },
     "education": {
       "degree_required": {
-        "value": "Graduation from an approved program of nursing (RN); graduation from an approved practical nursing program (LPN); graduation from an advanced registered nurse practitioner program meeting criteria established by the board (ARNP)",
+        "value": "Graduation from an approved program of nursing",
         "quote": "An official transcript demonstrating graduation and successful completion of an approved program of nursing",
         "citation": "[18.79.160]"
       },
       "accrediting_body": {
-        "value": "Board of Nursing (board-approved schools)",
+        "value": "Board-approved schools of nursing",
         "quote": "The board shall approve such schools of nursing as meet the requirements of this chapter and the board",
         "citation": "[18.79.110]"
       },
       "degree_level": {
         "value": "associate",
-        "quote": "an official transcript demonstrating graduation and successful completion of an approved program of nursing",
-        "citation": "[18.79.160]"
+        "quote": "reasonable efforts shall be made to ensure that at least one pro tem member is a registered nurse who is currently practicing and, in addition to meeting other minimum qualifications, has graduated from an associate or baccalaureate nursing program within three years of appointment.",
+        "citation": "[18.79.070]"
       },
       "school_approval_basis": {
         "value": "board_approved",
@@ -76,39 +71,17 @@
         "quote": "An official transcript demonstrating graduation and successful completion of an approved program of nursing",
         "citation": "[18.79.160]"
       },
-      "tiers": [
-        {
-          "license_class": "registered nurse (RN)",
-          "degree_level": "associate",
-          "effective_date": null,
-          "quote": "An official transcript demonstrating graduation and successful completion of an approved program of nursing",
-          "citation": "[18.79.160]"
-        },
-        {
-          "license_class": "licensed practical nurse (LPN)",
-          "degree_level": "associate",
-          "effective_date": null,
-          "quote": "An official transcript demonstrating graduation and successful completion of an approved practical nursing program, or its equivalent",
-          "citation": "[18.79.160]"
-        },
-        {
-          "license_class": "advanced registered nurse practitioner (ARNP)",
-          "degree_level": "master",
-          "effective_date": null,
-          "quote": "An official transcript demonstrating graduation and successful completion of an advanced registered nurse practitioner program meeting criteria established by the board",
-          "citation": "[18.79.160]"
-        }
-      ]
+      "tiers": null
     },
     "post_degree_experience": {
       "required": {
         "value": false,
-        "quote": "An official transcript demonstrating graduation and successful completion of an approved program of nursing",
+        "quote": "An applicant for a license to practice as a registered nurse shall submit to the board: (a) An attested written application on a department form; (b) An official transcript demonstrating graduation and successful completion of an approved program of nursing; and (c) Any other official records specified by the board.",
         "citation": "[18.79.160]"
       },
       "experience_source": {
         "value": "none",
-        "quote": "An official transcript demonstrating graduation and successful completion of an approved program of nursing",
+        "quote": "An applicant for a license to practice as a registered nurse shall submit to the board: (a) An attested written application on a department form; (b) An official transcript demonstrating graduation and successful completion of an approved program of nursing; and (c) Any other official records specified by the board.",
         "citation": "[18.79.160]"
       },
       "duration": null,
@@ -116,10 +89,19 @@
     },
     "exams": [
       {
-        "name": "Nursing examination (NCLEX)",
+        "name": "NCLEX-RN / NCLEX-PN",
         "required": true,
-        "notes": "Board determines examination requirements; NCLEX-RN and NCLEX-PN referenced in multistate compact provisions",
-        "jurisdiction": "national (NCLEX)",
+        "notes": "The board determines examination requirements; for multistate licensure the NCLEX-RN or NCLEX-PN is specifically required.",
+        "jurisdiction": "national",
+        "permitted_attempts": null,
+        "quote": "Has successfully passed an NCLEX-RN® or NCLEX-PN® examination or recognized predecessor, as applicable",
+        "citation": "[18.80.020]"
+      },
+      {
+        "name": "Nursing licensing examination",
+        "required": true,
+        "notes": "Board determines subjects; may be supplemented by oral or practical examination; board establishes rules for reexamination after failure.",
+        "jurisdiction": "state (board-determined)",
         "permitted_attempts": null,
         "quote": "An applicant for a license to practice as a registered nurse, advanced registered nurse practitioner, or licensed practical nurse must pass an examination in subjects determined by the board.",
         "citation": "[18.79.170]"
@@ -142,11 +124,11 @@
     "reciprocity": {
       "available": {
         "value": true,
-        "quote": "Upon approval of the application by the board, the department shall issue a license by endorsement without examination to practice as a registered nurse or as a licensed practical nurse to a person who is licensed as a registered nurse or licensed practical nurse under the laws of another state, territory, or possession of the United States",
+        "quote": "Upon approval of the application by the board, the department shall issue a license by endorsement without examination to practice as a registered nurse or as a licensed practical nurse to a person who is licensed as a registered nurse or licensed practical nurse under the laws of another state, territory, or possession of the United States, and who meets all other qualifications for licensing.",
         "citation": "[18.79.190]"
       },
       "requirements": {
-        "value": "Applicant must hold a license as a registered nurse or licensed practical nurse under the laws of another state, territory, or possession of the United States and meet all other qualifications for licensing. Applicants from foreign programs must meet all qualifications and pass examinations.",
+        "value": "License by endorsement without examination for out-of-state RN or LPN licensees who meet all other qualifications; foreign-educated nurses must meet all qualifications and pass examinations as determined by the board.",
         "quote": "Upon approval of the application by the board, the department shall issue a license by endorsement without examination to practice as a registered nurse or as a licensed practical nurse to a person who is licensed as a registered nurse or licensed practical nurse under the laws of another state, territory, or possession of the United States, and who meets all other qualifications for licensing.",
         "citation": "[18.79.190]"
       }
@@ -195,141 +177,141 @@
     "disciplinary_grounds": [
       {
         "short_label": "moral_turpitude_dishonesty_corruption",
-        "description": "Commission of any act involving moral turpitude, dishonesty, or corruption relating to the practice of the profession",
+        "description": "Commission of any act involving moral turpitude, dishonesty, or corruption relating to the practice of the profession.",
         "quote": "The commission of any act involving moral turpitude, dishonesty, or corruption relating to the practice of the person's profession, whether the act constitutes a crime or not.",
-        "citation": "[18.130.180]"
+        "citation": "[]"
       },
       {
         "short_label": "misrepresentation_in_obtaining_license",
-        "description": "Misrepresentation or concealment of a material fact in obtaining a license or in reinstatement thereof",
+        "description": "Misrepresentation or concealment of a material fact in obtaining or reinstating a license.",
         "quote": "Misrepresentation or concealment of a material fact in obtaining a license or in reinstatement thereof",
-        "citation": "[18.130.180]"
+        "citation": "[]"
       },
       {
         "short_label": "false_fraudulent_misleading_advertising",
-        "description": "All advertising which is false, fraudulent, or misleading",
+        "description": "All advertising which is false, fraudulent, or misleading.",
         "quote": "All advertising which is false, fraudulent, or misleading",
-        "citation": "[18.130.180]"
+        "citation": "[]"
       },
       {
         "short_label": "incompetence_negligence_malpractice",
-        "description": "Incompetence, negligence, or malpractice which results in injury to a patient or creates an unreasonable risk of harm",
+        "description": "Incompetence, negligence, or malpractice which results in injury to a patient or creates unreasonable risk of harm.",
         "quote": "Incompetence, negligence, or malpractice which results in injury to a patient or which creates an unreasonable risk that a patient may be harmed.",
-        "citation": "[18.130.180]"
+        "citation": "[]"
       },
       {
-        "short_label": "license_suspension_revocation_elsewhere",
-        "description": "Suspension, revocation, or restriction of the individual's license to practice any health care profession by competent authority in any jurisdiction",
+        "short_label": "license_suspension_revocation_restriction_other_jurisdiction",
+        "description": "Suspension, revocation, or restriction of the individual's license by competent authority in any state, federal, or foreign jurisdiction.",
         "quote": "Suspension, revocation, or restriction of the individual's license to practice any health care profession by competent authority in any state, federal, or foreign jurisdiction",
-        "citation": "[18.130.180]"
+        "citation": "[]"
       },
       {
-        "short_label": "controlled_substance_legend_drug_misuse",
-        "description": "Possession, use, prescription for use, or distribution of controlled substances or legend drugs for non-legitimate purposes, or drug law violation",
+        "short_label": "controlled_substance_misuse_drug_law_violation",
+        "description": "Possession, use, prescription for use, or distribution of controlled substances or legend drugs other than for legitimate therapeutic purposes; diversion; violation of any drug law.",
         "quote": "The possession, use, prescription for use, or distribution of controlled substances or legend drugs in any way other than for legitimate or therapeutic purposes, diversion of controlled substances or legend drugs, the violation of any drug law, or prescribing controlled substances for oneself",
-        "citation": "[18.130.180]"
+        "citation": "[]"
       },
       {
-        "short_label": "violation_of_statute_or_rule",
-        "description": "Violation of any state or federal statute or administrative rule regulating the profession",
+        "short_label": "violation_of_statute_or_rule_regulating_profession",
+        "description": "Violation of any state or federal statute or administrative rule regulating the profession.",
         "quote": "Violation of any state or federal statute or administrative rule regulating the profession in question, including any statute or rule defining or establishing standards of patient care or professional conduct or practice",
-        "citation": "[18.130.180]"
+        "citation": "[]"
       },
       {
         "short_label": "failure_to_cooperate_with_disciplining_authority",
-        "description": "Failure to cooperate with the disciplining authority by not furnishing documents, not explaining matters in writing, not responding to subpoenas, or not providing access for practice reviews",
-        "quote": "Failure to cooperate with the disciplining authority by: (a) Not furnishing any papers, documents, records, or other items; (b) Not furnishing in writing a full and complete explanation covering the matter contained in the complaint filed with the disciplining authority",
-        "citation": "[18.130.180]"
+        "description": "Failure to cooperate with the disciplining authority during investigation.",
+        "quote": "Failure to cooperate with the disciplining authority by: (a) Not furnishing any papers, documents, records, or other items",
+        "citation": "[]"
       },
       {
         "short_label": "failure_to_comply_with_disciplining_authority_order",
-        "description": "Failure to comply with an order issued by the disciplining authority or a stipulation for informal disposition",
+        "description": "Failure to comply with an order issued by the disciplining authority or a stipulation for informal disposition.",
         "quote": "Failure to comply with an order issued by the disciplining authority or a stipulation for informal disposition entered into with the disciplining authority",
-        "citation": "[18.130.180]"
+        "citation": "[]"
       },
       {
         "short_label": "aiding_unlicensed_practice",
-        "description": "Aiding or abetting an unlicensed person to practice when a license is required",
+        "description": "Aiding or abetting an unlicensed person to practice when a license is required.",
         "quote": "Aiding or abetting an unlicensed person to practice when a license is required",
-        "citation": "[18.130.180]"
+        "citation": "[]"
       },
       {
         "short_label": "violation_of_health_agency_rules",
-        "description": "Violations of rules established by any health agency",
+        "description": "Violations of rules established by any health agency.",
         "quote": "Violations of rules established by any health agency",
-        "citation": "[18.130.180]"
+        "citation": "[]"
       },
       {
         "short_label": "practice_beyond_scope",
-        "description": "Practice beyond the scope of practice as defined by law or rule",
+        "description": "Practice beyond the scope of practice as defined by law or rule.",
         "quote": "Practice beyond the scope of practice as defined by law or rule",
-        "citation": "[18.130.180]"
+        "citation": "[]"
       },
       {
-        "short_label": "misrepresentation_or_fraud_in_business",
-        "description": "Misrepresentation or fraud in any aspect of the conduct of the business or profession",
+        "short_label": "misrepresentation_fraud_in_practice",
+        "description": "Misrepresentation or fraud in any aspect of the conduct of the business or profession.",
         "quote": "Misrepresentation or fraud in any aspect of the conduct of the business or profession",
-        "citation": "[18.130.180]"
+        "citation": "[]"
       },
       {
         "short_label": "failure_to_supervise_auxiliary_staff",
-        "description": "Failure to adequately supervise auxiliary staff to the extent that the consumer's health or safety is at risk",
+        "description": "Failure to adequately supervise auxiliary staff to the extent that the consumer's health or safety is at risk.",
         "quote": "Failure to adequately supervise auxiliary staff to the extent that the consumer's health or safety is at risk",
-        "citation": "[18.130.180]"
+        "citation": "[]"
       },
       {
-        "short_label": "practice_with_contagious_disease",
-        "description": "Engaging in a profession involving contact with the public while suffering from a contagious or infectious disease involving serious risk to public health",
+        "short_label": "practicing_while_contagious",
+        "description": "Engaging in a profession involving contact with the public while suffering from a contagious or infectious disease involving serious risk to public health.",
         "quote": "Engaging in a profession involving contact with the public while suffering from a contagious or infectious disease involving serious risk to public health",
-        "citation": "[18.130.180]"
+        "citation": "[]"
       },
       {
-        "short_label": "promotion_of_unnecessary_services",
-        "description": "Promotion for personal gain of any unnecessary or inefficacious drug, device, treatment, procedure, or service",
+        "short_label": "promotion_unnecessary_inefficacious_services",
+        "description": "Promotion for personal gain of any unnecessary or inefficacious drug, device, treatment, procedure, or service.",
         "quote": "Promotion for personal gain of any unnecessary or inefficacious drug, device, treatment, procedure, or service",
-        "citation": "[18.130.180]"
+        "citation": "[]"
       },
       {
-        "short_label": "felony_or_gross_misdemeanor_conviction",
-        "description": "Conviction of any gross misdemeanor or felony relating to the practice of the person's profession",
+        "short_label": "conviction_gross_misdemeanor_felony",
+        "description": "Conviction of any gross misdemeanor or felony relating to the practice of the person's profession.",
         "quote": "Conviction of any gross misdemeanor or felony relating to the practice of the person's profession.",
-        "citation": "[18.130.180]"
+        "citation": "[]"
       },
       {
         "short_label": "secret_treatment_method",
-        "description": "Offering, undertaking, or agreeing to cure or treat disease by a secret method, procedure, treatment, or medicine",
+        "description": "Offering to cure or treat disease by a secret method or procedure which the licensee refuses to divulge.",
         "quote": "The offering, undertaking, or agreeing to cure or treat disease by a secret method, procedure, treatment, or medicine, or the treating, operating, or prescribing for any health condition by a method, means, or procedure which the licensee refuses to divulge upon demand of the disciplining authority",
-        "citation": "[18.130.180]"
+        "citation": "[]"
       },
       {
-        "short_label": "betrayal_of_practitioner_patient_privilege",
-        "description": "Willful betrayal of a practitioner-patient privilege as recognized by law",
+        "short_label": "willful_betrayal_practitioner_patient_privilege",
+        "description": "Willful betrayal of a practitioner-patient privilege as recognized by law.",
         "quote": "The willful betrayal of a practitioner-patient privilege as recognized by law",
-        "citation": "[18.130.180]"
+        "citation": "[]"
       },
       {
-        "short_label": "interference_with_investigation",
-        "description": "Interference with an investigation or disciplinary proceeding by willful misrepresentation, threats, or financial inducements",
-        "quote": "Interference with an investigation or disciplinary proceeding by willful misrepresentation of facts before the disciplining authority or its authorized representative, or by the use of threats or harassment against any patient or witness",
-        "citation": "[18.130.180]"
-      },
-      {
-        "short_label": "substance_misuse",
-        "description": "Current misuse of alcohol, controlled substances, or legend drugs",
+        "short_label": "current_misuse_of_alcohol_or_drugs",
+        "description": "Current misuse of alcohol, controlled substances, or legend drugs.",
         "quote": "Current misuse of: (a) Alcohol; (b) Controlled substances; or (c) Legend drugs",
-        "citation": "[18.130.180]"
+        "citation": "[]"
       },
       {
-        "short_label": "abuse_of_or_sexual_contact_with_patient",
-        "description": "Abuse of a client or patient or sexual contact with a client or patient",
+        "short_label": "abuse_or_sexual_contact_with_patient",
+        "description": "Abuse of a client or patient or sexual contact with a client or patient.",
         "quote": "Abuse of a client or patient or sexual contact with a client or patient",
-        "citation": "[18.130.180]"
+        "citation": "[]"
+      },
+      {
+        "short_label": "interference_with_investigation_or_proceeding",
+        "description": "Interference with an investigation or disciplinary proceeding by willful misrepresentation of facts or use of threats, harassment, or financial inducements.",
+        "quote": "Interference with an investigation or disciplinary proceeding by willful misrepresentation of facts before the disciplining authority or its authorized representative, or by the use of threats or harassment against any patient or witness to prevent them from providing evidence",
+        "citation": "[]"
       },
       {
         "short_label": "conversion_therapy_on_minor",
-        "description": "Performing conversion therapy on a patient under age eighteen",
+        "description": "Performing conversion therapy on a patient under age eighteen.",
         "quote": "Performing conversion therapy on a patient under age eighteen",
-        "citation": "[18.130.180]"
+        "citation": "[]"
       }
     ],
     "alternative_regulation": {
@@ -343,44 +325,28 @@
     },
     "citations": [
       {
-        "cite": "RCW 18.79.010",
-        "kind": "purpose"
-      },
-      {
-        "cite": "RCW 18.79.020",
-        "kind": "definitions"
-      },
-      {
         "cite": "RCW 18.79.030",
         "kind": "license_required"
       },
       {
         "cite": "RCW 18.79.040",
-        "kind": "scope_of_practice_rn"
+        "kind": "scope_definition"
       },
       {
         "cite": "RCW 18.79.050",
-        "kind": "scope_of_practice_arnp"
+        "kind": "scope_definition_APRN"
       },
       {
         "cite": "RCW 18.79.060",
-        "kind": "scope_of_practice_lpn"
+        "kind": "scope_definition_LPN"
       },
       {
         "cite": "RCW 18.79.070",
-        "kind": "board_established"
+        "kind": "board_composition"
       },
       {
         "cite": "RCW 18.79.110",
-        "kind": "board_duties"
-      },
-      {
-        "cite": "RCW 18.79.120",
-        "kind": "uniform_disciplinary_act"
-      },
-      {
-        "cite": "RCW 18.79.150",
-        "kind": "schools_approval"
+        "kind": "board_powers"
       },
       {
         "cite": "RCW 18.79.160",
@@ -391,125 +357,107 @@
         "kind": "examination"
       },
       {
-        "cite": "RCW 18.79.180",
-        "kind": "interim_permits"
-      },
-      {
         "cite": "RCW 18.79.190",
         "kind": "reciprocity"
-      },
-      {
-        "cite": "RCW 18.79.200",
-        "kind": "fees"
       },
       {
         "cite": "RCW 18.79.210",
         "kind": "renewal"
       },
       {
-        "cite": "RCW 18.79.240",
-        "kind": "construction"
+        "cite": "RCW 18.79.260",
+        "kind": "RN_activities_delegation"
       },
       {
         "cite": "RCW 18.79.250",
-        "kind": "arnp_activities"
-      },
-      {
-        "cite": "RCW 18.79.260",
-        "kind": "rn_activities_delegation"
+        "kind": "APRN_activities"
       },
       {
         "cite": "RCW 18.79.270",
-        "kind": "lpn_activities"
-      },
-      {
-        "cite": "RCW 18.79.450",
-        "kind": "multistate_license"
-      },
-      {
-        "cite": "RCW 18.80.010",
-        "kind": "interstate_compact_definitions"
+        "kind": "LPN_activities"
       },
       {
         "cite": "RCW 18.80.020",
-        "kind": "interstate_compact_general"
+        "kind": "multistate_license_compact"
       },
       {
         "cite": "RCW 18.130.180",
-        "kind": "unprofessional_conduct"
+        "kind": "disciplinary_grounds"
       }
     ]
   },
   "scope": {
     "definition_quote": {
-      "value": "\"Registered nursing practice\" means the performance of acts requiring substantial specialized knowledge, judgment, and skill based on the principles of the biological, physiological, behavioral, and sociological sciences in either: (a) The observation, assessment, diagnosis, care or counsel, and health teaching of individuals with illnesses, injuries, or disabilities, or in the maintenance of health or prevention of illness of others; (b) The performance of such additional acts requiring education and training and that are recognized by the medical and nursing professions as proper and recognized by the board to be performed by registered nurses licensed under this chapter and that are authorized by the board through its rules; (c) The administration, supervision, delegation, and evaluation of nursing practice; (d) The teaching of nursing; (e) The executing of medical regimen as prescribed by a licensed physician and surgeon, dentist, osteopathic physician and surgeon, podiatric physician and surgeon, physician assistant, or advanced registered nurse practitioner, or as directed by a licensed midwife within his or her scope of practice.",
+      "value": "\"Registered nursing practice\" means the performance of acts requiring substantial specialized knowledge, judgment, and skill based on the principles of the biological, physiological, behavioral, and sociological sciences in either: (a) The observation, assessment, diagnosis, care or counsel, and health teaching of individuals with illnesses, injuries, or disabilities, or in the maintenance of health or prevention of illness of others; (b) The performance of such additional acts requiring education and training and that are recognized by the medical and nursing professions as proper and recognized by the board to be performed by registered nurses licensed under this chapter and that are authorized by the board through its rules; (c) The administration, supervision, delegation, and evaluation of nursing practice; (d) The teaching of nursing; (e) The executing of medical regimen as prescribed by a licensed physician and surgeon, dentist, osteopathic physician and surgeon, podiatric physician and surgeon, physician assistant, or advanced registered nurse practitioner.",
       "quote": "\"Registered nursing practice\" means the performance of acts requiring substantial specialized knowledge, judgment, and skill based on the principles of the biological, physiological, behavioral, and sociological sciences",
       "citation": "[18.79.040]"
     },
     "methods_authorized": {
       "value": [
-        "observation, assessment, diagnosis, care, counsel, and health teaching",
-        "performance of additional acts recognized by the medical and nursing professions and authorized by the board",
+        "observation, assessment, diagnosis, care or counsel, and health teaching",
         "administration, supervision, delegation, and evaluation of nursing practice",
         "teaching of nursing",
         "executing medical regimen as prescribed by authorized practitioners",
         "administering medications, treatments, tests, and inoculations",
-        "delegating nursing tasks to other individuals where in the best interest of the patient",
-        "prescribing legend drugs and controlled substances (ARNP only)"
+        "delegating tasks of nursing care to other individuals"
       ],
       "quote": "The observation, assessment, diagnosis, care or counsel, and health teaching of individuals with illnesses, injuries, or disabilities, or in the maintenance of health or prevention of illness of others",
       "citation": "[18.79.040]"
     },
     "drug_authority": {
-      "value": "Advanced registered nurse practitioners may prescribe legend drugs and Schedule V controlled substances, and Schedules II through IV subject to RCW 18.79.240(1)(r) or (s) within the scope of practice defined by the board. Registered nurses may administer prescribed drugs under direction of authorized practitioners.",
+      "value": "Advanced registered nurse practitioners may prescribe legend drugs and Schedule V controlled substances; and Schedules II through IV subject to RCW 18.79.240(1)(r) or (s). CRNAs may select, order, or administer Schedules II–IV controlled substances for anesthesia purposes consistent with board-recognized scope.",
       "quote": "Upon approval by the board, an advanced registered nurse practitioner may prescribe legend drugs and controlled substances contained in Schedule V of the Uniform Controlled Substances Act, chapter 69.50 RCW, and Schedules II through IV subject to RCW 18.79.240(1) (r) or (s).",
       "citation": "[18.79.050]"
     },
     "citations": [
       {
         "cite": "RCW 18.79.040",
-        "kind": "rn_scope"
+        "kind": "registered_nursing_practice_definition"
       },
       {
         "cite": "RCW 18.79.050",
-        "kind": "arnp_scope"
+        "kind": "advanced_registered_nursing_practice_definition"
       },
       {
         "cite": "RCW 18.79.060",
-        "kind": "lpn_scope"
+        "kind": "LPN_practice_definition"
+      },
+      {
+        "cite": "RCW 18.79.240",
+        "kind": "construction_exceptions"
       },
       {
         "cite": "RCW 18.79.250",
-        "kind": "arnp_activities"
+        "kind": "APRN_activities"
       },
       {
         "cite": "RCW 18.79.260",
-        "kind": "rn_activities"
+        "kind": "RN_activities_delegation"
       },
       {
         "cite": "RCW 18.79.270",
-        "kind": "lpn_activities"
+        "kind": "LPN_activities"
       }
     ]
   },
   "profession_specific": {
     "license_tiers": {
       "value": [
-        "registered nurse (RN)",
-        "advanced registered nurse practitioner (ARNP) / advanced practice registered nurse (APRN)",
-        "licensed practical nurse (LPN)",
-        "nursing technician (student nurse in employment)",
-        "nursing assistant-registered",
-        "nursing assistant-certified",
-        "medication assistant (endorsement)"
+        "Registered Nurse (RN)",
+        "Advanced Registered Nurse Practitioner (ARNP) / Advanced Practice Registered Nurse (APRN)",
+        "Licensed Practical Nurse (LPN)",
+        "Nursing Technician (student nurse registration)",
+        "Nursing Assistant-Registered (NAR)",
+        "Nursing Assistant-Certified (NAC)",
+        "Medication Assistant (endorsement on NAC)"
       ],
       "quote": "It is unlawful for a person to practice or to offer to practice as a registered nurse in this state unless that person has been licensed under this chapter or holds a valid multistate license under chapter 18.80 RCW.",
       "citation": "[18.79.030]"
     },
     "aprn_role_categories": {
       "value": [
-        "advanced registered nurse practitioner (ARNP) / advanced practice registered nurse (APRN)",
-        "certified registered nurse anesthetist (CRNA)"
+        "Advanced Registered Nurse Practitioner / Nurse Practitioner",
+        "Certified Registered Nurse Anesthetist (CRNA)"
       ],
       "quote": "advanced registered nurse practitioners, approved by the board as certified registered nurse anesthetists from selecting, ordering, or administering controlled substances as defined in Schedules II through IV",
       "citation": "[18.79.240]"
@@ -517,44 +465,37 @@
     "lpn_supervision_requirements": {
       "value": [
         "licensed physician and surgeon",
-        "osteopathic physician and surgeon",
         "dentist",
-        "naturopathic physician",
-        "podiatric physician and surgeon",
+        "osteopathic physician and surgeon",
         "physician assistant",
+        "podiatric physician and surgeon",
         "advanced registered nurse practitioner",
-        "midwife",
-        "registered nurse"
+        "registered nurse",
+        "midwife"
       ],
-      "quote": "under the direction of a licensed physician and surgeon, osteopathic physician and surgeon, dentist, naturopathic physician, podiatric physician and surgeon, physician assistant, advanced registered nurse practitioner, or midwife acting under the scope of his or her license, or at the direction and under the supervision of a registered nurse",
-      "citation": "[18.79.270]"
+      "quote": "\"Licensed practical nursing practice\" means the performance of services requiring the knowledge, skill, and judgment necessary for carrying out selected aspects of the designated nursing regimen under the direction and supervision of a licensed physician and surgeon, dentist, osteopathic physician and surgeon, physician assistant, podiatric physician and surgeon, advanced registered nurse practitioner, registered nurse, or midwife.",
+      "citation": "[18.79.060]"
     },
-    "collaborative_practice_agreement_required": {
-      "value": false,
-      "quote": "An advanced registered nurse practitioner under his or her license may perform for compensation nursing care, as that term is usually understood, of the ill, injured, or infirm",
-      "citation": "[18.79.250]"
-    },
-    "full_independent_practice_available": {
-      "value": true,
-      "quote": "An advanced registered nurse practitioner under his or her license may perform for compensation nursing care, as that term is usually understood, of the ill, injured, or infirm",
-      "citation": "[18.79.250]"
-    },
+    "collaborative_practice_agreement_required": null,
+    "full_independent_practice_available": null,
     "full_independent_practice_experience_hours_required": null,
     "prescriptive_authority_certificate_required": {
-      "value": false,
-      "quote": "Upon approval by the board, an advanced registered nurse practitioner may prescribe legend drugs and controlled substances contained in Schedule V of the Uniform Controlled Substances Act",
+      "value": true,
+      "quote": "Upon approval by the board, an advanced registered nurse practitioner may prescribe legend drugs and controlled substances contained in Schedule V of the Uniform Controlled Substances Act, chapter 69.50 RCW, and Schedules II through IV subject to RCW 18.79.240(1) (r) or (s).",
       "citation": "[18.79.050]"
     },
     "controlled_substance_schedule_authority": {
       "value": [
-        "Schedule V",
-        "Schedules II through IV (subject to RCW 18.79.240(1)(r) or (s))"
+        "Schedule II (CRNA anesthesia context only, and ARNP prescribing subject to RCW 18.79.240(1)(r) or (s))",
+        "Schedule III (CRNA anesthesia context only, and ARNP prescribing subject to RCW 18.79.240(1)(r) or (s))",
+        "Schedule IV (CRNA anesthesia context only, and ARNP prescribing subject to RCW 18.79.240(1)(r) or (s))",
+        "Schedule V (ARNP prescribing)"
       ],
-      "quote": "an advanced registered nurse practitioner may prescribe legend drugs and controlled substances contained in Schedule V of the Uniform Controlled Substances Act, chapter 69.50 RCW, and Schedules II through IV subject to RCW 18.79.240(1) (r) or (s)",
+      "quote": "Upon approval by the board, an advanced registered nurse practitioner may prescribe legend drugs and controlled substances contained in Schedule V of the Uniform Controlled Substances Act, chapter 69.50 RCW, and Schedules II through IV subject to RCW 18.79.240(1) (r) or (s).",
       "citation": "[18.79.050]"
     },
     "opioid_prescribing_limits": {
-      "value": "Board must adopt rules establishing requirements for prescribing opioid drugs by January 1, 2019; rules may contain exemptions based on education, training, amount of opioids prescribed, patient panel, and practice environment.",
+      "value": "Board must adopt rules establishing requirements for prescribing opioid drugs; rules may contain exemptions based on education, training, amount of opioids prescribed, patient panel, and practice environment. ARNPs who prescribe opioids must inform patients of their right to refuse an opioid prescription.",
       "quote": "By January 1, 2019, the board must adopt rules establishing requirements for prescribing opioid drugs. The rules may contain exemptions based on education, training, amount of opioids prescribed, patient panel, and practice environment.",
       "citation": "[18.79.800]"
     },
@@ -562,8 +503,9 @@
     "controlled_substance_database_registration_required": null,
     "nurse_aide_registry_maintained": {
       "value": true,
-      "quote": "No person may practice or represent himself or herself as a nursing assistant-registered by use of any title or description without being registered by the department pursuant to this chapter.",
-      "citation": "[18.88A.040]"
+      "quote": "\"Nursing assistant-registered,\" an individual registered under this chapter; and \"nursing assistant-certified,\" an individual certified under this chapter.",
+      "citation": "[18.88A.020]",
+      "unverified": true
     },
     "medication_assistant_certification_available": {
       "value": true,
@@ -578,11 +520,11 @@
     "employer_mandatory_reporting_required": {
       "value": true,
       "quote": "Every license holder, corporation, organization, health care facility, and state and local governmental agency that employs a license holder shall report to the disciplining authority when the employed license holder's services have been terminated or restricted based upon a final determination that the license holder has either committed an act or acts that may constitute unprofessional conduct",
-      "citation": "[18.130.080]"
+      "citation": "[]"
     },
     "whistleblower_protection_for_delegation_refusal": {
       "value": true,
-      "quote": "Nurses shall not be subject to any employer reprisal or disciplinary action by the board for refusing to delegate tasks or refusing to provide the required training for delegation if the nurse determines delegation may compromise patient safety.",
+      "quote": "No person may coerce a nurse into compromising patient safety by requiring the nurse to delegate if the nurse determines that it is inappropriate to do so. Nurses shall not be subject to any employer reprisal or disciplinary action by the board for refusing to delegate tasks or refusing to provide the required training for delegation if the nurse determines delegation may compromise patient safety.",
       "citation": "[18.79.260]"
     },
     "nurse_licensure_compact_member": {
@@ -609,16 +551,12 @@
     "telehealth_prescribing_rules": null,
     "nurse_practitioner_transition_to_practice_hours": null,
     "crna_physician_supervision_model": {
-      "value": "consultation model",
+      "value": "direction without required presence",
       "quote": "subject to a request for certified registered nurse anesthetist anesthesia services issued by a physician licensed under chapter 18.71 RCW, an osteopathic physician and surgeon licensed under chapter 18.57 RCW, a dentist licensed under chapter 18.32 RCW, or a podiatric physician and surgeon licensed under chapter 18.22 RCW",
       "citation": "[18.79.240]"
     },
     "cnm_out_of_hospital_birth_authorized": null,
-    "aprn_formulary_or_protocol_required": {
-      "value": false,
-      "quote": "Upon approval by the board, an advanced registered nurse practitioner may prescribe legend drugs and controlled substances contained in Schedule V of the Uniform Controlled Substances Act",
-      "citation": "[18.79.050]"
-    },
+    "aprn_formulary_or_protocol_required": null,
     "nursing_education_program_clinical_hours_minimum": null,
     "implicit_bias_training_required_in_curriculum": null,
     "military_education_credit_required": {

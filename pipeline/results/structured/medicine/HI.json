@@ -8,43 +8,47 @@
       "citation": "453-2"
     },
     "issuing_authority": {
-      "value": "Hawaii medical board",
-      "quote": "without having a valid unrevoked license or a limited and temporary license obtained from the Hawaii medical board.",
-      "citation": "453-2"
+      "value": "Hawaii Medical Board",
+      "quote": "the governor shall appoint a Hawaii medical board whose duty it shall be to examine all applicants for license to practice medicine or surgery.",
+      "citation": "453-5"
     },
     "regulatory_authority": {
       "name": {
-        "value": "Hawaii medical board",
-        "quote": "without having a valid unrevoked license or a limited and temporary license obtained from the Hawaii medical board.",
-        "citation": "453-2"
+        "value": "Hawaii Medical Board",
+        "quote": "the governor shall appoint a Hawaii medical board whose duty it shall be to examine all applicants for license to practice medicine or surgery.",
+        "citation": "453-5"
       },
       "type": {
-        "value": "shared_board",
-        "quote": "\"Board\" means the board of dentistry, the Hawaii medical board, the board of psychology, the board of nursing, the Hawaii board of veterinary medicine, the board of acupuncture, the board of massage therapy, the board of naturopathic medicine, the Hawaii board of chiropractic, and the board of pharmacy.",
-        "citation": "451D-2"
+        "value": "standalone_board",
+        "quote": "the governor shall appoint a Hawaii medical board whose duty it shall be to examine all applicants for license to practice medicine or surgery. As used in this chapter, \"board\" means the Hawaii medical board.",
+        "citation": "453-5"
       },
       "umbrella_agency": {
         "value": "Department of Commerce and Consumer Affairs",
-        "quote": "\"Department\" means the department of commerce and consumer affairs.",
-        "citation": "436B-2"
+        "quote": "The department shall employ, not subject to chapter 76, an executive secretary to administer the board's activities",
+        "citation": "453-5"
       }
     },
     "age_minimum": null,
-    "moral_character_required": null,
+    "moral_character_required": {
+      "value": true,
+      "quote": "the applicant is of demonstrated competence and professional knowledge",
+      "citation": "453-4"
+    },
     "education": {
       "degree_required": {
-        "value": "Graduate of a medical school accredited by LCME (M.D.) or AOA COCA (D.O.), or a foreign medical school with additional residency and ECFMG certification",
-        "quote": "The applicant is a graduate of: (A) A medical school or college whose program leading to the M.D. degree is accredited by the Liaison Committee on Medical Education or whose program leading to the D.O. degree is approved by the American Osteopathic Association Commission on Osteopathic College Accreditation",
+        "value": "Graduate of a medical school or college whose program leading to the M.D. degree is accredited by the Liaison Committee on Medical Education or whose program leading to the D.O. degree is approved by the American Osteopathic Association Commission on Osteopathic College Accreditation",
+        "quote": "the applicant is a graduate of: (A) A medical school or college whose program leading to the M.D. degree is accredited by the Liaison Committee on Medical Education or whose program leading to the D.O. degree is approved by the American Osteopathic Association Commission on Osteopathic College Accreditation",
         "citation": "453-4"
       },
       "accrediting_body": {
-        "value": "Liaison Committee on Medical Education (LCME) for M.D.; American Osteopathic Association Commission on Osteopathic College Accreditation for D.O.; ECFMG for foreign medical graduates",
+        "value": "Liaison Committee on Medical Education (LCME); American Osteopathic Association Commission on Osteopathic College Accreditation",
         "quote": "A medical school or college whose program leading to the M.D. degree is accredited by the Liaison Committee on Medical Education or whose program leading to the D.O. degree is approved by the American Osteopathic Association Commission on Osteopathic College Accreditation",
         "citation": "453-4"
       },
       "degree_level": {
         "value": "doctorate",
-        "quote": "The applicant is a graduate of: (A) A medical school or college whose program leading to the M.D. degree is accredited by the Liaison Committee on Medical Education or whose program leading to the D.O. degree is approved by the American Osteopathic Association Commission on Osteopathic College Accreditation",
+        "quote": "the applicant is a graduate of: (A) A medical school or college whose program leading to the M.D. degree is accredited by the Liaison Committee on Medical Education or whose program leading to the D.O. degree is approved by the American Osteopathic Association Commission on Osteopathic College Accreditation",
         "citation": "453-4"
       },
       "school_approval_basis": {
@@ -54,7 +58,7 @@
       },
       "credential_pegged": {
         "value": false,
-        "quote": "Applicants who have passed, with scores deemed satisfactory by the board, the National Board of Medical Examiners examination (NBME), the Federation Licensing Examination (FLEX), the United States Medical Licensing Examination (USMLE), or a combination of these examinations as approved by the board",
+        "quote": "the applicant is a graduate of: (A) A medical school or college whose program leading to the M.D. degree is accredited by the Liaison Committee on Medical Education",
         "citation": "453-4"
       },
       "tiers": null
@@ -77,7 +81,7 @@
       },
       "kind": {
         "value": "residency",
-        "quote": "has served a residency of at least one year in a program that has been accredited for the training of resident physicians or osteopathic physicians by the Accreditation Council for Graduate Medical Education or the American Osteopathic Association",
+        "quote": "has served a residency of at least one year in a program that has been accredited for the training of resident physicians or osteopathic physicians by the Accreditation Council for Graduate Medical Education",
         "citation": "453-4"
       }
     },
@@ -85,35 +89,44 @@
       {
         "name": "National Board of Medical Examiners examination (NBME)",
         "required": true,
-        "notes": "Applicants who pass NBME, FLEX, USMLE, or approved combination are licensed without further examination if they also meet education/residency requirements.",
+        "notes": "Applicants who have passed this exam with scores deemed satisfactory by the board, and meet education requirements, shall be licensed without further examination.",
         "jurisdiction": "national (NBME)",
         "permitted_attempts": null,
         "quote": "Applicants who have passed, with scores deemed satisfactory by the board, the National Board of Medical Examiners examination (NBME), the Federation Licensing Examination (FLEX), the United States Medical Licensing Examination (USMLE), or a combination of these examinations as approved by the board",
         "citation": "453-4"
       },
       {
+        "name": "Federation Licensing Examination (FLEX)",
+        "required": false,
+        "notes": "Alternative to NBME/USMLE.",
+        "jurisdiction": "national (FLEX)",
+        "permitted_attempts": null,
+        "quote": "the National Board of Medical Examiners examination (NBME), the Federation Licensing Examination (FLEX), the United States Medical Licensing Examination (USMLE), or a combination of these examinations as approved by the board",
+        "citation": "453-4"
+      },
+      {
         "name": "United States Medical Licensing Examination (USMLE)",
-        "required": true,
-        "notes": "Alternative to NBME or FLEX; must also meet education and residency requirements.",
+        "required": false,
+        "notes": "Alternative to NBME/FLEX.",
         "jurisdiction": "national (USMLE)",
         "permitted_attempts": null,
         "quote": "the National Board of Medical Examiners examination (NBME), the Federation Licensing Examination (FLEX), the United States Medical Licensing Examination (USMLE), or a combination of these examinations as approved by the board",
         "citation": "453-4"
       },
       {
-        "name": "Federation Licensing Examination (FLEX)",
-        "required": true,
-        "notes": "Alternative to NBME or USMLE.",
-        "jurisdiction": "national (FSMB)",
+        "name": "National Board of Osteopathic Medical Examiners examination (NBOME)",
+        "required": false,
+        "notes": "Alternative for osteopathic physicians.",
+        "jurisdiction": "national (NBOME)",
         "permitted_attempts": null,
-        "quote": "the National Board of Medical Examiners examination (NBME), the Federation Licensing Examination (FLEX), the United States Medical Licensing Examination (USMLE), or a combination of these examinations as approved by the board",
+        "quote": "the National Board of Osteopathic Medical Examiners examination (NBOME), the Comprehensive Osteopathic Medical Licensing Examination (COMLEX-USA), or the Medical Council of Canada Qualifying Examination (MCCQE)",
         "citation": "453-4"
       },
       {
-        "name": "National Board of Osteopathic Medical Examiners examination (NBOME) / Comprehensive Osteopathic Medical Licensing Examination (COMLEX-USA)",
-        "required": true,
-        "notes": "For osteopathic physicians; alternative to NBME/FLEX/USMLE pathway.",
-        "jurisdiction": "national (NBOME)",
+        "name": "Comprehensive Osteopathic Medical Licensing Examination (COMLEX-USA)",
+        "required": false,
+        "notes": "Alternative for osteopathic physicians.",
+        "jurisdiction": "national (COMLEX-USA)",
         "permitted_attempts": null,
         "quote": "the National Board of Osteopathic Medical Examiners examination (NBOME), the Comprehensive Osteopathic Medical Licensing Examination (COMLEX-USA), or the Medical Council of Canada Qualifying Examination (MCCQE)",
         "citation": "453-4"
@@ -121,8 +134,8 @@
       {
         "name": "Special Purpose Examination (SPEX)",
         "required": false,
-        "notes": "Required for applicants licensed in another state by a state-produced exam; also may be required by board for endorsement applicants.",
-        "jurisdiction": "national (FSMB)",
+        "notes": "Required for applicants licensed in another state by a state-produced exam, or may be required by the board for endorsement applicants.",
+        "jurisdiction": "national (SPEX)",
         "permitted_attempts": null,
         "quote": "Applicants who are licensed in another state by virtue of having passed a state-produced examination may qualify for licensure if they have passed the Special Purpose Examination (SPEX)",
         "citation": "453-4"
@@ -157,7 +170,7 @@
         "citation": "453-4.6"
       },
       "requirements": {
-        "value": "Applicant must hold a current, unencumbered, active license in a jurisdiction with qualifications substantially equivalent to or greater than Hawaii's; must have actively practiced medicine in another jurisdiction for at least two of the immediate preceding five years; no disciplinary actions or adverse judgments constituting a pattern of negligence or incompetence. Board may require SPEX or COMVEX-USA.",
+        "value": "Applicant must hold a current, unencumbered, active license in a jurisdiction with substantially equivalent or greater qualifications and must have actively practiced medicine in another jurisdiction for at least two of the immediate preceding five years. No disciplinary action or adverse judgment pattern required.",
         "quote": "Holds a current, unencumbered, active license in a jurisdiction that requires qualifications substantially equivalent to or greater than the qualifications for licensure in this State as specified in section 453-4; and (C) Submits proof satisfactory to the board that the applicant has actively practiced medicine in another jurisdiction for at least two of the immediate preceding five years",
         "citation": "453-4.6"
       }
@@ -165,8 +178,8 @@
     "advisory_board": {
       "exists": {
         "value": false,
-        "quote": "\"Board\" means the board of dentistry, the Hawaii medical board, the board of psychology, the board of nursing, the Hawaii board of veterinary medicine, the board of acupuncture, the board of massage therapy, the board of naturopathic medicine, the Hawaii board of chiropractic, and the board of pharmacy.",
-        "citation": "451D-2"
+        "quote": "the governor shall appoint a Hawaii medical board whose duty it shall be to examine all applicants for license to practice medicine or surgery. The board shall consist of eleven persons, seven of whom shall be physicians or surgeons licensed under the laws of the State, two of whom shall be osteopathic physicians licensed under the laws of the State, and two of whom shall be lay members appointed from the public at large.",
+        "citation": "453-5"
       },
       "name": null,
       "authority": null
@@ -177,57 +190,57 @@
       "citation": "453-4"
     },
     "national_association": {
-      "value": "American Medical Association; American Osteopathic Association",
+      "value": "American Medical Association (AMA); American Osteopathic Association (AOA)",
       "quote": "Conduct or practice contrary to recognized standards of ethics of the medical profession as adopted by the Hawaii Medical Association, the American Medical Association, the Hawaii Association of Osteopathic Physicians and Surgeons, or the American Osteopathic Association",
       "citation": "453-8"
     },
     "regulatory_model": {
       "value": "license",
-      "quote": "no person shall practice medicine or surgery in the State, either gratuitously or for pay, or offer to practice medicine or surgery in the State ... without having a valid unrevoked license or a limited and temporary license obtained from the Hawaii medical board.",
+      "quote": "no person shall practice medicine or surgery in the State, either gratuitously or for pay, or offer to practice medicine or surgery in the State...without having a valid unrevoked license or a limited and temporary license obtained from the Hawaii medical board.",
       "citation": "453-2"
     },
     "credential_type": {
       "value": "license",
-      "quote": "no person shall practice medicine or surgery in the State, either gratuitously or for pay, or offer to practice medicine or surgery in the State ... without having a valid unrevoked license or a limited and temporary license obtained from the Hawaii medical board.",
+      "quote": "no person shall practice medicine or surgery in the State, either gratuitously or for pay, or offer to practice medicine or surgery in the State...without having a valid unrevoked license or a limited and temporary license obtained from the Hawaii medical board.",
       "citation": "453-2"
     },
     "is_mandatory": {
       "value": true,
-      "quote": "no person shall practice medicine or surgery in the State, either gratuitously or for pay ... without having a valid unrevoked license or a limited and temporary license obtained from the Hawaii medical board.",
+      "quote": "no person shall practice medicine or surgery in the State, either gratuitously or for pay, or offer to practice medicine or surgery in the State...without having a valid unrevoked license or a limited and temporary license obtained from the Hawaii medical board.",
       "citation": "453-2"
     },
     "title_protection": {
       "value": true,
-      "quote": "append the letters \"Dr.\", \"M.D.\", or \"D.O.\" to one's name with the intent to imply that the person is a practitioner of medicine or surgery, without having a valid unrevoked license",
+      "quote": "append the letters \"Dr.\", \"M.D.\", or \"D.O.\" to one's name with the intent to imply that the person is a practitioner of medicine or surgery, without having a valid unrevoked license or a limited and temporary license obtained from the Hawaii medical board.",
       "citation": "453-2"
     },
     "scope_protection": {
       "value": true,
-      "quote": "no person shall practice medicine or surgery in the State, either gratuitously or for pay, or offer to practice medicine or surgery in the State ... without having a valid unrevoked license or a limited and temporary license obtained from the Hawaii medical board.",
+      "quote": "no person shall practice medicine or surgery in the State, either gratuitously or for pay, or offer to practice medicine or surgery in the State...without having a valid unrevoked license or a limited and temporary license obtained from the Hawaii medical board.",
       "citation": "453-2"
     },
     "disciplinary_grounds": [
       {
         "short_label": "unlawful_abortion",
-        "description": "Procuring or aiding in an abortion unlawful under Hawaii law",
-        "quote": "Procuring, or aiding or abetting in procuring, an abortion that is unlawful under the laws of this State",
+        "description": "Procuring, or aiding or abetting in procuring, an unlawful abortion",
+        "quote": "Procuring, or aiding or abetting in procuring, an abortion that is unlawful under the laws of this State or that would be unlawful under the laws of this State if performed within this State",
         "citation": "453-8"
       },
       {
         "short_label": "patient_solicitation",
-        "description": "Employing a person to solicit patients",
+        "description": "Employing any person to solicit patients",
         "quote": "Employing any person to solicit patients for one's self",
         "citation": "453-8"
       },
       {
         "short_label": "false_fraudulent_advertising",
-        "description": "Engaging in false, fraudulent, or deceptive advertising including excessive claims of expertise or assuring cure of incurable disease",
+        "description": "Engaging in false, fraudulent, or deceptive advertising",
         "quote": "Engaging in false, fraudulent, or deceptive advertising, including but not limited to: (A) Making excessive claims of expertise in one or more medical specialty fields; (B) Assuring a permanent cure for an incurable disease; or (C) Making any untruthful and improbable statement in advertising one's medical or surgical practice or business",
         "citation": "453-8"
       },
       {
         "short_label": "drug_alcohol_habituation",
-        "description": "Being habituated to excessive use of drugs or alcohol, or addiction to a narcotic or other similar drug",
+        "description": "Being habituated to excessive use of drugs or alcohol or addicted to narcotics",
         "quote": "Being habituated to the excessive use of drugs or alcohol; or being addicted to, dependent on, or a habitual user of a narcotic, barbiturate, amphetamine, hallucinogen, or other drug having similar effects",
         "citation": "453-8"
       },
@@ -245,31 +258,31 @@
       },
       {
         "short_label": "professional_misconduct_negligence",
-        "description": "Professional misconduct, hazardous negligence causing bodily injury, or manifest incapacity in the practice of medicine",
+        "description": "Professional misconduct, hazardous negligence causing bodily injury, or manifest incapacity in practice",
         "quote": "Professional misconduct, hazardous negligence causing bodily injury to another, or manifest incapacity in the practice of medicine or surgery",
         "citation": "453-8"
       },
       {
         "short_label": "incompetence_multiple_negligence",
-        "description": "Incompetence or multiple instances of negligence including consistent use of inappropriate or unnecessary medical service",
+        "description": "Incompetence or multiple instances of negligence including inappropriate or unnecessary medical services",
         "quote": "Incompetence or multiple instances of negligence, including but not limited to the consistent use of medical service, which is inappropriate or unnecessary",
         "citation": "453-8"
       },
       {
         "short_label": "unethical_conduct",
-        "description": "Conduct contrary to recognized standards of ethics of the medical profession as adopted by the Hawaii Medical Association, AMA, Hawaii Association of Osteopathic Physicians and Surgeons, or AOA",
+        "description": "Conduct contrary to recognized standards of ethics of the medical profession",
         "quote": "Conduct or practice contrary to recognized standards of ethics of the medical profession as adopted by the Hawaii Medical Association, the American Medical Association, the Hawaii Association of Osteopathic Physicians and Surgeons, or the American Osteopathic Association",
         "citation": "453-8"
       },
       {
-        "short_label": "violation_of_limited_license_conditions",
-        "description": "Violation of the conditions or limitations of a limited or temporary license",
+        "short_label": "violation_of_license_conditions",
+        "description": "Violation of the conditions or limitations upon which a limited or temporary license was issued",
         "quote": "Violation of the conditions or limitations upon which a limited or temporary license is issued",
         "citation": "453-8"
       },
       {
         "short_label": "out_of_state_disciplinary_action",
-        "description": "Revocation, suspension, or other disciplinary action by another state or federal agency against a license or medical privilege",
+        "description": "Revocation, suspension, or other disciplinary action by another state or federal agency",
         "quote": "Revocation, suspension, or other disciplinary action by another state or federal agency of a license, certificate, or medical privilege",
         "citation": "453-8"
       },
@@ -280,20 +293,20 @@
         "citation": "453-8"
       },
       {
-        "short_label": "controlled_substances_violation",
-        "description": "Violation of the uniform controlled substances act or any rule adopted thereunder",
+        "short_label": "controlled_substance_violation",
+        "description": "Violation of the uniform controlled substances act",
         "quote": "Violation of chapter 329, the uniform controlled substances act, or any rule adopted thereunder except as provided in section 329-122",
         "citation": "453-8"
       },
       {
-        "short_label": "failure_to_report_disciplinary_action",
-        "description": "Failure to report in writing any disciplinary decision issued against the licensee in another jurisdiction within thirty days",
+        "short_label": "failure_to_report_disciplinary_decision",
+        "description": "Failure to report a disciplinary decision issued in another jurisdiction within thirty days",
         "quote": "Failure to report to the board, in writing, any disciplinary decision issued against the licensee or the applicant in another jurisdiction within thirty days after the disciplinary decision is issued",
         "citation": "453-8"
       },
       {
-        "short_label": "false_filing",
-        "description": "Submitting a false, untrue, or materially misleading document required under the chapter",
+        "short_label": "false_filing_with_board",
+        "description": "Submitting false, untrue, or materially misleading documents to the board",
         "quote": "Submitting to or filing with the board any notice, statement, or other document required under this chapter, which is false or untrue or contains any material misstatement or omission of fact.",
         "citation": "453-8"
       }
@@ -306,49 +319,41 @@
     "citations": [
       {
         "cite": "453-1",
-        "kind": "scope of practice definition"
+        "kind": "statute"
       },
       {
         "cite": "453-2",
-        "kind": "license required / exceptions"
+        "kind": "statute"
       },
       {
         "cite": "453-4",
-        "kind": "qualifications for examination and licensure"
+        "kind": "statute"
       },
       {
         "cite": "453-4.5",
-        "kind": "foreign medical graduates alternative qualifications"
+        "kind": "statute"
       },
       {
         "cite": "453-4.6",
-        "kind": "licensure by endorsement"
+        "kind": "statute"
+      },
+      {
+        "cite": "453-5",
+        "kind": "statute"
       },
       {
         "cite": "453-6",
-        "kind": "fees; renewal; continuing education"
+        "kind": "statute"
       },
       {
         "cite": "453-8",
-        "kind": "revocation, suspension, denial of licenses; disciplinary grounds"
-      },
-      {
-        "cite": "453-8.2",
-        "kind": "disciplinary action sanctions"
-      },
-      {
-        "cite": "453-8.4",
-        "kind": "summary suspension"
-      },
-      {
-        "cite": "453-8.7",
-        "kind": "reporting requirements"
+        "kind": "statute"
       }
     ]
   },
   "scope": {
     "definition_quote": {
-      "value": "the practice of medicine by a physician or an osteopathic physician includes the use of drugs and medicines; surgery; manual medicine; water; electricity; hypnotism; telehealth; the interpretation of tests, including primary diagnosis of pathology specimens, medical imaging, or any physical; osteopathic medicine; any means, method, or agent, either tangible or intangible, to diagnose, treat, prescribe for, palliate, or correct disease, or prevent any human disease, condition, ailment, pain, injury, deformity, illness, infirmity, defect, physical or mental condition in the human subject.",
+      "value": "For the purposes of this chapter, the practice of medicine by a physician or an osteopathic physician includes the use of drugs and medicines; surgery; manual medicine; water; electricity; hypnotism; telehealth; the interpretation of tests, including primary diagnosis of pathology specimens, medical imaging, or any physical; osteopathic medicine; any means, method, or agent, either tangible or intangible, to diagnose, treat, prescribe for, palliate, or correct disease, or prevent any human disease, condition, ailment, pain, injury, deformity, illness, infirmity, defect, physical or mental condition in the human subject.",
       "quote": "the practice of medicine by a physician or an osteopathic physician includes the use of drugs and medicines; surgery; manual medicine; water; electricity; hypnotism; telehealth; the interpretation of tests, including primary diagnosis of pathology specimens, medical imaging, or any physical; osteopathic medicine; any means, method, or agent, either tangible or intangible, to diagnose, treat, prescribe for, palliate, or correct disease, or prevent any human disease, condition, ailment, pain, injury, deformity, illness, infirmity, defect, physical or mental condition in the human subject.",
       "citation": "453-1"
     },
@@ -361,26 +366,26 @@
         "electricity",
         "hypnotism",
         "telehealth",
-        "interpretation of tests including pathology and medical imaging",
+        "interpretation of tests",
         "osteopathic medicine",
         "any means, method, or agent to diagnose, treat, prescribe for, palliate, or correct disease"
       ],
-      "quote": "the use of drugs and medicines; surgery; manual medicine; water; electricity; hypnotism; telehealth; the interpretation of tests, including primary diagnosis of pathology specimens, medical imaging, or any physical; osteopathic medicine; any means, method, or agent, either tangible or intangible, to diagnose, treat, prescribe for, palliate, or correct disease",
+      "quote": "the practice of medicine by a physician or an osteopathic physician includes the use of drugs and medicines; surgery; manual medicine; water; electricity; hypnotism; telehealth; the interpretation of tests, including primary diagnosis of pathology specimens, medical imaging, or any physical; osteopathic medicine; any means, method, or agent, either tangible or intangible, to diagnose, treat, prescribe for, palliate, or correct disease",
       "citation": "453-1"
     },
     "drug_authority": {
-      "value": "Physicians may use drugs and medicines as part of practice; may prescribe via telehealth subject to same standards as in-person; prescribing opiates or certifying medical cannabis via telehealth requires prior in-person consultation.",
-      "quote": "Treatment recommendations made via telehealth, including issuing a prescription via electronic means, shall be held to the same standards of appropriate practice as those in traditional physician-patient settings",
-      "citation": "453-1.3"
+      "value": "Physicians may use drugs and medicines in the practice of medicine, and may issue prescriptions via telehealth. For opiates or medical cannabis certification, a physician-patient relationship must first be established via in-person consultation.",
+      "quote": "the practice of medicine by a physician or an osteopathic physician includes the use of drugs and medicines",
+      "citation": "453-1"
     },
     "citations": [
       {
         "cite": "453-1",
-        "kind": "scope of practice"
+        "kind": "statute"
       },
       {
         "cite": "453-1.3",
-        "kind": "telehealth practice"
+        "kind": "statute"
       }
     ]
   },
@@ -393,12 +398,12 @@
         "training replacement temporary license",
         "inactive"
       ],
-      "quote": "The Hawaii medical board shall issue a limited and temporary license to an applicant who has not been examined as required by section 453-4",
-      "citation": "453-3"
+      "quote": "The board may issue an educational teaching license to a physician or osteopathic physician who is not licensed in this State",
+      "citation": "453-3.2"
     },
     "foreign_medical_graduate_requirements": {
-      "value": "Foreign medical school graduates must complete at least two years of residency accredited by ACGME or AOA (or Canadian equivalent), and must hold the national certificate of the ECFMG or have passed the Medical Council of Canada Evaluating Examination; or hold the certificate of the Fifth Pathway Program of the AMA. Eligibility for examination begins no sooner than the second year of residency (vs. first year for domestic graduates).",
-      "quote": "A foreign medical school and has had at least two years of residency in a program accredited by the Accreditation Council for Graduate Medical Education or the American Osteopathic Association ... and: (i) Holds the national certificate of the Educational Commission for Foreign Medical Graduates, or its successor",
+      "value": "Foreign medical graduates must have at least two years of residency accredited by ACGME or AOA (or Canadian equivalent), and must hold the national certificate of the Educational Commission for Foreign Medical Graduates or the certificate of the Fifth Pathway Program of the AMA. They are not eligible for examination until the second year of residency.",
+      "quote": "A foreign medical school and has had at least two years of residency in a program accredited by the Accreditation Council for Graduate Medical Education or the American Osteopathic Association...Holds the national certificate of the Educational Commission for Foreign Medical Graduates, or its successor",
       "citation": "453-4"
     },
     "postgraduate_training_years_required": {
@@ -406,28 +411,20 @@
       "quote": "has served a residency of at least one year in a program that has been accredited for the training of resident physicians or osteopathic physicians by the Accreditation Council for Graduate Medical Education or the American Osteopathic Association",
       "citation": "453-4"
     },
-    "pain_management_education_required": {
-      "value": false,
-      "quote": "The Hawaii medical board may establish guidelines for physicians or osteopathic physicians with respect to patients' pain management.",
-      "citation": "453-1.5"
-    },
+    "pain_management_education_required": null,
     "opioid_prescribing_limits": {
-      "value": "For prescribing opiates via telehealth, a physician-patient relationship may only be established after an in-person consultation between the prescribing physician and the patient.",
+      "value": "For purposes of prescribing opiates via telehealth, a physician-patient relationship shall only be established after an in-person consultation between the prescribing physician and the patient.",
       "quote": "For the purposes of prescribing opiates or certifying a patient for the medical use of cannabis, a physician-patient relationship shall only be established after an in-person consultation between the prescribing physician and the patient.",
       "citation": "453-1.3"
     },
     "controlled_substance_database_registration_required": null,
     "pain_management_clinic_registration_required": null,
     "telehealth_prescribing_rules": {
-      "value": "Telehealth treatment recommendations, including prescriptions via electronic means, must meet the same standards as traditional physician-patient settings where in-person visit is not required but prescribing is appropriate. Prescriptions based solely on online questionnaires are not acceptable. Prescribing opiates or certifying medical cannabis via telehealth requires a prior in-person consultation.",
+      "value": "Treatment recommendations via telehealth, including prescriptions via electronic means, are held to the same standards as traditional physician-patient settings where prescribing is appropriate. Issuing a prescription based solely on an online questionnaire is not acceptable. For opiates or medical cannabis certification, an in-person consultation is required before the physician-patient relationship is established.",
       "quote": "Treatment recommendations made via telehealth, including issuing a prescription via electronic means, shall be held to the same standards of appropriate practice as those in traditional physician-patient settings that do not include [an] in-person visit but in which prescribing is appropriate, including on-call telephone encounters and encounters for which a follow-up visit is arranged. Issuing a prescription based solely on an online questionnaire is not treatment for the purposes of this section and does not constitute an acceptable standard of care.",
       "citation": "453-1.3"
     },
-    "telemedicine_license_available": {
-      "value": false,
-      "quote": "A physician-patient relationship may be established via a telehealth interaction; provided that the physician has a license to practice medicine in the State.",
-      "citation": "453-1.3"
-    },
+    "telemedicine_license_available": null,
     "interstate_medical_licensure_compact_member": null,
     "physician_assistant_supervision_model": {
       "value": "direct supervision required",
@@ -438,7 +435,7 @@
     "max_physician_assistants_per_supervising_physician": null,
     "malpractice_reporting_required": {
       "value": true,
-      "quote": "Every physician or osteopathic physician licensed pursuant to this chapter who does not possess professional liability insurance shall report any settlement or arbitration award of a claim or action for damages for death or personal injury caused by negligence, error, or omission in practice",
+      "quote": "Every physician or osteopathic physician licensed pursuant to this chapter who does not possess professional liability insurance shall report any settlement or arbitration award of a claim or action for damages for death or personal injury caused by negligence, error, or omission in practice, or the unauthorized rendering of professional services.",
       "citation": "453-8.7"
     },
     "hospital_privilege_action_reporting_required": null,
@@ -449,11 +446,7 @@
       "citation": "453-8"
     },
     "administrative_medicine_license_available": null,
-    "locum_tenens_permit_available": {
-      "value": true,
-      "quote": "The board may issue a limited and temporary license to a physician or osteopathic physician to maintain patient services for the purpose of substituting for another physician or osteopathic physician licensed in this State to enable specialized training at an out-of-state fully accredited medical teaching institution",
-      "citation": "453-3.5"
-    },
+    "locum_tenens_permit_available": null,
     "sexual_misconduct_training_required": null,
     "investigational_drug_protection": null
   }

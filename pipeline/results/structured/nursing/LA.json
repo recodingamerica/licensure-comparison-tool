@@ -4,7 +4,7 @@
   "licensure": {
     "license_required": {
       "value": true,
-      "quote": "no individual shall practice or offer to practice or perform the duties of a registered nurse or an advanced practice registered nurse unless he possesses a current license issued pursuant to this Part or is exempt from this Part",
+      "quote": "no individual shall practice or offer to practice or perform the duties of a registered nurse or an advanced practice registered nurse unless he possesses a current license issued pursuant to this Part or is exempt from this Part.",
       "citation": "RS 37:912"
     },
     "issuing_authority": {
@@ -20,10 +20,14 @@
       },
       "type": {
         "value": "standalone_board",
-        "quote": "\"Board\" means the Louisiana State Board of Nursing.",
-        "citation": "RS 37:913"
+        "quote": "The Louisiana State Board of Nursing is hereby created within the Louisiana Department of Health",
+        "citation": "RS 37:914"
       },
-      "umbrella_agency": null
+      "umbrella_agency": {
+        "value": "Louisiana Department of Health",
+        "quote": "The Louisiana State Board of Nursing is hereby created within the Louisiana Department of Health",
+        "citation": "RS 37:914"
+      }
     },
     "age_minimum": null,
     "moral_character_required": {
@@ -33,23 +37,19 @@
     },
     "education": {
       "degree_required": {
-        "value": "minimum of a master's degree with a concentration in the respective advanced practice nursing specialty (for APRN); approved nursing education program for RN",
-        "quote": "the applicant must show evidence of completion of a minimum of a master's degree with a concentration in the respective advanced practice nursing specialty",
+        "value": "For RN: completion of an approved nursing education program; for APRN: minimum of a master's degree with a concentration in the respective advanced practice nursing specialty",
+        "quote": "After January 1, 1996, the applicant must show evidence of completion of a minimum of a master's degree with a concentration in the respective advanced practice nursing specialty",
         "citation": "RS 37:920"
       },
-      "accrediting_body": {
-        "value": "Board-approved nursing education program",
-        "quote": "Has completed the requirements of a nursing education program approved by the board which prepares him for initial licensure as a registered nurse.",
-        "citation": "RS 37:920"
-      },
+      "accrediting_body": null,
       "degree_level": {
-        "value": "master",
-        "quote": "the applicant must show evidence of completion of a minimum of a master's degree with a concentration in the respective advanced practice nursing specialty",
+        "value": "bachelor",
+        "quote": "Has completed the requirements of a nursing education program approved by the board which prepares him for initial licensure as a registered nurse.",
         "citation": "RS 37:920"
       },
       "school_approval_basis": {
         "value": "board_approved",
-        "quote": "Has completed the requirements of a nursing education program approved by the board which prepares him for initial licensure as a registered nurse.",
+        "quote": "Has completed the requirements of a nursing education program approved by the board",
         "citation": "RS 37:920"
       },
       "credential_pegged": {
@@ -60,7 +60,7 @@
       "tiers": [
         {
           "license_class": "registered nurse",
-          "degree_level": "associate",
+          "degree_level": "bachelor",
           "effective_date": null,
           "quote": "Has completed the requirements of a nursing education program approved by the board which prepares him for initial licensure as a registered nurse.",
           "citation": "RS 37:920"
@@ -68,8 +68,8 @@
         {
           "license_class": "advanced practice registered nurse",
           "degree_level": "master",
-          "effective_date": null,
-          "quote": "the applicant must show evidence of completion of a minimum of a master's degree with a concentration in the respective advanced practice nursing specialty",
+          "effective_date": "1996-01-01",
+          "quote": "After January 1, 1996, the applicant must show evidence of completion of a minimum of a master's degree with a concentration in the respective advanced practice nursing specialty",
           "citation": "RS 37:920"
         }
       ]
@@ -92,17 +92,17 @@
       {
         "name": "NCLEX-RN",
         "required": true,
-        "notes": "Board authorizes administration of the examination to applicants for licensure as registered nurses.",
-        "jurisdiction": "national (NCLEX)",
+        "notes": "Board authorizes administration of examination for RN licensure applicants",
+        "jurisdiction": "national (NCLEX-RN)",
         "permitted_attempts": null,
         "quote": "The board shall authorize the administration of the examination to applicants for licensure as registered nurses.",
         "citation": "RS 37:920"
       },
       {
-        "name": "NCLEX-RN or NCLEX-PN (Nurse Licensure Compact)",
+        "name": "NCLEX-RN or NCLEX-PN",
         "required": true,
-        "notes": "Required for multistate license under the Nurse Licensure Compact.",
-        "jurisdiction": "national (NCLEX)",
+        "notes": "Required for multistate license under Nurse Licensure Compact",
+        "jurisdiction": "national (NCLEX-RN / NCLEX-PN)",
         "permitted_attempts": null,
         "quote": "Has successfully passed an NCLEX-RN® or NCLEX-PN® examination or recognized predecessor, as applicable.",
         "citation": "RS 37:1018"
@@ -130,7 +130,7 @@
       },
       "topical_requirements": {
         "value": [
-          "nutrition and metabolic health"
+          "nutrition and metabolic health (for APRNs in family medicine, internal medicine, pediatrics, obstetrics, or gynecology)"
         ],
         "quote": "complete a minimum of one hour of continuing education on nutrition and metabolic health every four years",
         "citation": "RS 37:920"
@@ -143,29 +143,33 @@
         "citation": "RS 37:920"
       },
       "requirements": {
-        "value": "Applicant must be duly licensed in another state, territory, or country; must have passed an examination for licensure and met all other qualifications for licensure as a registered nurse in Louisiana at the time of initial licensure; must meet other criteria established by the board.",
-        "quote": "The board may by endorsement issue a license to practice as a registered nurse or an advanced practice registered nurse to any applicant who is duly licensed as a registered nurse under the laws of another state, territory, or country",
+        "value": "Applicant must have passed an examination for licensure, met all other qualifications for licensure as a registered nurse in this state at time of initial licensure, and meet other board criteria.",
+        "quote": "Had passed an examination for licensure and met, upon graduation, all other qualifications for licensure as a registered nurse in this state at the time he was initially licensed as a registered nurse.",
         "citation": "RS 37:920"
       }
     },
     "advisory_board": {
       "exists": {
         "value": false,
-        "quote": "\"Board\" means the Louisiana State Board of Nursing.",
-        "citation": "RS 37:913"
+        "quote": "The Louisiana State Board of Nursing is hereby created within the Louisiana Department of Health",
+        "citation": "RS 37:914"
       },
       "name": null,
       "authority": null
     },
     "national_certification": {
-      "value": "American Nurses Credentialing Center; Council on Certification of Nurse Anesthetists; Council on Recertification of Nurse Anesthetists; American College of Nurse Midwives Certification Council; National Certification Corporation for the Obstetric, Gynecologic and Neonatal Nursing Specialties; National Certification Board of Pediatric Nurse Practitioners and Nurses",
+      "value": "American Nurses Credentialing Center (ANCC)",
       "quote": "certified by a nationally recognized certifying body, such as the American Nurses Credentialing Center",
       "citation": "RS 37:913"
     },
-    "national_association": null,
+    "national_association": {
+      "value": "Louisiana State Nurses Association",
+      "quote": "eight registered nurses appointed by the governor from a list of names submitted by the Louisiana State Nurses Association",
+      "citation": "RS 37:914"
+    },
     "regulatory_model": {
       "value": "license",
-      "quote": "no individual shall practice or offer to practice or perform the duties of a registered nurse or an advanced practice registered nurse unless he possesses a current license issued pursuant to this Part or is exempt from this Part",
+      "quote": "no individual shall practice or offer to practice or perform the duties of a registered nurse or an advanced practice registered nurse unless he possesses a current license issued pursuant to this Part or is exempt from this Part.",
       "citation": "RS 37:912"
     },
     "credential_type": {
@@ -175,12 +179,12 @@
     },
     "is_mandatory": {
       "value": true,
-      "quote": "no individual shall practice or offer to practice or perform the duties of a registered nurse or an advanced practice registered nurse unless he possesses a current license issued pursuant to this Part or is exempt from this Part",
+      "quote": "no individual shall practice or offer to practice or perform the duties of a registered nurse or an advanced practice registered nurse unless he possesses a current license issued pursuant to this Part",
       "citation": "RS 37:912"
     },
     "title_protection": {
       "value": true,
-      "quote": "Use in connection with his name any designation tending to imply that he is a registered nurse or an advanced practice registered nurse unless duly licensed to practice under the provisions of this Part",
+      "quote": "Use in connection with his name any designation tending to imply that he is a registered nurse or an advanced practice registered nurse unless duly licensed to practice under the provisions of this Part.",
       "citation": "RS 37:925"
     },
     "scope_protection": {
@@ -190,50 +194,50 @@
     },
     "disciplinary_grounds": [
       {
-        "short_label": "selling_or_falsely_obtaining_diploma_or_license",
-        "description": "Guilty of selling or attempting to sell, falsely obtaining, or furnishing any nursing diploma or license.",
+        "short_label": "fraudulent_diploma_or_license",
+        "description": "Selling, falsely obtaining, or furnishing any nursing diploma or license",
         "quote": "Is guilty of selling or attempting to sell, falsely obtaining, or furnishing any nursing diploma or license to practice as a registered nurse.",
         "citation": "RS 37:921"
       },
       {
         "short_label": "criminal_conviction",
-        "description": "Convicted of a crime or offense which reflects inability to practice nursing with due regard for health and safety.",
-        "quote": "Is convicted of a crime or offense which reflects the inability of the nurse to practice nursing with due regard for the health and safety of clients or patients",
+        "description": "Conviction of a crime that reflects inability to practice nursing with due regard for health and safety, or plea of guilty or nolo contendere",
+        "quote": "Is convicted of a crime or offense which reflects the inability of the nurse to practice nursing with due regard for the health and safety of clients or patients or enters a plea of guilty or nolo contendere to a criminal charge regardless of final disposition",
         "citation": "RS 37:921"
       },
       {
         "short_label": "incompetence_or_negligence",
-        "description": "Unfit or incompetent by reason of negligence, habit, or other cause.",
+        "description": "Unfitness or incompetence by reason of negligence, habit, or other cause",
         "quote": "Is unfit or incompetent by reason of negligence, habit, or other cause.",
         "citation": "RS 37:921"
       },
       {
-        "short_label": "substance_abuse_or_mental_physical_condition",
-        "description": "Demonstrated actual or potential inability to practice nursing with reasonable skill and safety due to use of alcohol or drugs, illness, or mental or physical condition.",
+        "short_label": "impairment_substance_or_illness",
+        "description": "Actual or potential inability to practice nursing with reasonable skill and safety due to use of alcohol or drugs, illness, or mental or physical condition",
         "quote": "Has demonstrated actual or potential inability to practice nursing with reasonable skill and safety to individuals because of use of alcohol or drugs; or has demonstrated inability to practice nursing with reasonable skill and safety to individuals because of illness or as a result of any mental or physical condition.",
         "citation": "RS 37:921"
       },
       {
-        "short_label": "aiding_or_abetting_violation",
-        "description": "Guilty of aiding or abetting anyone in the violation of any provisions of this Part.",
+        "short_label": "aiding_violations",
+        "description": "Aiding or abetting anyone in violation of the nursing practice act",
         "quote": "Is guilty of aiding or abetting anyone in the violation of any provisions of this Part.",
         "citation": "RS 37:921"
       },
       {
         "short_label": "mental_incompetence",
-        "description": "Mentally incompetent.",
+        "description": "Mental incompetence",
         "quote": "Is mentally incompetent.",
         "citation": "RS 37:921"
       },
       {
         "short_label": "prior_license_action",
-        "description": "Has had a license to practice nursing or to practice as another health care provider denied, revoked, suspended, or otherwise restricted.",
+        "description": "Prior denial, revocation, suspension, or restriction of a nursing or other health care provider license",
         "quote": "Has had a license to practice nursing or to practice as another health care provider denied, revoked, suspended, or otherwise restricted.",
         "citation": "RS 37:921"
       },
       {
-        "short_label": "violation_of_this_part",
-        "description": "Violated any provision of this Part.",
+        "short_label": "violation_of_practice_act",
+        "description": "Violation of any provision of the nursing practice act",
         "quote": "Has violated any provision of this Part.",
         "citation": "RS 37:921"
       }
@@ -246,118 +250,110 @@
     "citations": [
       {
         "cite": "RS 37:912",
-        "kind": "statute"
+        "kind": "scope protection / license required"
       },
       {
         "cite": "RS 37:913",
-        "kind": "statute"
+        "kind": "definitions"
+      },
+      {
+        "cite": "RS 37:914",
+        "kind": "board creation and composition"
       },
       {
         "cite": "RS 37:916",
-        "kind": "statute"
+        "kind": "board member qualifications"
       },
       {
         "cite": "RS 37:918",
-        "kind": "statute"
+        "kind": "board duties and powers"
       },
       {
         "cite": "RS 37:920",
-        "kind": "statute"
+        "kind": "licensure qualifications, renewal, endorsement"
       },
       {
         "cite": "RS 37:921",
-        "kind": "statute"
+        "kind": "disciplinary grounds"
       },
       {
         "cite": "RS 37:922",
-        "kind": "statute"
+        "kind": "hearings"
       },
       {
         "cite": "RS 37:925",
-        "kind": "statute"
+        "kind": "violations and penalties"
       },
       {
         "cite": "RS 37:929",
-        "kind": "statute"
+        "kind": "exceptions"
       },
       {
         "cite": "RS 37:930",
-        "kind": "statute"
-      },
-      {
-        "cite": "RS 37:961",
-        "kind": "statute"
-      },
-      {
-        "cite": "RS 37:969",
-        "kind": "statute"
-      },
-      {
-        "cite": "RS 37:970",
-        "kind": "statute"
-      },
-      {
-        "cite": "RS 37:971",
-        "kind": "statute"
-      },
-      {
-        "cite": "RS 37:972",
-        "kind": "statute"
-      },
-      {
-        "cite": "RS 37:973",
-        "kind": "statute"
-      },
-      {
-        "cite": "RS 37:978",
-        "kind": "statute"
+        "kind": "CRNA anesthetics"
       },
       {
         "cite": "RS 37:1018",
-        "kind": "statute"
+        "kind": "Nurse Licensure Compact"
+      },
+      {
+        "cite": "RS 37:1019",
+        "kind": "compact administrator"
+      },
+      {
+        "cite": "RS 37:1020",
+        "kind": "compact implementation"
       }
     ]
   },
   "scope": {
     "definition_quote": {
-      "value": "The performance, with or without compensation, by an individual licensed by the board as a registered nurse, of functions requiring specialized knowledge and skills derived from the biological, physical, and behavioral sciences.",
-      "quote": "\"Practice of nursing\" means the performance, with or without compensation, by an individual licensed by the board as a registered nurse, of functions requiring specialized knowledge and skills derived from the biological, physical, and behavioral sciences.",
+      "value": "Registered nursing means the practice of the scope of nursing which is appropriate to the individual's educational level, knowledge, skills, and abilities, including assessing health status, establishing nursing diagnosis, planning nursing care, implementing nursing care, delegating nursing interventions, and collaborating with other health care providers.",
+      "quote": "\"Registered nursing\" means the practice of the scope of nursing which is appropriate to the individual's educational level, knowledge, skills, and abilities",
       "citation": "RS 37:913"
     },
     "methods_authorized": {
       "value": [
-        "Assessing the health status of an individual or group of individuals",
-        "Establishing a nursing diagnosis and identifying health care needs",
-        "Establishing goals to meet identified health care needs",
-        "Planning nursing care measures",
-        "Implementing nursing care through case finding, health instruction, health counseling, providing care supportive to or restorative of life and well-being, and executing health care regimens as prescribed",
-        "Delegating nursing interventions to qualified nursing personnel",
-        "Maintaining nursing care rendered directly or indirectly",
-        "Evaluating human responses to interventions",
-        "Teaching the theory and practice of nursing",
-        "Managing and supervising the practice of nursing",
-        "Collaborating with licensed physicians, dentists, and other health care providers"
+        "assessing health status of individuals or groups",
+        "establishing nursing diagnosis and identifying health care needs",
+        "establishing goals to meet identified health care needs",
+        "planning nursing care measures",
+        "implementing nursing care through case finding, health instruction, counseling, providing care supportive to or restorative of life and well-being, executing health care regimens as prescribed",
+        "delegating nursing interventions to qualified nursing personnel",
+        "maintaining nursing care rendered directly or indirectly",
+        "evaluating human responses to interventions",
+        "teaching theory and practice of nursing",
+        "managing and supervising the practice of nursing",
+        "collaborating with licensed physicians, dentists, and other health care providers"
       ],
-      "quote": "\"Registered nursing\" means the practice of the scope of nursing which is appropriate to the individual's educational level, knowledge, skills, and abilities",
+      "quote": "Assessing the health status of an individual or group of individuals. (b) Establishing a nursing diagnosis and identifying health care needs, or both. (c) Establishing goals to meet identified health care needs. (d) Planning nursing care measures. (e) Implementing nursing care through such services as case finding, health instruction, health counseling, providing care supportive to or restorative of life and well-being, and executing health care regimens as prescribed by licensed physicians, dentists, or other authorized prescribers.",
       "citation": "RS 37:913"
     },
     "drug_authority": {
-      "value": "Advanced practice registered nursing may include medical prescriptions of therapeutic or corrective nature, prescribing assessment studies, legend and certain controlled drugs, therapeutic regimens, medical devices and appliances, receiving and distributing a therapeutic regimen of prepackaged drugs prepared and labeled by a licensed pharmacist, and free samples supplied by a drug manufacturer.",
-      "quote": "Advanced practice registered nursing may include certain acts of medical diagnosis, in accordance with R.S. 37:913(8) and (9), or medical prescriptions of therapeutic or corrective nature, prescribing assessment studies, legend and certain controlled drugs",
+      "value": "APRNs may prescribe legend and certain controlled drugs, therapeutic regimens, medical devices and appliances, and may receive and distribute prepackaged drugs and free samples, in accordance with collaborative practice agreement and board rules. CRNAs may administer anesthetics and ancillary services under direction and supervision of a physician or dentist without a collaborative practice agreement or prescriptive authority.",
+      "quote": "Advanced practice registered nursing may include certain acts of medical diagnosis, in accordance with R.S. 37:913(8) and (9), or medical prescriptions of therapeutic or corrective nature, prescribing assessment studies, legend and certain controlled drugs, therapeutic regimens, medical devices and appliances, receiving and distributing a therapeutic regimen of prepackaged drugs prepared and labeled by a licensed pharmacist, and free samples supplied by a drug manufacturer",
       "citation": "RS 37:913"
     },
     "citations": [
       {
         "cite": "RS 37:913",
-        "kind": "statute"
+        "kind": "definitions of practice and scope"
       },
       {
         "cite": "RS 37:930",
-        "kind": "statute"
+        "kind": "CRNA anesthesia authority"
       },
       {
         "cite": "RS 37:935",
-        "kind": "statute"
+        "kind": "RN anesthetic agents in critical care"
+      },
+      {
+        "cite": "RS 37:933",
+        "kind": "medication distribution in public health clinics"
+      },
+      {
+        "cite": "RS 37:932",
+        "kind": "criminal evidence collection"
       }
     ]
   },
@@ -365,15 +361,11 @@
     "license_tiers": {
       "value": [
         "Registered Nurse (RN)",
-        "Licensed Practical Nurse (LPN)",
         "Advanced Practice Registered Nurse (APRN)",
-        "Certified Nurse Midwife (CNM)",
-        "Certified Registered Nurse Anesthetist (CRNA)",
-        "Clinical Nurse Specialist (CNS)",
-        "Nurse Practitioner (NP)"
+        "Licensed Practical Nurse (LPN)"
       ],
-      "quote": "An advanced practice registered nurse shall include, but not be limited to, the following: (a) Certified nurse midwife or \"CNM\" ... (b) Certified registered nurse anesthetist or \"CRNA\" ... (c) Clinical nurse specialist or \"CNS\" ... (d) Nurse practitioner or \"NP\"",
-      "citation": "RS 37:913"
+      "quote": "no individual shall practice or offer to practice or perform the duties of a registered nurse or an advanced practice registered nurse unless he possesses a current license issued pursuant to this Part",
+      "citation": "RS 37:912"
     },
     "aprn_role_categories": {
       "value": [
@@ -393,17 +385,17 @@
         "registered nurse",
         "physician assistant"
       ],
-      "quote": "under the direction of a licensed physician, optometrist, or dentist acting individually or in his capacity as a member of the medical staff, registered nurse, or physician assistant",
+      "quote": "under the direction of a licensed physician, optometrist, or dentist acting individually or in his capacity as a member of the medical staff, registered nurse, or physician assistant.",
       "citation": "RS 37:961"
     },
     "collaborative_practice_agreement_required": {
       "value": true,
-      "quote": "acts of medical diagnosis and prescription by an advanced practice registered nurse shall be in accordance with a collaborative practice agreement",
+      "quote": "Except as otherwise provided in R.S. 37:930, acts of medical diagnosis and prescription by an advanced practice registered nurse shall be in accordance with a collaborative practice agreement.",
       "citation": "RS 37:913"
     },
     "full_independent_practice_available": {
       "value": false,
-      "quote": "acts of medical diagnosis and prescription by an advanced practice registered nurse shall be in accordance with a collaborative practice agreement",
+      "quote": "Except as otherwise provided in R.S. 37:930, acts of medical diagnosis and prescription by an advanced practice registered nurse shall be in accordance with a collaborative practice agreement.",
       "citation": "RS 37:913"
     },
     "full_independent_practice_experience_hours_required": null,
@@ -412,7 +404,11 @@
     "opioid_prescribing_limits": null,
     "dea_registration_required": null,
     "controlled_substance_database_registration_required": null,
-    "nurse_aide_registry_maintained": null,
+    "nurse_aide_registry_maintained": {
+      "value": true,
+      "quote": "A permanent register of all persons certified to practice as a medication attendant shall be maintained by the department as part of the nurse aide registry.",
+      "citation": "RS 37:1026.8"
+    },
     "medication_assistant_certification_available": {
       "value": true,
       "quote": "Persons who have successfully completed an approved medication administration course, passed a qualifying certification examination, and been issued a current certification by the department pursuant to this Part shall be permitted to administer certain medications to residents of licensed long-term care facilities and shall be considered direct care staff",
@@ -420,8 +416,8 @@
     },
     "delegation_to_unlicensed_personnel_authorized": {
       "value": true,
-      "quote": "A registered nurse may delegate to a licensed practical nurse components of the training and supervision of the direct service worker provided that the registered nurse shall retain the responsibility and accountability for all acts of delegation",
-      "citation": "RS 37:1031"
+      "quote": "Delegating nursing interventions to qualified nursing personnel in accordance with criteria established by the board.",
+      "citation": "RS 37:913"
     },
     "employer_mandatory_reporting_required": null,
     "whistleblower_protection_for_delegation_refusal": null,
@@ -445,7 +441,7 @@
     "telehealth_prescribing_rules": null,
     "nurse_practitioner_transition_to_practice_hours": null,
     "crna_physician_supervision_model": {
-      "value": "direction and presence required",
+      "value": "direction without required presence",
       "quote": "The registered nurse administers anesthetics and ancillary services under the direction and supervision of a physician or dentist who is licensed to practice under the laws of the state of Louisiana.",
       "citation": "RS 37:930"
     },

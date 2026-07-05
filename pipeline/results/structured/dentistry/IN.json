@@ -4,7 +4,7 @@
   "licensure": {
     "license_required": {
       "value": true,
-      "quote": "it is unlawful for any person to practice dentistry in Indiana who is not licensed under this chapter",
+      "quote": "it is unlawful for any person to practice dentistry in Indiana who is not licensed under this chapter.",
       "citation": "25-14-1-1"
     },
     "issuing_authority": {
@@ -19,15 +19,11 @@
         "citation": "25-14-1-2"
       },
       "type": {
-        "value": "shared_board",
-        "quote": "The state board of dentistry is established and consists of: (1) nine (9) practicing dentists licensed under IC 25-14 ... (2) one (1) practicing dental hygienist ... (3) one (1) member to represent the general public",
+        "value": "standalone_board",
+        "quote": "The state board of dentistry is established and consists of: (1) nine (9) practicing dentists licensed under IC 25-14",
         "citation": "25-14-1-2"
       },
-      "umbrella_agency": {
-        "value": "Indiana Professional Licensing Agency",
-        "quote": "\"Agency\" refers to the Indiana professional licensing agency established by IC 25-1-5-3.",
-        "citation": "25-14-1-1.5"
-      }
+      "umbrella_agency": null
     },
     "age_minimum": {
       "value": 22,
@@ -36,13 +32,13 @@
     },
     "moral_character_required": {
       "value": true,
-      "quote": "the applicant has not been convicted of a crime that has a direct bearing on the applicant's ability to practice competently",
+      "quote": "An applicant under this article must submit proof satisfactory to the board that the applicant has not been convicted of a crime that has a direct bearing on the applicant's ability to practice competently.",
       "citation": "25-14-1-16"
     },
     "education": {
       "degree_required": {
-        "value": "graduation from a dental college recognized by the board",
-        "quote": "to procure the license, the applicant must submit to the board proof of graduation from a dental college recognized by the board",
+        "value": "Graduation from a dental college recognized by the board",
+        "quote": "to procure the license, the applicant must submit to the board proof of graduation from a dental college recognized by the board.",
         "citation": "25-14-1-3"
       },
       "accrediting_body": {
@@ -52,7 +48,7 @@
       },
       "degree_level": {
         "value": "doctorate",
-        "quote": "proof of graduation from a dental college recognized by the board",
+        "quote": "to procure the license, the applicant must submit to the board proof of graduation from a dental college recognized by the board.",
         "citation": "25-14-1-3"
       },
       "school_approval_basis": {
@@ -62,7 +58,7 @@
       },
       "credential_pegged": {
         "value": false,
-        "quote": "to procure the license, the applicant must submit to the board proof of graduation from a dental college recognized by the board",
+        "quote": "to procure the license, the applicant must submit to the board proof of graduation from a dental college recognized by the board.",
         "citation": "25-14-1-3"
       },
       "tiers": null
@@ -70,12 +66,12 @@
     "post_degree_experience": {
       "required": {
         "value": false,
-        "quote": "to procure the license, the applicant must submit to the board proof of graduation from a dental college recognized by the board",
+        "quote": "to procure the license, the applicant must submit to the board proof of graduation from a dental college recognized by the board.",
         "citation": "25-14-1-3"
       },
       "experience_source": {
-        "value": "none",
-        "quote": "to procure the license, the applicant must submit to the board proof of graduation from a dental college recognized by the board",
+        "value": "embedded_in_credential",
+        "quote": "The board may recognize dental schools accredited by the Commission on Dental Accreditation of the American Dental Association",
         "citation": "25-14-1-3"
       },
       "duration": null,
@@ -83,22 +79,31 @@
     },
     "exams": [
       {
-        "name": "Examination administered by an entity approved by the board",
+        "name": "Clinical/Licensure Examination",
         "required": true,
-        "notes": "Applicant may not take the examination more than three times.",
-        "jurisdiction": "entity approved by the board",
+        "notes": "Administered by an entity approved by the board; may not be taken more than three times.",
+        "jurisdiction": "national or board-approved entity",
         "permitted_attempts": 3,
         "quote": "Every applicant must pass an examination administered by an entity approved by the board and may not take the examination more than three (3) times.",
         "citation": "25-14-1-3"
       },
       {
-        "name": "Law examination",
+        "name": "Law Examination",
         "required": true,
         "notes": "Required for licensure by endorsement.",
-        "jurisdiction": "administered by the board or an entity approved by the board",
+        "jurisdiction": "state (board or board-approved entity)",
         "permitted_attempts": null,
         "quote": "passes the law examination administered by the board or an entity approved by the board",
         "citation": "25-14-1-16"
+      },
+      {
+        "name": "United States National Board Dental Examination (Parts I and II)",
+        "required": true,
+        "notes": "Required only for applicants with degrees from unaccredited dental colleges outside the United States.",
+        "jurisdiction": "national (NBDE)",
+        "permitted_attempts": null,
+        "quote": "The applicant must pass the following examinations: (A) Part I and Part II of the United States National Board Dental Examination and a written jurisprudence examination.",
+        "citation": "25-14-1-4.5"
       }
     ],
     "renewal": {
@@ -127,8 +132,8 @@
       },
       "topical_requirements": {
         "value": [
-          "at least half of required credit hours from live presentations or live workshops",
-          "no more than five credit hours in practice management"
+          "at least half of required minimum credit hours must be from live presentations or live workshops",
+          "no more than five credit hours per period may be from practice management courses"
         ],
         "quote": "At least half of the required minimum credit hours must be from live presentations or live workshops.",
         "citation": "25-14-3-8"
@@ -137,11 +142,11 @@
     "reciprocity": {
       "available": {
         "value": true,
-        "quote": "The board may issue a license upon payment of a fee ... to an applicant who furnishes proof satisfactory to the board that the applicant is a dentist who: (1) is licensed in another state or a province of Canada that has licensing requirements substantially equal to those in effect in Indiana",
+        "quote": "The board may issue a license upon payment of a fee, set by the board under section 13 of this chapter, to an applicant who furnishes proof satisfactory to the board that the applicant is a dentist who: (1) is licensed in another state or a province of Canada that has licensing requirements substantially equal to those in effect in Indiana on the date of application",
         "citation": "25-14-1-16"
       },
       "requirements": {
-        "value": "Must be licensed in another state or province of Canada with substantially equal requirements, practiced dentistry for at least 2 of the 3 preceding years, pass the law examination, complete required CE hours in previous 2 years, and meet all other requirements.",
+        "value": "Licensed in another state or Canadian province with substantially equal requirements; practiced dentistry for at least 2 of the 3 preceding years; passes law examination; completed required CE hours in previous 2 years; meets all other requirements.",
         "quote": "is licensed in another state or a province of Canada that has licensing requirements substantially equal to those in effect in Indiana on the date of application; (2) has practiced dentistry for at least two (2) of the three (3) years preceding the date of application; (3) passes the law examination administered by the board or an entity approved by the board; (4) has completed the required hours of continuing education in the previous two (2) years",
         "citation": "25-14-1-16"
       }
@@ -149,7 +154,7 @@
     "advisory_board": {
       "exists": {
         "value": false,
-        "quote": "The state board of dentistry is established and consists of: (1) nine (9) practicing dentists licensed under IC 25-14 ... (2) one (1) practicing dental hygienist ... (3) one (1) member to represent the general public",
+        "quote": "The state board of dentistry is established and consists of: (1) nine (9) practicing dentists licensed under IC 25-14",
         "citation": "25-14-1-2"
       },
       "name": null,
@@ -163,82 +168,98 @@
     },
     "regulatory_model": {
       "value": "license",
-      "quote": "it is unlawful for any person to practice dentistry in Indiana who is not licensed under this chapter",
+      "quote": "it is unlawful for any person to practice dentistry in Indiana who is not licensed under this chapter.",
       "citation": "25-14-1-1"
     },
     "credential_type": {
       "value": "license",
-      "quote": "it is unlawful for any person to practice dentistry in Indiana who is not licensed under this chapter",
+      "quote": "it is unlawful for any person to practice dentistry in Indiana who is not licensed under this chapter.",
       "citation": "25-14-1-1"
     },
     "is_mandatory": {
       "value": true,
-      "quote": "it is unlawful for any person to practice dentistry in Indiana who is not licensed under this chapter",
+      "quote": "it is unlawful for any person to practice dentistry in Indiana who is not licensed under this chapter.",
       "citation": "25-14-1-1"
     },
     "title_protection": {
       "value": true,
-      "quote": "Uses the word \"dentist\" or \"dental surgeon\", the letters \"D.D.S.\" or \"D.M.D.\", or other letters or titles in connection with dentistry.",
-      "citation": "25-14-1-23"
+      "quote": "Assume the title or degree of \"Bachelor of Dental Surgery\", append the letters \"B.D.S.\", \"D.D.S.\", \"M.D.S.\", or \"D.M.D.\", to the person's name, or make use of the same",
+      "citation": "25-14-1-25"
     },
     "scope_protection": {
       "value": true,
-      "quote": "it is unlawful for any person to practice dentistry in Indiana who is not licensed under this chapter",
+      "quote": "it is unlawful for any person to practice dentistry in Indiana who is not licensed under this chapter.",
       "citation": "25-14-1-1"
     },
     "disciplinary_grounds": [
       {
-        "short_label": "failure_to_comply_with_article_or_rules",
-        "description": "Failing to comply with the article or rules adopted thereunder subjects the licensee to discipline.",
-        "quote": "An individual who: (1) is licensed under; and (2) fails to comply with; this article or rules adopted under this article is subject to discipline under IC 25-1-9.",
-        "citation": "25-14-1-30.4"
-      },
-      {
-        "short_label": "practicing_without_license",
+        "short_label": "unlicensed_practice",
         "description": "Practicing dentistry without a valid license is a Level 6 felony.",
-        "quote": "It is a Level 6 felony for a person to do any of the following: (1) Practice dentistry not being at the time a dentist duly licensed to practice as such in this state under this chapter.",
+        "quote": "Practice dentistry not being at the time a dentist duly licensed to practice as such in this state under this chapter.",
         "citation": "25-14-1-25"
       },
       {
         "short_label": "employing_unlicensed_dentist",
-        "description": "Employing, hiring, or procuring an unlicensed person to practice dentistry is a Level 6 felony.",
+        "description": "Employing or hiring an unlicensed person to practice dentistry.",
         "quote": "Employ, hire, or procure one who is not duly licensed as a dentist to practice dentistry",
         "citation": "25-14-1-25"
       },
       {
-        "short_label": "fraudulent_diploma_or_license",
-        "description": "Selling, bartering, or fraudulently using dental degrees, licenses, diplomas, or transcripts.",
+        "short_label": "fraudulent_credential",
+        "description": "Selling, bartering, or issuing a dental degree, license, diploma or document without authority.",
         "quote": "Sell or barter, or offer to sell or barter, or, not being lawfully authorized so to do, issue or confer, or offer to issue or confer, any dental degree, license, or any diploma or document conferring, or purporting to confer, any dental degree or license",
         "citation": "25-14-1-25"
       },
       {
-        "short_label": "fraudulent_practice_under_false_name",
-        "description": "Practicing dentistry under a false or misleading name.",
-        "quote": "Practice dentistry under a false name, under a name intended to mislead the public, under the license of another person of the same name",
+        "short_label": "purchase_fraudulent_credential",
+        "description": "Purchasing or procuring by barter any diploma, license, certificate, or transcript with intent to use as fraudulent evidence of qualifications.",
+        "quote": "Purchase, or procure by barter, any diploma, license, certificate, or transcript, with intent that it be used as evidence of the qualifications to practice dentistry of any person other than the one upon, or to whom, it was lawfully conferred or issued",
         "citation": "25-14-1-25"
       },
       {
-        "short_label": "false_assumption_of_dental_title",
-        "description": "Assuming dental degree titles or letters without proper conferral.",
+        "short_label": "use_fraudulent_credential",
+        "description": "Using a purchased, fraudulently issued, counterfeited, or materially altered diploma or certificate as a license to practice dentistry.",
+        "quote": "Use any diploma, certificate, or transcript which has been purchased, fraudulently issued, counterfeited, or materially altered, either as a license or color of license, to practice dentistry",
+        "citation": "25-14-1-25"
+      },
+      {
+        "short_label": "false_name_practice",
+        "description": "Practicing dentistry under a false name or under another person's license.",
+        "quote": "Practice dentistry under a false name, under a name intended to mislead the public, under the license of another person of the same name, or hold the person out to the public under such a name as a practitioner of dentistry.",
+        "citation": "25-14-1-25"
+      },
+      {
+        "short_label": "false_title_assumption",
+        "description": "Assuming the title of dental degree without having the degree conferred.",
         "quote": "Assume the title or degree of \"Bachelor of Dental Surgery\", append the letters \"B.D.S.\", \"D.D.S.\", \"M.D.S.\", or \"D.M.D.\", to the person's name, or make use of the same",
         "citation": "25-14-1-25"
       },
       {
-        "short_label": "false_representation_of_licensure",
-        "description": "Representing oneself as entitled to practice dentistry without being licensed.",
+        "short_label": "false_representation_of_license",
+        "description": "Representing that one is entitled to practice dentistry without a license.",
         "quote": "Not having been licensed to practice dentistry under the laws of this state, represent that the person is entitled so to practice",
         "citation": "25-14-1-25"
       },
       {
-        "short_label": "criminal_conviction_bearing_on_competency",
-        "description": "Conviction of a crime that has a direct bearing on the applicant's ability to practice competently.",
-        "quote": "the applicant has not been convicted of a crime that has a direct bearing on the applicant's ability to practice competently",
-        "citation": "25-14-1-16"
+        "short_label": "false_personation_at_examination",
+        "description": "Falsely impersonating another at an examination for dental candidates.",
+        "quote": "Falsely personate another at any examination to ascertain the preliminary professional education of candidates for dental certificates, dental degrees, or dental licenses",
+        "citation": "25-14-1-25"
+      },
+      {
+        "short_label": "noncompliance_with_statute_or_rules",
+        "description": "Failure to comply with the practice act or rules adopted thereunder subjects a licensee to discipline.",
+        "quote": "An individual who: (1) is licensed under; and (2) fails to comply with; this article or rules adopted under this article is subject to discipline under IC 25-1-9.",
+        "citation": "25-14-1-30.4"
       }
     ],
     "alternative_regulation": {
       "bonding_required": null,
-      "insurance_required": null,
+      "insurance_required": {
+        "value": true,
+        "quote": "An applicant must provide proof that either: (A) the individual; or (B) the clinic at which the individual will practice; has malpractice insurance that covers the individual.",
+        "citation": "25-14-1-5.7"
+      },
       "establishment_regulation_required": null
     },
     "citations": [
@@ -247,32 +268,20 @@
         "kind": "necessity for license"
       },
       {
-        "cite": "25-14-1-1.5",
-        "kind": "definitions"
-      },
-      {
         "cite": "25-14-1-2",
-        "kind": "board establishment"
+        "kind": "state board of dentistry"
       },
       {
         "cite": "25-14-1-3",
-        "kind": "examination and fees"
-      },
-      {
-        "cite": "25-14-1-3.1",
-        "kind": "sedation/anesthesia permits"
+        "kind": "examination and education requirements"
       },
       {
         "cite": "25-14-1-4.5",
-        "kind": "foreign dental college requirements"
-      },
-      {
-        "cite": "25-14-1-5",
-        "kind": "dental residency permit"
+        "kind": "requirements for foreign dental graduates"
       },
       {
         "cite": "25-14-1-10",
-        "kind": "license expiration and renewal"
+        "kind": "renewal"
       },
       {
         "cite": "25-14-1-13",
@@ -280,89 +289,67 @@
       },
       {
         "cite": "25-14-1-16",
-        "kind": "licensure by endorsement"
-      },
-      {
-        "cite": "25-14-1-20",
-        "kind": "disciplinary proceedings"
-      },
-      {
-        "cite": "25-14-1-22",
-        "kind": "exceptions"
-      },
-      {
-        "cite": "25-14-1-23",
-        "kind": "scope of practice / definition of practicing dentistry"
+        "kind": "reciprocity/endorsement"
       },
       {
         "cite": "25-14-1-25",
-        "kind": "specific violations"
+        "kind": "violations and penalties"
       },
       {
         "cite": "25-14-1-30.4",
         "kind": "discipline"
       },
       {
-        "cite": "25-14-2-1",
-        "kind": "denture marking requirements"
-      },
-      {
         "cite": "25-14-3-8",
         "kind": "continuing education requirements"
       },
       {
-        "cite": "25-14-6-1",
-        "kind": "dentist administration of immunizations"
+        "cite": "25-14-1-3.1",
+        "kind": "sedation/anesthesia permit"
       }
     ]
   },
   "scope": {
     "definition_quote": {
-      "value": "A person is practicing dentistry within the meaning of this chapter if the person does any of the following: (1) Uses the word \"dentist\" or \"dental surgeon\", the letters \"D.D.S.\" or \"D.M.D.\", or other letters or titles in connection with dentistry. (2) Directs and controls the treatment of patients within a place where dental services are performed. ... (4) Offers to evaluate, diagnose, prevent, or treat: (A) diseases, disorders, and conditions of the oral cavity and maxillofacial area; ... using nonsurgical, surgical, or related procedures. (5) Extracts human teeth or corrects malpositions of the teeth or jaws. (6) Except as provided in IC 25-13-1-10.5 and IC 25-13-1-10.6, administers dental anesthetics. (7) Uses x-ray images for dental diagnostic purposes.",
-      "quote": "A person is practicing dentistry within the meaning of this chapter if the person does any of the following: (1) Uses the word \"dentist\" or \"dental surgeon\", the letters \"D.D.S.\" or \"D.M.D.\", or other letters or titles in connection with dentistry.",
+      "value": "A person is practicing dentistry within the meaning of this chapter if the person does any of the following: (1) Uses the word 'dentist' or 'dental surgeon', the letters 'D.D.S.' or 'D.M.D.', or other letters or titles in connection with dentistry. ... (4) Offers to evaluate, diagnose, prevent, or treat: (A) diseases, disorders, and conditions of the oral cavity and maxillofacial area; ... using nonsurgical, surgical, or related procedures. (5) Extracts human teeth or corrects malpositions of the teeth or jaws.",
+      "quote": "A person is practicing dentistry within the meaning of this chapter if the person does any of the following",
       "citation": "25-14-1-23"
     },
     "methods_authorized": {
       "value": [
-        "nonsurgical",
-        "surgical",
+        "nonsurgical procedures",
+        "surgical procedures",
         "related procedures",
-        "extraction of teeth",
-        "correction of malpositions of teeth or jaws",
+        "extraction",
+        "orthodontic correction",
         "dental anesthetics",
-        "x-ray imaging for diagnostic purposes",
-        "oral impressions and casts",
-        "prosthetic dental devices",
-        "immunizations (with permit)"
+        "x-ray/imaging",
+        "prosthetic fabrication and repair"
       ],
-      "quote": "Offers to evaluate, diagnose, prevent, or treat: (A) diseases, disorders, and conditions of the oral cavity and maxillofacial area ... using nonsurgical, surgical, or related procedures. (5) Extracts human teeth or corrects malpositions of the teeth or jaws.",
+      "quote": "using nonsurgical, surgical, or related procedures.",
       "citation": "25-14-1-23"
     },
     "drug_authority": {
-      "value": "Licensed pharmacists may fill prescriptions of licensed dentists for any drug necessary in the practice of dentistry; dentists must have a permit to administer general anesthesia/deep sedation or moderate sedation using a parenteral route.",
+      "value": "Dentists may prescribe drugs necessary in the practice of dentistry (licensed pharmacists may fill such prescriptions); dentists may administer dental anesthetics including general anesthesia/deep sedation and moderate sedation with appropriate permits.",
       "quote": "Licensed pharmacists of this state may fill prescriptions of licensed dentists of this state for any drug necessary in the practice of dentistry.",
       "citation": "25-14-1-23"
     },
     "citations": [
       {
         "cite": "25-14-1-23",
-        "kind": "definition of practicing dentistry"
+        "kind": "scope of practice / definition of practicing dentistry"
       },
       {
         "cite": "25-14-1-3.1",
-        "kind": "sedation/anesthesia permit"
-      },
-      {
-        "cite": "25-14-6-1",
-        "kind": "immunization authority"
+        "kind": "anesthesia/sedation permit"
       }
     ]
   },
   "profession_specific": {
     "sedation_anesthesia_permit_types": {
       "value": [
-        "general anesthesia/deep sedation",
-        "moderate sedation using a parenteral route of administration"
+        "general anesthesia/deep sedation permit",
+        "moderate sedation using parenteral route of administration permit"
       ],
       "quote": "A dentist must have a permit to administer: (1) general anesthesia/deep sedation; or (2) moderate sedation using a parenteral route of administration; to a patient.",
       "citation": "25-14-1-3.1"
@@ -380,8 +367,7 @@
     "dental_hygienist_supervision_levels": {
       "value": [
         "direct supervision",
-        "prescriptive supervision",
-        "no supervision (limited circumstances)"
+        "prescriptive supervision"
       ],
       "quote": "\"Direct supervision\" means that a licensed dentist is physically present in the facility when patient care is provided by the dental hygienist. ... \"Prescriptive supervision\" means that a licensed dentist is not required to be physically present in the facility when patient care is provided by the dental hygienist if:",
       "citation": "25-13-1-2"
@@ -399,8 +385,7 @@
     },
     "advanced_practice_eligible_patient_populations": {
       "value": [
-        "patients in settings other than private dental practice",
-        "patients in settings documented in the access practice agreement"
+        "settings other than a private dental practice allowed under an access practice agreement"
       ],
       "quote": "Settings, other than a private dental practice, allowed under an access practice agreement that complies with the requirements under IC 25-13-3.",
       "citation": "25-13-1-10"
@@ -412,7 +397,7 @@
     "mobile_facility_followup_care_protocol_required": null,
     "dental_office_ownership_restrictions": {
       "value": true,
-      "quote": "Directs or controls the use of dental equipment or dental material while the equipment or material is being used to provide dental services.",
+      "quote": "Exercises direction or control over a dentist through a written contract concerning the following areas of dental practice: (A) The selection of a patient's course of treatment.",
       "citation": "25-14-1-23"
     },
     "opioid_prescribing_limits": null,
@@ -423,7 +408,7 @@
     },
     "dental_laboratory_work_authorization_required": {
       "value": true,
-      "quote": "A written work authorization shall include the following: (1) The name and address of the dental laboratory to which it is directed. (2) The case identification. (3) A specification of the materials to be used. (4) A description of the work to be done and, if necessary, diagrams thereof. (5) The date of issuance of the authorization. (6) The signature and address of the licensed dentist",
+      "quote": "A written work authorization shall include the following: (1) The name and address of the dental laboratory to which it is directed. (2) The case identification. (3) A specification of the materials to be used. (4) A description of the work to be done",
       "citation": "25-14-1-23"
     },
     "denture_patient_identification_marking_required": {
@@ -447,8 +432,8 @@
     "patient_record_retention_years": null,
     "cpr_certification_required_for_sedation": {
       "value": true,
-      "quote": "Be currently certified or successfully complete a course in basic life support through a program approved by the board.",
-      "citation": "25-13-1-8"
+      "quote": "a licensed dental hygienist may administer local dental anesthetics under the direct supervision of a licensed dentist under IC 25-14 if the dental hygienist has: (1) completed board approved educational requirements, including cardiopulmonary resuscitation and emergency care training",
+      "citation": "25-13-1-10.6"
     },
     "dental_hygienist_alternative_practice_license": {
       "value": true,

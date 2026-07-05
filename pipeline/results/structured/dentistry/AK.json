@@ -20,8 +20,8 @@
       },
       "type": {
         "value": "shared_board",
-        "quote": "\"board\" means the Board of Dental Examiners",
-        "citation": "08.36.370"
+        "quote": "There is created the Board of Dental Examiners consisting of nine members. Six members shall be licensed dentists ... two members shall be dental hygienists licensed under AS 08.32 ... and one member shall be a public member",
+        "citation": "08.36.010"
       },
       "umbrella_agency": {
         "value": "Department of Commerce, Community, and Economic Development",
@@ -30,10 +30,14 @@
       }
     },
     "age_minimum": null,
-    "moral_character_required": null,
+    "moral_character_required": {
+      "value": true,
+      "quote": "has not been convicted of a crime that adversely reflects on the applicant's ability or competency to practice dentistry or that jeopardizes the safety or well-being of a patient",
+      "citation": "08.36.110"
+    },
     "education": {
       "degree_required": {
-        "value": "graduate of a dental school approved by the board",
+        "value": "Graduate of a board-approved dental school",
         "quote": "is a graduate of a dental school that, at the time of graduation, is approved by the board",
         "citation": "08.36.110"
       },
@@ -73,8 +77,8 @@
       {
         "name": "Written examination approved by the board",
         "required": true,
-        "notes": "Written examination approved by the board; must also pass clinical and other examinations administered or approved by the board",
-        "jurisdiction": "board-approved",
+        "notes": "Must pass written examination approved by the board",
+        "jurisdiction": "state (board-approved)",
         "permitted_attempts": null,
         "quote": "has successfully passed a written examination approved by the board",
         "citation": "08.36.110"
@@ -82,8 +86,8 @@
       {
         "name": "Clinical and other examinations administered or approved by the board",
         "required": true,
-        "notes": "In addition to written exam, applicant must pass clinical and other examinations to the satisfaction of the board",
-        "jurisdiction": "board-approved",
+        "notes": "Must pass written, clinical, and other examinations administered or approved by the board",
+        "jurisdiction": "state (board-approved)",
         "permitted_attempts": null,
         "quote": "pass, to the satisfaction of the board, written, clinical, and other examinations administered or approved by the board",
         "citation": "08.36.110"
@@ -92,8 +96,8 @@
     "renewal": {
       "interval_years": {
         "value": 2,
-        "quote": "the fee for a permit issued under this section is one-fourth of the fee for a biennial license",
-        "citation": "08.36.254"
+        "quote": "Licenses shall be renewed biennially on the dates set by the department with the approval of the respective board.",
+        "citation": "UMBRELLA / Chapter 01. Centralized Licensing"
       }
     },
     "renewal_fee_usd": null,
@@ -117,7 +121,7 @@
         "value": [
           "pain management and opioid use and addiction"
         ],
-        "quote": "the regulations must require that a licensee receive not less than two hours of education in pain management and opioid use and addiction in the two years preceding an application for renewal of a license",
+        "quote": "not less than two hours of education in pain management and opioid use and addiction in the two years preceding an application for renewal of a license",
         "citation": "08.36.070"
       }
     },
@@ -128,7 +132,7 @@
         "citation": "08.36.234"
       },
       "requirements": {
-        "value": "Applicant must meet qualifications of AS 08.36.110, submit proof of continued competence, pay fees, and hold an active license from another state or territory or have passed an examination specified by the board. In-person interview with the board or a board member is required before issuance.",
+        "value": "Must meet qualifications under AS 08.36.110, submit proof of continued competence, pay required fee, hold an active license from another state or territory issued after thorough examination (or pass an exam specified by the board), and be interviewed in person by the board.",
         "quote": "The board may waive the examination requirement and license by credentials if the dentist applicant meets the requirements of AS 08.36.110, submits proof of continued competence as required by regulation, pays the required fee, and has (1) an active license from a board of dental examiners established under the laws of a state or territory of the United States issued after thorough examination",
         "citation": "08.36.234"
       }
@@ -136,8 +140,8 @@
     "advisory_board": {
       "exists": {
         "value": false,
-        "quote": "\"board\" means the Board of Dental Examiners",
-        "citation": "08.36.370"
+        "quote": "There is created the Board of Dental Examiners consisting of nine members. Six members shall be licensed dentists who have been engaged in the practice of dentistry in the state for five years immediately preceding appointment, two members shall be dental hygienists licensed under AS 08.32 who have been engaged in the practice of dental hygiene in the state for five years immediately preceding appointment, and one member shall be a public member",
+        "citation": "08.36.010"
       },
       "name": null,
       "authority": null
@@ -175,13 +179,13 @@
     },
     "disciplinary_grounds": [
       {
-        "short_label": "fraud_in_obtaining_license",
+        "short_label": "fraud_to_obtain_license",
         "description": "Used or knowingly cooperated in deceit, fraud, or intentional misrepresentation to obtain a license",
         "quote": "used or knowingly cooperated in deceit, fraud, or intentional misrepresentation to obtain a license",
         "citation": "08.36.315"
       },
       {
-        "short_label": "fraud_in_practice",
+        "short_label": "fraud_in_professional_services",
         "description": "Engaged in deceit, fraud, or intentional misrepresentation in the course of providing or billing for professional dental services",
         "quote": "engaged in deceit, fraud, or intentional misrepresentation in the course of providing or billing for professional dental services or engaging in professional activities",
         "citation": "08.36.315"
@@ -193,74 +197,80 @@
         "citation": "08.36.315"
       },
       {
-        "short_label": "illegal_referral_compensation",
+        "short_label": "illegal_referral_fee",
         "description": "Received compensation for referring a person to another dentist or dental practice",
         "quote": "received compensation for referring a person to another dentist or dental practice",
         "citation": "08.36.315"
       },
       {
         "short_label": "felony_conviction",
-        "description": "Convicted of a felony or other crime affecting ability to practice dentistry competently and safely",
+        "description": "Has been convicted of a felony or other crime that affects the dentist's ability to continue to practice dentistry competently and safely",
         "quote": "has been convicted of a felony or other crime that affects the dentist's ability to continue to practice dentistry competently and safely",
         "citation": "08.36.315"
       },
       {
         "short_label": "substandard_patient_care",
-        "description": "Engaged in patient care that did not conform to minimum professional standards of dentistry",
+        "description": "Engaged in or permitted performance of patient care that did not conform to minimum professional standards of dentistry",
         "quote": "engaged in the performance of patient care, or permitted the performance of patient care by persons under the dentist's supervision, regardless of whether actual injury to the patient occurred, (A) that did not conform to minimum professional standards of dentistry",
         "citation": "08.36.315"
       },
       {
-        "short_label": "unlicensed_supervision",
-        "description": "Permitted care by supervised persons who did not have required permit, registration, or certificate",
-        "quote": "when the dentist, or a person under the supervision of the dentist, did not have the permit, registration, or certificate required under AS 08.32 or this chapter",
-        "citation": "08.36.315"
-      },
-      {
-        "short_label": "noncompliance_with_law",
-        "description": "Failed to comply with the chapter, regulations, or board orders",
+        "short_label": "failure_to_comply_with_chapter",
+        "description": "Failed to comply with the chapter, a regulation adopted under it, or an order of the board",
         "quote": "failed to comply with this chapter, with a regulation adopted under this chapter, or with an order of the board",
         "citation": "08.36.315"
       },
       {
-        "short_label": "impaired_practice",
-        "description": "Continued to practice after becoming unfit due to incompetence, addiction, or physical/mental disability",
-        "quote": "continued to practice after becoming unfit due to (A) professional incompetence; (B) addiction or dependence on alcohol or other drugs that impair the dentist's ability to practice safely; (C) physical or mental disability",
+        "short_label": "professional_incompetence",
+        "description": "Continued to practice after becoming unfit due to professional incompetence",
+        "quote": "continued to practice after becoming unfit due to (A) professional incompetence",
         "citation": "08.36.315"
       },
       {
-        "short_label": "lewd_conduct",
-        "description": "Engaged in lewd or immoral conduct in connection with delivery of professional service to patients",
+        "short_label": "substance_impairment",
+        "description": "Continued to practice after becoming unfit due to addiction or dependence on alcohol or other drugs",
+        "quote": "addiction or dependence on alcohol or other drugs that impair the dentist's ability to practice safely",
+        "citation": "08.36.315"
+      },
+      {
+        "short_label": "physical_mental_disability",
+        "description": "Continued to practice after becoming unfit due to physical or mental disability",
+        "quote": "continued to practice after becoming unfit due to ... (C) physical or mental disability",
+        "citation": "08.36.315"
+      },
+      {
+        "short_label": "lewd_immoral_conduct",
+        "description": "Engaged in lewd or immoral conduct in connection with the delivery of professional service to patients",
         "quote": "engaged in lewd or immoral conduct in connection with the delivery of professional service to patients",
         "citation": "08.36.315"
       },
       {
-        "short_label": "illegal_delegation",
-        "description": "Permitted a dental hygienist or dental assistant to perform a dental procedure in violation of law",
+        "short_label": "unlawful_delegation",
+        "description": "Permitted a dental hygienist or dental assistant to perform a dental procedure in violation of applicable statutes",
         "quote": "permitted a dental hygienist or dental assistant who is employed by the dentist or working under the dentist's supervision to perform a dental procedure in violation of AS 08.32.110 or AS 08.36.346",
         "citation": "08.36.315"
       },
       {
         "short_label": "failure_to_report_death",
-        "description": "Failed to report to the board a death that occurred on dental premises within 48 hours",
+        "description": "Failed to report to the board a death that occurred on the premises used for the practice of dentistry within 48 hours",
         "quote": "failed to report to the board a death that occurred on the premises used for the practice of dentistry within 48 hours",
         "citation": "08.36.315"
       },
       {
-        "short_label": "falsified_records",
-        "description": "Falsified or destroyed patient or facility records, or failed to maintain records for at least seven years",
+        "short_label": "falsified_patient_records",
+        "description": "Falsified or destroyed patient or facility records or failed to maintain records for at least seven years",
         "quote": "falsified or destroyed patient or facility records or failed to maintain a patient or facility record for at least seven years after the date the record was created",
         "citation": "08.36.315"
       },
       {
         "short_label": "opioid_overprescribing",
-        "description": "Prescribed or dispensed an opioid in excess of the maximum dosage authorized by statute",
+        "description": "Prescribed or dispensed an opioid in excess of the maximum dosage authorized under AS 08.36.355",
         "quote": "prescribed or dispensed an opioid in excess of the maximum dosage authorized under AS 08.36.355",
         "citation": "08.36.315"
       },
       {
-        "short_label": "illegal_drug_dispensing",
-        "description": "Procured, sold, prescribed, or dispensed drugs in violation of law",
+        "short_label": "illegal_drug_prescribing",
+        "description": "Procured, sold, prescribed, or dispensed drugs in violation of a law",
         "quote": "procured, sold, prescribed, or dispensed drugs in violation of a law, regardless of whether there has been a criminal action or harm to the patient",
         "citation": "08.36.315"
       }
@@ -268,118 +278,121 @@
     "alternative_regulation": {
       "bonding_required": null,
       "insurance_required": null,
-      "establishment_regulation_required": {
-        "value": true,
-        "quote": "Only a person who holds a valid license issued under this chapter may own, operate, or maintain a dental practice, office, or clinic.",
-        "citation": "08.36.367"
-      }
+      "establishment_regulation_required": null
     },
     "citations": [
       {
+        "cite": "08.36.010",
+        "kind": "board composition"
+      },
+      {
+        "cite": "08.36.070",
+        "kind": "general powers"
+      },
+      {
         "cite": "08.36.100",
-        "kind": "license_required"
+        "kind": "license required"
       },
       {
         "cite": "08.36.110",
-        "kind": "qualifications"
+        "kind": "qualifications for license"
       },
       {
         "cite": "08.36.234",
-        "kind": "licensure_by_credentials"
+        "kind": "licensure by credentials"
       },
       {
         "cite": "08.36.238",
-        "kind": "exemption"
+        "kind": "exemption from license requirement"
       },
       {
         "cite": "08.36.240",
-        "kind": "issuance"
+        "kind": "issuance and display of license"
       },
       {
         "cite": "08.36.242",
-        "kind": "specialist_license"
+        "kind": "specialist license required"
       },
       {
         "cite": "08.36.243",
-        "kind": "specialist_qualifications"
+        "kind": "qualification for specialist license"
       },
       {
         "cite": "08.36.250",
-        "kind": "renewal"
-      },
-      {
-        "cite": "08.36.254",
-        "kind": "temporary_permit"
+        "kind": "license renewal, lapse, and reinstatement"
       },
       {
         "cite": "08.36.315",
-        "kind": "disciplinary_grounds"
+        "kind": "grounds for discipline"
       },
       {
         "cite": "08.36.317",
-        "kind": "civil_fine"
+        "kind": "civil fine authority"
       },
       {
         "cite": "08.36.340",
         "kind": "penalties"
       },
       {
-        "cite": "08.36.350",
-        "kind": "application_of_chapter"
-      },
-      {
         "cite": "08.36.355",
-        "kind": "opioid_prescribing_limits"
+        "kind": "maximum dosage for opioid prescriptions"
       },
       {
         "cite": "08.36.360",
-        "kind": "practice_definition"
+        "kind": "practice of dentistry defined"
+      },
+      {
+        "cite": "08.36.365",
+        "kind": "rights of dentists"
       },
       {
         "cite": "08.36.367",
-        "kind": "office_ownership"
+        "kind": "ownership of dental office or facility"
       },
       {
         "cite": "08.36.370",
         "kind": "definitions"
-      },
-      {
-        "cite": "08.36.070",
-        "kind": "general_powers"
       }
     ]
   },
   "scope": {
     "definition_quote": {
-      "value": "A person engages in the practice of dentistry who (1) performs or holds out to the public as being able to perform dental operations; (2) diagnoses, treats, operates on, corrects, attempts to correct, or prescribes for a disease, lesion, pain, injury, deficiency, deformity, or physical condition, malocclusion or malposition of the human teeth, alveolar process, gingiva, maxilla, mandible, or adjacent tissues; (3) performs or attempts to perform an operation incident to the replacement of teeth; ...",
+      "value": "A person engages in the practice of dentistry who (1) performs or holds out to the public as being able to perform dental operations; (2) diagnoses, treats, operates on, corrects, attempts to correct, or prescribes for a disease, lesion, pain, injury, deficiency, deformity, or physical condition, malocclusion or malposition of the human teeth, alveolar process, gingiva, maxilla, mandible, or adjacent tissues; (3) performs or attempts to perform an operation incident to the replacement of teeth; (4) furnishes, supplies, constructs, reproduces, or repairs dentures, bridges, appliances or other structures to be used and worn as substitutes for natural teeth...",
       "quote": "A person engages in the practice of dentistry who (1) performs or holds out to the public as being able to perform dental operations; (2) diagnoses, treats, operates on, corrects, attempts to correct, or prescribes for a disease, lesion, pain, injury, deficiency, deformity, or physical condition, malocclusion or malposition of the human teeth, alveolar process, gingiva, maxilla, mandible, or adjacent tissues",
       "citation": "08.36.360"
     },
     "methods_authorized": {
       "value": [
-        "diagnosis and treatment of dental diseases and conditions",
-        "operative and surgical procedures on teeth and adjacent tissues",
-        "replacement of teeth (dentures, bridges, appliances)",
-        "extraction of teeth",
-        "prescribing for dental conditions",
+        "diagnosis",
+        "treatment",
+        "operative procedures",
+        "surgical procedures",
+        "prescribing",
+        "dental operations",
+        "replacement of teeth",
+        "fabrication/repair of dental appliances",
         "evaluation and preventive procedures for oral cavity and maxillofacial area"
       ],
       "quote": "diagnoses, treats, operates on, corrects, attempts to correct, or prescribes for a disease, lesion, pain, injury, deficiency, deformity, or physical condition, malocclusion or malposition of the human teeth, alveolar process, gingiva, maxilla, mandible, or adjacent tissues",
       "citation": "08.36.360"
     },
     "drug_authority": {
-      "value": "Dentists may prescribe drugs within the scope of dental practice; opioid prescriptions are subject to statutory limits (no more than 7-day supply for initial prescription to adults, no more than 7-day supply to minors)",
+      "value": "Dentists may prescribe drugs as part of the practice of dentistry; opioid prescriptions are limited to a seven-day supply for initial prescriptions for adult outpatients and for any prescription to minors, with exceptions for chronic pain and access barriers. Dentists holding a DEA registration number must register with the controlled substance prescription database.",
       "quote": "A licensee may not issue (1) an initial prescription for an opioid that exceeds a seven-day supply to an adult patient for outpatient use; (2) a prescription for an opioid that exceeds a seven-day supply to a minor",
       "citation": "08.36.355"
     },
     "citations": [
       {
         "cite": "08.36.360",
-        "kind": "scope_definition"
+        "kind": "practice of dentistry defined"
       },
       {
         "cite": "08.36.355",
-        "kind": "drug_authority"
+        "kind": "opioid prescribing limits"
+      },
+      {
+        "cite": "08.36.070",
+        "kind": "controlled substance database registration"
       }
     ]
   },
@@ -415,7 +428,7 @@
     },
     "collaborative_agreement_max_hygienists_per_dentist": {
       "value": 5,
-      "quote": "the board may not approve more than five collaborative agreements with a licensed dentist, not including any collaborative agreements that have been terminated.",
+      "quote": "the board may not approve more than five collaborative agreements with a licensed dentist, not including any collaborative agreements that have been terminated",
       "citation": "08.32.115"
     },
     "advanced_practice_permit_available": {
@@ -425,11 +438,11 @@
     },
     "advanced_practice_eligible_patient_populations": {
       "value": [
-        "residents in senior centers including hospitals, long-term care facilities, adult foster homes, residential care facilities, adult congregate living facilities",
-        "residents in health care facilities including mental health residential programs or facilities for individuals with developmental or other disabilities",
-        "persons held in local correctional facilities for juveniles or adults",
-        "persons enrolled in nursery schools, day care programs, vocational training facilities, primary schools, secondary schools, private schools, or public charter schools",
-        "persons entitled to WIC benefits",
+        "residents in a senior center, including hospital, long-term care facility, adult foster home, residential care facility, or adult congregate living facility",
+        "residents in a health care facility, including mental health residential program or facility for individuals with developmental or other disabilities",
+        "persons held in a local correctional facility for juveniles or adults",
+        "persons enrolled in a nursery school, day care program, vocational training facility, primary school, secondary school, private school, or public charter school",
+        "persons entitled to benefits under WIC program",
         "homebound persons",
         "residents of a dental health professional shortage area"
       ],
@@ -453,7 +466,7 @@
     },
     "controlled_substance_database_registration_required": {
       "value": true,
-      "quote": "require that a licensed dentist who has a federal Drug Enforcement Administration registration number register with the controlled substance prescription database under AS 17.30.200(n).",
+      "quote": "require that a licensed dentist who has a federal Drug Enforcement Administration registration number register with the controlled substance prescription database under AS 17.30.200(n)",
       "citation": "08.36.070"
     },
     "dental_laboratory_work_authorization_required": null,
@@ -483,7 +496,7 @@
     "cpr_certification_required_for_sedation": null,
     "dental_hygienist_alternative_practice_license": {
       "value": true,
-      "quote": "The board may issue an advanced practice permit to a licensed dental hygienist with a minimum of 4,000 documented hours of clinical experience.",
+      "quote": "The board may issue an advanced practice permit to a licensed dental hygienist with a minimum of 4,000 documented hours of clinical experience. A licensed dental hygienist holding an advanced practice permit may provide the services described in (a) of this section to a patient who is unable to access dental treatment because of age, infirmity, or disability",
       "citation": "08.32.125"
     }
   }

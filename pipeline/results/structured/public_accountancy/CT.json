@@ -4,26 +4,30 @@
   "licensure": {
     "license_required": {
       "value": true,
-      "quote": "A person who holds a certificate shall not engage in the practice of public accountancy unless he also holds a valid license issued under section 20-281d and a permit issued under section 20-281e or unless such person is qualified for the practice privilege pursuant to section 20-281n.",
+      "quote": "A person who holds a certificate shall not engage in the practice of public accountancy unless he also holds a valid license issued under section 20-281d",
       "citation": "20-281g"
     },
     "issuing_authority": {
       "value": "State Board of Accountancy",
-      "quote": "\"Board\" means the State Board of Accountancy established by section 20-280",
-      "citation": "20-279b"
+      "quote": "There shall be a State Board of Accountancy which shall consist of nine members",
+      "citation": "20-280"
     },
     "regulatory_authority": {
       "name": {
         "value": "State Board of Accountancy",
-        "quote": "\"Board\" means the State Board of Accountancy established by section 20-280",
-        "citation": "20-279b"
+        "quote": "There shall be a State Board of Accountancy which shall consist of nine members",
+        "citation": "20-280"
       },
       "type": {
         "value": "standalone_board",
-        "quote": "\"Board\" means the State Board of Accountancy established by section 20-280",
-        "citation": "20-279b"
+        "quote": "There shall be a State Board of Accountancy which shall consist of nine members, to be appointed by the Governor",
+        "citation": "20-280"
       },
-      "umbrella_agency": null
+      "umbrella_agency": {
+        "value": "Department of Consumer Protection",
+        "quote": "Said board shall be within the Department of Consumer Protection.",
+        "citation": "20-280"
+      }
     },
     "age_minimum": null,
     "moral_character_required": {
@@ -53,7 +57,22 @@
         "quote": "at least one hundred fifty semester hours of college education including a baccalaureate or higher degree conferred by a college or university acceptable to the board",
         "citation": "20-281c"
       },
-      "tiers": null
+      "tiers": [
+        {
+          "license_class": "applicants until December 31, 1999",
+          "degree_level": "bachelor",
+          "effective_date": null,
+          "quote": "Until December 31, 1999, a baccalaureate degree or its equivalent conferred by a college or university acceptable to the board",
+          "citation": "20-281c"
+        },
+        {
+          "license_class": "applicants after January 1, 2000",
+          "degree_level": "bachelor",
+          "effective_date": "2000-01-01",
+          "quote": "After January 1, 2000, at least one hundred fifty semester hours of college education including a baccalaureate or higher degree conferred by a college or university acceptable to the board",
+          "citation": "20-281c"
+        }
+      ]
     },
     "post_degree_experience": {
       "required": {
@@ -73,8 +92,8 @@
       {
         "name": "Uniform CPA Examination",
         "required": true,
-        "notes": "Applicant may sit after completing 120 semester hours; must pass all sections within a 30-month period. Board may charge per-section fee or authorize third party to do so.",
-        "jurisdiction": "national (AICPA/NASBA Uniform CPA Examination)",
+        "notes": "Applicants may apply to sit with 120 semester hours; credit for passed sections is retained within a 30-month window (may be extended for hardship).",
+        "jurisdiction": "national",
         "permitted_attempts": null,
         "quote": "The board shall allow an applicant who applies to take the examination on or after October 1, 2023, to receive credit for each section of the examination that such applicant passes in any sitting for such examination, provided such applicant passes all sections of the examination within a thirty-month period.",
         "citation": "20-281c"
@@ -87,7 +106,16 @@
         "citation": "20-281d"
       }
     },
-    "renewal_fee_usd": null,
+    "renewal_fee_usd": {
+      "value": 150,
+      "quote": "the board shall charge a fee of one hundred fifty dollars for the initial issuance and the professional services fee for class I, as defined in section 33-182l, for each annual renewal of such license.",
+      "citation": "20-281d",
+      "unverified": true,
+      "approximate": {
+        "ratio": 0.793,
+        "matched_normalized": "the board shall charge a fee of one hundred fifty dollars for the initial issuance and the professional services fee for class i as defined in section 33 182"
+      }
+    },
     "continuing_education": {
       "required": {
         "value": true,
@@ -109,37 +137,33 @@
     "reciprocity": {
       "available": {
         "value": true,
-        "quote": "The board shall issue a certificate to a holder of a certificate issued by another state upon a showing that: (1) The applicant passed the examination required for issuance of his or her certificate with grades that would have been passing grades at the time in this state; and (2) The applicant meets all current requirements in this state for issuance of a certificate at the time the application is made",
-        "citation": "20-281d"
+        "quote": "Any individual whose principal place of business is not in this state shall be presumed to have qualifications substantially equivalent to this state's requirements and shall qualify for a practice privilege and have all the privileges of licensees of this state without the need to obtain a license pursuant to section 20-281d",
+        "citation": "20-281n"
       },
       "requirements": {
-        "value": "Holder of certificate from another state must show: (1) passed examination with grades that would have been passing in CT; and (2) meets current CT requirements at time of application, OR met CT requirements at time of original issuance, OR has had five years of experience in the practice of public accountancy no earlier than the ten years immediately preceding the application. Alternatively, out-of-state CPAs with substantially equivalent qualifications may qualify for practice privileges without obtaining a CT license.",
-        "quote": "The applicant passed the examination required for issuance of his or her certificate with grades that would have been passing grades at the time in this state; and (2) The applicant meets all current requirements in this state for issuance of a certificate at the time the application is made; or the applicant, at the time of the issuance of the applicant's certificate in the other state, met all such requirements then applicable in this state; or the applicant has had five years of experience in the practice of public accountancy no earlier than the ten years immediately preceding the applicant's application or meets equivalent requirements prescribed by the board by regulation.",
-        "citation": "20-281d"
+        "value": "Out-of-state CPAs qualifying under substantial equivalency (verified by NASBA National Qualification Appraisal Service) may exercise practice privileges without notice, fee, or submission, but must consent to CT board jurisdiction, comply with CT law, cease practice if home-state license lapses, and appoint home-state board as agent for service of process. Certain attest services must be performed through a firm holding a CT permit.",
+        "quote": "Such individual holds a valid license as a Certified Public Accountant from any state which the NASBA National Qualification Appraisal Service has verified to be in substantial equivalence with the CPA licensure requirements of the AICPA/NASBA Uniform Accountancy Act",
+        "citation": "20-281n"
       }
     },
     "advisory_board": {
       "exists": {
         "value": false,
-        "quote": "\"Board\" means the State Board of Accountancy established by section 20-280",
-        "citation": "20-279b"
+        "quote": "There shall be a State Board of Accountancy which shall consist of nine members, to be appointed by the Governor",
+        "citation": "20-280"
       },
       "name": null,
       "authority": null
     },
-    "national_certification": {
-      "value": "NASBA National Qualification Appraisal Service",
-      "quote": "Such individual holds a valid license as a Certified Public Accountant from any state which the NASBA National Qualification Appraisal Service has verified to be in substantial equivalence with the CPA licensure requirements of the AICPA/NASBA Uniform Accountancy Act",
-      "citation": "20-281n"
-    },
+    "national_certification": null,
     "national_association": {
-      "value": "American Institute of Certified Public Accountants (AICPA); National Association of State Boards of Accountancy (NASBA)",
+      "value": "AICPA (American Institute of Certified Public Accountants)",
       "quote": "\"AICPA\" means the American Institute of Certified Public Accountants",
       "citation": "20-279b"
     },
     "regulatory_model": {
       "value": "license",
-      "quote": "A person who holds a certificate shall not engage in the practice of public accountancy unless he also holds a valid license issued under section 20-281d and a permit issued under section 20-281e or unless such person is qualified for the practice privilege pursuant to section 20-281n.",
+      "quote": "A person or a firm which does not hold a valid license and permit issued under section 20-281b or 20-281d and section 20-281e shall not issue a report on financial statements of any other person, firm, organization or governmental unit or offer or render any attest or compilation service.",
       "citation": "20-281g"
     },
     "credential_type": {
@@ -149,12 +173,12 @@
     },
     "is_mandatory": {
       "value": true,
-      "quote": "A person who holds a certificate shall not engage in the practice of public accountancy unless he also holds a valid license issued under section 20-281d and a permit issued under section 20-281e",
+      "quote": "A person who holds a certificate shall not engage in the practice of public accountancy unless he also holds a valid license issued under section 20-281d",
       "citation": "20-281g"
     },
     "title_protection": {
       "value": true,
-      "quote": "A person who does not hold a valid registration or license and who does not qualify for practice privilege under section 20-281n shall not use or assume the title or designation \"certified public accountant\", or the abbreviation \"CPA\" or any other title, designation, words, letters, abbreviations, sign card or device tending to indicate that such person is a certified public accountant",
+      "quote": "A person who does not hold a valid registration or license and who does not qualify for practice privilege under section 20-281n shall not use or assume the title or designation \"certified public accountant\", or the abbreviation \"CPA\"",
       "citation": "20-281g"
     },
     "scope_protection": {
@@ -165,68 +189,68 @@
     "disciplinary_grounds": [
       {
         "short_label": "fraud_in_obtaining_credential",
-        "description": "Fraud or deceit in obtaining a certificate, registration, license, practice privilege or permit",
+        "description": "Fraud or deceit in obtaining a certificate, registration, license, practice privilege, or permit.",
         "quote": "Fraud or deceit in obtaining a certificate, registration, license, practice privilege or permit",
         "citation": "20-281a"
       },
       {
-        "short_label": "cancellation_in_other_state",
-        "description": "Cancellation, revocation, suspension or refusal to renew authority in any other state",
+        "short_label": "out_of_state_revocation",
+        "description": "Cancellation, revocation, suspension, or refusal to renew authority to practice public accountancy in any other state.",
         "quote": "Cancellation, revocation, suspension or refusal to renew authority to engage in the practice of public accountancy in any other state for any cause",
         "citation": "20-281a"
       },
       {
-        "short_label": "failure_to_maintain_compliance",
-        "description": "Failure to maintain compliance with requirements for issuance or renewal of license or permit, or to report changes to the board",
+        "short_label": "failure_to_maintain_license_requirements",
+        "description": "Failure to maintain compliance with the requirements for issuance or renewal of a license or permit, or to report changes to the board.",
         "quote": "Failure, on the part of a holder of a license or permit under section 20-281d or 20-281e, to maintain compliance with the requirements for issuance or renewal of such license or permit or to report changes to the board",
         "citation": "20-281a"
       },
       {
-        "short_label": "revocation_by_agency_or_pcaob",
-        "description": "Revocation, limitation or suspension of the right to practice before any state or federal agency or the PCAOB",
+        "short_label": "revocation_of_right_to_practice_before_agency",
+        "description": "Revocation, limitation, or suspension of the right to practice before any state or federal agency or the PCAOB, or related actions such as suspension from serving as a corporate officer or director.",
         "quote": "Revocation, limitation or suspension of the right to practice before any state or federal agency or the Public Company Accounting Oversight Board under the Sarbanes-Oxley Act of 2002",
         "citation": "20-281a"
       },
       {
-        "short_label": "dishonesty_fraud_negligence",
-        "description": "Dishonesty, fraud or negligence in the practice of public accountancy or in the filing or failure to file own income tax returns",
+        "short_label": "dishonesty_fraud_negligence_in_practice",
+        "description": "Dishonesty, fraud, or negligence in the practice of public accountancy or in the filing or failure to file own income tax returns.",
         "quote": "Dishonesty, fraud or negligence in the practice of public accountancy or in the filing or failure to file his own income tax returns",
         "citation": "20-281a"
       },
       {
-        "short_label": "violation_of_statutes_or_regulations",
-        "description": "Violation of any provision of sections 20-279b to 20-281m or regulation adopted by the board",
+        "short_label": "violation_of_statute_or_regulation",
+        "description": "Violation of any provision of the public accountancy statutes or regulations adopted by the board.",
         "quote": "Violation of any provision of sections 20-279b to 20-281m, inclusive, or regulation adopted by the board under said sections",
         "citation": "20-281a"
       },
       {
-        "short_label": "violation_of_rules_of_professional_conduct",
-        "description": "Violation of any rule of professional conduct adopted by the board",
+        "short_label": "violation_of_professional_conduct_rules",
+        "description": "Violation of any rule of professional conduct adopted by the board.",
         "quote": "Violation of any rule of professional conduct adopted by the board under subdivision (4) of subsection (g) of section 20-280",
         "citation": "20-281a"
       },
       {
-        "short_label": "felony_or_crime_of_dishonesty",
-        "description": "Conviction of a felony or any crime involving dishonesty or fraud",
-        "quote": "Conviction of a felony, provided any action taken is based upon (i) the nature of the conviction and its relationship to the certificate or license holder's ability to safely or competently engage in the practice of public accountancy, (ii) information pertaining to the degree of rehabilitation of the certificate or license holder, and (iii) the time elapsed since the conviction or release, or (B) of any crime an element of which is dishonesty or fraud",
+        "short_label": "felony_or_dishonesty_crime_conviction",
+        "description": "Conviction of a felony or any crime involving dishonesty or fraud.",
+        "quote": "Conviction of a felony, provided any action taken is based upon (i) the nature of the conviction and its relationship to the certificate or license holder's ability to safely or competently engage in the practice of public accountancy",
         "citation": "20-281a"
       },
       {
         "short_label": "fraudulent_act_while_licensed",
-        "description": "Performance of any fraudulent act while holding a registration, certificate, license, practice privilege or permit",
+        "description": "Performance of any fraudulent act while holding a registration, certificate, license, practice privilege, or permit.",
         "quote": "Performance of any fraudulent act while holding a registration, certificate, license, practice privilege or permit issued under sections 20-279b to 20-281m, inclusive, or prior law",
         "citation": "20-281a"
       },
       {
-        "short_label": "conduct_adversely_reflecting_fitness",
-        "description": "Any conduct reflecting adversely upon the licensee's fitness to engage in the practice of public accountancy",
+        "short_label": "conduct_reflecting_adversely_on_fitness",
+        "description": "Any conduct reflecting adversely upon the licensee's fitness to engage in the practice of public accountancy.",
         "quote": "Any conduct reflecting adversely upon the licensee's fitness to engage in the practice of public accountancy",
         "citation": "20-281a"
       },
       {
-        "short_label": "violation_of_section_20_281g",
-        "description": "Violation by anyone of any provision of section 20-281g (prohibitions on practicing without license/permit or using restricted titles)",
-        "quote": "Violation by anyone of any provision of section 20-281g.",
+        "short_label": "violation_of_practice_prohibitions",
+        "description": "Violation by anyone of any provision of the section governing prohibited practice and title use.",
+        "quote": "Violation by anyone of any provision of section 20-281g",
         "citation": "20-281a"
       }
     ],
@@ -241,12 +265,16 @@
         "kind": "definitions"
       },
       {
+        "cite": "20-280",
+        "kind": "board composition and powers"
+      },
+      {
         "cite": "20-280b",
-        "kind": "hearing and civil penalty"
+        "kind": "hearings and civil penalties"
       },
       {
         "cite": "20-280c",
-        "kind": "investigation of complaints"
+        "kind": "complaint investigation"
       },
       {
         "cite": "20-280e",
@@ -258,7 +286,7 @@
       },
       {
         "cite": "20-281a",
-        "kind": "revocation and disciplinary grounds"
+        "kind": "revocation, suspension, discipline"
       },
       {
         "cite": "20-281b",
@@ -270,7 +298,7 @@
       },
       {
         "cite": "20-281d",
-        "kind": "individual license and renewal"
+        "kind": "license issuance and renewal"
       },
       {
         "cite": "20-281e",
@@ -282,11 +310,11 @@
       },
       {
         "cite": "20-281g",
-        "kind": "scope and title prohibitions"
+        "kind": "prohibited practice and title use"
       },
       {
         "cite": "20-281h",
-        "kind": "criminal violations"
+        "kind": "criminal penalties"
       },
       {
         "cite": "20-281i",
@@ -298,11 +326,11 @@
       },
       {
         "cite": "20-281k",
-        "kind": "working papers"
+        "kind": "working papers and records"
       },
       {
         "cite": "20-281l",
-        "kind": "commissions prohibition"
+        "kind": "commissions"
       },
       {
         "cite": "20-281m",
@@ -322,15 +350,13 @@
     },
     "methods_authorized": {
       "value": [
-        "audit or other engagement under Statements on Auditing Standards (SAS)",
-        "review of financial statement under Statements on Standards for Accounting and Review Services (SSARS)",
-        "examination of prospective financial information under Statements on Standards for Attestation Engagements (SSAE)",
-        "engagement under PCAOB Auditing Standards",
-        "examination, review or agreed upon procedures engagement under SSAE",
-        "compilation services under SSARS",
+        "audit and attest services",
+        "review of financial statements",
+        "compilation services",
         "management advisory services",
-        "financial advisory or consulting services",
-        "preparation of tax returns and advice on tax matters"
+        "financial advisory and consulting services",
+        "tax return preparation",
+        "tax advice"
       ],
       "quote": "one or more kinds of services involving the use of accounting or auditing skills, including, but not limited to, the issuance of reports or of one or more kinds of management advisory, financial advisory or consulting services, or the preparation of tax returns or the furnishing of advice on tax matters",
       "citation": "20-279b"
@@ -339,18 +365,22 @@
     "citations": [
       {
         "cite": "20-279b",
-        "kind": "definitions"
+        "kind": "definition of practicing public accountancy"
+      },
+      {
+        "cite": "20-281g",
+        "kind": "scope protection"
       }
     ]
   },
   "profession_specific": {
     "attest_services_types": {
       "value": [
-        "Any audit or other engagement to be performed in accordance with the Statements on Auditing Standards (SAS)",
-        "Any review of a financial statement to be performed in accordance with the Statements on Standards for Accounting and Review Services (SSARS)",
-        "Any examination of prospective financial information to be performed in accordance with the Statements on Standards for Attestation Engagements (SSAE)",
-        "Any engagement to be performed in accordance with the Auditing Standards of the PCAOB",
-        "Any examination, review or agreed upon procedures engagement to be performed in accordance with the Statements on Standards for Attestation Engagements (SSAE)"
+        "Audit or other engagement in accordance with Statements on Auditing Standards (SAS)",
+        "Review of a financial statement in accordance with Statements on Standards for Accounting and Review Services (SSARS)",
+        "Examination of prospective financial information in accordance with Statements on Standards for Attestation Engagements (SSAE)",
+        "Engagement in accordance with Auditing Standards of the PCAOB",
+        "Examination, review or agreed upon procedures engagement in accordance with SSAE (other than examination of prospective financial information)"
       ],
       "quote": "\"Attest\" means the provision of any of the following services: (A) Any audit or other engagement to be performed in accordance with the Statements on Auditing Standards (SAS); (B) Any review of a financial statement to be performed in accordance with the Statements on Standards for Accounting and Review Services (SSARS); (C) Any examination of prospective financial information to be performed in accordance with the Statements on Standards for Attestation Engagements (SSAE); (D) Any engagement to be performed in accordance with the Auditing Standards of the PCAOB; and (E) Any examination, review or agreed upon procedures engagement to be performed in accordance with the Statements on Standards for Attestation Engagements (SSAE)",
       "citation": "20-279b"
@@ -362,7 +392,7 @@
     },
     "education_semester_hours_required": {
       "value": 150,
-      "quote": "at least one hundred fifty semester hours of college education including a baccalaureate or higher degree conferred by a college or university acceptable to the board",
+      "quote": "After January 1, 2000, at least one hundred fifty semester hours of college education including a baccalaureate or higher degree conferred by a college or university acceptable to the board.",
       "citation": "20-281c"
     },
     "exam_sit_hours_minimum": {
@@ -373,32 +403,32 @@
     "ethics_exam_required": null,
     "practice_privilege_no_notice_required": {
       "value": true,
-      "quote": "any individual who qualifies for a practice privilege under this section may offer or render professional services, whether in person or by mail, telephone or electronic means, based on a practice privilege, and no notice, fee or other submission shall be required of any such individual.",
+      "quote": "no notice, fee or other submission shall be required of any such individual",
       "citation": "20-281n"
     },
     "practice_privilege_consent_conditions": {
       "value": [
-        "Consent to the personal and subject matter jurisdiction and disciplinary authority of the board",
+        "Consent to personal and subject matter jurisdiction and disciplinary authority of the board",
         "Comply with any applicable provision of state law and the board's rules",
-        "If the license from the state of the individual's principal place of business is no longer valid, cease offering or rendering professional services in this state",
-        "Appointment of the state board that issued such license as the agent upon whom process may be served in any action or proceeding by the board against such licensee"
+        "Cease offering or rendering professional services in this state if home-state license is no longer valid",
+        "Appointment of the home-state board as agent upon whom process may be served"
       ],
-      "quote": "Any individual licensee of another state exercising the privilege afforded under this section and the firm that employs such licensee shall consent, as a condition of the grant of such privilege: (1) To the personal and subject matter jurisdiction and disciplinary authority of the board; (2) To comply with any applicable provision of state law and the board's rules; (3) That in the event the license from the state of such individual's principal place of business is no longer valid, such individual shall cease offering or rendering professional services in this state individually and on behalf of a firm; and (4) To the appointment of the state board that issued such license as the agent upon whom process may be served in any action or proceeding by the board against such licensee.",
+      "quote": "Any individual licensee of another state exercising the privilege afforded under this section and the firm that employs such licensee shall consent, as a condition of the grant of such privilege: (1) To the personal and subject matter jurisdiction and disciplinary authority of the board; (2) To comply with any applicable provision of state law and the board's rules; (3) That in the event the license from the state of such individual's principal place of business is no longer valid, such individual shall cease offering or rendering professional services in this state individually and on behalf of a firm; and (4) To the appointment of the state board that issued such license as the agent upon whom process may be served",
       "citation": "20-281n"
     },
     "attest_services_require_firm_permit": {
       "value": true,
-      "quote": "Any individual who qualifies for practice privileges under this section who, for any entity with its home office in this state, performs any of the following services: (1) Any financial statement audit or other engagement to be performed in accordance with Statements on Auditing Standards; (2) any review of a financial statement to be performed in accordance with the Statements on Standards for Accounting and Review Services; (3) any examination of prospective financial information, review or agreed upon procedures engagement to be performed in accordance with Statements on Standards for Attestation Engagements; or (4) any engagement to be performed in accordance with PCAOB Auditing Standards, may only provide such services through a firm that has obtained a permit issued under section 20-281e.",
+      "quote": "Any individual who qualifies for practice privileges under this section who, for any entity with its home office in this state, performs any of the following services...may only provide such services through a firm that has obtained a permit issued under section 20-281e.",
       "citation": "20-281n"
     },
     "firm_majority_cpa_ownership_required": {
       "value": true,
-      "quote": "An applicant for initial issuance or renewal of a permit to practice under this section shall be required to show that a simple majority of the ownership of the firm, in terms of the financial interests and voting rights of all proprietors, partners, members or shareholders of such firm, belongs to individuals holding a valid license to practice public accountancy issued by the licensing authority of a state or territory of the United States.",
+      "quote": "a simple majority of the ownership of the firm, in terms of the financial interests and voting rights of all proprietors, partners, members or shareholders of such firm, belongs to individuals holding a valid license to practice public accountancy issued by the licensing authority of a state or territory of the United States",
       "citation": "20-281e"
     },
     "nonlicensee_firm_owners_permitted": {
       "value": true,
-      "quote": "No firm that is owned by one or more proprietors, partners, members or shareholders who do not hold a valid license to practice public accountancy issued by the licensing authority of a state or territory of the United States shall be granted an initial or renewed permit to practice under this section unless each such proprietor, partner, member or shareholder is (A) a natural person who actively participates in the business of the firm or its affiliated entities, or (B) an entity",
+      "quote": "No firm that is owned by one or more proprietors, partners, members or shareholders who do not hold a valid license to practice public accountancy issued by the licensing authority of a state or territory of the United States shall be granted an initial or renewed permit to practice under this section unless each such proprietor, partner, member or shareholder is (A) a natural person who actively participates in the business of the firm or its affiliated entities",
       "citation": "20-281e"
     },
     "peer_review_required_for_firm_renewal": {
@@ -412,7 +442,7 @@
       "citation": "20-281"
     },
     "peer_review_records_privileged": {
-      "value": false,
+      "value": true,
       "quote": "Such letter shall not be a public record unless it is made part of the record of a disciplinary hearing.",
       "citation": "20-281"
     },
@@ -420,35 +450,39 @@
     "retired_license_status_available": null,
     "out_of_state_firm_no_office_exemption": {
       "value": true,
-      "quote": "A firm that does not have an office in this state may perform services described in subparagraph (B) of subdivision (13) of section 20-279b or subdivision (14) of section 20-279b for a client having its home office in this state and may use the title \"Certified Public Accountant\", \"CPA\", \"CPA firm\" or other similar title without a permit issued under this section if: (1) Such firm has the qualifications described in section 20-281 concerning quality reviews; and (2) Such firm performs such services through an individual who has practice privileges under section 20-281n.",
+      "quote": "A firm that does not have an office in this state may perform services described in subparagraph (B) of subdivision (13) of section 20-279b or subdivision (14) of section 20-279b for a client having its home office in this state and may use the title \"Certified Public Accountant\", \"CPA\", \"CPA firm\" or other similar title without a permit issued under this section",
       "citation": "20-281e"
     },
-    "office_supervision_by_licensed_cpa_required": null,
+    "office_supervision_by_licensed_cpa_required": {
+      "value": true,
+      "quote": "An applicant for initial issuance or renewal of a permit to practice under this section shall be required to register each office of the firm within this state with the board and to show that all attest services and compilation services rendered in this state are under the charge of a person holding a valid license issued under section 20-281b, 20-281d or by some other state.",
+      "citation": "20-281e"
+    },
     "attest_report_signer_competency_requirement": null,
     "client_confidentiality_privilege": {
       "value": true,
-      "quote": "Except by permission of the client engaging a licensee under sections 20-279b to 20-281m, inclusive, or the heirs, successors or personal representatives of such client, a licensee or any partner, officer, shareholder or employee of a licensee shall not voluntarily disclose information communicated to him by the client relating to and in connection with services rendered to the client by the licensee in the practice of public accountancy.",
+      "quote": "a licensee or any partner, officer, shareholder or employee of a licensee shall not voluntarily disclose information communicated to him by the client relating to and in connection with services rendered to the client by the licensee in the practice of public accountancy. Such information shall be deemed confidential",
       "citation": "20-281j"
     },
     "working_papers_ownership_by_licensee": {
       "value": true,
-      "quote": "All statements, records, schedules, working papers and memoranda made by a licensee or partner, shareholder, officer, director or employee of a licensee, incident to, or in the course of, rendering services to a client in the practice of public accountancy, except the reports submitted by the licensee to the client and except for records that are part of the client's records, shall be and remain the property of the licensee in the absence of an express agreement to the contrary between the licensee and the client.",
+      "quote": "All statements, records, schedules, working papers and memoranda made by a licensee or partner, shareholder, officer, director or employee of a licensee, incident to, or in the course of, rendering services to a client in the practice of public accountancy...shall be and remain the property of the licensee in the absence of an express agreement to the contrary",
       "citation": "20-281k"
     },
     "commission_prohibition_during_attest": {
       "value": true,
-      "quote": "A licensee shall not recommend or refer any product or service to a client for a commission and shall not accept a commission from a client during the period that the licensee is performing for such client any of the following services or during the period that is covered by any historical financial statements that are involved in any of the following services: (1) An audit or review of a financial statement; (2) a compilation of a financial statement if the licensee expects or might reasonably expect that a third party will use the financial statement and the licensee's compilation report does not disclose a lack of independence; or (3) an examination of prospective financial information.",
+      "quote": "A licensee shall not recommend or refer any product or service to a client for a commission and shall not accept a commission from a client during the period that the licensee is performing for such client any of the following services...An audit or review of a financial statement",
       "citation": "20-281l"
     },
     "contingent_fee_prohibition_during_attest": {
       "value": true,
-      "quote": "A licensee shall not, during any period in which the licensee is engaged to perform any of the services listed in this subsection or during any period covered by any historical financial services involved in any of such services: (1) Perform for a contingent fee any of the following professional services, or accept a contingent fee from a client for whom the licensee or the licensee's firm performs any of the following services: (A) An audit or review of a financial statement; (B) a compilation of a financial statement if the licensee expects or has reasonable cause to expect that a third party will use the financial statement and the licensee's compilation report does not disclose a lack of independence; or (C) an examination of prospective financial information, or (2) prepare an original or amended tax return or claim for a tax refund for a contingent fee for any client.",
+      "quote": "A licensee shall not, during any period in which the licensee is engaged to perform any of the services listed in this subsection...Perform for a contingent fee any of the following professional services...An audit or review of a financial statement",
       "citation": "20-281m"
     },
     "safe_harbor_disclaimer_language_for_nonlicensees": null,
     "foreign_accountant_practice_exception": {
       "value": true,
-      "quote": "None of the foregoing provisions of this section shall apply to any firm holding a certification, designation, degree or license granted in a foreign country entitling the holder thereof to engage in the practice of public accountancy or its equivalent in such country, whose activities in this state are limited to the provision of professional services to persons or firms who are residents of, governments of, or business entities of the country in which he holds such entitlement, who issues no reports with respect to the financial statements of any other persons, firms or governmental units in this state, and who does not use in this state any title or designation other than the one under which he practices in such country",
+      "quote": "None of the foregoing provisions of this section shall apply to any firm holding a certification, designation, degree or license granted in a foreign country entitling the holder thereof to engage in the practice of public accountancy or its equivalent in such country, whose activities in this state are limited to the provision of professional services to persons or firms who are residents of, governments of, or business entities of the country in which he holds such entitlement",
       "citation": "20-281g"
     },
     "single_act_evidence_sufficient": {
@@ -459,16 +493,12 @@
     "firm_corrective_action_period_for_ownership_noncompliance": null,
     "firm_permit_required_for_attest_services": {
       "value": true,
-      "quote": "The following firms shall be required to hold a permit issued pursuant to this section: (1) Any firm with an office in this state performing attest services",
+      "quote": "Any firm with an office in this state performing attest services",
       "citation": "20-281e"
     },
     "registered_municipal_accountant_designation": null,
     "public_school_accountant_designation": null,
-    "accounting_practitioner_tier": {
-      "value": true,
-      "quote": "Persons and firms who, prior to October 1, 1992, were authorized to practice as public accountants and hold licenses and permits to practice public accountancy issued pursuant to this chapter prior to October 1, 1992, shall be entitled to have their licenses and permits to practice renewed under sections 20-281d and 20-281e",
-      "citation": "20-281b"
-    },
+    "accounting_practitioner_tier": null,
     "cpa_emeritus_or_retired_status_available": null,
     "government_audit_cpe_requirement": null,
     "ethics_cpe_hours_required": null,
@@ -478,7 +508,7 @@
     "independence_requirement_for_attest": null,
     "client_records_return_obligation": {
       "value": true,
-      "quote": "A licensee shall return a client's original records to his client or former client upon the client's request and reasonable notice in accordance with the regulations of the board and any accounting or other records belonging to, or obtained from or on behalf of, the client that the licensee removed from the client's premises or received for the client's account.",
+      "quote": "A licensee shall return a client's original records to his client or former client upon the client's request and reasonable notice in accordance with the regulations of the board",
       "citation": "20-281k"
     }
   }
