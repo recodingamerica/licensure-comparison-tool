@@ -4,80 +4,88 @@
   "licensure": {
     "license_required": {
       "value": true,
-      "quote": "no person may practice or attempt to practice professional nursing, nor use the title, letters, or anything else to indicate that he or she is a registered or professional nurse unless he or she is licensed under this section.",
-      "citation": "441.06"
+      "quote": "no person may practice or attempt to practice professional nursing, nor use the title, letters, or anything else to indicate that he or she is a registered or professional nurse unless he or she is licensed under this section",
+      "citation": "[441.06]"
     },
     "issuing_authority": {
       "value": "Board of Nursing",
       "quote": "\"Board\" means the board of nursing.",
-      "citation": "441.001"
+      "citation": "[441.001]"
     },
     "regulatory_authority": {
       "name": {
         "value": "Board of Nursing",
         "quote": "\"Board\" means the board of nursing.",
-        "citation": "441.001"
+        "citation": "[441.001]"
       },
       "type": {
         "value": "standalone_board",
         "quote": "\"Board\" means the board of nursing.",
-        "citation": "441.001"
+        "citation": "[441.001]"
       },
       "umbrella_agency": {
         "value": "Department of Safety and Professional Services",
         "quote": "\"Department\" means the department of safety and professional services.",
-        "citation": "440.01"
+        "citation": "[UMBRELLA / Chapter 440 - Department of safety and professional services] 440.01"
       }
     },
     "age_minimum": {
       "value": 18,
       "quote": "The applicant is 18 years of age or older.",
-      "citation": "441.10"
+      "citation": "[441.10]"
     },
-    "moral_character_required": null,
+    "moral_character_required": {
+      "value": false,
+      "quote": "The applicant does not have an arrest or conviction record, subject to ss. 111.321, 111.322, and 111.335.",
+      "citation": "[441.06]"
+    },
     "education": {
       "degree_required": {
         "value": "diploma of graduation from a school of nursing approved by the board",
         "quote": "The applicant holds a diploma of graduation from a school of nursing approved by the board or that the board has authorized to admit students pending approval",
-        "citation": "441.06"
+        "citation": "[441.06]"
       },
-      "accrediting_body": null,
+      "accrediting_body": {
+        "value": "board of nursing",
+        "quote": "a school of nursing approved by the board or that the board has authorized to admit students pending approval",
+        "citation": "[441.06]"
+      },
       "degree_level": {
         "value": "associate",
-        "quote": "The applicant holds a diploma of graduation from a school of nursing approved by the board or that the board has authorized to admit students pending approval",
-        "citation": "441.06"
+        "quote": "The applicant holds a diploma of graduation from a school of nursing approved by the board",
+        "citation": "[441.06]"
       },
       "school_approval_basis": {
         "value": "board_approved",
         "quote": "a school of nursing approved by the board or that the board has authorized to admit students pending approval",
-        "citation": "441.06"
+        "citation": "[441.06]"
       },
       "credential_pegged": {
         "value": false,
         "quote": "The applicant holds a diploma of graduation from a school of nursing approved by the board",
-        "citation": "441.06"
+        "citation": "[441.06]"
       },
       "tiers": [
         {
           "license_class": "registered nurse",
           "degree_level": "associate",
           "effective_date": null,
-          "quote": "The applicant holds a diploma of graduation from a school of nursing approved by the board or that the board has authorized to admit students pending approval",
-          "citation": "441.06"
+          "quote": "The applicant holds a diploma of graduation from a school of nursing approved by the board",
+          "citation": "[441.06]"
         },
         {
           "license_class": "licensed practical nurse",
           "degree_level": "high_school",
           "effective_date": null,
-          "quote": "The applicant has completed 2 years of high school or its equivalent as determined by the board.",
-          "citation": "441.10"
+          "quote": "The applicant holds a diploma of graduation from a school for licensed practical nurses approved by the board",
+          "citation": "[441.10]"
         },
         {
           "license_class": "advanced practice registered nurse",
           "degree_level": "master",
-          "effective_date": "2026-09-01",
+          "effective_date": null,
           "quote": "The applicant has completed a graduate-level or postgraduate-level education program that is approved by the board and that prepares the applicant for the practice of advanced practice registered nursing in one of the 4 recognized roles",
-          "citation": "441.09"
+          "citation": "[441.09]"
         }
       ]
     },
@@ -85,12 +93,12 @@
       "required": {
         "value": false,
         "quote": "The applicant holds a diploma of graduation from a school of nursing approved by the board or that the board has authorized to admit students pending approval",
-        "citation": "441.06"
+        "citation": "[441.06]"
       },
       "experience_source": {
         "value": "none",
         "quote": "The applicant holds a diploma of graduation from a school of nursing approved by the board or that the board has authorized to admit students pending approval",
-        "citation": "441.06"
+        "citation": "[441.06]"
       },
       "duration": null,
       "kind": null
@@ -99,27 +107,36 @@
       {
         "name": "NCLEX-RN",
         "required": true,
-        "notes": "Examination approved by the board for registered nurse licensure",
-        "jurisdiction": "national",
+        "notes": "Board-approved examination for registered nurse licensure",
+        "jurisdiction": "national (NCLEX-RN)",
         "permitted_attempts": null,
         "quote": "The applicant passes the examination approved by the board to receive a license as a registered nurse in this state.",
-        "citation": "441.06"
+        "citation": "[441.06]"
       },
       {
         "name": "NCLEX-PN",
         "required": true,
-        "notes": "Examination approved by the board for licensed practical nurse licensure",
-        "jurisdiction": "national",
+        "notes": "Board-approved examination for licensed practical nurse licensure",
+        "jurisdiction": "national (NCLEX-PN)",
         "permitted_attempts": null,
         "quote": "The applicant passes the examination approved by the board for licensure as a licensed practical nurse in this state.",
-        "citation": "441.10"
+        "citation": "[441.10]"
+      },
+      {
+        "name": "National certification examination (APRN)",
+        "required": true,
+        "notes": "National certifying body approved by the board; required for APRN licensure",
+        "jurisdiction": "national",
+        "permitted_attempts": null,
+        "quote": "the applicant holds a current certification by a national certifying body approved by the board.",
+        "citation": "[441.09]"
       }
     ],
     "renewal": {
       "interval_years": {
         "value": 2,
-        "quote": "Nurse, registered: March 1 of each even-numbered year.",
-        "citation": "440.08"
+        "quote": "A registered nurse practicing for compensation shall, on or before the applicable renewal date specified under s. 440.08 (2) (a), submit to the board on furnished forms a statement",
+        "citation": "[441.06]"
       }
     },
     "renewal_fee_usd": null,
@@ -127,204 +144,188 @@
       "required": {
         "value": true,
         "quote": "Every advanced practice registered nurse shall submit to the board evidence of having completed at least 16 contact hours per biennium in clinical pharmacology or therapeutics relevant to the advanced practice registered nurse's area of practice.",
-        "citation": "441.09"
+        "citation": "[441.09]"
       },
       "hours_per_period": {
         "value": 16,
         "quote": "at least 16 contact hours per biennium in clinical pharmacology or therapeutics relevant to the advanced practice registered nurse's area of practice",
-        "citation": "441.09"
+        "citation": "[441.09]"
       },
       "period_years": {
         "value": 2,
         "quote": "at least 16 contact hours per biennium",
-        "citation": "441.09"
+        "citation": "[441.09]"
       },
       "topical_requirements": {
         "value": [
-          "clinical pharmacology or therapeutics"
+          "clinical pharmacology or therapeutics relevant to the advanced practice registered nurse's area of practice"
         ],
         "quote": "at least 16 contact hours per biennium in clinical pharmacology or therapeutics relevant to the advanced practice registered nurse's area of practice",
-        "citation": "441.09"
+        "citation": "[441.09]"
       }
     },
     "reciprocity": {
       "available": {
         "value": true,
         "quote": "The holder of a license as a registered nurse under the laws of another state or territory or province of Canada may be granted a license as a registered nurse in this state without examination if the holder's credentials of general and professional educational qualifications and other qualifications are comparable to those required in this state",
-        "citation": "441.06"
+        "citation": "[441.06]"
       },
       "requirements": {
-        "value": "Credentials of general and professional educational qualifications and other qualifications comparable to those required in Wisconsin, board must be satisfied that applicant is currently competent to practice.",
-        "quote": "The holder of a license as a registered nurse under the laws of another state or territory or province of Canada may be granted a license as a registered nurse in this state without examination if the holder's credentials of general and professional educational qualifications and other qualifications are comparable to those required in this state during the same period and if the board is satisfied from the holder's employment and professional record that the holder is currently competent to practice the profession.",
-        "citation": "441.06"
+        "value": "Credentials of general and professional educational qualifications and other qualifications must be comparable to those required in Wisconsin; board must be satisfied from employment and professional record that the holder is currently competent to practice; fee required.",
+        "quote": "the holder's credentials of general and professional educational qualifications and other qualifications are comparable to those required in this state during the same period and if the board is satisfied from the holder's employment and professional record that the holder is currently competent to practice the profession",
+        "citation": "[441.06]"
       }
     },
     "advisory_board": {
       "exists": {
         "value": false,
         "quote": "\"Board\" means the board of nursing.",
-        "citation": "441.001"
+        "citation": "[441.001]"
       },
       "name": null,
       "authority": null
     },
     "national_certification": {
-      "value": "National certifying body approved by the board (for APRN)",
-      "quote": "the applicant holds a current certification by a national certifying body approved by the board",
-      "citation": "441.09"
+      "value": "American Midwifery Certification Board (certified nurse-midwife); national certifying body approved by the board (APRN)",
+      "quote": "the applicant is currently certified by the American Midwifery Certification Board or its successor",
+      "citation": "[441.09]"
     },
-    "national_association": {
-      "value": "American College of Nurse-Midwives",
-      "quote": "management of women's health care, pregnancy, childbirth, postpartum care for newborns, family planning, and gynecological services consistent with the standards of practice of the American College of Nurse-Midwives or its successor",
-      "citation": "441.001"
-    },
+    "national_association": null,
     "regulatory_model": {
       "value": "license",
-      "quote": "no person may practice or attempt to practice professional nursing, nor use the title, letters, or anything else to indicate that he or she is a registered or professional nurse unless he or she is licensed under this section.",
-      "citation": "441.06"
+      "quote": "no person may practice or attempt to practice professional nursing, nor use the title, letters, or anything else to indicate that he or she is a registered or professional nurse unless he or she is licensed under this section",
+      "citation": "[441.06]"
     },
     "credential_type": {
       "value": "license",
       "quote": "the board shall grant a license as a registered nurse to an applicant for licensure who complies with all of the following requirements",
-      "citation": "441.06"
+      "citation": "[441.06]"
     },
     "is_mandatory": {
       "value": true,
-      "quote": "no person may practice or attempt to practice professional nursing, nor use the title, letters, or anything else to indicate that he or she is a registered or professional nurse unless he or she is licensed under this section.",
-      "citation": "441.06"
+      "quote": "no person may practice or attempt to practice professional nursing, nor use the title, letters, or anything else to indicate that he or she is a registered or professional nurse unless he or she is licensed under this section",
+      "citation": "[441.06]"
     },
     "title_protection": {
       "value": true,
-      "quote": "no person may practice or attempt to practice professional nursing, nor use the title, letters, or anything else to indicate that he or she is a registered or professional nurse unless he or she is licensed under this section.",
-      "citation": "441.06"
+      "quote": "no person may practice or attempt to practice professional nursing, nor use the title, letters, or anything else to indicate that he or she is a registered or professional nurse unless he or she is licensed under this section",
+      "citation": "[441.06]"
     },
     "scope_protection": {
       "value": true,
-      "quote": "no person may practice or attempt to practice professional nursing, nor use the title, letters, or anything else to indicate that he or she is a registered or professional nurse unless he or she is licensed under this section.",
-      "citation": "441.06"
+      "quote": "no person may practice or attempt to practice professional nursing, nor use the title, letters, or anything else to indicate that he or she is a registered or professional nurse unless he or she is licensed under this section",
+      "citation": "[441.06]"
     },
     "disciplinary_grounds": [
       {
         "short_label": "fraud_in_procuring_license",
-        "description": "Fraud in obtaining or renewing the license",
+        "description": "Fraud in the procuring or renewal of the license",
         "quote": "Fraud in the procuring or renewal of the license.",
-        "citation": "441.07"
+        "citation": "[441.07]"
       },
       {
-        "short_label": "violation_of_chapter_or_rules",
-        "description": "One or more violations of the nursing subchapter or any rule adopted by the board",
+        "short_label": "violation_of_subchapter_or_rules",
+        "description": "One or more violations of this subchapter or any rule adopted by the board under the authority of this subchapter",
         "quote": "One or more violations of this subchapter or any rule adopted by the board under the authority of this subchapter.",
-        "citation": "441.07"
+        "citation": "[441.07]"
       },
       {
-        "short_label": "unfitness_or_incompetency",
-        "description": "Acts showing the nurse to be unfit or incompetent by reason of negligence, alcohol/drug abuse, or mental incompetency",
+        "short_label": "unfit_or_incompetent",
+        "description": "Acts that show the nurse to be unfit or incompetent by reason of negligence, abuse of alcohol or other drugs, or mental incompetency",
         "quote": "Acts that show the registered nurse, advanced practice registered nurse, or licensed practical nurse to be unfit or incompetent by reason of negligence, abuse of alcohol or other drugs, or mental incompetency.",
-        "citation": "441.07"
+        "citation": "[441.07]"
       },
       {
         "short_label": "misconduct_or_unprofessional_conduct",
-        "description": "Misconduct or unprofessional conduct",
-        "quote": "Misconduct or unprofessional conduct.",
-        "citation": "441.07"
+        "description": "Misconduct or unprofessional conduct, including making a determination under ch. 154 or 155 without sufficient education, training, and experience",
+        "quote": "Misconduct or unprofessional conduct. In this paragraph, \"unprofessional conduct\" includes making a determination under ch. 154 or 155 if the person does not have sufficient education, training, and experience to make the determination.",
+        "citation": "[441.07]"
       },
       {
-        "short_label": "violation_of_drug_prescribing_law",
-        "description": "Violation of any state or federal law regulating prescribing or dispensing drugs or devices, if the person may issue prescription orders",
+        "short_label": "violation_of_prescribing_laws",
+        "description": "Violation of any state or federal law that regulates prescribing or dispensing drugs or devices, for persons authorized to issue prescription orders",
         "quote": "A violation of any state or federal law that regulates prescribing or dispensing drugs or devices, if the person may issue prescription orders under s. 441.09 (2).",
-        "citation": "441.07"
+        "citation": "[441.07]"
       },
       {
         "short_label": "violation_of_abortion_requirements",
-        "description": "Violation of requirements of s. 253.10(3)(c) 2., 3., 4., 5., 6. or 7.",
+        "description": "Violation of the requirements of s. 253.10(3)(c) 2., 3., 4., 5., 6. or 7.",
         "quote": "A violation of the requirements of s. 253.10 (3) (c) 2., 3., 4., 5., 6. or 7.",
-        "citation": "441.07"
+        "citation": "[441.07]"
       }
     ],
     "alternative_regulation": {
       "bonding_required": null,
       "insurance_required": {
         "value": true,
-        "quote": "No person may practice advanced practice registered nursing unless he or she at all times has in effect malpractice liability insurance coverage evidenced by personal liability coverage in the amounts specified for health care providers under s. 655.23 (4)",
-        "citation": "441.09"
+        "quote": "No person may practice advanced practice registered nursing unless he or she at all times has in effect malpractice liability insurance coverage evidenced by personal liability coverage in the amounts specified for health care providers under s. 655.23 (4) or coverage under a group liability policy providing individual coverage for the person in the amounts specified under s. 655.23 (4).",
+        "citation": "[441.09]"
       },
       "establishment_regulation_required": null
     },
     "citations": [
       {
-        "cite": "441.001",
+        "cite": "Wis. Stat. § 441.001",
         "kind": "definitions"
       },
       {
-        "cite": "441.01",
-        "kind": "board powers"
+        "cite": "Wis. Stat. § 441.01",
+        "kind": "board of nursing"
       },
       {
-        "cite": "441.06",
-        "kind": "RN licensure"
+        "cite": "Wis. Stat. § 441.06",
+        "kind": "registered nurse licensure"
       },
       {
-        "cite": "441.07",
+        "cite": "Wis. Stat. § 441.07",
         "kind": "disciplinary proceedings"
       },
       {
-        "cite": "441.08",
-        "kind": "temporary permit"
-      },
-      {
-        "cite": "441.09",
+        "cite": "Wis. Stat. § 441.09",
         "kind": "APRN licensure"
       },
       {
-        "cite": "441.10",
-        "kind": "LPN licensure"
+        "cite": "Wis. Stat. § 441.10",
+        "kind": "licensed practical nurse licensure"
       },
       {
-        "cite": "441.115",
-        "kind": "exceptions"
+        "cite": "Wis. Stat. § 441.115",
+        "kind": "exceptions and temporary practice"
       },
       {
-        "cite": "441.13",
-        "kind": "penalty"
-      },
-      {
-        "cite": "441.51",
+        "cite": "Wis. Stat. § 441.51",
         "kind": "nurse licensure compact"
-      },
-      {
-        "cite": "440.08",
-        "kind": "credential renewal dates"
       }
     ]
   },
   "scope": {
     "definition_quote": {
-      "value": "\"Professional nursing\" means the performance for compensation of any act in the observation or care of the ill, injured, or infirm, or for the maintenance of health or prevention of illness of others, that requires substantial nursing skill, knowledge, or training, or application of nursing principles based on biological, physical, and social sciences.",
+      "value": "Professional nursing means the performance for compensation of any act in the observation or care of the ill, injured, or infirm, or for the maintenance of health or prevention of illness of others, that requires substantial nursing skill, knowledge, or training, or application of nursing principles based on biological, physical, and social sciences.",
       "quote": "\"Professional nursing\" means the performance for compensation of any act in the observation or care of the ill, injured, or infirm, or for the maintenance of health or prevention of illness of others, that requires substantial nursing skill, knowledge, or training, or application of nursing principles based on biological, physical, and social sciences.",
-      "citation": "441.001"
+      "citation": "[441.001]"
     },
     "methods_authorized": {
       "value": [
         "observation and recording of symptoms and reactions",
-        "execution of procedures and techniques in treatment under physician/podiatrist/chiropractor/dentist/optometrist supervision or order",
+        "execution of procedures and techniques in the treatment of the sick under supervision of a physician, podiatrist, chiropractor, dentist, or optometrist",
         "execution of general nursing procedures and techniques",
         "supervision of a patient and supervision and direction of licensed practical nurses and less skilled assistants"
       ],
-      "quote": "Professional nursing includes any of the following: (a) The observation and recording of symptoms and reactions. (b) The execution of procedures and techniques in the treatment of the sick under the general or special supervision or direction of a physician, podiatrist licensed under ch. 448, chiropractor licensed under ch. 446, dentist licensed under ch. 447, or optometrist licensed under ch. 449... (c) The execution of general nursing procedures and techniques. (d) Except as provided in s. 50.04 (2) (b), the supervision of a patient and the supervision and direction of licensed practical nurses and less skilled assistants.",
-      "citation": "441.001"
+      "quote": "Professional nursing includes any of the following: (a) The observation and recording of symptoms and reactions. (b) The execution of procedures and techniques in the treatment of the sick under the general or special supervision or direction of a physician ... (c) The execution of general nursing procedures and techniques. (d) ... the supervision of a patient and the supervision and direction of licensed practical nurses and less skilled assistants.",
+      "citation": "[441.001]"
     },
     "drug_authority": {
-      "value": "APRNs may issue prescription orders subject to board rules; specific drugs or devices may be excluded by rule",
-      "quote": "an advanced practice registered nurse may issue prescription orders, subject to the rules promulgated under sub. (6) (a) 1. and 4.",
-      "citation": "441.09"
+      "value": "Advanced practice registered nurses may issue prescription orders subject to rules, including controlled substances and prescription drugs; may prescribe opioid antagonists; may provide expedited partner therapy. APRNs who have not met independence requirements or who have notation on license may not issue prescription orders.",
+      "quote": "an advanced practice registered nurse may issue prescription orders, subject to the rules promulgated under sub. (6) (a) 1. and 4., and may provide expedited partner therapy in the manner described in s. 441.092.",
+      "citation": "[441.09]"
     },
     "citations": [
       {
-        "cite": "441.001",
-        "kind": "definitions and scope"
+        "cite": "Wis. Stat. § 441.001",
+        "kind": "definitions"
       },
       {
-        "cite": "441.09",
+        "cite": "Wis. Stat. § 441.09",
         "kind": "APRN prescribing authority"
       }
     ]
@@ -334,10 +335,11 @@
       "value": [
         "registered nurse (RN)",
         "licensed practical nurse (LPN)",
-        "advanced practice registered nurse (APRN) - with specialty designations: certified nurse-midwife (CNM), certified registered nurse anesthetist (CRNA), clinical nurse specialist (CNS), nurse practitioner (NP)"
+        "advanced practice registered nurse (APRN)"
       ],
-      "quote": "\"Advanced practice registered nursing\" means the practice of a certified nurse-midwife, the practice of a certified registered nurse anesthetist, the practice of a clinical nurse specialist, and the practice of a nurse practitioner.",
-      "citation": "441.001"
+      "quote": "the board shall grant a license as a registered nurse ... the board shall grant a license as a licensed practical nurse ... An applicant who satisfies all of the following requirements may apply to the board for initial licensure by the board as an advanced practice registered nurse",
+      "citation": "[441.06]",
+      "unverified": true
     },
     "aprn_role_categories": {
       "value": [
@@ -347,39 +349,39 @@
         "nurse practitioner"
       ],
       "quote": "\"Recognized role\" means one of the following roles: (a) Certified nurse-midwife. (b) Certified registered nurse anesthetist. (c) Clinical nurse specialist. (d) Nurse practitioner.",
-      "citation": "441.001"
+      "citation": "[441.001]"
     },
     "lpn_supervision_requirements": {
       "value": [
         "nurse",
         "physician",
-        "podiatrist licensed under ch. 448",
-        "chiropractor licensed under ch. 446",
-        "dentist licensed under ch. 447",
-        "optometrist licensed under ch. 449"
+        "podiatrist",
+        "chiropractor",
+        "dentist",
+        "optometrist"
       ],
       "quote": "\"Practical nursing\" means the performance for compensation of any simple acts in the care of convalescent, subacutely or chronically ill, injured or infirm persons, or of any act or procedure in the care of the more acutely ill, injured or infirm under the specific direction of a nurse, physician, podiatrist licensed under ch. 448, chiropractor licensed under ch. 446, dentist licensed under ch. 447 or optometrist licensed under ch. 449",
-      "citation": "441.001"
+      "citation": "[441.001]"
     },
     "collaborative_practice_agreement_required": {
       "value": true,
       "quote": "An advanced practice registered nurse licensed under this section may, except as provided in subd. 2. and par. (b), practice advanced practice registered nursing only in collaboration with a physician or dentist.",
-      "citation": "441.09"
+      "citation": "[441.09]"
     },
     "full_independent_practice_available": {
       "value": true,
-      "quote": "An advanced practice registered nurse to whom par. (a) 1. applies may, except as provided in pars. (bg) 1. and (c), practice advanced practice registered nursing in a recognized role without being supervised by or collaborating with, and independent of, a physician or dentist if the board verifies, upon application of the advanced practice registered nurse, that the advanced practice registered nurse satisfies all of the following:",
-      "citation": "441.09"
+      "quote": "An advanced practice registered nurse to whom par. (a) 1. applies may, except as provided in pars. (bg) 1. and (c), practice advanced practice registered nursing in a recognized role without being supervised by or collaborating with, and independent of, a physician or dentist if the board verifies, upon application of the advanced practice registered nurse, that the advanced practice registered nurse satisfies all of the following",
+      "citation": "[441.09]"
     },
     "full_independent_practice_experience_hours_required": {
       "value": 3840,
       "quote": "The advanced practice registered nurse has completed 3,840 hours of professional nursing in a clinical setting.",
-      "citation": "441.09"
+      "citation": "[441.09]"
     },
     "prescriptive_authority_certificate_required": {
       "value": false,
       "quote": "an advanced practice registered nurse may issue prescription orders, subject to the rules promulgated under sub. (6) (a) 1. and 4.",
-      "citation": "441.09"
+      "citation": "[441.09]"
     },
     "controlled_substance_schedule_authority": null,
     "opioid_prescribing_limits": null,
@@ -390,36 +392,48 @@
     "delegation_to_unlicensed_personnel_authorized": {
       "value": true,
       "quote": "An advanced practice registered nurse licensed under this section may delegate a task or order to another clinically trained health care worker if the task or order is within the scope of the advanced practice registered nurse's practice, the advanced practice registered nurse is competent to perform the task or issue the order, and the advanced practice registered nurse has reasonable evidence that the health care worker is minimally competent to perform the task or issue the order under the circumstances.",
-      "citation": "441.09"
+      "citation": "[441.09]"
     },
     "employer_mandatory_reporting_required": null,
     "whistleblower_protection_for_delegation_refusal": null,
     "nurse_licensure_compact_member": {
       "value": true,
-      "quote": "This subsection does not apply to any registered nurse who holds a multistate license, as defined in s. 441.51 (2) (h), issued by a jurisdiction, other than this state, that has adopted the nurse licensure compact.",
-      "citation": "441.06"
+      "quote": "\"Multistate license\" means a license to practice as a registered or a licensed practical/vocational nurse issued by a home state licensing board that authorizes the licensed nurse to practice in all party states under a multistate licensure privilege.",
+      "citation": "[441.51]"
     },
     "multistate_license_option_available": {
       "value": true,
       "quote": "The board shall grant a multistate license, as defined in s. 441.51 (2) (h), to an applicant for a multistate registered nurse license under s. 441.51.",
-      "citation": "441.06"
+      "citation": "[441.06]"
     },
-    "impaired_nurse_alternative_program_available": null,
+    "impaired_nurse_alternative_program_available": {
+      "value": true,
+      "quote": "\"Alternative program\" means a nondisciplinary monitoring program approved by a licensing board.",
+      "citation": "[441.51]"
+    },
     "rn_death_pronouncement_authorized": null,
     "public_health_nurse_certification_available": null,
     "telehealth_prescribing_rules": null,
     "nurse_practitioner_transition_to_practice_hours": {
       "value": 3840,
-      "quote": "The advanced practice registered nurse has completed 3,840 clinical hours of advanced practice registered nursing practice in that recognized role while working with a physician or dentist who was immediately available for consultation and accepted responsibility for the actions of the advanced practice registered nurse during those 3,840 hours of practice.",
-      "citation": "441.09"
+      "quote": "the advanced practice registered nurse has completed 3,840 clinical hours of advanced practice registered nursing practice in that recognized role while working with a physician or dentist who was immediately available for consultation and accepted responsibility for the actions of the advanced practice registered nurse during those 3,840 hours of practice.",
+      "citation": "[441.09]"
     },
-    "crna_physician_supervision_model": null,
+    "crna_physician_supervision_model": {
+      "value": "consultation model",
+      "quote": "An advanced practice registered nurse may provide treatment of pain syndromes, as defined in s. 50.60 (5), through the use of invasive techniques only while working in a collaborative relationship with a physician who, through education, training, and experience, specializes in pain management.",
+      "citation": "[441.09]"
+    },
     "cnm_out_of_hospital_birth_authorized": {
       "value": true,
       "quote": "An advanced practice registered nurse with a certified nurse-midwife specialty designation may not offer to deliver babies outside of a hospital setting unless the advanced practice registered nurse files with the board, and the board approves, a proactive plan",
-      "citation": "441.09"
+      "citation": "[441.09]"
     },
-    "aprn_formulary_or_protocol_required": null,
+    "aprn_formulary_or_protocol_required": {
+      "value": false,
+      "quote": "an advanced practice registered nurse may issue prescription orders, subject to the rules promulgated under sub. (6) (a) 1. and 4.",
+      "citation": "[441.09]"
+    },
     "nursing_education_program_clinical_hours_minimum": null,
     "implicit_bias_training_required_in_curriculum": null,
     "military_education_credit_required": null

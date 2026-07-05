@@ -15,13 +15,13 @@
     "regulatory_authority": {
       "name": {
         "value": "Medical Licensing Board of Indiana",
-        "quote": "\"Board\" refers to the medical licensing board of Indiana.",
-        "citation": "25-22.5-1-1.1"
+        "quote": "The medical licensing board of Indiana is created.",
+        "citation": "25-22.5-2-1"
       },
       "type": {
         "value": "standalone_board",
-        "quote": "\"Board\" refers to the medical licensing board of Indiana.",
-        "citation": "25-22.5-1-1.1"
+        "quote": "The medical licensing board of Indiana is created. It shall consist of seven (7) members",
+        "citation": "25-22.5-2-1"
       },
       "umbrella_agency": {
         "value": "Indiana Professional Licensing Agency",
@@ -42,7 +42,7 @@
         "citation": "25-22.5-3-1"
       },
       "accrediting_body": {
-        "value": "Board-approved nationally accredited college of medicine or osteopathic medicine",
+        "value": "nationally accredited college of medicine or of osteopathic medicine approved by the board",
         "quote": "\"Medical school\" means a nationally accredited college of medicine or of osteopathic medicine approved by the board.",
         "citation": "25-22.5-1-1.1"
       },
@@ -53,7 +53,7 @@
       },
       "school_approval_basis": {
         "value": "board_approved",
-        "quote": "\"Medical school\" means a nationally accredited college of medicine or of osteopathic medicine approved by the board.",
+        "quote": "a nationally accredited college of medicine or of osteopathic medicine approved by the board.",
         "citation": "25-22.5-1-1.1"
       },
       "credential_pegged": {
@@ -76,24 +76,33 @@
       },
       "duration": {
         "value": "1 year",
-        "quote": "The applicant shall have completed one (1) year of postgraduate training in a hospital or institution located in the United States, its possessions, or Canada that meets standards set by the board under IC 25-22.5-2-7.",
+        "quote": "completed one (1) year of postgraduate training in a hospital or institution located in the United States, its possessions, or Canada",
         "citation": "25-22.5-3-1"
       },
       "kind": {
         "value": "postgraduate training in a hospital or institution",
-        "quote": "The applicant shall have completed one (1) year of postgraduate training in a hospital or institution located in the United States, its possessions, or Canada that meets standards set by the board under IC 25-22.5-2-7.",
+        "quote": "one (1) year of postgraduate training in a hospital or institution located in the United States, its possessions, or Canada",
         "citation": "25-22.5-3-1"
       }
     },
     "exams": [
       {
-        "name": "Examination for Licensure",
+        "name": "Examination for licensure",
         "required": true,
-        "notes": "Board prepares and gives, or approves the preparation and giving of, the examination. Applicants who fail may take up to 2 subsequent examinations within 19 months of first exam.",
-        "jurisdiction": "state (in-house) or board-approved",
+        "notes": "Board shall prepare and give, or approve the preparation and giving of, an examination. Applicant must achieve a passing score. Up to 2 subsequent attempts (3 total) within 19 months of first exam before additional requirements may apply.",
+        "jurisdiction": null,
         "permitted_attempts": 3,
-        "quote": "the board shall: (1) adopt rules concerning examinations; and (2) prepare and give, or approve the preparation and giving of, an examination which covers those general subjects and topics",
+        "quote": "The board shall: (1) adopt rules concerning examinations; and (2) prepare and give, or approve the preparation and giving of, an examination which covers those general subjects and topics",
         "citation": "25-22.5-4-1"
+      },
+      {
+        "name": "United States Medical Licensing Examination (USMLE) or Comprehensive Osteopathic Medical Licensing Examination (COMLEX)",
+        "required": true,
+        "notes": "Required for interstate compact expedited licensure eligibility; passed each component within three attempts.",
+        "jurisdiction": "national",
+        "permitted_attempts": 3,
+        "quote": "Passed each component of the United States Medical Licensing Examination or the Comprehensive Osteopathic Medical Licensing Examination within three (3) attempts",
+        "citation": "25-22.5-16-2"
       }
     ],
     "renewal": {
@@ -105,7 +114,11 @@
     },
     "renewal_fee_usd": null,
     "continuing_education": {
-      "required": null,
+      "required": {
+        "value": true,
+        "quote": "Physicians shall comply with all continuing professional development or continuing medical education requirements for renewal of a license issued by a member state.",
+        "citation": "25-22.5-16-7"
+      },
       "hours_per_period": null,
       "period_years": null,
       "topical_requirements": null
@@ -113,26 +126,30 @@
     "reciprocity": {
       "available": {
         "value": true,
-        "quote": "The board in its discretion may register as a physician and may issue by endorsement an unlimited license to practice medicine or osteopathic medicine to any applicant who has: (1) complied with the minimum requirements of IC 25-22.5-3; and (2) passed an examination: (A) for licensure in another state or territory of the United States, or Canada; or (B) given by a recognized certifying agency approved by the board",
+        "quote": "The board in its discretion may register as a physician and may issue by endorsement an unlimited license to practice medicine or osteopathic medicine to any applicant who has: (1) complied with the minimum requirements of IC 25-22.5-3; and (2) passed an examination: (A) for licensure in another state or territory of the United States, or Canada",
         "citation": "25-22.5-5-2"
       },
       "requirements": {
-        "value": "Applicant must comply with minimum requirements of IC 25-22.5-3 and must have passed an equivalent examination in another state, territory, or Canada, or an examination given by a recognized certifying agency approved by the board.",
-        "quote": "The board in its discretion may register as a physician and may issue by endorsement an unlimited license to practice medicine or osteopathic medicine to any applicant who has: (1) complied with the minimum requirements of IC 25-22.5-3; and (2) passed an examination: (A) for licensure in another state or territory of the United States, or Canada",
+        "value": "Applicant must have complied with the minimum requirements of IC 25-22.5-3 and passed an equivalent examination for licensure in another state or territory of the United States or Canada, or by a recognized certifying agency approved by the board. Board has discretion to refuse or issue probationary license if applicant was disciplined in another jurisdiction.",
+        "quote": "The board in its discretion may register as a physician and may issue by endorsement an unlimited license to practice medicine or osteopathic medicine to any applicant who has: (1) complied with the minimum requirements of IC 25-22.5-3; and (2) passed an examination: (A) for licensure in another state or territory of the United States, or Canada; or (B) given by a recognized certifying agency approved by the board; if that examination was, in the opinion of the board, equivalent in every respect to Indiana's examination at the time it was taken.",
         "citation": "25-22.5-5-2"
       }
     },
     "advisory_board": {
       "exists": {
         "value": false,
-        "quote": "\"Board\" refers to the medical licensing board of Indiana.",
-        "citation": "25-22.5-1-1.1"
+        "quote": "The medical licensing board of Indiana is created. It shall consist of seven (7) members",
+        "citation": "25-22.5-2-1"
       },
       "name": null,
       "authority": null
     },
     "national_certification": null,
-    "national_association": null,
+    "national_association": {
+      "value": "American Osteopathic Association (national association founded in 1897 that accredits residency training programs and certifying boards for osteopathic physicians)",
+      "quote": "it shall include residency training or certification approved by a national association founded in 1897 that accredits residency training programs and certifying boards for osteopathic physicians as criteria that satisfy the requirement.",
+      "citation": "25-22.5-10-1"
+    },
     "regulatory_model": {
       "value": "license",
       "quote": "It is unlawful for any person to practice medicine or osteopathic medicine in this state without holding a license or permit to do so, as provided in this article.",
@@ -161,13 +178,13 @@
     "disciplinary_grounds": [
       {
         "short_label": "licensure_renewal_fraud",
-        "description": "Fraud in connection with licensure renewal",
+        "description": "Committing fraud in connection with license renewal",
         "quote": "Licensure renewal fraud.",
         "citation": "25-22.5-2-8"
       },
       {
-        "short_label": "improper_termination_physician_patient",
-        "description": "Improper termination of a physician and patient relationship",
+        "short_label": "improper_termination_of_physician_patient_relationship",
+        "description": "Improperly terminating the physician-patient relationship",
         "quote": "Improper termination of a physician and patient relationship.",
         "citation": "25-22.5-2-8"
       },
@@ -178,58 +195,70 @@
         "citation": "25-22.5-2-8"
       },
       {
-        "short_label": "anesthesia_without_accreditation",
+        "short_label": "office_based_anesthesia_without_accreditation",
         "description": "Providing office-based anesthesia without proper accreditation",
         "quote": "Providing office based anesthesia without the proper accreditation.",
         "citation": "25-22.5-2-8"
       },
       {
-        "short_label": "failure_birth_death_certificates",
+        "short_label": "failure_to_perform_birth_death_certificate_duties",
         "description": "Failure to perform duties required for issuing birth or death certificates",
         "quote": "Failure to perform duties required for issuing birth or death certificates.",
         "citation": "25-22.5-2-8"
       },
       {
-        "short_label": "failure_disclose_renewal_documentation",
+        "short_label": "failure_to_disclose_renewal_documentation",
         "description": "Failure to disclose, or negligent omission of, documentation requested for licensure renewal",
         "quote": "Failure to disclose, or negligent omission of, documentation requested for licensure renewal.",
         "citation": "25-22.5-2-8"
       },
       {
-        "short_label": "failure_transmit_pregnancy_termination_form",
+        "short_label": "failure_to_transmit_pregnancy_termination_form",
         "description": "Failure to complete or timely transmit a pregnancy termination form",
         "quote": "Failure to complete or timely transmit a pregnancy termination form under IC 16-34-2-5, with each failure constituting a separate violation.",
         "citation": "25-22.5-2-8"
       },
       {
-        "short_label": "cloning",
-        "description": "Knowing participation in cloning or attempted cloning",
+        "short_label": "participation_in_cloning",
+        "description": "Knowingly participating in or attempting cloning",
         "quote": "the board shall revoke the license of a physician if, after appropriate notice and an opportunity for a hearing, the attorney general proves by a preponderance of the evidence that the physician knowingly participated in cloning or attempted cloning.",
         "citation": "25-22.5-8-5"
       },
       {
-        "short_label": "failure_to_transmit_pregnancy_report",
-        "description": "Failure to transmit the pregnancy termination report to IDOH as required",
+        "short_label": "failure_to_transmit_abortion_report",
+        "description": "Failure to transmit pregnancy termination form to the Indiana Department of Health",
         "quote": "may revoke the license of a physician if, after appropriate notice and an opportunity for a hearing, the attorney general proves by a preponderance of the evidence that the physician failed to transmit the form to the Indiana department of health as described in IC 16-34-2-5(b)",
         "citation": "25-22.5-8-6"
       },
       {
-        "short_label": "abortion_in_violation_of_statute",
-        "description": "Performing an abortion in violation of specified statutes with intent to avoid statutory requirements",
+        "short_label": "performing_abortion_in_violation_of_statute",
+        "description": "Performing an abortion in violation of certain statutes with intent to avoid statutory requirements",
         "quote": "shall revoke the license of a physician if, after appropriate notice and an opportunity for a hearing, the attorney general proves by a preponderance of the evidence that the physician performed an abortion in violation of IC 16-34-2-7(a) through IC 16-34-2-7(c) with the intent to avoid the requirements of IC 16-34-2-1.",
         "citation": "25-22.5-8-6"
       },
       {
-        "short_label": "inability_to_safely_practice",
-        "description": "Disciplinary action by licensing agency in any state due to inability to safely practice medicine",
+        "short_label": "unlawful_practice_of_medicine",
+        "description": "Knowingly or intentionally practicing medicine or osteopathic medicine without a license",
+        "quote": "A person who knowingly or intentionally violates this article by unlawfully practicing medicine or osteopathic medicine commits a Class C felony (for a crime committed before July 1, 2014) or a Level 5 felony (for a crime committed after June 30, 2014).",
+        "citation": "25-22.5-8-2"
+      },
+      {
+        "short_label": "conviction_of_disqualifying_crime",
+        "description": "Having a conviction for a crime that has a direct bearing on the applicant's ability to practice competently",
+        "quote": "The applicant must not have a conviction for a crime that has a direct bearing on the applicant's ability to practice competently.",
+        "citation": "25-22.5-3-1"
+      },
+      {
+        "short_label": "prior_disciplinary_action",
+        "description": "Having had disciplinary action taken by the board or licensing agency of any other state for inability to safely practice",
         "quote": "The applicant shall not have had disciplinary action taken against the applicant or the applicant's license by the board or by the licensing agency of any other state or jurisdiction by reasons of the applicant's inability to safely practice medicine or osteopathic medicine",
         "citation": "25-22.5-3-1"
       },
       {
-        "short_label": "unauthorized_legend_drug_prescription",
-        "description": "Permitting or authorizing an unauthorized person to fill or refill a prescription for a legend drug",
-        "quote": "A physician licensed in Indiana who permits or authorizes a person to fill or refill a prescription or drug order for a legend drug except as authorized in IC 16-42-19-11 through IC 16-42-19-19 is subject to disciplinary action under IC 25-1-9.",
-        "citation": "25-22.5-1-2"
+        "short_label": "failure_to_comply_with_experimental_treatment_protocol",
+        "description": "Failure to comply with a protocol developed by the medical licensing board for experimental or nonconventional treatments",
+        "quote": "A physician who fails to comply with a protocol developed under this subsection shall be subject to discipline by the medical licensing board.",
+        "citation": "25-22.5-1-2.1"
       }
     ],
     "alternative_regulation": {
@@ -247,12 +276,16 @@
         "kind": "exclusions"
       },
       {
+        "cite": "25-22.5-2-1",
+        "kind": "board creation"
+      },
+      {
         "cite": "25-22.5-2-7",
         "kind": "board duties"
       },
       {
         "cite": "25-22.5-2-8",
-        "kind": "violations and penalties"
+        "kind": "disciplinary program"
       },
       {
         "cite": "25-22.5-3-1",
@@ -272,11 +305,11 @@
       },
       {
         "cite": "25-22.5-5-1",
-        "kind": "license with examination"
+        "kind": "licenses with examination"
       },
       {
         "cite": "25-22.5-5-2",
-        "kind": "license by endorsement"
+        "kind": "licenses without examination / endorsement"
       },
       {
         "cite": "25-22.5-7-1",
@@ -291,22 +324,18 @@
         "kind": "offenses"
       },
       {
-        "cite": "25-22.5-8-5",
-        "kind": "cloning revocation"
-      },
-      {
-        "cite": "25-22.5-8-6",
-        "kind": "abortion revocation"
-      },
-      {
         "cite": "25-22.5-16-1",
-        "kind": "interstate medical licensure compact"
+        "kind": "interstate compact"
+      },
+      {
+        "cite": "25-22.5-16-2",
+        "kind": "interstate compact definitions"
       }
     ]
   },
   "scope": {
     "definition_quote": {
-      "value": "Practice of medicine or osteopathic medicine means any one (1) or a combination of the following: (1) Holding oneself out to the public as being engaged in: (A) the diagnosis, treatment, correction, or prevention of any disease, ailment, defect, injury, infirmity, deformity, pain, or other condition of human beings; (B) the suggestion, recommendation, or prescription or administration of any form of treatment, without limitation; (C) the performing of any kind of surgical operation upon a human being ... (2) The maintenance of an office or a place of business for the reception, examination, or treatment of persons ...",
+      "value": "\"Practice of medicine or osteopathic medicine\" means any one (1) or a combination of the following: (1) Holding oneself out to the public as being engaged in: (A) the diagnosis, treatment, correction, or prevention of any disease, ailment, defect, injury, infirmity, deformity, pain, or other condition of human beings; (B) the suggestion, recommendation, or prescription or administration of any form of treatment, without limitation; (C) the performing of any kind of surgical operation upon a human being...; or (D) the prevention of any physical, mental, or functional ailment or defect of any person.",
       "quote": "\"Practice of medicine or osteopathic medicine\" means any one (1) or a combination of the following: (1) Holding oneself out to the public as being engaged in: (A) the diagnosis, treatment, correction, or prevention of any disease, ailment, defect, injury, infirmity, deformity, pain, or other condition of human beings",
       "citation": "25-22.5-1-1.1"
     },
@@ -316,23 +345,34 @@
         "treatment",
         "correction",
         "prevention of disease",
-        "prescription and administration of treatment",
+        "prescription or administration of treatment",
         "surgical operations",
-        "maintenance of office for examination and treatment",
-        "telehealth diagnostic or treatment services"
+        "telehealth / electronic diagnostic or treatment services"
       ],
       "quote": "the diagnosis, treatment, correction, or prevention of any disease, ailment, defect, injury, infirmity, deformity, pain, or other condition of human beings; (B) the suggestion, recommendation, or prescription or administration of any form of treatment, without limitation; (C) the performing of any kind of surgical operation upon a human being",
       "citation": "25-22.5-1-1.1"
     },
     "drug_authority": {
-      "value": "Physicians may prescribe drugs and medicines as defined in the statute, including controlled substances subject to board rules.",
+      "value": "Physicians may prescribe, direct, order, or designate the use of drugs, medicines, or treatments. Prescribing of controlled substances is subject to board rules and statutory limits including opioid prescribing limitations.",
       "quote": "\"Prescribe or prescription\" means to direct, order, or designate the use of or manner of using a drug, medicine, or treatment, by spoken or written words or other means and in accordance with IC 25-1-9.3.",
       "citation": "25-22.5-1-1.1"
     },
     "citations": [
       {
         "cite": "25-22.5-1-1.1",
-        "kind": "scope definition"
+        "kind": "definition of practice"
+      },
+      {
+        "cite": "25-22.5-13-2",
+        "kind": "controlled substance prescribing standards"
+      },
+      {
+        "cite": "25-22.5-13-6",
+        "kind": "methadone prescribing"
+      },
+      {
+        "cite": "25-22.5-13-8",
+        "kind": "opioid prescribing limitations"
       }
     ]
   },
@@ -341,9 +381,9 @@
       "value": [
         "unlimited",
         "limited",
+        "temporary medical permit",
         "probationary",
         "provisional",
-        "temporary medical permit",
         "inactive",
         "retired"
       ],
@@ -351,7 +391,7 @@
       "citation": "25-22.5-2-7"
     },
     "foreign_medical_graduate_requirements": {
-      "value": "Foreign medical graduates must meet all requirements of section 1 except the 1-year postgraduate training, and must instead complete a minimum of 2 years of postgraduate training in a US or Canadian hospital or institution meeting standards approved by nationally recognized medical or osteopathic accrediting bodies. The board may waive the second year.",
+      "value": "Foreign medical graduates must meet all requirements of Section 1 of Chapter 3 (except subsection (i)) plus complete a minimum of two years of postgraduate training in a US or Canadian hospital or institution meeting standards approved by nationally recognized medical or osteopathic accrediting bodies. The board may waive the second year of postgraduate training.",
       "quote": "an applicant for licensure who: (1) has been graduated from a medical school outside the United States, its possessions, or Canada; and (2) submits evidence satisfactory to the board that prior to passing the examination the applicant has successfully completed a minimum of at least two (2) years of postgraduate training in a hospital or an institution located in the United States or Canada which meets the standards approved by the nationally recognized medical or osteopathic accrediting bodies in the United States",
       "citation": "25-22.5-3-2"
     },
@@ -362,9 +402,9 @@
     },
     "pain_management_education_required": null,
     "opioid_prescribing_limits": {
-      "value": "The board must adopt rules establishing standards and protocols for the prescribing of controlled substances and rules setting forth conditions exempted from opioid prescribing limitations under IC 25-1-9.7-2(a).",
-      "quote": "the medical licensing board shall adopt rules under IC 4-22-2 to establish standards and protocols for the prescribing of controlled substances, including the use of abuse deterrent formulations.",
-      "citation": "25-22.5-13-2"
+      "value": "The board shall adopt rules setting forth conditions exempted from prescribing limitations under IC 25-1-9.7-2(a). Rules establishing standards and protocols for prescribing controlled substances are required. Prescribing methadone for pain must include notation that it is for pain treatment.",
+      "quote": "the medical licensing board of Indiana shall, in consultation with the Indiana department of health, the office of the secretary of family and social services, and representatives of prescriber stakeholders, adopt rules under IC 4-22-2 setting forth the conditions the board considers necessary under IC 25-1-9.7-2(b)(1)(D) to be exempted from the prescribing limitations set forth in IC 25-1-9.7-2(a).",
+      "citation": "25-22.5-13-8"
     },
     "controlled_substance_database_registration_required": {
       "value": true,
@@ -373,15 +413,15 @@
     },
     "pain_management_clinic_registration_required": null,
     "telehealth_prescribing_rules": {
-      "value": "Providing diagnostic or treatment services to a person in Indiana when transmitted through electronic communications on a regular, routine, and nonepisodic basis or under an agreement to regularly provide medical services constitutes practice of medicine in Indiana.",
+      "value": "The board may adopt rules under IC 4-22-2 establishing guidelines for the practice of telehealth in Indiana. Telehealth is included in the definition of practice of medicine when diagnostic or treatment services are transmitted through electronic communications on a regular, routine, and nonepisodic basis or under an oral or written agreement to regularly provide medical services.",
       "quote": "Providing diagnostic or treatment services to a person in Indiana when the diagnostic or treatment services: (A) are transmitted through electronic communications; and (B) are on a regular, routine, and nonepisodic basis or under an oral or written agreement to regularly provide medical services.",
       "citation": "25-22.5-1-1.1"
     },
     "telemedicine_license_available": null,
     "interstate_medical_licensure_compact_member": {
       "value": true,
-      "quote": "the member states of the interstate medical licensure compact have allied in common purpose to develop a comprehensive process that complements the existing licensing and regulatory authority of state medical boards and provides a streamlined process that allows physicians to become licensed in multiple states",
-      "citation": "25-22.5-16-1"
+      "quote": "Administer the interstate medical licensure compact under IC 25-22.5-16, including appointing members to the interstate medical licensure compact commission and adopting any rules necessary to administer the compact.",
+      "citation": "25-22.5-2-7"
     },
     "physician_assistant_supervision_model": {
       "value": "collaborative practice agreement",
@@ -390,7 +430,11 @@
     },
     "physician_assistant_prescriptive_authority": null,
     "max_physician_assistants_per_supervising_physician": null,
-    "malpractice_reporting_required": null,
+    "malpractice_reporting_required": {
+      "value": true,
+      "quote": "The applicant shall be physically and mentally capable of, and professionally competent to, safely engage in the practice of medicine or osteopathic medicine as determined by the board and shall submit: (1) to an examination; or (2) additional evidence to the board; if considered necessary by the board to determine such capability. In making that determination, the board may consider any malpractice settlements or judgments against the applicant.",
+      "citation": "25-22.5-3-1"
+    },
     "hospital_privilege_action_reporting_required": null,
     "impaired_physician_program_authorized": null,
     "compelled_mental_physical_exam_authority": {

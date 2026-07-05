@@ -9,21 +9,25 @@
     },
     "issuing_authority": {
       "value": "State Board of Physicians",
-      "quote": "\"Board\" means the State Board of Physicians.",
-      "citation": "14-101"
+      "quote": "There is a State Board of Physicians in the Department.",
+      "citation": "14-201"
     },
     "regulatory_authority": {
       "name": {
         "value": "State Board of Physicians",
-        "quote": "\"Board\" means the State Board of Physicians.",
-        "citation": "14-101"
+        "quote": "There is a State Board of Physicians in the Department.",
+        "citation": "14-201"
       },
       "type": {
-        "value": "standalone_board",
-        "quote": "\"Board\" means the State Board of Physicians.",
-        "citation": "14-101"
+        "value": "shared_board",
+        "quote": "The Board shall consist of 22 members",
+        "citation": "14-202"
       },
-      "umbrella_agency": null
+      "umbrella_agency": {
+        "value": "Maryland Department of Health",
+        "quote": "There is a State Board of Physicians in the Department.",
+        "citation": "14-201"
+      }
     },
     "age_minimum": {
       "value": 18,
@@ -37,12 +41,12 @@
     },
     "education": {
       "degree_required": {
-        "value": "doctor of medicine or doctor of osteopathy",
+        "value": "Doctor of medicine from a medical school that is accredited by an accrediting organization that the Board recognizes in its regulations; or Doctor of osteopathy from a school of osteopathy in the United States, its territories or possessions, Puerto Rico, or Canada",
         "quote": "Have a degree of doctor of medicine from a medical school that is accredited by an accrediting organization that the Board recognizes in its regulations",
         "citation": "14-307"
       },
       "accrediting_body": {
-        "value": "accrediting organization recognized by the Board in its regulations",
+        "value": "Accrediting organization recognized by the Board in its regulations (for MD); American Osteopathic Association standards (for DO)",
         "quote": "a medical school that is accredited by an accrediting organization that the Board recognizes in its regulations",
         "citation": "14-307"
       },
@@ -53,7 +57,7 @@
       },
       "school_approval_basis": {
         "value": "board_approved",
-        "quote": "accredited by an accrediting organization that the Board recognizes in its regulations",
+        "quote": "a medical school that is accredited by an accrediting organization that the Board recognizes in its regulations",
         "citation": "14-307"
       },
       "credential_pegged": {
@@ -87,9 +91,18 @@
     },
     "exams": [
       {
-        "name": "United States Medical Licensing Examination (USMLE) or Federation Licensing Examination (FLEX)",
+        "name": "United States Medical Licensing Examination (USMLE)",
         "required": true,
         "notes": "Applicant must attain a passing score as set by the Board; alternatively may hold a certificate of proficiency from the National Board of Medical Examiners or equivalent.",
+        "jurisdiction": "national (USMLE)",
+        "permitted_attempts": null,
+        "quote": "Attain on the federation licensing examination or the United States Medical Licensing Examination a passing score as set by the Board under its rules and regulations",
+        "citation": "14-311"
+      },
+      {
+        "name": "Federation Licensing Examination (FLEX)",
+        "required": false,
+        "notes": "Alternative to USMLE; passing score as set by the Board.",
         "jurisdiction": "national",
         "permitted_attempts": null,
         "quote": "Attain on the federation licensing examination or the United States Medical Licensing Examination a passing score as set by the Board under its rules and regulations",
@@ -126,7 +139,7 @@
         }
       },
       "requirements": {
-        "value": "Applicant must be licensed in another jurisdiction under substantially equivalent requirements, be in good standing, submit an application and fee, and the other jurisdiction must offer similar reciprocal licensing for Maryland-licensed physicians.",
+        "value": "Applicant must be licensed in another jurisdiction under substantially equivalent requirements, be in good standing, submit application, pay fee, and the other jurisdiction must offer similar reciprocal licensing for Maryland licensees.",
         "quote": "Became licensed or certified as a physician in another jurisdiction under requirements that the Board determines are substantially equivalent to the licensing requirements of this title; Is in good standing under the laws of the other jurisdiction",
         "citation": "14-307"
       }
@@ -134,21 +147,21 @@
     "advisory_board": {
       "exists": {
         "value": false,
-        "quote": "\"Board\" means the State Board of Physicians.",
-        "citation": "14-101"
+        "quote": "There is a State Board of Physicians in the Department.",
+        "citation": "14-201"
       },
       "name": null,
       "authority": null
     },
     "national_certification": {
-      "value": "National Board of Medical Examiners; National Board of Examiners for Osteopathic Physicians and Surgeons",
-      "quote": "Hold a certificate of proficiency and professional standing of: The National Board of Medical Examiners; The board of medical examiners of this State or any other state that was issued before January 1, 1985; The National Board of Examiners for Osteopathic Physicians and Surgeons",
+      "value": "National Board of Medical Examiners",
+      "quote": "Hold a certificate of proficiency and professional standing of: The National Board of Medical Examiners",
       "citation": "14-311"
     },
     "national_association": {
-      "value": "MedChi (Maryland State Medical Society)",
-      "quote": "\"MedChi\" means the Maryland State Medical Society.",
-      "citation": "14-101"
+      "value": "American Osteopathic Association",
+      "quote": "a school of osteopathy in the United States, its territories or possessions, Puerto Rico, or Canada that has standards for graduation equivalent to those established by the American Osteopathic Association",
+      "citation": "14-307"
     },
     "regulatory_model": {
       "value": "license",
@@ -157,8 +170,8 @@
     },
     "credential_type": {
       "value": "license",
-      "quote": "\"License\" means, unless the context requires otherwise, a license issued by the Board to practice medicine.",
-      "citation": "14-101"
+      "quote": "an individual shall be licensed by the Board before the individual may practice medicine in this State.",
+      "citation": "14-301"
     },
     "is_mandatory": {
       "value": true,
@@ -208,14 +221,14 @@
       },
       {
         "short_label": "habitual_intoxication",
-        "description": "Habitually intoxicated",
+        "description": "Habitually is intoxicated",
         "quote": "Habitually is intoxicated",
         "citation": "14-404"
       },
       {
-        "short_label": "drug_addiction",
-        "description": "Addicted to or habitually abuses narcotic or controlled dangerous substance",
-        "quote": "Is addicted to, or habitually abuses, any narcotic or controlled dangerous substance as defined in § 5–101 of the Criminal Law Article",
+        "short_label": "drug_addiction_or_abuse",
+        "description": "Is addicted to or habitually abuses any narcotic or controlled dangerous substance",
+        "quote": "Is addicted to, or habitually abuses, any narcotic or controlled dangerous substance as defined in \u00a7 5\u2013101 of the Criminal Law Article",
         "citation": "14-404"
       },
       {
@@ -226,7 +239,7 @@
       },
       {
         "short_label": "exploiting_patient_for_financial_gain",
-        "description": "Promotes sale of drugs/devices to a patient to exploit patient for financial gain",
+        "description": "Promotes the sale of drugs, devices, or goods to a patient to exploit the patient for financial gain",
         "quote": "Promotes the sale of drugs, devices, appliances, or goods to a patient so as to exploit the patient for financial gain",
         "citation": "14-404"
       },
@@ -237,14 +250,26 @@
         "citation": "14-404"
       },
       {
-        "short_label": "failure_to_provide_medical_records",
-        "description": "Fails to provide patient medical record details on proper request",
-        "quote": "On proper request, and in accordance with the provisions of Title 4, Subtitle 3 of the Health – General Article, fails to provide details of a patient's medical record to the patient, another physician, or hospital",
+        "short_label": "failure_to_file_medical_report",
+        "description": "Willfully fails to file or record any medical report as required under law",
+        "quote": "Willfully fails to file or record any medical report as required under law, willfully impedes or obstructs the filing or recording of the report, or induces another to fail to file or record the report",
         "citation": "14-404"
       },
       {
-        "short_label": "illegal_fee_splitting",
-        "description": "Pays or accepts sums for bringing or referring patients",
+        "short_label": "failure_to_provide_medical_records",
+        "description": "Fails to provide details of a patient's medical record on proper request",
+        "quote": "On proper request, and in accordance with the provisions of Title 4, Subtitle 3 of the Health \u2013 General Article, fails to provide details of a patient's medical record to the patient, another physician, or hospital",
+        "citation": "14-404"
+      },
+      {
+        "short_label": "soliciting_through_agent",
+        "description": "Solicits professional patronage through an agent or profits from acts of a person represented as an agent",
+        "quote": "Solicits professional patronage through an agent or other person or profits from the acts of a person who is represented as an agent of the physician",
+        "citation": "14-404"
+      },
+      {
+        "short_label": "fee_splitting_or_kickbacks",
+        "description": "Pays or agrees to pay any sum for bringing or referring a patient, or accepts such payment",
         "quote": "Pays or agrees to pay any sum to any person for bringing or referring a patient or accepts or agrees to accept any sum from any person for bringing or referring a patient",
         "citation": "14-404"
       },
@@ -267,33 +292,33 @@
         "citation": "14-404"
       },
       {
-        "short_label": "secret_method_of_treatment",
+        "short_label": "secret_method_treatment",
         "description": "Offers, undertakes, or agrees to cure or treat disease by a secret method, treatment, or medicine",
         "quote": "Offers, undertakes, or agrees to cure or treat disease by a secret method, treatment, or medicine",
         "citation": "14-404"
       },
       {
-        "short_label": "disciplined_in_other_jurisdiction",
-        "description": "Disciplined by another jurisdiction or convicted by a court for acts that would be grounds for discipline here",
+        "short_label": "disciplined_in_another_jurisdiction",
+        "description": "Is disciplined by a licensing or disciplinary authority or convicted or disciplined by a court of any state or country for an act that would be grounds for disciplinary action",
         "quote": "Is disciplined by a licensing or disciplinary authority or convicted or disciplined by a court of any state or country or disciplined by any branch of the United States uniformed services or the Veterans' Administration for an act that would be grounds for disciplinary action under this section",
         "citation": "14-404"
       },
       {
-        "short_label": "failure_to_meet_peer_review_standards",
-        "description": "Fails to meet appropriate standards as determined by appropriate peer review for delivery of quality medical and surgical care",
+        "short_label": "failure_to_meet_quality_standards",
+        "description": "Fails to meet appropriate standards as determined by peer review for the delivery of quality medical and surgical care",
         "quote": "Fails to meet appropriate standards as determined by appropriate peer review for the delivery of quality medical and surgical care performed in an outpatient surgical facility, office, hospital, or any other location in this State",
         "citation": "14-404"
       },
       {
         "short_label": "false_statements_to_collect_fees",
-        "description": "Willfully submits false statements to collect fees for services not provided",
+        "description": "Willfully submits false statements to collect fees for which services are not provided",
         "quote": "Willfully submits false statements to collect fees for which services are not provided",
         "citation": "14-404"
       },
       {
         "short_label": "failure_to_report_child_abuse",
         "description": "Knowingly fails to report suspected child abuse",
-        "quote": "Knowingly fails to report suspected child abuse in violation of § 5–704 of the Family Law Article",
+        "quote": "Knowingly fails to report suspected child abuse in violation of \u00a7 5\u2013704 of the Family Law Article",
         "citation": "14-404"
       },
       {
@@ -304,7 +329,7 @@
       },
       {
         "short_label": "hiv_discrimination",
-        "description": "Refuses or discriminates in providing services because patient is HIV positive",
+        "description": "Refuses, withholds, denies, or discriminates against an individual in the provision of professional services because the individual is HIV positive",
         "quote": "Refuses, withholds from, denies, or discriminates against an individual with regard to the provision of professional services for which the licensee is licensed and qualified to render because the individual is HIV positive",
         "citation": "14-404"
       },
@@ -316,20 +341,44 @@
       },
       {
         "short_label": "insurance_fraud_conviction",
-        "description": "Convicted of insurance fraud",
-        "quote": "Is convicted of insurance fraud as defined in § 27–801 of the Insurance Article",
+        "description": "Is convicted of insurance fraud",
+        "quote": "Is convicted of insurance fraud as defined in \u00a7 27\u2013801 of the Insurance Article",
         "citation": "14-404"
       },
       {
-        "short_label": "false_representation_in_licensure_application",
-        "description": "Willfully makes a false representation when seeking or applying for licensure",
+        "short_label": "breach_of_service_obligation",
+        "description": "Is in breach of a service obligation resulting from receipt of State or federal funding for medical education",
+        "quote": "Is in breach of a service obligation resulting from the applicant's or licensee's receipt of State or federal funding for the licensee's medical education",
+        "citation": "14-404"
+      },
+      {
+        "short_label": "false_representation_in_application",
+        "description": "Willfully makes a false representation when seeking or making application for licensure",
         "quote": "Willfully makes a false representation when seeking or making application for licensure or any other application related to the practice of medicine",
         "citation": "14-404"
       },
       {
-        "short_label": "failure_to_display_universal_precautions_notice",
-        "description": "Fails to display the notice explaining CDC guidelines on universal precautions",
-        "quote": "Fails to display the notice required under § 14–415 of this subtitle",
+        "short_label": "intimidation_of_witnesses",
+        "description": "By corrupt means, threats, or force, intimidates or influences any person to withhold or change testimony",
+        "quote": "By corrupt means, threats, or force, intimidates or influences, or attempts to intimidate or influence, for the purpose of causing any person to withhold or change testimony in hearings or proceedings before the Board or a disciplinary panel",
+        "citation": "14-404"
+      },
+      {
+        "short_label": "failure_to_maintain_adequate_records",
+        "description": "Fails to keep adequate medical records as determined by appropriate peer review",
+        "quote": "Fails to keep adequate medical records as determined by appropriate peer review",
+        "citation": "14-404"
+      },
+      {
+        "short_label": "cosmetic_surgery_in_unaccredited_facility",
+        "description": "Performs a cosmetic surgical procedure in an office or facility that is not accredited or certified",
+        "quote": "Performs a cosmetic surgical procedure in an office or a facility that is not: Accredited by: The American Association for Accreditation of Ambulatory Surgical Facilities; The Accreditation Association for Ambulatory Health Care; or The Joint Commission on the Accreditation of Healthcare Organizations",
+        "citation": "14-404"
+      },
+      {
+        "short_label": "failure_to_submit_criminal_history_check",
+        "description": "Fails to submit to a criminal history records check",
+        "quote": "Fails to submit to a criminal history records check under \u00a7 14\u2013308.1 of this title",
         "citation": "14-404"
       },
       {
@@ -341,7 +390,7 @@
       {
         "short_label": "failure_to_comply_with_pdmp",
         "description": "Fails to comply with the requirements of the Prescription Drug Monitoring Program",
-        "quote": "Fails to comply with the requirements of the Prescription Drug Monitoring Program under Title 21, Subtitle 2A of the Health – General Article",
+        "quote": "Fails to comply with the requirements of the Prescription Drug Monitoring Program under Title 21, Subtitle 2A of the Health \u2013 General Article.",
         "citation": "14-404"
       }
     ],
@@ -356,8 +405,12 @@
     },
     "citations": [
       {
-        "cite": "14-101",
-        "kind": "definitions"
+        "cite": "14-201",
+        "kind": "board establishment"
+      },
+      {
+        "cite": "14-202",
+        "kind": "board membership"
       },
       {
         "cite": "14-301",
@@ -376,12 +429,36 @@
         "kind": "alternative education qualification"
       },
       {
+        "cite": "14-308.1",
+        "kind": "criminal history records check"
+      },
+      {
+        "cite": "14-309",
+        "kind": "applications for licenses"
+      },
+      {
         "cite": "14-311",
         "kind": "examination"
       },
       {
+        "cite": "14-313",
+        "kind": "issuance of license"
+      },
+      {
         "cite": "14-316",
-        "kind": "term and renewal"
+        "kind": "term and renewal of licenses"
+      },
+      {
+        "cite": "14-3A-01",
+        "kind": "interstate medical licensure compact"
+      },
+      {
+        "cite": "14-401",
+        "kind": "disciplinary panels"
+      },
+      {
+        "cite": "14-402",
+        "kind": "examination of licensed physician"
       },
       {
         "cite": "14-404",
@@ -389,21 +466,17 @@
       },
       {
         "cite": "14-601",
-        "kind": "prohibition on unlicensed practice"
+        "kind": "practicing without license"
       },
       {
         "cite": "14-602",
-        "kind": "title protection"
-      },
-      {
-        "cite": "14-3A-01",
-        "kind": "interstate medical licensure compact"
+        "kind": "misrepresentation as practitioner"
       }
     ]
   },
   "scope": {
     "definition_quote": {
-      "value": "\"Practice medicine\" means to engage, with or without compensation, in medical: Diagnosis; Healing; Treatment; or Surgery.",
+      "value": "'Practice medicine' means to engage, with or without compensation, in medical: Diagnosis; Healing; Treatment; or Surgery.",
       "quote": "\"Practice medicine\" means to engage, with or without compensation, in medical: Diagnosis; Healing; Treatment; or Surgery.",
       "citation": "14-101"
     },
@@ -414,25 +487,28 @@
         "treatment",
         "surgery",
         "prescribing",
-        "acupuncture (with registration)",
-        "ending of a human pregnancy"
+        "acupuncture (with registration)"
       ],
       "quote": "\"Practice medicine\" includes doing, undertaking, professing to do, and attempting any of the following: Diagnosing, healing, treating, preventing, prescribing for, or removing any physical, mental, or emotional ailment or supposed ailment of an individual",
       "citation": "14-101"
     },
     "drug_authority": {
-      "value": "Physicians may prescribe drugs; Board may regulate dispensing of prescription drugs by a licensed physician in consultation with State Board of Pharmacy.",
+      "value": "Licensed physicians may prescribe, dispense, and administer drugs; the Board may adopt regulations regarding dispensing of prescription drugs by a licensed physician.",
       "quote": "After consulting with the State Board of Pharmacy, adopt rules and regulations regarding the dispensing of prescription drugs by a licensed physician",
       "citation": "14-205"
     },
     "citations": [
       {
         "cite": "14-101",
-        "kind": "scope definition"
+        "kind": "definition of practice medicine"
       },
       {
         "cite": "14-205",
-        "kind": "drug authority"
+        "kind": "drug dispensing authority"
+      },
+      {
+        "cite": "14-504",
+        "kind": "acupuncture"
       }
     ]
   },
@@ -443,12 +519,12 @@
         "inactive",
         "emeritus"
       ],
-      "quote": "The Board may place a licensee on inactive status... The Board may place a licensee on emeritus status",
+      "quote": "The Board may place a licensee on inactive status ... The Board may place a licensee on emeritus status",
       "citation": "14-320"
     },
     "foreign_medical_graduate_requirements": {
-      "value": "Foreign medical graduates must be certified by the Educational Commission for Foreign Medical Graduates (ECFMG), pass a qualifying examination for foreign medical school graduates required by the Board, and complete 2 years of training in a postgraduate medical education program accredited by an organization recognized by the Board (or complete a fifth pathway program plus 2 years of postgraduate training).",
-      "quote": "Is certified by the Educational Commission for Foreign Medical Graduates or by its successor as approved by the Board; Passes a qualifying examination for foreign medical school graduates required by the Board",
+      "value": "Foreign medical graduates must be certified by the Educational Commission for Foreign Medical Graduates (ECFMG), pass a qualifying examination for foreign medical school graduates, and complete 2 years of training in an accredited postgraduate medical education program (or complete a fifth pathway program plus 2 years of postgraduate training).",
+      "quote": "Is certified by the Educational Commission for Foreign Medical Graduates or by its successor as approved by the Board",
       "citation": "14-308"
     },
     "postgraduate_training_years_required": {
@@ -458,13 +534,13 @@
     },
     "pain_management_education_required": null,
     "opioid_prescribing_limits": {
-      "value": "On treatment for pain, a health care provider shall prescribe the lowest effective dose of an opioid and a quantity no greater than needed for the expected duration of pain, unless treating substance-related disorder, cancer pain, end-of-life/hospice/palliative care, or chronic pain.",
-      "quote": "On treatment for pain, a health care provider, based on the clinical judgment of the health care provider, shall prescribe: The lowest effective dose of an opioid; and A quantity that is no greater than the quantity needed for the expected duration of pain severe enough to require an opioid",
+      "value": "Physicians must prescribe the lowest effective dose of an opioid and a quantity no greater than needed for the expected duration of pain, unless treating substance-related disorder, cancer pain, end-of-life/hospice/palliative care, or chronic pain.",
+      "quote": "a health care provider, based on the clinical judgment of the health care provider, shall prescribe: The lowest effective dose of an opioid; and A quantity that is no greater than the quantity needed for the expected duration of pain severe enough to require an opioid",
       "citation": "1-223"
     },
     "controlled_substance_database_registration_required": {
       "value": true,
-      "quote": "Fails to comply with the requirements of the Prescription Drug Monitoring Program under Title 21, Subtitle 2A of the Health – General Article",
+      "quote": "Fails to comply with the requirements of the Prescription Drug Monitoring Program under Title 21, Subtitle 2A of the Health \u2013 General Article.",
       "citation": "14-404"
     },
     "pain_management_clinic_registration_required": null,
@@ -480,7 +556,7 @@
     "max_physician_assistants_per_supervising_physician": null,
     "malpractice_reporting_required": {
       "value": true,
-      "quote": "The number of medical malpractice final court judgments and arbitration awards against the licensee within the most recent 10–year period.",
+      "quote": "The number of medical malpractice final court judgments and arbitration awards against the licensee within the most recent 10\u2013year period.",
       "citation": "14-411.1"
     },
     "hospital_privilege_action_reporting_required": {
@@ -490,7 +566,7 @@
     },
     "impaired_physician_program_authorized": {
       "value": true,
-      "quote": "\"Physician Rehabilitation Program\" means the program of the Board or the nonprofit entity with which the Board contracts under § 14–401.1(g) of this title that evaluates and provides assistance to impaired physicians and other health professionals regulated by the Board who are directed by the Board to receive treatment and rehabilitation for alcoholism, chemical dependency, or other physical, emotional, or mental conditions.",
+      "quote": "\"Physician Rehabilitation Program\" means the program of the Board or the nonprofit entity with which the Board contracts under \u00a7 14\u2013401.1(g) of this title that evaluates and provides assistance to impaired physicians and other health professionals regulated by the Board who are directed by the Board to receive treatment and rehabilitation for alcoholism, chemical dependency, or other physical, emotional, or mental conditions.",
       "citation": "14-101"
     },
     "compelled_mental_physical_exam_authority": {

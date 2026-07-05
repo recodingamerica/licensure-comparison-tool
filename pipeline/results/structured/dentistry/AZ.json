@@ -20,16 +20,20 @@
       },
       "type": {
         "value": "standalone_board",
-        "quote": "\"Board\" means the state board of dental examiners.",
-        "citation": "32-1201"
+        "quote": "The state board of dental examiners is established consisting of six licensed dentists, two licensed dental hygienists, two public members and one business entity member appointed by the governor for a term of four years",
+        "citation": "32-1203"
       },
       "umbrella_agency": null
     },
     "age_minimum": null,
-    "moral_character_required": null,
+    "moral_character_required": {
+      "value": true,
+      "quote": "The board may deny an application for a license, for license renewal or for a restricted permit if the applicant: 1. Has committed any act that would be cause for censure, probation or suspension or revocation of a license under this chapter.",
+      "citation": "32-1232"
+    },
     "education": {
       "degree_required": {
-        "value": "Doctor of Dental Medicine or Doctor of Dental Surgery from a recognized dental school",
+        "value": "diploma conferring a degree of doctor of dental medicine or doctor of dental surgery from a recognized dental school",
         "quote": "An applicant for licensure shall meet the requirements of section 32-1233 and shall hold a diploma conferring a degree of doctor of dental medicine or doctor of dental surgery from a recognized dental school.",
         "citation": "32-1232"
       },
@@ -50,7 +54,7 @@
       },
       "credential_pegged": {
         "value": false,
-        "quote": "An applicant for licensure shall meet the requirements of section 32-1233 and shall hold a diploma conferring a degree of doctor of dental medicine or doctor of dental surgery from a recognized dental school.",
+        "quote": "shall hold a diploma conferring a degree of doctor of dental medicine or doctor of dental surgery from a recognized dental school.",
         "citation": "32-1232"
       },
       "tiers": null
@@ -58,8 +62,8 @@
     "post_degree_experience": {
       "required": {
         "value": false,
-        "quote": "An applicant for licensure shall meet the requirements of section 32-1233 and shall hold a diploma conferring a degree of doctor of dental medicine or doctor of dental surgery from a recognized dental school.",
-        "citation": "32-1232"
+        "quote": "An applicant for licensure shall have passed all of the following: 1. The written national dental board examinations. 2. A clinical examination administered by a state or regional testing agency in the United States within five years preceding filing the application. 3. The Arizona dental jurisprudence examination.",
+        "citation": "32-1233"
       },
       "experience_source": {
         "value": "embedded_in_credential",
@@ -80,10 +84,10 @@
         "citation": "32-1233"
       },
       {
-        "name": "Clinical Examination",
+        "name": "Clinical Examination (state or regional testing agency)",
         "required": true,
-        "notes": "Administered by a state or regional testing agency in the United States within five years preceding filing the application.",
-        "jurisdiction": "state or regional testing agency",
+        "notes": "Must be within five years preceding filing the application",
+        "jurisdiction": "state or regional testing agency in the United States",
         "permitted_attempts": null,
         "quote": "2. A clinical examination administered by a state or regional testing agency in the United States within five years preceding filing the application.",
         "citation": "32-1233"
@@ -91,7 +95,7 @@
       {
         "name": "Arizona Dental Jurisprudence Examination",
         "required": true,
-        "notes": "Fee of $300 (nonrefundable).",
+        "notes": "Fee of $300; waived for restricted permit candidates",
         "jurisdiction": "state (Arizona)",
         "permitted_attempts": null,
         "quote": "3. The Arizona dental jurisprudence examination.",
@@ -101,13 +105,13 @@
     "renewal": {
       "interval_years": {
         "value": 3,
-        "quote": "a license expires thirty days after the licensee's birth month every third year.",
+        "quote": "a license expires thirty days after the licensee's birth month every third year. On or before the last day of the licensee's birth month every third year, every licensed dentist shall submit to the board a complete renewal application and pay a license renewal fee",
         "citation": "32-1236"
       }
     },
     "renewal_fee_usd": {
       "value": 650,
-      "quote": "every licensed dentist shall submit to the board a complete renewal application and pay a license renewal fee of not more than $650, established by a formal vote of the board.",
+      "quote": "pay a license renewal fee of not more than $650, established by a formal vote of the board.",
       "citation": "32-1236"
     },
     "continuing_education": {
@@ -117,11 +121,7 @@
         "citation": "32-1236"
       },
       "hours_per_period": null,
-      "period_years": {
-        "value": 3,
-        "quote": "a license expires thirty days after the licensee's birth month every third year.",
-        "citation": "32-1236"
-      },
+      "period_years": null,
       "topical_requirements": null
     },
     "reciprocity": {
@@ -131,7 +131,7 @@
         "citation": "32-1240"
       },
       "requirements": {
-        "value": "Licensure by credential available; board may waive clinical exam if passed in another state more than 5 years prior, with substantially equivalent standards, minimum active practice hours, and completion of CE requirements in the prior jurisdiction. Fee not more than $2,000.",
+        "value": "Licensure by credential; board may waive clinical exam if passed in another state/agency more than 5 years prior; requires minimum active practice hours and affirmation of CE completion; fee of not more than $2,000.",
         "quote": "The board by rule may waive the examination requirements of this article on receipt of evidence satisfactory to the board that the applicant has passed the clinical examination of another state or testing agency more than five years before submitting an application for licensure pursuant to this chapter and the other state or testing agency maintains a standard of licensure that is substantially equivalent to that of this state as determined by the board.",
         "citation": "32-1240"
       }
@@ -139,8 +139,8 @@
     "advisory_board": {
       "exists": {
         "value": false,
-        "quote": "\"Board\" means the state board of dental examiners.",
-        "citation": "32-1201"
+        "quote": "The state board of dental examiners is established consisting of six licensed dentists, two licensed dental hygienists, two public members and one business entity member appointed by the governor for a term of four years",
+        "citation": "32-1203"
       },
       "name": null,
       "authority": null
@@ -158,8 +158,8 @@
     },
     "credential_type": {
       "value": "license",
-      "quote": "Except as otherwise provided a person is guilty of a class 6 felony who, without a valid license or business entity registration as prescribed by this chapter: 1. Practices dentistry or any branch of dentistry as described in section 32-1202.",
-      "citation": "32-1261"
+      "quote": "Issue licenses to persons who the board determines are eligible for licensure pursuant to this chapter.",
+      "citation": "32-1207"
     },
     "is_mandatory": {
       "value": true,
@@ -168,9 +168,8 @@
     },
     "title_protection": {
       "value": true,
-      "quote": "Except as otherwise provided a person is guilty of a class 6 felony who, without a valid license or business entity registration as prescribed by this chapter: 2. In any manner or by any means, direct or indirect, advertises, represents or claims to be engaged or ready and willing to engage in that practice as described in section 32-1202.",
-      "citation": "32-1261",
-      "unverified": true
+      "quote": "In any manner or by any means, direct or indirect, advertises, represents or claims to be engaged or ready and willing to engage in that practice as described in section 32-1202.",
+      "citation": "32-1261"
     },
     "scope_protection": {
       "value": true,
@@ -185,20 +184,20 @@
         "citation": "32-1263"
       },
       {
-        "short_label": "felony_or_moral_turpitude_conviction",
+        "short_label": "felony_or_misdemeanor_moral_turpitude",
         "description": "Conviction of a felony or of a misdemeanor involving moral turpitude",
         "quote": "Conviction of a felony or of a misdemeanor involving moral turpitude, in which case the record of conviction or a certified copy is conclusive evidence.",
         "citation": "32-1263"
       },
       {
-        "short_label": "physical_or_mental_incompetence",
+        "short_label": "physical_mental_incompetence",
         "description": "Physical or mental incompetence to practice pursuant to this chapter",
         "quote": "Physical or mental incompetence to practice pursuant to this chapter.",
         "citation": "32-1263"
       },
       {
         "short_label": "violation_of_chapter_or_rules",
-        "description": "Committing or aiding a violation of or noncompliance with any provision of this chapter or rules adopted by the board",
+        "description": "Committing or aiding, directly or indirectly, a violation of or noncompliance with any provision of this chapter or of any rules adopted by the board",
         "quote": "Committing or aiding, directly or indirectly, a violation of or noncompliance with any provision of this chapter or of any rules adopted by the board pursuant to this chapter.",
         "citation": "32-1263"
       },
@@ -209,55 +208,37 @@
         "citation": "32-1263"
       },
       {
-        "short_label": "betraying_professional_confidence",
-        "description": "Intentionally betraying a professional confidence or intentionally violating a privileged communication",
-        "quote": "Intentionally betraying a professional confidence or intentionally violating a privileged communication except as either of these may otherwise be required by law.",
-        "citation": "32-1201.01"
-      },
-      {
-        "short_label": "substance_abuse_affecting_practice",
-        "description": "Using controlled substances, narcotic drugs, dangerous drugs, marijuana, hypnotic drugs, or alcohol to the extent that it affects the ability to practice",
-        "quote": "Using controlled substances as defined in section 36-2501, narcotic drugs, dangerous drugs or marijuana as defined in section 13-3401, or hypnotic drugs...or alcohol to the extent that it affects the ability of the dentist, dental therapist, denturist or dental hygienist to practice that person's profession.",
-        "citation": "32-1201.01"
-      },
-      {
-        "short_label": "improper_prescribing_or_dispensing",
-        "description": "Prescribing, dispensing or using drugs for other than accepted dental therapeutic purposes",
-        "quote": "Prescribing, dispensing or using drugs for other than accepted dental therapeutic purposes or for other than medically indicated supportive therapy in conjunction with managing a patient's needs and in conjunction with the scope of practice prescribed in section 32-1202.",
-        "citation": "32-1201.01"
-      },
-      {
-        "short_label": "gross_or_repeated_malpractice",
+        "short_label": "gross_malpractice",
         "description": "Committing gross malpractice or repeated acts constituting malpractice",
         "quote": "Committing gross malpractice or repeated acts constituting malpractice.",
         "citation": "32-1201.01"
       },
       {
         "short_label": "fraud_in_obtaining_license",
-        "description": "Procuring or attempting to procure a certificate or license by fraud or misrepresentation",
+        "description": "Procuring or attempting to procure a certificate of the national board of dental examiners or a license by fraud or misrepresentation",
         "quote": "Procuring or attempting to procure a certificate of the national board of dental examiners or a license to practice dentistry or dental hygiene by fraud or misrepresentation or by knowingly taking advantage of the mistake of another.",
         "citation": "32-1201.01"
       },
       {
-        "short_label": "false_or_fraudulent_statements",
+        "short_label": "false_fraudulent_statement",
         "description": "Knowingly making any false or fraudulent statement, written or oral, in connection with the practice of dentistry",
         "quote": "Knowingly making any false or fraudulent statement, written or oral, in connection with the practice of dentistry.",
         "citation": "32-1201.01"
       },
       {
-        "short_label": "disciplinary_action_in_other_jurisdiction",
-        "description": "Having a license refused, revoked or suspended or other disciplinary action taken in another state, territory, district or country",
-        "quote": "Having a license refused, revoked or suspended or any other disciplinary action taken against a dentist by, or voluntarily surrendering a license in lieu of disciplinary action to, any other state, territory, district or country, unless the board finds that this action was not taken for reasons that relate to the person's ability to safely and skillfully practice dentistry or to any act of unprofessional conduct.",
+        "short_label": "out_of_state_license_action",
+        "description": "Having a license refused, revoked or suspended or other disciplinary action taken in another state/territory",
+        "quote": "Having a license refused, revoked or suspended or any other disciplinary action taken against a dentist by, or voluntarily surrendering a license in lieu of disciplinary action to, any other state, territory, district or country",
         "citation": "32-1201.01"
       },
       {
-        "short_label": "danger_to_health_or_safety",
+        "short_label": "danger_to_health_safety",
         "description": "Committing any conduct or practice that constitutes a danger to the health, welfare or safety of the patient or the public",
         "quote": "Committing any conduct or practice that constitutes a danger to the health, welfare or safety of the patient or the public.",
         "citation": "32-1201.01"
       },
       {
-        "short_label": "fee_fraud_or_misrepresentation",
+        "short_label": "fee_fraud_misrepresentation",
         "description": "Obtaining a fee by fraud or misrepresentation, or wilfully filing a fraudulent claim with a third party",
         "quote": "Obtaining a fee by fraud or misrepresentation, or wilfully or intentionally filing a fraudulent claim with a third party for services rendered or to be rendered to a patient.",
         "citation": "32-1201.01"
@@ -270,14 +251,20 @@
       },
       {
         "short_label": "employing_unlicensed_persons",
-        "description": "Employing unlicensed persons to perform or aiding and abetting unlicensed persons in performing work that can only be done by licensed persons",
+        "description": "Employing unlicensed persons to perform or aiding and abetting unlicensed persons in performing work that can be done legally only by licensed persons",
         "quote": "Employing unlicensed persons to perform or aiding and abetting unlicensed persons in performing work that can be done legally only by licensed persons.",
         "citation": "32-1201.01"
       },
       {
         "short_label": "false_advertising",
-        "description": "Publishing or circulating false, fraudulent or misleading statements, or advertising in a manner that tends to deceive or defraud the public",
+        "description": "Publishing or circulating false, fraudulent or misleading statements or advertising in a manner that tends to deceive or defraud the public",
         "quote": "Publishing or circulating, directly or indirectly, any false, fraudulent or misleading statements concerning the skill, methods or practices of the licensee or of any other person.",
+        "citation": "32-1201.01"
+      },
+      {
+        "short_label": "failure_to_comply_board_order",
+        "description": "Failing to comply with a board order, including an order of censure or probation",
+        "quote": "Failing to comply with a board order, including an order of censure or probation.",
         "citation": "32-1201.01"
       },
       {
@@ -287,9 +274,9 @@
         "citation": "32-1201.01"
       },
       {
-        "short_label": "failure_to_comply_with_board_order",
-        "description": "Failing to comply with a board order, including an order of censure or probation",
-        "quote": "Failing to comply with a board order, including an order of censure or probation.",
+        "short_label": "practicing_in_unregistered_business_entity",
+        "description": "Practicing dentistry in a business entity that is not registered with the board as required by section 32-1213",
+        "quote": "Practicing dentistry, dental therapy, dental hygiene or denturism in a business entity that is not registered with the board as required by section 32-1213.",
         "citation": "32-1201.01"
       },
       {
@@ -299,9 +286,15 @@
         "citation": "32-1201.01"
       },
       {
-        "short_label": "practicing_in_unregistered_business_entity",
-        "description": "Practicing dentistry in a business entity that is not registered with the board",
-        "quote": "Practicing dentistry, dental therapy, dental hygiene or denturism in a business entity that is not registered with the board as required by section 32-1213.",
+        "short_label": "substance_abuse_impairment",
+        "description": "Using controlled substances, narcotic drugs, dangerous drugs, marijuana, hypnotic drugs, or alcohol to the extent that it affects the ability to practice",
+        "quote": "Using controlled substances as defined in section 36-2501, narcotic drugs, dangerous drugs or marijuana as defined in section 13-3401, or hypnotic drugs... or alcohol to the extent that it affects the ability of the dentist, dental therapist, denturist or dental hygienist to practice that person's profession.",
+        "citation": "32-1201.01"
+      },
+      {
+        "short_label": "failure_to_report_impaired_colleague",
+        "description": "Failing to report in writing to the board evidence that a dentist, dental therapist, denturist or dental hygienist may be professionally incompetent, engaged in unprofessional conduct, impaired, or unable to safely practice",
+        "quote": "Failing to report in writing to the board any evidence that a dentist, dental therapist, denturist or dental hygienist is or may be: (a) Professionally incompetent. (b) Engaging in unprofessional conduct. (c) Impaired by drugs or alcohol. (d) Mentally or physically unable to safely engage in the activities",
         "citation": "32-1201.01"
       }
     ],
@@ -328,8 +321,12 @@
         "kind": "scope of practice"
       },
       {
+        "cite": "32-1203",
+        "kind": "board composition"
+      },
+      {
         "cite": "32-1207",
-        "kind": "board powers and duties"
+        "kind": "powers and duties"
       },
       {
         "cite": "32-1213",
@@ -341,7 +338,7 @@
       },
       {
         "cite": "32-1232",
-        "kind": "qualifications of applicant"
+        "kind": "qualifications"
       },
       {
         "cite": "32-1233",
@@ -349,7 +346,7 @@
       },
       {
         "cite": "32-1236",
-        "kind": "triennial licensure and renewal"
+        "kind": "renewal"
       },
       {
         "cite": "32-1240",
@@ -365,11 +362,15 @@
       },
       {
         "cite": "32-1263.01",
-        "kind": "types of disciplinary action"
+        "kind": "disciplinary actions"
+      },
+      {
+        "cite": "32-1263.02",
+        "kind": "investigation and adjudication"
       },
       {
         "cite": "32-1272",
-        "kind": "dental anesthesia requirements"
+        "kind": "anesthesia requirements"
       }
     ]
   },
@@ -393,18 +394,22 @@
       "citation": "32-1202"
     },
     "drug_authority": {
-      "value": "A dentist may dispense drugs, except schedule II controlled substances that are opioids, and devices kept by the dentist",
+      "value": "A dentist may dispense drugs, except schedule II controlled substances that are opioids, and devices kept by the dentist; may prescribe medication; prohibited from dispensing schedule II opioids.",
       "quote": "A dentist may dispense drugs, except schedule II controlled substances that are opioids, and devices kept by the dentist",
       "citation": "32-1298"
     },
     "citations": [
       {
         "cite": "32-1202",
-        "kind": "scope of practice definition"
+        "kind": "scope of practice"
+      },
+      {
+        "cite": "32-1207",
+        "kind": "diagnosis and treatment planning reserved to dentists"
       },
       {
         "cite": "32-1298",
-        "kind": "dispensing of drugs and devices"
+        "kind": "drug dispensing authority"
       }
     ]
   },
@@ -480,10 +485,10 @@
     "dental_therapist_practice_setting_restrictions": {
       "value": [
         "federally qualified community health center",
-        "health center program that has received a federal look-alike designation",
+        "health center program with federal look-alike designation",
         "community health center",
-        "nonprofit dental practice or nonprofit organization that provides dental care to low-income and underserved individuals",
-        "private dental practice that provides dental care for community health center patients of record who are referred by the community health center"
+        "nonprofit dental practice or nonprofit organization providing dental care to low-income and underserved individuals",
+        "private dental practice providing care for community health center patients of record referred by the community health center"
       ],
       "quote": "A dental therapist may practice only in the following practice settings or locations, including mobile dental units, that are operated or served by any of the following: 1. A federally qualified community health center. 2. A health center program that has received a federal look-alike designation. 3. A community health center. 4. A nonprofit dental practice or a nonprofit organization that provides dental care to low-income and underserved individuals. 5. A private dental practice that provides dental care for community health center patients of record who are referred by the community health center.",
       "citation": "32-1276.04"
@@ -495,23 +500,23 @@
     },
     "mobile_facility_followup_care_protocol_required": {
       "value": true,
-      "quote": "Establish written protocols for follow-up care for patients who are treated in a mobile dental facility or through a portable dental unit. The protocols must include referrals for treatment in a dental office that is permanently established within a reasonable geographic area and may include follow-up care by the mobile dental facility or portable dental unit.",
+      "quote": "Establish written protocols for follow-up care for patients who are treated in a mobile dental facility or through a portable dental unit. The protocols must include referrals for treatment in a dental office that is permanently established within a reasonable geographic area",
       "citation": "32-1299.24"
     },
     "dental_office_ownership_restrictions": {
       "value": true,
-      "quote": "A business entity may not offer dental services pursuant to this chapter unless: 1. The business entity is registered with the board pursuant to this section. 2. The services are conducted by a licensee pursuant to this chapter.",
+      "quote": "An individual currently holding a surrendered or revoked license to practice dentistry or dental hygiene in any state or jurisdiction in the United States may not have a majority ownership interest in the business entity registered pursuant to this section.",
       "citation": "32-1213"
     },
     "opioid_prescribing_limits": {
       "value": true,
-      "quote": "Dispensing a schedule II controlled substance that is an opioid.",
-      "citation": "32-1201.01"
+      "quote": "A dentist may dispense drugs, except schedule II controlled substances that are opioids, and devices kept by the dentist",
+      "citation": "32-1298"
     },
     "controlled_substance_database_registration_required": null,
     "dental_laboratory_work_authorization_required": {
       "value": true,
-      "quote": "\"Dental laboratory technician\" means any person, other than a licensed dentist, who, pursuant to a written work order of a dentist, fabricates artificial teeth, prosthetic appliances or other mechanical and artificial contrivances designed to correct or alleviate injuries or defects",
+      "quote": "\"Dental laboratory technician\" means any person, other than a licensed dentist, who, pursuant to a written work order of a dentist, fabricates artificial teeth, prosthetic appliances or other mechanical and artificial contrivances",
       "citation": "32-1201"
     },
     "denture_patient_identification_marking_required": {
@@ -526,12 +531,12 @@
     },
     "hygienist_local_anesthesia_certification_required": {
       "value": true,
-      "quote": "the board issues to the dental hygienist a local anesthesia certificate on receipt of proof that the requirements of subdivisions (a) and (b) of this paragraph have been met.",
+      "quote": "The board issues to the dental hygienist a local anesthesia certificate on receipt of proof that the requirements of subdivisions (a) and (b) of this paragraph have been met.",
       "citation": "32-1281"
     },
     "hygienist_nitrous_oxide_certification_required": {
       "value": true,
-      "quote": "the board issues to the dental hygienist a nitrous oxide analgesia certificate on receipt of proof that the requirements of subdivision (a) of this paragraph have been met.",
+      "quote": "The board issues to the dental hygienist a nitrous oxide analgesia certificate on receipt of proof that the requirements of subdivision (a) of this paragraph have been met.",
       "citation": "32-1281"
     },
     "restorative_function_endorsement_available": {
@@ -551,7 +556,7 @@
     },
     "cpr_certification_required_for_sedation": {
       "value": true,
-      "quote": "A dental office or dental clinic at which general anesthesia or sedation is administered must contain properly operating equipment and supplies as prescribed by the board in rule and have proper emergency response protocols in place, including advanced cardiac life support and airway management and pediatric advanced life support, as applicable, when administering general anesthesia or sedation as prescribed by the board in rule that is consistent with the standards and practices recommended by the American heart association.",
+      "quote": "A dental office or dental clinic at which general anesthesia or sedation is administered must contain properly operating equipment and supplies as prescribed by the board in rule and have proper emergency response protocols in place, including advanced cardiac life support and airway management and pediatric advanced life support",
       "citation": "32-1272"
     },
     "dental_hygienist_alternative_practice_license": {

@@ -9,19 +9,19 @@
     },
     "issuing_authority": {
       "value": "Arizona State Board of Accountancy",
-      "quote": "The board shall issue a certificate of certified public accountant to any individual who complies with all of the following",
-      "citation": "32-721"
+      "quote": "The Arizona state board of accountancy is established to administer and enforce this chapter.",
+      "citation": "32-702"
     },
     "regulatory_authority": {
       "name": {
         "value": "Arizona State Board of Accountancy",
-        "quote": "The board shall issue a certificate of certified public accountant to any individual who complies with all of the following",
-        "citation": "32-721"
+        "quote": "The Arizona state board of accountancy is established to administer and enforce this chapter.",
+        "citation": "32-702"
       },
       "type": {
         "value": "standalone_board",
-        "quote": "The board shall issue a certificate of certified public accountant to any individual who complies with all of the following",
-        "citation": "32-721"
+        "quote": "The Arizona state board of accountancy is established to administer and enforce this chapter.",
+        "citation": "32-702"
       },
       "umbrella_agency": null
     },
@@ -37,24 +37,28 @@
     },
     "education": {
       "degree_required": {
-        "value": "Baccalaureate degree or higher from an accredited institution",
+        "value": "Baccalaureate degree or higher from an accredited institution with at least 150 semester hours of education",
         "quote": "successfully obtained a baccalaureate degree or higher degree from an accredited institution or a college or university that maintains standards comparable to those of an accredited institution and that the applicant has completed at least one hundred fifty semester hours of education",
         "citation": "32-721"
       },
-      "accrediting_body": null,
+      "accrediting_body": {
+        "value": "accredited institution or a college or university that maintains standards comparable to those of an accredited institution",
+        "quote": "successfully obtained a baccalaureate degree or higher degree from an accredited institution or a college or university that maintains standards comparable to those of an accredited institution",
+        "citation": "32-721"
+      },
       "degree_level": {
         "value": "bachelor",
-        "quote": "successfully obtained a baccalaureate degree or higher degree from an accredited institution or a college or university that maintains standards comparable to those of an accredited institution",
+        "quote": "successfully obtained a baccalaureate degree or higher degree from an accredited institution",
         "citation": "32-721"
       },
       "school_approval_basis": {
         "value": "unspecified",
-        "quote": "from an accredited institution or a college or university that maintains standards comparable to those of an accredited institution",
+        "quote": "an accredited institution or a college or university that maintains standards comparable to those of an accredited institution",
         "citation": "32-721"
       },
       "credential_pegged": {
         "value": false,
-        "quote": "successfully obtained a baccalaureate degree or higher degree from an accredited institution or a college or university that maintains standards comparable to those of an accredited institution",
+        "quote": "successfully obtained a baccalaureate degree or higher degree from an accredited institution or a college or university that maintains standards comparable to those of an accredited institution and that the applicant has completed at least one hundred fifty semester hours of education",
         "citation": "32-721"
       },
       "tiers": null
@@ -85,8 +89,8 @@
       {
         "name": "Uniform Certified Public Accountant Examination",
         "required": true,
-        "notes": "Required for initial applicants under subsection B; international qualification examination also accepted for endorsement applicants under subsection C.",
-        "jurisdiction": "national (AICPA/NASBA)",
+        "notes": "Applicant must pass the uniform CPA examination. Board may contract with a public or private entity for administration.",
+        "jurisdiction": "national (uniform examination system)",
         "permitted_attempts": null,
         "quote": "If the applicant passes the uniform certified public accountant examination and has never been certified, registered or licensed as a certified public accountant in this state or another jurisdiction",
         "citation": "32-721"
@@ -94,8 +98,8 @@
       {
         "name": "International Qualification Examination (IQEX)",
         "required": false,
-        "notes": "Available to applicants whose country has a mutual recognition agreement with NASBA adopted by the board.",
-        "jurisdiction": "national (AICPA)",
+        "notes": "Alternative path for applicants from countries with a mutual recognition agreement with NASBA adopted by the board.",
+        "jurisdiction": "national (AICPA international uniform CPA qualification examination)",
         "permitted_attempts": null,
         "quote": "If an applicant passes the international uniform certified public accountant qualification examination of the American institute of certified public accountants",
         "citation": "32-721"
@@ -117,7 +121,7 @@
         "citation": "32-721"
       },
       "requirements": {
-        "value": "Applicant must hold a certificate, registration or license in another jurisdiction. The issuing jurisdiction must have requirements substantially equivalent to Arizona's, or the applicant must meet specified education and experience requirements (e.g., at least 3 years of CPA employment with 150 semester hours, or 5 of 10 preceding years, or 10 of 15 preceding years).",
+        "value": "The certificate, registration or license must be from a jurisdiction with substantially equivalent requirements, or the applicant must meet specified education and experience conditions.",
         "quote": "The certificate, registration or license is issued by a jurisdiction whose requirements are determined by the board to be substantially equivalent to the requirements prescribed in subsection B of this section.",
         "citation": "32-721"
       }
@@ -125,15 +129,15 @@
     "advisory_board": {
       "exists": {
         "value": false,
-        "quote": "The board shall issue a certificate of certified public accountant to any individual who complies with all of the following",
-        "citation": "32-721"
+        "quote": "The Arizona state board of accountancy is established to administer and enforce this chapter.",
+        "citation": "32-702"
       },
       "name": null,
       "authority": null
     },
     "national_certification": {
       "value": "American Institute of Certified Public Accountants (AICPA)",
-      "quote": "the international uniform certified public accountant qualification examination of the American institute of certified public accountants",
+      "quote": "international uniform certified public accountant qualification examination of the American institute of certified public accountants",
       "citation": "32-721"
     },
     "national_association": {
@@ -158,7 +162,7 @@
     },
     "title_protection": {
       "value": true,
-      "quote": "A business organization that meets all of the following criteria ... Uses the CPA designation in its firm name.",
+      "quote": "Uses the CPA designation in its firm name.",
       "citation": "32-731"
     },
     "scope_protection": {
@@ -168,37 +172,55 @@
     },
     "disciplinary_grounds": [
       {
-        "short_label": "grounds_for_revocation_or_suspension",
+        "short_label": "conduct_grounds_for_revocation",
         "description": "Engaging in conduct that constitutes grounds for revocation or suspension of a certificate or other disciplinary action.",
         "quote": "Has not engaged in any conduct that would constitute grounds for revocation or suspension of a certificate or other disciplinary action pursuant to section 32-741.",
         "citation": "32-721"
+      },
+      {
+        "short_label": "certificate_on_probation_revoked_suspended",
+        "description": "Board member's appointment terminates automatically if their certificate is on probation, revoked, or suspended.",
+        "quote": "If a member's certificate is on probation, revoked or suspended, the member's appointment automatically terminates and the position becomes vacant.",
+        "citation": "32-702"
+      },
+      {
+        "short_label": "disciplinary_actions_in_other_jurisdictions",
+        "description": "Firm must disclose all disciplinary actions in other jurisdictions when applying or registering.",
+        "quote": "A firm that applies or registers pursuant to this section shall list in its application or registration all jurisdictions in which the firm has any disciplinary actions, other than for failure to timely renew a registration, license or permit, by any other jurisdiction.",
+        "citation": "32-731"
+      },
+      {
+        "short_label": "failure_to_maintain_cpa_majority_ownership",
+        "description": "Failure to maintain simple majority of firm ownership by holders of CPA certificates or licenses.",
+        "quote": "an applicant for registration or a firm registered pursuant to this section shall notify the board in writing within one month of any change in owners that results in less than a simple majority of the ownership in terms of direct and indirect financial interests and voting rights that belong to holders in good standing of certificates or licenses as certified public accountants in any jurisdiction.",
+        "citation": "32-731"
       }
     ],
     "alternative_regulation": {
       "bonding_required": null,
       "insurance_required": null,
-      "establishment_regulation_required": {
-        "value": true,
-        "quote": "once every two years each of the following shall pay the registration fee pursuant to section 32-729 and register with the board as a firm",
-        "citation": "32-731"
-      }
+      "establishment_regulation_required": null
     },
     "citations": [
       {
+        "cite": "32-702",
+        "kind": "board establishment"
+      },
+      {
         "cite": "32-721",
-        "kind": "qualifications"
+        "kind": "CPA qualifications"
       },
       {
         "cite": "32-723",
-        "kind": "examination"
+        "kind": "exam qualifications"
       },
       {
         "cite": "32-731",
-        "kind": "firm_registration"
+        "kind": "firm registration"
       },
       {
         "cite": "32-745",
-        "kind": "employment"
+        "kind": "employment of persons"
       },
       {
         "cite": "32-749",
@@ -208,14 +230,15 @@
   },
   "scope": {
     "definition_quote": {
-      "value": "Attest services or compilation services shall be provided only through a registered firm in good standing in this state. Any attest services or compilation services reports issued by a firm must be signed by a person who is certified pursuant to this chapter or qualified to exercise the limited reciprocity privilege pursuant to section 32-725, subsection G.",
-      "quote": "Attest services or compilation services shall be provided only through a registered firm in good standing in this state. Any attest services or compilation services reports issued by a firm must be signed by a person who is certified pursuant to this chapter or qualified to exercise the limited reciprocity privilege pursuant to section 32-725, subsection G.",
-      "citation": "32-731"
+      "value": "experience in the practice of accounting. The applicant's experience must be sufficient to demonstrate the applicant's ability for critical inquiry and analysis of financial accounting information, including balance sheets, income statements, cash flow statements or tax returns and the applicant's ability to communicate, either orally or in writing, on the results of an inquiry or analysis of that information to an employer, client or third party.",
+      "quote": "experience in the practice of accounting. The applicant's experience must be sufficient to demonstrate the applicant's ability for critical inquiry and analysis of financial accounting information, including balance sheets, income statements, cash flow statements or tax returns and the applicant's ability to communicate, either orally or in writing, on the results of an inquiry or analysis of that information to an employer, client or third party.",
+      "citation": "32-721"
     },
     "methods_authorized": {
       "value": [
         "attest services",
-        "compilation services"
+        "compilation services",
+        "accounting services"
       ],
       "quote": "Performs attest services or compilation services.",
       "citation": "32-731"
@@ -224,15 +247,26 @@
     "citations": [
       {
         "cite": "32-731",
-        "kind": "firm_registration_and_scope"
+        "kind": "scope of services"
+      },
+      {
+        "cite": "32-721",
+        "kind": "practice definition"
       }
     ]
   },
   "profession_specific": {
-    "attest_services_types": null,
+    "attest_services_types": {
+      "value": [
+        "attest services",
+        "compilation services"
+      ],
+      "quote": "Attest services or compilation services shall be provided only through a registered firm in good standing in this state.",
+      "citation": "32-731"
+    },
     "compilation_services_authorized": {
       "value": true,
-      "quote": "Attest services or compilation services shall be provided only through a registered firm in good standing in this state.",
+      "quote": "Performs attest services or compilation services.",
       "citation": "32-731"
     },
     "education_semester_hours_required": {
@@ -240,7 +274,11 @@
       "quote": "the applicant has completed at least one hundred fifty semester hours of education",
       "citation": "32-721"
     },
-    "exam_sit_hours_minimum": null,
+    "exam_sit_hours_minimum": {
+      "value": 24,
+      "quote": "A person shall not be permitted to take the uniform certified public accountant examination unless the person presents satisfactory evidence that the person has successfully obtained a baccalaureate degree or a higher degree from an accredited institution or a college or university that maintains standards comparable to those of an accredited institution. The evidence must show both of the following: 1. At least twenty-four semester hours of nonduplicative accounting courses",
+      "citation": "32-723"
+    },
     "ethics_exam_required": null,
     "practice_privilege_no_notice_required": null,
     "practice_privilege_consent_conditions": null,
@@ -254,12 +292,16 @@
       "quote": "Has a simple majority of the ownership, in terms of direct and indirect financial interests and voting rights, that belongs to holders in good standing of certificates or licenses as certified public accountants in any jurisdiction.",
       "citation": "32-731"
     },
-    "nonlicensee_firm_owners_permitted": null,
+    "nonlicensee_firm_owners_permitted": {
+      "value": true,
+      "quote": "Has a simple majority of the ownership, in terms of direct and indirect financial interests and voting rights, that belongs to holders in good standing of certificates or licenses as certified public accountants in any jurisdiction.",
+      "citation": "32-731"
+    },
     "peer_review_required_for_firm_renewal": null,
     "peer_review_max_frequency_years": null,
     "peer_review_records_privileged": {
       "value": true,
-      "quote": "Compliance with ethical investigations or practice monitoring programs conducted by the board or private professional organizations pursuant to programs preapproved by the board. These programs include, but are not limited to, quality and peer reviews.",
+      "quote": "Compliance with ethical investigations or practice monitoring programs conducted by the board or private professional organizations pursuant to programs preapproved by the board. These programs include, but are not limited to, quality and peer reviews. The scope of quality and peer reviews may include subsequent, remedial or corrective actions. Disclosure of information under this paragraph shall not destroy its confidentiality and privilege nor relieve any registrant of the obligation of confidentiality.",
       "citation": "32-749"
     },
     "inactive_license_status_available": null,

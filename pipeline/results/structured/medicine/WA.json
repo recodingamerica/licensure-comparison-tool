@@ -15,15 +15,19 @@
     "regulatory_authority": {
       "name": {
         "value": "Washington Medical Commission",
-        "quote": "\"Commission\" means the Washington medical commission.",
-        "citation": "18.71.010"
+        "quote": "The Washington medical commission is established, consisting of thirteen individuals licensed to practice medicine in the state of Washington under this chapter",
+        "citation": "18.71.015"
       },
       "type": {
         "value": "standalone_board",
-        "quote": "The Washington medical commission as established in chapter 18.71 RCW governing licenses and registrations issued under chapters 18.71, 18.71A, 18.71B, 18.71C, and 18.71D RCW",
-        "citation": "18.130.040"
+        "quote": "The Washington medical commission is established, consisting of thirteen individuals licensed to practice medicine in the state of Washington under this chapter, two individuals who are licensed in the state of Washington as physician assistants under chapter 18.71A RCW, and six individuals who are members of the public.",
+        "citation": "18.71.015"
       },
-      "umbrella_agency": null
+      "umbrella_agency": {
+        "value": "Department of Health",
+        "quote": "the secretary shall employ an executive director that is: (a) Hired by and serves at the pleasure of the commission",
+        "citation": "18.71.430"
+      }
     },
     "age_minimum": null,
     "moral_character_required": {
@@ -33,24 +37,20 @@
     },
     "education": {
       "degree_required": {
-        "value": "Graduated from a school of medicine approved by the commission",
+        "value": "Graduation from a school of medicine approved by the commission",
         "quote": "That the applicant has attended and graduated from a school of medicine approved by the commission",
         "citation": "18.71.050"
       },
-      "accrediting_body": {
-        "value": "Washington Medical Commission (approves schools of medicine)",
-        "quote": "The commission may approve any school of medicine which is located in any state, territory, or possession of the United States, the District of Columbia, or in the Dominion of Canada",
-        "citation": "18.71.055"
-      },
+      "accrediting_body": null,
       "degree_level": {
         "value": "doctorate",
-        "quote": "an examination which shall cover those general subjects and topics, a knowledge of which is commonly and generally required of candidates for the degree of doctor of medicine conferred by approved colleges or schools of medicine in the United States",
-        "citation": "18.71.070"
+        "quote": "That the applicant has attended and graduated from a school of medicine approved by the commission",
+        "citation": "18.71.050"
       },
       "school_approval_basis": {
         "value": "board_approved",
-        "quote": "The commission may approve any school of medicine which is located in any state, territory, or possession of the United States",
-        "citation": "18.71.055"
+        "quote": "a school of medicine approved by the commission",
+        "citation": "18.71.050"
       },
       "credential_pegged": {
         "value": false,
@@ -67,7 +67,7 @@
       },
       "experience_source": {
         "value": "required_by_statute",
-        "quote": "That the applicant has completed two years of postgraduate medical training in a program acceptable to the commission, provided that applicants graduating before July 28, 1985, may complete only one year of postgraduate medical training",
+        "quote": "That the applicant has completed two years of postgraduate medical training in a program acceptable to the commission",
         "citation": "18.71.050"
       },
       "duration": {
@@ -85,7 +85,7 @@
       {
         "name": "Commission examination",
         "required": true,
-        "notes": "The commission prepares and administers, or approves, an examination covering subjects required for the degree of doctor of medicine. Applicants with licensure in another state or who passed the National Board of Medical Examiners exam may be granted a license without examination at the commission's discretion.",
+        "notes": "The commission may approve externally prepared examinations; covers subjects required for the degree of doctor of medicine from approved US schools",
         "jurisdiction": "state (Washington Medical Commission)",
         "permitted_attempts": null,
         "quote": "applicants for licensure must successfully complete an examination administered by the commission to determine their professional qualifications",
@@ -94,17 +94,26 @@
       {
         "name": "National Board of Medical Examiners examination",
         "required": false,
-        "notes": "Passing this exam may qualify an applicant for licensure without additional state examination, at the commission's discretion.",
+        "notes": "Passing NBME exams may qualify an applicant for licensure without the commission examination, at commission discretion",
         "jurisdiction": "national (National Board of Medical Examiners)",
         "permitted_attempts": null,
         "quote": "an applicant who has satisfactorily passed examinations given by the national board of medical examiners may, in the discretion of the commission, be granted a license without examination",
         "citation": "18.71.090"
       },
       {
-        "name": "Educational Council for Foreign Medical Graduates (ECFMG) examination",
+        "name": "United States Medical Licensing Examination (USMLE)",
         "required": false,
-        "notes": "Required for foreign medical graduates only, unless alternative requirements in lieu thereof are met by commission rule.",
-        "jurisdiction": "national (Educational Council for Foreign Medical Graduates)",
+        "notes": "Required for eligibility under the Interstate Medical Licensure Compact (expedited licensure pathway); must pass each component within three attempts",
+        "jurisdiction": "national (USMLE)",
+        "permitted_attempts": 3,
+        "quote": "Passed each component of the United States medical licensing examination (USMLE) or the comprehensive osteopathic medical licensing examination (COMLEX-USA) within three attempts",
+        "citation": "18.71B.020"
+      },
+      {
+        "name": "Educational Commission for Foreign Medical Graduates (ECFMG) examination",
+        "required": false,
+        "notes": "Required for foreign medical graduates; applicants must satisfactorily pass the ECFMG examination or meet requirements in lieu thereof as set by commission rule",
+        "jurisdiction": "national (ECFMG)",
         "permitted_attempts": null,
         "quote": "That he or she has satisfactorily passed the examination given by the educational council for foreign medical graduates or has met the requirements in lieu thereof as set forth in rules adopted by the commission",
         "citation": "18.71.051"
@@ -120,19 +129,9 @@
         "quote": "The commission may establish rules governing mandatory continuing education requirements which shall be met by physicians applying for renewal of licenses.",
         "citation": "18.71.080"
       },
-      "hours_per_period": {
-        "value": 50,
-        "quote": "The number of hours of continuing education for a physician holding a retired active license shall not exceed fifty hours per year.",
-        "citation": "18.71.080"
-      },
+      "hours_per_period": null,
       "period_years": null,
-      "topical_requirements": {
-        "value": [
-          "professional liability risk management"
-        ],
-        "quote": "The rules shall provide that mandatory continuing education requirements may be met in part by physicians showing evidence of the completion of approved activities relating to professional liability risk management.",
-        "citation": "18.71.080"
-      }
+      "topical_requirements": null
     },
     "reciprocity": {
       "available": {
@@ -141,7 +140,7 @@
         "citation": "18.71.090"
       },
       "requirements": {
-        "value": "Applicant must meet all standard licensure requirements (RCW 18.71.050), file a certified copy of their out-of-state license, and show that the other state's standards and examinations are at least equal to Washington's.",
+        "value": "Applicant must meet all other licensure requirements under RCW 18.71.050, file a certified copy of the out-of-state license, and show that the other state's standards, eligibility requirements, and examinations are at least equal to Washington's. Commission may also waive education, training, experience, and exam requirements for applicants credentialed in another state with substantially equivalent standards for at least two years.",
         "quote": "the applicant must file with the commission a copy of the license certified by the proper authorities of the issuing state to be a full, true copy thereof, and must show that the standards, eligibility requirements, and examinations of that state are at least equal in all respects to those of this state",
         "citation": "18.71.090"
       }
@@ -149,8 +148,8 @@
     "advisory_board": {
       "exists": {
         "value": false,
-        "quote": "The Washington medical commission as established in chapter 18.71 RCW governing licenses and registrations issued under chapters 18.71, 18.71A, 18.71B, 18.71C, and 18.71D RCW",
-        "citation": "18.130.040"
+        "quote": "The Washington medical commission is established, consisting of thirteen individuals licensed to practice medicine in the state of Washington under this chapter, two individuals who are licensed in the state of Washington as physician assistants under chapter 18.71A RCW, and six individuals who are members of the public.",
+        "citation": "18.71.015"
       },
       "name": null,
       "authority": null
@@ -188,50 +187,50 @@
     },
     "disciplinary_grounds": [
       {
-        "short_label": "moral_turpitude",
-        "description": "Commission of any act involving moral turpitude, dishonesty, or corruption relating to the practice of the profession",
+        "short_label": "moral_turpitude_dishonesty_corruption",
+        "description": "Commission of any act involving moral turpitude, dishonesty, or corruption relating to the practice of the profession, whether or not it constitutes a crime",
         "quote": "The commission of any act involving moral turpitude, dishonesty, or corruption relating to the practice of the person's profession, whether the act constitutes a crime or not.",
         "citation": "18.130.180"
       },
       {
         "short_label": "misrepresentation_in_obtaining_license",
-        "description": "Misrepresentation or concealment of a material fact in obtaining a license or in reinstatement thereof",
+        "description": "Misrepresentation or concealment of a material fact in obtaining or reinstating a license",
         "quote": "Misrepresentation or concealment of a material fact in obtaining a license or in reinstatement thereof",
         "citation": "18.130.180"
       },
       {
-        "short_label": "false_advertising",
-        "description": "All advertising which is false, fraudulent, or misleading",
+        "short_label": "false_fraudulent_misleading_advertising",
+        "description": "All advertising that is false, fraudulent, or misleading",
         "quote": "All advertising which is false, fraudulent, or misleading",
         "citation": "18.130.180"
       },
       {
         "short_label": "incompetence_negligence_malpractice",
-        "description": "Incompetence, negligence, or malpractice which results in injury to a patient or creates unreasonable risk",
+        "description": "Incompetence, negligence, or malpractice that results in patient injury or creates unreasonable risk of harm",
         "quote": "Incompetence, negligence, or malpractice which results in injury to a patient or which creates an unreasonable risk that a patient may be harmed.",
         "citation": "18.130.180"
       },
       {
-        "short_label": "license_discipline_in_other_jurisdiction",
+        "short_label": "license_suspended_revoked_elsewhere",
         "description": "Suspension, revocation, or restriction of the individual's license to practice any health care profession by competent authority in any state, federal, or foreign jurisdiction",
         "quote": "Suspension, revocation, or restriction of the individual's license to practice any health care profession by competent authority in any state, federal, or foreign jurisdiction",
         "citation": "18.130.180"
       },
       {
-        "short_label": "controlled_substance_misuse",
-        "description": "Possession, use, prescription for use, or distribution of controlled substances or legend drugs in any way other than for legitimate or therapeutic purposes; diversion; or violation of any drug law",
+        "short_label": "controlled_substance_legend_drug_violations",
+        "description": "Possession, use, prescription, or distribution of controlled substances or legend drugs other than for legitimate or therapeutic purposes, diversion, drug law violations, or self-prescribing controlled substances",
         "quote": "The possession, use, prescription for use, or distribution of controlled substances or legend drugs in any way other than for legitimate or therapeutic purposes, diversion of controlled substances or legend drugs, the violation of any drug law, or prescribing controlled substances for oneself",
         "citation": "18.130.180"
       },
       {
-        "short_label": "violation_of_statute_or_rule",
+        "short_label": "violation_of_statutes_or_rules",
         "description": "Violation of any state or federal statute or administrative rule regulating the profession",
         "quote": "Violation of any state or federal statute or administrative rule regulating the profession in question, including any statute or rule defining or establishing standards of patient care or professional conduct or practice",
         "citation": "18.130.180"
       },
       {
         "short_label": "failure_to_cooperate_with_disciplining_authority",
-        "description": "Failure to cooperate with the disciplining authority by not furnishing documents, providing explanations, responding to subpoenas, or allowing practice reviews",
+        "description": "Failure to cooperate with the disciplining authority by not furnishing documents, explanations, responses to subpoenas, or access for practice reviews",
         "quote": "Failure to cooperate with the disciplining authority by: (a) Not furnishing any papers, documents, records, or other items; (b) Not furnishing in writing a full and complete explanation covering the matter contained in the complaint filed with the disciplining authority",
         "citation": "18.130.180"
       },
@@ -248,7 +247,7 @@
         "citation": "18.130.180"
       },
       {
-        "short_label": "violation_of_health_agency_rules",
+        "short_label": "violations_of_health_agency_rules",
         "description": "Violations of rules established by any health agency",
         "quote": "Violations of rules established by any health agency",
         "citation": "18.130.180"
@@ -260,19 +259,19 @@
         "citation": "18.130.180"
       },
       {
-        "short_label": "misrepresentation_in_business",
+        "short_label": "misrepresentation_fraud_in_practice",
         "description": "Misrepresentation or fraud in any aspect of the conduct of the business or profession",
         "quote": "Misrepresentation or fraud in any aspect of the conduct of the business or profession",
         "citation": "18.130.180"
       },
       {
-        "short_label": "inadequate_supervision_of_auxiliary_staff",
+        "short_label": "failure_to_supervise_auxiliary_staff",
         "description": "Failure to adequately supervise auxiliary staff to the extent that the consumer's health or safety is at risk",
         "quote": "Failure to adequately supervise auxiliary staff to the extent that the consumer's health or safety is at risk",
         "citation": "18.130.180"
       },
       {
-        "short_label": "contagious_disease",
+        "short_label": "practice_while_contagious",
         "description": "Engaging in a profession involving contact with the public while suffering from a contagious or infectious disease involving serious risk to public health",
         "quote": "Engaging in a profession involving contact with the public while suffering from a contagious or infectious disease involving serious risk to public health",
         "citation": "18.130.180"
@@ -284,26 +283,26 @@
         "citation": "18.130.180"
       },
       {
-        "short_label": "conviction_of_crime",
-        "description": "Conviction of any gross misdemeanor or felony relating to the practice of the person's profession",
+        "short_label": "felony_gross_misdemeanor_conviction",
+        "description": "Conviction of any gross misdemeanor or felony relating to the practice of the profession",
         "quote": "Conviction of any gross misdemeanor or felony relating to the practice of the person's profession.",
         "citation": "18.130.180"
       },
       {
         "short_label": "secret_method_treatment",
-        "description": "Offering, undertaking, or agreeing to cure or treat disease by a secret method, procedure, treatment, or medicine",
+        "description": "Offering to cure or treat disease by a secret method, or refusing to divulge methods upon demand of the disciplining authority",
         "quote": "The offering, undertaking, or agreeing to cure or treat disease by a secret method, procedure, treatment, or medicine, or the treating, operating, or prescribing for any health condition by a method, means, or procedure which the licensee refuses to divulge upon demand of the disciplining authority",
         "citation": "18.130.180"
       },
       {
-        "short_label": "betrayal_of_patient_privilege",
-        "description": "The willful betrayal of a practitioner-patient privilege as recognized by law",
+        "short_label": "betrayal_of_practitioner_patient_privilege",
+        "description": "Willful betrayal of a practitioner-patient privilege as recognized by law",
         "quote": "The willful betrayal of a practitioner-patient privilege as recognized by law",
         "citation": "18.130.180"
       },
       {
         "short_label": "interference_with_investigation",
-        "description": "Interference with an investigation or disciplinary proceeding by willful misrepresentation of facts, threats, harassment, or financial inducements",
+        "description": "Interference with an investigation or disciplinary proceeding by willful misrepresentation, threats, harassment, or financial inducements",
         "quote": "Interference with an investigation or disciplinary proceeding by willful misrepresentation of facts before the disciplining authority or its authorized representative, or by the use of threats or harassment against any patient or witness",
         "citation": "18.130.180"
       },
@@ -314,14 +313,14 @@
         "citation": "18.130.180"
       },
       {
-        "short_label": "patient_abuse_or_sexual_contact",
+        "short_label": "abuse_of_or_sexual_contact_with_patient",
         "description": "Abuse of a client or patient or sexual contact with a client or patient",
         "quote": "Abuse of a client or patient or sexual contact with a client or patient",
         "citation": "18.130.180"
       },
       {
-        "short_label": "improper_gratuity",
-        "description": "Acceptance of more than a nominal gratuity from a representative or vendor of medical products or services where a conflict of interest is presented",
+        "short_label": "acceptance_of_excessive_gratuity",
+        "description": "Acceptance of more than a nominal gratuity, hospitality, or subsidy from vendors where a conflict of interest is presented",
         "quote": "Acceptance of more than a nominal gratuity, hospitality, or subsidy offered by a representative or vendor of medical or health-related products or services intended for patients, in contemplation of a sale or for use in research publishable in professional journals, where a conflict of interest is presented",
         "citation": "18.130.180"
       },
@@ -345,135 +344,109 @@
     },
     "citations": [
       {
-        "cite": "18.71.010",
-        "kind": null
+        "cite": "18.71.021",
+        "kind": "license required"
       },
       {
         "cite": "18.71.011",
-        "kind": null
+        "kind": "definition of practice of medicine"
       },
       {
-        "cite": "18.71.017",
-        "kind": null
-      },
-      {
-        "cite": "18.71.019",
-        "kind": null
-      },
-      {
-        "cite": "18.71.021",
-        "kind": null
-      },
-      {
-        "cite": "18.71.030",
-        "kind": null
+        "cite": "18.71.015",
+        "kind": "commission established"
       },
       {
         "cite": "18.71.050",
-        "kind": null
+        "kind": "application eligibility requirements"
       },
       {
         "cite": "18.71.051",
-        "kind": null
+        "kind": "foreign graduate requirements"
       },
       {
         "cite": "18.71.055",
-        "kind": null
+        "kind": "school of medicine approval"
       },
       {
         "cite": "18.71.070",
-        "kind": null
+        "kind": "examination"
       },
       {
         "cite": "18.71.080",
-        "kind": null
-      },
-      {
-        "cite": "18.71.083",
-        "kind": null
+        "kind": "license renewal and continuing education"
       },
       {
         "cite": "18.71.085",
-        "kind": null
+        "kind": "inactive license"
       },
       {
         "cite": "18.71.090",
-        "kind": null
+        "kind": "reciprocity"
       },
       {
         "cite": "18.71.095",
-        "kind": null
+        "kind": "limited licenses"
       },
       {
         "cite": "18.71.300",
-        "kind": null
+        "kind": "physician health program"
       },
       {
         "cite": "18.71.310",
-        "kind": null
+        "kind": "physician health program surcharge"
       },
       {
         "cite": "18.71.350",
-        "kind": null
+        "kind": "malpractice reporting"
       },
       {
         "cite": "18.71.800",
-        "kind": null
-      },
-      {
-        "cite": "18.71.810",
-        "kind": null
+        "kind": "opioid prescribing rules"
       },
       {
         "cite": "18.71B.010",
-        "kind": null
+        "kind": "interstate medical licensure compact"
       },
       {
         "cite": "18.130.040",
-        "kind": null
+        "kind": "commission authority under uniform disciplinary act"
       },
       {
         "cite": "18.130.180",
-        "kind": null
+        "kind": "unprofessional conduct grounds"
       }
     ]
   },
   "scope": {
     "definition_quote": {
-      "value": "A person is practicing medicine if he or she does one or more of the following: (1) Offers or undertakes to diagnose, cure, advise, or prescribe for any human disease, ailment, injury, infirmity, deformity, pain or other condition, physical or mental, real or imaginary, by any means or instrumentality; (2) Administers or prescribes drugs or medicinal preparations to be used by any other person; (3) Severs or penetrates the tissues of human beings; (4) Uses on cards, books, papers, signs, or other written or printed means of giving information to the public, in the conduct of any occupation or profession pertaining to the diagnosis or treatment of human disease or conditions the designation \"doctor of medicine,\" \"physician,\" \"surgeon,\" \"m.d.,\" or any combination thereof",
+      "value": "A person is practicing medicine if he or she does one or more of the following: (1) Offers or undertakes to diagnose, cure, advise, or prescribe for any human disease, ailment, injury, infirmity, deformity, pain or other condition, physical or mental, real or imaginary, by any means or instrumentality; (2) Administers or prescribes drugs or medicinal preparations to be used by any other person; (3) Severs or penetrates the tissues of human beings",
       "quote": "A person is practicing medicine if he or she does one or more of the following: (1) Offers or undertakes to diagnose, cure, advise, or prescribe for any human disease, ailment, injury, infirmity, deformity, pain or other condition, physical or mental, real or imaginary, by any means or instrumentality; (2) Administers or prescribes drugs or medicinal preparations to be used by any other person; (3) Severs or penetrates the tissues of human beings",
       "citation": "18.71.011"
     },
     "methods_authorized": {
       "value": [
         "diagnosis",
-        "cure",
-        "advise",
-        "prescribe",
-        "administer drugs",
-        "prescribe drugs",
-        "severs or penetrates tissues"
+        "treatment",
+        "prescribing",
+        "surgery",
+        "administering drugs"
       ],
       "quote": "Offers or undertakes to diagnose, cure, advise, or prescribe for any human disease, ailment, injury, infirmity, deformity, pain or other condition, physical or mental, real or imaginary, by any means or instrumentality; (2) Administers or prescribes drugs or medicinal preparations to be used by any other person; (3) Severs or penetrates the tissues of human beings",
       "citation": "18.71.011"
     },
     "drug_authority": {
-      "value": "Physicians may administer or prescribe drugs or medicinal preparations to be used by any other person; drug prescribing including opioids is subject to commission rules.",
+      "value": "Physicians may administer and prescribe drugs and medicinal preparations; controlled substance prescribing is subject to commission rules including opioid prescribing requirements adopted by January 1, 2019",
       "quote": "Administers or prescribes drugs or medicinal preparations to be used by any other person",
       "citation": "18.71.011"
     },
     "citations": [
       {
         "cite": "18.71.011",
-        "kind": null
+        "kind": "definition of practice of medicine"
       },
       {
         "cite": "18.71.800",
-        "kind": null
-      },
-      {
-        "cite": "18.71.810",
-        "kind": null
+        "kind": "opioid prescribing rules"
       }
     ]
   },
@@ -482,14 +455,15 @@
       "value": [
         "active",
         "inactive",
-        "retired active"
+        "retired active",
+        "limited",
+        "temporary practice permit"
       ],
-      "quote": "An individual licensed pursuant to chapter 18.71 RCW may place his or her license on inactive status...The commission may establish rules governing mandatory continuing education requirements which shall be met by physicians applying for renewal of licenses...A physician who resides and practices in Washington and obtains or renews a retired active license shall be exempt from licensing fees",
-      "citation": "18.71.080",
-      "unverified": true
+      "quote": "An individual licensed pursuant to chapter 18.71 RCW may place his or her license on inactive status.",
+      "citation": "18.71.085"
     },
     "foreign_medical_graduate_requirements": {
-      "value": "Foreign medical graduates must complete a resident course of professional instruction equivalent to that required for US/Canadian graduates, satisfy all US/Canadian graduate requirements except school approval, and pass the ECFMG examination (or meet commission-approved alternatives). They must also demonstrate English language proficiency. Exceptional qualification waivers are available.",
+      "value": "Foreign medical graduates must: complete a resident course equivalent to US requirements; satisfy ECFMG certification or equivalent; demonstrate English language proficiency. For teaching/research limited license holders seeking full licensure, must pass ECFMG certification process. International medical graduates may obtain a limited license with ECFMG certification, USMLE steps 1 and 2, and background check. Commission may waive requirements for exceptional qualifications or hardship.",
       "quote": "That he or she has satisfactorily passed the examination given by the educational council for foreign medical graduates or has met the requirements in lieu thereof as set forth in rules adopted by the commission; (d) That he or she has the ability to read, write, speak, understand, and be understood in the English language.",
       "citation": "18.71.051"
     },
@@ -498,19 +472,31 @@
       "quote": "That the applicant has completed two years of postgraduate medical training in a program acceptable to the commission",
       "citation": "18.71.050"
     },
-    "pain_management_education_required": null,
+    "pain_management_education_required": {
+      "value": true,
+      "quote": "By June 30, 2011, the commission shall adopt new rules on chronic, noncancer pain management",
+      "citation": "18.71.450"
+    },
     "opioid_prescribing_limits": {
-      "value": "The commission must adopt rules establishing requirements for prescribing opioid drugs by January 1, 2019, which may contain exemptions based on education, training, amount of opioids prescribed, patient panel, and practice environment. Rules must include dosing criteria and consultation requirements for pain management. Rules do not apply to palliative, hospice, or end-of-life care, or management of acute pain from injury or surgical procedure.",
+      "value": "By January 1, 2019, the commission must adopt rules establishing requirements for prescribing opioid drugs, which may contain exemptions based on education, training, amount of opioids prescribed, patient panel, and practice environment. By January 1, 2020, rules must require physicians who prescribe opioids to inform patients of their right to refuse an opioid prescription.",
       "quote": "By January 1, 2019, the commission must adopt rules establishing requirements for prescribing opioid drugs. The rules may contain exemptions based on education, training, amount of opioids prescribed, patient panel, and practice environment.",
       "citation": "18.71.800"
     },
     "controlled_substance_database_registration_required": null,
     "pain_management_clinic_registration_required": null,
-    "telehealth_prescribing_rules": null,
-    "telemedicine_license_available": null,
+    "telehealth_prescribing_rules": {
+      "value": "Out-of-state practitioners may consult through telemedicine with a Washington-licensed practitioner who has responsibility for diagnosis and treatment, without requiring a Washington license. The interstate medical licensure compact affirms that practice of medicine occurs where the patient is located.",
+      "quote": "The consultation through telemedicine or other means by a practitioner, licensed by another state or territory in which he or she resides, with a practitioner licensed in this state who has responsibility for the diagnosis and treatment of the patient within this state",
+      "citation": "18.71.030"
+    },
+    "telemedicine_license_available": {
+      "value": false,
+      "quote": "The consultation through telemedicine or other means by a practitioner, licensed by another state or territory in which he or she resides, with a practitioner licensed in this state who has responsibility for the diagnosis and treatment of the patient within this state",
+      "citation": "18.71.030"
+    },
     "interstate_medical_licensure_compact_member": {
       "value": true,
-      "quote": "the member states of the interstate medical licensure compact have allied in common purpose to develop a comprehensive process that complements the existing licensing and regulatory authority of state medical boards, provides a streamlined process that allows physicians to become licensed in multiple states",
+      "quote": "In order to strengthen access to health care, and in recognition of the advances in the delivery of health care, the member states of the interstate medical licensure compact have allied in common purpose",
       "citation": "18.71B.010"
     },
     "physician_assistant_supervision_model": {
@@ -519,13 +505,21 @@
       "citation": "18.71.030"
     },
     "physician_assistant_prescriptive_authority": null,
-    "max_physician_assistants_per_supervising_physician": null,
+    "max_physician_assistants_per_supervising_physician": {
+      "value": 4,
+      "quote": "A supervising physician may supervise no more than four license holders under this subsection unless the commission grants a request to increase this limit.",
+      "citation": "18.71.095"
+    },
     "malpractice_reporting_required": {
       "value": true,
-      "quote": "Every institution or organization providing professional liability insurance to physicians shall send a complete report to the commission of all malpractice settlements, awards, or payments in excess of twenty thousand dollars as a result of a claim or action for damages alleged to have been caused by an insured physician's incompetency or negligence in the practice of medicine.",
+      "quote": "Every institution or organization providing professional liability insurance to physicians shall send a complete report to the commission of all malpractice settlements, awards, or payments in excess of twenty thousand dollars",
       "citation": "18.71.350"
     },
-    "hospital_privilege_action_reporting_required": null,
+    "hospital_privilege_action_reporting_required": {
+      "value": true,
+      "quote": "Every license holder, corporation, organization, health care facility, and state and local governmental agency that employs a license holder shall report to the disciplining authority when the employed license holder's services have been terminated or restricted",
+      "citation": "18.130.080"
+    },
     "impaired_physician_program_authorized": {
       "value": true,
       "quote": "The commission shall enter into a contract with the entity to implement a physician health program.",
@@ -533,7 +527,7 @@
     },
     "compelled_mental_physical_exam_authority": {
       "value": true,
-      "quote": "the disciplining authority may require a license holder to submit to a mental or physical examination by one or more licensed or certified health professionals designated by the disciplining authority",
+      "quote": "In investigating or adjudicating a complaint or report that a license holder may be unable to practice with reasonable skill or safety by reason of any mental or physical condition, the disciplining authority may require a license holder to submit to a mental or physical examination by one or more licensed or certified health professionals designated by the disciplining authority.",
       "citation": "18.130.170"
     },
     "administrative_medicine_license_available": null,

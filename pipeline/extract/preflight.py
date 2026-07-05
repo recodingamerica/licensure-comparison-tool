@@ -52,6 +52,10 @@ def check_pair(profession: str, state: str) -> str | None:
     except Exception:
         # An unreadable/corrupt trim is unusable — treat like empty.
         return "EMPTY_TRIMMED"
+    # Trims are written either as a bare list of sections or as {"sections": [...]};
+    # normalize so a bare-list corpus isn't mistaken for empty/corrupt.
+    if isinstance(d, list):
+        d = {"sections": d}
     if not (d.get("sections") or []):
         return "EMPTY_TRIMMED"
     if is_poisoned(d):
