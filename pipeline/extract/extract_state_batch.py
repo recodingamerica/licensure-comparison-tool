@@ -60,6 +60,7 @@ from pipeline.extract.extract_state import (
     _normalize_for_match,
 )
 from pipeline.paths import DISCOVERED_DIR, TRIMMED_DIR, STRUCTURED_DIR, LOGS_DIR, RESULTS_DIR
+from pipeline import provenance
 from pipeline._llm import extract_json
 from pipeline.extract.preflight import run_preflight, format_report
 
@@ -199,7 +200,8 @@ def _load_metadata(batch_id: str) -> dict:
     return json.loads(p.read_text())
 
 
-def _parse_and_write(custom_id: str, response_message, profile_classes: dict[str, type[BaseModel]]) -> dict | None:
+def _parse_and_write(custom_id: str, response_message, profile_classes: dict[str, type[BaseModel]],
+                     model: str | None = None) -> dict | None:
     """Validate one batch result and write structured/<profession>/<state>.json."""
     profession, state = custom_id.split("__", 1)
     profile_cls = profile_classes.get(profession)
@@ -236,13 +238,19 @@ def _parse_and_write(custom_id: str, response_message, profile_classes: dict[str
     out_path = STRUCTURED_DIR / profession / f"{state}.json"
     out_path.parent.mkdir(parents=True, exist_ok=True)
     out_path.write_text(json.dumps(record, indent=2, ensure_ascii=False))
+    provenance.record("extract", profession, state, model=model)
     return {"profession": profession, "state": state, "verified": verified, "unverified": unverified}
 
 
-def poll(batch_id: str, wait: bool = True) -> None:
-    """Fetch results for an existing batch and write each one to disk."""
+def poll(batch_id: str, wait: bool = True) -> dict | None:
+    """Fetch results for an existing batch and write each one to disk.
+
+    Returns the batch metadata (including the `written`/`errored` accounting) once the
+    batch has ended, or None if called with wait=False before it finished — so a caller
+    can report exactly how many cells were written instead of assuming success."""
     metadata = _load_metadata(batch_id)
     queue = metadata["queue"]
+    batch_model = metadata.get("model")
     # Rebuild the profile classes (so result parsing can validate)
     profile_classes: dict[str, type[BaseModel]] = {}
     for profession in queue:
@@ -268,7 +276,7 @@ def poll(batch_id: str, wait: bool = True) -> None:
             break
         if not wait:
             log.info("not waiting — exit; re-run later to fetch results")
-            return
+            return None
         time.sleep(POLL_INTERVAL_SECS)
 
     log.info("batch ended — fetching results")
@@ -278,7 +286,7 @@ def poll(batch_id: str, wait: bool = True) -> None:
         custom_id = result.custom_id
         if result.result.type == "succeeded":
             outcome = _parse_and_write(
-                custom_id, result.result.message, profile_classes,
+                custom_id, result.result.message, profile_classes, model=batch_model,
             )
             if outcome:
                 written.append(outcome)
@@ -331,6 +339,7 @@ def poll(batch_id: str, wait: bool = True) -> None:
     metadata["errored"] = errored
     metadata["usage"] = {**tot, "cost_usd": round(cost, 4), "baseline_usd": round(sync_no_cache_baseline, 4)}
     (BATCH_DIR / f"{batch_id}.json").write_text(json.dumps(metadata, indent=2))
+    return metadata
 
 
 def list_batches() -> None:

@@ -19,10 +19,11 @@ Loader semantics:
 from __future__ import annotations
 
 import functools
+from pathlib import Path
 
 import yaml
 
-from pipeline.paths import CONFIG_DIR
+from pipeline.paths import CONFIG_DIR, TEXT_DIR
 from pipeline.config.yaml_loader import safe_load_unique
 
 # Re-export so callers can do `from pipeline.config.loaders import load_mapping_overrides`
@@ -85,6 +86,41 @@ def load_corpus_overrides(profession: str | None = None) -> dict:
         return raw
     # Per-profession shape: {STATE: sibling} with state keys upper-cased
     return {str(s).upper(): sib for s, sib in (raw.get(profession) or {}).items() if sib}
+
+
+def corpus_profession_for(profession: str) -> str:
+    """The profession whose harvested text/<X>/ this profession's clean stage reads.
+    Normally itself; for a nested occupation declared `parent_corpus: <parent>` in
+    professions.yaml it's the parent (so e.g. dental_hygienist cleans from dentistry's
+    corpus with no new pull). Mirrors clean_text.corpus_profession_for()."""
+    try:
+        conf = load_professions()
+    except Exception:
+        return profession
+    return (conf.get(profession, {}) or {}).get("parent_corpus") or profession
+
+
+def clean_source_profession(profession: str, state: str, base_dir: Path = TEXT_DIR) -> str:
+    """Which corpus dir-name under base_dir clean_text reads for this (profession, state):
+    a per-state corpus_from sibling when that sibling's file exists under base_dir,
+    otherwise the profession's own name (or its parent_corpus). Matches clean_text's
+    per-state pick exactly. base_dir is a parameter so provenance can pass its own
+    (test-patchable) text root instead of the module-level TEXT_DIR."""
+    sib = load_corpus_overrides(profession=profession).get(state.upper())
+    if sib and (base_dir / sib / f"{state}.json").exists():
+        return sib
+    return corpus_profession_for(profession)
+
+
+def resolve_clean_source(profession: str, state: str, base_dir: Path = TEXT_DIR) -> Path:
+    """The exact text/<...>/<STATE>.json that clean_text reads for this (profession,
+    state) — the single source of truth for 'what corpus does clean consume', shared by
+    clean_text (to read) and provenance (to hash for freshness).
+
+    Because a nested/override profession has NO text/<profession>/ dir of its own, hashing
+    that hardcoded path would always be None==None and the cell could never go stale —
+    resolving to the real parent/sibling corpus closes that hole."""
+    return base_dir / clean_source_profession(profession, state, base_dir) / f"{state}.json"
 
 
 def load_verified_absences() -> dict:

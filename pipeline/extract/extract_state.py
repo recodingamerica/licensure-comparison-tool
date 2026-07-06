@@ -50,6 +50,7 @@ from pipeline.extract.locate_quote import (  # noqa: E402
     quote_in_corpus,
 )
 from pipeline.paths import TRIMMED_DIR, DISCOVERED_DIR, STRUCTURED_DIR, LOGS_DIR, RESULTS_DIR
+from pipeline import provenance
 from pipeline.eval.check_consistency import check_record
 
 LOG_PATH = LOGS_DIR / "extract_state.log"
@@ -395,6 +396,7 @@ def main() -> None:
             continue
         record, stats = outcome
         out_path.write_text(json.dumps(record, indent=2))
+        provenance.record("extract", profession, state, model=args.model)
         # Deterministic cross-field consistency guard: the model sometimes
         # violates the prompt's own invariants (e.g. a title-protection rung
         # flipping to `license` while scope_protection=false). Warn loudly so the
