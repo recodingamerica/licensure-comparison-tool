@@ -23,8 +23,9 @@ challenge pages, but **attaching to a hand-started debug Chrome over CDP clears 
   lives in `config/limits.yaml` (`fetch.per_host_delay_seconds`, default 3.0, +jitter);
   `PULL_HOST_DELAY` still overrides. `pull_text` routes Justia through CDP automatically.
 - **ONE pull process per Chrome** — concurrent jobs garble corpora. A flock guards this.
-- Bulk re-pull is fine this way; `_justia_repull.py` / `_cdp_grind.py` are resumable
-  drivers that commit per profession.
+- Bulk re-pull is fine this way; use `pipeline.ingest.refresh_corpus` (resumable, per-item
+  commits, hardened per the 2026-07-02 CDP lessons) — the tested replacement for the old
+  throwaway `_cdp_*` / `_justia_repull` batch drivers (now removed).
 - **PA is the only state not on Justia** (`legis.state.pa.us`). MD/NV were flipped BACK
   to Justia 2026-07-02 (source-gated dispatch — comment out `source:` to flip a state);
   other official-source states keep their Justia URLs in the index.
@@ -63,6 +64,15 @@ For >2 (state, profession) re-extracts, prefer `pipeline.extract.extract_state_b
   rung rules, cross-field consistency, etc.).
 - Published professions (have map/blob payloads): dentistry, dietetics, medicine,
   nursing, optometry, podiatry, public_accountancy. Others are held-out.
+- `pipeline/client/` — the non-coder handoff layer (README = module map): `status.py`
+  (read-only state + cost + freshness → `results/status/status.json`), `dashboard.py`
+  (offline `dashboard.html` picker), `run.py` (`clean`/`trim`/`extract`/`publish`), and
+  `refetch.sh`. Client guide: `docs/runbooks/client_refetch.md`.
+- `pipeline/provenance.py` — content-hash **freshness** (survives `git clone`): each stage
+  stamps `results/provenance/<prof>/<state>.json`; `check()`→current/stale/unstamped, so
+  "done" means "current" not just "a file exists." A prompt/corpus/schema change flips
+  affected cells stale. `provenance report` / `backfill`. Bump `CODE_VERSION[stage]` when a
+  stage's logic should invalidate old outputs.
 
 ## Completeness: pulling everything Justia has that's relevant to a profession
 
