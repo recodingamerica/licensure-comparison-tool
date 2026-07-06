@@ -47,8 +47,9 @@ map_prep) cost money and run deliberately.
   (definitions, board powers, discipline) sit in a separate chapter. If a state's
   record lacks discipline/enforcement, suspect an un-merged umbrella.
   See [[reference_centralized_discipline_pattern]].
-- Detect: `_cdp_xref_audit.py` → candidates; resolve URLs with
-  `_cdp_umbrella_resolve.py`; the general-provisions chapter is merged into the
+- Detect: `pipeline.discover.mechanical_cross_ref` → candidates; resolve umbrella
+  URLs with `pipeline.discover.umbrella_from_citations` (then `pipeline.ingest.pull_umbrella_text`);
+  the general-provisions chapter is merged into the
   trade corpus (`_umbrella_inject.json` records what was injected). Container map:
   `docs/reports/umbrella_containers_2026-06-24.json` (17 states).
 
