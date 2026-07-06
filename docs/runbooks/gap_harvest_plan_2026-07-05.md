@@ -136,6 +136,22 @@ star: "for every occupation, have every chapter that could regulate it, in every
 Implication for counts: report the flywheel's discovered-new-professions per round and
 never claim "complete" — claim "N rounds ran dry," which is honest.
 
+## ACTUAL RESULTS (executed 2026-07-05/06)
+
+Pivoted from the expand-and-crawl plan above to **search-driven** after the pilot proved the
+hierarchy is rooted at each state's single licensing title (topical-nested professions are
+outside the crawl — see README). Full working pipeline + code now in
+`pipeline/discover/gap_harvest/`.
+
+- **1,061 gaps** → locator: **772 primary located + 128 recovered + 161 confirmed-absent**.
+  URL liveness 94% (68/72 sampled LIVE); nulls validated correct (opticians unlicensed in
+  ~22 states, commercial bail banned IL/OR/WI/KY).
+- **Reuse** copied 261 cells instantly (18,299 sections) → pull dropped 772 → 510.
+- **Pull** running ~2.8 min/cell, **0 empties**, 0 thread errors, challenges self-clear.
+- **Flywheel PROVEN**: `classify_occs.py` found pest_control (all-50-states license we'd
+  missed) + 7 others; located at 82% (79/96). Added to professions.yaml (86 → 94), parked
+  pending the post-pull flywheel round.
+
 ## Guardrails (from CLAUDE.md + this session)
 - ONE expand/pull process per Chrome (flock). Never two committing processes (git lock).
 - Leave the debug Chrome open + solved; `caffeinate -disu` for unattended runs.
