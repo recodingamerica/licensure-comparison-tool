@@ -14,6 +14,23 @@ Seeded from Utah's Title 58 — Utah's 46 licensed professions are the canonical
 registry (`pipeline/config/professions.yaml`); other states fill in those
 same professions where they exist.
 
+## Which document to read
+
+This README is the entry point: what the project is, how to set it up, and how
+to run it. The others each own one thing:
+
+| Doc | Owns | Read it when |
+|---|---|---|
+| **README.md** (this) | Setup, how to run, project overview | Starting out, or running the pipeline |
+| **CLAUDE.md** | Operator/agent instructions — the authoritative, up-to-date pipeline mechanics (fetching, re-extract order, completeness) | You're doing pipeline ops; it wins on any conflict about *how the pipeline works today* |
+| **ARCHITECTURE.md** | Design rationale and layout | You want the "why" behind the structure |
+| **STATUS.md** | A point-in-time progress snapshot (not kept current) | You want a historical status note — treat dates as of writing |
+
+For a non-coder running the pipeline (Utah OPLR), the supported path is
+`pipeline/client/` — a dashboard to pick occupations and three cost-gated
+commands (clean/trim/extract) that hide the stage details. See
+[`docs/runbooks/client_refetch.md`](docs/runbooks/client_refetch.md).
+
 ## Current status
 
 Seven professions wired through end-to-end: **dentistry**, **dietetics**,
@@ -59,15 +76,34 @@ Pipeline stages, all working:
 
 ## How to run it
 
-Setup:
+Setup (from the repo root):
 
 ```bash
-cd pipeline
-python3 -m venv .venv
-.venv/bin/pip install -r requirements.txt
+python3 -m venv pipeline/.venv
+pipeline/.venv/bin/pip install -r pipeline/requirements.txt   # or: pip install -e .
 ```
 
-Add a profession (one that's already in `config/professions.yaml`):
+The LLM stages need an API key. Put it in a project-local `.env` at the repo
+root — `pipeline/_env.py` loads it automatically:
+
+```bash
+# utah/.env
+ANTHROPIC_API_KEY=sk-ant-...      # CLAUDE_API_KEY also works (mapped to ANTHROPIC_API_KEY)
+```
+
+**Non-coder path (Utah OPLR):** don't run the stage modules by hand — use
+`pipeline/client/`. Build the dashboard, pick occupations, and run the three
+cost-gated commands it prints:
+
+```bash
+pipeline/.venv/bin/python -m pipeline.client.dashboard   # writes results/status/dashboard.html
+pipeline/.venv/bin/python -m pipeline.client.run clean   --queue my_queue.json   # FREE
+pipeline/.venv/bin/python -m pipeline.client.run trim    --queue my_queue.json   # ~$0.05/state, asks first
+pipeline/.venv/bin/python -m pipeline.client.run extract --queue my_queue.json   # ~$0.15/state, asks first
+```
+
+Add a profession (one that's already in `config/professions.yaml`), running the
+stage modules directly:
 
 ```bash
 # 1. Match — uses state_structure.yaml overrides + professions.yaml patterns
@@ -111,6 +147,11 @@ cd pipeline/publish/web
 vercel --prod
 ```
 
+For the **non-coder deploy path** (build data + push live in one gated command),
+see [`docs/runbooks/client_deploy.md`](docs/runbooks/client_deploy.md) — it covers
+the one-time `vercel link` / `vercel env pull` setup and the confirm-gated
+`publish --deploy`.
+
 The site sits behind HTTP Basic Auth via `middleware.ts` — username can
 be anything, password is `SITE_PASSWORD` (set on Vercel + in
 `.env.local`).
@@ -126,7 +167,6 @@ be anything, password is `SITE_PASSWORD` (set on Vercel + in
 
 ## Known gaps and limits
 
-- **`run.py` orchestrator is a stub.** Stage scripts run individually for now.
 - **PA podiatry coverage gap.** palegis.us is JS-rendered + query-string-driven; FindLaw is anti-scrape; Cornell LII doesn't host state statutes. Documented as a deferred gap; would need Playwright + custom navigation or a paid source (Westlaw).
 - **Admin code (CE topical rules, application procedure specifics) not yet pulled.** `regs_targets.csv` exists but isn't wired into the ingest stage. Would close many of the visible "—" cells under CE hours.
 - **Centralized-discipline states under-captured.** Some states put disciplinary grounds in a state-wide chapter rather than the profession act; if that umbrella chapter isn't in scope, the profession shows few/zero grounds. **Montana (Title 37-1)** is the biggest case — low/zero discipline across dentistry, nursing, optometry, accountancy. Fix is a per-state scope-manifest entry. See `docs/reports/gap_report.md`.
@@ -194,8 +234,10 @@ pipeline/
     map_prep/            # normalized values + text-bucket tags per profession
   logs/
   paths.py               # canonical path constants
-  run.py                 # orchestrator (stub)
+  provenance.py          # content-hash freshness (current/stale/unstamped, survives clone)
+  client/                # non-coder path: status.py + dashboard.py + run.py + refetch.sh
   _prompts.py            # prompt loader
+  _env.py                # loads utah/.env (ANTHROPIC_API_KEY / CLAUDE_API_KEY)
 ```
 
 ## Decisions worth knowing
