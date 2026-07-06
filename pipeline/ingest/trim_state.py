@@ -39,6 +39,7 @@ from pipeline._llm import call_structured
 from pipeline._records import record_files
 from pipeline._runlog import record_run
 from pipeline.paths import CLEAN_DIR, TRIMMED_DIR, LOGS_DIR
+from pipeline import provenance
 from pipeline.ingest._trim_health import LLM_FAIL_REASON
 from pipeline.config.loaders import load_limits
 
@@ -267,6 +268,7 @@ def main() -> None:
             continue
         out_path = out_dir / f"{state}.json"
         out_path.write_text(json.dumps(asdict(corpus), indent=2))
+        provenance.record("trim", profession, state, model=args.model)
         n_run += 1
 
     # Cumulative summary rebuilt from every trimmed corpus on disk (not just this

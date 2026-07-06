@@ -30,6 +30,7 @@ from pathlib import Path
 from typing import Callable
 
 from pipeline.paths import TEXT_DIR, CLEAN_DIR, LOGS_DIR, CONFIG_DIR
+from pipeline import provenance
 from pipeline._records import record_files
 from pipeline._runlog import record_run
 from pipeline.config.loaders import load_professions, load_corpus_overrides
@@ -301,6 +302,7 @@ def main() -> None:
             continue
         out_path = out_dir / f"{state}.json"
         out_path.write_text(json.dumps(asdict(corpus), indent=2))
+        provenance.record("clean", profession, state)
         borrowed = path.parent.name if path.parent.name != base_prof else ""
         log.info(
             "[%s] kept=%d dropped=%d chars=%d%s",
