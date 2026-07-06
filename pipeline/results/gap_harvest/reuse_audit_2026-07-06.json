@@ -1,0 +1,62 @@
+{
+  "note": "Reuse audit 2026-07-06. reuse.py is structurally sound (0 prefix-leakage across 261). These cells reused a sibling corpus that was itself index-only/repealed, so they are stubs that current tooling (is_pulled sees 1 section) treats as done and would extract to nothing. REPULL the degenerate set via CDP after the main pull; REVIEW the empty set (may be genuinely all-repealed).",
+  "repull_degenerate": {
+    "osteopathic_medicine": {
+      "MS": "https://law.justia.com/codes/mississippi/title-73/chapter-25/",
+      "TX": "https://law.justia.com/codes/texas/occupations-code/title-3/subtitle-b/chapter-155/",
+      "ND": "https://law.justia.com/codes/north-dakota/title-43/chapter-43-17/"
+    },
+    "opticianry": {
+      "MS": "https://law.justia.com/codes/mississippi/title-73/chapter-19/",
+      "ND": "https://law.justia.com/codes/north-dakota/title-43/chapter-43-13/"
+    },
+    "nurse_midwifery": {
+      "IL": "https://law.justia.com/codes/illinois/chapter-225/act-225-ilcs-65/article-65/",
+      "ND": "https://law.justia.com/codes/north-dakota/title-43/chapter-43-12-1/"
+    },
+    "professional_engineering": {
+      "TX": "https://law.justia.com/codes/texas/occupations-code/title-6/subtitle-a/chapter-1001/"
+    },
+    "land_surveying": {
+      "WY": "https://law.justia.com/codes/wyoming/title-33/chapter-29/"
+    },
+    "hvac": {
+      "ND": "https://law.justia.com/codes/north-dakota/title-43/chapter-43-07/"
+    },
+    "professional_geology": {
+      "TX": "https://law.justia.com/codes/texas/occupations-code/title-6/subtitle-a/chapter-1002/"
+    },
+    "wholesale_drug_distributor": {
+      "OK": "https://law.justia.com/codes/oklahoma/title-59/chapter-3/"
+    },
+    "dental_hygienist": {
+      "MS": "https://law.justia.com/codes/mississippi/title-73/chapter-9/"
+    }
+  },
+  "review_empty": {
+    "optician": {
+      "MT": "https://law.justia.com/codes/montana/title-37/chapter-10/part-3/"
+    },
+    "osteopathic_medicine": {
+      "MT": "https://law.justia.com/codes/montana/title-37/chapter-3/part-3/"
+    },
+    "opticianry": {
+      "MT": "https://law.justia.com/codes/montana/title-37/chapter-10/"
+    },
+    "nurse_midwifery": {
+      "MS": "https://law.justia.com/codes/mississippi/title-73/chapter-15/"
+    },
+    "radiologic_technology": {
+      "TN": "https://law.justia.com/codes/tennessee/title-63/chapter-6/part-9/"
+    },
+    "land_surveying": {
+      "NM": "https://law.justia.com/codes/new-mexico/chapter-61/article-23/"
+    }
+  },
+  "counts": {
+    "reused_total": 261,
+    "live_ok": 242,
+    "degenerate": 13,
+    "empty": 6
+  }
+}
