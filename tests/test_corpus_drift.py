@@ -54,8 +54,14 @@ class TestOfficialSourceSkip:
         assert "NY" not in cd._active_official_sources()
 
     def test_active_source_state_skipped_but_retired_not(self):
+        # 2026-07-07: WA/VA/CT/SD/ME/ID/RI/VT's source: tags were commented out —
+        # they were vestigial (chapter_url_template retired 2026-07-01, corpora
+        # already 100% Justia) but still uncommented, which silently made
+        # corpus_drift skip real drift-checks on all 8. PA is now the only
+        # genuinely-active official source.
         got = cd._active_official_sources()
-        assert "WA" in got          # active source: wa_official
+        assert "PA" in got          # active source: pa_legis
+        assert "WA" not in got      # source retired/commented -> real drift detection
         assert "MN" not in got      # source retired/commented -> real drift detection
 
 
