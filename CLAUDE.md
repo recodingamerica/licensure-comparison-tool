@@ -62,8 +62,10 @@ For >2 (state, profession) re-extracts, prefer `pipeline.extract.extract_state_b
 - `pipeline/config/professions.yaml` — profession definitions + match patterns.
 - `pipeline/config/prompts.yaml` — extraction prompts (the `regulatory_model`
   rung rules, cross-field consistency, etc.).
-- Published professions (have map/blob payloads): dentistry, dietetics, medicine,
-  nursing, optometry, podiatry, public_accountancy. Others are held-out.
+- Published professions = whatever has a payload in `pipeline/publish/web/public/data/`
+  (13 as of 2026-07-07: the 7 health/finance originals + architecture, construction_trades,
+  electrician, hvac, plumbing, professional_engineering). Don't trust a hand-written list —
+  check the dir, or run `python -m pipeline.client.handoff_doc` which derives it.
 - `pipeline/client/` — the non-coder handoff layer (README = module map): `status.py`
   (read-only state + cost + freshness → `results/status/status.json`), `dashboard.py`
   (offline `dashboard.html` picker), `run.py` (`clean`/`trim`/`extract`/`publish`), and
