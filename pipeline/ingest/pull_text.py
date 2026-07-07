@@ -97,17 +97,16 @@ class StateCorpus:
     section_cap_hit: int | None = None  # set to the cap value when --limit-sections fires
 
 
-# --- Cloudflare unblocker (opt-in, for Justia which now CF-blocks our IPs) ---
+# --- Cloudflare handling (Justia, which CF-blocks our IPs) ---
 # Justia sits behind a Cloudflare JS challenge that curl_cffi can't solve from
-# datacenter IPs. When SCRAPERAPI_KEY is set, route blocked hosts through
-# ScraperAPI's render+ultra_premium endpoint (solves the challenge server-side
-# from clean IPs). Only hosts in _UNBLOCK_HOSTS are routed — official state
-# sources (le.utah.gov, sdlegislature.gov, …) fetch direct, free, as before.
+# datacenter IPs. The ONLY thing that reliably clears it is a hand-started
+# debug Chrome attached over CDP (JUSTIA_CDP_URL) — see _get_browser_page().
+# A residential proxy and ScraperAPI were both tried as no-human-required
+# fallbacks and NEITHER actually clears Justia's challenge (2026-07-08); that
+# code was removed rather than left as a backup that silently doesn't work.
+# Only hosts in _UNBLOCK_HOSTS get browser treatment — official state sources
+# (le.utah.gov, sdlegislature.gov, …) fetch direct, free, as before.
 _UNBLOCK_HOSTS = ("law.justia.com",)
-
-
-# ScraperAPI render / proxy hops can take 30-70s; direct fetches stay snappy.
-_UNBLOCK_TIMEOUT = 75
 
 
 def _env_get(name: str) -> str | None:
@@ -122,30 +121,9 @@ def _env_get(name: str) -> str | None:
     return v
 
 
-def _unblock_plan(url: str) -> tuple[str, int, dict | None]:
-    """Decide how to fetch a Cloudflare-blocked host. Returns
-    (fetch_url, timeout, proxies). Precedence: residential proxy (cheapest) >
-    ScraperAPI > direct. Non-blocked hosts always fetch direct, no proxy."""
-    host = urllib.parse.urlparse(url).netloc.lower()
-    if not any(h in host for h in _UNBLOCK_HOSTS):
-        return url, TIMEOUT, None
-    proxy = _env_get("RESIDENTIAL_PROXY")
-    if proxy:
-        # A residential IP + curl_cffi's chrome impersonation is what passes
-        # Cloudflare; route the real request through the proxy.
-        return url, _UNBLOCK_TIMEOUT, {"http": proxy, "https": proxy}
-    key = _env_get("SCRAPERAPI_KEY")
-    if key:
-        params = urllib.parse.urlencode({
-            "api_key": key, "url": url, "render": "true", "ultra_premium": "true",
-        })
-        return f"https://api.scraperapi.com/?{params}", _UNBLOCK_TIMEOUT, None
-    return url, TIMEOUT, None
-
-
-# --- Headful-browser fetch for Cloudflare (Justia) via residential proxy ---
-# Cloudflare's "Just a moment" challenge is beaten only by a REAL browser from a
-# residential IP. We keep ONE headful Chromium open through the proxy: the first
+# --- Headful-browser fetch for Cloudflare (Justia) via a CDP-attached Chrome ---
+# Cloudflare's "Just a moment" challenge is beaten only by a REAL, hand-driven
+# browser session. We keep ONE headful Chromium open (CDP-attached): the first
 # Justia page solves the challenge, and the cf_clearance cookie carries the rest
 # (fast). Heavy resources (images/media/fonts/css) are blocked to conserve proxy
 # bandwidth. Lazily started, reused across the whole run, closed at exit.
@@ -190,21 +168,6 @@ def _acquire_cdp_lock() -> None:
                                      "pull_text process.")
         log.info("  ▶ acquired CDP lock, proceeding")
     _CDP_LOCK_FH = fh
-
-
-def _proxy_for_playwright() -> dict | None:
-    raw = _env_get("RESIDENTIAL_PROXY")
-    if not raw:
-        return None
-    u = urllib.parse.urlparse(raw)
-    pw = urllib.parse.unquote(u.password or "")
-    # Sticky IP for the run (so one CF solve's cf_clearance carries the rest),
-    # but a FRESH IP each process (pid) so a previously-flagged IP isn't reused.
-    if "_session-" not in pw and "session-" not in pw:
-        pw = f"{pw}_session-utah{os.getpid()}_lifetime-30m"
-    return {"server": f"{u.scheme}://{u.hostname}:{u.port}",
-            "username": urllib.parse.unquote(u.username or ""),
-            "password": pw}
 
 
 def _get_browser_page():
@@ -252,26 +215,16 @@ def _get_browser_page():
             except Exception:
                 pass
             return page
-        try:
-            from patchright.sync_api import sync_playwright
-        except Exception:
-            from playwright.sync_api import sync_playwright
-        pw = sync_playwright().start()
-        browser = pw.chromium.launch(headless=False, proxy=_proxy_for_playwright())
-        ctx = browser.new_context()
-
-        # Block only images/media (biggest bandwidth, never needed for the CF
-        # challenge or the statute text). Keep CSS/JS/fonts so the challenge
-        # solves reliably.
-        def _block(route):
-            if route.request.resource_type in ("image", "media"):
-                route.abort()
-            else:
-                route.continue_()
-        ctx.route("**/*", _block)
-        page = ctx.new_page()
-        _BROWSER = {"pw": pw, "browser": browser, "ctx": ctx, "page": page}
-        atexit.register(_close_browser)
+        # No CDP URL set. A launched/automated Chromium (with or without a
+        # residential proxy) does NOT clear Justia's Cloudflare challenge — both
+        # were tried and neither works (2026-07-08) — so there is no fallback
+        # left to attempt. Fail clearly instead of silently launching a browser
+        # that will just sit on the challenge page forever.
+        raise RuntimeError(
+            "JUSTIA_CDP_URL is not set. Justia's Cloudflare challenge can only be "
+            "cleared by attaching to a hand-started debug Chrome over CDP — start "
+            "one and set JUSTIA_CDP_URL (see docs/runbooks/cdp_repull_lessons_2026-07-02.md)."
+        )
     return _BROWSER["page"]
 
 
@@ -281,14 +234,11 @@ def _close_browser() -> None:
         try:
             # Over CDP: don't close the user's real Chrome — but DO close the
             # dedicated tab we opened, so tabs don't pile up across pulls.
-            if _BROWSER.get("cdp"):
-                if _BROWSER.get("own_page"):
-                    try:
-                        _BROWSER["page"].close()
-                    except Exception:
-                        pass
-            else:
-                _BROWSER["browser"].close()
+            # Never close the user's real Chrome — just our own dedicated tab.
+            try:
+                _BROWSER["page"].close()
+            except Exception:
+                pass
             _BROWSER["pw"].stop()
         except Exception:
             pass
@@ -337,17 +287,15 @@ def _use_browser(url: str) -> bool:
     host = urllib.parse.urlparse(url).netloc.lower()
     if not any(h in host for h in _UNBLOCK_HOSTS):
         return False
-    # CDP-attached real Chrome (preferred) or residential-proxy headful browser.
-    return bool(_env_get("JUSTIA_CDP_URL") or _env_get("RESIDENTIAL_PROXY"))
+    return bool(_env_get("JUSTIA_CDP_URL"))
 
 
 def fetch(url: str) -> tuple[int | None, str | None, str | None]:
     if _use_browser(url):
         return fetch_via_browser(url)
-    fetch_url, timeout, proxies = _unblock_plan(url)
     try:
-        r = cffi_requests.get(fetch_url, impersonate="chrome", timeout=timeout,
-                              allow_redirects=True, proxies=proxies)
+        r = cffi_requests.get(url, impersonate="chrome", timeout=TIMEOUT,
+                              allow_redirects=True)
         return r.status_code, r.text, None
     except Exception as e:
         return None, None, f"{type(e).__name__}: {e}"
@@ -359,16 +307,15 @@ def fetch_bytes(url: str) -> tuple[int | None, bytes | None, str | None]:
     curl_cffi's text auto-decode mangles into replacement chars. Retries with
     verify=False on a cert error (some state sites ship an incomplete cert chain,
     e.g. cga.ct.gov)."""
-    fetch_url, timeout, proxies = _unblock_plan(url)
     try:
-        r = cffi_requests.get(fetch_url, impersonate="chrome", timeout=timeout,
-                              allow_redirects=True, proxies=proxies)
+        r = cffi_requests.get(url, impersonate="chrome", timeout=TIMEOUT,
+                              allow_redirects=True)
         return r.status_code, r.content, None
     except Exception as e:
         if "certificate" in str(e).lower() or "ssl" in str(e).lower():
             try:
-                r = cffi_requests.get(fetch_url, impersonate="chrome", timeout=timeout,
-                                      allow_redirects=True, proxies=proxies, verify=False)
+                r = cffi_requests.get(url, impersonate="chrome", timeout=TIMEOUT,
+                                      allow_redirects=True, verify=False)
                 return r.status_code, r.content, None
             except Exception as e2:
                 return None, None, f"{type(e2).__name__}: {e2}"
