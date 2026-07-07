@@ -1,0 +1,345 @@
+{
+  "profession": "public_weighmaster",
+  "fields": [
+    {
+      "name": "deputy_weighmaster_license_required",
+      "category": "deputy and delegated weighing",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether deputies or agents who issue certified weight tickets on behalf of the principal weighmaster must hold their own separate license.",
+      "sample_quote": "Any weighmaster must file an application with the director for a license for any employee or agent to operate and issue certified weight tickets from each scale which such weighmaster is licensed to operate.",
+      "sample_state": "WA",
+      "states_supporting": [
+        "AZ",
+        "CA",
+        "WA"
+      ]
+    },
+    {
+      "name": "deputy_weighmaster_responsibility_on_principal",
+      "category": "deputy and delegated weighing",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the principal weighmaster is legally responsible for all acts performed by deputy weighmasters acting under their authority.",
+      "sample_quote": "A weighmaster may employ or designate any person to act for the weighmaster as a deputy weighmaster and shall be responsible for all acts performed by that person.",
+      "sample_state": "CA",
+      "states_supporting": [
+        "CA",
+        "AZ",
+        "WA"
+      ]
+    },
+    {
+      "name": "deputy_training_required_by_principal",
+      "category": "deputy and delegated weighing",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the principal weighmaster is explicitly required to provide training to deputy weighmasters who use the principal's seal.",
+      "sample_quote": "A public weighmaster shall provide the necessary training for any deputy weighmaster using the public weighmaster's seal to certify weigh tickets.",
+      "sample_state": "AZ",
+      "states_supporting": [
+        "AZ",
+        "CA"
+      ]
+    },
+    {
+      "name": "limited_government_employee_license_available",
+      "category": "deputy and delegated weighing",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether a no-cost limited license may be issued to qualified government officers or employees authorizing them to act as public weighmasters only within the scope of their official duties.",
+      "sample_quote": "The commissioner may, upon request and without charge, issue a limited public weighmaster license to any qualified officer or employee of a state commission, board, institution or agency, authorizing such officer or employee to act as a public weighmaster only within the scope of such officer's or employee's official employment.",
+      "sample_state": "CT",
+      "states_supporting": [
+        "AZ",
+        "CT",
+        "NV"
+      ]
+    },
+    {
+      "name": "scale_certification_required_for_license",
+      "category": "weighing equipment requirements",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the applicant must have access to a scale that is licensed, certified, or approved by the state before a weighmaster license is issued.",
+      "sample_quote": "Have possession of, or have available for use, a scale that is of sufficient capacity and size and that is licensed and certified pursuant to section 3-3451.",
+      "sample_state": "AZ",
+      "states_supporting": [
+        "AZ",
+        "CT",
+        "NV",
+        "WA"
+      ]
+    },
+    {
+      "name": "scale_platform_must_accommodate_full_vehicle",
+      "category": "weighing equipment requirements",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the scale platform must be large enough to accommodate the entire vehicle or combination of vehicles as one complete unit.",
+      "sample_quote": "No weighmaster shall weigh a vehicle or combination of vehicles to determine the weight of such vehicle or combination of vehicles unless the weighing device has a platform of sufficient size to accommodate such vehicle or combination of vehicles fully and completely as one entire unit.",
+      "sample_state": "WA",
+      "states_supporting": [
+        "CA",
+        "CT",
+        "NV",
+        "WA"
+      ]
+    },
+    {
+      "name": "scale_capacity_must_not_be_exceeded",
+      "category": "weighing equipment requirements",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether a weighmaster is prohibited from using a scale to weigh a load that exceeds the scale's rated or nominal capacity.",
+      "sample_quote": "A public weighmaster shall not use any scale to weigh a load the value of which exceeds the nominal or rated capacity of the scale.",
+      "sample_state": "CT",
+      "states_supporting": [
+        "CT",
+        "WA"
+      ]
+    },
+    {
+      "name": "scale_testing_interval_months",
+      "category": "weighing equipment requirements",
+      "type": "int",
+      "enum_values": null,
+      "description": "The maximum number of months within which a weighing device must have been tested and approved by a state weights and measures officer before it may be used for certification.",
+      "sample_quote": "A public weighmaster shall use a weighing device that is of a type suitable for the weighing of the amount and kind of material to be weighed and that has been tested and approved for use by a weights and measures officer of this state within a period of twelve months immediately preceding the date of the weighing.",
+      "sample_state": "CT",
+      "states_supporting": [
+        "CT",
+        "NV",
+        "WA"
+      ]
+    },
+    {
+      "name": "unattended_automated_weighing_system_authorized",
+      "category": "weighing equipment requirements",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether an automated or unattended weighing system not directly supervised by a weighmaster may be used to weigh vehicles and issue certificates.",
+      "sample_quote": "Any weighmaster weighing any vehicle moving construction materials \u2026 may use an unattended weighing system to weigh the vehicle and to issue a weighmaster certificate to buyers who opt to utilize the unattended system.",
+      "sample_state": "CA",
+      "states_supporting": [
+        "CA",
+        "WA"
+      ]
+    },
+    {
+      "name": "weight_certificate_required_fields",
+      "category": "weight certificate content and format",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "The specific data elements that must appear on every weight certificate issued by a public weighmaster.",
+      "sample_quote": "The certified weight ticket shall \u2026 contain the following information: (1) The date of issuance; (2) The kind of commodity weighed, measured, or counted; (3) The name of the owner, agent, or consignee of the commodity weighed; (4) The name of the seller, agent, or consignor; (5) The accurate weight, measure, or count \u2026 (6) The identifying numerals or symbols \u2026 (7) The means by which the commodity was being transported \u2026 (8) The name of the city or town where such commodity was weighed; (9) The complete signature of the weighmaster or weigher.",
+      "sample_state": "WA",
+      "states_supporting": [
+        "AZ",
+        "CA",
+        "CT",
+        "NV",
+        "WA"
+      ]
+    },
+    {
+      "name": "certificate_numbering_required",
+      "category": "weight certificate content and format",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether each weight certificate must be numbered consecutively.",
+      "sample_quote": "Each certificate shall be numbered consecutively.",
+      "sample_state": "CA",
+      "states_supporting": [
+        "CA",
+        "NV",
+        "WA"
+      ]
+    },
+    {
+      "name": "certificate_is_prima_facie_evidence",
+      "category": "weight certificate content and format",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether a properly completed and signed weight certificate constitutes prima facie evidence of the accuracy of the measurements shown.",
+      "sample_quote": "A certificate of weights and measures, when properly filled out and signed, is prima facie evidence of the accuracy of the measurements shown.",
+      "sample_state": "NV",
+      "states_supporting": [
+        "NV",
+        "WA"
+      ]
+    },
+    {
+      "name": "correction_certificate_required_for_errors",
+      "category": "weight certificate content and format",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether a separate correction certificate must be issued to all parties when an error is discovered on a previously issued certificate.",
+      "sample_quote": "A certificate on which a weight, measure, or count error is discovered after issuance shall be corrected by issuing a correction certificate to all parties who were issued the original certificate.",
+      "sample_state": "CA",
+      "states_supporting": [
+        "CA",
+        "CT"
+      ]
+    },
+    {
+      "name": "impression_seal_authorized",
+      "category": "weight certificate content and format",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether certification may be made by means of an official impression seal placed on the weight ticket by the weighmaster or weigher.",
+      "sample_quote": "Certification must be made by means of an impression seal, the impress of which shall be placed by the weighmaster or weigher making the weight determination upon the weights shown on the weight tickets.",
+      "sample_state": "WA",
+      "states_supporting": [
+        "AZ",
+        "WA"
+      ]
+    },
+    {
+      "name": "certificate_record_retention_period_years",
+      "category": "recordkeeping obligations",
+      "type": "int",
+      "enum_values": null,
+      "description": "The minimum number of years a weighmaster must retain copies of all weight certificates issued.",
+      "sample_quote": "All weighmasters shall keep and preserve, as records, for a period of four years, all copies of voided certificates, records, and worksheets required by this chapter and true copies of all weighmaster certificates issued.",
+      "sample_state": "CA",
+      "states_supporting": [
+        "CA",
+        "CT",
+        "NV",
+        "WA"
+      ]
+    },
+    {
+      "name": "records_open_to_inspection",
+      "category": "recordkeeping obligations",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether retained weight certificate records must be available for inspection by state weights and measures officials at all reasonable times.",
+      "sample_quote": "These records shall be made available at all reasonable business hours for inspection by the director.",
+      "sample_state": "WA",
+      "states_supporting": [
+        "AZ",
+        "CA",
+        "CT",
+        "NV",
+        "WA"
+      ]
+    },
+    {
+      "name": "license_fee_per_scale_location",
+      "category": "license fees and scale-based structure",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the weighmaster license fee is assessed on a per-scale or per-location basis rather than as a single flat fee.",
+      "sample_quote": "Such annual application shall be accompanied by a license fee of eighty dollars for each scale from which certified weights will be issued.",
+      "sample_state": "WA",
+      "states_supporting": [
+        "CA",
+        "WA"
+      ]
+    },
+    {
+      "name": "license_posted_at_scale_site_required",
+      "category": "license fees and scale-based structure",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the weighmaster license must be physically posted at the licensed scale site and accessible to regulators during normal business hours.",
+      "sample_quote": "A public weighmaster or deputy weighmaster license shall be posted at the licensed scale site in a manner that provides the division access to the license during normal business hours.",
+      "sample_state": "AZ",
+      "states_supporting": [
+        "AZ",
+        "CA"
+      ]
+    },
+    {
+      "name": "exempted_person_categories",
+      "category": "who does not need a license",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "Categories of persons who are explicitly exempt from or not required to obtain a public weighmaster license.",
+      "sample_quote": "The following persons are not weighmasters: (a) Retailers weighing, measuring, or counting commodities for sale by them in retail stores in the presence of, and directly to, consumers. \u2026 (b) \u2026 producers of agricultural commodities or livestock, who weigh commodities produced or purchased by them \u2026 (c) Common carriers issuing bills of lading \u2026",
+      "sample_state": "CA",
+      "states_supporting": [
+        "AZ",
+        "CA",
+        "CT",
+        "NV",
+        "WA"
+      ]
+    },
+    {
+      "name": "mandatory_weighing_commodity_types",
+      "category": "who does not need a license",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "Specific commodity types or transaction contexts for which weighing by a licensed public weighmaster and issuance of a certificate is legally required.",
+      "sample_quote": "Farm products sold by bulk weight or delivered to a processing or conditioning establishment for processing, conditioning, or sale, shall be weighed by a weighmaster, and a weighmaster certificate of the weight shall be issued to the producer.",
+      "sample_state": "CA",
+      "states_supporting": [
+        "CA",
+        "WA"
+      ]
+    },
+    {
+      "name": "reciprocal_certificate_recognition",
+      "category": "interstate recognition",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state will recognize and accept weight certificates issued by licensed public weighmasters of other states on a reciprocal basis.",
+      "sample_quote": "The State Sealer of Measurement Standards may recognize and accept certificates of weights and measures issued by licensed public weighmasters of any other state if that other state recognizes and accepts certificates of weights and measures issued by licensed public weighmasters of this state.",
+      "sample_state": "NV",
+      "states_supporting": [
+        "NV",
+        "WA"
+      ]
+    },
+    {
+      "name": "child_support_compliance_required_for_license",
+      "category": "additional eligibility conditions",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether an applicant must certify compliance with child support court orders as a condition of obtaining or renewing a weighmaster license.",
+      "sample_quote": "A license as a public weighmaster may not be issued or renewed by the State Sealer of Measurement Standards \u2026 if the applicant \u2026 Indicates on the statement submitted pursuant to subsection 1 that he or she is subject to a court order for the support of a child and is not in compliance with the order.",
+      "sample_state": "NV",
+      "states_supporting": [
+        "NV",
+        "WA"
+      ]
+    },
+    {
+      "name": "criminal_history_pre_screening_available",
+      "category": "additional eligibility conditions",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether a person with a criminal history may petition the licensing authority for a preliminary determination of whether that history will disqualify them before investing in education or fees.",
+      "sample_quote": "The State Sealer of Measurement Standards shall develop and implement a process by which a person with a criminal history may petition the State Sealer of Measurement Standards to review the criminal history of the person to determine if the person's criminal history will disqualify the person from obtaining a license as a public weighmaster.",
+      "sample_state": "NV",
+      "states_supporting": [
+        "NV",
+        "CA"
+      ]
+    },
+    {
+      "name": "state_residency_required",
+      "category": "additional eligibility conditions",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether an applicant must be a resident of the state in order to obtain a public weighmaster license.",
+      "sample_quote": "Any person who is a resident of the state of Connecticut, is eighteen years of age or older, is of good moral character and has the ability to weigh accurately and make correct weight certificates may apply to the commissioner for a public weighmaster license.",
+      "sample_state": "CT",
+      "states_supporting": [
+        "CT",
+        "WA"
+      ]
+    }
+  ],
+  "states_sampled": [
+    "AZ",
+    "CA",
+    "CT",
+    "NV",
+    "WA"
+  ],
+  "states_excluded_count": 0
+}

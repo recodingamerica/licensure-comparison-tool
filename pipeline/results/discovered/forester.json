@@ -1,0 +1,491 @@
+{
+  "profession": "forester",
+  "fields": [
+    {
+      "name": "tiered_license_classes",
+      "category": "license tiers and credential levels",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "Named tiers or classes of forestry credentials below or alongside the full forester license, such as intern forester or forest products harvester.",
+      "sample_quote": "There shall be three classifications for commercial forest practitioners: Forester, supervising forest products harvester and forest products harvester.",
+      "sample_state": "CT",
+      "states_supporting": [
+        "CT",
+        "ME"
+      ]
+    },
+    {
+      "name": "intern_forester_license_available",
+      "category": "license tiers and credential levels",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state issues a formal intern forester (or equivalent pre-licensure) credential that allows supervised practice before full licensure.",
+      "sample_quote": "'Intern forester' means a person licensed under this chapter to practice forestry under the sponsorship of a forester.",
+      "sample_state": "ME",
+      "states_supporting": [
+        "ME",
+        "MI"
+      ]
+    },
+    {
+      "name": "specialty_certificate_available",
+      "category": "license tiers and credential levels",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state allows issuance of certificates of specialization in defined fields of forestry in addition to the general forester license.",
+      "sample_quote": "The board may by regulation provide for the issuance of certificates of specialization in such fields of specialization as the board may by regulation establish.",
+      "sample_state": "CA",
+      "states_supporting": [
+        "CA",
+        "GA",
+        "MD"
+      ]
+    },
+    {
+      "name": "sponsor_supervisor_role_defined",
+      "category": "supervision and delegation",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute formally defines a sponsor or supervisor role for a licensed forester who oversees an intern or unlicensed practitioner.",
+      "sample_quote": "'Sponsor' means a forester who is responsible for overseeing the activities of an intern forester.",
+      "sample_state": "ME",
+      "states_supporting": [
+        "ME",
+        "MI",
+        "AL",
+        "AR",
+        "GA",
+        "MD",
+        "MS"
+      ]
+    },
+    {
+      "name": "supervised_practice_without_license_permitted",
+      "category": "supervision and delegation",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether an individual who meets educational but not experience requirements may practice forestry without a full license under the responsible charge of a licensed forester.",
+      "sample_quote": "An individual who meets the educational requirements but does not meet the experience requirements under \u00a7 7-304 of this subtitle may practice forestry without a license if the individual practices forestry under the responsible charge of a licensed forester.",
+      "sample_state": "MD",
+      "states_supporting": [
+        "MD",
+        "ME",
+        "AL",
+        "AR",
+        "GA",
+        "MI",
+        "MS"
+      ]
+    },
+    {
+      "name": "internship_duration_by_degree_level",
+      "category": "supervision and delegation",
+      "type": "str",
+      "enum_values": null,
+      "description": "The required internship or supervised-experience duration differentiated by the applicant's degree level (e.g., associate vs. bachelor's).",
+      "sample_quote": "An applicant with an associate degree or no degree shall demonstrate 48 months of forestry experience as an intern forester... An applicant with a bachelor's degree or higher shall demonstrate 24 months of forestry experience.",
+      "sample_state": "ME",
+      "states_supporting": [
+        "ME",
+        "MI",
+        "AR"
+      ]
+    },
+    {
+      "name": "alternative_qualification_pathways",
+      "category": "education and experience pathways",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "Explicit alternative routes to licensure for applicants who lack an accredited forestry degree, specifying substitute degrees and additional experience years required.",
+      "sample_quote": "A bachelor's degree in a natural resources-related field from a college or university program, including, but not limited to, wildlife management, with at least twenty (20) semester hours of forestry courses approved by the commission and three (3) years' or more experience in forestry work.",
+      "sample_state": "AR",
+      "states_supporting": [
+        "AR",
+        "MI",
+        "CA",
+        "ME"
+      ]
+    },
+    {
+      "name": "saf_accreditation_recognized",
+      "category": "education and experience pathways",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly recognizes Society of American Foresters (SAF) accreditation of a forestry program as satisfying the educational requirement.",
+      "sample_quote": "A bachelor's or advanced degree in forestry from a college or university program accredited by the Society of American Foresters.",
+      "sample_state": "AR",
+      "states_supporting": [
+        "AR",
+        "AL",
+        "CA",
+        "GA",
+        "MD",
+        "ME",
+        "MI",
+        "MS"
+      ]
+    },
+    {
+      "name": "saf_certified_forester_recognized_for_supervision",
+      "category": "education and experience pathways",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether an SAF-certified forester (as distinct from a state-registered forester) is recognized as a qualifying supervisor for experience credit.",
+      "sample_quote": "4 years of experience under the guidance of a registered forester, an SAF-certified forester, or a member of the Association of Consulting Foresters.",
+      "sample_state": "MI",
+      "states_supporting": [
+        "MI",
+        "CT"
+      ]
+    },
+    {
+      "name": "document_seal_required",
+      "category": "professional documents and endorsements",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether licensed foresters are required to obtain and use an official seal on plans, maps, specifications, and reports they prepare or supervise.",
+      "sample_quote": "Each registrant may obtain a seal of a design authorized by the Arkansas Forestry Commission, bearing the registrant's name, serial number, and the legend 'Registered Forester, Arkansas'.",
+      "sample_state": "AR",
+      "states_supporting": [
+        "AR",
+        "MD",
+        "MI",
+        "AL",
+        "GA",
+        "ME",
+        "MS"
+      ]
+    },
+    {
+      "name": "document_endorsement_required",
+      "category": "professional documents and endorsements",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute requires a licensed forester to endorse (sign with name and license number) all plans, maps, specifications, and reports they prepare or supervise.",
+      "sample_quote": "Plans, maps, specifications, and reports issued by a registrant shall be endorsed with his or her name and license number during the life of the registrant's license.",
+      "sample_state": "AL",
+      "states_supporting": [
+        "AL",
+        "AR",
+        "GA",
+        "MD",
+        "ME",
+        "MI",
+        "MS"
+      ]
+    },
+    {
+      "name": "endorsement_restricted_to_personally_prepared_documents",
+      "category": "professional documents and endorsements",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether it is a violation for a forester to endorse any document that the forester did not personally prepare or directly supervise the preparation of.",
+      "sample_quote": "It shall be a misdemeanor for any registered forester to endorse any plan, specification, estimate, or map unless he or she shall have actually prepared such plan, specification, estimate, or map, or shall have been in the actual charge of the preparation thereof.",
+      "sample_state": "AL",
+      "states_supporting": [
+        "AL",
+        "AR",
+        "GA",
+        "MD",
+        "ME",
+        "MI",
+        "MS"
+      ]
+    },
+    {
+      "name": "annual_activity_report_required",
+      "category": "reporting and practice oversight",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether certified or licensed foresters must submit an annual report to the regulatory authority describing their forestry activities during the year.",
+      "sample_quote": "Each certified forester... shall submit an annual report to the Commissioner of Energy and Environmental Protection on or before June first of each year... Such report shall include, but not be limited to, the following information: (1) The number of forest management plans completed and acres covered by said plans.",
+      "sample_state": "CT",
+      "states_supporting": [
+        "CT",
+        "MI",
+        "MS"
+      ]
+    },
+    {
+      "name": "harvest_notification_required",
+      "category": "reporting and practice oversight",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether landowners or practitioners must provide advance written notice to a state agency before commencing a timber harvest or cutting operation.",
+      "sample_quote": "Every owner of land who proposes to cut forest products on land devoted to forest purposes... shall send... written notice of his intention to begin any cutting operation... to the director or his agent at the appropriate regional office... at least ten days prior to operations.",
+      "sample_state": "MA",
+      "states_supporting": [
+        "MA",
+        "CT"
+      ]
+    },
+    {
+      "name": "timber_harvester_license_separate",
+      "category": "reporting and practice oversight",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state maintains a separate license or certification for timber harvesters (loggers) distinct from the professional forester license.",
+      "sample_quote": "No person, firm or corporation engaged in the business of harvesting timber or other forest products for hire or profit shall cut such products on land devoted to forest purposes... without first obtaining a license to do so from the director.",
+      "sample_state": "MA",
+      "states_supporting": [
+        "MA",
+        "CT"
+      ]
+    },
+    {
+      "name": "code_of_ethics_required",
+      "category": "professional conduct standards",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute requires the board to adopt a formal code of ethics or professional conduct for licensed foresters.",
+      "sample_quote": "With the advice of the established forestry associations, the Board shall adopt, by regulation, a code of ethics for practicing forestry.",
+      "sample_state": "MD",
+      "states_supporting": [
+        "MD",
+        "MI",
+        "MS",
+        "GA"
+      ]
+    },
+    {
+      "name": "conflict_of_interest_disclosure_required",
+      "category": "professional conduct standards",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute or codified conduct standards require a registered forester to disclose personal or financial interests in a forestry project where a conflict of interest may exist.",
+      "sample_quote": "Fully disclose personal or financial interests in any forestry project undertaken by the registered forester if there is a potential conflict of interest.",
+      "sample_state": "MI",
+      "states_supporting": [
+        "MI",
+        "MD"
+      ]
+    },
+    {
+      "name": "inactive_license_status_available",
+      "category": "license status and conditions",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state provides a formal inactive license status that allows a licensee to avoid full renewal requirements while not actively practicing.",
+      "sample_quote": "A licensee may apply to the Board for inactive status. The Board shall grant inactive status to a licensee if the licensee... pays to the Board an inactive license fee of $25.",
+      "sample_state": "MD",
+      "states_supporting": [
+        "MD",
+        "ME"
+      ]
+    },
+    {
+      "name": "continuing_education_exemption_conditions",
+      "category": "license status and conditions",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "Conditions under which the continuing education requirement for license renewal may be waived or relaxed, such as age, retirement, hardship, illness, or military service.",
+      "sample_quote": "The continuing education program herein required shall not apply to any licensee who is 65 years of age or older and shall not include testing or examination of the licensees in any manner. The board may relax or suspend the continuing annual education requirements for retirees or for reasons of the health, hardship, or other extenuating circumstances.",
+      "sample_state": "AL",
+      "states_supporting": [
+        "AL",
+        "AR",
+        "GA",
+        "MD",
+        "ME"
+      ]
+    },
+    {
+      "name": "only_individuals_may_be_licensed",
+      "category": "license status and conditions",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly prohibits firms, partnerships, or corporations from being licensed, restricting licensure to individual persons only.",
+      "sample_quote": "Registration shall be determined upon a basis of individual, personal qualifications. No firms, companies, partnerships, or corporations can be licensed under this chapter.",
+      "sample_state": "AL",
+      "states_supporting": [
+        "AL",
+        "AR",
+        "GA",
+        "ME",
+        "MS"
+      ]
+    },
+    {
+      "name": "exemption_for_own_land_management",
+      "category": "who must be licensed and who is exempt",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether landowners who manage or conduct forestry practices on their own land are explicitly exempt from the licensure requirement.",
+      "sample_quote": "An owner managing or otherwise conducting forestry practices on that owner's land.",
+      "sample_state": "ME",
+      "states_supporting": [
+        "ME",
+        "AL",
+        "AR",
+        "CA",
+        "GA",
+        "MS"
+      ]
+    },
+    {
+      "name": "exemption_for_federal_employees",
+      "category": "who must be licensed and who is exempt",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether officers or employees of the federal government practicing forestry on federally owned lands are explicitly exempt from state licensure.",
+      "sample_quote": "The practice of forestry by officers and employees of the United States government on federally owned lands.",
+      "sample_state": "AL",
+      "states_supporting": [
+        "AL",
+        "ME",
+        "MS",
+        "GA"
+      ]
+    },
+    {
+      "name": "exemption_for_state_employees",
+      "category": "who must be licensed and who is exempt",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether officers or employees of the state government practicing forestry on state-owned lands are explicitly exempt from licensure.",
+      "sample_quote": "The practice of forestry by officers and employees of the State of Alabama on state-owned lands.",
+      "sample_state": "AL",
+      "states_supporting": [
+        "AL",
+        "MS"
+      ]
+    },
+    {
+      "name": "exemption_for_uncompensated_practice",
+      "category": "who must be licensed and who is exempt",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute exempts forestry activities that are not performed for compensation or hire from the licensure requirement.",
+      "sample_quote": "Nothing contained in this chapter shall be construed as preventing any person, firm, partnership or corporation from practicing forestry or managing woodlands, forests or trees on any land, provided such acts are not performed or offered to the public for compensation.",
+      "sample_state": "MS",
+      "states_supporting": [
+        "MS",
+        "AR",
+        "MD"
+      ]
+    },
+    {
+      "name": "board_member_minimum_practice_years",
+      "category": "governing board composition",
+      "type": "int",
+      "enum_values": null,
+      "description": "The minimum number of years of professional forestry experience required for appointment as a member of the state forester licensing board.",
+      "sample_quote": "Each member of the board shall be a citizen of the United States and a resident of the State of Alabama, a 'registered forester' under the provisions of this chapter, and have been engaged in the practice of the profession of forestry for the last 10 years prior to such appointment.",
+      "sample_state": "AL",
+      "states_supporting": [
+        "AL",
+        "GA",
+        "MI",
+        "MS"
+      ]
+    },
+    {
+      "name": "board_includes_public_member",
+      "category": "governing board composition",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute requires at least one public (non-forester) member on the state forester licensing board.",
+      "sample_quote": "The board shall consist of a sixth member who shall be appointed by the Governor from the public at large and who shall have no connection whatsoever with the practice of professional forestry.",
+      "sample_state": "GA",
+      "states_supporting": [
+        "GA",
+        "CA",
+        "ME",
+        "MA"
+      ]
+    },
+    {
+      "name": "board_nominees_from_professional_society",
+      "category": "governing board composition",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute requires that board member nominees be recommended by a recognized professional forestry society such as the Society of American Foresters.",
+      "sample_quote": "The five members of the board shall be selected and appointed by the Governor of Alabama from among 10 nominees recommended by the Alabama Division of the Society of American Foresters.",
+      "sample_state": "AL",
+      "states_supporting": [
+        "AL",
+        "MI"
+      ]
+    },
+    {
+      "name": "automatic_registration_for_affiliated_organization_members",
+      "category": "reciprocity and interstate recognition",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether members of recognized affiliated professional forestry organizations may qualify for automatic or expedited registration without the standard application process.",
+      "sample_quote": "The board shall determine whether members of affiliated professional organizations within and outside of this state are eligible for automatic registration under this part.",
+      "sample_state": "MI",
+      "states_supporting": [
+        "MI",
+        "CT"
+      ]
+    },
+    {
+      "name": "scope_includes_urban_forestry",
+      "category": "what the practice covers",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statutory definition of forestry or the authorized scope of practice explicitly includes urban, municipal, or community forestry.",
+      "sample_quote": "Urban forestry and arboriculture.",
+      "sample_state": "MI",
+      "states_supporting": [
+        "MI",
+        "MD"
+      ]
+    },
+    {
+      "name": "scope_includes_watershed_and_environmental_values",
+      "category": "what the practice covers",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statutory definition of forestry explicitly includes evaluation or mitigation of impacts on watershed, ecological, or environmental values.",
+      "sample_quote": "The evaluation and mitigation of impacts from forestry activities on watershed and scenic values.",
+      "sample_state": "CA",
+      "states_supporting": [
+        "CA",
+        "MA",
+        "CT",
+        "ME"
+      ]
+    },
+    {
+      "name": "scope_includes_fuels_management",
+      "category": "what the practice covers",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statutory definition of forestry explicitly includes fuels management or forest fire protection as part of the authorized scope.",
+      "sample_quote": "The application of scientific knowledge and forestry principles in the fields of fuels management and forest protection.",
+      "sample_state": "CA",
+      "states_supporting": [
+        "CA",
+        "MI"
+      ]
+    },
+    {
+      "name": "scope_excludes_civil_engineering_and_surveying",
+      "category": "what the practice covers",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly states that a forester license does not authorize the practice of civil engineering, land surveying, or landscape architecture.",
+      "sample_quote": "This article shall not be construed to authorize a registered professional forester to practice civil engineering... or to practice land surveying... or to practice landscape architecture.",
+      "sample_state": "CA",
+      "states_supporting": [
+        "CA",
+        "ME"
+      ]
+    }
+  ],
+  "states_sampled": [
+    "AL",
+    "AR",
+    "CA",
+    "CT",
+    "GA",
+    "MA",
+    "MD",
+    "ME",
+    "MI",
+    "MS"
+  ],
+  "states_excluded_count": 6
+}

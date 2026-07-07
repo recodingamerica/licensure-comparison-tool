@@ -1,0 +1,389 @@
+{
+  "profession": "opticianry",
+  "fields": [
+    {
+      "name": "license_tier_structure",
+      "category": "license types and tiers",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "The distinct license or registration tiers available within the state's opticianry licensing scheme (e.g., spectacle-only, contact lens, combined, apprentice, board-certified).",
+      "sample_quote": "A license shall be issued for (1) the dispensing of contact lenses, or (2) the dispensing of other lenses, eyeglasses, spectacles, artificial eyes, and their appurtenances, or (3) both.",
+      "sample_state": "AK",
+      "states_supporting": [
+        "AK",
+        "AR",
+        "CA",
+        "FL",
+        "KY"
+      ]
+    },
+    {
+      "name": "contact_lens_license_separate",
+      "category": "license types and tiers",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether contact lens dispensing requires a separate license, registration, or certification distinct from spectacle dispensing.",
+      "sample_quote": "A board-certified optician qualified and operating under rules established by the board may fill, fit, adapt, or dispense any soft contact lens prescription.",
+      "sample_state": "FL",
+      "states_supporting": [
+        "AK",
+        "CA",
+        "FL",
+        "HI"
+      ]
+    },
+    {
+      "name": "optical_establishment_permit_required",
+      "category": "practice setting and facility rules",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether a separate permit or registration is required for the physical location (optical establishment) where opticianry services are offered, distinct from the individual practitioner license.",
+      "sample_quote": "Any person desiring to operate an optical establishment shall apply to the department, upon forms prescribed by the department, for a permit.",
+      "sample_state": "FL",
+      "states_supporting": [
+        "AZ",
+        "AR",
+        "CA",
+        "CT",
+        "FL",
+        "KY"
+      ]
+    },
+    {
+      "name": "licensed_optician_must_be_present_on_premises",
+      "category": "practice setting and facility rules",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether a licensed optician must be physically present on the premises whenever opticianry services are provided to the public.",
+      "sample_quote": "All businesses providing retail ophthalmic dispensing services, as defined in \u00a7 17-89-102(4), to the public must have physically present a licensed or registered dispensing optician within the place of business at the time the services are provided.",
+      "sample_state": "AR",
+      "states_supporting": [
+        "AR",
+        "AZ",
+        "CA",
+        "CT",
+        "KY"
+      ]
+    },
+    {
+      "name": "max_establishments_per_licensee",
+      "category": "practice setting and facility rules",
+      "type": "int",
+      "enum_values": null,
+      "description": "Maximum number of optical establishment locations a single licensed optician may supervise simultaneously.",
+      "sample_quote": "No licensed or registered dispensing optician or other person in this state shall establish more than two (2) ophthalmic dispensing branch offices in addition to his or her principal office unless he or she shall have first secured a branch office permit.",
+      "sample_state": "AR",
+      "states_supporting": [
+        "AR",
+        "KY"
+      ]
+    },
+    {
+      "name": "optical_product_quality_standards",
+      "category": "practice setting and facility rules",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "Named quality or safety standards (e.g., ANSI Z80.1) that ophthalmic lenses and materials must meet.",
+      "sample_quote": "All ophthalmic materials, including eyeglasses, spectacles, lenses, or other optical devices or materials or parts thereof, sold in the State of Arkansas must conform to standards of quality as promulgated by the American National Standards Institute, commonly known as 'Z-80.1 standards'.",
+      "sample_state": "AR",
+      "states_supporting": [
+        "AR",
+        "CT"
+      ]
+    },
+    {
+      "name": "contact_lens_prescription_required_on_file",
+      "category": "prescription and dispensing rules",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether a written contact lens prescription must be on file before contact lenses may be dispensed.",
+      "sample_quote": "contact lenses shall never be dispensed without a written contact lense prescription being on file in any optical establishment, office of an optometrist or office of a physician or verbal confirmation of that written prescription.",
+      "sample_state": "AZ",
+      "states_supporting": [
+        "AK",
+        "AZ",
+        "CA",
+        "FL",
+        "GA",
+        "HI",
+        "KY",
+        "MA"
+      ]
+    },
+    {
+      "name": "prescription_duplication_without_rx_permitted",
+      "category": "prescription and dispensing rules",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether a licensed optician may duplicate lenses (reproduce existing lenses to the same power) without a new written prescription.",
+      "sample_quote": "A dispensing optician may duplicate lenses without prescription, provided that a dispensing optician shall not substitute contact lenses for spectacles, eyeglasses, or other optical devices except as otherwise authorized in this chapter.",
+      "sample_state": "GA",
+      "states_supporting": [
+        "AK",
+        "AZ",
+        "FL",
+        "GA",
+        "HI",
+        "KY",
+        "MA"
+      ]
+    },
+    {
+      "name": "prescription_file_retention_period_years",
+      "category": "prescription and dispensing rules",
+      "type": "int",
+      "enum_values": null,
+      "description": "Number of years a filled prescription must be retained on file by the optical establishment.",
+      "sample_quote": "Any prescription written by a duly licensed allopathic or osteopathic physician or optometrist for any lenses, spectacles, eyeglasses, contact lenses, or other optical devices shall be kept on file for a period of 2 years with the optical establishment that fills such prescription.",
+      "sample_state": "FL",
+      "states_supporting": [
+        "CA",
+        "FL"
+      ]
+    },
+    {
+      "name": "contact_lens_followup_referral_required",
+      "category": "prescription and dispensing rules",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the optician is required to instruct the contact lens wearer to return to the prescribing physician or optometrist for follow-up evaluation after fitting.",
+      "sample_quote": "The dispensing optician shall advise the intended wearer at the time that contact lenses are delivered to return to the prescribing physician or optometrist for evaluation and follow-up care.",
+      "sample_state": "AZ",
+      "states_supporting": [
+        "AK",
+        "AZ",
+        "CA",
+        "GA"
+      ]
+    },
+    {
+      "name": "contact_lens_fitting_supervision_requirement",
+      "category": "prescription and dispensing rules",
+      "type": "str",
+      "enum_values": null,
+      "description": "The level of physician or optometrist oversight required when an optician fits contact lenses (e.g., written prescription only, personal supervision, or prohibited entirely).",
+      "sample_quote": "Contact lenses shall be fitted in conjunction with and under the supervision of a licensed physician or an optometrist and with a written contact-lens prescription.",
+      "sample_state": "AK",
+      "states_supporting": [
+        "AK",
+        "AR",
+        "HI",
+        "KY"
+      ]
+    },
+    {
+      "name": "advertising_disclaimer_required",
+      "category": "advertising and business conduct rules",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether advertisements by dispensing opticians must include a specific statutory disclaimer (e.g., that the firm is not licensed to perform eye examinations).",
+      "sample_quote": "Any advertisement made by, for, or in behalf of any ophthalmic dispensing firm or any dispensing optician in this state... shall cause to have printed thereon, or stated in oral advertisements, the following disclaimer: 'This firm is not licensed to make eye examinations.'",
+      "sample_state": "AR",
+      "states_supporting": [
+        "AR",
+        "AZ"
+      ]
+    },
+    {
+      "name": "fee_splitting_with_prescribers_prohibited",
+      "category": "advertising and business conduct rules",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly prohibits opticians from paying or receiving referral fees, rebates, or commissions to or from prescribing physicians or optometrists.",
+      "sample_quote": "It shall be unlawful for any dispensing optician, either directly or indirectly, to participate in any manner in the division, assignment, rebate, splitting, or refunding of service fees or costs of completed eyeglasses or parts thereof with a physician, optometrist, or other person or persons.",
+      "sample_state": "GA",
+      "states_supporting": [
+        "AK",
+        "AZ",
+        "GA",
+        "HI",
+        "KY"
+      ]
+    },
+    {
+      "name": "optician_employment_of_prescriber_prohibited",
+      "category": "advertising and business conduct rules",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute prohibits a registered dispensing optician from directly employing an optometrist or physician for eye examinations or treatment.",
+      "sample_quote": "it is unlawful for a registered dispensing optician or a person who engages in the business of, or holds himself or herself out to be, a dispensing optician to do any of the following: to advertise the furnishing of, or to furnish, the services of an optometrist or a physician and surgeon, to directly employ an optometrist or physician and surgeon for the purpose of any examination or treatment of the eyes.",
+      "sample_state": "CA",
+      "states_supporting": [
+        "CA",
+        "AR"
+      ]
+    },
+    {
+      "name": "apprentice_to_supervisor_ratio_limit",
+      "category": "supervision and delegation",
+      "type": "int",
+      "enum_values": null,
+      "description": "Maximum number of apprentices that one licensed optician may supervise at the same time.",
+      "sample_quote": "No more than two apprentices may be under the direct supervision of one licensed dispensing optician at the same time.",
+      "sample_state": "AK",
+      "states_supporting": [
+        "AK",
+        "AR",
+        "CA",
+        "KY"
+      ]
+    },
+    {
+      "name": "unlicensed_assistant_delegation_permitted",
+      "category": "supervision and delegation",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether a licensed optician may delegate opticianry tasks to unlicensed support personnel under supervision.",
+      "sample_quote": "a licensed optician may delegate to nonlicensed supportive personnel those duties, tasks, and functions which fall within the purview of s. 484.002(3). All such delegated acts shall be performed under the direct supervision of a licensed optician.",
+      "sample_state": "FL",
+      "states_supporting": [
+        "AK",
+        "AZ",
+        "CA",
+        "CT",
+        "FL",
+        "GA",
+        "HI",
+        "KY",
+        "MA"
+      ]
+    },
+    {
+      "name": "supervision_definition",
+      "category": "supervision and delegation",
+      "type": "enum",
+      "enum_values": [
+        "direct personal physical presence",
+        "on-premises availability",
+        "regular supervision with inspection",
+        "full-time licensed optician at location"
+      ],
+      "description": "How the statute defines the required level of supervision over apprentices or unlicensed assistants.",
+      "sample_quote": "'Direct personal supervision' means the licensed optician is present on the premises of the optical dispensing establishment and is available for consultation by the unlicensed person.",
+      "sample_state": "HI",
+      "states_supporting": [
+        "AK",
+        "AR",
+        "AZ",
+        "CA",
+        "FL",
+        "GA",
+        "HI",
+        "KY"
+      ]
+    },
+    {
+      "name": "apprentice_registration_required",
+      "category": "supervision and delegation",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether apprentices must formally register with the state board or licensing authority before beginning their apprenticeship.",
+      "sample_quote": "An apprentice shall register with the department before beginning employment or service as an apprentice, shall be designated as an apprentice in the records of the department.",
+      "sample_state": "AK",
+      "states_supporting": [
+        "AK",
+        "AR",
+        "CT",
+        "FL",
+        "GA",
+        "KY",
+        "MA"
+      ]
+    },
+    {
+      "name": "nonresident_remote_dispenser_registration",
+      "category": "license types and tiers",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether out-of-state entities that ship or mail ophthalmic lenses to in-state patients must obtain a separate registration.",
+      "sample_quote": "A person or entity located outside California shall not ship, mail, furnish, or deliver in any manner, ophthalmic lenses at retail to a patient at a California address unless the person is registered with the California State Board of Optometry.",
+      "sample_state": "CA",
+      "states_supporting": [
+        "CA",
+        "FL"
+      ]
+    },
+    {
+      "name": "scope_excludes_eye_examination_and_prescribing",
+      "category": "what opticians cannot do",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly prohibits opticians from examining eyes, determining refractive power, diagnosing, treating, or prescribing for eye conditions.",
+      "sample_quote": "It is unlawful for any optician to engage in the diagnosis of the human eyes, attempt to determine the refractive powers of the human eyes, or, in any manner, attempt to prescribe for or treat diseases or ailments of human beings.",
+      "sample_state": "FL",
+      "states_supporting": [
+        "AK",
+        "AR",
+        "AZ",
+        "FL",
+        "GA",
+        "HI",
+        "KY",
+        "MA"
+      ]
+    },
+    {
+      "name": "artificial_eye_dispensing_authorized",
+      "category": "what they can dispense and fit",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the scope of practice explicitly includes dispensing or fitting artificial eyes (ocular prosthetics).",
+      "sample_quote": "dispenses lenses, contact lenses, frames, artificial eyes, optical devices, appurtenances thereto or parts thereof to the intended wearer on written prescription.",
+      "sample_state": "AZ",
+      "states_supporting": [
+        "AK",
+        "AZ",
+        "FL",
+        "GA",
+        "HI"
+      ]
+    },
+    {
+      "name": "plano_cosmetic_contact_lens_included_in_scope",
+      "category": "what they can dispense and fit",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether non-corrective (plano) cosmetic or colored contact lenses are explicitly included within the optician's scope or subject to the same dispensing rules.",
+      "sample_quote": "No optical glasses or kindred products or other instruments to aid vision that are produced or reproduced to personalized given formulas, or plano cosmetic contact lenses shall be sold at retail except under the direct supervision of a licensed optician.",
+      "sample_state": "CT",
+      "states_supporting": [
+        "CA",
+        "CT",
+        "HI"
+      ]
+    },
+    {
+      "name": "exempted_merchandise_categories",
+      "category": "what they can dispense and fit",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "Categories of eyewear or optical products explicitly exempt from licensure requirements (e.g., plano sunglasses, ready-made reading glasses, toys, binoculars).",
+      "sample_quote": "This chapter may not be construed to prohibit an unlicensed person from engaging in the sale of eyeglasses, spectacles, magnifying glasses, goggles, sunglasses, telescopes, binoculars, or any like articles that are completely preassembled and sold only as merchandise.",
+      "sample_state": "AK",
+      "states_supporting": [
+        "AK",
+        "AR",
+        "AZ",
+        "CA",
+        "CT",
+        "FL",
+        "GA",
+        "HI",
+        "KY"
+      ]
+    }
+  ],
+  "states_sampled": [
+    "AK",
+    "AR",
+    "AZ",
+    "CA",
+    "CT",
+    "FL",
+    "GA",
+    "HI",
+    "KY",
+    "MA"
+  ],
+  "states_excluded_count": 12
+}

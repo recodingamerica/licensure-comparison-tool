@@ -1,0 +1,588 @@
+{
+  "profession": "prosthetist_orthotist",
+  "fields": [
+    {
+      "name": "license_tiers",
+      "category": "license types and credential levels",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "The distinct license categories recognized in the state, such as prosthetist, orthotist, combined prosthetist-orthotist, pedorthist, orthotic fitter, and assistant levels.",
+      "sample_quote": "The board shall issue approved forms for application prior to January 1, 2003... In order to obtain a license as a prosthetist, orthotist, or prosthetist/orthotist in this state...",
+      "sample_state": "AL",
+      "states_supporting": [
+        "AL",
+        "AR",
+        "GA",
+        "KY",
+        "NJ",
+        "OH",
+        "PA",
+        "TX"
+      ]
+    },
+    {
+      "name": "assistant_license_available",
+      "category": "license types and credential levels",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state issues a separate license or certification for assistants who work under the supervision of a licensed prosthetist or orthotist.",
+      "sample_quote": "\"Licensed orthotist assistant\" or \"LOA\" means a person licensed under this chapter who assists at an orthotic or prosthetic facility and is under the supervision of a licensed orthotist responsible for the acts of the assistant.",
+      "sample_state": "TX",
+      "states_supporting": [
+        "AL",
+        "AR",
+        "GA",
+        "KY",
+        "OH",
+        "PA",
+        "TX"
+      ]
+    },
+    {
+      "name": "orthotic_fitter_license_available",
+      "category": "license types and credential levels",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state issues a separate, limited license for orthotic fitters who fit only prefabricated (non-custom) orthotic devices.",
+      "sample_quote": "\"Licensed orthotic fitter\" means a person who receives a license under this chapter to fit the following noncustom orthotic devices: Cervical orthoses... Prefabricated orthoses of upper and lower extremities...",
+      "sample_state": "KY",
+      "states_supporting": [
+        "AL",
+        "KY",
+        "PA"
+      ]
+    },
+    {
+      "name": "pedorthist_license_available",
+      "category": "license types and credential levels",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state issues a separate license for pedorthists who design, fabricate, and fit therapeutic footwear and foot orthoses.",
+      "sample_quote": "\"Licensed pedorthist\" means a person who is licensed under this chapter to practice pedorthics and who represents the person to the public by the title or description of services that includes the term \"pedorthic,\" \"pedorthist,\" or a similar title or description of services.",
+      "sample_state": "KY",
+      "states_supporting": [
+        "AL",
+        "AR",
+        "KY",
+        "OH",
+        "PA",
+        "TX"
+      ]
+    },
+    {
+      "name": "mastectomy_fitter_license_available",
+      "category": "license types and credential levels",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state issues a separate license for mastectomy fitters who provide breast prostheses and post-mastectomy services.",
+      "sample_quote": "\"Mastectomy Fitter.\" A health care professional who is specifically educated and trained in the provision of breast prostheses and post-mastectomy services, including patient assessment, formulation of a treatment plan, implementation of the treatment plan, and follow-up and practice management.",
+      "sample_state": "AL",
+      "states_supporting": [
+        "AL"
+      ]
+    },
+    {
+      "name": "student_registration_certificate_available",
+      "category": "license types and credential levels",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state issues a formal student registration certificate allowing students completing clinical residency requirements to practice under supervision before full licensure.",
+      "sample_quote": "The department may issue a student registration certificate to an individual who is working toward fulfilling the requirements for a license as an orthotist, prosthetist, or prosthetist orthotist...",
+      "sample_state": "TX",
+      "states_supporting": [
+        "AL",
+        "AR",
+        "TX"
+      ]
+    },
+    {
+      "name": "national_certification_required",
+      "category": "national certification and accreditation bodies",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state requires applicants to hold or obtain national certification from an approved certifying body (e.g., ABC or BOC) as a condition of licensure.",
+      "sample_quote": "Be certified as a prosthetist, orthotist, or prosthetist/orthotist by a national certifying board in orthotics or prosthetics approved by the state board.",
+      "sample_state": "AL",
+      "states_supporting": [
+        "AL",
+        "AR",
+        "KY",
+        "PA",
+        "TX"
+      ]
+    },
+    {
+      "name": "approved_national_certifying_bodies",
+      "category": "national certification and accreditation bodies",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "The nationally recognized certifying organizations whose credentials the state accepts for licensure purposes.",
+      "sample_quote": "A person certified by the American Board for Certification in Orthotics, Prosthetics and Pedorthics, Inc. (ABC)... or by the Board of Certification/Accreditation, International (BOC)...",
+      "sample_state": "KY",
+      "states_supporting": [
+        "AL",
+        "AR",
+        "KY",
+        "OH",
+        "PA",
+        "TX"
+      ]
+    },
+    {
+      "name": "education_program_accreditor",
+      "category": "national certification and accreditation bodies",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "The accrediting body or bodies whose approval of an orthotic or prosthetic education program is required or recognized for licensure eligibility.",
+      "sample_quote": "\"Orthotic and prosthetic education program\" means a course of instruction accredited by CAAHEP...",
+      "sample_state": "KY",
+      "states_supporting": [
+        "AL",
+        "AR",
+        "GA",
+        "KY",
+        "OH",
+        "TX"
+      ]
+    },
+    {
+      "name": "residency_accreditor",
+      "category": "national certification and accreditation bodies",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "The accrediting body or bodies whose approval of a clinical residency program is required or recognized for licensure eligibility.",
+      "sample_quote": "\"Residency\" means a minimum of a one-year NCOPE accredited program to acquire practical clinical training in orthotics, prosthetics, or both, in a patient care setting.",
+      "sample_state": "KY",
+      "states_supporting": [
+        "AL",
+        "AR",
+        "GA",
+        "KY",
+        "OH",
+        "TX"
+      ]
+    },
+    {
+      "name": "written_prescription_required",
+      "category": "referral and prescription requirements",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether a written prescription or order from an authorized health care practitioner is required before a licensee may provide prosthetic, orthotic, or pedorthic services to a patient.",
+      "sample_quote": "A licensed prosthetist, licensed orthotist, or licensed prosthetist/orthotist may provide services utilizing new prostheses or orthoses for which he or she is licensed and only under a written order from an authorized health care practitioner.",
+      "sample_state": "AL",
+      "states_supporting": [
+        "AL",
+        "AR",
+        "GA",
+        "KY",
+        "OH",
+        "PA",
+        "TX"
+      ]
+    },
+    {
+      "name": "authorized_prescribers",
+      "category": "referral and prescription requirements",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "The categories of health care practitioners authorized by law to write orders or prescriptions for orthotic, prosthetic, or pedorthic devices.",
+      "sample_quote": "Orthotics means the science and practice of... measuring, designing, fabricating, assembling, fitting, adjusting, or servicing an orthosis under an order from a licensed physician, chiropractor, or podiatrist, or an advanced practice nurse or physician assistant acting under the delegation and supervision of a licensed physician...",
+      "sample_state": "TX",
+      "states_supporting": [
+        "AL",
+        "AR",
+        "GA",
+        "KY",
+        "OH",
+        "PA",
+        "TX"
+      ]
+    },
+    {
+      "name": "prescription_exemption_for_repair_adjustment",
+      "category": "referral and prescription requirements",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state explicitly exempts repair, adjustment, or servicing of an existing device from the prescription requirement.",
+      "sample_quote": "A consultation with and periodic review by an authorized health care practitioner is not required for the evaluation, repair, adjusting, or servicing of a prosthesis by a licensed prosthetist... nor is an order from an authorized health care practitioner required for maintenance or replacement of an orthosis or prosthesis to the level of its original prescription for an indefinite period of time if the original order remains appropriate for the patient's medical needs.",
+      "sample_state": "AL",
+      "states_supporting": [
+        "AL",
+        "KY"
+      ]
+    },
+    {
+      "name": "patient_physical_presence_required",
+      "category": "referral and prescription requirements",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly requires the licensee to be in the physical presence of the patient when providing services.",
+      "sample_quote": "No person licensed under this chapter shall provide services to a patient without being in the physical presence of the patient.",
+      "sample_state": "AL",
+      "states_supporting": [
+        "AL",
+        "OH"
+      ]
+    },
+    {
+      "name": "facility_accreditation_required",
+      "category": "practice setting and facility rules",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state requires the facility where orthotic or prosthetic care is provided to be separately accredited or registered.",
+      "sample_quote": "\"Accredited Facility.\" A facility where prosthetic, orthotic, prosthetic and orthotic, or pedorthic care is provided to patients needing such care and has met the requirements of the board for such designation.",
+      "sample_state": "AL",
+      "states_supporting": [
+        "AL",
+        "TX"
+      ]
+    },
+    {
+      "name": "facility_must_have_licensed_director",
+      "category": "practice setting and facility rules",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute requires an orthotic or prosthetic facility to be under the on-site direction of a licensed orthotist or prosthetist.",
+      "sample_quote": "An orthotic or prosthetic facility must be under the on-site direction of an orthotist or prosthetist licensed by the department in the discipline for which accreditation is sought.",
+      "sample_state": "TX",
+      "states_supporting": [
+        "GA",
+        "TX"
+      ]
+    },
+    {
+      "name": "facility_must_have_clinical_and_lab_space",
+      "category": "practice setting and facility rules",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute specifies that a licensed facility must have appropriate clinical and laboratory space and equipment to provide comprehensive care.",
+      "sample_quote": "\"Facility\" means the business location where orthotic or prosthetic care is provided and which has the appropriate clinical and laboratory space and equipment to provide comprehensive orthotic or prosthetic care.",
+      "sample_state": "GA",
+      "states_supporting": [
+        "GA",
+        "KY",
+        "TX"
+      ]
+    },
+    {
+      "name": "supervisor_to_supervisee_ratio_limit",
+      "category": "supervision and delegation",
+      "type": "int",
+      "enum_values": null,
+      "description": "The maximum number of unlicensed or assistant-level individuals that a single licensed orthotist or prosthetist may supervise at one time.",
+      "sample_quote": "No individual licensed under this chapter may supervise more than four individuals not licensed to practice orthotics, prosthetics, or pedorthics who are practicing orthotic, prosthetic, or pedorthic services.",
+      "sample_state": "OH",
+      "states_supporting": [
+        "OH",
+        "PA"
+      ]
+    },
+    {
+      "name": "supervisor_physical_presence_required_at_initial_eval",
+      "category": "supervision and delegation",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the supervising licensee must be physically present during the initial patient evaluation and device fitting or delivery.",
+      "sample_quote": "During the initial evaluation of any patient who can reasonably be expected to require orthotic, prosthetic, or pedorthic services and during the fitting and delivery of an orthotic or pedorthic device or prosthesis, the supervising orthotist, prosthetist, orthotist-prosthetist, or pedorthist is physically present.",
+      "sample_state": "OH",
+      "states_supporting": [
+        "GA",
+        "OH"
+      ]
+    },
+    {
+      "name": "supervisor_remote_availability_allowed",
+      "category": "supervision and delegation",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly permits the supervising licensee to be available by telecommunication rather than physically present during routine (non-initial) patient care activities.",
+      "sample_quote": "At times other than those described in division (B) of this section, the supervising orthotist, prosthetist, orthotist-prosthetist, or pedorthist is either physically present at the location where the individual is practicing or is readily available to the individual through some means of telecommunication and is in a location that under normal circumstances is not more than sixty minutes travel time away.",
+      "sample_state": "OH",
+      "states_supporting": [
+        "OH",
+        "PA"
+      ]
+    },
+    {
+      "name": "scope_excludes_diagnosis",
+      "category": "what licensees can and cannot do",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly states that the licensee's scope of practice does not include the right to diagnose a medical problem or condition.",
+      "sample_quote": "The scope of practice of a licensee shall not include the right to diagnose a medical problem or condition or the right to give medical advice as to the nature, cause, or treatment for the problem or condition for which the orthotic, prosthetic, or pedorthic device is being dispensed.",
+      "sample_state": "KY",
+      "states_supporting": [
+        "AL",
+        "GA",
+        "KY",
+        "PA"
+      ]
+    },
+    {
+      "name": "orthotic_fitter_scope_device_types",
+      "category": "what licensees can and cannot do",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "The specific categories of prefabricated orthotic devices that an orthotic fitter (limited-scope licensee) is authorized to fit.",
+      "sample_quote": "The scope of practice of an orthotic fitter is limited to measuring, fitting, dispensing and adjusting prefabricated devices not requiring more than minor modification of: Cervical soft foam collars. Thoraco-lumbo-sacral orthoses. Lumbo-sacral orthoses. Knee orthoses. Ankle foot orthoses. Foot orthoses. Elbow orthoses. Shoulder orthoses...",
+      "sample_state": "PA",
+      "states_supporting": [
+        "KY",
+        "PA"
+      ]
+    },
+    {
+      "name": "devices_excluded_from_scope",
+      "category": "what licensees can and cannot do",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "Categories of devices explicitly excluded from the definition of orthosis or prosthesis and therefore outside the regulated scope of practice.",
+      "sample_quote": "\"Orthosis\" does not include fabric or elastic supports, corsets, arch supports, low-temperature plastic splints, trusses, elastic hoses, canes, crutches, soft cervical collars, dental appliances, or other similar devices that are carried in stock and sold as over-the-counter items by a drug store, department store, corset shop, or surgical supply facility.",
+      "sample_state": "GA",
+      "states_supporting": [
+        "AL",
+        "AR",
+        "GA",
+        "KY",
+        "OH",
+        "PA",
+        "TX"
+      ]
+    },
+    {
+      "name": "custom_vs_prefabricated_device_distinction_codified",
+      "category": "what licensees can and cannot do",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute formally defines and distinguishes between custom-fabricated, custom-fitted, and prefabricated (over-the-counter) devices with different regulatory treatment.",
+      "sample_quote": "\"Custom fabricated and fitted device\" means that an orthosis or prosthesis is fabricated to original measurements or a mold, or both, for use by a patient in accordance with a prescription and which requires substantial clinical and technical judgment in its design and fitting. \"Custom fitted device\" means a prefabricated orthosis or prosthesis sized or modified, or both, for use by a patient in accordance with a prescription and which requires substantial clinical judgment and substantive alteration for appropriate use.",
+      "sample_state": "GA",
+      "states_supporting": [
+        "GA",
+        "KY",
+        "PA",
+        "TX"
+      ]
+    },
+    {
+      "name": "referral_duty_when_beyond_scope",
+      "category": "what licensees can and cannot do",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute imposes an affirmative duty on the licensee to refer patients to an authorized health care practitioner when symptoms or conditions are present that are beyond the licensee's scope of practice.",
+      "sample_quote": "Prosthetists and orthotists must refer persons receiving service to authorized health care practitioners if they have reasonable cause to believe symptoms or conditions are present that require services beyond the scope of their practice or for which the prescribed prosthetic or orthotic service is contraindicated.",
+      "sample_state": "AL",
+      "states_supporting": [
+        "AL",
+        "KY",
+        "PA"
+      ]
+    },
+    {
+      "name": "professional_liability_insurance_required",
+      "category": "insurance and financial requirements",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute requires licensees to maintain professional liability insurance as a condition of licensure or practice.",
+      "sample_quote": "An individual licensed to practice prosthetics, orthotics, pedorthics or orthotic fitting in this Commonwealth shall maintain a level of professional liability insurance coverage in the minimum amount of $1,000,000 per occurrence or claims made...",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "minimum_liability_insurance_amount",
+      "category": "insurance and financial requirements",
+      "type": "str",
+      "enum_values": null,
+      "description": "The minimum dollar amount of professional liability insurance coverage required per occurrence or claims made.",
+      "sample_quote": "An individual licensed to practice prosthetics, orthotics, pedorthics or orthotic fitting in this Commonwealth shall maintain a level of professional liability insurance coverage in the minimum amount of $1,000,000 per occurrence or claims made.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "continuing_education_hours_orthotist_prosthetist",
+      "category": "continuing education specifics",
+      "type": "int",
+      "enum_values": null,
+      "description": "The number of continuing education hours required per renewal period for licensed orthotists and prosthetists.",
+      "sample_quote": "A prosthetist and orthotist must provide certification of successful completion of a minimum of 24 hours of continuing education as approved by the board.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "AL",
+        "AR",
+        "GA",
+        "OH",
+        "PA"
+      ]
+    },
+    {
+      "name": "continuing_education_hours_orthotic_fitter_pedorthist",
+      "category": "continuing education specifics",
+      "type": "int",
+      "enum_values": null,
+      "description": "The number of continuing education hours required per renewal period for orthotic fitters and pedorthists (where different from the orthotist/prosthetist requirement).",
+      "sample_quote": "An orthotic fitter and a pedorthist must provide certification of successful completion of a minimum of 13 hours of continuing education as approved by the board.",
+      "sample_state": "PA",
+      "states_supporting": [
+        "PA"
+      ]
+    },
+    {
+      "name": "exemptions_for_other_licensed_professions",
+      "category": "who is exempt from these rules",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "The categories of other licensed health care professionals explicitly exempted from the orthotic and prosthetic licensure requirements when practicing within their own scope.",
+      "sample_quote": "Nothing in this chapter or in the administrative regulations promulgated by the board pursuant to this chapter shall be interpreted to limit or restrict: A licensed health care practitioner or provider from engaging in the full scope of practice authorized by the license for that person's profession... A person licensed as a physical therapist... occupational therapist... athletic trainer... physician... chiropractor... pharmacist...",
+      "sample_state": "KY",
+      "states_supporting": [
+        "AL",
+        "AR",
+        "GA",
+        "KY",
+        "OH",
+        "PA",
+        "TX"
+      ]
+    },
+    {
+      "name": "pharmacy_fitting_exemption",
+      "category": "who is exempt from these rules",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly exempts pharmacists or pharmacy employees from licensure requirements when fitting or sizing prefabricated (non-custom) orthotic or pedorthic devices.",
+      "sample_quote": "Individuals acting under the supervision and control of a licensed pharmacist or pharmacy from measuring, fitting, or adjusting any noncustom fabricated and fitted device including but not limited to over-the-counter devices, so long as such individual does not create a cast, mold, or scan of a part of the human body for the purpose of constructing a medical device to treat a patient's medical condition...",
+      "sample_state": "KY",
+      "states_supporting": [
+        "AR",
+        "KY",
+        "TX"
+      ]
+    },
+    {
+      "name": "manufacturer_representative_exemption",
+      "category": "who is exempt from these rules",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly exempts employees or authorized representatives of orthotic or prosthetic device manufacturers from licensure requirements when fitting devices under physician supervision.",
+      "sample_quote": "The measuring, fitting, or adjusting of an orthotic device by an employee or authorized representative of an orthosis manufacturer registered with the federal food and drug administration, when the employee or representative is directly supervised by a licensed health care professional authorized by law to prescribe, measure, or fit the device...",
+      "sample_state": "KY",
+      "states_supporting": [
+        "AL",
+        "GA",
+        "KY",
+        "PA",
+        "TX"
+      ]
+    },
+    {
+      "name": "federal_employee_exemption",
+      "category": "who is exempt from these rules",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly exempts individuals employed by the federal government from state licensure requirements when performing duties within their official federal role.",
+      "sample_quote": "The practice of orthotics, prosthetics, or pedorthics by a person who is employed by the federal government or any bureau, division, or agency of the federal government while in the discharge of the employee's official duties.",
+      "sample_state": "KY",
+      "states_supporting": [
+        "AL",
+        "AR",
+        "GA",
+        "KY",
+        "OH",
+        "PA",
+        "TX"
+      ]
+    },
+    {
+      "name": "pedorthist_exemption_from_op_licensure",
+      "category": "who is exempt from these rules",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether certified pedorthists are explicitly exempted from the general orthotics and prosthetics licensure requirements.",
+      "sample_quote": "This chapter does not apply to a certified pedorthist.",
+      "sample_state": "TX",
+      "states_supporting": [
+        "GA",
+        "TX"
+      ]
+    },
+    {
+      "name": "three_d_printing_open_source_prosthetics_addressed",
+      "category": "who is exempt from these rules",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute specifically addresses the 3-D printing of open-source prosthetic kits by unlicensed individuals and establishes a separate authorization pathway.",
+      "sample_quote": "Division (A) of this section does not prohibit an individual who is not licensed under this chapter to practice prosthetics or orthotics and prosthetics from engaging in the 3-D printing of open-source prosthetic kits if the individual has been granted the authority to engage in that activity by the Ohio occupational therapy, physical therapy, and athletic trainers board...",
+      "sample_state": "OH",
+      "states_supporting": [
+        "OH"
+      ]
+    },
+    {
+      "name": "board_composition_includes_consumer_member",
+      "category": "governing board structure",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute requires the governing board to include at least one public or consumer member who is not a licensed practitioner.",
+      "sample_quote": "One (1) member who is a representative of the public at large.",
+      "sample_state": "AR",
+      "states_supporting": [
+        "AL",
+        "AR",
+        "OH"
+      ]
+    },
+    {
+      "name": "board_composition_includes_physician_member",
+      "category": "governing board structure",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute requires the governing board to include at least one licensed physician as a member.",
+      "sample_quote": "One of whom shall be a physician licensed to practice medicine in the State of Alabama.",
+      "sample_state": "AL",
+      "states_supporting": [
+        "AL"
+      ]
+    },
+    {
+      "name": "advisory_council_established",
+      "category": "governing board structure",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute establishes a separate advisory council or committee to advise the primary licensing board on orthotic and prosthetic matters.",
+      "sample_quote": "The Ohio occupational therapy, physical therapy, and athletic trainers board shall appoint an orthotics, prosthetics, and pedorthics advisory council for the purpose of advising the board on issues relating to the practice of orthotics, prosthetics, and pedorthics...",
+      "sample_state": "OH",
+      "states_supporting": [
+        "GA",
+        "OH",
+        "TX"
+      ]
+    },
+    {
+      "name": "scope_of_practice_rules_jointly_promulgated",
+      "category": "governing board structure",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute requires scope-of-practice rules for orthotists and prosthetists to be jointly promulgated with the state medical board.",
+      "sample_quote": "Any rule or regulation defining the scope of practice or permissible activities of a licensed orthotist, licensed prosthetist, or a licensed prosthetist/orthotist or a registered orthotic supplier shall be published jointly with the State Board of Medical Examiners.",
+      "sample_state": "AL",
+      "states_supporting": [
+        "AL"
+      ]
+    }
+  ],
+  "states_sampled": [
+    "AL",
+    "AR",
+    "GA",
+    "KY",
+    "NJ",
+    "OH",
+    "PA",
+    "TX"
+  ],
+  "states_excluded_count": 0
+}
