@@ -1350,7 +1350,7 @@ UT:
 WA:
   # app.leg.wa.gov RCW: ?cite={title.chapter}&full=true returns the whole chapter
   # inline. Justia "chapter-19-28" → cite 19.28 (chapter_dot). RCW marker split.
-  source: wa_official
+  # source: wa_official  — FLIPPED TO JUSTIA 2026-07-01 (Justia-only).
   # chapter_url_template retired 2026-07-01 (Justia-only decision): index carries Justia urls; pulls go via CDP/Justia.
   # WA centralizes disciplinary grounds in Ch 18.130 (Uniform Disciplinary Act);
   # each health profession's own chapter defers to it for grounds/complaints/
@@ -1391,7 +1391,7 @@ VA:
   # law.lis.virginia.gov /vacodefull/ serves a whole chapter inline. Justia
   # "title-54-1" → title54.1 (title_dot). § 54.1-NNNN. marker split. VA licenses
   # all building trades as one Contractors chapter (54.1 ch 11).
-  source: va_official
+  # source: va_official  — FLIPPED TO JUSTIA 2026-07-01 (Justia-only).
   # chapter_url_template retired 2026-07-01 (Justia-only decision): index carries Justia urls; pulls go via CDP/Justia.
   professions:
     # VA has no standalone podiatry chapter — podiatry sits under Ch 29 (Medicine
@@ -1420,7 +1420,7 @@ CT:
   # cga.ct.gov serves one HTML page per chapter (sections inline as "Sec. N-n.").
   # Uses the lowercase chapter form (chap_393b.htm, not 393B). Incomplete SSL
   # cert chain — pull_text.fetch_bytes retries verify=False. parse_ct_chapter_html.
-  source: ct_official
+  # source: ct_official  — FLIPPED TO JUSTIA 2026-07-01 (Justia-only).
   # chapter_url_template retired 2026-07-01 (Justia-only decision): index carries Justia urls; pulls go via CDP/Justia.
 
 NV:
@@ -1453,7 +1453,7 @@ SD:
   # the Justia path (zero-pad stripped, letter suffix upper-cased). pull_text
   # then walks the API (parse_sd / pull_sd_chapter). No per-profession overrides
   # needed — the whole state rides the template.
-  source: sd_api
+  # source: sd_api  — FLIPPED TO JUSTIA 2026-07-01 (Justia-only).
   # chapter_url_template retired 2026-07-01 (Justia-only decision): index carries Justia urls; pulls go via CDP/Justia.
   # #53 hand-curated: SD regulates architects in the combined Board of Technical
   # Professions chapter (Title 36 Ch 18A — engineering/architecture/surveying), so
@@ -1469,14 +1469,14 @@ ME:
   # body in div.row.section-content. Justia "title-32/chapter-17" fills the
   # template. pull_text.pull_me drives it. ME licenses electrician (T32 Ch17) and
   # plumbing (T32 Ch49) — both ride the label-matched Justia chapter.
-  source: me_official
+  # source: me_official  — FLIPPED TO JUSTIA 2026-07-01 (Justia-only).
   # chapter_url_template retired 2026-07-01 (Justia-only decision): index carries Justia urls; pulls go via CDP/Justia.
 
 ID:
   # Per-section-via-TOC. legislature.idaho.gov TOC T{T}CH{N}/ links sections as
   # SECT{T}-{n}/; statute text in span.f11s. pull_text.pull_id. ID licenses
   # electrician (T54 Ch10), plumbing (T54 Ch26), hvac (T54 Ch50).
-  source: id_official
+  # source: id_official  — FLIPPED TO JUSTIA 2026-07-01 (Justia-only).
   # chapter_url_template retired 2026-07-01 (Justia-only decision): index carries Justia urls; pulls go via CDP/Justia.
 
 MD:
@@ -1497,7 +1497,7 @@ RI:
   # construction_trades label-match lands on 5-65-2 (a sub-chapter that 404s); pin
   # it to 5-65 (Contractors' Registration & Licensing) — authoritative drops the
   # bad sibling.
-  source: ri_official
+  # source: ri_official  — FLIPPED TO JUSTIA 2026-07-01 (Justia-only).
   # chapter_url_template retired 2026-07-01 (Justia-only decision): index carries Justia urls; pulls go via CDP/Justia.
   professions:
     construction_trades:
@@ -1510,7 +1510,7 @@ VT:
   # 5-digit section links to /statutes/section/{title}/{chap3}/{sec5} (div#main-
   # content). {chapter:0>3} zero-pads to the 3-digit chapter form. contractor=
   # Ch106, electrician=Ch15, plumbing=Ch39.
-  source: vt_official
+  # source: vt_official  — FLIPPED TO JUSTIA 2026-07-01 (Justia-only).
   # chapter_url_template retired 2026-07-01 (Justia-only decision): index carries Justia urls; pulls go via CDP/Justia.
 
 MT:
