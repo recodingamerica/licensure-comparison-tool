@@ -20,6 +20,15 @@
 #
 # A state with no entry here defaults to source=justia, layout=chapter, and
 # falls through to label match. Most states never need a state_structure entry.
+#
+# A COMMENTED-OUT `# source: xyz_official  — FLIPPED TO JUSTIA <date>` line means
+# exactly the same thing as no source key at all (justia) — it's kept purely as
+# history (what this state used to use, and when it changed), not as inactive
+# config waiting to be re-enabled. ONLY an uncommented `source:` line is active.
+# (2026-07-07: an uncommented-but-actually-retired source: tag on 8 states —
+# CT/ID/ME/RI/SD/VA/VT/WA — caused a real bug: corpus_drift trusted the
+# uncommented key and silently skipped drift-checks on all 8. If you ever
+# retire a source, comment the whole line out — don't just note it elsewhere.)
 
 # ---- States with real layout/source quirks worth recording ----
 
