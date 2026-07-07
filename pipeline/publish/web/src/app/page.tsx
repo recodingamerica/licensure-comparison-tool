@@ -128,6 +128,13 @@ export default function HomePage() {
         >
           Field dictionary &amp; methodology →
         </a>
+        {" · "}
+        <a
+          href="/dashboard/index.html"
+          className="underline underline-offset-4 hover:text-muted-foreground"
+        >
+          Pipeline dashboard →
+        </a>
       </p>
 
       {/* Mode toggle — same visual pattern as the profile-view's table/map */}
