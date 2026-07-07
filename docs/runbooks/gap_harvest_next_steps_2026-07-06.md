@@ -3,6 +3,27 @@
 Pick up here. The search-driven gap harvest is mid-pull; everything downstream is built,
 clean, and committed. Package: `pipeline/discover/gap_harvest/` (README = module map).
 
+## ⭐⭐ SESSION 3 UPDATE — client tooling + freshness (written 2026-07-06, UNCOMMITTED)
+
+Built a client-facing handoff layer and a provenance/freshness system. **All UNCOMMITTED**
+(new files + 4 modified stage writers). Full write-up in memory
+`project_client_handoff_tooling.md`; module map in `pipeline/client/README.md`.
+
+- **`pipeline/client/`** — a non-coder opens `results/status/dashboard.html`, ticks
+  occupations, downloads `my_queue.json`, and runs `run.py`'s 4 commands
+  (`clean` free · `trim` $ · `extract` $ · `publish` free). `status.py` is the read-only
+  data layer (stage, freshness, cost, source link, date). `refetch.sh` = the walled-off
+  CDP re-fetch for later. Cost model lives ONLY in `status.py`.
+- **`pipeline/provenance.py`** — content-hash freshness (survives clone). Each stage stamps
+  `results/provenance/<prof>/<state>.json`; `check()`→current/stale/unstamped. 4 stage
+  writers instrumented, so the pending extract self-stamps. `provenance report` / `backfill`.
+- **Baseline**: only the 7 published professions (350 cells, re-extracted Jul 2–6) are
+  backfilled `current`; the 400 held-out done cells are honestly `unstamped` (their corpora
+  were flipped/re-pulled but not re-extracted — don't blanket-backfill).
+- **Tests**: `tests/test_provenance.py` + `test_client_{status,run,dashboard}.py`. Suite **572**.
+- **Pull**: still running (~269/510 at write). Steps 1–6 below (the extract etc.) are unchanged.
+  When the pending gap-harvest extract runs, it will stamp provenance automatically.
+
 ## ⭐ NEXT SESSION — START HERE (written end of session 2)
 
 **State at clear:** main pull was RUNNING at 238/510 (46%), alphabetical, in the big
