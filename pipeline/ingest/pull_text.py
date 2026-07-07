@@ -1533,10 +1533,46 @@ def collect_section_targets(url: str, label: str, slug: str, depth: int, max_dep
 # "Production Agencies", 219) still pull.
 _OVER_BROAD_MAX = int(os.environ.get("PULL_OVER_BROAD_MAX", "300"))
 
+# Hard fetch-budget ceiling — OPT IN via PULL_BATCH_TIMEOUT_SECONDS (unset/0 disables;
+# this is the default, so a plain/manual/one-off pull is unaffected and can grind through
+# a legitimately huge chapter like Medicine's own 500+ section chapter with no artificial
+# cap). gap_pull.sh (the automated gap-harvest driver) sets PULL_BATCH_TIMEOUT_SECONDS=900
+# to match its own `timeout ... 900` wrapper, because at fetch.per_host_delay_seconds per
+# section (plus up to 60% jitter -> ~1.3x average) a chapter with too many leaves CANNOT
+# finish inside THAT specific 900s per-cell budget no matter how many times it's retried
+# -- it just burns the full 900s and reverts empty every time (the 2026-07-07 lesson:
+# NE/MA/CA chapters of 219-603 leaves whose labels happened to name-match the profession,
+# e.g. "Chapter 45 - Interest, Loans, and Debt" matching "loan", sailed past the
+# label-mismatch check below and looped for hours). This ceiling is independent of label
+# match -- size alone determines fetchability within a fixed time budget. ~120s is
+# reserved for the chapter-discovery walk + fetch/commit overhead before the per-section
+# budget starts.
+_DISCOVERY_OVERHEAD_SECONDS = 120
+
+
+def _fetch_budget_max_leaves() -> int:
+    """0 (disabled) unless the caller opts in via PULL_BATCH_TIMEOUT_SECONDS."""
+    override = os.environ.get("PULL_FETCH_BUDGET_MAX_LEAVES")
+    if override is not None:
+        return int(override)
+    timeout_s = int(os.environ.get("PULL_BATCH_TIMEOUT_SECONDS", "0"))
+    if timeout_s <= 0:
+        return 0
+    per_page = load_limits()["fetch"]["per_host_delay_seconds"] * 1.3
+    budget = timeout_s - _DISCOVERY_OVERHEAD_SECONDS
+    return int(budget / per_page) if per_page > 0 else 0
+
 
 def _should_skip_over_broad(profession: str, chapter_label: str, n_leaves: int) -> bool:
-    """True when an unscoped chapter is a locator mis-pick: too many leaves AND its
-    label does not name the profession. Never raises (a guard must not break a pull)."""
+    """True when a chapter should be skipped rather than fetched in full: either it
+    physically cannot finish inside an opted-in caller's per-cell timeout (size alone,
+    regardless of label -- see _fetch_budget_max_leaves; disabled unless the caller sets
+    PULL_BATCH_TIMEOUT_SECONDS), or it's an unscoped locator mis-pick (too many leaves
+    AND its label does not name the profession). Never raises (a guard must not break
+    a pull)."""
+    budget_max = _fetch_budget_max_leaves()
+    if budget_max and n_leaves > budget_max:
+        return True
     if n_leaves <= _OVER_BROAD_MAX:
         return False
     try:
@@ -1559,8 +1595,10 @@ def _flag_over_broad(profession: str, state: str, url: str, label: str, n: int) 
         p = RESULTS_DIR / "gap_harvest" / "over_broad_auto.json"
         p.parent.mkdir(parents=True, exist_ok=True)
         data = json.loads(p.read_text()) if p.exists() else []
+        budget_max = _fetch_budget_max_leaves()
+        reason = ("fetch_budget" if budget_max and n > budget_max else "label_mismatch")
         data.append({"profession": profession, "state": state, "url": url,
-                     "label": label, "leaves": n})
+                     "label": label, "leaves": n, "reason": reason})
         p.write_text(json.dumps(data, indent=1))
     except Exception:
         pass
@@ -1820,14 +1858,20 @@ def pull_state(state: str, profession: str, rows: list[dict], limit_sections: in
             if terr:
                 corpus.errors.append(terr)
             log.info("  chapter %s -> %d leaf sections", url, len(section_targets))
-            # Over-broad guard: an unscoped chapter that enumerates hundreds of leaves
-            # whose label doesn't name this profession is a locator mis-pick (whole
-            # title / department). Skip it in seconds + flag for narrowing, instead of
-            # grinding a 900s timeout that produces nothing (all-or-nothing). A legit
-            # large named chapter (label matches the profession) is NOT skipped.
+            # Over-broad guard: skip in seconds + flag for narrowing instead of grinding
+            # a 900s timeout that produces nothing (all-or-nothing revert). Two distinct
+            # reasons: (1) too many leaves to physically fetch inside the automated batch
+            # driver's per-cell timeout, regardless of label — a big chapter that name-
+            # matches the profession (e.g. NE "Chapter 45 - Interest, Loans, and Debt"
+            # matching "loan") still can't finish in time; or (2) a locator mis-pick
+            # (whole title/department) whose label doesn't name the profession at all.
             if _should_skip_over_broad(profession, row.get("chapter_label", ""), len(section_targets)):
-                log.warning("  SKIP over-broad: %s -> %d leaves; label %r doesn't match %s — flagged",
-                            url, len(section_targets), row.get("chapter_label", ""), profession)
+                budget_max = _fetch_budget_max_leaves()
+                n = len(section_targets)
+                why = (f"exceeds fetch budget ({n} > {budget_max} leaves)"
+                       if budget_max and n > budget_max else
+                       f"label {row.get('chapter_label', '')!r} doesn't match {profession}")
+                log.warning("  SKIP over-broad: %s -> %d leaves; %s — flagged", url, n, why)
                 corpus.errors.append(f"over_broad_skip {url}: {len(section_targets)} leaves")
                 _flag_over_broad(profession, state, url, row.get("chapter_label", ""), len(section_targets))
                 continue

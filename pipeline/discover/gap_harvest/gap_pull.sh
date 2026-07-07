@@ -5,6 +5,11 @@
 # written by reuse.py). Launch: caffeinate -disu bash pipeline/discover/gap_harvest/gap_pull.sh
 cd "$(git rev-parse --show-toplevel)" || exit 1
 export JUSTIA_CDP_URL=${JUSTIA_CDP_URL:-http://127.0.0.1:9222}
+# Tell pull_text's over-broad guard our own per-cell timeout (below) so it can skip in
+# seconds + flag for narrowing any chapter too large to fetch in that time — regardless
+# of label match — instead of grinding the full timeout and reverting empty every pass
+# (the 2026-07-07 lesson: see pull_text.py's _fetch_budget_max_leaves comment).
+export PULL_BATCH_TIMEOUT_SECONDS=900
 PY="pipeline/.venv/bin/python"
 WL="pipeline/results/gap_harvest/pull_worklist.json"
 
