@@ -1,0 +1,435 @@
+{
+  "profession": "court_reporter",
+  "fields": [
+    {
+      "name": "verbatim_recording_methods_authorized",
+      "category": "how the record is made",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "The specific methods or technologies by which a court reporter may create a verbatim record.",
+      "sample_quote": "The making of a verbatim record by means of manual shorthand, machine shorthand, closed microphone voice dictation silencer, or by other means of personal verbatim reporting",
+      "sample_state": "AL",
+      "states_supporting": [
+        "AL",
+        "CA",
+        "GA",
+        "ID",
+        "IL",
+        "HI"
+      ]
+    },
+    {
+      "name": "voice_writing_authorized",
+      "category": "how the record is made",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether voice writing (using a steno mask or closed microphone voice dictation silencer) is explicitly recognized as an authorized reporting method.",
+      "sample_quote": "'Voice writing' means a verbatim record or a proceeding using a closed microphone voice dictation silencer, steno mask, or similar device using oral shorthand and voice notes made by a certified shorthand reporter.",
+      "sample_state": "CA",
+      "states_supporting": [
+        "CA",
+        "AL",
+        "GA",
+        "ID"
+      ]
+    },
+    {
+      "name": "reporting_methodology_indicated_on_certificate",
+      "category": "how the record is made",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the certificate or license must indicate the specific methodology (stenography, voice writing, etc.) by which the reporter qualified.",
+      "sample_quote": "The board shall indicate on each certificate issued pursuant to this chapter whether the certificate holder met the certified shorthand reporter examination requirements through the use of stenography, voice writing, or both.",
+      "sample_state": "CA",
+      "states_supporting": [
+        "CA",
+        "ID"
+      ]
+    },
+    {
+      "name": "proceedings_covered",
+      "category": "what proceedings they may report",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "The types of legal proceedings or forums in which a court reporter is authorized or required to make a verbatim record.",
+      "sample_quote": "reporting, by the use of any system of manual or mechanical shorthand writing, of Grand Jury proceedings, court proceedings, court related proceedings, pretrial examinations, depositions, motions and related proceedings of like character, or proceedings of an administrative agency",
+      "sample_state": "IL",
+      "states_supporting": [
+        "AL",
+        "CA",
+        "GA",
+        "HI",
+        "ID",
+        "IL"
+      ]
+    },
+    {
+      "name": "deposition_reporting_included",
+      "category": "what proceedings they may report",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the taking of depositions is explicitly included within the definition of court reporting or the scope of practice.",
+      "sample_quote": "The taking of a deposition is the making of a verbatim record.",
+      "sample_state": "AL",
+      "states_supporting": [
+        "AL",
+        "GA",
+        "CA",
+        "ID",
+        "IL"
+      ]
+    },
+    {
+      "name": "official_reporter_employment_type",
+      "category": "employment setting and role type",
+      "type": "enum",
+      "enum_values": [
+        "official",
+        "freelance",
+        "private",
+        "substitute"
+      ],
+      "description": "The recognized employment or practice categories for court reporters, distinguishing court-employed official reporters from freelance or private reporters.",
+      "sample_quote": "'Official court reporter' means a certified shorthand reporter employed by the courts of the State to provide court reporting services. 'Private court reporter' means a certified shorthand reporter who offers services on a freelance basis and who is not employed by the courts of the State.",
+      "sample_state": "HI",
+      "states_supporting": [
+        "AL",
+        "GA",
+        "HI",
+        "ID",
+        "IL",
+        "AR"
+      ]
+    },
+    {
+      "name": "substitute_reporter_allowed",
+      "category": "employment setting and role type",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly provides for temporary or substitute court reporters to fill in when the official reporter is unavailable.",
+      "sample_quote": "In the absence or unavailability of the official court reporter, the circuit judge or circuit judge on assignment as authorized by \u00a7 16-10-101 may temporarily employ the services of a substitute court reporter if the temporary employment is essential to prevent a disruption of the business of the circuit court.",
+      "sample_state": "AR",
+      "states_supporting": [
+        "AR",
+        "GA",
+        "ID"
+      ]
+    },
+    {
+      "name": "temporary_permit_available",
+      "category": "extra credentials and tiered licensure",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state offers a temporary or provisional permit allowing a person to practice before obtaining full certification.",
+      "sample_quote": "Commencing on August 1, 2012, any person who is a graduate of a court reporting program may receive a temporary license to practice as a court reporter from the board.",
+      "sample_state": "AL",
+      "states_supporting": [
+        "AL",
+        "GA",
+        "ID",
+        "CA"
+      ]
+    },
+    {
+      "name": "temporary_permit_duration_months",
+      "category": "extra credentials and tiered licensure",
+      "type": "int",
+      "enum_values": null,
+      "description": "The maximum duration in months for which a temporary or provisional permit is valid.",
+      "sample_quote": "The temporary license shall be valid for 18 months from the date of issuance.",
+      "sample_state": "AL",
+      "states_supporting": [
+        "AL",
+        "ID",
+        "CA"
+      ]
+    },
+    {
+      "name": "restricted_certificate_available",
+      "category": "extra credentials and tiered licensure",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state offers a restricted certificate that limits the holder to a narrower scope of practice (e.g., only court proceedings in a specific circuit).",
+      "sample_quote": "the Department shall, upon payment of the required fee, issue to any reporter who has been appointed in counties of less than 1,000,000 in population, has been examined under the Court Reporters Act, and has achieved an 'A' proficiency rating, a restricted certificate by which such official court reporter may then lawfully engage in reporting only court proceedings to which the Chief Judge of the reporter's circuit may assign.",
+      "sample_state": "IL",
+      "states_supporting": [
+        "IL",
+        "GA"
+      ]
+    },
+    {
+      "name": "inactive_status_available",
+      "category": "extra credentials and tiered licensure",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state provides a formal inactive license status for reporters not currently practicing.",
+      "sample_quote": "The board shall establish an inactive status for persons who are not actively engaged in the practice of court reporting.",
+      "sample_state": "AL",
+      "states_supporting": [
+        "AL",
+        "CA",
+        "IL"
+      ]
+    },
+    {
+      "name": "nationally_recognized_exam_accepted",
+      "category": "examination and qualification pathways",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "National certification examinations that the state accepts in lieu of or as a pathway to its own licensing examination.",
+      "sample_quote": "shall pass an Alabama skills examination or provide documentation of having passed the NCRA Registered Professional Reporter Examination or NVRA CVR Examination.",
+      "sample_state": "AL",
+      "states_supporting": [
+        "AL",
+        "CA",
+        "ID",
+        "IL"
+      ]
+    },
+    {
+      "name": "exam_speed_requirement_wpm",
+      "category": "examination and qualification pathways",
+      "type": "int",
+      "enum_values": null,
+      "description": "The minimum dictation speed in words per minute required to pass the skills/dictation portion of the licensing examination.",
+      "sample_quote": "the qualifier examination shall consist of 4-voice testimony of 10-minute duration at 200 words per minute, graded at 95 percent accuracy",
+      "sample_state": "CA",
+      "states_supporting": [
+        "CA",
+        "AL"
+      ]
+    },
+    {
+      "name": "exam_accuracy_threshold_percent",
+      "category": "examination and qualification pathways",
+      "type": "int",
+      "enum_values": null,
+      "description": "The minimum accuracy percentage required to pass the dictation or transcription portion of the licensing examination.",
+      "sample_quote": "The passing grades for the Dictation/Transcription part of the examination is 95 percent.",
+      "sample_state": "CA",
+      "states_supporting": [
+        "CA",
+        "AL"
+      ]
+    },
+    {
+      "name": "court_reporting_school_recognition_program",
+      "category": "approved training programs and schools",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state board has a formal program to recognize or accredit court reporting training schools.",
+      "sample_quote": "The board may grant provisional recognition to a new court reporting school upon satisfactory evidence that it has met all of the provisions of subdivision (b) and this subdivision.",
+      "sample_state": "CA",
+      "states_supporting": [
+        "CA",
+        "ID",
+        "AL"
+      ]
+    },
+    {
+      "name": "transcript_certification_required",
+      "category": "transcript duties and record-keeping",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the reporter is required to certify transcripts as true, complete, and correct before delivery.",
+      "sample_quote": "The reporter, upon delivering the transcript to such counsel, shall affix thereto a certificate signed by him reciting that the transcript is true, complete, and correct.",
+      "sample_state": "GA",
+      "states_supporting": [
+        "GA",
+        "AR",
+        "CA",
+        "HI",
+        "IL"
+      ]
+    },
+    {
+      "name": "notes_retention_period_years",
+      "category": "transcript duties and record-keeping",
+      "type": "int",
+      "enum_values": null,
+      "description": "The minimum number of years a reporter must retain stenographic notes or transcripts.",
+      "sample_quote": "It is the licensee's responsibility to preserve the licensee's shorthand notes for a period of no less than 10 years from the date that the notes or transcripts were taken",
+      "sample_state": "IL",
+      "states_supporting": [
+        "IL",
+        "AR",
+        "CA"
+      ]
+    },
+    {
+      "name": "notes_retention_media_types",
+      "category": "transcript duties and record-keeping",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "The acceptable storage media or formats for retaining stenographic notes or transcripts.",
+      "sample_quote": "through storage of the original paper notes or an electronic copy of either the shorthand notes or the English transcript of the notes on computer disks, cassettes, backup tape systems, optical or laser disk systems, or other retrieval systems",
+      "sample_state": "IL",
+      "states_supporting": [
+        "IL",
+        "CA"
+      ]
+    },
+    {
+      "name": "transcript_page_format_defined",
+      "category": "transcript duties and record-keeping",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute defines a standard format or line/character count for a transcript page.",
+      "sample_quote": "'Transcript page' means a page consisting of twenty-seven double-spaced lines on paper eight and one-half by eleven inches in size, if printed, with sixty spaces available per line",
+      "sample_state": "CT",
+      "states_supporting": [
+        "CT",
+        "CA"
+      ]
+    },
+    {
+      "name": "transcript_fee_schedule_set_by_statute",
+      "category": "transcript duties and record-keeping",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute sets specific per-page or per-folio fees that reporters may charge for transcripts.",
+      "sample_quote": "an official court reporter and a court recording monitor shall be entitled to charge an individual, who is not a public official, three dollars and sixty cents for each transcript page that is ordered and transcribed",
+      "sample_state": "CT",
+      "states_supporting": [
+        "CT",
+        "AR",
+        "CA"
+      ]
+    },
+    {
+      "name": "prohibited_exclusive_contracts",
+      "category": "conflicts of interest and impartiality rules",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute prohibits court reporters from entering into exclusive or non-case-specific contracts with attorneys or parties that could compromise impartiality.",
+      "sample_quote": "Contracts for court reporting services not related to a particular case or reporting incident between a certified court reporter or any person with whom a certified court reporter has a principal and agency relationship and any attorney at law, party to an action, party having a financial interest in an action, or agent for an attorney at law...are prohibited.",
+      "sample_state": "GA",
+      "states_supporting": [
+        "GA",
+        "HI",
+        "CA"
+      ]
+    },
+    {
+      "name": "contingent_fee_prohibited",
+      "category": "conflicts of interest and impartiality rules",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly prohibits court reporters from charging contingent fees as a basis of compensation.",
+      "sample_quote": "Establishing contingent fees as a basis of compensation",
+      "sample_state": "IL",
+      "states_supporting": [
+        "IL",
+        "CA"
+      ]
+    },
+    {
+      "name": "gifts_to_attorneys_prohibited",
+      "category": "conflicts of interest and impartiality rules",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute prohibits or limits giving gifts or items of value to attorneys or their staff.",
+      "sample_quote": "giving, directly or indirectly, any gift or anything of value to attorneys or the attorneys' staff or any other persons or entities associated with any litigation, that exceeds $100 total per year",
+      "sample_state": "IL",
+      "states_supporting": [
+        "IL",
+        "CA"
+      ]
+    },
+    {
+      "name": "court_reporting_firm_registration_required",
+      "category": "firm and entity regulation",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether court reporting firms or entities (not individual reporters) must separately register with the state board.",
+      "sample_quote": "A court reporting firm doing business in Georgia shall register with the board by completing an application in the form adopted by the board and paying fees as required by the board.",
+      "sample_state": "GA",
+      "states_supporting": [
+        "GA",
+        "CA"
+      ]
+    },
+    {
+      "name": "reporter_in_charge_required_for_entity",
+      "category": "firm and entity regulation",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether a non-reporter-owned entity providing court reporting services must designate a licensed reporter-in-charge responsible for compliance.",
+      "sample_quote": "The entity has designated a board-certified reporter-in-charge who is a full-time employee of the registered entity and a resident of California, and who holds a currently valid California license at all times as a certified shorthand reporter",
+      "sample_state": "CA",
+      "states_supporting": [
+        "CA",
+        "GA"
+      ]
+    },
+    {
+      "name": "oath_administration_authorized",
+      "category": "official duties and powers",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether certified court reporters are explicitly authorized to administer oaths or affirmations.",
+      "sample_quote": "A certified shorthand reporter may administer oaths or affirmations and may perform the duties of a deposition officer pursuant to rules of court relating to persons before whom depositions may be taken.",
+      "sample_state": "HI",
+      "states_supporting": [
+        "HI",
+        "CA",
+        "GA"
+      ]
+    },
+    {
+      "name": "reporter_appointed_by_judge",
+      "category": "official duties and powers",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether official court reporters are formally appointed by a judge or judicial authority rather than hired through a general employment process.",
+      "sample_quote": "The judges of the superior courts shall have power to appoint and, at their pleasure, to remove a court reporter",
+      "sample_state": "GA",
+      "states_supporting": [
+        "GA",
+        "AR",
+        "CT",
+        "HI"
+      ]
+    },
+    {
+      "name": "license_number_disclosure_on_record_required",
+      "category": "official duties and powers",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the reporter must state their name and license number on the record at the start of a proceeding.",
+      "sample_quote": "A certified shorthand reporter, whether appearing in person or through the use of remote technology, shall state on the record their full name and license number as each appears on their certificate issued by the board, at the beginning of a proceeding, deposition, or other matter for transcription",
+      "sample_state": "CA",
+      "states_supporting": [
+        "CA",
+        "AL",
+        "IL"
+      ]
+    },
+    {
+      "name": "remote_reporting_authorized",
+      "category": "official duties and powers",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly recognizes or addresses court reporters appearing or reporting remotely using technology.",
+      "sample_quote": "A certified shorthand reporter, whether appearing in person or through the use of remote technology, shall state on the record their full name and license number",
+      "sample_state": "CA",
+      "states_supporting": [
+        "CA",
+        "CT"
+      ]
+    }
+  ],
+  "states_sampled": [
+    "AL",
+    "AR",
+    "CA",
+    "CT",
+    "FL",
+    "GA",
+    "HI",
+    "IA",
+    "ID",
+    "IL"
+  ],
+  "states_excluded_count": 18
+}
