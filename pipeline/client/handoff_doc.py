@@ -163,7 +163,7 @@ Current state of the grid, as of generation:
 | Published | {len(published)} occupations | Site data built and ready to serve |
 | Extracted, not published | {len(extracted_unpublished)} occupations | Structured data exists for at least some states; publishing is a free command |
 | Ready to process | {t["cells_ready"]:,} occupation/state cells | Law text on disk; needs only the paid AI steps (~${per_cell:.2f}/cell, ~${t["cost_to_finish"]:,.2f} for all of them) |
-| Blocked on a schema | {t["cells_needs_schema"]} cells ({t["professions_no_schema"]} occupations) | Law text on disk, but no data template designed yet (a one-time, low-cost AI step per occupation) |
+| New occupation, not set up yet | {t["cells_needs_schema"]} cells ({t["professions_no_schema"]} occupations) | Law text on disk, but this occupation has never been processed before — see below |
 | Needs a fetch | {t["cells_needs_fetch"]} cells | Law located but text never pulled — requires the scraping setup |
 
 {fetch_status_line}
@@ -179,9 +179,15 @@ In effort terms:
   raw statute text is saved in this repository — the AI steps just haven't been paid
   for yet. The dashboard (section 3) shows exactly which cells these are and quotes
   the cost before anything is spent.
-- **Medium:** add a new occupation. Sometimes its law is already inside chapters we've
-  pulled (free reuse); it needs a one-time "schema" (data template) designed for it,
-  which is an AI-assisted step; and some states may need a fetch.
+- **Medium: bring a brand-new occupation online for the first time.** Before we can
+  extract structured data for an occupation, an AI step has to figure out *what fields
+  matter for it* — a nurse's data looks different from a plumber's (different
+  requirements, different terminology) — and save that as a one-time template (called
+  a "schema" in the code) for the occupation. This is a one-time step per occupation,
+  not per state, and it's a small cost. This is the {t["cells_needs_schema"]}-cell row
+  above: the law is already on disk, but nobody has designed that occupation's
+  template yet. Once it exists, every state for that occupation becomes "ready to
+  process" like any other. Some states may also still need a fetch.
 - **Hard, human-supervised:** fetching new or updated statute text from the web
   (section 6). Plan for a person to be around while it runs.
 

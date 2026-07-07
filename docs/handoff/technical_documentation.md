@@ -1,6 +1,6 @@
 # State licensing pipeline — handoff documentation
 
-*Generated 2026-07-07 from repo commit `c7715e06` by `python -m pipeline.client.handoff_doc`.
+*Generated 2026-07-07 from repo commit `cb8983da` by `python -m pipeline.client.handoff_doc`.
 Every number below was computed from the repository's actual contents when this was
 generated — none are hand-maintained. If this document is more than a few weeks old,
 re-run that command to get current numbers.*
@@ -34,7 +34,7 @@ Current state of the grid, as of generation:
 | Published | 13 occupations | Site data built and ready to serve |
 | Extracted, not published | 49 occupations | Structured data exists for at least some states; publishing is a free command |
 | Ready to process | 2,055 occupation/state cells | Law text on disk; needs only the paid AI steps (~$0.20/cell, ~$401.70 for all of them) |
-| Blocked on a schema | 285 cells (24 occupations) | Law text on disk, but no data template designed yet (a one-time, low-cost AI step per occupation) |
+| New occupation, not set up yet | 285 cells (24 occupations) | Law text on disk, but this occupation has never been processed before — see below |
 | Needs a fetch | 131 cells | Law located but text never pulled — requires the scraping setup |
 
 **A fetch is running right now** (checked live at generation time) — some of the 131 cells below are actively being pulled as this document was generated, so that count is falling.
@@ -50,9 +50,15 @@ In effort terms:
   raw statute text is saved in this repository — the AI steps just haven't been paid
   for yet. The dashboard (section 3) shows exactly which cells these are and quotes
   the cost before anything is spent.
-- **Medium:** add a new occupation. Sometimes its law is already inside chapters we've
-  pulled (free reuse); it needs a one-time "schema" (data template) designed for it,
-  which is an AI-assisted step; and some states may need a fetch.
+- **Medium: bring a brand-new occupation online for the first time.** Before we can
+  extract structured data for an occupation, an AI step has to figure out *what fields
+  matter for it* — a nurse's data looks different from a plumber's (different
+  requirements, different terminology) — and save that as a one-time template (called
+  a "schema" in the code) for the occupation. This is a one-time step per occupation,
+  not per state, and it's a small cost. This is the 285-cell row
+  above: the law is already on disk, but nobody has designed that occupation's
+  template yet. Once it exists, every state for that occupation becomes "ready to
+  process" like any other. Some states may also still need a fetch.
 - **Hard, human-supervised:** fetching new or updated statute text from the web
   (section 6). Plan for a person to be around while it runs.
 
