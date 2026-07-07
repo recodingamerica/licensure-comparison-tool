@@ -28,7 +28,12 @@ for (const blob of blobs) {
   }
   const text = await res.text();
   const localName = blob.pathname.replace(/^data\//, "");
-  await writeFile(resolve(DATA_DIR, localName), text);
+  const localPath = resolve(DATA_DIR, localName);
+  // localName can carry a subpath (e.g. "analysis/construction_trades.json");
+  // only DATA_DIR itself is pre-created above, so a fresh checkout with no
+  // pre-existing subdirectories (a clean CI machine) needs this per-file.
+  await mkdir(dirname(localPath), { recursive: true });
+  await writeFile(localPath, text);
 
   const d = JSON.parse(text);
   console.log(`fetched ${blob.pathname} (${text.length} bytes)`);

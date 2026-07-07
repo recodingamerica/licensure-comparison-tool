@@ -15,6 +15,7 @@ from __future__ import annotations
 import json
 
 from pipeline.client.status import build, OUT, COST_TRIM, COST_EXTRACT
+from pipeline.paths import WEB_PUBLIC_DIR
 
 HTML_OUT = OUT.parent / "dashboard.html"
 
@@ -318,8 +319,14 @@ def main() -> None:
             .replace("__EXTRACT__", repr(COST_EXTRACT)))
     HTML_OUT.parent.mkdir(parents=True, exist_ok=True)
     HTML_OUT.write_text(html)
+    # Mirror into the Next.js app's public dir (same pattern as the field dictionary)
+    # so it deploys at /dashboard/index.html — a status snapshot, not a live view.
+    web_dir = WEB_PUBLIC_DIR / "dashboard"
+    web_dir.mkdir(parents=True, exist_ok=True)
+    (web_dir / "index.html").write_text(html)
     print(f"wrote {HTML_OUT}")
     print(f"  open it in a browser: open {HTML_OUT}")
+    print(f"  mirrored to {web_dir / 'index.html'} — redeploy pipeline/publish/web to publish")
 
 
 if __name__ == "__main__":

@@ -1,0 +1,6 @@
+# public/data is fetched fresh from Vercel Blob by the prebuild script
+# (scripts/fetch-blob-data.mjs) — it's a local-only build cache (gitignored),
+# not something to upload. Uploading it (~900MB) was causing deploy failures.
+public/data/
+node_modules/
+.next/
