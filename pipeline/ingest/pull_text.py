@@ -1580,6 +1580,45 @@ def collect_section_targets(url: str, label: str, slug: str, depth: int, max_dep
     return [], None
 
 
+# Over-broad chapter guard (config: PULL_OVER_BROAD_MAX; set very high to disable).
+# 300 skips the true mis-picks (whole titles/departments run 400–3300 leaves) while
+# letting a legitimately-mid-size chapter with an off-wording label (e.g. CA producers'
+# "Production Agencies", 219) still pull.
+_OVER_BROAD_MAX = int(os.environ.get("PULL_OVER_BROAD_MAX", "300"))
+
+
+def _should_skip_over_broad(profession: str, chapter_label: str, n_leaves: int) -> bool:
+    """True when an unscoped chapter is a locator mis-pick: too many leaves AND its
+    label does not name the profession. Never raises (a guard must not break a pull)."""
+    if n_leaves <= _OVER_BROAD_MAX:
+        return False
+    try:
+        from pipeline.config.loaders import load_professions
+        from pipeline.discover.match_profession import label_matches
+        meta = load_professions().get(profession, {}) or {}
+        pats = meta.get("patterns") or []
+        if not pats:                       # can't judge relevance → don't skip
+            return False
+        return not label_matches(chapter_label, pats, meta.get("excludes") or [])
+    except Exception:
+        return False
+
+
+def _flag_over_broad(profession: str, state: str, url: str, label: str, n: int) -> None:
+    """Append a skipped over-broad cell to results/gap_harvest/over_broad_auto.json for
+    later narrowing/review. Best-effort — never raises."""
+    try:
+        from pipeline.paths import RESULTS_DIR
+        p = RESULTS_DIR / "gap_harvest" / "over_broad_auto.json"
+        p.parent.mkdir(parents=True, exist_ok=True)
+        data = json.loads(p.read_text()) if p.exists() else []
+        data.append({"profession": profession, "state": state, "url": url,
+                     "label": label, "leaves": n})
+        p.write_text(json.dumps(data, indent=1))
+    except Exception:
+        pass
+
+
 def pull_state(state: str, profession: str, rows: list[dict], limit_sections: int | None) -> StateCorpus:
     corpus = StateCorpus(state=state, profession=profession)
     seen_section_urls: set[str] = set()
@@ -1834,6 +1873,17 @@ def pull_state(state: str, profession: str, rows: list[dict], limit_sections: in
             if terr:
                 corpus.errors.append(terr)
             log.info("  chapter %s -> %d leaf sections", url, len(section_targets))
+            # Over-broad guard: an unscoped chapter that enumerates hundreds of leaves
+            # whose label doesn't name this profession is a locator mis-pick (whole
+            # title / department). Skip it in seconds + flag for narrowing, instead of
+            # grinding a 900s timeout that produces nothing (all-or-nothing). A legit
+            # large named chapter (label matches the profession) is NOT skipped.
+            if _should_skip_over_broad(profession, row.get("chapter_label", ""), len(section_targets)):
+                log.warning("  SKIP over-broad: %s -> %d leaves; label %r doesn't match %s — flagged",
+                            url, len(section_targets), row.get("chapter_label", ""), profession)
+                corpus.errors.append(f"over_broad_skip {url}: {len(section_targets)} leaves")
+                _flag_over_broad(profession, state, url, row.get("chapter_label", ""), len(section_targets))
+                continue
 
         for sec in section_targets:
             if sec["url"] in seen_section_urls:
