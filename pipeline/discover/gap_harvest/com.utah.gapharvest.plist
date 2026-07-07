@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  Auto-restart agent for the gap-harvest pull driver.
+
+  Install:   cp pipeline/discover/gap_harvest/com.utah.gapharvest.plist ~/Library/LaunchAgents/
+             launchctl load ~/Library/LaunchAgents/com.utah.gapharvest.plist
+  Stop/remove: launchctl unload ~/Library/LaunchAgents/com.utah.gapharvest.plist
+  Status:    launchctl list | grep gapharvest
+
+  Behavior:
+    RunAtLoad          -> starts immediately on load / at login
+    KeepAlive/SuccessfulExit=false -> restart on any NON-clean exit (sleep-kill, crash,
+                          manual kill); does NOT restart after a clean finish (exit 0)
+    StartInterval 3600 -> re-sweep hourly to pick up challenge/miss cells once Chrome
+                          recovers (each pass skips already-pulled cells in seconds)
+  It resumes automatically after sleep-wake. It does NOT fix an unsolved *interactive*
+  Cloudflare challenge (rare) or lid-close sleep (needs AC + lid open, or `sudo pmset`).
+  When the worklist is fully done, `launchctl unload` it to stop the hourly no-op passes.
+-->
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.utah.gapharvest</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/usr/bin/caffeinate</string>
+    <string>-disu</string>
+    <string>/bin/bash</string>
+    <string>/Users/abigailhaddad/Documents/repos/utah/pipeline/discover/gap_harvest/gap_pull.sh</string>
+  </array>
+  <key>WorkingDirectory</key>
+  <string>/Users/abigailhaddad/Documents/repos/utah</string>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>JUSTIA_CDP_URL</key>
+    <string>http://127.0.0.1:9222</string>
+    <key>PATH</key>
+    <string>/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/homebrew/bin</string>
+  </dict>
+  <key>RunAtLoad</key>
+  <true/>
+  <key>KeepAlive</key>
+  <dict>
+    <key>SuccessfulExit</key>
+    <false/>
+  </dict>
+  <key>StartInterval</key>
+  <integer>3600</integer>
+  <key>ThrottleInterval</key>
+  <integer>60</integer>
+  <key>StandardOutPath</key>
+  <string>/Users/abigailhaddad/Documents/repos/utah/pipeline/results/gap_harvest/gap_pull_agent.log</string>
+  <key>StandardErrorPath</key>
+  <string>/Users/abigailhaddad/Documents/repos/utah/pipeline/results/gap_harvest/gap_pull_agent.log</string>
+</dict>
+</plist>
