@@ -67,6 +67,19 @@ def _source_hosts() -> tuple[collections.Counter, dict[str, collections.Counter]
     return hosts, by_state
 
 
+def _fetch_in_progress() -> bool:
+    """Is a fetch/pull process running right now? Checked live (pgrep), not asserted —
+    a stale 'fetching now' claim in a static doc would be worse than no claim at all."""
+    try:
+        result = subprocess.run(
+            ["pgrep", "-f", "pipeline.ingest.refresh_corpus|pipeline.ingest.pull_text|gap_harvest"],
+            capture_output=True, text=True,
+        )
+        return bool(result.stdout.strip())
+    except Exception:
+        return False
+
+
 def _git_commit() -> str:
     try:
         return subprocess.run(
@@ -102,8 +115,17 @@ def build_markdown() -> str:
     per_cell = cost["trim"] + cost["extract"]
     today = datetime.date.today().isoformat()
     commit = _git_commit()
+    fetching_now = _fetch_in_progress()
 
     pub_list = ", ".join(published)
+    fetch_status_line = (
+        f"**A fetch is running right now** (checked live at generation time) — some "
+        f"of the {t['cells_needs_fetch']} cells below are actively being pulled as "
+        f"this document was generated, so that count is falling."
+        if fetching_now else
+        f"No fetch is currently running (checked live at generation time) — the "
+        f"{t['cells_needs_fetch']} cells below are waiting, not in progress."
+    )
 
     return f"""# State licensing pipeline — handoff documentation
 
@@ -143,6 +165,8 @@ Current state of the grid, as of generation:
 | Ready to process | {t["cells_ready"]:,} occupation/state cells | Law text on disk; needs only the paid AI steps (~${per_cell:.2f}/cell, ~${t["cost_to_finish"]:,.2f} for all of them) |
 | Blocked on a schema | {t["cells_needs_schema"]} cells ({t["professions_no_schema"]} occupations) | Law text on disk, but no data template designed yet (a one-time, low-cost AI step per occupation) |
 | Needs a fetch | {t["cells_needs_fetch"]} cells | Law located but text never pulled — requires the scraping setup |
+
+{fetch_status_line}
 
 The {len(published)} published occupations: {pub_list}.
 
@@ -223,6 +247,8 @@ A non-programmer can read these; a technical person can change them without touc
 Python.
 
 ## 6. Fetching: the hard part (and why you can usually skip it)
+
+{fetch_status_line}
 
 Statute text comes from **Justia** (law.justia.com), a free legal-code aggregator —
 {justia_n:,} of the {sum(hosts.values()):,} saved corpora were pulled from it, covering

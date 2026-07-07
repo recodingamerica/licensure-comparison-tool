@@ -1,6 +1,6 @@
 # State licensing pipeline — handoff documentation
 
-*Generated 2026-07-07 from repo commit `063bbe1b` by `python -m pipeline.client.handoff_doc`.
+*Generated 2026-07-07 from repo commit `c7715e06` by `python -m pipeline.client.handoff_doc`.
 Every number below was computed from the repository's actual contents when this was
 generated — none are hand-maintained. If this document is more than a few weeks old,
 re-run that command to get current numbers.*
@@ -36,6 +36,8 @@ Current state of the grid, as of generation:
 | Ready to process | 2,055 occupation/state cells | Law text on disk; needs only the paid AI steps (~$0.20/cell, ~$401.70 for all of them) |
 | Blocked on a schema | 285 cells (24 occupations) | Law text on disk, but no data template designed yet (a one-time, low-cost AI step per occupation) |
 | Needs a fetch | 131 cells | Law located but text never pulled — requires the scraping setup |
+
+**A fetch is running right now** (checked live at generation time) — some of the 131 cells below are actively being pulled as this document was generated, so that count is falling.
 
 The 13 published occupations: architecture, construction_trades, dentistry, dietetics, electrician, hvac, medicine, nursing, optometry, plumbing, podiatry, professional_engineering, public_accountancy.
 
@@ -116,6 +118,8 @@ A non-programmer can read these; a technical person can change them without touc
 Python.
 
 ## 6. Fetching: the hard part (and why you can usually skip it)
+
+**A fetch is running right now** (checked live at generation time) — some of the 131 cells below are actively being pulled as this document was generated, so that count is falling.
 
 Statute text comes from **Justia** (law.justia.com), a free legal-code aggregator —
 2,963 of the 3,007 saved corpora were pulled from it, covering
