@@ -123,6 +123,10 @@ def build_markdown() -> str:
     )
     pa_host = max(by_state.get("PA", collections.Counter()),
                   key=lambda h: by_state["PA"][h], default="www.legis.state.pa.us")
+    pa_n = hosts.get(pa_host, 0)
+    hosts_total = sum(hosts.values())
+    justia_pct = round(100 * justia_n / hosts_total, 1) if hosts_total else 0.0
+    pa_pct = round(100 * pa_n / hosts_total, 1) if hosts_total else 0.0
 
     per_cell = cost["trim"] + cost["extract"]
     today = datetime.date.today().isoformat()
@@ -264,36 +268,58 @@ YAML files in `pipeline/config/`, each documented in `pipeline/config/README.md`
 A non-programmer can read these; a technical person can change them without touching
 Python.
 
-## 6. Fetching: the hard part (and why you can usually skip it)
+## 6. Data sources & integrations — the complete inventory
+
+**Every occupation and state on the site traces back to exactly two external data
+sources.** That's the whole list — there is no third feed, API, or vendor anywhere
+in the pipeline. Both are read-only, free, and require no account or contract with
+either source's operator.
+
+| Source | Coverage | Method | Code | Update cadence |
+|---|---|---|---|---|
+| **Justia** (law.justia.com) | {justia_pct}% of corpora, 49/50 states | Scrape (real Chrome browser) | `pull_text.py` | ~yearly (assumed) |
+| **PA Legislature** (legis.state.pa.us) | {pa_pct}% of corpora, 1/50 states | Scrape (plain HTTP) | `pull_text.py` | ~yearly (assumed) |
+
+*(Coverage measured from the saved files' own recorded URLs, not asserted. Both
+sources route through the same file, `pipeline/ingest/pull_text.py` — Justia via
+`fetch_via_browser`, PA via `is_pa_legis_url` and its section parser.)*
+
+Both are read-only, free, and need no account or contract with either source's
+operator. What needs a human, per source:
+
+- **Justia** — a bot-detection challenge needs a **person** to open a real Chrome
+  window and clear it once per session; it can reappear mid-run and pause until
+  re-cleared. If Justia changes its page layout or URL scheme, the parser needs
+  updating.
+- **PA Legislature** — no Cloudflare wall, so no person is needed to run it. The
+  only risk is the same as Justia's second case: if PA changes its site's URL
+  scheme or page markup, the parser needs updating.
+
+**On "how much support this could be":** the pipeline already has a working pattern
+for handling a source going away or changing shape — that's exactly what happened
+once before (Justia briefly Cloudflare-blocked outright), and it's why per-state
+official-source parsers already exist in code for Utah (structured XML), South
+Dakota and New York (an API), and Nevada (HTML) — currently dormant (0 corpora
+route through them today; everything real runs through the two sources above), but
+proof that adding or swapping a source is a contained, previously-solved problem,
+not a rebuild.
 
 {fetch_status_line}
 
-Statute text comes from **Justia** (law.justia.com), a free legal-code aggregator —
-{justia_n:,} of the {sum(hosts.values()):,} saved corpora were pulled from it, covering
-49 of the 50 states. **Pennsylvania** is the exception: its statutes come from the
-state legislature's own site ({pa_host}). (These counts are measured from the saved
-files' recorded URLs, not asserted.)
-
 Fetching is not fully autonomous — plan to run it yourself, and expect it to need
-attention. Justia blocks automated requests with a bot-detection challenge, and the
-only reliable way past it is a real, visible Chrome browser window running on someone's
-own computer. In practice: re-fetching or fetching new statute text isn't a cloud job
+attention. In practice: re-fetching or fetching new statute text isn't a cloud job
 you kick off and forget — it runs on your machine, it can take hours for a large batch,
 and every so often the challenge reappears and needs a person to click through it in
 that browser window. We've built it to restart itself automatically after a crash or if
 the computer goes to sleep, so it's more resilient than a plain script, but it is not
 "set and forget." Budget for someone to check on it periodically while it runs.
 
-Two related points:
-
-- **Statute text changes roughly once a year** (an assumption, not a measurement), so
-  refreshes are periodic, deliberate events — the pipeline never queries these sites in
-  real time, and nothing re-fetches automatically.
-- **Finding the law is often harder than fetching it.** Many occupations' licensing
-  rules aren't a standalone chapter — they're a few sections buried inside a much
-  broader one (one insurance-agent type inside the entire insurance code). The repo
-  includes automated locator tooling for this, and the per-state mappings it produces
-  are saved in config, so that work doesn't have to be redone.
+One more related point: **finding the law is often harder than fetching it.** Many
+occupations' licensing rules aren't a standalone chapter — they're a few sections
+buried inside a much broader one (one insurance-agent type inside the entire
+insurance code). The repo includes automated locator tooling for this, and the
+per-state mappings it produces are saved in config, so that work doesn't have to be
+redone.
 
 ## 7. How much to trust the data
 
