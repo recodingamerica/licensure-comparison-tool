@@ -1,6 +1,6 @@
 # State licensing pipeline — handoff documentation
 
-*Generated 2026-07-08 from repo commit `5b999e36` by `python -m pipeline.client.handoff_doc`.
+*Generated 2026-07-08 from repo commit `8557ac9e` by `python -m pipeline.client.handoff_doc`.
 Every number below was computed from the repository's actual contents when this was
 generated — none are hand-maintained. If this document is more than a few weeks old,
 re-run that command to get current numbers.*
@@ -149,15 +149,6 @@ operator. What needs a human, per source:
 - **PA Legislature** — no Cloudflare wall, so no person is needed to run it. The
   only risk is the same as Justia's second case: if PA changes its site's URL
   scheme or page markup, the parser needs updating.
-
-**On "how much support this could be":** the pipeline already has a working pattern
-for handling a source going away or changing shape — that's exactly what happened
-once before (Justia briefly Cloudflare-blocked outright), and it's why per-state
-official-source parsers already exist in code for Utah (structured XML), South
-Dakota and New York (an API), and Nevada (HTML) — currently dormant (0 corpora
-route through them today; everything real runs through the two sources above), but
-proof that adding or swapping a source is a contained, previously-solved problem,
-not a rebuild.
 
 **A fetch is running right now** (checked live at generation time) — some of the 19 cells below are actively being pulled as this document was generated, so that count is falling.
 

@@ -295,15 +295,6 @@ operator. What needs a human, per source:
   only risk is the same as Justia's second case: if PA changes its site's URL
   scheme or page markup, the parser needs updating.
 
-**On "how much support this could be":** the pipeline already has a working pattern
-for handling a source going away or changing shape — that's exactly what happened
-once before (Justia briefly Cloudflare-blocked outright), and it's why per-state
-official-source parsers already exist in code for Utah (structured XML), South
-Dakota and New York (an API), and Nevada (HTML) — currently dormant (0 corpora
-route through them today; everything real runs through the two sources above), but
-proof that adding or swapping a source is a contained, previously-solved problem,
-not a rebuild.
-
 {fetch_status_line}
 
 Fetching is not fully autonomous — plan to run it yourself, and expect it to need
