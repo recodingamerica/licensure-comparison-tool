@@ -1,6 +1,6 @@
 # State licensing pipeline — handoff documentation
 
-*Generated 2026-07-08 from repo commit `a93a11dc`. To get current numbers, run
+*Generated 2026-07-08 from repo commit `4bb85c01`. To get current numbers, run
 `python -m pipeline.client.handoff_doc` from the repo root (add `--pdf` for a PDF).*
 
 **For engineers:** this document is the plain-English overview. The technical entry
@@ -25,10 +25,17 @@ That is not the same as "100% coverage is easy and we're just behind" — findin
 Some occupations have their own clearly-named chapter (easy); others are a handful of
 sections buried inside a much broader chapter that covers many unrelated things (hard
 to even locate, let alone confirm complete); a few states may not license an occupation
-at all, which looks identical to "not found yet" until someone checks. We've built
-tooling specifically to chip away at this (see CLAUDE.md's "Completeness" section), but
-treat the 68% as "how far a real, ongoing effort has gotten," not a countdown
-to a known finish line.
+at all, which looks identical to "not found yet" until someone checks.
+
+**And it cuts both ways: even for the 68% we HAVE captured, we could have
+gotten it wrong without knowing it** — pulled a repealed statute, a different
+profession's act, or a chapter that no longer matches how the law is actually organized
+today. A confidently-processed record on the site is not a guarantee we found
+everything; it's our best current attempt, not a verified-complete one. Section 7 names
+the specific tools built to catch exactly this class of mistake and what they've
+actually caught so far — worth reading if "how much can we trust this" is the real
+question. Treat the 68% honestly: it's how far a real, ongoing effort has
+gotten, not a countdown to a known, verified finish line.
 
 Day-to-day work — turning that saved text into published data — **never touches the
 web-scraping machinery.** You will not need to scrape anything unless you want brand-new
@@ -214,6 +221,20 @@ Python.
 - **Having a chapter isn't the same as having every relevant law.** Some states put
   discipline, fees, or hearing rules in shared "umbrella" chapters that apply to many
   occupations; the repo detects and pulls these, but completeness auditing is ongoing.
+- **We actively hunt for our own mistakes, and they do happen.** Two purpose-built
+  audits exist because processed-and-published is not the same as verified-correct:
+  `pipeline/discover/audit_corpus.py` re-checks whether a pulled corpus is actually
+  that occupation's licensure law — in its validated run across 4 trades / 146 states,
+  it correctly flagged ~7 real mistakes (a repealed statute counted as current law, a
+  fire-safety or criminal statute pulled instead of the licensing act) with zero false
+  alarms. `pipeline/eval/corpus_drift.py` catches a different failure: a corpus that
+  silently stopped matching its own mapping after the mapping changed (a real bug it
+  found: a state's committed corpus was still answering to a mapping that had been
+  replaced, and nobody had noticed because the page still "had text" on it). Both
+  exist precisely because a wrong-but-confident-looking record is possible — running
+  them, and reading what they flag, is the honest way to answer "how much can we
+  trust this," not the 350-current/0-stale/400-unstamped
+  counts above on their own.
 
 ---
 *Regenerate with `python -m pipeline.client.handoff_doc [--pdf]`.*
