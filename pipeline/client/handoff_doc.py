@@ -224,10 +224,11 @@ What needs a human, per source:
 Fetching is not fully autonomous — plan to run it yourself, and expect it to need
 attention. In practice: re-fetching or fetching new statute text isn't a cloud job
 you kick off and forget — it runs on your machine, it can take hours for a large batch,
-and every so often the challenge reappears and needs a person to click through it in
-that browser window. We've built it to restart itself automatically after a crash or if
-the computer goes to sleep, so it's more resilient than a plain script, but it is not
-"set and forget." Budget for someone to check on it periodically while it runs.
+and the process itself stops on its own fairly often (a stalled request, a crash, the
+underlying browser session hiccupping) for reasons that aren't always obvious. A
+watchdog checks periodically and automatically restarts it when that happens, so it's
+more resilient than a plain script, but it is not "set and forget" — budget for someone
+to check on it and notice if it's stuck, not just kick it off and walk away for good.
 
 One more related point: **finding the law is often harder than fetching it.** Many
 occupations' licensing rules aren't a standalone chapter — they're a few sections
