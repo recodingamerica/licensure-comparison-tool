@@ -49,8 +49,94 @@ def test_queue_for_professions_skips_profession_with_nothing_runnable(monkeypatc
     assert "b" in capsys.readouterr().out
 
 
+# --- _queue_by_stage (clean/trim — schema-independent) ------------------------
+
+def _fake_stage_status(professions):
+    """professions: {name: {state: (stage, fresh_or_None)}}"""
+    return {"professions": {
+        name: {"states": {
+            st: {"stage": stage, **({"fresh": fresh} if fresh else {})}
+            for st, (stage, fresh) in states.items()
+        }}
+        for name, states in professions.items()
+    }}
+
+
+def test_queue_by_stage_includes_matching_stages_only(monkeypatch):
+    monkeypatch.setattr(run, "build_status", lambda: _fake_stage_status(
+        {"a": {"UT": ("pulled", None), "ID": ("done", "current"), "MT": ("cleaned", None)}}))
+    queue = run._queue_by_stage(["a"], {"pulled", "cleaned"})
+    assert queue == {"a": ["UT", "MT"]}
+
+
+def test_queue_by_stage_includes_stale_done_cells_regardless_of_stage_set(monkeypatch):
+    # A stale "done" cell needs the whole chain re-run, even though its stage is
+    # "done" and "done" isn't in the requested stage set.
+    monkeypatch.setattr(run, "build_status", lambda: _fake_stage_status(
+        {"a": {"UT": ("done", "stale")}}))
+    queue = run._queue_by_stage(["a"], {"pulled", "cleaned", "trimmed"})
+    assert queue == {"a": ["UT"]}
+
+
+def test_queue_by_stage_schema_less_profession_still_included(monkeypatch):
+    # The whole point: an occupation with no schema yet (which _queue_for_professions
+    # would exclude via cell["run"]) must still be reachable for clean/trim.
+    monkeypatch.setattr(run, "build_status", lambda: _fake_stage_status(
+        {"a": {"UT": ("cleaned", None)}}))
+    queue = run._queue_by_stage(["a"], {"pulled", "cleaned", "trimmed"})
+    assert queue == {"a": ["UT"]}
+
+
+def test_queue_by_stage_unknown_profession_exits(monkeypatch):
+    monkeypatch.setattr(run, "build_status", lambda: _fake_stage_status({"a": {"UT": ("pulled", None)}}))
+    with pytest.raises(SystemExit):
+        run._queue_by_stage(["not_a_real_profession"], {"pulled"})
+
+
+def test_queue_by_stage_all_non_matching_exits(monkeypatch):
+    monkeypatch.setattr(run, "build_status", lambda: _fake_stage_status(
+        {"a": {"UT": ("done", "current")}}))
+    with pytest.raises(SystemExit):
+        run._queue_by_stage(["a"], {"pulled", "cleaned", "trimmed"})
+
+
 def test_cells_counts_states():
     assert run._cells({"a": ["UT", "ID"], "b": ["CA"]}) == 3
+
+
+# --- _professions_needing_schema (occupation-level, not per-cell) -------------
+
+def _fake_schema_status(professions):
+    """professions: {name: (has_schema, cost_schema)}"""
+    return {"professions": {
+        name: {"summary": {"has_schema": hs, "cost_schema": cs}}
+        for name, (hs, cs) in professions.items()
+    }}
+
+
+def test_professions_needing_schema_includes_only_those_with_cost(monkeypatch):
+    monkeypatch.setattr(run, "build_status", lambda: _fake_schema_status(
+        {"a": (False, 1.0), "b": (True, 0.0)}))
+    assert run._professions_needing_schema(["a", "b"]) == ["a"]
+
+
+def test_professions_needing_schema_unknown_profession_exits(monkeypatch):
+    monkeypatch.setattr(run, "build_status", lambda: _fake_schema_status({"a": (False, 1.0)}))
+    with pytest.raises(SystemExit):
+        run._professions_needing_schema(["not_a_real_profession"])
+
+
+def test_professions_needing_schema_all_already_have_one_exits(monkeypatch):
+    monkeypatch.setattr(run, "build_status", lambda: _fake_schema_status({"a": (True, 0.0)}))
+    with pytest.raises(SystemExit):
+        run._professions_needing_schema(["a"])
+
+
+def test_professions_needing_schema_no_corpus_yet_exits(monkeypatch):
+    # has_schema False AND cost_schema 0 -> no corpus pulled yet, nothing to discover from.
+    monkeypatch.setattr(run, "build_status", lambda: _fake_schema_status({"a": (False, 0.0)}))
+    with pytest.raises(SystemExit):
+        run._professions_needing_schema(["a"])
 
 
 # --- _drop_current (the re-charge guard) --------------------------------------

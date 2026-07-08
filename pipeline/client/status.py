@@ -37,6 +37,11 @@ COST_TRIM = 0.05      # trim_state, Haiku
 COST_EXTRACT = 0.15   # extract_state_batch, Sonnet
 COST_TO_EXTRACT = COST_EXTRACT
 COST_TO_TRIM = COST_TRIM + COST_EXTRACT   # trim then extract
+# discover_schema, Sonnet: ONE call per profession (reads all its states' trimmed
+# corpora at once), not per cell — measured ~$1/profession in a real run (same
+# runbook: a 40-profession batch ran ~$40 for schemas). Distinct from COST_TRIM/
+# COST_EXTRACT because it's a one-time profession-level cost, never a per-state one.
+COST_SCHEMA = 1.00
 
 OUT = RESULTS_DIR / "status" / "status.json"
 
@@ -170,6 +175,10 @@ def build() -> dict:
         summary["cost_to_finish"] = round(summary["cost_to_finish"], 2)
         summary["cost_to_refresh"] = round(summary["cost_to_refresh"], 2)
         summary["has_schema"] = has_schema
+        # One-time, profession-level (not per-cell): only worth counting if there's
+        # actually corpus on disk waiting on it (discover_schema needs trimmed text
+        # to read; charging for a profession with zero pulled cells is premature).
+        summary["cost_schema"] = COST_SCHEMA if not has_schema and summary["needs_schema"] > 0 else 0.0
         professions[prof] = {"states": states, "summary": summary}
 
     def _sum(key):
@@ -178,6 +187,7 @@ def build() -> dict:
     totals = {
         "professions": len(profs),
         "professions_no_schema": sum(1 for p in professions.values() if not p["summary"]["has_schema"]),
+        "professions_needing_schema_now": sum(1 for p in professions.values() if p["summary"]["cost_schema"] > 0),
         "cells_done": _sum("done"),
         "cells_current": _sum("done_current"),
         "cells_stale": _sum("done_stale"),
@@ -187,10 +197,13 @@ def build() -> dict:
         "cells_needs_fetch": _sum("needs_fetch"),
         "cost_to_finish": round(_sum("cost_to_finish"), 2),
         "cost_to_refresh": round(_sum("cost_to_refresh"), 2),
+        "cost_all_schemas": round(_sum("cost_schema"), 2),
     }
     return {
-        "cost_model": {"trim": COST_TRIM, "extract": COST_EXTRACT,
-                       "clean": 0.0, "note": "clean/pull/publish are free; only trim+extract cost $"},
+        "cost_model": {"trim": COST_TRIM, "extract": COST_EXTRACT, "schema": COST_SCHEMA,
+                       "clean": 0.0,
+                       "note": "clean/pull/publish are free; trim+extract are per-cell; "
+                               "schema is one-time per occupation, not per state"},
         "totals": totals,
         "professions": professions,
     }
@@ -208,7 +221,9 @@ def main() -> None:
           f"{t['cells_stale']} stale (${t['cost_to_refresh']:.2f})  ·  "
           f"{t['cells_needs_fetch']} need a fetch")
     print(f"  {t['professions_no_schema']} professions have no schema yet "
-          f"({t['cells_needs_schema']} corpus cells blocked from extract until one is discovered)")
+          f"({t['cells_needs_schema']} corpus cells blocked from extract until one is discovered) — "
+          f"{t['professions_needing_schema_now']} of those have corpus on disk ready for "
+          f"discover_schema now (${t['cost_all_schemas']:.2f} total, one-time per occupation)")
 
 
 if __name__ == "__main__":

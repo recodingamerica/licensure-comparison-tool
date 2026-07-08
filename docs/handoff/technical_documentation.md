@@ -1,6 +1,6 @@
 # State licensing pipeline — handoff documentation
 
-*Generated 2026-07-08 from repo commit `4bb85c01`. To get current numbers, run
+*Generated 2026-07-08 from repo commit `c9b5a28d`. To get current numbers, run
 `python -m pipeline.client.handoff_doc` from the repo root (add `--pdf` for a PDF).*
 
 **For engineers:** this document is the plain-English overview. The technical entry
@@ -164,13 +164,17 @@ plain-English walkthrough, including re-fetching, is `docs/runbooks/client_refet
 
 ## 5. What it costs — and what the costs depend on
 
-Two stages call an AI model and cost money; everything else is free:
+Three stages call an AI model and cost money; everything else is free:
 
 | Stage | Model used today | Est. cost |
 |---------------------------------------------|---------------------------------|----------|
-| Trim — keep only the occupation's parts of the law | `claude-haiku-4-5-20251001` | ~$0.05 |
-| Extract — turn trimmed text into structured data | `claude-sonnet-4-6` | ~$0.15 |
-| Schema discovery — design an occupation's data template | `claude-sonnet-4-6` | small, one-time |
+| Trim — keep only the occupation's parts of the law | `claude-haiku-4-5-20251001` | ~$0.05 / state |
+| Extract — turn trimmed text into structured data | `claude-sonnet-4-6` | ~$0.15 / state |
+| Schema discovery — design an occupation's data template | `claude-sonnet-4-6` | ~$1.00 / occupation, **one-time** (not per state) |
+
+Right now, 16 occupations have law text on disk and
+are waiting only on this one-time step — discovering all of them would cost about
+$16.00 total.
 
 Three things to understand about these numbers:
 
