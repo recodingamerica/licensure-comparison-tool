@@ -304,13 +304,17 @@ plain-English walkthrough, including re-fetching, is `docs/runbooks/client_refet
 
 ## 5. What it costs — and what the costs depend on
 
-Two stages call an AI model and cost money; everything else is free:
+Three stages call an AI model and cost money; everything else is free:
 
 | Stage | Model used today | Est. cost |
 |---------------------------------------------|---------------------------------|----------|
-| Trim — keep only the occupation's parts of the law | `{TRIM_MODEL}` | ~${cost["trim"]:.2f} |
-| Extract — turn trimmed text into structured data | `{EXTRACT_MODEL}` | ~${cost["extract"]:.2f} |
-| Schema discovery — design an occupation's data template | `{SCHEMA_MODEL}` | small, one-time |
+| Trim — keep only the occupation's parts of the law | `{TRIM_MODEL}` | ~${cost["trim"]:.2f} / state |
+| Extract — turn trimmed text into structured data | `{EXTRACT_MODEL}` | ~${cost["extract"]:.2f} / state |
+| Schema discovery — design an occupation's data template | `{SCHEMA_MODEL}` | ~${cost["schema"]:.2f} / occupation, **one-time** (not per state) |
+
+Right now, {t["professions_needing_schema_now"]} occupations have law text on disk and
+are waiting only on this one-time step — discovering all of them would cost about
+${t["cost_all_schemas"]:.2f} total.
 
 Three things to understand about these numbers:
 

@@ -230,9 +230,13 @@ def should_drop(label: str, text: str) -> str | None:
 
 def clean_state(in_path: Path) -> CleanCorpus:
     raw = json.loads(in_path.read_text())
+    # Some older reused-from-sibling corpora (pipeline.discover.gap_harvest.reuse,
+    # fixed 2026-07-08) were written without state/profession keys. The path itself
+    # is authoritative (text/<profession>/<state>.json), so fall back to it rather
+    # than fail on every one of those files.
     out = CleanCorpus(
-        state=raw["state"],
-        profession=raw["profession"],
+        state=raw.get("state") or in_path.stem,
+        profession=raw.get("profession") or in_path.parent.name,
         chapter_urls=raw.get("chapter_urls", []),
     )
     for sec in raw.get("sections", []):

@@ -56,7 +56,8 @@ def main():
             if matched:
                 (TEXT_DIR / prof).mkdir(parents=True, exist_ok=True)
                 (TEXT_DIR / prof / f"{st}.json").write_text(json.dumps(
-                    {"sections": list(matched.values()),
+                    {"state": st, "profession": prof, "chapter_urls": [url],
+                     "sections": list(matched.values()),
                      "source": "reused_from_existing_corpus", "reused_chapter": url}, indent=1))
                 reused.setdefault(prof, []).append(st)
                 reuse_cells += 1
