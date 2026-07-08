@@ -1,0 +1,563 @@
+{
+  "profession": "direct_entry_midwifery",
+  "fields": [
+    {
+      "name": "national_credential_required",
+      "category": "credentials and certification pathway",
+      "type": "enum",
+      "enum_values": [
+        "CPM (Certified Professional Midwife) via NARM",
+        "CNM (Certified Nurse Midwife) via AMCB",
+        "either CPM or CNM"
+      ],
+      "description": "The specific national credential that must be held as a prerequisite for state licensure.",
+      "sample_quote": "Submit proof of a current national certification as a certified professional midwife from the North American registry of midwives or its successor organization.",
+      "sample_state": "IA",
+      "states_supporting": [
+        "AK",
+        "AL",
+        "IA",
+        "ID",
+        "IL",
+        "IN",
+        "KY",
+        "FL",
+        "CT",
+        "KS"
+      ]
+    },
+    {
+      "name": "meac_accredited_program_required",
+      "category": "credentials and certification pathway",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether completion of a MEAC-accredited education program or pathway is required for licensure.",
+      "sample_quote": "Has obtained a certified professional midwife credential through an education program or pathway accredited by the Midwifery Education Accreditation Council or by another accrediting agency recognized by the United States Department of Education.",
+      "sample_state": "AL",
+      "states_supporting": [
+        "AL",
+        "IA",
+        "ID",
+        "IL",
+        "IN",
+        "KY"
+      ]
+    },
+    {
+      "name": "midwifery_bridge_certificate_pathway",
+      "category": "credentials and certification pathway",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether a Midwifery Bridge Certificate (MBC) from NARM is accepted as an alternative pathway for applicants who obtained CPM credentials through a non-accredited route.",
+      "sample_quote": "A certified professional midwife certified before July 1, 2024, and who received certification other than through completion of an educational program or pathway described in subparagraph (1) shall obtain a midwifery bridge certificate from the North American registry of midwives or its successor organization in order to obtain licensure in Iowa.",
+      "sample_state": "IA",
+      "states_supporting": [
+        "AL",
+        "IA",
+        "IL",
+        "IN"
+      ]
+    },
+    {
+      "name": "cpr_certification_required",
+      "category": "credentials and certification pathway",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the applicant must hold an active cardiopulmonary resuscitation (CPR) certification as a condition of licensure.",
+      "sample_quote": "holds an active cardiopulmonary resuscitation certification",
+      "sample_state": "IL",
+      "states_supporting": [
+        "IL",
+        "IN"
+      ]
+    },
+    {
+      "name": "neonatal_resuscitation_certification_required",
+      "category": "credentials and certification pathway",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the applicant must hold an active Neonatal Resuscitation Program (NRP) provider status as a condition of licensure.",
+      "sample_quote": "holds an active neonatal resuscitation provider status",
+      "sample_state": "IL",
+      "states_supporting": [
+        "IL",
+        "IN"
+      ]
+    },
+    {
+      "name": "clinical_birth_experience_requirements",
+      "category": "credentials and certification pathway",
+      "type": "str",
+      "enum_values": null,
+      "description": "Specific minimum number and type of births (observed, assisted, primary) required as part of the education or credentialing process.",
+      "sample_quote": "comply with the birth requirements of the Certified Professional Midwife credentialing process, observe an additional twenty (20) births, attend twenty (20) births conducted by a physician, assist with an additional twenty (20) births, and act as the primary attendant for an additional twenty (20) births.",
+      "sample_state": "IN",
+      "states_supporting": [
+        "IN",
+        "FL"
+      ]
+    },
+    {
+      "name": "collaborative_agreement_required",
+      "category": "supervision and physician collaboration",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the midwife must maintain a formal written collaborative agreement with a licensed physician as a condition of practice.",
+      "sample_quote": "a certified direct entry midwife must have a collaborating agreement with a physician licensed under IC 25-22.5",
+      "sample_state": "IN",
+      "states_supporting": [
+        "IN",
+        "KS",
+        "KY",
+        "FL"
+      ]
+    },
+    {
+      "name": "collaborative_agreement_details",
+      "category": "supervision and physician collaboration",
+      "type": "str",
+      "enum_values": null,
+      "description": "Specific requirements for the content, registration, or periodic review obligations of the physician collaborative agreement.",
+      "sample_quote": "The physician shall examine the client at least one (1) time during the client's first trimester and one (1) time during the client's third trimester. The collaborating physician should be located in an area close to where the delivery will occur.",
+      "sample_state": "IN",
+      "states_supporting": [
+        "IN",
+        "KS",
+        "KY"
+      ]
+    },
+    {
+      "name": "independent_practice_permitted",
+      "category": "supervision and physician collaboration",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly permits or requires independent practice without a mandatory physician supervision or collaboration agreement.",
+      "sample_quote": "The board shall not adopt rules that do any of the following: ... Require a licensee to practice under the supervision of or under a collaborative practice agreement with another health care provider.",
+      "sample_state": "IA",
+      "states_supporting": [
+        "IA",
+        "ID",
+        "IL",
+        "AL"
+      ]
+    },
+    {
+      "name": "apprentice_or_student_permit",
+      "category": "supervision and physician collaboration",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state issues a separate permit or authorization for apprentice or student midwives to practice under supervision.",
+      "sample_quote": "The board shall issue a permit to practice as an apprentice direct-entry midwife to a person who satisfies the requirements of AS 08.65.050(1) - (3) and who has been accepted into a program of education, training, and apprenticeship approved by the board.",
+      "sample_state": "AK",
+      "states_supporting": [
+        "AK",
+        "FL",
+        "IL",
+        "IN"
+      ]
+    },
+    {
+      "name": "supervisor_qualifications_for_apprentice",
+      "category": "supervision and physician collaboration",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "Categories of licensed professionals who are authorized to supervise apprentice or student midwives.",
+      "sample_quote": "An apprentice direct-entry midwife may perform all the activities of a certified direct-entry midwife if supervised in a manner prescribed by the board by (1) a certified direct-entry midwife who has been licensed and practicing in this state for at least two years... (3) a physician licensed in this state with an obstetrical practice... (4) a certified nurse midwife licensed by the Board of Nursing in this state.",
+      "sample_state": "AK",
+      "states_supporting": [
+        "AK",
+        "FL",
+        "IN"
+      ]
+    },
+    {
+      "name": "authorized_drug_formulary",
+      "category": "drugs and medications the midwife may use",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "Specific medications or drug categories that the midwife is explicitly authorized to obtain and administer.",
+      "sample_quote": "Permit a licensee to obtain and administer all of the following during the practice of midwifery: (1) Antihemorrhagic agents including but not limited to oxytocin, misoprostol, and methylergonovine. (2) Intravenous fluids for stabilization of the laboring person. (3) Neonatal injectable vitamin K. (4) Newborn antibiotic eye prophylaxis. (5) Oxygen. (6) Intravenous antibiotics for group B streptococcal antibiotic prophylaxis. (7) Rho (D) immune globulin. (8) Local anesthetic. (9) Epinephrine.",
+      "sample_state": "IA",
+      "states_supporting": [
+        "AK",
+        "AL",
+        "FL",
+        "IA",
+        "ID",
+        "IL",
+        "IN",
+        "KY"
+      ]
+    },
+    {
+      "name": "prescription_authority_prohibited",
+      "category": "drugs and medications the midwife may use",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly prohibits the midwife from having prescriptive authority.",
+      "sample_quote": "Nothing in this chapter shall be construed as authorizing a licensed midwife to practice medicine or prescribe medicine or drugs.",
+      "sample_state": "AL",
+      "states_supporting": [
+        "AL",
+        "ID",
+        "IL",
+        "IN",
+        "KY"
+      ]
+    },
+    {
+      "name": "controlled_substance_restrictions",
+      "category": "drugs and medications the midwife may use",
+      "type": "str",
+      "enum_values": null,
+      "description": "Specific restrictions on the midwife's ability to administer or order controlled or narcotic substances.",
+      "sample_quote": "A licensed certified professional midwife shall not administer Schedule II through IV controlled substances. Subject to a prescription by a health care professional, Schedule V controlled substances may be administered by licensed certified professional midwives.",
+      "sample_state": "IL",
+      "states_supporting": [
+        "IL",
+        "IA",
+        "IN",
+        "KY"
+      ]
+    },
+    {
+      "name": "prohibited_procedures",
+      "category": "procedures and conditions outside the midwife's scope",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "Specific obstetric procedures that the midwife is explicitly prohibited from performing.",
+      "sample_quote": "A licensed midwife may not administer or perform any of the following obstetric procedures which are outside of the scope of the licensed practice of midwifery: (1) An epidural, spinal, or caudal anesthetic. (2) Any type of narcotic analgesia. (3) Forceps or a vacuum extractor-assisted delivery. (4) Abortion. (5) Cesarean section or any surgery or surgical deliver except minimal episiotomies.",
+      "sample_state": "AL",
+      "states_supporting": [
+        "AL",
+        "FL",
+        "IA",
+        "ID",
+        "IL",
+        "IN",
+        "KS",
+        "KY"
+      ]
+    },
+    {
+      "name": "prohibited_client_conditions",
+      "category": "procedures and conditions outside the midwife's scope",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "Specific maternal or fetal diagnoses or conditions for which the midwife is prohibited from accepting or continuing care.",
+      "sample_quote": "Prohibit a licensed midwife from providing care for a client with a history of disorders, diagnoses, conditions, or symptoms that include: 1. Placental abnormality; 2. Multiple gestation... 3. Noncephalic presentation at the onset of labor or rupture of membranes... 4. Birth under thirty-seven and zero-sevenths (37 0/7) weeks...",
+      "sample_state": "ID",
+      "states_supporting": [
+        "AL",
+        "ID",
+        "IL",
+        "KY"
+      ]
+    },
+    {
+      "name": "vbac_permitted",
+      "category": "procedures and conditions outside the midwife's scope",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether vaginal birth after cesarean section (VBAC) is within the midwife's permitted scope of practice.",
+      "sample_quote": "A licensed midwife may not perform either of the following: ... (9) Vaginal birth after a cesarean.",
+      "sample_state": "AL",
+      "states_supporting": [
+        "AL",
+        "ID",
+        "IL",
+        "KY"
+      ]
+    },
+    {
+      "name": "consultation_referral_trigger_conditions",
+      "category": "procedures and conditions outside the midwife's scope",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "Specific antepartum, intrapartum, or postpartum conditions that require the midwife to consult with or refer to a physician or other provider.",
+      "sample_quote": "A licensed certified professional midwife shall consult with a licensed physician or a certified nurse midwife providing obstetrical care whenever there are significant deviations, including abnormal laboratory results, relative to a client's pregnancy or to a neonate.",
+      "sample_state": "IL",
+      "states_supporting": [
+        "AK",
+        "FL",
+        "ID",
+        "IL",
+        "IN",
+        "KY"
+      ]
+    },
+    {
+      "name": "emergency_transfer_plan_required",
+      "category": "emergency planning and transfer requirements",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the midwife is required to develop and maintain a written emergency transfer or care plan for each client.",
+      "sample_quote": "Every licensed midwife shall develop a written plan for the appropriate delivery of emergency care. A copy of the plan shall accompany any application for license issuance or renewal.",
+      "sample_state": "FL",
+      "states_supporting": [
+        "AK",
+        "AL",
+        "FL",
+        "IA",
+        "ID",
+        "IL",
+        "IN",
+        "KY"
+      ]
+    },
+    {
+      "name": "emergency_transfer_trigger_conditions",
+      "category": "emergency planning and transfer requirements",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "Specific intrapartum or postpartum conditions that require the midwife to initiate immediate emergency transfer to a hospital.",
+      "sample_quote": "Require that a licensed midwife facilitate the immediate transfer to a hospital for emergency care for disorders, diagnoses, conditions, or symptoms that include: 1. Maternal fever in labor; 2. Suggestion of fetal jeopardy, such as bleeding or meconium or abnormal fetal heart tones...",
+      "sample_state": "ID",
+      "states_supporting": [
+        "ID",
+        "IL",
+        "KY"
+      ]
+    },
+    {
+      "name": "hospital_transfer_protocol_requirements",
+      "category": "emergency planning and transfer requirements",
+      "type": "str",
+      "enum_values": null,
+      "description": "Specific procedural requirements for how the midwife must conduct and document an emergency transfer to a hospital, including notification and record transmission.",
+      "sample_quote": "The licensed certified professional midwife shall initiate immediate transport according to the licensed certified professional midwife's emergency plan, provide emergency stabilization until emergency medical services arrive or transfer is completed, accompany the client or follow the client to a hospital in a timely fashion, and provide pertinent information to the receiving facility and complete an emergency transport record.",
+      "sample_state": "IL",
+      "states_supporting": [
+        "FL",
+        "ID",
+        "IL",
+        "KY"
+      ]
+    },
+    {
+      "name": "permitted_birth_settings",
+      "category": "where and how care may be provided",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "Settings in which the midwife is explicitly authorized or prohibited from providing care.",
+      "sample_quote": "A licensed midwife may provide midwifery care in the setting of the client's choice, except a hospital.",
+      "sample_state": "AL",
+      "states_supporting": [
+        "AL",
+        "FL",
+        "IA",
+        "ID",
+        "IL",
+        "IN"
+      ]
+    },
+    {
+      "name": "practice_limited_to_nonhospital_settings",
+      "category": "where and how care may be provided",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute or rules explicitly limit the midwife's practice to out-of-hospital or non-hospital settings.",
+      "sample_quote": "Rules adopted under this subdivision must limit the practice of certified direct entry midwives to nonhospital settings.",
+      "sample_state": "IN",
+      "states_supporting": [
+        "IN",
+        "AL",
+        "ID"
+      ]
+    },
+    {
+      "name": "second_attendant_required_at_birth",
+      "category": "where and how care may be provided",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute requires a second qualified attendant (midwife, assistant, or student) to be present at out-of-hospital births.",
+      "sample_quote": "A licensed certified professional midwife shall plan for at least 2 licensed certified professional midwives or a licensed certified professional midwife and a midwife assistant or student midwife to be present at all out-of-hospital births.",
+      "sample_state": "IL",
+      "states_supporting": [
+        "IL",
+        "IN"
+      ]
+    },
+    {
+      "name": "informed_consent_required_content",
+      "category": "client disclosure and recordkeeping",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "Specific items that must be included in the written informed consent or disclosure form provided to each client.",
+      "sample_quote": "A description of the licensed midwife's education, training, and experience in midwifery. Antepartum, intrapartum, and postpartum conditions requiring medical referral, transfer of care, and transport to a hospital. A plan for medical referral, transfer of care, and transport of the client or newborn or both when indicated... The status of a licensed midwife's professional liability insurance coverage.",
+      "sample_state": "AL",
+      "states_supporting": [
+        "AK",
+        "AL",
+        "FL",
+        "IA",
+        "ID",
+        "IL",
+        "IN",
+        "KY"
+      ]
+    },
+    {
+      "name": "malpractice_insurance_disclosure_required",
+      "category": "client disclosure and recordkeeping",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the midwife must disclose to clients the status and amount of professional liability insurance coverage.",
+      "sample_quote": "A licensed midwife shall include in the informed consent plan presented to the parents the status of the midwife's malpractice insurance, including the amount of malpractice insurance, if any.",
+      "sample_state": "FL",
+      "states_supporting": [
+        "AL",
+        "FL",
+        "IA",
+        "ID",
+        "IL",
+        "IN",
+        "KY"
+      ]
+    },
+    {
+      "name": "malpractice_insurance_required",
+      "category": "client disclosure and recordkeeping",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the midwife is required to maintain professional liability insurance as a condition of licensure or renewal.",
+      "sample_quote": "Establish levels of professional liability insurance that must be maintained by a licensed midwife at a limit of no less than one hundred thousand dollars ($100,000) per occurrence and three hundred thousand dollars ($300,000) aggregate.",
+      "sample_state": "AL",
+      "states_supporting": [
+        "AL",
+        "IN"
+      ]
+    },
+    {
+      "name": "outcome_data_reporting_required",
+      "category": "client disclosure and recordkeeping",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the midwife must submit practice outcome data (births, transfers, deaths) to the state board or a designated registry.",
+      "sample_quote": "A licensed midwife shall file annually with the board the following information... The total number of births attended by the licensed midwife in the previous year... The number of maternal transfers to a health care facility... The total number of maternal deaths... The total number of infant deaths.",
+      "sample_state": "AL",
+      "states_supporting": [
+        "AL",
+        "FL",
+        "IA",
+        "ID",
+        "IL",
+        "KY"
+      ]
+    },
+    {
+      "name": "birth_certificate_filing_required",
+      "category": "client disclosure and recordkeeping",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the midwife is required to file or submit the birth certificate for each birth attended.",
+      "sample_quote": "A licensed midwife shall file a birth certificate for each birth in accordance with the requirements of Section 22-9A-7.",
+      "sample_state": "AL",
+      "states_supporting": [
+        "AK",
+        "AL",
+        "FL",
+        "IA",
+        "ID",
+        "IL",
+        "CT"
+      ]
+    },
+    {
+      "name": "newborn_screening_obligations",
+      "category": "client disclosure and recordkeeping",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "Specific newborn screening, prophylaxis, or reporting obligations the midwife must fulfill or instruct clients about after birth.",
+      "sample_quote": "A licensed midwife shall instruct the client regarding the requirements of the administration of eye ointment ordered by the Department of Public Health... A licensed midwife shall instruct the client regarding the requirements of administration of newborn health screening ordered by the Department of Public Health.",
+      "sample_state": "AL",
+      "states_supporting": [
+        "AK",
+        "AL",
+        "FL",
+        "IA",
+        "ID",
+        "IL",
+        "IN"
+      ]
+    },
+    {
+      "name": "peer_review_required",
+      "category": "quality oversight and practice standards",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute requires or authorizes a peer review process for licensed midwives.",
+      "sample_quote": "The board may by regulation require that a certified direct-entry midwife undergo a uniform or random period of peer review to ensure the quality of care provided by the certified direct-entry midwife.",
+      "sample_state": "AK",
+      "states_supporting": [
+        "AK",
+        "IA",
+        "ID",
+        "IL",
+        "IN"
+      ]
+    },
+    {
+      "name": "risk_assessment_standards_required",
+      "category": "quality oversight and practice standards",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute requires the board to establish standards by which the midwife must conduct risk assessment of clients.",
+      "sample_quote": "Standards by which a licensed midwife shall conduct risk assessment.",
+      "sample_state": "AL",
+      "states_supporting": [
+        "AL",
+        "FL",
+        "ID",
+        "IL",
+        "KY"
+      ]
+    },
+    {
+      "name": "traditional_birth_attendant_exemption",
+      "category": "quality oversight and practice standards",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute exempts traditional, cultural, indigenous, or religious birth attendants from licensure requirements when serving their own community.",
+      "sample_quote": "a traditional birth attendant practicing midwifery without a license if the traditional birth attendant has cultural, indigenous, or religious traditions that have historically included the attendance of traditional birth attendants at births and that birth attendant serves only the women and families in that distinct cultural, indigenous, or religious group",
+      "sample_state": "IL",
+      "states_supporting": [
+        "IA",
+        "ID",
+        "IL",
+        "KY"
+      ]
+    },
+    {
+      "name": "advisory_council_composition",
+      "category": "governance and board structure",
+      "type": "str",
+      "enum_values": null,
+      "description": "The specific composition of any advisory council or committee that advises the licensing board on midwifery matters, including required member types.",
+      "sample_quote": "A midwifery advisory council is established. The board shall appoint members of the council, including four members who are certified professional midwives eligible for licensure under this chapter; one member who is licensed under chapter 148 and is certified by the American college of obstetrics and gynecology; one member who is a certified nurse midwife; and one member who is not a licensed midwife or a licensed health care provider and who shall represent the general public.",
+      "sample_state": "IA",
+      "states_supporting": [
+        "AK",
+        "AL",
+        "FL",
+        "IA",
+        "IL",
+        "IN",
+        "KY"
+      ]
+    }
+  ],
+  "states_sampled": [
+    "AK",
+    "AL",
+    "CT",
+    "FL",
+    "IA",
+    "ID",
+    "IL",
+    "IN",
+    "KS",
+    "KY"
+  ],
+  "states_excluded_count": 9
+}

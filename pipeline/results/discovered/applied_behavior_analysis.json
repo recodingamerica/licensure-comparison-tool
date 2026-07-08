@@ -1,0 +1,491 @@
+{
+  "profession": "applied_behavior_analysis",
+  "fields": [
+    {
+      "name": "tiered_license_levels",
+      "category": "license tiers and credential levels",
+      "type": "list[str]",
+      "enum_values": [
+        "licensed behavior analyst",
+        "licensed assistant behavior analyst",
+        "temporary licensee"
+      ],
+      "description": "The distinct license tiers recognized by the state for this profession, ranging from full behavior analyst to assistant and temporary levels.",
+      "sample_quote": "The department shall issue a license to practice as an assistant behavior analyst to a person who... provides proof acceptable to the department that the person is directly supervised by a licensed behavior analyst.",
+      "sample_state": "AK",
+      "states_supporting": [
+        "AK",
+        "AL",
+        "CT",
+        "GA",
+        "HI",
+        "IL",
+        "IN",
+        "KS",
+        "KY"
+      ]
+    },
+    {
+      "name": "national_certification_body",
+      "category": "license tiers and credential levels",
+      "type": "str",
+      "enum_values": null,
+      "description": "The nationally recognized certifying entity whose certification is required or accepted as the basis for state licensure.",
+      "sample_quote": "Certifying entity means the Behavior Analyst Certification Board, Inc., or its successor, or another entity that conducts programs to certify professional practitioners of behavior analysis that are accredited by the National Commission on Certifying Agencies or the American National Standards Institute.",
+      "sample_state": "GA",
+      "states_supporting": [
+        "AK",
+        "AL",
+        "AZ",
+        "CT",
+        "GA",
+        "HI",
+        "IL",
+        "IN",
+        "KS",
+        "KY"
+      ]
+    },
+    {
+      "name": "national_certification_required_for_licensure",
+      "category": "license tiers and credential levels",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether holding active national certification (e.g., BCBA or BCaBA) is a prerequisite for obtaining or renewing a state license.",
+      "sample_quote": "The board shall not issue a license under this act until the license applicant provides proof that such applicant has met the certification requirements of a certifying entity.",
+      "sample_state": "KS",
+      "states_supporting": [
+        "AK",
+        "AL",
+        "GA",
+        "HI",
+        "IN",
+        "KS",
+        "KY"
+      ]
+    },
+    {
+      "name": "doctoral_tier_recognized",
+      "category": "license tiers and credential levels",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state explicitly recognizes a doctoral-level behavior analyst credential (BCBA-D) as a distinct or equivalent credential for licensure.",
+      "sample_quote": "Maintains active status with the Behavior Analyst Certification Board as a board certified behavior analyst or board certified behavior analyst-doctoral.",
+      "sample_state": "HI",
+      "states_supporting": [
+        "GA",
+        "HI",
+        "IL"
+      ]
+    },
+    {
+      "name": "assistant_analyst_supervision_requirement",
+      "category": "supervision and delegation",
+      "type": "str",
+      "enum_values": null,
+      "description": "The requirement that a licensed assistant behavior analyst practice only under the supervision of a licensed behavior analyst, including any specifics about supervision format.",
+      "sample_quote": "An individual who is licensed as an assistant behavior analyst under this section must be directly supervised by a behavior analyst licensed under this chapter and must submit to the committee a written record of the supervision provided.",
+      "sample_state": "IN",
+      "states_supporting": [
+        "AK",
+        "AL",
+        "GA",
+        "HI",
+        "IL",
+        "IN",
+        "KS",
+        "KY"
+      ]
+    },
+    {
+      "name": "supervisee_technician_exemption",
+      "category": "supervision and delegation",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly exempts paraprofessionals or direct-contact technicians who implement (but do not design) ABA services under a licensed analyst's supervision from licensure requirements.",
+      "sample_quote": "A behavior technician who delivers applied behavior analysis services under the extended authority, close and ongoing supervision, and responsibility of a licensed behavior analyst or a licensed assistant behavior analyst. Such individuals shall not represent themselves as professional behavior analysts.",
+      "sample_state": "GA",
+      "states_supporting": [
+        "AK",
+        "AL",
+        "GA",
+        "HI",
+        "IL",
+        "IN",
+        "KY"
+      ]
+    },
+    {
+      "name": "family_member_caregiver_exemption",
+      "category": "supervision and delegation",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether family members or caregivers implementing a behavior analysis plan under a licensed analyst's direction are explicitly exempt from licensure.",
+      "sample_quote": "A family member implementing a behavior analysis plan within the home, who acts under the direction of a licensed behavior analyst or licensed assistant behavior analyst.",
+      "sample_state": "AK",
+      "states_supporting": [
+        "AK",
+        "AL",
+        "CT",
+        "GA",
+        "HI",
+        "IL",
+        "IN",
+        "KY"
+      ]
+    },
+    {
+      "name": "max_supervisees_per_analyst",
+      "category": "supervision and delegation",
+      "type": "str",
+      "enum_values": null,
+      "description": "Any statutory or regulatory limit on the number of supervisees or temporary licensees a licensed behavior analyst may supervise simultaneously.",
+      "sample_quote": "Establishing the number of persons a licensed behavior analyst may supervise at one (1) time, including temporary licensees and supervisees.",
+      "sample_state": "KY",
+      "states_supporting": [
+        "KY",
+        "KS"
+      ]
+    },
+    {
+      "name": "temporary_license_available",
+      "category": "temporary and out-of-state practice",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state offers a temporary license for out-of-state practitioners providing services for a limited period.",
+      "sample_quote": "The department may issue a temporary license to practice behavior analysis in this state for 30 days or less in a calendar year if the person is licensed to practice behavior analysis in another state whose requirements to practice behavior analysis are substantially equivalent.",
+      "sample_state": "AK",
+      "states_supporting": [
+        "AK",
+        "AL",
+        "GA",
+        "KY"
+      ]
+    },
+    {
+      "name": "temporary_license_max_days_per_year",
+      "category": "temporary and out-of-state practice",
+      "type": "int",
+      "enum_values": null,
+      "description": "The maximum number of days per calendar year an out-of-state practitioner may practice under a temporary license.",
+      "sample_quote": "A temporary behavior analysis license may be issued only if the behavior analysis services are to be delivered during a limited and defined period of not more than a total of 30 days within a calendar year.",
+      "sample_state": "GA",
+      "states_supporting": [
+        "AK",
+        "GA",
+        "IN"
+      ]
+    },
+    {
+      "name": "school_setting_exemption",
+      "category": "practice setting and population exemptions",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether individuals employed by schools or school districts to deliver behavior analytic services in educational settings are exempt from licensure requirements.",
+      "sample_quote": "An individual employed by a local board of education performing the duties of their positions; provided, however, that such individuals shall not represent themselves as licensed behavior analysts or licensed assistant behavior analysts.",
+      "sample_state": "GA",
+      "states_supporting": [
+        "GA",
+        "HI",
+        "IL",
+        "KY",
+        "KS"
+      ]
+    },
+    {
+      "name": "medicaid_waiver_services_exemption",
+      "category": "practice setting and population exemptions",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether individuals providing services under Medicaid home- and community-based services waiver programs are explicitly exempt from licensure.",
+      "sample_quote": "Individuals providing behavior support services covered under the Medicaid Comprehensive Supports Waiver Program (COMP) or New Options Waiver (NOW) program.",
+      "sample_state": "GA",
+      "states_supporting": [
+        "GA",
+        "HI",
+        "KS",
+        "KY"
+      ]
+    },
+    {
+      "name": "organizational_behavior_management_exemption",
+      "category": "practice setting and population exemptions",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether practitioners providing ABA services exclusively to organizations (not individuals) or working in organizational behavior management are exempt from licensure.",
+      "sample_quote": "An individual who provides general applied behavior analysis services to organizations, so long as those services are for the benefit of the organizations and do not involve direct services to individuals.",
+      "sample_state": "GA",
+      "states_supporting": [
+        "AK",
+        "AL",
+        "GA",
+        "HI",
+        "IL",
+        "IN"
+      ]
+    },
+    {
+      "name": "nonhuman_animal_behaviorist_exemption",
+      "category": "practice setting and population exemptions",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether applied animal behaviorists or others practicing exclusively with nonhuman subjects are exempt from licensure.",
+      "sample_quote": "An applied animal behaviorist who practices exclusively with nonhumans.",
+      "sample_state": "AK",
+      "states_supporting": [
+        "AK",
+        "AL",
+        "GA",
+        "HI",
+        "IL",
+        "IN"
+      ]
+    },
+    {
+      "name": "researcher_educator_exemption",
+      "category": "practice setting and population exemptions",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether individuals who teach behavior analysis or conduct research without providing direct clinical services are exempt from licensure.",
+      "sample_quote": "Individuals who teach behavior analysis or conduct behavior analysis research, provided that such teaching or research does not involve the direct delivery of applied behavior analysis services.",
+      "sample_state": "GA",
+      "states_supporting": [
+        "GA",
+        "IL",
+        "KS"
+      ]
+    },
+    {
+      "name": "scope_exclusions",
+      "category": "what this profession cannot do",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "Modalities or activities explicitly excluded from the statutory definition of behavior analysis practice.",
+      "sample_quote": "The practice of applied behavior analysis expressly excludes psychological testing, diagnosis of a mental or physical disorder, neuropsychology, psychotherapy, cognitive therapy, sex therapy, psychoanalysis, hypnotherapy, and long-term counseling as treatment modalities.",
+      "sample_state": "HI",
+      "states_supporting": [
+        "AK",
+        "AL",
+        "CT",
+        "GA",
+        "HI",
+        "IL",
+        "IN",
+        "KY"
+      ]
+    },
+    {
+      "name": "prescribing_medical_diagnosis_prohibited",
+      "category": "what this profession cannot do",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly prohibits licensed behavior analysts from prescribing drugs, making medical diagnoses, or providing medical treatment.",
+      "sample_quote": "Nothing in this chapter shall be construed as permitting or allowing a licensed behavior analyst to prescribe or administer any drug, make a medical diagnosis, provide medical treatment, or manage a medical condition.",
+      "sample_state": "AL",
+      "states_supporting": [
+        "AL",
+        "KY",
+        "HI"
+      ]
+    },
+    {
+      "name": "autism_spectrum_disorder_focus",
+      "category": "target populations and conditions",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute specifically references autism spectrum disorder as a primary population or condition addressed by licensed behavior analysts.",
+      "sample_quote": "Design, implement, evaluate, and modify treatment programs to change the behavior of individuals diagnosed with an autism spectrum disorder.",
+      "sample_state": "KY",
+      "states_supporting": [
+        "KY",
+        "KS",
+        "AL"
+      ]
+    },
+    {
+      "name": "autism_service_provider_designation",
+      "category": "target populations and conditions",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute formally designates licensed behavior analysts as 'autism service providers' with associated insurance or regulatory implications.",
+      "sample_quote": "'Autism service provider' means any person that provides diagnostic or treatment services for autism spectrum disorders who is licensed or certified by the state of Kansas; or who is licensed by the behavioral sciences regulatory board as a licensed behavior analyst or a licensed assistant behavior analyst.",
+      "sample_state": "KS",
+      "states_supporting": [
+        "KS",
+        "KY"
+      ]
+    },
+    {
+      "name": "telehealth_authorized",
+      "category": "service delivery methods",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly authorizes or regulates the delivery of applied behavior analysis services via telehealth or electronic media.",
+      "sample_quote": "A treating behavior analyst or assistant behavior analyst who provides or facilitates the use of telehealth, shall ensure that the informed consent of the patient... is obtained before services are provided through telehealth.",
+      "sample_state": "KY",
+      "states_supporting": [
+        "KY",
+        "KS"
+      ]
+    },
+    {
+      "name": "informed_consent_required",
+      "category": "service delivery methods",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly requires a licensed behavior analyst to obtain informed consent from the patient or authorized decision-maker before providing services.",
+      "sample_quote": "A treating behavior analyst or assistant behavior analyst who provides or facilitates the use of telehealth, shall ensure that the informed consent of the patient, or another appropriate person with authority to make the health-care treatment decision for the patient, is obtained before services are provided.",
+      "sample_state": "KY",
+      "states_supporting": [
+        "KY",
+        "IL"
+      ]
+    },
+    {
+      "name": "business_entity_license_requirement",
+      "category": "practice setting and facility rules",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute requires that business organizations providing ABA services employ only licensed practitioners and be organized under specific corporate structures.",
+      "sample_quote": "No business organization shall provide, attempt to provide, or offer to provide behavior analysis services unless every member, partner, shareholder, director, officer, holder of any other ownership interest, agent, and employee who renders applied behavior analysis services holds a currently valid license issued under this Act.",
+      "sample_state": "IL",
+      "states_supporting": [
+        "IL",
+        "KY"
+      ]
+    },
+    {
+      "name": "criminal_background_check_required",
+      "category": "applicant screening and background checks",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether applicants for licensure are required to submit to a criminal background check, including fingerprinting.",
+      "sample_quote": "Has been fingerprinted and has provided the fees required by the Department of Public Safety under AS 12.62.160 for criminal justice information and a national criminal history record check.",
+      "sample_state": "AK",
+      "states_supporting": [
+        "AK",
+        "AL",
+        "GA",
+        "IL",
+        "IN"
+      ]
+    },
+    {
+      "name": "fingerprint_submission_required",
+      "category": "applicant screening and background checks",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether applicants must submit fingerprints specifically (as opposed to a general background check authorization) as part of the licensure process.",
+      "sample_quote": "Each applicant for licensure as a behavior analyst shall have his or her fingerprints submitted to the Illinois State Police in an electronic format that complies with the form and manner for requesting and furnishing criminal history record information.",
+      "sample_state": "IL",
+      "states_supporting": [
+        "AK",
+        "AL",
+        "GA",
+        "IL"
+      ]
+    },
+    {
+      "name": "mandatory_reporting_of_disciplinary_actions",
+      "category": "applicant screening and background checks",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether licensees are required to report disciplinary actions taken against them in other jurisdictions or by the national certifying body to the state licensing authority.",
+      "sample_quote": "Failing to report in writing to the director any disciplinary decision issued against the licensee or applicant in another jurisdiction within thirty days of the disciplinary decision.",
+      "sample_state": "HI",
+      "states_supporting": [
+        "HI",
+        "KY",
+        "IN"
+      ]
+    },
+    {
+      "name": "ethical_code_compliance_required",
+      "category": "professional conduct standards",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether compliance with a specified professional and ethical code (typically the BACB's) is an explicit statutory requirement for licensure and continued practice.",
+      "sample_quote": "An individual who is licensed under this chapter shall comply with the requirements of the Professional and Ethical Compliance Code for Behavior Analysts published by the Behavior Analyst Certification Board, Inc.",
+      "sample_state": "IN",
+      "states_supporting": [
+        "AK",
+        "AL",
+        "GA",
+        "HI",
+        "IN",
+        "KS",
+        "KY"
+      ]
+    },
+    {
+      "name": "suicide_prevention_training_required",
+      "category": "professional conduct standards",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state mandates specific training in suicide prevention or mental health screening as a condition of license renewal.",
+      "sample_quote": "Completing not less than two hours of training or education... on (A) screening for post-traumatic stress disorder, risk of suicide, depression and grief, and (B) suicide prevention training, during the first renewal period and not less than once every six years thereafter.",
+      "sample_state": "CT",
+      "states_supporting": [
+        "CT"
+      ]
+    },
+    {
+      "name": "advisory_board_composition",
+      "category": "governing board structure",
+      "type": "str",
+      "enum_values": null,
+      "description": "The statutory composition of the licensing or advisory board, including the number and types of members (e.g., behavior analysts, public members, psychologists, parents).",
+      "sample_quote": "The board shall consist of seven (7) members appointed by the Governor... Four (4) members shall be licensed behavior analysts... One (1) member shall be a psychologist licensed in the state... Two (2) members shall be the parent of a child diagnosed with and treated for a behavior disorder.",
+      "sample_state": "KY",
+      "states_supporting": [
+        "AL",
+        "AZ",
+        "GA",
+        "IL",
+        "IN",
+        "KY"
+      ]
+    },
+    {
+      "name": "board_includes_parent_consumer_member",
+      "category": "governing board structure",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the licensing or advisory board is required to include a parent of a person with a behavior disorder or a consumer/public member with lived experience.",
+      "sample_quote": "Two (2) members shall be the parent of a child diagnosed with and treated for a behavior disorder, including but not limited to an autism spectrum disorder, selected from the state at large.",
+      "sample_state": "KY",
+      "states_supporting": [
+        "AL",
+        "KY",
+        "GA"
+      ]
+    },
+    {
+      "name": "board_includes_psychologist_member",
+      "category": "governing board structure",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the licensing or advisory board is required to include a licensed psychologist as a member.",
+      "sample_quote": "One (1) member shall be a psychologist licensed in the state, the majority of whose practice is related to the treatment of behavior disorders.",
+      "sample_state": "KY",
+      "states_supporting": [
+        "AL",
+        "IN",
+        "KY"
+      ]
+    }
+  ],
+  "states_sampled": [
+    "AK",
+    "AL",
+    "AZ",
+    "CT",
+    "GA",
+    "HI",
+    "IL",
+    "IN",
+    "KS",
+    "KY"
+  ],
+  "states_excluded_count": 21
+}

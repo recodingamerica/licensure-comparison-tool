@@ -1,0 +1,639 @@
+{
+  "profession": "perfusionist",
+  "fields": [
+    {
+      "name": "provisional_license_available",
+      "category": "license tiers and temporary credentials",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state offers a provisional or temporary license for graduates who have not yet passed the certification examination.",
+      "sample_quote": "A license as a provisional licensed clinical perfusionist may be issued by the board to a person who has successfully completed an approved perfusion education program and filed an application, paid the application fee, and submitted evidence satisfactory to the Department of Health of the successful completion of the education requirements set forth in this chapter.",
+      "sample_state": "AR",
+      "states_supporting": [
+        "AR",
+        "GA",
+        "IL",
+        "LA",
+        "MD",
+        "MO",
+        "NC",
+        "NV",
+        "CT"
+      ]
+    },
+    {
+      "name": "provisional_license_duration_months",
+      "category": "license tiers and temporary credentials",
+      "type": "int",
+      "enum_values": null,
+      "description": "Maximum duration in months of the provisional or temporary license before it expires or must be converted to a full license.",
+      "sample_quote": "A provisional license is valid for two years from the date it is issued and may be extended subject to rule by the board.",
+      "sample_state": "LA",
+      "states_supporting": [
+        "AR",
+        "GA",
+        "IL",
+        "LA",
+        "MD",
+        "NC",
+        "NV"
+      ]
+    },
+    {
+      "name": "provisional_license_supervisor_physical_presence_required",
+      "category": "supervision and oversight requirements",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the supervising licensed perfusionist must be physically present at all times when the provisional licensee is performing perfusion.",
+      "sample_quote": "Rules governing the supervision and direction of the provisionally licensed perfusionist shall not require the immediate physical presence of the supervising licensed perfusionist.",
+      "sample_state": "AR",
+      "states_supporting": [
+        "AR",
+        "GA",
+        "LA",
+        "NC",
+        "NV"
+      ]
+    },
+    {
+      "name": "graduate_perfusionist_title",
+      "category": "license tiers and temporary credentials",
+      "type": "str",
+      "enum_values": null,
+      "description": "The specific title or designation used for a person who has completed training but not yet passed the certification examination.",
+      "sample_quote": "After completion of an approved perfusion training program, as defined in Section 2592, and until notification of passage of the entire examination of the American Board of Cardiovascular Perfusion, or its successor agency, that person shall identify himself or herself only as a 'graduate perfusionist.'",
+      "sample_state": "CA",
+      "states_supporting": [
+        "CA",
+        "IL"
+      ]
+    },
+    {
+      "name": "graduate_perfusionist_title_validity_years",
+      "category": "license tiers and temporary credentials",
+      "type": "int",
+      "enum_values": null,
+      "description": "Maximum number of years the graduate or new-graduate perfusionist title or temporary status is valid after completing an approved training program.",
+      "sample_quote": "The use of the title 'graduate perfusionist' is valid for no more than three years from the date of completion of an approved perfusion training program.",
+      "sample_state": "CA",
+      "states_supporting": [
+        "CA",
+        "IL"
+      ]
+    },
+    {
+      "name": "abcp_certification_required_for_licensure",
+      "category": "certification and examination requirements",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether holding a current certificate from the American Board of Cardiovascular Perfusion (ABCP) is required or accepted as a basis for licensure.",
+      "sample_quote": "Is a certified clinical perfusionist.",
+      "sample_state": "NC",
+      "states_supporting": [
+        "AR",
+        "CA",
+        "CT",
+        "GA",
+        "IL",
+        "LA",
+        "MD",
+        "MO",
+        "NC",
+        "NV"
+      ]
+    },
+    {
+      "name": "abcp_certification_waives_exam",
+      "category": "certification and examination requirements",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether holding a current ABCP certificate allows an applicant to bypass the state licensing examination.",
+      "sample_quote": "The board may waive the examination and educational requirements for an applicant who at the time of application... holds a current certificate as a certified clinical perfusionist issued by the American Board of Cardiovascular Perfusion (ABCP) or its successor.",
+      "sample_state": "GA",
+      "states_supporting": [
+        "AR",
+        "CA",
+        "GA",
+        "IL",
+        "LA",
+        "MO",
+        "NC",
+        "NV"
+      ]
+    },
+    {
+      "name": "abcp_certification_required_to_maintain_licensure",
+      "category": "certification and examination requirements",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether ongoing ABCP certification must be maintained as a condition of keeping an active license.",
+      "sample_quote": "After December 31, 2007, all licensed perfusionists who are licensed under this Article shall maintain certification as defined in G.S. 90-682(1) in order to maintain licensure.",
+      "sample_state": "NC",
+      "states_supporting": [
+        "CA",
+        "NC"
+      ]
+    },
+    {
+      "name": "minimum_post_graduation_cases_required",
+      "category": "certification and examination requirements",
+      "type": "int",
+      "enum_values": null,
+      "description": "Minimum number of perfusion cases that must be completed after graduating from an accredited program before the full license examination may be taken.",
+      "sample_quote": "Completed a minimum of fifty cases after graduating from a perfusion education program accredited or approved pursuant to subdivision (1) of this subsection.",
+      "sample_state": "CT",
+      "states_supporting": [
+        "CT"
+      ]
+    },
+    {
+      "name": "accrediting_body_for_education_program",
+      "category": "education program standards",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "The accrediting body or bodies whose approval of a perfusion education program satisfies the state's educational requirement for licensure.",
+      "sample_quote": "An 'approved perfusion training program' means a training program in perfusion reviewed by the Accreditation Committee on Perfusion Education and approved by the Commission on Accreditation of Allied Health Education Programs or its successor.",
+      "sample_state": "CA",
+      "states_supporting": [
+        "AR",
+        "CA",
+        "CT",
+        "GA",
+        "IL",
+        "LA",
+        "MD",
+        "MO",
+        "NC",
+        "NV"
+      ]
+    },
+    {
+      "name": "physician_supervision_required",
+      "category": "supervision and oversight requirements",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether a licensed perfusionist must practice under the order and supervision of a licensed physician.",
+      "sample_quote": "All persons licensed under this section shall practice perfusion under the supervision of a physician licensed under Article 1 of Chapter 90 of the General Statutes.",
+      "sample_state": "NC",
+      "states_supporting": [
+        "AR",
+        "CA",
+        "CT",
+        "GA",
+        "IL",
+        "LA",
+        "MD",
+        "MO",
+        "NC",
+        "NV"
+      ]
+    },
+    {
+      "name": "student_supervision_model",
+      "category": "supervision and oversight requirements",
+      "type": "enum",
+      "enum_values": [
+        "direct",
+        "immediate availability",
+        "on duty and immediately available"
+      ],
+      "description": "The level of supervision required when a student enrolled in an accredited perfusion program performs perfusion services.",
+      "sample_quote": "Performed under the direct supervision of a licensed perfusionist who is assigned to supervise the student and who is on duty and immediately available in the assigned patient care area.",
+      "sample_state": "AR",
+      "states_supporting": [
+        "AR",
+        "CA",
+        "CT",
+        "GA",
+        "IL",
+        "LA",
+        "NC",
+        "NV"
+      ]
+    },
+    {
+      "name": "autotransfusion_exemption",
+      "category": "scope exceptions and carve-outs",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether persons performing autotransfusion or blood conservation techniques under physician supervision are explicitly exempt from the perfusionist licensure requirement.",
+      "sample_quote": "Qualified health care providers who are not licensed perfusionists or provisional licensed perfusionists from performing autotransfusion under the direct or indirect supervision of a licensed perfusionist.",
+      "sample_state": "LA",
+      "states_supporting": [
+        "GA",
+        "LA",
+        "NC"
+      ]
+    },
+    {
+      "name": "ecmo_monitoring_exemption",
+      "category": "scope exceptions and carve-outs",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether monitoring of the ECMO circuit by other trained medical professionals (in conjunction with a licensed perfusionist) is explicitly permitted without a perfusionist license.",
+      "sample_quote": "The monitoring of the extracorporeal membrane oxygenation (ECMO) circuit by a properly trained medical professional, in conjunction and with the consultation of a licensed perfusionist.",
+      "sample_state": "LA",
+      "states_supporting": [
+        "LA"
+      ]
+    },
+    {
+      "name": "dialysis_technician_exemption",
+      "category": "scope exceptions and carve-outs",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether dialysis care technicians working in licensed end-stage renal disease facilities or hospitals are explicitly exempt from the perfusionist licensure requirement.",
+      "sample_quote": "A person working as a dialysis care technician in an end stage renal disease facility licensed pursuant to Chapter 44 of Title 31 or a licensed hospital.",
+      "sample_state": "GA",
+      "states_supporting": [
+        "GA"
+      ]
+    },
+    {
+      "name": "professional_service_corporation_permitted",
+      "category": "practice setting and business structure",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether one or more licensed perfusionists are explicitly permitted to form a professional service corporation.",
+      "sample_quote": "One or more licensed perfusionists from forming a professional service corporation in accordance with the Professional Service Corporation Act.",
+      "sample_state": "LA",
+      "states_supporting": [
+        "IL",
+        "LA"
+      ]
+    },
+    {
+      "name": "advisory_committee_exists",
+      "category": "governance and advisory bodies",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state statute establishes a dedicated perfusionist advisory committee to assist the licensing board.",
+      "sample_quote": "There is hereby established an 'Advisory Commission for Clinical Perfusionists' which shall guide, advise and make recommendations to the board.",
+      "sample_state": "MO",
+      "states_supporting": [
+        "GA",
+        "IL",
+        "LA",
+        "MD",
+        "MO",
+        "NC",
+        "NV"
+      ]
+    },
+    {
+      "name": "advisory_committee_perfusionist_member_count",
+      "category": "governance and advisory bodies",
+      "type": "int",
+      "enum_values": null,
+      "description": "Number of licensed perfusionist members required on the state's perfusionist advisory committee.",
+      "sample_quote": "The advisory commission shall consist of five perfusionist members and two public members.",
+      "sample_state": "MO",
+      "states_supporting": [
+        "GA",
+        "IL",
+        "LA",
+        "MO",
+        "NC",
+        "NV"
+      ]
+    },
+    {
+      "name": "advisory_committee_physician_member_required",
+      "category": "governance and advisory bodies",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute requires at least one physician (typically a cardiothoracic surgeon or cardiovascular specialist) to serve on the perfusionist advisory committee.",
+      "sample_quote": "One member shall be a physician licensed under the Medical Practice Act of 1987 who is board certified in and actively engaged in the practice of cardiothoracic surgery.",
+      "sample_state": "IL",
+      "states_supporting": [
+        "IL",
+        "LA",
+        "MO",
+        "NC",
+        "NV"
+      ]
+    },
+    {
+      "name": "perfusion_protocols_definition_included",
+      "category": "scope of practice definitions",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute includes a definition of 'perfusion protocols' as policies developed collaboratively by the facility, physicians, and perfusionists.",
+      "sample_quote": "'Perfusion protocols' means perfusion related policies and protocols developed or approved by a licensed health facility or a physician through collaboration with administrators, licensed perfusionists, and other health care professionals.",
+      "sample_state": "AR",
+      "states_supporting": [
+        "AR",
+        "CA",
+        "CT",
+        "GA",
+        "IL",
+        "LA",
+        "MO",
+        "NC",
+        "NV"
+      ]
+    },
+    {
+      "name": "hemodialysis_in_scope",
+      "category": "scope of practice definitions",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether hemodialysis is explicitly listed as a function within the authorized scope of perfusion practice.",
+      "sample_quote": "The performance and use of... hemodialysis.",
+      "sample_state": "AR",
+      "states_supporting": [
+        "AR",
+        "CT",
+        "GA",
+        "IL",
+        "LA",
+        "MD",
+        "NC"
+      ]
+    },
+    {
+      "name": "isolated_limb_perfusion_in_scope",
+      "category": "scope of practice definitions",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether isolated limb perfusion is explicitly listed as a function within the authorized scope of perfusion practice.",
+      "sample_quote": "Counterpulsation, ventricular assistance, autotransfusion, blood conservation techniques, myocardial and organ preservation, extracorporeal life support, and isolated limb perfusion.",
+      "sample_state": "AR",
+      "states_supporting": [
+        "AR",
+        "CA",
+        "CT",
+        "GA",
+        "IL",
+        "LA",
+        "MD",
+        "MO",
+        "NC",
+        "NV"
+      ]
+    },
+    {
+      "name": "ventricular_assist_device_management_in_scope",
+      "category": "scope of practice definitions",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether ventricular assist device management or counterpulsation is explicitly listed as a function within the authorized scope of perfusion practice.",
+      "sample_quote": "Ventricular assist device management; Intra-aortic balloon counterpulsation.",
+      "sample_state": "GA",
+      "states_supporting": [
+        "AR",
+        "CA",
+        "CT",
+        "GA",
+        "IL",
+        "LA",
+        "MD",
+        "MO",
+        "NC",
+        "NV"
+      ]
+    },
+    {
+      "name": "organ_preservation_in_scope",
+      "category": "scope of practice definitions",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether myocardial and organ preservation is explicitly listed as a function within the authorized scope of perfusion practice.",
+      "sample_quote": "Myocardial and organ preservation, extracorporeal life support, and isolated limb perfusion.",
+      "sample_state": "AR",
+      "states_supporting": [
+        "AR",
+        "CA",
+        "CT",
+        "GA",
+        "IL",
+        "LA",
+        "MD",
+        "MO",
+        "NC",
+        "NV"
+      ]
+    },
+    {
+      "name": "anesthetic_agent_administration_restricted_to_extracorporeal_circuit",
+      "category": "drugs and agents authorized during perfusion",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the administration of anesthetic agents is restricted to the extracorporeal circuit (or IV line) and only during performance of extracorporeal support functions, as opposed to being unrestricted.",
+      "sample_quote": "The administration of pharmacological and therapeutic agents and blood products or anesthetic agents through the extracorporeal circuit or through an intravenous line in conjunction with extracorporeal support, as ordered by and under the direct supervision of a physician.",
+      "sample_state": "IL",
+      "states_supporting": [
+        "AR",
+        "CA",
+        "CT",
+        "GA",
+        "IL",
+        "LA",
+        "MD",
+        "MO",
+        "NC",
+        "NV"
+      ]
+    },
+    {
+      "name": "anesthetic_agent_administration_requires_anesthesiologist_direction",
+      "category": "drugs and agents authorized during perfusion",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether administration of anesthetic agents through the heart-lung machine specifically requires direction from an anesthesiologist (rather than any physician).",
+      "sample_quote": "Administration of anesthetic agents through a heart lung machine at the direction of an anesthesiologist.",
+      "sample_state": "MD",
+      "states_supporting": [
+        "MD"
+      ]
+    },
+    {
+      "name": "license_display_requirement",
+      "category": "practice setting and business structure",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute requires the licensed perfusionist to display or keep a copy of their license accessible at the health care facility where they work.",
+      "sample_quote": "The licensed perfusionist shall display the license in an appropriate and public manner or maintain an accurate copy of the perfusionist's license on file in the healthcare facility in which the licensed perfusionist is working.",
+      "sample_state": "AR",
+      "states_supporting": [
+        "AR",
+        "MD",
+        "NV"
+      ]
+    },
+    {
+      "name": "inactive_license_status_available",
+      "category": "license tiers and temporary credentials",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state allows a licensed perfusionist to place their license on inactive status, suspending renewal fees while not practicing.",
+      "sample_quote": "Any individual licensed by this Part who is no longer practicing as a perfusionist in this state may, by submitting a written request to the board, be granted inactive status.",
+      "sample_state": "LA",
+      "states_supporting": [
+        "IL",
+        "LA",
+        "NC"
+      ]
+    },
+    {
+      "name": "reciprocity_requires_substantially_equivalent_standards",
+      "category": "reciprocity and endorsement",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state grants reciprocal licensure to perfusionists licensed in other states only if those states' requirements are substantially equivalent to the home state's requirements.",
+      "sample_quote": "The Committee may grant, upon application and payment of proper fees, a license to a person who has been licensed to practice perfusion in another state or territory of the United States whose standards of competency are substantially equivalent to those provided in this Article.",
+      "sample_state": "NC",
+      "states_supporting": [
+        "AR",
+        "CT",
+        "GA",
+        "IL",
+        "LA",
+        "MO",
+        "NC",
+        "NV"
+      ]
+    },
+    {
+      "name": "continuing_education_standards_reference_abcp",
+      "category": "continuing education",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly requires that continuing education standards for perfusionists be at least as stringent as those established by the American Board of Cardiovascular Perfusion.",
+      "sample_quote": "Establish continuing professional education requirements for licensed perfusionists and provisional licensed perfusionists under this Part, the standards of which shall be at least as stringent as the didactic requirements established by the American Board of Cardiovascular Perfusion or its successor agency.",
+      "sample_state": "LA",
+      "states_supporting": [
+        "LA"
+      ]
+    },
+    {
+      "name": "code_of_ethics_required",
+      "category": "governance and advisory bodies",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly requires the board or advisory committee to establish a code of ethics for licensed perfusionists.",
+      "sample_quote": "Establish a code of ethics.",
+      "sample_state": "LA",
+      "states_supporting": [
+        "LA",
+        "MO",
+        "NC",
+        "NV"
+      ]
+    },
+    {
+      "name": "neonatal_pediatric_bypass_explicitly_in_scope",
+      "category": "scope of practice definitions",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly includes cardiopulmonary bypass for neonatal and pediatric patients (not just adult) within the authorized scope of perfusion.",
+      "sample_quote": "Cardiopulmonary bypass for adult, pediatric, and neonatal patients.",
+      "sample_state": "GA",
+      "states_supporting": [
+        "GA",
+        "MD"
+      ]
+    },
+    {
+      "name": "platelet_gel_progenitor_cell_harvest_in_scope",
+      "category": "scope of practice definitions",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether platelet gel production, autologous hemocyte tissue matrix production, or nondifferentiated progenitor cell harvest is explicitly listed within the authorized scope of perfusion.",
+      "sample_quote": "Platelet gel production, autologous hemocyte tissue matrix production; Nondifferentiated progenitor cell harvest bone marrow aspirate concentrate.",
+      "sample_state": "MD",
+      "states_supporting": [
+        "GA",
+        "MD"
+      ]
+    },
+    {
+      "name": "perfusion_assisted_direct_coronary_artery_bypass_in_scope",
+      "category": "scope of practice definitions",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether perfusion-assisted direct coronary artery bypass is explicitly listed within the authorized scope of perfusion.",
+      "sample_quote": "Perfusion-assisted direct coronary artery bypass.",
+      "sample_state": "MD",
+      "states_supporting": [
+        "MD"
+      ]
+    },
+    {
+      "name": "coordination_with_registered_nurse_required",
+      "category": "supervision and oversight requirements",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly requires the perfusionist to coordinate with a registered professional nurse in addition to physician supervision.",
+      "sample_quote": "A perfusionist is responsible for the selection of appropriate equipment and techniques necessary for support, treatment, measurement, or supplementation of the cardiopulmonary and circulatory system of a patient, including the safe monitoring, analysis, and treatment of physiologic conditions under an order and under the supervision of a physician licensed to practice medicine in all its branches and in coordination with a registered professional nurse.",
+      "sample_state": "IL",
+      "states_supporting": [
+        "IL"
+      ]
+    },
+    {
+      "name": "new_graduate_supervised_practice_period_months",
+      "category": "license tiers and temporary credentials",
+      "type": "int",
+      "enum_values": null,
+      "description": "Number of months after graduation during which a new graduate may perform perfusion services under direct supervision without a full license.",
+      "sample_quote": "A new graduate from performing perfusion services for a period of 14 months after the date of his or her graduation from a perfusion education program that is accredited by the Commission on Accreditation of Allied Health Education Programs.",
+      "sample_state": "IL",
+      "states_supporting": [
+        "IL"
+      ]
+    },
+    {
+      "name": "license_expiration_cycle",
+      "category": "license renewal and expiration",
+      "type": "enum",
+      "enum_values": [
+        "annual",
+        "biennial",
+        "triennial"
+      ],
+      "description": "The standard renewal cycle for a perfusionist license.",
+      "sample_quote": "A license is valid for two years from the date it is issued and may be renewed.",
+      "sample_state": "LA",
+      "states_supporting": [
+        "AR",
+        "CA",
+        "CT",
+        "GA",
+        "IL",
+        "LA",
+        "MD",
+        "MO",
+        "NC",
+        "NV"
+      ]
+    },
+    {
+      "name": "license_expired_reinstatement_without_reexam_years",
+      "category": "license renewal and expiration",
+      "type": "int",
+      "enum_values": null,
+      "description": "Maximum number of years a license may be expired before the applicant must reapply and retake the examination rather than simply renewing.",
+      "sample_quote": "A license that has been expired for more than three years shall not be renewed, but the applicant may apply for a new license by complying with the current requirements for licensure under this Article.",
+      "sample_state": "NC",
+      "states_supporting": [
+        "AR",
+        "NC",
+        "NV"
+      ]
+    }
+  ],
+  "states_sampled": [
+    "AR",
+    "CA",
+    "CT",
+    "GA",
+    "IL",
+    "LA",
+    "MD",
+    "MO",
+    "NC",
+    "NV"
+  ],
+  "states_excluded_count": 5
+}

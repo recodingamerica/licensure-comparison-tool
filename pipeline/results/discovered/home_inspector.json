@@ -1,0 +1,403 @@
+{
+  "profession": "home_inspector",
+  "fields": [
+    {
+      "name": "license_tier",
+      "category": "types of license and who can hold them",
+      "type": "enum",
+      "enum_values": [
+        "home inspector - existing homes",
+        "home inspector - new homes",
+        "home inspector - joint/both",
+        "home inspector - general",
+        "associate/intern/trainee"
+      ],
+      "description": "The specific tier or category of home inspector credential, distinguishing between new-construction inspectors, existing-home inspectors, joint registrations, and entry-level supervised roles.",
+      "sample_quote": "an individual may not perform a home inspection for a residence (1) not previously occupied as a residence unless that individual is registered as a home inspector for new homes under this chapter; (2) previously occupied as a residence unless that individual is registered as a home inspector for existing homes under this chapter.",
+      "sample_state": "AK",
+      "states_supporting": [
+        "AK",
+        "CT",
+        "DE",
+        "IL",
+        "IN",
+        "KY"
+      ]
+    },
+    {
+      "name": "trainee_intern_registration_required",
+      "category": "types of license and who can hold them",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state establishes a formal entry-level supervised credential (associate, intern, or trainee) that must be registered or permitted before performing inspections under supervision.",
+      "sample_quote": "No person shall act as a home inspector trainee or hold himself or herself out to be a home inspector trainee unless such person has been duly registered by the Board under this chapter.",
+      "sample_state": "DE",
+      "states_supporting": [
+        "AK",
+        "CT",
+        "DE",
+        "IL",
+        "KY"
+      ]
+    },
+    {
+      "name": "minimum_inspections_for_licensure",
+      "category": "types of license and who can hold them",
+      "type": "int",
+      "enum_values": null,
+      "description": "The minimum number of completed fee-paid home inspections required before an applicant qualifies for a full license.",
+      "sample_quote": "Have earned a home inspector intern permit and performed not less than one hundred home inspections in accordance with subsection (c) of section 20-493b",
+      "sample_state": "CT",
+      "states_supporting": [
+        "CT",
+        "DE",
+        "AL",
+        "KY"
+      ]
+    },
+    {
+      "name": "supervision_model",
+      "category": "supervision and trainee rules",
+      "type": "enum",
+      "enum_values": [
+        "direct - supervisor on site 100% of time",
+        "direct for first N inspections then indirect",
+        "personal supervision throughout",
+        "general supervision"
+      ],
+      "description": "The required level of oversight a licensed home inspector must provide to a trainee or associate, ranging from constant on-site presence to general oversight.",
+      "sample_quote": "Such supervision shall be direct supervision for a minimum of the first ten inspections, and then may be indirect for the remaining training period. For the purpose of this section, 'direct supervision' means the supervisor shall be present at the site of a home inspection where the home inspector intern is assigned one hundred per cent of the time.",
+      "sample_state": "CT",
+      "states_supporting": [
+        "AK",
+        "CT",
+        "DE",
+        "KY"
+      ]
+    },
+    {
+      "name": "supervisor_liability_for_trainee",
+      "category": "supervision and trainee rules",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the supervising licensed home inspector is explicitly held legally responsible for all inspection work performed by the trainee or associate under their supervision.",
+      "sample_quote": "A registered home inspector who employs an associate home inspector under (d) of this section is liable for the work done by the associate home inspector.",
+      "sample_state": "AK",
+      "states_supporting": [
+        "AK",
+        "CT",
+        "DE",
+        "KY"
+      ]
+    },
+    {
+      "name": "trainee_cosign_permitted",
+      "category": "supervision and trainee rules",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether a trainee or intern is explicitly permitted to co-sign a home inspection report alongside the supervising licensed inspector.",
+      "sample_quote": "The trainee may assist in the completion of a home inspection report, and may co-sign a home inspection report, provided that the trainee has been under the personal supervision of the licensed home inspector, and provided further that the licensed home inspector shall review and sign the home inspection report.",
+      "sample_state": "DE",
+      "states_supporting": [
+        "AK",
+        "CT",
+        "DE"
+      ]
+    },
+    {
+      "name": "errors_and_omissions_insurance_required",
+      "category": "insurance and financial responsibility",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state explicitly requires errors and omissions (E&O) insurance in addition to general liability insurance.",
+      "sample_quote": "evidence of insurance against the errors and omissions of the home inspector in an amount and form to be prescribed by the Building Commission",
+      "sample_state": "AL",
+      "states_supporting": [
+        "AL",
+        "AZ",
+        "DE"
+      ]
+    },
+    {
+      "name": "surety_bond_required",
+      "category": "insurance and financial responsibility",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state requires a surety bond (or equivalent cash deposit) as a condition of licensure, as an alternative or supplement to liability insurance.",
+      "sample_quote": "each applicant shall, at the time of applying for a certificate of registration, file with the commissioner a surety bond running to the state... The amount of the bond for a... mechanical or specialty contractor or home inspector shall be $10,000",
+      "sample_state": "AK",
+      "states_supporting": [
+        "AK",
+        "AZ"
+      ]
+    },
+    {
+      "name": "general_liability_minimum_coverage",
+      "category": "insurance and financial responsibility",
+      "type": "str",
+      "enum_values": null,
+      "description": "The minimum dollar amount of general liability insurance coverage required for licensure, expressed as a free-form string because amounts vary across states.",
+      "sample_quote": "Provides for general liability coverage of at least one hundred thousand dollars ($100,000)",
+      "sample_state": "IN",
+      "states_supporting": [
+        "AL",
+        "AR",
+        "AZ",
+        "IL",
+        "IN",
+        "KY"
+      ]
+    },
+    {
+      "name": "inspection_report_validity_period_days",
+      "category": "inspection report rules",
+      "type": "int",
+      "enum_values": null,
+      "description": "The number of days a signed home inspection report remains valid after the date the inspector signs it.",
+      "sample_quote": "A home inspection report is valid for 180 days after the date the home inspector signs and dates the report.",
+      "sample_state": "AK",
+      "states_supporting": [
+        "AK"
+      ]
+    },
+    {
+      "name": "pre_inspection_agreement_required",
+      "category": "inspection report rules",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the inspector must provide a written pre-inspection document or agreement to the client before performing the inspection, specifying scope and other disclosures.",
+      "sample_quote": "Before performing a home inspection, a registered home inspector or associate home inspector shall provide to the person on whose behalf a home is inspected a written document that includes the home inspector's registration number and that specifies (1) the scope of intended inspection",
+      "sample_state": "AK",
+      "states_supporting": [
+        "AK",
+        "IL",
+        "IN",
+        "KY"
+      ]
+    },
+    {
+      "name": "report_must_list_uninspected_components",
+      "category": "inspection report rules",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the written home inspection report must explicitly list any systems or components that were designated for inspection but were not inspected, along with the reason.",
+      "sample_quote": "A list of any systems or components that were designated for inspection in the standards of performance adopted by the board but that were not inspected. The reason a system or component listed under subdivision (3) was not inspected.",
+      "sample_state": "IN",
+      "states_supporting": [
+        "IN",
+        "KY"
+      ]
+    },
+    {
+      "name": "report_must_disclaim_environmental_hazards",
+      "category": "inspection report rules",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the home inspection report must include a written statement that it does not address environmental hazards such as lead, radon, asbestos, mold, or similar substances.",
+      "sample_quote": "A statement that the report does not address environmental hazards, including: (A) lead-based paint; (B) radon; (C) asbestos; (D) cockroaches; (E) rodents; (F) pesticides; (G) treated lumber; (H) mold; (I) mercury; (J) carbon monoxide; or (K) other similar environmental hazards.",
+      "sample_state": "IN",
+      "states_supporting": [
+        "IN",
+        "KY"
+      ]
+    },
+    {
+      "name": "prohibited_conflict_of_interest_practices",
+      "category": "ethics and conflicts of interest",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "Specific business practices explicitly prohibited as conflicts of interest or unfair practices, such as performing repairs on inspected properties, inspecting properties with a financial interest, or accepting contingent fees.",
+      "sample_quote": "It is an unfair business practice for a home inspector... to do any of the following: (1) Perform or offer to perform for an additional fee any repairs to the property on which the home inspector or the home inspector's company has prepared a home inspection report in the past twelve (12) months; (2) Inspect for a fee any property in which the home inspector or the home inspector's company has any financial interest or any interest in the transfer of the property; (3) Offer or deliver any compensation, inducement, or reward to the owner of the inspected property, the broker, or the agent for the referral of any business; (4) Accept an engagement... in which the employment itself or the fee payable for the home inspection is contingent upon the conclusions in the home inspection report",
+      "sample_state": "AR",
+      "states_supporting": [
+        "AK",
+        "AR",
+        "CA",
+        "IL",
+        "IN",
+        "KY"
+      ]
+    },
+    {
+      "name": "liability_waiver_clauses_void",
+      "category": "ethics and conflicts of interest",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state explicitly voids contractual provisions that attempt to limit the home inspector's liability to the cost of the inspection report or waive the inspector's duty of care.",
+      "sample_quote": "Contractual provisions that purport to limit the liability of a home inspector to the cost of the home inspection report are contrary to public policy and void.",
+      "sample_state": "AK",
+      "states_supporting": [
+        "AK",
+        "CA"
+      ]
+    },
+    {
+      "name": "statute_of_limitations_years",
+      "category": "ethics and conflicts of interest",
+      "type": "int",
+      "enum_values": null,
+      "description": "The number of years within which a legal action against a home inspector based on a home inspection report must be commenced.",
+      "sample_quote": "a person may not bring an action against an individual registered under this chapter based on a home inspection report unless the action is commenced within one year.",
+      "sample_state": "AK",
+      "states_supporting": [
+        "AK"
+      ]
+    },
+    {
+      "name": "inspector_valuation_opinion_prohibited",
+      "category": "ethics and conflicts of interest",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state explicitly prohibits a home inspector from giving an opinion of property valuation.",
+      "sample_quote": "A home inspector shall not give an opinion of valuation on a property.",
+      "sample_state": "CA",
+      "states_supporting": [
+        "CA",
+        "IL"
+      ]
+    },
+    {
+      "name": "standards_of_practice_body",
+      "category": "professional standards and approved organizations",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "Named professional organizations whose standards of practice are recognized or required by the state for conducting home inspections.",
+      "sample_quote": "Require all fee-paid home inspections to be conducted in accordance with the standards of practice of: (a) The American Society of Home Inspectors; (b) The International Association of Certified Home Inspectors; or (c) Any other approved standards of practice",
+      "sample_state": "KY",
+      "states_supporting": [
+        "AK",
+        "AL",
+        "AR",
+        "DE",
+        "KY"
+      ]
+    },
+    {
+      "name": "approved_exam_bodies",
+      "category": "professional standards and approved organizations",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "Named national organizations whose examinations are approved or required for home inspector licensure.",
+      "sample_quote": "the appropriate home inspection examination for an individual who applies to be registered for inspection of (A) existing homes is the examination offered by the American Society of Home Inspectors or National Association of Home Inspectors; (B) new homes or for a joint registration is the examination offered by the International Code Council",
+      "sample_state": "AK",
+      "states_supporting": [
+        "AK",
+        "AL",
+        "AR",
+        "AZ",
+        "CT",
+        "DE",
+        "IL",
+        "IN",
+        "KY"
+      ]
+    },
+    {
+      "name": "entity_license_required",
+      "category": "types of license and who can hold them",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state requires business entities (corporations, LLCs, partnerships) that offer home inspection services to obtain their own separate license in addition to the individual inspector's license.",
+      "sample_quote": "A corporation, limited liability company, partnership, or entity shall, as a condition of licensure, designate a managing licensed home inspector. The managing home inspector of any home inspector entity shall be responsible for the actions of all licensed and unlicensed employees, agents, and representatives of that home inspector entity.",
+      "sample_state": "IL",
+      "states_supporting": [
+        "IL",
+        "KY"
+      ]
+    },
+    {
+      "name": "inspection_report_record_retention_years",
+      "category": "inspection report rules",
+      "type": "int",
+      "enum_values": null,
+      "description": "The minimum number of years a licensee must retain copies of home inspection reports and related contracts.",
+      "sample_quote": "A person licensed under this Act shall retain the original or a true and exact copy of all written contracts that engage the licensee's services as a home inspector and all home inspection reports... for a period of 5 years or 2 years after the final disposition of any judicial proceeding",
+      "sample_state": "IL",
+      "states_supporting": [
+        "IL"
+      ]
+    },
+    {
+      "name": "pool_spa_safety_inspection_required",
+      "category": "what the inspection must cover",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state requires that home inspections of properties with a swimming pool or spa include a specific examination of drowning prevention safety features.",
+      "sample_quote": "In connection with the transfer... of real property with a swimming pool or spa, an appropriate inspection shall include a noninvasive physical examination of the pool or spa and dwelling for the purpose of identifying which, if any, of the seven drowning prevention safety features listed in subdivision (a) of Section 115922 of the Health and Safety Code the pool or spa is equipped",
+      "sample_state": "CA",
+      "states_supporting": [
+        "CA"
+      ]
+    },
+    {
+      "name": "energy_efficiency_inspection_optional",
+      "category": "what the inspection must cover",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state explicitly authorizes or encourages an optional energy efficiency component to the home inspection if requested by the client.",
+      "sample_quote": "'Home inspection,' if requested by the client, may include an inspection of energy efficiency. Energy efficiency items to be inspected may include the following: (A) A noninvasive inspection of insulation R-values in attics, roofs, walls, floors, and ducts.",
+      "sample_state": "CA",
+      "states_supporting": [
+        "CA"
+      ]
+    },
+    {
+      "name": "smoke_detector_reporting_required",
+      "category": "what the inspection must cover",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state requires the home inspection report to specifically address the presence, location, quantity, testability, and age of smoke detection equipment.",
+      "sample_quote": "The minimum and uniform standard for a home inspection shall include a requirement that a home inspector report on the presence of smoke detection and warning equipment and specify where such equipment is located, the total number of such equipment, whether the home inspector is able to test such equipment, and whether the home inspector is able to verify that such equipment was less than ten years old.",
+      "sample_state": "CT",
+      "states_supporting": [
+        "CT"
+      ]
+    },
+    {
+      "name": "code_compliance_inspection_excluded",
+      "category": "what the inspection must cover",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state explicitly excludes code compliance inspections from the definition of a home inspection.",
+      "sample_quote": "The term does not include a code compliance inspection.",
+      "sample_state": "IN",
+      "states_supporting": [
+        "IN",
+        "KY"
+      ]
+    },
+    {
+      "name": "residential_unit_maximum",
+      "category": "what the inspection must cover",
+      "type": "int",
+      "enum_values": null,
+      "description": "The maximum number of dwelling units in a structure that falls within the definition of a residential property subject to home inspection licensing requirements.",
+      "sample_quote": "Residential dwelling means a structure consisting of at least one (1) but not more than five (5) units, each designed for occupancy by a single family",
+      "sample_state": "IN",
+      "states_supporting": [
+        "AK",
+        "AL",
+        "AR",
+        "CA",
+        "CT",
+        "DE",
+        "IL",
+        "IN",
+        "KY"
+      ]
+    }
+  ],
+  "states_sampled": [
+    "AK",
+    "AL",
+    "AR",
+    "AZ",
+    "CA",
+    "CT",
+    "DE",
+    "IL",
+    "IN",
+    "KY"
+  ],
+  "states_excluded_count": 15
+}

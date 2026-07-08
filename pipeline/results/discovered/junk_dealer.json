@@ -1,0 +1,610 @@
+{
+  "profession": "junk_dealer",
+  "fields": [
+    {
+      "name": "transaction_record_format",
+      "category": "recordkeeping and reporting",
+      "type": "enum",
+      "enum_values": [
+        "paper",
+        "electronic",
+        "either paper or electronic"
+      ],
+      "description": "Whether transaction records must be kept in paper form, electronic form, or either.",
+      "sample_quote": "Every dealer, or the agent, employee, or representative of the dealer, shall, immediately upon receipt of any article, record the following information, on an electronic recordkeeping form or a paper form authorized by the chief of police in each county",
+      "sample_state": "HI",
+      "states_supporting": [
+        "AK",
+        "CT",
+        "DE",
+        "FL",
+        "GA",
+        "HI",
+        "OH",
+        "WA"
+      ]
+    },
+    {
+      "name": "transaction_record_retention_years",
+      "category": "recordkeeping and reporting",
+      "type": "int",
+      "enum_values": null,
+      "description": "Number of years transaction records must be retained by the dealer.",
+      "sample_quote": "A dealer shall maintain the records of a transaction required by AS 08.60.200 and 08.60.210 for five years after the date of the transaction.",
+      "sample_state": "AK",
+      "states_supporting": [
+        "AK",
+        "CT",
+        "DE",
+        "FL",
+        "HI",
+        "OH",
+        "WA"
+      ]
+    },
+    {
+      "name": "electronic_reporting_to_law_enforcement_required",
+      "category": "recordkeeping and reporting",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether dealers are required to electronically transmit transaction records to law enforcement.",
+      "sample_quote": "The dealer shall electronically transfer, by twelve noon eastern standard time, the report for inclusion in the registry created pursuant to division (E) of section 4737.045 of the Revised Code.",
+      "sample_state": "OH",
+      "states_supporting": [
+        "CT",
+        "DE",
+        "FL",
+        "HI",
+        "OH",
+        "WA"
+      ]
+    },
+    {
+      "name": "reporting_frequency",
+      "category": "recordkeeping and reporting",
+      "type": "enum",
+      "enum_values": [
+        "daily",
+        "weekly",
+        "next business day",
+        "within 24 hours",
+        "upon request"
+      ],
+      "description": "How frequently dealers must submit transaction reports to law enforcement.",
+      "sample_quote": "Upon request, every pawnbroker and secondhand dealer doing business in the state shall furnish a full, true, and correct transcript of the record of all transactions conducted on the preceding day.",
+      "sample_state": "WA",
+      "states_supporting": [
+        "AK",
+        "CT",
+        "DE",
+        "FL",
+        "OH",
+        "WA"
+      ]
+    },
+    {
+      "name": "seller_photo_required",
+      "category": "recordkeeping and reporting",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether dealers must photograph the person selling or delivering goods at the time of transaction.",
+      "sample_quote": "Pawnbrokers and secondhand dealers shall collect a photograph of the seller and all information pertaining to the seller, required on the electronic form, for every transaction regardless of value.",
+      "sample_state": "DE",
+      "states_supporting": [
+        "DE",
+        "FL",
+        "HI",
+        "OH",
+        "WA"
+      ]
+    },
+    {
+      "name": "seller_thumbprint_required",
+      "category": "recordkeeping and reporting",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether dealers must collect a thumbprint from the person selling goods.",
+      "sample_quote": "The right thumbprint, free of smudges and smears, of the person from whom the goods were acquired.",
+      "sample_state": "FL",
+      "states_supporting": [
+        "DE",
+        "FL",
+        "OH"
+      ]
+    },
+    {
+      "name": "seller_vehicle_info_required",
+      "category": "recordkeeping and reporting",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether dealers must record the license plate number and description of the vehicle used to deliver goods.",
+      "sample_quote": "A description, including the license plate information, of a motor vehicle used to deliver the scrap metal to the dealer",
+      "sample_state": "AK",
+      "states_supporting": [
+        "AK",
+        "CT",
+        "DE",
+        "FL",
+        "OH"
+      ]
+    },
+    {
+      "name": "seller_ownership_statement_required",
+      "category": "recordkeeping and reporting",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether dealers must obtain a signed statement from the seller affirming ownership or right to sell the goods.",
+      "sample_quote": "A scrap metal dealer shall require a person from whom the dealer is purchasing scrap metal for $100 or more to sign a written or electronic statement that the scrap metal is not stolen property.",
+      "sample_state": "AK",
+      "states_supporting": [
+        "AK",
+        "CT",
+        "DE",
+        "FL",
+        "OH",
+        "WA"
+      ]
+    },
+    {
+      "name": "holding_period_days",
+      "category": "holding period and stolen property",
+      "type": "int",
+      "enum_values": null,
+      "description": "Minimum number of days purchased goods must be held before resale or disposal.",
+      "sample_quote": "A person or entity shall keep each article of junk purchased other than junk that consists of nonferrous metals, as defined by Section 16-17-680, and vehicles for a period of seventy-two hours following the purchase",
+      "sample_state": "SC",
+      "states_supporting": [
+        "CT",
+        "DE",
+        "FL",
+        "HI",
+        "OH",
+        "SC",
+        "WA"
+      ]
+    },
+    {
+      "name": "holding_period_varies_by_material",
+      "category": "holding period and stolen property",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the required holding period differs depending on the type of material (e.g., precious metals vs. general scrap vs. catalytic converters).",
+      "sample_quote": "Scrap metal processors must hold platinum, gold and silver articles for 18 days... Every scrap metal processor subject to this chapter must keep for a period of 72 hours from the date and time the item was electronically reported... all copper or brass articles",
+      "sample_state": "DE",
+      "states_supporting": [
+        "DE",
+        "FL",
+        "HI",
+        "OH",
+        "WA"
+      ]
+    },
+    {
+      "name": "law_enforcement_hold_order_authority",
+      "category": "holding period and stolen property",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether law enforcement may issue a hold order requiring the dealer to retain specific property beyond the standard holding period.",
+      "sample_quote": "Upon probable cause that goods held by a secondhand dealer are stolen, a law enforcement officer with jurisdiction may place a 90-day written hold order on the goods.",
+      "sample_state": "FL",
+      "states_supporting": [
+        "AK",
+        "DE",
+        "FL",
+        "OH",
+        "WA"
+      ]
+    },
+    {
+      "name": "prohibited_items_list",
+      "category": "what can and cannot be bought or sold",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "Categories of items that dealers are specifically prohibited from purchasing or receiving without special authorization.",
+      "sample_quote": "A scrap metal processor may not purchase the following items from an individual unless the individual, at the time of purchase, provides appropriate authorization... Metal bleachers; Hard-drawn copper; Metal beer kegs; Cemetery urns; Grave markers; Materials related to railroad infrastructure",
+      "sample_state": "DE",
+      "states_supporting": [
+        "CT",
+        "DE",
+        "FL",
+        "LA",
+        "OH",
+        "SC"
+      ]
+    },
+    {
+      "name": "catalytic_converter_special_rules",
+      "category": "what can and cannot be bought or sold",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute imposes specific additional requirements or restrictions on the purchase and sale of catalytic converters.",
+      "sample_quote": "No scrap metal processor, junk dealer or junk yard owner or operator may receive a catalytic converter of a motor vehicle that is not attached to such motor vehicle unless such processor, dealer, owner or operator, at the time of receipt: Records the place and date of the transaction...",
+      "sample_state": "CT",
+      "states_supporting": [
+        "AK",
+        "CT",
+        "DE",
+        "FL",
+        "LA",
+        "OH"
+      ]
+    },
+    {
+      "name": "payment_method_restrictions",
+      "category": "what can and cannot be bought or sold",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "Restrictions on the form of payment a dealer may use when purchasing goods (e.g., check only, no cash above a threshold).",
+      "sample_quote": "A secondary metals recycler may not enter into any cash transaction in excess of $1,000 for the purchase of regulated metals property",
+      "sample_state": "FL",
+      "states_supporting": [
+        "AK",
+        "CT",
+        "DE",
+        "FL",
+        "OH",
+        "WA"
+      ]
+    },
+    {
+      "name": "prohibited_seller_categories",
+      "category": "who dealers may and may not do business with",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "Categories of persons from whom dealers are prohibited from purchasing goods.",
+      "sample_quote": "No person shall purchase or receive by sale, barter, exchange, or otherwise, an article mentioned in sections 4737.01 to 4737.03, inclusive, of the Revised Code, of a minor or apprentice, knowing or having reason to believe him to be such, or from any person between the hours of nine p.m. and seven a.m.",
+      "sample_state": "OH",
+      "states_supporting": [
+        "AK",
+        "CT",
+        "DE",
+        "FL",
+        "HI",
+        "OH",
+        "WA"
+      ]
+    },
+    {
+      "name": "minimum_seller_age",
+      "category": "who dealers may and may not do business with",
+      "type": "int",
+      "enum_values": null,
+      "description": "Minimum age of a person from whom a dealer may purchase goods.",
+      "sample_quote": "A dealer shall not receive or purchase any article from any person under the age of eighteen.",
+      "sample_state": "HI",
+      "states_supporting": [
+        "AK",
+        "CT",
+        "DE",
+        "FL",
+        "HI",
+        "OH",
+        "WA"
+      ]
+    },
+    {
+      "name": "known_thief_list_check_required",
+      "category": "who dealers may and may not do business with",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether dealers must check sellers against a law-enforcement-provided list of known thieves or persons convicted of theft-related offenses before completing a transaction.",
+      "sample_quote": "The law enforcement agency that serves the jurisdiction in which a scrap metal dealer or a bulk merchandise container dealer is located shall provide to the scrap metal dealer or bulk merchandise container dealer a searchable, electronic list... of the names and descriptions of persons known to be thieves or receivers of stolen property. No scrap metal dealer or bulk merchandise container dealer shall purchase or receive articles from any person who is either identified on the list",
+      "sample_state": "OH",
+      "states_supporting": [
+        "OH",
+        "WA"
+      ]
+    },
+    {
+      "name": "hours_of_operation_restrictions",
+      "category": "who dealers may and may not do business with",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute restricts the hours during which dealers may conduct transactions.",
+      "sample_quote": "No person shall purchase or receive by sale, barter, exchange, or otherwise, an article mentioned in sections 4737.01 to 4737.03, inclusive, of the Revised Code, of a minor or apprentice, knowing or having reason to believe him to be such, or from any person between the hours of nine p.m. and seven a.m.",
+      "sample_state": "OH",
+      "states_supporting": [
+        "AK",
+        "DE",
+        "FL",
+        "OH",
+        "WA"
+      ]
+    },
+    {
+      "name": "physical_location_screening_standards",
+      "category": "junkyard location and physical site rules",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "Factors authorities must consider when approving or denying a junkyard location, such as proximity to schools, churches, or highways.",
+      "sample_quote": "the commissioner of public safety, the city council, and organized borough assembly, in considering applications and regulations, shall take into account (1) the nature and development of surrounding property; (2) the need to protect the local economy, adjacent land owners, and the motoring public from economically depressing and unsightly roadside locations; (3) the proximity of churches, schools, hospitals, public buildings, recreation areas, or other places of public gathering",
+      "sample_state": "AK",
+      "states_supporting": [
+        "AK",
+        "OH"
+      ]
+    },
+    {
+      "name": "fencing_or_screening_required",
+      "category": "junkyard location and physical site rules",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether a junkyard must be enclosed by a fence or other screening to obscure its contents from public view.",
+      "sample_quote": "Any fence constructed under sections 4737.05 to 4737.11, inclusive, of the Revised Code, shall be neatly constructed, shall be non-transparent, shall be kept in good order and repair",
+      "sample_state": "OH",
+      "states_supporting": [
+        "AK",
+        "OH"
+      ]
+    },
+    {
+      "name": "highway_proximity_restriction",
+      "category": "junkyard location and physical site rules",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute restricts or regulates junkyards based on their proximity to highways, particularly interstate or primary systems.",
+      "sample_quote": "'Junk yard' means an establishment or place of business that is maintained or operated for the purpose of storing, keeping, buying, or selling junk. For the purposes of sections 4737.05 to 4737.99 of the Revised Code, 'junk yard' includes scrap metal processing facilities that are located within one thousand feet of the nearest edge of the right of way of a highway in the interstate or primary system.",
+      "sample_state": "OH",
+      "states_supporting": [
+        "AK",
+        "OH",
+        "SC"
+      ]
+    },
+    {
+      "name": "automated_kiosk_regulated",
+      "category": "automated kiosks and technology",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute specifically addresses and regulates automated kiosks used to purchase secondhand goods.",
+      "sample_quote": "'Automated kiosk' means a self-serve interactive machine that purchases secondhand electronic devices.",
+      "sample_state": "WA",
+      "states_supporting": [
+        "CT",
+        "DE",
+        "FL",
+        "HI",
+        "WA"
+      ]
+    },
+    {
+      "name": "automated_kiosk_holding_period_days",
+      "category": "automated kiosks and technology",
+      "type": "int",
+      "enum_values": null,
+      "description": "Minimum number of days goods purchased through an automated kiosk must be held before disposal.",
+      "sample_quote": "Property bought by any secondhand dealer through the use of an automated kiosk must be held for at least thirty days after the secondhand property was accepted by the automated kiosk.",
+      "sample_state": "WA",
+      "states_supporting": [
+        "DE",
+        "FL",
+        "HI",
+        "WA"
+      ]
+    },
+    {
+      "name": "pawnbroker_interest_rate_cap",
+      "category": "pawnbroker loan terms",
+      "type": "str",
+      "enum_values": null,
+      "description": "Maximum interest rate or fee schedule a pawnbroker may charge on loans secured by pledged property.",
+      "sample_quote": "No person conducting the business of a pawnbroker shall ask, demand or receive a greater rate of interest than 30 percent per month on any loans secured by pledge of personal property.",
+      "sample_state": "DE",
+      "states_supporting": [
+        "AK",
+        "CT",
+        "DE",
+        "WA"
+      ]
+    },
+    {
+      "name": "pawnbroker_minimum_loan_term_days",
+      "category": "pawnbroker loan terms",
+      "type": "int",
+      "enum_values": null,
+      "description": "Minimum number of days a pawnbroker must hold pledged property before it may be sold.",
+      "sample_quote": "A pawnbroker shall not sell any property received in pledge, until a minimum of ninety days has expired.",
+      "sample_state": "WA",
+      "states_supporting": [
+        "AK",
+        "CT",
+        "DE",
+        "WA"
+      ]
+    },
+    {
+      "name": "pawnbroker_fire_insurance_required",
+      "category": "pawnbroker loan terms",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether pawnbrokers are required to carry fire insurance to protect pledged goods.",
+      "sample_quote": "Every person applying for a license to conduct the business of a pawnbroker shall first effect an insurance policy against fire for $50,000 for the protection of goods, pawned or pledged.",
+      "sample_state": "DE",
+      "states_supporting": [
+        "DE",
+        "AK"
+      ]
+    },
+    {
+      "name": "surety_bond_required",
+      "category": "pawnbroker loan terms",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether licensees must file a surety bond as a condition of licensure.",
+      "sample_quote": "shall, at the time of receiving such license, file, with the licensing authority of such city or town, a bond to such city or town, with competent surety, in the penal sum of two thousand dollars",
+      "sample_state": "CT",
+      "states_supporting": [
+        "CT",
+        "DE"
+      ]
+    },
+    {
+      "name": "felony_conviction_bars_licensure",
+      "category": "criminal history and character requirements",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether a felony conviction disqualifies an applicant from obtaining a license.",
+      "sample_quote": "No license shall be issued under this section by the licensing authority to any person who has been convicted of a felony.",
+      "sample_state": "CT",
+      "states_supporting": [
+        "AK",
+        "CT",
+        "DE",
+        "FL"
+      ]
+    },
+    {
+      "name": "criminal_history_lookback_years",
+      "category": "criminal history and character requirements",
+      "type": "int",
+      "enum_values": null,
+      "description": "Number of years back a criminal history check covers for disqualifying offenses.",
+      "sample_quote": "Must not have been convicted of a felony within 5 years of application date.",
+      "sample_state": "DE",
+      "states_supporting": [
+        "DE",
+        "FL",
+        "WA"
+      ]
+    },
+    {
+      "name": "fingerprinting_required",
+      "category": "criminal history and character requirements",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether applicants must submit fingerprints for a criminal background check as part of the licensing process.",
+      "sample_quote": "The secondhand dealer shall furnish with her or his registration a complete set of her or his fingerprints, certified by an authorized law enforcement officer",
+      "sample_state": "FL",
+      "states_supporting": [
+        "CT",
+        "DE",
+        "FL"
+      ]
+    },
+    {
+      "name": "employee_criminal_history_restrictions",
+      "category": "criminal history and character requirements",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute restricts dealers from employing persons with certain criminal convictions.",
+      "sample_quote": "A pawnbroker may not knowingly employ a person to work in a pawnshop if, within five years before the employment begins, the person was convicted of, entered a plea of guilty to, entered a plea of no contest to, or had adjudication withheld for a felony or for a misdemeanor involving dishonesty.",
+      "sample_state": "AK",
+      "states_supporting": [
+        "AK",
+        "CT"
+      ]
+    },
+    {
+      "name": "exempt_seller_categories",
+      "category": "exemptions from dealer requirements",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "Categories of sellers or transaction types that are exempt from standard dealer recordkeeping or holding requirements.",
+      "sample_quote": "The requirements of AS 08.60.200 and 08.60.210 do not apply to a person's transactions with a dealer if the person maintains on file with the dealer the name, address, and telephone number of the person, and a taxpayer identification number issued by the federal Internal Revenue Service or a valid government-issued photo identification card.",
+      "sample_state": "AK",
+      "states_supporting": [
+        "AK",
+        "CT",
+        "DE",
+        "FL",
+        "LA",
+        "OH",
+        "WA"
+      ]
+    },
+    {
+      "name": "nonprofit_exemption",
+      "category": "exemptions from dealer requirements",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether transactions involving nonprofit, charitable, or religious organizations are exempt from dealer regulations.",
+      "sample_quote": "Any bona fide charity possessing a valid exemption under Section 501(c)(3) of the Internal Revenue Code.",
+      "sample_state": "LA",
+      "states_supporting": [
+        "CT",
+        "DE",
+        "FL",
+        "LA",
+        "OH",
+        "WA"
+      ]
+    },
+    {
+      "name": "garage_sale_exemption",
+      "category": "exemptions from dealer requirements",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether private residential sales (garage sales, yard sales, estate sales) are exempt from dealer licensing or recordkeeping requirements.",
+      "sample_quote": "Private residential sales commonly known as 'garage sales' or 'yard sales' as long as such sales take place at a residential address.",
+      "sample_state": "LA",
+      "states_supporting": [
+        "CT",
+        "DE",
+        "FL",
+        "LA",
+        "WA"
+      ]
+    },
+    {
+      "name": "weekly_sworn_statement_to_authorities",
+      "category": "recordkeeping and reporting",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether dealers must submit a sworn statement of transactions to local authorities on a weekly basis.",
+      "sample_quote": "Each such dealer shall make, weekly, sworn statements of all his or her transactions under such license, describing the goods received and setting forth the name and residence and a description of the person from whom such goods were received",
+      "sample_state": "CT",
+      "states_supporting": [
+        "CT",
+        "LA",
+        "WA"
+      ]
+    },
+    {
+      "name": "minimum_holding_period_before_resale_days_general_junk",
+      "category": "holding period and stolen property",
+      "type": "int",
+      "enum_values": null,
+      "description": "Minimum number of days general junk (non-precious-metal, non-scrap) must be held before resale.",
+      "sample_quote": "A person or entity shall keep each article of junk purchased other than junk that consists of nonferrous metals, as defined by Section 16-17-680, and vehicles for a period of seventy-two hours following the purchase",
+      "sample_state": "SC",
+      "states_supporting": [
+        "CT",
+        "FL",
+        "HI",
+        "OH",
+        "SC",
+        "WA"
+      ]
+    },
+    {
+      "name": "restricted_regulated_metals_list",
+      "category": "what can and cannot be bought or sold",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "Specific metal items or infrastructure components that require proof of ownership or authorization before a dealer may purchase them.",
+      "sample_quote": "The purchase of any of the following regulated metals property is subject to the restrictions provided in paragraph (a): 1. A manhole cover. 2. An electric light pole or other utility structure... 3. A guard rail. 4. A street sign, traffic sign, or traffic signal... 8. Railroad equipment...",
+      "sample_state": "FL",
+      "states_supporting": [
+        "CT",
+        "DE",
+        "FL",
+        "LA",
+        "OH",
+        "SC"
+      ]
+    }
+  ],
+  "states_sampled": [
+    "AK",
+    "CT",
+    "DE",
+    "FL",
+    "GA",
+    "HI",
+    "LA",
+    "OH",
+    "SC",
+    "WA"
+  ],
+  "states_excluded_count": 1
+}

@@ -1,0 +1,391 @@
+{
+  "profession": "commercial_interior_design",
+  "fields": [
+    {
+      "name": "credential_tier",
+      "category": "extra credentials and tiered scope",
+      "type": "enum",
+      "enum_values": [
+        "registered interior designer",
+        "certified interior designer",
+        "certified interior designer with commercial designation",
+        "registered residential interior designer"
+      ],
+      "description": "The specific credential title or tier granted by the state, which may differ from a generic 'license' and may include commercial-specific or residential-specific designations.",
+      "sample_quote": "The council may issue a commercial designation to a Certified Interior Designer or qualified applicant who, in addition to the requirements in paragraph (1), passes additional interior design courses and examinations.",
+      "sample_state": "CA",
+      "states_supporting": [
+        "CA",
+        "AR",
+        "AL",
+        "CT",
+        "FL",
+        "GA",
+        "IA",
+        "IL",
+        "IN"
+      ]
+    },
+    {
+      "name": "architect_pathway_available",
+      "category": "extra credentials and tiered scope",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether licensed architects may obtain interior design registration or certification through a simplified or fee-only pathway without the standard examination.",
+      "sample_quote": "Upon payment of the required fee, which shall be determined by rule, an applicant who is an architect licensed under the laws of this State may, without examination, be granted registration as a registered interior designer.",
+      "sample_state": "IL",
+      "states_supporting": [
+        "IL",
+        "FL",
+        "CT",
+        "AR",
+        "GA",
+        "IN"
+      ]
+    },
+    {
+      "name": "ncidq_exam_required",
+      "category": "extra credentials and tiered scope",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether passage of the NCIDQ (National Council for Interior Design Qualification) examination is explicitly required for registration or certification.",
+      "sample_quote": "Has passed the examination prepared and administered by the National Council for Interior Design Qualification or its successor in interest.",
+      "sample_state": "AR",
+      "states_supporting": [
+        "AR",
+        "AL",
+        "CT",
+        "FL",
+        "GA",
+        "IA",
+        "IL",
+        "IN",
+        "CO"
+      ]
+    },
+    {
+      "name": "education_experience_pathways",
+      "category": "extra credentials and tiered scope",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "The specific combinations of interior design education years and post-degree work experience years that qualify an applicant for registration, expressed as tiered pathways.",
+      "sample_quote": "Four years of interior design education plus two years of full-time work experience in registered interior design; Three years of interior design education plus three years of full-time work experience; Two years of interior design education plus four years of full-time work experience.",
+      "sample_state": "IA",
+      "states_supporting": [
+        "IA",
+        "IL",
+        "CA",
+        "AR",
+        "FL"
+      ]
+    },
+    {
+      "name": "nonstructural_scope_only",
+      "category": "what they can design and where in a building",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly limits the interior designer's authorized scope to nonstructural or nonseismic interior elements, excluding load-bearing and structural work.",
+      "sample_quote": "Nonstructural or nonseismic means interior elements or components that are not load bearing or do not assist in the seismic design of a building, do not require design computations for the structure of a building, and do not include the structural frame system supporting a building.",
+      "sample_state": "IN",
+      "states_supporting": [
+        "IN",
+        "CO",
+        "FL",
+        "GA",
+        "IA",
+        "IL",
+        "AR",
+        "CT",
+        "CA",
+        "AL"
+      ]
+    },
+    {
+      "name": "excluded_building_systems",
+      "category": "what they can design and where in a building",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "Specific building systems that interior designers are explicitly prohibited from designing or altering.",
+      "sample_quote": "Interior designers shall not be engaged in the construction of: The structural frame system supporting a building; Mechanical, plumbing, heating, air conditioning, ventilation, or electrical vertical transportation systems; Fire-rated vertical shafts in any multistory structure; Fire-related protection of structural elements; Smoke evacuation and compartmentalization; Emergency sprinkler systems; Emergency alarm systems.",
+      "sample_state": "CO",
+      "states_supporting": [
+        "CO",
+        "FL",
+        "GA",
+        "IA",
+        "IL",
+        "IN",
+        "AR",
+        "CT"
+      ]
+    },
+    {
+      "name": "square_footage_limit",
+      "category": "what they can design and where in a building",
+      "type": "int",
+      "enum_values": null,
+      "description": "Maximum contiguous square footage of a commercial interior space for which a registered interior designer may submit sealed construction documents without architect involvement.",
+      "sample_quote": "A registered interior designer may submit sealed, stamped drawings to building officials for a commercial interior project in any space of less than 5,000 contiguous square feet within a building of any size.",
+      "sample_state": "AL",
+      "states_supporting": [
+        "AL",
+        "GA"
+      ]
+    },
+    {
+      "name": "residential_practice_exempt",
+      "category": "what they can design and where in a building",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly exempts residential interior design from the registration requirement or from the scope of the commercial interior design act.",
+      "sample_quote": "This part shall not apply to: A person who performs interior design services or interior decorator services for any residential application. For purposes of this paragraph, 'residential applications' includes all types of residences, including, but not limited to, residence buildings, single-family homes, multifamily homes, townhouses, apartments, condominiums.",
+      "sample_state": "FL",
+      "states_supporting": [
+        "FL",
+        "IL",
+        "IA",
+        "IN",
+        "AL",
+        "GA"
+      ]
+    },
+    {
+      "name": "interior_decorator_exemption",
+      "category": "what they can design and where in a building",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly exempts persons offering only 'interior decorator' or 'interior decorating' services (e.g., surface materials, window treatments, loose furnishings) from registration requirements.",
+      "sample_quote": "This subchapter does not apply to persons holding themselves out as 'interior decorators' or offering 'interior decorating services' such as selection or assistance in selecting surface materials, window treatments, wall coverings, paint, floor coverings, surface-mounted lighting, or loose furnishings not subject to regulation under applicable building codes.",
+      "sample_state": "AR",
+      "states_supporting": [
+        "AR",
+        "FL",
+        "GA",
+        "IA",
+        "IL",
+        "IN",
+        "CT"
+      ]
+    },
+    {
+      "name": "permit_submission_authority",
+      "category": "what they can design and where in a building",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly grants registered interior designers the authority to submit sealed documents to building officials for permit approval.",
+      "sample_quote": "A registered interior designer may sign and seal an interior technical submission that is required for an interior alteration or construction project and that shall be kept as a public record. If a political subdivision of the state requires a seal or stamp on an interior technical submission, the political subdivision shall accept an interior technical submission impressed with the seal or stamp of a registered interior designer.",
+      "sample_state": "IA",
+      "states_supporting": [
+        "IA",
+        "IL",
+        "AL",
+        "FL",
+        "GA",
+        "CO",
+        "CA",
+        "IN"
+      ]
+    },
+    {
+      "name": "seal_required",
+      "category": "professional documents and sealing",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute requires registered interior designers to obtain and use an official seal on documents submitted for public record or permitting.",
+      "sample_quote": "A registered interior designer shall have a seal with which to identify all interior technical submissions issued by the registered interior designer for use in this state.",
+      "sample_state": "IA",
+      "states_supporting": [
+        "IA",
+        "IL",
+        "AL",
+        "AR",
+        "CT",
+        "FL",
+        "GA",
+        "CA",
+        "IN"
+      ]
+    },
+    {
+      "name": "seal_distinct_from_architect_seal",
+      "category": "professional documents and sealing",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute requires that the interior designer's seal be visually distinct from the seals used by architects, engineers, or landscape architects.",
+      "sample_quote": "The shape and design of the seal will be different from the seals of architects, engineers, or landscape architects.",
+      "sample_state": "AR",
+      "states_supporting": [
+        "AR",
+        "FL",
+        "GA"
+      ]
+    },
+    {
+      "name": "document_disclaimer_required",
+      "category": "professional documents and sealing",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute requires interior design documents to include a written statement that they are not architectural or engineering documents and may not be used for structural construction.",
+      "sample_quote": "The registered interior designer's contract documents shall contain a statement that the document is not an architectural or engineering drawing, specification, or design and is not to be used for construction of any load-bearing columns, load-bearing framing, or load-bearing walls or structures or for the issuance of any building permit, except as otherwise provided by law.",
+      "sample_state": "AR",
+      "states_supporting": [
+        "AR",
+        "FL",
+        "IN"
+      ]
+    },
+    {
+      "name": "responsible_control_defined",
+      "category": "professional documents and sealing",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute provides an explicit statutory definition of 'responsible control' or 'responsible supervising control' as it applies to interior designers' oversight of documents.",
+      "sample_quote": "Responsible control means the amount of control over detailed professional knowledge of the content of interior technical submissions during the preparation as is ordinarily exercised by registered interior designers applying the required professional standard of care.",
+      "sample_state": "IL",
+      "states_supporting": [
+        "IL",
+        "IA",
+        "FL",
+        "GA",
+        "CO"
+      ]
+    },
+    {
+      "name": "written_contract_required",
+      "category": "client and business conduct rules",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute requires interior designers to execute a written contract with clients before commencing work, specifying services, compensation, and other terms.",
+      "sample_quote": "A Certified Interior Designer shall use a written contract when contracting to provide interior design services to a client pursuant to this chapter. The written contract shall be executed by the Certified Interior Designer and the client, or the client's representative, prior to the Certified Interior Designer commencing work.",
+      "sample_state": "CA",
+      "states_supporting": [
+        "CA",
+        "FL"
+      ]
+    },
+    {
+      "name": "compensation_disclosure_required",
+      "category": "client and business conduct rules",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute requires interior designers to fully disclose to clients all forms of compensation, including fees, commissions, or markups from suppliers.",
+      "sample_quote": "The interior designer shall have the responsibility of fully disclosing to the client the manner in which all compensation is to be paid. Unless the client knows and agrees, the interior designer shall not accept any form of compensation from a supplier of goods and services in cash or in kind.",
+      "sample_state": "FL",
+      "states_supporting": [
+        "FL",
+        "AL",
+        "IA"
+      ]
+    },
+    {
+      "name": "conflict_of_interest_rules",
+      "category": "client and business conduct rules",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute includes explicit provisions governing conflicts of interest, including disclosure obligations and prohibitions on accepting undisclosed compensation from third parties.",
+      "sample_quote": "The registered interior designer shall attempt to avoid all conflicts of interest with a client or employer. If a conflict of interest is unavoidable, the registered interior designer shall immediately inform the client or employer of any business association, interest, or circumstance which may influence the professional judgment, decisions, practices, or quality of services provided.",
+      "sample_state": "AL",
+      "states_supporting": [
+        "AL",
+        "IA",
+        "IL"
+      ]
+    },
+    {
+      "name": "professional_liability_insurance_required",
+      "category": "client and business conduct rules",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute requires interior designers to carry professional liability (errors and omissions) insurance as a condition of practice or permit submission.",
+      "sample_quote": "An interior designer shall, as a condition of filing interior design documents and specifications for the purpose of obtaining approval for a building permit, provide to the responsible building official of the jurisdiction proof of the interior designer's professional liability insurance coverage that is in force.",
+      "sample_state": "CO",
+      "states_supporting": [
+        "CO",
+        "CA"
+      ]
+    },
+    {
+      "name": "business_entity_practice_permitted",
+      "category": "practice setting and firm structure",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly permits registered interior designers to practice through or co-own partnerships, corporations, LLCs, or other business entities, including with architects or engineers.",
+      "sample_quote": "It shall be lawful for any person registered pursuant to this chapter to participate as owners with architects or professional engineers, or both, in partnerships, corporations, professional corporations, professional associations, and other business entity relationships.",
+      "sample_state": "AL",
+      "states_supporting": [
+        "AL",
+        "FL",
+        "GA",
+        "IL"
+      ]
+    },
+    {
+      "name": "registration_number_display_required",
+      "category": "practice setting and firm structure",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute requires registered interior designers to display or include their registration number in advertisements, business cards, stationery, or other communications.",
+      "sample_quote": "Shall require registrants to display their registration numbers on all business and advertising instruments, including business cards, stationery, and contracts.",
+      "sample_state": "AR",
+      "states_supporting": [
+        "AR",
+        "CT",
+        "FL"
+      ]
+    },
+    {
+      "name": "inactive_status_available",
+      "category": "practice setting and firm structure",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute provides a formal inactive status option that allows registrants to avoid renewal fees while not practicing, with restrictions on use of the protected title.",
+      "sample_quote": "Any registrant who notifies the Department in writing on forms prescribed by the Department may elect to place his or her certificate of registration on an inactive status and shall, subject to rules of the Department, be excused from payment of renewal fees until he or she notifies the Department in writing of his or her desire to resume active status.",
+      "sample_state": "IL",
+      "states_supporting": [
+        "IL",
+        "AL",
+        "FL"
+      ]
+    },
+    {
+      "name": "continuing_education_topical_focus",
+      "category": "ongoing learning requirements",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "Specific subject matter areas mandated for continuing education, beyond general interior design topics.",
+      "sample_quote": "The continuing education shall be in areas related to the application of the State Building Code and the Fire Safety Code.",
+      "sample_state": "CT",
+      "states_supporting": [
+        "CT",
+        "FL",
+        "IL"
+      ]
+    },
+    {
+      "name": "civil_judgment_disqualification",
+      "category": "discipline and enforcement",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute provides that a civil court judgment against an interior designer for negligence or misconduct in practice results in automatic removal from the registry or disqualification from registration.",
+      "sample_quote": "If a civil judgment is entered against an interior designer by a court with jurisdiction in a civil judicial proceeding for negligence, recklessness, willful misconduct, or other breach of a standard of care in the practice of interior design, the interior designer must, within a reasonable time, remove the designer's name from the electronic registry maintained by the agency.",
+      "sample_state": "IN",
+      "states_supporting": [
+        "IN",
+        "AL"
+      ]
+    }
+  ],
+  "states_sampled": [
+    "AL",
+    "AR",
+    "CA",
+    "CO",
+    "CT",
+    "FL",
+    "GA",
+    "IA",
+    "IL",
+    "IN"
+  ],
+  "states_excluded_count": 17
+}

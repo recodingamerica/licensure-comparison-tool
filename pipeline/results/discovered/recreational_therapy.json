@@ -1,0 +1,367 @@
+{
+  "profession": "recreational_therapy",
+  "fields": [
+    {
+      "name": "license_tier_classifications",
+      "category": "license levels and career ladder",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "Named tiers or classifications of licensure available within the profession, reflecting different levels of education, experience, and authorized scope.",
+      "sample_quote": "The division shall issue to a person who qualifies under this chapter a license in the classification of: (a) master therapeutic recreation specialist; (b) therapeutic recreation specialist; or (c) therapeutic recreation technician.",
+      "sample_state": "UT",
+      "states_supporting": [
+        "UT",
+        "NC"
+      ]
+    },
+    {
+      "name": "assistant_tier_available",
+      "category": "license levels and career ladder",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state recognizes a sub-therapist assistant or technician license tier distinct from the full therapist license.",
+      "sample_quote": "Licensed recreational therapy assistant. - A person who holds a license pursuant to this Chapter as a recreational therapy assistant to act under the supervision of a licensed recreational therapist as defined by rule.",
+      "sample_state": "NC",
+      "states_supporting": [
+        "NC",
+        "UT"
+      ]
+    },
+    {
+      "name": "aide_tier_available",
+      "category": "license levels and career ladder",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state recognizes an unlicensed aide role that may perform limited tasks under direct on-site supervision.",
+      "sample_quote": "Recreational therapy aide. - Any nonlicensed person who aids in the provision of recreational therapy services under the provisions of this Chapter, and who acts under the direction and on-site supervision of a licensed recreational therapist or licensed recreational therapy assistant.",
+      "sample_state": "NC",
+      "states_supporting": [
+        "NC",
+        "UT"
+      ]
+    },
+    {
+      "name": "credential_type",
+      "category": "license levels and career ladder",
+      "type": "enum",
+      "enum_values": [
+        "license",
+        "registration",
+        "certification"
+      ],
+      "description": "The formal credential type issued by the state to authorize practice.",
+      "sample_quote": "'Registration' means the registration issued to a person under this chapter.",
+      "sample_state": "WA",
+      "states_supporting": [
+        "WA",
+        "NC",
+        "NH",
+        "UT",
+        "NJ"
+      ]
+    },
+    {
+      "name": "nctrc_certification_accepted_in_lieu_of_exam",
+      "category": "national credential and exam pathways",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether holding an active NCTRC Certified Therapeutic Recreation Specialist (CTRS) credential can substitute for or satisfy the state examination requirement.",
+      "sample_quote": "document proof of current certification in good standing as a Certified Therapeutic Recreation Specialist by the National Council for Therapeutic Recreation Certification, or an equivalence of that certification, as determined by division rule made in consultation with the board.",
+      "sample_state": "UT",
+      "states_supporting": [
+        "UT",
+        "NC",
+        "NH"
+      ]
+    },
+    {
+      "name": "nctrc_continuing_education_accepted",
+      "category": "national credential and exam pathways",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether continuing education programs meeting NCTRC recertification standards are accepted toward state renewal requirements.",
+      "sample_quote": "The executive director, in consultation with the advisory board, shall accept continuing education programs that meet the recertification standards of the National Council for Therapeutic Recreation Certification.",
+      "sample_state": "NH",
+      "states_supporting": [
+        "NH",
+        "NC"
+      ]
+    },
+    {
+      "name": "scope_job_analysis_reference",
+      "category": "national credential and exam pathways",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state explicitly references the NCTRC Job Analysis Study as the authoritative basis for defining scope of practice.",
+      "sample_quote": "The practice of recreational therapy includes all direct patient or client services... representing the process and knowledge base delineated in the most recent National Council for Therapeutic Recreation Certification (NCTRC) Job Analysis Study and professional standards of practice.",
+      "sample_state": "NC",
+      "states_supporting": [
+        "NC",
+        "NH"
+      ]
+    },
+    {
+      "name": "authorized_practice_settings",
+      "category": "where and how services may be delivered",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "Explicit list of settings in which a licensee is authorized to practice recreational therapy.",
+      "sample_quote": "A person licensed as a 'Recreational Therapist' under this Chapter may practice in clinical, residential, educational, and community settings.",
+      "sample_state": "NC",
+      "states_supporting": [
+        "NC",
+        "UT"
+      ]
+    },
+    {
+      "name": "private_practice_authorized",
+      "category": "where and how services may be delivered",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the licensee is explicitly authorized to practice in private practice (as opposed to only institutional or supervised employment settings).",
+      "sample_quote": "A master therapeutic recreation specialist licensed under this chapter may: (a) practice recreational therapy: ... (ii) in private practice; or (iii) as a consultant.",
+      "sample_state": "UT",
+      "states_supporting": [
+        "UT",
+        "NC"
+      ]
+    },
+    {
+      "name": "referral_required_for_treatment",
+      "category": "where and how services may be delivered",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether a referral from a qualified health care professional is required before initiating recreational therapy services for individuals with medically-related conditions.",
+      "sample_quote": "Initiation of recreational therapy services to individuals with medically-related conditions shall be based on a referral from any qualified health care professional who, within the scope of the professional's licensure, is authorized to refer for health care services.",
+      "sample_state": "NH",
+      "states_supporting": [
+        "NH",
+        "UT"
+      ]
+    },
+    {
+      "name": "referral_exempt_services",
+      "category": "where and how services may be delivered",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "Categories of services explicitly exempted from the referral requirement.",
+      "sample_quote": "Prevention, wellness, education, adaptive sports and recreation, and related services shall not require a referral.",
+      "sample_state": "NH",
+      "states_supporting": [
+        "NH",
+        "UT"
+      ]
+    },
+    {
+      "name": "adaptive_equipment_authorized",
+      "category": "what therapists are specifically allowed to do",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly authorizes identifying, designing, fabricating, applying, or training in the use of adaptive recreational equipment.",
+      "sample_quote": "Identifying, designing, fabricating, applying, or training in the use of, adaptive recreational equipment.",
+      "sample_state": "NH",
+      "states_supporting": [
+        "NH",
+        "NJ"
+      ]
+    },
+    {
+      "name": "community_integration_services_authorized",
+      "category": "what therapists are specifically allowed to do",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly authorizes community integration, reintegration, inclusion, and transitioning services.",
+      "sample_quote": "Providing community integration, reintegration, inclusion, and transitioning services to maximize health and participation in play, recreation, leisure, and related community activities.",
+      "sample_state": "NJ",
+      "states_supporting": [
+        "NJ",
+        "WA",
+        "NH"
+      ]
+    },
+    {
+      "name": "leisure_education_and_counseling_authorized",
+      "category": "what therapists are specifically allowed to do",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly authorizes leisure education and counseling as a distinct service within scope of practice.",
+      "sample_quote": "Providing leisure education and counseling to address issues that hinder health and engagement in play, recreation, leisure, and related community activities.",
+      "sample_state": "NJ",
+      "states_supporting": [
+        "NJ",
+        "WA",
+        "NH"
+      ]
+    },
+    {
+      "name": "pain_management_modalities_authorized",
+      "category": "what therapists are specifically allowed to do",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly authorizes non-invasive and non-pharmacological approaches to reduce or alleviate pain as part of recreational therapy services.",
+      "sample_quote": "Identifying, applying, and evaluating the use of non-invasive and non-pharmacological approaches to reduce or alleviate pain or manage pain to minimize its impact upon participation.",
+      "sample_state": "NH",
+      "states_supporting": [
+        "NH",
+        "NJ"
+      ]
+    },
+    {
+      "name": "discharge_planning_authorized",
+      "category": "what therapists are specifically allowed to do",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly authorizes developing a discharge or transition plan in collaboration with the patient, family, and treatment team.",
+      "sample_quote": "Developing a discharge plan in collaboration with the individual, the individual's family, and other treatment team members.",
+      "sample_state": "NJ",
+      "states_supporting": [
+        "NC",
+        "NH",
+        "NJ",
+        "UT"
+      ]
+    },
+    {
+      "name": "supervision_required_for_assistant_tier",
+      "category": "supervision and delegation rules",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute requires assistant- or technician-tier licensees to practice under the supervision of a higher-tier licensed recreational therapist.",
+      "sample_quote": "A therapeutic recreation technician: (a) may perform recreational therapy services if: (i) under the supervision of a master therapeutic recreation specialist or a therapeutic recreation specialist employed full-time and on-site in the same hospital, clinic, or facility.",
+      "sample_state": "UT",
+      "states_supporting": [
+        "UT",
+        "NC"
+      ]
+    },
+    {
+      "name": "delegation_coercion_prohibited",
+      "category": "supervision and delegation rules",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly prohibits coercing a licensed recreational therapist into delegating tasks when the therapist determines delegation would compromise client safety.",
+      "sample_quote": "No person shall coerce a licensed recreational therapist into compromising client safety by requiring the licensed recreational therapist to delegate activities or tasks if the licensed recreational therapist determines that it is inappropriate to do so.",
+      "sample_state": "NH",
+      "states_supporting": [
+        "NH",
+        "UT"
+      ]
+    },
+    {
+      "name": "technician_assessment_limitations",
+      "category": "supervision and delegation rules",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly restricts the technician or assistant tier from performing the interpretive or analytical portion of patient assessment.",
+      "sample_quote": "A therapeutic recreation technician: ... (d) may not perform the portion of an assessment described in Subsection 58-40-102(2)(a)(ii) [interpreting and analyzing collected data].",
+      "sample_state": "UT",
+      "states_supporting": [
+        "UT",
+        "NC"
+      ]
+    },
+    {
+      "name": "privileged_communications_protection",
+      "category": "patient rights and confidentiality",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute places therapist-client communications on the same privileged legal basis as physician-patient communications.",
+      "sample_quote": "The confidential communications between licensed recreational therapists and their clients or patients is placed on the same legal basis as those between physician and patient, and except as otherwise provided by law, no recreational therapist shall be required to disclose such privileged communications.",
+      "sample_state": "NH",
+      "states_supporting": [
+        "NH",
+        "UT"
+      ]
+    },
+    {
+      "name": "patient_privacy_duty",
+      "category": "patient rights and confidentiality",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly imposes a duty on licensees to safeguard a patient's right to privacy regarding identity, condition, diagnosis, and personal effects.",
+      "sample_quote": "Failing to safeguard a person's right to privacy as to the person's identity, condition, diagnosis, personal effects, or other matters about which the licensee is privileged to know from providing recreational therapy services.",
+      "sample_state": "UT",
+      "states_supporting": [
+        "UT",
+        "NH"
+      ]
+    },
+    {
+      "name": "suicide_prevention_training_required",
+      "category": "mandatory specialized training",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute mandates a minimum number of hours of suicide prevention training as a condition of initial licensure or license renewal.",
+      "sample_quote": "The division shall require a licensee, as a condition of renewal of the licensee's license, to complete a minimum of two hours of training in suicide prevention via a course that the division designates as approved.",
+      "sample_state": "UT",
+      "states_supporting": [
+        "UT",
+        "NH"
+      ]
+    },
+    {
+      "name": "suicide_prevention_training_hours",
+      "category": "mandatory specialized training",
+      "type": "int",
+      "enum_values": null,
+      "description": "Minimum number of hours of suicide prevention training required by statute for licensure or renewal.",
+      "sample_quote": "complete a minimum of two hours of training in suicide prevention via a course that the division designates as approved.",
+      "sample_state": "UT",
+      "states_supporting": [
+        "UT",
+        "NH"
+      ]
+    },
+    {
+      "name": "treatment_plan_documentation_required",
+      "category": "mandatory specialized training",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly requires a written individualized treatment or intervention plan to be maintained for each patient receiving recreational therapy services.",
+      "sample_quote": "A recreational therapy treatment or intervention plan shall be maintained for each patient receiving recreational therapy services under this chapter.",
+      "sample_state": "UT",
+      "states_supporting": [
+        "UT",
+        "NC",
+        "NH",
+        "NJ"
+      ]
+    },
+    {
+      "name": "authorized_title_abbreviations",
+      "category": "professional title and credential display rules",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "Specific letter abbreviations or title designations that licensed practitioners are authorized or prohibited from using.",
+      "sample_quote": "Licensed recreational therapists may use the letters 'TR,' 'TRS,' and 'CTRS/L' in connection with their name or place of business.",
+      "sample_state": "NH",
+      "states_supporting": [
+        "NH",
+        "UT",
+        "NC"
+      ]
+    },
+    {
+      "name": "recreational_activity_exemption",
+      "category": "professional title and credential display rules",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly exempts persons conducting recreational activities for purely recreational (non-therapeutic) purposes from licensure requirements.",
+      "sample_quote": "A person may conduct or participate in a recreational activity without being licensed under this chapter if the person is using the recreational activity for the sole outcome of the recreational experience and is not using recreational activity as a therapeutic intervention following the therapeutic recreation process.",
+      "sample_state": "UT",
+      "states_supporting": [
+        "UT",
+        "NC",
+        "WA"
+      ]
+    }
+  ],
+  "states_sampled": [
+    "NC",
+    "NH",
+    "NJ",
+    "UT",
+    "WA"
+  ],
+  "states_excluded_count": 0
+}
