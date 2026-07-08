@@ -1,0 +1,414 @@
+{
+  "profession": "genetic_counseling",
+  "fields": [
+    {
+      "name": "certifying_bodies_accepted",
+      "category": "credentials and certification",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "The national certification organizations whose credentials satisfy the licensure examination or certification requirement.",
+      "sample_quote": "Has successfully completed an examination provided by the ABGC or its successor, the ABMGG or its successor, or a substantially equivalent examination approved by the Department",
+      "sample_state": "IL",
+      "states_supporting": [
+        "AL",
+        "AR",
+        "CT",
+        "DE",
+        "GA",
+        "HI",
+        "IA",
+        "ID",
+        "IL",
+        "IN"
+      ]
+    },
+    {
+      "name": "active_candidate_status_recognized",
+      "category": "credentials and certification",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state explicitly recognizes 'active candidate status' (ACS) from ABGC or equivalent as a basis for a provisional or temporary license.",
+      "sample_quote": "Active candidate status means a person has met the requirements established by the American board of genetic counseling or its equivalent or successor organization to take the American board of genetic counseling certification examination",
+      "sample_state": "IA",
+      "states_supporting": [
+        "AL",
+        "AR",
+        "CT",
+        "DE",
+        "GA",
+        "HI",
+        "IA",
+        "ID",
+        "IL",
+        "IN"
+      ]
+    },
+    {
+      "name": "certification_maintenance_required_for_renewal",
+      "category": "credentials and certification",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether maintaining active certification from ABGC or ABMGG (or equivalent) is explicitly required as a condition of license renewal.",
+      "sample_quote": "Proof of maintenance of American Board of Genetic Counseling or its equivalent board certification shall be required for license renewal.",
+      "sample_state": "HI",
+      "states_supporting": [
+        "AR",
+        "CT",
+        "DE",
+        "HI",
+        "IA",
+        "ID",
+        "IL",
+        "IN"
+      ]
+    },
+    {
+      "name": "nsgc_ethics_code_referenced",
+      "category": "credentials and certification",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly references the National Society of Genetic Counselors (NSGC) code of ethics as a standard of conduct or ground for discipline.",
+      "sample_quote": "Violation of recognized ethical standards for genetic counselors as set by the National Society of Genetic Counselors",
+      "sample_state": "HI",
+      "states_supporting": [
+        "DE",
+        "HI",
+        "ID"
+      ]
+    },
+    {
+      "name": "temporary_license_exam_attempt_limit",
+      "category": "temporary and provisional practice",
+      "type": "int",
+      "enum_values": null,
+      "description": "The maximum number of times an applicant may fail the certification examination before a temporary or provisional license is denied or automatically expires.",
+      "sample_quote": "A temporary license shall not be issued if the applicant has failed the American Board of Genetic Counseling certification examination more than two (2) times.",
+      "sample_state": "AR",
+      "states_supporting": [
+        "AR",
+        "DE",
+        "IN"
+      ]
+    },
+    {
+      "name": "temporary_license_duration_years",
+      "category": "temporary and provisional practice",
+      "type": "int",
+      "enum_values": null,
+      "description": "The maximum duration (in years) of a temporary or provisional license before it expires or must be renewed.",
+      "sample_quote": "A temporary license is valid for one (1) year from the date of issuance.",
+      "sample_state": "AR",
+      "states_supporting": [
+        "AL",
+        "AR",
+        "CT",
+        "DE",
+        "GA",
+        "HI",
+        "IA",
+        "ID",
+        "IL",
+        "IN"
+      ]
+    },
+    {
+      "name": "temporary_license_supervisor_types",
+      "category": "temporary and provisional practice",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "The categories of professionals who are authorized to supervise a holder of a temporary or provisional genetic counselor license.",
+      "sample_quote": "As a condition of temporary licensure, an applicant shall work under the supervision of a licensed genetic counselor or a licensed physician with current American Board of Genetic Counseling certification in clinical genetics when the applicant provides genetic counseling services.",
+      "sample_state": "AR",
+      "states_supporting": [
+        "AL",
+        "AR",
+        "CT",
+        "DE",
+        "GA",
+        "HI",
+        "IA",
+        "ID",
+        "IL",
+        "IN"
+      ]
+    },
+    {
+      "name": "supervision_contract_required",
+      "category": "temporary and provisional practice",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether a written supervision contract between the supervisor and the provisionally licensed genetic counselor is explicitly required by statute.",
+      "sample_quote": "Supervision means the overall responsibility of a qualified supervisor to assess the work of a genetic counselor with a temporary license, including regular meetings and chart review, if an annual supervision contract signed by the supervisor and the temporarily licensed genetic counselor is on file with both parties.",
+      "sample_state": "AL",
+      "states_supporting": [
+        "AL",
+        "GA",
+        "IA",
+        "IN"
+      ]
+    },
+    {
+      "name": "supervisor_physical_presence_required",
+      "category": "temporary and provisional practice",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly states that the supervisor's physical presence is NOT required during the performance of genetic counseling services by a provisional licensee.",
+      "sample_quote": "The presence of a qualified supervisor is not required during the performance of the genetic counseling service.",
+      "sample_state": "AL",
+      "states_supporting": [
+        "AL",
+        "GA",
+        "IA",
+        "ID"
+      ]
+    },
+    {
+      "name": "genetic_test_ordering_authority",
+      "category": "what genetic counselors are allowed to do",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly authorizes licensed genetic counselors to order or coordinate genetic laboratory tests (not merely recommend or identify them).",
+      "sample_quote": "Identify, order, and coordinate genetic laboratory tests and other diagnostic studies as appropriate for the genetic assessment.",
+      "sample_state": "IA",
+      "states_supporting": [
+        "GA",
+        "IA",
+        "ID",
+        "IL",
+        "IN"
+      ]
+    },
+    {
+      "name": "temporary_licensee_test_ordering_prohibited",
+      "category": "what genetic counselors are allowed to do",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly prohibits holders of a temporary or provisional license from ordering genetic tests.",
+      "sample_quote": "The holder of a temporary license shall practice only under the supervision of a qualified supervisor and may not have the authority to order genetic tests.",
+      "sample_state": "IL",
+      "states_supporting": [
+        "GA",
+        "IL"
+      ]
+    },
+    {
+      "name": "medicine_practice_exclusion",
+      "category": "what genetic counselors are allowed to do",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly states that nothing in the chapter authorizes a genetic counselor to practice medicine or diagnose disease.",
+      "sample_quote": "Nothing in this chapter may be construed as authorizing a genetic counselor to practice medicine.",
+      "sample_state": "AL",
+      "states_supporting": [
+        "AL",
+        "IL",
+        "IN"
+      ]
+    },
+    {
+      "name": "referral_to_physician_required_when_outside_scope",
+      "category": "what genetic counselors are allowed to do",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute requires a genetic counselor to refer a client to a physician when the counselor finds a condition requiring services outside the genetic counselor's scope of practice.",
+      "sample_quote": "if in the course of providing a genetic counseling service to any client, a genetic counselor finds any indication of disease or condition that requires medical assessment, the genetic counselor shall refer a client to a physician licensed to practice medicine",
+      "sample_state": "DE",
+      "states_supporting": [
+        "DE",
+        "IL"
+      ]
+    },
+    {
+      "name": "consumer_direct_testing_company_exemption",
+      "category": "who is exempt from licensure",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly exempts FDA-approved direct-to-consumer genetic risk assessment companies (that assess but do not diagnose) from the licensure requirement.",
+      "sample_quote": "Any company providing services available directly to consumers without seeing a physician or genetic counselor which is approved by the United States Food and Drug Administration to assess, and not diagnose, risks for certain genetic diseases or conditions.",
+      "sample_state": "AL",
+      "states_supporting": [
+        "AL",
+        "GA"
+      ]
+    },
+    {
+      "name": "visiting_out_of_state_counselor_exemption_days",
+      "category": "who is exempt from licensure",
+      "type": "int",
+      "enum_values": null,
+      "description": "The maximum number of days per year a certified genetic counselor from another state may practice in the state without obtaining a local license under a visiting-counselor exemption.",
+      "sample_quote": "A visiting genetic counselor who is certified by the American Board of Genetic Counseling or the American Board of Medical Genetics and Genomics from outside the state performing activities and services for a period of thirty (30) days each year.",
+      "sample_state": "AR",
+      "states_supporting": [
+        "AR",
+        "IL"
+      ]
+    },
+    {
+      "name": "federal_employee_exemption",
+      "category": "who is exempt from licensure",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly exempts individuals employed as genetic counselors by the federal government or a federal agency, when providing services solely under that agency's direction.",
+      "sample_quote": "Any person employed as a genetic counselor by the federal government or an agency thereof if the person provides genetic counseling services solely under the direction and control of the organization by which he is employed",
+      "sample_state": "ID",
+      "states_supporting": [
+        "AL",
+        "AR",
+        "GA",
+        "HI",
+        "IA",
+        "ID",
+        "IL",
+        "IN"
+      ]
+    },
+    {
+      "name": "phd_medical_geneticist_pathway",
+      "category": "education pathways to licensure",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute provides a separate doctoral-degree pathway (e.g., ABMGG-accredited medical genetics training program) as an alternative to the master's-degree genetic counseling pathway for licensure.",
+      "sample_quote": "Has successfully completed a doctoral degree and an ABMGG accredited medical genetics training program or an equivalent program approved by the ABMGG",
+      "sample_state": "AL",
+      "states_supporting": [
+        "AL",
+        "AR",
+        "DE",
+        "GA",
+        "IA",
+        "IL",
+        "IN"
+      ]
+    },
+    {
+      "name": "accrediting_body_for_training_program",
+      "category": "education pathways to licensure",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "The accrediting organizations whose approval of a genetic counseling training program satisfies the educational requirement for licensure.",
+      "sample_quote": "A master's degree from a genetic counseling training program that is accredited by the American Board of Genetic Counseling or an equivalent as determined by the American Board of Genetic Counseling or the American Board of Medical Genetics and Genomics",
+      "sample_state": "AR",
+      "states_supporting": [
+        "AL",
+        "AR",
+        "CT",
+        "DE",
+        "GA",
+        "HI",
+        "IA",
+        "ID",
+        "IL",
+        "IN"
+      ]
+    },
+    {
+      "name": "continuing_education_hours_per_period",
+      "category": "ongoing requirements after licensure",
+      "type": "int",
+      "enum_values": null,
+      "description": "The minimum number of continuing education hours (or units) required per renewal period, where specified by statute.",
+      "sample_quote": "the number of hours of continuing education required for renewal of licensure shall not be less than 30 hours biennially",
+      "sample_state": "GA",
+      "states_supporting": [
+        "AR",
+        "GA",
+        "IA"
+      ]
+    },
+    {
+      "name": "inactive_license_status_available",
+      "category": "ongoing requirements after licensure",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly provides for an inactive license status that excuses the licensee from renewal fees while prohibiting practice.",
+      "sample_quote": "A licensee, upon written request, may be placed in an inactive status for no more than 5 years.",
+      "sample_state": "DE",
+      "states_supporting": [
+        "AL",
+        "DE",
+        "GA",
+        "IL"
+      ]
+    },
+    {
+      "name": "client_confidentiality_provisions",
+      "category": "client rights and professional obligations",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute contains explicit provisions protecting the confidentiality of client communications or information obtained during genetic counseling.",
+      "sample_quote": "No licensee shall disclose any information that he may have acquired from a client consulting him in his professional capacity that was necessary to enable him to render services in his professional capacity",
+      "sample_state": "ID",
+      "states_supporting": [
+        "ID",
+        "IL"
+      ]
+    },
+    {
+      "name": "conscientious_objection_protection",
+      "category": "client rights and professional obligations",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly protects a genetic counselor from being required to perform or participate in a service that violates the counselor's sincerely held ethical, moral, or religious beliefs.",
+      "sample_quote": "A genetic counselor may not be required to perform, participate in, or provide a service that violates any sincerely held ethical, moral, or religious belief held by the genetic counselor.",
+      "sample_state": "IN",
+      "states_supporting": [
+        "IN"
+      ]
+    },
+    {
+      "name": "advisory_council_established",
+      "category": "governance and board structure",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute establishes a dedicated advisory council or board specifically for genetic counseling (as opposed to regulation by a general medical board).",
+      "sample_quote": "The Genetic Counselor Advisory Council (Council) consists of 5 voting members, and 1 ex officio member.",
+      "sample_state": "DE",
+      "states_supporting": [
+        "AL",
+        "DE",
+        "ID"
+      ]
+    },
+    {
+      "name": "physician_member_on_governing_body",
+      "category": "governance and board structure",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute requires at least one licensed physician to serve on the board or advisory council that regulates genetic counselors.",
+      "sample_quote": "The 5 voting members shall consist of 1 physician member of the Board of Medical Licensure and Discipline and 4 Council members licensed and trained as genetic counselors",
+      "sample_state": "DE",
+      "states_supporting": [
+        "AL",
+        "DE",
+        "ID"
+      ]
+    },
+    {
+      "name": "grandfathering_provision",
+      "category": "governance and board structure",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute includes a transitional or grandfathering provision allowing individuals practicing genetic counseling before the law's effective date to obtain licensure without meeting all standard requirements.",
+      "sample_quote": "Until July 1, 2016, an individual who does not qualify for licensure under this chapter may apply to the board for licensure, and the board may approve the application if the individual has paid the required fees and has worked as a genetic counselor for a minimum of ten (10) years",
+      "sample_state": "ID",
+      "states_supporting": [
+        "CT",
+        "ID"
+      ]
+    }
+  ],
+  "states_sampled": [
+    "AL",
+    "AR",
+    "CT",
+    "DE",
+    "GA",
+    "HI",
+    "IA",
+    "ID",
+    "IL",
+    "IN"
+  ],
+  "states_excluded_count": 21
+}

@@ -1,0 +1,424 @@
+{
+  "profession": "music_therapy",
+  "fields": [
+    {
+      "name": "national_certification_body",
+      "category": "credentialing and certification",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "The national organization(s) whose certification credential is recognized or required for licensure or title use.",
+      "sample_quote": "holds a current certification as a music therapist from the Certification Board for Music Therapists, or any successor of said board",
+      "sample_state": "CT",
+      "states_supporting": [
+        "AZ",
+        "CA",
+        "CT",
+        "GA",
+        "IA",
+        "IL",
+        "MD",
+        "ND",
+        "NJ",
+        "NV"
+      ]
+    },
+    {
+      "name": "credential_required_for_licensure",
+      "category": "credentialing and certification",
+      "type": "enum",
+      "enum_values": [
+        "MT-BC (Music Therapist-Board Certified)",
+        "RMT (Registered Music Therapist)",
+        "CMT (Certified Music Therapist)",
+        "ACMT (Advanced Certified Music Therapist)"
+      ],
+      "description": "The specific national credential designation(s) that satisfy the certification requirement for licensure.",
+      "sample_quote": "A music therapist board-certified credential from the certification board for music therapists; or a professional designation from the national music therapy registry, which may include registered music therapist, certified music therapist, and advanced certified music therapist",
+      "sample_state": "ND",
+      "states_supporting": [
+        "ND",
+        "GA",
+        "IA",
+        "IL",
+        "MD",
+        "NV",
+        "CT",
+        "NJ"
+      ]
+    },
+    {
+      "name": "certification_maintenance_required_for_renewal",
+      "category": "credentialing and certification",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the licensee must maintain active national board certification as a condition of license renewal.",
+      "sample_quote": "Proof of maintenance of the applicant's Certification Board for Music Therapists credentials",
+      "sample_state": "GA",
+      "states_supporting": [
+        "GA",
+        "CT",
+        "MD",
+        "NV",
+        "NJ"
+      ]
+    },
+    {
+      "name": "protected_titles",
+      "category": "credentialing and certification",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "Specific titles, abbreviations, or designations that only a licensed or certified music therapist may use.",
+      "sample_quote": "A person who is not licensed to practice music therapy...shall not use in connection with his or her name the words or letters 'MT,' 'music therapist,' 'licensed, board-certified music therapist,' 'MT-BC,' 'Music Therapist - Board Certified,' 'MT - BC/L' or 'Licensed Music Therapist - Board Certified'",
+      "sample_state": "NV",
+      "states_supporting": [
+        "NV",
+        "IA",
+        "CT",
+        "GA",
+        "MD",
+        "NJ",
+        "IL",
+        "CA"
+      ]
+    },
+    {
+      "name": "advisory_body_composition",
+      "category": "governance and oversight body",
+      "type": "str",
+      "enum_values": null,
+      "description": "The membership composition of the state advisory board or group for music therapy, including number of members and their required backgrounds.",
+      "sample_quote": "The Secretary shall appoint 3 members who practice as professional music therapists in this State, one member who is a licensed health care provider who is not a music therapist, and one member who is a consumer",
+      "sample_state": "IL",
+      "states_supporting": [
+        "IL",
+        "GA",
+        "MD"
+      ]
+    },
+    {
+      "name": "advisory_body_name",
+      "category": "governance and oversight body",
+      "type": "str",
+      "enum_values": null,
+      "description": "The official name of the advisory or regulatory body overseeing music therapy licensure.",
+      "sample_quote": "There is created within the Department a Music Therapy Advisory Board",
+      "sample_state": "IL",
+      "states_supporting": [
+        "IL",
+        "GA",
+        "MD",
+        "NV",
+        "ND"
+      ]
+    },
+    {
+      "name": "music_therapy_excluded_from_scope",
+      "category": "what music therapists cannot do",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "Activities or diagnoses explicitly excluded from the authorized scope of music therapy practice.",
+      "sample_quote": "'Music therapy' does not include the screening, diagnosis, or assessment of any physical, mental, or communication disorder",
+      "sample_state": "IL",
+      "states_supporting": [
+        "IL",
+        "MD",
+        "NJ",
+        "NV",
+        "CA"
+      ]
+    },
+    {
+      "name": "cannot_replace_other_professions",
+      "category": "what music therapists cannot do",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "Other licensed professions whose services a music therapist is explicitly prohibited from replacing.",
+      "sample_quote": "When providing educational or health care services, a licensed professional music therapist may not replace the services provided by an audiologist or a speech-language pathologist",
+      "sample_state": "IL",
+      "states_supporting": [
+        "IL",
+        "MD",
+        "NJ"
+      ]
+    },
+    {
+      "name": "psychotherapy_supervision_required",
+      "category": "what music therapists cannot do",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether a music therapist with only a baccalaureate degree must be supervised by a qualified mental health professional to engage in psychotherapy.",
+      "sample_quote": "A licensed music therapist whose highest degree in music therapy is a baccalaureate degree shall not engage in the practice of psychotherapy unless supervised by a licensed music therapist with a master's degree in music therapy, a licensed clinical social worker, a licensed clinical psychologist, a licensed clinical professional counselor, a licensed marriage and family therapist, or a psychiatrist",
+      "sample_state": "IL",
+      "states_supporting": [
+        "IL",
+        "CA"
+      ]
+    },
+    {
+      "name": "authorized_music_therapy_interventions",
+      "category": "what music therapists are authorized to do",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "Specific music-based techniques and interventions explicitly enumerated as within the scope of music therapy practice.",
+      "sample_quote": "music improvisation, receptive music listening, song writing, lyric discussion, music and imagery, singing, music performance, learning through music, music combined with other arts, music-assisted relaxation, music-based patient education, electronic music technology, adapted music intervention, and movement to music",
+      "sample_state": "CA",
+      "states_supporting": [
+        "CA",
+        "GA",
+        "IL",
+        "MD",
+        "NJ",
+        "NV",
+        "ND"
+      ]
+    },
+    {
+      "name": "authorized_practice_settings",
+      "category": "what music therapists are authorized to do",
+      "type": "list[str]",
+      "enum_values": null,
+      "description": "Types of care settings or service contexts in which music therapy is explicitly authorized.",
+      "sample_quote": "developmental, rehabilitative, habilitative, medical, mental health, preventive, wellness care, or educational settings",
+      "sample_state": "CA",
+      "states_supporting": [
+        "CA",
+        "IL",
+        "MD",
+        "NJ"
+      ]
+    },
+    {
+      "name": "treatment_planning_required",
+      "category": "what music therapists are authorized to do",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly requires development of an individualized music therapy treatment plan for each client.",
+      "sample_quote": "developing an individualized music therapy treatment plan for the client that is based upon the results of the music therapy assessment",
+      "sample_state": "IL",
+      "states_supporting": [
+        "IL",
+        "GA",
+        "MD",
+        "NJ",
+        "NV",
+        "CA"
+      ]
+    },
+    {
+      "name": "interdisciplinary_collaboration_required",
+      "category": "working with other health professionals",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly requires the music therapist to collaborate with other health care or education professionals before or during treatment.",
+      "sample_quote": "Before a licensed professional music therapist provides music therapy services to a client for an identified clinical or developmental need, the licensee shall review the client's diagnosis, treatment needs, and treatment plan with the health care providers involved in the client's care",
+      "sample_state": "IL",
+      "states_supporting": [
+        "IL",
+        "GA",
+        "MD",
+        "NJ",
+        "NV"
+      ]
+    },
+    {
+      "name": "referral_acceptance_authorized",
+      "category": "working with other health professionals",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly authorizes music therapists to accept referrals from other professionals, family members, or clients.",
+      "sample_quote": "accepting referrals for music therapy services from physicians, psychologists or other medical, developmental or mental health professionals, education professionals, family members, clients or caregivers",
+      "sample_state": "NV",
+      "states_supporting": [
+        "NV",
+        "GA",
+        "IL",
+        "MD",
+        "NJ"
+      ]
+    },
+    {
+      "name": "least_restrictive_environment_required",
+      "category": "working with other health professionals",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly requires the music therapist to minimize barriers so clients receive services in the least restrictive environment.",
+      "sample_quote": "minimizing any barriers so that the client may receive music therapy services in the least restrictive environment",
+      "sample_state": "NJ",
+      "states_supporting": [
+        "NJ",
+        "GA",
+        "IL",
+        "MD",
+        "NV"
+      ]
+    },
+    {
+      "name": "client_confidentiality_privilege",
+      "category": "client rights and professional conduct",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute establishes a privileged communication or confidentiality protection for information shared by clients with music therapists.",
+      "sample_quote": "No licensed professional music therapist shall disclose any information acquired from persons consulting the therapist in a professional capacity",
+      "sample_state": "IL",
+      "states_supporting": [
+        "IL",
+        "MD"
+      ]
+    },
+    {
+      "name": "delegation_of_services_restricted",
+      "category": "client rights and professional conduct",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute restricts or prohibits requiring a licensee to delegate music therapy services to another person against the licensee's clinical judgment.",
+      "sample_quote": "A person shall not require a licensee to delegate the provision of music therapy services to another person if, in the opinion of the licensee, such delegation would be inappropriate or create a risk of harm to the client",
+      "sample_state": "NV",
+      "states_supporting": [
+        "NV",
+        "IL"
+      ]
+    },
+    {
+      "name": "temporary_permit_available",
+      "category": "pathways to practice before full licensure",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state offers a temporary or provisional permit allowing practice under supervision while completing full licensure requirements.",
+      "sample_quote": "The Department of Public Health may issue a temporary permit to an applicant for licensure as a music therapist who holds a bachelor's degree or higher in music therapy or a related field",
+      "sample_state": "CT",
+      "states_supporting": [
+        "CT",
+        "MD"
+      ]
+    },
+    {
+      "name": "temporary_permit_supervision_requirement",
+      "category": "pathways to practice before full licensure",
+      "type": "str",
+      "enum_values": null,
+      "description": "The type of supervision required while practicing under a temporary or provisional permit.",
+      "sample_quote": "Such temporary permit shall authorize the holder of the temporary permit to practice music therapy under the general supervision of a licensed music therapist",
+      "sample_state": "CT",
+      "states_supporting": [
+        "CT",
+        "MD"
+      ]
+    },
+    {
+      "name": "student_exemption_from_licensure",
+      "category": "pathways to practice before full licensure",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether students enrolled in accredited music therapy programs are explicitly exempt from licensure requirements while performing supervised coursework.",
+      "sample_quote": "Any practice of music therapy as an integral part of a program of study for students enrolled in an accredited music therapy program, if the student does not represent the student as a music therapist",
+      "sample_state": "IL",
+      "states_supporting": [
+        "IL",
+        "CT",
+        "GA",
+        "MD",
+        "NV",
+        "NJ"
+      ]
+    },
+    {
+      "name": "continuing_education_hours_per_renewal",
+      "category": "ongoing education requirements",
+      "type": "int",
+      "enum_values": null,
+      "description": "The minimum number of continuing education hours required per renewal period.",
+      "sample_quote": "Proof of completion of a minimum of 40 hours of continuing education as established by rule",
+      "sample_state": "IL",
+      "states_supporting": [
+        "IL",
+        "GA",
+        "MD",
+        "NV"
+      ]
+    },
+    {
+      "name": "continuing_education_approved_by",
+      "category": "ongoing education requirements",
+      "type": "str",
+      "enum_values": null,
+      "description": "The organization whose approval is required for continuing education programs to count toward renewal.",
+      "sample_quote": "Proof of completion of a minimum of 40 hours of continuing education in a program approved by the Certification Board of Music Therapists or any successor organization",
+      "sample_state": "GA",
+      "states_supporting": [
+        "GA",
+        "IL",
+        "MD",
+        "NV"
+      ]
+    },
+    {
+      "name": "dementia_training_required",
+      "category": "ongoing education requirements",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute specifically requires training on Alzheimer's disease or dementia care as part of continuing education for renewal.",
+      "sample_quote": "For those licensed professional music therapists that have direct patient interactions with adult populations age 26 or older, proof of completion of at least one hour of training on the diagnosis, treatment, and care of individuals with Alzheimer's disease and other dementias per renewal period",
+      "sample_state": "IL",
+      "states_supporting": [
+        "IL",
+        "MD"
+      ]
+    },
+    {
+      "name": "criminal_background_check_required",
+      "category": "background and fitness requirements",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether applicants are required to submit to a criminal history records check, including fingerprinting, as part of the licensure application.",
+      "sample_quote": "The applicant has satisfactory results from a fingerprint record check report conducted by the Georgia Crime Information Center and the Federal Bureau of Investigation",
+      "sample_state": "GA",
+      "states_supporting": [
+        "GA",
+        "MD",
+        "NV",
+        "CT"
+      ]
+    },
+    {
+      "name": "inactive_license_status_available",
+      "category": "license status options",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state allows a licensee to place their license on inactive status and later reactivate it.",
+      "sample_quote": "Upon written request of a licensee, the Secretary may place an active license on an inactive status subject to an inactive status fee established by the Secretary",
+      "sample_state": "GA",
+      "states_supporting": [
+        "GA",
+        "IL",
+        "MD",
+        "CT"
+      ]
+    },
+    {
+      "name": "rehabilitation_committee_available",
+      "category": "license status options",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute establishes or references a rehabilitation committee to assist music therapists with substance abuse or other health conditions affecting practice.",
+      "sample_quote": "the music therapist rehabilitation committee...evaluates and provides assistance to any music therapist in need of treatment and rehabilitation for alcoholism, drug abuse, chemical dependency, or other physical, emotional, or mental condition",
+      "sample_state": "MD",
+      "states_supporting": [
+        "MD",
+        "IL"
+      ]
+    }
+  ],
+  "states_sampled": [
+    "AZ",
+    "CA",
+    "CT",
+    "GA",
+    "IA",
+    "IL",
+    "MD",
+    "ND",
+    "NJ",
+    "NV"
+  ],
+  "states_excluded_count": 6
+}

@@ -1,0 +1,483 @@
+{
+  "profession": "soil_classifier",
+  "fields": [
+    {
+      "name": "tiered_registration_levels",
+      "category": "extra credentials and tiered scope",
+      "type": "list[str]",
+      "enum_values": [
+        "professional soil classifier",
+        "soil classifier-in-training",
+        "associate soil scientist",
+        "registered professional soil scientist"
+      ],
+      "description": "The named credential tiers available under the state's registration scheme, from entry-level trainee to full professional.",
+      "sample_quote": "\"Soil classifier-in-training\" means a person who complies with the requirements for education and character and who has passed an examination in the fundamental soil and related subjects as provided for in this chapter.",
+      "sample_state": "SC",
+      "states_supporting": [
+        "AR",
+        "ND",
+        "SC",
+        "NC",
+        "IN",
+        "ME"
+      ]
+    },
+    {
+      "name": "trainee_certification_validity_years",
+      "category": "extra credentials and tiered scope",
+      "type": "int",
+      "enum_values": null,
+      "description": "Number of years for which a soil classifier-in-training or associate-level certification is valid before it expires or must be converted to full licensure.",
+      "sample_quote": "Unless otherwise qualified, a person must be admitted to certification as a soil classifier-in-training, which certification is valid for four years.",
+      "sample_state": "ND",
+      "states_supporting": [
+        "AR",
+        "ND",
+        "SC"
+      ]
+    },
+    {
+      "name": "trainee_exam_type",
+      "category": "extra credentials and tiered scope",
+      "type": "enum",
+      "enum_values": [
+        "fundamentals of soil classification",
+        "fundamentals of soil science",
+        "principles and practice"
+      ],
+      "description": "The type of examination required for the entry-level trainee credential, distinct from the full professional practice examination.",
+      "sample_quote": "A graduate of a soils curriculum approved by the board and has passed an examination in the fundamentals of soil classification.",
+      "sample_state": "AR",
+      "states_supporting": [
+        "AR",
+        "ND",
+        "SC",
+        "ME"
+      ]
+    },
+    {
+      "name": "field_skills_exam_required",
+      "category": "extra credentials and tiered scope",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state explicitly requires a separate field-based examination (e.g., soil morphology and landscape analysis) in addition to a written examination.",
+      "sample_quote": "The board shall require an applicant for registration as a professional soil scientist to pass \u2026 an examination that evaluates field skills in soil morphology and landscape analysis.",
+      "sample_state": "IN",
+      "states_supporting": [
+        "IN",
+        "ME"
+      ]
+    },
+    {
+      "name": "approved_soils_curriculum_required",
+      "category": "education and coursework details",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the applicant's degree curriculum must be formally approved by the licensing board (as opposed to any accredited degree being acceptable).",
+      "sample_quote": "Is a graduate of a soils curriculum approved by the commission as satisfactory and with a specific record of an additional one (1) year or more of experience.",
+      "sample_state": "AR",
+      "states_supporting": [
+        "AR",
+        "ND",
+        "SC",
+        "AL",
+        "VA"
+      ]
+    },
+    {
+      "name": "minimum_soil_science_credit_hours",
+      "category": "education and coursework details",
+      "type": "int",
+      "enum_values": null,
+      "description": "Minimum number of semester credit hours specifically in soil science courses required for licensure eligibility.",
+      "sample_quote": "Completed a minimum of 15 credit hours of soil or soil-related courses.",
+      "sample_state": "ME",
+      "states_supporting": [
+        "ME",
+        "IN",
+        "NC",
+        "SC"
+      ]
+    },
+    {
+      "name": "supporting_science_credit_hours",
+      "category": "education and coursework details",
+      "type": "int",
+      "enum_values": null,
+      "description": "Minimum number of semester credit hours in supporting sciences (biology, chemistry, geology, etc.) required alongside the soil science core.",
+      "sample_quote": "At least forty-five (45) semester hours of course work in supporting sciences, including biology, chemistry, crop science, engineering, geology, mathematics, physics, and statistics.",
+      "sample_state": "IN",
+      "states_supporting": [
+        "IN",
+        "NC"
+      ]
+    },
+    {
+      "name": "teaching_or_research_counts_as_experience",
+      "category": "education and coursework details",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether teaching soil science at a college/university or conducting soil science research may be credited toward the professional work experience requirement.",
+      "sample_quote": "Teaching soil classification courses in a college or university offering an approved four-year soil science or agronomic curriculum should be considered as experience in soil investigations.",
+      "sample_state": "AL",
+      "states_supporting": [
+        "AL",
+        "VA",
+        "NC",
+        "ND",
+        "SC",
+        "ME"
+      ]
+    },
+    {
+      "name": "advanced_degree_experience_credit",
+      "category": "education and coursework details",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether holding a master's or doctoral degree in soil science may substitute for a portion of the required post-degree professional work experience.",
+      "sample_quote": "The Board, in its discretion, may allow an applicant to substitute a masters degree in soil science for one year of professional work experience and to substitute a doctoral degree in soil science for two years of professional work experience.",
+      "sample_state": "NC",
+      "states_supporting": [
+        "NC",
+        "IN",
+        "VA",
+        "WI",
+        "ME"
+      ]
+    },
+    {
+      "name": "supervised_experience_required",
+      "category": "supervision and delegation",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether a specified portion of the required work experience must be performed under the direct supervision of a licensed or registered soil scientist.",
+      "sample_quote": "Have at least three years of professional work experience as a soil scientist under the supervision of a licensed soil scientist, or a soil scientist who is eligible for licensure.",
+      "sample_state": "NC",
+      "states_supporting": [
+        "NC",
+        "SC",
+        "WI",
+        "ME"
+      ]
+    },
+    {
+      "name": "subordinate_definition_included",
+      "category": "supervision and delegation",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly defines 'subordinate' as a person who assists a licensed soil scientist without assuming responsible charge of work.",
+      "sample_quote": "\"Subordinate\" means any person who assists a licensed geologist or soil scientist without assuming the responsible charge of work.",
+      "sample_state": "ME",
+      "states_supporting": [
+        "AL",
+        "ME",
+        "NC",
+        "SC",
+        "ND"
+      ]
+    },
+    {
+      "name": "responsible_charge_definition_included",
+      "category": "supervision and delegation",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly defines 'responsible charge' or 'responsible charge of work' as independent control and direction of soil classification work.",
+      "sample_quote": "\"Responsible charge of work\" means the independent control and direction by the use of initiative, skill, and independent judgment of work or the supervision of such work.",
+      "sample_state": "AL",
+      "states_supporting": [
+        "AL",
+        "ME",
+        "NC",
+        "SC",
+        "ND",
+        "VA"
+      ]
+    },
+    {
+      "name": "firm_corporation_practice_allowed",
+      "category": "practice setting and business structure",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly permits soil classifiers to practice through a sole proprietorship, partnership, corporation, or LLC, subject to having at least one licensed member in responsible charge.",
+      "sample_quote": "This chapter does not prohibit one or more professional soil classifiers from practicing through the medium of a sole proprietorship, partnership, or corporation. In such partnership or corporation whose primary activity consists of classification services, at least one partner or officer shall be a registered professional soil classifier.",
+      "sample_state": "AL",
+      "states_supporting": [
+        "AL",
+        "ME",
+        "NC",
+        "WI",
+        "VA"
+      ]
+    },
+    {
+      "name": "firm_certificate_of_authorization_required",
+      "category": "practice setting and business structure",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether firms, partnerships, or corporations offering soil science services must obtain a separate certificate of authorization from the board.",
+      "sample_quote": "A firm, partnership or corporation desiring a certificate of authorization shall submit an application to the department on forms provided by the department.",
+      "sample_state": "WI",
+      "states_supporting": [
+        "WI"
+      ]
+    },
+    {
+      "name": "nonresident_temporary_permit_available",
+      "category": "practice setting and business structure",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether out-of-state practitioners may obtain a temporary permit to work in the state for a limited period or specific project without full registration.",
+      "sample_quote": "May be granted a temporary permit for a definite period of time not to exceed one (1) year to do a specific job provided, however, no right to practice soil classifying shall accrue to such applicant with respect to any other work not set forth in said permit.",
+      "sample_state": "ND",
+      "states_supporting": [
+        "AR",
+        "ND",
+        "NC"
+      ]
+    },
+    {
+      "name": "nonresident_practice_exempt_days",
+      "category": "practice setting and business structure",
+      "type": "int",
+      "enum_values": null,
+      "description": "Number of days per calendar year a non-resident licensed practitioner may practice in the state without obtaining local registration.",
+      "sample_quote": "A person not a resident of and having no established place of business in this State, practicing or offering to practice herein the profession of soil classifier when such practice does not exceed a total of 30 days in any calendar year.",
+      "sample_state": "AL",
+      "states_supporting": [
+        "AL",
+        "ME",
+        "NC",
+        "AR",
+        "ND"
+      ]
+    },
+    {
+      "name": "private_employer_exemption",
+      "category": "practice setting and business structure",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether persons employed solely to perform soil classifying services for their private employer (not the public) are exempt from licensure requirements.",
+      "sample_quote": "The practice of soil classifying by any person regularly employed to perform soil classifying services solely for his or her employer or for a subsidiary or affiliated corporation of his or her employer, providing the soil classifying performed is in connection with the property, products, or services of that person's employer.",
+      "sample_state": "ND",
+      "states_supporting": [
+        "AL",
+        "AR",
+        "ND",
+        "SC",
+        "WI"
+      ]
+    },
+    {
+      "name": "wetland_delineation_scope_included",
+      "category": "what they can do and related professions",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly includes or addresses wetland delineation as a related or overlapping scope of practice for soil scientists.",
+      "sample_quote": "\"Practice of wetland delineation\" means the delineation of wetlands by accepted principles and methods including, observation, investigation, and consultation on soil, vegetation, and hydrologic parameters.",
+      "sample_state": "VA",
+      "states_supporting": [
+        "VA",
+        "SC",
+        "IN",
+        "NC"
+      ]
+    },
+    {
+      "name": "national_cooperative_soil_survey_standard_referenced",
+      "category": "what they can do and related professions",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly references the National Cooperative Soil Survey as the standard for soil identification and mapping.",
+      "sample_quote": "\"Practice of soil science\" includes identification and mapping of soils according to the standards of the National Cooperative Soil Survey, consultation or evaluation.",
+      "sample_state": "ME",
+      "states_supporting": [
+        "AL",
+        "ME",
+        "NC"
+      ]
+    },
+    {
+      "name": "hydric_soil_and_redoximorphic_features_in_scope",
+      "category": "what they can do and related professions",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly lists identification of hydric soils and redoximorphic features as part of the authorized scope of practice.",
+      "sample_quote": "\"Practice of soil science\" includes \u2026 identification of hydric soil and redoximorphic features.",
+      "sample_state": "NC",
+      "states_supporting": [
+        "NC"
+      ]
+    },
+    {
+      "name": "soil_fertility_sampling_excluded_from_scope",
+      "category": "what they can do and related professions",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly excludes routine soil sampling for plant nutrient or fertility testing from the regulated practice of soil classifying.",
+      "sample_quote": "Soil sampling solely for the purpose of determining plant nutrient and lime application rates for gardening and agricultural purposes by persons who are not licensed soil scientists.",
+      "sample_state": "NC",
+      "states_supporting": [
+        "AR",
+        "ND",
+        "SC",
+        "NC"
+      ]
+    },
+    {
+      "name": "engineering_geology_excluded_from_scope",
+      "category": "what they can do and related professions",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute explicitly carves out geotechnical or soils engineering evaluations for structural or construction purposes from the soil classifier's scope.",
+      "sample_quote": "This chapter shall not be construed to affect or prevent individuals who are duly licensed by the State of Alabama Board of Registration of Professional Engineers and Land Surveyors and who are engaging in the practice of geotechnical engineering or soils engineering from conducting an engineering evaluation.",
+      "sample_state": "AL",
+      "states_supporting": [
+        "AL",
+        "AR",
+        "ND",
+        "SC",
+        "NC",
+        "WI"
+      ]
+    },
+    {
+      "name": "seal_or_stamp_required_on_documents",
+      "category": "professional documents and signing authority",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute requires licensed soil scientists to affix a personal seal or stamp to soil science maps, reports, or other documents they prepare or approve.",
+      "sample_quote": "All soil science maps, reports or documents that are prepared by a licensed soil scientist or by a subordinate under the licensed soil scientist's direction must be signed by the licensed soil scientist.",
+      "sample_state": "ME",
+      "states_supporting": [
+        "ME",
+        "NC",
+        "IN",
+        "WI",
+        "AL"
+      ]
+    },
+    {
+      "name": "code_of_ethics_required",
+      "category": "professional conduct and discipline",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute mandates the board to adopt and promulgate a formal code of ethics binding on all registrants.",
+      "sample_quote": "The board shall cause to have prepared and shall adopt a code of ethics a copy of which must be delivered to every registrant and applicant for registration under this chapter.",
+      "sample_state": "ND",
+      "states_supporting": [
+        "AL",
+        "AR",
+        "ND",
+        "SC",
+        "NC",
+        "IN",
+        "VA",
+        "WI"
+      ]
+    },
+    {
+      "name": "minimum_exam_passing_score",
+      "category": "professional conduct and discipline",
+      "type": "int",
+      "enum_values": null,
+      "description": "Minimum percentage score required to pass the licensure examination, where explicitly stated in statute.",
+      "sample_quote": "The passing grade on any examination shall not be less than seventy percent.",
+      "sample_state": "SC",
+      "states_supporting": [
+        "SC",
+        "ND"
+      ]
+    },
+    {
+      "name": "reexamination_minimum_score_waiting_period",
+      "category": "professional conduct and discipline",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute imposes a waiting period before a candidate who scored below a threshold (e.g., below 50%) may reapply for examination.",
+      "sample_quote": "Any candidate for registration having an average grade of less than fifty percent may not apply for reexamination for a period of one year from the date of such examination.",
+      "sample_state": "SC",
+      "states_supporting": [
+        "SC",
+        "ND"
+      ]
+    },
+    {
+      "name": "advisory_council_established",
+      "category": "governance and board structure",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute creates a separate advisory council of soil scientists to assist the primary licensing authority in evaluating applicants and recommending certification.",
+      "sample_quote": "The board shall appoint an advisory council of five members, four of whom shall be qualified professional soil classifiers who shall have the qualifications required in this chapter.",
+      "sample_state": "AL",
+      "states_supporting": [
+        "AL",
+        "SC"
+      ]
+    },
+    {
+      "name": "board_includes_public_member",
+      "category": "governance and board structure",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute requires at least one non-soil-scientist public member to serve on the licensing board.",
+      "sample_quote": "One member appointed by the General Assembly upon recommendation of the Speaker of the House of Representatives, who shall be a member of the public who is not a soil scientist.",
+      "sample_state": "NC",
+      "states_supporting": [
+        "NC",
+        "ME"
+      ]
+    },
+    {
+      "name": "board_includes_ex_officio_state_soil_scientist",
+      "category": "governance and board structure",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the state's chief or official soil scientist serves as an ex officio member of the licensing board.",
+      "sample_quote": "The 6th and 7th members are the State Soil Scientist employed in State Government, ex officio.",
+      "sample_state": "ME",
+      "states_supporting": [
+        "ME",
+        "AL"
+      ]
+    },
+    {
+      "name": "combined_board_with_related_professions",
+      "category": "governance and board structure",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether soil scientists share a single licensing board or examining body with one or more related professions such as geologists or hydrologists.",
+      "sample_quote": "\"Board\" means the Board for Professional Soil Scientists, Wetland Professionals, and Geologists.",
+      "sample_state": "VA",
+      "states_supporting": [
+        "VA",
+        "ME",
+        "WI"
+      ]
+    },
+    {
+      "name": "peer_review_experience_pathway",
+      "category": "extra credentials and tiered scope",
+      "type": "bool",
+      "enum_values": null,
+      "description": "Whether the statute provides an alternative experience pathway in which a longer period of experience evaluated through a peer review system may substitute for the standard supervised-experience route.",
+      "sample_quote": "At least 7 years of professional experience in soil science work \u2026 with a satisfactory evaluation of the last 2 years of the professional experience under a peer review system approved by the section.",
+      "sample_state": "WI",
+      "states_supporting": [
+        "WI"
+      ]
+    }
+  ],
+  "states_sampled": [
+    "AL",
+    "AR",
+    "IN",
+    "ME",
+    "NC",
+    "ND",
+    "SC",
+    "VA",
+    "WI"
+  ],
+  "states_excluded_count": 0
+}
