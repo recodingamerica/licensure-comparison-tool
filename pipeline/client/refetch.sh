@@ -61,10 +61,10 @@ $PY -m pipeline.ingest.refresh_corpus --profession "$PROF" --states "$STATES"
 cat <<EOF
 
 Fetched. The fresh text is in pipeline/results/text/$PROF/.
-Now turn it into data with the normal steps (only these two cost money):
+Now turn it into data with the normal steps (only these two cost money) — every state
+with work to do for $PROF is picked up automatically, no file needed:
 
-  echo '{"$PROF": ["${STATES//,/\", \"}"]}' > refetch_queue.json
-  $PY -m pipeline.client.run clean   --queue refetch_queue.json
-  $PY -m pipeline.client.run trim    --queue refetch_queue.json
-  $PY -m pipeline.client.run extract --queue refetch_queue.json
+  $PY -m pipeline.client.run clean   --professions $PROF
+  $PY -m pipeline.client.run trim    --professions $PROF
+  $PY -m pipeline.client.run extract --professions $PROF
 EOF

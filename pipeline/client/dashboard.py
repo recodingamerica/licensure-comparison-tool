@@ -6,15 +6,18 @@ exact commands to run (including publishing to the site).
     python -m pipeline.client.dashboard      # writes results/status/dashboard.html
 
 The status data (pipeline.client.status) is embedded inline, so the page is fully offline.
-Picking occupations builds a downloadable my_queue.json (only the states that need work —
-ready-to-process plus stale-and-needing-refresh) plus copy-paste commands. Cells that need
-a fetch are shown but never enter the queue.
+No file to download: the shown commands take the occupation name(s) directly
+(`pipeline.client.run --professions X,Y`), which looks up which states need work itself,
+live, when you run it — the same "run" flag this page uses to color/count cells. Cells
+that need a fetch are shown but are never runnable via these commands.
 """
 from __future__ import annotations
 
 import json
 
 from pipeline.client.status import build, OUT, COST_TRIM, COST_EXTRACT
+from pipeline.ingest.trim_state import DEFAULT_MODEL as TRIM_MODEL
+from pipeline.extract.extract_state_batch import DEFAULT_MODEL as EXTRACT_MODEL
 from pipeline.paths import WEB_PUBLIC_DIR
 
 HTML_OUT = OUT.parent / "dashboard.html"
@@ -94,10 +97,13 @@ _PAGE = """<!doctype html>
     <summary>What does each step do?</summary>
     <table>
       <tr><td><b>clean</b> (free)</td><td>tidies the fetched statute text (de-duplicates, normalizes)</td></tr>
-      <tr><td><b>trim</b> (~$0.05/state)</td><td>an AI keeps only the sections relevant to this occupation</td></tr>
-      <tr><td><b>extract</b> (~$0.15/state)</td><td>an AI turns that law into the structured data (the deliverable)</td></tr>
+      <tr><td><b>trim</b> (~$__TRIM__/state, __TRIM_MODEL__)</td><td>an AI keeps only the sections relevant to this occupation</td></tr>
+      <tr><td><b>extract</b> (~$__EXTRACT__/state, __EXTRACT_MODEL__)</td><td>an AI turns that law into the structured data (the deliverable)</td></tr>
       <tr><td><b>publish</b> (free)</td><td>builds the web payload so the occupation shows on the site</td></tr>
     </table>
+    <p class="cmdnote" style="margin-top:8px">Trim/extract prices are for the model in use
+       today — they move if the model changes. `run.py` always prints the exact estimate
+       (and the model) before spending anything.</p>
   </details>
   <div class="totals">
     <span><b id="t-prof"></b> occupations</span>
@@ -134,14 +140,14 @@ _PAGE = """<!doctype html>
   <div class="footrow">
     <span><b id="sel-occ">0</b> occupations</span>
     <span><b id="sel-cells">0</b> states to build</span>
-    <span>cost <b class="cost" id="sel-cost">$0.00</b></span>
-    <button id="dl" disabled>Download my_queue.json</button>
-    <span class="muted" id="dlnote">select occupations to build a queue</span>
+    <span>cost <b class="cost" id="sel-cost">$0.00</b> <span class="muted" id="sel-costnote"></span></span>
   </div>
   <pre id="cmds">Pick at least one occupation to see the commands.</pre>
   <p class="cmdnote">Run from the repo root, in order. <span class="free">clean</span>/<span class="free">publish</span>
-     are free; <span class="paid">trim</span>/<span class="paid">extract</span> ask before spending.
-     A stale state is re-run through the whole chain.</p>
+     are free; <span class="paid">trim</span>/<span class="paid">extract</span> ask before spending and
+     print the exact per-cell price for the model in use at the time. Every state with work to do
+     for the named occupation(s) is picked up automatically — nothing to select by hand, no file
+     to download. A stale state is re-run through the whole chain.</p>
 </div>
 
 <script>
@@ -253,29 +259,28 @@ function applyFilter(){
   }
 }
 
-// ---- selection -> queue + commands ----
-function queueObj(){
-  const q = {};
-  for (const p of selected){
-    const runs = Object.entries(DATA.professions[p].states)
-      .filter(([,c]) => c.run).map(([s]) => s);
-    if (runs.length) q[p] = runs;
-  }
-  return q;
+// ---- selection -> commands ----
+// No queue file: run.py looks up which states have work to do for a named
+// occupation itself (same "run" flag this dashboard uses to color cells), live,
+// at the moment you run it. Selecting occupations here is just for seeing the
+// cost preview before you commit to a command — the command only ever needs
+// the occupation name(s).
+function runnableCells(p){
+  return Object.entries(DATA.professions[p].states).filter(([,c]) => c.run);
 }
 
 function recompute(){
-  const q = queueObj();
-  const nCells = Object.values(q).reduce((a,v) => a+v.length, 0);
-  let cost = 0;
-  for (const p in q) for (const s of q[p]) cost += DATA.professions[p].states[s].cost;
+  let nCells = 0, cost = 0;
+  for (const p of selected){
+    for (const [,c] of runnableCells(p)){ nCells++; cost += c.cost; }
+  }
   document.getElementById("sel-occ").textContent = selected.size;
   document.getElementById("sel-cells").textContent = nCells;
   document.getElementById("sel-cost").textContent = fmt(cost);
-  document.getElementById("dl").disabled = nCells === 0;
-  document.getElementById("dlnote").textContent = nCells
-    ? `≈ ${fmt(nCells*__TRIM__)} trim + ${fmt(nCells*__EXTRACT__)} extract`
-    : (selected.size ? "nothing to process — publish only" : "select occupations to build a queue");
+  document.getElementById("sel-costnote").textContent = nCells
+    ? `(~${fmt(nCells*__TRIM__)} trim @ __TRIM_MODEL__ + ~${fmt(nCells*__EXTRACT__)} extract @ __EXTRACT_MODEL__ — `
+      + `today's prices; changes if the model changes)`
+    : "";
   document.getElementById("cmds").textContent = selected.size ? commands(nCells) : "Pick at least one occupation to see the commands.";
 }
 
@@ -284,11 +289,11 @@ function commands(nCells){
   const lines = [];
   if (nCells > 0){
     lines.push("# 1. clean  (FREE)",
-      PY + " -m pipeline.client.run clean   --queue my_queue.json", "",
-      "# 2. trim   (~$" + __TRIM__.toFixed(2) + "/state — asks first)",
-      PY + " -m pipeline.client.run trim    --queue my_queue.json", "",
-      "# 3. extract (~$" + __EXTRACT__.toFixed(2) + "/state — asks first)",
-      PY + " -m pipeline.client.run extract --queue my_queue.json", "");
+      PY + " -m pipeline.client.run clean   --professions " + profs, "",
+      "# 2. trim   (asks first, prints the exact price)",
+      PY + " -m pipeline.client.run trim    --professions " + profs, "",
+      "# 3. extract (asks first, prints the exact price)",
+      PY + " -m pipeline.client.run extract --professions " + profs, "");
   } else {
     lines.push("# nothing to process for the selection — publish only", "");
   }
@@ -296,13 +301,6 @@ function commands(nCells){
     PY + " -m pipeline.client.run publish --professions " + profs);
   return lines.join("\\n");
 }
-
-document.getElementById("dl").addEventListener("click", () => {
-  const blob = new Blob([JSON.stringify(queueObj(), null, 2)], {type:"application/json"});
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(blob); a.download = "my_queue.json"; a.click();
-  URL.revokeObjectURL(a.href);
-});
 
 recompute();
 </script>
@@ -316,7 +314,9 @@ def main() -> None:
             .replace("__DATA__", json.dumps(data))
             .replace("__PY__", PY)
             .replace("__TRIM__", repr(COST_TRIM))
-            .replace("__EXTRACT__", repr(COST_EXTRACT)))
+            .replace("__EXTRACT__", repr(COST_EXTRACT))
+            .replace("__TRIM_MODEL__", TRIM_MODEL)
+            .replace("__EXTRACT_MODEL__", EXTRACT_MODEL))
     HTML_OUT.parent.mkdir(parents=True, exist_ok=True)
     HTML_OUT.write_text(html)
     # Mirror into the Next.js app's public dir (same pattern as the field dictionary)

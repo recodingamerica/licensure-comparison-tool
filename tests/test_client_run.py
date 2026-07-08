@@ -1,6 +1,7 @@
-"""Tests for pipeline.client.run — queue validation and the paid-step cost gate.
-The subprocess/batch orchestration itself is exercised manually; here we lock down
-the pure logic that decides what runs and whether money gets spent."""
+"""Tests for pipeline.client.run — queue building from live status and the
+paid-step cost gate. The subprocess/batch orchestration itself is exercised
+manually; here we lock down the pure logic that decides what runs and whether
+money gets spent."""
 
 import builtins
 
@@ -9,44 +10,43 @@ import pytest
 from pipeline.client import run
 
 
-# --- _load_queue --------------------------------------------------------------
+# --- _queue_for_professions (replaces the old downloaded-file queue) ----------
 
-def test_load_queue_good(tmp_path):
-    p = tmp_path / "q.json"
-    p.write_text('{"court_reporter": ["UT", "ID"]}')
-    assert run._load_queue(str(p)) == {"court_reporter": ["UT", "ID"]}
-
-
-def test_load_queue_drops_empty_state_lists(tmp_path):
-    p = tmp_path / "q.json"
-    p.write_text('{"a": ["UT"], "b": []}')
-    assert run._load_queue(str(p)) == {"a": ["UT"]}
+def _fake_status(professions):
+    """professions: {name: {state: run_bool}}"""
+    return {"professions": {
+        name: {"states": {st: {"run": r} for st, r in states.items()}}
+        for name, states in professions.items()
+    }}
 
 
-def test_load_queue_missing_file_exits(tmp_path):
+def test_queue_for_professions_includes_only_runnable_states(monkeypatch):
+    monkeypatch.setattr(run, "build_status", lambda: _fake_status(
+        {"court_reporter": {"UT": True, "ID": False, "MT": True}}))
+    assert run._queue_for_professions(["court_reporter"]) == {"court_reporter": ["UT", "MT"]}
+
+
+def test_queue_for_professions_unknown_profession_exits(monkeypatch):
+    monkeypatch.setattr(run, "build_status", lambda: _fake_status({"a": {"UT": True}}))
     with pytest.raises(SystemExit):
-        run._load_queue(str(tmp_path / "nope.json"))
+        run._queue_for_professions(["not_a_real_profession"])
 
 
-def test_load_queue_bad_json_exits(tmp_path):
-    p = tmp_path / "q.json"
-    p.write_text("{not valid json")
+def test_queue_for_professions_all_non_runnable_exits(monkeypatch):
+    monkeypatch.setattr(run, "build_status", lambda: _fake_status(
+        {"a": {"UT": False, "ID": False}}))
     with pytest.raises(SystemExit):
-        run._load_queue(str(p))
+        run._queue_for_professions(["a"])
 
 
-def test_load_queue_wrong_shape_exits(tmp_path):
-    p = tmp_path / "q.json"
-    p.write_text('{"a": "UT"}')  # value must be a list
-    with pytest.raises(SystemExit):
-        run._load_queue(str(p))
-
-
-def test_load_queue_all_empty_exits(tmp_path):
-    p = tmp_path / "q.json"
-    p.write_text('{"a": []}')
-    with pytest.raises(SystemExit):
-        run._load_queue(str(p))
+def test_queue_for_professions_skips_profession_with_nothing_runnable(monkeypatch, capsys):
+    # "a" has work, "b" doesn't — "b" is dropped with a note, not a hard failure,
+    # since "a" alone still makes the queue non-empty.
+    monkeypatch.setattr(run, "build_status", lambda: _fake_status(
+        {"a": {"UT": True}, "b": {"CA": False}}))
+    queue = run._queue_for_professions(["a", "b"])
+    assert queue == {"a": ["UT"]}
+    assert "b" in capsys.readouterr().out
 
 
 def test_cells_counts_states():
@@ -97,29 +97,38 @@ def test_report_extract_handles_unfinished_batch(capsys):
 
 # --- _confirm (the cost gate) -------------------------------------------------
 
+def test_confirm_names_the_model(monkeypatch, capsys):
+    """The printed estimate must name the model it's priced against — the cost is an
+    Anthropic rate for that model, not a fixed cost of the step."""
+    monkeypatch.setattr(builtins, "input", lambda *_: "no")
+    with pytest.raises(SystemExit):
+        run._confirm("trim", {"a": ["UT"]}, 0.05, "claude-haiku-4-5-20251001", yes=False)
+    assert "claude-haiku-4-5-20251001" in capsys.readouterr().out
+
+
 def test_confirm_yes_flag_skips_prompt(monkeypatch):
     seen = {"prompted": False}
     monkeypatch.setattr(builtins, "input",
                         lambda *_: seen.__setitem__("prompted", True) or "no")
-    run._confirm("trim", {"a": ["UT"]}, 0.05, yes=True)
+    run._confirm("trim", {"a": ["UT"]}, 0.05, "claude-haiku-4-5-20251001", yes=True)
     assert seen["prompted"] is False  # --yes must not prompt
 
 
 def test_confirm_aborts_on_no(monkeypatch):
     monkeypatch.setattr(builtins, "input", lambda *_: "no")
     with pytest.raises(SystemExit):
-        run._confirm("trim", {"a": ["UT"]}, 0.05, yes=False)
+        run._confirm("trim", {"a": ["UT"]}, 0.05, "claude-haiku-4-5-20251001", yes=False)
 
 
 def test_confirm_aborts_on_empty(monkeypatch):
     monkeypatch.setattr(builtins, "input", lambda *_: "")
     with pytest.raises(SystemExit):
-        run._confirm("trim", {"a": ["UT"]}, 0.05, yes=False)
+        run._confirm("trim", {"a": ["UT"]}, 0.05, "claude-haiku-4-5-20251001", yes=False)
 
 
 def test_confirm_proceeds_on_yes(monkeypatch):
     monkeypatch.setattr(builtins, "input", lambda *_: "  YES  ")  # case/space tolerant
-    run._confirm("trim", {"a": ["UT"]}, 0.05, yes=False)  # returns without raising
+    run._confirm("trim", {"a": ["UT"]}, 0.05, "claude-haiku-4-5-20251001", yes=False)  # no raise
 
 
 # --- publish (per-occupation, not per-cell) -----------------------------------

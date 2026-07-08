@@ -7,8 +7,8 @@ committed repo; nothing here fetches or spends money on its own.
 | File | What it is | Run |
 |---|---|---|
 | `status.py` | Data layer. Per (occupation, state): furthest stage, **freshness** (current/stale/unstamped via `pipeline.provenance`), cost-to-finish/refresh, **source URL(s)** (from corpus `chapter_urls`), **last-processed date**. Emits `results/status/status.json`. **Single source of the cost model** (`COST_TRIM=0.05`, `COST_EXTRACT=0.15`; clean/publish free). | `python -m pipeline.client.status` |
-| `dashboard.py` | Builds the offline picker `results/status/dashboard.html` (embeds `status.build()`). Tick occupations → downloadable `my_queue.json` + copy-paste commands. Freshness colors, clickable source links, "what each step does". Fetch-needed cells are shown but never enter the queue. | `python -m pipeline.client.dashboard` |
-| `run.py` | The client's commands over one queue file: `clean` (free) · `trim` (~$0.05/cell) · `extract` (~$0.15/cell) · `publish` (free, `--professions a,b,c`). Each paid step prints its estimate and waits for a typed `yes`. Orchestrates existing stage modules — no reimplementation. | `python -m pipeline.client.run {clean\|trim\|extract} --queue my_queue.json` / `... publish --professions a,b` |
+| `dashboard.py` | Builds the offline picker `results/status/dashboard.html` (embeds `status.build()`). Tick occupations → see the cost preview + copy-paste commands (no file to download — the commands take the occupation name directly). Freshness colors, clickable source links, "what each step does". Fetch-needed cells are shown but are never runnable via these commands. | `python -m pipeline.client.dashboard` |
+| `run.py` | The client's commands, by occupation name: `clean` (free) · `trim` (~$0.05/cell) · `extract` (~$0.15/cell) · `publish` (free) — all take `--professions a,b,c`. Every state with work to do for each named occupation is looked up live and included automatically (same `run` flag the dashboard uses). Each paid step prints its cell count, cost estimate, **and the model it's priced against** (moves if the model changes), then waits for a typed `yes`. Orchestrates existing stage modules — no reimplementation. | `python -m pipeline.client.run {clean\|trim\|extract\|publish} --professions a,b,c` |
 | `refetch.sh` | Re-fetch one occupation/state via the CDP-Chrome path (the only internet step). Prints how to start Chrome if it isn't up. One fetch at a time. | `bash pipeline/client/refetch.sh <occupation> <STATE,...>` |
 
 Client-facing guide (plain English, no jargon): `docs/runbooks/client_refetch.md`.
@@ -34,3 +34,10 @@ Jul 2–6); the held-out cells are honestly `unstamped` until re-run. `provenanc
   provenance's model strings are guarded by a test against each stage's `DEFAULT_MODEL`.
 - **Fetching stays walled off.** It needs the CDP Chrome, so it's a separate script + guide,
   never mixed into the everyday clean/trim/extract/publish flow. A handed-off repo is already fetched.
+- **No queue file to download or pass around.** `run.py` takes `--professions <names>` and
+  looks up which states are runnable itself, live, via `status.build()`'s `run` flag — the
+  same thing the dashboard uses to color/count cells. One source of truth for "what's
+  runnable," so a stale downloaded snapshot can't drift from what's actually on disk.
+- **Costs are never a bare number.** Every printed estimate names the model it's priced
+  against (`trim_state.DEFAULT_MODEL` / `extract_state_batch.DEFAULT_MODEL`), since the
+  price is an Anthropic rate for that specific model, not a fixed cost of the step.
