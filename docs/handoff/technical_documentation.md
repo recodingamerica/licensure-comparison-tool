@@ -1,6 +1,6 @@
 # State licensing pipeline — handoff documentation
 
-*Generated 2026-07-07 from repo commit `cb8983da` by `python -m pipeline.client.handoff_doc`.
+*Generated 2026-07-08 from repo commit `a8652f2e` by `python -m pipeline.client.handoff_doc`.
 Every number below was computed from the repository's actual contents when this was
 generated — none are hand-maintained. If this document is more than a few weeks old,
 re-run that command to get current numbers.*
@@ -17,9 +17,9 @@ and what the license lets you do. The results are published as an interactive we
 
 The most important thing to know: **the raw law text is already in this repository.**
 Collecting statute text from the web is by far the most painful part of this work (see
-section 6), and we have already done it broadly — 3,090 of the
+section 6), and we have already done it broadly — 3,202 of the
 4,700 possible occupation/state combinations (94 occupations
-× 50 states, i.e. 66% of the grid) have their law text saved here.
+× 50 states, i.e. 68% of the grid) have their law text saved here.
 Day-to-day work — turning that saved text into published data — **never touches the
 web-scraping machinery.** You will not need to scrape anything unless you want brand-new
 material or a refresh of old material.
@@ -33,11 +33,11 @@ Current state of the grid, as of generation:
 |---|---|---|
 | Published | 13 occupations | Site data built and ready to serve |
 | Extracted, not published | 49 occupations | Structured data exists for at least some states; publishing is a free command |
-| Ready to process | 2,055 occupation/state cells | Law text on disk; needs only the paid AI steps (~$0.20/cell, ~$401.70 for all of them) |
+| Ready to process | 2,167 occupation/state cells | Law text on disk; needs only the paid AI steps (~$0.20/cell, ~$424.10 for all of them) |
 | New occupation, not set up yet | 285 cells (24 occupations) | Law text on disk, but this occupation has never been processed before — see below |
-| Needs a fetch | 131 cells | Law located but text never pulled — requires the scraping setup |
+| Needs a fetch | 19 cells | Law located but text never pulled — requires the scraping setup |
 
-**A fetch is running right now** (checked live at generation time) — some of the 131 cells below are actively being pulled as this document was generated, so that count is falling.
+**A fetch is running right now** (checked live at generation time) — some of the 19 cells below are actively being pulled as this document was generated, so that count is falling.
 
 The 13 published occupations: architecture, construction_trades, dentistry, dietetics, electrician, hvac, medicine, nursing, optometry, plumbing, podiatry, professional_engineering, public_accountancy.
 
@@ -125,10 +125,10 @@ Python.
 
 ## 6. Fetching: the hard part (and why you can usually skip it)
 
-**A fetch is running right now** (checked live at generation time) — some of the 131 cells below are actively being pulled as this document was generated, so that count is falling.
+**A fetch is running right now** (checked live at generation time) — some of the 19 cells below are actively being pulled as this document was generated, so that count is falling.
 
 Statute text comes from **Justia** (law.justia.com), a free legal-code aggregator —
-2,963 of the 3,007 saved corpora were pulled from it, covering
+3,098 of the 3,142 saved corpora were pulled from it, covering
 49 of the 50 states. **Pennsylvania** is the exception: its statutes come from the
 state legislature's own site (www.legis.state.pa.us). (These counts are measured from the saved
 files' recorded URLs, not asserted.)
