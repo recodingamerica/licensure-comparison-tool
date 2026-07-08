@@ -152,9 +152,8 @@ WI:
       section_slug_pattern: '^section-448-(7[0-9]|8[0-9]|9[0-4]|988[78])(-\d+)?$'
       label: "WI Chapter 448 §§448.70..448.94 — Dietitians subchapter, plus §§448.9887-448.9888 dietitian licensure compact (2025 Act 20)"
 
-# NV: defined once below under `source: nv_official` (Justia is Cloudflare-blocked).
-# An earlier `source: justia` NV block here was silently dropped (duplicate key,
-# last-wins) and is now obsolete — removed 2026-06-30.
+# NV: defined once below. An earlier `source: justia` NV block here was silently
+# dropped (duplicate key, last-wins) and is now obsolete — removed 2026-06-30.
 
 WV:
   source: justia
@@ -238,10 +237,10 @@ OH:
       url: "https://law.justia.com/codes/ohio/title-47/chapter-4731/"
       label: "Chapter 4731 — Physicians; Limited Practitioners"
 
-# VA: defined once below under `source: va_official`. The podiatry override
-# (Ch 29, the shared "Medicine and Other Healing Arts" chapter) used to live in a
-# separate `source: justia` VA block here that was silently dropped (duplicate
-# key, last-wins) — merged into the va_official block 2026-06-30.
+# VA: defined once below. The podiatry override (Ch 29, the shared "Medicine and
+# Other Healing Arts" chapter) used to live in a separate `source: justia` VA
+# block here that was silently dropped (duplicate key, last-wins) — merged into
+# the main VA block 2026-06-30.
 
 # ---- Subtitled / divided titles (label match returns a parent; need to drill or override) ----
 
@@ -780,18 +779,18 @@ MS:
 
 # ---- Centralized-discipline states (umbrella chapter added to every profession's corpus) ----
 
-# WA: defined once below under `source: wa_official`.
+# WA: defined once below.
 # A second `WA:` block here held the Uniform Disciplinary Act umbrella for the 6
 # health professions but was silently dropped (duplicate key, last-wins) — it was
 # never applied. Moved verbatim to config/_disabled/wa_disciplinary_umbrella.yaml
 # on 2026-06-30 with a Jul-1 re-expression TODO. See reference_wa_duplicate_key_bug.
 
 NY:
-  # FLIPPED TO JUSTIA 2026-07-02: is_ny_justia_url (nysenate OpenLegislation
-  # intercept) is now GATED on source == ny_official in pull_text, so source: justia
-  # pulls NY Education Law directly from Justia. Verified parity with nysenate first
+  # FLIPPED TO JUSTIA 2026-07-02: source: justia pulls NY Education Law directly
+  # from Justia. Verified parity with the nysenate OpenLegislation API first
   # (psychology/NY: 9 Justia sections == 9 nysenate, identical §§7600-7608 + real
-  # text; medicine/NY 46 sections). Set source: ny_official to revert to nysenate.
+  # text; medicine/NY 46 sections). The nysenate-API intercept code was removed
+  # 2026-07-08 (unverified/unused) — Justia is the only path now.
   source: justia
   layout: chapter
   notes: |
@@ -1303,10 +1302,11 @@ PA:
       note: "SHARED ACT with social_work — same act (63 P.S. §§ 1901-1922) licenses LPC + LMFT (and clinical social work). Per-credential qualifications at §1907."
 
 UT:
-  # source: utah_le  — FLIPPED TO JUSTIA 2026-07-02 (everything-except-PA directive).
-  #   Justia serves Title 58 Ch 55 as Parts (part-1..part-7); the section walk
-  #   (collect_section_targets, max_depth 6) recurses parts -> section leaves.
-  #   Leaf-verified LIVE via pipeline.eval.verify_urls before flipping.
+  # FLIPPED TO JUSTIA 2026-07-02 (everything-except-PA directive). Justia serves
+  # Title 58 Ch 55 as Parts (part-1..part-7); the section walk
+  # (collect_section_targets, max_depth 6) recurses parts -> section leaves.
+  # Leaf-verified LIVE via pipeline.eval.verify_urls before flipping. (The
+  # le.utah.gov XML-parser code was removed 2026-07-08 — unverified/unused.)
   notes: >
     Utah co-regulates the building trades in ONE statute — Title 58 Ch. 55,
     the Utah Construction Trades Licensing Act — covering contractors,
@@ -1357,14 +1357,12 @@ UT:
 # handler, not whole-chapter. Left unwired so VT falls back to Justia for now.
 
 WA:
-  # app.leg.wa.gov RCW: ?cite={title.chapter}&full=true returns the whole chapter
-  # inline. Justia "chapter-19-28" → cite 19.28 (chapter_dot). RCW marker split.
-  # source: wa_official  — FLIPPED TO JUSTIA 2026-07-01 (Justia-only).
-  # chapter_url_template retired 2026-07-01 (Justia-only decision): index carries Justia urls; pulls go via CDP/Justia.
+  # FLIPPED TO JUSTIA 2026-07-01 (Justia-only decision); the app.leg.wa.gov
+  # official-source parser code was removed 2026-07-08 (unverified/unused).
   # WA centralizes disciplinary grounds in Ch 18.130 (Uniform Disciplinary Act);
   # each health profession's own chapter defers to it for grounds/complaints/
-  # sanctions. Append it as an additive umbrella node (fetched from wa_official via
-  # the template above, NOT Justia). See docs/runbooks/wa_umbrella_mechanism.md.
+  # sanctions. Appended as an additive umbrella node, fetched from Justia (the
+  # url below). See docs/runbooks/wa_umbrella_mechanism.md.
   # NOTE (2026-06-30): mechanism live; the 6 WA health professions still need a
   # re-pull + re-extract to actually ingest 18.130 — do it in the Jul-1 refresh.
   umbrella:
@@ -1397,15 +1395,12 @@ ND:
       label: "ND Ch 43-03 — Architects and Landscape Architects (shared)"
 
 VA:
-  # law.lis.virginia.gov /vacodefull/ serves a whole chapter inline. Justia
-  # "title-54-1" → title54.1 (title_dot). § 54.1-NNNN. marker split. VA licenses
-  # all building trades as one Contractors chapter (54.1 ch 11).
-  # source: va_official  — FLIPPED TO JUSTIA 2026-07-01 (Justia-only).
-  # chapter_url_template retired 2026-07-01 (Justia-only decision): index carries Justia urls; pulls go via CDP/Justia.
+  # FLIPPED TO JUSTIA 2026-07-01 (Justia-only decision); the law.lis.virginia.gov
+  # official-source parser code was removed 2026-07-08 (unverified/unused). VA
+  # licenses all building trades as one Contractors chapter (54.1 ch 11).
   professions:
     # VA has no standalone podiatry chapter — podiatry sits under Ch 29 (Medicine
-    # and Other Healing Arts), which label-match would miss. Pin it; the
-    # chapter_url_template rewrites the Justia url → law.lis.virginia.gov.
+    # and Other Healing Arts), which label-match would miss. Pin it directly.
     # (Merged here from a former duplicate VA block; see comment above.)
     podiatry:
       url: "https://law.justia.com/codes/virginia/title-54-1/chapter-29/"
@@ -1426,18 +1421,12 @@ VA:
       label: "VA Title 54.1 Ch 11 - Contractors (HVAC tradesman)"
 
 CT:
-  # cga.ct.gov serves one HTML page per chapter (sections inline as "Sec. N-n.").
-  # Uses the lowercase chapter form (chap_393b.htm, not 393B). Incomplete SSL
-  # cert chain — pull_text.fetch_bytes retries verify=False. parse_ct_chapter_html.
-  # source: ct_official  — FLIPPED TO JUSTIA 2026-07-01 (Justia-only).
-  # chapter_url_template retired 2026-07-01 (Justia-only decision): index carries Justia urls; pulls go via CDP/Justia.
+  # FLIPPED TO JUSTIA 2026-07-01 (Justia-only decision); the cga.ct.gov
+  # official-source parser code was removed 2026-07-08 (unverified/unused).
 
 NV:
-  # Justia is Cloudflare-blocked; NV serves one HTML page per NRS chapter.
-  # Justia NV paths carry only the chapter (no title), so the template uses
-  # {chapter}; pull_text.parse_nv_chapter_html splits the page into sections.
-  # source: nv_official  — FLIPPED TO JUSTIA 2026-07-02 (Justia-only).
-  # chapter_url_template retired 2026-07-01 (Justia-only decision): index carries Justia urls; pulls go via CDP/Justia.
+  # FLIPPED TO JUSTIA 2026-07-02 (Justia-only decision); the leg.state.nv.us
+  # official-source parser code was removed 2026-07-08 (unverified/unused).
   # NV trades: all building trades are one Contractors chapter (NRS 624, State
   # Contractors' Board); electrician/plumbing/hvac are specialty classifications
   # within it (shared-act pattern, scoped at trim). Added 2026-07-04.
@@ -1456,58 +1445,39 @@ NV:
       label: "NV NRS Ch 624 - Contractors (HVAC/refrigeration specialty classification)"
 
 SD:
-  # Justia is Cloudflare-blocked; SD publishes a clean JSON API. match_profession
-  # translates each Justia-matched chapter (which maps profession→chapter) into
-  # the API cite via chapter_url_template, filling {title}/{chapter} parsed from
-  # the Justia path (zero-pad stripped, letter suffix upper-cased). pull_text
-  # then walks the API (parse_sd / pull_sd_chapter). No per-profession overrides
-  # needed — the whole state rides the template.
-  # source: sd_api  — FLIPPED TO JUSTIA 2026-07-01 (Justia-only).
-  # chapter_url_template retired 2026-07-01 (Justia-only decision): index carries Justia urls; pulls go via CDP/Justia.
+  # FLIPPED TO JUSTIA 2026-07-01 (Justia-only decision); the sdlegislature.gov
+  # JSON-API official-source parser code was removed 2026-07-08 (unverified/unused).
   # #53 hand-curated: SD regulates architects in the combined Board of Technical
   # Professions chapter (Title 36 Ch 18A — engineering/architecture/surveying), so
-  # label-match on "architect" misses it. Pin it; the template rewrites to the API.
+  # label-match on "architect" misses it. Pin it directly.
   professions:
     architecture:
       url: "https://law.justia.com/codes/south-dakota/title-36/chapter-18a/"
       label: "SD Title 36 Ch 18A — Technical Professions (architecture)"
 
 ME:
-  # Per-section-via-TOC. legislature.maine.gov serves a chapter TOC
-  # (title{T}ch{N}sec0.html) linking one page per section (title{T}sec{n}.html);
-  # body in div.row.section-content. Justia "title-32/chapter-17" fills the
-  # template. pull_text.pull_me drives it. ME licenses electrician (T32 Ch17) and
-  # plumbing (T32 Ch49) — both ride the label-matched Justia chapter.
-  # source: me_official  — FLIPPED TO JUSTIA 2026-07-01 (Justia-only).
-  # chapter_url_template retired 2026-07-01 (Justia-only decision): index carries Justia urls; pulls go via CDP/Justia.
+  # FLIPPED TO JUSTIA 2026-07-01 (Justia-only decision); the legislature.maine.gov
+  # official-source parser code was removed 2026-07-08 (unverified/unused). ME
+  # licenses electrician (T32 Ch17) and plumbing (T32 Ch49).
 
 ID:
-  # Per-section-via-TOC. legislature.idaho.gov TOC T{T}CH{N}/ links sections as
-  # SECT{T}-{n}/; statute text in span.f11s. pull_text.pull_id. ID licenses
-  # electrician (T54 Ch10), plumbing (T54 Ch26), hvac (T54 Ch50).
-  # source: id_official  — FLIPPED TO JUSTIA 2026-07-01 (Justia-only).
-  # chapter_url_template retired 2026-07-01 (Justia-only decision): index carries Justia urls; pulls go via CDP/Justia.
+  # FLIPPED TO JUSTIA 2026-07-01 (Justia-only decision); the
+  # legislature.idaho.gov official-source parser code was removed 2026-07-08
+  # (unverified/unused). ID licenses electrician (T54 Ch10), plumbing (T54 Ch26),
+  # hvac (T54 Ch50).
 
 MD:
-  # No chapter_url_template — mgaleg.maryland.gov has no chapter TOC page, so the
-  # matched node keeps its Justia url and pull_text.is_md_justia_url intercepts
-  # it (Justia is never fetched). pull_md maps the Justia article slug to MD's
-  # article code (business-occupations-and-professions→gbo, business-regulation→
-  # gbr) and walks the GetNext API from {title}-101. MD licenses electrician
-  # (gbo T6), plumbing (gbo T12), hvac (gbr T9A).
-  # source: md_official  — FLIPPED TO JUSTIA 2026-07-02 (Justia-only): MD justia is
-  # deeply nested (title>subtitle>section); depth-cap fix (max_depth 6) reaches leaves.
+  # FLIPPED TO JUSTIA 2026-07-02 (Justia-only decision); the mgaleg.maryland.gov
+  # official-source parser code was removed 2026-07-08 (unverified/unused). MD
+  # licenses electrician (gbo T6), plumbing (gbo T12), hvac (gbr T9A).
 
 RI:
-  # webserver.rilegislature.gov (UTF-8). Chapter INDEX.HTM links one .htm per
-  # section; pull_ri reads the <p> run from the "§ {sec}." heading to "History of
-  # Section." Justia chapter slug carries the title (chapter-5-6 → 5-6), so the
-  # template uses {chapter} verbatim. electrician=5-6, plumbing=5-20. The
+  # FLIPPED TO JUSTIA 2026-07-01 (Justia-only decision); the
+  # webserver.rilegislature.gov official-source parser code was removed
+  # 2026-07-08 (unverified/unused). electrician=5-6, plumbing=5-20. The
   # construction_trades label-match lands on 5-65-2 (a sub-chapter that 404s); pin
   # it to 5-65 (Contractors' Registration & Licensing) — authoritative drops the
   # bad sibling.
-  # source: ri_official  — FLIPPED TO JUSTIA 2026-07-01 (Justia-only).
-  # chapter_url_template retired 2026-07-01 (Justia-only decision): index carries Justia urls; pulls go via CDP/Justia.
   professions:
     construction_trades:
       url: "https://law.justia.com/codes/rhode-island/title-5/chapter-5-65/"
@@ -1515,20 +1485,12 @@ RI:
       label: "Title 5 Chapter 5-65 - Contractors' Registration and Licensing Act"
 
 VT:
-  # legislature.vermont.gov (UTF-8). Chapter page is TOC-only; pull_vt follows the
-  # 5-digit section links to /statutes/section/{title}/{chap3}/{sec5} (div#main-
-  # content). {chapter:0>3} zero-pads to the 3-digit chapter form. contractor=
-  # Ch106, electrician=Ch15, plumbing=Ch39.
-  # source: vt_official  — FLIPPED TO JUSTIA 2026-07-01 (Justia-only).
-  # chapter_url_template retired 2026-07-01 (Justia-only decision): index carries Justia urls; pulls go via CDP/Justia.
+  # FLIPPED TO JUSTIA 2026-07-01 (Justia-only decision); the
+  # legislature.vermont.gov official-source parser code was removed 2026-07-08
+  # (unverified/unused). contractor=Ch106, electrician=Ch15, plumbing=Ch39.
 
 MT:
-  # No chapter_url_template — the MCA url components are value*10 zero-padded to 4
-  # (title 37→0370) and the positional url number != the displayed statute number,
-  # so the matched node keeps its Justia url and pull_text.is_mt_justia_url
-  # intercepts it. pull_mt walks parts_index → per-part sections_index → section
-  # pages (div.section-content). electrician=T37 Ch68, plumbing=T37 Ch69.
-  # FLIPPED TO JUSTIA 2026-07-02: is_mt_justia_url now gated on source ==
-  #   mt_official, so source: justia pulls MT from Justia. Set source: mt_official
-  #   to revert. Index already carries Justia urls.
+  # FLIPPED TO JUSTIA 2026-07-02 (Justia-only decision); the leg.mt.gov
+  # official-source parser code was removed 2026-07-08 (unverified/unused).
+  # electrician=T37 Ch68, plumbing=T37 Ch69.
   source: justia
