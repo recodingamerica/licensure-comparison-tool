@@ -12,6 +12,9 @@ export JUSTIA_CDP_URL=${JUSTIA_CDP_URL:-http://127.0.0.1:9222}
 export PULL_BATCH_TIMEOUT_SECONDS=900
 PY="pipeline/.venv/bin/python"
 WL="pipeline/results/gap_harvest/pull_worklist.json"
+MISSES="pipeline/results/gap_harvest/miss_counts.json"
+PARKED="pipeline/results/gap_harvest/parked_cells.json"
+MISS_LIMIT=3   # consecutive empty attempts before a cell is parked (not deleted)
 
 is_pulled() {  # 0 if corpus $1/$2 exists with >=1 section
   $PY - "$1" "$2" <<'PY' 2>/dev/null
@@ -20,6 +23,36 @@ f=f"pipeline/results/text/{sys.argv[1]}/{sys.argv[2]}.json"
 if not os.path.exists(f): sys.exit(1)
 d=json.load(open(f)); s=d if isinstance(d,list) else d.get("sections",[])
 sys.exit(0 if len(s)>0 else 1)
+PY
+}
+
+# A cell that's genuinely, permanently empty (bad locator guess, exemption-only
+# chapter, repealed statute) will fail every retry forever -- with no circuit
+# breaker, gap_supervise.sh's while-true loop re-grinds it every single pass and
+# can never reach 0-unpulled. After MISS_LIMIT consecutive failed attempts, park it
+# (remove from the worklist, record in parked_cells.json for human review) instead
+# of retrying forever. A transient miss (Cloudflare hiccup) still gets MISS_LIMIT
+# tries first, so self-healing per pull_text's documented behavior isn't cut short.
+record_miss() {
+  $PY - "$1" "$2" "$MISSES" "$WL" "$PARKED" "$MISS_LIMIT" <<'PY'
+import json, sys
+prof, st, misses_path, wl_path, parked_path, limit = sys.argv[1:7]
+limit = int(limit)
+misses = json.load(open(misses_path)) if __import__("os").path.exists(misses_path) else {}
+n = misses.setdefault(prof, {}).get(st, 0) + 1
+misses[prof][st] = n
+json.dump(misses, open(misses_path, "w"), indent=1)
+if n >= limit:
+    wl = json.load(open(wl_path))
+    if st in wl.get(prof, []):
+        wl[prof].remove(st)
+        if not wl[prof]:
+            del wl[prof]
+        json.dump(wl, open(wl_path, "w"), indent=1)
+    parked = json.load(open(parked_path)) if __import__("os").path.exists(parked_path) else []
+    parked.append({"profession": prof, "state": st, "misses": n})
+    json.dump(parked, open(parked_path, "w"), indent=1)
+    print(f"PARKED {prof}/{st} after {n} consecutive misses -- see gap_harvest/parked_cells.json")
 PY
 }
 
@@ -47,7 +80,11 @@ for prof in $($PY -c "import json;print(' '.join(sorted(json.load(open('$WL'))))
     timeout --kill-after=60 900 $PY -m pipeline.ingest.refresh_corpus --profession "$prof" --states "$st" 2>&1 \
       | grep -E "leaf sections|refresh complete|thread|-> 0 leaf|SOLVE" | tail -3
     kill_pull_orphans   # reap orphaned driver so a timed-out cell can't wedge the next
-    is_pulled "$prof" "$st" && changed=1
+    if is_pulled "$prof" "$st"; then
+      changed=1
+    else
+      record_miss "$prof" "$st"
+    fi
   done
   if [ "$changed" = "1" ]; then
     git add pipeline/results/text/"$prof"/ 2>/dev/null
