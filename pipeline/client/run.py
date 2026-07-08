@@ -1,14 +1,20 @@
 """Run the pipeline for a set of occupations the client picked — the smallest
 number of commands, with every paid step held separate from the free ones.
 
-The dashboard hands the client a queue file (``{profession: [states]}``). They then
-run, in order, exactly three commands against that one file:
+Pick occupations by name and run, in order, exactly three commands — no file to
+download or pass around, no per-state selection to make by hand:
 
-    python -m pipeline.client.run clean   --queue my_queue.json     # FREE
-    python -m pipeline.client.run trim    --queue my_queue.json     # ~$0.05/cell — asks first
-    python -m pipeline.client.run extract --queue my_queue.json     # ~$0.15/cell — asks first
+    python -m pipeline.client.run clean   --professions podiatry,dentistry   # FREE
+    python -m pipeline.client.run trim    --professions podiatry,dentistry   # ~$0.05/cell — asks first
+    python -m pipeline.client.run extract --professions podiatry,dentistry   # ~$0.15/cell — asks first
 
-Why three and not one: `clean` is deterministic and free, so it never needs a
+Every state for each named profession is included automatically — the tool looks up
+live status (pipeline.client.status) and includes exactly the states that actually have
+work to do (a corpus on disk that hasn't been fully processed, or a done cell that's
+gone stale). States with no corpus yet, no schema, or already up to date are silently
+skipped — nobody needs to know or care which states those are ahead of time.
+
+Why three commands and not one: `clean` is deterministic and free, so it never needs a
 confirmation. `trim` and `extract` each call an LLM and cost real money, so each is its
 own command and each prints its estimate and waits for a typed "yes" before spending.
 Bundling them would hide the cost; that's the one thing we don't want.
@@ -18,34 +24,40 @@ in a handed-off repo is already fetched. See docs/runbooks for re-fetching a sta
 
 DRY: this only orchestrates. `clean`/`trim` shell out to the existing stage modules (same
 CLI the pipeline already exposes); `extract` calls extract_state_batch.submit/poll directly.
-Prices come from pipeline.client.status so there is one cost model.
+Prices AND which states are runnable both come from pipeline.client.status — one source
+of truth, so this can't drift out of sync with what the dashboard shows.
 """
 from __future__ import annotations
 
 import argparse
-import json
 import subprocess
 import sys
-from pathlib import Path
 
 from pipeline import provenance
-from pipeline.client.status import COST_TRIM, COST_EXTRACT
+from pipeline.client.status import COST_TRIM, COST_EXTRACT, build as build_status
 
 
-def _load_queue(path: str) -> dict[str, list[str]]:
-    p = Path(path)
-    if not p.exists():
-        sys.exit(f"queue file not found: {path}")
-    try:
-        q = json.loads(p.read_text())
-    except Exception as e:
-        sys.exit(f"queue file is not valid JSON: {e}")
-    if not isinstance(q, dict) or not all(isinstance(v, list) for v in q.values()):
-        sys.exit('queue must be a JSON object of {"profession": ["ST", ...]}')
-    q = {p: s for p, s in q.items() if s}
-    if not q:
-        sys.exit("queue is empty — nothing to do")
-    return q
+def _queue_for_professions(names: list[str]) -> dict[str, list[str]]:
+    """{profession: [states]} for every state status.build() flags as runnable
+    (cell["run"] is True) — a corpus that hasn't been fully processed, or a done
+    cell that's gone stale. Same filter the dashboard uses to color/count cells,
+    computed live instead of baked into a downloaded file."""
+    data = build_status()
+    queue: dict[str, list[str]] = {}
+    for prof in names:
+        info = data["professions"].get(prof)
+        if info is None:
+            sys.exit(f"unknown profession: {prof!r} (check pipeline/config/professions.yaml)")
+        states = [st for st, cell in info["states"].items() if cell.get("run")]
+        if states:
+            queue[prof] = states
+        else:
+            print(f"note: {prof} has nothing runnable right now (nothing ready, "
+                  f"nothing stale) — skipping")
+    if not queue:
+        sys.exit("nothing to do for the given profession(s) — run the dashboard "
+                  "(python -m pipeline.client.dashboard) to see what's ready.")
+    return queue
 
 
 def _cells(queue: dict[str, list[str]]) -> int:
@@ -79,12 +91,18 @@ def _announce_skipped(skipped: list[tuple[str, str]]) -> None:
         print(f"\nskipping {len(skipped)} state(s) already up to date — no charge: {cells}")
 
 
-def _confirm(step: str, queue: dict[str, list[str]], per_cell: float, yes: bool) -> None:
-    """Gate a paid step behind an explicit typed confirmation (skip with --yes)."""
+def _confirm(step: str, queue: dict[str, list[str]], per_cell: float, model: str, yes: bool) -> None:
+    """Gate a paid step behind an explicit typed confirmation (skip with --yes).
+
+    The per-cell price is tied to `model` — it's an Anthropic API price for that
+    specific model, not a fixed cost of the step. Swap the model (a single constant
+    in the stage module, or its --model flag) and this number moves; it isn't
+    hand-maintained anywhere, so it can't silently go stale."""
     n = _cells(queue)
     est = n * per_cell
     print(f"\n{step}: {n} cell(s) across {len(queue)} occupation(s)  ·  "
-          f"estimated cost ~${est:.2f}  (${per_cell:.2f}/cell)")
+          f"estimated cost ~${est:.2f}  (${per_cell:.2f}/cell, using {model} at today's price — "
+          f"changes if the model changes)")
     if yes:
         print("  --yes given, proceeding without prompt.")
         return
@@ -113,34 +131,37 @@ def _run_per_profession(module: str, queue: dict[str, list[str]], extra: list[st
 def cmd_clean(queue: dict[str, list[str]], args) -> None:
     # Free + deterministic: no confirmation. Turns raw fetched text into clean sections.
     _run_per_profession("pipeline.ingest.clean_text", queue, [])
+    profs = ",".join(queue)
     print("\nclean done. Next (this one costs money): "
-          "python -m pipeline.client.run trim --queue <your queue>")
+          f"python -m pipeline.client.run trim --professions {profs}")
 
 
 def cmd_trim(queue: dict[str, list[str]], args) -> None:
+    from pipeline.ingest.trim_state import DEFAULT_MODEL as TRIM_MODEL
     if not args.redo:
         queue, skipped = _drop_current("trim", queue)
         _announce_skipped(skipped)
     if not queue:
         print("\nnothing to trim — every selected state is already up to date. (Use --redo to force.)")
         return
-    _confirm("trim (drops irrelevant sections, Haiku)", queue, COST_TRIM, args.yes)
+    _confirm("trim (drops irrelevant sections)", queue, COST_TRIM, TRIM_MODEL, args.yes)
     extra = ["--strict"] if args.strict else []
     _run_per_profession("pipeline.ingest.trim_state", queue, extra)
+    profs = ",".join(queue)
     print("\ntrim done. Next (this one costs money): "
-          "python -m pipeline.client.run extract --queue <your queue>")
+          f"python -m pipeline.client.run extract --professions {profs}")
 
 
 def cmd_extract(queue: dict[str, list[str]], args) -> None:
+    # Import here so `clean`/`trim` don't pay the anthropic-client import cost.
+    from pipeline.extract.extract_state_batch import submit, poll, DEFAULT_MODEL as EXTRACT_MODEL
     if not args.redo:
         queue, skipped = _drop_current("extract", queue)
         _announce_skipped(skipped)
     if not queue:
         print("\nnothing to extract — every selected state is already up to date. (Use --redo to force.)")
         return
-    _confirm("extract (structures the law, Sonnet, batched)", queue, COST_EXTRACT, args.yes)
-    # Import here so `clean`/`trim` don't pay the anthropic-client import cost.
-    from pipeline.extract.extract_state_batch import submit, poll
+    _confirm("extract (structures the law, batched)", queue, COST_EXTRACT, EXTRACT_MODEL, args.yes)
     requested = _cells(queue)
     meta = submit(queue, force=args.force)
     print(f"\nsubmitted batch {meta['batch_id']} — waiting for results "
@@ -193,13 +214,17 @@ def cmd_publish(args) -> None:
 
 
 def main() -> None:
-    ap = argparse.ArgumentParser(description="Run the pipeline for a client-selected queue.")
+    ap = argparse.ArgumentParser(description="Run the pipeline for client-picked occupations.")
     sub = ap.add_subparsers(dest="step", required=True)
-    for name, help_ in [("clean", "FREE — clean fetched text"),
-                        ("trim", "~$0.05/cell — drop irrelevant sections (asks first)"),
-                        ("extract", "~$0.15/cell — structure the law (asks first)")]:
+    for name, help_ in [
+        ("clean", "FREE — clean fetched text"),
+        ("trim", f"~${COST_TRIM:.2f}/cell at today's model+price (asks first) — drop irrelevant sections"),
+        ("extract", f"~${COST_EXTRACT:.2f}/cell at today's model+price (asks first) — structure the law"),
+    ]:
         sp = sub.add_parser(name, help=help_)
-        sp.add_argument("--queue", required=True, help="Path to my_queue.json from the dashboard")
+        sp.add_argument("--professions", required=True,
+                        help="Comma-separated occupation names (e.g. podiatry,dentistry). "
+                             "Every state with work to do for each is included automatically.")
         sp.add_argument("--yes", action="store_true", help="Skip the cost confirmation prompt")
         if name in ("trim", "extract"):
             sp.add_argument("--redo", action="store_true",
@@ -221,7 +246,10 @@ def main() -> None:
     if args.step == "publish":
         cmd_publish(args)
         return
-    queue = _load_queue(args.queue)
+    names = [p.strip() for p in args.professions.split(",") if p.strip()]
+    if not names:
+        sys.exit("no professions given — pass --professions a,b,c")
+    queue = _queue_for_professions(names)
     {"clean": cmd_clean, "trim": cmd_trim, "extract": cmd_extract}[args.step](queue, args)
 
 
