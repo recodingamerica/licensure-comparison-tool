@@ -29,6 +29,17 @@ Recall caveat: title-matching only anchors where a section title contains one of
 profession's patterns. Where the statute's wording differs entirely from the patterns
 (no anchor at all), the cell is flagged for a human rather than silently narrowed —
 "reliable detection" over forced-but-wrong automation.
+
+  DETECT MISMATCHED LABELS (free, no fetch) — `--detect-labels`:
+    `is_over_broad` above only runs the label-match discriminator when the corpus is
+    ALSO huge (>threshold sections). A small-but-wrong pick — e.g. hvac/MA located to
+    Chapter 142A "Regulation of Home Improvement Contractors" (20 sections, plausible-
+    sounding, topically wrong) — never trips that check, and locate.py never revisits a
+    cell that already has an answer, so it stays wrong indefinitely. This scans every
+    profession_index entry (not just the unpulled worklist) for the same label mismatch,
+    regardless of size. A hit is a signal to look, not proof the corpus is wrong.
+
+  python -m pipeline.discover.gap_harvest.narrow --detect-labels [--via T1,T2 | --all-via]
 """
 from __future__ import annotations
 
@@ -76,6 +87,55 @@ def is_over_broad(url: str, label: str, patterns: list[str], excludes: list[str]
     if corpus_n is not None and corpus_n > threshold and not label_matches(label, patterns, excludes):
         return "huge_corpus_label_mismatch"
     return None
+
+
+# A label mismatch that ISN'T huge slides past `is_over_broad` untouched — e.g. hvac/MA
+# mapped by the web_search locator to Chapter 142A "Regulation of Home Improvement
+# Contractors" (20 sections, plausible-sounding, topically wrong). It's never big enough
+# to trip the over-broad check, and locate.py never revisits a cell that already has an
+# answer, so a wrong-but-small pick from one run stays wrong forever unless someone
+# stumbles on it. `detect_mismatched_labels` is the same label_matches discriminator,
+# unconditionally, over EVERY profession_index entry (not just the unpulled worklist).
+# Automated (`via`) sources are the ones nobody ever reviewed line-by-line; a mismatch
+# here is a signal to look, not proof the corpus is wrong.
+AUTOMATED_VIA = {"gap_locator", "relocate", "null_recovery", "narrow",
+                 "reused_from_existing_corpus", "section_map_v2", "migration_keep"}
+
+
+def detect_mismatched_labels(via_filter: set[str] | None = AUTOMATED_VIA) -> list[dict]:
+    """Full-index scan (LLM-free): every matched node whose label doesn't label_match
+    its own profession's patterns, regardless of corpus size — UNLESS the pulled
+    corpus's own full text does match (a terse chapter label like "Chapter 8A -
+    Counselors" often doesn't repeat the profession's name even when the statute inside
+    plainly does; checking the label alone produced ~60% false positives in practice).
+    A cell with no pulled corpus yet can only be judged on the label."""
+    profs = load_professions()
+    out = []
+    for idx_path in sorted(PROFESSION_INDEX_DIR.glob("*.json")):
+        prof = idx_path.stem
+        patterns, excludes = patterns_for(prof, profs)
+        if not patterns:
+            continue
+        try:
+            idx = json.loads(idx_path.read_text())
+        except Exception:
+            continue
+        for st, rec in (idx.get("by_state") or {}).items():
+            for node in rec.get("matched") or []:
+                label, via = node.get("label", ""), node.get("via", "")
+                if via_filter and via not in via_filter:
+                    continue
+                if node.get("section_slug_pattern") or node.get("section_url_list"):
+                    continue  # already scoped to a specific range — someone looked
+                if not label or label_matches(label, patterns, excludes):
+                    continue
+                text = corpus_text(prof, st)
+                if text and content_matches(text, patterns, excludes):
+                    continue  # label misses, but the actual statute text confirms it
+                out.append({"prof": prof, "state": st, "via": via, "label": label,
+                            "url": node.get("url", ""), "corpus_sections": corpus_count(prof, st),
+                            "checked_text": text is not None})
+    return out
 
 
 _NUM = re.compile(r"(\d+)")
@@ -182,6 +242,34 @@ def corpus_count(prof: str, state: str) -> int | None:
     return len(d if isinstance(d, list) else d.get("sections", []))
 
 
+def corpus_text(prof: str, state: str) -> str | None:
+    """Full joined section text for one cell, or None if never pulled."""
+    f = TEXT_DIR / prof / f"{state}.json"
+    if not f.exists():
+        return None
+    try:
+        d = json.loads(f.read_text())
+    except Exception:
+        return None
+    secs = d if isinstance(d, list) else d.get("sections", [])
+    return " ".join((s.get("text") or "") for s in secs)
+
+
+def content_matches(text: str, patterns: list[str], excludes: list[str]) -> bool:
+    """Pattern presence anywhere in a large corpus text. Deliberately NOT
+    label_matches: its "(repealed)" universal-exclude bailout is a label-level
+    heuristic (a whole SECTION label reading "(Repealed)") that misfires on bulk
+    text — a many-thousand-word corpus spanning decades of amendments very often
+    contains a repealed subsection marker somewhere, which would otherwise
+    short-circuit an otherwise-correct match to a false negative."""
+    L = text.lower()
+    if not any(p.lower() in L for p in patterns):
+        return False
+    if excludes and any(e.lower() in L for e in excludes):
+        return False
+    return True
+
+
 def narrow_cell(prof: str, state: str, profs: dict, threshold: int = OVER_BROAD_SECTIONS) -> dict:
     """CDP: narrow one over-broad cell. Rewrites the profession_index target in place
     (via='narrow') and returns a verdict dict. Caller re-adds narrowed cells to the
@@ -253,10 +341,27 @@ def _driver_running() -> bool:
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--detect", action="store_true", help="free over-broad report (no fetch)")
+    ap.add_argument("--detect-labels", action="store_true",
+                    help="free full-index label-mismatch report, any corpus size (no fetch)")
+    ap.add_argument("--via", help="with --detect-labels: comma-separated via tags (default: automated sources)")
+    ap.add_argument("--all-via", action="store_true", help="with --detect-labels: don't filter by via")
     ap.add_argument("--apply", nargs="*", metavar="PROF/ST",
                     help="CDP-narrow these cells (driver must be stopped); empty = all --detect hits")
     ap.add_argument("--threshold", type=int, default=OVER_BROAD_SECTIONS)
     args = ap.parse_args()
+
+    if args.detect_labels:
+        via_filter = None if args.all_via else (
+            set(args.via.split(",")) if args.via else AUTOMATED_VIA)
+        hits = detect_mismatched_labels(via_filter)
+        C.save_json("label_audit.json", hits)
+        from collections import Counter
+        by_via = Counter(h["via"] for h in hits)
+        print(f"label mismatches: {len(hits)} (via filter: {via_filter or 'none'})")
+        for via, n in by_via.most_common():
+            print(f"  {via:28s} {n}")
+        print("→ gap_harvest/label_audit.json")
+        return 0
 
     if args.detect and args.apply is None:
         hits = detect(args.threshold)

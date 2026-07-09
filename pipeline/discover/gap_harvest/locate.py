@@ -94,7 +94,12 @@ def main():
                      if r.get("url") in (None, "null"))
     located = sum(1 for p in results for r in results[p].values()
                   if r.get("url") and r["url"] != "null")
+    multi = [(p, st) for p in results for st, r in results[p].items() if r.get("additional_urls")]
     print(f"totals: {located} located, {still_null} null → gap_harvest/{RESULTS}")
+    if multi:
+        print(f"⚠ {len(multi)} cells flagged possible multi-chapter (unverified, needs human review):")
+        for p, st in multi[:20]:
+            print(f"   {p}/{st}: {results[p][st]['additional_urls']}")
 
 
 if __name__ == "__main__":
