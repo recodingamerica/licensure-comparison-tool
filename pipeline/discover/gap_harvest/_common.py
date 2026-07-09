@@ -67,6 +67,18 @@ MODEL = "claude-haiku-4-5-20251001"
 
 # strict: only licensure. recover: any chapter that ADDRESSES the occupation (incl.
 # exemption/certification) — used to re-check nulls without inventing absences.
+#
+# Every mode also asks about MULTI-CHAPTER component-decomposition (added 2026-07-08
+# after hvac/MA: sheet metal Ch112 + gas fitters Ch142 + refrigeration Ch146§85, no
+# single chapter covers it). The single-URL answer stays the primary/best-guess target;
+# `additional_urls` is a separate signal for a human to review before pulling, not
+# something downstream auto-trusts — the model can name a plausible-sounding chapter
+# it hasn't actually verified as readily as it can find the primary one.
+_MULTI_CHAPTER_ASK = (
+    " Also check whether this occupation is COMPONENT-DECOMPOSED — regulated across "
+    "SEVERAL separate, non-contiguous chapters instead of one (e.g. HVAC in Massachusetts "
+    "is split across sheet metal workers, gas fitters, and refrigeration technicians, each "
+    "its own chapter). If you find evidence of this, list the other chapter URLs too.")
 _PROMPTS = {
     "strict": (
         "You locate the primary licensing statute for an occupation on Justia. Given an "
@@ -75,28 +87,31 @@ _PROMPTS = {
         "section, NOT a year-versioned page) that primarily governs that occupation's LICENSE/"
         "CERTIFICATION/REGISTRATION to practice in that state. Prefer the current year-less path "
         "like https://law.justia.com/codes/<state>/<title>/<chapter>/ . If the state genuinely "
-        "does not license this occupation at the state level, return null."),
+        "does not license this occupation at the state level, return null." + _MULTI_CHAPTER_ASK),
     "recover": (
         "You locate any statute chapter that ADDRESSES an occupation on Justia — not only "
         "licensure. Return the SINGLE Justia code URL for the CHAPTER/ARTICLE/PART (a container "
         "listing sections, current year-less path, NOT a single section) that governs, certifies, "
         "registers, OR expressly EXEMPTS this occupation in that state. Return the chapter even if "
         "the occupation is exempt or only nationally-certified there. Return null ONLY if the "
-        "state's code truly contains no chapter addressing this occupation at all."),
+        "state's code truly contains no chapter addressing this occupation at all." + _MULTI_CHAPTER_ASK),
     "chapter": (
         "You locate the CHAPTER-LEVEL container for an occupation's statute on Justia. Given an "
         "occupation and state, return the SINGLE Justia code URL for the CHAPTER or ARTICLE that "
         "lists MANY sections about it — go UP a level if the obvious hit is a single section or a "
         "narrow sub-part, so we capture the whole regime. Current year-less path. null if truly "
-        "unlicensed."),
+        "unlicensed." + _MULTI_CHAPTER_ASK),
 }
 _RESULT_LINE = (' End your reply with exactly one line: '
                 'RESULT: {"url": "<url or null>", "label": "<chapter label>", '
-                '"confidence": "high|med|low"}')
+                '"confidence": "high|med|low", "additional_urls": ["<url>", ...]}'
+                ' (additional_urls: [] if none found)')
 
 def locate(profession: str, state: str, profs: dict, mode: str = "strict") -> dict:
-    """Return {url, label, confidence} for one (profession, state), or url=None.
-    `profs` is load_professions() output. `mode` selects the prompt."""
+    """Return {url, label, confidence, additional_urls} for one (profession, state), or
+    url=None. `profs` is load_professions() output. `mode` selects the prompt.
+    `additional_urls` (possibly []) flags suspected multi-chapter component-decomposition
+    for human review — not verified, not auto-pulled."""
     import anthropic
     client = anthropic.Anthropic()
     meta = profs.get(profession, {}) or {}
@@ -118,9 +133,11 @@ def locate(profession: str, state: str, profs: dict, mode: str = "strict") -> di
             if m:
                 res = json.loads(m.group(1))
                 res["url"] = normalize_url(res.get("url"))
+                res["additional_urls"] = [normalize_url(u) for u in (res.get("additional_urls") or [])
+                                          if normalize_url(u)]
                 return res
-            return {"url": None, "label": "", "confidence": "parse_fail"}
+            return {"url": None, "label": "", "confidence": "parse_fail", "additional_urls": []}
         except Exception as e:
             if attempt == 1:
-                return {"url": None, "label": "", "confidence": f"err:{type(e).__name__}"}
-    return {"url": None, "label": "", "confidence": "err"}
+                return {"url": None, "label": "", "confidence": f"err:{type(e).__name__}", "additional_urls": []}
+    return {"url": None, "label": "", "confidence": "err", "additional_urls": []}
