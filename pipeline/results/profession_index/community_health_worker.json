@@ -43,9 +43,14 @@
       "matched": [
         {
           "url": "https://law.justia.com/codes/arkansas/title-17/subtitle-3/chapter-46/",
-          "label": "Act 435 of 2025 (\"Community Health Worker Act\"), Ark. Code Title 17 Ch.46 (SS17-46-101 to 17-46-304) - defines scope, certification, Medicaid reimbursement. Real gap caught 2026-07-08 (tier3_absence Step 2 grind). Bare title-17 (173 chapters, \"Professions, Occupations, and Businesses\") wandered into an unrelated collection-agencies chapter -- scoped to the actual Ch.46. Subtitle number (3) is a guess (this is a brand-new 2025 act; Justia may not have indexed it into the subtitle tree yet) -- verify on pull, may need a section_url_list retry if this 404s.",
+          "label": "Act 435 of 2025 (\"Community Health Worker Act\"), Ark. Code Title 17 Ch.46 (SS17-46-101 to 17-46-304) - defines scope, certification, Medicaid reimbursement. Real gap caught 2026-07-08 (tier3_absence Step 2 grind).",
           "slug": "",
-          "via": "tier3_step2_2026-07-09"
+          "via": "tier3_step2_2026-07-09",
+          "source_unavailable": {
+            "reason": "Regulated (Act 435 of 2025 is real, cite confirmed via arkleg.state.ar.us), but Justia's Arkansas code only goes through the 2024 edition and has not ingested the 2025 session laws yet -- Ch.46 returns a soft-404. Re-pull once Justia refreshes its AR code.",
+            "citation": "Ark. Code Title 17, Ch.46 (SS17-46-101 to 17-46-304)",
+            "official_url": "https://arkleg.state.ar.us/Home/FTPDocument?path=/ACTS/2025R/Public/ACT435.pdf"
+          }
         }
       ]
     },
@@ -88,14 +93,7 @@
       "matched": []
     },
     "HI": {
-      "matched": [
-        {
-          "url": "https://law.justia.com/codes/hawaii/title-19/chapter-321/",
-          "label": "2022 Act (SB2882) - DCCA CHW certification program. Real gap caught 2026-07-08 (tier3_absence Step 2 grind); exact HRS section needs confirmation on pull.",
-          "slug": "",
-          "via": "tier3_step2_2026-07-08"
-        }
-      ]
+      "matched": []
     },
     "ID": {
       "matched": []
@@ -106,7 +104,12 @@
           "url": "https://law.justia.com/codes/illinois/chapter-410/act-410-ilcs-67/",
           "label": "410 ILCS 67/ (Public Act 102-0004, 2021) \"CHW Certification and Reimbursement Act\". Real gap caught 2026-07-08 (tier3_absence Step 2 grind).",
           "slug": "",
-          "via": "tier3_step2_2026-07-08"
+          "via": "tier3_step2_2026-07-08",
+          "source_unavailable": {
+            "reason": "Regulated (410 ILCS 67, Public Act 102-0004 of 2021, is real and live on ilga.gov), but it is missing from Justia's Illinois Chapter 410 index across all years checked (2021-2025) -- Justia lists the neighboring acts (410 ILCS 66, 70, 210, ...) but not 67. Not a too-new gap; Justia just does not have this one. Re-pull if Justia ever indexes it.",
+            "citation": "410 ILCS 67/ (Public Act 102-0004, 2021)",
+            "official_url": "https://www.ilga.gov/legislation/ilcs/ilcs3.asp?ActID=4077"
+          }
         }
       ]
     },
@@ -178,7 +181,7 @@
     "MS": {
       "matched": [
         {
-          "url": "https://law.justia.com/codes/mississippi/title-43/chapter-13/section-43-13-117/",
+          "url": "https://law.justia.com/codes/mississippi/title-43/chapter-13/article-3/section-43-13-117/",
           "label": "HB 1401 (2025) SS1-4 (title-protection clause, bars using \"CHW\" title without MSDH certification after 1/1/2026) is UNCODIFIED session law with no Miss. Code section assigned yet (pending the Joint Legislative Committee on Compilation) -- Justia has no citable text for it. S43-13-117 (Title 43, not 41 -- corrected a title/chapter mismatch in the original mapping) is the one already-codified, real provision from the same act: the Medicaid-reimbursement condition referencing CHW certification. Real gap caught 2026-07-08/09 (tier3_absence Step 2 grind + follow-up) -- pull this as the best available grounding until the title-protection clause gets a permanent citation.",
           "slug": "",
           "via": "tier3_step2_2026-07-08"

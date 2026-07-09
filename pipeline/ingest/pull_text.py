@@ -95,6 +95,16 @@ class StateCorpus:
     total_chars: int = 0
     errors: list[str] = field(default_factory=list)
     section_cap_hit: int | None = None  # set to the cap value when --limit-sections fires
+    # Set when the (profession, state) is REGULATED with a KNOWN citation but the
+    # text isn't pullable from Justia (our only scraper) — e.g. a brand-new
+    # session law Justia hasn't ingested, or a real act missing from Justia's
+    # index. This is a THIRD state distinct from "empty pull" (a bug) and
+    # "verified absence" (not regulated): the law exists, we have the cite, the
+    # text just lives on the state's own legislature site. Carries {reason,
+    # citation, official_url} so downstream tooling can show it correctly instead
+    # of treating an empty corpus as a gap. Sourced from a mapping_overrides add
+    # node's `source_unavailable:` key; no fetch is attempted.
+    source_unavailable: dict | None = None
 
 
 # --- Cloudflare handling (Justia, which CF-blocks our IPs) ---
@@ -1071,6 +1081,8 @@ def main() -> None:
                 row["section_url_list"] = node["section_url_list"]
             if node.get("pa_keep_sections"):
                 row["pa_keep_sections"] = node["pa_keep_sections"]
+            if node.get("source_unavailable"):
+                row["source_unavailable"] = node["source_unavailable"]
             by_state.setdefault(state, []).append(row)
 
     log.info("profession=%s matched %d states from %s", profession, len(by_state), index_path.name)
@@ -1079,8 +1091,27 @@ def main() -> None:
     capped_states: list[str] = []
     skipped = 0
     for state in sorted(by_state):
+        rows = by_state[state]
+        # Regulated-but-not-on-Justia: every mapped node is flagged
+        # source_unavailable → don't attempt a doomed fetch. Write a corpus that
+        # records the citation + reason + official URL so it reads as
+        # "source unavailable," not an empty/broken pull. (If only SOME nodes
+        # carry the flag, fall through and pull the rest normally.)
+        su_nodes = [r["source_unavailable"] for r in rows if r.get("source_unavailable")]
+        if su_nodes and len(su_nodes) == len(rows):
+            su = su_nodes[0]
+            log.info("  [%s] source_unavailable (not on Justia) — recording, no fetch: %s",
+                     state, su.get("reason", ""))
+            corpus = StateCorpus(
+                state=state, profession=profession,
+                chapter_urls=[r["chapter_url"] for r in rows],
+                source_unavailable=su,
+            )
+            out_path = out_dir / f"{state}.json"
+            out_path.write_text(json.dumps(asdict(corpus), indent=2))
+            continue
         try:
-            corpus = pull_state(state, profession, by_state[state], section_cap)
+            corpus = pull_state(state, profession, rows, section_cap)
             if section_cap and len(corpus.sections) >= section_cap:
                 # Hit the runaway guard — almost always a whole-title over-match, not a
                 # real chapter. Flag loudly so it's reviewed, not believed as coverage.
