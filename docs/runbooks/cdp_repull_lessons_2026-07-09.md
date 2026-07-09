@@ -132,3 +132,34 @@ need to sanity-check a URL, do it by adding a throwaway state to a real pull
 invocation rather than a standalone `python -c "..."` test against a Chrome
 that a real run is about to use (or just relaunch Chrome again right before
 the real run, since a relaunch resets the allowance).
+
+## When a bare title/chapter URL guess pulls MORE than the cited range — when
+## to hand-narrow vs. just let trim_state filter it
+
+Hit repeatedly today (AZ health_facility_admin/community_health_worker, CT/MN
+health_facility_admin, NJ/OK health_facility_admin, apiarist/NE, medical_
+interpreter/OR, commercial_interior_design/MO, perfusionist/WI — 9+ times):
+a citation names a narrow section range (e.g. "SS448.03-448.05") but the only
+Justia container URL available is a whole chapter, and that chapter turns out
+to cover much more ground (WI ch.448 is the ENTIRE Medical Practice Act, 124
+sections; OR ch.413 is the whole Health Authority chapter, 101 sections).
+
+**The rule that emerged, made explicit now**: `trim_state` exists precisely to
+drop irrelevant sections from an over-inclusive pull — pulling a broader-than-
+cited chapter is not automatically a bug. Hand-narrowing to an explicit
+`section_url_list` is worth the extra research time only when:
+- The pipeline's own over-broad guard actually trips (300-500+ leaves) and
+  skips/caps the pull — that's a forced fix, not optional (AZ, NJ today).
+- You have positive evidence of the WRONG TOPIC, not just more volume (e.g.
+  CT's ch.368v was the whole "Health Care Institutions" subject covering
+  hospital sales/clinical labs/birth centers, not just NHA licensure — a
+  reader skimming 5 section titles would clearly see it's off-topic).
+- The extra volume is large enough to meaningfully slow the pull itself (WI's
+  124 sections took ~9 minutes; that's a judgment call, not a hard line).
+
+Otherwise, just let the broader pull land and trust `trim_state` at the next
+pipeline stage — that's its job, and today's OR/WI/MO pulls (101/124/~50
+sections against ~10/3/6-section citations) are perfectly fine left as-is.
+Don't spend research time pre-verifying every section count before pulling;
+verify AFTER pulling only when something looks structurally wrong (wrong
+subject matter on spot-check, or the guard fires).
