@@ -1608,14 +1608,16 @@ community_health_worker:
       label: 'Act 435 of 2025 ("Community Health Worker Act"), Ark. Code Title
         17 Ch.46 (SS17-46-101 to 17-46-304) - defines scope, certification,
         Medicaid reimbursement. Real gap caught 2026-07-08 (tier3_absence Step
-        2 grind). Bare title-17 (173 chapters, "Professions, Occupations, and
-        Businesses") wandered into an unrelated collection-agencies chapter --
-        scoped to the actual Ch.46. Subtitle number (3) is a guess (this is a
-        brand-new 2025 act; Justia may not have indexed it into the subtitle
-        tree yet) -- verify on pull, may need a section_url_list retry if this
-        404s.'
+        2 grind).'
       slug: ''
       via: tier3_step2_2026-07-09
+      source_unavailable:
+        reason: 'Regulated (Act 435 of 2025 is real, cite confirmed via
+          arkleg.state.ar.us), but Justia''s Arkansas code only goes through the
+          2024 edition and has not ingested the 2025 session laws yet -- Ch.46
+          returns a soft-404. Re-pull once Justia refreshes its AR code.'
+        citation: 'Ark. Code Title 17, Ch.46 (SS17-46-101 to 17-46-304)'
+        official_url: 'https://arkleg.state.ar.us/Home/FTPDocument?path=/ACTS/2025R/Public/ACT435.pdf'
   CA:
     add:
     - url: https://law.justia.com/codes/california/code-wic/division-9/part-6/chapter-16-5/section-18998/
@@ -1633,14 +1635,12 @@ community_health_worker:
       - https://law.justia.com/codes/california/code-wic/division-9/part-6/chapter-16-5/section-18998.2/
       - https://law.justia.com/codes/california/code-wic/division-9/part-6/chapter-16-5/section-18998.3/
       - https://law.justia.com/codes/california/code-wic/division-9/part-6/chapter-16-5/section-18998.4/
-  HI:
-    add:
-    - url: https://law.justia.com/codes/hawaii/title-19/chapter-321/
-      label: '2022 Act (SB2882) - DCCA CHW certification program. Real gap caught
-        2026-07-08 (tier3_absence Step 2 grind); exact HRS section needs
-        confirmation on pull.'
-      slug: ''
-      via: tier3_step2_2026-07-08
+  # HI removed 2026-07-09: the original "2022 SB2882 CHW certification program"
+  # mapping was spurious. Follow-up research (via CDP) confirmed SB2882 was
+  # DEFERRED and never became law (state auditor Sunrise Analysis 22-08
+  # recommended against licensing; Grassroot Institute/chwregistry.com/Kapiolani
+  # CC all confirm HI has no state CHW certification). Moved to
+  # verified_absences.yaml (not_regulated) -- it was never a real gap.
   IL:
     add:
     - url: https://law.justia.com/codes/illinois/chapter-410/act-410-ilcs-67/
@@ -1649,9 +1649,18 @@ community_health_worker:
         grind).'
       slug: ''
       via: tier3_step2_2026-07-08
+      source_unavailable:
+        reason: 'Regulated (410 ILCS 67, Public Act 102-0004 of 2021, is real
+          and live on ilga.gov), but it is missing from Justia''s Illinois
+          Chapter 410 index across all years checked (2021-2025) -- Justia lists
+          the neighboring acts (410 ILCS 66, 70, 210, ...) but not 67. Not a
+          too-new gap; Justia just does not have this one. Re-pull if Justia
+          ever indexes it.'
+        citation: '410 ILCS 67/ (Public Act 102-0004, 2021)'
+        official_url: 'https://www.ilga.gov/legislation/ilcs/ilcs3.asp?ActID=4077'
   MS:
     add:
-    - url: https://law.justia.com/codes/mississippi/title-43/chapter-13/section-43-13-117/
+    - url: https://law.justia.com/codes/mississippi/title-43/chapter-13/article-3/section-43-13-117/
       label: 'HB 1401 (2025) SS1-4 (title-protection clause, bars using "CHW"
         title without MSDH certification after 1/1/2026) is UNCODIFIED session
         law with no Miss. Code section assigned yet (pending the Joint
@@ -3796,12 +3805,27 @@ health_facility_admin:
       via: tier3_step2_2026-07-08
   VT:
     add:
-    - url: https://law.justia.com/codes/vermont/title-18/chapter-046/
+    - url: https://law.justia.com/codes/vermont/title-18/chapter-46/
       label: '18 V.S.A. Ch.46 SS2051-2062 - Nursing Home Administrators (licensed
         via VT Office of Professional Regulation). Real gap caught 2026-07-08
-        (tier3_absence Step 2 grind).'
+        (tier3_absence Step 2 grind). Zero-padded slug (chapter-046) soft-404''d;
+        Justia uses unpadded chapter-46 -- corrected 2026-07-09. Container
+        returns 0 discoverable leaves; scoped via explicit section_url_list.'
       slug: ''
       via: tier3_step2_2026-07-08
+      section_url_list:
+      - https://law.justia.com/codes/vermont/title-18/chapter-46/section-2051/
+      - https://law.justia.com/codes/vermont/title-18/chapter-46/section-2052/
+      - https://law.justia.com/codes/vermont/title-18/chapter-46/section-2053/
+      - https://law.justia.com/codes/vermont/title-18/chapter-46/section-2054/
+      - https://law.justia.com/codes/vermont/title-18/chapter-46/section-2055/
+      - https://law.justia.com/codes/vermont/title-18/chapter-46/section-2056/
+      - https://law.justia.com/codes/vermont/title-18/chapter-46/section-2057/
+      - https://law.justia.com/codes/vermont/title-18/chapter-46/section-2058/
+      - https://law.justia.com/codes/vermont/title-18/chapter-46/section-2059/
+      - https://law.justia.com/codes/vermont/title-18/chapter-46/section-2060/
+      - https://law.justia.com/codes/vermont/title-18/chapter-46/section-2061/
+      - https://law.justia.com/codes/vermont/title-18/chapter-46/section-2062/
 hearing_instrument_specialist:
   LA:
     add:
