@@ -1618,12 +1618,21 @@ community_health_worker:
       via: tier3_step2_2026-07-09
   CA:
     add:
-    - url: https://law.justia.com/codes/california/wic/division-9/part-6.6/chapter-1/
+    - url: https://law.justia.com/codes/california/code-wic/division-9/part-6/chapter-16-5/section-18998/
       label: 'Cal. Welf. & Inst. Code SS18998-18998.4, S14132.36 - HCAI CHW
         certificate-program standard + Medi-Cal benefit. Real gap caught
-        2026-07-08 (tier3_absence Step 2 grind).'
+        2026-07-08 (tier3_absence Step 2 grind). Both the original container
+        (division-9/part-6.6/chapter-1) and flat wic/section-NNNNN guesses
+        404''d -- CA WIC actually nests as code-wic/division-9/part-6/
+        chapter-16-5/section-NNNNN, corrected 2026-07-09.'
       slug: ''
       via: tier3_step2_2026-07-08
+      section_url_list:
+      - https://law.justia.com/codes/california/code-wic/division-9/part-6/chapter-16-5/section-18998/
+      - https://law.justia.com/codes/california/code-wic/division-9/part-6/chapter-16-5/section-18998.1/
+      - https://law.justia.com/codes/california/code-wic/division-9/part-6/chapter-16-5/section-18998.2/
+      - https://law.justia.com/codes/california/code-wic/division-9/part-6/chapter-16-5/section-18998.3/
+      - https://law.justia.com/codes/california/code-wic/division-9/part-6/chapter-16-5/section-18998.4/
   HI:
     add:
     - url: https://law.justia.com/codes/hawaii/title-19/chapter-321/
@@ -1672,10 +1681,11 @@ community_health_worker:
       via: tier3_step2_2026-07-08
   TX:
     add:
-    - url: https://law.justia.com/codes/texas/health-and-safety-code/title-3/subtitle-b/chapter-48/
+    - url: https://law.justia.com/codes/texas/health-and-safety-code/title-2/subtitle-b/chapter-48/
       label: 'Tex. Health & Safety Code Ch.48 - mandatory certification for
         compensated CHWs. Real gap caught 2026-07-08 (tier3_absence Step 2
-        grind).'
+        grind). Wrong title number (3, not 2) caused a Justia soft-404 --
+        corrected 2026-07-09.'
       slug: ''
       via: tier3_step2_2026-07-08
   UT:
@@ -3995,10 +4005,11 @@ insurance_navigator:
       via: tier3_step2_2026-07-08
   MN:
     add:
-    - url: https://law.justia.com/codes/minnesota/chapters-60a-79a/chapter-62v/section-62v-05/
+    - url: https://law.justia.com/codes/minnesota/chapters-59a-79a/chapter-62v/section-62v-05/
       label: 'Minn. Stat. S62V.05 subd.4/4a - MNsure statutory navigator
         certification + mandatory background study. Real gap caught 2026-07-08
-        (tier3_absence Step 2 grind).'
+        (tier3_absence Step 2 grind). Wrong chapter-range slug (60a-79a, not
+        59a-79a) caused a Justia soft-404 -- corrected 2026-07-09.'
       slug: ''
       via: tier3_step2_2026-07-08
 insurance_producer:
@@ -11376,9 +11387,35 @@ soil_classifier:
   NH:
     add:
     - url: https://law.justia.com/codes/new-hampshire/title-xxx/chapter-310-a/
-      label: 'N.H. RSA 310-A:75-96 - Certified Soil Scientists (Board of Natural Scientists). Real gap caught 2026-07-08 (tier3_absence Step 2 grind).'
+      label: 'N.H. RSA 310-A:75-96 - Certified Soil Scientists (Board of Natural
+        Scientists). Real gap caught 2026-07-08 (tier3_absence Step 2 grind).
+        Ch.310-A is shared by many licensed science professions (300+ sections)
+        -- killed a 22-min unbounded walk, scoped via section_url_list.'
       slug: ''
-      via: tier3_step2_2026-07-08
+      via: tier3_step2_2026-07-09
+      section_url_list:
+      - https://law.justia.com/codes/new-hampshire/title-xxx/chapter-310-a/section-310-a-75/
+      - https://law.justia.com/codes/new-hampshire/title-xxx/chapter-310-a/section-310-a-76/
+      - https://law.justia.com/codes/new-hampshire/title-xxx/chapter-310-a/section-310-a-77/
+      - https://law.justia.com/codes/new-hampshire/title-xxx/chapter-310-a/section-310-a-78/
+      - https://law.justia.com/codes/new-hampshire/title-xxx/chapter-310-a/section-310-a-79/
+      - https://law.justia.com/codes/new-hampshire/title-xxx/chapter-310-a/section-310-a-80/
+      - https://law.justia.com/codes/new-hampshire/title-xxx/chapter-310-a/section-310-a-81/
+      - https://law.justia.com/codes/new-hampshire/title-xxx/chapter-310-a/section-310-a-82/
+      - https://law.justia.com/codes/new-hampshire/title-xxx/chapter-310-a/section-310-a-83/
+      - https://law.justia.com/codes/new-hampshire/title-xxx/chapter-310-a/section-310-a-84/
+      - https://law.justia.com/codes/new-hampshire/title-xxx/chapter-310-a/section-310-a-85/
+      - https://law.justia.com/codes/new-hampshire/title-xxx/chapter-310-a/section-310-a-86/
+      - https://law.justia.com/codes/new-hampshire/title-xxx/chapter-310-a/section-310-a-87/
+      - https://law.justia.com/codes/new-hampshire/title-xxx/chapter-310-a/section-310-a-88/
+      - https://law.justia.com/codes/new-hampshire/title-xxx/chapter-310-a/section-310-a-89/
+      - https://law.justia.com/codes/new-hampshire/title-xxx/chapter-310-a/section-310-a-90/
+      - https://law.justia.com/codes/new-hampshire/title-xxx/chapter-310-a/section-310-a-91/
+      - https://law.justia.com/codes/new-hampshire/title-xxx/chapter-310-a/section-310-a-92/
+      - https://law.justia.com/codes/new-hampshire/title-xxx/chapter-310-a/section-310-a-93/
+      - https://law.justia.com/codes/new-hampshire/title-xxx/chapter-310-a/section-310-a-94/
+      - https://law.justia.com/codes/new-hampshire/title-xxx/chapter-310-a/section-310-a-95/
+      - https://law.justia.com/codes/new-hampshire/title-xxx/chapter-310-a/section-310-a-96/
   TN:
     add:
     - url: https://law.justia.com/codes/tennessee/title-62/chapter-18/
