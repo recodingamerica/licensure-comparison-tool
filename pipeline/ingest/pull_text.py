@@ -605,6 +605,9 @@ _BLOCK_MARKERS = (
     # in 53 already-committed files across many professions/states predating
     # this session -- see docs/runbooks/cdp_repull_lessons_2026-07-09.md.
     "justia legal resources\nfind a lawyer",
+    # Second Justia soft-404 variant: a plain "not found" page rather than the
+    # nav-blob one above (found 2026-07-09, community_health_worker/CA).
+    "page not found\nthe requested page could not be found",
 )
 
 
