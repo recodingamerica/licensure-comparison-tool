@@ -249,6 +249,53 @@ def _close_browser() -> None:
         _BROWSER = None
 
 
+_DEBUG_CHROME_USER_DATA_DIR = os.path.expanduser("~/chrome-debug")
+_DEBUG_CHROME_APP = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+
+
+def relaunch_debug_chrome(landing_url: str = "https://law.justia.com/codes/kansas/",
+                          wait_s: float = 6.0) -> bool:
+    """Kill the debug Chrome (chrome-debug profile) and relaunch it fresh, then
+    confirm the new instance answers on :9222.
+
+    2026-07-09 lesson (docs/runbooks/cdp_repull_lessons_2026-07-09.md): an
+    intermittent `Browser.setDownloadBehavior: Browser context management is
+    not supported` CDP protocol error kept recurring against a long-lived debug
+    Chrome session — never root-caused, but a full kill+relaunch reliably
+    cleared it every time it was tried by hand. This automates that manual
+    dance so a mid-run CDP death can self-heal instead of just aborting.
+    Does NOT clear a Cloudflare challenge on its own — the landing page may
+    still need a hand-solve in the (now-visible) Chrome window on the first
+    request after relaunch, same as any fresh debug Chrome.
+    """
+    import subprocess
+    global _BROWSER, _CDP_LOCK_FH
+    _close_browser()
+    _CDP_LOCK_FH = None  # the flock fd is tied to the dying process either way
+    subprocess.run(["pkill", "-f", f"user-data-dir={_DEBUG_CHROME_USER_DATA_DIR}"],
+                    capture_output=True)
+    time.sleep(3)
+    try:
+        subprocess.Popen(
+            [_DEBUG_CHROME_APP, "--remote-debugging-port=9222",
+             f"--user-data-dir={_DEBUG_CHROME_USER_DATA_DIR}",
+             "--no-first-run", "--no-default-browser-check", landing_url],
+            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, start_new_session=True,
+        )
+    except Exception as e:
+        log.error("  relaunch_debug_chrome: failed to spawn Chrome: %s", e)
+        return False
+    time.sleep(wait_s)
+    try:
+        import urllib.request
+        urllib.request.urlopen("http://127.0.0.1:9222/json/version", timeout=5)
+        log.info("  ▶ debug Chrome relaunched and answering on :9222")
+        return True
+    except Exception as e:
+        log.error("  relaunch_debug_chrome: new instance not answering: %s", e)
+        return False
+
+
 def _challenge_showing(page) -> bool:
     t = (page.title() or "").lower()
     return "just a moment" in t or "attention required" in t

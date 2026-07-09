@@ -97,3 +97,38 @@ the port is free (`curl :9222/json/version` should fail), relaunch fresh, and
 retry. It doesn't fix the underlying flakiness permanently, but each fresh
 relaunch does get you a clean window to make real progress in. Budget for
 needing to do this multiple times per session right now, not zero.
+
+**Now automated**: `pipeline.ingest.pull_text.relaunch_debug_chrome()` does the
+kill+relaunch+verify sequence programmatically. `refresh_corpus`'s CDP-death
+retry path (both the per-item retry in `refresh_item()` and the startup
+precheck in `run()`) now calls it automatically before giving up, instead of
+just aborting. Also consolidated `refresh_corpus.chrome_live()` to delegate to
+`pull_text.fetch_via_browser()` (the one hardened connection path) instead of
+maintaining a second, independent `connect_over_cdp` implementation that
+lacked pages[0]-hijack avoidance, leaked-tab cleanup, and connection caching.
+
+**Refined root-cause theory (2026-07-09, later the same morning)**: the
+flakiness pattern makes much more sense as a **one-time-connection-per-Chrome-
+session** limit than a general instability. Evidence: `pull_text`'s single
+6-state `health_facility_admin` run that morning succeeded completely with
+zero errors — because `_get_browser_page()` caches one `connect_over_cdp()`
+connection at module level and reuses it for every state's fetch within that
+ONE process. But repeated *separate* short-lived diagnostic scripts (each
+independently calling `connect_over_cdp` to test one URL) reliably broke the
+very next separate connection attempt, requiring another relaunch — and this
+matched every time it was tested, including immediately after `relaunch_debug_
+chrome()` itself (which necessarily opens its own verification connection).
+**Working theory**: Chrome 150.7871.115 (or Playwright 1.58.0/1.61.0 against
+it) only tolerates one successful `Browser.setDownloadBehavior`-configuring
+CDP attach per browser session; a second SEPARATE process's attach attempt
+fails outright even though the first attacher already disconnected cleanly.
+
+**Practical implication**: don't interleave one-off diagnostic
+`connect_over_cdp` scripts with real pull work against the same debug Chrome.
+A single multi-state `pull_text`/`refresh_corpus` invocation is safe (one
+connection, cached and reused for the whole run) — it's *additional separate
+processes* poking the same session that burn the one-time allowance. If you
+need to sanity-check a URL, do it by adding a throwaway state to a real pull
+invocation rather than a standalone `python -c "..."` test against a Chrome
+that a real run is about to use (or just relaunch Chrome again right before
+the real run, since a relaunch resets the allowance).
