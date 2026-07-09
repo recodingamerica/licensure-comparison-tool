@@ -46,7 +46,7 @@
       {
         "name": "Contractor licensing examination",
         "required": true,
-        "notes": "Board shall hold at least one examination per calendar quarter for each classification including electrical contractor.",
+        "notes": "The board shall hold at least one examination in each calendar quarter for each specific classification of contractor. Minimum qualifications and content set by board rule.",
         "jurisdiction": "state (West Virginia Contractor Licensing Board)",
         "permitted_attempts": null,
         "quote": "No license may be issued without examination pursuant to this subsection",
@@ -78,8 +78,8 @@
         "citation": "30-42-18"
       },
       "requirements": {
-        "value": "Reciprocity available to the extent other states provide similar action; applicant must show qualifications equal to WV licensees, pay required fee, and certify compliance as required by 30-42-15(c).",
-        "quote": "To the extent that other states which provide for the licensing of contractors provide for similar action, the board may grant licenses of the same or equivalent classification to contractors licensed by other states, without written examination upon satisfactory proof furnished to the board that the qualifications of the applicants are equal to the qualifications of holders of similar licenses in this state, and upon certification to the board as required by 30-42-15(c) of this code, and upon payment of the required fee.",
+        "value": "Reciprocity available where other state provides similar licensing; applicant must show qualifications equal to WV licensees, certify compliance with affidavit requirements, and pay the required fee. No written examination required.",
+        "quote": "upon satisfactory proof furnished to the board that the qualifications of the applicants are equal to the qualifications of holders of similar licenses in this state, and upon certification to the board as required by 30-42-15(c) of this code, and upon payment of the required fee.",
         "citation": "30-42-18"
       }
     },
@@ -145,32 +145,32 @@
         "citation": "30-42-15"
       },
       {
-        "short_label": "failure_to_pay_moneys_due",
+        "short_label": "failure_to_pay_for_materials_services",
         "description": "Willful or deliberate failure to pay moneys when due for materials or services, or fraudulent denial of debt",
-        "quote": "Willful or deliberate failure to pay any moneys when due for any materials free from defect, or services rendered in connection with the persons operations as a contractor",
+        "quote": "Willful or deliberate failure to pay any moneys when due for any materials free from defect, or services rendered in connection with the persons operations as a contractor when the person has the capacity to pay",
         "citation": "30-42-15"
       },
       {
-        "short_label": "misrepresentation_in_licensing",
-        "description": "Willful or deliberate misrepresentation of a material fact in obtaining a license or in official licensing matters",
+        "short_label": "misrepresentation_in_obtaining_license",
+        "description": "Willful or deliberate misrepresentation of a material fact by an applicant or licensee in obtaining a license",
         "quote": "Willful or deliberate misrepresentation of a material fact by an applicant or licensee in obtaining a license or in connection with official licensing matters",
         "citation": "30-42-15"
       },
       {
         "short_label": "failure_to_comply_with_article",
-        "description": "Willful or deliberate failure to comply in any material respect with the provisions of this article or the rules of the board",
+        "description": "Willful or deliberate failure to comply in any material respect with the provisions of this article or the board's rules",
         "quote": "Willful or deliberate failure to comply in any material respect with the provisions of this article or the rules of the board",
         "citation": "30-42-15"
       },
       {
-        "short_label": "acting_as_unlicensed_contractor",
-        "description": "Willfully acting in the capacity of a contractor when not licensed or acting as a contractor by a person other than the licensee",
+        "short_label": "acting_as_contractor_when_unlicensed",
+        "description": "Acting in the capacity of a contractor when not licensed or by a person other than the licensee",
         "quote": "Willfully or deliberately acting in the capacity of a contractor when not licensed or as a contractor by a person other than the person to whom the license is issued except as an employee of the licensee",
         "citation": "30-42-15"
       },
       {
-        "short_label": "aiding_unlicensed_person",
-        "description": "Willfully acting to evade the article by aiding or abetting an unlicensed person, combining with an unlicensed person, allowing license use by unlicensed person, or attempting to assign/transfer a license",
+        "short_label": "evading_licensure_provisions",
+        "description": "Acting with intent to evade provisions of the article, including aiding unlicensed persons or allowing license misuse",
         "quote": "Willfully or deliberately acting with the intent to evade the provisions of this article by: (i) Aiding or abetting an unlicensed person to evade the provisions of this article; (ii) combining or conspiring with an unlicensed person to perform an unauthorized act; (iii) allowing a license to be used by an unlicensed person; or (iv) attempting to assign, transfer, or otherwise dispose of a license or permitting the unauthorized use thereof",
         "citation": "30-42-15"
       },
@@ -182,7 +182,7 @@
       },
       {
         "short_label": "substandard_work",
-        "description": "Performing work not commensurate with the general standard of the specific contractor classification or below applicable building/construction code",
+        "description": "Performing work not commensurate with the general standard for the contractor classification or below applicable building or construction codes",
         "quote": "Performing work which is not commensurate with a general standard of the specific classification of contractor or which is below a building or construction code adopted by the municipality or county in which the work is performed",
         "citation": "30-42-15"
       },
@@ -194,7 +194,7 @@
       },
       {
         "short_label": "failure_to_execute_written_contracts",
-        "description": "Failing to execute written contracts prior to performing contracting work as required by statute",
+        "description": "Failing to execute written contracts prior to performing contracting work as required",
         "quote": "Failing to execute written contracts prior to performing contracting work in accordance with 30-42-10 of this code",
         "citation": "30-42-15"
       },
@@ -217,7 +217,11 @@
         "quote": "The form of financial assurance may include, but is not limited to, a surety bond, a cash bond, a certificate of deposit, an irrevocable letter of credit, or performance insurance",
         "citation": "30-42-15"
       },
-      "insurance_required": null,
+      "insurance_required": {
+        "value": true,
+        "quote": "Has registered, and is in compliance, with the workers compensation fund and the employment security fund, as required by 23-1-1 et seq., and 21A-1-1 et seq., of this code",
+        "citation": "30-42-5"
+      },
       "establishment_regulation_required": null
     },
     "citations": [
@@ -227,7 +231,7 @@
       },
       {
         "cite": "30-42-5",
-        "kind": "powers and duties"
+        "kind": "administrative powers and duties"
       },
       {
         "cite": "30-42-6",
@@ -239,15 +243,11 @@
       },
       {
         "cite": "30-42-8",
-        "kind": "expiration and renewal"
-      },
-      {
-        "cite": "30-42-9",
-        "kind": "unlawful use of license"
+        "kind": "expiration and fees"
       },
       {
         "cite": "30-42-13",
-        "kind": "renewal, lapse, reinstatement"
+        "kind": "renewal, lapse, and reinstatement"
       },
       {
         "cite": "30-42-14",
@@ -278,7 +278,7 @@
         "install",
         "erect",
         "repair",
-        "alter electrical equipment for the generation, transmission, or utilization of electrical energy"
+        "alter electrical equipment"
       ],
       "quote": "engages in the business of contracting to install, erect, repair, or alter electrical equipment for the generation, transmission, or utilization of electrical energy",
       "citation": "30-42-3"
@@ -294,22 +294,14 @@
   "profession_specific": {
     "license_tiers": {
       "value": [
-        "Electrical contractor",
-        "General building contractor",
-        "General engineering contractor",
-        "Heating, ventilating, and cooling contractor",
-        "Multifamily contractor",
-        "Piping contractor",
-        "Plumbing contractor",
-        "Residential contractor",
-        "Specialty contractor"
+        "electrical contractor"
       ],
-      "quote": "The minimum qualifications for applicants for examination and license in each of the following specified classes of contractor: (A) Electrical contractor; (B) General building contractor; (C) General engineering contractor; (D) Heating, ventilating, and cooling contractor; (E) Multifamily contractor; (F) Piping contractor; (G) Plumbing contractor; (H) Residential contractor; or (l) Specialty contractor",
-      "citation": "30-42-5"
+      "quote": "\"Electrical contractor\" means a person who engages in the business of contracting to install, erect, repair, or alter electrical equipment for the generation, transmission, or utilization of electrical energy.",
+      "citation": "30-42-3"
     },
     "residential_project_definition": {
-      "value": "A residential structure is a building or structure used or intended to be used for residential occupancy, together with related facilities appurtenant to the premises as an adjunct of residential occupancy, which contains not more than three distinct floors which are above grade in any structural unit regardless of whether the building or structure is designed and constructed for one or more living units.",
-      "quote": "\"Residential structure\" means a building or structure used or intended to be used for residential occupancy, together with related facilities appurtenant to the premises as an adjunct of residential occupancy, which contains not more than three distinct floors which are above grade in any structural unit regardless of whether the building or structure is designed and constructed for one or more living units.",
+      "value": "Occupancy of a structure for residential purposes for periods greater than 30 consecutive calendar days; residential structure means a building or structure used or intended to be used for residential occupancy, containing not more than three distinct floors above grade in any structural unit regardless of whether designed for one or more living units.",
+      "quote": "\"Residential occupancy\" means occupancy of a structure for residential purposes for periods greater than 30 consecutive calendar days.",
       "citation": "30-42-3"
     },
     "residential_wiring_method_restriction": null,
@@ -326,7 +318,7 @@
         "Work personally performed on a structure by the owner or occupant thereof",
         "Work performed when the specifications for the work have been developed or approved by engineering personnel employed by the owner of a facility by registered professional engineers licensed pursuant to the laws of this state when the work to be performed because of its specialized nature or process cannot be reasonably or timely contracted for within the general area of the facility"
       ],
-      "quote": "Except as otherwise provided in this code, the following are exempt from licensure: (1) Work done exclusively by employees of the United States Government, the State of West Virginia, a county, municipality or municipal corporation, and any governmental subdivision or agency thereof; (2) The sale or installation of a finished product, material or article, or merchandise which is not actually fabricated into and does not become a permanent fixed part of the structure; (3) Work performed personally by an owner or lessee of real property on property the primary use of which is for agricultural or farming enterprise; (4) A material supplier who renders advice concerning use of products sold and who does not provide construction or installation services; (5) Work performed by a public utility company regulated by the West Virginia Public Service Commission and its employees; (6) Repair work contracted by the owner of the equipment on an emergency basis in order to maintain or restore the operation of the equipment; (7) Work performed by an employers regular employees, for which the employees are paid regular wages and not a contract price, on property owned or leased by the employer which is not intended for speculative sale or lease; (8) Work personally performed on a structure by the owner or occupant thereof; and (9) Work performed when the specifications for the work have been developed or approved by engineering personnel employed by the owner of a facility by registered professional engineers",
+      "quote": "Except as otherwise provided in this code, the following are exempt from licensure",
       "citation": "30-42-6"
     },
     "minor_electrical_work_amperage_limit": null,
@@ -358,7 +350,7 @@
     "gas_appliance_work_certification_required": null,
     "small_project_dollar_threshold_exemption": {
       "value": 5000,
-      "quote": "\"Contractor\" means a person who in any capacity for compensation, other than as an employee of another, undertakes, offers to undertake, purports to have the capacity to undertake, or submits a bid to construct, alter, repair, add to, subtract from, improve, move, wreck, or demolish any building, highway, road, railroad, structure, or excavation associated with a project, development, or improvement, or to do any part thereof, including the erection of scaffolding or other structures or works in connection therewith, where the cost of the undertaking is $5,000 or more for residential work or $25,000 or more for commercial work.",
+      "quote": "where the cost of the undertaking is $5,000 or more for residential work or $25,000 or more for commercial work",
       "citation": "30-42-3"
     },
     "solar_panel_electrical_work_exemption": null,

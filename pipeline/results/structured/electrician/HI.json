@@ -34,18 +34,18 @@
       "quote": "an applicant shall be at least eighteen years of age",
       "citation": "448E-5"
     },
-    "moral_character_required": null,
+    "moral_character_required": {
+      "value": true,
+      "quote": "Proof that the applicant is competent, trustworthy, fair, and has financial integrity",
+      "citation": "UMBRELLA / 436B. Uniform Professional and Vocational Licensing Act"
+    },
     "education": {
       "degree_required": {
-        "value": "Satisfactory completion of electrical academic coursework accepted by a University of Hawaii community college",
+        "value": "240 hours of electrical academic coursework accepted by a University of Hawaii community college (for journey worker electrician, effective July 1, 2013)",
         "quote": "Satisfactory completion, accepted by a University of Hawaii community college offering an appropriate program of study, of two hundred forty hours of electrical academic coursework",
         "citation": "448E-5"
       },
-      "accrediting_body": {
-        "value": "University of Hawaii community college",
-        "quote": "accepted by a University of Hawaii community college offering an appropriate program of study",
-        "citation": "448E-5"
-      },
+      "accrediting_body": null,
       "degree_level": {
         "value": "none",
         "quote": "Satisfactory completion, accepted by a University of Hawaii community college offering an appropriate program of study, of two hundred forty hours of electrical academic coursework",
@@ -58,7 +58,7 @@
       },
       "credential_pegged": {
         "value": false,
-        "quote": "Satisfactory completion, accepted by a University of Hawaii community college offering an appropriate program of study, of two hundred forty hours of electrical academic coursework",
+        "quote": "an applicant shall be at least eighteen years of age and shall provide satisfactory evidence of experience in residential or commercial wiring of at least five years full-time or its equivalent, but not less than ten thousand hours",
         "citation": "448E-5"
       },
       "tiers": null
@@ -75,13 +75,13 @@
         "citation": "448E-5"
       },
       "duration": {
-        "value": "five years full-time or equivalent, not less than ten thousand hours",
-        "quote": "at least five years full-time or its equivalent, but not less than ten thousand hours, in the trade under the supervision of a journey worker or supervising electrician",
+        "value": "five years full-time or its equivalent, but not less than ten thousand hours",
+        "quote": "experience in residential or commercial wiring of at least five years full-time or its equivalent, but not less than ten thousand hours",
         "citation": "448E-5"
       },
       "kind": {
         "value": "supervised electrical trade experience",
-        "quote": "experience in residential or commercial wiring of at least five years full-time or its equivalent, but not less than ten thousand hours, in the trade under the supervision of a journey worker or supervising electrician",
+        "quote": "in the trade under the supervision of a journey worker or supervising electrician",
         "citation": "448E-5"
       }
     },
@@ -90,7 +90,7 @@
         "name": "Journey Worker Electrician Examination",
         "required": true,
         "notes": "Board may contract with professional testing services to prepare, administer, and grade the examination.",
-        "jurisdiction": "state board or contracted professional testing service",
+        "jurisdiction": "state (board-administered or contracted)",
         "permitted_attempts": null,
         "quote": "Every applicant shall be examined and shall pass an examination to be eligible for licensure.",
         "citation": "448E-5.5"
@@ -107,7 +107,7 @@
     "continuing_education": {
       "required": {
         "value": true,
-        "quote": "Prior to each license renewal, all licensed electricians except maintenance electricians shall: (1) Furnish the board with proof of attendance at an educational course related to current updates of the National Electrical Code conducted or approved by the community colleges",
+        "quote": "Prior to each license renewal, all licensed electricians except maintenance electricians shall: (1) Furnish the board with proof of attendance at an educational course related to current updates of the National Electrical Code conducted or approved by the community colleges; or (2) Successfully complete an examination prescribed by the board on current updates to the National Electrical Code.",
         "citation": "448E-8.5"
       },
       "hours_per_period": null,
@@ -131,8 +131,8 @@
         "citation": "UMBRELLA / 436B. Uniform Professional and Vocational Licensing Act"
       },
       "requirements": {
-        "value": "Licensure by endorsement or reciprocity available; expedited for nonresident military spouses under 436B-14.6 and 436B-14.7.",
-        "quote": "The licensing authority shall expedite consideration of the application and issuance of a license by endorsement or license by reciprocity to a nonresident military spouse who meets the requirements of this section.",
+        "value": "Reciprocity/endorsement available at minimum for nonresident military spouses under umbrella Act provisions; general reciprocity subject to board rules.",
+        "quote": "Unless otherwise provided by law, an applicant for licensure by endorsement or licensure by reciprocity who is a nonresident military spouse may demonstrate competency in a specific profession or vocation as determined by the licensing authority in lieu of a requirement that the applicant has worked or practiced in that profession or vocation for a specified period of time",
         "citation": "UMBRELLA / 436B. Uniform Professional and Vocational Licensing Act"
       }
     },
@@ -154,7 +154,7 @@
     },
     "credential_type": {
       "value": "license",
-      "quote": "To grant licenses which shall be renewable for: (A) Journey worker electricians; (B) Journey worker specialty electricians; (C) Supervising electricians; (D) Supervising specialty electricians",
+      "quote": "To grant licenses which shall be renewable for: (A) Journey worker electricians; (B) Journey worker specialty electricians; (C) Supervising electricians; (D) Supervising specialty electricians; ... (G) Maintenance electricians; (H) Journey worker industrial electricians; and (I) Supervising industrial electricians",
       "citation": "448E-4"
     },
     "is_mandatory": {
@@ -180,19 +180,19 @@
         "citation": "448E-10"
       },
       {
-        "short_label": "gross_negligence_incompetency",
+        "short_label": "gross_negligence_incompetency_misconduct",
         "description": "Gross negligence, incompetency, misconduct, or dishonesty in the practice of the profession",
         "quote": "Gross negligence, incompetency, misconduct, or dishonesty in the practice of the profession",
         "citation": "448E-10"
       },
       {
-        "short_label": "false_fraudulent_advertising",
+        "short_label": "false_fraudulent_deceptive_advertising",
         "description": "False, fraudulent, or deceptive advertising",
         "quote": "False, fraudulent, or deceptive advertising",
         "citation": "448E-10"
       },
       {
-        "short_label": "permitting_unlicensed_practice",
+        "short_label": "permitting_unlicensed_person",
         "description": "Permitting an unlicensed person to perform activities requiring a license",
         "quote": "Permitting an unlicensed person to perform activities requiring a license",
         "citation": "448E-10"
@@ -211,14 +211,14 @@
       },
       {
         "short_label": "acting_as_agent_of_unlicensed",
-        "description": "Acting as an agent, partner, or associate of an unlicensed person engaging in activity in violation of this chapter",
+        "description": "Acting as an agent, partner, or associate of an unlicensed person engaging in an activity in violation of this chapter",
         "quote": "Acting as an agent, partner, or associate of an unlicensed person engaging in an activity in violation of this chapter",
         "citation": "448E-10"
       },
       {
-        "short_label": "violating_chapter_or_rules",
+        "short_label": "violating_chapter_or_board_rules",
         "description": "Violating any provision of this chapter or rule of the board",
-        "quote": "Violating any provision of this chapter or rule of the board.",
+        "quote": "Violating any provision of this chapter or rule of the board",
         "citation": "448E-10"
       }
     ],
@@ -234,7 +234,7 @@
       },
       {
         "cite": "448E-2",
-        "kind": "board composition"
+        "kind": "board establishment"
       },
       {
         "cite": "448E-4",
@@ -270,7 +270,7 @@
       },
       {
         "cite": "448E-13",
-        "kind": "utility exemption"
+        "kind": "exemptions"
       }
     ]
   },
@@ -284,16 +284,11 @@
       "value": [
         "residential or commercial wiring",
         "industrial electrical work (substation, switchgear, automatic controls)",
-        "installing, repairing, altering, and maintaining electronic equipment, sound systems, communication systems, antenna systems, burglar and fire alarm systems, low voltage remote control, low voltage communication signal systems",
-        "electrical maintenance work"
+        "specialty electrical work (electronic equipment, sound/public address systems, communication systems, antenna systems, sound recording, burglar/fire alarm, low voltage remote control, low voltage communication signal systems)",
+        "maintenance of electrical work"
       ],
-      "quote": "perform electrical work related to substation, switchgear, automatic controls, and all other industrial electrical work in existing industrial buildings and work places",
-      "citation": "448E-1",
-      "unverified": true,
-      "approximate": {
-        "ratio": 0.958,
-        "matched_normalized": " electrical work related to substation switchgear automatic controls and all other industrial electrical work in existing industrial buildings and work places"
-      }
+      "quote": "\"Journey worker electrician\" means any person who has been licensed by the board as a journey worker electrician to perform electrical work.",
+      "citation": "448E-1"
     },
     "drug_authority": null,
     "citations": [
@@ -303,22 +298,22 @@
       },
       {
         "cite": "448E-9",
-        "kind": "scope of practice / unlicensed activity"
+        "kind": "unlicensed activity / scope"
       }
     ]
   },
   "profession_specific": {
     "license_tiers": {
       "value": [
-        "Journey Worker Electrician",
-        "Journey Worker Specialty Electrician",
-        "Supervising Electrician",
-        "Supervising Specialty Electrician",
-        "Maintenance Electrician",
-        "Journey Worker Industrial Electrician",
-        "Supervising Industrial Electrician"
+        "Journey worker electrician",
+        "Journey worker specialty electrician",
+        "Supervising electrician",
+        "Supervising specialty electrician",
+        "Maintenance electrician",
+        "Journey worker industrial electrician",
+        "Supervising industrial electrician"
       ],
-      "quote": "To grant licenses which shall be renewable for: (A) Journey worker electricians; (B) Journey worker specialty electricians; (C) Supervising electricians; (D) Supervising specialty electricians; (G) Maintenance electricians; (H) Journey worker industrial electricians; and (I) Supervising industrial electricians",
+      "quote": "To grant licenses which shall be renewable for: (A) Journey worker electricians; (B) Journey worker specialty electricians; (C) Supervising electricians; (D) Supervising specialty electricians; ... (G) Maintenance electricians; (H) Journey worker industrial electricians; and (I) Supervising industrial electricians",
       "citation": "448E-4"
     },
     "residential_project_definition": null,
@@ -326,9 +321,10 @@
     "voltage_limit_residential": null,
     "scope_exclusions": {
       "value": [
-        "Employees of a public utility regulated by the public utilities commission and community antennae television company employees while so employed",
-        "Employees of electrical contractor licensed under chapter 444 retained by a public utility for high voltage electrical work under specified conditions",
-        "Apprentice or trainee learning the trade acting under supervision of a licensed person"
+        "Employees of a public utility regulated by the public utilities commission while so employed",
+        "Employees of a community antennae television company while so employed",
+        "Employees of licensed electrical contractor performing high voltage work for a public utility (subject to conditions)",
+        "Apprentices or trainees learning the trade while acting under supervision of an appropriately licensed person"
       ],
       "quote": "The following persons shall be exempt from this chapter: (1) All employees of a public utility within the State under a franchise or charter granted by the State that is regulated by the public utilities commission and community antennae television company, while so employed",
       "citation": "448E-13"

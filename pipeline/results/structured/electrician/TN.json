@@ -20,7 +20,7 @@
       },
       "type": {
         "value": "shared_board",
-        "quote": "at least one (1) of whom shall be actively engaged as a mechanical contractor, at least one (1) of whom shall be actively engaged as an electrical contractor, at least one (1) of whom shall be actively engaged as a highway, railroad or airport contractor",
+        "quote": "at least one (1) of whom shall be actively engaged as an electrical contractor, at least one (1) of whom shall be actively engaged as a highway, railroad or airport contractor",
         "citation": "62-6-104"
       },
       "umbrella_agency": null
@@ -48,10 +48,10 @@
     },
     "exams": [
       {
-        "name": "Contractor licensing examination (electrical construction classification)",
+        "name": "Contractor written examination",
         "required": true,
-        "notes": "Written examination required for contractor license; may be given orally at board's discretion if disability precludes written exam. For limited licensed electricians, examination prescribed by the board is required.",
-        "jurisdiction": "state (board-administered or contracted)",
+        "notes": "Board may administer orally if written exam is precluded by disability. For limited licensed electricians, board may administer or contract for administration.",
+        "jurisdiction": "state (board-administered)",
         "permitted_attempts": null,
         "quote": "Anyone desiring to be licensed as a contractor in this state shall take a written examination to determine the applicant's qualifications.",
         "citation": "62-6-111"
@@ -59,7 +59,7 @@
       {
         "name": "Limited licensed electrician examination",
         "required": true,
-        "notes": "Board may administer or contract for administration. Grandfathered applicants registered before September 1, 2000 could obtain license without exam under certain conditions.",
+        "notes": "Required for limited licensed electricians (electrical work under $25,000); board may administer or contract for administration. Certain grandfathered applicants (registered before Sept 1, 2000) could obtain license without exam by application before July 1, 2001.",
         "jurisdiction": "state (board-administered or contracted)",
         "permitted_attempts": null,
         "quote": "To receive a license, the applicant shall pay a fee as set by the board for the license and shall pass an examination prescribed by the board. The board may administer the examination or may contract for the administration of the examination.",
@@ -99,15 +99,15 @@
         "citation": "62-6-111"
       },
       "requirements": {
-        "value": "Reciprocity exists with some states. Applicants from non-reciprocal states must apply in writing and meet standard requirements. Masonry contractors must pass the masonry examination regardless of reciprocity.",
-        "quote": "Notwithstanding any reciprocity for contractors which may otherwise exist between states, any person desiring to perform contracting services in this state as a licensed masonry contractor whether residing in this state or another state shall not be authorized to perform any such services unless the person takes and passes the masonry examination",
+        "value": "Reciprocity is available with states that practice reciprocity with Tennessee. Applicants from non-reciprocity states must apply separately. For limited licensed electricians, exam is still required in counties/municipalities that issued their own licenses.",
+        "quote": "anyone desiring to be licensed as a contractor for this state who resides in a state that does not practice reciprocity with licensees of the Tennessee board for licensing contractors shall make written application on forms prescribed by the board",
         "citation": "62-6-111"
       }
     },
     "advisory_board": {
       "exists": {
         "value": false,
-        "quote": "There is created a state board for licensing contractors, called the \"board\" in this part, to be appointed by the governor. The board shall be composed of nine (9) members",
+        "quote": "There is created a state board for licensing contractors, called the \"board\" in this part, to be appointed by the governor. The board shall be composed of nine (9) members, all of whom shall be residents of this state and at least three (3) of whom shall be actively engaged as residential contractors ... at least one (1) of whom shall be actively engaged as an electrical contractor",
         "citation": "62-6-104"
       },
       "name": null,
@@ -122,7 +122,7 @@
     },
     "credential_type": {
       "value": "license",
-      "quote": "it shall issue to the applicant a certificate authorizing the applicant to operate as a contractor in this state",
+      "quote": "if the results of the examination of any applicant are satisfactory to the board, then it shall issue to the applicant a certificate authorizing the applicant to operate as a contractor in this state",
       "citation": "62-6-111"
     },
     "is_mandatory": {
@@ -132,31 +132,31 @@
     },
     "title_protection": {
       "value": true,
-      "quote": "It is unlawful for any person, firm or corporation to represent itself as a licensed contractor or to act in the capacity of a \"contractor\" as defined in \u00a7\u00a7 62-6-102",
+      "quote": "It is unlawful for any person, firm or corporation to represent itself as a licensed contractor or to act in the capacity of a \"contractor\" as defined in §§ 62-6-102 ... while not licensed",
       "citation": "62-6-136"
     },
     "scope_protection": {
       "value": true,
-      "quote": "It is unlawful for any person, firm, or corporation to engage in or offer to engage in contracting for any project in this state, unless, at the time of such engagement or offer to engage, the person, firm, or corporation has been duly licensed",
-      "citation": "62-6-103"
+      "quote": "Any person, firm or corporation that engages or offers to engage in contracting without a license as required by § 62-6-103 ... commits a Class A misdemeanor.",
+      "citation": "62-6-120"
     },
     "disciplinary_grounds": [
       {
-        "short_label": "gross_negligence_incompetency_fraud",
-        "description": "Gross negligence, incompetency, fraud, dishonest dealing or misconduct in the practice of contracting",
-        "quote": "claims to have been damaged or injured by the gross negligence, incompetency, fraud, dishonest dealing or misconduct in the practice of contracting",
+        "short_label": "gross_negligence_or_incompetency",
+        "description": "Gross negligence or incompetency in the practice of contracting",
+        "quote": "damaged or injured by the gross negligence, incompetency, fraud, dishonest dealing or misconduct in the practice of contracting",
         "citation": "62-6-118"
       },
       {
-        "short_label": "conviction_home_improvement_fraud",
-        "description": "Conviction for home improvement fraud under \u00a7 39-14-154",
-        "quote": "The board shall revoke the license of any contractor, home improvement contractor or home improvement services provider upon receiving notification from the court in accordance with \u00a7 39-14-154(d) of such person's conviction for a violation of \u00a7 39-14-154.",
+        "short_label": "fraud_in_practice",
+        "description": "Fraud or dishonest dealing in contracting",
+        "quote": "gross negligence, incompetency, fraud, dishonest dealing or misconduct in the practice of contracting",
         "citation": "62-6-118"
       },
       {
-        "short_label": "failure_to_observe_license_terms",
-        "description": "Failure to observe the terms and conditions of any license or renewal granted",
-        "quote": "for a failure to observe the terms and conditions of any license or renewal granted under this part or any bylaws, rules or regulations adopted or promulgated by it",
+        "short_label": "conviction_for_home_improvement_fraud",
+        "description": "Conviction for violation of § 39-14-154 (home improvement fraud)",
+        "quote": "The board shall revoke the license of any contractor, home improvement contractor or home improvement services provider upon receiving notification from the court in accordance with § 39-14-154(d) of such person's conviction for a violation of § 39-14-154.",
         "citation": "62-6-118"
       },
       {
@@ -168,12 +168,12 @@
       {
         "short_label": "lack_of_expertise",
         "description": "Lack of expertise",
-        "quote": "lack of expertise, submission of false evidence with regard to application of license or renewal",
+        "quote": "lack of expertise, submission of false evidence with regard to application of license or renewal, conviction of a felony",
         "citation": "62-6-118"
       },
       {
         "short_label": "false_evidence_in_application",
-        "description": "Submission of false evidence with regard to application for license or renewal",
+        "description": "Submission of false evidence in license or renewal application",
         "quote": "submission of false evidence with regard to application of license or renewal",
         "citation": "62-6-118"
       },
@@ -184,9 +184,15 @@
         "citation": "62-6-118"
       },
       {
-        "short_label": "improper_fraudulent_dishonest_dealing",
-        "description": "Any other conduct that constitutes improper, fraudulent or dishonest dealing",
+        "short_label": "improper_or_dishonest_dealing",
+        "description": "Any conduct constituting improper, fraudulent or dishonest dealing",
         "quote": "any other conduct that constitutes improper, fraudulent or dishonest dealing or violation of the statute",
+        "citation": "62-6-118"
+      },
+      {
+        "short_label": "violation_of_license_terms",
+        "description": "Failure to observe terms and conditions of any license or renewal, or violation of bylaws, rules or regulations",
+        "quote": "for a failure to observe the terms and conditions of any license or renewal granted under this part or any bylaws, rules or regulations adopted or promulgated by it",
         "citation": "62-6-118"
       },
       {
@@ -198,13 +204,13 @@
     ],
     "alternative_regulation": {
       "bonding_required": {
-        "value": false,
-        "quote": "No person shall be required to post a bond, provide a financial statement or provide a letter of reference in order to obtain a license as a limited licensed electrician.",
-        "citation": "62-6-131"
+        "value": true,
+        "quote": "it shall be the duty of every person who makes contracts described in subdivisions (a)(1)-(4) ... to register with the department of codes administration or other appropriate departments and to post a permit bond in the amount set forth in this section",
+        "citation": "62-6-137"
       },
       "insurance_required": {
         "value": true,
-        "quote": "The application shall also be accompanied by evidence of the applicant's current workers' compensation insurance coverage. Failure to provide evidence of insurance coverage shall make the applicant ineligible for licensure by the board until evidence of insurance coverage is provided.",
+        "quote": "The application shall also be accompanied by evidence of the applicant's current workers' compensation insurance coverage. Failure to provide evidence of insurance coverage shall make the applicant ineligible for licensure",
         "citation": "62-6-111"
       },
       "establishment_regulation_required": null
@@ -220,7 +226,7 @@
       },
       {
         "cite": "62-6-104",
-        "kind": "board"
+        "kind": "board composition"
       },
       {
         "cite": "62-6-111",
@@ -228,15 +234,15 @@
       },
       {
         "cite": "62-6-112",
-        "kind": "license classifications"
+        "kind": "license classifications and CE"
       },
       {
         "cite": "62-6-116",
-        "kind": "expiration and renewal"
+        "kind": "renewal"
       },
       {
         "cite": "62-6-118",
-        "kind": "revocation or suspension"
+        "kind": "revocation/suspension"
       },
       {
         "cite": "62-6-120",
@@ -248,14 +254,22 @@
       },
       {
         "cite": "62-6-131",
-        "kind": "bonds, expiration, fees"
+        "kind": "limited licensed electrician bonds/fees/expiration"
+      },
+      {
+        "cite": "62-6-136",
+        "kind": "unlawful representation"
+      },
+      {
+        "cite": "62-6-137",
+        "kind": "permit bonds"
       }
     ]
   },
   "scope": {
     "definition_quote": {
-      "value": "Electrical construction is one of the nine major construction classifications in which a contractor may apply for a license. A 'limited licensed electrician' means any person or entity that performs any electrical work that has a total cost of less than twenty-five thousand dollars ($25,000) and that is required to be registered under \u00a7 68-102-150.",
-      "quote": "\"Limited licensed electrician\" means any person or entity that performs any electrical work that has a total cost of less than twenty-five thousand dollars ($25,000) and that is required to be registered under \u00a7 68-102-150",
+      "value": "\"Electrical construction\" is one of the nine major construction classifications; \"Limited licensed electrician\" means any person or entity that performs any electrical work that has a total cost of less than twenty-five thousand dollars ($25,000) and that is required to be registered under § 68-102-150",
+      "quote": "\"Limited licensed electrician\" means any person or entity that performs any electrical work that has a total cost of less than twenty-five thousand dollars ($25,000) and that is required to be registered under § 68-102-150",
       "citation": "62-6-102"
     },
     "methods_authorized": null,
@@ -267,27 +281,29 @@
       },
       {
         "cite": "62-6-112",
-        "kind": "license classifications"
+        "kind": "electrical construction classification"
       }
     ]
   },
   "profession_specific": {
     "license_tiers": {
       "value": [
-        "Electrical contractor (electrical construction classification \u2014 $25,000 or more)",
-        "Limited licensed electrician (electrical work less than $25,000)"
+        "Electrical contractor (major classification - electrical construction, $25,000+)",
+        "Limited licensed electrician (electrical work under $25,000)"
       ],
-      "quote": "\"Limited licensed electrician\" means any person or entity that performs any electrical work that has a total cost of less than twenty-five thousand dollars ($25,000)",
-      "citation": "62-6-102"
+      "quote": "\"Limited licensed electrician\" means any person or entity that performs any electrical work that has a total cost of less than twenty-five thousand dollars ($25,000) ... \"Contractor\" includes, but is not limited to, a prime contractor, electrical contractor, electrical subcontractor",
+      "citation": "62-6-102",
+      "unverified": true
     },
     "residential_project_definition": null,
     "residential_wiring_method_restriction": null,
     "voltage_limit_residential": null,
     "scope_exclusions": {
       "value": [
-        "Single residence homeowner performing electrical work on their own residence",
-        "Persons in municipalities or counties that issue their own licenses to persons performing electrical work (state license not required in those jurisdictions)",
-        "Nonprofit charitable or religious corporations exempt from federal income taxation under \u00a7 501(c)(3) constructing single residences"
+        "Homeowner performing electrical work on their own single residence",
+        "Electrical work in a municipality or county that issues its own licenses to persons performing electrical work",
+        "Nonprofit charitable/religious organizations exempt under IRC 501(c)(3) constructing single residences",
+        "Students enrolled in educational institutions constructing residences under faculty supervision"
       ],
       "quote": "any single residence homeowner is exempt from the limited licensed electrician requirements of this part for purposes of performing electrical work on the homeowner's own residence",
       "citation": "62-6-103"
@@ -325,7 +341,7 @@
     "gas_appliance_work_certification_required": null,
     "small_project_dollar_threshold_exemption": {
       "value": 25000,
-      "quote": "\"Contractor\" means any person or entity that undertakes to, attempts to or submits a price or bid or offers to construct... for which the total cost is twenty-five thousand dollars ($25,000) or more",
+      "quote": "\"Contractor\" means any person or entity that undertakes to, attempts to or submits a price or bid or offers to construct ... for which the total cost is twenty-five thousand dollars ($25,000) or more",
       "citation": "62-6-102"
     },
     "solar_panel_electrical_work_exemption": null,
@@ -339,7 +355,7 @@
     },
     "public_liability_insurance_required": {
       "value": true,
-      "quote": "Any application for initial licensure or for renewal of licensure also shall be accompanied by an affidavit affirming that the applicant maintains general liability insurance and workers' compensation insurance and specifying the amount of the insurance",
+      "quote": "Any application for initial licensure or for renewal of licensure also shall be accompanied by an affidavit affirming that the applicant maintains general liability insurance and workers' compensation insurance",
       "citation": "62-6-111"
     }
   }

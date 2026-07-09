@@ -44,9 +44,9 @@
     },
     "exams": [
       {
-        "name": "Electrician licensure examination",
+        "name": "Written examination",
         "required": true,
-        "notes": "Applicants must present a written application for examination and license; renewals may be made without further examination upon payment of renewal fee and documentation of continuing education.",
+        "notes": "Applicants must present a written application for examination and license; renewal may be made without further examination.",
         "jurisdiction": null,
         "permitted_attempts": null,
         "quote": "Applicants for licensure must present to the board a written application for examination and license containing such information as the board may require.",
@@ -74,8 +74,8 @@
         "citation": "32 M.R.S. §1206"
       },
       "requirements": {
-        "value": "Applicant must be licensed in another state or territory with equivalent licensing standards and experience requirements; must have been licensed and actively engaged in electrician's work for a minimum of 8,000 hours; reciprocity is conditioned on the other jurisdiction granting similar privileges to Maine licensees. Board may waive the 576 hours of study requirement for journeyman or master license.",
-        "quote": "who has been licensed and actively engaged in an electrician's work for a minimum of 8,000 hours, as long as that state or territory has licensing standards and experience requirements at least equivalent to this State's and as long as that state or territory grants similar privileges to persons licensed under this chapter.",
+        "value": "Applicant must be licensed in another state or territory with equivalent standards, have been actively engaged in electrician's work for at least 8,000 hours, and the other jurisdiction must grant similar reciprocal privileges to Maine licensees. The board may waive the 576 hours of study required for journeyman or master license.",
+        "quote": "The board shall issue a license to any person who files an application, who is licensed under the laws of another state or territory of the United States and who has been licensed and actively engaged in an electrician's work for a minimum of 8,000 hours, as long as that state or territory has licensing standards and experience requirements at least equivalent to this State's and as long as that state or territory grants similar privileges to persons licensed under this chapter.",
         "citation": "32 M.R.S. §1206"
       }
     },
@@ -115,51 +115,62 @@
       "quote": "An electrical installation may not be made unless by an electrician licensed by the board except as provided in this chapter.",
       "citation": "32 M.R.S. §1201"
     },
-    "disciplinary_grounds": [],
-    "alternative_regulation": null,
+    "disciplinary_grounds": [
+      {
+        "short_label": "unlicensed_practice",
+        "description": "Making electrical installations without a license",
+        "quote": "A person who violates section 1201 is subject to the provisions of Title 10, section 8003‑C.",
+        "citation": "32 M.R.S. §1105"
+      }
+    ],
+    "alternative_regulation": {
+      "bonding_required": null,
+      "insurance_required": null,
+      "establishment_regulation_required": null
+    },
     "citations": [
       {
         "cite": "32 M.R.S. §1101",
-        "kind": "definitions"
+        "kind": null
       },
       {
         "cite": "32 M.R.S. §1102",
-        "kind": "exceptions"
+        "kind": null
       },
       {
         "cite": "32 M.R.S. §1104",
-        "kind": "inspectors"
+        "kind": null
       },
       {
         "cite": "32 M.R.S. §1105",
-        "kind": "violations"
+        "kind": null
       },
       {
         "cite": "32 M.R.S. §1201",
-        "kind": "license required"
+        "kind": null
       },
       {
         "cite": "32 M.R.S. §1203",
-        "kind": "examinations"
+        "kind": null
       },
       {
         "cite": "32 M.R.S. §1204",
-        "kind": "renewals"
+        "kind": null
       },
       {
         "cite": "32 M.R.S. §1206",
-        "kind": "reciprocity"
+        "kind": null
       },
       {
         "cite": "32 M.R.S. §1207",
-        "kind": "education program installations"
+        "kind": null
       }
     ]
   },
   "scope": {
     "definition_quote": {
-      "value": "\"Electrical installations\" means the installation, repair, alteration and maintenance of electrical conductors, fittings, devices and fixtures for heating, lighting, power purposes or heat activated fire alarms, intrusion alarms, energy management, telephone, cable and closed-circuit television, sound systems, data transmission, conduit and raceway systems and electrically supervised manual fire alarms and sprinkler systems. \"Electrical installations\" includes complete installations related to photovoltaic, fuel cell and wind power generation systems.",
-      "quote": "\"Electrical installations\" means the installation, repair, alteration and maintenance of electrical conductors, fittings, devices and fixtures for heating, lighting, power purposes or heat activated fire alarms, intrusion alarms, energy management, telephone, cable and closed-circuit television, sound systems, data transmission, conduit and raceway systems and electrically supervised manual fire alarms and sprinkler systems. \"Electrical installations\" includes complete installations related to photovoltaic, fuel cell and wind power generation systems.",
+      "value": "\"Electrical installations\" means the installation, repair, alteration and maintenance of electrical conductors, fittings, devices and fixtures for heating, lighting, power purposes or heat activated fire alarms, intrusion alarms, energy management, telephone, cable and closed-circuit television, sound systems, data transmission, conduit and raceway systems and electrically supervised manual fire alarms and sprinkler systems.",
+      "quote": "\"Electrical installations\" means the installation, repair, alteration and maintenance of electrical conductors, fittings, devices and fixtures for heating, lighting, power purposes or heat activated fire alarms, intrusion alarms, energy management, telephone, cable and closed-circuit television, sound systems, data transmission, conduit and raceway systems and electrically supervised manual fire alarms and sprinkler systems.",
       "citation": "32 M.R.S. §1101"
     },
     "methods_authorized": {
@@ -169,14 +180,22 @@
         "alteration",
         "maintenance"
       ],
-      "quote": "the installation, repair, alteration and maintenance of electrical conductors, fittings, devices and fixtures",
+      "quote": "\"Electrical installations\" means the installation, repair, alteration and maintenance of electrical conductors, fittings, devices and fixtures",
       "citation": "32 M.R.S. §1101"
     },
     "drug_authority": null,
     "citations": [
       {
         "cite": "32 M.R.S. §1101",
-        "kind": "definitions"
+        "kind": null
+      },
+      {
+        "cite": "32 M.R.S. §1102",
+        "kind": null
+      },
+      {
+        "cite": "32 M.R.S. §1201",
+        "kind": null
       }
     ]
   },
@@ -198,21 +217,18 @@
     "voltage_limit_residential": null,
     "scope_exclusions": {
       "value": [
-        "Installation or repair of portable appliances and other portable electrical equipment involving only insertion of an attachment plug into a fixed receptacle outlet",
-        "Electrical work in connection with construction, installation, operation, repair or maintenance of aboveground electric transmission lines capable of operating at one kilovolt or more",
+        "Entities subject to jurisdiction of the Public Utilities Commission, Federal Energy Regulatory Commission, or Federal Communications Commission making installations in furtherance of authorized service",
+        "Aboveground electric transmission line work capable of operating at one kilovolt or more",
+        "Contractors performing services for public utilities to the extent the utility would be exempt",
         "Electrical work and equipment in mines, pipeline systems, ships, railway rolling stock or automotive equipment",
-        "Entity subject to jurisdiction of Public Utilities Commission, Federal Energy Regulatory Commission, or Federal Communications Commission (to extent making electrical installations in furtherance of authorized service)"
+        "Installation or repair of portable appliances involving only insertion of an attachment plug into a fixed receptacle outlet"
       ],
-      "quote": "\"Electrical installations\" does not include the installation or repair of portable appliances and other portable electrical equipment, installation of which involves only the insertion of an attachment plug into a fixed receptacle outlet.",
-      "citation": "32 M.R.S. §1101"
+      "quote": "The provisions of this chapter shall not apply to the following",
+      "citation": "32 M.R.S. §1102"
     },
     "minor_electrical_work_amperage_limit": null,
     "minor_electrical_work_distance_limit_feet": null,
-    "apprentice_supervision_ratio": {
-      "value": "maximum of 12 helper or apprentice electricians under direct supervision of one master electrician (in educational/apprenticeship program context)",
-      "quote": "may have a maximum of 12 helper or apprentice electricians under that person's direct supervision while making electrical installations that are a part of the instructional program of the school or apprenticeship program.",
-      "citation": "32 M.R.S. §1207"
-    },
+    "apprentice_supervision_ratio": null,
     "apprentice_unsupervised_hours_allowed": null,
     "apprentice_unsupervised_year_threshold": null,
     "residential_apprentice_supervisor_ratio_max": null,

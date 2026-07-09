@@ -32,12 +32,12 @@
     "age_minimum": null,
     "moral_character_required": {
       "value": true,
-      "quote": "An applicant for registration as an architect, engineer, land surveyor, or landscape architect must be of good character and reputation",
+      "quote": "An applicant for registration as an architect, engineer, land surveyor, or landscape architect must be of good character and reputation and shall submit evidence satisfactory to the board of the applicant's education, training, and experience.",
       "citation": "08.48.171"
     },
     "education": {
       "degree_required": {
-        "value": "Evidence satisfactory to the board of the applicant's education, training, and experience",
+        "value": "Evidence of education, training, and experience satisfactory to the board",
         "quote": "shall submit evidence satisfactory to the board of the applicant's education, training, and experience",
         "citation": "08.48.171"
       },
@@ -48,7 +48,11 @@
         "quote": "shall submit evidence satisfactory to the board of the applicant's education, training, and experience",
         "citation": "08.48.171"
       },
-      "credential_pegged": null,
+      "credential_pegged": {
+        "value": false,
+        "quote": "shall submit evidence satisfactory to the board of the applicant's education, training, and experience",
+        "citation": "08.48.171"
+      },
       "tiers": null
     },
     "post_degree_experience": {
@@ -67,10 +71,10 @@
     },
     "exams": [
       {
-        "name": "Examination for registration",
+        "name": "Architecture registration examination",
         "required": true,
-        "notes": "Procedure and standards shall at least meet the requirements adopted by recognized national examining councils for these professions.",
-        "jurisdiction": "state, with national standards",
+        "notes": "The procedure and standards shall at least meet the requirements adopted by recognized national examining councils for these professions.",
+        "jurisdiction": "state (administered in Alaska in accordance with board regulations and national examining council standards)",
         "permitted_attempts": null,
         "quote": "for registration as a professional architect, professional engineer, professional land surveyor, or professional landscape architect, a person shall be examined in this state in accordance with the regulations of procedure and standards adopted by the board under AS 44.62 (Administrative Procedure Act). The procedure and standards shall at least meet the requirements adopted by recognized national examining councils for these professions.",
         "citation": "08.48.181"
@@ -101,7 +105,7 @@
         "citation": "08.48.191"
       },
       "requirements": {
-        "value": "Must hold a certificate of registration from another U.S. state, territory, possession, D.C., or foreign country, or an NCARB certificate of qualification, issued under requirements comparable to Alaska's requirements.",
+        "value": "Applicant must hold a certificate of registration from another U.S. state, territory, possession, the District of Columbia, or a foreign country (or an NCARB certificate of qualification), issued under requirements comparable to Alaska's requirements.",
         "quote": "A person holding a certificate of registration authorizing the person to practice architecture in a state, territory, or possession of the United States, the District of Columbia, or a foreign country, or holding a certificate of qualification issued by the National Council of Architectural Registration Boards, may, upon application, be registered in accordance with the regulations of the board if the person's certificate was issued under requirements comparable to the requirements in this state.",
         "citation": "08.48.191"
       }
@@ -173,7 +177,7 @@
       },
       {
         "short_label": "violation_of_chapter_or_regulations",
-        "description": "Violation of the chapter, a regulation adopted under it, or the code of ethics or professional conduct",
+        "description": "Violation of this chapter, a regulation adopted under this chapter, or the code of ethics or professional conduct",
         "quote": "a violation of this chapter, a regulation adopted under this chapter, or the code of ethics or professional conduct as adopted by the board",
         "citation": "08.48.111"
       }
@@ -181,16 +185,25 @@
     "alternative_regulation": {
       "bonding_required": null,
       "insurance_required": null,
-      "establishment_regulation_required": null
+      "establishment_regulation_required": {
+        "value": true,
+        "quote": "a corporation, limited liability company, limited liability partnership, or limited partnership shall file with the board (1) an application for a certificate of authorization",
+        "citation": "08.48.241",
+        "unverified": true,
+        "approximate": {
+          "ratio": 0.994,
+          "matched_normalized": " corporation limited liability company limited liability partnership or limited partnership shall file with the board an application for a certificate of authorization"
+        }
+      }
     },
     "citations": [
       {
         "cite": "08.48.011",
-        "kind": "board_creation"
+        "kind": "board creation"
       },
       {
         "cite": "08.48.031",
-        "kind": "qualifications"
+        "kind": "board qualifications"
       },
       {
         "cite": "08.48.091",
@@ -198,31 +211,31 @@
       },
       {
         "cite": "08.48.101",
-        "kind": "regulations"
+        "kind": "regulations and CE"
       },
       {
         "cite": "08.48.111",
-        "kind": "disciplinary_powers"
+        "kind": "disciplinary powers"
       },
       {
         "cite": "08.48.121",
-        "kind": "disciplinary_procedure"
+        "kind": "disciplinary procedure"
       },
       {
         "cite": "08.48.171",
-        "kind": "general_requirements"
+        "kind": "general qualifications"
       },
       {
         "cite": "08.48.181",
-        "kind": "registration_by_examination"
+        "kind": "registration by examination"
       },
       {
         "cite": "08.48.191",
-        "kind": "registration_by_comity"
+        "kind": "registration by comity/endorsement"
       },
       {
         "cite": "08.48.211",
-        "kind": "certificate_of_registration"
+        "kind": "certificate of registration"
       },
       {
         "cite": "08.48.221",
@@ -234,19 +247,19 @@
       },
       {
         "cite": "08.48.241",
-        "kind": "corporations"
+        "kind": "firms"
       },
       {
         "cite": "08.48.281",
-        "kind": "prohibited_practice"
+        "kind": "prohibited practice"
       },
       {
         "cite": "08.48.291",
-        "kind": "penalties"
+        "kind": "violations and penalties"
       },
       {
         "cite": "08.48.295",
-        "kind": "civil_penalty"
+        "kind": "civil penalty"
       },
       {
         "cite": "08.48.331",
@@ -260,8 +273,8 @@
   },
   "scope": {
     "definition_quote": {
-      "value": "\"practice of architecture\" means professional service or creative work in the design of buildings, the teaching of advanced architectural courses in institutions of higher learning, consultation, investigation, evaluation, planning, design, and professional observation of construction of public or private buildings, works, or projects, and architectural review of drawings and specifications by regulatory agencies; \"practice of architecture\" may by regulation of the board include mechanical, electrical, or structural design of minor importance",
-      "quote": "\"practice of architecture\" means professional service or creative work in the design of buildings, the teaching of advanced architectural courses in institutions of higher learning, consultation, investigation, evaluation, planning, design, and professional observation of construction of public or private buildings, works, or projects, and architectural review of drawings and specifications by regulatory agencies; \"practice of architecture\" may by regulation of the board include mechanical, electrical, or structural design of minor importance",
+      "value": "professional service or creative work in the design of buildings, the teaching of advanced architectural courses in institutions of higher learning, consultation, investigation, evaluation, planning, design, and professional observation of construction of public or private buildings, works, or projects, and architectural review of drawings and specifications by regulatory agencies",
+      "quote": "\"practice of architecture\" means professional service or creative work in the design of buildings, the teaching of advanced architectural courses in institutions of higher learning, consultation, investigation, evaluation, planning, design, and professional observation of construction of public or private buildings, works, or projects, and architectural review of drawings and specifications by regulatory agencies",
       "citation": "08.48.341"
     },
     "methods_authorized": {
@@ -273,16 +286,25 @@
         "planning",
         "professional observation of construction",
         "architectural review of drawings and specifications",
-        "teaching of advanced architectural courses"
+        "teaching of advanced architectural courses",
+        "mechanical, electrical, or structural design of minor importance (by board regulation)"
       ],
-      "quote": "professional service or creative work in the design of buildings, the teaching of advanced architectural courses in institutions of higher learning, consultation, investigation, evaluation, planning, design, and professional observation of construction of public or private buildings, works, or projects, and architectural review of drawings and specifications by regulatory agencies",
+      "quote": "\"practice of architecture\" means professional service or creative work in the design of buildings, the teaching of advanced architectural courses in institutions of higher learning, consultation, investigation, evaluation, planning, design, and professional observation of construction of public or private buildings, works, or projects, and architectural review of drawings and specifications by regulatory agencies; \"practice of architecture\" may by regulation of the board include mechanical, electrical, or structural design of minor importance",
       "citation": "08.48.341"
     },
     "drug_authority": null,
     "citations": [
       {
         "cite": "08.48.341",
-        "kind": "definition"
+        "kind": "definition of practice of architecture"
+      },
+      {
+        "cite": "08.48.281",
+        "kind": "prohibited practice"
+      },
+      {
+        "cite": "08.48.331",
+        "kind": "exemptions"
       }
     ]
   },
@@ -296,7 +318,7 @@
         "limited liability company",
         "limited liability partnership",
         "limited partnership",
-        "partnership (all-registrant)"
+        "partnership (all members registered)"
       ],
       "quote": "This chapter does not prevent a corporation, limited liability company, limited liability partnership, or limited partnership from offering architectural, engineering, land surveying, or landscape architectural services",
       "citation": "08.48.241"
@@ -315,18 +337,19 @@
       "value": [
         "active duty military service"
       ],
-      "quote": "a waiver of continuing education requirements for renewal of a license for the period in which a licensee is engaged in active duty military service as described under AS 08.01.100(f)",
+      "quote": "a board may establish and implement a waiver of continuing education requirements for renewal of a license regulated by the board for the period in which a licensee is engaged in active duty military service in the armed forces of the United States",
       "citation": "UMBRELLA / Chapter 01. Centralized Licensing"
     },
     "exempt_building_types": {
       "value": [
         "single family residence for person's own use and occupancy and related site work",
-        "farm or ranch buildings and their grounds (unless public health, safety, or welfare is involved)",
-        "residence for not more than four families, not more than two stories high",
-        "residence for not more than two families, not more than three stories high (in municipality with applicable building/residential code)",
-        "garage, workshop, or similar building less than 2,000 sq ft for private noncommercial purpose"
+        "farm or ranch buildings and their grounds (unless public health, safety, or welfare involved)",
+        "residence for not more than four families not more than two stories high",
+        "residence for not more than two families not more than three stories high (in a municipality with applicable building or residential code)",
+        "garage, workshop, or similar building under 2,000 sq ft for private noncommercial purpose",
+        "alterations or repairs that do not change structural system or safety or affect public health, safety, or welfare"
       ],
-      "quote": "a building for the person's own use and occupancy as a single family residence and related site work for that building; (B) farm or ranch buildings and their grounds unless the public health, safety, or welfare is involved; (C) a building that is intended to be used only as a residence by not more than (i) four families and that is not more than two stories high",
+      "quote": "a person preparing drawings or specifications for (A) a building for the person's own use and occupancy as a single family residence and related site work for that building; (B) farm or ranch buildings and their grounds unless the public health, safety, or welfare is involved; (C) a building that is intended to be used only as a residence by not more than (i) four families and that is not more than two stories high",
       "citation": "08.48.331"
     },
     "ncarb_certificate_reciprocity_prima_facie": {
@@ -336,8 +359,8 @@
     },
     "ncarb_standards_adoptable": null,
     "unauthorized_practice_criminal_penalty_first_offense": {
-      "value": "Misdemeanor; fine not more than $10,000, or imprisonment not more than one year, or both",
-      "quote": "is guilty of a misdemeanor and upon conviction is punishable by a fine of not more than $10,000, or by imprisonment for not more than one year, or by both.",
+      "value": "Misdemeanor; fine of not more than $10,000, or imprisonment for not more than one year, or both",
+      "quote": "is guilty of a misdemeanor and upon conviction is punishable by a fine of not more than $10,000, or by imprisonment for not more than one year, or by both",
       "citation": "08.48.291"
     },
     "unauthorized_practice_criminal_penalty_subsequent_offense": null,

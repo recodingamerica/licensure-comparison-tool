@@ -33,11 +33,15 @@
     "moral_character_required": null,
     "education": {
       "degree_required": {
-        "value": "Graduation with an engineering degree from a board-approved curriculum",
+        "value": "Engineering degree from a board-approved curriculum (four years credit toward qualifying experience)",
         "quote": "Shall give credit as qualifying experience of four years, for graduation with an engineering degree from a college or university the curriculum of which has been approved by the board.",
         "citation": "Section 6753."
       },
-      "accrediting_body": null,
+      "accrediting_body": {
+        "value": "Board-approved curriculum",
+        "quote": "the board shall by rule establish the criteria to be used for approving curricula of schools of engineering.",
+        "citation": "6751.5"
+      },
       "degree_level": {
         "value": "bachelor",
         "quote": "graduation with an engineering degree from a college or university the curriculum of which has been approved by the board",
@@ -45,12 +49,12 @@
       },
       "school_approval_basis": {
         "value": "board_approved",
-        "quote": "graduation with an engineering degree from a college or university the curriculum of which has been approved by the board",
-        "citation": "Section 6753."
+        "quote": "the board shall by rule establish the criteria to be used for approving curricula of schools of engineering.",
+        "citation": "6751.5"
       },
       "credential_pegged": {
         "value": false,
-        "quote": "Shall give credit as qualifying experience of four years, for graduation with an engineering degree from a college or university the curriculum of which has been approved by the board.",
+        "quote": "graduation with an engineering degree from a college or university the curriculum of which has been approved by the board",
         "citation": "Section 6753."
       },
       "tiers": null
@@ -67,7 +71,7 @@
         "citation": "Section 6751."
       },
       "duration": {
-        "value": "six years or more",
+        "value": "six years or more (reduced by up to five years credit for education)",
         "quote": "Furnish evidence of six years or more of qualifying experience in engineering work satisfactory to the board",
         "citation": "Section 6751."
       },
@@ -81,8 +85,8 @@
       {
         "name": "First Division Examination (Fundamentals of Engineering)",
         "required": true,
-        "notes": "Tests knowledge of fundamental engineering subjects including mathematics and basic sciences. Board may waive for substantially qualified applicants. Required for engineer-in-training certification.",
-        "jurisdiction": "national or state; administered per board arrangements",
+        "notes": "Tests knowledge of fundamental engineering subjects including mathematics and basic sciences. Required for engineer-in-training certification. Board may waive by rule for applicants with substantially exceeding qualifications.",
+        "jurisdiction": "national or state; administered by board or contracted organization",
         "permitted_attempts": null,
         "quote": "The first division of the examination shall test the applicant's knowledge of appropriate fundamental engineering subjects, including mathematics and the basic sciences",
         "citation": "Section 6755."
@@ -90,8 +94,8 @@
       {
         "name": "Second Division Examination (Principles and Practice of Engineering)",
         "required": true,
-        "notes": "Tests ability to apply knowledge and experience in professional practice; includes state laws/board rules section, and for civil engineers also includes seismic principles and engineering surveying principles.",
-        "jurisdiction": "national or state; administered at least once per year per branch",
+        "notes": "Tests ability to apply knowledge and assume responsible charge. Includes questions on state laws, board rules, and (for civil engineers) seismic and engineering surveying principles. Administered at least once per year.",
+        "jurisdiction": "national or state; administered by board or contracted organization",
         "permitted_attempts": null,
         "quote": "the second division of the examination shall test the applicant's ability to apply their knowledge and experience and to assume responsible charge in the professional practice of the branch of engineering in which the applicant is being examined",
         "citation": "Section 6755."
@@ -107,13 +111,20 @@
     "renewal_fee_usd": null,
     "continuing_education": {
       "required": {
-        "value": false,
-        "quote": "At the time of renewal specified in Section 6795 or 6796, the board shall administer an assessment of the certificate holder to reinforce the certificate holder's knowledge of state laws and the board's rules and regulations.",
+        "value": true,
+        "quote": "the board shall administer an assessment of the certificate holder to reinforce the certificate holder's knowledge of state laws and the board's rules and regulations. Failure to complete this assessment within 60 days after the date of expiration of the certificate may result in disciplinary action",
         "citation": "6795.2"
       },
       "hours_per_period": null,
       "period_years": null,
-      "topical_requirements": null
+      "topical_requirements": {
+        "value": [
+          "state laws and board rules and regulations",
+          "top five types of violations related to administrative and procedural aspects"
+        ],
+        "quote": "The material shall be based on state law and the board's rules and regulations relating to the practice of professional engineers. The scope of the assessment shall be limited to the board's top five types of violations related to the administrative and procedural aspects of the practice of professional engineers",
+        "citation": "6795.2"
+      }
     },
     "reciprocity": {
       "available": {
@@ -122,7 +133,7 @@
         "citation": "Section 6759."
       },
       "requirements": {
-        "value": "Applicant must hold a certificate of registration from another state or country, meet California's qualifications, and have passed an equivalent second division examination. Board shall not require comity applicant to meet any requirement not required of California applicants.",
+        "value": "Applicant must hold a certificate of registration from another state or country, meet California's qualifications, and pay the required fee. The board shall not require a comity applicant to meet any requirement not required of California applicants. Equivalent second division examinations from other states are recognized.",
         "quote": "The board shall not require a comity applicant to meet any requirement not required of California applicants.",
         "citation": "Section 6759."
       }
@@ -145,7 +156,7 @@
     },
     "credential_type": {
       "value": "license",
-      "quote": "shall be licensed accordingly as a civil engineer, electrical engineer or mechanical engineer by the board",
+      "quote": "shall submit evidence that he or she is qualified to practice, and shall be licensed accordingly as a civil engineer, electrical engineer or mechanical engineer by the board.",
       "citation": "Section 6730."
     },
     "is_mandatory": {
@@ -166,63 +177,69 @@
     "disciplinary_grounds": [
       {
         "short_label": "conviction_of_crime",
-        "description": "Conviction of a crime substantially related to the qualifications, functions, and duties of a licensed professional engineer.",
-        "quote": "Any conviction of a crime substantially related to the qualifications, functions, and duties of a licensed professional engineer, in which case the certified record of conviction shall be conclusive evidence thereof.",
+        "description": "Conviction of a crime substantially related to the qualifications, functions, and duties of a licensed professional engineer",
+        "quote": "Any conviction of a crime substantially related to the qualifications, functions, and duties of a licensed professional engineer",
         "citation": "Section 6775."
       },
       {
         "short_label": "deceit_misrepresentation_fraud_in_practice",
-        "description": "Any deceit, misrepresentation, or fraud in the licensee's practice.",
+        "description": "Any deceit, misrepresentation, or fraud in practice as a professional engineer",
         "quote": "Any deceit, misrepresentation, or fraud in their practice.",
         "citation": "Section 6775."
       },
       {
         "short_label": "negligence_or_incompetence",
-        "description": "Any negligence or incompetence in the licensee's practice.",
+        "description": "Any negligence or incompetence in the practice of professional engineering",
         "quote": "Any negligence or incompetence in their practice.",
         "citation": "Section 6775."
       },
       {
         "short_label": "breach_of_contract",
-        "description": "A breach or violation of a contract to provide professional engineering services.",
+        "description": "A breach or violation of a contract to provide professional engineering services",
         "quote": "A breach or violation of a contract to provide professional engineering services.",
         "citation": "Section 6775."
       },
       {
         "short_label": "fraud_in_obtaining_certificate",
-        "description": "Any fraud, deceit, or misrepresentation in obtaining the certificate as a professional engineer.",
+        "description": "Any fraud, deceit, or misrepresentation in obtaining the professional engineer certificate",
         "quote": "Any fraud, deceit, or misrepresentation in obtaining their certificate as a professional engineer.",
         "citation": "Section 6775."
       },
       {
         "short_label": "aiding_abetting_violations",
-        "description": "Aiding or abetting any person in the violation of any provision of this chapter or any board regulation.",
+        "description": "Aiding or abetting any person in the violation of any provision of the Professional Engineers Act or board regulations",
         "quote": "Aiding or abetting any person in the violation of any provision of this chapter or any regulation adopted by the board pursuant to this chapter.",
         "citation": "Section 6775."
       },
       {
-        "short_label": "false_statement_in_certification",
-        "description": "For a licensee serving as a qualified professional certifier, making a false statement in a certification submission.",
-        "quote": "For a licensee who serves as a qualified professional certifier, as defined in Section 66345.1 of the Government Code, making any false statement in a certification submission pursuant to Chapter 14 (commencing with Section 66345) of Division 1 of Title 7 of the Government Code.",
+        "short_label": "false_certification_statement",
+        "description": "For a licensee serving as a qualified professional certifier, making a false statement in a certification submission",
+        "quote": "making any false statement in a certification submission pursuant to Chapter 14 (commencing with Section 66345) of Division 1 of Title 7 of the Government Code.",
         "citation": "Section 6775."
       },
       {
-        "short_label": "unprofessional_conduct_rule_violation",
-        "description": "A violation in the course of practice of a rule or regulation of unprofessional conduct adopted by the board.",
+        "short_label": "violation_of_rules_of_professional_conduct",
+        "description": "A violation in the course of engineering practice of a rule or regulation of unprofessional conduct adopted by the board",
         "quote": "A violation in the course of the practice of professional engineering of a rule or regulation of unprofessional conduct adopted by the board.",
         "citation": "Section 6775."
       },
       {
         "short_label": "violation_of_chapter_or_other_law",
-        "description": "A violation of any provision of this chapter or any other law relating to or involving the practice of professional engineering.",
+        "description": "A violation of any provision of the Professional Engineers Act or any other law relating to the practice of professional engineering",
         "quote": "A violation of any provision of this chapter or any other law relating to or involving the practice of professional engineering.",
         "citation": "Section 6775."
       },
       {
-        "short_label": "failure_to_report_events",
-        "description": "Failure of a licensee to report required events (convictions, settlements, judgments) to the board in the time and manner required.",
+        "short_label": "failure_to_report",
+        "description": "Failure to report to the board required events such as convictions, civil judgments, or settlements within the specified time",
         "quote": "Failure of a licensee to report to the board in the time and manner required by this section shall be grounds for disciplinary action.",
         "citation": "Section 6770."
+      },
+      {
+        "short_label": "failure_to_respond_to_board_investigation",
+        "description": "Failure or refusal to respond to a written request from the board in the investigation of a complaint",
+        "quote": "The failure of, or refusal by, a licensee or a certificate holder to respond to a written request from a representative of the board in the investigation of a complaint against that licensee or certificate holder constitutes a cause for disciplinary action",
+        "citation": "6775.2"
       }
     ],
     "alternative_regulation": {
@@ -236,40 +253,28 @@
     },
     "citations": [
       {
-        "cite": "Section 6701.",
-        "kind": "definition"
-      },
-      {
-        "cite": "Section 6703.",
-        "kind": "definition"
-      },
-      {
         "cite": "Section 6704.",
-        "kind": "scope_protection"
+        "kind": "scope and title protection"
       },
       {
         "cite": "Section 6710.",
-        "kind": "board"
+        "kind": "regulatory authority"
       },
       {
         "cite": "Section 6730.",
-        "kind": "licensure_requirement"
-      },
-      {
-        "cite": "Section 6731.",
-        "kind": "scope_definition"
-      },
-      {
-        "cite": "Section 6732.",
-        "kind": "title_protection"
+        "kind": "licensure requirement"
       },
       {
         "cite": "Section 6751.",
-        "kind": "qualifications"
+        "kind": "qualifications for licensure"
       },
       {
         "cite": "Section 6753.",
-        "kind": "experience_credit"
+        "kind": "education credit"
+      },
+      {
+        "cite": "6751.5",
+        "kind": "school approval"
       },
       {
         "cite": "Section 6754.",
@@ -277,33 +282,45 @@
       },
       {
         "cite": "Section 6755.",
-        "kind": "examination"
+        "kind": "examination structure"
+      },
+      {
+        "cite": "6755.1",
+        "kind": "examination content"
       },
       {
         "cite": "Section 6759.",
-        "kind": "reciprocity"
+        "kind": "reciprocity/comity"
       },
       {
         "cite": "Section 6762.",
-        "kind": "certificate_issuance"
-      },
-      {
-        "cite": "Section 6775.",
-        "kind": "discipline"
-      },
-      {
-        "cite": "Section 6787.",
-        "kind": "penalties"
+        "kind": "issuance of certificate"
       },
       {
         "cite": "Section 6795.",
-        "kind": "renewal"
+        "kind": "renewal interval"
+      },
+      {
+        "cite": "6795.2",
+        "kind": "continuing education/assessment"
+      },
+      {
+        "cite": "Section 6775.",
+        "kind": "disciplinary grounds"
+      },
+      {
+        "cite": "Section 6787.",
+        "kind": "criminal penalties and unauthorized practice"
+      },
+      {
+        "cite": "Section 6738.",
+        "kind": "firm practice / establishment regulation"
       }
     ]
   },
   "scope": {
     "definition_quote": {
-      "value": "refers to a person engaged in the professional practice of rendering service or creative work requiring education, training and experience in engineering sciences and the application of special knowledge of the mathematical, physical and engineering sciences in such professional or creative work as consultation, investigation, evaluation, planning or design of public or private utilities, structures, machines, processes, circuits, buildings, equipment or projects, and supervision of construction for the purpose of securing compliance with specifications and design for any such work.",
+      "value": "a person engaged in the professional practice of rendering service or creative work requiring education, training and experience in engineering sciences and the application of special knowledge of the mathematical, physical and engineering sciences in such professional or creative work as consultation, investigation, evaluation, planning or design of public or private utilities, structures, machines, processes, circuits, buildings, equipment or projects, and supervision of construction for the purpose of securing compliance with specifications and design for any such work.",
       "quote": "refers to a person engaged in the professional practice of rendering service or creative work requiring education, training and experience in engineering sciences and the application of special knowledge of the mathematical, physical and engineering sciences in such professional or creative work as consultation, investigation, evaluation, planning or design of public or private utilities, structures, machines, processes, circuits, buildings, equipment or projects, and supervision of construction for the purpose of securing compliance with specifications and design for any such work.",
       "citation": "Section 6701."
     },
@@ -323,31 +340,39 @@
     "citations": [
       {
         "cite": "Section 6701.",
-        "kind": "general_definition"
+        "kind": "definition of professional engineer"
       },
       {
         "cite": "Section 6731.",
-        "kind": "civil_engineering_scope"
+        "kind": "civil engineering scope"
       },
       {
         "cite": "6731.5",
-        "kind": "electrical_engineering_scope"
+        "kind": "electrical engineering scope"
       },
       {
         "cite": "6731.6",
-        "kind": "mechanical_engineering_scope"
+        "kind": "mechanical engineering scope"
+      },
+      {
+        "cite": "Section 6703.",
+        "kind": "responsible charge definition"
+      },
+      {
+        "cite": "Section 6704.",
+        "kind": "scope protection and title protection"
       }
     ]
   },
   "profession_specific": {
     "covers_land_surveying": {
       "value": true,
-      "quote": "Civil engineers registered prior to January 1, 1982, shall be authorized to practice all land surveying as defined in Chapter 15 (commencing with Section 8700) of Division 3.",
-      "citation": "Section 6731."
+      "quote": "There is in the Department of Consumer Affairs a Board for Professional Engineers, Land Surveyors, and Geologists",
+      "citation": "Section 6710."
     },
     "covers_geology": {
-      "value": false,
-      "quote": "There is in the Department of Consumer Affairs a Board for Professional Engineers, Land Surveyors, and Geologists, which consists of 15 members.",
+      "value": true,
+      "quote": "There is in the Department of Consumer Affairs a Board for Professional Engineers, Land Surveyors, and Geologists",
       "citation": "Section 6710."
     },
     "engineer_intern_certificate_available": {
@@ -390,16 +415,19 @@
     "exemptions_from_licensure": {
       "value": [
         "Subordinates acting solely in that capacity under a licensed or exempt engineer",
-        "Nonresident legally qualified in another state who does not maintain regular place of business and does not practice in California",
-        "Real estate brokers or salespersons making appraisals and valuations of real estate",
-        "Practice on or in connection with property owned or leased by the individual/firm unless involving public health or safety",
-        "Store fronts, interior alterations, fixtures, cabinet work without structural impact",
-        "Communications companies' employees for communication lines and equipment under PUC jurisdiction",
-        "Industrial/manufacturing/mining/public utility corporation employees for work incidental to corporation products, systems, or services (except civil engineering)",
-        "Licensed contractors for electrical or mechanical work within their license classification",
-        "Small woodframe residential and agricultural structures"
+        "Nonresident legally qualified in another state who does not maintain a regular place of business in CA and does not practice in CA",
+        "Real estate brokers/salespersons making appraisals and valuations of real estate",
+        "Person practicing civil engineering on or in connection with property owned or leased (absent public health/safety involvement)",
+        "Store fronts, interior alterations, fixtures, cabinet work, furniture installations not affecting structural safety",
+        "Communications company employees for plans/specs/reports on communication lines under PUC jurisdiction",
+        "Industrial/manufacturing/public utility/R&D corporations for work incidental to their own products and services (non-civil)",
+        "Single-family dwellings of woodframe construction not more than two stories",
+        "Multiple dwellings up to four units of woodframe construction not more than two stories",
+        "Garages/structures appurtenant to exempt buildings",
+        "Agricultural and ranch buildings of woodframe construction",
+        "Licensed contractors for design of electrical/mechanical systems for work they perform within their license classification"
       ],
-      "quote": "A subordinate to a civil, electrical or mechanical engineer licensed under this chapter, or a subordinate to a civil, electrical or mechanical engineer exempted from licensure under this chapter, insofar as he or she acts solely in that capacity, is exempt from licensure under the provisions of this chapter.",
+      "quote": "A subordinate to a civil, electrical or mechanical engineer licensed under this chapter, or a subordinate to a civil, electrical or mechanical engineer exempted from licensure under this chapter, insofar as he or she acts solely in that capacity, is exempt from licensure",
       "citation": "Section 6740."
     },
     "code_of_ethics_in_statute": {
@@ -409,7 +437,7 @@
     },
     "multi_license_reporting_required": {
       "value": false,
-      "quote": "A licensee shall report to the board in writing the occurrence of any of the following events that occurred on or after January 1, 2008, within 90 days of the date the licensee has knowledge of the event",
+      "quote": "A licensee shall report to the board in writing the occurrence of any of the following events",
       "citation": "Section 6770."
     },
     "board_engineering_disciplines_represented": null,
@@ -418,7 +446,7 @@
     "pdh_carryover_max_units": null,
     "retired_status_license_available": {
       "value": true,
-      "quote": "The board shall issue, upon application and payment of the fee established by Section 6799, a retired license (registration), to an engineer who has been licensed by the board for a minimum of 5 years within California and a minimum of 20 years within the United States or territory of the United States",
+      "quote": "The board shall issue, upon application and payment of the fee established by Section 6799, a retired license (registration), to an engineer who has been licensed by the board for a minimum of 5 years within California and a minimum of 20 years within the United States",
       "citation": "6762.5"
     }
   }

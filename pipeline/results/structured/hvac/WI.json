@@ -46,7 +46,7 @@
       {
         "name": "Voluntary certification examination",
         "required": false,
-        "notes": "The department shall promulgate rules for a voluntary program under which a person who engages in the business of installing or servicing HVAC equipment may obtain certification by passing an examination. Registration is mandatory; certification via exam is voluntary.",
+        "notes": "Examination is part of a voluntary certification program under s. 101.178(3)(a); registration under s. 101.178(2) does not require passing an exam.",
         "jurisdiction": null,
         "permitted_attempts": null,
         "quote": "The department shall promulgate rules for a voluntary program under which a person who engages in the business of installing or servicing heating, ventilating or air conditioning equipment may obtain certification by passing an examination developed or selected by the department.",
@@ -56,7 +56,14 @@
     "renewal": null,
     "renewal_fee_usd": null,
     "continuing_education": null,
-    "reciprocity": null,
+    "reciprocity": {
+      "available": {
+        "value": false,
+        "quote": "No person may engage in the business of installing or servicing heating, ventilating or air conditioning equipment unless the person registers with the department.",
+        "citation": "[101.178]"
+      },
+      "requirements": null
+    },
     "advisory_board": {
       "exists": {
         "value": false,
@@ -102,11 +109,7 @@
     "citations": [
       {
         "cite": "[101.178]",
-        "kind": "statute"
-      },
-      {
-        "cite": "[101.01]",
-        "kind": "statute"
+        "kind": "primary"
       }
     ]
   },
@@ -116,12 +119,19 @@
       "quote": "No person may engage in the business of installing or servicing heating, ventilating or air conditioning equipment unless the person registers with the department.",
       "citation": "[101.178]"
     },
-    "methods_authorized": null,
+    "methods_authorized": {
+      "value": [
+        "installing",
+        "servicing"
+      ],
+      "quote": "No person may engage in the business of installing or servicing heating, ventilating or air conditioning equipment unless the person registers with the department.",
+      "citation": "[101.178]"
+    },
     "drug_authority": null,
     "citations": [
       {
         "cite": "[101.178]",
-        "kind": "statute"
+        "kind": "primary"
       }
     ]
   },
@@ -144,6 +154,10 @@
     "small_project_exemption_threshold_dollars": null,
     "hvac_exempt_from_small_project_exemption": null,
     "license_number_on_permits_required": null,
-    "scope_expansion_by_rule_authorized": null
+    "scope_expansion_by_rule_authorized": {
+      "value": true,
+      "quote": "The department shall promulgate rules for a voluntary program under which a person who engages in the business of installing or servicing heating, ventilating or air conditioning equipment may obtain certification by passing an examination developed or selected by the department.",
+      "citation": "[101.178]"
+    }
   }
 }
