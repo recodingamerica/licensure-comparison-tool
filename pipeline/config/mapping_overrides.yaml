@@ -3514,10 +3514,14 @@ hvac:
       via: migration_keep
   MA:
     add:
-    - url: https://law.justia.com/codes/massachusetts/part-i/title-xx/chapter-142a/
-      label: Chapter 142A - Regulation of Home Improvement Contractors
+    - url: https://law.justia.com/codes/massachusetts/part-i/title-xx/chapter-142/
+      label: Chapter 142 - Supervision of Plumbing (Board of State Examiners of Plumbers and Gas Fitters; MGL c.142 s.3 licenses gas fitters)
       slug: ''
-      via: gap_locator
+      via: relocate_2026-07-08
+    - url: https://law.justia.com/codes/massachusetts/part-i/title-xx/chapter-146/section-85/
+      label: Chapter 146 s.85 - License applications, examinations, fees, renewal (covers refrigeration technicians)
+      slug: ''
+      via: relocate_2026-07-08
   MD:
     add:
     - label: Subtitle 2 - State Board of Heating, Ventilation, Air-Conditioning, and Refrigeration Contractors
@@ -3530,6 +3534,12 @@ hvac:
       label: MAINE FUEL BOARD
       slug: ''
       via: gap_locator
+  MT:
+    add:
+    - url: https://law.justia.com/codes/montana/title-39/chapter-9/
+      label: 'Chapter 9. Contractor Registration (shared w/ construction_trades/MT -- no dedicated HVAC license, MT regulates via general Contractor Registration, same pattern as TN/MS/AZ per issue 53)'
+      slug: ''
+      via: relocate_2026-07-08
   NC:
     add:
     - label: Article 5 - Refrigeration Contractors.
@@ -4262,10 +4272,56 @@ land_surveying:
       via: gap_locator
   AZ:
     add:
-    - url: https://law.justia.com/codes/arizona/title-32/chapter-1/
-      label: ARCHITECTS, ENGINEERS, GEOLOGISTS, HOME INSPECTORS, LANDSCAPE ARCHITECTS AND SURVEYORS
-      slug: ''
-      via: gap_locator
+    - url: https://law.justia.com/codes/arizona/title-32/
+      label: 'AZ Title 32 Ch 1 Arts 1-3 (§32-101..152) - Board of Technical Registration (shared: architects, engineers, geologists, land surveyors, landscape architects, home inspectors)'
+      slug: title-32
+      via: shared_board_reuse
+      note: 'AZ has no surveyor-specific article; Title 32 Ch1 Arts 1-3 are the unified Board of Technical Registration framework covering all 6 professions -- same section range proven for architecture/AZ.'
+      section_url_list:
+      - https://law.justia.com/codes/arizona/title-32/section-32-101/
+      - https://law.justia.com/codes/arizona/title-32/section-32-102/
+      - https://law.justia.com/codes/arizona/title-32/section-32-103/
+      - https://law.justia.com/codes/arizona/title-32/section-32-104/
+      - https://law.justia.com/codes/arizona/title-32/section-32-105/
+      - https://law.justia.com/codes/arizona/title-32/section-32-106/
+      - https://law.justia.com/codes/arizona/title-32/section-32-106-01/
+      - https://law.justia.com/codes/arizona/title-32/section-32-106-02/
+      - https://law.justia.com/codes/arizona/title-32/section-32-107/
+      - https://law.justia.com/codes/arizona/title-32/section-32-108/
+      - https://law.justia.com/codes/arizona/title-32/section-32-109/
+      - https://law.justia.com/codes/arizona/title-32/section-32-109-version-2/
+      - https://law.justia.com/codes/arizona/title-32/section-32-110/
+      - https://law.justia.com/codes/arizona/title-32/section-32-113/
+      - https://law.justia.com/codes/arizona/title-32/section-32-121/
+      - https://law.justia.com/codes/arizona/title-32/section-32-122/
+      - https://law.justia.com/codes/arizona/title-32/section-32-122-version-2/
+      - https://law.justia.com/codes/arizona/title-32/section-32-122-01/
+      - https://law.justia.com/codes/arizona/title-32/section-32-122-02/
+      - https://law.justia.com/codes/arizona/title-32/section-32-122-03/
+      - https://law.justia.com/codes/arizona/title-32/section-32-122-05/
+      - https://law.justia.com/codes/arizona/title-32/section-32-122-06/
+      - https://law.justia.com/codes/arizona/title-32/section-32-122-07/
+      - https://law.justia.com/codes/arizona/title-32/section-32-123/
+      - https://law.justia.com/codes/arizona/title-32/section-32-124/
+      - https://law.justia.com/codes/arizona/title-32/section-32-125/
+      - https://law.justia.com/codes/arizona/title-32/section-32-126/
+      - https://law.justia.com/codes/arizona/title-32/section-32-127/
+      - https://law.justia.com/codes/arizona/title-32/section-32-128/
+      - https://law.justia.com/codes/arizona/title-32/section-32-129/
+      - https://law.justia.com/codes/arizona/title-32/section-32-130/
+      - https://law.justia.com/codes/arizona/title-32/section-32-131/
+      - https://law.justia.com/codes/arizona/title-32/section-32-141/
+      - https://law.justia.com/codes/arizona/title-32/section-32-142/
+      - https://law.justia.com/codes/arizona/title-32/section-32-143/
+      - https://law.justia.com/codes/arizona/title-32/section-32-144/
+      - https://law.justia.com/codes/arizona/title-32/section-32-145/
+      - https://law.justia.com/codes/arizona/title-32/section-32-146/
+      - https://law.justia.com/codes/arizona/title-32/section-32-147/
+      - https://law.justia.com/codes/arizona/title-32/section-32-148/
+      - https://law.justia.com/codes/arizona/title-32/section-32-149/
+      - https://law.justia.com/codes/arizona/title-32/section-32-150/
+      - https://law.justia.com/codes/arizona/title-32/section-32-151/
+      - https://law.justia.com/codes/arizona/title-32/section-32-152/
   CO:
     add:
     - url: https://law.justia.com/codes/colorado/title-12/business-professions-and-occupations/article-120/part-3/
@@ -4369,10 +4425,56 @@ land_surveying:
 landscape_architecture:
   AZ:
     add:
-    - url: https://law.justia.com/codes/arizona/title-32/chapter-1/
-      label: ARCHITECTS, ENGINEERS, GEOLOGISTS, HOME INSPECTORS, LANDSCAPE ARCHITECTS AND SURVEYORS
-      slug: ''
-      via: gap_locator
+    - url: https://law.justia.com/codes/arizona/title-32/
+      label: 'AZ Title 32 Ch 1 Arts 1-3 (§32-101..152) - Board of Technical Registration (shared: architects, engineers, geologists, land surveyors, landscape architects, home inspectors)'
+      slug: title-32
+      via: shared_board_reuse
+      note: 'AZ has no landscape-architect-specific article; Title 32 Ch1 Arts 1-3 are the unified Board of Technical Registration framework covering all 6 professions -- same section range proven for architecture/AZ.'
+      section_url_list:
+      - https://law.justia.com/codes/arizona/title-32/section-32-101/
+      - https://law.justia.com/codes/arizona/title-32/section-32-102/
+      - https://law.justia.com/codes/arizona/title-32/section-32-103/
+      - https://law.justia.com/codes/arizona/title-32/section-32-104/
+      - https://law.justia.com/codes/arizona/title-32/section-32-105/
+      - https://law.justia.com/codes/arizona/title-32/section-32-106/
+      - https://law.justia.com/codes/arizona/title-32/section-32-106-01/
+      - https://law.justia.com/codes/arizona/title-32/section-32-106-02/
+      - https://law.justia.com/codes/arizona/title-32/section-32-107/
+      - https://law.justia.com/codes/arizona/title-32/section-32-108/
+      - https://law.justia.com/codes/arizona/title-32/section-32-109/
+      - https://law.justia.com/codes/arizona/title-32/section-32-109-version-2/
+      - https://law.justia.com/codes/arizona/title-32/section-32-110/
+      - https://law.justia.com/codes/arizona/title-32/section-32-113/
+      - https://law.justia.com/codes/arizona/title-32/section-32-121/
+      - https://law.justia.com/codes/arizona/title-32/section-32-122/
+      - https://law.justia.com/codes/arizona/title-32/section-32-122-version-2/
+      - https://law.justia.com/codes/arizona/title-32/section-32-122-01/
+      - https://law.justia.com/codes/arizona/title-32/section-32-122-02/
+      - https://law.justia.com/codes/arizona/title-32/section-32-122-03/
+      - https://law.justia.com/codes/arizona/title-32/section-32-122-05/
+      - https://law.justia.com/codes/arizona/title-32/section-32-122-06/
+      - https://law.justia.com/codes/arizona/title-32/section-32-122-07/
+      - https://law.justia.com/codes/arizona/title-32/section-32-123/
+      - https://law.justia.com/codes/arizona/title-32/section-32-124/
+      - https://law.justia.com/codes/arizona/title-32/section-32-125/
+      - https://law.justia.com/codes/arizona/title-32/section-32-126/
+      - https://law.justia.com/codes/arizona/title-32/section-32-127/
+      - https://law.justia.com/codes/arizona/title-32/section-32-128/
+      - https://law.justia.com/codes/arizona/title-32/section-32-129/
+      - https://law.justia.com/codes/arizona/title-32/section-32-130/
+      - https://law.justia.com/codes/arizona/title-32/section-32-131/
+      - https://law.justia.com/codes/arizona/title-32/section-32-141/
+      - https://law.justia.com/codes/arizona/title-32/section-32-142/
+      - https://law.justia.com/codes/arizona/title-32/section-32-143/
+      - https://law.justia.com/codes/arizona/title-32/section-32-144/
+      - https://law.justia.com/codes/arizona/title-32/section-32-145/
+      - https://law.justia.com/codes/arizona/title-32/section-32-146/
+      - https://law.justia.com/codes/arizona/title-32/section-32-147/
+      - https://law.justia.com/codes/arizona/title-32/section-32-148/
+      - https://law.justia.com/codes/arizona/title-32/section-32-149/
+      - https://law.justia.com/codes/arizona/title-32/section-32-150/
+      - https://law.justia.com/codes/arizona/title-32/section-32-151/
+      - https://law.justia.com/codes/arizona/title-32/section-32-152/
   IN:
     add:
     - url: https://law.justia.com/codes/indiana/title-25/article-4/chapter-2/
@@ -8052,10 +8154,56 @@ professional_engineering:
       via: gap_locator
   AZ:
     add:
-    - url: https://law.justia.com/codes/arizona/title-32/chapter-1/
-      label: ARCHITECTS, ENGINEERS, GEOLOGISTS, HOME INSPECTORS, LANDSCAPE ARCHITECTS AND SURVEYORS
-      slug: ''
-      via: gap_locator
+    - url: https://law.justia.com/codes/arizona/title-32/
+      label: 'AZ Title 32 Ch 1 Arts 1-3 (§32-101..152) - Board of Technical Registration (shared: architects, engineers, geologists, land surveyors, landscape architects, home inspectors)'
+      slug: title-32
+      via: shared_board_reuse
+      note: 'AZ has no engineer-specific article; Title 32 Ch1 Arts 1-3 are the unified Board of Technical Registration framework covering all 6 professions, confirmed containing 66 professional-engineer mentions incl. registration qualifications (32-141 def). Same section range proven for architecture/AZ.'
+      section_url_list:
+      - https://law.justia.com/codes/arizona/title-32/section-32-101/
+      - https://law.justia.com/codes/arizona/title-32/section-32-102/
+      - https://law.justia.com/codes/arizona/title-32/section-32-103/
+      - https://law.justia.com/codes/arizona/title-32/section-32-104/
+      - https://law.justia.com/codes/arizona/title-32/section-32-105/
+      - https://law.justia.com/codes/arizona/title-32/section-32-106/
+      - https://law.justia.com/codes/arizona/title-32/section-32-106-01/
+      - https://law.justia.com/codes/arizona/title-32/section-32-106-02/
+      - https://law.justia.com/codes/arizona/title-32/section-32-107/
+      - https://law.justia.com/codes/arizona/title-32/section-32-108/
+      - https://law.justia.com/codes/arizona/title-32/section-32-109/
+      - https://law.justia.com/codes/arizona/title-32/section-32-109-version-2/
+      - https://law.justia.com/codes/arizona/title-32/section-32-110/
+      - https://law.justia.com/codes/arizona/title-32/section-32-113/
+      - https://law.justia.com/codes/arizona/title-32/section-32-121/
+      - https://law.justia.com/codes/arizona/title-32/section-32-122/
+      - https://law.justia.com/codes/arizona/title-32/section-32-122-version-2/
+      - https://law.justia.com/codes/arizona/title-32/section-32-122-01/
+      - https://law.justia.com/codes/arizona/title-32/section-32-122-02/
+      - https://law.justia.com/codes/arizona/title-32/section-32-122-03/
+      - https://law.justia.com/codes/arizona/title-32/section-32-122-05/
+      - https://law.justia.com/codes/arizona/title-32/section-32-122-06/
+      - https://law.justia.com/codes/arizona/title-32/section-32-122-07/
+      - https://law.justia.com/codes/arizona/title-32/section-32-123/
+      - https://law.justia.com/codes/arizona/title-32/section-32-124/
+      - https://law.justia.com/codes/arizona/title-32/section-32-125/
+      - https://law.justia.com/codes/arizona/title-32/section-32-126/
+      - https://law.justia.com/codes/arizona/title-32/section-32-127/
+      - https://law.justia.com/codes/arizona/title-32/section-32-128/
+      - https://law.justia.com/codes/arizona/title-32/section-32-129/
+      - https://law.justia.com/codes/arizona/title-32/section-32-130/
+      - https://law.justia.com/codes/arizona/title-32/section-32-131/
+      - https://law.justia.com/codes/arizona/title-32/section-32-141/
+      - https://law.justia.com/codes/arizona/title-32/section-32-142/
+      - https://law.justia.com/codes/arizona/title-32/section-32-143/
+      - https://law.justia.com/codes/arizona/title-32/section-32-144/
+      - https://law.justia.com/codes/arizona/title-32/section-32-145/
+      - https://law.justia.com/codes/arizona/title-32/section-32-146/
+      - https://law.justia.com/codes/arizona/title-32/section-32-147/
+      - https://law.justia.com/codes/arizona/title-32/section-32-148/
+      - https://law.justia.com/codes/arizona/title-32/section-32-149/
+      - https://law.justia.com/codes/arizona/title-32/section-32-150/
+      - https://law.justia.com/codes/arizona/title-32/section-32-151/
+      - https://law.justia.com/codes/arizona/title-32/section-32-152/
   CO:
     add:
     - url: https://law.justia.com/codes/colorado/title-12/business-professions-and-occupations/article-120/part-2/
@@ -8262,10 +8410,56 @@ professional_geology:
       via: gap_locator
   AZ:
     add:
-    - url: https://law.justia.com/codes/arizona/title-32/chapter-1/
-      label: Chapter 1 - ARCHITECTS, ENGINEERS, GEOLOGISTS, HOME INSPECTORS, LANDSCAPE ARCHITECTS AND SURVEYORS
-      slug: ''
-      via: gap_locator
+    - url: https://law.justia.com/codes/arizona/title-32/
+      label: 'AZ Title 32 Ch 1 Arts 1-3 (§32-101..152) - Board of Technical Registration (shared: architects, engineers, geologists, land surveyors, landscape architects, home inspectors)'
+      slug: title-32
+      via: shared_board_reuse
+      note: 'AZ has no geologist-specific article; Title 32 Ch1 Arts 1-3 are the unified Board of Technical Registration framework covering all 6 professions -- same section range proven for architecture/AZ.'
+      section_url_list:
+      - https://law.justia.com/codes/arizona/title-32/section-32-101/
+      - https://law.justia.com/codes/arizona/title-32/section-32-102/
+      - https://law.justia.com/codes/arizona/title-32/section-32-103/
+      - https://law.justia.com/codes/arizona/title-32/section-32-104/
+      - https://law.justia.com/codes/arizona/title-32/section-32-105/
+      - https://law.justia.com/codes/arizona/title-32/section-32-106/
+      - https://law.justia.com/codes/arizona/title-32/section-32-106-01/
+      - https://law.justia.com/codes/arizona/title-32/section-32-106-02/
+      - https://law.justia.com/codes/arizona/title-32/section-32-107/
+      - https://law.justia.com/codes/arizona/title-32/section-32-108/
+      - https://law.justia.com/codes/arizona/title-32/section-32-109/
+      - https://law.justia.com/codes/arizona/title-32/section-32-109-version-2/
+      - https://law.justia.com/codes/arizona/title-32/section-32-110/
+      - https://law.justia.com/codes/arizona/title-32/section-32-113/
+      - https://law.justia.com/codes/arizona/title-32/section-32-121/
+      - https://law.justia.com/codes/arizona/title-32/section-32-122/
+      - https://law.justia.com/codes/arizona/title-32/section-32-122-version-2/
+      - https://law.justia.com/codes/arizona/title-32/section-32-122-01/
+      - https://law.justia.com/codes/arizona/title-32/section-32-122-02/
+      - https://law.justia.com/codes/arizona/title-32/section-32-122-03/
+      - https://law.justia.com/codes/arizona/title-32/section-32-122-05/
+      - https://law.justia.com/codes/arizona/title-32/section-32-122-06/
+      - https://law.justia.com/codes/arizona/title-32/section-32-122-07/
+      - https://law.justia.com/codes/arizona/title-32/section-32-123/
+      - https://law.justia.com/codes/arizona/title-32/section-32-124/
+      - https://law.justia.com/codes/arizona/title-32/section-32-125/
+      - https://law.justia.com/codes/arizona/title-32/section-32-126/
+      - https://law.justia.com/codes/arizona/title-32/section-32-127/
+      - https://law.justia.com/codes/arizona/title-32/section-32-128/
+      - https://law.justia.com/codes/arizona/title-32/section-32-129/
+      - https://law.justia.com/codes/arizona/title-32/section-32-130/
+      - https://law.justia.com/codes/arizona/title-32/section-32-131/
+      - https://law.justia.com/codes/arizona/title-32/section-32-141/
+      - https://law.justia.com/codes/arizona/title-32/section-32-142/
+      - https://law.justia.com/codes/arizona/title-32/section-32-143/
+      - https://law.justia.com/codes/arizona/title-32/section-32-144/
+      - https://law.justia.com/codes/arizona/title-32/section-32-145/
+      - https://law.justia.com/codes/arizona/title-32/section-32-146/
+      - https://law.justia.com/codes/arizona/title-32/section-32-147/
+      - https://law.justia.com/codes/arizona/title-32/section-32-148/
+      - https://law.justia.com/codes/arizona/title-32/section-32-149/
+      - https://law.justia.com/codes/arizona/title-32/section-32-150/
+      - https://law.justia.com/codes/arizona/title-32/section-32-151/
+      - https://law.justia.com/codes/arizona/title-32/section-32-152/
   KS:
     add:
     - url: https://law.justia.com/codes/kansas/chapter-74/article-70/

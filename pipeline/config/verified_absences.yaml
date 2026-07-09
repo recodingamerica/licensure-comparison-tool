@@ -32,9 +32,12 @@ hvac:
   PA: {basis: local_only, citation: "73 P.S. § 517.1", note: "Only AG Home Improvement Contractor registration, not an HVAC trade license."}
   SD: {basis: local_only, citation: "", note: "No statewide HVAC license; local."}
   WY: {basis: local_only, citation: "", note: "State licenses plumbers/electricians, leaves HVAC to localities."}
-  MT: {basis: not_regulated, citation: "", note: "No HVAC license or board; only ordinary Construction Contractor Registration."}
-  ND: {basis: contractor_only, citation: "", note: "No HVAC license; general state contractor license on projects >= $4,000."}
-  VT: {basis: contractor_only, citation: "", note: "No HVAC contractor license; residential contractor registration >$10,000 with OPR."}
+  # MT/ND/VT REMOVED 2026-07-08: same "no dedicated HVAC chapter, covered by a general
+  # contractor law" shape as TN/MS/AZ (issue #53), which were extracted as real licenses
+  # (regulatory_model=license via contractor classification), not flagged absent. Real
+  # corpora now pulled for all three (MT ch9 Contractor Registration, ND ch43-07
+  # Contractors, VT residential-contractor-registration act) — let extraction classify
+  # them the same way, rather than hand-picking an absence basis ahead of the statute.
 
 plumbing:
   KS: {basis: local_only, citation: "K.S.A. 12-1508", note: "No state license; counties/cities examine and issue a certificate of competency."}
@@ -42,3 +45,13 @@ plumbing:
   NY: {basis: local_only, citation: "", note: "No state plumbing credential; city/county (e.g. NYC DOB) authorities."}
   PA: {basis: local_only, citation: "73 P.S. § 517.1", note: "No state license; only HICPA registration for residential home-improvement."}
   WY: {basis: local_only, citation: "", note: "No statewide plumbing (or contractor) license; cities/counties handle all."}
+
+building_inspector:
+  NE: {basis: local_only, citation: "", note: "Nebraska is a home-rule state for building codes — no mandatory statewide code or state-level inspector license; cities/villages/counties adopt and enforce their own (2026-07-08, narrow.py big_no_match + web-verified)."}
+
+optician:
+  NE: {basis: not_regulated, citation: "", note: "One of 28 states with no dispensing-optician license per IJ's License to Work report (2026-07-08, narrow.py big_no_match + web-verified)."}
+  OK: {basis: not_regulated, citation: "", note: "Same IJ License to Work list as NE — no dispensing-optician license (2026-07-08, narrow.py whole_title + web-verified)."}
+
+opticianry:
+  NE: {basis: not_regulated, citation: "", note: "Same underlying finding as optician/NE — no dispensing-optician license (2026-07-08, narrow.py big_no_match + web-verified)."}
