@@ -23,16 +23,27 @@ challenge pages, but **attaching to a hand-started debug Chrome over CDP clears 
   lives in `config/limits.yaml` (`fetch.per_host_delay_seconds`, default 3.0, +jitter);
   `PULL_HOST_DELAY` still overrides. `pull_text` routes Justia through CDP automatically.
 - **ONE pull process per Chrome** — concurrent jobs garble corpora. A flock guards this.
-- Bulk re-pull is fine this way; use `pipeline.ingest.refresh_corpus` (resumable, per-item
-  commits, hardened per the 2026-07-02 CDP lessons) — the tested replacement for the old
-  throwaway `_cdp_*` / `_justia_repull` batch drivers (now removed).
+- **Tool choice matters**: `pipeline.ingest.refresh_corpus` is for RE-checking corpora
+  you already have committed (the annual recodification-check use case) — it decides
+  "changed" via `git diff` against HEAD, which silently treats every untracked (never-
+  committed) file as unchanged. Point it at brand-new, first-time (profession, state)
+  pairs and every real successful fetch gets misclassified NOCHANGE and discarded (fixed
+  2026-07-09, but the underlying design intent hasn't changed). **For first-time pulls of
+  new pairs, use plain `pipeline.ingest.pull_text` instead, supervised** — check section
+  counts as they land, don't assume it worked unattended.
 - **PA is the only state not on Justia** (`legis.state.pa.us`). MD/NV were flipped BACK
   to Justia 2026-07-02 (source-gated dispatch — comment out `source:` to flip a state);
   other official-source states keep their Justia URLs in the index.
-- **Before a LARGE CDP harvest, read `docs/runbooks/cdp_repull_lessons_2026-07-02.md`** —
-  the wedge failure-modes (pages[0] hijack [fixed], official-source silence, Chrome
-  auto-update mid-run), the faulthandler wedge-check, the all-or-nothing no-wipe guard,
-  and the real-fetch-vs-stale-cache detection. Do NOT run two committing processes at
+- **Before a LARGE CDP harvest, read `docs/runbooks/cdp_repull_lessons_2026-07-02.md`**
+  (wedge failure-modes: pages[0] hijack [fixed], official-source silence, Chrome
+  auto-update mid-run; the faulthandler wedge-check; the all-or-nothing no-wipe guard;
+  real-fetch-vs-stale-cache detection) **and `docs/runbooks/cdp_repull_lessons_2026-07-09.md`**
+  (the refresh_corpus NOCHANGE bug above; an intermittent `Browser.setDownloadBehavior`
+  CDP protocol error whose best-evidence cause is one-successful-connection-per-Chrome-
+  session — don't run one-off diagnostic `connect_over_cdp` scripts against a Chrome a
+  real pull is about to use; `pipeline.ingest.pull_text.relaunch_debug_chrome()` now
+  automates the kill+relaunch fix and `refresh_corpus` calls it automatically on CDP
+  death instead of just aborting). Do NOT run two committing processes at
   once (git index.lock races).
 
 ## Pipeline stages (each reads the previous stage's output dir)
