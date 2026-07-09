@@ -89,7 +89,21 @@ def _rel(path: Path) -> str:
 def file_changed(path: Path) -> bool:
     """True if `path` differs from its committed (HEAD) version. A re-pull of an
     incomplete corpus MUST change the file; unchanged = the pull was a no-op
-    (Chrome down -> fetch failed -> no-wipe guard kept the old cache)."""
+    (Chrome down -> fetch failed -> no-wipe guard kept the old cache).
+
+    `git diff --quiet` silently ignores UNTRACKED files (exit 0 = "no
+    differences" even when the file is packed with brand-new real content) --
+    it only compares tracked paths against the index/HEAD. This tool was built
+    for re-pulling an ALREADY-COMMITTED corpus (the annual recodification-check
+    use case), so that blind spot never mattered until it was pointed at a
+    genuinely NEW (profession, state) pair with no prior commit: every real,
+    successful fetch got misclassified NOCHANGE and silently discarded (see
+    docs/runbooks/cdp_repull_lessons_2026-07-09.md). An untracked file with any
+    content IS the change -- there's no baseline for git to diff against.
+    """
+    r = _git("ls-files", "--error-unmatch", "--", _rel(path))
+    if r.returncode != 0:
+        return True  # untracked: never committed, so any write is new
     r = subprocess.run(["git", "diff", "--quiet", "--", _rel(path)], cwd=ROOT)
     return r.returncode != 0  # nonzero = differs
 
