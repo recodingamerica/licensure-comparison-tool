@@ -100,6 +100,15 @@ OK:
       # Oklahoma Mechanical Licensing Act, 59 O.S. §1850.x (all §1850 sub-sections).
       section_slug_pattern: '^section-59-1850(-.*)?$'
       label: "OK Title 59 §1850.x — Oklahoma Mechanical Licensing Act"
+    # emergency_medical_technician was wrongly pointed at the whole Title 63 Ch1
+    # "Public Health and Safety" (hundreds of unrelated sections) -- caught by
+    # narrow.py --detect-labels. Real target is the narrower Oklahoma Emergency
+    # Response Systems Development Act, 63 O.S. §§1-2501..1-2512.1, a DIFFERENT
+    # title than this block's default (Title 59), so it needs its own url.
+    emergency_medical_technician:
+      url: "https://law.justia.com/codes/oklahoma/title-63/"
+      section_slug_pattern: '^section-63-1-25(0[1-9]|1[0-2])(-.*)?$'
+      label: "OK Title 63 §§1-2501..1-2512.1 — Emergency Response Systems Development Act"
 
 KY:
   source: justia
@@ -115,6 +124,15 @@ KY:
       # physicians' Board of Medical Licensure, not podiatry.
       section_slug_pattern: '^section-311-(3[89][0-9]|4[0-9][0-9]|500)$'
       label: "KY KRS 311.380..311.500 — Podiatry within Chapter 311"
+    # hvac/KY was wrongly sharing electrician/KY's own chapter 227A ("Electric...")
+    # -- caught by narrow.py --detect-labels (2026-07-08). Real target per issue #53's
+    # findings doc: KRS Ch198B §§650-689 (Kentucky Board of HVAC Contractors), a narrow
+    # slice of the much broader Ch198B "Housing, Buildings, and Construction" chapter
+    # (145 sections total) -- scoped here rather than pulling the whole chapter.
+    hvac:
+      url: "https://law.justia.com/codes/kentucky/chapter-198b/"
+      section_slug_pattern: '^section-198b-6[5-8][0-9](-\d+)?$'
+      label: "KY KRS 198B.650..689 — Board of HVAC Contractors within Chapter 198B"
 
 LA:
   source: justia
@@ -130,6 +148,13 @@ LA:
       # sections with "plumber" in the title; scope to the whole board chapter.
       section_slug_pattern: '^rs-37-13(6[1-9]|7[0-9]|80)(-\d+)?$'
       label: "LA RS 37:1361–1380 — State Plumbing Board"
+    # wholesale_drug_distributor was wrongly pointed at a whole-chapter URL
+    # (title-37/chapter-34/) that 404s -- Justia's Title 37 has no chapter-level
+    # subpages, only flat rs-37-NNNN section pages (like podiatry/plumbing above).
+    # Real target: LA Drug and Device Distributors Act, RS 37:3461-3482.
+    wholesale_drug_distributor:
+      section_slug_pattern: '^rs-37-34(6[1-9]|7[0-9]|8[0-2])(-\d+)?$'
+      label: "LA RS 37:3461–3482 — Drug and Device Distributors Act"
     # LA does NOT separately license electricians or HVAC — both are classifications
     # under the State Licensing Board for Contractors (RS 37:2150+), captured by
     # construction_trades. hvac label-match previously grabbed scrap-metal sections
@@ -468,6 +493,22 @@ OR:
   layout: subtitled
   title_url: "https://law.justia.com/codes/oregon/"
   notes: "Justia OR is year-versioned (/codes/oregon/2025/) then split into 19 volumes. build_hierarchy auto-redirects to latest year, then drills each volume so chapter labels are reachable to label-match. ORS Chapter 677 (Regulation of Medicine) holds podiatry interleaved with general medicine — trim drops irrelevant sections."
+  professions:
+    # hvac/OR: CCB's Ch701 contractor endorsement is already correctly auto-matched by
+    # label (kept, additive by default). Per issue #53's findings doc, BCD ALSO licenses
+    # individual limited-energy HVAC-R technicians (LE-A heating/air conditioning, LE-B
+    # residential HVAC) -- filed under Ch479 "Protection of Buildings From Fire;
+    # Electrical Safety Law" because Oregon classifies limited-energy HVAC/R work under
+    # its electrical licensing umbrella. Confirmed real (ORS 479.540/.550/.730 cited by
+    # name for the HVAC/R limited-maintenance license; 479.910/.915/.945 for the
+    # technician license itself) -- not the chapter's general fire-safety sections.
+    # Scoped to SS479.510-945, the statute's own self-declared "Electrical Safety Law"
+    # sub-part (SS479.510: "may be cited as the Electrical Safety Law"), not the whole
+    # chapter (avoids repeating the KY over-broad mistake: 145 sections vs a ~40-need).
+    hvac:
+      url: "https://law.justia.com/codes/oregon/volume-14/chapter-479/"
+      section_slug_pattern: '^section-479-(5[1-9][0-9]|[6-8][0-9][0-9]|9[0-4][0-9])(-\d+)?$'
+      label: "OR ORS 479.510-945 — Electrical Safety Law (BCD limited-energy HVAC-R technician license, SS479.910/.915/.945)"
 
 # ---- Non-Justia sources ----
 
@@ -1461,6 +1502,15 @@ NV:
       url: "https://law.justia.com/codes/nevada/chapter-624/"
       authoritative: true
       label: "NV NRS Ch 624 - Contractors (plumbing specialty classification)"
+    # building_inspector was wrongly pointed at Ch645D (private home-inspector
+    # licensing, a different profession) -- caught by narrow.py --detect-labels.
+    # Real target is the narrow NRS 278.577 (building-official/inspector
+    # certification) within the much broader (322-section) Ch278 Planning and
+    # Zoning chapter -- scoped here to avoid an over-broad pull.
+    building_inspector:
+      url: "https://law.justia.com/codes/nevada/chapter-278/"
+      section_slug_pattern: '^statute-278-0?577(-\d+)?$'
+      label: "NV NRS 278.577 — Building official/inspector certification within Ch 278"
     hvac:
       url: "https://law.justia.com/codes/nevada/chapter-624/"
       authoritative: true
