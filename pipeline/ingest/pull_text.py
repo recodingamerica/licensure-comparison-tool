@@ -596,6 +596,15 @@ _BLOCK_MARKERS = (
     "needs to review the security of your connection",
     "enable javascript and cookies to continue",
     "cloudflare ray id",
+    # Justia's soft-404: a URL that 200s but has no #codes-content/primary-content
+    # div (wrong slug, un-codified section, page removed) falls through the
+    # extractor's selector cascade to generic site furniture -- a fixed-length
+    # (1144-char) "Justia Legal Resources / Find a Lawyer" nav blob, not an
+    # error page or a Cloudflare challenge, so neither prior marker caught it.
+    # Found 2026-07-09 after it silently passed as "real content" (>500 chars)
+    # in 53 already-committed files across many professions/states predating
+    # this session -- see docs/runbooks/cdp_repull_lessons_2026-07-09.md.
+    "justia legal resources\nfind a lawyer",
 )
 
 
@@ -902,6 +911,22 @@ def pull_state(state: str, profession: str, rows: list[dict], limit_sections: in
             # gets section-level citations + browse instead of one blob (#6).
             if "_inline_text" in sec:
                 text = sec["_inline_text"]
+                bad = bad_section_text(text)
+                if bad:
+                    # Same soft-404/block-page check as the main fetch path below —
+                    # this branch used to skip it entirely, letting Justia's fixed
+                    # 1144-char "Justia Legal Resources / Find a Lawyer" nav blob
+                    # (a wrong/uncodified URL that 200s with no real content div)
+                    # through as if it were real statute text. Found 2026-07-09
+                    # after 53 files across many professions/states had it
+                    # silently committed. See docs/runbooks/cdp_repull_lessons_2026-07-09.md.
+                    corpus.errors.append(f"section {sec['url']}: {bad}")
+                    corpus.sections.append(Section(
+                        url=sec["url"], label=sec["label"],
+                        citation=short_citation(sec["label"]),
+                        text=text, text_len=len(text), error=bad,
+                    ))
+                    continue
                 inline_split = (split_il_inline(text, sec["url"]) if looks_like_il_ilcs(text)
                                 else split_nd_blob(text, sec["url"]) if looks_like_nd_blob(text, sec["url"])
                                 else [])
