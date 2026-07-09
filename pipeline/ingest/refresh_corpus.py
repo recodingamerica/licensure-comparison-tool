@@ -52,27 +52,25 @@ FRESH = {"OK"}
 
 
 # ---------------------------------------------------------------------------
-# Chrome liveness (ported from .scratch/overnight_repull.py::_chrome_live)
+# Chrome liveness
 # ---------------------------------------------------------------------------
 def chrome_live(cdp_url: str = CDP_URL) -> bool:
     """Can we open a Justia page over CDP and clear the Cloudflare challenge?
 
     The /json/version endpoint is unreliable while a pull drives the browser and
-    can respond even in a bad post-update state, so probe via a real
-    connect_over_cdp + new_page + goto instead."""
-    try:
-        from playwright.sync_api import sync_playwright
-        import time
-        with sync_playwright() as pw:
-            b = pw.chromium.connect_over_cdp(cdp_url, timeout=8000)
-            page = b.contexts[0].new_page()
-            page.goto("https://law.justia.com/codes/kansas/", timeout=45000)
-            time.sleep(5)
-            ok = "moment" not in (page.title() or "").lower()
-            page.close()
-            return ok
-    except Exception:
-        return False
+    can respond even in a bad post-update state, so probe via a real fetch
+    instead. Delegates to pull_text.fetch_via_browser(), which owns the ONE
+    hardened connect_over_cdp path (flock, pages[0]-hijack avoidance, leaked-tab
+    self-heal, connection caching/reuse across a run) -- this used to be a
+    second, independent connect_over_cdp+new_page implementation (ported
+    verbatim from a throwaway script) that lacked all of that hardening and
+    opened/closed its own separate CDP session on every call. Two places meant
+    fixes to one didn't apply to the other, and the extra ad-hoc connect/
+    disconnect cycles were a plausible contributor to the intermittent CDP
+    protocol errors chased in docs/runbooks/cdp_repull_lessons_2026-07-09.md.
+    """
+    status, _html, err = pull_text.fetch_via_browser("https://law.justia.com/codes/kansas/")
+    return status == 200 and err is None
 
 
 # ---------------------------------------------------------------------------
@@ -274,7 +272,13 @@ def refresh_item(profession: str, state: str, rows: list[dict], *,
         corpus = pull_with_timeout(state, profession, rows, cap, timeout_s)
     except _CDPDead:
         if not chrome_check():
-            raise  # Chrome really gone — let the run loop abort loudly
+            # Chrome not answering a real fetch — try the documented fix (kill +
+            # relaunch the debug Chrome) before giving up. See
+            # docs/runbooks/cdp_repull_lessons_2026-07-09.md.
+            print(f"  Chrome check failed after CDP death at {profession}/{state} — attempting relaunch")
+            if not pull_text.relaunch_debug_chrome() or not chrome_check():
+                raise  # relaunch didn't help either — let the run loop abort loudly
+            print(f"  ▶ relaunch recovered Chrome — retrying {profession}/{state}")
         corpus = pull_with_timeout(state, profession, rows, cap, timeout_s)
 
     out_path.parent.mkdir(parents=True, exist_ok=True)
@@ -502,10 +506,13 @@ def run(professions: list[str], only_states: set[str], *, force: bool, cap: int 
 
     _save()
     if not chrome_check():
-        status["aborted"] = "chrome not live/clear at startup — nothing attempted"
-        _save()
-        print("ABORT: debug Chrome not live on :9222 or Cloudflare-challenged")
-        return status
+        print("  debug Chrome not live/clear at startup — attempting relaunch")
+        if not pull_text.relaunch_debug_chrome() or not chrome_check():
+            status["aborted"] = "chrome not live/clear at startup — nothing attempted (relaunch also failed)"
+            _save()
+            print("ABORT: debug Chrome not live on :9222 or Cloudflare-challenged, relaunch didn't help")
+            return status
+        print("  ▶ relaunch recovered Chrome — proceeding")
 
     work = build_worklist(professions, only_states)
     consec_dead = 0
