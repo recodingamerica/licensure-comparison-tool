@@ -1604,12 +1604,18 @@ community_health_worker:
       - https://law.justia.com/codes/arizona/title-36/section-36-765-07/
   AR:
     add:
-    - url: https://law.justia.com/codes/arkansas/title-17/
-      label: 'Act 435 of 2025 ("CHW Act"), Ark. Code Title 17 - defines scope,
+    - url: https://law.justia.com/codes/arkansas/title-17/subtitle-3/chapter-46/
+      label: 'Act 435 of 2025 ("Community Health Worker Act"), Ark. Code Title
+        17 Ch.46 (SS17-46-101 to 17-46-304) - defines scope, certification,
         Medicaid reimbursement. Real gap caught 2026-07-08 (tier3_absence Step
-        2 grind).'
+        2 grind). Bare title-17 (173 chapters, "Professions, Occupations, and
+        Businesses") wandered into an unrelated collection-agencies chapter --
+        scoped to the actual Ch.46. Subtitle number (3) is a guess (this is a
+        brand-new 2025 act; Justia may not have indexed it into the subtitle
+        tree yet) -- verify on pull, may need a section_url_list retry if this
+        404s.'
       slug: ''
-      via: tier3_step2_2026-07-08
+      via: tier3_step2_2026-07-09
   CA:
     add:
     - url: https://law.justia.com/codes/california/wic/division-9/part-6.6/chapter-1/
@@ -9109,23 +9115,21 @@ psychoanalysis:
       via: section_match
   NY:
     add:
-    - url: https://law.justia.com/codes/new-york/edn/title-8/article-163/section-8405/
+    - url: https://law.justia.com/codes/new-york/edn/title-8/article-163/
       label: 'Education Law Title 8 Art.163 (Mental Health Practitioners) S8405
         "Psychoanalysis" - distinct title-protected Licensed Psychoanalyst
         credential, separate from psychology/LCSW/LPC. Real gap caught 2026-07-08
         (tier3_absence Step 2 grind) -- confirmed via NAAP + NYSED Office of the
-        Professions. Article 163 covers multiple mental-health professions with
-        their own dedicated sections (creative arts therapy, MFT, counseling,
-        ABA) -- deliberately excluding those to avoid conflating with sibling
-        professions'' own mappings; kept just the definitions/exemptions
-        bookends plus S8405 itself.'
+        Professions. Hand-guessed section-8405/8401/8409/8410 slugs all 404''d
+        (Justia soft-404, caught by the 2026-07-09 boilerplate-detection fix) --
+        switched to the bare article-163 container to let pull_text discover
+        the real slugs. Article 163 covers multiple mental-health professions
+        (creative arts therapy, MFT, counseling, ABA) sharing this container --
+        expect a broader pull than just psychoanalysis; that''s fine, trim
+        will filter it (per the over-broad judgment rule in
+        cdp_repull_lessons_2026-07-09.md).'
       slug: ''
       via: tier3_step2_2026-07-08
-      section_url_list:
-      - https://law.justia.com/codes/new-york/edn/title-8/article-163/section-8401/
-      - https://law.justia.com/codes/new-york/edn/title-8/article-163/section-8405/
-      - https://law.justia.com/codes/new-york/edn/title-8/article-163/section-8409/
-      - https://law.justia.com/codes/new-york/edn/title-8/article-163/section-8410/
 psychology:
   AZ:
     add:
