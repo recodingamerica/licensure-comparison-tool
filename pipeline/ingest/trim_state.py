@@ -84,6 +84,27 @@ def build_decisions_model(citations: list[str]) -> type[BaseModel]:
     return Result
 
 
+_QUOTE_NORMALIZE = str.maketrans({
+    "‘": "'", "’": "'",  # curly single quotes
+    "“": '"', "”": '"',  # curly double quotes
+    "–": "-", "—": "-",  # en/em dash
+})
+
+
+def _normalize_citation(cite: str) -> str:
+    """Fold typographic punctuation (curly quotes, en/em dashes) to ASCII.
+
+    Cheap models tend to re-type these as plain ASCII when echoing a citation
+    back verbatim, which fails the exact-Literal validation in
+    build_decisions_model (e.g. "Electricians'" vs "Electricians'"). Since
+    `cite` is only an internal join key between our prompt and the model's
+    response (never the section's displayed citation), normalizing it here is
+    free — it just makes the Literal alphabet ASCII-only so the model's most
+    likely output actually matches.
+    """
+    return cite.translate(_QUOTE_NORMALIZE)
+
+
 def section_input_for_llm(sections: list[dict]) -> tuple[list[str], str]:
     """Build the user-message payload of (citation, label, truncated text).
 
@@ -93,7 +114,7 @@ def section_input_for_llm(sections: list[dict]) -> tuple[list[str], str]:
     used: set[str] = set()
     parts = []
     for sec in sections:
-        cite = sec["citation"] or sec["url"]
+        cite = _normalize_citation(sec["citation"] or sec["url"])
         # Disambiguate within a single state in the rare case of duplicate cites
         base, idx = cite, 1
         while cite in used:
