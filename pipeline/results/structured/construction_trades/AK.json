@@ -20,20 +20,31 @@
       },
       "type": {
         "value": "department",
-        "quote": "\"commissioner,\" unless the text reads otherwise, means the commissioner of the Department of Commerce, Community, and Economic Development",
+        "quote": "\"department\" means the Department of Commerce, Community, and Economic Development, unless the context indicates otherwise",
         "citation": "08.18.171"
       },
       "umbrella_agency": null
     },
     "age_minimum": null,
     "moral_character_required": null,
-    "education": null,
-    "post_degree_experience": {
-      "required": {
-        "value": false,
-        "quote": "A person may not submit a bid or work as a contractor until that person has been issued a certificate of registration as a contractor by the department.",
-        "citation": "08.18.011"
+    "education": {
+      "degree_required": {
+        "value": "Educational and experience requirements adopted by the department in regulations (for home inspectors)",
+        "quote": "meets the educational and experience requirements adopted by the department in regulations for the type of registration applied for",
+        "citation": "08.18.022"
       },
+      "accrediting_body": null,
+      "degree_level": null,
+      "school_approval_basis": {
+        "value": "board_approved",
+        "quote": "meets the educational and experience requirements adopted by the department in regulations for the type of registration applied for",
+        "citation": "08.18.022"
+      },
+      "credential_pegged": null,
+      "tiers": null
+    },
+    "post_degree_experience": {
+      "required": null,
       "experience_source": {
         "value": "none",
         "quote": "A person may not submit a bid or work as a contractor until that person has been issued a certificate of registration as a contractor by the department.",
@@ -44,31 +55,31 @@
     },
     "exams": [
       {
-        "name": "Residential Contractor Examination",
+        "name": "Home inspection examination (existing homes) – American Society of Home Inspectors or National Association of Home Inspectors",
         "required": true,
-        "notes": "Required for residential contractor endorsement; offered at least once each year in each judicial district; may be written or practical.",
-        "jurisdiction": "state (department)",
+        "notes": "Required for registration as a home inspector for existing homes.",
+        "jurisdiction": "national (American Society of Home Inspectors or National Association of Home Inspectors)",
+        "permitted_attempts": null,
+        "quote": "the appropriate home inspection examination for an individual who applies to be registered for inspection of existing homes is the examination offered by the American Society of Home Inspectors or National Association of Home Inspectors",
+        "citation": "08.18.022"
+      },
+      {
+        "name": "Home inspection examination (new homes / joint registration) – International Code Council",
+        "required": true,
+        "notes": "Required for registration as a home inspector for new homes or joint registration.",
+        "jurisdiction": "national (International Code Council)",
+        "permitted_attempts": null,
+        "quote": "new homes or for a joint registration is the examination offered by the International Code Council",
+        "citation": "08.18.022"
+      },
+      {
+        "name": "Residential contractor examination",
+        "required": true,
+        "notes": "Required for residential contractor endorsement; offered at least once per year in each judicial district; may be written or practical.",
+        "jurisdiction": "state (offered by the department)",
         "permitted_attempts": null,
         "quote": "passes a residential contractor examination, which shall be offered by the department at least once each year in each judicial district",
         "citation": "08.18.025"
-      },
-      {
-        "name": "Home Inspection Examination (existing homes) — American Society of Home Inspectors or National Association of Home Inspectors",
-        "required": true,
-        "notes": "Required for home inspector registration for existing homes.",
-        "jurisdiction": "national (ASHI or NAHI)",
-        "permitted_attempts": null,
-        "quote": "the appropriate home inspection examination for an individual who applies to be registered for inspection of (A) existing homes is the examination offered by the American Society of Home Inspectors or National Association of Home Inspectors",
-        "citation": "08.18.022"
-      },
-      {
-        "name": "Home Inspection Examination (new homes / joint) — International Code Council",
-        "required": true,
-        "notes": "Required for home inspector registration for new homes or joint registration.",
-        "jurisdiction": "national (International Code Council)",
-        "permitted_attempts": null,
-        "quote": "(B) new homes or for a joint registration is the examination offered by the International Code Council",
-        "citation": "08.18.022"
       }
     ],
     "renewal": {
@@ -82,7 +93,7 @@
     "continuing_education": {
       "required": {
         "value": true,
-        "quote": "A certificate of registration as a home inspector may not be renewed unless the home inspector has complied with the continuing competency requirements established by the department. The department shall require at least eight hours of continuing competency activity for each licensing period.",
+        "quote": "A certificate of registration as a home inspector may not be renewed unless the home inspector has complied with the continuing competency requirements established by the department.",
         "citation": "08.18.031"
       },
       "hours_per_period": {
@@ -100,14 +111,9 @@
         "citation": "UMBRELLA / Chapter 01. Centralized Licensing"
       },
       "requirements": {
-        "value": "Temporary courtesy licenses may be issued to nonresidents by regulation; military courtesy licenses available to active duty members and spouses who hold a current license in another state with substantially equivalent requirements.",
-        "quote": "the department shall issue a temporary courtesy license to an active duty member of the armed forces of the United States or the spouse of an active duty member of the armed forces of the United States if the active duty member or spouse meets the requirements of this section",
-        "citation": "UMBRELLA / Chapter 01. Centralized Licensing",
-        "unverified": true,
-        "approximate": {
-          "ratio": 0.949,
-          "matched_normalized": " shall issue a temporary courtesy license to an active duty member of the armed forces of the united states or the spouse of an active duty member of the armed forces of the united states if the active duty member or spouse meets the requirements of this section"
-        }
+        "value": "Temporary courtesy licenses may be issued to nonresidents; military members and spouses with substantially equivalent credentials from another state may obtain temporary courtesy licenses valid for 180 days (extendable once).",
+        "quote": "the department or appropriate board shall issue a temporary courtesy license to an active duty member of the armed forces of the United States or the spouse of an active duty member of the armed forces of the United States if the active duty member or spouse meets the requirements of this section",
+        "citation": "UMBRELLA / Chapter 01. Centralized Licensing"
       }
     },
     "advisory_board": {
@@ -122,18 +128,18 @@
     "national_certification": null,
     "national_association": {
       "value": "American Society of Home Inspectors; National Association of Home Inspectors; International Code Council",
-      "quote": "the examination offered by the American Society of Home Inspectors or National Association of Home Inspectors; (B) new homes or for a joint registration is the examination offered by the International Code Council",
+      "quote": "the examination offered by the American Society of Home Inspectors or National Association of Home Inspectors",
       "citation": "08.18.022"
     },
     "regulatory_model": {
-      "value": "registration",
+      "value": "license",
       "quote": "A person may not submit a bid or work as a contractor until that person has been issued a certificate of registration as a contractor by the department.",
       "citation": "08.18.011"
     },
     "credential_type": {
       "value": "registration",
-      "quote": "the commissioner shall issue to the applicant a certificate of registration upon compliance with the registration requirements of this chapter.",
-      "citation": "08.18.031"
+      "quote": "A person may not submit a bid or work as a contractor until that person has been issued a certificate of registration as a contractor by the department.",
+      "citation": "08.18.011"
     },
     "is_mandatory": {
       "value": true,
@@ -142,8 +148,8 @@
     },
     "title_protection": {
       "value": true,
-      "quote": "Individuals who are exempt from registration under AS 08.18.156(a) or whose actions are not considered to be home inspections under AS 08.18.156(b) may not hold themselves out to be registered home inspectors or use words or titles that may reasonably be confused with the title of \"registered home inspector\" or \"home inspector\" unless they are registered as a home inspector under this chapter.",
-      "citation": "08.18.053"
+      "quote": "Except as provided otherwise by law, a person who has registered as a contractor under one name as required by this chapter may not act in the capacity of a contractor under any other name unless that name also is registered.",
+      "citation": "08.18.051"
     },
     "scope_protection": {
       "value": true,
@@ -153,45 +159,63 @@
     "disciplinary_grounds": [
       {
         "short_label": "fraudulent_or_misleading_application",
-        "description": "Application for endorsement or home inspector registration is fraudulent or misleading.",
+        "description": "The application for endorsement or registration is fraudulent or misleading.",
         "quote": "the application is fraudulent or misleading",
         "citation": "08.18.123"
       },
       {
         "short_label": "violation_of_chapter_or_regulation",
-        "description": "Endorsement holder or registrant has knowingly violated this chapter or a lawful order or regulation of the department.",
+        "description": "The endorsement holder or registrant has knowingly violated this chapter or a lawful order or regulation of the department.",
         "quote": "the endorsement holder or registrant has knowingly violated this chapter or a lawful order or regulation of the department",
         "citation": "08.18.123"
       },
       {
         "short_label": "incompetence_or_fraudulent_practices",
-        "description": "Endorsement holder or registrant is incompetent or has engaged in fraudulent practices.",
+        "description": "The endorsement holder or registrant is incompetent or has engaged in fraudulent practices.",
         "quote": "the endorsement holder or registrant is incompetent or has engaged in fraudulent practices",
         "citation": "08.18.123"
       },
       {
         "short_label": "insurance_lapse",
-        "description": "Required insurance ceases to be in effect, triggering suspension of registration.",
+        "description": "The required insurance ceases to be in effect, resulting in automatic suspension.",
         "quote": "If the insurance required in AS 08.18.101 ceases to be in effect, the registration of the contractor or home inspector shall be suspended until the insurance has been reinstated.",
         "citation": "08.18.121"
       },
       {
-        "short_label": "bond_impairment_or_cancellation",
-        "description": "Surety bond is cancelled or depleted below required amount, triggering suspension or revocation.",
+        "short_label": "bond_impairment",
+        "description": "A final judgment impairs the surety bond or depletes the cash deposit below the required amount.",
+        "quote": "If a final judgment impairs the liability of the surety upon the bond or depletes the cash deposit so that there is not in effect a bond undertaking or cash deposit in the full amount prescribed in AS 08.18.071, the registration of the contractor or home inspector involved shall be suspended",
+        "citation": "08.18.121"
+      },
+      {
+        "short_label": "bond_cancellation",
+        "description": "The bonding company cancels the contractor's or home inspector's bond.",
         "quote": "If a bonding company cancels its bond of a contractor or home inspector, the contractor's or home inspector's registration shall be revoked.",
         "citation": "08.18.121"
       },
       {
         "short_label": "failure_to_fulfill_bond_obligations",
-        "description": "Registered contractor or home inspector fails to fulfill bond obligations.",
+        "description": "A registered contractor or home inspector fails to fulfill obligations as set out in AS 08.18.071.",
         "quote": "If a registered contractor or registered home inspector fails to fulfill the contractor's or home inspector's obligations as set out in AS 08.18.071, the contractor's or home inspector's registration shall be suspended",
         "citation": "08.18.121"
       },
       {
-        "short_label": "conviction_under_child_abuse_statute",
-        "description": "Conviction under AS 47.24.010 may be grounds for disciplinary proceedings.",
-        "quote": "the conviction under AS 47.24.010 of a person licensed, certified, or regulated by the department or a board under this title may be considered by the department or board as grounds for disciplinary proceedings or sanctions.",
-        "citation": "UMBRELLA / Chapter 01. Centralized Licensing"
+        "short_label": "criminal_conviction",
+        "description": "Conviction of an offense related to forgery, theft, extortion, defrauding creditors, or a felony involving dishonesty within the preceding seven years.",
+        "quote": "within the seven years preceding the date of application, has not been under a sentence for an offense related to forgery, theft in the first or second degree, extortion, or defrauding creditors or for a felony involving dishonesty",
+        "citation": "08.18.022"
+      },
+      {
+        "short_label": "prior_revocation_of_home_inspection_authority",
+        "description": "The applicant has had authority to perform home inspections revoked in this state or another jurisdiction.",
+        "quote": "has not had the authority to perform home inspections revoked in this state or in another jurisdiction",
+        "citation": "08.18.022"
+      },
+      {
+        "short_label": "unresolved_complaint_or_disciplinary_action",
+        "description": "The applicant is subject to an unresolved criminal complaint or disciplinary action related to real estate or home inspection matters.",
+        "quote": "is not the subject of an unresolved criminal complaint or unresolved disciplinary action before a regulatory authority in this state or in another jurisdiction related to real estate or home inspection matters",
+        "citation": "08.18.022"
       }
     ],
     "alternative_regulation": {
@@ -214,7 +238,7 @@
       },
       {
         "cite": "08.18.013",
-        "kind": "categories"
+        "kind": "categories_of_contractors"
       },
       {
         "cite": "08.18.021",
@@ -225,16 +249,12 @@
         "kind": "home_inspector_requirements"
       },
       {
-        "cite": "08.18.023",
-        "kind": "inspection_reports"
-      },
-      {
         "cite": "08.18.024",
         "kind": "specialty_contractors"
       },
       {
         "cite": "08.18.025",
-        "kind": "residential_contractor_endorsement"
+        "kind": "residential_contractors"
       },
       {
         "cite": "08.18.026",
@@ -246,7 +266,7 @@
       },
       {
         "cite": "08.18.031",
-        "kind": "certificate_renewal"
+        "kind": "certificate_renewal_continuing_education"
       },
       {
         "cite": "08.18.051",
@@ -266,19 +286,15 @@
       },
       {
         "cite": "08.18.123",
-        "kind": "denial_suspension_revocation_endorsement"
+        "kind": "disciplinary_grounds"
       },
       {
         "cite": "08.18.151",
         "kind": "legal_actions"
       },
       {
-        "cite": "08.18.152",
-        "kind": "prohibited_acts_home_inspectors"
-      },
-      {
         "cite": "08.18.156",
-        "kind": "exemptions_home_inspection"
+        "kind": "exemptions_home_inspections"
       },
       {
         "cite": "08.18.161",
@@ -292,7 +308,7 @@
   },
   "scope": {
     "definition_quote": {
-      "value": "\"contractor\" means a person who, in the pursuit of an independent business, undertakes or offers to perform, or claims to have the capacity to perform, or submits a bid for a project to construct, alter, repair, move, or demolish a building, highway, road, railroad, or any type of fixed structure, including excavation and site development and erection of scaffolding; \"contractor\" includes a general contractor, builder, mechanical contractor, specialty contractor, and subcontractor",
+      "value": "a person who, in the pursuit of an independent business, undertakes or offers to perform, or claims to have the capacity to perform, or submits a bid for a project to construct, alter, repair, move, or demolish a building, highway, road, railroad, or any type of fixed structure, including excavation and site development and erection of scaffolding",
       "quote": "\"contractor\" means a person who, in the pursuit of an independent business, undertakes or offers to perform, or claims to have the capacity to perform, or submits a bid for a project to construct, alter, repair, move, or demolish a building, highway, road, railroad, or any type of fixed structure, including excavation and site development and erection of scaffolding",
       "citation": "08.18.171"
     },
@@ -313,15 +329,15 @@
     "citations": [
       {
         "cite": "08.18.171",
-        "kind": "definitions"
+        "kind": "definition_of_contractor"
       },
       {
         "cite": "08.18.024",
-        "kind": "specialty_contractors"
+        "kind": "specialty_contractor_scope"
       },
       {
         "cite": "08.18.025",
-        "kind": "residential_contractors"
+        "kind": "residential_contractor_scope"
       }
     ]
   },

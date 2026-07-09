@@ -25,12 +25,16 @@
       },
       "umbrella_agency": {
         "value": "Indiana Professional Licensing Agency",
-        "quote": "\"Licensing agency\" means the Indiana professional licensing agency established by IC 25-1-5-3 .",
+        "quote": "\"Licensing agency\" means the Indiana professional licensing agency established by IC 25-1-5-3.",
         "citation": "25-31-1-2"
       }
     },
     "age_minimum": null,
-    "moral_character_required": null,
+    "moral_character_required": {
+      "value": true,
+      "quote": "An individual is not eligible for registration as a professional engineer or certification as an engineering intern if the individual has been convicted of: (1) an act which would constitute grounds for disciplinary sanction under IC 25-1-11 ; or (2) a felony that has a direct bearing on the individual's ability to practice competently.",
+      "citation": "25-31-1-12"
+    },
     "education": {
       "degree_required": {
         "value": "Graduation in an approved engineering curriculum of four (4) years or more",
@@ -67,7 +71,7 @@
       },
       "experience_source": {
         "value": "required_by_statute",
-        "quote": "A specific record of four (4) years or more of progressive experience on engineering projects of sufficient quality acquired subsequent to graduation",
+        "quote": "A specific record of four (4) years or more of progressive experience on engineering projects of sufficient quality acquired subsequent to graduation, which experience indicates that the applicant is qualified to be placed in responsible charge of engineering work",
         "citation": "25-31-1-12"
       },
       "duration": {
@@ -85,19 +89,19 @@
       {
         "name": "Engineering Fundamentals",
         "required": true,
-        "notes": "First part of the two-part examination; tests knowledge of mathematics and physical and engineering sciences. Applicants with an engineering intern certificate may be exempted from this portion.",
-        "jurisdiction": "state board",
+        "notes": "First part of the two-part examination; tests knowledge of mathematics and physical and engineering sciences. Applicant must pass this before taking principles and practice portion. Maximum 3 attempts before reapplication with additional evidence.",
+        "jurisdiction": null,
         "permitted_attempts": 3,
-        "quote": "The examination required of all applicants for registration as a professional engineer shall be a written or computer based examination which shall be divided into the following two (2) parts: (1) Engineering fundamentals.",
+        "quote": "The examination required of all applicants for registration as a professional engineer shall be a written or computer based examination which shall be divided into the following two (2) parts: (1) Engineering fundamentals. (2) Principles and practice of engineering.",
         "citation": "25-31-1-14"
       },
       {
         "name": "Principles and Practice of Engineering",
         "required": true,
-        "notes": "Second part of the two-part examination; tests understanding and judgment in applying engineering principles. Must pass Engineering Fundamentals before taking this part.",
-        "jurisdiction": "state board",
+        "notes": "Second part of the two-part examination; tests understanding and ability to apply engineering principles. Maximum 3 attempts before reapplication with additional evidence.",
+        "jurisdiction": null,
         "permitted_attempts": 3,
-        "quote": "The examination required of all applicants for registration as a professional engineer shall be a written or computer based examination which shall be divided into the following two (2) parts: ... (2) Principles and practice of engineering.",
+        "quote": "The principles and practice of the engineering portion of the examination shall be designed primarily to test the applicant's understanding of, and judgment and ability to apply correctly, the principles of: (1) mathematics; (2) the physical sciences; (3) the engineering sciences; and (4) engineering design analysis and synthesis",
         "citation": "25-31-1-14"
       }
     ],
@@ -126,8 +130,8 @@
         "citation": "25-31-1-21"
       },
       "requirements": {
-        "value": "Applicant must hold a valid PE certificate from another state/territory/possession of the US with requirements not conflicting with Indiana's chapter. Board may accept verified professional record certified by the National Council of Examiners for Engineers and Surveyors (NCEES). Reduced experience requirement (3 years post-graduation) applies if applicant has been registered in another state for at least 10 years.",
-        "quote": "the board may accept the verified professional record of the applicant that is certified by the National Council of Examiners for Engineers and Surveyors.",
+        "value": "Applicant must hold a valid certificate of registration from another state/territory/possession whose requirements do not conflict with Indiana's requirements. Board may accept NCEES verified professional record. Alternative experience path: at least 3 years of post-graduation engineering work experience and registered in another state for at least 10 years.",
+        "quote": "if the requirements for registration of professional engineers that the certificate of registration was issued under do not conflict with the provisions of this chapter. In determining the qualifications of an applicant, the board may accept the verified professional record of the applicant that is certified by the National Council of Examiners for Engineers and Surveyors.",
         "citation": "25-31-1-21"
       }
     },
@@ -141,7 +145,11 @@
       "authority": null
     },
     "national_certification": null,
-    "national_association": null,
+    "national_association": {
+      "value": "National Council of Examiners for Engineers and Surveyors (NCEES)",
+      "quote": "the board may accept the verified professional record of the applicant that is certified by the National Council of Examiners for Engineers and Surveyors.",
+      "citation": "25-31-1-21"
+    },
     "regulatory_model": {
       "value": "license",
       "quote": "practices or offers to practice engineering without being registered or exempted under the laws of this state",
@@ -149,7 +157,7 @@
     },
     "credential_type": {
       "value": "license",
-      "quote": "The board shall issue a certificate of registration ... to any applicant who, in the opinion of the board, has satisfactorily met all requirements of this chapter. In the case of a professional engineer, the certificate shall authorize the practice of \"professional engineering\".",
+      "quote": "The board shall issue a certificate of registration, upon the payment of the fee prescribed by the board under IC 25-1-8-2 and the fee established by section 9(b) of this chapter, to any applicant who, in the opinion of the board, has satisfactorily met all requirements of this chapter.",
       "citation": "25-31-1-15"
     },
     "is_mandatory": {
@@ -159,13 +167,8 @@
     },
     "title_protection": {
       "value": true,
-      "quote": "an architect who is registered under IC 25-4-1 and exempted from this chapter may not use the designation \"engineer\" in any form or manner unless the architect is registered under this chapter.",
-      "citation": "25-31-1-30",
-      "unverified": true,
-      "approximate": {
-        "ratio": 0.937,
-        "matched_normalized": " who is registered under ic 25 4 1 and exempted from this chapter may not use the designation engineer in any form or manner unless the architect is registered under this chapter"
-      }
+      "quote": "An architect, however, who is registered under IC 25-4-1 and exempted from this chapter may not use the designation \"engineer\" in any form or manner unless the architect is registered under this chapter.",
+      "citation": "25-31-1-30"
     },
     "scope_protection": {
       "value": true,
@@ -175,45 +178,45 @@
     "disciplinary_grounds": [
       {
         "short_label": "practicing_without_registration",
-        "description": "Practicing or offering to practice engineering without being registered or exempted under Indiana law",
+        "description": "Practices or offers to practice engineering without being registered or exempted",
         "quote": "practices or offers to practice engineering without being registered or exempted under the laws of this state",
         "citation": "25-31-1-27"
       },
       {
-        "short_label": "presenting_anothers_certificate",
-        "description": "Presenting as one's own the certificate of registration or seal of another person",
+        "short_label": "presenting_another_certificate_as_own",
+        "description": "Presents as one's own the certificate of registration or seal of another",
         "quote": "presents as the person's own the certificate of registration or the seal of another",
         "citation": "25-31-1-27"
       },
       {
-        "short_label": "false_evidence_to_board",
-        "description": "Giving false or forged evidence to the board or any member of the board to obtain a certificate of registration",
+        "short_label": "false_or_forged_evidence",
+        "description": "Gives false or forged evidence to the board or any board member in obtaining a certificate",
         "quote": "gives any false or forged evidence of any kind to the board or to any member of the board in obtaining a certificate of registration",
         "citation": "25-31-1-27"
       },
       {
-        "short_label": "impersonating_registrant",
-        "description": "Impersonating any other registrant",
+        "short_label": "impersonation_of_registrant",
+        "description": "Impersonates any other registrant",
         "quote": "impersonates any other registrant",
         "citation": "25-31-1-27"
       },
       {
-        "short_label": "using_expired_suspended_revoked_certificate",
-        "description": "Using an expired, suspended, or revoked certificate of registration",
+        "short_label": "use_of_expired_suspended_revoked_certificate",
+        "description": "Uses an expired, suspended, or revoked certificate of registration",
         "quote": "uses an expired, suspended, or revoked certificate of registration",
         "citation": "25-31-1-27"
       },
       {
-        "short_label": "false_statement_in_application",
-        "description": "Knowingly making a false statement in the application for registration",
-        "quote": "A person who knowingly makes a false statement in the application commits a Class A misdemeanor.",
-        "citation": "25-31-1-13"
-      },
-      {
-        "short_label": "stamping_with_expired_seal",
-        "description": "Stamping or sealing any document with a seal after the certificate of the registrant named on the seal has expired or been revoked",
+        "short_label": "stamping_after_certificate_expiry_or_revocation",
+        "description": "Stamps or seals any document with a seal after the certificate has expired or been revoked",
         "quote": "It is unlawful for any person to stamp or seal any document with a seal after the certificate of the registrant named on the seal has expired or has been revoked.",
         "citation": "25-31-1-16"
+      },
+      {
+        "short_label": "false_statement_in_application",
+        "description": "Knowingly makes a false statement in the application for registration",
+        "quote": "A person who knowingly makes a false statement in the application commits a Class A misdemeanor.",
+        "citation": "25-31-1-13"
       }
     ],
     "alternative_regulation": {
@@ -228,19 +231,19 @@
       },
       {
         "cite": "25-31-1-3",
-        "kind": "board composition"
+        "kind": "board creation and composition"
       },
       {
         "cite": "25-31-1-7",
-        "kind": "board powers"
+        "kind": "board enforcement and administration"
       },
       {
         "cite": "25-31-1-9",
-        "kind": "fees"
+        "kind": "fees and investigative fund"
       },
       {
         "cite": "25-31-1-12",
-        "kind": "qualifications"
+        "kind": "qualifications for registration"
       },
       {
         "cite": "25-31-1-13",
@@ -268,7 +271,7 @@
       },
       {
         "cite": "25-31-1-18",
-        "kind": "firm practice"
+        "kind": "corporate practice"
       },
       {
         "cite": "25-31-1-19",
@@ -284,7 +287,15 @@
       },
       {
         "cite": "25-31-1-27",
-        "kind": "violations"
+        "kind": "violations and penalties"
+      },
+      {
+        "cite": "25-31-1-28",
+        "kind": "enforcement"
+      },
+      {
+        "cite": "25-31-1-29",
+        "kind": "injunctions"
       },
       {
         "cite": "25-31-1-30",
@@ -292,7 +303,7 @@
       },
       {
         "cite": "25-31-1-34",
-        "kind": "title use in government"
+        "kind": "use of engineer in job titles"
       },
       {
         "cite": "25-31-1-35",
@@ -302,8 +313,8 @@
   },
   "scope": {
     "definition_quote": {
-      "value": "any service or creative work that the adequate performance of requires engineering education, training, and experience in the application of special knowledge of the mathematical, physical, and engineering sciences to services or creative work that includes consultation, investigation, evaluation, planning, design of or supervision of design of engineering works and systems, engineering surveys and studies, and evaluation of construction for compliance with specifications",
-      "quote": "\"Practice of engineering\" means any service or creative work that the adequate performance of requires engineering education, training, and experience in the application of special knowledge of the mathematical, physical, and engineering sciences to services or creative work",
+      "value": "any service or creative work that the adequate performance of requires engineering education, training, and experience in the application of special knowledge of the mathematical, physical, and engineering sciences to services or creative work that includes consultation, investigation, evaluation, planning, design, engineering surveys and studies, and evaluation of construction",
+      "quote": "\"Practice of engineering\" means any service or creative work that the adequate performance of requires engineering education, training, and experience in the application of special knowledge of the mathematical, physical, and engineering sciences",
       "citation": "25-31-1-2"
     },
     "methods_authorized": {
@@ -312,18 +323,26 @@
         "Investigation",
         "Evaluation",
         "Planning, including planning the use of land and water",
-        "Design of or supervision of design of engineering works and systems",
+        "Design of or supervision of the design of engineering works and systems",
         "Engineering surveys and studies",
         "Evaluation of construction for compliance with specifications, plans, and designs"
       ],
-      "quote": "services or creative work that includes the following: (1) Consultation. (2) Investigation. (3) Evaluation. (4) Planning, including planning the use of land and water. (5) The design of or the supervision of the design of engineering works and systems. (6) Engineering surveys and studies ... (7) Evaluation of construction for the purpose of assuring compliance with specifications, plans, and designs",
+      "quote": "includes the following: (1) Consultation. (2) Investigation. (3) Evaluation. (4) Planning, including planning the use of land and water. (5) The design of or the supervision of the design of engineering works and systems. (6) Engineering surveys and studies or the supervision of engineering surveys and studies ... (7) Evaluation of construction for the purpose of assuring compliance with specifications, plans, and designs",
       "citation": "25-31-1-2"
     },
     "drug_authority": null,
     "citations": [
       {
         "cite": "25-31-1-2",
-        "kind": "scope definition"
+        "kind": "definition of practice of engineering"
+      },
+      {
+        "cite": "25-31-1-19",
+        "kind": "public projects requirement"
+      },
+      {
+        "cite": "25-31-1-20",
+        "kind": "exemptions from scope"
       }
     ]
   },
@@ -336,8 +355,8 @@
     "covers_geology": null,
     "engineer_intern_certificate_available": {
       "value": true,
-      "quote": "\"Engineering intern\" means an individual who ... has been issued by the board an appropriate certificate of enrollment as an engineering intern.",
-      "citation": "25-31-1-2"
+      "quote": "The board shall issue a certificate of enrollment upon the payment of the certificate fee prescribed by the board under IC 25-1-8-2 to any applicant who, in the opinion of the board, has satisfactorily met all of the requirements of this chapter. In the case of an engineering intern, the certificate shall state that the applicant has successfully passed the examination in engineering fundamentals and has been enrolled as an engineering intern.",
+      "citation": "25-31-1-15"
     },
     "surveyor_in_training_certificate_available": null,
     "geologist_in_training_certificate_available": null,
@@ -374,10 +393,10 @@
     },
     "exemptions_from_licensure": {
       "value": [
-        "Employee or subordinate of a registered PE whose practice does not include responsible charge of design or supervision",
-        "Engineering on property owned or leased by the individual/business (unless involving public health/safety or employee health/safety)",
-        "Engineering relating solely to the design or fabrication of manufactured products",
-        "Landscape architect registered under IC 25-4-2 while engaged in practice of landscape architecture planning the use of land or water"
+        "Employee or subordinate of a registered person not in responsible charge of design or supervision",
+        "Engineering on property owned or leased by that individual or business (unless involving public health or safety or employee health or safety)",
+        "Engineering related solely to the design or fabrication of manufactured products",
+        "Registered landscape architects engaged in landscape architecture planning the use of land or water"
       ],
       "quote": "An employee or a subordinate of any person who holds a certificate of registration under the provisions of this chapter is exempt from the provisions of this chapter if the practice of the employee or subordinate does not include responsible charge of design or supervision.",
       "citation": "25-31-1-20"

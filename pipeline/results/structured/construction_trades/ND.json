@@ -30,7 +30,11 @@
       "quote": "an applicant who is eighteen years of age or older shall submit, on forms the registrar prescribes, an application under oath",
       "citation": "43-07-04"
     },
-    "moral_character_required": null,
+    "moral_character_required": {
+      "value": true,
+      "quote": "the licensee or applicant has engaged in conduct as a contractor which is dishonest or fraudulent and which the registrar finds injurious to the welfare of the public.",
+      "citation": "43-07-04.1"
+    },
     "education": null,
     "post_degree_experience": {
       "required": {
@@ -50,21 +54,30 @@
     "renewal": {
       "interval_years": {
         "value": 1,
-        "quote": "The application for a certificate for the current contractor year must be made to the registrar before March second of each year",
+        "quote": "Any license issued under this chapter may be renewed for each successive contractor year by obtaining from the registrar a certificate for the current contractor year.",
         "citation": "43-07-10"
       }
     },
     "renewal_fee_usd": null,
-    "continuing_education": null,
+    "continuing_education": {
+      "required": {
+        "value": false,
+        "quote": "Any license issued under this chapter may be renewed for each successive contractor year by obtaining from the registrar a certificate for the current contractor year.",
+        "citation": "43-07-10"
+      },
+      "hours_per_period": null,
+      "period_years": null,
+      "topical_requirements": null
+    },
     "reciprocity": {
       "available": {
         "value": true,
-        "quote": "a board shall issue a license to an out-of-state licensee applicant to practice in this state if, upon application to the board, the applicant",
+        "quote": "a board shall issue a license to an out-of-state licensee applicant to practice in this state if, upon application to the board, the applicant: a. Actively has used the license for two of the three years immediately preceding submitting an application under this section",
         "citation": "UMBRELLA / Chapter 43-51.1 - Universal Licensure and Board Operations"
       },
       "requirements": {
-        "value": "Out-of-state licensee must have actively used the license for 2 of the 3 years immediately preceding application, demonstrate competency, have no disqualifying disciplinary history, not be under active investigation, and pay applicable fees.",
-        "quote": "a board shall issue a license to an out-of-state licensee applicant to practice in this state if, upon application to the board, the applicant: a. Actively has used the license for two of the three years immediately preceding submitting an application under this section; b. Provides or demonstrates competency and education in the profession or occupation through methods determined by the board",
+        "value": "Under universal licensure (Ch. 43-51.1), an out-of-state licensee must have actively used the license for 2 of the prior 3 years, demonstrate competency, have no disqualifying conduct or discipline in the last 10 years, not be under active investigation, and pay applicable fees. The secretary of state is excluded from the umbrella board definition, so applicability to the contractor licensing program (administered by the secretary of state) may be limited.",
+        "quote": "Unless the board is part of an effective interstate compact, an executed license transfer, existing interstate mobility, or reciprocity agreement with another state, a board shall issue a license to an out-of-state licensee applicant to practice in this state",
         "citation": "UMBRELLA / Chapter 43-51.1 - Universal Licensure and Board Operations"
       }
     },
@@ -95,7 +108,7 @@
       "citation": "43-07-02"
     },
     "title_protection": {
-      "value": false,
+      "value": true,
       "quote": "A person may not engage in the business nor act in the capacity of a contractor within this state when the cost, value, or price per job exceeds the sum of four thousand dollars",
       "citation": "43-07-02"
     },
@@ -112,52 +125,58 @@
         "citation": "43-07-04.1"
       },
       {
-        "short_label": "conviction_bearing_on_fitness",
-        "description": "Applicant or licensee has been convicted of an offense that has direct bearing on ability to serve the public as a contractor",
+        "short_label": "conviction_with_direct_bearing",
+        "description": "Applicant or licensee convicted of an offense with direct bearing on ability to serve the public as a contractor",
         "quote": "The applicant or licensee has been convicted of an offense that has direct bearing upon the applicant's or licensee's ability to serve the public as a contractor;",
         "citation": "43-07-04.1"
       },
       {
         "short_label": "dishonest_or_fraudulent_conduct",
-        "description": "Licensee or applicant has engaged in conduct as a contractor which is dishonest or fraudulent and injurious to the welfare of the public",
+        "description": "Licensee or applicant engaged in conduct as a contractor that is dishonest or fraudulent and injurious to the welfare of the public",
         "quote": "The licensee or applicant has engaged in conduct as a contractor which is dishonest or fraudulent and which the registrar finds injurious to the welfare of the public.",
         "citation": "43-07-04.1"
       },
       {
         "short_label": "abandonment_of_contract",
-        "description": "Abandonment of any contract without legal excuse after a deposit of money or other consideration has been provided",
+        "description": "Abandonment of any contract without legal excuse after deposit of money or other consideration has been provided",
         "quote": "Abandonment of any contract without legal excuse after a deposit of money or other consideration has been provided to the licensee.",
         "citation": "43-07-14"
       },
       {
         "short_label": "diversion_of_funds",
-        "description": "Diversion of funds or property received under express agreement for prosecution or completion of a specific contract",
+        "description": "Diversion of funds or property received for a specific contract or purpose and applied to another contract or obligation to defraud",
         "quote": "Diversion of funds or property received under express agreement for the prosecution or completion of a specific contract under this chapter, or for a specified purpose in the prosecution or completion of any contract, and their application or use for any other contract obligation or purpose to defraud or deceive creditors or the owner.",
         "citation": "43-07-14"
       },
       {
         "short_label": "fraudulent_or_deceptive_acts",
-        "description": "Engaging in fraudulent or deceptive acts or misrepresentation as a contractor causing injury exceeding $3,000",
+        "description": "Engaging in fraudulent or deceptive acts or misrepresentation as a contractor injuring one or more persons in a total amount exceeding three thousand dollars",
         "quote": "Engaging in any fraudulent or deceptive acts or practices or misrepresentation as a contractor in consequence of which one or more persons is injured in a total amount exceeding three thousand dollars.",
         "citation": "43-07-14"
       },
       {
         "short_label": "false_statement_in_application_or_renewal",
-        "description": "Making any false or misleading statement in any application for a license or renewal, or violating this chapter, or being convicted of a disqualifying offense",
-        "quote": "The making of any false or misleading statement in any application for a license or renewal or by violating this chapter or being convicted of an offense the registrar determines has a direct bearing on the applicant's or licensee's ability to serve the public as a contractor",
+        "description": "Making any false or misleading statement in any application for a license or renewal, or violating this chapter, or conviction of an offense with direct bearing on ability to serve the public",
+        "quote": "The making of any false or misleading statement in any application for a license or renewal or by violating this chapter or being convicted of an offense the registrar determines has a direct bearing on the applicant's or licensee's ability to serve the public as a contractor as set out in section 12.1-33-02.1.",
         "citation": "43-07-14"
       },
       {
         "short_label": "work_without_required_trade_license",
-        "description": "Engaging in work without any trade or professional license as required for the work pursuant to local, state, or federal law",
+        "description": "Engaging in work without any trade or professional license as required by local, state, or federal law",
         "quote": "Engaging in work without any trade or professional license as required for the work pursuant to local, state, or federal law.",
         "citation": "43-07-14"
       },
       {
         "short_label": "failure_to_refund_advance_payment",
-        "description": "Failure to refund fully the contracting party's advance payment if a rebuttable presumption of abandonment has arisen and the contracting party has requested a refund",
+        "description": "Failure to fully refund the contracting party's advance payment when a rebuttable presumption of abandonment has arisen and refund has been requested",
         "quote": "Failure to refund fully the contracting party's advance payment if a rebuttable presumption of abandonment has arisen and the contracting party has made a request to the licensee for a refund.",
         "citation": "43-07-14"
+      },
+      {
+        "short_label": "failure_to_maintain_insurance",
+        "description": "Failure to maintain required liability insurance coverage",
+        "quote": "Maintain liability insurance coverage required by this section or by section 43-07-10;",
+        "citation": "43-07-04"
       }
     ],
     "alternative_regulation": {
@@ -176,19 +195,19 @@
       },
       {
         "cite": "43-07-02",
-        "kind": "license_required"
+        "kind": "license required / fraud / penalty"
       },
       {
         "cite": "43-07-04",
-        "kind": "application_requirements"
+        "kind": "how to obtain license"
       },
       {
         "cite": "43-07-04.1",
-        "kind": "denial_suspension_revocation"
+        "kind": "denial, suspension, revocation"
       },
       {
         "cite": "43-07-07",
-        "kind": "license_classes_and_fees"
+        "kind": "license classes and fees"
       },
       {
         "cite": "43-07-08",
@@ -196,7 +215,7 @@
       },
       {
         "cite": "43-07-09",
-        "kind": "expiration"
+        "kind": "duty of registrar / expiration"
       },
       {
         "cite": "43-07-10",
@@ -204,26 +223,30 @@
       },
       {
         "cite": "43-07-14",
-        "kind": "disciplinary_grounds"
+        "kind": "complaint / disciplinary grounds"
       },
       {
         "cite": "43-07-15",
-        "kind": "revocation_procedure"
+        "kind": "revocation / suspension procedures"
       },
       {
         "cite": "43-07-17",
-        "kind": "relicensing"
+        "kind": "relicensing after revocation"
       },
       {
         "cite": "43-07-24",
-        "kind": "license_number_display"
+        "kind": "license number in building permit"
+      },
+      {
+        "cite": "43-51.1-02",
+        "kind": "universal licensure"
       }
     ]
   },
   "scope": {
     "definition_quote": {
       "value": "\"Contractor\" means any person engaged in the business of construction, repair, alteration, dismantling, or demolition of bridges, highways, roads, streets, buildings, airports, dams, drainage or irrigation ditches, sewers, water or gas mains, water filters, tanks, towers, oil, gas, or water pipelines, and every other type of structure, project, development, or improvement coming within the definition of real or personal property, including the construction, alteration, or repair of property to be held either for sale or rental, and includes subcontractor, public contractor, and nonresident contractor.",
-      "quote": "\"Contractor\" means any person engaged in the business of construction, repair, alteration, dismantling, or demolition of bridges, highways, roads, streets, buildings, airports, dams, drainage or irrigation ditches, sewers, water or gas mains, water filters, tanks, towers, oil, gas, or water pipelines, and every other type of structure, project, development, or improvement coming within the definition of real or personal property",
+      "quote": "\"Contractor\" means any person engaged in the business of construction, repair, alteration, dismantling, or demolition of bridges, highways, roads, streets, buildings, airports, dams, drainage or irrigation ditches, sewers, water or gas mains, water filters, tanks, towers, oil, gas, or water pipelines, and every other type of structure, project, development, or improvement coming within the definition of real or personal property, including the construction, alteration, or repair of property to be held either for sale or rental, and includes subcontractor, public contractor, and nonresident contractor.",
       "citation": "43-07-01"
     },
     "methods_authorized": {
@@ -234,23 +257,23 @@
         "dismantling",
         "demolition"
       ],
-      "quote": "any person engaged in the business of construction, repair, alteration, dismantling, or demolition of bridges, highways, roads, streets, buildings, airports, dams, drainage or irrigation ditches, sewers, water or gas mains, water filters, tanks, towers, oil, gas, or water pipelines",
+      "quote": "any person engaged in the business of construction, repair, alteration, dismantling, or demolition of bridges, highways, roads, streets, buildings, airports, dams",
       "citation": "43-07-01"
     },
     "drug_authority": null,
     "citations": [
       {
         "cite": "43-07-01",
-        "kind": "definition"
+        "kind": "definitions"
+      },
+      {
+        "cite": "43-07-02",
+        "kind": "scope prohibition"
       }
     ]
   },
   "profession_specific": {
-    "registration_number_required_in_ads": {
-      "value": true,
-      "quote": "When applying for a building permit, a contractor shall supply the permit issuing official that contractor's license number.",
-      "citation": "43-07-24"
-    },
+    "registration_number_required_in_ads": null,
     "insurance_personal_injury_minimum_usd": null,
     "insurance_property_damage_minimum_usd": null,
     "self_insurance_permitted": null,
@@ -282,7 +305,7 @@
     "local_trade_licensing_preserved": null,
     "registration_renewal_interval_years": {
       "value": 1,
-      "quote": "The application for a certificate for the current contractor year must be made to the registrar before March second of each year",
+      "quote": "Any license issued under this chapter may be renewed for each successive contractor year by obtaining from the registrar a certificate for the current contractor year.",
       "citation": "43-07-10"
     },
     "out_of_state_disciplinary_action_reporting_required": null

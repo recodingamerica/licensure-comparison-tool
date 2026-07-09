@@ -15,8 +15,8 @@
     "regulatory_authority": {
       "name": {
         "value": "State Board of Licensure for Professional Engineers and Professional Surveyors",
-        "quote": "There is created the \"state board of licensure for professional engineers and professional surveyors\"",
-        "citation": "61-23-5"
+        "quote": "\"board\" means the state board of licensure for professional engineers and professional surveyors",
+        "citation": "61-23-3"
       },
       "type": {
         "value": "shared_board",
@@ -33,18 +33,18 @@
     },
     "education": {
       "degree_required": {
-        "value": "received a bachelor's degree in an engineering discipline recognized by the board from a program accredited by the engineering accreditation commission or a program that fulfills the required content of the engineering education standard as defined by the national council of examiners for engineering and surveying and has at least four years of engineering experience",
+        "value": "Bachelor's degree in an engineering discipline recognized by the board from a program accredited by the engineering accreditation commission (or equivalent), or master's, or doctorate, depending on path",
         "quote": "received a bachelor's degree in an engineering discipline recognized by the board from a program accredited by the engineering accreditation commission or a program that fulfills the required content of the engineering education standard as defined by the national council of examiners for engineering and surveying and has at least four years of engineering experience",
         "citation": "61-23-14.1"
       },
       "accrediting_body": {
-        "value": "Engineering Accreditation Commission of the Accreditation Board for Engineering and Technology (EAC/ABET)",
+        "value": "Engineering Accreditation Commission of the Accreditation Board for Engineering and Technology (EAC/ABET); National Council of Examiners for Engineering and Surveying (NCEES)",
         "quote": "\"engineering accreditation commission\" means the engineering accreditation commission of the accreditation board for engineering and technology, incorporated, or any successor commission or organization",
         "citation": "61-23-3"
       },
       "degree_level": {
         "value": "bachelor",
-        "quote": "received a bachelor's degree in an engineering discipline recognized by the board from a program accredited by the engineering accreditation commission",
+        "quote": "received a bachelor's degree in an engineering discipline recognized by the board from a program accredited by the engineering accreditation commission or a program that fulfills the required content of the engineering education standard as defined by the national council of examiners for engineering and surveying and has at least four years of engineering experience",
         "citation": "61-23-14.1"
       },
       "school_approval_basis": {
@@ -59,21 +59,28 @@
       },
       "tiers": [
         {
-          "license_class": "bachelor's degree with 4 years experience (engineer intern certified)",
+          "license_class": "engineer intern certification (via bachelor's + EIT exam)",
+          "degree_level": "bachelor",
+          "effective_date": null,
+          "quote": "graduated from a board-approved engineering curriculum of four years or more or graduated from an engineering master's program that is accredited by the engineering accreditation commission",
+          "citation": "61-23-14"
+        },
+        {
+          "license_class": "professional engineer via examination (bachelor's path, with engineer intern cert)",
           "degree_level": "bachelor",
           "effective_date": null,
           "quote": "received a bachelor's degree in an engineering discipline recognized by the board from a program accredited by the engineering accreditation commission or a program that fulfills the required content of the engineering education standard as defined by the national council of examiners for engineering and surveying and has at least four years of engineering experience",
           "citation": "61-23-14.1"
         },
         {
-          "license_class": "master's degree with 3 years experience (engineer intern certified)",
+          "license_class": "professional engineer via examination (master's path, with engineer intern cert)",
           "degree_level": "master",
           "effective_date": null,
           "quote": "received a master's degree in an engineering discipline recognized by the board from a program accredited by the engineering accreditation commission or an institution that offers programs accredited by the engineering accreditation commission or that fulfills the required content of the engineering education standard as defined by the national council of examiners for engineering and surveying and has at least three years of engineering experience",
           "citation": "61-23-14.1"
         },
         {
-          "license_class": "doctorate with 2 years experience (engineer intern certified)",
+          "license_class": "professional engineer via examination (doctorate path, with engineer intern cert)",
           "degree_level": "doctorate",
           "effective_date": null,
           "quote": "received a doctorate degree in an engineering discipline recognized by the board from a board-approved engineering curriculum and has at least two years of engineering experience",
@@ -89,11 +96,11 @@
       },
       "experience_source": {
         "value": "required_by_statute",
-        "quote": "has at least four years of engineering experience",
+        "quote": "received a bachelor's degree in an engineering discipline recognized by the board from a program accredited by the engineering accreditation commission or a program that fulfills the required content of the engineering education standard as defined by the national council of examiners for engineering and surveying and has at least four years of engineering experience",
         "citation": "61-23-14.1"
       },
       "duration": {
-        "value": "at least four years of engineering experience (bachelor's path); at least three years (master's path); at least two years (doctorate path)",
+        "value": "at least four years (bachelor's path with EI cert); at least three years (master's with EI cert); at least two years (doctorate with EI cert); twelve years (bachelor's without EI cert); at least six years (doctorate without EI cert)",
         "quote": "received a bachelor's degree in an engineering discipline recognized by the board from a program accredited by the engineering accreditation commission or a program that fulfills the required content of the engineering education standard as defined by the national council of examiners for engineering and surveying and has at least four years of engineering experience",
         "citation": "61-23-14.1"
       },
@@ -105,18 +112,18 @@
     },
     "exams": [
       {
-        "name": "Fundamentals of Engineering (FE) / Engineer Intern Examination",
+        "name": "Fundamentals of Engineering (FE) Examination (Engineer Intern certification)",
         "required": true,
-        "notes": "Required for certification as engineer intern; passing is prerequisite for licensure by examination path requiring engineer intern certification.",
+        "notes": "Required for Engineer Intern certification. Must pass before being eligible for PE licensure via examination.",
         "jurisdiction": "national (NCEES)",
         "permitted_attempts": null,
-        "quote": "An applicant for certification as an engineer intern shall file the appropriate application... After acceptance of the application by the board, the applicant shall be allowed to take the appropriate examination for certification as an engineer intern.",
+        "quote": "After acceptance of the application by the board, the applicant shall be allowed to take the appropriate examination for certification as an engineer intern.",
         "citation": "61-23-14"
       },
       {
         "name": "Principles and Practice of Engineering (PE) Examination",
         "required": true,
-        "notes": "Required for licensure as professional engineer; administered by NCEES.",
+        "notes": "Required for licensure as a professional engineer by examination. Passing grade determined by engineering committee.",
         "jurisdiction": "national (NCEES)",
         "permitted_attempts": null,
         "quote": "has passed the principles and practice of engineering examination administered by the national council of examiners for engineering and surveying relevant to the discipline in which the applicant is seeking licensure",
@@ -144,11 +151,11 @@
     "reciprocity": {
       "available": {
         "value": true,
-        "quote": "An applicant may be licensed by endorsement or comity if the applicant: (1) is currently licensed as an engineer in another state, the District of Columbia or a territory of the United States",
+        "quote": "Licensure as a professional engineer may be either through examination or through endorsement or comity.",
         "citation": "61-23-14.1"
       },
       "requirements": {
-        "value": "Applicant must be currently licensed in another state/DC/territory and either: (1) meet standards that equaled or exceeded NM standards at time of initial licensure; (2) be licensed in a foreign country with equivalent standards; or (3) for non-structural disciplines, have been actively licensed for 10 continuous years, no disciplinary action in 5 years, no suspension/revocation, and passed the PE exam.",
+        "value": "Applicant must be currently licensed as an engineer in another state, DC, or US territory where standards equaled or exceeded NM standards at initial licensure; or licensed in a foreign country with equivalent standards; or (for non-structural disciplines) actively licensed for 10 continuous years, no disciplinary action in past 5 years, no suspensions/revocations, and passed the PE exam.",
         "quote": "An applicant may be licensed by endorsement or comity if the applicant: (1) is currently licensed as an engineer in another state, the District of Columbia or a territory of the United States; provided that the licensure does not conflict with the provisions of the Engineering and Surveying Practice Act and that the standards required by the licensure or the applicant's qualifications equaled or exceeded the licensure standards in New Mexico at the time the applicant was initially licensed",
         "citation": "61-23-14.1"
       }
@@ -186,67 +193,67 @@
     },
     "scope_protection": {
       "value": true,
-      "quote": "any person in either public or private capacity practicing or offering to practice engineering or surveying shall be required to submit evidence that the person is qualified to so practice and shall be licensed as provided in the Engineering and Surveying Practice Act.",
-      "citation": "61-23-2"
+      "quote": "A valid license is required for a person to act as a professional engineer or to solicit or propose to perform work involving the practice of engineering.",
+      "citation": "61-23-23.1"
     },
     "disciplinary_grounds": [
       {
         "short_label": "unlawful_practice",
-        "description": "Practiced or offered to practice engineering in New Mexico in violation of the Engineering and Surveying Practice Act",
+        "description": "Practiced or offered to practice engineering in New Mexico in violation of the Engineering and Surveying Practice Act.",
         "quote": "practiced or offered to practice engineering in New Mexico in violation of the Engineering and Surveying Practice Act",
         "citation": "61-23-24"
       },
       {
         "short_label": "use_of_anothers_license",
-        "description": "Attempted to use the license of another",
+        "description": "Attempted to use the license of another.",
         "quote": "attempted to use the license of another",
         "citation": "61-23-24"
       },
       {
         "short_label": "false_evidence_for_license",
-        "description": "Gave false or forged evidence to the board or to a board member for obtaining a license",
+        "description": "Gave false or forged evidence to the board or to a board member for obtaining a license.",
         "quote": "given false or forged evidence to the board or to a board member for obtaining a license",
         "citation": "61-23-24"
       },
       {
-        "short_label": "false_impersonation",
-        "description": "Falsely impersonated another licensee of like or different name",
+        "short_label": "impersonation_of_licensee",
+        "description": "Falsely impersonated another licensee of like or different name.",
         "quote": "falsely impersonated another licensee of like or different name",
         "citation": "61-23-24"
       },
       {
-        "short_label": "use_of_expired_license",
-        "description": "Attempted to use an expired, suspended or revoked license",
+        "short_label": "use_of_expired_suspended_revoked_license",
+        "description": "Attempted to use an expired, suspended or revoked license.",
         "quote": "attempted to use an expired, suspended or revoked license",
         "citation": "61-23-24"
       },
       {
-        "short_label": "false_title_claim",
-        "description": "Falsely purported to be a professional engineer by claim, sign, advertisement or letterhead",
+        "short_label": "false_claim_of_pe_status",
+        "description": "Falsely purported to be a professional engineer by claim, sign, advertisement or letterhead.",
         "quote": "falsely purported to be a professional engineer by claim, sign, advertisement or letterhead",
         "citation": "61-23-24"
       },
       {
         "short_label": "violation_of_professional_responsibility_rules",
-        "description": "Violated the rules of professional responsibility for professional engineers adopted and promulgated by the board",
+        "description": "Violated the rules of professional responsibility for professional engineers adopted and promulgated by the board.",
         "quote": "violated the rules of professional responsibility for professional engineers adopted and promulgated by the board",
         "citation": "61-23-24"
       },
       {
         "short_label": "out_of_state_discipline",
-        "description": "Been disciplined in another state for action that would constitute a violation of the Engineering and Surveying Practice Act or board rules",
+        "description": "Been disciplined in another state for action that would constitute a violation of the Engineering and Surveying Practice Act or board rules.",
         "quote": "been disciplined in another state for action that would constitute a violation of either or both the Engineering and Surveying Practice Act or the rules adopted by the board",
         "citation": "61-23-24"
       },
       {
         "short_label": "felony_conviction",
-        "description": "Been convicted of a felony",
+        "description": "Been convicted of a felony.",
         "quote": "been convicted of a felony",
         "citation": "61-23-24"
       },
       {
         "short_label": "aiding_violation",
-        "description": "Procured, aided or abetted any violation of the provisions of the Engineering and Surveying Practice Act or the rules of the board",
+        "description": "Procured, aided or abetted any violation of the provisions of the Engineering and Surveying Practice Act or the rules of the board.",
         "quote": "procured, aided or abetted any violation of the provisions of the Engineering and Surveying Practice Act or the rules of the board",
         "citation": "61-23-24"
       }
@@ -259,75 +266,75 @@
     "citations": [
       {
         "cite": "61-23-2",
-        "kind": "statute"
+        "kind": "declaration of policy / scope protection"
       },
       {
         "cite": "61-23-3",
-        "kind": "statute"
+        "kind": "definitions"
       },
       {
         "cite": "61-23-4",
-        "kind": "statute"
+        "kind": "criminal offender character evaluation"
       },
       {
         "cite": "61-23-5",
-        "kind": "statute"
+        "kind": "board composition"
       },
       {
         "cite": "61-23-6",
-        "kind": "statute"
+        "kind": "board member qualifications"
       },
       {
         "cite": "61-23-10",
-        "kind": "statute"
+        "kind": "board powers and duties"
       },
       {
         "cite": "61-23-14",
-        "kind": "statute"
+        "kind": "engineer intern certification requirements"
       },
       {
         "cite": "61-23-14.1",
-        "kind": "statute"
+        "kind": "professional engineer licensure requirements"
       },
       {
         "cite": "61-23-18",
-        "kind": "statute"
+        "kind": "engineering examinations"
       },
       {
         "cite": "61-23-19",
-        "kind": "statute"
+        "kind": "engineering licenses and seals"
       },
       {
         "cite": "61-23-20",
-        "kind": "statute"
+        "kind": "licensure and renewal fees; expirations"
       },
       {
         "cite": "61-23-21",
-        "kind": "statute"
+        "kind": "practice of engineering; firm practice"
       },
       {
         "cite": "61-23-22",
-        "kind": "statute"
+        "kind": "engineering exemptions"
       },
       {
         "cite": "61-23-23.1",
-        "kind": "statute"
+        "kind": "civil penalties for unlicensed persons"
       },
       {
         "cite": "61-23-24",
-        "kind": "statute"
+        "kind": "violations; disciplinary action"
       },
       {
         "cite": "61-23-24.1",
-        "kind": "statute"
+        "kind": "professional development"
       },
       {
         "cite": "61-23-26",
-        "kind": "statute"
+        "kind": "public works engineering requirement"
       },
       {
         "cite": "61-23-27",
-        "kind": "statute"
+        "kind": "public officer licensure requirement"
       }
     ]
   },
@@ -347,7 +354,7 @@
         "expert technical testimony",
         "engineering studies",
         "review of construction for substantial compliance with drawings and specifications",
-        "use of photogrammetric methods to derive topographical and other data"
+        "photogrammetric methods to derive topographical and other data"
       ],
       "quote": "consultation, investigation, forensic investigation, evaluation, planning and design of engineering works and systems, expert technical testimony, engineering studies and the review of construction for the purpose of ensuring substantial compliance with drawings and specifications",
       "citation": "61-23-3"
@@ -356,11 +363,15 @@
     "citations": [
       {
         "cite": "61-23-3",
-        "kind": "statute"
+        "kind": "definition of engineering/practice of engineering"
       },
       {
-        "cite": "61-23-2",
-        "kind": "statute"
+        "cite": "61-23-21",
+        "kind": "practice of engineering; seal requirements"
+      },
+      {
+        "cite": "61-23-22",
+        "kind": "exemptions from engineering practice act"
       }
     ]
   },
@@ -370,15 +381,11 @@
       "quote": "There is created the \"state board of licensure for professional engineers and professional surveyors\" that shall consist of five licensed professional engineers, at least one of whom shall be in engineering education, three licensed professional surveyors and two public members.",
       "citation": "61-23-5"
     },
-    "covers_geology": {
-      "value": false,
-      "quote": "The board is the sole state agency with the power to certify the qualifications of professional engineers and professional surveyors.",
-      "citation": "61-23-10"
-    },
+    "covers_geology": null,
     "engineer_intern_certificate_available": {
       "value": true,
-      "quote": "An applicant may be certified as an engineer intern upon successfully completing the examination",
-      "citation": "61-23-14"
+      "quote": "\"engineer intern\" means a person who has qualified for, taken and passed an examination in fundamental engineering subjects",
+      "citation": "61-23-3"
     },
     "surveyor_in_training_certificate_available": {
       "value": true,
@@ -415,11 +422,11 @@
     },
     "exemptions_from_licensure": {
       "value": [
-        "Licensed architect engaging in incidental practice of engineering activities incidental to architectural work",
-        "Engineer employed by a business entity performing only engineering services in the operation of the business entity's own business (not offered to public), limited to legal boundaries of property owned/leased/operated",
-        "Rural electric distribution cooperative performing services not offered to public within its own property boundaries"
+        "Licensed architects practicing engineering incidental to their work (with restrictions)",
+        "Engineers employed by a business entity performing only internal engineering services not offered to the public, limited to legal boundaries of property owned/leased/operated by the entity",
+        "Rural electric distribution cooperatives (not offering services to the public, within property boundaries)"
       ],
-      "quote": "An engineer employed by a business entity who performs only the engineering services involved in the operation of the business entity's or an affiliated business entity's business shall be exempt from the provisions of the Engineering and Surveying Practice Act; provided that neither the employee nor the employer offers engineering services to the public",
+      "quote": "A New Mexico licensed architect who has complied with all of the laws of New Mexico relating to the practice of architecture has the right to engage in the incidental practice, as defined by regulation, of activities properly classified as engineering",
       "citation": "61-23-22"
     },
     "code_of_ethics_in_statute": {

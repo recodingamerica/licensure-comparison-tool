@@ -19,7 +19,7 @@
         "citation": "37:2151"
       },
       "type": {
-        "value": "shared_board",
+        "value": "standalone_board",
         "quote": "There is hereby created the State Licensing Board for Contractors within the office of the governor.",
         "citation": "37:2151"
       },
@@ -30,15 +30,12 @@
       }
     },
     "age_minimum": null,
-    "moral_character_required": null,
-    "education": {
-      "degree_required": null,
-      "accrediting_body": null,
-      "degree_level": null,
-      "school_approval_basis": null,
-      "credential_pegged": null,
-      "tiers": null
+    "moral_character_required": {
+      "value": true,
+      "quote": "The applicant, each principal, and each designated qualifying party shall complete an application and pass a background investigation. An applicant shall provide all information or documentation requested by the board, including but not limited to documentation relative to identification, criminal history, and financial history. The board may deny approval of the applicant, any of its principals, or any qualifying party for cause.",
+      "citation": "37:2156.1"
     },
+    "education": null,
     "post_degree_experience": {
       "required": {
         "value": false,
@@ -55,10 +52,10 @@
     },
     "exams": [
       {
-        "name": "Trade examination (classification-specific)",
+        "name": "Trade examination (by classification)",
         "required": true,
-        "notes": "The board may waive the trade portion for applicants holding a comparable license in another state. The business law requirement is not waivable.",
-        "jurisdiction": null,
+        "notes": "The board may waive the trade portion for applicants holding a comparable license in another state. The business law requirement shall not be waived.",
+        "jurisdiction": "state (in-house)",
         "permitted_attempts": null,
         "quote": "Waive the trade portion of the examination requirement for any applicant holding a license in a comparable classification in another state as determined by the board, upon written certification from the licensing state that the applicant passed the examination for the classification and is in good standing. The business law requirement shall not be waived.",
         "citation": "37:2153"
@@ -66,11 +63,20 @@
       {
         "name": "Louisiana business and law examination",
         "required": true,
-        "notes": "Required for all applicants; cannot be waived even for out-of-state licensees.",
-        "jurisdiction": "state",
+        "notes": "Required for all applicants; cannot be waived.",
+        "jurisdiction": "state (in-house)",
         "permitted_attempts": null,
         "quote": "An applicant for licensure shall designate a qualifying party for each classification and for the Louisiana business and law requirement.",
         "citation": "37:2156.1"
+      },
+      {
+        "name": "Residential roofing trade examination",
+        "required": true,
+        "notes": "Required for residential roofing classification on and after January 1, 2026.",
+        "jurisdiction": "state (in-house)",
+        "permitted_attempts": null,
+        "quote": "A residential roofing contractor shall pass the residential roofing trade examination and meet all other licensure requirements of a residential contractor.",
+        "citation": "37:2156.4"
       }
     ],
     "renewal": {
@@ -102,8 +108,8 @@
         "citation": "37:2153"
       },
       "requirements": {
-        "value": "Applicant must hold a comparable license in another state, provide written certification from that state that the applicant passed the examination and is in good standing. The business law requirement is not waived. Applicants must comply with all other Louisiana licensing requirements, though the board may waive other requirements for good cause.",
-        "quote": "Applicants shall comply with all other licensing requirements of this state; however, for good cause, the board may waive any other licensing requirement.",
+        "value": "Board may waive the trade examination for applicants licensed in a comparable classification in another state who are in good standing; business law exam cannot be waived; all other licensing requirements must be met unless waived by board for good cause.",
+        "quote": "Waive the trade portion of the examination requirement for any applicant holding a license in a comparable classification in another state as determined by the board, upon written certification from the licensing state that the applicant passed the examination for the classification and is in good standing. The business law requirement shall not be waived. Applicants shall comply with all other licensing requirements of this state; however, for good cause, the board may waive any other licensing requirement.",
         "citation": "37:2153"
       }
     },
@@ -119,8 +125,8 @@
         "citation": "37:2155"
       },
       "authority": {
-        "value": "Subject to the approval of the board, the residential subcommittee has powers and duties including: adopting rules and regulations for residential and home improvement contractors; issuing, suspending, or revoking licenses; prescribing continuing education regulations; and enforcing provisions of this Chapter.",
-        "quote": "Subject to the approval of the board, the residential subcommittee has all of the following powers and duties",
+        "value": "Subject to the approval of the board, the residential subcommittee has power to adopt rules and regulations, issue/suspend/revoke licenses, prescribe continuing education, enforce violations, and issue fines and penalties for residential and home improvement contractors.",
+        "quote": "Subject to the approval of the board, the residential subcommittee has all of the following powers and duties: (1) To adopt rules and regulations to govern residential and home improvement contractors in this state. (2) To issue, suspend, or revoke licenses to do business in this state",
         "citation": "37:2155"
       }
     },
@@ -143,8 +149,8 @@
     },
     "title_protection": {
       "value": true,
-      "quote": "No person may engage in the business of contracting, or act as a contractor as defined in this Chapter, unless he holds an active license as a contractor in accordance with the provisions of this Chapter.",
-      "citation": "37:2158"
+      "quote": "It shall be unlawful for any contractor, licensed or unlicensed to publish, transmit, distribute, or otherwise publicly circulate a misleading or false claim related to a person's license or classification in any medium",
+      "citation": "37:2163"
     },
     "scope_protection": {
       "value": true,
@@ -153,50 +159,50 @@
     },
     "disciplinary_grounds": [
       {
-        "short_label": "unlicensed_contracting",
-        "description": "Undertaking, bidding, or performing construction work without possessing a required license or without the proper classification.",
-        "quote": "Undertaking, attempting to, or submitting a price or bid; offering to construct, supervise, superintend, oversee, direct, or in any manner assume charge of the construction...without possessing a license for which a license is required or without possessing a license with the proper classification.",
+        "short_label": "contracting_without_license_or_proper_classification",
+        "description": "Undertaking, bidding, or performing construction work without a required license or without the proper classification.",
+        "quote": "Undertaking, attempting to, or submitting a price or bid; offering to construct, supervise, superintend, oversee, direct, or in any manner assume charge of the construction, alteration, repair, improvement, movement, demolition, putting up, tearing down; furnishing labor or furnishing labor together with material or equipment; or installing material or equipment for any building, highway, road, railroad, sewer grading, excavation, pipeline, public utility structure, project development, housing, or housing development, improvement, or any other construction undertaking without possessing a license for which a license is required or without possessing a license with the proper classification.",
         "citation": "37:2158"
       },
       {
-        "short_label": "false_license_claim",
-        "description": "Publishing, transmitting, or distributing a misleading or false claim related to a person's license status or classification.",
+        "short_label": "false_or_misleading_claim_about_license_status",
+        "description": "Publishing, transmitting, or distributing misleading or false claims related to a person's license status or classification.",
         "quote": "Publishing, transmitting, distributing, or otherwise publicly circulating a misleading or false claim related to a person's license status or classification in any medium, including but not limited to digital platforms.",
         "citation": "37:2158"
       },
       {
-        "short_label": "dishonest_or_fraudulent_act",
-        "description": "Any dishonest or fraudulent act as a contractor which has caused damage to another, as adjudged by a court of competent jurisdiction.",
+        "short_label": "dishonest_or_fraudulent_act_as_contractor",
+        "description": "Any dishonest or fraudulent act as a contractor that has caused damage to another, as adjudged by a court.",
         "quote": "Any dishonest or fraudulent act as a contractor which has caused damage to another, as adjudged by a court of competent jurisdiction.",
         "citation": "37:2158"
       },
       {
-        "short_label": "wrong_classification_for_work",
-        "description": "Bidding on or performing a job for which the licensee does not hold the classification for the majority of work performed.",
+        "short_label": "bidding_without_classification_for_majority_of_work",
+        "description": "Bidding on, quoting, or performing a job without holding the classification for the majority of work performed.",
         "quote": "Bidding on, quoting, estimating, or performing a job for which a license is required, the licensee shall hold the classification for the majority of work performed.",
         "citation": "37:2158"
       },
       {
         "short_label": "misrepresentation_in_obtaining_license",
-        "description": "Misrepresentation of fact by an applicant in obtaining a license or in providing information to the board, deception by omission, or false testimony.",
+        "description": "Misrepresentation of fact by an applicant in obtaining a license or providing information to the board, or providing false testimony.",
         "quote": "Misrepresentation of fact by an applicant in obtaining a license; misrepresentation of fact by an applicant or licensee in providing information, statements, or documents to the staff or board; deception by omission; and providing false testimony to the board.",
         "citation": "37:2158"
       },
       {
-        "short_label": "failure_to_comply_with_chapter",
-        "description": "Failure to comply with the provisions of this Chapter or the rules and regulations promulgated pursuant thereto.",
+        "short_label": "failure_to_comply_with_chapter_or_regulations",
+        "description": "Failure to comply with the provisions of this Chapter or the board's rules and regulations.",
         "quote": "Failure to comply with the provisions of this Chapter or the rules and regulations promulgated pursuant thereto.",
         "citation": "37:2158"
       },
       {
         "short_label": "contracting_with_unlicensed_contractor",
-        "description": "Entering into a contract with an unlicensed contractor involving work for which a license is required.",
+        "description": "Entering into a contract with an unlicensed contractor for work requiring a license.",
         "quote": "Entering into a contract with an unlicensed contractor involving work or activity for the performance of which a license is required by this Chapter.",
         "citation": "37:2158"
       },
       {
-        "short_label": "license_misuse",
-        "description": "Permitting a license to be used by any person other than the person to whom it was issued, or fraudulent use of a license.",
+        "short_label": "permitting_or_misusing_license",
+        "description": "Permitting a license to be used by another person or fraudulent use of a license by a person other than the licensee.",
         "quote": "Permitting a license to be used for any purpose by any person other than the person to whom the license is issued.",
         "citation": "37:2158"
       },
@@ -207,80 +213,80 @@
         "citation": "37:2158"
       },
       {
-        "short_label": "failure_to_maintain_licensure_requirements",
+        "short_label": "failure_to_continue_fulfilling_licensure_requirements",
         "description": "Failure to continue to fulfill any of the requirements for licensure.",
         "quote": "Failure to continue to fulfill any of the requirements for licensure.",
         "citation": "37:2158"
       },
       {
-        "short_label": "contractor_ability_problems",
+        "short_label": "problems_with_ability_to_engage_in_contracting",
         "description": "Problems relating to the ability of the contractor, its qualifying party, or any of its principals to engage in the business of contracting.",
         "quote": "Problems relating to the ability of the contractor, its qualifying party, or any of its principals to engage in the business of contracting.",
         "citation": "37:2158"
       },
       {
-        "short_label": "disqualification_or_debarment",
+        "short_label": "disqualification_or_debarment_by_public_entity",
         "description": "Disqualification or debarment by any public entity.",
         "quote": "Disqualification or debarment by any public entity.",
         "citation": "37:2158"
       },
       {
         "short_label": "failure_to_notify_board_of_changes",
-        "description": "Failure to provide written notification to the board of any change to application information or of criminal, civil, or administrative actions within thirty calendar days.",
+        "description": "Failure to provide written notification to the board of changes to application information or of criminal/civil/administrative actions within 30 days.",
         "quote": "Failure to provide written notification to the board of any change to the information provided in the original application and any amendments thereto within thirty calendar days.",
         "citation": "37:2158"
       },
       {
-        "short_label": "assisting_circumvention",
+        "short_label": "assisting_circumvention_of_chapter",
         "description": "Assisting a person to circumvent the provisions of this Chapter.",
         "quote": "Assisting a person to circumvent the provisions of this Chapter.",
         "citation": "37:2158"
       },
       {
-        "short_label": "failure_to_provide_license_info_in_writing",
-        "description": "Failure of a residential/home improvement/mold remediation contractor to provide in writing their name, license number, classification, and insurance certificates when requested.",
-        "quote": "Failure of a contractor performing residential construction, home improvement, or mold remediation in accordance with this Chapter to provide, in writing to the party with whom he has contracted to perform services, his name, license number, classification, and current insurance certificates",
+        "short_label": "failure_to_provide_written_license_and_insurance_info",
+        "description": "Failure of a residential/home improvement/mold remediation contractor to provide license number, classification, and insurance certificates in writing when requested.",
+        "quote": "Failure of a contractor performing residential construction, home improvement, or mold remediation in accordance with this Chapter to provide, in writing to the party with whom he has contracted to perform services, his name, license number, classification, and current insurance certificates evidencing the amount of liability insurance maintained and proof of workers' compensation coverage when requested by the contracting party for whom the work is to be performed.",
         "citation": "37:2158"
       },
       {
-        "short_label": "abandonment_or_failure_to_perform",
-        "description": "Abandoning or failing to perform without justification any contract or project, or deviating from plans or specifications without consent.",
+        "short_label": "abandoning_or_deviating_from_contract",
+        "description": "Abandoning or failing to perform a contract without justification, or deviating from plans or specifications without consent.",
         "quote": "Abandoning or failing to perform, without justification, any contract or project engaged in or undertaken by any licensee or deviating from or disregarding plans or specifications in any material respect without the consent of the owner and the design professional.",
         "citation": "37:2158"
       },
       {
-        "short_label": "deceiving_or_defrauding_public",
+        "short_label": "efforts_to_deceive_or_defraud_public",
         "description": "Efforts to deceive or defraud the public.",
         "quote": "Efforts to deceive or defraud the public.",
         "citation": "37:2158"
       },
       {
-        "short_label": "failure_to_obtain_permit",
-        "description": "Failure to obtain a permit, beginning work prior to permit issuance, or misrepresenting the value or scope of work.",
+        "short_label": "failure_to_obtain_required_permit",
+        "description": "Failure to obtain a required permit or beginning work prior to permit issuance, or misrepresenting the value or scope of work.",
         "quote": "Failure to obtain a permit to perform work or beginning work prior to the issuance of a permit in the jurisdiction as required or misrepresenting the value or scope of work.",
         "citation": "37:2158"
       },
       {
-        "short_label": "failure_to_obtain_inspections",
+        "short_label": "failure_to_obtain_required_inspections",
         "description": "Failure to obtain inspections as required by law.",
         "quote": "Failure to obtain inspections as required by law.",
         "citation": "37:2158"
       },
       {
-        "short_label": "failure_to_have_written_contract",
+        "short_label": "failure_to_have_written_signed_contract",
         "description": "Failure to have a written contract signed and dated by all parties.",
         "quote": "Failure to have a written contract signed and dated by all parties.",
         "citation": "37:2158"
       },
       {
-        "short_label": "failure_to_bid_in_licensed_name",
-        "description": "Failure to bid, contract, or perform work in the name as it appears on the current license or registration.",
+        "short_label": "failure_to_bid_contract_perform_in_licensed_name",
+        "description": "Failure to bid, contract, or perform work in the name as it appears on the current license or registration and the official records of the board.",
         "quote": "Failure to bid, contract, or perform work in the name as it appears on the current license or registration and the official records of the board.",
         "citation": "37:2158"
       },
       {
-        "short_label": "failure_to_provide_records",
-        "description": "Failure to maintain and provide to the board requested records, documents, and other information within five business days.",
+        "short_label": "failure_to_maintain_and_provide_records",
+        "description": "Failure to maintain and provide to the board requested records, documents, and other information within five business days of receipt of request.",
         "quote": "Failure to maintain and provide to the board requested records, documents, and other information as required within five business days of receipt of request.",
         "citation": "37:2158"
       }
@@ -305,7 +311,7 @@
       },
       {
         "cite": "37:2151",
-        "kind": "board_composition"
+        "kind": "board_membership"
       },
       {
         "cite": "37:2153",
@@ -317,7 +323,7 @@
       },
       {
         "cite": "37:2156",
-        "kind": "applications_fees_renewals"
+        "kind": "licenses_fees_renewals"
       },
       {
         "cite": "37:2156.1",
@@ -325,7 +331,7 @@
       },
       {
         "cite": "37:2156.2",
-        "kind": "recordkeeping"
+        "kind": "recordkeeping_reporting"
       },
       {
         "cite": "37:2156.3",
@@ -345,7 +351,7 @@
       },
       {
         "cite": "37:2159",
-        "kind": "written_contract"
+        "kind": "written_contract_requirements"
       },
       {
         "cite": "37:2159.1",
@@ -365,11 +371,11 @@
       },
       {
         "cite": "37:2163",
-        "kind": "criminal_penalty"
+        "kind": "unlicensed_contracting_prohibited"
       },
       {
         "cite": "37:2164",
-        "kind": "civil_penalty"
+        "kind": "civil_penalties"
       },
       {
         "cite": "37:2165",
@@ -383,26 +389,26 @@
   },
   "scope": {
     "definition_quote": {
-      "value": "\"Contractor\" means any person who undertakes to, attempts to, or submits a price or bid or offers to construct, supervise, superintend, oversee, direct, perform, or in any manner assume charge of the construction, alteration, repair, improvement, movement, demolition, putting up, tearing down, furnishing labor, or furnishing labor together with material or equipment, or installing material or equipment for any building, highway, road, railroad, sewer, grading, excavation, pipeline, public utility structure, project development, housing, or housing development, improvement, or any other construction undertaking",
+      "value": "\"Contractor\" means any person who undertakes to, attempts to, or submits a price or bid or offers to construct, supervise, superintend, oversee, direct, perform, or in any manner assume charge of the construction, alteration, repair, improvement, movement, demolition, putting up, tearing down, furnishing labor, or furnishing labor together with material or equipment, or installing material or equipment",
       "quote": "\"Contractor\" means any person who undertakes to, attempts to, or submits a price or bid or offers to construct, supervise, superintend, oversee, direct, perform, or in any manner assume charge of the construction, alteration, repair, improvement, movement, demolition, putting up, tearing down, furnishing labor, or furnishing labor together with material or equipment, or installing material or equipment",
       "citation": "37:2150.1"
     },
     "methods_authorized": {
       "value": [
-        "building construction",
-        "highway, street, and bridge construction",
-        "heavy construction",
-        "municipal and public works construction",
-        "electrical",
-        "mechanical",
-        "plumbing",
-        "hazardous materials",
-        "residential construction",
-        "mold remediation",
-        "home improvement"
+        "construction",
+        "alteration",
+        "repair",
+        "improvement",
+        "movement",
+        "demolition",
+        "putting up",
+        "tearing down",
+        "furnishing labor",
+        "furnishing labor together with material or equipment",
+        "installing material or equipment"
       ],
-      "quote": "The major classifications are: (1) Building construction. (2) Highway, street, and bridge construction. (3) Heavy construction. (4) Municipal and public works construction. (5) Electrical. (6) Mechanical. (7) Plumbing. (8) Hazardous materials. (9) Residential construction. (10) Mold remediation. (11) Home improvement.",
-      "citation": "37:2156.1"
+      "quote": "construct, supervise, superintend, oversee, direct, perform, or in any manner assume charge of the construction, alteration, repair, improvement, movement, demolition, putting up, tearing down, furnishing labor, or furnishing labor together with material or equipment, or installing material or equipment",
+      "citation": "37:2150.1"
     },
     "drug_authority": null,
     "citations": [
@@ -412,7 +418,11 @@
       },
       {
         "cite": "37:2156.1",
-        "kind": "classifications"
+        "kind": "major_classifications"
+      },
+      {
+        "cite": "37:2157",
+        "kind": "exemptions"
       }
     ]
   },

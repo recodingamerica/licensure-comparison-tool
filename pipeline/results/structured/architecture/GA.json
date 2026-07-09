@@ -4,7 +4,7 @@
   "licensure": {
     "license_required": {
       "value": true,
-      "quote": "no person shall be allowed to practice architecture unless he or she has the qualifications and competency required by this article. Any person who is practicing architecture as defined in paragraph (11) of Code Section 43-4-1 shall be required to register under this article and to secure all renewals of such registration before beginning or continuing to practice architecture.",
+      "quote": "no person shall be allowed to practice architecture unless he or she has the qualifications and competency required by this article. Any person who is practicing architecture as defined in paragraph (11) of Code Section 43-4-1 shall be required to register under this article",
       "citation": "43-4-14"
     },
     "issuing_authority": {
@@ -20,7 +20,7 @@
       },
       "type": {
         "value": "shared_board",
-        "quote": "There is created the Georgia State Board of Architects and Interior Designers, which shall be composed of nine appointed members. Six of the members shall be registered architects ... Two members shall be registered interior designers",
+        "quote": "There is created the Georgia State Board of Architects and Interior Designers, which shall be composed of nine appointed members. Six of the members shall be registered architects... Two members shall be registered interior designers",
         "citation": "43-4-2"
       },
       "umbrella_agency": {
@@ -30,7 +30,11 @@
       }
     },
     "age_minimum": null,
-    "moral_character_required": null,
+    "moral_character_required": {
+      "value": true,
+      "quote": "No person shall be eligible for registration as an architect who has been found by the board to have committed any of the acts set forth in this article for which an architect's certificate might be revoked or suspended unless that individual establishes to the satisfaction of the board that he or she has fully reformed.",
+      "citation": "43-4-11"
+    },
     "education": {
       "degree_required": {
         "value": "Professional degree in architecture from a school or college approved by the National Architectural Accrediting Board",
@@ -39,7 +43,7 @@
       },
       "accrediting_body": {
         "value": "National Architectural Accrediting Board (NAAB)",
-        "quote": "a professional degree in architecture from a school or college approved by the National Architectural Accrediting Board",
+        "quote": "A professional degree in architecture from a school or college approved by the National Architectural Accrediting Board",
         "citation": "43-4-11"
       },
       "degree_level": {
@@ -49,7 +53,7 @@
       },
       "school_approval_basis": {
         "value": "national_accreditor",
-        "quote": "a school or college approved by the National Architectural Accrediting Board",
+        "quote": "A professional degree in architecture from a school or college approved by the National Architectural Accrediting Board",
         "citation": "43-4-11"
       },
       "credential_pegged": {
@@ -79,9 +83,9 @@
     },
     "exams": [
       {
-        "name": "National Council of Architectural Registration Boards (NCARB) examinations",
+        "name": "National Council of Architectural Registration Boards (NCARB) Examination",
         "required": true,
-        "notes": "Examinations prepared and graded by NCARB are required for initial certification.",
+        "notes": "NCARB exams are used for initial licensure; reciprocity applicants must hold a current NCARB certificate.",
         "jurisdiction": "national (NCARB)",
         "permitted_attempts": null,
         "quote": "The examinations shall be the examinations prepared and graded by the National Council of Architectural Registration Boards (NCARB).",
@@ -134,7 +138,7 @@
     },
     "national_association": {
       "value": "National Architectural Accrediting Board (NAAB)",
-      "quote": "a school or college approved by the National Architectural Accrediting Board",
+      "quote": "A professional degree in architecture from a school or college approved by the National Architectural Accrediting Board",
       "citation": "43-4-11"
     },
     "regulatory_model": {
@@ -149,8 +153,8 @@
     },
     "is_mandatory": {
       "value": true,
-      "quote": "no person shall be allowed to practice architecture unless he or she has the qualifications and competency required by this article",
-      "citation": "43-4-14"
+      "quote": "no person shall practice architecture in this state or use the title \"architect\" or \"registered architect\" or any word, letter, figure, or any other device indicating or intending to imply that he or she is an architect unless he or she holds a current registration as an architect in this state.",
+      "citation": "43-4-10"
     },
     "title_protection": {
       "value": true,
@@ -159,7 +163,7 @@
     },
     "scope_protection": {
       "value": true,
-      "quote": "no person shall be allowed to practice architecture unless he or she has the qualifications and competency required by this article",
+      "quote": "no person shall be allowed to practice architecture unless he or she has the qualifications and competency required by this article.",
       "citation": "43-4-14"
     },
     "disciplinary_grounds": [
@@ -170,28 +174,34 @@
         "citation": "43-4-13"
       },
       {
-        "short_label": "gross_negligence_or_incompetence",
-        "description": "Committed gross negligence, incompetence, unprofessional conduct, or recklessness in professional practice",
+        "short_label": "gross_negligence_incompetence",
+        "description": "Committed any gross negligence, incompetence, unprofessional conduct, or recklessness in professional practice",
         "quote": "Committed any gross negligence, incompetence, unprofessional conduct, or recklessness in his or her professional practice",
         "citation": "43-4-13"
       },
       {
         "short_label": "improper_seal_use",
-        "description": "Permitted improper use of seal by a firm without complying with personal direction and supervision requirements",
+        "description": "Permitted the use of seal by a firm without complying with personal direction and supervision requirements",
         "quote": "Permitted the use of his or her seal by any firm, partnership, limited liability company, or corporation without complying with the provisions of Code Section 43-4-10",
         "citation": "43-4-13"
       },
       {
-        "short_label": "felony_or_moral_turpitude_conviction",
-        "description": "Convicted of any felony or crime involving moral turpitude, or plea of nolo contendere or first offender treatment",
+        "short_label": "criminal_conviction",
+        "description": "Convicted of any felony or crime involving moral turpitude, or nolo contendere, or first offender treatment",
         "quote": "Been convicted by any court of record of the United States of any act which would constitute a felony or a crime involving moral turpitude in this state or a plea of nolo contendere or the affording of first offender treatment to any such charge",
         "citation": "43-4-13"
       },
       {
         "short_label": "violation_of_article_or_rules",
-        "description": "Violated this article or any rule, regulation, or standard of conduct promulgated by the board",
+        "description": "Violated the architecture practice article or any rule, regulation, or standard of conduct promulgated by the board",
         "quote": "Violated this article or any rule, regulation, or standard of conduct promulgated by the board pursuant to the powers conferred upon it by this article.",
         "citation": "43-4-13"
+      },
+      {
+        "short_label": "seal_violation",
+        "description": "Violation of the seal requirements under Code Section 43-4-16",
+        "quote": "Any violation of this Code section shall be grounds for the suspension or revocation of the registration of the architect.",
+        "citation": "43-4-16"
       }
     ],
     "alternative_regulation": {
@@ -214,7 +224,7 @@
       },
       {
         "cite": "43-4-10",
-        "kind": "scope protection and firm practice"
+        "kind": "scope protection and title protection"
       },
       {
         "cite": "43-4-11",
@@ -222,15 +232,15 @@
       },
       {
         "cite": "43-4-12",
-        "kind": "certificate renewal"
+        "kind": "renewal"
       },
       {
         "cite": "43-4-13",
-        "kind": "disciplinary grounds"
+        "kind": "discipline"
       },
       {
         "cite": "43-4-14",
-        "kind": "practice requirement and exemptions"
+        "kind": "qualification requirement and exemptions"
       },
       {
         "cite": "43-4-15",
@@ -256,8 +266,8 @@
   },
   "scope": {
     "definition_quote": {
-      "value": "the rendering of or offer to render the following services in connection with the design, construction, enlargement, or alteration of a building or group of buildings and the space within and surrounding such buildings, which may have human occupancy or habitation: planning; providing preliminary studies, designs, drawings, specifications, and other technical submissions; the architectural administering of construction contracts; and coordinating elements of technical submissions prepared by others including, as appropriate and without limitation, consulting engineers, registered interior designers, and landscape architects.",
-      "quote": "\"Practice of architecture\" means the rendering of or offer to render the following services in connection with the design, construction, enlargement, or alteration of a building or group of buildings and the space within and surrounding such buildings, which may have human occupancy or habitation: planning; providing preliminary studies, designs, drawings, specifications, and other technical submissions; the architectural administering of construction contracts; and coordinating elements of technical submissions prepared by others including, as appropriate and without limitation, consulting engineers, registered interior designers, and landscape architects.",
+      "value": "the rendering of or offer to render the following services in connection with the design, construction, enlargement, or alteration of a building or group of buildings and the space within and surrounding such buildings, which may have human occupancy or habitation: planning; providing preliminary studies, designs, drawings, specifications, and other technical submissions; the architectural administering of construction contracts; and coordinating elements of technical submissions prepared by others",
+      "quote": "the rendering of or offer to render the following services in connection with the design, construction, enlargement, or alteration of a building or group of buildings and the space within and surrounding such buildings, which may have human occupancy or habitation: planning; providing preliminary studies, designs, drawings, specifications, and other technical submissions; the architectural administering of construction contracts; and coordinating elements of technical submissions prepared by others",
       "citation": "43-4-1"
     },
     "methods_authorized": {
@@ -279,7 +289,7 @@
       },
       {
         "cite": "43-4-14",
-        "kind": "qualification for practice; exemptions"
+        "kind": "exemptions from architect seal requirement"
       }
     ]
   },
@@ -307,11 +317,11 @@
         "limited liability company",
         "corporation"
       ],
-      "quote": "No firm, sole proprietorship, partnership, limited liability company, corporation, or other similar organization shall be registered as architects. Firms, sole proprietorships, partnerships, limited liability companies, and corporations may practice architecture",
+      "quote": "Firms, sole proprietorships, partnerships, limited liability companies, and corporations may practice architecture, as defined by this article",
       "citation": "43-4-10"
     },
     "firm_licensed_architect_ownership_minimum_fraction": {
-      "value": "at least one registered architect who is a director (corporation), partner (partnership), member (LLC), or employee with ownership interest designated in writing as holding a position of authority",
+      "value": "must be director (corporation), partner (partnership), member (LLC), or employee with ownership interest designated in writing as holding a position of authority",
       "quote": "all such work and services are performed under the responsible control of an architect registered in this state who is a director, in the case of a corporation, or who is a partner, in the case of a partnership, or who is a member, in the case of a limited liability company, or who is an employee with an ownership interest who has been designated in writing as holding a position of authority within the firm",
       "citation": "43-4-10"
     },
@@ -338,12 +348,12 @@
     "exempt_building_types": {
       "value": [
         "One and two-family residences and domestic outbuildings regardless of cost",
-        "Any building classified as an agricultural occupancy upon any farm for the use of any farmer; any state owned farmer's market",
-        "Any single story building not exceeding 5,000 square feet, except assembly, educational, health care, correctional/detention, hotels, dormitories, multifamily housing, apartment complexes, and care facilities",
-        "Preengineered buildings one story in height, except assembly, educational, health care, correctional/detention, hotels, dormitories, multifamily housing, apartment complexes, care facilities, and high hazard facilities",
-        "Nonstructural interior construction within existing or planned structures designed by a registered architect, where drawings and specifications are prepared by a registered interior designer"
+        "Buildings classified as agricultural occupancy upon any farm for use of any farmer; any state owned farmer's market",
+        "Any building which is a single story building not exceeding 5,000 square feet, except assembly, educational, health care, correctional or detention, hotels, dormitories, lodging, multifamily housing, apartment complexes, and care facilities",
+        "Preengineered buildings one story in height (with exceptions for certain occupancies and hazard facilities)",
+        "Nonstructural interior construction within existing or planned structures designed by a registered architect, where drawings prepared by a registered interior designer"
       ],
-      "quote": "Construction documents for the following structures do not require the seal of a registered architect: (1) One and two-family residences and domestic outbuildings regardless of cost; (2) Any building classified as an agricultural occupancy upon any farm for the use of any farmer; any state owned farmer's market; (3) Any building which is a single story building, not exceeding more than 5,000 square feet in area, except new or existing assembly occupancies, educational occupancies, health care occupancies, correctional or detention facilities, hotels, dormitories or lodging facilities, multifamily housing or apartment complexes, and care facilities",
+      "quote": "Construction documents for the following structures do not require the seal of a registered architect",
       "citation": "43-4-14"
     },
     "ncarb_certificate_reciprocity_prima_facie": {
