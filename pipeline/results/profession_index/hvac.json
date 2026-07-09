@@ -13,10 +13,10 @@
   ],
   "excludes": [],
   "coverage": {
-    "states_matched": 25,
+    "states_matched": 29,
     "states_total": 50,
-    "overrides_used": 10,
-    "mapping_overrides_used": 11
+    "overrides_used": 12,
+    "mapping_overrides_used": 15
   },
   "by_state": {
     "AL": {
@@ -131,7 +131,16 @@
       "matched": []
     },
     "KY": {
-      "matched": []
+      "matched": [
+        {
+          "label": "KY KRS 198B.650..689 \u2014 Board of HVAC Contractors within Chapter 198B",
+          "url": "https://law.justia.com/codes/kentucky/chapter-198b/",
+          "slug": "chapter-198b",
+          "via": "state_structure",
+          "note": "",
+          "section_slug_pattern": "^section-198b-6[5-8][0-9](-\\d+)?$"
+        }
+      ]
     },
     "LA": {
       "matched": [
@@ -215,6 +224,12 @@
           "slug": "chapter-3",
           "via": "state_structure",
           "note": ""
+        },
+        {
+          "url": "https://law.justia.com/codes/mississippi/title-73/chapter-59/",
+          "label": "Title 73 Ch 59 - Residential Builders and Remodelers (the residential half; state_structure.yaml already covers the commercial half via Title 31 Ch 3 SS31-3-13(h)). Expanded by HB 1163 (2022) to require state licensing for residential HVAC/electrical/plumbing/mechanical subs, per issue #53's findings doc.",
+          "slug": "",
+          "via": "relocate_2026-07-08"
         }
       ]
     },
@@ -321,13 +336,35 @@
       ]
     },
     "OR": {
-      "matched": []
+      "matched": [
+        {
+          "label": "OR ORS 479.510-945 \u2014 Electrical Safety Law (BCD limited-energy HVAC-R technician license, SS479.910/.915/.945)",
+          "url": "https://law.justia.com/codes/oregon/volume-14/chapter-479/",
+          "slug": "chapter-479",
+          "via": "state_structure",
+          "note": "",
+          "section_slug_pattern": "^section-479-(5[1-9][0-9]|[6-8][0-9][0-9]|9[0-4][0-9])(-\\d+)?$"
+        },
+        {
+          "url": "https://law.justia.com/codes/oregon/volume-17/chapter-701/",
+          "label": "Chapter 701 - Construction Contractors Board (CCB) -- re-added explicitly: this was the pre-existing correct corpus but wasn't coming from any live auto-match/override, so it would have been silently dropped once state_structure.yaml gained a hvac entry for the new Ch479 addition.",
+          "slug": "",
+          "via": "relocate_2026-07-08"
+        }
+      ]
     },
     "PA": {
       "matched": []
     },
     "RI": {
-      "matched": []
+      "matched": [
+        {
+          "url": "https://law.justia.com/codes/rhode-island/title-28/chapter-28-27/",
+          "label": "Title 28 Ch 28-27 - Mechanical Trades (the real trade license). Title 5 Ch 5-65 is the CRLB contractor REGISTRATION, a well-known aggregator misattribution flagged explicitly in issue #53's findings doc.",
+          "slug": "",
+          "via": "relocate_2026-07-08"
+        }
+      ]
     },
     "SC": {
       "matched": []
@@ -431,7 +468,14 @@
       ]
     },
     "WV": {
-      "matched": []
+      "matched": [
+        {
+          "url": "https://law.justia.com/codes/west-virginia/chapter-21/article-16/",
+          "label": "Chapter 21, Article 16 - Regulation of Heating, Ventilating and Cooling Work (HVAC Technician licensing). Was wrongly sharing the same generic Contractor Licensing Act (ch30 art42) as electrician/WV and plumbing/WV -- each trade has its own dedicated chapter.",
+          "slug": "",
+          "via": "relocate_2026-07-08"
+        }
+      ]
     },
     "WI": {
       "matched": []
