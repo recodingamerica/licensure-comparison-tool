@@ -699,6 +699,19 @@ MA:
       url: "https://law.justia.com/codes/massachusetts/part-i/title-xvi/chapter-112/"
       section_slug_pattern: '^section-87[a-e](-\d+-\d+)?$'
       label: "MA G.L. Ch 112 §§87a-87e — Public Accountancy"
+    # #53 loose end, closed 2026-07-08: MA HVAC has no unified license, it's
+    # component-decomposed across 3 chapters (confirmed via malegislature.gov, since
+    # Justia itself 403s a direct fetch): sheet metal workers (Ch 112 §§238-251), gas
+    # fitters (Ch 142, same board as plumbers), refrigeration technicians (Ch 146 §85).
+    # This entry is the sheet-metal slice; Ch 142 + Ch 146 §85 are added verbatim via
+    # mapping_overrides.yaml (non-contiguous chapters, outside this state's Ch 112
+    # section-range mechanism). The old gap_locator pick (Ch 142A, home improvement
+    # contractor registration) was topically wrong — caught by
+    # narrow.py --detect-labels, see docs/runbooks/ (2026-07-08 audit).
+    hvac:
+      url: "https://law.justia.com/codes/massachusetts/part-i/title-xvi/chapter-112/"
+      section_slug_pattern: '^section-2(3[89]|4[0-9]|5[01])(-\d+-\d+)?$'
+      label: "MA G.L. Ch 112 §§238-251 — Sheet Metal Workers"
 
 NE:
   source: justia
@@ -735,6 +748,15 @@ NE:
     public_accountancy:
       url: "https://law.justia.com/codes/nebraska/chapter-1/"
       label: "NE Ch 1 — Accountants"
+    # NE has no general-contractor LICENSE, but does have a state-level Contractor
+    # Registration Act (Neb. Rev. Stat. §§48-2101..2117, penalties up to $5,000 for
+    # skipping it) — previously undiscovered: construction_trades/NE sat as a bare
+    # "absent" cell with no corpus and no verified_absence review. Found via a random
+    # spot-check of "absent" cells (2026-07-08), confirmed real and on Justia.
+    construction_trades:
+      url: "https://law.justia.com/codes/nebraska/chapter-48/"
+      section_slug_pattern: '^statute-48-21(0[1-9]|1[0-7])(-\d+)?$'
+      label: "NE Title 48 §§48-2101..2117 — Contractor Registration Act"
 
 # ---- Single-profession overrides for states whose hierarchy pulls the wrong title ----
 
