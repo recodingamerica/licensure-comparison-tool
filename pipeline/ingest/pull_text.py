@@ -395,7 +395,17 @@ def _use_browser(url: str) -> bool:
     return bool(_env_get("JUSTIA_CDP_URL"))
 
 
+def _normalize_url(url: str) -> str:
+    """section_match writes root-relative Justia paths ('/codes/...') into the
+    profession_index; make them absolute so host-based routing (scrapling/browser)
+    and the fetch itself work instead of silently returning an empty page."""
+    if url.startswith("/codes/"):
+        return "https://law.justia.com" + url
+    return url
+
+
 def fetch(url: str) -> tuple[int | None, str | None, str | None]:
+    url = _normalize_url(url)
     if _use_scrapling(url):
         return fetch_via_scrapling(url)
     if _use_browser(url):
