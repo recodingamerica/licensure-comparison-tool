@@ -23,7 +23,7 @@ import json
 from pipeline.paths import (
     TEXT_DIR, CLEAN_DIR, TRIMMED_DIR, STRUCTURED_DIR, DISCOVERED_DIR, RESULTS_DIR,
 )
-from pipeline.config.loaders import load_professions
+from pipeline.config.loaders import load_professions, load_verified_absences
 from pipeline.discover.gap_harvest import _common as C
 from pipeline.discover.gap_harvest.coverage import _has_corpus
 from pipeline import provenance
@@ -55,7 +55,7 @@ _READY_COST = {
 }
 
 
-def _stage(prof: str, state: str, locator: dict) -> str:
+def _stage(prof: str, state: str, locator: dict, absences: dict | None = None) -> str:
     """Furthest stage reached for one (profession, state). Checked newest-first."""
     if (STRUCTURED_DIR / prof / f"{state}.json").exists():
         return "done"
@@ -65,7 +65,13 @@ def _stage(prof: str, state: str, locator: dict) -> str:
         return "cleaned"
     if _has_corpus(prof, state):
         return "pulled"
-    # No local corpus — is the law even located?
+    # No local corpus. A hand-verified absence is a correct-blank, NOT a fetch gap —
+    # check it BEFORE the locator, because the gap-harvest locator often (mis-)locates
+    # a thematically-adjacent chapter for an occupation the state doesn't license,
+    # which would otherwise be counted as pending scrape work forever.
+    if absences and state in (absences.get(prof) or {}):
+        return "absent"
+    # Is the law even located?
     loc = locator.get(prof, {}).get(state)
     if loc is None:
         return "unknown"          # never searched for this pair
@@ -107,6 +113,7 @@ def _refresh_cost(stale_stage: str) -> float:
 def build() -> dict:
     profs = [k for k in load_professions() if not k.startswith("_")]
     locator = C.load_json("locator_results.json", {})
+    absences = load_verified_absences()
 
     professions: dict[str, dict] = {}
     for prof in sorted(profs):
@@ -119,17 +126,22 @@ def build() -> dict:
                    "ready": 0, "needs_schema": 0, "needs_fetch": 0, "absent": 0, "unknown": 0,
                    "cost_to_finish": 0.0, "cost_to_refresh": 0.0, "cost_runnable": 0.0}
         for state in C.ALL_STATES:
-            stage = _stage(prof, state, locator)
+            stage = _stage(prof, state, locator, absences)
             cell = {"stage": stage, "cost": 0.0, "run": False}
+            is_verified_absence = state in (absences.get(prof) or {})
 
             # Traceability: where the law came from + when it was last processed.
             loc = locator.get(prof, {}).get(state) or {}
             urls = _chapter_urls(prof, state)
             if not urls and loc.get("url") and loc.get("url") != "null":
                 urls = [loc["url"]]
-            if urls:
+            if urls and not is_verified_absence:
+                # A verified absence's locator URL is a mis-location (the state doesn't
+                # license this) — don't advertise it as this cell's source.
                 cell["source_urls"] = urls
-            if loc.get("label"):
+            if is_verified_absence:
+                cell["source_label"] = "not state-regulated (verified)"
+            elif loc.get("label"):
                 cell["source_label"] = loc["label"]
             last = provenance.last_stamped(prof, state)
             if last:
