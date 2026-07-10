@@ -139,6 +139,28 @@ def load_verified_absences() -> dict:
 
 
 @functools.lru_cache(maxsize=1)
+def load_models() -> dict:
+    """Load config/models.yaml — the AI model each paid stage uses.
+
+    Shape: {stage: model_name} for stages 'trim', 'extract', 'schema'.
+    Returns {} if the file is missing (each stage then keeps its built-in
+    default). Read individual values via model_for(stage, default) so a missing
+    file or key falls back cleanly instead of raising.
+    """
+    path = CONFIG_DIR / "models.yaml"
+    if not path.exists():
+        return {}
+    return yaml.safe_load(path.read_text()) or {}
+
+
+def model_for(stage: str, default: str) -> str:
+    """The configured model for a stage (from models.yaml), or `default` if the
+    file or key is absent. Lets each stage module keep its historical model name
+    as the fallback while making the model a config-file edit, not a code change."""
+    return load_models().get(stage) or default
+
+
+@functools.lru_cache(maxsize=1)
 def load_limits() -> dict:
     """Load config/limits.yaml — every data-shaping number in one place.
 

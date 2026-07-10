@@ -349,6 +349,7 @@ YAML files in `pipeline/config/`, each documented in `pipeline/config/README.md`
 - `state_structure.yaml` — per-state source and layout overrides (the single source of
   truth for "where does this state keep this law").
 - `prompts.yaml` — the instructions given to the AI at each paid step.
+- `models.yaml` — which AI model each paid stage uses (swap models or vendors here).
 - `limits.yaml` — every numeric knob (fetch delays, caps, thresholds).
 
 A non-programmer can read these; a technical person can change them without touching
@@ -377,26 +378,27 @@ ${t["cost_all_schemas"]:.2f} total.
 Three things to understand about these numbers:
 
 - **They are estimates tied to today's models and prices.** The model names above were
-  read from the code at generation time. Anthropic's per-token prices change, and bulk
-  runs go through Anthropic's discounted batch API. Treat the per-cell figures as
-  planning estimates, not invoices — the runner shows the estimate and asks before
-  spending.
-- **Swapping models — and even switching AI vendors — is mostly a one-line change.**
-  Each stage's model is set in exactly one place: a `DEFAULT_MODEL` constant at the top
-  of that stage's Python file (`pipeline/ingest/trim_state.py`,
-  `pipeline/extract/discover_schema.py`, `pipeline/extract/extract_state_batch.py`),
-  also overridable with a `--model` flag. The trim and schema-discovery stages call
-  models through a **vendor-neutral library (LiteLLM)**, so to move one of them from
-  Claude (Haiku/Sonnet) to, say, OpenAI's ChatGPT you change that one constant to the
-  new model's name (e.g. `gpt-5`) and set that vendor's API key in the environment —
-  no other code changes. The one place that is *not* a one-liner today is the
-  high-volume **batch** extract path: it talks directly to Anthropic's batch API to get
-  the ~50% bulk discount, so pointing *that* at a different vendor means porting it to
-  that vendor's batch endpoint (the prompts and output format are shared with the
-  one-at-a-time path, which already goes through LiteLLM). In all cases the prompts
-  themselves live in a plain-text config file (`pipeline/config/prompts.yaml`),
-  separate from the model choice — you can change the model without touching the prompt,
-  or vice-versa.
+  read live from `pipeline/config/models.yaml` at generation time. Anthropic's per-token
+  prices change, and bulk runs go through Anthropic's discounted batch API. Treat the
+  per-cell figures as planning estimates, not invoices — the runner shows the estimate
+  and asks before spending.
+- **Swapping models — and even switching AI vendors — is a config edit, not a code
+  change.** Each stage's model lives in one plain-text file,
+  `pipeline/config/models.yaml` (keys `trim`, `extract`, `schema`), with a `--model`
+  flag to override a single run. The trim and schema stages call models through a
+  **vendor-neutral library (LiteLLM)**, so to move one from Claude (Haiku/Sonnet) to,
+  say, OpenAI's ChatGPT you put its model name in `models.yaml` (e.g. `gpt-5`) and set
+  that vendor's API key in the environment — nothing else.
+- **Extract has two backends, and you choose per run — this is the "bulk" trade-off.**
+  The **default** extract path sends the whole job through Anthropic's **Message Batches
+  API**, which gives a **~50% bulk discount** (plus prompt-cache reuse) — this is what
+  keeps big re-runs cheap, and it is Claude-only. The alternative,
+  `... run extract --backend litellm`, runs each cell one-at-a-time through LiteLLM, so
+  **any vendor works** (`--model gpt-5`, a Gemini model, etc.) — at the cost of the bulk
+  discount (budget roughly 2× per cell). So extracting with ChatGPT is
+  `run extract --backend litellm --model gpt-5` plus an OpenAI key — still no code
+  change. In every case the prompts live separately in `pipeline/config/prompts.yaml`,
+  so the model and the prompt change independently.
 - **The costs are per-run, not per-view.** The website serves previously-built data;
   people browsing the site cost nothing.
 

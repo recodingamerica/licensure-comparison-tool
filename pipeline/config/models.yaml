@@ -1,0 +1,21 @@
+# Which AI model each paid stage uses.
+#
+# Change a value here to swap models — no code edit needed. Each stage reads its
+# model from this file at startup (falling back to a built-in default if a key is
+# missing), and the --model flag on each stage still overrides for a one-off run.
+#
+# Switching to a different vendor (e.g. OpenAI/ChatGPT, Gemini):
+#   1. Put that vendor's model name here (e.g. `gpt-5`, `gemini-2.5-pro`). The
+#      names must be ones LiteLLM recognizes — see https://docs.litellm.ai/docs/providers.
+#   2. Set that vendor's API key in the environment (e.g. OPENAI_API_KEY).
+#   The `trim` and `schema` stages, and the `extract` stage run with
+#   `--backend litellm`, all go through LiteLLM and work with any such model.
+#
+# One caveat for `extract`: the DEFAULT extract path uses Anthropic's Message
+# Batches API for a ~50% bulk discount, which only works with Claude models. To
+# extract with a non-Claude model, run extract with `--backend litellm` (any
+# vendor, but no batch discount). See docs/handoff/technical_documentation.md §6.
+
+trim: claude-haiku-4-5-20251001   # keep only the occupation's parts of the law
+extract: claude-sonnet-4-6        # turn trimmed statute text into structured data
+schema: claude-sonnet-4-6         # design a new occupation's data template (one-time)

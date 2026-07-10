@@ -52,11 +52,12 @@ from pipeline.extract.locate_quote import (  # noqa: E402
 from pipeline.paths import TRIMMED_DIR, DISCOVERED_DIR, STRUCTURED_DIR, LOGS_DIR, RESULTS_DIR
 from pipeline import provenance
 from pipeline.eval.check_consistency import check_record
+from pipeline.config.loaders import model_for
 
 LOG_PATH = LOGS_DIR / "extract_state.log"
 LOGS_DIR.mkdir(parents=True, exist_ok=True)
 
-DEFAULT_MODEL = "claude-sonnet-4-6"
+DEFAULT_MODEL = model_for("extract", "claude-sonnet-4-6")  # config/models.yaml
 MAX_RETRIES = 2
 
 logging.basicConfig(
