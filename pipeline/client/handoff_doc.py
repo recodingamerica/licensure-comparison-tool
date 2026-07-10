@@ -527,12 +527,16 @@ def main() -> None:
         if not shutil.which("pandoc"):
             raise SystemExit("pandoc not found — install it or skip --pdf")
         pdf_path = md_path.with_suffix(".pdf")
+        # xelatex (not the default pdflatex) so the doc's unicode — ≈ × → — em-dashes,
+        # curly quotes, the flow-diagram arrows — renders instead of erroring out.
+        engine = "xelatex" if shutil.which("xelatex") else "pdflatex"
         subprocess.run(
             ["pandoc", str(md_path), "-o", str(pdf_path),
+             f"--pdf-engine={engine}",
              "-V", "geometry:margin=1in", "-V", "fontsize=11pt"],
             check=True,
         )
-        print(f"wrote {pdf_path}")
+        print(f"wrote {pdf_path} (via {engine})")
 
 
 if __name__ == "__main__":
