@@ -1,6 +1,6 @@
 # State licensing pipeline — handoff documentation
 
-*Generated 2026-07-10 from repo commit `ded0f123`. To get current numbers, run
+*Generated 2026-07-10 from repo commit `0e800493`. To get current numbers, run
 `python -m pipeline.client.handoff_doc` from the repo root (add `--pdf` for a PDF).*
 
 **For engineers:** this document is the plain-English overview. The technical entry
@@ -18,7 +18,7 @@ Collecting statute text from the web is by far the most painful part of this wor
 section 2), and we have already done it broadly. Think of the full scope as a grid:
 every occupation we track (94) crossed with every state (50) —
 4,700 occupation/state cells in all. We've gotten law text saved for
-3,629 of them (77%).
+3,633 of them (77%).
 
 That is not the same as "100% coverage is easy and we're just behind" — finding the
 *right* law for a given occupation and state is often genuinely hard, not a checkbox.
@@ -86,7 +86,7 @@ What needs a human, per source:
   anything. The only risk is the same as Justia's second case: if PA changes its
   site's URL scheme or page markup, the parser needs updating.
 
-No fetch is currently running (checked live at generation time) — the 24 cells below are waiting, not in progress.
+No fetch is currently running (checked live at generation time) — the 20 cells below are waiting, not in progress.
 
 Fetching is not fully autonomous — plan to run it yourself, and expect it to need
 attention. In practice: re-fetching or fetching new statute text isn't a cloud job
@@ -145,11 +145,23 @@ Current state of the grid, as of generation:
 |---|---|---|
 | Published | 13 occupations | Site data built and ready to serve |
 | Extracted, not published | 71 occupations | Structured data exists for at least some states; publishing is a free command |
-| Ready to process | 2,130 occupation/state cells | Law text on disk; needs only the paid AI steps (~$0.20/cell, ~$416.30 for all of them) |
+| Ready to process | 2,134 occupation/state cells | Law text on disk; needs only the paid AI steps (~$0.20/cell, ~$417.10 for all of them) |
 | New occupation, not set up yet | 0 cells (8 occupations) | Law text on disk, but this occupation has never been processed before — see below |
-| Needs a fetch | 24 cells | Law located but text never pulled — requires the scraping setup |
+| Needs a fetch | 20 cells | Law located but text never pulled — requires the scraping setup |
 
 The 13 published occupations: architecture, construction_trades, dentistry, dietetics, electrician, hvac, medicine, nursing, optometry, plumbing, podiatry, professional_engineering, public_accountancy.
+
+**About that "needs a fetch" number — it's a small, *known* residual, and not all of it
+is fresh scraping.** Some of these cells are ones where the automated locator pointed at
+the wrong chapter and we need to re-aim it at the right one; others are occupations whose
+law is a handful of sections buried inside a much broader chapter that has to be scoped
+down first. Neither is a simple "go fetch it." Just as important, this is **not a fixed
+finish line**: as we keep checking the data against reality, we occasionally find an
+additional chapter or occupation we didn't know we needed — so this number can go *up* as
+well as down. Read it as "the known remaining work as of this snapshot," not "the last
+thing that will ever be needed." (We also stopped counting occupations a state simply
+doesn't license — verified correct-blanks — as pending work, which is why this number is
+smaller than it used to be.)
 
 In effort terms:
 

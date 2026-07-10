@@ -291,6 +291,18 @@ Current state of the grid, as of generation:
 
 The {len(published)} published occupations: {pub_list}.
 
+**About that "needs a fetch" number — it's a small, *known* residual, and not all of it
+is fresh scraping.** Some of these cells are ones where the automated locator pointed at
+the wrong chapter and we need to re-aim it at the right one; others are occupations whose
+law is a handful of sections buried inside a much broader chapter that has to be scoped
+down first. Neither is a simple "go fetch it." Just as important, this is **not a fixed
+finish line**: as we keep checking the data against reality, we occasionally find an
+additional chapter or occupation we didn't know we needed — so this number can go *up* as
+well as down. Read it as "the known remaining work as of this snapshot," not "the last
+thing that will ever be needed." (We also stopped counting occupations a state simply
+doesn't license — verified correct-blanks — as pending work, which is why this number is
+smaller than it used to be.)
+
 In effort terms:
 
 - **Free, minutes:** publish an occupation whose data is already extracted; re-run the
