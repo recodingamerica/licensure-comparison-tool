@@ -246,7 +246,39 @@ redone.
 
 ## 3. What's easy, what's cheap, and what's hard
 
-The pipeline runs in stages, and they cost very different amounts of money and effort.
+The pipeline runs in stages. Each stage takes the previous stage's output and does one
+job. Here is the whole path a state's law travels — from the raw web page all the way
+to the published site — with which steps are free and which cost money:
+
+```
+   Full book of state statutes   (everything Justia has for the state)
+              |
+              |  LOCATE    find the chapters/sections that regulate THIS occupation
+              v
+   The occupation's licensing law
+              |
+              |  CLEAN     strip web-page boilerplate, normalize the text     [free]
+              v
+   Clean statute text
+              |
+              |  TRIM      AI drops the parts not about this occupation       [paid ~${cost["trim"]:.2f}]
+              v
+   Just the relevant law
+              |
+              |  EXTRACT   AI reads it into structured fields / tags          [paid ~${cost["extract"]:.2f}]
+              v
+   Structured data   (one record per occupation, per state)
+              |
+              |  PUBLISH   build the website payload                          [free]
+              v
+   Interactive website
+```
+
+(LOCATE and CLEAN together are the "find the right acts and clean them up" work;
+TRIM and EXTRACT are the two AI steps that cost money; PUBLISH just packages the
+finished data for the site.)
+
+The stages cost very different amounts, which is what the rest of this section is about.
 Current state of the grid, as of generation:
 
 | | Count | What it means |
@@ -295,6 +327,11 @@ project's Python environment):
 2. **Dashboard** — `python -m pipeline.client.dashboard` — builds an offline web page
    (`pipeline/results/status/dashboard.html`, open it in any browser) where you tick
    the occupations you want, see the total cost, and get the exact commands to run.
+   *This is a private control panel for running the pipeline — it is not the public
+   website.* The public site (utah-licensing.vercel.app) shows the finished data to
+   end users and is always live; this `dashboard.html` is a local file only the
+   operator sees, showing what's been processed and what each next step would cost
+   before you spend anything. The two never talk to each other.
 3. **Runner** — `python -m pipeline.client.run …` — executes your picks:
    `clean` (free), `trim` and `extract` (the paid steps — each prints its cost
    estimate and waits for a typed "yes" before spending anything), `publish` (free).
@@ -302,35 +339,7 @@ project's Python environment):
 Nothing in these tools fetches from the web or spends money on its own. The
 plain-English walkthrough, including re-fetching, is `docs/runbooks/client_refetch.md`.
 
-## 5. What it costs — and what the costs depend on
-
-Three stages call an AI model and cost money; everything else is free:
-
-| Stage | Model used today | Est. cost |
-|---------------------------------------------|---------------------------------|----------|
-| Trim — keep only the occupation's parts of the law | `{TRIM_MODEL}` | ~${cost["trim"]:.2f} / state |
-| Extract — turn trimmed text into structured data | `{EXTRACT_MODEL}` | ~${cost["extract"]:.2f} / state |
-| Schema discovery — design an occupation's data template | `{SCHEMA_MODEL}` | ~${cost["schema"]:.2f} / occupation, **one-time** (not per state) |
-
-Right now, {t["professions_needing_schema_now"]} occupations have law text on disk and
-are waiting only on this one-time step — discovering all of them would cost about
-${t["cost_all_schemas"]:.2f} total.
-
-Three things to understand about these numbers:
-
-- **They are estimates tied to today's models and prices.** The model names above were
-  read from the code at generation time. Anthropic's per-token prices change, and bulk
-  runs go through Anthropic's discounted batch API. Treat the per-cell figures as
-  planning estimates, not invoices — the runner shows the estimate and asks before
-  spending.
-- **Swapping models is easy.** Each stage's model is a single setting (a `--model`
-  flag / one constant per stage module). Moving to a cheaper, better, or different
-  vendor's model is a small change; the prompts themselves live in a plain-text config
-  file (`pipeline/config/prompts.yaml`), not in code.
-- **The costs are per-run, not per-view.** The website serves previously-built data;
-  people browsing the site cost nothing.
-
-## 6. Everything adjustable lives in config files, not code
+## 5. Everything adjustable lives in config files, not code
 
 The pipeline's decisions — which occupations exist, how to recognize each one in a
 state's law, per-state quirks, what the AI is asked, rate limits — are all plain-text
@@ -344,6 +353,52 @@ YAML files in `pipeline/config/`, each documented in `pipeline/config/README.md`
 
 A non-programmer can read these; a technical person can change them without touching
 Python.
+
+## 6. What it costs — and what the costs depend on
+
+Three stages call an AI model and cost money; everything else is free:
+
+| Stage | Model used today | Est. cost |
+|---------------------------------------------|---------------------------------|----------|
+| Trim — keep only the occupation's parts of the law | `{TRIM_MODEL}` | ~${cost["trim"]:.2f} per state |
+| Extract — turn trimmed text into structured data | `{EXTRACT_MODEL}` | ~${cost["extract"]:.2f} per state |
+| Schema discovery — design an occupation's data template | `{SCHEMA_MODEL}` | ~${cost["schema"]:.2f} per occupation, **one-time** (not per state) |
+
+**"Per state" means one occupation in one state — a single cell of the grid in
+section 3.** So the ${cost["trim"]:.2f} and ${cost["extract"]:.2f} above are the cost to trim / extract *one*
+occupation's law for *one* state. Doing an occupation across all 50 states runs each
+paid step 50 times: roughly ${cost["trim"] + cost["extract"]:.2f} × 50 ≈ ${50 * (cost["trim"] + cost["extract"]):.0f} for that occupation.
+Schema discovery is the exception — it's paid once per occupation, not per state.
+
+Right now, {t["professions_needing_schema_now"]} occupations have law text on disk and
+are waiting only on this one-time step — discovering all of them would cost about
+${t["cost_all_schemas"]:.2f} total.
+
+Three things to understand about these numbers:
+
+- **They are estimates tied to today's models and prices.** The model names above were
+  read from the code at generation time. Anthropic's per-token prices change, and bulk
+  runs go through Anthropic's discounted batch API. Treat the per-cell figures as
+  planning estimates, not invoices — the runner shows the estimate and asks before
+  spending.
+- **Swapping models — and even switching AI vendors — is mostly a one-line change.**
+  Each stage's model is set in exactly one place: a `DEFAULT_MODEL` constant at the top
+  of that stage's Python file (`pipeline/ingest/trim_state.py`,
+  `pipeline/extract/discover_schema.py`, `pipeline/extract/extract_state_batch.py`),
+  also overridable with a `--model` flag. The trim and schema-discovery stages call
+  models through a **vendor-neutral library (LiteLLM)**, so to move one of them from
+  Claude (Haiku/Sonnet) to, say, OpenAI's ChatGPT you change that one constant to the
+  new model's name (e.g. `gpt-5`) and set that vendor's API key in the environment —
+  no other code changes. The one place that is *not* a one-liner today is the
+  high-volume **batch** extract path: it talks directly to Anthropic's batch API to get
+  the ~50% bulk discount, so pointing *that* at a different vendor means porting it to
+  that vendor's batch endpoint (the prompts and output format are shared with the
+  one-at-a-time path, which already goes through LiteLLM). In all cases the prompts
+  themselves live in a plain-text config file (`pipeline/config/prompts.yaml`),
+  separate from the model choice — you can change the model without touching the prompt,
+  or vice-versa.
+- **The costs are per-run, not per-view.** The website serves previously-built data;
+  people browsing the site cost nothing.
 
 ## 7. How much to trust the data
 
@@ -379,6 +434,29 @@ Python.
   them, and reading what they flag, is the honest way to answer "how much can we
   trust this," not the {t["cells_current"]}-current/{t["cells_stale"]}-stale/{t["cells_unstamped"]}-unstamped
   counts above on their own.
+
+## 8. How this was built (Claude Code)
+
+Almost all of this software — the web scraping, the cleaning and extraction steps, the
+config system, the status/dashboard tools, even the generator that writes this
+document — was built using **Claude Code**, Anthropic's AI coding assistant, working
+alongside a human. In practice that meant a person describing what was needed in plain
+English ("find the chapter that regulates dietitians in each state," "flag any pulled
+law that stopped matching its mapping") and Claude Code writing, running, and debugging
+the actual Python, with the human reviewing and steering. The AI did most of the typing
+and much of the exploration; the human made the decisions and checked the results.
+
+Two things worth knowing about that for whoever inherits this:
+
+- **The same approach is available to you.** You do not have to be a Python expert to
+  extend or fix this pipeline. Because the moving parts live in plain-text config files
+  (section 5) and small, well-separated modules, you can describe a change in plain
+  English to Claude Code (or a similar assistant) and have it make the edit — the way
+  the pipeline was built in the first place.
+- **This is different from the AI *inside* the pipeline.** Claude Code built the
+  machine; the models in section 6 (Haiku, Sonnet) are parts *inside* the machine that
+  read statutes every time it runs. Building it was a one-time human-plus-AI effort;
+  those runtime models are what cost money per state each time you process new law.
 
 ---
 *Regenerate with `python -m pipeline.client.handoff_doc [--pdf]`.*
