@@ -28,13 +28,13 @@ load_env()
 from pipeline._llm import call_structured
 from pipeline.paths import TRIMMED_DIR, DISCOVERED_DIR, LOGS_DIR
 from pipeline._records import record_files
-from pipeline.config.loaders import load_limits
+from pipeline.config.loaders import load_limits, model_for
 
 LOG_PATH = LOGS_DIR / "discover_schema.log"
 LOGS_DIR.mkdir(parents=True, exist_ok=True)
 DISCOVERED_DIR.mkdir(parents=True, exist_ok=True)
 
-DEFAULT_MODEL = "claude-sonnet-4-6"
+DEFAULT_MODEL = model_for("schema", "claude-sonnet-4-6")  # config/models.yaml
 MAX_RETRIES = 2
 
 logging.basicConfig(

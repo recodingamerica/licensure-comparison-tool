@@ -56,6 +56,7 @@ from pipeline.extract.extract_state import (
     build_state_text,
     load_umbrella_text,
     annotate_evidence,
+    extract_one,
     _recover_invalid_fields,
     _normalize_for_match,
 )
@@ -190,6 +191,78 @@ def submit(queue: dict[str, list[str]], model: str = DEFAULT_MODEL, force: bool 
     save_path = BATCH_DIR / f"{batch.id}.json"
     save_path.write_text(json.dumps(metadata, indent=2))
     log.info("wrote batch metadata to %s", save_path)
+    return metadata
+
+
+def run_litellm(queue: dict[str, list[str]], model: str = DEFAULT_MODEL, force: bool = False) -> dict:
+    """Vendor-neutral alternative to submit()/poll(): extract a queue synchronously
+    through LiteLLM instead of Anthropic's Message Batches API.
+
+    Why this exists: the batch path above talks to Anthropic's batch endpoint
+    directly for its 50%-off discount, so it only works with Claude models. This
+    path routes each cell through `extract_state.extract_one`, whose LLM call goes
+    through the shared LiteLLM helper (`pipeline/_llm.py`) — so it works with ANY
+    provider LiteLLM supports (OpenAI/ChatGPT, Gemini, Bedrock, …). Point it at a
+    non-Claude model with `--model` and set that vendor's API key in the
+    environment.
+
+    Trade-offs vs the batch path: no 50% batch discount and no prompt-cache reuse,
+    so per-cell cost is roughly double for the same model; and it runs inline
+    (no durable server-side job to re-poll). Everything downstream is identical —
+    same preflight gate, same `structured/<prof>/<state>.json` output, same
+    provenance stamp — so results are interchangeable with the batch path's.
+    """
+    report = run_preflight(queue)
+    log.info("preflight:\n%s", format_report(report))
+    if not report["ok"] and not force:
+        sys.exit("preflight FAILED — fix the blockers above or pass --force to override")
+
+    written: list[dict] = []
+    errored: list[dict] = []
+    for profession, states in queue.items():
+        discovered_path = DISCOVERED_DIR / f"{profession}.json"
+        if not discovered_path.exists():
+            log.error("[%s] missing discovered schema: %s", profession, discovered_path)
+            for s in states:
+                errored.append({"custom_id": f"{profession}__{s}", "reason": "no_discovered_schema"})
+            continue
+        discovered = json.loads(discovered_path.read_text())
+        profile_cls = build_profile_model(profession, discovered)
+        for state in states:
+            cid = f"{profession}__{state}"
+            log.info("[%s/%s] extracting via LiteLLM (model=%s)", profession, state, model)
+            try:
+                outcome = extract_one(state, profession, model, profile_cls)
+            except Exception:
+                log.exception("[%s/%s] crashed", profession, state)
+                errored.append({"custom_id": cid, "reason": "exception"})
+                continue
+            if outcome is None:
+                errored.append({"custom_id": cid, "reason": "no_result"})
+                continue
+            record, stats = outcome
+            out_path = STRUCTURED_DIR / profession / f"{state}.json"
+            out_path.parent.mkdir(parents=True, exist_ok=True)
+            out_path.write_text(json.dumps(record, indent=2, ensure_ascii=False))
+            provenance.record("extract", profession, state, model=model)
+            written.append({"profession": profession, "state": state, **stats})
+
+    log.info("litellm extract: wrote=%d errored=%d (model=%s)", len(written), len(errored), model)
+    now = datetime.now().isoformat()
+    metadata = {
+        "batch_id": f"litellm-{now}",
+        "backend": "litellm",
+        "submitted_at": now,
+        "completed_at": now,
+        "model": model,
+        "queue": queue,
+        "request_count": len(written) + len(errored),
+        "written": written,
+        "errored": errored,
+    }
+    save_path = BATCH_DIR / f"litellm-{now.replace(':', '-')}.json"
+    save_path.write_text(json.dumps(metadata, indent=2))
+    log.info("wrote litellm run metadata to %s", save_path)
     return metadata
 
 
@@ -381,6 +454,18 @@ def main() -> None:
     s_poll.add_argument("batch_id")
     s_poll.add_argument("--no-wait", action="store_true", help="Exit immediately if still in_progress")
 
+    s_lite = sp.add_parser(
+        "litellm",
+        help="Extract a queue synchronously via LiteLLM (any vendor, e.g. --model gpt-5; "
+             "no 50%% batch discount)",
+    )
+    s_lite.add_argument("--queue", required=True,
+                        help="Path to a JSON file: {profession: [states]}")
+    s_lite.add_argument("--model", default=DEFAULT_MODEL,
+                        help="Any LiteLLM-supported model name (default: the Claude batch model)")
+    s_lite.add_argument("--force", action="store_true",
+                        help="Run even if preflight finds blockers")
+
     sp.add_parser("list", help="Show local batch records")
 
     args = ap.parse_args()
@@ -390,6 +475,9 @@ def main() -> None:
         submit(queue, model=args.model, force=args.force)
     elif args.cmd == "poll":
         poll(args.batch_id, wait=not args.no_wait)
+    elif args.cmd == "litellm":
+        queue = json.loads(Path(args.queue).read_text())
+        run_litellm(queue, model=args.model, force=args.force)
     elif args.cmd == "list":
         list_batches()
 

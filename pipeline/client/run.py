@@ -239,16 +239,31 @@ def cmd_trim(queue: dict[str, list[str]], args) -> None:
 
 def cmd_extract(queue: dict[str, list[str]], args) -> None:
     # Import here so `clean`/`trim` don't pay the anthropic-client import cost.
-    from pipeline.extract.extract_state_batch import submit, poll, DEFAULT_MODEL as EXTRACT_MODEL
+    from pipeline.extract.extract_state_batch import submit, poll, run_litellm, DEFAULT_MODEL as EXTRACT_MODEL
+    backend = getattr(args, "backend", "claude")
+    model = getattr(args, "model", None) or EXTRACT_MODEL
     if not args.redo:
         queue, skipped = _drop_current("extract", queue)
         _announce_skipped(skipped)
     if not queue:
         print("\nnothing to extract — every selected state is already up to date. (Use --redo to force.)")
         return
-    _confirm("extract (structures the law, batched)", queue, COST_EXTRACT, EXTRACT_MODEL, args.yes)
     requested = _cells(queue)
-    meta = submit(queue, force=args.force)
+
+    if backend == "litellm":
+        # Vendor-neutral path (any provider LiteLLM supports). No 50% batch
+        # discount and no prompt-cache reuse, so budget ~2× the claude-batch
+        # per-cell figure — and the real price depends on whichever model/vendor
+        # you point --model at.
+        _confirm(f"extract via LiteLLM — {model}, NO batch discount", queue,
+                 COST_EXTRACT * 2, model, args.yes)
+        result = run_litellm(queue, model=model, force=args.force)
+        _report_extract(requested, result, result.get("batch_id", "litellm"))
+        return
+
+    # Default: Anthropic Message Batches (50% off + prompt caching; Claude only).
+    _confirm("extract (structures the law, batched)", queue, COST_EXTRACT, model, args.yes)
+    meta = submit(queue, model=model, force=args.force)
     print(f"\nsubmitted batch {meta['batch_id']} — waiting for results "
           f"(safe to Ctrl-C; re-poll later with: "
           f"python -m pipeline.extract.extract_state_batch poll {meta['batch_id']})")
@@ -323,6 +338,13 @@ def main() -> None:
         if name == "extract":
             sp.add_argument("--force", action="store_true",
                             help="Submit even if the preflight gate finds blockers")
+            sp.add_argument("--backend", choices=["claude", "litellm"], default="claude",
+                            help="claude (default): Anthropic Message Batches, 50%% cheaper, "
+                                 "Claude only. litellm: any vendor (e.g. --model gpt-5), no "
+                                 "batch discount.")
+            sp.add_argument("--model", default=None,
+                            help="Model to extract with (default: the pipeline's Sonnet). "
+                                 "With --backend litellm, any LiteLLM model name works.")
     # publish is per-occupation, not per-cell — its own interface.
     sp = sub.add_parser("publish", help="FREE — build the web payload so it shows on the site")
     sp.add_argument("--professions", required=True, help="Comma-separated occupations to publish")

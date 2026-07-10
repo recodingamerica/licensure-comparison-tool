@@ -258,3 +258,42 @@ def test_publish_deploy_yes_flag_skips_prompt_and_passes_deploy(monkeypatch):
     run.cmd_publish(argparse.Namespace(professions="dentistry", deploy=True, yes=True))
     assert prompted["asked"] is False           # --yes must not prompt
     assert any("--deploy" in c for c in calls)   # deploy flag threaded to build_frontend
+
+
+# --- extract backend routing (claude batch vs litellm) ------------------------
+
+def _extract_args(backend, model=None):
+    import argparse
+    return argparse.Namespace(redo=True, force=False, yes=True, backend=backend, model=model)
+
+
+def test_cmd_extract_default_backend_submits_anthropic_batch(monkeypatch):
+    """Default backend keeps the discounted Anthropic Message Batches path."""
+    from pipeline.extract import extract_state_batch as esb
+    seen = {"submit": 0, "litellm": 0, "model": None}
+    monkeypatch.setattr(esb, "submit",
+                        lambda queue, model, force: seen.__setitem__("submit", seen["submit"] + 1)
+                        or seen.__setitem__("model", model) or {"batch_id": "b1"})
+    monkeypatch.setattr(esb, "poll", lambda bid, wait: {"written": [], "errored": []})
+    monkeypatch.setattr(esb, "run_litellm",
+                        lambda *a, **k: seen.__setitem__("litellm", seen["litellm"] + 1))
+    monkeypatch.setattr(run, "_confirm", lambda *a, **k: None)
+    run.cmd_extract({"a": ["UT"]}, _extract_args("claude"))
+    assert seen["submit"] == 1 and seen["litellm"] == 0
+    assert isinstance(seen["model"], str) and seen["model"]  # defaulted to a real model, not None
+
+
+def test_cmd_extract_litellm_backend_routes_to_run_litellm(monkeypatch):
+    """--backend litellm runs the vendor-neutral path with the chosen model, never submit()."""
+    from pipeline.extract import extract_state_batch as esb
+    seen = {"submit": 0, "litellm": 0, "model": None}
+    monkeypatch.setattr(esb, "run_litellm",
+                        lambda queue, model, force: seen.__setitem__("litellm", seen["litellm"] + 1)
+                        or seen.__setitem__("model", model)
+                        or {"batch_id": "litellm-x", "written": [{"profession": "a", "state": "UT"}], "errored": []})
+    monkeypatch.setattr(esb, "submit",
+                        lambda *a, **k: seen.__setitem__("submit", seen["submit"] + 1))
+    monkeypatch.setattr(run, "_confirm", lambda *a, **k: None)
+    run.cmd_extract({"a": ["UT"]}, _extract_args("litellm", model="gpt-5"))
+    assert seen["litellm"] == 1 and seen["submit"] == 0
+    assert seen["model"] == "gpt-5"
