@@ -1,6 +1,6 @@
 # State licensing pipeline — handoff documentation
 
-*Generated 2026-07-10 from repo commit `12614a23`. To get current numbers, run
+*Generated 2026-07-10 from repo commit `ded0f123`. To get current numbers, run
 `python -m pipeline.client.handoff_doc` from the repo root (add `--pdf` for a PDF).*
 
 **For engineers:** this document is the plain-English overview. The technical entry
@@ -86,7 +86,7 @@ What needs a human, per source:
   anything. The only risk is the same as Justia's second case: if PA changes its
   site's URL scheme or page markup, the parser needs updating.
 
-No fetch is currently running (checked live at generation time) — the 32 cells below are waiting, not in progress.
+No fetch is currently running (checked live at generation time) — the 24 cells below are waiting, not in progress.
 
 Fetching is not fully autonomous — plan to run it yourself, and expect it to need
 attention. In practice: re-fetching or fetching new statute text isn't a cloud job
@@ -147,7 +147,7 @@ Current state of the grid, as of generation:
 | Extracted, not published | 71 occupations | Structured data exists for at least some states; publishing is a free command |
 | Ready to process | 2,130 occupation/state cells | Law text on disk; needs only the paid AI steps (~$0.20/cell, ~$416.30 for all of them) |
 | New occupation, not set up yet | 0 cells (8 occupations) | Law text on disk, but this occupation has never been processed before — see below |
-| Needs a fetch | 32 cells | Law located but text never pulled — requires the scraping setup |
+| Needs a fetch | 24 cells | Law located but text never pulled — requires the scraping setup |
 
 The 13 published occupations: architecture, construction_trades, dentistry, dietetics, electrician, hvac, medicine, nursing, optometry, plumbing, podiatry, professional_engineering, public_accountancy.
 

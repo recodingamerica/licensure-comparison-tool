@@ -64,6 +64,18 @@ def test_stage_absent_when_located_null(stage_dirs, monkeypatch, url):
     assert status._stage("x", "UT", loc) == "absent"
 
 
+def test_stage_verified_absence_beats_locator_url(stage_dirs, monkeypatch):
+    """A verified absence is a correct-blank: even when the gap-harvest locator has
+    a (mis-located) URL, the cell is 'absent', not 'needs-fetch' — so it never counts
+    as pending scrape work."""
+    monkeypatch.setattr(status, "_has_corpus", lambda p, s: False)
+    loc = {"x": {"UT": {"url": "https://law.justia.com/codes/utah/wrong-chapter/"}}}
+    absences = {"x": {"UT": {"basis": "not_regulated"}}}
+    assert status._stage("x", "UT", loc, absences) == "absent"
+    # without the absences map it would (wrongly) look like a fetch gap
+    assert status._stage("x", "UT", loc) == "needs-fetch"
+
+
 def test_stage_unknown_when_never_searched(stage_dirs, monkeypatch):
     monkeypatch.setattr(status, "_has_corpus", lambda p, s: False)
     assert status._stage("x", "UT", {}) == "unknown"
@@ -83,7 +95,7 @@ def test_build_aggregation_and_costs(monkeypatch):
         ("a", "S1"): "done", ("a", "S2"): "trimmed", ("a", "S3"): "needs-fetch",
         ("b", "S1"): "cleaned", ("b", "S2"): "absent", ("b", "S3"): "unknown",
     }
-    monkeypatch.setattr(status, "_stage", lambda p, s, loc: stages[(p, s)])
+    monkeypatch.setattr(status, "_stage", lambda p, s, loc, va=None: stages[(p, s)])
 
     data = status.build()
 
@@ -117,7 +129,7 @@ def test_build_gates_no_schema(monkeypatch):
     monkeypatch.setattr(status.provenance, "last_stamped", lambda p, s: None)
     monkeypatch.setattr(status.provenance, "cell_freshness", lambda p, s: ("current", None))
     stages = {("a", "S1"): "trimmed", ("a", "S2"): "cleaned"}
-    monkeypatch.setattr(status, "_stage", lambda p, s, loc: stages[(p, s)])
+    monkeypatch.setattr(status, "_stage", lambda p, s, loc, va=None: stages[(p, s)])
 
     data = status.build()
     sm = data["professions"]["a"]
@@ -140,7 +152,7 @@ def test_build_freshness_split(monkeypatch):
     monkeypatch.setattr(status.C, "load_json", lambda *a, **k: {})
     monkeypatch.setattr(status, "_chapter_urls", lambda p, s: None)
     monkeypatch.setattr(status.provenance, "last_stamped", lambda p, s: None)
-    monkeypatch.setattr(status, "_stage", lambda p, s, loc: "done")
+    monkeypatch.setattr(status, "_stage", lambda p, s, loc, va=None: "done")
     fresh = {("a", "S1"): ("current", None),
              ("a", "S2"): ("stale", "extract"),
              ("a", "S3"): ("unstamped", None)}
