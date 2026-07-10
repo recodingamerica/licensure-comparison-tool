@@ -344,6 +344,50 @@ def fetch_via_browser(url: str) -> tuple[int | None, str | None, str | None]:
         return None, None, f"{type(e).__name__}: {e}"
 
 
+_SCRAPLING_SESSION = None
+
+
+def _get_scrapling_session():
+    """Lazily open ONE headless StealthySession (camoufox stealth browser) and reuse
+    it for every fetch. Unlike the CDP path it needs no hand-started Chrome and no
+    manual Cloudflare solve, and it does NOT soft-block on rapid back-to-back fetches
+    (validated 2026-07-10: 5/5 Justia fetches, no delay, no challenge — where CDP
+    soft-blocked all-but-first). Closed at process exit."""
+    global _SCRAPLING_SESSION
+    if _SCRAPLING_SESSION is None:
+        import atexit
+        from scrapling.fetchers import StealthySession
+        sess = StealthySession(headless=True, solve_cloudflare=True)
+        sess.__enter__()
+        atexit.register(lambda: sess.__exit__(None, None, None))
+        _SCRAPLING_SESSION = sess
+    return _SCRAPLING_SESSION
+
+
+def fetch_via_scrapling(url: str) -> tuple[int | None, str | None, str | None]:
+    """Fetch a Cloudflare-protected Justia URL headless via Scrapling's StealthyFetcher.
+    Returns (status, html, err) — same shape as fetch_via_browser, so every downstream
+    step (leaf detection, section crawl, year-version dedup) is unchanged."""
+    try:
+        sess = _get_scrapling_session()
+        try:
+            page = sess.fetch(url, network_idle=True)
+        except TypeError:
+            page = sess.fetch(url)
+        html = page.html_content if hasattr(page, "html_content") else str(page)
+        status = getattr(page, "status", 200) or 200
+        return status, html, None
+    except Exception as e:
+        return None, None, f"{type(e).__name__}: {e}"
+
+
+def _use_scrapling(url: str) -> bool:
+    host = urllib.parse.urlparse(url).netloc.lower()
+    if not any(h in host for h in _UNBLOCK_HOSTS):
+        return False
+    return _env_get("JUSTIA_SCRAPLING") not in (None, "", "0")
+
+
 def _use_browser(url: str) -> bool:
     host = urllib.parse.urlparse(url).netloc.lower()
     if not any(h in host for h in _UNBLOCK_HOSTS):
@@ -352,6 +396,8 @@ def _use_browser(url: str) -> bool:
 
 
 def fetch(url: str) -> tuple[int | None, str | None, str | None]:
+    if _use_scrapling(url):
+        return fetch_via_scrapling(url)
     if _use_browser(url):
         return fetch_via_browser(url)
     try:
