@@ -46,19 +46,32 @@ def main() -> None:
     args = ap.parse_args()
 
     locator = C.load_json("locator_results.json", {})
+    # A hand-verified absence is a correct-blank: the state doesn't license this
+    # occupation, and the locator's URL is a mis-location to a thematically-adjacent
+    # chapter. Promoting it would make a wrong target look pullable (and re-appear as
+    # a fetch gap every run). Skip these — the same class of noise status.build() now
+    # filters. (2026-07-10: gap-harvest triage found 23 of 57 promoted cells were
+    # verified absences.)
+    from pipeline.config.loaders import load_verified_absences
+    absences = load_verified_absences()
     promoted = []
     skipped_has_mapping = 0
     skipped_has_corpus = 0
+    skipped_absence = 0
 
     for prof, states in locator.items():
         idx_path = PROFESSION_INDEX_DIR / f"{prof}.json"
         idx = json.loads(idx_path.read_text()) if idx_path.exists() else {"by_state": {}}
+        prof_absences = absences.get(prof) or {}
         changed = False
         for st, r in states.items():
             url = r.get("url")
             if not url or url == "null":
                 continue
             if args.via and r.get("via") != args.via:
+                continue
+            if st in prof_absences:
+                skipped_absence += 1
                 continue
             if _has_corpus(prof, st):
                 skipped_has_corpus += 1
@@ -77,7 +90,8 @@ def main() -> None:
     print(f"{'would promote' if args.dry_run else 'promoted'} {len(promoted)} cells "
           f"across {len({p for p, _ in promoted})} professions into profession_index")
     print(f"  skipped {skipped_has_mapping} (already mapped), "
-          f"{skipped_has_corpus} (already have a corpus)")
+          f"{skipped_has_corpus} (already have a corpus), "
+          f"{skipped_absence} (verified absence)")
 
 
 if __name__ == "__main__":
