@@ -38,8 +38,8 @@ commands (clean/trim/extract) that hide the stage details. See
 13 professions published end-to-end, all 50 states each: **architecture**, **construction_trades**, **dentistry**, **dietetics**, **electrician**, **hvac**, **medicine**, **nursing**, **optometry**, **plumbing**, **podiatry**, **professional_engineering**, **public_accountancy**.
 Live site: https://utah-licensing.vercel.app (pw `utah`).
 
-Across all 13: ~22,715 Evidence-wrapped claims; 98.8% regex-verified against
-source statute (as of 2026-07-08 — regenerate with `python -m pipeline.client.handoff_doc`,
+Across all 13: ~24,102 Evidence-wrapped claims; 98.8% regex-verified against
+source statute (as of 2026-07-10 — regenerate with `python -m pipeline.client.handoff_doc`,
 which reuses `pipeline.client.status.build()`, the single source of current
 per-profession counts and cost-to-finish).
 

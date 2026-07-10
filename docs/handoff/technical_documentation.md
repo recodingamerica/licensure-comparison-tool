@@ -1,6 +1,6 @@
 # State licensing pipeline — handoff documentation
 
-*Generated 2026-07-08 from repo commit `c9b5a28d`. To get current numbers, run
+*Generated 2026-07-10 from repo commit `2de55df6`. To get current numbers, run
 `python -m pipeline.client.handoff_doc` from the repo root (add `--pdf` for a PDF).*
 
 **For engineers:** this document is the plain-English overview. The technical entry
@@ -18,7 +18,7 @@ Collecting statute text from the web is by far the most painful part of this wor
 section 2), and we have already done it broadly. Think of the full scope as a grid:
 every occupation we track (94) crossed with every state (50) —
 4,700 occupation/state cells in all. We've gotten law text saved for
-3,202 of them (68%).
+3,629 of them (77%).
 
 That is not the same as "100% coverage is easy and we're just behind" — finding the
 *right* law for a given occupation and state is often genuinely hard, not a checkbox.
@@ -27,14 +27,14 @@ sections buried inside a much broader chapter that covers many unrelated things 
 to even locate, let alone confirm complete); a few states may not license an occupation
 at all, which looks identical to "not found yet" until someone checks.
 
-**And it cuts both ways: even for the 68% we HAVE captured, we could have
+**And it cuts both ways: even for the 77% we HAVE captured, we could have
 gotten it wrong without knowing it** — pulled a repealed statute, a different
 profession's act, or a chapter that no longer matches how the law is actually organized
 today. A confidently-processed record on the site is not a guarantee we found
 everything; it's our best current attempt, not a verified-complete one. Section 7 names
 the specific tools built to catch exactly this class of mistake and what they've
 actually caught so far — worth reading if "how much can we trust this" is the real
-question. Treat the 68% honestly: it's how far a real, ongoing effort has
+question. Treat the 77% honestly: it's how far a real, ongoing effort has
 gotten, not a countdown to a known, verified finish line.
 
 Day-to-day work — turning that saved text into published data — **never touches the
@@ -86,7 +86,7 @@ What needs a human, per source:
   anything. The only risk is the same as Justia's second case: if PA changes its
   site's URL scheme or page markup, the parser needs updating.
 
-**A fetch is running right now** (checked live at generation time) — some of the 19 cells below are actively being pulled as this document was generated, so that count is falling.
+No fetch is currently running (checked live at generation time) — the 32 cells below are waiting, not in progress.
 
 Fetching is not fully autonomous — plan to run it yourself, and expect it to need
 attention. In practice: re-fetching or fetching new statute text isn't a cloud job
@@ -106,16 +106,48 @@ redone.
 
 ## 3. What's easy, what's cheap, and what's hard
 
-The pipeline runs in stages, and they cost very different amounts of money and effort.
+The pipeline runs in stages. Each stage takes the previous stage's output and does one
+job. Here is the whole path a state's law travels — from the raw web page all the way
+to the published site — with which steps are free and which cost money:
+
+```
+   Full book of state statutes   (everything Justia has for the state)
+              |
+              |  LOCATE    find the chapters/sections that regulate THIS occupation
+              v
+   The occupation's licensing law
+              |
+              |  CLEAN     strip web-page boilerplate, normalize the text     [free]
+              v
+   Clean statute text
+              |
+              |  TRIM      AI drops the parts not about this occupation       [paid ~$0.05]
+              v
+   Just the relevant law
+              |
+              |  EXTRACT   AI reads it into structured fields / tags          [paid ~$0.15]
+              v
+   Structured data   (one record per occupation, per state)
+              |
+              |  PUBLISH   build the website payload                          [free]
+              v
+   Interactive website
+```
+
+(LOCATE and CLEAN together are the "find the right acts and clean them up" work;
+TRIM and EXTRACT are the two AI steps that cost money; PUBLISH just packages the
+finished data for the site.)
+
+The stages cost very different amounts, which is what the rest of this section is about.
 Current state of the grid, as of generation:
 
 | | Count | What it means |
 |---|---|---|
 | Published | 13 occupations | Site data built and ready to serve |
-| Extracted, not published | 49 occupations | Structured data exists for at least some states; publishing is a free command |
-| Ready to process | 2,167 occupation/state cells | Law text on disk; needs only the paid AI steps (~$0.20/cell, ~$424.10 for all of them) |
-| New occupation, not set up yet | 285 cells (24 occupations) | Law text on disk, but this occupation has never been processed before — see below |
-| Needs a fetch | 19 cells | Law located but text never pulled — requires the scraping setup |
+| Extracted, not published | 71 occupations | Structured data exists for at least some states; publishing is a free command |
+| Ready to process | 2,130 occupation/state cells | Law text on disk; needs only the paid AI steps (~$0.20/cell, ~$416.30 for all of them) |
+| New occupation, not set up yet | 0 cells (8 occupations) | Law text on disk, but this occupation has never been processed before — see below |
+| Needs a fetch | 32 cells | Law located but text never pulled — requires the scraping setup |
 
 The 13 published occupations: architecture, construction_trades, dentistry, dietetics, electrician, hvac, medicine, nursing, optometry, plumbing, podiatry, professional_engineering, public_accountancy.
 
@@ -133,7 +165,7 @@ In effort terms:
   matter for it* — a nurse's data looks different from a plumber's (different
   requirements, different terminology) — and save that as a one-time template (called
   a "schema" in the code) for the occupation. This is a one-time step per occupation,
-  not per state, and it's a small cost. This is the 285-cell row
+  not per state, and it's a small cost. This is the 0-cell row
   above: the law is already on disk, but nobody has designed that occupation's
   template yet. Once it exists, every state for that occupation becomes "ready to
   process" like any other. Some states may also still need a fetch.
@@ -155,6 +187,11 @@ project's Python environment):
 2. **Dashboard** — `python -m pipeline.client.dashboard` — builds an offline web page
    (`pipeline/results/status/dashboard.html`, open it in any browser) where you tick
    the occupations you want, see the total cost, and get the exact commands to run.
+   *This is a private control panel for running the pipeline — it is not the public
+   website.* The public site (utah-licensing.vercel.app) shows the finished data to
+   end users and is always live; this `dashboard.html` is a local file only the
+   operator sees, showing what's been processed and what each next step would cost
+   before you spend anything. The two never talk to each other.
 3. **Runner** — `python -m pipeline.client.run …` — executes your picks:
    `clean` (free), `trim` and `extract` (the paid steps — each prints its cost
    estimate and waits for a typed "yes" before spending anything), `publish` (free).
@@ -162,35 +199,7 @@ project's Python environment):
 Nothing in these tools fetches from the web or spends money on its own. The
 plain-English walkthrough, including re-fetching, is `docs/runbooks/client_refetch.md`.
 
-## 5. What it costs — and what the costs depend on
-
-Three stages call an AI model and cost money; everything else is free:
-
-| Stage | Model used today | Est. cost |
-|---------------------------------------------|---------------------------------|----------|
-| Trim — keep only the occupation's parts of the law | `claude-haiku-4-5-20251001` | ~$0.05 / state |
-| Extract — turn trimmed text into structured data | `claude-sonnet-4-6` | ~$0.15 / state |
-| Schema discovery — design an occupation's data template | `claude-sonnet-4-6` | ~$1.00 / occupation, **one-time** (not per state) |
-
-Right now, 16 occupations have law text on disk and
-are waiting only on this one-time step — discovering all of them would cost about
-$16.00 total.
-
-Three things to understand about these numbers:
-
-- **They are estimates tied to today's models and prices.** The model names above were
-  read from the code at generation time. Anthropic's per-token prices change, and bulk
-  runs go through Anthropic's discounted batch API. Treat the per-cell figures as
-  planning estimates, not invoices — the runner shows the estimate and asks before
-  spending.
-- **Swapping models is easy.** Each stage's model is a single setting (a `--model`
-  flag / one constant per stage module). Moving to a cheaper, better, or different
-  vendor's model is a small change; the prompts themselves live in a plain-text config
-  file (`pipeline/config/prompts.yaml`), not in code.
-- **The costs are per-run, not per-view.** The website serves previously-built data;
-  people browsing the site cost nothing.
-
-## 6. Everything adjustable lives in config files, not code
+## 5. Everything adjustable lives in config files, not code
 
 The pipeline's decisions — which occupations exist, how to recognize each one in a
 state's law, per-state quirks, what the AI is asked, rate limits — are all plain-text
@@ -205,6 +214,52 @@ YAML files in `pipeline/config/`, each documented in `pipeline/config/README.md`
 A non-programmer can read these; a technical person can change them without touching
 Python.
 
+## 6. What it costs — and what the costs depend on
+
+Three stages call an AI model and cost money; everything else is free:
+
+| Stage | Model used today | Est. cost |
+|---------------------------------------------|---------------------------------|----------|
+| Trim — keep only the occupation's parts of the law | `claude-haiku-4-5-20251001` | ~$0.05 per state |
+| Extract — turn trimmed text into structured data | `claude-sonnet-4-6` | ~$0.15 per state |
+| Schema discovery — design an occupation's data template | `claude-sonnet-4-6` | ~$1.00 per occupation, **one-time** (not per state) |
+
+**"Per state" means one occupation in one state — a single cell of the grid in
+section 3.** So the $0.05 and $0.15 above are the cost to trim / extract *one*
+occupation's law for *one* state. Doing an occupation across all 50 states runs each
+paid step 50 times: roughly $0.20 × 50 ≈ $10 for that occupation.
+Schema discovery is the exception — it's paid once per occupation, not per state.
+
+Right now, 0 occupations have law text on disk and
+are waiting only on this one-time step — discovering all of them would cost about
+$0.00 total.
+
+Three things to understand about these numbers:
+
+- **They are estimates tied to today's models and prices.** The model names above were
+  read from the code at generation time. Anthropic's per-token prices change, and bulk
+  runs go through Anthropic's discounted batch API. Treat the per-cell figures as
+  planning estimates, not invoices — the runner shows the estimate and asks before
+  spending.
+- **Swapping models — and even switching AI vendors — is mostly a one-line change.**
+  Each stage's model is set in exactly one place: a `DEFAULT_MODEL` constant at the top
+  of that stage's Python file (`pipeline/ingest/trim_state.py`,
+  `pipeline/extract/discover_schema.py`, `pipeline/extract/extract_state_batch.py`),
+  also overridable with a `--model` flag. The trim and schema-discovery stages call
+  models through a **vendor-neutral library (LiteLLM)**, so to move one of them from
+  Claude (Haiku/Sonnet) to, say, OpenAI's ChatGPT you change that one constant to the
+  new model's name (e.g. `gpt-5`) and set that vendor's API key in the environment —
+  no other code changes. The one place that is *not* a one-liner today is the
+  high-volume **batch** extract path: it talks directly to Anthropic's batch API to get
+  the ~50% bulk discount, so pointing *that* at a different vendor means porting it to
+  that vendor's batch endpoint (the prompts and output format are shared with the
+  one-at-a-time path, which already goes through LiteLLM). In all cases the prompts
+  themselves live in a plain-text config file (`pipeline/config/prompts.yaml`),
+  separate from the model choice — you can change the model without touching the prompt,
+  or vice-versa.
+- **The costs are per-run, not per-view.** The website serves previously-built data;
+  people browsing the site cost nothing.
+
 ## 7. How much to trust the data
 
 - **It's AI-extracted, with checks.** Structured records are extracted by an AI model
@@ -215,8 +270,8 @@ Python.
   (the law text) and its recipe (prompt + schema + model + code). The repo stamps
   every output and can tell you whether it's *current*, *stale* (an input or the
   recipe changed since it was built), or *unstamped* (built before tracking existed).
-  Right now: 750 extracted cells — 350 current,
-  0 stale, 400 unstamped. The dashboard color-codes
+  Right now: 1499 extracted cells — 1126 current,
+  0 stale, 373 unstamped. The dashboard color-codes
   this.
 - **Some blanks are deliberate.** A hand-verified list
   (`pipeline/config/verified_absences.yaml`) records occupation/state pairs where the
@@ -237,8 +292,31 @@ Python.
   replaced, and nobody had noticed because the page still "had text" on it). Both
   exist precisely because a wrong-but-confident-looking record is possible — running
   them, and reading what they flag, is the honest way to answer "how much can we
-  trust this," not the 350-current/0-stale/400-unstamped
+  trust this," not the 1126-current/0-stale/373-unstamped
   counts above on their own.
+
+## 8. How this was built (Claude Code)
+
+Almost all of this software — the web scraping, the cleaning and extraction steps, the
+config system, the status/dashboard tools, even the generator that writes this
+document — was built using **Claude Code**, Anthropic's AI coding assistant, working
+alongside a human. In practice that meant a person describing what was needed in plain
+English ("find the chapter that regulates dietitians in each state," "flag any pulled
+law that stopped matching its mapping") and Claude Code writing, running, and debugging
+the actual Python, with the human reviewing and steering. The AI did most of the typing
+and much of the exploration; the human made the decisions and checked the results.
+
+Two things worth knowing about that for whoever inherits this:
+
+- **The same approach is available to you.** You do not have to be a Python expert to
+  extend or fix this pipeline. Because the moving parts live in plain-text config files
+  (section 5) and small, well-separated modules, you can describe a change in plain
+  English to Claude Code (or a similar assistant) and have it make the edit — the way
+  the pipeline was built in the first place.
+- **This is different from the AI *inside* the pipeline.** Claude Code built the
+  machine; the models in section 6 (Haiku, Sonnet) are parts *inside* the machine that
+  read statutes every time it runs. Building it was a one-time human-plus-AI effort;
+  those runtime models are what cost money per state each time you process new law.
 
 ---
 *Regenerate with `python -m pipeline.client.handoff_doc [--pdf]`.*
