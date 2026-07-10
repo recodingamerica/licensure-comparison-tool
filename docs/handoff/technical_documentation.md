@@ -1,6 +1,6 @@
 # State licensing pipeline — handoff documentation
 
-*Generated 2026-07-10 from repo commit `9b2c84a6`. To get current numbers, run
+*Generated 2026-07-10 from repo commit `888611b7`. To get current numbers, run
 `python -m pipeline.client.handoff_doc` from the repo root (add `--pdf` for a PDF).*
 
 **For engineers:** this document is the plain-English overview. The technical entry
@@ -85,8 +85,6 @@ What needs a human, per source:
   fetched by a plain automated script with nobody watching or clicking through
   anything. The only risk is the same as Justia's second case: if PA changes its
   site's URL scheme or page markup, the parser needs updating.
-
-No fetch is currently running (checked live at generation time) — the 20 cells below are waiting, not in progress.
 
 Fetching is not fully autonomous — plan to run it yourself, and expect it to need
 attention. In practice: re-fetching or fetching new statute text isn't a cloud job

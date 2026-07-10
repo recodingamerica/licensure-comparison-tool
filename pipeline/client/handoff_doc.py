@@ -78,19 +78,6 @@ def _source_hosts() -> tuple[collections.Counter, dict[str, collections.Counter]
     return hosts, by_state
 
 
-def _fetch_in_progress() -> bool:
-    """Is a fetch/pull process running right now? Checked live (pgrep), not asserted —
-    a stale 'fetching now' claim in a static doc would be worse than no claim at all."""
-    try:
-        result = subprocess.run(
-            ["pgrep", "-f", "pipeline.ingest.refresh_corpus|pipeline.ingest.pull_text|gap_harvest"],
-            capture_output=True, text=True,
-        )
-        return bool(result.stdout.strip())
-    except Exception:
-        return False
-
-
 def _git_commit() -> str:
     try:
         return subprocess.run(
@@ -126,17 +113,8 @@ def build_markdown() -> str:
     per_cell = cost["trim"] + cost["extract"]
     today = datetime.date.today().isoformat()
     commit = _git_commit()
-    fetching_now = _fetch_in_progress()
 
     pub_list = ", ".join(published)
-    fetch_status_line = (
-        f"**A fetch is running right now** (checked live at generation time) — some "
-        f"of the {t['cells_needs_fetch']} cells below are actively being pulled as "
-        f"this document was generated, so that count is falling."
-        if fetching_now else
-        f"No fetch is currently running (checked live at generation time) — the "
-        f"{t['cells_needs_fetch']} cells below are waiting, not in progress."
-    )
 
     return f"""# State licensing pipeline — handoff documentation
 
@@ -225,8 +203,6 @@ What needs a human, per source:
   fetched by a plain automated script with nobody watching or clicking through
   anything. The only risk is the same as Justia's second case: if PA changes its
   site's URL scheme or page markup, the parser needs updating.
-
-{fetch_status_line}
 
 Fetching is not fully autonomous — plan to run it yourself, and expect it to need
 attention. In practice: re-fetching or fetching new statute text isn't a cloud job
