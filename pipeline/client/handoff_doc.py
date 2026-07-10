@@ -336,14 +336,17 @@ project's Python environment):
 1. **Status** — `python -m pipeline.client.status` — recomputes, for every occupation
    and state, what stage it's at, whether it's current or stale, and what it would
    cost to finish.
-2. **Dashboard** — `python -m pipeline.client.dashboard` — builds an offline web page
-   (`pipeline/results/status/dashboard.html`, open it in any browser) where you tick
-   the occupations you want, see the total cost, and get the exact commands to run.
-   *This is a private control panel for running the pipeline — it is not the public
-   website.* The public site (utah-licensing.vercel.app) shows the finished data to
-   end users and is always live; this `dashboard.html` is a local file only the
-   operator sees, showing what's been processed and what each next step would cost
-   before you spend anything. The two never talk to each other.
+2. **Dashboard** — `python -m pipeline.client.dashboard` — builds a web page
+   (`pipeline/results/status/dashboard.html`) where you tick the occupations you want,
+   see the total cost, and get the exact commands to run. Running this command *also
+   mirrors the same page to the public site at `/dashboard`*
+   (utah-licensing.vercel.app/dashboard) — so **"the dashboard on the website" and this
+   one are the same page**. The only difference is freshness: the website copy is a
+   **frozen snapshot** from the last time someone ran this command and redeployed, while
+   running it locally regenerates it with today's numbers. Either way it's a *read-only
+   picker* — it shows what's been processed and the commands to run; it never runs
+   anything or spends money itself. (This is separate from the main site, which is the
+   finished licensing-data viewer for the public.)
 3. **Runner** — `python -m pipeline.client.run …` — executes your picks:
    `clean` (free), `trim` and `extract` (the paid steps — each prints its cost
    estimate and waits for a typed "yes" before spending anything), `publish` (free).
