@@ -465,9 +465,11 @@ def extract_child_links(html: str, base_url: str) -> tuple[list[dict], list[dict
     base_segments = [s for s in parsed.path.split("/") if s]
     title_slug = base_segments[-1].lower() if base_segments else None
     base_canon = tuple(s for s in base_segments if not YEAR_SEG.match(s))
+    base_has_year = any(YEAR_SEG.match(s) for s in base_segments)
 
     sections: list[dict] = []
     intermediates: list[dict] = []
+    year_self: list[tuple] = []  # (year, url, label, slug) — year snapshots of THIS page
     seen = set()
     for a in soup.find_all("a", href=True):
         href = a["href"].strip()
@@ -491,6 +493,8 @@ def extract_child_links(html: str, base_url: str) -> tuple[list[dict], list[dict
         link_years = {s for s in path_segments if YEAR_SEG.match(s)}
         canon_path = tuple(s for s in path_segments if not YEAR_SEG.match(s))
         if link_years and canon_path == base_canon:
+            year_self.append((max(int(y) for y in link_years), absolute,
+                              a.get_text(strip=True) or "", path_segments[-1]))
             continue
         last = path_segments[-1]
         if title_slug and title_slug not in [s.lower() for s in path_segments]:
@@ -513,7 +517,22 @@ def extract_child_links(html: str, base_url: str) -> tuple[list[dict], list[dict
             # chapter-13/{engineers,land-surveyors}/. It strictly extends the
             # chapter path and isn't a leaf section, so drill it.
             intermediates.append(item)
-    return _dedupe_year_versions(sections), _dedupe_year_versions(intermediates)
+    sections = _dedupe_year_versions(sections)
+    intermediates = _dedupe_year_versions(intermediates)
+    if not sections and not intermediates and year_self and not base_has_year:
+        # Year-SELECTOR page: it links only to year snapshots of itself, with no
+        # section list. Happens when a fetcher lands on the *undated* page for a
+        # state that publishes only year-stamped content (e.g. IL acts — the section
+        # list lives at /<state>/2024/... not the undated URL). The normal dedup
+        # above drops these self-year links as duplicates, which would strand the
+        # sections; here, with nothing else found, we drill the latest-year copy
+        # instead. That copy is year-stamped, so on re-entry `base_has_year` is True
+        # and this branch cannot fire again — no year->year loop, and it only ever
+        # triggers on a genuinely empty undated page, never on one that has content.
+        year_self.sort(reverse=True)
+        yr, u, lab, sl = year_self[0]
+        intermediates = [{"url": u, "label": lab or f"{yr} edition", "slug": sl}]
+    return sections, intermediates
 
 
 def _dedupe_year_versions(items: list[dict]) -> list[dict]:
