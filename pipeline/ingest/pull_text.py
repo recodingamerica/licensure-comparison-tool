@@ -364,21 +364,58 @@ def _get_scrapling_session():
     return _SCRAPLING_SESSION
 
 
+def _reset_scrapling_session() -> None:
+    """Tear the StealthySession down so the next fetch opens a fresh camoufox — used
+    between retries when the session may be wedged (an empty/challenge response)."""
+    global _SCRAPLING_SESSION
+    if _SCRAPLING_SESSION is not None:
+        try:
+            _SCRAPLING_SESSION.__exit__(None, None, None)
+        except Exception:
+            pass
+        _SCRAPLING_SESSION = None
+
+
+# One-off Scrapling flakiness (an intermittent empty/challenge response) silently
+# drops a section -> a "short pull". Retry such responses, recreating the session on
+# later attempts in case it's wedged. We only retry on a CLEARLY-bad body (exception,
+# non-2xx, empty, or a challenge page) — never on a small-but-real page — so a genuine
+# short section is returned as-is, not looped over.
+_SCRAPLING_RETRIES = int(os.environ.get("SCRAPLING_RETRIES", "2"))
+_CHALLENGE_SIGS = ("just a moment", "checking your browser", "attention required",
+                   "cf-challenge", "cloudflare to restrict")
+
+
 def fetch_via_scrapling(url: str) -> tuple[int | None, str | None, str | None]:
     """Fetch a Cloudflare-protected Justia URL headless via Scrapling's StealthyFetcher.
     Returns (status, html, err) — same shape as fetch_via_browser, so every downstream
-    step (leaf detection, section crawl, year-version dedup) is unchanged."""
-    try:
-        sess = _get_scrapling_session()
+    step (leaf detection, section crawl, year-version dedup) is unchanged. Retries a
+    clearly-bad response (empty/challenge/error) up to _SCRAPLING_RETRIES times."""
+    last: tuple[int | None, str | None, str | None] = (None, None, "no attempt")
+    for attempt in range(_SCRAPLING_RETRIES + 1):
         try:
-            page = sess.fetch(url, network_idle=True)
-        except TypeError:
-            page = sess.fetch(url)
-        html = page.html_content if hasattr(page, "html_content") else str(page)
-        status = getattr(page, "status", 200) or 200
-        return status, html, None
-    except Exception as e:
-        return None, None, f"{type(e).__name__}: {e}"
+            sess = _get_scrapling_session()
+            try:
+                page = sess.fetch(url, network_idle=True)
+            except TypeError:
+                page = sess.fetch(url)
+            html = page.html_content if hasattr(page, "html_content") else str(page)
+            status = getattr(page, "status", 200) or 200
+            challenged = any(s in (html or "").lower() for s in _CHALLENGE_SIGS)
+            if html and status and 200 <= status < 300 and not challenged:
+                if attempt:
+                    log.info("  ▶ scrapling recovered %s on retry %d", url, attempt)
+                return status, html, None
+            last = (status, html, f"bad response (status={status}, chars={len(html or '')}, "
+                                  f"challenge={challenged})")
+        except Exception as e:
+            last = (None, None, f"{type(e).__name__}: {e}")
+        if attempt < _SCRAPLING_RETRIES:
+            log.warning("  ⟳ scrapling %s — %s; recreating session, retry %d/%d",
+                        url, last[2], attempt + 1, _SCRAPLING_RETRIES)
+            _reset_scrapling_session()
+            time.sleep(2)
+    return last
 
 
 def _scrapling_available() -> bool:
