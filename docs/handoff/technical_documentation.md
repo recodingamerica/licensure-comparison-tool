@@ -1,6 +1,6 @@
 # State licensing pipeline — handoff documentation
 
-*Generated 2026-07-10 from repo commit `888611b7`. To get current numbers, run
+*Generated 2026-07-11 from repo commit `fe656932`. To get current numbers, run
 `python -m pipeline.client.handoff_doc` from the repo root (add `--pdf` for a PDF).*
 
 **For engineers:** this document is the plain-English overview. The technical entry
@@ -14,11 +14,12 @@ occupation and each state, what license (if any) is required, what it takes to g
 and what the license lets you do. The results are published as an interactive website.
 
 The most important thing to know: **the raw law text is already in this repository.**
-Collecting statute text from the web is by far the most painful part of this work (see
-section 2), and we have already done it broadly. Think of the full scope as a grid:
+Collecting statute text from the web *used to be* the most painful part of this work —
+it's now automated and runs unattended (see section 2) — and we have already done it
+broadly. Think of the full scope as a grid:
 every occupation we track (94) crossed with every state (50) —
 4,700 occupation/state cells in all. We've gotten law text saved for
-3,633 of them (77%).
+3,643 of them (78%).
 
 That is not the same as "100% coverage is easy and we're just behind" — finding the
 *right* law for a given occupation and state is often genuinely hard, not a checkbox.
@@ -27,14 +28,14 @@ sections buried inside a much broader chapter that covers many unrelated things 
 to even locate, let alone confirm complete); a few states may not license an occupation
 at all, which looks identical to "not found yet" until someone checks.
 
-**And it cuts both ways: even for the 77% we HAVE captured, we could have
+**And it cuts both ways: even for the 78% we HAVE captured, we could have
 gotten it wrong without knowing it** — pulled a repealed statute, a different
 profession's act, or a chapter that no longer matches how the law is actually organized
 today. A confidently-processed record on the site is not a guarantee we found
 everything; it's our best current attempt, not a verified-complete one. Section 7 names
 the specific tools built to catch exactly this class of mistake and what they've
 actually caught so far — worth reading if "how much can we trust this" is the real
-question. Treat the 77% honestly: it's how far a real, ongoing effort has
+question. Treat the 78% honestly: it's how far a real, ongoing effort has
 gotten, not a countdown to a known, verified finish line.
 
 Day-to-day work — turning that saved text into published data — **never touches the
@@ -50,12 +51,13 @@ either source's operator.
 
 | Source | Coverage | Method | Code | Update cadence |
 |---|---|---|---|---|
-| **Justia** (law.justia.com) | 98.6% of corpora, 49/50 states | Scrape (real Chrome browser) | `pull_text.py` | Annual editions |
+| **Justia** (law.justia.com) | 98.6% of corpora, 49/50 states | Scrape (headless, automated) | `pull_text.py` | Annual editions |
 | **PA Legislature** (legis.state.pa.us) | 1.4% of corpora, 1/50 states | Scrape (plain HTTP) | `pull_text.py` | At/near enactment |
 
 *(Coverage measured from the saved files' own recorded URLs, not asserted. Both
 sources route through the same file, `pipeline/ingest/pull_text.py` — Justia via
-`fetch_via_browser`, PA via `is_pa_legis_url` and its section parser.)*
+`fetch_via_scrapling` (a headless stealth browser; a CDP-attached Chrome remains as a
+fallback), PA via `is_pa_legis_url` and its section parser.)*
 
 On update cadence, specifically:
 
@@ -77,23 +79,31 @@ On update cadence, specifically:
 
 What needs a human, per source:
 
-- **Justia** — a bot-detection challenge needs a **person** to open a real Chrome
-  window and clear it once per session; it can reappear mid-run and pause until
-  re-cleared. If Justia changes its page layout or URL scheme, the parser needs
-  updating.
-- **PA Legislature** — there's no Cloudflare-style bot wall here, so this source can be
-  fetched by a plain automated script with nobody watching or clicking through
-  anything. The only risk is the same as Justia's second case: if PA changes its
-  site's URL scheme or page markup, the parser needs updating.
+- **Justia** — its Cloudflare bot-wall is now cleared **automatically and headless**
+  (a stealth browser, Scrapling, does it), so a fetch needs **nobody watching or
+  clicking through anything** — no Chrome window to open, no challenge to solve by hand.
+  (The old hand-started-Chrome method is kept only as a fallback.) If Justia changes its
+  page layout or URL scheme, the parser needs updating.
+- **PA Legislature** — there's no Cloudflare-style bot wall here, so this source has
+  always been fetchable by a plain automated script with nobody watching. The only risk
+  is the same as Justia's second case: if PA changes its site's URL scheme or page
+  markup, the parser needs updating.
 
-Fetching is not fully autonomous — plan to run it yourself, and expect it to need
-attention. In practice: re-fetching or fetching new statute text isn't a cloud job
-you kick off and forget — it runs on your machine, it can take hours for a large batch,
-and the process itself stops on its own fairly often (a stalled request, a crash, the
-underlying browser session hiccupping) for reasons that aren't always obvious. A
-watchdog checks periodically and automatically restarts it when that happens, so it's
-more resilient than a plain script, but it is not "set and forget" — budget for someone
-to check on it and notice if it's stuck, not just kick it off and walk away for good.
+**Fetching can now run unattended.** This is a real change from what this document used
+to say. Re-fetching or fetching new statute text still runs on your machine, and a large
+batch can take a while (it's deliberately polite — a short pause between requests), but
+it no longer needs a person babysitting a browser: the bot-wall is cleared headless and
+flaky responses are retried automatically. It's much closer to "kick it off and let it
+run" than the old hand-driven-Chrome process.
+
+**One honest caveat — this is a cat-and-mouse solution, not a permanent guarantee.** The
+headless fetch works by looking enough like an ordinary human browser that Cloudflare's
+bot-detection lets it through. That's a moving target: **if Cloudflare changes how it
+detects automated traffic, this could stop working** — the fetch would start coming back
+empty or stuck on a challenge — and it would need the stealth tool updated, or a switch
+back to the hand-driven-Chrome method. That older method is **deliberately kept as a
+fallback** for exactly this reason. So: this is the right, low-effort default *today*,
+and the fallback is there if the day comes that it isn't.
 
 One more related point: **finding the law is often harder than fetching it.** Many
 occupations' licensing rules aren't a standalone chapter — they're a few sections
@@ -143,9 +153,9 @@ Current state of the grid, as of generation:
 |---|---|---|
 | Published | 13 occupations | Site data built and ready to serve |
 | Extracted, not published | 71 occupations | Structured data exists for at least some states; publishing is a free command |
-| Ready to process | 2,134 occupation/state cells | Law text on disk; needs only the paid AI steps (~$0.20/cell, ~$417.10 for all of them) |
+| Ready to process | 2,144 occupation/state cells | Law text on disk; needs only the paid AI steps (~$0.20/cell, ~$419.10 for all of them) |
 | New occupation, not set up yet | 0 cells (8 occupations) | Law text on disk, but this occupation has never been processed before — see below |
-| Needs a fetch | 20 cells | Law located but text never pulled — requires the scraping setup |
+| Needs a fetch | 13 cells | Law located but text never pulled — requires the scraping setup |
 
 The 13 published occupations: architecture, construction_trades, dentistry, dietetics, electrician, hvac, medicine, nursing, optometry, plumbing, podiatry, professional_engineering, public_accountancy.
 
@@ -179,14 +189,16 @@ In effort terms:
   above: the law is already on disk, but nobody has designed that occupation's
   template yet. Once it exists, every state for that occupation becomes "ready to
   process" like any other. Some states may also still need a fetch.
-- **Hard, human-supervised:** fetching new or updated statute text from the web
-  (section 2). Plan for a person to be around while it runs.
+- **Automated, unattended:** fetching new or updated statute text from the web
+  (section 2). This used to be the hard, babysit-a-browser step; it now runs headless
+  on its own — you kick it off and let it run.
 
 ## 4. The tools you'll actually use
 
 What you need: Python (the repo ships a ready environment — see
 `pipeline/client/README.md`), an Anthropic API key for the two paid steps, and access
-to the site's hosting (Vercel) for publishing. Chrome is needed only for fetching.
+to the site's hosting (Vercel) for publishing. Fetching now runs headless — no browser
+to launch or babysit.
 
 Three commands cover everything except fetching (run from the repo root, using the
 project's Python environment):
