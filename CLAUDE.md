@@ -20,10 +20,13 @@ back-to-back fetches (the CDP pain). Validated: reproduces CDP corpora on 6/8 A/
 `pipeline/.venv` (`pip install "scrapling[fetchers]"` + `scrapling install`). Precedence in
 `_use_scrapling`: `JUSTIA_SCRAPLING=0` forces it OFF (→ CDP/cffi), `=1` forces ON, unset →
 ON whenever importable (fresh clone without it degrades to CDP). See
-[[reference_scrapling_fetch]]. **Known edge case:** an *undated* Justia URL for a year-only
-state (e.g. some IL acts) can land on a year-SELECTOR page with 0 section links; the crawler
-doesn't yet drill the latest-year copy (attempted 2026-07-11, reverted — it regressed other
-acts). Rare; most matched URLs are absolute/year-stamped and pull fine.
+[[reference_scrapling_fetch]]. **Year-selector handling:** an *undated* Justia URL for a
+year-only state (some IL acts) can land on a year-SELECTOR page (only self-year links, 0
+sections); `extract_child_links` now drills the latest-year copy — guarded against a
+year→year loop by `base_has_year` and it only fires on a genuinely empty undated page
+(tests: `test_pull_text_drill.py`). Separate caveat: Scrapling has occasional run-to-run
+flakiness (an intermittent short pull — the 115-vs-172 nursing/IL wobble); a
+retry-on-short-pull would harden it further if it recurs.
 
 **CDP fallback (only if Scrapling is off/unavailable).** Justia's wall is a Cloudflare
 **fingerprint** challenge, *not* a rate/IP block — `curl_cffi` and launched-headless
