@@ -12,11 +12,23 @@ not raw statutes. So the default is local:
   **locally** on the committed files. `pull_text._dedupe_year_versions()` can be applied
   to already-fetched `sections` in place — no fetch required.
 
-**But re-fetching Justia IS possible and sometimes necessary** (failed/empty pulls,
-index-only corpora, genuinely-new pairs). Justia's wall is a Cloudflare **fingerprint**
-challenge, *not* a rate/IP block — `curl_cffi` and launched-headless browsers get
-challenge pages, but **attaching to a hand-started debug Chrome over CDP clears it**
-(see the `scraping-cloudflare-cdp` skill). To re-fetch:
+**Re-fetching Justia is now DEFAULT-AUTOMATED via Scrapling (2026-07-11).** `pull_text`
+routes Justia through **Scrapling's `StealthyFetcher`** (headless camoufox, `solve_cloudflare`)
+by default — no hand-started Chrome, no manual challenge solve, and no soft-block on rapid
+back-to-back fetches (the CDP pain). Validated: reproduces CDP corpora on 6/8 A/B cells
+(incl. the 426-section CA chapter + year-versioned KY/OR), ≥ CDP elsewhere. It's in
+`pipeline/.venv` (`pip install "scrapling[fetchers]"` + `scrapling install`). Precedence in
+`_use_scrapling`: `JUSTIA_SCRAPLING=0` forces it OFF (→ CDP/cffi), `=1` forces ON, unset →
+ON whenever importable (fresh clone without it degrades to CDP). See
+[[reference_scrapling_fetch]]. **Known edge case:** an *undated* Justia URL for a year-only
+state (e.g. some IL acts) can land on a year-SELECTOR page with 0 section links; the crawler
+doesn't yet drill the latest-year copy (attempted 2026-07-11, reverted — it regressed other
+acts). Rare; most matched URLs are absolute/year-stamped and pull fine.
+
+**CDP fallback (only if Scrapling is off/unavailable).** Justia's wall is a Cloudflare
+**fingerprint** challenge, *not* a rate/IP block — `curl_cffi` and launched-headless
+browsers get challenge pages, but **attaching to a hand-started debug Chrome over CDP
+clears it** (see the `scraping-cloudflare-cdp` skill). To use CDP (set `JUSTIA_SCRAPLING=0`):
 
 - Set `JUSTIA_CDP_URL=http://127.0.0.1:9222` (a debug Chrome the user started + cleared
   the challenge in once; use `127.0.0.1`, not `localhost`). The per-host delay now
