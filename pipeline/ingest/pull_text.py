@@ -381,11 +381,30 @@ def fetch_via_scrapling(url: str) -> tuple[int | None, str | None, str | None]:
         return None, None, f"{type(e).__name__}: {e}"
 
 
+def _scrapling_available() -> bool:
+    try:
+        import scrapling.fetchers  # noqa: F401
+        return True
+    except Exception:
+        return False
+
+
 def _use_scrapling(url: str) -> bool:
+    """Scrapling is the DEFAULT Justia fetcher as of 2026-07-11 (validated: reproduces
+    CDP corpora on 6/8 A/B cells incl. the 426-section CA chapter + year-versioned
+    KY/OR, ≥ CDP elsewhere; headless, no hand-started Chrome, no manual solve, no
+    soft-block). Precedence: JUSTIA_SCRAPLING=0 forces it OFF (→ CDP/cffi fallback);
+    JUSTIA_SCRAPLING=1 forces it ON; unset → ON whenever the library is importable,
+    so a fresh clone without scrapling installed degrades gracefully to CDP/cffi."""
     host = urllib.parse.urlparse(url).netloc.lower()
     if not any(h in host for h in _UNBLOCK_HOSTS):
         return False
-    return _env_get("JUSTIA_SCRAPLING") not in (None, "", "0")
+    flag = _env_get("JUSTIA_SCRAPLING")
+    if flag == "0":
+        return False
+    if flag not in (None, ""):
+        return True
+    return _scrapling_available()
 
 
 def _use_browser(url: str) -> bool:
