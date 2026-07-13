@@ -51,6 +51,14 @@ no CDP-based tool remains.)
 - **PA is the only state not on Justia** (`legis.state.pa.us`). MD/NV were flipped BACK
   to Justia 2026-07-02 (source-gated dispatch — comment out `source:` to flip a state);
   other official-source states keep their Justia URLs in the index.
+- **CORPUS-SOURCE POLICY (enforced 2026-07-13): statute text is ingested from Justia + PA
+  ONLY.** `pull_text.fetch()` is a closed allowlist — any host other than `law.justia.com`
+  (Scrapling) or `legis.state.pa.us` (curl_cffi) RAISES. A cell with no Justia/PA source is
+  an accepted `source_unavailable` gap — do NOT build an alternate-source scraper (ilga.gov,
+  arkleg, admin code, state APIs); the earlier UT/SD/NY/NV official-source effort was deleted
+  for exactly this reason. The guard covers ONLY corpus fetching — discovery/research
+  (web_search, reading a state PDF to LEARN a citation) is a separate, unguarded layer.
+  Test: `test_corpus_source_allowlist.py`.
 - The `docs/runbooks/cdp_repull_lessons_*.md` runbooks are **historical** (CDP-era) — they
   describe the retired workflow, not the current default. Do NOT run two committing
   processes at once (git index.lock races).
