@@ -26,8 +26,7 @@ from pipeline.config.loaders import load_limits
 # used to import a flat 0.3s constant from _fetch_config and fire way too fast,
 # risking a Cloudflare rate-block; see config/limits.yaml fetch.per_host_delay).
 from pipeline.ingest.pull_text import (  # noqa: E402
-    fetch, is_section_url, extract_section_text, collect_section_targets, polite_sleep,
-    bad_section_text,
+    is_section_url, collect_section_targets, _fetch_section_text,
 )
 
 # Number of section targets above which a WARNING is emitted so the operator
@@ -203,21 +202,14 @@ def pull_state_umbrella(state: str, force: bool, source_filter: str | None = Non
         log.info("  -> %d section targets", len(section_targets))
         for target in section_targets:
             sec_url = target["url"]
-            status, html, err = fetch(sec_url)
-            polite_sleep()
-            if err or not html or (status and not 200 <= status < 300):
-                log.warning("    %s: %s", sec_url, err or f"http {status}")
-                continue
-            text = extract_section_text(html)
-            bad = bad_section_text(text)
-            if bad:
-                # Soft-404 guard — parity with pull_text.pull_state. A Justia URL
-                # that 200s but yields the fixed "Justia Legal Resources / Find a
-                # Lawyer" nav blob (or a thin/blocked extraction) is NOT statute
-                # text. Before this, that blob was silently ingested as real
-                # umbrella content (the `if not text` check only caught truly
-                # empty extractions). See docs/runbooks/cdp_repull_lessons_2026-07-09.md.
-                log.warning("    %s: %s", sec_url, bad)
+            text, err = _fetch_section_text(sec_url)
+            if err:
+                # Skip on fetch failure AND on non-statute pages (soft-404 nav
+                # blob / thin / block). _fetch_section_text is the shared
+                # fetch→extract→bad-text guard with pull_text.pull_state — before
+                # it was factored out, umbrella lacked the soft-404 check and
+                # silently ingested Justia's "Find a Lawyer" nav blob as content.
+                log.warning("    %s: %s", sec_url, err)
                 continue
             new_sections.append({
                 "url": sec_url,

@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import json
 
+import pipeline.ingest.pull_text as pt
 import pipeline.ingest.pull_umbrella_text as pu
 
 
@@ -32,10 +33,12 @@ def _setup(tmp_path, monkeypatch, extract_returns: str):
     }))
     # Section-URL chapter → no child collection needed.
     monkeypatch.setattr(pu, "is_section_url", lambda u: True)
-    monkeypatch.setattr(pu, "fetch", lambda u: (200, "<html></html>", None))
-    monkeypatch.setattr(pu, "polite_sleep", lambda: None)
-    monkeypatch.setattr(pu, "extract_section_text", lambda html: extract_returns)
-    # bad_section_text is intentionally NOT patched — the real guard must run.
+    # Patch at the pull_text level: umbrella now shares _fetch_section_text, which
+    # calls pull_text's fetch/extract/polite_sleep. bad_section_text is intentionally
+    # NOT patched — the real soft-404 guard must run through the shared path.
+    monkeypatch.setattr(pt, "fetch", lambda u: (200, "<html></html>", None))
+    monkeypatch.setattr(pt, "polite_sleep", lambda: None)
+    monkeypatch.setattr(pt, "extract_section_text", lambda html: extract_returns)
 
 
 def test_pull_state_umbrella_rejects_soft404_navblob(tmp_path, monkeypatch):
