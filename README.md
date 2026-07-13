@@ -156,7 +156,12 @@ the one-time `vercel link` / `vercel env pull` setup and the confirm-gated
 
 The site sits behind HTTP Basic Auth via `middleware.ts` — username can
 be anything, password is `SITE_PASSWORD` (set on Vercel + in
-`.env.local`).
+`.env.local`). Ask the team for the current password; don't commit it.
+
+> **Note:** an earlier plaintext password (`utah`) appears in this repo's
+> git history. It was rotated on 2026-07-13 and **no longer works**, so the
+> history exposure is harmless — but for that reason don't put the current
+> password in tracked files (it lives only in the Vercel env var).
 
 ## Architecture invariants
 
