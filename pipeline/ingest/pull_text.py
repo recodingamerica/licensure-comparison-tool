@@ -733,6 +733,171 @@ def _flag_over_broad(profession: str, state: str, url: str, label: str, n: int) 
         pass
 
 
+def _pull_pa_act(corpus: StateCorpus, row: dict, pa_urls: list[str], limit_sections: int | None) -> None:
+    """Handle Pennsylvania acts: fetch each whole-act URL once and split locally
+    into per-section records (sections share the act URL, so the caller's
+    seen_section_urls dedup would wrongly collapse them — PA is handled here in
+    full). A profession may span multiple acts (nursing = Professional Nursing
+    Law + Practical Nurse Law)."""
+    for pa_url in pa_urls:
+        status, html, err = fetch(pa_url)
+        polite_sleep()
+        if err or not html or (status and not 200 <= status < 300):
+            corpus.errors.append(f"pa_legis fetch {pa_url}: {err or f'http {status}'}")
+            continue
+        pa_sections = parse_pa_act(html, pa_url)
+        if not pa_sections:
+            corpus.errors.append(f"pa_legis parse {pa_url}: 0 sections (markers not found)")
+        # pa_keep_sections scopes an embedded profession to its own sections
+        # within a shared act (e.g. dietetics inside the Nursing Law). Citation
+        # is "§ <num>"; keep only the listed numbers.
+        keep = {str(k) for k in (row.get("pa_keep_sections") or [])}
+        if keep:
+            before = len(pa_sections)
+            pa_sections = [s for s in pa_sections
+                           if s.citation.replace("§", "").strip() in keep]
+            log.info("  pa_legis keep-filter: %d -> %d sections", before, len(pa_sections))
+        for sec in pa_sections:
+            if limit_sections and len(corpus.sections) >= limit_sections:
+                break
+            corpus.sections.append(sec)
+            corpus.total_chars += sec.text_len
+        log.info("  pa_legis %s -> %d sections", pa_url, len(pa_sections))
+
+
+def _resolve_section_targets(
+    corpus: StateCorpus, row: dict, url: str, profession: str, state: str,
+) -> list[dict] | None:
+    """Resolve the section targets for one chapter row. Returns the target list,
+    or None to signal the caller should skip this row (fetch error / over-broad).
+
+    Modes: explicit section_url_list; section_slug_pattern (fetch chapter +
+    slug-filter its children); a URL that is itself a section; else collect the
+    chapter's leaf sections (guarded against over-broad picks)."""
+    section_url_list = row.get("section_url_list")
+    section_slug_pattern = row.get("section_slug_pattern")
+
+    if section_url_list:
+        section_targets = [{"url": u, "label": "", "slug": u.rstrip("/").rsplit("/", 1)[-1]}
+                           for u in section_url_list]
+        log.info("  chapter %s -> %d explicit section URLs", url, len(section_targets))
+    elif section_slug_pattern:
+        status, html, err = fetch(url)
+        polite_sleep()
+        if err or not html or (status and not 200 <= status < 300):
+            corpus.errors.append(f"chapter fetch {url}: {err or status}")
+            return None
+        all_sections = extract_child_links(html, url)[0]
+        pat = re.compile(section_slug_pattern)
+        section_targets = [s for s in all_sections if pat.match(s["slug"])]
+        log.info("  chapter %s -> %d sections after slug filter %r",
+                 url, len(section_targets), section_slug_pattern)
+    elif is_section_url(url):
+        section_targets = [{"url": url, "label": row["chapter_label"], "slug": row["chapter_slug"]}]
+    else:
+        section_targets, terr = collect_section_targets(
+            url, row["chapter_label"], row["chapter_slug"], depth=0,
+        )
+        if terr:
+            corpus.errors.append(terr)
+        log.info("  chapter %s -> %d leaf sections", url, len(section_targets))
+        # Over-broad guard: skip in seconds + flag for narrowing instead of grinding
+        # a 900s timeout that produces nothing (all-or-nothing revert). Two distinct
+        # reasons: (1) too many leaves to physically fetch inside the automated batch
+        # driver's per-cell timeout, regardless of label — a big chapter that name-
+        # matches the profession (e.g. NE "Chapter 45 - Interest, Loans, and Debt"
+        # matching "loan") still can't finish in time; or (2) a locator mis-pick
+        # (whole title/department) whose label doesn't name the profession at all.
+        if _should_skip_over_broad(profession, row.get("chapter_label", ""), len(section_targets)):
+            budget_max = _fetch_budget_max_leaves()
+            n = len(section_targets)
+            why = (f"exceeds fetch budget ({n} > {budget_max} leaves)"
+                   if budget_max and n > budget_max else
+                   f"label {row.get('chapter_label', '')!r} doesn't match {profession}")
+            log.warning("  SKIP over-broad: %s -> %d leaves; %s — flagged", url, n, why)
+            corpus.errors.append(f"over_broad_skip {url}: {len(section_targets)} leaves")
+            _flag_over_broad(profession, state, url, row.get("chapter_label", ""), len(section_targets))
+            return None
+
+    return section_targets
+
+
+def _add_inline_section(corpus: StateCorpus, sec: dict, limit_sections: int | None) -> None:
+    """Add a section whose text was already captured inline by
+    collect_section_targets (IL-style). If it's an ILCS/ND act blob, split it
+    into per-section records so IL/ND get section-level citations + browse."""
+    text = sec["_inline_text"]
+    bad = bad_section_text(text)
+    if bad:
+        # Same soft-404/block-page check as the main fetch path — this branch
+        # used to skip it entirely, letting Justia's fixed 1144-char "Justia
+        # Legal Resources / Find a Lawyer" nav blob (a wrong/uncodified URL that
+        # 200s with no real content div) through as real statute text. Found
+        # 2026-07-09 after 53 files had it silently committed. See
+        # docs/runbooks/cdp_repull_lessons_2026-07-09.md.
+        corpus.errors.append(f"section {sec['url']}: {bad}")
+        corpus.sections.append(Section(
+            url=sec["url"], label=sec["label"],
+            citation=short_citation(sec["label"]),
+            text=text, text_len=len(text), error=bad,
+        ))
+        return
+    inline_split = (split_il_inline(text, sec["url"]) if looks_like_il_ilcs(text)
+                    else split_nd_blob(text, sec["url"]) if looks_like_nd_blob(text, sec["url"])
+                    else [])
+    if inline_split:
+        for s in inline_split:
+            if limit_sections and len(corpus.sections) >= limit_sections:
+                break
+            corpus.sections.append(s)
+            corpus.total_chars += s.text_len
+        log.info("  inline-blob split %s -> %d sections", sec["url"], len(inline_split))
+        return
+    corpus.sections.append(Section(
+        url=sec["url"], label=sec["label"],
+        citation=short_citation(sec["label"]),
+        text=text, text_len=len(text),
+    ))
+    corpus.total_chars += len(text)
+
+
+def _fetch_and_add_section(corpus: StateCorpus, sec: dict) -> None:
+    """Fetch one section URL and append the record (or an error stub)."""
+    status, html, err = fetch(sec["url"])
+    polite_sleep()
+    if err or not html or (status and not 200 <= status < 300):
+        # Aggregate into corpus.errors too — otherwise a state with per-section
+        # failures looks healthy at the top level and downstream stages extract
+        # from a silently partial corpus (bit us 2026-06-12: 5 of 9 MI dietetics
+        # sections timed out and nothing flagged it).
+        corpus.errors.append(f"section fetch {sec['url']}: {err or f'http {status}'}")
+        corpus.sections.append(Section(
+            url=sec["url"], label=sec["label"],
+            citation=short_citation(sec["label"]),
+            text="", error=err or f"http {status}",
+        ))
+        return
+    text = extract_section_text(html)
+    bad = bad_section_text(text)
+    if bad:
+        # 200 OK but no real statute text (empty extraction or a block page).
+        # Flag it so the resumable grind re-pulls rather than silently shipping a
+        # partial/corrupt corpus. Keep the text for inspection.
+        corpus.errors.append(f"section {sec['url']}: {bad}")
+        corpus.sections.append(Section(
+            url=sec["url"], label=sec["label"],
+            citation=short_citation(sec["label"]),
+            text=text, text_len=len(text), error=bad,
+        ))
+        return
+    corpus.sections.append(Section(
+        url=sec["url"], label=sec["label"],
+        citation=short_citation(sec["label"]),
+        text=text, text_len=len(text),
+    ))
+    corpus.total_chars += len(text)
+
+
 def pull_state(state: str, profession: str, rows: list[dict], limit_sections: int | None) -> StateCorpus:
     corpus = StateCorpus(state=state, profession=profession)
     seen_section_urls: set[str] = set()
@@ -742,90 +907,18 @@ def pull_state(state: str, profession: str, rows: list[dict], limit_sections: in
         url = row["chapter_url"]
         corpus.chapter_urls.append(url)
 
-        # Pennsylvania: each URL is a whole act; fetch once per act and split
-        # locally into per-section records (sections share the act URL, so the
-        # seen_section_urls URL-dedup below would wrongly collapse them — handle
-        # PA entirely here and move on). A profession may span more than one act
-        # (e.g. nursing = Professional Nursing Law + Practical Nurse Law); list
-        # the extra acts in section_url_list and we pull them all.
+        # Pennsylvania: each URL is a whole act, handled entirely by _pull_pa_act.
+        # A profession may span more than one act; list extras in section_url_list.
         pa_urls = list(dict.fromkeys(
             u for u in [url, *(row.get("section_url_list") or [])] if is_pa_legis_url(u)
         ))
         if pa_urls:
-            for pa_url in pa_urls:
-                status, html, err = fetch(pa_url)
-                polite_sleep()
-                if err or not html or (status and not 200 <= status < 300):
-                    corpus.errors.append(f"pa_legis fetch {pa_url}: {err or f'http {status}'}")
-                    continue
-                pa_sections = parse_pa_act(html, pa_url)
-                if not pa_sections:
-                    corpus.errors.append(f"pa_legis parse {pa_url}: 0 sections (markers not found)")
-                # pa_keep_sections scopes an embedded profession to its own
-                # sections within a shared act (e.g. dietetics inside the Nursing
-                # Law). Citation is "§ <num>"; keep only the listed numbers.
-                keep = {str(k) for k in (row.get("pa_keep_sections") or [])}
-                if keep:
-                    before = len(pa_sections)
-                    pa_sections = [s for s in pa_sections
-                                   if s.citation.replace("§", "").strip() in keep]
-                    log.info("  pa_legis keep-filter: %d -> %d sections", before, len(pa_sections))
-                for sec in pa_sections:
-                    if limit_sections and len(corpus.sections) >= limit_sections:
-                        break
-                    corpus.sections.append(sec)
-                    corpus.total_chars += sec.text_len
-                log.info("  pa_legis %s -> %d sections", pa_url, len(pa_sections))
+            _pull_pa_act(corpus, row, pa_urls, limit_sections)
             continue
 
-        # Manual-override "section filter" mode: pull a specific list of section
-        # URLs, OR pull the chapter's children and filter by a slug regex.
-        # Used for states whose podiatry law is a section range inside a much
-        # bigger chapter (e.g. AZ §§32-801..32-859 within Title 32).
-        section_url_list = row.get("section_url_list")
-        section_slug_pattern = row.get("section_slug_pattern")
-
-        if section_url_list:
-            section_targets = [{"url": u, "label": "", "slug": u.rstrip("/").rsplit("/", 1)[-1]}
-                               for u in section_url_list]
-            log.info("  chapter %s -> %d explicit section URLs", url, len(section_targets))
-        elif section_slug_pattern:
-            status, html, err = fetch(url)
-            polite_sleep()
-            if err or not html or (status and not 200 <= status < 300):
-                corpus.errors.append(f"chapter fetch {url}: {err or status}")
-                continue
-            all_sections = extract_child_links(html, url)[0]
-            pat = re.compile(section_slug_pattern)
-            section_targets = [s for s in all_sections if pat.match(s["slug"])]
-            log.info("  chapter %s -> %d sections after slug filter %r",
-                     url, len(section_targets), section_slug_pattern)
-        elif is_section_url(url):
-            section_targets = [{"url": url, "label": row["chapter_label"], "slug": row["chapter_slug"]}]
-        else:
-            section_targets, terr = collect_section_targets(
-                url, row["chapter_label"], row["chapter_slug"], depth=0,
-            )
-            if terr:
-                corpus.errors.append(terr)
-            log.info("  chapter %s -> %d leaf sections", url, len(section_targets))
-            # Over-broad guard: skip in seconds + flag for narrowing instead of grinding
-            # a 900s timeout that produces nothing (all-or-nothing revert). Two distinct
-            # reasons: (1) too many leaves to physically fetch inside the automated batch
-            # driver's per-cell timeout, regardless of label — a big chapter that name-
-            # matches the profession (e.g. NE "Chapter 45 - Interest, Loans, and Debt"
-            # matching "loan") still can't finish in time; or (2) a locator mis-pick
-            # (whole title/department) whose label doesn't name the profession at all.
-            if _should_skip_over_broad(profession, row.get("chapter_label", ""), len(section_targets)):
-                budget_max = _fetch_budget_max_leaves()
-                n = len(section_targets)
-                why = (f"exceeds fetch budget ({n} > {budget_max} leaves)"
-                       if budget_max and n > budget_max else
-                       f"label {row.get('chapter_label', '')!r} doesn't match {profession}")
-                log.warning("  SKIP over-broad: %s -> %d leaves; %s — flagged", url, n, why)
-                corpus.errors.append(f"over_broad_skip {url}: {len(section_targets)} leaves")
-                _flag_over_broad(profession, state, url, row.get("chapter_label", ""), len(section_targets))
-                continue
+        section_targets = _resolve_section_targets(corpus, row, url, profession, state)
+        if section_targets is None:
+            continue
 
         for sec in section_targets:
             if sec["url"] in seen_section_urls:
@@ -833,82 +926,10 @@ def pull_state(state: str, profession: str, rows: list[dict], limit_sections: in
             seen_section_urls.add(sec["url"])
             if limit_sections and len(corpus.sections) >= limit_sections:
                 break
-
-            # Inline text already captured by collect_section_targets (IL-style).
-            # If it's an ILCS act blob, split it into per-section records so IL
-            # gets section-level citations + browse instead of one blob (#6).
             if "_inline_text" in sec:
-                text = sec["_inline_text"]
-                bad = bad_section_text(text)
-                if bad:
-                    # Same soft-404/block-page check as the main fetch path below —
-                    # this branch used to skip it entirely, letting Justia's fixed
-                    # 1144-char "Justia Legal Resources / Find a Lawyer" nav blob
-                    # (a wrong/uncodified URL that 200s with no real content div)
-                    # through as if it were real statute text. Found 2026-07-09
-                    # after 53 files across many professions/states had it
-                    # silently committed. See docs/runbooks/cdp_repull_lessons_2026-07-09.md.
-                    corpus.errors.append(f"section {sec['url']}: {bad}")
-                    corpus.sections.append(Section(
-                        url=sec["url"], label=sec["label"],
-                        citation=short_citation(sec["label"]),
-                        text=text, text_len=len(text), error=bad,
-                    ))
-                    continue
-                inline_split = (split_il_inline(text, sec["url"]) if looks_like_il_ilcs(text)
-                                else split_nd_blob(text, sec["url"]) if looks_like_nd_blob(text, sec["url"])
-                                else [])
-                if inline_split:
-                    for s in inline_split:
-                        if limit_sections and len(corpus.sections) >= limit_sections:
-                            break
-                        corpus.sections.append(s)
-                        corpus.total_chars += s.text_len
-                    log.info("  inline-blob split %s -> %d sections", sec["url"], len(inline_split))
-                    continue
-                corpus.sections.append(Section(
-                    url=sec["url"], label=sec["label"],
-                    citation=short_citation(sec["label"]),
-                    text=text, text_len=len(text),
-                ))
-                corpus.total_chars += len(text)
-                continue
-
-            status, html, err = fetch(sec["url"])
-            polite_sleep()
-            if err or not html or (status and not 200 <= status < 300):
-                # Aggregate into corpus.errors too — otherwise a state with
-                # per-section failures looks healthy at the top level and
-                # downstream stages extract from a silently partial corpus
-                # (bit us 2026-06-12: 5 of 9 MI dietetics sections timed out
-                # and nothing flagged it).
-                corpus.errors.append(f"section fetch {sec['url']}: {err or f'http {status}'}")
-                corpus.sections.append(Section(
-                    url=sec["url"], label=sec["label"],
-                    citation=short_citation(sec["label"]),
-                    text="", error=err or f"http {status}",
-                ))
-                continue
-            text = extract_section_text(html)
-            bad = bad_section_text(text)
-            if bad:
-                # 200 OK but no real statute text (empty extraction or a block
-                # page). Flag it so the resumable grind re-pulls rather than
-                # silently shipping a partial/corrupt corpus (would force a
-                # blind re-scrape). Keep the text for inspection.
-                corpus.errors.append(f"section {sec['url']}: {bad}")
-                corpus.sections.append(Section(
-                    url=sec["url"], label=sec["label"],
-                    citation=short_citation(sec["label"]),
-                    text=text, text_len=len(text), error=bad,
-                ))
-                continue
-            corpus.sections.append(Section(
-                url=sec["url"], label=sec["label"],
-                citation=short_citation(sec["label"]),
-                text=text, text_len=len(text),
-            ))
-            corpus.total_chars += len(text)
+                _add_inline_section(corpus, sec, limit_sections)
+            else:
+                _fetch_and_add_section(corpus, sec)
 
     return corpus
 
