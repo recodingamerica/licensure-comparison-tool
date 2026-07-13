@@ -1758,7 +1758,7 @@ export function ProfileView({
       },
       {
         key: "scope",
-        label: "Scope",
+        label: "Scope of practice",
         ids: [
           "scope_definition",
           "scope_methods",
@@ -1768,7 +1768,7 @@ export function ProfileView({
       },
       {
         key: "discipline",
-        label: "Discipline",
+        label: "Disciplinary grounds",
         ids: ["disciplinary_categories", "disciplinary_grounds_count"],
       },
       {
