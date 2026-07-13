@@ -352,46 +352,8 @@ def similarity(a, b, fields, M, sem, cont_stats):
     return num / den, int(n)
 
 
-def analyze(profession: str):
-    d, M, states, kinds, cont_stats = load_matrix(profession)
-    fields = discriminating(M, states)
-    n_states = len(states)
-
-    # CORE comparison set: important fields that MOST states actually answer, so
-    # every pair is graded on the SAME questions. Otherwise overlap rides on
-    # whatever sparse subset two states happen to share, and a state that answers
-    # few questions scores a misleadingly high overlap.
-    core_fields = [
-        f for f in fields
-        if field_cfg(sem_for, f).get("importance", 0.5) >= CORE_IMPORTANCE
-        and len(M[f]) >= CORE_COVERAGE * n_states
-    ]
-    n_core = len(core_fields)
-    core_have = {st: sum(1 for f in core_fields if st in M[f]) for st in states}
-    # a state must answer most of the core to be compared at all; others are
-    # surfaced as "not enough data" rather than given a fake score.
-    sufficient = {st for st in states if n_core and core_have[st] >= CORE_COVERAGE * n_core}
-    insufficient = sorted(set(states) - sufficient)
-
-    # neighbors + distinctiveness — sufficient states only, over the core set
-    sims = {}
-    for a in states:
-        if a not in sufficient:
-            sims[a] = []
-            continue
-        row = []
-        for b in sufficient:
-            if a == b:
-                continue
-            s, n = similarity(a, b, core_fields, M, sem_for, cont_stats)
-            if s is not None:
-                row.append((round(s, 3), b, n))
-        row.sort(reverse=True)
-        sims[a] = row
-    distinct = {a: round(1 - statistics.mean([s for s, _, _ in sims[a]]), 3)
-                for a in sorted(sufficient) if sims[a]}
-
-    # kind outliers: rare value AND far from mode (weighted by importance)
+def _kind_outliers(fields, M, cont_stats):
+    """Kind outliers: rare value AND far from the mode (weighted by importance)."""
     kind_out = []
     for f in fields:
         cfg = field_cfg(sem_for, f)
@@ -412,8 +374,11 @@ def analyze(profession: str):
                     "score": round(cfg.get("importance", 0.5) * dmode * (1 - share), 3),
                 })
     kind_out.sort(key=lambda x: x["score"], reverse=True)
+    return kind_out
 
-    # stringency outliers: ordinal/continuous fields, state level vs distribution
+
+def _stringency_outliers(fields, M):
+    """Stringency outliers: ordinal/continuous fields, state level vs distribution."""
     string_out = []
     for f in fields:
         cfg = field_cfg(sem_for, f)
@@ -449,10 +414,12 @@ def analyze(profession: str):
                     "score": round(cfg.get("importance", 0.5) * abs(z), 3),
                 })
     string_out.sort(key=lambda x: x["score"], reverse=True)
+    return string_out
 
-    # landscape: how much states differ + what separates them — computed over the
-    # SAME core set and sufficient states as the overlap, so it's consistent.
-    suf = sorted(sufficient)
+
+def _landscape(suf, states, core_fields, M, cont_stats):
+    """Landscape: how much states differ + what separates them — computed over the
+    SAME core set and sufficient states as the overlap, so it's consistent."""
     allpairs = []
     for a, b in itertools.combinations(suf, 2):
         s, n = similarity(a, b, core_fields, M, sem_for, cont_stats)
@@ -492,19 +459,17 @@ def analyze(profession: str):
         else "moderate" if _pa and _pa["pct_alike_90"] >= 0.4
         else "wide"
     )
+    return landscape
 
-    for o in kind_out:
-        o["rarity"] = rarity_label(o["n_states"], o["total"])
-    for o in string_out:
-        o["magnitude"] = stringency_label(o["z"], o["direction"])
 
-    # Per-state agreement vs deviation on the higher-importance CATEGORICAL fields.
-    #   typical_on: the state holds the majority value (where it agrees).
-    #   differs_on: it doesn't — the values that make it distinctive, each with a
-    #               label (ordinal extremes -> "far stricter than most"; otherwise
-    #               how-rare the value is). Together these cover every high-value
-    #               question the state answers, so a distinctive state shows many
-    #               differs rows instead of an empty card.
+def _typical_and_differs(states, fields, M, string_out):
+    """Per-state agreement vs deviation on the higher-importance CATEGORICAL fields.
+
+    typical_on: the state holds the majority value (where it agrees).
+    differs_on: it doesn't — the values that make it distinctive, each labeled
+    (ordinal extremes -> "far stricter than most"; otherwise how-rare the value
+    is). Together these cover every high-value question the state answers.
+    """
     vcount = {f: Counter(str(v) for v in M[f].values()) for f in fields if M[f]}
     modes = {f: c.most_common(1)[0][0] for f, c in vcount.items()}
     string_by = {(o["state"], o["field"]): o["magnitude"] for o in string_out}
@@ -534,6 +499,58 @@ def analyze(profession: str):
         dlist.sort(key=lambda x: x[0], reverse=True)
         typical[st] = [x for _, x in tlist[:6]]
         differs[st] = [x for _, x in dlist[:8]]
+    return typical, differs
+
+
+def analyze(profession: str):
+    d, M, states, kinds, cont_stats = load_matrix(profession)
+    fields = discriminating(M, states)
+    n_states = len(states)
+
+    # CORE comparison set: important fields that MOST states actually answer, so
+    # every pair is graded on the SAME questions. Otherwise overlap rides on
+    # whatever sparse subset two states happen to share, and a state that answers
+    # few questions scores a misleadingly high overlap.
+    core_fields = [
+        f for f in fields
+        if field_cfg(sem_for, f).get("importance", 0.5) >= CORE_IMPORTANCE
+        and len(M[f]) >= CORE_COVERAGE * n_states
+    ]
+    n_core = len(core_fields)
+    core_have = {st: sum(1 for f in core_fields if st in M[f]) for st in states}
+    # a state must answer most of the core to be compared at all; others are
+    # surfaced as "not enough data" rather than given a fake score.
+    sufficient = {st for st in states if n_core and core_have[st] >= CORE_COVERAGE * n_core}
+    insufficient = sorted(set(states) - sufficient)
+
+    # neighbors + distinctiveness — sufficient states only, over the core set
+    sims = {}
+    for a in states:
+        if a not in sufficient:
+            sims[a] = []
+            continue
+        row = []
+        for b in sufficient:
+            if a == b:
+                continue
+            s, n = similarity(a, b, core_fields, M, sem_for, cont_stats)
+            if s is not None:
+                row.append((round(s, 3), b, n))
+        row.sort(reverse=True)
+        sims[a] = row
+    distinct = {a: round(1 - statistics.mean([s for s, _, _ in sims[a]]), 3)
+                for a in sorted(sufficient) if sims[a]}
+
+    kind_out = _kind_outliers(fields, M, cont_stats)
+    string_out = _stringency_outliers(fields, M)
+    landscape = _landscape(sorted(sufficient), states, core_fields, M, cont_stats)
+
+    for o in kind_out:
+        o["rarity"] = rarity_label(o["n_states"], o["total"])
+    for o in string_out:
+        o["magnitude"] = stringency_label(o["z"], o["direction"])
+
+    typical, differs = _typical_and_differs(states, fields, M, string_out)
 
     # Rank by distinctiveness desc; break ties by state code so the rank-based
     # bands are deterministic (distinct is built from a set, whose iteration
