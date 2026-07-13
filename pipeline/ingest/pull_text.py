@@ -249,7 +249,24 @@ def fetch(url: str) -> tuple[int | None, str | None, str | None]:
                 "2026-07-13; see git history if you need it.)"
             )
         return fetch_via_scrapling(url)
-    # Non-Justia hosts (PA's legacy static endpoint, etc.): direct curl_cffi.
+    # CORPUS-SOURCE POLICY: statute text is ingested from Justia + PA ONLY. The
+    # only legitimate non-Justia host is PA's legacy static endpoint; fail loud on
+    # anything else so a stray non-Justia/PA target (bad mapping, a copy-paste, a
+    # well-meaning alternate-source scraper) can never be silently pulled in as
+    # corpus. A cell with no Justia/PA source is an accepted `source_unavailable`
+    # gap — NOT a reason to add another fetcher. (This guards ONLY corpus-text
+    # fetching. Discovery/research — web_search, reading a state PDF to LEARN a
+    # citation or whether a profession is regulated — is a separate, unguarded
+    # layer that never produces corpus.)
+    host = urllib.parse.urlparse(url).netloc.lower()
+    if PA_LEGIS_HOST not in host:
+        raise RuntimeError(
+            f"Refusing to fetch corpus text from non-Justia/PA host {host!r} ({url}). "
+            "Statute text is sourced ONLY from Justia + PA (legis.state.pa.us); a cell "
+            "with no Justia/PA source is an accepted source_unavailable gap. Do NOT add "
+            "an alternate-source scraper here."
+        )
+    # PA's legacy static endpoint: direct curl_cffi.
     try:
         r = cffi_requests.get(url, impersonate="chrome", timeout=TIMEOUT,
                               allow_redirects=True)
