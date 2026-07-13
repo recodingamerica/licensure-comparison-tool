@@ -1,6 +1,6 @@
 # State licensing pipeline — handoff documentation
 
-*Generated 2026-07-13 from repo commit `232a02b2`. To get current numbers, run
+*Generated 2026-07-13 from repo commit `bb91799d`. To get current numbers, run
 `python -m pipeline.client.handoff_doc` from the repo root (add `--pdf` for a PDF).*
 
 **For engineers:** this document is the plain-English overview. The technical entry
@@ -119,6 +119,8 @@ job. Here is the whole path a state's law travels — from the raw web page all 
 to the published site — with which steps are free and which cost money:
 
 ![The pipeline, step by step: the full book of state statutes flows down through five steps — Find the right laws (Locate) and Clean the text are free, Keep only what's relevant (Trim) and Pull out the tags (Extract) are the two paid AI steps, and Push to the website (Publish) is free — ending as the interactive website.](pipeline-flow.png)
+
+*An interactive version of this diagram is on the site: [utah-licensing.vercel.app/pipeline](https://utah-licensing.vercel.app/pipeline/index.html) (linked from the home page as "How the pipeline works").*
 
 (LOCATE and CLEAN together are the "find the right acts and clean them up" work;
 TRIM and EXTRACT are the two AI steps that cost money; PUBLISH just packages the

@@ -238,6 +238,8 @@ to the published site — with which steps are free and which cost money:
 
 ![The pipeline, step by step: the full book of state statutes flows down through five steps — Find the right laws (Locate) and Clean the text are free, Keep only what's relevant (Trim) and Pull out the tags (Extract) are the two paid AI steps, and Push to the website (Publish) is free — ending as the interactive website.](pipeline-flow.png)
 
+*An interactive version of this diagram is on the site: [utah-licensing.vercel.app/pipeline](https://utah-licensing.vercel.app/pipeline/index.html) (linked from the home page as "How the pipeline works").*
+
 (LOCATE and CLEAN together are the "find the right acts and clean them up" work;
 TRIM and EXTRACT are the two AI steps that cost money; PUBLISH just packages the
 finished data for the site. The per-state costs shown in the diagram are approximate;
