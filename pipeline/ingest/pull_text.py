@@ -878,33 +878,52 @@ def _add_inline_section(corpus: StateCorpus, sec: dict, limit_sections: int | No
     corpus.total_chars += len(text)
 
 
-def _fetch_and_add_section(corpus: StateCorpus, sec: dict) -> None:
-    """Fetch one section URL and append the record (or an error stub)."""
-    status, html, err = fetch(sec["url"])
+def _fetch_section_text(url: str) -> tuple[str | None, str | None]:
+    """Fetch one section URL, extract its statute text, and validate it.
+
+    The single shared fetch→extract→soft-404-guard path, reused by both the
+    corpus puller (_fetch_and_add_section) and the umbrella puller — so they
+    can't drift (they did: umbrella once lacked this bad_section_text guard).
+    polite_sleep() is applied after the fetch (per-host politeness).
+
+    Returns (text, error):
+      (text, None)   real statute text
+      (text, reason) fetched OK but not real content (soft-404 / thin / block
+                     page) — text kept for inspection
+      (None, reason) the fetch itself failed (http error / exception)
+    """
+    status, html, err = fetch(url)
     polite_sleep()
     if err or not html or (status and not 200 <= status < 300):
-        # Aggregate into corpus.errors too — otherwise a state with per-section
-        # failures looks healthy at the top level and downstream stages extract
-        # from a silently partial corpus (bit us 2026-06-12: 5 of 9 MI dietetics
-        # sections timed out and nothing flagged it).
-        corpus.errors.append(f"section fetch {sec['url']}: {err or f'http {status}'}")
+        return None, err or f"http {status}"
+    text = extract_section_text(html)
+    return text, bad_section_text(text)
+
+
+def _fetch_and_add_section(corpus: StateCorpus, sec: dict) -> None:
+    """Fetch one section URL and append the record (or an error stub)."""
+    text, err = _fetch_section_text(sec["url"])
+    if text is None:
+        # The fetch itself failed. Aggregate into corpus.errors too — otherwise a
+        # state with per-section failures looks healthy at the top level and
+        # downstream stages extract from a silently partial corpus (bit us
+        # 2026-06-12: 5 of 9 MI dietetics sections timed out and nothing flagged it).
+        corpus.errors.append(f"section fetch {sec['url']}: {err}")
         corpus.sections.append(Section(
             url=sec["url"], label=sec["label"],
             citation=short_citation(sec["label"]),
-            text="", error=err or f"http {status}",
+            text="", error=err,
         ))
         return
-    text = extract_section_text(html)
-    bad = bad_section_text(text)
-    if bad:
+    if err:
         # 200 OK but no real statute text (empty extraction or a block page).
         # Flag it so the resumable grind re-pulls rather than silently shipping a
         # partial/corrupt corpus. Keep the text for inspection.
-        corpus.errors.append(f"section {sec['url']}: {bad}")
+        corpus.errors.append(f"section {sec['url']}: {err}")
         corpus.sections.append(Section(
             url=sec["url"], label=sec["label"],
             citation=short_citation(sec["label"]),
-            text=text, text_len=len(text), error=bad,
+            text=text, text_len=len(text), error=err,
         ))
         return
     corpus.sections.append(Section(
