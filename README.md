@@ -39,7 +39,7 @@ commands (clean/trim/extract) that hide the stage details. See
 Live site: https://utah-licensing.vercel.app (pw `utah`).
 
 Across all 13: ~24,102 Evidence-wrapped claims; 98.8% regex-verified against
-source statute (as of 2026-07-11 — regenerate with `python -m pipeline.client.handoff_doc`,
+source statute (as of 2026-07-13 — regenerate with `python -m pipeline.client.handoff_doc`,
 which reuses `pipeline.client.status.build()`, the single source of current
 per-profession counts and cost-to-finish).
 

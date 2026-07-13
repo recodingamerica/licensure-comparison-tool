@@ -1,6 +1,6 @@
 # State licensing pipeline — handoff documentation
 
-*Generated 2026-07-11 from repo commit `fe656932`. To get current numbers, run
+*Generated 2026-07-13 from repo commit `232a02b2`. To get current numbers, run
 `python -m pipeline.client.handoff_doc` from the repo root (add `--pdf` for a PDF).*
 
 **For engineers:** this document is the plain-English overview. The technical entry
@@ -118,33 +118,12 @@ The pipeline runs in stages. Each stage takes the previous stage's output and do
 job. Here is the whole path a state's law travels — from the raw web page all the way
 to the published site — with which steps are free and which cost money:
 
-```
-   Full book of state statutes   (everything Justia has for the state)
-              |
-              |  LOCATE    find the chapters/sections that regulate THIS occupation
-              v
-   The occupation's licensing law
-              |
-              |  CLEAN     strip web-page boilerplate, normalize the text     [free]
-              v
-   Clean statute text
-              |
-              |  TRIM      AI drops the parts not about this occupation       [paid ~$0.05]
-              v
-   Just the relevant law
-              |
-              |  EXTRACT   AI reads it into structured fields / tags          [paid ~$0.15]
-              v
-   Structured data   (one record per occupation, per state)
-              |
-              |  PUBLISH   build the website payload                          [free]
-              v
-   Interactive website
-```
+![The pipeline, step by step: the full book of state statutes flows down through five steps — Find the right laws (Locate) and Clean the text are free, Keep only what's relevant (Trim) and Pull out the tags (Extract) are the two paid AI steps, and Push to the website (Publish) is free — ending as the interactive website.](pipeline-flow.png)
 
 (LOCATE and CLEAN together are the "find the right acts and clean them up" work;
 TRIM and EXTRACT are the two AI steps that cost money; PUBLISH just packages the
-finished data for the site.)
+finished data for the site. The per-state costs shown in the diagram are approximate;
+the exact figures are in the cost table in section 6.)
 
 The stages cost very different amounts, which is what the rest of this section is about.
 Current state of the grid, as of generation:
