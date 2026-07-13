@@ -16,6 +16,7 @@ import argparse
 import json
 import re
 import sys
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
@@ -445,28 +446,28 @@ def stub_row(state: str, profession: str, reason: str, detail: str | None = None
     }
 
 
-def build(profession: str, payload_only: bool = False) -> dict:
-    """Build a profession's frontend payload.
+@dataclass
+class _SectionSources:
+    """Per-state raw source material assembled from trimmed/ + umbrella_text/."""
+    trimmed_with_text: dict[str, int]
+    chapter_urls_by_state: dict[str, list[str]]
+    sections_by_state: dict[str, list[dict]]
+    practice_sections_by_state: dict[str, list[dict]]
+    umbrella_data_by_state: dict[str, dict]
+    umb_scope_by_state: dict[str, dict[str, dict]]
 
-    payload_only=True skips the expensive per-state browse regeneration
-    (`_build_browse_sections` + `_build_browse_tree`) — the CPU hog that
-    fuzzy-matches statute text. Use it when only the table/map/tag data
-    changed (e.g. a re-bucketing) and the per-state browse blobs in Blob are
-    still current. The main payload (table rows + map_prep + tags + quote
-    highlight spans) is rebuilt fully; browse files are left untouched.
+
+def _collect_section_sources(trimmed_dir: Path, umbrella_text_dir: Path) -> _SectionSources:
+    """Load per-state section bodies (practice + umbrella) from trimmed/.
+
+    Builds the section lists the UI's "view in context" panel and browse tree
+    consume. Umbrella section bodies sharing one "UMBRELLA / <chapter_label>"
+    citation prefix are concatenated under a single ref per chapter (that's how
+    extract_state.load_umbrella_text labels them).
     """
-    structured_dir = STRUCTURED_DIR / profession
-    discovered = json.loads((DISCOVERED_DIR / f"{profession}.json").read_text())
-    trimmed_dir = TRIMMED_DIR / profession
-
-    have_struct = {p.stem for p in record_files(structured_dir)}
     trimmed_with_text: dict[str, int] = {}
     chapter_urls_by_state: dict[str, list[str]] = {}
     sections_by_state: dict[str, list[dict]] = {}
-
-    umbrella_text_dir = RESULTS_DIR / "umbrella_text"
-
-    # Per-state raw umbrella + scope data so we can build browse_sections.
     practice_sections_by_state: dict[str, list[dict]] = {}
     umbrella_data_by_state: dict[str, dict] = {}
     umb_scope_by_state: dict[str, dict[str, dict]] = {}
@@ -486,9 +487,8 @@ def build(profession: str, payload_only: bool = False) -> dict:
             practice_sections_by_state[p.stem] = list(section_list)
             # ALSO include umbrella sections so the UI can highlight quotes the
             # extractor drew from umbrella context. Multiple umbrella section
-            # bodies share the same "UMBRELLA / <chapter_label>" citation prefix
-            # (that's how extract_state.load_umbrella_text labels them), so
-            # concatenate their text under a single ref per chapter.
+            # bodies share the same "UMBRELLA / <chapter_label>" citation prefix,
+            # so concatenate their text under a single ref per chapter.
             umb_path = umbrella_text_dir / f"{p.stem}.json"
             if umb_path.exists():
                 umb = json.loads(umb_path.read_text())
@@ -512,109 +512,57 @@ def build(profession: str, payload_only: bool = False) -> dict:
                 section_list.extend(by_chap.values())
             sections_by_state[p.stem] = section_list
 
-    rows: list[dict] = []
-    span_with = span_without = 0
-    for st in ALL_STATES:
-        if st in have_struct:
-            rec = json.loads((structured_dir / f"{st}.json").read_text())
-            # OFF SWITCH (config/publish_options.yaml): when verified absences are
-            # disabled, a research-asserted no-license record falls back to an
-            # ordinary coverage gap, exactly as if we'd never asserted it.
-            if rec.get("source") == "verified_absence" and not INCLUDE_VERIFIED_ABSENCES:
-                rows.append(stub_row(st, profession, "no_credential_in_state_law"))
-                continue
-            row = hoist_row(rec)
-            row["source_chapter_urls"] = chapter_urls_by_state.get(st, [])
-            row["sections"] = sections_by_state.get(st, [])
-            # Concatenate the row's section bodies into one searchable string.
-            # Used by the table's "Statute text" filter — agTextColumnFilter
-            # does case-insensitive substring matching against this string,
-            # so anything inside any section (per-profession OR umbrella)
-            # narrows the table. Stored once per row to keep the matcher
-            # cheap. ~50–500 KB per row depending on state size.
-            row["section_text_full"] = "\n\n".join(
-                s.get("text") or "" for s in row["sections"]
-            )
-            # Per-individual-section data for the /browse view's hierarchy
-            # tree + section detail. Different shape from row.sections (which
-            # aggregates umbrella by chapter for the Sheet's existing "in
-            # context" lookup). Each browse_section is one node in the tree,
-            # tagged with scope_layer + per-section evidence quote spans.
-            # Browse regeneration is the per-state CPU hog. Skip it when only
-            # the payload (table/map/tag data) changed — the browse blobs in
-            # Blob stay current and main() won't re-split/re-upload them.
-            if not payload_only:
-                row["browse_sections"] = _build_browse_sections(
-                    row["_full"],
-                    profession,
-                    practice_sections_by_state.get(st, []),
-                    umbrella_data_by_state.get(st),
-                    umb_scope_by_state.get(st, {}),
-                )
-                # Group browse_sections by scope_layer and build a hierarchy
-                # tree per layer (parsed from each section's Justia URL). The
-                # /browse/[state]/[prof] view renders these as nested
-                # collapsible nodes; flat browse_sections kept alongside for
-                # any consumer that still wants a list.
-                _chap_labels: dict[str, str] = {}
-                umb_state = umbrella_data_by_state.get(st)
-                if umb_state:
-                    for _s in umb_state.get("sections") or []:
-                        _slug = _s.get("umbrella_chapter_slug")
-                        _lbl = _s.get("umbrella_chapter_label")
-                        if _slug and _lbl and _slug not in _chap_labels:
-                            _chap_labels[_slug] = _lbl
-                _by_layer: dict[str, list[dict]] = {}
-                for _bs in row["browse_sections"]:
-                    _by_layer.setdefault(_bs.get("scope_layer") or "practice", []).append(_bs)
-                row["browse_groups"] = [
-                    {"key": layer, "tree": _build_browse_tree(_by_layer[layer], chapter_label_overrides=_chap_labels)}
-                    for layer in ("practice", "umbrella_enumeration", "umbrella_universal")
-                    if _by_layer.get(layer)
-                ]
-            # Attach highlight spans now, against the EXACT section text we're
-            # about to publish. Computing on this side (rather than during
-            # extract/reverify) avoids any normalization drift between the
-            # text the verifier saw and the text the UI will slice.
-            w, wo = _annotate_quote_spans(row["_full"], row["sections"])
-            span_with += w
-            span_without += wo
-            rows.append(row)
-        else:
-            chars = trimmed_with_text.get(st, 0)
-            no_cred = _no_credential_states(profession)
-            if st in no_cred:
-                rows.append(stub_row(st, profession, "no_credential_in_state_law", detail=no_cred[st]))
-                continue
-            if st not in trimmed_with_text:
-                reason = "no_chapter_located"
-            elif chars == 0:
-                reason = "all_sections_dropped_or_repealed"
-            else:
-                reason = "extraction_failed"
-            rows.append(stub_row(st, profession, reason))
+    return _SectionSources(
+        trimmed_with_text=trimmed_with_text,
+        chapter_urls_by_state=chapter_urls_by_state,
+        sections_by_state=sections_by_state,
+        practice_sections_by_state=practice_sections_by_state,
+        umbrella_data_by_state=umbrella_data_by_state,
+        umb_scope_by_state=umb_scope_by_state,
+    )
 
-    # Evidence audit summary (across covered states)
-    verified = unverified = 0
-    for r in rows:
-        if r["coverage_gap"]:
-            continue
-        for _, ev in iter_evidence(r["_full"]):
-            if ev.get("unverified"):
-                unverified += 1
-            else:
-                verified += 1
 
-    structured_by_state = {
-        r["state"]: r["_full"] for r in rows if not r["coverage_gap"]
-    }
-    map_prep = _load_map_prep(profession, structured_by_state)
+def _attach_browse(row: dict, st: str, src: _SectionSources, profession: str) -> None:
+    """Build browse_sections + browse_groups for one covered row.
 
-    # Per-state content tags for every per-item-bucketed list field. Lets the
-    # UI surface, per state, "Fraud, False Advertising, …" for disciplinary
-    # grounds and "Capsulotomy (YAG), Trabeculoplasty, …" for laser procedures,
-    # etc. — instead of only a count or a raw joined string. Empty when the
-    # per-item bucketing hasn't been run.
+    This is the per-state CPU hog (fuzzy-matches statute text). Each
+    browse_section is one node in the /browse tree, tagged with scope_layer +
+    per-section evidence quote spans. Sections are grouped by scope_layer and a
+    hierarchy tree is built per layer (parsed from each section's Justia URL).
+    """
+    row["browse_sections"] = _build_browse_sections(
+        row["_full"],
+        profession,
+        src.practice_sections_by_state.get(st, []),
+        src.umbrella_data_by_state.get(st),
+        src.umb_scope_by_state.get(st, {}),
+    )
+    _chap_labels: dict[str, str] = {}
+    umb_state = src.umbrella_data_by_state.get(st)
+    if umb_state:
+        for _s in umb_state.get("sections") or []:
+            _slug = _s.get("umbrella_chapter_slug")
+            _lbl = _s.get("umbrella_chapter_label")
+            if _slug and _lbl and _slug not in _chap_labels:
+                _chap_labels[_slug] = _lbl
+    _by_layer: dict[str, list[dict]] = {}
+    for _bs in row["browse_sections"]:
+        _by_layer.setdefault(_bs.get("scope_layer") or "practice", []).append(_bs)
+    row["browse_groups"] = [
+        {"key": layer, "tree": _build_browse_tree(_by_layer[layer], chapter_label_overrides=_chap_labels)}
+        for layer in ("practice", "umbrella_enumeration", "umbrella_universal")
+        if _by_layer.get(layer)
+    ]
+
+
+def _annotate_list_field_tags(rows: list[dict], profession: str, map_prep: dict | None) -> None:
+    """Attach per-state content-tag breakdowns for every per-item-bucketed list field.
+
+    Surfaces, per state, the category chips for disciplinary grounds and any
+    discovered profession_specific.* list field, and exposes per-item tag
+    breadth as mappable count fields on map_prep. No-op fields when the per-item
+    bucketing hasn't been run.
+    """
     per_item_cats = _load_per_item_categories(profession)
     disc = per_item_cats.get("licensure.disciplinary_grounds", {})
     disc_by_state = disc.get("by_state", {})
@@ -645,9 +593,8 @@ def build(profession: str, payload_only: bool = False) -> dict:
                     g["category"] = item_buckets[i]
 
     # Expose per-item tag breadth as mappable fields: # of distinct content
-    # categories each state falls into for a list field (e.g. how many laser
-    # procedure types a state authorizes). The map view renders these as
-    # continuous choropleths. Only fields covering ≥2 states are worth a map.
+    # categories each state falls into for a list field. Only fields covering
+    # ≥2 states are worth a map.
     if map_prep is not None:
         count_fields = []
         for fn, v in per_item_cats.items():
@@ -660,22 +607,23 @@ def build(profession: str, payload_only: bool = False) -> dict:
                 )
         map_prep["per_item_count_fields"] = count_fields
 
-    # Normalize citations in the published payload. We do this AFTER
-    # `_annotate_quote_spans` (which uses raw + bracket-variant lookups) and
-    # AFTER `_load_map_prep` (which copies citations onto map rows) so the
-    # downstream display gets consistent text without breaking the internal
-    # citation→section lookup that already ran.
+
+def _normalize_payload_citations(rows: list[dict], map_prep: dict | None) -> None:
+    """Normalize citations across the published payload (rows + map rows).
+
+    Run AFTER _annotate_quote_spans (raw + bracket-variant lookups) and
+    _load_map_prep (copies citations onto map rows) so display text is
+    consistent without breaking the internal citation→section lookup.
+    """
     for r in rows:
-        # iter_evidence walks any Evidence-shaped dict in the tree — finds
-        # citations under r["_full"]["licensure"], ["scope"], ["profession_specific"],
-        # and nested objects like exams[*], disciplinary_grounds[*].
+        # iter_evidence walks any Evidence-shaped dict — finds citations under
+        # licensure, scope, profession_specific, and nested objects.
         for _, ev in iter_evidence(r):
             cite = ev.get("citation")
             if cite:
                 ev["citation"] = normalize_citation(cite)
-        # Section list shipped per row also carries citations — normalize
-        # those too so they line up with the Evidence-node citations the
-        # frontend uses to match a quote to its section text.
+        # Section list shipped per row also carries citations — normalize those
+        # too so they line up with the Evidence-node citations the frontend uses.
         for s in r.get("sections") or []:
             if s.get("citation"):
                 s["citation"] = normalize_citation(s["citation"])
@@ -683,6 +631,91 @@ def build(profession: str, payload_only: bool = False) -> dict:
         for mr in map_prep.get("rows") or []:
             if mr.get("citation"):
                 mr["citation"] = normalize_citation(mr["citation"])
+
+
+def build(profession: str, payload_only: bool = False) -> dict:
+    """Build a profession's frontend payload.
+
+    payload_only=True skips the expensive per-state browse regeneration
+    (`_build_browse_sections` + `_build_browse_tree`) — the CPU hog that
+    fuzzy-matches statute text. Use it when only the table/map/tag data
+    changed (e.g. a re-bucketing) and the per-state browse blobs in Blob are
+    still current. The main payload (table rows + map_prep + tags + quote
+    highlight spans) is rebuilt fully; browse files are left untouched.
+    """
+    structured_dir = STRUCTURED_DIR / profession
+    discovered = json.loads((DISCOVERED_DIR / f"{profession}.json").read_text())
+    trimmed_dir = TRIMMED_DIR / profession
+    umbrella_text_dir = RESULTS_DIR / "umbrella_text"
+
+    have_struct = {p.stem for p in record_files(structured_dir)}
+    src = _collect_section_sources(trimmed_dir, umbrella_text_dir)
+
+    rows: list[dict] = []
+    span_with = span_without = 0
+    for st in ALL_STATES:
+        if st in have_struct:
+            rec = json.loads((structured_dir / f"{st}.json").read_text())
+            # OFF SWITCH (config/publish_options.yaml): when verified absences are
+            # disabled, a research-asserted no-license record falls back to an
+            # ordinary coverage gap, exactly as if we'd never asserted it.
+            if rec.get("source") == "verified_absence" and not INCLUDE_VERIFIED_ABSENCES:
+                rows.append(stub_row(st, profession, "no_credential_in_state_law"))
+                continue
+            row = hoist_row(rec)
+            row["source_chapter_urls"] = src.chapter_urls_by_state.get(st, [])
+            row["sections"] = src.sections_by_state.get(st, [])
+            # Concatenate the row's section bodies into one searchable string
+            # for the table's "Statute text" agTextColumnFilter (case-insensitive
+            # substring). Stored once per row; ~50–500 KB depending on state size.
+            row["section_text_full"] = "\n\n".join(
+                s.get("text") or "" for s in row["sections"]
+            )
+            # Browse regeneration is the per-state CPU hog. Skip it when only
+            # the payload (table/map/tag data) changed — the browse blobs in
+            # Blob stay current and main() won't re-split/re-upload them.
+            if not payload_only:
+                _attach_browse(row, st, src, profession)
+            # Attach highlight spans now, against the EXACT section text we're
+            # about to publish. Computing on this side (rather than during
+            # extract/reverify) avoids any normalization drift between the
+            # text the verifier saw and the text the UI will slice.
+            w, wo = _annotate_quote_spans(row["_full"], row["sections"])
+            span_with += w
+            span_without += wo
+            rows.append(row)
+        else:
+            chars = src.trimmed_with_text.get(st, 0)
+            no_cred = _no_credential_states(profession)
+            if st in no_cred:
+                rows.append(stub_row(st, profession, "no_credential_in_state_law", detail=no_cred[st]))
+                continue
+            if st not in src.trimmed_with_text:
+                reason = "no_chapter_located"
+            elif chars == 0:
+                reason = "all_sections_dropped_or_repealed"
+            else:
+                reason = "extraction_failed"
+            rows.append(stub_row(st, profession, reason))
+
+    # Evidence audit summary (across covered states)
+    verified = unverified = 0
+    for r in rows:
+        if r["coverage_gap"]:
+            continue
+        for _, ev in iter_evidence(r["_full"]):
+            if ev.get("unverified"):
+                unverified += 1
+            else:
+                verified += 1
+
+    structured_by_state = {
+        r["state"]: r["_full"] for r in rows if not r["coverage_gap"]
+    }
+    map_prep = _load_map_prep(profession, structured_by_state)
+
+    _annotate_list_field_tags(rows, profession, map_prep)
+    _normalize_payload_citations(rows, map_prep)
 
     meta = _profession_meta(profession)
     return {
