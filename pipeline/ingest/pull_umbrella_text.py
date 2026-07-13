@@ -27,6 +27,7 @@ from pipeline.config.loaders import load_limits
 # risking a Cloudflare rate-block; see config/limits.yaml fetch.per_host_delay).
 from pipeline.ingest.pull_text import (  # noqa: E402
     fetch, is_section_url, extract_section_text, collect_section_targets, polite_sleep,
+    bad_section_text,
 )
 
 # Number of section targets above which a WARNING is emitted so the operator
@@ -208,7 +209,15 @@ def pull_state_umbrella(state: str, force: bool, source_filter: str | None = Non
                 log.warning("    %s: %s", sec_url, err or f"http {status}")
                 continue
             text = extract_section_text(html)
-            if not text:
+            bad = bad_section_text(text)
+            if bad:
+                # Soft-404 guard — parity with pull_text.pull_state. A Justia URL
+                # that 200s but yields the fixed "Justia Legal Resources / Find a
+                # Lawyer" nav blob (or a thin/blocked extraction) is NOT statute
+                # text. Before this, that blob was silently ingested as real
+                # umbrella content (the `if not text` check only caught truly
+                # empty extractions). See docs/runbooks/cdp_repull_lessons_2026-07-09.md.
+                log.warning("    %s: %s", sec_url, bad)
                 continue
             new_sections.append({
                 "url": sec_url,
