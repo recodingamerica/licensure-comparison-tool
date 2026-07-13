@@ -1,6 +1,11 @@
 # Status
 
-Live site: https://utah-licensing.vercel.app (pw `utah`).
+> **⚠️ Superseded historical snapshot (June 22, 2026).** Counts here (e.g. "7
+> professions") are stale — 13 are now published. For current, live-generated status
+> see `docs/handoff/technical_documentation.md` (regenerate with
+> `python -m pipeline.client.handoff_doc`). Kept for narrative history only.
+
+Live site: https://utah-licensing.vercel.app (behind HTTP Basic Auth).
 Pipeline shape and Postgres direction: see [ARCHITECTURE.md](ARCHITECTURE.md).
 
 ## Just shipped (June 22, 2026)
@@ -226,7 +231,7 @@ Could also persist user choice to URL state for shareable views.
 
 ## Reference
 
-- Live site: https://utah-licensing.vercel.app (pw `utah`)
+- Live site: https://utah-licensing.vercel.app (behind HTTP Basic Auth)
 - Blob: `tf7defwrsanhzl3r.public.blob.vercel-storage.com/data/<profession>.json`
 - Pipeline shape: [ARCHITECTURE.md](ARCHITECTURE.md)
 - Reference repo: `/Users/abigailhaddad/Documents/repos/newyork`

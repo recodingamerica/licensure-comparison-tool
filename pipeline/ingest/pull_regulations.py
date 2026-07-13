@@ -20,9 +20,9 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import re
 
-from pipeline.ingest import pull_text as pt
 from pipeline.paths import RESULTS_DIR
 
 OUT_DIR = RESULTS_DIR / "regulations_text"
@@ -30,14 +30,39 @@ OUT_DIR = RESULTS_DIR / "regulations_text"
 _SECTION_HEAD = re.compile(r"\b(R\d{3}[A-Za-z]?-\d+[a-z]?-\d+[a-z]?)\.")
 
 
+def _cdp_page(cdp_url: str):
+    """Attach to a hand-started debug Chrome over CDP and return (pw, page).
+
+    This admin-rule SPA puller is the last CDP-based tool in the pipeline; the
+    statute-text fetch (pull_text) moved to Scrapling and its shared CDP browser
+    was retired 2026-07-13, so this keeps a small self-contained opener. Requires
+    a debug Chrome started with --remote-debugging-port and a solved challenge;
+    set JUSTIA_CDP_URL (e.g. http://127.0.0.1:9222)."""
+    from playwright.sync_api import sync_playwright
+    pw = sync_playwright().start()
+    browser = pw.chromium.connect_over_cdp(cdp_url)
+    ctx = browser.contexts[0] if browser.contexts else browser.new_context()
+    return pw, ctx.new_page()
+
+
+def _challenge_showing(page) -> bool:
+    t = (page.title() or "").lower()
+    return "just a moment" in t or "attention required" in t
+
+
 def render_spa(url: str, *, want="continuing|hours|shall|section", min_chars=3000, max_polls=20) -> str:
     """Render a JS admin-rule SPA in the CDP Chrome and WAIT for its async body
     to load (the rule text is fetched after domcontentloaded). Returns innerText."""
-    with pt._get_browser_page() as page:
+    cdp_url = os.environ.get("JUSTIA_CDP_URL")
+    if not cdp_url:
+        raise SystemExit("pull_regulations needs a hand-started debug Chrome: set "
+                         "JUSTIA_CDP_URL (e.g. http://127.0.0.1:9222).")
+    pw, page = _cdp_page(cdp_url)
+    try:
         page.goto(url, timeout=90000, wait_until="domcontentloaded")
-        # clear any Cloudflare challenge first (same as fetch_via_browser)
+        # clear any Cloudflare challenge first
         waited = 0
-        while pt._challenge_showing(page) and waited < 120:
+        while _challenge_showing(page) and waited < 120:
             page.wait_for_timeout(2000); waited += 2
         txt = ""
         for _ in range(max_polls):
@@ -46,6 +71,11 @@ def render_spa(url: str, *, want="continuing|hours|shall|section", min_chars=300
             if len(txt) > min_chars and re.search(want, txt, re.I):
                 break
         return txt
+    finally:
+        try:
+            page.close()
+        finally:
+            pw.stop()
 
 
 def split_sections(text: str, rule_url: str) -> list[dict]:
