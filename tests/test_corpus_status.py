@@ -127,6 +127,27 @@ def test_junk_as_200_flag(tree, tmp_path):
     assert ac.has_block_page(p) is False
 
 
+def test_soft_404_navblob_is_flagged(tree, tmp_path):
+    """Regression: the Justia soft-404 nav blob ("Justia Legal Resources / Find a
+    Lawyer") must flag as JUNK_AS_200 even with NO per-section error field. A stale
+    hand-copied _BLOCK_MARKERS mirror once omitted this marker, so 44 committed
+    corpora holding the nav blob passed sync as real content. Importing the marker
+    set from pull_text (single source of truth) closes that drift."""
+    import json as _json
+    from pipeline.ingest.pull_text import _BLOCK_MARKERS as PULL_MARKERS
+    # the markers used by the audit ARE pull_text's, not a divergent copy
+    assert ac._BLOCK_MARKERS is PULL_MARKERS
+    assert any("find a lawyer" in m for m in ac._BLOCK_MARKERS)
+    navblob = "Justia Legal Resources\nFind a Lawyer\nBankruptcy Lawyers\nBusiness Lawyers"
+    w = tree["write"]
+    SEC = "https://law.justia.com/codes/x/title-1/chapter-2/statute-act-9-of-1990/"
+    w(tree["text"], "pharmacy", "OR", {"sections": [
+        {"url": SEC, "text": navblob, "text_len": len(navblob)}]})  # note: no "error" key
+    rows = ac.audit_sync(ac.index_stages())
+    flat = {(r["prof"], r["state"]): r["flags"] for r in rows}
+    assert "JUNK_AS_200" in flat[("pharmacy", "OR")]
+
+
 def test_index_only_helper(tree, tmp_path):
     import json as _json
     # a real section URL with plenty of text is NOT index-only even if it's the only one
