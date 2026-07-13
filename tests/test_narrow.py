@@ -1,6 +1,6 @@
 """Tests for pipeline.discover.gap_harvest.narrow — the over-broad target auto-narrower.
 
-Locks the pure decision logic (the CDP walk is exercised separately with Chrome up):
+Locks the pure decision logic (the live container walk is exercised separately):
   - whole-title URLs are over-broad; a named large chapter that matches the profession is NOT
   - a sub-part whose label names the profession short-circuits to that part
   - leaf title-matches range-FILL between min/max so gap sections come along

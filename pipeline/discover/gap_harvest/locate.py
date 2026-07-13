@@ -1,5 +1,5 @@
 """Search-driven locator — finds the Justia chapter for each (profession, state) via the
-web_search tool (NO CDP). One CLI, three modes:
+web_search tool (no Justia fetch). One CLI, three modes:
 
   # locate all Tier-3 likely-gap cells (default input: gap_harvest/tier3_absence.json)
   python -m pipeline.discover.gap_harvest.locate --gaps [--limit N]

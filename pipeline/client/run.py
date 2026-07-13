@@ -26,7 +26,7 @@ money, so each is its own command and each prints its estimate — including the
 model it's priced against — and waits for a typed "yes" before spending. Bundling
 them would hide the cost; that's the one thing we don't want.
 
-Fetching (`pull_text`) is deliberately NOT here — it needs the CDP setup and everything
+Fetching (`pull_text`) is deliberately NOT here — it needs internet access and everything
 in a handed-off repo is already fetched. See docs/runbooks for re-fetching a state later.
 
 DRY: this only orchestrates. `clean`/`schema`/`trim` shell out to the existing stage

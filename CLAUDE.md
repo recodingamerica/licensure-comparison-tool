@@ -36,8 +36,9 @@ whole CDP apparatus is gone: `JUSTIA_CDP_URL`, the `JUSTIA_SCRAPLING` flag, the 
 fetches now **fail loud** rather than silently pulling a challenge page. The per-host
 delay lives in `config/limits.yaml` (`fetch.per_host_delay_seconds`, default 3.0,
 +jitter); `PULL_HOST_DELAY` overrides. (`git log` for the CDP code; the general technique
-still lives in the `scraping-cloudflare-cdp` skill, and `pull_regulations.py` — admin-rule
-SPAs, a different source — is the one remaining CDP-based tool.)
+still lives in the `scraping-cloudflare-cdp` skill. CDP is now fully out of the pipeline:
+`pull_regulations.py` (admin-rule SPAs) and `probe_justia.py` were deleted 2026-07-13 —
+no CDP-based tool remains.)
 
 - **Tool choice matters**: `pipeline.ingest.refresh_corpus` is for RE-checking corpora
   you already have committed (the annual recodification-check use case) — it decides

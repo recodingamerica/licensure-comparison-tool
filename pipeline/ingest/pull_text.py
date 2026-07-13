@@ -42,7 +42,7 @@ LOGS_DIR.mkdir(parents=True, exist_ok=True)
 
 TIMEOUT = 25
 # Per-section pause. Overridable via PULL_HOST_DELAY (seconds) — set it high for
-# a polite Justia/CDP crawl through the real browser (e.g. 7) so we're not
+# a polite Justia crawl (e.g. 7) so we're not
 # flipping pages every second. Each pause adds up to 60% random jitter so the
 # cadence is human-irregular rather than a steady machine-gun rhythm.
 import random as _random  # local alias; std random is allowed in pipeline code
@@ -115,7 +115,7 @@ class StateCorpus:
 # Scrapling reproduced its corpora without a manual Chrome or a hand-solve, so the
 # CDP machinery (locks, relaunch dance, wedge handling) was removed rather than
 # kept as a break-glass path that itself required manual setup. `git log` for the
-# CDP code, and pull_regulations.py for the one remaining CDP tool (admin-rule SPAs).
+# CDP code (it was removed entirely; no CDP tool remains in the pipeline).
 # Only hosts in _UNBLOCK_HOSTS need Scrapling — Pennsylvania's legacy static
 # endpoint (the only other active source) fetches direct, free, via curl_cffi.
 # (A parallel official-source-per-state effort — Utah XML, SD/NY APIs, NV/CT/WA/

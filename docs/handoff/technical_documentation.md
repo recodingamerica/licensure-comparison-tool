@@ -1,6 +1,6 @@
 # State licensing pipeline — handoff documentation
 
-*Generated 2026-07-13 from repo commit `f2555665`. To get current numbers, run
+*Generated 2026-07-13 from repo commit `de298509`. To get current numbers, run
 `python -m pipeline.client.handoff_doc` from the repo root (add `--pdf` for a PDF).*
 
 **For engineers:** this document is the plain-English overview. The technical entry
@@ -19,7 +19,7 @@ it's now automated and runs unattended (see section 2) — and we have already d
 broadly. Think of the full scope as a grid:
 every occupation we track (94) crossed with every state (50) —
 4,700 occupation/state cells in all. We've gotten law text saved for
-3,643 of them (78%).
+3,645 of them (78%).
 
 That is not the same as "100% coverage is easy and we're just behind" — finding the
 *right* law for a given occupation and state is often genuinely hard, not a checkbox.
@@ -56,8 +56,8 @@ either source's operator.
 
 *(Coverage measured from the saved files' own recorded URLs, not asserted. Both
 sources route through the same file, `pipeline/ingest/pull_text.py` — Justia via
-`fetch_via_scrapling` (a headless stealth browser; a CDP-attached Chrome remains as a
-fallback), PA via `is_pa_legis_url` and its section parser.)*
+`fetch_via_scrapling` (a headless stealth browser that clears Cloudflare
+automatically), PA via `is_pa_legis_url` and its section parser.)*
 
 On update cadence, specifically:
 
@@ -134,9 +134,9 @@ Current state of the grid, as of generation:
 |---|---|---|
 | Published | 13 occupations | Site data built and ready to serve |
 | Extracted, not published | 71 occupations | Structured data exists for at least some states; publishing is a free command |
-| Ready to process | 2,144 occupation/state cells | Law text on disk; needs only the paid AI steps (~$0.20/cell, ~$419.10 for all of them) |
+| Ready to process | 2,146 occupation/state cells | Law text on disk; needs only the paid AI steps (~$0.20/cell, ~$419.50 for all of them) |
 | New occupation, not set up yet | 0 cells (8 occupations) | Law text on disk, but this occupation has never been processed before — see below |
-| Needs a fetch | 13 cells | Law located but text never pulled — requires the scraping setup |
+| Needs a fetch | 12 cells | Law located but text never pulled — requires the scraping setup |
 
 The 13 published occupations: architecture, construction_trades, dentistry, dietetics, electrician, hvac, medicine, nursing, optometry, plumbing, podiatry, professional_engineering, public_accountancy.
 
