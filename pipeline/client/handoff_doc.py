@@ -236,33 +236,12 @@ The pipeline runs in stages. Each stage takes the previous stage's output and do
 job. Here is the whole path a state's law travels — from the raw web page all the way
 to the published site — with which steps are free and which cost money:
 
-```
-   Full book of state statutes   (everything Justia has for the state)
-              |
-              |  LOCATE    find the chapters/sections that regulate THIS occupation
-              v
-   The occupation's licensing law
-              |
-              |  CLEAN     strip web-page boilerplate, normalize the text     [free]
-              v
-   Clean statute text
-              |
-              |  TRIM      AI drops the parts not about this occupation       [paid ~${cost["trim"]:.2f}]
-              v
-   Just the relevant law
-              |
-              |  EXTRACT   AI reads it into structured fields / tags          [paid ~${cost["extract"]:.2f}]
-              v
-   Structured data   (one record per occupation, per state)
-              |
-              |  PUBLISH   build the website payload                          [free]
-              v
-   Interactive website
-```
+![The pipeline, step by step: the full book of state statutes flows down through five steps — Find the right laws (Locate) and Clean the text are free, Keep only what's relevant (Trim) and Pull out the tags (Extract) are the two paid AI steps, and Push to the website (Publish) is free — ending as the interactive website.](pipeline-flow.png)
 
 (LOCATE and CLEAN together are the "find the right acts and clean them up" work;
 TRIM and EXTRACT are the two AI steps that cost money; PUBLISH just packages the
-finished data for the site.)
+finished data for the site. The per-state costs shown in the diagram are approximate;
+the exact figures are in the cost table in section 6.)
 
 The stages cost very different amounts, which is what the rest of this section is about.
 Current state of the grid, as of generation:
@@ -524,6 +503,10 @@ def main() -> None:
         subprocess.run(
             ["pandoc", str(md_path), "-o", str(pdf_path),
              f"--pdf-engine={engine}",
+             # pandoc resolves relative image paths against its cwd, not the
+             # .md's dir; point it at OUT_DIR so the §3 flow image (referenced
+             # as a bare filename, correct for GitHub) is found for the PDF too.
+             f"--resource-path={OUT_DIR}",
              "-V", "geometry:margin=1in", "-V", "fontsize=11pt"],
             check=True,
         )
