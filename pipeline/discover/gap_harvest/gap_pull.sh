@@ -1,10 +1,10 @@
 #!/bin/bash
 # Self-healing gap-harvest pull. ONE state per process (Playwright cross-thread bug),
-# flock-guarded (one CDP Chrome), skips already-pulled (resumable), commits per profession,
-# waits out Chrome-down. Reads results/gap_harvest/pull_worklist.json ({prof: [states]},
-# written by reuse.py). Launch: caffeinate -disu bash pipeline/discover/gap_harvest/gap_pull.sh
+# skips already-pulled (resumable), commits per profession. Fetching is headless via
+# Scrapling (no debug Chrome, no wait-for-Chrome). Reads
+# results/gap_harvest/pull_worklist.json ({prof: [states]}, written by reuse.py).
+# Launch: caffeinate -disu bash pipeline/discover/gap_harvest/gap_pull.sh
 cd "$(git rev-parse --show-toplevel)" || exit 1
-export JUSTIA_CDP_URL=${JUSTIA_CDP_URL:-http://127.0.0.1:9222}
 # Tell pull_text's over-broad guard our own per-cell timeout (below) so it can skip in
 # seconds + flag for narrowing any chapter too large to fetch in that time — regardless
 # of label match — instead of grinding the full timeout and reverting empty every pass
@@ -58,14 +58,13 @@ PY
 
 kill_pull_orphans() {
   # Reap anything the per-cell `timeout` left behind. `timeout` kills refresh_corpus but
-  # NOT its Playwright browser-driver grandchild; an orphaned driver keeps the shared CDP
-  # Chrome and wedges every subsequent cell (the 2026-07-06 cascade: one 15-min timeout
-  # poisoned the whole run). Reap both so a slow cell only costs itself, never the rest.
-  # Targets the pip Playwright driver ONLY (site-packages/…/run-driver) — never the
-  # separate `playwright-mcp` browser tooling.
+  # NOT its browser-driver grandchild; an orphaned driver can wedge subsequent cells (the
+  # 2026-07-06 cascade: one 15-min timeout poisoned the whole run). Reap both so a slow
+  # cell only costs itself. Targets the pip Playwright driver ONLY
+  # (site-packages/…/run-driver) — never the separate `playwright-mcp` browser tooling.
   pkill -f "pipeline.ingest.refresh_corpus"                2>/dev/null
   pkill -f "site-packages/playwright/driver.*run-driver"   2>/dev/null
-  sleep 2   # let the debug Chrome settle before the next connect
+  sleep 2
 }
 
 echo "########## GAP PULL START $(date) ##########"
@@ -74,8 +73,6 @@ for prof in $($PY -c "import json;print(' '.join(sorted(json.load(open('$WL'))))
   changed=0
   for st in $states; do
     is_pulled "$prof" "$st" && continue
-    until curl -s --max-time 5 "$JUSTIA_CDP_URL/json/version" >/dev/null 2>&1; do
-      echo "$(date) Chrome down — waiting 60s"; sleep 60; done
     echo "===== $prof / $st $(date +%T) ====="
     timeout --kill-after=60 900 $PY -m pipeline.ingest.refresh_corpus --profession "$prof" --states "$st" 2>&1 \
       | grep -E "leaf sections|refresh complete|thread|-> 0 leaf|SOLVE" | tail -3

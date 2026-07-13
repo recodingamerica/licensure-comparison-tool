@@ -109,17 +109,18 @@ class StateCorpus:
 
 # --- Cloudflare handling (Justia, which CF-blocks our IPs) ---
 # Justia sits behind a Cloudflare JS challenge that curl_cffi can't solve from
-# datacenter IPs. The ONLY thing that reliably clears it is a hand-started
-# debug Chrome attached over CDP (JUSTIA_CDP_URL) — see _get_browser_page().
-# A residential proxy and ScraperAPI were both tried as no-human-required
-# fallbacks and NEITHER actually clears Justia's challenge (2026-07-08); that
-# code was removed rather than left as a backup that silently doesn't work.
-# Only hosts in _UNBLOCK_HOSTS get browser treatment — Pennsylvania's legacy
-# static endpoint (the only other active source) fetches direct, free, as before.
+# datacenter IPs. It is cleared HEADLESS by Scrapling's StealthySession (camoufox
+# + solve_cloudflare) — the DEFAULT and now ONLY Justia fetcher (see fetch()).
+# The old hand-started-debug-Chrome-over-CDP fallback was retired 2026-07-13:
+# Scrapling reproduced its corpora without a manual Chrome or a hand-solve, so the
+# CDP machinery (locks, relaunch dance, wedge handling) was removed rather than
+# kept as a break-glass path that itself required manual setup. `git log` for the
+# CDP code, and pull_regulations.py for the one remaining CDP tool (admin-rule SPAs).
+# Only hosts in _UNBLOCK_HOSTS need Scrapling — Pennsylvania's legacy static
+# endpoint (the only other active source) fetches direct, free, via curl_cffi.
 # (A parallel official-source-per-state effort — Utah XML, SD/NY APIs, NV/CT/WA/
 # VA/ME/ID/MO/MD/RI/VT/MT/AZ/FL HTML — was removed 2026-07-08: unverified and
-# unused, same reasoning as the proxy/ScraperAPI removal above. See git history
-# if a source needs official-fetch again.)
+# unused. See git history if a source needs official-fetch again.)
 _UNBLOCK_HOSTS = ("law.justia.com",)
 
 
@@ -133,215 +134,6 @@ def _env_get(name: str) -> str | None:
         except Exception:
             pass
     return v
-
-
-# --- Headful-browser fetch for Cloudflare (Justia) via a CDP-attached Chrome ---
-# Cloudflare's "Just a moment" challenge is beaten only by a REAL, hand-driven
-# browser session. We keep ONE headful Chromium open (CDP-attached): the first
-# Justia page solves the challenge, and the cf_clearance cookie carries the rest
-# (fast). Heavy resources (images/media/fonts/css) are blocked to conserve proxy
-# bandwidth. Lazily started, reused across the whole run, closed at exit.
-_BROWSER: dict | None = None
-
-# Exclusive lock on the shared CDP Chrome. Two pull_text processes hitting the
-# SAME debug Chrome concurrently garble each other's pages (the page object is
-# shared global state) — corpora come back as 1-section "partials" that silently
-# overwrite good data. This bit us when an orphaned grind child kept pulling
-# after the parent was killed. Acquire an exclusive flock before first using the
-# browser so a second Justia pull WAITS instead of colliding. Other hosts
-# (MD/SD/NY APIs, curl_cffi) don't use the browser and never contend for it.
-_CDP_LOCK_FH = None
-_CDP_LOCK_PATH = "/tmp/justia_cdp_pull.lock"
-
-
-def _acquire_cdp_lock() -> None:
-    global _CDP_LOCK_FH
-    if _CDP_LOCK_FH is not None:
-        return
-    import fcntl
-    fh = open(_CDP_LOCK_PATH, "w")
-    try:
-        fcntl.flock(fh, fcntl.LOCK_EX | fcntl.LOCK_NB)
-    except OSError:
-        log.warning("  ⏸ another Justia pull holds the CDP lock (%s) — waiting for "
-                    "it to finish (one pull per Chrome)…", _CDP_LOCK_PATH)
-        waited = 0
-        while True:
-            try:
-                fcntl.flock(fh, fcntl.LOCK_EX | fcntl.LOCK_NB)
-                break
-            except OSError:
-                time.sleep(5)
-                waited += 5
-                if waited % 60 == 0:
-                    log.warning("  …still waiting for CDP lock (%ds)", waited)
-                if waited >= 3600:
-                    fh.close()
-                    raise SystemExit("CDP lock held >1h — aborting to avoid a "
-                                     "concurrent-pull collision; check for a stray "
-                                     "pull_text process.")
-        log.info("  ▶ acquired CDP lock, proceeding")
-    _CDP_LOCK_FH = fh
-
-
-def _get_browser_page():
-    global _BROWSER
-    if _BROWSER is None:
-        import atexit
-        # CDP attach (preferred): connect to a REAL Chrome the user started with
-        # --remote-debugging-port. Cloudflare can't see an in-page automation
-        # fingerprint (the automation is out-of-process), so the challenge clears
-        # where a launched/automated Chromium — even headful on a clean home IP —
-        # is blocked. The user solves the first challenge by hand; cf_clearance
-        # then persists in the debug profile. See docs/.../trades_official_sources.
-        cdp = _env_get("JUSTIA_CDP_URL")
-        if cdp:
-            _acquire_cdp_lock()  # serialize: one pull per shared debug Chrome
-            from playwright.sync_api import sync_playwright
-            pw = sync_playwright().start()
-            browser = pw.chromium.connect_over_cdp(cdp)
-            ctx = browser.contexts[0] if browser.contexts else browser.new_context()
-            # Always open OUR OWN dedicated tab — never reuse ctx.pages[0]. That tab
-            # is often a chrome:// page (newtab, or whats-new after an auto-update),
-            # and page.goto() from a chrome:// URL to an https Justia URL hangs the
-            # whole pull (no error, no timeout escape — the classic "wedge"). It also
-            # hijacked/closed the user's visible tab. A fresh new_page() starts at
-            # about:blank (navigates cleanly) and shares the context's cf_clearance
-            # cookie, so nothing is lost. We close it on exit.
-            page = ctx.new_page()
-            # Self-heal leaked tabs: a prior pull killed by `timeout`/SIGTERM never
-            # runs its atexit cleanup, so its Justia tab lingers. Close any OTHER
-            # Justia tabs now (the debug profile isn't used for browsing, and the
-            # flock guarantees no concurrent pull owns one). Keeps Chrome from
-            # accumulating dozens of tabs across a long harvest.
-            for _p in list(ctx.pages):
-                if _p is not page and "justia.com" in (_p.url or ""):
-                    try:
-                        _p.close()
-                    except Exception:
-                        pass
-            _BROWSER = {"pw": pw, "browser": browser, "ctx": ctx, "page": page, "cdp": True, "own_page": True}
-            atexit.register(_close_browser)
-            # Also close our own tab on SIGTERM (timeout-kill) — atexit doesn't run then.
-            try:
-                import signal
-                signal.signal(signal.SIGTERM, lambda *_a: (_close_browser(), os._exit(143)))
-            except Exception:
-                pass
-            return page
-        # No CDP URL set. A launched/automated Chromium (with or without a
-        # residential proxy) does NOT clear Justia's Cloudflare challenge — both
-        # were tried and neither works (2026-07-08) — so there is no fallback
-        # left to attempt. Fail clearly instead of silently launching a browser
-        # that will just sit on the challenge page forever.
-        raise RuntimeError(
-            "JUSTIA_CDP_URL is not set. Justia's Cloudflare challenge can only be "
-            "cleared by attaching to a hand-started debug Chrome over CDP — start "
-            "one and set JUSTIA_CDP_URL (see docs/runbooks/cdp_repull_lessons_2026-07-02.md)."
-        )
-    return _BROWSER["page"]
-
-
-def _close_browser() -> None:
-    global _BROWSER
-    if _BROWSER:
-        try:
-            # Over CDP: don't close the user's real Chrome — but DO close the
-            # dedicated tab we opened, so tabs don't pile up across pulls.
-            # Never close the user's real Chrome — just our own dedicated tab.
-            try:
-                _BROWSER["page"].close()
-            except Exception:
-                pass
-            _BROWSER["pw"].stop()
-        except Exception:
-            pass
-        _BROWSER = None
-
-
-_DEBUG_CHROME_USER_DATA_DIR = os.path.expanduser("~/chrome-debug")
-_DEBUG_CHROME_APP = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
-
-
-def relaunch_debug_chrome(landing_url: str = "https://law.justia.com/codes/kansas/",
-                          wait_s: float = 6.0) -> bool:
-    """Kill the debug Chrome (chrome-debug profile) and relaunch it fresh, then
-    confirm the new instance answers on :9222.
-
-    2026-07-09 lesson (docs/runbooks/cdp_repull_lessons_2026-07-09.md): an
-    intermittent `Browser.setDownloadBehavior: Browser context management is
-    not supported` CDP protocol error kept recurring against a long-lived debug
-    Chrome session — never root-caused, but a full kill+relaunch reliably
-    cleared it every time it was tried by hand. This automates that manual
-    dance so a mid-run CDP death can self-heal instead of just aborting.
-    Does NOT clear a Cloudflare challenge on its own — the landing page may
-    still need a hand-solve in the (now-visible) Chrome window on the first
-    request after relaunch, same as any fresh debug Chrome.
-    """
-    import subprocess
-    global _BROWSER, _CDP_LOCK_FH
-    _close_browser()
-    _CDP_LOCK_FH = None  # the flock fd is tied to the dying process either way
-    subprocess.run(["pkill", "-f", f"user-data-dir={_DEBUG_CHROME_USER_DATA_DIR}"],
-                    capture_output=True)
-    time.sleep(3)
-    try:
-        subprocess.Popen(
-            [_DEBUG_CHROME_APP, "--remote-debugging-port=9222",
-             f"--user-data-dir={_DEBUG_CHROME_USER_DATA_DIR}",
-             "--no-first-run", "--no-default-browser-check", landing_url],
-            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, start_new_session=True,
-        )
-    except Exception as e:
-        log.error("  relaunch_debug_chrome: failed to spawn Chrome: %s", e)
-        return False
-    time.sleep(wait_s)
-    try:
-        import urllib.request
-        urllib.request.urlopen("http://127.0.0.1:9222/json/version", timeout=5)
-        log.info("  ▶ debug Chrome relaunched and answering on :9222")
-        return True
-    except Exception as e:
-        log.error("  relaunch_debug_chrome: new instance not answering: %s", e)
-        return False
-
-
-def _challenge_showing(page) -> bool:
-    t = (page.title() or "").lower()
-    return "just a moment" in t or "attention required" in t
-
-
-def fetch_via_browser(url: str) -> tuple[int | None, str | None, str | None]:
-    """Fetch a Cloudflare-protected URL through the persistent browser (CDP-
-    attached real Chrome, or residential-proxy headful Chromium). Waits for the
-    challenge to clear before returning HTML.
-
-    On a long crawl the cf_clearance cookie expires (~30 min) and the challenge
-    reappears mid-run. Rather than failing the section after 60s (which would
-    drop data), we PAUSE up to CHALLENGE_WAIT and log once, so the user can
-    re-solve it in the Chrome window and the crawl resumes where it left off.
-    """
-    CHALLENGE_WAIT = 360  # seconds to wait for a (re)solve before giving up
-    try:
-        page = _get_browser_page()
-        page.goto(url, timeout=90000, wait_until="domcontentloaded")
-        warned = False
-        waited = 0.0
-        while _challenge_showing(page) and waited < CHALLENGE_WAIT:
-            if not warned:
-                log.warning("  ⏸ Cloudflare challenge on %s — SOLVE IT in the Chrome "
-                            "window; waiting up to %ds…", url, CHALLENGE_WAIT)
-                warned = True
-            page.wait_for_timeout(2000)
-            waited += 2
-        html = page.content()
-        if _challenge_showing(page):
-            return 403, html, "cloudflare challenge did not clear (timed out)"
-        if warned:
-            log.info("  ▶ challenge cleared, resuming")
-        return 200, html, None
-    except Exception as e:
-        return None, None, f"{type(e).__name__}: {e}"
 
 
 _SCRAPLING_SESSION = None
@@ -388,8 +180,8 @@ _CHALLENGE_SIGS = ("just a moment", "checking your browser", "attention required
 
 def fetch_via_scrapling(url: str) -> tuple[int | None, str | None, str | None]:
     """Fetch a Cloudflare-protected Justia URL headless via Scrapling's StealthyFetcher.
-    Returns (status, html, err) — same shape as fetch_via_browser, so every downstream
-    step (leaf detection, section crawl, year-version dedup) is unchanged. Retries a
+    Returns (status, html, err) — the shape every downstream step (leaf detection,
+    section crawl, year-version dedup) expects, so all of that is unchanged. Retries a
     clearly-bad response (empty/challenge/error) up to _SCRAPLING_RETRIES times."""
     last: tuple[int | None, str | None, str | None] = (None, None, "no attempt")
     for attempt in range(_SCRAPLING_RETRIES + 1):
@@ -426,29 +218,11 @@ def _scrapling_available() -> bool:
         return False
 
 
-def _use_scrapling(url: str) -> bool:
-    """Scrapling is the DEFAULT Justia fetcher as of 2026-07-11 (validated: reproduces
-    CDP corpora on 6/8 A/B cells incl. the 426-section CA chapter + year-versioned
-    KY/OR, ≥ CDP elsewhere; headless, no hand-started Chrome, no manual solve, no
-    soft-block). Precedence: JUSTIA_SCRAPLING=0 forces it OFF (→ CDP/cffi fallback);
-    JUSTIA_SCRAPLING=1 forces it ON; unset → ON whenever the library is importable,
-    so a fresh clone without scrapling installed degrades gracefully to CDP/cffi."""
+def _is_justia(url: str) -> bool:
+    """A host that needs Scrapling's Cloudflare solver (Justia). Everything else
+    (PA's legacy static endpoint) fetches direct via curl_cffi."""
     host = urllib.parse.urlparse(url).netloc.lower()
-    if not any(h in host for h in _UNBLOCK_HOSTS):
-        return False
-    flag = _env_get("JUSTIA_SCRAPLING")
-    if flag == "0":
-        return False
-    if flag not in (None, ""):
-        return True
-    return _scrapling_available()
-
-
-def _use_browser(url: str) -> bool:
-    host = urllib.parse.urlparse(url).netloc.lower()
-    if not any(h in host for h in _UNBLOCK_HOSTS):
-        return False
-    return bool(_env_get("JUSTIA_CDP_URL"))
+    return any(h in host for h in _UNBLOCK_HOSTS)
 
 
 def _normalize_url(url: str) -> str:
@@ -462,10 +236,20 @@ def _normalize_url(url: str) -> str:
 
 def fetch(url: str) -> tuple[int | None, str | None, str | None]:
     url = _normalize_url(url)
-    if _use_scrapling(url):
+    if _is_justia(url):
+        # Scrapling is the sole Justia fetcher (the CDP/debug-Chrome fallback was
+        # retired 2026-07-13). Fail loud rather than fall through to curl_cffi,
+        # which just returns a Cloudflare challenge page that would be silently
+        # mis-parsed as an empty corpus.
+        if not _scrapling_available():
+            raise RuntimeError(
+                "Justia is fetched via Scrapling's headless Cloudflare solver, which "
+                "is not installed. Run: pip install 'scrapling[fetchers]' && scrapling "
+                "install. (The old hand-started-debug-Chrome CDP fallback was retired "
+                "2026-07-13; see git history if you need it.)"
+            )
         return fetch_via_scrapling(url)
-    if _use_browser(url):
-        return fetch_via_browser(url)
+    # Non-Justia hosts (PA's legacy static endpoint, etc.): direct curl_cffi.
     try:
         r = cffi_requests.get(url, impersonate="chrome", timeout=TIMEOUT,
                               allow_redirects=True)

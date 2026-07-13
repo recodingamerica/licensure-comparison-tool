@@ -33,9 +33,9 @@ Usage:
   python -m pipeline.eval.verify_urls --sample [--only-bad]          # 1 url / (prof,state)
 
 Reads the frozen profession_index for the mapping source of truth. Fetches
-through pipeline.ingest.pull_text.fetch (Justia -> CDP browser, official ->
-curl_cffi), so a Justia run needs JUSTIA_CDP_URL pointed at a cleared debug
-Chrome, and must not overlap a pull (one scraper per Chrome).
+through pipeline.ingest.pull_text.fetch (Justia -> headless Scrapling, other
+hosts -> curl_cffi), so a Justia run just needs Scrapling installed
+(pip install "scrapling[fetchers]" && scrapling install).
 """
 
 from __future__ import annotations

@@ -3,22 +3,25 @@
 
 `refresh_corpus` re-pulls the FROZEN url map (results/profession_index/<prof>.json)
 for the annual refresh and the Utah handoff. It reuses pull_text's fetching
-(`pull_state`) — it does NOT reimplement fetching — and wraps it in the hardening
-learned during the 2026-07-02 CDP re-pull (docs/runbooks/cdp_repull_lessons_2026-07-02.md):
+(`pull_state`, now headless via Scrapling) — it does NOT reimplement fetching — and
+wraps it in the hardening learned during the 2026-07-02 re-pull
+(docs/runbooks/cdp_repull_lessons_2026-07-02.md):
 
-  * a Chrome-live precheck over CDP (the endpoint /json/version lies);
+  * a startup liveness precheck — one real Justia fetch must succeed before any work;
   * PER-CHAPTER completeness validation — the no-wipe guard is all-or-nothing, so a
     chapter that came back EMPTY (total>0 but one declared chapter has 0 sections) is
     a partial and must NOT be committed;
   * real-fetch detection via `git diff --quiet` — an unchanged file after a --force
-    re-pull means nothing was fetched (Chrome down/wedged), not success;
-  * mid-run CDP-death resilience — a pull that raises a connection error re-checks
-    Chrome; if it recovered, retry the item ONCE; if still dead, abort loudly;
+    re-pull means nothing was fetched, not success;
   * a per-item wall-clock timeout so a genuine hang can't wedge the run forever;
   * a circuit breaker — N consecutive non-productive results aborts the run;
   * per-item commits (never `git add -A`), the message naming prof/state + old→new counts;
   * a year-over-year DIFF REPORT (docs/reports/refresh_diff_<runid>.md) flagging
     vanished chapters (recodification) for human review.
+
+(The mid-run CDP-death retry/relaunch resilience was removed 2026-07-13 with the CDP
+fetcher; Scrapling has no hand-started Chrome to relaunch and self-retries at the
+fetch layer. See git history for the old CDP precheck/relaunch code.)
 
 CLI:
   python -m pipeline.ingest.refresh_corpus --profession X [--states A,B]
@@ -46,7 +49,6 @@ from pipeline.paths import RESULTS_DIR, PROFESSION_INDEX_DIR, TEXT_DIR
 from pipeline.ingest import pull_text
 
 ROOT = Path(__file__).resolve().parents[2]
-CDP_URL = "http://127.0.0.1:9222"
 # A genuinely productive result resets the circuit breaker.
 FRESH = {"OK"}
 
@@ -54,22 +56,12 @@ FRESH = {"OK"}
 # ---------------------------------------------------------------------------
 # Chrome liveness
 # ---------------------------------------------------------------------------
-def chrome_live(cdp_url: str = CDP_URL) -> bool:
-    """Can we open a Justia page over CDP and clear the Cloudflare challenge?
-
-    The /json/version endpoint is unreliable while a pull drives the browser and
-    can respond even in a bad post-update state, so probe via a real fetch
-    instead. Delegates to pull_text.fetch_via_browser(), which owns the ONE
-    hardened connect_over_cdp path (flock, pages[0]-hijack avoidance, leaked-tab
-    self-heal, connection caching/reuse across a run) -- this used to be a
-    second, independent connect_over_cdp+new_page implementation (ported
-    verbatim from a throwaway script) that lacked all of that hardening and
-    opened/closed its own separate CDP session on every call. Two places meant
-    fixes to one didn't apply to the other, and the extra ad-hoc connect/
-    disconnect cycles were a plausible contributor to the intermittent CDP
-    protocol errors chased in docs/runbooks/cdp_repull_lessons_2026-07-09.md.
-    """
-    status, _html, err = pull_text.fetch_via_browser("https://law.justia.com/codes/kansas/")
+def justia_reachable(url: str = "https://law.justia.com/codes/kansas/") -> bool:
+    """Can we fetch a Justia page right now? A startup precheck via one real
+    pull_text.fetch() (headless Scrapling) — if it can't clear Cloudflare or
+    Scrapling isn't installed, the whole run aborts before touching any corpus
+    rather than committing empties."""
+    status, _html, err = pull_text.fetch("https://law.justia.com/codes/kansas/")
     return status == 200 and err is None
 
 
@@ -178,26 +170,10 @@ class _ItemTimeout(Exception):
     pass
 
 
-class _CDPDead(Exception):
-    """Raised when a pull error looks like Chrome/CDP died mid-run."""
-
-
-_CDP_ERR_MARKERS = (
-    "cdp", "connect_over_cdp", "websocket", "target closed", "browser has been closed",
-    "connection closed", "connection refused", "disconnected", "ECONNREFUSED".lower(),
-)
-
-
-def _looks_like_cdp_death(exc: Exception) -> bool:
-    s = f"{type(exc).__name__}: {exc}".lower()
-    return any(m in s for m in _CDP_ERR_MARKERS)
-
-
 def pull_with_timeout(state: str, profession: str, rows: list[dict],
                       cap: int | None, timeout_s: int):
     """Run pull_text.pull_state under a wall-clock timeout. Returns the corpus.
-    Raises _ItemTimeout on hang, _CDPDead on a CDP/connection error, or the
-    original exception otherwise."""
+    Raises _ItemTimeout on hang, or the original exception otherwise."""
     result: dict = {}
 
     def _work():
@@ -212,10 +188,7 @@ def pull_with_timeout(state: str, profession: str, rows: list[dict],
     if t.is_alive():
         raise _ItemTimeout(f"pull_state exceeded {timeout_s}s wall clock (genuine hang)")
     if "error" in result:
-        err = result["error"]
-        if _looks_like_cdp_death(err):
-            raise _CDPDead(str(err)) from err
-        raise err
+        raise result["error"]
     return result["corpus"]
 
 
@@ -246,8 +219,7 @@ def _classify_empty(chapter_urls: list[str]) -> dict[str, str]:
 
 
 def refresh_item(profession: str, state: str, rows: list[dict], *,
-                 force: bool, cap: int | None, timeout_s: int,
-                 chrome_check=chrome_live) -> dict:
+                 force: bool, cap: int | None, timeout_s: int) -> dict:
     """Re-pull one (profession, state), validate, commit iff clean.
 
     Returns a status record with a `result` in:
@@ -260,26 +232,15 @@ def refresh_item(profession: str, state: str, rows: list[dict], *,
       EMPTY        — 0 sections but the chapter urls are LIVE (a scoping / pattern
                      miss, not a dead link); reverted. `url_health` set.
       NOFILE       — the corpus file never appeared
-    On mid-run CDP death that doesn't recover, raises _CDPDead (the run loop aborts).
+    A pull that hangs raises _ItemTimeout; any other pull error propagates to the
+    run loop (which lets it abort loudly rather than committing bad data).
     """
     out_path = TEXT_DIR / profession / f"{state}.json"
     chapter_urls = [r["chapter_url"] for r in rows]
     prior = prior_committed(out_path)
     prev_n = len((prior or {}).get("sections") or [])
 
-    # Attempt the pull; on CDP death, re-check Chrome and retry ONCE.
-    try:
-        corpus = pull_with_timeout(state, profession, rows, cap, timeout_s)
-    except _CDPDead:
-        if not chrome_check():
-            # Chrome not answering a real fetch — try the documented fix (kill +
-            # relaunch the debug Chrome) before giving up. See
-            # docs/runbooks/cdp_repull_lessons_2026-07-09.md.
-            print(f"  Chrome check failed after CDP death at {profession}/{state} — attempting relaunch")
-            if not pull_text.relaunch_debug_chrome() or not chrome_check():
-                raise  # relaunch didn't help either — let the run loop abort loudly
-            print(f"  ▶ relaunch recovered Chrome — retrying {profession}/{state}")
-        corpus = pull_with_timeout(state, profession, rows, cap, timeout_s)
+    corpus = pull_with_timeout(state, profession, rows, cap, timeout_s)
 
     out_path.parent.mkdir(parents=True, exist_ok=True)
     out_path.write_text(json.dumps(asdict(corpus), indent=2))
@@ -496,7 +457,7 @@ def _status_path(run_id: str | None) -> Path:
 # ---------------------------------------------------------------------------
 def run(professions: list[str], only_states: set[str], *, force: bool, cap: int | None,
         timeout_s: int, breaker: int, run_id: str | None,
-        chrome_check=chrome_live) -> dict:
+        chrome_check=justia_reachable) -> dict:
     status: dict = {"started": _now(), "run_id": run_id, "items": {}}
     status_path = _status_path(run_id)
 
@@ -506,13 +467,10 @@ def run(professions: list[str], only_states: set[str], *, force: bool, cap: int 
 
     _save()
     if not chrome_check():
-        print("  debug Chrome not live/clear at startup — attempting relaunch")
-        if not pull_text.relaunch_debug_chrome() or not chrome_check():
-            status["aborted"] = "chrome not live/clear at startup — nothing attempted (relaunch also failed)"
-            _save()
-            print("ABORT: debug Chrome not live on :9222 or Cloudflare-challenged, relaunch didn't help")
-            return status
-        print("  ▶ relaunch recovered Chrome — proceeding")
+        status["aborted"] = "source not reachable — a startup Justia fetch failed (Scrapling installed? network up?); nothing attempted"
+        _save()
+        print("ABORT: startup Justia fetch failed — Scrapling not clearing Cloudflare or network down")
+        return status
 
     work = build_worklist(professions, only_states)
     consec_dead = 0
@@ -521,15 +479,8 @@ def run(professions: list[str], only_states: set[str], *, force: bool, cap: int 
         # Capture the pre-refresh HEAD snapshot BEFORE the item commits, so the
         # diff report compares against last year's committed corpus.
         prior = prior_committed(TEXT_DIR / prof / f"{state}.json")
-        try:
-            rec = refresh_item(prof, state, rows, force=force, cap=cap,
-                               timeout_s=timeout_s, chrome_check=chrome_check)
-        except _CDPDead as e:
-            status["aborted"] = (f"CDP death at {key} and Chrome did not recover: {e} "
-                                 "— aborting rather than grinding out false results")
-            _save()
-            print("ABORT:", status["aborted"])
-            return status
+        rec = refresh_item(prof, state, rows, force=force, cap=cap,
+                           timeout_s=timeout_s)
         rec["prior_snapshot"] = prior
         status["items"][key] = rec
         _save()

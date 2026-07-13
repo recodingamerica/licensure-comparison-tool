@@ -13,7 +13,7 @@ each claim?"
 
 Inputs: Justia URLs.
 Outputs: one `public/data/<profession>.json` per profession, served on a
-gated Next.js site (https://utah-licensing.vercel.app, pw `utah`).
+gated Next.js site (https://utah-licensing.vercel.app, behind HTTP Basic Auth).
 
 Every leaf value in the output is an `Evidence` carrier: `{ value, quote,
 citation, [unverified], [quote_spans] }`. The verbatim quote is regex-
@@ -217,7 +217,7 @@ start to feel painful. Today they're tolerable.
 
 ## Pointers
 
-- Live: https://utah-licensing.vercel.app (pw `utah`)
+- Live: https://utah-licensing.vercel.app (behind HTTP Basic Auth)
 - Blob: `tf7defwrsanhzl3r.public.blob.vercel-storage.com/data/<profession>.json`
 - Repo: `/Users/abigailhaddad/Documents/repos/utah`
 - Reference architecture: `/Users/abigailhaddad/Documents/repos/newyork`

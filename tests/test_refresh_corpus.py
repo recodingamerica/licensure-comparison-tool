@@ -1,15 +1,15 @@
 """Tests for refresh_corpus — the durable annual Justia re-pull.
 
-No network / CDP / pull_state-for-real: pull_state is monkeypatched to return
-fixture corpora, chrome_live is monkeypatched, and git is exercised in a real
-temp repo (per-item commit path). Covers the hardening from
-docs/runbooks/cdp_repull_lessons_2026-07-02.md:
+No network / pull_state-for-real: pull_state is monkeypatched to return fixture
+corpora, the startup liveness check (justia_reachable) is monkeypatched, and git
+is exercised in a real temp repo (per-item commit path). Covers the hardening
+from docs/runbooks/cdp_repull_lessons_2026-07-02.md:
 
   * per-chapter completeness  -> a mapped-but-empty chapter is PARTIAL, not committed
   * real-fetch detection      -> an unchanged file is NOCHANGE
   * circuit breaker           -> 3 consecutive non-productive results aborts
   * diff report               -> a vanished chapter is "likely recodification"; growth is "grew"
-  * chrome-live abort          -> a dead Chrome aborts before any pull
+  * startup liveness abort     -> an unreachable source aborts before any pull
 """
 
 from __future__ import annotations
@@ -45,8 +45,8 @@ def repo(tmp_path, monkeypatch):
     monkeypatch.setattr(rc, "RESULTS_DIR", results)
     monkeypatch.setattr(rc, "PROFESSION_INDEX_DIR", idx_dir)
     monkeypatch.setattr(rc, "TEXT_DIR", text_dir)
-    # chrome is "live" unless a test overrides.
-    monkeypatch.setattr(rc, "chrome_live", lambda *a, **k: True)
+    # source is "reachable" unless a test overrides.
+    monkeypatch.setattr(rc, "justia_reachable", lambda *a, **k: True)
     return root, idx_dir, text_dir
 
 
@@ -95,8 +95,7 @@ class TestPerChapterCompleteness:
 
         rec = rc.refresh_item("med", "CA",
                               [{"chapter_url": ch_a}, {"chapter_url": ch_b}],
-                              force=False, cap=None, timeout_s=60,
-                              chrome_check=lambda: True)
+                              force=False, cap=None, timeout_s=60)
         assert rec["result"] == "PARTIAL"
         assert ch_b in rec["empty_chapters"]
         # Reverted: the committed file is still the seed (1 section), uncommitted.
@@ -116,8 +115,7 @@ class TestPerChapterCompleteness:
         monkeypatch.setattr(rc.pull_text, "pull_state", lambda *a, **k: new)
         rec = rc.refresh_item("med", "CA",
                               [{"chapter_url": ch_a}, {"chapter_url": ch_b}],
-                              force=False, cap=None, timeout_s=60,
-                              chrome_check=lambda: True)
+                              force=False, cap=None, timeout_s=60)
         assert rec["result"] == "OK"
         assert rec["prev"] == 1 and rec["new"] == 3
         # Committed: HEAD now has the 3-section corpus, working tree clean.
@@ -135,7 +133,7 @@ class TestPerChapterCompleteness:
                             lambda *a, **k: _corpus("CA", "med", [ch], []))  # 0 sections
         monkeypatch.setattr(rc, "_classify_empty", lambda urls: {u: "DEAD_404" for u in urls})
         rec = rc.refresh_item("med", "CA", [{"chapter_url": ch}],
-                              force=False, cap=None, timeout_s=60, chrome_check=lambda: True)
+                              force=False, cap=None, timeout_s=60)
         assert rec["result"] == "DEAD"
         assert rec["url_health"][ch] == "DEAD_404"
 
@@ -149,7 +147,7 @@ class TestPerChapterCompleteness:
                             lambda *a, **k: _corpus("CA", "med", [ch], []))
         monkeypatch.setattr(rc, "_classify_empty", lambda urls: {u: "LIVE" for u in urls})
         rec = rc.refresh_item("med", "CA", [{"chapter_url": ch}],
-                              force=False, cap=None, timeout_s=60, chrome_check=lambda: True)
+                              force=False, cap=None, timeout_s=60)
         assert rec["result"] == "EMPTY"  # live link, just no matching sections
 
 
@@ -166,8 +164,7 @@ class TestRealFetchDetection:
         same = _corpus("CA", "med", [ch], [ch + "s1", ch + "s2"])
         monkeypatch.setattr(rc.pull_text, "pull_state", lambda *a, **k: same)
         rec = rc.refresh_item("med", "CA", [{"chapter_url": ch}],
-                              force=False, cap=None, timeout_s=60,
-                              chrome_check=lambda: True)
+                              force=False, cap=None, timeout_s=60)
         assert rec["result"] == "NOCHANGE"
 
 
@@ -247,10 +244,10 @@ class TestDiffReport:
 
 
 # ---------------------------------------------------------------------------
-# Chrome-live abort
+# Startup liveness abort
 # ---------------------------------------------------------------------------
-class TestChromeLiveAbort:
-    def test_dead_chrome_aborts_without_pulling(self, repo, monkeypatch):
+class TestStartupLivenessAbort:
+    def test_unreachable_source_aborts_without_pulling(self, repo, monkeypatch):
         root, idx_dir, text_dir = repo
         ch = "https://law.justia.com/codes/x/title-1/chapter-1/"
         _write_index(idx_dir, "med", {"CA": {"matched": [{"url": ch}]}})
@@ -260,42 +257,23 @@ class TestChromeLiveAbort:
         called = {"pull": False}
         def boom(*a, **k):
             called["pull"] = True
-            raise AssertionError("pull_state must NOT run when Chrome is dead")
+            raise AssertionError("pull_state must NOT run when the source is unreachable")
         monkeypatch.setattr(rc.pull_text, "pull_state", boom)
 
         status = rc.run(["med"], set(), force=False, cap=None, timeout_s=60,
                         breaker=3, run_id="t", chrome_check=lambda: False)
         assert "aborted" in status
-        assert "chrome not live" in status["aborted"].lower()
+        assert "not reachable" in status["aborted"].lower()
         assert called["pull"] is False
 
 
 # ---------------------------------------------------------------------------
-# Mid-run CDP death resilience
+# A pull error propagates (no more CDP-death retry — Scrapling self-retries at
+# the fetch layer; a hard pull failure aborts the run loudly rather than
+# committing bad data).
 # ---------------------------------------------------------------------------
-class TestCDPDeathResilience:
-    def test_retry_once_on_recovered_chrome(self, repo, monkeypatch):
-        root, idx_dir, text_dir = repo
-        ch = "https://law.justia.com/codes/x/title-1/chapter-1/"
-        _write_index(idx_dir, "med", {"CA": {"matched": [{"url": ch}]}})
-        _commit_corpus(root, text_dir, "med", "CA",
-                       asdict(_corpus("CA", "med", [ch], [ch + "s1"])))
-        calls = {"n": 0}
-
-        def flaky(state, prof, rows, cap):
-            calls["n"] += 1
-            if calls["n"] == 1:
-                raise RuntimeError("Target closed: CDP websocket disconnected")
-            return _corpus("CA", "med", [ch], [ch + "s1", ch + "s2"])
-        monkeypatch.setattr(rc.pull_text, "pull_state", flaky)
-
-        rec = rc.refresh_item("med", "CA", [{"chapter_url": ch}],
-                              force=False, cap=None, timeout_s=60,
-                              chrome_check=lambda: True)  # Chrome recovered
-        assert calls["n"] == 2  # retried once
-        assert rec["result"] == "OK"
-
-    def test_abort_when_chrome_stays_dead(self, repo, monkeypatch):
+class TestPullErrorPropagates:
+    def test_hard_pull_error_propagates(self, repo, monkeypatch):
         root, idx_dir, text_dir = repo
         ch = "https://law.justia.com/codes/x/title-1/chapter-1/"
         _write_index(idx_dir, "med", {"CA": {"matched": [{"url": ch}]}})
@@ -303,12 +281,9 @@ class TestCDPDeathResilience:
                        asdict(_corpus("CA", "med", [ch], [ch + "s1"])))
 
         def dead(*a, **k):
-            raise RuntimeError("connection refused: CDP")
+            raise RuntimeError("scrapling session died")
         monkeypatch.setattr(rc.pull_text, "pull_state", dead)
 
-        status = rc.run(["med"], set(), force=False, cap=None, timeout_s=60,
-                        breaker=3, run_id="t", chrome_check=lambda: True)
-        # Chrome check at startup True, per-item check True, but pull keeps dying
-        # -> _CDPDead re-raised on the retry -> run aborts.
-        assert "aborted" in status
-        assert "CDP death" in status["aborted"]
+        with pytest.raises(RuntimeError, match="scrapling session died"):
+            rc.run(["med"], set(), force=False, cap=None, timeout_s=60,
+                   breaker=3, run_id="t", chrome_check=lambda: True)
