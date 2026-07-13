@@ -88,17 +88,13 @@ def _sec_count(fp: Path) -> int | None:
     return None
 
 
-# Cloudflare/bot block-page markers. Mirror of pull_text._BLOCK_MARKERS — kept here
-# (a short constant) so corpus_status stays free of pull_text's heavy deps. A
-# block page that slipped past the pull-time guard sits in text/ as "real" content.
-_BLOCK_MARKERS = (
-    "just a moment",
-    "verifying you are human",
-    "attention required! | cloudflare",
-    "needs to review the security of your connection",
-    "enable javascript and cookies to continue",
-    "cloudflare ray id",
-)
+# Cloudflare/bot block-page + Justia soft-404 markers. Import the SINGLE source of
+# truth from pull_text rather than re-listing it — a hand-copied mirror here silently
+# drifted (it predated the 2026-07-09 soft-404 nav-blob markers), so 44 committed
+# corpora holding Justia's "Find a Lawyer" nav blob passed `sync` unflagged as real
+# content. Importing pull_text is cheap and does NOT pull in Scrapling/camoufox
+# (those are lazy-imported inside fetch()); this tool already runs from the venv.
+from pipeline.ingest.pull_text import _BLOCK_MARKERS  # noqa: E402
 
 
 def has_block_page(text_path: Path) -> bool:
