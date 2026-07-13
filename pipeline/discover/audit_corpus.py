@@ -6,8 +6,8 @@ silently counts it as coverage. This runs a coverage check over a profession's p
 corpus and flags any state whose text is not actually that occupation's licensure law,
 so a wrong pull is caught instead of believed.
 
-It's the durable form of the ad-hoc audit validated on 2026-06-29: across 4 trades /
-146 states it flagged exactly the ~7 wrong/repealed pulls (WA-hvac = abandoned-fridge
+It's the durable form of the ad-hoc audit validated on 2026-06-29: across 146 corpora
+(4 trades × their states) it flagged exactly the ~7 wrong/repealed pulls (WA-hvac = abandoned-fridge
 criminal statute; KY-electrician, NH-plumbing = repealed; OR-electrician = fire-safety
 statute; architecture ND/OR/AL) with NO false alarms, at ~$0.04/state. It is consistent
 run-to-run (same verdict on the same corpus).

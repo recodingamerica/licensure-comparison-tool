@@ -1,6 +1,6 @@
 # State licensing pipeline — handoff documentation
 
-*Generated 2026-07-13 from repo commit `bb91799d`. To get current numbers, run
+*Generated 2026-07-13 from repo commit `f2555665`. To get current numbers, run
 `python -m pipeline.client.handoff_doc` from the repo root (add `--pdf` for a PDF).*
 
 **For engineers:** this document is the plain-English overview. The technical entry
@@ -291,10 +291,10 @@ Three things to understand about these numbers:
 - **We actively hunt for our own mistakes, and they do happen.** Two purpose-built
   audits exist because processed-and-published is not the same as verified-correct:
   `pipeline/discover/audit_corpus.py` re-checks whether a pulled corpus is actually
-  that occupation's licensure law — in its validated run across 4 trades / 146 states,
-  it correctly flagged ~7 real mistakes (a repealed statute counted as current law, a
-  fire-safety or criminal statute pulled instead of the licensing act) with zero false
-  alarms. `pipeline/eval/corpus_drift.py` catches a different failure: a corpus that
+  that occupation's licensure law — on its validation run it correctly flagged the real
+  mistakes (a repealed statute counted as current law, a fire-safety or criminal statute
+  pulled instead of the licensing act) with no false alarms.
+  `pipeline/eval/corpus_drift.py` catches a different failure: a corpus that
   silently stopped matching its own mapping after the mapping changed (a real bug it
   found: a state's committed corpus was still answering to a mapping that had been
   replaced, and nobody had noticed because the page still "had text" on it). Both
