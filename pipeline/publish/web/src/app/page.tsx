@@ -123,6 +123,13 @@ export default function HomePage() {
       </p>
       <p className="mb-6 text-sm">
         <a
+          href="/pipeline/index.html"
+          className="underline underline-offset-4 hover:text-muted-foreground"
+        >
+          How the pipeline works →
+        </a>
+        {" · "}
+        <a
           href="/methodology/index.html"
           className="underline underline-offset-4 hover:text-muted-foreground"
         >
