@@ -409,10 +409,10 @@ Three things to understand about these numbers:
 - **We actively hunt for our own mistakes, and they do happen.** Two purpose-built
   audits exist because processed-and-published is not the same as verified-correct:
   `pipeline/discover/audit_corpus.py` re-checks whether a pulled corpus is actually
-  that occupation's licensure law — in its validated run across 4 trades / 146 states,
-  it correctly flagged ~7 real mistakes (a repealed statute counted as current law, a
-  fire-safety or criminal statute pulled instead of the licensing act) with zero false
-  alarms. `pipeline/eval/corpus_drift.py` catches a different failure: a corpus that
+  that occupation's licensure law — on its validation run it correctly flagged the real
+  mistakes (a repealed statute counted as current law, a fire-safety or criminal statute
+  pulled instead of the licensing act) with no false alarms.
+  `pipeline/eval/corpus_drift.py` catches a different failure: a corpus that
   silently stopped matching its own mapping after the mapping changed (a real bug it
   found: a state's committed corpus was still answering to a mapping that had been
   replaced, and nobody had noticed because the page still "had text" on it). Both
@@ -466,7 +466,7 @@ def readme_status_block() -> str:
     pub_list = ", ".join(f"**{p}**" for p in published)
 
     return f"""{len(published)} professions published end-to-end, all 50 states each: {pub_list}.
-Live site: https://utah-licensing.vercel.app (pw `utah`).
+Live site: https://utah-licensing.vercel.app (behind HTTP Basic Auth).
 
 Across all {len(published)}: ~{total:,} Evidence-wrapped claims; {pct}% regex-verified against
 source statute (as of {today} — regenerate with `python -m pipeline.client.handoff_doc`,

@@ -19,8 +19,8 @@ Data lives in `results/gap_harvest/` (override `GAP_HARVEST_DIR`): `tier3_absenc
 gap list), `locator_results.json` (located URLs), `pull_worklist.json`, `reused.json`,
 `relocate_worklist.json`, `discovered_occupations.json`.
 
-The **pull** itself uses the existing CDP stack (`refresh_corpus`), driven by `gap_pull.sh`:
-ONE state per process (Playwright cross-thread bug), flock-guarded (one Chrome), skips
+The **pull** itself uses `refresh_corpus` (headless Scrapling — CDP retired 2026-07-13),
+driven by `gap_pull.sh`: ONE state per process (Playwright cross-thread bug), skips
 already-pulled (resumable), commits per profession, `caffeinate -disu`.
 
 ## End-to-end recipe
@@ -31,7 +31,7 @@ already-pulled (resumable), commits per profession, `caffeinate -disu`.
 3. locate  --recover-nulls→ recover exemption chapters the strict pass skipped
 4. write targets          → config/mapping_overrides.yaml (via=gap_locator) + rebuild indexes
 5. reuse                  → copy ~1/3 from existing corpora; rest → pull_worklist.json
-6. gap_pull.sh            → CDP pull the rest (one state/process, resumable)
+6. gap_pull.sh            → pull the rest, headless (one state/process, resumable)
 7. cleanup --relocate     → fix the ~1% dead + wrong-level, re-pull
 8. clean → trim → discover_schema → extract_state_batch   (consistency-gated)
 ```
@@ -47,8 +47,8 @@ it) + 7 others. Attorneys/bar admission are court-regulated — out of OPLR scop
 ## Gotchas
 
 - Needs the `web_search` tool on the Anthropic key — probe once (absent in some headless runs).
-- ONE CDP process at a time; never two committing git processes at once.
+- ONE pull process at a time; never two committing git processes at once.
 - HTTP 200 is meaningless on Justia — gate located URLs through `verify_urls` (and `cleanup`
   catches 404s the pull stored as a 1-section corpus).
-- Full plan + cost model (~$0.20/cell extract; CDP time is the real constraint):
+- Full plan + cost model (~$0.20/cell extract; fetch time is the real constraint):
   `docs/runbooks/gap_harvest_plan_2026-07-05.md`.

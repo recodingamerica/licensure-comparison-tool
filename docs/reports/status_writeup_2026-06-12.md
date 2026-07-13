@@ -2,7 +2,7 @@
 
 **June 12, 2026**
 
-Live site: utah-licensing.vercel.app (password: `utah`)
+Live site: utah-licensing.vercel.app (behind HTTP Basic Auth)
 
 ## Summary
 
