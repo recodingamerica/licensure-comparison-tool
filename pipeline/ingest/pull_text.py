@@ -279,9 +279,19 @@ def fetch(url: str) -> tuple[int | None, str | None, str | None]:
 YEAR_SEG = re.compile(r"^(?:19|20)\d\d$")
 
 
+# A Justia "statute-act-..." / "statute-e-r-o-..." slug (Michigan's act-level
+# layout) is a CONTAINER page listing many section links, NOT a leaf section --
+# unlike a genuine leaf slug "statute-637-005" (NV/NE) where a DIGIT follows
+# "statute-". SECTION_SEG matches the broad "statute[-_]" prefix, so without this
+# guard is_section_url treats the act container as a single leaf and the puller
+# captures only the act's preamble (n=1). Route it to the section walk instead so
+# its child sections are drilled. See issue #8 / test_pull_text_mi_act.py.
+_STATUTE_CONTAINER = re.compile(r"^statute[-_](?![0-9])", re.IGNORECASE)
+
+
 def is_section_url(url: str) -> bool:
     last = [s for s in urllib.parse.urlparse(url).path.split("/") if s][-1]
-    return bool(SECTION_SEG.match(last))
+    return bool(SECTION_SEG.match(last)) and not _STATUTE_CONTAINER.match(last)
 
 
 def extract_child_links(html: str, base_url: str) -> tuple[list[dict], list[dict]]:
@@ -344,7 +354,11 @@ def extract_child_links(html: str, base_url: str) -> tuple[list[dict], list[dict
             continue
         seen.add(u.path)
         item = {"url": absolute, "label": label, "slug": last}
-        if SECTION_SEG.match(last):
+        if _STATUTE_CONTAINER.match(last):
+            # MI "statute-act-.../statute-e-r-o-..." act container — drill it for
+            # its section leaves rather than mistaking it for a leaf (issue #8).
+            intermediates.append(item)
+        elif SECTION_SEG.match(last):
             sections.append(item)
         elif INTERMEDIATE_SEG.match(last):
             intermediates.append(item)
