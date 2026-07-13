@@ -3,7 +3,7 @@
 The per-host delay lives in config/limits.yaml (fetch.per_host_delay_seconds)
 so it's visible alongside every other data/risk knob; env PULL_HOST_DELAY
 overrides it for a run. This is a BLOCK-RISK knob — too low and Cloudflare
-rate-blocks the CDP session mid-run. Every discovery crawler that imports
+rate-blocks the fetch session mid-run. Every discovery crawler that imports
 PER_HOST_DELAY picks up the configured value here.
 """
 

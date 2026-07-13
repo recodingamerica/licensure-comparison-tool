@@ -30,7 +30,7 @@ from pipeline import provenance
 
 # --- cost model ----------------------------------------------------------------
 # From docs/runbooks/gap_harvest_plan_2026-07-05.md: the only per-cell $ steps are
-# the two LLM stages. clean (deterministic), pull (CDP time, not $), and publish
+# the two LLM stages. clean (deterministic), pull (fetch time, not $), and publish
 # (deterministic) are free. Kept here as the single source of truth so the runner
 # and dashboard quote the same numbers.
 COST_TRIM = 0.05      # trim_state, Haiku
@@ -46,7 +46,7 @@ COST_SCHEMA = 1.00
 OUT = RESULTS_DIR / "status" / "status.json"
 
 # Stage a cell has reached -> (remaining $ to finish, needs a fetch first?).
-# "ready" stages are everything the client can run themselves (no CDP): the corpus
+# "ready" stages are everything the client can run themselves (no fetch): the corpus
 # is already on disk. "needs-fetch"/"absent"/"unknown" have no local corpus.
 _READY_COST = {
     "trimmed": COST_TO_EXTRACT,

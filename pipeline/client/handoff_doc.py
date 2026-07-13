@@ -174,8 +174,8 @@ either source's operator.
 
 *(Coverage measured from the saved files' own recorded URLs, not asserted. Both
 sources route through the same file, `pipeline/ingest/pull_text.py` — Justia via
-`fetch_via_scrapling` (a headless stealth browser; a CDP-attached Chrome remains as a
-fallback), PA via `is_pa_legis_url` and its section parser.)*
+`fetch_via_scrapling` (a headless stealth browser that clears Cloudflare
+automatically), PA via `is_pa_legis_url` and its section parser.)*
 
 On update cadence, specifically:
 

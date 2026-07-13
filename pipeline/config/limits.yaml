@@ -86,7 +86,7 @@ umbrella_from_citations:
 fetch:
   # Seconds to pause between section fetches against Justia (one host), plus up
   # to 60% random jitter. This is a BLOCK-RISK knob, not just mechanics: too low
-  # and Cloudflare rate-blocks the CDP session mid-run. Env PULL_HOST_DELAY
+  # and Cloudflare rate-blocks the fetch session mid-run. Env PULL_HOST_DELAY
   # overrides this. Governs pull_text.py AND pull_umbrella_text.py (both route
   # through polite_sleep). _fetch_config.PER_HOST_DELAY default also reads this.
   per_host_delay_seconds: 1.0

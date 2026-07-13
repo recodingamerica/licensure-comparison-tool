@@ -11,7 +11,8 @@ results/hierarchy/<STATE>.json (provenance: parent_chapter_url), so the mapper
 sees the real article list. It's the "discover structure first, in order" crawl:
 run it across states, THEN map, THEN pull text for the chapters that map.
 
-Justia-bound: shares the CDP Chrome via the flock; run with the text-grind paused.
+Justia-bound (headless Scrapling fetch); run with the text-grind paused — one
+Justia fetcher at a time.
 Idempotent: skips containers whose children are already present.
 
 Run:
@@ -78,7 +79,7 @@ _SUBGROUP = re.compile(
     r"general provisions|licensing procedures?", re.I)
 
 
-CHECKPOINT_EVERY = 5  # flush the hierarchy to disk every N expanded containers (CDP
+CHECKPOINT_EVERY = 5  # flush the hierarchy to disk every N expanded containers (Justia
                       # fetches are slow + can wait on challenges, so checkpoint often)
 
 

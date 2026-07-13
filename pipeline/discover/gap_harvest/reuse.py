@@ -6,7 +6,7 @@ re-fetching — LLM-free, instant. Writes the reused corpora and the remaining p
   python -m pipeline.discover.gap_harvest.reuse
 
 Reads gap_harvest/locator_results.json; writes text/<prof>/<state>.json for reused cells,
-gap_harvest/pull_worklist.json (what still needs a CDP pull), gap_harvest/reused.json.
+gap_harvest/pull_worklist.json (what still needs a pull), gap_harvest/reused.json.
 """
 from __future__ import annotations
 import json, glob, os

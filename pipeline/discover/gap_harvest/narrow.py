@@ -14,7 +14,8 @@ module does the same, LLM-free:
     the profession's professions.yaml patterns. (Label-match is the discriminator that
     spares a legitimately-large named chapter like medicine/CA.)
 
-  NARROW (CDP, driver MUST be stopped — shares the one debug Chrome) — `--apply P/ST…`:
+  NARROW (fetches via Scrapling; run with the pull driver STOPPED — one Justia
+  fetcher at a time) — `--apply P/ST…`:
     Walk the container one–two levels via expand_containers.container_children; if a
     sub-part's LABEL names the profession ("Part II - Emergency Medical Personnel",
     "Article 5 - Public Weighmasters") pull that part; else title-match the leaf
@@ -157,8 +158,8 @@ def is_leaf_label(label: str) -> bool:
 
 
 def scope_from_children(children: list[dict], patterns: list[str], excludes: list[str]) -> dict | None:
-    """Given a container's immediate children, decide the scoped target. Pure — the CDP
-    walk supplies `children`. Returns one of:
+    """Given a container's immediate children, decide the scoped target. Pure — the
+    container walk supplies `children`. Returns one of:
       {"url": <part-url>, "label": …}                    a named sub-part matched
       {"section_url_list": [...]}                          leaf sections (range-filled)
       None                                                 nothing matched (absence)
@@ -198,11 +199,11 @@ def scope_from_children(children: list[dict], patterns: list[str], excludes: lis
 
 
 # --------------------------------------------------------------------------- #
-# CDP walk (needs the debug Chrome — run with the pull driver STOPPED)
+# Container walk (headless Scrapling fetch — run with the pull driver STOPPED)
 # --------------------------------------------------------------------------- #
 def walk_container(url: str, max_depth: int = WALK_MAX_DEPTH) -> list[dict]:
     """Flatten a container's children down to `max_depth`, so a part→sections layout
-    still yields the leaf sections. One CDP fetch per intermediate node."""
+    still yields the leaf sections. One fetch per intermediate node."""
     from pipeline.discover.expand_containers import container_children
     from pipeline.ingest import pull_text as pt
 
@@ -271,7 +272,7 @@ def content_matches(text: str, patterns: list[str], excludes: list[str]) -> bool
 
 
 def narrow_cell(prof: str, state: str, profs: dict, threshold: int = OVER_BROAD_SECTIONS) -> dict:
-    """CDP: narrow one over-broad cell. Rewrites the profession_index target in place
+    """Narrow one over-broad cell (fetches via Scrapling). Rewrites the profession_index target in place
     (via='narrow') and returns a verdict dict. Caller re-adds narrowed cells to the
     worklist and records absences."""
     patterns, excludes = patterns_for(prof, profs)
@@ -346,7 +347,7 @@ def main() -> int:
     ap.add_argument("--via", help="with --detect-labels: comma-separated via tags (default: automated sources)")
     ap.add_argument("--all-via", action="store_true", help="with --detect-labels: don't filter by via")
     ap.add_argument("--apply", nargs="*", metavar="PROF/ST",
-                    help="CDP-narrow these cells (driver must be stopped); empty = all --detect hits")
+                    help="narrow these cells (driver must be stopped); empty = all --detect hits")
     ap.add_argument("--threshold", type=int, default=OVER_BROAD_SECTIONS)
     args = ap.parse_args()
 
@@ -372,8 +373,8 @@ def main() -> int:
 
     if args.apply is not None:
         if _driver_running():
-            print("REFUSING: gap_pull.sh is running — narrowing needs the one debug Chrome. "
-                  "Stop the driver first."); return 2
+            print("REFUSING: gap_pull.sh is running — narrowing fetches from Justia too, "
+                  "and we run one Justia fetcher at a time. Stop the driver first."); return 2
         profs = load_professions()
         cells = [tuple(c.split("/", 1)) for c in args.apply] if args.apply \
             else [(h["prof"], h["state"]) for h in detect(args.threshold)]
