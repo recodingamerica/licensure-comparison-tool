@@ -943,10 +943,17 @@ bail_bond_agent:
       via: gap_locator
   HI:
     add:
-    - url: https://law.justia.com/codes/hawaii/title-24/chapter-431/article-9n/
-      label: Article 9N - Bail Agents; Sureties
+    # article-9n/ container 404s; HI ch.431 exposes flat section pages only.
+    # Article 9N (Bail Agents) = HRS 431:9N-101..104, from the live ch.431 index.
+    - url: https://law.justia.com/codes/hawaii/title-24/chapter-431/
+      label: HRS 431:9N — Bail Agents; Sureties (Article 9N)
       slug: ''
-      via: gap_locator
+      via: section_match
+      section_url_list:
+      - https://law.justia.com/codes/hawaii/title-24/chapter-431/section-431-9n-101/
+      - https://law.justia.com/codes/hawaii/title-24/chapter-431/section-431-9n-102/
+      - https://law.justia.com/codes/hawaii/title-24/chapter-431/section-431-9n-103/
+      - https://law.justia.com/codes/hawaii/title-24/chapter-431/section-431-9n-104/
   IA:
     add:
     - url: https://law.justia.com/codes/iowa/title-iii/chapter-80a/
@@ -2246,10 +2253,30 @@ court_reporter:
       via: gap_locator
   IA:
     add:
-    - url: https://law.justia.com/codes/iowa/title-xv/chapter-602/article-3/
-      label: Article 3 - Board of Examiners of Shorthand Reporters
+    # article-3/ container 404s; IA ch.602 exposes flat section pages only.
+    # Article 3 (Certified Shorthand Reporters) = Iowa Code 602.3101..602.3302,
+    # enumerated from the live chapter-602 index.
+    - url: https://law.justia.com/codes/iowa/title-xv/chapter-602/
+      label: Iowa Code 602.3101..602.3302 — Certified Shorthand Reporters (Art. 3)
       slug: ''
-      via: gap_locator
+      via: section_match
+      section_url_list:
+      - https://law.justia.com/codes/iowa/title-xv/chapter-602/section-602-3101/
+      - https://law.justia.com/codes/iowa/title-xv/chapter-602/section-602-3102/
+      - https://law.justia.com/codes/iowa/title-xv/chapter-602/section-602-3103/
+      - https://law.justia.com/codes/iowa/title-xv/chapter-602/section-602-3104/
+      - https://law.justia.com/codes/iowa/title-xv/chapter-602/section-602-3105/
+      - https://law.justia.com/codes/iowa/title-xv/chapter-602/section-602-3106/
+      - https://law.justia.com/codes/iowa/title-xv/chapter-602/section-602-3107/
+      - https://law.justia.com/codes/iowa/title-xv/chapter-602/section-602-3108/
+      - https://law.justia.com/codes/iowa/title-xv/chapter-602/section-602-3201/
+      - https://law.justia.com/codes/iowa/title-xv/chapter-602/section-602-3202/
+      - https://law.justia.com/codes/iowa/title-xv/chapter-602/section-602-3203/
+      - https://law.justia.com/codes/iowa/title-xv/chapter-602/section-602-3204/
+      - https://law.justia.com/codes/iowa/title-xv/chapter-602/section-602-3205/
+      - https://law.justia.com/codes/iowa/title-xv/chapter-602/section-602-3206/
+      - https://law.justia.com/codes/iowa/title-xv/chapter-602/section-602-3301/
+      - https://law.justia.com/codes/iowa/title-xv/chapter-602/section-602-3302/
   KS:
     add:
     - url: https://law.justia.com/codes/kansas/chapter-20/article-9/
@@ -4093,10 +4120,68 @@ insurance_producer:
       via: migration_keep
   HI:
     add:
-    - url: https://law.justia.com/codes/hawaii/title-24/chapter-431/article-9a/
-      label: Article 9A - Producer Licensing
+    # article-9a/ container 404s; HI ch.431 exposes flat section pages only.
+    # Article 9A (Producer Licensing) = HRS 431:9A-101..177, from the live index.
+    - url: https://law.justia.com/codes/hawaii/title-24/chapter-431/
+      label: HRS 431:9A — Insurance Producer Licensing (Article 9A)
       slug: ''
-      via: gap_locator
+      via: section_match
+      section_url_list:
+      - https://law.justia.com/codes/hawaii/title-24/chapter-431/section-431-9a-101/
+      - https://law.justia.com/codes/hawaii/title-24/chapter-431/section-431-9a-102/
+      - https://law.justia.com/codes/hawaii/title-24/chapter-431/section-431-9a-103/
+      - https://law.justia.com/codes/hawaii/title-24/chapter-431/section-431-9a-104/
+      - https://law.justia.com/codes/hawaii/title-24/chapter-431/section-431-9a-105/
+      - https://law.justia.com/codes/hawaii/title-24/chapter-431/section-431-9a-106/
+      - https://law.justia.com/codes/hawaii/title-24/chapter-431/section-431-9a-107-5/
+      - https://law.justia.com/codes/hawaii/title-24/chapter-431/section-431-9a-107/
+      - https://law.justia.com/codes/hawaii/title-24/chapter-431/section-431-9a-108-5/
+      - https://law.justia.com/codes/hawaii/title-24/chapter-431/section-431-9a-108/
+      - https://law.justia.com/codes/hawaii/title-24/chapter-431/section-431-9a-109/
+      - https://law.justia.com/codes/hawaii/title-24/chapter-431/section-431-9a-110/
+      - https://law.justia.com/codes/hawaii/title-24/chapter-431/section-431-9a-111/
+      - https://law.justia.com/codes/hawaii/title-24/chapter-431/section-431-9a-112-3/
+      - https://law.justia.com/codes/hawaii/title-24/chapter-431/section-431-9a-112-5/
+      - https://law.justia.com/codes/hawaii/title-24/chapter-431/section-431-9a-112/
+      - https://law.justia.com/codes/hawaii/title-24/chapter-431/section-431-9a-113/
+      - https://law.justia.com/codes/hawaii/title-24/chapter-431/section-431-9a-114/
+      - https://law.justia.com/codes/hawaii/title-24/chapter-431/section-431-9a-115/
+      - https://law.justia.com/codes/hawaii/title-24/chapter-431/section-431-9a-116/
+      - https://law.justia.com/codes/hawaii/title-24/chapter-431/section-431-9a-117/
+      - https://law.justia.com/codes/hawaii/title-24/chapter-431/section-431-9a-118/
+      - https://law.justia.com/codes/hawaii/title-24/chapter-431/section-431-9a-119/
+      - https://law.justia.com/codes/hawaii/title-24/chapter-431/section-431-9a-120/
+      - https://law.justia.com/codes/hawaii/title-24/chapter-431/section-431-9a-121/
+      - https://law.justia.com/codes/hawaii/title-24/chapter-431/section-431-9a-122/
+      - https://law.justia.com/codes/hawaii/title-24/chapter-431/section-431-9a-123-5/
+      - https://law.justia.com/codes/hawaii/title-24/chapter-431/section-431-9a-123/
+      - https://law.justia.com/codes/hawaii/title-24/chapter-431/section-431-9a-124/
+      - https://law.justia.com/codes/hawaii/title-24/chapter-431/section-431-9a-125/
+      - https://law.justia.com/codes/hawaii/title-24/chapter-431/section-431-9a-126/
+      - https://law.justia.com/codes/hawaii/title-24/chapter-431/section-431-9a-127/
+      - https://law.justia.com/codes/hawaii/title-24/chapter-431/section-431-9a-128/
+      - https://law.justia.com/codes/hawaii/title-24/chapter-431/section-431-9a-129/
+      - https://law.justia.com/codes/hawaii/title-24/chapter-431/section-431-9a-130/
+      - https://law.justia.com/codes/hawaii/title-24/chapter-431/section-431-9a-141/
+      - https://law.justia.com/codes/hawaii/title-24/chapter-431/section-431-9a-142/
+      - https://law.justia.com/codes/hawaii/title-24/chapter-431/section-431-9a-143/
+      - https://law.justia.com/codes/hawaii/title-24/chapter-431/section-431-9a-151/
+      - https://law.justia.com/codes/hawaii/title-24/chapter-431/section-431-9a-152/
+      - https://law.justia.com/codes/hawaii/title-24/chapter-431/section-431-9a-153/
+      - https://law.justia.com/codes/hawaii/title-24/chapter-431/section-431-9a-154/
+      - https://law.justia.com/codes/hawaii/title-24/chapter-431/section-431-9a-155/
+      - https://law.justia.com/codes/hawaii/title-24/chapter-431/section-431-9a-156/
+      - https://law.justia.com/codes/hawaii/title-24/chapter-431/section-431-9a-157/
+      - https://law.justia.com/codes/hawaii/title-24/chapter-431/section-431-9a-158/
+      - https://law.justia.com/codes/hawaii/title-24/chapter-431/section-431-9a-159/
+      - https://law.justia.com/codes/hawaii/title-24/chapter-431/section-431-9a-160/
+      - https://law.justia.com/codes/hawaii/title-24/chapter-431/section-431-9a-171/
+      - https://law.justia.com/codes/hawaii/title-24/chapter-431/section-431-9a-172/
+      - https://law.justia.com/codes/hawaii/title-24/chapter-431/section-431-9a-173/
+      - https://law.justia.com/codes/hawaii/title-24/chapter-431/section-431-9a-174/
+      - https://law.justia.com/codes/hawaii/title-24/chapter-431/section-431-9a-175/
+      - https://law.justia.com/codes/hawaii/title-24/chapter-431/section-431-9a-176/
+      - https://law.justia.com/codes/hawaii/title-24/chapter-431/section-431-9a-177/
   IA:
     add:
     - url: https://law.justia.com/codes/iowa/title-xiii/chapter-515i/section-515i-5/
@@ -9810,10 +9895,12 @@ public_weighmaster:
       via: gap_locator
   ME:
     add:
-    - url: https://law.justia.com/codes/maine/title-10/chapter-501/subchapter-5/
-      label: 'Subchapter 5: WEIGHMASTER'
+    # Justia nests ch.501 under /part-6/; the part-less URL 404s. The corrected
+    # subchapter-5 container resolves and drills to MRS 10 §§2501..2506 (6 sections).
+    - url: https://law.justia.com/codes/maine/title-10/part-6/chapter-501/subchapter-5/
+      label: 'Subchapter 5: WEIGHMASTER (MRS 10 §§2501-2506)'
       slug: ''
-      via: gap_locator
+      via: section_match
   MI:
     add:
     - url: https://law.justia.com/codes/michigan/chapter-287/statute-act-284-of-1937/
