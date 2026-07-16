@@ -43,6 +43,7 @@ from pathlib import Path
 # .env loader
 
 from pipeline._env import load_env
+from pipeline._records import write_json_atomic
 
 load_env()
 
@@ -189,7 +190,7 @@ def submit(queue: dict[str, list[str]], model: str = DEFAULT_MODEL, force: bool 
         "custom_ids": [r["custom_id"] for r in requests],
     }
     save_path = BATCH_DIR / f"{batch.id}.json"
-    save_path.write_text(json.dumps(metadata, indent=2))
+    write_json_atomic(save_path, metadata)
     log.info("wrote batch metadata to %s", save_path)
     return metadata
 
@@ -243,7 +244,7 @@ def run_litellm(queue: dict[str, list[str]], model: str = DEFAULT_MODEL, force: 
             record, stats = outcome
             out_path = STRUCTURED_DIR / profession / f"{state}.json"
             out_path.parent.mkdir(parents=True, exist_ok=True)
-            out_path.write_text(json.dumps(record, indent=2, ensure_ascii=False))
+            write_json_atomic(out_path, record, ensure_ascii=False)
             provenance.record("extract", profession, state, model=model)
             written.append({"profession": profession, "state": state, **stats})
 
@@ -261,7 +262,7 @@ def run_litellm(queue: dict[str, list[str]], model: str = DEFAULT_MODEL, force: 
         "errored": errored,
     }
     save_path = BATCH_DIR / f"litellm-{now.replace(':', '-')}.json"
-    save_path.write_text(json.dumps(metadata, indent=2))
+    write_json_atomic(save_path, metadata)
     log.info("wrote litellm run metadata to %s", save_path)
     return metadata
 
@@ -310,7 +311,7 @@ def _parse_and_write(custom_id: str, response_message, profile_classes: dict[str
 
     out_path = STRUCTURED_DIR / profession / f"{state}.json"
     out_path.parent.mkdir(parents=True, exist_ok=True)
-    out_path.write_text(json.dumps(record, indent=2, ensure_ascii=False))
+    write_json_atomic(out_path, record, ensure_ascii=False)
     provenance.record("extract", profession, state, model=model)
     return {"profession": profession, "state": state, "verified": verified, "unverified": unverified}
 
@@ -411,7 +412,7 @@ def poll(batch_id: str, wait: bool = True) -> dict | None:
     metadata["written"] = written
     metadata["errored"] = errored
     metadata["usage"] = {**tot, "cost_usd": round(cost, 4), "baseline_usd": round(sync_no_cache_baseline, 4)}
-    (BATCH_DIR / f"{batch_id}.json").write_text(json.dumps(metadata, indent=2))
+    write_json_atomic(BATCH_DIR / f"{batch_id}.json", metadata)
     return metadata
 
 

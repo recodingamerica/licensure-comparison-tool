@@ -36,7 +36,7 @@ from pipeline._env import load_env  # noqa: E402
 load_env()
 
 from pipeline._llm import call_structured
-from pipeline._records import record_files
+from pipeline._records import record_files, write_json_atomic
 from pipeline._runlog import record_run
 from pipeline.paths import CLEAN_DIR, TRIMMED_DIR, LOGS_DIR
 from pipeline import provenance
@@ -288,7 +288,7 @@ def main() -> None:
         if corpus is None:
             continue
         out_path = out_dir / f"{state}.json"
-        out_path.write_text(json.dumps(asdict(corpus), indent=2))
+        write_json_atomic(out_path, asdict(corpus))
         provenance.record("trim", profession, state, model=args.model)
         n_run += 1
 
@@ -304,7 +304,7 @@ def main() -> None:
             "skipped": len(d.get("skipped") or []),
             "chars": int(d.get("total_chars") or 0),
         })
-    (out_dir / "_summary.json").write_text(json.dumps(summary, indent=2))
+    write_json_atomic(out_dir / "_summary.json", summary)
     log.info("done: %d states this run, %d total in summary", n_run, len(summary))
     record_run("trim_state", profession=profession)
 

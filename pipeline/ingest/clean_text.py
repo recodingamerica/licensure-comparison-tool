@@ -31,7 +31,7 @@ from typing import Callable
 
 from pipeline.paths import TEXT_DIR, CLEAN_DIR, LOGS_DIR, CONFIG_DIR
 from pipeline import provenance
-from pipeline._records import record_files
+from pipeline._records import record_files, write_json_atomic
 from pipeline._runlog import record_run
 from pipeline.config.loaders import load_professions, load_corpus_overrides
 
@@ -305,7 +305,7 @@ def main() -> None:
             log.exception("[%s] clean failed", state)
             continue
         out_path = out_dir / f"{state}.json"
-        out_path.write_text(json.dumps(asdict(corpus), indent=2))
+        write_json_atomic(out_path, asdict(corpus))
         provenance.record("clean", profession, state)
         borrowed = path.parent.name if path.parent.name != base_prof else ""
         log.info(
@@ -325,7 +325,7 @@ def main() -> None:
             "dropped": len(d.get("dropped") or []),
             "chars": int(d.get("total_chars") or 0),
         })
-    (out_dir / "_summary.json").write_text(json.dumps(summary, indent=2))
+    write_json_atomic(out_dir / "_summary.json", summary)
     record_run("clean_text", profession=profession)
 
 
