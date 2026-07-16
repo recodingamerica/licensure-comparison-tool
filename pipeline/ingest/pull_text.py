@@ -33,7 +33,7 @@ from curl_cffi import requests as cffi_requests  # type: ignore
 
 import sys
 from pipeline.paths import TEXT_DIR, LOGS_DIR, PROFESSION_INDEX_DIR
-from pipeline._records import record_files
+from pipeline._records import record_files, write_json_atomic
 from pipeline._runlog import record_run
 from pipeline.config.loaders import load_limits
 
@@ -759,7 +759,7 @@ def _flag_over_broad(profession: str, state: str, url: str, label: str, n: int) 
         reason = ("fetch_budget" if budget_max and n > budget_max else "label_mismatch")
         data.append({"profession": profession, "state": state, "url": url,
                      "label": label, "leaves": n, "reason": reason})
-        p.write_text(json.dumps(data, indent=1))
+        write_json_atomic(p, data, indent=1)
     except Exception:
         pass
 
@@ -1094,7 +1094,7 @@ def main() -> None:
                 source_unavailable=su,
             )
             out_path = out_dir / f"{state}.json"
-            out_path.write_text(json.dumps(asdict(corpus), indent=2))
+            write_json_atomic(out_path, asdict(corpus))
             continue
         try:
             corpus = pull_state(state, profession, rows, section_cap)
@@ -1125,7 +1125,7 @@ def main() -> None:
                 skipped += 1
                 continue
 
-        out_path.write_text(json.dumps(new_d, indent=2))
+        write_json_atomic(out_path, new_d)
         failed = sum(1 for s in corpus.sections if s.error)
         if failed:
             log.warning("  [%s] %d/%d sections FAILED to fetch — corpus is partial", state, failed, len(corpus.sections))
@@ -1139,7 +1139,7 @@ def main() -> None:
             summary.append(_summary_row(path.stem, json.loads(path.read_text())))
         except Exception:
             continue
-    (out_dir / "_summary.json").write_text(json.dumps(summary, indent=2))
+    write_json_atomic(out_dir / "_summary.json", summary)
     if skipped:
         log.warning("done: %d states, %d overwrite(s) skipped (use --force to override)",
                     len(by_state), skipped)

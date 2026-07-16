@@ -28,6 +28,7 @@ from functools import lru_cache
 from pipeline.paths import (
     TEXT_DIR, CLEAN_DIR, TRIMMED_DIR, STRUCTURED_DIR, DISCOVERED_DIR, RESULTS_DIR,
 )
+from pipeline._records import write_json_atomic
 from pipeline._prompts import load_prompt
 
 STAGES = ("clean", "trim", "extract")
@@ -145,7 +146,7 @@ def record(stage: str, prof: str, state: str, model: str | None = None) -> None:
     p.parent.mkdir(parents=True, exist_ok=True)
     data = _load_prov(prof, state)
     data[stage] = {**stamp(stage, prof, state, model), "stamped_at": datetime.now().isoformat(timespec="seconds")}
-    p.write_text(json.dumps(data, indent=2, sort_keys=True))
+    write_json_atomic(p, data, sort_keys=True)
 
 
 def check(stage: str, prof: str, state: str) -> str:

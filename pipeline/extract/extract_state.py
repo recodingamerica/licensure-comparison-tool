@@ -32,7 +32,7 @@ load_env()
 
 # Make sibling modules and pipeline.paths importable regardless of CWD
 from pipeline._llm import call_structured
-from pipeline._records import record_files
+from pipeline._records import record_files, write_json_atomic
 from pipeline._runlog import record_run
 from pipeline.extract.standard_model import (  # noqa: E402
     BoolEvidence,
@@ -396,7 +396,7 @@ def main() -> None:
             summary.append({"state": state, "ok": False})
             continue
         record, stats = outcome
-        out_path.write_text(json.dumps(record, indent=2))
+        write_json_atomic(out_path, record)
         provenance.record("extract", profession, state, model=args.model)
         # Deterministic cross-field consistency guard: the model sometimes
         # violates the prompt's own invariants (e.g. a title-protection rung
@@ -419,7 +419,7 @@ def main() -> None:
             state, filled, len(discovered["fields"]), stats["verified"], stats["unverified"],
         )
 
-    (out_dir / "_summary.json").write_text(json.dumps(summary, indent=2))
+    write_json_atomic(out_dir / "_summary.json", summary)
     log.info(
         "done: %d states extracted, %d already-present skipped (use --force to redo)",
         len(summary), skipped,
