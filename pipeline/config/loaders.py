@@ -23,9 +23,12 @@ silently dropped last-wins (the WA/VA/NV state_structure data-loss failure mode)
 from __future__ import annotations
 
 import functools
+import logging
 from pathlib import Path
 
 import yaml
+
+log = logging.getLogger(__name__)
 
 from pipeline.paths import CONFIG_DIR, TEXT_DIR
 from pipeline.config.yaml_loader import safe_load_unique
@@ -103,7 +106,13 @@ def corpus_profession_for(profession: str) -> str:
     corpus with no new pull). Mirrors clean_text.corpus_profession_for()."""
     try:
         conf = load_professions()
-    except Exception:
+    except (OSError, yaml.YAMLError) as e:
+        # A malformed professions.yaml would otherwise SILENTLY disable every
+        # parent_corpus redirect — a nested occupation then cleans from its own
+        # (nonexistent) corpus and produces empty results that look like real gaps.
+        # Keep the safe fallback, but make the failure VISIBLE.
+        log.warning("professions.yaml unreadable (%s) — parent_corpus redirect disabled "
+                    "for %s; using its own corpus", e, profession)
         return profession
     return (conf.get(profession, {}) or {}).get("parent_corpus") or profession
 
