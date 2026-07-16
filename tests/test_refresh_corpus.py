@@ -69,13 +69,21 @@ def _commit_corpus(root, text_dir, prof, state, corpus_dict):
     subprocess.run(["git", "commit", "-q", "-m", "seed"], cwd=root, check=True)
 
 
+def _cite(u):
+    return "/".join(u.rstrip("/").split("/")[-2:])  # distinct per (chapter, section)
+
+
 def _sections(urls):
-    return [Section(url=u, label="l", citation="c", text="x", text_len=1) for u in urls]
+    # distinct citation + text per section so the content-aware regression logic
+    # (citation-keyed, then text-keyed) is actually exercised.
+    return [Section(url=u, label=f"L {_cite(u)}", citation=_cite(u),
+                    text=f"body of {_cite(u)}", text_len=8) for u in urls]
 
 
 def _corpus(state, prof, chapter_urls, urls):
+    secs = _sections(urls)
     return StateCorpus(state=state, profession=prof, chapter_urls=chapter_urls,
-                       sections=_sections(urls), total_chars=len(urls))
+                       sections=secs, total_chars=sum(len(s.text) for s in secs))
 
 
 CH = "https://law.justia.com/codes/x/title-1/chapter-1/"
@@ -180,9 +188,54 @@ class TestRegressionGuard:
         rec = rc.refresh_item("med", "CA", [{"chapter_url": CH}],
                               force=False, cap=None, timeout_s=60)
         assert rec["result"] == "REGRESSION"
-        assert "1 ok sections vs 5" in rec["reason"]
+        assert "missing from the new pull" in rec["reason"]  # 4 sections genuinely gone
+        assert rec["attempts"] == rc.PULL_RETRIES + 1        # retried before giving up
         on_disk = json.loads((text_dir / "med" / "CA.json").read_text())
         assert len(on_disk["sections"]) == 5  # seed preserved, shrink NOT committed
+
+    def test_renumbering_commits_not_held_back(self, repo, monkeypatch):
+        # Justia renumbers a section: same TEXT, new citation. Content is preserved,
+        # so it must COMMIT (a legit update), not be held back as a regression.
+        root, idx_dir, text_dir = repo
+
+        def mk(secs):  # secs: [(url, citation, text)]
+            return StateCorpus(
+                state="CA", profession="med", chapter_urls=[CH],
+                sections=[Section(url=u, label="l", citation=c, text=t, text_len=len(t))
+                          for (u, c, t) in secs],
+                total_chars=sum(len(t) for _, _, t in secs))
+
+        _write_index(idx_dir, "med", {"CA": {"matched": [{"url": CH}]}})
+        committed = mk([(CH + "s1", "ch-1/s1", "aaa body one"),
+                        (CH + "s2", "ch-1/s2", "bbb body two")])
+        _commit_corpus(root, text_dir, "med", "CA", asdict(committed))
+        # s2 renumbered to s2b — same text "bbb body two", new citation/url.
+        renumbered = mk([(CH + "s1", "ch-1/s1", "aaa body one"),
+                         (CH + "s2b", "ch-1/s2b", "bbb body two")])
+        monkeypatch.setattr(rc.pull_text, "pull_state", lambda *a, **k: renumbered)
+        rec = rc.refresh_item("med", "CA", [{"chapter_url": CH}],
+                              force=False, cap=None, timeout_s=60)
+        assert rec["result"] == "OK"  # content preserved -> committed, not REGRESSION
+
+    def test_transient_shortfall_is_retried(self, repo, monkeypatch):
+        # A deficient first pull (a section dropped by a transient hiccup) is retried;
+        # the complete second attempt is what counts.
+        root, idx_dir, text_dir = repo
+        _write_index(idx_dir, "med", {"CA": {"matched": [{"url": CH}]}})
+        _commit_corpus(root, text_dir, "med", "CA",
+                       asdict(_corpus("CA", "med", [CH], [CH + "s1", CH + "s2"])))
+        calls = {"n": 0}
+        def flaky(state, prof, rows, cap):
+            calls["n"] += 1
+            if calls["n"] == 1:
+                return _corpus("CA", "med", [CH], [CH + "s1"])          # deficient (1 of 2)
+            return _corpus("CA", "med", [CH], [CH + "s1", CH + "s2"])   # complete
+        monkeypatch.setattr(rc.pull_text, "pull_state", flaky)
+        rec = rc.refresh_item("med", "CA", [{"chapter_url": CH}],
+                              force=False, cap=None, timeout_s=60)
+        assert rec["result"] == "NOCHANGE"   # the complete retry matches committed
+        assert rec["attempts"] >= 2          # the first deficient attempt was retried
+        assert calls["n"] >= 2
 
     def test_force_accepts_regression(self, repo, monkeypatch):
         root, idx_dir, text_dir = repo

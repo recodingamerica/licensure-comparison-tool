@@ -145,6 +145,11 @@ class _Progress:
 # NOCHANGE — no longer trips the breaker on the 3rd unchanged state.
 FETCH_FAILURE = {"EMPTY", "DEAD", "NOFILE", "TIMEOUT"}
 
+# Retry a deficient pull (fetch errors, or fewer error-free sections than the
+# committed corpus) this many extra times before believing the shortfall is real —
+# absorbs transient Cloudflare flakiness that drops a section or a page mid-run.
+PULL_RETRIES = 2
+
 # Result -> severity label for results that are NOT committed (held back). Kept in
 # one place so the run loop, the breaker, and the diff report agree on the taxonomy.
 HELD_SEVERITY = {
@@ -356,17 +361,34 @@ def refresh_item(profession: str, state: str, rows: list[dict], *,
     prev_ok, _ = pull_text._corpus_health(old_d)
     prev_n = len(old_d.get("sections") or [])
 
-    corpus = pull_with_timeout(state, profession, rows, cap, timeout_s)
+    # Pull, retrying a DEFICIENT result — a pull with fetch errors, or with fewer
+    # error-free sections than the committed corpus — up to PULL_RETRIES times.
+    # Transient Cloudflare flakiness can drop a section or a whole page mid-run;
+    # a retry usually gets it. Keep the most complete attempt. A clean pull that
+    # already meets the committed count stops immediately (no wasted fetches); a
+    # genuinely-shrunk corpus just re-confirms across retries, then the content-
+    # aware regression gate (below) decides renumbering vs real removal.
+    new_d = None
+    new_ok = -1
+    attempts = 0
+    for _attempt in range(PULL_RETRIES + 1):
+        attempts += 1
+        corpus = pull_with_timeout(state, profession, rows, cap, timeout_s)
+        cand = asdict(corpus)
+        cand_ok = pull_text._corpus_health(cand)[0]
+        if new_d is None or cand_ok > new_ok:
+            new_d, new_ok = cand, cand_ok
+        errored = sum(1 for s in (cand.get("sections") or []) if s.get("error"))
+        if errored == 0 and cand_ok >= prev_ok:
+            break  # complete pull — retrying can't add anything
 
     out_path.parent.mkdir(parents=True, exist_ok=True)
-    new_d = asdict(corpus)
     out_path.write_text(json.dumps(new_d, indent=2))
     sections = new_d.get("sections") or []
     n = len(sections)
-    new_ok, _ = pull_text._corpus_health(new_d)
 
     rec: dict = {"profession": profession, "state": state, "prev": prev_n, "new": n,
-                 "prev_ok": prev_ok, "new_ok": new_ok, "at": _now()}
+                 "prev_ok": prev_ok, "new_ok": new_ok, "attempts": attempts, "at": _now()}
 
     # 1. No error-free sections at all → empty pull. Probe WHY (dead link vs live-
     #    but-unmatched) and revert. Uses ok-count, not raw len, so a pull whose

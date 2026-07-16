@@ -991,20 +991,56 @@ def _corpus_health(d: dict) -> tuple[int, int]:
     return ok, int(d.get("total_chars") or 0)
 
 
+def _norm_text(t: str | None) -> str:
+    return re.sub(r"\s+", " ", (t or "")).strip().lower()
+
+
+def _lost_sections(old_d: dict, new_d: dict) -> list[dict]:
+    """Committed error-free sections that the new pull genuinely LOST — keyed by
+    citation first, then text. A committed section is NOT lost when:
+      * its citation is still present in the new pull (the section is still there,
+        possibly AMENDED — a legit update we want to commit), or
+      * its text still appears anywhere in the new pull (RENUMBERED to a new
+        citation, MERGED into another section, or REORDERED).
+    Only a section whose citation AND text are both absent is a real removal. This
+    is why Justia renumbering/amendment doesn't trip the guard, but a dropped
+    section does — rather than a blanket section-count tolerance."""
+    new_secs = new_d.get("sections") or []
+    new_cites = {s.get("citation") for s in new_secs if s.get("citation")}
+    new_blob = " ".join(_norm_text(s.get("text")) for s in new_secs)
+    lost = []
+    for s in (old_d.get("sections") or []):
+        if s.get("error"):
+            continue
+        cite = s.get("citation")
+        if cite and cite in new_cites:
+            continue
+        t = _norm_text(s.get("text"))
+        if t and t in new_blob:
+            continue
+        lost.append(s)
+    return lost
+
+
 def _is_regression(new_d: dict, old_d: dict) -> str | None:
-    """Return a reason string if writing new_d over old_d would lose good data,
-    else None. Guards against Justia blocks / partial fetches (empty or collapsed
-    bodies) silently clobbering a healthy committed corpus."""
+    """Reason string if writing new_d over old_d would LOSE committed statute
+    content, else None. Content-aware, NOT a raw section-count compare: renumbering
+    and amendments commit; only a genuinely removed section (see _lost_sections) or
+    a wholesale text collapse is a regression. Guards against Justia blocks /
+    partial fetches clobbering a healthy committed corpus."""
     new_ok, new_chars = _corpus_health(new_d)
     old_ok, old_chars = _corpus_health(old_d)
     if old_ok == 0:
         return None  # old was already empty/partial — nothing to protect
     if new_ok == 0:
         return f"new pull has 0 ok sections vs {old_ok} committed"
-    if new_ok < old_ok:
-        return f"new pull has {new_ok} ok sections vs {old_ok} committed"
-    if new_ok == old_ok and new_chars < old_chars * 0.5:
-        return f"new pull text collapsed to {new_chars} chars vs {old_chars} committed (same {new_ok} sections)"
+    lost = _lost_sections(old_d, new_d)
+    if lost:
+        cites = ", ".join(str(s.get("citation") or "?") for s in lost[:3])
+        more = "" if len(lost) <= 3 else f" +{len(lost) - 3} more"
+        return f"{len(lost)} committed section(s) missing from the new pull ({cites}{more})"
+    if new_chars < old_chars * 0.5:
+        return f"new pull text collapsed to {new_chars} chars vs {old_chars} committed"
     return None
 
 
