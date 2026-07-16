@@ -59,6 +59,11 @@ LOGS_DIR.mkdir(parents=True, exist_ok=True)
 
 DEFAULT_MODEL = model_for("extract", "claude-sonnet-4-6")  # config/models.yaml
 MAX_RETRIES = 2
+# Shared by BOTH the sync and batch extract paths so they can't drift (issue
+# #62). max_tokens is the larger of the two former values so neither path
+# truncates a large state's output; temperature is pinned for determinism.
+MAX_OUTPUT_TOKENS = 32000
+EXTRACT_TEMPERATURE = 0.0
 
 logging.basicConfig(
     level=logging.INFO,
@@ -186,7 +191,8 @@ def call_model(model: str, system: str, user: str, schema_cls: type[BaseModel]) 
         user=user,
         schema_cls=schema_cls,
         embed_schema=True,
-        max_tokens=16000,
+        max_tokens=MAX_OUTPUT_TOKENS,
+        temperature=EXTRACT_TEMPERATURE,
         max_retries=MAX_RETRIES,
         backoff_base=2.0,
         log_prefix="  ",
@@ -265,7 +271,9 @@ def annotate_evidence(node: Any, normalized_corpus: str) -> tuple[int, int]:
     counts; approximate matches still count as unverified."""
     verified = unverified = 0
     for _, ev_node in iter_evidence(node):
-        quote = ev_node.get("quote", "")
+        # `or ""` so a derived node (quote cleared to None, see
+        # _apply_regulatory_model_derivation) doesn't reach the matcher as None.
+        quote = ev_node.get("quote") or ""
         if quote_in_corpus(quote, normalized_corpus):
             ev_node.pop("unverified", None)
             ev_node.pop("approximate", None)
@@ -279,6 +287,70 @@ def annotate_evidence(node: Any, normalized_corpus: str) -> tuple[int, int]:
                 ev_node.pop("approximate", None)
             unverified += 1
     return verified, unverified
+
+
+def _ev_val(field: object) -> object:
+    return field.get("value") if isinstance(field, dict) else None
+
+
+def _apply_regulatory_model_derivation(record: dict, state: str) -> tuple[int, int]:
+    """Override licensure.regulatory_model.value with the value DERIVED from
+    credential_type + scope_protection, rather than trusting the model's free
+    pick (which flip-flops deterministically on title-protection schemes). This
+    makes the eval/check_consistency.py cross-field invariants structurally
+    satisfied instead of merely flagged.
+
+    On override, the model's original quote/citation argued for a DIFFERENT
+    rung, so they are cleared and the node is marked `derived` — the rung is now
+    a computed quantity whose supporting evidence lives on the credential_type
+    and scope_protection nodes (issue #62). Call this AFTER annotate_evidence so
+    the cleared node isn't spuriously flagged unverified; returns the
+    (verified_delta, unverified_delta) needed to keep those counts honest.
+    """
+    lic = record.get("licensure") or {}
+    rm_ev = lic.get("regulatory_model")
+    derived = derive_regulatory_model(
+        _ev_val(lic.get("credential_type")),
+        _ev_val(lic.get("scope_protection")),
+    )
+    if derived is None or not isinstance(rm_ev, dict):
+        return 0, 0
+    # No-op when the model's OWN pick already matches the derived rung — keep its
+    # supporting quote. (An already-`derived` node falls through so a re-run
+    # re-normalizes it: annotate would have re-flagged its null quote unverified.)
+    if rm_ev.get("value") == derived.value and not rm_ev.get("derived"):
+        return 0, 0
+    if rm_ev.get("value") != derived.value:
+        log.info(
+            "[%s] regulatory_model derived: %s → %s (credential_type=%s, scope_protection=%s)",
+            state, rm_ev.get("value"), derived.value,
+            _ev_val(lic.get("credential_type")), _ev_val(lic.get("scope_protection")),
+        )
+    was_unverified = rm_ev.get("unverified") is True
+    rm_ev["value"] = derived.value
+    rm_ev["quote"] = None
+    rm_ev["citation"] = None
+    rm_ev["derived"] = True
+    rm_ev.pop("unverified", None)
+    rm_ev.pop("approximate", None)
+    return (0, -1) if was_unverified else (-1, 0)
+
+
+def finalize_record(record: dict, state: str, profession: str, corpus_text: str) -> dict:
+    """Shared post-parse processing for BOTH the sync and batch extract paths
+    (issue #62). Keeps them from drifting: verify every evidence quote against
+    the corpus, apply the regulatory_model derivation, then emit the loud
+    cross-field consistency warnings. Mutates `record` in place; returns
+    {"verified", "unverified"} counts."""
+    normalized_corpus = _normalize_for_match(corpus_text)
+    verified, unverified = annotate_evidence(record, normalized_corpus)
+    dv, du = _apply_regulatory_model_derivation(record, state)
+    verified += dv
+    unverified += du
+    for v in check_record(profession, state, record):
+        log.warning("[%s] CONSISTENCY %s: %s", state, v["rule"], v["detail"])
+    log.info("[%s] evidence: verified=%d unverified=%d", state, verified, unverified)
+    return {"verified": verified, "unverified": unverified}
 
 
 def extract_one(state: str, profession: str, model: str, profile_cls: type[BaseModel]) -> tuple[dict, dict] | None:
@@ -313,34 +385,11 @@ def extract_one(state: str, profession: str, model: str, profile_cls: type[BaseM
     if result is None:
         return None
     record = result.model_dump()
-    # Derive the UORF rung from the orthogonal axes (credential_type +
-    # scope_protection) rather than trusting the model's free pick, which
-    # flip-flops deterministically on title-protection schemes. The model's
-    # quoted scope/credential facts drive the rung; this makes the cross-field
-    # invariants in eval/check_consistency.py structurally satisfied instead of
-    # merely flagged. See standard_model.derive_regulatory_model.
-    lic = record.get("licensure") or {}
-    rm_ev = lic.get("regulatory_model")
-
-    def _ev_val(field: object) -> object:
-        return field.get("value") if isinstance(field, dict) else None
-
-    derived = derive_regulatory_model(
-        _ev_val(lic.get("credential_type")),
-        _ev_val(lic.get("scope_protection")),
-    )
-    if derived is not None and isinstance(rm_ev, dict) and rm_ev.get("value") != derived.value:
-        log.info(
-            "[%s] regulatory_model derived: %s → %s (credential_type=%s, scope_protection=%s)",
-            state, rm_ev.get("value"), derived.value,
-            _ev_val(lic.get("credential_type")), _ev_val(lic.get("scope_protection")),
-        )
-        rm_ev["value"] = derived.value
-    # Quotes can come from either practice-act text OR umbrella text — verify against both.
-    normalized_corpus = _normalize_for_match(state_text + "\n" + umbrella_text)
-    verified, unverified = annotate_evidence(record, normalized_corpus)
-    log.info("[%s] evidence: verified=%d unverified=%d", state, verified, unverified)
-    return record, {"verified": verified, "unverified": unverified}
+    # Quotes can come from either practice-act text OR umbrella text — verify
+    # against both. finalize_record also applies the regulatory_model derivation
+    # and the consistency guard; it is shared with the batch path (issue #62).
+    stats = finalize_record(record, state, profession, state_text + "\n" + umbrella_text)
+    return record, stats
 
 
 def main() -> None:
@@ -396,15 +445,10 @@ def main() -> None:
             summary.append({"state": state, "ok": False})
             continue
         record, stats = outcome
+        # extract_one → finalize_record already applied the regulatory_model
+        # derivation and logged the cross-field consistency warnings (issue #62).
         out_path.write_text(json.dumps(record, indent=2))
         provenance.record("extract", profession, state, model=args.model)
-        # Deterministic cross-field consistency guard: the model sometimes
-        # violates the prompt's own invariants (e.g. a title-protection rung
-        # flipping to `license` while scope_protection=false). Warn loudly so the
-        # record is re-extracted; we don't auto-rewrite (detection, not silent fix).
-        cviol = check_record(profession, state, record)
-        for v in cviol:
-            log.warning("[%s] CONSISTENCY %s: %s", state, v["rule"], v["detail"])
         spec_dump = record.get("profession_specific") or {}
         filled = sum(1 for v in spec_dump.values() if v not in (None, [], ""))
         summary.append({

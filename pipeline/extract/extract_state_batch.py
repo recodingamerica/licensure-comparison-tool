@@ -52,13 +52,14 @@ from pydantic import BaseModel, ValidationError  # noqa: E402
 from pipeline.extract.extract_state import (
     SYSTEM_PROMPT,
     DEFAULT_MODEL,
+    MAX_OUTPUT_TOKENS,
+    EXTRACT_TEMPERATURE,
     build_profile_model,
     build_state_text,
     load_umbrella_text,
-    annotate_evidence,
+    finalize_record,
     extract_one,
     _recover_invalid_fields,
-    _normalize_for_match,
 )
 from pipeline.paths import DISCOVERED_DIR, TRIMMED_DIR, STRUCTURED_DIR, LOGS_DIR, RESULTS_DIR
 from pipeline import provenance
@@ -163,7 +164,8 @@ def submit(queue: dict[str, list[str]], model: str = DEFAULT_MODEL, force: bool 
                 "custom_id": f"{profession}__{state}",
                 "params": {
                     "model": model,
-                    "max_tokens": 32000,
+                    "max_tokens": MAX_OUTPUT_TOKENS,
+                    "temperature": EXTRACT_TEMPERATURE,
                     "system": system_blocks,
                     "messages": [{"role": "user", "content": user_msg}],
                 },
@@ -300,13 +302,14 @@ def _parse_and_write(custom_id: str, response_message, profile_classes: dict[str
             return None
 
     record = model_obj.model_dump()
-    # Re-run verifier annotations on the record (mirror of extract_one's flow).
+    # Shared post-parse processing with the sync path: verify quotes, apply the
+    # regulatory_model derivation, and run the consistency guard. Uses the SAME
+    # finalize_record as extract_one so the two backends can't diverge (#62).
     raw_trim = json.loads((TRIMMED_DIR / profession / f"{state}.json").read_text())
     state_text = build_state_text(raw_trim)
     umbrella_text = load_umbrella_text(state, profession)
-    normalized_corpus = _normalize_for_match(state_text + "\n" + umbrella_text)
-    verified, unverified = annotate_evidence(record, normalized_corpus)
-    log.info("[%s/%s] evidence: verified=%d unverified=%d", profession, state, verified, unverified)
+    stats = finalize_record(record, state, profession, state_text + "\n" + umbrella_text)
+    verified, unverified = stats["verified"], stats["unverified"]
 
     out_path = STRUCTURED_DIR / profession / f"{state}.json"
     out_path.parent.mkdir(parents=True, exist_ok=True)

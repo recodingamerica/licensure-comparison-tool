@@ -3,9 +3,17 @@
 
 export type Evidence<T = unknown> = {
   value: T;
-  quote: string;
-  citation: string;
+  // null when the node is `derived` (see below) — the value is computed from
+  // other fields, so there is no single supporting statute quote.
+  quote: string | null;
+  citation: string | null;
   unverified?: boolean;
+  // Set when the value was computed from other evidence rather than picked
+  // directly from a quote (currently regulatory_model, derived from
+  // credential_type + scope_protection — see extract_state.finalize_record /
+  // issue #62). Such nodes carry no quote/citation of their own; the
+  // supporting evidence lives on the fields the value was derived from.
+  derived?: boolean;
   // Set by the verifier's fuzzy fallback when the strict regex match
   // fails but a long contiguous substring of the LLM quote DOES appear
   // in the corpus. `ratio` is longest_matching_block / quote_length,

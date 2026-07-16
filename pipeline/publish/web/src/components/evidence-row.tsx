@@ -155,31 +155,41 @@ export function EvidenceRow({ label, ev, sections }: Props) {
             )}
           </p>
         )}
-        <div
-          className={
-            "text-xs px-3 py-2 rounded border-l-2 italic " +
-            (unverified
-              ? "border-amber-400 bg-amber-50/50"
-              : "border-sky-400 bg-muted/40")
-          }
-        >
-          “{ev.quote}”{" "}
-          {source?.url ? (
-            <a
-              href={deepLinkUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="not-italic font-mono text-sky-700 hover:text-sky-900 hover:underline text-[10px] ml-1"
-              title={`Open ${cite} on Justia`}
-            >
-              [{cite}]
-            </a>
-          ) : (
-            <span className="not-italic font-mono text-muted-foreground text-[10px] ml-1">
-              [{cite}]
-            </span>
-          )}
-        </div>
+        {ev.quote ? (
+          <div
+            className={
+              "text-xs px-3 py-2 rounded border-l-2 italic " +
+              (unverified
+                ? "border-amber-400 bg-amber-50/50"
+                : "border-sky-400 bg-muted/40")
+            }
+          >
+            “{ev.quote}”{" "}
+            {source?.url ? (
+              <a
+                href={deepLinkUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="not-italic font-mono text-sky-700 hover:text-sky-900 hover:underline text-[10px] ml-1"
+                title={`Open ${cite} on Justia`}
+              >
+                [{cite}]
+              </a>
+            ) : (
+              <span className="not-italic font-mono text-muted-foreground text-[10px] ml-1">
+                [{cite}]
+              </span>
+            )}
+          </div>
+        ) : ev.derived ? (
+          // Derived value (e.g. regulatory_model computed from credential_type +
+          // scope_protection): no quote of its own — point at the source fields
+          // rather than render an empty quote card. See issue #62.
+          <div className="text-[11px] not-italic px-3 py-2 rounded border-l-2 border-slate-300 bg-muted/30 text-muted-foreground">
+            Derived from other fields — see the credential type and
+            scope-of-practice protection rows for the supporting statute quotes.
+          </div>
+        ) : null}
         {approximate && (
           <div className="text-[11px] not-italic px-3 py-1.5 rounded bg-amber-50 border border-amber-200 text-amber-900">
             <span className="font-mono uppercase tracking-wide text-[9px] mr-2">
