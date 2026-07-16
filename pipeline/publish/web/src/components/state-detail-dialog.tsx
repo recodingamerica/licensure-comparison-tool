@@ -157,18 +157,8 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
     );
   }
 
-  const lic = row._full.licensure;
-  const scope = row._full.scope;
-  const spec = row._full.profession_specific;
-
-  const sections: Record<string, SectionRef> = {};
-  (row.sections || []).forEach((s) => {
-    if (s.citation) {
-      sections[s.citation] = s;
-      sections[`[${s.citation}]`] = s;
-    }
-  });
-
+  // Coverage-gap rows carry no extracted `_full` payload — render the gap
+  // summary before touching `_full` below.
   if (row.coverage_gap) {
     return (
       <Sheet open onOpenChange={onOpenChange}>
@@ -187,6 +177,37 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
       </Sheet>
     );
   }
+
+  // `_full` is typed as required (src/lib/types.ts), but partial / absence
+  // rows can arrive without it. Guard rather than crash the Sheet on click,
+  // matching how profile-view.tsx guards `_full` before dereferencing.
+  const full = row._full;
+  if (!full) {
+    return (
+      <Sheet open onOpenChange={onOpenChange}>
+        <SheetContent side="right" className="w-full sm:max-w-md lg:max-w-xl">
+          <SheetHeader>
+            <SheetTitle>{row.state}</SheetTitle>
+            <SheetDescription>
+              No detail available for this row.
+            </SheetDescription>
+          </SheetHeader>
+        </SheetContent>
+      </Sheet>
+    );
+  }
+
+  const lic = full.licensure;
+  const scope = full.scope;
+  const spec = full.profession_specific;
+
+  const sections: Record<string, SectionRef> = {};
+  (row.sections || []).forEach((s) => {
+    if (s.citation) {
+      sections[s.citation] = s;
+      sections[`[${s.citation}]`] = s;
+    }
+  });
 
   // Group profession-specific fields by category
   const byCat: Record<string, Array<{ def: DiscoveredField; ev: Evidence }>> = {};
