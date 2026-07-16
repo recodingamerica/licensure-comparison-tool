@@ -561,6 +561,11 @@ def _print_summary(status: dict) -> None:
                 if i.get("empty_chapters") else "")
             line = f"      {i['profession']}/{i['state']}  [{i['result']}]"
             print(line + (f" — {detail}" if detail else ""))
+        print("  (held-back cells were NOT changed — your committed data is untouched. To")
+        print("   accept a real recodification, re-run that ONE occupation with --force.)")
+    if by.get("OK", 0):
+        print(f"  {by['OK']} update(s) are individual git commits — undo any one with "
+              f"`git revert <sha>` (git log pipeline/results/text/).")
     if status.get("aborted"):
         print(f"  ABORTED: {status['aborted']}")
         print("  (fix the cause, then re-run the SAME command with --resume to continue)")
@@ -692,7 +697,9 @@ def main(argv: list[str] | None = None) -> None:
                     help="Comma-separated subset (e.g. CA,IN); empty = all mapped states.")
     ap.add_argument("--force", action="store_true",
                     help="Accept a REGRESSION (a pull with fewer/collapsed sections than the "
-                         "committed corpus) — use for a genuine recodification. The per-chapter "
+                         "committed corpus) — use for a genuine recodification. Scoped on "
+                         "purpose: cannot be combined with --all-professions, so accepting a "
+                         "shrink is always a deliberate, one-occupation act. The per-chapter "
                          "and empty-pull gates still apply.")
     ap.add_argument("--report-only", action="store_true",
                     help="Do NOT fetch. Rebuild the diff report from the last status file.")
@@ -717,6 +724,13 @@ def main(argv: list[str] | None = None) -> None:
         professions = [args.profession.lower()]
     else:
         ap.error("one of --profession or --all-professions is required")
+
+    # Safety: --force overrides the shrink guard, so it can't be a blanket override
+    # across a whole annual run. Accepting a recodification must be a deliberate,
+    # one-occupation act (git still records each change as a revertible commit).
+    if args.force and args.all_professions:
+        ap.error("--force cannot be combined with --all-professions — accept a shrink one "
+                 "occupation at a time, e.g. --profession X --states Y --force")
 
     only_states = {s.strip().upper() for s in args.states.split(",") if s.strip()}
 

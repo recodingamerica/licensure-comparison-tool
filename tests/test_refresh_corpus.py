@@ -395,6 +395,25 @@ class TestDiffReport:
 
 
 # ---------------------------------------------------------------------------
+# --force safety guard (CLI)
+# ---------------------------------------------------------------------------
+class TestForceScopeGuard:
+    def test_force_with_all_professions_is_rejected(self):
+        # The blanket-override footgun: --force + --all-professions must error out
+        # (argparse SystemExit) rather than mass-accept every shrink.
+        with pytest.raises(SystemExit):
+            rc.main(["--all-professions", "--force"])
+
+    def test_force_with_single_profession_is_allowed(self, repo, monkeypatch):
+        # Scoped --force is fine (no SystemExit from the guard). Stub the run so no
+        # network happens; we only assert the guard didn't reject the invocation.
+        called = {"ran": False}
+        monkeypatch.setattr(rc, "run", lambda *a, **k: called.__setitem__("ran", True) or {})
+        rc.main(["--profession", "med", "--states", "CA", "--force", "--run-id", "t"])
+        assert called["ran"] is True
+
+
+# ---------------------------------------------------------------------------
 # Startup liveness abort
 # ---------------------------------------------------------------------------
 class TestStartupLivenessAbort:
