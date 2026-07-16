@@ -70,10 +70,9 @@ log = logging.getLogger("pull_text")
 SECTION_WALK_MAX_DEPTH: int = load_limits()["pull"]["section_walk_max_depth"]
 
 # A path's last segment looks like a Justia section
-SECTION_SEG = re.compile(
-    r"^(section[-_]|§|s[-_]\d|statute[-_]|rs[-_]|\d+[a-z]?[-_:.]\d|\d{3,}\b)",
-    re.IGNORECASE,
-)
+# Single source of truth (shared, dependency-free) so the scope walker can use the
+# SAME pattern without importing the scraping stack. See _section_patterns.
+from pipeline.ingest._section_patterns import SECTION_SEG
 
 
 @dataclass
