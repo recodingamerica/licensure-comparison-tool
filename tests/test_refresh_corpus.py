@@ -2,13 +2,17 @@
 
 No network / pull_state-for-real: pull_state is monkeypatched to return fixture
 corpora, the startup liveness check (justia_reachable) is monkeypatched, and git
-is exercised in a real temp repo (per-item commit path). Covers the hardening
-from docs/runbooks/cdp_repull_lessons_2026-07-02.md:
+is exercised in a real temp repo (per-item commit path). Covers the 2026-07-16
+rewrite:
 
   * per-chapter completeness  -> a mapped-but-empty chapter is PARTIAL, not committed
-  * real-fetch detection      -> an unchanged file is NOCHANGE
-  * circuit breaker           -> 3 consecutive non-productive results aborts
-  * diff report               -> a vanished chapter is "likely recodification"; growth is "grew"
+  * ONE shrink guard          -> a pull that loses error-free sections is a REGRESSION
+                                 (held back), unless --force accepts it
+  * real-fetch detection      -> an unchanged file is NOCHANGE (does NOT trip the breaker)
+  * circuit breaker           -> only consecutive FETCH FAILURES (empty/dead) abort;
+                                 unchanged (NOCHANGE) corpora do not
+  * untracked revert          -> a bad first-time pull's file is DELETED, not left on disk
+  * diff report               -> written on abort too; held-back rows surface
   * startup liveness abort     -> an unreachable source aborts before any pull
 """
 
@@ -45,8 +49,9 @@ def repo(tmp_path, monkeypatch):
     monkeypatch.setattr(rc, "RESULTS_DIR", results)
     monkeypatch.setattr(rc, "PROFESSION_INDEX_DIR", idx_dir)
     monkeypatch.setattr(rc, "TEXT_DIR", text_dir)
-    # source is "reachable" unless a test overrides.
+    # source is "reachable" unless a test overrides; never probe urls for real.
     monkeypatch.setattr(rc, "justia_reachable", lambda *a, **k: True)
+    monkeypatch.setattr(rc, "_classify_empty", lambda urls: {u: "LIVE" for u in urls})
     return root, idx_dir, text_dir
 
 
@@ -72,83 +77,154 @@ def _corpus(state, prof, chapter_urls, urls):
                        sections=_sections(urls), total_chars=len(urls))
 
 
+CH = "https://law.justia.com/codes/x/title-1/chapter-1/"
+CH2 = "https://law.justia.com/codes/x/title-1/chapter-2/"
+
+
 # ---------------------------------------------------------------------------
 # Per-chapter completeness
 # ---------------------------------------------------------------------------
 class TestPerChapterCompleteness:
     def test_empty_mapped_chapter_is_partial_not_committed(self, repo, monkeypatch):
         root, idx_dir, text_dir = repo
-        ch_a = "https://law.justia.com/codes/x/title-1/chapter-1/"
-        ch_b = "https://law.justia.com/codes/x/title-1/chapter-2/"
         _write_index(idx_dir, "med", {"CA": {"matched": [
-            {"url": ch_a, "label": "A", "slug": "chapter-1"},
-            {"url": ch_b, "label": "B", "slug": "chapter-2"},
+            {"url": CH, "label": "A", "slug": "chapter-1"},
+            {"url": CH2, "label": "B", "slug": "chapter-2"},
         ]}})
-        # Seed a prior corpus so there's a HEAD to revert to.
         _commit_corpus(root, text_dir, "med", "CA",
-                       asdict(_corpus("CA", "med", [ch_a, ch_b], [ch_a + "s1"])))
-
-        # New pull: chapter B contributes ZERO sections (partial), total > 0.
-        new = _corpus("CA", "med", [ch_a, ch_b],
-                      [ch_a + "s1", ch_a + "s2", ch_a + "s3"])
+                       asdict(_corpus("CA", "med", [CH, CH2], [CH + "s1", CH2 + "s1"])))
+        # New pull: chapter 2 contributes ZERO sections (partial), total > 0.
+        new = _corpus("CA", "med", [CH, CH2], [CH + "s1", CH + "s2", CH + "s3"])
         monkeypatch.setattr(rc.pull_text, "pull_state", lambda *a, **k: new)
 
-        rec = rc.refresh_item("med", "CA",
-                              [{"chapter_url": ch_a}, {"chapter_url": ch_b}],
+        rec = rc.refresh_item("med", "CA", [{"chapter_url": CH}, {"chapter_url": CH2}],
                               force=False, cap=None, timeout_s=60)
         assert rec["result"] == "PARTIAL"
-        assert ch_b in rec["empty_chapters"]
-        # Reverted: the committed file is still the seed (1 section), uncommitted.
+        assert CH2 in rec["empty_chapters"]
+        # Reverted: the committed file is still the seed (2 sections).
         on_disk = json.loads((text_dir / "med" / "CA.json").read_text())
-        assert len(on_disk["sections"]) == 1
+        assert len(on_disk["sections"]) == 2
 
     def test_all_chapters_populated_commits_ok(self, repo, monkeypatch):
         root, idx_dir, text_dir = repo
-        ch_a = "https://law.justia.com/codes/x/title-1/chapter-1/"
-        ch_b = "https://law.justia.com/codes/x/title-1/chapter-2/"
-        _write_index(idx_dir, "med", {"CA": {"matched": [
-            {"url": ch_a}, {"url": ch_b}]}})
+        _write_index(idx_dir, "med", {"CA": {"matched": [{"url": CH}, {"url": CH2}]}})
         _commit_corpus(root, text_dir, "med", "CA",
-                       asdict(_corpus("CA", "med", [ch_a, ch_b], [ch_a + "s1"])))
-        new = _corpus("CA", "med", [ch_a, ch_b],
-                      [ch_a + "s1", ch_a + "s2", ch_b + "s1"])
+                       asdict(_corpus("CA", "med", [CH, CH2], [CH + "s1"])))
+        new = _corpus("CA", "med", [CH, CH2], [CH + "s1", CH + "s2", CH2 + "s1"])
         monkeypatch.setattr(rc.pull_text, "pull_state", lambda *a, **k: new)
-        rec = rc.refresh_item("med", "CA",
-                              [{"chapter_url": ch_a}, {"chapter_url": ch_b}],
+        rec = rc.refresh_item("med", "CA", [{"chapter_url": CH}, {"chapter_url": CH2}],
                               force=False, cap=None, timeout_s=60)
         assert rec["result"] == "OK"
         assert rec["prev"] == 1 and rec["new"] == 3
-        # Committed: HEAD now has the 3-section corpus, working tree clean.
         show = subprocess.run(["git", "show", "HEAD:pipeline/results/text/med/CA.json"],
                               cwd=root, capture_output=True, text=True)
         assert len(json.loads(show.stdout)["sections"]) == 3
 
     def test_empty_with_dead_link_is_dead(self, repo, monkeypatch):
         root, idx_dir, text_dir = repo
-        ch = "https://law.justia.com/codes/x/title-1/chapter-1/"
-        _write_index(idx_dir, "med", {"CA": {"matched": [{"url": ch}]}})
+        _write_index(idx_dir, "med", {"CA": {"matched": [{"url": CH}]}})
         _commit_corpus(root, text_dir, "med", "CA",
-                       asdict(_corpus("CA", "med", [ch], [ch + "s1"])))
+                       asdict(_corpus("CA", "med", [CH], [CH + "s1"])))
         monkeypatch.setattr(rc.pull_text, "pull_state",
-                            lambda *a, **k: _corpus("CA", "med", [ch], []))  # 0 sections
+                            lambda *a, **k: _corpus("CA", "med", [CH], []))  # 0 sections
         monkeypatch.setattr(rc, "_classify_empty", lambda urls: {u: "DEAD_404" for u in urls})
-        rec = rc.refresh_item("med", "CA", [{"chapter_url": ch}],
+        rec = rc.refresh_item("med", "CA", [{"chapter_url": CH}],
                               force=False, cap=None, timeout_s=60)
         assert rec["result"] == "DEAD"
-        assert rec["url_health"][ch] == "DEAD_404"
+        assert rec["url_health"][CH] == "DEAD_404"
 
     def test_empty_with_live_link_is_empty_not_dead(self, repo, monkeypatch):
         root, idx_dir, text_dir = repo
-        ch = "https://law.justia.com/codes/x/title-1/chapter-1/"
-        _write_index(idx_dir, "med", {"CA": {"matched": [{"url": ch}]}})
+        _write_index(idx_dir, "med", {"CA": {"matched": [{"url": CH}]}})
         _commit_corpus(root, text_dir, "med", "CA",
-                       asdict(_corpus("CA", "med", [ch], [ch + "s1"])))
+                       asdict(_corpus("CA", "med", [CH], [CH + "s1"])))
         monkeypatch.setattr(rc.pull_text, "pull_state",
-                            lambda *a, **k: _corpus("CA", "med", [ch], []))
-        monkeypatch.setattr(rc, "_classify_empty", lambda urls: {u: "LIVE" for u in urls})
-        rec = rc.refresh_item("med", "CA", [{"chapter_url": ch}],
+                            lambda *a, **k: _corpus("CA", "med", [CH], []))
+        rec = rc.refresh_item("med", "CA", [{"chapter_url": CH}],
                               force=False, cap=None, timeout_s=60)
         assert rec["result"] == "EMPTY"  # live link, just no matching sections
+
+    def test_all_errored_sections_is_empty_not_committed(self, repo, monkeypatch):
+        # A pull whose sections all carry an error has 0 error-free sections — the
+        # ok-count gate catches it even though len(sections) > 0.
+        root, idx_dir, text_dir = repo
+        _write_index(idx_dir, "med", {"CA": {"matched": [{"url": CH}]}})
+        _commit_corpus(root, text_dir, "med", "CA",
+                       asdict(_corpus("CA", "med", [CH], [CH + "s1"])))
+        errored = StateCorpus(state="CA", profession="med", chapter_urls=[CH],
+                              sections=[Section(url=CH + "s1", label="l", citation="c",
+                                                text="", text_len=0, error="fetch failed")],
+                              total_chars=0)
+        monkeypatch.setattr(rc.pull_text, "pull_state", lambda *a, **k: errored)
+        rec = rc.refresh_item("med", "CA", [{"chapter_url": CH}],
+                              force=False, cap=None, timeout_s=60)
+        assert rec["result"] in ("EMPTY", "DEAD")
+        on_disk = json.loads((text_dir / "med" / "CA.json").read_text())
+        assert len(on_disk["sections"]) == 1  # seed preserved
+
+
+# ---------------------------------------------------------------------------
+# Shrink guard (the rewrite's headline fix)
+# ---------------------------------------------------------------------------
+class TestRegressionGuard:
+    def test_shrink_is_regression_not_committed(self, repo, monkeypatch):
+        root, idx_dir, text_dir = repo
+        _write_index(idx_dir, "med", {"CA": {"matched": [{"url": CH}]}})
+        _commit_corpus(root, text_dir, "med", "CA",
+                       asdict(_corpus("CA", "med", [CH], [CH + f"s{i}" for i in range(5)])))
+        # Pull collapses 5 -> 1 sections (each chapter still non-empty, so the
+        # per-chapter gate passes) — the regression gate must catch it.
+        monkeypatch.setattr(rc.pull_text, "pull_state",
+                            lambda *a, **k: _corpus("CA", "med", [CH], [CH + "s0"]))
+        rec = rc.refresh_item("med", "CA", [{"chapter_url": CH}],
+                              force=False, cap=None, timeout_s=60)
+        assert rec["result"] == "REGRESSION"
+        assert "1 ok sections vs 5" in rec["reason"]
+        on_disk = json.loads((text_dir / "med" / "CA.json").read_text())
+        assert len(on_disk["sections"]) == 5  # seed preserved, shrink NOT committed
+
+    def test_force_accepts_regression(self, repo, monkeypatch):
+        root, idx_dir, text_dir = repo
+        _write_index(idx_dir, "med", {"CA": {"matched": [{"url": CH}]}})
+        _commit_corpus(root, text_dir, "med", "CA",
+                       asdict(_corpus("CA", "med", [CH], [CH + f"s{i}" for i in range(5)])))
+        monkeypatch.setattr(rc.pull_text, "pull_state",
+                            lambda *a, **k: _corpus("CA", "med", [CH], [CH + "s0"]))
+        rec = rc.refresh_item("med", "CA", [{"chapter_url": CH}],
+                              force=True, cap=None, timeout_s=60)
+        assert rec["result"] == "OK"
+        show = subprocess.run(["git", "show", "HEAD:pipeline/results/text/med/CA.json"],
+                              cwd=root, capture_output=True, text=True)
+        assert len(json.loads(show.stdout)["sections"]) == 1  # shrink accepted
+
+
+# ---------------------------------------------------------------------------
+# First-time (untracked) pulls
+# ---------------------------------------------------------------------------
+class TestUntrackedRevert:
+    def test_untracked_empty_pull_file_is_deleted(self, repo, monkeypatch):
+        # No prior commit: a first-time EMPTY pull must DELETE its file, not leave
+        # it on disk (git checkout is a no-op on an untracked path).
+        root, idx_dir, text_dir = repo
+        _write_index(idx_dir, "med", {"CA": {"matched": [{"url": CH}]}})
+        monkeypatch.setattr(rc.pull_text, "pull_state",
+                            lambda *a, **k: _corpus("CA", "med", [CH], []))
+        rec = rc.refresh_item("med", "CA", [{"chapter_url": CH}],
+                              force=False, cap=None, timeout_s=60)
+        assert rec["result"] == "EMPTY"
+        assert not (text_dir / "med" / "CA.json").exists()
+
+    def test_untracked_healthy_pull_commits(self, repo, monkeypatch):
+        root, idx_dir, text_dir = repo
+        _write_index(idx_dir, "med", {"CA": {"matched": [{"url": CH}]}})
+        monkeypatch.setattr(rc.pull_text, "pull_state",
+                            lambda *a, **k: _corpus("CA", "med", [CH], [CH + "s1", CH + "s2"]))
+        rec = rc.refresh_item("med", "CA", [{"chapter_url": CH}],
+                              force=False, cap=None, timeout_s=60)
+        assert rec["result"] == "OK"
+        show = subprocess.run(["git", "show", "HEAD:pipeline/results/text/med/CA.json"],
+                              cwd=root, capture_output=True, text=True)
+        assert len(json.loads(show.stdout)["sections"]) == 2
 
 
 # ---------------------------------------------------------------------------
@@ -157,13 +233,11 @@ class TestPerChapterCompleteness:
 class TestRealFetchDetection:
     def test_unchanged_file_is_nochange(self, repo, monkeypatch):
         root, idx_dir, text_dir = repo
-        ch = "https://law.justia.com/codes/x/title-1/chapter-1/"
-        seed = asdict(_corpus("CA", "med", [ch], [ch + "s1", ch + "s2"]))
+        seed = asdict(_corpus("CA", "med", [CH], [CH + "s1", CH + "s2"]))
         _commit_corpus(root, text_dir, "med", "CA", seed)
-        # Pull returns a corpus IDENTICAL to what's committed -> no real fetch.
-        same = _corpus("CA", "med", [ch], [ch + "s1", ch + "s2"])
+        same = _corpus("CA", "med", [CH], [CH + "s1", CH + "s2"])
         monkeypatch.setattr(rc.pull_text, "pull_state", lambda *a, **k: same)
-        rec = rc.refresh_item("med", "CA", [{"chapter_url": ch}],
+        rec = rc.refresh_item("med", "CA", [{"chapter_url": CH}],
                               force=False, cap=None, timeout_s=60)
         assert rec["result"] == "NOCHANGE"
 
@@ -172,26 +246,76 @@ class TestRealFetchDetection:
 # Circuit breaker
 # ---------------------------------------------------------------------------
 class TestCircuitBreaker:
-    def test_three_consecutive_nonproductive_aborts(self, repo, monkeypatch):
+    def test_unchanged_corpora_do_not_trip_breaker(self, repo, monkeypatch):
+        # The key rewrite: a normal annual refresh where every state is unchanged
+        # (NOCHANGE) must COMPLETE, not abort after 3.
         root, idx_dir, text_dir = repo
-        ch = "https://law.justia.com/codes/x/title-1/chapter-1/"
         states = ["CA", "IN", "TX", "NY"]
-        _write_index(idx_dir, "med", {s: {"matched": [{"url": ch}]} for s in states})
-        # Each state seeded with an IDENTICAL corpus so every re-pull is NOCHANGE.
+        _write_index(idx_dir, "med", {s: {"matched": [{"url": CH}]} for s in states})
         for s in states:
             _commit_corpus(root, text_dir, "med", s,
-                           asdict(_corpus(s, "med", [ch], [ch + "s1"])))
+                           asdict(_corpus(s, "med", [CH], [CH + "s1"])))
+        monkeypatch.setattr(rc.pull_text, "pull_state",
+                            lambda state, prof, rows, cap: _corpus(state, "med", [CH], [CH + "s1"]))
+        status = rc.run(["med"], set(), force=False, cap=None, timeout_s=60,
+                        breaker=3, run_id="t", chrome_check=lambda: True)
+        assert "aborted" not in status
+        assert len(status["items"]) == 4
+        assert all(i["result"] == "NOCHANGE" for i in status["items"].values())
 
-        def same_corpus(state, prof, rows, cap):
-            return _corpus(state, "med", [ch], [ch + "s1"])
-        monkeypatch.setattr(rc.pull_text, "pull_state", same_corpus)
+    def test_consecutive_fetch_failures_abort(self, repo, monkeypatch):
+        root, idx_dir, text_dir = repo
+        states = ["CA", "IN", "TX", "NY"]
+        _write_index(idx_dir, "med", {s: {"matched": [{"url": CH}]} for s in states})
+        for s in states:
+            _commit_corpus(root, text_dir, "med", s,
+                           asdict(_corpus(s, "med", [CH], [CH + "s1"])))
+        # Every pull comes back empty -> EMPTY (a genuine fetch failure).
+        monkeypatch.setattr(rc.pull_text, "pull_state",
+                            lambda state, prof, rows, cap: _corpus(state, "med", [CH], []))
+        status = rc.run(["med"], set(), force=False, cap=None, timeout_s=60,
+                        breaker=3, run_id="t", chrome_check=lambda: True)
+        assert "aborted" in status
+        assert "fetch failures" in status["aborted"]
+        assert len(status["items"]) == 3  # stopped at the 3rd; 4th never attempted
+
+    def test_diff_report_written_on_abort(self, repo, monkeypatch):
+        root, idx_dir, text_dir = repo
+        states = ["CA", "IN", "TX"]
+        _write_index(idx_dir, "med", {s: {"matched": [{"url": CH}]} for s in states})
+        for s in states:
+            _commit_corpus(root, text_dir, "med", s,
+                           asdict(_corpus(s, "med", [CH], [CH + "s1"])))
+        monkeypatch.setattr(rc.pull_text, "pull_state",
+                            lambda state, prof, rows, cap: _corpus(state, "med", [CH], []))
+        status = rc.run(["med"], set(), force=False, cap=None, timeout_s=60,
+                        breaker=3, run_id="t", chrome_check=lambda: True)
+        assert "diff_report" in status  # report written even though the run aborted
+        assert (root / "docs" / "reports" / "refresh_diff_t.md").exists()
+
+
+# ---------------------------------------------------------------------------
+# Timeout
+# ---------------------------------------------------------------------------
+class TestItemTimeout:
+    def test_item_timeout_aborts_cleanly_with_report(self, repo, monkeypatch):
+        root, idx_dir, text_dir = repo
+        _write_index(idx_dir, "med", {"CA": {"matched": [{"url": CH}]},
+                                      "IN": {"matched": [{"url": CH}]}})
+        for s in ("CA", "IN"):
+            _commit_corpus(root, text_dir, "med", s,
+                           asdict(_corpus(s, "med", [CH], [CH + "s1"])))
+
+        def boom(*a, **k):
+            raise rc._ItemTimeout("pull_state exceeded 60s wall clock (genuine hang)")
+        monkeypatch.setattr(rc, "refresh_item", boom)
 
         status = rc.run(["med"], set(), force=False, cap=None, timeout_s=60,
                         breaker=3, run_id="t", chrome_check=lambda: True)
         assert "aborted" in status
-        assert "consecutive" in status["aborted"]
-        # Stopped at the 3rd item; the 4th was never attempted.
-        assert len(status["items"]) == 3
+        assert "timeout" in status["aborted"].lower()
+        assert "diff_report" in status
+        assert len(status["items"]) == 1  # aborted on the first item
 
 
 # ---------------------------------------------------------------------------
@@ -199,48 +323,38 @@ class TestCircuitBreaker:
 # ---------------------------------------------------------------------------
 class TestDiffReport:
     def test_vanished_chapter_flagged_recodification(self):
-        old = {"sections": [
-            {"url": "https://law.justia.com/codes/x/title-1/chapter-1/s1"},
-            {"url": "https://law.justia.com/codes/x/title-1/chapter-2/s1"},
-        ]}
-        new = {"sections": [
-            {"url": "https://law.justia.com/codes/x/title-1/chapter-1/s1"},
-        ]}
+        old = {"sections": [{"url": CH + "s1"}, {"url": CH2 + "s1"}]}
+        new = {"sections": [{"url": CH + "s1"}]}
         diff = rc.diff_one(old, new)
         assert "codes/x/title-1/chapter-2" in diff["vanished_chapters"]
         assert rc.classify(diff) == "likely recodification (chapter vanished)"
 
     def test_grown_corpus_is_grew(self):
-        old = {"sections": [{"url": "https://law.justia.com/codes/x/title-1/chapter-1/s1"}]}
-        new = {"sections": [
-            {"url": "https://law.justia.com/codes/x/title-1/chapter-1/s1"},
-            {"url": "https://law.justia.com/codes/x/title-1/chapter-1/s2"},
-            {"url": "https://law.justia.com/codes/x/title-1/chapter-1/s3"},
-        ]}
+        old = {"sections": [{"url": CH + "s1"}]}
+        new = {"sections": [{"url": CH + "s1"}, {"url": CH + "s2"}, {"url": CH + "s3"}]}
         diff = rc.diff_one(old, new)
         assert diff["delta"] == 2
         assert rc.classify(diff) == "grew"
 
     def test_shrunk_chapter_flagged_suspicious(self):
-        old = {"sections": [{"url": f"https://law.justia.com/codes/x/title-1/chapter-1/s{i}"}
-                            for i in range(10)]}
-        new = {"sections": [{"url": "https://law.justia.com/codes/x/title-1/chapter-1/s0"}]}
+        old = {"sections": [{"url": CH + f"s{i}"} for i in range(10)]}
+        new = {"sections": [{"url": CH + "s0"}]}
         diff = rc.diff_one(old, new)
         assert diff["shrunk_chapters"]
         assert rc.classify(diff) == "suspicious shrink (chapter dropped >30%)"
 
-    def test_report_renders_grouped_by_severity(self):
-        rows = [
-            {"profession": "med", "state": "CA",
-             "diff": rc.diff_one(
-                 {"sections": [{"url": "https://law.justia.com/codes/x/title-1/chapter-2/s1"}]},
-                 {"sections": []}),
-             "severity": "likely recodification (chapter vanished)"},
-        ]
-        md = rc.render_diff_report(rows, "runX")
-        assert "# Refresh diff report — runX" in md
-        assert "likely recodification (chapter vanished)" in md
+    def test_held_back_regression_row_surfaces(self, repo):
+        # A held-back (reverted) REGRESSION item must appear in the report, sourced
+        # from its recorded prev/new (on-disk == prior, so a diff would show nothing).
+        status = {"items": {"med:CA": {
+            "profession": "med", "state": "CA", "result": "REGRESSION",
+            "prev": 5, "new": 1, "reason": "new pull has 1 ok sections vs 5 committed",
+        }}}
+        report = rc.write_diff_report(status, "runX")
+        md = report.read_text()
+        assert "held back — suspicious shrink" in md
         assert "med/CA" in md
+        assert "1 ok sections vs 5" in md
 
 
 # ---------------------------------------------------------------------------
@@ -249,14 +363,11 @@ class TestDiffReport:
 class TestStartupLivenessAbort:
     def test_unreachable_source_aborts_without_pulling(self, repo, monkeypatch):
         root, idx_dir, text_dir = repo
-        ch = "https://law.justia.com/codes/x/title-1/chapter-1/"
-        _write_index(idx_dir, "med", {"CA": {"matched": [{"url": ch}]}})
+        _write_index(idx_dir, "med", {"CA": {"matched": [{"url": CH}]}})
         _commit_corpus(root, text_dir, "med", "CA",
-                       asdict(_corpus("CA", "med", [ch], [ch + "s1"])))
+                       asdict(_corpus("CA", "med", [CH], [CH + "s1"])))
 
-        called = {"pull": False}
         def boom(*a, **k):
-            called["pull"] = True
             raise AssertionError("pull_state must NOT run when the source is unreachable")
         monkeypatch.setattr(rc.pull_text, "pull_state", boom)
 
@@ -264,21 +375,18 @@ class TestStartupLivenessAbort:
                         breaker=3, run_id="t", chrome_check=lambda: False)
         assert "aborted" in status
         assert "not reachable" in status["aborted"].lower()
-        assert called["pull"] is False
 
 
 # ---------------------------------------------------------------------------
-# A pull error propagates (no more CDP-death retry — Scrapling self-retries at
-# the fetch layer; a hard pull failure aborts the run loudly rather than
-# committing bad data).
+# A hard pull error propagates (Scrapling self-retries at the fetch layer; a hard
+# failure aborts the run loudly rather than committing bad data).
 # ---------------------------------------------------------------------------
 class TestPullErrorPropagates:
     def test_hard_pull_error_propagates(self, repo, monkeypatch):
         root, idx_dir, text_dir = repo
-        ch = "https://law.justia.com/codes/x/title-1/chapter-1/"
-        _write_index(idx_dir, "med", {"CA": {"matched": [{"url": ch}]}})
+        _write_index(idx_dir, "med", {"CA": {"matched": [{"url": CH}]}})
         _commit_corpus(root, text_dir, "med", "CA",
-                       asdict(_corpus("CA", "med", [ch], [ch + "s1"])))
+                       asdict(_corpus("CA", "med", [CH], [CH + "s1"])))
 
         def dead(*a, **k):
             raise RuntimeError("scrapling session died")
