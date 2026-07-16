@@ -49,6 +49,7 @@ def repo(tmp_path, monkeypatch):
     monkeypatch.setattr(rc, "RESULTS_DIR", results)
     monkeypatch.setattr(rc, "PROFESSION_INDEX_DIR", idx_dir)
     monkeypatch.setattr(rc, "TEXT_DIR", text_dir)
+    monkeypatch.setattr(rc, "LOGS_DIR", results / "logs")  # keep summary files out of the real tree
     # source is "reachable" unless a test overrides; never probe urls for real.
     monkeypatch.setattr(rc, "justia_reachable", lambda *a, **k: True)
     monkeypatch.setattr(rc, "_classify_empty", lambda urls: {u: "LIVE" for u in urls})
@@ -299,6 +300,28 @@ class TestCircuitBreaker:
         assert "aborted" in status
         assert "fetch failures" in status["aborted"]
         assert len(status["items"]) == 3  # stopped at the 3rd; 4th never attempted
+
+    def test_summary_file_written(self, repo, monkeypatch):
+        # The plain-English summary persists to a file (walk-away-and-come-back).
+        root, idx_dir, text_dir = repo
+        _write_index(idx_dir, "med", {"CA": {"matched": [{"url": CH}]}})
+        _commit_corpus(root, text_dir, "med", "CA",
+                       asdict(_corpus("CA", "med", [CH], [CH + "s1"])))
+        monkeypatch.setattr(rc.pull_text, "pull_state",
+                            lambda *a, **k: _corpus("CA", "med", [CH], [CH + "s1"]))
+        rc.run(["med"], set(), force=False, cap=None, timeout_s=60, breaker=3,
+               run_id="sumtest", chrome_check=lambda: True)
+        summ = rc.LOGS_DIR / "refresh_sumtest_summary.txt"
+        assert summ.exists()
+        assert "Refresh summary" in summ.read_text()
+        assert "1 unchanged" in summ.read_text()
+
+    def test_estimate_seconds_positive(self, repo):
+        # A worklist estimate is a positive number (rough, but non-zero).
+        root, idx_dir, text_dir = repo
+        _write_index(idx_dir, "med", {"CA": {"matched": [{"url": CH}]}})
+        work = rc.build_worklist(["med"], set())
+        assert rc._estimate_seconds(work) > 0
 
     def test_diff_report_written_on_abort(self, repo, monkeypatch):
         root, idx_dir, text_dir = repo

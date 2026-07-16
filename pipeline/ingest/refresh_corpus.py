@@ -627,37 +627,63 @@ def _fmt_eta(seconds: float) -> str:
     return f"~{seconds / 3600:.1f}h"
 
 
+def _estimate_seconds(work: list) -> float:
+    """A rough wall-clock estimate for a worklist: ~2.5s per section fetch + ~4s
+    per-cell overhead, from committed section counts (a cell with no committed
+    corpus assumes ~20 sections). Deliberately a loose upper-ish guess so the
+    operator knows the order of magnitude before starting."""
+    sections = 0
+    for prof, state, _rows in work:
+        try:
+            n = len(json.loads((TEXT_DIR / prof / f"{state}.json").read_text()).get("sections") or [])
+        except OSError:
+            n = 0
+        sections += n or 20
+    return sections * 2.5 + len(work) * 4
+
+
 def _print_summary(status: dict) -> None:
-    """A plain-English end-of-run summary to the terminal — readable without
-    opening the markdown report. Printed on every exit path (complete or abort)."""
+    """A plain-English end-of-run summary — shown on the terminal AND written to
+    pipeline/logs/refresh_<run_id>_summary.txt so it survives closing the terminal
+    (the walk-away-and-come-back case). Printed on every exit path."""
     items = status.get("items", {})
     by = collections.Counter(i.get("result") for i in items.values())
     held = sorted(k for k, i in items.items() if i.get("result") in HELD_SEVERITY)
-    _emit("\n" + "=" * 64)
-    _emit(f"Refresh summary — run {status.get('run_id') or 'latest'}")
-    _emit(f"  {len(items)} corpora checked")
-    _emit(f"  {by.get('NOCHANGE', 0)} unchanged")
-    _emit(f"  {by.get('OK', 0)} updated (committed)")
+    lines = ["=" * 64,
+             f"Refresh summary — run {status.get('run_id') or 'latest'}",
+             f"  {len(items)} corpora checked",
+             f"  {by.get('NOCHANGE', 0)} unchanged",
+             f"  {by.get('OK', 0)} updated (committed)"]
     if held:
-        _emit(f"  {len(held)} held back — need your review:")
+        lines.append(f"  {len(held)} held back — need your review:")
         for k in held:
             i = items[k]
             detail = i.get("reason") or (
                 "empty chapters: " + ", ".join(i["empty_chapters"])
                 if i.get("empty_chapters") else "")
-            line = f"      {i['profession']}/{i['state']}  [{i['result']}]"
-            _emit(line + (f" — {detail}" if detail else ""))
-        _emit("  (held-back cells were NOT changed — your committed data is untouched. To")
-        _emit("   accept a real recodification, re-run that ONE occupation with --force.)")
+            lines.append(f"      {i['profession']}/{i['state']}  [{i['result']}]"
+                         + (f" — {detail}" if detail else ""))
+        lines.append("  (held-back cells were NOT changed — your committed data is untouched. To")
+        lines.append("   accept a real recodification, re-run that ONE occupation with --force.)")
     if by.get("OK", 0):
-        _emit(f"  {by['OK']} update(s) are individual git commits — undo any one with "
-              f"`git revert <sha>` (git log pipeline/results/text/).")
+        lines.append(f"  {by['OK']} update(s) are individual git commits — undo any one with "
+                     f"`git revert <sha>` (git log pipeline/results/text/).")
     if status.get("aborted"):
-        _emit(f"  ABORTED: {status['aborted']}")
-        _emit("  (fix the cause, then re-run the SAME command with --resume to continue)")
+        lines.append(f"  ABORTED: {status['aborted']}")
+        lines.append("  (fix the cause, then re-run the SAME command with --resume to continue)")
     if status.get("diff_report"):
-        _emit(f"  full report: {status['diff_report']}")
-    _emit("=" * 64)
+        lines.append(f"  full report: {status['diff_report']}")
+    lines.append("=" * 64)
+
+    _emit("")
+    for ln in lines:
+        _emit(ln)
+    try:
+        p = LOGS_DIR / f"refresh_{status.get('run_id') or 'latest'}_summary.txt"
+        p.parent.mkdir(parents=True, exist_ok=True)
+        p.write_text("\n".join(lines) + "\n")
+    except OSError:
+        pass  # a summary file is a convenience; never fail the run over it
 
 
 # ---------------------------------------------------------------------------
@@ -804,6 +830,9 @@ def main(argv: list[str] | None = None) -> None:
                     help="Show the raw per-fetch logs and browser teardown noise on the "
                          "terminal. Default: only progress + summary show; the detail goes "
                          "to a log file (its path is printed at the end).")
+    ap.add_argument("--yes", action="store_true",
+                    help="Skip the 'proceed?' confirmation shown before a big "
+                         "--all-professions run.")
     args = ap.parse_args(argv)
 
     if args.all_professions:
@@ -841,6 +870,21 @@ def main(argv: list[str] | None = None) -> None:
         run_id = None
     else:
         run_id = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+
+    # Big annual run: show scope + a rough time estimate and confirm, so a
+    # non-expert operator knows the commitment. Interactive + --all-professions
+    # only — scoped/scripted runs (refetch.sh, gap_pull.sh) proceed without a prompt.
+    if args.all_professions and not args.yes and sys.stdin.isatty():
+        work = build_worklist(professions, only_states)
+        if not work:
+            sys.exit("nothing to refresh for that scope")
+        est = _fmt_eta(_estimate_seconds(work))
+        resp = input(f"About to refresh {len(work)} cell(s) across {len(professions)} "
+                     f"occupations — roughly {est} of live fetching. It's safe to stop "
+                     f"and re-run with --resume. Proceed? [y/N] ")
+        if resp.strip().lower() not in ("y", "yes"):
+            print("Aborted — nothing fetched.")
+            return
 
     # Quiet by default: route the noisy fetch logs + teardown tracebacks to a file
     # and keep the terminal to progress + summary. --verbose leaves them on screen.
