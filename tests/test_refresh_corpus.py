@@ -189,7 +189,7 @@ class TestRegressionGuard:
                               force=False, cap=None, timeout_s=60)
         assert rec["result"] == "REGRESSION"
         assert "missing from the new pull" in rec["reason"]  # 4 sections genuinely gone
-        assert rec["attempts"] == rc.PULL_RETRIES + 1        # retried before giving up
+        assert rec["attempts"] == 1  # clean pull -> trusted, not re-fetched
         on_disk = json.loads((text_dir / "med" / "CA.json").read_text())
         assert len(on_disk["sections"]) == 5  # seed preserved, shrink NOT committed
 
@@ -217,9 +217,11 @@ class TestRegressionGuard:
                               force=False, cap=None, timeout_s=60)
         assert rec["result"] == "OK"  # content preserved -> committed, not REGRESSION
 
-    def test_transient_shortfall_is_retried(self, repo, monkeypatch):
-        # A deficient first pull (a section dropped by a transient hiccup) is retried;
-        # the complete second attempt is what counts.
+    def test_transient_fetch_error_is_retried(self, repo, monkeypatch):
+        # A transient shows up as a FETCH ERROR on a section; that IS retried, and
+        # the clean second attempt is what counts. (A clean-but-short pull is not
+        # retried — that's the content gate's job — so the transient signal is the
+        # error, not a bare count shortfall.)
         root, idx_dir, text_dir = repo
         _write_index(idx_dir, "med", {"CA": {"matched": [{"url": CH}]}})
         _commit_corpus(root, text_dir, "med", "CA",
@@ -227,15 +229,35 @@ class TestRegressionGuard:
         calls = {"n": 0}
         def flaky(state, prof, rows, cap):
             calls["n"] += 1
+            c = _corpus("CA", "med", [CH], [CH + "s1", CH + "s2"])
             if calls["n"] == 1:
-                return _corpus("CA", "med", [CH], [CH + "s1"])          # deficient (1 of 2)
-            return _corpus("CA", "med", [CH], [CH + "s1", CH + "s2"])   # complete
+                c.sections[1].error = "cloudflare challenge"  # s2 transiently failed
+                c.sections[1].text = ""
+            return c
         monkeypatch.setattr(rc.pull_text, "pull_state", flaky)
         rec = rc.refresh_item("med", "CA", [{"chapter_url": CH}],
                               force=False, cap=None, timeout_s=60)
-        assert rec["result"] == "NOCHANGE"   # the complete retry matches committed
-        assert rec["attempts"] >= 2          # the first deficient attempt was retried
+        assert rec["result"] == "NOCHANGE"   # the clean retry matches committed
+        assert rec["attempts"] >= 2          # the errored first attempt was retried
         assert calls["n"] >= 2
+
+    def test_clean_short_pull_is_not_retried(self, repo, monkeypatch):
+        # A clean pull that's merely shorter than committed must NOT be re-fetched —
+        # the content gate decides. (Regression from the WY run: retrying clean short
+        # pulls tripled the annual run's time on every genuine removal.)
+        root, idx_dir, text_dir = repo
+        _write_index(idx_dir, "med", {"CA": {"matched": [{"url": CH}]}})
+        _commit_corpus(root, text_dir, "med", "CA",
+                       asdict(_corpus("CA", "med", [CH], [CH + "s1", CH + "s2", CH + "s3"])))
+        calls = {"n": 0}
+        def short(state, prof, rows, cap):
+            calls["n"] += 1
+            return _corpus("CA", "med", [CH], [CH + "s1", CH + "s2"])  # clean, 2 of 3
+        monkeypatch.setattr(rc.pull_text, "pull_state", short)
+        rec = rc.refresh_item("med", "CA", [{"chapter_url": CH}],
+                              force=False, cap=None, timeout_s=60)
+        assert rec["result"] == "REGRESSION"
+        assert calls["n"] == 1  # exactly one pull — no wasted re-fetches
 
     def test_force_accepts_regression(self, repo, monkeypatch):
         root, idx_dir, text_dir = repo

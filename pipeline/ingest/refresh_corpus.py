@@ -379,8 +379,15 @@ def refresh_item(profession: str, state: str, rows: list[dict], *,
         if new_d is None or cand_ok > new_ok:
             new_d, new_ok = cand, cand_ok
         errored = sum(1 for s in (cand.get("sections") or []) if s.get("error"))
-        if errored == 0 and cand_ok >= prev_ok:
-            break  # complete pull — retrying can't add anything
+        # Retry only a BROKEN pull — one with fetch errors, or a totally empty one.
+        # A clean, non-empty pull is authoritative: re-fetching returns the same
+        # section list, so a shortfall vs the committed corpus is judged by the
+        # content-aware regression gate (renumber vs real removal), NOT by burning
+        # 2 more full re-pulls. The rare clean-but-truncated transient is recovered
+        # by --resume instead. (Retrying clean short pulls made the annual run ~3x
+        # slower on every genuine removal — found by the WY whole-state run.)
+        if errored == 0 and cand_ok > 0:
+            break
 
     out_path.parent.mkdir(parents=True, exist_ok=True)
     out_path.write_text(json.dumps(new_d, indent=2))
