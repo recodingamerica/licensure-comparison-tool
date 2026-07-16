@@ -51,10 +51,51 @@ from dataclasses import asdict
 from datetime import datetime, timezone
 from pathlib import Path
 
-from pipeline.paths import RESULTS_DIR, PROFESSION_INDEX_DIR, TEXT_DIR
+import logging
+
+from pipeline.paths import RESULTS_DIR, PROFESSION_INDEX_DIR, TEXT_DIR, LOGS_DIR
 from pipeline.ingest import pull_text
 
 ROOT = Path(__file__).resolve().parents[2]
+
+# The terminal channel for the operator-facing progress/summary lines. Held
+# separately from sys.stdout so we can redirect the noisy fetch logs + browser
+# teardown tracebacks to a file (see _route_noise_to_log) while progress still
+# prints to the real terminal. Reset in main().
+_OUT = sys.stdout
+_LOG_FH = None  # kept alive for the whole process so atexit-time noise still lands in the log
+
+
+def _emit(msg: str = "") -> None:
+    """Write one operator-facing line to the terminal (bypasses log-file routing)."""
+    print(msg, file=_OUT, flush=True)
+
+
+def _route_noise_to_log(log_path: Path) -> None:
+    """Send the verbose per-fetch logs + browser-teardown tracebacks to `log_path`
+    and keep the terminal to progress/summary only (via _emit). pull_text installs
+    a terminal StreamHandler on the root logger at import, and scrapling/asyncio log
+    fetch chatter + greenlet/TargetClosedError teardown noise there — none of which
+    an operator needs to see. Effects last for the process so even atexit-time
+    session-teardown noise lands in the file, not the terminal. `--verbose` skips
+    this entirely."""
+    global _LOG_FH
+    log_path.parent.mkdir(parents=True, exist_ok=True)
+    _LOG_FH = open(log_path, "a", buffering=1)
+    handler = logging.StreamHandler(_LOG_FH)
+    handler.setFormatter(logging.Formatter("%(asctime)s %(levelname)s %(name)s: %(message)s"))
+    root = logging.getLogger()
+    root.setLevel(logging.INFO)
+    for h in list(root.handlers):            # drop pull_text's terminal StreamHandler
+        root.removeHandler(h)
+    root.addHandler(handler)
+    scr = logging.getLogger("scrapling")     # scrapling installs its own console handler
+    for h in list(scr.handlers):
+        scr.removeHandler(h)
+    scr.propagate = True                     # route it through root -> the log file
+    # Catch direct stdout/stderr writes (scrapling banners, greenlet/atexit tracebacks).
+    sys.stdout = _LOG_FH
+    sys.stderr = _LOG_FH
 
 # Only a genuine FETCH FAILURE (nothing usable came back) advances the circuit
 # breaker — a consecutive run of these means the fetcher is wedged and the rest
@@ -552,31 +593,31 @@ def _print_summary(status: dict) -> None:
     items = status.get("items", {})
     by = collections.Counter(i.get("result") for i in items.values())
     held = sorted(k for k, i in items.items() if i.get("result") in HELD_SEVERITY)
-    print("\n" + "=" * 64)
-    print(f"Refresh summary — run {status.get('run_id') or 'latest'}")
-    print(f"  {len(items)} corpora checked")
-    print(f"  {by.get('NOCHANGE', 0)} unchanged")
-    print(f"  {by.get('OK', 0)} updated (committed)")
+    _emit("\n" + "=" * 64)
+    _emit(f"Refresh summary — run {status.get('run_id') or 'latest'}")
+    _emit(f"  {len(items)} corpora checked")
+    _emit(f"  {by.get('NOCHANGE', 0)} unchanged")
+    _emit(f"  {by.get('OK', 0)} updated (committed)")
     if held:
-        print(f"  {len(held)} held back — need your review:")
+        _emit(f"  {len(held)} held back — need your review:")
         for k in held:
             i = items[k]
             detail = i.get("reason") or (
                 "empty chapters: " + ", ".join(i["empty_chapters"])
                 if i.get("empty_chapters") else "")
             line = f"      {i['profession']}/{i['state']}  [{i['result']}]"
-            print(line + (f" — {detail}" if detail else ""))
-        print("  (held-back cells were NOT changed — your committed data is untouched. To")
-        print("   accept a real recodification, re-run that ONE occupation with --force.)")
+            _emit(line + (f" — {detail}" if detail else ""))
+        _emit("  (held-back cells were NOT changed — your committed data is untouched. To")
+        _emit("   accept a real recodification, re-run that ONE occupation with --force.)")
     if by.get("OK", 0):
-        print(f"  {by['OK']} update(s) are individual git commits — undo any one with "
+        _emit(f"  {by['OK']} update(s) are individual git commits — undo any one with "
               f"`git revert <sha>` (git log pipeline/results/text/).")
     if status.get("aborted"):
-        print(f"  ABORTED: {status['aborted']}")
-        print("  (fix the cause, then re-run the SAME command with --resume to continue)")
+        _emit(f"  ABORTED: {status['aborted']}")
+        _emit("  (fix the cause, then re-run the SAME command with --resume to continue)")
     if status.get("diff_report"):
-        print(f"  full report: {status['diff_report']}")
-    print("=" * 64)
+        _emit(f"  full report: {status['diff_report']}")
+    _emit("=" * 64)
 
 
 # ---------------------------------------------------------------------------
@@ -598,10 +639,10 @@ def run(professions: list[str], only_states: set[str], *, force: bool, cap: int 
             status["items"] = prior.get("items", {})
             settled = {k for k, i in status["items"].items()
                        if i.get("result") in _SETTLED}
-            print(f"resume: {len(settled)} cell(s) already done — skipping; "
+            _emit(f"resume: {len(settled)} cell(s) already done — skipping; "
                   f"re-attempting failures + not-yet-done cells")
         else:
-            print(f"resume: no prior status at {status_path} — starting fresh")
+            _emit(f"resume: no prior status at {status_path} — starting fresh")
 
     def _save():
         status_path.parent.mkdir(parents=True, exist_ok=True)
@@ -623,7 +664,7 @@ def run(professions: list[str], only_states: set[str], *, force: bool, cap: int 
         status["aborted"] = ("source not reachable — a startup Justia fetch failed "
                              "(Scrapling installed? network up?); nothing attempted")
         _save()
-        print("ABORT: startup Justia fetch failed — Scrapling not clearing Cloudflare or network down")
+        _emit("ABORT: startup Justia fetch failed — Scrapling not clearing Cloudflare or network down")
         _print_summary(status)
         return status
 
@@ -653,7 +694,7 @@ def run(professions: list[str], only_states: set[str], *, force: bool, cap: int 
                    "prior_snapshot": prior}
             status["items"][key] = rec
             status["aborted"] = f"item timeout at {key} — {e}; run aborted (re-run with --resume)"
-            print("ABORT: item timeout —", status["aborted"])
+            _emit(f"ABORT: item timeout — {status['aborted']}")
             _finalize()
             _print_summary(status)
             return status
@@ -669,7 +710,7 @@ def run(professions: list[str], only_states: set[str], *, force: bool, cap: int 
         elapsed = time.time() - t0
         eta = _fmt_eta((elapsed / attempt_done) * (attempt_total - attempt_done))
         held = sum(tally[r] for r in HELD_SEVERITY)
-        print(f"[{attempt_done}/{attempt_total}] {key} → {rec['result']}  "
+        _emit(f"[{attempt_done}/{attempt_total}] {key} → {rec['result']}  "
               f"| {tally['NOCHANGE']} unchanged, {tally['OK']} updated, "
               f"{held} held-back · {eta} left")
 
@@ -680,7 +721,7 @@ def run(professions: list[str], only_states: set[str], *, force: bool, cap: int 
         if consec_fail >= breaker:
             status["aborted"] = (f"{breaker} consecutive fetch failures ending at {key} "
                                  f"— the fetcher is likely wedged (Cloudflare/Scrapling); aborting")
-            print("ABORT: circuit breaker tripped —", status["aborted"])
+            _emit(f"ABORT: circuit breaker tripped — {status['aborted']}")
             _finalize()
             _print_summary(status)
             return status
@@ -721,6 +762,10 @@ def main(argv: list[str] | None = None) -> None:
     ap.add_argument("--breaker", type=int, default=3,
                     help="Abort after N consecutive FETCH FAILURES (empty/dead) — a wedged "
                          "fetcher, not unchanged corpora (default %(default)s).")
+    ap.add_argument("--verbose", action="store_true",
+                    help="Show the raw per-fetch logs and browser teardown noise on the "
+                         "terminal. Default: only progress + summary show; the detail goes "
+                         "to a log file (its path is printed at the end).")
     args = ap.parse_args(argv)
 
     if args.all_professions:
@@ -746,7 +791,7 @@ def main(argv: list[str] | None = None) -> None:
             sys.exit(f"--report-only: no status file at {status_path} — run a refresh first")
         status = json.loads(status_path.read_text())
         report = write_diff_report(status, run_id)
-        print(f"diff report written: {report}")
+        _emit(f"diff report written: {report}")
         return
 
     # A fresh run gets a timestamp run-id; a --resume run without an explicit id
@@ -758,9 +803,21 @@ def main(argv: list[str] | None = None) -> None:
         run_id = None
     else:
         run_id = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+
+    # Quiet by default: route the noisy fetch logs + teardown tracebacks to a file
+    # and keep the terminal to progress + summary. --verbose leaves them on screen.
+    global _OUT
+    _OUT = sys.stdout
+    log_path = LOGS_DIR / f"refresh_{run_id or 'latest'}.log"
+    if not args.verbose:
+        _route_noise_to_log(log_path)
+
     run(professions, only_states, force=args.force, cap=None,
         timeout_s=args.item_timeout, breaker=args.breaker, run_id=run_id,
         resume=args.resume)
+
+    if not args.verbose:
+        _emit(f"  detailed fetch log: {log_path}")
 
 
 if __name__ == "__main__":
