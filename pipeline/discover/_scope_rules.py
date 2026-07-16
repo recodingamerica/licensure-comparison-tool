@@ -77,14 +77,13 @@ class StateScopeRules:
 # chapter/title/division landing page). Justia names leaf segments differently
 # per state — `section-58-1-102` (UT/FL/CO), `statute-622-005` (NV/NE),
 # `rs-37-1` (LA), bare integers (NY edn) — so we can't require a literal
-# "/section-". Mirrors pipeline/ingest/pull_text.py::SECTION_SEG; kept local so
-# the walker doesn't import the scraping stack (bs4/curl_cffi). Container
-# landing pages like `chapter-88` / `title-58` deliberately do NOT match, so
-# they're dropped from scope assignment.
-LEAF_SECTION_SEG = re.compile(
-    r"^(section[-_]|§|s[-_]\d|statute[-_]|rs[-_]|\d+[a-z]?[-_:.]\d|\d{3,}\b)",
-    re.I,
-)
+# "/section-". Container landing pages like `chapter-88` / `title-58` deliberately
+# do NOT match, so they're dropped from scope assignment.
+#
+# Imported from the shared, dependency-free _section_patterns (NOT re-declared) so
+# this and pull_text can't drift — and importing it doesn't drag in the scraping
+# stack (bs4/curl_cffi) the way importing pull_text would.
+from pipeline.ingest._section_patterns import SECTION_SEG as LEAF_SECTION_SEG
 
 # Cross-state regularities — these have looked the same in every umbrella
 # text we've probed so far (UT, FL, CO, NE, MA).
