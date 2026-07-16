@@ -99,20 +99,22 @@ def _rel(path: Path) -> str:
     return str(path.resolve().relative_to(ROOT))
 
 
-def file_changed(path: Path) -> bool:
-    """True if `path` differs from its committed (HEAD) version. A re-pull of an
-    incomplete corpus MUST change the file; unchanged = the pull was a no-op.
+def same_corpus_content(new_d: dict, old_d: dict) -> bool:
+    """True iff two corpora carry the same statute CONTENT — the load-bearing
+    projection of each section (url/label/citation/text/error), not raw JSON bytes.
 
-    `git diff --quiet` silently ignores UNTRACKED files (exit 0 = "no differences"
-    even for brand-new content) — it only compares tracked paths. An untracked
-    file with any content IS the change (there's no baseline to diff against), so
-    a first-time pull of a new (profession, state) is correctly treated as changed
-    (see docs/runbooks/cdp_repull_lessons_2026-07-09.md)."""
-    r = _git("ls-files", "--error-unmatch", "--", _rel(path))
-    if r.returncode != 0:
-        return True  # untracked: never committed, so any write is new
-    r = subprocess.run(["git", "diff", "--quiet", "--", _rel(path)], cwd=ROOT)
-    return r.returncode != 0  # nonzero = differs
+    We compare content, not bytes, on purpose: `StateCorpus` gains fields over time
+    (e.g. `source_unavailable`), so a corpus last written before a field was added
+    re-serializes byte-differently even when the statute is untouched. A raw git
+    diff would treat that as "changed" and re-commit thousands of no-op updates on
+    the annual run, defeating the NOCHANGE/updated distinction the breaker + resume
+    rely on. An untracked cell (old_d empty) has no baseline, so it's never a match."""
+    def _proj(d: dict) -> list[tuple]:
+        return [
+            (s.get("url"), s.get("label"), s.get("citation"), s.get("text"), s.get("error"))
+            for s in (d.get("sections") or [])
+        ]
+    return bool(old_d) and _proj(new_d) == _proj(old_d)
 
 
 def prior_committed(path: Path) -> dict | None:
@@ -315,8 +317,11 @@ def refresh_item(profession: str, state: str, rows: list[dict], *,
             rec["reason"] = reason
             return rec
 
-    # 4. Byte-identical to HEAD → nothing fresh was fetched / already current.
-    if not file_changed(out_path):
+    # 4. Same statute content as HEAD (ignoring serialization / schema drift like a
+    #    new null field) → nothing substantive changed. Discard the byte-only rewrite
+    #    so an unchanged statute isn't re-committed as "updated" on the annual run.
+    if same_corpus_content(new_d, old_d):
+        revert(out_path, has_head)
         rec["result"] = "NOCHANGE"
         return rec
 

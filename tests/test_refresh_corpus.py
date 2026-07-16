@@ -241,6 +241,27 @@ class TestRealFetchDetection:
                               force=False, cap=None, timeout_s=60)
         assert rec["result"] == "NOCHANGE"
 
+    def test_schema_drift_only_is_nochange_not_committed(self, repo, monkeypatch):
+        # The committed corpus was serialized before StateCorpus gained a field
+        # (e.g. source_unavailable). A re-pull with identical sections re-serializes
+        # byte-differently — but it must be NOCHANGE, not a spurious "updated" commit.
+        root, idx_dir, text_dir = repo
+        _write_index(idx_dir, "med", {"CA": {"matched": [{"url": CH}]}})
+        seed = asdict(_corpus("CA", "med", [CH], [CH + "s1", CH + "s2"]))
+        seed.pop("source_unavailable", None)  # older serialization, missing the field
+        _commit_corpus(root, text_dir, "med", "CA", seed)
+        monkeypatch.setattr(rc.pull_text, "pull_state",
+                            lambda *a, **k: _corpus("CA", "med", [CH], [CH + "s1", CH + "s2"]))
+        rec = rc.refresh_item("med", "CA", [{"chapter_url": CH}],
+                              force=False, cap=None, timeout_s=60)
+        assert rec["result"] == "NOCHANGE"
+        # The corpus file is unchanged vs HEAD — the byte-only rewrite was discarded,
+        # no spurious commit. (The uncommitted test index is unrelated fixture state.)
+        st = subprocess.run(["git", "status", "--porcelain", "--",
+                             "pipeline/results/text/med/CA.json"],
+                            cwd=root, capture_output=True, text=True)
+        assert st.stdout.strip() == ""
+
 
 # ---------------------------------------------------------------------------
 # Circuit breaker
