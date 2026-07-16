@@ -416,6 +416,38 @@ class TestDiffReport:
 
 
 # ---------------------------------------------------------------------------
+# Progress display
+# ---------------------------------------------------------------------------
+class TestProgress:
+    def test_line_mode_emits_one_line_per_cell(self, monkeypatch):
+        import io
+        from collections import Counter
+        buf = io.StringIO()
+        monkeypatch.setattr(rc, "_OUT", buf)
+        p = rc._Progress(2, use_bar=False)
+        p.update("med:CA", "NOCHANGE", Counter({"NOCHANGE": 1}), 0)
+        p.update("med:IN", "OK", Counter({"NOCHANGE": 1, "OK": 1}), 0)
+        p.close()
+        out = buf.getvalue()
+        assert "[1/2] med:CA → NOCHANGE" in out
+        assert "[2/2] med:IN → OK" in out
+        assert "1 unchanged, 1 updated" in out
+
+    def test_bar_mode_writes_anomalies_and_survives(self, monkeypatch):
+        import io
+        from collections import Counter
+        buf = io.StringIO()
+        monkeypatch.setattr(rc, "_OUT", buf)
+        p = rc._Progress(2, use_bar=True)  # tqdm to a non-tty buffer
+        if p.bar is None:  # tqdm not installed — nothing to assert
+            return
+        p.update("med:CA", "OK", Counter({"OK": 1}), 0)          # anomaly -> written above bar
+        p.update("med:IN", "NOCHANGE", Counter({"OK": 1, "NOCHANGE": 1}), 0)
+        p.close()
+        assert "med:CA → OK" in buf.getvalue()
+
+
+# ---------------------------------------------------------------------------
 # --force safety guard (CLI)
 # ---------------------------------------------------------------------------
 class TestForceScopeGuard:

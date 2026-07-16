@@ -53,6 +53,11 @@ from pathlib import Path
 
 import logging
 
+try:
+    from tqdm import tqdm as _tqdm
+except ImportError:  # optional — falls back to one line per cell
+    _tqdm = None
+
 from pipeline.paths import RESULTS_DIR, PROFESSION_INDEX_DIR, TEXT_DIR, LOGS_DIR
 from pipeline.ingest import pull_text
 
@@ -96,6 +101,41 @@ def _route_noise_to_log(log_path: Path) -> None:
     # Catch direct stdout/stderr writes (scrapling banners, greenlet/atexit tracebacks).
     sys.stdout = _LOG_FH
     sys.stderr = _LOG_FH
+
+
+class _Progress:
+    """Per-cell progress display. On a real terminal (with tqdm) it's a single
+    in-place bar with a rolling tally + ETA, and any non-NOCHANGE cell is written
+    as a persistent line ABOVE the bar so breaks stay visible. When output isn't a
+    terminal (piped / backgrounded, or tqdm missing) it degrades to one clean line
+    per cell — good for a log file. `use_bar` is decided in main() (quiet mode +
+    a TTY)."""
+
+    def __init__(self, total: int, use_bar: bool):
+        self.total = total
+        self.done = 0
+        self.t0 = time.time()
+        self.bar = _tqdm(total=total, unit="cell", file=_OUT, leave=True,
+                         dynamic_ncols=True) if (use_bar and _tqdm is not None) else None
+
+    def update(self, key: str, result: str, tally: "collections.Counter", held: int) -> None:
+        self.done += 1
+        counts = f"{tally['NOCHANGE']} unchanged, {tally['OK']} updated, {held} held"
+        if self.bar is not None:
+            if result != "NOCHANGE":
+                # file=_OUT: tqdm.write defaults to sys.stdout (redirected to the log
+                # in quiet mode) — send it to the same stream as the bar (the terminal).
+                self.bar.write(f"  {key} → {result}", file=_OUT)   # persists above the bar
+            self.bar.set_postfix_str(counts)
+            self.bar.update(1)
+        else:
+            elapsed = time.time() - self.t0
+            eta = _fmt_eta((elapsed / self.done) * (self.total - self.done))
+            _emit(f"[{self.done}/{self.total}] {key} → {result}  | {counts} · {eta} left")
+
+    def close(self) -> None:
+        if self.bar is not None:
+            self.bar.close()
 
 # Only a genuine FETCH FAILURE (nothing usable came back) advances the circuit
 # breaker — a consecutive run of these means the fetcher is wedged and the rest
@@ -625,7 +665,7 @@ def _print_summary(status: dict) -> None:
 # ---------------------------------------------------------------------------
 def run(professions: list[str], only_states: set[str], *, force: bool, cap: int | None,
         timeout_s: int, breaker: int, run_id: str | None, resume: bool = False,
-        chrome_check=justia_reachable) -> dict:
+        progress_bar: bool = False, chrome_check=justia_reachable) -> dict:
     status: dict = {"started": _now(), "run_id": run_id, "items": {}}
     status_path = _status_path(run_id)
 
@@ -670,10 +710,10 @@ def run(professions: list[str], only_states: set[str], *, force: bool, cap: int 
 
     work = build_worklist(professions, only_states)
     attempt_total = sum(1 for (p, s, _r) in work if f"{p}:{s}" not in settled)
-    attempt_done = 0
-    t0 = time.time()
+    _emit(f"Refreshing {attempt_total} cell(s)…")
     tally: collections.Counter = collections.Counter()
     consec_fail = 0
+    progress = _Progress(attempt_total, progress_bar)
 
     for prof, state, rows in work:
         key = f"{prof}:{state}"
@@ -694,6 +734,7 @@ def run(professions: list[str], only_states: set[str], *, force: bool, cap: int 
                    "prior_snapshot": prior}
             status["items"][key] = rec
             status["aborted"] = f"item timeout at {key} — {e}; run aborted (re-run with --resume)"
+            progress.close()
             _emit(f"ABORT: item timeout — {status['aborted']}")
             _finalize()
             _print_summary(status)
@@ -703,16 +744,11 @@ def run(professions: list[str], only_states: set[str], *, force: bool, cap: int 
         status["items"][key] = rec
         _save()
 
-        # Live progress: one line per cell + a rolling tally + rough ETA. Skipped
+        # Live progress: a bar on a terminal, else one line per cell. Skipped
         # (resumed) cells are near-instant, so ETA is based on cells actually pulled.
-        attempt_done += 1
         tally[rec["result"]] += 1
-        elapsed = time.time() - t0
-        eta = _fmt_eta((elapsed / attempt_done) * (attempt_total - attempt_done))
         held = sum(tally[r] for r in HELD_SEVERITY)
-        _emit(f"[{attempt_done}/{attempt_total}] {key} → {rec['result']}  "
-              f"| {tally['NOCHANGE']} unchanged, {tally['OK']} updated, "
-              f"{held} held-back · {eta} left")
+        progress.update(key, rec["result"], tally, held)
 
         if rec["result"] in FETCH_FAILURE:
             consec_fail += 1
@@ -721,11 +757,13 @@ def run(professions: list[str], only_states: set[str], *, force: bool, cap: int 
         if consec_fail >= breaker:
             status["aborted"] = (f"{breaker} consecutive fetch failures ending at {key} "
                                  f"— the fetcher is likely wedged (Cloudflare/Scrapling); aborting")
+            progress.close()
             _emit(f"ABORT: circuit breaker tripped — {status['aborted']}")
             _finalize()
             _print_summary(status)
             return status
 
+    progress.close()
     _finalize()
     _print_summary(status)
     return status
@@ -808,13 +846,16 @@ def main(argv: list[str] | None = None) -> None:
     # and keep the terminal to progress + summary. --verbose leaves them on screen.
     global _OUT
     _OUT = sys.stdout
+    # A live progress bar only when the terminal is real AND we're not interleaving
+    # raw logs on it (--verbose) — otherwise fall back to one line per cell.
+    use_bar = (not args.verbose) and _OUT.isatty() and (_tqdm is not None)
     log_path = LOGS_DIR / f"refresh_{run_id or 'latest'}.log"
     if not args.verbose:
         _route_noise_to_log(log_path)
 
     run(professions, only_states, force=args.force, cap=None,
         timeout_s=args.item_timeout, breaker=args.breaker, run_id=run_id,
-        resume=args.resume)
+        resume=args.resume, progress_bar=use_bar)
 
     if not args.verbose:
         _emit(f"  detailed fetch log: {log_path}")
