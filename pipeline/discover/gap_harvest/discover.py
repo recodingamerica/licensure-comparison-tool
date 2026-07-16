@@ -9,12 +9,14 @@ Writes gap_harvest/discovered_occupations.json (name -> weight). The ~1,000-gap 
 FLOOR; this is what turns it into a growing census. Loop until a round finds nothing new.
 """
 from __future__ import annotations
-import glob, json, re, collections
+import glob, json, logging, re, collections
 
 import anthropic
 from pipeline.config.loaders import load_professions
 from pipeline.discover.match_profession import label_matches
 from pipeline.discover.gap_harvest import _common as C
+
+log = logging.getLogger(__name__)
 
 _STRIP = re.compile(r'^\s*(chapter|article|part|subchapter|division|title)\s+[\dA-Za-z.\-]+\s*[-–.:]*\s*', re.I)
 _SKIP = re.compile(r'general provision|^definition|penalt|^fees|repeal|reserved|miscellaneous|in general', re.I)
@@ -35,7 +37,8 @@ def _candidate_labels(profs: dict) -> collections.Counter:
     for f in glob.glob("pipeline/results/hierarchy/*.json"):
         try:
             chs = json.load(open(f)).get("chapters", [])
-        except Exception:
+        except (OSError, json.JSONDecodeError) as e:
+            log.warning("gap-discover: skipping unreadable hierarchy file %s (%s)", f, e)
             continue
         for c in chs:
             lab = (c.get("label", "") or "").strip()
