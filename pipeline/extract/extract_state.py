@@ -127,44 +127,51 @@ SYSTEM_PROMPT = load_prompt("extract_state")
 
 
 def _null_out_invalid_paths(data: dict, errors: list[dict]) -> int:
-    """Walk Pydantic validation errors and null offending fields. Returns
+    """Walk Pydantic validation errors and null the smallest recoverable subtree
+    containing each offending leaf, so call_structured can re-validate the rest of
+    the record instead of discarding the whole state over one drifted enum. Returns
     count of fixes applied.
 
-    Two cases:
-      1. Leaf is a regular Literal/enum-typed field. Setting it to None is
-         enough (assuming the field is Optional in the schema).
-      2. Leaf is `value` inside an Evidence wrapper (e.g. IntEvidence.value
-         where input was None). Setting just `.value` to None doesn't help
-         because the wrapper still requires the typed field. We have to null
-         the WHOLE Evidence object at its parent key. All Evidence-wrapped
-         fields in standard_model are typed `XEvidence | None`, so nulling
-         the wrapper is safe.
+    Nulls at the NEAREST dict-keyed ancestor of the offending leaf:
+      1. A plain Optional field            -> null the field.
+      2. `value` inside an Evidence wrapper -> null the whole wrapper at its parent
+         key (nulling just `.value` doesn't help — the wrapper still requires the
+         typed field).
+      3. A field inside a LIST element (e.g. exams[2].degree_level) -> null that
+         field in the element, leaving the siblings intact.
+      4. A bad element of a list[...] field -> null the whole list at its parent key.
+    Cases 3 and 4 used to be unreachable — the null only fired when the parent was a
+    dict — so a single invalid value anywhere inside a list dropped the ENTIRE state
+    as an extraction gap. All these fields are Optional in standard_model, so nulling
+    them is safe.
     """
     fixed = 0
     for err in errors:
         loc = err.get("loc") or ()
         if not loc:
             continue
-        # If the offending leaf is `value`, null the Evidence wrapper instead.
+        # If the offending leaf is `value`, aim at the Evidence wrapper (its parent).
         target_path = loc[:-1] if loc[-1] == "value" else loc
         if not target_path:
             continue
-        # Walk to the parent of target_path[-1]
+        # Walk the path, remembering the last point where the container is a dict.
+        # A list index can't be nulled in place (None isn't a valid element type), so
+        # for a leaf inside/at a list we fall back to nulling that nearest dict key.
         cur: Any = data
+        null_container: Any = None
+        null_key: Any = None
         ok = True
-        for key in target_path[:-1]:
+        for key in target_path:
             if isinstance(cur, dict) and key in cur:
+                null_container, null_key = cur, key
                 cur = cur[key]
             elif isinstance(cur, list) and isinstance(key, int) and 0 <= key < len(cur):
                 cur = cur[key]
             else:
                 ok = False
                 break
-        if not ok:
-            continue
-        target = target_path[-1]
-        if isinstance(cur, dict) and target in cur:
-            cur[target] = None
+        if ok and null_container is not None:
+            null_container[null_key] = None
             fixed += 1
     return fixed
 

@@ -12,8 +12,12 @@ Loader semantics:
   load_state_structure()  — state_structure.yaml via safe_load_unique; {} if missing
   load_mapping_overrides()— re-exported from pipeline.discover._mapping_overrides
   load_corpus_overrides() — corpus_overrides.yaml; {} if missing; raises on malformed
-  load_verified_absences()— verified_absences.yaml; plain yaml.safe_load (no dup risk)
+  load_verified_absences()— verified_absences.yaml; {} handling as noted on the fn
   load_limits()           — limits.yaml; every data-shaping number in one place
+
+Every YAML file here is read through safe_load_unique (config/yaml_loader.py), so a
+duplicate mapping key fails loud with the offending key + line instead of being
+silently dropped last-wins (the WA/VA/NV state_structure data-loss failure mode).
 """
 
 from __future__ import annotations
@@ -33,14 +37,15 @@ from pipeline.discover._mapping_overrides import load_mapping_overrides  # noqa:
 
 
 def load_professions() -> dict:
-    """Raw professions.yaml (includes _families and other underscore keys)."""
+    """Raw professions.yaml (includes _families and other underscore keys).
+
+    safe_load_unique (not plain yaml.safe_load): a duplicate profession key would
+    otherwise be silently dropped last-wins — the same failure mode that lost a
+    state_structure block. professions.yaml is append-structured (one key per
+    profession), so a dup is a real editing mistake worth failing on.
+    """
     path = CONFIG_DIR / "professions.yaml"
-    # Plain yaml.safe_load (not safe_load_unique): professions.yaml has never had
-    # duplicate-key issues and the file is append-structured (each profession is a
-    # unique key by convention).  Switching to safe_load_unique would be safe but
-    # is out of scope for R2 — keep the exact semantics that existed in
-    # match_profession.load_professions() before this refactor.
-    return yaml.safe_load(path.read_text()) or {}
+    return safe_load_unique(path.read_text()) or {}
 
 
 def registry_professions() -> dict:
@@ -76,7 +81,10 @@ def load_corpus_overrides(profession: str | None = None) -> dict:
     """
     ov_path = CONFIG_DIR / "corpus_overrides.yaml"
     try:
-        raw = yaml.safe_load(ov_path.read_text()) or {}
+        # safe_load_unique: a duplicate profession- or STATE-key would otherwise
+        # silently drop a sibling-corpus override. Its dup error is a yaml.YAMLError
+        # subclass, so the fail-loud branch below already covers it.
+        raw = safe_load_unique(ov_path.read_text()) or {}
     except FileNotFoundError:
         return {}
     except (OSError, yaml.YAMLError) as e:
@@ -128,14 +136,13 @@ def load_verified_absences() -> dict:
 
     Shape: {profession: {STATE: {basis, note, citation, ...}}}
 
-    Plain yaml.safe_load (not safe_load_unique): apply_verified_absences.py used
-    plain safe_load before this refactor, and verified_absences.yaml is structured
-    as nested profession→state dicts with no realistic risk of duplicate keys.
-    Raises FileNotFoundError / yaml.YAMLError if the file is missing or malformed
-    (same as calling yaml.safe_load(MANIFEST.read_text()) directly).
+    safe_load_unique (not plain yaml.safe_load): a duplicate profession- or
+    STATE-key would otherwise be silently dropped last-wins, losing an asserted
+    absence without a trace. Raises FileNotFoundError if the file is missing,
+    yaml.YAMLError (incl. the duplicate-key error) if it's malformed.
     """
     path = CONFIG_DIR / "verified_absences.yaml"
-    return yaml.safe_load(path.read_text()) or {}
+    return safe_load_unique(path.read_text()) or {}
 
 
 @functools.lru_cache(maxsize=1)
@@ -150,7 +157,7 @@ def load_models() -> dict:
     path = CONFIG_DIR / "models.yaml"
     if not path.exists():
         return {}
-    return yaml.safe_load(path.read_text()) or {}
+    return safe_load_unique(path.read_text()) or {}
 
 
 def model_for(stage: str, default: str) -> str:
@@ -172,4 +179,4 @@ def load_limits() -> dict:
     (they just default to the value from load_limits() at import time).
     """
     path = CONFIG_DIR / "limits.yaml"
-    return yaml.safe_load(path.read_text()) or {}
+    return safe_load_unique(path.read_text()) or {}
