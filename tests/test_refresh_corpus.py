@@ -295,6 +295,43 @@ class TestCircuitBreaker:
 
 
 # ---------------------------------------------------------------------------
+# Resume
+# ---------------------------------------------------------------------------
+class TestResume:
+    def test_resume_skips_settled_reattempts_failures(self, repo, monkeypatch):
+        root, idx_dir, text_dir = repo
+        _write_index(idx_dir, "med", {"CA": {"matched": [{"url": CH}]},
+                                      "IN": {"matched": [{"url": CH}]}})
+        for s in ("CA", "IN"):
+            _commit_corpus(root, text_dir, "med", s,
+                           asdict(_corpus(s, "med", [CH], [CH + "s1"])))
+
+        # Run 1: CA comes back empty (held back), IN unchanged (settled).
+        def pull1(state, prof, rows, cap):
+            if state == "CA":
+                return _corpus("CA", "med", [CH], [])
+            return _corpus("IN", "med", [CH], [CH + "s1"])
+        monkeypatch.setattr(rc.pull_text, "pull_state", pull1)
+        rc.run(["med"], set(), force=False, cap=None, timeout_s=60, breaker=3,
+               run_id="r", chrome_check=lambda: True)
+
+        # Run 2 with --resume: IN is settled → must NOT be re-pulled; CA re-attempted.
+        pulled = []
+        def pull2(state, prof, rows, cap):
+            pulled.append(state)
+            return _corpus(state, "med", [CH], [CH + "s1", CH + "s2"])  # healthy now
+        monkeypatch.setattr(rc.pull_text, "pull_state", pull2)
+        status = rc.run(["med"], set(), force=False, cap=None, timeout_s=60, breaker=3,
+                        run_id="r", resume=True, chrome_check=lambda: True)
+
+        assert pulled == ["CA"]  # only the previously-failed cell re-attempted
+        assert status["items"]["med:CA"]["result"] == "OK"
+        assert status["items"]["med:IN"]["result"] == "NOCHANGE"  # carried from run 1
+        # Both corpora still counted in the summary state.
+        assert len(status["items"]) == 2
+
+
+# ---------------------------------------------------------------------------
 # Timeout
 # ---------------------------------------------------------------------------
 class TestItemTimeout:

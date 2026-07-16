@@ -45,6 +45,7 @@ import json
 import subprocess
 import sys
 import threading
+import time
 import urllib.parse
 from dataclasses import asdict
 from datetime import datetime, timezone
@@ -516,14 +517,81 @@ def _status_path(run_id: str | None) -> Path:
     return RESULTS_DIR / ".refresh_status.json"
 
 
+def _load_prior_status(status_path: Path) -> dict | None:
+    """The status file from a previous run of this run-id, for --resume."""
+    if not status_path.exists():
+        return None
+    try:
+        return json.loads(status_path.read_text())
+    except json.JSONDecodeError:
+        return None
+
+
+# Results that mean "this cell is done — don't re-fetch it on --resume". A failure
+# or held-back result is NOT settled, so a resume re-attempts it (a transient block
+# may have cleared, or a mapping was fixed).
+_SETTLED = {"OK", "NOCHANGE"}
+
+
+def _fmt_eta(seconds: float) -> str:
+    if seconds < 90:
+        return f"~{int(seconds)}s"
+    if seconds < 5400:
+        return f"~{int(seconds / 60)}m"
+    return f"~{seconds / 3600:.1f}h"
+
+
+def _print_summary(status: dict) -> None:
+    """A plain-English end-of-run summary to the terminal — readable without
+    opening the markdown report. Printed on every exit path (complete or abort)."""
+    items = status.get("items", {})
+    by = collections.Counter(i.get("result") for i in items.values())
+    held = sorted(k for k, i in items.items() if i.get("result") in HELD_SEVERITY)
+    print("\n" + "=" * 64)
+    print(f"Refresh summary — run {status.get('run_id') or 'latest'}")
+    print(f"  {len(items)} corpora checked")
+    print(f"  {by.get('NOCHANGE', 0)} unchanged")
+    print(f"  {by.get('OK', 0)} updated (committed)")
+    if held:
+        print(f"  {len(held)} held back — need your review:")
+        for k in held:
+            i = items[k]
+            detail = i.get("reason") or (
+                "empty chapters: " + ", ".join(i["empty_chapters"])
+                if i.get("empty_chapters") else "")
+            line = f"      {i['profession']}/{i['state']}  [{i['result']}]"
+            print(line + (f" — {detail}" if detail else ""))
+    if status.get("aborted"):
+        print(f"  ABORTED: {status['aborted']}")
+        print("  (fix the cause, then re-run the SAME command with --resume to continue)")
+    if status.get("diff_report"):
+        print(f"  full report: {status['diff_report']}")
+    print("=" * 64)
+
+
 # ---------------------------------------------------------------------------
 # Run loop
 # ---------------------------------------------------------------------------
 def run(professions: list[str], only_states: set[str], *, force: bool, cap: int | None,
-        timeout_s: int, breaker: int, run_id: str | None,
+        timeout_s: int, breaker: int, run_id: str | None, resume: bool = False,
         chrome_check=justia_reachable) -> dict:
     status: dict = {"started": _now(), "run_id": run_id, "items": {}}
     status_path = _status_path(run_id)
+
+    # --resume: carry forward the prior run's results and skip cells already SETTLED
+    # (OK/NOCHANGE) so a long run that aborted (breaker/timeout/Ctrl-C) picks up where
+    # it left off. Failures/held-back cells are re-attempted (not in `settled`).
+    settled: set[str] = set()
+    if resume:
+        prior = _load_prior_status(status_path)
+        if prior:
+            status["items"] = prior.get("items", {})
+            settled = {k for k, i in status["items"].items()
+                       if i.get("result") in _SETTLED}
+            print(f"resume: {len(settled)} cell(s) already done — skipping; "
+                  f"re-attempting failures + not-yet-done cells")
+        else:
+            print(f"resume: no prior status at {status_path} — starting fresh")
 
     def _save():
         status_path.parent.mkdir(parents=True, exist_ok=True)
@@ -546,12 +614,20 @@ def run(professions: list[str], only_states: set[str], *, force: bool, cap: int 
                              "(Scrapling installed? network up?); nothing attempted")
         _save()
         print("ABORT: startup Justia fetch failed — Scrapling not clearing Cloudflare or network down")
+        _print_summary(status)
         return status
 
     work = build_worklist(professions, only_states)
+    attempt_total = sum(1 for (p, s, _r) in work if f"{p}:{s}" not in settled)
+    attempt_done = 0
+    t0 = time.time()
+    tally: collections.Counter = collections.Counter()
     consec_fail = 0
+
     for prof, state, rows in work:
         key = f"{prof}:{state}"
+        if key in settled:
+            continue  # --resume: already done, don't re-fetch
         # Capture the pre-refresh HEAD snapshot BEFORE the item commits, so the
         # diff report compares against last year's committed corpus.
         prior = prior_committed(TEXT_DIR / prof / f"{state}.json")
@@ -560,20 +636,32 @@ def run(professions: list[str], only_states: set[str], *, force: bool, cap: int 
         except _ItemTimeout as e:
             # Can't kill the worker thread; abort the whole run cleanly so the orphan
             # can't race the next pull on the shared Scrapling session. The process
-            # exits after this returns and the daemon dies with it. Restart to resume
-            # — unchanged states re-check quickly as NOCHANGE.
+            # exits after this returns and the daemon dies with it. Re-run with
+            # --resume to continue.
             rec = {"profession": prof, "state": state, "result": "TIMEOUT",
                    "reason": str(e), "prev": 0, "new": 0, "at": _now(),
                    "prior_snapshot": prior}
             status["items"][key] = rec
-            status["aborted"] = f"item timeout at {key} — {e}; run aborted (restart to resume)"
+            status["aborted"] = f"item timeout at {key} — {e}; run aborted (re-run with --resume)"
             print("ABORT: item timeout —", status["aborted"])
             _finalize()
+            _print_summary(status)
             return status
 
         rec["prior_snapshot"] = prior
         status["items"][key] = rec
         _save()
+
+        # Live progress: one line per cell + a rolling tally + rough ETA. Skipped
+        # (resumed) cells are near-instant, so ETA is based on cells actually pulled.
+        attempt_done += 1
+        tally[rec["result"]] += 1
+        elapsed = time.time() - t0
+        eta = _fmt_eta((elapsed / attempt_done) * (attempt_total - attempt_done))
+        held = sum(tally[r] for r in HELD_SEVERITY)
+        print(f"[{attempt_done}/{attempt_total}] {key} → {rec['result']}  "
+              f"| {tally['NOCHANGE']} unchanged, {tally['OK']} updated, "
+              f"{held} held-back · {eta} left")
 
         if rec["result"] in FETCH_FAILURE:
             consec_fail += 1
@@ -584,10 +672,11 @@ def run(professions: list[str], only_states: set[str], *, force: bool, cap: int 
                                  f"— the fetcher is likely wedged (Cloudflare/Scrapling); aborting")
             print("ABORT: circuit breaker tripped —", status["aborted"])
             _finalize()
+            _print_summary(status)
             return status
 
-    report = _finalize()
-    print(f"refresh complete — status {status_path}, diff report {report}")
+    _finalize()
+    _print_summary(status)
     return status
 
 
@@ -607,9 +696,14 @@ def main(argv: list[str] | None = None) -> None:
                          "and empty-pull gates still apply.")
     ap.add_argument("--report-only", action="store_true",
                     help="Do NOT fetch. Rebuild the diff report from the last status file.")
+    ap.add_argument("--resume", action="store_true",
+                    help="Continue a prior run of this --run-id: skip cells already done "
+                         "(OK/NOCHANGE), re-attempt failures + not-yet-done cells. Use after "
+                         "a breaker/timeout abort or Ctrl-C on a long --all-professions run.")
     ap.add_argument("--run-id", default=None,
                     help="Run id (used in the status filename + diff-report filename). "
-                         "Defaults to a UTC timestamp for a real run.")
+                         "Defaults to a UTC timestamp for a real run. Pass a STABLE id "
+                         "(e.g. --run-id 2026) so --resume can find the prior status.")
     ap.add_argument("--item-timeout", type=int, default=2400,
                     help="Per-item wall-clock timeout in seconds (default %(default)s).")
     ap.add_argument("--breaker", type=int, default=3,
@@ -636,9 +730,18 @@ def main(argv: list[str] | None = None) -> None:
         print(f"diff report written: {report}")
         return
 
-    run_id = args.run_id or datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+    # A fresh run gets a timestamp run-id; a --resume run without an explicit id
+    # falls back to the default status file (_status_path(None)) so it finds the
+    # prior run instead of minting a new, empty one.
+    if args.run_id:
+        run_id = args.run_id
+    elif args.resume:
+        run_id = None
+    else:
+        run_id = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     run(professions, only_states, force=args.force, cap=None,
-        timeout_s=args.item_timeout, breaker=args.breaker, run_id=run_id)
+        timeout_s=args.item_timeout, breaker=args.breaker, run_id=run_id,
+        resume=args.resume)
 
 
 if __name__ == "__main__":
