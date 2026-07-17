@@ -9,7 +9,7 @@
 // Selected section is carried in the URL as ?cite=<section-url>; layer
 // chips and search text in ?layers/?q/?closed=. Links survive reload.
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { Group, Panel, Separator } from "react-resizable-panels";
@@ -157,6 +157,21 @@ export function BrowseClient({
       .map((g) => ({ ...g, tree: pruneTree<BrowseSection>(g.tree, matches) }))
       .filter((g) => g.tree.length > 0);
   }, [visibleGroups, query]);
+
+  // When a search is active, auto-expand every surviving branch so the pruned matches
+  // are actually visible. Without this a match sits inside a collapsed branch and the
+  // side-tree click only toggles that branch open instead of navigating (issue #77).
+  useEffect(() => {
+    if (!query.trim()) return;
+    const slugs = filteredGroups.flatMap((g) => allBranchSlugs(g.tree));
+    if (slugs.length === 0) return;
+    setOpenSet((prev) => {
+      const next = new Set(prev);
+      let changed = false;
+      for (const s of slugs) if (!next.has(s)) { next.add(s); changed = true; }
+      return changed ? next : prev;
+    });
+  }, [query, filteredGroups]);
 
   const selected: BrowseSection | null = useMemo(() => {
     if (selectedKey) {

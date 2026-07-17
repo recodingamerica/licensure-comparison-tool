@@ -963,6 +963,11 @@ def main() -> None:
     for row in payload["rows"]:
         bs = row.pop("browse_sections", None)
         bg = row.pop("browse_groups", None)
+        # browse_sections is popped out of the main blob (size), but the table's
+        # "open statute tree" link is gated on whether a tree exists. Leave a cheap
+        # count behind so the gate has something to read — without it the link was
+        # dead in every row (the field it checked was always absent post-pop).
+        row["browse_section_count"] = len(bs) if bs else 0
         if bs is None and bg is None:
             continue
         st = row["state"]
