@@ -55,6 +55,7 @@ import logging
 from typing import Any
 
 from pydantic import BaseModel, Field
+from pipeline.extract.standard_model import is_evidence_node
 
 # Same path setup pattern as run.py
 
@@ -63,6 +64,7 @@ from pipeline._llm import call_structured
 from pipeline._records import record_files
 from pipeline._prompts import load_prompt
 from pipeline.paths import MAP_PREP_DIR as _OUT_ROOT, STRUCTURED_DIR as _STRUCTURED_DIR, DISCOVERED_DIR as _DISCOVERED_DIR
+from pipeline.config.loaders import model_for
 
 load_env()
 
@@ -93,7 +95,7 @@ def discovered_list_fields(profession: str) -> list[str]:
             out.append(f"profession_specific.{name}")
     return out
 
-MODEL = "claude-sonnet-4-6"
+MODEL = model_for("map_prep")
 
 # Per-item path currently does both vocabulary DESIGN and per-row assignment
 # in one call. Sonnet is required for the design quality (Haiku produced a
@@ -154,7 +156,7 @@ def _resolve_field(rec: dict, dotted: str):
             return None
         cur = cur[seg]
     # Evidence-wrapped values: pull the actual value
-    if isinstance(cur, dict) and "value" in cur:
+    if is_evidence_node(cur):
         return cur.get("value")
     return cur
 
@@ -342,7 +344,7 @@ def _collect_items_for_field(profession: str, dotted: str) -> list[dict]:
         #   - list[str], Evidence-wrapped (profession_specific.* discovered
         #     fields like laser_procedures_authorized): {value: [...], quote}.
         # Unwrap the Evidence node so both reduce to "a list of items".
-        if isinstance(cur, dict) and "value" in cur:
+        if is_evidence_node(cur):
             cur = cur.get("value")
         if not isinstance(cur, list):
             continue

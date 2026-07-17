@@ -42,10 +42,11 @@ REPO = Path(__file__).resolve().parents[2]
 from pipeline._env import load_env
 load_env()
 from pipeline._llm import call_structured, log_usage_summary
+from pipeline.config.loaders import model_for
 
 ANALYSIS_DIR = REPO / "pipeline" / "results" / "analysis"
 CACHE_PATH = REPO / "pipeline" / "results" / "novel_direction_cache.json"
-MODEL = "claude-sonnet-4-6"
+MODEL = model_for("novel_direction")
 CHUNK = 25  # pairs per LLM call
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")

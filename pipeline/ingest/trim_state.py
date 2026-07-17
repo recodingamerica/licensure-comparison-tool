@@ -46,7 +46,7 @@ from pipeline.config.loaders import load_limits, model_for
 LOG_PATH = LOGS_DIR / "trim_state.log"
 LOGS_DIR.mkdir(parents=True, exist_ok=True)
 
-DEFAULT_MODEL = model_for("trim", "claude-haiku-4-5-20251001")  # config/models.yaml
+DEFAULT_MODEL = model_for("trim")
 SECTION_TEXT_CAP = load_limits()["trim"]["section_text_cap"]  # truncate any one section's text fed to the LLM (chars)
 MAX_RETRIES = 2
 

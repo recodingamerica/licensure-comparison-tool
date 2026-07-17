@@ -156,12 +156,10 @@ def load_verified_absences() -> dict:
 
 @functools.lru_cache(maxsize=1)
 def load_models() -> dict:
-    """Load config/models.yaml — the AI model each paid stage uses.
+    """Load config/models.yaml — the AI model each stage/tool uses, plus `default`.
 
-    Shape: {stage: model_name} for stages 'trim', 'extract', 'schema'.
-    Returns {} if the file is missing (each stage then keeps its built-in
-    default). Read individual values via model_for(stage, default) so a missing
-    file or key falls back cleanly instead of raising.
+    Shape: {stage: model_name, ..., 'default': model_name}. Model names live ONLY
+    here, never in a .py — read them via model_for("<stage>").
     """
     path = CONFIG_DIR / "models.yaml"
     if not path.exists():
@@ -169,11 +167,20 @@ def load_models() -> dict:
     return safe_load_unique(path.read_text()) or {}
 
 
-def model_for(stage: str, default: str) -> str:
-    """The configured model for a stage (from models.yaml), or `default` if the
-    file or key is absent. Lets each stage module keep its historical model name
-    as the fallback while making the model a config-file edit, not a code change."""
-    return load_models().get(stage) or default
+def model_for(stage: str, default: str | None = None) -> str:
+    """The model for `stage`: its own models.yaml key, else the file's `default`.
+
+    A model name belongs in config/models.yaml, not in Python. The optional `default`
+    arg is a last-resort fallback for a stage not yet in the file — avoid passing a
+    literal model name. Raises if neither the stage key, the arg, nor a file `default`
+    yields a model (fail loud rather than silently pick a wrong/empty model)."""
+    models = load_models()
+    m = models.get(stage) or default or models.get("default")
+    if not m:
+        raise RuntimeError(
+            f"no model configured for {stage!r}: add a '{stage}:' (or 'default:') key to "
+            f"config/models.yaml")
+    return m
 
 
 @functools.lru_cache(maxsize=1)

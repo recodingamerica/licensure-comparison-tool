@@ -32,12 +32,13 @@ from pipeline._env import load_env
 load_env()
 from pipeline._llm import call_structured
 from pipeline.config.loaders import load_limits
+from pipeline.config.loaders import model_for
 
 log = logging.getLogger(__name__)
 
 DATA_DIR = REPO / "pipeline" / "publish" / "web" / "public" / "data"
 OUT_DIR = REPO / "pipeline" / "config" / "field_semantics"
-MODEL = "claude-sonnet-4-6"
+MODEL = model_for("semantics")
 
 # Maximum distinct field values sent to the LLM for semantic-label generation.
 # Read from config/limits.yaml so all data-shaping numbers are in one place.

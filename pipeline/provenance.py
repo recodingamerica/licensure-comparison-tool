@@ -36,7 +36,13 @@ STAGES = ("clean", "trim", "extract")
 _IN = {"clean": TEXT_DIR, "trim": CLEAN_DIR, "extract": TRIMMED_DIR}
 _OUT = {"clean": CLEAN_DIR, "trim": TRIMMED_DIR, "extract": STRUCTURED_DIR}
 _PROMPT_KEY = {"clean": None, "trim": "trim_state", "extract": "extract_state"}
-_MODEL = {"clean": None, "trim": "claude-haiku-4-5-20251001", "extract": "claude-sonnet-4-6"}
+def _model_for_stage(stage: str) -> str | None:
+    """The model that produces a stage's output, from config/models.yaml. `clean` uses
+    no model. Imported lazily to avoid a config↔provenance import cycle."""
+    if stage == "clean":
+        return None
+    from pipeline.config.loaders import model_for
+    return model_for(stage)
 
 # Manual code-version tags — bump when a stage's logic should invalidate old outputs.
 CODE_VERSION = {"clean": 1, "trim": 1, "extract": 1}
@@ -99,7 +105,7 @@ def recipe_hash(stage: str, prof: str, model: str | None = None) -> str:
     key = _PROMPT_KEY[stage]
     if key:
         parts.append("prompt=" + _sha(load_prompt(key)))
-    m = model or _MODEL[stage]
+    m = model or _model_for_stage(stage)
     if m:
         parts.append("model=" + m)
     if stage == "extract":
