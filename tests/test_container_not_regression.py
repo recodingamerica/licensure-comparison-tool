@@ -44,6 +44,20 @@ def test_genuine_text_collapse_of_real_corpus_still_trips():
     assert _is_regression(new, old) is not None
 
 
+def test_many_container_url_sections_are_protected_not_exempt():
+    # The medicine/ND bug: ND inline-split sections legitimately share the chapter
+    # (container) URL, but they're REAL. A re-pull of a DIFFERENT chapter (0 citation
+    # overlap) must be caught as a regression — not silently committed because the old
+    # sections happen to have container URLs. (60 of chapter 43-17 → 11 of 43-17.1.)
+    old = {"sections": [_sec("https://law.justia.com/codes/north-dakota/title-43/chapter-43-17/",
+                             f"43-17-{i:02d}", f"physicians and surgeons section {i}") for i in range(1, 61)],
+           "total_chars": 56000}
+    new = {"sections": [_sec("https://law.justia.com/codes/north-dakota/title-43/chapter-43-17-1/",
+                             f"43-17.1-{i:02d}", f"investigative panel section {i}") for i in range(1, 12)],
+           "total_chars": 52000}
+    assert _is_regression(new, old) is not None    # wrong-chapter swap CAUGHT (was blind)
+
+
 def test_real_section_removal_is_still_a_regression():
     old = {"sections": [_sec("https://law.justia.com/x/title-1/section-1/", "1", "a"),
                         _sec("https://law.justia.com/x/title-1/section-2/", "2", "b")],
