@@ -641,6 +641,16 @@ INTERMEDIATE_SEG = re.compile(
 )
 
 
+# A …/title-<n>/chapter-<token>/ url, and the parent title url inside it.
+FLAT_CHAPTER_URL = re.compile(r"^(?P<title>https?://[^/]+/.+/title-[^/]+/)chapter-[^/]+/?$", re.I)
+
+
+def _flat_title_url(url: str) -> str | None:
+    """The parent TITLE url of a …/title-N/chapter-TOKEN/ url, else None."""
+    m = FLAT_CHAPTER_URL.match((url or "").strip())
+    return m.group("title") if m else None
+
+
 def short_citation(label: str) -> str:
     """Pull a short '§ X' or 'X-Y' style cite from a section label."""
     # e.g. "Section 20-50. - Podiatric medicine defined." -> "20-50"
@@ -670,7 +680,29 @@ def collect_section_targets(url: str, label: str, slug: str, depth: int, max_dep
     status, html, err = fetch(url)
     polite_sleep()
     if err or not html or (status and not 200 <= status < 300):
-        return [], f"fetch {url}: {err or status}"
+        # Flat-layout states (NJ) have no chapter pages at all — sections sit directly
+        # under the TITLE (…/title-45/section-45-5a-1/). A chapter url resolves there
+        # only because Justia happens to 301 it to the title page; where it doesn't
+        # (…/title-45/chapter-5aaa/ 404s) the whole cell pulled 0 sections. Don't
+        # depend on the redirect: go to the title page ourselves and keep filtering by
+        # this chapter's token — extract_child_links derives it from base_url, so
+        # passing the original CHAPTER url as base is exactly the redirect case.
+        # On a normal (non-flat) state this yields no matching sections, so it costs
+        # one extra fetch on an already-failed chapter and changes no outcome.
+        title_url = _flat_title_url(url)
+        if not title_url:
+            return [], f"fetch {url}: {err or status}"
+        log.info("  chapter %s unfetchable (%s) — trying flat title page %s",
+                 url, err or status, title_url)
+        t_status, html, t_err = fetch(title_url)
+        polite_sleep()
+        if t_err or not html or (t_status and not 200 <= t_status < 300):
+            return [], f"fetch {url}: {err or status}"
+        flat = extract_child_links(html, url)[0]
+        if not flat:
+            return [], f"fetch {url}: {err or status}"
+        log.info("  chapter %s -> %d flat sections via title page", url, len(flat))
+        return flat, None
 
     sections, intermediates = extract_child_links(html, url)
     if sections:
