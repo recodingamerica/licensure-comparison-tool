@@ -347,9 +347,18 @@ def extract_child_links(html: str, base_url: str) -> tuple[list[dict], list[dict
         # by canonical path after the full walk (_dedupe_year_versions).
         link_years = {s for s in path_segments if YEAR_SEG.match(s)}
         canon_path = tuple(s for s in path_segments if not YEAR_SEG.match(s))
-        if link_years and canon_path == base_canon:
-            year_self.append((max(int(y) for y in link_years), absolute,
-                              a.get_text(strip=True) or "", path_segments[-1]))
+        # A year-version copy of THIS page — EITHER direction: the year snapshot linked
+        # from the undated page, OR (the case that used to loop) the undated / another-
+        # year copy linked from a year page, whose link carries no year segment so the
+        # old `link_years and …` test missed it and classified it as a drillable child.
+        # On an ND inline-blob chapter (0 section links) that made the walk bounce
+        # undated↔2024 until the depth cap → EMPTY (44 fetches, 2 URLs). Collect any
+        # such copy for possible year-drilling; never follow it as a child. Skip the
+        # exact self-link outright.
+        if canon_path == base_canon:
+            if u.path.rstrip("/") != parsed.path.rstrip("/"):
+                year_self.append((max((int(y) for y in link_years), default=0), absolute,
+                                  a.get_text(strip=True) or "", path_segments[-1]))
             continue
         last = path_segments[-1]
         # Keep a link if it sits under this chapter's path (normal chapter→section)
