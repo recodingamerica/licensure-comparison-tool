@@ -886,20 +886,18 @@ def _no_credential_states(profession: str) -> dict[str, str]:
     """States declared in professions.yaml as having no credential in state
     law for this profession — a verified true negative, not a scrape gap.
     Returns {state: citation/explanation}."""
-    try:
-        cfg = load_professions()
-        return cfg.get(profession, {}).get("no_credential_states") or {}
-    except Exception:
-        return {}
+    # No except: a malformed/duplicate-key professions.yaml must RAISE at publish time,
+    # not silently publish an empty set (which reads as "no verified negatives"). The
+    # per-profession .get fallback below is the only legitimate default.
+    cfg = load_professions()
+    return cfg.get(profession, {}).get("no_credential_states") or {}
 
 
 def _profession_display(profession: str) -> str:
-    """Pull a friendly display name from config/professions.yaml; fall back to title-case."""
-    try:
-        cfg = load_professions()
-        return cfg.get(profession, {}).get("display", profession.replace("_", " ").title())
-    except Exception:
-        return profession.replace("_", " ").title()
+    """Pull a friendly display name from config/professions.yaml; fall back to title-case
+    only when the profession has no `display` key (a broken yaml RAISES, not falls back)."""
+    cfg = load_professions()
+    return cfg.get(profession, {}).get("display", profession.replace("_", " ").title())
 
 
 def _profession_meta(profession: str) -> dict:
@@ -909,10 +907,7 @@ def _profession_meta(profession: str) -> dict:
     means a yaml entry. Falls back to slug-derived defaults when fields
     are absent so the frontend never crashes on missing keys.
     """
-    try:
-        cfg = load_professions()
-    except Exception:
-        cfg = {}
+    cfg = load_professions()  # a broken yaml RAISES here, not silently empty
     families = cfg.get("_families") or {}
     entry = cfg.get(profession) or {}
     fam_list = entry.get("family") or []
@@ -933,10 +928,7 @@ def _all_profession_meta() -> list[dict]:
     _families config block). Used by fetch-blob-data to assemble
     /professions.json with the visual fields the homepage + browse views
     need."""
-    try:
-        cfg = load_professions()
-    except Exception:
-        return []
+    cfg = load_professions()  # a broken yaml RAISES here, not silently empty
     return [_profession_meta(k) for k in cfg.keys() if not k.startswith("_")]
 
 
