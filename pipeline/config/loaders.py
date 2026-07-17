@@ -156,6 +156,28 @@ def load_verified_absences() -> dict:
 
 
 @functools.lru_cache(maxsize=1)
+@functools.lru_cache(maxsize=1)
+def load_costs() -> dict:
+    """Load config/costs.yaml — estimated USD per unit for each paid stage."""
+    path = CONFIG_DIR / "costs.yaml"
+    if not path.exists():
+        return {}
+    return safe_load_unique(path.read_text()) or {}
+
+
+def cost_for(stage: str, default: float | None = None) -> float:
+    """The per-unit USD cost for `stage` from config/costs.yaml (or `default`). A dollar
+    figure belongs in costs.yaml, not in Python. Raises if neither is set — a missing cost
+    would silently quote $0 and mislead the operator about spend."""
+    v = load_costs().get(stage)
+    if v is None:
+        v = default
+    if v is None:
+        raise RuntimeError(f"no cost configured for {stage!r}: add '{stage}:' to config/costs.yaml")
+    return float(v)
+
+
+@functools.lru_cache(maxsize=1)
 def load_models() -> dict:
     """Load config/models.yaml — the AI model each stage/tool uses, plus `default`.
 

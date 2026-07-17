@@ -33,3 +33,21 @@ def test_fail_loud_when_nothing_resolves(monkeypatch):
 def test_real_models_yaml_has_a_default():
     # The shipped file must define `default` so unlisted tools never fail loud in prod.
     assert loaders.load_models().get("default")
+
+
+def test_cost_for_reads_yaml(monkeypatch):
+    monkeypatch.setattr(loaders, "load_costs", lambda: {"trim": 0.05, "free": 0.0})
+    assert loaders.cost_for("trim") == 0.05
+    assert loaders.cost_for("free") == 0.0            # 0.0 is a real value, not "missing"
+
+
+def test_cost_for_arg_default_and_fail_loud(monkeypatch):
+    monkeypatch.setattr(loaders, "load_costs", lambda: {})
+    assert loaders.cost_for("trim", 0.15) == 0.15     # arg default when key absent
+    with pytest.raises(RuntimeError, match="no cost configured"):
+        loaders.cost_for("trim")                      # no key, no default → fail loud
+
+
+def test_real_costs_yaml_has_the_paid_stages():
+    costs = loaders.load_costs()
+    assert {"trim", "extract", "schema"} <= set(costs)
