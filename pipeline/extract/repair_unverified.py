@@ -33,6 +33,7 @@ from pipeline.extract.extract_state import load_umbrella_text  # noqa: E402
 from pipeline.extract.locate_quote import normalize_for_match, quote_in_corpus  # noqa: E402
 from pipeline.paths import LOGS_DIR, STRUCTURED_DIR, TRIMMED_DIR
 from pipeline.extract.standard_model import iter_evidence  # noqa: E402
+from pipeline.config.loaders import model_for
 
 
 LOG_PATH = LOGS_DIR / "repair_unverified.log"
@@ -44,7 +45,7 @@ logging.basicConfig(
 )
 log = logging.getLogger("repair_unverified")
 
-DEFAULT_MODEL = "claude-haiku-4-5-20251001"
+DEFAULT_MODEL = model_for("repair_unverified")
 
 
 SYSTEM_PROMPT = """You verify legal statute quotations.

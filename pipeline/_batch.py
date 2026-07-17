@@ -23,7 +23,7 @@ Typical use:
         ),
         ...
     ]
-    batch_id = submit_batch(reqs, model="claude-sonnet-4-6")
+    batch_id = submit_batch(reqs, model=model_for("extract"))
     # ... later (or after a crash) ...
     parsed = poll_batch(batch_id, schema_by_custom_id={r.custom_id: r.schema_cls for r in reqs})
 

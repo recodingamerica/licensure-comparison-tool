@@ -56,8 +56,9 @@ from pipeline.map_prep.bucket_text import (
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 log = logging.getLogger("map_prep.refresh")
 
-MODEL = "claude-sonnet-4-6"
+MODEL = model_for("map_prep")
 from pipeline.paths import MAP_PREP_DIR as _OUT_ROOT, DISCOVERED_DIR as _DISCOVERED_DIR
+from pipeline.config.loaders import model_for
 
 
 # Anthropic batch custom_id pattern is ^[a-zA-Z0-9_-]{1,64}$ — no dots allowed,

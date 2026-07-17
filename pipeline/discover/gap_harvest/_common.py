@@ -13,6 +13,7 @@ from pipeline._env import load_env
 from pipeline.paths import RESULTS_DIR
 from pipeline._records import read_json
 from pipeline.config.states import STATE_SLUG, ALL_STATES  # single source; re-exported here
+from pipeline.config.loaders import model_for
 
 load_env()
 
@@ -39,7 +40,7 @@ def normalize_url(url: str | None) -> str | None:
     return head + "/codes/" + path.replace(".", "-")
 
 # --- the web_search locator (one definition, prompt-selectable) ----------------
-MODEL = "claude-haiku-4-5-20251001"
+MODEL = model_for("gap_locator")
 
 # strict: only licensure. recover: any chapter that ADDRESSES the occupation (incl.
 # exemption/certification) — used to re-check nulls without inventing absences.

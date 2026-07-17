@@ -16,6 +16,17 @@
 # extract with a non-Claude model, run extract with `--backend litellm` (any
 # vendor, but no batch discount). See docs/handoff/technical_documentation.md §6.
 
+# `default` is the model any stage/tool uses when it has no key of its own below.
+# Model names live ONLY in this file — never hardcoded in a .py. Every LLM call site
+# reads its model via config.loaders.model_for("<stage>").
+default: claude-sonnet-4-6
+
+# Paid pipeline stages
 trim: claude-haiku-4-5-20251001   # keep only the occupation's parts of the law
 extract: claude-sonnet-4-6        # turn trimmed statute text into structured data
 schema: claude-sonnet-4-6         # design a new occupation's data template (one-time)
+
+# Tools that need something OTHER than `default` (unlisted tools use `default`):
+scope_rules: claude-opus-4-7             # suggest_scope_rules / llm_scope_fallback (harder reasoning)
+gap_locator: claude-haiku-4-5-20251001   # gap_harvest web_search locator (cheap, high-volume)
+repair_unverified: claude-haiku-4-5-20251001  # re-locate a missing quote (cheap)
