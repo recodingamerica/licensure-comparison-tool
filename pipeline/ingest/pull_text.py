@@ -140,9 +140,20 @@ def _get_scrapling_session():
         from scrapling.fetchers import StealthySession
         sess = StealthySession(headless=True, solve_cloudflare=True)
         sess.__enter__()
-        atexit.register(lambda: sess.__exit__(None, None, None))
+        # Swallow teardown errors: the session lives in the pull worker thread, so an
+        # atexit close from the MAIN thread raises the same thread-affinity greenlet
+        # error — harmless at exit, but noisy. (BaseException: greenlet.error /
+        # TargetClosedError aren't always Exception subclasses.)
+        atexit.register(lambda: _close_scrapling_session(sess))
         _SCRAPLING_SESSION = sess
     return _SCRAPLING_SESSION
+
+
+def _close_scrapling_session(sess) -> None:
+    try:
+        sess.__exit__(None, None, None)
+    except BaseException:  # noqa: BLE001 — teardown noise, never fatal
+        pass
 
 
 def _reset_scrapling_session() -> None:
@@ -150,10 +161,7 @@ def _reset_scrapling_session() -> None:
     between retries when the session may be wedged (an empty/challenge response)."""
     global _SCRAPLING_SESSION
     if _SCRAPLING_SESSION is not None:
-        try:
-            _SCRAPLING_SESSION.__exit__(None, None, None)
-        except Exception:
-            pass
+        _close_scrapling_session(_SCRAPLING_SESSION)
         _SCRAPLING_SESSION = None
 
 
