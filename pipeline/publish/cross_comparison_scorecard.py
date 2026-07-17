@@ -26,6 +26,7 @@ from typing import Any, Callable
 from pipeline.extract.standard_model import is_evidence_node
 from pipeline.paths import RESULTS_DIR, STRUCTURED_DIR, WEB_PUBLIC_DIR, core_professions
 from pipeline._records import record_files
+from pipeline.extract.standard_model import deep_get
 
 
 # Atharv's "Universal Category" list from the cross-comparison PDF, mapped to
@@ -44,12 +45,7 @@ def _ev_populated(node: Any) -> bool:
 
 
 def _ev_at(record: dict, *path: str) -> bool:
-    cur: Any = record
-    for k in path:
-        if not isinstance(cur, dict):
-            return False
-        cur = cur.get(k)
-    return _ev_populated(cur)
+    return _ev_populated(deep_get(record, *path))
 
 
 def _any_exam_field(record: dict, field: str) -> bool:

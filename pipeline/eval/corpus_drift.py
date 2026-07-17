@@ -42,6 +42,8 @@ from urllib.parse import urlparse
 from pipeline.paths import TEXT_DIR, PROFESSION_INDEX_DIR
 from pipeline.config.loaders import load_state_structure
 from pipeline._records import load_sections
+from pipeline.config.loaders import all_profession_ids
+from pipeline.config.loaders import matched_for
 
 
 # States whose Justia index url is intercepted to an official source by an
@@ -97,7 +99,7 @@ def _index_nodes(prof: str, state: str) -> list[dict]:
     if not path.exists():
         return []
     idx = json.loads(path.read_text())
-    return idx.get("by_state", {}).get(state, {}).get("matched", [])
+    return matched_for(idx, state)
 
 
 def _index_targets(nodes: list[dict]) -> tuple[set[str], set[str]]:
@@ -169,8 +171,7 @@ def main() -> None:
     args = ap.parse_args()
 
     profs = ([args.profession] if args.profession
-             else sorted(p.stem for p in PROFESSION_INDEX_DIR.glob("*.json")
-                         if not p.stem.startswith("_")))
+             else all_profession_ids())
     official = _active_official_sources()
     records = []
     for prof in profs:

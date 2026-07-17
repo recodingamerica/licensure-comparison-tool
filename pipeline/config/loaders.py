@@ -30,8 +30,9 @@ import yaml
 
 log = logging.getLogger(__name__)
 
-from pipeline.paths import CONFIG_DIR, TEXT_DIR
+from pipeline.paths import CONFIG_DIR, TEXT_DIR, PROFESSION_INDEX_DIR
 from pipeline.config.yaml_loader import safe_load_unique
+from pipeline._records import read_json
 
 # Re-export so callers can do `from pipeline.config.loaders import load_mapping_overrides`
 # without importing from _mapping_overrides directly.  The _mapping_overrides module
@@ -165,6 +166,28 @@ def load_models() -> dict:
     if not path.exists():
         return {}
     return safe_load_unique(path.read_text()) or {}
+
+
+def all_profession_ids() -> list[str]:
+    """Sorted profession ids that have a profession_index/<id>.json, skipping the
+    `_`-prefixed bookkeeping files. The single home for this glob — several call sites
+    forgot the underscore filter and surfaced bookkeeping files as bogus professions.
+    (Callers that also skip `*_suggestions` still filter that themselves.)"""
+    return sorted(p.stem for p in PROFESSION_INDEX_DIR.glob("*.json")
+                  if not p.stem.startswith("_"))
+
+
+def load_profession_index(prof: str) -> dict:
+    """The profession_index/<prof>.json mapping, or {} if missing/unparseable."""
+    return read_json(PROFESSION_INDEX_DIR / f"{prof}.json", {})
+
+
+def matched_for(index: dict, state: str) -> list[dict]:
+    """The `matched` node list for `state` in a full profession index, or []. The null-safe
+    accessor for index["by_state"][state]["matched"], which was open-coded ~8× with
+    inconsistent guards — one (`index["by_state"].get(...)`) would KeyError if by_state
+    was absent."""
+    return ((index.get("by_state") or {}).get(state) or {}).get("matched") or []
 
 
 def model_for(stage: str, default: str | None = None) -> str:

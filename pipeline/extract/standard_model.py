@@ -34,6 +34,18 @@ def is_evidence_node(node: Any) -> bool:
     return isinstance(node, dict) and _EVIDENCE_KEYS.issubset(node.keys())
 
 
+def deep_get(node: Any, *path: str) -> Any:
+    """Descend `node` by the given keys, returning None if any segment is missing or
+    not a dict. The shared core of the several record-walkers (_g / _ev_at /
+    _resolve_evidence) that each re-implemented this loop with a different wrapper."""
+    cur = node
+    for seg in path:
+        if not isinstance(cur, dict):
+            return None
+        cur = cur.get(seg)
+    return cur
+
+
 def iter_evidence(
     node: Any, path: tuple[str | int, ...] = ()
 ) -> Iterator[tuple[tuple[str | int, ...], dict]]:

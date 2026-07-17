@@ -20,12 +20,13 @@ import json
 from pipeline.paths import RESULTS_DIR, PROFESSION_INDEX_DIR
 from pipeline.scope_sources import CLASSIFIED_SOURCES, METHOD_LLM, professions_for
 from pipeline.merged_scope import load_merged_scope
+from pipeline.config.loaders import all_profession_ids
 
 UMBRELLA_SCOPE_DIR = RESULTS_DIR / "umbrella_scope"
 
 
 def _all_professions() -> list[str]:
-    return sorted(p.stem for p in PROFESSION_INDEX_DIR.glob("*.json"))
+    return all_profession_ids()
 
 
 def _merged_sections(state: str) -> list[dict] | None:

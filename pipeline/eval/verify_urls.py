@@ -48,6 +48,7 @@ import urllib.parse
 
 from pipeline.ingest.pull_text import fetch, extract_child_links
 from pipeline.paths import PROFESSION_INDEX_DIR
+from pipeline.config.loaders import all_profession_ids
 
 _TITLE_RE = re.compile(r"<title[^>]*>(.*?)</title>", re.S | re.I)
 _CHALLENGE_MARKERS = ("just a moment", "attention required", "cf-challenge",
@@ -131,8 +132,7 @@ def _index_urls(profession: str, state: str | None) -> list[tuple[str, str, str]
 
 
 def _all_professions() -> list[str]:
-    return sorted(p.stem for p in PROFESSION_INDEX_DIR.glob("*.json")
-                  if not p.stem.startswith("_"))
+    return all_profession_ids()
 
 
 def _emit(rec: dict, prof: str | None = None, state: str | None = None, debug: bool = False) -> None:
