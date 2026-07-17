@@ -26,7 +26,6 @@ import argparse
 import json
 import logging
 import os
-import re
 import sys
 from typing import Any, Iterable
 
@@ -59,6 +58,7 @@ from pipeline.paths import (
 from pipeline.scope_sources import is_classified, professions_for
 from pipeline.merged_scope import load_merged_scope
 from pipeline._records import record_files
+from pipeline.ingest._section_patterns import canonical_year_url
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 log = logging.getLogger("db.load")
@@ -486,8 +486,8 @@ def link_umbrella_applies_to(
     )
     url_to_doc: dict[str, int] = {}
     for row in cur.fetchall():
-        # Canonicalize the URL (strip year prefix like in extract_state).
-        canonical = re.sub(r"/codes/[a-z-]+/\d{4}/", lambda m: m.group(0).rsplit("/", 2)[0] + "/", row["url"] or "")
+        # Canonicalize the URL (strip year prefix) — shared with extract/discover.
+        canonical = canonical_year_url(row["url"] or "")
         url_to_doc[canonical] = row["id"]
         url_to_doc[row["url"] or ""] = row["id"]
 
@@ -500,8 +500,7 @@ def link_umbrella_applies_to(
         doc_id = url_to_doc.get(section_url)
         if doc_id is None:
             # Try canonicalized form.
-            canonical = re.sub(r"/codes/[a-z-]+/\d{4}/", lambda m: m.group(0).rsplit("/", 2)[0] + "/", section_url)
-            doc_id = url_to_doc.get(canonical)
+            doc_id = url_to_doc.get(canonical_year_url(section_url))
         if doc_id is None:
             continue
 
