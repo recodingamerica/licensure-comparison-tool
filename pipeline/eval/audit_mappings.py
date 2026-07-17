@@ -20,27 +20,16 @@ import argparse
 import collections
 import json
 
-import urllib.parse
-
-import re
-
 from pipeline.paths import TEXT_DIR, PROFESSION_INDEX_DIR
 from pipeline._records import record_files
 # reuse the SAME attribution logic the refresh uses (single source of truth)
 from pipeline.ingest.refresh_corpus import sections_per_chapter
-
-# A url whose LAST path segment is a bare container (title-/chapter-/article-/part-/
-# subchapter-/division-) is a landing page, not a leaf section. Deliberately narrow —
-# NOT SECTION_SEG, which false-flags real sections under IL's `act-225-ilcs-80` /
-# ND's `chapter-43-36` act structures — so only genuine container-pages-as-sections
-# are caught (e.g. land_surveying/WY's lone `.../chapter-29/`).
-_CONTAINER = re.compile(r"^(title|chapter|article|part|subchapter|division)\b", re.I)
-
+from pipeline.ingest._section_patterns import container_segment
 
 def _is_leaf(url: str) -> bool:
-    """True unless `url`'s last path segment is a bare container landing page."""
-    segs = [s for s in urllib.parse.urlparse(url).path.split("/") if s]
-    return bool(segs) and not _CONTAINER.match(segs[-1])
+    """True unless `url`'s last path segment is a bare container landing page
+    (the shared CONTAINER_SEG classifier — see pipeline.ingest._section_patterns)."""
+    return not container_segment(url)
 
 
 def _index_chapters(profession: str) -> dict[str, list[str]]:

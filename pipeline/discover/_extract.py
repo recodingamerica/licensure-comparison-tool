@@ -12,17 +12,10 @@ import urllib.parse
 
 from bs4 import BeautifulSoup
 
-
-# A path's last segment looks like a Justia section
-SECTION_SEG = re.compile(
-    r"^(section[-_]|§|s[-_]\d|statute[-_]|rs[-_]|\d+[a-z]?[-_:.]\d)",
-    re.IGNORECASE,
-)
-# Intermediate path segments (subchapter, etc.) we may want to drill into
-INTERMEDIATE_SEG = re.compile(
-    r"^(subchapter|subpart|part|division|subdivision|chapter|subtitle|article)[-_][0-9a-z]",
-    re.IGNORECASE,
-)
+# SECTION_SEG / INTERMEDIATE_SEG are the shared Justia URL-segment classifiers — imported,
+# never re-defined, so this module can't drift from the walker (it did: it long carried a
+# SECTION_SEG missing the canonical `\d{3,}` branch).
+from pipeline.ingest._section_patterns import SECTION_SEG, INTERMEDIATE_SEG
 
 JUSTIA_CHAPTER_RE = re.compile(
     r"^/codes/[a-z\-]+/(?:\d{4}/)?[^/]+/(?:chapter|article|division|part|subtitle|subdivision)-[a-z0-9\-]+/?$",
