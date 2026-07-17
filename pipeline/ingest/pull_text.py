@@ -72,7 +72,7 @@ SECTION_WALK_MAX_DEPTH: int = load_limits()["pull"]["section_walk_max_depth"]
 # A path's last segment looks like a Justia section
 # Single source of truth (shared, dependency-free) so the scope walker can use the
 # SAME pattern without importing the scraping stack. See _section_patterns.
-from pipeline.ingest._section_patterns import SECTION_SEG
+from pipeline.ingest._section_patterns import SECTION_SEG, INTERMEDIATE_SEG, container_segment
 from pipeline.ingest import nj_flat
 
 
@@ -633,12 +633,6 @@ def extract_section_text(html: str) -> str:
 
 # Justia URL slugs that are intermediate (drill-able) rather than leaf sections.
 # Includes nested chapter/subtitle layouts seen in IN, MD, etc.
-INTERMEDIATE_SEG = re.compile(
-    r"^(subchapter|subpart|part|division|subdivision|chapter|subtitle|article)[-_][0-9a-z]",
-    re.IGNORECASE,
-)
-
-
 def short_citation(label: str) -> str:
     """Pull a short '§ X' or 'X-Y' style cite from a section label."""
     # e.g. "Section 20-50. - Podiatric medicine defined." -> "20-50"
@@ -1045,14 +1039,10 @@ def _norm_text(t: str | None) -> str:
     return re.sub(r"\s+", " ", (t or "")).strip().lower()
 
 
-_CONTAINER_SEG = re.compile(r"^(title|chapter|article|part|subchapter|division)\b", re.I)
-
-
 def _is_container_url(url: str) -> bool:
     """The url's last path segment is a bare container (title-/chapter-/article-/…),
     i.e. a landing page, not a leaf section."""
-    segs = [s for s in urllib.parse.urlparse(url or "").path.split("/") if s]
-    return bool(segs) and bool(_CONTAINER_SEG.match(segs[-1]))
+    return container_segment(url)
 
 
 def _lost_sections(old_d: dict, new_d: dict) -> list[dict]:
