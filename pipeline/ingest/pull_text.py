@@ -490,11 +490,13 @@ def looks_like_il_ilcs(text: str) -> bool:
 
 # North Dakota chapter pages render the WHOLE chapter as one inline blob (no
 # per-section links), with line-anchored "title-chapter-section." markers
-# (e.g. "43-09-01.", "43-44.1-02."). Split on those so ND gets per-section
-# records instead of one 30-50k-char blob (was 1-3 "sections" across 13
-# professions). Reusable as a local transform on committed ND corpora — no
-# re-fetch (per CLAUDE.md).
-_ND_SEC_MARKER = re.compile(r"(?m)^\s*(\d+-\d+(?:\.\d+)?-\d+(?:\.\d+)?)\.\s")
+# (e.g. "43-09-01.", "43-44.1-02.", "26.1-26-01."). Split on those so ND gets
+# per-section records instead of one 30-50k-char blob (was 1-3 "sections" across
+# 13 professions). Reusable as a local transform on committed ND corpora — no
+# re-fetch (per CLAUDE.md). Each of the three parts may be dotted: the TITLE too
+# (title 26.1 Insurance, 4.1 Agriculture), which the original regex missed — it
+# only handled a plain-integer title, so those chapters never split.
+_ND_SEC_MARKER = re.compile(r"(?m)^\s*(\d+(?:\.\d+)?-\d+(?:\.\d+)?-\d+(?:\.\d+)?)\.\s")
 
 
 def looks_like_nd_blob(text: str, url: str) -> bool:
