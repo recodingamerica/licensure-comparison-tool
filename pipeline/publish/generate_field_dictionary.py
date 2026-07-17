@@ -241,12 +241,14 @@ _HTML = r"""<!doctype html>
   .vocab { color: #777; font-size: .82em; }
   body:not(.tech) .tcol { display: none; }
   a.dl { font-size: .85rem; }
+  a.home{display:inline-block;margin-bottom:.5rem;font-size:.85rem;color:#555;text-decoration:none}
 </style></head><body>
 <header>
+  <a href="/" class="home">← home</a>
   <h1>Field dictionary</h1>
   <div class="sub">Auto-generated from the extraction model — the methodology tracks the code.
   Every field is an <b>Evidence</b> object: a value, the verbatim statute <b>quote</b> behind it,
-  and the <b>citation</b>. Hover an example to see its quote + citation.</div>
+  and the <b>citation</b>.</div>
 </header>
 <div class="toolbar">
   <label>Profession <select id="prof"></select></label>
