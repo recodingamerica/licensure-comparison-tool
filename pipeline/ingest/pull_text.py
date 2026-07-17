@@ -1015,6 +1015,16 @@ def _norm_text(t: str | None) -> str:
     return re.sub(r"\s+", " ", (t or "")).strip().lower()
 
 
+_CONTAINER_SEG = re.compile(r"^(title|chapter|article|part|subchapter|division)\b", re.I)
+
+
+def _is_container_url(url: str) -> bool:
+    """The url's last path segment is a bare container (title-/chapter-/article-/…),
+    i.e. a landing page, not a leaf section."""
+    segs = [s for s in urllib.parse.urlparse(url or "").path.split("/") if s]
+    return bool(segs) and bool(_CONTAINER_SEG.match(segs[-1]))
+
+
 def _lost_sections(old_d: dict, new_d: dict) -> list[dict]:
     """Committed error-free sections that the new pull genuinely LOST — keyed by
     citation first, then text. A committed section is NOT lost when:
@@ -1031,6 +1041,12 @@ def _lost_sections(old_d: dict, new_d: dict) -> list[dict]:
     lost = []
     for s in (old_d.get("sections") or []):
         if s.get("error"):
+            continue
+        if _is_container_url(s.get("url", "")):
+            # The committed "section" is a CONTAINER landing page (a TITLE_STRAY
+            # corpus — the walk grabbed the chapter page, not real sections).
+            # Replacing it with real leaf sections is an upgrade, never a loss, so
+            # it must not count toward a regression.
             continue
         cite = s.get("citation")
         if cite and cite in new_cites:
