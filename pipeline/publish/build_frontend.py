@@ -80,7 +80,7 @@ _PUB_OPTS = yaml.safe_load((CONFIG_DIR / "publish_options.yaml").read_text()) or
 INCLUDE_VERIFIED_ABSENCES = bool(_PUB_OPTS.get("include_verified_absences", True))
 from pipeline.config.states import ALL_STATES
 from pipeline.extract.locate_quote import locate_quote_in_section
-from pipeline.extract.standard_model import is_evidence_node, iter_evidence
+from pipeline.extract.standard_model import is_evidence_node, iter_evidence, deep_get
 from pipeline.scope_sources import is_universal, is_enumeration
 from pipeline.merged_scope import merged_scope_by_url
 from pipeline.publish.blob_upload import upload_json
@@ -147,12 +147,7 @@ def normalize_citation(cite: str) -> str:
 
 
 def _g(d: dict | None, *path: str) -> Any:
-    cur: Any = d
-    for k in path:
-        if not isinstance(cur, dict):
-            return None
-        cur = cur.get(k)
-    return cur
+    return deep_get(d, *path)
 
 
 def _section_evidence_spans(record: dict, text: str) -> list[dict]:
@@ -749,11 +744,7 @@ def _resolve_evidence(record: dict, dotted: str) -> dict | None:
     Used to enrich map_prep rows with the verbatim statute quote — the
     normalizer only saw `.value`, so the quote lives on the original record.
     """
-    node: Any = record
-    for p in dotted.split("."):
-        if not isinstance(node, dict):
-            return None
-        node = node.get(p)
+    node = deep_get(record, *dotted.split("."))
     return node if is_evidence_node(node) else None
 
 
@@ -886,20 +877,18 @@ def _no_credential_states(profession: str) -> dict[str, str]:
     """States declared in professions.yaml as having no credential in state
     law for this profession — a verified true negative, not a scrape gap.
     Returns {state: citation/explanation}."""
-    try:
-        cfg = load_professions()
-        return cfg.get(profession, {}).get("no_credential_states") or {}
-    except Exception:
-        return {}
+    # No except: a malformed/duplicate-key professions.yaml must RAISE at publish time,
+    # not silently publish an empty set (which reads as "no verified negatives"). The
+    # per-profession .get fallback below is the only legitimate default.
+    cfg = load_professions()
+    return cfg.get(profession, {}).get("no_credential_states") or {}
 
 
 def _profession_display(profession: str) -> str:
-    """Pull a friendly display name from config/professions.yaml; fall back to title-case."""
-    try:
-        cfg = load_professions()
-        return cfg.get(profession, {}).get("display", profession.replace("_", " ").title())
-    except Exception:
-        return profession.replace("_", " ").title()
+    """Pull a friendly display name from config/professions.yaml; fall back to title-case
+    only when the profession has no `display` key (a broken yaml RAISES, not falls back)."""
+    cfg = load_professions()
+    return cfg.get(profession, {}).get("display", profession.replace("_", " ").title())
 
 
 def _profession_meta(profession: str) -> dict:
@@ -909,10 +898,7 @@ def _profession_meta(profession: str) -> dict:
     means a yaml entry. Falls back to slug-derived defaults when fields
     are absent so the frontend never crashes on missing keys.
     """
-    try:
-        cfg = load_professions()
-    except Exception:
-        cfg = {}
+    cfg = load_professions()  # a broken yaml RAISES here, not silently empty
     families = cfg.get("_families") or {}
     entry = cfg.get(profession) or {}
     fam_list = entry.get("family") or []
@@ -926,18 +912,6 @@ def _profession_meta(profession: str) -> dict:
         "family_color": fam_meta.get("color"),
         "family_label": fam_meta.get("label"),
     }
-
-
-def _all_profession_meta() -> list[dict]:
-    """Return metadata for every profession in the yaml (excluding the
-    _families config block). Used by fetch-blob-data to assemble
-    /professions.json with the visual fields the homepage + browse views
-    need."""
-    try:
-        cfg = load_professions()
-    except Exception:
-        return []
-    return [_profession_meta(k) for k in cfg.keys() if not k.startswith("_")]
 
 
 def main() -> None:
@@ -963,6 +937,11 @@ def main() -> None:
     for row in payload["rows"]:
         bs = row.pop("browse_sections", None)
         bg = row.pop("browse_groups", None)
+        # browse_sections is popped out of the main blob (size), but the table's
+        # "open statute tree" link is gated on whether a tree exists. Leave a cheap
+        # count behind so the gate has something to read — without it the link was
+        # dead in every row (the field it checked was always absent post-pop).
+        row["browse_section_count"] = len(bs) if bs else 0
         if bs is None and bg is None:
             continue
         st = row["state"]

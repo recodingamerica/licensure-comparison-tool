@@ -525,41 +525,6 @@ def link_umbrella_applies_to(
 
 # ─── Orchestration ────────────────────────────────────────────────────────
 
-def load_profession(
-    cur, profession: str, profession_ids: dict[str, int],
-    states: Iterable[str] | None,
-) -> dict:
-    pid = profession_ids.get(profession)
-    if pid is None:
-        log.warning("profession %s not in DB — skipping", profession)
-        return {}
-
-    if states is None:
-        # Use whichever states have structured data for this profession.
-        states = [p.stem for p in record_files(STRUCTURED_DIR / profession)]
-
-    n_docs = n_evidence = n_profiles = 0
-    for st in states:
-        # Documents for this state across the professions we're loading + umbrella
-        upsert_documents_for_state(cur, st, [profession], profession_ids)
-        n_docs += 1  # rough — actual count is per-section but we don't return it from the helper
-        # Evidence
-        n_evidence += upsert_evidence_for_state(cur, profession, st, pid, {})
-        # Profile
-        if upsert_profile_row(cur, profession, st, pid):
-            n_profiles += 1
-
-    n_fields = upsert_discovered_fields(cur, profession, pid)
-
-    # Umbrella linking is state-scoped, not profession-scoped — but we
-    # only need to run it once per state. Track here so it doesn't double.
-    return {
-        "profession": profession, "states": len(list(states)),
-        "evidence_rows": n_evidence, "profile_rows": n_profiles,
-        "discovered_fields": n_fields,
-    }
-
-
 def main() -> None:
     ap = argparse.ArgumentParser()
     g = ap.add_mutually_exclusive_group(required=True)

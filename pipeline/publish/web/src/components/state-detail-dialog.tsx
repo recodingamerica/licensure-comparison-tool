@@ -270,7 +270,7 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
             Verbatim statute quote and citation for every claim. Click{" "}
             <em>in context</em> on any row to see the surrounding section text
             with the quote highlighted.{" "}
-            {(row.browse_sections?.length ?? 0) > 0 && (
+            {(row.browse_section_count ?? 0) > 0 && (
               <a
                 href={`/browse/${row.state}/${encodeURIComponent(row._full.profession)}`}
                 target="_blank"

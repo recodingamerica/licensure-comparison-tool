@@ -53,6 +53,7 @@ from pipeline._records import record_files
 from pipeline.scope_sources import CLASSIFIED_SOURCES
 from pipeline.discover._scope_rules import ANCHOR_LABEL_RE, NARROW_LABEL_HINTS
 from pipeline.config.loaders import load_limits
+from pipeline.config.loaders import model_for
 
 UMBRELLA_TEXT_DIR = RESULTS_DIR / "umbrella_text"
 # Validated proposals are cached here so --apply can replay the exact rules the
@@ -62,7 +63,7 @@ SCOPE_RULES_PATH = Path(__file__).resolve().parent / "_scope_rules.py"
 REPO_ROOT = Path(__file__).resolve().parents[2]
 
 # Default model for proposal generation + refinement. Override with --model.
-DEFAULT_MODEL = "claude-opus-4-7"
+DEFAULT_MODEL = model_for("scope_rules")
 # Max output tokens for a proposal/refinement call.
 MAX_TOKENS = 8192
 # Truncate each section's text to keep token count manageable on large states
@@ -182,24 +183,10 @@ class ScopeRulesProposal(BaseModel):
 
 
 # ---------------------------------------------------------------------------
-# State name lookup
+# State name lookup — single source in config.states
 # ---------------------------------------------------------------------------
 
-STATE_NAME_MAP: dict[str, str] = {
-    "AL": "Alabama", "AK": "Alaska", "AZ": "Arizona", "AR": "Arkansas",
-    "CA": "California", "CO": "Colorado", "CT": "Connecticut", "DE": "Delaware",
-    "FL": "Florida", "GA": "Georgia", "HI": "Hawaii", "ID": "Idaho",
-    "IL": "Illinois", "IN": "Indiana", "IA": "Iowa", "KS": "Kansas",
-    "KY": "Kentucky", "LA": "Louisiana", "ME": "Maine", "MD": "Maryland",
-    "MA": "Massachusetts", "MI": "Michigan", "MN": "Minnesota", "MS": "Mississippi",
-    "MO": "Missouri", "MT": "Montana", "NE": "Nebraska", "NV": "Nevada",
-    "NH": "New Hampshire", "NJ": "New Jersey", "NM": "New Mexico", "NY": "New York",
-    "NC": "North Carolina", "ND": "North Dakota", "OH": "Ohio", "OK": "Oklahoma",
-    "OR": "Oregon", "PA": "Pennsylvania", "RI": "Rhode Island", "SC": "South Carolina",
-    "SD": "South Dakota", "TN": "Tennessee", "TX": "Texas", "UT": "Utah",
-    "VT": "Vermont", "VA": "Virginia", "WA": "Washington", "WV": "West Virginia",
-    "WI": "Wisconsin", "WY": "Wyoming",
-}
+from pipeline.config.states import STATE_NAMES as STATE_NAME_MAP
 
 
 # ---------------------------------------------------------------------------

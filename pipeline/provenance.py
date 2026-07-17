@@ -28,7 +28,7 @@ from functools import lru_cache
 from pipeline.paths import (
     TEXT_DIR, CLEAN_DIR, TRIMMED_DIR, STRUCTURED_DIR, DISCOVERED_DIR, RESULTS_DIR,
 )
-from pipeline._records import write_json_atomic
+from pipeline._records import write_json_atomic, read_json
 from pipeline._prompts import load_prompt
 
 STAGES = ("clean", "trim", "extract")
@@ -36,7 +36,13 @@ STAGES = ("clean", "trim", "extract")
 _IN = {"clean": TEXT_DIR, "trim": CLEAN_DIR, "extract": TRIMMED_DIR}
 _OUT = {"clean": CLEAN_DIR, "trim": TRIMMED_DIR, "extract": STRUCTURED_DIR}
 _PROMPT_KEY = {"clean": None, "trim": "trim_state", "extract": "extract_state"}
-_MODEL = {"clean": None, "trim": "claude-haiku-4-5-20251001", "extract": "claude-sonnet-4-6"}
+def _model_for_stage(stage: str) -> str | None:
+    """The model that produces a stage's output, from config/models.yaml. `clean` uses
+    no model. Imported lazily to avoid a config↔provenance import cycle."""
+    if stage == "clean":
+        return None
+    from pipeline.config.loaders import model_for
+    return model_for(stage)
 
 # Manual code-version tags — bump when a stage's logic should invalidate old outputs.
 CODE_VERSION = {"clean": 1, "trim": 1, "extract": 1}
@@ -51,11 +57,8 @@ def _sha(s: str) -> str:
 def _payload_hash(path) -> str | None:
     """Hash a JSON file's meaningful content — defensively dropping any `_provenance`
     key so an (inlined) stamp can never perturb the hash."""
-    if not path.exists():
-        return None
-    try:
-        d = json.loads(path.read_text())
-    except Exception:
+    d = read_json(path)
+    if d is None:
         return None
     if isinstance(d, dict):
         d = {k: v for k, v in d.items() if k != "_provenance"}
@@ -102,7 +105,7 @@ def recipe_hash(stage: str, prof: str, model: str | None = None) -> str:
     key = _PROMPT_KEY[stage]
     if key:
         parts.append("prompt=" + _sha(load_prompt(key)))
-    m = model or _MODEL[stage]
+    m = model or _model_for_stage(stage)
     if m:
         parts.append("model=" + m)
     if stage == "extract":
@@ -125,13 +128,7 @@ def _prov_path(prof: str, state: str):
 
 
 def _load_prov(prof: str, state: str) -> dict:
-    p = _prov_path(prof, state)
-    if not p.exists():
-        return {}
-    try:
-        return json.loads(p.read_text())
-    except Exception:
-        return {}
+    return read_json(_prov_path(prof, state), {})
 
 
 def record(stage: str, prof: str, state: str, model: str | None = None) -> None:

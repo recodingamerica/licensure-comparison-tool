@@ -109,14 +109,13 @@ def test_cell_freshness_unstamped_if_any_stage_unstamped(env):
 
 
 def test_recipe_models_match_stage_defaults():
-    """provenance._MODEL is a hand-copy of each stage's DEFAULT_MODEL (can't import them —
-    circular, and it'd drag anthropic into the light status path). This guard fails loudly
-    if a stage model changes without provenance being updated, which would otherwise make
-    every cell silently read stale (or miss a real change)."""
+    """provenance and each stage now BOTH read their model from config/models.yaml (via
+    model_for), so they can no longer drift by hand-copy. This confirms they resolve the
+    SAME model per stage — a mismatch would make freshness silently misjudge every cell."""
     from pipeline.ingest.trim_state import DEFAULT_MODEL as TRIM
     from pipeline.extract.extract_state import DEFAULT_MODEL as EXTRACT
-    assert pv._MODEL["trim"] == TRIM
-    assert pv._MODEL["extract"] == EXTRACT
+    assert pv._model_for_stage("trim") == TRIM
+    assert pv._model_for_stage("extract") == EXTRACT
 
 
 def test_last_stamped_returns_latest(env):

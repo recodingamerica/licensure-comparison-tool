@@ -36,7 +36,7 @@ from __future__ import annotations
 import argparse
 import functools
 import glob
-import json
+from pipeline._records import load_sections
 import os
 import re
 import sys
@@ -119,11 +119,7 @@ def _corpus_text(profession: str, state: str) -> str:
     # occupation instead of re-parsing it per occupation. Corpora don't change
     # mid-run, so the cache is always valid.
     p = TEXT_DIR / profession / f"{state}.json"
-    try:
-        secs = json.loads(p.read_text()).get("sections", []) or []
-    except (OSError, json.JSONDecodeError):
-        return ""
-    return " ".join(s.get("text", "") for s in secs if isinstance(s, dict))
+    return " ".join(s.get("text", "") for s in load_sections(p) if isinstance(s, dict))
 
 
 def _have(profession: str, overrides: dict) -> set[str]:

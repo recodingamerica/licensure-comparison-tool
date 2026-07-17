@@ -265,7 +265,7 @@ export function NovelPoliciesView({ professionId }: { professionId: string }) {
   const nDirected = [...dirCounts.values()].reduce((a, b) => a + b, 0);
 
   return (
-    <div className="max-w-3xl">
+    <div className="max-w-5xl">
       <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
         Policy innovations &amp; oddities
       </p>

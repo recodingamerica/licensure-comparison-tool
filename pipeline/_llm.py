@@ -7,7 +7,7 @@ removes ~40 lines per call site and centralizes the retry policy.
 
 Usage:
     result = call_structured(
-        model="claude-sonnet-4-6",
+        model=model_for("extract"),  # from config/models.yaml
         system=system_prompt,
         user=user_prompt,
         schema_cls=ResultModel,

@@ -161,7 +161,7 @@ export function SimilarityView({ professionId }: { professionId: string }) {
       : `, differing most on ${driverList}`;
 
   return (
-    <div className="max-w-4xl space-y-6">
+    <div className="max-w-5xl space-y-6">
       {/* Lead with the insight. */}
       <p className="text-[15px] leading-relaxed">
         On the {data.n_core} questions most states answer, regimes{" "}
@@ -191,8 +191,7 @@ export function SimilarityView({ professionId }: { professionId: string }) {
         <p className="mb-3 text-xs text-muted-foreground">
           How distinctive each state is — hover any state for where it agrees and what&apos;s unusual.
         </p>
-        <UsMap fillFor={fillFor} renderTooltip={renderTooltip} bare />
-        <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
+        <div className="mb-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
           <span>typical</span>
           <span
             className="inline-block h-2 w-28 rounded"
@@ -204,6 +203,7 @@ export function SimilarityView({ professionId }: { professionId: string }) {
             <span className="inline-block h-2 w-3 rounded" style={{ background: NO_DATA_FILL }} /> not enough data
           </span>
         </div>
+        <UsMap fillFor={fillFor} renderTooltip={renderTooltip} bare />
       </div>
     </div>
   );

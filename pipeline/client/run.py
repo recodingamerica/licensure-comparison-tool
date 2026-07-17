@@ -40,6 +40,7 @@ from __future__ import annotations
 import argparse
 import subprocess
 import sys
+from pathlib import Path
 
 from pipeline import provenance
 from pipeline.client.status import COST_TRIM, COST_EXTRACT, COST_SCHEMA, build as build_status
@@ -171,10 +172,10 @@ def _confirm(step: str, queue: dict[str, list[str]], per_cell: float, model: str
         sys.exit("  aborted — no charge incurred.")
 
 
-def _run_cmd(cmd: list[str], fail_msg: str) -> None:
+def _run_cmd(cmd: list[str], fail_msg: str, cwd: str | None = None) -> None:
     """Echo and run one subprocess, exiting with a friendly message on failure."""
     print(f"\n$ {' '.join(cmd)}", flush=True)
-    if subprocess.run(cmd).returncode != 0:
+    if subprocess.run(cmd, cwd=cwd).returncode != 0:
         sys.exit(fail_msg)
 
 
@@ -296,21 +297,34 @@ def cmd_publish(args) -> None:
     # Rebuilding the payload + blob upload is the normal, free publish step. `--deploy`
     # additionally pushes the PUBLIC live site — an outward-facing action, so it gets the
     # same typed-yes gate as the paid steps (one-time Vercel setup: docs/runbooks/client_deploy.md).
-    profs = [p.strip() for p in args.professions.split(",") if p.strip()]
-    if not profs:
-        sys.exit("no professions given — pass --professions a,b,c")
+    if getattr(args, "all", False):
+        from pipeline.client.handoff_doc import _published
+        profs = _published()  # every profession with a built payload in public/data/
+        if not profs:
+            sys.exit("--all: no built payloads found in public/data/")
+    else:
+        profs = [p.strip() for p in (args.professions or "").split(",") if p.strip()]
+        if not profs:
+            sys.exit("no professions given — pass --professions a,b,c (or --all)")
     if args.deploy and not args.yes:
         print(f"\n--deploy will rebuild the PUBLIC live site (utah-licensing.vercel.app) "
-              f"with: {', '.join(profs)}")
+              f"with {len(profs)} occupation(s): {', '.join(profs)}")
         print("  Needs one-time Vercel setup first — see docs/runbooks/client_deploy.md.")
         if input('  Type "yes" to push the site live: ').strip().lower() != "yes":
             sys.exit("  aborted — nothing deployed (payloads not rebuilt either).")
-    extra = ["--deploy"] if args.deploy else []
+    # Build every payload FIRST (blob upload happens inside build_frontend), then deploy
+    # ONCE at the end — deploying per-profession would rebuild the site N times.
     for prof in profs:
-        cmd = [sys.executable, "-m", "pipeline.publish.build_frontend", "--profession", prof, *extra]
+        cmd = [sys.executable, "-m", "pipeline.publish.build_frontend", "--profession", prof]
         _run_cmd(cmd, f"publish failed for {prof} — see the error above.")
-    print("\npublish done." + ("" if args.deploy else
-          "  (add --deploy to also push it live to the website.)"))
+    if args.deploy:
+        web_dir = Path(__file__).resolve().parents[1] / "publish" / "web"
+        print(f"\ndeploying once via vercel --prod from {web_dir} …")
+        _run_cmd(["npx", "vercel", "--prod", "--yes"], "vercel deploy failed — see above.",
+                 cwd=str(web_dir))
+        print("deployed — the live site now shows the rebuilt payloads.")
+    else:
+        print("\npublish done.  (add --deploy to also push it live to the website.)")
 
 
 def main() -> None:
@@ -347,8 +361,11 @@ def main() -> None:
                                  "With --backend litellm, any LiteLLM model name works.")
     # publish is per-occupation, not per-cell — its own interface.
     sp = sub.add_parser("publish", help="FREE — build the web payload so it shows on the site")
-    sp.add_argument("--professions", required=True, help="Comma-separated occupations to publish")
-    sp.add_argument("--deploy", action="store_true", help="Also push it live to the website (asks first)")
+    sp.add_argument("--professions", help="Comma-separated occupations to publish (or use --all)")
+    sp.add_argument("--all", action="store_true",
+                    help="Publish every occupation that already has a payload (auto-derived)")
+    sp.add_argument("--deploy", action="store_true",
+                    help="After building, push it live to the website ONCE (asks first)")
     sp.add_argument("--yes", action="store_true", help="Skip the --deploy confirmation prompt")
 
     args = ap.parse_args()

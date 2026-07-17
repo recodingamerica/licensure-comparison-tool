@@ -34,7 +34,7 @@ LOG_PATH = LOGS_DIR / "discover_schema.log"
 LOGS_DIR.mkdir(parents=True, exist_ok=True)
 DISCOVERED_DIR.mkdir(parents=True, exist_ok=True)
 
-DEFAULT_MODEL = model_for("schema", "claude-sonnet-4-6")  # config/models.yaml
+DEFAULT_MODEL = model_for("schema")
 MAX_RETRIES = 2
 
 logging.basicConfig(

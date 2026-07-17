@@ -15,6 +15,7 @@ from collections import defaultdict
 from pathlib import Path
 
 from pipeline.paths import PROFESSION_INDEX_DIR
+from pipeline.config.loaders import matched_for, all_profession_ids, load_profession_index
 
 
 def build_reverse_index(state: str) -> dict[str, list[str]]:
@@ -26,10 +27,10 @@ def build_reverse_index(state: str) -> dict[str, list[str]]:
     that direction is in the forward index, this helper only inverts.
     """
     rev: dict[str, list[str]] = defaultdict(list)
-    for p in sorted(PROFESSION_INDEX_DIR.glob("*.json")):
-        d = json.loads(p.read_text())
+    for prof in all_profession_ids():
+        d = load_profession_index(prof)
         prof = d["profession"]
-        for entry in (d.get("by_state", {}).get(state, {}).get("matched") or []):
+        for entry in matched_for(d, state):
             slug = entry.get("slug", "")
             if slug and prof not in rev[slug]:
                 rev[slug].append(prof)

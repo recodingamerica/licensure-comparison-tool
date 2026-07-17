@@ -186,6 +186,9 @@ export type Row = {
   // so the tree can group practice / health umbrella / universal umbrella.
   // Each section carries its own evidence spans anchored to its text.
   browse_sections?: BrowseSection[];
+  // Count of browse_sections, kept in the main blob after browse_sections itself is
+  // split out to per-state files — drives the "open statute tree" link's visibility.
+  browse_section_count?: number;
   _full: StructuredRecord;
 };
 

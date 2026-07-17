@@ -31,15 +31,15 @@ from pipeline._env import load_env
 from pipeline._llm import call_structured
 from pipeline._prompts import load_prompt
 from pipeline.paths import STRUCTURED_DIR as _STRUCTURED_DIR, MAP_PREP_DIR as _OUT_ROOT
+from pipeline.extract.standard_model import is_evidence_node
+from pipeline.config.loaders import model_for
 
 load_env()
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 log = logging.getLogger("map_prep")
 
-_REPO_ROOT = _PIPELINE_DIR.parent
-
-MODEL = "claude-sonnet-4-6"
+MODEL = model_for("map_prep")
 
 
 # ---------- Pass 1: spec ----------
@@ -117,7 +117,7 @@ def _flatten_evidence(record: dict) -> dict:
             # so the walker descended and leaked `<field>.value`,
             # `<field>.approximate.ratio`, etc. as bogus fields. Any node
             # carrying all three keys is an Evidence leaf by schema invariant.
-            if node.keys() >= {"value", "quote", "citation"}:
+            if is_evidence_node(node):
                 val = node.get("value")
                 if val is not None:
                     out[prefix] = val

@@ -61,6 +61,7 @@ except ImportError:  # optional — falls back to one line per cell
 from pipeline.paths import RESULTS_DIR, PROFESSION_INDEX_DIR, TEXT_DIR, LOGS_DIR
 from pipeline.ingest import pull_text
 from pipeline.ingest import nj_flat
+from pipeline.config.loaders import all_profession_ids, matched_for
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -463,7 +464,7 @@ def refresh_item(profession: str, state: str, rows: list[dict], *,
 # ---------------------------------------------------------------------------
 def _rows_for(index: dict, state: str) -> list[dict]:
     rows = []
-    for node in index.get("by_state", {}).get(state, {}).get("matched", []):
+    for node in matched_for(index, state):
         rows.append({
             "state": state,
             "chapter_url": node["url"],
@@ -498,7 +499,7 @@ def build_worklist(professions: list[str], only_states: set[str]) -> list[tuple[
 
 
 def all_professions() -> list[str]:
-    return sorted(p.stem for p in PROFESSION_INDEX_DIR.glob("*.json"))
+    return all_profession_ids()
 
 
 # ---------------------------------------------------------------------------

@@ -53,6 +53,7 @@ from pipeline._records import record_files
 from pipeline.scope_sources import is_classified
 from pipeline._llm import call_structured
 from pipeline.discover._profession_reverse_index import build_reverse_index
+from pipeline.config.loaders import model_for
 
 UMBRELLA_TEXT_DIR = RESULTS_DIR / "umbrella_text"
 UMBRELLA_SCOPE_DIR = RESULTS_DIR / "umbrella_scope"
@@ -61,7 +62,7 @@ LOG_PATH = LOGS_DIR / "llm_scope_fallback.log"
 LOGS_DIR.mkdir(parents=True, exist_ok=True)
 UMBRELLA_SCOPE_LLM_DIR.mkdir(parents=True, exist_ok=True)
 
-DEFAULT_MODEL = "claude-opus-4-7"
+DEFAULT_MODEL = model_for("scope_rules")
 MAX_TEXT_PER_SECTION = 2000   # cap section text sent to the model
 MAX_SECTIONS_PER_CALL = 12    # batch this many undetermined sections per chapter call
 

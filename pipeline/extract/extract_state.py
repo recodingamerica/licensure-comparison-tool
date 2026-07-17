@@ -57,7 +57,7 @@ from pipeline.config.loaders import model_for
 LOG_PATH = LOGS_DIR / "extract_state.log"
 LOGS_DIR.mkdir(parents=True, exist_ok=True)
 
-DEFAULT_MODEL = model_for("extract", "claude-sonnet-4-6")  # config/models.yaml
+DEFAULT_MODEL = model_for("extract")
 MAX_RETRIES = 2
 
 logging.basicConfig(

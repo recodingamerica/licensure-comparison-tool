@@ -40,6 +40,8 @@ from pipeline.paths import CONFIG_DIR, TEXT_DIR, HIERARCHY_DIR, RESULTS_DIR, PRO
 from pipeline.discover.match_profession import label_matches, rebuild_index, rebuild_and_write
 from pipeline.discover._mapping_overrides import add_override_entry
 from pipeline.config.loaders import load_professions
+from pipeline._records import load_sections
+from pipeline.config.loaders import matched_for
 
 PROF_YAML = CONFIG_DIR / "professions.yaml"
 REPORT = RESULTS_DIR / "section_match_candidates.md"
@@ -66,10 +68,7 @@ def corpus_titles() -> dict[tuple[str, str], list[str]]:
             continue
         prof = Path(f).parent.name
         state = Path(f).stem
-        try:
-            secs = json.loads(Path(f).read_text()).get("sections", []) or []
-        except (OSError, json.JSONDecodeError):
-            continue
+        secs = load_sections(Path(f))
         titles = [t for t in (_section_title(s) for s in secs) if t]
         if titles:
             out[(prof, state)] = titles
@@ -132,7 +131,7 @@ def write_targets(profession: str, states: list[str] | None = None) -> dict[str,
         if not targets:
             continue
         existing_urls = {n.get("url") for n in
-                         (base_idx["by_state"].get(st) or {}).get("matched") or []}
+                         matched_for(base_idx, st)}
         for url, label in targets.items():
             if url and url not in existing_urls:
                 node = {"url": url, "label": label, "slug": "", "via": "section_match"}

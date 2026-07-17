@@ -56,6 +56,7 @@ from pipeline.config.loaders import load_professions
 from pipeline.discover.match_profession import label_matches
 from pipeline.discover.gap_harvest import _common as C
 from pipeline.ingest._section_patterns import is_title_root
+from pipeline.config.loaders import matched_for
 
 OVER_BROAD_SECTIONS = 150          # a section-nested profession's real law is well under this
 _CLUSTER_MAX_GAP = 4               # >this many non-hit sections between hits breaks the run
@@ -276,7 +277,7 @@ def narrow_cell(prof: str, state: str, profs: dict, threshold: int = OVER_BROAD_
     worklist and records absences."""
     patterns, excludes = patterns_for(prof, profs)
     idx = _load_index(prof)
-    nodes = idx.get("by_state", {}).get(state, {}).get("matched", [])
+    nodes = matched_for(idx, state)
     if not nodes:
         return {"prof": prof, "state": state, "verdict": "no_target"}
     node = nodes[0]
@@ -319,7 +320,7 @@ def detect(threshold: int = OVER_BROAD_SECTIONS) -> list[dict]:
         idx = json.loads(idx_path.read_text())
         patterns, excludes = patterns_for(prof, profs)
         for st in states:
-            for node in idx.get("by_state", {}).get(st, {}).get("matched", []):
+            for node in matched_for(idx, st):
                 if node.get("section_slug_pattern") or node.get("section_url_list"):
                     continue                                    # already scoped
                 reason = is_over_broad(node["url"], node.get("label", ""),

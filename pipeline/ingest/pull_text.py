@@ -125,18 +125,6 @@ class StateCorpus:
 _UNBLOCK_HOSTS = ("law.justia.com",)
 
 
-def _env_get(name: str) -> str | None:
-    v = os.environ.get(name)
-    if not v:
-        try:
-            from pipeline._env import load_env
-            load_env()
-            v = os.environ.get(name)
-        except Exception:
-            pass
-    return v
-
-
 _SCRAPLING_SESSION = None
 
 

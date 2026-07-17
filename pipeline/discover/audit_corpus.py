@@ -40,11 +40,13 @@ from pipeline._env import load_env
 load_env()
 from pipeline._llm import call_structured, log_usage_summary
 from pipeline.config.loaders import load_professions, load_limits
+from pipeline._records import load_sections
+from pipeline.config.loaders import model_for
 
 TEXT_DIR = REPO / "pipeline" / "results" / "text"
 CONFIG_DIR = REPO / "pipeline" / "config"
 OUT_DIR = REPO / "pipeline" / "results" / "corpus_audit"
-MODEL = "claude-sonnet-4-6"
+MODEL = model_for("audit_corpus")
 MAX_CHARS = load_limits()["audit_corpus"]["sample_max_chars"]
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
@@ -101,11 +103,7 @@ def _corpus_sample(profession: str, state: str) -> tuple[str, int, int, bool]:
     text evenly STRIDED across all sections so the sample spans the whole corpus.
     Returns (sample_text, n_sections_total, n_sections_sampled, sample_truncated)."""
     p = TEXT_DIR / profession / f"{state}.json"
-    try:
-        d = json.loads(p.read_text())
-    except (OSError, json.JSONDecodeError):
-        return "", 0, 0, False
-    secs = [s for s in (d.get("sections") or []) if isinstance(s, dict)]
+    secs = [s for s in load_sections(p) if isinstance(s, dict)]
     if not secs:
         return "", 0, 0, False
     index = ", ".join(_sec_cite(s) for s in secs)[:6000]
