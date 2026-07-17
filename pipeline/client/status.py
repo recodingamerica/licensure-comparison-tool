@@ -23,7 +23,7 @@ import json
 from pipeline.paths import (
     TEXT_DIR, CLEAN_DIR, TRIMMED_DIR, STRUCTURED_DIR, DISCOVERED_DIR, RESULTS_DIR,
 )
-from pipeline.config.loaders import load_professions, load_verified_absences
+from pipeline.config.loaders import load_professions, load_verified_absences, cost_for
 from pipeline.discover.gap_harvest import _common as C
 from pipeline.discover.gap_harvest.coverage import _has_corpus
 from pipeline import provenance
@@ -33,15 +33,15 @@ from pipeline import provenance
 # the two LLM stages. clean (deterministic), pull (fetch time, not $), and publish
 # (deterministic) are free. Kept here as the single source of truth so the runner
 # and dashboard quote the same numbers.
-COST_TRIM = 0.05      # trim_state, Haiku
-COST_EXTRACT = 0.15   # extract_state_batch, Sonnet
+COST_TRIM = cost_for("trim")        # trim_state, Haiku
+COST_EXTRACT = cost_for("extract")  # extract_state_batch, Sonnet
 COST_TO_EXTRACT = COST_EXTRACT
 COST_TO_TRIM = COST_TRIM + COST_EXTRACT   # trim then extract
 # discover_schema, Sonnet: ONE call per profession (reads all its states' trimmed
 # corpora at once), not per cell — measured ~$1/profession in a real run (same
 # runbook: a 40-profession batch ran ~$40 for schemas). Distinct from COST_TRIM/
 # COST_EXTRACT because it's a one-time profession-level cost, never a per-state one.
-COST_SCHEMA = 1.00
+COST_SCHEMA = cost_for("schema")
 
 OUT = RESULTS_DIR / "status" / "status.json"
 

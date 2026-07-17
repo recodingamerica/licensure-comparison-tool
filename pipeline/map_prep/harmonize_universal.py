@@ -46,6 +46,7 @@ from pipeline._env import load_env
 from pipeline._llm import call_structured
 from pipeline._prompts import load_prompt
 from pipeline.paths import MAP_PREP_DIR as _OUT_ROOT
+from pipeline.config.loaders import model_for
 
 load_env()
 
@@ -53,7 +54,7 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(mess
 log = logging.getLogger("harmonize_universal")
 
 _HARMONIZED_DIR = _OUT_ROOT / "_harmonized"
-MODEL = "claude-sonnet-4-6"
+MODEL = model_for("map_prep")
 
 # Universal fields whose concept is genuinely profession-INDEPENDENT, so a single
 # shared bucket set is meaningful. Each entry carries a short concept hint that

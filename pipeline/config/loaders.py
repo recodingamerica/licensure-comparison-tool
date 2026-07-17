@@ -30,8 +30,9 @@ import yaml
 
 log = logging.getLogger(__name__)
 
-from pipeline.paths import CONFIG_DIR, TEXT_DIR
+from pipeline.paths import CONFIG_DIR, TEXT_DIR, PROFESSION_INDEX_DIR
 from pipeline.config.yaml_loader import safe_load_unique
+from pipeline._records import read_json
 
 # Re-export so callers can do `from pipeline.config.loaders import load_mapping_overrides`
 # without importing from _mapping_overrides directly.  The _mapping_overrides module
@@ -155,13 +156,33 @@ def load_verified_absences() -> dict:
 
 
 @functools.lru_cache(maxsize=1)
-def load_models() -> dict:
-    """Load config/models.yaml — the AI model each paid stage uses.
+@functools.lru_cache(maxsize=1)
+def load_costs() -> dict:
+    """Load config/costs.yaml — estimated USD per unit for each paid stage."""
+    path = CONFIG_DIR / "costs.yaml"
+    if not path.exists():
+        return {}
+    return safe_load_unique(path.read_text()) or {}
 
-    Shape: {stage: model_name} for stages 'trim', 'extract', 'schema'.
-    Returns {} if the file is missing (each stage then keeps its built-in
-    default). Read individual values via model_for(stage, default) so a missing
-    file or key falls back cleanly instead of raising.
+
+def cost_for(stage: str, default: float | None = None) -> float:
+    """The per-unit USD cost for `stage` from config/costs.yaml (or `default`). A dollar
+    figure belongs in costs.yaml, not in Python. Raises if neither is set — a missing cost
+    would silently quote $0 and mislead the operator about spend."""
+    v = load_costs().get(stage)
+    if v is None:
+        v = default
+    if v is None:
+        raise RuntimeError(f"no cost configured for {stage!r}: add '{stage}:' to config/costs.yaml")
+    return float(v)
+
+
+@functools.lru_cache(maxsize=1)
+def load_models() -> dict:
+    """Load config/models.yaml — the AI model each stage/tool uses, plus `default`.
+
+    Shape: {stage: model_name, ..., 'default': model_name}. Model names live ONLY
+    here, never in a .py — read them via model_for("<stage>").
     """
     path = CONFIG_DIR / "models.yaml"
     if not path.exists():
@@ -169,11 +190,42 @@ def load_models() -> dict:
     return safe_load_unique(path.read_text()) or {}
 
 
-def model_for(stage: str, default: str) -> str:
-    """The configured model for a stage (from models.yaml), or `default` if the
-    file or key is absent. Lets each stage module keep its historical model name
-    as the fallback while making the model a config-file edit, not a code change."""
-    return load_models().get(stage) or default
+def all_profession_ids() -> list[str]:
+    """Sorted profession ids that have a profession_index/<id>.json, skipping the
+    `_`-prefixed bookkeeping files. The single home for this glob — several call sites
+    forgot the underscore filter and surfaced bookkeeping files as bogus professions.
+    (Callers that also skip `*_suggestions` still filter that themselves.)"""
+    return sorted(p.stem for p in PROFESSION_INDEX_DIR.glob("*.json")
+                  if not p.stem.startswith("_"))
+
+
+def load_profession_index(prof: str) -> dict:
+    """The profession_index/<prof>.json mapping, or {} if missing/unparseable."""
+    return read_json(PROFESSION_INDEX_DIR / f"{prof}.json", {})
+
+
+def matched_for(index: dict, state: str) -> list[dict]:
+    """The `matched` node list for `state` in a full profession index, or []. The null-safe
+    accessor for index["by_state"][state]["matched"], which was open-coded ~8× with
+    inconsistent guards — one (`index["by_state"].get(...)`) would KeyError if by_state
+    was absent."""
+    return ((index.get("by_state") or {}).get(state) or {}).get("matched") or []
+
+
+def model_for(stage: str, default: str | None = None) -> str:
+    """The model for `stage`: its own models.yaml key, else the file's `default`.
+
+    A model name belongs in config/models.yaml, not in Python. The optional `default`
+    arg is a last-resort fallback for a stage not yet in the file — avoid passing a
+    literal model name. Raises if neither the stage key, the arg, nor a file `default`
+    yields a model (fail loud rather than silently pick a wrong/empty model)."""
+    models = load_models()
+    m = models.get(stage) or default or models.get("default")
+    if not m:
+        raise RuntimeError(
+            f"no model configured for {stage!r}: add a '{stage}:' (or 'default:') key to "
+            f"config/models.yaml")
+    return m
 
 
 @functools.lru_cache(maxsize=1)

@@ -41,11 +41,12 @@ load_env()
 from pipeline._llm import call_structured, log_usage_summary
 from pipeline.config.loaders import load_professions, load_limits
 from pipeline._records import load_sections
+from pipeline.config.loaders import model_for
 
 TEXT_DIR = REPO / "pipeline" / "results" / "text"
 CONFIG_DIR = REPO / "pipeline" / "config"
 OUT_DIR = REPO / "pipeline" / "results" / "corpus_audit"
-MODEL = "claude-sonnet-4-6"
+MODEL = model_for("audit_corpus")
 MAX_CHARS = load_limits()["audit_corpus"]["sample_max_chars"]
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")

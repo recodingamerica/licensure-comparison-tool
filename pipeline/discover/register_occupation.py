@@ -27,10 +27,11 @@ load_env()
 from pipeline._llm import call_structured
 from pipeline.paths import CONFIG_DIR, RESULTS_DIR, TEXT_DIR
 from pipeline.config.loaders import load_professions
+from pipeline.config.loaders import model_for
 
 PROF_YAML = CONFIG_DIR / "professions.yaml"
 CAND = RESULTS_DIR / "discover_occupations" / "_candidates.json"
-MODEL = "claude-sonnet-4-6"
+MODEL = model_for("register_occupation")
 FAMILIES = ["health", "building_design", "business", "public_safety"]
 
 

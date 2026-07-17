@@ -80,7 +80,7 @@ _PUB_OPTS = yaml.safe_load((CONFIG_DIR / "publish_options.yaml").read_text()) or
 INCLUDE_VERIFIED_ABSENCES = bool(_PUB_OPTS.get("include_verified_absences", True))
 from pipeline.config.states import ALL_STATES
 from pipeline.extract.locate_quote import locate_quote_in_section
-from pipeline.extract.standard_model import is_evidence_node, iter_evidence
+from pipeline.extract.standard_model import is_evidence_node, iter_evidence, deep_get
 from pipeline.scope_sources import is_universal, is_enumeration
 from pipeline.merged_scope import merged_scope_by_url
 from pipeline.publish.blob_upload import upload_json
@@ -147,12 +147,7 @@ def normalize_citation(cite: str) -> str:
 
 
 def _g(d: dict | None, *path: str) -> Any:
-    cur: Any = d
-    for k in path:
-        if not isinstance(cur, dict):
-            return None
-        cur = cur.get(k)
-    return cur
+    return deep_get(d, *path)
 
 
 def _section_evidence_spans(record: dict, text: str) -> list[dict]:
@@ -749,11 +744,7 @@ def _resolve_evidence(record: dict, dotted: str) -> dict | None:
     Used to enrich map_prep rows with the verbatim statute quote — the
     normalizer only saw `.value`, so the quote lives on the original record.
     """
-    node: Any = record
-    for p in dotted.split("."):
-        if not isinstance(node, dict):
-            return None
-        node = node.get(p)
+    node = deep_get(record, *dotted.split("."))
     return node if is_evidence_node(node) else None
 
 
