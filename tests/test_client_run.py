@@ -247,7 +247,7 @@ def test_publish_deploy_aborts_without_typed_yes(monkeypatch):
     assert calls == []  # nothing built or deployed when the deploy gate is declined
 
 
-def test_publish_deploy_yes_flag_skips_prompt_and_passes_deploy(monkeypatch):
+def test_publish_deploy_yes_builds_then_deploys_once(monkeypatch):
     calls = []
     monkeypatch.setattr(run.subprocess, "run",
                         lambda cmd, **k: calls.append(cmd) or type("R", (), {"returncode": 0})())
@@ -255,9 +255,13 @@ def test_publish_deploy_yes_flag_skips_prompt_and_passes_deploy(monkeypatch):
     monkeypatch.setattr(builtins, "input",
                         lambda *_: prompted.__setitem__("asked", True) or "no")
     import argparse
-    run.cmd_publish(argparse.Namespace(professions="dentistry", deploy=True, yes=True))
-    assert prompted["asked"] is False           # --yes must not prompt
-    assert any("--deploy" in c for c in calls)   # deploy flag threaded to build_frontend
+    run.cmd_publish(argparse.Namespace(professions="dentistry,nursing", deploy=True, yes=True, all=False))
+    assert prompted["asked"] is False                                    # --yes must not prompt
+    build_calls = [c for c in calls if "build_frontend" in " ".join(c)]
+    deploy_calls = [c for c in calls if "vercel" in " ".join(c)]
+    assert {"dentistry", "nursing"} <= {c[-1] for c in build_calls}      # each profession built
+    assert not any("--deploy" in c for c in build_calls)                 # NOT per-profession
+    assert len(deploy_calls) == 1 and "--prod" in " ".join(deploy_calls[0])  # ONE vercel deploy
 
 
 # --- extract backend routing (claude batch vs litellm) ------------------------
