@@ -72,3 +72,29 @@ await writeFile(
   JSON.stringify(items, null, 2),
 );
 console.log(`wrote professions.json with ${items.length} entries`);
+
+// /states.json is the home page's state picker, a sibling of /professions.json
+// at the public root. Unlike professions.json (rebuilt from data/* above) it is
+// published as-is by build_state_browse — to the blob ROOT, outside the "data/"
+// prefix listed above. So it has to be fetched by name: without this the file is
+// simply absent from the build (public/ is gitignored, so nothing else supplies
+// it), /states.json 404s, and the home page renders "No state-level data
+// published yet" even though all 50 data/state/*.json blobs are live.
+const { blobs: rootBlobs } = await list({ prefix: "states.json" });
+const statesBlob = rootBlobs.find((b) => b.pathname === "states.json");
+if (!statesBlob) {
+  console.warn(
+    'no states.json blob found — the home page "by state" tab will be empty. ' +
+      "Run: python -m pipeline.publish.build_state_browse",
+  );
+} else {
+  const res = await fetch(statesBlob.url);
+  if (!res.ok) {
+    throw new Error(`fetch ${statesBlob.url} → ${res.status}`);
+  }
+  const text = await res.text();
+  await writeFile(resolve(PUBLIC_DIR, "states.json"), text);
+  console.log(
+    `fetched states.json (${text.length} bytes, ${JSON.parse(text).length} states)`,
+  );
+}
