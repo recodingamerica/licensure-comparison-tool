@@ -24,19 +24,12 @@ import re
 from pipeline.paths import TEXT_DIR, PROFESSION_INDEX_DIR, HIERARCHY_DIR
 from pipeline._records import write_json_atomic
 from pipeline.ingest.pull_text import _OVER_BROAD_MAX
-
-_NJ_CITE = re.compile(r"(\d+):([0-9A-Za-z]+?)-")  # "45:5A-1" -> ("45", "5A")
-_NJ_SEC_URL = re.compile(r"/title-(\d+)/section-\1-([0-9a-z]+)-", re.I)
+from pipeline.ingest import nj_flat
 
 # A profession occupying at least this share of a chapter's sections OWNS it; below
-# this it merely sits INSIDE it (see _nested_chapters).
+# this it merely sits INSIDE it (see _nested_chapters). The NJ flat-layout URL grammar
+# (citation/section-url/chapter-url ↔ (title, token)) lives in pipeline.ingest.nj_flat.
 _OWNS_CHAPTER_MIN_COVERAGE = 0.5
-
-
-def _chapter_of(url: str) -> tuple[str, str] | None:
-    """(title#, chapter-token) for an NJ flat section URL, else None."""
-    m = _NJ_SEC_URL.search(url or "")
-    return (m.group(1), m.group(2).lower()) if m else None
 
 
 def _chapter_census() -> dict[tuple[str, str], set[str]]:
@@ -49,7 +42,7 @@ def _chapter_census() -> dict[tuple[str, str], set[str]]:
     except (OSError, json.JSONDecodeError):
         return census
     for n in nodes:
-        key = _chapter_of(n.get("url", ""))
+        key = nj_flat.key_from_section_url(n.get("url", ""))
         if key:
             census.setdefault(key, set()).add(n["url"])
     return census
@@ -72,10 +65,10 @@ def _nested_chapters(prof: str, chapters: list[str], census) -> set[str]:
     mine = {s.get("url", "") for s in _corpus_sections(prof)}
     nested = set()
     for url in chapters:
-        m = re.search(r"/title-(\d+)/chapter-([0-9a-z]+)/", url, re.I)
-        if not m:
+        key = nj_flat.key_from_chapter_url(url)
+        if not key:
             continue
-        all_secs = census.get((m.group(1), m.group(2).lower()), set())
+        all_secs = census.get(key, set())
         if len(all_secs) <= _OVER_BROAD_MAX:
             continue
         if len(mine & all_secs) / len(all_secs) < _OWNS_CHAPTER_MIN_COVERAGE:
@@ -96,10 +89,9 @@ def _nj_chapters_from_corpus(prof: str) -> list[str]:
     derived from their citations (45:5A → …/title-45/chapter-5a/)."""
     chapters: dict[tuple, str] = {}
     for s in _corpus_sections(prof):
-        m = _NJ_CITE.match((s.get("citation") or ""))
-        if m:
-            t, ch = m.group(1), m.group(2).lower()
-            chapters[(t, ch)] = f"https://law.justia.com/codes/new-jersey/title-{t}/chapter-{ch}/"
+        key = nj_flat.key_from_citation(s.get("citation") or "")
+        if key:
+            chapters[key] = nj_flat.chapter_url(key)
     return [chapters[k] for k in sorted(chapters)]
 
 
@@ -137,10 +129,8 @@ def plan() -> dict[str, tuple[list[str], set[str]]]:
 def _retained_nodes(matched: list[dict], nested: set[str]) -> list[dict]:
     """The original section nodes belonging to a chapter we declined to remap — the
     profession is nested inside it, so its curated section list stays as-is."""
-    tokens = {m.group(1, 2) for m in
-              (re.search(r"/title-(\d+)/chapter-([0-9a-z]+)/", u, re.I) for u in nested) if m}
-    tokens = {(t, c.lower()) for t, c in tokens}
-    return [n for n in matched if _chapter_of(n.get("url", "")) in tokens]
+    tokens = {k for k in (nj_flat.key_from_chapter_url(u) for u in nested) if k}
+    return [n for n in matched if nj_flat.key_from_section_url(n.get("url", "")) in tokens]
 
 
 def main(argv: list[str] | None = None) -> None:

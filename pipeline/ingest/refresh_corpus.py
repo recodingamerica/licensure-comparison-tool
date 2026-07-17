@@ -60,6 +60,7 @@ except ImportError:  # optional — falls back to one line per cell
 
 from pipeline.paths import RESULTS_DIR, PROFESSION_INDEX_DIR, TEXT_DIR, LOGS_DIR
 from pipeline.ingest import pull_text
+from pipeline.ingest import nj_flat
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -255,14 +256,26 @@ def sections_per_chapter(chapter_urls: list[str], sections: list[dict]) -> dict[
         counts[chapter_urls[0]] = len(sections)
         return counts
     canon = {u: _canon_path(u) for u in chapter_urls}
+    # NJ (and any flat-layout state) nests sections directly under the title as
+    # section-<title>-<token>-…, which does NOT prefix-match its …/chapter-<token>/
+    # url. Without this, every flat section is left unattributed and each mapped NJ
+    # chapter is falsely flagged empty → the whole multi-chapter cell is held PARTIAL
+    # forever though the pull was healthy. Match flat sections by their slug token.
+    flat = {u: nj_flat.section_slug_re(k)
+            for u in chapter_urls if (k := nj_flat.key_from_chapter_url(u))}
     # Longest chapter path first so a section under a nested chapter is attributed
     # to the deepest matching chapter, not a shallow ancestor.
     ordered = sorted(chapter_urls, key=lambda u: len(canon[u]), reverse=True)
     for sec in sections:
-        sp = _canon_path(sec.get("url", ""))
+        surl = sec.get("url", "")
+        sp = _canon_path(surl)
+        slug = sp[-1] if sp else ""
         for u in ordered:
             cp = canon[u]
             if len(sp) >= len(cp) and sp[:len(cp)] == cp:
+                counts[u] += 1
+                break
+            if u in flat and flat[u].match(slug):
                 counts[u] += 1
                 break
     return counts

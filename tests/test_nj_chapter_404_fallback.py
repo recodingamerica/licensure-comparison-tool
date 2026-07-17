@@ -88,7 +88,8 @@ def test_unfetchable_title_page_reports_the_chapter_failure(monkeypatch):
 
 
 def test_flat_title_url_shape():
-    assert pt._flat_title_url(CHAPTER) == TITLE
-    assert pt._flat_title_url(TITLE) is None                  # a title is not a chapter
-    assert pt._flat_title_url(
+    from pipeline.ingest import nj_flat
+    assert nj_flat.title_url_from_chapter_url(CHAPTER) == TITLE
+    assert nj_flat.title_url_from_chapter_url(TITLE) is None   # a title is not a chapter
+    assert nj_flat.title_url_from_chapter_url(
         "https://law.justia.com/codes/new-jersey/title-45/section-45-5aaa-1/") is None

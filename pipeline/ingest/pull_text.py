@@ -73,6 +73,7 @@ SECTION_WALK_MAX_DEPTH: int = load_limits()["pull"]["section_walk_max_depth"]
 # Single source of truth (shared, dependency-free) so the scope walker can use the
 # SAME pattern without importing the scraping stack. See _section_patterns.
 from pipeline.ingest._section_patterns import SECTION_SEG
+from pipeline.ingest import nj_flat
 
 
 @dataclass
@@ -324,12 +325,9 @@ def extract_child_links(html: str, base_url: str) -> tuple[list[dict], list[dict
     # ~2,500 sections of the title.
     _nj_flat_re = None
     if title_slug and title_slug.startswith("chapter-"):
-        _tok = title_slug[len("chapter-"):]
-        _tnum = next((re.match(r"title-(.+)$", s.lower()).group(1)
-                      for s in base_segments if re.match(r"title-(.+)$", s.lower())), None)
-        if _tok and _tnum:
-            _nj_flat_re = re.compile(
-                rf"^(section|§|s)[-_]?{re.escape(_tnum)}[-_]{re.escape(_tok)}[-_.]", re.I)
+        _key = nj_flat.key_from_chapter_url(base_url)
+        if _key:
+            _nj_flat_re = nj_flat.section_slug_re(_key)
 
     sections: list[dict] = []
     intermediates: list[dict] = []
@@ -364,8 +362,8 @@ def extract_child_links(html: str, base_url: str) -> tuple[list[dict], list[dict
         # Keep a link if it sits under this chapter's path (normal chapter→section)
         # OR it's an NJ-style flat section for this exact chapter (see _nj_flat_re).
         in_chapter = title_slug in [s.lower() for s in path_segments]
-        nj_flat = bool(_nj_flat_re and _nj_flat_re.match(last))
-        if title_slug and not in_chapter and not nj_flat:
+        is_flat_section = bool(_nj_flat_re and _nj_flat_re.match(last))
+        if title_slug and not in_chapter and not is_flat_section:
             continue
         label = (a.get_text(strip=True) or "")[:300]
         if not label:
@@ -641,16 +639,6 @@ INTERMEDIATE_SEG = re.compile(
 )
 
 
-# A …/title-<n>/chapter-<token>/ url, and the parent title url inside it.
-FLAT_CHAPTER_URL = re.compile(r"^(?P<title>https?://[^/]+/.+/title-[^/]+/)chapter-[^/]+/?$", re.I)
-
-
-def _flat_title_url(url: str) -> str | None:
-    """The parent TITLE url of a …/title-N/chapter-TOKEN/ url, else None."""
-    m = FLAT_CHAPTER_URL.match((url or "").strip())
-    return m.group("title") if m else None
-
-
 def short_citation(label: str) -> str:
     """Pull a short '§ X' or 'X-Y' style cite from a section label."""
     # e.g. "Section 20-50. - Podiatric medicine defined." -> "20-50"
@@ -689,7 +677,7 @@ def collect_section_targets(url: str, label: str, slug: str, depth: int, max_dep
         # passing the original CHAPTER url as base is exactly the redirect case.
         # On a normal (non-flat) state this yields no matching sections, so it costs
         # one extra fetch on an already-failed chapter and changes no outcome.
-        title_url = _flat_title_url(url)
+        title_url = nj_flat.title_url_from_chapter_url(url)
         if not title_url:
             return [], f"fetch {url}: {err or status}"
         log.info("  chapter %s unfetchable (%s) — trying flat title page %s",
