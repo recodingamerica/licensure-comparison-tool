@@ -6,6 +6,7 @@
 #                   chapter             — title page lists chapters; default for most Justia states
 #                   section_fallback    — title page returns flat sections (AZ, OK, MI, WI, LA on Justia)
 #                   subtitled           — title is split into subtitles/divisions; profession chapters live one level deeper (AR, CA, CO)
+#                   inline_chapter_blob — the whole chapter is served inline on ONE page with no per-section links (ND); the walker splits it on line-anchored "title-chapter-section." markers instead of drilling
 #                   external            — non-Justia source (revisor_mn, mi_legis, etc.)
 #                   broken              — source coverage is bad; needs custom scraper or accepts gap
 #   professions   per-profession URL or section pattern within this state
@@ -1446,6 +1447,7 @@ WA:
 
 ND:
   source: justia
+  layout: inline_chapter_blob   # each chapter served inline on one page; split on 43-17-01. markers
   professions:
     # Ch 43-03 "Architects and Landscape Architects" is a SHARED chapter; the
     # label-matcher assigned it to landscape_architecture and left architecture on
