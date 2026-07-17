@@ -19,6 +19,9 @@ def test_dashboard_replaces_all_placeholders(tmp_path, monkeypatch):
     }
     monkeypatch.setattr(dashboard, "build", lambda: canned)
     monkeypatch.setattr(dashboard, "HTML_OUT", tmp_path / "dashboard.html")
+    # main() ALSO mirrors to WEB_PUBLIC_DIR/dashboard/index.html — redirect it too, or
+    # every test run overwrites the committed web dashboard with this 1-profession fixture.
+    monkeypatch.setattr(dashboard, "WEB_PUBLIC_DIR", tmp_path / "web_public")
 
     dashboard.main()
     html = (tmp_path / "dashboard.html").read_text()

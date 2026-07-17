@@ -996,6 +996,7 @@ function buildColumnDefs(
     filter: "agTextColumnFilter",
     cellClass: "text-center",
     headerClass: "text-center",
+    headerTooltip: "CE hours required / renewal period in years",
   },
   {
     field: "reciprocity_available",
@@ -1112,6 +1113,7 @@ function buildColumnDefs(
     },
     cellClass: "text-center",
     headerClass: "text-center",
+    initialHide: true,
     headerTooltip:
       "Search the full statute text shipped for this state. Case-insensitive substring match. Matches anywhere in the combined chapter + umbrella text.",
   },
@@ -1119,6 +1121,7 @@ function buildColumnDefs(
     colId: "evidence",
     headerName: "Unverified",
     width: 110,
+    initialHide: true,
     // Only the count of NOT-matched quotes per state. Cell renders blank when 0
     // so visual scanning surfaces only the rows that need attention. Auto-
     // multicheck picks this up — values are 0 / 1 / ... so users see
@@ -1745,6 +1748,13 @@ export function ProfileView({
   const viewPresets = useMemo(
     () => [
       {
+        key: "full",
+        label: "Basic",
+        ids: columnDefs
+          .filter((c) => !c.lockVisible && !(c as { initialHide?: boolean }).initialHide)
+          .map(colId),
+      },
+      {
         key: "priority",
         label: "Priority",
         ids: [
@@ -1772,14 +1782,12 @@ export function ProfileView({
         ids: ["disciplinary_categories", "disciplinary_grounds_count"],
       },
       {
-        key: "full",
-        label: "All columns",
-        ids: columnDefs
-          .filter((c) => !c.lockVisible && !(c as { initialHide?: boolean }).initialHide)
-          .map(colId),
+        key: "all",
+        label: "All",
+        ids: allToggleableIds,
       },
     ],
-    [scopeTagColIds, columnDefs]
+    [scopeTagColIds, columnDefs, allToggleableIds]
   );
 
   const applyPreset = (key: string) => {
@@ -2143,8 +2151,6 @@ export function ProfileView({
               rowClassRules={{
                 "ag-row-coverage-gap": (params) =>
                   Boolean((params.data as Row | undefined)?.coverage_gap),
-                "ag-row-unverified": (params) =>
-                  ((params.data as Row | undefined)?.evidence_unverified ?? 0) > 0,
               }}
               suppressCellFocus
               animateRows={true}

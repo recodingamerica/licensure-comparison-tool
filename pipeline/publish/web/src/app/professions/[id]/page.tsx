@@ -121,17 +121,16 @@ function ProfessionInner({ params }: { params: Promise<{ id: string }> }) {
               <span className="ml-2 text-[10px] text-muted-foreground">(no data)</span>
             )}
           </TabsTrigger>
+          <TabsTrigger value="novel" disabled={!hasMap}>
+            Novel policies
+            {!hasMap && (
+              <span className="ml-2 text-[10px] text-muted-foreground">(no data)</span>
+            )}
+          </TabsTrigger>
           <TabsTrigger value="map" disabled={!hasMap}>
             Map
             {!hasMap && (
               <span className="ml-2 text-[10px] text-muted-foreground">(no map)</span>
-            )}
-          </TabsTrigger>
-          <TabsTrigger value="statutes">Statutes</TabsTrigger>
-          <TabsTrigger value="tags" disabled={!hasMap}>
-            Tags
-            {!hasMap && (
-              <span className="ml-2 text-[10px] text-muted-foreground">(no tags)</span>
             )}
           </TabsTrigger>
           <TabsTrigger value="compare" disabled={!hasMap}>
@@ -140,32 +139,33 @@ function ProfessionInner({ params }: { params: Promise<{ id: string }> }) {
               <span className="ml-2 text-[10px] text-muted-foreground">(no data)</span>
             )}
           </TabsTrigger>
-          <TabsTrigger value="novel" disabled={!hasMap}>
-            Novel policies
+          <TabsTrigger value="tags" disabled={!hasMap}>
+            Tags
             {!hasMap && (
-              <span className="ml-2 text-[10px] text-muted-foreground">(no data)</span>
+              <span className="ml-2 text-[10px] text-muted-foreground">(no tags)</span>
             )}
           </TabsTrigger>
+          <TabsTrigger value="statutes">Statutes</TabsTrigger>
         </TabsList>
 
         <TabsContent value="table" className="mt-4">
           {dataExists === null && <p className="text-sm text-muted-foreground">Loading…</p>}
           {dataExists && payload && <ProfileView payload={payload} embedded view="table" />}
         </TabsContent>
+        <TabsContent value="novel" className="mt-4">
+          <NovelPoliciesView professionId={id} />
+        </TabsContent>
         <TabsContent value="map" className="mt-4">
           {dataExists && payload && <ProfileView payload={payload} embedded view="map" />}
-        </TabsContent>
-        <TabsContent value="statutes" className="mt-4">
-          <ProfessionStatutesView profPayload={payload} id={id} />
-        </TabsContent>
-        <TabsContent value="tags" className="mt-4">
-          <ProfileTags professionId={id} />
         </TabsContent>
         <TabsContent value="compare" className="mt-4">
           <SimilarityView professionId={id} />
         </TabsContent>
-        <TabsContent value="novel" className="mt-4">
-          <NovelPoliciesView professionId={id} />
+        <TabsContent value="tags" className="mt-4">
+          <ProfileTags professionId={id} />
+        </TabsContent>
+        <TabsContent value="statutes" className="mt-4">
+          <ProfessionStatutesView profPayload={payload} id={id} />
         </TabsContent>
       </Tabs>
     </main>
