@@ -1080,8 +1080,14 @@ def _is_regression(new_d: dict, old_d: dict) -> str | None:
         cites = ", ".join(str(s.get("citation") or "?") for s in lost[:3])
         more = "" if len(lost) <= 3 else f" +{len(lost) - 3} more"
         return f"{len(lost)} committed section(s) missing from the new pull ({cites}{more})"
-    if new_chars < old_chars * 0.5:
-        return f"new pull text collapsed to {new_chars} chars vs {old_chars} committed"
+    # Char-collapse check, but measure only the old corpus's REAL (non-container) content.
+    # A TITLE_STRAY blob — the whole title/chapter page stored as one container "section" —
+    # inflates old_chars; replacing it with real, properly-scoped sections is fewer chars
+    # yet an UPGRADE, so it must not read as a collapse (mirrors the _lost_sections exemption).
+    old_real_chars = sum(len(s.get("text") or "") for s in (old_d.get("sections") or [])
+                         if not s.get("error") and not _is_container_url(s.get("url", "")))
+    if new_chars < old_real_chars * 0.5:
+        return f"new pull text collapsed to {new_chars} chars vs {old_real_chars} committed"
     return None
 
 
