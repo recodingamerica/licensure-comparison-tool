@@ -39,12 +39,6 @@ def test_profession_meta_propagates(monkeypatch):
         build_frontend._profession_meta("dentistry")
 
 
-def test_all_profession_meta_propagates(monkeypatch):
-    _make_load_raise(monkeypatch)
-    with pytest.raises(_Boom):
-        build_frontend._all_profession_meta()
-
-
 def test_valid_config_still_works(monkeypatch):
     # The legitimate per-profession key fallback survives (unknown profession → title-case),
     # only the swallow-the-load-error path is gone.

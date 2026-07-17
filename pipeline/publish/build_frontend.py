@@ -923,15 +923,6 @@ def _profession_meta(profession: str) -> dict:
     }
 
 
-def _all_profession_meta() -> list[dict]:
-    """Return metadata for every profession in the yaml (excluding the
-    _families config block). Used by fetch-blob-data to assemble
-    /professions.json with the visual fields the homepage + browse views
-    need."""
-    cfg = load_professions()  # a broken yaml RAISES here, not silently empty
-    return [_profession_meta(k) for k in cfg.keys() if not k.startswith("_")]
-
-
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--profession", required=True)

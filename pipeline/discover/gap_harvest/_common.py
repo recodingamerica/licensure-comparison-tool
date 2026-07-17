@@ -12,6 +12,7 @@ from pathlib import Path
 from pipeline._env import load_env
 from pipeline.paths import RESULTS_DIR
 from pipeline._records import read_json
+from pipeline.config.states import STATE_SLUG, ALL_STATES  # single source; re-exported here
 
 load_env()
 
@@ -28,22 +29,6 @@ def load_json(name: str, default=None):
 def save_json(name: str, obj) -> None:
     data_path(name).write_text(json.dumps(obj, indent=1))
 
-# --- state abbreviation -> Justia code slug ------------------------------------
-STATE_SLUG = {
-    "AL": "alabama", "AK": "alaska", "AZ": "arizona", "AR": "arkansas", "CA": "california",
-    "CO": "colorado", "CT": "connecticut", "DE": "delaware", "FL": "florida", "GA": "georgia",
-    "HI": "hawaii", "ID": "idaho", "IL": "illinois", "IN": "indiana", "IA": "iowa",
-    "KS": "kansas", "KY": "kentucky", "LA": "louisiana", "ME": "maine", "MD": "maryland",
-    "MA": "massachusetts", "MI": "michigan", "MN": "minnesota", "MS": "mississippi",
-    "MO": "missouri", "MT": "montana", "NE": "nebraska", "NV": "nevada", "NH": "new-hampshire",
-    "NJ": "new-jersey", "NM": "new-mexico", "NY": "new-york", "NC": "north-carolina",
-    "ND": "north-dakota", "OH": "ohio", "OK": "oklahoma", "OR": "oregon", "PA": "pennsylvania",
-    "RI": "rhode-island", "SC": "south-carolina", "SD": "south-dakota", "TN": "tennessee",
-    "TX": "texas", "UT": "utah", "VT": "vermont", "VA": "virginia", "WA": "washington",
-    "WV": "west-virginia", "WI": "wisconsin", "WY": "wyoming",
-}
-ALL_STATES = list(STATE_SLUG)
-
 # --- URL hygiene ---------------------------------------------------------------
 def normalize_url(url: str | None) -> str | None:
     """Justia code paths hyphenate title/chapter numbers; the model sometimes emits a
@@ -52,10 +37,6 @@ def normalize_url(url: str | None) -> str | None:
         return url
     head, _, path = url.partition("/codes/")
     return head + "/codes/" + path.replace(".", "-")
-
-def is_valid_for_state(url: str | None, state: str) -> bool:
-    return bool(url) and url != "null" and "law.justia.com" in url \
-        and f"/codes/{STATE_SLUG.get(state, '')}/" in url
 
 # --- the web_search locator (one definition, prompt-selectable) ----------------
 MODEL = "claude-haiku-4-5-20251001"
