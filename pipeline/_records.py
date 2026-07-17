@@ -56,3 +56,26 @@ def record_files(directory: Path) -> Iterator[Path]:
         if p.name.startswith("_"):
             continue
         yield p
+
+
+def read_json(path: Path | str, default: Any = None) -> Any:
+    """Parse the JSON at `path`, or return `default` if it's missing or unparseable.
+
+    Catches ONLY (OSError, json.JSONDecodeError) — a missing/corrupt file. A bug in the
+    caller (a KeyError, an AttributeError from a schema change) still propagates, unlike
+    the `except Exception` copies scattered across the pipeline that masked those as
+    "file absent → default". Use this for lenient reads; for fail-loud reads (publish /
+    refresh) call json.loads directly so a bad file raises.
+    """
+    try:
+        return json.loads(Path(path).read_text())
+    except (OSError, json.JSONDecodeError):
+        return default
+
+
+def load_sections(path: Path | str) -> list[dict]:
+    """The `sections` list from a corpus JSON, or [] if the file is missing, unparseable,
+    or has no sections. The one lenient corpus-load — replacing ~half a dozen hand-rolled
+    copies whose error branches disagreed (`""` / `continue` / a 4-tuple)."""
+    data = read_json(path)
+    return data.get("sections") or [] if isinstance(data, dict) else []
