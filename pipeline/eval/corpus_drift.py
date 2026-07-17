@@ -41,6 +41,7 @@ from urllib.parse import urlparse
 
 from pipeline.paths import TEXT_DIR, PROFESSION_INDEX_DIR
 from pipeline.config.loaders import load_state_structure
+from pipeline._records import load_sections
 
 
 # States whose Justia index url is intercepted to an official source by an
@@ -122,12 +123,7 @@ def _covered(key: str, index_keys: set[str]) -> bool:
 def audit_one(prof: str, state: str, official_source_states: set[str]) -> dict | None:
     """Return a drift record for (prof, state), or None if aligned / no corpus."""
     corpus_path = TEXT_DIR / prof / f"{state}.json"
-    if not corpus_path.exists():
-        return None
-    try:
-        sections = (json.loads(corpus_path.read_text()).get("sections") or [])
-    except Exception:
-        return None
+    sections = load_sections(corpus_path)
     if not sections:
         return None
     # Active official-source states pull from an official host BY DESIGN (the index
