@@ -314,6 +314,23 @@ def extract_child_links(html: str, base_url: str) -> tuple[list[dict], list[dict
     base_canon = tuple(s for s in base_segments if not YEAR_SEG.match(s))
     base_has_year = any(YEAR_SEG.match(s) for s in base_segments)
 
+    # NJ-style flat layout: a chapter URL (…/title-26/chapter-2k/) 301-redirects to
+    # its TITLE page, which nests sections directly under the title with the chapter
+    # encoded as a token in the section slug (…/title-26/section-26-2k-10/). The
+    # literal title_slug ("chapter-2k") never appears in those section paths, so the
+    # membership filter below would drop every real section and the whole title page
+    # gets stored as one blob. Derive (title#, chapter-token) so we can still accept
+    # exactly THIS chapter's sections (section-<title#>-<token>-…), not the other
+    # ~2,500 sections of the title.
+    _nj_flat_re = None
+    if title_slug and title_slug.startswith("chapter-"):
+        _tok = title_slug[len("chapter-"):]
+        _tnum = next((re.match(r"title-(.+)$", s.lower()).group(1)
+                      for s in base_segments if re.match(r"title-(.+)$", s.lower())), None)
+        if _tok and _tnum:
+            _nj_flat_re = re.compile(
+                rf"^(section|§|s)[-_]?{re.escape(_tnum)}[-_]{re.escape(_tok)}[-_.]", re.I)
+
     sections: list[dict] = []
     intermediates: list[dict] = []
     year_self: list[tuple] = []  # (year, url, label, slug) — year snapshots of THIS page
@@ -344,7 +361,11 @@ def extract_child_links(html: str, base_url: str) -> tuple[list[dict], list[dict
                               a.get_text(strip=True) or "", path_segments[-1]))
             continue
         last = path_segments[-1]
-        if title_slug and title_slug not in [s.lower() for s in path_segments]:
+        # Keep a link if it sits under this chapter's path (normal chapter→section)
+        # OR it's an NJ-style flat section for this exact chapter (see _nj_flat_re).
+        in_chapter = title_slug in [s.lower() for s in path_segments]
+        nj_flat = bool(_nj_flat_re and _nj_flat_re.match(last))
+        if title_slug and not in_chapter and not nj_flat:
             continue
         label = (a.get_text(strip=True) or "")[:300]
         if not label:
