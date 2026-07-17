@@ -45,6 +45,7 @@ import json
 import subprocess
 import sys
 import threading
+import queue
 import time
 import urllib.parse
 from dataclasses import asdict
@@ -173,6 +174,11 @@ def justia_reachable(url: str = "https://law.justia.com/codes/kansas/") -> bool:
     Scrapling isn't installed, the whole run aborts before touching any corpus
     rather than committing empties."""
     status, _html, err = pull_text.fetch(url)
+    # This precheck fetch created the Scrapling session in THIS (main) thread; tear it
+    # down so the pull worker thread opens its own. Otherwise the worker's first fetch
+    # inherits a main-thread session and crosses threads, burning a retry to recover
+    # (see _PullThread).
+    pull_text._reset_scrapling_session()
     return status == 200 and err is None
 
 
@@ -295,31 +301,64 @@ class _ItemTimeout(Exception):
     pass
 
 
+class _PullThread:
+    """One long-lived worker thread that runs EVERY pull_state call, so the thread-
+    affine Scrapling/Playwright session is created and reused in a single thread.
+
+    The old design spawned a fresh daemon thread per cell, which cached the session in
+    the first cell's thread and then touched it from later cells' threads whose
+    predecessor had exited → `greenlet.error: cannot switch to a different thread (which
+    happens to have exited)`, crashing (or burning ~75s recreating) on every cell after
+    the first. A single worker keeps the session put.
+
+    Timeout is enforced by the caller waiting on the result queue. A timed-out task
+    leaves this thread busy — but the run loop aborts the WHOLE run on _ItemTimeout, so
+    the process exits and this daemon dies, exactly as the old per-cell daemon did."""
+
+    def __init__(self):
+        self._jobs: "queue.Queue" = queue.Queue()
+        self._results: "queue.Queue" = queue.Queue()
+        threading.Thread(target=self._loop, daemon=True).start()
+
+    def _loop(self):
+        while True:
+            state, profession, rows, cap = self._jobs.get()
+            try:
+                self._results.put(("ok", pull_text.pull_state(state, profession, rows, cap)))
+            except BaseException as e:  # noqa: BLE001 — surfaced in the caller thread
+                self._results.put(("err", e))
+
+    def run(self, state, profession, rows, cap, timeout_s):
+        self._jobs.put((state, profession, rows, cap))
+        try:
+            kind, val = self._results.get(timeout=timeout_s)
+        except queue.Empty:
+            raise _ItemTimeout(f"pull_state exceeded {timeout_s}s wall clock (genuine hang)")
+        if kind == "err":
+            raise val
+        return val
+
+
+_PULL_THREAD: _PullThread | None = None
+
+
 def pull_with_timeout(state: str, profession: str, rows: list[dict],
                       cap: int | None, timeout_s: int):
-    """Run pull_text.pull_state under a wall-clock timeout. Returns the corpus.
-    Raises _ItemTimeout on hang, or the original exception otherwise.
-
-    The worker is a daemon thread we CANNOT kill; on timeout the run loop aborts
-    the whole run (rather than starting the next item), so the orphan can't race
-    the next pull on the shared Scrapling session — the process exits and the
-    daemon dies with it. See run()."""
-    result: dict = {}
-
-    def _work():
-        try:
-            result["corpus"] = pull_text.pull_state(state, profession, rows, cap)
-        except Exception as e:  # noqa: BLE001 — re-raised in the caller thread context
-            result["error"] = e
-
-    t = threading.Thread(target=_work, daemon=True)
-    t.start()
-    t.join(timeout_s)
-    if t.is_alive():
-        raise _ItemTimeout(f"pull_state exceeded {timeout_s}s wall clock (genuine hang)")
-    if "error" in result:
-        raise result["error"]
-    return result["corpus"]
+    """Run pull_text.pull_state under a wall-clock timeout, in a SINGLE persistent worker
+    thread so the thread-affine Scrapling session stays in one thread (see _PullThread).
+    Raises _ItemTimeout on hang, or the original exception otherwise."""
+    global _PULL_THREAD
+    if _PULL_THREAD is None:
+        _PULL_THREAD = _PullThread()
+    try:
+        return _PULL_THREAD.run(state, profession, rows, cap, timeout_s)
+    except _ItemTimeout:
+        # The worker is wedged on the timed-out task (we can't kill it). Orphan it —
+        # it's a daemon, dies at process exit — so the next call gets a fresh worker
+        # + queues instead of inheriting the stale result. (Production aborts the whole
+        # run on timeout anyway; this keeps correctness if it ever doesn't.)
+        _PULL_THREAD = None
+        raise
 
 
 # ---------------------------------------------------------------------------
