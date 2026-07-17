@@ -20,6 +20,7 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import functools
 import json
 import logging
 import os
@@ -516,8 +517,30 @@ def looks_like_il_ilcs(text: str) -> bool:
 _ND_SEC_MARKER = re.compile(r"(?m)^\s*(\d+(?:\.\d+)?-\d+(?:\.\d+)?-\d+(?:\.\d+)?)\.\s")
 
 
+@functools.lru_cache(maxsize=1)
+def _slug_to_state() -> dict[str, str]:
+    """Justia url slug ('north-dakota') → state code ('ND')."""
+    from pipeline.config.states import STATE_SLUG
+    return {slug: code for code, slug in STATE_SLUG.items()}
+
+
+def state_layout_for_url(url: str) -> str:
+    """The declared layout (config/state_structure.yaml) for the state in a Justia url,
+    or '' if none. Lets per-state layout live in the yaml (like `section_fallback`,
+    `subtitled`) instead of a hardcoded state name in the walker."""
+    m = re.search(r"/codes/([a-z-]+)/", url or "")
+    if not m:
+        return ""
+    from pipeline.config.loaders import load_state_structure
+    code = _slug_to_state().get(m.group(1))
+    return (load_state_structure().get(code) or {}).get("layout", "") if code else ""
+
+
 def looks_like_nd_blob(text: str, url: str) -> bool:
-    return "north-dakota" in url.lower() and len(_ND_SEC_MARKER.findall(text)) >= 3
+    # The state must DECLARE the inline-chapter-blob layout in state_structure.yaml
+    # (ND today) — no hardcoded state name — and the page must actually carry the
+    # line-anchored section markers.
+    return state_layout_for_url(url) == "inline_chapter_blob" and len(_ND_SEC_MARKER.findall(text)) >= 3
 
 
 def split_nd_blob(text: str, url: str) -> list[Section]:
