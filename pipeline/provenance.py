@@ -28,7 +28,7 @@ from functools import lru_cache
 from pipeline.paths import (
     TEXT_DIR, CLEAN_DIR, TRIMMED_DIR, STRUCTURED_DIR, DISCOVERED_DIR, RESULTS_DIR,
 )
-from pipeline._records import write_json_atomic
+from pipeline._records import write_json_atomic, read_json
 from pipeline._prompts import load_prompt
 
 STAGES = ("clean", "trim", "extract")
@@ -51,11 +51,8 @@ def _sha(s: str) -> str:
 def _payload_hash(path) -> str | None:
     """Hash a JSON file's meaningful content — defensively dropping any `_provenance`
     key so an (inlined) stamp can never perturb the hash."""
-    if not path.exists():
-        return None
-    try:
-        d = json.loads(path.read_text())
-    except Exception:
+    d = read_json(path)
+    if d is None:
         return None
     if isinstance(d, dict):
         d = {k: v for k, v in d.items() if k != "_provenance"}
@@ -125,13 +122,7 @@ def _prov_path(prof: str, state: str):
 
 
 def _load_prov(prof: str, state: str) -> dict:
-    p = _prov_path(prof, state)
-    if not p.exists():
-        return {}
-    try:
-        return json.loads(p.read_text())
-    except Exception:
-        return {}
+    return read_json(_prov_path(prof, state), {})
 
 
 def record(stage: str, prof: str, state: str, model: str | None = None) -> None:

@@ -11,6 +11,7 @@ from pathlib import Path
 
 from pipeline._env import load_env
 from pipeline.paths import RESULTS_DIR
+from pipeline._records import read_json
 
 load_env()
 
@@ -22,13 +23,7 @@ def data_path(name: str) -> Path:
     return DATA_DIR / name
 
 def load_json(name: str, default=None):
-    p = data_path(name)
-    if not p.exists():
-        return {} if default is None else default
-    try:
-        return json.loads(p.read_text())
-    except Exception:
-        return {} if default is None else default
+    return read_json(data_path(name), {} if default is None else default)
 
 def save_json(name: str, obj) -> None:
     data_path(name).write_text(json.dumps(obj, indent=1))

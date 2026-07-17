@@ -31,7 +31,7 @@ import sys
 
 from pipeline.ingest.pull_text import _dedupe_year_versions
 from pipeline.paths import TEXT_DIR, CLEAN_DIR, TRIMMED_DIR
-from pipeline._records import record_files
+from pipeline._records import record_files, read_json
 
 # The derived stages carry the same year-duplicate sections as text/. De-duping
 # them directly (rather than re-running clean/trim) lets a republish reflect the
@@ -85,9 +85,8 @@ def main(argv: list[str] | None = None) -> None:
             if only and prof not in only:
                 continue
             for path in record_files(prof_dir):
-                try:
-                    d = json.loads(path.read_text())
-                except (OSError, json.JSONDecodeError):
+                d = read_json(path)
+                if not isinstance(d, dict):
                     continue
                 nd = dedupe_corpus(d)
                 if nd is None:

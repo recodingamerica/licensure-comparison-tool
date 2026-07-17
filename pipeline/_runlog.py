@@ -13,6 +13,7 @@ Unlike the field-dictionary's deterministic `data_as_of`, this is wall-clock on 
 from __future__ import annotations
 
 import json
+from pipeline._records import read_json
 import subprocess
 from datetime import datetime
 from pathlib import Path
@@ -43,10 +44,7 @@ def record_run(stage: str, **meta) -> None:
 
 
 def load_runlog() -> dict:
-    try:
-        return json.loads(RUNLOG_PATH.read_text()) if RUNLOG_PATH.exists() else {}
-    except Exception:
-        return {}
+    return read_json(RUNLOG_PATH, {})
 
 
 def main() -> None:
