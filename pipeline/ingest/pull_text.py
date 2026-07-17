@@ -72,7 +72,8 @@ SECTION_WALK_MAX_DEPTH: int = load_limits()["pull"]["section_walk_max_depth"]
 # A path's last segment looks like a Justia section
 # Single source of truth (shared, dependency-free) so the scope walker can use the
 # SAME pattern without importing the scraping stack. See _section_patterns.
-from pipeline.ingest._section_patterns import SECTION_SEG, INTERMEDIATE_SEG, container_segment
+from pipeline.ingest._section_patterns import (
+    SECTION_SEG, INTERMEDIATE_SEG, container_segment, YEAR_SEG)
 from pipeline.ingest import nj_flat
 
 
@@ -273,10 +274,6 @@ def fetch(url: str) -> tuple[int | None, str | None, str | None]:
         return r.status_code, r.text, None
     except Exception as e:
         return None, None, f"{type(e).__name__}: {e}"
-
-
-# A bare path segment that is a 4-digit year (Justia year-versioned snapshots).
-YEAR_SEG = re.compile(r"^(?:19|20)\d\d$")
 
 
 # A Justia "statute-act-..." / "statute-e-r-o-..." slug (Michigan's act-level

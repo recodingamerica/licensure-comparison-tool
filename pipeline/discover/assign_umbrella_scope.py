@@ -55,6 +55,7 @@ from pipeline.discover._state_scope_manifest import (
     manifest_decision_for,
 )
 from pipeline.scope_sources import METHOD_MANIFEST
+from pipeline.ingest._section_patterns import canonical_year_url
 
 UMBRELLA_TEXT_DIR = RESULTS_DIR / "umbrella_text"
 UMBRELLA_SCOPE_DIR = RESULTS_DIR / "umbrella_scope"
@@ -74,7 +75,6 @@ log = logging.getLogger("assign_umbrella_scope")
 # state-specific slug shapes (UT's `chapter-4a`, CO's `article-30`, even
 # pseudo-slugs like `general-provisions`) all work without per-state URL regex.
 URL_PART_RE = re.compile(r"/part-([\w-]+)/")
-YEAR_PREFIX_RE = re.compile(r"/codes/[a-z-]+/\d{4}/")
 
 # Top-level definition boundary: a newline followed by `(N)"` where N is a
 # digit. Sub-items use `(a)`, `(i)`, etc. — this regex deliberately doesn't
@@ -102,22 +102,18 @@ def _cite_token_to_slug(token: str | None, slug_prefix: str) -> str:
     return f"{slug_prefix}-{token.lower().replace('.', '-')}"
 
 
-def _canonical_url(url: str) -> str:
-    """Strip the year-version segment so 2024/foo and current/foo dedupe."""
-    return YEAR_PREFIX_RE.sub(lambda m: m.group(0).rsplit("/", 2)[0] + "/", url)
-
-
 def dedupe_year_versions(sections: list[dict]) -> list[dict]:
     """Same logical section often appears once per year (2023/2024/2025 plus
     the no-year canonical URL). Keep the no-year version when present, else
     the largest-URL one (lexicographic sort puts later years higher)."""
     by_canonical: dict[str, list[dict]] = defaultdict(list)
     for s in sections:
-        by_canonical[_canonical_url(s.get("url", ""))].append(s)
+        by_canonical[canonical_year_url(s.get("url", ""))].append(s)
 
     kept: list[dict] = []
     for _key, group in by_canonical.items():
-        no_year = [s for s in group if not YEAR_PREFIX_RE.search(s.get("url", ""))]
+        no_year = [s for s in group
+                   if canonical_year_url(s.get("url", "")) == (s.get("url", ""))]
         kept.append(no_year[0] if no_year else max(group, key=lambda s: s.get("url", "")))
     return kept
 

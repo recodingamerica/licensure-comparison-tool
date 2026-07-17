@@ -20,7 +20,6 @@ import argparse
 import json
 import logging
 import os
-import re
 import sys
 from typing import Any, Literal as TLiteral
 
@@ -34,6 +33,7 @@ load_env()
 from pipeline._llm import call_structured
 from pipeline._records import record_files, write_json_atomic
 from pipeline._runlog import record_run
+from pipeline.ingest._section_patterns import canonical_year_url
 from pipeline.extract.standard_model import (  # noqa: E402
     BoolEvidence,
     IntEvidence,
@@ -210,9 +210,8 @@ def build_state_text(state_corpus: dict) -> str:
 
 
 def _canonical_url(url: str) -> str:
-    """Year-prefix-stripping URL key, mirroring assign_umbrella_scope."""
-    import re as _re
-    return _re.sub(r"/codes/utah/\d{4}/", "/codes/utah/", url)
+    """Year-prefix-stripping URL key (shared, state-agnostic — was Utah-only)."""
+    return canonical_year_url(url)
 
 
 def load_umbrella_text(state: str, profession: str | None = None) -> str:
