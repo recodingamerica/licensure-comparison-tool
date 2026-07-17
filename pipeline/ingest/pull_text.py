@@ -748,12 +748,22 @@ def _should_skip_over_broad(profession: str, chapter_label: str, n_leaves: int) 
     physically cannot finish inside an opted-in caller's per-cell timeout (size alone,
     regardless of label -- see _fetch_budget_max_leaves; disabled unless the caller sets
     PULL_BATCH_TIMEOUT_SECONDS), or it's an unscoped locator mis-pick (too many leaves
-    AND its label does not name the profession). Never raises (a guard must not break
+    AND its label does not name the profession). A chapter with no label is never skipped
+    on relevance — unknown is not a mismatch. Never raises (a guard must not break
     a pull)."""
     budget_max = _fetch_budget_max_leaves()
     if budget_max and n_leaves > budget_max:
         return True
     if n_leaves <= _OVER_BROAD_MAX:
+        return False
+    # No label to judge by: unknown relevance is NOT a mismatch. Some states have no
+    # chapter pages at all (Justia publishes NJ as flat sections under the title, so an
+    # NJ chapter has a number but no name anywhere), and label_matches("") is False for
+    # every pattern — which silently zeroed 9 NJ cells rather than skipping one bad row.
+    # Fall through to the size/budget test above, same as the no-patterns case below.
+    if not (chapter_label or "").strip():
+        log.warning("  over-broad guard: %s -> %d leaves but the chapter has no label; "
+                    "cannot judge relevance — pulling", profession, n_leaves)
         return False
     try:
         from pipeline.config.loaders import load_professions

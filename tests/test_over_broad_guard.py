@@ -29,3 +29,38 @@ def test_guard_never_raises_on_unknown_profession(monkeypatch):
     monkeypatch.setattr(pt, "_OVER_BROAD_MAX", 200)
     # unknown profession → no patterns → don't skip (and don't crash)
     assert pt._should_skip_over_broad("not_a_real_profession_xyz", "Some Huge Title", 999) is False
+
+
+def test_guard_does_not_skip_an_unlabelled_chapter(monkeypatch):
+    """An absent label is UNKNOWN relevance, not a mismatch.
+
+    Justia publishes NJ as flat sections under the title — an NJ chapter has a number
+    but no name anywhere — so its index rows carry label "". Treating that as
+    "doesn't match" skipped medicine/NJ's own 336-section chapter-9 and zeroed the
+    cell (446 -> 114 sections). Size/budget still governs; relevance cannot.
+    """
+    monkeypatch.setattr(pt, "_OVER_BROAD_MAX", 300)
+    assert not pt._should_skip_over_broad("medicine", "", 336)
+    assert not pt._should_skip_over_broad("chiropractic", "", 336)
+    assert not pt._should_skip_over_broad("medicine", "   ", 336)
+    assert not pt._should_skip_over_broad("medicine", None, 336)
+
+
+def test_unlabelled_chapter_covers_corpus_derived_mappings(monkeypatch):
+    """The other producer of label-less rows: backfill_index_mappings (#78) writes a
+    cell's mapping back from the `chapter_urls` its committed corpus was pulled from,
+    also with label "". Those chapters are PROVEN (the corpus came out of them), so a
+    label heuristic must never veto them. These three are the real cells whose corpora
+    already exceed the ceiling, i.e. the ones that would have zeroed.
+    """
+    monkeypatch.setattr(pt, "_OVER_BROAD_MAX", 300)
+    assert not pt._should_skip_over_broad("electrician", "", 1309)        # electrician/IL
+    assert not pt._should_skip_over_broad("polygraph_examiner", "", 333)  # polygraph/CA
+    assert not pt._should_skip_over_broad("polygraph_examiner", "", 325)  # polygraph/MA
+
+
+def test_unlabelled_chapter_still_subject_to_fetch_budget(monkeypatch):
+    """The no-label bypass must not defeat the budget test — that one is size-only."""
+    monkeypatch.setattr(pt, "_OVER_BROAD_MAX", 300)
+    monkeypatch.setattr(pt, "_fetch_budget_max_leaves", lambda: 100)
+    assert pt._should_skip_over_broad("medicine", "", 336)
