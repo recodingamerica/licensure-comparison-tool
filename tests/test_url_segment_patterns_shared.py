@@ -29,6 +29,16 @@ def test_bare_three_digit_segment_classifies_as_a_section():
     assert not sp.SECTION_SEG.match("chapter-5")
 
 
+def test_is_title_root_shared_by_narrow_and_repair():
+    from pipeline.discover.gap_harvest import narrow
+    from pipeline.discover import repair_nj_mappings  # noqa: F401 — imports is_title_root
+    assert sp.is_title_root("https://law.justia.com/codes/utah/title-58/")
+    assert sp.is_title_root("https://law.justia.com/codes/utah/title-58a.5/")   # odd slug
+    assert not sp.is_title_root("https://law.justia.com/codes/utah/title-58/chapter-1/")
+    assert not sp.is_title_root("https://law.justia.com/codes/utah/title-58/section-1-5/")
+    assert narrow.whole_title("https://law.justia.com/codes/utah/title-58/")     # via shared fn
+
+
 def test_container_segment_shared_and_correct():
     assert audit_mappings.container_segment is sp.container_segment
     assert sp.container_segment("https://law.justia.com/codes/x/title-1/chapter-29/")

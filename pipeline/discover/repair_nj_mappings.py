@@ -19,12 +19,12 @@ from __future__ import annotations
 
 import argparse
 import json
-import re
 
 from pipeline.paths import TEXT_DIR, PROFESSION_INDEX_DIR, HIERARCHY_DIR
 from pipeline._records import write_json_atomic
 from pipeline.ingest.pull_text import _OVER_BROAD_MAX
 from pipeline.ingest import nj_flat
+from pipeline.ingest._section_patterns import is_title_root
 
 # A profession occupying at least this share of a chapter's sections OWNS it; below
 # this it merely sits INSIDE it (see _nested_chapters). The NJ flat-layout URL grammar
@@ -101,7 +101,7 @@ def _is_broken(matched: list[dict]) -> bool:
         u = n.get("url", "")
         if "/section-" in u:
             return True
-        if re.search(r"/title-[^/]+/?$", u) and "/chapter-" not in u:
+        if is_title_root(u):
             return True
     return False
 

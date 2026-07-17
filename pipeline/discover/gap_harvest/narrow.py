@@ -55,6 +55,7 @@ from pipeline.paths import TEXT_DIR, PROFESSION_INDEX_DIR
 from pipeline.config.loaders import load_professions
 from pipeline.discover.match_profession import label_matches
 from pipeline.discover.gap_harvest import _common as C
+from pipeline.ingest._section_patterns import is_title_root
 
 OVER_BROAD_SECTIONS = 150          # a section-nested profession's real law is well under this
 _CLUSTER_MAX_GAP = 4               # >this many non-hit sections between hits breaks the run
@@ -69,9 +70,7 @@ ABSENCES = "narrow_absences.json"  # cells with no matching section — for huma
 def whole_title(url: str) -> bool:
     """True if the URL points at a whole Justia title root (…/title-40/), which is
     never the right granularity for one profession."""
-    if not url:
-        return False
-    return bool(re.search(r"/title-[0-9a-z]+/?$", url.rstrip("/") + "/", re.I))
+    return is_title_root(url)
 
 
 def patterns_for(prof: str, profs: dict) -> tuple[list[str], list[str]]:

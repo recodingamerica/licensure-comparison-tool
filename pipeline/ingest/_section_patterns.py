@@ -41,6 +41,17 @@ def container_segment(url: str) -> bool:
     return bool(segs) and bool(CONTAINER_SEG.match(segs[-1]))
 
 
+_TITLE_SEG = re.compile(r"^title-[^/]+$", re.I)
+
+
+def is_title_root(url: str) -> bool:
+    """True if `url`'s last path segment is a bare title (…/title-58/) — a whole-title
+    root, never the right granularity for one profession (over-broad mapping)."""
+    import urllib.parse
+    segs = [s for s in urllib.parse.urlparse(url or "").path.split("/") if s]
+    return bool(segs) and bool(_TITLE_SEG.match(segs[-1]))
+
+
 # A path segment that is a bare 4-digit year. Justia serves year-versioned copies of
 # the same statute at …/codes/<state>/<YEAR>/… ; stripping the year segment collapses
 # the copies to one canonical key.
