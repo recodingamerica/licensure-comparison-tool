@@ -314,6 +314,23 @@ def extract_child_links(html: str, base_url: str) -> tuple[list[dict], list[dict
     base_canon = tuple(s for s in base_segments if not YEAR_SEG.match(s))
     base_has_year = any(YEAR_SEG.match(s) for s in base_segments)
 
+    # NJ-style flat layout: a chapter URL (…/title-26/chapter-2k/) 301-redirects to
+    # its TITLE page, which nests sections directly under the title with the chapter
+    # encoded as a token in the section slug (…/title-26/section-26-2k-10/). The
+    # literal title_slug ("chapter-2k") never appears in those section paths, so the
+    # membership filter below would drop every real section and the whole title page
+    # gets stored as one blob. Derive (title#, chapter-token) so we can still accept
+    # exactly THIS chapter's sections (section-<title#>-<token>-…), not the other
+    # ~2,500 sections of the title.
+    _nj_flat_re = None
+    if title_slug and title_slug.startswith("chapter-"):
+        _tok = title_slug[len("chapter-"):]
+        _tnum = next((re.match(r"title-(.+)$", s.lower()).group(1)
+                      for s in base_segments if re.match(r"title-(.+)$", s.lower())), None)
+        if _tok and _tnum:
+            _nj_flat_re = re.compile(
+                rf"^(section|§|s)[-_]?{re.escape(_tnum)}[-_]{re.escape(_tok)}[-_.]", re.I)
+
     sections: list[dict] = []
     intermediates: list[dict] = []
     year_self: list[tuple] = []  # (year, url, label, slug) — year snapshots of THIS page
@@ -344,7 +361,11 @@ def extract_child_links(html: str, base_url: str) -> tuple[list[dict], list[dict
                               a.get_text(strip=True) or "", path_segments[-1]))
             continue
         last = path_segments[-1]
-        if title_slug and title_slug not in [s.lower() for s in path_segments]:
+        # Keep a link if it sits under this chapter's path (normal chapter→section)
+        # OR it's an NJ-style flat section for this exact chapter (see _nj_flat_re).
+        in_chapter = title_slug in [s.lower() for s in path_segments]
+        nj_flat = bool(_nj_flat_re and _nj_flat_re.match(last))
+        if title_slug and not in_chapter and not nj_flat:
             continue
         label = (a.get_text(strip=True) or "")[:300]
         if not label:
@@ -727,12 +748,22 @@ def _should_skip_over_broad(profession: str, chapter_label: str, n_leaves: int) 
     physically cannot finish inside an opted-in caller's per-cell timeout (size alone,
     regardless of label -- see _fetch_budget_max_leaves; disabled unless the caller sets
     PULL_BATCH_TIMEOUT_SECONDS), or it's an unscoped locator mis-pick (too many leaves
-    AND its label does not name the profession). Never raises (a guard must not break
+    AND its label does not name the profession). A chapter with no label is never skipped
+    on relevance — unknown is not a mismatch. Never raises (a guard must not break
     a pull)."""
     budget_max = _fetch_budget_max_leaves()
     if budget_max and n_leaves > budget_max:
         return True
     if n_leaves <= _OVER_BROAD_MAX:
+        return False
+    # No label to judge by: unknown relevance is NOT a mismatch. Some states have no
+    # chapter pages at all (Justia publishes NJ as flat sections under the title, so an
+    # NJ chapter has a number but no name anywhere), and label_matches("") is False for
+    # every pattern — which silently zeroed 9 NJ cells rather than skipping one bad row.
+    # Fall through to the size/budget test above, same as the no-patterns case below.
+    if not (chapter_label or "").strip():
+        log.warning("  over-broad guard: %s -> %d leaves but the chapter has no label; "
+                    "cannot judge relevance — pulling", profession, n_leaves)
         return False
     try:
         from pipeline.config.loaders import load_professions
@@ -994,6 +1025,16 @@ def _norm_text(t: str | None) -> str:
     return re.sub(r"\s+", " ", (t or "")).strip().lower()
 
 
+_CONTAINER_SEG = re.compile(r"^(title|chapter|article|part|subchapter|division)\b", re.I)
+
+
+def _is_container_url(url: str) -> bool:
+    """The url's last path segment is a bare container (title-/chapter-/article-/…),
+    i.e. a landing page, not a leaf section."""
+    segs = [s for s in urllib.parse.urlparse(url or "").path.split("/") if s]
+    return bool(segs) and bool(_CONTAINER_SEG.match(segs[-1]))
+
+
 def _lost_sections(old_d: dict, new_d: dict) -> list[dict]:
     """Committed error-free sections that the new pull genuinely LOST — keyed by
     citation first, then text. A committed section is NOT lost when:
@@ -1010,6 +1051,12 @@ def _lost_sections(old_d: dict, new_d: dict) -> list[dict]:
     lost = []
     for s in (old_d.get("sections") or []):
         if s.get("error"):
+            continue
+        if _is_container_url(s.get("url", "")):
+            # The committed "section" is a CONTAINER landing page (a TITLE_STRAY
+            # corpus — the walk grabbed the chapter page, not real sections).
+            # Replacing it with real leaf sections is an upgrade, never a loss, so
+            # it must not count toward a regression.
             continue
         cite = s.get("citation")
         if cite and cite in new_cites:
