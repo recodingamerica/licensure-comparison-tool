@@ -35,11 +35,22 @@ def test_plain_integer_title_still_splits():
     assert [s.citation for s in secs] == ["43-09-01", "43-09-02", "43-09-03"]
 
 
-def test_looks_like_nd_blob_needs_three_markers_and_nd_url():
+def test_looks_like_nd_blob_needs_three_markers_and_declared_layout():
     assert looks_like_nd_blob(DOTTED, URL) is True
     one = "26.1-26-01. Only one.\nbody\n"
     assert looks_like_nd_blob(one, URL) is False          # <3 markers → not a splittable blob
-    assert looks_like_nd_blob(DOTTED, "https://law.justia.com/codes/utah/x/") is False  # non-ND
+    # A state whose layout is NOT declared inline_chapter_blob is never treated as a blob,
+    # even with ND-format markers — the per-state layout lives in state_structure.yaml now,
+    # not a hardcoded state name in code.
+    assert looks_like_nd_blob(DOTTED, "https://law.justia.com/codes/utah/x/") is False
+
+
+def test_layout_comes_from_yaml_not_hardcoded():
+    from pipeline.ingest.pull_text import state_layout_for_url
+    assert state_layout_for_url("https://law.justia.com/codes/north-dakota/title-43/chapter-43-17/") == "inline_chapter_blob"
+    assert state_layout_for_url("https://law.justia.com/codes/new-jersey/title-45/") == "section_fallback"
+    assert state_layout_for_url("https://law.justia.com/codes/kansas/") == ""     # no entry → default
+    assert state_layout_for_url("not a url") == ""
 
 
 def test_fewer_than_three_markers_returns_empty():
