@@ -49,3 +49,21 @@ def test_timeout_raises_and_gives_fresh_worker_next_time(monkeypatch):
     monkeypatch.setattr(rc.pull_text, "pull_state", lambda *a: {"sections": ["fresh"]})
     assert rc.pull_with_timeout("UT", "x", [], None, 5) == {"sections": ["fresh"]}
     _reset()
+
+
+def test_recycle_pull_worker_orphans_thread_and_session(monkeypatch):
+    """After a fetch failure the refresh recycles the worker so the NEXT cell gets a
+    fresh thread AND a fresh Scrapling session. Nulling only the thread but reusing the
+    module-level _SCRAPLING_SESSION (created in the old thread) reintroduced the
+    'Cannot switch to a different thread' greenlet crash — so recycle must null BOTH."""
+    _reset()
+    # a live worker + a stand-in session on the pull_text module
+    monkeypatch.setattr(rc.pull_text, "pull_state", lambda *a: {"sections": []})
+    rc.pull_with_timeout("UT", "x", [], None, 5)
+    rc.pull_text._SCRAPLING_SESSION = object()          # pretend a session is open
+    assert rc._PULL_THREAD is not None
+
+    rc.recycle_pull_worker()
+
+    assert rc._PULL_THREAD is None                       # worker orphaned
+    assert rc.pull_text._SCRAPLING_SESSION is None       # session orphaned too (the fix)

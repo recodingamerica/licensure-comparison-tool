@@ -353,12 +353,37 @@ def pull_with_timeout(state: str, profession: str, rows: list[dict],
     try:
         return _PULL_THREAD.run(state, profession, rows, cap, timeout_s)
     except _ItemTimeout:
-        # The worker is wedged on the timed-out task (we can't kill it). Orphan it —
-        # it's a daemon, dies at process exit — so the next call gets a fresh worker
-        # + queues instead of inheriting the stale result. (Production aborts the whole
-        # run on timeout anyway; this keeps correctness if it ever doesn't.)
-        _PULL_THREAD = None
+        # The worker is wedged on the timed-out task (we can't kill it). Orphan it AND its
+        # thread-affine Scrapling session — it's a daemon, dies at process exit — so the
+        # next call gets a fresh worker + session instead of inheriting the stale result or
+        # a cross-thread session. (Production aborts the whole run on timeout anyway; this
+        # keeps correctness if it ever doesn't.) Same recycle as the fetch-failure path.
+        recycle_pull_worker()
         raise
+
+
+def recycle_pull_worker() -> None:
+    """Orphan the persistent pull worker so the NEXT cell opens a fresh thread + fresh
+    Scrapling session.
+
+    A mid-cell session reset (`_reset_scrapling_session` on a retry) in the worker thread
+    can leave that thread's Playwright event loop in a state where the next sync fetch
+    raises `It looks like you are using Playwright Sync API inside the asyncio loop`.
+    That wedged session then turns EVERY subsequent cell EMPTY — a false cascade that
+    trips the circuit breaker (observed on KY: a cell that pulls fine in isolation comes
+    back EMPTY mid-run). A fresh worker thread starts with clean asyncio state, so
+    recycling after a fetch failure lets the run recover instead of aborting. The old
+    daemon thread is abandoned and dies at process exit.
+
+    Crucially this also orphans pull_text's module-level `_SCRAPLING_SESSION`: that global
+    is created inside the old worker thread, so a fresh worker that reused it would touch a
+    thread-affine session from the wrong thread → `greenlet.error: Cannot switch to a
+    different thread`. Null it (WITHOUT closing — closing from this thread hits the same
+    greenlet error) so the fresh worker opens its own session in its own thread; the old
+    session leaks until the abandoned daemon dies at process exit."""
+    global _PULL_THREAD
+    _PULL_THREAD = None
+    pull_text._SCRAPLING_SESSION = None
 
 
 # ---------------------------------------------------------------------------
@@ -860,6 +885,12 @@ def run(professions: list[str], only_states: set[str], *, force: bool, cap: int 
 
         if rec["result"] in FETCH_FAILURE:
             consec_fail += 1
+            # A fetch failure can mean the worker's Scrapling session is wedged (a
+            # Playwright sync/asyncio-loop breakage after a mid-cell reset), which would
+            # otherwise turn every following cell EMPTY and trip the breaker on healthy
+            # states. Give the next cell a fresh worker+session so a genuinely-empty cell
+            # stays empty but a wedged-session cell recovers. See recycle_pull_worker.
+            recycle_pull_worker()
         else:
             consec_fail = 0
         if consec_fail >= breaker:
