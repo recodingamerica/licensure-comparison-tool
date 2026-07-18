@@ -6047,6 +6047,13 @@ medicine:
       slug: chapter-334
       via: chapter_map
       note: ''
+  ND:
+    add:
+    - url: https://law.justia.com/codes/north-dakota/title-43/chapter-43-17/
+      label: Chapter 43-17 - Physicians, Resident Physicians, and Physician Assistants
+      slug: ''
+      via: nd_audit_missed_main_chapter
+      note: 'The label-matcher grabbed 43-17.1 (Board of Medicine Investigative Panels) + 43-17.4 (Interstate Medical Licensure Compact) but the main practice-of-medicine chapter 43-17 was killed by medicines exclude pattern "physician assistant" (a substring of the chapter title "Physicians, Resident Physicians, and Physician Assistants"). osteopathic_medicine + physician_assistant already point here.'
 mental_health_counseling:
   MI:
     # Hierarchy matched Chapter 330 "Mental Health Code" (the mental-health SYSTEM
@@ -7692,12 +7699,6 @@ opticianry:
     add:
     - url: https://law.justia.com/codes/montana/title-37/chapter-10/
       label: Chapter 10. Optometry
-      slug: ''
-      via: gap_locator
-  ND:
-    add:
-    - url: https://law.justia.com/codes/north-dakota/title-43/chapter-43-13/
-      label: 'Chapter 43-13: Optometrists'
       slug: ''
       via: gap_locator
   NH:
@@ -9682,6 +9683,12 @@ professional_geology:
       label: Geology, Water Resources and Geodetic Survey
       slug: ''
       via: gap_locator
+  ND:
+    exclude:
+    # 54-17.4 is the ND Geological SURVEY (a state agency + State Geologist post), not a
+    # geologist-licensure chapter. ND has no professional-geologist license; label-matched
+    # on "geolog". Excluded so the cell reads as a genuine absence, not a wrong pull.
+    - https://law.justia.com/codes/north-dakota/title-54/chapter-54-17-4/
   NE:
     add:
     - url: https://law.justia.com/codes/nebraska/chapter-81/
@@ -10517,11 +10524,12 @@ public_weighmaster:
       slug: ''
       via: gap_locator
   ND:
-    add:
-    - url: https://law.justia.com/codes/north-dakota/title-64/
-      label: Title 64 - Weights, Measures, and Grades
-      slug: ''
-      via: gap_locator
+    exclude:
+    # ND Title 64 is weights-and-measures STANDARDS (devices, units) enforced by the Public
+    # Service Commission — there is no "public weighmaster" license. 64-01 label-matched on
+    # "weights and measures"; the whole-Title-64 gap_locator add was over-broad. Both dropped
+    # so the cell reads as a genuine absence, not a wrong pull.
+    - https://law.justia.com/codes/north-dakota/title-64/chapter-64-01/
   NH:
     add:
     - url: https://law.justia.com/codes/new-hampshire/title-xl/chapter-438/
