@@ -392,7 +392,8 @@ def extract_child_links(html: str, base_url: str) -> tuple[list[dict], list[dict
             intermediates.append(item)
     sections = _dedupe_year_versions(sections)
     intermediates = _dedupe_year_versions(intermediates)
-    if not sections and not intermediates and year_self and not base_has_year:
+    if (not sections and not intermediates and year_self and not base_has_year
+            and not looks_like_nd_blob(extract_section_text(html), base_url)):
         # Year-SELECTOR page: it links only to year snapshots of itself, with no
         # section list. Happens when a fetcher lands on the *undated* page for a
         # state that publishes only year-stamped content (e.g. IL acts — the section
@@ -400,8 +401,17 @@ def extract_child_links(html: str, base_url: str) -> tuple[list[dict], list[dict
         # above drops these self-year links as duplicates, which would strand the
         # sections; here, with nothing else found, we drill the latest-year copy
         # instead. That copy is year-stamped, so on re-entry `base_has_year` is True
-        # and this branch cannot fire again — no year->year loop, and it only ever
-        # triggers on a genuinely empty undated page, never on one that has content.
+        # and this branch cannot fire again — no year->year loop.
+        #
+        # ND-inline-blob guard (`not looks_like_nd_blob(...)`): an inline_chapter_blob
+        # state (ND) serves a chapter's sections as inline dotted-marker TEXT, not as
+        # child links, so extract_child_links finds no `sections` here even when the
+        # undated page is COMPLETE. Without this guard the drill fired anyway and
+        # replaced the full undated blob with a possibly-INCOMPLETE year snapshot
+        # (electrician/ND: undated chapter-43-09 has 43-09-01..34; the /2024/ copy only
+        # ..26 — 8 tail sections silently lost). When the undated page is itself a
+        # content blob, don't drill — collect_section_targets captures it as an inline
+        # leaf and _add_inline_section splits it in full.
         year_self.sort(reverse=True)
         yr, u, lab, sl = year_self[0]
         intermediates = [{"url": u, "label": lab or f"{yr} edition", "slug": sl}]
