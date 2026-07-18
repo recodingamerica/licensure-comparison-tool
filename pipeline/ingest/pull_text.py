@@ -724,6 +724,22 @@ def collect_section_targets(url: str, label: str, slug: str, depth: int, max_dep
         return flat, None
 
     sections, intermediates = extract_child_links(html, url)
+    if sections and intermediates and depth < max_depth:
+        # A chapter with BOTH direct leaf sections AND drillable subchapters (e.g. RI
+        # 23-27.3 State Building Code: a stray section-23-27-3-1 alongside article-1/2/3
+        # that hold 80+ sections). The old `if sections: return sections` took only the
+        # direct sections and silently dropped every subchapter. Drill the subchapters
+        # and merge (url-deduped) so nothing is lost. Over-broad subchapters are still
+        # caught downstream by the leaf-count guard.
+        merged = list(sections)
+        seen = {s["url"] for s in sections}
+        for inter in intermediates:
+            secs, _ = collect_section_targets(inter["url"], inter["label"], inter["slug"], depth + 1, max_depth)
+            for s in secs:
+                if s["url"] not in seen:
+                    seen.add(s["url"])
+                    merged.append(s)
+        return _dedupe_year_versions(merged), None
     if sections:
         return sections, None
     # Depth cap reached while intermediates still exist — this is a real truncation.
