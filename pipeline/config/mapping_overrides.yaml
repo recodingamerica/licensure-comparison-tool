@@ -9986,6 +9986,12 @@ psychology:
       - https://law.justia.com/codes/oklahoma/title-59/section-59-1391/
       - https://law.justia.com/codes/oklahoma/title-59/section-59-1392/
       - https://law.justia.com/codes/oklahoma/title-59/section-59-1393/
+  TX:
+    exclude:
+    # subtitle-i is the whole Occupations Code Subtitle I (psychologists + MFTs + social
+    # workers + counselors ...) -- ~280 off-profession sections. Chapter 501 (Psychologists)
+    # is the real target and is kept; drop the subtitle-wide over-pull.
+    - https://law.justia.com/codes/texas/occupations-code/title-3/subtitle-i/
 public_accountancy:
   AZ:
     add:
