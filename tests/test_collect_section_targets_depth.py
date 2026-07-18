@@ -169,6 +169,36 @@ class TestDepthCappedSignal:
         assert "section-99-1" in slugs, f"Expected section-99-1 in {slugs}"
 
 
+# ─── Test D: chapter with BOTH direct sections and subchapters ───────────────
+
+class TestDirectSectionsAndSubchapters:
+    """A chapter page that yields BOTH a direct leaf section AND drillable
+    subchapters (e.g. RI 23-27.3 State Building Code: a stray section-1 alongside
+    article-1/2/3 holding the real sections) must return the direct section AND
+    every subchapter's sections — the old `if sections: return sections` took only
+    the direct one and silently dropped the articles."""
+
+    def test_direct_and_subchapter_sections_both_collected(self, monkeypatch):
+        direct = {"url": f"{BASE}section-99-1/", "label": "Section 99-1", "slug": "section-99-1"}
+        art1 = {"url": f"{BASE}article-1/", "label": "Article 1", "slug": "article-1"}
+        art_sec1 = {"url": f"{BASE}article-1/section-99-10/", "label": "Section 99-10", "slug": "section-99-10"}
+        art_sec2 = {"url": f"{BASE}article-1/section-99-11/", "label": "Section 99-11", "slug": "section-99-11"}
+        mapping = {
+            BASE: ([direct], [art1]),                 # 1 direct section + 1 subchapter
+            art1["url"]: ([art_sec1, art_sec2], []),  # subchapter holds 2 sections
+        }
+        monkeypatch.setattr(pt, "fetch", _noop_fetch)
+        monkeypatch.setattr(pt, "polite_sleep", _noop_sleep)
+        monkeypatch.setattr(pt, "extract_child_links", _child_link_map(mapping))
+
+        sections, err = collect_section_targets(
+            BASE, "Chapter 10", "chapter-10", depth=0, max_depth=6
+        )
+        assert err is None
+        slugs = {s["slug"] for s in sections}
+        assert slugs == {"section-99-1", "section-99-10", "section-99-11"}
+
+
 # ─── Test C: config wires the default ────────────────────────────────────────
 
 class TestDefaultMaxDepthFromLimits:
