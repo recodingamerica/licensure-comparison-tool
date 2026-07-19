@@ -239,6 +239,31 @@ def commit(path: Path, msg: str) -> None:
          "-m", "Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>")
 
 
+PENDING_DIR = RESULTS_DIR / "pending_review"
+
+
+def stage_pending(run_id: str | None, profession: str, state: str,
+                  new_corpus: dict, rec: dict) -> None:
+    """Save a HELD candidate pull for human review instead of discarding it outright.
+
+    Writes results/pending_review/<run-id>/<prof>__<state>.json with the new corpus, the
+    hold reason, and the old/new counts, so `refresh_corpus review` can render old-vs-new
+    and `refresh_corpus apply` can commit an approved change WITHOUT re-fetching. No-op when
+    run_id is unset (an ad-hoc single pull). The committed corpus is never touched here —
+    this is a side artifact the run can leave for a person to act on later."""
+    if not run_id:
+        return
+    d = PENDING_DIR / run_id
+    d.mkdir(parents=True, exist_ok=True)
+    (d / f"{profession}__{state}.json").write_text(json.dumps({
+        "profession": profession, "state": state,
+        "result": rec.get("result"), "reason": rec.get("reason", ""),
+        "prev": rec.get("prev"), "new": rec.get("new"),
+        "staged_at": _now(),
+        "new_corpus": new_corpus,
+    }, indent=2))
+
+
 # ---------------------------------------------------------------------------
 # Per-chapter completeness (total count alone can't see a partial)
 # ---------------------------------------------------------------------------
@@ -413,7 +438,8 @@ def _classify_empty(chapter_urls: list[str]) -> dict[str, str]:
 
 
 def refresh_item(profession: str, state: str, rows: list[dict], *,
-                 force: bool, cap: int | None, timeout_s: int) -> dict:
+                 force: bool, cap: int | None, timeout_s: int,
+                 run_id: str | None = None) -> dict:
     """Re-pull one (profession, state), validate against the committed corpus, and
     commit iff the pull is healthy.
 
@@ -500,9 +526,10 @@ def refresh_item(profession: str, state: str, rows: list[dict], *,
     if not force:
         reason = pull_text._is_regression(new_d, old_d)
         if reason:
-            revert(out_path, has_head)
             rec["result"] = "REGRESSION"
             rec["reason"] = reason
+            stage_pending(run_id, profession, state, new_d, rec)  # keep the candidate for review
+            revert(out_path, has_head)
             return rec
 
     # 4. Same statute content as HEAD (ignoring serialization / schema drift like a
@@ -856,7 +883,8 @@ def run(professions: list[str], only_states: set[str], *, force: bool, cap: int 
         # diff report compares against last year's committed corpus.
         prior = prior_committed(TEXT_DIR / prof / f"{state}.json")
         try:
-            rec = refresh_item(prof, state, rows, force=force, cap=cap, timeout_s=timeout_s)
+            rec = refresh_item(prof, state, rows, force=force, cap=cap, timeout_s=timeout_s,
+                               run_id=run_id)
         except _ItemTimeout as e:
             # Can't kill the worker thread; abort the whole run cleanly so the orphan
             # can't race the next pull on the shared Scrapling session. The process
@@ -909,6 +937,127 @@ def run(professions: list[str], only_states: set[str], *, force: bool, cap: int 
 
 
 # ---------------------------------------------------------------------------
+# Review + approve of held (candidate) changes
+# ---------------------------------------------------------------------------
+def _cite(s: dict) -> str:
+    return str(s.get("citation") or s.get("id") or s.get("label") or s.get("url", "?"))
+
+
+def _load_pending(run_id: str) -> list[dict]:
+    d = PENDING_DIR / run_id
+    if not d.exists():
+        return []
+    out = []
+    for f in sorted(d.glob("*__*.json")):
+        try:
+            out.append(json.loads(f.read_text()))
+        except json.JSONDecodeError:
+            continue
+    return out
+
+
+def _section_diff(new_corpus: dict, prof: str, state: str) -> dict:
+    """old-vs-new citation sets + a few text samples, for the review page."""
+    old = prior_committed(TEXT_DIR / prof / f"{state}.json") or {}
+    old_secs = {_cite(s): s for s in (old.get("sections") or [])}
+    new_secs = {_cite(s): s for s in (new_corpus.get("sections") or [])}
+    removed = [c for c in old_secs if c not in new_secs]
+    added = [c for c in new_secs if c not in old_secs]
+    return {
+        "removed": removed, "added": added,
+        "removed_samples": [(c, (old_secs[c].get("label") or "")[:70],
+                             (old_secs[c].get("text") or "")[:220]) for c in removed[:6]],
+        "added_samples": [(c, (new_secs[c].get("label") or "")[:70],
+                           (new_secs[c].get("text") or "")[:220]) for c in added[:6]],
+    }
+
+
+def build_review_html(run_id: str) -> Path:
+    """Self-contained HTML review page for a run's HELD candidate pulls: per cell it shows
+    why it was held, old->new counts, the exact sections added / removed, and text samples,
+    with an Accept checkbox. Checking cells live-builds the copy-paste `apply` command. No
+    server, no download round-trip — same offline pattern as client/dashboard.py."""
+    import html as _html
+    pend = _load_pending(run_id)
+    out = PENDING_DIR / run_id / "review.html"
+    cards = []
+    for p in pend:
+        prof, state = p["profession"], p["state"]
+        diff = _section_diff(p.get("new_corpus") or {}, prof, state)
+        key = f"{prof}:{state}"
+        def _samples(rows, cls):
+            return "".join(
+                f'<div class="s {cls}"><b>{_html.escape(c)}</b> {_html.escape(lab)}'
+                f'<div class="t">{_html.escape(txt)}</div></div>' for c, lab, txt in rows) or "<i>none</i>"
+        cards.append(f"""
+        <div class="card">
+          <label class="hd"><input type="checkbox" class="acc" data-key="{_html.escape(key)}">
+            <span class="k">{_html.escape(key)}</span>
+            <span class="badge">{_html.escape(str(p.get('result')))}</span>
+            <span class="cnt">{p.get('prev')} &rarr; {p.get('new')} sections</span></label>
+          <div class="why">{_html.escape(str(p.get('reason') or ''))}</div>
+          <div class="cols">
+            <div><h4>Removed vs committed ({len(diff['removed'])})</h4>{_samples(diff['removed_samples'],'rm')}</div>
+            <div><h4>Added in new pull ({len(diff['added'])})</h4>{_samples(diff['added_samples'],'ad')}</div>
+          </div>
+        </div>""")
+    body = "".join(cards) or "<p>No held cells for this run — nothing to review. 🎉</p>"
+    page = f"""<!doctype html><meta charset=utf-8><title>Refresh review — {_html.escape(run_id)}</title>
+<style>
+body{{font:14px/1.5 -apple-system,system-ui,sans-serif;max-width:1000px;margin:24px auto;padding:0 16px;color:#1a1a1a}}
+h1{{font-size:20px}} .card{{border:1px solid #ddd;border-radius:8px;padding:12px 14px;margin:12px 0}}
+.hd{{display:flex;align-items:center;gap:10px;cursor:pointer;font-weight:600}}
+.badge{{background:#fde68a;border-radius:4px;padding:1px 7px;font-size:12px}}
+.cnt{{color:#555;font-weight:400}} .why{{color:#666;font-size:13px;margin:4px 0 8px}}
+.cols{{display:grid;grid-template-columns:1fr 1fr;gap:14px}}
+h4{{margin:6px 0;font-size:13px}} .s{{border-left:3px solid #ccc;padding:2px 8px;margin:4px 0;font-size:12px}}
+.s.rm{{border-color:#ef4444;background:#fef2f2}} .s.ad{{border-color:#22c55e;background:#f0fdf4}}
+.t{{color:#555;margin-top:2px;white-space:pre-wrap}} #bar{{position:sticky;top:0;background:#fff;padding:10px 0;border-bottom:1px solid #eee}}
+code{{background:#f4f4f5;padding:8px;display:block;border-radius:6px;white-space:pre-wrap;word-break:break-all}}
+</style>
+<h1>Annual-refresh review — <code style="display:inline">{_html.escape(run_id)}</code></h1>
+<p>Each card is a change the refresh <b>held</b> (did not commit). Check the ones that are legitimate updates,
+then copy the command below and run it to accept them. Unchecked cells stay as they are.</p>
+<div id=bar><b>To accept the checked changes, run:</b><code id=cmd>(check some boxes)</code></div>
+{body}
+<script>
+function upd(){{
+  const ks=[...document.querySelectorAll('.acc:checked')].map(c=>c.dataset.key);
+  document.getElementById('cmd').textContent = ks.length
+    ? 'pipeline/.venv/bin/python -m pipeline.ingest.refresh_corpus --apply --run-id {_html.escape(run_id)} --accept '+ks.join(',')
+    : '(check some boxes)';
+}}
+document.addEventListener('change',e=>{{if(e.target.classList.contains('acc'))upd();}});
+</script>"""
+    out.write_text(page)
+    return out
+
+
+def apply_pending(run_id: str, accept: set[str]) -> None:
+    """Commit the approved held candidates (no re-fetch): write each staged new_corpus into
+    the corpus tree and commit it. Cells not in `accept` are left untouched (still held)."""
+    pend = _load_pending(run_id)
+    by_key = {f"{p['profession']}:{p['state']}": p for p in pend}
+    unknown = accept - set(by_key)
+    if unknown:
+        _emit(f"WARN: not in this run's held set (ignored): {', '.join(sorted(unknown))}")
+    applied = 0
+    for key in sorted(accept & set(by_key)):
+        p = by_key[key]
+        prof, state = p["profession"], p["state"]
+        out_path = TEXT_DIR / prof / f"{state}.json"
+        out_path.parent.mkdir(parents=True, exist_ok=True)
+        out_path.write_text(json.dumps(p["new_corpus"], indent=2))
+        commit(out_path, f"data: accept reviewed refresh {prof}/{state} — "
+                         f"{p.get('prev')}->{p.get('new')} sections [reviewed:{run_id}]")
+        (PENDING_DIR / run_id / f"{prof}__{state}.json").unlink(missing_ok=True)
+        _emit(f"  accepted {key}: {p.get('prev')}->{p.get('new')} sections (committed)")
+        applied += 1
+    _emit(f"applied {applied} reviewed change(s); {len(by_key) - applied} left held. "
+          f"Re-run clean->trim->extract for accepted cells before republishing.")
+
+
+# ---------------------------------------------------------------------------
 # CLI
 # ---------------------------------------------------------------------------
 def main(argv: list[str] | None = None) -> None:
@@ -926,6 +1075,16 @@ def main(argv: list[str] | None = None) -> None:
                          "and empty-pull gates still apply.")
     ap.add_argument("--report-only", action="store_true",
                     help="Do NOT fetch. Rebuild the diff report from the last status file.")
+    ap.add_argument("--review", action="store_true",
+                    help="Do NOT fetch. Build an offline HTML page (pending_review/<run-id>/"
+                         "review.html) to review the run's HELD candidate changes and pick "
+                         "which to accept. Requires --run-id.")
+    ap.add_argument("--apply", action="store_true",
+                    help="Do NOT fetch. Commit the reviewed candidates named in --accept "
+                         "(no re-fetch). Requires --run-id + --accept.")
+    ap.add_argument("--accept", default="",
+                    help="With --apply: comma-separated prof:STATE keys to accept "
+                         "(e.g. money_transmitter:CO,psychology:TX).")
     ap.add_argument("--resume", action="store_true",
                     help="Continue a prior run of this --run-id: skip cells already done "
                          "(OK/NOCHANGE), re-attempt failures + not-yet-done cells. Use after "
@@ -947,6 +1106,21 @@ def main(argv: list[str] | None = None) -> None:
                     help="Skip the 'proceed?' confirmation shown before a big "
                          "--all-professions run.")
     args = ap.parse_args(argv)
+
+    # Review / apply modes short-circuit before any fetch (they only touch pending_review).
+    if args.review:
+        if not args.run_id:
+            ap.error("--review requires --run-id (the run whose held cells you want to review)")
+        n = len(_load_pending(args.run_id))
+        page = build_review_html(args.run_id)
+        _emit(f"review page for {n} held cell(s): {page}\n  open it in a browser, check the "
+              f"legitimate changes, then run the command it shows.")
+        return
+    if args.apply:
+        if not args.run_id or not args.accept:
+            ap.error("--apply requires --run-id and --accept prof:STATE,prof:STATE")
+        apply_pending(args.run_id, {k.strip() for k in args.accept.split(",") if k.strip()})
+        return
 
     if args.all_professions:
         professions = all_professions()
