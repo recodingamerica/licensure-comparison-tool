@@ -20,6 +20,7 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import collections
 import functools
 import json
 import logging
@@ -1112,17 +1113,24 @@ def _lost_sections(old_d: dict, new_d: dict) -> list[dict]:
     new_cites = {s.get("citation") for s in new_secs if s.get("citation")}
     new_blob = " ".join(_norm_text(s.get("text")) for s in new_secs)
     old_secs = [s for s in (old_d.get("sections") or []) if not s.get("error")]
-    # A CONTAINER-url "section" is TITLE_STRAY blob junk ONLY when it's the WHOLE corpus
-    # (one blob = the chapter/title page stored as a single section). Then replacing it
-    # with real leaf sections is an upgrade, so it mustn't count as a loss. But ND-style
-    # inline-split sections legitimately share the chapter (container) URL and are REAL —
-    # exempting THEM let a wrong-chapter re-pull silently swap them out (medicine/ND: 60
-    # real 43-17 sections replaced by 11 of the ancillary 43-17.1, guard blind). So only
-    # exempt when the committed corpus is a single container blob.
+    # A CONTAINER-url "section" is a chapter/title/part LANDING page (a TOC/nav breadcrumb,
+    # e.g. Utah's ".../chapter-40a/" whose text is "Title 58 … Chapter 40a … Part 1 … Part 2"),
+    # not leaf statute. A cleaner re-pull dropping it is an UPGRADE, not a loss. Exempt it when:
+    #   * it's the WHOLE corpus (single blob) replaced by real leaves, OR
+    #   * it's a LONE stray container (only one section carries this exact url) sitting
+    #     alongside real leaf sections — the chapter TOC accidentally committed as a section.
+    # NOT exempt when MANY sections share the container url: that's ND-style inline-split,
+    # where the container-url sections ARE the real content and a wrong-chapter re-pull
+    # swapping them out must be caught (medicine/ND: 60 real 43-17 sections replaced by 11
+    # ancillary 43-17.1, guard blind). Keyed on url multiplicity, so it's clean/raw-agnostic.
     old_is_single_blob = len(old_secs) == 1
+    url_counts = collections.Counter(s.get("url", "") for s in old_secs)
+    has_leaf = any(not _is_container_url(s.get("url", "")) for s in old_secs)
     lost = []
     for s in old_secs:
-        if old_is_single_blob and _is_container_url(s.get("url", "")):
+        url = s.get("url", "")
+        if _is_container_url(url) and (
+                old_is_single_blob or (url_counts[url] == 1 and has_leaf)):
             continue
         cite = s.get("citation")
         if cite and cite in new_cites:
