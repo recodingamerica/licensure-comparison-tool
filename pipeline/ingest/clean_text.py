@@ -83,8 +83,22 @@ TRAILING_WHITESPACE = re.compile(r"[ \t]+$", re.MULTILINE)
 # then line-level strips, then whitespace collapse.
 
 JUSTIA_VERSION_NAV = re.compile(
-    r"Go to Previous Versions[\s\S]*?View All Versions",
+    # "Previous" on year-versioned pages (KY), "Other" on Colorado's — both a
+    # year-list nav block ending in "View All Versions".
+    r"Go to (?:Previous|Other) Versions[\s\S]*?View All Versions",
     re.IGNORECASE,
+)
+# Justia's annotation apparatus — case-law ANNOTATIONS, "Research References &
+# Practice Aids", the "Hierarchy Notes:" breadcrumb, "State Notes" — is editorial
+# furniture, not statute. Colorado's and New Mexico's Justia section pages append a
+# big block of it AFTER the operative text (and its "Source:/Laws …" history line,
+# which precedes the block and is kept). Truncate from the first apparatus header to
+# the end. Found 2026-07-18 when re-pulling Colorado injected this block into the raw
+# corpus and it reached extraction (clean_text had no pattern for it). The markers
+# are title-case or all-caps on their own line, so this won't fire on lowercase prose.
+JUSTIA_ANNOTATION_APPARATUS = re.compile(
+    r"\n(?:Annotations?|ANNOTATIONS?|Research References & Practice Aids|Hierarchy Notes:)"
+    r"[\s\S]*$"
 )
 JUSTIA_DISCLAIMER_TAIL = re.compile(
     r"Disclaimer:\s*These codes may not be the most recent[\s\S]*?(?=\Z)",
@@ -94,8 +108,9 @@ JUSTIA_PUBLIC_SERVICE_TAIL = re.compile(
     r"\b[\w\-\.\s]*Code section information is provided by Justia[\s\S]*?(?=\Z)",
     re.IGNORECASE,
 )
-JUSTIA_LONELY_NAV_LINE = re.compile(r"^\s*(?:Previous|Next|View All Versions|Learn more|Download as PDF)\s*$", re.IGNORECASE | re.MULTILINE)
-JUSTIA_YEAR_VERSION_LINE = re.compile(r"^\s*\d{4}\s+[A-Za-z][\w\s\-\(\)\.,]*\b(?:Code|Statutes?)\b.*$", re.MULTILINE)
+JUSTIA_LONELY_NAV_LINE = re.compile(r"^\s*(?:Previous|Next|View All Versions|View Our Newest Version Here|Learn more|Download as PDF)\s*$", re.IGNORECASE | re.MULTILINE)
+# "2022 Colorado Code", "2025 Colorado Rev. Stat." — a year-stamped source label line.
+JUSTIA_YEAR_VERSION_LINE = re.compile(r"^\s*\d{4}\s+[A-Za-z][\w\s\-\(\)\.,]*\b(?:Code|Statutes?|Rev\. ?Stat\.?)\b.*$", re.MULTILINE)
 # Justia stamps a "Universal Citation" block (media-neutral cite + AALL blurb)
 # onto every code section; it's site furniture, not statute text. Seen across
 # all Justia states (KY, CT, ...). Strip the cite line and the boilerplate blurb.
@@ -115,6 +130,7 @@ def clean_justia(text: str) -> str:
         return ""
     t = text
     t = JUSTIA_VERSION_NAV.sub("", t)
+    t = JUSTIA_ANNOTATION_APPARATUS.sub("", t)
     t = JUSTIA_DISCLAIMER_TAIL.sub("", t)
     t = JUSTIA_PUBLIC_SERVICE_TAIL.sub("", t)
     t = JUSTIA_MEDIA_NEUTRAL_BLURB.sub("", t)
