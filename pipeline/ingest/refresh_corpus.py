@@ -605,6 +605,15 @@ def refresh_item(profession: str, state: str, rows: list[dict], *,
 def _rows_for(index: dict, state: str) -> list[dict]:
     rows = []
     for node in matched_for(index, state):
+        # A node flagged `source_unavailable` is an ACCEPTED gap: the profession is
+        # regulated but its text isn't on Justia/PA (e.g. an admin-code-only regime),
+        # so the mapped url is only a general hook that yields 0 fields. Refreshing it
+        # re-fetches a page that can't help — and for a big general title (Oklahoma
+        # Title 2 for public_weighmaster) the fetch can hang past the item timeout and
+        # abort the whole annual run. Skip these; if a state's only nodes are all
+        # source_unavailable, _rows_for returns [] and build_worklist drops the cell.
+        if node.get("source_unavailable"):
+            continue
         rows.append({
             "state": state,
             "chapter_url": node["url"],

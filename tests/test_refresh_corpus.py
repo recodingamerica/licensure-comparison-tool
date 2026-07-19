@@ -398,6 +398,21 @@ class TestCircuitBreaker:
         work = rc.build_worklist(["med"], set())
         assert rc._estimate_seconds(work) > 0
 
+    def test_source_unavailable_node_excluded_from_worklist(self, repo):
+        # A source_unavailable node is an ACCEPTED gap (regulated but no Justia/PA
+        # statute — e.g. admin-code-only). Refreshing it re-fetches a general page
+        # that yields 0 fields and can hang past the item timeout, aborting the whole
+        # annual run. It must be dropped from the worklist. A state whose ONLY node is
+        # source_unavailable disappears entirely; a normal state stays.
+        root, idx_dir, text_dir = repo
+        _write_index(idx_dir, "med", {
+            "CA": {"matched": [{"url": CH}]},
+            "OK": {"matched": [{"url": CH2, "source_unavailable": {"reason": "admin-code only"}}]},
+        })
+        work = rc.build_worklist(["med"], set())
+        states = {state for _p, state, _r in work}
+        assert states == {"CA"}, states
+
     def test_diff_report_written_on_abort(self, repo, monkeypatch):
         root, idx_dir, text_dir = repo
         states = ["CA", "IN", "TX"]
