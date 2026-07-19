@@ -42,6 +42,7 @@ from __future__ import annotations
 import argparse
 import collections
 import json
+import re
 import subprocess
 import sys
 import threading
@@ -262,6 +263,46 @@ def stage_pending(run_id: str | None, profession: str, state: str,
         "staged_at": _now(),
         "new_corpus": new_corpus,
     }, indent=2))
+
+
+def _cite(s: dict) -> str:
+    return str(s.get("citation") or s.get("id") or s.get("label") or s.get("url", "?"))
+
+
+def _chapter_sig(cite: str) -> str:
+    """The chapter-level part of a section citation (drop the trailing section number), used
+    to tell a same-chapter renumber/amendment from a wrong-chapter swap or whole-title pull.
+    '11-110-103'->'11-110'  '43-12-1'->'43-12'  '501.001'->'501'  'NRS 683A.020'->'NRS 683A'."""
+    return re.sub(r"[.\-]\d+(?:\.\d+)?\s*$", "", str(cite)).strip() or str(cite)
+
+
+def _obviously_legit(new_d: dict, old_d: dict) -> bool:
+    """True iff a held (REGRESSION-flagged) change is safe to AUTO-ACCEPT without human
+    review — a legit amendment/renumbering rather than a bad pull. All four must hold:
+      * new has >= the committed error-free section count (didn't SHRINK — a shrink could be
+        a partial fetch or a repeal, which we surface for review),
+      * new has >= ~the committed char volume (didn't COLLAPSE),
+      * new has NO error sections (clean fetch), and
+      * the new pull's CHAPTER set == the committed one (no wrong-chapter swap, no
+        whole-title over-pull, no dropped chapter).
+    money_transmitter/CO (28->47, same article-110, clean) passes; a shrink / chapter-swap /
+    collapse / partial does not."""
+    new_secs = new_d.get("sections") or []
+    old_secs = old_d.get("sections") or []
+    new_ok = [s for s in new_secs if not s.get("error")]
+    old_ok = [s for s in old_secs if not s.get("error")]
+    if not old_ok or len(new_ok) < len(old_ok):
+        return False
+    if any(s.get("error") for s in new_secs):          # a clean fetch has no error sections
+        return False
+    # chars from section TEXT directly (not the total_chars field, which may be unset/stale)
+    new_chars = sum(len(s.get("text") or "") for s in new_ok)
+    old_chars = sum(len(s.get("text") or "") for s in old_ok)
+    if new_chars < old_chars * 0.9:                    # text collapsed -> review
+        return False
+    new_sigs = {_chapter_sig(_cite(s)) for s in new_ok}
+    old_sigs = {_chapter_sig(_cite(s)) for s in old_ok}
+    return bool(new_sigs) and new_sigs == old_sigs
 
 
 # ---------------------------------------------------------------------------
@@ -525,12 +566,18 @@ def refresh_item(profession: str, state: str, rows: list[dict], *,
     #    (a genuine recodification that really did remove sections).
     if not force:
         reason = pull_text._is_regression(new_d, old_d)
-        if reason:
+        if reason and not _obviously_legit(new_d, old_d):
             rec["result"] = "REGRESSION"
             rec["reason"] = reason
             stage_pending(run_id, profession, state, new_d, rec)  # keep the candidate for review
             revert(out_path, has_head)
             return rec
+        if reason:
+            # A clean, same-chapter, non-shrinking change (amendment / renumbering, e.g.
+            # money_transmitter/CO 28->47) — the whole point of the annual refresh is to take
+            # these. Auto-accept it instead of parking it for review; the ambiguous cases
+            # (shrink / chapter-swap / collapse / partial) still get held above.
+            rec["auto_accepted"] = reason
 
     # 4. Same statute content as HEAD (ignoring serialization / schema drift like a
     #    new null field) → nothing substantive changed. Discard the byte-only rewrite
@@ -544,6 +591,8 @@ def refresh_item(profession: str, state: str, rows: list[dict], *,
     msg = f"data: refresh {profession}/{state} — {prev_n}->{n} sections"
     if force and new_ok < prev_ok:
         msg += " [--force over regression]"
+    elif rec.get("auto_accepted"):
+        msg += " [auto-accepted: clean same-chapter change]"
     commit(out_path, msg)
     rec["result"] = "OK"
     rec["per_chapter"] = sections_per_chapter(chapter_urls, sections)
@@ -939,10 +988,6 @@ def run(professions: list[str], only_states: set[str], *, force: bool, cap: int 
 # ---------------------------------------------------------------------------
 # Review + approve of held (candidate) changes
 # ---------------------------------------------------------------------------
-def _cite(s: dict) -> str:
-    return str(s.get("citation") or s.get("id") or s.get("label") or s.get("url", "?"))
-
-
 def _load_pending(run_id: str) -> list[dict]:
     d = PENDING_DIR / run_id
     if not d.exists():

@@ -29,3 +29,24 @@ def test_stage_then_load_and_review(tmp_path, monkeypatch):
     # no-op when run_id is unset (ad-hoc single pull leaves no artifact)
     rc.stage_pending(None, "x", "Y", new, {})
     assert not (tmp_path / "pending" / "None").exists()
+
+
+def _c(cites, chars=200):
+    return {"sections": [{"citation": c, "text": "x" * chars} for c in cites]}
+
+
+def test_obviously_legit_accepts_clean_same_chapter_growth():
+    old = _c(["11-110-101", "11-110-102", "11-110-103"])
+    # amendment/renumber within the same chapter, grew + clean -> auto-accept
+    assert rc._obviously_legit(_c(["11-110-101", "11-110-301", "11-110-302", "11-110-303"]), old)
+    assert rc._obviously_legit(_c(["11-110-1", "11-110-2", "11-110-3"]), old)  # same-count renumber
+
+
+def test_obviously_legit_holds_ambiguous():
+    old = _c(["11-110-101", "11-110-102", "11-110-103"])
+    assert not rc._obviously_legit(_c(["11-110-101"]), old)                       # shrink
+    assert not rc._obviously_legit(_c(["42-1-1", "42-1-2", "42-1-3", "42-1-4"]), old)  # chapter swap
+    assert not rc._obviously_legit(_c(["11-110-1", "11-110-2", "11-110-3"], chars=10), old)  # collapse
+    dirty = _c(["11-110-1", "11-110-2", "11-110-3"]) 
+    dirty["sections"].append({"citation": "11-110-4", "text": "", "error": "bad"})
+    assert not rc._obviously_legit(dirty, old)                                    # error section
