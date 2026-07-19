@@ -217,6 +217,35 @@ class TestRegressionGuard:
                               force=False, cap=None, timeout_s=60)
         assert rec["result"] == "OK"  # content preserved -> committed, not REGRESSION
 
+    def test_furniture_only_change_is_nochange(self, repo, monkeypatch):
+        # The committed corpus and the new pull carry the SAME statute but DIFFERENT
+        # Justia furniture — a bumped version-list year + a fresh annotation apparatus.
+        # Change-detection compares CLEANED text, so this is NOCHANGE (not re-committed),
+        # even though the raw bytes differ. Regression guard for the 2026-07-18 CO chrome
+        # auto-commit.
+        root, idx_dir, text_dir = repo
+
+        def mk(secs):
+            return StateCorpus(
+                state="CA", profession="med", chapter_urls=[CH],
+                sections=[Section(url=u, label="l", citation=c, text=t, text_len=len(t))
+                          for (u, c, t) in secs],
+                total_chars=sum(len(t) for _, _, t in secs))
+
+        _write_index(idx_dir, "med", {"CA": {"matched": [{"url": CH}]}})
+        statute = "A person shall not practice without a license."
+        old = mk([(CH + "s1", "ch-1/s1",
+                   f"Go to Other Versions\n2024 Colorado Rev. Stat.\nView All Versions\n{statute}")])
+        _commit_corpus(root, text_dir, "med", "CA", asdict(old))
+        # New pull: newer version year + a Colorado annotation apparatus appended.
+        new = mk([(CH + "s1", "ch-1/s1",
+                   f"Go to Other Versions\n2025 Colorado Rev. Stat.\nView All Versions\n{statute}\n"
+                   "Annotations\nHierarchy Notes:\nC.R.S. Title 12\nANNOTATION\nSmith v. Board.")])
+        monkeypatch.setattr(rc.pull_text, "pull_state", lambda *a, **k: new)
+        rec = rc.refresh_item("med", "CA", [{"chapter_url": CH}],
+                              force=False, cap=None, timeout_s=60)
+        assert rec["result"] == "NOCHANGE", rec
+
     def test_transient_fetch_error_is_retried(self, repo, monkeypatch):
         # A transient shows up as a FETCH ERROR on a section; that IS retried, and
         # the clean second attempt is what counts. (A clean-but-short pull is not

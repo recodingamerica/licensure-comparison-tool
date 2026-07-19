@@ -63,6 +63,7 @@ except ImportError:  # optional — falls back to one line per cell
 from pipeline.paths import RESULTS_DIR, PROFESSION_INDEX_DIR, TEXT_DIR, LOGS_DIR
 from pipeline.ingest import pull_text
 from pipeline.ingest import nj_flat
+from pipeline.ingest import clean_text
 from pipeline.config.loaders import all_profession_ids, matched_for
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -210,6 +211,36 @@ def same_corpus_content(new_d: dict, old_d: dict) -> bool:
             for s in (d.get("sections") or [])
         ]
     return bool(old_d) and _proj(new_d) == _proj(old_d)
+
+
+def _cleaned_for_compare(d: dict) -> dict:
+    """A shallow corpus copy whose section `text` is run through clean_text's source
+    cleaner (nav/version/annotation furniture stripped) and whose char fields are
+    recomputed to match — used ONLY for change-detection, never written to disk.
+
+    The raw text/ corpus is always full of source furniture that clean_text strips
+    downstream (version-nav year lists, disclaimers, the Colorado annotation
+    apparatus). Diffing/guarding on RAW text therefore can't tell a real amendment
+    from pure nav churn (Justia adding a "2025" version line) or new template chrome,
+    so `_obviously_legit` would auto-commit furniture as if it were statute. Comparing
+    CLEANED text makes those non-changes read as NOCHANGE. Found 2026-07-18 when a CO
+    re-pull auto-committed annotation-template chrome across 9 cells."""
+    if not d:
+        return d
+    out = dict(d)
+    secs = []
+    total = 0
+    for s in d.get("sections") or []:
+        s2 = dict(s)
+        if not s2.get("error"):
+            txt = clean_text.cleaner_for(s2.get("url") or "")(s2.get("text") or "")
+            s2["text"] = txt
+            s2["text_len"] = len(txt)
+            total += len(txt)
+        secs.append(s2)
+    out["sections"] = secs
+    out["total_chars"] = total
+    return out
 
 
 def prior_committed(path: Path) -> dict | None:
@@ -561,12 +592,19 @@ def refresh_item(profession: str, state: str, rows: list[dict], *,
         rec["empty_chapters"] = empties
         return rec
 
+    # Change-detection compares CLEANED text (nav/version/annotation furniture
+    # stripped), NOT the raw pull — else Justia nav churn (a new version-list year)
+    # or the Colorado annotation template reads as a statute change. See
+    # _cleaned_for_compare. The RAW new_d is still what gets committed to text/.
+    new_cmp = _cleaned_for_compare(new_d)
+    old_cmp = _cleaned_for_compare(old_d)
+
     # 3. Shrink / text-collapse vs the committed corpus → REGRESSION. The SAME gate
     #    the interactive puller uses (pull_text._is_regression). --force accepts it
     #    (a genuine recodification that really did remove sections).
     if not force:
-        reason = pull_text._is_regression(new_d, old_d)
-        if reason and not _obviously_legit(new_d, old_d):
+        reason = pull_text._is_regression(new_cmp, old_cmp)
+        if reason and not _obviously_legit(new_cmp, old_cmp):
             rec["result"] = "REGRESSION"
             rec["reason"] = reason
             stage_pending(run_id, profession, state, new_d, rec)  # keep the candidate for review
@@ -580,9 +618,9 @@ def refresh_item(profession: str, state: str, rows: list[dict], *,
             rec["auto_accepted"] = reason
 
     # 4. Same statute content as HEAD (ignoring serialization / schema drift like a
-    #    new null field) → nothing substantive changed. Discard the byte-only rewrite
-    #    so an unchanged statute isn't re-committed as "updated" on the annual run.
-    if same_corpus_content(new_d, old_d):
+    #    new null field, AND source furniture churn) → nothing substantive changed.
+    #    Discard the rewrite so an unchanged statute isn't re-committed on the annual run.
+    if same_corpus_content(new_cmp, old_cmp):
         revert(out_path, has_head)
         rec["result"] = "NOCHANGE"
         return rec
