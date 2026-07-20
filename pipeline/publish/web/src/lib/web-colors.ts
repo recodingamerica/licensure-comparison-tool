@@ -118,3 +118,42 @@ export const FAMILY_CLASSES: Record<FamilyHue, HueClasses> = {
     "dot": "bg-lime-500"
   }
 };
+
+// Concrete color values for JS consumers (SVG map fills, d3 scales) that can't
+// use a CSS var(). Prefer the CSS custom properties (var(--<token>)) for HTML;
+// use these where a real value is required. `token(name)` reads the current
+// theme's value off the CSS custom property, falling back to the light value.
+export type ColorToken = "scope-has" | "scope-none" | "scope-focus" | "scope-focus-weak" | "map-no-data" | "map-ramp-lo" | "map-ramp-hi";
+
+export const COLOR_TOKENS: { light: Record<string, string>; dark: Record<string, string> } = {
+  light: {
+  "scope-has": "#14b8a6",
+  "scope-none": "#eceff2",
+  "scope-focus": "#d97706",
+  "scope-focus-weak": "#fdf1e3",
+  "map-no-data": "#e5e7eb",
+  "map-ramp-lo": "#dbeafe",
+  "map-ramp-hi": "#1e3a8a"
+},
+  dark: {
+  "scope-has": "#2dd4bf",
+  "scope-none": "#1b1f26",
+  "scope-focus": "#f59e0b",
+  "scope-focus-weak": "#2a2114",
+  "map-no-data": "#e5e7eb",
+  "map-ramp-lo": "#dbeafe",
+  "map-ramp-hi": "#1e3a8a"
+},
+};
+
+export const MAP_PALETTE = ["#0ea5e9", "#10b981", "#f59e0b", "#ef4444", "#8b5cf6", "#ec4899", "#14b8a6", "#f97316", "#6366f1", "#84cc16", "#a855f7", "#06b6d4"] as const;
+
+export function token(name: ColorToken): string {
+  if (typeof document !== "undefined") {
+    const v = getComputedStyle(document.documentElement)
+      .getPropertyValue(`--${name}`)
+      .trim();
+    if (v) return v;
+  }
+  return COLOR_TOKENS.light[name];
+}
