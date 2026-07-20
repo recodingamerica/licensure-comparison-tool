@@ -76,6 +76,17 @@ const semanticSolid = Object.fromEntries(
   ]),
 );
 
+// Category palettes: value → hue maps → value → HueClasses.
+const categoryPalettes = cfg.category_palettes ?? {};
+const categoryClasses = Object.fromEntries(
+  Object.entries(categoryPalettes).map(([name, map]) => [
+    name,
+    Object.fromEntries(
+      Object.entries(map).map(([value, hue]) => [value, hueClasses(hue)]),
+    ),
+  ]),
+);
+
 const out = `// GENERATED FROM pipeline/config/web_colors.yaml by scripts/generate-colors.mjs.
 // Do not edit by hand — edit the yaml and re-run \`npm run predev\` or
 // \`node scripts/generate-colors.mjs\`.
@@ -133,6 +144,13 @@ export const SEMANTIC_CLASSES: Record<SemanticRole, HueClasses> = ${JSON.stringi
 
 export const SEMANTIC_SOLID: Record<SemanticRole, SolidClasses> = ${JSON.stringify(
   semanticSolid,
+  null,
+  2,
+)};
+
+// Category palettes — value → HueClasses, per named palette (see config yaml).
+export const CATEGORY_CLASSES: Record<string, Record<string, HueClasses>> = ${JSON.stringify(
+  categoryClasses,
   null,
   2,
 )};

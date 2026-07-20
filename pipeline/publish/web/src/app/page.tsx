@@ -7,6 +7,7 @@ import type { ProfessionsListEntry } from "@/lib/types";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { professionStyle, useProfessionMeta } from "@/lib/profession-colors";
 import { UsMap, NO_DATA_FILL } from "@/components/us-map";
+import { token } from "@/lib/web-colors";
 
 type StatesListEntry = {
   state: string;
@@ -32,7 +33,7 @@ function StateMap({
   // Uniform fill — the map is for navigation, not encoding. States with no
   // data fall through to NO_DATA_FILL (zinc-200).
   const colorFor = (state: string) =>
-    byState.has(state) ? "#bfdbfe" : NO_DATA_FILL;
+    byState.has(state) ? token("nav-fill") : NO_DATA_FILL;
 
   if (!states && !error)
     return <p className="text-sm text-muted-foreground">Loading…</p>;
