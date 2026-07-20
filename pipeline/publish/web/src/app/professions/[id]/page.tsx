@@ -12,6 +12,7 @@
 
 import { Suspense, use, useEffect, useMemo, useState } from "react";
 import { BackLink } from "@/components/ui/back-link";
+import { ErrorBanner } from "@/components/ui/error-banner";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import type { ProfilePayload } from "@/lib/types";
 import { ProfileView } from "@/components/profile-view";
@@ -105,9 +106,7 @@ function ProfessionInner({ params }: { params: Promise<{ id: string }> }) {
       </header>
 
       {error && (
-        <div className="rounded border border-destructive bg-destructive/5 px-4 py-3 text-sm text-destructive">
-          {error}
-        </div>
+        <ErrorBanner>{error}</ErrorBanner>
       )}
 
       <Tabs value={view} onValueChange={(v) => setView(v as View)}>

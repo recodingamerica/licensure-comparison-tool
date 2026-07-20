@@ -14,10 +14,13 @@
 // pattern as /profile.
 
 import { Suspense, use } from "react";
-import Link from "next/link";
 import type { BrowsePayload } from "@/lib/types";
 import type { TreeNode } from "@/components/browse/tree-node";
 import { BrowseClient } from "@/components/browse/browse-client";
+import {
+  BrowseErrorMain,
+  BrowseLoadingMain,
+} from "@/components/browse/browse-page-shell";
 import { useJsonData } from "@/lib/use-json-data";
 
 type Params = Promise<{ state: string; prof: string }>;
@@ -33,21 +36,8 @@ function BrowseInner({ params }: { params: Params }) {
     `No browse data for ${prof}/${state}`,
   );
 
-  if (error) {
-    return (
-      <main className="mx-auto max-w-2xl px-6 py-12">
-        <p className="text-sm text-destructive">{error}</p>
-        <Link href="/" className="text-xs underline mt-4 block">← home</Link>
-      </main>
-    );
-  }
-  if (!payload) {
-    return (
-      <main className="mx-auto max-w-2xl px-6 py-12">
-        <p className="text-xs text-muted-foreground">Loading…</p>
-      </main>
-    );
-  }
+  if (error) return <BrowseErrorMain error={error} />;
+  if (!payload) return <BrowseLoadingMain />;
 
   return (
     <BrowseClient
@@ -61,13 +51,7 @@ function BrowseInner({ params }: { params: Params }) {
 
 export default function Page({ params }: { params: Params }) {
   return (
-    <Suspense
-      fallback={
-        <main className="mx-auto max-w-2xl px-6 py-12">
-          <p className="text-xs text-muted-foreground">Loading…</p>
-        </main>
-      }
-    >
+    <Suspense fallback={<BrowseLoadingMain />}>
       <BrowseInner params={params} />
     </Suspense>
   );

@@ -2,22 +2,10 @@
 
 import { BackLink } from "@/components/ui/back-link";
 import { Eyebrow } from "@/components/ui/eyebrow";
+import { ErrorBanner } from "@/components/ui/error-banner";
 import { useEffect, useState, type ReactNode } from "react";
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-} from "@/components/ui/sheet";
-import { Button } from "@/components/ui/button";
-import {
-  type Tag,
-  type SubField,
-  type Field,
-  type ProfData,
-  groupByBucket,
-} from "@/lib/tag-sheet";
+import { type Field, type ProfData } from "@/lib/tag-sheet";
+import { TagBreakdownSheet } from "@/components/tag-breakdown-sheet";
 
 // Shape of `public/data/tag_sheet.json` — produced by
 // `python -m pipeline.publish.build_tag_sheet`. The tag-sheet page adds
@@ -38,12 +26,6 @@ function profLabel(key: string): string {
     .split("_")
     .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
     .join(" ");
-}
-
-function tagSummary(tag: Tag, kind: "scalar" | "per_item"): string {
-  return kind === "per_item" && tag.states !== undefined
-    ? `${tag.count} items across ${tag.states} states`
-    : `${tag.count} states`;
 }
 
 export default function TagSheetPage() {
@@ -98,9 +80,7 @@ export default function TagSheetPage() {
       </p>
 
       {error && (
-        <div className="rounded border border-destructive bg-destructive/5 px-4 py-3 text-sm text-destructive">
-          Failed to load tag sheet: {error}
-        </div>
+        <ErrorBanner>Failed to load tag sheet: {error}</ErrorBanner>
       )}
 
       {!data && !error && (
@@ -173,7 +153,17 @@ export default function TagSheetPage() {
         </>
       )}
 
-      <BreakdownPanel target={panel} onClose={() => setPanel(null)} />
+      <TagBreakdownSheet
+        field={panel?.field ?? null}
+        tagLabel={panel?.tagLabel ?? null}
+        description={
+          panel
+            ? `${profLabel(panel.profession)} — full per-state breakdown`
+            : ""
+        }
+        copyHeader={panel ? profLabel(panel.profession) : undefined}
+        onClose={() => setPanel(null)}
+      />
     </main>
   );
 }
@@ -232,128 +222,5 @@ function FieldBlock({
         </div>
       ))}
     </section>
-  );
-}
-
-// Builds a plain-text dump of the whole field's breakdown for copy-paste.
-function breakdownText(target: PanelTarget): string {
-  const lines: string[] = [
-    `${target.field.label} — ${profLabel(target.profession)}`,
-  ];
-  for (const sf of target.field.subfields) {
-    lines.push("", sf.field_name);
-    const byBucket = groupByBucket(sf);
-    for (const tag of sf.tags) {
-      lines.push(`  ${tag.label} (${tagSummary(tag, sf.kind)})`);
-      for (const m of byBucket.get(tag.label) ?? []) {
-        lines.push(`    ${m.state}  ${m.text}`);
-      }
-    }
-  }
-  return lines.join("\n");
-}
-
-function BreakdownPanel({
-  target,
-  onClose,
-}: {
-  target: PanelTarget | null;
-  onClose: () => void;
-}) {
-  const [copied, setCopied] = useState(false);
-
-  // Reset the "Copied" affordance whenever the panel target changes.
-  useEffect(() => {
-    setCopied(false);
-  }, [target]);
-
-  const copy = () => {
-    if (!target) return;
-    navigator.clipboard
-      .writeText(breakdownText(target))
-      .then(() => setCopied(true))
-      .catch(() => setCopied(false));
-  };
-
-  return (
-    <Sheet open={!!target} onOpenChange={(open) => !open && onClose()}>
-      <SheetContent
-        side="right"
-        className="w-full sm:max-w-md lg:max-w-xl flex flex-col p-0"
-      >
-        {target && (
-          <>
-            <SheetHeader className="border-b px-6 py-4 flex-shrink-0 bg-background">
-              <SheetTitle className="text-lg">{target.field.label}</SheetTitle>
-              <SheetDescription>
-                {profLabel(target.profession)} — full per-state breakdown
-              </SheetDescription>
-              <div className="mt-2">
-                <Button variant="outline" size="sm" onClick={copy}>
-                  {copied ? "Copied ✓" : "Copy all"}
-                </Button>
-              </div>
-            </SheetHeader>
-
-            <div className="flex-1 overflow-auto px-6 py-4 space-y-6">
-              {target.field.subfields.map((sf) => {
-                const byBucket = groupByBucket(sf);
-                return (
-                  <div key={sf.field_name}>
-                    <p className="text-xs font-mono text-muted-foreground mb-3">
-                      {sf.field_name} · {sf.unit} per tag
-                    </p>
-                    <div className="space-y-4">
-                      {sf.tags.map((tag) => {
-                        const members = byBucket.get(tag.label) ?? [];
-                        const isFocus = tag.label === target.tagLabel;
-                        return (
-                          <div
-                            key={tag.label}
-                            className={
-                              isFocus
-                                ? "rounded-md border border-foreground/30 bg-muted/40 p-3"
-                                : "rounded-md border p-3"
-                            }
-                          >
-                            <p className="text-sm font-medium mb-2">
-                              {tag.label}{" "}
-                              <span className="font-normal text-muted-foreground">
-                                — {tagSummary(tag, sf.kind)}
-                              </span>
-                            </p>
-                            {members.length > 0 ? (
-                              <ul className="space-y-1.5">
-                                {members.map((m, i) => (
-                                  <li
-                                    key={`${m.state}-${i}`}
-                                    className="text-xs leading-snug"
-                                  >
-                                    <span className="font-mono font-semibold mr-1.5">
-                                      {m.state}
-                                    </span>
-                                    <span className="text-muted-foreground">
-                                      {m.text}
-                                    </span>
-                                  </li>
-                                ))}
-                              </ul>
-                            ) : (
-                              <p className="text-xs text-muted-foreground">
-                                No member detail recorded.
-                              </p>
-                            )}
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </>
-        )}
-      </SheetContent>
-    </Sheet>
   );
 }

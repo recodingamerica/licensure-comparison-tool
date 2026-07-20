@@ -11,32 +11,13 @@
 // of a cramped hover popover that was hard to read in depth.
 
 import { useEffect, useState } from "react";
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-} from "@/components/ui/sheet";
-import { Button } from "@/components/ui/button";
 import { Eyebrow } from "@/components/ui/eyebrow";
-import {
-  type Tag,
-  type SubField,
-  type Field,
-  type ProfData,
-  groupByBucket,
-} from "@/lib/tag-sheet";
+import { type Field, type ProfData } from "@/lib/tag-sheet";
+import { TagBreakdownSheet } from "@/components/tag-breakdown-sheet";
 
 type Payload = { generated_at: string; data: ProfData[] };
 
 type PanelTarget = { field: Field; tagLabel: string };
-
-function tagSummary(tag: Tag, kind: SubField["kind"]): string {
-  return kind === "per_item" && tag.states !== undefined
-    ? `${tag.count} grounds across ${tag.states} states`
-    : `${tag.count} states`;
-}
 
 export function ProfileTags({ professionId }: { professionId: string }) {
   const [prof, setProf] = useState<ProfData | null>(null);
@@ -114,8 +95,12 @@ export function ProfileTags({ professionId }: { professionId: string }) {
       )}
 
       <TagBreakdownSheet
-        target={panel}
-        profession={prof.profession}
+        field={panel?.field ?? null}
+        tagLabel={panel?.tagLabel ?? null}
+        description={
+          panel ? `${prof.profession} — full per-state breakdown` : ""
+        }
+        noun="grounds"
         onClose={() => setPanel(null)}
       />
     </div>
@@ -174,128 +159,5 @@ function FieldBlock({
         </div>
       ))}
     </section>
-  );
-}
-
-// Plain-text dump of a field's whole breakdown for copy-paste.
-function breakdownText(field: Field): string {
-  const lines: string[] = [field.label];
-  for (const sf of field.subfields) {
-    lines.push("", sf.field_name);
-    const byBucket = groupByBucket(sf);
-    for (const tag of sf.tags) {
-      lines.push(`  ${tag.label} (${tagSummary(tag, sf.kind)})`);
-      for (const m of byBucket.get(tag.label) ?? []) {
-        lines.push(`    ${m.state}  ${m.text}`);
-      }
-    }
-  }
-  return lines.join("\n");
-}
-
-function TagBreakdownSheet({
-  target,
-  profession,
-  onClose,
-}: {
-  target: PanelTarget | null;
-  profession: string;
-  onClose: () => void;
-}) {
-  const [copied, setCopied] = useState(false);
-
-  // Reset the "Copied" affordance whenever the panel target changes.
-  useEffect(() => {
-    setCopied(false);
-  }, [target]);
-
-  const copy = () => {
-    if (!target) return;
-    navigator.clipboard
-      .writeText(breakdownText(target.field))
-      .then(() => setCopied(true))
-      .catch(() => setCopied(false));
-  };
-
-  return (
-    <Sheet open={!!target} onOpenChange={(open) => !open && onClose()}>
-      <SheetContent
-        side="right"
-        className="w-full sm:max-w-md lg:max-w-xl flex flex-col p-0"
-      >
-        {target && (
-          <>
-            <SheetHeader className="border-b px-6 py-4 flex-shrink-0 bg-background">
-              <SheetTitle className="text-lg">{target.field.label}</SheetTitle>
-              <SheetDescription>
-                {profession} — full per-state breakdown
-              </SheetDescription>
-              <div className="mt-2">
-                <Button variant="outline" size="sm" onClick={copy}>
-                  {copied ? "Copied ✓" : "Copy all"}
-                </Button>
-              </div>
-            </SheetHeader>
-
-            <div className="flex-1 overflow-auto px-6 py-4 space-y-6">
-              {target.field.subfields.map((sf) => {
-                const byBucket = groupByBucket(sf);
-                return (
-                  <div key={sf.field_name}>
-                    <p className="text-xs font-mono text-muted-foreground mb-3">
-                      {sf.field_name} · {sf.unit} per tag
-                    </p>
-                    <div className="space-y-4">
-                      {sf.tags.map((tag) => {
-                        const members = byBucket.get(tag.label) ?? [];
-                        const isFocus = tag.label === target.tagLabel;
-                        return (
-                          <div
-                            key={tag.label}
-                            className={
-                              isFocus
-                                ? "rounded-md border border-foreground/30 bg-muted/40 p-3"
-                                : "rounded-md border p-3"
-                            }
-                          >
-                            <p className="text-sm font-medium mb-2">
-                              {tag.label}{" "}
-                              <span className="font-normal text-muted-foreground">
-                                — {tagSummary(tag, sf.kind)}
-                              </span>
-                            </p>
-                            {members.length > 0 ? (
-                              <ul className="space-y-1.5">
-                                {members.map((m, i) => (
-                                  <li
-                                    key={`${m.state}-${i}`}
-                                    className="text-xs leading-snug"
-                                  >
-                                    <span className="font-mono font-semibold mr-1.5">
-                                      {m.state}
-                                    </span>
-                                    <span className="text-muted-foreground">
-                                      {m.text}
-                                    </span>
-                                  </li>
-                                ))}
-                              </ul>
-                            ) : (
-                              <p className="text-xs text-muted-foreground">
-                                No member detail recorded.
-                              </p>
-                            )}
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </>
-        )}
-      </SheetContent>
-    </Sheet>
   );
 }

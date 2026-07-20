@@ -9,6 +9,7 @@ import { professionStyle, useProfessionMeta } from "@/lib/profession-colors";
 import { UsMap, NO_DATA_FILL } from "@/components/us-map";
 import { token } from "@/lib/web-colors";
 import { Eyebrow } from "@/components/ui/eyebrow";
+import { ErrorBanner } from "@/components/ui/error-banner";
 
 type StatesListEntry = {
   state: string;
@@ -171,9 +172,7 @@ export default function HomePage() {
       </div>
 
       {error && (
-        <div className="rounded border border-destructive bg-destructive/5 px-4 py-3 text-sm text-destructive">
-          Failed to load list data: {error}
-        </div>
+        <ErrorBanner>Failed to load list data: {error}</ErrorBanner>
       )}
 
       {mode === "profession" && (

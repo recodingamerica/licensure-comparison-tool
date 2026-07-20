@@ -10,8 +10,11 @@
 // single-prof shows if its profession is selected.
 
 import { Suspense, use } from "react";
-import Link from "next/link";
 import { StateBrowseClient } from "@/components/browse/state-browse-client";
+import {
+  BrowseErrorMain,
+  BrowseLoadingMain,
+} from "@/components/browse/browse-page-shell";
 import type { StateBrowsePayload } from "@/lib/state-browse-types";
 import { useJsonData } from "@/lib/use-json-data";
 
@@ -25,34 +28,15 @@ function StateBrowseInner({ params }: { params: Params }) {
     `No state data for ${state}`,
   );
 
-  if (error) {
-    return (
-      <main className="mx-auto max-w-2xl px-6 py-12">
-        <p className="text-sm text-destructive">{error}</p>
-        <Link href="/" className="text-xs underline mt-4 block">← home</Link>
-      </main>
-    );
-  }
-  if (!payload) {
-    return (
-      <main className="mx-auto max-w-2xl px-6 py-12">
-        <p className="text-xs text-muted-foreground">Loading…</p>
-      </main>
-    );
-  }
+  if (error) return <BrowseErrorMain error={error} />;
+  if (!payload) return <BrowseLoadingMain />;
 
   return <StateBrowseClient payload={payload} />;
 }
 
 export default function Page({ params }: { params: Params }) {
   return (
-    <Suspense
-      fallback={
-        <main className="mx-auto max-w-2xl px-6 py-12">
-          <p className="text-xs text-muted-foreground">Loading…</p>
-        </main>
-      }
-    >
+    <Suspense fallback={<BrowseLoadingMain />}>
       <StateBrowseInner params={params} />
     </Suspense>
   );

@@ -30,3 +30,37 @@ export function groupByBucket(sf: SubField): Map<string, Assignment[]> {
   }
   return byBucket;
 }
+
+// One-line summary of a tag. `noun` names the per-item unit — "items" generically,
+// "grounds" in the discipline (profile) context.
+export function tagSummary(
+  tag: Tag,
+  kind: SubField["kind"],
+  noun = "items",
+): string {
+  return kind === "per_item" && tag.states !== undefined
+    ? `${tag.count} ${noun} across ${tag.states} states`
+    : `${tag.count} states`;
+}
+
+// Plain-text dump of a field's whole breakdown for copy-paste. `header` (when
+// given) is appended to the field label as a first line, e.g. the profession name.
+export function breakdownText(
+  field: Field,
+  opts?: { header?: string; noun?: string },
+): string {
+  const lines: string[] = [
+    opts?.header ? `${field.label} — ${opts.header}` : field.label,
+  ];
+  for (const sf of field.subfields) {
+    lines.push("", sf.field_name);
+    const byBucket = groupByBucket(sf);
+    for (const tag of sf.tags) {
+      lines.push(`  ${tag.label} (${tagSummary(tag, sf.kind, opts?.noun)})`);
+      for (const m of byBucket.get(tag.label) ?? []) {
+        lines.push(`    ${m.state}  ${m.text}`);
+      }
+    }
+  }
+  return lines.join("\n");
+}
