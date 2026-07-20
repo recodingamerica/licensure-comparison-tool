@@ -8,7 +8,8 @@ import {
   useRef,
   useState,
 } from "react";
-import Link from "next/link";
+import { BackLink } from "@/components/ui/back-link";
+import { Eyebrow } from "@/components/ui/eyebrow";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { AgGridReact, useGridFilter } from "ag-grid-react";
@@ -1865,16 +1866,9 @@ export function ProfileView({
     <Wrapper className={embedded ? "" : "mx-auto max-w-7xl px-6 py-10"}>
       {!embedded && (
         <>
-          <Link
-            href="/"
-            className="text-xs font-mono uppercase tracking-widest text-muted-foreground hover:text-foreground"
-          >
-            ← all professions
-          </Link>
+          <BackLink href="/">all professions</BackLink>
 
-          <p className="mt-6 text-xs font-mono tracking-widest uppercase text-muted-foreground">
-            Profession profile
-          </p>
+          <Eyebrow className="mt-6">Profession profile</Eyebrow>
           <h1 className="text-3xl font-semibold tracking-tight mt-1 mb-2">
             {display}
           </h1>

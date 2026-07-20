@@ -9,8 +9,9 @@
 // easy to see at a glance what we have for each (state, profession) pair.
 // Click a state to drill into its umbrella sections.
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import Link from "next/link";
+import { useJsonData } from "@/lib/use-json-data";
 import { Badge } from "@/components/ui/badge";
 import { Combobox, type ComboboxOption } from "@/components/ui/combobox";
 import { humanize as fmtProf } from "@/lib/format";
@@ -31,19 +32,11 @@ type IndexPayload = {
 
 
 export default function UmbrellaIndexPage() {
-  const [data, setData] = useState<IndexPayload | null>(null);
-  const [err, setErr] = useState<string | null>(null);
+  const { data, error: err } = useJsonData<IndexPayload>(
+    "/data/umbrella/_index.json",
+    "missing /data/umbrella/_index.json — run build_umbrella_browse",
+  );
   const [profFilter, setProfFilter] = useState<string>("");
-
-  useEffect(() => {
-    fetch("/data/umbrella/_index.json")
-      .then((r) => {
-        if (!r.ok) throw new Error("missing /data/umbrella/_index.json — run build_umbrella_browse");
-        return r.json();
-      })
-      .then(setData)
-      .catch((e) => setErr(String(e)));
-  }, []);
 
   const rows = useMemo(() => {
     if (!data) return [];

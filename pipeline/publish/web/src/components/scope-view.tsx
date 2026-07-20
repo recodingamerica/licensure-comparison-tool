@@ -7,8 +7,9 @@
 // (built by pipeline/publish/build_scope_capabilities.py). Colors come from the
 // token source (config/web_colors.yaml -> var(--scope-*) / token()).
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { UsMap } from "@/components/us-map";
+import { useJsonData } from "@/lib/use-json-data";
 import { token } from "@/lib/web-colors";
 import { STATE_CODES as STATES, FOCUS_STATE as FOCUS } from "@/lib/states";
 
@@ -16,21 +17,9 @@ type Capability = { label: string; states: string[] };
 type ScopeData = Record<string, { display: string; capabilities: Capability[] }>;
 
 export function ScopeView({ professionId }: { professionId: string }) {
-  const [all, setAll] = useState<ScopeData | null>(null);
-  const [err, setErr] = useState<string | null>(null);
+  const { data: all, error: err } = useJsonData<ScopeData>("/data/scope_capabilities.json");
   const [n, setN] = useState(15);
   const [sel, setSel] = useState(0);
-
-  useEffect(() => {
-    let cancelled = false;
-    fetch("/data/scope_capabilities.json")
-      .then((r) => (r.ok ? r.json() : Promise.reject(new Error(`HTTP ${r.status}`))))
-      .then((d: ScopeData) => !cancelled && setAll(d))
-      .catch((e) => !cancelled && setErr(String(e)));
-    return () => {
-      cancelled = true;
-    };
-  }, []);
 
   const caps = all?.[professionId]?.capabilities ?? [];
   const shown = useMemo(() => caps.filter((c) => c.states.length >= n), [caps, n]);

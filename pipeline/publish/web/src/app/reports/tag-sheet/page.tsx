@@ -1,6 +1,7 @@
 "use client";
 
-import Link from "next/link";
+import { BackLink } from "@/components/ui/back-link";
+import { Eyebrow } from "@/components/ui/eyebrow";
 import { useEffect, useState, type ReactNode } from "react";
 import {
   Sheet,
@@ -79,16 +80,9 @@ export default function TagSheetPage() {
 
   return (
     <main className="mx-auto max-w-4xl px-6 py-10">
-      <Link
-        href="/"
-        className="text-xs font-mono uppercase tracking-widest text-muted-foreground hover:text-foreground"
-      >
-        ← home
-      </Link>
+      <BackLink href="/">home</BackLink>
 
-      <p className="mt-6 text-xs font-mono tracking-widest uppercase text-muted-foreground">
-        Report
-      </p>
+      <Eyebrow className="mt-6">Report</Eyebrow>
       <h1 className="text-3xl font-semibold tracking-tight mt-1 mb-2">
         Field tag sheet
       </h1>
@@ -186,9 +180,9 @@ export default function TagSheetPage() {
 
 function SectionHeading({ children }: { children: ReactNode }) {
   return (
-    <h2 className="text-xs font-mono uppercase tracking-widest text-muted-foreground border-b pb-2 mt-10 mb-5">
+    <Eyebrow as="h2" className="border-b pb-2 mt-10 mb-5">
       {children}
-    </h2>
+    </Eyebrow>
   );
 }
 
