@@ -32,6 +32,14 @@ import {
 
 type AudienceFilter = "all" | AudienceKind | "unclassified";
 
+// Plain-English gloss for each umbrella tier — Atharv #76 was confused by the
+// bare color dots/counts. Shown in the legend at the top of the view.
+const TIER_HINT: Record<AudienceKind, string> = {
+  universal: "binds every licensee in the state",
+  multi: "shared by several named professions, including this one",
+  single: "applies only to this profession",
+};
+
 type UmbrellaSection = {
   url: string;
   label: string;
@@ -98,31 +106,24 @@ function UmbrellaSectionList({
           <p className="text-xs text-muted-foreground mb-2">
             {ch.slug} · {ch.sections.length} section{ch.sections.length === 1 ? "" : "s"}
           </p>
-          <ul className="space-y-2">
-            {ch.sections.map((s) => (
-              <li key={s.url} className="rounded border p-3">
-                <div className="flex items-start justify-between gap-4">
-                  <a
-                    href={s.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="font-medium underline-offset-2 hover:underline"
-                  >
-                    {s.label}
-                  </a>
-                  <div className="shrink-0">
-                    {unclassified ? (
-                      <Badge variant="outline" className="font-mono text-[10px] text-muted-foreground">
-                        unclassified
-                      </Badge>
-                    ) : s.audience_kind ? (
-                      <AudienceBadge kind={s.audience_kind} />
-                    ) : null}
-                  </div>
-                </div>
-                {s.text && (
-                  <p className="mt-2 text-sm text-muted-foreground line-clamp-3">{s.text}</p>
-                )}
+          <ul className="space-y-1.5">
+            {ch.sections.map((s, i) => (
+              <li key={`${s.url}-${i}`} className="flex items-baseline gap-2 text-sm">
+                <a
+                  href={s.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline-offset-2 hover:underline"
+                >
+                  {s.label}
+                </a>
+                {unclassified ? (
+                  <Badge variant="outline" className="font-mono text-[10px] text-muted-foreground shrink-0">
+                    unclassified
+                  </Badge>
+                ) : s.audience_kind ? (
+                  <AudienceBadge kind={s.audience_kind} />
+                ) : null}
               </li>
             ))}
           </ul>
@@ -144,26 +145,26 @@ function PracticeActSection({
       </p>
     );
   }
+  // Compact "where the statute is" list — citation + linked label, no full
+  // text (Atharv #76: this page is a guide to where the statutes are, not a
+  // reader; the full text lives one click away in the statute tree).
   return (
-    <ul className="space-y-2">
-      {sections.map((s) => (
-        <li key={s.url} className="rounded border p-3">
-          <div className="flex items-start justify-between gap-4">
-            <a
-              href={s.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-medium underline-offset-2 hover:underline"
-            >
-              {s.label || s.citation}
-            </a>
-            <Badge variant="secondary" className="font-mono text-[10px] shrink-0">
-              Practice act
-            </Badge>
-          </div>
-          {s.text && (
-            <p className="mt-2 text-sm text-muted-foreground line-clamp-3">{s.text}</p>
+    <ul className="space-y-1.5">
+      {sections.map((s, i) => (
+        <li key={`${s.url}-${i}`} className="flex items-baseline gap-2 text-sm">
+          {s.citation && (
+            <span className="font-mono text-xs text-muted-foreground shrink-0">
+              {s.citation}
+            </span>
           )}
+          <a
+            href={s.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline-offset-2 hover:underline"
+          >
+            {s.label || s.citation || s.url}
+          </a>
         </li>
       ))}
     </ul>
@@ -186,7 +187,6 @@ function CombinedStateCard({
   profSlug: string;
 }) {
   const practiceCount = row?.sections?.length ?? 0;
-  const chars = row?.section_text_full?.length ?? 0;
   const c = umbrella?.coverage;
   const umbrellaVisible = c
     ? AUDIENCE_KINDS.reduce((sum, k) => sum + (audienceFilter.has(k) ? c[k] : 0), 0)
@@ -207,7 +207,6 @@ function CombinedStateCard({
               <span>
                 <strong className="text-foreground">{practiceCount}</strong> practice-act section
                 {practiceCount === 1 ? "" : "s"}
-                {chars > 0 && <> · {chars.toLocaleString()} chars</>}
               </span>
             )}
             {c && (
@@ -240,13 +239,13 @@ function CombinedStateCard({
         {/* Practice act */}
         {row && row.sections && row.sections.length > 0 && (
           <section>
-            <div className="flex items-baseline justify-between mb-2">
+            <div className="flex items-center justify-between gap-3 mb-2">
               <h3 className="text-sm font-semibold">Practice act</h3>
               <Link
                 href={`/browse/${state}/${profSlug}`}
-                className="text-xs text-muted-foreground underline-offset-2 hover:underline"
+                className="inline-flex items-center gap-1 rounded-md border px-2.5 py-1 text-xs font-medium hover:bg-muted/50 shrink-0"
               >
-                open full statute tree →
+                Full statute tree →
               </Link>
             </div>
             <PracticeActSection sections={row.sections} />
@@ -371,13 +370,38 @@ export function ProfessionStatutesView({
   return (
     <div className="space-y-6">
       <p className="text-sm text-muted-foreground">
-        {merged.length} state{merged.length === 1 ? "" : "s"} with statutes. Per state: the
-        practice-act chapter for this profession plus cross-cutting umbrella sections that
-        also apply.
+        A guide to where this profession&apos;s statutes live across{" "}
+        {merged.length} state{merged.length === 1 ? "" : "s"} — each card lists the
+        practice-act sections and the cross-cutting umbrella statutes that also apply, with a
+        link straight into the full statute tree. Each section links to its full text.
         {u && u.unclassified_in_state > 0 && (
           <> {u.unclassified_in_state} umbrella sections are unclassified across all states.</>
         )}
       </p>
+
+      {/* Legend — spell out the color tiers Atharv #76 found opaque. */}
+      <div className="border rounded bg-muted/20 px-4 py-3 text-xs">
+        <p className="font-medium text-foreground mb-2">What the tiers mean</p>
+        <ul className="grid gap-1.5 sm:grid-cols-2">
+          <li className="flex items-center gap-2">
+            <span className="inline-block w-2 h-2 rounded-full bg-slate-400 shrink-0" />
+            <span className="font-medium">Practice act</span>
+            <span className="text-muted-foreground">— this profession&apos;s own licensing chapter</span>
+          </li>
+          {AUDIENCE_KINDS.map((k) => (
+            <li key={k} className="flex items-center gap-2">
+              <span className={`inline-block w-2 h-2 rounded-full shrink-0 ${AUDIENCE_DOT[k]}`} />
+              <span className="font-medium">{AUDIENCE_LABEL[k]}</span>
+              <span className="text-muted-foreground">— {TIER_HINT[k]}</span>
+            </li>
+          ))}
+          <li className="flex items-center gap-2">
+            <span className="inline-block w-2 h-2 rounded-full bg-amber-500 shrink-0" />
+            <span className="font-medium">Unclassified</span>
+            <span className="text-muted-foreground">— not yet determined who it applies to</span>
+          </li>
+        </ul>
+      </div>
 
       <div className="border rounded bg-muted/30 px-4 py-3 grid grid-cols-1 sm:grid-cols-2 gap-3">
         <label className="flex flex-col gap-1 text-xs">
