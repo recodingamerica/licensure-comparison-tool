@@ -84,3 +84,46 @@ map_palette:
   - "#84cc16"
   - "#a855f7"
   - "#06b6d4"
+
+# ---------------------------------------------------------------------------
+# shadcn/Tailwind BASE THEME tokens (UI chrome: background, text, primary,
+# borders, charts, sidebar…). Migrated here so ALL color values live in this one
+# file. generate-colors.mjs emits these — together with `tokens` above — as the
+# :root (light) + .dark custom properties injected into globals.css. globals.css
+# keeps only the Tailwind wiring (@theme / @layer) that references these vars.
+theme:
+  background:              { light: "oklch(1 0 0)",              dark: "oklch(0.145 0 0)" }
+  foreground:              { light: "oklch(0.145 0 0)",          dark: "oklch(0.985 0 0)" }
+  card:                    { light: "oklch(1 0 0)",              dark: "oklch(0.205 0 0)" }
+  card-foreground:         { light: "oklch(0.145 0 0)",          dark: "oklch(0.985 0 0)" }
+  popover:                 { light: "oklch(1 0 0)",              dark: "oklch(0.205 0 0)" }
+  popover-foreground:      { light: "oklch(0.145 0 0)",          dark: "oklch(0.985 0 0)" }
+  primary:                 { light: "oklch(0.205 0 0)",          dark: "oklch(0.922 0 0)" }
+  primary-foreground:      { light: "oklch(0.985 0 0)",          dark: "oklch(0.205 0 0)" }
+  secondary:               { light: "oklch(0.97 0 0)",           dark: "oklch(0.269 0 0)" }
+  secondary-foreground:    { light: "oklch(0.205 0 0)",          dark: "oklch(0.985 0 0)" }
+  muted:                   { light: "oklch(0.97 0 0)",           dark: "oklch(0.269 0 0)" }
+  muted-foreground:        { light: "oklch(0.556 0 0)",          dark: "oklch(0.708 0 0)" }
+  accent:                  { light: "oklch(0.97 0 0)",           dark: "oklch(0.269 0 0)" }
+  accent-foreground:       { light: "oklch(0.205 0 0)",          dark: "oklch(0.985 0 0)" }
+  destructive:             { light: "oklch(0.577 0.245 27.325)", dark: "oklch(0.704 0.191 22.216)" }
+  border:                  { light: "oklch(0.922 0 0)",          dark: "oklch(1 0 0 / 10%)" }
+  input:                   { light: "oklch(0.922 0 0)",          dark: "oklch(1 0 0 / 15%)" }
+  ring:                    { light: "oklch(0.708 0 0)",          dark: "oklch(0.556 0 0)" }
+  chart-1:                 { light: "oklch(0.87 0 0)",           dark: "oklch(0.87 0 0)" }
+  chart-2:                 { light: "oklch(0.556 0 0)",          dark: "oklch(0.556 0 0)" }
+  chart-3:                 { light: "oklch(0.439 0 0)",          dark: "oklch(0.439 0 0)" }
+  chart-4:                 { light: "oklch(0.371 0 0)",          dark: "oklch(0.371 0 0)" }
+  chart-5:                 { light: "oklch(0.269 0 0)",          dark: "oklch(0.269 0 0)" }
+  sidebar:                 { light: "oklch(0.985 0 0)",          dark: "oklch(0.205 0 0)" }
+  sidebar-foreground:      { light: "oklch(0.145 0 0)",          dark: "oklch(0.985 0 0)" }
+  sidebar-primary:         { light: "oklch(0.205 0 0)",          dark: "oklch(0.488 0.243 264.376)" }
+  sidebar-primary-foreground: { light: "oklch(0.985 0 0)",       dark: "oklch(0.985 0 0)" }
+  sidebar-accent:          { light: "oklch(0.97 0 0)",           dark: "oklch(0.269 0 0)" }
+  sidebar-accent-foreground: { light: "oklch(0.205 0 0)",        dark: "oklch(0.985 0 0)" }
+  sidebar-border:          { light: "oklch(0.922 0 0)",          dark: "oklch(1 0 0 / 10%)" }
+  sidebar-ring:            { light: "oklch(0.708 0 0)",          dark: "oklch(0.556 0 0)" }
+
+# Non-color base tokens that don't change with theme (emitted in :root only).
+theme_static:
+  radius: "0.625rem"

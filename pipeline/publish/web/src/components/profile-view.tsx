@@ -1555,8 +1555,8 @@ function buildColumnDefs(
 
 // ---------- AG Grid theme: Quartz, tuned to read like the rest of the site
 const gridTheme = themeQuartz.withParams({
-  fontFamily:
-    "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif",
+  // Match the rest of the app (Geist) rather than a system font.
+  fontFamily: "var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif",
   fontSize: 14,
   headerFontWeight: 600,
   headerBackgroundColor: "#f8fafc",

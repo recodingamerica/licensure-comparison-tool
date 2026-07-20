@@ -37,6 +37,8 @@ const familyHues = cfg.families;
 const audienceLabels = cfg.audience_labels;
 const tokens = cfg.tokens ?? {};
 const mapPalette = cfg.map_palette ?? [];
+const theme = cfg.theme ?? {}; // shadcn base theme (light/dark)
+const themeStatic = cfg.theme_static ?? {}; // non-color base tokens (radius…)
 
 // Split the {name: {light, dark}} tokens into two flat maps of concrete values.
 const tokenLight = Object.fromEntries(
@@ -44,6 +46,12 @@ const tokenLight = Object.fromEntries(
 );
 const tokenDark = Object.fromEntries(
   Object.entries(tokens).map(([k, v]) => [k, v.dark]),
+);
+const themeLight = Object.fromEntries(
+  Object.entries(theme).map(([k, v]) => [k, v.light]),
+);
+const themeDark = Object.fromEntries(
+  Object.entries(theme).map(([k, v]) => [k, v.dark]),
 );
 
 const audienceClasses = Object.fromEntries(
@@ -130,12 +138,16 @@ const cssLines = (map) =>
     .join("\n");
 const START = "/* @color-tokens:start — generated from config/web_colors.yaml, do not edit */";
 const END = "/* @color-tokens:end */";
+// One place for every color value: shadcn base theme + static tokens + the
+// scope/map value tokens, split into :root (light) and .dark.
+const lightAll = { ...themeLight, ...themeStatic, ...tokenLight };
+const darkAll = { ...themeDark, ...tokenDark };
 const block = `${START}
 :root {
-${cssLines(tokenLight)}
+${cssLines(lightAll)}
 }
 .dark {
-${cssLines(tokenDark)}
+${cssLines(darkAll)}
 }
 ${END}`;
 let globals = await readFile(GLOBALS_PATH, "utf8");

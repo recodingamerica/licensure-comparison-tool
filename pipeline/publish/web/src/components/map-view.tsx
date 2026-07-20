@@ -307,7 +307,7 @@ export function MapView({
           <div
             className="h-3 w-48 rounded"
             style={{
-              background: "linear-gradient(to right, #dbeafe, #1e3a8a)",
+              background: "linear-gradient(to right, var(--map-ramp-lo), var(--map-ramp-hi))",
             }}
           />
           <span>{max}</span>
