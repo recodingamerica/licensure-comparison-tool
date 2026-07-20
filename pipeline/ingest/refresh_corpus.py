@@ -921,6 +921,7 @@ def _print_summary(status: dict) -> None:
 # ---------------------------------------------------------------------------
 def run(professions: list[str], only_states: set[str], *, force: bool, cap: int | None,
         timeout_s: int, breaker: int, run_id: str | None, resume: bool = False,
+        skip_held: bool = False,
         progress_bar: bool = False, chrome_check=justia_reachable) -> dict:
     status: dict = {"started": _now(), "run_id": run_id, "items": {}}
     status_path = _status_path(run_id)
@@ -933,10 +934,15 @@ def run(professions: list[str], only_states: set[str], *, force: bool, cap: int 
         prior = _load_prior_status(status_path)
         if prior:
             status["items"] = prior.get("items", {})
+            skip_results = _SETTLED | set(HELD_SEVERITY) if skip_held else _SETTLED
             settled = {k for k, i in status["items"].items()
-                       if i.get("result") in _SETTLED}
-            _emit(f"resume: {len(settled)} cell(s) already done — skipping; "
-                  f"re-attempting failures + not-yet-done cells")
+                       if i.get("result") in skip_results}
+            n_held = sum(1 for i in status["items"].values()
+                         if i.get("result") in HELD_SEVERITY)
+            extra = (f" (incl. {n_held} previously-held, kept in run-state for review)"
+                     if skip_held else "")
+            _emit(f"resume: {len(settled)} cell(s) already done — skipping{extra}; "
+                  f"re-attempting {'not-yet-done cells' if skip_held else 'failures + not-yet-done cells'}")
         else:
             _emit(f"resume: no prior status at {status_path} — starting fresh")
 
@@ -1181,6 +1187,11 @@ def main(argv: list[str] | None = None) -> None:
                     help="Continue a prior run of this --run-id: skip cells already done "
                          "(OK/NOCHANGE), re-attempt failures + not-yet-done cells. Use after "
                          "a breaker/timeout abort or Ctrl-C on a long --all-professions run.")
+    ap.add_argument("--skip-held", action="store_true",
+                    help="With --resume: ALSO skip cells already held back "
+                         "(REGRESSION/EMPTY/PARTIAL/DEAD/TIMEOUT/NOFILE) instead of "
+                         "re-attempting them, so the run goes straight to not-yet-done "
+                         "cells. The held results stay in the run-state for the review pass.")
     ap.add_argument("--run-id", default=None,
                     help="Run id (used in the status filename + diff-report filename). "
                          "Defaults to a UTC timestamp for a real run. Pass a STABLE id "
@@ -1278,7 +1289,7 @@ def main(argv: list[str] | None = None) -> None:
 
     run(professions, only_states, force=args.force, cap=None,
         timeout_s=args.item_timeout, breaker=args.breaker, run_id=run_id,
-        resume=args.resume, progress_bar=use_bar)
+        resume=args.resume, skip_held=args.skip_held, progress_bar=use_bar)
 
     if not args.verbose:
         _emit(f"  detailed fetch log: {log_path}")
