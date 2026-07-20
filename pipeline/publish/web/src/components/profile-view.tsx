@@ -27,6 +27,7 @@ import type { DiscoveredField, ProfilePayload, Row } from "@/lib/types";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { humanize, findAllSpans } from "@/lib/format";
+import { SEMANTIC_CLASSES as SC } from "@/lib/web-colors";
 import { StateDetailDialog } from "./state-detail-dialog";
 import { MapView } from "./map-view";
 
@@ -37,8 +38,8 @@ ModuleRegistry.registerModules([AllCommunityModule]);
 
 // ---------- Cell renderer components ----------
 
-const PILL_YES = "bg-emerald-100 text-emerald-900 hover:bg-emerald-100";
-const PILL_NO = "bg-rose-100 text-rose-900 hover:bg-rose-100";
+const PILL_YES = `${SC.permissive.bg} ${SC.permissive.text} ${SC.permissive.hoverBg}`;
+const PILL_NO = `${SC.restrictive.bg} ${SC.restrictive.text} ${SC.restrictive.hoverBg}`;
 
 function YesNoCell({ value }: ICellRendererParams<Row, boolean | null>) {
   if (value === true)
@@ -102,7 +103,7 @@ function StatuteTextHitsCell(params: ICellRendererParams<Row, string>) {
   if (hits === 0) return null;
   return (
     <span
-      className="font-mono text-xs text-yellow-800"
+      className={`font-mono text-xs ${SC.highlight.text}`}
       title={`${hits} match${hits === 1 ? "" : "es"} for "${q}"`}
     >
       {hits} {hits === 1 ? "hit" : "hits"}
@@ -119,7 +120,7 @@ function VerifyCell({ data }: ICellRendererParams<Row>) {
   if (u === 0) return null;
   return (
     <span
-      className="font-mono text-xs text-amber-700"
+      className={`font-mono text-xs ${SC.attention.text}`}
       title="Quotes that did not match the cleaned source verbatim"
     >
       ⚠ {u}
@@ -199,7 +200,7 @@ function CategoryChipsCell(
         <Badge
           key={c.label}
           variant="secondary"
-          className="bg-rose-100 text-rose-900 hover:bg-rose-100 font-normal text-[10px] px-1.5 py-0"
+          className={`${SC.restrictive.bg} ${SC.restrictive.text} ${SC.restrictive.hoverBg} font-normal text-[10px] px-1.5 py-0`}
           title={`${c.label} — ${c.count}`}
         >
           {shortCategory(c.label)}

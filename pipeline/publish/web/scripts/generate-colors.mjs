@@ -26,6 +26,9 @@ function hueClasses(hue) {
     text: `text-${hue}-800`,
     border: `border-${hue}-300`,
     dot: `bg-${hue}-500`,
+    // Keep the tint on row/hover (badges inside AG Grid cells) — emitted as a
+    // literal so Tailwind's content scan keeps it.
+    hoverBg: `hover:bg-${hue}-100`,
   };
 }
 
@@ -86,6 +89,7 @@ export type HueClasses = {
   text: string;
   border: string;
   dot: string;
+  hoverBg: string;
 };
 
 export const AUDIENCE_HUE: Record<AudienceKind, string> = ${JSON.stringify(audienceHues, null, 2)};

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { SEMANTIC_CLASSES as SC } from "@/lib/web-colors";
 
 // Shape of `public/data/scorecard.json` — produced by
 // `python -m pipeline.publish.cross_comparison_scorecard`.
@@ -28,9 +29,9 @@ const PROFESSION_LABELS: Record<string, string> = {
 };
 
 const SYMBOL_CLASS: Record<string, string> = {
-  "✓": "text-emerald-700",
-  "~": "text-amber-700",
-  "✗": "text-rose-700",
+  "✓": SC.permissive.text,
+  "~": SC.attention.text,
+  "✗": SC.restrictive.text,
   "—": "text-muted-foreground",
 };
 
@@ -68,9 +69,9 @@ export default function ScorecardPage() {
         schema. One row per field, one column per profession. Each cell
         shows{" "}
         <span className="font-mono">symbol (populated/total)</span> —{" "}
-        <span className="text-emerald-700 font-mono">✓</span> ≥80% populated,{" "}
-        <span className="text-amber-700 font-mono">~</span> 1–79%,{" "}
-        <span className="text-rose-700 font-mono">✗</span> 0%.
+        <span className={`${SYMBOL_CLASS["✓"]} font-mono`}>✓</span> ≥80% populated,{" "}
+        <span className={`${SYMBOL_CLASS["~"]} font-mono`}>~</span> 1–79%,{" "}
+        <span className={`${SYMBOL_CLASS["✗"]} font-mono`}>✗</span> 0%.
       </p>
 
       {error && (
