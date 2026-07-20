@@ -15,10 +15,7 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import type { StateBrowsePayload } from "@/lib/state-browse-types";
 import { professionStyle, useProfessionMeta } from "@/lib/profession-colors";
-
-function fmtProf(p: string) {
-  return p.replace(/_/g, " ");
-}
+import { humanize as fmtProf } from "@/lib/format";
 
 function summariseForProfession(payload: StateBrowsePayload, prof: string) {
   let practice = 0,

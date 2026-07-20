@@ -10,26 +10,17 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
+import {
+  type Tag,
+  type SubField,
+  type Field,
+  type ProfData,
+  groupByBucket,
+} from "@/lib/tag-sheet";
 
 // Shape of `public/data/tag_sheet.json` — produced by
-// `python -m pipeline.publish.build_tag_sheet`.
-type Tag = { label: string; count: number; states?: number };
-type Assignment = { state: string; bucket: string; text: string };
-type SubField = {
-  field_name: string;
-  kind: "scalar" | "per_item";
-  unit: string;
-  rationale: string;
-  tags: Tag[];
-  assignments: Assignment[];
-};
-type Field = {
-  label: string;
-  priority: boolean;
-  present: boolean;
-  subfields: SubField[];
-};
-type ProfData = { profession: string; fields: Field[] };
+// `python -m pipeline.publish.build_tag_sheet`. The tag-sheet page adds
+// concepts/professions on top of the shared per-profession shapes.
 type Payload = {
   generated_at: string;
   concepts: string[];
@@ -266,16 +257,6 @@ function breakdownText(target: PanelTarget): string {
     }
   }
   return lines.join("\n");
-}
-
-function groupByBucket(sf: SubField): Map<string, Assignment[]> {
-  const byBucket = new Map<string, Assignment[]>();
-  for (const a of sf.assignments) {
-    const arr = byBucket.get(a.bucket);
-    if (arr) arr.push(a);
-    else byBucket.set(a.bucket, [a]);
-  }
-  return byBucket;
 }
 
 function BreakdownPanel({

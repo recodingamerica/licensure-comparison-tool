@@ -10,34 +10,12 @@ import { Suspense, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { Combobox, type ComboboxOption } from "@/components/ui/combobox";
 import { BrowseClient } from "@/components/browse/browse-client";
-import type { BrowseSection } from "@/lib/types";
+import type { BrowsePayload } from "@/lib/types";
 import type { TreeNode } from "@/components/browse/tree-node";
+import { STATE_NAMES } from "@/lib/states";
 
 type ProfEntry = { profession: string; display?: string };
 type StateEntry = { state: string; sections: number; professions: string[] };
-type BrowsePayload = {
-  state: string;
-  profession: string;
-  sections: BrowseSection[];
-  groups: Array<{ key: BrowseSection["scope_layer"]; tree: TreeNode[] }>;
-};
-
-// Two-letter code → full name, so the state dropdown is searchable by name
-// (the rest of the app shows bare codes; this is the one place a friendly name
-// helps a non-expert find a state).
-const STATE_NAMES: Record<string, string> = {
-  AL: "Alabama", AK: "Alaska", AZ: "Arizona", AR: "Arkansas", CA: "California",
-  CO: "Colorado", CT: "Connecticut", DE: "Delaware", DC: "District of Columbia",
-  FL: "Florida", GA: "Georgia", HI: "Hawaii", ID: "Idaho", IL: "Illinois",
-  IN: "Indiana", IA: "Iowa", KS: "Kansas", KY: "Kentucky", LA: "Louisiana",
-  ME: "Maine", MD: "Maryland", MA: "Massachusetts", MI: "Michigan", MN: "Minnesota",
-  MS: "Mississippi", MO: "Missouri", MT: "Montana", NE: "Nebraska", NV: "Nevada",
-  NH: "New Hampshire", NJ: "New Jersey", NM: "New Mexico", NY: "New York",
-  NC: "North Carolina", ND: "North Dakota", OH: "Ohio", OK: "Oklahoma", OR: "Oregon",
-  PA: "Pennsylvania", RI: "Rhode Island", SC: "South Carolina", SD: "South Dakota",
-  TN: "Tennessee", TX: "Texas", UT: "Utah", VT: "Vermont", VA: "Virginia",
-  WA: "Washington", WV: "West Virginia", WI: "Wisconsin", WY: "Wyoming",
-};
 
 function StatuteDictionaryInner() {
   const [profs, setProfs] = useState<ProfEntry[] | null>(null);
@@ -47,7 +25,7 @@ function StatuteDictionaryInner() {
   const [prof, setProf] = useState("");
   const [state, setState] = useState("");
 
-  const [payload, setPayload] = useState<BrowsePayload | null>(null);
+  const [payload, setPayload] = useState<BrowsePayload<TreeNode> | null>(null);
   const [treeErr, setTreeErr] = useState<string | null>(null);
 
   // Load the two manifests once.
@@ -114,7 +92,7 @@ function StatuteDictionaryInner() {
         if (!r.ok) throw new Error(`No statute tree for ${prof}/${state}`);
         return r.json();
       })
-      .then((d: BrowsePayload) => setPayload(d))
+      .then((d: BrowsePayload<TreeNode>) => setPayload(d))
       .catch((e) => setTreeErr(String(e)));
   }, [prof, state]);
 

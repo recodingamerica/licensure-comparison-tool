@@ -19,24 +19,14 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
+import {
+  type Tag,
+  type SubField,
+  type Field,
+  type ProfData,
+  groupByBucket,
+} from "@/lib/tag-sheet";
 
-type Tag = { label: string; count: number; states?: number };
-type Assignment = { state: string; bucket: string; text: string };
-type SubField = {
-  field_name: string;
-  kind: "scalar" | "per_item";
-  unit: string;
-  rationale: string;
-  tags: Tag[];
-  assignments: Assignment[];
-};
-type Field = {
-  label: string;
-  priority: boolean;
-  present: boolean;
-  subfields: SubField[];
-};
-type ProfData = { profession: string; fields: Field[] };
 type Payload = { generated_at: string; data: ProfData[] };
 
 type PanelTarget = { field: Field; tagLabel: string };
@@ -45,16 +35,6 @@ function tagSummary(tag: Tag, kind: SubField["kind"]): string {
   return kind === "per_item" && tag.states !== undefined
     ? `${tag.count} grounds across ${tag.states} states`
     : `${tag.count} states`;
-}
-
-function groupByBucket(sf: SubField): Map<string, Assignment[]> {
-  const byBucket = new Map<string, Assignment[]>();
-  for (const a of sf.assignments) {
-    const arr = byBucket.get(a.bucket);
-    if (arr) arr.push(a);
-    else byBucket.set(a.bucket, [a]);
-  }
-  return byBucket;
 }
 
 export function ProfileTags({ professionId }: { professionId: string }) {

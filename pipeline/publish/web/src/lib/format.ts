@@ -3,6 +3,34 @@ export function humanize(s: string | null | undefined): string {
   return String(s).replace(/_/g, " ").trim();
 }
 
+// Prettify a dotted field path into a title-cased leaf label. When the leaf is
+// a generic word (required/available/…), prefix it with its parent so e.g.
+// "licensure.exam.required" reads "Exam required" instead of just "Required".
+// Shared by the analysis views (novel-policies, compare).
+const GENERIC_LEAVES = new Set([
+  "required", "available", "exists", "offered", "permitted",
+  "authorized", "prohibited", "allowed", "excluded", "type",
+]);
+export function fieldLabel(f: string): string {
+  const parts = f.split(".");
+  let leaf = parts[parts.length - 1];
+  if (GENERIC_LEAVES.has(leaf) && parts.length >= 2) {
+    leaf = `${parts[parts.length - 2]}_${leaf}`;
+  }
+  const s = leaf.replace(/_/g, " ");
+  return s.charAt(0).toUpperCase() + s.slice(1);
+}
+
+// Format a raw stringified field value for display: booleans → yes/no, whole
+// numbers ("7.0") → "7", everything else de-underscored.
+export function formatFieldValue(v: string): string {
+  if (v === "true") return "yes";
+  if (v === "false") return "no";
+  const n = Number(v);
+  if (v.trim() !== "" && Number.isInteger(n)) return String(n);
+  return v.replace(/_/g, " ");
+}
+
 // Max chars of quoted text to put in the URL fragment. Short prefixes are
 // more reliable — long quotes are more likely to hit a rendering difference
 // somewhere along their length that breaks the verbatim match.

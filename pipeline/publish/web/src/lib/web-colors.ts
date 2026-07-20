@@ -119,6 +119,68 @@ export const FAMILY_CLASSES: Record<FamilyHue, HueClasses> = {
   }
 };
 
+// Semantic roles — one named color per meaning (see config/web_colors.yaml).
+export type SemanticRole = "attention" | "highlight" | "restrictive" | "permissive";
+
+export type SolidClasses = { bg: string; text: string; border: string };
+
+export const SEMANTIC_HUE: Record<SemanticRole, string> = {
+  "attention": "amber",
+  "highlight": "yellow",
+  "restrictive": "rose",
+  "permissive": "emerald"
+};
+
+export const SEMANTIC_CLASSES: Record<SemanticRole, HueClasses> = {
+  "attention": {
+    "bg": "bg-amber-100",
+    "text": "text-amber-800",
+    "border": "border-amber-300",
+    "dot": "bg-amber-500"
+  },
+  "highlight": {
+    "bg": "bg-yellow-100",
+    "text": "text-yellow-800",
+    "border": "border-yellow-300",
+    "dot": "bg-yellow-500"
+  },
+  "restrictive": {
+    "bg": "bg-rose-100",
+    "text": "text-rose-800",
+    "border": "border-rose-300",
+    "dot": "bg-rose-500"
+  },
+  "permissive": {
+    "bg": "bg-emerald-100",
+    "text": "text-emerald-800",
+    "border": "border-emerald-300",
+    "dot": "bg-emerald-500"
+  }
+};
+
+export const SEMANTIC_SOLID: Record<SemanticRole, SolidClasses> = {
+  "attention": {
+    "bg": "bg-amber-600",
+    "text": "text-white",
+    "border": "border-amber-600"
+  },
+  "highlight": {
+    "bg": "bg-yellow-600",
+    "text": "text-white",
+    "border": "border-yellow-600"
+  },
+  "restrictive": {
+    "bg": "bg-rose-600",
+    "text": "text-white",
+    "border": "border-rose-600"
+  },
+  "permissive": {
+    "bg": "bg-emerald-600",
+    "text": "text-white",
+    "border": "border-emerald-600"
+  }
+};
+
 // Concrete color values for JS consumers (SVG map fills, d3 scales) that can't
 // use a CSS var(). Prefer the CSS custom properties (var(--<token>)) for HTML;
 // use these where a real value is required. `token(name)` reads the current

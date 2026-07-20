@@ -210,6 +210,16 @@ export type BrowseGroup<TreeNodeT = unknown> = {
   tree: TreeNodeT[];
 };
 
+// The per-(state, profession) browse payload: /data/<prof>/browse/<STATE>.json.
+// Generic over the tree node (defined in components/browse/tree-node.tsx) to
+// keep this lib type free of a component import.
+export type BrowsePayload<TreeNodeT = unknown> = {
+  state: string;
+  profession: string;
+  sections: BrowseSection[];
+  groups: BrowseGroup<TreeNodeT>[];
+};
+
 export type BrowseEvidence = {
   field_path: string;
   value: unknown;
