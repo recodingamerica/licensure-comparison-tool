@@ -200,11 +200,124 @@ export const SEMANTIC_SOLID: Record<SemanticRole, SolidClasses> = {
   }
 };
 
+// Category palettes — value → HueClasses, per named palette (see config yaml).
+export const CATEGORY_CLASSES: Record<string, Record<string, HueClasses>> = {
+  "regulatory": {
+    "license": {
+      "bg": "bg-sky-100",
+      "text": "text-sky-800",
+      "border": "border-sky-300",
+      "dot": "bg-sky-500",
+      "hoverBg": "hover:bg-sky-100"
+    },
+    "mandatory_certification": {
+      "bg": "bg-emerald-100",
+      "text": "text-emerald-800",
+      "border": "border-emerald-300",
+      "dot": "bg-emerald-500",
+      "hoverBg": "hover:bg-emerald-100"
+    },
+    "certification": {
+      "bg": "bg-emerald-100",
+      "text": "text-emerald-800",
+      "border": "border-emerald-300",
+      "dot": "bg-emerald-500",
+      "hoverBg": "hover:bg-emerald-100"
+    },
+    "registration": {
+      "bg": "bg-amber-100",
+      "text": "text-amber-800",
+      "border": "border-amber-300",
+      "dot": "bg-amber-500",
+      "hoverBg": "hover:bg-amber-100"
+    },
+    "exemption": {
+      "bg": "bg-zinc-100",
+      "text": "text-zinc-800",
+      "border": "border-zinc-300",
+      "dot": "bg-zinc-500",
+      "hoverBg": "hover:bg-zinc-100"
+    },
+    "voluntary_certification": {
+      "bg": "bg-violet-100",
+      "text": "text-violet-800",
+      "border": "border-violet-300",
+      "dot": "bg-violet-500",
+      "hoverBg": "hover:bg-violet-100"
+    },
+    "market_forces": {
+      "bg": "bg-rose-100",
+      "text": "text-rose-800",
+      "border": "border-rose-300",
+      "dot": "bg-rose-500",
+      "hoverBg": "hover:bg-rose-100"
+    },
+    "none": {
+      "bg": "bg-rose-100",
+      "text": "text-rose-800",
+      "border": "border-rose-300",
+      "dot": "bg-rose-500",
+      "hoverBg": "hover:bg-rose-100"
+    }
+  },
+  "novel_category": {
+    "Degree": {
+      "bg": "bg-slate-100",
+      "text": "text-slate-800",
+      "border": "border-slate-300",
+      "dot": "bg-slate-500",
+      "hoverBg": "hover:bg-slate-100"
+    },
+    "Experience": {
+      "bg": "bg-teal-100",
+      "text": "text-teal-800",
+      "border": "border-teal-300",
+      "dot": "bg-teal-500",
+      "hoverBg": "hover:bg-teal-100"
+    },
+    "Discipline": {
+      "bg": "bg-rose-100",
+      "text": "text-rose-800",
+      "border": "border-rose-300",
+      "dot": "bg-rose-500",
+      "hoverBg": "hover:bg-rose-100"
+    },
+    "Scope": {
+      "bg": "bg-sky-100",
+      "text": "text-sky-800",
+      "border": "border-sky-300",
+      "dot": "bg-sky-500",
+      "hoverBg": "hover:bg-sky-100"
+    },
+    "Regulation": {
+      "bg": "bg-violet-100",
+      "text": "text-violet-800",
+      "border": "border-violet-300",
+      "dot": "bg-violet-500",
+      "hoverBg": "hover:bg-violet-100"
+    },
+    "Authority": {
+      "bg": "bg-amber-100",
+      "text": "text-amber-800",
+      "border": "border-amber-300",
+      "dot": "bg-amber-500",
+      "hoverBg": "hover:bg-amber-100"
+    },
+    "License": {
+      "bg": "bg-indigo-100",
+      "text": "text-indigo-800",
+      "border": "border-indigo-300",
+      "dot": "bg-indigo-500",
+      "hoverBg": "hover:bg-indigo-100"
+    }
+  }
+};
+
 // Concrete color values for JS consumers (SVG map fills, d3 scales) that can't
 // use a CSS var(). Prefer the CSS custom properties (var(--<token>)) for HTML;
 // use these where a real value is required. `token(name)` reads the current
 // theme's value off the CSS custom property, falling back to the light value.
-export type ColorToken = "scope-has" | "scope-none" | "scope-focus" | "scope-focus-weak" | "map-no-data" | "map-ramp-lo" | "map-ramp-hi";
+export type ColorToken = "scope-has" | "scope-none" | "scope-focus" | "scope-focus-weak" | "map-no-data" | "map-ramp-lo" | "map-ramp-hi" | "mark-search" | "mark-quote" | "kind-coverage" | "kind-value" | "spread-lo" | "spread-hi" | "grid-header" | "grid-row" | "grid-hover" | "grid-border" | "map-stroke" | "map-highlight" | "nav-fill";
 
 export const COLOR_TOKENS: { light: Record<string, string>; dark: Record<string, string> } = {
   light: {
@@ -214,7 +327,20 @@ export const COLOR_TOKENS: { light: Record<string, string>; dark: Record<string,
   "scope-focus-weak": "#fdf1e3",
   "map-no-data": "#e5e7eb",
   "map-ramp-lo": "#dbeafe",
-  "map-ramp-hi": "#1e3a8a"
+  "map-ramp-hi": "#1e3a8a",
+  "mark-search": "#fde047",
+  "mark-quote": "#fde68a",
+  "kind-coverage": "#b45309",
+  "kind-value": "#0369a1",
+  "spread-lo": "#eeece4",
+  "spread-hi": "#b45309",
+  "grid-header": "#f8fafc",
+  "grid-row": "#ffffff",
+  "grid-hover": "#f1f5f9",
+  "grid-border": "#e2e8f0",
+  "map-stroke": "#ffffff",
+  "map-highlight": "#111827",
+  "nav-fill": "#bfdbfe"
 },
   dark: {
   "scope-has": "#2dd4bf",
@@ -223,7 +349,20 @@ export const COLOR_TOKENS: { light: Record<string, string>; dark: Record<string,
   "scope-focus-weak": "#2a2114",
   "map-no-data": "#e5e7eb",
   "map-ramp-lo": "#dbeafe",
-  "map-ramp-hi": "#1e3a8a"
+  "map-ramp-hi": "#1e3a8a",
+  "mark-search": "#fde047",
+  "mark-quote": "#78560f",
+  "kind-coverage": "#fbbf24",
+  "kind-value": "#38bdf8",
+  "spread-lo": "#3a3524",
+  "spread-hi": "#fbbf24",
+  "grid-header": "#1e293b",
+  "grid-row": "#0f172a",
+  "grid-hover": "#1e293b",
+  "grid-border": "#334155",
+  "map-stroke": "#0b0e12",
+  "map-highlight": "#e5e7eb",
+  "nav-fill": "#1e3a5f"
 },
 };
 

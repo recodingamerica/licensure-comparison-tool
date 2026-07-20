@@ -57,6 +57,32 @@ semantic:
   restrictive: rose    # "more restrictive" direction, disciplinary grounds, no/bad
   permissive: emerald  # "more permissive" direction, yes/good
 
+# Category palettes — value → hue maps for the multi-color category renderers.
+# It's fine that these are many colors; the point is the per-value choice lives
+# here, not hardcoded in components. Emitted as value → HueClasses records
+# (CATEGORY_CLASSES) sharing the same bg/text/border/dot machinery.
+category_palettes:
+  # Regulatory model + credential type cells (profile-view). One map covers both
+  # (their value sets overlap); each component looks up the values it uses.
+  regulatory:
+    license: sky
+    mandatory_certification: emerald
+    certification: emerald
+    registration: amber
+    exemption: zinc
+    voluntary_certification: violet
+    market_forces: rose
+    none: rose
+  # Novel-policy field categories (novel-policies CAT_STYLE).
+  novel_category:
+    Degree: slate
+    Experience: teal
+    Discipline: rose
+    Scope: sky
+    Regulation: violet
+    Authority: amber
+    License: indigo
+
 # ---------------------------------------------------------------------------
 # Value-based color tokens (concrete colors, NOT Tailwind hue names). These are
 # for the places a Tailwind class won't do: SVG map fills and d3 scales need a
@@ -79,6 +105,20 @@ tokens:
   map-no-data:      { light: "#e5e7eb", dark: "#e5e7eb" }
   map-ramp-lo:      { light: "#dbeafe", dark: "#dbeafe" }
   map-ramp-hi:      { light: "#1e3a8a", dark: "#1e3a8a" }
+  # Every other concrete color literal, moved out of the components.
+  mark-search:      { light: "#fde047", dark: "#fde047" }   # user search-hit <mark> (yellow-300)
+  mark-quote:       { light: "#fde68a", dark: "#78560f" }   # LLM extracted-quote <mark> (amber-200)
+  kind-coverage:    { light: "#b45309", dark: "#fbbf24" }   # novelty "rare authority" swatch (amber-700)
+  kind-value:       { light: "#0369a1", dark: "#38bdf8" }   # novelty "unusual value" swatch (sky-700)
+  spread-lo:        { light: "#eeece4", dark: "#3a3524" }   # distinctiveness ramp — typical
+  spread-hi:        { light: "#b45309", dark: "#fbbf24" }   # distinctiveness ramp — most distinctive
+  grid-header:      { light: "#f8fafc", dark: "#1e293b" }   # AG Grid header row
+  grid-row:         { light: "#ffffff", dark: "#0f172a" }   # AG Grid odd row
+  grid-hover:       { light: "#f1f5f9", dark: "#1e293b" }   # AG Grid row hover
+  grid-border:      { light: "#e2e8f0", dark: "#334155" }   # AG Grid gridlines
+  map-stroke:       { light: "#ffffff", dark: "#0b0e12" }   # state borders on the choropleth
+  map-highlight:    { light: "#111827", dark: "#e5e7eb" }   # default highlighted-state outline
+  nav-fill:         { light: "#bfdbfe", dark: "#1e3a5f" }   # home nav map (navigation, not data)
 
 # Ordinal palette cycled for categorical choropleths (Map tab). One list, both
 # themes; emitted as MAP_PALETTE in web-colors.ts.

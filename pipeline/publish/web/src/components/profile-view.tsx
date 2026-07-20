@@ -27,7 +27,7 @@ import type { DiscoveredField, ProfilePayload, Row } from "@/lib/types";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { humanize, findAllSpans } from "@/lib/format";
-import { SEMANTIC_CLASSES as SC } from "@/lib/web-colors";
+import { SEMANTIC_CLASSES as SC, CATEGORY_CLASSES, token } from "@/lib/web-colors";
 import { StateDetailDialog } from "./state-detail-dialog";
 import { MapView } from "./map-view";
 
@@ -223,17 +223,10 @@ function RegulatoryModelCell({ data, value }: ICellRendererParams<Row, string | 
     );
   }
   if (!value) return <span className="text-muted-foreground">—</span>;
-  const colors: Record<string, string> = {
-    license: "bg-sky-100 text-sky-900",
-    mandatory_certification: "bg-emerald-100 text-emerald-900",
-    registration: "bg-amber-100 text-amber-900",
-    exemption: "bg-zinc-100 text-zinc-700",
-    voluntary_certification: "bg-violet-100 text-violet-900",
-    market_forces: "bg-rose-100 text-rose-900",
-  };
-  const cls = colors[value] || "bg-muted text-muted-foreground";
+  const c = CATEGORY_CLASSES.regulatory[value];
+  const cls = c ? `${c.bg} ${c.text} ${c.hoverBg}` : "bg-muted text-muted-foreground";
   return (
-    <Badge variant="secondary" className={cls + " hover:" + cls}>
+    <Badge variant="secondary" className={cls}>
       {humanize(value)}
     </Badge>
   );
@@ -244,14 +237,8 @@ function CredentialTypeCell({ data }: ICellRendererParams<Row>) {
   const ct = data.credential_type;
   const mandatory = data.is_mandatory;
   if (!ct && mandatory === null) return <span className="text-muted-foreground">—</span>;
-  const colors: Record<string, string> = {
-    license: "bg-sky-100 text-sky-900",
-    certification: "bg-emerald-100 text-emerald-900",
-    registration: "bg-amber-100 text-amber-900",
-    exemption: "bg-zinc-100 text-zinc-700",
-    none: "bg-rose-100 text-rose-900",
-  };
-  const cls = ct ? colors[ct] || "bg-muted text-muted-foreground" : "";
+  const c = ct ? CATEGORY_CLASSES.regulatory[ct] : undefined;
+  const cls = ct ? (c ? `${c.bg} ${c.text}` : "bg-muted text-muted-foreground") : "";
   // The mandatory/voluntary annotation only adds information when the
   // credential type doesn't already imply it. License + registration are
   // mandatory by definition; "none" + "exemption" don't have a meaningful
@@ -1560,10 +1547,10 @@ const gridTheme = themeQuartz.withParams({
   fontFamily: "var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif",
   fontSize: 14,
   headerFontWeight: 600,
-  headerBackgroundColor: "#f8fafc",
-  oddRowBackgroundColor: "#ffffff",
-  rowHoverColor: "#f1f5f9",
-  borderColor: "#e2e8f0",
+  headerBackgroundColor: token("grid-header"),
+  oddRowBackgroundColor: token("grid-row"),
+  rowHoverColor: token("grid-hover"),
+  borderColor: token("grid-border"),
   wrapperBorderRadius: 8,
 });
 

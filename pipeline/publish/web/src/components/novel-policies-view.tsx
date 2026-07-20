@@ -9,12 +9,12 @@
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 import type { ProfileAnalysis, NovelPolicy } from "@/lib/types";
 import { fieldLabel, formatFieldValue as val } from "@/lib/format";
-import { SEMANTIC_CLASSES as SC, SEMANTIC_SOLID as SS } from "@/lib/web-colors";
+import { SEMANTIC_CLASSES as SC, SEMANTIC_SOLID as SS, CATEGORY_CLASSES, token } from "@/lib/web-colors";
 
 // Match KIND_STYLE.fill in similarity-view: amber = rare authority, sky = unusual value.
 const KIND_FILL: Record<NovelPolicy["kind"], string> = {
-  coverage: "rgb(180, 83, 9)",
-  value: "rgb(3, 105, 161)",
+  coverage: token("kind-coverage"),
+  value: token("kind-value"),
 };
 
 // The 7 core scorecard categories (slide 8/9 filter pills). Every novel-policy
@@ -35,15 +35,12 @@ function fieldCategory(field: string): string {
   return "Scope";
 }
 
-const CAT_STYLE: Record<string, string> = {
-  Degree: "border-slate-300 text-slate-600",
-  Experience: "border-teal-300 text-teal-700",
-  Discipline: "border-rose-300 text-rose-700",
-  Scope: "border-sky-300 text-sky-700",
-  Regulation: "border-violet-300 text-violet-700",
-  Authority: "border-amber-300 text-amber-700",
-  License: "border-indigo-300 text-indigo-700",
-};
+const CAT_STYLE: Record<string, string> = Object.fromEntries(
+  Object.entries(CATEGORY_CLASSES.novel_category).map(([k, c]) => [
+    k,
+    `${c.border} ${c.text}`,
+  ]),
+);
 
 // Restrictive/permissive direction (#52c) — the second filter axis beyond Field.
 const DIRECTIONS = ["more_restrictive", "more_permissive", "neutral"] as const;

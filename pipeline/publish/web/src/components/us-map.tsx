@@ -13,7 +13,7 @@
 
 import { useState, type ReactNode } from "react";
 import { ComposableMap, Geographies, Geography } from "react-simple-maps";
-import { COLOR_TOKENS } from "@/lib/web-colors";
+import { COLOR_TOKENS, token } from "@/lib/web-colors";
 import { FIPS_TO_USPS } from "@/lib/states";
 
 const GEO_URL = "https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json";
@@ -43,7 +43,7 @@ export function UsMap({
   height = 610,
   bare = false,
   highlightState,
-  highlightColor = "#111827",
+  highlightColor = token("map-highlight"),
 }: UsMapProps) {
   const [hover, setHover] = useState<{ state: string; x: number; y: number } | null>(null);
   const tip = hover ? renderTooltip(hover.state) : null;
@@ -71,7 +71,7 @@ export function UsMap({
                     key={geo.rsmKey}
                     geography={geo}
                     fill={fill}
-                    stroke={highlighted ? highlightColor : "#ffffff"}
+                    stroke={highlighted ? highlightColor : token("map-stroke")}
                     strokeWidth={highlighted ? 2 : 0.5}
                     onMouseEnter={(e) => {
                       if (usps)

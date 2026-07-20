@@ -17,6 +17,7 @@ import { useEffect, useMemo, useState } from "react";
 import type { ProfileAnalysis } from "@/lib/types";
 import { UsMap, NO_DATA_FILL } from "@/components/us-map";
 import { fieldLabel, formatFieldValue as val } from "@/lib/format";
+import { token } from "@/lib/web-colors";
 
 const lc = (s: string) => (s ? s.charAt(0).toLowerCase() + s.slice(1) : s);
 function joinAnd(items: string[]): string {
@@ -25,9 +26,18 @@ function joinAnd(items: string[]): string {
   return `${items.slice(0, -1).join(", ")}, and ${items[items.length - 1]}`;
 }
 
+function hexToRgb(hex: string): [number, number, number] {
+  const h = hex.replace("#", "");
+  return [
+    parseInt(h.slice(0, 2), 16),
+    parseInt(h.slice(2, 4), 16),
+    parseInt(h.slice(4, 6), 16),
+  ];
+}
+
 function ramp(t: number): string {
-  const a = [238, 236, 228];
-  const b = [180, 83, 9];
+  const a = hexToRgb(token("spread-lo"));
+  const b = hexToRgb(token("spread-hi"));
   const c = a.map((x, i) => Math.round(x + (b[i] - x) * Math.max(0, Math.min(1, t))));
   return `rgb(${c[0]}, ${c[1]}, ${c[2]})`;
 }
