@@ -56,11 +56,16 @@ export function BrowseClient({
   profession,
   sections,
   groups,
+  embedded = false,
 }: {
   state: string;
   profession: string;
   sections: BrowseSection[];
   groups: BrowseGroup[];
+  // When embedded (Statute Dictionary), fill the parent (h-full) instead of the
+  // viewport (h-screen) and drop the breadcrumb header — the host page already
+  // shows which (occupation, state) pair this is via its dropdowns.
+  embedded?: boolean;
 }) {
   // Trigger /professions.json load so applies-to badges on umbrella-
   // enumeration leaves get the proper family colors / abbreviations.
@@ -195,24 +200,26 @@ export function BrowseClient({
   void groups.length; // layersPresent no longer used since chip removal
 
   return (
-    <div className="flex flex-col h-screen">
-      <header className="border-b px-6 py-3 flex items-center gap-3 flex-wrap bg-background">
-        <Link href="/" className="text-xs font-mono text-muted-foreground hover:text-foreground">
-          home
-        </Link>
-        <span className="text-xs text-muted-foreground">›</span>
-        <Link
-          href={`/profile?p=${encodeURIComponent(profession)}`}
-          className="text-xs font-mono text-muted-foreground hover:text-foreground"
-        >
-          {profession.replace(/_/g, " ")}
-        </Link>
-        <span className="text-xs text-muted-foreground">›</span>
-        <span className="text-xs font-mono font-medium">{state}</span>
-        <span className="text-xs text-muted-foreground ml-2">
-          showing {totalShown} of {sections.length} sections
-        </span>
-      </header>
+    <div className={`flex flex-col ${embedded ? "h-full" : "h-screen"}`}>
+      {!embedded && (
+        <header className="border-b px-6 py-3 flex items-center gap-3 flex-wrap bg-background">
+          <Link href="/" className="text-xs font-mono text-muted-foreground hover:text-foreground">
+            home
+          </Link>
+          <span className="text-xs text-muted-foreground">›</span>
+          <Link
+            href={`/profile?p=${encodeURIComponent(profession)}`}
+            className="text-xs font-mono text-muted-foreground hover:text-foreground"
+          >
+            {profession.replace(/_/g, " ")}
+          </Link>
+          <span className="text-xs text-muted-foreground">›</span>
+          <span className="text-xs font-mono font-medium">{state}</span>
+          <span className="text-xs text-muted-foreground ml-2">
+            showing {totalShown} of {sections.length} sections
+          </span>
+        </header>
+      )}
 
       <div className="border-b px-6 py-2.5 flex items-center gap-3 flex-wrap bg-muted/30">
         {/* Scope-layer chips removed — the tree on the left already groups
