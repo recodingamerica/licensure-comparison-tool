@@ -234,9 +234,13 @@ _HTML = r"""<!doctype html>
   main { padding: 0 1.5rem 3rem; }
   h2 { margin: 1.5rem 0 .25rem; font-size: 1.05rem; }
   .intro { color: #555; font-size: .9rem; margin: 0 0 .5rem; font-style: italic; }
-  table { border-collapse: collapse; width: 100%; font-size: .9rem; }
-  th, td { text-align: left; vertical-align: top; padding: .35rem .5rem; border-bottom: 1px solid #eee; }
+  table { border-collapse: collapse; width: 100%; font-size: .9rem; table-layout: fixed; }
+  th, td { text-align: left; vertical-align: top; padding: .35rem .5rem; border-bottom: 1px solid #eee;
+           word-break: break-word; overflow-wrap: anywhere; }
   th { background: #fafbfc; position: sticky; top: 3.2rem; }
+  th.c-field { width: 24%; } th.c-type { width: 12%; } th.c-mean { width: 40%; } th.c-ex { width: 24%; }
+  /* Truncate long meanings / examples (e.g. big "exceptions" quotes) to ~6 lines; full text on hover. */
+  .clamp { display: -webkit-box; -webkit-line-clamp: 6; -webkit-box-orient: vertical; overflow: hidden; }
   code { background: #f2f3f5; padding: .05rem .3rem; border-radius: 3px; font-size: .85em; }
   .ex { color: #0a5; }
   .vocab { color: #777; font-size: .82em; }
@@ -253,6 +257,7 @@ _HTML = r"""<!doctype html>
 </header>
 <div class="toolbar">
   <label>Profession <select id="prof"></select></label>
+  <label>Bucket <select id="grp"></select></label>
   <input id="q" type="search" placeholder="Filter by field name or meaning…" autofocus>
   <label class="toggle"><input type="checkbox" id="tech"> Show technical (type / vocabulary)</label>
   <span id="dl"></span>
@@ -262,15 +267,28 @@ _HTML = r"""<!doctype html>
 <script>
 var DATA = __DATA__;
 var profEl = document.getElementById('prof');
+var grpEl = document.getElementById('grp');
 var qEl = document.getElementById('q');
 var techEl = document.getElementById('tech');
+var GROUP_LABELS = {licensure: 'Licensure', scope: 'Scope', profession_specific: 'Profession-specific'};
 Object.keys(DATA).sort().forEach(function(p){
   var o = document.createElement('option'); o.value = p; o.textContent = p; profEl.appendChild(o);
 });
 function esc(s){ return String(s == null ? '' : s).replace(/[&<>]/g, function(c){
   return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c]; }); }
+function syncBuckets(d){
+  // Repopulate the bucket dropdown for this profession, preserving the current pick if it still exists.
+  var prev = grpEl.value;
+  grpEl.innerHTML = '<option value="">All buckets</option>';
+  d.groups.forEach(function(g){
+    var o = document.createElement('option');
+    o.value = g.group; o.textContent = GROUP_LABELS[g.group] || g.group; grpEl.appendChild(o);
+  });
+  grpEl.value = Array.prototype.some.call(grpEl.options, function(o){ return o.value === prev; }) ? prev : '';
+}
 function render(){
   var p = profEl.value, d = DATA[p];
+  syncBuckets(d);
   document.getElementById('meta').textContent =
     'Reflects extracted data as of ' + (d.data_as_of || 'unknown') +
     ' · examples from ' + p + '/' + (d.example_state || '?');
@@ -279,9 +297,10 @@ function render(){
     '<a class="dl" href="' + p + '_field_dictionary.md" download>Markdown</a>';
   var html = '';
   d.groups.forEach(function(g){
-    html += '<h2>' + esc(g.group) + '</h2><p class="intro">' + esc(g.intro) + '</p>';
-    html += '<table><thead><tr><th>field</th><th class="tcol">type</th>' +
-            '<th>what it means</th><th>example</th></tr></thead><tbody>';
+    html += '<section class="grp" data-group="' + esc(g.group) + '">';
+    html += '<h2>' + esc(GROUP_LABELS[g.group] || g.group) + '</h2><p class="intro">' + esc(g.intro) + '</p>';
+    html += '<table><thead><tr><th class="c-field">field</th><th class="tcol c-type">type</th>' +
+            '<th class="c-mean">what it means</th><th class="c-ex">example</th></tr></thead><tbody>';
     g.fields.forEach(function(f){
       var pad = (f.depth || 0) * 1.4;
       var vocab = f.vocabulary && f.vocabulary.length
@@ -294,20 +313,25 @@ function render(){
       html += '<tr data-k="' + esc((f.field + ' ' + (f.meaning||'')).toLowerCase()) + '">' +
         '<td style="padding-left:' + (0.5 + pad) + 'rem"><code>' + esc(f.field) + '</code></td>' +
         '<td class="tcol">' + esc(f.type) + vocab + '</td>' +
-        '<td>' + esc(f.meaning) + '</td><td>' + exhtml + '</td></tr>';
+        '<td><div class="clamp">' + esc(f.meaning) + '</div></td>' +
+        '<td><div class="clamp">' + exhtml + '</div></td></tr>';
     });
-    html += '</tbody></table>';
+    html += '</tbody></table></section>';
   });
   document.getElementById('out').innerHTML = html;
   filter();
 }
 function filter(){
-  var q = qEl.value.toLowerCase();
+  var q = qEl.value.toLowerCase(), grp = grpEl.value;
+  document.querySelectorAll('#out section.grp').forEach(function(sec){
+    sec.style.display = (!grp || sec.getAttribute('data-group') === grp) ? '' : 'none';
+  });
   document.querySelectorAll('#out tbody tr').forEach(function(tr){
     tr.style.display = (!q || tr.getAttribute('data-k').indexOf(q) > -1) ? '' : 'none';
   });
 }
 profEl.addEventListener('change', render);
+grpEl.addEventListener('change', filter);
 qEl.addEventListener('input', filter);
 techEl.addEventListener('change', function(){ document.body.classList.toggle('tech', techEl.checked); });
 render();

@@ -161,9 +161,9 @@ export function SimilarityView({ professionId }: { professionId: string }) {
       : `, differing most on ${driverList}`;
 
   return (
-    <div className="max-w-5xl space-y-6">
+    <div className="max-w-7xl space-y-6">
       {/* Lead with the insight. */}
-      <p className="text-[15px] leading-relaxed">
+      <p className="text-base leading-relaxed">
         On the {data.n_core} questions most states answer, regimes{" "}
         <span className="font-medium">{spreadVerb}</span>
         {driverTail}.
@@ -181,8 +181,8 @@ export function SimilarityView({ professionId }: { professionId: string }) {
       {/* Utah — the focus state, shown in full. */}
       {data.notes["UT"] && (
         <div className="border-t pt-5 space-y-3">
-          <p className="text-sm leading-relaxed">{data.notes["UT"]}</p>
-          <div className="grid gap-x-12 gap-y-4 text-sm sm:grid-cols-2">{profileLists("UT", 99, 99)}</div>
+          <p className="text-[15px] leading-relaxed">{data.notes["UT"]}</p>
+          <div className="grid gap-x-12 gap-y-4 text-[15px] sm:grid-cols-2">{profileLists("UT", 99, 99)}</div>
         </div>
       )}
 
