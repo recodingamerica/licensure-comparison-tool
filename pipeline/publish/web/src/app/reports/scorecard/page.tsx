@@ -2,7 +2,8 @@
 
 import { BackLink } from "@/components/ui/back-link";
 import { Eyebrow } from "@/components/ui/eyebrow";
-import { useEffect, useState } from "react";
+import { ErrorBanner } from "@/components/ui/error-banner";
+import { useJsonData } from "@/lib/use-json-data";
 import { SEMANTIC_CLASSES as SC } from "@/lib/web-colors";
 
 // Shape of `public/data/scorecard.json` — produced by
@@ -37,18 +38,7 @@ const SYMBOL_CLASS: Record<string, string> = {
 };
 
 export default function ScorecardPage() {
-  const [data, setData] = useState<Payload | null>(null);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    fetch("/data/scorecard.json")
-      .then((r) => {
-        if (!r.ok) throw new Error(`HTTP ${r.status}`);
-        return r.json();
-      })
-      .then((d: Payload) => setData(d))
-      .catch((e) => setError(String(e)));
-  }, []);
+  const { data, error } = useJsonData<Payload>("/data/scorecard.json");
 
   return (
     <main className="mx-auto max-w-5xl px-6 py-10">
@@ -69,9 +59,7 @@ export default function ScorecardPage() {
       </p>
 
       {error && (
-        <div className="rounded border border-destructive bg-destructive/5 px-4 py-3 text-sm text-destructive">
-          Failed to load scorecard: {error}
-        </div>
+        <ErrorBanner>Failed to load scorecard: {error}</ErrorBanner>
       )}
 
       {!data && !error && (

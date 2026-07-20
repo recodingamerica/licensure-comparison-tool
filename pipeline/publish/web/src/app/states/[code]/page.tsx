@@ -12,6 +12,7 @@ import { BackLink } from "@/components/ui/back-link";
 import { StateStatutesView } from "@/components/state-statutes-view";
 import type { StateBrowsePayload } from "@/lib/state-browse-types";
 import { useJsonData } from "@/lib/use-json-data";
+import { ErrorBanner } from "@/components/ui/error-banner";
 
 function StateInner({ params }: { params: Promise<{ code: string }> }) {
   const { code: raw } = use(params);
@@ -32,9 +33,7 @@ function StateInner({ params }: { params: Promise<{ code: string }> }) {
       </header>
 
       {error && (
-        <div className="rounded border border-destructive bg-destructive/5 px-4 py-3 text-sm text-destructive">
-          {error}
-        </div>
+        <ErrorBanner>{error}</ErrorBanner>
       )}
 
       {!payload && !error && <p className="text-sm text-muted-foreground">Loading…</p>}
