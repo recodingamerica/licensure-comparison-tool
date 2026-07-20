@@ -61,6 +61,18 @@ const familyClasses = Object.fromEntries(
   familyHues.map((hue) => [hue, hueClasses(hue)]),
 );
 
+const semanticHues = cfg.semantic ?? {};
+const semanticClasses = Object.fromEntries(
+  Object.entries(semanticHues).map(([k, hue]) => [k, hueClasses(hue)]),
+);
+// Filled-pill variant (e.g. an active "more restrictive" toggle): solid hue-600 + white text.
+const semanticSolid = Object.fromEntries(
+  Object.entries(semanticHues).map(([k, hue]) => [
+    k,
+    { bg: `bg-${hue}-600`, text: "text-white", border: `border-${hue}-600` },
+  ]),
+);
+
 const out = `// GENERATED FROM pipeline/config/web_colors.yaml by scripts/generate-colors.mjs.
 // Do not edit by hand — edit the yaml and re-run \`npm run predev\` or
 // \`node scripts/generate-colors.mjs\`.
@@ -96,6 +108,27 @@ export type FamilyHue = (typeof FAMILY_HUES)[number];
 
 export const FAMILY_CLASSES: Record<FamilyHue, HueClasses> = ${JSON.stringify(
   familyClasses,
+  null,
+  2,
+)};
+
+// Semantic roles — one named color per meaning (see config/web_colors.yaml).
+export type SemanticRole = ${Object.keys(semanticHues)
+  .map((k) => `"${k}"`)
+  .join(" | ") || "string"};
+
+export type SolidClasses = { bg: string; text: string; border: string };
+
+export const SEMANTIC_HUE: Record<SemanticRole, string> = ${JSON.stringify(semanticHues, null, 2)};
+
+export const SEMANTIC_CLASSES: Record<SemanticRole, HueClasses> = ${JSON.stringify(
+  semanticClasses,
+  null,
+  2,
+)};
+
+export const SEMANTIC_SOLID: Record<SemanticRole, SolidClasses> = ${JSON.stringify(
+  semanticSolid,
   null,
   2,
 )};

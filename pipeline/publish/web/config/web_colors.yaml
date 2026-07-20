@@ -46,6 +46,17 @@ audience_labels:
   multi: "Shared with multiple professions"
   single: "Profession-specific"
 
+# Semantic roles — one named color per meaning, so the ~50 ad-hoc amber/rose/
+# emerald/yellow Tailwind classes scattered across components resolve to one
+# place. Each is a Tailwind hue; the generator emits the same {bg,text,border,
+# dot} class set as audience/families (SEMANTIC_CLASSES) plus a `solid` variant
+# for filled pills (SEMANTIC_SOLID). Change a meaning's color here, once.
+semantic:
+  attention: amber    # unverified quotes, unclassified statutes, caution, bucket chips
+  highlight: yellow    # search hits / highlighted spans
+  restrictive: rose    # "more restrictive" direction, disciplinary grounds, no/bad
+  permissive: emerald  # "more permissive" direction, yes/good
+
 # ---------------------------------------------------------------------------
 # Value-based color tokens (concrete colors, NOT Tailwind hue names). These are
 # for the places a Tailwind class won't do: SVG map fills and d3 scales need a

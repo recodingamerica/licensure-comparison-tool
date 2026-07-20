@@ -15,23 +15,16 @@
 
 import { Suspense, use, useEffect, useState } from "react";
 import Link from "next/link";
-import type { BrowseSection } from "@/lib/types";
+import type { BrowsePayload } from "@/lib/types";
 import type { TreeNode } from "@/components/browse/tree-node";
 import { BrowseClient } from "@/components/browse/browse-client";
 
 type Params = Promise<{ state: string; prof: string }>;
 
-type BrowsePayload = {
-  state: string;
-  profession: string;
-  sections: BrowseSection[];
-  groups: Array<{ key: BrowseSection["scope_layer"]; tree: TreeNode[] }>;
-};
-
 function BrowseInner({ params }: { params: Params }) {
   const { state: rawState, prof } = use(params);
   const state = rawState.toUpperCase();
-  const [payload, setPayload] = useState<BrowsePayload | null>(null);
+  const [payload, setPayload] = useState<BrowsePayload<TreeNode> | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -45,7 +38,7 @@ function BrowseInner({ params }: { params: Params }) {
         if (!r.ok) throw new Error(`No browse data for ${prof}/${state}`);
         return r.json();
       })
-      .then((d: BrowsePayload) => setPayload(d))
+      .then((d: BrowsePayload<TreeNode>) => setPayload(d))
       .catch((e) => setError(String(e)));
   }, [prof, state]);
 

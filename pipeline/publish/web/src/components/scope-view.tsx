@@ -10,18 +10,10 @@
 import { useEffect, useMemo, useState } from "react";
 import { UsMap } from "@/components/us-map";
 import { token } from "@/lib/web-colors";
+import { STATE_CODES as STATES, FOCUS_STATE as FOCUS } from "@/lib/states";
 
 type Capability = { label: string; states: string[] };
 type ScopeData = Record<string, { display: string; capabilities: Capability[] }>;
-
-// 50 states + DC, sorted — the matrix columns and map coverage universe.
-const STATES = [
-  "AK","AL","AR","AZ","CA","CO","CT","DC","DE","FL","GA","HI","IA","ID","IL","IN",
-  "KS","KY","LA","MA","MD","ME","MI","MN","MO","MS","MT","NC","ND","NE","NH","NJ",
-  "NM","NV","NY","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VA","VT","WA",
-  "WI","WV","WY",
-];
-const FOCUS = "UT"; // Utah — the tool's home state, highlighted throughout.
 
 export function ScopeView({ professionId }: { professionId: string }) {
   const [all, setAll] = useState<ScopeData | null>(null);

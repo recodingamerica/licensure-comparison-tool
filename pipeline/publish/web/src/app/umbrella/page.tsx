@@ -13,6 +13,7 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Combobox, type ComboboxOption } from "@/components/ui/combobox";
+import { humanize as fmtProf } from "@/lib/format";
 
 type Coverage = { universal: number; enumerated: number; undetermined: number };
 type IndexState = {
@@ -28,9 +29,6 @@ type IndexPayload = {
   matrix: Record<string, Record<string, number>>;
 };
 
-function fmtProf(p: string) {
-  return p.replace(/_/g, " ");
-}
 
 export default function UmbrellaIndexPage() {
   const [data, setData] = useState<IndexPayload | null>(null);

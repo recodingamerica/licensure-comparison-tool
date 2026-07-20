@@ -16,26 +16,8 @@
 import { useEffect, useMemo, useState } from "react";
 import type { ProfileAnalysis } from "@/lib/types";
 import { UsMap, NO_DATA_FILL } from "@/components/us-map";
+import { fieldLabel, formatFieldValue as val } from "@/lib/format";
 
-const GENERIC = new Set([
-  "required", "available", "exists", "offered", "permitted",
-  "authorized", "prohibited", "allowed", "excluded", "type",
-]);
-function fieldLabel(f: string): string {
-  const parts = f.split(".");
-  let leaf = parts[parts.length - 1];
-  if (GENERIC.has(leaf) && parts.length >= 2) leaf = `${parts[parts.length - 2]}_${leaf}`;
-  const s = leaf.replace(/_/g, " ");
-  return s.charAt(0).toUpperCase() + s.slice(1);
-}
-const val = (v: string) => {
-  if (v === "true") return "yes";
-  if (v === "false") return "no";
-  // Whole-number values come through as "7.0" — show them as "7".
-  const n = Number(v);
-  if (v.trim() !== "" && Number.isInteger(n)) return String(n);
-  return v.replace(/_/g, " ");
-};
 const lc = (s: string) => (s ? s.charAt(0).toLowerCase() + s.slice(1) : s);
 function joinAnd(items: string[]): string {
   if (items.length <= 1) return items[0] ?? "";
