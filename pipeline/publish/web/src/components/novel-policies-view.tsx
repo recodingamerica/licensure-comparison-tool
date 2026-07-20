@@ -9,6 +9,7 @@
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 import type { ProfileAnalysis, NovelPolicy } from "@/lib/types";
 import { fieldLabel, formatFieldValue as val } from "@/lib/format";
+import { SEMANTIC_CLASSES as SC, SEMANTIC_SOLID as SS } from "@/lib/web-colors";
 
 // Match KIND_STYLE.fill in similarity-view: amber = rare authority, sky = unusual value.
 const KIND_FILL: Record<NovelPolicy["kind"], string> = {
@@ -53,14 +54,14 @@ const DIR_LABEL: Record<DirKey, string> = {
   neutral: "Neutral",
 };
 const DIR_STYLE: Record<DirKey, string> = {
-  more_restrictive: "border-rose-300 text-rose-700",
-  more_permissive: "border-emerald-300 text-emerald-700",
-  neutral: "border-slate-300 text-slate-600",
+  more_restrictive: `${SC.restrictive.border} ${SC.restrictive.text}`,
+  more_permissive: `${SC.permissive.border} ${SC.permissive.text}`,
+  neutral: "border-border text-muted-foreground",
 };
 const DIR_ACTIVE: Record<DirKey, string> = {
-  more_restrictive: "border-rose-600 bg-rose-600 text-white",
-  more_permissive: "border-emerald-600 bg-emerald-600 text-white",
-  neutral: "border-slate-500 bg-slate-500 text-white",
+  more_restrictive: `${SS.restrictive.bg} ${SS.restrictive.border} text-white`,
+  more_permissive: `${SS.permissive.bg} ${SS.permissive.border} text-white`,
+  neutral: "border-muted-foreground bg-muted-foreground text-background",
 };
 
 // The short teaser on the card face.
