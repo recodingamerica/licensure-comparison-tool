@@ -107,22 +107,18 @@ _PAGE = """<!doctype html>
   </details>
   <div class="totals">
     <span><b id="t-prof"></b> occupations</span>
-    <span><b id="t-current"></b> states with current data</span>
-    <span><b id="t-ready"></b> fetched, not yet built</span>
-    <span><b id="t-noschema"></b> fetched but no schema</span>
-    <span><b id="t-stale"></b> stale</span>
-    <span><b id="t-unstamped"></b> unverified</span>
-    <span><b id="t-fetch"></b> not fetched</span>
+    <span><b id="t-ready"></b> states with data</span>
+    <span><b id="t-located"></b> located, not built</span>
+    <span><b id="t-nostatute"></b> no statute</span>
+    <span><b id="t-unlooked"></b> not checked</span>
   </div>
 </header>
 <div class="legend">
-  <span><i class="swatch" style="background:var(--done)"></i>data ready &amp; up to date</span>
-  <span><i class="swatch" style="background:var(--unstamped)"></i>data built, freshness not tracked yet</span>
-  <span><i class="swatch" style="background:var(--stale)"></i>stale — law/prompt changed, rebuild</span>
-  <span><i class="swatch" style="background:var(--ready)"></i>law fetched — run trim+extract to build data</span>
-  <span><i class="swatch" style="background:var(--noschema)"></i>law fetched, but no schema yet — can't extract</span>
-  <span><i class="swatch" style="background:var(--fetch)"></i>law not fetched yet</span>
-  <span><i class="swatch" style="background:var(--absent)"></i>no such law / not checked</span>
+  <span><i class="swatch" style="background:var(--done)"></i><b>Data ready</b> — statute fetched &amp; extracted</span>
+  <span><i class="swatch" style="background:var(--fetch)"></i><b>Located</b> — we know the statute, haven't trimmed &amp; extracted it yet</span>
+  <span><i class="swatch" style="background:var(--absent)"></i><b>No statute</b> — we looked; no state statute exists (local/admin/none)</span>
+  <span><i class="swatch" style="background:var(--unknown)"></i><b>Not checked</b> — we haven't looked yet</span>
+  <span class="muted">Stale cells (data present but the law or prompt changed) stay in <b>Data ready</b> — the per-occupation <b>Updated</b> date shows how current it is.</span>
 </div>
 <div class="controls">
   <input type="search" id="q" placeholder="filter occupations…" autocomplete="off">
@@ -131,7 +127,7 @@ _PAGE = """<!doctype html>
 <table class="grid-tbl">
   <thead><tr>
     <th style="width:28px"></th><th style="width:24px"></th><th>Occupation</th>
-    <th>Coverage</th><th class="num">To&nbsp;run</th><th class="num">Cost</th>
+    <th>Coverage</th><th class="num">Updated</th><th class="num">To&nbsp;run</th><th class="num">Cost</th>
   </tr></thead>
   <tbody id="rows"></tbody>
 </table>
@@ -157,28 +153,49 @@ const selected = new Set();
 
 function fmt(n){ return "$" + n.toFixed(2); }
 
-function cellColor(c){
-  if (c.stage === "done"){
-    if (c.fresh === "stale") return "var(--stale)";
-    if (c.fresh === "unstamped") return "var(--unstamped)";
-    return "var(--done)";
-  }
-  if (c.needs_schema) return "var(--noschema)"; // corpus on disk but no schema → can't extract
-  if (c.stage === "needs-fetch") return "var(--fetch)";
-  if (c.stage === "absent") return "var(--absent)";
-  if (c.stage === "unknown") return "var(--unknown)";
-  return "var(--ready)"; // pulled / cleaned / trimmed
+// Four plain-language buckets (Atharv #74). A cell is either: we have the
+// structured data (done — stale/unstamped included, recency shown by the date);
+// we know where the statute is but haven't built it (needs-fetch / pulled /
+// cleaned / trimmed / no-schema); we looked and there's no state statute
+// (absent); or we haven't looked (unknown).
+function cellCategory(c){
+  if (c.stage === "done") return "ready";
+  if (c.stage === "absent") return "nostatute";
+  if (c.stage === "unknown") return "unlooked";
+  return "located"; // needs-fetch, pulled/cleaned/trimmed, needs_schema
 }
+const CAT_COLOR = {
+  ready: "var(--done)", located: "var(--fetch)",
+  nostatute: "var(--absent)", unlooked: "var(--unknown)",
+};
+function cellColor(c){ return CAT_COLOR[cellCategory(c)]; }
 
-// ---- header totals ----
+// ---- header totals (summed into the 4 buckets) ----
 const T = DATA.totals;
+let bReady = 0, bLocated = 0, bNo = 0, bUnlooked = 0;
+for (const p in DATA.professions){
+  const s = DATA.professions[p].summary;
+  bReady    += s.done_current + s.done_unstamped + s.done_stale;
+  bLocated  += s.ready + s.needs_schema + s.needs_fetch;
+  bNo       += s.absent;
+  bUnlooked += s.unknown;
+}
 document.getElementById("t-prof").textContent = T.professions;
-document.getElementById("t-current").textContent = T.cells_current;
-document.getElementById("t-ready").textContent = T.cells_ready;
-document.getElementById("t-noschema").textContent = T.cells_needs_schema;
-document.getElementById("t-stale").textContent = T.cells_stale;
-document.getElementById("t-unstamped").textContent = T.cells_unstamped;
-document.getElementById("t-fetch").textContent = T.cells_needs_fetch;
+document.getElementById("t-ready").textContent = bReady;
+document.getElementById("t-located").textContent = bLocated;
+document.getElementById("t-nostatute").textContent = bNo;
+document.getElementById("t-unlooked").textContent = bUnlooked;
+
+// Most-recent build date across an occupation's cells — the "last overall
+// update" Atharv asked for. Cells carry last_processed (ISO); take the max.
+function occUpdated(p){
+  let best = "";
+  for (const c of Object.values(DATA.professions[p].states)){
+    const d = (c.last_processed || "").slice(0, 10);
+    if (d && d > best) best = d;
+  }
+  return best;
+}
 
 // ---- rows ----
 const rowsEl = document.getElementById("rows");
@@ -188,9 +205,10 @@ const order = Object.keys(DATA.professions).sort((a,b) =>
 
 function bar(sm){
   const seg = (n,c) => n ? `<span style="width:${100*n/50}%;background:${c}"></span>` : "";
-  return `<div class="bar">${seg(sm.done_current,"var(--done)")}${seg(sm.done_unstamped,"var(--unstamped)")}`
-       + `${seg(sm.done_stale,"var(--stale)")}${seg(sm.ready,"var(--ready)")}${seg(sm.needs_schema,"var(--noschema)")}`
-       + `${seg(sm.needs_fetch,"var(--fetch)")}${seg(sm.absent+sm.unknown,"var(--absent)")}</div>`;
+  const ready = sm.done_current + sm.done_unstamped + sm.done_stale;
+  const located = sm.ready + sm.needs_schema + sm.needs_fetch;
+  return `<div class="bar">${seg(ready,"var(--done)")}${seg(located,"var(--fetch)")}`
+       + `${seg(sm.absent,"var(--absent)")}${seg(sm.unknown,"var(--unknown)")}</div>`;
 }
 
 function actionable(p){ const s = DATA.professions[p].summary; return s.ready + s.done_stale; }
@@ -206,6 +224,7 @@ for (const p of order){
   + `<td class="caret">▸</td>`
   + `<td class="name">${p.replace(/_/g," ")}</td>`
   + `<td>${bar(sm)}</td>`
+  + `<td class="num" style="color:var(--muted);font-size:13px">${occUpdated(p) || "—"}</td>`
   + `<td class="num">${actionable(p) || "—"}</td>`
   + `<td class="num cost">${sm.cost_runnable ? fmt(sm.cost_runnable) : (sm.done ? "done" : "—")}</td>`;
   rowsEl.appendChild(tr);
@@ -225,7 +244,7 @@ for (const p of order){
       ? `<a class="${cls}" href="${url}" target="_blank" rel="noopener" title="${tip}" style="background:${color}">${s}</a>`
       : `<span class="${cls}" title="${tip}" style="background:${color}">${s}</span>`;
   }).join("");
-  detail.innerHTML = `<td colspan="6"><div class="states">${chips}</div></td>`;
+  detail.innerHTML = `<td colspan="7"><div class="states">${chips}</div></td>`;
   rowsEl.appendChild(detail);
 }
 
