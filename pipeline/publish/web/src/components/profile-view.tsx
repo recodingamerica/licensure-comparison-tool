@@ -1804,6 +1804,25 @@ export function ProfileView({
         ],
       },
       {
+        // Mirrors the field dictionary's "Licensure" bucket (Atharv #75): the
+        // credential model, authority, entry requirements, CE, renewal, reciprocity.
+        key: "license",
+        label: "License",
+        ids: [
+          "regulatory_model",
+          "license_required",
+          "issuing_authority",
+          "education_degree",
+          "exams_count",
+          "post_degree_duration",
+          "age_minimum",
+          "moral_character_required",
+          "continuing_ed",
+          "renewal_years",
+          "reciprocity_available",
+        ],
+      },
+      {
         key: "scope",
         label: "Scope of practice",
         ids: [
@@ -1962,6 +1981,17 @@ export function ProfileView({
               <span className="text-foreground">≡</span> icon). Or pick a view
               above; toggle individual columns at right.
             </span>
+
+            {/* CE units atlas (Atharv #75): the "24 / 2" format is cryptic, so
+                explain it inline whenever the Continuing Ed column is showing. */}
+            {visibleColumns.has("continuing_ed") && (
+              <span className="text-xs inline-flex items-center gap-1.5 rounded border bg-muted/30 px-2 py-1 text-muted-foreground">
+                <span className="font-medium text-foreground">Continuing&nbsp;Ed</span>
+                reads <span className="font-mono">hours&nbsp;/&nbsp;years</span> — e.g.{" "}
+                <span className="font-mono text-foreground">24&nbsp;/&nbsp;2</span> = 24 CE
+                hours every 2-year renewal.
+              </span>
+            )}
 
             <ColumnVisibilityPopover
               columns={toggleableColumns.map((c) => {
