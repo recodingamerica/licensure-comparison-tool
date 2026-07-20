@@ -19,6 +19,7 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
+import { Eyebrow } from "@/components/ui/eyebrow";
 import {
   type Tag,
   type SubField,
@@ -123,9 +124,9 @@ export function ProfileTags({ professionId }: { professionId: string }) {
 
 function SectionHeading({ children }: { children: React.ReactNode }) {
   return (
-    <h3 className="text-xs font-mono uppercase tracking-widest text-muted-foreground border-b pb-2 mt-8 mb-4">
+    <Eyebrow as="h3" className="border-b pb-2 mt-8 mb-4">
       {children}
-    </h3>
+    </Eyebrow>
   );
 }
 

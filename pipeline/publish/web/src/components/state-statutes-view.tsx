@@ -16,6 +16,7 @@ import Link from "next/link";
 import type { StateBrowsePayload } from "@/lib/state-browse-types";
 import { professionStyle, useProfessionMeta } from "@/lib/profession-colors";
 import { humanize as fmtProf } from "@/lib/format";
+import { Eyebrow } from "@/components/ui/eyebrow";
 
 function summariseForProfession(payload: StateBrowsePayload, prof: string) {
   let practice = 0,
@@ -117,9 +118,9 @@ export function StateStatutesView({ payload }: { payload: StateBrowsePayload }) 
       </div>
 
       <section>
-        <h2 className="text-xs font-mono tracking-widest uppercase text-muted-foreground mb-3">
+        <Eyebrow as="h2" className="mb-3">
           Professions regulated
-        </h2>
+        </Eyebrow>
         <div className="grid gap-3">
           {summaries.map((s) => (
             <ProfessionEntry

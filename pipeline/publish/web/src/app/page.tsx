@@ -8,6 +8,7 @@ import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { professionStyle, useProfessionMeta } from "@/lib/profession-colors";
 import { UsMap, NO_DATA_FILL } from "@/components/us-map";
 import { token } from "@/lib/web-colors";
+import { Eyebrow } from "@/components/ui/eyebrow";
 
 type StatesListEntry = {
   state: string;
@@ -111,9 +112,7 @@ export default function HomePage() {
 
   return (
     <main className="mx-auto max-w-3xl px-6 py-12">
-      <p className="text-xs font-mono tracking-widest uppercase text-muted-foreground mb-3">
-        State licensing data
-      </p>
+      <Eyebrow className="mb-3">State licensing data</Eyebrow>
       <h1 className="text-3xl font-semibold tracking-tight mb-2">
         {mode === "profession" ? "Pick a profession" : "Pick a state"}
       </h1>
@@ -224,9 +223,7 @@ export default function HomePage() {
           below in the Reports section. */}
 
       <section className="mt-10">
-        <p className="text-xs font-mono tracking-widest uppercase text-muted-foreground mb-3">
-          Reports
-        </p>
+        <Eyebrow className="mb-3">Reports</Eyebrow>
         <div className="grid gap-3">
           <Link href="/statute-dictionary" className="block group">
             <Card className="py-3 transition-colors hover:border-foreground/30">

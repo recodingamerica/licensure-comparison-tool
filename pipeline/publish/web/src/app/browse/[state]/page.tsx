@@ -9,30 +9,21 @@
 // multi-prof shows if the selected set intersects applies_to,
 // single-prof shows if its profession is selected.
 
-import { Suspense, use, useEffect, useState } from "react";
+import { Suspense, use } from "react";
 import Link from "next/link";
 import { StateBrowseClient } from "@/components/browse/state-browse-client";
 import type { StateBrowsePayload } from "@/lib/state-browse-types";
+import { useJsonData } from "@/lib/use-json-data";
 
 type Params = Promise<{ state: string }>;
 
 function StateBrowseInner({ params }: { params: Params }) {
   const { state: rawState } = use(params);
   const state = rawState.toUpperCase();
-  const [payload, setPayload] = useState<StateBrowsePayload | null>(null);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    setPayload(null);
-    setError(null);
-    fetch(`/data/state/${encodeURIComponent(state)}.json`)
-      .then((r) => {
-        if (!r.ok) throw new Error(`No state data for ${state}`);
-        return r.json();
-      })
-      .then((d: StateBrowsePayload) => setPayload(d))
-      .catch((e) => setError(String(e)));
-  }, [state]);
+  const { data: payload, error } = useJsonData<StateBrowsePayload>(
+    `/data/state/${encodeURIComponent(state)}.json`,
+    `No state data for ${state}`,
+  );
 
   if (error) {
     return (

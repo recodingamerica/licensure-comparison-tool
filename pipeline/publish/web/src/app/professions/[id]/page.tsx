@@ -11,7 +11,7 @@
 // for umbrella-only ones.
 
 import { Suspense, use, useEffect, useMemo, useState } from "react";
-import Link from "next/link";
+import { BackLink } from "@/components/ui/back-link";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import type { ProfilePayload } from "@/lib/types";
 import { ProfileView } from "@/components/profile-view";
@@ -95,12 +95,7 @@ function ProfessionInner({ params }: { params: Promise<{ id: string }> }) {
   return (
     <main className="mx-auto max-w-7xl px-6 py-10 space-y-6">
       <div className="flex items-baseline gap-3">
-        <Link
-          href="/"
-          className="text-xs font-mono uppercase tracking-widest text-muted-foreground hover:text-foreground"
-        >
-          ← all professions
-        </Link>
+        <BackLink href="/">all professions</BackLink>
       </div>
       <header className="space-y-1">
         <h1 className="text-2xl font-semibold flex items-center gap-3">

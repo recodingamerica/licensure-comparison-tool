@@ -7,39 +7,25 @@
 // /professions/[id]?view=statutes which does the same merge on the
 // profession-first axis.
 
-import { Suspense, use, useEffect, useState } from "react";
-import Link from "next/link";
+import { Suspense, use } from "react";
+import { BackLink } from "@/components/ui/back-link";
 import { StateStatutesView } from "@/components/state-statutes-view";
 import type { StateBrowsePayload } from "@/lib/state-browse-types";
+import { useJsonData } from "@/lib/use-json-data";
 
 function StateInner({ params }: { params: Promise<{ code: string }> }) {
   const { code: raw } = use(params);
   const code = raw.toUpperCase();
 
-  const [payload, setPayload] = useState<StateBrowsePayload | null>(null);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    setPayload(null);
-    setError(null);
-    fetch(`/data/state/${encodeURIComponent(code)}.json`)
-      .then((r) => {
-        if (!r.ok) throw new Error(`No state data for ${code}`);
-        return r.json();
-      })
-      .then((d: StateBrowsePayload) => setPayload(d))
-      .catch((e) => setError(String(e)));
-  }, [code]);
+  const { data: payload, error } = useJsonData<StateBrowsePayload>(
+    `/data/state/${encodeURIComponent(code)}.json`,
+    `No state data for ${code}`,
+  );
 
   return (
     <main className="mx-auto max-w-7xl px-6 py-10 space-y-6">
       <div className="flex items-baseline gap-3">
-        <Link
-          href="/"
-          className="text-xs font-mono uppercase tracking-widest text-muted-foreground hover:text-foreground"
-        >
-          ← all states
-        </Link>
+        <BackLink href="/">all states</BackLink>
       </div>
       <header className="space-y-1">
         <h1 className="text-2xl font-semibold">{code}</h1>

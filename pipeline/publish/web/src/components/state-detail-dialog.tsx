@@ -17,6 +17,7 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { Badge } from "@/components/ui/badge";
+import { Eyebrow } from "@/components/ui/eyebrow";
 import { SEMANTIC_CLASSES as SC } from "@/lib/web-colors";
 import {
   EvidenceRow,
@@ -490,9 +491,9 @@ function EducationTiers({ tiers }: { tiers?: EducationTier[] | null }) {
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <section>
-      <h3 className="text-xs font-mono uppercase tracking-widest text-muted-foreground mb-2">
+      <Eyebrow as="h3" className="mb-2">
         {title}
-      </h3>
+      </Eyebrow>
       <div>{children}</div>
     </section>
   );
@@ -512,11 +513,11 @@ function StatuteTextMatches({ query, sectionText }: { query: string; sectionText
   if (!q) return null;
   return (
     <section>
-      <h3 className="text-xs font-mono uppercase tracking-widest text-muted-foreground mb-2">
+      <Eyebrow as="h3" className="mb-2">
         Statute text matches for{" "}
         <span className="text-foreground">&ldquo;{q}&rdquo;</span>{" "}
         <span className="text-muted-foreground">({snippets.length})</span>
-      </h3>
+      </Eyebrow>
       {snippets.length === 0 ? (
         <p className="text-xs text-muted-foreground italic">
           No matches in the combined statute text. The row matched on a

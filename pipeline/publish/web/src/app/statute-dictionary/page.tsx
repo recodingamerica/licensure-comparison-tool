@@ -7,7 +7,7 @@
 // visible rather than dead-ends.
 
 import { Suspense, useEffect, useMemo, useState } from "react";
-import Link from "next/link";
+import { BackLink } from "@/components/ui/back-link";
 import { Combobox, type ComboboxOption } from "@/components/ui/combobox";
 import { BrowseClient } from "@/components/browse/browse-client";
 import type { BrowsePayload } from "@/lib/types";
@@ -106,12 +106,7 @@ function StatuteDictionaryInner() {
     <div className="flex flex-col h-screen">
       <header className="border-b px-6 py-3 bg-background">
         <div className="flex items-baseline gap-3 flex-wrap">
-          <Link
-            href="/"
-            className="text-xs font-mono uppercase tracking-widest text-muted-foreground hover:text-foreground"
-          >
-            ← home
-          </Link>
+          <BackLink href="/">home</BackLink>
           <h1 className="text-lg font-semibold">Statute Dictionary</h1>
           <span className="text-xs text-muted-foreground">
             pick an occupation and a state to see its full statute tree

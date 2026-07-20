@@ -1,6 +1,7 @@
 "use client";
 
-import Link from "next/link";
+import { BackLink } from "@/components/ui/back-link";
+import { Eyebrow } from "@/components/ui/eyebrow";
 import { useEffect, useState } from "react";
 import { SEMANTIC_CLASSES as SC } from "@/lib/web-colors";
 
@@ -51,16 +52,9 @@ export default function ScorecardPage() {
 
   return (
     <main className="mx-auto max-w-5xl px-6 py-10">
-      <Link
-        href="/"
-        className="text-xs font-mono uppercase tracking-widest text-muted-foreground hover:text-foreground"
-      >
-        ← home
-      </Link>
+      <BackLink href="/">home</BackLink>
 
-      <p className="mt-6 text-xs font-mono tracking-widest uppercase text-muted-foreground">
-        Report
-      </p>
+      <Eyebrow className="mt-6">Report</Eyebrow>
       <h1 className="text-3xl font-semibold tracking-tight mt-1 mb-2">
         Universal field cross-comparison
       </h1>
