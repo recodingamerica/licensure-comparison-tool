@@ -265,12 +265,12 @@ export function NovelPoliciesView({ professionId }: { professionId: string }) {
   const nDirected = [...dirCounts.values()].reduce((a, b) => a + b, 0);
 
   return (
-    <div className="max-w-5xl">
+    <div className="max-w-7xl">
       <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
         Policy innovations &amp; oddities
       </p>
-      <h2 className="mt-1 text-xl font-semibold">What only a few states do</h2>
-      <p className="mt-1 text-[15px] leading-relaxed text-muted-foreground">
+      <h2 className="mt-1 text-2xl font-semibold">What only a few states do</h2>
+      <p className="mt-1 text-base leading-relaxed text-muted-foreground">
         Rare values across every tracked field — ideas to benchmark, and outliers to scrutinize.
         Sorted by how few states share each one. Click one for the step-by-step.
       </p>
@@ -390,13 +390,13 @@ export function NovelPoliciesView({ professionId }: { professionId: string }) {
                         className="mt-1 inline-block h-2 w-2 shrink-0 rounded-full"
                         style={{ background: KIND_FILL[p.kind] }}
                       />
-                      <span className="text-[15px] font-medium leading-snug">{p.label}</span>
+                      <span className="text-base font-medium leading-snug">{p.label}</span>
                     </div>
-                    <span className="shrink-0 whitespace-nowrap text-sm tabular-nums text-muted-foreground">
+                    <span className="shrink-0 whitespace-nowrap text-[15px] tabular-nums text-muted-foreground">
                       {p.n_states}/{total} states
                     </span>
                   </div>
-                  <p className="mt-1 pl-4 text-sm text-muted-foreground">{novelDescription(p, total)}</p>
+                  <p className="mt-1 pl-4 text-[15px] text-muted-foreground">{novelDescription(p, total)}</p>
                   <div className="mt-2 flex items-center justify-between gap-2 pl-4">
                     <div className="flex flex-wrap gap-1">
                       {p.states.map((s) => (

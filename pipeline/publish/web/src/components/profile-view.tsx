@@ -382,6 +382,25 @@ function ColumnVisibilityPopover({
     [grouped],
   );
 
+  // Keep the panel on-screen: it's anchored `right-0` off the trigger, so when
+  // the trigger sits near a viewport edge the fixed-width panel would spill off
+  // (Atharv #75: "shows up half off-screen"). After it opens, measure and nudge
+  // it horizontally so both edges stay within an 8px margin.
+  const menuRef = useRef<HTMLDivElement>(null);
+  const [shiftX, setShiftX] = useState(0);
+  useEffect(() => {
+    if (!open) {
+      setShiftX(0);
+      return;
+    }
+    const el = menuRef.current;
+    if (!el) return;
+    const r = el.getBoundingClientRect();
+    const M = 8;
+    if (r.left < M) setShiftX(M - r.left);
+    else if (r.right > window.innerWidth - M) setShiftX(window.innerWidth - M - r.right);
+  }, [open]);
+
   return (
     <div ref={ref} className="relative inline-block">
       <Button
@@ -395,7 +414,9 @@ function ColumnVisibilityPopover({
       </Button>
       {open && (
         <div
+          ref={menuRef}
           role="menu"
+          style={shiftX ? { transform: `translateX(${shiftX}px)` } : undefined}
           className="absolute right-0 top-full mt-1 w-80 max-h-[70vh] flex flex-col rounded-md border bg-popover text-popover-foreground shadow-md z-50"
         >
           <div className="px-2 pt-2 pb-1.5 text-xs font-mono uppercase tracking-widest text-muted-foreground">
@@ -716,6 +737,16 @@ const MULTICHECK_CARDINALITY_THRESHOLD = 25;
 // compute. Used at build time to count unique values so we can pick the
 // right filter type.
 function extractColValue(c: ColDef<Row>, row: Row): unknown {
+  // A filterValueGetter overrides field/valueGetter for what the filter sees
+  // (getValue), so cardinality must be counted on it too — otherwise a column
+  // whose cells show free text but filters on a small normalized enum (e.g.
+  // Education → degree_level) would be miscounted as high-cardinality and lose
+  // its multicheck dropdown.
+  if (typeof c.filterValueGetter === "function") {
+    return (
+      c.filterValueGetter as unknown as (p: { data: Row; node: { data: Row } }) => unknown
+    )({ data: row, node: { data: row } });
+  }
   if (c.field) {
     return (row as unknown as Record<string, unknown>)[c.field as string];
   }
@@ -951,7 +982,13 @@ function buildColumnDefs(
     cellRenderer: textBuckets[BUCKET_PATHS.education_degree]
       ? makeBucketAwareCell(textBuckets[BUCKET_PATHS.education_degree].by_state)
       : TextCellRenderer,
-    filter: "agTextColumnFilter",
+    // Cells show the verbatim degree text, but filter on the normalized
+    // degree_level enum so the header dropdown offers a short tag list
+    // (Associate/Bachelor's/… ) instead of dozens of free-text strings
+    // (Atharv #75). filterValueGetter drives both the dropdown values and the
+    // pass predicate via the filter's getValue.
+    filterValueGetter: (p) => ev(p.data, "licensure", "education", "degree_level"),
+    filter: MulticheckFilter,
     wrapText: true,
     cellClass: "leading-snug",
   },
