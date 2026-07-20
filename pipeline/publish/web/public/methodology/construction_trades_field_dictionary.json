@@ -1,6 +1,6 @@
 {
   "profession": "construction_trades",
-  "data_as_of": "2026-06-24",
+  "data_as_of": "2026-07-18",
   "groups": [
     {
       "group": "licensure",
@@ -15,7 +15,8 @@
           "example": {
             "value": true,
             "quote": "A person may not submit a bid or work as a contractor until that person has been issued a certificate of registration as a contractor by the department.",
-            "citation": "08.18.011"
+            "citation": "08.18.011",
+            "state": "AK"
           }
         },
         {
@@ -27,7 +28,8 @@
           "example": {
             "value": "Department of Commerce, Community, and Economic Development",
             "quote": "\"department\" means the Department of Commerce, Community, and Economic Development, unless the context indicates otherwise",
-            "citation": "08.18.171"
+            "citation": "08.18.171",
+            "state": "AK"
           }
         },
         {
@@ -47,7 +49,8 @@
           "example": {
             "value": "Department of Commerce, Community, and Economic Development",
             "quote": "\"department\" means the Department of Commerce, Community, and Economic Development, unless the context indicates otherwise",
-            "citation": "08.18.171"
+            "citation": "08.18.171",
+            "state": "AK"
           }
         },
         {
@@ -65,8 +68,9 @@
           "depth": 1,
           "example": {
             "value": "department",
-            "quote": "\"commissioner,\" unless the text reads otherwise, means the commissioner of the Department of Commerce, Community, and Economic Development",
-            "citation": "08.18.171"
+            "quote": "\"department\" means the Department of Commerce, Community, and Economic Development, unless the context indicates otherwise",
+            "citation": "08.18.171",
+            "state": "AK"
           }
         },
         {
@@ -75,7 +79,12 @@
           "vocabulary": [],
           "meaning": "Higher-level agency that contains the immediate authority, if any. Example: 'Division of Occupations and Professions, Department of Commerce'. Null for standalone boards that don't sit inside a larger department.",
           "depth": 1,
-          "example": null
+          "example": {
+            "value": "Department of Consumer Affairs",
+            "quote": "There is in the Department of Consumer Affairs a Contractors State License Board",
+            "citation": "7000.5",
+            "state": "CA"
+          }
         },
         {
           "field": "age_minimum",
@@ -83,7 +92,12 @@
           "vocabulary": [],
           "meaning": "Minimum age (years) to hold the credential, if the statute sets one.",
           "depth": 0,
-          "example": null
+          "example": {
+            "value": 18,
+            "quote": "A statement that the applicant requesting the roofing contractor registration certificate is at least eighteen (18) years of age",
+            "citation": "17-25-604",
+            "state": "AR"
+          }
         },
         {
           "field": "moral_character_required",
@@ -91,7 +105,12 @@
           "vocabulary": [],
           "meaning": "Whether the statute conditions licensure on good moral character / fitness.",
           "depth": 0,
-          "example": null
+          "example": {
+            "value": true,
+            "quote": "To obtain, renew or maintain a license under this chapter, each person who is named on a license must not have engaged in contracting without a license or committed any act that, if committed or done ",
+            "citation": "A.R.S. § 32-1122",
+            "state": "AZ"
+          }
         },
         {
           "field": "education",
@@ -107,7 +126,12 @@
           "vocabulary": [],
           "meaning": "",
           "depth": 1,
-          "example": null
+          "example": {
+            "value": "Educational and experience requirements adopted by the department in regulations (for home inspectors)",
+            "quote": "meets the educational and experience requirements adopted by the department in regulations for the type of registration applied for",
+            "citation": "08.18.022",
+            "state": "AK"
+          }
         },
         {
           "field": "education.accrediting_body",
@@ -115,7 +139,12 @@
           "vocabulary": [],
           "meaning": "",
           "depth": 1,
-          "example": null
+          "example": {
+            "value": "accredited 4-year college",
+            "quote": "a baccalaureate degree from an accredited 4-year college in the appropriate field of engineering, architecture, or building construction",
+            "citation": "Fla. Stat. § 489.111",
+            "state": "FL"
+          }
         },
         {
           "field": "education.degree_level",
@@ -130,7 +159,12 @@
           ],
           "meaning": "The comparable education FLOOR as a normalized rung. Populate whenever licensure is gated on a degree; null only if the statute is silent on education.",
           "depth": 1,
-          "example": null
+          "example": {
+            "value": "none",
+            "quote": "The board shall require an applicant to show the degree of knowledge and experience in the classification applied for, and the general knowledge of the building, safety, health, and lien laws of the s",
+            "citation": "Section 7068.",
+            "state": "CA"
+          }
         },
         {
           "field": "education.school_approval_basis",
@@ -143,7 +177,12 @@
           ],
           "meaning": "How the statute decides a school counts. national_accreditor=a named national program accreditor (ACOE/CODA/ACEND/LCME/CPME). regional_accreditor='regionally accredited college or university'. board_approved='approved by the board' (discretionary state gate). unspecified=says 'accredited' with no basis named, or silent.",
           "depth": 1,
-          "example": null
+          "example": {
+            "value": "board_approved",
+            "quote": "meets the educational and experience requirements adopted by the department in regulations for the type of registration applied for",
+            "citation": "08.18.022",
+            "state": "AK"
+          }
         },
         {
           "field": "education.credential_pegged",
@@ -151,7 +190,12 @@
           "vocabulary": [],
           "meaning": "True if the statute pegs the education requirement to a NATIONAL CREDENTIAL (e.g. 'registered by CDR', 'passed the NBEO') rather than (or in addition to) a stated degree — such a state inherits whatever that national body currently requires.",
           "depth": 1,
-          "example": null
+          "example": {
+            "value": false,
+            "quote": "the registrar shall investigate, classify, and qualify applicants for contractors' licenses by written examination",
+            "citation": "Section 7065.",
+            "state": "CA"
+          }
         },
         {
           "field": "education.tiers",
@@ -167,7 +211,10 @@
           "vocabulary": [],
           "meaning": "Which class/date this floor applies to — e.g. 'licensed dietitian', 'certified nutritionist', 'applicants on or after 2024-01-01'.",
           "depth": 2,
-          "example": null
+          "example": {
+            "value": "residential-basic contractor",
+            "state": "GA"
+          }
         },
         {
           "field": "education.tiers[].degree_level",
@@ -182,7 +229,10 @@
           ],
           "meaning": "Normalized education floor, low -> high. Resolved to the rung even when\nthe statute uses verbiage ('six college years' -> doctorate, 'or equivalent\ndegree' -> the named level). Professional/clinical doctorates (OD, DDS, MD,\nDPM) are `doctorate`.",
           "depth": 2,
-          "example": null
+          "example": {
+            "value": "none",
+            "state": "GA"
+          }
         },
         {
           "field": "education.tiers[].effective_date",
@@ -208,8 +258,9 @@
           "depth": 1,
           "example": {
             "value": false,
-            "quote": "A person may not submit a bid or work as a contractor until that person has been issued a certificate of registration as a contractor by the department.",
-            "citation": "08.18.011"
+            "quote": "A subcontractor is not required to sit for any examination before being licensed.",
+            "citation": "34-8-7",
+            "state": "AL"
           }
         },
         {
@@ -225,7 +276,8 @@
           "example": {
             "value": "none",
             "quote": "A person may not submit a bid or work as a contractor until that person has been issued a certificate of registration as a contractor by the department.",
-            "citation": "08.18.011"
+            "citation": "08.18.011",
+            "state": "AK"
           }
         },
         {
@@ -234,7 +286,12 @@
           "vocabulary": [],
           "meaning": "e.g. '24 months', '1 year', '2,000 hours' (free text — units vary)",
           "depth": 1,
-          "example": null
+          "example": {
+            "value": "4 years (minimum 2 within last 10 years)",
+            "quote": "Have a minimum of four years' practical or management trade experience, at least two of which must have been within the last ten years",
+            "citation": "A.R.S. § 32-1122",
+            "state": "AZ"
+          }
         },
         {
           "field": "post_degree_experience.kind",
@@ -242,7 +299,12 @@
           "vocabulary": [],
           "meaning": "e.g. 'podiatric residency', 'accounting work experience', 'AXP'",
           "depth": 1,
-          "example": null
+          "example": {
+            "value": "practical or management trade experience in construction",
+            "quote": "Have a minimum of four years' practical or management trade experience, at least two of which must have been within the last ten years, dealing specifically with the type of construction, or its equiv",
+            "citation": "A.R.S. § 32-1122",
+            "state": "AZ"
+          }
         },
         {
           "field": "exams",
@@ -259,7 +321,8 @@
           "meaning": "",
           "depth": 1,
           "example": {
-            "value": "Residential Contractor Examination"
+            "value": "Home inspection examination (existing homes) – American Society of Home Inspectors or National Association of Home Inspectors",
+            "state": "AK"
           }
         },
         {
@@ -269,7 +332,8 @@
           "meaning": "",
           "depth": 1,
           "example": {
-            "value": true
+            "value": true,
+            "state": "AK"
           }
         },
         {
@@ -279,7 +343,8 @@
           "meaning": "",
           "depth": 1,
           "example": {
-            "value": "Required for residential contractor endorsement; offered at least once each year in each judicial district; may be written or practical."
+            "value": "Required for registration as a home inspector for existing homes.",
+            "state": "AK"
           }
         },
         {
@@ -289,7 +354,8 @@
           "meaning": "Where the exam is administered / who owns it — e.g. 'NBPME (national)', 'state board (in-state)', 'NCLEX-RN (national)'. Use the statute's language; null if the source doesn't say.",
           "depth": 1,
           "example": {
-            "value": "state (department)"
+            "value": "national (American Society of Home Inspectors or National Association of Home Inspectors)",
+            "state": "AK"
           }
         },
         {
@@ -298,7 +364,10 @@
           "vocabulary": [],
           "meaning": "Max attempts allowed before re-qualification. Null if not specified.",
           "depth": 1,
-          "example": null
+          "example": {
+            "value": 5,
+            "state": "OH"
+          }
         },
         {
           "field": "renewal",
@@ -317,7 +386,8 @@
           "example": {
             "value": 2,
             "quote": "Licenses shall be renewed biennially on the dates set by the department with the approval of the respective board.",
-            "citation": "UMBRELLA / Chapter 01. Centralized Licensing"
+            "citation": "UMBRELLA / Chapter 01. Centralized Licensing",
+            "state": "AK"
           }
         },
         {
@@ -326,7 +396,12 @@
           "vocabulary": [],
           "meaning": "License renewal fee in US dollars (integer). Many statutes leave the amount to the board's discretion — leave null in that case.",
           "depth": 0,
-          "example": null
+          "example": {
+            "value": 200,
+            "quote": "two hundred dollars ($200) accompanying applications for renewals under this section",
+            "citation": "34-8-2",
+            "state": "AL"
+          }
         },
         {
           "field": "continuing_education",
@@ -344,8 +419,9 @@
           "depth": 1,
           "example": {
             "value": true,
-            "quote": "A certificate of registration as a home inspector may not be renewed unless the home inspector has complied with the continuing competency requirements established by the department. The department sh",
-            "citation": "08.18.031"
+            "quote": "A certificate of registration as a home inspector may not be renewed unless the home inspector has complied with the continuing competency requirements established by the department.",
+            "citation": "08.18.031",
+            "state": "AK"
           }
         },
         {
@@ -357,7 +433,8 @@
           "example": {
             "value": 8,
             "quote": "The department shall require at least eight hours of continuing competency activity for each licensing period.",
-            "citation": "08.18.031"
+            "citation": "08.18.031",
+            "state": "AK"
           }
         },
         {
@@ -366,7 +443,12 @@
           "vocabulary": [],
           "meaning": "",
           "depth": 1,
-          "example": null
+          "example": {
+            "value": 1,
+            "quote": "Such regulations shall require not less than four hours per year of accredited continuing professional education for such electricians",
+            "citation": "Sec. 20-334d",
+            "state": "CT"
+          }
         },
         {
           "field": "continuing_education.topical_requirements",
@@ -374,7 +456,18 @@
           "vocabulary": [],
           "meaning": "Specific topical CE requirements, e.g. ['1.5 hrs opioid', 'ethics']",
           "depth": 1,
-          "example": null
+          "example": {
+            "value": [
+              "workers' compensation",
+              "business practices",
+              "workplace safety",
+              "wind mitigation methodologies (for applicable categories)",
+              "laws and rules (1 hour)"
+            ],
+            "quote": "a portion of the required 14 hours must deal with the subject of workers' compensation, business practices, workplace safety, and, for applicable licensure categories, wind mitigation methodologies, a",
+            "citation": "Fla. Stat. § 489.115",
+            "state": "FL"
+          }
         },
         {
           "field": "reciprocity",
@@ -393,7 +486,8 @@
           "example": {
             "value": true,
             "quote": "A board established under this title and the department, with respect to an occupation that it regulates under this title, may by regulation establish criteria for issuing a temporary courtesy license",
-            "citation": "UMBRELLA / Chapter 01. Centralized Licensing"
+            "citation": "UMBRELLA / Chapter 01. Centralized Licensing",
+            "state": "AK"
           }
         },
         {
@@ -403,9 +497,10 @@
           "meaning": "Free-form summary",
           "depth": 1,
           "example": {
-            "value": "Temporary courtesy licenses may be issued to nonresidents by regulation; military courtesy licenses available to active duty members and spouses who hold a current license in another state with substantially equivalent requirements.",
-            "quote": "the department shall issue a temporary courtesy license to an active duty member of the armed forces of the United States or the spouse of an active duty member of the armed forces of the United State",
-            "citation": "UMBRELLA / Chapter 01. Centralized Licensing"
+            "value": "Temporary courtesy licenses may be issued to nonresidents; military members and spouses with substantially equivalent credentials from another state may obtain temporary courtesy licenses valid for 180 days (extendable once).",
+            "quote": "the department or appropriate board shall issue a temporary courtesy license to an active duty member of the armed forces of the United States or the spouse of an active duty member of the armed force",
+            "citation": "UMBRELLA / Chapter 01. Centralized Licensing",
+            "state": "AK"
           }
         },
         {
@@ -425,7 +520,8 @@
           "example": {
             "value": false,
             "quote": "\"department\" means the Department of Commerce, Community, and Economic Development, unless the context indicates otherwise",
-            "citation": "08.18.171"
+            "citation": "08.18.171",
+            "state": "AK"
           }
         },
         {
@@ -434,7 +530,12 @@
           "vocabulary": [],
           "meaning": "Name of the advisory board, e.g. 'Podiatry Advisory Committee'.",
           "depth": 1,
-          "example": null
+          "example": {
+            "value": "Residential Contractors Committee",
+            "quote": "There is created the Residential Contractors Committee, to consist of seven (7) members.",
+            "citation": "17-25-503",
+            "state": "AR"
+          }
         },
         {
           "field": "advisory_board.authority",
@@ -442,7 +543,12 @@
           "vocabulary": [],
           "meaning": "Authority the advisory board has, in the statute's own words — e.g. 'advisory only', 'rulemaking subject to board approval', 'disciplinary recommendations'. Free text from the statute.",
           "depth": 1,
-          "example": null
+          "example": {
+            "value": "Issue, modify, suspend, and revoke licenses; establish qualifications; enforce subchapter; issue rules; levy civil penalties; issue orders of abatement",
+            "quote": "The Residential Contractors Committee may: (1) Issue, modify, suspend, and revoke licenses issued by the committee; (2) Establish qualifications for licenses issued by the committee; (3) Enforce this ",
+            "citation": "17-25-504",
+            "state": "AR"
+          }
         },
         {
           "field": "national_certification",
@@ -450,7 +556,12 @@
           "vocabulary": [],
           "meaning": "Name of a national CERTIFICATION the state recognizes or requires, e.g. 'American Board of Podiatric Surgery (ABPS)' or 'National Board of Podiatric Medical Examiners (NBPME)'. The certifying body, NOT the association. Null if the statute doesn't reference one.",
           "depth": 0,
-          "example": null
+          "example": {
+            "value": "National Institute for Certification in Engineering Technologies (NICET)",
+            "quote": "an applicant shall satisfactorily pass a current examination prescribed and administered by the National Institute for Certification in Engineering Technologies entitled Fire Protection Engineering Te",
+            "citation": "198B.570",
+            "state": "KY"
+          }
         },
         {
           "field": "national_association",
@@ -460,8 +571,9 @@
           "depth": 0,
           "example": {
             "value": "American Society of Home Inspectors; National Association of Home Inspectors; International Code Council",
-            "quote": "the examination offered by the American Society of Home Inspectors or National Association of Home Inspectors; (B) new homes or for a joint registration is the examination offered by the International",
-            "citation": "08.18.022"
+            "quote": "the examination offered by the American Society of Home Inspectors or National Association of Home Inspectors",
+            "citation": "08.18.022",
+            "state": "AK"
           }
         },
         {
@@ -478,9 +590,10 @@
           "meaning": "Which UORF model the state applies to this profession (license / mandatory_cert / registration / etc).",
           "depth": 0,
           "example": {
-            "value": "registration",
+            "value": "license",
             "quote": "A person may not submit a bid or work as a contractor until that person has been issued a certificate of registration as a contractor by the department.",
-            "citation": "08.18.011"
+            "citation": "08.18.011",
+            "state": "AK"
           }
         },
         {
@@ -497,8 +610,9 @@
           "depth": 0,
           "example": {
             "value": "registration",
-            "quote": "the commissioner shall issue to the applicant a certificate of registration upon compliance with the registration requirements of this chapter.",
-            "citation": "08.18.031"
+            "quote": "A person may not submit a bid or work as a contractor until that person has been issued a certificate of registration as a contractor by the department.",
+            "citation": "08.18.011",
+            "state": "AK"
           }
         },
         {
@@ -510,7 +624,8 @@
           "example": {
             "value": true,
             "quote": "A person may not submit a bid or work as a contractor until that person has been issued a certificate of registration as a contractor by the department.",
-            "citation": "08.18.011"
+            "citation": "08.18.011",
+            "state": "AK"
           }
         },
         {
@@ -521,8 +636,9 @@
           "depth": 0,
           "example": {
             "value": true,
-            "quote": "Individuals who are exempt from registration under AS 08.18.156(a) or whose actions are not considered to be home inspections under AS 08.18.156(b) may not hold themselves out to be registered home in",
-            "citation": "08.18.053"
+            "quote": "Except as provided otherwise by law, a person who has registered as a contractor under one name as required by this chapter may not act in the capacity of a contractor under any other name unless that",
+            "citation": "08.18.051",
+            "state": "AK"
           }
         },
         {
@@ -534,7 +650,8 @@
           "example": {
             "value": true,
             "quote": "A person may not submit a bid or work as a contractor until that person has been issued a certificate of registration as a contractor by the department.",
-            "citation": "08.18.011"
+            "citation": "08.18.011",
+            "state": "AK"
           }
         },
         {
@@ -552,7 +669,8 @@
           "meaning": "snake_case key, e.g. 'fraud_in_obtaining_license'",
           "depth": 1,
           "example": {
-            "value": "fraudulent_or_misleading_application"
+            "value": "fraudulent_or_misleading_application",
+            "state": "AK"
           }
         },
         {
@@ -562,7 +680,8 @@
           "meaning": "One-line plain-English description",
           "depth": 1,
           "example": {
-            "value": "Application for endorsement or home inspector registration is fraudulent or misleading."
+            "value": "The application for endorsement or registration is fraudulent or misleading.",
+            "state": "AK"
           }
         },
         {
@@ -582,7 +701,8 @@
           "example": {
             "value": true,
             "quote": "each applicant shall, at the time of applying for a certificate of registration, file with the commissioner a surety bond running to the state",
-            "citation": "08.18.071"
+            "citation": "08.18.071",
+            "state": "AK"
           }
         },
         {
@@ -594,7 +714,8 @@
           "example": {
             "value": true,
             "quote": "Each applicant, at the time of applying for registration or upon renewal of registration, shall file with the commissioner satisfactory evidence that the applicant has in effect ... public liability a",
-            "citation": "08.18.101"
+            "citation": "08.18.101",
+            "state": "AK"
           }
         },
         {
@@ -603,7 +724,12 @@
           "vocabulary": [],
           "meaning": "Does the statute regulate the ESTABLISHMENT / FIRM (e.g., facility license, mandatory inspection of premises) as a route to consumer protection, independent of any practitioner credential?",
           "depth": 1,
-          "example": null
+          "example": {
+            "value": true,
+            "quote": "Each licensee shall permit his or her facilities to be inspected by representatives of the Office of the State Fire Marshal.",
+            "citation": "225 ILCS 729/60",
+            "state": "IL"
+          }
         },
         {
           "field": "citations",
@@ -620,7 +746,8 @@
           "meaning": "",
           "depth": 1,
           "example": {
-            "value": "08.18.011"
+            "value": "08.18.011",
+            "state": "AK"
           }
         },
         {
@@ -630,7 +757,8 @@
           "meaning": "",
           "depth": 1,
           "example": {
-            "value": "registration_required"
+            "value": "registration_required",
+            "state": "AK"
           }
         }
       ]
@@ -646,9 +774,10 @@
           "meaning": "Verbatim statutory definition; quote field repeats the value text.",
           "depth": 0,
           "example": {
-            "value": "\"contractor\" means a person who, in the pursuit of an independent business, undertakes or offers to perform, or claims to have the capacity to perform, or submits a bid for a project to construct, alter, repair, move, or demolish a building, highway, road, railroad, or any type of fixed structure, including excavation and site development and erection of scaffolding; \"contractor\" includes a general contractor, builder, mechanical contractor, specialty contractor, and subcontractor",
+            "value": "a person who, in the pursuit of an independent business, undertakes or offers to perform, or claims to have the capacity to perform, or submits a bid for a project to construct, alter, repair, move, or demolish a building, highway, road, railroad, or any type of fixed structure, including excavation and site development and erection of scaffolding",
             "quote": "\"contractor\" means a person who, in the pursuit of an independent business, undertakes or offers to perform, or claims to have the capacity to perform, or submits a bid for a project to construct, alt",
-            "citation": "08.18.171"
+            "citation": "08.18.171",
+            "state": "AK"
           }
         },
         {
@@ -668,7 +797,8 @@
               "erection of scaffolding"
             ],
             "quote": "undertakes or offers to perform, or claims to have the capacity to perform, or submits a bid for a project to construct, alter, repair, move, or demolish a building, highway, road, railroad, or any ty",
-            "citation": "08.18.171"
+            "citation": "08.18.171",
+            "state": "AK"
           }
         },
         {
@@ -694,7 +824,8 @@
           "meaning": "",
           "depth": 1,
           "example": {
-            "value": "08.18.171"
+            "value": "08.18.171",
+            "state": "AK"
           }
         },
         {
@@ -704,7 +835,8 @@
           "meaning": "",
           "depth": 1,
           "example": {
-            "value": "definitions"
+            "value": "definition_of_contractor",
+            "state": "AK"
           }
         }
       ]
@@ -722,7 +854,8 @@
           "example": {
             "value": true,
             "quote": "Advertising and contracts must also include the contractor's registration number.",
-            "citation": "08.18.051"
+            "citation": "08.18.051",
+            "state": "AK"
           }
         },
         {
@@ -734,7 +867,8 @@
           "example": {
             "value": 50000,
             "quote": "$50,000 for injury, including death, to any one person, and $100,000 for injury, including death, to more than one person",
-            "citation": "08.18.101"
+            "citation": "08.18.101",
+            "state": "AK"
           }
         },
         {
@@ -746,7 +880,8 @@
           "example": {
             "value": 20000,
             "quote": "public liability and property damage insurance covering the applicant's contracting operations in this state in the sum of not less than $20,000 for damage to property",
-            "citation": "08.18.101"
+            "citation": "08.18.101",
+            "state": "AK"
           }
         },
         {
@@ -758,7 +893,8 @@
           "example": {
             "value": true,
             "quote": "a valid workers' compensation self-insurance certificate issued by the Alaska Workers' Compensation Board",
-            "citation": "08.18.101"
+            "citation": "08.18.101",
+            "state": "AK"
           }
         },
         {
@@ -767,7 +903,12 @@
           "vocabulary": [],
           "meaning": "Whether a home improvement contract must be in writing to be valid and enforceable against the owner.",
           "depth": 0,
-          "example": null
+          "example": {
+            "value": true,
+            "quote": "Any contract in an amount of more than $1,000 entered into between a contractor and the owner of a property to be improved shall contain in writing at least the following information",
+            "citation": "A.R.S. § 32-1158",
+            "state": "AZ"
+          }
         },
         {
           "field": "right_of_rescission_days",
@@ -775,7 +916,12 @@
           "vocabulary": [],
           "meaning": "Number of business days within which an owner may rescind a signed home improvement contract without penalty.",
           "depth": 0,
-          "example": null
+          "example": {
+            "value": 10,
+            "quote": "A residential property owner may cancel a contract to replace or repair a roof without penalty or obligation within 10 days after the execution of the contract or by the official start date, whichever",
+            "citation": "Fla. Stat. § 489.147",
+            "state": "FL"
+          }
         },
         {
           "field": "deposit_cap_fraction",
@@ -783,7 +929,12 @@
           "vocabulary": [],
           "meaning": "Maximum fraction of the total contract price a contractor may collect as a deposit before work begins, for contracts above a threshold amount.",
           "depth": 0,
-          "example": null
+          "example": {
+            "value": "one-third of the total contract price or the actual cost of any materials or equipment of a special order or custom made nature",
+            "quote": "Any deposit required under the contract to be paid in advance of the commencement of work under said contract shall not exceed the greater of one-third of the total contract price or the actual cost o",
+            "citation": "Section 2",
+            "state": "MA"
+          }
         },
         {
           "field": "deposit_cap_contract_threshold_usd",
@@ -791,7 +942,12 @@
           "vocabulary": [],
           "meaning": "Minimum contract price above which the deposit cap rule applies.",
           "depth": 0,
-          "example": null
+          "example": {
+            "value": 1000,
+            "quote": "Every agreement to perform residential contracting services in an amount in excess of one thousand dollars shall be in writing",
+            "citation": "Section 2",
+            "state": "MA"
+          }
         },
         {
           "field": "change_order_must_be_written",
@@ -799,7 +955,12 @@
           "vocabulary": [],
           "meaning": "Whether any deviation from the original plans or specifications requires a written change order signed by both parties.",
           "depth": 0,
-          "example": null
+          "example": {
+            "value": true,
+            "quote": "Each change in the terms and conditions of a written contract that is subject to the provisions of subsection (b) of this section shall be in writing and shall be signed by the owner and contractor or",
+            "citation": "Sec. 20-338d",
+            "state": "CT"
+          }
         },
         {
           "field": "arbitration_clause_allowed",
@@ -807,7 +968,12 @@
           "vocabulary": [],
           "meaning": "Whether a home improvement contract may include an arbitration clause, subject to specific formatting and disclosure requirements.",
           "depth": 0,
-          "example": null
+          "example": {
+            "value": true,
+            "quote": "The parties to the warranty may agree to submit any or all disputes arising under the warranty to arbitration. Such agreement to arbitrate shall be enforceable as provided in Part 1 of Article 1 of Ch",
+            "citation": "43-41-7",
+            "state": "GA"
+          }
         },
         {
           "field": "voidable_contract_clauses",
@@ -815,7 +981,14 @@
           "vocabulary": [],
           "meaning": "List of clause types that, if included in a home improvement contract, make the contract voidable by the owner.",
           "depth": 0,
-          "example": null
+          "example": {
+            "value": [
+              "acceleration clause"
+            ],
+            "quote": "No contract shall contain an acceleration clause under which any part or all of the balance not yet due may be declared due and payable because the holder deems himself to be insecure.",
+            "citation": "Section 2",
+            "state": "MA"
+          }
         },
         {
           "field": "minimum_annual_revenue_threshold_usd",
@@ -823,7 +996,12 @@
           "vocabulary": [],
           "meaning": "Minimum total cash value of home improvements in the prior taxable year below which a person is exempt from contractor registration.",
           "depth": 0,
-          "example": null
+          "example": {
+            "value": 2000,
+            "quote": "a person who earns less than two thousand dollars annually or who performs work or has work performed on the person's own property is not a contractor for purposes of this chapter.",
+            "citation": "91C.1",
+            "state": "IA"
+          }
         },
         {
           "field": "minimum_project_value_usd",
@@ -831,7 +1009,12 @@
           "vocabulary": [],
           "meaning": "Minimum cash price of a single project for the work to qualify as a regulated home improvement requiring a registered contractor.",
           "depth": 0,
-          "example": null
+          "example": {
+            "value": 100000,
+            "quote": "where the cost of the undertaking is one hundred thousand dollars ($100,000) or more",
+            "citation": "34-8-1",
+            "state": "AL"
+          }
         },
         {
           "field": "fraud_offense_defined",
@@ -839,7 +1022,12 @@
           "vocabulary": [],
           "meaning": "Whether the statute defines a specific criminal offense of home improvement fraud with enumerated prohibited acts.",
           "depth": 0,
-          "example": null
+          "example": {
+            "value": true,
+            "quote": "Commission by a contractor of any of the following acts is a class 1 misdemeanor: 1. Any act specified in section 32-1154, subsection A, paragraph 6 or 9. 2. Acting in the capacity of a contractor wit",
+            "citation": "A.R.S. § 32-1164",
+            "state": "AZ"
+          }
         },
         {
           "field": "fraud_felony_threshold_usd",
@@ -847,7 +1035,12 @@
           "vocabulary": [],
           "meaning": "Dollar amount above which a home improvement fraud violation is graded as a felony rather than a misdemeanor.",
           "depth": 0,
-          "example": null
+          "example": {
+            "value": 300,
+            "quote": "any person who does not possess a license from the board and violates any of the provisions of this Section, and causes harm or damage to another in excess of three hundred dollars, upon conviction, s",
+            "citation": "37:2163",
+            "state": "LA"
+          }
         },
         {
           "field": "enhanced_penalty_for_elderly_victims",
@@ -855,7 +1048,12 @@
           "vocabulary": [],
           "meaning": "Whether the grading of a fraud offense is elevated by one level when the victim is 60 years of age or older.",
           "depth": 0,
-          "example": null
+          "example": {
+            "value": true,
+            "quote": "If any person is found to have violated section 444-9 and the violation is committed against elderly persons, in addition to any other penalty set forth or imposed, the court may impose a fine of up t",
+            "citation": "444-10.7",
+            "state": "HI"
+          }
         },
         {
           "field": "state_preempts_local_registration_fees",
@@ -863,7 +1061,12 @@
           "vocabulary": [],
           "meaning": "Whether state registration preempts local governments from imposing their own contractor registration fees or licensing requirements.",
           "depth": 0,
-          "example": null
+          "example": {
+            "value": true,
+            "quote": "Unless specifically authorized by the General Assembly, cities, counties, or other political subdivisions of the state shall not enact a requirement for licensing, certification, or registration for a",
+            "citation": "UMBRELLA / Chapter 1 - GENERAL PROVISIONS (§§ 17-1-101 — 17-1-110)",
+            "state": "AR"
+          }
         },
         {
           "field": "local_trade_licensing_preserved",
@@ -871,7 +1074,12 @@
           "vocabulary": [],
           "meaning": "Whether existing local licensing standards for specific trades (e.g., electricians, plumbers) are preserved notwithstanding state preemption.",
           "depth": 0,
-          "example": null
+          "example": {
+            "value": true,
+            "quote": "Nothing in this chapter shall limit the power of a city or county to regulate the quality and character of installations made by contractors through a system of permits and inspections which are desig",
+            "citation": "Section 7032.",
+            "state": "CA"
+          }
         },
         {
           "field": "registration_renewal_interval_years",
@@ -882,7 +1090,8 @@
           "example": {
             "value": 2,
             "quote": "Licenses shall be renewed biennially on the dates set by the department with the approval of the respective board.",
-            "citation": "UMBRELLA / Chapter 01. Centralized Licensing"
+            "citation": "UMBRELLA / Chapter 01. Centralized Licensing",
+            "state": "AK"
           }
         },
         {
@@ -891,10 +1100,15 @@
           "vocabulary": [],
           "meaning": "Whether a contractor must report to the state any disciplinary action taken against them in another jurisdiction.",
           "depth": 0,
-          "example": null
+          "example": {
+            "value": true,
+            "quote": "The revocation, suspension, or other disciplinary action of a license to act as a contractor by another state shall constitute grounds for disciplinary action in this state if the individual is a lice",
+            "citation": "Section 7103.",
+            "state": "CA"
+          }
         }
       ]
     }
   ],
-  "example_state": "AK"
+  "example_state": null
 }

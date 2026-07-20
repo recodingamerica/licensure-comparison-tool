@@ -112,9 +112,32 @@ def _walk(model_schema: dict, defs: dict, prefix: str = "", depth: int = 0) -> l
     return rows
 
 
-def _example_record(profession: str) -> dict | None:
-    files = list(record_files(STRUCTURED_DIR / profession))
-    return json.loads(files[0].read_text()) if files else None
+def _all_records(profession: str) -> list[tuple[str, dict]]:
+    """Every state's structured record for this profession, sorted by state, so a
+    per-field example can be drawn from the FIRST state that actually has a value
+    (Atharv #72: sampling only the alphabetically-first state left many examples
+    blank — e.g. AK electrician)."""
+    out: list[tuple[str, dict]] = []
+    for fp in record_files(STRUCTURED_DIR / profession):
+        try:
+            rec = json.loads(fp.read_text())
+        except Exception:
+            continue
+        out.append((rec.get("state") or fp.stem, rec))
+    out.sort(key=lambda x: x[0])
+    return out
+
+
+def _is_populated(ex: dict | None) -> bool:
+    """True when an example carries a real value (not None / blank / empty list)."""
+    if not ex:
+        return False
+    v = ex.get("value")
+    if v is None or (isinstance(v, str) and not v.strip()):
+        return False
+    if isinstance(v, (list, dict)) and not v:
+        return False
+    return True
 
 
 def _data_as_of(profession: str) -> str | None:
@@ -152,12 +175,23 @@ def _example_at(record: dict, group: str, path: str) -> dict | None:
     return None
 
 
+def _best_example(records: list[tuple[str, dict]], group: str, path: str) -> dict | None:
+    """First populated example for this field across states (records pre-sorted by
+    state). Stamps the source `state` on the example so the viewer can show "(AK)"."""
+    for st, rec in records:
+        cand = _example_at(rec, group, path)
+        if _is_populated(cand):
+            cand["state"] = st
+            return cand
+    return None
+
+
 def build_dictionary(profession: str) -> dict:
     discovered = json.loads((DISCOVERED_DIR / f"{profession}.json").read_text())
     model = build_profile_model(profession, discovered)
     schema = model.model_json_schema()
     defs = schema.get("$defs") or {}
-    record = _example_record(profession)
+    records = _all_records(profession)
 
     groups = []
     for gname in ("licensure", "scope", "profession_specific"):
@@ -167,10 +201,12 @@ def build_dictionary(profession: str) -> dict:
         gschema = _resolve(gprop, defs)
         rows = _walk(gschema, defs)
         for r in rows:
-            r["example"] = _example_at(record, gname, r["field"])
+            r["example"] = _best_example(records, gname, r["field"])
         groups.append({"group": gname, "intro": gschema.get("description", ""), "fields": rows})
+    # Examples are now sampled per-field (each carries its own source state), so there
+    # is no single profession-wide example_state; kept null for payload back-compat.
     return {"profession": profession, "data_as_of": _data_as_of(profession), "groups": groups,
-            "example_state": (record or {}).get("state")}
+            "example_state": None}
 
 
 def render_md(d: dict) -> str:
@@ -183,8 +219,9 @@ def render_md(d: dict) -> str:
              f"(latest commit to `{d['profession']}` records). Regenerate to refresh.")
     L.append("")
     L.append("Every field is an **Evidence** object: a `value`, the verbatim `quote` from "
-             "the statute that supports it, and the `citation` it came from. Examples below "
-             f"are sampled from {d['profession']}/{d.get('example_state') or '?'}.")
+             "the statute that supports it, and the `citation` it came from. Each example "
+             "below is drawn from the first state that has a value for that field; the source "
+             "state is shown in parentheses.")
     L.append("")
     for g in d["groups"]:
         L.append(f"## {g['group']}")
@@ -195,7 +232,12 @@ def render_md(d: dict) -> str:
         for f in g["fields"]:
             vocab = f" — one of: {', '.join(f['vocabulary'])}" if f["vocabulary"] else ""
             ex = f["example"]
-            exval = "" if ex is None else json.dumps(ex["value"])[:60]
+            if ex is None:
+                exval = ""
+            else:
+                exval = json.dumps(ex["value"])[:60]
+                if ex.get("state"):
+                    exval += f" ({ex['state']})"
             meaning = (f["meaning"] or "").replace("\n", " ").replace("|", "\\|").strip()
             indent = "&nbsp;&nbsp;&nbsp;&nbsp;" * f.get("depth", 0)
             L.append(f"| {indent}`{f['field']}` | {f['type']}{vocab} | {meaning} | {exval} |")
@@ -243,6 +285,7 @@ _HTML = r"""<!doctype html>
   .clamp { display: -webkit-box; -webkit-line-clamp: 6; -webkit-box-orient: vertical; overflow: hidden; }
   code { background: #f2f3f5; padding: .05rem .3rem; border-radius: 3px; font-size: .85em; }
   .ex { color: #0a5; }
+  .exst { color: #888; font-size: .82em; margin-left: .3em; white-space: nowrap; }
   .vocab { color: #777; font-size: .82em; }
   body:not(.tech) .tcol { display: none; }
   a.dl { font-size: .85rem; }
@@ -291,7 +334,7 @@ function render(){
   syncBuckets(d);
   document.getElementById('meta').textContent =
     'Reflects extracted data as of ' + (d.data_as_of || 'unknown') +
-    ' · examples from ' + p + '/' + (d.example_state || '?');
+    ' · each example is from the first state with a value for that field (shown in parentheses)';
   document.getElementById('dl').innerHTML =
     '<a class="dl" href="' + p + '_field_dictionary.json" download>JSON</a> · ' +
     '<a class="dl" href="' + p + '_field_dictionary.md" download>Markdown</a>';
@@ -307,8 +350,10 @@ function render(){
         ? '<div class="vocab">one of: ' + esc(f.vocabulary.join(', ')) + '</div>' : '';
       var ex = f.example, exhtml = '';
       if (ex) {
-        var tip = (ex.quote ? ex.quote : '') + (ex.citation ? '  [' + ex.citation + ']' : '');
+        var tip = (ex.quote ? ex.quote : '') + (ex.citation ? '  [' + ex.citation + ']' : '')
+                + (ex.state ? '  — ' + ex.state : '');
         exhtml = '<span class="ex" title="' + esc(tip) + '">' + esc(JSON.stringify(ex.value)) + '</span>';
+        if (ex.state) exhtml += '<span class="exst">(' + esc(ex.state) + ')</span>';
       }
       html += '<tr data-k="' + esc((f.field + ' ' + (f.meaning||'')).toLowerCase()) + '">' +
         '<td style="padding-left:' + (0.5 + pad) + 'rem"><code>' + esc(f.field) + '</code></td>' +

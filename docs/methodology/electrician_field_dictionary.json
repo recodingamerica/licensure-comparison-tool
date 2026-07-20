@@ -1,6 +1,6 @@
 {
   "profession": "electrician",
-  "data_as_of": "2026-06-29",
+  "data_as_of": "2026-07-18",
   "groups": [
     {
       "group": "licensure",
@@ -15,7 +15,8 @@
           "example": {
             "value": true,
             "quote": "A person may not act as an electrical administrator in the state without a license issued by the department unless the person is covered by an exclusion under AS 08.40.190.",
-            "citation": "08.40.090"
+            "citation": "08.40.090",
+            "state": "AK"
           }
         },
         {
@@ -27,7 +28,8 @@
           "example": {
             "value": "Department of Commerce, Community, and Economic Development",
             "quote": "\"department\" means the Department of Commerce, Community, and Economic Development",
-            "citation": "08.40.200"
+            "citation": "08.40.200",
+            "state": "AK"
           }
         },
         {
@@ -47,7 +49,8 @@
           "example": {
             "value": "Department of Commerce, Community, and Economic Development",
             "quote": "\"department\" means the Department of Commerce, Community, and Economic Development",
-            "citation": "08.40.200"
+            "citation": "08.40.200",
+            "state": "AK"
           }
         },
         {
@@ -66,7 +69,8 @@
           "example": {
             "value": "department",
             "quote": "\"department\" means the Department of Commerce, Community, and Economic Development",
-            "citation": "08.40.200"
+            "citation": "08.40.200",
+            "state": "AK"
           }
         },
         {
@@ -75,7 +79,12 @@
           "vocabulary": [],
           "meaning": "Higher-level agency that contains the immediate authority, if any. Example: 'Division of Occupations and Professions, Department of Commerce'. Null for standalone boards that don't sit inside a larger department.",
           "depth": 1,
-          "example": null
+          "example": {
+            "value": "Department of Labor and Licensing",
+            "quote": "It shall be the duty of the Department of Labor and Licensing to administer and enforce the provisions of this chapter.",
+            "citation": "17-28-202",
+            "state": "AR"
+          }
         },
         {
           "field": "age_minimum",
@@ -83,7 +92,12 @@
           "vocabulary": [],
           "meaning": "Minimum age (years) to hold the credential, if the statute sets one.",
           "depth": 0,
-          "example": null
+          "example": {
+            "value": 18,
+            "quote": "A license may not be issued to a minor, to any partnership in which one of the partners is a minor or to any corporation in which a corporate officer is a minor.",
+            "citation": "A.R.S. § 32-1122",
+            "state": "AZ"
+          }
         },
         {
           "field": "moral_character_required",
@@ -91,7 +105,12 @@
           "vocabulary": [],
           "meaning": "Whether the statute conditions licensure on good moral character / fitness.",
           "depth": 0,
-          "example": null
+          "example": {
+            "value": true,
+            "quote": "each person who is named on a license must not have engaged in contracting without a license or committed any act that, if committed or done by any licensed contractor, would be grounds for suspension",
+            "citation": "A.R.S. § 32-1122",
+            "state": "AZ"
+          }
         },
         {
           "field": "education",
@@ -107,7 +126,12 @@
           "vocabulary": [],
           "meaning": "",
           "depth": 1,
-          "example": null
+          "example": {
+            "value": "No degree required; technical training in an accredited college or university may substitute for up to two years of required practical experience",
+            "quote": "Technical training in an accredited college or university or in a manufacturer's accredited training program may be substituted for a portion of such experience, but in no case may credited technical ",
+            "citation": "A.R.S. § 32-1122",
+            "state": "AZ"
+          }
         },
         {
           "field": "education.accrediting_body",
@@ -115,7 +139,12 @@
           "vocabulary": [],
           "meaning": "",
           "depth": 1,
-          "example": null
+          "example": {
+            "value": "accredited college or university (for engineering degree pathway); community college or trade school program approved by the board (for trade school pathway)",
+            "quote": "a graduate electrical engineer of an accredited college or university or the graduate of a community college or trade school program approved by the board",
+            "citation": "12-115-110",
+            "state": "CO"
+          }
         },
         {
           "field": "education.degree_level",
@@ -130,7 +159,12 @@
           ],
           "meaning": "The comparable education FLOOR as a normalized rung. Populate whenever licensure is gated on a degree; null only if the statute is silent on education.",
           "depth": 1,
-          "example": null
+          "example": {
+            "value": "none",
+            "quote": "Have a minimum of four years' practical or management trade experience, at least two of which must have been within the last ten years, dealing specifically with the type of construction, or its equiv",
+            "citation": "A.R.S. § 32-1122",
+            "state": "AZ"
+          }
         },
         {
           "field": "education.school_approval_basis",
@@ -143,7 +177,12 @@
           ],
           "meaning": "How the statute decides a school counts. national_accreditor=a named national program accreditor (ACOE/CODA/ACEND/LCME/CPME). regional_accreditor='regionally accredited college or university'. board_approved='approved by the board' (discretionary state gate). unspecified=says 'accredited' with no basis named, or silent.",
           "depth": 1,
-          "example": null
+          "example": {
+            "value": "regional_accreditor",
+            "quote": "Technical training in an accredited college or university or in a manufacturer's accredited training program may be substituted for a portion of such experience",
+            "citation": "A.R.S. § 32-1122",
+            "state": "AZ"
+          }
         },
         {
           "field": "education.credential_pegged",
@@ -151,7 +190,12 @@
           "vocabulary": [],
           "meaning": "True if the statute pegs the education requirement to a NATIONAL CREDENTIAL (e.g. 'registered by CDR', 'passed the NBEO') rather than (or in addition to) a stated degree — such a state inherits whatever that national body currently requires.",
           "depth": 1,
-          "example": null
+          "example": {
+            "value": false,
+            "quote": "Have a minimum of four years' practical or management trade experience, at least two of which must have been within the last ten years, dealing specifically with the type of construction, or its equiv",
+            "citation": "A.R.S. § 32-1122",
+            "state": "AZ"
+          }
         },
         {
           "field": "education.tiers",
@@ -167,7 +211,10 @@
           "vocabulary": [],
           "meaning": "Which class/date this floor applies to — e.g. 'licensed dietitian', 'certified nutritionist', 'applicants on or after 2024-01-01'.",
           "depth": 2,
-          "example": null
+          "example": {
+            "value": "master electrician (engineering degree pathway)",
+            "state": "CO"
+          }
         },
         {
           "field": "education.tiers[].degree_level",
@@ -182,7 +229,10 @@
           ],
           "meaning": "Normalized education floor, low -> high. Resolved to the rung even when\nthe statute uses verbiage ('six college years' -> doctorate, 'or equivalent\ndegree' -> the named level). Professional/clinical doctorates (OD, DDS, MD,\nDPM) are `doctorate`.",
           "depth": 2,
-          "example": null
+          "example": {
+            "value": "bachelor",
+            "state": "CO"
+          }
         },
         {
           "field": "education.tiers[].effective_date",
@@ -209,7 +259,8 @@
           "example": {
             "value": false,
             "quote": "Each applicant shall be examined to determine the applicant's (1) ability to understand plans, design specifications, and engineering terms commonly used in the electrical field; (2) knowledge of elec",
-            "citation": "08.40.120"
+            "citation": "08.40.120",
+            "state": "AK"
           }
         },
         {
@@ -225,7 +276,8 @@
           "example": {
             "value": "none",
             "quote": "Each applicant shall be examined to determine the applicant's (1) ability to understand plans, design specifications, and engineering terms commonly used in the electrical field; (2) knowledge of elec",
-            "citation": "08.40.120"
+            "citation": "08.40.120",
+            "state": "AK"
           }
         },
         {
@@ -234,7 +286,12 @@
           "vocabulary": [],
           "meaning": "e.g. '24 months', '1 year', '2,000 hours' (free text — units vary)",
           "depth": 1,
-          "example": null
+          "example": {
+            "value": "4 years",
+            "quote": "Four years of practical experience as a journeyman electrician in charge of jobs.",
+            "citation": "34-36-3",
+            "state": "AL"
+          }
         },
         {
           "field": "post_degree_experience.kind",
@@ -242,7 +299,12 @@
           "vocabulary": [],
           "meaning": "e.g. 'podiatric residency', 'accounting work experience', 'AXP'",
           "depth": 1,
-          "example": null
+          "example": {
+            "value": "practical experience as a journeyman electrician in charge of jobs",
+            "quote": "Four years of practical experience as a journeyman electrician in charge of jobs.",
+            "citation": "34-36-3",
+            "state": "AL"
+          }
         },
         {
           "field": "exams",
@@ -259,7 +321,8 @@
           "meaning": "",
           "depth": 1,
           "example": {
-            "value": "Electrical Administrator Licensing Examination"
+            "value": "Electrical Administrator Licensing Examination",
+            "state": "AK"
           }
         },
         {
@@ -269,7 +332,8 @@
           "meaning": "",
           "depth": 1,
           "example": {
-            "value": true
+            "value": true,
+            "state": "AK"
           }
         },
         {
@@ -279,7 +343,8 @@
           "meaning": "",
           "depth": 1,
           "example": {
-            "value": "Examination covers ability to understand plans/specs, knowledge of electrical installations and wiring, familiarity with National Electrical Code and National Electrical Safety Code, and personal skill and ability. May be waived if applicant is licensed as electrical administrator in another state/territory and has passed equivalent exam."
+            "value": "Covers ability to understand plans/specifications, knowledge of electrical installations and wiring, familiarity with National Electrical Code and National Electrical Safety Code, and personal skill and ability. Offered at least twice per year.",
+            "state": "AK"
           }
         },
         {
@@ -289,7 +354,8 @@
           "meaning": "Where the exam is administered / who owns it — e.g. 'NBPME (national)', 'state board (in-state)', 'NCLEX-RN (national)'. Use the statute's language; null if the source doesn't say.",
           "depth": 1,
           "example": {
-            "value": "state"
+            "value": "state (department-administered)",
+            "state": "AK"
           }
         },
         {
@@ -298,7 +364,10 @@
           "vocabulary": [],
           "meaning": "Max attempts allowed before re-qualification. Null if not specified.",
           "depth": 1,
-          "example": null
+          "example": {
+            "value": 2,
+            "state": "MI"
+          }
         },
         {
           "field": "renewal",
@@ -317,7 +386,8 @@
           "example": {
             "value": 2,
             "quote": "Licenses shall be renewed biennially on the dates set by the department with the approval of the respective board.",
-            "citation": "UMBRELLA / Chapter 01. Centralized Licensing"
+            "citation": "UMBRELLA / Chapter 01. Centralized Licensing",
+            "state": "AK"
           }
         },
         {
@@ -326,7 +396,12 @@
           "vocabulary": [],
           "meaning": "License renewal fee in US dollars (integer). Many statutes leave the amount to the board's discretion — leave null in that case.",
           "depth": 0,
-          "example": null
+          "example": {
+            "value": 50,
+            "quote": "Master electrician ............... $50.00 per year",
+            "citation": "17-28-301",
+            "state": "AR"
+          }
         },
         {
           "field": "continuing_education",
@@ -345,7 +420,8 @@
           "example": {
             "value": true,
             "quote": "the department shall adopt regulations subject to AS 44.62 (Administrative Procedure Act), relating to the examination and licensing of electrical administrators and the establishing of the continued ",
-            "citation": "08.40.050"
+            "citation": "08.40.050",
+            "state": "AK"
           }
         },
         {
@@ -354,7 +430,12 @@
           "vocabulary": [],
           "meaning": "",
           "depth": 1,
-          "example": null
+          "example": {
+            "value": 14,
+            "quote": "All persons holding an electrical contractor license shall be required to complete 14 hours of continuing education every two years.",
+            "citation": "34-36-8",
+            "state": "AL"
+          }
         },
         {
           "field": "continuing_education.period_years",
@@ -362,7 +443,12 @@
           "vocabulary": [],
           "meaning": "",
           "depth": 1,
-          "example": null
+          "example": {
+            "value": 2,
+            "quote": "All persons holding an electrical contractor license shall be required to complete 14 hours of continuing education every two years.",
+            "citation": "34-36-8",
+            "state": "AL"
+          }
         },
         {
           "field": "continuing_education.topical_requirements",
@@ -370,7 +456,15 @@
           "vocabulary": [],
           "meaning": "Specific topical CE requirements, e.g. ['1.5 hrs opioid', 'ethics']",
           "depth": 1,
-          "example": null
+          "example": {
+            "value": [
+              "national electrical code",
+              "core competencies as determined by the board"
+            ],
+            "quote": "requirements and standards must include course work related to the national electrical code, including core competencies as determined by the board.",
+            "citation": "12-115-110",
+            "state": "CO"
+          }
         },
         {
           "field": "reciprocity",
@@ -389,7 +483,8 @@
           "example": {
             "value": true,
             "quote": "If an applicant for a license submits proof satisfactory to the department that the applicant is licensed as an electrical administrator or the equivalent by another state or territory, that the appli",
-            "citation": "08.40.120"
+            "citation": "08.40.120",
+            "state": "AK"
           }
         },
         {
@@ -399,9 +494,10 @@
           "meaning": "Free-form summary",
           "depth": 1,
           "example": {
-            "value": "Applicant must be licensed as an electrical administrator or equivalent in another state or territory, meet AK qualifications, and have passed an equivalent examination. If all three are met, the examination is waived.",
-            "quote": "If an applicant for a license submits proof satisfactory to the department that the applicant is licensed as an electrical administrator or the equivalent by another state or territory, that the appli",
-            "citation": "08.40.120"
+            "value": "Applicant must show they are licensed as an electrical administrator or equivalent in another state or territory, meet department qualifications, and have passed an equivalent examination. The department then waives the licensing examination.",
+            "quote": "the department shall waive all of the examination required under (a) of this section.",
+            "citation": "08.40.120",
+            "state": "AK"
           }
         },
         {
@@ -421,7 +517,8 @@
           "example": {
             "value": false,
             "quote": "regulation of electrical and mechanical administrators under AS 08.40",
-            "citation": "UMBRELLA / Chapter 01. Centralized Licensing"
+            "citation": "UMBRELLA / Chapter 01. Centralized Licensing",
+            "state": "AK"
           }
         },
         {
@@ -430,7 +527,12 @@
           "vocabulary": [],
           "meaning": "Name of the advisory board, e.g. 'Podiatry Advisory Committee'.",
           "depth": 1,
-          "example": null
+          "example": {
+            "value": "Electrical Work Board",
+            "quote": "The Electrical Work Board shall consist of twelve members who shall be residents of this state",
+            "citation": "Sec. 20-331",
+            "state": "CT"
+          }
         },
         {
           "field": "advisory_board.authority",
@@ -438,7 +540,12 @@
           "vocabulary": [],
           "meaning": "Authority the advisory board has, in the statute's own words — e.g. 'advisory only', 'rulemaking subject to board approval', 'disciplinary recommendations'. Free text from the statute.",
           "depth": 1,
-          "example": null
+          "example": {
+            "value": "The board advises the Commissioner of Consumer Protection on regulations, examinations, and continuing education; the Commissioner holds rulemaking authority with the board's advice and assistance; the board makes proposed final decisions on discipline subject to commissioner review.",
+            "quote": "The Commissioner of Consumer Protection, with the advice and assistance of the appropriate board, (1) may adopt regulations, in accordance with chapter 54, for the pursuit, practice and standards of t",
+            "citation": "Sec. 20-332",
+            "state": "CT"
+          }
         },
         {
           "field": "national_certification",
@@ -454,7 +561,12 @@
           "vocabulary": [],
           "meaning": "Professional ASSOCIATION the state references (e.g. for accreditation or CE provider approval) — 'American Podiatric Medical Association (APMA)', 'American Dental Association (ADA)'. Distinct from the certifying body. Null if not referenced.",
           "depth": 0,
-          "example": null
+          "example": {
+            "value": "American National Standards Institute",
+            "quote": "familiarity with the regulations contained in the National Electrical Code and the National Electrical Safety Code, as approved by the American National Standards Institute",
+            "citation": "08.40.120",
+            "state": "AK"
+          }
         },
         {
           "field": "regulatory_model",
@@ -472,7 +584,8 @@
           "example": {
             "value": "license",
             "quote": "A person may not act as an electrical administrator in the state without a license issued by the department unless the person is covered by an exclusion under AS 08.40.190.",
-            "citation": "08.40.090"
+            "citation": "08.40.090",
+            "state": "AK"
           }
         },
         {
@@ -489,8 +602,9 @@
           "depth": 0,
           "example": {
             "value": "license",
-            "quote": "A person may not act as an electrical administrator in the state without a license issued by the department unless the person is covered by an exclusion under AS 08.40.190.",
-            "citation": "08.40.090"
+            "quote": "A person may not act as an electrical administrator in the state without a license issued by the department",
+            "citation": "08.40.090",
+            "state": "AK"
           }
         },
         {
@@ -502,7 +616,8 @@
           "example": {
             "value": true,
             "quote": "A person may not act as an electrical administrator in the state without a license issued by the department unless the person is covered by an exclusion under AS 08.40.190.",
-            "citation": "08.40.090"
+            "citation": "08.40.090",
+            "state": "AK"
           }
         },
         {
@@ -513,8 +628,9 @@
           "depth": 0,
           "example": {
             "value": true,
-            "quote": "A person may not act as an electrical administrator in the state without a license issued by the department unless the person is covered by an exclusion under AS 08.40.190.",
-            "citation": "08.40.090"
+            "quote": "A person may not act as an electrical administrator in the state without a license issued by the department",
+            "citation": "08.40.090",
+            "state": "AK"
           }
         },
         {
@@ -526,7 +642,8 @@
           "example": {
             "value": true,
             "quote": "A person may not act as an electrical administrator in the state without a license issued by the department unless the person is covered by an exclusion under AS 08.40.190.",
-            "citation": "08.40.090"
+            "citation": "08.40.090",
+            "state": "AK"
           }
         },
         {
@@ -544,7 +661,8 @@
           "meaning": "snake_case key, e.g. 'fraud_in_obtaining_license'",
           "depth": 1,
           "example": {
-            "value": "fraudulent_application"
+            "value": "fraudulent_application",
+            "state": "AK"
           }
         },
         {
@@ -554,7 +672,8 @@
           "meaning": "One-line plain-English description",
           "depth": 1,
           "example": {
-            "value": "License application is fraudulent or misleading"
+            "value": "The license application is fraudulent or misleading.",
+            "state": "AK"
           }
         },
         {
@@ -571,7 +690,12 @@
           "vocabulary": [],
           "meaning": "Does the statute require the practitioner or firm to post a bond (funds against which consumer claims can be made)? Independent of whether a credential is also required.",
           "depth": 1,
-          "example": null
+          "example": {
+            "value": true,
+            "quote": "Before granting an original contractor's license, the registrar shall require of the applicant a surety bond in a form acceptable to the registrar or a cash deposit as provided in this section.",
+            "citation": "A.R.S. § 32-1152",
+            "state": "AZ"
+          }
         },
         {
           "field": "alternative_regulation.insurance_required",
@@ -579,7 +703,12 @@
           "vocabulary": [],
           "meaning": "Does the statute require the practitioner or firm to carry insurance (e.g., professional liability, surety insurance)?",
           "depth": 1,
-          "example": null
+          "example": {
+            "value": true,
+            "quote": "An attestation that the applicant has complied with the statutes and rules governing workers' compensation insurance. If the applicant is required by law to secure workers' compensation insurance purs",
+            "citation": "A.R.S. § 32-1122",
+            "state": "AZ"
+          }
         },
         {
           "field": "alternative_regulation.establishment_regulation_required",
@@ -587,7 +716,12 @@
           "vocabulary": [],
           "meaning": "Does the statute regulate the ESTABLISHMENT / FIRM (e.g., facility license, mandatory inspection of premises) as a route to consumer protection, independent of any practitioner credential?",
           "depth": 1,
-          "example": null
+          "example": {
+            "value": true,
+            "quote": "All agencies, who intend to conduct electrical inspections in this State, shall apply for a license as an approved electrical inspection agency",
+            "citation": "§ 1421. Electrical Inspection Agencies.",
+            "state": "DE"
+          }
         },
         {
           "field": "citations",
@@ -604,7 +738,8 @@
           "meaning": "",
           "depth": 1,
           "example": {
-            "value": "08.40.045"
+            "value": "08.40.045",
+            "state": "AK"
           }
         },
         {
@@ -613,7 +748,10 @@
           "vocabulary": [],
           "meaning": "",
           "depth": 1,
-          "example": null
+          "example": {
+            "value": "statute",
+            "state": "AK"
+          }
         }
       ]
     },
@@ -628,9 +766,10 @@
           "meaning": "Verbatim statutory definition; quote field repeats the value text.",
           "depth": 0,
           "example": {
-            "value": "\"electrical administrator\" means a person who is responsible for (A) installing or repairing electrical wiring, conduits, devices, fixtures, equipment, or other electrical materials for transmitting, using, or consuming electrical energy; or (B) certifying that an installation or repair described in (A) of this paragraph complies with applicable electrical codes",
+            "value": "a person who is responsible for (A) installing or repairing electrical wiring, conduits, devices, fixtures, equipment, or other electrical materials for transmitting, using, or consuming electrical energy; or (B) certifying that an installation or repair described in (A) of this paragraph complies with applicable electrical codes",
             "quote": "\"electrical administrator\" means a person who is responsible for (A) installing or repairing electrical wiring, conduits, devices, fixtures, equipment, or other electrical materials for transmitting, ",
-            "citation": "08.40.200"
+            "citation": "08.40.200",
+            "state": "AK"
           }
         },
         {
@@ -641,12 +780,13 @@
           "depth": 0,
           "example": {
             "value": [
-              "installing electrical wiring, conduits, devices, fixtures, equipment, or other electrical materials",
-              "repairing electrical wiring, conduits, devices, fixtures, equipment, or other electrical materials",
-              "certifying that installation or repair complies with applicable electrical codes"
+              "installing electrical wiring, conduits, devices, fixtures, equipment",
+              "repairing electrical wiring, conduits, devices, fixtures, equipment",
+              "certifying compliance with applicable electrical codes"
             ],
             "quote": "installing or repairing electrical wiring, conduits, devices, fixtures, equipment, or other electrical materials for transmitting, using, or consuming electrical energy; or (B) certifying that an inst",
-            "citation": "08.40.200"
+            "citation": "08.40.200",
+            "state": "AK"
           }
         },
         {
@@ -672,7 +812,8 @@
           "meaning": "",
           "depth": 1,
           "example": {
-            "value": "08.40.200"
+            "value": "08.40.200",
+            "state": "AK"
           }
         },
         {
@@ -681,7 +822,10 @@
           "vocabulary": [],
           "meaning": "",
           "depth": 1,
-          "example": null
+          "example": {
+            "value": "statute",
+            "state": "AK"
+          }
         }
       ]
     },
@@ -697,10 +841,11 @@
           "depth": 0,
           "example": {
             "value": [
-              "electrical administrator"
+              "electrical administrator categories (set by regulation)"
             ],
             "quote": "The department may adopt regulations establishing categories of electrical administrators, qualifications for those categories, and the content of examinations for applicants for each category.",
-            "citation": "08.40.045"
+            "citation": "08.40.045",
+            "state": "AK"
           }
         },
         {
@@ -709,7 +854,12 @@
           "vocabulary": [],
           "meaning": "Statutory definition of what constitutes a 'residential project' for purposes of limiting or distinguishing residential electrician license scope.",
           "depth": 0,
-          "example": null
+          "example": {
+            "value": "residential journeyman and master electrician licenses are limited to single family dwellings, duplexes, triplexes, and quadraplexes",
+            "quote": "\"Residential journeyman electrician\" means the classification by which the licenses and electrical work of journeyman electricians may be limited to the installation, alteration, repair, maintenance, ",
+            "citation": "17-28-101",
+            "state": "AR"
+          }
         },
         {
           "field": "residential_wiring_method_restriction",
@@ -717,7 +867,12 @@
           "vocabulary": [],
           "meaning": "Whether the residential-tier electrician license is restricted to work on buildings primarily wired with nonmetallic sheathed (NM) cable.",
           "depth": 0,
-          "example": null
+          "example": {
+            "value": true,
+            "quote": "\"Residential journeyman electrician\" means a person licensed under this chapter as a residential journeyman electrician having the qualifications, training, experience, and knowledge to wire, install,",
+            "citation": "Section 102 - Definitions.",
+            "state": "UT"
+          }
         },
         {
           "field": "voltage_limit_residential",
@@ -725,7 +880,12 @@
           "vocabulary": [],
           "meaning": "Maximum voltage (line-to-line) permitted under a residential electrician license classification.",
           "depth": 0,
-          "example": null
+          "example": {
+            "value": 1000,
+            "quote": "the equipment or installation in the contract is rated at not more than 1,000 volts",
+            "citation": "87-43.3",
+            "state": "NC"
+          }
         },
         {
           "field": "scope_exclusions",
@@ -735,22 +895,23 @@
           "depth": 0,
           "example": {
             "value": [
-              "utility or municipality: electrical construction and maintenance for generation and distribution of electrical current in integral utility-owned systems",
-              "utility: installation, operation, maintenance, or repair of telephone, signal, or communication systems by utility employees",
+              "utilities/municipalities for generation and distribution systems owned and operated by them",
+              "installation/operation/maintenance/repair of telephone, signal, or communication systems by utility employees",
               "manufacture, maintenance, or repair of electrical apparatus or equipment",
-              "electrical work costing not more than $5,000 involving residences or small commercial establishments in communities with population under 500 or over 50 miles from licensed electrical administrator",
-              "electrical installation on residential property owned by installer or immediate family member not intended for sale",
-              "operation, maintenance, or repair of television or radio broadcasting system and installation of radio broadcasting system under 500 watts input power (except AC power supply and wiring)",
-              "installation, maintenance, and repair of elevators by elevator industry agents/employees confined to elevator control system (excluding power supply, wiring, motor connection)",
+              "electrical work under $5,000 in communities under 500 population or over 50 miles from a licensed administrator",
+              "electrical installation on residential property owned by installer or immediate family not intended for sale",
+              "operation/maintenance/repair of television or radio broadcasting systems and radio broadcasting systems under 500 watts",
+              "installation, maintenance, and repair of elevators confined to elevator control system by elevator industry employees",
               "operation, maintenance, and repair of telephone and intercommunication facilities",
               "installation, maintenance, and repair of fire alarm, intrusion alarm, or other low voltage signaling systems of 48 volts to ground or less",
-              "maintenance or repair of diesel electric engines installed on heavy construction equipment",
-              "installation in a commercial water well of submersible pump motor and wiring to well pump system controls if controls are outside a building or structure",
+              "maintenance or repair of diesel electric engines on heavy construction equipment",
+              "installation in a commercial water well of submersible pump motor and wiring to well pump system controls outside a building",
               "installation in a noncommercial water well of submersible pump motor and wiring to well pump system controls",
-              "electrical maintenance or repair work performed by employee of owner or tenant of commercial property as part of work duties not offered as a service to the public"
+              "electrical maintenance or repair by an employee of an owner or tenant of commercial property as part of work duties not offered as a service to the public"
             ],
             "quote": "AS 08.40.005 - 08.40.200 do not apply to any utility or municipality engaged in (1) electrical construction and maintenance of electrical wiring for the generation and distribution of electrical curre",
-            "citation": "08.40.190"
+            "citation": "08.40.190",
+            "state": "AK"
           }
         },
         {
@@ -759,7 +920,12 @@
           "vocabulary": [],
           "meaning": "Maximum amperage for minor electrical work incidental to a mechanical or service installation that is excluded from the licensed electrical trade.",
           "depth": 0,
-          "example": null
+          "example": {
+            "value": 200,
+            "quote": "Persons working beyond the main breaker or fuse of 200 amps or less on structures used exclusively for agricultural purposes",
+            "citation": "§ 1419. Exceptions.",
+            "state": "DE"
+          }
         },
         {
           "field": "minor_electrical_work_distance_limit_feet",
@@ -767,7 +933,12 @@
           "vocabulary": [],
           "meaning": "Maximum distance in feet that wiring may be extended from an existing outlet or disconnect to qualify as minor electrical work excluded from licensure.",
           "depth": 0,
-          "example": null
+          "example": {
+            "value": 10,
+            "quote": "Any holder of a state-issued heating, ventilation, air conditioning, and refrigeration, or HVACR, license may run line voltage power wiring in compliance with the state electric code from a disconnect",
+            "citation": "17-28-102",
+            "state": "AR"
+          }
         },
         {
           "field": "apprentice_supervision_ratio",
@@ -775,7 +946,12 @@
           "vocabulary": [],
           "meaning": "The maximum ratio of licensed apprentice electricians permitted under the immediate supervision of one licensed supervisor, as set by rule.",
           "depth": 0,
-          "example": null
+          "example": {
+            "value": "1 master or journeyman to 3 apprentices on a single electrical job",
+            "quote": "One (1) master electrician or journeyman electrician may supervise up to three (3) apprentice electricians on a single electrical job.",
+            "citation": "17-28-312",
+            "state": "AR"
+          }
         },
         {
           "field": "apprentice_unsupervised_hours_allowed",
@@ -783,7 +959,12 @@
           "vocabulary": [],
           "meaning": "Maximum hours per 24-hour period that a fourth-year or later apprentice electrician may work without direct supervision.",
           "depth": 0,
-          "example": null
+          "example": {
+            "value": 8,
+            "quote": "beginning in a licensed apprentice electrician's fourth year of training, a licensed apprentice electrician may work without supervision for a period not to exceed eight hours in any 24-hour period",
+            "citation": "Section 302 - Qualifications for licensure.",
+            "state": "UT"
+          }
         },
         {
           "field": "apprentice_unsupervised_year_threshold",
@@ -791,7 +972,12 @@
           "vocabulary": [],
           "meaning": "The year of apprenticeship training at which an apprentice electrician first becomes eligible to work limited hours without direct supervision.",
           "depth": 0,
-          "example": null
+          "example": {
+            "value": 4,
+            "quote": "beginning in a licensed apprentice electrician's fourth year of training, a licensed apprentice electrician may work without supervision for a period not to exceed eight hours in any 24-hour period",
+            "citation": "Section 302 - Qualifications for licensure.",
+            "state": "UT"
+          }
         },
         {
           "field": "residential_apprentice_supervisor_ratio_max",
@@ -799,7 +985,12 @@
           "vocabulary": [],
           "meaning": "Maximum number of apprentice electricians a licensed supervisor may oversee on a residential project.",
           "depth": 0,
-          "example": null
+          "example": {
+            "value": 6,
+            "quote": "The supervision ratio in a residential setting shall be one (1) residential electrician, journeyman electrician, or master electrician to no more than six (6) apprentice electricians.",
+            "citation": "Idaho Code § 54-1010",
+            "state": "ID"
+          }
         },
         {
           "field": "qualifier_required",
@@ -810,7 +1001,8 @@
           "example": {
             "value": true,
             "quote": "A person may not qualify for or operate as an electrical administrator for more than one registered contractor.",
-            "citation": "08.40.130"
+            "citation": "08.40.130",
+            "state": "AK"
           }
         },
         {
@@ -819,7 +1011,14 @@
           "vocabulary": [],
           "meaning": "The specific electrician license tier that the qualifier for each type of electrical contractor must hold.",
           "depth": 0,
-          "example": null
+          "example": {
+            "value": [
+              "Electrical contractor: must be a master electrician or employ a master electrician as superintendent or manager"
+            ],
+            "quote": "Any person, member, or employee of a firm, partnership, or corporation desiring to engage in the business of electrical contractor may apply for and be issued a license upon satisfying the Board of El",
+            "citation": "17-28-302",
+            "state": "AR"
+          }
         },
         {
           "field": "qualifier_replacement_notice_days",
@@ -827,7 +1026,12 @@
           "vocabulary": [],
           "meaning": "Number of days within which a contractor must notify the licensing division in writing after a qualifier ceases association with the business.",
           "depth": 0,
-          "example": null
+          "example": {
+            "value": 15,
+            "quote": "Failure to notify the registrar in writing within a period of fifteen days of any disassociation of the person who qualified for the license.",
+            "citation": "A.R.S. § 32-1154",
+            "state": "AZ"
+          }
         },
         {
           "field": "qualifier_replacement_grace_period_days",
@@ -835,7 +1039,12 @@
           "vocabulary": [],
           "meaning": "Number of days a contractor license remains in force after a qualifier ceases association, during which a replacement qualifier must be named.",
           "depth": 0,
-          "example": null
+          "example": {
+            "value": 60,
+            "quote": "The licensee must qualify through another person within sixty days after the date of disassociation.",
+            "citation": "A.R.S. § 32-1154",
+            "state": "AZ"
+          }
         },
         {
           "field": "long_term_compliance_qualifier_waiver_years",
@@ -843,7 +1052,12 @@
           "vocabulary": [],
           "meaning": "Number of consecutive years of violation-free licensure after which an electrical contractor business entity may substitute an active licensed employee name for a named individual qualifier at renewal.",
           "depth": 0,
-          "example": null
+          "example": {
+            "value": 5,
+            "quote": "A licensee may apply in writing to the registrar for exemption from a qualifying party. The licensee must show to the satisfaction of the registrar that during the past five years the licensee: 1. Hel",
+            "citation": "A.R.S. § 32-1125",
+            "state": "AZ"
+          }
         },
         {
           "field": "journeyman_electrician_apprenticeship_hours",
@@ -851,7 +1065,12 @@
           "vocabulary": [],
           "meaning": "Minimum hours of full-time apprenticeship training required to qualify for a journeyman electrician license via the apprenticeship pathway.",
           "depth": 0,
-          "example": null
+          "example": {
+            "value": 8000,
+            "quote": "Have over 8,000 hours of full-time experience performing electrical work under the supervision of a licensed master electrician, master electrician special, limited electrician or limited electrician ",
+            "citation": "§ 1408. Qualifications of applicant [For application of this section, see 81 Del. Laws, c. 290, § 5] [Effective until July 1, 2026].",
+            "state": "DE"
+          }
         },
         {
           "field": "journeyman_electrician_experience_alternative_years",
@@ -859,7 +1078,12 @@
           "vocabulary": [],
           "meaning": "Years of full-time electrical experience accepted as an alternative pathway to journeyman electrician licensure in lieu of a formal apprenticeship.",
           "depth": 0,
-          "example": null
+          "example": {
+            "value": 4,
+            "quote": "At least four years' apprenticeship in the electrical trade or four years' practical experience in wiring for, installing, and repairing electrical apparatus and equipment for electric light, heat, an",
+            "citation": "12-115-110",
+            "state": "CO"
+          }
         },
         {
           "field": "master_electrician_journeyman_experience_years",
@@ -867,7 +1091,12 @@
           "vocabulary": [],
           "meaning": "Years of practical experience as a journeyman electrician required to qualify for a master electrician license via the experience pathway.",
           "depth": 0,
-          "example": null
+          "example": {
+            "value": 4,
+            "quote": "Four years of practical experience as a journeyman electrician in charge of jobs.",
+            "citation": "34-36-3",
+            "state": "AL"
+          }
         },
         {
           "field": "master_electrician_engineering_degree_pathway",
@@ -875,7 +1104,12 @@
           "vocabulary": [],
           "meaning": "Whether a graduate electrical engineering degree from an accredited institution, combined with reduced practical experience, is an accepted pathway to master electrician licensure.",
           "depth": 0,
-          "example": null
+          "example": {
+            "value": true,
+            "quote": "The applicant is a graduate electrical engineer of an accredited college or university and has one year of practical electrical experience in the construction industry",
+            "citation": "12-115-110",
+            "state": "CO"
+          }
         },
         {
           "field": "master_electrician_trade_school_degree_pathway",
@@ -883,7 +1117,12 @@
           "vocabulary": [],
           "meaning": "Whether an associate of applied sciences degree from an approved electrical trade school, combined with journeyman experience, is an accepted pathway to master electrician licensure.",
           "depth": 0,
-          "example": null
+          "example": {
+            "value": true,
+            "quote": "The applicant is a graduate of an electrical trade school or community college and has at least four years of practical experience in electrical work",
+            "citation": "12-115-110",
+            "state": "CO"
+          }
         },
         {
           "field": "residential_journeyman_training_program_years",
@@ -891,7 +1130,12 @@
           "vocabulary": [],
           "meaning": "Minimum years of training in a division-approved electrical training program accepted as a pathway to residential journeyman electrician licensure.",
           "depth": 0,
-          "example": null
+          "example": {
+            "value": 2,
+            "quote": "An applicant for a residential wireman's license shall furnish written evidence that the applicant has at least two years of accredited training or two years of practical experience in wiring one-, tw",
+            "citation": "12-115-110",
+            "state": "CO"
+          }
         },
         {
           "field": "residential_master_electrician_journeyman_experience_years",
@@ -899,7 +1143,12 @@
           "vocabulary": [],
           "meaning": "Minimum years of practical experience as a residential journeyman electrician required to qualify for a residential master electrician license.",
           "depth": 0,
-          "example": null
+          "example": {
+            "value": 2,
+            "quote": "subsequent to receiving that license, the person has worked for at least two years as a limited residential electrician and subsequent to those two years has completed an additional two years' experie",
+            "citation": "479.630",
+            "state": "OR"
+          }
         },
         {
           "field": "expedited_licensure_pathway_available",
@@ -907,7 +1156,12 @@
           "vocabulary": [],
           "meaning": "Whether an expedited licensure pathway exists for applicants who can clearly demonstrate equivalent knowledge and skills without meeting the standard experience or training requirements.",
           "depth": 0,
-          "example": null
+          "example": {
+            "value": true,
+            "quote": "Notwithstanding Section 7065, the registrar may waive the examination for a contractor's license under any of the following circumstances",
+            "citation": "[7065.1]",
+            "state": "CA"
+          }
         },
         {
           "field": "electrician_continuing_education_hours",
@@ -915,7 +1169,12 @@
           "vocabulary": [],
           "meaning": "Total hours of continuing education a licensed electrician (journeyman through master) must complete per two-year renewal cycle.",
           "depth": 0,
-          "example": null
+          "example": {
+            "value": 14,
+            "quote": "All persons holding an electrical contractor license shall be required to complete 14 hours of continuing education every two years.",
+            "citation": "34-36-8",
+            "state": "AL"
+          }
         },
         {
           "field": "approved_continuing_education_providers",
@@ -923,7 +1182,16 @@
           "vocabulary": [],
           "meaning": "Named organizations whose courses are approved to satisfy electrician continuing education requirements.",
           "depth": 0,
-          "example": null
+          "example": {
+            "value": [
+              "accredited college or university",
+              "established industry training program",
+              "any other provider whose training is conducted in compliance with rules promulgated by the board, in collaboration with established industry training programs and industry representatives"
+            ],
+            "quote": "at least two hundred eighty-eight hours of training in safety, the national electrical code and its applications, and any other training required by the board that is provided by an accredited college",
+            "citation": "12-115-110",
+            "state": "CO"
+          }
         },
         {
           "field": "national_electrical_code_reference",
@@ -934,7 +1202,8 @@
           "example": {
             "value": true,
             "quote": "familiarity with the regulations contained in the National Electrical Code and the National Electrical Safety Code, as approved by the American National Standards Institute",
-            "citation": "08.40.120"
+            "citation": "08.40.120",
+            "state": "AK"
           }
         },
         {
@@ -943,7 +1212,12 @@
           "vocabulary": [],
           "meaning": "Whether electricians or contractors performing installation, repair, or replacement of gas appliances or combustion systems must obtain a separate certification beyond their electrician license.",
           "depth": 0,
-          "example": null
+          "example": {
+            "value": true,
+            "quote": "Any person described in Subsection (2)(b) that performs work described in Subsection (2)(a): (i) must first receive training and certification as specified in rules adopted by the commission, with the",
+            "citation": "Section 308 - Scope of practice -- Installation, repair, maintenance, or replacement of gas appliance, combustion system, automatic fire sprinkler system, or battery-powered fence -- Rules.",
+            "state": "UT"
+          }
         },
         {
           "field": "small_project_dollar_threshold_exemption",
@@ -953,8 +1227,9 @@
           "depth": 0,
           "example": {
             "value": 5000,
-            "quote": "electrical work, the cost of which does not exceed $5,000, involving residences or small commercial establishments in communities that (A) have a population of under 500 according to the latest availa",
-            "citation": "08.40.190"
+            "quote": "electrical work, the cost of which does not exceed $5,000, involving residences or small commercial establishments in communities that (A) have a population of under 500",
+            "citation": "08.40.190",
+            "state": "AK"
           }
         },
         {
@@ -963,7 +1238,12 @@
           "vocabulary": [],
           "meaning": "Whether electrical work incidental to installing or repairing solar panels is exempt from standard electrician licensure requirements.",
           "depth": 0,
-          "example": null
+          "example": {
+            "value": true,
+            "quote": "employees of or any contractor employed by and under the direction of a properly licensed solar contractor, performing work limited to the hoisting, placement and anchoring of solar collectors, photov",
+            "citation": "Sec. 20-340",
+            "state": "CT"
+          }
         },
         {
           "field": "hot_tub_sign_electrical_exemption",
@@ -971,7 +1251,12 @@
           "vocabulary": [],
           "meaning": "Whether electrical work incidental to installing or repairing an above-ground prebuilt hot tub or on-premise signage is exempt from electrician licensure.",
           "depth": 0,
-          "example": null
+          "example": {
+            "value": false,
+            "quote": "The installation, repair, or maintenance of signs of billboards; provided, however, an electrical license is required to perform a final connection to a branch circuit conductor. The installation or m",
+            "citation": "40-11-360",
+            "state": "SC"
+          }
         },
         {
           "field": "utility_worker_exemption",
@@ -982,7 +1267,8 @@
           "example": {
             "value": true,
             "quote": "AS 08.40.005 - 08.40.200 do not apply to any utility or municipality engaged in (1) electrical construction and maintenance of electrical wiring for the generation and distribution of electrical curre",
-            "citation": "08.40.190"
+            "citation": "08.40.190",
+            "state": "AK"
           }
         },
         {
@@ -991,7 +1277,12 @@
           "vocabulary": [],
           "meaning": "Whether an electrical contractor applicant may satisfy the financial responsibility requirement by submitting a surety bond as an alternative to completing a financial questionnaire.",
           "depth": 0,
-          "example": null
+          "example": {
+            "value": true,
+            "quote": "Before granting an original contractor's license, the registrar shall require of the applicant a surety bond in a form acceptable to the registrar or a cash deposit as provided in this section.",
+            "citation": "A.R.S. § 32-1152",
+            "state": "AZ"
+          }
         },
         {
           "field": "workers_compensation_insurance_required",
@@ -999,7 +1290,12 @@
           "vocabulary": [],
           "meaning": "Whether proof of workers' compensation insurance covering employees is required before the division will issue an electrical contractor license.",
           "depth": 0,
-          "example": null
+          "example": {
+            "value": true,
+            "quote": "An attestation that the applicant has complied with the statutes and rules governing workers' compensation insurance. If the applicant is required by law to secure workers' compensation insurance purs",
+            "citation": "A.R.S. § 32-1122",
+            "state": "AZ"
+          }
         },
         {
           "field": "public_liability_insurance_required",
@@ -1007,10 +1303,15 @@
           "vocabulary": [],
           "meaning": "Whether proof of public liability insurance in division-specified amounts is required before the division will issue an electrical contractor license.",
           "depth": 0,
-          "example": null
+          "example": {
+            "value": true,
+            "quote": "submits proof of general liability insurance as required by the Board.",
+            "citation": "§ 1411. Issuance and renewal of licenses [Effective until July 1, 2026].",
+            "state": "DE"
+          }
         }
       ]
     }
   ],
-  "example_state": "AK"
+  "example_state": null
 }
