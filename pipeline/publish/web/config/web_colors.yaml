@@ -45,3 +45,42 @@ audience_labels:
   universal: "Applies to everyone"
   multi: "Shared with multiple professions"
   single: "Profession-specific"
+
+# ---------------------------------------------------------------------------
+# Value-based color tokens (concrete colors, NOT Tailwind hue names). These are
+# for the places a Tailwind class won't do: SVG map fills and d3 scales need a
+# real color value (an SVG `fill` attribute can't take a CSS `var()`), and a few
+# HTML surfaces want a per-theme custom property.
+#
+# generate-colors.mjs emits these to BOTH:
+#   - src/lib/web-colors.ts        → COLOR_TOKENS / MAP_PALETTE  (JS values)
+#   - src/app/color-tokens.generated.css → :root + .dark custom properties
+# so components read one source (var(--x) in CSS, COLOR_TOKENS in JS). Each token
+# has a light + dark value; use the same for both when it shouldn't shift.
+tokens:
+  # Scope-of-practice view (Map tab → Scope): capability presence matrix + maps.
+  scope-has:        { light: "#14b8a6", dark: "#2dd4bf" }   # state authorizes the capability
+  scope-none:       { light: "#eceff2", dark: "#1b1f26" }   # it doesn't (empty cell)
+  scope-focus:      { light: "#d97706", dark: "#f59e0b" }   # focus state (Utah) outline
+  scope-focus-weak: { light: "#fdf1e3", dark: "#2a2114" }   # focus column / row tint
+  # Field choropleth (Map tab): endpoints of the light→dark continuous ramp, and
+  # the fill for a state with no value. Same in both themes today.
+  map-no-data:      { light: "#e5e7eb", dark: "#e5e7eb" }
+  map-ramp-lo:      { light: "#dbeafe", dark: "#dbeafe" }
+  map-ramp-hi:      { light: "#1e3a8a", dark: "#1e3a8a" }
+
+# Ordinal palette cycled for categorical choropleths (Map tab). One list, both
+# themes; emitted as MAP_PALETTE in web-colors.ts.
+map_palette:
+  - "#0ea5e9"
+  - "#10b981"
+  - "#f59e0b"
+  - "#ef4444"
+  - "#8b5cf6"
+  - "#ec4899"
+  - "#14b8a6"
+  - "#f97316"
+  - "#6366f1"
+  - "#84cc16"
+  - "#a855f7"
+  - "#06b6d4"

@@ -17,12 +17,13 @@ import type { ProfilePayload } from "@/lib/types";
 import { ProfileView } from "@/components/profile-view";
 import { ProfessionStatutesView } from "@/components/profession-statutes-view";
 import { ProfileTags } from "@/components/profile-tags";
+import { ScopeView } from "@/components/scope-view";
 import { SimilarityView } from "@/components/similarity-view";
 import { NovelPoliciesView } from "@/components/novel-policies-view";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { professionStyle, useProfessionMeta } from "@/lib/profession-colors";
 
-type View = "table" | "map" | "statutes" | "tags" | "compare" | "novel";
+type View = "table" | "map" | "scope" | "statutes" | "tags" | "compare" | "novel";
 
 function ProfessionInner({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
@@ -65,6 +66,7 @@ function ProfessionInner({ params }: { params: Promise<{ id: string }> }) {
   const legacyTab = sp.get("tab");
   const view: View = useMemo(() => {
     if (viewParam === "map" && payload?.map_prep) return "map";
+    if (viewParam === "scope" && payload?.map_prep) return "scope";
     if (viewParam === "tags") return "tags";
     if (viewParam === "compare") return "compare";
     if (viewParam === "novel") return "novel";
@@ -133,6 +135,12 @@ function ProfessionInner({ params }: { params: Promise<{ id: string }> }) {
               <span className="ml-2 text-[10px] text-muted-foreground">(no map)</span>
             )}
           </TabsTrigger>
+          <TabsTrigger value="scope" disabled={!hasMap}>
+            Scope
+            {!hasMap && (
+              <span className="ml-2 text-[10px] text-muted-foreground">(no data)</span>
+            )}
+          </TabsTrigger>
           <TabsTrigger value="compare" disabled={!hasMap}>
             Compare
             {!hasMap && (
@@ -157,6 +165,9 @@ function ProfessionInner({ params }: { params: Promise<{ id: string }> }) {
         </TabsContent>
         <TabsContent value="map" className="mt-4">
           {dataExists && payload && <ProfileView payload={payload} embedded view="map" />}
+        </TabsContent>
+        <TabsContent value="scope" className="mt-4">
+          <ScopeView professionId={id} />
         </TabsContent>
         <TabsContent value="compare" className="mt-4">
           <SimilarityView professionId={id} />

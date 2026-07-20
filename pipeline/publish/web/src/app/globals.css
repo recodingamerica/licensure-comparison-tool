@@ -2,6 +2,30 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
+/* Value color tokens (scope + map palette). The block below is generated from
+   config/web_colors.yaml by scripts/generate-colors.mjs — edit the yaml, not here.
+   The shadcn base theme tokens stay further down; domain/semantic colors are the yaml. */
+/* @color-tokens:start — generated from config/web_colors.yaml, do not edit */
+:root {
+  --scope-has: #14b8a6;
+  --scope-none: #eceff2;
+  --scope-focus: #d97706;
+  --scope-focus-weak: #fdf1e3;
+  --map-no-data: #e5e7eb;
+  --map-ramp-lo: #dbeafe;
+  --map-ramp-hi: #1e3a8a;
+}
+.dark {
+  --scope-has: #2dd4bf;
+  --scope-none: #1b1f26;
+  --scope-focus: #f59e0b;
+  --scope-focus-weak: #2a2114;
+  --map-no-data: #e5e7eb;
+  --map-ramp-lo: #dbeafe;
+  --map-ramp-hi: #1e3a8a;
+}
+/* @color-tokens:end */
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {

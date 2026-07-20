@@ -13,6 +13,7 @@
 
 import { useState, type ReactNode } from "react";
 import { ComposableMap, Geographies, Geography } from "react-simple-maps";
+import { COLOR_TOKENS } from "@/lib/web-colors";
 
 const GEO_URL = "https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json";
 
@@ -30,7 +31,8 @@ const FIPS_TO_USPS: Record<string, string> = {
   "54": "WV", "55": "WI", "56": "WY",
 };
 
-export const NO_DATA_FILL = "#e5e7eb"; // tailwind zinc-200
+// Fill for a state with no value — from the token source (config/web_colors.yaml).
+export const NO_DATA_FILL = COLOR_TOKENS.light["map-no-data"];
 
 export type UsMapProps = {
   fillFor: (state: string) => string;
@@ -41,6 +43,9 @@ export type UsMapProps = {
   height?: number;
   // Drop the bordered frame (the map sits inline in the page).
   bare?: boolean;
+  // Outline one state (e.g. the focus state, Utah) with a colored stroke.
+  highlightState?: string;
+  highlightColor?: string;
 };
 
 export function UsMap({
@@ -50,6 +55,8 @@ export function UsMap({
   width = 975,
   height = 610,
   bare = false,
+  highlightState,
+  highlightColor = "#111827",
 }: UsMapProps) {
   const [hover, setHover] = useState<{ state: string; x: number; y: number } | null>(null);
   const tip = hover ? renderTooltip(hover.state) : null;
@@ -71,13 +78,14 @@ export function UsMap({
                 const usps = FIPS_TO_USPS[fips];
                 const fill = usps ? fillFor(usps) : NO_DATA_FILL;
                 const clickable = !!(usps && onClick);
+                const highlighted = !!usps && usps === highlightState;
                 return (
                   <Geography
                     key={geo.rsmKey}
                     geography={geo}
                     fill={fill}
-                    stroke="#ffffff"
-                    strokeWidth={0.5}
+                    stroke={highlighted ? highlightColor : "#ffffff"}
+                    strokeWidth={highlighted ? 2 : 0.5}
                     onMouseEnter={(e) => {
                       if (usps)
                         setHover({ state: usps, x: e.clientX, y: e.clientY });

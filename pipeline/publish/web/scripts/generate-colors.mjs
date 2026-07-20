@@ -18,6 +18,7 @@ const HERE = dirname(fileURLToPath(import.meta.url));
 // would 404 on production builds.
 const YAML_PATH = resolve(HERE, "..", "config", "web_colors.yaml");
 const OUT_PATH = resolve(HERE, "..", "src", "lib", "web-colors.ts");
+const GLOBALS_PATH = resolve(HERE, "..", "src", "app", "globals.css");
 
 function hueClasses(hue) {
   return {
@@ -34,6 +35,16 @@ const cfg = parseYaml(raw);
 const audienceHues = cfg.audience;
 const familyHues = cfg.families;
 const audienceLabels = cfg.audience_labels;
+const tokens = cfg.tokens ?? {};
+const mapPalette = cfg.map_palette ?? [];
+
+// Split the {name: {light, dark}} tokens into two flat maps of concrete values.
+const tokenLight = Object.fromEntries(
+  Object.entries(tokens).map(([k, v]) => [k, v.light]),
+);
+const tokenDark = Object.fromEntries(
+  Object.entries(tokens).map(([k, v]) => [k, v.dark]),
+);
 
 const audienceClasses = Object.fromEntries(
   Object.entries(audienceHues).map(([k, hue]) => [k, hueClasses(hue)]),
@@ -80,7 +91,59 @@ export const FAMILY_CLASSES: Record<FamilyHue, HueClasses> = ${JSON.stringify(
   null,
   2,
 )};
+
+// Concrete color values for JS consumers (SVG map fills, d3 scales) that can't
+// use a CSS var(). Prefer the CSS custom properties (var(--<token>)) for HTML;
+// use these where a real value is required. \`token(name)\` reads the current
+// theme's value off the CSS custom property, falling back to the light value.
+export type ColorToken = ${Object.keys(tokens)
+  .map((k) => `"${k}"`)
+  .join(" | ") || "string"};
+
+export const COLOR_TOKENS: { light: Record<string, string>; dark: Record<string, string> } = {
+  light: ${JSON.stringify(tokenLight, null, 2)},
+  dark: ${JSON.stringify(tokenDark, null, 2)},
+};
+
+export const MAP_PALETTE = [${mapPalette.map((c) => `"${c}"`).join(", ")}] as const;
+
+export function token(name: ColorToken): string {
+  if (typeof document !== "undefined") {
+    const v = getComputedStyle(document.documentElement)
+      .getPropertyValue(\`--\${name}\`)
+      .trim();
+    if (v) return v;
+  }
+  return COLOR_TOKENS.light[name];
+}
 `;
 
 await writeFile(OUT_PATH, out);
-console.log(`wrote ${OUT_PATH} (audience: ${Object.keys(audienceHues).join(", ")}; families: ${familyHues.join(", ")})`);
+console.log(`wrote ${OUT_PATH} (audience: ${Object.keys(audienceHues).join(", ")}; families: ${familyHues.join(", ")}; tokens: ${Object.keys(tokens).join(", ")})`);
+
+// Inject the CSS custom properties into globals.css between markers (kept in the
+// main entry so Tailwind/Turbopack always processes them — a separate @import
+// file was not reliably picked up).
+const cssLines = (map) =>
+  Object.entries(map)
+    .map(([k, v]) => `  --${k}: ${v};`)
+    .join("\n");
+const START = "/* @color-tokens:start — generated from config/web_colors.yaml, do not edit */";
+const END = "/* @color-tokens:end */";
+const block = `${START}
+:root {
+${cssLines(tokenLight)}
+}
+.dark {
+${cssLines(tokenDark)}
+}
+${END}`;
+let globals = await readFile(GLOBALS_PATH, "utf8");
+const re = new RegExp(`${START.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}[\\s\\S]*?${END.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`);
+if (re.test(globals)) {
+  globals = globals.replace(re, block);
+} else {
+  throw new Error("globals.css is missing the @color-tokens:start/end markers");
+}
+await writeFile(GLOBALS_PATH, globals);
+console.log(`injected ${Object.keys(tokens).length} tokens into ${GLOBALS_PATH}`);

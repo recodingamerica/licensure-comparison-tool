@@ -179,6 +179,11 @@ def main() -> None:
     results.append(("build_tag_sheet",
                     run([PY, "-m", "pipeline.publish.build_tag_sheet", "--upload"], "build_tag_sheet")))
 
+    # 2b. Scope capabilities (Map → Scope view) derive from the tag sheet, so
+    #     run right after it.
+    results.append(("build_scope_capabilities",
+                    run([PY, "-m", "pipeline.publish.build_scope_capabilities", "--upload"], "build_scope_capabilities")))
+
     # 3-5. Scorecard + browse artifacts are unaffected by a tags-only change,
     #      so skip them in payload-only mode (they're the other slow stages).
     if not args.payload_only:
