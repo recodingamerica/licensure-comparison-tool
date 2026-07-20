@@ -3,6 +3,7 @@
 import { createContext, useContext, useEffect, useRef, useState } from "react";
 import type { Evidence, SectionRef } from "@/lib/types";
 import { Badge } from "@/components/ui/badge";
+import { SEMANTIC_CLASSES as SC } from "@/lib/web-colors";
 import {
   humanize,
   highlightSpans,
@@ -112,7 +113,7 @@ export function EvidenceRow({ label, ev, sections }: Props) {
         {bucket && (
           <Badge
             variant="outline"
-            className="self-start font-mono text-[10px] px-1.5 py-0 bg-amber-50 text-amber-900 border-amber-300"
+            className={`self-start font-mono text-[10px] px-1.5 py-0 ${SC.attention.bg} ${SC.attention.text} ${SC.attention.border}`}
           >
             {bucket}
           </Badge>
@@ -122,7 +123,7 @@ export function EvidenceRow({ label, ev, sections }: Props) {
           {unverified && approximate && (
             <Badge
               variant="secondary"
-              className="bg-amber-100 text-amber-900 hover:bg-amber-100 text-[10px] font-mono uppercase tracking-wide"
+              className={`${SC.attention.bg} ${SC.attention.text} ${SC.attention.hoverBg} text-[10px] font-mono uppercase tracking-wide`}
               title={`${Math.round(approximate.ratio * 100)}% of this quote appears word-for-word in the statute; the rest differs (usually a phrase the model shortened). Flags the quote wording — not whether the value is correct.`}
             >
               ~{Math.round(approximate.ratio * 100)}% verbatim
@@ -131,7 +132,7 @@ export function EvidenceRow({ label, ev, sections }: Props) {
           {unverified && !approximate && (
             <Badge
               variant="secondary"
-              className="bg-amber-100 text-amber-900 hover:bg-amber-100 text-[10px] font-mono uppercase tracking-wide"
+              className={`${SC.attention.bg} ${SC.attention.text} ${SC.attention.hoverBg} text-[10px] font-mono uppercase tracking-wide`}
               title="This quote isn't a word-for-word span of the statute — the model paraphrased or compressed the wording. Flags the quote text, not whether the value is correct."
             >
               quote not verbatim
@@ -159,7 +160,7 @@ export function EvidenceRow({ label, ev, sections }: Props) {
           className={
             "text-xs px-3 py-2 rounded border-l-2 italic " +
             (unverified
-              ? "border-amber-400 bg-amber-50/50"
+              ? `${SC.attention.border} ${SC.attention.bg}`
               : "border-sky-400 bg-muted/40")
           }
         >
@@ -181,7 +182,7 @@ export function EvidenceRow({ label, ev, sections }: Props) {
           )}
         </div>
         {approximate && (
-          <div className="text-[11px] not-italic px-3 py-1.5 rounded bg-amber-50 border border-amber-200 text-amber-900">
+          <div className={`text-[11px] not-italic px-3 py-1.5 rounded ${SC.attention.bg} border ${SC.attention.border} ${SC.attention.text}`}>
             <span className="font-mono uppercase tracking-wide text-[9px] mr-2">
               longest verbatim run found in statute
             </span>

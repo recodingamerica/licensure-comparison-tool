@@ -17,6 +17,7 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { Badge } from "@/components/ui/badge";
+import { SEMANTIC_CLASSES as SC } from "@/lib/web-colors";
 import {
   EvidenceRow,
   SearchQueryContext,
@@ -251,7 +252,7 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
             {row.data_basis === "verified_absence" && (
               <Badge
                 variant="secondary"
-                className="bg-amber-100 text-amber-900 hover:bg-amber-100 text-xs"
+                className={`${SC.attention.bg} ${SC.attention.text} ${SC.attention.hoverBg} text-xs`}
                 title="This state has no state-level license for this profession. Determined from hand-verified research, not extracted from a statute — see config/verified_absences.yaml."
               >
                 Not state-regulated · research-verified
@@ -259,7 +260,7 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
             )}
           </SheetTitle>
           {row.data_basis === "verified_absence" && (
-            <div className="mt-2 rounded border border-amber-300 bg-amber-50 px-3 py-2 text-xs text-amber-900">
+            <div className={`mt-2 rounded border ${SC.attention.border} ${SC.attention.bg} px-3 py-2 text-xs ${SC.attention.text}`}>
               <b>No state license.</b> Regulated locally / not at the state level
               {row.absence_basis ? ` (${row.absence_basis.replace(/_/g, " ")})` : ""}.
               This row is <b>hand-verified research</b>, not a statute extraction — there is
