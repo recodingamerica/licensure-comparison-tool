@@ -30,6 +30,7 @@ import {
 } from "./tree-node";
 import { useProfessionMeta } from "@/lib/profession-colors";
 import { AUDIENCE_DOT, AUDIENCE_LABEL } from "@/lib/audience";
+import { SEMANTIC_CLASSES as SC } from "@/lib/web-colors";
 import { SectionDetail } from "./section-detail";
 
 type LayerKey = "practice" | "umbrella_enumeration" | "umbrella_universal";
@@ -320,7 +321,7 @@ function ProfSectionDetail({
           {section.evidence.length > 0 && (
             <Badge
               variant="outline"
-              className="font-mono text-[10px] bg-amber-100/60 text-amber-900 border-amber-300"
+              className={`font-mono text-[10px] ${SC.attention.bg} ${SC.attention.text} ${SC.attention.border}`}
               title="Hover an amber span to see the field name + extracted value."
             >
               {section.evidence.length} claim{section.evidence.length === 1 ? "" : "s"} drawn from this section
