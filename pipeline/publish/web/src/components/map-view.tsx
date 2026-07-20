@@ -14,15 +14,7 @@
 import { useMemo } from "react";
 import { scaleLinear } from "d3-scale";
 import type { MapPrep, MapFieldSpec, MapRow } from "@/lib/types";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Combobox, type ComboboxOption } from "@/components/ui/combobox";
 import { humanize } from "@/lib/format";
 import { UsMap, NO_DATA_FILL } from "@/components/us-map";
 
@@ -282,16 +274,39 @@ export function MapView({
     return out;
   }, [allRows, spec]);
 
-  // field_name → friendly label, so the closed dropdown shows "Minimum Degree"
-  // rather than the raw dotted path.
-  const labelByField = useMemo(() => {
-    const m = new Map<string, string>();
-    for (const s of prioritySpecs) m.set(s.field_name, s.concept);
-    for (const s of otherSpecs) m.set(s.field_name, prettyFieldName(s.field_name));
-    for (const s of breadthSpecs)
-      m.set(s.field_name, breadthLabel(s.field_name));
-    return m;
-  }, [prioritySpecs, otherSpecs, breadthSpecs]);
+  // Flat, ordered (priority → all mapped → breadth) option list for the
+  // searchable field dropdown. Atharv #76: the field list got long enough that
+  // scrolling it was painful, so the Select became a Combobox with a search
+  // box. Group is folded into the label (and `keywords`) since the flat list
+  // has no section headers.
+  const fieldOptions = useMemo<ComboboxOption[]>(() => {
+    const opts: ComboboxOption[] = [];
+    for (const s of prioritySpecs) {
+      const cov = coverageByField.get(s.field_name) ?? 0;
+      opts.push({
+        value: s.field_name,
+        label: `${s.concept} (${cov} states)`,
+        keywords: `priority ${s.field_name}`,
+      });
+    }
+    for (const s of otherSpecs) {
+      const cov = coverageByField.get(s.field_name) ?? 0;
+      opts.push({
+        value: s.field_name,
+        label: `${prettyFieldName(s.field_name)} (${s.kind}, ${cov} states)`,
+        keywords: s.field_name,
+      });
+    }
+    for (const s of breadthSpecs) {
+      const cov = coverageByField.get(s.field_name) ?? 0;
+      opts.push({
+        value: s.field_name,
+        label: `${breadthLabel(s.field_name)} (${cov} states)`,
+        keywords: `breadth distinct tags ${s.field_name}`,
+      });
+    }
+    return opts;
+  }, [prioritySpecs, otherSpecs, breadthSpecs, coverageByField]);
 
   // Color mapping (depends on field kind)
   const colorFor = useMemo(() => {
@@ -395,57 +410,15 @@ export function MapView({
         <span className="text-xs font-mono uppercase tracking-widest text-muted-foreground">
           Field
         </span>
-        <Select value={fieldName} onValueChange={(v) => v && onFieldChange(v)}>
-          <SelectTrigger className="w-[28rem]">
-            <SelectValue>
-              {(value) =>
-                labelByField.get(value as string) ??
-                prettyFieldName(String(value ?? ""))
-              }
-            </SelectValue>
-          </SelectTrigger>
-          <SelectContent>
-            {prioritySpecs.length > 0 && (
-              <SelectGroup>
-                <SelectLabel>Priority fields</SelectLabel>
-                {prioritySpecs.map((s) => {
-                  const cov = coverageByField.get(s.field_name) ?? 0;
-                  return (
-                    <SelectItem key={s.field_name} value={s.field_name}>
-                      {s.concept} ({cov} states)
-                    </SelectItem>
-                  );
-                })}
-              </SelectGroup>
-            )}
-            {otherSpecs.length > 0 && (
-              <SelectGroup>
-                <SelectLabel>All mapped fields</SelectLabel>
-                {otherSpecs.map((s) => {
-                  const cov = coverageByField.get(s.field_name) ?? 0;
-                  return (
-                    <SelectItem key={s.field_name} value={s.field_name}>
-                      {prettyFieldName(s.field_name)} ({s.kind}, {cov} states)
-                    </SelectItem>
-                  );
-                })}
-              </SelectGroup>
-            )}
-            {breadthSpecs.length > 0 && (
-              <SelectGroup>
-                <SelectLabel>Scope breadth (distinct tags)</SelectLabel>
-                {breadthSpecs.map((s) => {
-                  const cov = coverageByField.get(s.field_name) ?? 0;
-                  return (
-                    <SelectItem key={s.field_name} value={s.field_name}>
-                      {breadthLabel(s.field_name)} ({cov} states)
-                    </SelectItem>
-                  );
-                })}
-              </SelectGroup>
-            )}
-          </SelectContent>
-        </Select>
+        <Combobox
+          options={fieldOptions}
+          value={fieldName}
+          onValueChange={(v) => v && onFieldChange(v)}
+          placeholder="Select a field…"
+          searchPlaceholder="Search fields…"
+          emptyText="No matching field."
+          className="w-[28rem] max-w-full"
+        />
       </div>
 
       {spec && (
@@ -454,43 +427,54 @@ export function MapView({
         </p>
       )}
 
-      <UsMap
-        fillFor={colorFor}
-        renderTooltip={(state) => {
-          const row = byState.get(state);
-          const normalizedStr = row
-            ? row.normalized === null
-              ? "no data"
-              : String(row.normalized)
-            : "no data";
-          const rawStr = row?.raw_value || "—";
-          return (
-            <>
-              <div className="font-mono text-base font-semibold">{state}</div>
-              <div className="mt-1">
-                {normalizedStr}
-                {rawStr && rawStr !== normalizedStr && (
-                  <span className="ml-2 text-muted-foreground">
-                    (raw: {rawStr})
-                  </span>
-                )}
-              </div>
-              {row?.quote && (
-                <div className="mt-2 border-t pt-2 leading-relaxed">
-                  <div className="text-foreground">“{row.quote}”</div>
-                  {row.citation && (
-                    <div className="mt-1 font-mono text-xs text-muted-foreground">
-                      {row.citation}
+      {/* Atlas on the left, map on the right (Atharv #76): the color key stays
+          visible beside the map instead of hiding below it, and boxing the map
+          into the right column shrinks it from its old full-width size. */}
+      <div className="flex flex-col gap-4 md:flex-row md:items-start">
+        <aside className="md:w-60 md:shrink-0">
+          <div className="mb-2 text-xs font-mono uppercase tracking-widest text-muted-foreground">
+            Legend
+          </div>
+          {legend}
+        </aside>
+        <div className="min-w-0 md:flex-1">
+          <UsMap
+            fillFor={colorFor}
+            renderTooltip={(state) => {
+              const row = byState.get(state);
+              const normalizedStr = row
+                ? row.normalized === null
+                  ? "no data"
+                  : String(row.normalized)
+                : "no data";
+              const rawStr = row?.raw_value || "—";
+              return (
+                <>
+                  <div className="font-mono text-base font-semibold">{state}</div>
+                  <div className="mt-1">
+                    {normalizedStr}
+                    {rawStr && rawStr !== normalizedStr && (
+                      <span className="ml-2 text-muted-foreground">
+                        (raw: {rawStr})
+                      </span>
+                    )}
+                  </div>
+                  {row?.quote && (
+                    <div className="mt-2 border-t pt-2 leading-relaxed">
+                      <div className="text-foreground">“{row.quote}”</div>
+                      {row.citation && (
+                        <div className="mt-1 font-mono text-xs text-muted-foreground">
+                          {row.citation}
+                        </div>
+                      )}
                     </div>
                   )}
-                </div>
-              )}
-            </>
-          );
-        }}
-      />
-
-      <div>{legend}</div>
+                </>
+              );
+            }}
+          />
+        </div>
+      </div>
     </div>
   );
 }
