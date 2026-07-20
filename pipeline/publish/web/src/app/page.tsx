@@ -227,6 +227,18 @@ export default function HomePage() {
           Reports
         </p>
         <div className="grid gap-3">
+          <Link href="/statute-dictionary" className="block group">
+            <Card className="py-3 transition-colors hover:border-foreground/30">
+              <CardHeader className="flex flex-row items-baseline justify-between gap-4 space-y-0">
+                <CardTitle className="text-base font-medium group-hover:underline">
+                  Statute Dictionary
+                </CardTitle>
+                <span className="text-xs font-mono text-muted-foreground whitespace-nowrap">
+                  pick occupation + state → statute tree
+                </span>
+              </CardHeader>
+            </Card>
+          </Link>
           <Link href="/reports" className="block group">
             <Card className="py-3 transition-colors hover:border-foreground/30">
               <CardHeader className="flex flex-row items-baseline justify-between gap-4 space-y-0">
