@@ -124,3 +124,72 @@ def test_last_stamped_returns_latest(env):
     pv.record("clean", "x", "UT")
     assert pv.last_stamped("x", "UT") is not None
     assert pv.last_stamped("x", "ZZ") is None
+
+
+# --- the 4 new stages: pull (cell) + schema/mapprep/publish (profession) ------
+
+@pytest.fixture
+def penv(tmp_path, monkeypatch):
+    """Env for the profession-scoped + pull stages: monkeypatch every dir input_hash /
+    _out_exists reference directly (these stages don't go through _IN/_OUT)."""
+    dirs = {name: tmp_path / name for name in
+            ("text", "trimmed", "structured", "mapprep", "discovered", "web", "prov")}
+    monkeypatch.setattr(pv, "TEXT_DIR", dirs["text"])
+    monkeypatch.setattr(pv, "TRIMMED_DIR", dirs["trimmed"])
+    monkeypatch.setattr(pv, "STRUCTURED_DIR", dirs["structured"])
+    monkeypatch.setattr(pv, "MAP_PREP_DIR", dirs["mapprep"])
+    monkeypatch.setattr(pv, "DISCOVERED_DIR", dirs["discovered"])
+    monkeypatch.setattr(pv, "WEB_PUBLIC_DIR", dirs["web"])
+    monkeypatch.setattr(pv, "PROV_DIR", dirs["prov"])
+    pv.recipe_hash.cache_clear()
+    yield dirs
+    pv.recipe_hash.cache_clear()
+
+
+def _wr(path, payload):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(payload))
+
+
+def test_schema_is_profession_scoped_and_tracks_trimmed(penv):
+    # schema output exists but no stamp yet -> unstamped (NEVER stale — the safety invariant)
+    _wr(penv["trimmed"] / "x" / "UT.json", {"sections": ["a"]})
+    _wr(penv["discovered"] / "x.json", {"fields": []})
+    assert pv.check("schema", "x") == "unstamped"
+    # stamp it -> current; the stamp lands in the shared per-profession file
+    pv.record("schema", "x")
+    assert pv.check("schema", "x") == "current"
+    assert (penv["prov"] / "x" / "_profession.json").exists()
+    # a change to ANY trimmed state flips schema stale (its input is the whole dir)
+    _wr(penv["trimmed"] / "x" / "UT.json", {"sections": ["a", "b"]})
+    assert pv.check("schema", "x") == "stale"
+
+
+def test_publish_tracks_structured_and_mapprep(penv):
+    _wr(penv["structured"] / "x" / "UT.json", {"licensure": {}})
+    (penv["mapprep"] / "x").mkdir(parents=True)
+    _wr(penv["mapprep"] / "x" / "normalized.json", {"rows": []})
+    _wr(penv["web"] / "data" / "x.json", {"payload": 1})
+    pv.record("publish", "x")
+    assert pv.check("publish", "x") == "current"
+    # a map_prep change invalidates publish
+    _wr(penv["mapprep"] / "x" / "normalized.json", {"rows": [1]})
+    assert pv.check("publish", "x") == "stale"
+
+
+def test_publish_missing_when_no_payload(penv):
+    _wr(penv["structured"] / "x" / "UT.json", {"licensure": {}})
+    assert pv.check("publish", "x") == "missing"
+
+
+def test_pull_tracks_index_slice(penv, monkeypatch):
+    import pipeline.config.loaders as loaders
+    idx = {"by_state": {"UT": {"matched": [{"url": "u1"}]}}}
+    monkeypatch.setattr(loaders, "load_profession_index", lambda prof: idx)
+    monkeypatch.setattr(loaders, "matched_for", lambda index, st: index["by_state"].get(st, {}).get("matched"))
+    _wr(penv["text"] / "x" / "UT.json", {"sections": [1]})
+    pv.record("pull", "x", "UT")
+    assert pv.check("pull", "x", "UT") == "current"
+    # remapping the state's chapter urls flips pull stale
+    idx["by_state"]["UT"]["matched"] = [{"url": "u2"}]
+    assert pv.check("pull", "x", "UT") == "stale"

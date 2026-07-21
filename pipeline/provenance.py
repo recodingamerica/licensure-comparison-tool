@@ -27,25 +27,59 @@ from functools import lru_cache
 
 from pipeline.paths import (
     TEXT_DIR, CLEAN_DIR, TRIMMED_DIR, STRUCTURED_DIR, DISCOVERED_DIR, RESULTS_DIR,
+    MAP_PREP_DIR, WEB_PUBLIC_DIR, PROFESSION_INDEX_DIR,
 )
 from pipeline._records import write_json_atomic, read_json
 from pipeline._prompts import load_prompt
 
+# STAGES = the per-cell extract-path stages whose combined freshness defines whether a
+# DONE cell (one with structured output) is current. cell_freshness()/_backfill() iterate
+# these; do NOT add profession-scoped stages here (they aren't per-(prof,state)).
 STAGES = ("clean", "trim", "extract")
 
+# The full freshness contract spans 7 stages. `scope` decides the unit a stage's freshness
+# is keyed on: a CELL stage is per (prof, state); a PROFESSION stage's input is ALL of a
+# profession's states, so it stamps once at PROV_DIR/<prof>/_profession.json. The global
+# publish `fanout` tail stays OUTSIDE the contract (its freshness is "did any profession
+# change", which the runner decides).
+_SCOPE = {
+    "pull": "cell", "clean": "cell", "trim": "cell", "extract": "cell",
+    "schema": "profession", "mapprep": "profession", "publish": "profession",
+}
+
+# Input/output dirs for the CELL stages (unchanged shape). pull's input is the frozen
+# index (handled in input_hash), and profession stages read/write whole-profession trees
+# (handled directly in input_hash/_out_exists), so neither needs an _IN/_OUT entry.
 _IN = {"clean": TEXT_DIR, "trim": CLEAN_DIR, "extract": TRIMMED_DIR}
 _OUT = {"clean": CLEAN_DIR, "trim": TRIMMED_DIR, "extract": STRUCTURED_DIR}
-_PROMPT_KEY = {"clean": None, "trim": "trim_state", "extract": "extract_state"}
+
+# Prompt keys per stage (a tuple, so a multi-prompt stage like map_prep lists all of
+# them). Single-key stages hash identically to the old single-key form.
+_PROMPT_KEYS = {
+    "pull": (), "clean": (), "trim": ("trim_state",), "extract": ("extract_state",),
+    "schema": ("discover_schema",),
+    "mapprep": ("map_prep_spec", "map_prep_apply", "map_prep_bucket_text",
+                "map_prep_bucket_text_per_item_design", "map_prep_bucket_text_per_item_assign"),
+    "publish": (),
+}
+
+# Stage name -> config/models.yaml key (only the LLM stages; note map_prep's key differs
+# from the stage name "mapprep"). clean/pull/publish use no model.
+_MODEL_KEY = {"trim": "trim", "extract": "extract", "schema": "schema", "mapprep": "map_prep"}
+
+
 def _model_for_stage(stage: str) -> str | None:
-    """The model that produces a stage's output, from config/models.yaml. `clean` uses
-    no model. Imported lazily to avoid a config↔provenance import cycle."""
-    if stage == "clean":
+    """The model that produces a stage's output, from config/models.yaml (None for the
+    no-LLM stages). Imported lazily to avoid a config↔provenance import cycle."""
+    key = _MODEL_KEY.get(stage)
+    if key is None:
         return None
     from pipeline.config.loaders import model_for
-    return model_for(stage)
+    return model_for(key)
 
 # Manual code-version tags — bump when a stage's logic should invalidate old outputs.
-CODE_VERSION = {"clean": 1, "trim": 1, "extract": 1}
+CODE_VERSION = {"clean": 1, "trim": 1, "extract": 1,
+                "pull": 1, "schema": 1, "mapprep": 1, "publish": 1}
 
 PROV_DIR = RESULTS_DIR / "provenance"
 
@@ -63,6 +97,22 @@ def _payload_hash(path) -> str | None:
     if isinstance(d, dict):
         d = {k: v for k, v in d.items() if k != "_provenance"}
     return _sha(json.dumps(d, sort_keys=True, ensure_ascii=False))
+
+
+def _dir_hash(d) -> str | None:
+    """Order-independent content hash of every record JSON in a directory — the input
+    hash for a profession-scoped stage (whose input is all of a profession's state files).
+    None when the dir is absent or holds no records."""
+    if not d.exists():
+        return None
+    parts = []
+    for f in sorted(d.glob("*.json")):
+        if f.name.startswith("_"):
+            continue
+        h = _payload_hash(f)
+        if h is not None:
+            parts.append(f"{f.name}={h}")
+    return _sha("|".join(parts)) if parts else None
 
 
 def _clean_source_path(prof: str, state: str):
@@ -86,10 +136,26 @@ def _umbrella_hash(state: str) -> str | None:
     return _sha(f"{ut or ''}|{us or ''}")
 
 
-def input_hash(stage: str, prof: str, state: str) -> str | None:
+def input_hash(stage: str, prof: str, state: str | None = None) -> str | None:
     if stage == "clean":
         return _payload_hash(_clean_source_path(prof, state))
-    return _payload_hash(_IN[stage] / prof / f"{state}.json")
+    if stage == "pull":
+        # pull's input is this state's slice of the frozen profession index (the url map
+        # that determines what gets fetched), not a stage-output file.
+        from pipeline.config.loaders import load_profession_index, matched_for
+        idx = load_profession_index(prof)
+        nodes = matched_for(idx, state) if idx else None
+        return _sha(json.dumps(nodes, sort_keys=True, ensure_ascii=False)) if nodes else None
+    if _SCOPE[stage] == "cell":                       # trim, extract
+        return _payload_hash(_IN[stage] / prof / f"{state}.json")
+    if stage == "schema":                             # profession: all trimmed states
+        return _dir_hash(TRIMMED_DIR / prof)
+    if stage == "mapprep":                            # profession: all structured states
+        return _dir_hash(STRUCTURED_DIR / prof)
+    if stage == "publish":                            # profession: structured + map_prep
+        s, m = _dir_hash(STRUCTURED_DIR / prof), _dir_hash(MAP_PREP_DIR / prof)
+        return _sha(f"{s or ''}|{m or ''}") if (s or m) else None
+    return None
 
 
 @lru_cache(maxsize=None)
@@ -102,8 +168,7 @@ def recipe_hash(stage: str, prof: str, model: str | None = None) -> str:
     identically to before — only a non-default override shifts the recipe (and correctly
     reads stale against the canonical recipe until re-run)."""
     parts = [f"code={CODE_VERSION[stage]}"]
-    key = _PROMPT_KEY[stage]
-    if key:
+    for key in _PROMPT_KEYS[stage]:
         parts.append("prompt=" + _sha(load_prompt(key)))
     m = model or _model_for_stage(stage)
     if m:
@@ -113,7 +178,7 @@ def recipe_hash(stage: str, prof: str, model: str | None = None) -> str:
     return _sha("|".join(parts))
 
 
-def stamp(stage: str, prof: str, state: str, model: str | None = None) -> dict:
+def stamp(stage: str, prof: str, state: str | None = None, model: str | None = None) -> dict:
     d = {"input_hash": input_hash(stage, prof, state),
          "recipe_hash": recipe_hash(stage, prof, model)}
     if stage == "extract":
@@ -127,30 +192,56 @@ def _prov_path(prof: str, state: str):
     return PROV_DIR / prof / f"{state}.json"
 
 
+def _prof_prov_path(prof: str):
+    """Profession-scoped stamps live in one file per profession, not per state."""
+    return PROV_DIR / prof / "_profession.json"
+
+
+def _prov_path_for(stage: str, prof: str, state: str | None):
+    return _prof_prov_path(prof) if _SCOPE[stage] == "profession" else _prov_path(prof, state)
+
+
+def _out_exists(stage: str, prof: str, state: str | None) -> bool:
+    """Does this stage's output exist? Cell stages write <dir>/<prof>/<state>.json;
+    profession stages write a single per-profession artifact."""
+    if stage == "pull":
+        return (TEXT_DIR / prof / f"{state}.json").exists()
+    if _SCOPE[stage] == "cell":
+        return (_OUT[stage] / prof / f"{state}.json").exists()
+    if stage == "schema":
+        return (DISCOVERED_DIR / f"{prof}.json").exists()
+    if stage == "mapprep":
+        return (MAP_PREP_DIR / prof).exists()
+    if stage == "publish":
+        return (WEB_PUBLIC_DIR / "data" / f"{prof}.json").exists()
+    return False
+
+
 def _load_prov(prof: str, state: str) -> dict:
     return read_json(_prov_path(prof, state), {})
 
 
-def record(stage: str, prof: str, state: str, model: str | None = None) -> None:
-    """Stamp one stage into the cell's provenance file (read-modify-write, so the other
-    stages' stamps are preserved). Call right after writing the stage output. Pass the
-    model actually used (the stage's --model) so an off-default run is captured.
+def record(stage: str, prof: str, state: str | None = None, model: str | None = None) -> None:
+    """Stamp one stage into its provenance file (read-modify-write, so the other stages'
+    stamps are preserved). Call right after writing the stage output. Pass the model
+    actually used (the stage's --model) so an off-default run is captured. Profession
+    stages ignore `state` and stamp the per-profession file.
 
     `stamped_at` is metadata only — check() compares input_hash/recipe_hash, never the
     timestamp, so re-running with identical content doesn't read as stale."""
     from datetime import datetime
-    p = _prov_path(prof, state)
+    p = _prov_path_for(stage, prof, state)
     p.parent.mkdir(parents=True, exist_ok=True)
-    data = _load_prov(prof, state)
+    data = read_json(p, {})
     data[stage] = {**stamp(stage, prof, state, model), "stamped_at": datetime.now().isoformat(timespec="seconds")}
     write_json_atomic(p, data, sort_keys=True)
 
 
-def check(stage: str, prof: str, state: str) -> str:
+def check(stage: str, prof: str, state: str | None = None) -> str:
     """current | stale | unstamped | missing (missing = the stage output isn't there)."""
-    if not (_OUT[stage] / prof / f"{state}.json").exists():
+    if not _out_exists(stage, prof, state):
         return "missing"
-    p = _load_prov(prof, state).get(stage)
+    p = read_json(_prov_path_for(stage, prof, state), {}).get(stage)
     if not p or "input_hash" not in p:
         return "unstamped"
     if p.get("input_hash") != input_hash(stage, prof, state):
