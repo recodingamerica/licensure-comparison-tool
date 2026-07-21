@@ -24,6 +24,7 @@ from __future__ import annotations
 import hashlib
 import json
 from functools import lru_cache
+from pathlib import Path
 
 from pipeline.paths import (
     TEXT_DIR, CLEAN_DIR, TRIMMED_DIR, STRUCTURED_DIR, DISCOVERED_DIR, RESULTS_DIR,

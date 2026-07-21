@@ -58,8 +58,6 @@ def _drill_one(parent: dict) -> list[dict]:
     sections — returns []. The caller should KEEP the parent as a chapter
     in that case rather than discarding it.
     """
-    from pipeline.discover._fetch import fetch_with  # avoid circular at import time
-    from pipeline.discover._extract import extract_justia_chapters
     import time
     status, html, err = fetch_with("curl_cffi", parent["url"])
     time.sleep(PER_HOST_DELAY)

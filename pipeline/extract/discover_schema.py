@@ -17,6 +17,7 @@ import json
 import logging
 import os
 import sys
+from pathlib import Path
 from typing import Literal
 
 from pydantic import BaseModel, Field
@@ -163,7 +164,6 @@ def main() -> None:
         sys.exit("ANTHROPIC_API_KEY not set")
 
     corpus, states = build_corpus(profession)
-    all_states = list(states)  # full list before sampling
     states_excluded_count = 0
     if len(states) > args.max_states:
         log.info("sampling %d / %d states for schema discovery (corpus would be too large)",
