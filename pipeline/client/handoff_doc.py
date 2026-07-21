@@ -31,16 +31,18 @@ from pipeline.extract.discover_schema import DEFAULT_MODEL as SCHEMA_MODEL
 REPO_ROOT = PIPELINE_ROOT.parent
 DATA_DIR = PIPELINE_ROOT / "publish" / "web" / "public" / "data"
 OUT_DIR = REPO_ROOT / "docs" / "handoff"
-NON_PROFESSION_PAYLOADS = {"_skiptest", "scorecard", "tag_sheet"}
 
 
 def _published() -> list[str]:
-    """Professions with a site payload built in the repo. This is what the publish
-    step has produced locally; the live site shows whatever was last deployed."""
-    return sorted(
-        f.stem for f in DATA_DIR.glob("*.json")
-        if f.stem not in NON_PROFESSION_PAYLOADS
-    )
+    """Professions with a site payload built in the repo. Intersected with the registry
+    (`professions.yaml`) so cross-profession artifacts that also live in data/ — scorecard,
+    tag_sheet, scope_capabilities, and any future one — can never be miscounted as a
+    published profession. An allowlist that auto-corrects, vs. a blocklist that rots (a new
+    artifact once got counted as a profession because it wasn't added to the exclusion set).
+    (The live site shows whatever was last deployed; this is what publish produced locally.)"""
+    from pipeline.config.loaders import all_profession_ids
+    registry = set(all_profession_ids())
+    return sorted(f.stem for f in DATA_DIR.glob("*.json") if f.stem in registry)
 
 
 def _evidence_totals() -> tuple[int, int]:
@@ -200,28 +202,24 @@ What needs a human, per source:
 - **Justia** — its Cloudflare bot-wall is now cleared **automatically and headless**
   (a stealth browser, Scrapling, does it), so a fetch needs **nobody watching or
   clicking through anything** — no Chrome window to open, no challenge to solve by hand.
-  (The old hand-started-Chrome method is kept only as a fallback.) If Justia changes its
-  page layout or URL scheme, the parser needs updating.
+  If Justia changes its page layout or URL scheme, the parser needs updating.
 - **PA Legislature** — there's no Cloudflare-style bot wall here, so this source has
   always been fetchable by a plain automated script with nobody watching. The only risk
   is the same as Justia's second case: if PA changes its site's URL scheme or page
   markup, the parser needs updating.
 
-**Fetching can now run unattended.** This is a real change from what this document used
-to say. Re-fetching or fetching new statute text still runs on your machine, and a large
-batch can take a while (it's deliberately polite — a short pause between requests), but
-it no longer needs a person babysitting a browser: the bot-wall is cleared headless and
-flaky responses are retried automatically. It's much closer to "kick it off and let it
-run" than the old hand-driven-Chrome process.
+**Fetching runs unattended.** Re-fetching or fetching new statute text runs on your
+machine, and a large batch can take a while (it's deliberately polite — a short pause
+between requests), but it needs nobody babysitting a browser: the bot-wall is cleared
+headless and flaky responses are retried automatically. You kick it off and let it run.
 
 **One honest caveat — this is a cat-and-mouse solution, not a permanent guarantee.** The
 headless fetch works by looking enough like an ordinary human browser that Cloudflare's
 bot-detection lets it through. That's a moving target: **if Cloudflare changes how it
 detects automated traffic, this could stop working** — the fetch would start coming back
-empty or stuck on a challenge — and it would need the stealth tool updated, or a switch
-back to the hand-driven-Chrome method. That older method is **deliberately kept as a
-fallback** for exactly this reason. So: this is the right, low-effort default *today*,
-and the fallback is there if the day comes that it isn't.
+empty or stuck on a challenge — and it would need the stealth tool (Scrapling) updated to
+match. This is the right, low-effort default *today*; a handed-off repo is already fully
+fetched, so this only matters when you go to re-fetch a changed state a year from now.
 
 One more related point: **finding the law is often harder than fetching it.** Many
 occupations' licensing rules aren't a standalone chapter — they're a few sections
@@ -465,13 +463,28 @@ def readme_status_block() -> str:
     today = datetime.date.today().isoformat()
     pub_list = ", ".join(f"**{p}**" for p in published)
 
+    import yaml
+    from pipeline.paths import core_professions
+    registry = len([k for k in yaml.safe_load(
+        (PIPELINE_ROOT / "config" / "professions.yaml").read_text()) if not k.startswith("_")])
+    core = len(core_professions())
+    corpora = sum(1 for p in TEXT_DIR.iterdir() if p.is_dir()
+                  for f in p.glob("*.json") if not f.stem.startswith("_"))
+
     return f"""{len(published)} professions published end-to-end, all 50 states each: {pub_list}.
 Live site: https://utah-licensing.vercel.app (behind HTTP Basic Auth).
 
 Across all {len(published)}: ~{total:,} Evidence-wrapped claims; {pct}% regex-verified against
 source statute (as of {today} — regenerate with `python -m pipeline.client.handoff_doc`,
 which reuses `pipeline.client.status.build()`, the single source of current
-per-profession counts and cost-to-finish)."""
+per-profession counts and cost-to-finish).
+
+**The counts you'll see, and what each means** (all derived, not hand-kept):
+- **{registry}** professions in the registry (`config/professions.yaml`) — every occupation we track.
+- **{len(published)}** published — have a built site payload (`publish/web/public/data/<name>.json`).
+- **{core}** "core" — have ≥10 states extracted, so they're eligible to publish (`core_professions()`).
+- **{corpora:,}** (occupation, state) statute corpora fetched and committed under `results/text/`.
+- **50** states, always."""
 
 
 def update_readme() -> None:

@@ -310,6 +310,15 @@ def _report() -> None:
     print(f"  current:   {counts['current']}")
     print(f"  stale:     {counts['stale']}  {stale_by_stage or ''}")
     print(f"  unstamped: {counts['unstamped']}  (no provenance yet — run backfill to baseline)")
+    # Context so the numbers aren't misread as breakage. clean-stale is the EXPECTED state
+    # during/after an annual refresh: the crawl re-pulls text/ but doesn't re-run clean/, so
+    # those cells read stale-at-clean until the post-refresh clean pass — nothing is broken.
+    if stale_by_stage.get("clean"):
+        print(f"\n  note: {stale_by_stage['clean']} of the stale cells are stale AT CLEAN — expected"
+              " if an annual refresh is running or\n"
+              "        just finished (text/ re-pulled, clean/ not yet re-run). They clear when you"
+              " re-run clean\n        (`pipeline.client.run clean --professions <name>`), NOT a sign"
+              " anything is wrong.")
 
 
 def _iter_done_professions():
