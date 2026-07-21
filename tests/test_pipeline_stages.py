@@ -93,11 +93,11 @@ def test_failed_stage_halts_chain(rec):
 
 # --- the pull adapter (safe path over refresh_item) ---------------------------
 
-def test_pull_adapter_stamps_healthy_and_flags_bad(monkeypatch):
-    """_pull maps refresh_item results: OK/NOCHANGE → healthy (stamped current); anything
-    else → failure. All states are attempted (one bad cell doesn't abort the rest)."""
+def test_pull_adapter_flags_bad_delegates_stamping(monkeypatch):
+    """_pull maps refresh_item results: OK/NOCHANGE → healthy; anything else → failure. All
+    states are attempted (one bad cell doesn't abort the rest). Pull-provenance stamping now
+    lives in refresh_item (folded into its OK commit), so the adapter itself never stamps."""
     results = {"UT": "OK", "ID": "NOCHANGE", "MT": "REGRESSION"}
-    monkeypatch.setattr(ps, "_pull", ps._pull)  # ensure real adapter
     import pipeline.ingest.refresh_corpus as rc
     monkeypatch.setattr(rc, "build_worklist",
                         lambda profs, states: [(profs[0], s, [{"chapter_url": "u"}]) for s in sorted(states)])
@@ -106,8 +106,8 @@ def test_pull_adapter_stamps_healthy_and_flags_bad(monkeypatch):
     stamped = []
     monkeypatch.setattr(ps.provenance, "record", lambda stage, p, s=None: stamped.append((stage, p, s)))
     ok = ps._pull("med", ["UT", "ID", "MT"], {})
-    assert ok is False                                    # MT regressed → overall failure
-    assert set(stamped) == {("pull", "med", "UT"), ("pull", "med", "ID")}  # only healthy cells stamped
+    assert ok is False            # MT regressed → overall failure
+    assert stamped == []          # adapter delegates stamping to refresh_item
 
 
 # --- the cost gate ------------------------------------------------------------

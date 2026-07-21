@@ -53,6 +53,13 @@ def repo(tmp_path, monkeypatch):
     # source is "reachable" unless a test overrides; never probe urls for real.
     monkeypatch.setattr(rc, "justia_reachable", lambda *a, **k: True)
     monkeypatch.setattr(rc, "_classify_empty", lambda urls: {u: "LIVE" for u in urls})
+    # refresh_item now folds pull-provenance into its OK commit — point provenance +
+    # the index loader at the SAME tmp tree so stamps land under this repo, not the real one.
+    from pipeline import provenance as pv
+    import pipeline.config.loaders as loaders
+    monkeypatch.setattr(pv, "PROV_DIR", results / "provenance")
+    monkeypatch.setattr(pv, "TEXT_DIR", text_dir)
+    monkeypatch.setattr(loaders, "PROFESSION_INDEX_DIR", idx_dir)
     return root, idx_dir, text_dir
 
 

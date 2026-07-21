@@ -61,6 +61,7 @@ except ImportError:  # optional — falls back to one line per cell
     _tqdm = None
 
 from pipeline.paths import RESULTS_DIR, PROFESSION_INDEX_DIR, TEXT_DIR, LOGS_DIR
+from pipeline import provenance
 from pipeline.ingest import pull_text
 from pipeline.ingest import nj_flat
 from pipeline.ingest import clean_text
@@ -269,6 +270,20 @@ def commit(path: Path, msg: str) -> None:
     _git("add", _rel(path))
     _git("commit", "-q", "-m", msg,
          "-m", "Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>")
+
+
+def _stage_pull_stamp(profession: str, state: str) -> None:
+    """Right before an OK pull commits its corpus, git-add this cell's pull-provenance stamp
+    so the corpus and its freshness stamp land in ONE commit. pull's freshness key is the
+    frozen profession-index url-map (not the corpus bytes), so a cell already current needs
+    nothing — the guard skips it. Only a first-time or remapped cell records here; the
+    one-time `provenance backfill-pull` baselines every pre-existing corpus (and a NOCHANGE
+    pull, which by definition already had a committed corpus, is covered by that baseline —
+    so only OK pulls stamp)."""
+    if provenance.check("pull", profession, state) == "current":
+        return
+    stamp_path = provenance.record("pull", profession, state)
+    _git("add", _rel(stamp_path))
 
 
 PENDING_DIR = RESULTS_DIR / "pending_review"
@@ -631,6 +646,7 @@ def refresh_item(profession: str, state: str, rows: list[dict], *,
         msg += " [--force over regression]"
     elif rec.get("auto_accepted"):
         msg += " [auto-accepted: clean same-chapter change]"
+    _stage_pull_stamp(profession, state)   # fold this cell's pull-provenance into the commit
     commit(out_path, msg)
     rec["result"] = "OK"
     rec["per_chapter"] = sections_per_chapter(chapter_urls, sections)
