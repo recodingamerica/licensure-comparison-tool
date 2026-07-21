@@ -58,7 +58,9 @@ from pipeline.paths import (
     CONFIG_DIR, RESULTS_DIR,
 )
 from pipeline.config.loaders import load_corpus_overrides
-from pipeline.eval.corpus_drift import audit_one as _drift_one, _active_official_sources
+from pipeline.eval.corpus_drift import (
+    audit_one as _drift_one, _active_official_sources, _index_nodes as _drift_index_nodes,
+)
 
 # The 7 professions with published map/blob payloads (per CLAUDE.md). Kept here
 # explicitly because there is no single in-code constant for them.
@@ -418,7 +420,39 @@ def _blocking_flags(flags: list[str]) -> list[str]:
             if f in _SYNC_BLOCKING_EXACT or f.startswith("CAPPED(")]
 
 
-def cmd_gate() -> int:
+def _probe_urls(prof: str, state: str) -> list[str]:
+    """Network tier: probe each url the index maps for (prof, state) and return the
+    bad verdicts as reason tags (URL_STUB / URL_DEAD_404). FETCHES — callers gate
+    this behind --check-urls, and it must not run while the refresh holds the
+    one-fetcher lane."""
+    from pipeline.eval.verify_urls import probe  # lazy: pulls in pull_text.fetch
+    tags: set[str] = set()
+    for node in _drift_index_nodes(prof, state):
+        for u in [node.get("url", ""), *(node.get("section_url_list") or [])]:
+            if not u:
+                continue
+            v = probe(u).get("verdict")
+            if v in ("STUB", "DEAD_404"):
+                tags.add(f"URL_{v}")
+    return sorted(tags)
+
+
+def _llm_verdicts(suspects: list[tuple[str, str, list[str]]]) -> dict[tuple[str, str], str]:
+    """LLM tier: run the corpus-correctness audit on the suspect cells (batched by
+    profession) and return {(prof, state): verdict}. COSTS LLM calls — gated behind
+    --check-llm."""
+    from pipeline.discover.audit_corpus import audit_states
+    by_prof: dict[str, list[str]] = defaultdict(list)
+    for prof, state, _ in suspects:
+        by_prof[prof].append(state)
+    out: dict[tuple[str, str], str] = {}
+    for prof, states in by_prof.items():
+        for st, v in audit_states(prof, sorted(set(states))).items():
+            out[(prof, st)] = v.get("verdict", "?")
+    return out
+
+
+def cmd_gate(check_urls: bool = False, check_llm: bool = False) -> int:
     official = _active_official_sources()
     suspects: list[tuple[str, str, list[str]]] = []
     for r in audit_sync(index_stages()):
@@ -428,6 +462,24 @@ def cmd_gate() -> int:
             reasons = [*reasons, "HOST_DRIFT"]
         if reasons:
             suspects.append((r["prof"], r["state"], reasons))
+
+    # Opt-in network tier: re-probe already-suspect cells' mapped urls so a dead/
+    # stub LINK (needs a new url) is told apart from a stale-but-live corpus. Bounded
+    # to the offline suspects on purpose — probe() fetches, so a full-index sweep
+    # would be thousands of fetches and can't run against the live refresh.
+    if check_urls:
+        suspects = [(p, s, [*reasons, *_probe_urls(p, s)]) for p, s, reasons in suspects]
+
+    # Opt-in LLM tier: re-check the suspect cells' corpus correctness so a
+    # wrong-chapter pull (right sync state, wrong law) is caught. Same suspect-only
+    # bound — audit_states costs an LLM call per state.
+    if check_llm:
+        verdicts = _llm_verdicts(suspects)
+        suspects = [
+            (p, s, [*reasons, "WRONG_CHAPTER"] if verdicts.get((p, s)) == "wrong_chapter" else reasons)
+            for p, s, reasons in suspects
+        ]
+
     for prof, state, reasons in suspects:
         print(f"  {prof}/{state}: {', '.join(reasons)}")
     print(f"\n=== health gate: {len(suspects)} blocking cell(s) ===")
@@ -438,7 +490,11 @@ def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     sp = ap.add_subparsers(dest="cmd", required=True)
-    sp.add_parser("gate", help="unified health gate (sync flags + corpus/index drift) -> exit 1 if any blocking")
+    s_gate = sp.add_parser("gate", help="unified health gate (sync flags + corpus/index drift) -> exit 1 if any blocking")
+    s_gate.add_argument("--check-urls", action="store_true",
+                        help="network tier: probe suspect cells' mapped urls, fold STUB/DEAD_404 in (FETCHES — don't run during a refresh)")
+    s_gate.add_argument("--check-llm", action="store_true",
+                        help="LLM tier: audit suspect cells' corpus correctness, fold wrong_chapter in (costs LLM calls)")
     sp.add_parser("sync", help="cross-stage corpus-sync health report")
     s_bk = sp.add_parser("backlog", help="extract-backlog classification + queues")
     s_bk.add_argument("--write-queues", help="dir to emit queue JSONs into")
@@ -449,7 +505,7 @@ def main() -> None:
     args = ap.parse_args()
 
     if args.cmd == "gate":
-        sys.exit(cmd_gate())
+        sys.exit(cmd_gate(check_urls=args.check_urls, check_llm=args.check_llm))
     elif args.cmd == "sync":
         sys.exit(cmd_sync())
     elif args.cmd == "backlog":
