@@ -156,7 +156,6 @@ def load_verified_absences() -> dict:
 
 
 @functools.lru_cache(maxsize=1)
-@functools.lru_cache(maxsize=1)
 def load_costs() -> dict:
     """Load config/costs.yaml — estimated USD per unit for each paid stage."""
     path = CONFIG_DIR / "costs.yaml"
