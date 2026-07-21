@@ -21,7 +21,7 @@ from datetime import date
 from pathlib import Path
 from typing import Any
 
-from pipeline.extract.standard_model import iter_evidence
+from pipeline.extract.model_helpers import iter_evidence
 from pipeline.paths import STRUCTURED_DIR, RESULTS_DIR
 from pipeline._records import record_files
 

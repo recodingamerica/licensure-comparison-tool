@@ -36,7 +36,7 @@ from pipeline.paths import DISCOVERED_DIR, STRUCTURED_DIR, PIPELINE_ROOT, WEB_PU
 from pipeline.extract.extract_state import build_profile_model
 from pipeline._records import record_files
 from pipeline._runlog import record_run
-from pipeline.extract.standard_model import is_evidence_node
+from pipeline.extract.model_helpers import is_evidence_node
 
 OUT_DIR = PIPELINE_ROOT.parent / "docs" / "methodology"
 

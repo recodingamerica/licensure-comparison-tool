@@ -39,7 +39,7 @@ from typing import Any
 from pipeline._env import load_env
 load_env()
 
-from pipeline.extract.standard_model import iter_evidence
+from pipeline.extract.model_helpers import iter_evidence
 from pipeline.extract.locate_quote import (
     normalize_with_mapping, split_quote_segments, locate_segments_in_normalized,
 )

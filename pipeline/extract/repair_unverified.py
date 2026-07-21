@@ -32,7 +32,7 @@ from pipeline._records import record_files
 from pipeline.extract.extract_state import load_umbrella_text  # noqa: E402
 from pipeline.extract.locate_quote import normalize_for_match, quote_in_corpus  # noqa: E402
 from pipeline.paths import LOGS_DIR, STRUCTURED_DIR, TRIMMED_DIR
-from pipeline.extract.standard_model import iter_evidence  # noqa: E402
+from pipeline.extract.model_helpers import iter_evidence  # noqa: E402
 from pipeline.config.loaders import model_for
 
 

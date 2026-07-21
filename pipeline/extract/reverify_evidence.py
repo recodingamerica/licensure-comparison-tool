@@ -23,7 +23,7 @@ from pipeline.extract.extract_state import annotate_evidence, load_umbrella_text
 from pipeline.extract.locate_quote import normalize_for_match  # noqa: E402
 from pipeline.paths import STRUCTURED_DIR, TRIMMED_DIR
 from pipeline._records import record_files
-from pipeline.extract.standard_model import iter_evidence  # noqa: E402
+from pipeline.extract.model_helpers import iter_evidence  # noqa: E402
 
 
 def main() -> None:

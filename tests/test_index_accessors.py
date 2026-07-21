@@ -5,7 +5,7 @@ import json
 
 from pipeline.config import loaders
 from pipeline.config.loaders import all_profession_ids, load_profession_index, matched_for
-from pipeline.extract.standard_model import deep_get
+from pipeline.extract.model_helpers import deep_get
 
 
 def test_all_profession_ids_skips_bookkeeping(tmp_path, monkeypatch):
