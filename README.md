@@ -54,27 +54,50 @@ get located and pulled.
 
 Pipeline stages, all working:
 
+The pipeline is a linear chain — each stage reads the previous stage's output dir
+and writes its own (`text/` → `clean/` → `trimmed/` → `structured/` → published
+payload). Run modules from the repo root with the project venv, e.g.
+`pipeline/.venv/bin/python -m pipeline.ingest.pull_text --profession dietetics`.
+
 | Stage | What it does |
 |---|---|
-| `discover/probe` | Verify each state's licensing parent URL is fetchable |
+| **DISCOVER — what to pull** | |
 | `discover/build_hierarchy` | Per-state structural crawl (title → chapters), 50 states cached |
-| `discover/match_profession` | `professions.yaml` patterns + `state_structure.yaml` overrides → matched chapter nodes |
-| `discover/suggest_overrides` | Haiku classifier that proposes chapter URLs for buried-under-parent cases (e.g. podiatry under Medicine) — proposals reviewed before promoting |
-| `discover/fetch_section_bodies` | Bulk-fetches per-section body excerpts (cached per state) — only needed for section_fallback states |
-| `discover/map_state_sections_v2` | For section_fallback states, asks Sonnet to assign each flat section to a profession using label + body excerpt |
-| `ingest/pull_text` | Consumes `profession_index/<prof>.json`, fetches section text. Supports `section_url_list` and `section_slug_pattern` overrides |
+| `discover/match_profession` | `professions.yaml` patterns + `state_structure.yaml` / `mapping_overrides.yaml` → matched chapter nodes in `profession_index/<prof>.json` |
+| `discover/match_sections` | LLM-free section-title matcher — finds a profession nested as a *section* inside a broad chapter (invisible to the chapter-label match). Pairs with `discover/expand_containers`, which depth-expands a broad chapter into its section-title tree |
+| `discover/umbrella_from_citations` | Maps the shared general-provisions chapters a corpus cites (discipline / fees / board powers) → Justia URLs for `ingest/pull_umbrella_text` |
+| **INGEST — pull + prep the corpus** | |
+| `ingest/pull_text` | Consumes `profession_index/<prof>.json`, fetches section text (Justia via headless Scrapling; PA via curl_cffi). Supports `section_url_list` and `section_slug_pattern` overrides |
+| `ingest/pull_umbrella_text` | Pulls the umbrella/general-provisions chapters → `umbrella_text/`, folded in as extraction context for every profession in the state |
 | `ingest/clean_text` | Source-keyed regex cleanup (Justia chrome, repealed sections) |
 | `ingest/trim_state` | Haiku binary keep/drop classifier — drops board-composition / fund / ministerial sections. Never rewrites text |
+| **EXTRACT — structure the text** | |
 | `extract/discover_schema` | Pass 1b — Sonnet aggregator over all trimmed corpora. Outputs profession-specific fields with types, enum values, plain-English category labels |
-| `extract/extract_state` | Pass 2 — per-state structured extraction. Every leaf field is Evidence-wrapped (`{value, quote, citation}`). Quote is regex-validated against the cleaned source |
-| `extract/recategorize_fields` | Surgical re-grouping of an existing discovered file into LLM-named categories without re-extraction |
+| `extract/extract_state` | Pass 2 — per-state structured extraction. Every leaf field is Evidence-wrapped (`{value, quote, citation}`); the quote is regex-validated against the cleaned source. For >2 states use `extract/extract_state_batch` (Anthropic Batch API — ~50% cheaper, crash-durable) |
 | `extract/reverify_evidence` | Re-runs the regex check against existing structured records (lets us tighten/loosen the matcher without re-extracting) |
+| **MAP_PREP — normalize for the map/tags** | |
 | `map_prep/run` | Two-pass LLM normalization — decides which fields are mappable (continuous/categorical) and emits normalized values for the choropleth |
 | `map_prep/bucket_text` | Pass 3 — clusters each free-text field's values across states into a few plain-English tags (scalar + per-item, e.g. disciplinary_grounds). Feeds the tag sheet + profile bucket chips |
+| **PUBLISH — build + ship** | |
 | `publish/build_frontend` | Aggregates per-state records into one payload per profession and uploads to Vercel Blob at `data/<prof>.json` |
-| `publish/build_tag_sheet` | Reshapes the bucket output into the per-profession Field Tag Sheet (`data/tag_sheet.json`, the `/reports/tag-sheet` route + profile Tags tab) |
-| `eval/check_vs_oplr` | Validation — compares our UT `regulatory_model` to Utah OPLR's published periodic-review classifications (`docs/lit_review/oplr_ground_truth.csv`) |
-| `publish/web/` | Next.js + Tailwind + shadcn viewer (AG Grid table, maps, tag sheets), deployed to Vercel. Prebuild step fetches every `data/*.json` from Blob and bakes it into the static export. Site is gated by HTTP Basic Auth via middleware |
+| `publish/refresh_all` | Orchestrator — runs `build_frontend` + tag sheet + scope caps + scorecard + browse blobs (+ `--deploy`) for a set of professions |
+| `publish/web/` | Next.js + Tailwind + shadcn viewer (AG Grid table, maps, tag sheets), deployed to Vercel. Prebuild fetches every `data/*.json` from Blob and bakes it into the static export. Gated by HTTP Basic Auth via middleware |
+
+Beyond the linear stages, two other kinds of thing run — knowing which is which is
+the key to "what runs when":
+
+- **Gates** (on-demand / CI, read-only — they don't transform data, they say
+  whether the current state is healthy): `eval/corpus_status gate` (the one unified
+  corpus/mapping health gate), `extract/preflight` (pre-spend check before a batch
+  extract), `eval/check_consistency` (cross-field invariants; `refresh_all` gates on
+  it), `eval/check_vs_oplr` (validates UT vs OPLR ground truth), `eval/verify_index_reproducibility`,
+  and `discover/audit_corpus` (LLM wrong-chapter check).
+- **Background loops** (long-running, hand-started): the **annual refresh** =
+  `ingest/refresh_corpus` under a watchdog + `caffeinate` (re-pulls every committed
+  corpus with a commit gate); and the **gap-harvest flywheel** (`discover/gap_harvest/`
+  — `locate` → `reuse`/`pull` → `narrow` → `promote` → `cleanup`), a hand-run
+  completeness workflow for finding law we don't yet have. Neither is part of the
+  linear per-profession chain above.
 
 ## How to run it
 
@@ -108,14 +131,13 @@ Add a profession (one that's already in `config/professions.yaml`), running the
 stage modules directly:
 
 ```bash
-# 1. Match — uses state_structure.yaml overrides + professions.yaml patterns
+# 1. Match — uses state_structure.yaml + mapping_overrides.yaml + professions.yaml patterns
 python -m pipeline.discover.match_profession --profession <name>
 
-# 2. (optional) For unmatched states — let Haiku propose chapter URLs:
-python -m pipeline.discover.suggest_overrides --profession <name>
-# review pipeline/results/profession_index/<name>_suggestions.json,
-# promote good ones into pipeline/config/state_structure.yaml,
-# re-run match_profession.
+# 2. (optional) For unmatched states — hand-curate the mapping:
+#    edit pipeline/config/mapping_overrides.yaml (NOT the generated index JSON),
+#    then re-run match_profession. Overrides are re-applied on every build.
+#    Gate: python -m pipeline.eval.verify_index_reproducibility
 
 # 3. Pull → clean → trim → discover schema → extract → publish
 python -m pipeline.ingest.pull_text          --profession <name>
@@ -125,6 +147,11 @@ python -m pipeline.extract.discover_schema   --profession <name>
 python -m pipeline.extract.extract_state     --profession <name>
 python -m pipeline.publish.build_frontend    --profession <name>
 ```
+
+For the full end-to-end procedure (umbrella merge, map_prep, the required
+`build_state_browse` edit, publishing), follow
+[`docs/runbooks/adding_a_new_occupation.md`](docs/runbooks/adding_a_new_occupation.md) —
+the canonical, maintained operator runbook.
 
 ## Frontend / data hosting
 
@@ -191,36 +218,30 @@ pipeline/
     prompts.yaml         # LLM system prompts (loadable by name)
     targets.csv          # per-state licensing parent URLs
     regs_targets.csv     # per-state admin code parent URLs
-  discover/
+  discover/            # "what to pull" — see the DISCOVER rows in the stages table
     _fetch.py            # polite fetch helpers (requests → curl_cffi → playwright)
     _extract.py          # Justia + generic link extractors
-    probe.py
-    build_hierarchy.py
-    match_profession.py
-    suggest_overrides.py
-    fetch_section_bodies.py
-    map_state_sections.py / _v2.py
-    regs_probe.py
-  ingest/
-    pull_text.py
-    clean_text.py
-    trim_state.py
-  extract/
+    build_hierarchy.py  match_profession.py  match_sections.py  expand_containers.py
+    umbrella_from_citations.py  add_occupation.py
+    gap_harvest/         # hand-run completeness flywheel (locate/reuse/narrow/promote/cleanup)
+  ingest/              # pull + prep — see the INGEST rows
+    pull_text.py  pull_umbrella_text.py  clean_text.py  trim_state.py
+    refresh_corpus.py    # annual re-pull with commit gate (the background-loop driver)
+  extract/             # structure — see the EXTRACT rows
     standard_model.py    # universal Pydantic base, Evidence-wrapped
-    discover_schema.py
-    extract_state.py
+    discover_schema.py  extract_state.py
     extract_state_batch.py  # async Anthropic Batch API path (cheaper bulk re-extracts)
-    recategorize_fields.py
-    reverify_evidence.py
+    preflight.py         # pre-spend gate; reverify_evidence.py  # regex re-check
   map_prep/
     run.py               # pass 1/2: spec (mappable?) + normalized values for maps
     bucket_text.py       # pass 3: cluster free-text fields into plain-English tags
-  eval/
-    check_vs_oplr.py     # compare our UT classification to OPLR ground truth
+  eval/                # read-only GATES (no data transform) — see "Beyond the linear stages"
+    corpus_status.py     # the unified corpus/mapping health gate
+    check_consistency.py  check_vs_oplr.py  verify_index_reproducibility.py  audit_mappings.py
   publish/
-    build_frontend.py
+    build_frontend.py  refresh_all.py   # refresh_all orchestrates the whole publish chain
     build_tag_sheet.py   # per-profession Field Tag Sheet
-    cross_comparison_scorecard.py
+    db/                  # PARKED: Postgres ETL (built, not wired into any flow)
     web/                 # Next.js + Tailwind + shadcn app (deployed to Vercel)
       src/app/           # routes: /, /professions/[id], /reports/*, /states, /browse
       public/data/       # <profession>.json + tag_sheet.json (fetched from Blob at build)
