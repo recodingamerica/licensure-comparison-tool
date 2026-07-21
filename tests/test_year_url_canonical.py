@@ -8,7 +8,7 @@ callers now share pipeline.ingest._section_patterns.canonical_year_url.
 
 from pipeline.ingest._section_patterns import canonical_year_url, YEAR_SEG
 from pipeline.extract.extract_state import _canonical_url as extract_canon
-from pipeline.discover.assign_umbrella_scope import dedupe_year_versions
+from pipeline.scope.assign_umbrella_scope import dedupe_year_versions
 
 
 def test_strips_year_for_any_state_not_just_utah():

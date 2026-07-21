@@ -21,7 +21,7 @@ def test_slug_is_derived_from_name():
 
 def test_consumers_reexport_the_same_objects():
     from pipeline.discover.gap_harvest import _common
-    from pipeline.discover import suggest_scope_rules
+    from pipeline.scope import suggest_scope_rules
     assert _common.STATE_SLUG is STATE_SLUG
     assert _common.ALL_STATES is ALL_STATES
     assert suggest_scope_rules.STATE_NAME_MAP is STATE_NAMES

@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import pytest
 
-from pipeline.scope_sources import (
+from pipeline.scope.scope_sources import (
     CLASSIFIED_SOURCES,
     METHOD_LLM,
     METHOD_WALKER,

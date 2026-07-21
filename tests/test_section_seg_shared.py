@@ -9,7 +9,7 @@ import sys
 def test_pull_text_and_scope_rules_share_the_same_object():
     from pipeline.ingest._section_patterns import SECTION_SEG
     from pipeline.ingest.pull_text import SECTION_SEG as ps
-    from pipeline.discover._scope_rules import LEAF_SECTION_SEG as ls
+    from pipeline.scope._scope_rules import LEAF_SECTION_SEG as ls
     assert ps is SECTION_SEG          # same object — cannot drift
     assert ls is SECTION_SEG
 
@@ -18,7 +18,7 @@ def test_importing_scope_rules_does_not_drag_in_the_scraping_stack():
     # A fresh interpreter: importing _scope_rules must NOT import curl_cffi/bs4 —
     # that's the whole reason the pattern lives in a dependency-free module.
     code = (
-        "import sys; import pipeline.discover._scope_rules; "
+        "import sys; import pipeline.scope._scope_rules; "
         "heavy=[m for m in ('curl_cffi','bs4') if m in sys.modules]; "
         "print('HEAVY:'+','.join(heavy))"
     )

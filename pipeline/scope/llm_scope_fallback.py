@@ -27,10 +27,10 @@ of professions by the department" is DBPR-scoped, NOT universal. Pass 3 must
 not call chapter-455 universal. Run `--validate-fl` to check.
 
 Usage:
-  python -m pipeline.discover.llm_scope_fallback --state FL
-  python -m pipeline.discover.llm_scope_fallback --states FL,TX
-  python -m pipeline.discover.llm_scope_fallback --all
-  python -m pipeline.discover.llm_scope_fallback --state FL --validate-fl
+  python -m pipeline.scope.llm_scope_fallback --state FL
+  python -m pipeline.scope.llm_scope_fallback --states FL,TX
+  python -m pipeline.scope.llm_scope_fallback --all
+  python -m pipeline.scope.llm_scope_fallback --state FL --validate-fl
 """
 
 from __future__ import annotations
@@ -50,7 +50,7 @@ load_env()
 
 from pipeline.paths import RESULTS_DIR, LOGS_DIR
 from pipeline._records import record_files
-from pipeline.scope_sources import is_classified
+from pipeline.scope.scope_sources import is_classified
 from pipeline._llm import call_structured
 from pipeline.discover._profession_reverse_index import build_reverse_index
 from pipeline.config.loaders import model_for
@@ -260,7 +260,7 @@ def run_state(state: str, model: str = DEFAULT_MODEL) -> dict | None:
 def merge_scope(state: str) -> dict | None:
     """Walker scope with LLM decisions overlaid (each section tagged with
     scope_method). Delegates to the shared loader so there's one merge."""
-    from pipeline.merged_scope import load_merged_scope
+    from pipeline.scope.merged_scope import load_merged_scope
     return load_merged_scope(state)
 
 
@@ -276,7 +276,7 @@ _CITE_IN_EVIDENCE = re.compile(r"chapter|chs?\.|title|article|part\s+\d|\d{2,}",
 
 def _profession_terms_by_id() -> dict[str, list[str]]:
     from collections import defaultdict
-    from pipeline.discover.assign_umbrella_scope import _load_profession_terms
+    from pipeline.scope.assign_umbrella_scope import _load_profession_terms
     by_pid: dict[str, list[str]] = defaultdict(list)
     for pid, term, _exc in _load_profession_terms():
         by_pid[pid].append(term)

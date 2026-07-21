@@ -81,8 +81,8 @@ INCLUDE_VERIFIED_ABSENCES = bool(_PUB_OPTS.get("include_verified_absences", True
 from pipeline.config.states import ALL_STATES
 from pipeline.extract.locate_quote import locate_quote_in_section
 from pipeline.extract.standard_model import is_evidence_node, iter_evidence, deep_get
-from pipeline.scope_sources import is_universal, is_enumeration
-from pipeline.merged_scope import merged_scope_by_url
+from pipeline.scope.scope_sources import is_universal, is_enumeration
+from pipeline.scope.merged_scope import merged_scope_by_url
 from pipeline.publish.blob_upload import upload_json
 from pipeline.publish._browse_tree import build_tree as _build_browse_tree
 from pipeline.publish._justia_clean import clean_justia_text

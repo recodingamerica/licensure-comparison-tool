@@ -22,14 +22,14 @@ loudly rather than guessing. No LLM fallbacks.
 
 The state-specific knobs (what universal phrasing looks like, what triggers
 introduce an enumeration, what citation format the state uses) live in
-`pipeline/discover/_scope_rules.py`. The walker itself is state-agnostic.
+`pipeline/scope/_scope_rules.py`. The walker itself is state-agnostic.
 
 Output: pipeline/results/umbrella_scope/<STATE>.json
 Triage report: same file, top-level `triage` array.
 
 Usage:
-  python -m pipeline.discover.assign_umbrella_scope --state UT
-  python -m pipeline.discover.assign_umbrella_scope --state FL
+  python -m pipeline.scope.assign_umbrella_scope --state UT
+  python -m pipeline.scope.assign_umbrella_scope --state FL
 """
 
 from __future__ import annotations
@@ -42,7 +42,7 @@ from collections import defaultdict
 
 from pipeline.paths import RESULTS_DIR, LOGS_DIR
 from pipeline.discover._profession_reverse_index import build_reverse_index
-from pipeline.discover._scope_rules import (
+from pipeline.scope._scope_rules import (
     STATE_RULES,
     StateScopeRules,
     ANCHOR_LABEL_RE,
@@ -54,7 +54,7 @@ from pipeline.discover._state_scope_manifest import (
     load_manifest,
     manifest_decision_for,
 )
-from pipeline.scope_sources import METHOD_MANIFEST
+from pipeline.scope.scope_sources import METHOD_MANIFEST
 from pipeline.ingest._section_patterns import canonical_year_url
 
 UMBRELLA_TEXT_DIR = RESULTS_DIR / "umbrella_text"
@@ -461,7 +461,7 @@ def assign_for_state(state: str) -> dict:
     if rules is None:
         raise SystemExit(
             f"No scope rules for state {state!r}. Add an entry to "
-            "pipeline/discover/_scope_rules.py::STATE_RULES."
+            "pipeline/scope/_scope_rules.py::STATE_RULES."
         )
 
     reverse_index = build_reverse_index(state)
