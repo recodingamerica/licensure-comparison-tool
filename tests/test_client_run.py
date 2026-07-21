@@ -139,23 +139,8 @@ def test_professions_needing_schema_no_corpus_yet_exits(monkeypatch):
         run._professions_needing_schema(["a"])
 
 
-# --- _drop_current (the re-charge guard) --------------------------------------
-
-def test_drop_current_skips_only_current_cells(monkeypatch):
-    """A re-run after a partial failure must not re-charge for cells already current;
-    stale/unstamped/missing cells are kept."""
-    fresh = {("a", "UT"): "current", ("a", "ID"): "missing",
-             ("b", "CA"): "current", ("b", "NV"): "stale"}
-    monkeypatch.setattr(run.provenance, "check", lambda stage, p, s: fresh[(p, s)])
-    kept, skipped = run._drop_current("trim", {"a": ["UT", "ID"], "b": ["CA", "NV"]})
-    assert kept == {"a": ["ID"], "b": ["NV"]}
-    assert set(skipped) == {("a", "UT"), ("b", "CA")}
-
-
-def test_drop_current_all_current_yields_empty_queue(monkeypatch):
-    monkeypatch.setattr(run.provenance, "check", lambda stage, p, s: "current")
-    kept, skipped = run._drop_current("extract", {"a": ["UT", "ID"]})
-    assert kept == {} and set(skipped) == {("a", "UT"), ("a", "ID")}
+# NB: the re-charge guard (drop_current) and the cost gate (confirm_if_paid) now live in
+# pipeline.pipeline_stages and are tested in tests/test_pipeline_stages.py.
 
 
 # --- _report_extract (never a blanket 'done') ---------------------------------
@@ -181,42 +166,6 @@ def test_report_extract_handles_unfinished_batch(capsys):
     assert "not finished" in out and "b9" in out
 
 
-# --- _confirm (the cost gate) -------------------------------------------------
-
-def test_confirm_names_the_model(monkeypatch, capsys):
-    """The printed estimate must name the model it's priced against — the cost is an
-    Anthropic rate for that model, not a fixed cost of the step."""
-    monkeypatch.setattr(builtins, "input", lambda *_: "no")
-    with pytest.raises(SystemExit):
-        run._confirm("trim", {"a": ["UT"]}, 0.05, "claude-haiku-4-5-20251001", yes=False)
-    assert "claude-haiku-4-5-20251001" in capsys.readouterr().out
-
-
-def test_confirm_yes_flag_skips_prompt(monkeypatch):
-    seen = {"prompted": False}
-    monkeypatch.setattr(builtins, "input",
-                        lambda *_: seen.__setitem__("prompted", True) or "no")
-    run._confirm("trim", {"a": ["UT"]}, 0.05, "claude-haiku-4-5-20251001", yes=True)
-    assert seen["prompted"] is False  # --yes must not prompt
-
-
-def test_confirm_aborts_on_no(monkeypatch):
-    monkeypatch.setattr(builtins, "input", lambda *_: "no")
-    with pytest.raises(SystemExit):
-        run._confirm("trim", {"a": ["UT"]}, 0.05, "claude-haiku-4-5-20251001", yes=False)
-
-
-def test_confirm_aborts_on_empty(monkeypatch):
-    monkeypatch.setattr(builtins, "input", lambda *_: "")
-    with pytest.raises(SystemExit):
-        run._confirm("trim", {"a": ["UT"]}, 0.05, "claude-haiku-4-5-20251001", yes=False)
-
-
-def test_confirm_proceeds_on_yes(monkeypatch):
-    monkeypatch.setattr(builtins, "input", lambda *_: "  YES  ")  # case/space tolerant
-    run._confirm("trim", {"a": ["UT"]}, 0.05, "claude-haiku-4-5-20251001", yes=False)  # no raise
-
-
 # --- publish (per-occupation, not per-cell) -----------------------------------
 
 def test_publish_requires_professions():
@@ -226,42 +175,36 @@ def test_publish_requires_professions():
 
 
 def test_publish_runs_build_frontend_per_profession(monkeypatch):
-    calls = []
-    monkeypatch.setattr(run.subprocess, "run",
-                        lambda cmd, **k: calls.append(cmd) or type("R", (), {"returncode": 0})())
+    built = []
+    monkeypatch.setattr(run, "run_to", lambda target, prof, **k: built.append((target, prof)) or {"ok": True})
     import argparse
     run.cmd_publish(argparse.Namespace(professions="dentistry, podiatry", deploy=False, yes=False))
-    profs = [c[c.index("--profession") + 1] for c in calls]
-    assert profs == ["dentistry", "podiatry"]
-    assert all(any("build_frontend" in part for part in c) for c in calls)
+    assert built == [("publish", "dentistry"), ("publish", "podiatry")]  # publish adapter, each prof
 
 
 def test_publish_deploy_aborts_without_typed_yes(monkeypatch):
-    calls = []
-    monkeypatch.setattr(run.subprocess, "run",
-                        lambda cmd, **k: calls.append(cmd) or type("R", (), {"returncode": 0})())
+    called = {"run_to": 0, "sh": 0}
+    monkeypatch.setattr(run, "run_to", lambda *a, **k: called.__setitem__("run_to", called["run_to"] + 1) or {"ok": True})
+    monkeypatch.setattr(run, "_sh", lambda *a, **k: called.__setitem__("sh", called["sh"] + 1) or True)
     monkeypatch.setattr(builtins, "input", lambda *_: "no")
     import argparse
     with pytest.raises(SystemExit):
-        run.cmd_publish(argparse.Namespace(professions="dentistry", deploy=True, yes=False))
-    assert calls == []  # nothing built or deployed when the deploy gate is declined
+        run.cmd_publish(argparse.Namespace(professions="dentistry", deploy=True, yes=False, all=False))
+    assert called == {"run_to": 0, "sh": 0}  # nothing built or deployed when the deploy gate is declined
 
 
 def test_publish_deploy_yes_builds_then_deploys_once(monkeypatch):
-    calls = []
-    monkeypatch.setattr(run.subprocess, "run",
-                        lambda cmd, **k: calls.append(cmd) or type("R", (), {"returncode": 0})())
+    built, deploys = [], []
+    monkeypatch.setattr(run, "run_to", lambda target, prof, **k: built.append(prof) or {"ok": True})
+    monkeypatch.setattr(run, "_sh", lambda cmd, label, **k: deploys.append(cmd) or True)
     prompted = {"asked": False}
     monkeypatch.setattr(builtins, "input",
                         lambda *_: prompted.__setitem__("asked", True) or "no")
     import argparse
     run.cmd_publish(argparse.Namespace(professions="dentistry,nursing", deploy=True, yes=True, all=False))
     assert prompted["asked"] is False                                    # --yes must not prompt
-    build_calls = [c for c in calls if "build_frontend" in " ".join(c)]
-    deploy_calls = [c for c in calls if "vercel" in " ".join(c)]
-    assert {"dentistry", "nursing"} <= {c[-1] for c in build_calls}      # each profession built
-    assert not any("--deploy" in c for c in build_calls)                 # NOT per-profession
-    assert len(deploy_calls) == 1 and "--prod" in " ".join(deploy_calls[0])  # ONE vercel deploy
+    assert built == ["dentistry", "nursing"]                             # each profession published, in order
+    assert len(deploys) == 1 and "--prod" in " ".join(deploys[0])        # ONE vercel deploy at the end
 
 
 # --- extract backend routing (claude batch vs litellm) ------------------------
@@ -281,7 +224,6 @@ def test_cmd_extract_default_backend_submits_anthropic_batch(monkeypatch):
     monkeypatch.setattr(esb, "poll", lambda bid, wait: {"written": [], "errored": []})
     monkeypatch.setattr(esb, "run_litellm",
                         lambda *a, **k: seen.__setitem__("litellm", seen["litellm"] + 1))
-    monkeypatch.setattr(run, "_confirm", lambda *a, **k: None)
     run.cmd_extract({"a": ["UT"]}, _extract_args("claude"))
     assert seen["submit"] == 1 and seen["litellm"] == 0
     assert isinstance(seen["model"], str) and seen["model"]  # defaulted to a real model, not None
@@ -297,7 +239,6 @@ def test_cmd_extract_litellm_backend_routes_to_run_litellm(monkeypatch):
                         or {"batch_id": "litellm-x", "written": [{"profession": "a", "state": "UT"}], "errored": []})
     monkeypatch.setattr(esb, "submit",
                         lambda *a, **k: seen.__setitem__("submit", seen["submit"] + 1))
-    monkeypatch.setattr(run, "_confirm", lambda *a, **k: None)
     run.cmd_extract({"a": ["UT"]}, _extract_args("litellm", model="gpt-5"))
     assert seen["litellm"] == 1 and seen["submit"] == 0
     assert seen["model"] == "gpt-5"

@@ -89,11 +89,11 @@ def main() -> None:
     opts = {"payload_only": args.payload_only, "skip_consistency": args.skip_consistency_check}
     results: list[tuple[str, bool]] = []
 
-    # 1. Per-profession publish — only the changed ones. run_upstream=False keeps this a
-    #    pure downstream rebuild (never silently re-extracts); the publish adapter runs the
+    # 1. Per-profession publish — only the changed ones. start="publish" keeps this a pure
+    #    downstream rebuild (never silently re-extracts); the publish adapter runs the
     #    consistency gate and stamps publish provenance on success.
     for p in changed:
-        res = run_to("publish", p, force=True, yes=True, run_upstream=False, opts=opts)
+        res = run_to("publish", p, start="publish", force=True, yes=True, opts=opts)
         results.append((f"publish:{p}", res["ok"]))
 
     # 2. Cross-profession fan-out (tag sheet, scope, scorecard, browse, analysis) — once.
