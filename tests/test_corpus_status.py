@@ -178,6 +178,61 @@ def test_backlog_classification(tree):
     assert [(p, s) for (p, s, _n) in ready] == [("dietetics", "IA")]
 
 
+def _one_suspect(monkeypatch):
+    """Drive cmd_gate with a single offline-suspect cell (dietetics/OH, STALE_CLEAN)
+    and no drift, so the opt-in tiers have exactly one cell to enrich."""
+    monkeypatch.setattr(ac, "index_stages", lambda: {})
+    monkeypatch.setattr(ac, "audit_sync",
+                        lambda idx: [{"prof": "dietetics", "state": "OH", "flags": ["STALE_CLEAN"]}])
+    monkeypatch.setattr(ac, "_drift_one", lambda p, s, o: None)
+    monkeypatch.setattr(ac, "_active_official_sources", lambda: set())
+
+
+def test_gate_check_urls_folds_url_verdict(monkeypatch, capsys):
+    import pipeline.eval.verify_urls as vu
+    _one_suspect(monkeypatch)
+    monkeypatch.setattr(ac, "_drift_index_nodes",
+                        lambda p, s: [{"url": "https://law.justia.com/codes/x/"}])
+    monkeypatch.setattr(vu, "probe", lambda url: {"verdict": "DEAD_404"})
+    rc = ac.cmd_gate(check_urls=True)
+    out = capsys.readouterr().out
+    assert "URL_DEAD_404" in out and "STALE_CLEAN" in out
+    assert rc == 1
+
+
+def test_gate_check_urls_bounded_to_suspects(monkeypatch):
+    """The network tier must only probe already-suspect cells — never a full sweep."""
+    import pipeline.eval.verify_urls as vu
+    monkeypatch.setattr(ac, "index_stages", lambda: {})
+    monkeypatch.setattr(ac, "audit_sync", lambda idx: [])  # no offline suspects
+    monkeypatch.setattr(ac, "_drift_one", lambda p, s, o: None)
+    monkeypatch.setattr(ac, "_active_official_sources", lambda: set())
+    calls = []
+    monkeypatch.setattr(vu, "probe", lambda url: calls.append(url) or {"verdict": "STUB"})
+    assert ac.cmd_gate(check_urls=True) == 0
+    assert calls == []  # nothing suspect → nothing fetched
+
+
+def test_gate_check_llm_folds_wrong_chapter(monkeypatch, capsys):
+    import pipeline.discover.audit_corpus as acx
+    _one_suspect(monkeypatch)
+    monkeypatch.setattr(acx, "audit_states",
+                        lambda prof, states: {s: {"verdict": "wrong_chapter"} for s in states})
+    rc = ac.cmd_gate(check_llm=True)
+    out = capsys.readouterr().out
+    assert "WRONG_CHAPTER" in out
+    assert rc == 1
+
+
+def test_gate_check_llm_correct_corpus_adds_nothing(monkeypatch, capsys):
+    import pipeline.discover.audit_corpus as acx
+    _one_suspect(monkeypatch)
+    monkeypatch.setattr(acx, "audit_states",
+                        lambda prof, states: {s: {"verdict": "correct_licensure_text"} for s in states})
+    ac.cmd_gate(check_llm=True)
+    assert "WRONG_CHAPTER" not in capsys.readouterr().out
+
+
 def test_write_queues_splits_on_schema(tree, tmp_path):
     w = tree["write"]
     # dietetics has a discovered schema → extract_ready

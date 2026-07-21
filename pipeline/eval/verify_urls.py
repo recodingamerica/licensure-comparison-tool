@@ -26,29 +26,21 @@ Verdicts:
              in the debug Chrome), not a data problem
   ERROR      fetch failed (network / timeout)
 
-Usage:
-  python -m pipeline.eval.verify_urls --url URL [URL ...] [--debug]
-  python -m pipeline.eval.verify_urls --profession medicine --state MN
-  python -m pipeline.eval.verify_urls --profession medicine          # all states
-  python -m pipeline.eval.verify_urls --sample [--only-bad]          # 1 url / (prof,state)
+This is now a LIBRARY (`probe` + its structural helpers). The runnable URL-health
+check moved to `python -m pipeline.eval.corpus_status gate --check-urls`, which
+probes the suspect cells' mapped urls and folds STUB/DEAD_404 into the one health
+gate. `refresh_corpus` also imports `probe` to explain an EMPTY pull.
 
-Reads the frozen profession_index for the mapping source of truth. Fetches
-through pipeline.ingest.pull_text.fetch (Justia -> headless Scrapling, other
-hosts -> curl_cffi), so a Justia run just needs Scrapling installed
-(pip install "scrapling[fetchers]" && scrapling install).
+`probe` fetches through pipeline.ingest.pull_text.fetch (Justia -> headless
+Scrapling, other hosts -> curl_cffi), so a Justia probe just needs Scrapling
+installed (pip install "scrapling[fetchers]" && scrapling install).
 """
 
 from __future__ import annotations
 
-import argparse
-import json
 import re
-import sys
-import urllib.parse
 
 from pipeline.ingest.pull_text import fetch, extract_child_links
-from pipeline.paths import PROFESSION_INDEX_DIR
-from pipeline.config.loaders import all_profession_ids
 
 _TITLE_RE = re.compile(r"<title[^>]*>(.*?)</title>", re.S | re.I)
 _CHALLENGE_MARKERS = ("just a moment", "attention required", "cf-challenge",
@@ -108,83 +100,3 @@ def probe(url: str) -> dict:
         # 200 (or unknown) with no statute title and no content == the MN stub.
         rec["verdict"] = "STUB"
     return rec
-
-
-# ---------------------------------------------------------------------------
-# Worklist assembly from the frozen index
-# ---------------------------------------------------------------------------
-def _index_urls(profession: str, state: str | None) -> list[tuple[str, str, str]]:
-    """(profession, state, url) for each mapped chapter node. One url per node
-    (the chapter url); that's the leaf-verify target."""
-    path = PROFESSION_INDEX_DIR / f"{profession}.json"
-    if not path.exists():
-        return []
-    idx = json.loads(path.read_text())
-    out = []
-    for st, blk in idx.get("by_state", {}).items():
-        if state and st != state:
-            continue
-        for node in blk.get("matched", []):
-            u = node.get("url", "")
-            if u:
-                out.append((profession, st, u))
-    return out
-
-
-def _all_professions() -> list[str]:
-    return all_profession_ids()
-
-
-def _emit(rec: dict, prof: str | None = None, state: str | None = None, debug: bool = False) -> None:
-    tag = f"{prof}/{state}  " if prof else ""
-    line = f"  {rec['verdict']:9s} {tag}{rec['url']}"
-    print(line)
-    if debug or rec["verdict"] != "LIVE":
-        det = {k: rec.get(k) for k in ("status", "title", "n_child", "body_chars", "detail")
-               if rec.get(k) is not None}
-        print(f"            {det}")
-
-
-def main() -> None:
-    ap = argparse.ArgumentParser(description=__doc__,
-                                 formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--url", nargs="+", help="probe explicit URL(s)")
-    ap.add_argument("--profession", help="probe the mapped urls for this profession")
-    ap.add_argument("--state", help="restrict --profession to one state")
-    ap.add_argument("--sample", action="store_true",
-                    help="probe one url per (profession,state) across the whole index")
-    ap.add_argument("--only-bad", action="store_true", help="print only non-LIVE verdicts")
-    ap.add_argument("--debug", action="store_true", help="print raw signals for every url")
-    args = ap.parse_args()
-
-    targets: list[tuple[str | None, str | None, str]] = []
-    if args.url:
-        targets = [(None, None, u) for u in args.url]
-    elif args.sample:
-        for prof in _all_professions():
-            targets += _index_urls(prof, None)
-    elif args.profession:
-        targets = _index_urls(args.profession, args.state)
-    else:
-        ap.error("give --url, --profession, or --sample")
-
-    counts: dict[str, int] = {}
-    bad: list[dict] = []
-    for prof, state, url in targets:
-        rec = probe(url)
-        counts[rec["verdict"]] = counts.get(rec["verdict"], 0) + 1
-        if rec["verdict"] != "LIVE":
-            bad.append({**rec, "profession": prof, "state": state})
-        if not args.only_bad or rec["verdict"] != "LIVE":
-            _emit(rec, prof, state, args.debug)
-
-    print("\n=== summary ===")
-    for v in ("LIVE", "STUB", "DEAD_404", "CHALLENGE", "ERROR"):
-        if counts.get(v):
-            print(f"  {v:9s} {counts[v]}")
-    # Non-zero exit if any URL needs a human to find a new link.
-    sys.exit(1 if (counts.get("STUB") or counts.get("DEAD_404")) else 0)
-
-
-if __name__ == "__main__":
-    main()

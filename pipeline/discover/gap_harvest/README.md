@@ -48,7 +48,8 @@ it) + 7 others. Attorneys/bar admission are court-regulated — out of OPLR scop
 
 - Needs the `web_search` tool on the Anthropic key — probe once (absent in some headless runs).
 - ONE pull process at a time; never two committing git processes at once.
-- HTTP 200 is meaningless on Justia — gate located URLs through `verify_urls` (and `cleanup`
-  catches 404s the pull stored as a 1-section corpus).
+- HTTP 200 is meaningless on Justia — gate located URLs through `verify_urls.probe()` (its CLI
+  folded into `corpus_status gate --check-urls`; `cleanup` catches 404s the pull stored as a
+  1-section corpus).
 - Full plan + cost model (~$0.20/cell extract; fetch time is the real constraint):
   `docs/runbooks/gap_harvest_plan_2026-07-05.md`.
