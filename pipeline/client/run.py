@@ -38,11 +38,9 @@ drift out of sync with what the dashboard shows.
 from __future__ import annotations
 
 import argparse
-import subprocess
 import sys
-from pathlib import Path
 
-from pipeline import provenance
+from pipeline.pipeline_stages import run_to, drop_current, confirm_if_paid, _sh, REPO_ROOT
 from pipeline.client.status import COST_TRIM, COST_EXTRACT, COST_SCHEMA, build as build_status
 
 
@@ -125,73 +123,26 @@ def _cells(queue: dict[str, list[str]]) -> int:
     return sum(len(s) for s in queue.values())
 
 
-def _drop_current(stage: str, queue: dict[str, list[str]]
-                  ) -> tuple[dict[str, list[str]], list[tuple[str, str]]]:
-    """Drop cells that are already CURRENT for this paid stage, so a re-run after a
-    partial failure doesn't re-charge for cells that already succeeded. "current" (per
-    provenance) means the output exists AND was produced by today's corpus + recipe, so
-    re-running would spend money to reproduce an identical file. Stale/unstamped/missing
-    cells are kept (they genuinely need the work). Returns (kept_queue, skipped_cells)."""
-    kept: dict[str, list[str]] = {}
-    skipped: list[tuple[str, str]] = []
-    for prof, states in queue.items():
-        keep = []
-        for st in states:
-            if provenance.check(stage, prof, st) == "current":
-                skipped.append((prof, st))
-            else:
-                keep.append(st)
-        if keep:
-            kept[prof] = keep
-    return kept, skipped
-
-
 def _announce_skipped(skipped: list[tuple[str, str]]) -> None:
     if skipped:
         cells = ", ".join(f"{p}/{s}" for p, s in skipped)
         print(f"\nskipping {len(skipped)} state(s) already up to date — no charge: {cells}")
 
 
-def _confirm(step: str, queue: dict[str, list[str]], per_cell: float, model: str, yes: bool) -> None:
-    """Gate a paid step behind an explicit typed confirmation (skip with --yes).
-
-    The per-cell price is tied to `model` — it's an Anthropic API price for that
-    specific model, not a fixed cost of the step. Swap the model (a single constant
-    in the stage module, or its --model flag) and this number moves; it isn't
-    hand-maintained anywhere, so it can't silently go stale."""
-    n = _cells(queue)
-    est = n * per_cell
-    print(f"\n{step}: {n} cell(s) across {len(queue)} occupation(s)  ·  "
-          f"estimated cost ~${est:.2f}  (${per_cell:.2f}/cell, using {model} at today's price — "
-          f"changes if the model changes)")
-    if yes:
-        print("  --yes given, proceeding without prompt.")
-        return
-    reply = input('  Type "yes" to run this paid step: ').strip().lower()
-    if reply != "yes":
-        sys.exit("  aborted — no charge incurred.")
-
-
-def _run_cmd(cmd: list[str], fail_msg: str, cwd: str | None = None) -> None:
-    """Echo and run one subprocess, exiting with a friendly message on failure."""
-    print(f"\n$ {' '.join(cmd)}", flush=True)
-    if subprocess.run(cmd, cwd=cwd).returncode != 0:
-        sys.exit(fail_msg)
-
-
-def _run_per_profession(module: str, queue: dict[str, list[str]], extra: list[str]) -> None:
-    """Shell out to an existing stage module once per profession (its CLI takes
-    --profession + --states). Reuses the pipeline's own entry point — no reimplementation."""
-    py = sys.executable
+def _run_stage(stage: str, queue: dict[str, list[str]], opts: dict | None = None) -> None:
+    """Run ONE stage over the queue via the shared runner (start=stage → only that stage;
+    force=True → run exactly the states we selected; yes=True → the cost gate already fired
+    once at the command level). Exits with a friendly, safe-to-re-run message on failure."""
     for prof, states in queue.items():
-        cmd = [py, "-m", module, "--profession", prof, "--states", ",".join(states), *extra]
-        _run_cmd(cmd, f"step failed for {prof} — fix the error above and re-run this command "
-                      f"(states already up to date are skipped, so it's safe to re-run).")
+        res = run_to(stage, prof, states, start=stage, force=True, yes=True, opts=opts or {})
+        if not res["ok"]:
+            sys.exit(f"{stage} failed for {prof} — fix the error above and re-run this command "
+                     f"(states already up to date are skipped, so it's safe to re-run).")
 
 
 def cmd_clean(queue: dict[str, list[str]], args) -> None:
     # Free + deterministic: no confirmation. Turns raw fetched text into clean sections.
-    _run_per_profession("pipeline.ingest.clean_text", queue, [])
+    _run_stage("clean", queue)
     profs = ",".join(queue)
     print("\nclean done. Next (this one costs money): "
           f"python -m pipeline.client.run trim --professions {profs}")
@@ -200,39 +151,23 @@ def cmd_clean(queue: dict[str, list[str]], args) -> None:
 def cmd_schema(names: list[str], args) -> None:
     """One-time, per-occupation (not per-cell): design the data template a new
     occupation needs before extract can run for any of its states."""
-    from pipeline.extract.discover_schema import DEFAULT_MODEL as SCHEMA_MODEL
     needed = _professions_needing_schema(names)
-    n = len(needed)
-    est = n * COST_SCHEMA
-    print(f"\nschema: {n} occupation(s)  ·  estimated cost ~${est:.2f} "
-          f"(${COST_SCHEMA:.2f}/occupation, using {SCHEMA_MODEL} at today's price — "
-          f"changes if the model changes)")
-    if not args.yes:
-        reply = input('  Type "yes" to run this paid step: ').strip().lower()
-        if reply != "yes":
-            sys.exit("  aborted — no charge incurred.")
-    else:
-        print("  --yes given, proceeding without prompt.")
-    for prof in needed:
-        cmd = [sys.executable, "-m", "pipeline.extract.discover_schema", "--profession", prof]
-        _run_cmd(cmd, f"schema discovery failed for {prof} — fix the error above and "
-                      f"re-run this command (occupations that already succeeded are skipped).")
+    confirm_if_paid("schema", len(needed), args.yes)   # ~$1/occupation, names the model
+    _run_stage("schema", {p: [] for p in needed})
     profs = ",".join(needed)
     print("\nschema done. Next (this one costs money): "
           f"python -m pipeline.client.run trim --professions {profs}")
 
 
 def cmd_trim(queue: dict[str, list[str]], args) -> None:
-    from pipeline.ingest.trim_state import DEFAULT_MODEL as TRIM_MODEL
     if not args.redo:
-        queue, skipped = _drop_current("trim", queue)
+        queue, skipped = drop_current("trim", queue)   # drop CURRENT cells BEFORE charging
         _announce_skipped(skipped)
     if not queue:
         print("\nnothing to trim — every selected state is already up to date. (Use --redo to force.)")
         return
-    _confirm("trim (drops irrelevant sections)", queue, COST_TRIM, TRIM_MODEL, args.yes)
-    extra = ["--strict"] if args.strict else []
-    _run_per_profession("pipeline.ingest.trim_state", queue, extra)
+    confirm_if_paid("trim", _cells(queue), args.yes)   # one prompt for the whole queue
+    _run_stage("trim", queue, {"strict": args.strict})
     profs = ",".join(queue)
     print("\ntrim done. Next (this one costs money): "
           f"python -m pipeline.client.run extract --professions {profs}")
@@ -244,7 +179,7 @@ def cmd_extract(queue: dict[str, list[str]], args) -> None:
     backend = getattr(args, "backend", "claude")
     model = getattr(args, "model", None) or EXTRACT_MODEL
     if not args.redo:
-        queue, skipped = _drop_current("extract", queue)
+        queue, skipped = drop_current("extract", queue)   # drop CURRENT cells BEFORE charging
         _announce_skipped(skipped)
     if not queue:
         print("\nnothing to extract — every selected state is already up to date. (Use --redo to force.)")
@@ -252,18 +187,22 @@ def cmd_extract(queue: dict[str, list[str]], args) -> None:
     requested = _cells(queue)
 
     if backend == "litellm":
-        # Vendor-neutral path (any provider LiteLLM supports). No 50% batch
-        # discount and no prompt-cache reuse, so budget ~2× the claude-batch
-        # per-cell figure — and the real price depends on whichever model/vendor
-        # you point --model at.
-        _confirm(f"extract via LiteLLM — {model}, NO batch discount", queue,
-                 COST_EXTRACT * 2, model, args.yes)
+        # Vendor-neutral path (any provider LiteLLM supports). No 50% batch discount and no
+        # prompt-cache reuse, so budget ~2× the claude-batch per-cell figure — and the real
+        # price depends on the vendor. This price differs from the shared confirm_if_paid
+        # (which quotes the claude-batch cost), so it keeps its own honest estimate.
+        n, est = _cells(queue), _cells(queue) * COST_EXTRACT * 2
+        print(f"\nextract via LiteLLM — {model}, NO batch discount: {n} cell(s) "
+              f"~${est:.2f} (~${COST_EXTRACT * 2:.2f}/cell est; real price depends on vendor)")
+        if not args.yes and input('  Type "yes" to run this paid step: ').strip().lower() != "yes":
+            sys.exit("  aborted — no charge incurred.")
         result = run_litellm(queue, model=model, force=args.force)
         _report_extract(requested, result, result.get("batch_id", "litellm"))
         return
 
-    # Default: Anthropic Message Batches (50% off + prompt caching; Claude only).
-    _confirm("extract (structures the law, batched)", queue, COST_EXTRACT, model, args.yes)
+    # Default: Anthropic Message Batches (50% off + prompt caching; Claude only). All of the
+    # queue goes in ONE batch, so confirm once here rather than per profession via run_to.
+    confirm_if_paid("extract", requested, args.yes)
     meta = submit(queue, model=model, force=args.force)
     print(f"\nsubmitted batch {meta['batch_id']} — waiting for results "
           f"(safe to Ctrl-C; re-poll later with: "
@@ -312,16 +251,17 @@ def cmd_publish(args) -> None:
         print("  Needs one-time Vercel setup first — see docs/runbooks/client_deploy.md.")
         if input('  Type "yes" to push the site live: ').strip().lower() != "yes":
             sys.exit("  aborted — nothing deployed (payloads not rebuilt either).")
-    # Build every payload FIRST (blob upload happens inside build_frontend), then deploy
-    # ONCE at the end — deploying per-profession would rebuild the site N times.
+    # Build every payload FIRST (via the publish adapter: consistency gate + build_frontend +
+    # provenance stamp), then deploy ONCE at the end — deploying per-profession would rebuild
+    # the site N times.
     for prof in profs:
-        cmd = [sys.executable, "-m", "pipeline.publish.build_frontend", "--profession", prof]
-        _run_cmd(cmd, f"publish failed for {prof} — see the error above.")
+        if not run_to("publish", prof, start="publish", force=True, yes=True)["ok"]:
+            sys.exit(f"publish failed for {prof} — see the error above.")
     if args.deploy:
-        web_dir = Path(__file__).resolve().parents[1] / "publish" / "web"
+        web_dir = REPO_ROOT / "pipeline" / "publish" / "web"
         print(f"\ndeploying once via vercel --prod from {web_dir} …")
-        _run_cmd(["npx", "vercel", "--prod", "--yes"], "vercel deploy failed — see above.",
-                 cwd=str(web_dir))
+        if not _sh(["npx", "vercel", "--prod", "--yes"], "vercel deploy", cwd=str(web_dir)):
+            sys.exit("vercel deploy failed — see above.")
         print("deployed — the live site now shows the rebuilt payloads.")
     else:
         print("\npublish done.  (add --deploy to also push it live to the website.)")

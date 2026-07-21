@@ -30,9 +30,7 @@ from __future__ import annotations
 import argparse
 import glob
 import os
-import subprocess
 import sys
-from pathlib import Path
 
 import yaml
 
@@ -40,20 +38,11 @@ from pipeline.paths import CONFIG_DIR, TEXT_DIR, STRUCTURED_DIR
 from pipeline.discover import register_occupation as reg
 from pipeline.discover import mechanical_cross_ref as xref
 from pipeline.config.loaders import load_corpus_overrides
+from pipeline.pipeline_stages import run_to
 
-PY = sys.executable
-ROOT = Path(__file__).resolve().parents[2]
 PROF_YAML = CONFIG_DIR / "professions.yaml"
 OVERRIDES = CONFIG_DIR / "corpus_overrides.yaml"
 MIN_PUBLISH = 10  # core_professions() threshold
-
-
-def _run(mod_args: list[str], desc: str) -> bool:
-    print(f"\n▶ {desc}\n  $ python -m {' '.join(mod_args)}")
-    r = subprocess.run([PY, "-m", *mod_args], cwd=ROOT)
-    ok = r.returncode == 0
-    print(f"  {'✓' if ok else '✗ FAILED'} {desc}")
-    return ok
 
 
 def _parent_states(parent: str) -> list[str]:
@@ -105,7 +94,7 @@ def _apply_candidates(key: str, ov: dict, candidates: dict) -> None:
 
 
 def add(name: str, from_candidate: bool, write: bool, publish: bool, states: str,
-        apply_cross_ref: bool = False) -> None:
+        apply_cross_ref: bool = False, yes: bool = False) -> None:
     # --- 1. register (auto-draft + self-validating parent_corpus) ---
     print(f"=== add_occupation: {name} ===")
     nested_hint = reg.candidate_nested(name) if from_candidate else None
@@ -167,32 +156,28 @@ def add(name: str, from_candidate: bool, write: bool, publish: bool, states: str
         print(f"\n  (dry-run) would extract {len(extractable)} state(s). Pass --write to proceed.")
         return
 
-    st = states or ",".join(sorted(extractable))
-    print(f"\n  extracting {len(st.split(','))} state(s) via clean→trim→schema→extract (no new pull)")
+    st_list = (states.split(",") if states else sorted(extractable))
+    print(f"\n  extracting {len(st_list)} state(s) via clean→trim→schema→extract (no new pull)")
 
-    # --- 3. clean → trim → schema → extract ---
-    if not _run(["pipeline.ingest.clean_text", "--profession", key, "--states", st], "clean_text"):
-        sys.exit("stop: clean failed")
-    if not _run(["pipeline.ingest.trim_state", "--profession", key, "--states", st], "trim_state"):
-        sys.exit("stop: trim failed")
-    if not _run(["pipeline.extract.discover_schema", "--profession", key], "discover_schema"):
-        sys.exit("stop: schema failed")
-    if not _run(["pipeline.extract.extract_state", "--profession", key, "--states", st, "--force"], "extract_state"):
-        sys.exit("stop: extract failed")
+    # --- 3. clean → trim → schema → extract, via the ONE runner (start='clean' skips the
+    #        no-op pull; batch extract engine; each paid stage hits the shared cost gate;
+    #        anything already current is skipped). Replaces the old hand-sequenced chain +
+    #        its sync extract_state, which the runner reconciles to the batch engine. ---
+    res = run_to("extract", key, st_list, start="clean", force=True, yes=yes,
+                 opts={"force": True})
+    if not res["ok"]:
+        sys.exit("stop: clean→extract chain failed — fix the error above and re-run "
+                 "(states already done are skipped, so it's safe to re-run).")
 
-    # --- 4. consistency gate ---
-    _run(["pipeline.eval.check_consistency"], "check_consistency")
     n = _n_structured(key)
     print(f"\n  {key}: {n} structured records")
 
-    # --- 5. publish (optional, if core-eligible) ---
+    # --- 4. publish (optional, if core-eligible). The runner's publish adapter runs the
+    #        cross-field consistency gate (hard-fail) → map_prep → bucket_text →
+    #        build_frontend, so a violating record can't ship. ---
     if publish and n >= MIN_PUBLISH:
-        for mod, desc in [
-            (["pipeline.map_prep.run", key], "map_prep"),
-            (["pipeline.map_prep.bucket_text", key], "bucket_text"),
-            (["pipeline.publish.build_frontend", "--profession", key], "build_frontend"),
-        ]:
-            _run(mod, desc)
+        if not run_to("publish", key, st_list, start="mapprep", force=True, yes=yes)["ok"]:
+            sys.exit("stop: map_prep/publish failed (see the error above).")
         print(f"\n=== DONE: {key} built ({n} states). Add to build_state_browse.PROFESSIONS + deploy to go fully live. ===")
     elif publish:
         print(f"\n=== {key}: {n} states (<{MIN_PUBLISH}) — extracted but not auto-published (not core-eligible yet). ===")
@@ -210,11 +195,13 @@ def main() -> None:
     ap.add_argument("--apply-cross-ref", action="store_true",
                     help="wire the density-scan candidate links into corpus_overrides.yaml and "
                          "extract them too (default: surface for review, don't apply)")
+    ap.add_argument("--yes", action="store_true",
+                    help="skip the per-stage cost confirmation on the paid trim/schema/extract steps")
     args = ap.parse_args()
     name = args.occupation or args.cand
     if not name:
         sys.exit("pass --occupation or --from-candidate")
-    add(name, bool(args.cand), args.write, args.publish, args.states, args.apply_cross_ref)
+    add(name, bool(args.cand), args.write, args.publish, args.states, args.apply_cross_ref, args.yes)
 
 
 if __name__ == "__main__":
