@@ -25,24 +25,21 @@ HOST_DRIFT and EXTRA_CHAPTER mean the committed corpus is STALE vs its mapping �
 a re-pull would change it. Run this in preflight/CI so drift is caught the moment
 a mapping changes, not on the next accidental re-pull.
 
-Usage:
-  python -m pipeline.eval.corpus_drift              # all professions
-  python -m pipeline.eval.corpus_drift --profession electrician
-  python -m pipeline.eval.corpus_drift --host-drift-only
+This is now a LIBRARY (audit_one + the url-normalization helpers). The runnable
+gate moved to `python -m pipeline.eval.corpus_status gate`, which composes this
+drift check (HOST_DRIFT blocks) with the cross-stage sync flags into ONE exit
+code — so there is one place to ask "is this corpus/mapping state healthy?".
 """
 
 from __future__ import annotations
 
-import argparse
 import json
 import re
-import sys
 from urllib.parse import urlparse
 
 from pipeline.paths import TEXT_DIR, PROFESSION_INDEX_DIR
 from pipeline.config.loaders import load_state_structure
 from pipeline._records import load_sections
-from pipeline.config.loaders import all_profession_ids
 from pipeline.config.loaders import matched_for
 
 
@@ -160,41 +157,3 @@ def audit_one(prof: str, state: str, official_source_states: set[str]) -> dict |
         "host_drift": host_drift, "extra_chapters": extra_chap,
         "missing_chapters": missing_chap, "sections": len(sections),
     }
-
-
-def main() -> None:
-    ap = argparse.ArgumentParser(description=__doc__,
-                                 formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--profession", help="limit to one profession")
-    ap.add_argument("--host-drift-only", action="store_true",
-                    help="report only the high-confidence HOST_DRIFT cases")
-    args = ap.parse_args()
-
-    profs = ([args.profession] if args.profession
-             else all_profession_ids())
-    official = _active_official_sources()
-    records = []
-    for prof in profs:
-        pdir = TEXT_DIR / prof
-        if not pdir.exists():
-            continue
-        for fp in sorted(pdir.glob("*.json")):
-            rec = audit_one(prof, fp.stem, official)
-            if rec and (not args.host_drift_only or "HOST_DRIFT" in rec["verdicts"]):
-                records.append(rec)
-
-    host_n = 0
-    for r in records:
-        print(f"{'+'.join(r['verdicts']):32s} {r['profession']}/{r['state']}  ({r['sections']} secs)")
-        if r["host_drift"]:
-            print(f"    corpus hosts not in index: {r['host_drift']}")
-            host_n += 1
-        for k in ("extra_chapters", "missing_chapters"):
-            if r[k]:
-                print(f"    {k}: {r[k][:4]}{' …' if len(r[k]) > 4 else ''}")
-    print(f"\n=== {len(records)} drifted (prof,state); {host_n} with HOST_DRIFT ===")
-    sys.exit(1 if host_n else 0)
-
-
-if __name__ == "__main__":
-    main()
