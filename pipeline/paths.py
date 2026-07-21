@@ -11,6 +11,7 @@ from __future__ import annotations
 from pathlib import Path
 
 PIPELINE_ROOT = Path(__file__).resolve().parent
+REPO_ROOT = PIPELINE_ROOT.parent          # the git repo root (parents[2] of a stage module)
 
 CONFIG_DIR = PIPELINE_ROOT / "config"
 RESULTS_DIR = PIPELINE_ROOT / "results"
