@@ -393,8 +393,8 @@ def test_gen_semantics_no_warning_for_12_or_fewer(caplog, tmp_path):
 # A2/A3 — suggest_scope_rules: anchor truncation WARNING; undetermined_not_reviewed
 # ---------------------------------------------------------------------------
 
-import pipeline.discover.suggest_scope_rules as S
-from pipeline.discover.suggest_scope_rules import ScopeRulesProposal
+import pipeline.scope.suggest_scope_rules as S
+from pipeline.scope.suggest_scope_rules import ScopeRulesProposal
 
 
 def _base_proposal(**overrides):
@@ -414,7 +414,7 @@ def test_anchor_truncation_warning_logged(caplog):
     long_text = "A" * (S.MAX_TEXT_PER_SECTION + 100)
     anchors = [{"label": "Definitions", "text": long_text}]
 
-    with caplog.at_level(logging.WARNING, logger="pipeline.discover.suggest_scope_rules"):
+    with caplog.at_level(logging.WARNING, logger="pipeline.scope.suggest_scope_rules"):
         S._build_user_prompt("ZZ", anchors)
 
     warnings = [r for r in caplog.records if r.levelno == logging.WARNING]
@@ -427,7 +427,7 @@ def test_anchor_no_warning_when_not_truncated(caplog):
     short_text = "A" * (S.MAX_TEXT_PER_SECTION - 1)
     anchors = [{"label": "Definitions", "text": short_text}]
 
-    with caplog.at_level(logging.WARNING, logger="pipeline.discover.suggest_scope_rules"):
+    with caplog.at_level(logging.WARNING, logger="pipeline.scope.suggest_scope_rules"):
         S._build_user_prompt("ZZ", anchors)
 
     assert not any(r.levelno == logging.WARNING for r in caplog.records)
@@ -463,7 +463,7 @@ def test_save_proposal_empty_not_reviewed_by_default(tmp_path, monkeypatch):
 def test_get_undetermined_not_reviewed_returns_tail(tmp_path, monkeypatch):
     """get_undetermined_not_reviewed returns URLs beyond MAX_UNDET_IN_REFINEMENT."""
     # Build a synthetic walker result with 15 undetermined sections
-    from pipeline.discover._scope_rules import NARROW_LABEL_HINTS
+    from pipeline.scope._scope_rules import NARROW_LABEL_HINTS
     sections = []
     for i in range(15):
         sections.append({

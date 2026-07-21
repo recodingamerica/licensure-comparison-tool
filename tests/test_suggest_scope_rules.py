@@ -12,8 +12,8 @@ import argparse
 
 import pytest
 
-import pipeline.discover.suggest_scope_rules as S
-from pipeline.discover.suggest_scope_rules import ScopeRulesProposal
+import pipeline.scope.suggest_scope_rules as S
+from pipeline.scope.suggest_scope_rules import ScopeRulesProposal
 
 
 def _base(**overrides):
@@ -92,7 +92,7 @@ def test_clean_scalar_cite_pattern_untouched():
 
 def test_render_handles_quote_and_trailing_backslash():
     import ast
-    import pipeline.discover.suggest_scope_rules as S
+    import pipeline.scope.suggest_scope_rules as S
     # Embedded double-quote and trailing backslash both break a naive raw
     # string; render must still emit valid, re-parseable Python.
     p = ScopeRulesProposal(**_base(
@@ -108,7 +108,7 @@ def test_render_handles_quote_and_trailing_backslash():
 # ---------------------------------------------------------------------------
 
 def test_save_load_proposal_round_trips(tmp_path, monkeypatch):
-    import pipeline.discover.suggest_scope_rules as S
+    import pipeline.scope.suggest_scope_rules as S
     monkeypatch.setattr(S, "PROPOSALS_DIR", tmp_path)
 
     proposal = ScopeRulesProposal(**_base(

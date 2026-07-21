@@ -17,7 +17,7 @@ from __future__ import annotations
 import json
 
 from pipeline.paths import RESULTS_DIR
-from pipeline.scope_sources import overlay_llm_decisions
+from pipeline.scope.scope_sources import overlay_llm_decisions
 
 UMBRELLA_SCOPE_DIR = RESULTS_DIR / "umbrella_scope"
 UMBRELLA_SCOPE_LLM_DIR = RESULTS_DIR / "umbrella_scope_llm"

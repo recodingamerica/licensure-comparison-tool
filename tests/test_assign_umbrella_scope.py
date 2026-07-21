@@ -26,13 +26,13 @@ import pytest
 
 import re
 
-from pipeline.discover.assign_umbrella_scope import (
+from pipeline.scope.assign_umbrella_scope import (
     _split_chap_part,
     _parse_one_anchor,
     assign_for_state,
     UMBRELLA_TEXT_DIR,
 )
-from pipeline.discover._scope_rules import LEAF_SECTION_SEG, StateScopeRules, ANCHOR_LABEL_RE
+from pipeline.scope._scope_rules import LEAF_SECTION_SEG, StateScopeRules, ANCHOR_LABEL_RE
 
 
 # ---------------------------------------------------------------------------
@@ -245,7 +245,7 @@ def test_golden_scope_source_counts(state, expected):
 
 
 def test_skeleton_all_undetermined_drops_landing_pages(tmp_path, monkeypatch):
-    import pipeline.discover.assign_umbrella_scope as W
+    import pipeline.scope.assign_umbrella_scope as W
     monkeypatch.setattr(W, "UMBRELLA_TEXT_DIR", tmp_path)
     (tmp_path / "ZZ.json").write_text(json.dumps({"sections": [
         {"url": "https://x/codes/zz/title-1/chapter-1/section-1-1/", "label": "Definitions",
@@ -263,7 +263,7 @@ def test_skeleton_all_undetermined_drops_landing_pages(tmp_path, monkeypatch):
 
 
 def test_skeleton_empty_when_no_sections(tmp_path, monkeypatch):
-    import pipeline.discover.assign_umbrella_scope as W
+    import pipeline.scope.assign_umbrella_scope as W
     monkeypatch.setattr(W, "UMBRELLA_TEXT_DIR", tmp_path)
     (tmp_path / "ZZ.json").write_text(json.dumps({"sections": [
         {"url": "https://x/codes/zz/title-1/chapter-1/", "label": "2025 Code",

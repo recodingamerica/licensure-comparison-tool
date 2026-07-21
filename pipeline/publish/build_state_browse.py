@@ -43,8 +43,8 @@ from pipeline.extract.model_helpers import iter_evidence
 from pipeline.extract.locate_quote import (
     normalize_with_mapping, split_quote_segments, locate_segments_in_normalized,
 )
-from pipeline.scope_sources import is_universal, is_enumeration
-from pipeline.merged_scope import merged_scope_by_url
+from pipeline.scope.scope_sources import is_universal, is_enumeration
+from pipeline.scope.merged_scope import merged_scope_by_url
 from pipeline.publish.blob_upload import upload_json
 from pipeline.publish._browse_tree import build_tree
 from pipeline.publish._justia_clean import clean_justia_text
@@ -65,7 +65,7 @@ PROFESSIONS = [
 
 def _load_scope_lookup(state: str) -> dict[str, dict]:
     """{url → merged section} for a state — walker scope with Pass-3 LLM
-    decisions overlaid (see pipeline/merged_scope.py)."""
+    decisions overlaid (see pipeline/scope/merged_scope.py)."""
     return merged_scope_by_url(state)
 
 

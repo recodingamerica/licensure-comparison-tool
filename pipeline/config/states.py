@@ -3,7 +3,7 @@
 Every stage that iterates states or needs a state's name/slug imports from here, so
 adding a state or fixing a name is a one-line edit, not a three-file hunt. STATE_NAMES
 is the source; ALL_STATES and STATE_SLUG derive from it (they used to be three separate
-literals in config/states, gap_harvest/_common, and discover/suggest_scope_rules).
+literals in config/states, gap_harvest/_common, and scope/suggest_scope_rules).
 """
 
 STATE_NAMES = {

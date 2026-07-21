@@ -297,7 +297,7 @@ def extract_one(state: str, profession: str, model: str, profile_cls: type[BaseM
     state_text = build_state_text(raw)
     # Filter the umbrella corpus to sections scoped to this specific
     # profession, based on what the umbrella statute itself enumerates.
-    # See pipeline/discover/assign_umbrella_scope.py for the parser that
+    # See pipeline/scope/assign_umbrella_scope.py for the parser that
     # produces `umbrella_scope/<STATE>.json`, and the load_umbrella_text
     # docstring for the include/exclude rule.
     umbrella_text = load_umbrella_text(state, profession)

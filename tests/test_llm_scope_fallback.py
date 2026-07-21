@@ -8,8 +8,8 @@ import json
 
 import pytest
 
-import pipeline.discover.llm_scope_fallback as P
-from pipeline.discover.llm_scope_fallback import SectionDecision, _to_scope_entry
+import pipeline.scope.llm_scope_fallback as P
+from pipeline.scope.llm_scope_fallback import SectionDecision, _to_scope_entry
 
 
 VALID = {"podiatry", "nursing", "medicine"}
@@ -46,7 +46,7 @@ def test_decision_undetermined():
 
 @pytest.fixture
 def fake_dirs(tmp_path, monkeypatch):
-    import pipeline.merged_scope as ms  # top-level module merge_scope() delegates to
+    import pipeline.scope.merged_scope as ms  # top-level module merge_scope() delegates to
     sd = tmp_path / "scope"; sd.mkdir()
     ld = tmp_path / "scope_llm"; ld.mkdir()
     td = tmp_path / "text"; td.mkdir()

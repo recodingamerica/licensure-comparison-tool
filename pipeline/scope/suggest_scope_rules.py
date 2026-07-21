@@ -16,11 +16,11 @@ forces a fresh generation first. --run then writes umbrella_scope/<STATE>.json.
 
 Usage:
   # 1. generate + validate + save proposal (review the coverage):
-  python -m pipeline.discover.suggest_scope_rules --state NY
+  python -m pipeline.scope.suggest_scope_rules --state NY
   # 2. apply the saved validated proposal + write the scope file:
-  python -m pipeline.discover.suggest_scope_rules --state NY --apply --run
+  python -m pipeline.scope.suggest_scope_rules --state NY --apply --run
   # force a fresh generation before applying:
-  python -m pipeline.discover.suggest_scope_rules --state NY --apply --regenerate
+  python -m pipeline.scope.suggest_scope_rules --state NY --apply --regenerate
 """
 
 from __future__ import annotations
@@ -50,8 +50,8 @@ logging.getLogger("httpx").setLevel(logging.WARNING)
 
 from pipeline.paths import RESULTS_DIR
 from pipeline._records import record_files
-from pipeline.scope_sources import CLASSIFIED_SOURCES
-from pipeline.discover._scope_rules import ANCHOR_LABEL_RE, NARROW_LABEL_HINTS
+from pipeline.scope.scope_sources import CLASSIFIED_SOURCES
+from pipeline.scope._scope_rules import ANCHOR_LABEL_RE, NARROW_LABEL_HINTS
 from pipeline.config.loaders import load_limits
 from pipeline.config.loaders import model_for
 
@@ -495,7 +495,7 @@ def proposal_to_rules(
     excluded_chapter_slugs: set[str] | None = None,
 ) -> object:
     """Convert a ScopeRulesProposal to a StateScopeRules for in-memory use."""
-    from pipeline.discover._scope_rules import StateScopeRules as _StateScopeRules
+    from pipeline.scope._scope_rules import StateScopeRules as _StateScopeRules
     return _StateScopeRules(
         universal_patterns=tuple(
             (re.compile(p.pattern, re.I), p.target)
@@ -530,12 +530,12 @@ def run_walker_in_memory(
     Returns None if the walker can't run (e.g. no profession_index for this state).
     """
     try:
-        import pipeline.discover.assign_umbrella_scope as walker_mod
+        import pipeline.scope.assign_umbrella_scope as walker_mod
     except ImportError as e:
         print(f"[warn] Could not import walker: {e}", file=sys.stderr)
         return None
 
-    from pipeline.discover._scope_rules import STATE_RULES as _STATE_RULES
+    from pipeline.scope._scope_rules import STATE_RULES as _STATE_RULES
 
     rules = proposal_to_rules(proposal, excluded_chapter_slugs)
     original = _STATE_RULES.get(state)
@@ -896,7 +896,7 @@ def run_scope_walker(state: str) -> None:
     """Run assign_umbrella_scope.py and print triage stats."""
     print(f"\n=== Walker triage for {state} ===")
     result = subprocess.run(
-        [sys.executable, "-m", "pipeline.discover.assign_umbrella_scope", "--state", state],
+        [sys.executable, "-m", "pipeline.scope.assign_umbrella_scope", "--state", state],
         capture_output=True,
         text=True,
         cwd=str(REPO_ROOT),
@@ -1016,7 +1016,7 @@ def apply_from_saved(state: str, run: bool = False) -> bool:
 # ---------------------------------------------------------------------------
 
 def _applied_states() -> set[str]:
-    from pipeline.discover._scope_rules import STATE_RULES
+    from pipeline.scope._scope_rules import STATE_RULES
     return set(STATE_RULES.keys())
 
 

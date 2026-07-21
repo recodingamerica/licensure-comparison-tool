@@ -18,8 +18,8 @@ import csv
 import json
 
 from pipeline.paths import RESULTS_DIR, PROFESSION_INDEX_DIR
-from pipeline.scope_sources import CLASSIFIED_SOURCES, METHOD_LLM, professions_for
-from pipeline.merged_scope import load_merged_scope
+from pipeline.scope.scope_sources import CLASSIFIED_SOURCES, METHOD_LLM, professions_for
+from pipeline.scope.merged_scope import load_merged_scope
 from pipeline.config.loaders import all_profession_ids
 
 UMBRELLA_SCOPE_DIR = RESULTS_DIR / "umbrella_scope"
