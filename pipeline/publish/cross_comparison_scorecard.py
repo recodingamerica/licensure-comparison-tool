@@ -23,10 +23,10 @@ import datetime as dt
 import json
 from typing import Any, Callable
 
-from pipeline.extract.standard_model import is_evidence_node
+from pipeline.extract.model_helpers import is_evidence_node
 from pipeline.paths import RESULTS_DIR, STRUCTURED_DIR, WEB_PUBLIC_DIR, core_professions
 from pipeline._records import record_files
-from pipeline.extract.standard_model import deep_get
+from pipeline.extract.model_helpers import deep_get
 
 
 # Atharv's "Universal Category" list from the cross-comparison PDF, mapped to

@@ -37,7 +37,7 @@ from psycopg.rows import dict_row
 from pipeline._env import load_env
 load_env()
 
-from pipeline.extract.standard_model import iter_evidence
+from pipeline.extract.model_helpers import iter_evidence
 from pipeline.extract.locate_quote import (
     normalize_for_match,  # unused, but kept for symmetry with build_frontend
 )

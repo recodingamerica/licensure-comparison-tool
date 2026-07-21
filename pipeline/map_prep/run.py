@@ -31,7 +31,7 @@ from pipeline._env import load_env
 from pipeline._llm import call_structured
 from pipeline._prompts import load_prompt
 from pipeline.paths import STRUCTURED_DIR as _STRUCTURED_DIR, MAP_PREP_DIR as _OUT_ROOT
-from pipeline.extract.standard_model import is_evidence_node
+from pipeline.extract.model_helpers import is_evidence_node
 from pipeline.config.loaders import model_for
 
 load_env()

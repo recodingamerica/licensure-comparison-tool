@@ -55,7 +55,7 @@ import logging
 from typing import Any
 
 from pydantic import BaseModel, Field
-from pipeline.extract.standard_model import is_evidence_node
+from pipeline.extract.model_helpers import is_evidence_node
 
 # Same path setup pattern as run.py
 
