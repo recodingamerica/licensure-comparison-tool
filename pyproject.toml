@@ -9,13 +9,15 @@ dependencies = [
     "curl-cffi",
     "playwright",
     "scrapling[fetchers]>=0.4",  # default Justia fetcher; run `scrapling install` for camoufox
-    "psycopg[binary]",
     "pyyaml",
     "pydantic",
     "litellm",
     "anthropic",
     "python-dotenv",
 ]
+
+[project.optional-dependencies]
+dev = ["ruff>=0.5", "pytest"]
 
 [build-system]
 requires = ["setuptools>=68"]
@@ -26,3 +28,15 @@ include = ["pipeline*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+
+[tool.ruff.lint]
+# Correctness only (pyflakes F): undefined names, dead locals, redefinitions, duplicate
+# dict keys — real bugs. We deliberately do NOT enable the style rules (E4/E7: "import not
+# at top", one-line statements), which fight this codebase's intentional lazy-import + terse
+# style and would be pure churn. test_lint.py enforces this stays clean.
+select = ["F"]
+# F401 (unused import): deferred — this codebase uses module-level imports as re-export and
+# monkeypatch-target API (e.g. _scope_rules re-exports LEAF_SECTION_SEG; tests patch
+# module.CONFIG_DIR), so a blanket autofix wrongly strips them. Enable only after annotating
+# the legit re-exports (__all__ / noqa). F541 (f-string without placeholder): cosmetic.
+ignore = ["F401", "F541"]

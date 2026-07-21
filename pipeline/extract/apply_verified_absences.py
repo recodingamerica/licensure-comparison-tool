@@ -24,6 +24,7 @@ from __future__ import annotations
 
 import argparse
 import json
+from pathlib import Path
 
 from pipeline.paths import CONFIG_DIR, STRUCTURED_DIR
 from pipeline._runlog import record_run

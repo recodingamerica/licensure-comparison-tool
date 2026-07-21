@@ -250,7 +250,6 @@ def main() -> None:
     targets = load_targets()
     log.info("crawling %d states (depth=%d, force=%s)", len(states), args.depth, args.force)
 
-    last_host: str | None = None
     for st in states:
         try:
             build_state(st, targets, args.depth, args.force)

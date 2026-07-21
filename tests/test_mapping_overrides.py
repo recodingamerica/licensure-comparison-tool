@@ -291,7 +291,7 @@ class TestWriteTargetsNewBehavior:
             if st == "FL":
                 return {
                     "https://j.com/ch1/": "Part I",
-                    "https://j.com/ch1/": "Part I duplicate",  # same url — dict deduped by Python
+                    "https://j.com/ch1/": "Part I duplicate",  # noqa: F601 — intentional: tests Python dict dedup
                 }
             return {}
 
