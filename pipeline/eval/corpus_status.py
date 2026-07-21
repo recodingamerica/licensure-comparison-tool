@@ -58,6 +58,7 @@ from pipeline.paths import (
     CONFIG_DIR, RESULTS_DIR,
 )
 from pipeline.config.loaders import load_corpus_overrides
+from pipeline.eval.corpus_drift import audit_one as _drift_one, _active_official_sources
 
 # The 7 professions with published map/blob payloads (per CLAUDE.md). Kept here
 # explicitly because there is no single in-code constant for them.
@@ -400,10 +401,44 @@ def cmd_umbrella(min_refs: int, min_profs: int) -> int:
     return 1 if strong else 0
 
 
+# --- unified health gate ----------------------------------------------------
+# ONE exit code for "is the committed corpus/mapping state healthy?", composing
+# the cross-stage sync flags (audit_sync) with corpus-vs-index drift
+# (corpus_drift.audit_one) — replacing the two separate standalone gates so
+# there is one place to ask. Preserves each partition exactly: HOST_DRIFT blocks
+# (EXTRA/MISSING_CHAPTER report but don't); and the sync blocking-set below is
+# the same one cmd_sync uses (THIN / NEEDS_EXTRACT / NEEDS_CLEAN / CLEAN_EMPTY
+# are deliberately NON-blocking).
+_SYNC_BLOCKING_EXACT = {"STALE_CLEAN", "CLEAN_GT_TEXT", "INDEX_ONLY",
+                        "JUNK_AS_200", "PULL_ERROR", "NO_TEXT"}
+
+
+def _blocking_flags(flags: list[str]) -> list[str]:
+    return [f for f in flags
+            if f in _SYNC_BLOCKING_EXACT or f.startswith("CAPPED(")]
+
+
+def cmd_gate() -> int:
+    official = _active_official_sources()
+    suspects: list[tuple[str, str, list[str]]] = []
+    for r in audit_sync(index_stages()):
+        reasons = _blocking_flags(r["flags"])
+        d = _drift_one(r["prof"], r["state"], official)
+        if d and "HOST_DRIFT" in d["verdicts"]:
+            reasons = [*reasons, "HOST_DRIFT"]
+        if reasons:
+            suspects.append((r["prof"], r["state"], reasons))
+    for prof, state, reasons in suspects:
+        print(f"  {prof}/{state}: {', '.join(reasons)}")
+    print(f"\n=== health gate: {len(suspects)} blocking cell(s) ===")
+    return 1 if suspects else 0
+
+
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     sp = ap.add_subparsers(dest="cmd", required=True)
+    sp.add_parser("gate", help="unified health gate (sync flags + corpus/index drift) -> exit 1 if any blocking")
     sp.add_parser("sync", help="cross-stage corpus-sync health report")
     s_bk = sp.add_parser("backlog", help="extract-backlog classification + queues")
     s_bk.add_argument("--write-queues", help="dir to emit queue JSONs into")
@@ -413,7 +448,9 @@ def main() -> None:
                       help="only show chapters cited by >= this many professions in a state (default 3)")
     args = ap.parse_args()
 
-    if args.cmd == "sync":
+    if args.cmd == "gate":
+        sys.exit(cmd_gate())
+    elif args.cmd == "sync":
         sys.exit(cmd_sync())
     elif args.cmd == "backlog":
         sys.exit(cmd_backlog(args.write_queues))
