@@ -405,12 +405,16 @@ def cmd_umbrella(min_refs: int, min_profs: int) -> int:
 
 # --- unified health gate ----------------------------------------------------
 # ONE exit code for "is the committed corpus/mapping state healthy?", composing
-# the cross-stage sync flags (audit_sync) with corpus-vs-index drift
-# (corpus_drift.audit_one) — replacing the two separate standalone gates so
-# there is one place to ask. Preserves each partition exactly: HOST_DRIFT blocks
-# (EXTRA/MISSING_CHAPTER report but don't); and the sync blocking-set below is
-# the same one cmd_sync uses (THIN / NEEDS_EXTRACT / NEEDS_CLEAN / CLEAN_EMPTY
-# are deliberately NON-blocking).
+# the standalone corpus/mapping gates so there is one place to ask:
+#   * cross-stage sync flags        (audit_sync, this module)
+#   * corpus-vs-index drift         (corpus_drift.audit_one) — HOST_DRIFT blocks
+#   * unreproducible-mapping gaps   (audit_mappings.audit)   — TITLE_STRAY /
+#                                    STRAY_ONLY block (NO_MAPPING / SOME_STRAY report only)
+# Each partition is preserved exactly: EXTRA/MISSING_CHAPTER report but don't
+# block; NO_MAPPING/SOME_STRAY report but don't; and the sync blocking-set below
+# is the same one cmd_sync uses (THIN / NEEDS_EXTRACT / NEEDS_CLEAN / CLEAN_EMPTY
+# are deliberately NON-blocking). Two OPT-IN tiers (--check-urls, --check-llm)
+# add network/LLM checks over the offline suspects.
 _SYNC_BLOCKING_EXACT = {"STALE_CLEAN", "CLEAN_GT_TEXT", "INDEX_ONLY",
                         "JUNK_AS_200", "PULL_ERROR", "NO_TEXT"}
 
@@ -452,14 +456,27 @@ def _llm_verdicts(suspects: list[tuple[str, str, list[str]]]) -> dict[tuple[str,
     return out
 
 
+# audit_mappings verdicts that mean the committed corpus can't be reproduced by a
+# re-pull. Only the "garbage corpus" pair blocks (a landing page / all-stray
+# sections); NO_MAPPING and SOME_STRAY are reported by the standalone
+# `audit_mappings` CLI but are largely accepted held-out cells, so they don't gate.
+_MAPPING_BLOCKING = {"TITLE_STRAY", "STRAY_ONLY"}
+
+
 def cmd_gate(check_urls: bool = False, check_llm: bool = False) -> int:
+    from pipeline.eval import audit_mappings  # lazy: pulls in refresh_corpus helpers
     official = _active_official_sources()
+    mapping_gaps = {(p, s): issue for p, s, issue, _ in audit_mappings.audit()
+                    if issue in _MAPPING_BLOCKING}
     suspects: list[tuple[str, str, list[str]]] = []
     for r in audit_sync(index_stages()):
         reasons = _blocking_flags(r["flags"])
         d = _drift_one(r["prof"], r["state"], official)
         if d and "HOST_DRIFT" in d["verdicts"]:
             reasons = [*reasons, "HOST_DRIFT"]
+        mg = mapping_gaps.get((r["prof"], r["state"]))
+        if mg:
+            reasons = [*reasons, mg]
         if reasons:
             suspects.append((r["prof"], r["state"], reasons))
 

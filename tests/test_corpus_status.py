@@ -178,6 +178,13 @@ def test_backlog_classification(tree):
     assert [(p, s) for (p, s, _n) in ready] == [("dietetics", "IA")]
 
 
+def _no_mapping_gaps(monkeypatch):
+    """Neutralize the always-on audit_mappings tier so a test's suspects come only
+    from the pieces it controls."""
+    import pipeline.eval.audit_mappings as amod
+    monkeypatch.setattr(amod, "audit", lambda: [])
+
+
 def _one_suspect(monkeypatch):
     """Drive cmd_gate with a single offline-suspect cell (dietetics/OH, STALE_CLEAN)
     and no drift, so the opt-in tiers have exactly one cell to enrich."""
@@ -186,6 +193,33 @@ def _one_suspect(monkeypatch):
                         lambda idx: [{"prof": "dietetics", "state": "OH", "flags": ["STALE_CLEAN"]}])
     monkeypatch.setattr(ac, "_drift_one", lambda p, s, o: None)
     monkeypatch.setattr(ac, "_active_official_sources", lambda: set())
+    _no_mapping_gaps(monkeypatch)
+
+
+def test_gate_folds_mapping_garbage_and_reports_the_rest(monkeypatch, capsys):
+    """TITLE_STRAY / STRAY_ONLY block the gate; NO_MAPPING / SOME_STRAY don't."""
+    import pipeline.eval.audit_mappings as amod
+    monkeypatch.setattr(ac, "index_stages", lambda: {})
+    monkeypatch.setattr(ac, "audit_sync", lambda idx: [
+        {"prof": "land_surveying", "state": "WY", "flags": []},   # TITLE_STRAY -> blocks
+        {"prof": "hvac", "state": "LA", "flags": []},             # STRAY_ONLY  -> blocks
+        {"prof": "nursing", "state": "WV", "flags": []},          # SOME_STRAY  -> report only
+        {"prof": "medicine", "state": "IA", "flags": []},         # NO_MAPPING  -> report only
+    ])
+    monkeypatch.setattr(ac, "_drift_one", lambda p, s, o: None)
+    monkeypatch.setattr(ac, "_active_official_sources", lambda: set())
+    monkeypatch.setattr(amod, "audit", lambda: [
+        ("land_surveying", "WY", "TITLE_STRAY", "1 section, landing page only"),
+        ("hvac", "LA", "STRAY_ONLY", "52 sections, none under a mapped chapter"),
+        ("nursing", "WV", "SOME_STRAY", "18/84 not under a mapped chapter"),
+        ("medicine", "IA", "NO_MAPPING", "20 sections, index has no matched chapters"),
+    ])
+    rc = ac.cmd_gate()
+    out = capsys.readouterr().out
+    assert "land_surveying/WY" in out and "TITLE_STRAY" in out
+    assert "hvac/LA" in out and "STRAY_ONLY" in out
+    assert "nursing/WV" not in out and "medicine/IA" not in out  # report-only, not gated
+    assert rc == 1
 
 
 def test_gate_check_urls_folds_url_verdict(monkeypatch, capsys):
@@ -207,6 +241,7 @@ def test_gate_check_urls_bounded_to_suspects(monkeypatch):
     monkeypatch.setattr(ac, "audit_sync", lambda idx: [])  # no offline suspects
     monkeypatch.setattr(ac, "_drift_one", lambda p, s, o: None)
     monkeypatch.setattr(ac, "_active_official_sources", lambda: set())
+    _no_mapping_gaps(monkeypatch)
     calls = []
     monkeypatch.setattr(vu, "probe", lambda url: calls.append(url) or {"verdict": "STUB"})
     assert ac.cmd_gate(check_urls=True) == 0
