@@ -11,7 +11,7 @@
 // Both /professions/<X>?view=map (MapView) and the homepage "by state" mode
 // use this. Keeps the geography fetch + FIPS lookup in one place.
 
-import { useState, type ReactNode } from "react";
+import { useLayoutEffect, useRef, useState, type ReactNode } from "react";
 import { ComposableMap, Geographies, Geography } from "react-simple-maps";
 import { COLOR_TOKENS, token } from "@/lib/web-colors";
 import { FIPS_TO_USPS } from "@/lib/states";
@@ -47,6 +47,23 @@ export function UsMap({
 }: UsMapProps) {
   const [hover, setHover] = useState<{ state: string; x: number; y: number } | null>(null);
   const tip = hover ? renderTooltip(hover.state) : null;
+
+  // Measure the tooltip's real footprint so the edge-flip lands it snug against
+  // the cursor. A fixed guess made small tooltips flip far from the cursor (the
+  // "close by or far away" wobble, #76). Re-measured when the hovered state
+  // changes (content, hence size, can differ per state).
+  const tipRef = useRef<HTMLDivElement>(null);
+  const [tipSize, setTipSize] = useState({ w: 288, h: 160 });
+  useLayoutEffect(() => {
+    const el = tipRef.current;
+    if (!el) return;
+    const r = el.getBoundingClientRect();
+    setTipSize((s) =>
+      Math.abs(r.width - s.w) > 1 || Math.abs(r.height - s.h) > 1
+        ? { w: r.width, h: r.height }
+        : s,
+    );
+  }, [hover?.state]);
 
   return (
     <>
@@ -103,16 +120,18 @@ export function UsMap({
       </div>
 
       {hover && tip && (() => {
-        // Flip the tooltip to the left / above the cursor when it would overflow
-        // the viewport edge (otherwise far-right states like NY/ME clip).
+        // Flip the tooltip to the left / above the cursor only when it would
+        // overflow the viewport edge, using the MEASURED footprint so the
+        // flipped copy lands snug against the cursor instead of far from it.
         const pad = 12;
-        const TW = 340, TH = 300; // approx tooltip footprint
+        const { w: TW, h: TH } = tipSize;
         const vw = typeof window !== "undefined" ? window.innerWidth : 1280;
         const vh = typeof window !== "undefined" ? window.innerHeight : 800;
         const left = hover.x + pad + TW > vw ? Math.max(8, hover.x - pad - TW) : hover.x + pad;
         const top = hover.y + pad + TH > vh ? Math.max(8, hover.y - pad - TH) : hover.y + pad;
         return (
           <div
+            ref={tipRef}
             className="pointer-events-none fixed z-50 max-w-lg rounded-md border bg-popover px-4 py-3 text-sm shadow-md"
             style={{ left, top }}
           >
