@@ -310,6 +310,44 @@ def _report() -> None:
     print(f"  unstamped: {counts['unstamped']}  (no provenance yet — run backfill to baseline)")
 
 
+def _iter_done_professions():
+    """Professions that have at least one structured record (a schema/mapprep/publish
+    stamp is only meaningful once extraction has produced something to derive from)."""
+    if not STRUCTURED_DIR.exists():
+        return
+    for pdir in sorted(STRUCTURED_DIR.iterdir()):
+        if pdir.is_dir() and any(f.suffix == ".json" and not f.name.startswith("_")
+                                 for f in pdir.iterdir()):
+            yield pdir.name
+
+
+# Profession-scoped stages, in dependency order (schema ⊂ trimmed, mapprep ⊂ structured,
+# publish ⊂ structured+mapprep). _backfill() deliberately does NOT touch these — it stamps
+# only the per-cell chain — so baselining them is a separate, opt-in assertion.
+PROF_STAGES = ("schema", "mapprep", "publish")
+
+
+def _backfill_professions(professions: set[str] | None = None) -> None:
+    """Baseline the PROFESSION-scoped stamps (schema/mapprep/publish) as current for every
+    done profession whose output for that stage exists. Separate from `_backfill` on
+    purpose: it must NOT re-stamp the per-cell stages, because doing so would clobber the
+    honest `stale`/`unstamped` signal on cells mid-refresh (e.g. text re-pulled but not yet
+    re-cleaned). Run once so the runner reads live professions as `current` end-to-end
+    instead of re-running map_prep just because it was never stamped."""
+    n = 0
+    for prof in _iter_done_professions():
+        if professions is not None and prof not in professions:
+            continue
+        stamped = [s for s in PROF_STAGES if _out_exists(s, prof, None)]
+        for s in stamped:
+            record(s, prof)
+        if stamped:
+            n += 1
+    scope = f" for {len(professions)} professions" if professions else ""
+    print(f"backfilled profession-scoped provenance for {n} professions{scope} "
+          f"(baseline = current recipe; per-cell stamps untouched)")
+
+
 def _backfill(professions: set[str] | None = None) -> None:
     """Stamp existing outputs with CURRENT hashes — an explicit operator assertion that
     the committed outputs reflect today's prompts/corpus. After this, any future recipe or
@@ -334,12 +372,20 @@ def main() -> None:
     ap = argparse.ArgumentParser(description="Pipeline provenance / freshness.")
     sub = ap.add_subparsers(dest="cmd", required=True)
     sub.add_parser("report", help="freshness tally across all structured cells")
-    bf = sub.add_parser("backfill", help="stamp existing outputs as the current baseline")
+    bf = sub.add_parser("backfill", help="stamp existing per-cell outputs as the current baseline")
     bf.add_argument("--professions", default="",
                     help="Comma-separated subset to stamp (default: all done cells)")
+    bfp = sub.add_parser("backfill-professions",
+                         help="baseline the profession-scoped stamps (schema/mapprep/publish); "
+                              "per-cell stamps untouched")
+    bfp.add_argument("--professions", default="",
+                     help="Comma-separated subset to stamp (default: all done professions)")
     args = ap.parse_args()
     if args.cmd == "report":
         _report()
+    elif args.cmd == "backfill-professions":
+        profs = {p.strip() for p in args.professions.split(",") if p.strip()} or None
+        _backfill_professions(profs)
     else:
         profs = {p.strip() for p in args.professions.split(",") if p.strip()} or None
         _backfill(profs)
