@@ -188,3 +188,101 @@ def test_no_money_leaks_current_cell_dropped_before_gate(rec, monkeypatch):
     assert gate_hits == [("extract", 1)]                  # gated for the ONE due cell, not 2
     extract_units = [c[2] for c in rec["calls"] if c[0] == "extract"]
     assert extract_units == [["ID"]]                     # engine never ran for the current UT
+
+
+# --- adapter command wiring (the run_fn bodies the recorder tests bypass) ------
+# These assert the exact subprocess commands the adapters emit — a wrong module name
+# or flag here passes every recorder-based test above and only fails at runtime.
+
+def _mods(cmds):
+    """The `python -m X` module name from each recorded command list."""
+    return [c[c.index("-m") + 1] for c in cmds if "-m" in c]
+
+
+def test_clean_adapter_joins_states(monkeypatch):
+    cmds = []
+    monkeypatch.setattr(ps, "_sh", lambda cmd, label, **k: cmds.append(cmd) or True)
+    ps._clean("optometry", ["UT", "ID"], {})
+    assert _mods(cmds) == ["pipeline.ingest.clean_text"]
+    c = cmds[0]
+    assert c[c.index("--profession") + 1] == "optometry"
+    assert c[c.index("--states") + 1] == "UT,ID"       # one grouped call, comma-joined
+
+
+def test_trim_adapter_passes_strict(monkeypatch):
+    cmds = []
+    monkeypatch.setattr(ps, "_sh", lambda cmd, label, **k: cmds.append(cmd) or True)
+    ps._trim("optometry", ["UT"], {"strict": True})
+    assert _mods(cmds) == ["pipeline.ingest.trim_state"]
+    assert "--strict" in cmds[0]
+    cmds.clear()
+    ps._trim("optometry", ["UT"], {})
+    assert "--strict" not in cmds[0]
+
+
+def test_mapprep_adapter_runs_run_then_bucket_text(monkeypatch):
+    cmds = []
+    monkeypatch.setattr(ps, "_sh", lambda cmd, label, **k: cmds.append(cmd) or True)
+    assert ps._mapprep("optometry", None, {}) is True
+    assert _mods(cmds) == ["pipeline.map_prep.run", "pipeline.map_prep.bucket_text"]
+
+
+def test_mapprep_adapter_stops_if_run_fails(monkeypatch):
+    cmds = []
+    monkeypatch.setattr(ps, "_sh", lambda cmd, label, **k: cmds.append(cmd) or ("map_prep.run" not in " ".join(cmd)))
+    assert ps._mapprep("optometry", None, {}) is False
+    assert _mods(cmds) == ["pipeline.map_prep.run"]     # bucket_text NOT reached
+
+
+def test_publish_adapter_gates_then_builds_then_stamps(monkeypatch):
+    cmds, stamped = [], []
+    monkeypatch.setattr(ps, "_sh", lambda cmd, label, **k: cmds.append(cmd) or True)
+    monkeypatch.setattr(ps, "_consistency_violations", lambda prof: [])
+    monkeypatch.setattr(ps.provenance, "record", lambda stage, p, s=None: stamped.append((stage, p)))
+    assert ps._publish("optometry", None, {}) is True
+    assert _mods(cmds) == ["pipeline.publish.build_frontend"]
+    assert stamped == [("publish", "optometry")]        # publish stamped current on success
+
+
+def test_publish_adapter_blocks_on_consistency_violation(monkeypatch):
+    cmds, stamped = [], []
+    monkeypatch.setattr(ps, "_sh", lambda cmd, label, **k: cmds.append(cmd) or True)
+    monkeypatch.setattr(ps, "_consistency_violations",
+                        lambda prof: [{"profession": prof, "state": "UT", "rule": "r", "detail": "d"}])
+    monkeypatch.setattr(ps.provenance, "record", lambda *a, **k: stamped.append(a))
+    assert ps._publish("optometry", None, {}) is False
+    assert cmds == [] and stamped == []                 # never built, never stamped
+
+
+def test_publish_adapter_payload_only_does_not_stamp(monkeypatch):
+    cmds, stamped = [], []
+    monkeypatch.setattr(ps, "_sh", lambda cmd, label, **k: cmds.append(cmd) or True)
+    monkeypatch.setattr(ps, "_consistency_violations", lambda prof: [])
+    monkeypatch.setattr(ps.provenance, "record", lambda *a, **k: stamped.append(a))
+    assert ps._publish("optometry", None, {"payload_only": True}) is True
+    assert "--payload-only" in cmds[0]
+    assert stamped == []                                # incomplete output → NOT stamped current
+
+
+def test_fanout_full_runs_all_stages(monkeypatch):
+    cmds = []
+    monkeypatch.setattr(ps, "_sh", lambda cmd, label, **k: cmds.append(cmd) or True)
+    ps.run_fanout(["a", "b"], payload_only=False)
+    mods = _mods(cmds)
+    for m in ("pipeline.publish.generate_field_dictionary", "pipeline.analyze.similarity",
+              "pipeline.analyze.classify_novel_direction", "pipeline.analyze.publish_analysis",
+              "pipeline.publish.build_tag_sheet", "pipeline.publish.build_scope_capabilities",
+              "pipeline.publish.cross_comparison_scorecard", "pipeline.publish.build_state_browse",
+              "pipeline.publish.build_umbrella_browse"):
+        assert m in mods, f"{m} missing from fanout"
+
+
+def test_fanout_payload_only_skips_the_slow_browse_stages(monkeypatch):
+    cmds = []
+    monkeypatch.setattr(ps, "_sh", lambda cmd, label, **k: cmds.append(cmd) or True)
+    ps.run_fanout(["a"], payload_only=True)
+    mods = _mods(cmds)
+    for skipped in ("pipeline.publish.cross_comparison_scorecard",
+                    "pipeline.publish.build_state_browse", "pipeline.publish.build_umbrella_browse"):
+        assert skipped not in mods                      # the CPU-hog stages are skipped
+    assert "pipeline.publish.build_tag_sheet" in mods   # ...but the tag sheet still refreshes
