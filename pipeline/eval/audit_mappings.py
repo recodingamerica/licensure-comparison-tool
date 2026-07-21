@@ -12,6 +12,11 @@ section and an empty `matched` list, so a re-pull yields EMPTY. This finds them:
   SOME_STRAY  — some sections aren't under any mapped chapter (partial gap).
 
 Writes nothing. Run:  python -m pipeline.eval.audit_mappings
+
+`audit()` is a LIBRARY: the unified `corpus_status gate` composes it in, blocking
+on the "garbage corpus" pair (TITLE_STRAY / STRAY_ONLY — a landing page or
+all-stray sections). NO_MAPPING / SOME_STRAY are largely accepted held-out cells,
+so the gate reports them via this CLI but does not block on them.
 """
 
 from __future__ import annotations
