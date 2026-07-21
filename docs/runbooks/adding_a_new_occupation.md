@@ -33,14 +33,21 @@ map_prep) cost money and run deliberately.
   `python -m pipeline.discover.match_profession --profession <P>`.
   Gate: `pipeline/.venv/bin/python -m pipeline.eval.verify_index_reproducibility`.
 
-## 2. Pull the statute text (Justia/official — the fragile stage)
+## 2. Pull the statute text (Justia via Scrapling / PA via curl_cffi)
 - `python -m pipeline.ingest.pull_text --profession <P> --states <…> --limit-sections 250`
   writes `results/text/<P>/<state>.json`. Committed to git (no remote bucket).
-- **ONE pull per CDP Chrome** — concurrent Justia pulls garble corpora into
-  1-section "partials". Now guarded by a flock; still verify counts and use
-  `/tmp/guarded_repull.sh P STATE MIN` (restore-HEAD-and-retry) for re-pulls.
-  See [[reference_concurrent_pull_corruption]], [[official_source_migration]].
-- For a broad multi-profession harvest use `pipeline/results/batches/_cdp_grind.py`.
+- Justia is fetched **headless via Scrapling** (`StealthyFetcher` clears the Cloudflare
+  wall itself — no hand-started Chrome, no manual challenge solve). PA uses curl_cffi.
+  Corpus sources are **Justia + PA only** — a cell with neither is an accepted
+  `source_unavailable` gap; do not build an alternate-source scraper (enforced by
+  `pull_text.fetch`'s allowlist). See CLAUDE.md for the source policy.
+- Run **one pull process at a time** (politeness + easier to supervise); commit
+  before/after so a bad/partial pull is just `git checkout --`.
+
+> **Shortcut:** if the profession already has a pulled parent corpus (a sibling chapter
+> its states share), `python -m pipeline.discover.add_occupation --from-candidate "<Name>"
+> --write --publish` runs steps 4–6 (clean→trim→schema→extract→map_prep→publish) off that
+> corpus for you — no new pull. See [`pipeline_run_order.md`](pipeline_run_order.md).
 
 ## 3. Umbrella merge (completeness — discipline/general-provisions)
 - Many licensing chapters live under an umbrella whose **shared general-provisions**
