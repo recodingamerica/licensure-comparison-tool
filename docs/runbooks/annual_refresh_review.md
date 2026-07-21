@@ -15,20 +15,20 @@ finishes.
 ## 1. Triage — what's held and why
 
 ```bash
-python -m pipeline.ingest.triage_held --run-id annual2026
+python -m pipeline.ingest.refresh_corpus --review --run-id annual2026
+# writes pending_review/annual2026/review.html — open it in a browser
 ```
 
-LLM-free. For each held cell it compares the committed corpus against the rejected candidate on
-the gate's own key (error-free section **citations**) and buckets it:
+The review page shows every held cell with the exact sections added/removed, text samples, an
+Accept checkbox (checking cells live-builds the copy-paste `--apply` command), and — grouped at
+the top — an **LLM-free verdict badge** that buckets each cell on the gate's own key (citation
+overlap between committed and candidate):
 
 | Verdict | Signal | What it means | Action |
 |---|---|---|---|
-| **FETCH_FLAKE** | candidate has fetch errors, or <30% citation overlap | landed on the wrong page / a different article, or truncated | **re-pull**; usually resettles to NOCHANGE. Persists → mapping problem (check the index). |
-| **GROWTH** | kept ~all committed citations **and added more** | a *more complete* pull the gate rejected too conservatively | inspect → **accept** (`--apply`) |
-| **CHANGE** | high overlap, a few sections dropped | a genuine repeal or a transient dropped section | re-pull to confirm; stable drop → **accept** as a real change |
-
-For a visual side-by-side, `refresh_corpus --review --run-id annual2026` builds an offline HTML
-page of the same candidates.
+| 🟢 **GROWTH** | kept ~all committed citations **and added more** | a *more complete* pull the gate rejected too conservatively | inspect → **accept** (check the box) |
+| 🔴 **FETCH_FLAKE** | candidate has fetch errors, or <30% citation overlap | landed on the wrong page / a different article, or truncated | **re-pull**; usually resettles to NOCHANGE. Persists → mapping problem (check the index). |
+| 🟠 **CHANGE** | high overlap, a few sections dropped | a genuine repeal or a transient dropped section | re-pull to confirm; stable drop → **accept** as a real change |
 
 ## 2. Act on each bucket
 
@@ -67,13 +67,15 @@ FETCH_FLAKE cells that resettle to NOCHANGE need no re-extract — their corpus 
 
 ## Snapshot — the annual2026 run (mid-crawl; will grow as it finishes)
 
-As of this writing the run has **18 held cells**: 6 FETCH_FLAKE, 4 GROWTH, 8 CHANGE. Re-run the
-triage command above for the current, complete set — the count climbs as the crawl reaches more
-cells. Notable:
+As of this writing the run has **18 held cells**: 6 FETCH_FLAKE, 2 GROWTH, 10 CHANGE. Re-run
+`--review` for the current, complete set — the count climbs as the crawl reaches more cells.
+Notable:
 
-- **GROWTH (accept — better data):** `medicine/WA` (78→144), `dentistry/WA` (137→203),
-  `medicine/DE` (130→152), `medicine/UT` (31→53) — the candidate kept every committed citation
-  and added more; the gate rejected them for text churn despite the net gain.
+- **GROWTH (accept — better data):** `medicine/DE` (130→152), `medicine/UT` (31→53) — kept every
+  usable committed citation and added more.
+- **Grew but flagged CHANGE (accept after a glance):** `medicine/WA` and `dentistry/WA` both
+  gained a lot of sections but dropped a handful too, so they land in CHANGE — open them, confirm
+  the drops are renumbering, and accept.
 - **FETCH_FLAKE (re-pull):** `acupuncture/KY` (pulled 0 sections), `hvac/LA` (pulled an unrelated
   metal-theft statute), `hvac/NC` (wrong article), `medicine/NV` (172→71), `medicine/IA` (20→6).
 - **CHANGE (re-pull, then accept if stable):** mostly 1-3 section drops at ≥90% overlap
