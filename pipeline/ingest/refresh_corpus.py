@@ -1071,14 +1071,38 @@ def _load_pending(run_id: str) -> list[dict]:
 
 
 def _section_diff(new_corpus: dict, prof: str, state: str) -> dict:
-    """old-vs-new citation sets + a few text samples, for the review page."""
+    """old-vs-new citation sets + a few text samples + an action verdict, for the review page.
+
+    The verdict buckets a held candidate on the same citation-overlap signal the gate keys on:
+      FETCH_FLAKE — candidate has fetch errors, or shares <30% of the committed citations
+                    (wrong page / different article / truncation) → RE-PULL; committed is fine.
+      GROWTH      — kept ~all committed citations AND added more: a more complete pull the
+                    gate rejected over-conservatively → ACCEPT.
+      CHANGE      — high overlap, a few sections dropped: real repeal or transient → re-pull
+                    to confirm, accept if the drop is stable.
+    """
     old = prior_committed(TEXT_DIR / prof / f"{state}.json") or {}
     old_secs = {_cite(s): s for s in (old.get("sections") or [])}
     new_secs = {_cite(s): s for s in (new_corpus.get("sections") or [])}
     removed = [c for c in old_secs if c not in new_secs]
     added = [c for c in new_secs if c not in old_secs]
+
+    # Verdict on ERROR-FREE citations only (what's actually usable). A committed corpus can
+    # carry errored/junk sections that inflate its all-section count and make a CLEANER
+    # candidate look like a shrink; comparing usable citations avoids that.
+    old_ok = {_cite(s) for s in (old.get("sections") or []) if not s.get("error") and _cite(s)}
+    new_ok = {_cite(s) for s in (new_corpus.get("sections") or []) if not s.get("error") and _cite(s)}
+    overlap = len(old_ok & new_ok) / len(old_ok) if old_ok else 0.0
+    errs = sum(1 for s in (new_corpus.get("sections") or []) if s.get("error"))
+    if errs or overlap < 0.30:
+        verdict, hint = "FETCH_FLAKE", "re-pull — wrong page/truncated; committed corpus is fine"
+    elif overlap >= 0.90 and len(new_ok) > len(old_ok):
+        verdict, hint = "GROWTH", "accept — candidate is a more complete pull"
+    else:
+        verdict, hint = "CHANGE", "re-pull to confirm; accept if the drop is stable"
+
     return {
-        "removed": removed, "added": added,
+        "removed": removed, "added": added, "verdict": verdict, "verdict_hint": hint,
         "removed_samples": [(c, (old_secs[c].get("label") or "")[:70],
                              (old_secs[c].get("text") or "")[:220]) for c in removed[:6]],
         "added_samples": [(c, (new_secs[c].get("label") or "")[:70],
@@ -1095,9 +1119,14 @@ def build_review_html(run_id: str) -> Path:
     pend = _load_pending(run_id)
     out = PENDING_DIR / run_id / "review.html"
     cards = []
-    for p in pend:
+    # Compute each held cell's diff+verdict, then group by verdict (GROWTH first — the
+    # accept-these — then flakes, then changes) so the reviewer works top-down.
+    scored = [(p, _section_diff(p.get("new_corpus") or {}, p["profession"], p["state"])) for p in pend]
+    _ORDER = {"GROWTH": 0, "FETCH_FLAKE": 1, "CHANGE": 2}
+    scored.sort(key=lambda pd: (_ORDER.get(pd[1]["verdict"], 9), pd[0]["profession"], pd[0]["state"]))
+    _VCLASS = {"GROWTH": "v-growth", "FETCH_FLAKE": "v-flake", "CHANGE": "v-change"}
+    for p, diff in scored:
         prof, state = p["profession"], p["state"]
-        diff = _section_diff(p.get("new_corpus") or {}, prof, state)
         key = f"{prof}:{state}"
         def _samples(rows, cls):
             return "".join(
@@ -1107,9 +1136,10 @@ def build_review_html(run_id: str) -> Path:
         <div class="card">
           <label class="hd"><input type="checkbox" class="acc" data-key="{_html.escape(key)}">
             <span class="k">{_html.escape(key)}</span>
+            <span class="vbadge {_VCLASS[diff['verdict']]}">{diff['verdict']}</span>
             <span class="badge">{_html.escape(str(p.get('result')))}</span>
             <span class="cnt">{p.get('prev')} &rarr; {p.get('new')} sections</span></label>
-          <div class="why">{_html.escape(str(p.get('reason') or ''))}</div>
+          <div class="why"><b>{_html.escape(diff['verdict_hint'])}</b> &middot; {_html.escape(str(p.get('reason') or ''))}</div>
           <div class="cols">
             <div><h4>Removed vs committed ({len(diff['removed'])})</h4>{_samples(diff['removed_samples'],'rm')}</div>
             <div><h4>Added in new pull ({len(diff['added'])})</h4>{_samples(diff['added_samples'],'ad')}</div>
@@ -1122,6 +1152,8 @@ body{{font:14px/1.5 -apple-system,system-ui,sans-serif;max-width:1000px;margin:2
 h1{{font-size:20px}} .card{{border:1px solid #ddd;border-radius:8px;padding:12px 14px;margin:12px 0}}
 .hd{{display:flex;align-items:center;gap:10px;cursor:pointer;font-weight:600}}
 .badge{{background:#fde68a;border-radius:4px;padding:1px 7px;font-size:12px}}
+.vbadge{{border-radius:4px;padding:1px 7px;font-size:12px;font-weight:700;color:#fff}}
+.v-growth{{background:#16a34a}} .v-flake{{background:#dc2626}} .v-change{{background:#d97706}}
 .cnt{{color:#555;font-weight:400}} .why{{color:#666;font-size:13px;margin:4px 0 8px}}
 .cols{{display:grid;grid-template-columns:1fr 1fr;gap:14px}}
 h4{{margin:6px 0;font-size:13px}} .s{{border-left:3px solid #ccc;padding:2px 8px;margin:4px 0;font-size:12px}}

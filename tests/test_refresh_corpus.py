@@ -564,6 +564,45 @@ class TestDiffReport:
         assert "1 ok sections vs 5" in md
 
 
+class TestReviewVerdict:
+    """The held-cell verdict badge on the --review page (_section_diff), computed on
+    ERROR-FREE citation overlap between the committed corpus and the rejected candidate."""
+
+    def _commit(self, repo, cits):
+        root, _idx, text_dir = repo
+        _commit_corpus(root, text_dir, "med", "CA",
+                       {"sections": [{"citation": c, "url": f"https://j/{c}", "text": "x"} for c in cits]})
+
+    def test_flake_on_low_overlap(self, repo):
+        self._commit(repo, ["a", "b", "c"])                       # candidate shares none → wrong page
+        cand = {"sections": [{"citation": "x"}, {"citation": "y"}]}
+        assert rc._section_diff(cand, "med", "CA")["verdict"] == "FETCH_FLAKE"
+
+    def test_flake_on_fetch_errors(self, repo):
+        self._commit(repo, ["a", "b"])
+        cand = {"sections": [{"citation": "a"}, {"citation": "b", "error": "boom"}]}
+        assert rc._section_diff(cand, "med", "CA")["verdict"] == "FETCH_FLAKE"
+
+    def test_growth_on_clean_superset(self, repo):
+        self._commit(repo, ["a", "b"])                            # kept all + added more
+        cand = {"sections": [{"citation": "a"}, {"citation": "b"}, {"citation": "c"}]}
+        assert rc._section_diff(cand, "med", "CA")["verdict"] == "GROWTH"
+
+    def test_change_on_high_overlap_small_drop(self, repo):
+        self._commit(repo, ["a", "b", "c", "d", "e"])             # kept 4/5, dropped one
+        cand = {"sections": [{"citation": c} for c in ("a", "b", "c", "d")]}
+        assert rc._section_diff(cand, "med", "CA")["verdict"] == "CHANGE"
+
+    def test_committed_junk_sections_dont_mask_a_cleaner_growth(self, repo):
+        # committed carries errored junk; the cleaner candidate must read GROWTH, not shrink.
+        root, _idx, text_dir = repo
+        _commit_corpus(root, text_dir, "med", "CA", {"sections":
+            [{"citation": "a", "url": "u", "text": "x"}, {"citation": "b", "url": "u", "text": "x"}]
+            + [{"citation": f"junk{i}", "error": "boom"} for i in range(20)]})
+        cand = {"sections": [{"citation": c, "url": "u", "text": "x"} for c in ("a", "b", "c")]}
+        assert rc._section_diff(cand, "med", "CA")["verdict"] == "GROWTH"
+
+
 # ---------------------------------------------------------------------------
 # Progress display
 # ---------------------------------------------------------------------------
