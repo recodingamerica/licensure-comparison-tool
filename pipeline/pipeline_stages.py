@@ -184,9 +184,9 @@ def _pull(prof: str, states: list[str], opts: dict) -> bool:
                            cap=opts.get("cap"), timeout_s=opts.get("pull_timeout", 900),
                            run_id=opts.get("run_id"))
         result = rec.get("result")
-        if result in ("OK", "NOCHANGE"):
-            provenance.record("pull", p, st)
-        else:
+        # refresh_item now stamps pull-provenance itself on OK/NOCHANGE (and commits it),
+        # so the healthy path needs nothing here — just track the failures.
+        if result not in ("OK", "NOCHANGE"):
             ok_all = False
             print(f"  pull {p}/{st}: {result} — {rec.get('reason', '')}", flush=True)
     return ok_all

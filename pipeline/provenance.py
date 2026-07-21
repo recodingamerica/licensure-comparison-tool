@@ -221,11 +221,12 @@ def _load_prov(prof: str, state: str) -> dict:
     return read_json(_prov_path(prof, state), {})
 
 
-def record(stage: str, prof: str, state: str | None = None, model: str | None = None) -> None:
+def record(stage: str, prof: str, state: str | None = None, model: str | None = None) -> Path:
     """Stamp one stage into its provenance file (read-modify-write, so the other stages'
     stamps are preserved). Call right after writing the stage output. Pass the model
     actually used (the stage's --model) so an off-default run is captured. Profession
-    stages ignore `state` and stamp the per-profession file.
+    stages ignore `state` and stamp the per-profession file. Returns the stamp file path
+    (so a caller that git-commits its output can commit the stamp alongside it).
 
     `stamped_at` is metadata only — check() compares input_hash/recipe_hash, never the
     timestamp, so re-running with identical content doesn't read as stale."""
@@ -235,6 +236,7 @@ def record(stage: str, prof: str, state: str | None = None, model: str | None = 
     data = read_json(p, {})
     data[stage] = {**stamp(stage, prof, state, model), "stamped_at": datetime.now().isoformat(timespec="seconds")}
     write_json_atomic(p, data, sort_keys=True)
+    return p
 
 
 def check(stage: str, prof: str, state: str | None = None) -> str:
@@ -367,6 +369,29 @@ def _backfill(professions: set[str] | None = None) -> None:
     print(f"backfilled provenance for {n} done cells{scope} (baseline = current recipe)")
 
 
+def _backfill_pull() -> int:
+    """Stamp pull-provenance current for every cell that already has a committed corpus in
+    text/. pull's freshness key is the frozen profession-index url-map (input_hash for
+    "pull" hashes that slice, NOT the corpus bytes — see input_hash), so this one-time
+    baseline stays current across the annual crawl's re-pulls. The crawl also stamps each
+    cell forward via refresh_item; this is the backlog catch-up for corpora pulled before
+    the pull stage joined the provenance contract. A state with no index slice (no matched
+    chapters) is skipped — there's nothing to key a pull stamp on. Returns cells stamped."""
+    n = skipped = 0
+    for prof_dir in sorted(d for d in TEXT_DIR.iterdir() if d.is_dir()):
+        prof = prof_dir.name
+        for f in sorted(prof_dir.glob("*.json")):
+            if f.stem.startswith("_"):
+                continue
+            if input_hash("pull", prof, f.stem) is None:
+                skipped += 1
+                continue
+            record("pull", prof, f.stem)
+            n += 1
+    print(f"backfilled pull-provenance for {n} corpus cells ({skipped} skipped — no index slice)")
+    return n
+
+
 def main() -> None:
     import argparse
     ap = argparse.ArgumentParser(description="Pipeline provenance / freshness.")
@@ -380,12 +405,17 @@ def main() -> None:
                               "per-cell stamps untouched")
     bfp.add_argument("--professions", default="",
                      help="Comma-separated subset to stamp (default: all done professions)")
+    sub.add_parser("backfill-pull",
+                   help="baseline pull-provenance for every committed corpus (text/); "
+                        "the annual crawl keeps it current going forward")
     args = ap.parse_args()
     if args.cmd == "report":
         _report()
     elif args.cmd == "backfill-professions":
         profs = {p.strip() for p in args.professions.split(",") if p.strip()} or None
         _backfill_professions(profs)
+    elif args.cmd == "backfill-pull":
+        _backfill_pull()
     else:
         profs = {p.strip() for p in args.professions.split(",") if p.strip()} or None
         _backfill(profs)

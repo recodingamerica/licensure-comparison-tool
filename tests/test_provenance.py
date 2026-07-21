@@ -193,3 +193,30 @@ def test_pull_tracks_index_slice(penv, monkeypatch):
     # remapping the state's chapter urls flips pull stale
     idx["by_state"]["UT"]["matched"] = [{"url": "u2"}]
     assert pv.check("pull", "x", "UT") == "stale"
+
+
+def test_record_returns_stamp_path(env):
+    """record() returns the stamp file it wrote, so a git-committing caller (refresh_item)
+    can commit the stamp alongside its output."""
+    _write(env["text"], "x", "UT", {"sections": [1]})
+    _write(env["clean"], "x", "UT", {"sections": ["a"]})
+    p = pv.record("clean", "x", "UT")
+    assert p == pv._prov_path_for("clean", "x", "UT") and p.exists()
+
+
+def test_backfill_pull_stamps_every_corpus_cell(penv, monkeypatch):
+    """backfill-pull baselines pull-provenance for every committed corpus, skipping a state
+    with no index slice and the _summary sidecar — the annual crawl keeps it current after."""
+    import pipeline.config.loaders as loaders
+    idx = {"by_state": {"UT": {"matched": [{"url": "u1"}]},
+                        "CO": {"matched": [{"url": "u2"}]},
+                        "ZZ": {"matched": []}}}          # no chapters -> no slice
+    monkeypatch.setattr(loaders, "load_profession_index", lambda prof: idx)
+    monkeypatch.setattr(loaders, "matched_for", lambda index, st: index["by_state"].get(st, {}).get("matched"))
+    for st in ("UT", "CO", "ZZ"):
+        _wr(penv["text"] / "x" / f"{st}.json", {"sections": [1]})
+    _wr(penv["text"] / "x" / "_summary.json", {"meta": 1})   # underscore sidecar -> skipped
+    assert pv._backfill_pull() == 2                          # UT + CO only
+    assert pv.check("pull", "x", "UT") == "current"
+    assert pv.check("pull", "x", "CO") == "current"
+    assert pv.check("pull", "x", "ZZ") == "unstamped"        # skipped, no slice to key on
