@@ -127,8 +127,9 @@ def _corpus_sample(profession: str, state: str) -> tuple[str, int, int, bool]:
 
 
 def audit_states(prof: str, states: list[str]) -> dict[str, dict]:
-    """Verdict each state's committed corpus for `prof`. Importable so the harvest
-    (pull_all) can gate a fresh pull, not just the CLI.
+    """Verdict each state's committed corpus for `prof`. Importable so the unified
+    health gate (`corpus_status gate --check-llm`) can fold wrong-chapter pulls in,
+    not just the CLI.
     Returns {state: {verdict, reason, n_sections_total, n_sections_sampled, sample_truncated}}."""
     occ = _occupation_label(prof)
     results: dict[str, dict] = {}

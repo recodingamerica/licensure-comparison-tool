@@ -960,7 +960,7 @@ def main() -> None:
           f"({browse_total - browse_cached} uploaded, {browse_cached} cached/unchanged)")
 
     body = json.dumps(payload, indent=2)
-    # Mirror to public/data/ so downstream tooling (state_similarity, review CSV)
+    # Mirror to public/data/ so downstream tooling (build_review_csv, analyze)
     # sees the same data the live site does, without round-tripping Vercel Blob.
     local_path = data_dir / f"{profession}.json"
     local_path.write_text(body)
