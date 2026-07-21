@@ -5,6 +5,7 @@ re-encoded — in a different order, with a different apparatus — inside five 
 orchestrators (client/run, extract/re_extract_queue, publish/refresh_all,
 ingest/refresh_corpus, discover/add_occupation). Stage order lived in five places; the
 cost gate lived in one; "clean before trim" was an operator's job to get right.
+(re_extract_queue is now just this module's `--queue` CLI; the others are thin callers.)
 
 This module makes the chain the single source of truth. Each stage is one frozen
 `Stage` record naming its scope, the engine that runs it (`run_fn`, a THIN adapter over
@@ -24,11 +25,10 @@ from dataclasses import dataclass
 from typing import Callable
 
 from pipeline import provenance
-from pipeline.paths import STRUCTURED_DIR, PIPELINE_ROOT
+from pipeline.paths import STRUCTURED_DIR, REPO_ROOT
 from pipeline.config.loaders import cost_for
 
 PY = sys.executable
-REPO_ROOT = PIPELINE_ROOT.parent
 
 
 # --- shared helpers (the ONE copy of each; the orchestrators had 4) ------------
@@ -168,10 +168,28 @@ def _consistency_violations(prof: str) -> list[dict]:
 
 
 def _pull(prof: str, states: list[str], opts: dict) -> bool:
-    # Adopted as a runner stage in Phase 5 (wraps refresh_corpus.refresh_item). Until then
-    # nothing starts the chain at `pull` (refresh_all starts at publish; add_occupation at
-    # clean; client/run at its own stage), so it's never hit.
-    raise NotImplementedError("pull is wired into the runner in Phase 5")
+    """Re-pull each due state via refresh_corpus.refresh_item — the SAFE path (regression
+    gate + health check + commit-iff-healthy), never the bare pull_text loop that
+    re_extract_queue used. A cell whose result is OK/NOCHANGE has a healthy corpus and is
+    stamped current; REGRESSION/PARTIAL/EMPTY/DEAD/NOFILE reverted → reported, run fails.
+
+    NB: refresh_item COMMITS to git, so don't drive the pull stage while the annual refresh
+    watchdog is running (index.lock race) — pause it first. In practice the pull stage is
+    only reached by a full-chain run (start=None) or `--start pull`; the publish/client/
+    add_occupation paths start later and never touch it."""
+    from pipeline.ingest.refresh_corpus import refresh_item, build_worklist
+    ok_all = True
+    for (p, st, rows) in build_worklist([prof], set(states)):
+        rec = refresh_item(p, st, rows, force=opts.get("pull_force", False),
+                           cap=opts.get("cap"), timeout_s=opts.get("pull_timeout", 900),
+                           run_id=opts.get("run_id"))
+        result = rec.get("result")
+        if result in ("OK", "NOCHANGE"):
+            provenance.record("pull", p, st)
+        else:
+            ok_all = False
+            print(f"  pull {p}/{st}: {result} — {rec.get('reason', '')}", flush=True)
+    return ok_all
 
 
 # --- the declarative table -----------------------------------------------------
@@ -315,3 +333,53 @@ def run_fanout(profs: list[str], *, payload_only: bool = False) -> list[tuple[st
         results.append(("build_umbrella_browse",
                         _sh([PY, "-m", "pipeline.publish.build_umbrella_browse"], "build_umbrella_browse")))
     return results
+
+
+# --- CLI: run the chain over a queue (replaces extract/re_extract_queue) --------
+
+def main() -> None:
+    """Run the chain to `--target` over a `{profession: [states]}` queue (or a single
+    --profession/--states). Replaces re_extract_queue's queue runner: it defaults to
+    start='clean' (text must already be on disk — bare pull is retired; re-pull via
+    refresh_corpus), runs clean→trim→schema→extract in one batch per profession, and each
+    paid stage hits the shared cost gate."""
+    import argparse
+    import json
+    from pathlib import Path
+
+    ap = argparse.ArgumentParser(description="Run the pipeline chain over a queue of {profession: [states]}.")
+    src = ap.add_argument_group("what to run (one of)")
+    src.add_argument("--queue", help="JSON file: {profession: [states]}")
+    src.add_argument("--profession", help="a single profession (with --states)")
+    ap.add_argument("--states", default="", help="comma-separated states for --profession")
+    ap.add_argument("--target", default="extract", choices=[s.name for s in STAGES],
+                    help="run the chain up to this stage (default: extract)")
+    ap.add_argument("--start", default="clean", choices=[s.name for s in STAGES],
+                    help="first stage to run (default: clean — skips the retired bare pull)")
+    ap.add_argument("--force", action="store_true", help="re-run even cells that are already current")
+    ap.add_argument("--yes", action="store_true", help="skip the paid-stage cost confirmations")
+    ap.add_argument("--dry-run", action="store_true", help="print the ordered plan, spend nothing")
+    args = ap.parse_args()
+
+    if args.queue:
+        queue = json.loads(Path(args.queue).read_text())
+    elif args.profession:
+        queue = {args.profession: [s.strip() for s in args.states.split(",") if s.strip()]}
+    else:
+        ap.error("pass --queue FILE or --profession NAME [--states a,b,c]")
+
+    failures = []
+    for prof, states in queue.items():
+        res = run_to(args.target, prof, states or None, start=args.start,
+                     force=args.force, yes=args.yes, dry_run=args.dry_run)
+        if args.dry_run:
+            for stage, units in res["plan"]:
+                print(f"  {stage}: {', '.join(units)}")
+        elif not res["ok"]:
+            failures.append(prof)
+    if failures:
+        sys.exit(f"failed: {failures} — fix the error(s) above and re-run (current cells skip).")
+
+
+if __name__ == "__main__":
+    main()

@@ -95,7 +95,7 @@ map_prep) cost money and run deliberately.
 1. Edit `pipeline/config/prompts.yaml` (the extraction rules).
 2. Re-run the LLM stages for the profession (clean→trim→extract, batch):
    `printf '{"%s": %s}' optometry '["AK","AL",...]' > /tmp/q.json`
-   `python -m pipeline.extract.re_extract_queue --queue /tmp/q.json`
+   `python -m pipeline.pipeline_stages --queue /tmp/q.json --target extract`
    (single state: `python -m pipeline.extract.extract_state --profession optometry --states AK --force`)
 3. Gate: `python -m pipeline.eval.check_consistency` (0 violations).
 4. Publish: `python -m pipeline.publish.refresh_all --professions optometry --deploy`.

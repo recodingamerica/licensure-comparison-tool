@@ -91,6 +91,25 @@ def test_failed_stage_halts_chain(rec):
     assert res["ok"] is False
 
 
+# --- the pull adapter (safe path over refresh_item) ---------------------------
+
+def test_pull_adapter_stamps_healthy_and_flags_bad(monkeypatch):
+    """_pull maps refresh_item results: OK/NOCHANGE → healthy (stamped current); anything
+    else → failure. All states are attempted (one bad cell doesn't abort the rest)."""
+    results = {"UT": "OK", "ID": "NOCHANGE", "MT": "REGRESSION"}
+    monkeypatch.setattr(ps, "_pull", ps._pull)  # ensure real adapter
+    import pipeline.ingest.refresh_corpus as rc
+    monkeypatch.setattr(rc, "build_worklist",
+                        lambda profs, states: [(profs[0], s, [{"chapter_url": "u"}]) for s in sorted(states)])
+    monkeypatch.setattr(rc, "refresh_item",
+                        lambda p, s, rows, **k: {"result": results[s], "reason": ""})
+    stamped = []
+    monkeypatch.setattr(ps.provenance, "record", lambda stage, p, s=None: stamped.append((stage, p, s)))
+    ok = ps._pull("med", ["UT", "ID", "MT"], {})
+    assert ok is False                                    # MT regressed → overall failure
+    assert set(stamped) == {("pull", "med", "UT"), ("pull", "med", "ID")}  # only healthy cells stamped
+
+
 # --- the cost gate ------------------------------------------------------------
 
 def test_confirm_if_paid_free_stage_never_prompts(monkeypatch):
