@@ -63,32 +63,23 @@ top folder: `ANTHROPIC_API_KEY=sk-ant-...`
 
 ---
 
-## 3. Re-fetch a state that changed (the only step that needs a browser)
+## 3. Re-fetch a state that changed (the only step that needs the internet)
 
-If a state updates its statutes and you want fresh text, you re-fetch it. Fetching is
-the one step that needs a real Chrome window, because the source (Justia) shows a
-"Just a moment…" check that only a genuine browser clears. This is usually quick.
+If a state updates its statutes and you want fresh text, you re-fetch it. This is the
+one step that goes out to the internet. The source (Justia) shows a "Just a moment…"
+check, **but the fetcher clears it automatically — no browser window opens and there is
+nothing to click.** You just run one command and wait:
 
     bash pipeline/client/refetch.sh <occupation> <STATE[,STATE,...]>
     # e.g.  bash pipeline/client/refetch.sh court_reporter UT
     #       bash pipeline/client/refetch.sh forester UT,ID,MT
 
-If the fetch browser isn't running, the script prints the exact command to start Chrome
-and what to click. In short:
-
-1. In a new terminal, start Chrome with a debugging port:
-
-       /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome \
-         --remote-debugging-port=9222 --user-data-dir=/tmp/justia-chrome
-
-2. In that Chrome window, visit <https://law.justia.com/>. If a "Verify you are human"
-   screen appears, wait for it to finish (or click the checkbox) until a normal page shows.
-3. Leave Chrome open and re-run the `refetch.sh` command above.
-
-**Only run one fetch at a time** — don't start a second `refetch.sh` while one is going.
+It takes a couple of minutes per state. **Only run one fetch at a time** — don't start a
+second `refetch.sh` while one is going.
 
 After a re-fetch, process the new text with the commands from section 2, naming the
-same occupation — the newly-fetched states are picked up automatically.
+same occupation — the newly-fetched states are picked up automatically. (The script
+prints those three commands for you when it finishes.)
 
 ---
 
@@ -96,7 +87,7 @@ same occupation — the newly-fetched states are picked up automatically.
 
 | Step | Command | Needs internet? | Cost |
 |------|---------|-----------------|------|
-| Fetch | `refetch.sh` | Yes — a real Chrome | free (just time) |
+| Fetch | `refetch.sh` | Yes — but automatic, nothing to click | free (just time) |
 | Clean | `run clean` | No | free |
 | Trim | `run trim` | No (calls an LLM) | ~$0.05 / state at today's model — `run` always prints the exact price and model before spending |
 | Extract | `run extract` | No (calls an LLM) | ~$0.15 / state at today's model — same |
