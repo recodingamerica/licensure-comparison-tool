@@ -83,6 +83,15 @@ Run modules from the repo root with the project venv, e.g.
 For >2 (state, profession) re-extracts, prefer `pipeline.extract.extract_state_batch`
 (Anthropic batch API — ~50% cheaper, durable across crashes).
 
+**The ONE runner is `pipeline.pipeline_stages`** — it defines the stage order once
+(`STAGES`) and every entry path (`refresh_all`, `client/run`, `add_occupation`, the
+`--queue` batch re-extract that replaced `re_extract_queue`, the `refresh_corpus`
+annual loop) is a thin caller of its `run_to(target, prof, states, *, start, ...)`.
+The `start=` seam decides how much of the chain runs (`None`=full chain incl. the
+committing pull stage; `"clean"`=no-pull; `target`=that stage only). Full guide with
+the "what commits vs what doesn't" + watchdog-pause rules:
+[`docs/runbooks/pipeline_run_order.md`](docs/runbooks/pipeline_run_order.md).
+
 ## Where things live
 
 - `pipeline/config/state_structure.yaml` — per-state source/layout overrides

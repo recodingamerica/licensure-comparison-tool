@@ -80,7 +80,7 @@ payload). Run modules from the repo root with the project venv, e.g.
 | `map_prep/bucket_text` | Pass 3 — clusters each free-text field's values across states into a few plain-English tags (scalar + per-item, e.g. disciplinary_grounds). Feeds the tag sheet + profile bucket chips |
 | **PUBLISH — build + ship** | |
 | `publish/build_frontend` | Aggregates per-state records into one payload per profession and uploads to Vercel Blob at `data/<prof>.json` |
-| `publish/refresh_all` | Orchestrator — runs `build_frontend` + tag sheet + scope caps + scorecard + browse blobs (+ `--deploy`) for a set of professions |
+| `publish/refresh_all` | Thin caller of the `pipeline_stages` runner — rebuilds `build_frontend` + tag sheet + scope caps + scorecard + browse blobs (+ `--deploy`) for a set of professions, no LLM. **The single runner is `pipeline.pipeline_stages`; see [`docs/runbooks/pipeline_run_order.md`](docs/runbooks/pipeline_run_order.md) for every entry path.** |
 | `publish/web/` | Next.js + Tailwind + shadcn viewer (AG Grid table, maps, tag sheets), deployed to Vercel. Prebuild fetches every `data/*.json` from Blob and bakes it into the static export. Gated by HTTP Basic Auth via middleware |
 
 Beyond the linear stages, two other kinds of thing run — knowing which is which is
@@ -100,6 +100,12 @@ the key to "what runs when":
   linear per-profession chain above.
 
 ## How to run it
+
+> **Which command do I run?** The single "how do I run this" authority is
+> [`docs/runbooks/pipeline_run_order.md`](docs/runbooks/pipeline_run_order.md) — it
+> covers the one runner (`pipeline.pipeline_stages`), every entry path (`refresh_all`,
+> `client/run`, `add_occupation`, the `--queue` batch re-extract, the `refresh_corpus`
+> annual loop), and the "what commits vs what doesn't" + watchdog-pause rules.
 
 Setup (from the repo root):
 
@@ -127,8 +133,11 @@ pipeline/.venv/bin/python -m pipeline.client.run trim    --queue my_queue.json  
 pipeline/.venv/bin/python -m pipeline.client.run extract --queue my_queue.json   # ~$0.15/state, asks first
 ```
 
-Add a profession (one that's already in `config/professions.yaml`), running the
-stage modules directly:
+Add a profession (one that's already in `config/professions.yaml`). The maintained
+path is `discover/add_occupation` (drives the runner) — see
+[`pipeline_run_order.md`](docs/runbooks/pipeline_run_order.md). The by-hand stage
+sequence below is kept for illustration of the chain; prefer `add_occupation` or
+`pipeline.pipeline_stages` for real runs:
 
 ```bash
 # 1. Match — uses state_structure.yaml + mapping_overrides.yaml + professions.yaml patterns
@@ -239,7 +248,7 @@ pipeline/
     corpus_status.py     # the unified corpus/mapping health gate
     check_consistency.py  check_vs_oplr.py  verify_index_reproducibility.py  audit_mappings.py
   publish/
-    build_frontend.py  refresh_all.py   # refresh_all orchestrates the whole publish chain
+    build_frontend.py  refresh_all.py   # refresh_all = thin caller of pipeline_stages (the runner)
     build_tag_sheet.py   # per-profession Field Tag Sheet
     db/                  # PARKED: Postgres ETL (built, not wired into any flow)
     web/                 # Next.js + Tailwind + shadcn app (deployed to Vercel)
