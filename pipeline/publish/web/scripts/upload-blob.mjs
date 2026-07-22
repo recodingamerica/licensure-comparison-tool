@@ -7,21 +7,24 @@
 import { put } from "@vercel/blob";
 
 const pathname = process.argv[2];
+const contentType = process.argv[3] || "application/json";
 if (!pathname) {
-  console.error("usage: upload-blob.mjs <pathname>");
+  console.error("usage: upload-blob.mjs <pathname> [contentType]");
   process.exit(2);
 }
 
+// Read stdin as a raw Buffer so binary payloads (e.g. .xlsx) survive; JSON is a
+// UTF-8 buffer, which put() handles identically to a string.
 const body = await new Promise((resolve, reject) => {
   const chunks = [];
   process.stdin.on("data", (c) => chunks.push(c));
-  process.stdin.on("end", () => resolve(Buffer.concat(chunks).toString("utf8")));
+  process.stdin.on("end", () => resolve(Buffer.concat(chunks)));
   process.stdin.on("error", reject);
 });
 
 const blob = await put(pathname, body, {
   access: "public",
-  contentType: "application/json",
+  contentType,
   addRandomSuffix: false,
   allowOverwrite: true,
 });

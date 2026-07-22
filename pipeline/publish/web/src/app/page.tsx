@@ -224,6 +224,18 @@ export default function HomePage() {
       <section className="mt-10">
         <Eyebrow className="mb-3">Reports</Eyebrow>
         <div className="grid gap-3">
+          <Link href="/downloads" className="block group">
+            <Card className="py-3 transition-colors hover:border-foreground/30">
+              <CardHeader className="flex flex-row items-baseline justify-between gap-4 space-y-0">
+                <CardTitle className="text-base font-medium group-hover:underline">
+                  Download data
+                </CardTitle>
+                <span className="text-xs font-mono text-muted-foreground whitespace-nowrap">
+                  Excel — by occupation or by state
+                </span>
+              </CardHeader>
+            </Card>
+          </Link>
           <Link href="/statute-dictionary" className="block group">
             <Card className="py-3 transition-colors hover:border-foreground/30">
               <CardHeader className="flex flex-row items-baseline justify-between gap-4 space-y-0">
