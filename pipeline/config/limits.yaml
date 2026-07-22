@@ -52,15 +52,15 @@ discover_schema:
   max_states: 10
 
 scope_rules:
-  # pipeline/discover/suggest_scope_rules.py — MAX_TEXT_PER_SECTION
+  # pipeline/scope/suggest_scope_rules.py — MAX_TEXT_PER_SECTION
   # Characters of each section's text sent to the LLM scope-rules proposer.
   max_text_per_section: 2000
 
-  # pipeline/discover/suggest_scope_rules.py — MAX_TEXT_PER_UNDET
+  # pipeline/scope/suggest_scope_rules.py — MAX_TEXT_PER_UNDET
   # Characters of each undetermined section's text sent in the refinement pass.
   max_text_per_undetermined: 500
 
-  # pipeline/discover/suggest_scope_rules.py — MAX_UNDET_IN_REFINEMENT
+  # pipeline/scope/suggest_scope_rules.py — MAX_UNDET_IN_REFINEMENT
   # Maximum undetermined sections included in the refinement message.
   # Sections beyond this limit are skipped (recorded in the result artifact).
   max_undetermined_in_refinement: 10
