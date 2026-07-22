@@ -332,6 +332,10 @@ def run_fanout(profs: list[str], *, payload_only: bool = False) -> list[tuple[st
                         _sh([PY, "-m", "pipeline.publish.build_state_browse"], "build_state_browse")))
         results.append(("build_umbrella_browse",
                         _sh([PY, "-m", "pipeline.publish.build_umbrella_browse"], "build_umbrella_browse")))
+        # Downloads (per-occupation + per-state Excel) depend on the payloads + state browse
+        # blobs above, so they run last. Uploads are content-hash skipped → cheap when unchanged.
+        results.append(("build_downloads",
+                        _sh([PY, "-m", "pipeline.publish.build_downloads"], "build_downloads")))
     return results
 
 

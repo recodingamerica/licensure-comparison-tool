@@ -84,3 +84,28 @@ def upload_json(pathname: str, body: str) -> tuple[str, bool]:
     man[pathname] = {"hash": digest, "url": url}
     _MANIFEST_PATH.write_text(json.dumps(man, indent=2))
     return url, False
+
+
+def upload_bytes(pathname: str, data: bytes, content_type: str) -> tuple[str, bool]:
+    """Upload binary data (e.g. an .xlsx workbook) to Blob at `pathname`. Same
+    content-hash skip + manifest as upload_json; returns (public_url, skipped)."""
+    if not ENV_FILE.exists():
+        raise RuntimeError(
+            f"{ENV_FILE} missing — run `cd pipeline/publish/web && vercel env pull .env.local` first"
+        )
+    digest = hashlib.sha256(data).hexdigest()
+    man = _manifest()
+    prev = man.get(pathname)
+    if not _force_upload() and prev and prev.get("hash") == digest and prev.get("url"):
+        return prev["url"], True
+
+    proc = subprocess.run(
+        ["node", f"--env-file={ENV_FILE}", str(UPLOAD_SCRIPT), pathname, content_type],
+        input=data, capture_output=True, cwd=WEB_DIR,   # text=False → binary stdin
+    )
+    if proc.returncode != 0:
+        raise RuntimeError(f"upload-blob.mjs failed for {pathname}:\nstderr: {proc.stderr.decode(errors='replace')}")
+    url = proc.stdout.decode().strip()
+    man[pathname] = {"hash": digest, "url": url}
+    _MANIFEST_PATH.write_text(json.dumps(man, indent=2))
+    return url, False
