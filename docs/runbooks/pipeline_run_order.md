@@ -122,12 +122,21 @@ python -m pipeline.discover.add_occupation --from-candidate "Barber" --write --p
 ### `ingest/refresh_corpus` — the annual re-pull loop (the pull stage engine)
 The `pull` stage's engine (`refresh_item`): re-pulls a committed corpus, health-checks it,
 and **commits iff healthy** (a regression is reverted and reported). Normally run unattended
-as the **annual refresh** under a watchdog + `caffeinate`.
+as the **annual refresh** with `--until-done` (self-healing) + `caffeinate`.
+
+A single hung cell hits `--item-timeout` and aborts the whole run *by design*; `--until-done`
+relaunches (as `--resume --skip-held`) after each abort, skipping the timed-out/held cells so
+every pass makes forward progress and the loop converges. It's bounded by `--max-passes`
+(default 120) and stops on a no-progress pass, so it can't hot-loop. This replaced the old
+external `annual2026_watchdog.sh` bash wrapper — the loop now lives inside the module.
 
 ```bash
-# the watchdog form (self-healing, hand-started):
-nohup bash pipeline/results/status/annual2026_watchdog.sh \
-  >> pipeline/results/status/annual2026_watchdog.log 2>&1 &
+# self-healing annual refresh, hand-started:
+PY=pipeline/.venv/bin/python
+nohup $PY -m pipeline.ingest.refresh_corpus --all-professions --run-id annual2026 \
+  --breaker 6 --item-timeout 900 --until-done --yes \
+  >> pipeline/results/status/annual2026_resume.log 2>&1 &
+RC=$(pgrep -f 'refresh_corpus.*annual2026' | head -1); nohup caffeinate -i -s -w "$RC" &
 ```
 
 ---
@@ -141,24 +150,25 @@ nohup bash pipeline/results/status/annual2026_watchdog.sh \
 | publish · fanout / `refresh_all` | payloads + **Vercel Blob** | no (uploads to Blob) |
 | `--deploy` | — | no (deploys to Vercel prod) |
 
-### The watchdog pause-before-commit rule (index.lock race)
+### The refresh pause-before-commit rule (index.lock race)
 The annual refresh auto-commits in the background. **Before you commit, or run anything
 that commits (the `pull` stage — full chain `start=None`, or `--start pull`), pause it
 first**, or you'll hit a git `index.lock` race:
 
 ```bash
-pkill -f annual2026_watchdog.sh
 pkill -f refresh_corpus
 # ... do the thing (commit, or the pull run) ...
-# relaunch:
-nohup bash pipeline/results/status/annual2026_watchdog.sh \
-  >> pipeline/results/status/annual2026_watchdog.log 2>&1 &
-WD=$(pgrep -f annual2026_watchdog.sh | head -1); nohup caffeinate -i -s -w "$WD" &
+# relaunch (it resumes from the committed status file):
+PY=pipeline/.venv/bin/python
+nohup $PY -m pipeline.ingest.refresh_corpus --all-professions --run-id annual2026 \
+  --breaker 6 --item-timeout 900 --until-done --yes \
+  >> pipeline/results/status/annual2026_resume.log 2>&1 &
+RC=$(pgrep -f 'refresh_corpus.*annual2026' | head -1); nohup caffeinate -i -s -w "$RC" &
 ```
 
-Check it's alive: `pgrep -f annual2026_watchdog.sh` / `pgrep -f refresh_corpus`.
+Check it's alive: `pgrep -f 'refresh_corpus.*annual2026'`.
 The publish/client/`add_occupation` paths start at `clean` or later and never touch the
-pull stage, so they're safe to run alongside the watchdog.
+pull stage, so they're safe to run alongside the refresh.
 
 ---
 
@@ -168,4 +178,4 @@ pull stage, so they're safe to run alongside the watchdog.
 - **Re-extract many (prof, state) cells** → `pipeline_stages --queue file.json --target extract`.
 - **Run one paid stage, cost-gated, non-coder** → `client/run <stage> --professions ...`.
 - **Stand up a brand-new occupation (corpus already pulled)** → `add_occupation --write [--publish]`.
-- **Re-pull committed corpora (annual check)** → `refresh_corpus` watchdog (pause before any commit).
+- **Re-pull committed corpora (annual check)** → `refresh_corpus --until-done` (pause before any commit).

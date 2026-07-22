@@ -119,8 +119,8 @@ the key to "what runs when":
   it), `eval/check_vs_oplr` (validates UT vs OPLR ground truth), `eval/verify_index_reproducibility`,
   and `discover/audit_corpus` (LLM wrong-chapter check).
 - **Background loops** (long-running, hand-started): the **annual refresh** =
-  `ingest/refresh_corpus` under a watchdog + `caffeinate` (re-pulls every committed
-  corpus with a commit gate); and the **gap-harvest flywheel** (`discover/gap_harvest/`
+  `ingest/refresh_corpus --until-done` (self-healing) + `caffeinate` (re-pulls every
+  committed corpus with a commit gate); and the **gap-harvest flywheel** (`discover/gap_harvest/`
   — `locate` → `reuse`/`pull` → `narrow` → `promote` → `cleanup`), a hand-run
   completeness workflow for finding law we don't yet have. Neither is part of the
   linear per-profession chain above.
@@ -131,7 +131,7 @@ the key to "what runs when":
 > [`docs/runbooks/pipeline_run_order.md`](docs/runbooks/pipeline_run_order.md) — it
 > covers the one runner (`pipeline.pipeline_stages`), every entry path (`refresh_all`,
 > `client/run`, `add_occupation`, the `--queue` batch re-extract, the `refresh_corpus`
-> annual loop), and the "what commits vs what doesn't" + watchdog-pause rules.
+> annual loop), and the "what commits vs what doesn't" + refresh-pause rules.
 
 Setup (from the repo root):
 

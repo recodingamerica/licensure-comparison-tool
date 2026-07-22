@@ -692,3 +692,65 @@ class TestPullErrorPropagates:
         with pytest.raises(RuntimeError, match="scrapling session died"):
             rc.run(["med"], set(), force=False, cap=None, timeout_s=60,
                    breaker=3, run_id="t", chrome_check=lambda: True)
+
+
+# ---------------------------------------------------------------------------
+# --until-done: the in-process auto-relaunch loop that replaced the external
+# annual-refresh watchdog. run() is mocked so no real fetching happens; we only
+# assert the loop's control flow (converge / no-progress stop / max-passes).
+# ---------------------------------------------------------------------------
+class TestRunUntilDone:
+    def _wire(self, monkeypatch, worklist, status_sequence):
+        """build_worklist returns a fixed 3-cell worklist; run() returns each
+        status in status_sequence in turn, recording how many times it was called."""
+        monkeypatch.setattr(rc, "build_worklist", lambda profs, states: worklist)
+        calls = {"n": 0}
+
+        def fake_run(*a, **k):
+            i = calls["n"]
+            calls["n"] += 1
+            return status_sequence[min(i, len(status_sequence) - 1)]
+
+        monkeypatch.setattr(rc, "run", fake_run)
+        return calls
+
+    @staticmethod
+    def _status(done_keys):
+        return {"items": {k: {"result": "OK"} for k in done_keys}}
+
+    WORK = [("med", "UT", []), ("med", "CO", []), ("law", "UT", [])]
+
+    def test_converges_and_stops(self, monkeypatch):
+        # pass 1 settles one cell, pass 2 settles the rest -> stop after pass 2.
+        seq = [self._status(["med:UT"]),
+               self._status(["med:UT", "med:CO", "law:UT"])]
+        calls = self._wire(monkeypatch, self.WORK, seq)
+        rc.run_until_done([], set(), timeout_s=60, breaker=3, run_id="t")
+        assert calls["n"] == 2
+
+    def test_no_progress_guard_stops(self, monkeypatch):
+        # every pass settles the same single cell -> second pass makes no progress -> stop.
+        seq = [self._status(["med:UT"])]
+        calls = self._wire(monkeypatch, self.WORK, seq)
+        rc.run_until_done([], set(), timeout_s=60, breaker=3, run_id="t")
+        assert calls["n"] == 2  # pass 1 (rem 2), pass 2 (rem still 2) -> stop
+
+    def test_max_passes_bounds_the_loop(self, monkeypatch):
+        # a pass that keeps reducing by one but never reaches 0 is capped by max_passes.
+        seq = [self._status(["med:UT"]), self._status(["med:UT"])]
+        # first pass rem=2, then force strict monotonic decrease via a growing set:
+        seq = [self._status(list({"med:UT", "med:CO", "law:UT"})[:1]),
+               self._status(list({"med:UT", "med:CO", "law:UT"})[:2])]
+        calls = self._wire(monkeypatch, self.WORK, seq)
+        rc.run_until_done([], set(), timeout_s=60, breaker=3, run_id="t", max_passes=2)
+        assert calls["n"] == 2  # capped
+
+    def test_remaining_to_attempt_counts_unsettled(self):
+        status = {"items": {"med:UT": {"result": "OK"},
+                            "med:CO": {"result": "REGRESSION"}}}
+        # OK is settled; a held result also counts as skip (won't be retried by --skip-held);
+        # law:UT is neither -> 1 remaining.
+        monkey_work = [("med", "UT", []), ("med", "CO", []), ("law", "UT", [])]
+        import unittest.mock as m
+        with m.patch.object(rc, "build_worklist", lambda p, s: monkey_work):
+            assert rc._remaining_to_attempt(status, [], set()) == 1
