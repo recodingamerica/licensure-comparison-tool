@@ -65,7 +65,7 @@ from pipeline import provenance
 from pipeline.ingest import pull_text
 from pipeline.ingest import nj_flat
 from pipeline.ingest import clean_text
-from pipeline.config.loaders import all_profession_ids, matched_for
+from pipeline.config.loaders import all_profession_ids, load_limits, matched_for
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -154,7 +154,8 @@ FETCH_FAILURE = {"EMPTY", "DEAD", "NOFILE", "TIMEOUT"}
 # Retry a deficient pull (fetch errors, or fewer error-free sections than the
 # committed corpus) this many extra times before believing the shortfall is real —
 # absorbs transient Cloudflare flakiness that drops a section or a page mid-run.
-PULL_RETRIES = 2
+# Value lives in config/limits.yaml (refresh.pull_retries).
+PULL_RETRIES = load_limits()["refresh"]["pull_retries"]
 
 # Result -> severity label for results that are NOT committed (held back). Kept in
 # one place so the run loop, the breaker, and the diff report agree on the taxonomy.
@@ -981,6 +982,10 @@ def run(professions: list[str], only_states: set[str], *, force: bool, cap: int 
     if not chrome_check():
         status["aborted"] = ("source not reachable — a startup Justia fetch failed "
                              "(Scrapling installed? network up?); nothing attempted")
+        # Machine-readable flag: this abort attempted NOTHING (a transient startup
+        # liveness failure), so --until-done retries it instead of treating the
+        # unchanged remaining-count as a genuine no-progress stall.
+        status["startup_unreachable"] = True
         _save()
         _emit("ABORT: startup Justia fetch failed — Scrapling not clearing Cloudflare or network down")
         _print_summary(status)
@@ -1072,13 +1077,35 @@ def run_until_done(professions: list[str], only_states: set[str], *,
     aborts the whole run by design; each relaunch --skip-held skips that cell (and
     every other already-held one), so the loop advances and converges. This is the
     in-process replacement for the external annual-refresh watchdog: bounded by
-    max_passes and progress-guarded so it can't hot-loop."""
+    max_passes and progress-guarded so it can't hot-loop.
+
+    A pass that aborts on the startup liveness check (a TRANSIENT Justia/network
+    blip — it attempted nothing) is retried with a backoff sleep, not counted as
+    no-progress: otherwise one hiccup ends an unattended multi-day crawl. Bounded by
+    refresh.startup_retry_limit consecutive occurrences."""
+    _lim = load_limits()["refresh"]
+    startup_retry_limit = _lim.get("startup_retry_limit", 10)
+    startup_retry_seconds = _lim.get("startup_retry_seconds", 60)
     status: dict = {}
     prev_remaining: int | None = None
+    consec_unreachable = 0
     for i in range(1, max_passes + 1):
         status = run(professions, only_states, force=False, cap=None,
                      timeout_s=timeout_s, breaker=breaker, run_id=run_id,
                      resume=True, skip_held=True, progress_bar=progress_bar)
+        # Transient startup abort (attempted nothing) — retry with backoff, don't
+        # let the unchanged remaining-count trip the no-progress guard.
+        if status.get("startup_unreachable"):
+            consec_unreachable += 1
+            if consec_unreachable >= startup_retry_limit:
+                _emit(f"until-done: Justia unreachable for {consec_unreachable} consecutive "
+                      f"passes — giving up (network/Scrapling down?)")
+                return status
+            _emit(f"until-done: pass {i} aborted on startup liveness (transient) — "
+                  f"retry {consec_unreachable}/{startup_retry_limit} after {startup_retry_seconds}s")
+            time.sleep(startup_retry_seconds)
+            continue
+        consec_unreachable = 0
         rem = _remaining_to_attempt(status, professions, only_states)
         _emit(f"until-done: pass {i} finished — {rem} cell(s) still to attempt")
         if rem <= 0:
@@ -1247,6 +1274,7 @@ def apply_pending(run_id: str, accept: set[str]) -> None:
 # CLI
 # ---------------------------------------------------------------------------
 def main(argv: list[str] | None = None) -> None:
+    _lim = load_limits()["refresh"]  # timeout/breaker/pass defaults (config/limits.yaml)
     ap = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     ap.add_argument("--profession", help="Profession key (e.g. 'medicine').")
     ap.add_argument("--all-professions", action="store_true",
@@ -1280,8 +1308,8 @@ def main(argv: list[str] | None = None) -> None:
                          "breaker/timeout abort until every cell is settled or a pass "
                          "makes no progress. Bounded by --max-passes. Replaces the "
                          "external annual-refresh watchdog loop.")
-    ap.add_argument("--max-passes", type=int, default=120,
-                    help="With --until-done: max relaunch passes before giving up (default 120).")
+    ap.add_argument("--max-passes", type=int, default=_lim["until_done_max_passes"],
+                    help="With --until-done: max relaunch passes before giving up (default %(default)s).")
     ap.add_argument("--skip-held", action="store_true",
                     help="With --resume: ALSO skip cells already held back "
                          "(REGRESSION/EMPTY/PARTIAL/DEAD/TIMEOUT/NOFILE) instead of "
@@ -1291,9 +1319,9 @@ def main(argv: list[str] | None = None) -> None:
                     help="Run id (used in the status filename + diff-report filename). "
                          "Defaults to a UTC timestamp for a real run. Pass a STABLE id "
                          "(e.g. --run-id 2026) so --resume can find the prior status.")
-    ap.add_argument("--item-timeout", type=int, default=2400,
+    ap.add_argument("--item-timeout", type=int, default=_lim["item_timeout_seconds"],
                     help="Per-item wall-clock timeout in seconds (default %(default)s).")
-    ap.add_argument("--breaker", type=int, default=3,
+    ap.add_argument("--breaker", type=int, default=_lim["breaker_consecutive_failures"],
                     help="Abort after N consecutive FETCH FAILURES (empty/dead) — a wedged "
                          "fetcher, not unchanged corpora (default %(default)s).")
     ap.add_argument("--verbose", action="store_true",

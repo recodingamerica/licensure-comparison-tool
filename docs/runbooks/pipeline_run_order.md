@@ -124,17 +124,22 @@ The `pull` stage's engine (`refresh_item`): re-pulls a committed corpus, health-
 and **commits iff healthy** (a regression is reverted and reported). Normally run unattended
 as the **annual refresh** with `--until-done` (self-healing) + `caffeinate`.
 
-A single hung cell hits `--item-timeout` and aborts the whole run *by design*; `--until-done`
+A single hung cell hits the per-item timeout and aborts the whole run *by design*; `--until-done`
 relaunches (as `--resume --skip-held`) after each abort, skipping the timed-out/held cells so
-every pass makes forward progress and the loop converges. It's bounded by `--max-passes`
-(default 120) and stops on a no-progress pass, so it can't hot-loop. This replaced the old
-external `annual2026_watchdog.sh` bash wrapper — the loop now lives inside the module.
+every pass makes forward progress and the loop converges. It's bounded by max-passes and stops
+on a no-progress pass, so it can't hot-loop. This replaced the old external
+`annual2026_watchdog.sh` bash wrapper — the loop now lives inside the module.
+
+The timeout / breaker / max-passes / retry defaults live in **`config/limits.yaml`** under
+`refresh:` (item_timeout_seconds 1800, breaker 6, max-passes 120, pull_retries 2) — so the
+invocation carries no hardcoded seconds. `--item-timeout` / `--breaker` / `--max-passes` still
+override per-run.
 
 ```bash
 # self-healing annual refresh, hand-started:
 PY=pipeline/.venv/bin/python
 nohup $PY -m pipeline.ingest.refresh_corpus --all-professions --run-id annual2026 \
-  --breaker 6 --item-timeout 900 --until-done --yes \
+  --until-done --yes \
   >> pipeline/results/status/annual2026_resume.log 2>&1 &
 RC=$(pgrep -f 'refresh_corpus.*annual2026' | head -1); nohup caffeinate -i -s -w "$RC" &
 ```
@@ -161,7 +166,7 @@ pkill -f refresh_corpus
 # relaunch (it resumes from the committed status file):
 PY=pipeline/.venv/bin/python
 nohup $PY -m pipeline.ingest.refresh_corpus --all-professions --run-id annual2026 \
-  --breaker 6 --item-timeout 900 --until-done --yes \
+  --until-done --yes \
   >> pipeline/results/status/annual2026_resume.log 2>&1 &
 RC=$(pgrep -f 'refresh_corpus.*annual2026' | head -1); nohup caffeinate -i -s -w "$RC" &
 ```

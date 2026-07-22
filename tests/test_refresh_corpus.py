@@ -754,3 +754,23 @@ class TestRunUntilDone:
         import unittest.mock as m
         with m.patch.object(rc, "build_worklist", lambda p, s: monkey_work):
             assert rc._remaining_to_attempt(status, [], set()) == 1
+
+    def test_transient_startup_abort_is_retried_not_no_progress(self, monkeypatch):
+        # A pass that aborts on the startup liveness check (attempted nothing) must
+        # NOT trip the no-progress guard — it's transient. Two blips, then it settles.
+        seq = [{"startup_unreachable": True},
+               {"startup_unreachable": True},
+               self._status(["med:UT", "med:CO", "law:UT"])]
+        calls = self._wire(monkeypatch, self.WORK, seq)
+        monkeypatch.setattr(rc.time, "sleep", lambda *_a: None)  # no real backoff wait
+        rc.run_until_done([], set(), timeout_s=60, breaker=3, run_id="t")
+        assert calls["n"] == 3  # retried both blips, then converged — not stopped at pass 2
+
+    def test_startup_unreachable_gives_up_after_limit(self, monkeypatch):
+        # Justia down for good: retry up to the limit, then give up (don't loop forever).
+        calls = self._wire(monkeypatch, self.WORK, [{"startup_unreachable": True}])
+        monkeypatch.setattr(rc.time, "sleep", lambda *_a: None)
+        monkeypatch.setattr(rc, "load_limits",
+                            lambda: {"refresh": {"startup_retry_limit": 3, "startup_retry_seconds": 0}})
+        rc.run_until_done([], set(), timeout_s=60, breaker=3, run_id="t")
+        assert calls["n"] == 3  # 3 consecutive unreachable -> give up

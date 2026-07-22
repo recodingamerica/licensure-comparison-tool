@@ -91,12 +91,53 @@ fetch:
   # through polite_sleep). _fetch_config.PER_HOST_DELAY default also reads this.
   per_host_delay_seconds: 1.0
 
+  # pipeline/ingest/pull_text.py — TIMEOUT: per-request wall-clock (seconds) for a
+  # single curl_cffi fetch (the PA static endpoint; Justia goes through Scrapling,
+  # which carries its own internal timeout). Too low and a slow PA page reads as a
+  # fetch error.
+  request_timeout_seconds: 25
+
+refresh:
+  # pipeline/ingest/refresh_corpus.py — the annual re-pull loop's tuning knobs.
+  # Each is the DEFAULT; the matching CLI flag still overrides per-run.
+
+  # --item-timeout: per-item wall-clock (seconds). A pull that exceeds this is a
+  # genuine hang and aborts the run (--until-done then relaunches, skipping it).
+  # Raised from the old annual-run 900 so the largest legit corpora (medicine,
+  # mental_health_counseling, osteopathic_medicine) finish instead of false-
+  # TIMEOUTing every year; a true hang just costs more before the abort.
+  item_timeout_seconds: 1800
+
+  # --breaker: consecutive genuine fetch-failures (empty/dead) that mean the
+  # fetcher is wedged → abort the run. NOCHANGE / held cells do NOT count.
+  breaker_consecutive_failures: 6
+
+  # --max-passes: with --until-done, the max relaunch passes before giving up
+  # (a no-progress pass also stops it earlier).
+  until_done_max_passes: 120
+
+  # refresh_item re-pulls a DEFICIENT (fetch-error / empty / short) result this
+  # many EXTRA times before believing the shortfall is real and letting the
+  # content-aware regression gate judge it. Absorbs transient Cloudflare flakiness.
+  pull_retries: 2
+
+  # --until-done only: a pass can abort on the startup Justia liveness check (a
+  # transient network/Cloudflare blip — it attempts nothing). Retry that many
+  # consecutive times, sleeping between, before giving up — so one hiccup doesn't
+  # end an unattended multi-day crawl. (A pass that DID work but settled nothing
+  # still stops via the separate no-progress guard.)
+  startup_retry_limit: 10
+  startup_retry_seconds: 60
+
 # ---------------------------------------------------------------------------
 # Intentionally NOT here (pure mechanics, don't shape data):
-#   retry counts (MAX_RETRIES in trim_state.py, fetch retry in _fetch.py)
+#   LLM retry counts (MAX_RETRIES in trim_state.py, fetch retry in _fetch.py)
 #   chunk/batch sizes (LLM batch page sizes in _batch.py, _llm.py)
 #   pagination limits (hierarchy page walk in build_hierarchy.py)
 #   LLM output token budgets (MAX_TOKENS in suggest_scope_rules.py, gen_semantics.py)
+#   display-only estimates (_estimate_seconds / _fmt_eta coefficients in refresh_corpus.py)
 # These are operational/mechanical constants that don't determine what data
 # survives or is seen by an LLM; they live at their respective call sites.
+# (The refresh loop's timeout/breaker/retry knobs ARE here — under `refresh:` —
+# because a timeout or breaker abort decides whether a cell's data lands at all.)
 # ---------------------------------------------------------------------------
