@@ -89,7 +89,7 @@ For >2 (state, profession) re-extracts, prefer `pipeline.extract.extract_state_b
 annual loop) is a thin caller of its `run_to(target, prof, states, *, start, ...)`.
 The `start=` seam decides how much of the chain runs (`None`=full chain incl. the
 committing pull stage; `"clean"`=no-pull; `target`=that stage only). Full guide with
-the "what commits vs what doesn't" + watchdog-pause rules:
+the "what commits vs what doesn't" + refresh-pause rules:
 [`docs/runbooks/pipeline_run_order.md`](docs/runbooks/pipeline_run_order.md).
 
 ## Where things live

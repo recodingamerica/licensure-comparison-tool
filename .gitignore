@@ -83,3 +83,9 @@ docs/reports/refresh_diff_*.md
 *.egg-info/
 pipeline/results/pending_review/
 pipeline/results/exports/
+
+# annual-refresh run scratch (resume/until-done console logs — regenerated each run)
+pipeline/results/status/*.log
+pipeline/results/status/annual*_watchdog.sh
+# gap-harvest agent logs (console output, not data — the .json outputs stay tracked)
+pipeline/results/gap_harvest/*.log

@@ -1054,6 +1054,46 @@ def run(professions: list[str], only_states: set[str], *, force: bool, cap: int 
     return status
 
 
+def _remaining_to_attempt(status: dict, professions: list[str],
+                          only_states: set[str]) -> int:
+    """Cells in the worklist not yet settled OK/NOCHANGE or held back — i.e. the
+    ones a --skip-held resume would still try. 0 means the run has converged."""
+    skip = _SETTLED | set(HELD_SEVERITY)
+    done = {k for k, i in status.get("items", {}).items() if i.get("result") in skip}
+    work = build_worklist(professions, only_states)
+    return sum(1 for p, s, _r in work if f"{p}:{s}" not in done)
+
+
+def run_until_done(professions: list[str], only_states: set[str], *,
+                   timeout_s: int, breaker: int, run_id: str | None,
+                   max_passes: int = 120, progress_bar: bool = False) -> dict:
+    """Auto-relaunch `run()` (as --resume --skip-held) until the worklist is fully
+    settled or a pass makes no progress. A single hung cell hits --item-timeout and
+    aborts the whole run by design; each relaunch --skip-held skips that cell (and
+    every other already-held one), so the loop advances and converges. This is the
+    in-process replacement for the external annual-refresh watchdog: bounded by
+    max_passes and progress-guarded so it can't hot-loop."""
+    status: dict = {}
+    prev_remaining: int | None = None
+    for i in range(1, max_passes + 1):
+        status = run(professions, only_states, force=False, cap=None,
+                     timeout_s=timeout_s, breaker=breaker, run_id=run_id,
+                     resume=True, skip_held=True, progress_bar=progress_bar)
+        rem = _remaining_to_attempt(status, professions, only_states)
+        _emit(f"until-done: pass {i} finished — {rem} cell(s) still to attempt")
+        if rem <= 0:
+            _emit("until-done: COMPLETE — nothing left to attempt")
+            return status
+        # No-progress guard: if a full pass settled nothing new, every remaining cell
+        # is stuck (re-held or re-failing). Stop rather than relaunch forever.
+        if prev_remaining is not None and rem >= prev_remaining:
+            _emit(f"until-done: NO PROGRESS ({prev_remaining} -> {rem}) — stopping to avoid a loop")
+            return status
+        prev_remaining = rem
+    _emit(f"until-done: hit max-passes={max_passes} — stopping ({prev_remaining} still to attempt)")
+    return status
+
+
 # ---------------------------------------------------------------------------
 # Review + approve of held (candidate) changes
 # ---------------------------------------------------------------------------
@@ -1235,6 +1275,13 @@ def main(argv: list[str] | None = None) -> None:
                     help="Continue a prior run of this --run-id: skip cells already done "
                          "(OK/NOCHANGE), re-attempt failures + not-yet-done cells. Use after "
                          "a breaker/timeout abort or Ctrl-C on a long --all-professions run.")
+    ap.add_argument("--until-done", action="store_true",
+                    help="Auto-relaunch (implies --resume --skip-held) after each "
+                         "breaker/timeout abort until every cell is settled or a pass "
+                         "makes no progress. Bounded by --max-passes. Replaces the "
+                         "external annual-refresh watchdog loop.")
+    ap.add_argument("--max-passes", type=int, default=120,
+                    help="With --until-done: max relaunch passes before giving up (default 120).")
     ap.add_argument("--skip-held", action="store_true",
                     help="With --resume: ALSO skip cells already held back "
                          "(REGRESSION/EMPTY/PARTIAL/DEAD/TIMEOUT/NOFILE) instead of "
@@ -1304,7 +1351,7 @@ def main(argv: list[str] | None = None) -> None:
     # prior run instead of minting a new, empty one.
     if args.run_id:
         run_id = args.run_id
-    elif args.resume:
+    elif args.resume or args.until_done:
         run_id = None
     else:
         run_id = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
@@ -1335,9 +1382,14 @@ def main(argv: list[str] | None = None) -> None:
     if not args.verbose:
         _route_noise_to_log(log_path)
 
-    run(professions, only_states, force=args.force, cap=None,
-        timeout_s=args.item_timeout, breaker=args.breaker, run_id=run_id,
-        resume=args.resume, skip_held=args.skip_held, progress_bar=use_bar)
+    if args.until_done:
+        run_until_done(professions, only_states, timeout_s=args.item_timeout,
+                       breaker=args.breaker, run_id=run_id,
+                       max_passes=args.max_passes, progress_bar=use_bar)
+    else:
+        run(professions, only_states, force=args.force, cap=None,
+            timeout_s=args.item_timeout, breaker=args.breaker, run_id=run_id,
+            resume=args.resume, skip_held=args.skip_held, progress_bar=use_bar)
 
     if not args.verbose:
         _emit(f"  detailed fetch log: {log_path}")
