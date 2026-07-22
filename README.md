@@ -26,7 +26,7 @@ to run it. The others each own one thing:
 | **CLIENT_GUIDE.md** | The non-coder handoff — set up, run the four commands, re-fetch, publish, troubleshoot, all in one place | You're OPLR (or any non-coder) running or publishing data |
 | **CLAUDE.md** | Operator/agent instructions — the authoritative, up-to-date pipeline mechanics (fetching, re-extract order, completeness) | You're doing pipeline ops; it wins on any conflict about *how the pipeline works today* |
 | **ARCHITECTURE.md** | Design rationale and layout | You want the "why" behind the structure |
-| **STATUS.md** | A point-in-time progress snapshot (not kept current) | You want a historical status note — treat dates as of writing |
+| **docs/STATUS.md** | A point-in-time progress snapshot (not kept current) | You want a historical status note — treat dates as of writing |
 
 For a non-coder running the pipeline (Utah OPLR), the supported path is
 `pipeline/client/` — a dashboard to pick occupations and three cost-gated

@@ -13,7 +13,7 @@ UI can do `text.slice(start, end)` without re-deriving the matcher.
 
 Keeping both behind one normalizer (`normalize_with_mapping`) is the whole
 point: when the matcher accepts a quote, it accepts the same text the
-frontend will highlight. See STATUS.md "Two implementations of the same
+frontend will highlight. See docs/STATUS.md "Two implementations of the same
 matcher" for the parity problem this replaces.
 """
 
@@ -400,7 +400,7 @@ def quote_in_corpus(quote: str, normalized_corpus: str) -> bool:
 
     Kept alongside locate_quote_in_section because the verifier still
     needs the looser "match anywhere in the combined chapter+umbrella
-    corpus" check — see STATUS.md's corpus-boundary edge case: a quote
+    corpus" check — see docs/STATUS.md's corpus-boundary edge case: a quote
     can span the seam between sections and verify against the combined
     text without belonging cleanly to any single section."""
     if not quote:

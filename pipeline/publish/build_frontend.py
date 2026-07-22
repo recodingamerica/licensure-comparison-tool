@@ -276,7 +276,7 @@ def _annotate_quote_spans(record: dict, sections: list[dict]) -> tuple[int, int]
     bracket-stripped form. Unverified nodes are skipped (highlight would
     be misleading), and nodes whose citation we can't pin to a single
     section are left without spans (verifier may still have accepted them
-    via the combined chapter+umbrella corpus — see STATUS.md's
+    via the combined chapter+umbrella corpus — see docs/STATUS.md's
     corpus-boundary case; UI shows the quote without a highlight).
 
     Returns (with_spans, without_spans) across verified nodes.
