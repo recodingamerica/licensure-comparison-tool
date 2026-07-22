@@ -220,13 +220,6 @@ def test_trim_adapter_passes_strict(monkeypatch):
     assert "--strict" not in cmds[0]
 
 
-def test_mapprep_adapter_runs_run_then_bucket_text(monkeypatch):
-    cmds = []
-    monkeypatch.setattr(ps, "_sh", lambda cmd, label, **k: cmds.append(cmd) or True)
-    assert ps._mapprep("optometry", None, {}) is True
-    assert _mods(cmds) == ["pipeline.map_prep.run", "pipeline.map_prep.bucket_text"]
-
-
 def test_mapprep_adapter_stops_if_run_fails(monkeypatch):
     cmds = []
     monkeypatch.setattr(ps, "_sh", lambda cmd, label, **k: cmds.append(cmd) or ("map_prep.run" not in " ".join(cmd)))
@@ -286,3 +279,27 @@ def test_fanout_payload_only_skips_the_slow_browse_stages(monkeypatch):
                     "pipeline.publish.build_state_browse", "pipeline.publish.build_umbrella_browse"):
         assert skipped not in mods                      # the CPU-hog stages are skipped
     assert "pipeline.publish.build_tag_sheet" in mods   # ...but the tag sheet still refreshes
+
+
+def test_mapprep_runs_all_three_bucket_passes(monkeypatch):
+    # Regression guard: the front end's disciplinary_categories / list_field_categories
+    # columns come from the per-item bucket passes. If the stage only runs plain
+    # bucket_text (per-field), new occupations ship with those columns blank — exactly
+    # what happened to the 6 trades. Assert all three passes fire.
+    cmds = []
+    monkeypatch.setattr(ps, "_sh", lambda cmd, label, **k: cmds.append(cmd) or True)
+    assert ps._mapprep("plumbing", None, {}) is True
+    assert _mods(cmds) == [
+        "pipeline.map_prep.run",
+        "pipeline.map_prep.bucket_text",   # per-field  -> text_buckets.json
+        "pipeline.map_prep.bucket_text",   # --per-item -> disciplinary_categories
+        "pipeline.map_prep.bucket_text",   # --list-fields -> list_field_categories
+    ]
+    flags = [c[-1] for c in cmds]
+    assert "--per-item" in flags and "--list-fields" in flags
+
+
+def test_mapprep_halts_if_a_bucket_pass_fails(monkeypatch):
+    # A failing per-item pass must fail the stage, not silently ship blank columns.
+    monkeypatch.setattr(ps, "_sh", lambda cmd, label, **k: "--per-item" not in cmd)
+    assert ps._mapprep("plumbing", None, {}) is False

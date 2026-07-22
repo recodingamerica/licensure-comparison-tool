@@ -121,8 +121,25 @@ def _extract(prof: str, states: list[str], opts: dict) -> bool:
 
 
 def _mapprep(prof: str, unit, opts: dict) -> bool:
-    ok = _sh([PY, "-m", "pipeline.map_prep.run", prof], f"map_prep {prof}")
-    return ok and _sh([PY, "-m", "pipeline.map_prep.bucket_text", prof], f"bucket_text {prof}")
+    # map_prep produces THREE bucket artifacts, and all three must run here or the
+    # front end silently ships blanks: per-field (text_buckets.json) AND the two
+    # per-item passes — disciplinary_grounds (--per-item → disciplinary_categories)
+    # and the discovered profession_specific list fields (--list-fields →
+    # list_field_categories). The per-item passes were historically a manual
+    # afterthought, so occupations added after the mature 7 shipped with empty
+    # category columns (the 6 trades). Wiring them into the stage makes it
+    # impossible to forget for a new occupation. Sparse fields self-skip.
+    bt = ["pipeline.map_prep.bucket_text", prof]
+    steps = [
+        (["pipeline.map_prep.run", prof], f"map_prep {prof}"),
+        (bt, f"bucket_text {prof}"),
+        (bt + ["--per-item"], f"bucket_text --per-item {prof}"),
+        (bt + ["--list-fields"], f"bucket_text --list-fields {prof}"),
+    ]
+    for mod_args, label in steps:
+        if not _sh([PY, "-m", *mod_args], label):
+            return False
+    return True
 
 
 def _publish(prof: str, unit, opts: dict) -> bool:
