@@ -106,7 +106,7 @@ the "what commits vs what doesn't" + watchdog-pause rules:
 - `pipeline/client/` — the non-coder handoff layer (README = module map): `status.py`
   (read-only state + cost + freshness → `results/status/status.json`), `dashboard.py`
   (offline `dashboard.html` picker), `run.py` (`clean`/`trim`/`extract`/`publish`), and
-  `refetch.sh`. Client guide: `docs/runbooks/client_refetch.md`.
+  `refetch.sh`. Client guide: `CLIENT_GUIDE.md`.
 - `pipeline/provenance.py` — content-hash **freshness** (survives `git clone`): each stage
   stamps `results/provenance/<prof>/<state>.json`; `check()`→current/stale/unstamped, so
   "done" means "current" not just "a file exists." A prompt/corpus/schema change flips

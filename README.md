@@ -23,6 +23,7 @@ to run it. The others each own one thing:
 | Doc | Owns | Read it when |
 |---|---|---|
 | **README.md** (this) | Setup, how to run, project overview | Starting out, or running the pipeline |
+| **CLIENT_GUIDE.md** | The non-coder handoff — set up, run the four commands, re-fetch, publish, troubleshoot, all in one place | You're OPLR (or any non-coder) running or publishing data |
 | **CLAUDE.md** | Operator/agent instructions — the authoritative, up-to-date pipeline mechanics (fetching, re-extract order, completeness) | You're doing pipeline ops; it wins on any conflict about *how the pipeline works today* |
 | **ARCHITECTURE.md** | Design rationale and layout | You want the "why" behind the structure |
 | **STATUS.md** | A point-in-time progress snapshot (not kept current) | You want a historical status note — treat dates as of writing |
@@ -30,13 +31,13 @@ to run it. The others each own one thing:
 For a non-coder running the pipeline (Utah OPLR), the supported path is
 `pipeline/client/` — a dashboard to pick occupations and three cost-gated
 commands (clean/trim/extract) that hide the stage details. See
-[`docs/runbooks/client_refetch.md`](docs/runbooks/client_refetch.md).
+[`CLIENT_GUIDE.md`](CLIENT_GUIDE.md).
 
 ## Quick look
 
 - **Zero setup:** open the live site — <https://utah-licensing.vercel.app> (behind a
   simple password).
-- **First-time local setup:** `bash setup.sh` (one command; see [`SETUP.md`](SETUP.md)).
+- **First-time local setup:** `bash setup.sh` (one command; see [`CLIENT_GUIDE.md`](CLIENT_GUIDE.md)).
 - **Then poke it locally — no API key, no internet, reads the committed data:**
   ```bash
   pipeline/.venv/bin/python -m pipeline.client.dashboard    # → results/status/dashboard.html (tick occupations, see costs)
@@ -57,7 +58,7 @@ commands (clean/trim/extract) that hide the stage details. See
 Live site: https://utah-licensing.vercel.app (behind HTTP Basic Auth).
 
 Across all 13: ~24,122 Evidence-wrapped claims; 98.6% regex-verified against
-source statute (as of 2026-07-21 — regenerate with `python -m pipeline.client.handoff_doc`,
+source statute (as of 2026-07-22 — regenerate with `python -m pipeline.client.handoff_doc`,
 which reuses `pipeline.client.status.build()`, the single source of current
 per-profession counts and cost-to-finish).
 
@@ -211,7 +212,7 @@ vercel --prod
 ```
 
 For the **non-coder deploy path** (build data + push live in one gated command),
-see [`docs/runbooks/client_deploy.md`](docs/runbooks/client_deploy.md) — it covers
+see [`CLIENT_GUIDE.md`](CLIENT_GUIDE.md) — it covers
 the one-time `vercel link` / `vercel env pull` setup and the confirm-gated
 `publish --deploy`.
 

@@ -99,7 +99,7 @@ python -m pipeline.client.run publish --professions podiatry             # FREE 
 
 Each subcommand calls `run_to(stage, prof, states, start=stage)` — a **single stage** per
 call. Queues + costs come from `pipeline.client.status` (one source of truth). See
-[`client_refetch.md`](client_refetch.md).
+[`CLIENT_GUIDE.md`](../../CLIENT_GUIDE.md).
 
 ### `discover/add_occupation` — a NEW occupation, full no-pull chain
 The capstone for standing up an occupation whose parent corpus is already pulled. Runs

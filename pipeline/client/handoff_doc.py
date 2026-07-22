@@ -319,7 +319,7 @@ project's Python environment):
    estimate and waits for a typed "yes" before spending anything), `publish` (free).
 
 Nothing in these tools fetches from the web or spends money on its own. The
-plain-English walkthrough, including re-fetching, is `docs/runbooks/client_refetch.md`.
+plain-English walkthrough, including re-fetching, is `CLIENT_GUIDE.md`.
 
 ## 5. Everything adjustable lives in config files, not code
 

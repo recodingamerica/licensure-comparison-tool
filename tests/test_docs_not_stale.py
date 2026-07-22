@@ -25,7 +25,7 @@ def _tracked_docs() -> list[Path]:
     (methodology field-dicts, the handoff doc, gap reports), which regenerate, nor the ~570
     untracked reports on disk. A generated doc's refs are guarded at their source (the
     generator module, covered by the import sweep), not on every output copy."""
-    tops = ["README.md", "CLAUDE.md", "ARCHITECTURE.md", "SETUP.md", "pipeline/client/README.md"]
+    tops = ["README.md", "CLAUDE.md", "ARCHITECTURE.md", "CLIENT_GUIDE.md", "pipeline/client/README.md"]
     generated = ("docs/methodology/", "docs/handoff/", "docs/reports/")
     try:
         out = subprocess.run(["git", "ls-files", "docs", *tops], cwd=ROOT,
@@ -41,9 +41,9 @@ DOCS = _tracked_docs()
 # fetch workflow (Scrapling is the sole fetcher since 2026-07-13). CLAUDE.md is excluded on
 # purpose: it's the operator/history doc and legitimately records that CDP was retired.
 CLIENT_FACING = [
+    ROOT / "CLIENT_GUIDE.md",
     ROOT / "pipeline" / "client" / "README.md",
     ROOT / "docs" / "handoff" / "technical_documentation.md",
-    *sorted((ROOT / "docs" / "runbooks").glob("client_*.md")),
 ]
 
 RUN_RE = re.compile(r"-m (pipeline\.[a-zA-Z0-9_.]+)")   # python -m pipeline.x.y
