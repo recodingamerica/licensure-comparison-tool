@@ -2,7 +2,7 @@
 # One-time setup for the state-licensing pipeline. Run this ONCE after cloning/receiving
 # the repo. It creates the Python environment, installs everything, and checks your API
 # key. After it finishes you never run it again — you use the dashboard + the four
-# commands (see SETUP.md and docs/runbooks/client_refetch.md).
+# commands (see CLIENT_GUIDE.md and CLIENT_GUIDE.md).
 #
 #   bash setup.sh
 #
@@ -80,6 +80,5 @@ cat <<EOF
     Paid (~\$0.15/state): $PY -m pipeline.client.run extract --professions <name>
     Publish (free):     $PY -m pipeline.client.run publish --professions <name>
 
-  Plain-English walkthrough:  docs/runbooks/client_refetch.md
-  Setup notes / troubleshooting:  SETUP.md
+  Full walkthrough (run, re-fetch, publish, troubleshooting):  CLIENT_GUIDE.md
 EOF

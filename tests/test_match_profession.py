@@ -85,7 +85,7 @@ class TestRepealedUniversalExclude:
 
 class TestUmbrellaNodes:
     """State-level additive umbrella chapters (e.g. WA Ch 18.130 for every WA
-    health profession). See docs/runbooks/wa_umbrella_mechanism.md."""
+    health profession). See the _umbrella_nodes_for docstring in match_profession.py."""
 
     WA_UMBRELLA = {
         "umbrella": {

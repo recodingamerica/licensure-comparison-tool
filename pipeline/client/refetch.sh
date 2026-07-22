@@ -12,7 +12,7 @@
 #         bash pipeline/client/refetch.sh forester UT,ID,MT
 #
 # After it finishes, re-run the normal steps for those same states to get data:
-#   ...run clean / trim / extract  (see the dashboard or docs/runbooks/client_refetch.md)
+#   ...run clean / trim / extract  (see the dashboard or CLIENT_GUIDE.md)
 
 set -euo pipefail
 cd "$(git rev-parse --show-toplevel)"

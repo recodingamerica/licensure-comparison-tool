@@ -183,37 +183,20 @@ parity problem.
    quotes against a changed corpus without re-extracting. Use it before
    spending money on re-extraction.
 
-## Future: Postgres
+## Data downloads (and why not Postgres)
 
-We will eventually want this in a relational store, modeled on the
-`/Users/abigailhaddad/Documents/repos/newyork` schema:
+The recurring "maybe we want a database" case is downloading raw + processed data —
+e.g. everything for one occupation across all states. That's a *download*, not a query
+engine: the slices already exist as static JSON (per-profession payloads + per-state browse
+blobs), and `pipeline.client.export_occupation` reshapes them into an Excel workbook
+(Processed / Evidence / Raw sheets). No server to host — consistent with the committed-data,
+no-external-DB design.
 
-- **One `documents` table** keyed on `(state, hierarchy_level, citation)`,
-  self-referential via `parent_id`, with a materialized `hierarchy_path`
-  and `hierarchy_level ∈ {title, chapter, section}`.
-- **Classification columns** as we add them: `is_umbrella`, `is_practice_act`,
-  `scope_keyword`, `profession_family`.
-- **Join tables** for many-to-many: `practice_acts (profession, document_id)`,
-  `umbrella_applies_to (umbrella_id, profession_family)`.
-- **Per-state metadata** flattened into typed columns (cf. newyork's
-  `nycrr_*` / `njac_*` / `njsa_*` columns) so URL-back-references are
-  cheap. For Justia + state statutes this is roughly `justia_title`,
-  `justia_chapter`, `justia_section`, with the matching `_name` fields.
-- **Precomputed stats** like `descendant_count` for performance — same
-  pattern newyork uses.
-- **Drizzle schema + numbered SQL migrations** under
-  `frontend/packages/database/migrations/0NNN_*.sql`, run in lex order
-  on a fresh DB. Use a/b/c suffixes for same-number ordering.
-- **Neon** for hosting.
-
-Today's scattered JSON maps almost 1:1 to that schema. As long as new
-fields land in the existing per-state files as flat columns, the
-eventual migration is a `for row in json: INSERT` loop.
-
-When to actually do it: when we have a second consumer of the
-hierarchy data (analytics, cross-state querying, an embedded admin UI),
-or when the per-file lookups in `extract_state` / `build_frontend`
-start to feel painful. Today they're tolerable.
+Postgres would only earn its place for *arbitrary* querying: ad-hoc SQL, joins, full-text
+search across the whole corpus, or a programmatic API. If that need appears, the ETL design
+that was parked and removed (a `documents`/`evidence`/join-table schema keyed on
+`(state, citation)`, one `for row in json: INSERT` loop from today's flat per-state files) is
+recoverable from git history — see issue #98. Until then it's deliberately out.
 
 ## Pointers
 

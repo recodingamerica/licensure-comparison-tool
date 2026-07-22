@@ -18,6 +18,23 @@ real extracted record unless --force).
 Usage:
   python -m pipeline.extract.apply_verified_absences            # all
   python -m pipeline.extract.apply_verified_absences --profession electrician
+
+Tweaking (this docstring is the reference — there is no separate runbook):
+  * Add / remove a case — edit `config/verified_absences.yaml`:
+        electrician:
+          IL: {basis: local_only, citation: "65 ILCS 5/11-33-1", note: "…"}
+    `basis` ∈ {local_only, not_regulated, contractor_only}; `citation` = the local-enabling
+    hook if one exists, else "". Then regenerate:
+        python -m pipeline.extract.apply_verified_absences
+        python -m pipeline.publish.build_frontend --profession <prof> --payload-only
+  * The OFF SWITCH — `config/publish_options.yaml`: `include_verified_absences: true`.
+    false → every verified-absence row falls back to an ordinary coverage gap, site-wide.
+  * In the UI, each payload row carries `data_basis` (extracted | verified_absence); a
+    verified_absence row shows an amber "Not state-regulated · research-verified" badge and a
+    banner making clear it's hand-verified research, not a statute extraction.
+  Prefer a real statute override (`state_structure.yaml` url) whenever one exists — a verified
+  absence only ASSERTS the value because there is no statute to point at. Source research:
+  docs/lit_review/sources/trades_53/.
 """
 
 from __future__ import annotations

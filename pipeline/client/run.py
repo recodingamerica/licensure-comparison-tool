@@ -235,7 +235,7 @@ def _report_extract(requested: int, result: dict | None, batch_id: str) -> None:
 def cmd_publish(args) -> None:
     # Rebuilding the payload + blob upload is the normal, free publish step. `--deploy`
     # additionally pushes the PUBLIC live site — an outward-facing action, so it gets the
-    # same typed-yes gate as the paid steps (one-time Vercel setup: docs/runbooks/client_deploy.md).
+    # same typed-yes gate as the paid steps (one-time Vercel setup: CLIENT_GUIDE.md).
     if getattr(args, "all", False):
         from pipeline.client.handoff_doc import _published
         profs = _published()  # every profession with a built payload in public/data/
@@ -248,7 +248,7 @@ def cmd_publish(args) -> None:
     if args.deploy and not args.yes:
         print(f"\n--deploy will rebuild the PUBLIC live site (utah-licensing.vercel.app) "
               f"with {len(profs)} occupation(s): {', '.join(profs)}")
-        print("  Needs one-time Vercel setup first — see docs/runbooks/client_deploy.md.")
+        print("  Needs one-time Vercel setup first — see CLIENT_GUIDE.md.")
         if input('  Type "yes" to push the site live: ').strip().lower() != "yes":
             sys.exit("  aborted — nothing deployed (payloads not rebuilt either).")
     # Build every payload FIRST (via the publish adapter: consistency gate + build_frontend +

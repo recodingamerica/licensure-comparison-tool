@@ -1,6 +1,6 @@
 # State licensing pipeline — handoff documentation
 
-*Generated 2026-07-21 from repo commit `a68c4b47`. To get current numbers, run
+*Generated 2026-07-22 from repo commit `da6f0ad9`. To get current numbers, run
 `python -m pipeline.client.handoff_doc` from the repo root (add `--pdf` for a PDF).*
 
 **For engineers:** this document is the plain-English overview. The technical entry
@@ -199,7 +199,7 @@ project's Python environment):
    estimate and waits for a typed "yes" before spending anything), `publish` (free).
 
 Nothing in these tools fetches from the web or spends money on its own. The
-plain-English walkthrough, including re-fetching, is `docs/runbooks/client_refetch.md`.
+plain-English walkthrough, including re-fetching, is `CLIENT_GUIDE.md`.
 
 ## 5. Everything adjustable lives in config files, not code
 
@@ -274,8 +274,8 @@ Three things to understand about these numbers:
   (the law text) and its recipe (prompt + schema + model + code). The repo stamps
   every output and can tell you whether it's *current*, *stale* (an input or the
   recipe changed since it was built), or *unstamped* (built before tracking existed).
-  Right now: 1629 extracted cells — 996 current,
-  261 stale, 372 unstamped. The dashboard color-codes
+  Right now: 1629 extracted cells — 985 current,
+  272 stale, 372 unstamped. The dashboard color-codes
   this.
 - **Some blanks are deliberate.** A hand-verified list
   (`pipeline/config/verified_absences.yaml`) records occupation/state pairs where the
@@ -296,7 +296,7 @@ Three things to understand about these numbers:
   replaced, and nobody had noticed because the page still "had text" on it). Both
   exist precisely because a wrong-but-confident-looking record is possible — running
   them, and reading what they flag, is the honest way to answer "how much can we
-  trust this," not the 996-current/261-stale/372-unstamped
+  trust this," not the 985-current/272-stale/372-unstamped
   counts above on their own.
 
 ## 8. How this was built (Claude Code)

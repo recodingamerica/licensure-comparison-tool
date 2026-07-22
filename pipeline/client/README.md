@@ -11,7 +11,7 @@ committed repo; nothing here fetches or spends money on its own.
 | `run.py` | The client's commands, by occupation name: `clean` (free) · `trim` (~$0.05/cell) · `extract` (~$0.15/cell) · `publish` (free) — all take `--professions a,b,c`. Every state with work to do for each named occupation is looked up live and included automatically (same `run` flag the dashboard uses). Each paid step prints its cell count, cost estimate, **and the model it's priced against** (moves if the model changes), then waits for a typed `yes`. Orchestrates existing stage modules — no reimplementation. | `python -m pipeline.client.run {clean\|trim\|extract\|publish} --professions a,b,c` |
 | `refetch.sh` | Re-fetch one occupation/state (the only internet step). Justia is fetched headless via Scrapling — it clears the Cloudflare check itself, no browser window, nothing to click. One fetch at a time. | `bash pipeline/client/refetch.sh <occupation> <STATE,...>` |
 
-Client-facing guide (plain English, no jargon): `docs/runbooks/client_refetch.md`.
+Client-facing guide (plain English, no jargon): `CLIENT_GUIDE.md`.
 
 ## Freshness (why "done" isn't forever)
 
