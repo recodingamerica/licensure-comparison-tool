@@ -6,7 +6,7 @@
 > `python -m pipeline.client.handoff_doc`). Kept for narrative history only.
 
 Live site: https://utah-licensing.vercel.app (behind HTTP Basic Auth).
-Pipeline shape and Postgres direction: see [ARCHITECTURE.md](ARCHITECTURE.md).
+Pipeline shape and Postgres direction: see [ARCHITECTURE.md](../ARCHITECTURE.md).
 
 ## Just shipped (June 22, 2026)
 
@@ -233,7 +233,7 @@ Could also persist user choice to URL state for shareable views.
 
 - Live site: https://utah-licensing.vercel.app (behind HTTP Basic Auth)
 - Blob: `tf7defwrsanhzl3r.public.blob.vercel-storage.com/data/<profession>.json`
-- Pipeline shape: [ARCHITECTURE.md](ARCHITECTURE.md)
+- Pipeline shape: [ARCHITECTURE.md](../ARCHITECTURE.md)
 - Reference repo: `/Users/abigailhaddad/Documents/repos/newyork`
 - Entrypoints:
   - extract: `python -m pipeline.extract.extract_state --profession <p>`

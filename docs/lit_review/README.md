@@ -165,4 +165,4 @@ What we'd **not** do: bulk-import Knee's variable values (fees, hours, exams) in
 2. **Add `regulation_type` column** (License / Certification / Registration / Other) to `map_prep`. Highest-value, cheapest add from this review.
 3. **Decide on fees scope** — entry only (IJ) or entry + renewal (NCSL). Probably entry + renewal listed separately.
 4. **Decide whether to convert education to "days lost."** Recommend no for the table cell (use statute text), but maybe yes for any cross-state comparison view.
-5. **Format a one-line regulatory-structure note** for Utah using CLEAR (Model E). Probably belongs in `STATUS.md` or the homepage, not per-profession.
+5. **Format a one-line regulatory-structure note** for Utah using CLEAR (Model E). Probably belongs in `docs/STATUS.md` or the homepage, not per-profession.

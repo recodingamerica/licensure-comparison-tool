@@ -205,4 +205,4 @@ recoverable from git history — see issue #98. Until then it's deliberately out
 - Repo: `/Users/abigailhaddad/Documents/repos/utah`
 - Reference architecture: `/Users/abigailhaddad/Documents/repos/newyork`
   (DATABASE_SETUP.md, frontend/packages/database/migrations/)
-- Status / next steps: STATUS.md
+- Status / next steps: docs/STATUS.md
