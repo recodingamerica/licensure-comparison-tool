@@ -42,7 +42,7 @@ from pipeline.config.loaders import load_limits
 LOG_PATH = LOGS_DIR / "pull_text.log"
 LOGS_DIR.mkdir(parents=True, exist_ok=True)
 
-TIMEOUT = 25
+TIMEOUT = load_limits()["fetch"]["request_timeout_seconds"]  # per-request fetch wall-clock
 # Per-section pause. Overridable via PULL_HOST_DELAY (seconds) — set it high for
 # a polite Justia crawl (e.g. 7) so we're not
 # flipping pages every second. Each pause adds up to 60% random jitter so the
