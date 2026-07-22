@@ -8,21 +8,22 @@ from pipeline.client import export_data as ed
 
 
 def _setup(tmp_path, monkeypatch):
-    data, struct, text = tmp_path / "data", tmp_path / "struct", tmp_path / "text"
+    data, struct, clean = tmp_path / "data", tmp_path / "struct", tmp_path / "clean"
     (data / "state").mkdir(parents=True)
     (struct / "optometry").mkdir(parents=True)
-    (text / "optometry").mkdir(parents=True)
+    (clean / "optometry").mkdir(parents=True)
     (data / "optometry.json").write_text(json.dumps(
         {"display": "Optometry", "rows": [{"state": "UT", "license_required": True}]}))
     (struct / "optometry" / "UT.json").write_text(json.dumps(
         {"state": "UT", "licensure": {"license_required": {"value": True, "quote": "a license is required", "citation": "53-1"}}}))
-    (text / "optometry" / "UT.json").write_text(json.dumps(
+    # the Raw tab reads CLEANED text (clean/), not the raw text/ corpus
+    (clean / "optometry" / "UT.json").write_text(json.dumps(
         {"state": "UT", "sections": [{"citation": "53-1", "label": "Licensure", "text": "body"}]}))
     (data / "state" / "UT.json").write_text(json.dumps(
         {"sections": [{"profession": "optometry", "citation": "53-1", "label": "Licensure", "text": "body"}]}))
     monkeypatch.setattr(ed, "DATA_DIR", data)
     monkeypatch.setattr(ed, "STRUCTURED_DIR", struct)
-    monkeypatch.setattr(ed, "TEXT_DIR", text)
+    monkeypatch.setattr(ed, "CLEAN_DIR", clean)
     monkeypatch.setattr(ed, "all_profession_ids", lambda: ["optometry"])
 
 

@@ -9,7 +9,8 @@ Each workbook has three sheets:
                          state. By state: one row per occupation.
   - "Evidence"         — the raw↔processed link: one row per field with the extracted VALUE plus
                          the verbatim statute QUOTE and CITATION it came from.
-  - "Raw statute text" — the actual statute sections (citation, label, full text).
+  - "Raw statute text" — the actual statute sections (citation, label, full text), cleaned
+                         of fetch/nav furniture (from results/clean/, not the raw text/ corpus).
 
   python -m pipeline.client.export_data --profession optometry
   python -m pipeline.client.export_data --state UT
@@ -25,7 +26,7 @@ from pathlib import Path
 
 from openpyxl import Workbook
 
-from pipeline.paths import TEXT_DIR, STRUCTURED_DIR, PIPELINE_ROOT
+from pipeline.paths import CLEAN_DIR, STRUCTURED_DIR, PIPELINE_ROOT
 from pipeline.config.loaders import all_profession_ids
 
 DATA_DIR = PIPELINE_ROOT / "publish" / "web" / "public" / "data"
@@ -111,7 +112,7 @@ def export_occupation(prof: str, out_path: Path) -> dict:
             leaves: list[dict] = []
             _walk_evidence(d, "", leaves)
             evidence += [{"state": st, **lf} for lf in leaves]
-    for f in sorted((TEXT_DIR / prof).glob("*.json")):
+    for f in sorted((CLEAN_DIR / prof).glob("*.json")):   # cleaned text (Justia nav chrome stripped)
         if not f.stem.startswith("_"):
             d = json.loads(f.read_text())
             st = d.get("state", f.stem)
