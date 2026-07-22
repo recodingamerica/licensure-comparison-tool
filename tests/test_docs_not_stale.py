@@ -13,19 +13,29 @@ maintained):
 """
 
 import re
+import subprocess
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 
-DOCS = [
-    ROOT / "README.md",
-    ROOT / "CLAUDE.md",
-    ROOT / "ARCHITECTURE.md",
-    ROOT / "SETUP.md",
-    ROOT / "pipeline" / "client" / "README.md",
-    ROOT / "docs" / "handoff" / "technical_documentation.md",
-    *sorted((ROOT / "docs" / "runbooks").glob("*.md")),
-]
+
+def _tracked_docs() -> list[Path]:
+    """The HAND-MAINTAINED docs: git-tracked .md, minus the generated output dirs. We police
+    docs a human edits (where a stale module ref rots silently) — NOT pipeline output
+    (methodology field-dicts, the handoff doc, gap reports), which regenerate, nor the ~570
+    untracked reports on disk. A generated doc's refs are guarded at their source (the
+    generator module, covered by the import sweep), not on every output copy."""
+    tops = ["README.md", "CLAUDE.md", "ARCHITECTURE.md", "SETUP.md", "pipeline/client/README.md"]
+    generated = ("docs/methodology/", "docs/handoff/", "docs/reports/")
+    try:
+        out = subprocess.run(["git", "ls-files", "docs", *tops], cwd=ROOT,
+                             capture_output=True, text=True, check=True).stdout.split()
+        return [ROOT / p for p in out if p.endswith(".md") and not p.startswith(generated)]
+    except Exception:  # not a git checkout — fall back to the known maintained docs
+        return [ROOT / p for p in tops] + sorted((ROOT / "docs" / "runbooks").glob("*.md"))
+
+
+DOCS = _tracked_docs()
 
 # The docs a non-coder actually reads — these must never describe the retired CDP-Chrome
 # fetch workflow (Scrapling is the sole fetcher since 2026-07-13). CLAUDE.md is excluded on
