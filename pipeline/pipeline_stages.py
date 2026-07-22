@@ -26,9 +26,14 @@ from typing import Callable
 
 from pipeline import provenance
 from pipeline.paths import STRUCTURED_DIR, REPO_ROOT
-from pipeline.config.loaders import cost_for
+from pipeline.config.loaders import cost_for, load_limits
 
 PY = sys.executable
+
+# Per-profession Compare-tab tuning weights (gen_semantics output). Used as a
+# self-heal guard in run_fanout so a new occupation gets semantics generated once,
+# without re-running the LLM for occupations that already have (hand-editable) ones.
+FIELD_SEMANTICS_DIR = REPO_ROOT / "pipeline" / "config" / "field_semantics"
 
 
 # --- shared helpers (the ONE copy of each; the orchestrators had 4) ------------
@@ -198,7 +203,8 @@ def _pull(prof: str, states: list[str], opts: dict) -> bool:
     ok_all = True
     for (p, st, rows) in build_worklist([prof], set(states)):
         rec = refresh_item(p, st, rows, force=opts.get("pull_force", False),
-                           cap=opts.get("cap"), timeout_s=opts.get("pull_timeout", 900),
+                           cap=opts.get("cap"),
+                           timeout_s=opts.get("pull_timeout") or load_limits()["refresh"]["item_timeout_seconds"],
                            run_id=opts.get("run_id"))
         result = rec.get("result")
         # refresh_item now stamps pull-provenance itself on OK/NOCHANGE (and commits it),
@@ -319,8 +325,15 @@ def run_to(target: str, prof: str, states: list[str] | None = None, *,
 def run_fanout(profs: list[str], *, payload_only: bool = False) -> list[tuple[str, bool]]:
     """Rebuild every site artifact that AGGREGATES across professions — tag sheet, scope
     capabilities, scorecard, state/umbrella browse, similarity/novel-direction analysis.
-    All deterministic, NO LLM. Runs once per refresh (not per profession). This is the
-    `fanout` stage's body, lifted verbatim from refresh_all so refresh_all is a thin caller.
+    Runs once per refresh (not per profession). This is the `fanout` stage's body, lifted
+    from refresh_all so refresh_all is a thin caller.
+
+    Two LLM steps run here, both wired in so a NEW occupation self-fills instead of
+    shipping degraded (the orphan-producer bug class): `gen_semantics` per profession —
+    GUARDED to only run when a profession lacks tuned Compare weights, so it never
+    re-charges for existing (hand-editable) ones — and `harmonize_universal`, a
+    cross-profession pass that aligns the shared universal-field bucket labels. Everything
+    else is deterministic.
 
     `payload_only`: a tags/table/map-only change didn't touch browse, so skip the slow
     per-state browse + scorecard rebuild (~10× faster)."""
@@ -328,6 +341,11 @@ def run_fanout(profs: list[str], *, payload_only: bool = False) -> list[tuple[st
     for p in profs:                             # per-profession deterministic derivations
         _sh([PY, "-m", "pipeline.publish.generate_field_dictionary", "--profession", p],
             f"field_dictionary {p}")
+    for p in profs:
+        # Compare-tab tuning weights feed similarity below. Self-heal only: generate for a
+        # profession that has none (a newly-added occupation); existing yaml is kept.
+        if not (FIELD_SEMANTICS_DIR / f"{p}.yaml").exists():
+            _sh([PY, "-m", "pipeline.analyze.gen_semantics", "--profession", p], f"gen_semantics {p}")
     for p in profs:
         _sh([PY, "-m", "pipeline.analyze.similarity", "--profession", p, "--json"], f"similarity {p}")
     if profs:
@@ -343,6 +361,12 @@ def run_fanout(profs: list[str], *, payload_only: bool = False) -> list[tuple[st
                     _sh([PY, "-m", "pipeline.publish.build_scope_capabilities", "--upload"],
                         "build_scope_capabilities")))
     if not payload_only:
+        # Cross-profession bucket alignment for the shared universal fields (reads current
+        # data, so re-running self-heals to cover every published profession). build_frontend
+        # consumes universal_buckets.json, so a brand-new occupation picks up the harmonized
+        # labels on the NEXT rebuild — one-cycle lag, then correct.
+        results.append(("harmonize_universal",
+                        _sh([PY, "-m", "pipeline.map_prep.harmonize_universal"], "harmonize_universal")))
         results.append(("scorecard",
                         _sh([PY, "-m", "pipeline.publish.cross_comparison_scorecard", "--upload"], "scorecard")))
         results.append(("build_state_browse",
