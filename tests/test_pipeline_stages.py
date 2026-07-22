@@ -303,3 +303,45 @@ def test_mapprep_halts_if_a_bucket_pass_fails(monkeypatch):
     # A failing per-item pass must fail the stage, not silently ship blank columns.
     monkeypatch.setattr(ps, "_sh", lambda cmd, label, **k: "--per-item" not in cmd)
     assert ps._mapprep("plumbing", None, {}) is False
+
+
+def test_fanout_wires_harmonize_universal(monkeypatch, tmp_path):
+    # Orphan-producer regression: harmonize_universal must run in the full fanout, or a
+    # new occupation's universal-field bucket labels never get cross-profession aligned.
+    monkeypatch.setattr(ps, "FIELD_SEMANTICS_DIR", tmp_path)  # avoid gen_semantics noise
+    cmds = []
+    monkeypatch.setattr(ps, "_sh", lambda cmd, label, **k: cmds.append(cmd) or True)
+    ps.run_fanout(["medicine"], payload_only=False)
+    assert "pipeline.map_prep.harmonize_universal" in _mods(cmds)
+
+
+def test_fanout_skips_harmonize_and_browse_when_payload_only(monkeypatch, tmp_path):
+    monkeypatch.setattr(ps, "FIELD_SEMANTICS_DIR", tmp_path)
+    cmds = []
+    monkeypatch.setattr(ps, "_sh", lambda cmd, label, **k: cmds.append(cmd) or True)
+    ps.run_fanout(["medicine"], payload_only=True)
+    assert "pipeline.map_prep.harmonize_universal" not in _mods(cmds)  # heavy pass skipped
+
+
+def test_fanout_gen_semantics_only_for_occupations_missing_it(monkeypatch, tmp_path):
+    # Self-heal guard: generate Compare weights only for a profession that lacks them
+    # (a new occupation); never re-charge the LLM for one that already has (editable) yaml.
+    monkeypatch.setattr(ps, "FIELD_SEMANTICS_DIR", tmp_path)
+    (tmp_path / "medicine.yaml").write_text("fields: {}")   # medicine HAS semantics
+    cmds = []
+    monkeypatch.setattr(ps, "_sh", lambda cmd, label, **k: cmds.append(cmd) or True)
+    ps.run_fanout(["medicine", "plumbing"], payload_only=True)  # plumbing.yaml absent
+    gen_profs = [c[-1] for c in cmds if "pipeline.analyze.gen_semantics" in c]
+    assert gen_profs == ["plumbing"]   # plumbing generated, medicine skipped
+
+
+def test_pull_uses_config_timeout_not_a_hardcode(monkeypatch):
+    # The 900 default was a leftover; the pull stage must read the item-timeout from config.
+    import pipeline.ingest.refresh_corpus as rc
+    captured = {}
+    monkeypatch.setattr(rc, "build_worklist", lambda profs, states: [("med", "UT", [])])
+    monkeypatch.setattr(rc, "refresh_item",
+                        lambda p, st, rows, **k: captured.update(timeout_s=k["timeout_s"]) or {"result": "OK"})
+    monkeypatch.setattr(ps, "load_limits", lambda: {"refresh": {"item_timeout_seconds": 1801}})
+    ps._pull("med", ["UT"], {})   # opts carries no pull_timeout
+    assert captured["timeout_s"] == 1801
