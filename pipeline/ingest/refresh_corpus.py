@@ -401,10 +401,22 @@ def sections_per_chapter(chapter_urls: list[str], sections: list[dict]) -> dict[
     return counts
 
 
+_SECTION_LEVEL_URL = re.compile(r"/section-[^/]+/?$")
+
+
 def empty_chapters(chapter_urls: list[str], sections: list[dict]) -> list[str]:
-    """Mapped chapters that contributed 0 sections — the partial-pull signal."""
+    """Mapped CHAPTER containers that contributed 0 sections — the partial-pull signal.
+
+    Section-level mapped nodes are EXCLUDED. A section_slug_pattern / section_url_list
+    mapping (e.g. MA G.L. Ch 112, where each profession maps a slice of individual
+    sections) expands to per-section urls; a repealed/reserved section in that range
+    legitimately returns nothing, and that is NOT a failed chapter fetch — so it must not
+    trip PARTIAL on an otherwise-healthy pull. A whole cell that pulls nothing is still
+    caught upstream as EMPTY (new_ok == 0), so excluding section-level nodes here only
+    stops the false PARTIALs, never hides a real total failure."""
     counts = sections_per_chapter(chapter_urls, sections)
-    return [u for u in chapter_urls if counts.get(u, 0) == 0]
+    return [u for u in chapter_urls
+            if counts.get(u, 0) == 0 and not _SECTION_LEVEL_URL.search(u)]
 
 
 # ---------------------------------------------------------------------------
