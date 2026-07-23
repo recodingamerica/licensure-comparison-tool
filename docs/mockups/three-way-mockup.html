@@ -1,0 +1,115 @@
+<meta charset="utf-8">
+<title>Scope nuance &mdash; allowed / explicitly no / not addressed</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root{
+    --paper:#faf9f6;--surface:#fff;--raised:#fbfaf7;--ink:#1c1e1c;--muted:#6a6f68;--faint:#9a9f97;
+    --line:#e7e4dc;--line-strong:#d8d4c8;--accent:#0e6b56;
+    --yes:#0e6b56;--yes-bg:#e4efe9;--no:#b4451f;--no-bg:#f8e6df;--sil:#9a9f97;--sil-bg:#efece6;
+    --mark-bg:#fdf3cf;--mark-edge:#e9c34a;
+    --shadow:0 1px 2px rgba(20,20,18,.04),0 8px 24px rgba(20,20,18,.06);
+    --serif:Charter,"Iowan Old Style",Georgia,"Times New Roman",serif;
+    --sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  }
+  @media (prefers-color-scheme:dark){:root{
+    --paper:#14171a;--surface:#1a1e22;--raised:#1e2329;--ink:#ecebe5;--muted:#9aa19d;--faint:#6c7470;
+    --line:#2a2f34;--line-strong:#394046;--accent:#54c3a4;
+    --yes:#54c3a4;--yes-bg:#173029;--no:#e0854a;--no-bg:#3a2115;--sil:#6c7470;--sil-bg:#232830;
+    --mark-bg:#3a3316;--mark-edge:#8a7524;--shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.35);}}
+  :root[data-theme="light"]{--paper:#faf9f6;--surface:#fff;--raised:#fbfaf7;--ink:#1c1e1c;--muted:#6a6f68;--faint:#9a9f97;--line:#e7e4dc;--line-strong:#d8d4c8;--accent:#0e6b56;--yes:#0e6b56;--yes-bg:#e4efe9;--no:#b4451f;--no-bg:#f8e6df;--sil:#9a9f97;--sil-bg:#efece6;--mark-bg:#fdf3cf;--mark-edge:#e9c34a;--shadow:0 1px 2px rgba(20,20,18,.04),0 8px 24px rgba(20,20,18,.06);}
+  :root[data-theme="dark"]{--paper:#14171a;--surface:#1a1e22;--raised:#1e2329;--ink:#ecebe5;--muted:#9aa19d;--faint:#6c7470;--line:#2a2f34;--line-strong:#394046;--accent:#54c3a4;--yes:#54c3a4;--yes-bg:#173029;--no:#e0854a;--no-bg:#3a2115;--sil:#6c7470;--sil-bg:#232830;--mark-bg:#3a3316;--mark-edge:#8a7524;--shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.35);}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1020px;margin:0 auto;padding:26px 24px 60px}
+  .eyebrow{font-size:11.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--faint);font-weight:640;margin:0 0 6px}
+  h1{font-size:22px;margin:0;font-weight:640;letter-spacing:-.01em}
+  h1 small{color:var(--muted);font-weight:520;font-size:14.5px;display:block;margin-top:3px}
+  .callout{margin:16px 0 4px;font-size:13.5px;color:var(--muted);background:var(--surface);border:1px solid var(--line);
+    border-left:3px solid var(--mark-edge);border-radius:9px;padding:10px 14px;max-width:78ch}
+  .callout b{color:var(--ink);font-weight:600}
+  .legend{display:flex;gap:16px;flex-wrap:wrap;margin:18px 0 12px;font-size:12.5px}
+  .legend span{display:inline-flex;align-items:center;gap:7px;color:var(--muted)}
+  .legend i{width:13px;height:13px;border-radius:4px;display:inline-block}
+  .stage{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:18px;align-items:start}
+  @media(max-width:800px){.stage{grid-template-columns:1fr}}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(76px,1fr));gap:8px}
+  .cell{border-radius:9px;border:1px solid var(--line);cursor:pointer;padding:10px 6px 9px;text-align:center;transition:transform .1s,box-shadow .12s}
+  .cell:hover{transform:translateY(-1px);box-shadow:0 3px 10px rgba(0,0,0,.12)}
+  .cell.sel{outline:2.5px solid var(--ink);outline-offset:1px}
+  .cell .st{font-family:var(--mono);font-weight:680;font-size:14px}
+  .cell .tag{font-size:9.5px;font-weight:640;letter-spacing:.02em;text-transform:uppercase;margin-top:3px}
+  .cell.yes{background:var(--yes-bg);border-color:color-mix(in srgb,var(--yes) 26%,transparent)} .cell.yes .st,.cell.yes .tag{color:var(--yes)}
+  .cell.no{background:var(--no-bg);border-color:color-mix(in srgb,var(--no) 30%,transparent)} .cell.no .st,.cell.no .tag{color:var(--no)}
+  .cell.sil{background:var(--sil-bg);border-color:var(--line)} .cell.sil .st{color:var(--muted)} .cell.sil .tag{color:var(--faint)}
+  .panel{background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);position:sticky;top:18px;overflow:hidden;min-height:150px}
+  .panel .top{padding:13px 16px;border-bottom:1px solid var(--line);background:var(--raised);display:flex;align-items:center;gap:9px}
+  .panel .top .st{font-size:17px;font-weight:660} .panel .top .badge{margin-left:auto;font-size:10.5px;font-weight:660;text-transform:uppercase;letter-spacing:.03em;padding:3px 9px;border-radius:100px}
+  .panel .body{padding:14px 16px 18px}
+  .q{font-family:var(--serif);font-size:14.5px;line-height:1.65;color:var(--ink)}
+  .q mark{background:var(--mark-bg);border-radius:3px;padding:1px 2px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+  .qc{font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:8px}
+  .silent{font-style:italic;color:var(--faint);font-family:var(--serif);font-size:14.5px}
+  .hollow{color:var(--faint);font-size:13px;padding:30px 16px;text-align:center}
+  .foot{font-size:11.5px;color:var(--faint);margin:20px 2px 0;padding-top:12px;border-top:1px solid var(--line)}
+  .foot .tag{font-family:var(--mono);font-size:10.5px;color:var(--muted);background:var(--surface);border:1px solid var(--line);border-radius:5px;padding:1px 6px}
+  @media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+  <p class="eyebrow">Scope nuance</p>
+  <h1>Supervising anesthesiologist must be physically present<small>Anesthesiologist Assistant &middot; 15 states</small></h1>
+
+  <p class="callout">Today this is a flat <b>yes / no</b>: 5 states read &ldquo;no.&rdquo; But only <b>AL</b> and <b>VT</b> actually <b>say no</b> &mdash; <b>UT, VA, GA</b> are <b>silent</b>. <b>Silence isn&rsquo;t prohibition.</b> The third state makes that legible.</p>
+
+  <div class="legend">
+    <span><i style="background:var(--yes-bg);box-shadow:inset 0 0 0 1px var(--yes)"></i> Required &mdash; statute says yes</span>
+    <span><i style="background:var(--no-bg);box-shadow:inset 0 0 0 1px var(--no)"></i> Explicitly not required &mdash; statute says no</span>
+    <span><i style="background:var(--sil-bg);box-shadow:inset 0 0 0 1px var(--sil)"></i> Not addressed &mdash; statute silent</span>
+  </div>
+
+  <div class="stage">
+    <div class="grid" id="grid"></div>
+    <aside class="panel" id="panel"><div class="hollow" id="hollow">Click a state<br>for the statute language.</div>
+      <div id="detail" style="display:none">
+        <div class="top"><span class="st" id="dst"></span><span class="badge" id="dbadge"></span></div>
+        <div class="body" id="dbody"></div>
+      </div>
+    </aside>
+  </div>
+
+  <p class="foot"><span class="tag">mockup</span> Real Anesthesiologist Assistant data. The convention: a value (esp. <b>false</b>) needs a quote that <b>directly</b> negates the field &mdash; else it&rsquo;s <b>not addressed</b> (null), never a default &ldquo;no.&rdquo; GA is a live example: today &ldquo;no&rdquo; on an adjacent quote &rarr; should be not-addressed.</p>
+</div>
+
+<script>
+  const D={
+    yes:{states:'CO FL IN MO NC NM NV OH WA WI'.split(' '),badge:'Required',color:'--yes',
+      q:{CO:'&hellip; shall perform delegated medical tasks only under the <mark>direct supervision</mark> of an anesthesiologist &hellip;',FL:'&ldquo;Direct supervision&rdquo; means the <mark>onsite, personal supervision</mark> by an anesthesiologist who is present &hellip;',NM:'&hellip; be supervised by a licensed anesthesiologist who is <mark>physically present at all times</mark> in the health facility.',OH:'&hellip; practice only under the direct supervision and <mark>in the immediate presence</mark> of a supervising anesthesiologist.'},
+      cite:{CO:'12-290-115',FL:'458.3475',NM:'61-6-7.2',OH:'4760.10'}},
+    no:{states:['AL','VT'],badge:'Explicitly no',color:'--no',
+      q:{AL:'The term supervision <mark>does not require direct on-site supervision</mark> of the assistant to the physician.',VT:'&hellip; supervision shall mean that an anesthesiologist is <mark>readily available at the facility</mark> &hellip;'},
+      cite:{AL:'34-24-294',VT:'26-1734'}},
+    sil:{states:['UT','VA','GA'],badge:'Not addressed',color:'--sil',
+      note:{UT:'Statute is silent on physical presence.',VA:'Statute is silent on physical presence.',GA:'Today: &ldquo;no,&rdquo; but the quote (&ldquo;Nothing in this article shall prohibit &hellip;&rdquo;) doesn&rsquo;t address presence &mdash; so it&rsquo;s <b>not addressed</b>, not a prohibition.'}}
+  };
+  const grid=document.getElementById('grid');
+  const ORDER='AL CO FL GA IN MO NC NM NV OH UT VA VT WA WI'.split(' ');
+  const cls={yes:'yes',no:'no',sil:'sil'}; const tagOf={yes:'Required',no:'No',sil:'Silent'};
+  function statusOf(st){for(const k of ['yes','no','sil']) if(D[k].states.includes(st)) return k;}
+  ORDER.forEach(st=>{
+    const k=statusOf(st); const c=document.createElement('button'); c.className='cell '+cls[k];
+    c.innerHTML='<div class="st">'+st+'</div><div class="tag">'+tagOf[k]+'</div>';
+    c.onclick=()=>sel(st,k,c); grid.appendChild(c);
+  });
+  function sel(st,k,cell){
+    document.querySelectorAll('.cell').forEach(x=>x.classList.remove('sel')); cell.classList.add('sel');
+    document.getElementById('hollow').style.display='none'; document.getElementById('detail').style.display='block';
+    document.getElementById('dst').textContent=st;
+    const b=document.getElementById('dbadge'); b.textContent=D[k].badge;
+    b.style.color='var('+D[k].color+')'; b.style.background='var('+D[k].color.replace('--','--')+'-bg)'.replace('--','--');
+    b.style.background=k==='yes'?'var(--yes-bg)':k==='no'?'var(--no-bg)':'var(--sil-bg)';
+    const body=document.getElementById('dbody');
+    if(k==='sil'){ body.innerHTML='<div class="silent">'+ (D.sil.note[st]||'Statute is silent.') +'</div>'; }
+    else { const q=D[k].q[st]||'(quote)'; body.innerHTML='<div class="q">'+q+'</div><div class="qc">&sect; '+(D[k].cite[st]||'')+'</div>'; }
+  }
+</script>
