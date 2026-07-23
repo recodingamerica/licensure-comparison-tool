@@ -774,3 +774,25 @@ class TestRunUntilDone:
                             lambda: {"refresh": {"startup_retry_limit": 3, "startup_retry_seconds": 0}})
         rc.run_until_done([], set(), timeout_s=60, breaker=3, run_id="t")
         assert calls["n"] == 3  # 3 consecutive unreachable -> give up
+
+
+# ---------------------------------------------------------------------------
+# empty_chapters: a repealed/reserved SECTION in a section-range mapping (MA G.L.
+# Ch 112: each profession maps a slice of individual sections) must NOT count as a
+# failed chapter → no false PARTIAL. Only a whole CHAPTER container coming back empty
+# is a partial-pull signal.
+# ---------------------------------------------------------------------------
+def test_empty_chapters_ignores_section_level_gaps():
+    base = "https://law.justia.com/codes/massachusetts/part-i/title-xvi/chapter-112"
+    # MA-style: four mapped SECTION nodes; two of them repealed (no pulled section).
+    section_nodes = [f"{base}/section-73a/", f"{base}/section-73c/",   # 73c repealed → empty
+                     f"{base}/section-74/",  f"{base}/section-75z/"]   # 75z repealed → empty
+    pulled = [{"url": f"{base}/section-73a/"}, {"url": f"{base}/section-74/"}]
+    assert rc.empty_chapters(section_nodes, pulled) == []   # gaps ignored, no PARTIAL
+
+
+def test_empty_chapters_still_flags_an_empty_chapter_container():
+    a = "https://law.justia.com/codes/wa/title-18/chapter-18-79/"
+    b = "https://law.justia.com/codes/wa/title-18/chapter-18-80/"   # this one pulls nothing
+    pulled = [{"url": f"{a}section-18-79-010/"}]
+    assert rc.empty_chapters([a, b], pulled) == [b]   # a real empty CHAPTER still holds
