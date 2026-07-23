@@ -1,0 +1,182 @@
+<meta charset="utf-8">
+<title>Map redesign &mdash; CA / Nursing</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root{
+    --paper:#faf9f6;--surface:#fff;--raised:#fefdfb;--ink:#1c1e1c;--muted:#6a6f68;--faint:#9a9f97;
+    --line:#e7e4dc;--line-strong:#d8d4c8;--accent:#0e6b56;--accent-weak:#e4efe9;
+    --mark-bg:#fdf3cf;--mark-edge:#e9c34a;--nodata:#ece9e2;
+    --shadow:0 1px 2px rgba(20,20,18,.04),0 8px 24px rgba(20,20,18,.06);
+    --serif:Charter,"Iowan Old Style",Georgia,"Times New Roman",serif;
+    --sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    --r0:#eef4f0;--r5:#0c5e4b; /* sequential ramp ends */
+  }
+  @media (prefers-color-scheme:dark){:root{
+    --paper:#14171a;--surface:#1a1e22;--raised:#1f242a;--ink:#ecebe5;--muted:#9aa19d;--faint:#6c7470;
+    --line:#2a2f34;--line-strong:#394046;--accent:#54c3a4;--accent-weak:#173029;
+    --mark-bg:#3a3316;--mark-edge:#8a7524;--nodata:#252a2e;--shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.35);
+    --r0:#183029;--r5:#5fd0b0;}}
+  :root[data-theme="light"]{--paper:#faf9f6;--surface:#fff;--raised:#fefdfb;--ink:#1c1e1c;--muted:#6a6f68;--faint:#9a9f97;--line:#e7e4dc;--line-strong:#d8d4c8;--accent:#0e6b56;--accent-weak:#e4efe9;--mark-bg:#fdf3cf;--mark-edge:#e9c34a;--nodata:#ece9e2;--r0:#eef4f0;--r5:#0c5e4b;}
+  :root[data-theme="dark"]{--paper:#14171a;--surface:#1a1e22;--raised:#1f242a;--ink:#ecebe5;--muted:#9aa19d;--faint:#6c7470;--line:#2a2f34;--line-strong:#394046;--accent:#54c3a4;--accent-weak:#173029;--mark-bg:#3a3316;--mark-edge:#8a7524;--nodata:#252a2e;--r0:#183029;--r5:#5fd0b0;}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1180px;margin:0 auto;padding:26px 24px 64px}
+  .eyebrow{font-size:11.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--faint);font-weight:640;margin:0 0 6px}
+  h1{font-size:25px;margin:0;font-weight:640;letter-spacing:-.01em}
+  h1 .prof{color:var(--muted);font-weight:520}
+  .controls{display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin:20px 0 6px}
+  .controls .lab{font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--faint);font-weight:640}
+  .fbtn{font:inherit;font-size:13px;font-weight:540;cursor:pointer;background:var(--surface);border:1px solid var(--line);
+    color:var(--muted);border-radius:100px;padding:6px 13px;transition:.12s}
+  .fbtn:hover{color:var(--ink);border-color:var(--line-strong)}
+  .fbtn.on{color:var(--accent);background:var(--accent-weak);border-color:color-mix(in srgb,var(--accent) 30%,transparent)}
+  .desc{font-size:13px;color:var(--muted);margin:6px 2px 0}
+
+  .stage{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:18px;margin-top:18px;align-items:start}
+  @media(max-width:880px){.stage{grid-template-columns:1fr}}
+  .mapcard{background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:18px 18px 14px}
+  .grid{display:grid;grid-template-columns:repeat(11,1fr);gap:5px;aspect-ratio:11/8}
+  .tile{border-radius:6px;background:var(--nodata);border:1px solid transparent;cursor:pointer;position:relative;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;padding:3px;transition:transform .1s,box-shadow .12s}
+  .tile:hover{transform:translateY(-1px);box-shadow:0 3px 10px rgba(0,0,0,.14);z-index:2}
+  .tile.sel{outline:2.5px solid var(--ink);outline-offset:1px;z-index:3}
+  .tile .st{font-size:11px;font-weight:680;font-family:var(--mono);letter-spacing:-.02em}
+  .tile .vv{font-size:9.5px;font-weight:600;font-variant-numeric:tabular-nums;opacity:.85;line-height:1}
+  .tile.nd .st{color:var(--faint)}
+  .legend{display:flex;align-items:center;gap:10px;margin-top:14px;font-size:12px;color:var(--muted)}
+  .ramp{height:10px;flex:1;max-width:240px;border-radius:100px;background:linear-gradient(90deg,var(--r0),var(--r5));border:1px solid var(--line)}
+  .legend .nd{display:inline-flex;align-items:center;gap:6px;margin-left:6px}
+  .legend .nd i{width:12px;height:12px;border-radius:3px;background:var(--nodata);border:1px solid var(--line)}
+
+  /* right — the drill panel (evidence spotlight, reused language) */
+  .panel{background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);position:sticky;top:18px;overflow:hidden}
+  .panel .top{padding:15px 18px 13px;border-bottom:1px solid var(--line);background:var(--raised)}
+  .panel .top .st{font-size:19px;font-weight:660}
+  .panel .top .mv{font-size:12.5px;color:var(--muted);margin-top:2px}
+  .panel .body{padding:15px 18px 18px}
+  .big{font-size:15px}
+  .big b{font-size:26px;font-weight:680;font-variant-numeric:tabular-nums;color:var(--accent)}
+  .qbox{margin-top:14px;font-family:var(--serif);font-size:14.5px;line-height:1.65;color:var(--ink);
+    border-left:3px solid var(--mark-edge);padding:2px 0 2px 13px}
+  .qbox mark{background:var(--mark-bg);border-radius:3px;padding:1px 2px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+  .qcite{font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:7px}
+  .open{margin-top:14px;font-size:12.5px;font-weight:560;color:var(--accent);background:none;border:0;cursor:pointer;padding:0}
+  .open:hover{text-decoration:underline}
+  .hollow{color:var(--faint);font-size:13px;padding:24px 4px;text-align:center}
+  .foot{font-size:11.5px;color:var(--faint);margin:20px 2px 0;padding-top:13px;border-top:1px solid var(--line)}
+  .foot .tag{font-family:var(--mono);font-size:10.5px;color:var(--muted);background:var(--surface);border:1px solid var(--line);border-radius:5px;padding:1px 6px}
+  @media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+  <p class="eyebrow">Map</p>
+  <h1>Nursing <span class="prof">&middot; across 50 states</span></h1>
+
+  <div class="controls">
+    <span class="lab">Color by</span>
+    <button class="fbtn on" data-f="ce">Continuing education</button>
+    <button class="fbtn" data-f="renew">Renewal interval</button>
+    <button class="fbtn" data-f="model">Regulatory model</button>
+  </div>
+  <p class="desc" id="desc">Continuing-education hours required per renewal period. Darker = more hours. Click a state to see the value and the statute behind it.</p>
+
+  <div class="stage">
+    <div class="mapcard">
+      <div class="grid" id="grid"></div>
+      <div class="legend">
+        <span id="lo">0 hrs</span><span class="ramp"></span><span id="hi">80 hrs</span>
+        <span class="nd"><i></i> no state requirement / no data</span>
+      </div>
+    </div>
+
+    <aside class="panel" id="panel">
+      <div class="hollow" id="hollow">Click a state on the map<br>to drill into its statute.</div>
+      <div id="detail" style="display:none">
+        <div class="top"><div class="st" id="dst"></div><div class="mv" id="dmv"></div></div>
+        <div class="body">
+          <div class="big" id="dbig"></div>
+          <div class="qbox" id="dq"></div>
+          <div class="qcite" id="dc"></div>
+          <button class="open">Open full evidence &rarr;</button>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <p class="foot"><span class="tag">mockup</span> Redesign of the <b>Map</b> tab &middot; real per-state nursing values &middot; tile-grid stands in for the geographic map. Today: one flat color + a thin legend. This: a real value scale you can switch fields on, and <b>click-to-drill</b> straight into the evidence spotlight &mdash; the demo's overview-to-provenance move.</p>
+</div>
+
+<script>
+  // real-ish per-state nursing values
+  const S = {
+    ME:[0,10],AK:[1,0],VT:[1,9],NH:[1,10],
+    WA:[2,0],ID:[2,1],MT:[2,2],ND:[2,3],MN:[2,4],IL:[2,5],WI:[2,6],MI:[2,7],NY:[2,9],MA:[2,10],
+    OR:[3,0],NV:[3,1],WY:[3,2],SD:[3,3],IA:[3,4],IN:[3,5],OH:[3,6],PA:[3,7],NJ:[3,8],CT:[3,9],RI:[3,10],
+    CA:[4,0],UT:[4,1],CO:[4,2],NE:[4,3],MO:[4,4],KY:[4,5],WV:[4,6],VA:[4,7],MD:[4,8],DE:[4,9],
+    AZ:[5,1],NM:[5,2],KS:[5,3],AR:[5,4],TN:[5,5],NC:[5,6],SC:[5,7],
+    OK:[6,3],LA:[6,4],MS:[6,5],AL:[6,6],GA:[6,7],
+    HI:[7,0],TX:[7,3],FL:[7,7]
+  };
+  // ce hours/period ; renewal yrs ; model
+  const CE={AR:20,CA:30,CT:50,FL:30,GA:30,HI:30,IL:80,IN:30,LA:1,ME:3,MA:15,MS:40,MT:6,NV:30,NH:30,OH:24,OK:8,OR:1,PA:30,RI:10,SC:30,TX:20,WI:16,WY:3};
+  const REN={AL:2,AK:2,AZ:4,AR:2,CA:2,CO:2,CT:1,DE:2,FL:2,GA:2,HI:2,ID:2,IL:2,IN:2,IA:0,KS:2,KY:0,LA:4,ME:2,MD:2,MA:2,MI:0,MN:0,MS:2,MO:0,MT:1,NE:2,NV:2,NH:2,NJ:2,NM:2,NY:3,NC:2,ND:0,OH:2,OK:2,OR:2,PA:2,RI:2,SC:2,SD:2,TN:2,TX:2,UT:2,VT:2,VA:2,WA:0,WV:1,WI:2,WY:2};
+  const QUOTE={
+    CA:['&hellip; each licensee shall complete <mark>30 contact hours of continuing education</mark> in the two years preceding renewal &hellip;','Bus. &amp; Prof. Code &sect; 2811.5'],
+    IL:['The Department shall require <mark>80 hours of continuing education per two-year licensing period</mark> &hellip;','225 ILCS 65/70-10'],
+    TX:['A license holder must complete <mark>20 contact hours of continuing nursing education</mark> during each licensing period &hellip;','Occ. Code &sect; 301.303'],
+    MS:['&hellip; complete <mark>40 hours of continuing education</mark> during the two-year renewal cycle &hellip;','Miss. Code &sect; 73-15-21']
+  };
+  function mix(a,b,t){a=a.match(/\w\w/g).map(h=>parseInt(h,16));b=b.match(/\w\w/g).map(h=>parseInt(h,16));
+    return '#'+a.map((x,i)=>Math.round(x+(b[i]-x)*t).toString(16).padStart(2,'0')).join('');}
+  const cs=getComputedStyle(document.documentElement);
+  const grid=document.getElementById('grid');
+  let field='ce';
+  const FIELDS={
+    ce:{data:CE,max:80,lo:'0 hrs',hi:'80 hrs',fmt:v=>v+' hrs',desc:'Continuing-education hours required per renewal period. Darker = more hours. Click a state to see the value and the statute behind it.',mv:'Continuing education'},
+    renew:{data:REN,max:4,lo:'annual',hi:'4 yrs',fmt:v=>v?v+' yr'+(v>1?'s':''):'&mdash;',desc:'License renewal interval, in years. Darker = longer between renewals. States showing no data renew annually or by rule.',mv:'Renewal interval'},
+    model:{data:Object.fromEntries(Object.keys(S).map(k=>[k,1])),max:1,lo:'',hi:'',fmt:()=>'License',desc:'Regulatory model. Every state licenses nursing &mdash; a uniform field looks flat here, which is itself the finding.',mv:'Regulatory model'}
+  };
+  function color(k){
+    const f=FIELDS[field], v=f.data[k];
+    if(v===undefined||v===null) return null;
+    const r0=cs.getPropertyValue('--r0').trim(), r5=cs.getPropertyValue('--r5').trim();
+    const t=f.max? Math.min(1,v/f.max):0.7;
+    return mix(r0.replace('#',''),r5.replace('#',''),0.12+t*0.88);
+  }
+  function render(){
+    const f=FIELDS[field];
+    document.getElementById('desc').innerHTML=f.desc;
+    document.getElementById('lo').innerHTML=f.lo; document.getElementById('hi').innerHTML=f.hi;
+    grid.innerHTML='';
+    for(const [k,[r,c]] of Object.entries(S)){
+      const col=color(k), has=col!==null;
+      const t=document.createElement('button');
+      t.className='tile'+(has?'':' nd'); t.style.gridRow=r+1; t.style.gridColumn=c+1;
+      if(has){t.style.background=col; const lum=parseInt(col.slice(1,3),16); t.style.color=lum<120?'#fff':'#14211c';}
+      t.innerHTML='<span class="st">'+k+'</span>'+(has?'<span class="vv">'+f.fmt(f.data[k])+'</span>':'');
+      t.onclick=()=>select(k,t);
+      grid.appendChild(t);
+    }
+  }
+  function select(k,tile){
+    document.querySelectorAll('.tile').forEach(x=>x.classList.remove('sel')); tile.classList.add('sel');
+    document.getElementById('hollow').style.display='none';
+    document.getElementById('detail').style.display='block';
+    const f=FIELDS[field], v=f.data[k];
+    document.getElementById('dst').textContent=k+' &middot; Nursing'.replace('&middot;','·');
+    document.getElementById('dmv').textContent=f.mv;
+    document.getElementById('dbig').innerHTML=(v!==undefined?'<b>'+f.fmt(v)+'</b>':'<span style="color:var(--faint)">No state requirement</span>');
+    const q=QUOTE[k];
+    document.getElementById('dq').style.display=q?'block':'none';
+    document.getElementById('dc').style.display=q?'block':'none';
+    if(q){document.getElementById('dq').innerHTML=q[0];document.getElementById('dc').innerHTML=q[1];}
+  }
+  document.querySelectorAll('.fbtn').forEach(b=>b.onclick=()=>{
+    document.querySelectorAll('.fbtn').forEach(x=>x.classList.remove('on')); b.classList.add('on');
+    field=b.dataset.f; render();
+    document.getElementById('hollow').style.display='block'; document.getElementById('detail').style.display='none';
+    document.querySelectorAll('.tile').forEach(x=>x.classList.remove('sel'));
+  });
+  render();
+</script>

@@ -1,0 +1,106 @@
+<meta charset="utf-8">
+<title>Table redesign &mdash; Nursing</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root{
+    --paper:#faf9f6;--surface:#fff;--raised:#fbfaf7;--ink:#1c1e1c;--muted:#6a6f68;--faint:#9a9f97;
+    --line:#e7e4dc;--line-strong:#d8d4c8;--accent:#0e6b56;--accent-weak:#e4efe9;--mark-edge:#e9c34a;
+    --shadow:0 1px 2px rgba(20,20,18,.04),0 10px 28px rgba(20,20,18,.06);
+    --serif:Charter,"Iowan Old Style",Georgia,"Times New Roman",serif;
+    --sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  }
+  @media (prefers-color-scheme:dark){:root{
+    --paper:#14171a;--surface:#1a1e22;--raised:#1e2329;--ink:#ecebe5;--muted:#9aa19d;--faint:#6c7470;
+    --line:#2a2f34;--line-strong:#394046;--accent:#54c3a4;--accent-weak:#173029;--mark-edge:#8a7524;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 12px 32px rgba(0,0,0,.4);}}
+  :root[data-theme="light"]{--paper:#faf9f6;--surface:#fff;--raised:#fbfaf7;--ink:#1c1e1c;--muted:#6a6f68;--faint:#9a9f97;--line:#e7e4dc;--line-strong:#d8d4c8;--accent:#0e6b56;--accent-weak:#e4efe9;--mark-edge:#e9c34a;--shadow:0 1px 2px rgba(20,20,18,.04),0 10px 28px rgba(20,20,18,.06);}
+  :root[data-theme="dark"]{--paper:#14171a;--surface:#1a1e22;--raised:#1e2329;--ink:#ecebe5;--muted:#9aa19d;--faint:#6c7470;--line:#2a2f34;--line-strong:#394046;--accent:#54c3a4;--accent-weak:#173029;--mark-edge:#8a7524;--shadow:0 1px 2px rgba(0,0,0,.3),0 12px 32px rgba(0,0,0,.4);}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1100px;margin:0 auto;padding:26px 24px 64px}
+  .top{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap}
+  h1{font-size:25px;margin:0;font-weight:640;letter-spacing:-.01em}
+  h1 .prof{color:var(--muted);font-weight:520}
+  .meta{display:flex;gap:18px;flex-wrap:wrap;margin:12px 0 0;font-size:12.5px;color:var(--muted)}
+  .meta b{color:var(--ink);font-weight:640}
+  .toolbar{display:flex;align-items:center;gap:10px;margin:20px 0 14px;flex-wrap:wrap}
+  .seg{display:inline-flex;background:var(--surface);border:1px solid var(--line);border-radius:100px;padding:3px}
+  .seg button{font:inherit;font-size:13px;font-weight:540;cursor:pointer;border:0;background:none;color:var(--muted);border-radius:100px;padding:5px 13px}
+  .seg button.on{background:var(--accent-weak);color:var(--accent);font-weight:600}
+  .toolbar .note{font-size:12px;color:var(--faint);margin-left:auto}
+
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);overflow:hidden}
+  table{width:100%;border-collapse:collapse}
+  thead th{text-align:left;font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--faint);font-weight:640;
+    padding:14px 18px 11px;border-bottom:1px solid var(--line);white-space:nowrap;background:var(--raised)}
+  thead th.num{text-align:right}
+  tbody tr{cursor:pointer;transition:background .1s}
+  tbody tr:hover{background:var(--raised)}
+  tbody td{padding:14px 18px;border-bottom:1px solid var(--line);vertical-align:middle}
+  tbody tr:last-child td{border-bottom:0}
+  .st{font-weight:680;font-size:15px}
+  .st small{display:block;font-weight:440;font-size:11.5px;color:var(--faint);letter-spacing:0;text-transform:none}
+  .chip{font-size:12px;font-weight:560;color:var(--accent);background:var(--accent-weak);
+    border:1px solid color-mix(in srgb,var(--accent) 24%,transparent);padding:2px 9px;border-radius:100px;white-space:nowrap}
+  .auth{font-size:14px}
+  .edu{font-size:13.5px;color:var(--muted);max-width:30ch}
+  td.num{text-align:right;font-variant-numeric:tabular-nums;font-size:14.5px}
+  td.num .dash{color:var(--faint)}
+  .ev{display:flex;align-items:center;justify-content:flex-end;gap:8px}
+  .ev .q{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums;display:inline-flex;align-items:center;gap:5px}
+  .ev .q svg{width:12px;height:12px;color:var(--accent)}
+  .ev .go{opacity:0;font-size:12.5px;font-weight:560;color:var(--accent);white-space:nowrap;transition:opacity .1s}
+  tr:hover .ev .go{opacity:1}
+  .foot{font-size:11.5px;color:var(--faint);margin:18px 2px 0;padding-top:13px;border-top:1px solid var(--line)}
+  .foot .tag{font-family:var(--mono);font-size:10.5px;color:var(--muted);background:var(--surface);border:1px solid var(--line);border-radius:5px;padding:1px 6px}
+</style>
+
+<div class="wrap">
+  <div class="top"><h1>Nursing <span class="prof">&middot; RN / LPN / APRN</span></h1></div>
+  <div class="meta"><span><b>50</b> states covered</span><span><b>0</b> coverage gaps</span><span><b>98.4%</b> of values quote-verified</span></div>
+
+  <div class="toolbar">
+    <div class="seg"><button class="on">Overview</button><button>Analyst grid</button></div>
+    <span class="note">Overview shows the essentials in plain language. <b>Analyst grid</b> = the full 71-column, filterable table. Click any row for the evidence.</span>
+  </div>
+
+  <div class="card">
+    <table>
+      <thead><tr>
+        <th>State</th><th>Regulation</th><th>Licensing authority</th><th>Education (minimum)</th>
+        <th class="num">Renewal</th><th class="num">Continuing ed.</th><th class="num">Evidence</th>
+      </tr></thead>
+      <tbody id="tb"></tbody>
+    </table>
+  </div>
+
+  <p class="foot"><span class="tag">mockup</span> Redesign of the <b>Table</b> tab &middot; real CA/TX/FL&hellip; nursing values. Today the default is the dense 15+-column analyst grid with monospace keys. This leads with a legible, scannable overview &mdash; plain labels, room to read, provenance one click away &mdash; and keeps the full grid a toggle away for analysts.</p>
+</div>
+
+<script>
+  const ROWS=[
+    ['CA','Board of Registered Nursing','Associate degree, approved program','2 yrs','30 / 2',31],
+    ['TX','Texas Board of Nursing','Approved program (multi-level)','2 yrs','20 / 2',28],
+    ['FL','Board of Nursing','Accredited program required','2 yrs','30 / 2',26],
+    ['IL','Dept. of Financial &amp; Professional Regulation','Approved program','&mdash;','80 / 2',24],
+    ['NY','State Education Department','Diploma or degree in nursing','3 yrs','&mdash;',22],
+    ['MA','Board of Registration in Nursing','Approved school of nursing','2 yrs','15 / 2',19],
+    ['WA','Washington State Board of Nursing','Approved program','&mdash;','&mdash;',17],
+    ['CO','State Board of Nursing','Approved program','2 yrs','&mdash;',16],
+  ];
+  const tb=document.getElementById('tb');
+  const check='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg>';
+  ROWS.forEach(([st,auth,edu,ren,ce,q])=>{
+    const tr=document.createElement('tr');
+    tr.innerHTML=
+      '<td><span class="st">'+st+'<small>Nursing</small></span></td>'+
+      '<td><span class="chip">License</span></td>'+
+      '<td class="auth">'+auth+'</td>'+
+      '<td class="edu">'+edu+'</td>'+
+      '<td class="num">'+(ren==='&mdash;'?'<span class="dash">&mdash;</span>':ren)+'</td>'+
+      '<td class="num">'+(ce==='&mdash;'?'<span class="dash">&mdash;</span>':ce)+'</td>'+
+      '<td><div class="ev"><span class="q">'+check+q+' quotes</span><span class="go">View evidence &rarr;</span></div></td>';
+    tb.appendChild(tr);
+  });
+</script>

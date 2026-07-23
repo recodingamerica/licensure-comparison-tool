@@ -1,0 +1,135 @@
+<meta charset="utf-8">
+<title>Statute reader redesign &mdash; CA / Nursing</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root{
+    --paper:#faf9f6;--surface:#fff;--raised:#fefdfb;--ink:#1c1e1c;--muted:#6a6f68;--faint:#9a9f97;
+    --line:#e7e4dc;--line-strong:#d8d4c8;--accent:#0e6b56;--accent-weak:#e4efe9;
+    --mark-bg:#fdf3cf;--mark-edge:#e9c34a;--umbrella:#7c5cff;--umbrella-weak:#efeaff;
+    --shadow:0 1px 2px rgba(20,20,18,.04),0 8px 24px rgba(20,20,18,.06);
+    --serif:Charter,"Iowan Old Style",Georgia,"Times New Roman",serif;
+    --sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  }
+  @media (prefers-color-scheme:dark){:root{
+    --paper:#14171a;--surface:#1a1e22;--raised:#1f242a;--ink:#ecebe5;--muted:#9aa19d;--faint:#6c7470;
+    --line:#2a2f34;--line-strong:#394046;--accent:#54c3a4;--accent-weak:#173029;
+    --mark-bg:#3a3316;--mark-edge:#8a7524;--umbrella:#a493ff;--umbrella-weak:#221c3a;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.35);}}
+  :root[data-theme="light"]{--paper:#faf9f6;--surface:#fff;--raised:#fefdfb;--ink:#1c1e1c;--muted:#6a6f68;--faint:#9a9f97;--line:#e7e4dc;--line-strong:#d8d4c8;--accent:#0e6b56;--accent-weak:#e4efe9;--mark-bg:#fdf3cf;--mark-edge:#e9c34a;--umbrella:#7c5cff;--umbrella-weak:#efeaff;--shadow:0 1px 2px rgba(20,20,18,.04),0 8px 24px rgba(20,20,18,.06);}
+  :root[data-theme="dark"]{--paper:#14171a;--surface:#1a1e22;--raised:#1f242a;--ink:#ecebe5;--muted:#9aa19d;--faint:#6c7470;--line:#2a2f34;--line-strong:#394046;--accent:#54c3a4;--accent-weak:#173029;--mark-bg:#3a3316;--mark-edge:#8a7524;--umbrella:#a493ff;--umbrella-weak:#221c3a;--shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.35);}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1180px;margin:0 auto;padding:26px 24px 64px}
+  .eyebrow{font-size:11.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--faint);font-weight:640;margin:0 0 6px}
+  h1{font-size:25px;line-height:1.15;margin:0;font-weight:640;letter-spacing:-.01em}
+  h1 .prof{color:var(--muted);font-weight:520}
+  .sub{color:var(--muted);font-size:13.5px;margin:9px 0 0;max-width:70ch}
+  .sub b{color:var(--ink);font-weight:600}
+  .nav{display:flex;gap:7px;flex-wrap:wrap;margin:20px 0 16px}
+  .nav a{font-size:12.5px;font-family:var(--mono);text-decoration:none;color:var(--muted);background:var(--surface);
+    border:1px solid var(--line);border-radius:100px;padding:4px 11px;transition:.12s}
+  .nav a:hover{color:var(--ink);border-color:var(--line-strong)}
+  .nav a.um{color:var(--umbrella);background:var(--umbrella-weak);border-color:color-mix(in srgb,var(--umbrella) 26%,transparent)}
+
+  .doc{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:0;background:var(--surface);
+    border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);overflow:hidden}
+  @media(max-width:860px){.doc{grid-template-columns:1fr}.margin{display:none}}
+  .read{padding:8px 4px}
+  .sec{padding:20px 30px;scroll-margin-top:14px}
+  .sec+.sec{border-top:1px solid var(--line)}
+  .sec .h{display:flex;align-items:baseline;gap:10px;margin-bottom:12px}
+  .sec .h .cite{font-family:var(--mono);font-size:13px;color:var(--accent);font-weight:600}
+  .sec .h.um .cite{color:var(--umbrella)}
+  .sec .h .t{font-size:13px;color:var(--muted);font-weight:560}
+  .sec .h .tier{margin-left:auto;font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;font-weight:640;
+    color:var(--umbrella);background:var(--umbrella-weak);border:1px solid color-mix(in srgb,var(--umbrella) 24%,transparent);padding:2px 8px;border-radius:100px}
+  .sec p{font-family:var(--serif);font-size:16.5px;line-height:1.78;color:var(--ink);margin:0 0 .7em;max-width:62ch;text-align:justify;hyphens:auto}
+  .sec p:last-child{margin-bottom:0}
+  em.ph{color:var(--faint);font-style:italic}
+  /* extracted spans — the highlight IS the point */
+  mark{cursor:pointer;background:var(--mark-bg);color:inherit;border-radius:3px;padding:1px 2px;
+    box-shadow:inset 0 0 0 1px transparent;box-decoration-break:clone;-webkit-box-decoration-break:clone;transition:box-shadow .15s,background .15s}
+  mark:hover,mark.on{box-shadow:inset 0 0 0 1.5px var(--mark-edge)}
+  mark.um{background:var(--umbrella-weak)}
+  mark.um:hover,mark.um.on{box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--umbrella) 60%,transparent)}
+
+  /* right margin — "what we pulled from this law" */
+  .margin{border-left:1px solid var(--line);background:var(--raised);padding:14px 16px}
+  .margin .lbl{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--faint);font-weight:640;margin:2px 0 12px}
+  .pin{display:block;width:100%;text-align:left;font:inherit;cursor:pointer;background:var(--surface);
+    border:1px solid var(--line);border-left:3px solid var(--mark-edge);border-radius:9px;padding:9px 11px;margin-bottom:9px;transition:.14s}
+  .pin.um{border-left-color:var(--umbrella)}
+  .pin:hover{border-color:var(--line-strong)}
+  .pin.on{background:var(--accent-weak);border-color:color-mix(in srgb,var(--accent) 30%,transparent);border-left-color:var(--accent)}
+  .pin .k{font-size:11.5px;color:var(--muted);margin-bottom:2px}
+  .pin .v{font-size:14px;font-weight:600;color:var(--ink)}
+  .pin .c{font-family:var(--mono);font-size:10.5px;color:var(--faint);margin-top:3px}
+  .foot{font-size:11.5px;color:var(--faint);margin:20px 2px 0;padding-top:13px;border-top:1px solid var(--line)}
+  .foot .tag{font-family:var(--mono);font-size:10.5px;color:var(--muted);background:var(--surface);border:1px solid var(--line);border-radius:5px;padding:1px 6px}
+  .foot .key{display:inline-flex;gap:5px;align-items:center;margin-right:14px}
+  .foot .sw{width:11px;height:11px;border-radius:3px;display:inline-block}
+  @media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+  <p class="eyebrow">Statute reader</p>
+  <h1>California <span class="prof">&middot; Nursing (RN / LPN / APRN)</span></h1>
+  <p class="sub">The statute itself, with <b>every value we extracted pinned where it lives in the text</b>. Highlighted passages produced a value &mdash; hover or click one to see what. <span style="color:var(--umbrella);font-weight:600">Purple</span> passages come from cross-cutting umbrella statutes that apply to nurses but aren't in the nursing chapter.</p>
+
+  <nav class="nav">
+    <a href="#s2725">&sect; 2725</a><a href="#s2732">&sect; 2732</a><a href="#s2786">&sect; 2786</a>
+    <a href="#s2736">&sect; 2736</a><a class="um" href="#s480">&sect; 480 &middot; umbrella</a>
+  </nav>
+
+  <div class="doc">
+    <div class="read" id="read">
+      <div class="sec" id="s2725">
+        <div class="h"><span class="cite">&sect; 2725</span><span class="t">Practice of nursing &mdash; definitions</span></div>
+        <p><em class="ph">[&hellip;]</em> The practice of nursing means those functions helping people cope with difficulties in daily living associated with their actual or potential health or illness problems, and <mark data-pin="p1">performing skin tests, immunization techniques, and the withdrawal of human blood from veins and arteries.</mark> <em class="ph">[&hellip;]</em></p>
+      </div>
+      <div class="sec" id="s2732">
+        <div class="h"><span class="cite">&sect; 2732</span><span class="t">Licensure required</span></div>
+        <p>(a) This section applies to registered nurses, licensed vocational nurses, and advanced practice registered nurses. <mark data-pin="p2">No person shall engage in the practice of nursing, as defined in Section 2725, without holding a license that is in an active status issued under this chapter except as otherwise provided in this act.</mark> (b) A violation of this section is a misdemeanor.</p>
+      </div>
+      <div class="sec" id="s2786">
+        <div class="h"><span class="cite">&sect; 2786</span><span class="t">Approved schools of nursing</span></div>
+        <p><em class="ph">[&hellip;]</em> An applicant shall have <mark data-pin="p3">completed an approved school of nursing program covering not fewer than two academic years, at an institution of higher education.</mark> The board shall establish standards for approval. <em class="ph">[&hellip;]</em></p>
+      </div>
+      <div class="sec" id="s2736">
+        <div class="h"><span class="cite">&sect; 2736</span><span class="t">Licensure without examination</span></div>
+        <p>The board <mark data-pin="p4">may issue a license without examination to any applicant who is licensed or registered as a nurse in a state, district or territory of the United States or Canada having requirements equal to or higher than those in California.</mark></p>
+      </div>
+      <div class="sec" id="s480">
+        <div class="h um"><span class="cite">&sect; 480</span><span class="t">Denial of licensure &mdash; grounds</span><span class="tier">Umbrella</span></div>
+        <p><em class="ph">[&hellip;]</em> A board may deny a license on the ground that the applicant has <mark class="um" data-pin="p5">been convicted of a crime substantially related to the qualifications, functions, or duties of the business or profession</mark> for which application is made. <em class="ph">[&hellip;]</em></p>
+      </div>
+    </div>
+
+    <aside class="margin">
+      <p class="lbl">What we pulled from this law</p>
+      <button class="pin on" data-pin="p1"><div class="k">Scope of practice</div><div class="v">Includes skin tests, immunization, blood withdrawal</div><div class="c">&sect; 2725</div></button>
+      <button class="pin" data-pin="p2"><div class="k">Regulatory model + 4 more</div><div class="v">License &middot; mandatory &middot; title &amp; scope protected</div><div class="c">&sect; 2732</div></button>
+      <button class="pin" data-pin="p3"><div class="k">Education &mdash; minimum</div><div class="v">Associate degree, approved program</div><div class="c">&sect; 2786</div></button>
+      <button class="pin" data-pin="p4"><div class="k">Reciprocity</div><div class="v">Available by endorsement</div><div class="c">&sect; 2736</div></button>
+      <button class="pin um" data-pin="p5"><div class="k">Disciplinary ground</div><div class="v">Substantially-related criminal conviction</div><div class="c">&sect; 480 &middot; umbrella</div></button>
+    </aside>
+  </div>
+
+  <p class="foot">
+    <span class="key"><span class="sw" style="background:var(--mark-bg);box-shadow:inset 0 0 0 1px var(--mark-edge)"></span>nursing chapter</span>
+    <span class="key"><span class="sw" style="background:var(--umbrella-weak);box-shadow:inset 0 0 0 1px var(--umbrella)"></span>umbrella statute (applies to nurses, lives elsewhere)</span><br><br>
+    <span class="tag">mockup</span> Redesign of the <b>Statutes</b> tab &middot; real CA / nursing sections &amp; values &middot; statute prose abbreviated. Today this tab is section-count cards + a tree; this reads the law and pins our extraction to it &mdash; the inverse of the evidence panel.
+  </p>
+</div>
+
+<script>
+  function focus(id){
+    document.querySelectorAll('mark,.pin').forEach(e=>e.classList.remove('on'));
+    document.querySelectorAll('[data-pin="'+id+'"]').forEach(e=>e.classList.add('on'));
+    const m=document.querySelector('mark[data-pin="'+id+'"]');
+    if(m) m.scrollIntoView({block:'center',behavior:'smooth'});
+  }
+  document.querySelectorAll('mark[data-pin]').forEach(m=>m.addEventListener('click',()=>focus(m.dataset.pin)));
+  document.querySelectorAll('.pin[data-pin]').forEach(p=>p.addEventListener('click',()=>focus(p.dataset.pin)));
+</script>
