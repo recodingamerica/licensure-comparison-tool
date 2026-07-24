@@ -29,12 +29,12 @@
     "moral_character_required": null,
     "education": {
       "degree_required": {
-        "value": "Graduate of an optometric school or college accredited by a regional or professional accreditation organization recognized or approved by the Council on Higher Education Accreditation (CHEA) or the United States Department of Education (USDE)",
+        "value": "Graduate of an optometric school or college accredited by a regional or professional accreditation organization recognized or approved by the council on postsecondary accreditation or the USDE or CHEA",
         "quote": "The applicant shall be a graduate of an optometric school or college accredited by a regional or professional accreditation organization which is recognized or approved by the council on postsecondary accreditation or the United States Department of Education (USDE) or the Council on Higher Education Accreditation (CHEA), or their successor agencies.",
         "citation": "33-23-109"
       },
       "accrediting_body": {
-        "value": "Council on Higher Education Accreditation (CHEA) / United States Department of Education (USDE)",
+        "value": "Council on postsecondary accreditation, USDE, or CHEA",
         "quote": "accredited by a regional or professional accreditation organization which is recognized or approved by the council on postsecondary accreditation or the United States Department of Education (USDE) or the Council on Higher Education Accreditation (CHEA), or their successor agencies",
         "citation": "33-23-109"
       },
@@ -71,9 +71,9 @@
     },
     "exams": [
       {
-        "name": "National Board of Examiners in Optometry (NBEO) examination series",
+        "name": "National Board of Examiners in Optometry examination series",
         "required": true,
-        "notes": "Board may also specify other examinations by rule.",
+        "notes": "Or its successor agency, or any other examination specified by the board in rule.",
         "jurisdiction": "national (NBEO)",
         "permitted_attempts": null,
         "quote": "Any applicant for licensure under this act is required to pass the examination series administered by the National Board of Examiners in Optometry, or its successor agency, or any other examination specified by the board in rule.",
@@ -105,15 +105,15 @@
         "citation": "33-23-109"
       },
       "requirements": {
-        "value": "Applicant must be currently licensed in another United States or Canadian jurisdiction with substantially equivalent requirements as Wyoming and meet Wyoming requirements for licensure by endorsement per board rules.",
-        "quote": "Applicants for licensure by endorsement shall comply with standards set forth in board rules.",
+        "value": "Applicant must be currently licensed in another US or Canadian jurisdiction with substantially equivalent requirements as Wyoming and must meet Wyoming requirements for licensure by endorsement. Applicants shall comply with standards set forth in board rules.",
+        "quote": "The board may issue a license by endorsement to engage in the practice of optometry to an applicant who is currently licensed in another United States or Canadian jurisdiction with substantially equivalent requirements as Wyoming and who meets Wyoming requirements for licensure by endorsement. Applicants for licensure by endorsement shall comply with standards set forth in board rules.",
         "citation": "33-23-109"
       }
     },
     "advisory_board": {
       "exists": {
         "value": false,
-        "quote": "The Wyoming state board of examiners in optometry is created to carry out the purposes and enforce the provisions of this act.",
+        "quote": "The Wyoming state board of examiners in optometry is created to carry out the purposes and enforce the provisions of this act. The board shall consist of five (5) members appointed by the governor and shall include three (3) licensed optometrists, one (1) member of the public and one (1) licensed health care professional other than a licensed optometrist.",
         "citation": "33-23-104"
       },
       "name": null,
@@ -132,8 +132,8 @@
     },
     "credential_type": {
       "value": "license",
-      "quote": "\"License\" means a current license to practice optometry in this state issued by the board",
-      "citation": "33-23-101"
+      "quote": "It is unlawful for any person in the state of Wyoming to practice or attempt to practice optometry or to advertise, or hold himself out as qualified to fit or adjust any lenses or lens in any manner or form as an aid to human eyesight, without first obtaining a license to practice optometry.",
+      "citation": "33-23-103"
     },
     "is_mandatory": {
       "value": true,
@@ -142,8 +142,8 @@
     },
     "title_protection": {
       "value": true,
-      "quote": "The use of any other term by a person licensed under this act except the term \"optometrist\" or \"doctor of optometry\" to designate his profession",
-      "citation": "33-23-110"
+      "quote": "It is unlawful for any person in the state of Wyoming to practice or attempt to practice optometry or to advertise, or hold himself out as qualified to fit or adjust any lenses or lens in any manner or form as an aid to human eyesight, without first obtaining a license to practice optometry.",
+      "citation": "33-23-103"
     },
     "scope_protection": {
       "value": true,
@@ -153,51 +153,81 @@
     "disciplinary_grounds": [
       {
         "short_label": "unprofessional_dishonest_conduct",
-        "description": "Unprofessional and dishonest conduct including loaning license, employing cappers, fee splitting, or false advertising.",
-        "quote": "The loaning of his license by any licensed optometrist to any person; the employment of \"cappers\" or \"steerers\" to obtain business, \"splitting\" or dividing a fee with any person or persons, the advertising by any means whatsoever of optometric practice or treatment or advice in which untruthful, improbable, misleading or impossible statements are made",
+        "description": "General unprofessional and dishonest conduct",
+        "quote": "The board may suspend, revoke or refuse to issue a license to any person who has been guilty of unprofessional and dishonest conduct, unethical conduct, conduct likely to deceive the public or failure to timely submit a renewal application.",
         "citation": "33-23-110"
       },
       {
-        "short_label": "drug_substance_abuse",
-        "description": "Being guilty of offenses related to optometric practice or habitually addicted to controlled substances.",
+        "short_label": "license_loaning",
+        "description": "Loaning a license to any person",
+        "quote": "The loaning of his license by any licensed optometrist to any person",
+        "citation": "33-23-110"
+      },
+      {
+        "short_label": "cappers_steerers",
+        "description": "Employing cappers or steerers to obtain business",
+        "quote": "the employment of \"cappers\" or \"steerers\" to obtain business",
+        "citation": "33-23-110"
+      },
+      {
+        "short_label": "fee_splitting",
+        "description": "Splitting or dividing a fee with any person",
+        "quote": "\"splitting\" or dividing a fee with any person or persons",
+        "citation": "33-23-110"
+      },
+      {
+        "short_label": "false_advertising",
+        "description": "Advertising optometric practice or treatment with untruthful, improbable, misleading or impossible statements",
+        "quote": "the advertising by any means whatsoever of optometric practice or treatment or advice in which untruthful, improbable, misleading or impossible statements are made",
+        "citation": "33-23-110"
+      },
+      {
+        "short_label": "drug_alcohol_addiction",
+        "description": "Habitual intemperance or addiction to morphine, opium, cocaine or similar drugs",
         "quote": "Being guilty of offenses that relate to the practice of optometry or to the ability to practice optometry or involving habitual intemperance, or being habitually addicted to the use of morphine, opium, cocaine, or other drugs having a similar effect",
         "citation": "33-23-110"
       },
       {
-        "short_label": "fraud_in_obtaining_fees",
-        "description": "Obtaining fees by intentional fraud, misrepresentation, or false pretenses.",
+        "short_label": "fraud_in_obtaining_fee",
+        "description": "Obtaining a fee by intentional fraud, misrepresentation or false pretenses",
         "quote": "The obtaining of any fee by intentional fraud or intentional misrepresentation or false pretenses",
         "citation": "33-23-110"
       },
       {
         "short_label": "improper_title_use",
-        "description": "Use of any term other than 'optometrist' or 'doctor of optometry' to designate one's profession.",
+        "description": "Using any term other than 'optometrist' or 'doctor of optometry' to designate the profession",
         "quote": "The use of any other term by a person licensed under this act except the term \"optometrist\" or \"doctor of optometry\" to designate his profession",
         "citation": "33-23-110"
       },
       {
-        "short_label": "employing_unlicensed_optometrist",
-        "description": "Employing directly or indirectly any suspended or unlicensed optometrist to perform work covered by the practice of optometry.",
+        "short_label": "employing_suspended_unlicensed",
+        "description": "Employing a suspended or unlicensed optometrist to perform optometric work",
         "quote": "Employing either directly or indirectly any suspended or unlicensed optometrist to perform any work covered by the practice of optometry",
         "citation": "33-23-110"
       },
       {
-        "short_label": "incompetence_malpractice_unethical",
-        "description": "Incompetence, malpractice, or unethical conduct.",
+        "short_label": "incompetence_malpractice",
+        "description": "Incompetence, malpractice or unethical conduct",
         "quote": "Incompetence, malpractice or unethical conduct",
         "citation": "33-23-110"
       },
       {
-        "short_label": "false_statement_in_application",
-        "description": "Knowingly making any false statement of material fact in any application or other required instrument.",
+        "short_label": "false_statement_to_board",
+        "description": "Knowingly making a false statement of material fact in any application or instrument filed with the board",
         "quote": "Knowingly making any false statement of any material fact in any application or other instrument required by law to be filed with the board",
         "citation": "33-23-110"
       },
       {
         "short_label": "failure_to_renew",
-        "description": "Failure to timely submit a renewal application.",
-        "quote": "The board may suspend, revoke or refuse to issue a license to any person who has been guilty of unprofessional and dishonest conduct, unethical conduct, conduct likely to deceive the public or failure to timely submit a renewal application.",
+        "description": "Failure to timely submit a renewal application",
+        "quote": "failure to timely submit a renewal application",
         "citation": "33-23-110"
+      },
+      {
+        "short_label": "sexual_misconduct",
+        "description": "Sexual misconduct as defined under the health care licensing board statute",
+        "quote": "A board which licenses health care providers may refuse to issue or renew, or may suspend or revoke the license, certificate or temporary permit of any licensee or certificate holder, or otherwise discipline a licensee or certificate holder, upon clear and convincing evidence that the licensee or certificate holder has committed sexual misconduct.",
+        "citation": "33-1-118"
       }
     ],
     "alternative_regulation": {
@@ -208,7 +238,7 @@
     "citations": [
       {
         "cite": "33-23-101",
-        "kind": "definitions and scope of practice"
+        "kind": "definitions and scope"
       },
       {
         "cite": "33-23-102",
@@ -232,11 +262,11 @@
       },
       {
         "cite": "33-23-111",
-        "kind": "limitations on license"
+        "kind": "title limitations"
       },
       {
         "cite": "33-23-113",
-        "kind": "advertising and display requirements"
+        "kind": "advertising and display"
       },
       {
         "cite": "33-23-114",
@@ -252,26 +282,26 @@
     },
     "methods_authorized": {
       "value": [
-        "examination, diagnosis and treatment of diseases of the eye and visual system",
-        "measuring powers and range of vision",
-        "adaptation, sale, prescribing and dispensing of ophthalmic lenses",
+        "examination, diagnosis and treatment of abnormal conditions and diseases of the eye, its adnexa and visual system",
+        "measuring the powers and range of vision of the eye",
+        "adaptation, sale, prescribing and dispensing of frames and ophthalmic lenses",
         "ordering and performance of diagnostic laboratory or imaging tests",
         "prescribing and administration of pharmaceutical agents",
         "preoperative and postoperative care",
-        "laser procedures as set forth by board rules"
+        "laser procedures as set forth by board rules and not excluded"
       ],
       "quote": "The practice of optometry occurs when a person employs primary human eye care procedures, including: (i) The examination, diagnosis and treatment of abnormal conditions and diseases of the eye, its adnexa and visual system; (ii) Measuring the powers and range of vision of the eye to determine the accommodative and refractive state and general function of the eye; (iii) The adaptation, sale, prescribing and dispensing of frames and ophthalmic lenses in all their forms; (iv) Ordering and performance of diagnostic laboratory or imaging tests; (v) The prescribing and administration of pharmaceutical agents, as provided in W.S. 33-23-102; (vi) Preoperative and postoperative care for those procedures excluded from the practice of optometry under subsection (c) of this section; (vii) Any laser procedure as set forth by the board's rules and not excluded under subsection (c) of this section.",
       "citation": "33-23-101"
     },
     "drug_authority": {
-      "value": "Optometrists may administer and prescribe pharmaceutical agents related to optometry for treatment of ocular disease, excluding schedule I and II narcotics, but may prescribe hydrocodone or hydrocodone-containing agents regardless of schedule.",
+      "value": "An optometrist shall be allowed to administer and prescribe pharmaceutical agents related to the practice of optometry for the treatment of ocular disease, excluding schedule I and II narcotics, but allowing for the prescribing of hydrocodone or hydrocodone containing pharmaceutical agents regardless of schedule.",
       "quote": "An optometrist shall be allowed to administer and prescribe pharmaceutical agents related to the practice of optometry for the treatment of ocular disease, excluding schedule I and II narcotics, but allowing for the prescribing of hydrocodone or hydrocodone containing pharmaceutical agents regardless of schedule.",
       "citation": "33-23-102"
     },
     "citations": [
       {
         "cite": "33-23-101",
-        "kind": "scope of practice definition"
+        "kind": "scope of practice and prohibited procedures"
       },
       {
         "cite": "33-23-102",
@@ -285,15 +315,11 @@
       "quote": "The following ophthalmic procedures shall be excluded from the authorized practice of optometry: (i) The following general procedures: (A) Administration of general anesthesia; (B) Surgery performed with general anesthesia.",
       "citation": "33-23-101"
     },
-    "surgery_definition": {
-      "value": "Excluded surgical procedures include removal of an eye, surgery of the bony orbit, incisional/excisional surgery of extraocular muscles, eyelid surgery for malignancies or cosmetic/mechanical repair, lacrimal system surgery, conjunctivoplasty with graft, pterygium surgery, full thickness corneal/scleral incision, corneal transplants, iris/ciliary body surgery, crystalline lens extraction, intraocular implants, vitreous removal, retinal manipulation, and intravenous injections.",
-      "quote": "Surgery related to removal of an eye from a living person; Surgery of the bony orbit, including orbital implants; Incisional or excisional surgery of the extraocular muscles; Surgery of the eyelid for suspected malignancies or for incisional cosmetic or mechanical repair of blepharochalasis, ptosis or tarsorrhaphy",
-      "citation": "33-23-101"
-    },
+    "surgery_definition": null,
     "foreign_body_removal_authorized": null,
     "laser_procedures_authorized": {
       "value": [
-        "Any laser procedure as set forth by board rules not otherwise excluded"
+        "Any laser procedure as set forth by the board's rules and not excluded under subsection (c)"
       ],
       "quote": "Any laser procedure as set forth by the board's rules and not excluded under subsection (c) of this section.",
       "citation": "33-23-101"
@@ -306,7 +332,8 @@
     "controlled_substance_schedule_restrictions": {
       "value": [
         "Schedule I narcotics excluded",
-        "Schedule II narcotics excluded (except hydrocodone and hydrocodone-containing agents are permitted regardless of schedule)"
+        "Schedule II narcotics excluded",
+        "Hydrocodone or hydrocodone-containing agents allowed regardless of schedule"
       ],
       "quote": "excluding schedule I and II narcotics, but allowing for the prescribing of hydrocodone or hydrocodone containing pharmaceutical agents regardless of schedule",
       "citation": "33-23-102"
@@ -357,6 +384,268 @@
       "value": true,
       "quote": "an applicant for licensure under this act shall provide the board fingerprints and other information necessary for a criminal history record background check as provided under W.S. 7-19-201.",
       "citation": "33-23-109"
-    }
+    },
+    "scope__laser_procedures": [
+      {
+        "item": "Laser capsulotomy",
+        "status": "not_addressed",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Laser trabeculoplasty",
+        "status": "not_addressed",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Laser peripheral iridotomy",
+        "status": "not_addressed",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Laser surgery (general / unspecified ophthalmic)",
+        "status": "authorized",
+        "quote": "Any laser procedure as set forth by the board's rules and not excluded under subsection (c) of this section.",
+        "citation": "33-23-101"
+      },
+      {
+        "item": "Retina laser procedures",
+        "status": "prohibited",
+        "quote": "Procedures of the vitreous chamber of the eye for the purpose of treating any retinal or macular disease; (C) Retinal procedures.",
+        "citation": "33-23-101"
+      },
+      {
+        "item": "LASIK",
+        "status": "prohibited",
+        "quote": "Corneal procedures",
+        "citation": "33-23-101"
+      },
+      {
+        "item": "Photorefractive keratectomy (PRK)",
+        "status": "prohibited",
+        "quote": "Corneal procedures",
+        "citation": "33-23-101"
+      },
+      {
+        "item": "Laser vision correction / refractive laser surgery",
+        "status": "prohibited",
+        "quote": "Corneal procedures",
+        "citation": "33-23-101"
+      },
+      {
+        "item": "Therapeutic laser use (ocular adnexa / eyelid treatments)",
+        "status": "authorized",
+        "quote": "Any laser procedure as set forth by the board's rules and not excluded under subsection (c) of this section.",
+        "citation": "33-23-101"
+      },
+      {
+        "item": "Laser for diagnostic purposes",
+        "status": "authorized",
+        "quote": "Any laser procedure as set forth by the board's rules and not excluded under subsection (c) of this section.",
+        "citation": "33-23-101"
+      },
+      {
+        "item": "Intense pulsed light (IPL) therapy",
+        "status": "not_addressed",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Low-level light therapy (LLLT)",
+        "status": "not_addressed",
+        "quote": "",
+        "citation": ""
+      }
+    ],
+    "scope__minor_surgical_procedures": [
+      {
+        "item": "Epilation of eyelashes",
+        "status": "not_addressed",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Lacrimal punctal occlusion by plug insertion",
+        "status": "not_addressed",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Lacrimal irrigation and dilation",
+        "status": "not_addressed",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Nasolacrimal duct probing",
+        "status": "not_addressed",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Corneal scraping for cultures or diagnostic purposes",
+        "status": "not_addressed",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Debridement of corneal epithelium",
+        "status": "not_addressed",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Anterior corneal puncture",
+        "status": "not_addressed",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Incision and curettage of chalazion",
+        "status": "not_addressed",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Removal and biopsy of eyelid or skin lesions",
+        "status": "prohibited",
+        "quote": "Surgery of the eyelid for suspected malignancies or for incisional cosmetic or mechanical repair of blepharochalasis, ptosis or tarsorrhaphy",
+        "citation": "33-23-101"
+      },
+      {
+        "item": "Injection for anaphylaxis treatment",
+        "status": "not_addressed",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Subconjunctival injection",
+        "status": "not_addressed",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Eyelid lesion injection with local anesthetic",
+        "status": "not_addressed",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Periocular injection (excluding intraocular and globe-penetrating)",
+        "status": "not_addressed",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Botulinum toxin injection",
+        "status": "not_addressed",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Vaccine administration (immunization injection)",
+        "status": "not_addressed",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Intravenous injection for ocular angiography",
+        "status": "prohibited",
+        "quote": "Intravenous injections.",
+        "citation": "33-23-101"
+      },
+      {
+        "item": "Simple repair of eyelid laceration",
+        "status": "not_addressed",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Corneal cross-linking",
+        "status": "not_addressed",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Suture removal",
+        "status": "not_addressed",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Skin testing for ocular allergies",
+        "status": "not_addressed",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Collection of blood by skin puncture or venipuncture",
+        "status": "not_addressed",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Sebaceous cyst treatment or removal by expression",
+        "status": "not_addressed",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Lacrimal canaliculus stent or plug placement for drug delivery",
+        "status": "not_addressed",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Oral fluorescein administration for ocular angiography",
+        "status": "not_addressed",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Intense pulsed light therapy for adnexa conditions",
+        "status": "not_addressed",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Low-level light therapy for adnexa conditions",
+        "status": "not_addressed",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Intranasal stimulator use for dry eye",
+        "status": "not_addressed",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Expression of conjunctival follicles",
+        "status": "not_addressed",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Pharmaceutical-delivering contact lens use",
+        "status": "not_addressed",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Pterygium removal",
+        "status": "prohibited",
+        "quote": "Pterygium surgery",
+        "citation": "33-23-101"
+      },
+      {
+        "item": "Salzmann's nodule removal",
+        "status": "not_addressed",
+        "quote": "",
+        "citation": ""
+      }
+    ]
   }
 }

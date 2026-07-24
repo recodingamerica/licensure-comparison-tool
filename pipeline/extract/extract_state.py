@@ -18,6 +18,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import logging
 import os
 import sys
@@ -49,7 +50,7 @@ from pipeline.extract.locate_quote import (  # noqa: E402
     quote_fuzzy_match,
     quote_in_corpus,
 )
-from pipeline.paths import TRIMMED_DIR, DISCOVERED_DIR, STRUCTURED_DIR, LOGS_DIR, RESULTS_DIR
+from pipeline.paths import TRIMMED_DIR, DISCOVERED_DIR, STRUCTURED_DIR, LOGS_DIR, RESULTS_DIR, SCOPE_VOCAB_DIR
 from pipeline import provenance
 from pipeline.eval.check_consistency import check_record
 from pipeline.config.loaders import model_for
@@ -95,7 +96,57 @@ def _evidence_class_for(field_spec: dict) -> type[BaseModel]:
     return StrEvidence
 
 
-def build_profession_specific_model(discovered: dict) -> type[BaseModel]:
+# ---------- Scope matrices (discover the union → per-state three-state) ----------
+# A discovered free-text scope LIST field (e.g. laser_procedures_authorized) is
+# upgraded into a per-item matrix: for the corpus-discovered vocabulary of that
+# dimension, the model classifies EVERY item in this state. The vocabulary lives
+# in results/scope_vocab/<profession>.json (see pipeline.discover.scope_vocab).
+# This is the "connection": the enumerated field lands in the schema automatically
+# from that file — nothing is hand-edited here per profession.
+
+_STATUS_LITERALS = {
+    "three_state": ("authorized", "prohibited", "not_addressed"),
+    "present_absent": ("present", "absent"),
+}
+
+
+def load_scope_dims(profession: str) -> list[dict]:
+    """Discovered scope dimensions for this profession (empty if none)."""
+    p = SCOPE_VOCAB_DIR / f"{profession}.json"
+    if not p.exists():
+        return []
+    return json.loads(p.read_text()).get("dimensions", [])
+
+
+class ScopeMatrixItem(BaseModel):
+    """One row of a scope matrix. `item`/`status` are plain str, NOT Literal:
+    a required Literal here is dangerous, because the shared _recover_invalid_fields
+    pass nulls any drifted leaf to None and a single off-by-a-word item name would
+    then fail re-validation and drop the WHOLE state. Instead the model is guided by
+    the field description (which lists the vocab + allowed statuses) and
+    finalize_scope_matrices canonicalizes items to the vocab and normalizes statuses
+    afterward — hallucinated items are dropped, missing ones post-filled."""
+    item: str
+    status: str = ""
+    quote: str = Field(default="", description="Verbatim statute phrase; required for authorized/prohibited/present, empty otherwise")
+    citation: str = ""
+
+
+def _scope_field_description(dim: dict) -> str:
+    n = len(dim["vocab"])
+    if dim["eval_flavor"] == "present_absent":
+        rule = ("For EACH item, status is `present` if this state's statute provides for it, "
+                "else `absent`. Quote verbatim for `present`.")
+    else:
+        rule = ("For EACH item, status is `authorized` if the statute permits it, `prohibited` "
+                "if the statute forbids it (including via a broad exclusion/prohibition that covers "
+                "it), or `not_addressed` if the statute is genuinely silent. Quote verbatim for "
+                "`authorized` and `prohibited`.")
+    return (f"Scope checklist for '{dim['source_field']}'. Return EXACTLY one entry for each of "
+            f"these {n} items, using the item name verbatim: {dim['vocab']}. {rule}")
+
+
+def build_profession_specific_model(discovered: dict, scope_dims: list[dict] | None = None) -> type[BaseModel]:
     fields: dict[str, tuple[Any, Any]] = {}
     for fspec in discovered["fields"]:
         EvCls = _evidence_class_for(fspec)
@@ -103,6 +154,11 @@ def build_profession_specific_model(discovered: dict) -> type[BaseModel]:
         py_t = EvCls | None
         desc = fspec.get("description", "")
         fields[fspec["name"]] = (py_t, Field(default=None, description=desc))
+    for dim in scope_dims or []:
+        fields[dim["matrix_field"]] = (
+            list[ScopeMatrixItem],
+            Field(default_factory=list, description=_scope_field_description(dim)),
+        )
     Model = create_model("ProfessionSpecific", **fields)
     Model.__doc__ = ("Fields discovered specifically for this profession (auto-derived from its "
                      "statutes); they vary profession to profession.")
@@ -110,7 +166,7 @@ def build_profession_specific_model(discovered: dict) -> type[BaseModel]:
 
 
 def build_profile_model(profession: str, discovered: dict) -> type[BaseModel]:
-    Specific = build_profession_specific_model(discovered)
+    Specific = build_profession_specific_model(discovered, load_scope_dims(profession))
     return create_model(
         f"{profession.title()}Profile",
         state=(str, ...),
@@ -287,44 +343,113 @@ def annotate_evidence(node: Any, normalized_corpus: str) -> tuple[int, int]:
     return verified, unverified
 
 
-def extract_one(state: str, profession: str, model: str, profile_cls: type[BaseModel]) -> tuple[dict, dict] | None:
-    """Returns (validated_record_dict_with_unverified_flags, validation_stats)."""
+def _normalize_item_key(s: str) -> str:
+    """Loose key for matching a model-returned item name to a vocab entry —
+    case/space/punctuation-insensitive so trivial phrasing drift still maps."""
+    return re.sub(r"[^a-z0-9]+", "", (s or "").lower())
+
+
+def finalize_scope_matrices(record: dict, profession: str, normalized_corpus: str) -> None:
+    """For every discovered scope-matrix field, produce a complete, canonical,
+    fixed-order matrix:
+
+    - Canonicalize each returned item to the discovered vocabulary (exact, then
+      case/punctuation-insensitive, then alias). Items that match nothing are
+      dropped (model hallucinations don't leak into the matrix).
+    - Normalize status to the flavor's allowed set; an unrecognized status
+      degrades to silent (`not_addressed` / `absent`) rather than propagating.
+    - Verify the quote for a claimed authorized/prohibited/present item against
+      the corpus; flag `unverified` when it isn't found.
+    - Post-fill every vocab item the model omitted as silent, so the matrix is
+      always exactly the vocabulary, in vocabulary order.
+
+    Scope items are intentionally NOT Evidence-shaped (no `value` key), so
+    annotate_evidence skips them and their quotes are verified here."""
+    dims = load_scope_dims(profession)
+    if not dims:
+        return
+    ps = record.get("profession_specific") or {}
+    for dim in dims:
+        fld, vocab, flavor = dim["matrix_field"], dim["vocab"], dim["eval_flavor"]
+        allowed = set(_STATUS_LITERALS.get(flavor, _STATUS_LITERALS["three_state"]))
+        silent = "absent" if flavor == "present_absent" else "not_addressed"
+        needs_quote = {"present"} if flavor == "present_absent" else {"authorized", "prohibited"}
+
+        # canonical-name lookup: exact name, loose key, and any aliases.
+        canon: dict[str, str] = {}
+        for name in vocab:
+            canon[name] = name
+            canon[_normalize_item_key(name)] = name
+        for name, al in (dim.get("aliases") or {}).items():
+            for a in al:
+                canon.setdefault(_normalize_item_key(a), name)
+
+        by_item: dict[str, dict] = {}
+        for it in ps.get(fld) or []:
+            if not isinstance(it, dict):
+                continue
+            name = canon.get(it.get("item", "")) or canon.get(_normalize_item_key(it.get("item", "")))
+            if name is None or name in by_item:
+                continue  # hallucinated item, or duplicate — keep the first
+            status = it.get("status") if it.get("status") in allowed else silent
+            quote = (it.get("quote") or "").strip()
+            entry = {"item": name, "status": status, "quote": quote, "citation": it.get("citation", "")}
+            if status in needs_quote and quote and not quote_in_corpus(quote, normalized_corpus):
+                entry["unverified"] = True
+            by_item[name] = entry
+
+        ps[fld] = [
+            by_item.get(name, {"item": name, "status": silent, "quote": "", "citation": ""})
+            for name in vocab
+        ]
+    record["profession_specific"] = ps
+
+
+def verify_record(record: dict, profession: str, state_text: str, umbrella_text: str) -> tuple[int, int]:
+    """Shared post-extraction pass for both the sync and batch extractors:
+    finalize scope matrices, then verify every Evidence quote. Quotes can come
+    from either the practice-act text OR the umbrella text, so verify against
+    both. Returns (verified, unverified) Evidence counts."""
+    normalized_corpus = _normalize_for_match(state_text + "\n" + umbrella_text)
+    finalize_scope_matrices(record, profession, normalized_corpus)
+    return annotate_evidence(record, normalized_corpus)
+
+
+def build_user_message(state: str, profession: str) -> str | None:
+    """The single prompt-formatting path for one (state, profession) — used by
+    BOTH the sync extractor and the batch submitter, so the exact text the model
+    sees can't drift between them. Returns None if there's nothing to extract.
+
+    The umbrella corpus is filtered to sections scoped to this specific
+    profession, based on what the umbrella statute itself enumerates. See
+    pipeline/scope/assign_umbrella_scope.py for the parser and the
+    load_umbrella_text docstring for the include/exclude rule."""
     in_path = TRIMMED_DIR / profession / f"{state}.json"
+    if not in_path.exists():
+        return None
     raw = json.loads(in_path.read_text())
     if not raw.get("sections"):
-        log.warning("[%s] no sections to extract from", state)
         return None
     state_text = build_state_text(raw)
-    # Filter the umbrella corpus to sections scoped to this specific
-    # profession, based on what the umbrella statute itself enumerates.
-    # See pipeline/scope/assign_umbrella_scope.py for the parser that
-    # produces `umbrella_scope/<STATE>.json`, and the load_umbrella_text
-    # docstring for the include/exclude rule.
     umbrella_text = load_umbrella_text(state, profession)
     if umbrella_text:
-        user_msg = (
+        return (
             f"State: {state}\nProfession: {profession}\n\n"
             f"Practice act text (extract values from here primarily):\n{state_text}\n\n"
             f"=== Cross-cutting umbrella context (definitions, board rules, "
             f"licensing procedures that apply to this profession too) ===\n"
             f"{umbrella_text}"
         )
-    else:
-        user_msg = f"State: {state}\nProfession: {profession}\n\nTrimmed statute text:\n{state_text}"
-    log.info(
-        "[%s] extracting %s (%d sections, %d chars; umbrella=%d chars)",
-        state, profession, len(raw["sections"]), len(user_msg), len(umbrella_text),
-    )
-    result = call_model(model, SYSTEM_PROMPT, user_msg, profile_cls)
-    if result is None:
-        return None
-    record = result.model_dump()
-    # Derive the UORF rung from the orthogonal axes (credential_type +
-    # scope_protection) rather than trusting the model's free pick, which
-    # flip-flops deterministically on title-protection schemes. The model's
-    # quoted scope/credential facts drive the rung; this makes the cross-field
-    # invariants in eval/check_consistency.py structurally satisfied instead of
-    # merely flagged. See standard_model.derive_regulatory_model.
+    return f"State: {state}\nProfession: {profession}\n\nTrimmed statute text:\n{state_text}"
+
+
+def apply_derived_regulatory_model(record: dict, state: str) -> None:
+    """Derive the UORF rung from the orthogonal axes (credential_type +
+    scope_protection) rather than trusting the model's free pick, which
+    flip-flops deterministically on title-protection schemes. The model's quoted
+    scope/credential facts drive the rung; this makes the cross-field invariants
+    in eval/check_consistency.py structurally satisfied instead of merely
+    flagged. See standard_model.derive_regulatory_model."""
     lic = record.get("licensure") or {}
     rm_ev = lic.get("regulatory_model")
 
@@ -342,11 +467,49 @@ def extract_one(state: str, profession: str, model: str, profile_cls: type[BaseM
             _ev_val(lic.get("credential_type")), _ev_val(lic.get("scope_protection")),
         )
         rm_ev["value"] = derived.value
-    # Quotes can come from either practice-act text OR umbrella text — verify against both.
-    normalized_corpus = _normalize_for_match(state_text + "\n" + umbrella_text)
-    verified, unverified = annotate_evidence(record, normalized_corpus)
+
+
+def finalize_and_persist(record: dict, profession: str, state: str, model: str | None) -> dict:
+    """The single post-extraction pipeline, shared by the sync and batch paths so
+    they can't diverge: derive the regulatory rung, finalize scope matrices +
+    verify quotes, run the cross-field consistency guard (log-only — detection,
+    not silent fix), then write the record and stamp provenance. Returns
+    {'verified', 'unverified'} evidence counts.
+
+    Re-reads the trimmed + umbrella corpus from disk (both callers have only
+    profession+state at this point); the reads are cheap and keep this the one
+    place that knows the whole finalize sequence."""
+    raw = json.loads((TRIMMED_DIR / profession / f"{state}.json").read_text())
+    state_text = build_state_text(raw)
+    umbrella_text = load_umbrella_text(state, profession)
+
+    apply_derived_regulatory_model(record, state)
+    verified, unverified = verify_record(record, profession, state_text, umbrella_text)
+    for v in check_record(profession, state, record):
+        log.warning("[%s] CONSISTENCY %s: %s", state, v["rule"], v["detail"])
+
+    out_path = STRUCTURED_DIR / profession / f"{state}.json"
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    write_json_atomic(out_path, record, ensure_ascii=False)
+    provenance.record("extract", profession, state, model=model)
     log.info("[%s] evidence: verified=%d unverified=%d", state, verified, unverified)
-    return record, {"verified": verified, "unverified": unverified}
+    return {"verified": verified, "unverified": unverified}
+
+
+def extract_one(state: str, profession: str, model: str, profile_cls: type[BaseModel]) -> tuple[dict, dict] | None:
+    """Sync single-state extraction: build the prompt, call the model, then run
+    the shared finalize_and_persist pipeline. Returns (record, stats) or None."""
+    user_msg = build_user_message(state, profession)
+    if user_msg is None:
+        log.warning("[%s] no sections to extract from", state)
+        return None
+    log.info("[%s] extracting %s (%d chars)", state, profession, len(user_msg))
+    result = call_model(model, SYSTEM_PROMPT, user_msg, profile_cls)
+    if result is None:
+        return None
+    record = result.model_dump()
+    stats = finalize_and_persist(record, profession, state, model)
+    return record, stats
 
 
 def main() -> None:
@@ -401,16 +564,9 @@ def main() -> None:
         if outcome is None:
             summary.append({"state": state, "ok": False})
             continue
+        # extract_one already ran the shared finalize_and_persist pipeline
+        # (derive rung → verify → consistency guard → write → provenance).
         record, stats = outcome
-        write_json_atomic(out_path, record)
-        provenance.record("extract", profession, state, model=args.model)
-        # Deterministic cross-field consistency guard: the model sometimes
-        # violates the prompt's own invariants (e.g. a title-protection rung
-        # flipping to `license` while scope_protection=false). Warn loudly so the
-        # record is re-extracted; we don't auto-rewrite (detection, not silent fix).
-        cviol = check_record(profession, state, record)
-        for v in cviol:
-            log.warning("[%s] CONSISTENCY %s: %s", state, v["rule"], v["detail"])
         spec_dump = record.get("profession_specific") or {}
         filled = sum(1 for v in spec_dump.values() if v not in (None, [], ""))
         summary.append({
