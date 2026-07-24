@@ -1,0 +1,783 @@
+{
+  "profession": "electrician",
+  "dimensions": [
+    {
+      "source_field": "license_tiers",
+      "matrix_field": "scope__license_tiers",
+      "eval_flavor": "present_absent",
+      "vocab": [
+        "Apprentice Electrician",
+        "Journeyman Electrician",
+        "Master Electrician",
+        "Residential Journeyman Electrician",
+        "Residential Master Electrician",
+        "Residential Wireman",
+        "Electrical Contractor",
+        "Provisional Electrical Contractor",
+        "Electrical Administrator",
+        "Industrial Maintenance Electrician",
+        "Air Conditioning Electrician",
+        "Specialist Sign Electrician"
+      ],
+      "aliases": {
+        "Apprentice Electrician": [
+          "electrical apprentice",
+          "apprentice",
+          "apprentice electrician",
+          "electrical apprentice (registered)"
+        ],
+        "Journeyman Electrician": [
+          "journeyman electrician",
+          "journeyman"
+        ],
+        "Master Electrician": [
+          "master electrician",
+          "master"
+        ],
+        "Residential Journeyman Electrician": [
+          "residential journeyman electrician",
+          "residential journeyman"
+        ],
+        "Residential Master Electrician": [
+          "residential master electrician",
+          "residential master"
+        ],
+        "Residential Wireman": [
+          "residential wireman"
+        ],
+        "Electrical Contractor": [
+          "electrical contractor",
+          "licensed electrical contractor",
+          "state certified electrical contractor"
+        ],
+        "Provisional Electrical Contractor": [
+          "provisional electrical contractor license"
+        ],
+        "Electrical Administrator": [
+          "electrical administrator"
+        ],
+        "Industrial Maintenance Electrician": [
+          "industrial maintenance electrician"
+        ],
+        "Air Conditioning Electrician": [
+          "air conditioning electrician",
+          "heating and air conditioning electrician"
+        ],
+        "Specialist Sign Electrician": [
+          "specialist sign electrician",
+          "sign electrician"
+        ]
+      },
+      "keywords": [
+        "master electrician",
+        "journeyman electrician",
+        "residential journeyman",
+        "residential master",
+        "apprentice",
+        "electrical apprentice",
+        "electrical contractor",
+        "provisional electrical contractor",
+        "residential wireman",
+        "industrial maintenance electrician",
+        "air conditioning electrician",
+        "specialist sign electrician",
+        "unlimited contractor",
+        "limited contractor",
+        "unlimited journeyman",
+        "limited journeyman",
+        "solar electric contractor",
+        "solar electric journeyman",
+        "electrical administrator",
+        "license classification",
+        "license tier",
+        "license category",
+        "specialty contractor",
+        "general building contractor",
+        "residential remodeling contractor",
+        "apprentice permit",
+        "wireman",
+        "license as a",
+        "classes of license",
+        "types of license",
+        "contractor's license",
+        "journeyman's license"
+      ],
+      "rationale": "All named license tiers appearing in any state's text were included in the union, including those mentioned in exclusion or prohibition contexts; synonymous phrasings (e.g., 'apprentice' vs. 'electrical apprentice') were merged into one entry, while genuinely distinct classifications (e.g., residential wireman vs. residential journeyman, air conditioning electrician vs. industrial maintenance electrician) were kept separate.",
+      "states_scanned": [
+        "AK",
+        "AL",
+        "AR",
+        "AZ",
+        "CA",
+        "CO",
+        "CT",
+        "DE",
+        "FL",
+        "GA",
+        "HI",
+        "IA",
+        "ID",
+        "KY",
+        "LA",
+        "MA",
+        "MD",
+        "ME",
+        "MI",
+        "MN",
+        "MO",
+        "MS",
+        "MT",
+        "NC",
+        "ND",
+        "NE",
+        "NH",
+        "NJ",
+        "NM",
+        "NV",
+        "OH",
+        "OK",
+        "OR",
+        "RI",
+        "SC",
+        "SD",
+        "TN",
+        "TX",
+        "UT",
+        "VA",
+        "VT",
+        "WA",
+        "WI",
+        "WV",
+        "WY"
+      ]
+    },
+    {
+      "source_field": "scope_exclusions",
+      "matrix_field": "scope__scope_exclusions",
+      "eval_flavor": "present_absent",
+      "vocab": [
+        "Electric utility generation, transmission, and distribution work",
+        "Telephone, signal, and communications system work by utility employees",
+        "Low-voltage signaling, fire alarm, and intrusion alarm systems",
+        "Manufacture and repair of electrical apparatus or equipment",
+        "Homeowner electrical work on owner-occupied residential property",
+        "Television and radio broadcasting system operation, maintenance, and installation",
+        "Elevator control system installation, maintenance, and repair",
+        "Diesel electric engine maintenance and repair on heavy construction equipment",
+        "Water well submersible pump motor and wiring installation",
+        "In-house electrical maintenance and repair by employees of commercial property owner or tenant",
+        "CATV and cable television technician work",
+        "Direct broadcast satellite and satellite antenna system installation",
+        "Appliance sales, installation, and repair by retail merchants or utility employees",
+        "Industrial facility electrical work (manufacturing, processing, and related facilities)",
+        "Nonresidential farm building electrical work",
+        "HVACR licensee running line voltage wiring to HVAC equipment",
+        "Alarm system installation, maintenance, and servicing by licensed alarm company",
+        "Work by employees receiving wages as sole compensation (not in independent business)",
+        "Petroleum and gas well drilling and operation",
+        "Work by government officers, agencies, or authorized representatives",
+        "Minor or casual work below a monetary threshold",
+        "Modular and manufactured housing construction",
+        "Licensed architect or engineer acting within professional capacity",
+        "Work on personal property (not affixed to structure)",
+        "Irrigation, drainage, and agricultural district construction and maintenance",
+        "Material supplier or manufacturer furnishing materials without installation",
+        "Subsurface utility location and designation services",
+        "Condominium, apartment, or cooperative unit owner or management agent repair and maintenance",
+        "Gas, propane, and fuel gas equipment connection work",
+        "Mural and public art installation by licensed artists"
+      ],
+      "aliases": {
+        "Electric utility generation, transmission, and distribution work": [
+          "electrical construction and maintenance of electrical wiring for the generation and distribution of electrical current owned and operated by a utility",
+          "construction, installation, maintenance, or repair of power systems for the generation and secondary distribution of electric current under the National Electrical Safety Code",
+          "work by gas, heat, or electrical corporation in furtherance of generation, transmission, or distribution of electricity",
+          "electrical wiring integral to a system owned and operated by a utility or municipal light and power department",
+          "public utilities operating under regulation on construction, maintenance and development work incidental to their own business"
+        ],
+        "Telephone, signal, and communications system work by utility employees": [
+          "installation, operation, maintenance, or repair of telephone, signal, or communication systems by utility employees",
+          "operation, maintenance, and repair of telephone and intercommunication facilities",
+          "construction, installation, maintenance, or repair of telephone or signal systems by or for public utilities or their corporate affiliates",
+          "installation, maintenance, and repair of telephone and signal systems"
+        ],
+        "Low-voltage signaling, fire alarm, and intrusion alarm systems": [
+          "installation, maintenance, and repair of fire alarm, intrusion alarm, or other low voltage signaling systems of 48 volts or less",
+          "installation, construction, or maintenance of systems that operate on 25 volts or less",
+          "low-voltage alarm systems",
+          "fire alarm systems"
+        ],
+        "Manufacture and repair of electrical apparatus or equipment": [
+          "manufacture, maintenance, or repair of electrical apparatus or equipment",
+          "fabrication or completion of a product or electrical apparatus exclusive of its completion or installation at a job site",
+          "manufacture of manufactured homes covered by federal standards",
+          "manufacturer performing work in compliance with manufacturer's warranty"
+        ],
+        "Homeowner electrical work on owner-occupied residential property": [
+          "electrical installation on residential property owned by the installer or immediate family member and not intended for sale",
+          "owner of premises or employee of owner performing electrical work on such premises",
+          "owner-builder performing work on own home",
+          "person performing electrical work on property they own and occupy"
+        ],
+        "Television and radio broadcasting system operation, maintenance, and installation": [
+          "operation, maintenance, or repair of a television or radio broadcasting system",
+          "installation of a radio broadcasting system under 500 watts input power",
+          "TV and radio broadcast system maintenance"
+        ],
+        "Elevator control system installation, maintenance, and repair": [
+          "installation, maintenance, and repair of elevators confined to the elevator control system, not including power supply, wiring, and motor connection",
+          "elevator control system work by agent or employee of the elevator industry"
+        ],
+        "Diesel electric engine maintenance and repair on heavy construction equipment": [
+          "maintenance or repair of diesel electric engines installed on heavy construction equipment, in a shop or on a job site"
+        ],
+        "Water well submersible pump motor and wiring installation": [
+          "installation in a commercial water well of the submersible pump motor and wiring to the well pump system controls outside a building",
+          "installation in a noncommercial water well of the submersible pump motor and wiring to the well pump system controls",
+          "running power and control wiring from an existing disconnect box to water well equipment by a licensed water well contractor"
+        ],
+        "In-house electrical maintenance and repair by employees of commercial property owner or tenant": [
+          "electrical maintenance or repair work performed by an employee of an owner or tenant of commercial property as part of work duties, not offered to the public",
+          "minor repairs or minor alterations to existing electrical facilities by hospital employees during normal duties"
+        ],
+        "CATV and cable television technician work": [
+          "technician employed by a municipal franchised CATV system",
+          "cable television, satellite television and telecommunications providers installing low-voltage cable, telephone services, internet services and data service",
+          "cable television corporation work"
+        ],
+        "Direct broadcast satellite and satellite antenna system installation": [
+          "installation, construction, or maintenance of direct broadcast satellite services",
+          "installing satellite antenna systems on residential structures or property"
+        ],
+        "Appliance sales, installation, and repair by retail merchants or utility employees": [
+          "retail merchant or employees making installation, repair, or maintenance on any appliance the merchant has sold",
+          "employee of an electric utility installing or repairing electric appliances and equipment for a customer",
+          "sale or installation of finished products, materials, or articles of merchandise that do not become a fixed part of the structure"
+        ],
+        "Industrial facility electrical work (manufacturing, processing, and related facilities)": [
+          "construction, installation, maintenance, repair, or renovation by industry of electric conductors or equipment incidental to their business",
+          "work on manufacturing, processing and refining facilities, warehouses, distribution facilities, repair and maintenance facilities, agricultural facilities",
+          "industry or group of industries under common ownership with large state assets"
+        ],
+        "Nonresidential farm building electrical work": [
+          "construction, installation, maintenance, repair, or renovation of any nonresidential farm building or structure",
+          "farming, dairying, agriculture, viticulture, horticulture, or stock or poultry raising construction incidental work"
+        ],
+        "HVACR licensee running line voltage wiring to HVAC equipment": [
+          "HVACR license holder running line voltage power wiring from a disconnect box to an outdoor HVACR unit within ten feet",
+          "HVAC contractor wiring from disconnect to unit"
+        ],
+        "Alarm system installation, maintenance, and servicing by licensed alarm company": [
+          "installation, maintenance, monitoring, selling, alteration, or servicing of alarm systems by a licensed alarm company operator",
+          "alarm systems work under a separate alarm company license"
+        ],
+        "Work by employees receiving wages as sole compensation (not in independent business)": [
+          "person who engages in regulated activities as an employee who receives wages as sole compensation and does not customarily engage in an independently established business",
+          "any person who engages in activities regulated as an employee of an exempt property owner with wages as sole compensation"
+        ],
+        "Petroleum and gas well drilling and operation": [
+          "construction, repair or operation incidental to discovering or producing petroleum or gas, or drilling, testing, abandoning or otherwise operating a petroleum or gas well",
+          "petroleum or gas well operation by owner or lessee"
+        ],
+        "Work by government officers, agencies, or authorized representatives": [
+          "authorized representative of the United States government, this state, or any county, city, town, or political subdivision",
+          "officers of a court acting within the scope of their office",
+          "trustees of an express trust acting within terms of their trust"
+        ],
+        "Minor or casual work below a monetary threshold": [
+          "work or operation where aggregate contract price is less than one thousand dollars considered casual, minor, or inconsequential",
+          "work of a casual or minor nature by employee of exempt property owner"
+        ],
+        "Modular and manufactured housing construction": [
+          "modular or manufacturer of the housing industry regulated by state and federal governments",
+          "construction and manufacture of manufactured homes covered by the Manufactured Home Construction and Safety Standards Act",
+          "manufacturer of mobilehome or mobilehome accessory building constructed off-site"
+        ],
+        "Licensed architect or engineer acting within professional capacity": [
+          "licensed architect or registered civil or professional engineer acting solely in his or her professional capacity",
+          "structural pest control operator acting within the scope of license"
+        ],
+        "Work on personal property (not affixed to structure)": [
+          "construction, alteration, improvement, or repair of personal property",
+          "electrical apparatus not installed at a job site"
+        ],
+        "Irrigation, drainage, and agricultural district construction and maintenance": [
+          "construction and repair of irrigation and drainage ditches of regularly constituted irrigation districts or reclamation districts",
+          "farming, dairying, agriculture, viticulture, horticulture, stock or poultry raising work on land"
+        ],
+        "Material supplier or manufacturer furnishing materials without installation": [
+          "person who only furnishes materials or supplies without fabricating them into the work of the contractor",
+          "material supplier or manufacturer furnishing finished products who does not install or contract for installation"
+        ],
+        "Subsurface utility location and designation services": [
+          "subsurface utility location and designation services"
+        ],
+        "Condominium, apartment, or cooperative unit owner or management agent repair and maintenance": [
+          "employees of owners of condominiums, townhouses, cooperative units or apartment complexes of four units or less repairing or maintaining structures",
+          "owner's management agent or employees of the management agent repairing or maintaining structures"
+        ],
+        "Gas, propane, and fuel gas equipment connection work": [
+          "all work involving installing, maintaining and repairing devices, appliances or equipment connecting to any supply of natural gas, propane or other petroleum or gaseous fuel"
+        ],
+        "Mural and public art installation by licensed artists": [
+          "artist who draws, paints, applies, executes, restores, or conserves a mural pursuant to an agreement"
+        ]
+      },
+      "keywords": [
+        "exclusion",
+        "exempt",
+        "does not apply",
+        "shall not apply",
+        "not required",
+        "not subject to",
+        "not apply to",
+        "utility",
+        "municipality",
+        "municipal",
+        "rural electric",
+        "cooperative",
+        "public utility",
+        "generation",
+        "distribution",
+        "transmission",
+        "telephone",
+        "signal",
+        "communication",
+        "low voltage",
+        "low-voltage",
+        "48 volts",
+        "25 volts",
+        "catv",
+        "cable television",
+        "satellite",
+        "direct broadcast",
+        "fire alarm",
+        "security system",
+        "intrusion alarm",
+        "elevator",
+        "farm building",
+        "nonresidential farm",
+        "manufactured home",
+        "modular",
+        "own residence",
+        "owner of premises",
+        "employee of owner",
+        "tenant",
+        "appliance",
+        "retail merchant",
+        "water well",
+        "submersible pump",
+        "hvac",
+        "hvacr",
+        "disconnect",
+        "diesel electric",
+        "heavy construction equipment",
+        "radio broadcasting",
+        "television broadcasting",
+        "national electrical safety code",
+        "corporate affiliate",
+        "political subdivision",
+        "government",
+        "industry",
+        "incidental to",
+        "manufacture",
+        "apparatus",
+        "hospital employee",
+        "minor repair",
+        "minor alteration",
+        "not offered to the public",
+        "not for sale",
+        "immediate family",
+        "own property",
+        "express trust",
+        "corporation commission"
+      ],
+      "rationale": "The union was drawn by collecting every explicitly named exclusion or exemption category across all provided state sentences; synonymous exclusions (e.g., utility generation/distribution work across AK/AL/CA) were merged into single canonical items, while genuinely distinct categories (e.g., elevator controls vs. low-voltage alarms vs. water well wiring) were kept separate, and no items were invented beyond what the source sentences support.",
+      "states_scanned": [
+        "AK",
+        "AL",
+        "AR",
+        "AZ",
+        "CA",
+        "CO",
+        "CT",
+        "DE",
+        "FL",
+        "GA",
+        "HI",
+        "IA",
+        "ID",
+        "KY",
+        "LA",
+        "MA",
+        "MD",
+        "ME",
+        "MI",
+        "MN",
+        "MO",
+        "MS",
+        "MT",
+        "NC",
+        "ND",
+        "NE",
+        "NH",
+        "NJ",
+        "NM",
+        "NV",
+        "OH",
+        "OK",
+        "OR",
+        "RI",
+        "SC",
+        "SD",
+        "TN",
+        "TX",
+        "UT",
+        "VA",
+        "VT",
+        "WA",
+        "WI",
+        "WV",
+        "WY"
+      ]
+    },
+    {
+      "source_field": "qualifier_license_requirement_by_contractor_type",
+      "matrix_field": "scope__qualifier_license_requirement_by_contractor_type",
+      "eval_flavor": "three_state",
+      "vocab": [
+        "Master Electrician",
+        "Journeyman Electrician",
+        "Residential Master Electrician",
+        "Residential Journeyman Electrician",
+        "Electrical Administrator",
+        "Electrical Apprentice",
+        "Industrial Maintenance Electrician",
+        "Air Conditioning Electrician",
+        "Specialist Sign Electrician",
+        "Qualifying Party"
+      ],
+      "aliases": {
+        "Master Electrician": [
+          "master electrician",
+          "licensed master electrician",
+          "restricted lifetime master electrician",
+          "temporary master electrician",
+          "residential master electrician (general sense)"
+        ],
+        "Journeyman Electrician": [
+          "journeyman electrician",
+          "licensed journeyman electrician",
+          "restricted lifetime journeyman electrician",
+          "temporary journeyman electrician",
+          "master or journeyman electrician"
+        ],
+        "Residential Master Electrician": [
+          "residential master electrician",
+          "residential master electrician license"
+        ],
+        "Residential Journeyman Electrician": [
+          "residential journeyman electrician",
+          "residential journeyman electrician license"
+        ],
+        "Electrical Administrator": [
+          "electrical administrator",
+          "administrator (electrical)"
+        ],
+        "Electrical Apprentice": [
+          "electrical apprentice",
+          "apprentice electrician"
+        ],
+        "Industrial Maintenance Electrician": [
+          "industrial maintenance electrician"
+        ],
+        "Air Conditioning Electrician": [
+          "air conditioning electrician"
+        ],
+        "Specialist Sign Electrician": [
+          "specialist sign electrician",
+          "sign electrician"
+        ],
+        "Qualifying Party": [
+          "qualifying party",
+          "qualifier"
+        ]
+      },
+      "keywords": [
+        "qualifier",
+        "qualifying agent",
+        "responsible managing",
+        "electrical contractor",
+        "master electrician",
+        "journeyman electrician",
+        "license tier",
+        "certificate of competency",
+        "class a",
+        "class b",
+        "responsible licensed individual",
+        "superintendent",
+        "supervising",
+        "supervision",
+        "employ",
+        "full-time",
+        "qualify",
+        "limited electrical contractor",
+        "alarm system contractor",
+        "fire alarm contractor",
+        "sign specialty contractor",
+        "technology system contractor",
+        "systems contractor",
+        "power limited technician",
+        "satellite system",
+        "statewide license",
+        "must hold",
+        "must be",
+        "shall employ",
+        "in charge of",
+        "partner",
+        "officer",
+        "member",
+        "firm",
+        "corporation",
+        "partnership",
+        "limited liability company",
+        "category of contracting",
+        "business organization",
+        "contractor license"
+      ],
+      "rationale": "All distinct electrician license tiers named across AK, AL, AR, and AZ sentences are included as separate entries (master, journeyman, residential master, residential journeyman, industrial maintenance, air conditioning, specialist sign, apprentice, electrical administrator, and qualifying party); synonymous phrasings such as 'licensed master electrician' and 'temporary master electrician' are merged as aliases under the core tier, while genuinely distinct scopes (residential vs. general, sign vs. air conditioning) are kept separate.",
+      "states_scanned": [
+        "AK",
+        "AL",
+        "AR",
+        "AZ",
+        "CA",
+        "CO",
+        "CT",
+        "DE",
+        "FL",
+        "GA",
+        "HI",
+        "IA",
+        "ID",
+        "KY",
+        "LA",
+        "MA",
+        "MD",
+        "ME",
+        "MI",
+        "MN",
+        "MO",
+        "MS",
+        "MT",
+        "NC",
+        "ND",
+        "NE",
+        "NH",
+        "NJ",
+        "NM",
+        "NV",
+        "OH",
+        "OK",
+        "OR",
+        "RI",
+        "SC",
+        "SD",
+        "TN",
+        "TX",
+        "UT",
+        "VA",
+        "VT",
+        "WA",
+        "WI",
+        "WV",
+        "WY"
+      ]
+    },
+    {
+      "source_field": "approved_continuing_education_providers",
+      "matrix_field": "scope__approved_continuing_education_providers",
+      "eval_flavor": "present_absent",
+      "vocab": [
+        "National Electrical Contractors Association (NECA)",
+        "Associated Builders and Contractors (ABC)",
+        "Associated General Contractors (AGC)",
+        "Accredited College or University",
+        "Community College",
+        "Electrical Trade School",
+        "Kentucky Community and Technical College System",
+        "University of Hawaii Community College",
+        "State Board of the Technical College System of Georgia",
+        "Public Utility (as continuing education provider)",
+        "Equipment Manufacturer (as continuing education provider)",
+        "US Office of Apprenticeship (Department of Labor)",
+        "Florida Building Commission",
+        "Vocational School",
+        "Board-Approved Continuing Education Provider",
+        "Registered Apprenticeship Program",
+        "Career Education and Workforce Development Board",
+        "State Electrical Apprenticeship Committee"
+      ],
+      "aliases": {
+        "National Electrical Contractors Association (NECA)": [
+          "Louisiana Council of the National Electrical Contractors Association",
+          "National Electrical Contractors Association"
+        ],
+        "Associated Builders and Contractors (ABC)": [
+          "Associated Builders and Contractors of Louisiana"
+        ],
+        "Associated General Contractors (AGC)": [
+          "Louisiana Associated General Contractors"
+        ],
+        "Accredited College or University": [
+          "accredited 4-year college",
+          "accredited college or university",
+          "accredited public university",
+          "graduate electrical engineer of an accredited college or university"
+        ],
+        "Community College": [
+          "junior college",
+          "community college",
+          "accredited public university or community college",
+          "community college school of construction management or construction technology"
+        ],
+        "Electrical Trade School": [
+          "electrical trade school",
+          "trade school"
+        ],
+        "Kentucky Community and Technical College System": [
+          "college within the Kentucky Community and Technical College System"
+        ],
+        "University of Hawaii Community College": [
+          "University of Hawaii community college offering an appropriate program of study"
+        ],
+        "State Board of the Technical College System of Georgia": [
+          "institutions under the State Board of the Technical College System of Georgia"
+        ],
+        "Public Utility (as continuing education provider)": [
+          "public utilities"
+        ],
+        "Equipment Manufacturer (as continuing education provider)": [
+          "equipment manufacturers",
+          "manufacturer's accredited training program"
+        ],
+        "US Office of Apprenticeship (Department of Labor)": [
+          "United States Office of Apprenticeship",
+          "Office of Apprenticeship in the United States Department of Labor",
+          "office of apprenticeship of the United States department of labor"
+        ],
+        "Florida Building Commission": [
+          "Florida Building Commission"
+        ],
+        "Vocational School": [
+          "board-approved vocational school",
+          "vocational school"
+        ],
+        "Board-Approved Continuing Education Provider": [
+          "board-approved provider",
+          "board-approved sponsor of training",
+          "approved provider",
+          "instructional facility or teaching entity that has been approved by the board",
+          "continuing education vendor"
+        ],
+        "Registered Apprenticeship Program": [
+          "bona fide registered apprenticeship program",
+          "bona fide apprenticeship training program",
+          "registered apprenticeship program",
+          "certified school or training program",
+          "state-approved apprenticeship program",
+          "electrical apprenticeship program"
+        ],
+        "Career Education and Workforce Development Board": [
+          "Career Education and Workforce Development Board"
+        ],
+        "State Electrical Apprenticeship Committee": [
+          "State Electrical Apprenticeship Committee"
+        ]
+      },
+      "keywords": [
+        "continuing education",
+        "approved provider",
+        "course provider",
+        "accredited college",
+        "university",
+        "community college",
+        "apprenticeship program",
+        "training program",
+        "vocational school",
+        "association seminar",
+        "labor training",
+        "employee training",
+        "private instructor",
+        "national electrical contractors association",
+        "independent electrical contractors",
+        "international brotherhood of electrical workers",
+        "associated builders and contractors",
+        "associated general contractors",
+        "international association of electrical inspectors",
+        "electric vehicle infrastructure training program",
+        "evitp",
+        "board approved",
+        "approved by the board",
+        "approved by the commission",
+        "approved by the department",
+        "approved by the state board",
+        "workforce development",
+        "office of apprenticeship",
+        "electrical division",
+        "sessions conducted by the board",
+        "recognized training program",
+        "curricula",
+        "instructor"
+      ],
+      "rationale": "The union was drawn by extracting every named or described organization whose courses or programs are cited—whether approved or excluded—as satisfying electrician continuing education or apprenticeship training requirements across all states; synonymous phrasings (e.g., various state-prefixed NECA councils, variant apprenticeship-office names) were merged into single canonical entries, while genuinely distinct organization types were kept separate.",
+      "states_scanned": [
+        "AK",
+        "AL",
+        "AR",
+        "AZ",
+        "CA",
+        "CO",
+        "CT",
+        "DE",
+        "FL",
+        "GA",
+        "HI",
+        "IA",
+        "ID",
+        "KY",
+        "LA",
+        "MA",
+        "MD",
+        "ME",
+        "MI",
+        "MN",
+        "MO",
+        "MS",
+        "MT",
+        "NC",
+        "ND",
+        "NE",
+        "NH",
+        "NJ",
+        "NM",
+        "NV",
+        "OH",
+        "OK",
+        "OR",
+        "RI",
+        "SC",
+        "SD",
+        "TN",
+        "TX",
+        "UT",
+        "VA",
+        "VT",
+        "WA",
+        "WI",
+        "WV",
+        "WY"
+      ]
+    }
+  ]
+}

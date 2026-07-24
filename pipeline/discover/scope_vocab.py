@@ -319,12 +319,23 @@ def run(profession: str, only_fields: set[str] | None) -> None:
             log.info("[%s/%s] flavor=%s, %d vocab items", profession, fs["name"],
                      dim["eval_flavor"], len(dim["vocab"]))
 
+    # Merge, don't overwrite: a run for a SUBSET of fields must not wipe
+    # dimensions discovered for other fields — and must not silently re-discover
+    # a field whose vocab is already joined to re-extracted scope__ records
+    # (re-running it could drift the vocab and desync the matrix). Keep existing
+    # dimensions for fields NOT processed this run; replace the ones we did.
     out_path = SCOPE_VOCAB_DIR / f"{profession}.json"
+    existing = []
+    if out_path.exists():
+        existing = json.loads(out_path.read_text()).get("dimensions", [])
+    processed = {f["name"] for f in field_specs}
+    merged = [d for d in existing if d.get("source_field") not in processed] + dimensions
     out_path.write_text(json.dumps({
         "profession": profession,
-        "dimensions": dimensions,
+        "dimensions": merged,
     }, indent=2, ensure_ascii=False))
-    log.info("[%s] wrote %s — %d scope dimensions", profession, out_path, len(dimensions))
+    log.info("[%s] wrote %s — %d dimensions (%d new/updated, %d preserved)",
+             profession, out_path, len(merged), len(dimensions), len(merged) - len(dimensions))
 
 
 def main() -> None:
