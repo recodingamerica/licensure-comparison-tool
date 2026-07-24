@@ -19,11 +19,20 @@
         "citation": "6501"
       },
       "type": {
-        "value": "department",
-        "quote": "the commissioner and the department shall administer the admission to and the practice of the professions.",
-        "citation": "6507"
+        "value": "shared_board",
+        "quote": "A state board for medicine shall be appointed by the board of regents on recommendation of the commissioner for the purpose of assisting the board of regents and the department on matters of professional licensing",
+        "citation": "6523 - State Board for Medicine."
       },
-      "umbrella_agency": null
+      "umbrella_agency": {
+        "value": "Board of Regents, New York State Education Department",
+        "quote": "Admission to the practice of the professions (licensing) and regulation of such practice shall be supervised by the board of regents and administered by the education department",
+        "citation": "6504",
+        "unverified": true,
+        "approximate": {
+          "ratio": 0.749,
+          "matched_normalized": "admission to the practice of the professions licensing and regulation of such practice shall be supervised by the board of regents "
+        }
+      }
     },
     "age_minimum": {
       "value": 21,
@@ -38,7 +47,7 @@
     "education": {
       "degree_required": {
         "value": "Doctor of Medicine (M.D.) or Doctor of Osteopathy (D.O.) or equivalent degree",
-        "quote": "have received an education, including a degree of doctor of medicine, \"M.D.\", or doctor of osteopathy, \"D.O.\", or equivalent degree in accordance with the commissioner's regulations",
+        "quote": "Education: have received an education, including a degree of doctor of medicine, \"M.D.\", or doctor of osteopathy, \"D.O.\", or equivalent degree in accordance with the commissioner's regulations",
         "citation": "6524 - Requirements for a Professional License."
       },
       "accrediting_body": null,
@@ -48,8 +57,8 @@
         "citation": "6524 - Requirements for a Professional License."
       },
       "school_approval_basis": {
-        "value": "unspecified",
-        "quote": "have received an education, including a degree of doctor of medicine, \"M.D.\", or doctor of osteopathy, \"D.O.\", or equivalent degree in accordance with the commissioner's regulations",
+        "value": "board_approved",
+        "quote": "equivalent degree in accordance with the commissioner's regulations",
         "citation": "6524 - Requirements for a Professional License."
       },
       "credential_pegged": {
@@ -79,31 +88,13 @@
     },
     "exams": [
       {
-        "name": "Licensing examination",
+        "name": "Licensing examination satisfactory to the board",
         "required": true,
-        "notes": "Examination satisfactory to the board and in accordance with the commissioner's regulations; specific exam name not stated in statute.",
-        "jurisdiction": null,
+        "notes": "Specific exam not named in statute; determined by board in accordance with commissioner's regulations",
+        "jurisdiction": "state board (in accordance with commissioner's regulations)",
         "permitted_attempts": null,
         "quote": "Examination: pass an examination satisfactory to the board and in accordance with the commissioner's regulations",
         "citation": "6524 - Requirements for a Professional License."
-      },
-      {
-        "name": "Qualifying examination (foreign medical graduates via LCME-approved school pathway)",
-        "required": true,
-        "notes": "For foreign medical graduates who are US residents enrolled in foreign medical schools; must attain a score satisfactory to an LCME-approved medical school on a qualifying examination acceptable to the state board for medicine.",
-        "jurisdiction": null,
-        "permitted_attempts": null,
-        "quote": "has attained a score satisfactory to a medical school approved by the Liaison Committee on Medical Education on a qualifying examination acceptable to the state board for medicine",
-        "citation": "6528 - Qualification of Certain Applicants for Licensure."
-      },
-      {
-        "name": "ECFMG standard certificate examination (alternative pathway for foreign physicians)",
-        "required": false,
-        "notes": "Foreign physicians who hold an ECFMG standard certificate or pass an examination satisfactory to the state board for medicine are eligible for a limited permit.",
-        "jurisdiction": "national (ECFMG)",
-        "permitted_attempts": null,
-        "quote": "A foreign physician who holds a standard certificate from the educational council for foreign medical graduates or who has passed an examination satisfactory to the state board for medicine",
-        "citation": "6525 - Limited Permits."
       }
     ],
     "renewal": {
@@ -134,7 +125,7 @@
         "value": [
           "child abuse and maltreatment identification and reporting"
         ],
-        "quote": "two hours of coursework or training regarding the identification and reporting of child abuse and maltreatment",
+        "quote": "have completed two hours of coursework or training regarding the identification and reporting of child abuse and maltreatment",
         "citation": "6507"
       }
     },
@@ -145,8 +136,8 @@
         "citation": "6506"
       },
       "requirements": {
-        "value": "Applicant must file an application, meet educational requirements per commissioner's regulations, have satisfactory experience, pass an examination satisfactory to the board, be at least 21, be a US citizen or lawful permanent resident, and be of good moral character. Prior disciplinary history in another jurisdiction may result in denial.",
-        "quote": "Indorse a license issued by a licensing board of another state or country upon the applicant fulfilling the following requirements",
+        "value": "Applicant must file an application, meet educational requirements per commissioner's regulations, have satisfactory experience, pass an examination, be at least 21, be a US citizen or lawfully admitted for permanent residence, and be of good moral character. Prior disciplinary history in another jurisdiction may result in denial.",
+        "quote": "Indorse a license issued by a licensing board of another state or country upon the applicant fulfilling the following requirements: (a) Application ... (b) Education ... (c) Experience ... (d) Examination ... (e) Age ... (f) Citizenship or immigration status ... (g) Character",
         "citation": "6506"
       }
     },
@@ -159,16 +150,8 @@
       "name": null,
       "authority": null
     },
-    "national_certification": {
-      "value": "Educational Council for Foreign Medical Graduates (ECFMG)",
-      "quote": "A foreign physician who holds a standard certificate from the educational council for foreign medical graduates",
-      "citation": "6525 - Limited Permits."
-    },
-    "national_association": {
-      "value": "Liaison Committee on Medical Education (LCME)",
-      "quote": "a score satisfactory to a medical school approved by the Liaison Committee on Medical Education",
-      "citation": "6528 - Qualification of Certain Applicants for Licensure."
-    },
+    "national_certification": null,
+    "national_association": null,
     "regulatory_model": {
       "value": "license",
       "quote": "Only a person licensed or otherwise authorized under this article shall practice medicine or use the title \"physician\".",
@@ -196,87 +179,87 @@
     },
     "disciplinary_grounds": [
       {
-        "short_label": "fraudulent_licensure",
+        "short_label": "fraudulent_license_obtainment",
         "description": "Obtaining the license fraudulently",
         "quote": "Obtaining the license fraudulently",
         "citation": "6509"
       },
       {
         "short_label": "fraudulent_or_incompetent_practice",
-        "description": "Practicing the profession fraudulently, beyond its authorized scope, with gross incompetence, with gross negligence on a particular occasion or negligence or incompetence on more than one occasion",
+        "description": "Practicing the profession fraudulently, beyond its authorized scope, with gross incompetence, gross negligence, or repeated negligence/incompetence",
         "quote": "Practicing the profession fraudulently, beyond its authorized scope, with gross incompetence, with gross negligence on a particular occasion or negligence or incompetence on more than one occasion",
         "citation": "6509"
       },
       {
         "short_label": "practice_while_impaired",
-        "description": "Practicing the profession while the ability to practice is impaired by alcohol, drugs, physical disability, or mental disability",
+        "description": "Practicing while ability is impaired by alcohol, drugs, physical disability, or mental disability",
         "quote": "Practicing the profession while the ability to practice is impaired by alcohol, drugs, physical disability, or mental disability",
         "citation": "6509"
       },
       {
-        "short_label": "habitual_intoxication_or_drug_dependency",
-        "description": "Being habitually drunk or being dependent on, or a habitual user of narcotics, barbiturates, amphetamines, hallucinogens, or other drugs having similar effects",
+        "short_label": "habitual_intoxication_or_drug_dependence",
+        "description": "Being habitually drunk or dependent on or habitual user of narcotics, barbiturates, amphetamines, hallucinogens, or similar drugs",
         "quote": "Being habitually drunk or being dependent on, or a habitual user of narcotics, barbiturates, amphetamines, hallucinogens, or other drugs having similar effects",
         "citation": "6509"
       },
       {
         "short_label": "criminal_conviction",
-        "description": "Being convicted of committing an act constituting a crime under New York State law, Federal law, or the law of another jurisdiction",
+        "description": "Being convicted of a crime under New York, federal, or equivalent out-of-state law",
         "quote": "Being convicted of committing an act constituting a crime under: (i) New York State law or, (ii) Federal law or, (iii) The law of another jurisdiction",
         "citation": "6509"
       },
       {
-        "short_label": "disciplinary_action_in_other_jurisdiction",
-        "description": "Having been found guilty of improper professional practice or professional misconduct by a duly authorized professional disciplinary agency of another state",
-        "quote": "Having been found guilty of improper professional practice or professional misconduct by a duly authorized professional disciplinary agency of another state",
+        "short_label": "out_of_state_professional_misconduct_finding",
+        "description": "Having been found guilty of improper professional practice or misconduct by a duly authorized professional disciplinary agency of another state",
+        "quote": "Having been found guilty of improper professional practice or professional misconduct by a duly authorized professional disciplinary agency of another state where the conduct upon which the finding was based would, if committed in New York state, constitute professional misconduct",
         "citation": "6509"
       },
       {
-        "short_label": "violation_of_controlled_substances_law",
+        "short_label": "public_health_law_violation",
         "description": "Having been found by the commissioner of health to be in violation of article thirty-three of the public health law",
-        "quote": "Having been found by the commissioner of health to be in violation of article thirty-three of the public health law",
+        "quote": "Having been found by the commissioner of health to be in violation of article thirty-three of the public health law.",
         "citation": "6509"
       },
       {
-        "short_label": "license_revoked_in_other_jurisdiction",
-        "description": "Having a license to practice medicine revoked, suspended or other disciplinary action taken in another state for conduct constituting misconduct in New York",
+        "short_label": "out_of_state_license_revocation",
+        "description": "Having had license to practice medicine revoked, suspended, or surrendered after disciplinary action in another state",
         "quote": "Having his license to practice medicine revoked, suspended or having other disciplinary action taken, or having his application for a license refused, revoked or suspended or having voluntarily or otherwise surrendered his license after a disciplinary action was instituted by a duly authorized professional disciplinary agency of another state",
         "citation": "6509"
       },
       {
-        "short_label": "discrimination_in_services",
-        "description": "Refusing to provide professional service to a person because of such person's race, creed, color, or national origin",
+        "short_label": "refusal_of_service_discrimination",
+        "description": "Refusing to provide professional service to a person because of race, creed, color, or national origin",
         "quote": "Refusing to provide professional service to a person because of such person's race, creed, color, or national origin",
         "citation": "6509"
       },
       {
         "short_label": "aiding_unlicensed_practice",
-        "description": "Permitting, aiding or abetting an unlicensed person to perform activities requiring a license",
+        "description": "Permitting, aiding, or abetting an unlicensed person to perform activities requiring a license",
         "quote": "Permitting, aiding or abetting an unlicensed person to perform activities requiring a license",
         "citation": "6509"
       },
       {
         "short_label": "practice_while_suspended_or_failure_to_register",
-        "description": "Practicing the profession while the license is suspended, or wilfully failing to register or notify the department of any change of name or mailing address",
+        "description": "Practicing while license is suspended, or willfully failing to register or notify department of name/address change",
         "quote": "Practicing the profession while the license is suspended, or wilfully failing to register or notify the department of any change of name or mailing address",
         "citation": "6509"
       },
       {
         "short_label": "unprofessional_conduct",
-        "description": "Committing unprofessional conduct, as defined by the board of regents in its rules or by the commissioner in regulations approved by the board of regents",
+        "description": "Committing unprofessional conduct as defined by the board of regents or commissioner",
         "quote": "Committing unprofessional conduct, as defined by the board of regents in its rules or by the commissioner in regulations approved by the board of regents",
         "citation": "6509"
       },
       {
-        "short_label": "violation_of_public_health_law_patient_dumping_or_infection_control",
+        "short_label": "public_health_law_2803d_2805k_violation",
         "description": "A violation of section twenty-eight hundred three-d or twenty-eight hundred five-k of the public health law",
-        "quote": "A violation of section twenty-eight hundred three-d or twenty-eight hundred five-k of the public health law",
+        "quote": "A violation of section twenty-eight hundred three-d or twenty-eight hundred five-k of the public health law.",
         "citation": "6509"
       },
       {
-        "short_label": "violation_of_infection_control_requirements",
-        "description": "A violation of the infection control coursework requirements by a professional other than those exempt under the public health law",
-        "quote": "A violation of section six thousand five hundred five-b of this chapter by a professional other than a professional subject to the provisions of paragraph (f) of subdivision one of section twenty-eight hundred five-k of the public health law",
+        "short_label": "infection_control_training_violation",
+        "description": "Violation of section 6505-b (infection control training) by an applicable professional",
+        "quote": "A violation of section six thousand five hundred five-b of this chapter by a professional other than a professional subject to the provisions of paragraph (f) of subdivision one of section twenty-eight hundred five-k of the public health law.",
         "citation": "6509"
       }
     ],
@@ -287,56 +270,52 @@
     },
     "citations": [
       {
-        "cite": "6521",
-        "kind": "scope definition"
+        "cite": "6521 - Definition of Practice of Medicine.",
+        "kind": "scope_definition"
       },
       {
-        "cite": "6522",
-        "kind": "license requirement and title protection"
+        "cite": "6522 - Practice of Medicine and Use of Title \"Physician\".",
+        "kind": "scope_and_title_protection"
       },
       {
-        "cite": "6523",
-        "kind": "state board for medicine"
+        "cite": "6523 - State Board for Medicine.",
+        "kind": "regulatory_authority"
       },
       {
-        "cite": "6524",
-        "kind": "licensure requirements"
+        "cite": "6524 - Requirements for a Professional License.",
+        "kind": "licensure_requirements"
       },
       {
-        "cite": "6525",
-        "kind": "limited permits"
+        "cite": "6525 - Limited Permits.",
+        "kind": "limited_permits"
       },
       {
-        "cite": "6526",
-        "kind": "exempt persons"
+        "cite": "6526 - Exempt Persons.",
+        "kind": "exemptions"
       },
       {
-        "cite": "6527",
-        "kind": "special provisions"
-      },
-      {
-        "cite": "6528",
-        "kind": "foreign medical graduate qualification"
+        "cite": "6528 - Qualification of Certain Applicants for Licensure.",
+        "kind": "foreign_graduates"
       },
       {
         "cite": "6501",
-        "kind": "admission to profession"
+        "kind": "general_licensing"
       },
       {
         "cite": "6502",
-        "kind": "duration and registration"
+        "kind": "license_duration_registration"
       },
       {
         "cite": "6506",
-        "kind": "board of regents supervision / endorsement"
+        "kind": "endorsement_reciprocity"
       },
       {
         "cite": "6507",
-        "kind": "department administration / CE"
+        "kind": "administration_CE"
       },
       {
         "cite": "6509",
-        "kind": "professional misconduct definitions"
+        "kind": "disciplinary_grounds"
       },
       {
         "cite": "6511",
@@ -344,11 +323,11 @@
       },
       {
         "cite": "6512",
-        "kind": "unauthorized practice"
+        "kind": "unauthorized_practice_crime"
       },
       {
         "cite": "6513",
-        "kind": "unauthorized title use"
+        "kind": "unauthorized_title_crime"
       }
     ]
   },
@@ -369,39 +348,37 @@
       "citation": "6521 - Definition of Practice of Medicine."
     },
     "drug_authority": {
-      "value": "Licensed physicians may prescribe and order drugs, including non-patient specific regimens to registered professional nurses for immunizations and emergency treatments, and patient-specific or non-patient specific orders to licensed pharmacists for immunizations, HIV post-exposure prophylaxis, insulin and related supplies, and self-administered hormonal contraceptives.",
+      "value": "Licensed physicians may prescribe; statute explicitly authorizes prescribing non-patient-specific regimens to nurses (for immunizations, emergency treatment, various tests), and patient-specific or non-patient-specific orders to pharmacists (for immunizations, HIV PEP, insulin, hormonal contraceptives).",
       "quote": "A licensed physician may prescribe and order a non-patient specific regimen to a registered professional nurse, pursuant to regulations promulgated by the commissioner",
       "citation": "6527 - Special Provisions."
     },
     "citations": [
       {
-        "cite": "6521",
-        "kind": "scope definition"
+        "cite": "6521 - Definition of Practice of Medicine.",
+        "kind": "scope_definition"
       },
       {
-        "cite": "6522",
-        "kind": "title and scope protection"
-      },
-      {
-        "cite": "6527",
-        "kind": "prescribing authority"
+        "cite": "6527 - Special Provisions.",
+        "kind": "prescribing_authority"
       }
     ]
   },
   "profession_specific": {
     "license_status_types": {
       "value": [
-        "active",
         "inactive",
-        "limited permit"
+        "limited permit",
+        "suspended",
+        "revoked",
+        "annulled"
       ],
       "quote": "The licensure status of such licensee shall be \"inactive\" and he or she shall not be authorized to practice the profession",
       "citation": "6510-b"
     },
     "foreign_medical_graduate_requirements": {
-      "value": "Foreign medical graduates who are US residents must have studied at a WHO-recognized foreign medical school, completed all formal requirements except internship/social service, attained a qualifying examination score satisfactory to an LCME-approved medical school with one year of supervised clinical training, completed required postgraduate hospital training, and passed the licensing examination. Alternatively, a foreign physician may qualify for a limited permit by holding an ECFMG standard certificate or passing an examination satisfactory to the state board.",
-      "quote": "has studied medicine in a medical school located outside the United States which is recognized by the World Health Organization; has completed all of the formal requirements of the foreign medical school except internship and/or social service; has attained a score satisfactory to a medical school approved by the Liaison Committee on Medical Education on a qualifying examination acceptable to the state board for medicine, and has satisfactorily completed one academic year of supervised clinical training under the direction of such medical school",
-      "citation": "6528 - Qualification of Certain Applicants for Licensure."
+      "value": "A foreign physician must hold a standard certificate from the Educational Council for Foreign Medical Graduates or pass an exam satisfactory to the state board for medicine. Alternatively, a US resident enrolled in a foreign medical school recognized by the WHO may qualify if they complete formal requirements (except internship/social service), attain a satisfactory score on a qualifying examination accepted by an LCME-approved school, complete one academic year of supervised clinical training, complete required post-graduate hospital training, and pass the licensing examination.",
+      "quote": "A foreign physician who holds a standard certificate from the educational council for foreign medical graduates or who has passed an examination satisfactory to the state board for medicine and in accordance with the commissioner's regulations",
+      "citation": "6525 - Limited Permits."
     },
     "postgraduate_training_years_required": null,
     "pain_management_education_required": null,
@@ -425,6 +402,92 @@
     "administrative_medicine_license_available": null,
     "locum_tenens_permit_available": null,
     "sexual_misconduct_training_required": null,
-    "investigational_drug_protection": null
+    "investigational_drug_protection": null,
+    "scope__license_status_types": [
+      {
+        "item": "Inactive License",
+        "status": "present",
+        "quote": "The licensure status of such licensee shall be \"inactive\" and he or she shall not be authorized to practice the profession",
+        "citation": "6510-b"
+      },
+      {
+        "item": "Retired License",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Temporary License / Permit",
+        "status": "present",
+        "quote": "Permits limited as to eligibility, practice and duration, shall be issued by the department to eligible applicants",
+        "citation": "6525 - Limited Permits."
+      },
+      {
+        "item": "Restricted License",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Probationary License",
+        "status": "present",
+        "quote": "The board of regents may stay such penalties in whole or in part, may place the licensee on probation",
+        "citation": "6511"
+      },
+      {
+        "item": "Suspended License",
+        "status": "present",
+        "quote": "suspension of license, (a) wholly, for a fixed period of time; (b) partially, until the licensee successfully completes a course of retraining in the area to which the suspension applies",
+        "citation": "6511"
+      },
+      {
+        "item": "Revoked License",
+        "status": "present",
+        "quote": "revocation of license",
+        "citation": "6511"
+      },
+      {
+        "item": "Surrendered License",
+        "status": "present",
+        "quote": "The license and registration of a licensee who may be temporarily incapacitated for the active practice of a profession ... may be voluntarily surrendered to the department",
+        "citation": "6510-b"
+      },
+      {
+        "item": "Academic License",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Volunteer / Charitable License",
+        "status": "present",
+        "quote": "A physician shall not be required to pay any fee under this section if he or she certifies to the department that for the period of registration or licensure, he or she shall only practice medicine without compensation or the expectation or promise of compensation.",
+        "citation": "6524 - Requirements for a Professional License."
+      },
+      {
+        "item": "Expedited / Interstate Compact License",
+        "status": "present",
+        "quote": "any applicant seeking to qualify for a license pursuant to this title who is the spouse of an active duty member of the armed forces of the United States ... shall be afforded an expedited review of his or her application for licensure",
+        "citation": "6501"
+      },
+      {
+        "item": "Intern / Resident Permit",
+        "status": "present",
+        "quote": "Any physician who is employed as a resident in a public hospital, provided such practice is limited to such hospital and is under the supervision of a licensed physician",
+        "citation": "6526 - Exempt Persons."
+      },
+      {
+        "item": "Graduate Registered Physician License",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Locum Tenens Permit",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      }
+    ]
   }
 }

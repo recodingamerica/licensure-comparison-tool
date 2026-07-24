@@ -50,23 +50,32 @@
     "renewal": {
       "interval_years": {
         "value": 1,
-        "quote": "The application for a certificate for the current contractor year must be made to the registrar before March second of each year",
+        "quote": "Any license issued under this chapter may be renewed for each successive contractor year by obtaining from the registrar a certificate for the current contractor year.",
         "citation": "43-07-10"
       }
     },
-    "renewal_fee_usd": null,
-    "continuing_education": null,
+    "renewal_fee_usd": {
+      "value": 90,
+      "quote": "For a class A license, the sum of ninety dollars.",
+      "citation": "43-07-07"
+    },
+    "continuing_education": {
+      "required": {
+        "value": false,
+        "quote": "Any license issued under this chapter may be renewed for each successive contractor year by obtaining from the registrar a certificate for the current contractor year.",
+        "citation": "43-07-10"
+      },
+      "hours_per_period": null,
+      "period_years": null,
+      "topical_requirements": null
+    },
     "reciprocity": {
       "available": {
-        "value": true,
-        "quote": "Unless the board is part of an effective interstate compact, an executed license transfer, existing interstate mobility, or reciprocity agreement with another state, a board shall issue a license to an out-of-state licensee applicant to practice in this state if, upon application to the board, the applicant",
-        "citation": "UMBRELLA / Chapter 43-51.1 - Universal Licensure and Board Operations"
+        "value": false,
+        "quote": "Every applicant for a contractor's license who is not a resident of the state of North Dakota, by signing and filing the application, appoints the registrar as the applicant's true and lawful agent upon whom may be served all lawful process",
+        "citation": "43-07-19"
       },
-      "requirements": {
-        "value": "Out-of-state licensee must have actively used the license for two of the three years immediately preceding application, demonstrate competency, have no disqualifying disciplinary history, and pay applicable fees.",
-        "quote": "a board shall issue a license to an out-of-state licensee applicant to practice in this state if, upon application to the board, the applicant: a. Actively has used the license for two of the three years immediately preceding submitting an application under this section; b. Provides or demonstrates competency and education in the profession or occupation through methods determined by the board;",
-        "citation": "UMBRELLA / Chapter 43-51.1 - Universal Licensure and Board Operations"
-      }
+      "requirements": null
     },
     "advisory_board": {
       "exists": {
@@ -86,12 +95,12 @@
     },
     "credential_type": {
       "value": "license",
-      "quote": "the applicant desires the issuance of a license under this chapter",
-      "citation": "43-07-04"
+      "quote": "Four classes of licenses may be issued under this chapter, which must be designated as class A, B, C, and D licenses.",
+      "citation": "43-07-07"
     },
     "is_mandatory": {
       "value": true,
-      "quote": "A person may not engage in the business nor act in the capacity of a contractor within this state when the cost, value, or price per job exceeds the sum of four thousand dollars nor may that person maintain any claim, action, suit, or proceeding in any court of this state related to the person's business or capacity as a contractor without first having a license as provided in this chapter.",
+      "quote": "A person may not engage in the business nor act in the capacity of a contractor within this state when the cost, value, or price per job exceeds the sum of four thousand dollars",
       "citation": "43-07-02"
     },
     "title_protection": {
@@ -106,45 +115,45 @@
     },
     "disciplinary_grounds": [
       {
-        "short_label": "false_information_in_application",
-        "description": "Application for license contains false or misleading information",
+        "short_label": "false_misleading_application",
+        "description": "Application for a license contains false or misleading information",
         "quote": "The application for a license contains false or misleading information;",
         "citation": "43-07-04.1"
       },
       {
-        "short_label": "conviction_bearing_on_fitness",
-        "description": "Applicant or licensee convicted of offense with direct bearing on ability to serve public as a contractor",
-        "quote": "The applicant or licensee has been convicted of an offense that has direct bearing upon the applicant's or licensee's ability to serve the public as a contractor; or",
+        "short_label": "conviction_bearing_on_ability",
+        "description": "Applicant or licensee has been convicted of an offense with direct bearing on ability to serve the public as a contractor",
+        "quote": "The applicant or licensee has been convicted of an offense that has direct bearing upon the applicant's or licensee's ability to serve the public as a contractor;",
         "citation": "43-07-04.1"
       },
       {
-        "short_label": "dishonest_or_fraudulent_conduct",
-        "description": "Licensee or applicant engaged in conduct as a contractor that is dishonest or fraudulent and injurious to public welfare",
+        "short_label": "dishonest_fraudulent_conduct",
+        "description": "Licensee or applicant engaged in dishonest or fraudulent conduct as a contractor injurious to the public welfare",
         "quote": "The licensee or applicant has engaged in conduct as a contractor which is dishonest or fraudulent and which the registrar finds injurious to the welfare of the public.",
         "citation": "43-07-04.1"
       },
       {
-        "short_label": "contract_abandonment",
-        "description": "Abandonment of a contract without legal excuse after receiving deposit of money or other consideration",
+        "short_label": "abandonment_of_contract",
+        "description": "Abandonment of any contract without legal excuse after a deposit of money or other consideration has been provided",
         "quote": "Abandonment of any contract without legal excuse after a deposit of money or other consideration has been provided to the licensee.",
         "citation": "43-07-14"
       },
       {
         "short_label": "diversion_of_funds",
-        "description": "Diversion of funds received for a specific contract to other obligations or purposes to defraud or deceive creditors or owner",
+        "description": "Diversion of funds or property received for prosecution or completion of a specific contract for another purpose to defraud creditors or the owner",
         "quote": "Diversion of funds or property received under express agreement for the prosecution or completion of a specific contract under this chapter, or for a specified purpose in the prosecution or completion of any contract, and their application or use for any other contract obligation or purpose to defraud or deceive creditors or the owner.",
         "citation": "43-07-14"
       },
       {
-        "short_label": "fraudulent_or_deceptive_acts",
-        "description": "Engaging in fraudulent or deceptive acts or misrepresentation as a contractor injuring persons in a total amount exceeding three thousand dollars",
+        "short_label": "fraudulent_deceptive_acts",
+        "description": "Engaging in fraudulent or deceptive acts or practices or misrepresentation as a contractor causing injury exceeding $3,000",
         "quote": "Engaging in any fraudulent or deceptive acts or practices or misrepresentation as a contractor in consequence of which one or more persons is injured in a total amount exceeding three thousand dollars.",
         "citation": "43-07-14"
       },
       {
-        "short_label": "false_or_misleading_statement",
-        "description": "Making false or misleading statement in application for license or renewal, or violating chapter, or conviction of disqualifying offense",
-        "quote": "The making of any false or misleading statement in any application for a license or renewal or by violating this chapter or being convicted of an offense the registrar determines has a direct bearing on the applicant's or licensee's ability to serve the public as a contractor as set out in section 12.1-33-02.1.",
+        "short_label": "false_misleading_statement_in_application_or_renewal",
+        "description": "Making false or misleading statement in any application for license or renewal, or violating the chapter, or being convicted of a directly bearing offense",
+        "quote": "The making of any false or misleading statement in any application for a license or renewal or by violating this chapter or being convicted of an offense the registrar determines has a direct bearing on the applicant's or licensee's ability to serve the public as a contractor",
         "citation": "43-07-14"
       },
       {
@@ -155,7 +164,7 @@
       },
       {
         "short_label": "failure_to_refund_advance_payment",
-        "description": "Failure to refund fully the contracting party's advance payment when presumption of abandonment has arisen and refund has been requested",
+        "description": "Failure to fully refund the contracting party's advance payment when a rebuttable presumption of abandonment has arisen and a refund has been requested",
         "quote": "Failure to refund fully the contracting party's advance payment if a rebuttable presumption of abandonment has arisen and the contracting party has made a request to the licensee for a refund.",
         "citation": "43-07-14"
       }
@@ -184,7 +193,7 @@
       },
       {
         "cite": "43-07-04.1",
-        "kind": "denial, suspension, revocation"
+        "kind": "denial/suspension/revocation"
       },
       {
         "cite": "43-07-07",
@@ -196,7 +205,7 @@
       },
       {
         "cite": "43-07-09",
-        "kind": "expiration of license"
+        "kind": "expiration"
       },
       {
         "cite": "43-07-10",
@@ -204,15 +213,15 @@
       },
       {
         "cite": "43-07-14",
-        "kind": "complaint and disciplinary grounds"
+        "kind": "complaint grounds"
       },
       {
         "cite": "43-07-15",
-        "kind": "revocation/suspension procedure"
+        "kind": "revocation procedure"
       },
       {
         "cite": "43-07-17",
-        "kind": "relicensing after revocation"
+        "kind": "relicensing"
       },
       {
         "cite": "43-07-24",
@@ -222,7 +231,7 @@
   },
   "scope": {
     "definition_quote": {
-      "value": "\"Contractor\" means any person engaged in the business of construction, repair, alteration, dismantling, or demolition of bridges, highways, roads, streets, buildings, airports, dams, drainage or irrigation ditches, sewers, water or gas mains, water filters, tanks, towers, oil, gas, or water pipelines, and every other type of structure, project, development, or improvement coming within the definition of real or personal property, including the construction, alteration, or repair of property to be held either for sale or rental, and includes subcontractor, public contractor, and nonresident contractor.",
+      "value": "\"Contractor\" means any person engaged in the business of construction, repair, alteration, dismantling, or demolition of bridges, highways, roads, streets, buildings, airports, dams, drainage or irrigation ditches, sewers, water or gas mains, water filters, tanks, towers, oil, gas, or water pipelines, and every other type of structure, project, development, or improvement coming within the definition of real or personal property",
       "quote": "\"Contractor\" means any person engaged in the business of construction, repair, alteration, dismantling, or demolition of bridges, highways, roads, streets, buildings, airports, dams, drainage or irrigation ditches, sewers, water or gas mains, water filters, tanks, towers, oil, gas, or water pipelines, and every other type of structure, project, development, or improvement coming within the definition of real or personal property",
       "citation": "43-07-01"
     },
@@ -242,10 +251,6 @@
       {
         "cite": "43-07-01",
         "kind": "definition of contractor"
-      },
-      {
-        "cite": "43-07-02",
-        "kind": "scope protection"
       }
     ]
   },
@@ -262,7 +267,14 @@
     "hvac_continuing_education_topic_hours_minimum": null,
     "gas_appliance_certification_required": null,
     "natural_gas_facilities_installation_authorized": null,
-    "financial_responsibility_demonstration_methods": null,
+    "financial_responsibility_demonstration_methods": {
+      "value": [
+        "General liability insurance",
+        "Workers' compensation insurance"
+      ],
+      "quote": "A copy of a certificate of liability insurance must be filed with the application and the contractor shall submit a statement from North Dakota workforce safety and insurance that the contractor has secured workforce safety and insurance coverage",
+      "citation": "43-07-04"
+    },
     "workers_compensation_insurance_required": {
       "value": true,
       "quote": "the contractor shall submit a statement from North Dakota workforce safety and insurance that the contractor has secured workforce safety and insurance coverage satisfactory to workforce safety and insurance.",
@@ -281,9 +293,327 @@
     "hvac_exempt_from_small_project_exemption": null,
     "license_number_on_permits_required": {
       "value": true,
-      "quote": "When applying for a building permit, a contractor shall supply the permit issuing official that contractor's license number. That official shall enter those numbers on the permit.",
+      "quote": "When applying for a building permit, a contractor shall supply the permit issuing official that contractor's license number.",
       "citation": "43-07-24"
     },
-    "scope_expansion_by_rule_authorized": null
+    "scope_expansion_by_rule_authorized": null,
+    "scope__system_components_included": [
+      {
+        "item": "Air heating fixture",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Air cooling fixture",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Pipes / piping",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Plenums",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Blowers",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Ductwork",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Air filters",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Air delivery and return grilles",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Exhaust fans",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Refrigerating machinery",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Refrigerant lines",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Compressors",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Self-contained refrigeration units",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Window-type air conditioning units",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Central heating unit",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Liquefied petroleum gas appliances",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Gas fitting / gas piping connections",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Manual safety shutoff gas cock",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Flue gas vents",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Combustion air systems",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Ventilation systems",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Piping fixtures, devices, and equipment",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Accessories and ancillary equipment",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Boilers and steamfitting",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Hot water systems",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Process cooling and heating systems",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Electrical connections to HVAC units",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Comfort heating and cooling systems",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      }
+    ],
+    "scope__qualifier_license_type_required": [
+      {
+        "item": "Mechanical Administrator License",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Certified Heating, Air Conditioning, and Refrigeration Contractor License",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Master HVACR License",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Master HVACR Restricted License",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Class A Air-Conditioning Contractor License",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Class B Air-Conditioning Contractor License",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Class C Air-Conditioning Contractor License",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Mechanical Contractor License",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Mechanical Contractor Registration (Certificate of Registration)",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      }
+    ],
+    "scope__financial_responsibility_demonstration_methods": [
+      {
+        "item": "Surety bond",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Cash deposit",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Certificate of deposit / investment certificate / share account",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "General liability insurance",
+        "status": "present",
+        "quote": "A copy of a certificate of liability insurance must be filed with the application",
+        "citation": "43-07-04"
+      },
+      {
+        "item": "Workers' compensation insurance",
+        "status": "present",
+        "quote": "the contractor shall submit a statement from North Dakota workforce safety and insurance that the contractor has secured workforce safety and insurance coverage satisfactory to workforce safety and insurance.",
+        "citation": "43-07-04"
+      },
+      {
+        "item": "Professional liability insurance",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Credit report from a nationally recognized credit agency",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Evidence of net worth",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Evidence of minimum cash holdings",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Completion of a financial responsibility course",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Assumption of personal financial responsibility by a financially responsible officer",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Affidavit of insurance",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Satisfaction of or accord regarding unsatisfied judgments",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Proof of good standing with the state business registry (Secretary of State)",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Minimum general liability insurance coverage established by board rule",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      }
+    ]
   }
 }

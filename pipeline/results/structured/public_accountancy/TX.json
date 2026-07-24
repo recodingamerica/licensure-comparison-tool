@@ -33,8 +33,8 @@
     },
     "education": {
       "degree_required": {
-        "value": "baccalaureate or graduate degree, or its equivalent as determined by board rule, conferred by a board-recognized institution of higher education",
-        "quote": "hold a baccalaureate or graduate degree, or its equivalent as determined by board rule, conferred by a board-recognized institution of higher education",
+        "value": "baccalaureate or graduate degree, or its equivalent as determined by board rule, conferred by a board-recognized institution of higher education; and complete at least 120 semester hours",
+        "quote": "hold a baccalaureate or graduate degree, or its equivalent as determined by board rule, conferred by a board-recognized institution of higher education; and complete at least 120 semester hours or quarter-hour equivalents in board-recognized courses",
         "citation": "901.254"
       },
       "accrediting_body": null,
@@ -50,10 +50,25 @@
       },
       "credential_pegged": {
         "value": false,
-        "quote": "complete at least 150 semester hours or quarter-hour equivalents in board-recognized courses, including an accounting concentration or equivalent courses that meet the education requirements established under Section 901.254, as determined by board rule",
-        "citation": "901.252"
+        "quote": "hold a baccalaureate or graduate degree, or its equivalent as determined by board rule, conferred by a board-recognized institution of higher education",
+        "citation": "901.254"
       },
-      "tiers": null
+      "tiers": [
+        {
+          "license_class": "certificate applicants (until August 1, 2026)",
+          "degree_level": "bachelor",
+          "effective_date": null,
+          "quote": "complete at least 150 semester hours or quarter-hour equivalents in board-recognized courses, including an accounting concentration or equivalent courses",
+          "citation": "901.252"
+        },
+        {
+          "license_class": "certificate applicants with baccalaureate degree only (effective August 1, 2026)",
+          "degree_level": "bachelor",
+          "effective_date": "2026-08-01",
+          "quote": "a baccalaureate degree with an accounting concentration or equivalent courses that meet the education requirements established under Section 901.254, as determined by board rule",
+          "citation": "901.252"
+        }
+      ]
     },
     "post_degree_experience": {
       "required": {
@@ -63,16 +78,16 @@
       },
       "experience_source": {
         "value": "required_by_statute",
-        "quote": "complete at least one year of work experience acceptable to the board, including experience providing a service or advice involving accounting, attest services, management or financial advisory or consulting services, tax services, or other services the board considers appropriate for an accountant",
+        "quote": "complete at least one year of work experience acceptable to the board",
         "citation": "901.256"
       },
       "duration": {
-        "value": "at least one year",
+        "value": "at least one year (or two years for baccalaureate-only pathway effective August 1, 2026)",
         "quote": "complete at least one year of work experience acceptable to the board",
         "citation": "901.256"
       },
       "kind": {
-        "value": "work experience in accounting, attest, advisory, tax, or related services",
+        "value": "work experience in accounting, attest services, management or financial advisory or consulting services, tax services",
         "quote": "experience providing a service or advice involving accounting, attest services, management or financial advisory or consulting services, tax services, or other services the board considers appropriate for an accountant",
         "citation": "901.256"
       }
@@ -81,16 +96,16 @@
       {
         "name": "Uniform CPA Examination",
         "required": true,
-        "notes": "Prepared and graded by AICPA or NASBA. Board conducts or contracts for administration.",
-        "jurisdiction": "national (AICPA/NASBA)",
+        "notes": "Administered at least once per year; board may use AICPA or NASBA exam materials.",
+        "jurisdiction": "national (AICPA / NASBA)",
         "permitted_attempts": null,
         "quote": "pass the uniform CPA examination",
         "citation": "901.252"
       },
       {
-        "name": "Examination on Rules of Professional Conduct",
+        "name": "Rules of Professional Conduct Examination",
         "required": true,
-        "notes": "State-specific ethics exam required for certificate eligibility.",
+        "notes": "Separate ethics exam required for certificate; also required for non-licensee owners of CPA firms.",
         "jurisdiction": "state (board-determined)",
         "permitted_attempts": null,
         "quote": "pass an examination on the rules of professional conduct as determined by board rule",
@@ -114,12 +129,12 @@
     "reciprocity": {
       "available": {
         "value": true,
-        "quote": "The board shall issue a certificate to a person who holds a certificate or license issued by another state",
+        "quote": "The board shall issue a certificate to a person who holds a certificate or license issued by another state if the person satisfies at least one of the following",
         "citation": "901.259"
       },
       "requirements": {
-        "value": "Applicant must hold a certificate or license from another state and satisfy one of: (A) meets TX requirements except passing grades on CPA exam; (B) met TX requirements in effect on date of other-state certificate; or (C) has at least four years of experience practicing public accountancy after passing the CPA exam within the preceding 10 years; plus must have met CPE requirements for the three-year period preceding application.",
-        "quote": "The board shall issue a certificate to a person who holds a certificate or license issued by another state if the person: (1) satisfies at least one of the following ... (2) has met the continuing professional education requirements that apply to a license holder under this chapter for the three-year period preceding the date of application.",
+        "value": "Applicant must hold a certificate or license from another state and either: (A) meet TX requirements except exam grades, (B) met TX requirements in effect when originally licensed, or (C) have at least 4 years of post-exam experience within 10 years of application; and must have met CPE requirements for 3 years preceding application.",
+        "quote": "The board shall issue a certificate to a person who holds a certificate or license issued by another state if the person satisfies at least one of the following",
         "citation": "901.259"
       }
     },
@@ -135,7 +150,7 @@
     "national_certification": null,
     "national_association": {
       "value": "American Institute of Certified Public Accountants (AICPA)",
-      "quote": "the board may use or require the use of all or part of the uniform CPA examination and any related service available from: (1) the American Institute of Certified Public Accountants",
+      "quote": "the board may use or require the use of all or part of the uniform CPA examination and any related service available from: (1) the American Institute of Certified Public Accountants; or (2) the National Association of State Boards of Accountancy.",
       "citation": "901.306"
     },
     "regulatory_model": {
@@ -150,12 +165,12 @@
     },
     "is_mandatory": {
       "value": true,
-      "quote": "A person who is an individual may not engage in the practice of public accountancy unless the person holds a certificate issued under this chapter or practices in this state under a privilege under Section 901.462.",
+      "quote": "A person who is an individual may not engage in the practice of public accountancy unless the person holds a certificate issued under this chapter",
       "citation": "901.251"
     },
     "title_protection": {
       "value": true,
-      "quote": "A person may not assume or use the title or designation \" certified public accountant,\" the abbreviation \"CPA,\" or any other title, designation, word, letter, abbreviation, sign, card, or device tending to indicate that the person is a certified public accountant unless the person holds a certificate under this chapter.",
+      "quote": "A person may not assume or use the title or designation \"certified public accountant,\" the abbreviation \"CPA,\" or any other title, designation, word, letter, abbreviation, sign, card, or device tending to indicate that the person is a certified public accountant unless the person holds a certificate under this chapter.",
       "citation": "901.451"
     },
     "scope_protection": {
@@ -172,25 +187,25 @@
       },
       {
         "short_label": "fraud_dishonesty_gross_negligence_in_practice",
-        "description": "Fraud, dishonesty, or gross negligence in the performance of services as a license holder, including preparing false financial statements or failing to file own tax return.",
+        "description": "Fraud, dishonesty, or gross negligence in the performance of services, including preparing false financial statements or failing to file own tax return.",
         "quote": "fraud, dishonesty, or gross negligence in the performance of services as a license holder, including: (A) knowingly participating in the preparation of a false or misleading financial statement or tax return; or (B) failing to file the license holder's own income tax return",
         "citation": "901.502"
       },
       {
-        "short_label": "failure_to_obtain_license_after_certification",
+        "short_label": "failure_to_obtain_license_timely",
         "description": "Failure of a certified person or firm to obtain a license within three years of certification.",
         "quote": "the failure of a person who is certified or required to hold a firm license under this chapter to obtain a license not later than the third anniversary of the date on which the person was certified or required to obtain a firm license",
         "citation": "901.502"
       },
       {
-        "short_label": "failure_to_renew_license",
-        "description": "Failure to renew a license within three years of last obtaining or renewing it.",
+        "short_label": "failure_to_renew_license_timely",
+        "description": "Failure of a licensed person to renew within three years of last obtaining or renewing the license.",
         "quote": "the failure of a person who is licensed under this chapter to renew the license not later than the third anniversary of the date on which the person most recently obtained or renewed the license",
         "citation": "901.502"
       },
       {
         "short_label": "violation_of_subchapter_j",
-        "description": "Violation of Subchapter J (title use and practice restrictions).",
+        "description": "Violation of Subchapter J (title and practice restrictions).",
         "quote": "a violation of Subchapter J",
         "citation": "901.502"
       },
@@ -201,20 +216,20 @@
         "citation": "901.502"
       },
       {
-        "short_label": "partner_member_shareholder_disciplinary_action",
-        "description": "Revocation or suspension of the certificate or firm license of the person's partner, member, or shareholder.",
+        "short_label": "revocation_suspension_of_partner_member_shareholder",
+        "description": "Revocation or suspension of certificate or firm license of the person's partner, member, or shareholder.",
         "quote": "a revocation or suspension of the certificate or firm license or a revocation, suspension, or refusal to renew the license of the person's partner, member, or shareholder",
         "citation": "901.502"
       },
       {
-        "short_label": "out_of_state_disciplinary_action",
-        "description": "Revocation, cancellation, probation, limitation, or suspension by another state of the person's or their partner's authority to practice public accountancy.",
-        "quote": "a revocation, cancellation, placement on probation, limitation on the scope of practice, or suspension by another state, or a refusal of renewal by another state, of the authority issued by that state to the person, or to the person's partner, member, or shareholder, to engage in the practice of public accountancy",
+        "short_label": "out_of_state_discipline",
+        "description": "Revocation, cancellation, probation, limitation, suspension, or refusal to renew by another state for reasons other than failure to pay fees.",
+        "quote": "a revocation, cancellation, placement on probation, limitation on the scope of practice, or suspension by another state, or a refusal of renewal by another state, of the authority issued by that state to the person, or to the person's partner, member, or shareholder, to engage in the practice of public accountancy for a reason other than the failure to pay the appropriate authorization fee",
         "citation": "901.502"
       },
       {
-        "short_label": "federal_agency_practice_revocation",
-        "description": "Revocation, suspension, or voluntary consent decree regarding the right to practice before a state or federal agency.",
+        "short_label": "federal_agency_practice_suspension",
+        "description": "Revocation, suspension, or voluntary consent decree concerning the right to practice before a state or federal agency.",
         "quote": "a revocation or suspension of, or a voluntary consent decree concerning, the right of the person, or of the person's partner, member, or shareholder, to practice before a state or federal agency for a reason the board determines warrants its action",
         "citation": "901.502"
       },
@@ -231,8 +246,8 @@
         "citation": "901.502"
       },
       {
-        "short_label": "violation_of_chapter_or_board_rules",
-        "description": "Violation by a license holder or non-licensee owner of the chapter, professional standards, or board rules or orders.",
+        "short_label": "violation_of_chapter_or_rules_by_licensee_or_nonlicensee_owner",
+        "description": "Violation of the chapter, professional standards, or board rules by a license holder or non-licensee owner of a CPA firm.",
         "quote": "a violation by a license holder or an owner of a certified public accountancy firm who is not a license holder of: (A) this chapter; (B) professional standards adopted by the board; or (C) a rule or order adopted by the board",
         "citation": "901.502"
       }
@@ -242,7 +257,7 @@
       "insurance_required": null,
       "establishment_regulation_required": {
         "value": true,
-        "quote": "A firm may not provide attest services or use the title \"CPA's,\" \"CPA Firm,\" \"Certified Public Accountants,\" \"Certified Public Accounting Firm,\" or \"Auditing Firm\" or a variation of one of those titles unless the firm holds a firm license issued under this subchapter or practices in this state under a privilege under Section 901.461.",
+        "quote": "A firm may not provide attest services or use the title \"CPA's,\" \"CPA Firm,\" \"Certified Public Accountants,\" \"Certified Public Accounting Firm,\" or \"Auditing Firm\" or a variation of one of those titles unless the firm holds a firm license issued under this subchapter",
         "citation": "901.351"
       }
     },
@@ -277,11 +292,15 @@
       },
       {
         "cite": "901.301",
-        "kind": "examination administration"
+        "kind": "exam administration"
       },
       {
         "cite": "901.351",
         "kind": "firm license required"
+      },
+      {
+        "cite": "901.354",
+        "kind": "firm license information and eligibility"
       },
       {
         "cite": "901.401",
@@ -289,11 +308,11 @@
       },
       {
         "cite": "901.402",
-        "kind": "license eligibility"
+        "kind": "eligibility and prohibition"
       },
       {
         "cite": "901.403",
-        "kind": "license renewal"
+        "kind": "application and renewal"
       },
       {
         "cite": "901.411",
@@ -305,23 +324,23 @@
       },
       {
         "cite": "901.456",
-        "kind": "attest services restriction"
+        "kind": "reports on financial statements"
       },
       {
         "cite": "901.457",
-        "kind": "client confidentiality"
+        "kind": "confidentiality"
       },
       {
-        "cite": "901.459",
-        "kind": "firm reciprocity"
+        "cite": "901.460",
+        "kind": "performing attest services"
       },
       {
         "cite": "901.461",
-        "kind": "out-of-state firm practice privilege"
+        "kind": "out-of-state firm practice"
       },
       {
         "cite": "901.462",
-        "kind": "out-of-state practitioner practice privilege"
+        "kind": "out-of-state practitioner practice privileges"
       },
       {
         "cite": "901.501",
@@ -339,8 +358,8 @@
   },
   "scope": {
     "definition_quote": {
-      "value": "\"practice of public accountancy\" means: (1) the performance for a client by a person who is certified, licensed, or registered under this chapter of a service that involves the use of accounting, attesting, or auditing skills; (2) the performance or offer of performance for a client or potential client by a person who represents to the public that the person is certified, licensed, or registered under this chapter of a service that involves the use of accounting, attesting, or auditing skills; (3) the performance of activities of a person or practice unit licensed under this chapter in: (A) preparing or reporting on a financial statement or report that is to be used by an investor, the management of an organization, a third party, or a financial institution, unless the report is prepared for internal use only; or (B) preparing a tax return that is filed with a taxing authority; or (4) the supervision of an activity described by Subdivision (3).",
-      "quote": "\"practice of public accountancy\" means: (1) the performance for a client by a person who is certified, licensed, or registered under this chapter of a service that involves the use of accounting, attesting, or auditing skills",
+      "value": "the performance for a client by a person who is certified, licensed, or registered under this chapter of a service that involves the use of accounting, attesting, or auditing skills",
+      "quote": "the performance for a client by a person who is certified, licensed, or registered under this chapter of a service that involves the use of accounting, attesting, or auditing skills",
       "citation": "901.003"
     },
     "methods_authorized": {
@@ -348,7 +367,7 @@
         "issuing a report on or preparing a financial statement",
         "providing management or financial advisory or consulting services",
         "preparing a tax return or advising or consulting on a tax matter",
-        "attest services (audit, review, compilation, attestation engagements)",
+        "performing attest services",
         "supervision of accounting activities"
       ],
       "quote": "a service that involves the use of accounting, attesting, or auditing skills includes: (1) issuing a report on or preparing a financial statement; (2) providing management or financial advisory or consulting services; and (3) preparing a tax return or advising or consulting on a tax matter.",
@@ -358,47 +377,47 @@
     "citations": [
       {
         "cite": "901.003",
-        "kind": "scope definition"
+        "kind": "practice definition"
       },
       {
-        "cite": "901.002",
-        "kind": "attest service definition"
+        "cite": "901.005",
+        "kind": "public policy and purpose"
       },
       {
         "cite": "901.456",
-        "kind": "attest services restriction"
+        "kind": "reports and attest services"
       }
     ]
   },
   "profession_specific": {
     "attest_services_types": {
       "value": [
-        "audit or other engagement performed in accordance with auditing standards adopted by AICPA or recognized national accountancy organization",
-        "engagement performed in accordance with standards for accounting and review services adopted by AICPA or recognized national accountancy organization",
-        "engagement performed in accordance with standards for attestation engagements adopted by AICPA or recognized national accountancy organization",
-        "any other assurance service performed in accordance with professional standards adopted by AICPA or recognized national accountancy organization"
+        "audit or other engagement required to be performed in accordance with auditing standards adopted by AICPA or recognized national accountancy organization",
+        "engagement required to be performed in accordance with standards for accounting and review services adopted by AICPA or recognized national accountancy organization",
+        "engagement required to be performed in accordance with standards for attestation engagements adopted by AICPA or recognized national accountancy organization",
+        "any other assurance service required to be performed in accordance with professional standards adopted by AICPA or recognized national accountancy organization"
       ],
       "quote": "\"Attest service\" means: (A) an audit or other engagement required by the board to be performed in accordance with the auditing standards adopted by the American Institute of Certified Public Accountants or another national accountancy organization recognized by the board; (B) an engagement required by the board to be performed in accordance with standards for accounting and review services adopted by the American Institute of Certified Public Accountants or another national accountancy organization recognized by the board; (C) an engagement required by the board to be performed in accordance with standards for attestation engagements adopted by the American Institute of Certified Public Accountants or another national accountancy organization recognized by the board; or (D) any other assurance service required by the board to be performed in accordance with professional standards adopted by the American Institute of Certified Public Accountants or another national accountancy organization recognized by the board.",
       "citation": "901.002"
     },
     "compilation_services_authorized": {
       "value": true,
-      "quote": "may issue nonattest transmittals or information regarding nonattest transmittals if the transmittals or information do not purport to be in compliance with standards for accounting and review services adopted by the American Institute of Certified Public Accountants or another national accountancy organization recognized by the board.",
-      "citation": "901.456"
+      "quote": "an engagement required by the board to be performed in accordance with standards for accounting and review services adopted by the American Institute of Certified Public Accountants or another national accountancy organization recognized by the board",
+      "citation": "901.002"
     },
     "education_semester_hours_required": {
       "value": 150,
-      "quote": "complete at least 150 semester hours or quarter-hour equivalents in board-recognized courses, including an accounting concentration or equivalent courses that meet the education requirements established under Section 901.254, as determined by board rule",
+      "quote": "complete at least 150 semester hours or quarter-hour equivalents in board-recognized courses, including an accounting concentration or equivalent courses",
       "citation": "901.252"
     },
     "exam_sit_hours_minimum": {
       "value": 120,
-      "quote": "complete at least 120 semester hours or quarter-hour equivalents in board-recognized courses, including at least 24 semester hours of accounting or equivalent courses as determined by board rule.",
+      "quote": "complete at least 120 semester hours or quarter-hour equivalents in board-recognized courses, including at least 24 semester hours of accounting or equivalent courses as determined by board rule",
       "citation": "901.254"
     },
     "ethics_exam_required": {
       "value": true,
-      "quote": "pass an examination on the rules of professional conduct as determined by board rule.",
+      "quote": "pass an examination on the rules of professional conduct as determined by board rule",
       "citation": "901.252"
     },
     "practice_privilege_no_notice_required": {
@@ -408,10 +427,10 @@
     },
     "practice_privilege_consent_conditions": {
       "value": [
-        "subject to the personal and subject matter jurisdiction and disciplinary authority of the board",
-        "must comply with this chapter and the board's rules",
-        "considered to have appointed the regulatory agency of the state that issued the individual's certificate or license as the agent on whom process may be served in any action or proceeding by the board against the individual",
-        "must promptly cease offering or rendering professional services in this state if the individual's certificate or license in the state of the individual's principal place of business is no longer valid"
+        "Subject to the personal and subject matter jurisdiction and disciplinary authority of the board",
+        "Must comply with this chapter and the board's rules",
+        "Considered to have appointed the regulatory agency of the state that issued the individual's certificate or license as the agent on whom process may be served",
+        "Must promptly cease offering or rendering professional services if the individual's certificate or license in the state of the individual's principal place of business is no longer valid"
       ],
       "quote": "An individual practicing under the privilege under this section, as a condition of the privilege of practicing without a certificate or license: (1) is subject to the personal and subject matter jurisdiction and disciplinary authority of the board; (2) must comply with this chapter and the board's rules; and (3) is considered to have appointed the regulatory agency of the state that issued the individual's certificate or license as the agent on whom process may be served in any action or proceeding by the board against the individual.",
       "citation": "901.462"
@@ -428,7 +447,7 @@
     },
     "nonlicensee_firm_owners_permitted": {
       "value": true,
-      "quote": "A certified public accountancy firm may include individuals as owners who are not license holders if: (1) the firm designates to the board as responsible for the firm's license a license holder who resides in this state",
+      "quote": "A certified public accountancy firm may include individuals as owners who are not license holders if",
       "citation": "901.354"
     },
     "peer_review_required_for_firm_renewal": {
@@ -445,8 +464,8 @@
     },
     "retired_license_status_available": {
       "value": true,
-      "quote": "The board by rule may exempt certain license holders, including license holders who are persons with disabilities, retired, or not associated with accounting, as defined by board rule, from all or part of the requirements of this section.",
-      "citation": "901.411"
+      "quote": "The board by rule may establish a reduced fee to issue or renew the license of a person who does not engage in the practice of public accountancy because of retirement or permanent disability.",
+      "citation": "901.409"
     },
     "out_of_state_firm_no_office_exemption": {
       "value": true,
@@ -465,7 +484,7 @@
     },
     "client_confidentiality_privilege": {
       "value": true,
-      "quote": "A license holder or a partner, member, officer, shareholder, or employee of a license holder may not voluntarily disclose information communicated to the license holder or a partner, member, shareholder, or employee of the license holder by a client in connection with services provided to the client by the license holder or a partner, member, shareholder, or employee of the license holder, except with the permission of the client or the client's representative.",
+      "quote": "A license holder or a partner, member, officer, shareholder, or employee of a license holder may not voluntarily disclose information communicated to the license holder or a partner, member, shareholder, or employee of the license holder by a client in connection with services provided to the client",
       "citation": "901.457"
     },
     "working_papers_ownership_by_licensee": null,
@@ -473,12 +492,12 @@
     "contingent_fee_prohibition_during_attest": null,
     "safe_harbor_disclaimer_language_for_nonlicensees": {
       "value": true,
-      "quote": "The following safe harbor language may be used by a person who is not a license holder without violating Subsection (b): \"(I/We) have prepared the accompanying balance sheet of (client's name) as of (date) and the related statements of income, retained earnings, and cash flow changes in financial position for the (period then ended). These financial statements, which are the representation of management and which are presented to be used for federal income tax purposes, (are/are not) in agreement with the company's financial records.\"",
+      "quote": "The following safe harbor language may be used by a person who is not a license holder without violating Subsection (b): \"(I/We) have prepared the accompanying balance sheet of (client's name) as of (date) and the related statements of income, retained earnings, and cash flow changes in financial position for the (period then ended).",
       "citation": "901.456"
     },
     "foreign_accountant_practice_exception": {
       "value": true,
-      "quote": "A person who holds a certification, degree, license, or other credential granted in a foreign jurisdiction that entitles the person to engage in the practice of public accountancy or its equivalent in that jurisdiction may use in this state any title or designation under which the person practices in the foreign jurisdiction ... if: (1) the person's activities in this state are limited to the provision of professional accounting services to persons who are residents, governments, or business entities of that foreign jurisdiction; and (2) the person does not perform attest services or issue reports on the financial statements of any other person in this state.",
+      "quote": "A person who holds a certification, degree, license, or other credential granted in a foreign jurisdiction that entitles the person to engage in the practice of public accountancy or its equivalent in that jurisdiction may use in this state any title or designation under which the person practices in the foreign jurisdiction",
       "citation": "901.454"
     },
     "single_act_evidence_sufficient": null,
@@ -489,12 +508,24 @@
     },
     "firm_permit_required_for_attest_services": {
       "value": true,
-      "quote": "A firm may not provide attest services or use the title \"CPA's,\" \"CPA Firm,\" \"Certified Public Accountants,\" \"Certified Public Accounting Firm,\" or \"Auditing Firm\" or a variation of one of those titles unless the firm holds a firm license issued under this subchapter or practices in this state under a privilege under Section 901.461.",
+      "quote": "A firm may not provide attest services or use the title \"CPA's,\" \"CPA Firm,\" \"Certified Public Accountants,\" \"Certified Public Accounting Firm,\" or \"Auditing Firm\" or a variation of one of those titles unless the firm holds a firm license issued under this subchapter",
       "citation": "901.351"
     },
-    "registered_municipal_accountant_designation": null,
-    "public_school_accountant_designation": null,
-    "accounting_practitioner_tier": null,
+    "registered_municipal_accountant_designation": {
+      "value": false,
+      "quote": "\"Board\" means the Texas State Board of Public Accountancy.",
+      "citation": "901.002"
+    },
+    "public_school_accountant_designation": {
+      "value": false,
+      "quote": "\"Board\" means the Texas State Board of Public Accountancy.",
+      "citation": "901.002"
+    },
+    "accounting_practitioner_tier": {
+      "value": false,
+      "quote": "\"Board\" means the Texas State Board of Public Accountancy.",
+      "citation": "901.002"
+    },
     "cpa_emeritus_or_retired_status_available": null,
     "government_audit_cpe_requirement": null,
     "ethics_cpe_hours_required": null,
@@ -506,6 +537,136 @@
       "quote": "A person creates a presumption of loss of independence if the person: (1) holds a certificate or firm license issued under this chapter; and (2) performs or offers to perform an attest service for compensation that is less than the direct labor cost reasonably expected to be incurred in performing the service.",
       "citation": "901.458"
     },
-    "client_records_return_obligation": null
+    "client_records_return_obligation": null,
+    "scope__attest_services_types": [
+      {
+        "item": "Audit (financial statement audit)",
+        "status": "present",
+        "quote": "an audit or other engagement required by the board to be performed in accordance with the auditing standards adopted by the American Institute of Certified Public Accountants or another national accountancy organization recognized by the board",
+        "citation": "901.002"
+      },
+      {
+        "item": "Review of financial statements",
+        "status": "present",
+        "quote": "an engagement required by the board to be performed in accordance with standards for accounting and review services adopted by the American Institute of Certified Public Accountants or another national accountancy organization recognized by the board",
+        "citation": "901.002"
+      },
+      {
+        "item": "Compilation of financial statements",
+        "status": "present",
+        "quote": "an engagement required by the board to be performed in accordance with standards for accounting and review services adopted by the American Institute of Certified Public Accountants or another national accountancy organization recognized by the board",
+        "citation": "901.002"
+      },
+      {
+        "item": "Preparation of financial statements",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Examination of prospective financial information",
+        "status": "present",
+        "quote": "an engagement required by the board to be performed in accordance with standards for attestation engagements adopted by the American Institute of Certified Public Accountants or another national accountancy organization recognized by the board",
+        "citation": "901.002"
+      },
+      {
+        "item": "PCAOB engagement",
+        "status": "present",
+        "quote": "in the course of a peer review under Section 901.159 or in accordance with the requirements of the Public Company Accounting Oversight Board or its successor",
+        "citation": "901.457"
+      },
+      {
+        "item": "Attestation engagement (examination) under SSAE",
+        "status": "present",
+        "quote": "an engagement required by the board to be performed in accordance with standards for attestation engagements adopted by the American Institute of Certified Public Accountants or another national accountancy organization recognized by the board",
+        "citation": "901.002"
+      },
+      {
+        "item": "Review engagement under SSAE",
+        "status": "present",
+        "quote": "an engagement required by the board to be performed in accordance with standards for attestation engagements adopted by the American Institute of Certified Public Accountants or another national accountancy organization recognized by the board",
+        "citation": "901.002"
+      },
+      {
+        "item": "Agreed-upon procedures engagement",
+        "status": "present",
+        "quote": "any other assurance service required by the board to be performed in accordance with professional standards adopted by the American Institute of Certified Public Accountants or another national accountancy organization recognized by the board",
+        "citation": "901.002"
+      },
+      {
+        "item": "Governmental/compliance audit",
+        "status": "present",
+        "quote": "an audit or other engagement required by the board to be performed in accordance with the auditing standards adopted by the American Institute of Certified Public Accountants or another national accountancy organization recognized by the board",
+        "citation": "901.002"
+      }
+    ],
+    "scope__practice_privilege_consent_conditions": [
+      {
+        "item": "Consent to personal and subject matter jurisdiction of the board",
+        "status": "present",
+        "quote": "is subject to the personal and subject matter jurisdiction and disciplinary authority of the board",
+        "citation": "901.462"
+      },
+      {
+        "item": "Consent to disciplinary authority of the board",
+        "status": "present",
+        "quote": "is subject to the personal and subject matter jurisdiction and disciplinary authority of the board",
+        "citation": "901.462"
+      },
+      {
+        "item": "Agreement to comply with the state's public accountancy statutes and board rules",
+        "status": "present",
+        "quote": "must comply with this chapter and the board's rules",
+        "citation": "901.462"
+      },
+      {
+        "item": "Cessation of practice if home-state license is no longer valid",
+        "status": "present",
+        "quote": "An individual who practices under a privilege under this section shall promptly cease offering or rendering professional services in this state if the individual's certificate or license in the state of the individual's principal place of business is no longer valid.",
+        "citation": "901.462"
+      },
+      {
+        "item": "Appointment of home-state board as agent for service of process",
+        "status": "present",
+        "quote": "is considered to have appointed the regulatory agency of the state that issued the individual's certificate or license as the agent on whom process may be served in any action or proceeding by the board against the individual",
+        "citation": "901.462"
+      },
+      {
+        "item": "Cessation of practice upon conviction of a crime involving dishonesty",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Cessation of practice if barred by the SEC or PCAOB",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Cessation of practice if any governmental body suspends the right to practice before it",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Reporting pending criminal charges to the board",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Consent to jurisdiction of host-state courts",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Firm employing individual with practice privileges also deemed to consent to all conditions",
+        "status": "present",
+        "quote": "A firm practicing under a privilege under this section, as a condition of the privilege of practicing without a firm license: (1) is subject to the personal and subject matter jurisdiction and disciplinary authority of the board; (2) must comply with this chapter and board rules; and (3) is considered to have appointed the regulatory agency of the state that issued the firm's license as the firm's agent on whom process may be served in any action or proceeding by the board against the firm.",
+        "citation": "901.461"
+      }
+    ]
   }
 }

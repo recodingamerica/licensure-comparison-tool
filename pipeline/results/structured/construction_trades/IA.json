@@ -47,8 +47,16 @@
     "renewal_fee_usd": null,
     "continuing_education": null,
     "reciprocity": {
-      "available": null,
-      "requirements": null
+      "available": {
+        "value": true,
+        "quote": "Notwithstanding any other provision of law, an occupational or professional license, certificate, or registration, including a license, certificate, or registration issued by the board of educational examiners, shall be issued without an examination to a person if all of the following conditions are met",
+        "citation": "272C.12"
+      },
+      "requirements": {
+        "value": "Must be currently licensed in another jurisdiction with substantially similar scope of practice, license in good standing, met minimum educational and experience requirements in issuing jurisdiction, passed required exams, no revocations or discipline, no pending complaints, pay applicable fees, no disqualifying criminal history.",
+        "quote": "The person is currently licensed, certified, or registered by at least one other issuing jurisdiction in the occupation or profession applied for with a substantially similar scope of practice and the license, certificate, or registration is in good standing in all issuing jurisdictions",
+        "citation": "272C.12"
+      }
     },
     "advisory_board": {
       "exists": {
@@ -63,7 +71,7 @@
     "national_association": null,
     "regulatory_model": {
       "value": "registration",
-      "quote": "A contractor doing business in this state shall register with the director and shall meet all of the following requirements as a condition of registration",
+      "quote": "A contractor doing business in this state shall register with the director",
       "citation": "91C.2"
     },
     "credential_type": {
@@ -73,8 +81,8 @@
     },
     "is_mandatory": {
       "value": true,
-      "quote": "A contractor who is not registered with the director as required by this chapter shall not be awarded a contract to perform work for the state or an agency of the state.",
-      "citation": "91C.7"
+      "quote": "A contractor doing business in this state shall register with the director",
+      "citation": "91C.2"
     },
     "title_protection": {
       "value": false,
@@ -82,14 +90,14 @@
       "citation": "91C.2"
     },
     "scope_protection": {
-      "value": false,
+      "value": true,
       "quote": "A contractor who is not registered with the director as required by this chapter shall not be awarded a contract to perform work for the state or an agency of the state.",
       "citation": "91C.7"
     },
     "disciplinary_grounds": [
       {
         "short_label": "failure_to_register",
-        "description": "Contractor fails to obtain required registration",
+        "description": "Contractor operating without required registration",
         "quote": "The requirement that a contractor be registered.",
         "citation": "91C.8"
       },
@@ -100,14 +108,14 @@
         "citation": "91C.8"
       },
       {
-        "short_label": "out_of_state_bond_failure",
+        "short_label": "failure_to_file_bond_out_of_state",
         "description": "Out-of-state contractor fails to file required bond with the department",
         "quote": "The requirement that an out-of-state contractor file a bond with the department.",
         "citation": "91C.8"
       },
       {
         "short_label": "failure_to_maintain_registration_conditions",
-        "description": "Contractor fails to maintain compliance with the conditions necessary to obtain a registration",
+        "description": "Contractor fails to maintain compliance with conditions necessary to obtain a registration",
         "quote": "The director shall revoke a registration number when the contractor fails to maintain compliance with the conditions necessary to obtain a registration.",
         "citation": "91C.5"
       }
@@ -132,7 +140,7 @@
       },
       {
         "cite": "91C.2",
-        "kind": "registration_requirements"
+        "kind": "registration requirements"
       },
       {
         "cite": "91C.3",
@@ -140,15 +148,19 @@
       },
       {
         "cite": "91C.5",
-        "kind": "registration_number_and_revocation"
+        "kind": "registration number and revocation"
       },
       {
         "cite": "91C.7",
-        "kind": "bond_and_contracts"
+        "kind": "bond and contracts"
       },
       {
         "cite": "91C.8",
-        "kind": "enforcement_and_penalties"
+        "kind": "enforcement and penalties"
+      },
+      {
+        "cite": "272C.12",
+        "kind": "reciprocity"
       }
     ]
   },
@@ -191,6 +203,86 @@
     "state_preempts_local_registration_fees": null,
     "local_trade_licensing_preserved": null,
     "registration_renewal_interval_years": null,
-    "out_of_state_disciplinary_action_reporting_required": null
+    "out_of_state_disciplinary_action_reporting_required": null,
+    "scope__voidable_contract_clauses": [
+      {
+        "item": "Liability limitation clause (limiting contractor liability to cost of inspection report or contract price)",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Indemnification / hold-harmless clause favoring the promisee's sole negligence",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Confession of judgment clause",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Waiver of consumer cancellation rights clause",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Waiver of consumer rights (general statutory rights) clause",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Blank spaces clause (material terms left blank for later completion)",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Assignment of insurance proceeds clause (without owner consent / in violation of statutory requirements)",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Clause authorizing unlawful entry or breach of peace for repossession",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Lien disclosure notice omission (failure to include required lien disclosure)",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Disclaimer or limitation of implied warranty clause",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Clause entered into by unlicensed contractor (contract with unlicensed contractor)",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Clause requiring compliance waiver from applicable building codes or zoning regulations",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Distributed energy contract clause failing to meet statutory disclosure or terms requirements",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      }
+    ]
   }
 }
