@@ -1,0 +1,778 @@
+{
+  "profession": "dietetics",
+  "dimensions": [
+    {
+      "source_field": "license_type_structure",
+      "matrix_field": "scope__license_type_structure",
+      "eval_flavor": "present_absent",
+      "vocab": [
+        "Licensed Dietitian",
+        "Licensed Nutritionist",
+        "Licensed Dietitian/Nutritionist",
+        "Temporarily Licensed Dietitian/Nutritionist",
+        "Provisionally Licensed Dietitian",
+        "Registered Dietitian",
+        "Registered Dietitian Nutritionist",
+        "Certified Dietitian",
+        "Certified Nutritionist",
+        "Certified Dietitian-Nutritionist",
+        "Dietitian/Nutritionist",
+        "Dietitian",
+        "Nutritionist",
+        "Dietetic Technician",
+        "Dietetic Technician, Registered",
+        "Qualified Nutrition Professional"
+      ],
+      "aliases": {
+        "Licensed Dietitian": [
+          "licensed dietitian",
+          "L.D.",
+          "licensed dietician"
+        ],
+        "Licensed Nutritionist": [
+          "licensed nutritionist",
+          "L.N."
+        ],
+        "Licensed Dietitian/Nutritionist": [
+          "licensed dietitian/nutritionist",
+          "licensed dietitian nutritionist",
+          "L.D.N.",
+          "licensed dietitian or nutritionist"
+        ],
+        "Temporarily Licensed Dietitian/Nutritionist": [
+          "temporarily licensed dietitian/nutritionist",
+          "temporary license dietitian/nutritionist"
+        ],
+        "Provisionally Licensed Dietitian": [
+          "provisionally licensed dietitian",
+          "provisional licensed dietitian",
+          "P.L.D."
+        ],
+        "Registered Dietitian": [
+          "registered dietitian",
+          "R.D.",
+          "registered dietician"
+        ],
+        "Registered Dietitian Nutritionist": [
+          "registered dietitian nutritionist",
+          "RDN"
+        ],
+        "Certified Dietitian": [
+          "certified dietitian",
+          "certified dietician",
+          "C.D."
+        ],
+        "Certified Nutritionist": [
+          "certified nutritionist"
+        ],
+        "Certified Dietitian-Nutritionist": [
+          "certified dietitian-nutritionist",
+          "dietitian-nutritionist certificate",
+          "Connecticut certified dietitian-nutritionist"
+        ],
+        "Dietitian/Nutritionist": [
+          "dietitian/nutritionist",
+          "dietitian nutritionist",
+          "dietitian-nutritionist"
+        ],
+        "Dietitian": [
+          "dietitian",
+          "dietician"
+        ],
+        "Nutritionist": [
+          "nutritionist"
+        ],
+        "Dietetic Technician": [
+          "dietetic technician",
+          "diet technician",
+          "dietary technician"
+        ],
+        "Dietetic Technician, Registered": [
+          "dietetic technician, registered",
+          "DTR",
+          "registered dietetic technician"
+        ],
+        "Qualified Nutrition Professional": [
+          "qualified nutrition professional",
+          "other qualified nutrition professional"
+        ]
+      },
+      "keywords": [
+        "licensed dietitian",
+        "licensed nutritionist",
+        "dietitian-nutritionist",
+        "dietitian/nutritionist",
+        "registered dietitian",
+        "certified dietitian",
+        "certified dietician",
+        "dietitian nutritionist",
+        "provisionally licensed dietitian",
+        "temporarily licensed",
+        "licensed nutrition counselor",
+        "dietetic technician",
+        "nutrition counselor",
+        "qualified nutrition professional",
+        "nutritional professional",
+        "dietician",
+        "credential",
+        "license type",
+        "title",
+        "certificate",
+        "l.d.",
+        "l.d.n.",
+        "r.d.",
+        "c.d.",
+        "ld",
+        "rdn",
+        "means a person licensed",
+        "means a person provisionally licensed",
+        "means a person temporarily licensed",
+        "means a person duly licensed",
+        "holds a valid license",
+        "licensed under this chapter",
+        "licensed under this act"
+      ],
+      "rationale": "Each distinct title or credential type named across states was captured as a separate entry; compound titles such as 'dietitian/nutritionist' and 'certified dietitian-nutritionist' were kept distinct from their component words; 'registered dietitian' and 'registered dietitian nutritionist' were kept separate because states treat them as distinct CDR credentials; 'dietetic technician' and 'dietetic technician, registered' were kept separate because the registered designation is a specific CDR credential with different requirements.",
+      "states_scanned": [
+        "AK",
+        "AL",
+        "AR",
+        "AZ",
+        "CA",
+        "CO",
+        "CT",
+        "DE",
+        "FL",
+        "GA",
+        "HI",
+        "IA",
+        "ID",
+        "IL",
+        "IN",
+        "KS",
+        "KY",
+        "LA",
+        "MA",
+        "MD",
+        "ME",
+        "MI",
+        "MN",
+        "MO",
+        "MS",
+        "MT",
+        "NC",
+        "ND",
+        "NE",
+        "NH",
+        "NJ",
+        "NM",
+        "NV",
+        "NY",
+        "OH",
+        "OK",
+        "OR",
+        "PA",
+        "RI",
+        "SC",
+        "SD",
+        "TN",
+        "TX",
+        "UT",
+        "VA",
+        "VT",
+        "WA",
+        "WI",
+        "WV",
+        "WY"
+      ]
+    },
+    {
+      "source_field": "alternative_credential_pathways",
+      "matrix_field": "scope__alternative_credential_pathways",
+      "eval_flavor": "present_absent",
+      "vocab": [
+        "Registered Dietitian (RD) / Registered Dietitian Nutritionist (RDN) — Commission on Dietetic Registration",
+        "Diplomate of the American Board of Nutrition (ABN)",
+        "Certified Nutrition Specialist (CNS) — Board for Certification of Nutrition Specialists",
+        "Diplomate of the American Clinical Board of Nutrition (DACBN)",
+        "Certified Clinical Nutritionist (CCN) — Clinical Nutrition Certification Board",
+        "American Institute of Nutrition (AIN) membership",
+        "American Society for Clinical Nutrition (ASCN) membership",
+        "Diet Technician, Registered (DTR) — Commission on Dietetic Registration"
+      ],
+      "aliases": {
+        "Registered Dietitian (RD) / Registered Dietitian Nutritionist (RDN) — Commission on Dietetic Registration": [
+          "Registered Dietitian",
+          "RD",
+          "Registered Dietitian Nutritionist",
+          "RDN",
+          "registered with the Commission on Dietetic Registration",
+          "Commission on Dietetic Registration registration",
+          "CDR registration"
+        ],
+        "Diplomate of the American Board of Nutrition (ABN)": [
+          "diplomate of the American Board of Nutrition",
+          "ABN diplomate",
+          "American Board of Nutrition diplomate",
+          "American Board of Nutrition (ABN)"
+        ],
+        "Certified Nutrition Specialist (CNS) — Board for Certification of Nutrition Specialists": [
+          "Certified Nutrition Specialist",
+          "CNS",
+          "C.N.S.",
+          "Board for Certification of Nutrition Specialists",
+          "Certification Board for Nutrition Specialists",
+          "certified nutrition specialist credentialed by the Board for Certification of Nutrition Specialists"
+        ],
+        "Diplomate of the American Clinical Board of Nutrition (DACBN)": [
+          "Diplomate of the American Clinical Board of Nutrition",
+          "DACBN",
+          "American Clinical Board of Nutrition diplomate",
+          "certified by the American Clinical Board of Nutrition"
+        ],
+        "Certified Clinical Nutritionist (CCN) — Clinical Nutrition Certification Board": [
+          "Certified Clinical Nutritionist",
+          "CCN",
+          "Clinical Nutrition Certification Board",
+          "certified clinical nutritionist credentialed by the Clinical Nutrition Certification Board"
+        ],
+        "American Institute of Nutrition (AIN) membership": [
+          "American Institute of Nutrition",
+          "AIN",
+          "member of the American Institute of Nutrition"
+        ],
+        "American Society for Clinical Nutrition (ASCN) membership": [
+          "American Society for Clinical Nutrition",
+          "ASCN",
+          "member of the American Society for Clinical Nutrition"
+        ],
+        "Diet Technician, Registered (DTR) — Commission on Dietetic Registration": [
+          "diet technician registered by the Commission on Dietetic Registration",
+          "registered diet technician",
+          "DTR"
+        ]
+      },
+      "keywords": [
+        "certified nutrition specialist",
+        "CNS",
+        "certification board for nutrition specialists",
+        "board for certification of nutrition specialists",
+        "american board of nutrition",
+        "ABN",
+        "diplomate",
+        "american clinical board of nutrition",
+        "DACBN",
+        "american institute of nutrition",
+        "AIN",
+        "american society for clinical nutrition",
+        "ASCN",
+        "alternative pathway",
+        "alternative credential",
+        "national dietetic association",
+        "national nutrition association",
+        "registration standards",
+        "waiver of examination",
+        "examination requirement",
+        "certification board",
+        "american nutrition association",
+        "preprofessional work experience",
+        "900 hours",
+        "nine hundred hours",
+        "qualified nutrition professional",
+        "master's degree",
+        "clinical nutrition",
+        "referring physician",
+        "membership in one of the following",
+        "accepted as an alternative",
+        "proof of certification",
+        "commission on dietetic registration"
+      ],
+      "rationale": "The union was drawn from all sentences that name a specific non-RD national credential or membership body referenced as an alternative pathway, equivalency, or prohibited/permitted credential; synonyms and abbreviation variants were merged into single entries, while genuinely distinct credentialing bodies and their credentials were kept separate.",
+      "states_scanned": [
+        "AK",
+        "AL",
+        "AR",
+        "AZ",
+        "CA",
+        "CO",
+        "CT",
+        "DE",
+        "FL",
+        "GA",
+        "HI",
+        "IA",
+        "ID",
+        "IL",
+        "IN",
+        "KS",
+        "KY",
+        "LA",
+        "MA",
+        "MD",
+        "ME",
+        "MI",
+        "MN",
+        "MO",
+        "MS",
+        "MT",
+        "NC",
+        "ND",
+        "NE",
+        "NH",
+        "NJ",
+        "NM",
+        "NV",
+        "NY",
+        "OH",
+        "OK",
+        "OR",
+        "PA",
+        "RI",
+        "SC",
+        "SD",
+        "TN",
+        "TX",
+        "UT",
+        "VA",
+        "VT",
+        "WA",
+        "WI",
+        "WV",
+        "WY"
+      ]
+    },
+    {
+      "source_field": "exempt_professions_list",
+      "matrix_field": "scope__exempt_professions_list",
+      "eval_flavor": "present_absent",
+      "vocab": [
+        "Physician",
+        "Osteopathic physician",
+        "Nurse",
+        "Pharmacist",
+        "Dentist",
+        "Dental hygienist",
+        "Chiropractor",
+        "Physical therapist",
+        "Physician assistant",
+        "Dietetic technician",
+        "Dietary manager",
+        "Dietetic aide",
+        "Cooperative extension home economist",
+        "Federal government employee (dietitian or nutritionist role)",
+        "Armed forces / military dietitian or nutritionist",
+        "Dietetics student",
+        "Animal nutritionist",
+        "Food product marketer or distributor",
+        "Weight control program provider",
+        "Hospital or long-term care facility employee (dietetic department)",
+        "Religious denomination member or employee (spiritual/prayer healing)",
+        "Nonresident / out-of-state dietitian (temporary or incidental practice)",
+        "Person supervised by or employed under a licensed dietitian (general category)",
+        "Person with doctoral degree in human nutrition or related field",
+        "General nutrition information provider (non-fee, non-counseling)",
+        "Any person licensed under another state act (general licensed professional exemption)"
+      ],
+      "aliases": {
+        "Physician": [
+          "licensed physician",
+          "physician licensed to practice medicine",
+          "licensed physicians and surgeons",
+          "persons licensed to practice medicine",
+          "doctor of medicine"
+        ],
+        "Osteopathic physician": [
+          "persons licensed to practice osteopathy",
+          "osteopath"
+        ],
+        "Nurse": [
+          "licensed nurse",
+          "registered nurse",
+          "advanced practice registered nurse",
+          "nursing"
+        ],
+        "Pharmacist": [
+          "licensed pharmacist"
+        ],
+        "Dentist": [
+          "persons licensed to practice dentistry",
+          "licensed dentist"
+        ],
+        "Dental hygienist": [
+          "licensed dental hygienist"
+        ],
+        "Chiropractor": [
+          "persons licensed to practice chiropractic",
+          "licensed chiropractor"
+        ],
+        "Physical therapist": [
+          "licensed physical therapist"
+        ],
+        "Physician assistant": [
+          "licensed physician assistant"
+        ],
+        "Dietetic technician": [
+          "dietetic technician, registered",
+          "registered dietetic technician",
+          "diet technician",
+          "DTR"
+        ],
+        "Dietary manager": [
+          "certified dietary manager",
+          "food service supervisor",
+          "hospital food service manager",
+          "hospital food service director",
+          "child nutrition program manager"
+        ],
+        "Dietetic aide": [
+          "dietetic aide in a health care facility"
+        ],
+        "Cooperative extension home economist": [
+          "cooperative extension home economist",
+          "person employed as a cooperative extension home economist"
+        ],
+        "Federal government employee (dietitian or nutritionist role)": [
+          "employee of the federal government whose job title includes dietitian or nutritionist",
+          "person serving as a dietitian or nutritionist employed by the United States Department of Veterans Affairs",
+          "person employed by the Veterans Administration or other federal government agencies",
+          "dietitian serving in the public health service of the United States",
+          "person serving in the United States Public Health Service"
+        ],
+        "Armed forces / military dietitian or nutritionist": [
+          "person serving as a dietitian or nutritionist in the armed forces of the United States",
+          "dietitian serving in the armed forces",
+          "individual with full-time duty status in the active armed forces",
+          "members of the National Guard and Reserve"
+        ],
+        "Dietetics student": [
+          "student enrolled in an approved academic program in dietetics",
+          "student enrolled in an accredited academic program leading to certification",
+          "dietetics students who engage in clinical practice under supervision"
+        ],
+        "Animal nutritionist": [
+          "person with a doctoral degree in animal nutrition",
+          "person whose practice of nutrition is limited to animals"
+        ],
+        "Food product marketer or distributor": [
+          "person who markets or distributes food, food materials, or dietary supplements",
+          "person who explains use and benefits of food products",
+          "person furnishing nutrition information related to food or dietary supplement products",
+          "nutritionist advising customers on vitamins, over-the-counter healthcare products, or food supplements",
+          "seller of vitamins, over-the-counter healthcare products, or food supplements",
+          "operator or employee of a health food store or business that sells health products"
+        ],
+        "Weight control program provider": [
+          "person who provides weight control services",
+          "person who offers weight control programs",
+          "individual providing medical weight control services"
+        ],
+        "Hospital or long-term care facility employee (dietetic department)": [
+          "person employed by a hospital licensed under applicable law in compliance with dietetic department rules",
+          "person employed by a nursing home",
+          "person employed by an assisted living facility",
+          "person employed by a continuing care facility",
+          "person employed by a nursing facility"
+        ],
+        "Religious denomination member or employee (spiritual/prayer healing)": [
+          "person employed by a facility operated by and for those who rely exclusively upon treatment by prayer alone",
+          "member of a religion, sect, or denomination practicing its tenets",
+          "person providing nutrition information as an employee of a nursing facility operated exclusively by and for those relying upon spiritual means through prayer"
+        ],
+        "Nonresident / out-of-state dietitian (temporary or incidental practice)": [
+          "nonresident dietitian practicing dietetics in this state",
+          "nonresident registered dietitian practicing dietetics in this state",
+          "dietitian from another state practicing dietetics incidental to a course of study"
+        ],
+        "Person supervised by or employed under a licensed dietitian (general category)": [
+          "person employed by, supervised by, under the guidance of, or in consultation with a licensed dietitian",
+          "home economist under dietitian supervision",
+          "food service supervisor under dietitian supervision"
+        ],
+        "Person with doctoral degree in human nutrition or related field": [
+          "person who has received a doctoral degree in human nutrition, food and nutrition, dietetics, public health nutrition, or food systems management",
+          "person with doctoral degree in nutrition from a regionally accredited institution"
+        ],
+        "General nutrition information provider (non-fee, non-counseling)": [
+          "individual who provides routine education and advice regarding normal nutritional requirements",
+          "person who provides general nonmedical nutrition information",
+          "person furnishing general nutritional information on food or dietary supplements"
+        ],
+        "Any person licensed under another state act (general licensed professional exemption)": [
+          "any person licensed in this state under any other act from engaging in the practice for which that person is licensed",
+          "a duly licensed health professional engaging in dietetics incidental to the practice of his or her profession",
+          "a person licensed or certified in this state under any other law from engaging in the profession for which licensed"
+        ]
+      },
+      "keywords": [
+        "exempt",
+        "exemption",
+        "does not apply",
+        "does not prevent",
+        "does not restrict",
+        "does not prohibit",
+        "shall not apply",
+        "nothing in this chapter",
+        "not required to be licensed",
+        "incidental to",
+        "licensed physician",
+        "pharmacist",
+        "nurse",
+        "armed forces",
+        "public health service",
+        "veterans affairs",
+        "federal government",
+        "government employee",
+        "dietetic technician",
+        "dietetics student",
+        "student enrolled",
+        "supervision",
+        "cooperative extension",
+        "animal nutrition",
+        "animal nutritionist",
+        "food supplement",
+        "dietary supplement",
+        "vitamin",
+        "weight control",
+        "prayer",
+        "herbalist",
+        "retailer",
+        "doctoral degree",
+        "accredited program",
+        "wic",
+        "nonresident",
+        "food service",
+        "child nutrition",
+        "dietary manager",
+        "acupuncture",
+        "religion",
+        "tenets",
+        "home economist",
+        "registered dietitian",
+        "certified dietitian",
+        "CDR",
+        "hospital",
+        "long-term care",
+        "another law",
+        "any other act",
+        "licensed or certified"
+      ],
+      "rationale": "The union was drawn from all exemption clauses across states; synonymous roles (e.g., all armed-forces variants) were merged, genuinely distinct professions or categories (e.g., physician vs. chiropractor vs. pharmacist) were kept separate, and structural catch-all exemptions (e.g., 'any person licensed under another act') were retained as a distinct entry because several states use that phrasing in addition to naming specific professions.",
+      "states_scanned": [
+        "AK",
+        "AL",
+        "AR",
+        "AZ",
+        "CA",
+        "CO",
+        "CT",
+        "DE",
+        "FL",
+        "GA",
+        "HI",
+        "IA",
+        "ID",
+        "IL",
+        "IN",
+        "KS",
+        "KY",
+        "LA",
+        "MA",
+        "MD",
+        "ME",
+        "MI",
+        "MN",
+        "MO",
+        "MS",
+        "MT",
+        "NC",
+        "ND",
+        "NE",
+        "NH",
+        "NJ",
+        "NM",
+        "NV",
+        "NY",
+        "OH",
+        "OK",
+        "OR",
+        "PA",
+        "RI",
+        "SC",
+        "SD",
+        "TN",
+        "TX",
+        "UT",
+        "VA",
+        "VT",
+        "WA",
+        "WI",
+        "WV",
+        "WY"
+      ]
+    },
+    {
+      "source_field": "protected_titles",
+      "matrix_field": "scope__protected_titles",
+      "eval_flavor": "present_absent",
+      "vocab": [
+        "Dietitian",
+        "Licensed Dietitian",
+        "Licensed Dietitian Nutritionist",
+        "Licensed Nutritionist",
+        "Nutritionist",
+        "Dietitian/Nutritionist",
+        "Registered Dietitian",
+        "Registered Dietitian Nutritionist",
+        "Certified Dietitian",
+        "Provisionally Licensed Dietitian",
+        "Temporarily Licensed Dietitian/Nutritionist",
+        "Certified Nutrition Specialist",
+        "Dietetic Technician"
+      ],
+      "aliases": {
+        "Dietitian": [
+          "dietitian",
+          "dietician"
+        ],
+        "Licensed Dietitian": [
+          "licensed dietitian",
+          "L.D.",
+          "LD"
+        ],
+        "Licensed Dietitian Nutritionist": [
+          "licensed dietitian nutritionist",
+          "licensed dietitian/nutritionist"
+        ],
+        "Licensed Nutritionist": [
+          "licensed nutritionist",
+          "L.N.",
+          "LN"
+        ],
+        "Nutritionist": [
+          "nutritionist"
+        ],
+        "Dietitian/Nutritionist": [
+          "dietitian/nutritionist",
+          "dietitian-nutritionist",
+          "dietitian or nutritionist"
+        ],
+        "Registered Dietitian": [
+          "registered dietitian",
+          "RD"
+        ],
+        "Registered Dietitian Nutritionist": [
+          "registered dietitian nutritionist",
+          "RDN"
+        ],
+        "Certified Dietitian": [
+          "certified dietitian"
+        ],
+        "Provisionally Licensed Dietitian": [
+          "provisionally licensed dietitian",
+          "provisional licensed dietitian",
+          "P.L.D.",
+          "PLD"
+        ],
+        "Temporarily Licensed Dietitian/Nutritionist": [
+          "temporarily licensed dietitian/nutritionist",
+          "temporary license dietitian/nutritionist"
+        ],
+        "Certified Nutrition Specialist": [
+          "Certified Nutrition Specialist",
+          "CNS"
+        ],
+        "Dietetic Technician": [
+          "dietetic technician",
+          "dietary technician"
+        ]
+      },
+      "keywords": [
+        "dietitian",
+        "dietician",
+        "nutritionist",
+        "licensed dietitian",
+        "registered dietitian",
+        "certified dietitian",
+        "provisional licensed dietitian",
+        "dietitian nutritionist",
+        "dietetic technician",
+        "protected title",
+        "title",
+        "abbreviation",
+        "initials",
+        "letters",
+        "insignia",
+        "R.D.",
+        "RD",
+        "RDN",
+        "L.D.",
+        "L.N.",
+        "C.D.",
+        "C.N.",
+        "DTR",
+        "P.L.D.",
+        "use the title",
+        "use the word",
+        "use the letters",
+        "may not use",
+        "shall not use",
+        "representing oneself",
+        "implying",
+        "indicating"
+      ],
+      "rationale": "The union was drawn from all titles, words, letters, and abbreviations explicitly named as legally restricted (or prohibited for unlicensed use) across the AK, AL, and AR statutes; synonyms and trivial phrasing variants were merged (e.g., 'dietician'/'dietitian', 'RD'/'registered dietitian'), while genuinely distinct credential levels (licensed vs. registered vs. certified vs. provisional/temporary) were kept separate.",
+      "states_scanned": [
+        "AK",
+        "AL",
+        "AR",
+        "AZ",
+        "CA",
+        "CO",
+        "CT",
+        "DE",
+        "FL",
+        "GA",
+        "HI",
+        "IA",
+        "ID",
+        "IL",
+        "IN",
+        "KS",
+        "KY",
+        "LA",
+        "MA",
+        "MD",
+        "ME",
+        "MI",
+        "MN",
+        "MO",
+        "MS",
+        "MT",
+        "NC",
+        "ND",
+        "NE",
+        "NH",
+        "NJ",
+        "NM",
+        "NV",
+        "NY",
+        "OH",
+        "OK",
+        "OR",
+        "PA",
+        "RI",
+        "SC",
+        "SD",
+        "TN",
+        "TX",
+        "UT",
+        "VA",
+        "VT",
+        "WA",
+        "WI",
+        "WV",
+        "WY"
+      ]
+    }
+  ]
+}

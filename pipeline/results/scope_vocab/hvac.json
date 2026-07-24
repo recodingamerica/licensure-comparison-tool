@@ -1,0 +1,591 @@
+{
+  "profession": "hvac",
+  "dimensions": [
+    {
+      "source_field": "system_components_included",
+      "matrix_field": "scope__system_components_included",
+      "eval_flavor": "present_absent",
+      "vocab": [
+        "Air heating fixture",
+        "Air cooling fixture",
+        "Pipes / piping",
+        "Plenums",
+        "Blowers",
+        "Ductwork",
+        "Air filters",
+        "Air delivery and return grilles",
+        "Exhaust fans",
+        "Refrigerating machinery",
+        "Refrigerant lines",
+        "Compressors",
+        "Self-contained refrigeration units",
+        "Window-type air conditioning units",
+        "Central heating unit",
+        "Liquefied petroleum gas appliances",
+        "Gas fitting / gas piping connections",
+        "Manual safety shutoff gas cock",
+        "Flue gas vents",
+        "Combustion air systems",
+        "Ventilation systems",
+        "Piping fixtures, devices, and equipment",
+        "Accessories and ancillary equipment",
+        "Boilers and steamfitting",
+        "Hot water systems",
+        "Process cooling and heating systems",
+        "Electrical connections to HVAC units",
+        "Comfort heating and cooling systems"
+      ],
+      "aliases": {
+        "Air heating fixture": [
+          "air heating fixture",
+          "air heating apparatus"
+        ],
+        "Air cooling fixture": [
+          "air cooling fixture",
+          "air cooling apparatus",
+          "cooling apparatus"
+        ],
+        "Pipes / piping": [
+          "pipes",
+          "piping",
+          "mechanical piping",
+          "gas piping",
+          "process piping"
+        ],
+        "Plenums": [
+          "plenum",
+          "plenums"
+        ],
+        "Blowers": [
+          "blower",
+          "blowers"
+        ],
+        "Ductwork": [
+          "duct",
+          "ducts",
+          "ductwork",
+          "sheet metal ductwork",
+          "air delivery ducts",
+          "air return ducts"
+        ],
+        "Air filters": [
+          "air filter",
+          "air filters"
+        ],
+        "Air delivery and return grilles": [
+          "air delivery and return grills",
+          "air delivery grilles",
+          "return grilles",
+          "registers",
+          "grilles"
+        ],
+        "Exhaust fans": [
+          "exhaust fan",
+          "preassembled exhaust fans"
+        ],
+        "Refrigerating machinery": [
+          "refrigerating machinery",
+          "refrigeration machinery",
+          "mechanical refrigeration equipment",
+          "absorption refrigeration equipment"
+        ],
+        "Refrigerant lines": [
+          "refrigerant lines",
+          "refrigerant piping"
+        ],
+        "Compressors": [
+          "compressor",
+          "compressors"
+        ],
+        "Self-contained refrigeration units": [
+          "factory assembled air-cooled self-contained refrigeration equipment",
+          "self-contained refrigeration equipment"
+        ],
+        "Window-type air conditioning units": [
+          "window units",
+          "window-type air conditioning units",
+          "window air conditioners"
+        ],
+        "Central heating unit": [
+          "central heating unit",
+          "central heating system",
+          "central heating and air conditioning unit"
+        ],
+        "Liquefied petroleum gas appliances": [
+          "liquefied petroleum gas appliance",
+          "LP gas appliance",
+          "propane appliance"
+        ],
+        "Gas fitting / gas piping connections": [
+          "gas fitting work",
+          "HVACR gas fitting work",
+          "gas piping connection",
+          "final gas piping connection",
+          "gas line connection"
+        ],
+        "Manual safety shutoff gas cock": [
+          "manual safety shutoff gas cock",
+          "manual gas shutoff",
+          "gas shutoff valve"
+        ],
+        "Flue gas vents": [
+          "flue gas vents",
+          "flue vents",
+          "vents",
+          "exhaust vents"
+        ],
+        "Combustion air systems": [
+          "combustion air",
+          "combustion air systems"
+        ],
+        "Ventilation systems": [
+          "ventilation",
+          "ventilation systems",
+          "mechanical ventilation"
+        ],
+        "Piping fixtures, devices, and equipment": [
+          "piping fixtures",
+          "piping devices",
+          "piping equipment",
+          "mechanical piping fixtures"
+        ],
+        "Accessories and ancillary equipment": [
+          "accessories",
+          "accessory equipment",
+          "equipment installed in connection with the system",
+          "ancillary equipment",
+          "components"
+        ],
+        "Boilers and steamfitting": [
+          "boilers",
+          "steamfitting",
+          "boilers and steamfitting"
+        ],
+        "Hot water systems": [
+          "hot water systems",
+          "hot water heating systems"
+        ],
+        "Process cooling and heating systems": [
+          "process cooling systems",
+          "process heating systems",
+          "process cooling or heating systems"
+        ],
+        "Electrical connections to HVAC units": [
+          "electrical connections to heating and air conditioning units",
+          "electrical connections to HVAC equipment",
+          "disconnecting means connection"
+        ],
+        "Comfort heating and cooling systems": [
+          "comfort heating and cooling systems",
+          "air conditioning or comfort heating and cooling systems",
+          "human comfort HVAC systems"
+        ]
+      },
+      "keywords": [
+        "hvac",
+        "hvacr",
+        "mechanical piping",
+        "mechanical systems",
+        "heating",
+        "cooling",
+        "air conditioning",
+        "refrigeration",
+        "ventilation",
+        "ductwork",
+        "duct work",
+        "plenums",
+        "blowers",
+        "boilers",
+        "steamfitting",
+        "process piping",
+        "plumbing",
+        "hot water systems",
+        "solar",
+        "gas piping",
+        "hydronic",
+        "commercial hood",
+        "fixtures",
+        "equipment",
+        "accessories",
+        "air distribution",
+        "comfort heating",
+        "forced air",
+        "central air",
+        "process cooling",
+        "process heating",
+        "swimming pools",
+        "devices",
+        "air-conditioning equipment",
+        "heating equipment",
+        "refrigeration equipment",
+        "fixed part of the structure",
+        "mechanical materials",
+        "definition",
+        "means"
+      ],
+      "rationale": "The union was drawn from all sentences across AK, AL, AR, AZ, and CA that explicitly name a physical component as part of an HVAC/refrigeration system definition; synonyms and trivially different phrasings (e.g., 'pipes'/'piping', 'grills'/'grilles') were merged into single canonical entries, while genuinely distinct items (e.g., plenums vs. blowers vs. ductwork) were kept separate; items appearing only in exclusion lists (e.g., window units, LP gas appliances) are included per instructions.",
+      "states_scanned": [
+        "AK",
+        "AL",
+        "AR",
+        "AZ",
+        "CA",
+        "CT",
+        "DE",
+        "FL",
+        "GA",
+        "HI",
+        "IA",
+        "ID",
+        "KY",
+        "LA",
+        "MA",
+        "MD",
+        "ME",
+        "MI",
+        "MN",
+        "MS",
+        "MT",
+        "NC",
+        "ND",
+        "NH",
+        "NJ",
+        "NM",
+        "NV",
+        "OH",
+        "OK",
+        "OR",
+        "RI",
+        "SC",
+        "TN",
+        "TX",
+        "UT",
+        "VA",
+        "VT",
+        "WA",
+        "WI",
+        "WV"
+      ]
+    },
+    {
+      "source_field": "qualifier_license_type_required",
+      "matrix_field": "scope__qualifier_license_type_required",
+      "eval_flavor": "present_absent",
+      "vocab": [
+        "Mechanical Administrator License",
+        "Certified Heating, Air Conditioning, and Refrigeration Contractor License",
+        "Master HVACR License",
+        "Master HVACR Restricted License",
+        "Class A Air-Conditioning Contractor License",
+        "Class B Air-Conditioning Contractor License",
+        "Class C Air-Conditioning Contractor License",
+        "Mechanical Contractor License",
+        "Mechanical Contractor Registration (Certificate of Registration)"
+      ],
+      "aliases": {
+        "Mechanical Administrator License": [
+          "mechanical administrator",
+          "licensed mechanical administrator",
+          "mechanical administrator license (Alaska)"
+        ],
+        "Certified Heating, Air Conditioning, and Refrigeration Contractor License": [
+          "certified contractor (heating, air conditioning, or refrigeration)",
+          "certified heating and air conditioning contractor",
+          "certified refrigeration contractor",
+          "HACR contractor certificate of qualification",
+          "Board of Heating, Air Conditioning, and Refrigeration Contractors certificate"
+        ],
+        "Master HVACR License": [
+          "master HVACR licensee",
+          "master HVAC/R license",
+          "master heating ventilation air conditioning refrigeration license"
+        ],
+        "Master HVACR Restricted License": [
+          "master HVACR licensee restricted",
+          "master HVACR restricted licensee",
+          "restricted master HVACR license"
+        ],
+        "Class A Air-Conditioning Contractor License": [
+          "Class A air-conditioning contractor certificate",
+          "Class A air conditioning contractor registration"
+        ],
+        "Class B Air-Conditioning Contractor License": [
+          "Class B air-conditioning contractor certificate",
+          "Class B air conditioning contractor registration"
+        ],
+        "Class C Air-Conditioning Contractor License": [
+          "Class C air-conditioning contractor certificate",
+          "Class C air conditioning contractor registration"
+        ],
+        "Mechanical Contractor License": [
+          "mechanical contractor certificate",
+          "mechanical contractor registration",
+          "mechanical contractor's license"
+        ],
+        "Mechanical Contractor Registration (Certificate of Registration)": [
+          "certificate of registration as a mechanical contractor",
+          "mechanical contractor certificate of registration (Connecticut)"
+        ]
+      },
+      "keywords": [
+        "qualifier",
+        "qualifying agent",
+        "qualifying party",
+        "responsible charge",
+        "contractor of record",
+        "master license",
+        "master licensee",
+        "master hvacr",
+        "master hvac",
+        "master mechanical",
+        "master sheet metal",
+        "mechanical administrator",
+        "mechanical contractor",
+        "air-conditioning contractor",
+        "conditioned air contractor",
+        "refrigeration contractor",
+        "heating license",
+        "plumbing license",
+        "fire sprinkler license",
+        "master restricted",
+        "limited license",
+        "domestic appliance technician",
+        "oil and solid fuel",
+        "propane and natural gas technician",
+        "certificate of qualification",
+        "mechanical classification",
+        "qualifying",
+        "designate",
+        "regularly connected",
+        "responsible for all",
+        "direct management",
+        "full-time employee",
+        "owner or full-time",
+        "business entity",
+        "partnership or corporation",
+        "qualify or operate"
+      ],
+      "rationale": "Items were drawn from distinct license types named in the source sentences across AK, AL, DE, FL, and CT; the Florida Class A/B/C air-conditioning and mechanical contractor licenses were kept separate because each has a distinct statutory scope; Delaware's full and restricted master HVACR licenses were kept separate because they cover different scopes of work; Alabama's certified HACR contractor and Alaska's mechanical administrator are each distinct regimes; the Connecticut certificate of registration as a mechanical contractor was listed separately as it is a registration-type credential rather than an individual trade license, but is supported by the CT sentence.",
+      "states_scanned": [
+        "AK",
+        "AL",
+        "AR",
+        "AZ",
+        "CA",
+        "CT",
+        "DE",
+        "FL",
+        "GA",
+        "HI",
+        "IA",
+        "ID",
+        "KY",
+        "LA",
+        "MA",
+        "MD",
+        "ME",
+        "MI",
+        "MN",
+        "MS",
+        "MT",
+        "NC",
+        "ND",
+        "NH",
+        "NJ",
+        "NM",
+        "NV",
+        "OH",
+        "OK",
+        "OR",
+        "RI",
+        "SC",
+        "TN",
+        "TX",
+        "UT",
+        "VA",
+        "VT",
+        "WA",
+        "WI",
+        "WV"
+      ]
+    },
+    {
+      "source_field": "financial_responsibility_demonstration_methods",
+      "matrix_field": "scope__financial_responsibility_demonstration_methods",
+      "eval_flavor": "present_absent",
+      "vocab": [
+        "Surety bond",
+        "Cash deposit",
+        "Certificate of deposit / investment certificate / share account",
+        "General liability insurance",
+        "Workers' compensation insurance",
+        "Professional liability insurance",
+        "Credit report from a nationally recognized credit agency",
+        "Evidence of net worth",
+        "Evidence of minimum cash holdings",
+        "Completion of a financial responsibility course",
+        "Assumption of personal financial responsibility by a financially responsible officer",
+        "Affidavit of insurance",
+        "Satisfaction of or accord regarding unsatisfied judgments",
+        "Proof of good standing with the state business registry (Secretary of State)",
+        "Minimum general liability insurance coverage established by board rule"
+      ],
+      "aliases": {
+        "Surety bond": [
+          "contractor's license bond",
+          "performance bond",
+          "completion bond",
+          "disciplinary bond",
+          "qualifying individual's bond",
+          "judgment bond",
+          "license bond",
+          "contractor's bond",
+          "limited liability company surety bond",
+          "bond payable to the state",
+          "bonds payable as prescribed for financially responsible officers"
+        ],
+        "Cash deposit": [
+          "cash bond",
+          "cash deposit with state treasurer",
+          "lawful money deposit",
+          "cashier's check deposit",
+          "cash deposit in lieu of surety bond"
+        ],
+        "Certificate of deposit / investment certificate / share account": [
+          "certificate of deposit",
+          "investment certificate",
+          "share account"
+        ],
+        "General liability insurance": [
+          "public liability insurance",
+          "commercial general liability insurance",
+          "construction defect insurance",
+          "property damage insurance",
+          "public liability and property damage insurance coverage"
+        ],
+        "Workers' compensation insurance": [
+          "workers' compensation insurance policy",
+          "proof of workers' compensation insurance",
+          "proof of self-insurance for workers' compensation"
+        ],
+        "Professional liability insurance": [
+          "errors and omissions insurance",
+          "extended reporting period endorsement"
+        ],
+        "Credit report from a nationally recognized credit agency": [
+          "credit report reflecting financial responsibility",
+          "evidence of financial responsibility via credit report"
+        ],
+        "Evidence of net worth": [
+          "minimum net worth requirement",
+          "financial stability documentation"
+        ],
+        "Evidence of minimum cash holdings": [
+          "minimum cash requirement",
+          "cash on hand documentation"
+        ],
+        "Completion of a financial responsibility course": [
+          "14-hour financial responsibility course approved by the board",
+          "financial responsibility education course"
+        ],
+        "Assumption of personal financial responsibility by a financially responsible officer": [
+          "financially responsible officer designation",
+          "personal responsibility affidavit for financial aspects of the business organization"
+        ],
+        "Affidavit of insurance": [
+          "affidavit attesting to insurance coverage",
+          "affidavit of compliance with insurance requirements"
+        ],
+        "Satisfaction of or accord regarding unsatisfied judgments": [
+          "proof of satisfaction of all debts",
+          "notarized copy of accord with judgment holder",
+          "proof of partial satisfaction of financial obligations"
+        ],
+        "Proof of good standing with the state business registry (Secretary of State)": [
+          "attestation of good standing with the corporation commission",
+          "proof of registration and good standing with the Secretary of State",
+          "Secretary of State identification number"
+        ],
+        "Minimum general liability insurance coverage established by board rule": [
+          "board-established minimum level of general liability insurance coverage for a license class"
+        ]
+      },
+      "keywords": [
+        "surety bond",
+        "cash deposit",
+        "financial responsibility",
+        "credit report",
+        "credit score",
+        "net worth",
+        "letter of credit",
+        "irrevocable letter of credit",
+        "liability insurance",
+        "general liability",
+        "property damage insurance",
+        "workers' compensation",
+        "self-insurer",
+        "bond",
+        "bonding",
+        "indemnity",
+        "insurance policy",
+        "completed operations",
+        "admitted surety insurer",
+        "corporate surety",
+        "certificate of insurance",
+        "proof of insurance",
+        "good standing",
+        "secretary of state",
+        "financial statement",
+        "bankruptcy",
+        "financially responsible",
+        "bonds payable",
+        "industry group bond",
+        "financial requirements course",
+        "department of banking and insurance"
+      ],
+      "rationale": "All distinct financial-responsibility methods named in any state's sentences were included in the union, regardless of whether a state permits or prohibits them; near-synonyms (e.g., 'performance bond'/'completion bond'/'surety bond') were merged into one canonical entry, while genuinely different instruments (surety bond vs. cash deposit vs. certificate of deposit, various insurance types, credit report, net worth, cash holdings, financial course, FRO designation, affidavit, judgment satisfaction, and good-standing proof) were kept separate.",
+      "states_scanned": [
+        "AK",
+        "AL",
+        "AR",
+        "AZ",
+        "CA",
+        "CT",
+        "DE",
+        "FL",
+        "GA",
+        "HI",
+        "IA",
+        "ID",
+        "KY",
+        "LA",
+        "MA",
+        "MD",
+        "ME",
+        "MI",
+        "MN",
+        "MS",
+        "MT",
+        "NC",
+        "ND",
+        "NH",
+        "NJ",
+        "NM",
+        "NV",
+        "OH",
+        "OK",
+        "OR",
+        "RI",
+        "SC",
+        "TN",
+        "TX",
+        "UT",
+        "VA",
+        "VT",
+        "WA",
+        "WI",
+        "WV"
+      ]
+    }
+  ]
+}
