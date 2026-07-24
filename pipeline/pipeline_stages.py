@@ -360,6 +360,9 @@ def run_fanout(profs: list[str], *, payload_only: bool = False) -> list[tuple[st
     results.append(("build_scope_capabilities",
                     _sh([PY, "-m", "pipeline.publish.build_scope_capabilities", "--upload"],
                         "build_scope_capabilities")))
+    results.append(("build_scope_matrices",
+                    _sh([PY, "-m", "pipeline.publish.build_scope_matrices", "--upload"],
+                        "build_scope_matrices")))
     if not payload_only:
         # Cross-profession bucket alignment for the shared universal fields (reads current
         # data, so re-running self-heals to cover every published profession). build_frontend
