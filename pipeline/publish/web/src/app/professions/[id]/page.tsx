@@ -18,7 +18,7 @@ import type { ProfilePayload } from "@/lib/types";
 import { ProfileView } from "@/components/profile-view";
 import { ProfessionStatutesView } from "@/components/profession-statutes-view";
 import { ProfileTags } from "@/components/profile-tags";
-import { ScopeView } from "@/components/scope-view";
+import { ScopeMatrixView } from "@/components/scope-matrix-view";
 import { SimilarityView } from "@/components/similarity-view";
 import { NovelPoliciesView } from "@/components/novel-policies-view";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
@@ -161,7 +161,7 @@ function ProfessionInner({ params }: { params: Promise<{ id: string }> }) {
           {dataExists && payload && <ProfileView payload={payload} embedded view="map" />}
         </TabsContent>
         <TabsContent value="scope" className="mt-4">
-          <ScopeView professionId={id} />
+          <ScopeMatrixView professionId={id} />
         </TabsContent>
         <TabsContent value="compare" className="mt-4">
           <SimilarityView professionId={id} />

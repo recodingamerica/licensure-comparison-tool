@@ -54,12 +54,10 @@ from pipeline.extract.extract_state import (
     SYSTEM_PROMPT,
     DEFAULT_MODEL,
     build_profile_model,
-    build_state_text,
-    load_umbrella_text,
-    annotate_evidence,
+    build_user_message,
+    finalize_and_persist,
     extract_one,
     _recover_invalid_fields,
-    _normalize_for_match,
 )
 from pipeline.paths import DISCOVERED_DIR, TRIMMED_DIR, STRUCTURED_DIR, LOGS_DIR, RESULTS_DIR
 from pipeline import provenance
@@ -85,26 +83,12 @@ def _client() -> anthropic.Anthropic:
 
 
 def _build_user_message(state: str, profession: str) -> str | None:
-    in_path = TRIMMED_DIR / profession / f"{state}.json"
-    if not in_path.exists():
-        log.warning("[%s/%s] no trimmed file at %s — run pull_text + trim_state first",
-                    profession, state, in_path)
-        return None
-    raw = json.loads(in_path.read_text())
-    if not raw.get("sections"):
-        log.warning("[%s/%s] trimmed file has no sections", profession, state)
-        return None
-    state_text = build_state_text(raw)
-    umbrella_text = load_umbrella_text(state, profession)
-    if umbrella_text:
-        return (
-            f"State: {state}\nProfession: {profession}\n\n"
-            f"Practice act text (extract values from here primarily):\n{state_text}\n\n"
-            f"=== Cross-cutting umbrella context (definitions, board rules, "
-            f"licensing procedures that apply to this profession too) ===\n"
-            f"{umbrella_text}"
-        )
-    return f"State: {state}\nProfession: {profession}\n\nTrimmed statute text:\n{state_text}"
+    """Batch submitter's per-request prompt — the SAME formatter the sync path
+    uses, so the two never drift. Logs the reason when there's nothing to send."""
+    msg = build_user_message(state, profession)
+    if msg is None:
+        log.warning("[%s/%s] no trimmed sections — run pull_text + trim_state first", profession, state)
+    return msg
 
 
 def _system_with_schema(schema_cls: type[BaseModel]) -> str:
@@ -301,19 +285,11 @@ def _parse_and_write(custom_id: str, response_message, profile_classes: dict[str
             return None
 
     record = model_obj.model_dump()
-    # Re-run verifier annotations on the record (mirror of extract_one's flow).
-    raw_trim = json.loads((TRIMMED_DIR / profession / f"{state}.json").read_text())
-    state_text = build_state_text(raw_trim)
-    umbrella_text = load_umbrella_text(state, profession)
-    normalized_corpus = _normalize_for_match(state_text + "\n" + umbrella_text)
-    verified, unverified = annotate_evidence(record, normalized_corpus)
-    log.info("[%s/%s] evidence: verified=%d unverified=%d", profession, state, verified, unverified)
-
-    out_path = STRUCTURED_DIR / profession / f"{state}.json"
-    out_path.parent.mkdir(parents=True, exist_ok=True)
-    write_json_atomic(out_path, record, ensure_ascii=False)
-    provenance.record("extract", profession, state, model=model)
-    return {"profession": profession, "state": state, "verified": verified, "unverified": unverified}
+    # The SAME finalize pipeline the sync path runs (derive rung → scope matrices
+    # + quote verify → consistency guard → write → provenance). Sharing it is why
+    # batch and sync extractions can no longer diverge.
+    stats = finalize_and_persist(record, profession, state, model)
+    return {"profession": profession, "state": state, **stats}
 
 
 def poll(batch_id: str, wait: bool = True) -> dict | None:
