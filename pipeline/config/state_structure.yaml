@@ -1444,6 +1444,15 @@ WA:
       url: "https://law.justia.com/codes/washington/title-18/chapter-18-27/"
       authoritative: true
       label: "WA Ch 18.27 — Registration of Contractors (HVAC via contractor registration)"
+    # WA nursing practice is RCW 18.79 (RN/LPN/ARNP). Unpinned, label-match dragged
+    # in nursing HOMES (Ch 18.51) + Title 74 long-term-care resident law (74.42/.46/.48)
+    # + nursing assistants (18.88a) — ~340 irrelevant sections that poisoned trim and
+    # would pollute scope extraction. authoritative drops all of that. Disciplinary
+    # grounds still arrive via the 18.130 umbrella node above.
+    nursing:
+      url: "https://law.justia.com/codes/washington/title-18/chapter-18-79/"
+      authoritative: true
+      label: "WA Ch 18.79 — Nursing Care (RN / LPN / ARNP practice)"
 
 ND:
   source: justia
