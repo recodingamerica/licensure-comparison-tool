@@ -55,7 +55,7 @@ def test_oversize_section_auto_kept_never_sent_to_llm(tmp_path, monkeypatch):
         decisions = [_Drop("1-2")]
 
     calls = []
-    def fake_call_model(model, system, user, schema_cls):
+    def fake_call_model(model, system, user, schema_cls, citations=None):
         calls.append(user)
         return _Result()
 
