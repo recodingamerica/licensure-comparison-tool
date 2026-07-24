@@ -30,28 +30,32 @@
       }
     },
     "age_minimum": null,
-    "moral_character_required": null,
+    "moral_character_required": {
+      "value": true,
+      "quote": "Be of sufficiently sound physical and mental health as will not impair or interfere with the ability to practice nursing.",
+      "citation": "54-1408"
+    },
     "education": {
       "degree_required": {
-        "value": "Approved nursing education program",
+        "value": "Successfully completed the basic curriculum of an approved registered nursing education program or its equivalent",
         "quote": "Have successfully completed the basic curriculum of an approved registered nursing education program or its equivalent",
         "citation": "54-1408"
       },
       "accrediting_body": null,
       "degree_level": {
         "value": "associate",
-        "quote": "Have successfully completed the basic curriculum of an approved practical nursing education program or its equivalent",
-        "citation": "54-1407"
+        "quote": "Have successfully completed the basic curriculum of an approved registered nursing education program or its equivalent",
+        "citation": "54-1408"
       },
       "school_approval_basis": {
         "value": "board_approved",
-        "quote": "approved nursing education programs",
-        "citation": "54-1408"
+        "quote": "Approval shall be conditioned upon and subject to continuing compliance with standards adopted by the board respecting faculty, staff, curriculum, administration, financial stability and other matters affecting the quality of nursing education.",
+        "citation": "54-1406"
       },
       "credential_pegged": {
-        "value": true,
-        "quote": "Have passed a qualifying examination recognized by the board and have current certification from a national organization recognized by the board",
-        "citation": "54-1409"
+        "value": false,
+        "quote": "Have successfully completed the basic curriculum of an approved registered nursing education program or its equivalent",
+        "citation": "54-1408"
       },
       "tiers": [
         {
@@ -72,7 +76,7 @@
           "license_class": "advanced practice registered nurse",
           "degree_level": "master",
           "effective_date": null,
-          "quote": "Have successfully completed an approved advanced practice registered nursing education program that meets the board requirements for the role of advanced nursing practice",
+          "quote": "Have successfully completed an approved advanced practice registered nursing education program that meets the board requirements for the role of advanced nursing practice for which the applicant is seeking licensure",
           "citation": "54-1409"
         }
       ]
@@ -95,7 +99,7 @@
       {
         "name": "NCLEX-RN",
         "required": true,
-        "notes": "Examination to measure knowledge and judgment essential for safe practice of registered nursing",
+        "notes": "Exam to measure knowledge and judgment essential for safe practice of registered nursing",
         "jurisdiction": "national (NCLEX-RN)",
         "permitted_attempts": null,
         "quote": "Pass an examination adopted and used by the board to measure knowledge and judgment essential for the safe practice of registered nursing",
@@ -104,17 +108,17 @@
       {
         "name": "NCLEX-PN",
         "required": true,
-        "notes": "Examination to measure knowledge and judgment essential for safe practice of practical nursing",
+        "notes": "Exam to measure knowledge and judgment essential for safe practice of practical nursing",
         "jurisdiction": "national (NCLEX-PN)",
         "permitted_attempts": null,
         "quote": "Pass an examination adopted and used by the board to measure knowledge and judgment essential for the safe practice of practical nursing",
         "citation": "54-1407"
       },
       {
-        "name": "Qualifying examination for APRN",
+        "name": "APRN qualifying examination",
         "required": true,
-        "notes": "Recognized by the board; national certification also required",
-        "jurisdiction": "national (board-recognized)",
+        "notes": "National organization exam required for APRN licensure",
+        "jurisdiction": "national",
         "permitted_attempts": null,
         "quote": "Have passed a qualifying examination recognized by the board and have current certification from a national organization recognized by the board",
         "citation": "54-1409"
@@ -149,7 +153,7 @@
         "citation": "54-1408"
       },
       "requirements": {
-        "value": "Must have a license in good standing without restriction or limitation issued by another state, territory or foreign country and meet established board requirements",
+        "value": "Applicant must have a license in good standing, without restriction or limitation, issued by another state, territory or foreign country and meet established board requirements; or have a license issued upon successful similar examination approved by the board.",
         "quote": "Have a professional or registered nurse license in good standing, without restriction or limitation, issued by another state, territory or foreign country and meet established board requirements",
         "citation": "54-1408"
       }
@@ -165,7 +169,7 @@
     },
     "national_certification": {
       "value": "National organization recognized by the board",
-      "quote": "have current certification from a national organization recognized by the board",
+      "quote": "Have passed a qualifying examination recognized by the board and have current certification from a national organization recognized by the board",
       "citation": "54-1409"
     },
     "national_association": null,
@@ -209,13 +213,13 @@
       },
       {
         "short_label": "criminal_conviction",
-        "description": "Convicted of or entered a guilty plea for a relevant crime",
+        "description": "Convicted of or enters a guilty plea for a crime deemed relevant",
         "quote": "Is convicted of or enters a guilty plea for a crime deemed relevant in accordance with section 67-9411(1), Idaho Code",
         "citation": "54-1413"
       },
       {
         "short_label": "gross_negligence_or_recklessness",
-        "description": "Was grossly negligent or reckless in performing nursing functions",
+        "description": "Grossly negligent or reckless in performing nursing functions",
         "quote": "Is or has been grossly negligent or reckless in performing nursing functions",
         "citation": "54-1413"
       },
@@ -227,13 +231,13 @@
       },
       {
         "short_label": "physical_or_mental_unfitness",
-        "description": "Is physically or mentally unfit to practice nursing",
+        "description": "Physically or mentally unfit to practice nursing",
         "quote": "Is physically or mentally unfit to practice nursing",
         "citation": "54-1413"
       },
       {
         "short_label": "violation_of_chapter_or_rules",
-        "description": "Violates provisions of the chapter or rules and standards of conduct and practice",
+        "description": "Violates the provisions of this chapter or rules and standards of conduct and practice",
         "quote": "Violates the provisions of this chapter or rules and standards of conduct and practice as may be adopted by the board",
         "citation": "54-1413"
       },
@@ -244,9 +248,9 @@
         "citation": "54-1413"
       },
       {
-        "short_label": "disciplined_in_another_jurisdiction",
-        "description": "Has been disciplined by a nursing regulatory authority in any other jurisdiction",
-        "quote": "Has been disciplined by a nursing regulatory authority in any jurisdiction.",
+        "short_label": "discipline_by_another_jurisdiction",
+        "description": "Has been disciplined by a nursing regulatory authority in any jurisdiction",
+        "quote": "Has been disciplined by a nursing regulatory authority in any jurisdiction. A certified copy of the order entered by the jurisdiction shall be prima facie evidence of such discipline",
         "citation": "54-1413"
       },
       {
@@ -262,7 +266,7 @@
         "citation": "54-1413"
       },
       {
-        "short_label": "failure_to_comply_with_abortion_reporting",
+        "short_label": "failure_to_comply_abortion_reporting",
         "description": "Failure to comply with the requirements of the abortion complications reporting act",
         "quote": "Failure to comply with the requirements of the abortion complications reporting act, chapter 95, title 39, Idaho Code.",
         "citation": "54-1413"
@@ -292,7 +296,7 @@
       },
       {
         "cite": "54-1406",
-        "kind": "nursing education programs"
+        "kind": "nursing education program approval"
       },
       {
         "cite": "54-1406A",
@@ -300,11 +304,11 @@
       },
       {
         "cite": "54-1407",
-        "kind": "LPN licensure"
+        "kind": "practical nursing licensure"
       },
       {
         "cite": "54-1408",
-        "kind": "RN licensure"
+        "kind": "registered nursing licensure"
       },
       {
         "cite": "54-1409",
@@ -320,15 +324,15 @@
       },
       {
         "cite": "54-1411",
-        "kind": "renewal"
+        "kind": "renewal and reinstatement"
       },
       {
         "cite": "54-1411A",
-        "kind": "preceptors / continuing education"
+        "kind": "preceptors continuing education"
       },
       {
         "cite": "54-1412",
-        "kind": "exceptions"
+        "kind": "exceptions to licensure"
       },
       {
         "cite": "54-1413",
@@ -336,7 +340,7 @@
       },
       {
         "cite": "54-1414",
-        "kind": "unlawful conduct / penalties"
+        "kind": "unlawful conduct and penalties"
       },
       {
         "cite": "54-1418",
@@ -348,7 +352,7 @@
       },
       {
         "cite": "54-1420",
-        "kind": "APRN authority to sign or verify"
+        "kind": "APRN signature authority"
       },
       {
         "cite": "54-1421",
@@ -363,36 +367,33 @@
   "scope": {
     "definition_quote": {
       "value": "The performance by licensed practical nurses, registered nurses and advanced practice registered nurses of acts and services that require formal nursing education and specialized knowledge, judgment and skill, which acts and services assist individuals, groups, communities and populations in order to promote, maintain or restore optimal health and well-being throughout the life process.",
-      "quote": "the performance by licensed practical nurses, registered nurses and advanced practice registered nurses of acts and services that require formal nursing education and specialized knowledge, judgment and skill, which acts and services assist individuals, groups, communities and populations in order to promote, maintain or restore optimal health and well-being throughout the life process",
+      "quote": "The performance by licensed practical nurses, registered nurses and advanced practice registered nurses of acts and services that require formal nursing education and specialized knowledge, judgment and skill, which acts and services assist individuals, groups, communities and populations in order to promote, maintain or restore optimal health and well-being throughout the life process.",
       "citation": "54-1402"
     },
     "methods_authorized": {
       "value": [
-        "assessing health status",
-        "identifying health care problems",
-        "establishing goals",
-        "planning a strategy of care",
+        "assessment",
+        "diagnosis",
+        "planning",
         "prescribing nursing interventions",
         "implementing strategy of care including administering medications and treatments",
-        "authorizing nursing interventions performed by others",
-        "maintaining safe and effective nursing care",
-        "evaluating responses to interventions",
-        "teaching theory and practice of nursing",
+        "evaluation",
+        "teaching",
         "managing the practice of nursing",
         "collaborating with other health professionals"
       ],
-      "quote": "Assessing the health status of individuals and groups of individuals; Identifying health care problems that are amenable to nursing intervention; Establishing goals to meet identified health care needs; Planning a strategy of care; Prescribing nursing interventions to implement the strategy of care; Implementing the strategy of care, including administering medications and treatments as prescribed by those health care providers authorized to prescribe medication; Authorizing nursing interventions that may be performed by others",
+      "quote": "Assessing the health status of individuals and groups of individuals; Identifying health care problems that are amenable to nursing intervention; Establishing goals to meet identified health care needs; Planning a strategy of care; Prescribing nursing interventions to implement the strategy of care; Implementing the strategy of care, including administering medications and treatments as prescribed by those health care providers authorized to prescribe medication",
       "citation": "54-1402"
     },
     "drug_authority": {
-      "value": "APRNs are authorized to prescribe, administer and dispense therapeutic pharmacologic agents as defined by board rules; RNs and LPNs may administer medications and treatments as prescribed by authorized health care providers.",
+      "value": "APRNs may prescribe, administer and dispense therapeutic pharmacologic agents as defined by board rules. RNs and LPNs may administer medications as prescribed by authorized health care providers.",
       "quote": "An advanced practice registered nurse is authorized to perform advanced nursing practice, which may include the prescribing, administering and dispensing of therapeutic pharmacologic agents, as defined by board rules.",
       "citation": "54-1402"
     },
     "citations": [
       {
         "cite": "54-1402",
-        "kind": "definitions and scope"
+        "kind": "scope of practice definition"
       },
       {
         "cite": "54-1420",
@@ -408,28 +409,35 @@
     "license_tiers": {
       "value": [
         "Licensed Practical Nurse (LPN)",
-        "Licensed Registered Nurse (RN)",
-        "Advanced Practice Registered Nurse (APRN) - includes Certified Nurse-Midwife, Clinical Nurse Specialist, Certified Nurse Practitioner, Certified Registered Nurse Anesthetist"
+        "Registered Nurse (RN)",
+        "Advanced Practice Registered Nurse (APRN)",
+        "Certified Nurse Midwife",
+        "Clinical Nurse Specialist",
+        "Certified Nurse Practitioner",
+        "Certified Registered Nurse Anesthetist",
+        "Certified Medication Assistant",
+        "Nurse Emeritus",
+        "Temporary License"
       ],
       "quote": "Advanced practice registered nurses shall include the following four (4) roles: certified nurse-midwife; clinical nurse specialist; certified nurse practitioner; and certified registered nurse anesthetist as defined in board rule.",
       "citation": "54-1402"
     },
     "aprn_role_categories": {
       "value": [
-        "certified nurse-midwife",
-        "clinical nurse specialist",
-        "certified nurse practitioner",
-        "certified registered nurse anesthetist"
+        "Certified Nurse Midwife",
+        "Clinical Nurse Specialist",
+        "Certified Nurse Practitioner",
+        "Certified Registered Nurse Anesthetist"
       ],
       "quote": "Advanced practice registered nurses shall include the following four (4) roles: certified nurse-midwife; clinical nurse specialist; certified nurse practitioner; and certified registered nurse anesthetist as defined in board rule.",
       "citation": "54-1402"
     },
     "lpn_supervision_requirements": {
       "value": [
-        "licensed registered nurse",
-        "licensed advanced practice registered nurse",
-        "licensed physician",
-        "licensed dentist"
+        "Registered Nurse",
+        "Advanced Practice Registered Nurse",
+        "Physician",
+        "Dentist"
       ],
       "quote": "Functioning at the direction of a licensed registered nurse, licensed advanced practice registered nurse, licensed physician, or licensed dentist in a role falling within the nurse's scope of practice as defined by the board",
       "citation": "54-1402"
@@ -445,8 +453,18 @@
       "citation": "54-1419"
     },
     "full_independent_practice_experience_hours_required": null,
-    "prescriptive_authority_certificate_required": null,
-    "controlled_substance_schedule_authority": null,
+    "prescriptive_authority_certificate_required": {
+      "value": false,
+      "quote": "An advanced practice registered nurse is authorized to perform advanced nursing practice, which may include the prescribing, administering and dispensing of therapeutic pharmacologic agents, as defined by board rules.",
+      "citation": "54-1402"
+    },
+    "controlled_substance_schedule_authority": {
+      "value": [
+        "controlled substances per state and federal law"
+      ],
+      "quote": "the prescription drug shall not be a controlled substance unless prescribed in compliance with 21 U.S.C.",
+      "citation": "54-5707"
+    },
     "opioid_prescribing_limits": null,
     "dea_registration_required": null,
     "controlled_substance_database_registration_required": null,
@@ -479,26 +497,196 @@
     },
     "impaired_nurse_alternative_program_available": {
       "value": true,
-      "quote": "\"Alternative program\" means a nondisciplinary monitoring program approved by a licensing board.",
-      "citation": "54-1418"
+      "quote": "The board may enter into agreements with peer assistance entities to undertake those functions and responsibilities specified in the agreements which assist the board in performing its duties, implementing disciplinary actions or sanctions, and in addressing potential or confirmed problems of chemical dependency and/or impairment, psychological impairment, and mental or physical impairment affecting board licentiates.",
+      "citation": "54-4402"
     },
     "rn_death_pronouncement_authorized": null,
     "public_health_nurse_certification_available": null,
     "telehealth_prescribing_rules": {
-      "value": "APRNs and other providers may issue prescription drug orders via virtual care within their scope of practice; controlled substances may not be prescribed via virtual care unless in compliance with 21 U.S.C. Treatment based solely on a static online questionnaire does not constitute an acceptable standard of care.",
-      "quote": "A provider with an established provider-patient relationship, including a relationship established pursuant to section 54-5705, Idaho Code, may issue prescription drug orders and prescription medical device orders via virtual care within the scope of the provider's license and according to any applicable state and federal laws, rules, and regulations, including the Idaho community standard of care. However, the prescription drug shall not be a controlled substance unless prescribed in compliance with 21 U.S.C.",
-      "citation": "54-5707"
+      "value": "A provider may issue prescription drug orders via virtual care within the scope of the provider's license, but controlled substances may not be prescribed unless in compliance with 21 U.S.C. Treatment based solely on a static online questionnaire does not constitute an acceptable standard of care.",
+      "quote": "a provider shall obtain and document a patient's relevant clinical history and current symptoms to establish the diagnosis and identify underlying conditions and contraindications to the treatment recommended. A provider delivering health care services via virtual care has a duty to practice in a manner consistent with the provider's scope of practice and shall be held to the applicable Idaho community standard of care that applies in an in-person setting. Treatment based solely on a static online questionnaire does not constitute an acceptable standard of care.",
+      "citation": "54-5706"
     },
     "nurse_practitioner_transition_to_practice_hours": null,
     "crna_physician_supervision_model": {
-      "value": "direction without required presence",
-      "quote": "The immunity from liability provided for in subsection (3) of this section applies regardless of whether a physician is physically present in the facility or practice setting where the CRNA is providing anesthesia services as long as the physician did not undertake, accept, or contractually agree to supervise or direct the CRNA's anesthesia care.",
+      "value": "coordination model",
+      "quote": "A physician shall not be liable for civil damages arising out of any act or omission relating to anesthesia services when: (a) Such anesthesia services have been furnished solely and independently by a CRNA acting within the scope of the CRNA's licensure, education, training, and experience... and (b) The physician did not provide direct control or supervision or expressly assume responsibility for the anesthesia services provided by the CRNA.",
       "citation": "54-1421"
     },
     "cnm_out_of_hospital_birth_authorized": null,
     "aprn_formulary_or_protocol_required": null,
     "nursing_education_program_clinical_hours_minimum": null,
     "implicit_bias_training_required_in_curriculum": null,
-    "military_education_credit_required": null
+    "military_education_credit_required": null,
+    "scope__license_tiers": [
+      {
+        "item": "Registered Nurse (RN)",
+        "status": "present",
+        "quote": "\"Licensed registered nurse\" means a person licensed by the board who practices nursing by: (a) Assessing the health status of individuals and groups of individuals",
+        "citation": "54-1402"
+      },
+      {
+        "item": "Licensed Practical Nurse (LPN)",
+        "status": "present",
+        "quote": "\"Licensed practical nurse\" means a person licensed by the board who practices nursing by: (a) Functioning at the direction of a licensed registered nurse",
+        "citation": "54-1402"
+      },
+      {
+        "item": "Advanced Practice Registered Nurse (APRN)",
+        "status": "present",
+        "quote": "\"Advanced practice registered nurse\" means a registered nurse licensed in this state who has gained additional specialized knowledge, skills and experience through a program of study recognized or defined by the board.",
+        "citation": "54-1402"
+      },
+      {
+        "item": "Certified Registered Nurse Anesthetist (CRNA)",
+        "status": "present",
+        "quote": "Advanced practice registered nurses shall include the following four (4) roles: certified nurse-midwife; clinical nurse specialist; certified nurse practitioner; and certified registered nurse anesthetist as defined in board rule.",
+        "citation": "54-1402"
+      },
+      {
+        "item": "Certified Nurse Practitioner (CNP/CRNP/NP)",
+        "status": "present",
+        "quote": "Advanced practice registered nurses shall include the following four (4) roles: certified nurse-midwife; clinical nurse specialist; certified nurse practitioner; and certified registered nurse anesthetist as defined in board rule.",
+        "citation": "54-1402"
+      },
+      {
+        "item": "Certified Nurse Midwife (CNM)",
+        "status": "present",
+        "quote": "Advanced practice registered nurses shall include the following four (4) roles: certified nurse-midwife; clinical nurse specialist; certified nurse practitioner; and certified registered nurse anesthetist as defined in board rule.",
+        "citation": "54-1402"
+      },
+      {
+        "item": "Clinical Nurse Specialist (CNS)",
+        "status": "present",
+        "quote": "Advanced practice registered nurses shall include the following four (4) roles: certified nurse-midwife; clinical nurse specialist; certified nurse practitioner; and certified registered nurse anesthetist as defined in board rule.",
+        "citation": "54-1402"
+      },
+      {
+        "item": "Certified Nurse Aide (CNA)",
+        "status": "present",
+        "quote": "Is registered as a nursing assistant, without substantiated charges, on the nursing assistant registry currently maintained by the Idaho department of health and welfare",
+        "citation": "54-1406A"
+      },
+      {
+        "item": "Certified Medication Assistant",
+        "status": "present",
+        "quote": "The board shall issue a certificate of medication assistance (MA-C) to an individual who:",
+        "citation": "54-1406A"
+      },
+      {
+        "item": "Full Independent Practice Authority Certificate",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Nursing Home Administrator License",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Multistate License (Nurse Licensure Compact)",
+        "status": "present",
+        "quote": "\"Multistate license\" means a license to practice as a registered or a licensed practical/vocational nurse (LPN/VN) issued by a home state licensing board that authorizes the licensed nurse to practice in all party states under a multistate licensure privilege.",
+        "citation": "54-1418"
+      },
+      {
+        "item": "Temporary Permit to Practice Nursing",
+        "status": "present",
+        "quote": "The board may issue temporary licenses to: (a) Graduates of approved nursing education programs seeking to qualify for licensure by this chapter",
+        "citation": "54-1410A"
+      }
+    ],
+    "scope__aprn_role_categories": [
+      {
+        "item": "Certified Nurse Practitioner",
+        "status": "present",
+        "quote": "Advanced practice registered nurses shall include the following four (4) roles: certified nurse-midwife; clinical nurse specialist; certified nurse practitioner; and certified registered nurse anesthetist as defined in board rule.",
+        "citation": "54-1402"
+      },
+      {
+        "item": "Certified Registered Nurse Anesthetist",
+        "status": "present",
+        "quote": "Advanced practice registered nurses shall include the following four (4) roles: certified nurse-midwife; clinical nurse specialist; certified nurse practitioner; and certified registered nurse anesthetist as defined in board rule.",
+        "citation": "54-1402"
+      },
+      {
+        "item": "Certified Nurse Midwife",
+        "status": "present",
+        "quote": "Advanced practice registered nurses shall include the following four (4) roles: certified nurse-midwife; clinical nurse specialist; certified nurse practitioner; and certified registered nurse anesthetist as defined in board rule.",
+        "citation": "54-1402"
+      },
+      {
+        "item": "Clinical Nurse Specialist",
+        "status": "present",
+        "quote": "Advanced practice registered nurses shall include the following four (4) roles: certified nurse-midwife; clinical nurse specialist; certified nurse practitioner; and certified registered nurse anesthetist as defined in board rule.",
+        "citation": "54-1402"
+      }
+    ],
+    "scope__lpn_supervision_requirements": [
+      {
+        "item": "Registered Nurse",
+        "status": "present",
+        "quote": "Functioning at the direction of a licensed registered nurse, licensed advanced practice registered nurse, licensed physician, or licensed dentist in a role falling within the nurse's scope of practice as defined by the board",
+        "citation": "54-1402"
+      },
+      {
+        "item": "Advanced Practice Registered Nurse",
+        "status": "present",
+        "quote": "Functioning at the direction of a licensed registered nurse, licensed advanced practice registered nurse, licensed physician, or licensed dentist in a role falling within the nurse's scope of practice as defined by the board",
+        "citation": "54-1402"
+      },
+      {
+        "item": "Physician",
+        "status": "present",
+        "quote": "Functioning at the direction of a licensed registered nurse, licensed advanced practice registered nurse, licensed physician, or licensed dentist in a role falling within the nurse's scope of practice as defined by the board",
+        "citation": "54-1402"
+      },
+      {
+        "item": "Physician Assistant",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Dentist",
+        "status": "present",
+        "quote": "Functioning at the direction of a licensed registered nurse, licensed advanced practice registered nurse, licensed physician, or licensed dentist in a role falling within the nurse's scope of practice as defined by the board",
+        "citation": "54-1402"
+      },
+      {
+        "item": "Podiatrist",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      }
+    ],
+    "scope__controlled_substance_schedule_authority": [
+      {
+        "item": "Schedule II controlled substances",
+        "status": "not_addressed",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Schedule III controlled substances",
+        "status": "not_addressed",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Schedule IV controlled substances",
+        "status": "not_addressed",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Schedule V controlled substances",
+        "status": "not_addressed",
+        "quote": "",
+        "citation": ""
+      }
+    ]
   }
 }

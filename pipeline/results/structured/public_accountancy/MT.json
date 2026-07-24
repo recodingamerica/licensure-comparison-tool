@@ -9,8 +9,8 @@
     },
     "issuing_authority": {
       "value": "Department of Labor and Industry",
-      "quote": "\"Department\" means the department of labor and industry provided for in Title 2, chapter 15, part 17.",
-      "citation": "37-50-101"
+      "quote": "A license to engage in the practice of public accounting in this state must be issued by the department to a person who complies with the requirements of this chapter.",
+      "citation": "37-50-314"
     },
     "regulatory_authority": {
       "name": {
@@ -32,7 +32,7 @@
     "age_minimum": null,
     "moral_character_required": {
       "value": true,
-      "quote": "The board shall grant an initial license as a certified public accountant to any person who: (1) is of good moral character",
+      "quote": "is of good moral character",
       "citation": "37-50-302"
     },
     "education": {
@@ -41,14 +41,18 @@
         "quote": "graduated from an accredited college or university with a baccalaureate degree and at least 150 semester hours of credit",
         "citation": "37-50-305"
       },
-      "accrediting_body": null,
+      "accrediting_body": {
+        "value": "accredited college or university (unspecified accreditor)",
+        "quote": "graduated from an accredited college or university with a baccalaureate degree and at least 150 semester hours of credit",
+        "citation": "37-50-305"
+      },
       "degree_level": {
         "value": "bachelor",
         "quote": "graduated from an accredited college or university with a baccalaureate degree and at least 150 semester hours of credit",
         "citation": "37-50-305"
       },
       "school_approval_basis": {
-        "value": "regional_accreditor",
+        "value": "unspecified",
         "quote": "graduated from an accredited college or university with a baccalaureate degree and at least 150 semester hours of credit",
         "citation": "37-50-305"
       },
@@ -85,10 +89,19 @@
       {
         "name": "Uniform Certified Public Accountant Examination",
         "required": true,
-        "notes": "Board may grant credit for exam taken in another jurisdiction.",
-        "jurisdiction": "national",
+        "notes": "Board may adopt rules for credit, reexamination period, and fees. Credit may be granted for exam taken in another jurisdiction.",
+        "jurisdiction": "national (uniform CPA examination)",
         "permitted_attempts": null,
         "quote": "has successfully passed the certified public accountant examination",
+        "citation": "37-50-302"
+      },
+      {
+        "name": "Professional Ethics Course",
+        "required": true,
+        "notes": "A professional ethics course for certified public accountants as identified in board rule must be successfully completed.",
+        "jurisdiction": null,
+        "permitted_attempts": null,
+        "quote": "has successfully completed a professional ethics course for certified public accountants as identified in board rule",
         "citation": "37-50-302"
       }
     ],
@@ -109,11 +122,11 @@
     "reciprocity": {
       "available": {
         "value": true,
-        "quote": "A person whose principal place of business is not in this state and who holds a valid license as a certified public accountant from any state that the national association of state boards of accountancy's national qualification appraisal service or a successor organization has verified to be in substantial equivalence with the certified public accountant licensure requirements of the Uniform Accountancy Act or a subsequent act of the American institute of certified public accountants/national association of state boards of accountancy is presumed to have qualifications substantially equivalent to this state's requirements and has all the privileges of persons holding a license of this state without the need to obtain a license under 37-50-302.",
+        "quote": "A person whose principal place of business is not in this state and who holds a valid license as a certified public accountant from any state that the national association of state boards of accountancy's national qualification appraisal service or a successor organization has verified to be in substantial equivalence with the certified public accountant licensure requirements of the Uniform Accountancy Act ... has all the privileges of persons holding a license of this state without the need to obtain a license under 37-50-302.",
         "citation": "37-50-325"
       },
       "requirements": {
-        "value": "Nonresident CPAs from states verified by NASBA's National Qualification Appraisal Service as substantially equivalent to the Uniform Accountancy Act may practice in Montana without obtaining a Montana license and without notice, fee, or other submission. Those from non-verified states may qualify via individual NASBA verification. Practitioners must comply with MT law, cease services if their home-state license lapses, and accept jurisdiction of the MT board.",
+        "value": "Out-of-state CPAs whose home state has been verified as substantially equivalent by NASBA NQAS may practice with a practice privilege without notice, fee, or submission. Those not from verified-equivalent states may individually obtain NASBA verification of substantial equivalency. Firms employing such persons performing attest or compilations for Montana clients must be registered under 37-50-335.",
         "quote": "A person who offers or renders professional services under this section, whether in person, by mail, by telephone, or by electronic means, is granted practice privileges in this state and no notice, fee, or other submission is required.",
         "citation": "37-50-325"
       }
@@ -129,8 +142,8 @@
     },
     "national_certification": null,
     "national_association": {
-      "value": "American Institute of Certified Public Accountants / National Association of State Boards of Accountancy (AICPA/NASBA)",
-      "quote": "the Uniform Accountancy Act or a subsequent act of the American institute of certified public accountants/national association of state boards of accountancy",
+      "value": "National Association of State Boards of Accountancy (NASBA); American Institute of Certified Public Accountants (AICPA)",
+      "quote": "the national association of state boards of accountancy's national qualification appraisal service ... the Uniform Accountancy Act or a subsequent act of the American institute of certified public accountants/national association of state boards of accountancy",
       "citation": "37-50-325"
     },
     "regulatory_model": {
@@ -160,22 +173,34 @@
     },
     "disciplinary_grounds": [
       {
-        "short_label": "act_in_another_state_subject_to_discipline",
-        "description": "A Montana licensee who commits an act in another state for which the licensee would be subject to discipline there is subject to disciplinary action in Montana.",
+        "short_label": "act_in_other_state_subject_to_discipline",
+        "description": "A Montana licensee who commits an act in another state for which they would be subject to discipline in that state is subject to disciplinary action in Montana.",
         "quote": "A person licensed in this state offering or rendering services or using a \"CPA\" title in another state is subject to disciplinary action in this state for an act committed in another state where the licensee would be subject to discipline for the act committed in the other state.",
         "citation": "37-50-341"
       },
       {
-        "short_label": "out_of_state_licensee_act_in_montana",
-        "description": "A person licensed in another state who commits in Montana an act for which a Montana licensee would be subject to discipline is subject to disciplinary action in Montana.",
+        "short_label": "act_in_montana_subject_to_discipline",
+        "description": "A person licensed in another state offering services or using CPA title in Montana is subject to disciplinary action in Montana for an act committed in Montana for which a Montana licensee would be subject to discipline.",
         "quote": "A person licensed in another state offering or rendering services or using a \"CPA\" title in this state is subject to disciplinary action in this state for an act committed in this state for which a licensee in this state would be subject to discipline.",
         "citation": "37-50-341"
       },
       {
-        "short_label": "firm_ownership_noncompliance",
-        "description": "Failure of a firm to reestablish compliance with ownership requirements is grounds for suspension or revocation of firm registration.",
+        "short_label": "failure_to_reestablish_ownership_compliance",
+        "description": "A firm's failure to reestablish compliance with majority CPA ownership requirements after notice is grounds for suspension or revocation of firm registration.",
         "quote": "The failure of a firm to reestablish compliance with the ownership requirements of subsection (1)(b) is grounds for the board to suspend or revoke the firm's registration required by 37-50-335.",
         "citation": "37-50-330"
+      },
+      {
+        "short_label": "unprofessional_conduct_general",
+        "description": "Grounds for disciplinary action include unprofessional conduct as defined by board rules.",
+        "quote": "upon a finding of unprofessional conduct by an applicant or license holder, impose a sanction provided by this chapter",
+        "citation": "37-1-307"
+      },
+      {
+        "short_label": "failure_to_report_disciplinary_actions",
+        "description": "Failure to furnish required information about legal or disciplinary actions, or filing false information, is grounds for denial or revocation.",
+        "quote": "Failure to furnish the required information, except pursuant to 37-1-138, or the filing of false information is grounds for denial or revocation of a license.",
+        "citation": "37-1-105"
       }
     ],
     "alternative_regulation": {
@@ -190,71 +215,71 @@
     "citations": [
       {
         "cite": "37-50-101",
-        "kind": "definitions"
+        "kind": null
       },
       {
         "cite": "37-50-102",
-        "kind": "exemptions"
+        "kind": null
       },
       {
         "cite": "37-50-203",
-        "kind": "rulemaking"
+        "kind": null
       },
       {
         "cite": "37-50-204",
-        "kind": "rulemaking_examinations"
+        "kind": null
       },
       {
         "cite": "37-50-301",
-        "kind": "title_protection"
+        "kind": null
       },
       {
         "cite": "37-50-302",
-        "kind": "licensure_qualifications"
+        "kind": null
       },
       {
         "cite": "37-50-305",
-        "kind": "education_requirements"
+        "kind": null
       },
       {
         "cite": "37-50-309",
-        "kind": "exam_credit"
+        "kind": null
       },
       {
         "cite": "37-50-314",
-        "kind": "license_required"
+        "kind": null
       },
       {
         "cite": "37-50-316",
-        "kind": "fees"
+        "kind": null
       },
       {
         "cite": "37-50-318",
-        "kind": "transition"
+        "kind": null
       },
       {
         "cite": "37-50-325",
-        "kind": "practice_privilege"
+        "kind": null
       },
       {
         "cite": "37-50-330",
-        "kind": "firm_ownership"
+        "kind": null
       },
       {
         "cite": "37-50-335",
-        "kind": "firm_registration"
+        "kind": null
       },
       {
         "cite": "37-50-341",
-        "kind": "disciplinary_proceedings"
+        "kind": null
       },
       {
         "cite": "37-50-402",
-        "kind": "confidentiality"
+        "kind": null
       },
       {
         "cite": "37-50-403",
-        "kind": "peer_review_privilege"
+        "kind": null
       }
     ]
   },
@@ -273,29 +298,29 @@
         "attest services",
         "compilation services"
       ],
-      "quote": "the issuance of reports or financial statements on which the public may rely; (b) one or more types of management advisory or consulting services as determined by the board; (c) the preparation of tax returns; or (d) furnishing advice on tax matters.",
+      "quote": "the issuance of reports or financial statements on which the public may rely; one or more types of management advisory or consulting services as determined by the board; the preparation of tax returns; or furnishing advice on tax matters",
       "citation": "37-50-101"
     },
     "drug_authority": null,
     "citations": [
       {
         "cite": "37-50-101",
-        "kind": "scope_definition"
+        "kind": null
       },
       {
         "cite": "37-50-314",
-        "kind": "scope_protection"
+        "kind": null
       }
     ]
   },
   "profession_specific": {
     "attest_services_types": {
       "value": [
-        "audit or other engagement in accordance with statements on auditing standards",
-        "review of a financial statement in accordance with statements on standards for accounting and review services",
-        "examination of prospective financial information in accordance with statements on standards for attestation engagements",
-        "engagement in accordance with auditing standards of the public company oversight board",
-        "examination, review, or agreed-upon procedures engagement in accordance with statements on standards for attestation engagements"
+        "audit or other engagement performed in accordance with statements on auditing standards",
+        "review of a financial statement performed in accordance with statements on standards for accounting and review services",
+        "examination of prospective financial information performed in accordance with statements on standards for attestation engagements",
+        "engagement performed in accordance with auditing standards of the public company oversight board",
+        "examination, review, or agreed-upon procedures engagement performed in accordance with statements on standards for attestation engagements"
       ],
       "quote": "\"Attest\" means providing the following services: (a) an audit or other engagement to be performed in accordance with the statements on auditing standards; (b) a review of a financial statement to be performed in accordance with the statements on standards for accounting and review services; (c) an examination of prospective financial information to be performed in accordance with the statements on standards for attestation engagements; (d) an engagement to be performed in accordance with the auditing standards of the public company oversight board; and (e) an examination, other than an examination as provided in subsection (3)(c), a review, or an agreed-upon procedures engagement to be performed in accordance with the statements on standards for attestation engagements.",
       "citation": "37-50-101"
@@ -313,7 +338,7 @@
     "exam_sit_hours_minimum": null,
     "ethics_exam_required": {
       "value": true,
-      "quote": "has successfully completed a professional ethics course for certified public accountants as identified in board rule.",
+      "quote": "has successfully completed a professional ethics course for certified public accountants as identified in board rule",
       "citation": "37-50-302"
     },
     "practice_privilege_no_notice_required": {
@@ -323,12 +348,12 @@
     },
     "practice_privilege_consent_conditions": {
       "value": [
-        "subject to personal and subject matter jurisdiction and disciplinary authority of the board",
+        "subject to the personal and subject matter jurisdiction and disciplinary authority of the board",
         "shall comply with this chapter and the board's rules",
-        "shall cease offering or rendering professional services in this state if the license from the state of the person's principal place of business is no longer valid",
-        "shall accept the appointment of the state board that issued the license as the agent upon whom process may be served"
+        "shall cease offering or rendering professional services in this state individually or on behalf of a firm if the license from the state of the person's principal place of business is no longer valid",
+        "shall accept the appointment of the state board that issued the license as the agent upon whom process may be served in any action or proceeding by the board of public accountants against the licensee"
       ],
-      "quote": "are subject to the personal and subject matter jurisdiction and disciplinary authority of the board; (b) shall comply with this chapter and the board's rules; (c) shall cease offering or rendering professional services in this state individually or on behalf of a firm if the license from the state of the person's principal place of business is no longer valid; and (d) shall accept the appointment of the state board that issued the license as the agent upon whom process may be served in any action or proceeding by the board of public accountants against the licensee.",
+      "quote": "are subject to the personal and subject matter jurisdiction and disciplinary authority of the board; shall comply with this chapter and the board's rules; shall cease offering or rendering professional services in this state individually or on behalf of a firm if the license from the state of the person's principal place of business is no longer valid; and shall accept the appointment of the state board that issued the license as the agent upon whom process may be served in any action or proceeding by the board of public accountants against the licensee.",
       "citation": "37-50-325"
     },
     "attest_services_require_firm_permit": {
@@ -346,7 +371,11 @@
       "quote": "A firm composed of certified public accountants that is engaged in the practice of public accounting may include persons who are not licensed as certified public accountants if:",
       "citation": "37-50-330"
     },
-    "peer_review_required_for_firm_renewal": null,
+    "peer_review_required_for_firm_renewal": {
+      "value": true,
+      "quote": "\"Peer review\" means a board-approved study, appraisal, or review of one or more aspects of the attest or compilation work of a licensee of a registered firm in the practice of public accounting",
+      "citation": "37-50-101"
+    },
     "peer_review_max_frequency_years": null,
     "peer_review_records_privileged": {
       "value": true,
@@ -357,7 +386,7 @@
     "retired_license_status_available": null,
     "out_of_state_firm_no_office_exemption": {
       "value": true,
-      "quote": "A firm that does not have an office in this state may use the title \"CPA\" or \"CPA firm\" in this state without registering and may: (a) offer or render attest services and compilations in this state if the firm: (i) complies with the state's peer review and firm ownership qualifications; (ii) performs the services through an individual with practice privileges under 37-50-325; and (iii) has practice privileges that include offering or rendering attest and compilation services in the state where the firm has its principal place of business",
+      "quote": "A firm that does not have an office in this state may use the title \"CPA\" or \"CPA firm\" in this state without registering and may: (a) offer or render attest services and compilations in this state if the firm ... (b) perform professional services other than attest services or compilations in this state if the firm ...",
       "citation": "37-50-335"
     },
     "office_supervision_by_licensed_cpa_required": null,
@@ -368,7 +397,7 @@
     },
     "client_confidentiality_privilege": {
       "value": true,
-      "quote": "The information derived from or as a result of professional services is considered confidential and privileged.",
+      "quote": "a certified public accountant or employee may not be required to disclose or divulge or voluntarily disclose or divulge information that the certified public accountant or an employee may have relative to and in connection with any professional services as a certified public accountant. The information derived from or as a result of professional services is considered confidential and privileged.",
       "citation": "37-50-402"
     },
     "working_papers_ownership_by_licensee": null,
@@ -393,11 +422,7 @@
     },
     "registered_municipal_accountant_designation": null,
     "public_school_accountant_designation": null,
-    "accounting_practitioner_tier": {
-      "value": true,
-      "quote": "A person who holds a licensed public accountant license and permit to practice on July 1, 2015, issued under the laws of this state may renew the person's existing license and is not required to obtain a certified public accountant license under this chapter.",
-      "citation": "37-50-318"
-    },
+    "accounting_practitioner_tier": null,
     "cpa_emeritus_or_retired_status_available": null,
     "government_audit_cpe_requirement": null,
     "ethics_cpe_hours_required": null,
@@ -405,6 +430,136 @@
     "liability_privity_limitation": null,
     "statute_of_limitations_for_accountant_negligence": null,
     "independence_requirement_for_attest": null,
-    "client_records_return_obligation": null
+    "client_records_return_obligation": null,
+    "scope__attest_services_types": [
+      {
+        "item": "Audit (financial statement audit)",
+        "status": "present",
+        "quote": "an audit or other engagement to be performed in accordance with the statements on auditing standards",
+        "citation": "37-50-101"
+      },
+      {
+        "item": "Review of financial statements",
+        "status": "present",
+        "quote": "a review of a financial statement to be performed in accordance with the statements on standards for accounting and review services",
+        "citation": "37-50-101"
+      },
+      {
+        "item": "Compilation of financial statements",
+        "status": "present",
+        "quote": "\"Compilation\" means providing a service to be performed in accordance with statements on standards for accounting and review services that presents, in the form of financial statements, information that is the representation of owners without undertaking to express any assurance on the statements.",
+        "citation": "37-50-101"
+      },
+      {
+        "item": "Preparation of financial statements",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Examination of prospective financial information",
+        "status": "present",
+        "quote": "an examination of prospective financial information to be performed in accordance with the statements on standards for attestation engagements",
+        "citation": "37-50-101"
+      },
+      {
+        "item": "PCAOB engagement",
+        "status": "present",
+        "quote": "an engagement to be performed in accordance with the auditing standards of the public company oversight board",
+        "citation": "37-50-101"
+      },
+      {
+        "item": "Attestation engagement (examination) under SSAE",
+        "status": "present",
+        "quote": "an examination, other than an examination as provided in subsection (3)(c), a review, or an agreed-upon procedures engagement to be performed in accordance with the statements on standards for attestation engagements",
+        "citation": "37-50-101"
+      },
+      {
+        "item": "Review engagement under SSAE",
+        "status": "present",
+        "quote": "an examination, other than an examination as provided in subsection (3)(c), a review, or an agreed-upon procedures engagement to be performed in accordance with the statements on standards for attestation engagements",
+        "citation": "37-50-101"
+      },
+      {
+        "item": "Agreed-upon procedures engagement",
+        "status": "present",
+        "quote": "\"Agreed-upon procedures engagement\" means an engagement performed in accordance with applicable attestation standards and in which a firm or person is engaged to issue a written finding that: (a) is based on specific procedures that the specified parties agree are sufficient for their purposes; (b) is restricted to the specified parties; and (c) does not provide an opinion or negative assurance.",
+        "citation": "37-50-101"
+      },
+      {
+        "item": "Governmental/compliance audit",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      }
+    ],
+    "scope__practice_privilege_consent_conditions": [
+      {
+        "item": "Consent to personal and subject matter jurisdiction of the board",
+        "status": "present",
+        "quote": "are subject to the personal and subject matter jurisdiction and disciplinary authority of the board",
+        "citation": "37-50-325"
+      },
+      {
+        "item": "Consent to disciplinary authority of the board",
+        "status": "present",
+        "quote": "are subject to the personal and subject matter jurisdiction and disciplinary authority of the board",
+        "citation": "37-50-325"
+      },
+      {
+        "item": "Agreement to comply with the state's public accountancy statutes and board rules",
+        "status": "present",
+        "quote": "shall comply with this chapter and the board's rules",
+        "citation": "37-50-325"
+      },
+      {
+        "item": "Cessation of practice if home-state license is no longer valid",
+        "status": "present",
+        "quote": "shall cease offering or rendering professional services in this state individually or on behalf of a firm if the license from the state of the person's principal place of business is no longer valid",
+        "citation": "37-50-325"
+      },
+      {
+        "item": "Appointment of home-state board as agent for service of process",
+        "status": "present",
+        "quote": "shall accept the appointment of the state board that issued the license as the agent upon whom process may be served in any action or proceeding by the board of public accountants against the licensee",
+        "citation": "37-50-325"
+      },
+      {
+        "item": "Cessation of practice upon conviction of a crime involving dishonesty",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Cessation of practice if barred by the SEC or PCAOB",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Cessation of practice if any governmental body suspends the right to practice before it",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Reporting pending criminal charges to the board",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Consent to jurisdiction of host-state courts",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Firm employing individual with practice privileges also deemed to consent to all conditions",
+        "status": "present",
+        "quote": "A licensee of another state exercising the privilege under this section and the firm that employs that person, as a condition of the grant of this privilege:",
+        "citation": "37-50-325"
+      }
+    ]
   }
 }

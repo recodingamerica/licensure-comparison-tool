@@ -29,13 +29,13 @@
     "moral_character_required": null,
     "education": {
       "degree_required": {
-        "value": "Doctor of Medicine degree from an approved or equivalent medical school",
-        "quote": "Has received the degree of doctor of medicine from a medical school: (1) Approved by the Liaison Committee on Medical Education of the American Medical Association and Association of American Medical Colleges; or (2) Which provides a course of professional instruction equivalent to that provided in medical schools in the United States approved by the Liaison Committee on Medical Education",
+        "value": "Doctor of Medicine from an approved medical school",
+        "quote": "Has received the degree of doctor of medicine from a medical school: (1) Approved by the Liaison Committee on Medical Education of the American Medical Association and Association of American Medical Colleges",
         "citation": "630.160"
       },
       "accrediting_body": {
-        "value": "Liaison Committee on Medical Education (LCME) of the American Medical Association and Association of American Medical Colleges",
-        "quote": "Approved by the Liaison Committee on Medical Education of the American Medical Association and Association of American Medical Colleges",
+        "value": "Liaison Committee on Medical Education (LCME) of the American Medical Association and Association of American Medical Colleges; Committee for the Accreditation of Canadian Medical Schools",
+        "quote": "approved by the Liaison Committee on Medical Education of the American Medical Association and Association of American Medical Colleges",
         "citation": "630.160"
       },
       "degree_level": {
@@ -50,7 +50,7 @@
       },
       "credential_pegged": {
         "value": false,
-        "quote": "Has received the degree of doctor of medicine from a medical school: (1) Approved by the Liaison Committee on Medical Education of the American Medical Association and Association of American Medical Colleges",
+        "quote": "Has received the degree of doctor of medicine from a medical school",
         "citation": "630.160"
       },
       "tiers": null
@@ -79,52 +79,56 @@
     },
     "exams": [
       {
-        "name": "United States Medical Licensing Examination (USMLE)",
-        "required": true,
-        "notes": "One of several acceptable examinations; alternatives include NBME, FLEX, LMCC, or state licensing exam with ABMS certification",
-        "jurisdiction": "national",
-        "permitted_attempts": null,
-        "quote": "All parts of the United States Medical Licensing Examination",
-        "citation": "630.160"
-      },
-      {
         "name": "National Board of Medical Examiners (NBME)",
-        "required": false,
-        "notes": "Alternative to USMLE; all parts must be passed",
-        "jurisdiction": "national",
+        "required": true,
+        "notes": "One of several accepted examinations; applicant must pass all parts",
+        "jurisdiction": "national (NBME)",
         "permitted_attempts": null,
         "quote": "All parts of the examination given by the National Board of Medical Examiners",
         "citation": "630.160"
       },
       {
         "name": "Federation Licensing Examination (FLEX)",
-        "required": false,
-        "notes": "Alternative examination; all parts must be passed",
-        "jurisdiction": "national",
+        "required": true,
+        "notes": "One of several accepted examinations; applicant must pass all parts",
+        "jurisdiction": "national (FSMB)",
         "permitted_attempts": null,
         "quote": "All parts of the Federation Licensing Examination",
         "citation": "630.160"
       },
       {
+        "name": "United States Medical Licensing Examination (USMLE)",
+        "required": true,
+        "notes": "One of several accepted examinations; applicant must pass all parts",
+        "jurisdiction": "national (USMLE)",
+        "permitted_attempts": null,
+        "quote": "All parts of the United States Medical Licensing Examination",
+        "citation": "630.160"
+      },
+      {
         "name": "Licentiate of the Medical Council of Canada (LMCC)",
-        "required": false,
-        "notes": "Alternative examination for Canadian graduates; all parts must be passed",
-        "jurisdiction": "national",
+        "required": true,
+        "notes": "One of several accepted examinations",
+        "jurisdiction": "national (Medical Council of Canada)",
         "permitted_attempts": null,
         "quote": "All parts of the examination to become a licentiate of the Medical Council of Canada",
+        "citation": "630.160"
+      },
+      {
+        "name": "State or territory licensing examination (if ABMS certified)",
+        "required": true,
+        "notes": "Accepted only if applicant is certified by a specialty board of the American Board of Medical Specialties",
+        "jurisdiction": "state",
+        "permitted_attempts": null,
+        "quote": "All parts of a licensing examination given by any state or territory of the United States, if the applicant is certified by a specialty board of the American Board of Medical Specialties",
         "citation": "630.160"
       }
     ],
     "renewal": {
       "interval_years": {
         "value": 2,
-        "quote": "the biennial registration of the holder of a license to practice medicine",
-        "citation": "630.253",
-        "unverified": true,
-        "approximate": {
-          "ratio": 0.959,
-          "matched_normalized": " biennial registration of the holder of a license to practice medicine"
-        }
+        "quote": "biennial registration of the holder of a license to practice medicine",
+        "citation": "630.253"
       }
     },
     "renewal_fee_usd": null,
@@ -137,24 +141,18 @@
       "hours_per_period": null,
       "period_years": {
         "value": 2,
-        "quote": "the biennial registration of the holder of a license to practice medicine, require each holder to submit evidence of compliance with the requirements for continuing education",
-        "citation": "630.253",
-        "unverified": true,
-        "approximate": {
-          "ratio": 0.983,
-          "matched_normalized": " biennial registration of the holder of a license to practice medicine require each holder to submit evidence of compliance with the requirements for continuing education"
-        }
+        "quote": "biennial registration of the holder of a license to practice medicine, require each holder to submit evidence of compliance with the requirements for continuing education",
+        "citation": "630.253"
       },
       "topical_requirements": {
         "value": [
           "terrorism/weapons of mass destruction (at least 4 hours within 2 years of initial licensure)",
-          "evidence-based suicide prevention and awareness (at least 2 hours within 2 years of initial licensure; at least 2 hours every 4 years thereafter)",
-          "screening, brief intervention and referral to treatment for substance use disorder (at least 2 hours within 2 years of initial licensure)",
-          "opioid prescribing/substance use disorder training (at least 2 hours per licensure period, for those registered to dispense controlled substances)",
-          "cultural competency and diversity, equity and inclusion for psychiatrists (at least 2 hours biennially)",
-          "HIV stigma/discrimination training for physicians providing emergency or primary care (at least 2 hours within 2 years of beginning such services)"
+          "evidence-based suicide prevention and awareness (at least 2 hours within 2 years of initial licensure; at least 2 hours every 4 years ongoing)",
+          "screening, brief intervention and referral to treatment (SBIRT) for substance use disorder (at least 2 hours within 2 years of initial licensure)",
+          "HIV stigma/discrimination training (at least 2 hours within 2 years of beginning applicable practice)",
+          "opioid/substance use disorder prescribing training (at least 2 hours per licensure period, for DEA-registered physicians)"
         ],
-        "quote": "Must provide for the completion of a course of instruction, within 2 years after initial licensure, relating to the medical consequences of an act of terrorism ... Must provide for the completion by a holder of a license to practice medicine of a course of instruction within 2 years after initial licensure that provides at least 2 hours of instruction on evidence-based suicide prevention and awareness ... Must provide for the completion of at least 2 hours of training in the screening, brief intervention and referral to treatment approach to substance use disorder within 2 years after initial licensure.",
+        "quote": "Must provide for the completion of a course of instruction, within 2 years after initial licensure, relating to the medical consequences of an act of terrorism... Must provide for the completion by a holder of a license to practice medicine of a course of instruction within 2 years after initial licensure that provides at least 2 hours of instruction on evidence-based suicide prevention and awareness... Must provide for the completion of at least 2 hours of training in the screening, brief intervention and referral to treatment approach to substance use disorder within 2 years after initial licensure.",
         "citation": "630.253"
       }
     },
@@ -165,7 +163,7 @@
         "citation": "630.1605"
       },
       "requirements": {
-        "value": "Applicant must hold a current license in good standing in another state/territory/DC, pass an approved examination, meet all statutory requirements except NRS 630.160, submit required documentation, and complete any additional fitness requirements set by the Board. Expedited endorsement pathways available for ABMS-certified specialists (NRS 630.1606, 630.1607).",
+        "value": "Applicant must hold a current, in-effect license from another US state/territory or DC, submit proof of passage of a Board-approved examination, submit required documentation, meet all statutory requirements except NRS 630.160, and complete any additional fitness requirements. Expedited endorsement paths available for ABMS board-certified physicians.",
         "quote": "the Board may issue a license by endorsement to practice medicine to an applicant who has been issued a license to practice medicine by the District of Columbia or any state or territory of the United States if: (a) At the time the applicant files an application with the Board, the license is in effect",
         "citation": "630.1605"
       }
@@ -185,7 +183,7 @@
       "citation": "630.160"
     },
     "national_association": {
-      "value": "American Medical Association (AMA) / Association of American Medical Colleges (AAMC)",
+      "value": "American Medical Association; Association of American Medical Colleges; Accreditation Council for Graduate Medical Education (ACGME)",
       "quote": "Approved by the Liaison Committee on Medical Education of the American Medical Association and Association of American Medical Colleges",
       "citation": "630.160"
     },
@@ -223,37 +221,37 @@
       },
       {
         "short_label": "deceptive_conduct",
-        "description": "Engaging in conduct intended to deceive, violating Board standards, or violating pharmacy law applicable to practitioners",
+        "description": "Engaging in conduct intended to deceive or violating standards of practice established by Board regulation",
         "quote": "Engaging in any conduct: (1) Which is intended to deceive; (2) Which the Board has determined is a violation of the standards of practice established by regulation of the Board",
         "citation": "630.306"
       },
       {
         "short_label": "improper_controlled_substance_prescribing",
-        "description": "Administering, dispensing, or prescribing controlled substances or dangerous drugs to self or others except as authorized by law",
+        "description": "Administering, dispensing, or prescribing a controlled substance or dangerous drug except as authorized by law",
         "quote": "Administering, dispensing or prescribing any controlled substance, or any dangerous drug as defined in chapter 454 of NRS, to or for himself or herself or to others except as authorized by law.",
         "citation": "630.306"
       },
       {
         "short_label": "silicone_injection",
-        "description": "Performing, assisting, or advising injection of liquid silicone into the human body (except for retinal detachment repair)",
+        "description": "Performing, assisting, or advising injection of liquid silicone into the human body (except retinal repair)",
         "quote": "Performing, assisting or advising the injection of any substance containing liquid silicone into the human body, except for the use of silicone oil to repair a retinal detachment.",
         "citation": "630.306"
       },
       {
         "short_label": "practicing_beyond_scope",
-        "description": "Practicing or offering to practice beyond the scope permitted by law or performing services the licensee is not competent to perform",
+        "description": "Practicing beyond the scope permitted by law or performing services the licensee is not competent to perform",
         "quote": "Practicing or offering to practice beyond the scope permitted by law or performing services which the licensee knows or has reason to know that he or she is not competent to perform or which are beyond the scope of his or her training.",
         "citation": "630.306"
       },
       {
-        "short_label": "experimental_procedure_without_consent",
+        "short_label": "experimental_treatment_without_consent",
         "description": "Performing experimental procedures or prescribing experimental therapies without first obtaining informed consent",
         "quote": "Performing, without first obtaining the informed consent of the patient or the patient's family, any procedure or prescribing any therapy which by the current standards of the practice of medicine is experimental.",
         "citation": "630.306"
       },
       {
-        "short_label": "failure_to_exercise_standard_of_care",
-        "description": "Continual failure to exercise the skill, diligence, or methods ordinarily used by physicians in the same specialty under the same circumstances",
+        "short_label": "continual_failure_of_standard_of_care",
+        "description": "Continual failure to exercise the skill or diligence ordinarily exercised by physicians in good standing in the same specialty",
         "quote": "Continual failure to exercise the skill or diligence or use the methods ordinarily exercised under the same circumstances by physicians in good standing practicing in the same specialty or field.",
         "citation": "630.306"
       },
@@ -265,97 +263,91 @@
       },
       {
         "short_label": "false_reports",
-        "description": "Making or filing a report known to be false, or failing to file a required record or report",
+        "description": "Making or filing a false report, or failing to file a required record or report",
         "quote": "Making or filing a report which the licensee or applicant knows to be false or failing to file a record or report as required by law or regulation.",
         "citation": "630.306"
       },
       {
-        "short_label": "failure_to_report_disciplinary_action_other_jurisdiction",
-        "description": "Failing to report in writing within 30 days any disciplinary action taken against the licensee by another state, federal government, or foreign country",
+        "short_label": "failure_to_report_disciplinary_action",
+        "description": "Failure to report within 30 days any disciplinary action taken against the licensee by another jurisdiction",
         "quote": "Failure by a licensee or applicant to report in writing, within 30 days, any disciplinary action taken against the licensee or applicant by another state, the Federal Government or a foreign country",
         "citation": "630.306"
       },
       {
         "short_label": "failure_to_report_criminal_action",
-        "description": "Failing to report in writing within 30 days any criminal action or conviction other than minor traffic violations",
+        "description": "Failure to report within 30 days any criminal action or conviction against the licensee",
         "quote": "Failure by a licensee or applicant to report in writing, within 30 days, any criminal action taken or conviction obtained against the licensee or applicant, other than a minor traffic violation",
         "citation": "630.306"
       },
       {
-        "short_label": "failure_medical_competency_exam",
-        "description": "Failure to be found competent to practice medicine following a competency examination ordered by the Board",
+        "short_label": "failure_competency_examination",
+        "description": "Failure to be found competent as a result of a medical competency examination",
         "quote": "Failure to be found competent to practice medicine as a result of an examination to determine medical competency pursuant to NRS 630.318.",
         "citation": "630.306"
       },
       {
         "short_label": "operation_of_unlicensed_facility",
-        "description": "Operating a medical facility while its license is suspended or revoked, or when an act occurs that causes suspension or revocation",
-        "quote": "Operation of a medical facility at any time during which: (1) The license of the facility is suspended or revoked; or (2) An act or omission occurs which results in the suspension or revocation of the license pursuant to NRS 449.160.",
+        "description": "Operating a medical facility with a suspended or revoked license",
+        "quote": "Operation of a medical facility at any time during which: (1) The license of the facility is suspended or revoked",
         "citation": "630.306"
       },
       {
         "short_label": "unsafe_unprofessional_conduct",
-        "description": "Engaging in any act that constitutes unsafe or unprofessional conduct under Board regulations",
+        "description": "Engaging in any act that is unsafe or unprofessional conduct in accordance with Board regulations",
         "quote": "Engaging in any act that is unsafe or unprofessional conduct in accordance with regulations adopted by the Board.",
         "citation": "630.306"
       },
       {
         "short_label": "unapproved_controlled_substance",
-        "description": "Knowingly or willfully procuring or administering an FDA-unapproved controlled substance or dangerous drug outside specified exceptions",
+        "description": "Knowingly or willfully procuring or administering an FDA-unapproved controlled substance or dangerous drug except as specifically exempted",
         "quote": "Knowingly or willfully procuring or administering a controlled substance or a dangerous drug as defined in chapter 454 of NRS that is not approved by the United States Food and Drug Administration",
         "citation": "630.306"
       },
       {
-        "short_label": "failure_to_supervise_medical_assistant",
-        "description": "Failure to adequately supervise a medical assistant pursuant to Board regulations",
+        "short_label": "inadequate_supervision_of_medical_assistant",
+        "description": "Failure to adequately supervise a medical assistant per Board regulations",
         "quote": "Failure to supervise adequately a medical assistant pursuant to the regulations of the Board.",
         "citation": "630.306"
       },
       {
-        "short_label": "unlawful_pelvic_exam",
-        "description": "Performing or supervising a pelvic examination in violation of NRS 629.085",
-        "quote": "Performing or supervising the performance of a pelvic examination in violation of NRS 629.085.",
-        "citation": "630.306"
-      },
-      {
-        "short_label": "felony_conviction_relating_to_practice",
-        "description": "Conviction of a felony relating to the practice of medicine or ability to practice medicine",
-        "quote": "Conviction of a felony relating to the practice of medicine. A plea of nolo contendere is a conviction for the purposes of this subsection.",
+        "short_label": "conviction_of_felony",
+        "description": "Conviction of a felony relating to the practice of medicine or the ability to practice medicine",
+        "quote": "Conviction of a felony relating to the practice of medicine or the ability to practice medicine. A plea of nolo contendere is a conviction for the purposes of this subsection.",
         "citation": "630.301"
       },
       {
         "short_label": "disciplinary_action_other_jurisdiction",
-        "description": "Disciplinary action including revocation, suspension, modification or limitation of a license in another jurisdiction, or surrender while under investigation",
+        "description": "Disciplinary action including revocation, suspension, modification or limitation of a license in another jurisdiction, or surrender under investigation",
         "quote": "Any disciplinary action, including, without limitation, the revocation, suspension, modification or limitation of a license to practice any type of medicine, taken by another state, the Federal Government, a foreign country or any other jurisdiction",
         "citation": "630.301"
       },
       {
         "short_label": "malpractice",
-        "description": "Malpractice, which may be evidenced by settled claims, established by a preponderance of the evidence",
+        "description": "Malpractice, which may be evidenced by claims settled against a practitioner, established by preponderance of the evidence",
         "quote": "Malpractice, which may be evidenced by claims settled against a practitioner, but only if the malpractice is established by a preponderance of the evidence.",
         "citation": "630.301"
       },
       {
         "short_label": "sexual_activity_with_patient",
-        "description": "Engaging in sexual activity with a patient currently being treated by the practitioner",
+        "description": "Engaging in sexual activity with a patient currently being treated",
         "quote": "The engaging by a practitioner in any sexual activity with a patient who is currently being treated by the practitioner.",
         "citation": "630.301"
       },
       {
         "short_label": "disruptive_behavior",
-        "description": "Disruptive behavior that interferes with patient care or adversely impacts quality of care",
+        "description": "Disruptive behavior with physicians, hospital personnel, patients, or family members that interferes with patient care",
         "quote": "Disruptive behavior with physicians, hospital personnel, patients, members of the families of patients or any other persons if the behavior interferes with patient care or has an adverse impact on the quality of care rendered to a patient.",
         "citation": "630.301"
       },
       {
-        "short_label": "exploitation_of_patient_trust",
-        "description": "Engaging in conduct that violates patient trust and exploits the physician-patient relationship for financial or personal gain",
+        "short_label": "exploitation_of_patient_relationship",
+        "description": "Engaging in conduct that violates the trust of a patient and exploits the physician-patient relationship for financial or personal gain",
         "quote": "The engaging in conduct that violates the trust of a patient and exploits the relationship between the physician and the patient for financial or other personal gain.",
         "citation": "630.301"
       },
       {
-        "short_label": "fraudulent_misrepresentation_in_licensing",
-        "description": "Obtaining, maintaining, or renewing a license by bribery, fraud, misrepresentation, or false or misleading statements",
+        "short_label": "fraud_in_obtaining_license",
+        "description": "Obtaining, maintaining, or renewing a license by bribery, fraud, or misrepresentation",
         "quote": "Obtaining, maintaining or renewing or attempting to obtain, maintain or renew a license to practice medicine by bribery, fraud or misrepresentation or by any false, misleading, inaccurate or incomplete statement.",
         "citation": "630.304"
       },
@@ -366,20 +358,38 @@
         "citation": "630.304"
       },
       {
-        "short_label": "false_records_or_reports",
-        "description": "Failure to maintain proper medical records, altering records, making false reports, or obstructing required filings",
+        "short_label": "improper_fee_division",
+        "description": "Dividing fees between licensees without patient knowledge and in proportion to services",
+        "quote": "Dividing a fee between licensees except where the patient is informed of the division of fees and the division of fees is made in proportion to the services personally performed and the responsibility assumed by each licensee.",
+        "citation": "630.305"
+      },
+      {
+        "short_label": "charging_for_unrendered_services",
+        "description": "Charging for office visits that did not occur or services not rendered or documented",
+        "quote": "Charging for visits to the physician's office which did not occur or for services which were not rendered or documented in the records of the patient.",
+        "citation": "630.305"
+      },
+      {
+        "short_label": "aiding_unlicensed_practice",
+        "description": "Aiding, assisting, employing, or advising any unlicensed person to engage in the practice of medicine",
+        "quote": "Aiding, assisting, employing or advising, directly or indirectly, any unlicensed person to engage in the practice of medicine contrary to the provisions of this chapter or the regulations of the Board.",
+        "citation": "630.305"
+      },
+      {
+        "short_label": "failure_to_maintain_medical_records",
+        "description": "Failure to maintain timely, legible, accurate and complete medical records",
         "quote": "Failure to maintain timely, legible, accurate and complete medical records relating to the diagnosis, treatment and care of a patient.",
         "citation": "630.3062"
       },
       {
         "short_label": "fraudulent_prescribing_controlled_substances",
-        "description": "Fraudulent, illegal, unauthorized, or inappropriate prescribing, administering, or dispensing of Schedule II, III, or IV controlled substances",
+        "description": "Fraudulent, illegal, unauthorized or otherwise inappropriate prescribing, administering or dispensing of a schedule II, III or IV controlled substance",
         "quote": "Fraudulent, illegal, unauthorized or otherwise inappropriate prescribing, administering or dispensing of a controlled substance listed in schedule II, III or IV.",
         "citation": "630.3062"
       },
       {
         "short_label": "failure_to_comply_with_board_order",
-        "description": "Knowingly or willfully failing to comply with a Board regulation, subpoena, order, or court order relating to the chapter",
+        "description": "Knowingly or willfully failing to comply with a regulation, subpoena, or order of the Board",
         "quote": "Except as otherwise provided in NRS 630.2672, knowingly or willfully failing to comply with: (a) A regulation, subpoena or order of the Board or a committee designated by the Board to investigate a complaint against a physician",
         "citation": "630.3065"
       }
@@ -391,67 +401,87 @@
     },
     "citations": [
       {
-        "cite": "NRS 630.160",
+        "cite": "630.160",
         "kind": "licensure requirements"
       },
       {
-        "cite": "NRS 630.1605",
-        "kind": "license by endorsement"
-      },
-      {
-        "cite": "NRS 630.1606",
-        "kind": "expedited endorsement"
-      },
-      {
-        "cite": "NRS 630.1607",
-        "kind": "expedited endorsement"
-      },
-      {
-        "cite": "NRS 630.130",
+        "cite": "630.130",
         "kind": "board authority"
       },
       {
-        "cite": "NRS 630.253",
+        "cite": "630.253",
         "kind": "continuing education"
       },
       {
-        "cite": "NRS 630.2535",
-        "kind": "opioid/substance use training"
+        "cite": "630.1605",
+        "kind": "license by endorsement"
       },
       {
-        "cite": "NRS 630.301",
+        "cite": "630.1606",
+        "kind": "expedited endorsement"
+      },
+      {
+        "cite": "630.1607",
+        "kind": "expedited endorsement (military/veteran)"
+      },
+      {
+        "cite": "630.301",
         "kind": "disciplinary grounds"
       },
       {
-        "cite": "NRS 630.304",
+        "cite": "630.304",
         "kind": "disciplinary grounds"
       },
       {
-        "cite": "NRS 630.305",
+        "cite": "630.305",
         "kind": "disciplinary grounds"
       },
       {
-        "cite": "NRS 630.306",
+        "cite": "630.306",
         "kind": "disciplinary grounds"
       },
       {
-        "cite": "NRS 630.3062",
+        "cite": "630.3062",
         "kind": "disciplinary grounds"
       },
       {
-        "cite": "NRS 630.3065",
+        "cite": "630.3065",
         "kind": "disciplinary grounds"
       },
       {
-        "cite": "NRS 630.400",
+        "cite": "630.400",
         "kind": "unlawful acts/penalties"
+      },
+      {
+        "cite": "630.261",
+        "kind": "special license types"
+      },
+      {
+        "cite": "630.258",
+        "kind": "special volunteer medical license"
+      },
+      {
+        "cite": "630.259",
+        "kind": "administrative physician license"
+      },
+      {
+        "cite": "630.265",
+        "kind": "limited/resident license"
+      },
+      {
+        "cite": "630.2535",
+        "kind": "opioid prescribing training"
+      },
+      {
+        "cite": "630.318",
+        "kind": "compelled examination authority"
       }
     ]
   },
   "scope": {
     "definition_quote": {
-      "value": "Practice of medicine means: 1. To diagnose, treat, correct, prevent or prescribe for any human disease, ailment, injury, infirmity, deformity or other condition, physical or mental, by any means or instrumentality, including, but not limited to, the performance of an autopsy. 2. To apply principles or techniques of medical science in the diagnosis or the prevention of any such conditions. 3. To perform any of the acts described in subsections 1 and 2 by using equipment that transfers information concerning the medical condition of the patient electronically, telephonically or by fiber optics, including, without limitation, through telehealth, from within or outside this State or the United States. 4. To offer, undertake, attempt to do or hold oneself out as able to do any of the acts described in subsections 1 and 2.",
-      "quote": "\"Practice of medicine\" means: 1. To diagnose, treat, correct, prevent or prescribe for any human disease, ailment, injury, infirmity, deformity or other condition, physical or mental, by any means or instrumentality, including, but not limited to, the performance of an autopsy.",
+      "value": "To diagnose, treat, correct, prevent or prescribe for any human disease, ailment, injury, infirmity, deformity or other condition, physical or mental, by any means or instrumentality, including, but not limited to, the performance of an autopsy.",
+      "quote": "To diagnose, treat, correct, prevent or prescribe for any human disease, ailment, injury, infirmity, deformity or other condition, physical or mental, by any means or instrumentality, including, but not limited to, the performance of an autopsy.",
       "citation": "630.020"
     },
     "methods_authorized": {
@@ -460,58 +490,63 @@
         "treatment",
         "correction",
         "prevention",
-        "prescription",
+        "prescribing",
+        "autopsy",
         "application of medical science principles",
-        "telehealth/electronic/telephonic/fiber optic transmission of medical services"
+        "telehealth/electronic/telephonic/fiber optic practice"
       ],
-      "quote": "To diagnose, treat, correct, prevent or prescribe for any human disease, ailment, injury, infirmity, deformity or other condition, physical or mental, by any means or instrumentality",
+      "quote": "To diagnose, treat, correct, prevent or prescribe for any human disease, ailment, injury, infirmity, deformity or other condition, physical or mental, by any means or instrumentality... To apply principles or techniques of medical science in the diagnosis or the prevention of any such conditions. To perform any of the acts described in subsections 1 and 2 by using equipment that transfers information concerning the medical condition of the patient electronically, telephonically or by fiber optics, including, without limitation, through telehealth",
       "citation": "630.020"
     },
     "drug_authority": {
-      "value": "Physicians may prescribe, administer, and dispense controlled substances and dangerous drugs as authorized by law, including for treatment of intractable pain; may prescribe investigational drugs/biological products to patients with life-threatening or severely debilitating conditions with informed consent; may issue standing orders for epinephrine to schools and authorized entities.",
+      "value": "Physicians may prescribe, administer, and dispense controlled substances and dangerous drugs as authorized by law. Prescribing schedule II-IV controlled substances is subject to Board regulations and PDMP requirements. Physicians registered with DEA must complete opioid prescribing training. Physicians may prescribe investigational drugs/biological products to terminally ill or severely debilitated patients under specified conditions.",
       "quote": "Administering, dispensing or prescribing any controlled substance, or any dangerous drug as defined in chapter 454 of NRS, to or for himself or herself or to others except as authorized by law.",
       "citation": "630.306"
     },
     "citations": [
       {
-        "cite": "NRS 630.020",
-        "kind": "scope definition"
+        "cite": "630.020",
+        "kind": "definition of practice of medicine"
       },
       {
-        "cite": "NRS 630.3066",
-        "kind": "intractable pain prescribing"
+        "cite": "630.306",
+        "kind": "drug authority/limits"
       },
       {
-        "cite": "NRS 630.3735",
+        "cite": "630.3735",
         "kind": "investigational drug prescribing"
       },
       {
-        "cite": "NRS 630.374",
-        "kind": "epinephrine orders"
+        "cite": "630.3066",
+        "kind": "intractable pain prescribing protection"
+      },
+      {
+        "cite": "630.2535",
+        "kind": "opioid prescribing training"
       }
     ]
   },
   "profession_specific": {
     "license_status_types": {
       "value": [
-        "active",
-        "inactive",
-        "administrative physician",
-        "special volunteer medical license",
-        "locum tenens license",
-        "special license",
-        "restricted license",
-        "temporary license",
-        "special purpose license",
-        "authorized facility license",
-        "limited license (resident physician)",
-        "special event license"
+        "Inactive",
+        "Special Volunteer Medical License",
+        "Administrative Physician License",
+        "Locum Tenens License",
+        "Special License",
+        "Restricted License",
+        "Temporary License",
+        "Special Purpose License",
+        "Authorized Facility License",
+        "Limited License (Resident Physician)",
+        "Special Event License",
+        "Expedited License by Endorsement"
       ],
-      "quote": "the Board may issue: (a) A locum tenens license ... (b) A special license ... (c) A restricted license ... (d) A temporary license ... (e) A special purpose license",
+      "quote": "the Board may issue: (a) A locum tenens license... (b) A special license... (c) A restricted license... (d) A temporary license... (e) A special purpose license",
       "citation": "630.261"
     },
     "foreign_medical_graduate_requirements": {
-      "value": "Foreign medical graduates must submit proof of receipt of the degree of doctor of medicine or its equivalent, plus the standard certificate of the Educational Commission for Foreign Medical Graduates (ECFMG) or a written statement from ECFMG that the applicant passed its examination.",
+      "value": "Foreign medical graduates must submit proof of a doctor of medicine degree or equivalent (as determined by the Board) and the standard certificate of the Educational Commission for Foreign Medical Graduates (ECFMG), or a written ECFMG statement that the applicant passed its examination. Proof of degree must be submitted directly by the granting school.",
       "quote": "an applicant for a license to practice medicine who is a graduate of a foreign medical school shall submit to the Board proof that the applicant has received: (a) The degree of doctor of medicine or its equivalent, as determined by the Board; and (b) The standard certificate of the Educational Commission for Foreign Medical Graduates or a written statement from that Commission that the applicant passed the examination given by the Commission.",
       "citation": "630.195"
     },
@@ -522,18 +557,18 @@
     },
     "pain_management_education_required": {
       "value": true,
-      "quote": "require each physician or physician assistant who is registered to dispense controlled substances pursuant to NRS 453.231 to complete at least 2 hours of training relating specifically to persons with substance use and other addictive disorders and the prescribing of opioids during each period of licensure.",
+      "quote": "require each physician or physician assistant who is registered to dispense controlled substances pursuant to NRS 453.231 to complete at least 2 hours of training relating specifically to persons with substance use and other addictive disorders and the prescribing of opioids during each period of licensure",
       "citation": "630.2535"
     },
     "opioid_prescribing_limits": null,
     "controlled_substance_database_registration_required": {
       "value": true,
-      "quote": "Failure to comply with the requirements of NRS 453.163, 453.164, 453.226, 639.23507, 639.23535 and 639.2391 to 639.23916, inclusive, and any regulations adopted by the State Board of Pharmacy pursuant thereto.",
-      "citation": "630.3062"
+      "quote": "A review and evaluation conducted pursuant to subsection 1 must include, without limitation: (a) A review of relevant information contained in the database of the program established pursuant to NRS 453.162",
+      "citation": "630.323"
     },
     "pain_management_clinic_registration_required": null,
     "telehealth_prescribing_rules": {
-      "value": "The practice of medicine expressly includes performing acts via equipment that transfers medical information electronically, telephonically, or by fiber optics, including through telehealth, from within or outside the State or the United States. A special purpose license exists for out-of-state physicians to practice via telehealth.",
+      "value": "The practice of medicine includes performing acts via telehealth (equipment that transfers patient information electronically, telephonically, or by fiber optics). A special purpose license may be issued to a physician licensed in another state to practice telehealth for Nevada patients. The act is deemed to occur at the place where the patient is located.",
       "quote": "To perform any of the acts described in subsections 1 and 2 by using equipment that transfers information concerning the medical condition of the patient electronically, telephonically or by fiber optics, including, without limitation, through telehealth, from within or outside this State or the United States.",
       "citation": "630.020"
     },
@@ -549,23 +584,23 @@
     },
     "physician_assistant_supervision_model": {
       "value": "direct supervision required",
-      "quote": "A physician assistant may perform such medical services as the physician assistant is authorized to perform by his or her supervising physician.",
-      "citation": "630.271"
+      "quote": "physician assistant means a person ... qualified to perform medical services under the supervision of a supervising physician and who has been issued a license by the Board.",
+      "citation": "630.015"
     },
     "physician_assistant_prescriptive_authority": {
-      "value": "Physician assistants may prescribe controlled substances limited to the schedules the supervising physician is authorized to prescribe under state and federal law.",
+      "value": "A physician assistant may perform such medical services as authorized by the supervising physician, including prescribing controlled substances limited to those schedules the supervising physician is authorized to prescribe under state and federal law.",
       "quote": "The Board and supervising physician shall limit the authority of a physician assistant to prescribe controlled substances to those schedules of controlled substances that the supervising physician is authorized to prescribe pursuant to state and federal law.",
       "citation": "630.271"
     },
     "max_physician_assistants_per_supervising_physician": null,
     "malpractice_reporting_required": {
       "value": true,
-      "quote": "A physician, physician assistant, practitioner of respiratory care or perfusionist shall report to the Board: (a) Any action for malpractice against the physician ... not later than 45 days after the physician ... receives service of a summons and complaint",
+      "quote": "A physician, physician assistant, practitioner of respiratory care or perfusionist shall report to the Board: (a) Any action for malpractice against the physician... not later than 45 days after the physician... receives service of a summons and complaint for the action",
       "citation": "630.3068"
     },
     "hospital_privilege_action_reporting_required": {
       "value": true,
-      "quote": "any hospital, clinic or other medical facility licensed in this State, or medical society, shall report to the Board any change in the privileges of a physician ... to practice while the physician ... is under investigation and the outcome of any disciplinary action taken by that facility or society against the physician",
+      "quote": "any hospital, clinic or other medical facility licensed in this State, or medical society, shall report to the Board any change in the privileges of a physician... to practice while the physician... is under investigation and the outcome of any disciplinary action taken by that facility or society against the physician",
       "citation": "630.307"
     },
     "impaired_physician_program_authorized": {
@@ -575,7 +610,7 @@
     },
     "compelled_mental_physical_exam_authority": {
       "value": true,
-      "quote": "the Board or committee may order that the physician ... undergo a mental or physical examination, an examination testing his or her competence to practice medicine ... or any other examination designated by the Board to assist the Board or committee in determining the fitness of the physician",
+      "quote": "the Board or committee may order that the physician... undergo a mental or physical examination, an examination testing his or her competence to practice medicine",
       "citation": "630.318"
     },
     "administrative_medicine_license_available": {
@@ -593,6 +628,92 @@
       "value": true,
       "quote": "A physician is not subject to disciplinary action for prescribing or recommending an individualized investigational treatment or investigational drug, biological product or device when authorized to do so pursuant to subsection 1.",
       "citation": "630.3735"
-    }
+    },
+    "scope__license_status_types": [
+      {
+        "item": "Inactive License",
+        "status": "present",
+        "quote": "Any licensee who changes the location of his or her practice of medicine from this State to another state or country, has never engaged in the practice of medicine in this State after licensure or has ceased to engage in the practice of medicine in this State for 12 consecutive months may be placed on inactive status by order of the Board.",
+        "citation": "630.255"
+      },
+      {
+        "item": "Retired License",
+        "status": "present",
+        "quote": "A physician who is retired from active practice and who... Wishes to donate his or her expertise for the medical care and treatment of persons in this State who are indigent, uninsured or unable to afford health care... may obtain a special volunteer medical license",
+        "citation": "630.258"
+      },
+      {
+        "item": "Temporary License / Permit",
+        "status": "present",
+        "quote": "A temporary license for a specified period if the physician is licensed and in good standing in another state and meets the requirements for licensure in this State, and if the Board determines that it is necessary in order to provide medical services for a community without adequate medical care.",
+        "citation": "630.261"
+      },
+      {
+        "item": "Restricted License",
+        "status": "present",
+        "quote": "A restricted license for a specified period if the Board determines the applicant needs supervision or restriction.",
+        "citation": "630.261"
+      },
+      {
+        "item": "Probationary License",
+        "status": "present",
+        "quote": "Place the person on probation for a specified period on any of the conditions specified in the order",
+        "citation": "630.352"
+      },
+      {
+        "item": "Suspended License",
+        "status": "present",
+        "quote": "Suspend the person's license for a specified period or until further order of the Board",
+        "citation": "630.352"
+      },
+      {
+        "item": "Revoked License",
+        "status": "present",
+        "quote": "Revoke the person's license",
+        "citation": "630.352"
+      },
+      {
+        "item": "Surrendered License",
+        "status": "present",
+        "quote": "the surrender of the license or discontinuing the practice of medicine while under investigation by any licensing authority",
+        "citation": "630.301"
+      },
+      {
+        "item": "Academic License",
+        "status": "present",
+        "quote": "the Board may issue a restricted license to teach, research or practice medicine to a person if... The person... Intends to teach, research or practice medicine at a medical facility, medical research facility or medical school in this State.",
+        "citation": "630.2645"
+      },
+      {
+        "item": "Volunteer / Charitable License",
+        "status": "present",
+        "quote": "A physician who is retired from active practice and who: (a) Wishes to donate his or her expertise for the medical care and treatment of persons in this State who are indigent, uninsured or unable to afford health care... may obtain a special volunteer medical license",
+        "citation": "630.258"
+      },
+      {
+        "item": "Expedited / Interstate Compact License",
+        "status": "present",
+        "quote": "Any communication between the Board and the Interstate Medical Licensure Compact Commission created by NRS 629A.100 relating to verification of a physician's eligibility for expedited licensure pursuant to that section",
+        "citation": "630.167"
+      },
+      {
+        "item": "Intern / Resident Permit",
+        "status": "present",
+        "quote": "the Board shall issue to a qualified applicant a limited license to practice medicine as a resident physician in a graduate program approved by the Accreditation Council for Graduate Medical Education",
+        "citation": "630.265"
+      },
+      {
+        "item": "Graduate Registered Physician License",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Locum Tenens Permit",
+        "status": "present",
+        "quote": "A locum tenens license, to be effective not more than 3 months after issuance, to any physician who is licensed and in good standing in another state, who meets the requirements for licensure in this State and who is of good moral character and reputation.",
+        "citation": "630.261"
+      }
+    ]
   }
 }

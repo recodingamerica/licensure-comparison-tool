@@ -32,19 +32,31 @@
     "age_minimum": null,
     "moral_character_required": null,
     "education": {
-      "degree_required": null,
+      "degree_required": {
+        "value": "Professional engineering education as required by Board regulations",
+        "quote": "A license to practice as a professional engineer, an architect, a land surveyor, or a landscape architect shall be issued to every applicant who complies with the requirements of this chapter and the regulations of the Board.",
+        "citation": "54.1-405"
+      },
       "accrediting_body": null,
       "degree_level": null,
-      "school_approval_basis": null,
-      "credential_pegged": null,
+      "school_approval_basis": {
+        "value": "board_approved",
+        "quote": "The Board shall promulgate regulations not inconsistent with this chapter governing its own organization, the professional qualifications of applicants, the requirements necessary for passing examinations in whole or in part",
+        "citation": "54.1-404"
+      },
+      "credential_pegged": {
+        "value": false,
+        "quote": "A license to practice as a professional engineer, an architect, a land surveyor, or a landscape architect shall be issued to every applicant who complies with the requirements of this chapter and the regulations of the Board.",
+        "citation": "54.1-405"
+      },
       "tiers": null
     },
     "post_degree_experience": {
       "required": null,
       "experience_source": {
-        "value": "embedded_in_credential",
-        "quote": "\"Professional engineer\" means a person who is qualified to practice engineering by reason of his special knowledge and use of mathematical, physical and engineering sciences and the principles and methods of engineering analysis and design acquired by engineering education and experience, and whose competence has been attested by the Board through licensure as a professional engineer.",
-        "citation": "54.1-400"
+        "value": "none",
+        "quote": "A license to practice as a professional engineer, an architect, a land surveyor, or a landscape architect shall be issued to every applicant who complies with the requirements of this chapter and the regulations of the Board.",
+        "citation": "54.1-405"
       },
       "duration": null,
       "kind": null
@@ -53,10 +65,10 @@
       {
         "name": "Professional Engineer Examination",
         "required": true,
-        "notes": "Board holds at least one examination per year; specific exam content delegated to Board regulations.",
+        "notes": "Board arranges at least one examination per year; specific exam not named in statute.",
         "jurisdiction": null,
         "permitted_attempts": null,
-        "quote": "The Board shall hold at least one examination each year at times and locations designated by the Board. A license to practice as a professional engineer, an architect, a land surveyor, or a landscape architect shall be issued to every applicant who complies with the requirements of this chapter and the regulations of the Board.",
+        "quote": "The Board shall hold at least one examination each year at times and locations designated by the Board.",
         "citation": "54.1-405"
       }
     ],
@@ -67,8 +79,13 @@
     "continuing_education": {
       "required": {
         "value": true,
-        "quote": "Such regulations shall require the completion of the equivalent of 16 hours per biennium of Board-approved continuing education activities as a prerequisite to the renewal or reinstatement of a license issued to an architect, professional engineer, land surveyor, or landscape architect.",
-        "citation": "54.1-404.2"
+        "quote": "Such regulations shall require the completion of the equivalent of 16 hours per biennium of Board-approved continuing education activities as a prerequisite to the renewal or reinstatement of a license issued to a architect, professional engineer, land surveyor, or landscape architect.",
+        "citation": "54.1-404.2",
+        "unverified": true,
+        "approximate": {
+          "ratio": 0.755,
+          "matched_normalized": "such regulations shall require the completion of the equivalent of 16 hours per biennium of board approved continuing education activities as a prerequisite to the renewal or reinstatement of a license issued to a"
+        }
       },
       "hours_per_period": {
         "value": 16,
@@ -89,7 +106,7 @@
         "citation": "UMBRELLA / Chapter 1 - General Provisions"
       },
       "requirements": {
-        "value": "Universal license recognition available if individual holds a current and valid license in another state for at least 3 years, passed an examination, meets good standing requirements, no disqualifying criminal record, no discipline (other than financial penalty with no public harm), and pays fees. Work experience recognition also available for states that do not license the profession.",
+        "value": "Universal license recognition available if individual holds a current valid license in another state for at least 3 years, passed an examination, meets education/training/experience standards, is in good standing with no pending investigations, no disqualifying criminal record, and pays applicable fees.",
         "quote": "the regulatory boards within the Department of Professional and Occupational Regulation shall, upon application by an individual, recognize licenses or certificates issued by another state as fulfillment of qualifications for licensure or government certification in the Commonwealth",
         "citation": "UMBRELLA / Chapter 2 - General Provisions"
       }
@@ -133,55 +150,61 @@
     "disciplinary_grounds": [
       {
         "short_label": "unlicensed_practice",
-        "description": "Practicing or offering to practice as a professional engineer without a valid license",
+        "description": "Practicing or offering to practice as a professional engineer without being licensed or registered by the Board.",
         "quote": "practicing or offering to practice as an architect, professional engineer, land surveyor, or landscape architect when such person is not licensed or registered by the Board in accordance with this chapter",
         "citation": "54.1-402.2"
       },
       {
-        "short_label": "failure_to_cease_desist",
-        "description": "Failure to comply with a cease and desist order for unlicensed activity",
-        "quote": "If the person fails to cease and desist the unlicensed, uncertified, or unregistered activity after entry of an order in accordance with subsection A, the Board may refer the matter for enforcement pursuant to § 54.1-306.",
+        "short_label": "unlicensed_activity_civil_penalty",
+        "description": "Any person engaging in unlicensed activity is subject to proceedings before the Board and a civil penalty not to exceed $2,500.",
+        "quote": "Any person engaging in unlicensed, uncertified, or unregistered activity shall be subject to further proceedings before the Board and the Board may impose a civil penalty not to exceed $2,500.",
         "citation": "54.1-402.2"
       },
       {
         "short_label": "practicing_without_license",
-        "description": "Practicing a profession without holding a valid license as required by statute or regulation",
+        "description": "Practicing a profession or occupation without holding a valid license as required by statute or regulation.",
         "quote": "Practicing a profession or occupation without holding a valid license as required by statute or regulation.",
         "citation": "UMBRELLA / Chapter 1 - General Provisions"
       },
       {
         "short_label": "unauthorized_use_of_designation",
-        "description": "Using a professional designation without being duly certified or licensed",
+        "description": "Making use of any designation provided by statute or regulation to denote a standard of professional competence without being duly certified or licensed.",
         "quote": "Making use of any designation provided by statute or regulation to denote a standard of professional or occupational competence without being duly certified or licensed.",
         "citation": "UMBRELLA / Chapter 1 - General Provisions"
       },
       {
         "short_label": "misleading_title_use",
-        "description": "Using titles, words, letters, or abbreviations that may be confused with a professional designation without being licensed",
+        "description": "Making use of titles, words, letters, or abbreviations which may reasonably be confused with a designation to denote professional competence without being duly certified or licensed.",
         "quote": "Making use of any titles, words, letters, or abbreviations which may reasonably be confused with a designation provided by statute or regulation to denote a standard of professional or occupational competence without being duly certified or licensed.",
         "citation": "UMBRELLA / Chapter 1 - General Provisions"
       },
       {
-        "short_label": "performing_restricted_acts",
-        "description": "Performing acts restricted to licensed persons without being licensed",
+        "short_label": "performing_restricted_acts_without_license",
+        "description": "Performing any act or function restricted by statute or regulation to licensed persons without being duly certified or licensed.",
         "quote": "Performing any act or function which is restricted by statute or regulation to persons holding a professional or occupational license or certification, without being duly certified or licensed.",
         "citation": "UMBRELLA / Chapter 1 - General Provisions"
       },
       {
-        "short_label": "false_application",
-        "description": "Materially misrepresenting facts in an application for licensure, certification, or registration",
+        "short_label": "failure_to_register",
+        "description": "Failing to register as a practitioner of a profession or occupation as required by statute or regulation.",
+        "quote": "Failing to register as a practitioner of a profession or occupation as required by statute or regulation.",
+        "citation": "UMBRELLA / Chapter 1 - General Provisions"
+      },
+      {
+        "short_label": "material_misrepresentation_in_application",
+        "description": "Materially misrepresenting facts in an application for licensure, certification, or registration.",
         "quote": "Materially misrepresenting facts in an application for licensure, certification, or registration.",
         "citation": "UMBRELLA / Chapter 1 - General Provisions"
       },
       {
-        "short_label": "failure_to_provide_information",
-        "description": "Willfully refusing to furnish a regulatory board information or records required or requested",
+        "short_label": "failure_to_furnish_board_information",
+        "description": "Willfully refusing to furnish a regulatory board information or records required or requested pursuant to statute or regulation.",
         "quote": "Willfully refusing to furnish a regulatory board information or records required or requested pursuant to statute or regulation.",
         "citation": "UMBRELLA / Chapter 1 - General Provisions"
       },
       {
-        "short_label": "violation_of_statute_or_regulation",
-        "description": "Violating any statute or regulation governing the practice of the profession",
+        "short_label": "violation_of_governing_statute_or_regulation",
+        "description": "Violating any statute or regulation governing the practice of any profession or occupation regulated pursuant to this title.",
         "quote": "Violating any statute or regulation governing the practice of any profession or occupation regulated pursuant to this title.",
         "citation": "UMBRELLA / Chapter 1 - General Provisions"
       }
@@ -209,12 +232,16 @@
         "kind": "further exemptions"
       },
       {
+        "cite": "54.1-402.1",
+        "kind": "government employee exemption"
+      },
+      {
         "cite": "54.1-402.2",
         "kind": "cease and desist / civil penalty"
       },
       {
         "cite": "54.1-404",
-        "kind": "regulations / code of conduct"
+        "kind": "regulations and code of conduct"
       },
       {
         "cite": "54.1-404.2",
@@ -222,7 +249,7 @@
       },
       {
         "cite": "54.1-405",
-        "kind": "examinations and issuance"
+        "kind": "examinations and issuance of licenses"
       },
       {
         "cite": "54.1-406",
@@ -230,7 +257,7 @@
       },
       {
         "cite": "54.1-411",
-        "kind": "firm registration"
+        "kind": "organization for practice; registration"
       }
     ]
   },
@@ -256,7 +283,7 @@
     "citations": [
       {
         "cite": "54.1-400",
-        "kind": "scope definition"
+        "kind": "definition of practice of engineering"
       },
       {
         "cite": "54.1-406",
@@ -267,15 +294,19 @@
   "profession_specific": {
     "covers_land_surveying": {
       "value": true,
-      "quote": "\"Board\" means the Board for Architects, Professional Engineers, Land Surveyors, Certified Interior Designers and Landscape Architects.",
-      "citation": "54.1-400"
+      "quote": "A license to practice as a professional engineer, an architect, a land surveyor, or a landscape architect shall be issued to every applicant who complies with the requirements of this chapter and the regulations of the Board.",
+      "citation": "54.1-405"
     },
     "covers_geology": {
       "value": false,
       "quote": "\"Board\" means the Board for Architects, Professional Engineers, Land Surveyors, Certified Interior Designers and Landscape Architects.",
       "citation": "54.1-400"
     },
-    "engineer_intern_certificate_available": null,
+    "engineer_intern_certificate_available": {
+      "value": false,
+      "quote": "A license to practice as a professional engineer, an architect, a land surveyor, or a landscape architect shall be issued to every applicant who complies with the requirements of this chapter and the regulations of the Board.",
+      "citation": "54.1-405"
+    },
     "surveyor_in_training_certificate_available": null,
     "geologist_in_training_certificate_available": null,
     "postgraduate_degree_experience_credit_years_max": null,
@@ -293,27 +324,29 @@
     },
     "exemptions_from_licensure": {
       "value": [
-        "Practice of professional engineering by a licensed architect when incidental to an architectural undertaking",
-        "Practice of land surveying by a licensed professional engineer when incidental to an engineering project",
-        "Temporary practice by nonresidents or recent arrivals who are qualified in another state and have filed a license application",
-        "Employees working under a licensed professional engineer without responsible charge of design or supervision",
-        "Employees of the United States government practicing solely as federal employees",
-        "Practice on property owned or leased by the individual/firm/corporation unless public health or safety is involved",
-        "Engineering solely as an employee of a corporation in interstate commerce or a public service corporation for regulated facilities",
-        "Single- and two-family homes, townhouses and multifamily dwellings not exceeding three stories (excluding electrical and mechanical)",
-        "All farm structures used primarily in agricultural production, handling, or storage",
+        "Practice of professional engineering and land surveying by a licensed architect when incidental to an architectural undertaking",
+        "Practice of architecture and land surveying by a licensed professional engineer when incidental to an engineering project",
+        "Practice by nonresident or recent arrival who is qualified in another state or country and files an application with required fee prior to commencement",
+        "Employees under a licensed professional engineer not in responsible charge of design or supervision",
+        "Practice solely as an employee of the United States government",
+        "Practice by an individual, firm or corporation on property owned or leased by such entity unless public health or safety is involved",
+        "Practice solely as an employee of a corporation engaged in interstate commerce or public service corporation for its own regulated facilities",
+        "Single- and two-family homes, townhouses and multifamily dwellings (excluding electrical and mechanical) not exceeding three stories",
+        "All farm structures used primarily in agricultural production, handling or storage",
         "Business and mercantile buildings not exceeding 5,000 sq ft or three stories (excluding electrical and mechanical)",
-        "Factory, industrial, and storage buildings not exceeding 15,000 sq ft or three stories (excluding electrical and mechanical)",
-        "Additions, remodeling, or interior design without structural modification or change in occupancy/exit patterns/fire hazard",
-        "Electric installations not exceeding 600 volts and 800 amps under direct supervision of licensed master electrician or Class A contractor in structures not exceeding three stories",
-        "Plumbing and mechanical systems using packaged mechanical equipment not exceeding specified pressure/temperature limits under direct supervision of licensed master plumber or Class A contractor in structures not exceeding three stories",
-        "Shop drawings and field drawings prepared by a contractor for review by the responsible PE/architect or otherwise exempted",
-        "Buildings of standard design certified by a PE or architect licensed in another state and adapted by a Virginia-licensed PE or architect",
-        "State agency or political subdivision construction not exceeding $75,000 in value and maintenance of standard public works facilities",
-        "Conventional and alternative onsite sewage systems under specified conditions designed by a licensed onsite soil evaluator"
+        "Factory, industrial and storage buildings not exceeding 15,000 sq ft or three stories (excluding electrical and mechanical)",
+        "Additions, remodeling or interior design without change in occupancy, modification to structural system, or increase in fire hazard",
+        "Certain electric installations not exceeding 600 volts and 800 amps under direct supervision of licensed electrician or electrical contractor",
+        "Plumbing and mechanical systems using packaged mechanical equipment under direct supervision of licensed plumber or HVAC worker",
+        "Shop drawings and specifications for components by a contractor who will supervise installation and where reviewed by licensed PE or architect",
+        "Buildings of standard design bearing certification of a PE or architect registered in another state, adapted for specific location and certified by a Virginia-licensed PE or architect",
+        "Construction by state agency or political subdivision not exceeding $75,000 in value (CPI-adjusted) for specified maintenance activities",
+        "Conventional and alternative onsite sewage systems receiving residential wastewater designed by a licensed onsite soil evaluator meeting specified conditions",
+        "State and local government employees engaged in engineering as full-time salaried employees of the Commonwealth or political subdivision on March 8, 1992 (through June 30, 2010)",
+        "Photogrammetric methods or similar remote sensing technology for topography, contours, or depiction of physical improvements under specified conditions"
       ],
-      "quote": "Unless exempted by § 54.1-401, 54.1-402, or 54.1-402.1, a person shall hold a valid license prior to engaging in the practice of architecture or engineering which includes design, consultation, evaluation or analysis and involves proposed or existing improvements to real property.",
-      "citation": "54.1-406"
+      "quote": "The following shall be exempted from the provisions of this chapter",
+      "citation": "54.1-401"
     },
     "code_of_ethics_in_statute": {
       "value": true,
@@ -325,7 +358,7 @@
     "board_member_responsible_charge_years_required": null,
     "pdh_units_per_renewal_period": {
       "value": 16,
-      "quote": "the completion of the equivalent of 16 hours per biennium of Board-approved continuing education activities as a prerequisite to the renewal or reinstatement of a license issued to an architect, professional engineer, land surveyor, or landscape architect.",
+      "quote": "the completion of the equivalent of 16 hours per biennium of Board-approved continuing education activities",
       "citation": "54.1-404.2"
     },
     "pdh_carryover_max_units": null,
@@ -333,6 +366,360 @@
       "value": true,
       "quote": "a license holder who has retired from practice may use the designation granted by such license, followed by the word \"emeritus,\" without possessing a current registration from the Board provided (i) the license has not been revoked or suspended by the Board and (ii) the license holder does not practice or offer to practice architecture, engineering, land surveying, or landscape architecture.",
       "citation": "54.1-405"
-    }
+    },
+    "scope__seal_document_types": [
+      {
+        "item": "Drawings",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Plans",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Specifications",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Reports",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Surveys",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Plats",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Plates",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Calculations",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Design information",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Construction documents",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Maps",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Descriptions",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Data",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Instruments of service",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Shop drawings",
+        "status": "present",
+        "quote": "The preparation of shop drawings, field drawings and specifications for components by a contractor who will supervise the installation and where the shop drawings and specifications (i) will be reviewed by the licensed professional engineer or architect responsible for the project or (ii) are otherwise exempted",
+        "citation": "54.1-402"
+      },
+      {
+        "item": "Revisions",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Certifications",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Affidavits",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      }
+    ],
+    "scope__exemptions_from_licensure": [
+      {
+        "item": "Federal government officers and employees practicing engineering in official capacity",
+        "status": "present",
+        "quote": "Practice of professional engineering, architecture, landscape architecture, or land surveying solely as an employee of the United States.",
+        "citation": "54.1-401"
+      },
+      {
+        "item": "Contractors executing work designed by a licensed engineer (construction execution only)",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Building trades workers, craft workers, and construction superintendents/supervisors/inspectors performing customary duties",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Employees or subordinates working under direct supervision of a licensed engineer",
+        "status": "present",
+        "quote": "Engaging in the practice of professional engineering as an employee under a licensed professional engineer... provided, that such practice shall not include responsible charge of design or supervision.",
+        "citation": "54.1-401"
+      },
+      {
+        "item": "Engineers-in-training / engineer interns acting under supervision",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Land surveyor interns",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Teaching engineering, architectural, landscape architectural, or surveying courses at accredited institutions",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Regulated transportation companies and public utilities (and their officers and employees) performing engineering for their own facilities",
+        "status": "present",
+        "quote": "the practice of engineering solely as an employee of a corporation engaged in interstate commerce, or as an employee of a public service corporation, by rendering such corporation engineering service in connection with its facilities which are subject to regulation by the State Corporation Commission",
+        "citation": "54.1-401"
+      },
+      {
+        "item": "Engineering services incidental to the practice of architecture by licensed architects and their subordinates",
+        "status": "present",
+        "quote": "Practice of professional engineering and land surveying by a licensed architect when such practice is incidental to what may be properly considered an architectural undertaking.",
+        "citation": "54.1-401"
+      },
+      {
+        "item": "Engineering services incidental to the practice of geology by licensed geologists and their subordinates",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Practice of any other legally recognized profession or trade",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Manufacturing, mining, public utility, research and development, or other industrial corporations performing engineering work incidental to their own products, systems, or services",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Firms performing engineering services for themselves or their own subsidiaries/affiliates (in-house engineering)",
+        "status": "present",
+        "quote": "Practice of architecture or professional engineering by an individual, firm or corporation on property owned or leased by such individual, firm or corporation, unless the public health or safety is involved.",
+        "citation": "54.1-401"
+      },
+      {
+        "item": "Nonresident persons, firms, or corporations meeting specified out-of-state criteria",
+        "status": "present",
+        "quote": "Practice as a professional engineer, architect or landscape architect in this Commonwealth by any person not a resident of and having no established place of business in this Commonwealth, or by any person resident in this Commonwealth whose arrival is recent, provided that such person is otherwise qualified for such professional service in another state or country and qualifies in Virginia and files prior to commencement of such practice an application, with the required fee, for licensure",
+        "citation": "54.1-401"
+      },
+      {
+        "item": "Real estate brokers or salespersons making appraisals and valuations of real estate",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Alterations or repairs to buildings not affecting structural system or public health, safety, or welfare",
+        "status": "present",
+        "quote": "Additions, remodeling or interior design without a change in occupancy or occupancy load and without modification to the structural system or a change in access or exit patterns or increase in fire hazard",
+        "citation": "54.1-402"
+      },
+      {
+        "item": "Single-family and small residential dwellings of limited size",
+        "status": "present",
+        "quote": "Single- and two-family homes, townhouses and multifamily dwellings, excluding electrical and mechanical systems, not exceeding three stories",
+        "citation": "54.1-402"
+      },
+      {
+        "item": "Agricultural work not required to be of public record",
+        "status": "present",
+        "quote": "All farm structures used primarily in the production, handling or storage of agricultural products or implements",
+        "citation": "54.1-402"
+      },
+      {
+        "item": "Revegetation, restoration, reclamation, rehabilitation, or erosion control for disturbed land not affecting public health, safety, or welfare",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Maintenance or placement of plant material not affecting public health, safety, or welfare",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Horticultural consultants and persons preparing planting plans for plant installations",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Authorized designers of fire protection systems",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Holders of temporary permits for engineering practice",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Corporations, partnerships, LLCs, and LLPs offering professional engineering services through licensed principals (business entity exemption with certificate of authorization)",
+        "status": "present",
+        "quote": "Nothing contained in this chapter or in the regulations of the Board shall prohibit the practice of architecture, engineering, land surveying, landscape architecture or the offering of the title of certified interior designer by any corporation, partnership, sole proprietorship, limited liability company, or other entity provided such practice or certification is rendered through its officers, principals or employees who are correspondingly licensed or certified.",
+        "citation": "54.1-411"
+      },
+      {
+        "item": "Government employees inspecting residential structures as part of official duties",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Persons performing home inspections solely for lender construction monitoring",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Property managers inspecting their own managed residential structures without separate compensation",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Small public works projects below a specified expenditure threshold",
+        "status": "present",
+        "quote": "Construction by a state agency or political subdivision not exceeding $75,000 in value keyed to the January 1, 1991, Consumer Price Index (CPI) and not otherwise requiring a licensed architect, engineer, or land surveyor",
+        "citation": "54.1-402"
+      },
+      {
+        "item": "Licensed geologists practicing geology (not required to hold engineer license)",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Persons with grandfathered or legacy licensure status in discontinued engineering branch titles",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Boundary surveys on private land not intended as basis for engineering design",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Professional engineers or engineer interns granted inactive status",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Senior licensed professional engineers exempt from continuing education requirements",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      }
+    ],
+    "scope__board_engineering_disciplines_represented": [
+      {
+        "item": "Civil Engineering",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Electrical Engineering",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Mechanical Engineering",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Mining Engineering",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Petroleum Engineering",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Chemical Engineering",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "General/Other Engineering",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      }
+    ]
   }
 }

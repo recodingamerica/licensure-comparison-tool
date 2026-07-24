@@ -32,7 +32,7 @@
     "age_minimum": null,
     "moral_character_required": {
       "value": true,
-      "quote": "An applicant for registration as an architect, engineer, land surveyor, or landscape architect must be of good character and reputation",
+      "quote": "An applicant for registration as an architect, engineer, land surveyor, or landscape architect must be of good character and reputation and shall submit evidence satisfactory to the board of the applicant's education, training, and experience.",
       "citation": "08.48.171"
     },
     "education": {
@@ -44,7 +44,7 @@
       "accrediting_body": null,
       "degree_level": null,
       "school_approval_basis": {
-        "value": "board_approved",
+        "value": "unspecified",
         "quote": "shall submit evidence satisfactory to the board of the applicant's education, training, and experience",
         "citation": "08.48.171"
       },
@@ -58,7 +58,7 @@
     "post_degree_experience": {
       "required": null,
       "experience_source": {
-        "value": "embedded_in_credential",
+        "value": "none",
         "quote": "shall submit evidence satisfactory to the board of the applicant's education, training, and experience",
         "citation": "08.48.171"
       },
@@ -67,13 +67,13 @@
     },
     "exams": [
       {
-        "name": "Registration examination",
+        "name": "Professional Engineer Examination",
         "required": true,
-        "notes": "Examinations held at least once each year; candidates failing may reapply per board regulations; standards must at least meet recognized national examining council requirements",
-        "jurisdiction": "state (with national standards)",
+        "notes": "Examinations held at least once per year; must meet standards of recognized national examining councils; candidates failing may reapply per board regulations",
+        "jurisdiction": "national examining councils (national)",
         "permitted_attempts": null,
-        "quote": "Examinations shall be held at least once each year. A candidate failing an examination may apply for reexamination in accordance with regulations adopted by the board.",
-        "citation": "08.48.091"
+        "quote": "for registration as a professional architect, professional engineer, professional land surveyor, or professional landscape architect, a person shall be examined in this state in accordance with the regulations of procedure and standards adopted by the board",
+        "citation": "08.48.181"
       }
     ],
     "renewal": {
@@ -101,8 +101,8 @@
         "citation": "08.48.191"
       },
       "requirements": {
-        "value": "Must hold a certificate of registration from another state, territory, possession, DC, or foreign country issued under requirements comparable to Alaska's requirements.",
-        "quote": "may, upon application, be registered in accordance with regulations of the board if the person's certificate was issued under requirements comparable to the requirements in this state.",
+        "value": "Applicant must hold a certificate of registration from a state, territory, possession, DC, or foreign country issued under requirements comparable to Alaska's requirements",
+        "quote": "if the person's certificate was issued under requirements comparable to the requirements in this state",
         "citation": "08.48.191"
       }
     },
@@ -119,17 +119,17 @@
     "national_association": null,
     "regulatory_model": {
       "value": "license",
-      "quote": "A person may not practice or offer to practice the profession of architecture, engineering, land surveying, or landscape architecture in the state, or use in connection with the person's name or otherwise assume or advertise a title or description tending to convey the impression that the person is an architect, an engineer, a land surveyor, or a landscape architect, unless the person has been registered under the provisions of this chapter",
+      "quote": "A person may not practice or offer to practice the profession of architecture, engineering, land surveying, or landscape architecture in the state",
       "citation": "08.48.281"
     },
     "credential_type": {
       "value": "license",
-      "quote": "An applicant who fulfills the requirements set out by the board shall be awarded a certificate of registration authorizing the holder to offer or perform services or work for the public, or to certify or sign documents.",
+      "quote": "An applicant who fulfills the requirements set out by the board shall be awarded a certificate of registration authorizing the holder to offer or perform services or work for the public",
       "citation": "08.48.211"
     },
     "is_mandatory": {
       "value": true,
-      "quote": "A person may not practice or offer to practice the profession of architecture, engineering, land surveying, or landscape architecture in the state",
+      "quote": "A person may not practice or offer to practice the profession of architecture, engineering, land surveying, or landscape architecture in the state, or use in connection with the person's name or otherwise assume or advertise a title or description tending to convey the impression that the person is an architect, an engineer, a land surveyor, or a landscape architect, unless the person has been registered under the provisions of this chapter",
       "citation": "08.48.281"
     },
     "title_protection": {
@@ -169,30 +169,39 @@
       },
       {
         "short_label": "violation_of_chapter_or_regulations",
-        "description": "Violation of the chapter, a regulation adopted under it, or the code of ethics",
+        "description": "Violation of the chapter, regulations adopted under it, or the code of ethics",
         "quote": "a violation of this chapter, a regulation adopted under this chapter, or the code of ethics or professional conduct as adopted by the board",
         "citation": "08.48.111"
       },
       {
-        "short_label": "fraud_or_deceit_charge",
-        "description": "Charge of fraud or deceit filed by any person",
-        "quote": "Any person may file with the investigator of the board a charge of fraud, deceit, gross negligence, incompetence, misconduct, or violation of this chapter",
-        "citation": "08.48.121"
+        "short_label": "presenting_forged_evidence",
+        "description": "Giving false or forged evidence to the board in obtaining or attempting to obtain a certificate",
+        "quote": "a person who gives false or forged evidence of any kind to the board or to a member of the board in obtaining or attempting to obtain a certificate",
+        "citation": "08.48.291"
+      },
+      {
+        "short_label": "impersonating_a_registrant",
+        "description": "Impersonating a registrant",
+        "quote": "a person who impersonates a registrant",
+        "citation": "08.48.291"
+      },
+      {
+        "short_label": "use_of_expired_revoked_certificate",
+        "description": "Using or attempting to use an expired, revoked, or nonexistent certificate knowing its status",
+        "quote": "a person who uses or attempts to use an expired or revoked or nonexistent certificate, knowing of the certificate's status",
+        "citation": "08.48.291"
+      },
+      {
+        "short_label": "misconduct_or_malpractice_by_firm",
+        "description": "Misconduct or malpractice by a corporation, LLC, LLP, or limited partnership holding a certificate of authorization",
+        "quote": "if the board, after a proper hearing, finds that a corporation, limited liability company, limited liability partnership, or limited partnership holding a certificate of authorization has committed misconduct or malpractice, the board shall suspend or revoke the certificate of authorization",
+        "citation": "08.48.241"
       }
     ],
     "alternative_regulation": {
       "bonding_required": null,
       "insurance_required": null,
-      "establishment_regulation_required": {
-        "value": true,
-        "quote": "a corporation, limited liability company, limited liability partnership, or limited partnership shall file with the board an application for a certificate of authorization",
-        "citation": "08.48.241",
-        "unverified": true,
-        "approximate": {
-          "ratio": 0.994,
-          "matched_normalized": " corporation limited liability company limited liability partnership or limited partnership shall file with the board an application for a certificate of authorization"
-        }
-      }
+      "establishment_regulation_required": null
     },
     "citations": [
       {
@@ -209,7 +218,7 @@
       },
       {
         "cite": "08.48.101",
-        "kind": "regulations_and_ce"
+        "kind": "regulations_and_CE"
       },
       {
         "cite": "08.48.111",
@@ -245,11 +254,11 @@
       },
       {
         "cite": "08.48.231",
-        "kind": "renewal"
+        "kind": "renewals"
       },
       {
         "cite": "08.48.241",
-        "kind": "firm_authorization"
+        "kind": "firms"
       },
       {
         "cite": "08.48.281",
@@ -257,7 +266,7 @@
       },
       {
         "cite": "08.48.291",
-        "kind": "penalties"
+        "kind": "violations_and_penalties"
       },
       {
         "cite": "08.48.331",
@@ -271,22 +280,20 @@
   },
   "scope": {
     "definition_quote": {
-      "value": "professional service or creative work, the adequate performance of which requires the specialized knowledge of applied mathematics and sciences, dealing with the design of structures, machines, equipment, utilities systems, materials, processes, works, or projects, public or private; the teaching of advanced engineering courses in institutions of higher learning; the direction of or the performance of engineering surveys, consultation, investigation, evaluation, planning, and professional observation of construction of public and private structures, works, or projects and engineering review of drawings and specifications by regulatory agencies",
+      "value": "practice of engineering means professional service or creative work, the adequate performance of which requires the specialized knowledge of applied mathematics and sciences, dealing with the design of structures, machines, equipment, utilities systems, materials, processes, works, or projects, public or private; the teaching of advanced engineering courses in institutions of higher learning; the direction of or the performance of engineering surveys, consultation, investigation, evaluation, planning, and professional observation of construction of public and private structures, works, or projects and engineering review of drawings and specifications by regulatory agencies",
       "quote": "\"practice of engineering\" means professional service or creative work, the adequate performance of which requires the specialized knowledge of applied mathematics and sciences, dealing with the design of structures, machines, equipment, utilities systems, materials, processes, works, or projects, public or private; the teaching of advanced engineering courses in institutions of higher learning; the direction of or the performance of engineering surveys, consultation, investigation, evaluation, planning, and professional observation of construction of public and private structures, works, or projects and engineering review of drawings and specifications by regulatory agencies",
       "citation": "08.48.341"
     },
     "methods_authorized": {
       "value": [
         "design of structures, machines, equipment, utilities systems, materials, processes, works, or projects",
-        "teaching of advanced engineering courses in institutions of higher learning",
         "engineering surveys",
         "consultation",
         "investigation",
         "evaluation",
         "planning",
         "professional observation of construction",
-        "engineering review of drawings and specifications by regulatory agencies",
-        "architectural building design of minor importance"
+        "engineering review of drawings and specifications"
       ],
       "quote": "dealing with the design of structures, machines, equipment, utilities systems, materials, processes, works, or projects, public or private; the teaching of advanced engineering courses in institutions of higher learning; the direction of or the performance of engineering surveys, consultation, investigation, evaluation, planning, and professional observation of construction of public and private structures, works, or projects and engineering review of drawings and specifications by regulatory agencies",
       "citation": "08.48.341"
@@ -295,15 +302,11 @@
     "citations": [
       {
         "cite": "08.48.341",
-        "kind": "definition_of_practice_of_engineering"
+        "kind": "definition_of_practice"
       },
       {
         "cite": "08.48.281",
-        "kind": "prohibited_practice"
-      },
-      {
-        "cite": "08.48.331",
-        "kind": "exemptions"
+        "kind": "scope_protection"
       }
     ]
   },
@@ -352,20 +355,23 @@
     },
     "exemptions_from_licensure": {
       "value": [
-        "contractor performing work designed by a professional engineer under supervision",
-        "workers in building trades crafts, earthwork, grounds keeping, or nursery operations",
-        "officer or employee of the United States government in official capacity",
-        "employee or subordinate of a registrant under direct supervision",
-        "associates, consultants, or specialists retained by a registrant under responsible charge",
-        "person preparing drawings or specifications for specified residential and agricultural buildings",
-        "specialty contractor for work designed by an engineer within the specialty",
-        "person furnishing drawings for alterations not affecting structural system or public safety",
-        "postsecondary educational institution employee teaching engineering courses",
-        "officer or employee practicing engineering involved in employer's business only (not offering to public)",
-        "person involved in revegetation, restoration, reclamation, or erosion control not affecting public health, safety, or welfare",
-        "person maintaining or directing placement of plant material not affecting public health, safety, or welfare",
-        "employee/officer of regulatory agency reviewing drawings sealed by a registrant",
-        "person designing fire protection systems authorized by the Department of Public Safety"
+        "a contractor performing work designed by a professional architect, engineer, or landscape architect or the supervision of the construction of the work as a supervisor or superintendent for a contractor",
+        "workers in building trades crafts, earthwork, grounds keeping, or nursery operations, and superintendents, supervisors, or inspectors in the performance of their customary duties",
+        "an officer or employee of the United States government practicing architecture, engineering, land surveying, or landscape architecture as required by the person's official capacity",
+        "an employee or a subordinate of a registrant if the work or service is done under the direct supervision of a registrant",
+        "associates, consultants, or specialists retained by a registrant or authorized entity, in the performance of professional services if responsible charge of the work remains with the registrant or designated representative",
+        "a person preparing drawings or specifications for a single family residence for the person's own use and occupancy and related site work",
+        "farm or ranch buildings and their grounds unless the public health, safety, or welfare is involved",
+        "a building intended to be used only as a residence by not more than four families and not more than two stories high",
+        "a garage, workshop, or similar building containing less than 2,000 square feet for private noncommercial purpose",
+        "a specialty contractor licensed under AS 08.18 while engaged in construction contracting for work designed by an architect, engineer, or landscape architect within the specialty",
+        "a person furnishing drawings or specifications for alterations or repairs to a building that do not change or affect the structural system or safety or public health, safety, or welfare",
+        "a person employed by a postsecondary educational institution to teach engineering, architectural, or landscape architectural courses",
+        "an officer or employee of a firm or corporation who practices engineering involved in the operation of the employer's business only and neither offers services to the public",
+        "a person involved in revegetation, restoration, reclamation, rehabilitation, or erosion control for disturbed land that does not affect the public health, safety, or welfare",
+        "a person maintaining or directing placement of plant material that does not affect the public health, safety, or welfare",
+        "an employee, officer, or agent of a regulatory agency reviewing drawings for code compliance if drawings have been sealed or are exempt",
+        "a person designing fire protection systems authorized by the Department of Public Safety"
       ],
       "quote": "This chapter does not apply to (1) a contractor performing work designed by a professional architect, engineer, or landscape architect or the supervision of the construction of the work as a supervisor or superintendent for a contractor",
       "citation": "08.48.331"
@@ -378,18 +384,18 @@
     "multi_license_reporting_required": null,
     "board_engineering_disciplines_represented": {
       "value": [
-        "civil engineering (2 members)",
-        "land surveying (2 members)",
-        "mining engineering (1 member)",
-        "electrical or mechanical engineering (1 member)",
-        "another branch of engineering (1 member)"
+        "civil engineering",
+        "mining engineering",
+        "electrical engineering",
+        "mechanical engineering",
+        "another branch of the profession of engineering"
       ],
-      "quote": "The board consists of two civil engineers, two land surveyors, one mining engineer, one electrical or mechanical engineer, one engineer from another branch of the profession of engineering, two architects, one landscape architect, and one public member.",
+      "quote": "The board consists of two civil engineers, two land surveyors, one mining engineer, one electrical or mechanical engineer, one engineer from another branch of the profession of engineering",
       "citation": "08.48.011"
     },
     "board_member_responsible_charge_years_required": {
       "value": 5,
-      "quote": "must be registered and have a minimum of five years of professional practice in the member's respective field",
+      "quote": "except for the public member, must be registered and have a minimum of five years of professional practice in the member's respective field",
       "citation": "08.48.031"
     },
     "pdh_units_per_renewal_period": null,
@@ -398,6 +404,360 @@
       "value": true,
       "quote": "On retiring from practice and payment of an appropriate one-time fee, a registrant in good standing with the board may apply for the conversion of a certificate of registration to a retired status registration.",
       "citation": "08.48.215"
-    }
+    },
+    "scope__seal_document_types": [
+      {
+        "item": "Drawings",
+        "status": "present",
+        "quote": "When a registrant issues final drawings, specifications, surveys, plats, plates, reports, or similar documents, the registrant shall stamp the documents with the seal and sign the seal.",
+        "citation": "08.48.221"
+      },
+      {
+        "item": "Plans",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Specifications",
+        "status": "present",
+        "quote": "When a registrant issues final drawings, specifications, surveys, plats, plates, reports, or similar documents, the registrant shall stamp the documents with the seal and sign the seal.",
+        "citation": "08.48.221"
+      },
+      {
+        "item": "Reports",
+        "status": "present",
+        "quote": "When a registrant issues final drawings, specifications, surveys, plats, plates, reports, or similar documents, the registrant shall stamp the documents with the seal and sign the seal.",
+        "citation": "08.48.221"
+      },
+      {
+        "item": "Surveys",
+        "status": "present",
+        "quote": "When a registrant issues final drawings, specifications, surveys, plats, plates, reports, or similar documents, the registrant shall stamp the documents with the seal and sign the seal.",
+        "citation": "08.48.221"
+      },
+      {
+        "item": "Plats",
+        "status": "present",
+        "quote": "When a registrant issues final drawings, specifications, surveys, plats, plates, reports, or similar documents, the registrant shall stamp the documents with the seal and sign the seal.",
+        "citation": "08.48.221"
+      },
+      {
+        "item": "Plates",
+        "status": "present",
+        "quote": "When a registrant issues final drawings, specifications, surveys, plats, plates, reports, or similar documents, the registrant shall stamp the documents with the seal and sign the seal.",
+        "citation": "08.48.221"
+      },
+      {
+        "item": "Calculations",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Design information",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Construction documents",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Maps",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Descriptions",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Data",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Instruments of service",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Shop drawings",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Revisions",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Certifications",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Affidavits",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      }
+    ],
+    "scope__exemptions_from_licensure": [
+      {
+        "item": "Federal government officers and employees practicing engineering in official capacity",
+        "status": "present",
+        "quote": "an officer or employee of the United States government practicing architecture, engineering, land surveying, or landscape architecture as required by the person's official capacity",
+        "citation": "08.48.331"
+      },
+      {
+        "item": "Contractors executing work designed by a licensed engineer (construction execution only)",
+        "status": "present",
+        "quote": "a contractor performing work designed by a professional architect, engineer, or landscape architect or the supervision of the construction of the work as a supervisor or superintendent for a contractor",
+        "citation": "08.48.331"
+      },
+      {
+        "item": "Building trades workers, craft workers, and construction superintendents/supervisors/inspectors performing customary duties",
+        "status": "present",
+        "quote": "workers in building trades crafts, earthwork, grounds keeping, or nursery operations, and superintendents, supervisors, or inspectors in the performance of their customary duties",
+        "citation": "08.48.331"
+      },
+      {
+        "item": "Employees or subordinates working under direct supervision of a licensed engineer",
+        "status": "present",
+        "quote": "an employee or a subordinate of a registrant if the work or service is done under the direct supervision of a registrant",
+        "citation": "08.48.331"
+      },
+      {
+        "item": "Engineers-in-training / engineer interns acting under supervision",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Land surveyor interns",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Teaching engineering, architectural, landscape architectural, or surveying courses at accredited institutions",
+        "status": "present",
+        "quote": "a person who is employed by a postsecondary educational institution to teach engineering, architectural, or landscape architectural courses",
+        "citation": "08.48.331"
+      },
+      {
+        "item": "Regulated transportation companies and public utilities (and their officers and employees) performing engineering for their own facilities",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Engineering services incidental to the practice of architecture by licensed architects and their subordinates",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Engineering services incidental to the practice of geology by licensed geologists and their subordinates",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Practice of any other legally recognized profession or trade",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Manufacturing, mining, public utility, research and development, or other industrial corporations performing engineering work incidental to their own products, systems, or services",
+        "status": "present",
+        "quote": "an officer or employee of an individual, firm, partnership, association, utility, corporation, limited liability company, limited liability partnership, or limited partnership, who practices engineering, architecture, land surveying, or landscape architecture involved in the operation of the employer's business only, and further if neither the employee nor the employer offers engineering, architecture, land surveying, or landscape architecture services to the public",
+        "citation": "08.48.331"
+      },
+      {
+        "item": "Firms performing engineering services for themselves or their own subsidiaries/affiliates (in-house engineering)",
+        "status": "present",
+        "quote": "an officer or employee of an individual, firm, partnership, association, utility, corporation, limited liability company, limited liability partnership, or limited partnership, who practices engineering, architecture, land surveying, or landscape architecture involved in the operation of the employer's business only, and further if neither the employee nor the employer offers engineering, architecture, land surveying, or landscape architecture services to the public",
+        "citation": "08.48.331"
+      },
+      {
+        "item": "Nonresident persons, firms, or corporations meeting specified out-of-state criteria",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Real estate brokers or salespersons making appraisals and valuations of real estate",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Alterations or repairs to buildings not affecting structural system or public health, safety, or welfare",
+        "status": "present",
+        "quote": "a person furnishing drawings, specifications, instruments of service, or other data for alterations or repairs to a building or its grounds that do not change or affect the structural system or the safety of the building, or that do not affect the public health, safety, or welfare",
+        "citation": "08.48.331"
+      },
+      {
+        "item": "Single-family and small residential dwellings of limited size",
+        "status": "present",
+        "quote": "a building for the person's own use and occupancy as a single family residence and related site work for that building",
+        "citation": "08.48.331"
+      },
+      {
+        "item": "Agricultural work not required to be of public record",
+        "status": "present",
+        "quote": "farm or ranch buildings and their grounds unless the public health, safety, or welfare is involved",
+        "citation": "08.48.331"
+      },
+      {
+        "item": "Revegetation, restoration, reclamation, rehabilitation, or erosion control for disturbed land not affecting public health, safety, or welfare",
+        "status": "present",
+        "quote": "a person while involved in revegetation, restoration, reclamation, rehabilitation, or erosion control for disturbed land that the board determines does not affect the public health, safety, or welfare",
+        "citation": "08.48.331"
+      },
+      {
+        "item": "Maintenance or placement of plant material not affecting public health, safety, or welfare",
+        "status": "present",
+        "quote": "a person while maintaining or directing the placement of plant material that the board determines does not affect the public health, safety, or welfare",
+        "citation": "08.48.331"
+      },
+      {
+        "item": "Horticultural consultants and persons preparing planting plans for plant installations",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Authorized designers of fire protection systems",
+        "status": "present",
+        "quote": "a person who is designing fire protection systems and is authorized by the Department of Public Safety to design fire protection systems",
+        "citation": "08.48.331"
+      },
+      {
+        "item": "Holders of temporary permits for engineering practice",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Corporations, partnerships, LLCs, and LLPs offering professional engineering services through licensed principals (business entity exemption with certificate of authorization)",
+        "status": "present",
+        "quote": "This chapter does not prevent a corporation, limited liability company, limited liability partnership, or limited partnership from offering architectural, engineering, land surveying, or landscape architectural services",
+        "citation": "08.48.241"
+      },
+      {
+        "item": "Government employees inspecting residential structures as part of official duties",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Persons performing home inspections solely for lender construction monitoring",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Property managers inspecting their own managed residential structures without separate compensation",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Small public works projects below a specified expenditure threshold",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Licensed geologists practicing geology (not required to hold engineer license)",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Persons with grandfathered or legacy licensure status in discontinued engineering branch titles",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Boundary surveys on private land not intended as basis for engineering design",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Professional engineers or engineer interns granted inactive status",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Senior licensed professional engineers exempt from continuing education requirements",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      }
+    ],
+    "scope__board_engineering_disciplines_represented": [
+      {
+        "item": "Civil Engineering",
+        "status": "present",
+        "quote": "The board consists of two civil engineers, two land surveyors, one mining engineer, one electrical or mechanical engineer, one engineer from another branch of the profession of engineering",
+        "citation": "08.48.011"
+      },
+      {
+        "item": "Electrical Engineering",
+        "status": "present",
+        "quote": "one electrical or mechanical engineer",
+        "citation": "08.48.011"
+      },
+      {
+        "item": "Mechanical Engineering",
+        "status": "present",
+        "quote": "one electrical or mechanical engineer",
+        "citation": "08.48.011"
+      },
+      {
+        "item": "Mining Engineering",
+        "status": "present",
+        "quote": "one mining engineer",
+        "citation": "08.48.011"
+      },
+      {
+        "item": "Petroleum Engineering",
+        "status": "present",
+        "quote": "if no mining engineer who qualifies for appointment to the board is available to serve on the board, the governor may appoint a petroleum or chemical engineer to the seat designated for a mining engineer",
+        "citation": "08.48.011"
+      },
+      {
+        "item": "Chemical Engineering",
+        "status": "present",
+        "quote": "if no mining engineer who qualifies for appointment to the board is available to serve on the board, the governor may appoint a petroleum or chemical engineer to the seat designated for a mining engineer",
+        "citation": "08.48.011"
+      },
+      {
+        "item": "General/Other Engineering",
+        "status": "present",
+        "quote": "one engineer from another branch of the profession of engineering",
+        "citation": "08.48.011"
+      }
+    ]
   }
 }
