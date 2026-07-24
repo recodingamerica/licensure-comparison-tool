@@ -118,6 +118,17 @@ extract_state:
     Rules:
       - Fill in every field you can ground in the source text.
       - Set a leaf field to null if the text doesn't address it. Don't invent.
+      - Propagate an explicit prohibition (or authorization) to the specific fields
+        it covers — an explicit NO is not a null. When the statute prohibits a broad
+        category, every specific procedure field that the category NAMES or ENTAILS
+        is an explicit false, quoting that clause — do NOT leave it null. Example:
+        "a therapeutic optometrist may not perform surgery or laser surgery" sets
+        laser_procedures_authorized = false AND minor_surgical_procedures_authorized
+        = false (both quote that clause), not null. A specific procedure field is
+        null ONLY when the statute is genuinely silent about it — the procedure is
+        neither named nor entailed by a broader prohibition or authorization. (If a
+        term appears only in an unrelated, permitted context — e.g. "laser imaging" is
+        allowed but "laser surgery" is not discussed — that is genuine ambiguity: null.)
       - Adjacent is not evidence. A passage that merely TOUCHES a topic does not
         license a value for it. Three binding examples:
           * "the board/panel MAY recommend/establish requirements" is permissive
@@ -168,6 +179,24 @@ extract_state:
         to act for a narrow purpose, is market_forces. Anchor credential_type
         and regulatory_model to the same quote; never leave one null while
         asserting the other.
+      - OPERATIONAL TEST — does a STATE credential EXIST at all? This decides only
+        credential_type = none (→ market_forces) versus "a credential exists"; it
+        does NOT by itself pick which credentialed rung applies. A state credential
+        exists only if the state or its board GRANTS one that a person applies for,
+        holds, and can have revoked. A statute that merely lists qualifications a
+        person must "meet," "possess," or "have" in order to lawfully USE A TITLE —
+        with no credential granted by the state — does NOT establish one:
+        credential_type = none and regulatory_model = market_forces (title_protection
+        may still be true), regardless of how detailed the qualifications are. Worked
+        example: "Any person representing himself as a [profession] shall meet one of
+        the following qualifications: [degree; exam; ...]", with no state-granted
+        credential to obtain, is market_forces, not voluntary_certification.
+        Do NOT confuse this existence test with the registration RUNG: if the state
+        DOES grant a credential and it carries a qualification gate (a required
+        degree or exam) but only the title is protected, the rung is
+        voluntary_certification — EVEN WHEN the statute names that credential a
+        "registration" or the holder a "registered ___". The registration rung is
+        reserved for a bare roster with NO qualification test.
       - Reserve null for true uncertainty: when the supplied corpus looks
         truncated or the profession's governing statute is simply absent. In
         that case credential_type is also null and the state surfaces as a
@@ -199,6 +228,10 @@ extract_state:
             = false), not whether the title is mandated.
           - registration: practitioner must register on a roster; no
             qualification test (or only a minimal check). Least restrictive.
+            If the "registration" requires a degree or exam to obtain, it is NOT
+            this rung — a gated credential is a certification, so the rung is
+            voluntary_certification (title only) or mandatory_certification (scope).
+            Decide by function, not the statutory name (see credential_type).
           - exemption: a narrow scope carve-out / subset of acts from a broader
             practice act (a "mini-license").
           - mandatory_certification: the credential protects the SCOPE of
@@ -226,7 +259,18 @@ extract_state:
                           If using the title without certification is prohibited
                           but doing the work is not, it's certification, not license.
           registration = practitioner registers (state maintains a roster); no
-                         qualification test or minimal qualification check only
+                         qualification test or minimal qualification check only.
+                         DECIDE BY FUNCTION, NOT NAME: if obtaining the credential
+                         requires a degree, an exam, or supervised experience, it is
+                         CERTIFICATION (the state is certifying the holder meets
+                         standards) — EVEN WHEN the statute calls the credential a
+                         "registration" and the holder a "registered ___". Reserve
+                         registration for a bare sign-up roster with no competency
+                         requirement (e.g., pay a fee and list your name). Example: a
+                         "registered interior designer" or "registered sanitarian"
+                         that requires an accredited degree plus an exam is
+                         CERTIFICATION, so the rung is voluntary_certification (title
+                         only) or mandatory_certification (scope) — never registration.
           exemption = profession is exempted from a broader practice-act regime
           none = no state credential exists
 
