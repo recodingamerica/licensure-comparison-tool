@@ -317,11 +317,12 @@ export const CATEGORY_CLASSES: Record<string, Record<string, HueClasses>> = {
 // use a CSS var(). Prefer the CSS custom properties (var(--<token>)) for HTML;
 // use these where a real value is required. `token(name)` reads the current
 // theme's value off the CSS custom property, falling back to the light value.
-export type ColorToken = "scope-has" | "scope-none" | "scope-focus" | "scope-focus-weak" | "map-no-data" | "map-ramp-lo" | "map-ramp-hi" | "mark-search" | "mark-quote" | "kind-coverage" | "kind-value" | "spread-lo" | "spread-hi" | "grid-header" | "grid-row" | "grid-hover" | "grid-border" | "map-stroke" | "map-highlight" | "nav-fill";
+export type ColorToken = "scope-has" | "scope-prohibited" | "scope-none" | "scope-focus" | "scope-focus-weak" | "map-no-data" | "map-ramp-lo" | "map-ramp-hi" | "mark-search" | "mark-quote" | "kind-coverage" | "kind-value" | "spread-lo" | "spread-hi" | "grid-header" | "grid-row" | "grid-hover" | "grid-border" | "map-stroke" | "map-highlight" | "nav-fill";
 
 export const COLOR_TOKENS: { light: Record<string, string>; dark: Record<string, string> } = {
   light: {
   "scope-has": "#14b8a6",
+  "scope-prohibited": "#e11d48",
   "scope-none": "#eceff2",
   "scope-focus": "#d97706",
   "scope-focus-weak": "#fdf1e3",
@@ -344,6 +345,7 @@ export const COLOR_TOKENS: { light: Record<string, string>; dark: Record<string,
 },
   dark: {
   "scope-has": "#2dd4bf",
+  "scope-prohibited": "#fb7185",
   "scope-none": "#1b1f26",
   "scope-focus": "#f59e0b",
   "scope-focus-weak": "#2a2114",
