@@ -25,8 +25,10 @@ import argparse
 import json
 import logging
 import os
+import re
 import sys
 from dataclasses import asdict, dataclass, field
+
 from typing import Literal as TLiteral
 
 from pydantic import BaseModel, Field, ValidationError, create_model
@@ -62,26 +64,38 @@ from pipeline._prompts import load_prompt
 
 SYSTEM_PROMPT = load_prompt("trim_state")
 
+# Classify at most this many sections per LLM call. A single call over a
+# 350+-section chapter overflows the output-token cap and truncates the JSON →
+# total trim failure (poison). Chunking splits those. The threshold is set ABOVE
+# the size of the largest chapter that classifies fine in one call (dentistry/CA
+# at 344 worked; 391 truncated), so cells that never overflowed keep their exact
+# single-call behavior — the model sees less whole-chapter context when chunked
+# and drops slightly less, so we only pay that where we must.
+TRIM_CHUNK = 250
+# Skip reason for a chunk whose LLM call failed, when OTHER chunks succeeded —
+# distinct from LLM_FAIL_REASON so a partial failure isn't flagged poisoned.
+CHUNK_FAIL_REASON = "llm_chunk_failed_kept"
+
 
 def build_decisions_model(citations: list[str]) -> type[BaseModel]:
-    """Build a Pydantic model whose `decisions[].citation` is constrained
-    to exactly the citations we passed in. Hallucination becomes a Pydantic
-    validation error rather than silent drift."""
+    """Model for one chunk's keep/drop decisions.
+
+    `citation` stays a Literal over the input citations (hallucination → a clean
+    validation error, and — measurably — a Literal-constrained call also keeps
+    the model's keep/drop behavior stable; relaxing it to a plain str made the
+    model drop ~13% less). The output-token overflow that used to truncate large
+    chapters is handled by CHUNKING the call (see TRIM_CHUNK), not by relaxing
+    the schema or dropping the per-decision `reason`."""
     if not citations:
         raise ValueError("no citations to classify")
     cite_literal = TLiteral[tuple(citations)]  # type: ignore[valid-type]
-
     Decision = create_model(
         "TrimDecision",
         citation=(cite_literal, ...),
         keep=(bool, ...),
         reason=(str, Field(description="One-line rationale")),
     )
-    Result = create_model(
-        "TrimResult",
-        decisions=(list[Decision], ...),
-    )
-    return Result
+    return create_model("TrimResult", decisions=(list[Decision], ...))
 
 
 _QUOTE_NORMALIZE = str.maketrans({
@@ -129,8 +143,46 @@ def section_input_for_llm(sections: list[dict]) -> tuple[list[str], str]:
     return citations, "\n".join(parts)
 
 
-def call_model(model: str, system: str, user: str, schema_cls: type[BaseModel]) -> BaseModel | None:
-    """Trim-stage LLM call: structured output via the shared _llm helper."""
+def _citation_recover(valid_citations: list[str]):
+    """Recovery for the `citation` Literal: a cheap model occasionally re-types a
+    citation (punctuation/case), which would fail the whole call and poison the
+    state. On validation failure, remap each drifted citation to its valid member
+    by a punctuation-insensitive key; drop any decision that still can't be
+    matched (its section then keeps by default). This preserves the Literal's
+    anti-hallucination guard while making trivial drift non-fatal — without
+    relaxing the schema (which measurably shifted keep/drop behavior)."""
+    valid = set(valid_citations)
+    norm: dict[str, str] = {}
+    for c in valid_citations:
+        norm.setdefault(re.sub(r"[^a-z0-9]+", "", c.lower()), c)
+
+    def recover(data: dict, _ve: ValidationError) -> dict:
+        decs = data.get("decisions")
+        if not isinstance(decs, list):
+            return data
+        fixed = []
+        for d in decs:
+            if not isinstance(d, dict):
+                continue
+            c = d.get("citation")
+            if c in valid:
+                fixed.append(d)
+                continue
+            m = norm.get(re.sub(r"[^a-z0-9]+", "", str(c or "").lower()))
+            if m is not None:
+                d["citation"] = m
+                fixed.append(d)
+            # else: unrecoverable citation → drop the decision (section keeps)
+        data["decisions"] = fixed
+        return data
+
+    return recover
+
+
+def call_model(model: str, system: str, user: str, schema_cls: type[BaseModel],
+               citations: list[str] | None = None) -> BaseModel | None:
+    """Trim-stage LLM call: structured output via the shared _llm helper.
+    Passing `citations` enables citation-drift recovery (see _citation_recover)."""
     return call_structured(
         model=model,
         system=system,
@@ -141,6 +193,7 @@ def call_model(model: str, system: str, user: str, schema_cls: type[BaseModel]) 
         max_retries=MAX_RETRIES,
         log_prefix="  ",
         logger=log,
+        recover_fn=_citation_recover(citations) if citations else None,
     )
 
 
@@ -211,39 +264,50 @@ def trim_state(state: str, profession: str, model: str, strict: bool = False) ->
             out.total_chars += sec.get("text_len", len(sec.get("text", "")))
         return out
 
-    citations, user_msg = section_input_for_llm(normal)
-    schema_cls = build_decisions_model(citations)
+    def _keep(sec: dict) -> None:
+        out.sections.append(sec)
+        out.total_chars += sec.get("text_len", len(sec.get("text", "")))
 
-    result = call_model(model, SYSTEM_PROMPT, user_msg, schema_cls)
-    if result is None:
-        if strict:
-            log.error("[%s] LLM failed and --strict set — refusing to write degraded trim", state)
-            raise TrimLLMError(f"{profession}/{state}")
-        # Keep the corpus (don't lose data) but flag it loudly: this is NOT a
-        # real trim, and preflight will refuse to extract it (see _trim_health).
-        log.error("[%s] LLM failed — writing DEGRADED keep-everything trim (trim_degraded=true)", state)
-        out.trim_degraded = True
-        for cite, sec in zip(citations, normal):
-            out.skipped.append({"citation": cite, "label": sec.get("label", ""), "reason": LLM_FAIL_REASON})
-            out.sections.append(sec)
-            out.total_chars += sec.get("text_len", len(sec.get("text", "")))
-        return out
-
-    decisions = {d.citation: d for d in result.decisions}  # type: ignore[attr-defined]
-    by_cite = {c: s for c, s in zip(citations, normal)}
-    for cite, sec in by_cite.items():
-        d = decisions.get(cite)
-        if d is None:
-            out.skipped.append({"citation": cite, "label": sec.get("label", "")})
-            # Conservative default: keep
-            out.sections.append(sec)
-            out.total_chars += sec.get("text_len", len(sec.get("text", "")))
+    n_ok = 0
+    for start in range(0, len(normal), TRIM_CHUNK):
+        chunk = normal[start:start + TRIM_CHUNK]
+        citations, user_msg = section_input_for_llm(chunk)
+        by_cite = {c: s for c, s in zip(citations, chunk)}
+        result = call_model(model, SYSTEM_PROMPT, user_msg, build_decisions_model(citations), citations)
+        if result is None:
+            if strict:
+                log.error("[%s] LLM failed and --strict set — refusing to write degraded trim", state)
+                raise TrimLLMError(f"{profession}/{state}")
+            # Keep this chunk un-trimmed. Reason is chunk-specific so a partial
+            # failure isn't mistaken for a fully-degraded (poisoned) trim; if
+            # EVERY chunk fails we normalize to LLM_FAIL_REASON below.
+            log.warning("[%s] chunk of %d sections failed — keeping un-trimmed", state, len(chunk))
+            for cite, sec in by_cite.items():
+                out.skipped.append({"citation": cite, "label": sec.get("label", ""), "reason": CHUNK_FAIL_REASON})
+                _keep(sec)
             continue
-        if d.keep:
-            out.sections.append(sec)
-            out.total_chars += sec.get("text_len", len(sec.get("text", "")))
-        else:
-            out.dropped.append({"citation": cite, "label": sec.get("label", ""), "reason": d.reason})
+        n_ok += 1
+        decisions = {d.citation: d for d in result.decisions}  # type: ignore[attr-defined]
+        for cite, sec in by_cite.items():
+            d = decisions.get(cite)
+            if d is None:
+                # Conservative default: keep. (Not a failure — the Literal
+                # guarantees any returned citation is one of ours; this only
+                # fires if the model omitted a section entirely.)
+                out.skipped.append({"citation": cite, "label": sec.get("label", "")})
+                _keep(sec)
+            elif d.keep:
+                _keep(sec)
+            else:
+                out.dropped.append({"citation": cite, "label": sec.get("label", ""), "reason": getattr(d, "reason", "")})
+
+    # Poison ONLY when NO chunk succeeded (total failure) — mirror the legacy
+    # keep-everything semantics so preflight/_trim_health still gate it.
+    if n_ok == 0:
+        log.error("[%s] every trim chunk failed — DEGRADED keep-everything (trim_degraded=true)", state)
+        out.trim_degraded = True
+        for s in out.skipped:
+            s["reason"] = LLM_FAIL_REASON
 
     log.info("[%s] kept=%d dropped=%d skipped=%d oversize_auto-kept=%d → %d chars",
              state, len(out.sections), len(out.dropped), len(out.skipped), out.oversize_kept, out.total_chars)
