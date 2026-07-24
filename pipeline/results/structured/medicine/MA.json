@@ -15,7 +15,7 @@
     "regulatory_authority": {
       "name": {
         "value": "Board of Registration in Medicine",
-        "quote": "Applications for registration as qualified physicians, signed and sworn to by the applicants, shall be made upon blanks furnished by the board of registration in medicine",
+        "quote": "board of registration in medicine, herein and in sections three to nine A, inclusive, called the board",
         "citation": "Section 2"
       },
       "type": {
@@ -24,8 +24,8 @@
         "citation": "Section 2"
       },
       "umbrella_agency": {
-        "value": "Department of Public Health",
-        "quote": "The commissioner of public health shall consult with the chair of the board of registration in medicine concerning the operations of the board.",
+        "value": "Division of Occupational Licensure",
+        "quote": "The commissioner of occupational licensure shall supervise the work of the several boards of registration and examination included in the division of occupational licensure.",
         "citation": "Section 1"
       }
     },
@@ -36,62 +36,74 @@
     },
     "moral_character_required": {
       "value": true,
-      "quote": "of good moral character",
+      "quote": "he is eighteen years of age or over and of good moral character",
       "citation": "Section 2"
     },
     "education": {
       "degree_required": {
-        "value": "Doctor of Medicine or equivalent from a legally chartered medical school",
+        "value": "Doctor of Medicine or equivalent from a legally chartered medical school in the United States, Puerto Rico, or Canada",
         "quote": "he has received the degree of doctor of medicine, or its equivalent, from a legally chartered medical school in the United States or commonwealth of Puerto Rico or Canada having the power to confer degrees in medicine",
         "citation": "Section 2"
       },
-      "accrediting_body": null,
+      "accrediting_body": {
+        "value": "Legally chartered medical school",
+        "quote": "from a legally chartered medical school in the United States or commonwealth of Puerto Rico or Canada having the power to confer degrees in medicine",
+        "citation": "Section 2"
+      },
       "degree_level": {
         "value": "doctorate",
-        "quote": "he has received the degree of doctor of medicine, or its equivalent, from a legally chartered medical school",
+        "quote": "he has received the degree of doctor of medicine, or its equivalent, from a legally chartered medical school in the United States or commonwealth of Puerto Rico or Canada having the power to confer degrees in medicine",
         "citation": "Section 2"
       },
       "school_approval_basis": {
-        "value": "unspecified",
+        "value": "board_approved",
         "quote": "from a legally chartered medical school in the United States or commonwealth of Puerto Rico or Canada having the power to confer degrees in medicine",
         "citation": "Section 2"
       },
       "credential_pegged": {
         "value": false,
-        "quote": "he has received the degree of doctor of medicine, or its equivalent, from a legally chartered medical school in the United States or commonwealth of Puerto Rico or Canada having the power to confer degrees in medicine",
+        "quote": "he has received the degree of doctor of medicine, or its equivalent, from a legally chartered medical school in the United States or commonwealth of Puerto Rico or Canada",
         "citation": "Section 2"
       },
       "tiers": null
     },
     "post_degree_experience": {
       "required": {
-        "value": false,
-        "quote": "he has attended courses of instruction for four years of not less than thirty-two school weeks in each year, or courses which in the opinion of the board are equivalent thereto, in one or more legally chartered medical schools, and that he has received the degree of doctor of medicine",
+        "value": true,
+        "quote": "has completed one year of graduate medical education in a program approved by the Liaison Committee on Graduate Medical Education of the American Medical Association",
         "citation": "Section 2"
       },
       "experience_source": {
-        "value": "none",
-        "quote": "he has attended courses of instruction for four years of not less than thirty-two school weeks in each year, or courses which in the opinion of the board are equivalent thereto, in one or more legally chartered medical schools, and that he has received the degree of doctor of medicine",
+        "value": "required_by_statute",
+        "quote": "has completed one year of graduate medical education in a program approved by the Liaison Committee on Graduate Medical Education of the American Medical Association",
         "citation": "Section 2"
       },
-      "duration": null,
-      "kind": null
+      "duration": {
+        "value": "1 year",
+        "quote": "has completed one year of graduate medical education in a program approved by the Liaison Committee on Graduate Medical Education of the American Medical Association",
+        "citation": "Section 2"
+      },
+      "kind": {
+        "value": "graduate medical education",
+        "quote": "has completed one year of graduate medical education in a program approved by the Liaison Committee on Graduate Medical Education of the American Medical Association",
+        "citation": "Section 2"
+      }
     },
     "exams": [
       {
-        "name": "Board examination",
+        "name": "Board Examination (Medical)",
         "required": true,
-        "notes": "Written, in English, covering anatomy, surgery, chemistry, biology, physics, physiology, pathology, obstetrics, gynecology, psychiatry, practice of medicine and hygiene. Applicants failing may have two reexaminations within two years.",
-        "jurisdiction": "state (in-house)",
+        "notes": "Applicant failing to pass is entitled to two reexaminations within two years; two such reexaminations exhaust privilege under original application.",
+        "jurisdiction": "state (board of registration in medicine)",
         "permitted_attempts": 3,
-        "quote": "Examinations shall be in whole or in part in writing, in English, shall be of a scientific and practical character, shall include the subjects of anatomy, surgery, chemistry, biology, physics, physiology, pathology, obstetrics, gynecology, psychiatry, practice of medicine and hygiene",
-        "citation": "Section 3"
+        "quote": "An applicant failing to pass an examination satisfactory to the board shall be entitled to two reexaminations within two years at a meeting of the board called for the examination of applicants",
+        "citation": "Section 2"
       },
       {
-        "name": "National Board of Medical Examiners certificate",
+        "name": "National Board of Medical Examiners Certificate",
         "required": false,
-        "notes": "Board may accept in lieu of its own professional examination at its discretion.",
-        "jurisdiction": "national (NBME)",
+        "notes": "May be accepted in lieu of the board's own professional examination at the board's discretion.",
+        "jurisdiction": "national (National Board of Medical Examiners of the United States)",
         "permitted_attempts": null,
         "quote": "the board may at its discretion accept the certificate of the National Board of Medical Examiners of the United States, chartered under the laws of the District of Columbia, or the certificate of the National Board of Examiners for Osteopathic Physicians and Surgeons of the American Osteopathic Association, in place of and as equivalent to its own professional examination",
         "citation": "Section 2a"
@@ -99,11 +111,20 @@
       {
         "name": "United States Medical Licensing Examination (USMLE) Steps 1, 2-CK, and 3",
         "required": false,
-        "notes": "Required for the internationally-trained physician limited license pathway (Steps 1 and 2-CK for limited license; Step 3 for restricted/full license). Not required for standard domestic graduates.",
+        "notes": "Required for internationally-trained physicians applying for limited or restricted licenses under Section 9(c).",
         "jurisdiction": "national (USMLE)",
         "permitted_attempts": null,
         "quote": "has achieved a passing score on Step 1 and Step 2–Clinical Knowledge of the Licensing Exam",
         "citation": "Section 9"
+      },
+      {
+        "name": "Standard Certificate by Educational Council for Foreign Medical Graduates (ECFMG)",
+        "required": false,
+        "notes": "Required for foreign medical graduates unless exempted by the board.",
+        "jurisdiction": "national (Educational Council for Foreign Medical Graduates)",
+        "permitted_attempts": null,
+        "quote": "shall, unless granted an exemption by the board, be required to present a Standard Certificate granted after examination by the Educational Council for Foreign Medical Graduates",
+        "citation": "Section 2"
       }
     ],
     "renewal": {
@@ -124,7 +145,7 @@
       "period_years": null,
       "topical_requirements": {
         "value": [
-          "1-time course on diagnosis, treatment and care of patients with cognitive impairments (including Alzheimer's disease and dementia), applicable to physicians who serve adult populations"
+          "1-time course on diagnosis, treatment and care of patients with cognitive impairments including Alzheimer's disease and dementia (applies to physicians serving adult populations)"
         ],
         "quote": "include the 1–time completion of a course of training and education on the diagnosis, treatment and care of patients with cognitive impairments, including, but not limited to, Alzheimer's disease and dementia; provided, however, that this course requirement shall only apply to physicians who serve adult populations",
         "citation": "Section 2"
@@ -137,7 +158,7 @@
         "citation": "Section 2"
       },
       "requirements": {
-        "value": "Board may grant registration without examination to applicants licensed in another state with equivalent standards, or who are diplomates of AMA- or AOA-recognized specialty boards. Also available to graduates of Canadian medical schools licensed by the Medical Council of Canada and a provincial authority, or those scoring 75% or better on the federation licensing examination.",
+        "value": "Board may grant registration without examination to: (1) those licensed upon written exam in another state with equivalent standards; (2) diplomates of specialty boards recognized by AMA or AOA; or those licensed by the Medical Council of Canada and a provincial authority, or licensed in Puerto Rico or Saskatchewan with 75%+ on federation licensing exam.",
         "quote": "The board may without examination grant certificates of registration as qualified physicians to such graduates of medical schools: (1) who shall furnish with their applications satisfactory proof that they have the qualifications required in the commonwealth to entitle them to be examined and have been licensed or registered upon a written examination in another state whose standards, in the opinion of the board, are equivalent to those in the commonwealth, or (2) who are diplomates of specialty boards recognized by the American Medical Association or the American Osteopathic Association",
         "citation": "Section 2"
       }
@@ -145,14 +166,14 @@
     "advisory_board": {
       "exists": {
         "value": false,
-        "quote": "Applications for registration as qualified physicians, signed and sworn to by the applicants, shall be made upon blanks furnished by the board of registration in medicine",
+        "quote": "board of registration in medicine, herein and in sections three to nine A, inclusive, called the board",
         "citation": "Section 2"
       },
       "name": null,
       "authority": null
     },
     "national_certification": {
-      "value": "National Board of Medical Examiners (NBME); National Board of Examiners for Osteopathic Physicians and Surgeons",
+      "value": "National Board of Medical Examiners (NBME); National Board of Examiners for Osteopathic Physicians and Surgeons; Educational Council for Foreign Medical Graduates (ECFMG)",
       "quote": "the board may at its discretion accept the certificate of the National Board of Medical Examiners of the United States, chartered under the laws of the District of Columbia, or the certificate of the National Board of Examiners for Osteopathic Physicians and Surgeons of the American Osteopathic Association",
       "citation": "Section 2a"
     },
@@ -168,7 +189,7 @@
     },
     "credential_type": {
       "value": "license",
-      "quote": "be registered as a qualified physician and entitled to a certificate in testimony thereof",
+      "quote": "be registered as a qualified physician and entitled to a certificate in testimony thereof, signed by the chairman and secretary",
       "citation": "Section 2"
     },
     "is_mandatory": {
@@ -178,7 +199,7 @@
     },
     "title_protection": {
       "value": true,
-      "quote": "No person may, directly or indirectly, use the title ''physician'' or display or use the term physician in any title, advertisement, listing of affiliations, communication with the public or in any other manner to indicate or imply in any way that such person offers to engage or engages in the practice of medicine … who is not registered by the board of registration in medicine as a physician under section 2.",
+      "quote": "No person may, directly or indirectly, use the title ''physician'' or display or use the term physician in any title, advertisement, listing of affiliations, communication with the public or in any other manner to indicate or imply in any way that such person offers to engage or engages in the practice of medicine or in the provision of health care services to patients within the commonwealth who is not registered by the board of registration in medicine as a physician under section 2.",
       "citation": "Section 8a"
     },
     "scope_protection": {
@@ -194,38 +215,38 @@
         "citation": "Section 5"
       },
       {
-        "short_label": "violation_of_laws_relating_to_practice",
+        "short_label": "violation_of_medical_practice_laws",
         "description": "Guilty of an offense against any provision of the laws of the commonwealth relating to the practice of medicine, or any rule or regulation adopted thereunder",
         "quote": "is guilty of an offense against any provision of the laws of the commonwealth relating to the practice of medicine, or any rule or regulation adopted thereunder",
         "citation": "Section 5"
       },
       {
         "short_label": "conduct_questioning_competence",
-        "description": "Guilty of conduct which places into question the physician's competence to practice medicine, including gross misconduct, fraudulent practice, practicing beyond authorized scope, gross incompetence, or negligence",
+        "description": "Guilty of conduct placing into question the physician's competence, including gross misconduct, fraudulent practice, practice beyond authorized scope, gross incompetence, or gross/repeated negligence",
         "quote": "is guilty of conduct which places into question the physician's competence to practice medicine, including but not limited to gross misconduct in the practice of medicine or of practicing medicine fraudulently, or beyond its authorized scope, or with gross incompetence, or with gross negligence on a particular occasion or negligence on repeated occasions",
         "citation": "Section 5"
       },
       {
-        "short_label": "impaired_practice",
-        "description": "Guilty of practicing medicine while ability to practice is impaired by alcohol, drugs, physical disability or mental instability",
+        "short_label": "practicing_while_impaired",
+        "description": "Guilty of practicing medicine while ability to practice is impaired by alcohol, drugs, physical disability, or mental instability",
         "quote": "is guilty of practicing medicine while the ability to practice is impaired by alcohol, drugs, physical disability or mental instability",
         "citation": "Section 5"
       },
       {
-        "short_label": "habitual_intoxication_or_drug_addiction",
-        "description": "Guilty of being habitually drunk or addicted to narcotics, barbiturates, amphetamines, hallucinogens, or other drugs having similar effects",
+        "short_label": "habitual_intoxication_or_drug_dependency",
+        "description": "Guilty of being habitually drunk or addicted to/dependent on narcotics, barbiturates, amphetamines, hallucinogens, or similar drugs",
         "quote": "is guilty of being habitually drunk or being or having been addicted to, dependent on, or a habitual user of narcotics, barbiturates, amphetamines, hallucinogens, or other drugs having similar effects",
         "citation": "Section 5"
       },
       {
         "short_label": "aiding_unlicensed_practice",
-        "description": "Knowingly permitting, aiding or abetting an unlicensed person to perform activities requiring a license for purposes of fraud, deception or personal gain",
+        "description": "Knowingly permitting, aiding or abetting an unlicensed person to perform activities requiring a license for fraud, deception or personal gain",
         "quote": "is guilty of knowingly permitting, aiding or abetting an unlicensed person to perform activities requiring a license for purposes of fraud, deception or personal gain",
         "citation": "Section 5"
       },
       {
         "short_label": "criminal_conviction",
-        "description": "Convicted of a criminal offense which reasonably calls into question the ability to practice medicine",
+        "description": "Convicted of a criminal offense which reasonably calls into question the physician's ability to practice medicine",
         "quote": "has been convicted of a criminal offense which reasonably calls into question his ability to practice medicine",
         "citation": "Section 5"
       },
@@ -252,11 +273,11 @@
     "citations": [
       {
         "cite": "Section 2",
-        "kind": "registration and renewal"
+        "kind": "primary licensure"
       },
       {
         "cite": "Section 2a",
-        "kind": "national board certificate in lieu of exam"
+        "kind": "exam alternatives"
       },
       {
         "cite": "Section 3",
@@ -264,15 +285,23 @@
       },
       {
         "cite": "Section 5",
-        "kind": "disciplinary"
+        "kind": "discipline"
+      },
+      {
+        "cite": "Section 5a",
+        "kind": "license restrictions"
+      },
+      {
+        "cite": "Section 5h",
+        "kind": "mental/physical examination"
       },
       {
         "cite": "Section 6",
         "kind": "unauthorized practice"
       },
       {
-        "cite": "Section 8",
-        "kind": "recording of certificate"
+        "cite": "Section 7",
+        "kind": "exemptions"
       },
       {
         "cite": "Section 8a",
@@ -281,13 +310,21 @@
       {
         "cite": "Section 9",
         "kind": "limited registration"
+      },
+      {
+        "cite": "Section 9b",
+        "kind": "temporary registration"
+      },
+      {
+        "cite": "Section 5o",
+        "kind": "telehealth"
       }
     ]
   },
   "scope": {
     "definition_quote": {
-      "value": "Examinations shall be sufficiently thorough to test the applicants' fitness to practice medicine, covering anatomy, surgery, chemistry, biology, physics, physiology, pathology, obstetrics, gynecology, psychiatry, practice of medicine and hygiene.",
-      "quote": "shall include the subjects of anatomy, surgery, chemistry, biology, physics, physiology, pathology, obstetrics, gynecology, psychiatry, practice of medicine and hygiene and shall be sufficiently thorough to test the applicants' fitness to practice medicine",
+      "value": "Examinations shall be … of a scientific and practical character, shall include the subjects of anatomy, surgery, chemistry, biology, physics, physiology, pathology, obstetrics, gynecology, psychiatry, practice of medicine and hygiene",
+      "quote": "Examinations shall be in whole or in part in writing, in English, shall be of a scientific and practical character, shall include the subjects of anatomy, surgery, chemistry, biology, physics, physiology, pathology, obstetrics, gynecology, psychiatry, practice of medicine and hygiene and shall be sufficiently thorough to test the applicants' fitness to practice medicine.",
       "citation": "Section 3"
     },
     "methods_authorized": {
@@ -295,52 +332,64 @@
         "medical",
         "surgical"
       ],
-      "quote": "The board shall make an annual report, including a statement of the condition of medicine and surgery in the commonwealth.",
-      "citation": "Section 4"
+      "quote": "is qualified and competent in the field of medicine or surgery",
+      "citation": "Section 2"
     },
-    "drug_authority": null,
+    "drug_authority": {
+      "value": "Physicians may prescribe; telehealth prescribing authorized; medical students may not prescribe or dispense narcotic drugs.",
+      "quote": "for the purpose of evaluating, diagnosing, consulting, prescribing, treating or monitoring of a patient's physical health, oral health, mental health or substance use disorder condition",
+      "citation": "Section 5o"
+    },
     "citations": [
       {
         "cite": "Section 3",
-        "kind": "scope defined by exam subjects"
+        "kind": "scope/exam subjects"
       },
       {
-        "cite": "Section 6",
-        "kind": "unauthorized practice prohibition"
+        "cite": "Section 5o",
+        "kind": "telehealth/prescribing"
       },
       {
         "cite": "Section 9a",
-        "kind": "medical student limited scope"
+        "kind": "student prescribing restriction"
       }
     ]
   },
   "profession_specific": {
     "license_status_types": {
       "value": [
-        "active",
-        "inactive"
+        "Active",
+        "Inactive",
+        "Limited Registration (intern, fellow, medical officer)",
+        "Temporary Registration",
+        "Restricted License (internationally-trained physicians, physician shortage area)",
+        "Limited License (internationally-trained physicians)"
       ],
-      "quote": "the principal setting of their practice and whether they are an active or inactive practitioner",
+      "quote": "The renewal application shall be accompanied by a fee determined under the aforementioned provision and shall include the physician's name, license number, home address, office address, specialties, the principal setting of their practice and whether they are an active or inactive practitioner.",
       "citation": "Section 2"
     },
     "foreign_medical_graduate_requirements": {
-      "value": "Foreign medical graduates must furnish documentary evidence that their education is substantially equivalent to US medical school graduates, and must present a Standard Certificate from the Educational Council for Foreign Medical Graduates (ECFMG), unless granted an exemption by the board. Special pathways exist for certain Canadian-trained physicians and those scoring 75%+ on the federation licensing examination.",
+      "value": "Foreign medical graduates must present a Standard Certificate from the Educational Council for Foreign Medical Graduates (ECFMG) unless exempted by the board, furnish documentary evidence that education is substantially equivalent to US graduates, and meet additional requirements as specified by the board. Special pathway exists for internationally-trained physicians via limited license program requiring USMLE Steps 1, 2-CK, and 3 and participation in a qualifying healthcare facility program.",
       "quote": "An applicant who has received from a medical school, legally chartered in a sovereign state other than the United States, the commonwealth of Puerto Rico or Canada, a degree of doctor of medicine or its equivalent shall be required to furnish to the board such documentary evidence as the board may require that his education is substantially the equivalent of that of graduates of medical schools in the United States and such other evidence as the board may require as to his qualifications to practice medicine, and shall, unless granted an exemption by the board, be required to present a Standard Certificate granted after examination by the Educational Council for Foreign Medical Graduates",
       "citation": "Section 2"
     },
-    "postgraduate_training_years_required": null,
+    "postgraduate_training_years_required": {
+      "value": 1,
+      "quote": "has completed one year of graduate medical education in a program approved by the Liaison Committee on Graduate Medical Education of the American Medical Association",
+      "citation": "Section 2"
+    },
     "pain_management_education_required": null,
     "opioid_prescribing_limits": null,
     "controlled_substance_database_registration_required": null,
     "pain_management_clinic_registration_required": null,
     "telehealth_prescribing_rules": {
-      "value": "A physician licensed by the board may obtain proxy credentialing and privileging for telehealth services with other health care providers or facilities complying with CMS conditions of participation. Telehealth includes synchronous or asynchronous audio, video, electronic media, or other telecommunications technology for evaluating, diagnosing, consulting, prescribing, treating or monitoring patients.",
+      "value": "Physicians licensed by the board may provide telehealth services including prescribing via synchronous or asynchronous audio, video, electronic media or telecommunications technology, and may obtain proxy credentialing and privileging for telehealth services with other health care providers or facilities complying with CMS conditions of participation.",
       "quote": "the board shall allow a physician licensed by the board to obtain proxy credentialing and privileging for telehealth services with other health care providers, as defined in section 1 of chapter 111, or facilities that comply with the federal Centers for Medicare and Medicaid Services' conditions of participation for telehealth services",
       "citation": "Section 5o"
     },
     "telemedicine_license_available": {
       "value": false,
-      "quote": "the board shall allow a physician licensed by the board to obtain proxy credentialing and privileging for telehealth services with other health care providers",
+      "quote": "the board shall allow a physician licensed by the board to obtain proxy credentialing and privileging for telehealth services",
       "citation": "Section 5o"
     },
     "interstate_medical_licensure_compact_member": null,
@@ -354,10 +403,14 @@
     },
     "hospital_privilege_action_reporting_required": {
       "value": true,
-      "quote": "a description of revocation or involuntary restriction of privileges by a hospital, clinic or nursing home under chapter 111, or of any employer who employs physicians licensed by the board for the purpose of engaging in the practice of medicine in the commonwealth, for reasons related to competence or character",
+      "quote": "a description of revocation or involuntary restriction of privileges by a hospital, clinic or nursing home under chapter 111 … for reasons related to competence or character that have been taken by the governing body or any other official of the hospital, clinic or nursing home",
       "citation": "Section 5"
     },
-    "impaired_physician_program_authorized": null,
+    "impaired_physician_program_authorized": {
+      "value": true,
+      "quote": "the board may apply to the superior court for an order compelling said physician to submit to such examination",
+      "citation": "Section 5h"
+    },
     "compelled_mental_physical_exam_authority": {
       "value": true,
       "quote": "Whenever it appears that any physician licensed in the commonwealth may be incompetent or unable to practice medicine with reasonable skill and safety because such physician's ability to practice is impaired due to mental illness or physical illness, the board may order such physician to be examined by one or more physicians and surgeons designated by the board",
@@ -370,6 +423,92 @@
       "citation": "Section 9b"
     },
     "sexual_misconduct_training_required": null,
-    "investigational_drug_protection": null
+    "investigational_drug_protection": null,
+    "scope__license_status_types": [
+      {
+        "item": "Inactive License",
+        "status": "present",
+        "quote": "whether they are an active or inactive practitioner",
+        "citation": "Section 2"
+      },
+      {
+        "item": "Retired License",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Temporary License / Permit",
+        "status": "present",
+        "quote": "Temporary registration as a qualified physician may be granted (1) to a visiting physician holding a license to practice in another state or territory or in the District of Columbia or in another country",
+        "citation": "Section 9b"
+      },
+      {
+        "item": "Restricted License",
+        "status": "present",
+        "quote": "may apply for a renewable 2–year restricted license to practice medicine only in a physician shortage area",
+        "citation": "Section 9"
+      },
+      {
+        "item": "Probationary License",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Suspended License",
+        "status": "present",
+        "quote": "revoke, suspend, or cancel the certificate of registration, or reprimand, censure, impose a fine",
+        "citation": "Section 5"
+      },
+      {
+        "item": "Revoked License",
+        "status": "present",
+        "quote": "revoke, suspend, or cancel the certificate of registration",
+        "citation": "Section 5"
+      },
+      {
+        "item": "Surrendered License",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Academic License",
+        "status": "present",
+        "quote": "he has a full time academic appointment at a legally chartered medical school in the commonwealth … the board may issue to such applicant a certificate of registration as a qualified physician. Such certificate shall be restricted to the specialty in which he holds his academic appointment and shall be valid only so long as he holds a full time academic appointment.",
+        "citation": "Section 2"
+      },
+      {
+        "item": "Volunteer / Charitable License",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Expedited / Interstate Compact License",
+        "status": "present",
+        "quote": "expedite the issuance of a license or certification to an applicant: (i) who is certified or licensed in a state other than the commonwealth; (ii) whose spouse is a member of the armed forces in the United States",
+        "citation": "Section 1b"
+      },
+      {
+        "item": "Intern / Resident Permit",
+        "status": "present",
+        "quote": "be registered by the board of registration of medicine as an intern, fellow or medical officer for such time as it may subscribe",
+        "citation": "Section 9"
+      },
+      {
+        "item": "Graduate Registered Physician License",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Locum Tenens Permit",
+        "status": "present",
+        "quote": "to a physician holding a license to practice in another state or territory or in the District of Columbia to permit him to act as a substitute physician for a registered physician in the commonwealth, to be granted only upon written request of said registered physician and to be limited to three months or less",
+        "citation": "Section 9b"
+      }
+    ]
   }
 }

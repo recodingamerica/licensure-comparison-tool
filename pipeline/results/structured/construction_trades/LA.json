@@ -52,31 +52,22 @@
     },
     "exams": [
       {
-        "name": "Trade examination (by classification)",
+        "name": "Trade examination (classification-specific)",
         "required": true,
-        "notes": "The board may waive the trade portion for applicants holding a comparable license in another state. The business law requirement shall not be waived.",
+        "notes": "Required for each classification; board may waive trade portion for applicants holding comparable license in another state. Board shall exempt from testing for residential construction license any person who holds a building construction license issued by the board.",
+        "jurisdiction": "state (in-house)",
+        "permitted_attempts": null,
+        "quote": "An applicant for licensure shall designate a qualifying party for each classification and for the Louisiana business and law requirement. The qualifying party shall meet all application requirements and shall satisfy any examination and credential requirement.",
+        "citation": "37:2156.1"
+      },
+      {
+        "name": "Louisiana Business and Law examination",
+        "required": true,
+        "notes": "The business law requirement shall not be waived even for out-of-state applicants with comparable licenses.",
         "jurisdiction": "state (in-house)",
         "permitted_attempts": null,
         "quote": "Waive the trade portion of the examination requirement for any applicant holding a license in a comparable classification in another state as determined by the board, upon written certification from the licensing state that the applicant passed the examination for the classification and is in good standing. The business law requirement shall not be waived.",
         "citation": "37:2153"
-      },
-      {
-        "name": "Louisiana business and law examination",
-        "required": true,
-        "notes": "Required for all applicants; cannot be waived.",
-        "jurisdiction": "state (in-house)",
-        "permitted_attempts": null,
-        "quote": "An applicant for licensure shall designate a qualifying party for each classification and for the Louisiana business and law requirement.",
-        "citation": "37:2156.1"
-      },
-      {
-        "name": "Residential roofing trade examination",
-        "required": true,
-        "notes": "Required for residential roofing classification on and after January 1, 2026.",
-        "jurisdiction": "state (in-house)",
-        "permitted_attempts": null,
-        "quote": "A residential roofing contractor shall pass the residential roofing trade examination and meet all other licensure requirements of a residential contractor.",
-        "citation": "37:2156.4"
       }
     ],
     "renewal": {
@@ -94,8 +85,8 @@
     "continuing_education": {
       "required": {
         "value": true,
-        "quote": "To prescribe and adopt regulations and policies for continuing education.",
-        "citation": "37:2155"
+        "quote": "An inactive licensee shall be required to fulfill all prescribed continuing education requirements established for active licensees.",
+        "citation": "37:2156.1"
       },
       "hours_per_period": null,
       "period_years": null,
@@ -108,7 +99,7 @@
         "citation": "37:2153"
       },
       "requirements": {
-        "value": "Board may waive the trade examination for applicants licensed in a comparable classification in another state who are in good standing; business law exam cannot be waived; all other licensing requirements must be met unless waived by board for good cause.",
+        "value": "The board may waive the trade portion of the examination for applicants holding a comparable license in another state, upon written certification that the applicant passed the examination and is in good standing. The business law requirement shall not be waived. Applicants must comply with all other licensing requirements; the board may waive other requirements for good cause.",
         "quote": "Waive the trade portion of the examination requirement for any applicant holding a license in a comparable classification in another state as determined by the board, upon written certification from the licensing state that the applicant passed the examination for the classification and is in good standing. The business law requirement shall not be waived. Applicants shall comply with all other licensing requirements of this state; however, for good cause, the board may waive any other licensing requirement.",
         "citation": "37:2153"
       }
@@ -125,7 +116,7 @@
         "citation": "37:2155"
       },
       "authority": {
-        "value": "Subject to the approval of the board, the residential subcommittee has power to adopt rules and regulations, issue/suspend/revoke licenses, prescribe continuing education, enforce violations, and issue fines and penalties for residential and home improvement contractors.",
+        "value": "Subject to the approval of the board, the residential subcommittee has powers to adopt rules and regulations for residential and home improvement contractors, issue/suspend/revoke licenses, prescribe continuing education regulations, enforce violations, and issue fines.",
         "quote": "Subject to the approval of the board, the residential subcommittee has all of the following powers and duties: (1) To adopt rules and regulations to govern residential and home improvement contractors in this state. (2) To issue, suspend, or revoke licenses to do business in this state",
         "citation": "37:2155"
       }
@@ -149,7 +140,7 @@
     },
     "title_protection": {
       "value": true,
-      "quote": "It shall be unlawful for any contractor, licensed or unlicensed to publish, transmit, distribute, or otherwise publicly circulate a misleading or false claim related to a person's license or classification in any medium",
+      "quote": "It shall be unlawful for any contractor, licensed or unlicensed to publish, transmit, distribute, or otherwise publicly circulate a misleading or false claim related to a person's license or classification in any medium, including but not limited to digital platforms.",
       "citation": "37:2163"
     },
     "scope_protection": {
@@ -159,26 +150,26 @@
     },
     "disciplinary_grounds": [
       {
-        "short_label": "contracting_without_license_or_proper_classification",
-        "description": "Undertaking, bidding, or performing construction work without a required license or without the proper classification.",
-        "quote": "Undertaking, attempting to, or submitting a price or bid; offering to construct, supervise, superintend, oversee, direct, or in any manner assume charge of the construction, alteration, repair, improvement, movement, demolition, putting up, tearing down; furnishing labor or furnishing labor together with material or equipment; or installing material or equipment for any building, highway, road, railroad, sewer grading, excavation, pipeline, public utility structure, project development, housing, or housing development, improvement, or any other construction undertaking without possessing a license for which a license is required or without possessing a license with the proper classification.",
+        "short_label": "contracting_without_license",
+        "description": "Undertaking or performing construction work without possessing a required license or without the proper classification.",
+        "quote": "Undertaking, attempting to, or submitting a price or bid; offering to construct, supervise, superintend, oversee, direct, or in any manner assume charge of the construction...without possessing a license for which a license is required or without possessing a license with the proper classification.",
         "citation": "37:2158"
       },
       {
-        "short_label": "false_or_misleading_claim_about_license_status",
-        "description": "Publishing, transmitting, or distributing misleading or false claims related to a person's license status or classification.",
+        "short_label": "false_claims_about_license_status",
+        "description": "Publishing or distributing a misleading or false claim related to a person's license status or classification.",
         "quote": "Publishing, transmitting, distributing, or otherwise publicly circulating a misleading or false claim related to a person's license status or classification in any medium, including but not limited to digital platforms.",
         "citation": "37:2158"
       },
       {
-        "short_label": "dishonest_or_fraudulent_act_as_contractor",
-        "description": "Any dishonest or fraudulent act as a contractor that has caused damage to another, as adjudged by a court.",
+        "short_label": "dishonest_or_fraudulent_act",
+        "description": "Any dishonest or fraudulent act as a contractor causing damage to another, as adjudged by a court.",
         "quote": "Any dishonest or fraudulent act as a contractor which has caused damage to another, as adjudged by a court of competent jurisdiction.",
         "citation": "37:2158"
       },
       {
-        "short_label": "bidding_without_classification_for_majority_of_work",
-        "description": "Bidding on, quoting, or performing a job without holding the classification for the majority of work performed.",
+        "short_label": "performing_work_outside_classification",
+        "description": "Bidding or performing a job for which the licensee does not hold the proper classification.",
         "quote": "Bidding on, quoting, estimating, or performing a job for which a license is required, the licensee shall hold the classification for the majority of work performed.",
         "citation": "37:2158"
       },
@@ -189,8 +180,8 @@
         "citation": "37:2158"
       },
       {
-        "short_label": "failure_to_comply_with_chapter_or_regulations",
-        "description": "Failure to comply with the provisions of this Chapter or the board's rules and regulations.",
+        "short_label": "failure_to_comply_with_chapter",
+        "description": "Failure to comply with the provisions of the Chapter or the rules and regulations promulgated thereunder.",
         "quote": "Failure to comply with the provisions of this Chapter or the rules and regulations promulgated pursuant thereto.",
         "citation": "37:2158"
       },
@@ -201,8 +192,8 @@
         "citation": "37:2158"
       },
       {
-        "short_label": "permitting_or_misusing_license",
-        "description": "Permitting a license to be used by another person or fraudulent use of a license by a person other than the licensee.",
+        "short_label": "improper_use_of_license",
+        "description": "Permitting a license to be used by any person other than the licensee, or fraudulent use of a license.",
         "quote": "Permitting a license to be used for any purpose by any person other than the person to whom the license is issued.",
         "citation": "37:2158"
       },
@@ -213,80 +204,74 @@
         "citation": "37:2158"
       },
       {
-        "short_label": "failure_to_continue_fulfilling_licensure_requirements",
+        "short_label": "failure_to_fulfill_licensure_requirements",
         "description": "Failure to continue to fulfill any of the requirements for licensure.",
         "quote": "Failure to continue to fulfill any of the requirements for licensure.",
         "citation": "37:2158"
       },
       {
-        "short_label": "problems_with_ability_to_engage_in_contracting",
-        "description": "Problems relating to the ability of the contractor, its qualifying party, or any of its principals to engage in the business of contracting.",
-        "quote": "Problems relating to the ability of the contractor, its qualifying party, or any of its principals to engage in the business of contracting.",
-        "citation": "37:2158"
-      },
-      {
-        "short_label": "disqualification_or_debarment_by_public_entity",
+        "short_label": "disqualification_or_debarment",
         "description": "Disqualification or debarment by any public entity.",
         "quote": "Disqualification or debarment by any public entity.",
         "citation": "37:2158"
       },
       {
-        "short_label": "failure_to_notify_board_of_changes",
-        "description": "Failure to provide written notification to the board of changes to application information or of criminal/civil/administrative actions within 30 days.",
+        "short_label": "failure_to_report_changes",
+        "description": "Failure to provide written notification to the board of changes to application information or pending actions within thirty days.",
         "quote": "Failure to provide written notification to the board of any change to the information provided in the original application and any amendments thereto within thirty calendar days.",
         "citation": "37:2158"
       },
       {
-        "short_label": "assisting_circumvention_of_chapter",
-        "description": "Assisting a person to circumvent the provisions of this Chapter.",
+        "short_label": "assisting_circumvention",
+        "description": "Assisting a person to circumvent the provisions of the Chapter.",
         "quote": "Assisting a person to circumvent the provisions of this Chapter.",
         "citation": "37:2158"
       },
       {
-        "short_label": "failure_to_provide_written_license_and_insurance_info",
-        "description": "Failure of a residential/home improvement/mold remediation contractor to provide license number, classification, and insurance certificates in writing when requested.",
-        "quote": "Failure of a contractor performing residential construction, home improvement, or mold remediation in accordance with this Chapter to provide, in writing to the party with whom he has contracted to perform services, his name, license number, classification, and current insurance certificates evidencing the amount of liability insurance maintained and proof of workers' compensation coverage when requested by the contracting party for whom the work is to be performed.",
+        "short_label": "failure_to_provide_written_contract_info",
+        "description": "Failure of a residential/home improvement/mold remediation contractor to provide in writing their name, license number, classification, and insurance certificates.",
+        "quote": "Failure of a contractor performing residential construction, home improvement, or mold remediation in accordance with this Chapter to provide, in writing to the party with whom he has contracted to perform services, his name, license number, classification, and current insurance certificates evidencing the amount of liability insurance maintained and proof of workers' compensation coverage when requested",
         "citation": "37:2158"
       },
       {
-        "short_label": "abandoning_or_deviating_from_contract",
-        "description": "Abandoning or failing to perform a contract without justification, or deviating from plans or specifications without consent.",
+        "short_label": "abandonment_or_failure_to_perform",
+        "description": "Abandoning or failing to perform without justification any contract, or deviating from plans or specifications without consent.",
         "quote": "Abandoning or failing to perform, without justification, any contract or project engaged in or undertaken by any licensee or deviating from or disregarding plans or specifications in any material respect without the consent of the owner and the design professional.",
         "citation": "37:2158"
       },
       {
-        "short_label": "efforts_to_deceive_or_defraud_public",
+        "short_label": "deceiving_or_defrauding_the_public",
         "description": "Efforts to deceive or defraud the public.",
         "quote": "Efforts to deceive or defraud the public.",
         "citation": "37:2158"
       },
       {
-        "short_label": "failure_to_obtain_required_permit",
+        "short_label": "failure_to_obtain_permit",
         "description": "Failure to obtain a required permit or beginning work prior to permit issuance, or misrepresenting the value or scope of work.",
         "quote": "Failure to obtain a permit to perform work or beginning work prior to the issuance of a permit in the jurisdiction as required or misrepresenting the value or scope of work.",
         "citation": "37:2158"
       },
       {
-        "short_label": "failure_to_obtain_required_inspections",
+        "short_label": "failure_to_obtain_inspections",
         "description": "Failure to obtain inspections as required by law.",
         "quote": "Failure to obtain inspections as required by law.",
         "citation": "37:2158"
       },
       {
-        "short_label": "failure_to_have_written_signed_contract",
+        "short_label": "failure_to_have_written_contract",
         "description": "Failure to have a written contract signed and dated by all parties.",
         "quote": "Failure to have a written contract signed and dated by all parties.",
         "citation": "37:2158"
       },
       {
-        "short_label": "failure_to_bid_contract_perform_in_licensed_name",
-        "description": "Failure to bid, contract, or perform work in the name as it appears on the current license or registration and the official records of the board.",
+        "short_label": "failure_to_bid_in_licensed_name",
+        "description": "Failure to bid, contract, or perform work in the name as it appears on the current license or registration.",
         "quote": "Failure to bid, contract, or perform work in the name as it appears on the current license or registration and the official records of the board.",
         "citation": "37:2158"
       },
       {
         "short_label": "failure_to_maintain_and_provide_records",
-        "description": "Failure to maintain and provide to the board requested records, documents, and other information within five business days of receipt of request.",
+        "description": "Failure to maintain and provide to the board requested records, documents, and other information within five business days.",
         "quote": "Failure to maintain and provide to the board requested records, documents, and other information as required within five business days of receipt of request.",
         "citation": "37:2158"
       }
@@ -294,7 +279,7 @@
     "alternative_regulation": {
       "bonding_required": {
         "value": true,
-        "quote": "Any person required to be licensed by the board that bids a project requiring a bid bond, the posting of a bid bond for the project, or certificates of insurance evidencing mandated coverage and fails to provide such valid bonds or coverage when due shall be subject to all provisions for violations and penalties thereof.",
+        "quote": "Upon being awarded a bid, the person required to be licensed shall maintain the required insurance coverage or bonding as required in the bid proposal.",
         "citation": "37:2165"
       },
       "insurance_required": {
@@ -302,7 +287,11 @@
         "quote": "Residential construction and its subclassifications, mold remediation, and home improvement applicants shall be required to submit certificates evidencing workers' compensation coverage in compliance with Title 23 of the Louisiana Revised Statutes of 1950, and liability insurance in a minimum amount of one hundred thousand dollars",
         "citation": "37:2156.1"
       },
-      "establishment_regulation_required": null
+      "establishment_regulation_required": {
+        "value": true,
+        "quote": "A local building department shall not issue a building permit to any person who does not hold an active license in the appropriate classification for the scope of work for which the permit is issued.",
+        "citation": "37:2160"
+      }
     },
     "citations": [
       {
@@ -311,35 +300,35 @@
       },
       {
         "cite": "37:2151",
-        "kind": "board_membership"
+        "kind": "board membership"
       },
       {
         "cite": "37:2153",
-        "kind": "board_powers"
+        "kind": "board powers"
       },
       {
         "cite": "37:2155",
-        "kind": "residential_subcommittee"
+        "kind": "residential subcommittee"
       },
       {
         "cite": "37:2156",
-        "kind": "licenses_fees_renewals"
+        "kind": "applications, fees, renewals"
       },
       {
         "cite": "37:2156.1",
-        "kind": "licensure_requirements"
+        "kind": "licensure requirements"
       },
       {
         "cite": "37:2156.2",
-        "kind": "recordkeeping_reporting"
+        "kind": "record keeping"
       },
       {
         "cite": "37:2156.3",
-        "kind": "solar_energy"
+        "kind": "solar energy"
       },
       {
         "cite": "37:2156.4",
-        "kind": "residential_roofing"
+        "kind": "residential roofing"
       },
       {
         "cite": "37:2157",
@@ -347,43 +336,43 @@
       },
       {
         "cite": "37:2158",
-        "kind": "revocation_suspension_violations"
+        "kind": "revocation and disciplinary grounds"
       },
       {
         "cite": "37:2159",
-        "kind": "written_contract_requirements"
+        "kind": "written contract"
       },
       {
         "cite": "37:2159.1",
-        "kind": "prohibited_acts"
+        "kind": "prohibited acts"
       },
       {
         "cite": "37:2160",
-        "kind": "local_regulatory_authority"
+        "kind": "local regulatory authority"
       },
       {
         "cite": "37:2161",
-        "kind": "construction_management"
+        "kind": "construction management"
       },
       {
         "cite": "37:2162",
-        "kind": "joint_venture"
+        "kind": "joint venture"
       },
       {
         "cite": "37:2163",
-        "kind": "unlicensed_contracting_prohibited"
+        "kind": "unlicensed contracting prohibited"
       },
       {
         "cite": "37:2164",
-        "kind": "civil_penalties"
+        "kind": "civil penalty"
       },
       {
         "cite": "37:2165",
-        "kind": "bid_procedures"
+        "kind": "bid procedures"
       },
       {
         "cite": "37:2166",
-        "kind": "construction_code_council"
+        "kind": "construction code council"
       }
     ]
   },
@@ -418,23 +407,27 @@
       },
       {
         "cite": "37:2156.1",
-        "kind": "major_classifications"
-      },
-      {
-        "cite": "37:2157",
-        "kind": "exemptions"
+        "kind": "license classifications"
       }
     ]
   },
   "profession_specific": {
-    "registration_number_required_in_ads": null,
+    "registration_number_required_in_ads": {
+      "value": true,
+      "quote": "All architects, engineers, and awarding authorities shall place in their bid specifications the requirement that a contractor shall certify that he holds an active license in accordance with the provisions of this Chapter by displaying his license number on the bid envelope.",
+      "citation": "37:2165"
+    },
     "insurance_personal_injury_minimum_usd": {
       "value": 100000,
       "quote": "liability insurance in a minimum amount of one hundred thousand dollars or liability protection provided by a liability trust fund as authorized by R.S. 22:46(9)(d) in a minimum amount of one hundred thousand dollars.",
       "citation": "37:2156.1"
     },
     "insurance_property_damage_minimum_usd": null,
-    "self_insurance_permitted": null,
+    "self_insurance_permitted": {
+      "value": true,
+      "quote": "liability insurance in a minimum amount of one hundred thousand dollars or liability protection provided by a liability trust fund as authorized by R.S. 22:46(9)(d) in a minimum amount of one hundred thousand dollars.",
+      "citation": "37:2156.1"
+    },
     "contract_must_be_written": {
       "value": true,
       "quote": "Every agreement to perform contracting services that requires licensure or registration as defined by this Chapter shall include all of the following documents and information",
@@ -480,8 +473,88 @@
     },
     "out_of_state_disciplinary_action_reporting_required": {
       "value": true,
-      "quote": "Failure to provide written notification to the board of a criminal, civil, or administrative action instituted or pending in another jurisdiction against or involving the licensee or a principal of the licensee within thirty days.",
-      "citation": "37:2158"
-    }
+      "quote": "Any criminal, civil, or administrative actions instituted or pending in any jurisdiction against or involving the licensee or any principal of the licensee.",
+      "citation": "37:2156.2"
+    },
+    "scope__voidable_contract_clauses": [
+      {
+        "item": "Liability limitation clause (limiting contractor liability to cost of inspection report or contract price)",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Indemnification / hold-harmless clause favoring the promisee's sole negligence",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Confession of judgment clause",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Waiver of consumer cancellation rights clause",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Waiver of consumer rights (general statutory rights) clause",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Blank spaces clause (material terms left blank for later completion)",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Assignment of insurance proceeds clause (without owner consent / in violation of statutory requirements)",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Clause authorizing unlawful entry or breach of peace for repossession",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Lien disclosure notice omission (failure to include required lien disclosure)",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Disclaimer or limitation of implied warranty clause",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Clause entered into by unlicensed contractor (contract with unlicensed contractor)",
+        "status": "present",
+        "quote": "No contractor who fails to obtain a license as provided for in this Chapter shall be entitled to file a statement of claim or a statement of lien or privilege with respect to monetary sums allegedly owed under any contract, whether express, implied, or otherwise, when any provision of this Chapter requires that the contractor possess a license in order to have properly entered into such a contract.",
+        "citation": "37:2159"
+      },
+      {
+        "item": "Clause requiring compliance waiver from applicable building codes or zoning regulations",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Distributed energy contract clause failing to meet statutory disclosure or terms requirements",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      }
+    ]
   }
 }

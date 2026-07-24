@@ -20,7 +20,7 @@
       },
       "type": {
         "value": "shared_board",
-        "quote": "The board shall consist of 10 members, as follows: (a) The state fire marshal or his or her representative. (b) Nine members, who are residents of this state and appointed by the governor, including each of the following: (i) One member who is a representative of an insurance inspection bureau that operates in this state. (ii) One member who is a representative of an electrical energy supply agency that operates in this state. (iii) One member who is an electrical contractor that operates in this state. (iv) One member who is a master electrician who serves as a supervisor. (v) One member who is an electrical journeyman.",
+        "quote": "The board shall consist of 10 members, as follows: The state fire marshal or his or her representative. Nine members, who are residents of this state and appointed by the governor, including each of the following: One member who is a representative of an insurance inspection bureau that operates in this state. One member who is a representative of an electrical energy supply agency that operates in this state. One member who is an electrical contractor that operates in this state. One member who is a master electrician who serves as a supervisor. One member who is an electrical journeyman.",
         "citation": "339.5705"
       },
       "umbrella_agency": {
@@ -74,8 +74,8 @@
       {
         "name": "Master Electrician Examination",
         "required": true,
-        "notes": "Applicant ineligible to retake after failing twice within 2 years until 1 year has passed and a board-approved code/theory course is completed.",
-        "jurisdiction": null,
+        "notes": "Applicant ineligible to sit again after failing 2 times within 2 years until 1 year has passed and proof of approved course completion is provided.",
+        "jurisdiction": "state (administered by department/board)",
         "permitted_attempts": 2,
         "quote": "If he or she fails to pass the master electrician examination 2 times within a period of 2 years, an applicant is ineligible to sit for another examination for at least 1 year from the date of failure of the second examination.",
         "citation": "339.5713"
@@ -83,11 +83,20 @@
       {
         "name": "Electrical Journeyman Examination",
         "required": true,
-        "notes": "Applicant ineligible to retake after failing twice within 2 years until 1 year has passed and a board-approved code/theory course is completed.",
-        "jurisdiction": null,
+        "notes": "Applicant ineligible to sit again after failing 2 times within 2 years until 1 year has passed and proof of approved course completion is provided.",
+        "jurisdiction": "state (administered by department/board)",
         "permitted_attempts": 2,
         "quote": "If an applicant fails to pass the electrical journeyman examination 2 times within a period of 2 years, the applicant is ineligible to sit for another examination until a period of at least 1 year after the date of failure of the second examination.",
         "citation": "339.5715"
+      },
+      {
+        "name": "Electrical Contractor Examination",
+        "required": true,
+        "notes": "Examination fee is $100.",
+        "jurisdiction": "state (administered by department/board)",
+        "permitted_attempts": null,
+        "quote": "The examination fee for licensure of any of the following is $100.00: ... Electrical contractor.",
+        "citation": "339.5707"
       }
     ],
     "renewal": {
@@ -99,7 +108,7 @@
     },
     "renewal_fee_usd": {
       "value": 50,
-      "quote": "Master electrician $ 50.00.",
+      "quote": "Master electrician $50.00.",
       "citation": "339.5707"
     },
     "continuing_education": {
@@ -112,9 +121,9 @@
       "period_years": null,
       "topical_requirements": {
         "value": [
-          "update or change in the state construction code"
+          "state construction code updates or changes"
         ],
-        "quote": "must demonstrate the successful completion of a course, approved by the board, concerning any update or change in the state construction code within 12 months after the update or change in that code",
+        "quote": "the master electrician must demonstrate the successful completion of a course, approved by the board, concerning any update or change in the state construction code",
         "citation": "339.5713"
       }
     },
@@ -125,8 +134,8 @@
         "citation": "339.5731"
       },
       "requirements": {
-        "value": "License without examination available for sign specialty licensure for out-of-state licensees where standards meet or exceed Michigan's. For other electrician classes, temporary license available to out-of-state license holders in good standing. Military members/veterans/dependents may obtain licensure without examination if requirements of other state substantially equivalent.",
-        "quote": "Notwithstanding any other provisions of this article and after a proper application is submitted and the appropriate fees paid, the board and department shall issue a license without examination to an individual seeking sign specialty licensure if he or she is licensed, registered, or otherwise regulated in another state and the board determines that the standards in the other state meet or exceed the standards imposed in this article.",
+        "value": "For sign specialty licensure, applicant must be licensed/registered in another state with equivalent or higher standards; board issues license without examination. For armed forces members/veterans/dependents, licensure without examination available if other state requirements substantially equivalent. Temporary licenses available to out-of-state licensees in good standing.",
+        "quote": "the board and department shall issue a license without examination to an individual seeking sign specialty licensure if he or she is licensed, registered, or otherwise regulated in another state and the board determines that the standards in the other state meet or exceed the standards imposed in this article.",
         "citation": "339.5731"
       }
     },
@@ -143,18 +152,18 @@
     "national_association": null,
     "regulatory_model": {
       "value": "license",
-      "quote": "A person shall not engage in or attempt to engage in the practice of an occupation regulated under this act or use a title designated in this act unless the person possesses a license issued by the department for the occupation.",
-      "citation": "339.5601"
-    },
-    "credential_type": {
-      "value": "license",
       "quote": "only an individual who is licensed under this article shall install electrical wiring",
       "citation": "339.5731"
     },
+    "credential_type": {
+      "value": "license",
+      "quote": "The department shall issue an electrical journeyman's license to any individual who is at least 20 years old, meets the requirements described in article 2, and meets either of the following",
+      "citation": "339.5715"
+    },
     "is_mandatory": {
       "value": true,
-      "quote": "A person shall not engage in or attempt to engage in the practice of an occupation regulated under this act or use a title designated in this act unless the person possesses a license issued by the department for the occupation.",
-      "citation": "339.5601"
+      "quote": "only an individual who is licensed under this article shall install electrical wiring",
+      "citation": "339.5731"
     },
     "title_protection": {
       "value": true,
@@ -210,7 +219,7 @@
         "citation": "339.5607"
       },
       {
-        "short_label": "violation_of_act_or_rules",
+        "short_label": "other_violation_of_act",
         "description": "Violates any other provision of this act or a rule promulgated under this act for which a penalty is not otherwise prescribed",
         "quote": "Violates any other provision of this act or a rule promulgated under this act for which a penalty is not otherwise prescribed.",
         "citation": "339.5607"
@@ -229,7 +238,7 @@
       },
       {
         "short_label": "violation_of_final_order",
-        "description": "Violates or fails to comply with a final order issued by a board",
+        "description": "Violates or fails to comply with a final order issued by a board, including a stipulation, settlement agreement, or a citation",
         "quote": "Violates or fails to comply with a final order issued by a board, including a stipulation, settlement agreement, or a citation.",
         "citation": "339.5607"
       },
@@ -251,18 +260,6 @@
     },
     "citations": [
       {
-        "cite": "339.5601",
-        "kind": "scope and title protection, penalties"
-      },
-      {
-        "cite": "339.5603",
-        "kind": "disciplinary penalties"
-      },
-      {
-        "cite": "339.5607",
-        "kind": "disciplinary grounds"
-      },
-      {
         "cite": "339.5701",
         "kind": "definitions"
       },
@@ -272,7 +269,7 @@
       },
       {
         "cite": "339.5705",
-        "kind": "electrical administrative board"
+        "kind": "board"
       },
       {
         "cite": "339.5707",
@@ -284,23 +281,35 @@
       },
       {
         "cite": "339.5711",
-        "kind": "electrical contractor license requirements"
+        "kind": "electrical contractor license"
       },
       {
         "cite": "339.5713",
-        "kind": "master electrician license requirements"
+        "kind": "master electrician license"
       },
       {
         "cite": "339.5715",
-        "kind": "electrical journeyman license requirements"
+        "kind": "journeyman license"
       },
       {
         "cite": "339.5717",
-        "kind": "apprentice electrician registration"
+        "kind": "apprentice registration"
+      },
+      {
+        "cite": "339.5725",
+        "kind": "specialty license"
+      },
+      {
+        "cite": "339.5727",
+        "kind": "sign specialty contractor"
+      },
+      {
+        "cite": "339.5729",
+        "kind": "sign specialist"
       },
       {
         "cite": "339.5731",
-        "kind": "license required; scope protection"
+        "kind": "scope and license required"
       },
       {
         "cite": "339.5733",
@@ -308,21 +317,28 @@
       },
       {
         "cite": "339.5737",
-        "kind": "electrical contracting license; exemptions"
+        "kind": "exemptions and scope"
+      },
+      {
+        "cite": "339.5601",
+        "kind": "scope protection and penalties"
+      },
+      {
+        "cite": "339.5607",
+        "kind": "disciplinary grounds"
       }
     ]
   },
   "scope": {
     "definition_quote": {
-      "value": "\"Electrical wiring\" means all wiring, generating equipment, fixtures, appliances, devices, and appurtenances in connection with the generation, distribution, and utilization of electrical energy, in or on a building, residence, structure, or properties, regardless of whether or not the electrical wiring is energized at the time of installation.",
+      "value": "Electrical wiring means all wiring, generating equipment, fixtures, appliances, devices, and appurtenances in connection with the generation, distribution, and utilization of electrical energy, in or on a building, residence, structure, or properties, regardless of whether or not the electrical wiring is energized at the time of installation.",
       "quote": "\"Electrical wiring\" means all wiring, generating equipment, fixtures, appliances, devices, and appurtenances in connection with the generation, distribution, and utilization of electrical energy, in or on a building, residence, structure, or properties, regardless of whether or not the electrical wiring is energized at the time of installation.",
       "citation": "339.5701"
     },
     "methods_authorized": {
       "value": [
-        "erecting",
-        "installing",
-        "altering",
+        "installation",
+        "alteration",
         "repairing",
         "servicing",
         "maintaining electrical wiring"
@@ -334,52 +350,56 @@
     "citations": [
       {
         "cite": "339.5701",
-        "kind": "definition of electrical wiring and contractor"
+        "kind": "definitions"
       },
       {
         "cite": "339.5731",
-        "kind": "installation requirement"
+        "kind": "license required"
       },
       {
         "cite": "339.5737",
-        "kind": "scope exclusions"
+        "kind": "exemptions"
       }
     ]
   },
   "profession_specific": {
     "license_tiers": {
       "value": [
-        "apprentice electrician (registration)",
-        "electrical journeyman",
-        "master electrician",
-        "electrical contractor"
+        "Apprentice Electrician",
+        "Electrical Journeyman",
+        "Master Electrician",
+        "Electrical Contractor",
+        "Fire Alarm Specialty Apprentice Technician",
+        "Fire Alarm Specialty Technician",
+        "Fire Alarm Contractor",
+        "Sign Specialist",
+        "Sign Specialty Contractor"
       ],
-      "quote": "\"Apprentice electrician\" means an individual ... \"Electrical journeyman\" means an individual ... \"Master electrician\" means an individual ... \"Electrical contractor\" means a person that is engaged in the business of erecting, installing, altering, repairing, servicing, or maintaining electrical wiring.",
-      "citation": "339.5701",
-      "unverified": true
+      "quote": "\"Apprentice electrician\" means an individual other than an electrical contractor, master electrician, or electrical journeyman, who is engaged in learning about and assisting in the installation or alteration of electrical wiring and equipment under the direct personal supervision of an electrical journeyman or master electrician.",
+      "citation": "339.5701"
     },
     "residential_project_definition": null,
     "residential_wiring_method_restriction": null,
     "voltage_limit_residential": null,
     "scope_exclusions": {
       "value": [
-        "Minor repair work (electrical wiring valued at $100 or less)",
-        "Elevators, dumbwaiters, escalators, or man lifts under elevator inspection permit",
-        "Electrical equipment installed by electrical energy supply or communication agency for its own use",
-        "Generation and primary distribution wiring owned by electric light and power utility",
-        "Manufacture, testing, and repair of electric equipment",
-        "Telephone/telegraph company communication system equipment and wiring",
-        "Homeowner installation in single family home owned and occupied by that individual",
-        "Motion picture and theatrical equipment (no permanent wiring)",
-        "Control wiring by licensed mechanical or plumbing contractors on existing mechanical systems",
-        "Water well pump wiring on single family dwelling by registered pump installer",
-        "Security alarm system installation, maintenance, or servicing",
-        "Listed residential and commercial lawn irrigation equipment (except permanent wired connections exceeding 30 volts)",
-        "Listed landscape lighting systems and equipment (except permanent wired connections exceeding 30 volts)",
-        "Electric sign work by unlicensed individuals under licensed sign specialist supervision (max 2:1 ratio)",
-        "Telecommunications equipment and related systems by telecom industry persons (excluding fire alarm systems)"
+        "Minor repair work (electrical wiring with value of $100 or less)",
+        "Installation, alteration, repairing, rebuilding, or remodeling of elevators, dumbwaiters, escalators, or man lifts under state or municipal elevator inspection permit",
+        "Installation, alteration, or repair of electrical equipment and associated wiring by or for electrical energy supply or communication agency for generation, transmission, distribution, or metering",
+        "Installation, alteration, or repair of electrical wiring for generation and primary distribution of electric current or secondary distribution up to meters by electric light and power utility",
+        "Manufacture of electric equipment, including testing and repairing of manufactured equipment",
+        "Installation, alteration, or repair of equipment and wiring for communication systems owned by telephone or telegraph company",
+        "Installation, alteration, or repair of electrical equipment by homeowner in single family home and outbuildings owned and occupied by that individual",
+        "Motion picture and theatrical equipment maintenance and use in approved facilities (not permanent wiring)",
+        "Mechanical and plumbing contractor control wiring and electrical component work in existing mechanical systems on load side of unit disconnect",
+        "Water well pump electrical wiring on single family dwelling to first point of attachment by registered pump installer",
+        "Installation, maintenance, or servicing of security alarm systems",
+        "Installation, maintenance, or servicing of listed residential and commercial lawn irrigation equipment (except permanent wired connections exceeding 30 volts)",
+        "Installation, maintenance, or servicing of listed landscape lighting systems and equipment (except permanent wired connections exceeding 30 volts)",
+        "Installation, alteration, maintenance, or repair of electric signs and related wiring by unlicensed individual under direct supervision of licensed sign specialist (ratio max 2:1)",
+        "Construction, installation, maintenance, repair, and renovation of telecommunications equipment by persons primarily in telecommunications industry (except fire alarm systems)"
       ],
-      "quote": "A licensee is not required to perform any of the following classes of work: (a) Minor repair work. (b) The installation, alteration, repairing, rebuilding, or remodeling of elevators...(o) The construction, installation, maintenance, repair, and renovation of telecommunications equipment and related systems by a person that is primarily engaged in the telecommunications and related information systems industry.",
+      "quote": "A licensee is not required to perform any of the following classes of work: (a) Minor repair work. (b) The installation, alteration, repairing, rebuilding, or remodeling of elevators, dumbwaiters, escalators, or man lifts performed under a permit issued by an elevator inspection agency",
       "citation": "339.5737"
     },
     "minor_electrical_work_amperage_limit": null,
@@ -399,11 +419,11 @@
     },
     "qualifier_license_requirement_by_contractor_type": {
       "value": [
-        "Electrical contractor: qualifier must hold master electrician's license",
-        "Fire alarm contractor: qualifier must hold fire alarm specialty technician's license",
-        "Sign specialty contractor: qualifier must hold sign specialist's license"
+        "Electrical Contractor: qualifier must be a master electrician (individual licensee) or have at least 1 full-time master electrician employee actively in charge",
+        "Fire Alarm Contractor: qualifier must be a fire alarm specialty technician (individual licensee) or have at least 1 full-time fire alarm specialty technician employee actively in charge",
+        "Sign Specialty Contractor: qualifier must be a sign specialist (individual licensee) or have at least 1 full-time sign specialist employee actively in charge"
       ],
-      "quote": "The department shall issue an electrical contractor's license to a person that meets the requirements described in article 2 and either of the following: (a) Is an individual who holds a master electrician's license. (b) Has at least 1 full-time employee who is a master electrician",
+      "quote": "The department shall issue an electrical contractor's license to a person that meets the requirements described in article 2 and either of the following: (a) Is an individual who holds a master electrician's license. (b) Has at least 1 full-time employee who is a master electrician, resides in this state, and is actively in charge of and responsible for Michigan electrical code compliance",
       "citation": "339.5711"
     },
     "qualifier_replacement_notice_days": null,
@@ -416,12 +436,12 @@
     },
     "journeyman_electrician_experience_alternative_years": {
       "value": 4,
-      "quote": "Has at least 8,000 hours of experience obtained over a period of at least 4 years related to electrical construction or maintenance of buildings or electrical wiring or equipment under the direct supervision of an individual who is licensed under this article.",
+      "quote": "Has at least 8,000 hours of experience obtained over a period of at least 4 years",
       "citation": "339.5715"
     },
     "master_electrician_journeyman_experience_years": {
-      "value": 6,
-      "quote": "Has at least 12,000 hours of experience that was obtained over a period of 6 years or more, is related to electrical construction, the maintenance of buildings, or electrical wiring or equipment, and was performed under the supervision of a master electrician.",
+      "value": 2,
+      "quote": "Has held an electrical journeyman's license for at least 2 years.",
       "citation": "339.5713"
     },
     "master_electrician_engineering_degree_pathway": null,
@@ -434,9 +454,16 @@
       "citation": "339.5203"
     },
     "electrician_continuing_education_hours": null,
-    "approved_continuing_education_providers": null,
+    "approved_continuing_education_providers": {
+      "value": [
+        "board-approved courses on Michigan electrical code, electrical fundamentals, or electrical theory",
+        "board-approved courses on state construction code updates"
+      ],
+      "quote": "he or she presents to the board proof of the successful completion of a course on Michigan electrical code, electrical fundamentals, or electrical theory approved by the board.",
+      "citation": "339.5713"
+    },
     "national_electrical_code_reference": {
-      "value": true,
+      "value": false,
       "quote": "\"Michigan electrical code\" means part 8 of the state construction code, R 408.30801 to R 408.30873 of the Michigan Administrative Code.",
       "citation": "339.5107"
     },
@@ -459,6 +486,434 @@
       "value": true,
       "quote": "Provides evidence of public liability insurance coverage.",
       "citation": "339.5727"
-    }
+    },
+    "scope__license_tiers": [
+      {
+        "item": "Apprentice Electrician",
+        "status": "present",
+        "quote": "\"Apprentice electrician\" means an individual other than an electrical contractor, master electrician, or electrical journeyman, who is engaged in learning about and assisting in the installation or alteration of electrical wiring and equipment under the direct personal supervision of an electrical journeyman or master electrician.",
+        "citation": "339.5701"
+      },
+      {
+        "item": "Journeyman Electrician",
+        "status": "present",
+        "quote": "\"Electrical journeyman\" means an individual other than an electrical contractor who, as his or her principal occupation, is engaged in the practical installation or alteration of electrical wiring.",
+        "citation": "339.5701"
+      },
+      {
+        "item": "Master Electrician",
+        "status": "present",
+        "quote": "\"Master electrician\" means an individual who has the necessary qualifications, training, experience, and technical knowledge to supervise the installation of electrical wiring and equipment in accordance with the standard rules and regulations governing that work.",
+        "citation": "339.5703"
+      },
+      {
+        "item": "Residential Journeyman Electrician",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Residential Master Electrician",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Residential Wireman",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Electrical Contractor",
+        "status": "present",
+        "quote": "\"Electrical contractor\" means a person that is engaged in the business of erecting, installing, altering, repairing, servicing, or maintaining electrical wiring.",
+        "citation": "339.5701"
+      },
+      {
+        "item": "Provisional Electrical Contractor",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Electrical Administrator",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Industrial Maintenance Electrician",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Air Conditioning Electrician",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Specialist Sign Electrician",
+        "status": "present",
+        "quote": "\"Sign specialist\" means an individual who, as his or her principal occupation, is engaged in the installation, alteration, or repair of electric signs.",
+        "citation": "339.5703"
+      }
+    ],
+    "scope__scope_exclusions": [
+      {
+        "item": "Electric utility generation, transmission, and distribution work",
+        "status": "present",
+        "quote": "The installation, alteration, or repair of electrical wiring for the generation and primary distribution of electric current, or the secondary distribution system up to and including the meters, if that work is an integral part of the system owned and operated by an electric light and power utility in rendering its duly authorized service.",
+        "citation": "339.5737"
+      },
+      {
+        "item": "Telephone, signal, and communications system work by utility employees",
+        "status": "present",
+        "quote": "The installation, alteration, or repair of equipment and its associated wiring for the generation or distribution of electric energy for the operation of signals or transmission of intelligence if that work is performed in connection with a communication system owned or operated by a telephone or telegraph company in rendering its authorized service as a telephone or telegraph company.",
+        "citation": "339.5737"
+      },
+      {
+        "item": "Low-voltage signaling, fire alarm, and intrusion alarm systems",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Manufacture and repair of electrical apparatus or equipment",
+        "status": "present",
+        "quote": "Any work involved in the manufacture of electric equipment, including the testing and repairing of that manufactured equipment.",
+        "citation": "339.5737"
+      },
+      {
+        "item": "Homeowner electrical work on owner-occupied residential property",
+        "status": "present",
+        "quote": "Any installation, alteration, or repair of electrical equipment by a homeowner in a single family home and accompanying outbuildings owned and occupied or to be occupied by the individual who is performing the installation, alteration, or repair of electrical equipment.",
+        "citation": "339.5737"
+      },
+      {
+        "item": "Television and radio broadcasting system operation, maintenance, and installation",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Elevator control system installation, maintenance, and repair",
+        "status": "present",
+        "quote": "The installation, alteration, repairing, rebuilding, or remodeling of elevators, dumbwaiters, escalators, or man lifts performed under a permit issued by an elevator inspection agency of this state or a municipality of this state.",
+        "citation": "339.5737"
+      },
+      {
+        "item": "Diesel electric engine maintenance and repair on heavy construction equipment",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Water well submersible pump motor and wiring installation",
+        "status": "present",
+        "quote": "Electrical wiring associated with the installation, removal, alteration, or repair of a water well pump on a single family dwelling to the first point of attachment in the house from the well, by a pump installer registered under part 127 of the public health code",
+        "citation": "339.5737"
+      },
+      {
+        "item": "In-house electrical maintenance and repair by employees of commercial property owner or tenant",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "CATV and cable television technician work",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Direct broadcast satellite and satellite antenna system installation",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Appliance sales, installation, and repair by retail merchants or utility employees",
+        "status": "present",
+        "quote": "The installation, alteration, or repair of electrical equipment and its associated wiring installed on the premises of consumers or subscribers by or for an electrical energy supply or communication agency for use by that agency in the generation, transmission, distribution, or metering of electrical energy or for the operation of signals or transmission of intelligence.",
+        "citation": "339.5737"
+      },
+      {
+        "item": "Industrial facility electrical work (manufacturing, processing, and related facilities)",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Nonresidential farm building electrical work",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "HVACR licensee running line voltage wiring to HVAC equipment",
+        "status": "present",
+        "quote": "Work performed by a person that is licensed as a mechanical contractor in a classification described in section 807(2)(a), (b), (d), (e), and (f)...while performing maintenance, service, repair, replacement, alteration, modification, reconstruction, or upgrading of control wiring circuits and electrical component parts in existing mechanical systems",
+        "citation": "339.5737"
+      },
+      {
+        "item": "Alarm system installation, maintenance, and servicing by licensed alarm company",
+        "status": "present",
+        "quote": "The installation, maintenance, or servicing of security alarm systems in a building or structure.",
+        "citation": "339.5737"
+      },
+      {
+        "item": "Work by employees receiving wages as sole compensation (not in independent business)",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Petroleum and gas well drilling and operation",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Work by government officers, agencies, or authorized representatives",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Minor or casual work below a monetary threshold",
+        "status": "present",
+        "quote": "\"Minor repair work\" means electrical wiring that has a value of $100.00 or less.",
+        "citation": "339.5703"
+      },
+      {
+        "item": "Modular and manufactured housing construction",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Licensed architect or engineer acting within professional capacity",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Work on personal property (not affixed to structure)",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Irrigation, drainage, and agricultural district construction and maintenance",
+        "status": "present",
+        "quote": "The installation, maintenance, or servicing of listed residential and commercial lawn irrigation equipment, except any permanent wired connections exceeding 30 volts.",
+        "citation": "339.5737"
+      },
+      {
+        "item": "Material supplier or manufacturer furnishing materials without installation",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Subsurface utility location and designation services",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Condominium, apartment, or cooperative unit owner or management agent repair and maintenance",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Gas, propane, and fuel gas equipment connection work",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Mural and public art installation by licensed artists",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      }
+    ],
+    "scope__qualifier_license_requirement_by_contractor_type": [
+      {
+        "item": "Master Electrician",
+        "status": "authorized",
+        "quote": "Is an individual who holds a master electrician's license. (b) Has at least 1 full-time employee who is a master electrician, resides in this state, and is actively in charge of and responsible for Michigan electrical code compliance",
+        "citation": "339.5711"
+      },
+      {
+        "item": "Journeyman Electrician",
+        "status": "not_addressed",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Residential Master Electrician",
+        "status": "not_addressed",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Residential Journeyman Electrician",
+        "status": "not_addressed",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Electrical Administrator",
+        "status": "not_addressed",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Electrical Apprentice",
+        "status": "not_addressed",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Industrial Maintenance Electrician",
+        "status": "not_addressed",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Air Conditioning Electrician",
+        "status": "not_addressed",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Specialist Sign Electrician",
+        "status": "authorized",
+        "quote": "Is an individual who holds a sign specialist's license. (ii) Has at least 1 full-time employee who is a sign specialist, resides in this state, and is actively in charge of and responsible for Michigan electrical code compliance of all installations, maintenance, connection, and repair of electric signs and related wiring.",
+        "citation": "339.5727"
+      },
+      {
+        "item": "Qualifying Party",
+        "status": "not_addressed",
+        "quote": "",
+        "citation": ""
+      }
+    ],
+    "scope__approved_continuing_education_providers": [
+      {
+        "item": "National Electrical Contractors Association (NECA)",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Associated Builders and Contractors (ABC)",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Associated General Contractors (AGC)",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Accredited College or University",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Community College",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Electrical Trade School",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Kentucky Community and Technical College System",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "University of Hawaii Community College",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "State Board of the Technical College System of Georgia",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Public Utility (as continuing education provider)",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Equipment Manufacturer (as continuing education provider)",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "US Office of Apprenticeship (Department of Labor)",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Florida Building Commission",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Vocational School",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Board-Approved Continuing Education Provider",
+        "status": "present",
+        "quote": "the master electrician must demonstrate the successful completion of a course, approved by the board, concerning any update or change in the state construction code",
+        "citation": "339.5713"
+      },
+      {
+        "item": "Registered Apprenticeship Program",
+        "status": "present",
+        "quote": "the board shall approve any bona fide apprenticeship training program that complies with subsection (3) and, excluding any requirements related to jobsite ratios that are inconsistent with subsection (3), is equivalent to or exceeds the requirements of those imposed by the Office of Apprenticeship in the United States Department of Labor.",
+        "citation": "339.5717"
+      },
+      {
+        "item": "Career Education and Workforce Development Board",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "State Electrical Apprenticeship Committee",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      }
+    ]
   }
 }

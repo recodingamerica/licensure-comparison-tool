@@ -29,25 +29,13 @@
     "moral_character_required": null,
     "education": {
       "degree_required": {
-        "value": "Registered by the Commission on Dietetic Registration",
+        "value": "Registered by the commission on dietetic registration",
         "quote": "An applicant for licensure as a licensed nutritionist shall file a written application with the board and demonstrate to the board that the person is registered by the commission.",
         "citation": "37-25-302"
       },
-      "accrediting_body": {
-        "value": "Commission on Dietetic Registration",
-        "quote": "\"Commission\" means the commission on dietetic registration, which is a member of the national commission for health certifying agencies.",
-        "citation": "37-25-102"
-      },
-      "degree_level": {
-        "value": "bachelor",
-        "quote": "a person who has satisfactorily completed a baccalaureate and master's or a doctoral degree in the field of dietetics, food and nutrition, or public health nutrition conferred by an accredited college or university.",
-        "citation": "37-25-102"
-      },
-      "school_approval_basis": {
-        "value": "unspecified",
-        "quote": "accredited through the council on postsecondary accreditation and the U.S. department of education.",
-        "citation": "37-25-102"
-      },
+      "accrediting_body": null,
+      "degree_level": null,
+      "school_approval_basis": null,
       "credential_pegged": {
         "value": true,
         "quote": "demonstrate to the board that the person is registered by the commission.",
@@ -75,7 +63,18 @@
     },
     "renewal_fee_usd": null,
     "continuing_education": null,
-    "reciprocity": null,
+    "reciprocity": {
+      "available": {
+        "value": true,
+        "quote": "the board shall issue a license to practice without examination to a person licensed in another state if the board determines that the other state's license standards at the time of application to this state are substantially equivalent to or greater than the standards in this state",
+        "citation": "37-1-304"
+      },
+      "requirements": {
+        "value": "Out-of-state licensees must have standards substantially equivalent to or greater than Montana's standards; no reason to deny under Montana law.",
+        "quote": "the other state's license standards at the time of application to this state are substantially equivalent to or greater than the standards in this state",
+        "citation": "37-1-304"
+      }
+    },
     "advisory_board": {
       "exists": {
         "value": false,
@@ -98,8 +97,8 @@
     },
     "credential_type": {
       "value": "license",
-      "quote": "\"Licensed nutritionist\" means a nutritionist licensed under this chapter.",
-      "citation": "37-25-102"
+      "quote": "An applicant for licensure as a licensed nutritionist shall file a written application with the board",
+      "citation": "37-25-302"
     },
     "is_mandatory": {
       "value": true,
@@ -119,30 +118,34 @@
     "disciplinary_grounds": [
       {
         "short_label": "fraud_in_obtaining_license",
-        "description": "Obtained a license by means of fraud, misrepresentation, or concealment of material facts.",
+        "description": "Obtained a license by fraud, misrepresentation, or concealment of material facts",
         "quote": "obtained a license by means of fraud, misrepresentation, or concealment of material facts",
         "citation": "37-25-308"
       },
       {
         "short_label": "unprofessional_conduct_or_gross_incompetence",
-        "description": "Engaged in unprofessional conduct or gross incompetence as defined by board rule.",
+        "description": "Engaged in unprofessional conduct or gross incompetence as defined by board rule",
         "quote": "engaged in unprofessional conduct or gross incompetence as defined by rule of the board",
         "citation": "37-25-308"
       },
       {
-        "short_label": "conviction_of_moral_turpitude_or_felony",
-        "description": "Been convicted of a crime of moral turpitude or a felony related to the practice of dietetics-nutrition.",
+        "short_label": "criminal_conviction",
+        "description": "Convicted of a crime of moral turpitude or a felony related to dietetics-nutrition practice",
         "quote": "been convicted of a crime of moral turpitude or a felony related to the practice of dietetics-nutrition",
         "citation": "37-25-308"
       },
       {
         "short_label": "violation_of_board_order_or_rule",
-        "description": "Violated an order or rule of the board.",
+        "description": "Violated an order or rule of the board",
         "quote": "violated an order or rule of the board",
         "citation": "37-25-308"
       }
     ],
-    "alternative_regulation": null,
+    "alternative_regulation": {
+      "bonding_required": null,
+      "insurance_required": null,
+      "establishment_regulation_required": null
+    },
     "citations": [
       {
         "cite": "37-25-102",
@@ -150,7 +153,7 @@
       },
       {
         "cite": "37-25-201",
-        "kind": "board powers and duties"
+        "kind": "powers and duties"
       },
       {
         "cite": "37-25-301",
@@ -184,9 +187,9 @@
       "value": [
         "assessing the nutrition needs of individuals and groups",
         "establishing priorities and objectives that meet nutritive needs",
-        "providing nutrition counseling for any individual",
+        "providing nutrition counseling",
         "developing, implementing, and managing nutrition care systems",
-        "evaluating, adjusting, and maintaining appropriate standards of quality in food and nutrition services"
+        "evaluating, adjusting, and maintaining standards in food and nutrition services"
       ],
       "quote": "Only a nutritionist can provide the following services: (1) assessing the nutrition needs of individuals and groups and determining resources and constraints in the practice setting; (2) establishing priorities and objectives that meet nutritive needs and are consistent with available resources and constraints; (3) providing nutrition counseling for any individual; (4) developing, implementing, and managing nutrition care systems; and (5) evaluating, adjusting, and maintaining appropriate standards of quality in food and nutrition services.",
       "citation": "37-25-301"
@@ -206,7 +209,7 @@
   "profession_specific": {
     "license_type_structure": {
       "value": [
-        "licensed nutritionist"
+        "Licensed Nutritionist"
       ],
       "quote": "\"Licensed nutritionist\" means a nutritionist licensed under this chapter.",
       "citation": "37-25-102"
@@ -224,27 +227,32 @@
     "medical_nutrition_therapy_authorized": null,
     "enteral_parenteral_nutrition_authorized": {
       "value": true,
-      "quote": "to recommend appropriate nutritional intake, including both enteral and parenteral nutrition.",
+      "quote": "\"Nutrition assessment\" means the evaluation of nutritional needs of individuals and groups based on appropriate biochemical, anthropometric, physical, and dietary data in order to determine nutrient needs and to recommend appropriate nutritional intake, including both enteral and parenteral nutrition.",
       "citation": "37-25-102"
     },
     "diet_order_writing_authority": null,
     "lab_test_ordering_authority": null,
     "physician_referral_required": null,
     "diagnosis_treatment_prohibition": null,
-    "telehealth_practice_authorized": null,
+    "telehealth_practice_authorized": {
+      "value": true,
+      "quote": "A person licensed under this title to provide health care in the ordinary course of business or practice of a profession may provide services by means of telehealth when the use of telehealth: (a) is appropriate for the services being provided; (b) meets the standard of care for delivery of services",
+      "citation": "37-2-305"
+    },
     "supervision_ratio_limit": null,
     "direct_supervision_defined": null,
     "exempt_professions_list": {
       "value": [
-        "student or intern in an approved academic program",
-        "paraprofessional with approved dietetic-nutrition training",
-        "licensed physician",
-        "licensed nurse",
-        "person licensed under any other law",
-        "educator or adviser employed by a nonprofit agency or accredited institution",
-        "person employed by or under contract with a state or federal government agency"
+        "Student or intern in approved academic program (under licensed nutritionist supervision)",
+        "Licensed physician",
+        "Licensed nurse",
+        "Person licensed under any other law (in their licensed profession)",
+        "Educator or adviser employed by nonprofit agency or accredited institution",
+        "Person employed by or under contract with state or federal government (official duty)",
+        "Person furnishing general nutritional information including dietary supplement information",
+        "Person fulfilling state or federal regulations for nutritional health services to hospitals or long-term care facilities"
       ],
-      "quote": "This chapter does not prevent: (1) a student or intern in an approved academic program or a paraprofessional with approved dietetic-nutrition training ... (2) a licensed physician or nurse ... (3) a person licensed under any other law ... (4) an educator or adviser employed by a nonprofit agency acceptable to the board or by an accredited degree-granting institution ... (5) a person employed by or under contract with an agency of the state or federal government",
+      "quote": "This chapter does not prevent: (1) a student or intern in an approved academic program or a paraprofessional with approved dietetic-nutrition training ... (2) a licensed physician or nurse ... (3) a person licensed under any other law ... (4) an educator or adviser employed by a nonprofit agency ... (5) a person employed by or under contract with an agency of the state or federal government ... (6) a person from furnishing general nutritional information ... (7) a person from furnishing general nutrition information ... (8) a person from fulfilling state or federal regulations governing the delivery or provision of nutritional health services to hospitals or long-term care facilities",
       "citation": "37-25-304"
     },
     "federal_employee_exemption": {
@@ -278,6 +286,392 @@
     },
     "hospital_order_authority_requires_policy": null,
     "inactive_license_status_available": null,
-    "ethics_code_violation_grounds_for_discipline": null
+    "ethics_code_violation_grounds_for_discipline": null,
+    "scope__license_type_structure": [
+      {
+        "item": "Licensed Dietitian",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Licensed Nutritionist",
+        "status": "present",
+        "quote": "\"Licensed nutritionist\" means a nutritionist licensed under this chapter.",
+        "citation": "37-25-102"
+      },
+      {
+        "item": "Licensed Dietitian/Nutritionist",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Temporarily Licensed Dietitian/Nutritionist",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Provisionally Licensed Dietitian",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Registered Dietitian",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Registered Dietitian Nutritionist",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Certified Dietitian",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Certified Nutritionist",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Certified Dietitian-Nutritionist",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Dietitian/Nutritionist",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Dietitian",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Nutritionist",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Dietetic Technician",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Dietetic Technician, Registered",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Qualified Nutrition Professional",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      }
+    ],
+    "scope__alternative_credential_pathways": [
+      {
+        "item": "Registered Dietitian (RD) / Registered Dietitian Nutritionist (RDN) — Commission on Dietetic Registration",
+        "status": "present",
+        "quote": "demonstrate to the board that the person is registered by the commission.",
+        "citation": "37-25-302"
+      },
+      {
+        "item": "Diplomate of the American Board of Nutrition (ABN)",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Certified Nutrition Specialist (CNS) — Board for Certification of Nutrition Specialists",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Diplomate of the American Clinical Board of Nutrition (DACBN)",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Certified Clinical Nutritionist (CCN) — Clinical Nutrition Certification Board",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "American Institute of Nutrition (AIN) membership",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "American Society for Clinical Nutrition (ASCN) membership",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Diet Technician, Registered (DTR) — Commission on Dietetic Registration",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      }
+    ],
+    "scope__exempt_professions_list": [
+      {
+        "item": "Physician",
+        "status": "present",
+        "quote": "a licensed physician or nurse from engaging in the practice of dietetics-nutrition when it is incidental to the practice of that profession",
+        "citation": "37-25-304"
+      },
+      {
+        "item": "Osteopathic physician",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Nurse",
+        "status": "present",
+        "quote": "a licensed physician or nurse from engaging in the practice of dietetics-nutrition when it is incidental to the practice of that profession",
+        "citation": "37-25-304"
+      },
+      {
+        "item": "Pharmacist",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Dentist",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Dental hygienist",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Chiropractor",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Physical therapist",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Physician assistant",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Dietetic technician",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Dietary manager",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Dietetic aide",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Cooperative extension home economist",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Federal government employee (dietitian or nutritionist role)",
+        "status": "present",
+        "quote": "a person employed by or under contract with an agency of the state or federal government from discharging an official duty if the person does not represent to the public that the person is a nutritionist",
+        "citation": "37-25-304"
+      },
+      {
+        "item": "Armed forces / military dietitian or nutritionist",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Dietetics student",
+        "status": "present",
+        "quote": "a student or intern in an approved academic program or a paraprofessional with approved dietetic-nutrition training from engaging in the practice of dietetics-nutrition if a licensed nutritionist is available for direct supervision",
+        "citation": "37-25-304"
+      },
+      {
+        "item": "Animal nutritionist",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Food product marketer or distributor",
+        "status": "present",
+        "quote": "a person from furnishing general nutritional information, including dissemination of literature, as to the use of food, food materials, or dietary supplements or from engaging in the explanation as to the use of foods or food products, including dietary supplements, in connection with the marketing and distribution of those products",
+        "citation": "37-25-304"
+      },
+      {
+        "item": "Weight control program provider",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Hospital or long-term care facility employee (dietetic department)",
+        "status": "present",
+        "quote": "a person from fulfilling state or federal regulations governing the delivery or provision of nutritional health services to hospitals or long-term care facilities if the person does not represent to the public that the person is a nutritionist",
+        "citation": "37-25-304"
+      },
+      {
+        "item": "Religious denomination member or employee (spiritual/prayer healing)",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Nonresident / out-of-state dietitian (temporary or incidental practice)",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Person supervised by or employed under a licensed dietitian (general category)",
+        "status": "present",
+        "quote": "a student or intern in an approved academic program or a paraprofessional with approved dietetic-nutrition training from engaging in the practice of dietetics-nutrition if a licensed nutritionist is available for direct supervision",
+        "citation": "37-25-304"
+      },
+      {
+        "item": "Person with doctoral degree in human nutrition or related field",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "General nutrition information provider (non-fee, non-counseling)",
+        "status": "present",
+        "quote": "a person from furnishing general nutrition information or disseminating literature if the person does not represent to the public that the person is a dietitian or a nutritionist",
+        "citation": "37-25-304"
+      },
+      {
+        "item": "Any person licensed under another state act (general licensed professional exemption)",
+        "status": "present",
+        "quote": "a person licensed under any other law from engaging in the profession or business for which the person is licensed if the person does not represent to the public that the person is a nutritionist",
+        "citation": "37-25-304"
+      }
+    ],
+    "scope__protected_titles": [
+      {
+        "item": "Dietitian",
+        "status": "present",
+        "quote": "a person from furnishing general nutrition information or disseminating literature if the person does not represent to the public that the person is a dietitian or a nutritionist",
+        "citation": "37-25-304"
+      },
+      {
+        "item": "Licensed Dietitian",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Licensed Dietitian Nutritionist",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Licensed Nutritionist",
+        "status": "present",
+        "quote": "A person may not represent to the public by any title, sign, or advertisement or description of services that the person is a nutritionist or a licensed nutritionist unless the person has been licensed under this chapter",
+        "citation": "37-25-305"
+      },
+      {
+        "item": "Nutritionist",
+        "status": "present",
+        "quote": "A person may not represent to the public by any title, sign, or advertisement or description of services that the person is a nutritionist or a licensed nutritionist unless the person has been licensed under this chapter",
+        "citation": "37-25-305"
+      },
+      {
+        "item": "Dietitian/Nutritionist",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Registered Dietitian",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Registered Dietitian Nutritionist",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Certified Dietitian",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Provisionally Licensed Dietitian",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Temporarily Licensed Dietitian/Nutritionist",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Certified Nutrition Specialist",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Dietetic Technician",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      }
+    ]
   }
 }

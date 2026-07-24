@@ -51,8 +51,20 @@
       }
     },
     "renewal_fee_usd": null,
-    "continuing_education": null,
-    "reciprocity": null,
+    "continuing_education": {
+      "required": {
+        "value": false,
+        "quote": "Each construction contractor shall register with the department.",
+        "citation": "39-9-201"
+      },
+      "hours_per_period": null,
+      "period_years": null,
+      "topical_requirements": null
+    },
+    "reciprocity": {
+      "available": null,
+      "requirements": null
+    },
     "advisory_board": {
       "exists": {
         "value": false,
@@ -86,62 +98,66 @@
     },
     "scope_protection": {
       "value": true,
-      "quote": "It is a violation of this chapter and an infraction for any construction contractor to: (a) perform work as a construction contractor without being registered as required by this chapter",
+      "quote": "perform work as a construction contractor without being registered as required by this chapter",
       "citation": "39-9-401"
     },
     "disciplinary_grounds": [
       {
         "short_label": "working_without_registration",
-        "description": "Performing work as a construction contractor without being registered.",
+        "description": "Performing work as a construction contractor without being registered as required.",
         "quote": "perform work as a construction contractor without being registered as required by this chapter",
         "citation": "39-9-401"
       },
       {
         "short_label": "working_while_suspended",
-        "description": "Performing work as a construction contractor when registration is suspended.",
+        "description": "Performing work as a construction contractor when the registration is suspended.",
         "quote": "perform work as a construction contractor when the construction contractor's registration is suspended",
         "citation": "39-9-401"
       },
       {
-        "short_label": "transferring_registration",
-        "description": "Transferring a valid registration to or allowing an unregistered contractor to work under another's registration.",
+        "short_label": "transfer_of_registration",
+        "description": "Transferring a valid registration to an unregistered contractor or allowing an unregistered contractor to work under a registration issued to another.",
         "quote": "transfer a valid registration to an unregistered construction contractor or allow an unregistered construction contractor to work under a registration issued to another construction contractor",
         "citation": "39-9-401"
       },
       {
-        "short_label": "falsified_registration_number",
-        "description": "Using a falsified registration number in connection with solicitation or identification.",
+        "short_label": "using_false_registration_number",
+        "description": "Using a falsified registration number in connection with a solicitation or identification.",
         "quote": "Use of a falsified registration number in connection with a solicitation or identification as a construction contractor or a home inspector is prohibited.",
         "citation": "39-9-301"
       },
       {
         "short_label": "operating_under_unregistered_name",
-        "description": "Engaging in business as a construction contractor under a name not registered under the chapter.",
+        "description": "Engaging in the business or acting as a construction contractor under a name not registered under this chapter.",
         "quote": "a person who has registered under one name as provided in this chapter may not engage in the business or act in the capacity of a construction contractor or a home inspector under any other name unless that name also is registered under this chapter",
         "citation": "39-9-301"
       },
       {
         "short_label": "hiring_unexempted_independent_contractor",
-        "description": "Hiring a person as an independent contractor who does not have a required independent contractor exemption certificate.",
+        "description": "Hiring a person as an independent contractor who does not have an independent contractor exemption certificate if required.",
         "quote": "hire a person as an independent contractor who does not have an independent contractor exemption certificate if required by 39-71-417",
         "citation": "39-9-301"
       },
       {
-        "short_label": "hiring_contractor_with_revoked_exemption",
-        "description": "Hiring a person as an independent contractor when their exemption certificate has been suspended, revoked, or denied.",
+        "short_label": "hiring_suspended_exempt_contractor",
+        "description": "Hiring a person as an independent contractor whose exemption certificate has been suspended, revoked, or denied.",
         "quote": "hire a person as an independent contractor if the department has suspended, revoked, or denied the person's independent contractor's exemption certificate",
         "citation": "39-9-301"
       },
       {
         "short_label": "misclassifying_employee_as_independent_contractor",
-        "description": "Classifying an employee as an independent contractor without a required exemption certificate.",
+        "description": "Classifying an employee as an independent contractor if the person does not have an independent contractor exemption certificate.",
         "quote": "classify an employee as an independent contractor if the person does not have an independent contractor exemption certificate required by 39-71-417",
         "citation": "39-9-301"
       }
     ],
     "alternative_regulation": {
       "bonding_required": null,
-      "insurance_required": null,
+      "insurance_required": {
+        "value": true,
+        "quote": "proof of compliance with workers' compensation laws",
+        "citation": "39-9-201"
+      },
       "establishment_regulation_required": null
     },
     "citations": [
@@ -151,11 +167,15 @@
       },
       {
         "cite": "39-9-201",
-        "kind": "registration_required"
+        "kind": "registration required"
       },
       {
         "cite": "39-9-204",
-        "kind": "certificate_duration"
+        "kind": "certificate of registration"
+      },
+      {
+        "cite": "39-9-205",
+        "kind": "partnership registration"
       },
       {
         "cite": "39-9-211",
@@ -163,11 +183,11 @@
       },
       {
         "cite": "39-9-301",
-        "kind": "business_practices"
+        "kind": "business practices"
       },
       {
         "cite": "39-9-401",
-        "kind": "violations_penalties"
+        "kind": "violation and penalty"
       }
     ]
   },
@@ -187,12 +207,9 @@
         "improve",
         "move",
         "wreck",
-        "demolish",
-        "install carpeting or floor covering",
-        "erect scaffolding",
-        "install or repair roofing or siding"
+        "demolish"
       ],
-      "quote": "offers to undertake, undertakes, or submits a bid to construct, alter, repair, add to, subtract from, improve, move, wreck, or demolish for another a building, highway, road, railroad, excavation, or other structure, project, development, or improvement attached to real estate, including the installation of carpeting or other floor covering, the erection of scaffolding or other structures or works, or the installation or repair of roofing or siding",
+      "quote": "offers to undertake, undertakes, or submits a bid to construct, alter, repair, add to, subtract from, improve, move, wreck, or demolish for another a building, highway, road, railroad, excavation, or other structure, project, development, or improvement attached to real estate",
       "citation": "39-9-102"
     },
     "drug_authority": null,
@@ -204,7 +221,11 @@
     ]
   },
   "profession_specific": {
-    "registration_number_required_in_ads": null,
+    "registration_number_required_in_ads": {
+      "value": true,
+      "quote": "Use of a falsified registration number in connection with a solicitation or identification as a construction contractor or a home inspector is prohibited.",
+      "citation": "39-9-301"
+    },
     "insurance_personal_injury_minimum_usd": null,
     "insurance_property_damage_minimum_usd": null,
     "self_insurance_permitted": null,
@@ -218,7 +239,7 @@
     "minimum_annual_revenue_threshold_usd": null,
     "minimum_project_value_usd": {
       "value": 2500,
-      "quote": "to work or operation on one undertaking or project considered of a casual, minor, or inconsequential nature, by one or more contracts, the aggregate contract price of which, for labor and materials and all other items, is less than $2,500 a job",
+      "quote": "work or operation on one undertaking or project considered of a casual, minor, or inconsequential nature, by one or more contracts, the aggregate contract price of which, for labor and materials and all other items, is less than $2,500 a job",
       "citation": "39-9-211"
     },
     "fraud_offense_defined": null,
@@ -235,6 +256,86 @@
       "quote": "The certificate is valid for 2 years.",
       "citation": "39-9-204"
     },
-    "out_of_state_disciplinary_action_reporting_required": null
+    "out_of_state_disciplinary_action_reporting_required": null,
+    "scope__voidable_contract_clauses": [
+      {
+        "item": "Liability limitation clause (limiting contractor liability to cost of inspection report or contract price)",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Indemnification / hold-harmless clause favoring the promisee's sole negligence",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Confession of judgment clause",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Waiver of consumer cancellation rights clause",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Waiver of consumer rights (general statutory rights) clause",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Blank spaces clause (material terms left blank for later completion)",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Assignment of insurance proceeds clause (without owner consent / in violation of statutory requirements)",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Clause authorizing unlawful entry or breach of peace for repossession",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Lien disclosure notice omission (failure to include required lien disclosure)",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Disclaimer or limitation of implied warranty clause",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Clause entered into by unlicensed contractor (contract with unlicensed contractor)",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Clause requiring compliance waiver from applicable building codes or zoning regulations",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Distributed energy contract clause failing to meet statutory disclosure or terms requirements",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      }
+    ]
   }
 }

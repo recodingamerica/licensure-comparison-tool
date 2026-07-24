@@ -4,7 +4,7 @@
   "licensure": {
     "license_required": {
       "value": true,
-      "quote": "No person shall: (i) Engage in the practice of nursing or nurse assisting as defined in this act without a valid, current license, certificate or temporary permit, except as otherwise permitted under this act or the Nurse Licensure Compact or the Advanced Practice Registered Nurse Compact",
+      "quote": "No person shall: (i) Engage in the practice of nursing or nurse assisting as defined in this act without a valid, current license, certificate or temporary permit",
       "citation": "33-21-145"
     },
     "issuing_authority": {
@@ -33,15 +33,19 @@
     },
     "education": {
       "degree_required": {
-        "value": "graduate of a state board approved nursing or nursing assistant education program recognized by the board which prepares the applicant for the level of licensure or certification being sought",
+        "value": "Graduate of a state board approved nursing or nursing assistant education program recognized by the board which prepares the applicant for the level of licensure or certification being sought",
         "quote": "Be a graduate of a state board approved nursing or nursing assistant education program recognized by the board which prepares the applicant for the level of licensure or certification being sought",
         "citation": "33-21-127"
       },
-      "accrediting_body": null,
-      "degree_level": {
-        "value": "associate",
-        "quote": "Be a graduate of a state board approved nursing or nursing assistant education program recognized by the board which prepares the applicant for the level of licensure or certification being sought",
+      "accrediting_body": {
+        "value": "Wyoming State Board of Nursing (board-approved programs)",
+        "quote": "Be a graduate of a state board approved nursing or nursing assistant education program recognized by the board",
         "citation": "33-21-127"
+      },
+      "degree_level": {
+        "value": "master",
+        "quote": "Has a doctorate or master's degree in nursing, or an advanced practice registered nurse specialty or has completed an accredited advanced practice registered nurse educational program prior to January 1, 1999",
+        "citation": "33-21-120"
       },
       "school_approval_basis": {
         "value": "board_approved",
@@ -55,15 +59,15 @@
       },
       "tiers": [
         {
-          "license_class": "advanced practice registered nurse",
+          "license_class": "Advanced Practice Registered Nurse (APRN)",
           "degree_level": "master",
           "effective_date": null,
           "quote": "Has a doctorate or master's degree in nursing, or an advanced practice registered nurse specialty or has completed an accredited advanced practice registered nurse educational program prior to January 1, 1999",
           "citation": "33-21-120"
         },
         {
-          "license_class": "registered nurse / licensed practical nurse",
-          "degree_level": "associate",
+          "license_class": "Registered Nurse (RN) / Licensed Practical Nurse (LPN)",
+          "degree_level": "none",
           "effective_date": null,
           "quote": "Be a graduate of a state board approved nursing or nursing assistant education program recognized by the board which prepares the applicant for the level of licensure or certification being sought",
           "citation": "33-21-127"
@@ -88,29 +92,11 @@
       {
         "name": "NCLEX-RN or NCLEX-PN",
         "required": true,
-        "notes": "The compact requires passing NCLEX-RN or NCLEX-PN; state law requires passing a board-approved national nursing licensure examination.",
-        "jurisdiction": "national (NCLEX)",
-        "permitted_attempts": null,
-        "quote": "Has successfully passed the NCLEX-RN or NCLEX-PN Examination or recognized predecessor, as applicable",
-        "citation": "33-21-202"
-      },
-      {
-        "name": "National nursing licensure or certification examination",
-        "required": true,
-        "notes": "Board may limit number of reexaminations after initial failure by rule.",
+        "notes": "Board-approved national nursing licensure examination; also referenced in Nurse Licensure Compact as NCLEX-RN or NCLEX-PN Examination",
         "jurisdiction": "national",
         "permitted_attempts": null,
         "quote": "Pass a board approved national nursing licensure or certification examination",
         "citation": "33-21-127"
-      },
-      {
-        "name": "National certification examination (APRN)",
-        "required": true,
-        "notes": "Required for APRN licensure in same specialty area as educational program.",
-        "jurisdiction": "national",
-        "permitted_attempts": null,
-        "quote": "Has completed an advanced program of study in a specialty area in an accredited nursing program, has taken and passed a national certification examination in the same area and has been granted licensure by the board to practice as an APRN",
-        "citation": "33-21-120"
       }
     ],
     "renewal": {
@@ -134,7 +120,7 @@
       },
       "period_years": {
         "value": 2,
-        "quote": "the board shall require three (3) hours of continuing education related to the responsible prescribing of controlled substances or treatment of substance abuse disorders every two (2) years",
+        "quote": "three (3) hours of continuing education related to the responsible prescribing of controlled substances or treatment of substance abuse disorders every two (2) years",
         "citation": "33-21-129"
       },
       "topical_requirements": {
@@ -153,7 +139,7 @@
         "citation": "33-21-127"
       },
       "requirements": {
-        "value": "Applicant must submit proof of initial licensure or certification by an examination acceptable to the board, with requirements that included those necessary for licensure in Wyoming, and proof that the license has not been suspended, revoked or otherwise restricted. If the applicant has not passed an acceptable examination, they may be required to pass an examination or meet other requirements specified by the board.",
+        "value": "Applicant must submit proof of initial licensure or certification by an examination acceptable to the board, that prior requirements were equivalent to Wyoming's, and that the license has not been suspended, revoked or otherwise restricted; or pass a Wyoming examination if the prior exam is not acceptable.",
         "quote": "Submit proof of initial licensure or certification by an examination acceptable to the board, provided that when the applicant secured his or her initial license or certificate, the requirements for licensure or certification included the requirements then necessary for licensure or certification in this state and have submitted proof that the license or certificate has not been suspended, revoked or otherwise restricted for any reason",
         "citation": "33-21-127"
       }
@@ -168,9 +154,9 @@
       "authority": null
     },
     "national_certification": {
-      "value": "National certification examination (APRN specialty)",
-      "quote": "has taken and passed a national certification examination in the same area and has been granted licensure by the board to practice as an APRN",
-      "citation": "33-21-120"
+      "value": "National nursing licensure or certification examination (NCLEX)",
+      "quote": "Pass a board approved national nursing licensure or certification examination",
+      "citation": "33-21-127"
     },
     "national_association": null,
     "regulatory_model": {
@@ -201,13 +187,13 @@
     "disciplinary_grounds": [
       {
         "short_label": "substandard_nursing_practice",
-        "description": "Engaging in any act inconsistent with uniform and reasonable standards of nursing practice as defined by board rules and regulations",
+        "description": "Engaging in any act inconsistent with uniform and reasonable standards of nursing practice as defined by board rules",
         "quote": "Has engaged in any act inconsistent with uniform and reasonable standards of nursing practice as defined by board rules and regulations",
         "citation": "33-21-146"
       },
       {
         "short_label": "criminal_conviction",
-        "description": "Found guilty by a court, entered an Alford plea, or entered a plea of nolo contendere to a misdemeanor or felony adversely related to nursing practice",
+        "description": "Found guilty, entered an Alford plea, or nolo contendere to a misdemeanor or felony adversely related to nursing practice",
         "quote": "Has been found guilty by a court, has entered an Alford plea or has entered a plea of nolo contendere to a misdemeanor or felony that relates adversely to the practice of nursing or to the ability to practice nursing",
         "citation": "33-21-146"
       },
@@ -218,50 +204,50 @@
         "citation": "33-21-146"
       },
       {
-        "short_label": "incompetence_or_unfitness",
-        "description": "Unfit or incompetent to practice nursing by reason of negligence, habits, physical or mental disability, use of drugs, or unsafe practice",
-        "quote": "Is unfit or incompetent to practice nursing by reason of negligence, habits or other causes including but not limited to: (A) Being unable to practice nursing with reasonable skill and safety to patients by reason of physical or mental disability, or use of drugs, narcotics, chemicals or any other mind-altering material",
+        "short_label": "incompetence_or_negligence",
+        "description": "Unfit or incompetent to practice nursing by reason of negligence, habits, or other causes including inability to practice safely or unsafe nursing practice",
+        "quote": "Is unfit or incompetent to practice nursing by reason of negligence, habits or other causes",
         "citation": "33-21-146"
       },
       {
-        "short_label": "unauthorized_controlled_substance_use",
-        "description": "Unauthorized possession or use of a controlled substance as defined in the Wyoming Controlled Substances Act",
+        "short_label": "unauthorized_controlled_substance",
+        "description": "Unauthorized possession or use of a controlled substance",
         "quote": "Has engaged in any unauthorized possession or unauthorized use of a controlled substance as defined in the Wyoming Controlled Substances Act",
         "citation": "33-21-146"
       },
       {
         "short_label": "out_of_state_license_action",
-        "description": "Having a nursing or health care discipline license denied, revoked, suspended or otherwise restricted in another jurisdiction",
+        "description": "Had a license or certificate in another jurisdiction denied, revoked, suspended or otherwise restricted",
         "quote": "Has had a license or certificate to practice nursing or nurse assisting or to practice in another health care discipline in another jurisdiction, territory or possession of the United States denied, revoked, suspended or otherwise restricted",
         "citation": "33-21-146"
       },
       {
-        "short_label": "practicing_without_license",
-        "description": "Practiced nursing within the state without a valid current license or temporary permit",
-        "quote": "Has practiced nursing or nurse assisting within this state without a valid current license or temporary permit or as otherwise permitted under this act, the Nurse Licensure Compact or the Advanced Practice Registered Nurse Compact",
+        "short_label": "practicing_without_valid_license",
+        "description": "Practiced nursing within Wyoming without a valid current license or temporary permit",
+        "quote": "Has practiced nursing or nurse assisting within this state without a valid current license or temporary permit or as otherwise permitted under this act",
         "citation": "33-21-146"
       },
       {
-        "short_label": "failure_to_report_violation",
-        "description": "Knowingly and willfully failed to report to the board any violation of the act or board rules and regulations",
+        "short_label": "failure_to_report_violations",
+        "description": "Knowingly and willfully failed to report to the board any violation of this act or board rules",
         "quote": "Has knowingly and willfully failed to report to the board any violation of this act or of board rules and regulations",
         "citation": "33-21-146"
       },
       {
-        "short_label": "board_finding_of_violation",
-        "description": "Found by the board to have violated any provisions of the act or board rules and regulations",
+        "short_label": "violation_of_act_or_rules",
+        "description": "Found by the board to have violated any provision of this act or board rules",
         "quote": "Has been found by the board to have violated any of the provisions of this act or of board rules and regulations",
         "citation": "33-21-146"
       },
       {
         "short_label": "practice_beyond_scope",
-        "description": "Knowingly engaged in acts beyond the scope of nursing practice or performed acts without sufficient education, knowledge or ability",
+        "description": "Knowingly engaged in acts beyond the scope of nursing practice or performed acts without sufficient education or ability",
         "quote": "Has knowingly engaged in an act which the licensee or certificate holder knew was beyond the scope of the individual's nursing or nurse assisting practice prior to committing the act, or performed acts without sufficient education, knowledge or ability to apply nursing principles and skills",
         "citation": "33-21-146"
       },
       {
-        "short_label": "failure_to_submit_competency_exam",
-        "description": "Failed to submit to a mental, physical or medical competency examination following a proper request by the board",
+        "short_label": "failure_to_submit_to_competency_exam",
+        "description": "Failed to submit to a mental, physical or medical competency examination following a proper board request",
         "quote": "Has failed to submit to a mental, physical or medical competency examination following a proper request by the board made pursuant to board rules and regulations and the Wyoming Administrative Procedure Act",
         "citation": "33-21-146"
       },
@@ -272,10 +258,10 @@
         "citation": "33-21-146"
       },
       {
-        "short_label": "violation_of_35_4_1001",
-        "description": "Violated W.S. 35-4-1001",
-        "quote": "Has violated W.S. 35-4-1001.",
-        "citation": "33-21-146"
+        "short_label": "sexual_misconduct",
+        "description": "Committed sexual misconduct as defined by W.S. 33-1-118",
+        "quote": "A board which licenses health care providers may refuse to issue or renew, or may suspend or revoke the license, certificate or temporary permit of any licensee or certificate holder, or otherwise discipline a licensee or certificate holder, upon clear and convincing evidence that the licensee or certificate holder has committed sexual misconduct.",
+        "citation": "33-1-118"
       }
     ],
     "alternative_regulation": {
@@ -286,71 +272,99 @@
     "citations": [
       {
         "cite": "33-21-119",
-        "kind": "statute"
+        "kind": "practice act"
       },
       {
         "cite": "33-21-120",
-        "kind": "statute"
+        "kind": "definitions"
       },
       {
         "cite": "33-21-122",
-        "kind": "statute"
+        "kind": "board powers and duties"
       },
       {
         "cite": "33-21-127",
-        "kind": "statute"
+        "kind": "licensure qualifications"
       },
       {
         "cite": "33-21-128",
-        "kind": "statute"
+        "kind": "examinations"
       },
       {
         "cite": "33-21-129",
-        "kind": "statute"
+        "kind": "renewal"
       },
       {
         "cite": "33-21-130",
-        "kind": "statute"
+        "kind": "relicensure"
       },
       {
         "cite": "33-21-131",
-        "kind": "statute"
+        "kind": "inactive status"
       },
       {
         "cite": "33-21-132",
-        "kind": "statute"
+        "kind": "temporary permit"
       },
       {
         "cite": "33-21-134",
-        "kind": "statute"
+        "kind": "title protection RN/APRN"
       },
       {
         "cite": "33-21-135",
-        "kind": "statute"
+        "kind": "title protection LPN"
       },
       {
         "cite": "33-21-145",
-        "kind": "statute"
+        "kind": "violations and penalties"
       },
       {
         "cite": "33-21-146",
-        "kind": "statute"
+        "kind": "disciplinary grounds"
       },
       {
         "cite": "33-21-147",
-        "kind": "statute"
+        "kind": "disciplinary procedure"
+      },
+      {
+        "cite": "33-21-153",
+        "kind": "mandatory employer reporting"
       },
       {
         "cite": "33-21-154",
-        "kind": "statute"
+        "kind": "exemptions"
+      },
+      {
+        "cite": "33-21-157",
+        "kind": "volunteer license"
+      },
+      {
+        "cite": "33-21-158",
+        "kind": "APRN signature authority"
       },
       {
         "cite": "33-21-202",
-        "kind": "statute"
+        "kind": "Nurse Licensure Compact"
       },
       {
         "cite": "33-21-302",
-        "kind": "statute"
+        "kind": "APRN Compact"
+      },
+      {
+        "cite": "33-22-101",
+        "kind": "nursing home administrator definitions"
+      },
+      {
+        "cite": "33-22-103",
+        "kind": "nursing home administrator license"
+      },
+      {
+        "cite": "33-22-104",
+        "kind": "nursing home administrator renewal"
+      },
+      {
+        "cite": "33-22-110",
+        "kind": "nursing home administrator scope protection"
       }
     ]
   },
@@ -363,12 +377,11 @@
     "methods_authorized": {
       "value": [
         "assessment",
-        "diagnosis",
+        "nursing diagnosis",
         "planning",
         "intervention",
         "evaluation",
         "administration of medications and treatments",
-        "administration",
         "teaching",
         "counseling",
         "supervision",
@@ -378,28 +391,29 @@
       "citation": "33-21-120"
     },
     "drug_authority": {
-      "value": "APRNs may prescribe, administer, dispense or provide nonprescriptive and prescriptive medications including prepackaged medications, except schedule I drugs. RNs and LPNs may administer medications and treatments prescribed by any person authorized by state law to prescribe.",
+      "value": "APRNs may prescribe, administer, dispense or provide nonprescriptive and prescriptive medications including prepackaged medications, except schedule I drugs. RNs and LPNs administer medications and treatments prescribed by any person authorized by state law to prescribe.",
       "quote": "May prescribe, administer, dispense or provide nonprescriptive and prescriptive medications including prepackaged medications, except schedule I drugs as defined in W.S. 35-7-1013 and 35-7-1014",
       "citation": "33-21-120"
     },
     "citations": [
       {
         "cite": "33-21-120",
-        "kind": "statute"
+        "kind": "definitions/scope"
       },
       {
         "cite": "33-21-158",
-        "kind": "statute"
+        "kind": "APRN signature authority"
       }
     ]
   },
   "profession_specific": {
     "license_tiers": {
       "value": [
-        "Advanced Practice Registered Nurse (APRN)",
         "Registered Nurse (RN)",
         "Licensed Practical Nurse (LPN)",
-        "Certified Nursing Assistant/Nurse Aide"
+        "Advanced Practice Registered Nurse (APRN)",
+        "Certified Nursing Assistant/Nurse Aide",
+        "Nursing Home Administrator"
       ],
       "quote": "Each applicant who successfully meets the requirements of this section is entitled to licensure or certification as an advanced practice registered nurse, registered nurse, licensed practical nurse or certified nursing assistant, whichever is applicable.",
       "citation": "33-21-127"
@@ -408,7 +422,7 @@
       "value": [
         "Advanced Practice Registered Nurse (APRN)"
       ],
-      "quote": "\"Advanced practice registered nurse (APRN)\" means a nurse who: (A) May prescribe, administer, dispense or provide nonprescriptive and prescriptive medications including prepackaged medications, except schedule I drugs",
+      "quote": "\"Advanced practice registered nurse (APRN)\" means a nurse who: (A) May prescribe, administer, dispense or provide nonprescriptive and prescriptive medications",
       "citation": "33-21-120"
     },
     "lpn_supervision_requirements": {
@@ -432,8 +446,21 @@
       "citation": "33-21-302"
     },
     "full_independent_practice_experience_hours_required": null,
-    "prescriptive_authority_certificate_required": null,
-    "controlled_substance_schedule_authority": null,
+    "prescriptive_authority_certificate_required": {
+      "value": false,
+      "quote": "Issuance of an APRN multistate license shall include prescriptive authority for noncontrolled prescription drugs",
+      "citation": "33-21-302"
+    },
+    "controlled_substance_schedule_authority": {
+      "value": [
+        "Schedule II",
+        "Schedule III",
+        "Schedule IV",
+        "Schedule V"
+      ],
+      "quote": "May prescribe, administer, dispense or provide nonprescriptive and prescriptive medications including prepackaged medications, except schedule I drugs as defined in W.S. 35-7-1013 and 35-7-1014",
+      "citation": "33-21-120"
+    },
     "opioid_prescribing_limits": null,
     "dea_registration_required": null,
     "controlled_substance_database_registration_required": null,
@@ -445,7 +472,7 @@
     "medication_assistant_certification_available": null,
     "delegation_to_unlicensed_personnel_authorized": {
       "value": true,
-      "quote": "\"Practice of a certified nursing assistant/nurse aide\" means, regardless of title or care setting, the performance of nursing related tasks and services delegated by a licensed nurse.",
+      "quote": "delegation to appropriate assistive personnel as provided by state law and board rules and regulations",
       "citation": "33-21-120"
     },
     "employer_mandatory_reporting_required": {
@@ -478,6 +505,180 @@
     "aprn_formulary_or_protocol_required": null,
     "nursing_education_program_clinical_hours_minimum": null,
     "implicit_bias_training_required_in_curriculum": null,
-    "military_education_credit_required": null
+    "military_education_credit_required": {
+      "value": true,
+      "quote": "In determining whether a military service member applicant's education and training meet a professional or occupational licensing board's respective educational and training requirements, the board shall consider any relevant education, training and experience received by the applicant as a member of the armed forces",
+      "citation": "33-1-117"
+    },
+    "scope__license_tiers": [
+      {
+        "item": "Registered Nurse (RN)",
+        "status": "present",
+        "quote": "Any person who holds a license to practice as a registered professional nurse in this state ... shall have the right to use the title \"Registered Nurse\" and the abbreviation \"R.N.\"",
+        "citation": "33-21-134"
+      },
+      {
+        "item": "Licensed Practical Nurse (LPN)",
+        "status": "present",
+        "quote": "Any person who holds a license to practice as a licensed practical nurse in this state ... shall have the right to use the title \"Licensed Practical Nurse\" and the abbreviation \"L.P.N.\"",
+        "citation": "33-21-135"
+      },
+      {
+        "item": "Advanced Practice Registered Nurse (APRN)",
+        "status": "present",
+        "quote": "Any person who holds a license to practice as an advanced practice registered nurse in this state ... shall have the right to use the title \"Advanced Practice Registered Nurse\" and the abbreviation \"A.P.R.N.\"",
+        "citation": "33-21-134"
+      },
+      {
+        "item": "Certified Registered Nurse Anesthetist (CRNA)",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Certified Nurse Practitioner (CNP/CRNP/NP)",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Certified Nurse Midwife (CNM)",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Clinical Nurse Specialist (CNS)",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Certified Nurse Aide (CNA)",
+        "status": "present",
+        "quote": "\"Certificate\" means a document issued by the board permitting the performance by a nursing assistant/nurse aide of basic related nursing tasks and skills delegated by a licensed nurse",
+        "citation": "33-21-120"
+      },
+      {
+        "item": "Certified Medication Assistant",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Full Independent Practice Authority Certificate",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Nursing Home Administrator License",
+        "status": "present",
+        "quote": "It shall be unlawful and a misdemeanor for any person to act or serve in the capacity of a nursing home administrator unless he is the holder of a license or temporary license as a nursing home administrator",
+        "citation": "33-22-110"
+      },
+      {
+        "item": "Multistate License (Nurse Licensure Compact)",
+        "status": "present",
+        "quote": "\"Multistate license\" means a license to practice as a registered or a licensed practical/vocational nurse (LPN/VN) issued by a home state licensing board that authorizes the licensed nurse to practice in all party states under a multistate licensure privilege",
+        "citation": "33-21-202"
+      },
+      {
+        "item": "Temporary Permit to Practice Nursing",
+        "status": "present",
+        "quote": "The board may issue a temporary permit to practice nursing or nurse assisting to an advanced practice registered nurse, registered nurse, licensed practical nurse or certified nursing assistant",
+        "citation": "33-21-132"
+      }
+    ],
+    "scope__aprn_role_categories": [
+      {
+        "item": "Certified Nurse Practitioner",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Certified Registered Nurse Anesthetist",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Certified Nurse Midwife",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Clinical Nurse Specialist",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      }
+    ],
+    "scope__lpn_supervision_requirements": [
+      {
+        "item": "Registered Nurse",
+        "status": "present",
+        "quote": "These skills and services are performed under the direction of a licensed physician or dentist, advanced practice registered nurse or registered professional nurse.",
+        "citation": "33-21-120"
+      },
+      {
+        "item": "Advanced Practice Registered Nurse",
+        "status": "present",
+        "quote": "These skills and services are performed under the direction of a licensed physician or dentist, advanced practice registered nurse or registered professional nurse.",
+        "citation": "33-21-120"
+      },
+      {
+        "item": "Physician",
+        "status": "present",
+        "quote": "These skills and services are performed under the direction of a licensed physician or dentist, advanced practice registered nurse or registered professional nurse.",
+        "citation": "33-21-120"
+      },
+      {
+        "item": "Physician Assistant",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Dentist",
+        "status": "present",
+        "quote": "These skills and services are performed under the direction of a licensed physician or dentist, advanced practice registered nurse or registered professional nurse.",
+        "citation": "33-21-120"
+      },
+      {
+        "item": "Podiatrist",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      }
+    ],
+    "scope__controlled_substance_schedule_authority": [
+      {
+        "item": "Schedule II controlled substances",
+        "status": "authorized",
+        "quote": "May prescribe, administer, dispense or provide nonprescriptive and prescriptive medications including prepackaged medications, except schedule I drugs as defined in W.S. 35-7-1013 and 35-7-1014",
+        "citation": "33-21-120"
+      },
+      {
+        "item": "Schedule III controlled substances",
+        "status": "authorized",
+        "quote": "May prescribe, administer, dispense or provide nonprescriptive and prescriptive medications including prepackaged medications, except schedule I drugs as defined in W.S. 35-7-1013 and 35-7-1014",
+        "citation": "33-21-120"
+      },
+      {
+        "item": "Schedule IV controlled substances",
+        "status": "authorized",
+        "quote": "May prescribe, administer, dispense or provide nonprescriptive and prescriptive medications including prepackaged medications, except schedule I drugs as defined in W.S. 35-7-1013 and 35-7-1014",
+        "citation": "33-21-120"
+      },
+      {
+        "item": "Schedule V controlled substances",
+        "status": "authorized",
+        "quote": "May prescribe, administer, dispense or provide nonprescriptive and prescriptive medications including prepackaged medications, except schedule I drugs as defined in W.S. 35-7-1013 and 35-7-1014",
+        "citation": "33-21-120"
+      }
+    ]
   }
 }

@@ -35,7 +35,14 @@
       "quote": "has engaged in conduct which demonstrates bad faith, dishonesty, untrustworthiness, or incompetence in business or the profession",
       "citation": "40-11-130"
     },
-    "education": null,
+    "education": {
+      "degree_required": null,
+      "accrediting_body": null,
+      "degree_level": null,
+      "school_approval_basis": null,
+      "credential_pegged": null,
+      "tiers": null
+    },
     "post_degree_experience": {
       "required": {
         "value": true,
@@ -53,25 +60,25 @@
         "citation": "40-11-230"
       },
       "kind": {
-        "value": "full-time employment in the license classification or subclassification",
+        "value": "full-time employment in license classification or subclassification",
         "quote": "submit an affidavit verifying employment from former or current employers for whom the applicant was employed full-time for at least two years within the previous five years in the license classification or subclassification for which application is made",
         "citation": "40-11-230"
       }
     },
     "exams": [
       {
-        "name": "Technical examination",
+        "name": "Technical examination (license classification or subclassification)",
         "required": true,
-        "notes": "Required for each classification or subclassification; passing grade of 70% or better. May be waived if applicant passed an essentially similar exam in another state.",
+        "notes": "Must attain a grade of seventy percent or better; may only take examination two times in a twelve-month period and thereafter only once in six months.",
         "jurisdiction": "administered by examination provider approved by the board",
         "permitted_attempts": null,
         "quote": "submit proof of having attained a grade of seventy percent or better on a technical examination where required for each classification or subclassification of licensure applied for",
         "citation": "40-11-230"
       },
       {
-        "name": "South Carolina law examination (Code of Laws)",
+        "name": "South Carolina law examination (general and mechanical contracting)",
         "required": true,
-        "notes": "Examination of South Carolina law regulating general and mechanical contracting; passing grade of 70% or better. An individual may only take an examination in a license classification or subclassification two times in a twelve-month period and thereafter only once in six months.",
+        "notes": "Must attain a grade of seventy percent or better.",
         "jurisdiction": "state (South Carolina)",
         "permitted_attempts": null,
         "quote": "attain a grade of seventy percent or better on an examination of South Carolina law regulating general and mechanical contracting",
@@ -79,8 +86,8 @@
       },
       {
         "name": "South Carolina Commercial Contractors Business, Law and Project Management examination",
-        "required": true,
-        "notes": "Required for applicants seeking licensure by endorsement from another state under Section 40-11-290.",
+        "required": false,
+        "notes": "May be required for applicants seeking licensure by endorsement from another state.",
         "jurisdiction": "state (South Carolina)",
         "permitted_attempts": null,
         "quote": "An applicant for certification or licensure under this section may be required to pass the South Carolina Commercial Contractors Business, Law and Project Management examination",
@@ -103,7 +110,7 @@
         "citation": "40-11-290"
       },
       "requirements": {
-        "value": "Applicant must hold a license or certificate in good standing in another state with requirements equal to or greater than SC requirements. Board must have authorized an exam waiver agreement with that state. Applicant may be required to pass the SC Commercial Contractors Business, Law and Project Management examination and must comply with all other licensing and certification requirements. An applicant may also exempt the technical examination if they can verify passing an essentially equivalent exam in another state, regardless of a formal reciprocal agreement.",
+        "value": "Applicant must hold a license or certificate in good standing in another state with requirements equal to or greater than South Carolina's; exam waiver agreement must be authorized by the board. Applicant may also exempt the technical exam by verifying passage of an essentially equivalent exam in another state, even without a reciprocal agreement. Must pass the SC Commercial Contractors Business, Law and Project Management exam and comply with all other licensing and certification requirements.",
         "quote": "The board may grant a license or certificate to an applicant holding a license or certificate in good standing in another state whose requirements for licensure and certification are equal to or greater than those required by this chapter if the board has authorized an exam waiver agreement with the State.",
         "citation": "40-11-290"
       }
@@ -126,8 +133,8 @@
     },
     "credential_type": {
       "value": "license",
-      "quote": "\"Licensee\" means an entity that has been issued either a general or mechanical contractor's license by the department.",
-      "citation": "40-11-20"
+      "quote": "No entity or individual may practice as a contractor by performing or offering to perform contracting work for which the total cost of construction is greater than ten thousand dollars for general contracting or greater than ten thousand dollars for mechanical contracting without a license issued in accordance with this chapter.",
+      "citation": "40-11-30"
     },
     "is_mandatory": {
       "value": true,
@@ -147,7 +154,7 @@
     "disciplinary_grounds": [
       {
         "short_label": "subsequent_discovery_of_disqualifying_facts",
-        "description": "Subsequent discovery of facts which, if known at the time of issuance or renewal, would have been grounds to deny the license or certificate.",
+        "description": "Discovery of facts after license issuance that would have been grounds to deny the license or renewal.",
         "quote": "subsequent discovery of facts which if known at the time of issuance or renewal of a license or certificate would have been grounds to deny the issuance or renewal of a license or certificate",
         "citation": "40-11-110"
       },
@@ -170,7 +177,7 @@
         "citation": "40-11-110"
       },
       {
-        "short_label": "violation_of_chapter_or_regulations",
+        "short_label": "violation_of_chapter_or_regulation",
         "description": "Violation of a provision of this chapter, Article 1, Chapter 1, or a regulation promulgated under these chapters.",
         "quote": "violation of a provision of this chapter, Article 1, Chapter 1 of this title or a regulation promulgated under these chapters",
         "citation": "40-11-110"
@@ -182,20 +189,20 @@
         "citation": "40-11-110"
       },
       {
-        "short_label": "conviction_of_specified_offenses",
-        "description": "Conviction or guilty plea/nolo contendere for forgery, embezzlement, false pretenses, theft, extortion, conspiracy to defraud, or other like offense.",
+        "short_label": "conviction_fraud_forgery_theft_related_offenses",
+        "description": "Conviction or plea of guilty/nolo contendere to forgery, embezzlement, obtaining money under false pretenses, theft, extortion, or conspiracy to defraud.",
         "quote": "conviction or entering a guilty plea or plea of nolo contendere in a court of competent jurisdiction of this or any other state, district, or territory of the United States or of a foreign country of the offense of forgery, embezzlement, obtaining money under false pretenses, theft, extortion, or conspiracy to defraud or other like offense",
         "citation": "40-11-110"
       },
       {
-        "short_label": "conviction_of_felony_or_moral_turpitude",
-        "description": "Conviction or guilty plea/nolo contendere for a felony or a crime involving moral turpitude in connection with performance of a construction contract.",
+        "short_label": "conviction_felony_or_moral_turpitude",
+        "description": "Conviction or plea of guilty/nolo contendere of a felony or crime involving moral turpitude in connection with a construction contract.",
         "quote": "conviction or entering a guilty plea or plea of nolo contendere of a felony or a crime involving moral turpitude in connection with the performance of a contract for construction",
         "citation": "40-11-110"
       },
       {
         "short_label": "aiding_unlicensed_entity",
-        "description": "Aiding or abetting an unlicensed entity, combining or conspiring with an unlicensed entity, allowing one's license to be used by an unlicensed entity, or acting as agent, partner, or associate of an unlicensed entity.",
+        "description": "Aiding or abetting an unlicensed entity, combining with one, allowing use of one's license, or acting as agent for an unlicensed entity.",
         "quote": "aiding or abetting an unlicensed entity to evade the provisions of this chapter, combining or conspiring with an unlicensed entity, allowing one's license to be used by an unlicensed entity, or acting as agent, partner, or associate, or an unlicensed entity",
         "citation": "40-11-110"
       },
@@ -212,20 +219,20 @@
         "citation": "40-11-110"
       },
       {
-        "short_label": "contracting_while_license_suspended_or_on_probation",
+        "short_label": "contracting_while_license_suspended_or_probation",
         "description": "Contracting, offering to contract, or submitting a bid while a license is under suspension or probation.",
         "quote": "contracting or offering to contract or submitting a bid while a license is under suspension or probation",
         "citation": "40-11-110"
       },
       {
         "short_label": "failure_to_obtain_building_permit",
-        "description": "Failure to obtain a building permit as required by a local or state government before engaging in construction.",
+        "description": "Failure to obtain a building permit as required by local or state government before engaging in construction.",
         "quote": "failure to obtain a building permit as required by a local or state government before engaging in construction",
         "citation": "40-11-110"
       },
       {
-        "short_label": "failure_to_comply_with_written_directive",
-        "description": "Failure to take appropriate corrective action to comply with this chapter or regulations without valid justification within a reasonable period after receiving a written directive from the department.",
+        "short_label": "failure_to_comply_with_corrective_directive",
+        "description": "Failure to take corrective action to comply with chapter or regulation within a reasonable time after receiving a written directive from the department.",
         "quote": "failure to take appropriate corrective action to comply with this chapter or a regulation promulgated under this chapter without valid justification within a reasonable period of time after receiving a written directive from the department",
         "citation": "40-11-110"
       },
@@ -272,14 +279,14 @@
         "citation": "40-11-110"
       },
       {
-        "short_label": "qualifying_party_incarcerated",
-        "description": "Attempting to serve in the capacity of primary qualifying party while serving a house arrest, a jail sentence, or a prison sentence.",
+        "short_label": "primary_qualifying_party_incarcerated",
+        "description": "Attempting to serve as primary qualifying party while serving house arrest, jail, or prison sentence.",
         "quote": "attempting to serve in the capacity of primary qualifying party while serving a house arrest, a jail sentence, or a prison sentence",
         "citation": "40-11-110"
       },
       {
         "short_label": "departure_from_building_code",
-        "description": "Departure from an applicable building code of South Carolina or any of its political subdivisions as determined by a court of competent jurisdiction.",
+        "description": "Departure from an applicable building code of South Carolina or its political subdivisions as determined by a court.",
         "quote": "departure from an applicable building code of the State of South Carolina or any of its political subdivisions as determined by a court of competent jurisdiction",
         "citation": "40-11-110"
       }
@@ -287,7 +294,7 @@
     "alternative_regulation": {
       "bonding_required": {
         "value": true,
-        "quote": "In lieu of providing a financial statement showing a minimum net worth or working capital for a license group as required by Section 40-11-260, an applicant may provide a surety bond from a surety authorized to transact surety business in this State in the same amount as the net worth for the applicant's license group with his initial or renewal application.",
+        "quote": "In lieu of providing a financial statement showing a minimum net worth or working capital for a license group as required by Section 40-11-260, an applicant may provide a surety bond from a surety authorized to transact surety business in this State in the same amount as the net worth for the applicant's license group",
         "citation": "40-11-262"
       },
       "insurance_required": null,
@@ -305,6 +312,10 @@
       {
         "cite": "40-11-30",
         "kind": "licensing requirement"
+      },
+      {
+        "cite": "40-11-70",
+        "kind": "board powers"
       },
       {
         "cite": "40-11-100",
@@ -343,12 +354,32 @@
         "kind": "surety bond"
       },
       {
+        "cite": "40-11-270",
+        "kind": "license group limitations"
+      },
+      {
+        "cite": "40-11-280",
+        "kind": "license classification change"
+      },
+      {
         "cite": "40-11-290",
         "kind": "reciprocity"
       },
       {
+        "cite": "40-11-300",
+        "kind": "total cost and unlicensed practice"
+      },
+      {
+        "cite": "40-11-350",
+        "kind": "building permit requirement"
+      },
+      {
+        "cite": "40-11-360",
+        "kind": "exemptions"
+      },
+      {
         "cite": "40-11-370",
-        "kind": "title protection and scope protection"
+        "kind": "title and scope protection"
       },
       {
         "cite": "40-11-410",
@@ -358,21 +389,18 @@
   },
   "scope": {
     "definition_quote": {
-      "value": "\"General construction\" means the installation, replacement, or repair of a building, structure, highway, sewer, grading, asphalt or concrete paving, or improvement of any kind to real property.",
+      "value": "\"General construction\" means the installation, replacement, or repair of a building, structure, highway, sewer, grading, asphalt or concrete paving, or improvement of any kind to real property. \"Mechanical construction\" means the installation, replacement, or repair of plumbing, heating, air conditioning, process piping, refrigeration, lightning protection equipment, or electrical components, fixtures, or devices of any kind, excluding burglar alarm work.",
       "quote": "\"General construction\" means the installation, replacement, or repair of a building, structure, highway, sewer, grading, asphalt or concrete paving, or improvement of any kind to real property.",
       "citation": "40-11-20"
     },
     "methods_authorized": {
       "value": [
-        "installation",
-        "replacement",
-        "repair",
-        "construction",
-        "alteration",
-        "supervision of general construction",
-        "supervision of mechanical construction"
+        "General construction: installation, replacement, or repair of buildings, structures, highways, sewers, grading, asphalt or concrete paving, or improvements to real property",
+        "Mechanical construction: installation, replacement, or repair of plumbing, heating, air conditioning, process piping, refrigeration, lightning protection equipment, or electrical components, fixtures, or devices",
+        "Specialty subclassifications: boring/tunneling, concrete, nonstructural renovation, marine, masonry, pre-engineered metal buildings, railroad lines, roofing, structural framing, miscellaneous metals, swimming pools, wood frame structures, public electrical utility, boiler installation, glass and glazing",
+        "Mechanical subclassifications: air conditioning, heating, packaged equipment, electrical, lightning protection systems, plumbing, pressure and process piping, refrigeration"
       ],
-      "quote": "\"General construction\" means the installation, replacement, or repair of a building, structure, highway, sewer, grading, asphalt or concrete paving, or improvement of any kind to real property. ... \"Mechanical construction\" means the installation, replacement, or repair of plumbing, heating, air conditioning, process piping, refrigeration, lightning protection equipment, or electrical components, fixtures, or devices of any kind, excluding burglar alarm work.",
+      "quote": "\"General construction\" means the installation, replacement, or repair of a building, structure, highway, sewer, grading, asphalt or concrete paving, or improvement of any kind to real property. \"Mechanical construction\" means the installation, replacement, or repair of plumbing, heating, air conditioning, process piping, refrigeration, lightning protection equipment, or electrical components, fixtures, or devices of any kind, excluding burglar alarm work.",
       "citation": "40-11-20"
     },
     "drug_authority": null,
@@ -390,7 +418,7 @@
   "profession_specific": {
     "registration_number_required_in_ads": {
       "value": true,
-      "quote": "All commercial vehicles, used by mechanical contractors licensed in the subclassification of air conditioning, heating, or packaged equipment exclusively in the daily operation of their business, shall have prominently displayed on them the mechanical contractor license number issued by the Department of Labor, Licensing and Regulation. Each invoice and proposal form also shall contain the mechanical contractor license number.",
+      "quote": "Each invoice and proposal form also shall contain the mechanical contractor license number.",
       "citation": "40-11-270"
     },
     "insurance_personal_injury_minimum_usd": null,
@@ -419,6 +447,86 @@
       "quote": "All licenses may be renewed biennially.",
       "citation": "40-11-250"
     },
-    "out_of_state_disciplinary_action_reporting_required": null
+    "out_of_state_disciplinary_action_reporting_required": null,
+    "scope__voidable_contract_clauses": [
+      {
+        "item": "Liability limitation clause (limiting contractor liability to cost of inspection report or contract price)",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Indemnification / hold-harmless clause favoring the promisee's sole negligence",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Confession of judgment clause",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Waiver of consumer cancellation rights clause",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Waiver of consumer rights (general statutory rights) clause",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Blank spaces clause (material terms left blank for later completion)",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Assignment of insurance proceeds clause (without owner consent / in violation of statutory requirements)",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Clause authorizing unlawful entry or breach of peace for repossession",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Lien disclosure notice omission (failure to include required lien disclosure)",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Disclaimer or limitation of implied warranty clause",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Clause entered into by unlicensed contractor (contract with unlicensed contractor)",
+        "status": "present",
+        "quote": "An entity which does not have a valid license as required by this chapter may not bring an action either at law or in equity to enforce the provisions of a contract.",
+        "citation": "40-11-370"
+      },
+      {
+        "item": "Clause requiring compliance waiver from applicable building codes or zoning regulations",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Distributed energy contract clause failing to meet statutory disclosure or terms requirements",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      }
+    ]
   }
 }

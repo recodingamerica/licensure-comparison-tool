@@ -41,24 +41,24 @@
     },
     "education": {
       "degree_required": {
-        "value": "Approved program of professional nursing (baccalaureate, associate degree, or diploma)",
-        "quote": "Approved programs shall include baccalaureate degree, associate degree, diploma nursing programs and programs in transition from approved diploma- to degree-granting programs when all other requirements of the Board have been met.",
+        "value": "Approved program of professional nursing (baccalaureate degree, associate degree, or diploma nursing program) for RN; not less than 1,500 hours over at least 12 months in an approved practical nursing program for LPN",
+        "quote": "Approved programs shall include baccalaureate degree, associate degree, diploma nursing programs and programs in transition from approved diploma- to degree-granting programs",
         "citation": "§ 6"
       },
       "accrediting_body": {
-        "value": "Board-approved programs",
+        "value": "State Board of Nursing (board-approved programs)",
         "quote": "has satisfactorily completed an approved program of professional nursing",
         "citation": "§ 6"
       },
       "degree_level": {
         "value": "associate",
-        "quote": "the Board shall not deny access to the examination for licensure as a registered nurse to a graduate of a State-approved associate degree, diploma or baccalaureate degree nursing program.",
+        "quote": "the Board shall not deny access to the examination for licensure as a registered nurse to a graduate of a State-approved associate degree, diploma or baccalaureate degree nursing program",
         "citation": "§ 5"
       },
       "school_approval_basis": {
         "value": "board_approved",
-        "quote": "Programs for the preparation of registered professional nurses shall be established or conducted only with the approval of the Board.",
-        "citation": "§ 6.1"
+        "quote": "\"Approved\" means approved by the State Board of Nursing.",
+        "citation": "§ 2"
       },
       "credential_pegged": {
         "value": false,
@@ -67,39 +67,39 @@
       },
       "tiers": [
         {
-          "license_class": "registered nurse",
+          "license_class": "Registered Nurse (RN)",
           "degree_level": "associate",
           "effective_date": null,
-          "quote": "the Board shall not deny access to the examination for licensure as a registered nurse to a graduate of a State-approved associate degree, diploma or baccalaureate degree nursing program.",
+          "quote": "the Board shall not deny access to the examination for licensure as a registered nurse to a graduate of a State-approved associate degree, diploma or baccalaureate degree nursing program",
           "citation": "§ 5"
         },
         {
-          "license_class": "certified registered nurse practitioner",
+          "license_class": "Licensed Practical Nurse (LPN)",
+          "degree_level": "high_school",
+          "effective_date": null,
+          "quote": "has completed at least twelve years of education with diploma in public, parochial or private school, or its equivalent as evaluated by the Department of Education; and has satisfactorily completed a program in practical nursing prescribed and approved by the board in a school, hospital or other educational institution, of not less than fifteen hundred hours",
+          "citation": "§ 5"
+        },
+        {
+          "license_class": "Certified Registered Nurse Practitioner (CRNP)",
           "degree_level": "master",
           "effective_date": null,
           "quote": "a nurse shall not qualify for initial certification by the board under subsection (a) unless the nurse: (i) is a graduate of an accredited, board-approved master's or post-master's nurse practitioner program",
           "citation": "§ 8.1"
         },
         {
-          "license_class": "clinical nurse specialist",
+          "license_class": "Clinical Nurse Specialist (CNS)",
           "degree_level": "master",
           "effective_date": null,
           "quote": "a nurse shall not qualify for initial certification by the board unless the nurse holds a master's degree, doctoral degree or post-master's certificate from an educational program in nursing",
           "citation": "§ 8.5"
         },
         {
-          "license_class": "certified registered nurse anesthetist",
+          "license_class": "Certified Registered Nurse Anesthetist (CRNA)",
           "degree_level": "master",
           "effective_date": null,
           "quote": "a registered nurse shall not qualify for initial certification by the board unless the registered nurse holds a master's degree, doctoral degree or post-master's certificate from an accredited educational program in nurse anesthesia",
           "citation": "§ 8.8"
-        },
-        {
-          "license_class": "licensed practical nurse",
-          "degree_level": "high_school",
-          "effective_date": null,
-          "quote": "has completed at least twelve years of education with diploma in public, parochial or private school, or its equivalent as evaluated by the Department of Education; and has satisfactorily completed a program in practical nursing",
-          "citation": "§ 5"
         }
       ]
     },
@@ -119,19 +119,19 @@
     },
     "exams": [
       {
-        "name": "Nursing licensure examination (RN)",
+        "name": "Nursing Licensure Examination (RN)",
         "required": true,
-        "notes": "Administered by a professional testing organization approved by the Board",
-        "jurisdiction": "state board-contracted professional testing organization",
+        "notes": "Board examines all eligible applicants for licensure as registered nurse at least once per year",
+        "jurisdiction": "state (administered by board-contracted professional testing organization)",
         "permitted_attempts": null,
         "quote": "The Board shall, once every year and at such other times and under such conditions as shall be provided by its regulations, examine all eligible applicants for licensure",
         "citation": "§ 5"
       },
       {
-        "name": "Nursing licensure examination (LPN)",
+        "name": "Nursing Licensure Examination (LPN)",
         "required": true,
-        "notes": "Board examines applicants twice each year",
-        "jurisdiction": "state board",
+        "notes": "Board examines all eligible LPN applicants twice each year",
+        "jurisdiction": "state (board-administered)",
         "permitted_attempts": null,
         "quote": "The board shall twice each year and at such other times and under such conditions as shall be provided by its regulations examine all applicants eligible for examination to determine whether they are qualified to be licensed",
         "citation": "§ 4"
@@ -139,20 +139,38 @@
       {
         "name": "National certifying examination (CRNP)",
         "required": true,
-        "notes": "From a board-recognized national certification organization",
-        "jurisdiction": "national",
+        "notes": "Must hold national certification from a board-recognized national certification organization which required passing a national certifying examination in the particular clinical specialty area",
+        "jurisdiction": "national (board-recognized national certification organization)",
         "permitted_attempts": null,
         "quote": "holds certification as a certified registered nurse practitioner from a board-recognized national certification organization which required passing of a national certifying examination in the particular clinical specialty area",
         "citation": "§ 8.1"
       },
       {
+        "name": "National certifying examination (CNS)",
+        "required": true,
+        "notes": "Must hold current national certification as a clinical nurse specialist in a designated specialty",
+        "jurisdiction": "national (board-recognized national certification organization)",
+        "permitted_attempts": null,
+        "quote": "holds current national certification as a clinical nurse specialist in a designated specialty or in an area pertinent to the designated specialty",
+        "citation": "§ 8.5"
+      },
+      {
         "name": "National certifying examination (CRNA)",
         "required": true,
-        "notes": "From a board-recognized national certification organization in nurse anesthesia",
-        "jurisdiction": "national",
+        "notes": "Must hold current national certification as a CRNA from a board-recognized national certification organization which required passing a national certifying examination in nurse anesthesia",
+        "jurisdiction": "national (board-recognized national certification organization)",
         "permitted_attempts": null,
         "quote": "holds current national certification as a certified registered nurse anesthetist from a board-recognized national certification organization which required passing of a national certifying examination in nurse anesthesia",
         "citation": "§ 8.8"
+      },
+      {
+        "name": "Dietitian-Nutritionist Licensure Examination",
+        "required": true,
+        "notes": "Board shall contract with a professional testing organization; examines qualified applicants for LDN licensure",
+        "jurisdiction": "state (board-contracted professional testing organization)",
+        "permitted_attempts": null,
+        "quote": "Has satisfactorily completed an examination approved by the Board. The Board shall contract with a professional testing organization for the examination of qualified applicants for licensure.",
+        "citation": "§ 6"
       }
     ],
     "renewal": {
@@ -181,7 +199,7 @@
       },
       "topical_requirements": {
         "value": [
-          "16 hours in pharmacology per two-year period (for CRNPs who prescribe)"
+          "At least 16 hours in pharmacology per two-year period for CRNPs who prescribe"
         ],
         "quote": "In the case of a certified registered nurse practitioner who is prescribing medical therapeutic or corrective measures pursuant to section 8.3, that continuing education must include at least sixteen (16) hours in pharmacology in that two-year period.",
         "citation": "§ 8.1"
@@ -194,24 +212,24 @@
         "citation": "§ 7"
       },
       "requirements": {
-        "value": "Equivalent course of study, licensed by examination in another state/territory/Canada, meets character and preliminary education requirements",
-        "quote": "who has completed a course of study in nursing or dietetics-nutrition considered by the Board to be equivalent to that required in this State at the time such course was completed, and who is registered or licensed by examination in any other state, or territory of the United States or the Dominion of Canada, and who has met all the foregoing requirements as to character, and preliminary education.",
+        "value": "Must have completed equivalent course of study and be registered or licensed by examination in another state, territory, or Dominion of Canada; must have met character and preliminary education requirements.",
+        "quote": "who is registered or licensed by examination in any other state, or territory of the United States or the Dominion of Canada, and who has met all the foregoing requirements as to character, and preliminary education.",
         "citation": "§ 7"
       }
     },
     "advisory_board": {
       "exists": {
         "value": false,
-        "quote": "The State Board of Nursing shall consist of the Commissioner of Professional and Occupational Affairs, three members appointed by the Governor",
+        "quote": "The State Board of Nursing shall consist of the Commissioner of Professional and Occupational Affairs, three members appointed by the Governor...six of whom shall be registered nurses...two of whom shall be licensed practical nurses and one of whom shall be a licensed dietitian-nutritionist",
         "citation": "§ 2.1"
       },
       "name": null,
       "authority": null
     },
     "national_certification": {
-      "value": "Board-recognized national certification organizations (CRNP, CNS, CRNA)",
-      "quote": "holds certification as a certified registered nurse practitioner from a board-recognized national certification organization which required passing of a national certifying examination in the particular clinical specialty area",
-      "citation": "§ 8.1"
+      "value": "Commission on Dietetic Registration of the American Dietetic Association (CDR); board-recognized national certification organizations for CRNP, CNS, and CRNA",
+      "quote": "a person who provides evidence of current registration as a registered dietitian-nutritionist by the Commission of Dietetic Registration of the American Dietetic Association shall be considered to meet the requirements of this act.",
+      "citation": "§ 5"
     },
     "national_association": {
       "value": "American Nurses Association / American Nurses Credentialing Center",
@@ -225,7 +243,7 @@
     },
     "credential_type": {
       "value": "license",
-      "quote": "The Board shall issue to each person who meets the professional nursing licensure requirements of this act, a certificate setting forth that such person is licensed to engage in the practice of professional nursing",
+      "quote": "the Board shall issue to each person who meets the professional nursing licensure requirements of this act, a certificate setting forth that such person is licensed to engage in the practice of professional nursing",
       "citation": "§ 8"
     },
     "is_mandatory": {
@@ -246,73 +264,79 @@
     "disciplinary_grounds": [
       {
         "short_label": "negligence_or_incompetence",
-        "description": "Repeated negligence or incompetence in the practice of professional nursing or dietetics-nutrition",
+        "description": "Licensee is on repeated occasions negligent or incompetent in the practice of professional nursing or dietetics-nutrition.",
         "quote": "The licensee is on repeated occasions negligent or incompetent in the practice of professional nursing or dietetics-nutrition.",
         "citation": "§ 14"
       },
       {
-        "short_label": "physical_mental_impairment",
-        "description": "Unable to practice with reasonable skill and safety due to mental or physical illness or substance dependence",
-        "quote": "The licensee is unable to practice professional nursing with reasonable skill and safety to patients by reason of mental or physical illness or condition or physiological or psychological dependence upon alcohol, hallucinogenic or narcotic drugs",
+        "short_label": "inability_to_practice_safely_rn",
+        "description": "Licensee is unable to practice professional nursing with reasonable skill and safety due to mental or physical illness or substance dependence.",
+        "quote": "The licensee is unable to practice professional nursing with reasonable skill and safety to patients by reason of mental or physical illness or condition or physiological or psychological dependence upon alcohol, hallucinogenic or narcotic drugs or other drugs which tend to impair judgment or coordination",
+        "citation": "§ 14"
+      },
+      {
+        "short_label": "inability_to_practice_safely_ldn",
+        "description": "Licensee is unable to practice dietetics-nutrition with reasonable skill and safety due to mental or physical illness or substance dependence.",
+        "quote": "The licensee is unable to practice dietetics-nutrition with reasonable skill and safety to individuals or groups by reason of mental or physical illness or condition or physiological or psychological dependence upon alcohol",
         "citation": "§ 14"
       },
       {
         "short_label": "willful_repeated_violations",
-        "description": "Willfully or repeatedly violated provisions of the act or board regulations",
+        "description": "Licensee has willfully or repeatedly violated provisions of this act or the board's regulations.",
         "quote": "The licensee has wilfully or repeatedly violated any of the provisions of this act or of the regulations of the Board.",
         "citation": "§ 14"
       },
       {
         "short_label": "fraud_or_deceit",
-        "description": "Committed fraud or deceit in the practice of nursing or in securing admission to practice or nursing school",
-        "quote": "The licensee has committed fraud or deceit in: (i) the practice of nursing, or in securing his or her admission to such practice or nursing school",
+        "description": "Licensee has committed fraud or deceit in the practice of nursing or dietetics-nutrition, or in securing admission to practice or nursing school.",
+        "quote": "The licensee has committed fraud or deceit in: (i) the practice of nursing, or in securing his or her admission to such practice or nursing school; or (ii) the practice of dietetics-nutrition or in securing his or her license as a dietitian-nutritionist.",
         "citation": "§ 14"
       },
       {
-        "short_label": "criminal_conviction",
-        "description": "Convicted of a felony or crime of moral turpitude",
+        "short_label": "felony_or_moral_turpitude_conviction",
+        "description": "Licensee has been convicted of, pled guilty, or entered nolo contendere to a felony or crime of moral turpitude.",
         "quote": "The licensee has been convicted, or has pleaded guilty, or entered a plea of nolo contendere, or has been found guilty by a judge or jury, of a felony or a crime of moral turpitude",
         "citation": "§ 14"
       },
       {
-        "short_label": "license_discipline_elsewhere",
-        "description": "License suspended, revoked, or disciplined in another jurisdiction",
+        "short_label": "out_of_state_disciplinary_action",
+        "description": "Licensee has had their license suspended or revoked or received other disciplinary action in another state, territory, or country.",
         "quote": "The licensee has his or her license suspended or revoked or has received other disciplinary action by the proper licensing authority in another state, territory, possession or country.",
         "citation": "§ 14"
       },
       {
         "short_label": "immediate_danger_to_public",
-        "description": "Acted in a manner presenting an immediate and clear danger to public health or safety",
+        "description": "Licensee has acted in a manner presenting an immediate and clear danger to public health or safety.",
         "quote": "The licensee has acted in such a manner as to present an immediate and clear danger to the public health or safety.",
         "citation": "§ 14"
       },
       {
         "short_label": "controlled_substance_misuse",
-        "description": "Possessed, used, acquired, or distributed a controlled substance or caution legend drug for other than acceptable medical purpose",
+        "description": "Licensee possessed, used, acquired, or distributed a controlled substance or caution legend drug for other than acceptable medical purpose.",
         "quote": "The licensee possessed, used, acquired or distributed a controlled substance or caution legend drug for other than an acceptable medical purpose.",
         "citation": "§ 14"
       },
       {
-        "short_label": "immoral_unprofessional_conduct",
-        "description": "Guilty of immoral or unprofessional conduct, including departure from ethical or quality standards",
+        "short_label": "immoral_or_unprofessional_conduct",
+        "description": "Licensee has been guilty of immoral or unprofessional conduct, including departure from ethical or quality standards of the profession.",
         "quote": "The licensee has been guilty of immoral or unprofessional conduct. Unprofessional conduct shall include departure from or failing to conform to an ethical or quality standard of the profession.",
         "citation": "§ 14"
       },
       {
         "short_label": "lpn_gross_immorality",
-        "description": "Guilty of gross immorality (LPN)",
+        "description": "LPN licensee is guilty of gross immorality.",
         "quote": "Is guilty of gross immorality",
         "citation": "§ 16"
       },
       {
-        "short_label": "lpn_unfit_incompetent",
-        "description": "Unfit or incompetent by reason of negligence, habits or other causes (LPN)",
+        "short_label": "lpn_unfit_or_incompetent",
+        "description": "LPN licensee is unfit or incompetent by reason of negligence, habits or other causes.",
         "quote": "Is unfit or incompetent by reason of negligence, habits or other causes",
         "citation": "§ 16"
       },
       {
-        "short_label": "lpn_communicable_disease",
-        "description": "Continuing to practice nursing when knowing they have an infectious, communicable or contagious disease (LPN)",
+        "short_label": "lpn_practicing_with_communicable_disease",
+        "description": "LPN licensee continues to practice nursing knowing they have an infectious, communicable or contagious disease.",
         "quote": "Is continuing to practice nursing when such licensee knows he or she has an infectious, communicable or contagious disease",
         "citation": "§ 16"
       }
@@ -337,11 +361,11 @@
       },
       {
         "cite": "§ 3",
-        "kind": "title and scope protection (RN)"
+        "kind": "title protection / RN"
       },
       {
         "cite": "§ 3.1",
-        "kind": "dietitian-nutritionist license required"
+        "kind": "LDN license required"
       },
       {
         "cite": "§ 4",
@@ -361,11 +385,11 @@
       },
       {
         "cite": "§ 6.1",
-        "kind": "education program approval"
+        "kind": "education programs"
       },
       {
         "cite": "§ 6.2",
-        "kind": "approved lists; CNS programs"
+        "kind": "approved lists"
       },
       {
         "cite": "§ 7",
@@ -373,15 +397,15 @@
       },
       {
         "cite": "§ 8",
-        "kind": "issuance of license"
+        "kind": "persons entitled to practice"
       },
       {
         "cite": "§ 8.1",
-        "kind": "CRNP qualifications and CE"
+        "kind": "CRNP qualifications"
       },
       {
         "cite": "§ 8.2",
-        "kind": "CRNP scope of practice"
+        "kind": "CRNP scope"
       },
       {
         "cite": "§ 8.3",
@@ -397,7 +421,7 @@
       },
       {
         "cite": "§ 8.6",
-        "kind": "CNS scope of practice"
+        "kind": "CNS scope"
       },
       {
         "cite": "§ 8.7",
@@ -409,23 +433,19 @@
       },
       {
         "cite": "§ 8.9",
-        "kind": "CRNA scope of practice"
+        "kind": "CRNA scope"
       },
       {
         "cite": "§ 11",
-        "kind": "license duration and renewal"
+        "kind": "renewal"
       },
       {
         "cite": "§ 12.1",
-        "kind": "continuing nursing education"
-      },
-      {
-        "cite": "§ 13",
-        "kind": "penalties (RN law)"
+        "kind": "continuing education"
       },
       {
         "cite": "§ 14",
-        "kind": "disciplinary grounds (RN law)"
+        "kind": "disciplinary grounds RN/LDN"
       },
       {
         "cite": "§ 14.1",
@@ -436,20 +456,12 @@
         "kind": "scope protection / injunction"
       },
       {
-        "cite": "§ 14",
-        "kind": "violations (LPN law)"
-      },
-      {
-        "cite": "§ 15",
-        "kind": "penalties (LPN law)"
-      },
-      {
         "cite": "§ 16",
-        "kind": "disciplinary grounds (LPN law)"
+        "kind": "disciplinary grounds LPN"
       },
       {
         "cite": "§ 17.4",
-        "kind": "scope protection (LPN law)"
+        "kind": "LPN scope protection"
       }
     ]
   },
@@ -461,35 +473,31 @@
     },
     "methods_authorized": {
       "value": [
-        "diagnosing",
-        "treating",
         "casefinding",
         "health teaching",
         "health counseling",
         "provision of care supportive to or restorative of life and well-being",
-        "executing medical regimens as prescribed by a licensed physician or dentist"
+        "executing medical regimens as prescribed by a licensed physician or dentist",
+        "acts of medical diagnosis (CRNP in collaboration with physician)",
+        "prescribing medical therapeutic or corrective measures (CRNP per § 8.3)",
+        "anesthesia services (CRNA under overall direction per § 8.9)"
       ],
-      "quote": "diagnosing and treating human responses to actual or potential health problems through such services as casefinding, health teaching, health counseling, and provision of care supportive to or restorative of life and well-being, and executing medical regimens as prescribed by a licensed physician or dentist.",
+      "quote": "diagnosing and treating human responses to actual or potential health problems through such services as casefinding, health teaching, health counseling, and provision of care supportive to or restorative of life and well-being, and executing medical regimens as prescribed by a licensed physician or dentist",
       "citation": "§ 2"
     },
     "drug_authority": {
-      "value": "CRNPs may prescribe and dispense board-approved categories of drugs in collaboration with a physician, after completing 45 hours of advanced pharmacology coursework; drug categories subject to Drug Review Committee approval.",
-      "quote": "A certified registered nurse practitioner may prescribe and dispense those categories of drugs that certified registered nurse practitioners were authorized to prescribe and dispense by board regulations in effect on the effective date of this section, subject to the restrictions on certain drug categories imposed by those regulations.",
-      "citation": "§ 8.3",
-      "unverified": true,
-      "approximate": {
-        "ratio": 0.878,
-        "matched_normalized": " may prescribe and dispense those categories of drugs that certified registered nurse practitioners were authorized to prescribe and dispense by board regulations in effect on the effective date of this section subject to the restrictions on certain drug categories imposed by those regulations"
-      }
+      "value": "CRNPs may prescribe and dispense categories of drugs authorized by board regulations if acting in collaboration with a physician under a written agreement and having completed at least 45 hours of advanced pharmacology coursework. Drug categories are subject to approval by the Drug Review Committee. CRNAs may administer anesthesia under overall direction of a qualified physician, podiatrist, or dentist. CNSs may not prescribe medical therapeutic or corrective measures.",
+      "quote": "A certified registered nurse practitioner may prescribe medical therapeutic or corrective measures if the nurse: (1) has successfully completed at least forty-five (45) hours of coursework specific to advanced pharmacology...is acting in collaboration with a physician as set forth in a written agreement",
+      "citation": "§ 8.3"
     },
     "citations": [
       {
         "cite": "§ 2",
-        "kind": "definition of practice of professional nursing"
+        "kind": "scope definition"
       },
       {
         "cite": "§ 8.2",
-        "kind": "CRNP scope of practice"
+        "kind": "CRNP scope"
       },
       {
         "cite": "§ 8.3",
@@ -497,11 +505,11 @@
       },
       {
         "cite": "§ 8.6",
-        "kind": "CNS scope of practice"
+        "kind": "CNS scope"
       },
       {
         "cite": "§ 8.9",
-        "kind": "CRNA scope of practice"
+        "kind": "CRNA scope"
       }
     ]
   },
@@ -512,43 +520,44 @@
         "Licensed Practical Nurse (LPN)",
         "Certified Registered Nurse Practitioner (CRNP)",
         "Clinical Nurse Specialist (CNS)",
-        "Certified Registered Nurse Anesthetist (CRNA)"
+        "Certified Registered Nurse Anesthetist (CRNA)",
+        "Temporary Practice Permit"
       ],
       "quote": "Any person who holds a license to practice professional nursing in this Commonwealth...shall have the right to use the titles \"nurse\" and \"registered nurse\" and the abbreviation \"R.N.\"",
       "citation": "§ 3"
     },
     "aprn_role_categories": {
       "value": [
-        "Certified Registered Nurse Practitioner (CRNP)",
-        "Clinical Nurse Specialist (CNS)",
-        "Certified Registered Nurse Anesthetist (CRNA)"
+        "Certified Registered Nurse Practitioner",
+        "Clinical Nurse Specialist",
+        "Certified Registered Nurse Anesthetist"
       ],
-      "quote": "\"Certified registered nurse practitioner\" means a registered nurse licensed in this Commonwealth who is certified by the board in a particular clinical specialty area.",
+      "quote": "\"certified registered nurse practitioner\" means a registered nurse licensed in this Commonwealth who is certified by the board in a particular clinical specialty area. ... \"clinical nurse specialist\" means a registered nurse licensed in this Commonwealth who is certified by the State Board of Nursing as a clinical nurse specialist. ... \"certified registered nurse anesthetist\" means a registered nurse licensed in this Commonwealth who is certified by the State Board of Nursing as a certified registered nurse anesthetist.",
       "citation": "§ 2"
     },
     "lpn_supervision_requirements": {
       "value": [
-        "licensed professional nurse",
-        "licensed physician",
-        "licensed dentist"
+        "Licensed professional nurse",
+        "Physician",
+        "Dentist"
       ],
       "quote": "the performance of selected nursing acts in the care of the ill, injured or infirm under the direction of a licensed professional nurse, a licensed physician or a licensed dentist",
       "citation": "§ 2"
     },
     "collaborative_practice_agreement_required": {
       "value": true,
-      "quote": "is acting in collaboration with a physician as set forth in a written agreement which shall, at a minimum, identify the following: (i) the area of practice in which the nurse is certified; (ii) the categories of drugs from which the nurse may prescribe or dispense",
+      "quote": "is acting in collaboration with a physician as set forth in a written agreement which shall, at a minimum, identify the following: (i) the area of practice in which the nurse is certified; (ii) the categories of drugs from which the nurse may prescribe or dispense; and (iii) the circumstances and how often the collaborating physician will personally see the patient",
       "citation": "§ 8.3"
     },
     "full_independent_practice_available": {
       "value": false,
-      "quote": "A certified registered nurse practitioner may prescribe medical therapeutic or corrective measures if the nurse: ... (2) is acting in collaboration with a physician as set forth in a written agreement",
-      "citation": "§ 8.3"
+      "quote": "A certified registered nurse practitioner may perform acts of medical diagnosis in collaboration with a physician and in accordance with regulations promulgated by the board.",
+      "citation": "§ 8.2"
     },
     "full_independent_practice_experience_hours_required": null,
     "prescriptive_authority_certificate_required": {
       "value": false,
-      "quote": "A certified registered nurse practitioner may prescribe medical therapeutic or corrective measures if the nurse: (1) has successfully completed at least forty-five (45) hours of coursework specific to advanced pharmacology",
+      "quote": "A certified registered nurse practitioner may prescribe medical therapeutic or corrective measures if the nurse: (1) has successfully completed at least forty-five (45) hours of coursework specific to advanced pharmacology...is acting in collaboration with a physician as set forth in a written agreement",
       "citation": "§ 8.3"
     },
     "controlled_substance_schedule_authority": null,
@@ -559,7 +568,7 @@
     "medication_assistant_certification_available": null,
     "delegation_to_unlicensed_personnel_authorized": {
       "value": true,
-      "quote": "Auxiliary services rendered by persons carrying out duties necessary for the support of nursing service, including those duties which involve minor and very basic nursing services for patients, performed in health care facilities or elsewhere under the direction of licensed physicians or as delegated by licensed registered nurses",
+      "quote": "Auxiliary services rendered by persons carrying out duties necessary for the support of nursing service, including those duties which involve minor and very basic nursing services for patients, performed in health care facilities or elsewhere under the direction of licensed physicians or as delegated by licensed registered nurses and performed under the direction of professional nurses or licensed practical nurses.",
       "citation": "§ 3"
     },
     "employer_mandatory_reporting_required": {
@@ -587,15 +596,185 @@
     "cnm_out_of_hospital_birth_authorized": null,
     "aprn_formulary_or_protocol_required": {
       "value": true,
-      "quote": "the board shall not change, by addition or deletion, the categories of authorized drugs without prior approval of the Drug Review Committee.",
-      "citation": "§ 8.4"
+      "quote": "the categories of drugs from which the nurse may prescribe or dispense",
+      "citation": "§ 8.3"
     },
     "nursing_education_program_clinical_hours_minimum": {
       "value": 1500,
-      "quote": "has satisfactorily completed a program in practical nursing prescribed and approved by the board in a school, hospital or other educational institution, of not less than fifteen hundred hours and within a period of not less than twelve months",
+      "quote": "has satisfactorily completed a program in practical nursing prescribed and approved by the board in a school, hospital or other educational institution, of not less than fifteen hundred hours",
       "citation": "§ 5"
     },
     "implicit_bias_training_required_in_curriculum": null,
-    "military_education_credit_required": null
+    "military_education_credit_required": null,
+    "scope__license_tiers": [
+      {
+        "item": "Registered Nurse (RN)",
+        "status": "present",
+        "quote": "Any person who holds a license to practice professional nursing in this Commonwealth...shall have the right to use the titles \"nurse\" and \"registered nurse\" and the abbreviation \"R.N.\"",
+        "citation": "§ 3"
+      },
+      {
+        "item": "Licensed Practical Nurse (LPN)",
+        "status": "present",
+        "quote": "Use in connection with his or her name the words nurse, practical nurse, licensed practical nurse, or the letters \"PN,\" or \"LPN,\"...unless he or she is duly licensed to so practice under the provisions of this act",
+        "citation": "§ 14"
+      },
+      {
+        "item": "Advanced Practice Registered Nurse (APRN)",
+        "status": "present",
+        "quote": "\"certified registered nurse practitioner\" means a registered nurse licensed in this Commonwealth who is certified by the board in a particular clinical specialty area.",
+        "citation": "§ 2"
+      },
+      {
+        "item": "Certified Registered Nurse Anesthetist (CRNA)",
+        "status": "present",
+        "quote": "\"certified registered nurse anesthetist\" means a registered nurse licensed in this Commonwealth who is certified by the State Board of Nursing as a certified registered nurse anesthetist.",
+        "citation": "§ 2"
+      },
+      {
+        "item": "Certified Nurse Practitioner (CNP/CRNP/NP)",
+        "status": "present",
+        "quote": "\"certified registered nurse practitioner\" means a registered nurse licensed in this Commonwealth who is certified by the board in a particular clinical specialty area.",
+        "citation": "§ 2"
+      },
+      {
+        "item": "Certified Nurse Midwife (CNM)",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Clinical Nurse Specialist (CNS)",
+        "status": "present",
+        "quote": "\"clinical nurse specialist\" means a registered nurse licensed in this Commonwealth who is certified by the State Board of Nursing as a clinical nurse specialist.",
+        "citation": "§ 2"
+      },
+      {
+        "item": "Certified Nurse Aide (CNA)",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Certified Medication Assistant",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Full Independent Practice Authority Certificate",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Nursing Home Administrator License",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Multistate License (Nurse Licensure Compact)",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Temporary Permit to Practice Nursing",
+        "status": "present",
+        "quote": "In order for a person to practice professional nursing during the one (1) year period from completion of his or her education program...the Board may issue a temporary practice permit which is nonrenewable and valid for a period of one (1) year",
+        "citation": "§ 4.1"
+      }
+    ],
+    "scope__aprn_role_categories": [
+      {
+        "item": "Certified Nurse Practitioner",
+        "status": "present",
+        "quote": "\"certified registered nurse practitioner\" means a registered nurse licensed in this Commonwealth who is certified by the board in a particular clinical specialty area.",
+        "citation": "§ 2"
+      },
+      {
+        "item": "Certified Registered Nurse Anesthetist",
+        "status": "present",
+        "quote": "\"certified registered nurse anesthetist\" means a registered nurse licensed in this Commonwealth who is certified by the State Board of Nursing as a certified registered nurse anesthetist.",
+        "citation": "§ 2"
+      },
+      {
+        "item": "Certified Nurse Midwife",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Clinical Nurse Specialist",
+        "status": "present",
+        "quote": "\"clinical nurse specialist\" means a registered nurse licensed in this Commonwealth who is certified by the State Board of Nursing as a clinical nurse specialist.",
+        "citation": "§ 2"
+      }
+    ],
+    "scope__lpn_supervision_requirements": [
+      {
+        "item": "Registered Nurse",
+        "status": "present",
+        "quote": "the performance of selected nursing acts in the care of the ill, injured or infirm under the direction of a licensed professional nurse, a licensed physician or a licensed dentist",
+        "citation": "§ 2"
+      },
+      {
+        "item": "Advanced Practice Registered Nurse",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Physician",
+        "status": "present",
+        "quote": "the performance of selected nursing acts in the care of the ill, injured or infirm under the direction of a licensed professional nurse, a licensed physician or a licensed dentist",
+        "citation": "§ 2"
+      },
+      {
+        "item": "Physician Assistant",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Dentist",
+        "status": "present",
+        "quote": "the performance of selected nursing acts in the care of the ill, injured or infirm under the direction of a licensed professional nurse, a licensed physician or a licensed dentist",
+        "citation": "§ 2"
+      },
+      {
+        "item": "Podiatrist",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      }
+    ],
+    "scope__controlled_substance_schedule_authority": [
+      {
+        "item": "Schedule II controlled substances",
+        "status": "not_addressed",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Schedule III controlled substances",
+        "status": "not_addressed",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Schedule IV controlled substances",
+        "status": "not_addressed",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Schedule V controlled substances",
+        "status": "not_addressed",
+        "quote": "",
+        "citation": ""
+      }
+    ]
   }
 }

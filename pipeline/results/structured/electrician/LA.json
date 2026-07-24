@@ -20,8 +20,8 @@
       },
       "type": {
         "value": "shared_board",
-        "quote": "There is hereby created the State Licensing Board for Contractors within the office of the governor.",
-        "citation": "37:2151"
+        "quote": "The major classifications are: (1) Building construction. (2) Highway, street, and bridge construction. (3) Heavy construction. (4) Municipal and public works construction. (5) Electrical. (6) Mechanical. (7) Plumbing. (8) Hazardous materials. (9) Residential construction. (10) Mold remediation. (11) Home improvement.",
+        "citation": "37:2156.1"
       },
       "umbrella_agency": {
         "value": "Office of the Governor",
@@ -30,17 +30,21 @@
       }
     },
     "age_minimum": null,
-    "moral_character_required": null,
+    "moral_character_required": {
+      "value": true,
+      "quote": "The applicant, each principal, and each designated qualifying party shall complete an application and pass a background investigation. An applicant shall provide all information or documentation requested by the board, including but not limited to documentation relative to identification, criminal history, and financial history. The board may deny approval of the applicant, any of its principals, or any qualifying party for cause.",
+      "citation": "37:2156.1"
+    },
     "education": null,
     "post_degree_experience": {
       "required": {
         "value": false,
-        "quote": "An applicant for a license or registration shall submit a financial statement on a form supplied by the board",
+        "quote": "An applicant for licensure shall designate a qualifying party for each classification and for the Louisiana business and law requirement. The qualifying party shall meet all application requirements and shall satisfy any examination and credential requirement.",
         "citation": "37:2156.1"
       },
       "experience_source": {
         "value": "none",
-        "quote": "An applicant for a license or registration shall submit a financial statement on a form supplied by the board",
+        "quote": "An applicant for licensure shall designate a qualifying party for each classification and for the Louisiana business and law requirement. The qualifying party shall meet all application requirements and shall satisfy any examination and credential requirement.",
         "citation": "37:2156.1"
       },
       "duration": null,
@@ -50,17 +54,17 @@
       {
         "name": "Trade examination (Electrical classification)",
         "required": true,
-        "notes": "Board may waive the trade portion for applicants holding a comparable license in another state; business law requirement is not waivable.",
-        "jurisdiction": null,
+        "notes": "The board may waive the trade portion for applicants holding a comparable classification license in another state. The business law requirement cannot be waived.",
+        "jurisdiction": "state (State Licensing Board for Contractors)",
         "permitted_attempts": null,
-        "quote": "The qualifying party shall meet all application requirements and shall satisfy any examination and credential requirement.",
-        "citation": "37:2156.1"
+        "quote": "Waive the trade portion of the examination requirement for any applicant holding a license in a comparable classification in another state as determined by the board, upon written certification from the licensing state that the applicant passed the examination for the classification and is in good standing. The business law requirement shall not be waived.",
+        "citation": "37:2153"
       },
       {
         "name": "Louisiana Business and Law examination",
         "required": true,
-        "notes": "The business law requirement shall not be waived even for out-of-state applicants.",
-        "jurisdiction": "state",
+        "notes": "Cannot be waived even for out-of-state reciprocity applicants.",
+        "jurisdiction": "state (State Licensing Board for Contractors)",
         "permitted_attempts": null,
         "quote": "The business law requirement shall not be waived.",
         "citation": "37:2153"
@@ -82,8 +86,8 @@
         "citation": "37:2153"
       },
       "requirements": {
-        "value": "Board may waive the trade exam for applicants licensed in a comparable classification in another state; written certification of passing the exam and good standing required; business law exam still required; applicant must comply with all other licensing requirements.",
-        "quote": "Waive the trade portion of the examination requirement for any applicant holding a license in a comparable classification in another state as determined by the board, upon written certification from the licensing state that the applicant passed the examination for the classification and is in good standing. The business law requirement shall not be waived. Applicants shall comply with all other licensing requirements of this state",
+        "value": "Applicant must hold a license in a comparable classification in another state; the licensing state must provide written certification that the applicant passed the examination and is in good standing. The business law requirement shall not be waived. Applicants must comply with all other licensing requirements.",
+        "quote": "Waive the trade portion of the examination requirement for any applicant holding a license in a comparable classification in another state as determined by the board, upon written certification from the licensing state that the applicant passed the examination for the classification and is in good standing. The business law requirement shall not be waived. Applicants shall comply with all other licensing requirements of this state; however, for good cause, the board may waive any other licensing requirement.",
         "citation": "37:2153"
       }
     },
@@ -98,7 +102,7 @@
     },
     "national_certification": null,
     "national_association": {
-      "value": "Louisiana Council of the National Electrical Contractors Association",
+      "value": "National Electrical Contractors Association (Louisiana Council)",
       "quote": "At least one member shall have had the greater part of his experience as a licensed contractor in the field of electrical construction, and shall be appointed from a list of three names submitted by the Louisiana Council of the National Electrical Contractors Association.",
       "citation": "37:2151"
     },
@@ -119,7 +123,7 @@
     },
     "title_protection": {
       "value": true,
-      "quote": "It shall be unlawful for any contractor, licensed or unlicensed to publish, transmit, distribute, or otherwise publicly circulate a misleading or false claim related to a person's license or classification in any medium",
+      "quote": "It shall be unlawful for any contractor, licensed or unlicensed to publish, transmit, distribute, or otherwise publicly circulate a misleading or false claim related to a person's license or classification in any medium, including but not limited to digital platforms.",
       "citation": "37:2163"
     },
     "scope_protection": {
@@ -129,26 +133,32 @@
     },
     "disciplinary_grounds": [
       {
-        "short_label": "unlicensed_contracting",
-        "description": "Undertaking or bidding construction work without possessing a required license or without possessing the proper classification.",
-        "quote": "Undertaking, attempting to, or submitting a price or bid; offering to construct, supervise, superintend, oversee, direct, or in any manner assume charge of the construction...without possessing a license for which a license is required or without possessing a license with the proper classification.",
+        "short_label": "contracting_without_license_or_proper_classification",
+        "description": "Undertaking, submitting a bid, or performing construction work without possessing a required license or without the proper classification.",
+        "quote": "Undertaking, attempting to, or submitting a price or bid; offering to construct, supervise, superintend, oversee, direct, or in any manner assume charge of the construction, alteration, repair, improvement, movement, demolition, putting up, tearing down; furnishing labor or furnishing labor together with material or equipment; or installing material or equipment for any building, highway, road, railroad, sewer grading, excavation, pipeline, public utility structure, project development, housing, or housing development, improvement, or any other construction undertaking without possessing a license for which a license is required or without possessing a license with the proper classification.",
         "citation": "37:2158"
       },
       {
-        "short_label": "false_claim_license_status",
-        "description": "Publishing or distributing a misleading or false claim related to a person's license status or classification.",
+        "short_label": "false_or_misleading_license_claims",
+        "description": "Publishing or distributing misleading or false claims related to a person's license status or classification in any medium.",
         "quote": "Publishing, transmitting, distributing, or otherwise publicly circulating a misleading or false claim related to a person's license status or classification in any medium, including but not limited to digital platforms.",
         "citation": "37:2158"
       },
       {
         "short_label": "dishonest_or_fraudulent_act",
-        "description": "Any dishonest or fraudulent act as a contractor that caused damage to another, as adjudged by a court of competent jurisdiction.",
+        "description": "Any dishonest or fraudulent act as a contractor which has caused damage to another, as adjudged by a court of competent jurisdiction.",
         "quote": "Any dishonest or fraudulent act as a contractor which has caused damage to another, as adjudged by a court of competent jurisdiction.",
         "citation": "37:2158"
       },
       {
+        "short_label": "bidding_without_proper_classification",
+        "description": "Bidding on, quoting, or performing a job for which the licensee does not hold the classification for the majority of work performed.",
+        "quote": "Bidding on, quoting, estimating, or performing a job for which a license is required, the licensee shall hold the classification for the majority of work performed.",
+        "citation": "37:2158"
+      },
+      {
         "short_label": "misrepresentation_in_obtaining_license",
-        "description": "Misrepresentation of fact by an applicant in obtaining a license, or providing false information to the board.",
+        "description": "Misrepresentation of fact by an applicant in obtaining a license or in providing information to the board, deception by omission, or providing false testimony.",
         "quote": "Misrepresentation of fact by an applicant in obtaining a license; misrepresentation of fact by an applicant or licensee in providing information, statements, or documents to the staff or board; deception by omission; and providing false testimony to the board.",
         "citation": "37:2158"
       },
@@ -160,13 +170,13 @@
       },
       {
         "short_label": "contracting_with_unlicensed_contractor",
-        "description": "Entering into a contract with an unlicensed contractor for work requiring a license.",
+        "description": "Entering into a contract with an unlicensed contractor involving work for which a license is required.",
         "quote": "Entering into a contract with an unlicensed contractor involving work or activity for the performance of which a license is required by this Chapter.",
         "citation": "37:2158"
       },
       {
-        "short_label": "improper_use_of_license",
-        "description": "Permitting or fraudulent use of a license by someone other than the licensee.",
+        "short_label": "license_misuse_or_fraud",
+        "description": "Permitting a license to be used by someone other than the person to whom it was issued, or fraudulent use of a license.",
         "quote": "Permitting a license to be used for any purpose by any person other than the person to whom the license is issued.",
         "citation": "37:2158"
       },
@@ -177,20 +187,26 @@
         "citation": "37:2158"
       },
       {
-        "short_label": "failure_to_continue_fulfilling_requirements",
+        "short_label": "failure_to_continue_licensure_requirements",
         "description": "Failure to continue to fulfill any of the requirements for licensure.",
         "quote": "Failure to continue to fulfill any of the requirements for licensure.",
         "citation": "37:2158"
       },
       {
-        "short_label": "debarment_by_public_entity",
+        "short_label": "problems_with_ability_to_engage_in_contracting",
+        "description": "Problems relating to the ability of the contractor, its qualifying party, or any of its principals to engage in the business of contracting.",
+        "quote": "Problems relating to the ability of the contractor, its qualifying party, or any of its principals to engage in the business of contracting.",
+        "citation": "37:2158"
+      },
+      {
+        "short_label": "disqualification_or_debarment_by_public_entity",
         "description": "Disqualification or debarment by any public entity.",
         "quote": "Disqualification or debarment by any public entity.",
         "citation": "37:2158"
       },
       {
         "short_label": "failure_to_notify_board_of_changes",
-        "description": "Failure to provide written notification to the board of any change to application information within thirty calendar days.",
+        "description": "Failure to provide written notification to the board of changes to application information or of criminal, civil, or administrative actions within thirty calendar days.",
         "quote": "Failure to provide written notification to the board of any change to the information provided in the original application and any amendments thereto within thirty calendar days.",
         "citation": "37:2158"
       },
@@ -201,20 +217,26 @@
         "citation": "37:2158"
       },
       {
-        "short_label": "abandonment_or_failure_to_perform",
-        "description": "Abandoning or failing to perform, without justification, any contract or project, or deviating from plans without consent.",
+        "short_label": "failure_to_provide_written_contractor_information",
+        "description": "Failure to provide in writing the contractor's name, license number, classification, and current insurance certificates when requested by a contracting party.",
+        "quote": "Failure of a contractor performing residential construction, home improvement, or mold remediation in accordance with this Chapter to provide, in writing to the party with whom he has contracted to perform services, his name, license number, classification, and current insurance certificates evidencing the amount of liability insurance maintained and proof of workers' compensation coverage when requested by the contracting party for whom the work is to be performed.",
+        "citation": "37:2158"
+      },
+      {
+        "short_label": "abandonment_or_failure_to_perform_contract",
+        "description": "Abandoning or failing to perform without justification any contract, or deviating from plans or specifications without consent.",
         "quote": "Abandoning or failing to perform, without justification, any contract or project engaged in or undertaken by any licensee or deviating from or disregarding plans or specifications in any material respect without the consent of the owner and the design professional.",
         "citation": "37:2158"
       },
       {
-        "short_label": "efforts_to_deceive_or_defraud_public",
+        "short_label": "deception_or_fraud_of_public",
         "description": "Efforts to deceive or defraud the public.",
         "quote": "Efforts to deceive or defraud the public.",
         "citation": "37:2158"
       },
       {
         "short_label": "failure_to_obtain_permit",
-        "description": "Failure to obtain a permit to perform work or beginning work prior to permit issuance.",
+        "description": "Failure to obtain a required permit, beginning work before permit issuance, or misrepresenting the value or scope of work.",
         "quote": "Failure to obtain a permit to perform work or beginning work prior to the issuance of a permit in the jurisdiction as required or misrepresenting the value or scope of work.",
         "citation": "37:2158"
       },
@@ -225,21 +247,31 @@
         "citation": "37:2158"
       },
       {
-        "short_label": "failure_to_have_written_contract",
+        "short_label": "failure_to_have_written_signed_contract",
         "description": "Failure to have a written contract signed and dated by all parties.",
         "quote": "Failure to have a written contract signed and dated by all parties.",
         "citation": "37:2158"
       },
       {
-        "short_label": "failure_to_maintain_records",
-        "description": "Failure to maintain and provide to the board requested records and documents within five business days.",
+        "short_label": "failure_to_bid_in_license_name",
+        "description": "Failure to bid, contract, or perform work in the name as it appears on the current license or registration.",
+        "quote": "Failure to bid, contract, or perform work in the name as it appears on the current license or registration and the official records of the board.",
+        "citation": "37:2158"
+      },
+      {
+        "short_label": "failure_to_maintain_and_provide_records",
+        "description": "Failure to maintain and provide to the board requested records, documents, and other information within five business days.",
         "quote": "Failure to maintain and provide to the board requested records, documents, and other information as required within five business days of receipt of request.",
         "citation": "37:2158"
       }
     ],
     "alternative_regulation": {
       "bonding_required": null,
-      "insurance_required": null,
+      "insurance_required": {
+        "value": true,
+        "quote": "Residential construction and its subclassifications, mold remediation, and home improvement applicants shall be required to submit certificates evidencing workers' compensation coverage in compliance with Title 23 of the Louisiana Revised Statutes of 1950, and liability insurance in a minimum amount of one hundred thousand dollars",
+        "citation": "37:2156.1"
+      },
       "establishment_regulation_required": null
     },
     "citations": [
@@ -249,27 +281,31 @@
       },
       {
         "cite": "37:2151",
-        "kind": "board_membership"
+        "kind": "board membership"
       },
       {
         "cite": "37:2153",
-        "kind": "board_powers"
+        "kind": "board powers"
+      },
+      {
+        "cite": "37:2155",
+        "kind": "residential subcommittee"
       },
       {
         "cite": "37:2156",
-        "kind": "applications_licenses_fees_renewals"
+        "kind": "applications, licenses, fees, renewals"
       },
       {
         "cite": "37:2156.1",
-        "kind": "license_requirements"
+        "kind": "requirements for issuance"
       },
       {
         "cite": "37:2156.2",
-        "kind": "licensee_requirements"
+        "kind": "requirements of licensee"
       },
       {
         "cite": "37:2156.3",
-        "kind": "solar_energy"
+        "kind": "solar energy equipment"
       },
       {
         "cite": "37:2157",
@@ -277,11 +313,23 @@
       },
       {
         "cite": "37:2158",
-        "kind": "revocation_suspension_violations"
+        "kind": "revocation and suspension"
+      },
+      {
+        "cite": "37:2159",
+        "kind": "written contract required"
       },
       {
         "cite": "37:2163",
-        "kind": "unlawful_contracting_penalty"
+        "kind": "engaging without authority prohibited"
+      },
+      {
+        "cite": "37:2164",
+        "kind": "violations; civil penalty"
+      },
+      {
+        "cite": "37:2165",
+        "kind": "bid procedures"
       }
     ]
   },
@@ -293,49 +341,62 @@
     },
     "methods_authorized": {
       "value": [
+        "wiring",
+        "fixtures",
+        "appliances for the supply of electricity",
         "construction",
         "alteration",
         "repair",
         "improvement",
-        "movement",
-        "demolition",
-        "wiring installation",
-        "fixture installation",
-        "appliance installation"
+        "installation"
       ],
-      "quote": "construction, alteration, repair, improvement, movement, demolition, putting up, tearing down, or furnishing labor together with material and equipment, or installing the same for the wiring, fixtures, or appliances for the supply of electricity",
+      "quote": "for the wiring, fixtures, or appliances for the supply of electricity to any residential, commercial, or other project",
       "citation": "37:2150.1"
     },
     "drug_authority": null,
     "citations": [
       {
         "cite": "37:2150.1",
-        "kind": "definition"
+        "kind": "definition of electrical contractor"
       },
       {
         "cite": "37:2156.3",
-        "kind": "solar_energy_scope"
+        "kind": "solar energy electrical work scope"
+      },
+      {
+        "cite": "37:2157",
+        "kind": "exemptions from scope"
       }
     ]
   },
   "profession_specific": {
     "license_tiers": {
       "value": [
+        "Electrical (major classification)",
         "Electrical contractor"
       ],
-      "quote": "\"Electrical contractor\" means any person who undertakes to, attempts to, or submits a price or bid or offers to...installing the same for the wiring, fixtures, or appliances for the supply of electricity to any residential, commercial, or other project, for which the project value is ten thousand dollars or more.",
+      "quote": "The major classifications are: ... (5) Electrical.",
+      "citation": "37:2156.1"
+    },
+    "residential_project_definition": {
+      "value": "A building or structure that is used primarily for occupancy by a person as a residence, including single family dwellings and duplexes not more than three floors in height.",
+      "quote": "\"Residential structure\" means a building or structure that is used primarily for occupancy by a person as a residence. Such structures or buildings include but are not limited to single family dwellings and duplexes which are not more than three floors in height",
       "citation": "37:2150.1"
     },
-    "residential_project_definition": null,
     "residential_wiring_method_restriction": null,
     "voltage_limit_residential": null,
     "scope_exclusions": {
       "value": [
-        "Any public utility providing gas, electric, or telephone service subject to regulation by the Louisiana Public Service Commission or the council of the city of New Orleans",
-        "Owners of property supervising construction on that property for their own use, not for sale or rent, with controlled access",
+        "Public utility providing gas, electric, or telephone service regulated by the Louisiana Public Service Commission or the council of the city of New Orleans",
+        "Owners of property supervising construction on their property for their own use that will not be for sale or rent with controlled access",
+        "Any person donating labor for construction of a building dedicated to worship",
+        "Any farmer doing construction for agricultural purposes on leased or owned land",
         "Any person bidding or performing work on any project totally owned by the federal government",
+        "Any person engaged in rail or pipeline construction activities performed on property he owns or leases",
+        "Any person, supplier, or manufacturer who assembles, repairs, maintains, moves, puts up, tears down, or disassembles any patented or proprietary equipment supplied to a contractor",
+        "Manufactured housing industry or any person performing service, warranty, repair, or home improvement work on factory-built residential dwellings mounted on chassis and wheels",
         "Any employee of any licensee",
-        "Electrical, mechanical, and plumbing licensees who are acting exclusively within the scope of their classification (exempt from residential contractor requirements)"
+        "Owners of property supervising construction of their personal residences (not more than one per year)"
       ],
       "quote": "The provisions of this Part shall not apply to any of the following: (1) Any public utility providing gas, electric, or telephone service which is subject to regulation by the Louisiana Public Service Commission or the council of the city of New Orleans",
       "citation": "37:2157"
@@ -348,10 +409,16 @@
     "residential_apprentice_supervisor_ratio_max": null,
     "qualifier_required": {
       "value": true,
-      "quote": "An applicant for licensure shall designate a qualifying party for each classification and for the Louisiana business and law requirement.",
+      "quote": "An applicant for licensure shall designate a qualifying party for each classification and for the Louisiana business and law requirement. The qualifying party shall meet all application requirements and shall satisfy any examination and credential requirement.",
       "citation": "37:2156.1"
     },
-    "qualifier_license_requirement_by_contractor_type": null,
+    "qualifier_license_requirement_by_contractor_type": {
+      "value": [
+        "Qualifying party must pass trade examination for Electrical classification and Louisiana business and law examination"
+      ],
+      "quote": "An applicant for licensure shall designate a qualifying party for each classification and for the Louisiana business and law requirement. The qualifying party shall meet all application requirements and shall satisfy any examination and credential requirement.",
+      "citation": "37:2156.1"
+    },
     "qualifier_replacement_notice_days": null,
     "qualifier_replacement_grace_period_days": null,
     "long_term_compliance_qualifier_waiver_years": null,
@@ -369,7 +436,7 @@
     "gas_appliance_work_certification_required": null,
     "small_project_dollar_threshold_exemption": {
       "value": 10000,
-      "quote": "\"Electrical contractor\" means any person who undertakes to...installing the same for the wiring, fixtures, or appliances for the supply of electricity to any residential, commercial, or other project, for which the project value is ten thousand dollars or more.",
+      "quote": "\"Electrical contractor\" means any person who undertakes to, attempts to, or submits a price or bid or offers to construct, supervise, superintend, oversee, direct, perform, or in any manner assume charge of the construction, alteration, repair, improvement, movement, demolition, putting up, tearing down, or furnishing labor together with material and equipment, or installing the same for the wiring, fixtures, or appliances for the supply of electricity to any residential, commercial, or other project, for which the project value is ten thousand dollars or more.",
       "citation": "37:2150.1"
     },
     "solar_panel_electrical_work_exemption": {
@@ -391,8 +458,436 @@
     },
     "public_liability_insurance_required": {
       "value": true,
-      "quote": "Residential construction and its subclassifications, mold remediation, and home improvement applicants shall be required to submit certificates evidencing workers' compensation coverage in compliance with Title 23 of the Louisiana Revised Statutes of 1950, and liability insurance in a minimum amount of one hundred thousand dollars",
+      "quote": "liability insurance in a minimum amount of one hundred thousand dollars or liability protection provided by a liability trust fund as authorized by R.S. 22:46(9)(d) in a minimum amount of one hundred thousand dollars.",
       "citation": "37:2156.1"
-    }
+    },
+    "scope__license_tiers": [
+      {
+        "item": "Apprentice Electrician",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Journeyman Electrician",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Master Electrician",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Residential Journeyman Electrician",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Residential Master Electrician",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Residential Wireman",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Electrical Contractor",
+        "status": "present",
+        "quote": "\"Electrical contractor\" means any person who undertakes to, attempts to, or submits a price or bid or offers to construct, supervise, superintend, oversee, direct, perform, or in any manner assume charge of the construction, alteration, repair, improvement, movement, demolition, putting up, tearing down, or furnishing labor together with material and equipment, or installing the same for the wiring, fixtures, or appliances for the supply of electricity to any residential, commercial, or other project, for which the project value is ten thousand dollars or more.",
+        "citation": "37:2150.1"
+      },
+      {
+        "item": "Provisional Electrical Contractor",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Electrical Administrator",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Industrial Maintenance Electrician",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Air Conditioning Electrician",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Specialist Sign Electrician",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      }
+    ],
+    "scope__scope_exclusions": [
+      {
+        "item": "Electric utility generation, transmission, and distribution work",
+        "status": "present",
+        "quote": "Any public utility providing gas, electric, or telephone service which is subject to regulation by the Louisiana Public Service Commission or the council of the city of New Orleans, or to any work performed by the public utility in furnishing its authorized service.",
+        "citation": "37:2157"
+      },
+      {
+        "item": "Telephone, signal, and communications system work by utility employees",
+        "status": "present",
+        "quote": "Any public utility providing gas, electric, or telephone service which is subject to regulation by the Louisiana Public Service Commission or the council of the city of New Orleans, or to any work performed by the public utility in furnishing its authorized service.",
+        "citation": "37:2157"
+      },
+      {
+        "item": "Low-voltage signaling, fire alarm, and intrusion alarm systems",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Manufacture and repair of electrical apparatus or equipment",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Homeowner electrical work on owner-occupied residential property",
+        "status": "present",
+        "quote": "Owners of property who supervise, superintend, oversee, direct, or in any manner assume charge of the construction, alteration, repair, improvement, movement, demolition, putting up, tearing down, or maintenance of their personal residences, if the homeowner does not build more than one residence per year.",
+        "citation": "37:2157"
+      },
+      {
+        "item": "Television and radio broadcasting system operation, maintenance, and installation",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Elevator control system installation, maintenance, and repair",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Diesel electric engine maintenance and repair on heavy construction equipment",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Water well submersible pump motor and wiring installation",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "In-house electrical maintenance and repair by employees of commercial property owner or tenant",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "CATV and cable television technician work",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Direct broadcast satellite and satellite antenna system installation",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Appliance sales, installation, and repair by retail merchants or utility employees",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Industrial facility electrical work (manufacturing, processing, and related facilities)",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Nonresidential farm building electrical work",
+        "status": "present",
+        "quote": "Any farmer doing construction for agricultural purposes on leased or owned land.",
+        "citation": "37:2157"
+      },
+      {
+        "item": "HVACR licensee running line voltage wiring to HVAC equipment",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Alarm system installation, maintenance, and servicing by licensed alarm company",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Work by employees receiving wages as sole compensation (not in independent business)",
+        "status": "present",
+        "quote": "Any employee of any licensee.",
+        "citation": "37:2157"
+      },
+      {
+        "item": "Petroleum and gas well drilling and operation",
+        "status": "present",
+        "quote": "Any person engaged in rail or pipeline construction activities performed on property he owns or leases.",
+        "citation": "37:2157"
+      },
+      {
+        "item": "Work by government officers, agencies, or authorized representatives",
+        "status": "present",
+        "quote": "Any person bidding or performing work on any project totally owned by the federal government.",
+        "citation": "37:2157"
+      },
+      {
+        "item": "Minor or casual work below a monetary threshold",
+        "status": "present",
+        "quote": "\"Electrical contractor\" means any person who undertakes to, attempts to, or submits a price or bid or offers to construct, supervise, superintend, oversee, direct, perform, or in any manner assume charge of the construction, alteration, repair, improvement, movement, demolition, putting up, tearing down, or furnishing labor together with material and equipment, or installing the same for the wiring, fixtures, or appliances for the supply of electricity to any residential, commercial, or other project, for which the project value is ten thousand dollars or more.",
+        "citation": "37:2150.1"
+      },
+      {
+        "item": "Modular and manufactured housing construction",
+        "status": "present",
+        "quote": "The manufactured housing industry or any person engaged in any type of service, warranty, repair, or home improvement work on factory-built, residential dwellings that are mounted on chassis and wheels.",
+        "citation": "37:2157"
+      },
+      {
+        "item": "Licensed architect or engineer acting within professional capacity",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Work on personal property (not affixed to structure)",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Irrigation, drainage, and agricultural district construction and maintenance",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Material supplier or manufacturer furnishing materials without installation",
+        "status": "present",
+        "quote": "Any person, supplier, or manufacturer who assembles, repairs, maintains, moves, puts up, tears down, or disassembles any patented or proprietary equipment supplied to a contractor to be used solely for a construction project.",
+        "citation": "37:2157"
+      },
+      {
+        "item": "Subsurface utility location and designation services",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Condominium, apartment, or cooperative unit owner or management agent repair and maintenance",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Gas, propane, and fuel gas equipment connection work",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Mural and public art installation by licensed artists",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      }
+    ],
+    "scope__qualifier_license_requirement_by_contractor_type": [
+      {
+        "item": "Master Electrician",
+        "status": "not_addressed",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Journeyman Electrician",
+        "status": "not_addressed",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Residential Master Electrician",
+        "status": "not_addressed",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Residential Journeyman Electrician",
+        "status": "not_addressed",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Electrical Administrator",
+        "status": "not_addressed",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Electrical Apprentice",
+        "status": "not_addressed",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Industrial Maintenance Electrician",
+        "status": "not_addressed",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Air Conditioning Electrician",
+        "status": "not_addressed",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Specialist Sign Electrician",
+        "status": "not_addressed",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Qualifying Party",
+        "status": "authorized",
+        "quote": "An applicant for licensure shall designate a qualifying party for each classification and for the Louisiana business and law requirement. The qualifying party shall meet all application requirements and shall satisfy any examination and credential requirement.",
+        "citation": "37:2156.1"
+      }
+    ],
+    "scope__approved_continuing_education_providers": [
+      {
+        "item": "National Electrical Contractors Association (NECA)",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Associated Builders and Contractors (ABC)",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Associated General Contractors (AGC)",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Accredited College or University",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Community College",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Electrical Trade School",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Kentucky Community and Technical College System",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "University of Hawaii Community College",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "State Board of the Technical College System of Georgia",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Public Utility (as continuing education provider)",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Equipment Manufacturer (as continuing education provider)",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "US Office of Apprenticeship (Department of Labor)",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Florida Building Commission",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Vocational School",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Board-Approved Continuing Education Provider",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Registered Apprenticeship Program",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Career Education and Workforce Development Board",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "State Electrical Apprenticeship Committee",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      }
+    ]
   }
 }
