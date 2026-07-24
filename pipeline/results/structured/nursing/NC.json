@@ -28,13 +28,13 @@
     "age_minimum": null,
     "moral_character_required": {
       "value": true,
-      "quote": "is mentally and physically competent to practice nursing",
+      "quote": "shall submit to the Board an application fee and written evidence, verified by oath, sufficient to satisfy the Board that the applicant has graduated from a course of study approved by the Board and is mentally and physically competent to practice nursing.",
       "citation": "90-171.29"
     },
     "education": {
       "degree_required": {
         "value": "graduated from a course of study approved by the Board",
-        "quote": "the applicant has graduated from a course of study approved by the Board and is mentally and physically competent to practice nursing",
+        "quote": "the applicant has graduated from a course of study approved by the Board",
         "citation": "90-171.29"
       },
       "accrediting_body": null,
@@ -45,7 +45,7 @@
       },
       "school_approval_basis": {
         "value": "board_approved",
-        "quote": "graduated from a course of study approved by the Board",
+        "quote": "the applicant has graduated from a course of study approved by the Board",
         "citation": "90-171.29"
       },
       "credential_pegged": {
@@ -62,22 +62,22 @@
         "citation": "90-171.29"
       },
       "experience_source": {
-        "value": "none",
-        "quote": "the applicant has graduated from a course of study approved by the Board and is mentally and physically competent to practice nursing",
-        "citation": "90-171.29"
+        "value": "embedded_in_credential",
+        "quote": "A nursing program may be operated under the authority of a general hospital, or an approved post-secondary educational institution. The Board shall establish, revise, or repeal standards for nursing programs.",
+        "citation": "90-171.38"
       },
       "duration": null,
       "kind": null
     },
     "exams": [
       {
-        "name": "Licensure examination (NCLEX)",
+        "name": "NCLEX-RN / NCLEX-PN",
         "required": true,
-        "notes": "Board shall give an examination at least twice each year; applicants must pass. For multistate license, NCLEX-RN or NCLEX-PN is explicitly named.",
-        "jurisdiction": "national (NCLEX-RN/NCLEX-PN referenced in compact provisions)",
+        "notes": "The Board shall give an examination at least twice each year; applicants shall be required to pass the examination required by the Board. The NCLEX is referenced explicitly in the Nurse Licensure Compact provisions.",
+        "jurisdiction": "national (NCLEX-RN/NCLEX-PN)",
         "permitted_attempts": null,
-        "quote": "At least twice each year the Board shall give an examination, at the time and place it determines, to applicants for licensure to practice as a registered nurse or licensed practical nurse.",
-        "citation": "90-171.30"
+        "quote": "Has successfully passed an NCLEX-RN/R or NCLEX-PN/R Examination or recognized predecessor, as applicable.",
+        "citation": "90-171.95B"
       }
     ],
     "renewal": {
@@ -90,7 +90,7 @@
     "renewal_fee_usd": null,
     "continuing_education": {
       "required": {
-        "value": false,
+        "value": true,
         "quote": "Adopt rules requiring an applicant to submit to the Board evidence of the applicant's continuing competence in the practice of nursing at the time of license renewal or reinstatement.",
         "citation": "90-171.23"
       },
@@ -105,8 +105,8 @@
         "citation": "90-171.32"
       },
       "requirements": {
-        "value": "Applicant must be duly licensed in another jurisdiction with substantially equivalent or higher requirements, and the Board must find the applicant competent to practice in NC. Board may require proof of competence.",
-        "quote": "The Board may require such applicant to prove competence and qualifications to practice as a registered nurse or licensed practical nurse in North Carolina.",
+        "value": "Applicant must hold a current license from another jurisdiction whose requirements are substantially equivalent to or exceed NC requirements; Board may require proof of competence and qualifications.",
+        "quote": "The Board may, without examination, issue a license to an applicant who is duly licensed as a registered nurse or licensed practical nurse under the laws of another state, territory of the United States, the District of Columbia, or foreign country when that jurisdiction's requirements for licensure as a registered nurse or a licensed practical nurse, as the case may be, are substantially equivalent to or exceed those of the State of North Carolina at the time the applicant was initially licensed, and when, in the Board's opinion, the applicant is competent to practice nursing in this State.",
         "citation": "90-171.32"
       }
     },
@@ -138,7 +138,7 @@
     },
     "title_protection": {
       "value": true,
-      "quote": "use the word \"nurse\" as a title for herself or himself, or use an abbreviation to indicate that the person is a registered nurse or licensed practical nurse, unless the person is currently licensed as a registered nurse or licensed practical nurse",
+      "quote": "No person shall practice or offer to practice as a registered nurse or licensed practical nurse, or use the word \"nurse\" as a title for herself or himself, or use an abbreviation to indicate that the person is a registered nurse or licensed practical nurse, unless the person is currently licensed",
       "citation": "90-171.43"
     },
     "scope_protection": {
@@ -149,73 +149,77 @@
     "disciplinary_grounds": [
       {
         "short_label": "false_information_to_board",
-        "description": "Given false information or withheld material information from the Board in procuring a license",
+        "description": "Gave false information or withheld material information from the Board in procuring or attempting to procure a license.",
         "quote": "Has given false information or has withheld material information from the Board in procuring or attempting to procure a license to practice nursing.",
         "citation": "90-171.37"
       },
       {
         "short_label": "criminal_conviction",
-        "description": "Convicted of or pled guilty/nolo contendere to a crime indicating unfitness or deception of the public",
+        "description": "Convicted of or pleaded guilty or nolo contendere to any crime indicating unfitness or that the nurse deceived or defrauded the public.",
         "quote": "Has been convicted of or pleaded guilty or nolo contendere to any crime which indicates that the nurse is unfit or incompetent to practice nursing or that the nurse has deceived or defrauded the public.",
         "citation": "90-171.37"
       },
       {
         "short_label": "inability_to_practice_safely",
-        "description": "Unable to practice nursing with reasonable skill and safety due to illness, substance use, or physical/mental abnormality",
+        "description": "Unable to practice nursing with reasonable skill and safety by reason of illness, excessive use of alcohol, drugs, chemicals, or physical or mental abnormality.",
         "quote": "Is unable to practice nursing with reasonable skill and safety to patients by reason of illness, excessive use of alcohol, drugs, chemicals, or any other type of material, or by reason of any physical or mental abnormality.",
         "citation": "90-171.37"
       },
       {
-        "short_label": "endangers_public_health",
-        "description": "Engages in conduct that endangers the public health",
+        "short_label": "conduct_endangering_public_health",
+        "description": "Engages in conduct that endangers the public health.",
         "quote": "Engages in conduct that endangers the public health.",
         "citation": "90-171.37"
       },
       {
-        "short_label": "negligent_or_deliberate_acts",
-        "description": "Unfit or incompetent by reason of deliberate or negligent acts or omissions",
+        "short_label": "unfit_negligent_acts",
+        "description": "Unfit or incompetent by reason of deliberate or negligent acts or omissions regardless of whether actual injury to the patient is established.",
         "quote": "Is unfit or incompetent to practice nursing by reason of deliberate or negligent acts or omissions regardless of whether actual injury to the patient is established.",
         "citation": "90-171.37"
       },
       {
-        "short_label": "deceives_or_harms_public",
-        "description": "Engages in conduct that deceives, defrauds, or harms the public in professional activities",
+        "short_label": "deceives_defrauds_harms_public",
+        "description": "Engages in conduct that deceives, defrauds, or harms the public in the course of professional activities or services.",
         "quote": "Engages in conduct that deceives, defrauds, or harms the public in the course of professional activities or services.",
         "citation": "90-171.37"
       },
       {
         "short_label": "unprofessional_conduct",
-        "description": "Engages in unprofessional conduct nonconforming to standards of acceptable nursing practice or nursing ethics",
+        "description": "Engages in unprofessional conduct nonconforming to standards of acceptable and prevailing nursing practice or the ethics of the nursing profession, even if a patient is not injured.",
         "quote": "Engages in unprofessional conduct that is nonconforming to the standards of acceptable and prevailing nursing practice or the ethics of the nursing profession, even if a patient is not injured.",
         "citation": "90-171.37"
       },
       {
         "short_label": "dishonesty_immorality",
-        "description": "Commits acts of dishonesty, injustice, or immorality in the course of practice or otherwise",
+        "description": "Commits acts of dishonesty, injustice, or immorality in the course of the licensee's practice or otherwise, including acts outside of this State.",
         "quote": "Commits acts of dishonesty, injustice, or immorality in the course of the licensee's practice or otherwise, including acts outside of this State.",
         "citation": "90-171.37"
       },
       {
-        "short_label": "license_action_in_other_jurisdiction",
-        "description": "Has had a license or privilege to practice nursing denied, revoked, suspended, restricted, or acted against by any jurisdiction",
+        "short_label": "prior_adverse_action_elsewhere",
+        "description": "Has had a license or privilege to practice nursing denied, revoked, suspended, restricted, or acted against by any jurisdiction.",
         "quote": "Has had a license or privilege to practice nursing denied, revoked, suspended, restricted, or acted against by any jurisdiction.",
         "citation": "90-171.37"
       },
       {
         "short_label": "failure_to_respond_to_board",
-        "description": "Fails to respond to the Board's inquiries in a reasonable manner or time",
+        "description": "Fails to respond to the Board's inquiries in a reasonable manner or time regarding any matter affecting the license to practice nursing.",
         "quote": "Fails to respond to the Board's inquiries in a reasonable manner or time regarding any matter affecting the license to practice nursing.",
         "citation": "90-171.37"
       },
       {
         "short_label": "violation_of_article_or_rules",
-        "description": "Violated any provision of the Article or rules adopted by the Board",
+        "description": "Has violated any provision of this Article or any provision of the rules adopted by the Board under this Article.",
         "quote": "Has violated any provision of this Article or any provision of the rules adopted by the Board under this Article.",
         "citation": "90-171.37"
       }
     ],
     "alternative_regulation": {
-      "bonding_required": null,
+      "bonding_required": {
+        "value": true,
+        "quote": "Each nurses aide training program, except for those operated by (i) institutions under the Board of Governors of The University of North Carolina, (ii) institutions of the North Carolina Community College System, (iii) public high schools, and (iv) hospital authorities acting pursuant to G.S. 131E-23(31), shall provide a guaranty bond",
+        "citation": "90-171.55"
+      },
       "insurance_required": null,
       "establishment_regulation_required": null
     },
@@ -230,11 +234,11 @@
       },
       {
         "cite": "90-171.23",
-        "kind": "board powers and duties"
+        "kind": "board powers"
       },
       {
         "cite": "90-171.29",
-        "kind": "qualifications for examination"
+        "kind": "application qualifications"
       },
       {
         "cite": "90-171.30",
@@ -257,14 +261,6 @@
         "kind": "license renewal"
       },
       {
-        "cite": "90-171.35",
-        "kind": "reinstatement"
-      },
-      {
-        "cite": "90-171.36",
-        "kind": "inactive list"
-      },
-      {
         "cite": "90-171.37",
         "kind": "disciplinary authority"
       },
@@ -277,16 +273,20 @@
         "kind": "prohibited acts"
       },
       {
-        "cite": "90-171.45",
-        "kind": "violation / misdemeanor"
-      },
-      {
         "cite": "90-171.55",
         "kind": "nurses aides registry"
       },
       {
+        "cite": "90-171.56",
+        "kind": "medication aide"
+      },
+      {
         "cite": "90-171.95",
         "kind": "nurse licensure compact"
+      },
+      {
+        "cite": "90-171.95B",
+        "kind": "multistate license provisions"
       }
     ]
   },
@@ -298,29 +298,29 @@
     },
     "methods_authorized": {
       "value": [
-        "assessing patient physical and mental health",
-        "recording and reporting nursing assessment results",
-        "planning, initiating, delivering, and evaluating nursing acts",
-        "teaching, assigning, delegating, and supervising other personnel",
-        "collaborating with other health care providers",
-        "implementing treatment and pharmaceutical regimen prescribed by authorized persons",
-        "providing teaching and counseling about patient health",
-        "reporting and recording plan for care and patient response",
-        "supervising and evaluating those performing nursing functions",
-        "providing for maintenance of safe and effective nursing care"
+        "Assessing the patient's physical and mental health, including the patient's reaction to illnesses and treatment regimens",
+        "Recording and reporting the results of the nursing assessment",
+        "Planning, initiating, delivering, and evaluating appropriate nursing acts",
+        "Teaching, assigning, delegating to or supervising other personnel in implementing the treatment regimen",
+        "Collaborating with other health care providers in determining appropriate health care",
+        "Implementing the treatment and pharmaceutical regimen prescribed by any person authorized by State law",
+        "Providing teaching and counseling about the patient's health",
+        "Reporting and recording the plan for care, nursing care given, and the patient's response",
+        "Supervising, teaching, and evaluating those who perform or are preparing to perform nursing functions",
+        "Providing for the maintenance of safe and effective nursing care"
       ],
       "quote": "The \"practice of nursing by a registered nurse\" consists of the following 10 components",
       "citation": "90-171.20"
     },
     "drug_authority": {
-      "value": "Implementing the treatment and pharmaceutical regimen prescribed by any person authorized by State law to prescribe the regimen; RNs may not prescribe a medical treatment regimen except under supervision of a licensed physician (subject to G.S. 90-18.2).",
+      "value": "Registered nurses may implement the treatment and pharmaceutical regimen prescribed by any person authorized by State law to prescribe the regimen. Nurse practitioners may prescribe under G.S. 90-18.2 subject to rules adopted by the Board and the NC Medical Board.",
       "quote": "Implementing the treatment and pharmaceutical regimen prescribed by any person authorized by State law to prescribe the regimen.",
       "citation": "90-171.20"
     },
     "citations": [
       {
         "cite": "90-171.20",
-        "kind": "definitions / scope"
+        "kind": "scope of practice definition"
       },
       {
         "cite": "90-171.43",
@@ -331,28 +331,30 @@
   "profession_specific": {
     "license_tiers": {
       "value": [
-        "registered nurse (RN)",
-        "licensed practical nurse (LPN)"
+        "Registered Nurse (RN)",
+        "Licensed Practical Nurse (LPN)",
+        "Advanced Practice Registered Nurse (APRN)",
+        "Certified Nurse Aide (CNA)",
+        "Nursing Home Administrator"
       ],
-      "quote": "No person shall practice or offer to practice as a registered nurse or licensed practical nurse ... unless the person is currently licensed as a registered nurse or licensed practical nurse as provided by this Article.",
-      "citation": "90-171.43"
+      "quote": "\"License\" means a permit issued by the Board to practice nursing as a registered nurse or as a licensed practical nurse",
+      "citation": "90-171.20"
     },
     "aprn_role_categories": {
       "value": [
-        "certified registered nurse anesthetist",
-        "certified nurse midwife",
-        "clinical nurse specialist",
-        "nurse practitioner"
+        "Certified Nurse Practitioner",
+        "Certified Registered Nurse Anesthetist",
+        "Certified Nurse Midwife",
+        "Clinical Nurse Specialist"
       ],
       "quote": "one shall be an individual who meets the requirements to practice as a certified registered nurse anesthetist, a certified nurse midwife, a clinical nurse specialist, or a nurse practitioner",
       "citation": "90-171.21"
     },
     "lpn_supervision_requirements": {
       "value": [
-        "registered nurse",
-        "physician licensed to practice medicine",
-        "dentist",
-        "other person authorized by State law to provide the supervision"
+        "Registered Nurse",
+        "Physician",
+        "Dentist"
       ],
       "quote": "performing tasks assigned or delegated by and performed under the supervision or under orders or directions of a registered nurse, physician licensed to practice medicine, dentist, or other person authorized by State law to provide the supervision.",
       "citation": "90-171.20"
@@ -372,7 +374,7 @@
     },
     "medication_assistant_certification_available": {
       "value": true,
-      "quote": "Establish standards for faculty and applicant requirements for medication aide training.",
+      "quote": "The Board of Nursing shall do the following: (1) Establish standards for faculty and applicant requirements for medication aide training.",
       "citation": "90-171.56"
     },
     "delegation_to_unlicensed_personnel_authorized": {
@@ -380,22 +382,21 @@
       "quote": "The delegation to any person, including a member of the patient's family, by a physician licensed to practice medicine in North Carolina, a licensed dentist or registered nurse of those patient-care services which are routine, repetitive, limited in scope that do not require the professional judgment of a registered nurse or licensed practical nurse",
       "citation": "90-171.43"
     },
-    "employer_mandatory_reporting_required": null,
+    "employer_mandatory_reporting_required": {
+      "value": true,
+      "quote": "Before hiring a registered nurse or a licensed practical nurse in North Carolina, a health care facility shall verify that the applicant has a current, valid license to practice nursing pursuant to G.S. 90-171.43.",
+      "citation": "90-171.43A"
+    },
     "whistleblower_protection_for_delegation_refusal": null,
     "nurse_licensure_compact_member": {
       "value": true,
-      "quote": "The party states hereby create and establish a joint public entity known as the Interstate Commission of Nurse Licensure Compact Administrators.",
-      "citation": "90-171.95F"
+      "quote": "A multistate license to practice registered or licensed practical/vocational nursing issued by a home state to a resident in that state will be recognized by each party state as authorizing a nurse to practice as a registered nurse (RN) or as a licensed practical/vocational nurse (LPN/VN), under a multistate licensure privilege, in each party state.",
+      "citation": "90-171.95B"
     },
     "multistate_license_option_available": {
       "value": true,
-      "quote": "A Multistate License. - A license to practice as a registered or a licensed practical/vocational nurse (LPN/VN) issued by a home state licensing board that authorizes the licensed nurse to practice in all party states under a multistate licensure privilege.",
-      "citation": "90-171.95A",
-      "unverified": true,
-      "approximate": {
-        "ratio": 0.996,
-        "matched_normalized": " multistate license a license to practice as a registered or a licensed practical vocational nurse lpn vn issued by a home state licensing board that authorizes the licensed nurse to practice in all party states under a multistate licensure privilege"
-      }
+      "quote": "Individuals not residing in a party state shall continue to be able to apply for a party state's single-state license as provided under the laws of each party state.",
+      "citation": "90-171.95B"
     },
     "impaired_nurse_alternative_program_available": {
       "value": true,
@@ -411,6 +412,176 @@
     "aprn_formulary_or_protocol_required": null,
     "nursing_education_program_clinical_hours_minimum": null,
     "implicit_bias_training_required_in_curriculum": null,
-    "military_education_credit_required": null
+    "military_education_credit_required": null,
+    "scope__license_tiers": [
+      {
+        "item": "Registered Nurse (RN)",
+        "status": "present",
+        "quote": "\"License\" means a permit issued by the Board to practice nursing as a registered nurse or as a licensed practical nurse",
+        "citation": "90-171.20"
+      },
+      {
+        "item": "Licensed Practical Nurse (LPN)",
+        "status": "present",
+        "quote": "\"License\" means a permit issued by the Board to practice nursing as a registered nurse or as a licensed practical nurse",
+        "citation": "90-171.20"
+      },
+      {
+        "item": "Advanced Practice Registered Nurse (APRN)",
+        "status": "present",
+        "quote": "one shall be an individual who meets the requirements to practice as a certified registered nurse anesthetist, a certified nurse midwife, a clinical nurse specialist, or a nurse practitioner",
+        "citation": "90-171.21"
+      },
+      {
+        "item": "Certified Registered Nurse Anesthetist (CRNA)",
+        "status": "present",
+        "quote": "one shall be an individual who meets the requirements to practice as a certified registered nurse anesthetist",
+        "citation": "90-171.21"
+      },
+      {
+        "item": "Certified Nurse Practitioner (CNP/CRNP/NP)",
+        "status": "present",
+        "quote": "one shall be an individual who meets the requirements to practice as a certified registered nurse anesthetist, a certified nurse midwife, a clinical nurse specialist, or a nurse practitioner",
+        "citation": "90-171.21"
+      },
+      {
+        "item": "Certified Nurse Midwife (CNM)",
+        "status": "present",
+        "quote": "one shall be an individual who meets the requirements to practice as a certified registered nurse anesthetist, a certified nurse midwife, a clinical nurse specialist, or a nurse practitioner",
+        "citation": "90-171.21"
+      },
+      {
+        "item": "Clinical Nurse Specialist (CNS)",
+        "status": "present",
+        "quote": "one shall be an individual who meets the requirements to practice as a certified registered nurse anesthetist, a certified nurse midwife, a clinical nurse specialist, or a nurse practitioner",
+        "citation": "90-171.21"
+      },
+      {
+        "item": "Certified Nurse Aide (CNA)",
+        "status": "present",
+        "quote": "The Board of Nursing, established pursuant to G.S. 90-171.21, shall establish a Nurses Aides Registry for persons functioning as nurses aides regardless of title.",
+        "citation": "90-171.55"
+      },
+      {
+        "item": "Certified Medication Assistant",
+        "status": "present",
+        "quote": "Establish standards for faculty and applicant requirements for medication aide training.",
+        "citation": "90-171.56"
+      },
+      {
+        "item": "Full Independent Practice Authority Certificate",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Nursing Home Administrator License",
+        "status": "present",
+        "quote": "There is created the State Board of Examiners for Nursing Home Administrators.",
+        "citation": "90-277"
+      },
+      {
+        "item": "Multistate License (Nurse Licensure Compact)",
+        "status": "present",
+        "quote": "\"Multistate License.\" A license to practice as a registered or a licensed practical/vocational nurse (LPN/VN) issued by a home state licensing board that authorizes the licensed nurse to practice in all party states under a multistate licensure privilege.",
+        "citation": "90-171.95A"
+      },
+      {
+        "item": "Temporary Permit to Practice Nursing",
+        "status": "present",
+        "quote": "The Board may issue a nonrenewable temporary license to persons applying for licensure under G.S. 90-171.32 for a period not to exceed the lesser of six months or until the Board determines whether the applicant is qualified to practice nursing in North Carolina.",
+        "citation": "90-171.33"
+      }
+    ],
+    "scope__aprn_role_categories": [
+      {
+        "item": "Certified Nurse Practitioner",
+        "status": "present",
+        "quote": "one shall be an individual who meets the requirements to practice as a certified registered nurse anesthetist, a certified nurse midwife, a clinical nurse specialist, or a nurse practitioner",
+        "citation": "90-171.21"
+      },
+      {
+        "item": "Certified Registered Nurse Anesthetist",
+        "status": "present",
+        "quote": "one shall be an individual who meets the requirements to practice as a certified registered nurse anesthetist",
+        "citation": "90-171.21"
+      },
+      {
+        "item": "Certified Nurse Midwife",
+        "status": "present",
+        "quote": "one shall be an individual who meets the requirements to practice as a certified registered nurse anesthetist, a certified nurse midwife, a clinical nurse specialist, or a nurse practitioner",
+        "citation": "90-171.21"
+      },
+      {
+        "item": "Clinical Nurse Specialist",
+        "status": "present",
+        "quote": "one shall be an individual who meets the requirements to practice as a certified registered nurse anesthetist, a certified nurse midwife, a clinical nurse specialist, or a nurse practitioner",
+        "citation": "90-171.21"
+      }
+    ],
+    "scope__lpn_supervision_requirements": [
+      {
+        "item": "Registered Nurse",
+        "status": "present",
+        "quote": "performing tasks assigned or delegated by and performed under the supervision or under orders or directions of a registered nurse, physician licensed to practice medicine, dentist, or other person authorized by State law to provide the supervision.",
+        "citation": "90-171.20"
+      },
+      {
+        "item": "Advanced Practice Registered Nurse",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Physician",
+        "status": "present",
+        "quote": "performing tasks assigned or delegated by and performed under the supervision or under orders or directions of a registered nurse, physician licensed to practice medicine, dentist, or other person authorized by State law to provide the supervision.",
+        "citation": "90-171.20"
+      },
+      {
+        "item": "Physician Assistant",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Dentist",
+        "status": "present",
+        "quote": "performing tasks assigned or delegated by and performed under the supervision or under orders or directions of a registered nurse, physician licensed to practice medicine, dentist, or other person authorized by State law to provide the supervision.",
+        "citation": "90-171.20"
+      },
+      {
+        "item": "Podiatrist",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      }
+    ],
+    "scope__controlled_substance_schedule_authority": [
+      {
+        "item": "Schedule II controlled substances",
+        "status": "not_addressed",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Schedule III controlled substances",
+        "status": "not_addressed",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Schedule IV controlled substances",
+        "status": "not_addressed",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Schedule V controlled substances",
+        "status": "not_addressed",
+        "quote": "",
+        "citation": ""
+      }
+    ]
   }
 }

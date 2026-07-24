@@ -4,17 +4,17 @@
   "licensure": {
     "license_required": {
       "value": true,
-      "quote": "shall be granted a certificate of registration to practice engineering in the commonwealth, provided he is otherwise qualified",
+      "quote": "shall be granted a certificate of registration to practice engineering in the commonwealth",
       "citation": "Section 81j"
     },
     "issuing_authority": {
-      "value": "Board of Registration of Professional Engineers and Professional Land Surveyors",
+      "value": "Board of Registration of Professional Engineers and of Professional Land Surveyors",
       "quote": "The board shall examine applicants for registration as professional engineers and as professional land surveyors",
       "citation": "Section 81e"
     },
     "regulatory_authority": {
       "name": {
-        "value": "Board of Registration of Professional Engineers and Professional Land Surveyors",
+        "value": "Board of Registration of Professional Engineers and of Professional Land Surveyors",
         "quote": "The board shall examine applicants for registration as professional engineers and as professional land surveyors",
         "citation": "Section 81e"
       },
@@ -49,8 +49,8 @@
         "citation": "Section 81j"
       },
       "credential_pegged": {
-        "value": true,
-        "quote": "A person holding a certificate of qualification issued by the National Council of Engineering Examiners, whose qualifications meet the requirements of this chapter, may, upon application, be registered without further examination.",
+        "value": false,
+        "quote": "A graduate of an engineering curriculum of four years or more approved by the board as being of satisfactory standing",
         "citation": "Section 81j"
       },
       "tiers": null
@@ -79,30 +79,30 @@
     },
     "exams": [
       {
-        "name": "Fundamentals of Engineering (written examination)",
+        "name": "Written examination in the fundamentals of engineering",
         "required": true,
-        "notes": "Eight-hour written examination; required for engineer-in-training certification and for full registration under most pathways.",
-        "jurisdiction": null,
+        "notes": "Eight-hour written examination; passing qualifies candidate as engineer-in-training",
+        "jurisdiction": "state (in-house) / national",
         "permitted_attempts": null,
-        "quote": "who passes or has passed the required written examination in the fundamentals of engineering",
+        "quote": "passes or has passed the required written examination in the fundamentals of engineering",
         "citation": "Section 81j"
       },
       {
-        "name": "Principles and Practice of Engineering (written examination)",
+        "name": "Written examination in the principles and practice of engineering",
         "required": true,
-        "notes": "Required for full registration as professional engineer.",
-        "jurisdiction": null,
+        "notes": "Board may also require an oral examination",
+        "jurisdiction": "state (in-house) / national",
         "permitted_attempts": null,
-        "quote": "the required written examination in the principles and practice of engineering",
+        "quote": "passes or has passed the required written examination in the principles and practice of engineering",
         "citation": "Section 81j"
       },
       {
         "name": "Oral examination",
         "required": false,
-        "notes": "Required at board's discretion in certain pathways, or when the applicant is admitted to the principles exam before completing required experience.",
-        "jurisdiction": null,
+        "notes": "Required at the board's discretion, particularly when applicant is admitted to principles/practice exam early",
+        "jurisdiction": "state (in-house)",
         "permitted_attempts": null,
-        "quote": "the board may require that the applicant pass an oral examination as determined by the board before issuing a certificate of registration",
+        "quote": "the applicant may be required to pass an oral examination as determined by the board",
         "citation": "Section 81j"
       }
     ],
@@ -116,8 +116,8 @@
         "citation": "Section 81j"
       },
       "requirements": {
-        "value": "Must hold a certificate of registration from another state, territory, DC, or foreign country and meet the requirements of the chapter in the board's opinion; alternatively, may hold a NCEE certificate of qualification.",
-        "quote": "A person holding a certificate of qualification issued by the National Council of Engineering Examiners, whose qualifications meet the requirements of this chapter, may, upon application, be registered without further examination.",
+        "value": "Applicant must hold a certificate of registration from another U.S. state, territory, D.C., or foreign country and, in the board's opinion, meet the requirements of the chapter based on verified evidence; or hold a certificate of qualification from the National Council of Engineering Examiners meeting chapter requirements.",
+        "quote": "A person holding a certificate or registration to engage in the practice of engineering, issued to him by a proper authority of a state, commonwealth, territory, or possession of the United States, the District of Columbia, or any foreign country, who, in the opinion of the board, meets the requirements of this chapter, based on verified evidence may, upon application, be registered without further examination.",
         "citation": "Section 81j"
       }
     },
@@ -131,14 +131,14 @@
       "authority": null
     },
     "national_certification": {
-      "value": "National Council of Engineering Examiners (NCEE)",
+      "value": "National Council of Engineering Examiners",
       "quote": "A person holding a certificate of qualification issued by the National Council of Engineering Examiners, whose qualifications meet the requirements of this chapter, may, upon application, be registered without further examination.",
       "citation": "Section 81j"
     },
     "national_association": null,
     "regulatory_model": {
       "value": "license",
-      "quote": "shall be granted a certificate of registration to practice engineering in the commonwealth, provided he is otherwise qualified",
+      "quote": "shall be granted a certificate of registration to practice engineering in the commonwealth",
       "citation": "Section 81j"
     },
     "credential_type": {
@@ -148,62 +148,86 @@
     },
     "is_mandatory": {
       "value": true,
-      "quote": "shall be granted a certificate of registration to practice engineering in the commonwealth, provided he is otherwise qualified",
+      "quote": "shall be granted a certificate of registration to practice engineering in the commonwealth",
       "citation": "Section 81j"
     },
     "title_protection": {
       "value": true,
-      "quote": "The board may revoke the certificate of registration of any registrant who is found guilty of: (a) The practice of any fraud or deceit in obtaining a certificate of registration",
-      "citation": "Section 81p"
+      "quote": "The board shall examine applicants for registration as professional engineers and as professional land surveyors",
+      "citation": "Section 81e"
     },
     "scope_protection": {
       "value": true,
-      "quote": "A registered professional engineer as defined in section eighty-one D of this chapter from performing, agreeing to perform, or holding himself out as able to perform such services included in the practice of architecture as may be incidental to his engineering work",
-      "citation": "Section 60l"
+      "quote": "The execution, as a contractor, of work designed by a professional engineer, or the supervision of the construction of such work as a foreman or superintendent shall not be deemed to be the practice of engineering.",
+      "citation": "Section 81j"
     },
     "disciplinary_grounds": [
       {
-        "short_label": "fraud_deceit_in_obtaining_registration",
-        "description": "Fraud or deceit in obtaining a certificate of registration",
-        "quote": "The practice of any fraud or deceit in obtaining a certificate of registration",
+        "short_label": "fraud_deceit_in_practice",
+        "description": "Fraud or deceit in the practice of engineering or land surveying",
+        "quote": "suspend the registration of a registrant for a limited period to be specified in such suspension order for any fraud, deceit, gross negligence, incompetence, misconduct or any crime involving moral turpitude in the practice of engineering or land surveying",
         "citation": "Section 81p"
       },
       {
-        "short_label": "gross_negligence_incompetency_misconduct",
-        "description": "Gross negligence, incompetency, or misconduct in the practice of professional engineering or land surveying",
+        "short_label": "gross_negligence_in_practice",
+        "description": "Gross negligence in the practice of professional engineering or land surveying",
         "quote": "Any gross negligence, incompetency or misconduct in the practice of professional engineering or land surveying as a registered professional engineer or as a registered professional land surveyor",
         "citation": "Section 81p"
       },
       {
-        "short_label": "signing_plans_not_prepared_under_direction",
-        "description": "Affixing signature to plans, drawings, specifications, or instruments not prepared by the registrant or under his immediate and responsible direction, or permitting use of name to help unregistered persons evade the chapter",
-        "quote": "The affixing of his signature to plans, drawings, specifications or other instruments of service which have not been prepared by him or in his office, or under his immediate and responsible direction, or permitting his name to be used for the purpose of assisting any person, not a registered professional engineer or registered professional land surveyor, to evade the provisions of this chapter.",
+        "short_label": "incompetency_in_practice",
+        "description": "Incompetency in the practice of professional engineering or land surveying",
+        "quote": "Any gross negligence, incompetency or misconduct in the practice of professional engineering or land surveying as a registered professional engineer or as a registered professional land surveyor",
         "citation": "Section 81p"
       },
       {
-        "short_label": "fraud_deceit_negligence_incompetence_misconduct_general",
-        "description": "Fraud, deceit, gross negligence, incompetence, misconduct, or any crime involving moral turpitude in the practice of engineering or land surveying (grounds for reprimand or suspension)",
-        "quote": "any fraud, deceit, gross negligence, incompetence, misconduct or any crime involving moral turpitude in the practice of engineering or land surveying",
+        "short_label": "misconduct_in_practice",
+        "description": "Misconduct in the practice of professional engineering or land surveying",
+        "quote": "Any gross negligence, incompetency or misconduct in the practice of professional engineering or land surveying as a registered professional engineer or as a registered professional land surveyor",
+        "citation": "Section 81p"
+      },
+      {
+        "short_label": "crime_moral_turpitude",
+        "description": "Any crime involving moral turpitude in the practice of engineering or land surveying",
+        "quote": "any crime involving moral turpitude in the practice of engineering or land surveying",
+        "citation": "Section 81p"
+      },
+      {
+        "short_label": "fraud_in_obtaining_certificate",
+        "description": "Practice of any fraud or deceit in obtaining a certificate of registration",
+        "quote": "The practice of any fraud or deceit in obtaining a certificate of registration",
+        "citation": "Section 81p"
+      },
+      {
+        "short_label": "signing_plans_not_prepared_by_registrant",
+        "description": "Affixing signature to plans, drawings, specifications or other instruments of service not prepared by the registrant or under their responsible direction",
+        "quote": "The affixing of his signature to plans, drawings, specifications or other instruments of service which have not been prepared by him or in his office, or under his immediate and responsible direction",
+        "citation": "Section 81p"
+      },
+      {
+        "short_label": "assisting_evasion_of_chapter",
+        "description": "Permitting one's name to be used to assist an unregistered person to evade the provisions of the chapter",
+        "quote": "permitting his name to be used for the purpose of assisting any person, not a registered professional engineer or registered professional land surveyor, to evade the provisions of this chapter",
         "citation": "Section 81p"
       }
     ],
     "alternative_regulation": null,
     "citations": [
       {
-        "cite": "Section 60l",
-        "kind": "statute"
-      },
-      {
         "cite": "Section 81e",
-        "kind": "statute"
+        "kind": "board authority and examinations"
       },
       {
         "cite": "Section 81j",
-        "kind": "statute"
+        "kind": "qualifications for registration"
       },
       {
         "cite": "Section 81p",
-        "kind": "statute"
+        "kind": "disciplinary grounds"
+      },
+      {
+        "cite": "Section 60l",
+        "kind": "exemptions from architecture act"
       }
     ]
   },
@@ -218,11 +242,15 @@
     "citations": [
       {
         "cite": "Section 81e",
-        "kind": "statute"
+        "kind": "scope definition"
+      },
+      {
+        "cite": "Section 81j",
+        "kind": "practice of engineering definition"
       },
       {
         "cite": "Section 60l",
-        "kind": "statute"
+        "kind": "services incidental to engineering work"
       }
     ]
   },
@@ -240,16 +268,20 @@
     },
     "surveyor_in_training_certificate_available": {
       "value": true,
-      "quote": "A graduate of an approved land surveying curriculum of four years or more who has had in addition thereto at least two years of combined office and field experience in land surveying, with a minimum of one year in responsible charge of land surveying procedures under the supervision of a registered professional land surveyor, and who has passed the written examinations required by the board shall be certified or enrolled as a land surveyor-in-training, if he is otherwise qualified.",
+      "quote": "A graduate of an approved land surveying curriculum of four years or more who has had in addition thereto at least two years of combined office and field experience in land surveying, with a minimum of one year in responsible charge of land surveying procedures under the supervision of a registered professional land surveyor, and who has passed the written examinations required by the board shall be certified or enrolled as a land surveyor-in-training",
       "citation": "Section 81j"
     },
     "geologist_in_training_certificate_available": null,
     "postgraduate_degree_experience_credit_years_max": {
       "value": 3,
-      "quote": "Undergraduate study in an engineering curriculum approved by the board as being of satisfactory standing may be considered as engineering experience on an equivalent full-time basis up to a maximum of three years in computing the number of years of experience in engineering work in clauses (d) and (e) of this subsection.",
+      "quote": "Undergraduate study in an engineering curriculum approved by the board as being of satisfactory standing may be considered as engineering experience on an equivalent full-time basis up to a maximum of three years in computing the number of years of experience in engineering work",
       "citation": "Section 81j"
     },
-    "responsible_charge_defined": null,
+    "responsible_charge_defined": {
+      "value": false,
+      "quote": "five years or more in responsible charge of engineering work",
+      "citation": "Section 81j"
+    },
     "seal_required_on_documents": {
       "value": true,
       "quote": "The affixing of his signature to plans, drawings, specifications or other instruments of service which have not been prepared by him or in his office, or under his immediate and responsible direction",
@@ -260,18 +292,22 @@
         "plans",
         "drawings",
         "specifications",
-        "other instruments of service"
+        "instruments of service"
       ],
       "quote": "The affixing of his signature to plans, drawings, specifications or other instruments of service which have not been prepared by him or in his office, or under his immediate and responsible direction",
       "citation": "Section 81p"
     },
-    "firm_practice_allowed": null,
+    "firm_practice_allowed": {
+      "value": true,
+      "quote": "A partnership or corporation from entering into agreements to perform or holding itself out as able to perform any of the services involved in the practice of architecture; provided, that any agreement to perform such services shall be executed on behalf of the partnership or corporation by the partner or partners or by the officer or officers who shall be the registered architect or registered architects exercising professional and supervisory control",
+      "citation": "Section 60l"
+    },
     "exemptions_from_licensure": {
       "value": [
-        "Officers and employees of the United States of America working in the commonwealth as employees of the US government",
-        "Officers and employees of the commonwealth or any subdivision thereof working as employees",
-        "Execution as a contractor of work designed by a professional engineer",
-        "Supervision of construction of such work as a foreman or superintendent"
+        "Federal government officers and employees practicing engineering in official capacity",
+        "Contractors executing work designed by a licensed engineer (construction execution only)",
+        "Building trades workers, craft workers, and construction superintendents/supervisors/inspectors performing customary duties",
+        "Registered professional engineer performing services incidental to engineering work within an architecture context"
       ],
       "quote": "The execution, as a contractor, of work designed by a professional engineer, or the supervision of the construction of such work as a foreman or superintendent shall not be deemed to be the practice of engineering.",
       "citation": "Section 81j"
@@ -294,12 +330,366 @@
         "sanitary",
         "structural"
       ],
-      "quote": "aeronautical, chemical, civil, electrical, heating and ventilating, and air conditioning, industrial, mechanical, metallurgical, mining, safety, fire protection, sanitary and structural",
+      "quote": "the following fields:— aeronautical, chemical, civil, electrical, heating and ventilating, and air conditioning, industrial, mechanical, metallurgical, mining, safety, fire protection, sanitary and structural.",
       "citation": "Section 81e"
     },
     "board_member_responsible_charge_years_required": null,
     "pdh_units_per_renewal_period": null,
     "pdh_carryover_max_units": null,
-    "retired_status_license_available": null
+    "retired_status_license_available": null,
+    "scope__seal_document_types": [
+      {
+        "item": "Drawings",
+        "status": "present",
+        "quote": "plans, drawings, specifications or other instruments of service",
+        "citation": "Section 81p"
+      },
+      {
+        "item": "Plans",
+        "status": "present",
+        "quote": "plans, drawings, specifications or other instruments of service",
+        "citation": "Section 81p"
+      },
+      {
+        "item": "Specifications",
+        "status": "present",
+        "quote": "plans, drawings, specifications or other instruments of service",
+        "citation": "Section 81p"
+      },
+      {
+        "item": "Reports",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Surveys",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Plats",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Plates",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Calculations",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Design information",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Construction documents",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Maps",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Descriptions",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Data",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Instruments of service",
+        "status": "present",
+        "quote": "plans, drawings, specifications or other instruments of service",
+        "citation": "Section 81p"
+      },
+      {
+        "item": "Shop drawings",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Revisions",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Certifications",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Affidavits",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      }
+    ],
+    "scope__exemptions_from_licensure": [
+      {
+        "item": "Federal government officers and employees practicing engineering in official capacity",
+        "status": "present",
+        "quote": "Officers and employees of the United States of America, while working in the commonwealth, from engaging in the practice of architecture as employees of said United States of America",
+        "citation": "Section 60l"
+      },
+      {
+        "item": "Contractors executing work designed by a licensed engineer (construction execution only)",
+        "status": "present",
+        "quote": "The execution, as a contractor, of work designed by a professional engineer, or the supervision of the construction of such work as a foreman or superintendent shall not be deemed to be the practice of engineering.",
+        "citation": "Section 81j"
+      },
+      {
+        "item": "Building trades workers, craft workers, and construction superintendents/supervisors/inspectors performing customary duties",
+        "status": "present",
+        "quote": "The execution, as a contractor, of work designed by a professional engineer, or the supervision of the construction of such work as a foreman or superintendent shall not be deemed to be the practice of engineering.",
+        "citation": "Section 81j"
+      },
+      {
+        "item": "Employees or subordinates working under direct supervision of a licensed engineer",
+        "status": "present",
+        "quote": "The employees of a registered architect or persons acting under his direction from carrying out their normal duties in the preparation of plans and specifications or in the administration of construction contracts",
+        "citation": "Section 60l"
+      },
+      {
+        "item": "Engineers-in-training / engineer interns acting under supervision",
+        "status": "present",
+        "quote": "A graduate of an approved engineering curriculum of four years or more who has passed the board's eight-hour written examination in the fundamentals of engineering shall be certified or enrolled as an engineer-in-training",
+        "citation": "Section 81j"
+      },
+      {
+        "item": "Land surveyor interns",
+        "status": "present",
+        "quote": "shall be certified or enrolled as a land surveyor-in-training",
+        "citation": "Section 81j"
+      },
+      {
+        "item": "Teaching engineering, architectural, landscape architectural, or surveying courses at accredited institutions",
+        "status": "present",
+        "quote": "Engineering teaching in a college or university offering an approved engineering curriculum of four years or more may be considered as engineering experience.",
+        "citation": "Section 81j"
+      },
+      {
+        "item": "Regulated transportation companies and public utilities (and their officers and employees) performing engineering for their own facilities",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Engineering services incidental to the practice of architecture by licensed architects and their subordinates",
+        "status": "present",
+        "quote": "A registered professional engineer as defined in section eighty-one D of this chapter from performing, agreeing to perform, or holding himself out as able to perform such services included in the practice of architecture as may be incidental to his engineering work",
+        "citation": "Section 60l"
+      },
+      {
+        "item": "Engineering services incidental to the practice of geology by licensed geologists and their subordinates",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Practice of any other legally recognized profession or trade",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Manufacturing, mining, public utility, research and development, or other industrial corporations performing engineering work incidental to their own products, systems, or services",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Firms performing engineering services for themselves or their own subsidiaries/affiliates (in-house engineering)",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Nonresident persons, firms, or corporations meeting specified out-of-state criteria",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Real estate brokers or salespersons making appraisals and valuations of real estate",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Alterations or repairs to buildings not affecting structural system or public health, safety, or welfare",
+        "status": "present",
+        "quote": "The preparation of plans and specifications for and the supervision of the alteration of any building not involving substantial and major structural change",
+        "citation": "Section 60l"
+      },
+      {
+        "item": "Single-family and small residential dwellings of limited size",
+        "status": "present",
+        "quote": "Any single or two-family house or any accessory building thereto",
+        "citation": "Section 60l"
+      },
+      {
+        "item": "Agricultural work not required to be of public record",
+        "status": "present",
+        "quote": "Any building used for farm purposes",
+        "citation": "Section 60l"
+      },
+      {
+        "item": "Revegetation, restoration, reclamation, rehabilitation, or erosion control for disturbed land not affecting public health, safety, or welfare",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Maintenance or placement of plant material not affecting public health, safety, or welfare",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Horticultural consultants and persons preparing planting plans for plant installations",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Authorized designers of fire protection systems",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Holders of temporary permits for engineering practice",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Corporations, partnerships, LLCs, and LLPs offering professional engineering services through licensed principals (business entity exemption with certificate of authorization)",
+        "status": "present",
+        "quote": "A partnership or corporation from entering into agreements to perform or holding itself out as able to perform any of the services involved in the practice of architecture",
+        "citation": "Section 60l"
+      },
+      {
+        "item": "Government employees inspecting residential structures as part of official duties",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Persons performing home inspections solely for lender construction monitoring",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Property managers inspecting their own managed residential structures without separate compensation",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Small public works projects below a specified expenditure threshold",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Licensed geologists practicing geology (not required to hold engineer license)",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Persons with grandfathered or legacy licensure status in discontinued engineering branch titles",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Boundary surveys on private land not intended as basis for engineering design",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Professional engineers or engineer interns granted inactive status",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Senior licensed professional engineers exempt from continuing education requirements",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      }
+    ],
+    "scope__board_engineering_disciplines_represented": [
+      {
+        "item": "Civil Engineering",
+        "status": "present",
+        "quote": "the following fields:— aeronautical, chemical, civil, electrical, heating and ventilating, and air conditioning, industrial, mechanical, metallurgical, mining, safety, fire protection, sanitary and structural.",
+        "citation": "Section 81e"
+      },
+      {
+        "item": "Electrical Engineering",
+        "status": "present",
+        "quote": "the following fields:— aeronautical, chemical, civil, electrical, heating and ventilating, and air conditioning, industrial, mechanical, metallurgical, mining, safety, fire protection, sanitary and structural.",
+        "citation": "Section 81e"
+      },
+      {
+        "item": "Mechanical Engineering",
+        "status": "present",
+        "quote": "the following fields:— aeronautical, chemical, civil, electrical, heating and ventilating, and air conditioning, industrial, mechanical, metallurgical, mining, safety, fire protection, sanitary and structural.",
+        "citation": "Section 81e"
+      },
+      {
+        "item": "Mining Engineering",
+        "status": "present",
+        "quote": "the following fields:— aeronautical, chemical, civil, electrical, heating and ventilating, and air conditioning, industrial, mechanical, metallurgical, mining, safety, fire protection, sanitary and structural.",
+        "citation": "Section 81e"
+      },
+      {
+        "item": "Petroleum Engineering",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Chemical Engineering",
+        "status": "present",
+        "quote": "the following fields:— aeronautical, chemical, civil, electrical, heating and ventilating, and air conditioning, industrial, mechanical, metallurgical, mining, safety, fire protection, sanitary and structural.",
+        "citation": "Section 81e"
+      },
+      {
+        "item": "General/Other Engineering",
+        "status": "present",
+        "quote": "shall recognize all the fundamental branches of engineering which shall include, without limiting the generality thereof by specific enumeration",
+        "citation": "Section 81e"
+      }
+    ]
   }
 }

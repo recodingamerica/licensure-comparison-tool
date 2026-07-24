@@ -27,38 +27,38 @@
     },
     "age_minimum": {
       "value": 21,
-      "quote": "Is twenty-one (21) years of age, or over, at the time of making application to practice dentistry or eighteen (18) years of age, or over, if the applicant is to practice dental hygiene",
+      "quote": "Is twenty-one (21) years of age, or over, at the time of making application to practice dentistry",
       "citation": "328.21"
     },
     "moral_character_required": {
       "value": true,
-      "quote": "Is of good moral character",
+      "quote": "Is of good moral character;",
       "citation": "328.21"
     },
     "education": {
       "degree_required": {
-        "value": "Graduate of an accredited dental college",
-        "quote": "Is a graduate of an accredited dental college, if the applicant is to practice dentistry",
+        "value": "graduate of an accredited dental college",
+        "quote": "Is a graduate of an accredited dental college, if the applicant is to practice dentistry;",
         "citation": "328.21"
       },
       "accrediting_body": {
         "value": "Commission on Dental Accreditation of the American Dental Association",
-        "quote": "\"Accredited dental college\" means an institution whose dental educational program is accredited by the Commission on Dental Accreditation of the American Dental Association",
-        "citation": "328.13"
+        "quote": "an institution whose dental educational program is accredited by the Commission on Dental Accreditation of the American Dental Association",
+        "citation": "328.11"
       },
       "degree_level": {
         "value": "doctorate",
-        "quote": "Is a graduate of an accredited dental college, if the applicant is to practice dentistry",
+        "quote": "Is a graduate of an accredited dental college, if the applicant is to practice dentistry;",
         "citation": "328.21"
       },
       "school_approval_basis": {
         "value": "national_accreditor",
-        "quote": "accredited by the Commission on Dental Accreditation of the American Dental Association",
-        "citation": "328.13"
+        "quote": "an institution whose dental educational program is accredited by the Commission on Dental Accreditation of the American Dental Association",
+        "citation": "328.11"
       },
       "credential_pegged": {
-        "value": false,
-        "quote": "Is a graduate of an accredited dental college, if the applicant is to practice dentistry",
+        "value": true,
+        "quote": "Has passed all portions of the National Board Dental Examination",
         "citation": "328.21"
       },
       "tiers": null
@@ -70,7 +70,7 @@
         "citation": "328.21"
       },
       "experience_source": {
-        "value": "none",
+        "value": "embedded_in_credential",
         "quote": "Is a graduate of an accredited dental college, if the applicant is to practice dentistry",
         "citation": "328.21"
       },
@@ -82,16 +82,16 @@
         "name": "National Board Dental Examination",
         "required": true,
         "notes": "All portions must be passed",
-        "jurisdiction": "national (NBDE)",
+        "jurisdiction": "national",
         "permitted_attempts": null,
         "quote": "Has passed all portions of the National Board Dental Examination",
         "citation": "328.21"
       },
       {
-        "name": "Written theoretical and clinical examination",
+        "name": "Clinical examination approved by the Board",
         "required": true,
-        "notes": "Must be approved by the Board; may include CDCA-WREB-CITA regional exam; must have been passed within the previous five (5) years",
-        "jurisdiction": "state or regional (CDCA-WREB-CITA)",
+        "notes": "Must be passed within the previous five years; Board may accept regional exams from CDCA-WREB-CITA",
+        "jurisdiction": "state (board-approved or regional)",
         "permitted_attempts": null,
         "quote": "Has passed a written theoretical examination and a clinical examination approved by the Board within the previous five (5) years",
         "citation": "328.21"
@@ -99,17 +99,17 @@
       {
         "name": "Jurisprudence examination",
         "required": true,
-        "notes": "Written examination over rules and laws affecting dentistry in Oklahoma",
+        "notes": "Written exam covering rules and laws affecting dentistry in Oklahoma; may be retaken with additional fee",
         "jurisdiction": "state (in-house)",
         "permitted_attempts": null,
-        "quote": "Has passed a written jurisprudence examination over the rules and laws affecting dentistry in this state",
+        "quote": "Has passed a written jurisprudence examination over the rules and laws affecting dentistry in this state.",
         "citation": "328.21"
       }
     ],
     "renewal": {
       "interval_years": {
         "value": 1,
-        "quote": "Upon receipt of the annual renewal fee, the Board shall issue a renewal certificate authorizing the dentist, dental hygienist, or dental assistant to continue the practice of dentistry or dental hygiene, respectively, in this state for a period of one (1) year.",
+        "quote": "the Board shall issue a renewal certificate authorizing the dentist, dental hygienist, or dental assistant to continue the practice of dentistry or dental hygiene, respectively, in this state for a period of one (1) year.",
         "citation": "328.41"
       }
     },
@@ -148,8 +148,8 @@
         "citation": "328.21"
       },
       "requirements": {
-        "value": "Dentist must hold a general dentist license in good standing, have practiced at least 500 hours within the previous 5 years, have passed a substantially equivalent regional examination, provide a letter of good standing from all states ever licensed in, meet qualifications in subsections B and C of Section 328.21, and pass the jurisprudence examination.",
-        "quote": "A dentist or dental hygienist currently licensed in another state having met the qualifications in paragraphs 1 through 3 of subsections B and C of this section may apply for a license by credentials",
+        "value": "Dentist must hold a general dentist license in good standing in another state, have practiced at least 500 hours within the previous 5 years, have passed a substantially equivalent regional examination, provide a letter of good standing from all states ever licensed in, and pass the Oklahoma jurisprudence examination.",
+        "quote": "A dentist holding a general dentist license in good standing and having practiced for at least five hundred (500) hours within the previous five (5) years immediately prior to application and having passed a regional examination substantially equivalent to the requirements for this state may apply for licensure by credentials",
         "citation": "328.21"
       }
     },
@@ -162,11 +162,15 @@
       "name": null,
       "authority": null
     },
-    "national_certification": null,
+    "national_certification": {
+      "value": "National Board of Dental Examiners / Commission on Dental Competency Assessments (CDCA-WREB-CITA)",
+      "quote": "Has passed all portions of the National Board Dental Examination",
+      "citation": "328.21"
+    },
     "national_association": {
       "value": "American Dental Association",
       "quote": "accredited by the Commission on Dental Accreditation of the American Dental Association",
-      "citation": "328.13"
+      "citation": "328.11"
     },
     "regulatory_model": {
       "value": "license",
@@ -181,230 +185,284 @@
     "is_mandatory": {
       "value": true,
       "quote": "It shall be unlawful for any person, except a licensed dentist, to practice or attempt to practice dentistry",
-      "citation": "328.44c",
+      "citation": "328.46",
       "unverified": true
     },
     "title_protection": {
       "value": true,
       "quote": "It shall be unlawful for any person, except a licensed dentist, to hold oneself out to the public as a dentist or as a person who practices dentistry",
-      "citation": "328.44c",
+      "citation": "328.46",
       "unverified": true
     },
     "scope_protection": {
       "value": true,
       "quote": "It shall be unlawful for any person, except a licensed dentist, to practice or attempt to practice dentistry",
-      "citation": "328.44c",
+      "citation": "328.46",
       "unverified": true
     },
     "disciplinary_grounds": [
       {
-        "short_label": "criminal_conviction",
-        "description": "Pleading guilty or nolo contendere to, or being convicted of, a felony, a misdemeanor involving moral turpitude, sex offender crimes, violent crimes, Medicaid fraud, insurance fraud, identity theft, embezzlement, or controlled substances violations",
-        "quote": "Pleading guilty or nolo contendere to, or being convicted of, a felony, a misdemeanor involving moral turpitude, any crime in which an individual would be required to be a registered sex offender under state law, any violent crime, Medicaid fraud, insurance fraud, identity theft, embezzlement or a violation of federal or state controlled dangerous substances laws",
+        "short_label": "felony_or_moral_turpitude_conviction",
+        "description": "Pleading guilty/nolo contendere or being convicted of a felony, misdemeanor involving moral turpitude, sex offense, violent crime, Medicaid fraud, insurance fraud, identity theft, embezzlement, or controlled substance violation.",
+        "quote": "Pleading guilty or nolo contendere to, or being convicted of, a felony, a misdemeanor involving moral turpitude, any crime in which an individual would be required to be a registered sex offender under state law, any violent crime, Medicaid fraud, insurance fraud, identity theft, embezzlement or a violation of federal or state controlled dangerous substances laws;",
         "citation": "328.32"
       },
       {
-        "short_label": "fraud_in_obtaining_license",
-        "description": "Presenting a false diploma, license, or certificate, or one obtained by fraud or illegal means, or providing false information on an application or renewal",
-        "quote": "Presenting to the Board a false diploma, license, or certificate, or one obtained by fraud or illegal means, or providing other false information on an application or renewal",
+        "short_label": "false_diploma_or_application",
+        "description": "Presenting a false diploma, license, certificate, or other false information on an application or renewal.",
+        "quote": "Presenting to the Board a false diploma, license, or certificate, or one obtained by fraud or illegal means, or providing other false information on an application or renewal;",
         "citation": "328.32"
       },
       {
-        "short_label": "impairment_drug_alcohol",
-        "description": "Being incompetent due to persistent inebriety or addiction to drugs, or failing to notify the Board of a licensee practicing while impaired",
+        "short_label": "drug_or_alcohol_impairment",
+        "description": "Being incompetent to practice due to persistent inebriety or drug addiction, or failing to report an impaired colleague within 72 hours.",
         "quote": "Being, by reason of persistent inebriety or addiction to drugs, incompetent to continue the practice of dentistry or failing to notify the Board of a licensee, permit holder, or other health professional that is practicing while impaired",
         "citation": "328.32"
       },
       {
-        "short_label": "false_advertisement",
-        "description": "Publishing a false, fraudulent, or misleading advertisement or statement",
-        "quote": "Publishing a false, fraudulent, or misleading advertisement or statement",
+        "short_label": "false_fraudulent_advertising",
+        "description": "Publishing a false, fraudulent, or misleading advertisement or statement.",
+        "quote": "Publishing a false, fraudulent, or misleading advertisement or statement;",
         "citation": "328.32"
       },
       {
         "short_label": "aiding_unlicensed_practice",
-        "description": "Authorizing or aiding an unlicensed person to practice dentistry or dental hygiene or to perform a function requiring a Board permit",
-        "quote": "Authorizing or aiding an unlicensed person to practice dentistry, to practice dental hygiene or to perform a function for which a permit from the Board is required",
+        "description": "Authorizing or aiding an unlicensed person to practice dentistry or dental hygiene, or to perform a function requiring a Board permit.",
+        "quote": "Authorizing or aiding an unlicensed person to practice dentistry, to practice dental hygiene or to perform a function for which a permit from the Board is required;",
+        "citation": "328.32"
+      },
+      {
+        "short_label": "aiding_prohibited_hygienist_procedures",
+        "description": "Authorizing or aiding a dental hygienist to perform any procedure prohibited by the State Dental Act or Board rules.",
+        "quote": "Authorizing or aiding a dental hygienist to perform any procedure prohibited by the State Dental Act or the rules of the Board;",
+        "citation": "328.32"
+      },
+      {
+        "short_label": "aiding_prohibited_assistant_procedures",
+        "description": "Authorizing or aiding a dental assistant to perform any procedure prohibited by the State Dental Act or Board rules.",
+        "quote": "Authorizing or aiding a dental assistant to perform any procedure prohibited by the State Dental Act or the rules of the Board;",
         "citation": "328.32"
       },
       {
         "short_label": "failure_to_pay_fees",
-        "description": "Failing to pay fees as required by the State Dental Act or the rules of the Board",
-        "quote": "Failing to pay fees as required by the State Dental Act or the rules of the Board",
+        "description": "Failing to pay fees as required by the State Dental Act or Board rules.",
+        "quote": "Failing to pay fees as required by the State Dental Act or the rules of the Board;",
         "citation": "328.32"
       },
       {
-        "short_label": "failure_to_complete_ce",
-        "description": "Failing to complete continuing education requirements",
-        "quote": "Failing to complete continuing education requirements",
+        "short_label": "failure_to_complete_continuing_education",
+        "description": "Failing to complete continuing education requirements.",
+        "quote": "Failing to complete continuing education requirements;",
         "citation": "328.32"
       },
       {
-        "short_label": "false_specialty_representation",
-        "description": "Representing oneself as a dental specialist without holding the required dental specialty license",
-        "quote": "Representing himself or herself to the public as a specialist in a dental specialty without holding a dental specialty license as listed in Section 328.22 of this title",
+        "short_label": "false_specialist_representation",
+        "description": "Representing oneself as a specialist in a dental specialty without holding the required dental specialty license.",
+        "quote": "Representing himself or herself to the public as a specialist in a dental specialty without holding a dental specialty license as listed in Section 328.22 of this title;",
         "citation": "328.32"
       },
       {
         "short_label": "below_standard_of_care",
-        "description": "Practicing below the basic standard of care that an ordinary prudent dentist with similar training and experience would have provided",
+        "description": "Practicing below the basic standard of care, including failing to complete proper training for delegated procedures.",
         "quote": "Practicing below the basic standard of care of a patient which an ordinary prudent dentist with similar training and experience within the local area would have provided",
         "citation": "328.32"
       },
       {
-        "short_label": "communicable_disease_risk",
-        "description": "Endangering patients by continuing to practice dentistry with a highly communicable disease without appropriate safeguards",
-        "quote": "Endangering the health of patients by reason of having a highly communicable disease and continuing to practice dentistry without taking appropriate safeguards",
+        "short_label": "communicable_disease_endangerment",
+        "description": "Endangering patients by reason of a highly communicable disease without appropriate safeguards.",
+        "quote": "Endangering the health of patients by reason of having a highly communicable disease and continuing to practice dentistry without taking appropriate safeguards;",
         "citation": "328.32"
       },
       {
-        "short_label": "unsafe_unsanitary_practice",
-        "description": "Practicing dentistry in an unsafe or unsanitary manner or place, including repeated failures to follow CDC or OSHA guidelines",
-        "quote": "Practicing dentistry in an unsafe or unsanitary manner or place including but not limited to repeated failures to follow Centers for Disease Control and Prevention (CDC) or Occupational Safety and Health Administration (OSHA) guidelines",
+        "short_label": "unsafe_or_unsanitary_practice",
+        "description": "Practicing dentistry in an unsafe or unsanitary manner or place, including repeated failures to follow CDC or OSHA guidelines.",
+        "quote": "Practicing dentistry in an unsafe or unsanitary manner or place including but not limited to repeated failures to follow Centers for Disease Control and Prevention (CDC) or Occupational Safety and Health Administration (OSHA) guidelines;",
         "citation": "328.32"
       },
       {
         "short_label": "mental_unsoundness",
-        "description": "Being shown to be mentally unsound",
-        "quote": "Being shown to be mentally unsound",
+        "description": "Being shown to be mentally unsound.",
+        "quote": "Being shown to be mentally unsound;",
         "citation": "328.32"
       },
       {
-        "short_label": "gross_immorality",
-        "description": "Being shown to be grossly immoral and that such condition represents a threat to patient care or treatment",
-        "quote": "Being shown to be grossly immoral and that such condition represents a threat to patient care or treatment",
+        "short_label": "gross_immorality_threatening_patient_care",
+        "description": "Being shown to be grossly immoral and that such condition represents a threat to patient care or treatment.",
+        "quote": "Being shown to be grossly immoral and that such condition represents a threat to patient care or treatment;",
         "citation": "328.32"
       },
       {
-        "short_label": "incompetence",
-        "description": "Being incompetent to practice dentistry while delivering care to a patient",
-        "quote": "Being incompetent to practice dentistry while delivering care to a patient",
+        "short_label": "incompetence_while_delivering_care",
+        "description": "Being incompetent to practice dentistry while delivering care to a patient.",
+        "quote": "Being incompetent to practice dentistry while delivering care to a patient;",
         "citation": "328.32"
       },
       {
         "short_label": "gross_negligence",
-        "description": "Committing gross negligence in the practice of dentistry",
-        "quote": "Committing gross negligence in the practice of dentistry",
+        "description": "Committing gross negligence in the practice of dentistry.",
+        "quote": "Committing gross negligence in the practice of dentistry;",
         "citation": "328.32"
       },
       {
         "short_label": "repeated_negligence",
-        "description": "Committing repeated acts of negligence in the practice of dentistry",
-        "quote": "Committing repeated acts of negligence in the practice of dentistry",
+        "description": "Committing repeated acts of negligence in the practice of dentistry.",
+        "quote": "Committing repeated acts of negligence in the practice of dentistry;",
         "citation": "328.32"
       },
       {
         "short_label": "fee_splitting",
-        "description": "Offering to divide or splitting fees with any person in exchange for referral of a patient",
-        "quote": "Offering to effect or effecting a division of fees, or agreeing to split or divide a fee for dental services with any person, in exchange for the person bringing or referring a patient",
+        "description": "Offering to or effecting a division of fees or agreeing to split a fee for dental services in exchange for patient referrals.",
+        "quote": "Offering to effect or effecting a division of fees, or agreeing to split or divide a fee for dental services with any person, in exchange for the person bringing or referring a patient;",
         "citation": "328.32"
       },
       {
         "short_label": "involuntary_commitment_substance_abuse",
-        "description": "Being involuntarily committed to an institution for treatment for substance abuse, until recovery or remission",
-        "quote": "Being involuntarily committed to an institution for treatment for substance abuse, until recovery or remission",
+        "description": "Being involuntarily committed to an institution for treatment for substance abuse, until recovery or remission.",
+        "quote": "Being involuntarily committed to an institution for treatment for substance abuse, until recovery or remission;",
         "citation": "328.32"
       },
       {
-        "short_label": "no_lab_prescription",
-        "description": "Using services of a dental laboratory or technician without issuing a laboratory prescription",
-        "quote": "Using or attempting to use the services of a dental laboratory or dental laboratory technician without issuing a laboratory prescription",
+        "short_label": "failure_to_issue_laboratory_prescription",
+        "description": "Using the services of a dental laboratory or technician without issuing a laboratory prescription, except as provided by statute.",
+        "quote": "Using or attempting to use the services of a dental laboratory or dental laboratory technician without issuing a laboratory prescription, except as provided in subsection C of Section 328.36 of this title;",
         "citation": "328.32"
       },
       {
-        "short_label": "excessive_hygienists",
-        "description": "Having more than the equivalent of three full-time dental hygienists per dentist actively practicing in the same dental office",
-        "quote": "Having more than the equivalent of three full-time dental hygienists for each dentist actively practicing in the same dental office",
+        "short_label": "solicitation_via_hygienist",
+        "description": "Aiding a dental hygienist to solicit patronage using oral prophylaxis lists from a prior dentist employer.",
+        "quote": "Aiding, abetting, or encouraging a dental hygienist employed by the dentist to make use of an oral prophylaxis list, or the calling by telephone or by use of letters transmitted through the mail to solicit patronage from patients formerly served in the office of any dentist formerly employing such dental hygienist;",
+        "citation": "328.32"
+      },
+      {
+        "short_label": "excess_hygienist_ratio",
+        "description": "Having more than the equivalent of three full-time dental hygienists for each dentist actively practicing in the same dental office.",
+        "quote": "Having more than the equivalent of three full-time dental hygienists for each dentist actively practicing in the same dental office;",
+        "citation": "328.32"
+      },
+      {
+        "short_label": "allowing_unpermitted_person_to_treat",
+        "description": "Allowing a person not holding a Board-issued permit or license to assist in the treatment of a patient.",
+        "quote": "Allowing a person not holding a permit or license issued by the Board to assist in the treatment of a patient without having a license or permit issued by the Board;",
+        "citation": "328.32"
+      },
+      {
+        "short_label": "patronizing_noncompliant_lab",
+        "description": "Knowingly patronizing or using the services of a dental laboratory or technician who has not complied with the State Dental Act.",
+        "quote": "Knowingly patronizing or using the services of a dental laboratory or dental laboratory technician who has not complied with the provisions of the State Dental Act and the rules of the Board;",
+        "citation": "328.32"
+      },
+      {
+        "short_label": "aiding_violations_by_auxiliaries",
+        "description": "Authorizing or aiding a dental hygienist, assistant, lab technician, or lab permit holder to violate the State Dental Act or Board rules.",
+        "quote": "Authorizing or aiding a dental hygienist, dental assistant, dental laboratory technician, or holder of a permit to operate a dental laboratory to violate any provision of the State Dental Act or the rules of the Board;",
         "citation": "328.32"
       },
       {
         "short_label": "hipaa_violation",
-        "description": "Willfully disclosing information protected by HIPAA",
-        "quote": "Willfully disclosing information protected by the Health Insurance Portability and Accountability Act of 1996, P.L. 104-191",
+        "description": "Willfully disclosing information protected by HIPAA.",
+        "quote": "Willfully disclosing information protected by the Health Insurance Portability and Accountability Act of 1996, P.L. 104-191;",
         "citation": "328.32"
       },
       {
-        "short_label": "false_or_excessive_prescription",
-        "description": "Writing a false, unnecessary, or excessive prescription for a controlled dangerous substance or prescribing opioids in excess of statutory maximum limits",
-        "quote": "Writing a false, unnecessary, or excessive prescription for any drug or narcotic which is a controlled dangerous substance under either federal or state law, or prescribing, dispensing or administering opioid drugs in excess of the maximum limits authorized in Section 2-309I of Title 63 of the Oklahoma Statutes",
+        "short_label": "false_excessive_controlled_substance_prescription",
+        "description": "Writing a false, unnecessary, or excessive prescription for a controlled dangerous substance, or prescribing opioids in excess of statutory maximum limits.",
+        "quote": "Writing a false, unnecessary, or excessive prescription for any drug or narcotic which is a controlled dangerous substance under either federal or state law, or prescribing, dispensing or administering opioid drugs in excess of the maximum limits authorized",
         "citation": "328.32"
       },
       {
-        "short_label": "no_valid_dentist_patient_relationship",
-        "description": "Prescribing or administering any drug or treatment without having established a valid dentist-patient relationship",
-        "quote": "Prescribing or administering any drug or treatment without having established a valid dentist-patient relationship",
+        "short_label": "prescribing_without_dentist_patient_relationship",
+        "description": "Prescribing or administering any drug or treatment without a valid dentist-patient relationship.",
+        "quote": "Prescribing or administering any drug or treatment without having established a valid dentist-patient relationship;",
+        "citation": "328.32"
+      },
+      {
+        "short_label": "improper_nitrous_oxide_use",
+        "description": "Using or administering nitrous oxide gas in a dental office in an inappropriate or unauthorized manner.",
+        "quote": "Using or administering nitrous oxide gas in a dental office in an inappropriate or unauthorized manner;",
         "citation": "328.32"
       },
       {
         "short_label": "sexual_misconduct",
-        "description": "Engaging in nonconsensual sexual physical contact with a patient or sexually demeaning verbal communication to a patient",
-        "quote": "Engaging in nonconsensual physical contact with a patient which is sexual in nature, or engaging in a verbal communication which is intended to be sexually demeaning to a patient",
+        "description": "Engaging in nonconsensual physical contact of a sexual nature with a patient, or verbal communication intended to be sexually demeaning to a patient.",
+        "quote": "Engaging in nonconsensual physical contact with a patient which is sexual in nature, or engaging in a verbal communication which is intended to be sexually demeaning to a patient;",
         "citation": "328.32"
       },
       {
         "short_label": "failure_to_display_license",
-        "description": "Practicing dentistry without displaying the Board-issued license and current renewal certificate at the primary place of practice",
-        "quote": "Practicing dentistry without displaying, at the dentist's primary place of practice, the license issued to the dentist by the Board to practice dentistry and the current renewal certificate",
+        "description": "Practicing dentistry without displaying the license and current renewal certificate at the primary place of practice.",
+        "quote": "Practicing dentistry without displaying, at the dentist's primary place of practice, the license issued to the dentist by the Board to practice dentistry and the current renewal certificate;",
         "citation": "328.32"
       },
       {
-        "short_label": "dishonesty_with_patient",
-        "description": "Being dishonest in a material way with a patient or during the practice of dentistry",
-        "quote": "Being dishonest in a material way with a patient or during the practice of dentistry",
+        "short_label": "material_dishonesty_with_patient",
+        "description": "Being dishonest in a material way with a patient or during the practice of dentistry.",
+        "quote": "Being dishonest in a material way with a patient or during the practice of dentistry;",
         "citation": "328.32"
       },
       {
         "short_label": "failure_to_retain_patient_records",
-        "description": "Failing to retain all patient records for at least seven years from the date of last treatment",
+        "description": "Failing to retain all patient records for at least seven years from the date of the last treatment.",
         "quote": "Failing to retain all patient records for at least seven (7) years from the date of the last treatment as provided by Section 328.31b of this title",
         "citation": "328.32"
       },
       {
-        "short_label": "corporate_interference_clinical_judgment",
-        "description": "Allowing a non-dentist corporation, organization, or entity (other than another dentist or compliant professional entity) to direct, control, or interfere with the dentist's clinical judgment",
-        "quote": "Allowing any corporation, organization, group, person, or other legal entity, except another dentist or a professional entity that is in compliance with the registration requirements of subsection B of Section 328.31 of this title, to direct, control, or interfere with the dentist's clinical judgment",
+        "short_label": "failure_to_retain_lab_prescription_copy",
+        "description": "Failing to retain the dentist's copy of any laboratory prescription for at least seven years.",
+        "quote": "Failing to retain the dentist's copy of any laboratory prescription for at least seven (7) years",
+        "citation": "328.32"
+      },
+      {
+        "short_label": "allowing_corporate_interference_with_clinical_judgment",
+        "description": "Allowing a non-dentist corporation or entity to direct, control, or interfere with the dentist's clinical judgment.",
+        "quote": "Allowing any corporation, organization, group, person, or other legal entity, except another dentist or a professional entity that is in compliance with the registration requirements of subsection B of Section 328.31 of this title, to direct, control, or interfere with the dentist's clinical judgment.",
         "citation": "328.32"
       },
       {
         "short_label": "out_of_state_dental_act_violation",
-        "description": "Violating the dental act of another state resulting in guilty plea, conviction, or license suspension/revocation by another state board",
-        "quote": "Violating the state dental act of another state resulting in a plea of guilty or nolo contendere, conviction or suspension or revocation or other sanction by another state board, of the license of the dentist under the laws of that state",
+        "description": "Violating the dental act of another state resulting in a guilty plea, conviction, or suspension/revocation by another state board.",
+        "quote": "Violating the state dental act of another state resulting in a plea of guilty or nolo contendere, conviction or suspension or revocation or other sanction by another state board, of the license of the dentist under the laws of that state;",
         "citation": "328.32"
       },
       {
-        "short_label": "violating_state_dental_act",
-        "description": "Violating or attempting to violate the provisions of the State Dental Act or the rules of the Board",
-        "quote": "Violating or attempting to violate the provisions of the State Dental Act or the rules of the Board, a state or federal statute or rule relating to scheduled drugs, fraud, a violent crime or any crime for which the penalty includes the requirement of registration as a sex offender in this state as a principal, accessory or accomplice",
+        "short_label": "violating_state_dental_act_or_drug_laws",
+        "description": "Violating or attempting to violate the State Dental Act, Board rules, or state/federal statutes relating to scheduled drugs, fraud, or violent crime.",
+        "quote": "Violating or attempting to violate the provisions of the State Dental Act or the rules of the Board, a state or federal statute or rule relating to scheduled drugs, fraud, a violent crime",
         "citation": "328.32"
       },
       {
-        "short_label": "failure_to_comply_with_order",
-        "description": "Failing to comply with the terms and conditions of an order imposing suspension or probation",
-        "quote": "Failing to comply with the terms and conditions of an order imposing suspension of a license or placement on probation issued pursuant to Section 328.44a of this title",
+        "short_label": "noncompliance_with_suspension_or_probation",
+        "description": "Failing to comply with the terms and conditions of an order imposing suspension or probation.",
+        "quote": "Failing to comply with the terms and conditions of an order imposing suspension of a license or placement on probation issued pursuant to Section 328.44a of this title;",
         "citation": "328.32"
       },
       {
         "short_label": "failure_to_cooperate_with_investigation",
-        "description": "Failing to cooperate during an investigation or providing false information to the Board or its investigators",
-        "quote": "Failing to cooperate during an investigation or providing false information, verbally or in writing, to the Board, the Board's investigator or an agent of the Board",
+        "description": "Failing to cooperate during an investigation or providing false information to the Board or its agents.",
+        "quote": "Failing to cooperate during an investigation or providing false information, verbally or in writing, to the Board, the Board's investigator or an agent of the Board;",
         "citation": "328.32"
       },
       {
-        "short_label": "multiple_npdb_actions",
-        "description": "Having multiple administrative or civil actions reported to the National Practitioner Data Bank",
-        "quote": "Having multiple administrative or civil actions reported to the National Practitioner Data Bank",
+        "short_label": "multiple_data_bank_actions",
+        "description": "Having multiple administrative or civil actions reported to the National Practitioner Data Bank.",
+        "quote": "Having multiple administrative or civil actions reported to the National Practitioner Data Bank;",
         "citation": "328.32"
       },
       {
-        "short_label": "failure_to_complete_opioid_course",
-        "description": "Failing to complete an approved two-hour course on opioid and scheduled drug prescribing within one year of obtaining a license or violating controlled substance prescribing laws",
-        "quote": "Failing to complete an approved two-hour course on opioid and scheduled drug prescribing within one (1) year of obtaining a license or a violation of a law related to controlled dangerous substances including prescribing laws pursuant to Section 2-309D of Title 63 of the Oklahoma Statutes",
+        "short_label": "failure_to_complete_opioid_prescribing_course",
+        "description": "Failing to complete an approved two-hour course on opioid and scheduled drug prescribing within one year of obtaining a license.",
+        "quote": "Failing to complete an approved two-hour course on opioid and scheduled drug prescribing within one (1) year of obtaining a license",
+        "citation": "328.32"
+      },
+      {
+        "short_label": "below_standard_of_care_general",
+        "description": "Falling below the basic standard of care of a licensed dentist or other licensee pursuant to the State Dental Act.",
+        "quote": "Falling below the basic standard of care of a licensed dentist or dentist practicing in his or her specialty, a dental hygienist, dental assistant, or other licensee or permit holder pursuant to the State Dental Act",
         "citation": "328.32"
       },
       {
         "short_label": "failure_to_provide_patient_records",
-        "description": "Failing to provide patient records as required by state statutes",
-        "quote": "Failing to provide patient records as provided by Sections 19 and 20 of Title 76 of the Oklahoma Statutes",
+        "description": "Failing to provide patient records as required by state statute.",
+        "quote": "Failing to provide patient records as provided by Sections 19 and 20 of Title 76 of the Oklahoma Statutes.",
         "citation": "328.32"
       }
     ],
@@ -413,17 +471,17 @@
       "insurance_required": {
         "value": true,
         "quote": "All dentists in active practice licensed by the Board of Dentistry shall maintain a policy for professional malpractice liability insurance",
-        "citation": "328.50"
+        "citation": "328.51"
       },
       "establishment_regulation_required": {
         "value": true,
         "quote": "A mobile dental clinic providing dental treatment shall register with the Board of Dentistry",
-        "citation": "328.41a"
+        "citation": "328.45a"
       }
     },
     "citations": [
       {
-        "cite": "328.13",
+        "cite": "328.11",
         "kind": "definitions"
       },
       {
@@ -431,8 +489,12 @@
         "kind": "board creation"
       },
       {
-        "cite": "328.17",
+        "cite": "328.15A",
         "kind": "board powers"
+      },
+      {
+        "cite": "328.17",
+        "kind": "committees"
       },
       {
         "cite": "328.19",
@@ -447,39 +509,74 @@
         "kind": "specialty licenses"
       },
       {
+        "cite": "328.24",
+        "kind": "dental assistant permits"
+      },
+      {
+        "cite": "328.31",
+        "kind": "professional entities"
+      },
+      {
+        "cite": "328.31b",
+        "kind": "patient records"
+      },
+      {
         "cite": "328.32",
-        "kind": "disciplinary grounds"
+        "kind": "disciplinary grounds - dentists"
+      },
+      {
+        "cite": "328.34",
+        "kind": "dental hygienist scope"
       },
       {
         "cite": "328.41",
         "kind": "renewal and CE"
       },
       {
+        "cite": "328.43a",
+        "kind": "investigation procedures"
+      },
+      {
         "cite": "328.44a",
         "kind": "penalties"
       },
       {
-        "cite": "328.44c",
-        "kind": "enforcement/unlicensed practice"
+        "cite": "328.45a",
+        "kind": "mobile dental clinic registration"
       },
       {
-        "cite": "328.50",
+        "cite": "328.46",
+        "kind": "unlicensed practice prohibition"
+      },
+      {
+        "cite": "328.51",
         "kind": "malpractice insurance"
       },
       {
-        "cite": "328.55b",
+        "cite": "328.53",
         "kind": "teledentistry"
+      },
+      {
+        "cite": "328.55",
+        "kind": "adverse event reporting"
+      },
+      {
+        "cite": "328.58",
+        "kind": "elder care advanced procedure"
       }
     ]
   },
   "scope": {
     "definition_quote": {
       "value": "Dentistry means the practice of dentistry in all of its branches",
-      "quote": "\"Dentistry\" means the practice of dentistry in all of its branches",
-      "citation": "328.13"
+      "quote": "\"Dentistry\" means the practice of dentistry in all of its branches;",
+      "citation": "328.11"
     },
     "methods_authorized": {
       "value": [
+        "Representing oneself to the public as being a dentist or as one authorized to practice dentistry",
+        "Diagnosing or examining clinical material",
+        "Treating diseases or disorders of the oral cavity, teeth, gums, maxillary bones, and associate structures",
         "Removing human teeth",
         "Repairing or filling cavities in human teeth",
         "Correcting or attempting to correct malposed teeth",
@@ -489,41 +586,53 @@
         "Removing stains, discolorations, or concretions from the teeth",
         "Operating or prescribing for any disease, pain, injury, deficiency, deformity, or physical condition connected with the human mouth",
         "Taking impressions of the teeth and jaws",
-        "Furnishing, supplying, constructing, reproducing, or repairing prosthetic dentures",
-        "Adjusting prosthetic dentures, bridges, appliances or structures worn in the mouth",
-        "Diagnosing, making and adjusting appliances for malposed teeth",
+        "Furnishing, supplying, constructing, reproducing, or repairing prosthetic dentures, bridges, or other substitutes for natural teeth",
+        "Adjusting prosthetic dentures, bridges, appliances, or other structures worn in the human mouth",
+        "Diagnosing, making, and adjusting appliances to artificial casts of malposed teeth",
         "Writing a laboratory prescription to a dental laboratory",
         "Owning, maintaining, or operating an office for the practice of dentistry"
       ],
-      "quote": "Removing human teeth; Repairing or filling cavities in human teeth; Correcting or attempting to correct malposed teeth; Administering anesthetics, general or local; Treating deformities of the jaws and adjacent structures; Using x-ray and interpreting dental x-ray film",
+      "quote": "The following acts by any person shall be regarded as practicing dentistry within the meaning of the State Dental Act",
       "citation": "328.19"
     },
     "drug_authority": {
-      "value": "Dentists may administer anesthetics (general or local), prescribe controlled substances subject to limits, administer nitrous oxide, and administer vaccinations. Opioid prescribing is subject to maximum statutory limits.",
-      "quote": "Administering anesthetics, general or local",
-      "citation": "328.19"
+      "value": "Dentists may prescribe, administer, and dispense drugs including controlled dangerous substances, subject to statutory limits on opioid prescribing and requirements for valid dentist-patient relationship; must maintain a duty to guard against illegal diversion of controlled dangerous substances.",
+      "quote": "Writing a false, unnecessary, or excessive prescription for any drug or narcotic which is a controlled dangerous substance under either federal or state law, or prescribing, dispensing or administering opioid drugs in excess of the maximum limits authorized in Section 2-309I of Title 63 of the Oklahoma Statutes;",
+      "citation": "328.32"
     },
     "citations": [
       {
-        "cite": "328.13",
-        "kind": "definitions"
+        "cite": "328.19",
+        "kind": "scope of practice definition"
       },
       {
-        "cite": "328.19",
-        "kind": "scope of practice"
+        "cite": "328.32",
+        "kind": "drug authority and limits"
+      },
+      {
+        "cite": "328.56",
+        "kind": "controlled substance diversion duties"
+      },
+      {
+        "cite": "328.53",
+        "kind": "teledentistry authorization"
       }
     ]
   },
   "profession_specific": {
     "sedation_anesthesia_permit_types": {
       "value": [
-        "minimal sedation",
-        "moderate sedation",
-        "deep sedation",
-        "general anesthesia"
+        "Minimal sedation",
+        "Moderate sedation",
+        "Deep sedation",
+        "General anesthesia",
+        "Parenteral sedation",
+        "Nitrous oxide (for dental hygienists as advanced procedure)",
+        "Mobile dental anesthesia provider"
       ],
-      "quote": "\"Deep sedation\" means a drug-induced depression of consciousness during which patients cannot be easily aroused",
-      "citation": "328.13"
+      "quote": "\"Deep sedation\" means a drug-induced depression of consciousness ... \"General anesthesia\" means a drug-induced loss of consciousness ... \"Minimal sedation\" means a minimally depressed level of consciousness ... \"Moderate sedation\" means a drug-induced depression of consciousness ... \"Mobile dental anesthesia provider\" means a licensed and anesthesia-permitted dentist, physician or Certified Registered Nurse Anesthetist (CRNA)",
+      "citation": "328.11",
+      "unverified": true
     },
     "sedation_permit_onsite_inspection_required": null,
     "sedation_adverse_event_reporting_required": {
@@ -545,15 +654,19 @@
     "specialty_advertising_disclaimer_required": null,
     "dental_hygienist_supervision_levels": {
       "value": [
-        "direct supervision",
-        "direct visual supervision",
-        "indirect supervision",
-        "general supervision"
+        "Direct supervision",
+        "Indirect supervision",
+        "General supervision"
       ],
-      "quote": "\"Supervision\" means direct supervision, direct visual supervision, indirect supervision or general supervision",
-      "citation": "328.13"
+      "quote": "\"Supervision\" means direct supervision, direct visual supervision, indirect supervision or general supervision;",
+      "citation": "328.11"
     },
-    "collaborative_agreement_available": null,
+    "collaborative_agreement_available": {
+      "value": true,
+      "quote": "A dentist may authorize procedures to be performed by a dental hygienist, without complying with the provisions of paragraph 3 of subsection B of this section, if the dental hygienist has at least two (2) years' experience in the practice of dental hygiene, the authorization to perform the procedures is in writing and signed by the dentist",
+      "citation": "328.34",
+      "unverified": true
+    },
     "collaborative_agreement_max_hygienists_per_dentist": {
       "value": 3,
       "quote": "A dentist may employ not more than the equivalent of three full-time dental hygienists for each dentist actively practicing in the same dental office.",
@@ -570,9 +683,9 @@
         "Assisted living center or continuum of care facility",
         "Residential care home",
         "Adult day care center or adult day care component of a continuum of care facility",
-        "Another healthcare facility or long-term care facility as approved by the Board"
+        "Other healthcare facility or long-term care facility as specifically approved by the Board"
       ],
-      "quote": "A licensed dentist may allow a dental hygienist with an elder care advanced procedure permit to treat patients under general supervision by utilizing teledentistry on a patient in: 1. A nursing facility, specialized facility, or nursing care component of a continuum of care facility",
+      "quote": "A licensed dentist may allow a dental hygienist with an elder care advanced procedure permit to treat patients under general supervision by utilizing teledentistry on a patient in: 1. A nursing facility, specialized facility, or nursing care component of a continuum of care facility ... 2. An assisted living center or continuum of care facility ... 3. A residential care home ... 4. An adult day care center ... 5. Another healthcare facility or long-term care facility as specifically approved by the Board of Dentistry.",
       "citation": "328.58"
     },
     "dental_therapist_license_available": null,
@@ -581,7 +694,7 @@
     "mobile_dental_facility_registration_required": {
       "value": true,
       "quote": "A mobile dental clinic providing dental treatment shall register with the Board of Dentistry",
-      "citation": "328.41a"
+      "citation": "328.45a"
     },
     "mobile_facility_followup_care_protocol_required": {
       "value": true,
@@ -591,7 +704,7 @@
     "dental_office_ownership_restrictions": {
       "value": true,
       "quote": "\"Dental office\" means an establishment owned and operated by a dentist for the practice of dentistry",
-      "citation": "328.13"
+      "citation": "328.11"
     },
     "opioid_prescribing_limits": {
       "value": true,
@@ -601,23 +714,23 @@
     "controlled_substance_database_registration_required": null,
     "dental_laboratory_work_authorization_required": {
       "value": true,
-      "quote": "Except as provided in subsection C of Section 328.36 of this title, a dentist who utilizes the services of a dental laboratory technician or dental laboratory shall furnish a laboratory prescription for each patient for whom a work product is prescribed.",
-      "citation": "328.36a"
+      "quote": "a dentist who utilizes the services of a dental laboratory technician or dental laboratory shall furnish a laboratory prescription for each patient for whom a work product is prescribed.",
+      "citation": "328.37"
     },
     "denture_patient_identification_marking_required": null,
     "teledentistry_authorized": {
       "value": true,
       "quote": "A dentist holding a valid dental license in Oklahoma may consult, diagnose and treat a patient of record via synchronous or asynchronous telecommunication between the patient and dentist.",
-      "citation": "328.55b"
+      "citation": "328.53"
     },
     "hygienist_local_anesthesia_certification_required": {
       "value": true,
-      "quote": "There shall be seven types of advanced procedures available for dental hygienists upon completion of a Commission on Dental Accreditation (CODA) approved program, course, or certification program that has been approved by the Board: ... b. administration of local anesthesia",
+      "quote": "administration of local anesthesia",
       "citation": "328.21"
     },
     "hygienist_nitrous_oxide_certification_required": {
       "value": true,
-      "quote": "There shall be seven types of advanced procedures available for dental hygienists upon completion of a Commission on Dental Accreditation (CODA) approved program, course, or certification program that has been approved by the Board: a. administration of nitrous oxide",
+      "quote": "administration of nitrous oxide",
       "citation": "328.21"
     },
     "restorative_function_endorsement_available": null,
@@ -632,6 +745,332 @@
       "quote": "a live, in-person cardiopulmonary resuscitation class approved by the Board",
       "citation": "328.41"
     },
-    "dental_hygienist_alternative_practice_license": null
+    "dental_hygienist_alternative_practice_license": null,
+    "scope__sedation_anesthesia_permit_types": [
+      {
+        "item": "Nitrous Oxide Sedation (Analgesia)",
+        "status": "present",
+        "quote": "administration of nitrous oxide",
+        "citation": "328.21"
+      },
+      {
+        "item": "Minimal Sedation Permit",
+        "status": "present",
+        "quote": "\"Minimal sedation\" means a minimally depressed level of consciousness, produced by a pharmacological method",
+        "citation": "328.11"
+      },
+      {
+        "item": "Pediatric Minimal Sedation Permit",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Oral Conscious Sedation Permit",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Moderate Sedation Permit",
+        "status": "present",
+        "quote": "\"Moderate sedation\" means a drug-induced depression of consciousness during which patients respond purposefully to verbal commands",
+        "citation": "328.11"
+      },
+      {
+        "item": "Pediatric Moderate Sedation Endorsement",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Parenteral Sedation Permit",
+        "status": "present",
+        "quote": "dental assistant who has met the requirements as listed in Section 328.25 of this title and assists a dentist, pediatric dentist, or oral maxillofacial surgeon who holds a parenteral or general anesthesia permit",
+        "citation": "328.24"
+      },
+      {
+        "item": "Deep Sedation Permit",
+        "status": "present",
+        "quote": "\"Deep sedation\" means a drug-induced depression of consciousness during which patients cannot be easily aroused but respond purposefully following repeated or painful stimulation.",
+        "citation": "328.11"
+      },
+      {
+        "item": "General Anesthesia Permit",
+        "status": "present",
+        "quote": "\"General anesthesia\" means a drug-induced loss of consciousness during which patients are not arousable, even by painful stimulation.",
+        "citation": "328.11"
+      },
+      {
+        "item": "Pediatric General Anesthesia / Deep Sedation Endorsement",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Local Anesthesia Certificate / Permit",
+        "status": "present",
+        "quote": "administration of local anesthesia",
+        "citation": "328.21"
+      },
+      {
+        "item": "Mobile Dental Anesthesia Services Permit",
+        "status": "present",
+        "quote": "\"Mobile dental anesthesia provider\" means a licensed and anesthesia-permitted dentist, physician or Certified Registered Nurse Anesthetist (CRNA) that has a mobile dental unit and provides anesthesia in dental offices and facilities in the state;",
+        "citation": "328.11"
+      }
+    ],
+    "scope__dental_hygienist_supervision_levels": [
+      {
+        "item": "Direct supervision",
+        "status": "present",
+        "quote": "\"Direct supervision\" means the supervisory dentist is in the dental office or treatment facility and, during the appointment, personally examines the patient, diagnoses any conditions to be treated, and authorizes the procedures to be performed by a dental hygienist or dental assistant.",
+        "citation": "328.11"
+      },
+      {
+        "item": "Indirect supervision",
+        "status": "present",
+        "quote": "\"Indirect supervision\" means the supervisory dentist is in the dental office or treatment facility and has personally diagnosed any conditions to be treated, authorizes the procedures to be performed by a dental hygienist, remains in the dental office or treatment facility while the procedures are being performed",
+        "citation": "328.11"
+      },
+      {
+        "item": "General supervision",
+        "status": "present",
+        "quote": "\"General supervision\" means the supervisory dentist has diagnosed any conditions to be treated within the past thirteen (13) months, has personally authorized the procedures to be performed by a dental hygienist",
+        "citation": "328.11"
+      },
+      {
+        "item": "Telehealth supervision",
+        "status": "present",
+        "quote": "A licensed dentist may allow a dental hygienist with an elder care advanced procedure permit to treat patients under general supervision by utilizing teledentistry on a patient in",
+        "citation": "328.58"
+      },
+      {
+        "item": "Unsupervised practice",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Advanced practice / collaborative practice (no supervising dentist required)",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      }
+    ],
+    "scope__advanced_practice_eligible_patient_populations": [
+      {
+        "item": "Senior center residents",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Hospital residents or patients",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Long-term care facility residents",
+        "status": "present",
+        "quote": "Another healthcare facility or long-term care facility as specifically approved by the Board of Dentistry.",
+        "citation": "328.58"
+      },
+      {
+        "item": "Adult foster home residents",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Residential care facility residents",
+        "status": "present",
+        "quote": "A residential care home licensed under the Residential Care Act, Section 1-819 et seq. of Title 63 of the Oklahoma Statutes;",
+        "citation": "328.58"
+      },
+      {
+        "item": "Mental health residential program or facility residents",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Individuals with developmental or other disabilities (facility residents)",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Correctional facility inmates (juvenile or adult)",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Nursery school or day care program enrollees",
+        "status": "present",
+        "quote": "An adult day care center or adult day care component of a continuum of care facility licensed under or otherwise subject to the Adult Day Care Act",
+        "citation": "328.58"
+      },
+      {
+        "item": "Vocational training facility enrollees",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Primary or secondary school students",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Homebound patients",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Dental health professional shortage area residents",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Head Start program participants",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Community health center patients",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Patients unable to access dental treatment due to age, infirmity, or disability",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      }
+    ],
+    "scope__dental_therapist_practice_setting_restrictions": [
+      {
+        "item": "Private dental office",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Mobile dental facility",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Portable dental operation",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Hospital",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Long-term care facility",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Senior center",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Adult foster home",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Residential care facility",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Correctional facility",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "School",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Day care program",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Vocational training facility",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Community health center",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Public health agency or institution",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Federal government facility",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Dental health professional shortage area",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Homebound setting",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Dental school or dental college",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Outpatient dental facility",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      }
+    ]
   }
 }

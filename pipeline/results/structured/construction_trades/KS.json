@@ -48,20 +48,19 @@
     },
     "exams": [],
     "renewal": {
-      "interval_years": {
-        "value": 1,
-        "quote": "Such registration shall be issued for a period of one year.",
-        "citation": "50-6,112a"
-      }
+      "interval_years": null
     },
     "renewal_fee_usd": null,
     "continuing_education": null,
-    "reciprocity": null,
+    "reciprocity": {
+      "available": null,
+      "requirements": null
+    },
     "advisory_board": {
       "exists": {
         "value": false,
-        "quote": "The attorney general shall refuse to register any person if the attorney general determines",
-        "citation": "50-6,125"
+        "quote": "\"Attorney general\" means the attorney general of the state of Kansas or the attorney general's designee.",
+        "citation": "50-6,122"
       },
       "name": null,
       "authority": null
@@ -84,7 +83,7 @@
       "citation": "50-6,123"
     },
     "title_protection": {
-      "value": false,
+      "value": true,
       "quote": "No person shall engage in the business of or act in the capacity of a roofing contractor within this state without having a valid registration certificate as required by this act.",
       "citation": "50-6,123"
     },
@@ -95,7 +94,7 @@
     },
     "disciplinary_grounds": [
       {
-        "short_label": "abandonment_after_deposit",
+        "short_label": "abandon_contract_after_deposit",
         "description": "Abandoning a roofing contract without legal grounds after a deposit has been paid.",
         "quote": "Abandon a roofing contract without legal grounds after a deposit of money or other consideration has been paid;",
         "citation": "50-6,133"
@@ -113,44 +112,44 @@
         "citation": "50-6,133"
       },
       {
-        "short_label": "false_or_misleading_statement",
-        "description": "Making a false or misleading statement in a registration certificate application, renewal application, or solicitation.",
+        "short_label": "false_misleading_statement_in_application",
+        "description": "Making a false or misleading statement in an application for registration or in soliciting a contract.",
         "quote": "make a false or misleading statement in an application for a roofing contractor registration certificate or renewal application or in soliciting a contract for roofing services;",
         "citation": "50-6,133"
       },
       {
-        "short_label": "violation_of_court_order",
-        "description": "Violating any court judgment or order against the roofing contractor for violations of the act.",
+        "short_label": "violate_court_order",
+        "description": "Violating any judgment or order by a court of competent jurisdiction against the roofing contractor.",
         "quote": "violate any judgment or order by a court of competent jurisdiction against the roofing contractor for a violation of the provisions of this act;",
         "citation": "50-6,133"
       },
       {
         "short_label": "work_without_valid_registration",
-        "description": "Engaging in work without a valid registration certificate, or performing roofing services during any period of denial, suspension or revocation.",
+        "description": "Engaging in work without a valid registration certificate or performing services during a period when the certificate is denied, suspended or revoked.",
         "quote": "engage in work without a valid registration certificate as required for roofing contractors pursuant to this act or performing roofing services during any period when the roofing contractor's registration certificate is denied, suspended or revoked;",
         "citation": "50-6,133"
       },
       {
         "short_label": "work_without_permit",
-        "description": "Engaging in roofing services without obtaining a proper permit as required by any state or local authority.",
+        "description": "Engaging in roofing services without obtaining a proper permit as required by state or local authority.",
         "quote": "engage in roofing services without obtaining a proper permit as may be required by any state or local authority;",
         "citation": "50-6,133"
       },
       {
-        "short_label": "failure_to_comply_with_tax_laws",
-        "description": "Failing to comply with any tax laws authorized by the state or any of its political subdivisions.",
+        "short_label": "fail_to_comply_with_tax_laws",
+        "description": "Failing to comply with tax laws authorized by the state or any of its political subdivisions.",
         "quote": "fail to comply with any tax laws authorized by the state or any of its political subdivisions;",
         "citation": "50-6,133"
       },
       {
-        "short_label": "damage_with_inadequate_insurance",
+        "short_label": "damage_injury_with_inadequate_insurance",
         "description": "Damaging or injuring any person or property while performing roofing services with inadequate liability insurance or workers' compensation coverage.",
         "quote": "damage or injure any person or property while performing roofing services under a valid roofing contractor registration certificate for which the roofing contractor's liability insurance or workers' compensation coverage was inadequate;",
         "citation": "50-6,133"
       },
       {
-        "short_label": "failure_to_comply_with_act",
-        "description": "Failing to comply with any provision of the act or any rule and regulation adopted thereunder.",
+        "short_label": "fail_to_comply_with_act",
+        "description": "Failing to comply with any provision of the roofing contractor act or any rule and regulation adopted thereunder.",
         "quote": "fail to comply with any provision of this act or any rule and regulation adopted thereunder.",
         "citation": "50-6,133"
       }
@@ -171,11 +170,11 @@
       },
       {
         "cite": "50-6,123",
-        "kind": "registration requirement and penalties"
+        "kind": "registration required"
       },
       {
         "cite": "50-6,125",
-        "kind": "registration application requirements"
+        "kind": "application requirements"
       },
       {
         "cite": "50-6,127",
@@ -187,19 +186,19 @@
       },
       {
         "cite": "50-6,133",
-        "kind": "violations and disciplinary grounds"
+        "kind": "violations"
       },
       {
         "cite": "50-6,135",
-        "kind": "disclosure of registration certificate number"
+        "kind": "disclosure of registration number"
       },
       {
         "cite": "50-6,138a",
-        "kind": "general contractor duty to report"
+        "kind": "general contractor reporting duty"
       },
       {
         "cite": "50-6,143",
-        "kind": "residential real estate insurance assignment"
+        "kind": "insurance assignment"
       }
     ]
   },
@@ -236,7 +235,11 @@
       "quote": "A roofing contractor shall display such contractor's roofing contractor registration certificate number issued pursuant to this act on each commercial vehicle used for roofing services and upon every business sign, card, correspondence and contract used to solicit and conduct roofing services in this state.",
       "citation": "50-6,135"
     },
-    "insurance_personal_injury_minimum_usd": null,
+    "insurance_personal_injury_minimum_usd": {
+      "value": 500000,
+      "quote": "A copy of the roofing contractor's certificate of liability insurance shall be filed with the application and shall be not less than $500,000.",
+      "citation": "50-6,125"
+    },
     "insurance_property_damage_minimum_usd": null,
     "self_insurance_permitted": {
       "value": true,
@@ -261,15 +264,91 @@
     "enhanced_penalty_for_elderly_victims": null,
     "state_preempts_local_registration_fees": null,
     "local_trade_licensing_preserved": null,
-    "registration_renewal_interval_years": {
-      "value": 1,
-      "quote": "Such registration shall be issued for a period of one year.",
-      "citation": "50-6,112a"
-    },
+    "registration_renewal_interval_years": null,
     "out_of_state_disciplinary_action_reporting_required": {
       "value": true,
-      "quote": "(i) Has or has not been registered or licensed as a roofing contractor in another state; and (ii) whether any disciplinary action was taken against such registration or license or whether such registration or license is currently in good standing.",
+      "quote": "Has or has not been registered or licensed as a roofing contractor in another state; and whether any disciplinary action was taken against such registration or license or whether such registration or license is currently in good standing.",
       "citation": "50-6,125"
-    }
+    },
+    "scope__voidable_contract_clauses": [
+      {
+        "item": "Liability limitation clause (limiting contractor liability to cost of inspection report or contract price)",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Indemnification / hold-harmless clause favoring the promisee's sole negligence",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Confession of judgment clause",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Waiver of consumer cancellation rights clause",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Waiver of consumer rights (general statutory rights) clause",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Blank spaces clause (material terms left blank for later completion)",
+        "status": "present",
+        "quote": "does not contain blank spaces that may be subsequently filled in with terms or conditions that materially affect the timing, value or obligation of the contract unless such terms and conditions are separately acknowledged in writing by the distributed energy customer",
+        "citation": "50-6,147"
+      },
+      {
+        "item": "Assignment of insurance proceeds clause (without owner consent / in violation of statutory requirements)",
+        "status": "present",
+        "quote": "An assignment is void if the residential contractor: (1) Violates any provision of this section; or (2) is not in compliance with any of the requirements of the Kansas roofing registration act.",
+        "citation": "50-6,143"
+      },
+      {
+        "item": "Clause authorizing unlawful entry or breach of peace for repossession",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Lien disclosure notice omission (failure to include required lien disclosure)",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Disclaimer or limitation of implied warranty clause",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Clause entered into by unlicensed contractor (contract with unlicensed contractor)",
+        "status": "present",
+        "quote": "No person may bring or maintain any claim, action, suit, or proceeding in any court of this state related to such person's business or capacity as a roofing contractor without having a valid registration certificate as required by this act.",
+        "citation": "50-6,123"
+      },
+      {
+        "item": "Clause requiring compliance waiver from applicable building codes or zoning regulations",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Distributed energy contract clause failing to meet statutory disclosure or terms requirements",
+        "status": "present",
+        "quote": "If a distributed energy retailer fails to comply with this section, any contract entered into between the distributed energy retailer and the distributed energy customer that pertains to the distributed energy system shall be deemed null and void.",
+        "citation": "50-6,147"
+      }
+    ]
   }
 }

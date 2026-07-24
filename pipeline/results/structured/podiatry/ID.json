@@ -41,7 +41,7 @@
     },
     "education": {
       "degree_required": {
-        "value": "Graduate of a reputable school of podiatry accredited by the board, requiring graduation from an accredited high school, at least two full years of general college study, and four full years in a school of podiatry",
+        "value": "Graduate of a reputable school of podiatry accredited by the board, requiring graduation from an accredited high school, at least two full years of general college study, and four full years of study in podiatry",
         "quote": "shall be a graduate of some reputable school of podiatry accredited by the board. A reputable school of podiatry for the purposes herein shall mean a school of podiatry requiring for graduation the graduation from an accredited high school, credits granted for at least two (2) full years of general college study in a college or university of recognized standing, and four (4) full years of study in such school of podiatry or its equivalent.",
         "citation": "54-606"
       },
@@ -89,8 +89,8 @@
       {
         "name": "Competency exam approved by board rule",
         "required": true,
-        "notes": "Tests for entry level competency to provide podiatric medical services; specific exam established by board rule",
-        "jurisdiction": null,
+        "notes": "Tests for entry level competency to provide podiatric medical services; applicant pays fee directly to exam provider",
+        "jurisdiction": "board-approved exam provider",
         "permitted_attempts": null,
         "quote": "Each applicant shall take and pass a competency exam approved by board rule. The examination shall test for entry level competency to provide podiatric medical services.",
         "citation": "54-606"
@@ -103,7 +103,11 @@
         "citation": "54-607"
       }
     },
-    "renewal_fee_usd": null,
+    "renewal_fee_usd": {
+      "value": 1300,
+      "quote": "A biennial renewal license fee established by board rule shall not exceed one thousand three hundred dollars ($1,300) for podiatrists.",
+      "citation": "54-607"
+    },
     "continuing_education": {
       "required": {
         "value": true,
@@ -121,7 +125,7 @@
         "citation": "54-613"
       },
       "requirements": {
-        "value": "Applicant must be currently licensed in another state, must have passed an examination, and must satisfy all other requirements for licensure in Idaho. Application fee not to exceed $400.",
+        "value": "Applicant must be currently licensed in another state, have passed an examination, and satisfy all other licensure requirements; application fee not to exceed $400.",
         "quote": "The applicant must satisfy in all other respects the requirements for licensure in this act and any rules adopted by the board. All applications for licensure by endorsement must be accompanied by an application fee as established by board rule not to exceed four hundred dollars ($400).",
         "citation": "54-613"
       }
@@ -158,7 +162,7 @@
     },
     "title_protection": {
       "value": true,
-      "quote": "Any person who practices or attempts to practice podiatry, publicly advertises as a podiatrist, or who uses the title chiropodist, podiatrist, or any other word, title or abbreviation calculated to induce belief that he is engaged in the practice of podiatry... without a license as provided in this act, shall be deemed guilty of a misdemeanor.",
+      "quote": "who uses the title chiropodist, podiatrist, or any other word, title or abbreviation calculated to induce belief that he is engaged in the practice of podiatry, or who holds himself out to the public as diagnosing the ailments of or treating in any manner the human foot by medical, physical or surgical methods, without a license as provided in this act, shall be deemed guilty of a misdemeanor.",
       "citation": "54-614"
     },
     "scope_protection": {
@@ -169,13 +173,13 @@
     "disciplinary_grounds": [
       {
         "short_label": "criminal_conviction",
-        "description": "Found guilty by a court of a crime deemed relevant under Idaho law",
+        "description": "Found guilty of a crime deemed relevant under Idaho Code section 67-9411(1)",
         "quote": "Found guilty by a court of competent jurisdiction of a crime that is deemed relevant in accordance with section 67-9411(1), Idaho Code",
         "citation": "54-608"
       },
       {
-        "short_label": "drug_or_alcohol_abuse",
-        "description": "Repeated and excessive abuse of any drug, including alcohol, or controlled substance",
+        "short_label": "drug_alcohol_abuse",
+        "description": "Repeated and excessive abuse of drugs, alcohol, or controlled substances",
         "quote": "Found by the board to be a repeated and excessive abuser of any drug, including alcohol, or any controlled substance",
         "citation": "54-608"
       },
@@ -193,13 +197,13 @@
       },
       {
         "short_label": "adverse_action_by_other_body",
-        "description": "Any action taken against the licensee by a peer review body, health care institution, professional society, court, law enforcement, or governmental agency",
+        "description": "Action taken against the licensee by a peer review body, health care institution, professional society, court, or governmental agency",
         "quote": "Found by the board to have had any action, including denial of a license or the voluntary surrender of or voluntary limitation on a license, taken against the licensee by any peer review body, any health care institution, any professional medical society or association or any court, law enforcement or governmental agency",
         "citation": "54-608"
       },
       {
-        "short_label": "unprofessional_or_dishonorable_conduct",
-        "description": "Unethical, unprofessional, or dishonorable conduct in the practice of healing the sick",
+        "short_label": "unethical_unprofessional_conduct",
+        "description": "Unethical, unprofessional or dishonorable conduct in the practice of healing the sick",
         "quote": "Found by the board to have been unethical, unprofessional or dishonorable in the practice of healing the sick",
         "citation": "54-608"
       },
@@ -210,26 +214,32 @@
         "citation": "54-608"
       },
       {
-        "short_label": "patient_solicitation_kickback",
-        "description": "Offering gifts in return for procurement of patients or accepting rebates/commissions for prescribing footwear, drugs, or articles",
+        "short_label": "patient_procurement_gifts",
+        "description": "Offering, giving, or promising gifts in return for procurement of patients",
         "quote": "Offer, give or promise, either directly or indirectly, any gift in return for the procurement of a patient or patients for podiatric treatment.",
         "citation": "54-609"
       },
       {
-        "short_label": "secret_remedies_or_guarantees",
-        "description": "Prescribing or using secret remedial agents or guaranteeing any treatment or remedy",
+        "short_label": "rebates_or_commissions",
+        "description": "Requesting or accepting rebates or commissions for prescribing or recommending footwear, drugs, or other articles",
+        "quote": "Request, list, accept or receive any rebates or commission for prescribing or recommending any footwear, drug, medicine, or any other article, to his patients.",
+        "citation": "54-609"
+      },
+      {
+        "short_label": "secret_remedies_or_treatment_guarantees",
+        "description": "Prescribing or promoting secret remedies or guaranteeing treatment outcomes",
         "quote": "Prescribe, dispense or pretend to use, in treating any patient, any secret remedial agent, or manifest or promote its use in any way, or guarantee or imply to guarantee any treatment, therapy or remedy whatsoever.",
         "citation": "54-609"
       },
       {
         "short_label": "false_advertising",
-        "description": "Using any form of advertising that is false, misleading or deceptive",
+        "description": "Using advertising that is false, misleading, or deceptive",
         "quote": "Use any form of advertising that is false, misleading or deceptive.",
         "citation": "54-609"
       },
       {
         "short_label": "improper_title_use",
-        "description": "Using any title other than podiatrist or doctor of podiatric medicine (with limited exceptions)",
+        "description": "Using any title other than podiatrist or doctor of podiatric medicine",
         "quote": "Use any title other than that of podiatrist or doctor of podiatric medicine; provided the term \"foot specialist\" or \"physician and surgeon of the feet\" may be used as explanatory terms of the title podiatrist but not alone or as a substitute therefor.",
         "citation": "54-609"
       },
@@ -241,13 +251,13 @@
       },
       {
         "short_label": "false_statements_to_deceive_public",
-        "description": "Publishing or using untruthful or improbable statements with intent to deceive or defraud the public or any patient",
+        "description": "Publishing or using untruthful or improbable statements to deceive or defraud the public or patients",
         "quote": "Publish or use untruthful or improbable statements with the intent of deceiving or defrauding the public or any patient.",
         "citation": "54-609"
       },
       {
-        "short_label": "violation_of_ethical_practice_rules",
-        "description": "Violating any rule prescribing standards for ethical practice of podiatry",
+        "short_label": "violation_of_ethics_rules",
+        "description": "Violating board rules prescribing standards for ethical practice of podiatry",
         "quote": "Violate any rule promulgated by the board which prescribes the standards for the ethical practice of podiatry in this state.",
         "citation": "54-609"
       }
@@ -260,11 +270,11 @@
     "citations": [
       {
         "cite": "54-602",
-        "kind": "definition"
+        "kind": "scope_definition"
       },
       {
         "cite": "54-603",
-        "kind": "license_required"
+        "kind": "license_requirement"
       },
       {
         "cite": "54-604",
@@ -280,7 +290,7 @@
       },
       {
         "cite": "54-607",
-        "kind": "renewal"
+        "kind": "license_issuance_renewal"
       },
       {
         "cite": "54-608",
@@ -300,7 +310,7 @@
       },
       {
         "cite": "54-613",
-        "kind": "reciprocity"
+        "kind": "licensure_by_endorsement"
       },
       {
         "cite": "54-614",
@@ -350,7 +360,7 @@
     },
     "anesthesia_authority": {
       "value": "general_excluded",
-      "quote": "shall not include... the administration or monitoring of general anesthesia",
+      "quote": "shall not include the amputation of the leg, surgery of the knee joint, surgery of the bony structures proximal to the distal half of the tibia, or the administration or monitoring of general anesthesia.",
       "citation": "54-602"
     },
     "ankle_surgery_authorized": {
@@ -405,6 +415,44 @@
     "office_based_surgery_accreditation_required": null,
     "minor_patient_chaperone_requirement": null,
     "nondiscrimination_in_public_programs": null,
-    "noncompete_clause_restriction": null
+    "noncompete_clause_restriction": null,
+    "scope__board_certification_body": [
+      {
+        "item": "American Board of Foot and Ankle Surgery (ABFAS)",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "American Board of Podiatric Surgery (ABPS)",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "American Board of Podiatric Medicine (ABPM)",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "American Board of Multiple Specialties in Podiatry (ABMSP)",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "American Board of Orthopaedic Surgery (ABOS)",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "American Osteopathic Board of Orthopedic Surgery",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      }
+    ]
   }
 }

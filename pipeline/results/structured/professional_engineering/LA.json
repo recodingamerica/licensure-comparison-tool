@@ -19,8 +19,8 @@
         "citation": "RS 37:683"
       },
       "type": {
-        "value": "shared_board",
-        "quote": "The Louisiana Professional Engineering and Land Surveying Board is hereby created, whose duty it shall be to administer the provisions of this Chapter. The board shall consist of eleven members, nine of whom shall be professional engineers and two of whom shall be professional land surveyors.",
+        "value": "standalone_board",
+        "quote": "The Louisiana Professional Engineering and Land Surveying Board is hereby created, whose duty it shall be to administer the provisions of this Chapter.",
         "citation": "RS 37:683"
       },
       "umbrella_agency": null
@@ -33,13 +33,13 @@
     },
     "education": {
       "degree_required": {
-        "value": "graduate of an accredited engineering curriculum of four years or more approved by the board as being of satisfactory standing",
+        "value": "A graduate of an accredited engineering curriculum of four years or more approved by the board as being of satisfactory standing",
         "quote": "A graduate of an accredited engineering curriculum of four years or more approved by the board as being of satisfactory standing, who is of good character and reputation, who has passed the examinations required by the board",
         "citation": "RS 37:693"
       },
       "accrediting_body": {
-        "value": "board-approved accreditation",
-        "quote": "A graduate of an accredited engineering curriculum of four years or more approved by the board as being of satisfactory standing",
+        "value": "board-approved accredited engineering curriculum",
+        "quote": "accredited engineering curriculum of four years or more approved by the board as being of satisfactory standing",
         "citation": "RS 37:693"
       },
       "degree_level": {
@@ -49,7 +49,7 @@
       },
       "school_approval_basis": {
         "value": "board_approved",
-        "quote": "A graduate of an accredited engineering curriculum of four years or more approved by the board as being of satisfactory standing",
+        "quote": "accredited engineering curriculum of four years or more approved by the board as being of satisfactory standing",
         "citation": "RS 37:693"
       },
       "credential_pegged": {
@@ -81,8 +81,8 @@
       {
         "name": "Fundamentals of Engineering (FE) examination",
         "required": true,
-        "notes": "Required for engineer intern certification; the board may adopt rules for candidates who have failed the examination seven or more times",
-        "jurisdiction": null,
+        "notes": "Required for engineer intern certification; board designates time and place",
+        "jurisdiction": "board-administered",
         "permitted_attempts": null,
         "quote": "who has passed an examination in the fundamental engineering subjects, as provided in this Chapter, and has been issued a certificate by the board",
         "citation": "RS 37:682"
@@ -90,10 +90,10 @@
       {
         "name": "Professional Engineering examination",
         "required": true,
-        "notes": "Required for licensure as professional engineer",
-        "jurisdiction": null,
+        "notes": "Required for professional engineer licensure; board may adopt rules for individuals who have failed seven or more times",
+        "jurisdiction": "board-administered",
         "permitted_attempts": null,
-        "quote": "who has passed the examinations required by the board, and who has satisfied the requirements of R.S. 37:694",
+        "quote": "who has passed the examinations required by the board",
         "citation": "RS 37:693"
       }
     ],
@@ -107,7 +107,7 @@
     "renewal_fee_usd": null,
     "continuing_education": {
       "required": {
-        "value": true,
+        "value": false,
         "quote": "Professional engineers and professional land surveyors may, by rule of the board, be required to earn annually up to fifteen hours of board-approved continuing professional development.",
         "citation": "RS 37:697.1"
       },
@@ -118,7 +118,7 @@
       },
       "period_years": {
         "value": 1,
-        "quote": "be required to earn annually up to fifteen hours of board-approved continuing professional development",
+        "quote": "may, by rule of the board, be required to earn annually up to fifteen hours of board-approved continuing professional development",
         "citation": "RS 37:697.1"
       },
       "topical_requirements": null
@@ -130,7 +130,7 @@
         "citation": "RS 37:693"
       },
       "requirements": {
-        "value": "Must hold valid license from another state/territory/DC based on requirements not lower than Louisiana standards; must be of good character and reputation; must satisfy R.S. 37:694 requirements; and the other jurisdiction must accept Louisiana licenses on a reciprocal basis.",
+        "value": "Must hold valid license from another state/territory/DC based on standards not lower than Louisiana's at time of issuance, be of good character and reputation, satisfy application requirements, and the other jurisdiction must accept Louisiana licenses on a reciprocal basis.",
         "quote": "An individual who holds a valid license to engage in the practice of engineering issued to him by proper authority of a state, territory, or possession of the United States, or the District of Columbia, based on requirements that do not conflict with the provisions of this Chapter and which were of a standard not lower than that specified in the applicable licensure laws in effect in Louisiana at the time such license was issued, who is of good character and reputation, and who has satisfied the requirements of R.S. 37:694, and if the state, territory, or possession, or the District of Columbia, in which he is licensed will accept the license issued by the board on a reciprocal basis.",
         "citation": "RS 37:693"
       }
@@ -144,11 +144,15 @@
       "name": null,
       "authority": null
     },
-    "national_certification": null,
-    "national_association": {
+    "national_certification": {
       "value": "National Council of Examiners for Engineering and Surveying (NCEES)",
       "quote": "The board shall list a professional engineer in one or more of the disciplines of engineering approved by the National Council of Examiners for Engineering and Surveying to signify the area in which the professional engineer has demonstrated competence",
       "citation": "RS 37:693"
+    },
+    "national_association": {
+      "value": "Louisiana Engineering Society",
+      "quote": "the governor shall appoint members to the board from among professional engineer nominees recommended by the Louisiana Engineering Society or its duly recognized successor",
+      "citation": "RS 37:683"
     },
     "regulatory_model": {
       "value": "license",
@@ -167,7 +171,7 @@
     },
     "title_protection": {
       "value": true,
-      "quote": "or to use in connection with his name or otherwise assume, use, or advertise any title or description tending to convey the impression that he is a professional engineer or a professional land surveyor, unless such person has been duly licensed under the provisions of this Chapter.",
+      "quote": "to use in connection with his name or otherwise assume, use, or advertise any title or description tending to convey the impression that he is a professional engineer or a professional land surveyor, unless such person has been duly licensed under the provisions of this Chapter.",
       "citation": "RS 37:681"
     },
     "scope_protection": {
@@ -178,115 +182,115 @@
     "disciplinary_grounds": [
       {
         "short_label": "fraud_in_obtaining_license",
-        "description": "Any fraud, deceit, material misstatement, or perjury in applying for a license or certificate, taking an examination, or applying for renewal",
-        "quote": "Any fraud, deceit, material misstatement, or perjury or the giving of any false or forged evidence in applying for a license or certificate, or in taking any examination, or in applying for any renewal license or certificate provided for in this Chapter.",
+        "description": "Fraud, deceit, material misstatement, or perjury in applying for a license or certificate, or in taking any examination.",
+        "quote": "Any fraud, deceit, material misstatement, or perjury or the giving of any false or forged evidence in applying for a license or certificate, or in taking any examination, or in applying for any renewal license or certificate",
         "citation": "RS 37:698"
       },
       {
         "short_label": "fraud_in_practice",
-        "description": "Fraud, deceit, gross negligence, material misrepresentation, gross incompetence, or gross misconduct in the practice of engineering or land surveying",
+        "description": "Fraud, deceit, gross negligence, material misrepresentation, gross incompetence, or gross misconduct in the practice of engineering or land surveying.",
         "quote": "Any fraud, deceit, gross negligence, material misrepresentation, gross incompetence, or gross misconduct in the practice of engineering or land surveying.",
         "citation": "RS 37:698"
       },
       {
         "short_label": "felony_conviction",
-        "description": "Conviction of a felony or guilty/nolo contendere plea to a felony charge under federal or any state law",
+        "description": "Conviction of a felony or entry of a plea of guilty or nolo contendere to a felony charge.",
         "quote": "Conviction of a felony or entry of a plea of guilty or nolo contendere to a felony charge under the laws of the United States or any state, territory, or district of the United States.",
         "citation": "RS 37:698"
       },
       {
-        "short_label": "crime_involving_fraud_or_practice",
-        "description": "Conviction of any crime or guilty/nolo contendere plea involving fraud or arising out of engineering or land surveying practice",
+        "short_label": "crime_involving_fraud",
+        "description": "Conviction of any crime involving fraud or arising from the practice of engineering or land surveying.",
         "quote": "Conviction of any crime or entry of a plea of guilty or nolo contendere to any criminal charge an element of which is fraud or which arises out of such person's practice of engineering or land surveying.",
         "citation": "RS 37:698"
       },
       {
         "short_label": "campaign_finance_violation",
-        "description": "Conviction or guilty/nolo contendere plea under the Louisiana Campaign Finance Disclosure Act or similar laws",
+        "description": "Conviction of any civil or criminal violation of campaign finance disclosure laws.",
         "quote": "Conviction of any civil or criminal violation of, or entry of a plea of guilty or nolo contendere to any criminal charge under the Louisiana Campaign Finance Disclosure Act or any other campaign finance and/or practices laws",
         "citation": "RS 37:698"
       },
       {
         "short_label": "violation_of_chapter_or_rules",
-        "description": "Violation of any provision of this Chapter or any board rules or regulations",
+        "description": "Violation of any provision of this Chapter or any rules or regulations adopted and promulgated by the board.",
         "quote": "Violation of any provision of this Chapter or any rules or regulations adopted and promulgated by the board.",
         "citation": "RS 37:698"
       },
       {
         "short_label": "out_of_state_disciplinary_action",
-        "description": "Refusal, revocation, suspension, or other disciplinary action by another state's licensing authority on recognized grounds",
-        "quote": "The refusal of the licensing authority of another state, territory, or district of the United States to issue or renew a license, permit, or certificate to practice engineering or land surveying, or the revocation, suspension, or any other disciplinary action imposed on a license, permit, or certificate issued by such licensing authority",
+        "description": "Refusal, revocation, suspension, or other disciplinary action by another state licensing authority for reasons recognized as grounds in Louisiana.",
+        "quote": "The refusal of the licensing authority of another state, territory, or district of the United States to issue or renew a license, permit, or certificate to practice engineering or land surveying, or the revocation, suspension, or any other disciplinary action imposed on a license",
         "citation": "RS 37:698"
       },
       {
         "short_label": "false_testimony_before_board",
-        "description": "Providing false testimony before the board",
+        "description": "Providing false testimony before the board.",
         "quote": "Providing false testimony before the board.",
         "citation": "RS 37:698"
       },
       {
-        "short_label": "practicing_with_suspended_or_expired_license",
-        "description": "Using a seal or stamp or engaging in engineering or land surveying while license is suspended, revoked, expired more than 90 days, or in retired/inactive status",
-        "quote": "Using a seal or stamp or engaging in any other act constituting the practice of engineering or land surveying, or violating any order or terms of probation imposed by the board, at a time when his license or certificate is suspended or revoked, or at a time when his license or certificate has been expired for more than ninety days, or at a time when he is in retired or inactive status as a board licensee.",
+        "short_label": "practice_while_suspended_revoked_expired",
+        "description": "Using a seal or stamp or practicing engineering or land surveying while license is suspended, revoked, expired more than 90 days, or in retired/inactive status.",
+        "quote": "Using a seal or stamp or engaging in any other act constituting the practice of engineering or land surveying, or violating any order or terms of probation imposed by the board, at a time when his license or certificate is suspended or revoked, or at a time when his license or certificate has been expired for more than ninety days, or at a time when he is in retired or inactive status",
         "citation": "RS 37:698"
       },
       {
         "short_label": "failure_to_provide_information",
-        "description": "Failure to provide information or documents requested by the board within 30 days",
+        "description": "Failure to provide requested information or documents within 30 calendar days of certified mail notice.",
         "quote": "Failure to provide, within thirty calendar days of receipt of notice by certified mail, information or documents requested by the board relating to any alleged violation of this Chapter.",
         "citation": "RS 37:698"
       },
       {
         "short_label": "false_or_misleading_advertising",
-        "description": "Use of advertising or solicitation that is false or misleading",
+        "description": "The use of any advertising or solicitation which is false or misleading.",
         "quote": "The use of any advertising or solicitation which is false or misleading.",
         "citation": "RS 37:698"
       },
       {
-        "short_label": "aiding_violation",
-        "description": "Aiding or assisting another person in violating any provision of this Chapter or board rules",
+        "short_label": "aiding_violations",
+        "description": "Aiding or assisting another person in violating any provision of this Chapter or any rule or regulation.",
         "quote": "Aiding or assisting another person in violating any provision of this Chapter or any rule or regulation adopted and promulgated by the board.",
         "citation": "RS 37:698"
       },
       {
         "short_label": "false_statements_in_practice",
-        "description": "Knowingly making or signing false statements, certificates, or affidavits in connection with the practice of engineering or land surveying",
+        "description": "Knowingly making or signing false statements, certificates, or affidavits in connection with the practice of engineering or land surveying.",
         "quote": "Knowingly making or signing false statements, certificates, or affidavits in connection with the practice of engineering or land surveying.",
         "citation": "RS 37:698"
       },
       {
-        "short_label": "declaration_of_insanity_or_incompetence",
-        "description": "Declaration of insanity or incompetence by a court of competent jurisdiction",
+        "short_label": "declaration_of_insanity",
+        "description": "Declaration of insanity or incompetence by a court of competent jurisdiction.",
         "quote": "Declaration of insanity or incompetence by a court of competent jurisdiction.",
         "citation": "RS 37:698"
       },
       {
-        "short_label": "using_anothers_license_or_seal",
-        "description": "Presenting or attempting to use as one's own the license, certificate, seal, or stamp of another person",
+        "short_label": "using_anothers_license",
+        "description": "Presenting or attempting to use as one's own the license, certificate, seal, or stamp of another person.",
         "quote": "Presenting or attempting to use as one's own the license, certificate, seal, or stamp of another person.",
         "citation": "RS 37:698"
       },
       {
-        "short_label": "using_expired_inactive_or_revoked_credential",
-        "description": "Using or attempting to use an expired, inactive, retired, or revoked license or certificate",
+        "short_label": "using_expired_revoked_license",
+        "description": "Using or attempting to use an expired, inactive, retired, or revoked license or certificate.",
         "quote": "Using or attempting to use an expired, inactive, retired, or revoked license or certificate.",
         "citation": "RS 37:698"
       },
       {
         "short_label": "impersonation",
-        "description": "Falsely impersonating any other licensee or certificate holder",
+        "description": "Falsely impersonating any other licensee or certificate holder of like or different name.",
         "quote": "Falsely impersonating any other licensee or certificate holder of like or different name.",
         "citation": "RS 37:698"
       },
       {
         "short_label": "practicing_when_not_qualified",
-        "description": "Practicing or offering to practice engineering or land surveying when not qualified",
+        "description": "Practicing or offering to practice engineering or land surveying when not qualified.",
         "quote": "Practicing or offering to practice engineering or land surveying when not qualified.",
         "citation": "RS 37:698"
       },
       {
-        "short_label": "violation_of_board_order",
-        "description": "Violation of or noncompliance with any order, ruling, or decision of the board",
+        "short_label": "noncompliance_with_board_order",
+        "description": "Violation of or noncompliance with any order, ruling, or decision of the board.",
         "quote": "Violation of or noncompliance with any order, ruling, or decision of the board.",
         "citation": "RS 37:698"
       }
@@ -303,7 +307,7 @@
     "citations": [
       {
         "cite": "RS 37:681",
-        "kind": "general_provisions"
+        "kind": "general provisions"
       },
       {
         "cite": "RS 37:682",
@@ -311,15 +315,15 @@
       },
       {
         "cite": "RS 37:683",
-        "kind": "board_creation"
+        "kind": "board"
       },
       {
         "cite": "RS 37:684",
-        "kind": "board_qualifications"
+        "kind": "board qualifications"
       },
       {
         "cite": "RS 37:688",
-        "kind": "board_powers"
+        "kind": "board powers"
       },
       {
         "cite": "RS 37:689",
@@ -327,11 +331,11 @@
       },
       {
         "cite": "RS 37:693",
-        "kind": "licensure_requirements"
+        "kind": "licensure requirements"
       },
       {
         "cite": "RS 37:694",
-        "kind": "application_and_fees"
+        "kind": "application and fees"
       },
       {
         "cite": "RS 37:695",
@@ -339,7 +343,7 @@
       },
       {
         "cite": "RS 37:696",
-        "kind": "certificates_and_licenses"
+        "kind": "certificates and licenses"
       },
       {
         "cite": "RS 37:697",
@@ -347,15 +351,15 @@
       },
       {
         "cite": "RS 37:697.1",
-        "kind": "continuing_education"
+        "kind": "continuing professional development"
       },
       {
         "cite": "RS 37:698",
-        "kind": "disciplinary_proceedings"
+        "kind": "disciplinary proceedings"
       },
       {
         "cite": "RS 37:700",
-        "kind": "enforcement_proceedings"
+        "kind": "enforcement"
       },
       {
         "cite": "RS 37:701",
@@ -363,13 +367,13 @@
       },
       {
         "cite": "RS 37:702",
-        "kind": "saving_clause"
+        "kind": "saving clause"
       }
     ]
   },
   "scope": {
     "definition_quote": {
-      "value": "responsible professional service which may include consultation, investigation, evaluation, planning, designing, or inspection of construction in connection with any public or private utilities, structures, machines, equipment, processes, works, or projects wherein the public welfare or the safeguarding of life, health, and property is concerned or involved, when such professional service requires the application of engineering principles and the interpretation of engineering data.",
+      "value": "\"Practice of engineering\" shall mean responsible professional service which may include consultation, investigation, evaluation, planning, designing, or inspection of construction in connection with any public or private utilities, structures, machines, equipment, processes, works, or projects wherein the public welfare or the safeguarding of life, health, and property is concerned or involved, when such professional service requires the application of engineering principles and the interpretation of engineering data.",
       "quote": "\"Practice of engineering\" shall mean responsible professional service which may include consultation, investigation, evaluation, planning, designing, or inspection of construction in connection with any public or private utilities, structures, machines, equipment, processes, works, or projects wherein the public welfare or the safeguarding of life, health, and property is concerned or involved, when such professional service requires the application of engineering principles and the interpretation of engineering data.",
       "citation": "RS 37:682"
     },
@@ -389,11 +393,11 @@
     "citations": [
       {
         "cite": "RS 37:682",
-        "kind": "definitions"
+        "kind": "definition of practice"
       },
       {
         "cite": "RS 37:701",
-        "kind": "scope_exceptions"
+        "kind": "exemptions and scope limits"
       }
     ]
   },
@@ -405,7 +409,7 @@
     },
     "covers_geology": {
       "value": false,
-      "quote": "the professional practice of the physical sciences, such as: chemistry, physics, geology, mathematics, so long as they do not involve the practice of engineering or land surveying",
+      "quote": "This Chapter shall not be construed to prevent or to affect: Other professions or trades including the practice of architecture as defined in Chapter 3 of this Title; or the practice of any legally recognized profession or trade; or the professional practice of the physical sciences, such as: chemistry, physics, geology, mathematics, so long as they do not involve the practice of engineering or land surveying",
       "citation": "RS 37:702"
     },
     "engineer_intern_certificate_available": {
@@ -432,7 +436,7 @@
     },
     "seal_document_types": {
       "value": [
-        "engineering plans",
+        "plans",
         "specifications",
         "estimates"
       ],
@@ -446,34 +450,23 @@
     },
     "exemptions_from_licensure": {
       "value": [
-        "Persons performing subprofessional work as defined in board rules or regulations",
-        "Construction or process superintendents or foremen",
-        "Planning, specifications, drawings, or construction by an individual for his own use of private homes or dwellings, domestic structures, or agricultural works on farmlands",
-        "Employees of firms engaged in industrial operations (producing, processing, manufacturing, transmitting, distributing, or transporting) performing services in course and scope of business (except civil engineering or land surveying)",
-        "Practice by non-resident persons not exceeding 120 consecutive days per calendar year, if legally qualified in their home state and a temporary permit is obtained",
-        "Officers and employees of the U.S. government engaged in engineering or land surveying for that government",
-        "Cooperatives under the Rural Electrification Administration",
-        "Practice exclusively as officer or employee of a public utility corporation for services subject to Public Service Commission regulation (except civil engineering or land surveying)",
-        "Employees working under responsible charge of a professional engineer or professional land surveyor",
-        "Establishment of lines and elevations for canals or levees for irrigation or erosion control on lands owned/rented/leased by the person performing the work for no remuneration",
-        "Services by employees determining lines within established boundaries on employer's property in course of business"
+        "Persons performing subprofessional work as defined in the rules or regulations of the board, or acting as construction or process superintendents or foremen (with supervision by a licensed professional engineer)",
+        "No planning, specifications, drawings, or construction by an individual for his own use of private homes or dwellings, domestic structures or works, or any agricultural works done on farmlands",
+        "Employees of firms engaged in industrial operations (producing, processing, manufacturing, transmitting, distributing, or transporting) performing services in the course and scope of the business (excluding civil engineering or land surveying)",
+        "Non-resident persons practicing engineering not exceeding 120 consecutive days in any calendar year, legally qualified by licensure in their own state, who have obtained a temporary permit",
+        "Officers and employees of the government of the United States while engaged within this state in the practice of engineering or land surveying for said government",
+        "Cooperatives under the Rural Electrification Acts",
+        "Officers or employees of a public utility corporation performing engineering exclusively for that corporation's facilities subject to Public Service Commission regulation (excluding civil engineering or land surveying)",
+        "Engaging in engineering as an employee under the responsible charge of a professional engineer",
+        "Practice of any legally recognized profession or trade (chemistry, physics, geology, mathematics) so long as they do not involve the practice of engineering or land surveying",
+        "Services performed by employees determining lines within established boundaries on property owned, leased, or controlled by their employer in the course of the employer's business"
       ],
-      "quote": "Persons performing subprofessional work as defined in the rules or regulations of the board, or acting as construction or process superintendents or foremen, need not be licensed under this Chapter",
-      "citation": "RS 37:701"
+      "quote": "This Chapter shall not be construed to prevent or to affect: Other professions or trades including the practice of architecture as defined in Chapter 3 of this Title; or the practice of any legally recognized profession or trade; or the professional practice of the physical sciences, such as: chemistry, physics, geology, mathematics, so long as they do not involve the practice of engineering or land surveying",
+      "citation": "RS 37:702"
     },
     "code_of_ethics_in_statute": null,
     "multi_license_reporting_required": null,
-    "board_engineering_disciplines_represented": {
-      "value": [
-        "private practice of engineering",
-        "government employment",
-        "industry",
-        "education",
-        "construction"
-      ],
-      "quote": "At least two members of the board shall be professional engineers who are engaged in the private practice of engineering... At least two members of the board shall be professional engineers in government employment, at least two members of the board shall be professional engineers employed in the field of industry, at least two members of the board shall be professional engineers employed in the field of education, and at least one member of the board shall be a professional engineer employed in the field of construction.",
-      "citation": "RS 37:683"
-    },
+    "board_engineering_disciplines_represented": null,
     "board_member_responsible_charge_years_required": {
       "value": 5,
       "quote": "shall have been in responsible charge of important engineering or land surveying work, as the case may be, for at least five years",
@@ -489,6 +482,360 @@
       "value": true,
       "quote": "The board, by rule or regulation, may create license or renewal statuses for licensees and former licensees. The board may establish classifications of licensure including but not limited to active, expired, inactive, and retired classifications.",
       "citation": "RS 37:688"
-    }
+    },
+    "scope__seal_document_types": [
+      {
+        "item": "Drawings",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Plans",
+        "status": "present",
+        "quote": "Nothing in this Chapter shall be construed as permitting any person, other than a professional engineer, to affix his signature as such to engineering plans, specifications, or estimates.",
+        "citation": "RS 37:701"
+      },
+      {
+        "item": "Specifications",
+        "status": "present",
+        "quote": "Nothing in this Chapter shall be construed as permitting any person, other than a professional engineer, to affix his signature as such to engineering plans, specifications, or estimates.",
+        "citation": "RS 37:701"
+      },
+      {
+        "item": "Reports",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Surveys",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Plats",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Plates",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Calculations",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Design information",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Construction documents",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Maps",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Descriptions",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Data",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Instruments of service",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Shop drawings",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Revisions",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Certifications",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Affidavits",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      }
+    ],
+    "scope__exemptions_from_licensure": [
+      {
+        "item": "Federal government officers and employees practicing engineering in official capacity",
+        "status": "present",
+        "quote": "The practice of officers and employees of the government of the United States while engaged within this state in the practice of engineering or land surveying, for said government.",
+        "citation": "RS 37:702"
+      },
+      {
+        "item": "Contractors executing work designed by a licensed engineer (construction execution only)",
+        "status": "present",
+        "quote": "The execution, as a contractor, of work designed by a professional engineer or the supervision of the construction of such work as a foreman or superintendent shall not be deemed to be a violation of R.S. 37:698 or R.S. 37:700.",
+        "citation": "RS 37:693"
+      },
+      {
+        "item": "Building trades workers, craft workers, and construction superintendents/supervisors/inspectors performing customary duties",
+        "status": "present",
+        "quote": "Persons performing subprofessional work as defined in the rules or regulations of the board, or acting as construction or process superintendents or foremen, need not be licensed under this Chapter",
+        "citation": "RS 37:701"
+      },
+      {
+        "item": "Employees or subordinates working under direct supervision of a licensed engineer",
+        "status": "present",
+        "quote": "Engaging in engineering as an employee under the responsible charge of a professional engineer or engaging in land surveying as an employee under the responsible charge of a professional land surveyor.",
+        "citation": "RS 37:702"
+      },
+      {
+        "item": "Engineers-in-training / engineer interns acting under supervision",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Land surveyor interns",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Teaching engineering, architectural, landscape architectural, or surveying courses at accredited institutions",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Regulated transportation companies and public utilities (and their officers and employees) performing engineering for their own facilities",
+        "status": "present",
+        "quote": "The practice of engineering exclusively as an officer or employee of a public utility corporation authorized to do and doing business in this state, by rendering to such corporation such service in connection with its facilities and property which are subject to regulation with respect to safety and security thereof by the Public Service Commission",
+        "citation": "RS 37:702"
+      },
+      {
+        "item": "Engineering services incidental to the practice of architecture by licensed architects and their subordinates",
+        "status": "present",
+        "quote": "An architect as defined in R.S. 37:141(B) has a right to engage in certain activities that fall within the definition of the practice of engineering as defined in R.S. 37:682, but only to the extent such activities are necessarily incidental to the architect's practice of architecture",
+        "citation": "RS 37:701"
+      },
+      {
+        "item": "Engineering services incidental to the practice of geology by licensed geologists and their subordinates",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Practice of any other legally recognized profession or trade",
+        "status": "present",
+        "quote": "the practice of any legally recognized profession or trade; or the professional practice of the physical sciences, such as: chemistry, physics, geology, mathematics, so long as they do not involve the practice of engineering or land surveying",
+        "citation": "RS 37:702"
+      },
+      {
+        "item": "Manufacturing, mining, public utility, research and development, or other industrial corporations performing engineering work incidental to their own products, systems, or services",
+        "status": "present",
+        "quote": "This Chapter shall not apply to, affect, interfere with, or in any way regulate employees of firms engaged in industrial operations, including but not limited to producing, processing, manufacturing, transmitting, distributing, or transporting, when performing services within the state of Louisiana in the course and scope of the business of said firms or affiliates thereof.",
+        "citation": "RS 37:701"
+      },
+      {
+        "item": "Firms performing engineering services for themselves or their own subsidiaries/affiliates (in-house engineering)",
+        "status": "present",
+        "quote": "This Chapter shall not apply to, affect, interfere with, or in any way regulate employees of firms engaged in industrial operations, including but not limited to producing, processing, manufacturing, transmitting, distributing, or transporting, when performing services within the state of Louisiana in the course and scope of the business of said firms or affiliates thereof.",
+        "citation": "RS 37:701"
+      },
+      {
+        "item": "Nonresident persons, firms, or corporations meeting specified out-of-state criteria",
+        "status": "present",
+        "quote": "The practice of a person not a resident of and having no established place of business in this state, practicing or offering to practice herein the profession of engineering, when such practice does not exceed one hundred twenty consecutive days in any calendar year, provided such person is legally qualified by licensure to practice the said profession in his own state",
+        "citation": "RS 37:702"
+      },
+      {
+        "item": "Real estate brokers or salespersons making appraisals and valuations of real estate",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Alterations or repairs to buildings not affecting structural system or public health, safety, or welfare",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Single-family and small residential dwellings of limited size",
+        "status": "present",
+        "quote": "No planning, specifications, drawings, or construction by an individual for his own use of private homes or dwellings, domestic structures or works, or any agricultural works done on farmlands shall come under the jurisdiction of this Chapter.",
+        "citation": "RS 37:701"
+      },
+      {
+        "item": "Agricultural work not required to be of public record",
+        "status": "present",
+        "quote": "No planning, specifications, drawings, or construction by an individual for his own use of private homes or dwellings, domestic structures or works, or any agricultural works done on farmlands shall come under the jurisdiction of this Chapter.",
+        "citation": "RS 37:701"
+      },
+      {
+        "item": "Revegetation, restoration, reclamation, rehabilitation, or erosion control for disturbed land not affecting public health, safety, or welfare",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Maintenance or placement of plant material not affecting public health, safety, or welfare",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Horticultural consultants and persons preparing planting plans for plant installations",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Authorized designers of fire protection systems",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Holders of temporary permits for engineering practice",
+        "status": "present",
+        "quote": "before beginning such temporary practice in this state, the person shall have applied to the board, paid the prescribed fee, and received a temporary permit",
+        "citation": "RS 37:702"
+      },
+      {
+        "item": "Corporations, partnerships, LLCs, and LLPs offering professional engineering services through licensed principals (business entity exemption with certificate of authorization)",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Government employees inspecting residential structures as part of official duties",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Persons performing home inspections solely for lender construction monitoring",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Property managers inspecting their own managed residential structures without separate compensation",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Small public works projects below a specified expenditure threshold",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Licensed geologists practicing geology (not required to hold engineer license)",
+        "status": "present",
+        "quote": "the professional practice of the physical sciences, such as: chemistry, physics, geology, mathematics, so long as they do not involve the practice of engineering or land surveying",
+        "citation": "RS 37:702"
+      },
+      {
+        "item": "Persons with grandfathered or legacy licensure status in discontinued engineering branch titles",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Boundary surveys on private land not intended as basis for engineering design",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Professional engineers or engineer interns granted inactive status",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Senior licensed professional engineers exempt from continuing education requirements",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      }
+    ],
+    "scope__board_engineering_disciplines_represented": [
+      {
+        "item": "Civil Engineering",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Electrical Engineering",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Mechanical Engineering",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Mining Engineering",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Petroleum Engineering",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Chemical Engineering",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "General/Other Engineering",
+        "status": "present",
+        "quote": "The board shall consist of eleven members, nine of whom shall be professional engineers and two of whom shall be professional land surveyors.",
+        "citation": "RS 37:683"
+      }
+    ]
   }
 }

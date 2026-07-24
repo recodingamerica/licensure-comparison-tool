@@ -33,21 +33,33 @@
     "moral_character_required": null,
     "education": null,
     "post_degree_experience": {
-      "required": null,
-      "experience_source": {
-        "value": "none",
+      "required": {
+        "value": true,
         "quote": "The inspectors shall be practical plumbers with at least seven years' experience, and skilled and well-trained in matters pertaining to sanitary regulations concerning plumbing work.",
         "citation": "3703.04"
       },
-      "duration": null,
-      "kind": null
+      "experience_source": {
+        "value": "required_by_statute",
+        "quote": "The inspectors shall be practical plumbers with at least seven years' experience",
+        "citation": "3703.04"
+      },
+      "duration": {
+        "value": "at least seven years",
+        "quote": "practical plumbers with at least seven years' experience",
+        "citation": "3703.04"
+      },
+      "kind": {
+        "value": "practical plumbing experience",
+        "quote": "practical plumbers with at least seven years' experience, and skilled and well-trained in matters pertaining to sanitary regulations concerning plumbing work",
+        "citation": "3703.04"
+      }
     },
     "exams": [],
     "renewal": null,
     "renewal_fee_usd": null,
     "continuing_education": {
       "required": {
-        "value": true,
+        "value": false,
         "quote": "fees for administering a program for continuing education for, and certifying and recertifying plumbing inspectors",
         "citation": "3703.07"
       },
@@ -62,7 +74,7 @@
         "citation": "3703.21"
       },
       "requirements": {
-        "value": "Out-of-state licensure reciprocity available under Chapter 4796 of the Revised Code for backflow technicians; general Chapter 4796 reciprocity framework applies to trades licensure.",
+        "value": "Out-of-state licensees may obtain certification under Chapter 4796 reciprocity provisions; backflow technician certification explicitly references Chapter 4796 for out-of-state license holders.",
         "quote": "The superintendent shall certify a backflow technician in accordance with Chapter 4796. of the Revised Code if either of the following applies: (1) The individual holds a license or certification in another state.",
         "citation": "3703.21"
       }
@@ -79,7 +91,7 @@
         "citation": "3703.21"
       },
       "authority": {
-        "value": "The board shall advise the superintendent on matters pertaining to the training and certification of backflow technicians.",
+        "value": "advisory only — advises the superintendent on matters pertaining to the training and certification of backflow technicians",
         "quote": "The board shall advise the superintendent on matters pertaining to the training and certification of backflow technicians.",
         "citation": "3703.21"
       }
@@ -109,33 +121,39 @@
     },
     "disciplinary_grounds": [
       {
-        "short_label": "denial_of_certification",
-        "description": "Superintendent may deny an applicant certification as a plumbing inspector.",
+        "short_label": "denial_of_plumbing_inspector_certification",
+        "description": "The superintendent may deny an applicant certification as a plumbing inspector.",
         "quote": "Deny an applicant certification as a plumbing inspector",
         "citation": "3703.10"
       },
       {
-        "short_label": "suspension_or_revocation",
-        "description": "Superintendent may suspend or revoke the certification of a plumbing inspector.",
+        "short_label": "suspension_or_revocation_of_inspector_certification",
+        "description": "The superintendent may suspend or revoke the certification of a plumbing inspector.",
         "quote": "Suspend or revoke the certification of a plumbing inspector",
         "citation": "3703.10"
       },
       {
-        "short_label": "violation_of_chapter",
-        "description": "Violations of sections 3703.01 to 3703.08 or any rule the division is required to enforce.",
-        "quote": "Whoever violates sections 3703.01 to 3703.08 of the Revised Code, or any rule the division of industrial compliance is required to enforce under such sections",
-        "citation": "3703.99"
+        "short_label": "violation_of_plumbing_rules_or_orders",
+        "description": "Prosecution and proceedings for violation of the plumbing statutes or any rules or orders of the division.",
+        "quote": "All prosecutions and proceedings by the division of industrial compliance for the violation of sections 3703.01 to 3703.08 of the Revised Code, or for the violation of any of the orders or rules of the division under those sections",
+        "citation": "3703.10"
       },
       {
-        "short_label": "failure_to_have_work_ready",
-        "description": "Failure to have plumbing work ready for inspection at the time specified in the notice.",
+        "short_label": "failure_to_have_work_ready_for_inspection",
+        "description": "Penalty for failing to have plumbing work ready for inspection at the time specified in the notice.",
         "quote": "No person shall fail to have the work ready for inspection at the time specified in the notice.",
         "citation": "3703.08"
       },
       {
+        "short_label": "faulty_or_improper_installation",
+        "description": "Reinspection fee imposed when faulty or improper installation necessitates a reinspection.",
+        "quote": "by reason of faulty or improper installation, the person shall pay a fee of forty-five dollars for each reinspection",
+        "citation": "3703.07"
+      },
+      {
         "short_label": "backflow_technician_violation",
-        "description": "Grounds for denying, suspending, or revoking certification as a backflow technician.",
-        "quote": "Grounds and procedures for denying, suspending, or revoking certification, or denying the renewal of certification, as a backflow technician",
+        "description": "Civil penalty for engaging in installation, testing, or repair of isolation backflow prevention device without valid certification.",
+        "quote": "No individual shall engage in the installation, testing, or repair of any isolation backflow prevention device unless that individual possesses a valid certification as a backflow technician.",
         "citation": "3703.21"
       }
     ],
@@ -144,57 +162,57 @@
       "insurance_required": null,
       "establishment_regulation_required": {
         "value": true,
-        "quote": "When any building is found to be in a sanitary condition or when changes which are ordered, under authority of this chapter, in the plumbing, drainage, or ventilation have been made, and after a thorough inspection and approval by the superintendent of industrial compliance, the superintendent shall issue a certificate",
-        "citation": "3703.06"
+        "quote": "Inspect all nonresidential buildings within the meaning of section 3781.06 of the Revised Code; Condemn all unsanitary or defective plumbing that is found in connection with those places; Order changes in plumbing necessary to insure the safety of the public health.",
+        "citation": "3703.01"
       }
     },
     "citations": [
       {
         "cite": "3703.01",
-        "kind": "statute"
+        "kind": "powers and duties of division"
       },
       {
         "cite": "3703.03",
-        "kind": "statute"
+        "kind": "enforcement of plumbing rules"
       },
       {
         "cite": "3703.04",
-        "kind": "statute"
+        "kind": "plumbing inspectors qualifications"
       },
       {
         "cite": "3703.05",
-        "kind": "statute"
+        "kind": "right of entry"
       },
       {
         "cite": "3703.06",
-        "kind": "statute"
+        "kind": "certificate issuance and revocation"
       },
       {
         "cite": "3703.07",
-        "kind": "statute"
+        "kind": "permit and fees"
       },
       {
         "cite": "3703.08",
-        "kind": "statute"
+        "kind": "duty to comply"
       },
       {
         "cite": "3703.10",
-        "kind": "statute"
+        "kind": "prosecutions and disciplinary authority"
       },
       {
         "cite": "3703.21",
-        "kind": "statute"
+        "kind": "backflow advisory board and certification"
       },
       {
         "cite": "3703.99",
-        "kind": "statute"
+        "kind": "penalty"
       }
     ]
   },
   "scope": {
     "definition_quote": {
-      "value": "Inspect all nonresidential buildings within the meaning of section 3781.06 of the Revised Code; Condemn all unsanitary or defective plumbing that is found in connection with those places; Order changes in plumbing necessary to insure the safety of the public health.",
-      "quote": "Inspect all nonresidential buildings within the meaning of section 3781.06 of the Revised Code; (2) Condemn all unsanitary or defective plumbing that is found in connection with those places; (3) Order changes in plumbing necessary to insure the safety of the public health.",
+      "value": "Inspect all nonresidential buildings; condemn all unsanitary or defective plumbing; order changes in plumbing necessary to insure the safety of the public health.",
+      "quote": "Inspect all nonresidential buildings within the meaning of section 3781.06 of the Revised Code; Condemn all unsanitary or defective plumbing that is found in connection with those places; Order changes in plumbing necessary to insure the safety of the public health.",
       "citation": "3703.01"
     },
     "methods_authorized": null,
@@ -202,15 +220,15 @@
     "citations": [
       {
         "cite": "3703.01",
-        "kind": "statute"
+        "kind": null
       },
       {
         "cite": "3703.03",
-        "kind": "statute"
+        "kind": null
       },
       {
         "cite": "3703.07",
-        "kind": "statute"
+        "kind": null
       }
     ]
   },
@@ -241,6 +259,142 @@
     },
     "small_project_dollar_threshold": null,
     "continuing_education_hours_plumber": null,
-    "continuing_education_hours_contractor": null
+    "continuing_education_hours_contractor": null,
+    "scope__license_tiers": [
+      {
+        "item": "Apprentice Plumber",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Apprentice Gas Fitter",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Journeyman Plumber",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Journeyman Gas Fitter",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Master Plumber",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Master Gas Fitter",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Residential Plumber",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Restricted Plumber",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Medical Gas Piping Fitter",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Plumbing Contractor",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Mechanical Administrator",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      }
+    ],
+    "scope__journeyman_experience_pathways": [
+      {
+        "item": "Registered apprenticeship program completion",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "On-the-job work experience as an apprentice plumber",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Licensure as journeyman plumber in another state (reciprocity/endorsement)",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Licensure as master plumber in another state (reciprocity/endorsement)",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "General plumbing work experience (years in the trade)",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Technical training at an accredited college or university (substitution for experience)",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Manufacturer's accredited training program (substitution for experience)",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Registered professional engineer with plumbing engineering expertise",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Prior service as qualifying party or responsible managing employee under an active license",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Experience as journeyman plumber (for master plumber licensure pathway)",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Medical gas piping certification program completion",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      }
+    ]
   }
 }

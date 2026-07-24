@@ -4,7 +4,7 @@
   "licensure": {
     "license_required": {
       "value": true,
-      "quote": "It is unlawful for an individual not licensed under this chapter to practice or to offer to practice professional or practical nursing in this State",
+      "quote": "an individual who for compensation practices or offers to practice professional nursing or practical nursing in this State shall submit evidence that the individual is qualified so to practice and that individual must be licensed. It is unlawful for an individual not licensed under this chapter to practice or to offer to practice professional or practical nursing in this State",
       "citation": "32 §2101"
     },
     "issuing_authority": {
@@ -20,8 +20,8 @@
       },
       "type": {
         "value": "standalone_board",
-        "quote": "The State Board of Nursing is the state regulatory agency charged with protection of the public health and welfare in the area of nursing service.",
-        "citation": "32 §2101"
+        "quote": "\"Board\" means the State Board of Nursing.",
+        "citation": "32 §2102"
       },
       "umbrella_agency": null
     },
@@ -33,7 +33,11 @@
         "quote": "Has completed a course of study of not less than 2 years in an approved program in professional nursing and holds a degree, diploma or certificate.",
         "citation": "32 §2201"
       },
-      "accrediting_body": null,
+      "accrediting_body": {
+        "value": "board-approved nursing education program",
+        "quote": "An \"approved nursing school\" or \"approved nursing education program\" means a school of nursing or a nursing department or division of a university or college or a school for the education of practical nurses approved by the board as provided in this chapter.",
+        "citation": "32 §2102"
+      },
       "degree_level": {
         "value": "associate",
         "quote": "Has completed a course of study of not less than 2 years in an approved program in professional nursing and holds a degree, diploma or certificate.",
@@ -41,7 +45,7 @@
       },
       "school_approval_basis": {
         "value": "board_approved",
-        "quote": "An \" approved nursing school\" or \" approved nursing education program\" means a school of nursing or a nursing department or division of a university or college or a school for the education of practical nurses approved by the board as provided in this chapter.",
+        "quote": "approved nursing education program\" means a school of nursing or a nursing department or division of a university or college or a school for the education of practical nurses approved by the board",
         "citation": "32 §2102"
       },
       "credential_pegged": {
@@ -51,25 +55,25 @@
       },
       "tiers": [
         {
-          "license_class": "registered professional nurse (RN)",
+          "license_class": "advanced practice registered nurse",
+          "degree_level": "master",
+          "effective_date": null,
+          "quote": "Has successfully completed a formal education program that is acceptable to the board in an advanced nursing specialty area",
+          "citation": "32 §2201-A"
+        },
+        {
+          "license_class": "registered professional nurse",
           "degree_level": "associate",
           "effective_date": null,
           "quote": "Has completed a course of study of not less than 2 years in an approved program in professional nursing and holds a degree, diploma or certificate.",
           "citation": "32 §2201"
         },
         {
-          "license_class": "licensed practical nurse (LPN)",
+          "license_class": "licensed practical nurse",
           "degree_level": "none",
           "effective_date": null,
           "quote": "The applicant completed a prescribed curriculum in a state-approved program for the preparation of practical nurses and holds a diploma or certificate",
           "citation": "32 §2251-A"
-        },
-        {
-          "license_class": "advanced practice registered nurse (APRN)",
-          "degree_level": "master",
-          "effective_date": null,
-          "quote": "Has successfully completed a formal education program that is acceptable to the board in an advanced nursing specialty area",
-          "citation": "32 §2201-A"
         }
       ]
     },
@@ -81,7 +85,7 @@
       },
       "experience_source": {
         "value": "required_by_statute",
-        "quote": "A certified nurse practitioner who qualifies as an advanced practice registered nurse must practice, for at least 24 months, under the supervision of a licensed physician or a supervising nurse practitioner or must be employed by a clinic or hospital that has a medical director who is a licensed physician.",
+        "quote": "A certified nurse practitioner who qualifies as an advanced practice registered nurse must practice, for at least 24 months, under the supervision of a licensed physician or a supervising nurse practitioner",
         "citation": "32 §2102"
       },
       "duration": {
@@ -90,8 +94,8 @@
         "citation": "32 §2102"
       },
       "kind": {
-        "value": "supervised practice (certified nurse practitioner)",
-        "quote": "must practice, for at least 24 months, under the supervision of a licensed physician or a supervising nurse practitioner or must be employed by a clinic or hospital that has a medical director who is a licensed physician",
+        "value": "supervised practice under licensed physician or supervising nurse practitioner",
+        "quote": "under the supervision of a licensed physician or a supervising nurse practitioner or must be employed by a clinic or hospital that has a medical director who is a licensed physician",
         "citation": "32 §2102"
       }
     },
@@ -99,26 +103,17 @@
       {
         "name": "National Council Licensure Examination (NCLEX-RN)",
         "required": true,
-        "notes": "Required for registered professional nurse licensure",
+        "notes": "Written examination in subjects determined necessary by the board; NCLEX-RN is the standard national examination referenced for licensure by endorsement",
         "jurisdiction": "national (National Council of State Boards of Nursing)",
-        "permitted_attempts": null,
-        "quote": "Have successfully passed a National Council Licensure Examination for registered nurses or a National Council Licensure Examination for practical or vocational nurses given by the National Council of State Boards of Nursing",
-        "citation": "32 §2173"
-      },
-      {
-        "name": "Written examination for professional nursing",
-        "required": true,
-        "notes": "Board-administered written exam for professional nursing applicants",
-        "jurisdiction": "state (board-administered)",
         "permitted_attempts": null,
         "quote": "The applicant is required to pass a written examination in subjects determined necessary by the board to ascertain the fitness of the applicant to practice professional nursing.",
         "citation": "32 §2202"
       },
       {
-        "name": "Written examination for practical nursing",
+        "name": "National Council Licensure Examination (NCLEX-PN)",
         "required": true,
-        "notes": "Board-administered written exam for practical nursing applicants",
-        "jurisdiction": "state (board-administered)",
+        "notes": "For licensed practical nurse applicants",
+        "jurisdiction": "national (National Council of State Boards of Nursing)",
         "permitted_attempts": null,
         "quote": "The applicant is required to pass a written examination in subjects considered necessary by the board to determine the fitness of the applicant to practice practical nursing.",
         "citation": "32 §2252"
@@ -133,13 +128,13 @@
     },
     "renewal_fee_usd": {
       "value": 100,
-      "quote": "return it to the board with the renewal fee designated by the board, but not to exceed $100",
+      "quote": "the renewal fee designated by the board, but not to exceed $100",
       "citation": "32 §2206"
     },
     "continuing_education": {
       "required": {
         "value": true,
-        "quote": "an individual licensed under this chapter must successfully complete 3 hours of continuing education every 2 years on the prescription of opioid medication as a condition of prescribing opioid medication",
+        "quote": "By December 31, 2017, an individual licensed under this chapter must successfully complete 3 hours of continuing education every 2 years on the prescription of opioid medication as a condition of prescribing opioid medication.",
         "citation": "32 §2210"
       },
       "hours_per_period": {
@@ -154,9 +149,9 @@
       },
       "topical_requirements": {
         "value": [
-          "opioid medication prescribing"
+          "opioid medication prescribing (3 hours every 2 years, for those whose scope includes prescribing)"
         ],
-        "quote": "3 hours of continuing education every 2 years on the prescription of opioid medication as a condition of prescribing opioid medication",
+        "quote": "must successfully complete 3 hours of continuing education every 2 years on the prescription of opioid medication as a condition of prescribing opioid medication",
         "citation": "32 §2210"
       }
     },
@@ -167,22 +162,22 @@
         "citation": "32 §2205-A"
       },
       "requirements": {
-        "value": "Applicant must have graduated from an equivalent approved educational program, hold a license in good standing from another jurisdiction obtained by equivalent examination, and (if licensed in another language) have passed the Test of English as a Foreign Language. Maine is also a party to the enhanced Nurse Licensure Compact allowing multistate licensure.",
-        "quote": "The board may issue a license without examination of the applicant by the board to an applicant licensed to practice by a state or territory of the United States or a province of Canada if the applicant: A. Has graduated from an educational program approved by the official approving authority of a state or territory of the United States or a province of Canada, which at the time of graduation had standards considered by the board to be equivalent to those of Maine schools",
+        "value": "Applicant must have graduated from an equivalent approved program, been duly licensed by examination by a nursing board whose exam is considered equivalent to Maine's, and hold a license in good standing with no cause for suspension or revocation.",
+        "quote": "Has graduated from an educational program approved by the official approving authority of a state or territory of the United States or a province of Canada, which at the time of graduation had standards considered by the board to be equivalent to those of Maine schools",
         "citation": "32 §2205-A"
       }
     },
     "advisory_board": {
       "exists": {
         "value": false,
-        "quote": "The State Board of Nursing is the state regulatory agency charged with protection of the public health and welfare in the area of nursing service.",
-        "citation": "32 §2101"
+        "quote": "\"Board\" means the State Board of Nursing.",
+        "citation": "32 §2102"
       },
       "name": null,
       "authority": null
     },
     "national_certification": {
-      "value": "national certifying body (board-acceptable)",
+      "value": "national certifying body (for APRN)",
       "quote": "Holds a current certification credential for advanced nursing from a national certifying body whose certification program is acceptable to the board.",
       "citation": "32 §2201-A"
     },
@@ -215,69 +210,69 @@
     "disciplinary_grounds": [
       {
         "short_label": "fraud_in_obtaining_license",
-        "description": "Practicing fraud or deceit in obtaining a license or in connection with services rendered within the scope of the license",
+        "description": "Practice of fraud or deceit in obtaining a license or in connection with service rendered within scope of license",
         "quote": "The practice of fraud or deceit in obtaining a license under this chapter or in connection with service rendered within the scope of the license issued",
-        "citation": "2105-A"
+        "citation": "32 §2105-A"
       },
       {
         "short_label": "substance_misuse",
         "description": "Misuse of alcohol, drugs or other substances that has resulted or may result in endangering patient health or safety",
         "quote": "Misuse of alcohol, drugs or other substances that has resulted or may result in the licensee performing services in a manner that endangers the health or safety of patients",
-        "citation": "2105-A"
+        "citation": "32 §2105-A"
       },
       {
-        "short_label": "mental_or_physical_condition",
-        "description": "Professional diagnosis of a mental or physical condition likely to result in endangering patient health or safety",
+        "short_label": "mental_physical_condition",
+        "description": "Professional diagnosis of a mental or physical condition foreseeably likely to result in endangering patient health or safety",
         "quote": "A professional diagnosis of a mental or physical condition that has resulted or is foreseeably likely to result in the licensee performing the licensee's duties in a manner that endangers the health or safety of the licensee's patients",
-        "citation": "2105-A"
+        "citation": "32 §2105-A"
       },
       {
         "short_label": "aiding_unlicensed_practice",
         "description": "Aiding or abetting the practice of nursing by an unlicensed individual who claims to be legally licensed",
         "quote": "Aiding or abetting the practice of nursing by an individual not licensed under this chapter and who claims to be legally licensed",
-        "citation": "2105-A"
+        "citation": "32 §2105-A"
       },
       {
         "short_label": "incompetence",
-        "description": "Incompetence in the licensed practice, including lack of ability, fitness, knowledge or skill",
-        "quote": "Incompetence in the practice for which the licensee is licensed. A licensee is considered incompetent in the practice if the licensee has: (1) Engaged in conduct that evidences a lack of ability or fitness to discharge the duty owed by the licensee to a client or patient or the general public; or (2) Engaged in conduct that evidences a lack of knowledge or inability to apply principles or skills to carry out the practice for which the licensee is licensed",
-        "citation": "2105-A"
+        "description": "Incompetence in the practice for which the licensee is licensed",
+        "quote": "Incompetence in the practice for which the licensee is licensed.",
+        "citation": "32 §2105-A"
       },
       {
         "short_label": "unprofessional_conduct",
-        "description": "Violating an established standard of professional behavior for the licensed practice",
+        "description": "Violation of a standard of professional behavior established in the practice",
         "quote": "Unprofessional conduct. A licensee is considered to have engaged in unprofessional conduct if the licensee violates a standard of professional behavior that has been established in the practice for which the licensee is licensed",
-        "citation": "2105-A"
+        "citation": "32 §2105-A"
       },
       {
         "short_label": "criminal_conviction",
-        "description": "Conviction of a crime involving dishonesty, false statement, directly related to practice, or for which incarceration of one year or more may be imposed",
+        "description": "Conviction of a crime involving dishonesty or false statement, or that relates to the practice, or for which incarceration for one year or more may be imposed",
         "quote": "conviction of a crime that involves dishonesty or false statement or that relates directly to the practice for which the licensee is licensed or conviction of a crime for which incarceration for one year or more may be imposed",
-        "citation": "2105-A"
+        "citation": "32 §2105-A"
       },
       {
         "short_label": "violation_of_chapter_or_rules",
-        "description": "Violating this chapter or a rule adopted by the board",
+        "description": "Violation of this chapter or a rule adopted by the board",
         "quote": "A violation of this chapter or a rule adopted by the board",
-        "citation": "2105-A"
+        "citation": "32 §2105-A"
       },
       {
-        "short_label": "false_advertising",
+        "short_label": "false_misleading_advertising",
         "description": "Engaging in false, misleading or deceptive advertising",
         "quote": "Engaging in false, misleading or deceptive advertising",
-        "citation": "2105-A"
+        "citation": "32 §2105-A"
       },
       {
-        "short_label": "failure_to_comply_with_reporting_requirements",
-        "description": "Failure to comply with the requirements of Title 22, section 7253",
+        "short_label": "failure_to_comply_mandatory_reporting",
+        "description": "Failure to comply with requirements of Title 22, section 7253 (mandatory reporting)",
         "quote": "Failure to comply with the requirements of Title 22, section 7253",
-        "citation": "2105-A"
+        "citation": "32 §2105-A"
       },
       {
         "short_label": "conversion_therapy_violation",
         "description": "Violation of section 2112 (prohibition on providing conversion therapy to minors)",
         "quote": "A violation of section 2112.",
-        "citation": "2105-A"
+        "citation": "32 §2105-A"
       }
     ],
     "alternative_regulation": {
@@ -288,7 +283,7 @@
     "citations": [
       {
         "cite": "32 §2101",
-        "kind": "purpose and scope"
+        "kind": "purpose and scope protection"
       },
       {
         "cite": "32 §2102",
@@ -324,19 +319,15 @@
       },
       {
         "cite": "32 §2202",
-        "kind": "RN license and examination"
+        "kind": "RN licensure and examination"
       },
       {
         "cite": "32 §2205-A",
-        "kind": "licensure by endorsement (RN)"
-      },
-      {
-        "cite": "32 §2205-B",
-        "kind": "APRN approval"
+        "kind": "licensure by endorsement RN"
       },
       {
         "cite": "32 §2206",
-        "kind": "RN renewals"
+        "kind": "RN renewal"
       },
       {
         "cite": "32 §2208",
@@ -344,11 +335,11 @@
       },
       {
         "cite": "32 §2210",
-        "kind": "opioid prescribing requirements"
+        "kind": "opioid prescribing requirements and CE"
       },
       {
         "cite": "32 §2211",
-        "kind": "nurse anesthetist authority"
+        "kind": "CRNA authority"
       },
       {
         "cite": "32 §2251-A",
@@ -356,7 +347,7 @@
       },
       {
         "cite": "32 §2252",
-        "kind": "LPN license and examination"
+        "kind": "LPN licensure and examination"
       },
       {
         "cite": "32 §2254-A",
@@ -364,7 +355,7 @@
       },
       {
         "cite": "32 §2255",
-        "kind": "LPN renewals"
+        "kind": "LPN renewal"
       },
       {
         "cite": "32 §2257",
@@ -372,31 +363,39 @@
       },
       {
         "cite": "32 §2173",
-        "kind": "multistate license compact"
+        "kind": "nurse licensure compact"
+      },
+      {
+        "cite": "32 §2112",
+        "kind": "conversion therapy prohibition"
       }
     ]
   },
   "scope": {
     "definition_quote": {
-      "value": "The practice of \"professional nursing\" means the performance by a registered professional nurse for compensation of professional services defined as follows: A. Diagnosis and treatment of human responses to actual or potential physical and emotional health problems through such services as case finding, health teaching, health counseling and provision of care supportive to or restorative of life and well-being and execution of the medical regimen as prescribed by a legally authorized licensed professional...",
-      "quote": "The practice of \"professional nursing\" means the performance by a registered professional nurse for compensation of professional services defined as follows: A. Diagnosis and treatment of human responses to actual or potential physical and emotional health problems through such services as case finding, health teaching, health counseling and provision of care supportive to or restorative of life and well-being",
+      "value": "The practice of 'professional nursing' means the performance by a registered professional nurse for compensation of professional services defined as follows: Diagnosis and treatment of human responses to actual or potential physical and emotional health problems through such services as case finding, health teaching, health counseling and provision of care supportive to or restorative of life and well-being and execution of the medical regimen as prescribed by a legally authorized licensed professional",
+      "quote": "The practice of \"professional nursing\" means the performance by a registered professional nurse for compensation of professional services defined as follows: A. Diagnosis and treatment of human responses to actual or potential physical and emotional health problems through such services as case finding, health teaching, health counseling and provision of care supportive to or restorative of life and well-being and execution of the medical regimen as prescribed by a legally authorized licensed professional",
       "citation": "32 §2102"
     },
     "methods_authorized": {
       "value": [
-        "diagnosis and treatment of human responses to health problems",
-        "health teaching and counseling",
-        "delegation of nursing services to LPNs and nursing assistants",
+        "diagnosis and treatment of human responses",
+        "case finding",
+        "health teaching",
+        "health counseling",
+        "provision of supportive and restorative care",
+        "execution of medical regimen",
+        "delegation of nursing services to LPNs",
+        "delegation to unlicensed assistive personnel",
         "supervision and teaching of nursing personnel",
         "administration of medications and treatments",
-        "teaching activities of daily living",
-        "delegation of nursing activities to unlicensed assistive personnel"
+        "teaching activities of daily living"
       ],
-      "quote": "Diagnosis and treatment of human responses to actual or potential physical and emotional health problems through such services as case finding, health teaching, health counseling and provision of care supportive to or restorative of life and well-being and execution of the medical regimen as prescribed by a legally authorized licensed professional",
+      "quote": "Diagnosis and treatment of human responses to actual or potential physical and emotional health problems through such services as case finding, health teaching, health counseling and provision of care supportive to or restorative of life and well-being and execution of the medical regimen",
       "citation": "32 §2102"
     },
     "drug_authority": {
-      "value": "Certified nurse practitioners and certified nurse midwives who qualify as advanced practice registered nurses may prescribe and dispense drugs or devices in accordance with board rules. Opioid prescribing is limited to 100 MME/day and 7-day supply for acute pain, 30-day supply for chronic pain, with exceptions. CRNAs in critical access and rural hospitals may order and prescribe certain prescription drugs perioperatively.",
+      "value": "A certified nurse practitioner or a certified nurse midwife who qualifies as an advanced practice registered nurse may prescribe and dispense drugs or devices, or both, in accordance with rules adopted by the board. CRNAs in critical access and rural hospitals may prescribe controlled substances (Schedules III, IIIN, IV, V) for up to 4 days with no refills. Licensed APRNs with prescriptive scope are subject to opioid prescribing limits.",
       "quote": "A certified nurse practitioner or a certified nurse midwife who qualifies as an advanced practice registered nurse may prescribe and dispense drugs or devices, or both, in accordance with rules adopted by the board.",
       "citation": "32 §2102"
     },
@@ -406,43 +405,48 @@
         "kind": "scope of practice definitions"
       },
       {
-        "cite": "32 §2210",
-        "kind": "opioid prescribing limits"
+        "cite": "32 §2211",
+        "kind": "CRNA drug authority"
       },
       {
-        "cite": "32 §2211",
-        "kind": "CRNA authority"
+        "cite": "32 §2210",
+        "kind": "opioid prescribing limits"
       }
     ]
   },
   "profession_specific": {
     "license_tiers": {
       "value": [
-        "registered professional nurse (RN)",
-        "licensed practical nurse (LPN)",
-        "advanced practice registered nurse (APRN)"
+        "Registered Nurse (RN)",
+        "Licensed Practical Nurse (LPN)",
+        "Advanced Practice Registered Nurse (APRN)",
+        "Certified Registered Nurse Anesthetist (CRNA)",
+        "Certified Nurse Practitioner (CNP/CRNP/NP)",
+        "Certified Nurse Midwife (CNM)",
+        "Clinical Nurse Specialist (CNS)",
+        "Certified Nursing Assistant (CNA)"
       ],
-      "quote": "A \"license\" is an authorization to practice nursing as a professional nurse, practical nurse or advanced practice registered nurse.",
+      "quote": "\"Advanced practice registered nurse\" includes a certified nurse practitioner, a certified nurse midwife, a certified clinical nurse specialist and a certified nurse anesthetist who are licensed under this chapter to practice advanced practice registered nursing.",
       "citation": "32 §2102"
     },
     "aprn_role_categories": {
       "value": [
-        "certified nurse practitioner",
-        "certified nurse midwife",
-        "certified clinical nurse specialist",
-        "certified nurse anesthetist"
+        "Certified Nurse Practitioner",
+        "Certified Registered Nurse Anesthetist",
+        "Certified Nurse Midwife",
+        "Clinical Nurse Specialist"
       ],
       "quote": "\"Advanced practice registered nurse\" includes a certified nurse practitioner, a certified nurse midwife, a certified clinical nurse specialist and a certified nurse anesthetist who are licensed under this chapter to practice advanced practice registered nursing.",
       "citation": "32 §2102"
     },
     "lpn_supervision_requirements": {
       "value": [
-        "registered nurse",
-        "licensed physician",
-        "podiatrist",
-        "dentist"
+        "Registered Nurse",
+        "Physician",
+        "Podiatrist",
+        "Dentist"
       ],
-      "quote": "performing tasks and responsibilities, by a licensed practical nurse, for compensation within a structured health care setting, reinforcing the patient and family teaching program through health teaching, health counseling and provision of supportive and restorative care, under the direction of a registered nurse or licensed or otherwise legally authorized physician, podiatrist or dentist.",
+      "quote": "performing tasks and responsibilities, by a licensed practical nurse, for compensation within a structured health care setting...under the direction of a registered nurse or licensed or otherwise legally authorized physician, podiatrist or dentist.",
       "citation": "32 §2102"
     },
     "collaborative_practice_agreement_required": {
@@ -452,23 +456,26 @@
     },
     "full_independent_practice_available": {
       "value": true,
-      "quote": "A certified nurse practitioner who qualifies as an advanced practice registered nurse must practice, for at least 24 months, under the supervision of a licensed physician or a supervising nurse practitioner or must be employed by a clinic or hospital that has a medical director who is a licensed physician. The certified nurse practitioner shall submit written evidence to the board upon completion of the required clinical experience.",
+      "quote": "The certified nurse practitioner shall submit written evidence to the board upon completion of the required clinical experience.",
       "citation": "32 §2102"
     },
     "full_independent_practice_experience_hours_required": null,
-    "prescriptive_authority_certificate_required": null,
+    "prescriptive_authority_certificate_required": {
+      "value": false,
+      "quote": "A certified nurse practitioner or a certified nurse midwife who qualifies as an advanced practice registered nurse may prescribe and dispense drugs or devices, or both, in accordance with rules adopted by the board.",
+      "citation": "32 §2102"
+    },
     "controlled_substance_schedule_authority": {
       "value": [
-        "Schedule III",
-        "Schedule IIIN",
-        "Schedule IV",
-        "Schedule V"
+        "Schedule III controlled substances",
+        "Schedule IV controlled substances",
+        "Schedule V controlled substances"
       ],
       "quote": "For controlled substances listed in United States Drug Enforcement Administration Schedules III, IIIN, IV and V, a certified registered nurse anesthetist may prescribe drugs only: (1) For a supply of not more than 4 days, with no prescription refills",
       "citation": "32 §2211"
     },
     "opioid_prescribing_limits": {
-      "value": "No more than 100 MME/day; no more than 7-day supply for acute pain; no more than 30-day supply for chronic pain; exceptions for cancer, palliative care, hospice, MAT, and inpatient/surgical settings.",
+      "value": "No more than 100 MME/day generally; no more than 30-day supply for chronic pain (on or after Jan 1, 2017); no more than 7-day supply for acute pain per 7-day period (on or after Jan 1, 2017). CRNAs limited to 4-day supply of Schedule III-V controlled substances with no refills.",
       "quote": "an individual licensed under this chapter whose scope of practice includes prescribing opioid medication may not prescribe: A. To a patient any combination of opioid medication in an aggregate amount in excess of 100 morphine milligram equivalents of opioid medication per day",
       "citation": "32 §2210"
     },
@@ -476,7 +483,7 @@
     "controlled_substance_database_registration_required": null,
     "nurse_aide_registry_maintained": {
       "value": true,
-      "quote": "Has successfully completed a training program or course with a curriculum prescribed by the board, holds a certificate of training from that program or course and is listed on the Maine Registry of Certified Nursing Assistants and Direct Care Workers",
+      "quote": "holds a certificate of training from that program or course and is listed on the Maine Registry of Certified Nursing Assistants and Direct Care Workers",
       "citation": "32 §2102"
     },
     "medication_assistant_certification_available": null,
@@ -503,13 +510,13 @@
     },
     "impaired_nurse_alternative_program_available": {
       "value": true,
-      "quote": "The board may contract with other agencies, individuals, firms or associations for the conduct and operation of a nurse health program operated by a professional review committee as that term is defined in Title 24, section 2502, subsection 4‑A.",
-      "citation": "2105-A"
+      "quote": "The board may establish protocols for the operation of a professional review committee...The board may contract with other agencies, individuals, firms or associations for the conduct and operation of a nurse health program operated by a professional review committee",
+      "citation": "32 §2105-A"
     },
     "rn_death_pronouncement_authorized": null,
     "public_health_nurse_certification_available": null,
     "telehealth_prescribing_rules": {
-      "value": "Licensees may provide telehealth services within their scope of practice; the board must adopt rules establishing standards of practice and appropriate restrictions for various types and forms of telehealth services.",
+      "value": "A person licensed under this chapter may provide telehealth services as long as the licensee acts within the scope of practice of the licensee's license, in accordance with any requirements and restrictions imposed by this subchapter and in accordance with standards of practice. The board shall adopt rules governing telehealth services establishing standards of practice and appropriate restrictions.",
       "quote": "A person licensed under this chapter may provide telehealth services as long as the licensee acts within the scope of practice of the licensee's license, in accordance with any requirements and restrictions imposed by this subchapter and in accordance with standards of practice.",
       "citation": "32 §2267"
     },
@@ -525,8 +532,178 @@
     "implicit_bias_training_required_in_curriculum": null,
     "military_education_credit_required": {
       "value": true,
-      "quote": "The applicant: A. Served on active duty in the medical corps of any branch of the Armed Forces of the United States and spent an aggregate of at least 12 months rendering bedside patient care; B. Completed the basic course of instruction in nursing required by the branch of the Armed Forces of the United States in which the applicant served; and C. Was honorably discharged from active duty.",
+      "quote": "Served on active duty in the medical corps of any branch of the Armed Forces of the United States and spent an aggregate of at least 12 months rendering bedside patient care",
       "citation": "32 §2251-A"
-    }
+    },
+    "scope__license_tiers": [
+      {
+        "item": "Registered Nurse (RN)",
+        "status": "present",
+        "quote": "The terms \"professional nurse,\" \"registered nurse\" or \"registered professional nurse\" mean an individual who is currently licensed under this chapter",
+        "citation": "32 §2102"
+      },
+      {
+        "item": "Licensed Practical Nurse (LPN)",
+        "status": "present",
+        "quote": "The term \"licensed practical nurse\" means an individual who is currently licensed under this chapter and who practices practical nursing as defined in subsection 3.",
+        "citation": "32 §2102"
+      },
+      {
+        "item": "Advanced Practice Registered Nurse (APRN)",
+        "status": "present",
+        "quote": "\"Advanced practice registered nurse\" means an individual who is currently licensed under this chapter to practice advanced practice registered nursing as defined in subsection 2‑A.",
+        "citation": "32 §2102"
+      },
+      {
+        "item": "Certified Registered Nurse Anesthetist (CRNA)",
+        "status": "present",
+        "quote": "\"Advanced practice registered nurse\" includes a certified nurse practitioner, a certified nurse midwife, a certified clinical nurse specialist and a certified nurse anesthetist who are licensed under this chapter",
+        "citation": "32 §2102"
+      },
+      {
+        "item": "Certified Nurse Practitioner (CNP/CRNP/NP)",
+        "status": "present",
+        "quote": "\"Advanced practice registered nurse\" includes a certified nurse practitioner, a certified nurse midwife, a certified clinical nurse specialist and a certified nurse anesthetist who are licensed under this chapter",
+        "citation": "32 §2102"
+      },
+      {
+        "item": "Certified Nurse Midwife (CNM)",
+        "status": "present",
+        "quote": "\"Advanced practice registered nurse\" includes a certified nurse practitioner, a certified nurse midwife, a certified clinical nurse specialist and a certified nurse anesthetist who are licensed under this chapter",
+        "citation": "32 §2102"
+      },
+      {
+        "item": "Clinical Nurse Specialist (CNS)",
+        "status": "present",
+        "quote": "\"Advanced practice registered nurse\" includes a certified nurse practitioner, a certified nurse midwife, a certified clinical nurse specialist and a certified nurse anesthetist who are licensed under this chapter",
+        "citation": "32 §2102"
+      },
+      {
+        "item": "Certified Nurse Aide (CNA)",
+        "status": "present",
+        "quote": "\"Certified nursing assistant\" means an individual whose duties are assigned by a registered professional nurse and who: A. Has successfully completed a training program or course with a curriculum prescribed by the board, holds a certificate of training from that program or course and is listed on the Maine Registry of Certified Nursing Assistants and Direct Care Workers",
+        "citation": "32 §2102"
+      },
+      {
+        "item": "Certified Medication Assistant",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Full Independent Practice Authority Certificate",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Nursing Home Administrator License",
+        "status": "present",
+        "quote": "an individual may not be an administrator of a medical care facility other than a hospital unless that individual is the holder of a current administrator's license or a temporary permit issued pursuant to this chapter.",
+        "citation": "32 §61"
+      },
+      {
+        "item": "Multistate License (Nurse Licensure Compact)",
+        "status": "present",
+        "quote": "A multistate license to practice registered or licensed practical or vocational nursing issued by a home state to a resident in that state is recognized by each party state as authorizing a nurse to practice",
+        "citation": "32 §2173"
+      },
+      {
+        "item": "Temporary Permit to Practice Nursing",
+        "status": "present",
+        "quote": "Temporary approval to practice as an advanced practice registered nurse may be granted by the board: A. For a period of 90 days to an applicant who is currently approved to practice as an advanced practice registered nurse in another jurisdiction",
+        "citation": "32 §2205-B"
+      }
+    ],
+    "scope__aprn_role_categories": [
+      {
+        "item": "Certified Nurse Practitioner",
+        "status": "present",
+        "quote": "\"Advanced practice registered nurse\" includes a certified nurse practitioner, a certified nurse midwife, a certified clinical nurse specialist and a certified nurse anesthetist who are licensed under this chapter",
+        "citation": "32 §2102"
+      },
+      {
+        "item": "Certified Registered Nurse Anesthetist",
+        "status": "present",
+        "quote": "\"Advanced practice registered nurse\" includes a certified nurse practitioner, a certified nurse midwife, a certified clinical nurse specialist and a certified nurse anesthetist who are licensed under this chapter",
+        "citation": "32 §2102"
+      },
+      {
+        "item": "Certified Nurse Midwife",
+        "status": "present",
+        "quote": "\"Advanced practice registered nurse\" includes a certified nurse practitioner, a certified nurse midwife, a certified clinical nurse specialist and a certified nurse anesthetist who are licensed under this chapter",
+        "citation": "32 §2102"
+      },
+      {
+        "item": "Clinical Nurse Specialist",
+        "status": "present",
+        "quote": "\"Advanced practice registered nurse\" includes a certified nurse practitioner, a certified nurse midwife, a certified clinical nurse specialist and a certified nurse anesthetist who are licensed under this chapter",
+        "citation": "32 §2102"
+      }
+    ],
+    "scope__lpn_supervision_requirements": [
+      {
+        "item": "Registered Nurse",
+        "status": "present",
+        "quote": "under the direction of a registered nurse or licensed or otherwise legally authorized physician, podiatrist or dentist.",
+        "citation": "32 §2102"
+      },
+      {
+        "item": "Advanced Practice Registered Nurse",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Physician",
+        "status": "present",
+        "quote": "under the direction of a registered nurse or licensed or otherwise legally authorized physician, podiatrist or dentist.",
+        "citation": "32 §2102"
+      },
+      {
+        "item": "Physician Assistant",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Dentist",
+        "status": "present",
+        "quote": "under the direction of a registered nurse or licensed or otherwise legally authorized physician, podiatrist or dentist.",
+        "citation": "32 §2102"
+      },
+      {
+        "item": "Podiatrist",
+        "status": "present",
+        "quote": "under the direction of a registered nurse or licensed or otherwise legally authorized physician, podiatrist or dentist.",
+        "citation": "32 §2102"
+      }
+    ],
+    "scope__controlled_substance_schedule_authority": [
+      {
+        "item": "Schedule II controlled substances",
+        "status": "not_addressed",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Schedule III controlled substances",
+        "status": "authorized",
+        "quote": "For controlled substances listed in United States Drug Enforcement Administration Schedules III, IIIN, IV and V, a certified registered nurse anesthetist may prescribe drugs only: (1) For a supply of not more than 4 days, with no prescription refills",
+        "citation": "32 §2211"
+      },
+      {
+        "item": "Schedule IV controlled substances",
+        "status": "authorized",
+        "quote": "For controlled substances listed in United States Drug Enforcement Administration Schedules III, IIIN, IV and V, a certified registered nurse anesthetist may prescribe drugs only: (1) For a supply of not more than 4 days, with no prescription refills",
+        "citation": "32 §2211"
+      },
+      {
+        "item": "Schedule V controlled substances",
+        "status": "authorized",
+        "quote": "For controlled substances listed in United States Drug Enforcement Administration Schedules III, IIIN, IV and V, a certified registered nurse anesthetist may prescribe drugs only: (1) For a supply of not more than 4 days, with no prescription refills",
+        "citation": "32 §2211"
+      }
+    ]
   }
 }

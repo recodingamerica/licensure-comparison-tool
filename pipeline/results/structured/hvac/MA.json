@@ -9,19 +9,19 @@
     },
     "issuing_authority": {
       "value": "Board of State Examiners of Sheet Metal Workers",
-      "quote": "unless that person holds a valid license issued by the board as provided in this chapter.",
+      "quote": "unless that person holds a valid license issued by the board as provided in this chapter",
       "citation": "Section 238"
     },
     "regulatory_authority": {
       "name": {
         "value": "Board of State Examiners of Sheet Metal Workers",
-        "quote": "unless that person holds a valid license issued by the board as provided in this chapter.",
+        "quote": "unless that person holds a valid license issued by the board as provided in this chapter",
         "citation": "Section 238"
       },
       "type": {
-        "value": "shared_board",
-        "quote": "The board shall be under the supervision of the division of occupational licensure",
-        "citation": "Section 245"
+        "value": "standalone_board",
+        "quote": "The board shall make such rules as they deem proper for the performance of their duties and governing the qualifications of applicants for examination.",
+        "citation": "Section 240"
       },
       "umbrella_agency": {
         "value": "Division of Occupational Licensure",
@@ -31,7 +31,14 @@
     },
     "age_minimum": null,
     "moral_character_required": null,
-    "education": null,
+    "education": {
+      "degree_required": null,
+      "accrediting_body": null,
+      "degree_level": null,
+      "school_approval_basis": null,
+      "credential_pegged": null,
+      "tiers": null
+    },
     "post_degree_experience": {
       "required": {
         "value": false,
@@ -48,10 +55,10 @@
     },
     "exams": [
       {
-        "name": "Sheet Metal Worker Examination",
+        "name": "Sheet Metal Worker Examination (journeyperson and master)",
         "required": true,
-        "notes": "Practical knowledge examination for journeyperson and master sheet metal workers; board may credit relevant military experience and waive other requirements for veterans.",
-        "jurisdiction": "state (board-administered)",
+        "notes": "Board examines each applicant as to practical knowledge of sheet metal work; veterans may receive credit and waiver of certain requirements.",
+        "jurisdiction": "state (in-house)",
         "permitted_attempts": null,
         "quote": "The board shall examine each person who applies for a license as a journeyperson sheet metal worker or a master sheet metal worker, as to his practical knowledge of sheet metal work.",
         "citation": "Section 240"
@@ -78,7 +85,7 @@
         "citation": "Section 242"
       },
       "requirements": {
-        "value": "License without examination available to out-of-state/foreign applicants whose jurisdiction has substantially equivalent requirements and offers reciprocal privileges to Massachusetts licensees. Board may require additional education if standards are inconsistent.",
+        "value": "Applicant must be legally registered as journeyperson or master sheet metal worker in another state or country with substantially equivalent requirements, and that jurisdiction must offer reciprocal privileges to MA licensees. Board may require additional education if standards differ.",
         "quote": "the board may issue a license without examination to an applicant who is legally registered as a journeyperson or master sheet metal worker in any other state or country whose requirements for obtaining and maintaining registration, in the opinion of the board, are at least substantially equivalent to the requirements in the commonwealth, provided such other state or country has a reciprocal privilege to licensees registered by the board.",
         "citation": "Section 242"
       }
@@ -101,7 +108,7 @@
     },
     "credential_type": {
       "value": "license",
-      "quote": "No person shall engage in work as a master, journeyperson or apprentice nor shall any person advertise or represent that he is a master, journeyperson or apprentice unless that person holds a valid license issued by the board as provided in this chapter.",
+      "quote": "unless that person holds a valid license issued by the board as provided in this chapter",
       "citation": "Section 238"
     },
     "is_mandatory": {
@@ -111,12 +118,12 @@
     },
     "title_protection": {
       "value": true,
-      "quote": "nor shall any person advertise or represent that he is a master, journeyperson or apprentice unless that person holds a valid license issued by the board as provided in this chapter.",
+      "quote": "nor shall any person advertise or represent that he is a master, journeyperson or apprentice unless that person holds a valid license issued by the board",
       "citation": "Section 238"
     },
     "scope_protection": {
       "value": true,
-      "quote": "No person shall engage in work as a master, journeyperson or apprentice nor shall any person advertise or represent that he is a master, journeyperson or apprentice unless that person holds a valid license issued by the board as provided in this chapter.",
+      "quote": "No person shall engage in work as a master, journeyperson or apprentice ... unless that person holds a valid license issued by the board as provided in this chapter.",
       "citation": "Section 238"
     },
     "disciplinary_grounds": [
@@ -133,7 +140,7 @@
         "citation": "Section 245"
       },
       {
-        "short_label": "violating_board_rule",
+        "short_label": "violating_board_rules",
         "description": "Violating a rule or regulation of the board",
         "quote": "violating a rule or regulation of the board",
         "citation": "Section 245"
@@ -145,7 +152,7 @@
         "citation": "Section 245"
       },
       {
-        "short_label": "failure_to_fulfill_ce",
+        "short_label": "failure_to_complete_ce",
         "description": "Failing to fulfill any continuing education requirements required by the board",
         "quote": "failing to fulfill any continuing education requirements required by the board",
         "citation": "Section 245"
@@ -157,7 +164,7 @@
         "citation": "Section 245"
       },
       {
-        "short_label": "negligence",
+        "short_label": "negligence_in_practice",
         "description": "Negligence in the course of professional practice",
         "quote": "negligence in the course of professional practice",
         "citation": "Section 245"
@@ -176,8 +183,8 @@
       },
       "establishment_regulation_required": {
         "value": true,
-        "quote": "No person shall install sheet metal work without first obtaining a permit from the local inspector of buildings or other official.",
-        "citation": "Section 249"
+        "quote": "No corporation, partnership, LLC, LLP or other entity shall engage in business, advertise the provision of sheet metal work, make application for and take out permits for sheet metal work, bid for sheet metal work, permit its employees to perform sheet metal work or represent that it holds a license or certificate issued by the board unless the entity and all employees who performing such work hold a license or certificate, issued by the board",
+        "citation": "Section 239"
       }
     },
     "citations": [
@@ -187,7 +194,7 @@
       },
       {
         "cite": "Section 239",
-        "kind": "business_entity_certification"
+        "kind": "entity_certification"
       },
       {
         "cite": "Section 240",
@@ -219,7 +226,7 @@
       },
       {
         "cite": "Section 249",
-        "kind": "permit"
+        "kind": "permits"
       },
       {
         "cite": "Section 250",
@@ -229,9 +236,9 @@
   },
   "scope": {
     "definition_quote": {
-      "value": "sheet metal work",
-      "quote": "The board shall examine each person who applies for a license as a journeyperson sheet metal worker or a master sheet metal worker, as to his practical knowledge of sheet metal work.",
-      "citation": "Section 240"
+      "value": "No person shall engage in work as a master, journeyperson or apprentice nor shall any person advertise or represent that he is a master, journeyperson or apprentice unless that person holds a valid license issued by the board as provided in this chapter.",
+      "quote": "No person shall engage in work as a master, journeyperson or apprentice nor shall any person advertise or represent that he is a master, journeyperson or apprentice unless that person holds a valid license issued by the board as provided in this chapter.",
+      "citation": "Section 238"
     },
     "methods_authorized": null,
     "drug_authority": null,
@@ -241,8 +248,8 @@
         "kind": "scope_restriction"
       },
       {
-        "cite": "Section 240",
-        "kind": "scope_definition"
+        "cite": "Section 239",
+        "kind": "entity_scope"
       }
     ]
   },
@@ -259,7 +266,7 @@
     },
     "qualifier_license_type_required": {
       "value": [
-        "master sheet metal worker"
+        "master sheet metal worker license"
       ],
       "quote": "The certificate of a sheet metal corporation, partnership, LLP, LLC, or other entity shall only be issued to a master sheet metal worker who shall be responsible for all sheet metal work performed by that entity and its duly licensed employees.",
       "citation": "Section 239"
@@ -271,17 +278,17 @@
     "natural_gas_facilities_installation_authorized": null,
     "financial_responsibility_demonstration_methods": {
       "value": [
-        "liability insurance policy including completed operations coverage",
-        "other type of indemnity against liability providing substantially equivalent coverage",
-        "bond"
+        "liability insurance (including completed operations coverage)",
+        "bond",
+        "other indemnity providing substantially equivalent coverage"
       ],
-      "quote": "unless the licensee has a current liability insurance policy, including completed operations coverage, which has been issued by an insurance company licensed to do business within the commonwealth, or other type of indemnity against liability providing substantially equivalent coverage, or a bond.",
+      "quote": "no licensed journeyperson or master sheet metal worker shall be issued a permit for the performance of sheet metal work pursuant to this chapter unless the licensee has a current liability insurance policy, including completed operations coverage, which has been issued by an insurance company licensed to do business within the commonwealth, or other type of indemnity against liability providing substantially equivalent coverage, or a bond.",
       "citation": "Section 247"
     },
     "workers_compensation_insurance_required": null,
     "public_liability_insurance_required": {
       "value": true,
-      "quote": "no licensed journeyperson or master sheet metal worker shall be issued a permit for the performance of sheet metal work pursuant to this chapter unless the licensee has a current liability insurance policy, including completed operations coverage, which has been issued by an insurance company licensed to do business within the commonwealth",
+      "quote": "no licensed journeyperson or master sheet metal worker shall be issued a permit for the performance of sheet metal work pursuant to this chapter unless the licensee has a current liability insurance policy, including completed operations coverage, which has been issued by an insurance company licensed to do business within the commonwealth, or other type of indemnity against liability providing substantially equivalent coverage, or a bond.",
       "citation": "Section 247"
     },
     "small_project_exemption_threshold_dollars": null,
@@ -291,6 +298,324 @@
       "quote": "A sign, listing or advertisement of a sheet metal business, master or that of a journeyperson sheet metal worker shall contain his designation and license number.",
       "citation": "Section 238"
     },
-    "scope_expansion_by_rule_authorized": null
+    "scope_expansion_by_rule_authorized": null,
+    "scope__system_components_included": [
+      {
+        "item": "Air heating fixture",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Air cooling fixture",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Pipes / piping",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Plenums",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Blowers",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Ductwork",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Air filters",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Air delivery and return grilles",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Exhaust fans",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Refrigerating machinery",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Refrigerant lines",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Compressors",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Self-contained refrigeration units",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Window-type air conditioning units",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Central heating unit",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Liquefied petroleum gas appliances",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Gas fitting / gas piping connections",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Manual safety shutoff gas cock",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Flue gas vents",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Combustion air systems",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Ventilation systems",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Piping fixtures, devices, and equipment",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Accessories and ancillary equipment",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Boilers and steamfitting",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Hot water systems",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Process cooling and heating systems",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Electrical connections to HVAC units",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Comfort heating and cooling systems",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      }
+    ],
+    "scope__qualifier_license_type_required": [
+      {
+        "item": "Mechanical Administrator License",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Certified Heating, Air Conditioning, and Refrigeration Contractor License",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Master HVACR License",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Master HVACR Restricted License",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Class A Air-Conditioning Contractor License",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Class B Air-Conditioning Contractor License",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Class C Air-Conditioning Contractor License",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Mechanical Contractor License",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Mechanical Contractor Registration (Certificate of Registration)",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      }
+    ],
+    "scope__financial_responsibility_demonstration_methods": [
+      {
+        "item": "Surety bond",
+        "status": "present",
+        "quote": "no licensed journeyperson or master sheet metal worker shall be issued a permit for the performance of sheet metal work pursuant to this chapter unless the licensee has a current liability insurance policy, including completed operations coverage, which has been issued by an insurance company licensed to do business within the commonwealth, or other type of indemnity against liability providing substantially equivalent coverage, or a bond.",
+        "citation": "Section 247"
+      },
+      {
+        "item": "Cash deposit",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Certificate of deposit / investment certificate / share account",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "General liability insurance",
+        "status": "present",
+        "quote": "no licensed journeyperson or master sheet metal worker shall be issued a permit for the performance of sheet metal work pursuant to this chapter unless the licensee has a current liability insurance policy, including completed operations coverage, which has been issued by an insurance company licensed to do business within the commonwealth, or other type of indemnity against liability providing substantially equivalent coverage, or a bond.",
+        "citation": "Section 247"
+      },
+      {
+        "item": "Workers' compensation insurance",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Professional liability insurance",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Credit report from a nationally recognized credit agency",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Evidence of net worth",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Evidence of minimum cash holdings",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Completion of a financial responsibility course",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Assumption of personal financial responsibility by a financially responsible officer",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Affidavit of insurance",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Satisfaction of or accord regarding unsatisfied judgments",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Proof of good standing with the state business registry (Secretary of State)",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      },
+      {
+        "item": "Minimum general liability insurance coverage established by board rule",
+        "status": "absent",
+        "quote": "",
+        "citation": ""
+      }
+    ]
   }
 }
