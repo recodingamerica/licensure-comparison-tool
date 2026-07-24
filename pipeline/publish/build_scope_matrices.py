@@ -1,23 +1,36 @@
 """Build the three-state scope MATRICES the Scope tab renders above the
 capability presence-matrix.
 
-Unlike scope_capabilities.json (a binary present/absent view bucketed from the
-tag sheet), this carries the richer discover→per-state matrices produced by
-pipeline.discover.scope_vocab + the scope__* fields in the structured records:
-for a corpus-discovered vocabulary of a scope dimension (e.g. optometry laser
-procedures), each state is authorized / prohibited / not_addressed per item. The
-prohibited vs not_addressed distinction is exactly what the binary capability
-view can't show.
+Scope of practice is captured in the extracted records in several field SHAPES,
+and this surfaces all of them as one comparable per-state matrix — the
+included / excluded / not-addressed signal the client wants for every scope
+attribute, with NO re-extraction (it reads values already extracted):
 
-Input:  results/scope_vocab/<profession>.json  (which dimensions + vocab)
-        results/structured/<profession>/<STATE>.json  (the scope__* matrices)
+  bool   → included / excluded / not_addressed, normalized by field-name POLARITY
+           so the matrix reads uniformly (`*_authorized` true=included;
+           `*_excluded`/`*_prohibited`/`*_restricted` true=excluded; `*_required`
+           is a separate condition: required / not / ·). null/absent = not_addressed.
+  enum   → graded: the per-state value, with explicit not_authorized/excluded/none
+           values mapped to the excluded state.
+  list   → if a discovered scope vocabulary + re-extracted scope__ matrix exists
+           (optometry), the per-item three-state matrix; otherwise present/absent
+           per distinct listed value, with polarity from the field name
+           (exclusion lists → present = excluded).
+  int/str → NOT included here (quantities belong to the value map; free text is
+           prose). Counted + reported, never silently dropped.
+
+Scope-field SELECTION reuses build_scope_capabilities._is_scope_field (the single
+category-based rule for "is this scope of practice vs license/fee/admin").
+
+Input:  results/discovered/<profession>.json      (field types + categories)
+        results/structured/<profession>/<STATE>.json  (extracted values)
+        results/scope_vocab/<profession>.json      (optional: list-field vocab)
 Output: web/public/data/scope_matrices.json
-  { <profession>: { display, dimensions: [
-      { source_field, label, eval_flavor, vocab: [...],
-        matrix: { <ST>: { <item>: "authorized"|"prohibited"|"not_addressed" } } } ] } }
-
-Only professions that have a scope_vocab file appear. Runs AFTER extract (reads
-structured records); order-independent of build_scope_capabilities.
+  { <profession>: { display, rows: [
+      { label, field, kind: "included_excluded"|"condition"|"graded",
+        cells: { <ST>: <status-or-value> },
+        order?: [...]   # graded: value order for coloring
+      } ] } }
 
 Run:
   python -m pipeline.publish.build_scope_matrices [--upload]
@@ -27,91 +40,234 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 
 from pipeline._records import record_files
 from pipeline._runlog import record_run
-from pipeline.paths import SCOPE_VOCAB_DIR, STRUCTURED_DIR, WEB_PUBLIC_DIR
+from pipeline.extract.model_helpers import is_evidence_node
+from pipeline.paths import DISCOVERED_DIR, SCOPE_VOCAB_DIR, STRUCTURED_DIR, WEB_PUBLIC_DIR
+from pipeline.publish.build_scope_capabilities import _is_scope_field
 
 DATA_DIR = WEB_PUBLIC_DIR / "data"
 OUT = DATA_DIR / "scope_matrices.json"
 
+# Field-name polarity → how (true/false) maps to (included/excluded), or a
+# separate "condition" (required-style) axis. Order matters: exclusion before
+# inclusion so `not_authorized` doesn't read as inclusion.
+_EXCLUSION = ("exclud", "prohibit", "restrict", "not_authorized", "barred", "disallow", "forbidden")
+_INCLUSION = ("authoriz", "permitt", "allowed", "available", "authority", "_included", "eligible", "may_")
+_CONDITION = ("required", "requirement", "mandatory", "must_", "_needed")
+# Enum values that read as the excluded end.
+_ENUM_EXCLUDED = ("not_authorized", "none", "not_allowed", "excluded", "prohibited", "no_authority")
 
-def _label(source_field: str) -> str:
-    """Humanize a source field name into a short tab label."""
-    base = source_field
-    for suffix in ("_authorized", "_permitted", "_allowed"):
-        if base.endswith(suffix):
-            base = base[: -len(suffix)]
-            break
+
+def _polarity(field_name: str) -> str:
+    n = field_name.lower()
+    if any(k in n for k in _EXCLUSION):
+        return "exclusion"
+    if any(k in n for k in _CONDITION):
+        return "condition"
+    return "inclusion"  # default: *_authorized-style
+
+
+def _bool_status(value, polarity: str) -> str:
+    """Map a bool value + field polarity to a uniform status."""
+    if value is None:
+        return "not_addressed"
+    if polarity == "condition":
+        return "required" if value else "not_required"
+    if polarity == "exclusion":
+        return "excluded" if value else "included"
+    return "included" if value else "excluded"
+
+
+def _label(field_name: str) -> str:
+    base = re.sub(r"_(authorized|permitted|allowed|available|required|excluded|restriction)$", "", field_name)
     base = base.replace("_", " ").strip()
-    return base[:1].upper() + base[1:] if base else source_field
+    return (base[:1].upper() + base[1:]) if base else field_name
 
 
-def _profession_display(profession: str) -> str:
-    return profession.replace("_", " ").title()
+def _all_fields(profession: str) -> list[dict]:
+    d = json.loads((DISCOVERED_DIR / f"{profession}.json").read_text())
+    return [f for f in d.get("fields", []) if f.get("name")]
 
 
-def _dimension_matrix(profession: str, dim: dict) -> dict:
-    """Per-state item→status map for one scope dimension, read from the
-    structured records' scope__<dim> field. States with no record are omitted."""
-    fld, vocab = dim["matrix_field"], dim["vocab"]
-    vocab_set = set(vocab)
-    matrix: dict[str, dict[str, str]] = {}
-    prof_dir = STRUCTURED_DIR / profession
-    for f in record_files(prof_dir):
+def _records(profession: str):
+    for f in record_files(STRUCTURED_DIR / profession):
         rec = json.loads(f.read_text())
-        if not isinstance(rec, dict):
+        if isinstance(rec, dict):
+            yield rec.get("state") or f.stem, rec
+
+
+def _val(rec: dict, name: str):
+    """Extracted value for a profession_specific field, or None if absent/silent."""
+    node = (rec.get("profession_specific") or {}).get(name)
+    if node is None:
+        return None
+    return node.get("value") if is_evidence_node(node) else node
+
+
+def _scope_vocab_dim(profession: str, field_name: str) -> dict | None:
+    p = SCOPE_VOCAB_DIR / f"{profession}.json"
+    if not p.exists():
+        return None
+    for dim in json.loads(p.read_text()).get("dimensions", []):
+        if dim.get("source_field") == field_name:
+            return dim
+    return None
+
+
+def _bool_rows(profession: str, field_name: str, recs: list[tuple[str, dict]]) -> dict:
+    polarity = _polarity(field_name)
+    kind = "condition" if polarity == "condition" else "included_excluded"
+    cells = {st: _bool_status(_val(rec, field_name), polarity) for st, rec in recs}
+    return {"label": _label(field_name), "field": field_name, "kind": kind, "cells": cells}
+
+
+def _enum_rows(profession: str, field_name: str, recs: list[tuple[str, dict]]) -> dict:
+    cells: dict[str, str] = {}
+    values: list[str] = []
+    for st, rec in recs:
+        v = _val(rec, field_name)
+        if v is None:
             continue
-        state = rec.get("state") or f.stem
-        items = (rec.get("profession_specific") or {}).get(fld)
-        if not isinstance(items, list) or not items:
-            continue  # state not re-extracted with scope matrices — omit (no false silence)
-        row = {it["item"]: it.get("status") for it in items
-               if isinstance(it, dict) and it.get("item") in vocab_set}
-        if row:
-            matrix[state] = row
-    return matrix
+        v = str(v)
+        cells[st] = v
+        if v not in values:
+            values.append(v)
+    return {"label": _label(field_name), "field": field_name, "kind": "graded",
+            "cells": cells, "order": values,
+            "excluded_values": [v for v in values if any(k in v.lower() for k in _ENUM_EXCLUDED)]}
 
 
-def build() -> dict:
+def _norm(s: str) -> str:
+    return re.sub(r"[^a-z0-9]+", "", str(s).lower())
+
+
+def _list_rows(profession: str, field_name: str, recs: list[tuple[str, dict]]) -> list[dict]:
+    """Per-item rows for a list field — ONLY when we have a canonical vocabulary
+    for it (from scope_vocab). Raw free-text list values across 50 states produce
+    hundreds of near-duplicate rows, so an uncanonicalized list field is skipped
+    (returns []), not exploded.
+
+    - Re-extracted three-state matrix present (optometry scope__<dim>): one
+      included/excluded row per vocab item, from the classified status.
+    - Canonical vocab but no re-extraction: present/absent per vocab item,
+      matching each state's raw listed values to the vocab. Polarity from the
+      field name (an exclusion list → present = excluded)."""
+    dim = _scope_vocab_dim(profession, field_name)
+    if not dim:
+        return []  # no canonical vocab → skip rather than explode
+    vocab = dim["vocab"]
+    mf = dim["matrix_field"]
+    reextracted = any(isinstance((r.get("profession_specific") or {}).get(mf), list) for _, r in recs)
+    lbl = _label(field_name)
+
+    if reextracted:
+        rows = []
+        for item in vocab:
+            cells = {}
+            for st, rec in recs:
+                items = (rec.get("profession_specific") or {}).get(mf) or []
+                status = next((it.get("status") for it in items if isinstance(it, dict) and it.get("item") == item), None)
+                cells[st] = {"authorized": "included", "prohibited": "excluded"}.get(status, "not_addressed")
+            rows.append({"label": f"{lbl}: {item}", "field": field_name, "kind": "included_excluded", "cells": cells})
+        return rows
+
+    # Present/absent against the canonical vocab (no re-extraction needed).
+    present_status = "excluded" if _polarity(field_name) == "exclusion" else "included"
+    vocab_keys = {_norm(v): v for v in vocab}
+    per_state: dict[str, set[str]] = {}
+    for st, rec in recs:
+        v = _val(rec, field_name)
+        if isinstance(v, list):
+            per_state[st] = {vocab_keys[k] for x in v if (k := _norm(x)) in vocab_keys}
+    rows = []
+    for item in vocab:
+        cells = {st: (present_status if item in got else "not_addressed") for st, got in per_state.items()}
+        rows.append({"label": f"{lbl}: {item}", "field": field_name, "kind": "included_excluded", "cells": cells})
+    return rows
+
+
+def build_profession(profession: str) -> tuple[dict | None, dict]:
+    recs = list(_records(profession))
+    if not recs:
+        return None, {}
+    fields = _all_fields(profession)
+    rows: list[dict] = []
+    counts = {"bool": 0, "enum": 0, "list": 0, "int_skipped": 0, "str_skipped": 0}
+    for f in fields:
+        name, typ = f["name"], f.get("type")
+        category = f.get("category") or "other"
+        is_scope = _is_scope_field(name, f.get("category"))
+        made: list[dict] = []
+        if typ == "bool":
+            r = _bool_rows(profession, name, recs)
+            if any(v != "not_addressed" for v in r["cells"].values()):
+                made = [r]; counts["bool"] += 1
+        elif typ == "enum":
+            r = _enum_rows(profession, name, recs)
+            if r["cells"]:
+                made = [r]; counts["enum"] += 1
+        elif typ == "list[str]":
+            made = [r for r in _list_rows(profession, name, recs)
+                    if any(v != "not_addressed" for v in r["cells"].values())]
+            if made:
+                counts["list"] += 1
+        elif typ == "int":
+            counts["int_skipped"] += 1
+        elif typ == "str":
+            counts["str_skipped"] += 1
+        for r in made:
+            r["category"] = category
+            r["is_scope"] = is_scope
+        rows.extend(made)
+    if not rows:
+        return None, counts
+    display = profession.replace("_", " ").title()
+    return {"display": display, "rows": rows}, counts
+
+
+def build(only: set[str] | None = None) -> tuple[dict, dict]:
     out: dict = {}
-    for path in sorted(SCOPE_VOCAB_DIR.glob("*.json")):
-        profession = path.stem
-        dims = json.loads(path.read_text()).get("dimensions", [])
-        rendered = []
-        for dim in dims:
-            matrix = _dimension_matrix(profession, dim)
-            if not matrix:
-                continue
-            rendered.append({
-                "source_field": dim["source_field"],
-                "label": _label(dim["source_field"]),
-                "eval_flavor": dim["eval_flavor"],
-                "vocab": dim["vocab"],
-                "matrix": matrix,
-            })
-        if rendered:
-            out[profession] = {"display": _profession_display(profession), "dimensions": rendered}
-    return out
+    tallies: dict = {}
+    for dp in sorted(DISCOVERED_DIR.glob("*.json")):
+        profession = dp.stem
+        if only and profession not in only:
+            continue
+        prof_data, counts = build_profession(profession)
+        if prof_data:
+            out[profession] = prof_data
+        if counts:
+            tallies[profession] = counts
+    return out, tallies
 
 
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--upload", action="store_true",
                     help="Also upload data/scope_matrices.json to Vercel Blob.")
+    ap.add_argument("--professions", help="Comma-separated subset to build (default: all).")
     args = ap.parse_args()
 
-    data = build()
+    only = {s.strip() for s in args.professions.split(",")} if args.professions else None
+    data, tallies = build(only)
     payload = json.dumps(data)
     DATA_DIR.mkdir(parents=True, exist_ok=True)
     OUT.write_text(payload + "\n")
-    n_dims = sum(len(v["dimensions"]) for v in data.values())
-    print(f"scope_matrices: {len(data)} professions, {n_dims} dimensions → {OUT}")
+    n_rows = sum(len(v["rows"]) for v in data.values())
+    int_sk = sum(t.get("int_skipped", 0) for t in tallies.values())
+    str_sk = sum(t.get("str_skipped", 0) for t in tallies.values())
+    print(f"scope_matrices: {len(data)} professions, {n_rows} rows → {OUT}")
+    print(f"  (skipped {int_sk} int + {str_sk} str fields — quantities/prose belong to the value map, not the three-state matrix)")
+    for p in sorted(data):
+        scope_n = sum(1 for r in data[p]["rows"] if r.get("is_scope"))
+        print(f"  {p:26} {len(data[p]['rows']):3} rows ({scope_n} scope)  tally={tallies.get(p)}")
     if args.upload:
         from pipeline.publish.blob_upload import upload_json
         url, skipped = upload_json("data/scope_matrices.json", payload)
         print(f"{'cached' if skipped else 'uploaded'} → {url}")
-    record_run("scope_matrices", professions=len(data), dimensions=n_dims)
+    record_run("scope_matrices", professions=len(data), rows=n_rows)
 
 
 if __name__ == "__main__":

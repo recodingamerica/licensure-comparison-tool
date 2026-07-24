@@ -1,0 +1,757 @@
+{
+  "profession": "dentistry",
+  "dimensions": [
+    {
+      "source_field": "sedation_anesthesia_permit_types",
+      "matrix_field": "scope__sedation_anesthesia_permit_types",
+      "eval_flavor": "present_absent",
+      "vocab": [
+        "Nitrous Oxide Sedation (Analgesia)",
+        "Minimal Sedation Permit",
+        "Pediatric Minimal Sedation Permit",
+        "Oral Conscious Sedation Permit",
+        "Moderate Sedation Permit",
+        "Pediatric Moderate Sedation Endorsement",
+        "Parenteral Sedation Permit",
+        "Deep Sedation Permit",
+        "General Anesthesia Permit",
+        "Pediatric General Anesthesia / Deep Sedation Endorsement",
+        "Local Anesthesia Certificate / Permit",
+        "Mobile Dental Anesthesia Services Permit"
+      ],
+      "aliases": {
+        "Nitrous Oxide Sedation (Analgesia)": [
+          "nitrous oxide-oxygen conscious sedation",
+          "nitrous oxide analgesia",
+          "nitrous oxide analgesics",
+          "inhalation nitrous oxide",
+          "nitrous oxide",
+          "nitrous oxide analgesia certificate"
+        ],
+        "Minimal Sedation Permit": [
+          "anxiolysis permit",
+          "minimal sedation",
+          "anxiolysis"
+        ],
+        "Pediatric Minimal Sedation Permit": [
+          "pediatric minimal sedation permit",
+          "pediatric minimal sedation"
+        ],
+        "Oral Conscious Sedation Permit": [
+          "oral conscious sedation permit",
+          "oral conscious sedation certificate",
+          "adult oral conscious sedation certificate",
+          "oral conscious sedation",
+          "enteral sedation permit"
+        ],
+        "Moderate Sedation Permit": [
+          "moderate sedation permit",
+          "conscious sedation permit",
+          "moderate sedation",
+          "conscious sedation"
+        ],
+        "Pediatric Moderate Sedation Endorsement": [
+          "pediatric endorsement on moderate sedation permit",
+          "pediatric moderate sedation endorsement"
+        ],
+        "Parenteral Sedation Permit": [
+          "parenteral sedation permit",
+          "parenteral sedation",
+          "intravenous sedation permit",
+          "IV sedation permit"
+        ],
+        "Deep Sedation Permit": [
+          "deep sedation",
+          "deep sedation permit"
+        ],
+        "General Anesthesia Permit": [
+          "general anesthesia permit",
+          "permit to use general anesthesia",
+          "permit of authorization for general anesthesia",
+          "dental anesthesia permit"
+        ],
+        "Pediatric General Anesthesia / Deep Sedation Endorsement": [
+          "pediatric endorsement of general anesthesia permit",
+          "pediatric endorsement for deep sedation or general anesthesia",
+          "pediatric endorsement"
+        ],
+        "Local Anesthesia Certificate / Permit": [
+          "local anesthesia certificate",
+          "dental hygiene infiltration anesthesia permit",
+          "infiltration anesthesia permit",
+          "local anesthesia permit"
+        ],
+        "Mobile Dental Anesthesia Services Permit": [
+          "mobile dental anesthesia services permit",
+          "permit to provide mobile dental anesthesia services"
+        ]
+      },
+      "keywords": [
+        "sedation permit",
+        "anesthesia permit",
+        "general anesthesia permit",
+        "parenteral sedation permit",
+        "oral conscious sedation permit",
+        "moderate sedation permit",
+        "minimal sedation permit",
+        "deep sedation permit",
+        "conscious sedation permit",
+        "pediatric sedation permit",
+        "pediatric endorsement",
+        "nitrous oxide permit",
+        "local anesthesia permit",
+        "anesthetic agents permit",
+        "oral sedation permit",
+        "adult oral conscious sedation certificate",
+        "facial cosmetic surgery permit",
+        "anxiolysis",
+        "minimal sedation",
+        "moderate sedation",
+        "deep sedation",
+        "general anesthesia",
+        "parenteral sedation",
+        "oral conscious sedation",
+        "conscious sedation",
+        "nitrous oxide",
+        "local anesthesia",
+        "sedation certificate",
+        "permit to administer",
+        "administer sedation",
+        "administer anesthesia",
+        "apply for a permit",
+        "obtain a permit",
+        "issued a permit",
+        "require.*permit",
+        "shall not administer",
+        "may not administer",
+        "unless.*permit",
+        "pediatric dental patients",
+        "outpatient anesthesia",
+        "enteral",
+        "transmucosal",
+        "transdermal",
+        "pharmacologic agents",
+        "dental anesthesia",
+        "dental sedation"
+      ],
+      "rationale": "All sedation/anesthesia permit categories named across the surveyed state sentences were unioned into canonical entries; synonyms and trivial phrasing variants (e.g., 'IV sedation permit' vs. 'intravenous sedation permit', 'conscious sedation permit' vs. 'moderate sedation permit') were merged, while genuinely distinct levels (minimal, moderate/conscious, oral conscious, parenteral, deep, general) and pediatric-specific endorsements were kept separate; local anesthesia certificate was included because multiple states require a separate board-issued permit or certificate for it beyond basic practice; mobile dental anesthesia permit was retained as a structurally distinct permit type named in Arizona.",
+      "states_scanned": [
+        "AK",
+        "AL",
+        "AR",
+        "AZ",
+        "CA",
+        "CO",
+        "CT",
+        "DE",
+        "FL",
+        "GA",
+        "HI",
+        "IA",
+        "ID",
+        "IL",
+        "IN",
+        "KS",
+        "KY",
+        "LA",
+        "MA",
+        "MD",
+        "ME",
+        "MI",
+        "MN",
+        "MO",
+        "MS",
+        "MT",
+        "NC",
+        "ND",
+        "NE",
+        "NH",
+        "NJ",
+        "NM",
+        "NV",
+        "NY",
+        "OH",
+        "OK",
+        "OR",
+        "PA",
+        "RI",
+        "SC",
+        "SD",
+        "TN",
+        "TX",
+        "UT",
+        "VA",
+        "VT",
+        "WA",
+        "WI",
+        "WV",
+        "WY"
+      ]
+    },
+    {
+      "source_field": "dental_hygienist_supervision_levels",
+      "matrix_field": "scope__dental_hygienist_supervision_levels",
+      "eval_flavor": "present_absent",
+      "vocab": [
+        "Direct supervision",
+        "Indirect supervision",
+        "General supervision",
+        "Telehealth supervision",
+        "Unsupervised practice",
+        "Advanced practice / collaborative practice (no supervising dentist required)"
+      ],
+      "aliases": {
+        "Direct supervision": [
+          "direct supervision of a licensed dentist",
+          "direct supervision of a dentist",
+          "directly supervising",
+          "under direct supervision"
+        ],
+        "Indirect supervision": [
+          "indirect supervision of a licensed dentist",
+          "indirect supervision of a dentist",
+          "under indirect supervision"
+        ],
+        "General supervision": [
+          "general supervision of a licensed dentist",
+          "general supervision of a dentist",
+          "under general supervision"
+        ],
+        "Telehealth supervision": [
+          "telehealth supervision by a dentist",
+          "indirect supervision via telecommunications systems",
+          "supervision using telehealth"
+        ],
+        "Unsupervised practice": [
+          "unsupervised dental hygiene",
+          "without supervision",
+          "without the supervision of a licensed dentist",
+          "without physical presence, authorization, or supervision of a licensed dentist"
+        ],
+        "Advanced practice / collaborative practice (no supervising dentist required)": [
+          "advanced practice permit",
+          "written collaborative practice agreement",
+          "collaborative agreement",
+          "affiliated practice",
+          "without authorization or supervision of a licensed dentist under an advanced practice permit"
+        ]
+      },
+      "keywords": [
+        "direct supervision",
+        "indirect supervision",
+        "general supervision",
+        "telehealth supervision",
+        "unsupervised",
+        "no supervision",
+        "supervision level",
+        "levels of supervision",
+        "supervising dentist",
+        "supervision of a licensed dentist",
+        "physically present",
+        "present in the office",
+        "present on the premises",
+        "in the dental office",
+        "in the treatment facility",
+        "available for consultation",
+        "authorizes the procedure",
+        "prior knowledge and consent",
+        "dental hygienist supervision",
+        "hygienist shall work only under",
+        "hygienist shall practice only under",
+        "performed under supervision",
+        "without supervision",
+        "personal supervision",
+        "on-site",
+        "on the premises",
+        "dentist is present",
+        "dentist need not be present",
+        "not requiring the physical presence",
+        "telecommunications"
+      ],
+      "rationale": "Six distinct supervision levels are identified across the source sentences: direct (dentist physically present in office/room), indirect (dentist not required to be present but must have prior knowledge/consent), general (dentist available for consultation whether or not on premises), telehealth supervision (Colorado's named variant of indirect supervision via telecommunications), unsupervised practice (no dentist oversight required at all), and the advanced/collaborative practice category (hygienist or therapist operates under a permit or written agreement rather than real-time dentist supervision); synonymous phrasings within each level were merged, and genuinely distinct levels kept separate.",
+      "states_scanned": [
+        "AK",
+        "AL",
+        "AR",
+        "AZ",
+        "CA",
+        "CO",
+        "CT",
+        "DE",
+        "FL",
+        "GA",
+        "HI",
+        "IA",
+        "ID",
+        "IL",
+        "IN",
+        "KS",
+        "KY",
+        "LA",
+        "MA",
+        "MD",
+        "ME",
+        "MI",
+        "MN",
+        "MO",
+        "MS",
+        "MT",
+        "NC",
+        "ND",
+        "NE",
+        "NH",
+        "NJ",
+        "NM",
+        "NV",
+        "NY",
+        "OH",
+        "OK",
+        "OR",
+        "PA",
+        "RI",
+        "SC",
+        "SD",
+        "TN",
+        "TX",
+        "UT",
+        "VA",
+        "VT",
+        "WA",
+        "WI",
+        "WV",
+        "WY"
+      ]
+    },
+    {
+      "source_field": "advanced_practice_eligible_patient_populations",
+      "matrix_field": "scope__advanced_practice_eligible_patient_populations",
+      "eval_flavor": "present_absent",
+      "vocab": [
+        "Senior center residents",
+        "Hospital residents or patients",
+        "Long-term care facility residents",
+        "Adult foster home residents",
+        "Residential care facility residents",
+        "Mental health residential program or facility residents",
+        "Individuals with developmental or other disabilities (facility residents)",
+        "Correctional facility inmates (juvenile or adult)",
+        "Nursery school or day care program enrollees",
+        "Vocational training facility enrollees",
+        "Primary or secondary school students",
+        "Homebound patients",
+        "Dental health professional shortage area residents",
+        "Head Start program participants",
+        "Community health center patients",
+        "Patients unable to access dental treatment due to age, infirmity, or disability"
+      ],
+      "aliases": {
+        "Senior center residents": [
+          "resident in a senior center",
+          "senior citizen (65 years of age or older)"
+        ],
+        "Hospital residents or patients": [
+          "hospital",
+          "hospital long-term care unit"
+        ],
+        "Long-term care facility residents": [
+          "long-term care facility",
+          "nursing facility residents"
+        ],
+        "Adult foster home residents": [
+          "adult foster home"
+        ],
+        "Residential care facility residents": [
+          "residential care facility",
+          "adult congregate living facility"
+        ],
+        "Mental health residential program or facility residents": [
+          "mental health residential program or facility",
+          "mental health facility residents"
+        ],
+        "Individuals with developmental or other disabilities (facility residents)": [
+          "facility for individuals with developmental or other disabilities",
+          "facilities that primarily serve individuals with intellectual or other developmental disabilities"
+        ],
+        "Correctional facility inmates (juvenile or adult)": [
+          "local correctional facility for juveniles or adults",
+          "inmates",
+          "held in a local correctional facility"
+        ],
+        "Nursery school or day care program enrollees": [
+          "nursery school",
+          "day care program"
+        ],
+        "Vocational training facility enrollees": [
+          "vocational training facility"
+        ],
+        "Primary or secondary school students": [
+          "primary school",
+          "secondary school",
+          "private school",
+          "public charter school",
+          "schools"
+        ],
+        "Homebound patients": [
+          "homebound",
+          "homes of homebound patients who qualify for in-home medical assistance"
+        ],
+        "Dental health professional shortage area residents": [
+          "resident of a dental health professional shortage area designated under 42 U.S.C."
+        ],
+        "Head Start program participants": [
+          "Head Start programs"
+        ],
+        "Community health center patients": [
+          "community health centers",
+          "federally qualified health center"
+        ],
+        "Patients unable to access dental treatment due to age, infirmity, or disability": [
+          "unable to access dental treatment because of age, infirmity, or disability",
+          "patients with access barriers due to age or disability"
+        ]
+      },
+      "keywords": [
+        "advanced practice",
+        "affiliated practice",
+        "alternative practice",
+        "collaborative practice",
+        "collaborative care",
+        "without supervision",
+        "without direct supervision",
+        "unsupervised",
+        "public health supervision",
+        "patient population",
+        "eligible population",
+        "permitted setting",
+        "authorized setting",
+        "health access setting",
+        "homebound",
+        "senior center",
+        "long-term care facility",
+        "nursing home",
+        "residential care facility",
+        "adult foster home",
+        "congregate living",
+        "correctional facility",
+        "juvenile",
+        "school",
+        "head start",
+        "day care",
+        "vocational training",
+        "WIC",
+        "developmental disabilities",
+        "mental health",
+        "shortage area",
+        "dental health professional shortage area",
+        "federally qualified health center",
+        "FQHC",
+        "community health center",
+        "public health agency",
+        "government-sponsored program",
+        "nonprofit",
+        "charitable organization",
+        "social service",
+        "hospital",
+        "hospice",
+        "family violence shelter",
+        "free health clinic",
+        "rural health clinic",
+        "department of children and families",
+        "department of juvenile justice",
+        "title I",
+        "free or reduced price lunch",
+        "georgia pre-k",
+        "accredited college of dentistry",
+        "dental hygiene program",
+        "school-based prevention",
+        "infirmity",
+        "disability",
+        "age",
+        "unable to access dental treatment",
+        "contract for dental hygiene services",
+        "may provide services",
+        "may not provide",
+        "prohibited from providing",
+        "limited to",
+        "only in",
+        "only to"
+      ],
+      "rationale": "The union was drawn from all patient populations and settings explicitly named across AK, AR, and AZ sentences (including items appearing in prohibition or eligibility contexts); synonyms such as 'long-term care facility' and 'hospital long-term care unit' were merged where the underlying population is the same, while genuinely distinct settings (e.g., correctional facilities, Head Start, homebound) were kept separate.",
+      "states_scanned": [
+        "AK",
+        "AL",
+        "AR",
+        "AZ",
+        "CA",
+        "CO",
+        "CT",
+        "DE",
+        "FL",
+        "GA",
+        "HI",
+        "IA",
+        "ID",
+        "IL",
+        "IN",
+        "KS",
+        "KY",
+        "LA",
+        "MA",
+        "MD",
+        "ME",
+        "MI",
+        "MN",
+        "MO",
+        "MS",
+        "MT",
+        "NC",
+        "ND",
+        "NE",
+        "NH",
+        "NJ",
+        "NM",
+        "NV",
+        "NY",
+        "OH",
+        "OK",
+        "OR",
+        "PA",
+        "RI",
+        "SC",
+        "SD",
+        "TN",
+        "TX",
+        "UT",
+        "VA",
+        "VT",
+        "WA",
+        "WI",
+        "WV",
+        "WY"
+      ]
+    },
+    {
+      "source_field": "dental_therapist_practice_setting_restrictions",
+      "matrix_field": "scope__dental_therapist_practice_setting_restrictions",
+      "eval_flavor": "present_absent",
+      "vocab": [
+        "Private dental office",
+        "Mobile dental facility",
+        "Portable dental operation",
+        "Hospital",
+        "Long-term care facility",
+        "Senior center",
+        "Adult foster home",
+        "Residential care facility",
+        "Correctional facility",
+        "School",
+        "Day care program",
+        "Vocational training facility",
+        "Community health center",
+        "Public health agency or institution",
+        "Federal government facility",
+        "Dental health professional shortage area",
+        "Homebound setting",
+        "Dental school or dental college",
+        "Outpatient dental facility"
+      ],
+      "aliases": {
+        "Private dental office": [
+          "dental office",
+          "established dental facility",
+          "dental practice location",
+          "dental facility that is permanently established"
+        ],
+        "Mobile dental facility": [
+          "mobile dental unit",
+          "self-contained mobile dental facility"
+        ],
+        "Portable dental operation": [
+          "portable dental delivery",
+          "portable dental equipment set up on site"
+        ],
+        "Hospital": [
+          "inpatient hospital setting",
+          "hospital long-term care unit"
+        ],
+        "Long-term care facility": [
+          "adult long-term care facility",
+          "long-term care facility",
+          "hospital long-term care unit"
+        ],
+        "Senior center": [
+          "senior center"
+        ],
+        "Adult foster home": [
+          "adult foster home"
+        ],
+        "Residential care facility": [
+          "residential care facility",
+          "adult congregate living facility",
+          "mental health residential program or facility",
+          "facility for individuals with developmental or other disabilities"
+        ],
+        "Correctional facility": [
+          "local correctional facility",
+          "Division of Correction facility",
+          "Division of Community Correction facility",
+          "correctional facility for juveniles or adults",
+          "United States Bureau of Prisons facility"
+        ],
+        "School": [
+          "primary school",
+          "secondary school",
+          "private school",
+          "public charter school",
+          "nursery school",
+          "schools"
+        ],
+        "Day care program": [
+          "day care program",
+          "day care facility"
+        ],
+        "Vocational training facility": [
+          "vocational training facility"
+        ],
+        "Community health center": [
+          "community health centers",
+          "federally qualified health center",
+          "charitable health clinic",
+          "free or reduced-fee clinic"
+        ],
+        "Public health agency or institution": [
+          "public health agency",
+          "public health institution",
+          "Alabama Department of Public Health",
+          "local county health department"
+        ],
+        "Federal government facility": [
+          "facility regulated by the federal government",
+          "United States Public Health Service facility",
+          "United States Department of Veterans Affairs facility",
+          "United States Indian Health Service facility",
+          "other agency of the federal government"
+        ],
+        "Dental health professional shortage area": [
+          "dental health professional shortage area",
+          "rural or underserved area"
+        ],
+        "Homebound setting": [
+          "homebound setting",
+          "patient's home"
+        ],
+        "Dental school or dental college": [
+          "dental school",
+          "dental college",
+          "University of Alabama School of Dentistry",
+          "faculty private practice facilities of the dental college",
+          "dental hygiene school"
+        ],
+        "Outpatient dental facility": [
+          "outpatient facility",
+          "outpatient dental office"
+        ]
+      },
+      "keywords": [
+        "dental therapist",
+        "practice setting",
+        "practice settings",
+        "facility",
+        "federally qualified health center",
+        "community health center",
+        "fqhc",
+        "nonprofit",
+        "low-income",
+        "underserved",
+        "public health facility",
+        "indian health service",
+        "tribal",
+        "tribal reservation",
+        "school",
+        "long-term care",
+        "correctional facility",
+        "hospital",
+        "rural health clinic",
+        "shortage area",
+        "dental shortage",
+        "school-based health center",
+        "local health department",
+        "mobile dental unit",
+        "look-alike",
+        "medicaid",
+        "uninsured",
+        "private residence",
+        "limited practice",
+        "may practice only",
+        "shall practice only",
+        "limited to",
+        "authorized to practice",
+        "environments",
+        "locations",
+        "outpatient",
+        "medicare and medicaid",
+        "tribal organization",
+        "indian self-determination",
+        "educational institution",
+        "commission on dental accreditation",
+        "50%",
+        "poverty level",
+        "may not practice",
+        "prohibited from practicing"
+      ],
+      "rationale": "The union was drawn from all facility/setting types named across AK, AL, AR, and AZ sentences, including those mentioned in exclusion or prohibition clauses; synonyms and trivially different phrasings (e.g., various federal agency facilities) were merged into single canonical entries, while genuinely distinct settings (e.g., correctional facility vs. school vs. homebound setting) were kept separate.",
+      "states_scanned": [
+        "AK",
+        "AL",
+        "AR",
+        "AZ",
+        "CA",
+        "CO",
+        "CT",
+        "DE",
+        "FL",
+        "GA",
+        "HI",
+        "IA",
+        "ID",
+        "IL",
+        "IN",
+        "KS",
+        "KY",
+        "LA",
+        "MA",
+        "MD",
+        "ME",
+        "MI",
+        "MN",
+        "MO",
+        "MS",
+        "MT",
+        "NC",
+        "ND",
+        "NE",
+        "NH",
+        "NJ",
+        "NM",
+        "NV",
+        "NY",
+        "OH",
+        "OK",
+        "OR",
+        "PA",
+        "RI",
+        "SC",
+        "SD",
+        "TN",
+        "TX",
+        "UT",
+        "VA",
+        "VT",
+        "WA",
+        "WI",
+        "WV",
+        "WY"
+      ]
+    }
+  ]
+}
