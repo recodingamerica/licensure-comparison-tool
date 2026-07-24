@@ -1,0 +1,59 @@
+<meta charset="utf-8"><title>Regulatory framework — methodology</title>
+<style>
+  body{font:15px/1.55 -apple-system,system-ui,sans-serif;margin:0;color:#1a1a1a;background:#fff}
+  header{background:#f6f7f9;border-bottom:1px solid #e2e5e9;padding:1rem 1.5rem}
+  h1{margin:0 0 .25rem;font-size:1.3rem}.sub{color:#555;font-size:.9rem}
+  main{padding:1.25rem 1.5rem 3rem;max-width:900px}
+  h2{font-size:1.05rem;margin:1.6rem 0 .4rem}
+  p.intro{color:#555;font-size:.92rem;margin:.2rem 0 1rem}
+  table{border-collapse:collapse;width:100%;font-size:.9rem;margin:.3rem 0}
+  th,td{text-align:left;vertical-align:top;padding:.45rem .6rem;border-bottom:1px solid #eee}
+  th{background:#fafbfc;font-size:.82rem;text-transform:uppercase;letter-spacing:.03em;color:#666}
+  code{background:#f2f3f5;padding:.05rem .3rem;border-radius:3px;font-size:.85em}
+  .rung code{font-weight:600;color:#0a5b46}
+  .flow{background:#f8faf9;border:1px solid #e2e8e5;border-radius:8px;padding:.9rem 1.1rem;margin:.4rem 0}
+  .flow ol{margin:.3rem 0;padding-left:1.3rem}.flow li{margin:.35rem 0}
+  .flow b{color:#0a5b46}
+  .note{font-size:.85rem;color:#666;border-left:3px solid #d8d4c8;padding-left:.7rem;margin:1rem 0}
+  .axis td:first-child{font-weight:600}
+</style>
+<header>
+  <a href="/methodology" style="font-size:.85rem;color:#555;text-decoration:none">← field dictionary</a>
+  <h1>Regulatory framework — the six rungs</h1>
+  <div class="sub">How each state&rsquo;s <code>regulatory_model</code> is assigned. Utah OPLR / UORF six-rung ladder, least&nbsp;→&nbsp;most restrictive.</div>
+</header>
+<main>
+
+<h2>The decision that assigns a rung</h2>
+<p class="intro">Three questions, applied to the statute&rsquo;s own language, decide the rung. They are anchored on <em>what the credential protects</em>, not merely whether one is required.</p>
+<div class="flow"><ol>
+<li><b>Does the state actually issue a credential?</b> A credential exists only if a person <em>applies</em> and the state <em>grants</em> a license, certificate, or roster entry they then hold and can have revoked. Listed degree/exam qualifications alone are <em>not</em> a state credential. &mdash; If no → <code>market_forces</code> (the title may still be protected by consumer-protection law).</li>
+<li><b>What is protected — the title, or the scope?</b> If only the <em>title</em> is restricted (you may not <em>call yourself</em> the protected title, but anyone may do the work) → <code>voluntary_certification</code>. If the <em>scope</em> is restricted (you must hold the credential to <em>perform the work</em>) → rung 3.</li>
+<li><b>How heavy is the apparatus?</b> Scope-protecting credentials with the full set — mandatory entry qualifications, continuing education, frequent renewal, full discipline, an advisory board → <code>license</code>. Lighter (longer renewals, little/no CE, no board) → <code>mandatory_certification</code>.</li>
+</ol></div>
+
+<h2>The six rungs</h2>
+<table>
+<thead><tr><th>Rung</th><th>Criterion</th><th>Decisive test</th></tr></thead>
+<tbody>
+<tr class="rung"><td><code>market_forces</code></td><td>No state credential exists; the work and title are open to all (subject only to general consumer-protection law).</td><td>State issues nothing to apply for.</td></tr>
+<tr class="rung"><td><code>voluntary_certification</code></td><td>Only the <b>title</b> is protected — anyone may legally perform the work (&ldquo;right-to-title&rdquo;). Holding the credential is optional to <em>practice</em>.</td><td>Credential exists <b>and</b> scope&nbsp;protection&nbsp;=&nbsp;false.</td></tr>
+<tr class="rung"><td><code>registration</code></td><td>Must register on a roster; no qualification test (or only a minimal check). Least restrictive gate on practice.</td><td>Register to practice, no competency gate.</td></tr>
+<tr class="rung"><td><code>exemption</code></td><td>A narrow scope carve-out / subset of acts from a broader practice act (a &ldquo;mini-license&rdquo;).</td><td>Subset of a larger profession&rsquo;s scope.</td></tr>
+<tr class="rung"><td><code>mandatory_certification</code></td><td>Credential protects the <b>scope</b> (must hold it to do the work) plus the title, with required qualifications — but lighter than a license.</td><td>Scope&nbsp;protection&nbsp;=&nbsp;true; lighter apparatus.</td></tr>
+<tr class="rung"><td><code>license</code></td><td>Strongest — protected scope + title + the full elements: mandatory entry qualifications, CE, frequent renewal, full discipline, advisory board.</td><td>Scope&nbsp;protection&nbsp;=&nbsp;true; full apparatus.</td></tr>
+</tbody>
+</table>
+
+<h2>Two orthogonal axes (for filtering)</h2>
+<p class="intro">The single rung above also decomposes into two independent axes, so analysts can filter on either alone (&ldquo;all certifications regardless of mandatory,&rdquo; &ldquo;all mandatory regulation regardless of shape&rdquo;).</p>
+<table class="axis">
+<thead><tr><th>Axis</th><th>Values</th></tr></thead>
+<tbody>
+<tr><td><code>credential_type</code></td><td>The <em>shape</em> the state issues, ignoring whether it&rsquo;s required: <code>none</code> · <code>registration</code> · <code>certification</code> · <code>license</code> · <code>exemption</code></td></tr>
+<tr><td><code>is_mandatory</code></td><td>Whether holding it is required to practice/claim the title: <code>true</code> / <code>false</code></td></tr>
+</tbody>
+</table>
+
+<p class="note">This describes the <b>intended</b> framework. Each state&rsquo;s assigned rung is extracted from its statute&rsquo;s own language — see the <a href="/methodology" style="color:#0a5b46">field dictionary</a> for the value assigned to any state plus the verbatim quote and citation behind it.</p>
+</main>
