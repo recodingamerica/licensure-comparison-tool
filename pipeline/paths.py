@@ -26,6 +26,7 @@ TRIMMED_DIR          = RESULTS_DIR / "trimmed"             # LLM keep/drop
 DISCOVERED_DIR       = RESULTS_DIR / "discovered"          # pass 1b aggregator output
 STRUCTURED_DIR       = RESULTS_DIR / "structured"          # pass 2 per-state extraction
 MAP_PREP_DIR         = RESULTS_DIR / "map_prep"            # pass 3 normalization + text-bucket tags
+SCOPE_VOCAB_DIR      = RESULTS_DIR / "scope_vocab"         # per-profession discovered scope-matrix vocab
 WEB_PUBLIC_DIR       = PIPELINE_ROOT / "publish" / "web" / "public"  # Next.js viewer's public/
 
 
