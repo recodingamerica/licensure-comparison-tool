@@ -42,7 +42,7 @@ def test_run_to_walks_prefix_in_order(rec):
     stages_run = [c[0] for c in rec["calls"]]
     # full ordered prefix, ONE dispatch per stage (cell stages grouped over all states).
     # pull leads (it raises in real life — the reason refresh_all/add_occupation don't start there).
-    assert stages_run == ["pull", "clean", "trim", "schema", "extract", "mapprep", "publish"]
+    assert stages_run == ["pull", "clean", "trim", "schema", "extract", "verify", "mapprep", "publish"]
     assert res["ok"] is True
 
 
@@ -81,7 +81,7 @@ def test_start_after_target_raises(rec):
 def test_dry_run_records_plan_but_runs_nothing(rec):
     res = ps.run_to("publish", "med", dry_run=True)
     assert rec["calls"] == []                    # nothing executed
-    assert [name for name, _ in res["plan"]] == ["pull", "clean", "trim", "schema", "extract", "mapprep", "publish"]
+    assert [name for name, _ in res["plan"]] == ["pull", "clean", "trim", "schema", "extract", "verify", "mapprep", "publish"]
 
 
 def test_failed_stage_halts_chain(rec):
