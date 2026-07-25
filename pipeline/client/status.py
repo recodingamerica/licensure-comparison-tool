@@ -26,7 +26,26 @@ from pipeline.paths import (
 from pipeline.config.loaders import load_professions, load_verified_absences, cost_for
 from pipeline.discover.gap_harvest import _common as C
 from pipeline.discover.gap_harvest.coverage import _has_corpus
+from pipeline.ingest._trim_health import is_poisoned
 from pipeline import provenance
+
+
+def _poisoned_cells() -> list[str]:
+    """Every trimmed corpus that degraded to keep-everything (trim LLM failed).
+    Extract-preflight blocks these per-queue; surfacing the repo-wide list here
+    makes them a standing, proactive signal instead of a per-run surprise. See
+    pipeline.extract.verify_negatives / _trim_health.is_poisoned."""
+    import json as _json
+    out = []
+    for f in sorted(TRIMMED_DIR.glob("*/*.json")):
+        if f.name.startswith("_"):
+            continue
+        try:
+            if is_poisoned(_json.loads(f.read_text())):
+                out.append(f"{f.parent.name}/{f.stem}")
+        except Exception:
+            continue
+    return out
 
 # --- cost model ----------------------------------------------------------------
 # From docs/runbooks/gap_harvest_plan_2026-07-05.md: the only per-cell $ steps are
@@ -211,7 +230,10 @@ def build() -> dict:
         "cost_to_refresh": round(_sum("cost_to_refresh"), 2),
         "cost_all_schemas": round(_sum("cost_schema"), 2),
     }
+    poisoned = _poisoned_cells()
+    totals["poisoned_cells"] = len(poisoned)
     return {
+        "poisoned_cells": poisoned,
         "cost_model": {"trim": COST_TRIM, "extract": COST_EXTRACT, "schema": COST_SCHEMA,
                        "clean": 0.0,
                        "note": "clean/pull/publish are free; trim+extract are per-cell; "
@@ -236,6 +258,9 @@ def main() -> None:
           f"({t['cells_needs_schema']} corpus cells blocked from extract until one is discovered) — "
           f"{t['professions_needing_schema_now']} of those have corpus on disk ready for "
           f"discover_schema now (${t['cost_all_schemas']:.2f} total, one-time per occupation)")
+    if t["poisoned_cells"]:
+        print(f"  ⚠ {t['poisoned_cells']} POISONED trim(s) (degraded to keep-everything; extract-blocked) — "
+              f"re-trim, or re-map + re-fetch if over-broad. See data['poisoned_cells'].")
 
 
 if __name__ == "__main__":
