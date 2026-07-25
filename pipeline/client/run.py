@@ -40,7 +40,7 @@ from __future__ import annotations
 import argparse
 import sys
 
-from pipeline.pipeline_stages import run_to, drop_current, confirm_if_paid, _sh, REPO_ROOT
+from pipeline.pipeline_stages import run_to, run_fanout, drop_current, confirm_if_paid, _sh, REPO_ROOT
 from pipeline.client.status import COST_TRIM, COST_EXTRACT, COST_SCHEMA, build as build_status
 
 
@@ -258,6 +258,16 @@ def cmd_publish(args) -> None:
         if not run_to("publish", prof, start="publish", force=True, yes=True)["ok"]:
             sys.exit(f"publish failed for {prof} — see the error above.")
     if args.deploy:
+        # build_frontend above only builds/uploads the per-profession payloads. The
+        # CROSS-profession artifacts the live site also serves — scope_matrices (the
+        # comparison grid), tag_sheet, scope_capabilities, scorecard, browse — live in
+        # the fanout. Without this the deploy shipped a fresh table but a STALE scope
+        # grid. Run it before the single vercel deploy so `--deploy` is one complete
+        # command (it was a manual pre-step before).
+        print("\nrebuilding cross-profession artifacts (scope grid, tag sheet, browse) + uploading …")
+        for name, ok in run_fanout(profs):
+            if not ok:
+                sys.exit(f"fanout step '{name}' failed — see above; NOT deploying a partial site.")
         web_dir = REPO_ROOT / "pipeline" / "publish" / "web"
         print(f"\ndeploying once via vercel --prod from {web_dir} …")
         if not _sh(["npx", "vercel", "--prod", "--yes"], "vercel deploy", cwd=str(web_dir)):
