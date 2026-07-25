@@ -125,6 +125,15 @@ def _extract(prof: str, states: list[str], opts: dict) -> bool:
     return bool(res and res.get("written"))
 
 
+def _verify(prof: str, unit, opts: dict) -> bool:
+    # Semantic negative-check: an explicit exclusion whose cited quote doesn't
+    # actually establish the prohibition (a wrong red cell in the comparison grid)
+    # is reverted to null. Runs right after extract so mapprep/publish downstream
+    # ship the cleaned data. General + automatic — see extract.verify_negatives.
+    return _sh([PY, "-m", "pipeline.extract.verify_negatives", "--profession", prof],
+               f"verify_negatives {prof}")
+
+
 def _mapprep(prof: str, unit, opts: dict) -> bool:
     # map_prep produces THREE bucket artifacts, and all three must run here or the
     # front end silently ships blanks: per-field (text_buckets.json) AND the two
@@ -242,6 +251,7 @@ STAGES: tuple[Stage, ...] = (
     Stage("trim",    "cell",       _trim,    "trim"),
     Stage("schema",  "profession", _schema,  "schema"),
     Stage("extract", "cell",       _extract, "extract"),
+    Stage("verify",  "profession", _verify,  "verify"),
     Stage("mapprep", "profession", _mapprep, "map_prep"),
     Stage("publish", "profession", _publish, "publish"),
     Stage("fanout",  "global",     lambda *_a: True, "fanout"),  # driven via run_fanout()
