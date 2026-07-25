@@ -196,6 +196,9 @@ def test_publish_deploy_aborts_without_typed_yes(monkeypatch):
 def test_publish_deploy_yes_builds_then_deploys_once(monkeypatch):
     built, deploys = [], []
     monkeypatch.setattr(run, "run_to", lambda target, prof, **k: built.append(prof) or {"ok": True})
+    # fanout (cross-profession rebuild before the single deploy) is exercised in
+    # pipeline_stages' own tests; stub it here so this test stays about the deploy gating.
+    monkeypatch.setattr(run, "run_fanout", lambda profs, **k: [("fanout", True)])
     monkeypatch.setattr(run, "_sh", lambda cmd, label, **k: deploys.append(cmd) or True)
     prompted = {"asked": False}
     monkeypatch.setattr(builtins, "input",
