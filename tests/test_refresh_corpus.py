@@ -184,29 +184,27 @@ class TestBookmarkDurability:
         assert status_path.read_text() == good, "crash mid-write corrupted the bookmark"
         assert json.loads(status_path.read_text())["items"], "bookmark no longer parses"
 
-    def test_bookmark_is_git_checkpointed_without_sweeping(self, repo, monkeypatch):
-        """The run commits its own bookmark (so a reboot can't lose it) and that commit
-        must not absorb unrelated staged work."""
+    def test_bookmark_is_never_committed(self, repo, monkeypatch):
+        """The run must NOT git-commit its own bookmark.
+
+        .gitignore excludes refresh_status_*.json on purpose: it is large, ephemeral run
+        state (prior_snapshot alone makes the real one ~100MB), and every corpus inside it
+        is already in git. An external watchdog force-added it for durability and that one
+        override grew .git to 3.03GB — 92% of the repo. Durability belongs in the atomic
+        write above, not in git.
+        """
         root = self._setup(repo, monkeypatch, ["CA", "IN"])
-        monkeypatch.setattr(rc, "CHECKPOINT_EVERY_CELLS", 1)
-
-        unrelated = root / "unrelated.txt"
-        unrelated.write_text("someone else's staged work")
-        subprocess.run(["git", "add", "unrelated.txt"], cwd=root, check=True)
-
         rc.run(["med"], set(), force=False, cap=None, timeout_s=60,
                breaker=3, run_id="t", chrome_check=lambda: True)
 
+        status_rel = str(rc._status_path("t").resolve().relative_to(root))
+        tracked = subprocess.run(["git", "ls-files", "--", status_rel], cwd=root,
+                                 capture_output=True, text=True, check=True).stdout.strip()
+        assert not tracked, f"the run committed its resume bookmark ({status_rel})"
+
         log = subprocess.run(["git", "log", "--oneline"], cwd=root,
                              capture_output=True, text=True, check=True).stdout
-        assert "checkpoint t bookmark" in log, f"bookmark was never checkpointed:\n{log}"
-
-        checkpoints = subprocess.run(
-            ["git", "log", "--format=%H", "--grep", "checkpoint t bookmark"],
-            cwd=root, capture_output=True, text=True, check=True).stdout.split()
-        for sha in checkpoints:
-            assert "unrelated.txt" not in _committed_files(root, sha), \
-                "a bookmark checkpoint swept unrelated staged work"
+        assert "bookmark" not in log, f"bookmark checkpoint commits reappeared:\n{log}"
 
 
 def _cite(u):

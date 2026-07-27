@@ -889,11 +889,6 @@ def _load_prior_status(status_path: Path) -> dict | None:
 # may have cleared, or a mapping was fixed).
 _SETTLED = {"OK", "NOCHANGE"}
 
-# How often the resume bookmark is git-committed during a long run. At ~2 min/cell this
-# is roughly every 50 minutes of wall clock; a crash costs at most this many cells of
-# re-fetching, never the run.
-CHECKPOINT_EVERY_CELLS = 25
-
 
 def _fmt_eta(seconds: float) -> str:
     if seconds < 90:
@@ -1004,20 +999,13 @@ def run(professions: list[str], only_states: set[str], *, force: bool, cap: int 
         tmp.write_text(json.dumps(status, indent=2))
         os.replace(tmp, status_path)
 
-    def _checkpoint():
-        """git-commit the resume bookmark so a crash/reboot can't lose progress.
-
-        Ran as an external watchdog script until 2026-07-27 (kill the terminal, lose the
-        checkpointing); it belongs in the process that owns the file. Path-scoped, and a
-        no-op when nothing changed.
-        """
-        rel = _rel(status_path)
-        _git("add", "-f", rel)
-        if _git("diff", "--cached", "--quiet", "--", rel).returncode == 0:
-            return                                  # nothing new since the last checkpoint
-        n = len(status.get("items", {}))
-        _git("commit", "-q", "-m",
-             f"chore: checkpoint {run_id or 'refresh'} bookmark ({n} items)", "--", rel)
+    # NOTE: do NOT git-commit this bookmark. .gitignore excludes refresh_status_*.json
+    # deliberately — it is large, ephemeral run state (prior_snapshot alone makes it
+    # ~100MB). An external watchdog used `git add -f` to checkpoint it for durability;
+    # that single override put 3.03 GB into .git (92% of the repo) storing corpora git
+    # already had. Durability here comes from _save() being atomic, which is what the
+    # 2026-07-24 loss actually needed: that was mid-write CORRUPTION, not a lost file.
+    # A reboot does not delete the bookmark — 2026-07-27 rebooted and it survived intact.
 
     def _finalize():
         """Write the diff report and record its path. Called on EVERY exit path
@@ -1025,7 +1013,6 @@ def run(professions: list[str], only_states: set[str], *, force: bool, cap: int 
         held-back items are always surfaced — never lost because the run aborted."""
         status.setdefault("finished", _now())
         _save()
-        _checkpoint()   # durably record progress on EVERY exit path, not just every N cells
         report = write_diff_report(status, run_id or "latest")
         status["diff_report"] = str(report)
         _save()
@@ -1049,7 +1036,6 @@ def run(professions: list[str], only_states: set[str], *, force: bool, cap: int 
     _emit(f"Refreshing {attempt_total} cell(s)…")
     tally: collections.Counter = collections.Counter()
     consec_fail = 0
-    cells_done = 0
     progress = _Progress(attempt_total, progress_bar)
 
     for prof, state, rows in work:
@@ -1081,9 +1067,6 @@ def run(professions: list[str], only_states: set[str], *, force: bool, cap: int 
         rec["prior_snapshot"] = prior
         status["items"][key] = rec
         _save()
-        cells_done += 1
-        if cells_done % CHECKPOINT_EVERY_CELLS == 0:
-            _checkpoint()
 
         # Live progress: a bar on a terminal, else one line per cell. Skipped
         # (resumed) cells are near-instant, so ETA is based on cells actually pulled.
