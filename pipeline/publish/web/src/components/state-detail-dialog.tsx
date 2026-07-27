@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useState } from "react";
 import { ChevronDown, ChevronRight } from "lucide-react";
 import type {
   DiscoveredField,
@@ -144,20 +144,25 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
   // Scroll the clicked category group into view once the Sheet has painted. Same rAF
   // deferral as EvidenceRow's focused row — the Sheet slides in via a transform, so
   // scrolling before that settles lands in the wrong place.
-  const focusCategoryRef = useRef<HTMLDivElement>(null);
-  // Scoped to the disciplinary-categories column, since that is the only place these
-  // groups are rendered. A chip from a ps_ list-field column focuses its own field row
-  // via focusColId instead; without this gate a colliding label would light up an
-  // unrelated disciplinary group.
-  const groundsCategory =
+  // Clicking a category chip FILTERS the Sheet to what you clicked rather than merely
+  // highlighting it — with the filter shown and removable, so it can never become an
+  // invisible reason you're not seeing everything. Held as local state (seeded from the
+  // click) so clearing it restores the full Sheet without reopening.
+  //
+  // Derived, not mirrored into state: we track only which request the user DISMISSED.
+  // Mirroring the prop into state needs a sync effect, and a setState inside an effect
+  // cascades renders. Keying the dismissal by state+category means clearing one filter
+  // doesn't suppress the next chip you click.
+  //
+  // Scoped to the disciplinary-categories column, the only place these groups render.
+  // Category labels are not unique across fields, so matching on the label alone could
+  // filter to a different field's group than the one clicked.
+  const requestedCategory =
     focusColId === "disciplinary_categories" ? focusCategory ?? null : null;
-  useEffect(() => {
-    if (!groundsCategory || !openState) return;
-    const id = requestAnimationFrame(() => {
-      focusCategoryRef.current?.scrollIntoView({ block: "center", behavior: "smooth" });
-    });
-    return () => cancelAnimationFrame(id);
-  }, [groundsCategory, openState]);
+  const requestKey = requestedCategory ? `${openState}:${requestedCategory}` : null;
+  const [dismissedKey, setDismissedKey] = useState<string | null>(null);
+  const filterCategory =
+    requestKey && dismissedKey !== requestKey ? requestedCategory : null;
 
   // Per-state bucket chips keyed by EvidenceRow label. Covers the three
   // universal text-bucketed fields plus any profession-specific bucketed list
@@ -334,6 +339,24 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
           searchQuery={searchQuery ?? ""}
           sectionText={row.section_text_full ?? ""}
         >
+          {filterCategory && (
+            <div className="mb-3 flex items-center gap-2 rounded-md border border-sky-300 bg-sky-50/70 px-3 py-2 text-xs">
+              <span className="text-muted-foreground">Filtered to</span>
+              <span className="font-medium">{filterCategory}</span>
+              <span className="text-muted-foreground">
+                from Disciplinary categories
+              </span>
+              <button
+                type="button"
+                onClick={() => setDismissedKey(requestKey)}
+                className="ml-auto rounded px-2 py-0.5 font-medium text-sky-800 hover:bg-sky-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
+                aria-label="Clear filter and show all fields"
+              >
+                Show all ✕
+              </button>
+            </div>
+          )}
+          {!filterCategory && (
           <Section title="Base licensure">
             <EvidenceRow label="regulatory_model" ev={lic.regulatory_model} sections={sections} />
             <EvidenceRow label="credential_type" ev={lic.credential_type} sections={sections} />
@@ -378,8 +401,9 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
               </>
             )}
           </Section>
+          )}
 
-          {lic.exams && lic.exams.length > 0 && (
+          {!filterCategory && lic.exams && lic.exams.length > 0 && (
             <Section title="Exams">
               {lic.exams.map((e, i) => (
                 <EvidenceRow
@@ -394,18 +418,14 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
 
           {lic.disciplinary_grounds && lic.disciplinary_grounds.length > 0 && (
             <Section title="Disciplinary grounds">
-              {groupGroundsByCategory(lic.disciplinary_grounds).map(
+              {groupGroundsByCategory(lic.disciplinary_grounds)
+                .filter(([cat]) => !filterCategory || cat === filterCategory)
+                .map(
                 ([cat, grounds]) => (
                   <div
                     key={cat}
-                    ref={cat && cat === groundsCategory ? focusCategoryRef : undefined}
                     data-category-group={cat || undefined}
-                    className={
-                      "mb-2 " +
-                      (cat && cat === groundsCategory
-                        ? "rounded-md ring-2 ring-sky-400 bg-sky-50/60 -mx-2 px-2 py-1"
-                        : "")
-                    }
+                    className="mb-2"
                   >
                     {cat && (
                       <p className="text-xs font-mono uppercase tracking-wider text-muted-foreground mb-1">
@@ -426,7 +446,7 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
             </Section>
           )}
 
-          {scope && (scope.definition_quote || scope.methods_authorized || scope.drug_authority) && (
+          {!filterCategory && scope && (scope.definition_quote || scope.methods_authorized || scope.drug_authority) && (
             <Section title="Scope of practice">
               <EvidenceRow label="definition_quote" ev={scope.definition_quote} sections={sections} />
               <EvidenceRow label="methods_authorized" ev={scope.methods_authorized} sections={sections} />
@@ -434,7 +454,7 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
             </Section>
           )}
 
-          {Object.keys(byCat)
+          {!filterCategory && Object.keys(byCat)
             .sort()
             .map((cat) => (
               <Section key={cat} title={cat}>
