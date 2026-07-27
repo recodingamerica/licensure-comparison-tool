@@ -21,6 +21,7 @@ from __future__ import annotations
 import json
 import subprocess
 from dataclasses import asdict
+from pathlib import Path
 
 import pytest
 
@@ -136,6 +137,76 @@ def test_commit_includes_extra_paths_in_one_commit(repo):
     committed = _committed_files(root)
     assert "pipeline/results/text/nursing/UT.json" in committed
     assert "pipeline/results/provenance/nursing/UT.json" in committed
+
+
+class TestBookmarkDurability:
+    """The resume bookmark must survive a crash and a reboot.
+
+    Both guarantees lived in an external watchdog script until 2026-07-27. Kill the
+    terminal and you lost them, which is how a reboot cost a run's progress.
+    """
+
+    def _setup(self, repo, monkeypatch, states):
+        root, idx_dir, text_dir = repo
+        _write_index(idx_dir, "med", {s: {"matched": [{"url": CH}]} for s in states})
+        for s in states:
+            _commit_corpus(root, text_dir, "med", s,
+                           asdict(_corpus(s, "med", [CH], [CH + "s1"])))
+        monkeypatch.setattr(rc.pull_text, "pull_state",
+                            lambda state, prof, rows, cap: _corpus(state, "med", [CH], [CH + "s1"]))
+        return root
+
+    def test_bookmark_write_is_atomic(self, repo, monkeypatch):
+        """A crash mid-write must leave the PREVIOUS bookmark intact, never a truncated
+        one — a truncated bookmark parses as None and silently restarts the run at zero."""
+        self._setup(repo, monkeypatch, ["CA", "IN", "TX", "NY"])
+        rc.run(["med"], set(), force=False, cap=None, timeout_s=60,
+               breaker=3, run_id="t", chrome_check=lambda: True)
+        status_path = rc._status_path("t")
+        good = status_path.read_text()
+
+        # Simulate the machine dying partway through writing the next bookmark: every
+        # write lands half its bytes and then fails. Deliberately NOT keyed on a .tmp
+        # filename — the old non-atomic _save() wrote straight to status_path, so this
+        # truncates the real bookmark there and the assertions below catch it.
+        real_write = Path.write_text
+
+        def die_mid_write(self, data, *a, **k):
+            real_write(self, data[: len(data) // 2])
+            raise OSError("simulated crash mid-write")
+
+        monkeypatch.setattr(Path, "write_text", die_mid_write)
+        with pytest.raises(OSError):
+            rc.run(["med"], set(), force=False, cap=None, timeout_s=60,
+                   breaker=3, run_id="t", chrome_check=lambda: True)
+        monkeypatch.undo()
+
+        assert status_path.read_text() == good, "crash mid-write corrupted the bookmark"
+        assert json.loads(status_path.read_text())["items"], "bookmark no longer parses"
+
+    def test_bookmark_is_git_checkpointed_without_sweeping(self, repo, monkeypatch):
+        """The run commits its own bookmark (so a reboot can't lose it) and that commit
+        must not absorb unrelated staged work."""
+        root = self._setup(repo, monkeypatch, ["CA", "IN"])
+        monkeypatch.setattr(rc, "CHECKPOINT_EVERY_CELLS", 1)
+
+        unrelated = root / "unrelated.txt"
+        unrelated.write_text("someone else's staged work")
+        subprocess.run(["git", "add", "unrelated.txt"], cwd=root, check=True)
+
+        rc.run(["med"], set(), force=False, cap=None, timeout_s=60,
+               breaker=3, run_id="t", chrome_check=lambda: True)
+
+        log = subprocess.run(["git", "log", "--oneline"], cwd=root,
+                             capture_output=True, text=True, check=True).stdout
+        assert "checkpoint t bookmark" in log, f"bookmark was never checkpointed:\n{log}"
+
+        checkpoints = subprocess.run(
+            ["git", "log", "--format=%H", "--grep", "checkpoint t bookmark"],
+            cwd=root, capture_output=True, text=True, check=True).stdout.split()
+        for sha in checkpoints:
+            assert "unrelated.txt" not in _committed_files(root, sha), \
+                "a bookmark checkpoint swept unrelated staged work"
 
 
 def _cite(u):
