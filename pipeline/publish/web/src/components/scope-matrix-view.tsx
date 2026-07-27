@@ -13,6 +13,8 @@
 
 import { useMemo, useState } from "react";
 import { useJsonData } from "@/lib/use-json-data";
+import { useOpenStateDetail } from "@/components/state-focus";
+import { SEMANTIC_CLASSES as SC } from "@/lib/web-colors";
 import { STATE_CODES as STATES, FOCUS_STATE as FOCUS } from "@/lib/states";
 
 type Kind = "included_excluded" | "condition" | "graded";
@@ -56,6 +58,7 @@ function cellTitle(state: string, row: Row, value: string | undefined): string {
 }
 
 export function ScopeMatrixView({ professionId }: { professionId: string }) {
+  const open = useOpenStateDetail();
   const { data: all } = useJsonData<Data>("/data/scope_matrices.json");
   const [scopeOnly, setScopeOnly] = useState(false);
   const [collapsed, setCollapsed] = useState<Record<string, boolean>>({});
@@ -172,9 +175,38 @@ export function ScopeMatrixView({ professionId }: { professionId: string }) {
                           return (
                             <td
                               key={s}
-                              className="p-0"
+                              // Every cell here IS a (state, field) pair, so it follows the
+                              // standard: click opens that state's Sheet filtered to this
+                              // field. Only interactive when a Sheet exists in the tree.
+                              className={`p-0 ${open ? `cursor-pointer focus-visible:outline-none focus-visible:ring-2 ${SC.interaction.focusRing}` : ""}`}
                               style={{ width: 19, height: 19, background: s === FOCUS ? "var(--scope-focus-weak)" : undefined }}
-                              title={cellTitle(s, r, v)}
+                              title={
+                                open
+                                  ? `${cellTitle(s, r, v)} · click to open ${s}`
+                                  : cellTitle(s, r, v)
+                              }
+                              role={open ? "button" : undefined}
+                              tabIndex={open ? 0 : undefined}
+                              onClick={
+                                open
+                                  ? () =>
+                                      open(s, {
+                                        fieldPath: `profession_specific.${r.field}`,
+                                      })
+                                  : undefined
+                              }
+                              onKeyDown={
+                                open
+                                  ? (e) => {
+                                      if (e.key === "Enter" || e.key === " ") {
+                                        e.preventDefault();
+                                        open(s, {
+                                          fieldPath: `profession_specific.${r.field}`,
+                                        });
+                                      }
+                                    }
+                                  : undefined
+                              }
                             >
                               <span
                                 className="mx-auto my-0.5 block h-[15px] w-[15px] rounded-[3px]"

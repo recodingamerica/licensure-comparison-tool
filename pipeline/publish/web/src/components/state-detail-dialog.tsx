@@ -221,8 +221,20 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
   const candidateLabel = focusFieldPath
     ? fieldPathToLabel(focusFieldPath)
     : focusColIdToLabel(focusColId);
+  // Filter when the label names a field we KNOW about — either this record has a value
+  // for it, or it's in the profession's discovered schema. Asking only "does this record
+  // have a node?" wrongly refused to filter on a field the state doesn't address, which
+  // is precisely the case where the user most needs to be told it isn't addressed.
+  // Still refuses computed columns (exams_count, statute_text), which are neither.
+  const knownFieldLabels = useMemo(
+    () => new Set(fields.map((f) => f.name)),
+    [fields],
+  );
   const requestedFieldLabel =
-    candidateLabel && candidateLabel in evidenceByLabel ? candidateLabel : null;
+    candidateLabel &&
+    (candidateLabel in evidenceByLabel || knownFieldLabels.has(candidateLabel))
+      ? candidateLabel
+      : null;
   const requestKey = requestedCategory
     ? `${openState}:cat:${requestedCategory}`
     : requestedFieldLabel
