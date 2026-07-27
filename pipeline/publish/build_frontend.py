@@ -317,7 +317,10 @@ def _count_evidence(record: dict) -> tuple[int, int, int]:
     vs approximate. Approximate is a subset of unverified (the strict
     verifier failed but the fuzzy fallback found a candidate substring)."""
     verified = unverified = approximate = 0
-    for _, node in iter_evidence(record):
+    # Quote-carriers, so the published "% verified" counts the same quotes the verifier
+    # actually checked. Counting only Evidence nodes reported a percentage over a subset
+    # while the page claims "every claim" — grounds and exams were excluded from both.
+    for _, node in iter_quote_carriers(record):
         if node.get("unverified"):
             unverified += 1
             if node.get("approximate"):

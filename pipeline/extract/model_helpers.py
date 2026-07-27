@@ -38,7 +38,14 @@ def is_quote_carrier(node: Any) -> bool:
     because its callers (map_prep, scope_vocab, the scorecard) read node["value"] and
     would break on a node that hasn't got one.
     """
-    return isinstance(node, dict) and _QUOTE_KEYS.issubset(node.keys())
+    # A NON-EMPTY quote is the point: a scope-matrix item marked `not_addressed` carries
+    # quote="" by design — there is no claim to check, and counting it "unverified" made
+    # architecture read 46% verified instead of ~97% when this was first written.
+    return (
+        isinstance(node, dict)
+        and _QUOTE_KEYS.issubset(node.keys())
+        and bool((node.get("quote") or "").strip())
+    )
 
 
 def iter_quote_carriers(

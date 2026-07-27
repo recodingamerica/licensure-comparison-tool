@@ -45,6 +45,7 @@ from pipeline.extract.standard_model import (  # noqa: E402
     derive_regulatory_model,
     iter_evidence,
 )
+from pipeline.extract.model_helpers import iter_quote_carriers  # noqa: E402
 from pipeline.extract.locate_quote import (  # noqa: E402
     normalize_for_match as _normalize_for_match,
     quote_fuzzy_match,
@@ -326,7 +327,12 @@ def annotate_evidence(node: Any, normalized_corpus: str) -> tuple[int, int]:
     rather than just "couldn't verify". Returns (verified, unverified)
     counts; approximate matches still count as unverified."""
     verified = unverified = 0
-    for _, ev_node in iter_evidence(node):
+    # Quote-carriers, not just Evidence nodes. A disciplinary ground names its value
+    # `description` and an exam names it `name`, so neither satisfied is_evidence_node and
+    # NEITHER WAS EVER VERIFIED: 8,059 ground quotes across the corpus carried no verified
+    # or unverified flag at all, while the site says every claim is regex-validated
+    # against the source. They are 77% of all quotes.
+    for _, ev_node in iter_quote_carriers(node):
         quote = ev_node.get("quote", "")
         if quote_in_corpus(quote, normalized_corpus):
             ev_node.pop("unverified", None)
