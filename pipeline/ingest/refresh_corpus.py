@@ -246,9 +246,11 @@ def _cleaned_for_compare(d: dict) -> dict:
     return out
 
 
-def prior_committed(path: Path) -> dict | None:
-    """The corpus at HEAD (before this run touches it), or None if untracked."""
-    r = _git("show", f"HEAD:{_rel(path)}")
+def prior_committed(path: Path, ref: str = "HEAD") -> dict | None:
+    """The corpus at `ref` (default HEAD, i.e. before this run touches it), or None if
+    untracked there. Pass a run's base commit to read a corpus as it stood before the run
+    started, even after the run has committed over it."""
+    r = _git("show", f"{ref}:{_rel(path)}")
     if r.returncode != 0:
         return None
     try:
@@ -855,7 +857,19 @@ def write_diff_report(status: dict, run_id: str) -> Path:
         if not cur_path.exists():
             continue
         new_corpus = json.loads(cur_path.read_text())
-        prior = item.get("prior_snapshot")  # captured BEFORE committing
+        # The corpus as it stood before this run started. Read from the run's base commit
+        # rather than snapshotted per cell: identical content, but the snapshots made the
+        # run-state ~100MB (and, once force-committed, 92% of .git). `prior_snapshot` is
+        # the pre-2026-07-27 layout — still honoured so an in-flight run-state file from
+        # before this change still reports correctly.
+        # A record's own snapshot wins when present: a run-state written before this
+        # change carries snapshots but no base_sha, and on resume base_sha would then be
+        # THIS segment's HEAD — by which point those cells have already committed, so
+        # they would diff against their own new text and report no change.
+        snapshot = item.get("prior_snapshot")
+        base = status.get("base_sha")
+        prior = snapshot if snapshot is not None else (
+            prior_committed(cur_path, ref=base) if base else None)
         diff = diff_one(prior, new_corpus)
         rows.append({"profession": prof, "state": state, "diff": diff,
                      "severity": classify(diff)})
@@ -966,6 +980,11 @@ def run(professions: list[str], only_states: set[str], *, force: bool, cap: int 
         progress_bar: bool = False, chrome_check=justia_reachable) -> dict:
     status: dict = {"started": _now(), "run_id": run_id, "items": {}}
     status_path = _status_path(run_id)
+    # The commit this run starts from. write_diff_report reads each cell's pre-run corpus
+    # at this ref, which replaces snapshotting every corpus into the run-state.
+    _head = _git("rev-parse", "HEAD")
+    if _head.returncode == 0:
+        status["base_sha"] = _head.stdout.strip()
 
     # --resume: carry forward the prior run's results and skip cells already SETTLED
     # (OK/NOCHANGE) so a long run that aborted (breaker/timeout/Ctrl-C) picks up where
@@ -975,6 +994,11 @@ def run(professions: list[str], only_states: set[str], *, force: bool, cap: int 
         prior = _load_prior_status(status_path)
         if prior:
             status["items"] = prior.get("items", {})
+            # Keep the ORIGINAL base commit across resumes: the diff report must compare
+            # against the corpus as it stood before the run's FIRST segment, not before
+            # this one — by now earlier segments have committed over it.
+            if prior.get("base_sha"):
+                status["base_sha"] = prior["base_sha"]
             skip_results = _SETTLED | set(HELD_SEVERITY) if skip_held else _SETTLED
             settled = {k for k, i in status["items"].items()
                        if i.get("result") in skip_results}
@@ -1000,8 +1024,9 @@ def run(professions: list[str], only_states: set[str], *, force: bool, cap: int 
         os.replace(tmp, status_path)
 
     # NOTE: do NOT git-commit this bookmark. .gitignore excludes refresh_status_*.json
-    # deliberately — it is large, ephemeral run state (prior_snapshot alone makes it
-    # ~100MB). An external watchdog used `git add -f` to checkpoint it for durability;
+    # deliberately — it is ephemeral run state. (It also used to be ~100MB, because every
+    # cell snapshotted its whole pre-run corpus into it; that is now read from base_sha
+    # instead.) An external watchdog used `git add -f` to checkpoint it for durability;
     # that single override put 3.03 GB into .git (92% of the repo) storing corpora git
     # already had. Durability here comes from _save() being atomic, which is what the
     # 2026-07-24 loss actually needed: that was mid-write CORRUPTION, not a lost file.
@@ -1042,9 +1067,6 @@ def run(professions: list[str], only_states: set[str], *, force: bool, cap: int 
         key = f"{prof}:{state}"
         if key in settled:
             continue  # --resume: already done, don't re-fetch
-        # Capture the pre-refresh HEAD snapshot BEFORE the item commits, so the
-        # diff report compares against last year's committed corpus.
-        prior = prior_committed(TEXT_DIR / prof / f"{state}.json")
         try:
             rec = refresh_item(prof, state, rows, force=force, cap=cap, timeout_s=timeout_s,
                                run_id=run_id)
@@ -1054,8 +1076,7 @@ def run(professions: list[str], only_states: set[str], *, force: bool, cap: int 
             # exits after this returns and the daemon dies with it. Re-run with
             # --resume to continue.
             rec = {"profession": prof, "state": state, "result": "TIMEOUT",
-                   "reason": str(e), "prev": 0, "new": 0, "at": _now(),
-                   "prior_snapshot": prior}
+                   "reason": str(e), "prev": 0, "new": 0, "at": _now()}
             status["items"][key] = rec
             status["aborted"] = f"item timeout at {key} — {e}; run aborted (re-run with --resume)"
             progress.close()
@@ -1064,7 +1085,6 @@ def run(professions: list[str], only_states: set[str], *, force: bool, cap: int 
             _print_summary(status)
             return status
 
-        rec["prior_snapshot"] = prior
         status["items"][key] = rec
         _save()
 

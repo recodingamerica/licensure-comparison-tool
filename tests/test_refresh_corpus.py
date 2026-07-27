@@ -77,6 +77,11 @@ def _commit_corpus(root, text_dir, prof, state, corpus_dict):
     subprocess.run(["git", "commit", "-q", "-m", "seed"], cwd=root, check=True)
 
 
+def _committed_sha(root, ref="HEAD"):
+    return subprocess.run(["git", "rev-parse", ref], cwd=root,
+                          capture_output=True, text=True, check=True).stdout.strip()
+
+
 def _committed_files(root, ref="HEAD"):
     out = subprocess.run(["git", "show", "--name-only", "--format=", ref],
                          cwd=root, capture_output=True, text=True, check=True)
@@ -205,6 +210,74 @@ class TestBookmarkDurability:
         log = subprocess.run(["git", "log", "--oneline"], cwd=root,
                              capture_output=True, text=True, check=True).stdout
         assert "bookmark" not in log, f"bookmark checkpoint commits reappeared:\n{log}"
+
+
+class TestPriorFromBaseCommit:
+    """The diff report reads each cell's pre-run corpus from the run's base commit
+    instead of snapshotting it into the run-state.
+
+    Snapshotting made the annual run-state ~100MB of corpora git already had; once an
+    external watchdog force-committed that file, it became 92% of .git (3.03GB).
+    """
+
+    def _run(self, repo, monkeypatch, new_sections):
+        root, idx_dir, text_dir = repo
+        _write_index(idx_dir, "med", {"CA": {"matched": [{"url": CH}]}})
+        _commit_corpus(root, text_dir, "med", "CA",
+                       asdict(_corpus("CA", "med", [CH], [CH + "s1", CH + "s2"])))
+        monkeypatch.setattr(rc.pull_text, "pull_state",
+                            lambda state, prof, rows, cap: _corpus("CA", "med", [CH], new_sections))
+        return rc.run(["med"], set(), force=False, cap=None, timeout_s=60,
+                      breaker=3, run_id="t", chrome_check=lambda: True)
+
+    def test_run_state_carries_a_base_sha_not_corpus_snapshots(self, repo, monkeypatch):
+        status = self._run(repo, monkeypatch, [CH + "s1", CH + "s2", CH + "s3"])
+        assert status.get("base_sha"), "run-state has no base_sha to read priors from"
+        for item in status["items"].values():
+            assert "prior_snapshot" not in item, "a whole corpus was snapshotted into the run-state"
+
+    def test_report_diffs_against_pre_run_corpus_after_it_was_committed_over(
+            self, repo, monkeypatch):
+        """The growth must still be reported even though the cell has since committed,
+        so HEAD no longer holds the pre-run corpus — only base_sha does."""
+        root, _idx, _text = repo
+        status = self._run(repo, monkeypatch, [CH + "s1", CH + "s2", CH + "s3"])
+        assert status["items"]["med:CA"]["result"] == "OK"
+
+        report = (root / "docs" / "reports" / "refresh_diff_t.md").read_text()
+        assert "med" in report and "CA" in report
+        # 2 sections before the run, 3 after -> a +1 delta, computed against base_sha.
+        assert "+1" in report, f"prior-vs-current diff not reported:\n{report}"
+
+    def test_legacy_snapshot_still_wins_over_base_sha(self, repo, monkeypatch):
+        """A run-state written before this change has snapshots but no base_sha. On
+        resume base_sha becomes THIS segment's HEAD, by which point that cell has already
+        committed — so its own snapshot must still be preferred."""
+        root, _idx, text_dir = repo
+        status = self._run(repo, monkeypatch, [CH + "s1", CH + "s2", CH + "s3"])
+        # Rewrite the record the way the old code wrote it: a pre-run snapshot, and a
+        # base_sha that (as after a resume) points at a commit where the cell is already new.
+        status["items"]["med:CA"]["prior_snapshot"] = asdict(
+            _corpus("CA", "med", [CH], [CH + "s1"]))          # 1 section before the run
+        status["base_sha"] = _committed_sha(root)
+        rc.write_diff_report(status, "legacy")
+
+        report = (root / "docs" / "reports" / "refresh_diff_legacy.md").read_text()
+        assert "+2" in report, f"legacy snapshot ignored (1->3 should be +2):\n{report}"
+
+    def test_resume_keeps_the_original_base_sha(self, repo, monkeypatch):
+        """On resume the base must stay the run's FIRST base — by then earlier segments
+        have committed over the corpora, so a fresh HEAD would diff against the new text."""
+        first = self._run(repo, monkeypatch, [CH + "s1", CH + "s2", CH + "s3"])
+        base = first["base_sha"]
+
+        root, idx_dir, text_dir = repo
+        _write_index(idx_dir, "med", {s: {"matched": [{"url": CH}]} for s in ("CA", "TX")})
+        _commit_corpus(root, text_dir, "med", "TX",
+                       asdict(_corpus("TX", "med", [CH], [CH + "s1"])))
+        second = rc.run(["med"], set(), force=False, cap=None, timeout_s=60, breaker=3,
+                        run_id="t", resume=True, chrome_check=lambda: True)
+        assert second["base_sha"] == base, "resume reset base_sha to the current HEAD"
 
 
 def _cite(u):
