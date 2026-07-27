@@ -30,6 +30,7 @@ import { Button } from "@/components/ui/button";
 import { humanize, findAllSpans } from "@/lib/format";
 import { SEMANTIC_CLASSES as SC, CATEGORY_CLASSES, token } from "@/lib/web-colors";
 import { StateDetailDialog } from "./state-detail-dialog";
+import { StateFocusProvider, type OpenStateDetail } from "./state-focus";
 import { MapView } from "./map-view";
 
 // AG Grid v33+ requires modules to be registered before any grid instance
@@ -1890,8 +1891,17 @@ export function ProfileView({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [api, allToggleableIds]);
 
+  // Publish "open a state's detail" to every view under this page, so a state is
+  // clickable wherever it appears instead of only in the table.
+  const openStateDetail = useCallback<OpenStateDetail>((state, opts) => {
+    setFocusColId(opts?.colId ?? null);
+    setFocusCategory(opts?.category ?? null);
+    setOpenState(state);
+  }, []);
+
   const Wrapper = embedded ? "div" : "main";
   return (
+    <StateFocusProvider value={openStateDetail}>
     <Wrapper className={embedded ? "" : "mx-auto max-w-7xl px-6 py-10"}>
       {!embedded && (
         <>
@@ -2254,6 +2264,7 @@ export function ProfileView({
         textBuckets={payload.map_prep?.text_buckets ?? {}}
       />
     </Wrapper>
+    </StateFocusProvider>
   );
 }
 

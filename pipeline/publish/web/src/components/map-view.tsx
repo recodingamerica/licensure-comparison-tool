@@ -17,6 +17,7 @@ import type { MapPrep, MapFieldSpec, MapRow } from "@/lib/types";
 import { Combobox, type ComboboxOption } from "@/components/ui/combobox";
 import { humanize } from "@/lib/format";
 import { UsMap, NO_DATA_FILL } from "@/components/us-map";
+import { useOpenStateDetail } from "@/components/state-focus";
 import { MAP_PALETTE, token } from "@/lib/web-colors";
 
 // The "priority" licensure concepts (mirrors PRIORITY_FIELDS in
@@ -127,6 +128,7 @@ export function MapView({
   fieldName: string | null;
   onFieldChange: (f: string | null) => void;
 }) {
+  const openStateDetail = useOpenStateDetail();
   // Priority fields are the bucketed free-text fields (not_mappable, so absent
   // from mapPrep.spec). We synthesize categorical specs + per-state rows from
   // the Pass-3 text buckets so they can render as choropleths grouped at the
@@ -394,6 +396,11 @@ export function MapView({
         <div className="min-w-0 md:flex-1">
           <UsMap
             fillFor={colorFor}
+            // A state is clickable wherever it appears. This map rendered the same
+            // component as the homepage but without a handler, so clicking a state here
+            // silently did nothing while the table one toggle away opened the Sheet.
+            // Only wired when a detail Sheet exists in the tree — no dead affordance.
+            onClick={openStateDetail ?? undefined}
             renderTooltip={(state) => {
               const row = byState.get(state);
               const normalizedStr = row
