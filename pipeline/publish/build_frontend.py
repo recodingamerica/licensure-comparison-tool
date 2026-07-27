@@ -302,7 +302,25 @@ def _annotate_quote_spans(record: dict, sections: list[dict]) -> tuple[int, int]
         cite = node.get("citation") or ""
         sec = by_cite.get(cite) or by_cite.get(cite.strip("[]"))
         text = (sec or {}).get("text") or ""
-        spans = locate_quote_in_section(node.get("quote") or "", text) if text else None
+        quote = node.get("quote") or ""
+        spans = locate_quote_in_section(quote, text) if text else None
+        if not spans and quote:
+            # The cited section isn't among this row's sections — overwhelmingly because
+            # the quote comes from an UMBRELLA chapter. A row ships umbrella text as one
+            # blob per chapter with a synthetic citation ("UMBRELLA / Chapter 147"), which
+            # can never match the real cite the model gives ("147.2"), so ~9% of quoted
+            # claims could not highlight even though their text was right there.
+            #
+            # Fall back to locating the quote among the sections we DID ship. Only when
+            # exactly one section contains it: more than one and we'd be guessing which
+            # the claim came from, and a wrong highlight is worse than none.
+            hits = [
+                (sec2, sp)
+                for sec2 in sections
+                if (sp := locate_quote_in_section(quote, sec2.get("text") or ""))
+            ]
+            if len(hits) == 1:
+                spans = hits[0][1]
         if spans:
             # Pydantic dumps tuples as lists already; be explicit so JSON
             # output is `[[s, e], ...]` either way.
