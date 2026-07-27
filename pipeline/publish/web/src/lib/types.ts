@@ -30,6 +30,11 @@ export type Evidence<T = unknown> = {
   // (the verifier may still have accepted it against the combined
   // corpus — render quote without a highlight in that case).
   quote_spans?: Array<[number, number]>;
+  // Citation of the section the spans actually index into, when it ISN'T the node's own
+  // citation — an umbrella quote cites "147.2" while the row ships that text as
+  // "UMBRELLA / Chapter 147". The UI resolves its section by citation, so without this
+  // the spans would be uncomputable-to-display.
+  quote_section?: string;
 };
 
 // One education floor for a license class / date phase-in (#35). Not

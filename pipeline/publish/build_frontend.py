@@ -320,7 +320,13 @@ def _annotate_quote_spans(record: dict, sections: list[dict]) -> tuple[int, int]
                 if (sp := locate_quote_in_section(quote, sec2.get("text") or ""))
             ]
             if len(hits) == 1:
-                spans = hits[0][1]
+                sec_hit, spans = hits[0]
+                # Record WHICH section the span indexes into. The UI resolves the section
+                # to highlight by CITATION, and the whole point of this fallback is that
+                # the citation doesn't match any shipped section — so without this the
+                # spans exist and can never be rendered.
+                if sec_hit.get("citation"):
+                    node["quote_section"] = sec_hit["citation"]
         if spans:
             # Pydantic dumps tuples as lists already; be explicit so JSON
             # output is `[[s, e], ...]` either way.
@@ -630,6 +636,60 @@ def _annotate_list_field_tags(rows: list[dict], profession: str, map_prep: dict 
         map_prep["per_item_count_fields"] = count_fields
 
 
+# Minimum share of quoted claims that must be DISPLAYABLE for a build to ship.
+#
+# 0.85, set from MEASUREMENT rather than optimism: dietetics sits at 92.2% after the
+# 2026-07-27 fixes (it was 88.6% before them, and list items were at 0%). The first
+# version of this gate was set to 0.95 on the assumption the fixes had got everything —
+# and it immediately failed the build, which is the gate earning its keep on its first
+# run.
+#
+# It's a RATCHET, not a target: raise it as coverage improves. It exists to catch a class
+# of claims silently losing their highlight, not to demand perfection from statute
+# citations we don't control. The remaining misses are evidence citing a section the row
+# doesn't ship (AK 08.38.020, IA 147.55) where the quote also isn't uniquely locatable in
+# what we did ship.
+MIN_DISPLAYABLE_QUOTE_SHARE = 0.85
+
+
+def _displayable_quote_share(rows: list[dict]) -> tuple[int, int, list[str]]:
+    """How many quoted claims can the UI actually HIGHLIGHT, end to end?
+
+    Every bug this exists to catch passed its own layer's checks and died at a boundary:
+
+      * list items never got spans at all (is_evidence_node wanted a `value`)
+      * spans were computed but the UI resolves its section BY CITATION, and the
+        fallback exists precisely because the citation doesn't match — so they were
+        undisplayable
+      * quote_section was recorded before citation normalization rewrote the format,
+        so it stopped matching the section it named
+
+    None of those was visible from the layer being edited. This measures the property a
+    reader experiences — a highlight appears — after the whole path has run.
+    """
+    total = displayable = 0
+    misses: list[str] = []
+    for r in rows:
+        full = r.get("_full")
+        if not full:
+            continue
+        cites = {
+            s.get("citation") for s in (r.get("sections") or []) if s.get("citation")
+        }
+        for _, node in iter_quote_carriers(full):
+            if not (node.get("quote") or "").strip() or node.get("unverified"):
+                continue
+            total += 1
+            sec = node.get("quote_section") or node.get("citation") or ""
+            if node.get("quote_spans") and (
+                sec in cites or sec.strip("[]") in cites
+            ):
+                displayable += 1
+            elif len(misses) < 5:
+                misses.append(f"{r.get('state')}: {sec!r}")
+    return displayable, total, misses
+
+
 def _normalize_payload_citations(rows: list[dict], map_prep: dict | None) -> None:
     """Normalize citations across the published payload (rows + map rows).
 
@@ -647,6 +707,14 @@ def _normalize_payload_citations(rows: list[dict], map_prep: dict | None) -> Non
             cite = ev.get("citation")
             if cite:
                 ev["citation"] = normalize_citation(cite)
+            # quote_section is a SECTION citation too, recorded by the span fallback
+            # before this pass runs. Normalizing the sections but not this left it
+            # pointing at the pre-normalization form ("§ 3803. Board of Dietetics…"
+            # vs the shipped "§ 3803"), so the UI couldn't find the section and the
+            # span was uncomputable-to-display — the exact failure it exists to fix.
+            qsec = ev.get("quote_section")
+            if qsec:
+                ev["quote_section"] = normalize_citation(qsec)
         # Section list shipped per row also carries citations — normalize those
         # too so they line up with the Evidence-node citations the frontend uses.
         for s in r.get("sections") or []:
@@ -742,6 +810,23 @@ def build(profession: str, payload_only: bool = False) -> dict:
     _annotate_list_field_tags(rows, profession, map_prep)
     _normalize_payload_citations(rows, map_prep)
 
+    # End-to-end gate: can the UI actually highlight what we shipped? Deliberately AFTER
+    # citation normalization — that pass silently invalidated quote_section once already.
+    disp_n, disp_tot, disp_misses = _displayable_quote_share(rows)
+    if disp_tot:
+        share = disp_n / disp_tot
+        print(
+            f"  highlightable quotes: {disp_n:,}/{disp_tot:,} ({share:.1%}) "
+            f"[floor {MIN_DISPLAYABLE_QUOTE_SHARE:.0%}]"
+        )
+        if share < MIN_DISPLAYABLE_QUOTE_SHARE:
+            raise SystemExit(
+                f"{profession}: only {disp_n:,}/{disp_tot:,} ({share:.1%}) of quoted "
+                f"claims can be highlighted by the UI — below the "
+                f"{MIN_DISPLAYABLE_QUOTE_SHARE:.0%} floor. A span the UI can't resolve to "
+                f"a shipped section renders nothing. Examples: {disp_misses}"
+            )
+
     meta = _profession_meta(profession)
     return {
         "profession": profession,
@@ -759,6 +844,8 @@ def build(profession: str, payload_only: bool = False) -> dict:
         # keep its own copy in map-view.tsx, and the two had drifted four ways.
         "priority_concepts": for_choropleth(),
         "evidence_summary": {
+            "displayable_quotes": disp_n,
+            "quoted_claims": disp_tot,
             "verified": verified,
             "unverified": unverified,
             # How many verified nodes got per-section highlight spans

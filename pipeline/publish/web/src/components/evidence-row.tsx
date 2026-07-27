@@ -106,8 +106,14 @@ export function EvidenceRow({ label, ev, sections, showAbsent }: Props) {
   }
 
   const cite = ev.citation || "";
+  // quote_section wins when present: the build resolved the quote into a section whose
+  // citation ISN'T the node's own (umbrella text ships as one blob per chapter), and the
+  // spans index into THAT section.
   const source =
-    sections[cite] || sections[cite.replace(/^\[|\]$/g, "")] || null;
+    (ev.quote_section ? sections[ev.quote_section] : null) ||
+    sections[cite] ||
+    sections[cite.replace(/^\[|\]$/g, "")] ||
+    null;
   const unverified = !!ev.unverified;
   // Strict verifier failed but fuzzy fallback found a long contiguous
   // substring. Different visual treatment than bare-unverified so the
