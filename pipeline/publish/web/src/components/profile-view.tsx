@@ -984,6 +984,7 @@ function buildColumnDefs(
   },
   {
     field: "education_degree",
+    context: { fieldPath: "licensure.education.degree_required" },
     headerName: "Education (Min. Degree)",
     width: 260,
     cellRenderer: textBuckets[BUCKET_PATHS.education_degree]
@@ -1001,6 +1002,7 @@ function buildColumnDefs(
   },
   {
     field: "post_degree_duration",
+    context: { fieldPath: "licensure.post_degree_experience.duration" },
     headerName: "Professional Experience",
     width: 180,
     cellRenderer: textBuckets[BUCKET_PATHS.post_degree_duration]
@@ -1021,6 +1023,7 @@ function buildColumnDefs(
   },
   {
     field: "renewal_years",
+    context: { fieldPath: "licensure.renewal.interval_years" },
     headerName: "Renewal (yrs)",
     width: 130,
     cellRenderer: TextCellRenderer,
@@ -1030,6 +1033,7 @@ function buildColumnDefs(
   },
   {
     colId: "continuing_ed",
+    context: { fieldPath: "licensure.continuing_education.required" },
     headerName: "Continuing Ed",
     width: 130,
     valueGetter: (p) =>
@@ -1044,6 +1048,7 @@ function buildColumnDefs(
   },
   {
     field: "reciprocity_available",
+    context: { fieldPath: "licensure.reciprocity.available" },
     headerName: "Reciprocity",
     width: 120,
     cellRenderer: YesNoCell,
@@ -1183,6 +1188,9 @@ function buildColumnDefs(
     colId: "license_required",
     headerName: "License required?",
     valueGetter: (p) => ev(p.data, "licensure", "license_required"),
+    // Dotted record path, co-located with the column that owns it: the Sheet
+    // filters by path, so nothing has to keep a colId->label table in sync.
+    context: { fieldPath: "licensure.license_required" },
     cellRenderer: YesNoCell,
     filter: MulticheckFilter,
     width: 130,
@@ -1227,6 +1235,9 @@ function buildColumnDefs(
     colId: "age_minimum",
     headerName: "Age minimum",
     valueGetter: (p) => ev(p.data, "licensure", "age_minimum"),
+    // Dotted record path, co-located with the column that owns it: the Sheet
+    // filters by path, so nothing has to keep a colId->label table in sync.
+    context: { fieldPath: "licensure.age_minimum" },
     cellRenderer: TextCellRenderer,
     filter: "agNumberColumnFilter",
     width: 130,
@@ -1238,6 +1249,9 @@ function buildColumnDefs(
     colId: "moral_character_required",
     headerName: "Moral character required?",
     valueGetter: (p) => ev(p.data, "licensure", "moral_character_required"),
+    // Dotted record path, co-located with the column that owns it: the Sheet
+    // filters by path, so nothing has to keep a colId->label table in sync.
+    context: { fieldPath: "licensure.moral_character_required" },
     cellRenderer: YesNoCell,
     filter: MulticheckFilter,
     width: 160,
@@ -1249,6 +1263,9 @@ function buildColumnDefs(
     colId: "education_accrediting_body",
     headerName: "Accrediting body",
     valueGetter: (p) => ev(p.data, "licensure", "education", "accrediting_body"),
+    // Dotted record path, co-located with the column that owns it: the Sheet
+    // filters by path, so nothing has to keep a colId->label table in sync.
+    context: { fieldPath: "licensure.education.accrediting_body" },
     cellRenderer: TextCellRenderer,
     filter: MulticheckFilter,
     width: 200,
@@ -1260,6 +1277,9 @@ function buildColumnDefs(
     colId: "education_degree_level",
     headerName: "Min degree (level)",
     valueGetter: (p) => ev(p.data, "licensure", "education", "degree_level"),
+    // Dotted record path, co-located with the column that owns it: the Sheet
+    // filters by path, so nothing has to keep a colId->label table in sync.
+    context: { fieldPath: "licensure.education.degree_level" },
     cellRenderer: TextCellRenderer,
     filter: MulticheckFilter,
     comparator: degreeLevelComparator,
@@ -1271,6 +1291,9 @@ function buildColumnDefs(
     colId: "education_approval_basis",
     headerName: "School approval basis",
     valueGetter: (p) => ev(p.data, "licensure", "education", "school_approval_basis"),
+    // Dotted record path, co-located with the column that owns it: the Sheet
+    // filters by path, so nothing has to keep a colId->label table in sync.
+    context: { fieldPath: "licensure.education.school_approval_basis" },
     cellRenderer: TextCellRenderer,
     filter: MulticheckFilter,
     width: 180,
@@ -1281,6 +1304,9 @@ function buildColumnDefs(
     colId: "education_credential_pegged",
     headerName: "Credential-pegged?",
     valueGetter: (p) => ev(p.data, "licensure", "education", "credential_pegged"),
+    // Dotted record path, co-located with the column that owns it: the Sheet
+    // filters by path, so nothing has to keep a colId->label table in sync.
+    context: { fieldPath: "licensure.education.credential_pegged" },
     cellRenderer: YesNoCell,
     filter: MulticheckFilter,
     width: 150,
@@ -1293,6 +1319,9 @@ function buildColumnDefs(
     colId: "experience_source",
     headerName: "Experience source",
     valueGetter: (p) => ev(p.data, "licensure", "post_degree_experience", "experience_source"),
+    // Dotted record path, co-located with the column that owns it: the Sheet
+    // filters by path, so nothing has to keep a colId->label table in sync.
+    context: { fieldPath: "licensure.post_degree_experience.experience_source" },
     cellRenderer: TextCellRenderer,
     filter: MulticheckFilter,
     width: 180,
@@ -1302,6 +1331,9 @@ function buildColumnDefs(
     colId: "post_degree_required",
     headerName: "Post-degree required?",
     valueGetter: (p) => ev(p.data, "licensure", "post_degree_experience", "required"),
+    // Dotted record path, co-located with the column that owns it: the Sheet
+    // filters by path, so nothing has to keep a colId->label table in sync.
+    context: { fieldPath: "licensure.post_degree_experience.required" },
     cellRenderer: YesNoCell,
     filter: MulticheckFilter,
     width: 160,
@@ -1313,6 +1345,9 @@ function buildColumnDefs(
     colId: "post_degree_kind",
     headerName: "Post-degree kind",
     valueGetter: (p) => ev(p.data, "licensure", "post_degree_experience", "kind"),
+    // Dotted record path, co-located with the column that owns it: the Sheet
+    // filters by path, so nothing has to keep a colId->label table in sync.
+    context: { fieldPath: "licensure.post_degree_experience.kind" },
     cellRenderer: TextCellRenderer,
     filter: MulticheckFilter,
     width: 180,
@@ -1323,6 +1358,9 @@ function buildColumnDefs(
     colId: "ce_required",
     headerName: "CE required?",
     valueGetter: (p) => ev(p.data, "licensure", "continuing_education", "required"),
+    // Dotted record path, co-located with the column that owns it: the Sheet
+    // filters by path, so nothing has to keep a colId->label table in sync.
+    context: { fieldPath: "licensure.continuing_education.required" },
     cellRenderer: YesNoCell,
     filter: MulticheckFilter,
     width: 130,
@@ -1334,6 +1372,9 @@ function buildColumnDefs(
     colId: "ce_hours_per_period",
     headerName: "CE hours/period",
     valueGetter: (p) => ev(p.data, "licensure", "continuing_education", "hours_per_period"),
+    // Dotted record path, co-located with the column that owns it: the Sheet
+    // filters by path, so nothing has to keep a colId->label table in sync.
+    context: { fieldPath: "licensure.continuing_education.hours_per_period" },
     cellRenderer: TextCellRenderer,
     filter: "agNumberColumnFilter",
     width: 130,
@@ -1345,6 +1386,9 @@ function buildColumnDefs(
     colId: "ce_period_years",
     headerName: "CE period (yrs)",
     valueGetter: (p) => ev(p.data, "licensure", "continuing_education", "period_years"),
+    // Dotted record path, co-located with the column that owns it: the Sheet
+    // filters by path, so nothing has to keep a colId->label table in sync.
+    context: { fieldPath: "licensure.continuing_education.period_years" },
     cellRenderer: TextCellRenderer,
     filter: "agNumberColumnFilter",
     width: 130,
@@ -1354,6 +1398,7 @@ function buildColumnDefs(
   },
   {
     colId: "ce_topical_requirements",
+    context: { fieldPath: "licensure.continuing_education.topical_requirements" },
     headerName: "CE topical requirements",
     valueGetter: (p) => {
       const v = ev(p.data, "licensure", "continuing_education", "topical_requirements");
@@ -1369,6 +1414,9 @@ function buildColumnDefs(
     colId: "reciprocity_requirements",
     headerName: "Reciprocity details",
     valueGetter: (p) => ev(p.data, "licensure", "reciprocity", "requirements"),
+    // Dotted record path, co-located with the column that owns it: the Sheet
+    // filters by path, so nothing has to keep a colId->label table in sync.
+    context: { fieldPath: "licensure.reciprocity.requirements" },
     cellRenderer: TextCellRenderer,
     filter: "agTextColumnFilter",
     width: 260,
@@ -1417,6 +1465,9 @@ function buildColumnDefs(
     colId: "scope_definition",
     headerName: "Scope of practice (definition)",
     valueGetter: (p) => ev(p.data, "scope", "definition_quote"),
+    // Dotted record path, co-located with the column that owns it: the Sheet
+    // filters by path, so nothing has to keep a colId->label table in sync.
+    context: { fieldPath: "scope.definition_quote" },
     cellRenderer: TextCellRenderer,
     filter: "agTextColumnFilter",
     width: 320,
@@ -1424,6 +1475,7 @@ function buildColumnDefs(
   },
   {
     colId: "scope_methods",
+    context: { fieldPath: "scope.methods_authorized" },
     headerName: "Scope methods authorized",
     valueGetter: (p) => {
       const v = ev(p.data, "scope", "methods_authorized");
@@ -1439,6 +1491,9 @@ function buildColumnDefs(
     colId: "scope_drug_authority",
     headerName: "Scope drug authority",
     valueGetter: (p) => ev(p.data, "scope", "drug_authority"),
+    // Dotted record path, co-located with the column that owns it: the Sheet
+    // filters by path, so nothing has to keep a colId->label table in sync.
+    context: { fieldPath: "scope.drug_authority" },
     cellRenderer: TextCellRenderer,
     filter: "agTextColumnFilter",
     width: 220,
@@ -1694,11 +1749,17 @@ export function ProfileView({
   const handleCellClick = useCallback(
     (event: {
       data?: Row;
-      column?: { getColId: () => string };
+      column?: {
+        getColId: () => string;
+        getColDef?: () => { context?: { fieldPath?: string } };
+      };
       event?: Event | null;
     }) => {
       if (!event.data || !openStateDetail) return;
       const col = event.column?.getColId();
+      // The column knows its own record path (co-located on the def), so the click
+      // carries it and nothing downstream has to translate colId -> label.
+      const fieldPath = event.column?.getColDef?.()?.context?.fieldPath ?? null;
       // If the click landed on a specific category chip ("Fraud 3"), carry that
       // category through so the Sheet lands on those items. Without it, clicking any
       // chip in the cell looked identical — you couldn't tell it had taken you to the
@@ -1709,6 +1770,7 @@ export function ProfileView({
       openStateDetail(event.data.state, {
         colId: col && col !== "state" ? col : null,
         category: chip?.getAttribute("data-category") ?? null,
+        fieldPath,
         searchQuery: statuteTextQuery,
       });
     },

@@ -28,36 +28,16 @@ import {
 import { ABSENCE } from "./absence";
 import { searchSnippets, humanize } from "@/lib/format";
 
-// Map a clicked grid colId (#34) to the EvidenceRow `label` it corresponds to
-// inside the Sheet. Most universal columns share the same string as their row
-// label (regulatory_model, issuing_authority, credential_type, …) so identity
-// is the default; only the columns whose label uses a different notation are
-// listed here. Profession-specific columns are "ps_<name>" and resolve to
-// "<name>". Keep aligned with UNVERIFIED_PATHS in profile-view.tsx.
-const FOCUS_LABEL_OVERRIDES: Record<string, string> = {
-  education_degree: "education.degree_required",
-  education_accrediting_body: "education.accrediting_body",
-  post_degree_required: "post_degree.required",
-  post_degree_duration: "post_degree.duration",
-  post_degree_kind: "post_degree.kind",
-  renewal_years: "renewal.interval_years",
-  ce_required: "CE.required",
-  continuing_ed: "CE.required",
-  ce_hours_per_period: "CE.hours_per_period",
-  ce_period_years: "CE.period_years",
-  ce_topical_requirements: "CE.topical_requirements",
-  reciprocity_available: "reciprocity.available",
-  reciprocity_requirements: "reciprocity.requirements",
-  scope_definition: "definition_quote",
-  scope_methods: "methods_authorized",
-  scope_drug_authority: "drug_authority",
-};
-
+// A grid colId that is not itself a record path. Columns carry their own dotted path
+// (see cellDef `context.fieldPath` in profile-view), so the only cases left are rules
+// rather than a lookup table: profession-specific columns are "ps_<name>", and the
+// universal ones share their name with the Sheet row. The 16-entry override table this
+// replaced had to be kept in sync by hand with UNVERIFIED_PATHS — a comment in the file
+// said so, which is the tell that it shouldn't have existed.
 function focusColIdToLabel(colId: string | null | undefined): string | null {
   if (!colId) return null;
-  if (FOCUS_LABEL_OVERRIDES[colId]) return FOCUS_LABEL_OVERRIDES[colId];
   if (colId.startsWith("ps_")) return colId.slice(3);
-  return colId; // identity for the same-named universal columns
+  return colId;
 }
 
 // A record's dotted field path ("licensure.education.degree_level") → the Sheet's row
@@ -235,9 +215,16 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
     () => new Set(fields.map((f) => f.name)),
     [fields],
   );
-  const requestedFieldLabel =
-    candidateLabel &&
-    (candidateLabel in evidenceByLabel || knownFieldLabels.has(candidateLabel))
+  // An explicit fieldPath is an ASSERTION from a column def or a map spec that the field
+  // exists, so it's trusted as-is. A colId is only a guess at a label and still has to
+  // prove itself. Without this split, clicking a column whose value happens to be null
+  // (post_degree.duration on a state that doesn't set one) refused to filter — the
+  // field is real, the state just has nothing for it, which is what we should say.
+  const requestedFieldLabel = !candidateLabel
+    ? null
+    : focusFieldPath ||
+        candidateLabel in evidenceByLabel ||
+        knownFieldLabels.has(candidateLabel)
       ? candidateLabel
       : null;
   const requestKey = requestedCategory
