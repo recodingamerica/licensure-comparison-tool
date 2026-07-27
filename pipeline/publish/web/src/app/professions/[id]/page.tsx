@@ -10,12 +10,14 @@
 // Active tab in ?view=. Defaults to table for mapped professions, statutes
 // for umbrella-only ones.
 
-import { Suspense, use, useEffect, useMemo, useState } from "react";
+import { Suspense, use, useCallback, useEffect, useMemo, useState } from "react";
 import { BackLink } from "@/components/ui/back-link";
 import { ErrorBanner } from "@/components/ui/error-banner";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import type { ProfilePayload } from "@/lib/types";
 import { ProfileView } from "@/components/profile-view";
+import { StateDetailDialog } from "@/components/state-detail-dialog";
+import { StateFocusProvider, type OpenStateDetail } from "@/components/state-focus";
 import { ProfessionStatutesView } from "@/components/profession-statutes-view";
 import { ProfileTags } from "@/components/profile-tags";
 import { ScopeMatrixView } from "@/components/scope-matrix-view";
@@ -36,6 +38,20 @@ function ProfessionInner({ params }: { params: Promise<{ id: string }> }) {
 
   const [payload, setPayload] = useState<ProfilePayload | null>(null);
   const [dataExists, setDataExists] = useState<boolean | null>(null);
+  // State-detail Sheet, owned by the PAGE so every tab can open it (see the Sheet
+  // render below for why it moved out of ProfileView).
+  const [openState, setOpenState] = useState<string | null>(null);
+  const [focusColId, setFocusColId] = useState<string | null>(null);
+  const [focusCategory, setFocusCategory] = useState<string | null>(null);
+  const [focusFieldPath, setFocusFieldPath] = useState<string | null>(null);
+  const [sheetQuery, setSheetQuery] = useState<string>("");
+  const openStateDetail = useCallback<OpenStateDetail>((state, opts) => {
+    setFocusColId(opts?.colId ?? null);
+    setFocusCategory(opts?.category ?? null);
+    setFocusFieldPath(opts?.fieldPath ?? null);
+    setSheetQuery(opts?.searchQuery ?? "");
+    setOpenState(state);
+  }, []);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -109,6 +125,7 @@ function ProfessionInner({ params }: { params: Promise<{ id: string }> }) {
         <ErrorBanner>{error}</ErrorBanner>
       )}
 
+      <StateFocusProvider value={openStateDetail}>
       <Tabs value={view} onValueChange={(v) => setView(v as View)}>
         <TabsList>
           <TabsTrigger value="table" disabled={!hasData}>
@@ -173,6 +190,32 @@ function ProfessionInner({ params }: { params: Promise<{ id: string }> }) {
           <ProfessionStatutesView profPayload={payload} id={id} />
         </TabsContent>
       </Tabs>
+
+      {/* ONE Sheet for the whole profession page. It used to live inside ProfileView,
+          which only renders in the table and map tabs — so Scope, Compare, Tags and
+          Novel policies sat outside the provider and a state click there did nothing.
+          Hoisting it above <Tabs> is what makes "a state is clickable everywhere" true. */}
+      {payload && (
+        <StateDetailDialog
+          rows={payload.rows}
+          fields={payload.discovered_fields}
+          openState={openState}
+          onOpenChange={(o) => {
+            if (!o) {
+              setOpenState(null);
+              setFocusColId(null);
+              setFocusCategory(null);
+              setFocusFieldPath(null);
+            }
+          }}
+          searchQuery={sheetQuery}
+          focusColId={focusColId}
+          focusCategory={focusCategory}
+          focusFieldPath={focusFieldPath}
+          textBuckets={payload.map_prep?.text_buckets ?? {}}
+        />
+      )}
+      </StateFocusProvider>
     </main>
   );
 }

@@ -31,6 +31,13 @@ export type OpenStateDetail = (
      * interval rather than dumping every field.
      */
     fieldPath?: string | null;
+    /**
+     * Active "statute text" query at click time, so the Sheet can surface matching
+     * snippets. Passed at click rather than read from a second context: the Sheet is
+     * owned by the page and the query lives in the table below it, so there is no
+     * provider relationship — and a snapshot is what the user was looking at anyway.
+     */
+    searchQuery?: string;
   },
 ) => void;
 

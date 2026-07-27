@@ -29,8 +29,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { humanize, findAllSpans } from "@/lib/format";
 import { SEMANTIC_CLASSES as SC, CATEGORY_CLASSES, token } from "@/lib/web-colors";
-import { StateDetailDialog } from "./state-detail-dialog";
-import { StateFocusProvider, type OpenStateDetail } from "./state-focus";
+import { useOpenStateDetail } from "./state-focus";
 import { MapView } from "./map-view";
 
 // AG Grid v33+ requires modules to be registered before any grid instance
@@ -1598,16 +1597,9 @@ export function ProfileView({
 
   const gridRef = useRef<AgGridReact<Row>>(null);
   const [api, setApi] = useState<GridApi<Row> | null>(null);
-  const [openState, setOpenState] = useState<string | null>(null);
-  // The grid column the user clicked to open the Sheet (#34), so the Sheet can
-  // scroll to and highlight the matching field. Null = no specific focus.
-  const [focusColId, setFocusColId] = useState<string | null>(null);
-  // The specific category chip clicked ("Fraud"), when the click landed on one.
-  // Narrows the Sheet's focus from "this column" to "these items".
-  const [focusCategory, setFocusCategory] = useState<string | null>(null);
-  // Dotted record path of the field a click was about (the choropleth field a map was
-  // showing). The Sheet filters to it.
-  const [focusFieldPath, setFocusFieldPath] = useState<string | null>(null);
+  // The state-detail Sheet is owned by the PAGE (app/professions/[id]/page.tsx) so every
+  // tab can open it, not just this one. We only ask it to open.
+  const openStateDetail = useOpenStateDetail();
   // Force re-render of the chip bar whenever AG Grid's filter model changes.
   // We track a tick rather than mirror the filter model into React state,
   // since the source of truth is the grid itself.
@@ -1680,31 +1672,6 @@ export function ProfileView({
 
   const onFilterChanged = (_e: FilterChangedEvent) => setFilterTick((t) => t + 1);
 
-  // Cell click (not row click) so we know WHICH column was clicked (#34) and
-  // can scroll the Sheet straight to that field. State column is excluded —
-  // it's the row identifier, not a data field worth focusing.
-  const handleCellClick = useCallback(
-    (event: {
-      data?: Row;
-      column?: { getColId: () => string };
-      event?: Event | null;
-    }) => {
-      if (!event.data) return;
-      const col = event.column?.getColId();
-      setFocusColId(col && col !== "state" ? col : null);
-      // If the click landed on a specific category chip ("Fraud 3"), carry that
-      // category through so the Sheet lands on those items. Without it, clicking any
-      // chip in the cell looked identical — you couldn't tell it had taken you to the
-      // thing you actually clicked.
-      const target = event.event?.target;
-      const chip =
-        target instanceof Element ? target.closest("[data-category]") : null;
-      setFocusCategory(chip?.getAttribute("data-category") ?? null);
-      setOpenState(event.data.state);
-    },
-    []
-  );
-
   // Active query for the "Statute text" filter, pulled from AG Grid's filter
   // model so it stays in sync with the chip bar. Passed down to the Sheet
   // so it can highlight matches against the same string the table was
@@ -1716,6 +1683,33 @@ export function ProfileView({
     const m = fm["statute_text"] as { filter?: unknown } | undefined;
     return typeof m?.filter === "string" ? m.filter : "";
   }, [api, filterTick]);
+
+  // Cell click (not row click) so we know WHICH column was clicked (#34) and
+  // can scroll the Sheet straight to that field. State column is excluded —
+  // it's the row identifier, not a data field worth focusing.
+  const handleCellClick = useCallback(
+    (event: {
+      data?: Row;
+      column?: { getColId: () => string };
+      event?: Event | null;
+    }) => {
+      if (!event.data || !openStateDetail) return;
+      const col = event.column?.getColId();
+      // If the click landed on a specific category chip ("Fraud 3"), carry that
+      // category through so the Sheet lands on those items. Without it, clicking any
+      // chip in the cell looked identical — you couldn't tell it had taken you to the
+      // thing you actually clicked.
+      const target = event.event?.target;
+      const chip =
+        target instanceof Element ? target.closest("[data-category]") : null;
+      openStateDetail(event.data.state, {
+        colId: col && col !== "state" ? col : null,
+        category: chip?.getAttribute("data-category") ?? null,
+        searchQuery: statuteTextQuery,
+      });
+    },
+    [openStateDetail, statuteTextQuery]
+  );
 
   // ── Chips: derive from grid's filterModel ─────
   type Chip = { key: string; label: string; value: string; onRemove: () => void };
@@ -1894,18 +1888,8 @@ export function ProfileView({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [api, allToggleableIds]);
 
-  // Publish "open a state's detail" to every view under this page, so a state is
-  // clickable wherever it appears instead of only in the table.
-  const openStateDetail = useCallback<OpenStateDetail>((state, opts) => {
-    setFocusColId(opts?.colId ?? null);
-    setFocusCategory(opts?.category ?? null);
-    setFocusFieldPath(opts?.fieldPath ?? null);
-    setOpenState(state);
-  }, []);
-
   const Wrapper = embedded ? "div" : "main";
   return (
-    <StateFocusProvider value={openStateDetail}>
     <Wrapper className={embedded ? "" : "mx-auto max-w-7xl px-6 py-10"}>
       {!embedded && (
         <>
@@ -2251,26 +2235,7 @@ export function ProfileView({
         </>
       )}
 
-      <StateDetailDialog
-        rows={rows}
-        fields={discovered_fields}
-        openState={openState}
-        onOpenChange={(o) => {
-          if (!o) {
-            setOpenState(null);
-            setFocusColId(null);
-            setFocusCategory(null);
-            setFocusFieldPath(null);
-          }
-        }}
-        searchQuery={statuteTextQuery}
-        focusColId={focusColId}
-        focusCategory={focusCategory}
-        focusFieldPath={focusFieldPath}
-        textBuckets={payload.map_prep?.text_buckets ?? {}}
-      />
     </Wrapper>
-    </StateFocusProvider>
   );
 }
 
