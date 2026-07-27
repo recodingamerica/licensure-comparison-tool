@@ -55,16 +55,33 @@ jobs:
 
       # Pinned: `vercel@latest` in CI means an upstream release can break deploys on a
       # day you changed nothing.
+      # Until the token exists this workflow can only fail, and a red X on every web
+      # push is noise that trains you to ignore the notification. Skip cleanly instead,
+      # and say what's missing.
+      - name: Check deploy credentials
+        id: creds
+        run: |
+          if [ -z "${{ secrets.VERCEL_TOKEN }}" ] || [ -z "$VERCEL_ORG_ID" ] || [ -z "$VERCEL_PROJECT_ID" ]; then
+            echo "configured=false" >> "$GITHUB_OUTPUT"
+            echo "::notice title=Deploy skipped::Set the VERCEL_TOKEN secret and the VERCEL_ORG_ID / VERCEL_PROJECT_ID repo variables to enable automatic deploys. Until then, deploy with 'vercel --prod' from pipeline/publish/web."
+          else
+            echo "configured=true" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Install Vercel CLI
+        if: steps.creds.outputs.configured == 'true'
         run: npm install -g vercel@53
 
       # Brings down project settings AND production env vars — the prebuild step
       # (generate-colors + fetch-blob-data) needs the blob credentials to build.
       - name: Pull Vercel environment
+        if: steps.creds.outputs.configured == 'true'
         run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Build
+        if: steps.creds.outputs.configured == 'true'
         run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Deploy
+        if: steps.creds.outputs.configured == 'true'
         run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
