@@ -26,6 +26,12 @@ export const SearchQueryContext = createContext<string>("");
 // call site. Null when the Sheet was opened without a specific field focus.
 export const FocusFieldContext = createContext<string | null>(null);
 
+// True when the Sheet is showing a filtered subset. Every row still visible is then a row
+// the user explicitly asked for, so each opens its statute context. Without this, whether
+// the context auto-opened depended on WHICH KIND of filter you used — a single-field
+// filter expanded, a category or section filter didn't — which reads as random.
+export const AutoExpandContext = createContext<boolean>(false);
+
 // Per-state bucket labels keyed by EvidenceRow `label` (#34): the same
 // normalized tag the grid shows above bucketed cells (e.g. issuing_authority's
 // "Dedicated Dietetics Board"). Empty for rows with no bucket.
@@ -61,8 +67,9 @@ export function EvidenceRow({ label, ev, sections, showAbsent }: Props) {
   const focused = focusField !== null && focusField === label;
   // When this row is the click-through target, expand its statute context by
   // default so the user lands on the value AND its source text in one step.
-  const [open, setOpen] = useState(focused);
   const searchQuery = useContext(SearchQueryContext);
+  const autoExpand = useContext(AutoExpandContext);
+  const [open, setOpen] = useState(focused || autoExpand);
   const bucket = useContext(BucketContext)[label];
   const rowRef = useRef<HTMLDivElement>(null);
 

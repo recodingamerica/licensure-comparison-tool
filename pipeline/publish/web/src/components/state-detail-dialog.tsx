@@ -16,6 +16,7 @@ import {
   EvidenceRow,
   SearchQueryContext,
   FocusFieldContext,
+  AutoExpandContext,
   BucketContext,
 } from "./evidence-row";
 import { ABSENCE } from "./absence";
@@ -341,6 +342,7 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
   return (
     <SearchQueryContext.Provider value={searchQuery ?? ""}>
     <FocusFieldContext.Provider value={focusLabel}>
+    <AutoExpandContext.Provider value={filterActive}>
     <BucketContext.Provider value={bucketByLabel}>
     <DetailSheet
       open
@@ -521,7 +523,10 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
             </Section>
           )}
 
-          {showSection("Disciplinary grounds") && !filterFieldLabel && lic.disciplinary_grounds && lic.disciplinary_grounds.length > 0 && (
+          {/* A CATEGORY filter lives inside this section, so it must show even though
+              filterSection is null — gating on showSection alone hid the section the
+              category is in, leaving an empty Sheet. */}
+          {(showSection("Disciplinary grounds") || !!filterCategory) && !filterFieldLabel && lic.disciplinary_grounds && lic.disciplinary_grounds.length > 0 && (
             <Section title="Disciplinary grounds">
               {groupGroundsByCategory(lic.disciplinary_grounds)
                 .filter(([cat]) => !filterCategory || cat === filterCategory)
@@ -579,6 +584,7 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
         </SheetBody>
     </DetailSheet>
     </BucketContext.Provider>
+    </AutoExpandContext.Provider>
     </FocusFieldContext.Provider>
     </SearchQueryContext.Provider>
   );
