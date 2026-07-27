@@ -46,6 +46,13 @@ const NESTED_LABEL_PREFIX: Record<string, string> = {
   continuing_education: "CE",
 };
 
+/** What the Sheet is filtered to. One value, so no combination can contradict itself. */
+type SheetFilter =
+  | { kind: "none" }
+  | { kind: "field"; label: string }
+  | { kind: "category"; label: string }
+  | { kind: "section"; label: string };
+
 type EvidenceNode = NonNullable<Parameters<typeof EvidenceRow>[0]["ev"]>;
 
 /**
@@ -227,6 +234,14 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
         knownFieldLabels.has(candidateLabel)
       ? candidateLabel
       : null;
+  // ── The filter, as ONE value ────────────────────────────────────────────────────
+  // Previously this was four loose booleans (filterActive / filterCategory /
+  // filterFieldLabel / filterSection) and five hand-written gates that each spelled the
+  // visibility rule slightly differently. That is where today's bugs came from: one gate
+  // hid the Disciplinary-grounds section during a CATEGORY filter (empty Sheet), and
+  // another didn't use the shared helper at all. A discriminated union plus one
+  // exhaustive predicate makes those states unrepresentable — add a filter kind and
+  // TypeScript forces every case to be answered here, once.
   const requestKey = requestedCategory
     ? `${openState}:cat:${requestedCategory}`
     : requestedFieldLabel
@@ -235,26 +250,42 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
         ? `${openState}:section:${focusSection}`
         : null;
   const [dismissedKey, setDismissedKey] = useState<string | null>(null);
-  const filterActive = !!requestKey && dismissedKey !== requestKey;
-  const filterCategory = filterActive ? requestedCategory : null;
-  const filterFieldLabel = filterActive ? requestedFieldLabel : null;
-  const filterSection = filterActive && !requestedCategory && !requestedFieldLabel
-    ? focusSection ?? null
-    : null;
-  // A section filter shows that whole section; keep it visible while hiding the others.
-  const showSection = (name: string) => !filterActive || filterSection === name;
+  const dismissed = !!requestKey && dismissedKey === requestKey;
 
-  // The row that auto-expands its statute text is the row you filtered TO — not whatever
-  // the colId happened to spell. Before this, expansion depended on how the click
-  // arrived: an identity column (regulatory_model) expanded because colId == row label,
-  // a column with a declared fieldPath did not (colId "education_degree" vs row
-  // "education.degree_required"), and a map / scope-matrix / novel-policy click never
-  // did, having no colId at all. Same click, different behaviour, for no reason a user
-  // could see.
-  //
-  // Group filters (a category or a whole section) deliberately expand nothing: there is
-  // no single row you asked for, and expanding all of them buries the thing you clicked.
-  const focusLabel = filterFieldLabel ?? focusColIdToLabel(focusColId);
+  const filter: SheetFilter =
+    !requestKey || dismissed
+      ? { kind: "none" }
+      : requestedCategory
+        ? { kind: "category", label: requestedCategory }
+        : requestedFieldLabel
+          ? { kind: "field", label: requestedFieldLabel }
+          : { kind: "section", label: focusSection as string };
+
+  const filterActive = filter.kind !== "none";
+
+  // The ONE visibility rule. Every section gate calls this and nothing else.
+  const showsSection = (name: string): boolean => {
+    switch (filter.kind) {
+      case "none":
+        return true;
+      // A field filter renders its own one-row section instead of any of these.
+      case "field":
+        return false;
+      // A category lives INSIDE Disciplinary grounds — that section has to stay.
+      case "category":
+        return name === "Disciplinary grounds";
+      case "section":
+        return name === filter.label;
+    }
+  };
+
+  // The row that auto-expands is the row you filtered TO, not whatever the colId spelled.
+  // Expansion used to depend on how the click arrived: an identity column expanded
+  // because colId == row label, a declared-path column did not ("education_degree" vs
+  // "education.degree_required"), and map / matrix / policy clicks never did, having no
+  // colId at all.
+  const focusLabel =
+    filter.kind === "field" ? filter.label : focusColIdToLabel(focusColId);
 
   // Per-state bucket chips keyed by EvidenceRow label. Covers the three
   // universal text-bucketed fields plus any profession-specific bucketed list
@@ -427,13 +458,11 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
         >
           {filterActive && (
             <FilterBar
-              label={
-                filterCategory ?? filterSection ?? humanize(filterFieldLabel ?? "")
-              }
+              label={filter.kind === "field" ? humanize(filter.label) : filter.label}
               source={
-                filterCategory
+                filter.kind === "category"
                   ? "from Disciplinary categories"
-                  : filterSection
+                  : filter.kind === "section"
                     ? "— one section"
                     : "— one field"
               }
@@ -443,17 +472,17 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
           {/* Filtered to one field (a map click): render just that field's row, resolved
               from the record by its dotted path. `showAbsent` so a state the map colored
               "no data" still explains itself instead of opening an empty Sheet. */}
-          {filterFieldLabel && (
-            <Section title={humanize(filterFieldLabel)}>
+          {filter.kind === "field" && (
+            <Section title={humanize(filter.label)}>
               <EvidenceRow
-                label={filterFieldLabel}
-                ev={evidenceByLabel[filterFieldLabel]}
+                label={filter.label}
+                ev={evidenceByLabel[filter.label]}
                 sections={sections}
                 showAbsent
               />
             </Section>
           )}
-          {showSection("Base licensure") && (
+          {showsSection("Base licensure") && (
           <Section title="Base licensure">
             <EvidenceRow label="regulatory_model" ev={lic.regulatory_model} sections={sections} />
             <EvidenceRow label="credential_type" ev={lic.credential_type} sections={sections} />
@@ -510,7 +539,7 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
           </Section>
           )}
 
-          {showSection("Exams") && lic.exams && lic.exams.length > 0 && (
+          {showsSection("Exams") && lic.exams && lic.exams.length > 0 && (
             <Section title="Exams">
               {lic.exams.map((e, i) => (
                 <EvidenceRow
@@ -523,13 +552,10 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
             </Section>
           )}
 
-          {/* A CATEGORY filter lives inside this section, so it must show even though
-              filterSection is null — gating on showSection alone hid the section the
-              category is in, leaving an empty Sheet. */}
-          {(showSection("Disciplinary grounds") || !!filterCategory) && !filterFieldLabel && lic.disciplinary_grounds && lic.disciplinary_grounds.length > 0 && (
+          {showsSection("Disciplinary grounds") && lic.disciplinary_grounds && lic.disciplinary_grounds.length > 0 && (
             <Section title="Disciplinary grounds">
               {groupGroundsByCategory(lic.disciplinary_grounds)
-                .filter(([cat]) => !filterCategory || cat === filterCategory)
+                .filter(([cat]) => filter.kind !== "category" || cat === filter.label)
                 .map(
                 ([cat, grounds]) => (
                   <div
@@ -556,7 +582,7 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
             </Section>
           )}
 
-          {showSection("Scope of practice") && scope && (scope.definition_quote || scope.methods_authorized || scope.drug_authority) && (
+          {showsSection("Scope of practice") && scope && (scope.definition_quote || scope.methods_authorized || scope.drug_authority) && (
             <Section title="Scope of practice">
               <EvidenceRow label="definition_quote" ev={scope.definition_quote} sections={sections} />
               <EvidenceRow label="methods_authorized" ev={scope.methods_authorized} sections={sections} />
@@ -564,10 +590,10 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
             </Section>
           )}
 
-          {!filterFieldLabel && !filterCategory && Object.keys(byCat)
+          {Object.keys(byCat)
             .sort()
             // Profession-specific groups are sections too, so they obey the same rule.
-            .filter((cat) => showSection(cat))
+            .filter((cat) => showsSection(cat))
             .map((cat) => (
               <Section key={cat} title={cat}>
                 {byCat[cat].map(({ def, ev }) => (
