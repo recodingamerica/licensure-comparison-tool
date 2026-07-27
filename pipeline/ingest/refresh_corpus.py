@@ -267,13 +267,23 @@ def revert(path: Path, has_head: bool) -> None:
         path.unlink()
 
 
-def commit(path: Path, msg: str) -> None:
-    _git("add", _rel(path))
+def commit(path: Path, msg: str, *extra: Path) -> None:
+    """Commit ONLY our own paths — never whatever else happens to be in the index.
+
+    A bare `git commit` commits the WHOLE index. This runs unattended for hours, so
+    anything a human or another tool has staged meanwhile gets silently swept into a
+    "data: refresh <prof>/<state>" commit that claims to be a corpus update (observed
+    2026-07-27: four unrelated file deletions landed inside one). Pass the pull-provenance
+    stamp via `extra` so corpus + stamp still land in ONE commit.
+    """
+    paths = [_rel(path), *(_rel(p) for p in extra)]
+    _git("add", *paths)
     _git("commit", "-q", "-m", msg,
-         "-m", "Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>")
+         "-m", "Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>",
+         "--", *paths)
 
 
-def _stage_pull_stamp(profession: str, state: str) -> None:
+def _stage_pull_stamp(profession: str, state: str) -> Path | None:
     """Right before an OK pull commits its corpus, git-add this cell's pull-provenance stamp
     so the corpus and its freshness stamp land in ONE commit. pull's freshness key is the
     frozen profession-index url-map (not the corpus bytes), so a cell already current needs
@@ -282,9 +292,10 @@ def _stage_pull_stamp(profession: str, state: str) -> None:
     pull, which by definition already had a committed corpus, is covered by that baseline —
     so only OK pulls stamp)."""
     if provenance.check("pull", profession, state) == "current":
-        return
+        return None
     stamp_path = provenance.record("pull", profession, state)
     _git("add", _rel(stamp_path))
+    return stamp_path
 
 
 PENDING_DIR = RESULTS_DIR / "pending_review"
@@ -659,8 +670,8 @@ def refresh_item(profession: str, state: str, rows: list[dict], *,
         msg += " [--force over regression]"
     elif rec.get("auto_accepted"):
         msg += " [auto-accepted: clean same-chapter change]"
-    _stage_pull_stamp(profession, state)   # fold this cell's pull-provenance into the commit
-    commit(out_path, msg)
+    stamp = _stage_pull_stamp(profession, state)   # fold this cell's pull-provenance into the commit
+    commit(out_path, msg, *([stamp] if stamp else []))
     rec["result"] = "OK"
     rec["per_chapter"] = sections_per_chapter(chapter_urls, sections)
     return rec
@@ -1398,7 +1409,7 @@ def main(argv: list[str] | None = None) -> None:
 
     # Big annual run: show scope + a rough time estimate and confirm, so a
     # non-expert operator knows the commitment. Interactive + --all-professions
-    # only — scoped/scripted runs (refetch.sh, gap_pull.sh) proceed without a prompt.
+    # only — scoped/scripted runs (refetch.sh) proceed without a prompt.
     if args.all_professions and not args.yes and sys.stdin.isatty():
         work = build_worklist(professions, only_states)
         if not work:

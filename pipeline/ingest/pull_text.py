@@ -784,8 +784,9 @@ _OVER_BROAD_MAX = int(os.environ.get("PULL_OVER_BROAD_MAX", "300"))
 # Hard fetch-budget ceiling — OPT IN via PULL_BATCH_TIMEOUT_SECONDS (unset/0 disables;
 # this is the default, so a plain/manual/one-off pull is unaffected and can grind through
 # a legitimately huge chapter like Medicine's own 500+ section chapter with no artificial
-# cap). gap_pull.sh (the automated gap-harvest driver) sets PULL_BATCH_TIMEOUT_SECONDS=900
-# to match its own `timeout ... 900` wrapper, because at fetch.per_host_delay_seconds per
+# cap). Set PULL_BATCH_TIMEOUT_SECONDS=900 alongside a `timeout ... 900` wrapper on a
+# scripted batch pull (the retired gap_pull.sh driver did exactly this), because at
+# fetch.per_host_delay_seconds per
 # section (plus up to 60% jitter -> ~1.3x average) a chapter with too many leaves CANNOT
 # finish inside THAT specific 900s per-cell budget no matter how many times it's retried
 # -- it just burns the full 900s and reverts empty every time (the 2026-07-07 lesson:

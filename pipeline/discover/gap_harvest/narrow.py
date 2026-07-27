@@ -332,11 +332,19 @@ def detect(threshold: int = OVER_BROAD_SECTIONS) -> list[dict]:
 
 
 def _driver_running() -> bool:
-    try:
-        return subprocess.run(["pgrep", "-f", "gap_pull.sh"],
-                              capture_output=True).returncode == 0
-    except Exception:
-        return False
+    """True if a Justia fetch is in flight — we run one fetcher at a time.
+
+    Matches the pull stages themselves rather than a launcher script, so the guard
+    holds however the pull was started (annual crawl, manual one-off, batch).
+    """
+    for pattern in ("pipeline.ingest.refresh_corpus", "pipeline.ingest.pull_text"):
+        try:
+            if subprocess.run(["pgrep", "-f", pattern],
+                              capture_output=True).returncode == 0:
+                return True
+        except Exception:
+            continue
+    return False
 
 
 def main() -> int:
@@ -373,8 +381,8 @@ def main() -> int:
 
     if args.apply is not None:
         if _driver_running():
-            print("REFUSING: gap_pull.sh is running — narrowing fetches from Justia too, "
-                  "and we run one Justia fetcher at a time. Stop the driver first."); return 2
+            print("REFUSING: a Justia pull is running — narrowing fetches from Justia too, "
+                  "and we run one Justia fetcher at a time. Stop the pull first."); return 2
         profs = load_professions()
         cells = [tuple(c.split("/", 1)) for c in args.apply] if args.apply \
             else [(h["prof"], h["state"]) for h in detect(args.threshold)]

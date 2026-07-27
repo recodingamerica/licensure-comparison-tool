@@ -76,6 +76,68 @@ def _commit_corpus(root, text_dir, prof, state, corpus_dict):
     subprocess.run(["git", "commit", "-q", "-m", "seed"], cwd=root, check=True)
 
 
+def _committed_files(root, ref="HEAD"):
+    out = subprocess.run(["git", "show", "--name-only", "--format=", ref],
+                         cwd=root, capture_output=True, text=True, check=True)
+    return {line for line in out.stdout.split("\n") if line}
+
+
+def test_commit_does_not_sweep_unrelated_staged_work(repo):
+    """commit() must commit ONLY its own paths.
+
+    A bare `git commit` commits the WHOLE index. This crawl runs unattended for hours,
+    so anything staged meanwhile by a person or another tool gets silently absorbed into
+    a "data: refresh" commit that claims to be a corpus update. That really happened
+    (2026-07-27): four unrelated file deletions landed inside one corpus commit.
+    """
+    root, _idx, text_dir = repo
+    (root / "seed.txt").write_text("seed")
+    subprocess.run(["git", "add", "seed.txt"], cwd=root, check=True)
+    subprocess.run(["git", "commit", "-q", "-m", "seed"], cwd=root, check=True)
+
+    # Someone else's work, staged in this repo but nothing to do with the corpus.
+    unrelated = root / "unrelated.txt"
+    unrelated.write_text("do not commit me")
+    subprocess.run(["git", "add", "unrelated.txt"], cwd=root, check=True)
+
+    corpus = text_dir / "nursing" / "UT.json"
+    corpus.parent.mkdir(parents=True, exist_ok=True)
+    corpus.write_text(json.dumps({"sections": []}))
+
+    rc.commit(corpus, "data: refresh nursing/UT — 0->0 sections")
+
+    committed = _committed_files(root)
+    assert "pipeline/results/text/nursing/UT.json" in committed
+    assert "unrelated.txt" not in committed, (
+        f"commit() swept unrelated staged work into a corpus commit: {committed}")
+    # ...and it is left staged for its real owner, not silently discarded.
+    staged = subprocess.run(["git", "diff", "--cached", "--name-only"],
+                            cwd=root, capture_output=True, text=True, check=True).stdout
+    assert "unrelated.txt" in staged
+
+
+def test_commit_includes_extra_paths_in_one_commit(repo):
+    """The pull-provenance stamp must still land in the SAME commit as its corpus —
+    path-scoping the commit must not drop it."""
+    root, _idx, text_dir = repo
+    (root / "seed.txt").write_text("seed")
+    subprocess.run(["git", "add", "seed.txt"], cwd=root, check=True)
+    subprocess.run(["git", "commit", "-q", "-m", "seed"], cwd=root, check=True)
+
+    corpus = text_dir / "nursing" / "UT.json"
+    corpus.parent.mkdir(parents=True, exist_ok=True)
+    corpus.write_text(json.dumps({"sections": []}))
+    stamp = root / "pipeline" / "results" / "provenance" / "nursing" / "UT.json"
+    stamp.parent.mkdir(parents=True, exist_ok=True)
+    stamp.write_text(json.dumps({"stage": "pull"}))
+
+    rc.commit(corpus, "data: refresh nursing/UT — 0->0 sections", stamp)
+
+    committed = _committed_files(root)
+    assert "pipeline/results/text/nursing/UT.json" in committed
+    assert "pipeline/results/provenance/nursing/UT.json" in committed
+
+
 def _cite(u):
     return "/".join(u.rstrip("/").split("/")[-2:])  # distinct per (chapter, section)
 

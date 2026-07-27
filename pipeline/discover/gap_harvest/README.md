@@ -19,9 +19,17 @@ Data lives in `results/gap_harvest/` (override `GAP_HARVEST_DIR`): `tier3_absenc
 gap list), `locator_results.json` (located URLs), `pull_worklist.json`, `reused.json`,
 `relocate_worklist.json`, `discovered_occupations.json`.
 
-The **pull** itself uses `refresh_corpus` (headless Scrapling — CDP retired 2026-07-13),
-driven by `gap_pull.sh`: ONE state per process (Playwright cross-thread bug), skips
-already-pulled (resumable), commits per profession, `caffeinate -disu`.
+The **pull** itself uses the ordinary pipeline runners (headless Scrapling — CDP retired
+2026-07-13). There is no gap-harvest-specific pull driver: the `gap_pull.sh` /
+`gap_supervise.sh` / `watchdog.sh` / launchd-agent stack was retired 2026-07-27 — four
+scheduling wrappers around `refresh_corpus`, each with its own private notion of what was
+pending, which is exactly how a 3-cell gap came to look like 25. Pull gap cells the same
+way you pull anything else, supervised, ONE fetcher at a time:
+
+- brand-new (prof, state) with no committed corpus → `pipeline.ingest.pull_text`
+  (`refresh_corpus` decides "changed" by git-diffing HEAD, so it is the wrong tool for a
+  never-committed cell)
+- re-checking a corpus you already hold → `pipeline.ingest.refresh_corpus`
 
 ## End-to-end recipe
 
@@ -31,7 +39,7 @@ already-pulled (resumable), commits per profession, `caffeinate -disu`.
 3. locate  --recover-nulls→ recover exemption chapters the strict pass skipped
 4. write targets          → config/mapping_overrides.yaml (via=gap_locator) + rebuild indexes
 5. reuse                  → copy ~1/3 from existing corpora; rest → pull_worklist.json
-6. gap_pull.sh            → pull the rest, headless (one state/process, resumable)
+6. pull_text (new cells)  → pull the rest, headless, supervised (one fetcher at a time)
 7. cleanup --relocate     → fix the ~1% dead + wrong-level, re-pull
 8. clean → trim → discover_schema → extract_state_batch   (consistency-gated)
 ```

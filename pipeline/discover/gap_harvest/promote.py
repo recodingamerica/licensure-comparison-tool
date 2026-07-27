@@ -5,17 +5,17 @@ refresh_corpus / pull_text ONLY read chapter targets from profession_index's fro
 `matched` list (see refresh_corpus.py's build_worklist / pull_text.py's main). The
 gap-harvest locator (locate.py) writes URLs to a completely separate file,
 locator_results.json, that nothing else reads. A cell can be "located" there forever
-without ever being pullable -- gap_pull.sh/refresh_corpus will silently no-op on it,
+without ever being pullable -- the pull stages will silently no-op on it,
 producing an empty result every single time (discovered 2026-07-07: 128 of 134 queued
 gap-harvest cells had a locator URL but no profession_index mapping, so an entire
 worklist pass did nothing).
 
 This writes the located {url, label} into `matched` ONLY where the state's `matched`
 list is currently empty (never overwrites an existing real mapping) and no local
-corpus already exists. It does not fetch anything -- the next gap_pull.sh pass does
-that, now safely: pull_text's over-broad guard (opt-in via PULL_BATCH_TIMEOUT_SECONDS,
-set by gap_pull.sh) will skip-and-flag anything too large to fetch within the driver's
-per-cell timeout, regardless of label match.
+corpus already exists. It does not fetch anything -- the next pull does that, and can do
+so safely: pull_text's over-broad guard (opt-in via PULL_BATCH_TIMEOUT_SECONDS) will
+skip-and-flag anything too large to fetch within that per-cell timeout, regardless of
+label match.
 
   python -m pipeline.discover.gap_harvest.promote [--via null_recovery] [--dry-run]
 """
