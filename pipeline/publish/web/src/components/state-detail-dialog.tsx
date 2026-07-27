@@ -72,15 +72,33 @@ const NESTED_LABEL_PREFIX: Record<string, string> = {
   continuing_education: "CE",
 };
 
-/** Resolve an Evidence node from a record by dotted path, or null if it isn't there. */
-function evidenceAtPath(record: unknown, path: string) {
-  let cur: unknown = record;
-  for (const seg of path.split(".")) {
-    if (!cur || typeof cur !== "object") return null;
-    cur = (cur as Record<string, unknown>)[seg];
-  }
-  if (!cur || typeof cur !== "object" || !("value" in cur)) return null;
-  return cur as Parameters<typeof EvidenceRow>[0]["ev"];
+type EvidenceNode = NonNullable<Parameters<typeof EvidenceRow>[0]["ev"]>;
+
+/**
+ * Index every Evidence node in a record by its Sheet row label.
+ *
+ * The entry points know a field by different names — the grid by colId, a map by dotted
+ * record path, the bucket chips by dotted path — but they all have to land on the same
+ * row. Rather than each maintaining its own lookup table, they resolve to a label and
+ * look it up here. Walks the record once, so it also covers profession-specific fields
+ * without anyone enumerating them.
+ */
+function indexEvidenceByLabel(record: unknown): Record<string, EvidenceNode> {
+  const out: Record<string, EvidenceNode> = {};
+  const walk = (node: unknown, path: string) => {
+    if (!node || typeof node !== "object") return;
+    if ("value" in (node as Record<string, unknown>)) {
+      const label = fieldPathToLabel(path);
+      if (label && !(label in out)) out[label] = node as EvidenceNode;
+      return;
+    }
+    if (Array.isArray(node)) return; // lists (exams, grounds) render as their own sections
+    for (const [k, v] of Object.entries(node as Record<string, unknown>)) {
+      walk(v, path ? `${path}.${k}` : k);
+    }
+  };
+  walk(record, "");
+  return out;
 }
 
 export function fieldPathToLabel(path: string): string | null {
@@ -194,7 +212,19 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
     focusColId === "disciplinary_categories" ? focusCategory ?? null : null;
   // A field filter (from a map click) and a category filter are the same idea applied to
   // different things, so they share one dismissal key — clearing is one gesture either way.
-  const requestedFieldLabel = focusFieldPath ? fieldPathToLabel(focusFieldPath) : null;
+  // One resolution path for every entry point: map click (dotted path) and grid cell
+  // click (colId) both become a label, and we only filter when that label actually
+  // resolves to a node in this record — so a computed/non-field column (coverage_gap,
+  // statute text) falls back to the full Sheet instead of filtering to nothing.
+  const evidenceByLabel = useMemo(
+    () => (row?._full ? indexEvidenceByLabel(row._full) : {}),
+    [row],
+  );
+  const candidateLabel = focusFieldPath
+    ? fieldPathToLabel(focusFieldPath)
+    : focusColIdToLabel(focusColId);
+  const requestedFieldLabel =
+    candidateLabel && candidateLabel in evidenceByLabel ? candidateLabel : null;
   const requestKey = requestedCategory
     ? `${openState}:cat:${requestedCategory}`
     : requestedFieldLabel
@@ -383,7 +413,7 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
                 {filterCategory ?? humanize(filterFieldLabel ?? "")}
               </span>
               <span className="text-muted-foreground">
-                {filterCategory ? "from Disciplinary categories" : "from the map"}
+                {filterCategory ? "from Disciplinary categories" : "— one field"}
               </span>
               <button
                 type="button"
@@ -398,11 +428,11 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
           {/* Filtered to one field (a map click): render just that field's row, resolved
               from the record by its dotted path. `showAbsent` so a state the map colored
               "no data" still explains itself instead of opening an empty Sheet. */}
-          {filterFieldLabel && focusFieldPath && (
+          {filterFieldLabel && (
             <Section title={humanize(filterFieldLabel)}>
               <EvidenceRow
                 label={filterFieldLabel}
-                ev={evidenceAtPath(full, focusFieldPath)}
+                ev={evidenceByLabel[filterFieldLabel]}
                 sections={sections}
                 showAbsent
               />
