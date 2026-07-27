@@ -817,36 +817,12 @@ function inferFilter(
 const UNVERIFIED_PATHS: Record<string, string[]> = {
   regulatory_model:          ["licensure", "regulatory_model"],
   issuing_authority:         ["licensure", "issuing_authority"],
-  education_degree:          ["licensure", "education", "degree_required"],
-  post_degree_duration:      ["licensure", "post_degree_experience", "duration"],
-  renewal_years:             ["licensure", "renewal", "interval_years"],
-  reciprocity_available:     ["licensure", "reciprocity", "available"],
-  advisory_board_exists:     ["licensure", "advisory_board", "exists"],
   national_certification:    ["licensure", "national_certification"],
   national_association:      ["licensure", "national_association"],
-  renewal_fee_usd:           ["licensure", "renewal_fee_usd"],
   credential_type:           ["licensure", "credential_type"],
-  license_required:          ["licensure", "license_required"],
   title_protection:          ["licensure", "title_protection"],
   scope_protection:          ["licensure", "scope_protection"],
   is_mandatory:              ["licensure", "is_mandatory"],
-  age_minimum:               ["licensure", "age_minimum"],
-  moral_character_required:  ["licensure", "moral_character_required"],
-  education_accrediting_body:["licensure", "education", "accrediting_body"],
-  education_degree_level:    ["licensure", "education", "degree_level"],
-  education_approval_basis:  ["licensure", "education", "school_approval_basis"],
-  education_credential_pegged:["licensure", "education", "credential_pegged"],
-  post_degree_required:      ["licensure", "post_degree_experience", "required"],
-  post_degree_kind:          ["licensure", "post_degree_experience", "kind"],
-  experience_source:         ["licensure", "post_degree_experience", "experience_source"],
-  ce_required:               ["licensure", "continuing_education", "required"],
-  ce_hours_per_period:       ["licensure", "continuing_education", "hours_per_period"],
-  ce_period_years:           ["licensure", "continuing_education", "period_years"],
-  ce_topical_requirements:   ["licensure", "continuing_education", "topical_requirements"],
-  reciprocity_requirements:  ["licensure", "reciprocity", "requirements"],
-  scope_definition:          ["scope", "definition_quote"],
-  scope_methods:             ["scope", "methods_authorized"],
-  scope_drug_authority:      ["scope", "drug_authority"],
 };
 
 // Columns whose value comes from more than one Evidence node — flag the cell
@@ -1598,7 +1574,12 @@ function buildColumnDefs(
   for (const c of cols) {
     const id = (c.field as string | undefined) ?? c.colId;
     if (!id) continue;
-    const single = UNVERIFIED_PATHS[id];
+    // The column's own declared record path wins. It already carries one for the click
+    // contract, so consulting UNVERIFIED_PATHS as well meant the same fact lived in two
+    // places with nothing keeping them in step — the drift that the deleted colId->label
+    // table used to cause. UNVERIFIED_PATHS now only covers columns that declare nothing.
+    const declared = (c.context as { fieldPath?: string } | undefined)?.fieldPath;
+    const single = declared ? declared.split(".") : UNVERIFIED_PATHS[id];
     const multi = UNVERIFIED_COMPOUND[id];
     const paths = single ? [single] : multi ?? [];
     if (paths.length === 0) continue;

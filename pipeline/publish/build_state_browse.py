@@ -39,7 +39,7 @@ from typing import Any
 from pipeline._env import load_env
 load_env()
 
-from pipeline.extract.model_helpers import iter_evidence
+from pipeline.extract.model_helpers import iter_quote_carriers, iter_evidence
 from pipeline.extract.locate_quote import (
     normalize_with_mapping, split_quote_segments, locate_segments_in_normalized,
 )
@@ -74,7 +74,8 @@ def _quote_evidence(record: dict) -> list[dict]:
     normalized segments (the expensive part). Computed once per profession per
     state instead of re-normalizing the quote for every section."""
     out: list[dict] = []
-    for path, node in iter_evidence(record):
+    # Quote carriers: the browse view highlights list-item quotes too.
+    for path, node in iter_quote_carriers(record):
         quote = node.get("quote") or ""
         if not quote:
             continue

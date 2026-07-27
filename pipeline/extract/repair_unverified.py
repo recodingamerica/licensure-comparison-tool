@@ -32,7 +32,7 @@ from pipeline._records import record_files
 from pipeline.extract.extract_state import load_umbrella_text  # noqa: E402
 from pipeline.extract.locate_quote import normalize_for_match, quote_in_corpus  # noqa: E402
 from pipeline.paths import LOGS_DIR, STRUCTURED_DIR, TRIMMED_DIR
-from pipeline.extract.model_helpers import iter_evidence  # noqa: E402
+from pipeline.extract.model_helpers import iter_quote_carriers, iter_evidence  # noqa: E402
 from pipeline.config.loaders import model_for
 
 
@@ -178,7 +178,9 @@ def main() -> None:
         record = json.loads(path.read_text())
 
         to_repair: list[dict] = [
-            n for _, n in iter_evidence(record) if n.get("unverified")
+            # Quote carriers: grounds and exams can be unverified now, and a repair
+            # pass that can't see them would leave them broken forever.
+            n for _, n in iter_quote_carriers(record) if n.get("unverified")
         ]
         if not to_repair:
             continue

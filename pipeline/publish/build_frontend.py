@@ -621,7 +621,10 @@ def _normalize_payload_citations(rows: list[dict], map_prep: dict | None) -> Non
     for r in rows:
         # iter_evidence walks any Evidence-shaped dict — finds citations under
         # licensure, scope, profession_specific, and nested objects.
-        for _, ev in iter_evidence(r):
+        # Quote carriers: an unnormalized ground citation won't match the section list,
+        # which breaks the citation->section lookup that both the source link and the
+        # highlight depend on.
+        for _, ev in iter_quote_carriers(r):
             cite = ev.get("citation")
             if cite:
                 ev["citation"] = normalize_citation(cite)

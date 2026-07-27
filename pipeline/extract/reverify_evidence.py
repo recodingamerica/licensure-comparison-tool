@@ -23,7 +23,7 @@ from pipeline.extract.extract_state import annotate_evidence, load_umbrella_text
 from pipeline.extract.locate_quote import normalize_for_match  # noqa: E402
 from pipeline.paths import STRUCTURED_DIR, TRIMMED_DIR
 from pipeline._records import record_files
-from pipeline.extract.model_helpers import iter_evidence  # noqa: E402
+from pipeline.extract.model_helpers import iter_quote_carriers, iter_evidence  # noqa: E402
 
 
 def main() -> None:
@@ -56,7 +56,9 @@ def main() -> None:
         normalized = normalize_for_match(text)
 
         # Strip stale unverified flags so we re-evaluate from scratch.
-        for _, ev_node in iter_evidence(record):
+        # Must match what annotate_evidence walks, or a stale flag on a list item
+        # would never be cleared on a later re-verify.
+        for _, ev_node in iter_quote_carriers(record):
             ev_node.pop("unverified", None)
 
         v, u = annotate_evidence(record, normalized)

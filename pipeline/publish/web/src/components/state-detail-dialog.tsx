@@ -546,7 +546,12 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
                 <EvidenceRow
                   key={i}
                   label={e.name || "exam"}
-                  ev={{ value: e.name || "", quote: e.quote || "", citation: e.citation || "" }}
+                  // Spread first: the build attaches quote_spans (the highlight), plus
+                  // unverified / approximate, to the ITEM. Rebuilding a bare
+                  // {value,quote,citation} silently dropped all three, so a list item
+                  // could never highlight or show a verification badge no matter what
+                  // the data said.
+                  ev={{ ...e, value: e.name || "", quote: e.quote || "", citation: e.citation || "" }}
                   sections={sections}
                 />
               ))}
@@ -573,7 +578,9 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
                       <EvidenceRow
                         key={`${cat}-${i}`}
                         label={g.short_label || "ground"}
-                        ev={{ value: g.description || "", quote: g.quote || "", citation: g.citation || "" }}
+                        // Spread first — see the exams row above. Without it the
+                        // ground's quote_spans / unverified never reach the UI.
+                        ev={{ ...g, value: g.description || "", quote: g.quote || "", citation: g.citation || "" }}
                         sections={sections}
                       />
                     ))}
