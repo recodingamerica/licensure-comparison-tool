@@ -189,3 +189,80 @@ class TestListItemsGetQuoteSpans:
         rec = self._record()
         bf._annotate_quote_spans(rec, self._sections())
         assert rec["licensure"]["regulatory_model"].get("quote_spans")
+
+
+class TestEveryCoreFieldIsReachableInTheUI:
+    """A field the pipeline extracts, quotes and cites — but that no UI row renders — is
+    invisible: the table can show its value while its evidence is unreachable anywhere.
+
+    That happened silently to advisory_board.{exists,name,authority}, renewal_fee_usd,
+    national_certification and national_association. It was found by accident chasing a
+    missing highlight; this finds it on purpose.
+
+    Only CORE (licensure/scope) fields: profession_specific fields render generically from
+    the discovered schema, so they can't go missing this way.
+    """
+
+    NEST = {"post_degree_experience": "post_degree", "continuing_education": "CE"}
+
+    # Fields that exist in the data and are deliberately NOT given their own Sheet row.
+    # Adding one here is a decision to leave data unexposed — state the reason.
+    KNOWN_UNEXPOSED = {
+        # Structural detail about the board itself rather than a licensing requirement;
+        # the Sheet shows issuing_authority instead. See #34 discussion.
+        "regulatory_authority.type",
+        "regulatory_authority.name",
+        "regulatory_authority.umbrella_agency",
+        # Non-licensure alternative-regulation signals; no column surfaces them either.
+        "alternative_regulation.insurance_required",
+        "alternative_regulation.establishment_regulation_required",
+        "alternative_regulation.bonding_required",
+    }
+
+    def _label(self, path: str) -> str | None:
+        if not path.startswith(("licensure.", "scope.")):
+            return None
+        if path.startswith("scope."):
+            return path[len("scope."):]
+        rest = path[len("licensure."):]
+        if "." not in rest:
+            return rest
+        group, leaf = rest.split(".", 1)
+        return f"{self.NEST.get(group, group)}.{leaf}"
+
+    def test_no_core_field_is_unreachable(self):
+        import glob, json, re
+        from pathlib import Path
+
+        present: set[str] = set()
+        for f in glob.glob("pipeline/results/structured/*/*.json"):
+            if f.endswith("_summary.json"):
+                continue
+            try:
+                rec = json.loads(Path(f).read_text())
+            except Exception:
+                continue
+
+            def walk(node, path=""):
+                if isinstance(node, dict):
+                    if "value" in node and ("quote" in node or "citation" in node):
+                        lb = self._label(path)
+                        if lb:
+                            present.add(lb)
+                        return
+                    for k, v in node.items():
+                        walk(v, f"{path}.{k}" if path else k)
+
+            walk(rec)
+
+        sheet = Path(
+            "pipeline/publish/web/src/components/state-detail-dialog.tsx"
+        ).read_text()
+        rendered = set(re.findall(r'<EvidenceRow\s+label="([^"]+)"', sheet))
+
+        unreachable = present - rendered - self.KNOWN_UNEXPOSED
+        assert not unreachable, (
+            "these fields carry extracted, quoted, cited data that NO Sheet row renders — "
+            "the table can show the value while its evidence is unreachable: "
+            f"{sorted(unreachable)}"
+        )

@@ -107,6 +107,11 @@ export type LicensureRequirements = {
   // and citation were unreachable anywhere in the UI. If a column shows a field, the
   // Sheet has to be able to show its evidence.
   renewal_fee_usd?: Evidence<number> | null;
+  // Same story as advisory_board: shown as table columns, but with no row in the type
+  // (and so none in the Sheet), their quote and citation were unreachable. Found by
+  // diffing every evidence path in the data against the labels the Sheet can render.
+  national_certification?: Evidence<string> | null;
+  national_association?: Evidence<string> | null;
   advisory_board?: {
     exists?: Evidence<boolean> | null;
     name?: Evidence<string> | null;
