@@ -318,6 +318,9 @@ export type ProfilePayload = {
   discovered_fields: DiscoveredField[];
   rows: Row[];
   map_prep?: MapPrep | null;
+  // Defined in pipeline/publish/priority_concepts.py and shipped here, so the map's
+  // dropdown doesn't restate the list (it used to, and they drifted).
+  priority_concepts?: { concept: string; candidates: string[] }[];
   evidence_summary: { verified: number; unverified: number };
 };
 

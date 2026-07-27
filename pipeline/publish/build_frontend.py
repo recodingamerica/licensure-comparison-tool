@@ -82,6 +82,7 @@ from pipeline.config.states import ALL_STATES
 from pipeline.extract.locate_quote import locate_quote_in_section
 from pipeline.extract.standard_model import is_evidence_node, iter_evidence, deep_get
 from pipeline.extract.model_helpers import iter_quote_carriers
+from pipeline.publish.priority_concepts import for_choropleth
 from pipeline.scope.scope_sources import is_universal, is_enumeration
 from pipeline.scope.merged_scope import merged_scope_by_url
 from pipeline.publish.blob_upload import upload_json
@@ -736,6 +737,9 @@ def build(profession: str, payload_only: bool = False) -> dict:
         "discovered_fields": discovered["fields"],
         "rows": rows,
         "map_prep": map_prep,
+        # The map's field dropdown reads THIS instead of restating the list. It used to
+        # keep its own copy in map-view.tsx, and the two had drifted four ways.
+        "priority_concepts": for_choropleth(),
         "evidence_summary": {
             "verified": verified,
             "unverified": unverified,

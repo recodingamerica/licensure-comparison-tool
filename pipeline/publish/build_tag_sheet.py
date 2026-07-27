@@ -35,55 +35,15 @@ import argparse
 import datetime as dt
 import json
 
+from pipeline.publish.priority_concepts import for_tag_sheet
 from pipeline.paths import MAP_PREP_DIR, RESULTS_DIR, WEB_PUBLIC_DIR, core_professions
 
-# The five priority fields, each mapped to the dotted bucketed-field names that
-# carry it. `source` says which bucket file to read:
+# The priority concepts live in ONE place now — pipeline/publish/priority_concepts.py
+# — because this list and the map's dropdown had drifted four ways while each
+# independently appeared to work. `source` still says which bucket file to read:
 #   "scalar"   -> text_buckets.json          (one tag per state)
 #   "per_item" -> text_buckets_per_item.json (one tag per list item)
-# Candidates are tried in order; every candidate that the profession's bucket
-# pass produced is included (not just the first match).
-PRIORITY_FIELDS: list[dict] = [
-    {
-        "concept": "Minimum Degree",
-        "source": "scalar",
-        "candidates": ["licensure.education.degree_required"],
-    },
-    {
-        "concept": "Professional Experience",
-        "source": "scalar",
-        "candidates": [
-            "licensure.post_degree_experience.kind",
-            "licensure.post_degree_experience.duration",
-        ],
-    },
-    {
-        "concept": "Licensing Authority",
-        "source": "scalar",
-        "candidates": [
-            "licensure.issuing_authority",
-            "licensure.regulatory_authority.name",
-        ],
-    },
-    {
-        "concept": "Scope of Practice",
-        "source": "scalar",
-        # Scope wording is profession-specific: surgical professions bucket
-        # `scope.methods_authorized`/`drug_authority`, optometry buckets
-        # `profession_specific.surgery_definition`, etc. Include whatever exists.
-        "candidates": [
-            "scope.methods_authorized",
-            "scope.drug_authority",
-            "scope.definition_quote",
-            "profession_specific.surgery_definition",
-        ],
-    },
-    {
-        "concept": "Discipline",
-        "source": "per_item",
-        "candidates": ["licensure.disciplinary_grounds"],
-    },
-]
+PRIORITY_FIELDS = for_tag_sheet()
 
 
 def _load_buckets(profession: str) -> tuple[dict, dict]:

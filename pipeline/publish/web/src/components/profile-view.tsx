@@ -2018,6 +2018,7 @@ export function ProfileView({
 
       {view === "map" && payload.map_prep && (
         <MapView
+          priorityConcepts={payload.priority_concepts ?? []}
           mapPrep={payload.map_prep}
           fieldName={urlField}
           onFieldChange={setMapField}

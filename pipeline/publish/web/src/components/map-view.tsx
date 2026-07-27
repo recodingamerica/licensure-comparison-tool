@@ -21,52 +21,11 @@ import { useOpenStateDetail } from "@/components/state-focus";
 import { ABSENCE } from "@/components/absence";
 import { MAP_PALETTE, token } from "@/lib/web-colors";
 
-// The "priority" licensure concepts (mirrors PRIORITY_FIELDS in
-// pipeline/publish/build_tag_sheet.py). Each maps to the dotted field name(s)
-// it can be sourced from; a candidate resolves either from a Pass-3 text
-// bucket (free-text fields normalized into bucket_set) or, failing that, from
-// an already-normalized mappable field in mapPrep.spec (e.g. the
-// regulatory_model enum). We surface whichever exists as a categorical
-// "priority" choropleth grouped at the top of the field dropdown — these skip
-// the "hide uniform" filter so headline concepts always appear, even when a
-// profession is uniform (e.g. every state licenses optometrists). Discipline
-// is intentionally omitted — it's per-item (a state has many grounds spanning
-// several buckets), so it isn't a single-value choropleth; it lives on the tag
-// sheet and the table's category column.
-const PRIORITY_CONCEPTS: { concept: string; candidates: string[] }[] = [
-  { concept: "Regulation (UORF)", candidates: ["licensure.regulatory_model"] },
-  {
-    // Prefer the normalized degree_level enum (#35); fall back to the older
-    // bucketed free-text field until a re-extract populates the enum.
-    concept: "Minimum Degree",
-    candidates: ["licensure.education.degree_level", "licensure.education.degree_required"],
-  },
-  { concept: "School Approval Basis", candidates: ["licensure.education.school_approval_basis"] },
-  { concept: "Experience Requirement", candidates: ["licensure.post_degree_experience.experience_source"] },
-  {
-    concept: "Professional Experience",
-    candidates: [
-      "licensure.post_degree_experience.kind",
-      "licensure.post_degree_experience.duration",
-    ],
-  },
-  {
-    concept: "Licensing Authority",
-    candidates: [
-      "licensure.issuing_authority",
-      "licensure.regulatory_authority.name",
-    ],
-  },
-  {
-    concept: "Scope of Practice",
-    candidates: [
-      "scope.methods_authorized",
-      "scope.drug_authority",
-      "scope.definition_quote",
-      "profession_specific.surgery_definition",
-    ],
-  },
-];
+// The priority concepts are DEFINED IN PYTHON (pipeline/publish/priority_concepts.py)
+// and shipped in the payload. This file used to keep its own copy "mirroring" the Python
+// list; they drifted four ways while each side independently appeared to work. Reading
+// the shipped list is what makes that impossible rather than merely discouraged.
+type PriorityConcept = { concept: string; candidates: string[] };
 
 // Stable categorical palette + continuous-ramp endpoints come from the token
 // source (config/web_colors.yaml → web-colors.ts), not hardcoded here.
@@ -119,10 +78,13 @@ function summarize(specs: MapFieldSpec[], rows: MapRow[]): FieldSummary[] {
 
 export function MapView({
   mapPrep,
+  priorityConcepts,
   fieldName: fieldNameProp,
   onFieldChange,
 }: {
   mapPrep: MapPrep;
+  /** Shipped by build_frontend from priority_concepts.py — see the note above. */
+  priorityConcepts: PriorityConcept[];
   // Selected field comes from the URL via the parent so every choropleth
   // has a permanent link. Null means "no field in URL — fall back to the
   // first one in the dropdown".
@@ -139,7 +101,7 @@ export function MapView({
     const rows: MapRow[] = [];
     const tb = mapPrep.text_buckets ?? {};
     const specByName = new Map(mapPrep.spec.map((s) => [s.field_name, s]));
-    for (const { concept, candidates } of PRIORITY_CONCEPTS) {
+    for (const { concept, candidates } of priorityConcepts) {
       // One map per concept — stop at the first candidate that exists.
       for (const fn of candidates) {
         // Case 1: a Pass-3 bucketed free-text field (not in mapPrep.spec).
@@ -174,7 +136,7 @@ export function MapView({
       }
     }
     return { prioritySpecs: specs, priorityRows: rows };
-  }, [mapPrep]);
+  }, [mapPrep, priorityConcepts]);
 
   const priorityNames = useMemo(
     () => new Set(prioritySpecs.map((s) => s.field_name)),
