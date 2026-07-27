@@ -10,6 +10,7 @@ import { useEffect, useMemo, useState, type ReactNode } from "react";
 import type { ProfileAnalysis, NovelPolicy } from "@/lib/types";
 import { fieldLabel, formatFieldValue as val } from "@/lib/format";
 import { SEMANTIC_CLASSES as SC, SEMANTIC_SOLID as SS, CATEGORY_CLASSES, token } from "@/lib/web-colors";
+import { useOpenStateDetail } from "@/components/state-focus";
 
 // Match KIND_STYLE.fill in similarity-view: amber = rare authority, sky = unusual value.
 const KIND_FILL: Record<NovelPolicy["kind"], string> = {
@@ -185,6 +186,7 @@ function Walkthrough({ p, total }: { p: NovelPolicy; total: number }) {
 }
 
 export function NovelPoliciesView({ professionId }: { professionId: string }) {
+  const open = useOpenStateDetail();
   const [data, setData] = useState<ProfileAnalysis | null>(null);
   const [missing, setMissing] = useState(false);
   const [cat, setCat] = useState<string | null>(null);
@@ -376,17 +378,7 @@ export function NovelPoliciesView({ professionId }: { professionId: string }) {
                     </span>
                   </div>
                   <p className="mt-1 pl-4 text-[15px] text-muted-foreground">{novelDescription(p, total)}</p>
-                  <div className="mt-2 flex items-center justify-between gap-2 pl-4">
-                    <div className="flex flex-wrap gap-1">
-                      {p.states.map((s) => (
-                        <span
-                          key={s}
-                          className="rounded bg-muted px-1.5 py-0.5 text-xs font-medium text-foreground/70"
-                        >
-                          {s}
-                        </span>
-                      ))}
-                    </div>
+                  <div className="mt-2 flex items-center justify-end gap-2 pl-4">
                     <div className="flex shrink-0 items-center gap-1">
                       {p.direction && p.direction !== "neutral" && (
                         <span className={`rounded-full border px-2 py-0.5 text-xs ${DIR_STYLE[p.direction]}`}>
@@ -399,6 +391,31 @@ export function NovelPoliciesView({ professionId }: { professionId: string }) {
                     </div>
                   </div>
                 </button>
+                {/* Outside the card's toggle button on purpose — these are their own
+                    controls, and a button inside a button is invalid HTML. Each opens
+                    that state filtered to the policy's field. */}
+                <div className="flex flex-wrap gap-1 px-3 pb-3 pl-7">
+                  {p.states.map((s) =>
+                    open ? (
+                      <button
+                        key={s}
+                        type="button"
+                        onClick={() => open(s, { fieldPath: p.field })}
+                        title={`Open ${s} — ${p.label}`}
+                        className={`rounded bg-muted px-1.5 py-0.5 text-xs font-medium text-foreground/70 hover:bg-muted/70 focus-visible:outline-none focus-visible:ring-2 ${SC.interaction.focusRing}`}
+                      >
+                        {s}
+                      </button>
+                    ) : (
+                      <span
+                        key={s}
+                        className="rounded bg-muted px-1.5 py-0.5 text-xs font-medium text-foreground/70"
+                      >
+                        {s}
+                      </span>
+                    ),
+                  )}
+                </div>
                 {active && <Walkthrough p={p} total={total} />}
               </div>
             );

@@ -105,6 +105,11 @@ export function fieldPathToLabel(path: string): string | null {
     return path.slice("profession_specific.".length);
   }
   if (path.startsWith("scope.")) return path.slice("scope.".length);
+  // A bare identifier is already a label — the novel-policies data mixes dotted paths
+  // ("profession_specific.x") with unprefixed profession-specific field names. The
+  // caller still validates the result against the record and the profession's schema,
+  // so an unrecognized name simply won't filter.
+  if (!path.includes(".")) return path;
   if (!path.startsWith("licensure.")) return null;
   const rest = path.slice("licensure.".length);
   const dot = rest.indexOf(".");
