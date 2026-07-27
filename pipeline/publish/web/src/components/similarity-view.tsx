@@ -16,6 +16,7 @@
 import { useEffect, useMemo, useState } from "react";
 import type { ProfileAnalysis } from "@/lib/types";
 import { UsMap, NO_DATA_FILL } from "@/components/us-map";
+import { useOpenStateDetail } from "@/components/state-focus";
 import { fieldLabel, formatFieldValue as val } from "@/lib/format";
 import { token } from "@/lib/web-colors";
 
@@ -49,6 +50,7 @@ const SPREAD_VERB: Record<string, string> = {
 };
 
 export function SimilarityView({ professionId }: { professionId: string }) {
+  const open = useOpenStateDetail();
   const [data, setData] = useState<ProfileAnalysis | null>(null);
   const [missing, setMissing] = useState(false);
 
@@ -195,7 +197,14 @@ export function SimilarityView({ professionId }: { professionId: string }) {
             <span className="inline-block h-2 w-3 rounded" style={{ background: NO_DATA_FILL }} /> not enough data
           </span>
         </div>
-        <UsMap fillFor={fillFor} renderTooltip={renderTooltip} bare />
+        {/* No single field applies here — Compare grades a state across the whole core
+            set — so this opens the state's full Sheet, per the click contract. */}
+        <UsMap
+          fillFor={fillFor}
+          renderTooltip={renderTooltip}
+          onClick={open ?? undefined}
+          bare
+        />
       </div>
     </div>
   );

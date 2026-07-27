@@ -6,6 +6,8 @@
 // the description line, the per-item noun, and the copy-text header.
 
 import { useEffect, useState } from "react";
+import { useOpenStateDetail } from "@/components/state-focus";
+import { SEMANTIC_CLASSES as SC } from "@/lib/web-colors";
 
 import {
   Sheet,
@@ -42,6 +44,7 @@ export function TagBreakdownSheet({
   copyHeader?: string;
   onClose: () => void;
 }) {
+  const open = useOpenStateDetail();
   const [copied, setCopied] = useState(false);
 
   // Reset the "Copied" affordance whenever the target changes.
@@ -109,9 +112,26 @@ export function TagBreakdownSheet({
                                     key={`${m.state}-${i}`}
                                     className="text-xs leading-snug"
                                   >
-                                    <span className="font-mono font-semibold mr-1.5">
-                                      {m.state}
-                                    </span>
+                                    {open ? (
+                                      <button
+                                        type="button"
+                                        onClick={() => {
+                                          // Close this breakdown first — otherwise the
+                                          // state Sheet opens on top of it and two
+                                          // right-side panels stack.
+                                          onClose();
+                                          open(m.state, { fieldPath: sf.field_name });
+                                        }}
+                                        title={`Open ${m.state} — ${sf.field_name}`}
+                                        className={`font-mono font-semibold mr-1.5 hover:underline focus-visible:outline-none focus-visible:ring-2 ${SC.interaction.focusRing}`}
+                                      >
+                                        {m.state}
+                                      </button>
+                                    ) : (
+                                      <span className="font-mono font-semibold mr-1.5">
+                                        {m.state}
+                                      </span>
+                                    )}
                                     <span className="text-muted-foreground">
                                       {m.text}
                                     </span>
