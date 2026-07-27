@@ -1,0 +1,70 @@
+name: deploy-web
+
+# Ships the frontend when the frontend changes.
+#
+# Why this exists: the Vercel project has no Git connection, so pushing to main deployed
+# nothing. Data publishes were fine — `pipeline.client.run publish --deploy` runs
+# `vercel --prod` itself — but a pure code change had no path to production at all. On
+# 2026-07-27 that meant ~20 commits of frontend work sat unshipped with prod running
+# two-day-old code.
+#
+# Why a paths filter rather than a Git connection: main receives constant data-only
+# commits from the annual crawl (pipeline/results/**, dozens a day). Connecting the repo
+# to Vercel would rebuild the site on every one of them. The web app lives under
+# pipeline/publish/web/**, so filtering on that path ships code changes and ignores the
+# crawl — no ignore-command gymnastics needed.
+#
+# Published DATA is not in git (public/data is gitignored; the build pulls it from the
+# blob store via the prebuild step), so a data refresh does not and should not trigger
+# this. Use `publish --deploy`, or workflow_dispatch below, for a blob-only refresh.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "pipeline/publish/web/**"
+      - ".github/workflows/deploy-web.yml"
+  # Manual trigger: redeploy without a code change, e.g. after a blob-only data upload.
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-web
+  # Deliberately NOT cancel-in-progress: killing a half-finished production deploy is
+  # worse than letting two run in order.
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: pipeline/publish/web
+    env:
+      # .vercel/project.json is gitignored, so the ids come from repo config. They are
+      # identifiers, not credentials — only VERCEL_TOKEN is secret.
+      VERCEL_ORG_ID: ${{ vars.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ vars.VERCEL_PROJECT_ID }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: pipeline/publish/web/package-lock.json
+
+      # Pinned: `vercel@latest` in CI means an upstream release can break deploys on a
+      # day you changed nothing.
+      - name: Install Vercel CLI
+        run: npm install -g vercel@53
+
+      # Brings down project settings AND production env vars — the prebuild step
+      # (generate-colors + fetch-blob-data) needs the blob credentials to build.
+      - name: Pull Vercel environment
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Build
+        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Deploy
+        run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
