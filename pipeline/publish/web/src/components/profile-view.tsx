@@ -31,7 +31,7 @@ import { humanize, findAllSpans } from "@/lib/format";
 import { SEMANTIC_CLASSES as SC, CATEGORY_CLASSES, token } from "@/lib/web-colors";
 import { Absent, ABSENCE } from "./absence";
 import { useOpenStateDetail } from "./state-focus";
-import { SHEET_SECTION, sectionTarget, type SheetSectionName } from "./sheet-sections";
+import { SHEET_SECTION, sectionTarget, fieldTarget, type SheetSectionName } from "./sheet-sections";
 import { MapView } from "./map-view";
 
 // AG Grid v33+ requires modules to be registered before any grid instance
@@ -834,13 +834,15 @@ const UNVERIFIED_COMPOUND: Record<string, string[][]> = {
   ],
 };
 
-// Maps universal column field → dotted path used as the key in
-// map_prep.text_buckets. Keep aligned with UNVERIFIED_PATHS where applicable.
-const BUCKET_PATHS: Record<string, string> = {
+
+// The record path for each bucketed universal column. ONE definition, referenced by both
+// the column's declared click target (context) and its bucket-aware cell renderer — the
+// two used to repeat the same dotted path independently.
+const BUCKETED_PATH = {
   issuing_authority: "licensure.issuing_authority",
   education_degree: "licensure.education.degree_required",
   post_degree_duration: "licensure.post_degree_experience.duration",
-};
+} as const;
 
 // Format a raw grid cell value for export (CSV + XLSX) so the file carries the
 // same human-readable layer the grid renders through React cellRenderers — which
@@ -850,7 +852,9 @@ const BUCKET_PATHS: Record<string, string> = {
 type ExportTextBuckets = Record<string, { by_state: Record<string, string> }>;
 function exportCellValue(
   value: unknown,
-  colId: string | undefined,
+  // The column's declared record path, not its colId: BUCKET_PATHS used to map one to
+  // the other, which made it a FOURTH copy of a fact the column already carries.
+  fieldPath: string | undefined,
   state: string | undefined,
   textBuckets: ExportTextBuckets,
 ): string {
@@ -861,9 +865,8 @@ function exportCellValue(
   else if (typeof value === "object") out = JSON.stringify(value);
   else out = String(value);
   out = out.replace(/\s*\r?\n\s*/g, " ").trim();
-  const bucketPath = colId ? BUCKET_PATHS[colId] : undefined;
   const bucket =
-    bucketPath && state ? textBuckets[bucketPath]?.by_state?.[state] : undefined;
+    fieldPath && state ? textBuckets[fieldPath]?.by_state?.[state] : undefined;
   if (bucket) out = out ? `${bucket} — ${out}` : bucket;
   return out;
 }
@@ -952,8 +955,8 @@ function buildColumnDefs(
     field: "issuing_authority",
     headerName: "Licensing Authority",
     width: 230,
-    cellRenderer: textBuckets[BUCKET_PATHS.issuing_authority]
-      ? makeBucketAwareCell(textBuckets[BUCKET_PATHS.issuing_authority].by_state)
+    cellRenderer: textBuckets[BUCKETED_PATH.issuing_authority]
+      ? makeBucketAwareCell(textBuckets[BUCKETED_PATH.issuing_authority].by_state)
       : TextCellRenderer,
     filter: "agTextColumnFilter",
     wrapText: true,
@@ -961,11 +964,11 @@ function buildColumnDefs(
   },
   {
     field: "education_degree",
-    context: { fieldPath: "licensure.education.degree_required" },
+    context: fieldTarget(BUCKETED_PATH.education_degree),
     headerName: "Education (Min. Degree)",
     width: 260,
-    cellRenderer: textBuckets[BUCKET_PATHS.education_degree]
-      ? makeBucketAwareCell(textBuckets[BUCKET_PATHS.education_degree].by_state)
+    cellRenderer: textBuckets[BUCKETED_PATH.education_degree]
+      ? makeBucketAwareCell(textBuckets[BUCKETED_PATH.education_degree].by_state)
       : TextCellRenderer,
     // Cells show the verbatim degree text, but filter on the normalized
     // degree_level enum so the header dropdown offers a short tag list
@@ -979,11 +982,11 @@ function buildColumnDefs(
   },
   {
     field: "post_degree_duration",
-    context: { fieldPath: "licensure.post_degree_experience.duration" },
+    context: fieldTarget(BUCKETED_PATH.post_degree_duration),
     headerName: "Professional Experience",
     width: 180,
-    cellRenderer: textBuckets[BUCKET_PATHS.post_degree_duration]
-      ? makeBucketAwareCell(textBuckets[BUCKET_PATHS.post_degree_duration].by_state)
+    cellRenderer: textBuckets[BUCKETED_PATH.post_degree_duration]
+      ? makeBucketAwareCell(textBuckets[BUCKETED_PATH.post_degree_duration].by_state)
       : TextCellRenderer,
     filter: "agTextColumnFilter",
     wrapText: true,
@@ -2101,7 +2104,8 @@ export function ProfileView({
                   processCellCallback: (p) =>
                     exportCellValue(
                       p.value,
-                      p.column?.getColId?.(),
+                      (p.column?.getColDef?.() as { context?: { fieldPath?: string } } | undefined)
+                        ?.context?.fieldPath,
                       (p.node?.data as Row | undefined)?.state,
                       textBuckets,
                     ),
@@ -2135,7 +2139,8 @@ export function ProfileView({
                     processCellCallback: (p) =>
                       exportCellValue(
                         p.value,
-                        p.column?.getColId?.(),
+                        (p.column?.getColDef?.() as { context?: { fieldPath?: string } } | undefined)
+                        ?.context?.fieldPath,
                         (p.node?.data as Row | undefined)?.state,
                         textBuckets,
                       ),
