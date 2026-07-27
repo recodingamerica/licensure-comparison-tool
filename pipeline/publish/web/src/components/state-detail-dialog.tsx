@@ -117,6 +117,11 @@ type Props = {
   // The specific category chip clicked in the grid ("Fraud"). The matching
   // Disciplinary-grounds group scrolls into view and highlights, so the Sheet lands on
   // the items you clicked rather than just the column they live in.
+  //
+  // Only meaningful together with focusColId: category labels are NOT unique across
+  // fields (7 collide today — "Registered Nurse" is a bucket of both license_tiers and
+  // lpn_supervision_requirements), so matching on the label alone could highlight a
+  // different field's group than the one clicked.
   focusCategory?: string | null;
   // map_prep.text_buckets, used to surface the same per-state bucket chip the
   // grid shows above bucketed cells on the matching Sheet rows (#34).
@@ -140,13 +145,19 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
   // deferral as EvidenceRow's focused row — the Sheet slides in via a transform, so
   // scrolling before that settles lands in the wrong place.
   const focusCategoryRef = useRef<HTMLDivElement>(null);
+  // Scoped to the disciplinary-categories column, since that is the only place these
+  // groups are rendered. A chip from a ps_ list-field column focuses its own field row
+  // via focusColId instead; without this gate a colliding label would light up an
+  // unrelated disciplinary group.
+  const groundsCategory =
+    focusColId === "disciplinary_categories" ? focusCategory ?? null : null;
   useEffect(() => {
-    if (!focusCategory || !openState) return;
+    if (!groundsCategory || !openState) return;
     const id = requestAnimationFrame(() => {
       focusCategoryRef.current?.scrollIntoView({ block: "center", behavior: "smooth" });
     });
     return () => cancelAnimationFrame(id);
-  }, [focusCategory, openState]);
+  }, [groundsCategory, openState]);
 
   // Per-state bucket chips keyed by EvidenceRow label. Covers the three
   // universal text-bucketed fields plus any profession-specific bucketed list
@@ -387,11 +398,11 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
                 ([cat, grounds]) => (
                   <div
                     key={cat}
-                    ref={cat && cat === focusCategory ? focusCategoryRef : undefined}
+                    ref={cat && cat === groundsCategory ? focusCategoryRef : undefined}
                     data-category-group={cat || undefined}
                     className={
                       "mb-2 " +
-                      (cat && cat === focusCategory
+                      (cat && cat === groundsCategory
                         ? "rounded-md ring-2 ring-sky-400 bg-sky-50/60 -mx-2 px-2 py-1"
                         : "")
                     }
