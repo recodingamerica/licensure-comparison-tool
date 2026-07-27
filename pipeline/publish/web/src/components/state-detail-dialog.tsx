@@ -172,7 +172,7 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
     [rows, openState]
   );
 
-  const focusLabel = useMemo(() => focusColIdToLabel(focusColId), [focusColId]);
+
 
   // Scroll the clicked category group into view once the Sheet has painted. Same rAF
   // deferral as EvidenceRow's focused row — the Sheet slides in via a transform, so
@@ -242,6 +242,18 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
     : null;
   // A section filter shows that whole section; keep it visible while hiding the others.
   const showSection = (name: string) => !filterActive || filterSection === name;
+
+  // The row that auto-expands its statute text is the row you filtered TO — not whatever
+  // the colId happened to spell. Before this, expansion depended on how the click
+  // arrived: an identity column (regulatory_model) expanded because colId == row label,
+  // a column with a declared fieldPath did not (colId "education_degree" vs row
+  // "education.degree_required"), and a map / scope-matrix / novel-policy click never
+  // did, having no colId at all. Same click, different behaviour, for no reason a user
+  // could see.
+  //
+  // Group filters (a category or a whole section) deliberately expand nothing: there is
+  // no single row you asked for, and expanding all of them buries the thing you clicked.
+  const focusLabel = filterFieldLabel ?? focusColIdToLabel(focusColId);
 
   // Per-state bucket chips keyed by EvidenceRow label. Covers the three
   // universal text-bucketed fields plus any profession-specific bucketed list
