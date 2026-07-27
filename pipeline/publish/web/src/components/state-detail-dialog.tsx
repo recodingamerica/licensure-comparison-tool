@@ -152,6 +152,10 @@ type Props = {
   // Dotted record path of the field the click was about (the choropleth field a map was
   // showing). The Sheet filters to that one field.
   focusFieldPath?: string | null;
+  // A Sheet section the click points at, for columns that summarize a LIST rather than a
+  // single field ("Exams" counts a list — no one node to filter to, but there is a
+  // section).
+  focusSection?: string | null;
   // map_prep.text_buckets, used to surface the same per-state bucket chip the
   // grid shows above bucketed cells on the matching Sheet rows (#34).
   textBuckets?: Record<string, { by_state?: Record<string, string> }>;
@@ -162,7 +166,7 @@ type Props = {
 // per-claim evidence drilldown (verbatim quote + citation + source link),
 // not "all the data for this row" duplication. Keeping the export name
 // StateDetailDialog so callers don't need to change.
-export function StateDetailDialog({ rows, fields, openState, onOpenChange, searchQuery, focusColId, focusCategory, focusFieldPath, textBuckets }: Props) {
+export function StateDetailDialog({ rows, fields, openState, onOpenChange, searchQuery, focusColId, focusCategory, focusFieldPath, focusSection, textBuckets }: Props) {
   const row = useMemo(
     () => rows.find((r) => r.state === openState) || null,
     [rows, openState]
@@ -226,11 +230,18 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
     ? `${openState}:cat:${requestedCategory}`
     : requestedFieldLabel
       ? `${openState}:field:${requestedFieldLabel}`
-      : null;
+      : focusSection
+        ? `${openState}:section:${focusSection}`
+        : null;
   const [dismissedKey, setDismissedKey] = useState<string | null>(null);
   const filterActive = !!requestKey && dismissedKey !== requestKey;
   const filterCategory = filterActive ? requestedCategory : null;
   const filterFieldLabel = filterActive ? requestedFieldLabel : null;
+  const filterSection = filterActive && !requestedCategory && !requestedFieldLabel
+    ? focusSection ?? null
+    : null;
+  // A section filter shows that whole section; keep it visible while hiding the others.
+  const showSection = (name: string) => !filterActive || filterSection === name;
 
   // Per-state bucket chips keyed by EvidenceRow label. Covers the three
   // universal text-bucketed fields plus any profession-specific bucketed list
@@ -402,8 +413,16 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
         >
           {filterActive && (
             <FilterBar
-              label={filterCategory ?? humanize(filterFieldLabel ?? "")}
-              source={filterCategory ? "from Disciplinary categories" : "— one field"}
+              label={
+                filterCategory ?? filterSection ?? humanize(filterFieldLabel ?? "")
+              }
+              source={
+                filterCategory
+                  ? "from Disciplinary categories"
+                  : filterSection
+                    ? "— one section"
+                    : "— one field"
+              }
               onClear={() => setDismissedKey(requestKey)}
             />
           )}
@@ -420,7 +439,7 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
               />
             </Section>
           )}
-          {!filterActive && (
+          {showSection("Base licensure") && (
           <Section title="Base licensure">
             <EvidenceRow label="regulatory_model" ev={lic.regulatory_model} sections={sections} />
             <EvidenceRow label="credential_type" ev={lic.credential_type} sections={sections} />
@@ -467,7 +486,7 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
           </Section>
           )}
 
-          {!filterActive && lic.exams && lic.exams.length > 0 && (
+          {showSection("Exams") && lic.exams && lic.exams.length > 0 && (
             <Section title="Exams">
               {lic.exams.map((e, i) => (
                 <EvidenceRow
@@ -480,7 +499,7 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
             </Section>
           )}
 
-          {!filterFieldLabel && lic.disciplinary_grounds && lic.disciplinary_grounds.length > 0 && (
+          {showSection("Disciplinary grounds") && !filterFieldLabel && lic.disciplinary_grounds && lic.disciplinary_grounds.length > 0 && (
             <Section title="Disciplinary grounds">
               {groupGroundsByCategory(lic.disciplinary_grounds)
                 .filter(([cat]) => !filterCategory || cat === filterCategory)
@@ -510,7 +529,7 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
             </Section>
           )}
 
-          {!filterActive && scope && (scope.definition_quote || scope.methods_authorized || scope.drug_authority) && (
+          {showSection("Scope of practice") && scope && (scope.definition_quote || scope.methods_authorized || scope.drug_authority) && (
             <Section title="Scope of practice">
               <EvidenceRow label="definition_quote" ev={scope.definition_quote} sections={sections} />
               <EvidenceRow label="methods_authorized" ev={scope.methods_authorized} sections={sections} />
@@ -518,8 +537,10 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
             </Section>
           )}
 
-          {!filterActive && Object.keys(byCat)
+          {!filterFieldLabel && !filterCategory && Object.keys(byCat)
             .sort()
+            // Profession-specific groups are sections too, so they obey the same rule.
+            .filter((cat) => showSection(cat))
             .map((cat) => (
               <Section key={cat} title={cat}>
                 {byCat[cat].map(({ def, ev }) => (

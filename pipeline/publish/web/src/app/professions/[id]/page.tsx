@@ -45,11 +45,13 @@ function ProfessionInner({ params }: { params: Promise<{ id: string }> }) {
   const [focusCategory, setFocusCategory] = useState<string | null>(null);
   const [focusFieldPath, setFocusFieldPath] = useState<string | null>(null);
   const [sheetQuery, setSheetQuery] = useState<string>("");
+  const [focusSection, setFocusSection] = useState<string | null>(null);
   const openStateDetail = useCallback<OpenStateDetail>((state, opts) => {
     setFocusColId(opts?.colId ?? null);
     setFocusCategory(opts?.category ?? null);
     setFocusFieldPath(opts?.fieldPath ?? null);
     setSheetQuery(opts?.searchQuery ?? "");
+    setFocusSection(opts?.section ?? null);
     setOpenState(state);
   }, []);
   const [error, setError] = useState<string | null>(null);
@@ -206,12 +208,14 @@ function ProfessionInner({ params }: { params: Promise<{ id: string }> }) {
               setFocusColId(null);
               setFocusCategory(null);
               setFocusFieldPath(null);
+              setFocusSection(null);
             }
           }}
           searchQuery={sheetQuery}
           focusColId={focusColId}
           focusCategory={focusCategory}
           focusFieldPath={focusFieldPath}
+          focusSection={focusSection}
           textBuckets={payload.map_prep?.text_buckets ?? {}}
         />
       )}

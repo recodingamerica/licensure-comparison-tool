@@ -1014,6 +1014,8 @@ function buildColumnDefs(
   },
   {
     field: "exams_count",
+    // Summarizes a list, so it points at the Sheet SECTION rather than one field.
+    context: { section: "Exams" },
     headerName: "Exams",
     width: 95,
     cellRenderer: TextCellRenderer,
@@ -1450,6 +1452,8 @@ function buildColumnDefs(
   },
   {
     colId: "exam_names",
+    // Summarizes a list, so it points at the Sheet SECTION rather than one field.
+    context: { section: "Exams" },
     headerName: "Exam names",
     valueGetter: (p) => {
       const exams = (p.data?._full?.licensure?.exams || []) as Array<{ name?: string }>;
@@ -1751,7 +1755,7 @@ export function ProfileView({
       data?: Row;
       column?: {
         getColId: () => string;
-        getColDef?: () => { context?: { fieldPath?: string } };
+        getColDef?: () => { context?: { fieldPath?: string; section?: string } };
       };
       event?: Event | null;
     }) => {
@@ -1759,7 +1763,9 @@ export function ProfileView({
       const col = event.column?.getColId();
       // The column knows its own record path (co-located on the def), so the click
       // carries it and nothing downstream has to translate colId -> label.
-      const fieldPath = event.column?.getColDef?.()?.context?.fieldPath ?? null;
+      const colDefCtx = event.column?.getColDef?.()?.context;
+      const fieldPath = colDefCtx?.fieldPath ?? null;
+      const section = colDefCtx?.section ?? null;
       // If the click landed on a specific category chip ("Fraud 3"), carry that
       // category through so the Sheet lands on those items. Without it, clicking any
       // chip in the cell looked identical — you couldn't tell it had taken you to the
@@ -1771,6 +1777,7 @@ export function ProfileView({
         colId: col && col !== "state" ? col : null,
         category: chip?.getAttribute("data-category") ?? null,
         fieldPath,
+        section,
         searchQuery: statuteTextQuery,
       });
     },

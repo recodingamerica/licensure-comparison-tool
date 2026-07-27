@@ -38,6 +38,12 @@ export type OpenStateDetail = (
      * provider relationship — and a snapshot is what the user was looking at anyway.
      */
     searchQuery?: string;
+    /**
+     * A Sheet SECTION the click points at, for columns that summarize a list rather than
+     * a single field — "Exams" counts a list, so there is no one evidence node to filter
+     * to, but there IS a section.
+     */
+    section?: string | null;
   },
 ) => void;
 
