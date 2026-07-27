@@ -8,6 +8,7 @@ data gets the new columns for free.
 
 import pytest
 
+from pipeline.publish import build_frontend as bf
 from pipeline.publish.build_frontend import (
     _derive_credential_and_mandatory,
     normalize_citation,
@@ -126,3 +127,65 @@ class TestNormalizeCitation:
             once = normalize_citation(raw)
             twice = normalize_citation(once)
             assert once == twice
+
+
+class TestListItemsGetQuoteSpans:
+    """Highlights are computed ONCE, in the build, and passed to the frontend as
+    quote_spans. A node the walker skips therefore has no highlight anywhere, and the UI
+    cannot recover it — it does not re-search the statute text.
+
+    is_evidence_node requires {value, quote, citation}. A disciplinary ground names its
+    value `description` and an exam names it `name`, so neither qualified and every list
+    item silently lost its highlight: 0 of 8,059 grounds carried spans against 86% of
+    plain fields. Reported for architecture/ID, "violation_of_chapter_or_rules".
+    """
+
+    def _record(self):
+        return {
+            "licensure": {
+                # a plain Evidence node — always worked
+                "regulatory_model": {
+                    "value": "license",
+                    "quote": "a license is required to practice architecture",
+                    "citation": "54-301",
+                },
+                # a LIST item: quotes the statute, but calls its value `description`
+                "disciplinary_grounds": [
+                    {
+                        "short_label": "violation_of_chapter_or_rules",
+                        "description": "Violating any provisions of this chapter",
+                        "quote": "Violating any of the provisions of this chapter",
+                        "citation": "54-314",
+                        "category": "Statutory or Rule Violation",
+                    }
+                ],
+                "exams": [
+                    {"name": "ARE", "quote": "shall pass the examination", "citation": "54-305"}
+                ],
+            }
+        }
+
+    def _sections(self):
+        return [
+            {"citation": "54-301", "text": "In Idaho a license is required to practice architecture."},
+            {"citation": "54-314", "text": "Grounds: Violating any of the provisions of this chapter or rules."},
+            {"citation": "54-305", "text": "Each applicant shall pass the examination prescribed."},
+        ]
+
+    def test_disciplinary_ground_gets_spans(self):
+        rec = self._record()
+        bf._annotate_quote_spans(rec, self._sections())
+        ground = rec["licensure"]["disciplinary_grounds"][0]
+        assert ground.get("quote_spans"), "list item got no highlight — the reported bug"
+        s, e = ground["quote_spans"][0]
+        assert self._sections()[1]["text"][s:e] == ground["quote"]
+
+    def test_exam_gets_spans(self):
+        rec = self._record()
+        bf._annotate_quote_spans(rec, self._sections())
+        assert rec["licensure"]["exams"][0].get("quote_spans")
+
+    def test_plain_evidence_still_gets_spans(self):
+        rec = self._record()
+        bf._annotate_quote_spans(rec, self._sections())
+        assert rec["licensure"]["regulatory_model"].get("quote_spans")

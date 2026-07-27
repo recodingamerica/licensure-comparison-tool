@@ -81,6 +81,7 @@ INCLUDE_VERIFIED_ABSENCES = bool(_PUB_OPTS.get("include_verified_absences", True
 from pipeline.config.states import ALL_STATES
 from pipeline.extract.locate_quote import locate_quote_in_section
 from pipeline.extract.standard_model import is_evidence_node, iter_evidence, deep_get
+from pipeline.extract.model_helpers import iter_quote_carriers
 from pipeline.scope.scope_sources import is_universal, is_enumeration
 from pipeline.scope.merged_scope import merged_scope_by_url
 from pipeline.publish.blob_upload import upload_json
@@ -163,7 +164,8 @@ def _section_evidence_spans(record: dict, text: str) -> list[dict]:
     if not text:
         return []
     out: list[dict] = []
-    for path, node in iter_evidence(record):
+    # Same reason as _annotate_quote_spans: list items quote the statute too.
+    for path, node in iter_quote_carriers(record):
         quote = node.get("quote") or ""
         if not quote:
             continue
@@ -290,7 +292,10 @@ def _annotate_quote_spans(record: dict, sections: list[dict]) -> tuple[int, int]
         by_cite[f"[{cite}]"] = s
 
     with_spans = without_spans = 0
-    for _, node in iter_evidence(record):
+    # Quote-carriers, not just Evidence nodes: a disciplinary ground or an exam quotes the
+    # statute but names its value `description`/`name`, so iter_evidence skipped them and
+    # every list item lost its highlight (0 of 8,059 grounds had spans).
+    for _, node in iter_quote_carriers(record):
         if node.get("unverified"):
             continue
         cite = node.get("citation") or ""
