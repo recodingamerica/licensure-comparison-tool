@@ -9,13 +9,6 @@ import type {
   Row,
   SectionRef,
 } from "@/lib/types";
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-} from "@/components/ui/sheet";
 import { Badge } from "@/components/ui/badge";
 import { Eyebrow } from "@/components/ui/eyebrow";
 import { SEMANTIC_CLASSES as SC } from "@/lib/web-colors";
@@ -26,6 +19,7 @@ import {
   BucketContext,
 } from "./evidence-row";
 import { ABSENCE } from "./absence";
+import { DetailSheet, SheetScrollBody } from "@/components/ui/detail-sheet";
 import { searchSnippets, humanize } from "@/lib/format";
 
 // A grid colId that is not itself a record path. Columns carry their own dotted path
@@ -254,9 +248,7 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
 
   if (!row) {
     return (
-      <Sheet open={!!openState} onOpenChange={onOpenChange}>
-        <SheetContent side="right" />
-      </Sheet>
+      <DetailSheet open={!!openState} onOpenChange={onOpenChange} title="" />
     );
   }
 
@@ -264,20 +256,23 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
   // summary before touching `_full` below.
   if (row.coverage_gap) {
     return (
-      <Sheet open onOpenChange={onOpenChange}>
-        <SheetContent side="right" className="w-full sm:max-w-md lg:max-w-xl">
-          <SheetHeader>
-            <SheetTitle>{row.state} — coverage gap</SheetTitle>
-            <SheetDescription>
-              {row.coverage_gap_label || ABSENCE["no-statute"].label}{" "}
-              <code className="ml-2 text-xs">{row.coverage_gap_reason || ""}</code>
-            </SheetDescription>
-          </SheetHeader>
-          {row.coverage_gap_detail && (
-            <p className="px-4 text-sm text-muted-foreground">{row.coverage_gap_detail}</p>
-          )}
-        </SheetContent>
-      </Sheet>
+      <DetailSheet
+        open
+        onOpenChange={onOpenChange}
+        title={`${row.state} — coverage gap`}
+        description={
+          <>
+            {row.coverage_gap_label || ABSENCE["no-statute"].label}{" "}
+            <code className="ml-2 text-xs">{row.coverage_gap_reason || ""}</code>
+          </>
+        }
+      >
+        {row.coverage_gap_detail && (
+          <SheetScrollBody>
+            <p className="text-sm text-muted-foreground">{row.coverage_gap_detail}</p>
+          </SheetScrollBody>
+        )}
+      </DetailSheet>
     );
   }
 
@@ -287,16 +282,12 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
   const full = row._full;
   if (!full) {
     return (
-      <Sheet open onOpenChange={onOpenChange}>
-        <SheetContent side="right" className="w-full sm:max-w-md lg:max-w-xl">
-          <SheetHeader>
-            <SheetTitle>{row.state}</SheetTitle>
-            <SheetDescription>
-              No detail available for this row.
-            </SheetDescription>
-          </SheetHeader>
-        </SheetContent>
-      </Sheet>
+      <DetailSheet
+        open
+        onOpenChange={onOpenChange}
+        title={row.state}
+        description="No detail available for this row."
+      />
     );
   }
 
@@ -327,16 +318,12 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
     <SearchQueryContext.Provider value={searchQuery ?? ""}>
     <FocusFieldContext.Provider value={focusLabel}>
     <BucketContext.Provider value={bucketByLabel}>
-    <Sheet open onOpenChange={onOpenChange}>
-      <SheetContent
-        side="right"
-        // The base SheetContent has `data-[side=right]:sm:max-w-sm` (~384px)
-        // which is too narrow for the per-state evidence + statute view —
-        // Atharv's issue #12. The `!` modifier wins over the base default.
-        className="w-full sm:!max-w-2xl lg:!max-w-[65vw] xl:!max-w-[60vw] p-0 gap-0 flex flex-col"
-      >
-        <SheetHeader className="border-b px-6 py-4 flex-shrink-0 bg-background">
-          <SheetTitle className="text-xl flex items-center gap-3 flex-wrap">
+    <DetailSheet
+      open
+      onOpenChange={onOpenChange}
+      width="wide"
+      title={
+          <span className="flex items-center gap-3 flex-wrap">
             <span>
               {row.state} — {row._full.profession.replace(/_/g, " ")}
             </span>
@@ -363,7 +350,10 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
                 Not state-regulated · research-verified
               </Badge>
             )}
-          </SheetTitle>
+          </span>
+      }
+      headerExtra={
+        <>
           {row.data_basis === "verified_absence" && (
             <div className={`mt-2 rounded border ${SC.attention.border} ${SC.attention.bg} px-3 py-2 text-xs ${SC.attention.text}`}>
               <b>No state license.</b> Regulated locally / not at the state level
@@ -372,7 +362,7 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
               no state statute to quote. {row.absence_note}
             </div>
           )}
-          <SheetDescription className="text-xs text-muted-foreground">
+          <div className="text-xs text-muted-foreground">
             Verbatim statute quote and citation for every claim. Click{" "}
             <em>in context</em> on any row to see the surrounding section text
             with the quote highlighted.{" "}
@@ -386,7 +376,7 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
                 Browse the full statute ↗
               </a>
             )}
-          </SheetDescription>
+          </div>
           {row.source_chapter_urls && row.source_chapter_urls.length > 0 && (
             <div className="text-xs font-mono break-all space-y-0.5 mt-1">
               {row.source_chapter_urls.map((u) => (
@@ -402,8 +392,9 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
               ))}
             </div>
           )}
-        </SheetHeader>
-
+        </>
+      }
+    >
         <SheetBody
           searchQuery={searchQuery ?? ""}
           sectionText={row.section_text_full ?? ""}
@@ -554,8 +545,7 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
               </Section>
             ))}
         </SheetBody>
-      </SheetContent>
-    </Sheet>
+    </DetailSheet>
     </BucketContext.Provider>
     </FocusFieldContext.Provider>
     </SearchQueryContext.Provider>

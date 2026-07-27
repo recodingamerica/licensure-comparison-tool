@@ -7,15 +7,9 @@
 
 import { useEffect, useState } from "react";
 import { useOpenStateDetail } from "@/components/state-focus";
+import { DetailSheet, SheetScrollBody } from "@/components/ui/detail-sheet";
 import { SEMANTIC_CLASSES as SC } from "@/lib/web-colors";
 
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-} from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import {
   type Field,
@@ -61,24 +55,24 @@ export function TagBreakdownSheet({
   };
 
   return (
-    <Sheet open={!!field} onOpenChange={(open) => !open && onClose()}>
-      <SheetContent
-        side="right"
-        className="w-full sm:max-w-md lg:max-w-xl flex flex-col p-0"
-      >
+    <DetailSheet
+      open={!!field}
+      onOpenChange={(o) => !o && onClose()}
+      title={field?.label ?? ""}
+      description={description}
+      headerExtra={
+        field ? (
+          <div className="mt-2">
+            <Button variant="outline" size="sm" onClick={copy}>
+              {copied ? "Copied ✓" : "Copy all"}
+            </Button>
+          </div>
+        ) : null
+      }
+    >
         {field && (
           <>
-            <SheetHeader className="border-b px-6 py-4 flex-shrink-0 bg-background">
-              <SheetTitle className="text-lg">{field.label}</SheetTitle>
-              <SheetDescription>{description}</SheetDescription>
-              <div className="mt-2">
-                <Button variant="outline" size="sm" onClick={copy}>
-                  {copied ? "Copied ✓" : "Copy all"}
-                </Button>
-              </div>
-            </SheetHeader>
-
-            <div className="flex-1 overflow-auto px-6 py-4 space-y-6">
+            <SheetScrollBody>
               {field.subfields.map((sf) => {
                 const byBucket = groupByBucket(sf);
                 return (
@@ -150,10 +144,9 @@ export function TagBreakdownSheet({
                   </div>
                 );
               })}
-            </div>
+            </SheetScrollBody>
           </>
         )}
-      </SheetContent>
-    </Sheet>
+    </DetailSheet>
   );
 }
