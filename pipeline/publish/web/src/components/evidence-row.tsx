@@ -34,6 +34,12 @@ type Props = {
   label: string;
   ev: Evidence | null | undefined;
   sections: Record<string, SectionRef>;
+  // Render an explicit "not addressed" row when `ev` is absent, instead of omitting the
+  // row entirely. Opt-in, because absence only means "the statute is silent" where the
+  // field is known to apply — i.e. profession_specific fields, which come from the
+  // profession's own discovered schema. For core licensure/scope fields an absent node
+  // more likely means the extraction didn't populate it, so those stay omitted.
+  showAbsent?: boolean;
 };
 
 function formatValue(v: unknown): React.ReactNode {
@@ -49,7 +55,7 @@ function formatValue(v: unknown): React.ReactNode {
   return humanize(String(v));
 }
 
-export function EvidenceRow({ label, ev, sections }: Props) {
+export function EvidenceRow({ label, ev, sections, showAbsent }: Props) {
   const focusField = useContext(FocusFieldContext);
   const focused = focusField !== null && focusField === label;
   // When this row is the click-through target, expand its statute context by
@@ -70,7 +76,27 @@ export function EvidenceRow({ label, ev, sections }: Props) {
     return () => cancelAnimationFrame(id);
   }, [focused]);
 
-  if (!ev) return null;
+  if (!ev) {
+    if (!showAbsent) return null;
+    // "Not addressed" is a finding, not a blank. Dropping the row made silence
+    // indistinguishable from an explicit no (issue #103) — the reader couldn't tell
+    // whether the statute said no or never came up.
+    return (
+      <div
+        data-field={label}
+        data-absent="true"
+        className="grid grid-cols-[160px_1fr] md:grid-cols-[180px_1fr] gap-x-3 py-2 border-b border-border/60 last:border-0"
+      >
+        <code className="text-xs text-muted-foreground font-mono pt-1 break-all">{label}</code>
+        <div className="space-y-1.5">
+          <div className="font-medium text-sm text-muted-foreground">not addressed</div>
+          <p className="text-[11px] not-italic text-muted-foreground leading-snug">
+            This state&rsquo;s statute is silent on this — which is different from saying no.
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   const cite = ev.citation || "";
   const source =

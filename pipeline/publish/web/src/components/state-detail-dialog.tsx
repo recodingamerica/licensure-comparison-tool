@@ -212,11 +212,14 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
   });
 
   // Group profession-specific fields by category
-  const byCat: Record<string, Array<{ def: DiscoveredField; ev: Evidence }>> = {};
+  // Keep fields this state DIDN'T address. `fields` is the profession's own discovered
+  // schema, so every entry applies to the profession — a missing node means this state's
+  // statute is silent, which is a finding. Dropping them made silence look identical to
+  // an explicit "no" (issue #103).
+  const byCat: Record<string, Array<{ def: DiscoveredField; ev: Evidence | null }>> = {};
   fields.forEach((f) => {
     const ev = spec?.[f.name];
-    if (!ev) return;
-    (byCat[f.category] ||= []).push({ def: f, ev: ev as Evidence });
+    (byCat[f.category] ||= []).push({ def: f, ev: (ev as Evidence) ?? null });
   });
 
   return (
@@ -399,7 +402,13 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
             .map((cat) => (
               <Section key={cat} title={cat}>
                 {byCat[cat].map(({ def, ev }) => (
-                  <EvidenceRow key={def.name} label={def.name} ev={ev} sections={sections} />
+                  <EvidenceRow
+                    key={def.name}
+                    label={def.name}
+                    ev={ev}
+                    sections={sections}
+                    showAbsent
+                  />
                 ))}
               </Section>
             ))}
