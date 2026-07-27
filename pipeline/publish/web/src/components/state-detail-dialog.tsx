@@ -340,7 +340,7 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
           sectionText={row.section_text_full ?? ""}
         >
           {filterCategory && (
-            <div className="mb-3 flex items-center gap-2 rounded-md border border-sky-300 bg-sky-50/70 px-3 py-2 text-xs">
+            <div className={`mb-3 flex items-center gap-2 rounded-md border ${SC.interaction.border} ${SC.interaction.bgSubtle} px-3 py-2 text-xs`}>
               <span className="text-muted-foreground">Filtered to</span>
               <span className="font-medium">{filterCategory}</span>
               <span className="text-muted-foreground">
@@ -349,7 +349,7 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
               <button
                 type="button"
                 onClick={() => setDismissedKey(requestKey)}
-                className="ml-auto rounded px-2 py-0.5 font-medium text-sky-800 hover:bg-sky-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
+                className={`ml-auto rounded px-2 py-0.5 font-medium ${SC.interaction.text} ${SC.interaction.hoverBg} focus-visible:outline-none focus-visible:ring-2 ${SC.interaction.focusRing}`}
                 aria-label="Clear filter and show all fields"
               >
                 Show all ✕

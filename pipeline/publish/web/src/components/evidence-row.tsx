@@ -130,7 +130,7 @@ export function EvidenceRow({ label, ev, sections, showAbsent }: Props) {
       className={
         "grid grid-cols-[160px_1fr] md:grid-cols-[180px_1fr] gap-x-3 py-2 border-b border-border/60 last:border-0 scroll-mt-4 " +
         (focused
-          ? "rounded-md ring-2 ring-sky-400 bg-sky-50/60 -mx-2 px-2"
+          ? `rounded-md ring-2 ${SC.interaction.ring} ${SC.interaction.bgSubtle} -mx-2 px-2`
           : "")
       }
     >
@@ -199,7 +199,7 @@ export function EvidenceRow({ label, ev, sections, showAbsent }: Props) {
             "text-xs px-3 py-2 rounded border-l-2 italic " +
             (unverified
               ? `${SC.attention.border} ${SC.attention.bg}`
-              : "border-sky-400 bg-muted/40")
+              : `${SC.verified.borderStrong} bg-muted/40`)
           }
         >
           “{ev.quote}”{" "}
@@ -208,7 +208,7 @@ export function EvidenceRow({ label, ev, sections, showAbsent }: Props) {
               href={deepLinkUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="not-italic font-mono text-sky-700 hover:text-sky-900 hover:underline text-[10px] ml-1"
+              className={`not-italic font-mono ${SC.verified.text} ${SC.verified.hoverText} hover:underline text-[10px] ml-1`}
               title={`Open ${cite} on Justia`}
             >
               [{cite}]

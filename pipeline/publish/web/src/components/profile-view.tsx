@@ -215,7 +215,7 @@ function CategoryChipsCell(
               e.currentTarget.click();
             }
           }}
-          className={`${SC.restrictive.bg} ${SC.restrictive.text} ${SC.restrictive.hoverBg} font-normal text-[10px] px-1.5 py-0 cursor-pointer hover:ring-1 hover:ring-current/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400`}
+          className={`${SC.restrictive.bg} ${SC.restrictive.text} ${SC.restrictive.hoverBg} font-normal text-[10px] px-1.5 py-0 cursor-pointer hover:ring-1 hover:ring-current/40 focus-visible:outline-none focus-visible:ring-2 ${SC.interaction.focusRing}`}
           title={`${c.label} — ${c.count} · click to open this state's ${c.label} items`}
         >
           {shortCategory(c.label)}

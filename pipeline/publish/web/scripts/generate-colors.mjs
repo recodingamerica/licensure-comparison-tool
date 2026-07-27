@@ -29,6 +29,17 @@ function hueClasses(hue) {
     // Keep the tint on row/hover (badges inside AG Grid cells) — emitted as a
     // literal so Tailwind's content scan keeps it.
     hoverBg: `hover:bg-${hue}-100`,
+    // Panel/banner tint — lighter than `bg`, for a surface behind text rather
+    // than a pill. Added because callers were reaching for bg-<hue>-50 by hand.
+    bgSubtle: `bg-${hue}-50`,
+    // Emphasis edge + focus ring. Every interactive affordance in the app needs
+    // a ring, so it belongs on the shared shape rather than being spelled out
+    // per component (which is how ring-sky-400 ended up hardcoded in 6 places).
+    borderStrong: `border-${hue}-400`,
+    ring: `ring-${hue}-400`,
+    focusRing: `focus-visible:ring-${hue}-400`,
+    textStrong: `text-${hue}-900`,
+    hoverText: `hover:text-${hue}-900`,
   };
 }
 
@@ -101,6 +112,12 @@ export type HueClasses = {
   border: string;
   dot: string;
   hoverBg: string;
+  bgSubtle: string;
+  borderStrong: string;
+  ring: string;
+  focusRing: string;
+  textStrong: string;
+  hoverText: string;
 };
 
 export const AUDIENCE_HUE: Record<AudienceKind, string> = ${JSON.stringify(audienceHues, null, 2)};

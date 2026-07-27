@@ -10,6 +10,12 @@ export type HueClasses = {
   border: string;
   dot: string;
   hoverBg: string;
+  bgSubtle: string;
+  borderStrong: string;
+  ring: string;
+  focusRing: string;
+  textStrong: string;
+  hoverText: string;
 };
 
 export const AUDIENCE_HUE: Record<AudienceKind, string> = {
@@ -24,21 +30,39 @@ export const AUDIENCE_CLASSES: Record<AudienceKind, HueClasses> = {
     "text": "text-purple-800",
     "border": "border-purple-300",
     "dot": "bg-purple-500",
-    "hoverBg": "hover:bg-purple-100"
+    "hoverBg": "hover:bg-purple-100",
+    "bgSubtle": "bg-purple-50",
+    "borderStrong": "border-purple-400",
+    "ring": "ring-purple-400",
+    "focusRing": "focus-visible:ring-purple-400",
+    "textStrong": "text-purple-900",
+    "hoverText": "hover:text-purple-900"
   },
   "multi": {
     "bg": "bg-emerald-100",
     "text": "text-emerald-800",
     "border": "border-emerald-300",
     "dot": "bg-emerald-500",
-    "hoverBg": "hover:bg-emerald-100"
+    "hoverBg": "hover:bg-emerald-100",
+    "bgSubtle": "bg-emerald-50",
+    "borderStrong": "border-emerald-400",
+    "ring": "ring-emerald-400",
+    "focusRing": "focus-visible:ring-emerald-400",
+    "textStrong": "text-emerald-900",
+    "hoverText": "hover:text-emerald-900"
   },
   "single": {
     "bg": "bg-sky-100",
     "text": "text-sky-800",
     "border": "border-sky-300",
     "dot": "bg-sky-500",
-    "hoverBg": "hover:bg-sky-100"
+    "hoverBg": "hover:bg-sky-100",
+    "bgSubtle": "bg-sky-50",
+    "borderStrong": "border-sky-400",
+    "ring": "ring-sky-400",
+    "focusRing": "focus-visible:ring-sky-400",
+    "textStrong": "text-sky-900",
+    "hoverText": "hover:text-sky-900"
   }
 };
 
@@ -60,82 +84,148 @@ export const FAMILY_CLASSES: Record<FamilyHue, HueClasses> = {
     "text": "text-emerald-800",
     "border": "border-emerald-300",
     "dot": "bg-emerald-500",
-    "hoverBg": "hover:bg-emerald-100"
+    "hoverBg": "hover:bg-emerald-100",
+    "bgSubtle": "bg-emerald-50",
+    "borderStrong": "border-emerald-400",
+    "ring": "ring-emerald-400",
+    "focusRing": "focus-visible:ring-emerald-400",
+    "textStrong": "text-emerald-900",
+    "hoverText": "hover:text-emerald-900"
   },
   "sky": {
     "bg": "bg-sky-100",
     "text": "text-sky-800",
     "border": "border-sky-300",
     "dot": "bg-sky-500",
-    "hoverBg": "hover:bg-sky-100"
+    "hoverBg": "hover:bg-sky-100",
+    "bgSubtle": "bg-sky-50",
+    "borderStrong": "border-sky-400",
+    "ring": "ring-sky-400",
+    "focusRing": "focus-visible:ring-sky-400",
+    "textStrong": "text-sky-900",
+    "hoverText": "hover:text-sky-900"
   },
   "violet": {
     "bg": "bg-violet-100",
     "text": "text-violet-800",
     "border": "border-violet-300",
     "dot": "bg-violet-500",
-    "hoverBg": "hover:bg-violet-100"
+    "hoverBg": "hover:bg-violet-100",
+    "bgSubtle": "bg-violet-50",
+    "borderStrong": "border-violet-400",
+    "ring": "ring-violet-400",
+    "focusRing": "focus-visible:ring-violet-400",
+    "textStrong": "text-violet-900",
+    "hoverText": "hover:text-violet-900"
   },
   "amber": {
     "bg": "bg-amber-100",
     "text": "text-amber-800",
     "border": "border-amber-300",
     "dot": "bg-amber-500",
-    "hoverBg": "hover:bg-amber-100"
+    "hoverBg": "hover:bg-amber-100",
+    "bgSubtle": "bg-amber-50",
+    "borderStrong": "border-amber-400",
+    "ring": "ring-amber-400",
+    "focusRing": "focus-visible:ring-amber-400",
+    "textStrong": "text-amber-900",
+    "hoverText": "hover:text-amber-900"
   },
   "slate": {
     "bg": "bg-slate-100",
     "text": "text-slate-800",
     "border": "border-slate-300",
     "dot": "bg-slate-500",
-    "hoverBg": "hover:bg-slate-100"
+    "hoverBg": "hover:bg-slate-100",
+    "bgSubtle": "bg-slate-50",
+    "borderStrong": "border-slate-400",
+    "ring": "ring-slate-400",
+    "focusRing": "focus-visible:ring-slate-400",
+    "textStrong": "text-slate-900",
+    "hoverText": "hover:text-slate-900"
   },
   "rose": {
     "bg": "bg-rose-100",
     "text": "text-rose-800",
     "border": "border-rose-300",
     "dot": "bg-rose-500",
-    "hoverBg": "hover:bg-rose-100"
+    "hoverBg": "hover:bg-rose-100",
+    "bgSubtle": "bg-rose-50",
+    "borderStrong": "border-rose-400",
+    "ring": "ring-rose-400",
+    "focusRing": "focus-visible:ring-rose-400",
+    "textStrong": "text-rose-900",
+    "hoverText": "hover:text-rose-900"
   },
   "orange": {
     "bg": "bg-orange-100",
     "text": "text-orange-800",
     "border": "border-orange-300",
     "dot": "bg-orange-500",
-    "hoverBg": "hover:bg-orange-100"
+    "hoverBg": "hover:bg-orange-100",
+    "bgSubtle": "bg-orange-50",
+    "borderStrong": "border-orange-400",
+    "ring": "ring-orange-400",
+    "focusRing": "focus-visible:ring-orange-400",
+    "textStrong": "text-orange-900",
+    "hoverText": "hover:text-orange-900"
   },
   "teal": {
     "bg": "bg-teal-100",
     "text": "text-teal-800",
     "border": "border-teal-300",
     "dot": "bg-teal-500",
-    "hoverBg": "hover:bg-teal-100"
+    "hoverBg": "hover:bg-teal-100",
+    "bgSubtle": "bg-teal-50",
+    "borderStrong": "border-teal-400",
+    "ring": "ring-teal-400",
+    "focusRing": "focus-visible:ring-teal-400",
+    "textStrong": "text-teal-900",
+    "hoverText": "hover:text-teal-900"
   },
   "indigo": {
     "bg": "bg-indigo-100",
     "text": "text-indigo-800",
     "border": "border-indigo-300",
     "dot": "bg-indigo-500",
-    "hoverBg": "hover:bg-indigo-100"
+    "hoverBg": "hover:bg-indigo-100",
+    "bgSubtle": "bg-indigo-50",
+    "borderStrong": "border-indigo-400",
+    "ring": "ring-indigo-400",
+    "focusRing": "focus-visible:ring-indigo-400",
+    "textStrong": "text-indigo-900",
+    "hoverText": "hover:text-indigo-900"
   },
   "fuchsia": {
     "bg": "bg-fuchsia-100",
     "text": "text-fuchsia-800",
     "border": "border-fuchsia-300",
     "dot": "bg-fuchsia-500",
-    "hoverBg": "hover:bg-fuchsia-100"
+    "hoverBg": "hover:bg-fuchsia-100",
+    "bgSubtle": "bg-fuchsia-50",
+    "borderStrong": "border-fuchsia-400",
+    "ring": "ring-fuchsia-400",
+    "focusRing": "focus-visible:ring-fuchsia-400",
+    "textStrong": "text-fuchsia-900",
+    "hoverText": "hover:text-fuchsia-900"
   },
   "lime": {
     "bg": "bg-lime-100",
     "text": "text-lime-800",
     "border": "border-lime-300",
     "dot": "bg-lime-500",
-    "hoverBg": "hover:bg-lime-100"
+    "hoverBg": "hover:bg-lime-100",
+    "bgSubtle": "bg-lime-50",
+    "borderStrong": "border-lime-400",
+    "ring": "ring-lime-400",
+    "focusRing": "focus-visible:ring-lime-400",
+    "textStrong": "text-lime-900",
+    "hoverText": "hover:text-lime-900"
   }
 };
 
 // Semantic roles — one named color per meaning (see config/web_colors.yaml).
-export type SemanticRole = "attention" | "highlight" | "restrictive" | "permissive";
+export type SemanticRole = "attention" | "highlight" | "restrictive" | "permissive" | "interaction" | "verified";
 
 export type SolidClasses = { bg: string; text: string; border: string };
 
@@ -143,7 +233,9 @@ export const SEMANTIC_HUE: Record<SemanticRole, string> = {
   "attention": "amber",
   "highlight": "yellow",
   "restrictive": "rose",
-  "permissive": "emerald"
+  "permissive": "emerald",
+  "interaction": "sky",
+  "verified": "sky"
 };
 
 export const SEMANTIC_CLASSES: Record<SemanticRole, HueClasses> = {
@@ -152,28 +244,78 @@ export const SEMANTIC_CLASSES: Record<SemanticRole, HueClasses> = {
     "text": "text-amber-800",
     "border": "border-amber-300",
     "dot": "bg-amber-500",
-    "hoverBg": "hover:bg-amber-100"
+    "hoverBg": "hover:bg-amber-100",
+    "bgSubtle": "bg-amber-50",
+    "borderStrong": "border-amber-400",
+    "ring": "ring-amber-400",
+    "focusRing": "focus-visible:ring-amber-400",
+    "textStrong": "text-amber-900",
+    "hoverText": "hover:text-amber-900"
   },
   "highlight": {
     "bg": "bg-yellow-100",
     "text": "text-yellow-800",
     "border": "border-yellow-300",
     "dot": "bg-yellow-500",
-    "hoverBg": "hover:bg-yellow-100"
+    "hoverBg": "hover:bg-yellow-100",
+    "bgSubtle": "bg-yellow-50",
+    "borderStrong": "border-yellow-400",
+    "ring": "ring-yellow-400",
+    "focusRing": "focus-visible:ring-yellow-400",
+    "textStrong": "text-yellow-900",
+    "hoverText": "hover:text-yellow-900"
   },
   "restrictive": {
     "bg": "bg-rose-100",
     "text": "text-rose-800",
     "border": "border-rose-300",
     "dot": "bg-rose-500",
-    "hoverBg": "hover:bg-rose-100"
+    "hoverBg": "hover:bg-rose-100",
+    "bgSubtle": "bg-rose-50",
+    "borderStrong": "border-rose-400",
+    "ring": "ring-rose-400",
+    "focusRing": "focus-visible:ring-rose-400",
+    "textStrong": "text-rose-900",
+    "hoverText": "hover:text-rose-900"
   },
   "permissive": {
     "bg": "bg-emerald-100",
     "text": "text-emerald-800",
     "border": "border-emerald-300",
     "dot": "bg-emerald-500",
-    "hoverBg": "hover:bg-emerald-100"
+    "hoverBg": "hover:bg-emerald-100",
+    "bgSubtle": "bg-emerald-50",
+    "borderStrong": "border-emerald-400",
+    "ring": "ring-emerald-400",
+    "focusRing": "focus-visible:ring-emerald-400",
+    "textStrong": "text-emerald-900",
+    "hoverText": "hover:text-emerald-900"
+  },
+  "interaction": {
+    "bg": "bg-sky-100",
+    "text": "text-sky-800",
+    "border": "border-sky-300",
+    "dot": "bg-sky-500",
+    "hoverBg": "hover:bg-sky-100",
+    "bgSubtle": "bg-sky-50",
+    "borderStrong": "border-sky-400",
+    "ring": "ring-sky-400",
+    "focusRing": "focus-visible:ring-sky-400",
+    "textStrong": "text-sky-900",
+    "hoverText": "hover:text-sky-900"
+  },
+  "verified": {
+    "bg": "bg-sky-100",
+    "text": "text-sky-800",
+    "border": "border-sky-300",
+    "dot": "bg-sky-500",
+    "hoverBg": "hover:bg-sky-100",
+    "bgSubtle": "bg-sky-50",
+    "borderStrong": "border-sky-400",
+    "ring": "ring-sky-400",
+    "focusRing": "focus-visible:ring-sky-400",
+    "textStrong": "text-sky-900",
+    "hoverText": "hover:text-sky-900"
   }
 };
 
@@ -197,6 +339,16 @@ export const SEMANTIC_SOLID: Record<SemanticRole, SolidClasses> = {
     "bg": "bg-emerald-600",
     "text": "text-white",
     "border": "border-emerald-600"
+  },
+  "interaction": {
+    "bg": "bg-sky-600",
+    "text": "text-white",
+    "border": "border-sky-600"
+  },
+  "verified": {
+    "bg": "bg-sky-600",
+    "text": "text-white",
+    "border": "border-sky-600"
   }
 };
 
@@ -208,56 +360,104 @@ export const CATEGORY_CLASSES: Record<string, Record<string, HueClasses>> = {
       "text": "text-sky-800",
       "border": "border-sky-300",
       "dot": "bg-sky-500",
-      "hoverBg": "hover:bg-sky-100"
+      "hoverBg": "hover:bg-sky-100",
+      "bgSubtle": "bg-sky-50",
+      "borderStrong": "border-sky-400",
+      "ring": "ring-sky-400",
+      "focusRing": "focus-visible:ring-sky-400",
+      "textStrong": "text-sky-900",
+      "hoverText": "hover:text-sky-900"
     },
     "mandatory_certification": {
       "bg": "bg-emerald-100",
       "text": "text-emerald-800",
       "border": "border-emerald-300",
       "dot": "bg-emerald-500",
-      "hoverBg": "hover:bg-emerald-100"
+      "hoverBg": "hover:bg-emerald-100",
+      "bgSubtle": "bg-emerald-50",
+      "borderStrong": "border-emerald-400",
+      "ring": "ring-emerald-400",
+      "focusRing": "focus-visible:ring-emerald-400",
+      "textStrong": "text-emerald-900",
+      "hoverText": "hover:text-emerald-900"
     },
     "certification": {
       "bg": "bg-emerald-100",
       "text": "text-emerald-800",
       "border": "border-emerald-300",
       "dot": "bg-emerald-500",
-      "hoverBg": "hover:bg-emerald-100"
+      "hoverBg": "hover:bg-emerald-100",
+      "bgSubtle": "bg-emerald-50",
+      "borderStrong": "border-emerald-400",
+      "ring": "ring-emerald-400",
+      "focusRing": "focus-visible:ring-emerald-400",
+      "textStrong": "text-emerald-900",
+      "hoverText": "hover:text-emerald-900"
     },
     "registration": {
       "bg": "bg-amber-100",
       "text": "text-amber-800",
       "border": "border-amber-300",
       "dot": "bg-amber-500",
-      "hoverBg": "hover:bg-amber-100"
+      "hoverBg": "hover:bg-amber-100",
+      "bgSubtle": "bg-amber-50",
+      "borderStrong": "border-amber-400",
+      "ring": "ring-amber-400",
+      "focusRing": "focus-visible:ring-amber-400",
+      "textStrong": "text-amber-900",
+      "hoverText": "hover:text-amber-900"
     },
     "exemption": {
       "bg": "bg-zinc-100",
       "text": "text-zinc-800",
       "border": "border-zinc-300",
       "dot": "bg-zinc-500",
-      "hoverBg": "hover:bg-zinc-100"
+      "hoverBg": "hover:bg-zinc-100",
+      "bgSubtle": "bg-zinc-50",
+      "borderStrong": "border-zinc-400",
+      "ring": "ring-zinc-400",
+      "focusRing": "focus-visible:ring-zinc-400",
+      "textStrong": "text-zinc-900",
+      "hoverText": "hover:text-zinc-900"
     },
     "voluntary_certification": {
       "bg": "bg-violet-100",
       "text": "text-violet-800",
       "border": "border-violet-300",
       "dot": "bg-violet-500",
-      "hoverBg": "hover:bg-violet-100"
+      "hoverBg": "hover:bg-violet-100",
+      "bgSubtle": "bg-violet-50",
+      "borderStrong": "border-violet-400",
+      "ring": "ring-violet-400",
+      "focusRing": "focus-visible:ring-violet-400",
+      "textStrong": "text-violet-900",
+      "hoverText": "hover:text-violet-900"
     },
     "market_forces": {
       "bg": "bg-rose-100",
       "text": "text-rose-800",
       "border": "border-rose-300",
       "dot": "bg-rose-500",
-      "hoverBg": "hover:bg-rose-100"
+      "hoverBg": "hover:bg-rose-100",
+      "bgSubtle": "bg-rose-50",
+      "borderStrong": "border-rose-400",
+      "ring": "ring-rose-400",
+      "focusRing": "focus-visible:ring-rose-400",
+      "textStrong": "text-rose-900",
+      "hoverText": "hover:text-rose-900"
     },
     "none": {
       "bg": "bg-rose-100",
       "text": "text-rose-800",
       "border": "border-rose-300",
       "dot": "bg-rose-500",
-      "hoverBg": "hover:bg-rose-100"
+      "hoverBg": "hover:bg-rose-100",
+      "bgSubtle": "bg-rose-50",
+      "borderStrong": "border-rose-400",
+      "ring": "ring-rose-400",
+      "focusRing": "focus-visible:ring-rose-400",
+      "textStrong": "text-rose-900",
+      "hoverText": "hover:text-rose-900"
     }
   },
   "novel_category": {
@@ -266,49 +466,91 @@ export const CATEGORY_CLASSES: Record<string, Record<string, HueClasses>> = {
       "text": "text-slate-800",
       "border": "border-slate-300",
       "dot": "bg-slate-500",
-      "hoverBg": "hover:bg-slate-100"
+      "hoverBg": "hover:bg-slate-100",
+      "bgSubtle": "bg-slate-50",
+      "borderStrong": "border-slate-400",
+      "ring": "ring-slate-400",
+      "focusRing": "focus-visible:ring-slate-400",
+      "textStrong": "text-slate-900",
+      "hoverText": "hover:text-slate-900"
     },
     "Experience": {
       "bg": "bg-teal-100",
       "text": "text-teal-800",
       "border": "border-teal-300",
       "dot": "bg-teal-500",
-      "hoverBg": "hover:bg-teal-100"
+      "hoverBg": "hover:bg-teal-100",
+      "bgSubtle": "bg-teal-50",
+      "borderStrong": "border-teal-400",
+      "ring": "ring-teal-400",
+      "focusRing": "focus-visible:ring-teal-400",
+      "textStrong": "text-teal-900",
+      "hoverText": "hover:text-teal-900"
     },
     "Discipline": {
       "bg": "bg-rose-100",
       "text": "text-rose-800",
       "border": "border-rose-300",
       "dot": "bg-rose-500",
-      "hoverBg": "hover:bg-rose-100"
+      "hoverBg": "hover:bg-rose-100",
+      "bgSubtle": "bg-rose-50",
+      "borderStrong": "border-rose-400",
+      "ring": "ring-rose-400",
+      "focusRing": "focus-visible:ring-rose-400",
+      "textStrong": "text-rose-900",
+      "hoverText": "hover:text-rose-900"
     },
     "Scope": {
       "bg": "bg-sky-100",
       "text": "text-sky-800",
       "border": "border-sky-300",
       "dot": "bg-sky-500",
-      "hoverBg": "hover:bg-sky-100"
+      "hoverBg": "hover:bg-sky-100",
+      "bgSubtle": "bg-sky-50",
+      "borderStrong": "border-sky-400",
+      "ring": "ring-sky-400",
+      "focusRing": "focus-visible:ring-sky-400",
+      "textStrong": "text-sky-900",
+      "hoverText": "hover:text-sky-900"
     },
     "Regulation": {
       "bg": "bg-violet-100",
       "text": "text-violet-800",
       "border": "border-violet-300",
       "dot": "bg-violet-500",
-      "hoverBg": "hover:bg-violet-100"
+      "hoverBg": "hover:bg-violet-100",
+      "bgSubtle": "bg-violet-50",
+      "borderStrong": "border-violet-400",
+      "ring": "ring-violet-400",
+      "focusRing": "focus-visible:ring-violet-400",
+      "textStrong": "text-violet-900",
+      "hoverText": "hover:text-violet-900"
     },
     "Authority": {
       "bg": "bg-amber-100",
       "text": "text-amber-800",
       "border": "border-amber-300",
       "dot": "bg-amber-500",
-      "hoverBg": "hover:bg-amber-100"
+      "hoverBg": "hover:bg-amber-100",
+      "bgSubtle": "bg-amber-50",
+      "borderStrong": "border-amber-400",
+      "ring": "ring-amber-400",
+      "focusRing": "focus-visible:ring-amber-400",
+      "textStrong": "text-amber-900",
+      "hoverText": "hover:text-amber-900"
     },
     "License": {
       "bg": "bg-indigo-100",
       "text": "text-indigo-800",
       "border": "border-indigo-300",
       "dot": "bg-indigo-500",
-      "hoverBg": "hover:bg-indigo-100"
+      "hoverBg": "hover:bg-indigo-100",
+      "bgSubtle": "bg-indigo-50",
+      "borderStrong": "border-indigo-400",
+      "ring": "ring-indigo-400",
+      "focusRing": "focus-visible:ring-indigo-400",
+      "textStrong": "text-indigo-900",
+      "hoverText": "hover:text-indigo-900"
     }
   }
 };

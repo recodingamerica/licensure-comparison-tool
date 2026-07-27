@@ -56,6 +56,15 @@ semantic:
   highlight: yellow    # search hits / highlighted spans
   restrictive: rose    # "more restrictive" direction, disciplinary grounds, no/bad
   permissive: emerald  # "more permissive" direction, yes/good
+  # The UI talking about itself rather than about the data. Focus rings, the
+  # "we took you here" landing state, and the active-filter bar — every place the
+  # app answers "where am I / why am I seeing this". Was hardcoded sky-* in six
+  # components before it had a name.
+  interaction: sky
+  # A claim we checked against the statute verbatim. Same hue as `interaction`
+  # today but a genuinely different meaning — one is about the UI, the other about
+  # the data — so it gets its own name and can diverge without a hunt.
+  verified: sky
 
 # Category palettes — value → hue maps for the multi-color category renderers.
 # It's fine that these are many colors; the point is the per-value choice lives

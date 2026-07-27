@@ -10,7 +10,7 @@
 import { useMemo, useState } from "react";
 import { UsMap } from "@/components/us-map";
 import { useJsonData } from "@/lib/use-json-data";
-import { token } from "@/lib/web-colors";
+import { token, SEMANTIC_CLASSES as SC } from "@/lib/web-colors";
 import { STATE_CODES as STATES, FOCUS_STATE as FOCUS } from "@/lib/states";
 
 type Capability = { label: string; states: string[] };
@@ -136,7 +136,7 @@ export function ScopeView({ professionId }: { professionId: string }) {
                             setSel(i);
                           }
                         }}
-                        className="cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
+                        className={`cursor-pointer focus-visible:outline-none focus-visible:ring-2 ${SC.interaction.focusRing}`}
                       >
                         <td
                           className="sticky left-0 z-10 bg-card px-3 py-0"
