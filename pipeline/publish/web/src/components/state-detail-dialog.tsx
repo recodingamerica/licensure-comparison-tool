@@ -20,6 +20,7 @@ import {
 } from "./evidence-row";
 import { ABSENCE } from "./absence";
 import { DetailSheet, SheetScrollBody } from "@/components/ui/detail-sheet";
+import { FilterBar } from "@/components/ui/filter-bar";
 import { searchSnippets, humanize } from "@/lib/format";
 
 // A grid colId that is not itself a record path. Columns carry their own dotted path
@@ -400,23 +401,11 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
           sectionText={row.section_text_full ?? ""}
         >
           {filterActive && (
-            <div className={`mb-3 flex items-center gap-2 rounded-md border ${SC.interaction.border} ${SC.interaction.bgSubtle} px-3 py-2 text-xs`}>
-              <span className="text-muted-foreground">Filtered to</span>
-              <span className="font-medium">
-                {filterCategory ?? humanize(filterFieldLabel ?? "")}
-              </span>
-              <span className="text-muted-foreground">
-                {filterCategory ? "from Disciplinary categories" : "— one field"}
-              </span>
-              <button
-                type="button"
-                onClick={() => setDismissedKey(requestKey)}
-                className={`ml-auto rounded px-2 py-0.5 font-medium ${SC.interaction.text} ${SC.interaction.hoverBg} focus-visible:outline-none focus-visible:ring-2 ${SC.interaction.focusRing}`}
-                aria-label="Clear filter and show all fields"
-              >
-                Show all ✕
-              </button>
-            </div>
+            <FilterBar
+              label={filterCategory ?? humanize(filterFieldLabel ?? "")}
+              source={filterCategory ? "from Disciplinary categories" : "— one field"}
+              onClear={() => setDismissedKey(requestKey)}
+            />
           )}
           {/* Filtered to one field (a map click): render just that field's row, resolved
               from the record by its dotted path. `showAbsent` so a state the map colored

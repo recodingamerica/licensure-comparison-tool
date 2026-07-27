@@ -8,6 +8,7 @@
 import { useEffect, useState } from "react";
 import { useOpenStateDetail } from "@/components/state-focus";
 import { DetailSheet, SheetScrollBody } from "@/components/ui/detail-sheet";
+import { FilterBar } from "@/components/ui/filter-bar";
 import { SEMANTIC_CLASSES as SC } from "@/lib/web-colors";
 
 import { Button } from "@/components/ui/button";
@@ -39,6 +40,13 @@ export function TagBreakdownSheet({
   onClose: () => void;
 }) {
   const open = useOpenStateDetail();
+  // Clicking a tag FILTERS this breakdown to it, and says so. It used to merely tint the
+  // matching group: all five still listed, one with a slightly different border, nothing
+  // naming what you clicked and no way to drop it. That reads as a filter you can't undo.
+  // Derived rather than mirrored — track only what the user dismissed (see FilterBar).
+  const requestKey = tagLabel ? `${field?.label ?? ""}:${tagLabel}` : null;
+  const [dismissedTagKey, setDismissedTagKey] = useState<string | null>(null);
+  const filterTag = requestKey && dismissedTagKey !== requestKey ? tagLabel : null;
   const [copied, setCopied] = useState(false);
 
   // Reset the "Copied" affordance whenever the target changes.
@@ -73,6 +81,13 @@ export function TagBreakdownSheet({
         {field && (
           <>
             <SheetScrollBody>
+              {filterTag && (
+                <FilterBar
+                  label={filterTag}
+                  source="from this field's tags"
+                  onClear={() => setDismissedTagKey(requestKey)}
+                />
+              )}
               {field.subfields.map((sf) => {
                 const byBucket = groupByBucket(sf);
                 return (
@@ -81,18 +96,12 @@ export function TagBreakdownSheet({
                       {sf.field_name} · {sf.unit} per tag
                     </p>
                     <div className="space-y-4">
-                      {sf.tags.map((tag) => {
+                      {sf.tags
+                        .filter((tag) => !filterTag || tag.label === filterTag)
+                        .map((tag) => {
                         const members = byBucket.get(tag.label) ?? [];
-                        const isFocus = tag.label === tagLabel;
                         return (
-                          <div
-                            key={tag.label}
-                            className={
-                              isFocus
-                                ? "rounded-md border border-foreground/30 bg-muted/40 p-3"
-                                : "rounded-md border p-3"
-                            }
-                          >
+                          <div key={tag.label} className="rounded-md border p-3">
                             <p className="text-sm font-medium mb-2">
                               {tag.label}{" "}
                               <span className="font-normal text-muted-foreground">
