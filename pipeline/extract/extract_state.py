@@ -467,6 +467,15 @@ def apply_derived_regulatory_model(record: dict, state: str) -> None:
             _ev_val(lic.get("credential_type")), _ev_val(lic.get("scope_protection")),
         )
         rm_ev["value"] = derived.value
+        # The model's quote justified the value we just replaced, so it is now orphaned:
+        # it stays verbatim-verifiable and renders in the Sheet as a sky-blue "verified"
+        # card that argues against its own value (issue #62 — e.g. EMT/KS kept
+        # "...unlawful...unless...holds a valid certificate" under voluntary_certification).
+        # Drop it and mark the node derived. No evidence is lost: the rung comes from
+        # credential_type + scope_protection, which keep their own quotes in the same Sheet.
+        rm_ev["quote"] = ""
+        rm_ev["citation"] = ""
+        rm_ev["derived"] = True
 
 
 def finalize_and_persist(record: dict, profession: str, state: str, model: str | None) -> dict:

@@ -6,6 +6,11 @@ export type Evidence<T = unknown> = {
   quote: string;
   citation: string;
   unverified?: boolean;
+  // Set when the pipeline computed this value from other fields rather than
+  // taking the model's pick, and therefore cleared the model's now-orphaned
+  // quote/citation (see extract_state.apply_derived_regulatory_model). The UI
+  // says where the value came from instead of showing an empty quote card.
+  derived?: boolean;
   // Set by the verifier's fuzzy fallback when the strict regex match
   // fails but a long contiguous substring of the LLM quote DOES appear
   // in the corpus. `ratio` is longest_matching_block / quote_length,

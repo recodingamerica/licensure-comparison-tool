@@ -8,7 +8,11 @@ fail verification.
 
 import pytest
 
-from pipeline.extract.extract_state import _normalize_for_match, quote_in_corpus
+from pipeline.extract.extract_state import (
+    _normalize_for_match,
+    apply_derived_regulatory_model,
+    quote_in_corpus,
+)
 
 
 class TestEnumerationStripping:
@@ -147,3 +151,53 @@ class TestArticleSwapStillFails:
         assert nq in nc
         # Specifically: "part 17" should survive
         assert "part 17" in nc
+
+
+class TestDerivedRegulatoryModelClearsOrphanedQuote:
+    """issue #62: the rung is derived from credential_type + scope_protection rather
+    than trusting the model's pick. When that override changes the value, the model's
+    quote justified the OLD value — left in place it renders in the state-detail Sheet
+    as a sky-blue "verified" card arguing against its own value.
+    """
+
+    def _record(self, model_pick, credential, scope_protected):
+        return {"licensure": {
+            "regulatory_model": {
+                "value": model_pick,
+                "quote": "It shall be unlawful for any individual to represent oneself as an "
+                         "emergency medical service provider unless such individual holds a "
+                         "valid certificate as such under this act.",
+                "citation": "65-6150",
+            },
+            "credential_type": {"value": credential, "quote": "...certificate...", "citation": "65-6129"},
+            "scope_protection": {"value": scope_protected, "quote": "...", "citation": "65-6150"},
+        }}
+
+    def test_override_clears_quote_and_flags_derived(self):
+        # The real EMT/KS case from the issue: model says "license", but
+        # certification + no scope protection derives voluntary_certification.
+        rec = self._record("license", "certification", False)
+        apply_derived_regulatory_model(rec, "KS")
+        rm = rec["licensure"]["regulatory_model"]
+        assert rm["value"] != "license", "derivation did not override the model's pick"
+        assert rm["quote"] == "", "orphaned quote survived the override"
+        assert rm["citation"] == ""
+        assert rm["derived"] is True
+
+    def test_supporting_fields_keep_their_own_evidence(self):
+        """No evidence is lost: the rung's inputs still carry their quotes."""
+        rec = self._record("license", "certification", False)
+        apply_derived_regulatory_model(rec, "KS")
+        lic = rec["licensure"]
+        assert lic["credential_type"]["quote"]
+        assert lic["scope_protection"]["citation"]
+
+    def test_no_override_leaves_the_quote_intact(self):
+        """When the model's pick already agrees with the derivation there is no
+        orphan — the quote genuinely supports the value and must survive."""
+        rec = self._record("license", "license", True)
+        before = rec["licensure"]["regulatory_model"]["quote"]
+        apply_derived_regulatory_model(rec, "UT")
+        rm = rec["licensure"]["regulatory_model"]
+        assert rm["quote"] == before, "a still-valid quote was cleared"
+        assert "derived" not in rm

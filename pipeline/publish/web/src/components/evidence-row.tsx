@@ -156,6 +156,18 @@ export function EvidenceRow({ label, ev, sections }: Props) {
             )}
           </p>
         )}
+        {!ev.quote ? (
+          // No quote to show. Rendering the card anyway printed an empty “” in the
+          // sky-blue "verified" style, which reads as evidence where there is none.
+          // A derived value says so; anything else just shows no quote card.
+          ev.derived ? (
+            <p className="text-[11px] not-italic text-muted-foreground leading-snug">
+              Derived from <span className="font-medium">credential type</span> and{" "}
+              <span className="font-medium">scope protection</span> rather than quoted
+              directly — see those rows for their statutory quotes.
+            </p>
+          ) : null
+        ) : (
         <div
           className={
             "text-xs px-3 py-2 rounded border-l-2 italic " +
@@ -181,6 +193,7 @@ export function EvidenceRow({ label, ev, sections }: Props) {
             </span>
           )}
         </div>
+        )}
         {approximate && (
           <div className={`text-[11px] not-italic px-3 py-1.5 rounded ${SC.attention.bg} border ${SC.attention.border} ${SC.attention.text}`}>
             <span className="font-mono uppercase tracking-wide text-[9px] mr-2">
