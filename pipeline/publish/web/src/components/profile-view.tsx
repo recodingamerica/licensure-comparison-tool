@@ -201,8 +201,12 @@ function CategoryChipsCell(
         <Badge
           key={c.label}
           variant="secondary"
-          className={`${SC.restrictive.bg} ${SC.restrictive.text} ${SC.restrictive.hoverBg} font-normal text-[10px] px-1.5 py-0`}
-          title={`${c.label} — ${c.count}`}
+          // data-category is read back off the click event by handleCellClick, so the
+          // Sheet can open ON the category you actually clicked instead of just the
+          // column. Cheaper than threading a callback through static column defs.
+          data-category={c.label}
+          className={`${SC.restrictive.bg} ${SC.restrictive.text} ${SC.restrictive.hoverBg} font-normal text-[10px] px-1.5 py-0 cursor-pointer hover:ring-1 hover:ring-current/40`}
+          title={`${c.label} — ${c.count} · click to open this state's ${c.label} items`}
         >
           {shortCategory(c.label)}
           <span className="ml-1 font-mono opacity-70">{c.count}</span>
@@ -1587,6 +1591,9 @@ export function ProfileView({
   // The grid column the user clicked to open the Sheet (#34), so the Sheet can
   // scroll to and highlight the matching field. Null = no specific focus.
   const [focusColId, setFocusColId] = useState<string | null>(null);
+  // The specific category chip clicked ("Fraud"), when the click landed on one.
+  // Narrows the Sheet's focus from "this column" to "these items".
+  const [focusCategory, setFocusCategory] = useState<string | null>(null);
   // Force re-render of the chip bar whenever AG Grid's filter model changes.
   // We track a tick rather than mirror the filter model into React state,
   // since the source of truth is the grid itself.
@@ -1663,10 +1670,22 @@ export function ProfileView({
   // can scroll the Sheet straight to that field. State column is excluded —
   // it's the row identifier, not a data field worth focusing.
   const handleCellClick = useCallback(
-    (event: { data?: Row; column?: { getColId: () => string } }) => {
+    (event: {
+      data?: Row;
+      column?: { getColId: () => string };
+      event?: Event | null;
+    }) => {
       if (!event.data) return;
       const col = event.column?.getColId();
       setFocusColId(col && col !== "state" ? col : null);
+      // If the click landed on a specific category chip ("Fraud 3"), carry that
+      // category through so the Sheet lands on those items. Without it, clicking any
+      // chip in the cell looked identical — you couldn't tell it had taken you to the
+      // thing you actually clicked.
+      const target = event.event?.target;
+      const chip =
+        target instanceof Element ? target.closest("[data-category]") : null;
+      setFocusCategory(chip?.getAttribute("data-category") ?? null);
       setOpenState(event.data.state);
     },
     []
@@ -2216,10 +2235,12 @@ export function ProfileView({
           if (!o) {
             setOpenState(null);
             setFocusColId(null);
+            setFocusCategory(null);
           }
         }}
         searchQuery={statuteTextQuery}
         focusColId={focusColId}
+        focusCategory={focusCategory}
         textBuckets={payload.map_prep?.text_buckets ?? {}}
       />
     </Wrapper>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { ChevronDown, ChevronRight } from "lucide-react";
 import type {
   DiscoveredField,
@@ -114,6 +114,10 @@ type Props = {
   // scrolls into view, highlights, and auto-expands its statute text. Null
   // when the Sheet was opened without a specific field focus.
   focusColId?: string | null;
+  // The specific category chip clicked in the grid ("Fraud"). The matching
+  // Disciplinary-grounds group scrolls into view and highlights, so the Sheet lands on
+  // the items you clicked rather than just the column they live in.
+  focusCategory?: string | null;
   // map_prep.text_buckets, used to surface the same per-state bucket chip the
   // grid shows above bucketed cells on the matching Sheet rows (#34).
   textBuckets?: Record<string, { by_state?: Record<string, string> }>;
@@ -124,13 +128,25 @@ type Props = {
 // per-claim evidence drilldown (verbatim quote + citation + source link),
 // not "all the data for this row" duplication. Keeping the export name
 // StateDetailDialog so callers don't need to change.
-export function StateDetailDialog({ rows, fields, openState, onOpenChange, searchQuery, focusColId, textBuckets }: Props) {
+export function StateDetailDialog({ rows, fields, openState, onOpenChange, searchQuery, focusColId, focusCategory, textBuckets }: Props) {
   const row = useMemo(
     () => rows.find((r) => r.state === openState) || null,
     [rows, openState]
   );
 
   const focusLabel = useMemo(() => focusColIdToLabel(focusColId), [focusColId]);
+
+  // Scroll the clicked category group into view once the Sheet has painted. Same rAF
+  // deferral as EvidenceRow's focused row — the Sheet slides in via a transform, so
+  // scrolling before that settles lands in the wrong place.
+  const focusCategoryRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (!focusCategory || !openState) return;
+    const id = requestAnimationFrame(() => {
+      focusCategoryRef.current?.scrollIntoView({ block: "center", behavior: "smooth" });
+    });
+    return () => cancelAnimationFrame(id);
+  }, [focusCategory, openState]);
 
   // Per-state bucket chips keyed by EvidenceRow label. Covers the three
   // universal text-bucketed fields plus any profession-specific bucketed list
@@ -369,7 +385,17 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
             <Section title="Disciplinary grounds">
               {groupGroundsByCategory(lic.disciplinary_grounds).map(
                 ([cat, grounds]) => (
-                  <div key={cat} className="mb-2">
+                  <div
+                    key={cat}
+                    ref={cat && cat === focusCategory ? focusCategoryRef : undefined}
+                    data-category-group={cat || undefined}
+                    className={
+                      "mb-2 " +
+                      (cat && cat === focusCategory
+                        ? "rounded-md ring-2 ring-sky-400 bg-sky-50/60 -mx-2 px-2 py-1"
+                        : "")
+                    }
+                  >
                     {cat && (
                       <p className="text-xs font-mono uppercase tracking-wider text-muted-foreground mb-1">
                         {cat} · {grounds.length}
