@@ -43,12 +43,37 @@ filter doesn't suppress the next.
 
 ## The click contract
 
+**One rule: clicking a (state, field) pair opens that state's Sheet filtered to that
+field.** It holds in every view, so nobody has to remember which one they're in.
+
 | You click | You get |
 |---|---|
-| a value cell | the Sheet, focused on that field |
+| a value cell | the Sheet, **filtered** to that field |
 | a category chip | the Sheet, **filtered** to that category |
-| a state (any view) | that state's detail Sheet |
+| a map state | the Sheet, **filtered** to the field the map is showing |
+| a scope-matrix cell | the Sheet, **filtered** to that field |
+| a novel-policy state chip | the Sheet, **filtered** to the policy's field |
+| a tag-breakdown state | the Sheet, **filtered** to that field |
+| a state with no field context (Compare) | that state's full Sheet |
 | a column header | sorting/filtering — never navigation |
+
+Filtering only fires when the field is one we KNOW — present in the record, or in the
+profession's discovered schema. A computed column (`exams_count`, `statute_text`) is
+neither, so it opens the full Sheet rather than filtering to nothing. Getting this guard
+wrong is easy in both directions: too strict and a "not addressed" cell refuses to
+filter, which is exactly when the user needs to be told it isn't addressed.
+
+Entry points know a field by different names (grid `colId`, dotted record path, bare
+name). They all resolve to a row label and look it up in ONE index built by walking the
+record — don't add another lookup table.
+
+A state click is a shared capability, not a per-view prop: `useOpenStateDetail()` from
+`components/state-focus.tsx`. The Sheet is owned by `app/professions/[id]/page.tsx`,
+above `<Tabs>`, so every tab can reach it. It returns `null` outside a provider, so a
+view can render itself non-interactive rather than showing a dead affordance.
+
+Opening the state Sheet from inside another Sheet? Close yours first — two right-side
+panels stack otherwise.
 
 A state is the primary object and appears in nearly every view. Opening its detail is a
 shared capability, not a per-view prop: call `useOpenStateDetail()` from
