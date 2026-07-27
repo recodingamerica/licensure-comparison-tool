@@ -1076,6 +1076,7 @@ function buildColumnDefs(
   // line up with what he uses in his own analysis.
   {
     field: "advisory_board_exists",
+    context: { fieldPath: "licensure.advisory_board.exists" },
     headerName: "Advisory Board",
     width: 130,
     cellRenderer: YesNoCell,
@@ -1087,6 +1088,7 @@ function buildColumnDefs(
   },
   {
     field: "advisory_board_name",
+    context: { fieldPath: "licensure.advisory_board.name" },
     headerName: "Advisory Board Name",
     width: 220,
     cellRenderer: TextCellRenderer,
@@ -1097,6 +1099,7 @@ function buildColumnDefs(
   },
   {
     field: "advisory_board_authority",
+    context: { fieldPath: "licensure.advisory_board.authority" },
     headerName: "Advisory Board Authority",
     width: 260,
     cellRenderer: TextCellRenderer,
@@ -1129,6 +1132,7 @@ function buildColumnDefs(
   },
   {
     field: "renewal_fee_usd",
+    context: { fieldPath: "licensure.renewal_fee_usd" },
     headerName: "Renewal Fee ($)",
     width: 130,
     cellRenderer: TextCellRenderer,
@@ -1441,6 +1445,7 @@ function buildColumnDefs(
   },
   {
     colId: "disciplinary_grounds_count",
+    context: { section: "Disciplinary grounds" },
     headerName: "Disciplinary grounds (#)",
     valueGetter: (p) => p.data?.disciplinary_grounds_count,
     cellRenderer: TextCellRenderer,

@@ -102,6 +102,16 @@ export type LicensureRequirements = {
   post_degree_experience?: PostDegreeExperience | null;
   exams: Exam[];
   renewal?: Renewal | null;
+  // Present in the payload but absent from this type until 2026-07-27, so nothing
+  // rendered them: the table showed advisory-board and renewal-fee values whose quote
+  // and citation were unreachable anywhere in the UI. If a column shows a field, the
+  // Sheet has to be able to show its evidence.
+  renewal_fee_usd?: Evidence<number> | null;
+  advisory_board?: {
+    exists?: Evidence<boolean> | null;
+    name?: Evidence<string> | null;
+    authority?: Evidence<string> | null;
+  } | null;
   continuing_education?: ContinuingEducation | null;
   reciprocity?: Reciprocity | null;
   regulatory_model?: Evidence<string> | null;

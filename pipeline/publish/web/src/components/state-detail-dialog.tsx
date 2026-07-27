@@ -469,6 +469,16 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
               </>
             )}
             {lic.renewal && <EvidenceRow label="renewal.interval_years" ev={lic.renewal.interval_years} sections={sections} />}
+            {/* These had no row at all — the table showed advisory-board and renewal-fee
+                values whose quote and citation were unreachable anywhere in the UI. */}
+            <EvidenceRow label="renewal_fee_usd" ev={lic.renewal_fee_usd} sections={sections} />
+            {lic.advisory_board && (
+              <>
+                <EvidenceRow label="advisory_board.exists" ev={lic.advisory_board.exists} sections={sections} />
+                <EvidenceRow label="advisory_board.name" ev={lic.advisory_board.name} sections={sections} />
+                <EvidenceRow label="advisory_board.authority" ev={lic.advisory_board.authority} sections={sections} />
+              </>
+            )}
             {lic.continuing_education && (
               <>
                 <EvidenceRow label="CE.required" ev={lic.continuing_education.required} sections={sections} />
