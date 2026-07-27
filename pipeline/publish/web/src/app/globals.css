@@ -175,6 +175,14 @@
   html {
     @apply font-sans;
   }
+  /* Tailwind v4 dropped the preflight rule that gave buttons a pointer cursor, so every
+     button in the app rendered with the default arrow — 64 of them on the profession
+     page alone — while links kept theirs. A control that does something has to look like
+     it does. Disabled controls deliberately keep the default arrow: they don't. */
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]) {
+    cursor: pointer;
+  }
 }
 
 /* Per-cell unverified indicator: applied to individual cells whose Evidence

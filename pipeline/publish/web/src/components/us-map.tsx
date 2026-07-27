@@ -106,6 +106,22 @@ export function UsMap({
                     onClick={() => {
                       if (usps && onClick) onClick(usps);
                     }}
+                    // Clicking a state was mouse-only. Only clickable states enter the
+                    // tab order — a state with no data isn't a control and shouldn't
+                    // collect a tab stop.
+                    role={clickable ? "button" : undefined}
+                    tabIndex={clickable ? 0 : undefined}
+                    aria-label={clickable ? `${usps} — open details` : undefined}
+                    onKeyDown={
+                      clickable
+                        ? (e: React.KeyboardEvent<SVGPathElement>) => {
+                            if (e.key === "Enter" || e.key === " ") {
+                              e.preventDefault();
+                              if (usps && onClick) onClick(usps);
+                            }
+                          }
+                        : undefined
+                    }
                     style={{
                       default: { outline: "none", cursor: clickable ? "pointer" : "default" },
                       hover: { outline: "none", opacity: 0.85, cursor: clickable ? "pointer" : "default" },

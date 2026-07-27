@@ -125,7 +125,18 @@ export function ScopeView({ professionId }: { professionId: string }) {
                       <tr
                         key={c.label}
                         onClick={() => setSel(i)}
-                        className="cursor-pointer"
+                        // Selecting a row was mouse-only. Enter/Space now do the same
+                        // thing, and the row takes focus so you can see where you are.
+                        role="button"
+                        tabIndex={0}
+                        aria-pressed={isSel}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter" || e.key === " ") {
+                            e.preventDefault();
+                            setSel(i);
+                          }
+                        }}
+                        className="cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
                       >
                         <td
                           className="sticky left-0 z-10 bg-card px-3 py-0"

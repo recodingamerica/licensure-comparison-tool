@@ -205,7 +205,17 @@ function CategoryChipsCell(
           // Sheet can open ON the category you actually clicked instead of just the
           // column. Cheaper than threading a callback through static column defs.
           data-category={c.label}
-          className={`${SC.restrictive.bg} ${SC.restrictive.text} ${SC.restrictive.hoverBg} font-normal text-[10px] px-1.5 py-0 cursor-pointer hover:ring-1 hover:ring-current/40`}
+          // Keyboard-reachable: Enter/Space dispatch a real click, which bubbles to the
+          // same cell handler the mouse path uses, so both routes behave identically.
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e: React.KeyboardEvent<HTMLElement>) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              e.currentTarget.click();
+            }
+          }}
+          className={`${SC.restrictive.bg} ${SC.restrictive.text} ${SC.restrictive.hoverBg} font-normal text-[10px] px-1.5 py-0 cursor-pointer hover:ring-1 hover:ring-current/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400`}
           title={`${c.label} — ${c.count} · click to open this state's ${c.label} items`}
         >
           {shortCategory(c.label)}
