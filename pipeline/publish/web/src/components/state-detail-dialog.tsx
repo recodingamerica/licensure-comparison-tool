@@ -62,11 +62,41 @@ function focusColIdToLabel(colId: string | null | undefined): string | null {
 // The three universal text-bucketed fields, mapped from their map_prep dotted
 // path to the Sheet's EvidenceRow label, so the same chip the grid shows above
 // a bucketed cell also appears on the matching row inside the Sheet.
-const BUCKET_PATH_TO_LABEL: Record<string, string> = {
-  "licensure.issuing_authority": "issuing_authority",
-  "licensure.education.degree_required": "education.degree_required",
-  "licensure.post_degree_experience.duration": "post_degree.duration",
+// A record's dotted field path ("licensure.education.degree_level") → the Sheet's row
+// label ("education.degree_level"). One translation, used by the bucket chips, by map
+// clicks, and by anything else that knows a field by its path. Previously this existed
+// only as a 3-entry lookup table, so every new caller either extended the table or
+// hand-rolled its own slicing.
+const NESTED_LABEL_PREFIX: Record<string, string> = {
+  post_degree_experience: "post_degree",
+  continuing_education: "CE",
 };
+
+/** Resolve an Evidence node from a record by dotted path, or null if it isn't there. */
+function evidenceAtPath(record: unknown, path: string) {
+  let cur: unknown = record;
+  for (const seg of path.split(".")) {
+    if (!cur || typeof cur !== "object") return null;
+    cur = (cur as Record<string, unknown>)[seg];
+  }
+  if (!cur || typeof cur !== "object" || !("value" in cur)) return null;
+  return cur as Parameters<typeof EvidenceRow>[0]["ev"];
+}
+
+export function fieldPathToLabel(path: string): string | null {
+  if (!path) return null;
+  if (path.startsWith("profession_specific.")) {
+    return path.slice("profession_specific.".length);
+  }
+  if (path.startsWith("scope.")) return path.slice("scope.".length);
+  if (!path.startsWith("licensure.")) return null;
+  const rest = path.slice("licensure.".length);
+  const dot = rest.indexOf(".");
+  if (dot === -1) return rest; // licensure.regulatory_model -> regulatory_model
+  const group = rest.slice(0, dot);
+  const leaf = rest.slice(dot + 1);
+  return `${NESTED_LABEL_PREFIX[group] ?? group}.${leaf}`;
+}
 
 // Group a state's disciplinary grounds by their content category (from the
 // per-item bucketing pass), largest group first. When no ground carries a
@@ -123,6 +153,9 @@ type Props = {
   // lpn_supervision_requirements), so matching on the label alone could highlight a
   // different field's group than the one clicked.
   focusCategory?: string | null;
+  // Dotted record path of the field the click was about (the choropleth field a map was
+  // showing). The Sheet filters to that one field.
+  focusFieldPath?: string | null;
   // map_prep.text_buckets, used to surface the same per-state bucket chip the
   // grid shows above bucketed cells on the matching Sheet rows (#34).
   textBuckets?: Record<string, { by_state?: Record<string, string> }>;
@@ -133,7 +166,7 @@ type Props = {
 // per-claim evidence drilldown (verbatim quote + citation + source link),
 // not "all the data for this row" duplication. Keeping the export name
 // StateDetailDialog so callers don't need to change.
-export function StateDetailDialog({ rows, fields, openState, onOpenChange, searchQuery, focusColId, focusCategory, textBuckets }: Props) {
+export function StateDetailDialog({ rows, fields, openState, onOpenChange, searchQuery, focusColId, focusCategory, focusFieldPath, textBuckets }: Props) {
   const row = useMemo(
     () => rows.find((r) => r.state === openState) || null,
     [rows, openState]
@@ -159,10 +192,18 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
   // filter to a different field's group than the one clicked.
   const requestedCategory =
     focusColId === "disciplinary_categories" ? focusCategory ?? null : null;
-  const requestKey = requestedCategory ? `${openState}:${requestedCategory}` : null;
+  // A field filter (from a map click) and a category filter are the same idea applied to
+  // different things, so they share one dismissal key — clearing is one gesture either way.
+  const requestedFieldLabel = focusFieldPath ? fieldPathToLabel(focusFieldPath) : null;
+  const requestKey = requestedCategory
+    ? `${openState}:cat:${requestedCategory}`
+    : requestedFieldLabel
+      ? `${openState}:field:${requestedFieldLabel}`
+      : null;
   const [dismissedKey, setDismissedKey] = useState<string | null>(null);
-  const filterCategory =
-    requestKey && dismissedKey !== requestKey ? requestedCategory : null;
+  const filterActive = !!requestKey && dismissedKey !== requestKey;
+  const filterCategory = filterActive ? requestedCategory : null;
+  const filterFieldLabel = filterActive ? requestedFieldLabel : null;
 
   // Per-state bucket chips keyed by EvidenceRow label. Covers the three
   // universal text-bucketed fields plus any profession-specific bucketed list
@@ -173,11 +214,7 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
     for (const [path, entry] of Object.entries(textBuckets)) {
       const b = entry?.by_state?.[row.state];
       if (!b) continue;
-      const label =
-        BUCKET_PATH_TO_LABEL[path] ??
-        (path.startsWith("profession_specific.")
-          ? path.slice("profession_specific.".length)
-          : null);
+      const label = fieldPathToLabel(path);
       if (label) out[label] = b;
     }
     return out;
@@ -339,12 +376,14 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
           searchQuery={searchQuery ?? ""}
           sectionText={row.section_text_full ?? ""}
         >
-          {filterCategory && (
+          {filterActive && (
             <div className={`mb-3 flex items-center gap-2 rounded-md border ${SC.interaction.border} ${SC.interaction.bgSubtle} px-3 py-2 text-xs`}>
               <span className="text-muted-foreground">Filtered to</span>
-              <span className="font-medium">{filterCategory}</span>
+              <span className="font-medium">
+                {filterCategory ?? humanize(filterFieldLabel ?? "")}
+              </span>
               <span className="text-muted-foreground">
-                from Disciplinary categories
+                {filterCategory ? "from Disciplinary categories" : "from the map"}
               </span>
               <button
                 type="button"
@@ -356,7 +395,20 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
               </button>
             </div>
           )}
-          {!filterCategory && (
+          {/* Filtered to one field (a map click): render just that field's row, resolved
+              from the record by its dotted path. `showAbsent` so a state the map colored
+              "no data" still explains itself instead of opening an empty Sheet. */}
+          {filterFieldLabel && focusFieldPath && (
+            <Section title={humanize(filterFieldLabel)}>
+              <EvidenceRow
+                label={filterFieldLabel}
+                ev={evidenceAtPath(full, focusFieldPath)}
+                sections={sections}
+                showAbsent
+              />
+            </Section>
+          )}
+          {!filterActive && (
           <Section title="Base licensure">
             <EvidenceRow label="regulatory_model" ev={lic.regulatory_model} sections={sections} />
             <EvidenceRow label="credential_type" ev={lic.credential_type} sections={sections} />
@@ -403,7 +455,7 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
           </Section>
           )}
 
-          {!filterCategory && lic.exams && lic.exams.length > 0 && (
+          {!filterActive && lic.exams && lic.exams.length > 0 && (
             <Section title="Exams">
               {lic.exams.map((e, i) => (
                 <EvidenceRow
@@ -416,7 +468,7 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
             </Section>
           )}
 
-          {lic.disciplinary_grounds && lic.disciplinary_grounds.length > 0 && (
+          {!filterFieldLabel && lic.disciplinary_grounds && lic.disciplinary_grounds.length > 0 && (
             <Section title="Disciplinary grounds">
               {groupGroundsByCategory(lic.disciplinary_grounds)
                 .filter(([cat]) => !filterCategory || cat === filterCategory)
@@ -446,7 +498,7 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
             </Section>
           )}
 
-          {!filterCategory && scope && (scope.definition_quote || scope.methods_authorized || scope.drug_authority) && (
+          {!filterActive && scope && (scope.definition_quote || scope.methods_authorized || scope.drug_authority) && (
             <Section title="Scope of practice">
               <EvidenceRow label="definition_quote" ev={scope.definition_quote} sections={sections} />
               <EvidenceRow label="methods_authorized" ev={scope.methods_authorized} sections={sections} />
@@ -454,7 +506,7 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
             </Section>
           )}
 
-          {!filterCategory && Object.keys(byCat)
+          {!filterActive && Object.keys(byCat)
             .sort()
             .map((cat) => (
               <Section key={cat} title={cat}>

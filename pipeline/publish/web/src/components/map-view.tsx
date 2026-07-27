@@ -400,7 +400,14 @@ export function MapView({
             // component as the homepage but without a handler, so clicking a state here
             // silently did nothing while the table one toggle away opened the Sheet.
             // Only wired when a detail Sheet exists in the tree — no dead affordance.
-            onClick={openStateDetail ?? undefined}
+            // Carry the field this choropleth is currently showing, so the Sheet opens
+            // filtered to it — clicking a state on a map of "renewal interval" is a
+            // question about renewal interval, not a request for all 77 fields.
+            onClick={
+              openStateDetail
+                ? (state) => openStateDetail(state, { fieldPath: fieldName })
+                : undefined
+            }
             renderTooltip={(state) => {
               const row = byState.get(state);
               const normalizedStr = row

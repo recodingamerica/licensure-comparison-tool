@@ -24,6 +24,13 @@ export type OpenStateDetail = (
     colId?: string | null;
     /** Category chip clicked, when the click came from one. */
     category?: string | null;
+    /**
+     * Dotted record path of the field the click was ABOUT — e.g. the choropleth field
+     * a map was displaying when a state was clicked. The Sheet filters to it, so
+     * clicking a state on a map of "renewal interval" lands on that state's renewal
+     * interval rather than dumping every field.
+     */
+    fieldPath?: string | null;
   },
 ) => void;
 

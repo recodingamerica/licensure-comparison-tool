@@ -1605,6 +1605,9 @@ export function ProfileView({
   // The specific category chip clicked ("Fraud"), when the click landed on one.
   // Narrows the Sheet's focus from "this column" to "these items".
   const [focusCategory, setFocusCategory] = useState<string | null>(null);
+  // Dotted record path of the field a click was about (the choropleth field a map was
+  // showing). The Sheet filters to it.
+  const [focusFieldPath, setFocusFieldPath] = useState<string | null>(null);
   // Force re-render of the chip bar whenever AG Grid's filter model changes.
   // We track a tick rather than mirror the filter model into React state,
   // since the source of truth is the grid itself.
@@ -1896,6 +1899,7 @@ export function ProfileView({
   const openStateDetail = useCallback<OpenStateDetail>((state, opts) => {
     setFocusColId(opts?.colId ?? null);
     setFocusCategory(opts?.category ?? null);
+    setFocusFieldPath(opts?.fieldPath ?? null);
     setOpenState(state);
   }, []);
 
@@ -2256,11 +2260,13 @@ export function ProfileView({
             setOpenState(null);
             setFocusColId(null);
             setFocusCategory(null);
+            setFocusFieldPath(null);
           }
         }}
         searchQuery={statuteTextQuery}
         focusColId={focusColId}
         focusCategory={focusCategory}
+        focusFieldPath={focusFieldPath}
         textBuckets={payload.map_prep?.text_buckets ?? {}}
       />
     </Wrapper>
