@@ -269,6 +269,34 @@ def _build_browse_sections(
     return out
 
 
+
+_LEADING_CITE = re.compile(r"^\s*([A-Z§][A-Za-z0-9§.:\-\s]{0,28}?)\s+[-–—]\s")
+
+
+def backfill_section_citations(sections: list[dict]) -> int:
+    """Give every shipped section an addressable citation.
+
+    The UI keys sections BY CITATION — to highlight a quote, to link to the source, to
+    open "in context". A section with a blank citation is therefore unreachable no matter
+    how good its spans are: 1,319 of 27,562 shipped sections (4.8%) were in that state,
+    worst podiatry/CA at 140.
+
+    They aren't unidentifiable, just unlabelled: the section text opens with its own
+    citation ("RS 37:3083 - Definitions"), which is the same form the evidence cites. Take
+    it from there when the field is blank. Returns how many were recovered.
+    """
+    fixed = 0
+    for sec in sections:
+        if (sec.get("citation") or "").strip():
+            continue
+        first_line = ((sec.get("text") or "").lstrip().split("\n", 1) or [""])[0]
+        m = _LEADING_CITE.match(first_line)
+        if m:
+            sec["citation"] = m.group(1).strip()
+            fixed += 1
+    return fixed
+
+
 def _annotate_quote_spans(record: dict, sections: list[dict]) -> tuple[int, int]:
     """For each verified Evidence node, find the cited section's text and
     attach `quote_spans`: a list of (start, end) char offsets into that
@@ -284,6 +312,9 @@ def _annotate_quote_spans(record: dict, sections: list[dict]) -> tuple[int, int]
 
     Returns (with_spans, without_spans) across verified nodes.
     """
+    # Do this FIRST: a blank citation makes the section unaddressable downstream.
+    backfill_section_citations(sections)
+
     by_cite: dict[str, dict] = {}
     for s in sections:
         cite = s.get("citation") or ""
@@ -319,6 +350,19 @@ def _annotate_quote_spans(record: dict, sections: list[dict]) -> tuple[int, int]
                 for sec2 in sections
                 if (sp := locate_quote_in_section(quote, sec2.get("text") or ""))
             ]
+            if len(hits) > 1:
+                # Ambiguous by text alone — but the node's own citation names a chapter,
+                # and umbrella sections are shipped per chapter. "Fraud in procuring a
+                # license." appears in BOTH Iowa's Chapter 147 and 272C blobs; the node
+                # cites 147.55, so Chapter 147 is the one it came from. Narrow by that
+                # before giving up.
+                chapter = re.split(r"[.\-\s]", (cite or "").strip("[]§ ").strip())[0]
+                if chapter:
+                    narrowed = [
+                        h for h in hits if chapter in (h[0].get("citation") or "")
+                    ]
+                    if len(narrowed) == 1:
+                        hits = narrowed
             if len(hits) == 1:
                 sec_hit, spans = hits[0]
                 # Record WHICH section the span indexes into. The UI resolves the section
