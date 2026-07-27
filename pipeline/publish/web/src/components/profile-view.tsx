@@ -31,6 +31,7 @@ import { humanize, findAllSpans } from "@/lib/format";
 import { SEMANTIC_CLASSES as SC, CATEGORY_CLASSES, token } from "@/lib/web-colors";
 import { Absent, ABSENCE } from "./absence";
 import { useOpenStateDetail } from "./state-focus";
+import { SHEET_SECTION, sectionTarget, type SheetSectionName } from "./sheet-sections";
 import { MapView } from "./map-view";
 
 // AG Grid v33+ requires modules to be registered before any grid instance
@@ -1015,7 +1016,7 @@ function buildColumnDefs(
   {
     field: "exams_count",
     // Summarizes a list, so it points at the Sheet SECTION rather than one field.
-    context: { section: "Exams" },
+    context: sectionTarget(SHEET_SECTION.exams),
     headerName: "Exams",
     width: 95,
     cellRenderer: TextCellRenderer,
@@ -1445,7 +1446,7 @@ function buildColumnDefs(
   },
   {
     colId: "disciplinary_grounds_count",
-    context: { section: "Disciplinary grounds" },
+    context: sectionTarget(SHEET_SECTION.disciplinaryGrounds),
     headerName: "Disciplinary grounds (#)",
     valueGetter: (p) => p.data?.disciplinary_grounds_count,
     cellRenderer: TextCellRenderer,
@@ -1458,7 +1459,7 @@ function buildColumnDefs(
   {
     colId: "exam_names",
     // Summarizes a list, so it points at the Sheet SECTION rather than one field.
-    context: { section: "Exams" },
+    context: sectionTarget(SHEET_SECTION.exams),
     headerName: "Exam names",
     valueGetter: (p) => {
       const exams = (p.data?._full?.licensure?.exams || []) as Array<{ name?: string }>;
@@ -1760,7 +1761,7 @@ export function ProfileView({
       data?: Row;
       column?: {
         getColId: () => string;
-        getColDef?: () => { context?: { fieldPath?: string; section?: string } };
+        getColDef?: () => { context?: { fieldPath?: string; section?: SheetSectionName } };
       };
       event?: Event | null;
     }) => {

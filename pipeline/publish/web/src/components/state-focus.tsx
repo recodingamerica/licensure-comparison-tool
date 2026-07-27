@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useContext } from "react";
+import type { SheetSectionName } from "./sheet-sections";
 
 /**
  * Opening a state's detail Sheet — as a capability any view can call, rather than a
@@ -43,7 +44,7 @@ export type OpenStateDetail = (
      * a single field — "Exams" counts a list, so there is no one evidence node to filter
      * to, but there IS a section.
      */
-    section?: string | null;
+    section?: SheetSectionName | null;
   },
 ) => void;
 

@@ -20,6 +20,7 @@ import {
   BucketContext,
 } from "./evidence-row";
 import { ABSENCE } from "./absence";
+import { SHEET_SECTION } from "./sheet-sections";
 import { DetailSheet, SheetScrollBody } from "@/components/ui/detail-sheet";
 import { FilterBar } from "@/components/ui/filter-bar";
 import { searchSnippets, humanize } from "@/lib/format";
@@ -273,7 +274,7 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
         return false;
       // A category lives INSIDE Disciplinary grounds — that section has to stay.
       case "category":
-        return name === "Disciplinary grounds";
+        return name === SHEET_SECTION.disciplinaryGrounds;
       case "section":
         return name === filter.label;
     }
@@ -482,8 +483,8 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
               />
             </Section>
           )}
-          {showsSection("Base licensure") && (
-          <Section title="Base licensure">
+          {showsSection(SHEET_SECTION.baseLicensure) && (
+          <Section title={SHEET_SECTION.baseLicensure}>
             <EvidenceRow label="regulatory_model" ev={lic.regulatory_model} sections={sections} />
             <EvidenceRow label="credential_type" ev={lic.credential_type} sections={sections} />
             <EvidenceRow label="is_mandatory" ev={lic.is_mandatory} sections={sections} />
@@ -539,8 +540,8 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
           </Section>
           )}
 
-          {showsSection("Exams") && lic.exams && lic.exams.length > 0 && (
-            <Section title="Exams">
+          {showsSection(SHEET_SECTION.exams) && lic.exams && lic.exams.length > 0 && (
+            <Section title={SHEET_SECTION.exams}>
               {lic.exams.map((e, i) => (
                 <EvidenceRow
                   key={i}
@@ -552,8 +553,8 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
             </Section>
           )}
 
-          {showsSection("Disciplinary grounds") && lic.disciplinary_grounds && lic.disciplinary_grounds.length > 0 && (
-            <Section title="Disciplinary grounds">
+          {showsSection(SHEET_SECTION.disciplinaryGrounds) && lic.disciplinary_grounds && lic.disciplinary_grounds.length > 0 && (
+            <Section title={SHEET_SECTION.disciplinaryGrounds}>
               {groupGroundsByCategory(lic.disciplinary_grounds)
                 .filter(([cat]) => filter.kind !== "category" || cat === filter.label)
                 .map(
@@ -582,8 +583,8 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
             </Section>
           )}
 
-          {showsSection("Scope of practice") && scope && (scope.definition_quote || scope.methods_authorized || scope.drug_authority) && (
-            <Section title="Scope of practice">
+          {showsSection(SHEET_SECTION.scopeOfPractice) && scope && (scope.definition_quote || scope.methods_authorized || scope.drug_authority) && (
+            <Section title={SHEET_SECTION.scopeOfPractice}>
               <EvidenceRow label="definition_quote" ev={scope.definition_quote} sections={sections} />
               <EvidenceRow label="methods_authorized" ev={scope.methods_authorized} sections={sections} />
               <EvidenceRow label="drug_authority" ev={scope.drug_authority} sections={sections} />
