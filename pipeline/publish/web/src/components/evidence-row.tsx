@@ -4,6 +4,7 @@ import { createContext, useContext, useEffect, useRef, useState } from "react";
 import type { Evidence, SectionRef } from "@/lib/types";
 import { Badge } from "@/components/ui/badge";
 import { SEMANTIC_CLASSES as SC } from "@/lib/web-colors";
+import { Absent } from "./absence";
 import {
   humanize,
   highlightSpans,
@@ -89,10 +90,9 @@ export function EvidenceRow({ label, ev, sections, showAbsent }: Props) {
       >
         <code className="text-xs text-muted-foreground font-mono pt-1 break-all">{label}</code>
         <div className="space-y-1.5">
-          <div className="font-medium text-sm text-muted-foreground">not addressed</div>
-          <p className="text-[11px] not-italic text-muted-foreground leading-snug">
-            This state&rsquo;s statute is silent on this — which is different from saying no.
-          </p>
+          {/* The field IS in this profession's schema and the record exists, so a missing
+              node means the statute didn't address it — a finding, not a gap in us. */}
+          <Absent kind="not-addressed" />
         </div>
       </div>
     );

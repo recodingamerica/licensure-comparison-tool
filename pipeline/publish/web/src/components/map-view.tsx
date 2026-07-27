@@ -18,6 +18,7 @@ import { Combobox, type ComboboxOption } from "@/components/ui/combobox";
 import { humanize } from "@/lib/format";
 import { UsMap, NO_DATA_FILL } from "@/components/us-map";
 import { useOpenStateDetail } from "@/components/state-focus";
+import { ABSENCE } from "@/components/absence";
 import { MAP_PALETTE, token } from "@/lib/web-colors";
 
 // The "priority" licensure concepts (mirrors PRIORITY_FIELDS in
@@ -412,9 +413,9 @@ export function MapView({
               const row = byState.get(state);
               const normalizedStr = row
                 ? row.normalized === null
-                  ? "no data"
+                  ? ABSENCE.unknown.label
                   : String(row.normalized)
-                : "no data";
+                : ABSENCE.unknown.label;
               const rawStr = row?.raw_value || "—";
               return (
                 <>

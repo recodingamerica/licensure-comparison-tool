@@ -25,6 +25,7 @@ import {
   FocusFieldContext,
   BucketContext,
 } from "./evidence-row";
+import { ABSENCE } from "./absence";
 import { searchSnippets, humanize } from "@/lib/format";
 
 // Map a clicked grid colId (#34) to the EvidenceRow `label` it corresponds to
@@ -59,9 +60,6 @@ function focusColIdToLabel(colId: string | null | undefined): string | null {
   return colId; // identity for the same-named universal columns
 }
 
-// The three universal text-bucketed fields, mapped from their map_prep dotted
-// path to the Sheet's EvidenceRow label, so the same chip the grid shows above
-// a bucketed cell also appears on the matching row inside the Sheet.
 // A record's dotted field path ("licensure.education.degree_level") → the Sheet's row
 // label ("education.degree_level"). One translation, used by the bucket chips, by map
 // clicks, and by anything else that knows a field by its path. Previously this existed
@@ -267,7 +265,7 @@ export function StateDetailDialog({ rows, fields, openState, onOpenChange, searc
           <SheetHeader>
             <SheetTitle>{row.state} — coverage gap</SheetTitle>
             <SheetDescription>
-              {row.coverage_gap_label || "no data"}{" "}
+              {row.coverage_gap_label || ABSENCE["no-statute"].label}{" "}
               <code className="ml-2 text-xs">{row.coverage_gap_reason || ""}</code>
             </SheetDescription>
           </SheetHeader>

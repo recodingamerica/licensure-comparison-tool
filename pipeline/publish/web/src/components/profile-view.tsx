@@ -29,6 +29,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { humanize, findAllSpans } from "@/lib/format";
 import { SEMANTIC_CLASSES as SC, CATEGORY_CLASSES, token } from "@/lib/web-colors";
+import { Absent, ABSENCE } from "./absence";
 import { useOpenStateDetail } from "./state-focus";
 import { MapView } from "./map-view";
 
@@ -47,12 +48,12 @@ function YesNoCell({ value }: ICellRendererParams<Row, boolean | null>) {
     return <Badge variant="secondary" className={PILL_YES}>yes</Badge>;
   if (value === false)
     return <Badge variant="secondary" className={PILL_NO}>no</Badge>;
-  return <span className="text-muted-foreground">—</span>;
+  return <Absent kind="unknown" compact />;
 }
 
 function TextCellRenderer({ value }: ICellRendererParams<Row, string | number | null>) {
   if (value === null || value === undefined || value === "")
-    return <span className="text-muted-foreground">—</span>;
+    return <Absent kind="unknown" compact />;
   return <span>{value}</span>;
 }
 
@@ -231,9 +232,12 @@ function RegulatoryModelCell({ data, value }: ICellRendererParams<Row, string | 
     return (
       <span
         className="text-xs italic text-muted-foreground"
-        title={data.coverage_gap_reason || ""}
+        // Keep the per-cell reason when we have it — it says WHY, which the generic
+        // vocabulary can't. Fall back to the shared wording so the phrasing is
+        // consistent when we don't.
+        title={data.coverage_gap_reason || ABSENCE["no-statute"].help}
       >
-        {data.coverage_gap_label || "—"}
+        {data.coverage_gap_label || ABSENCE["no-statute"].label}
       </span>
     );
   }
