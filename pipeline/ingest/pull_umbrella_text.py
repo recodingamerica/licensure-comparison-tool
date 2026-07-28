@@ -66,7 +66,7 @@ def select_umbrella_chapters(
 
     Returns (kept, drop_log) where drop_log is [(slug, label, reason), ...].
     """
-    from pipeline.discover.umbrella_from_citations import _UMBRELLA_LABEL
+    from pipeline.discover.umbrella_from_citations import _WHOLE_TITLE_LABEL, is_umbrella_label
 
     kept: list[dict] = []
     drop_log: list[tuple[str, str, str]] = []
@@ -79,11 +79,15 @@ def select_umbrella_chapters(
             drop_log.append((slug, label, "manifest-drop"))
             continue
 
-        label_match = bool(_UMBRELLA_LABEL.search(label))
-        blessed = slug in manifest_blessed
-        cached = slug in cached_slugs
+        # A whole-title pick is NEVER an umbrella, and this veto beats every other
+        # signal -- including "already cached", since a bad pull is exactly how such a
+        # chapter gets cached. IL lists the entire professions title and the entire
+        # executive branch here; pulling either poisons every profession in the state.
+        if _WHOLE_TITLE_LABEL.search(label):
+            drop_log.append((slug, label, "whole-title — not an umbrella"))
+            continue
 
-        if label_match or blessed or cached:
+        if is_umbrella_label(label) or slug in manifest_blessed or slug in cached_slugs:
             kept.append(ch)
         else:
             drop_log.append((slug, label, "no-label-match-and-not-blessed"))
@@ -92,7 +96,7 @@ def select_umbrella_chapters(
 
 
 def pull_state_umbrella(state: str, force: bool, source_filter: str | None = None,
-                        label_filter: bool = False) -> dict | None:
+                        label_filter: bool = True) -> dict | None:
     umb_path = UMBRELLA_CHAPTERS_DIR / f"{state}.json"
     out_path = UMBRELLA_TEXT_DIR / f"{state}.json"
     if not umb_path.exists():
@@ -104,6 +108,19 @@ def pull_state_umbrella(state: str, force: bool, source_filter: str | None = Non
     filtering = bool(source_filter or label_filter)
     if source_filter:
         chapters = [c for c in chapters if c.get("source") == source_filter]
+
+    # The whole-title veto is UNCONDITIONAL — it is not part of the opt-in label filter.
+    # IL's umbrella_chapters lists "Chapter 225 - PROFESSIONS, OCCUPATIONS, AND BUSINESS
+    # OPERATIONS" (every regulated profession in the state) and "Chapter 20 - EXECUTIVE
+    # BRANCH". A plain `--force` run skipped selection entirely and would have pulled
+    # both, dragging thousands of unrelated sections into every Illinois profession's
+    # extraction context. There is no invocation for which that is the desired outcome.
+    from pipeline.discover.umbrella_from_citations import _WHOLE_TITLE_LABEL
+    whole_title = [c for c in chapters if _WHOLE_TITLE_LABEL.search(c.get("label", ""))]
+    for c in whole_title:
+        log.warning("[%s] SKIP whole-title chapter %r — not an umbrella",
+                    state, c.get("label", "")[:70])
+    chapters = [c for c in chapters if c not in whole_title]
 
     if label_filter:
         # Keep only genuinely cross-cutting chapters (any source). The old

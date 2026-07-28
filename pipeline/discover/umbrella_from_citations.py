@@ -45,7 +45,39 @@ _UMBRELLA_LABEL = re.compile(
     r"administrative procedure|professions? and occupations?|occupations? and professions?|"
     r"occupational.*(background|regulat)|centralized licens|health related boards|"
     r"restoration of|termination and|expedited licens|licensure by endorsement|"
-    r"uniform complaint|declaratory", re.I)
+    r"uniform complaint|declaratory|"
+    # NC "Chapter 93B - Occupational Licensing Boards" is a textbook umbrella (it governs
+    # every licensing board in the state) and the pattern above rejected it, so it only
+    # survived because the label filter was opt-in.
+    r"occupational licensing board|licensing board.? generally", re.I)
+
+# ...but a label can read cross-cutting because it IS the entire code division. IL's
+# umbrella_chapters lists "Chapter 225 - PROFESSIONS, OCCUPATIONS, AND BUSINESS
+# OPERATIONS" (every regulated profession in Illinois) and "Chapter 20 - EXECUTIVE
+# BRANCH". Pulling either drags thousands of unrelated sections into the extraction
+# context of EVERY profession in the state. A whole-title pick is never an umbrella;
+# this veto runs after the positive match and wins.
+# Deliberately NARROW. An earlier, broader version also vetoed any "Chapter N -
+# Professions and Occupations" label, which swept up four GENUINE umbrellas: MO's
+# "Chapter 324 - Occupations and Professions General Provisions" (186 sections), OR's
+# "Chapter 670 - Occupations and Professions Generally" (27), SC's "Chapter 1 -
+# Professions And Occupations" (30) and MI's "Chapter 338" (77). Chapter size doesn't
+# separate them either. So veto only the unambiguous whole-division labels -- a branch
+# of government, or IL's "PROFESSIONS, OCCUPATIONS, AND BUSINESS OPERATIONS", which is
+# the entire Illinois professions title rather than a chapter within one.
+_WHOLE_TITLE_LABEL = re.compile(
+    r"executive branch|legislative branch|judicial branch|"
+    r"business operations|general assembly",
+    re.I)
+
+
+def is_umbrella_label(label: str) -> bool:
+    """Cross-cutting enough to be an umbrella, and not an entire code division."""
+    if not label:
+        return False
+    if _WHOLE_TITLE_LABEL.search(label):
+        return False
+    return bool(_UMBRELLA_LABEL.search(label))
 
 
 def citation_id_from_url(url: str) -> str | None:

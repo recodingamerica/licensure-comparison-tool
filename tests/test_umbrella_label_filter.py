@@ -150,3 +150,43 @@ def test_select_mixed_batch():
     assert reasons["chapter-drop"] == "manifest-drop"
 
 
+
+
+# --- whole-code-division veto (2026-07-28) ---------------------------------------
+# The label filter was OPT-IN (--label-filter), so a plain `--force` run skipped
+# selection entirely. IL's umbrella_chapters lists "Chapter 225 - PROFESSIONS,
+# OCCUPATIONS, AND BUSINESS OPERATIONS" (the entire Illinois professions title) and
+# "Chapter 20 - EXECUTIVE BRANCH"; that run was started and killed mid-flight before it
+# could drag thousands of unrelated sections into every IL profession's context.
+# The veto is now unconditional, and deliberately narrow.
+
+from pipeline.discover.umbrella_from_citations import is_umbrella_label  # noqa: E402
+
+
+@pytest.mark.parametrize("label", [
+    "Chapter 225 - PROFESSIONS, OCCUPATIONS, AND BUSINESS OPERATIONS",
+    "Chapter 20 - EXECUTIVE BRANCH",
+])
+def test_whole_code_divisions_are_vetoed(label):
+    assert is_umbrella_label(label) is False
+
+
+@pytest.mark.parametrize("label", [
+    # These four were swept up by a broader first attempt at the veto. Chapter size does
+    # not separate them from IL 225 either (MO 324 is 186 sections), so the veto keys on
+    # the unambiguous whole-division wording instead.
+    "Chapter 324 - Occupations and Professions General Provisions",   # MO, 186 sections
+    "Chapter 670 - Occupations and Professions Generally",            # OR, 27 sections
+    "Chapter 1 - Professions And Occupations",                        # SC, 30 sections
+    "Chapter 338 - Professions and Occupations",                      # MI, 77 sections
+    # NC governs every licensing board in the state and the ORIGINAL regex rejected it —
+    # it survived only because filtering was opt-in.
+    "Chapter 93B - Occupational Licensing Boards",
+])
+def test_genuine_umbrellas_survive_the_veto(label):
+    assert is_umbrella_label(label) is True
+
+
+def test_empty_label_is_not_an_umbrella():
+    assert is_umbrella_label("") is False
+    assert is_umbrella_label(None) is False
