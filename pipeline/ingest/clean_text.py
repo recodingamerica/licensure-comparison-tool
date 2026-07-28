@@ -231,8 +231,25 @@ class CleanCorpus:
 KEEP_FUTURE_REPEAL = re.compile(r"\brepealed\s+effective\b", re.IGNORECASE)
 
 
-def should_drop(label: str, text: str) -> str | None:
+# A Justia CONTAINER page (chapter/title/article/...) served as if it were a section.
+# Its body is the version-selector chrome plus a table of contents -- navigation, never
+# statute. 62 such rows survive across 33 committed cells, and two cells consisted of
+# nothing else until their mappings were fixed.
+#
+# The URL is load-bearing here. The same "Go to Previous Versions" chrome sits ABOVE the
+# real statute on every KY and OR SECTION page (they are year-versioned), so matching on
+# the marker alone flags ~14,000 perfectly good sections. Only a container URL carrying
+# that chrome is an index page.
+_CONTAINER_URL = re.compile(
+    r"/(chapter|title|article|subchapter|sub-art|part|division|act)[^/]*/?$", re.I)
+_INDEX_PAGE_MARKER = "Go to Previous Versions"
+
+
+def should_drop(label: str, text: str, url: str = "") -> str | None:
     """Return drop reason or None to keep."""
+    if (url and _INDEX_PAGE_MARKER in (text or "")[:400]
+            and _CONTAINER_URL.search(url.rstrip("/"))):
+        return "container_index_page"
     if not KEEP_FUTURE_REPEAL.search(label or "") and DROP_LABEL_TOKENS.search(label or ""):
         return "label_marked_inactive"
     if not text:
@@ -262,7 +279,7 @@ def clean_state(in_path: Path) -> CleanCorpus:
         # raw &quot; / &#039; — those defeat the quote-verifier (the matcher
         # keeps alnum chars, so &quot; survives as the literal token "quot").
         cleaned = cleaner(html.unescape(sec.get("text", "")))
-        reason = should_drop(sec.get("label", ""), cleaned)
+        reason = should_drop(sec.get("label", ""), cleaned, sec.get("url", ""))
         if reason:
             out.dropped.append({"url": sec["url"], "label": sec["label"], "reason": reason})
             continue

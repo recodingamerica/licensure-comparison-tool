@@ -73,3 +73,48 @@ class TestAnnotationApparatus:
     def test_plain_statute_unchanged(self):
         text = "A person shall not practice cosmetology without a license issued under this article."
         assert clean_justia(text) == text
+
+
+# --- container index pages served as sections (2026-07-28) ------------------------
+# Justia will serve a CHAPTER/TITLE url as if it were a section; its body is the
+# version-selector chrome plus a table of contents. 62 such rows sat in 33 committed
+# cells, and architecture/TX and optician/NJ consisted of NOTHING else until their
+# mappings were fixed — "has a corpus" while holding no statute at all.
+#
+# The URL is load-bearing. The identical chrome sits ABOVE real statute on every KY and
+# OR SECTION page (both year-versioned), so matching the marker alone would drop ~14,000
+# good sections — 384 in medicine/KY by itself.
+
+from pipeline.ingest.clean_text import should_drop  # noqa: E402
+
+_CHROME = ("Go to Previous Versions\nof this Chapter\n2025 Utah Code (here)\n"
+           "2024 Utah Code\nView All Versions\nTitle 58 - Occupations and Professions\n"
+           "Chapter 1 - Division of Professional Licensing Act")
+
+
+def test_container_url_with_version_chrome_is_dropped():
+    assert should_drop("", _CHROME,
+                       "https://law.justia.com/codes/utah/title-58/chapter-1/") == "container_index_page"
+
+
+def test_section_url_with_the_same_chrome_is_kept():
+    """KY/OR section pages carry this chrome above genuine statute."""
+    text = (" Go to Previous Versions\nof this Section\n2025 Kentucky Rev. Stat.\n"
+            "View All Versions\n311.530 State Board of Medical Licensure. The board shall "
+            "consist of fifteen members appointed by the Governor for terms of four years, "
+            "and shall administer this chapter and the regulations promulgated under it.")
+    assert should_drop("", text,
+                       "https://law.justia.com/codes/kentucky/chapter-311/section-311-530/") is None
+
+
+def test_a_container_url_without_the_chrome_is_not_dropped_by_this_rule():
+    """IL-style flat acts legitimately serve an entire act at a chapter url."""
+    text = ("Sec. 4.5. Opioid antagonists. A licensed professional may possess and "
+            "administer an opioid antagonist to a person believed to be experiencing an "
+            "overdose, and is not liable for that administration.")
+    assert should_drop("", text, "https://law.justia.com/codes/illinois/chapter-225/") is None
+
+
+def test_ordinary_section_is_untouched():
+    assert should_drop("", "A licensee shall renew annually and pay the prescribed fee.",
+                       "https://law.justia.com/codes/x/section-1-2/") is None
