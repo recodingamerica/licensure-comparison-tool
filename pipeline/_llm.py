@@ -27,7 +27,7 @@ import logging
 import re
 import time
 from collections import defaultdict
-from typing import Callable, TypeVar
+from typing import Any, Callable, TypeVar
 
 from pydantic import BaseModel, ValidationError
 
@@ -123,6 +123,74 @@ def extract_json(raw: str) -> str:
     return s[i : j + 1] if 0 <= i < j else s
 
 
+def _escape_inner_quotes(body: str) -> str:
+    """Re-escape `"` that appears INSIDE a JSON string rather than ending it.
+
+    Statutes define terms in quotes constantly -- `("Committee")`, `the "Board"` --
+    and a model quoting that text sometimes emits those inner quotes raw, which
+    makes the whole response unparseable.
+
+    A quote legitimately closes a string only when the next non-space character
+    is one of `,:}]` (or the text ends). Anything else means the string is still
+    going and the quote is part of the content, so it gets escaped. Scanning
+    characters rather than matching lines means this works on both the
+    pretty-printed output the models actually emit and single-line JSON.
+    """
+    out: list[str] = []
+    in_string = False
+    i, n = 0, len(body)
+    while i < n:
+        ch = body[i]
+        if not in_string:
+            out.append(ch)
+            if ch == '"':
+                in_string = True
+        elif ch == "\\":
+            # copy the escape and whatever it escapes, untouched
+            out.append(ch)
+            if i + 1 < n:
+                out.append(body[i + 1])
+                i += 1
+        elif ch == '"':
+            j = i + 1
+            while j < n and body[j] in " \t\r\n":
+                j += 1
+            if j >= n or body[j] in ",:}]":
+                out.append(ch)
+                in_string = False
+            else:
+                out.append('\\"')
+        else:
+            out.append(ch)
+        i += 1
+    return "".join(out)
+
+
+def loads_lenient(raw: str) -> Any:
+    """Parse a model's JSON response, repairing unescaped inner quotes if needed.
+
+    STRICT FIRST: a well-formed response is parsed untouched, so the repair can
+    never alter a good result. The repair only runs after a genuine
+    JSONDecodeError, and if it fails to produce valid JSON the ORIGINAL error is
+    raised -- callers see the real failure, not a repair artifact.
+    """
+    body = extract_json(raw)
+    try:
+        return json.loads(body)
+    except json.JSONDecodeError as original:
+        repaired = _escape_inner_quotes(body)
+        if repaired == body:
+            raise
+        try:
+            data = json.loads(repaired)
+        except json.JSONDecodeError:
+            raise original from None
+        logging.getLogger(__name__).warning(
+            "repaired unescaped inner quote(s) in model JSON (%s)", original.msg
+        )
+        return data
+
+
 def _system_with_schema(system: str, schema_cls: type[BaseModel]) -> str:
     """Append the Pydantic JSON schema to a system prompt. Callers that want
     the LLM constrained to a structured output pass `embed_schema=True` —
@@ -199,7 +267,7 @@ def call_structured(
             resp = litellm.completion(**kwargs)
             _record_usage(resp, model=model)
             raw = resp.choices[0].message.content or ""
-            data = json.loads(extract_json(raw))
+            data = loads_lenient(raw)
             try:
                 return schema_cls.model_validate(data)
             except ValidationError as ve:

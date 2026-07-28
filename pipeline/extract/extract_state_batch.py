@@ -61,7 +61,7 @@ from pipeline.extract.extract_state import (
 )
 from pipeline.paths import DISCOVERED_DIR, TRIMMED_DIR, STRUCTURED_DIR, LOGS_DIR, RESULTS_DIR
 from pipeline import provenance
-from pipeline._llm import extract_json
+from pipeline._llm import loads_lenient
 from pipeline.extract.preflight import run_preflight, format_report
 
 logging.basicConfig(
@@ -270,7 +270,7 @@ def _parse_and_write(custom_id: str, response_message, profile_classes: dict[str
     text_parts = [b.text for b in response_message.content if getattr(b, "type", None) == "text"]
     raw_text = "\n".join(text_parts)
     try:
-        data = json.loads(extract_json(raw_text))
+        data = loads_lenient(raw_text)
     except json.JSONDecodeError as e:
         log.error("[%s/%s] JSON parse failed: %s", profession, state, e)
         return None

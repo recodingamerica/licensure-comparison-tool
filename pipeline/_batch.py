@@ -45,7 +45,7 @@ from typing import Any, Iterable
 import anthropic
 from pydantic import BaseModel, ValidationError
 
-from pipeline._llm import extract_json  # reuse the JSON-extraction helper
+from pipeline._llm import loads_lenient  # reuse the JSON-extraction helper
 
 log = logging.getLogger("_batch")
 
@@ -162,7 +162,7 @@ def poll_batch(
             "cache_creation_input_tokens": getattr(u, "cache_creation_input_tokens", 0) or 0,
         }
         try:
-            data = json.loads(extract_json(raw_text))
+            data = loads_lenient(raw_text)
         except json.JSONDecodeError as e:
             out[cid] = BatchResult(custom_id=cid, parsed=None, raw_text=raw_text,
                                    error=f"JSON parse: {e}", usage=usage)
