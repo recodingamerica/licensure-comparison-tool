@@ -245,12 +245,6 @@ def _split_quote_to_segments(
     return segments
 
 
-def _segments_found_in_order(segments: list[str], normalized_corpus: str) -> bool:
-    """True iff every segment appears in `normalized_corpus`, each at or after
-    the end of the previous segment's match."""
-    return _place_segments(segments, normalized_corpus) is not None
-
-
 # --- unmarked elision -------------------------------------------------------------
 #
 # The seam-splitting above only works when the model LEFT a seam: an ellipsis, a dash, a
@@ -413,19 +407,6 @@ def locate_quote_in_section(
         return None
 
     norm_section, src_index = normalize_with_mapping(section_text)
-    return locate_quote_in_normalized(quote, norm_section, src_index)
-
-
-def locate_quote_in_normalized(
-    quote: str, norm_section: str, src_index: list[int]
-) -> list[tuple[int, int]] | None:
-    """Same as `locate_quote_in_section`, but takes the section already
-    normalized via `normalize_with_mapping`. Lets a caller that matches MANY
-    quotes against ONE section normalize it a single time instead of per quote
-    — the normalization is the expensive part (char-by-char walk), so this is
-    the hot path for build_state_browse's cross-profession evidence aggregation.
-    Behavior is byte-for-byte identical to the inline version it replaced.
-    """
     return _locate(quote, norm_section, src_index)
 
 

@@ -392,6 +392,51 @@ def drop_misindexed_spans(record: dict, sections: list[dict]) -> int:
     return dropped
 
 
+def dedupe_section_citations(sections: list[dict]) -> int:
+    """Make every shipped section's citation UNIQUE. Returns how many were renamed.
+
+    The UI resolves a section by citation string (`sections[citation] = s` in a loop, so
+    LAST wins). That is only sound if citations identify one section, and they don't:
+    DE ships the current and the contingent version of § 1101 -- and of §§ 1105, 1106,
+    1121 -- as two sections with different text. Whichever copy loses the last-wins race
+    becomes unreachable, and every quote living in it silently stops highlighting. It was
+    82% of dentistry's unlocatable-but-verified quotes, and it read like the model had
+    paraphrased when the text was verbatim law in the copy we discarded.
+
+    We caused the collision ourselves: the ORIGINAL citations were distinct
+    ("§ 1101. Definitions [Effective until fullfilment of the contingency ...]") and
+    normalize_citation strips exactly the part that told them apart. So put it back --
+    only for the copies that collide, so the ordinary case keeps its clean citation.
+
+    This is the invariant the rest of the highlight machinery leans on; enforcing it here
+    once is why span-finding can stay a plain lookup instead of every consumer inventing
+    its own tie-break.
+    """
+    by_cite: dict[str, list[dict]] = {}
+    for sec in sections:
+        cite = (sec.get("citation") or "").strip()
+        if cite:
+            by_cite.setdefault(cite, []).append(sec)
+    renamed = 0
+    for cite, group in by_cite.items():
+        if len(group) < 2:
+            continue
+        # First copy keeps the plain citation: it's the one evidence citing "§ 1101"
+        # with no further qualification should land on. Later copies get their
+        # distinguishing tail back from whatever we still know about them.
+        for i, sec in enumerate(group[1:], start=1):
+            tail = ""
+            for source in (sec.get("_citation_raw"), sec.get("label")):
+                if source and cite in source:
+                    extra = source.replace(cite, "", 1).strip(" .-—–")
+                    if extra:
+                        tail = extra
+                        break
+            sec["citation"] = f"{cite} [{tail}]" if tail else f"{cite} ({i + 1})"
+            renamed += 1
+    return renamed
+
+
 def _annotate_quote_spans(record: dict, sections: list[dict]) -> tuple[int, int]:
     """For each verified Evidence node, find the cited section's text and
     attach `quote_spans`: a list of (start, end) char offsets into that
@@ -881,6 +926,11 @@ def _normalize_payload_citations(rows: list[dict], map_prep: dict | None) -> Non
         # too so they line up with the Evidence-node citations the frontend uses.
         for s in r.get("sections") or []:
             if s.get("citation"):
+                # Keep the pre-normalization form: it is the ONLY thing that tells two
+                # versions of one section apart ("§ 1101. Definitions [Effective until
+                # ...]"), and normalize_citation strips exactly that. dedupe_section_
+                # citations reads it back to make colliding citations unique again.
+                s["_citation_raw"] = s["citation"]
                 s["citation"] = normalize_citation(s["citation"])
     if map_prep:
         for mr in map_prep.get("rows") or []:
@@ -976,6 +1026,13 @@ def build(profession: str, payload_only: bool = False) -> dict:
     #     and "[Effective upon ...]" into two identical "§ 1101"s, and that collision is
     #     what sends a span into the wrong copy -- so the verification below has to see
     #     the same citations the UI will
+    collisions = 0
+    for row in rows:
+        # Citations must be unique BEFORE anything resolves a section by citation.
+        collisions += dedupe_section_citations(row.get("sections") or [])
+    if collisions:
+        print(f"  disambiguated {collisions:,} colliding section citation(s)")
+
     for row in rows:
         if row.get("_full") and row.get("sections"):
             w, wo = _annotate_quote_spans(row["_full"], row["sections"])
