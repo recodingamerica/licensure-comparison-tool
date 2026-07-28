@@ -67,3 +67,18 @@ def test_section_without_a_parseable_url_is_skipped():
 def test_no_cited_strings_is_a_noop():
     secs = [_sec("https://law.justia.com/codes/x/section-32-1201/")]
     assert backfill_citations_from_urls(secs, []) == 0
+
+
+def test_ny_shape_bare_number_nested_under_a_sub_article():
+    """NY nests the bare section number with no `section-` prefix:
+    .../article-130-1/sub-art-1/6501/ -- the umbrella general provisions."""
+    secs = [_sec("https://law.justia.com/codes/new-york/edn/title-8/article-130-1/sub-art-1/6501/")]
+    assert backfill_citations_from_urls(secs, ["6501"]) == 1
+    assert secs[0]["citation"] == "6501"
+
+
+def test_short_citations_are_ignored_as_promiscuous():
+    """A 1-2 char citation suffix-matches almost anything, including non-section URLs."""
+    secs = [_sec("https://law.justia.com/codes/new-york/edn/title-8/")]
+    assert backfill_citations_from_urls(secs, ["8"]) == 0
+    assert not secs[0]["citation"]

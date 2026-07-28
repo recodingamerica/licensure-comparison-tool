@@ -298,11 +298,17 @@ def backfill_section_citations(sections: list[dict]) -> int:
     return fixed
 
 
-_SECTION_SLUG = re.compile(r"/section-([^/]+)/?$")
+_SECTION_SLUG = re.compile(r"/(?:section-)?([^/]+)/?$")
 
 
 def _slug_key(url: str) -> str:
-    m = _SECTION_SLUG.search(url or "")
+    """Normalized last path segment of a Justia section URL.
+
+    The `section-` prefix is optional: AZ/OK use `.../section-32-1201/`, while NY nests
+    the bare number under a sub-article (`.../article-130-1/sub-art-1/6501/`). Both
+    identify the section; only the shape differs.
+    """
+    m = _SECTION_SLUG.search((url or "").rstrip("/"))
     return re.sub(r"[^0-9a-z]", "", m.group(1).lower()) if m else ""
 
 
@@ -332,7 +338,9 @@ def backfill_citations_from_urls(sections: list[dict], cited: list[str]) -> int:
     claims: dict[int, set[str]] = {}
     for cite in wanted:
         key = re.sub(r"[^0-9a-z]", "", cite.lower())
-        if not key:
+        # Too-short keys match promiscuously by suffix ("8" hits any slug ending in 8,
+        # including a non-section URL like .../title-8/). Real citations are longer.
+        if len(key) < 3:
             continue
         hits = [i for i, s in enumerate(blanks) if _slug_key(s.get("url", "")).endswith(key)]
         if len(hits) == 1:
