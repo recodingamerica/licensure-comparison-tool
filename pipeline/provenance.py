@@ -285,6 +285,35 @@ def cell_freshness(prof: str, state: str) -> tuple[str, str | None]:
     return "unstamped", None
 
 
+def stale_cells(prof: str, states: list[str] | None = None) -> list[tuple[str, str]]:
+    """[(state, earliest_stale_stage)] for cells whose output derives from CHANGED input.
+
+    Freshness has been detectable all along and nothing acted on it, which is how
+    nursing/DE came to be extracted from a `clean/` built six days before its `text/`:
+    the corpus was re-pulled, clean was never re-run, and the model silently read the old
+    copy. Measured 2026-07-28 across the 13 published professions: 178 of 635 cells
+    (28%) had a stale clean stage, 70 a stale trim, 38 a stale extract.
+
+    Exposed here so the PUBLISH can say so out loud — the information existed, but only
+    for whoever thought to run a report, which is nobody at the moment it matters.
+    """
+    from pipeline.paths import STRUCTURED_DIR as _SD
+    pdir = _SD / prof
+    if not pdir.exists():
+        return []
+    out: list[tuple[str, str]] = []
+    for f in sorted(pdir.iterdir()):
+        if f.suffix != ".json" or f.name.startswith("_"):
+            continue
+        state = f.stem
+        if states and state not in states:
+            continue
+        verdict, stage = cell_freshness(prof, state)
+        if verdict == "stale" and stage:
+            out.append((state, stage))
+    return out
+
+
 # --- CLI: report + backfill ---------------------------------------------------
 
 def _iter_done_cells():

@@ -291,6 +291,29 @@ def run_to(target: str, prof: str, states: list[str] | None = None, *,
     si = _ORDER[start] if start is not None else 0
     if si > ti:
         raise ValueError(f"start {start!r} is after target {target!r}")
+    # `--start` SKIPS every earlier stage, so a stale one stays stale and the stage you
+    # do run reads its output. That is exactly how nursing/DE came to be extracted from a
+    # `clean/` built six days before its `text/` -- the corpus had been re-pulled, clean
+    # was never re-run, and the model silently read the old copy while reporting success.
+    # CLAUDE.md calls this the "re-extract gotcha"; prose doesn't fire at 2am, so say it
+    # here. A warning rather than an error: replaying one stage over known-good input is
+    # legitimate (that is what --start is FOR), we just refuse to be quiet about it.
+    if si > 0 and not dry_run:
+        cells = states if states is not None else _states_for(prof)
+        behind = [
+            (s, st.name) for s in cells for st in STAGES[:si]
+            if st.scope == "cell" and st.fresh(prof, s) == "stale"
+        ]
+        if behind:
+            shown = ", ".join(f"{prof}/{s} ({stage})" for s, stage in behind[:6])
+            more = f" +{len(behind) - 6} more" if len(behind) > 6 else ""
+            print(f"\n!! WARNING: --start={start} skips {len(behind)} STALE upstream stage(s): "
+                  f"{shown}{more}\n"
+                  f"   Their inputs changed since they last ran, so this run will read "
+                  f"OUT-OF-DATE data.\n"
+                  f"   Re-run from the earliest stale stage instead, or pass --force.\n",
+                  flush=True)
+
     plan: list[tuple[str, list[str]]] = []
     ran: list[tuple[str, str, object, bool]] = []
     skipped: list[tuple[str, str, str | None]] = []

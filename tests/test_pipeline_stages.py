@@ -373,3 +373,32 @@ def test_pull_uses_config_timeout_not_a_hardcode(monkeypatch):
     monkeypatch.setattr(ps, "load_limits", lambda: {"refresh": {"item_timeout_seconds": 1801}})
     ps._pull("med", ["UT"], {})   # opts carries no pull_timeout
     assert captured["timeout_s"] == 1801
+
+
+# --- stale upstream warning (2026-07-28) -------------------------------------------
+# `--start` skips earlier stages, so a stale one STAYS stale and the stage you do run
+# reads its output. nursing/DE was extracted from a clean/ built six days before its
+# text/: the corpus had been re-pulled, clean was never re-run, and the model silently
+# read the old copy while the run reported success. Measured across the 13 published
+# professions the same day: 178 of 635 cells had a stale clean stage.
+
+def test_start_warns_when_it_skips_a_stale_upstream_stage(rec, capsys):
+    rec["fresh"][("clean", "med", "UT")] = "stale"
+    ps.run_to("extract", "med", ["UT"], start="extract", yes=True)
+    err = capsys.readouterr().out
+    assert "STALE upstream" in err
+    assert "med/UT (clean)" in err
+
+
+def test_no_warning_when_upstream_is_current(rec, capsys):
+    for stage in ("pull", "clean", "trim"):
+        rec["fresh"][(stage, "med", "UT")] = "current"
+    ps.run_to("extract", "med", ["UT"], start="extract", yes=True)
+    assert "STALE upstream" not in capsys.readouterr().out
+
+
+def test_no_warning_when_starting_from_the_beginning(rec, capsys):
+    """Nothing is skipped, so nothing can be silently stale."""
+    rec["fresh"][("clean", "med", "UT")] = "stale"
+    ps.run_to("extract", "med", ["UT"], yes=True)
+    assert "STALE upstream" not in capsys.readouterr().out
