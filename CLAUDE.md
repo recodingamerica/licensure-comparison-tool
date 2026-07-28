@@ -92,6 +92,34 @@ committing pull stage; `"clean"`=no-pull; `target`=that stage only). Full guide 
 the "what commits vs what doesn't" + refresh-pause rules:
 [`docs/runbooks/pipeline_run_order.md`](docs/runbooks/pipeline_run_order.md).
 
+**`--force` is CELL-scoped.** When you name states, `--force` re-runs those cells
+only — it will NOT re-derive profession-wide artifacts. This matters because `schema`
+is profession-scoped and LLM-derived from a 10-state sample: forcing a one-cell repair
+used to drag it in, which could leave that one state extracted against a field set the
+other 49 don't share (caught mid-run on nursing/DE, 2026-07-27). Running with no
+`--states` (the whole profession), or naming the stage as `--target`, still forces it.
+
+## Publishing: the gate that can fail your build
+
+`build_frontend` refuses to ship a payload where too few quoted claims can actually be
+HIGHLIGHTED in the UI (`MIN_DISPLAYABLE_QUOTE_SHARE`, currently 0.90). A quote is
+displayable only if its span resolves to a section shipped with that row — a span
+pointing at a section the row doesn't carry renders nothing, silently. Every build
+prints its share; a failure prints example citations.
+
+It is a RATCHET, not a target. Measured 2026-07-27 across all 13: 93.0% (nursing) to
+99.9% (hvac), 96.1% overall. **If a build trips it, read the examples before touching
+the floor** — the honest fixes are usually a missing umbrella chapter or a citation the
+row doesn't ship, not a lower number. Lower it only with a reason you'd write down.
+
+**Auto-deploy is NOT armed.** `.github/workflows/deploy-web.yml` ships frontend code
+changes on push (paths-filtered to `pipeline/publish/web/**` so the crawl's data commits
+don't rebuild the site), but it skips with a notice until the `VERCEL_TOKEN` secret and
+the `VERCEL_ORG_ID` / `VERCEL_PROJECT_ID` repo variables exist. Until then a web-code
+push does NOT reach production — deploy with `publish --deploy`, or `vercel --prod`
+from `pipeline/publish/web`. Data publishes are unaffected (they run `vercel --prod`
+themselves).
+
 ## Where things live
 
 - `pipeline/config/state_structure.yaml` — per-state source/layout overrides

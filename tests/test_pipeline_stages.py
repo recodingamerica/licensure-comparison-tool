@@ -61,6 +61,34 @@ def test_force_reruns_current_units(rec):
     assert clean_units == [["UT", "ID"]]  # force ignores current, all states in one call
 
 
+def test_force_on_named_states_does_not_redo_profession_stages(rec):
+    """`--force` on ONE state must not re-derive profession-wide artifacts.
+
+    schema is profession-scoped and LLM-derived from a 10-state sample. Forcing a
+    single-cell repair used to drag it in, which could leave that one state extracted
+    against a field set the other 49 don't share.
+    """
+    rec["fresh"][("schema", "med", None)] = "current"
+    ps.run_to("extract", "med", ["UT"], yes=True, force=True)
+    assert [c[0] for c in rec["calls"] if c[0] == "schema"] == []
+    # the named cell IS still forced
+    assert ["UT"] in [c[2] for c in rec["calls"] if c[0] == "extract"]
+
+
+def test_force_over_whole_profession_still_redoes_profession_stages(rec):
+    """No states named = the whole profession, so profession-wide stages are in scope."""
+    rec["fresh"][("schema", "med", None)] = "current"
+    ps.run_to("extract", "med", yes=True, force=True)
+    assert [c[0] for c in rec["calls"] if c[0] == "schema"] == ["schema"]
+
+
+def test_force_with_explicit_schema_target_is_the_escape_hatch(rec):
+    """Naming the stage as --target means you asked for it, states notwithstanding."""
+    rec["fresh"][("schema", "med", None)] = "current"
+    ps.run_to("schema", "med", ["UT"], start="schema", yes=True, force=True)
+    assert [c[0] for c in rec["calls"]] == ["schema"]
+
+
 def test_start_at_target_runs_only_target(rec):
     res = ps.run_to("publish", "med", yes=True, start="publish")
     assert [c[0] for c in rec["calls"]] == ["publish"]  # no upstream

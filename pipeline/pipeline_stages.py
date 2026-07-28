@@ -313,7 +313,14 @@ def run_to(target: str, prof: str, states: list[str] | None = None, *,
             ok = stage.run_fn(prof, due, opts)
             ran.append((stage.name, prof, due, ok))
         else:                                   # profession-scoped: one unit
-            if not force and stage.fresh(prof, None) == "current":
+            # `--force` means "redo the CELLS I named", not "redo profession-wide
+            # artifacts". Forcing a single state used to drag in `schema`, re-deriving
+            # the whole profession's schema from a 10-state LLM sample -- so a one-cell
+            # repair could leave that state extracted against a field set the other 49
+            # don't share. Profession-scoped stages are forced only when the run covers
+            # the whole profession, or when you named the stage as the explicit --target.
+            forces_this_stage = force and (states is None or stage.name == target)
+            if not forces_this_stage and stage.fresh(prof, None) == "current":
                 skipped.append((stage.name, prof, None))
                 continue
             plan.append((stage.name, [prof]))
