@@ -521,6 +521,21 @@ TX:
     podiatry:
       url: "https://law.justia.com/codes/texas/2023/occupations-code/title-3/subtitle-c/chapter-202/"
       label: "Texas Occupations Code Chapter 202 — Podiatrists"
+    architecture:
+      # Label-matching landed on the whole of Title 6, "Regulation of Engineering,
+      # Architecture, Land Surveying, and Related Practices". The pull drilled one level
+      # to its six chapters and stopped, so architecture/TX shipped 6 chapter INDEX pages
+      # and no statute at all. Five of those six are other professions we track
+      # separately (Engineers 1001, Geoscientists 1002, Landscape Architects 1052,
+      # Interior Designers 1053, Land Surveyors 1071) — pulling the title would have
+      # mixed all of them into architecture.
+      url: "https://law.justia.com/codes/texas/occupations-code/title-6/subtitle-b/chapter-1051/"
+      label: "Texas Occupations Code Chapter 1051 — Texas Board of Architectural Examiners"
+      # REPLACES the label match rather than supplementing it: chapter 1051 IS the whole
+      # of Texas architecture law, and the label-matched Title 6 node would otherwise
+      # still be pulled alongside it (330 leaf sections of engineers, geoscientists,
+      # landscape architects, interior designers and land surveyors).
+      authoritative: true
 
 OR:
   source: justia
@@ -738,6 +753,19 @@ NJ:
     optometry:
       section_slug_pattern: '^section-45-(1-\d|12[a-c]?-\d)'
       label: "NJ Title 45 Ch 1 (Uniform Enforcement Act) + Ch 12 (incl. 12A) Optometry"
+    optician:
+      # NJ is the exception to this state's Title-45 rule: ophthalmic dispensing sits in
+      # TITLE 52 (Law and Public Safety) at 52:17B-41 et seq., under the State Board of
+      # Examiners of Ophthalmic Dispensers and Ophthalmic Technicians — not in Title 45
+      # with the other professions, so the title-45 slug patterns above cannot reach it.
+      # gap_locator had mapped this to the bare chapter page, and the pull stored that
+      # INDEX page as the cell's only "section": 1 row, no statute.
+      # NJ is flat on Justia, so the chapter page lists all 415 title-52 sections; the
+      # 31 in the 17B-41 range are the optician act.
+      url: "https://law.justia.com/codes/new-jersey/title-52/chapter-17b/"
+      section_slug_pattern: '^section-52-17b-41'
+      label: "NJ Title 52 Ch 17B — Ophthalmic Dispensers and Ophthalmic Technicians"
+      authoritative: true
     dietetics:
       section_slug_pattern: '^section-45-(1-\d|16b-\d)'
       label: "NJ Title 45 Ch 1 (Uniform Enforcement Act) + Ch 16B (Dietitians/Nutritionists)"
