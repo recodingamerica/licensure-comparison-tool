@@ -89,3 +89,9 @@ pipeline/results/status/*.log
 pipeline/results/status/annual*_watchdog.sh
 # gap-harvest agent logs (console output, not data — the .json outputs stay tracked)
 pipeline/results/gap_harvest/*.log
+
+# resume-bookmark checkpoints: each bookmark embeds a full prior_snapshot per
+# cell (~1.4MB for the biggest), so one file is ~100MB and a dozen retained
+# checkpoints is >1GB. Committing one cost a 3GB history rewrite on 2026-07-27.
+pipeline/results/status/bookmark_backups/
+pipeline/results/status/bookmark*.json
