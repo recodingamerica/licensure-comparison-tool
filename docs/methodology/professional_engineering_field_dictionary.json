@@ -1,6 +1,6 @@
 {
   "profession": "professional_engineering",
-  "data_as_of": "2026-07-08",
+  "data_as_of": "2026-07-24",
   "groups": [
     {
       "group": "licensure",
@@ -93,10 +93,10 @@
           "meaning": "Minimum age (years) to hold the credential, if the statute sets one.",
           "depth": 0,
           "example": {
-            "value": 18,
-            "quote": "the board shall certify for licensure any applicant who has submitted proof satisfactory to the board that he or she is at least 18 years of age",
-            "citation": "471.015",
-            "state": "FL"
+            "value": 35,
+            "quote": "Each member of the board shall be a citizen of the United States, at least thirty-five (35) years of age",
+            "citation": "17-30-201",
+            "state": "AR"
           }
         },
         {
@@ -107,7 +107,7 @@
           "depth": 0,
           "example": {
             "value": true,
-            "quote": "An applicant for registration as an architect, engineer, land surveyor, or landscape architect must be of good character and reputation",
+            "quote": "An applicant for registration as an architect, engineer, land surveyor, or landscape architect must be of good character and reputation and shall submit evidence satisfactory to the board of the appli",
             "citation": "08.48.171",
             "state": "AK"
           }
@@ -140,10 +140,10 @@
           "meaning": "",
           "depth": 1,
           "example": {
-            "value": "Accreditation Board for Engineering and Technology, Inc. (ABET)",
-            "quote": "a graduate of an Accreditation Board for Engineering and Technology, Inc., approved engineering curriculum",
-            "citation": "17-30-302",
-            "state": "AR"
+            "value": "Board-approved",
+            "quote": "from a school or college approved by the board",
+            "citation": "34-11-4",
+            "state": "AL"
           }
         },
         {
@@ -161,7 +161,7 @@
           "depth": 1,
           "example": {
             "value": "bachelor",
-            "quote": "A graduate of an approved engineering curriculum of four years or more from a school or college approved by the board",
+            "quote": "Graduation in an approved engineering curriculum of four years or more from a school or college approved by the board",
             "citation": "34-11-4",
             "state": "AL"
           }
@@ -178,7 +178,7 @@
           "meaning": "How the statute decides a school counts. national_accreditor=a named national program accreditor (ACOE/CODA/ACEND/LCME/CPME). regional_accreditor='regionally accredited college or university'. board_approved='approved by the board' (discretionary state gate). unspecified=says 'accredited' with no basis named, or silent.",
           "depth": 1,
           "example": {
-            "value": "board_approved",
+            "value": "unspecified",
             "quote": "shall submit evidence satisfactory to the board of the applicant's education, training, and experience",
             "citation": "08.48.171",
             "state": "AK"
@@ -212,8 +212,8 @@
           "meaning": "Which class/date this floor applies to — e.g. 'licensed dietitian', 'certified nutritionist', 'applicants on or after 2024-01-01'.",
           "depth": 2,
           "example": {
-            "value": "professional engineer - baccalaureate in engineering/engineering technology",
-            "state": "MT"
+            "value": "EAC of ABET-accredited engineering graduates",
+            "state": "DE"
           }
         },
         {
@@ -231,7 +231,7 @@
           "depth": 2,
           "example": {
             "value": "bachelor",
-            "state": "MT"
+            "state": "DE"
           }
         },
         {
@@ -258,7 +258,7 @@
           "depth": 1,
           "example": {
             "value": true,
-            "quote": "has a specific record of an additional four years or more of progressive experience in engineering work of a grade and character satisfactory to the board shall be granted a certificate of licensure t",
+            "quote": "has a specific record of an additional four years or more of progressive experience in engineering work of a grade and character satisfactory to the board",
             "citation": "34-11-4",
             "state": "AL"
           }
@@ -274,7 +274,7 @@
           "meaning": "ALWAYS populate (required_by_statute / embedded_in_credential / none) unless the governing statute is absent from the corpus. Disambiguates a blank `required`: 'none' (truly no requirement) vs 'embedded_in_credential' (the accredited degree the statute points to carries the supervised hours).",
           "depth": 1,
           "example": {
-            "value": "embedded_in_credential",
+            "value": "none",
             "quote": "shall submit evidence satisfactory to the board of the applicant's education, training, and experience",
             "citation": "08.48.171",
             "state": "AK"
@@ -321,7 +321,7 @@
           "meaning": "",
           "depth": 1,
           "example": {
-            "value": "Registration examination",
+            "value": "Professional Engineer Examination",
             "state": "AK"
           }
         },
@@ -343,7 +343,7 @@
           "meaning": "",
           "depth": 1,
           "example": {
-            "value": "Examinations held at least once each year; candidates failing may reapply per board regulations; standards must at least meet recognized national examining council requirements",
+            "value": "Examinations held at least once per year; must meet standards of recognized national examining councils; candidates failing may reapply per board regulations",
             "state": "AK"
           }
         },
@@ -354,7 +354,7 @@
           "meaning": "Where the exam is administered / who owns it — e.g. 'NBPME (national)', 'state board (in-state)', 'NCLEX-RN (national)'. Use the statute's language; null if the source doesn't say.",
           "depth": 1,
           "example": {
-            "value": "state (with national standards)",
+            "value": "national examining councils (national)",
             "state": "AK"
           }
         },
@@ -445,7 +445,7 @@
           "depth": 1,
           "example": {
             "value": 2,
-            "quote": "The board shall adopt rules establishing a procedure for the biennial renewal of licenses.",
+            "quote": "totaling 18 continuing education hours for the license renewal period",
             "citation": "471.017",
             "state": "FL"
           }
@@ -458,12 +458,14 @@
           "depth": 1,
           "example": {
             "value": [
-              "state laws and board rules and regulations",
-              "top five types of violations related to administrative and procedural aspects"
+              "1 hour relating to this chapter and the rules adopted under this chapter",
+              "1 hour relating to professional ethics",
+              "4 hours relating to the licensee's area of practice",
+              "Remaining hours may relate to any topic pertinent to the practice of engineering"
             ],
-            "quote": "The material shall be based on state law and the board's rules and regulations relating to the practice of professional engineers. The scope of the assessment shall be limited to the board's top five ",
-            "citation": "6795.2",
-            "state": "CA"
+            "quote": "One hour must relate to this chapter and the rules adopted under this chapter. One hour must relate to professional ethics. Four hours must relate to the licensee's area of practice. The remaining hou",
+            "citation": "471.017",
+            "state": "FL"
           }
         },
         {
@@ -494,8 +496,8 @@
           "meaning": "Free-form summary",
           "depth": 1,
           "example": {
-            "value": "Must hold a certificate of registration from another state, territory, possession, DC, or foreign country issued under requirements comparable to Alaska's requirements.",
-            "quote": "may, upon application, be registered in accordance with regulations of the board if the person's certificate was issued under requirements comparable to the requirements in this state.",
+            "value": "Applicant must hold a certificate of registration from a state, territory, possession, DC, or foreign country issued under requirements comparable to Alaska's requirements",
+            "quote": "if the person's certificate was issued under requirements comparable to the requirements in this state",
             "citation": "08.48.191",
             "state": "AK"
           }
@@ -541,9 +543,9 @@
           "meaning": "Authority the advisory board has, in the statute's own words — e.g. 'advisory only', 'rulemaking subject to board approval', 'disciplinary recommendations'. Free text from the statute.",
           "depth": 1,
           "example": {
-            "value": "advisory capacity to the Secretary; makes written recommendations on qualifications for licensure, curriculum content, standards of professional conduct, and formal disciplinary actions",
-            "quote": "Obtain written recommendations from the Board regarding qualifications of individuals for licensure and enrollment, definitions of curriculum content and approval of engineering curricula, standards o",
-            "citation": "225 ILCS 325/5",
+            "value": "advisory capacity to the Secretary; makes written recommendations on qualifications, curriculum, professional conduct, and disciplinary actions; assists in hearings",
+            "quote": "The Board shall consist of 10 members who shall serve in an advisory capacity to the Secretary.",
+            "citation": "225 ILCS 325/6",
             "state": "IL"
           }
         },
@@ -554,10 +556,10 @@
           "meaning": "Name of a national CERTIFICATION the state recognizes or requires, e.g. 'American Board of Podiatric Surgery (ABPS)' or 'National Board of Podiatric Medical Examiners (NBPME)'. The certifying body, NOT the association. Null if the statute doesn't reference one.",
           "depth": 0,
           "example": {
-            "value": "National Bureau of Engineering Registration",
-            "quote": "any person who holds a certificate of qualification, licensure or registration issued to such person by the proper authority of any state, territory or possession of the United States, or any country,",
-            "citation": "Sec. 20-308",
-            "state": "CT"
+            "value": "National Council of Examiners for Engineering and Surveying (NCEES)",
+            "quote": "An applicant holding a valid NCEES council record issued by the National Council of Examiners for Engineering and Surveying, whose qualifications meet the requirements of this chapter, may be register",
+            "citation": "§ 2817. Requirements for licensure.",
+            "state": "DE"
           }
         },
         {
@@ -567,10 +569,10 @@
           "meaning": "Professional ASSOCIATION the state references (e.g. for accreditation or CE provider approval) — 'American Podiatric Medical Association (APMA)', 'American Dental Association (ADA)'. Distinct from the certifying body. Null if not referenced.",
           "depth": 0,
           "example": {
-            "value": "National Council of Examiners for Engineering and Surveying (NCEES)",
-            "quote": "Maintain membership in the National Council of Examiners for Engineering and Surveying and participate in activities of the Council",
-            "citation": "225 ILCS 325/5",
-            "state": "IL"
+            "value": "Alabama Society of Professional Land Surveyors",
+            "quote": "the two professional land surveyors shall be appointed from a list of three persons nominated for each appointment by the Alabama Society of Professional Land Surveyors",
+            "citation": "34-11-30",
+            "state": "AL"
           }
         },
         {
@@ -588,7 +590,7 @@
           "depth": 0,
           "example": {
             "value": "license",
-            "quote": "A person may not practice or offer to practice the profession of architecture, engineering, land surveying, or landscape architecture in the state, or use in connection with the person's name or other",
+            "quote": "A person may not practice or offer to practice the profession of architecture, engineering, land surveying, or landscape architecture in the state",
             "citation": "08.48.281",
             "state": "AK"
           }
@@ -607,7 +609,7 @@
           "depth": 0,
           "example": {
             "value": "license",
-            "quote": "An applicant who fulfills the requirements set out by the board shall be awarded a certificate of registration authorizing the holder to offer or perform services or work for the public, or to certify",
+            "quote": "An applicant who fulfills the requirements set out by the board shall be awarded a certificate of registration authorizing the holder to offer or perform services or work for the public",
             "citation": "08.48.211",
             "state": "AK"
           }
@@ -620,7 +622,7 @@
           "depth": 0,
           "example": {
             "value": true,
-            "quote": "A person may not practice or offer to practice the profession of architecture, engineering, land surveying, or landscape architecture in the state",
+            "quote": "A person may not practice or offer to practice the profession of architecture, engineering, land surveying, or landscape architecture in the state, or use in connection with the person's name or other",
             "citation": "08.48.281",
             "state": "AK"
           }
@@ -718,9 +720,9 @@
           "depth": 1,
           "example": {
             "value": true,
-            "quote": "a corporation, limited liability company, limited liability partnership, or limited partnership shall file with the board an application for a certificate of authorization",
-            "citation": "08.48.241",
-            "state": "AK"
+            "quote": "An engineering corporation or partnership must have a certificate of authorization in order to practice, or offer to practice, engineering as defined in this chapter.",
+            "citation": "§ 2821. Certificate of authorization.",
+            "state": "DE"
           }
         },
         {
@@ -766,7 +768,7 @@
           "meaning": "Verbatim statutory definition; quote field repeats the value text.",
           "depth": 0,
           "example": {
-            "value": "professional service or creative work, the adequate performance of which requires the specialized knowledge of applied mathematics and sciences, dealing with the design of structures, machines, equipment, utilities systems, materials, processes, works, or projects, public or private; the teaching of advanced engineering courses in institutions of higher learning; the direction of or the performance of engineering surveys, consultation, investigation, evaluation, planning, and professional observation of construction of public and private structures, works, or projects and engineering review of drawings and specifications by regulatory agencies",
+            "value": "practice of engineering means professional service or creative work, the adequate performance of which requires the specialized knowledge of applied mathematics and sciences, dealing with the design of structures, machines, equipment, utilities systems, materials, processes, works, or projects, public or private; the teaching of advanced engineering courses in institutions of higher learning; the direction of or the performance of engineering surveys, consultation, investigation, evaluation, planning, and professional observation of construction of public and private structures, works, or projects and engineering review of drawings and specifications by regulatory agencies",
             "quote": "\"practice of engineering\" means professional service or creative work, the adequate performance of which requires the specialized knowledge of applied mathematics and sciences, dealing with the design",
             "citation": "08.48.341",
             "state": "AK"
@@ -781,15 +783,13 @@
           "example": {
             "value": [
               "design of structures, machines, equipment, utilities systems, materials, processes, works, or projects",
-              "teaching of advanced engineering courses in institutions of higher learning",
               "engineering surveys",
               "consultation",
               "investigation",
               "evaluation",
               "planning",
               "professional observation of construction",
-              "engineering review of drawings and specifications by regulatory agencies",
-              "architectural building design of minor importance"
+              "engineering review of drawings and specifications"
             ],
             "quote": "dealing with the design of structures, machines, equipment, utilities systems, materials, processes, works, or projects, public or private; the teaching of advanced engineering courses in institutions",
             "citation": "08.48.341",
@@ -830,7 +830,7 @@
           "meaning": "",
           "depth": 1,
           "example": {
-            "value": "definition_of_practice_of_engineering",
+            "value": "definition_of_practice",
             "state": "AK"
           }
         }
@@ -860,10 +860,10 @@
           "meaning": "Whether the same statute and licensing board also governs professional geologists.",
           "depth": 0,
           "example": {
-            "value": false,
-            "quote": "regulation of professional geologists under AS 08.02.060",
-            "citation": "UMBRELLA / Chapter 01. Centralized Licensing",
-            "state": "AK"
+            "value": true,
+            "quote": "\"Geologist\" means a person, who is not required to be a professional engineer, who by reason of special knowledge of the earth sciences and the principles and methods of search for and appraisal of mi",
+            "citation": "32-101",
+            "state": "AZ"
           }
         },
         {
@@ -874,8 +874,8 @@
           "depth": 0,
           "example": {
             "value": true,
-            "quote": "ENGINEER INTERN. An individual who has been certified as an engineer intern by the board.",
-            "citation": "34-11-1",
+            "quote": "The board shall issue to any applicant for certification as an engineer intern or surveyor intern who, in the opinion of the board, has met the requirements of this chapter, an enrollment document ide",
+            "citation": "34-11-7",
             "state": "AL"
           }
         },
@@ -887,8 +887,8 @@
           "depth": 0,
           "example": {
             "value": true,
-            "quote": "LAND SURVEYOR INTERN. An individual who has been certified as a land surveyor intern by the board.",
-            "citation": "34-11-1",
+            "quote": "The board shall issue to any applicant for certification as an engineer intern or surveyor intern who, in the opinion of the board, has met the requirements of this chapter, an enrollment document ide",
+            "citation": "34-11-7",
             "state": "AL"
           }
         },
@@ -986,20 +986,23 @@
           "depth": 0,
           "example": {
             "value": [
-              "contractor performing work designed by a professional engineer under supervision",
-              "workers in building trades crafts, earthwork, grounds keeping, or nursery operations",
-              "officer or employee of the United States government in official capacity",
-              "employee or subordinate of a registrant under direct supervision",
-              "associates, consultants, or specialists retained by a registrant under responsible charge",
-              "person preparing drawings or specifications for specified residential and agricultural buildings",
-              "specialty contractor for work designed by an engineer within the specialty",
-              "person furnishing drawings for alterations not affecting structural system or public safety",
-              "postsecondary educational institution employee teaching engineering courses",
-              "officer or employee practicing engineering involved in employer's business only (not offering to public)",
-              "person involved in revegetation, restoration, reclamation, or erosion control not affecting public health, safety, or welfare",
-              "person maintaining or directing placement of plant material not affecting public health, safety, or welfare",
-              "employee/officer of regulatory agency reviewing drawings sealed by a registrant",
-              "person designing fire protection systems authorized by the Department of Public Safety"
+              "a contractor performing work designed by a professional architect, engineer, or landscape architect or the supervision of the construction of the work as a supervisor or superintendent for a contractor",
+              "workers in building trades crafts, earthwork, grounds keeping, or nursery operations, and superintendents, supervisors, or inspectors in the performance of their customary duties",
+              "an officer or employee of the United States government practicing architecture, engineering, land surveying, or landscape architecture as required by the person's official capacity",
+              "an employee or a subordinate of a registrant if the work or service is done under the direct supervision of a registrant",
+              "associates, consultants, or specialists retained by a registrant or authorized entity, in the performance of professional services if responsible charge of the work remains with the registrant or designated representative",
+              "a person preparing drawings or specifications for a single family residence for the person's own use and occupancy and related site work",
+              "farm or ranch buildings and their grounds unless the public health, safety, or welfare is involved",
+              "a building intended to be used only as a residence by not more than four families and not more than two stories high",
+              "a garage, workshop, or similar building containing less than 2,000 square feet for private noncommercial purpose",
+              "a specialty contractor licensed under AS 08.18 while engaged in construction contracting for work designed by an architect, engineer, or landscape architect within the specialty",
+              "a person furnishing drawings or specifications for alterations or repairs to a building that do not change or affect the structural system or safety or public health, safety, or welfare",
+              "a person employed by a postsecondary educational institution to teach engineering, architectural, or landscape architectural courses",
+              "an officer or employee of a firm or corporation who practices engineering involved in the operation of the employer's business only and neither offers services to the public",
+              "a person involved in revegetation, restoration, reclamation, rehabilitation, or erosion control for disturbed land that does not affect the public health, safety, or welfare",
+              "a person maintaining or directing placement of plant material that does not affect the public health, safety, or welfare",
+              "an employee, officer, or agent of a regulatory agency reviewing drawings for code compliance if drawings have been sealed or are exempt",
+              "a person designing fire protection systems authorized by the Department of Public Safety"
             ],
             "quote": "This chapter does not apply to (1) a contractor performing work designed by a professional architect, engineer, or landscape architect or the supervision of the construction of the work as a superviso",
             "citation": "08.48.331",
@@ -1026,8 +1029,8 @@
           "meaning": "Whether licensees holding licenses in other states, territories, or countries must report that fact and any out-of-state disciplinary actions to the board.",
           "depth": 0,
           "example": {
-            "value": false,
-            "quote": "A licensee shall report to the board in writing the occurrence of any of the following events",
+            "value": true,
+            "quote": "A licensee shall report to the board in writing the occurrence of any of the following events that occurred on or after January 1, 2008, within 90 days of the date the licensee has knowledge of the ev",
             "citation": "Section 6770.",
             "state": "CA"
           }
@@ -1040,13 +1043,13 @@
           "depth": 0,
           "example": {
             "value": [
-              "civil engineering (2 members)",
-              "land surveying (2 members)",
-              "mining engineering (1 member)",
-              "electrical or mechanical engineering (1 member)",
-              "another branch of engineering (1 member)"
+              "civil engineering",
+              "mining engineering",
+              "electrical engineering",
+              "mechanical engineering",
+              "another branch of the profession of engineering"
             ],
-            "quote": "The board consists of two civil engineers, two land surveyors, one mining engineer, one electrical or mechanical engineer, one engineer from another branch of the profession of engineering, two archit",
+            "quote": "The board consists of two civil engineers, two land surveyors, one mining engineer, one electrical or mechanical engineer, one engineer from another branch of the profession of engineering",
             "citation": "08.48.011",
             "state": "AK"
           }
@@ -1059,7 +1062,7 @@
           "depth": 0,
           "example": {
             "value": 5,
-            "quote": "must be registered and have a minimum of five years of professional practice in the member's respective field",
+            "quote": "except for the public member, must be registered and have a minimum of five years of professional practice in the member's respective field",
             "citation": "08.48.031",
             "state": "AK"
           }
@@ -1100,6 +1103,96 @@
             "value": true,
             "quote": "On retiring from practice and payment of an appropriate one-time fee, a registrant in good standing with the board may apply for the conversion of a certificate of registration to a retired status reg",
             "citation": "08.48.215",
+            "state": "AK"
+          }
+        },
+        {
+          "field": "scope__seal_document_types",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "Scope checklist for 'seal_document_types'. Return EXACTLY one entry for each of these 18 items, using the item name verbatim: ['Drawings', 'Plans', 'Specifications', 'Reports', 'Surveys', 'Plats', 'Plates', 'Calculations', 'Design information', 'Construction documents', 'Maps', 'Descriptions', 'Data', 'Instruments of service', 'Shop drawings', 'Revisions', 'Certifications', 'Affidavits']. For EACH item, status is `present` if this state's statute provides for it, else `absent`. Quote verbatim for `present`.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "scope__seal_document_types[].item",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": {
+            "value": "Drawings",
+            "state": "AK"
+          }
+        },
+        {
+          "field": "scope__seal_document_types[].status",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": {
+            "value": "present",
+            "state": "AK"
+          }
+        },
+        {
+          "field": "scope__exemptions_from_licensure",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "Scope checklist for 'exemptions_from_licensure'. Return EXACTLY one entry for each of these 33 items, using the item name verbatim: ['Federal government officers and employees practicing engineering in official capacity', 'Contractors executing work designed by a licensed engineer (construction execution only)', 'Building trades workers, craft workers, and construction superintendents/supervisors/inspectors performing customary duties', 'Employees or subordinates working under direct supervision of a licensed engineer', 'Engineers-in-training / engineer interns acting under supervision', 'Land surveyor interns', 'Teaching engineering, architectural, landscape architectural, or surveying courses at accredited institutions', 'Regulated transportation companies and public utilities (and their officers and employees) performing engineering for their own facilities', 'Engineering services incidental to the practice of architecture by licensed architects and their subordinates', 'Engineering services incidental to the practice of geology by licensed geologists and their subordinates', 'Practice of any other legally recognized profession or trade', 'Manufacturing, mining, public utility, research and development, or other industrial corporations performing engineering work incidental to their own products, systems, or services', 'Firms performing engineering services for themselves or their own subsidiaries/affiliates (in-house engineering)', 'Nonresident persons, firms, or corporations meeting specified out-of-state criteria', 'Real estate brokers or salespersons making appraisals and valuations of real estate', 'Alterations or repairs to buildings not affecting structural system or public health, safety, or welfare', 'Single-family and small residential dwellings of limited size', 'Agricultural work not required to be of public record', 'Revegetation, restoration, reclamation, rehabilitation, or erosion control for disturbed land not affecting public health, safety, or welfare', 'Maintenance or placement of plant material not affecting public health, safety, or welfare', 'Horticultural consultants and persons preparing planting plans for plant installations', 'Authorized designers of fire protection systems', 'Holders of temporary permits for engineering practice', 'Corporations, partnerships, LLCs, and LLPs offering professional engineering services through licensed principals (business entity exemption with certificate of authorization)', 'Government employees inspecting residential structures as part of official duties', 'Persons performing home inspections solely for lender construction monitoring', 'Property managers inspecting their own managed residential structures without separate compensation', 'Small public works projects below a specified expenditure threshold', 'Licensed geologists practicing geology (not required to hold engineer license)', 'Persons with grandfathered or legacy licensure status in discontinued engineering branch titles', 'Boundary surveys on private land not intended as basis for engineering design', 'Professional engineers or engineer interns granted inactive status', 'Senior licensed professional engineers exempt from continuing education requirements']. For EACH item, status is `present` if this state's statute provides for it, else `absent`. Quote verbatim for `present`.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "scope__exemptions_from_licensure[].item",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": {
+            "value": "Federal government officers and employees practicing engineering in official capacity",
+            "state": "AK"
+          }
+        },
+        {
+          "field": "scope__exemptions_from_licensure[].status",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": {
+            "value": "present",
+            "state": "AK"
+          }
+        },
+        {
+          "field": "scope__board_engineering_disciplines_represented",
+          "type": "list",
+          "vocabulary": [],
+          "meaning": "Scope checklist for 'board_engineering_disciplines_represented'. Return EXACTLY one entry for each of these 7 items, using the item name verbatim: ['Civil Engineering', 'Electrical Engineering', 'Mechanical Engineering', 'Mining Engineering', 'Petroleum Engineering', 'Chemical Engineering', 'General/Other Engineering']. For EACH item, status is `present` if this state's statute provides for it, else `absent`. Quote verbatim for `present`.",
+          "depth": 0,
+          "example": null
+        },
+        {
+          "field": "scope__board_engineering_disciplines_represented[].item",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": {
+            "value": "Civil Engineering",
+            "state": "AK"
+          }
+        },
+        {
+          "field": "scope__board_engineering_disciplines_represented[].status",
+          "type": "string",
+          "vocabulary": [],
+          "meaning": "",
+          "depth": 1,
+          "example": {
+            "value": "present",
             "state": "AK"
           }
         }

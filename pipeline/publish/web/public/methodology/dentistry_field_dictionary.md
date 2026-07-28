@@ -2,7 +2,7 @@
 
 _Auto-generated from the extraction model (`standard_model.py` + the profession's discovered schema). Do not edit by hand — regenerate with `python -m pipeline.publish.generate_field_dictionary`._
 
-**Reflects extracted data as of 2026-07-05** (latest commit to `dentistry` records). Regenerate to refresh.
+**Reflects extracted data as of 2026-07-27** (latest commit to `dentistry` records). Regenerate to refresh.
 
 Every field is an **Evidence** object: a `value`, the verbatim `quote` from the statute that supports it, and the `citation` it came from. Each example below is drawn from the first state that has a value for that field; the source state is shown in parentheses.
 
@@ -22,14 +22,14 @@ character), fees, renewal, continuing education, and reciprocity._
 | `age_minimum` | integer | Minimum age (years) to hold the credential, if the statute sets one. | 19 (AL) |
 | `moral_character_required` | boolean | Whether the statute conditions licensure on good moral character / fitness. | true (AK) |
 | `education` | object | Education entry requirement — degree, level, accreditation, and any tiers. |  |
-| &nbsp;&nbsp;&nbsp;&nbsp;`education.degree_required` | string |  | "Graduate of a board-approved dental school" (AK) |
+| &nbsp;&nbsp;&nbsp;&nbsp;`education.degree_required` | string |  | "graduate of a dental school approved by the board" (AK) |
 | &nbsp;&nbsp;&nbsp;&nbsp;`education.accrediting_body` | string |  | "American Dental Association Commission on Dental Accreditat (AL) |
 | &nbsp;&nbsp;&nbsp;&nbsp;`education.degree_level` | enum — one of: none, high_school, associate, bachelor, master, doctorate | The comparable education FLOOR as a normalized rung. Populate whenever licensure is gated on a degree; null only if the statute is silent on education. | "doctorate" (AK) |
 | &nbsp;&nbsp;&nbsp;&nbsp;`education.school_approval_basis` | enum — one of: national_accreditor, regional_accreditor, board_approved, unspecified | How the statute decides a school counts. national_accreditor=a named national program accreditor (ACOE/CODA/ACEND/LCME/CPME). regional_accreditor='regionally accredited college or university'. board_approved='approved by the board' (discretionary state gate). unspecified=says 'accredited' with no basis named, or silent. | "board_approved" (AK) |
 | &nbsp;&nbsp;&nbsp;&nbsp;`education.credential_pegged` | boolean | True if the statute pegs the education requirement to a NATIONAL CREDENTIAL (e.g. 'registered by CDR', 'passed the NBEO') rather than (or in addition to) a stated degree — such a state inherits whatever that national body currently requires. | false (AK) |
 | &nbsp;&nbsp;&nbsp;&nbsp;`education.tiers` | list | Per-tier floors when the statute sets different education levels for different license classes, or phases the floor in by date. Omit/null when there is a single floor. `degree_level` still records the overall floor across all tiers. |  |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`education.tiers[].license_class` | string | Which class/date this floor applies to — e.g. 'licensed dietitian', 'certified nutritionist', 'applicants on or after 2024-01-01'. |  |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`education.tiers[].degree_level` | enum — one of: none, high_school, associate, bachelor, master, doctorate | Normalized education floor, low -> high. Resolved to the rung even when the statute uses verbiage ('six college years' -> doctorate, 'or equivalent degree' -> the named level). Professional/clinical doctorates (OD, DDS, MD, DPM) are `doctorate`. |  |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`education.tiers[].license_class` | string | Which class/date this floor applies to — e.g. 'licensed dietitian', 'certified nutritionist', 'applicants on or after 2024-01-01'. | "general license" (NM) |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`education.tiers[].degree_level` | enum — one of: none, high_school, associate, bachelor, master, doctorate | Normalized education floor, low -> high. Resolved to the rung even when the statute uses verbiage ('six college years' -> doctorate, 'or equivalent degree' -> the named level). Professional/clinical doctorates (OD, DDS, MD, DPM) are `doctorate`. | "doctorate" (NM) |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`education.tiers[].effective_date` | string | ISO date when this floor takes effect, for date-phased tiers (e.g. '2024-01-01'). Null otherwise. |  |
 | `post_degree_experience` | object | Supervised practice / residency / apprenticeship required after the degree. |  |
 | &nbsp;&nbsp;&nbsp;&nbsp;`post_degree_experience.required` | boolean |  | false (AK) |
@@ -39,8 +39,8 @@ character), fees, renewal, continuing education, and reciprocity._
 | `exams` | list | Examinations required for the credential (one entry per exam). |  |
 | &nbsp;&nbsp;&nbsp;&nbsp;`exams[].name` | string |  | "Written examination approved by the board" (AK) |
 | &nbsp;&nbsp;&nbsp;&nbsp;`exams[].required` | boolean |  | true (AK) |
-| &nbsp;&nbsp;&nbsp;&nbsp;`exams[].notes` | string |  | "Must pass written examination approved by the board" (AK) |
-| &nbsp;&nbsp;&nbsp;&nbsp;`exams[].jurisdiction` | string | Where the exam is administered / who owns it — e.g. 'NBPME (national)', 'state board (in-state)', 'NCLEX-RN (national)'. Use the statute's language; null if the source doesn't say. | "state (board-approved)" (AK) |
+| &nbsp;&nbsp;&nbsp;&nbsp;`exams[].notes` | string |  | "Applicant must pass written, clinical, and other examinatio (AK) |
+| &nbsp;&nbsp;&nbsp;&nbsp;`exams[].jurisdiction` | string | Where the exam is administered / who owns it — e.g. 'NBPME (national)', 'state board (in-state)', 'NCLEX-RN (national)'. Use the statute's language; null if the source doesn't say. | "state or national (board-approved)" (AK) |
 | &nbsp;&nbsp;&nbsp;&nbsp;`exams[].permitted_attempts` | integer | Max attempts allowed before re-qualification. Null if not specified. | 3 (IN) |
 | `renewal` | object | How the credential is renewed — interval and any conditions. |  |
 | &nbsp;&nbsp;&nbsp;&nbsp;`renewal.interval_years` | integer | Most states are 1 or 2 | 2 (AK) |
@@ -52,12 +52,12 @@ character), fees, renewal, continuing education, and reciprocity._
 | &nbsp;&nbsp;&nbsp;&nbsp;`continuing_education.topical_requirements` | list | Specific topical CE requirements, e.g. ['1.5 hrs opioid', 'ethics'] | ["pain management and opioid use and addiction"] (AK) |
 | `reciprocity` | object | Whether/how the state recognizes out-of-state credentials (endorsement/reciprocity). |  |
 | &nbsp;&nbsp;&nbsp;&nbsp;`reciprocity.available` | boolean |  | true (AK) |
-| &nbsp;&nbsp;&nbsp;&nbsp;`reciprocity.requirements` | string | Free-form summary | "Must meet qualifications under AS 08.36.110, submit proof o (AK) |
+| &nbsp;&nbsp;&nbsp;&nbsp;`reciprocity.requirements` | string | Free-form summary | "Must meet requirements of AS 08.36.110, submit proof of con (AK) |
 | `advisory_board` | object | Profession-specific advisory body sitting alongside the main licensing board, when one exists. Populated for states that delegate licensure to a generic board and add a specialty advisory committee. |  |
 | &nbsp;&nbsp;&nbsp;&nbsp;`advisory_board.exists` | boolean | True if a profession-specific advisory body exists alongside the main licensing board. False if the licensing board itself is profession-specific (no separate advisory body needed). | false (AK) |
 | &nbsp;&nbsp;&nbsp;&nbsp;`advisory_board.name` | string | Name of the advisory board, e.g. 'Podiatry Advisory Committee'. | "State Dental Commission" (CT) |
-| &nbsp;&nbsp;&nbsp;&nbsp;`advisory_board.authority` | string | Authority the advisory board has, in the statute's own words — e.g. 'advisory only', 'rulemaking subject to board approval', 'disciplinary recommendations'. Free text from the statute. | "The Commission hears and decides matters concerning suspens (CT) |
-| `national_certification` | string | Name of a national CERTIFICATION the state recognizes or requires, e.g. 'American Board of Podiatric Surgery (ABPS)' or 'National Board of Podiatric Medical Examiners (NBPME)'. The certifying body, NOT the association. Null if the statute doesn't reference one. | "American Board of Oral and Maxillofacial Surgery" (AL) |
+| &nbsp;&nbsp;&nbsp;&nbsp;`advisory_board.authority` | string | Authority the advisory board has, in the statute's own words — e.g. 'advisory only', 'rulemaking subject to board approval', 'disciplinary recommendations'. Free text from the statute. | "hears and decides matters concerning suspension or revocati (CT) |
+| `national_certification` | string | Name of a national CERTIFICATION the state recognizes or requires, e.g. 'American Board of Podiatric Surgery (ABPS)' or 'National Board of Podiatric Medical Examiners (NBPME)'. The certifying body, NOT the association. Null if the statute doesn't reference one. | "American Board of Oral and Maxillofacial Surgery (ABOMS)" (CA) |
 | `national_association` | string | Professional ASSOCIATION the state references (e.g. for accreditation or CE provider approval) — 'American Podiatric Medical Association (APMA)', 'American Dental Association (ADA)'. Distinct from the certifying body. Null if not referenced. | "American Association of Dental Boards" (AK) |
 | `regulatory_model` | enum — one of: market_forces, voluntary_certification, registration, exemption, mandatory_certification, license | Which UORF model the state applies to this profession (license / mandatory_cert / registration / etc). | "license" (AK) |
 | `credential_type` | enum — one of: none, registration, certification, license, exemption | What SHAPE of credential does the state issue, independent of whether holding it is mandatory? license / certification / registration / exemption / none. Pairs with is_mandatory to decompose the legacy regulatory_model rung. | "license" (AK) |
@@ -65,15 +65,15 @@ character), fees, renewal, continuing education, and reciprocity._
 | `title_protection` | boolean | Does the state restrict use of the profession's title to licensees? True if unlicensed people may NOT call themselves the protected title (e.g. 'podiatrist', 'CPA'). | true (AK) |
 | `scope_protection` | boolean | Does the state restrict practice of the profession's scope to licensees? True if performing the scope without a license is prohibited (independent of title use). | true (AK) |
 | `disciplinary_grounds` | list | Grounds on which the board may discipline a licensee. Typical statutes list 5-15. |  |
-| &nbsp;&nbsp;&nbsp;&nbsp;`disciplinary_grounds[].short_label` | string | snake_case key, e.g. 'fraud_in_obtaining_license' | "fraud_to_obtain_license" (AK) |
+| &nbsp;&nbsp;&nbsp;&nbsp;`disciplinary_grounds[].short_label` | string | snake_case key, e.g. 'fraud_in_obtaining_license' | "fraud_in_obtaining_license" (AK) |
 | &nbsp;&nbsp;&nbsp;&nbsp;`disciplinary_grounds[].description` | string | One-line plain-English description | "Used or knowingly cooperated in deceit, fraud, or intention (AK) |
 | `alternative_regulation` | object | Non-credential regulatory mechanisms (bonding, insurance, establishment regulation) imposed by the state. Obama 2015 framework typology. Independent of credential_type. |  |
 | &nbsp;&nbsp;&nbsp;&nbsp;`alternative_regulation.bonding_required` | boolean | Does the statute require the practitioner or firm to post a bond (funds against which consumer claims can be made)? Independent of whether a credential is also required. |  |
 | &nbsp;&nbsp;&nbsp;&nbsp;`alternative_regulation.insurance_required` | boolean | Does the statute require the practitioner or firm to carry insurance (e.g., professional liability, surety insurance)? | true (AL) |
-| &nbsp;&nbsp;&nbsp;&nbsp;`alternative_regulation.establishment_regulation_required` | boolean | Does the statute regulate the ESTABLISHMENT / FIRM (e.g., facility license, mandatory inspection of premises) as a route to consumer protection, independent of any practitioner credential? | true (AL) |
+| &nbsp;&nbsp;&nbsp;&nbsp;`alternative_regulation.establishment_regulation_required` | boolean | Does the statute regulate the ESTABLISHMENT / FIRM (e.g., facility license, mandatory inspection of premises) as a route to consumer protection, independent of any practitioner credential? | true (AK) |
 | `citations` | list | Statutory citations supporting the licensure fields above. |  |
-| &nbsp;&nbsp;&nbsp;&nbsp;`citations[].cite` | string |  | "08.36.010" (AK) |
-| &nbsp;&nbsp;&nbsp;&nbsp;`citations[].kind` | string |  | "board composition" (AK) |
+| &nbsp;&nbsp;&nbsp;&nbsp;`citations[].cite` | string |  | "08.36.100" (AK) |
+| &nbsp;&nbsp;&nbsp;&nbsp;`citations[].kind` | string |  | "license_required" (AK) |
 
 ## scope
 _What the practice act lets (or reserves to) this profession — the defined scope,
@@ -82,21 +82,21 @@ profession-specific scope richness lives in the discovered block._
 
 | field | type | what it means | example value |
 |---|---|---|---|
-| `definition_quote` | string | Verbatim statutory definition; quote field repeats the value text. | "A person engages in the practice of dentistry who (1) perfo (AK) |
-| `methods_authorized` | list | High-level methods, e.g. ['medical','surgical','mechanical'] | ["diagnosis", "treatment", "operative procedures", "surgical (AK) |
+| `definition_quote` | string | Verbatim statutory definition; quote field repeats the value text. | "A person engages in the practice of dentistry who performs  (AK) |
+| `methods_authorized` | list | High-level methods, e.g. ['medical','surgical','mechanical'] | ["dental operations", "diagnosis", "treatment", "surgical pr (AK) |
 | `drug_authority` | string | Whether/how the profession may prescribe, administer, or dispense drugs. | "Dentists may prescribe drugs as part of the practice of den (AK) |
 | `citations` | list | Statutory citations supporting the scope fields above. |  |
 | &nbsp;&nbsp;&nbsp;&nbsp;`citations[].cite` | string |  | "08.36.360" (AK) |
-| &nbsp;&nbsp;&nbsp;&nbsp;`citations[].kind` | string |  | "practice of dentistry defined" (AK) |
+| &nbsp;&nbsp;&nbsp;&nbsp;`citations[].kind` | string |  | "scope_definition" (AK) |
 
 ## profession_specific
 _Fields discovered specifically for this profession (auto-derived from its statutes); they vary profession to profession._
 
 | field | type | what it means | example value |
 |---|---|---|---|
-| `sedation_anesthesia_permit_types` | list | The distinct categories of sedation and anesthesia permits a dentist may obtain beyond basic local anesthesia, each requiring separate training and board approval. | ["general anesthesia permit", "parenteral sedation permit",  (AL) |
+| `sedation_anesthesia_permit_types` | list | The distinct categories of sedation and anesthesia permits a dentist may obtain beyond basic local anesthesia, each requiring separate training and board approval. | ["nitrous oxide-oxygen conscious sedation permit"] (AK) |
 | `sedation_permit_onsite_inspection_required` | boolean | Whether the board may require an on-site inspection of the facility, equipment, and personnel before issuing or renewing a sedation or anesthesia permit. | true (AL) |
-| `sedation_adverse_event_reporting_required` | boolean | Whether licensees are required to report deaths, injuries, or other adverse events resulting from sedation or anesthesia to the board within a specified timeframe. | true (AL) |
+| `sedation_adverse_event_reporting_required` | boolean | Whether licensees are required to report deaths, injuries, or other adverse events resulting from sedation or anesthesia to the board within a specified timeframe. | true (AK) |
 | `pediatric_sedation_endorsement_required` | boolean | Whether a separate pediatric endorsement on a sedation or anesthesia permit is required before administering sedation to patients below a specified age threshold. | false (AL) |
 | `specialist_license_available` | boolean | Whether the state issues a separate specialist license or certificate allowing a dentist to hold themselves out to the public as a specialist in a recognized branch of dentistry. | true (AK) |
 | `specialty_practice_scope_restriction` | boolean | Whether a dentist who obtains a specialist license is restricted to practicing only within that specialty branch. | true (AK) |
@@ -105,10 +105,10 @@ _Fields discovered specifically for this profession (auto-derived from its statu
 | `collaborative_agreement_available` | boolean | Whether the state authorizes a formal written collaborative agreement between a dentist and a dental hygienist that allows the hygienist to provide specified services without the dentist's physical presence. | true (AK) |
 | `collaborative_agreement_max_hygienists_per_dentist` | integer | The maximum number of collaborative or affiliated practice agreements a single dentist may hold simultaneously with dental hygienists. | 5 (AK) |
 | `advanced_practice_permit_available` | boolean | Whether the state issues an advanced practice permit or equivalent credential allowing a dental hygienist to provide services to underserved populations without a dentist's physical presence or prior examination. | true (AK) |
-| `advanced_practice_eligible_patient_populations` | list | The specific patient populations or settings for which an advanced practice or affiliated practice dental hygienist may provide services without direct dentist supervision. | ["residents in a senior center, including hospital, long-ter (AK) |
+| `advanced_practice_eligible_patient_populations` | list | The specific patient populations or settings for which an advanced practice or affiliated practice dental hygienist may provide services without direct dentist supervision. | ["residents in a senior center, including a hospital, long-t (AK) |
 | `dental_therapist_license_available` | boolean | Whether the state licenses dental therapists as a distinct mid-level dental provider category with its own scope of practice. | true (AZ) |
 | `dental_therapist_collaborative_practice_required` | boolean | Whether a dental therapist must operate under a written collaborative practice agreement with a supervising dentist in order to practice independently of direct supervision. | true (AZ) |
-| `dental_therapist_practice_setting_restrictions` | list | The specific practice settings or facility types in which a dental therapist is authorized to practice. | ["federally qualified community health center", "health cent (AZ) |
+| `dental_therapist_practice_setting_restrictions` | list | The specific practice settings or facility types in which a dental therapist is authorized to practice. | ["Federally qualified community health center", "Health cent (AZ) |
 | `mobile_dental_facility_registration_required` | boolean | Whether operators of mobile dental facilities or portable dental units must register with the state dental board and comply with specific operational requirements. | true (AL) |
 | `mobile_facility_followup_care_protocol_required` | boolean | Whether operators of mobile dental facilities are required to maintain a written protocol for emergency follow-up care for patients treated at the mobile facility. | true (AL) |
 | `dental_office_ownership_restrictions` | boolean | Whether the state restricts ownership or operation of dental offices to licensed dentists or specified entities, prohibiting non-dentist corporate ownership. | true (AK) |
@@ -124,4 +124,16 @@ _Fields discovered specifically for this profession (auto-derived from its statu
 | `patient_record_retention_years` | integer | The minimum number of years a licensee is required to retain patient dental records after the last date of service. | 7 (AK) |
 | `cpr_certification_required_for_sedation` | boolean | Whether dentists and auxiliary personnel involved in sedation procedures are required to maintain current certification in basic or advanced cardiac life support. | true (AL) |
 | `dental_hygienist_alternative_practice_license` | boolean | Whether the state issues a distinct 'alternative practice' or equivalent license category allowing dental hygienists to practice independently in specified community or public health settings without a supervising dentist on-site. | true (AK) |
+| `scope__sedation_anesthesia_permit_types` | list | Scope checklist for 'sedation_anesthesia_permit_types'. Return EXACTLY one entry for each of these 12 items, using the item name verbatim: ['Nitrous Oxide Sedation (Analgesia)', 'Minimal Sedation Permit', 'Pediatric Minimal Sedation Permit', 'Oral Conscious Sedation Permit', 'Moderate Sedation Permit', 'Pediatric Moderate Sedation Endorsement', 'Parenteral Sedation Permit', 'Deep Sedation Permit', 'General Anesthesia Permit', 'Pediatric General Anesthesia / Deep Sedation Endorsement', 'Local Anesthesia Certificate / Permit', 'Mobile Dental Anesthesia Services Permit']. For EACH item, status is `present` if this state's statute provides for it, else `absent`. Quote verbatim for `present`. |  |
+| &nbsp;&nbsp;&nbsp;&nbsp;`scope__sedation_anesthesia_permit_types[].item` | string |  | "Nitrous Oxide Sedation (Analgesia)" (AK) |
+| &nbsp;&nbsp;&nbsp;&nbsp;`scope__sedation_anesthesia_permit_types[].status` | string |  | "present" (AK) |
+| `scope__dental_hygienist_supervision_levels` | list | Scope checklist for 'dental_hygienist_supervision_levels'. Return EXACTLY one entry for each of these 6 items, using the item name verbatim: ['Direct supervision', 'Indirect supervision', 'General supervision', 'Telehealth supervision', 'Unsupervised practice', 'Advanced practice / collaborative practice (no supervising dentist required)']. For EACH item, status is `present` if this state's statute provides for it, else `absent`. Quote verbatim for `present`. |  |
+| &nbsp;&nbsp;&nbsp;&nbsp;`scope__dental_hygienist_supervision_levels[].item` | string |  | "Direct supervision" (AK) |
+| &nbsp;&nbsp;&nbsp;&nbsp;`scope__dental_hygienist_supervision_levels[].status` | string |  | "present" (AK) |
+| `scope__advanced_practice_eligible_patient_populations` | list | Scope checklist for 'advanced_practice_eligible_patient_populations'. Return EXACTLY one entry for each of these 16 items, using the item name verbatim: ['Senior center residents', 'Hospital residents or patients', 'Long-term care facility residents', 'Adult foster home residents', 'Residential care facility residents', 'Mental health residential program or facility residents', 'Individuals with developmental or other disabilities (facility residents)', 'Correctional facility inmates (juvenile or adult)', 'Nursery school or day care program enrollees', 'Vocational training facility enrollees', 'Primary or secondary school students', 'Homebound patients', 'Dental health professional shortage area residents', 'Head Start program participants', 'Community health center patients', 'Patients unable to access dental treatment due to age, infirmity, or disability']. For EACH item, status is `present` if this state's statute provides for it, else `absent`. Quote verbatim for `present`. |  |
+| &nbsp;&nbsp;&nbsp;&nbsp;`scope__advanced_practice_eligible_patient_populations[].item` | string |  | "Senior center residents" (AK) |
+| &nbsp;&nbsp;&nbsp;&nbsp;`scope__advanced_practice_eligible_patient_populations[].status` | string |  | "present" (AK) |
+| `scope__dental_therapist_practice_setting_restrictions` | list | Scope checklist for 'dental_therapist_practice_setting_restrictions'. Return EXACTLY one entry for each of these 19 items, using the item name verbatim: ['Private dental office', 'Mobile dental facility', 'Portable dental operation', 'Hospital', 'Long-term care facility', 'Senior center', 'Adult foster home', 'Residential care facility', 'Correctional facility', 'School', 'Day care program', 'Vocational training facility', 'Community health center', 'Public health agency or institution', 'Federal government facility', 'Dental health professional shortage area', 'Homebound setting', 'Dental school or dental college', 'Outpatient dental facility']. For EACH item, status is `present` if this state's statute provides for it, else `absent`. Quote verbatim for `present`. |  |
+| &nbsp;&nbsp;&nbsp;&nbsp;`scope__dental_therapist_practice_setting_restrictions[].item` | string |  | "Private dental office" (AK) |
+| &nbsp;&nbsp;&nbsp;&nbsp;`scope__dental_therapist_practice_setting_restrictions[].status` | string |  | "absent" (AK) |
 
