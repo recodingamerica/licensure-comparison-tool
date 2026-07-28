@@ -137,6 +137,52 @@ def _umbrella_hash(state: str) -> str | None:
     return _sha(f"{ut or ''}|{us or ''}")
 
 
+# Stages whose output is NON-DETERMINISTIC: an LLM decides it, so running one twice on
+# identical input yields different output. Their output must never be a freshness KEY.
+#
+# `extract`'s input hash used to be the hash of `trimmed/`. Trim is an LLM stage, so
+# re-running it reshuffles which sections it keeps even when the corpus is byte-identical
+# (dentistry/IN: +53 sections / -62 on a re-trim of unchanged law). Every such reshuffle
+# invalidated the extract, so "stale" came to mean "an LLM stage churned" rather than
+# "the law changed" — which is what anyone reading that number assumes. On 2026-07-28 it
+# put 28% of published cells in the stale bucket and implied ~214 re-extractions (~$32);
+# only ~15 cells had had their corpus change at all.
+#
+# So a stage's freshness derives from the nearest DETERMINISTIC upstream artifact, plus
+# the RECIPE of every non-deterministic stage in between. A prompt/model/code change to
+# trim still invalidates extract (the trimmed text would differ meaningfully); trim simply
+# running again does not. This is a property of the stage graph, not a special case: add
+# a future LLM stage and it inherits the same treatment by declaring itself here.
+_NONDETERMINISTIC = frozenset(_MODEL_KEY)          # trim, extract, schema, mapprep
+
+def _producer_of(path_dir) -> str | None:
+    """Which cell stage WRITES this dir. Derived from _OUT rather than a parallel table,
+    so the graph has one definition and a test that redirects the dirs still exercises it."""
+    for stage, out in _OUT.items():
+        if out == path_dir:
+            return stage
+    return None
+
+
+def _deterministic_input(stage: str, prof: str, state: str | None) -> tuple[str | None, list[str]]:
+    """(payload_hash of the nearest deterministic upstream artifact, recipes crossed).
+
+    Walks back past any non-deterministic producer, collecting its recipe hash so a
+    genuine prompt/model/code change still invalidates downstream work.
+    """
+    path_dir = _IN[stage]
+    crossed: list[str] = []
+    seen: set[str] = set()
+    while True:
+        producer = _producer_of(path_dir)
+        if producer is None or producer not in _NONDETERMINISTIC or producer in seen:
+            break
+        seen.add(producer)
+        crossed.append(recipe_hash(producer, prof))
+        path_dir = _IN[producer]
+    return _payload_hash(path_dir / prof / f"{state}.json"), crossed
+
+
 def input_hash(stage: str, prof: str, state: str | None = None) -> str | None:
     if stage == "clean":
         return _payload_hash(_clean_source_path(prof, state))
@@ -148,7 +194,10 @@ def input_hash(stage: str, prof: str, state: str | None = None) -> str | None:
         nodes = matched_for(idx, state) if idx else None
         return _sha(json.dumps(nodes, sort_keys=True, ensure_ascii=False)) if nodes else None
     if _SCOPE[stage] == "cell":                       # trim, extract
-        return _payload_hash(_IN[stage] / prof / f"{state}.json")
+        base, crossed = _deterministic_input(stage, prof, state)
+        if base is None:
+            return None
+        return _sha("|".join([base, *crossed])) if crossed else base
     if stage == "schema":                             # profession: all trimmed states
         return _dir_hash(TRIMMED_DIR / prof)
     if stage == "mapprep":                            # profession: all structured states

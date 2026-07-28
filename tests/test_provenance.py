@@ -220,3 +220,64 @@ def test_backfill_pull_stamps_every_corpus_cell(penv, monkeypatch):
     assert pv.check("pull", "x", "UT") == "current"
     assert pv.check("pull", "x", "CO") == "current"
     assert pv.check("pull", "x", "ZZ") == "unstamped"        # skipped, no slice to key on
+
+
+# --- freshness must not key on a NON-DETERMINISTIC stage's output (2026-07-28) -------
+# `extract`'s input hash used to be the hash of `trimmed/`. trim is an LLM stage, so
+# re-running it reshuffles which sections it keeps even when the corpus is byte-identical
+# (dentistry/IN: +53 / -62 on a re-trim of unchanged law). Every reshuffle invalidated the
+# extract, so "stale" came to mean "an LLM stage churned" rather than "the law changed":
+# 28% of published cells read stale, implying ~214 re-extractions (~$32), when only ~15
+# had had their corpus change at all.
+
+def test_retrimming_unchanged_law_does_not_invalidate_extract(env):
+    """The whole point: trim RUNNING again is not a reason to re-extract."""
+    _write(env["text"], "p", "UT", {"sections": [{"text": "the law"}]})
+    _write(env["clean"], "p", "UT", {"sections": [{"text": "the law"}]})
+    _write(env["trim"], "p", "UT", {"sections": [{"text": "the law"}]})
+    _write(env["struct"], "p", "UT", {"field": 1})
+    pv.record("extract", "p", "UT")
+    assert pv.check("extract", "p", "UT") == "current"
+
+    # trim re-runs and picks a different (equally valid) subset — corpus untouched
+    _write(env["trim"], "p", "UT", {"sections": [{"text": "the law"}, {"text": "extra"}]})
+    assert pv.check("extract", "p", "UT") == "current"
+
+
+def test_changed_law_still_invalidates_extract(env):
+    """...but a real corpus change must still propagate."""
+    _write(env["text"], "p", "UT", {"sections": [{"text": "the law"}]})
+    _write(env["clean"], "p", "UT", {"sections": [{"text": "the law"}]})
+    _write(env["trim"], "p", "UT", {"sections": [{"text": "the law"}]})
+    _write(env["struct"], "p", "UT", {"field": 1})
+    pv.record("extract", "p", "UT")
+    assert pv.check("extract", "p", "UT") == "current"
+
+    _write(env["clean"], "p", "UT", {"sections": [{"text": "the law, AMENDED"}]})
+    assert pv.check("extract", "p", "UT") == "stale"
+
+
+def test_changing_trims_recipe_still_invalidates_extract(env, monkeypatch):
+    """Crossing a non-deterministic stage folds in its RECIPE, so a prompt/model/code
+    change to trim reaches extract even though trim's output is not the key."""
+    _write(env["text"], "p", "UT", {"sections": [{"text": "the law"}]})
+    _write(env["clean"], "p", "UT", {"sections": [{"text": "the law"}]})
+    _write(env["trim"], "p", "UT", {"sections": [{"text": "the law"}]})
+    _write(env["struct"], "p", "UT", {"field": 1})
+    pv.record("extract", "p", "UT")
+    assert pv.check("extract", "p", "UT") == "current"
+
+    monkeypatch.setitem(pv.CODE_VERSION, "trim", pv.CODE_VERSION["trim"] + 1)
+    pv.recipe_hash.cache_clear()
+    assert pv.check("extract", "p", "UT") == "stale"
+
+
+def test_trim_still_keys_on_cleans_output(env):
+    """clean is deterministic, so trim keys on it directly — no walk-back, no recipes."""
+    _write(env["text"], "p", "UT", {"sections": [{"text": "raw"}]})
+    _write(env["clean"], "p", "UT", {"sections": [{"text": "cleaned"}]})
+    _write(env["trim"], "p", "UT", {"sections": [{"text": "cleaned"}]})
+    pv.record("trim", "p", "UT")
+    assert pv.check("trim", "p", "UT") == "current"
+    _write(env["clean"], "p", "UT", {"sections": [{"text": "cleaned DIFFERENTLY"}]})
+    assert pv.check("trim", "p", "UT") == "stale"
