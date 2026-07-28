@@ -51,6 +51,25 @@ def test_already_escaped_quotes_survive_a_repair_pass():
     assert data["bad"] == 'raw "quotes" here'
 
 
+def test_missing_comma_raises_rather_than_merging_fields():
+    """The dangerous failure mode: a repair that yields VALID but WRONG JSON.
+
+    With a comma missing between two fields, a naive escaper would swallow the second
+    key into the first value and hand back a plausible object with data silently lost.
+    A `"` followed by `:` reads as a key terminator, so the runaway stops and the
+    caller gets an error instead of quiet corruption.
+    """
+    with pytest.raises(json.JSONDecodeError):
+        loads_lenient('{\n  "a": "first"\n  "b": "second"\n}')
+
+
+def test_value_ending_in_a_quoted_term_is_preserved():
+    """`... as defined in "Committee"` -- the inner quote sits at the very end of the
+    value, adjacent to the real closing quote."""
+    data = loads_lenient('{"q": "as defined in "Committee"", "n": 1}')
+    assert data == {"q": 'as defined in "Committee"', "n": 1}
+
+
 def test_unrepairable_json_raises_the_original_error():
     """A truncated response is not a quoting problem; the caller must see the real
     error rather than a repair artifact."""
