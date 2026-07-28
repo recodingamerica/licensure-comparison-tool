@@ -1,6 +1,6 @@
 # Field Tag Sheet
 
-_Generated 2026-07-05T18:10:01+00:00_
+_Generated 2026-07-28T18:11:26+00:00_
 
 Plain-English tags for each profession's key licensure fields, derived
 by `pipeline.map_prep.bucket_text` (no per-row hand-curation — the LLM
@@ -8,6 +8,78 @@ clustered each field's actual state values into a handful of buckets).
 Counts are states per tag (or disciplinary grounds per tag, for the
 Discipline field). Scope wording is profession-specific, so the bucketed
 field name varies by profession.
+
+## Anesthesiologist Assistant
+
+### Priority fields
+
+#### Minimum Degree
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Professional Experience
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Licensing Authority
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Scope of Practice
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Discipline
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+## Apiarist
+
+### Priority fields
+
+#### Minimum Degree
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Professional Experience
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Licensing Authority
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Scope of Practice
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Discipline
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+## Applied Behavior Analysis
+
+### Priority fields
+
+#### Minimum Degree
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Professional Experience
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Licensing Authority
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Scope of Practice
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Discipline
+
+_No bucketed tags for this field (data too sparse or not yet run)._
 
 ## Architecture
 
@@ -78,18 +150,38 @@ field name varies by profession.
 
 #### Discipline
 
-_No bucketed tags for this field (data too sparse or not yet run)._
+`licensure.disciplinary_grounds` — items per tag:
+
+- **Fraud in Licensure** (43, 38 states)
+- **Negligence or Incompetence** (78, 39 states)
+- **Criminal Conviction** (34, 32 states)
+- **Improper Seal Use** (35, 28 states)
+- **Aiding Unauthorized Practice** (25, 23 states)
+- **Substance Abuse or Impairment** (18, 12 states)
+- **False Advertising or Misrepresentation** (50, 24 states)
+- **Out-of-State Disciplinary Action** (27, 23 states)
+- **Statutory or Rule Violation** (119, 45 states)
+- **Conflict of Interest or Financial Misconduct** (21, 13 states)
 
 ### Other bucketed fields
 
+#### Continuing education excluded topics
+
+`profession_specific.continuing_education_excluded_topics` — items per tag:
+
+- **DEI Ideology Restrictions** (3, 1 states)
+- **Business Practice Topics** (2, 1 states)
+
 #### Continuing education subject requirement
 
-`profession_specific.continuing_education_subject_requirement` — states per tag:
+`profession_specific.continuing_education_subject_requirement` — items per tag:
 
-- **Health, Safety & Welfare** (5)
-- **State Code / Building Code** (1)
-- **Specific Mandated Topics** (1)
-- **General / Flexible Content** (1)
+- **Health Safety Welfare** (7, 7 states)
+- **Building Codes** (1, 1 states)
+- **Sustainability Energy** (1, 1 states)
+- **Accessibility** (1, 1 states)
+- **Professional Ethics** (1, 1 states)
+- **General Professional Practice** (3, 2 states)
 
 #### Continuing education topical requirements
 
@@ -101,25 +193,15 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 
 #### Continuing education waiver conditions
 
-`profession_specific.continuing_education_waiver_conditions` — states per tag:
+`profession_specific.continuing_education_waiver_conditions` — items per tag:
 
-- **Hardship / Illness** (2)
-- **Hardship + Military + Health** (3)
-- **Board Discretion** (2)
-- **New/Initial Licensee** (2)
-- **Status-Based** (1)
-
-#### Disciplinary grounds
-
-`licensure.disciplinary_grounds` — states per tag:
-
-- **Fraud & Misrepresentation** (14)
-- **Negligence & Incompetence** (8)
-- **Violation of Practice Act** (7)
-- **Criminal Conviction** (2)
-- **Unprofessional Conduct** (4)
-- **Seal & Supervision Violations** (2)
-- **Exam/Licensing Bar** (1)
+- **Military Service** (5, 5 states)
+- **Illness or Disability** (7, 6 states)
+- **Hardship or Emergency** (6, 5 states)
+- **Retirement or Inactive Status** (4, 4 states)
+- **New Licensee First Renewal** (3, 3 states)
+- **Age-Based Exemption** (2, 2 states)
+- **Board Discretionary Waiver** (6, 6 states)
 
 #### Education accrediting body
 
@@ -142,14 +224,17 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 
 #### Exempt building types
 
-`profession_specific.exempt_building_types` — states per tag:
+`profession_specific.exempt_building_types` — items per tag:
 
-- **Residential + Farm Only** (14)
-- **Residential + Farm + Small Commercial** (3)
-- **Residential + Farm + Size/Cost Threshold** (17)
-- **Broad Multi-Type with Thresholds** (1)
-- **Occupancy-Based Categories** (1)
-- **Reference to Other Statute** (2)
+- **Single Family Residential** (23, 23 states)
+- **Small Multifamily Residential** (35, 32 states)
+- **Agricultural Buildings** (35, 35 states)
+- **Small Commercial Industrial** (39, 26 states)
+- **Alterations Repairs** (30, 25 states)
+- **Accessory Outbuildings** (12, 11 states)
+- **Preengineered Buildings** (8, 8 states)
+- **Owner Built Private Use** (12, 10 states)
+- **Other Exempt** (26, 17 states)
 
 #### Firm design professional ownership minimum fraction
 
@@ -189,13 +274,17 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 
 #### Permitted firm structures
 
-`profession_specific.permitted_firm_structures` — states per tag:
+`profession_specific.permitted_firm_structures` — items per tag:
 
-- **Individual Only** (1)
-- **Basic (Partnership + Corp)** (6)
-- **Standard Set** (9)
-- **Broad Set** (10)
-- **Comprehensive + Specialized** (6)
+- **Sole Proprietorship** (17, 17 states)
+- **General Partnership** (39, 38 states)
+- **Limited Partnership** (2, 2 states)
+- **Limited Liability Partnership** (11, 11 states)
+- **Limited Liability Company** (28, 27 states)
+- **General Corporation** (38, 36 states)
+- **Professional Corporation** (17, 15 states)
+- **Joint Venture / Enterprise** (4, 4 states)
+- **Other Entity** (31, 24 states)
 
 #### Reciprocity requirements
 
@@ -238,6 +327,78 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 - **Misdemeanor + Fine & Jail** (2)
 - **Misdemeanor (Class Only)** (1)
 - **Context-Specific Penalty** (1)
+
+## Bail Bond Agent
+
+### Priority fields
+
+#### Minimum Degree
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Professional Experience
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Licensing Authority
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Scope of Practice
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Discipline
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+## Commercial Interior Design
+
+### Priority fields
+
+#### Minimum Degree
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Professional Experience
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Licensing Authority
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Scope of Practice
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Discipline
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+## Community Health Worker
+
+### Priority fields
+
+#### Minimum Degree
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Professional Experience
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Licensing Authority
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Scope of Practice
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Discipline
+
+_No bucketed tags for this field (data too sparse or not yet run)._
 
 ## Construction Trades
 
@@ -314,7 +475,17 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 
 #### Discipline
 
-_No bucketed tags for this field (data too sparse or not yet run)._
+`licensure.disciplinary_grounds` — items per tag:
+
+- **Fraud or Misrepresentation** (112, 37 states)
+- **Negligence or Incompetence** (37, 22 states)
+- **Contract Abandonment or Nonperformance** (33, 20 states)
+- **Financial Misconduct** (53, 26 states)
+- **License or Registration Violations** (87, 33 states)
+- **Criminal Conviction** (21, 19 states)
+- **Insurance or Bond Deficiency** (24, 18 states)
+- **Regulatory or Code Violations** (115, 36 states)
+- **Unlicensed Practice or Assistance** (60, 29 states)
 
 ### Other bucketed fields
 
@@ -354,18 +525,6 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 - **~50% Cap** (1)
 - **Low Fixed Cap** (1)
 - **Greater-Of Formula** (2)
-
-#### Disciplinary grounds
-
-`licensure.disciplinary_grounds` — states per tag:
-
-- **Fraud & Misrepresentation** (7)
-- **Negligence & Incompetence** (4)
-- **Criminal Conviction** (2)
-- **Project Abandonment** (5)
-- **Statutory/Reg Violations** (7)
-- **Consumer Protection** (1)
-- **Registration/Insurance Compliance** (6)
 
 #### Education accrediting body
 
@@ -425,12 +584,15 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 
 #### Voidable contract clauses
 
-`profession_specific.voidable_contract_clauses` — states per tag:
+`profession_specific.voidable_contract_clauses` — items per tag:
 
-- **Waiver of Rights** (1)
-- **Choice of Law / Forum** (1)
-- **Broad Multi-Clause List** (1)
-- **Confession of Judgment Only** (1)
+- **Rights Waiver Clauses** (4, 2 states)
+- **Liability Release Clauses** (3, 2 states)
+- **Judgment and Legal Process Clauses** (2, 2 states)
+- **Payment and Wage Clauses** (2, 2 states)
+- **Code and Regulatory Waivers** (1, 1 states)
+- **Contract Renewal Clauses** (1, 1 states)
+- **Attorney Fees Clauses** (1, 1 states)
 
 ## Dentistry
 
@@ -872,6 +1034,30 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 - **Consumer / Labor Affairs** (3)
 - **Aging / Disability Services** (1)
 
+## Direct Entry Midwifery
+
+### Priority fields
+
+#### Minimum Degree
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Professional Experience
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Licensing Authority
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Scope of Practice
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Discipline
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
 ## Electrician
 
 ### Priority fields
@@ -947,7 +1133,17 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 
 #### Discipline
 
-_No bucketed tags for this field (data too sparse or not yet run)._
+`licensure.disciplinary_grounds` — items per tag:
+
+- **Fraud & Misrepresentation** (76, 36 states)
+- **Incompetence & Substandard Work** (46, 31 states)
+- **Criminal Conviction** (18, 16 states)
+- **Statutory & Code Violations** (65, 38 states)
+- **Unlicensed Practice & License Misuse** (77, 31 states)
+- **Contract & Financial Misconduct** (28, 11 states)
+- **Insurance & Bond Failures** (13, 11 states)
+- **Administrative & Procedural Violations** (78, 34 states)
+- **Out-of-State Discipline** (7, 7 states)
 
 ### Other bucketed fields
 
@@ -981,13 +1177,14 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 
 #### Approved continuing education providers
 
-`profession_specific.approved_continuing_education_providers` — states per tag:
+`profession_specific.approved_continuing_education_providers` — items per tag:
 
-- **Board-Approved Only** (2)
-- **Named Trade Orgs** (2)
-- **Academic Institutions** (2)
-- **Broad Multi-Source List** (3)
-- **Single Specific Provider** (1)
+- **Named Trade Associations** (11, 4 states)
+- **Academic Institutions** (5, 5 states)
+- **Apprenticeship Programs** (2, 2 states)
+- **Government Agencies** (3, 3 states)
+- **Board-Approved Providers** (6, 6 states)
+- **Specialized Training Programs** (4, 4 states)
 
 #### Continuing education topical requirements
 
@@ -998,17 +1195,6 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 - **NEC + Business & Safety Mix** (2)
 - **Broad Technical List** (2)
 - **Minimal / General** (2)
-
-#### Disciplinary grounds
-
-`licensure.disciplinary_grounds` — states per tag:
-
-- **Fraud / Misrepresentation** (6)
-- **Incompetence / Negligence** (7)
-- **Statute / Rule Violation** (14)
-- **Unlicensed / Scope Violations** (5)
-- **Contract / Work Quality** (3)
-- **Catch-All / Broad Authority** (2)
 
 #### Education accrediting body
 
@@ -1021,14 +1207,16 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 
 #### License tiers
 
-`profession_specific.license_tiers` — states per tag:
+`profession_specific.license_tiers` — items per tag:
 
-- **Apprentice → Journeyman → Master** (5)
-- **Journeyman → Master → Contractor** (10)
-- **Broad Scope + Specialty Tiers** (3)
-- **Contractor Classification Only** (4)
-- **Highly Granular / Many Tiers** (9)
-- **Scope-Based (Limited/Unlimited)** (7)
+- **Apprentice / Trainee** (31, 20 states)
+- **Journeyman / Wireman** (43, 32 states)
+- **Master Electrician** (28, 23 states)
+- **Electrical Contractor** (40, 30 states)
+- **Residential Scope** (21, 14 states)
+- **Specialty / Limited Scope** (79, 26 states)
+- **Inspector / Administrator** (2, 2 states)
+- **General / Engineering Contractor** (9, 4 states)
 
 #### National association
 
@@ -1040,13 +1228,15 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 
 #### Qualifier license requirement by contractor type
 
-`profession_specific.qualifier_license_requirement_by_contractor_type` — states per tag:
+`profession_specific.qualifier_license_requirement_by_contractor_type` — items per tag:
 
-- **Master Electrician Required** (6)
-- **Master or Journeyman Options** (3)
-- **Multi-Type Contractor Rules** (7)
-- **Exam-Based Qualification** (4)
-- **Supervisor of Record** (1)
+- **General Electrical Contractor** (22, 20 states)
+- **Specialty Contractor** (15, 12 states)
+- **Residential Contractor** (5, 5 states)
+- **Low Voltage / Power Limited** (3, 3 states)
+- **Business Entity Qualifier** (5, 2 states)
+- **License Class Tier** (4, 2 states)
+- **Experience / Exam Requirement** (3, 2 states)
 
 #### Reciprocity requirements
 
@@ -1082,14 +1272,161 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 
 #### Scope exclusions
 
-`profession_specific.scope_exclusions` — states per tag:
+`profession_specific.scope_exclusions` — items per tag:
 
-- **Utility & Gov Employees** (3)
-- **Low Voltage & Telecom** (3)
-- **Owner/Homeowner Work** (1)
-- **Minor Repairs & Appliances** (1)
-- **Agricultural & Industrial** (0)
-- **Broad Multi-Category** (30)
+- **Utility & Infrastructure Work** (68, 40 states)
+- **Telecom & Low Voltage Systems** (65, 32 states)
+- **Owner/DIY Work** (84, 38 states)
+- **Industrial & Manufacturing Facilities** (51, 29 states)
+- **Other Licensed Trades** (109, 39 states)
+- **Alarm & Security Systems** (17, 15 states)
+- **Government & Public Agencies** (32, 24 states)
+- **Transportation & Mobile Equipment** (20, 15 states)
+- **Educational & Nonprofit Programs** (16, 11 states)
+
+## Electrology
+
+### Priority fields
+
+#### Minimum Degree
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Professional Experience
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Licensing Authority
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Scope of Practice
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Discipline
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+## Emergency Medical Technician
+
+### Priority fields
+
+#### Minimum Degree
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Professional Experience
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Licensing Authority
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Scope of Practice
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Discipline
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+## Environmental Health
+
+### Priority fields
+
+#### Minimum Degree
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Professional Experience
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Licensing Authority
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Scope of Practice
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Discipline
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+## Genetic Counseling
+
+### Priority fields
+
+#### Minimum Degree
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Professional Experience
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Licensing Authority
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Scope of Practice
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Discipline
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+## Health Facility Admin
+
+### Priority fields
+
+#### Minimum Degree
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Professional Experience
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Licensing Authority
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Scope of Practice
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Discipline
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+## Home Inspector
+
+### Priority fields
+
+#### Minimum Degree
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Professional Experience
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Licensing Authority
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Scope of Practice
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Discipline
+
+_No bucketed tags for this field (data too sparse or not yet run)._
 
 ## Hvac
 
@@ -1161,7 +1498,17 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 
 #### Discipline
 
-_No bucketed tags for this field (data too sparse or not yet run)._
+`licensure.disciplinary_grounds` — items per tag:
+
+- **Fraud & Misrepresentation** (88, 35 states)
+- **Incompetence & Negligence** (35, 23 states)
+- **Unlicensed & Unauthorized Practice** (67, 30 states)
+- **Contract & Project Failures** (28, 14 states)
+- **Financial Misconduct** (25, 15 states)
+- **Regulatory & Code Violations** (68, 31 states)
+- **Criminal Conviction** (15, 13 states)
+- **Insurance & Bond Deficiency** (12, 11 states)
+- **Administrative Non-Compliance** (68, 27 states)
 
 ### Other bucketed fields
 
@@ -1189,17 +1536,6 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 - **Core HVAC Technical** (1)
 - **Board-Defined Requirements** (1)
 
-#### Disciplinary grounds
-
-`licensure.disciplinary_grounds` — states per tag:
-
-- **Fraud & Misrepresentation** (10)
-- **Incompetence & Negligence** (4)
-- **Statutory & Rule Violations** (4)
-- **Project Abandonment & Financial** (2)
-- **Criminal Conduct** (1)
-- **Unlicensed / Scope Issues** (3)
-
 #### Education accrediting body
 
 `licensure.education.accrediting_body` — states per tag:
@@ -1219,14 +1555,16 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 
 #### Financial responsibility demonstration methods
 
-`profession_specific.financial_responsibility_demonstration_methods` — states per tag:
+`profession_specific.financial_responsibility_demonstration_methods` — items per tag:
 
-- **Bond Only** (5)
-- **Insurance Only** (3)
-- **Bond + Insurance** (3)
-- **Bond + Financial Statement** (4)
-- **Insurance + Financial Statement** (0)
-- **Multiple Methods** (1)
+- **Surety Bond** (18, 17 states)
+- **Cash or Deposit** (7, 6 states)
+- **Letter of Credit** (3, 3 states)
+- **Liability Insurance** (13, 10 states)
+- **Workers Compensation Insurance** (3, 2 states)
+- **Financial Statement** (7, 4 states)
+- **Credit Assessment** (2, 1 states)
+- **Other Compliance** (3, 3 states)
 
 #### National certification
 
@@ -1237,13 +1575,14 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 
 #### Qualifier license type required
 
-`profession_specific.qualifier_license_type_required` — states per tag:
+`profession_specific.qualifier_license_type_required` — items per tag:
 
-- **Master License** (3)
-- **Mechanical Contractor License** (3)
-- **HVAC/AC Contractor License** (2)
-- **Certified/Classified Contractor** (3)
-- **Multi-Type / Tiered License** (5)
+- **Master HVACR License** (8, 5 states)
+- **Mechanical Contractor License** (8, 8 states)
+- **HVAC Contractor License** (10, 7 states)
+- **Fuel Gas License** (5, 2 states)
+- **Specialty Trade License** (6, 3 states)
+- **Statutory Reference Only** (2, 2 states)
 
 #### Reciprocity requirements
 
@@ -1267,13 +1606,111 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 
 #### System components included
 
-`profession_specific.system_components_included` — states per tag:
+`profession_specific.system_components_included` — items per tag:
 
-- **Core HVAC Only** (3)
-- **HVAC + Piping/Gas** (5)
-- **HVAC + Piping + Refrigeration** (3)
-- **Comprehensive (Many Systems)** (5)
-- **Exhaustive (Equipment + Controls + Piping)** (4)
+- **Heating Systems** (47, 27 states)
+- **Cooling and Refrigeration** (43, 24 states)
+- **Ventilation and Air Distribution** (49, 22 states)
+- **Piping and Fluid Systems** (31, 15 states)
+- **Fuel and Gas Supply** (22, 13 states)
+- **Controls and Electrical** (15, 9 states)
+- **Auxiliary and Support Equipment** (20, 11 states)
+
+## Insurance Navigator
+
+### Priority fields
+
+#### Minimum Degree
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Professional Experience
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Licensing Authority
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Scope of Practice
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Discipline
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+## Insurance Producer
+
+### Priority fields
+
+#### Minimum Degree
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Professional Experience
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Licensing Authority
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Scope of Practice
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Discipline
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+## Junk Dealer
+
+### Priority fields
+
+#### Minimum Degree
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Professional Experience
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Licensing Authority
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Scope of Practice
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Discipline
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+## Medical Interpreter
+
+### Priority fields
+
+#### Minimum Degree
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Professional Experience
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Licensing Authority
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Scope of Practice
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Discipline
+
+_No bucketed tags for this field (data too sparse or not yet run)._
 
 ## Medicine
 
@@ -1504,6 +1941,30 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 - **Controlled Substance Restrictions** (7)
 - **Licensure / Jurisdictional Focus** (12)
 - **Permissive / Flexible** (6)
+
+## Music Therapy
+
+### Priority fields
+
+#### Minimum Degree
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Professional Experience
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Licensing Authority
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Scope of Practice
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Discipline
+
+_No bucketed tags for this field (data too sparse or not yet run)._
 
 ## Nursing
 
@@ -1748,6 +2209,30 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 - **Board Rules Pending** (2)
 - **Broad Telehealth Authorization** (2)
 
+## Optician
+
+### Priority fields
+
+#### Minimum Degree
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Professional Experience
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Licensing Authority
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Scope of Practice
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Discipline
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
 ## Optometry
 
 ### Priority fields
@@ -1976,6 +2461,30 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 - **Limited or Specialty License** (8, 6 states)
 - **Inactive or Volunteer License** (4, 3 states)
 
+## Perfusionist
+
+### Priority fields
+
+#### Minimum Degree
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Professional Experience
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Licensing Authority
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Scope of Practice
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Discipline
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
 ## Plumbing
 
 ### Priority fields
@@ -2052,7 +2561,17 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 
 #### Discipline
 
-_No bucketed tags for this field (data too sparse or not yet run)._
+`licensure.disciplinary_grounds` — items per tag:
+
+- **Fraud in Licensure** (44, 37 states)
+- **Criminal Conviction** (19, 19 states)
+- **Incompetence or Negligence** (47, 30 states)
+- **Regulatory or Code Violation** (74, 42 states)
+- **License Misuse or Transfer** (24, 18 states)
+- **Unlicensed Practice or Employment** (44, 23 states)
+- **Contract or Financial Misconduct** (46, 16 states)
+- **Substance Abuse or Impairment** (6, 5 states)
+- **Other Compliance Failures** (70, 34 states)
 
 ### Other bucketed fields
 
@@ -2122,23 +2641,28 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 
 #### Journeyman experience pathways
 
-`profession_specific.journeyman_experience_pathways` — states per tag:
+`profession_specific.journeyman_experience_pathways` — items per tag:
 
-- **Apprenticeship Only** (6)
-- **Hours-Based Experience** (5)
-- **Multi-Pathway (Hours + School + Reciprocity)** (12)
-- **Exam-Centric** (2)
-- **Broad Equivalency** (2)
+- **Apprenticeship Program Completion** (12, 12 states)
+- **On-the-Job Hours Experience** (24, 21 states)
+- **Academic or Trade School Training** (11, 10 states)
+- **Military Service Credit** (5, 5 states)
+- **Out-of-State License or Experience** (8, 7 states)
+- **Board Discretion or Equivalency** (6, 6 states)
+- **Examination Requirement** (3, 3 states)
 
 #### License tiers
 
-`profession_specific.license_tiers` — states per tag:
+`profession_specific.license_tiers` — items per tag:
 
-- **Apprentice–Journey–Master** (8)
-- **Apprentice–Journey–Master + Extras** (19)
-- **Contractor-Focused Tiers** (2)
-- **Broad Specialty/Class System** (4)
-- **Highly Expanded Tiers** (6)
+- **Apprentice / Trainee** (37, 29 states)
+- **Journeyman / Journey-Level** (43, 35 states)
+- **Master Plumber** (35, 26 states)
+- **Plumbing Contractor** (34, 22 states)
+- **General / Engineering Contractor** (7, 2 states)
+- **Specialty / Limited Scope** (42, 19 states)
+- **Endorsement / Add-On Credential** (6, 4 states)
+- **Inspector / Administrator** (2, 2 states)
 
 #### National certification
 
@@ -2353,6 +2877,54 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 - **Labor / Industry** (3)
 - **Other State Agency** (2)
 
+## Polysomnography
+
+### Priority fields
+
+#### Minimum Degree
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Professional Experience
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Licensing Authority
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Scope of Practice
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Discipline
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+## Private Probation
+
+### Priority fields
+
+#### Minimum Degree
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Professional Experience
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Licensing Authority
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Scope of Practice
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Discipline
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
 ## Professional Engineering
 
 ### Priority fields
@@ -2424,7 +2996,17 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 
 #### Discipline
 
-_No bucketed tags for this field (data too sparse or not yet run)._
+`licensure.disciplinary_grounds` — items per tag:
+
+- **Fraud in Obtaining License** (50, 40 states)
+- **Negligence Incompetence Misconduct** (70, 39 states)
+- **Criminal Conviction** (36, 31 states)
+- **Improper Seal Use** (31, 25 states)
+- **Unlicensed or Unauthorized Practice** (69, 28 states)
+- **Regulatory Violation Noncompliance** (104, 42 states)
+- **Out of State Discipline** (22, 21 states)
+- **Substance Abuse Impairment** (13, 10 states)
+- **Unethical Business Conduct** (61, 24 states)
 
 ### Other bucketed fields
 
@@ -2444,14 +3026,17 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 
 #### Board engineering disciplines represented
 
-`profession_specific.board_engineering_disciplines_represented` — states per tag:
+`profession_specific.board_engineering_disciplines_represented` — items per tag:
 
-- **Named Disciplines** (3)
-- **Named + Other Catch-All** (5)
-- **Sector/Role Based** (1)
-- **Multi-Profession Board** (2)
-- **General PE + Surveying** (4)
-- **Broad/Flexible Mandate** (2)
+- **Civil Engineering** (9, 9 states)
+- **Structural Engineering** (7, 7 states)
+- **Mechanical Engineering** (9, 8 states)
+- **Electrical Engineering** (9, 9 states)
+- **Chemical Engineering** (5, 5 states)
+- **Other Engineering Discipline** (42, 27 states)
+- **Land Surveying** (11, 11 states)
+- **General Public / Non-Professional** (6, 6 states)
+- **Related Profession** (5, 3 states)
 
 #### Continuing education topical requirements
 
@@ -2460,16 +3045,6 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 - **Ethics + Practice Areas** (1)
 - **Ethics Minimum Only** (1)
 - **Discipline Hour Minimums** (1)
-
-#### Disciplinary grounds
-
-`licensure.disciplinary_grounds` — states per tag:
-
-- **Core Triad + Violations** (13)
-- **Core Triad Only** (5)
-- **Broad Statutory List** (11)
-- **Conduct-Focused Detail** (3)
-- **Unlawful/Unprofessional Acts** (1)
 
 #### Education accrediting body
 
@@ -2493,14 +3068,17 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 
 #### Exemptions from licensure
 
-`profession_specific.exemptions_from_licensure` — states per tag:
+`profession_specific.exemptions_from_licensure` — items per tag:
 
-- **Subordinate/Employee Only** (2)
-- **Employee + Federal Gov** (0)
-- **Employee + Federal + Utility** (4)
-- **Employee + Federal + Utility + Broad** (14)
-- **Broad Multi-Category** (11)
-- **Narrow/Minimal** (2)
+- **Supervised Employee or Subordinate** (68, 44 states)
+- **Federal or Military Government** (32, 29 states)
+- **State or Local Government** (26, 17 states)
+- **Public Utility or Regulated Industry** (34, 27 states)
+- **Manufacturing or Industrial Internal Use** (31, 25 states)
+- **Other Licensed Profession Incidental Work** (88, 36 states)
+- **Nonresident or Temporary Practice** (25, 19 states)
+- **Small or Exempt Building Type** (59, 20 states)
+- **Owner or Employer Self-Use** (53, 31 states)
 
 #### National association
 
@@ -2543,13 +3121,39 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 
 #### Seal document types
 
-`profession_specific.seal_document_types` — states per tag:
+`profession_specific.seal_document_types` — items per tag:
 
-- **Core Four** (7)
-- **Core + Calculations** (3)
-- **Core + Plats/Maps** (7)
-- **Broad List** (14)
-- **Generic/Minimal** (3)
+- **Plans & Drawings** (61, 41 states)
+- **Specifications** (41, 40 states)
+- **Reports & Studies** (41, 38 states)
+- **Plats, Maps & Surveys** (36, 27 states)
+- **Calculations & Design Data** (14, 9 states)
+- **Certifications & Submissions** (4, 4 states)
+- **General or Catch-All Documents** (28, 23 states)
+
+## Psychoanalysis
+
+### Priority fields
+
+#### Minimum Degree
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Professional Experience
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Licensing Authority
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Scope of Practice
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Discipline
+
+_No bucketed tags for this field (data too sparse or not yet run)._
 
 ## Public Accountancy
 
@@ -2735,4 +3339,76 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 
 - **1-yr Discovery / 3-yr Absolute** (1)
 - **2-yr Discovery** (1)
+
+## Public Adjuster
+
+### Priority fields
+
+#### Minimum Degree
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Professional Experience
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Licensing Authority
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Scope of Practice
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Discipline
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+## Real Estate Broker
+
+### Priority fields
+
+#### Minimum Degree
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Professional Experience
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Licensing Authority
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Scope of Practice
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Discipline
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+## Soil Classifier
+
+### Priority fields
+
+#### Minimum Degree
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Professional Experience
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Licensing Authority
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Scope of Practice
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Discipline
+
+_No bucketed tags for this field (data too sparse or not yet run)._
 
