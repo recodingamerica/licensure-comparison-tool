@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import difflib
 import re
 import sys
 from dataclasses import dataclass
@@ -297,6 +298,92 @@ def backfill_section_citations(sections: list[dict]) -> int:
     return fixed
 
 
+_SECTION_SLUG = re.compile(r"/section-([^/]+)/?$")
+
+
+def _slug_key(url: str) -> str:
+    m = _SECTION_SLUG.search(url or "")
+    return re.sub(r"[^0-9a-z]", "", m.group(1).lower()) if m else ""
+
+
+def backfill_citations_from_urls(sections: list[dict], cited: list[str]) -> int:
+    """Second-pass backfill for sections whose TEXT doesn't open with a citation.
+
+    Some states label sections in a form the leading-citation regex can't read -- AZ puts
+    the bare number on its own line (`32-1201.`), OK's text opens with the body and carries
+    no citation at all -- leaving the section unaddressable and every quote citing it
+    unhighlightable. Those states were 78% of all unhighlightable quotes despite the law
+    being present: pulled, shipped, and simply unlabelled.
+
+    The Justia URL still identifies them (`.../section-32-1201/`, `.../section-59-328-3/`),
+    but the slug is NOT the citation -- AZ's `32-1201` is, while OK's `59-328-3` carries a
+    title prefix the citation (`328.3`) omits. So rather than inventing a string, a blank
+    section adopts the citation of the evidence whose normalized form uniquely matches its
+    slug. The section then answers to exactly the string the UI looks up.
+
+    Assignment requires a UNIQUE match in BOTH directions -- one section for the citation,
+    one citation for the section -- so an ambiguous suffix (`1201` against `32-1201` and
+    `132-1201`) is left alone rather than guessed at.
+    """
+    blanks = [s for s in sections if not (s.get("citation") or "").strip() and _slug_key(s.get("url", ""))]
+    if not blanks:
+        return 0
+    wanted = {c for c in (x.strip() for x in cited) if c}
+    claims: dict[int, set[str]] = {}
+    for cite in wanted:
+        key = re.sub(r"[^0-9a-z]", "", cite.lower())
+        if not key:
+            continue
+        hits = [i for i, s in enumerate(blanks) if _slug_key(s.get("url", "")).endswith(key)]
+        if len(hits) == 1:
+            claims.setdefault(hits[0], set()).add(cite)
+    fixed = 0
+    for idx, cites in claims.items():
+        if len(cites) == 1:                      # one citation for this section, unambiguous
+            blanks[idx]["citation"] = cites.pop()
+            fixed += 1
+    return fixed
+
+
+def _norm_for_span_check(s: str) -> str:
+    return re.sub(r"[^a-z0-9]+", " ", (s or "").lower()).strip()
+
+
+def drop_misindexed_spans(record: dict, sections: list[dict]) -> int:
+    """Last line of defence: delete spans that don't actually cover their own quote.
+
+    Every span is resolved the way the UI resolves it -- `sections[citation] = s` in a
+    loop, so LAST-wins, preferring `quote_section` -- and then the covered text is
+    compared to the quote. If they disagree, the highlight would point at the wrong
+    words, so the spans come off and the claim renders unhighlighted.
+
+    This is deliberately a check on the OUTPUT rather than another special case in the
+    span-finding logic. Each upstream cause found so far (unlabelled sections, a citation
+    shared by two versions of a section, a mis-cited quote) produced the same visible
+    symptom, and new corpora will invent new causes. Verifying the result closes them all,
+    including ones nobody has hit yet. Returns how many were dropped.
+    """
+    by_cite: dict[str, dict] = {}
+    for s in sections:
+        cite = (s.get("citation") or "").strip()
+        if cite:
+            by_cite[cite] = s
+    dropped = 0
+    for _, node in iter_quote_carriers(record):
+        spans = node.get("quote_spans")
+        if not spans:
+            continue
+        target = (node.get("quote_section") or node.get("citation") or "").strip()
+        sec = by_cite.get(target) or by_cite.get(target.strip("[]"))
+        text = (sec or {}).get("text") or ""
+        covered = _norm_for_span_check(" ".join(text[a:b] for a, b in spans))
+        quote = _norm_for_span_check(node.get("quote"))
+        if not covered or not quote or difflib.SequenceMatcher(None, covered, quote).ratio() < 0.60:
+            node.pop("quote_spans", None)
+            dropped += 1
+    return dropped
+
+
 def _annotate_quote_spans(record: dict, sections: list[dict]) -> tuple[int, int]:
     """For each verified Evidence node, find the cited section's text and
     attach `quote_spans`: a list of (start, end) char offsets into that
@@ -314,6 +401,11 @@ def _annotate_quote_spans(record: dict, sections: list[dict]) -> tuple[int, int]
     """
     # Do this FIRST: a blank citation makes the section unaddressable downstream.
     backfill_section_citations(sections)
+    # Then recover the ones whose text carries no citation, using what the record
+    # actually cites against the section URLs (AZ/OK-shaped corpora).
+    backfill_citations_from_urls(
+        sections, [n.get("citation") or "" for _, n in iter_quote_carriers(record)]
+    )
 
     by_cite: dict[str, dict] = {}
     for s in sections:
@@ -369,8 +461,21 @@ def _annotate_quote_spans(record: dict, sections: list[dict]) -> tuple[int, int]
                 # to highlight by CITATION, and the whole point of this fallback is that
                 # the citation doesn't match any shipped section — so without this the
                 # spans exist and can never be rendered.
-                if sec_hit.get("citation"):
-                    node["quote_section"] = sec_hit["citation"]
+                # Keep these spans ONLY if the section we located the quote in is the one
+                # the UI will resolve to. `sections[s.citation] = s` in a loop, both here
+                # and in state-detail-dialog, means LAST-wins; the spans index into THIS
+                # section's text, so if the UI lands on a different one it slices those
+                # offsets out of the wrong statute. Two ways that happens:
+                #   - the section has no citation at all (OK ships unlabelled sections;
+                #     the model cited 328.15 for a quote living in the unlabelled 328.7)
+                #   - the citation is DUPLICATED (DE ships both the current and the
+                #     contingent version of § 1101 under one citation, different text)
+                # Both produced confidently wrong highlights. No highlight beats that.
+                hit_cite = sec_hit.get("citation")
+                if hit_cite and by_cite.get(hit_cite) is sec_hit:
+                    node["quote_section"] = hit_cite
+                else:
+                    spans = None
         if spans:
             # Pydantic dumps tuples as lists already; be explicit so JSON
             # output is `[[s, e], ...]` either way.
@@ -794,7 +899,7 @@ def build(profession: str, payload_only: bool = False) -> dict:
     src = _collect_section_sources(trimmed_dir, umbrella_text_dir)
 
     rows: list[dict] = []
-    span_with = span_without = 0
+    span_with = span_without = misindexed = 0
     for st in ALL_STATES:
         if st in have_struct:
             rec = json.loads((structured_dir / f"{st}.json").read_text())
@@ -859,6 +964,19 @@ def build(profession: str, payload_only: bool = False) -> dict:
     _annotate_list_field_tags(rows, profession, map_prep)
     _normalize_payload_citations(rows, map_prep)
 
+    # Verify spans AFTER citations are normalized, not before: normalization is what
+    # collapses `§ 1101. Definitions [Effective until ...]` and `[Effective upon ...]`
+    # into two identical `§ 1101`s, and that collision is exactly what sends a span into
+    # the wrong copy. Checking earlier passed the very rows it was meant to catch.
+    for row in rows:
+        if row.get("_full") and row.get("sections"):
+            bad = drop_misindexed_spans(row["_full"], row["sections"])
+            span_with -= bad
+            span_without += bad
+            misindexed += bad
+    if misindexed:
+        print(f"  dropped {misindexed:,} span(s) that did not cover their own quote")
+
     # End-to-end gate: can the UI actually highlight what we shipped? Deliberately AFTER
     # citation normalization — that pass silently invalidated quote_section once already.
     disp_n, disp_tot, disp_misses = _displayable_quote_share(rows)
@@ -902,6 +1020,9 @@ def build(profession: str, payload_only: bool = False) -> dict:
             # show in the UI without a yellow highlight.
             "with_quote_spans": span_with,
             "without_quote_spans": span_without,
+            # Spans that were computed but did NOT cover their own quote, and were
+            # removed rather than published as a wrong highlight.
+            "misindexed_spans_dropped": misindexed,
         },
     }
 
