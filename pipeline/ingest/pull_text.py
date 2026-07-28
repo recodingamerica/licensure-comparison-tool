@@ -199,6 +199,13 @@ def fetch_via_scrapling(url: str) -> tuple[int | None, str | None, str | None]:
                 return status, html, None
             last = (status, html, f"bad response (status={status}, chars={len(html or '')}, "
                                   f"challenge={challenged})")
+            # A 404 is a definitive answer, not a flaky one: this URL does not exist and
+            # never will. Retrying costs a full browser teardown + relaunch per attempt
+            # (~75s each), which turned a wrong URL guess into a ~4 MINUTE no-op and made
+            # pull_missing_sections' try-candidates-until-one-verifies approach unusable.
+            # Only retry responses that could plausibly differ next time.
+            if status == 404 and not challenged:
+                return last
         except Exception as e:
             last = (None, None, f"{type(e).__name__}: {e}")
         if attempt < _SCRAPLING_RETRIES:
@@ -671,13 +678,35 @@ def extract_section_text(html: str) -> str:
 
 # Justia URL slugs that are intermediate (drill-able) rather than leaf sections.
 # Includes nested chapter/subtitle layouts seen in IN, MD, etc.
-def short_citation(label: str) -> str:
-    """Pull a short '§ X' or 'X-Y' style cite from a section label."""
-    # e.g. "Section 20-50. - Podiatric medicine defined." -> "20-50"
-    m = re.search(r"(?:section\s+|§\s*)?([0-9]+[A-Za-z]?(?:[-:.][0-9A-Za-z]+)+)", label, re.IGNORECASE)
-    if m:
-        return m.group(1)
-    return label[:60]
+@functools.lru_cache(maxsize=None)
+def _citation_pattern(state: str | None) -> re.Pattern[str] | None:
+    """The compiled label→citation pattern for a state, from state_structure.yaml.
+
+    Patterns live in config (including the default) rather than here — see the
+    `_citation_patterns` block there for why one regex can't serve every state.
+    """
+    from pipeline.config.loaders import load_state_structure
+    patterns = (load_state_structure() or {}).get("_citation_patterns") or {}
+    if state and state in patterns:
+        raw = patterns[state]
+        return re.compile(raw, re.IGNORECASE) if raw else None
+    raw = patterns.get("_default")
+    return re.compile(raw, re.IGNORECASE) if raw else None
+
+
+def short_citation(label: str, state: str | None = None) -> str:
+    """Pull a short '§ X' or 'X-Y' style cite from a section label.
+
+    e.g. "Section 20-50. - Podiatric medicine defined." -> "20-50". The pattern is
+    per-state (config/state_structure.yaml `_citation_patterns`): KS/NE embed a comma in
+    the number itself (50-6,100), and a single comma-blind regex silently collapsed all
+    65 of Kansas's 50-6,1xx sections to the citation "50-6".
+    """
+    pat = _citation_pattern(state)
+    if pat is None:
+        return label[:60]
+    m = pat.search(label)
+    return m.group(1) if m else label[:60]
 
 
 def collect_section_targets(url: str, label: str, slug: str, depth: int, max_depth: int = SECTION_WALK_MAX_DEPTH) -> tuple[list[dict], str | None]:
@@ -968,7 +997,7 @@ def _add_inline_section(corpus: StateCorpus, sec: dict, limit_sections: int | No
         corpus.errors.append(f"section {sec['url']}: {bad}")
         corpus.sections.append(Section(
             url=sec["url"], label=sec["label"],
-            citation=short_citation(sec["label"]),
+            citation=short_citation(sec["label"], corpus.state),
             text=text, text_len=len(text), error=bad,
         ))
         return
@@ -985,7 +1014,7 @@ def _add_inline_section(corpus: StateCorpus, sec: dict, limit_sections: int | No
         return
     corpus.sections.append(Section(
         url=sec["url"], label=sec["label"],
-        citation=short_citation(sec["label"]),
+        citation=short_citation(sec["label"], corpus.state),
         text=text, text_len=len(text),
     ))
     corpus.total_chars += len(text)
@@ -1024,7 +1053,7 @@ def _fetch_and_add_section(corpus: StateCorpus, sec: dict) -> None:
         corpus.errors.append(f"section fetch {sec['url']}: {err}")
         corpus.sections.append(Section(
             url=sec["url"], label=sec["label"],
-            citation=short_citation(sec["label"]),
+            citation=short_citation(sec["label"], corpus.state),
             text="", error=err,
         ))
         return
@@ -1035,13 +1064,13 @@ def _fetch_and_add_section(corpus: StateCorpus, sec: dict) -> None:
         corpus.errors.append(f"section {sec['url']}: {err}")
         corpus.sections.append(Section(
             url=sec["url"], label=sec["label"],
-            citation=short_citation(sec["label"]),
+            citation=short_citation(sec["label"], corpus.state),
             text=text, text_len=len(text), error=err,
         ))
         return
     corpus.sections.append(Section(
         url=sec["url"], label=sec["label"],
-        citation=short_citation(sec["label"]),
+        citation=short_citation(sec["label"], corpus.state),
         text=text, text_len=len(text),
     ))
     corpus.total_chars += len(text)
@@ -1182,9 +1211,57 @@ def _summary_row(state: str, d: dict) -> dict:
     }
 
 
+def recompute_citations(only_states: set[str] | None = None, dry_run: bool = False) -> dict:
+    """Re-derive every committed corpus's section citations from its stored LABEL.
+
+    Citations are computed at pull time, so a fix to a state's citation pattern would
+    normally only reach corpora we re-fetch. It doesn't have to: text/ keeps the full
+    label alongside the citation, so the correct citation is recoverable from what is
+    already committed -- no Justia traffic, no risk of a worse pull clobbering a good one.
+
+    Returns {(profession, state): n_changed}.
+    """
+    # ONLY states with an explicit `_citation_patterns` entry (or named via --states).
+    # Not every citation in text/ came from short_citation: IL's ILCS acts and ND's inline
+    # chapter blob are parsed by dedicated code paths that produce citations no label
+    # regex reproduces ("225 ILCS 80/4.5"). A blanket re-derive rewrote 6,429 of those
+    # with label-shaped guesses. Recomputing is for "I changed THIS state's pattern".
+    from pipeline.config.loaders import load_state_structure
+    configured = set((load_state_structure() or {}).get("_citation_patterns") or {}) - {"_default"}
+    scope = only_states or configured
+    changed: dict[tuple[str, str], int] = {}
+    for path in sorted(TEXT_DIR.glob("*/*.json")):
+        profession, state = path.parent.name, path.stem
+        if state not in scope:
+            continue
+        try:
+            data = json.loads(path.read_text())
+        except Exception:
+            continue
+        sections = data.get("sections") if isinstance(data, dict) else data
+        if not isinstance(sections, list):
+            continue
+        n = 0
+        for sec in sections:
+            if not isinstance(sec, dict) or not sec.get("label"):
+                continue
+            new = short_citation(sec["label"], state)
+            if new != sec.get("citation"):
+                if not dry_run:
+                    sec["citation"] = new
+                n += 1
+        if n:
+            changed[(profession, state)] = n
+            if not dry_run:
+                tmp = path.with_suffix(".json.tmp")
+                tmp.write_text(json.dumps(data, indent=2, ensure_ascii=False))
+                os.replace(tmp, path)
+    return changed
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--profession", required=True, help="Profession name from professions.yaml (e.g. 'podiatry')")
+    ap.add_argument("--profession", default="", help="Profession name from professions.yaml (e.g. 'podiatry')")
     ap.add_argument("--states", default="", help="Comma-separated subset of states; empty = all matching")
     ap.add_argument("--limit-sections", type=int,
                     default=load_limits()["pull"]["default_limit_sections"],
@@ -1197,8 +1274,25 @@ def main() -> None:
                     help="Overwrite an existing committed corpus even if the new pull is worse "
                          "(fewer ok sections / collapsed text). Off by default so a Justia block "
                          "or partial fetch can't clobber good committed data.")
-    args = ap.parse_args()
+    ap.add_argument("--recompute-citations", action="store_true",
+                    help="Re-derive citations for ALL committed corpora from their stored labels "
+                         "using the current per-state patterns, then exit. No fetching. Use after "
+                         "changing _citation_patterns in state_structure.yaml.")
+    ap.add_argument("--dry-run", action="store_true", help="with --recompute-citations: report only")
+    args, _unknown = ap.parse_known_args()
 
+    if args.recompute_citations:
+        only = {s.strip().upper() for s in args.states.split(",") if s.strip()}
+        changed = recompute_citations(only or None, dry_run=args.dry_run)
+        total = sum(changed.values())
+        verb = "would change" if args.dry_run else "changed"
+        print(f"{verb} {total:,} citation(s) across {len(changed)} cell(s)")
+        for (prof, st), n in sorted(changed.items(), key=lambda kv: -kv[1])[:15]:
+            print(f"  {prof}/{st}: {n}")
+        return
+
+    if not args.profession:
+        sys.exit("--profession is required (except with --recompute-citations)")
     profession = args.profession.lower()
     only_states = {s.strip().upper() for s in args.states.split(",") if s.strip()}
 

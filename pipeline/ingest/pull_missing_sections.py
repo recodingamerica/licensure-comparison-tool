@@ -54,7 +54,8 @@ def slug_token(cite: str) -> str:
     c = re.sub(r"^\d+\s*§\s*", "", c)                 # ME: '32 §18302. Definitions' -> '18302. ...'
     c = re.split(r"\.\s+", c)[0]                       # drop a trailing '. Section title'
     c = c.rstrip(".").strip()
-    return re.sub(r"[.\s]+", "-", c).lower()
+    # Comma too: KS cites 50-6,122 and Justia renders it .../section-50-6-122/.
+    return re.sub(r"[.,\s]+", "-", c).lower()
 
 
 def derive_url(target_cite: str, sibling_cite: str, sibling_url: str) -> str | None:
@@ -134,10 +135,13 @@ def main() -> None:
     ap.add_argument("--dry-run", action="store_true", help="report the plan, fetch nothing")
     ap.add_argument("--limit", type=int, default=0, help="stop after N successful sections")
     ap.add_argument("--states", help="comma-separated state filter")
+    ap.add_argument("--published-dir", default=str(PUBLISHED_DIR),
+                    help="read the want-list from this payload dir (use a snapshot when a "
+                         "publish is concurrently rewriting the live one)")
     args = ap.parse_args()
 
     only = {s.strip().upper() for s in (args.states or "").split(",") if s.strip()}
-    want = wanted_sections()
+    want = wanted_sections(Path(args.published_dir))
     targets = [
         (prof, state, cite, entry)
         for (prof, state), cites in sorted(want.items())

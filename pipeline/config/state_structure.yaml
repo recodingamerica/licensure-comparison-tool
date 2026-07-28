@@ -31,6 +31,39 @@
 # uncommented key and silently skipped drift-checks on all 8. If you ever
 # retire a source, comment the whole line out — don't just note it elsewhere.)
 
+# ---- Citation patterns: how a state's section LABEL encodes its citation ----
+#
+# `short_citation()` turns a section label ("50-6,100 Arbitration of disputes.") into the
+# citation the evidence will cite ("50-6,100"). One regex cannot be right for every state,
+# and trying to make one produced silent, state-shaped damage: the default's separator
+# class had no comma, so every KS/NE comma-numbered section collapsed to a common prefix
+# — all 65 of Kansas's 50-6,1xx sections became the single citation "50-6". They were
+# therefore unaddressable AND colliding with each other, so no quote citing them could
+# highlight.
+#
+# So the patterns live here, per state, INCLUDING the default — one place to look rather
+# than a default buried in code with overrides in config. Rules:
+#   * first capture group is the citation
+#   * anchored (^) unless the state genuinely needs a mid-label search
+#   * a state with no `citation_pattern` uses `_default`
+#   * `citation_pattern: null` means "labels here carry no citation" — don't guess
+#
+# Changing a pattern does NOT require re-fetching: text/ keeps the full `label`, so
+# citations can be recomputed from the committed corpus.
+_citation_patterns:
+  # The DEFAULT is the long-standing unanchored pattern, unchanged. It must stay
+  # unanchored: many states prefix the number ("Sec. 4.5." in IL, "NRS 577.010" in NV),
+  # and anchoring it re-cited 15,138 sections across 363 cells with the whole label.
+  # Override per state ONLY where the default is demonstrably wrong there.
+  _default: '(?:section\s+|§\s*)?([0-9]+[A-Za-z]?(?:[-:.][0-9A-Za-z]+)+)'
+  # KS/NE embed a comma IN the section number: 50-6,100 / 38-1,125. Under the default's
+  # comma-free separator class the match stopped at the comma, so all 65 of Kansas's
+  # 50-6,1xx sections collapsed to the single citation "50-6" -- unaddressable, and
+  # colliding with each other. Anchored as well, so a "$27,500" later in a prose label
+  # can't be picked up as a citation now that commas are allowed.
+  KS: '^\s*(?:section\s+|§\s*)?([0-9]+[A-Za-z]?(?:[-:.,][0-9A-Za-z]+)+)'
+  NE: '^\s*(?:section\s+|§\s*)?([0-9]+[A-Za-z]?(?:[-:.,][0-9A-Za-z]+)+)'
+
 # ---- States with real layout/source quirks worth recording ----
 
 AZ:
