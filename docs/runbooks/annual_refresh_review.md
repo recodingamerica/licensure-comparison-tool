@@ -83,3 +83,42 @@ Notable:
   `electrician/CO` (48→24) is the one worth eyeballing first.
 - **Known non-issue:** `health_facility_admin/OK` is an admin-code-only regime (no statute on
   Justia) — an accepted `source_unavailable` gap, not something to re-pull.
+
+---
+
+## Worked example — the annual2026 holds (reviewed 2026-07-28)
+
+108 cells held; 72 had a reviewable candidate. **Triage by STATE before working the
+list**: the holds clustered (WA 6, IL 6, UT 5, CA 4), and in WA a single root cause
+explained all six. Working the runbook's per-cell buckets first would have meant
+re-pulling six cells to rediscover one fact.
+
+**Do not trust the verdict badge on its own.** It keys on citation OVERLAP, not section
+count, so it mislabels in both directions:
+
+* `architecture:TX` — badged **GROWTH**, `6 -> 330 sections`. Accepting it would have
+  pulled all of Title 6 (engineers, geoscientists, landscape architects, interior
+  designers, land surveyors) into architecture. The cell's real problem was a
+  whole-title mapping; fixed by pinning to chapter 1051 (78 sections) with
+  `authoritative: true`. More sections is not more complete when the mapping is wrong.
+* `nursing:WA` — badged **GROWTH**, `391 -> 169 sections`, i.e. a 57% shrink.
+
+**The WA cluster (6 cells) was zero actual problems:**
+
+* optometry, podiatry, public_accountancy, dentistry, medicine each lost exactly
+  chapters 18-122 (19 sections) and 18-235 (27) — the constant `-46` that made the
+  cluster visible. Both already live in `umbrella_text/WA.json`, which extract_state
+  folds into every WA profession and build_frontend ships with the row. The sections
+  stopped being duplicated into six corpora and now live once in the shared one. The
+  candidates are CORRECT; no law was lost.
+* nursing:WA is the reverse of how it reads. The committed 120 sections (18.79 Nursing
+  + 18.130 Uniform Disciplinary Act) are the CLEAN corpus; the candidate re-adds 18.88,
+  18.80, 18.52C plus 60.44 (liens) and 5.62 (definitions) — not nurse licensure. The
+  index is already pinned authoritative to 18.79, so the hold is a stale artifact of the
+  pre-pin mapping and a re-pull today reproduces the committed corpus exactly. Dismiss.
+
+**Method that worked**: diff committed vs candidate by CHAPTER (group section citations
+on their `NN.NN` prefix), then check whether the dropped chapters appear in
+`umbrella_text/<STATE>.json`. Covered there = de-duplication, accept. Not covered =
+real loss, investigate. A constant delta across unrelated professions in one state is
+always a shared component, never N independent flakes.
