@@ -20,6 +20,7 @@ matcher" for the parity problem this replaces.
 from __future__ import annotations
 
 import re
+from difflib import SequenceMatcher
 
 
 # Smart typography -> ASCII. Same set as the TS SMART_MAP in
@@ -247,15 +248,151 @@ def _split_quote_to_segments(
 def _segments_found_in_order(segments: list[str], normalized_corpus: str) -> bool:
     """True iff every segment appears in `normalized_corpus`, each at or after
     the end of the previous segment's match."""
+    return _place_segments(segments, normalized_corpus) is not None
+
+
+# --- unmarked elision -------------------------------------------------------------
+#
+# The seam-splitting above only works when the model LEFT a seam: an ellipsis, a dash, a
+# semicolon. It often doesn't. DE § 307 reads
+#
+#   "The Board shall adopt accreditation decisions of the NAAB and shall adopt
+#    regulations governing education ..."
+#
+# and the quote came back as "The Board shall adopt regulations governing education ...",
+# silently dropping the middle clause. Every word is genuinely in the statute, but no
+# contiguous run contains the whole quote and there is no punctuation to split on, so the
+# seam strategies find nothing. Measured across all 13 professions: 633 quotes cite a
+# section we DO have but can't be located in it, and ~340 of those are >=95% coverable as
+# <=3 contiguous runs -- i.e. real quotes with interior elisions.
+#
+# So the last resort segments by CONTENT rather than punctuation: take difflib's matching
+# blocks (already monotonic in both sequences, which is exactly the in-order requirement),
+# keep the substantial ones, and accept only if they cover nearly all of the quote in a
+# few pieces. Thresholds are deliberately strict -- a quote that needs many small pieces
+# is a paraphrase, and highlighting scattered words would misrepresent it as a quotation.
+_ELISION_MIN_RUN = 20        # normalized chars; shorter "runs" are coincidental word hits
+_ELISION_MAX_RUNS = 3        # more pieces than this is a paraphrase, not an elided quote
+_ELISION_MIN_COVERAGE = 0.95 # the quote must be almost entirely present, just discontiguous
+_ELISION_ANCHOR = 24         # cheap pre-check before the O(n*m) block diff
+
+
+def _segments_by_elision(normalized_quote: str, normalized_corpus: str) -> list[str]:
+    """Segment a quote by CONTENT for the unmarked-elision case. [] if it doesn't qualify.
+
+    Guarded by an anchor probe first: the quote's opening must appear at all, which is a
+    cheap `find` and skips the expensive diff for the overwhelmingly common case of a
+    quote that simply isn't in this section (build_state_browse tests every quote against
+    every section, so that path must stay fast).
+    """
+    if len(normalized_quote) < _ELISION_MIN_RUN:
+        return []
+    # Probe a few positions, not just the head: the elision can fall INSIDE the opening
+    # window (DE § 307 drops a clause four words in, so the first 24 chars of the quote
+    # are not contiguous anywhere), and anchoring only at the start missed exactly the
+    # case this exists to catch. Any one probe hitting is enough to justify the diff.
+    n = len(normalized_quote)
+    probes = {
+        normalized_quote[:_ELISION_ANCHOR],
+        normalized_quote[max(0, n // 2 - _ELISION_ANCHOR // 2):][:_ELISION_ANCHOR],
+        normalized_quote[-_ELISION_ANCHOR:],
+    }
+    if not any(p and p in normalized_corpus for p in probes):
+        return []
+    # Greedy longest-prefix walk, not difflib's matching blocks. difflib optimises for the
+    # single longest common run, which here matched the SECOND "shall adopt" in the
+    # section and orphaned the quote's opening "The Board" as an 8-char fragment -- so the
+    # highlight began mid-word at "d shall adopt". Taking the longest prefix of what's
+    # left, repeatedly, instead ends each run exactly where the texts diverge, which is a
+    # word boundary, and yields the two pieces a reader expects.
+    segments: list[str] = []
+    i = cursor = covered = 0
+    n = len(normalized_quote)
+    while i < n:
+        while i < n and normalized_quote[i] == " ":
+            i += 1
+        if i >= n:
+            break
+        # Longest L with quote[i:i+L] present at/after cursor. Monotonic (if a prefix of
+        # length L is present, so is one of L-1), so binary search rather than scan.
+        lo, hi, best = _ELISION_MIN_RUN, n - i, 0
+        while lo <= hi:
+            mid = (lo + hi) // 2
+            if normalized_corpus.find(normalized_quote[i : i + mid], cursor) >= 0:
+                best, lo = mid, mid + 1
+            else:
+                hi = mid - 1
+        if best < _ELISION_MIN_RUN:
+            return []
+        piece = normalized_quote[i : i + best]
+        cursor = normalized_corpus.find(piece, cursor) + best
+        segments.append(piece)
+        covered += best
+        i += best
+        if len(segments) > _ELISION_MAX_RUNS:
+            return []
+    if not segments or covered / n < _ELISION_MIN_COVERAGE:
+        return []
+    return segments
+
+
+def _place_segments(
+    segments: list[str], norm_section: str, src_index: list[int] | None = None
+) -> list[tuple[int, int]] | None:
+    """Find every segment in order, each at or after the previous one's end.
+
+    THE one placement loop. Returns spans into the original text when `src_index` is
+    given, otherwise an empty-but-not-None list on success — so callers that only need a
+    yes/no check share this code instead of keeping their own copy of the walk.
+    """
     if not segments:
-        return False
+        return None
+    spans: list[tuple[int, int]] = []
     cursor = 0
     for nq in segments:
-        idx = normalized_corpus.find(nq, cursor)
+        idx = norm_section.find(nq, cursor)
         if idx < 0:
-            return False
+            return None
+        if src_index is not None:
+            spans.append((src_index[idx], src_index[idx + len(nq) - 1] + 1))
         cursor = idx + len(nq)
-    return True
+    return spans
+
+
+def _locate(
+    quote: str,
+    norm_section: str,
+    src_index: list[int] | None,
+    segments_narrow: list[str] | None = None,
+    segments_broad: list[str] | None = None,
+    normalized_quote: str | None = None,
+) -> list[tuple[int, int]] | None:
+    """THE strategy ladder, in one place: narrow seams, then broad seams, then unmarked
+    elision. Narrow-first keeps every previously-working highlight byte-for-byte
+    identical, so each new rung is purely additive -- it can only place a quote that
+    placed nowhere before, never move one that already placed.
+
+    Callers that match one quote against many sections pass precomputed segment lists to
+    skip re-normalizing the quote per section.
+    """
+    if not quote:
+        return None
+    if segments_narrow is None:
+        segments_narrow = _split_quote_to_segments(quote, _ELLIPSIS_SPLIT_RE)
+    if segments_broad is None:
+        segments_broad = _split_quote_to_segments(quote, _SEGMENT_SPLIT_RE)
+    for segments in (segments_narrow, segments_broad):
+        placed = _place_segments(segments, norm_section, src_index)
+        if placed is not None:
+            return placed
+    # Last resort: the quote is verbatim but discontiguous, with no seam to split on.
+    # Normalizing the whole quote is the expensive char-walk, so callers matching one
+    # quote against MANY sections pass it in precomputed; otherwise do it here, and only
+    # here -- the seam rungs above never need it.
+    whole = normalized_quote if normalized_quote is not None else normalize_for_match(quote)
+    return _place_segments(
+        _segments_by_elision(whole, norm_section), norm_section, src_index
+    )
 
 
 def locate_quote_in_section(
@@ -289,31 +426,7 @@ def locate_quote_in_normalized(
     the hot path for build_state_browse's cross-profession evidence aggregation.
     Behavior is byte-for-byte identical to the inline version it replaced.
     """
-    if not quote:
-        return None
-    # Try the narrow (ellipsis-only) segmentation first so existing highlights
-    # are byte-for-byte unchanged; fall through to the broadened split only
-    # when the narrow one can't place every segment (the new pieced-quote
-    # cases). Same narrow-then-broad order as quote_in_corpus.
-    for split_re in (_ELLIPSIS_SPLIT_RE, _SEGMENT_SPLIT_RE):
-        segments = _split_quote_to_segments(quote, split_re)
-        if not segments:
-            continue
-        spans: list[tuple[int, int]] = []
-        cursor = 0
-        ok = True
-        for nq in segments:
-            idx = norm_section.find(nq, cursor)
-            if idx < 0:
-                ok = False
-                break
-            src_start = src_index[idx]
-            src_end = src_index[idx + len(nq) - 1] + 1
-            spans.append((src_start, src_end))
-            cursor = idx + len(nq)
-        if ok:
-            return spans
-    return None
+    return _locate(quote, norm_section, src_index)
 
 
 def split_quote_segments(quote: str) -> tuple[list[str], list[str]]:
@@ -331,26 +444,14 @@ def split_quote_segments(quote: str) -> tuple[list[str], list[str]]:
 def locate_segments_in_normalized(
     segments_narrow: list[str], segments_broad: list[str],
     norm_section: str, src_index: list[int],
+    normalized_quote: str = "",
 ) -> list[tuple[int, int]] | None:
     """Like locate_quote_in_normalized, but takes the quote already split into
     normalized segments via split_quote_segments — so BOTH the section and the
-    quote are normalized once and reused. Byte-for-byte identical result."""
-    for segments in (segments_narrow, segments_broad):
-        if not segments:
-            continue
-        spans: list[tuple[int, int]] = []
-        cursor = 0
-        ok = True
-        for nq in segments:
-            idx = norm_section.find(nq, cursor)
-            if idx < 0:
-                ok = False
-                break
-            spans.append((src_index[idx], src_index[idx + len(nq) - 1] + 1))
-            cursor = idx + len(nq)
-        if ok:
-            return spans
-    return None
+    quote are normalized once and reused. Same ladder, same result."""
+    return _locate(normalized_quote, norm_section, src_index,
+                   segments_narrow=segments_narrow, segments_broad=segments_broad,
+                   normalized_quote=normalized_quote)
 
 
 def quote_fuzzy_match(
@@ -405,8 +506,6 @@ def quote_in_corpus(quote: str, normalized_corpus: str) -> bool:
     text without belonging cleanly to any single section."""
     if not quote:
         return False
-    return _segments_found_in_order(
-        _split_quote_to_segments(quote, _ELLIPSIS_SPLIT_RE), normalized_corpus
-    ) or _segments_found_in_order(
-        _split_quote_to_segments(quote, _SEGMENT_SPLIT_RE), normalized_corpus
-    )
+    # Same ladder the highlighter uses -- so "verified" and "highlightable" can never
+    # mean different things. Passing src_index=None makes it a pure yes/no.
+    return _locate(quote, normalized_corpus, None) is not None

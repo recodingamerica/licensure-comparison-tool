@@ -931,13 +931,8 @@ def build(profession: str, payload_only: bool = False) -> dict:
             # Blob stay current and main() won't re-split/re-upload them.
             if not payload_only:
                 _attach_browse(row, st, src, profession)
-            # Attach highlight spans now, against the EXACT section text we're
-            # about to publish. Computing on this side (rather than during
-            # extract/reverify) avoids any normalization drift between the
-            # text the verifier saw and the text the UI will slice.
-            w, wo = _annotate_quote_spans(row["_full"], row["sections"])
-            span_with += w
-            span_without += wo
+            # Spans are attached AFTER citation normalization (below), not here --
+            # see the loop following _normalize_payload_citations.
             rows.append(row)
         else:
             chars = src.trimmed_with_text.get(st, 0)
@@ -972,12 +967,20 @@ def build(profession: str, payload_only: bool = False) -> dict:
     _annotate_list_field_tags(rows, profession, map_prep)
     _normalize_payload_citations(rows, map_prep)
 
-    # Verify spans AFTER citations are normalized, not before: normalization is what
-    # collapses `§ 1101. Definitions [Effective until ...]` and `[Effective upon ...]`
-    # into two identical `§ 1101`s, and that collision is exactly what sends a span into
-    # the wrong copy. Checking earlier passed the very rows it was meant to catch.
+    # Attach spans AFTER citations are normalized, against the EXACT section text we're
+    # about to publish. Order matters twice over:
+    #   - a node citing "Section 1909" could not find a section whose RAW citation was
+    #     "Section 1909. Duties of a dental hygienist"; both sides only agree once
+    #     normalized, so annotating first silently lost those highlights
+    #   - normalization is also what collapses "§ 1101. Definitions [Effective until ...]"
+    #     and "[Effective upon ...]" into two identical "§ 1101"s, and that collision is
+    #     what sends a span into the wrong copy -- so the verification below has to see
+    #     the same citations the UI will
     for row in rows:
         if row.get("_full") and row.get("sections"):
+            w, wo = _annotate_quote_spans(row["_full"], row["sections"])
+            span_with += w
+            span_without += wo
             bad = drop_misindexed_spans(row["_full"], row["sections"])
             span_with -= bad
             span_without += bad

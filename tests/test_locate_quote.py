@@ -305,3 +305,58 @@ class TestPiecedVerbatimQuotes:
             "first the applicant files an application"
         )
         assert quote_in_corpus(quote, corpus) is False
+
+
+# --- unmarked elision -------------------------------------------------------------
+# The model routinely drops an interior clause WITHOUT leaving an ellipsis, so no seam
+# exists to split on. Measured across 13 professions: 633 quotes cited a section we have
+# but couldn't be located in it; ~340 were >=95% coverable as <=3 contiguous runs.
+
+_DE_307 = ("(b) The Board shall adopt accreditation decisions of the NAAB and shall adopt "
+           "regulations governing education or continuing education published from time to "
+           "time by the National Council of Architectural Registration Boards.")
+
+
+def test_unmarked_elision_is_located_as_split_spans():
+    """DE § 307: the quote drops 'accreditation decisions of the NAAB and shall adopt'."""
+    quote = ("The Board shall adopt regulations governing education or continuing education "
+             "published from time to time by the National Council of Architectural "
+             "Registration Boards.")
+    spans = locate_quote_in_section(quote, _DE_307)
+    assert spans is not None and len(spans) == 2
+    # Word-aligned: the highlight must not begin mid-word (an earlier attempt produced
+    # "d shall adopt" by matching the SECOND "shall adopt").
+    assert _DE_307[spans[0][0]:spans[0][1]] == "The Board shall adopt "
+    assert _DE_307[spans[1][0]:spans[1][1]].startswith("regulations governing")
+
+
+def test_elision_rejects_a_paraphrase():
+    assert locate_quote_in_section(
+        "The Board is required to publish rules about schooling and ongoing training.",
+        _DE_307) is None
+
+
+def test_elision_rejects_reordered_text():
+    """Every word is present, but not in source order -- that is not a quotation."""
+    assert locate_quote_in_section(
+        "published from time to time by the National Council of Architectural Registration "
+        "Boards. The Board shall adopt regulations governing education",
+        _DE_307) is None
+
+
+def test_elision_rejects_a_partly_invented_quote():
+    """A real opening with a fabricated tail must not squeak through on coverage."""
+    assert locate_quote_in_section(
+        "The Board shall adopt regulations governing education or continuing education "
+        "approved by the Governor and the General Assembly of this State.",
+        _DE_307) is None
+
+
+def test_elision_verification_and_highlighting_agree():
+    """quote_in_corpus and locate_quote_in_section share one ladder, so a quote can never
+    verify but fail to highlight (or vice versa) for want of the same strategy."""
+    quote = ("The Board shall adopt regulations governing education or continuing education "
+             "published from time to time by the National Council of Architectural "
+             "Registration Boards.")
+    assert quote_in_corpus(quote, normalize_for_match(_DE_307)) is True
+    assert locate_quote_in_section(quote, _DE_307) is not None

@@ -42,6 +42,7 @@ load_env()
 from pipeline.extract.model_helpers import iter_quote_carriers, iter_evidence
 from pipeline.extract.locate_quote import (
     normalize_with_mapping, split_quote_segments, locate_segments_in_normalized,
+    normalize_for_match,
 )
 from pipeline.scope.scope_sources import is_universal, is_enumeration
 from pipeline.scope.merged_scope import merged_scope_by_url
@@ -80,6 +81,7 @@ def _quote_evidence(record: dict) -> list[dict]:
         if not quote:
             continue
         seg_narrow, seg_broad = split_quote_segments(quote)
+        norm_whole = normalize_for_match(quote)
         if not seg_narrow and not seg_broad:
             continue  # quote too short to verify — never matches anyway
         out.append({
@@ -89,6 +91,7 @@ def _quote_evidence(record: dict) -> list[dict]:
             "unverified": bool(node.get("unverified")),
             "seg_narrow": seg_narrow,
             "seg_broad": seg_broad,
+            "norm_whole": norm_whole,
         })
     return out
 
@@ -103,7 +106,8 @@ def _section_evidence_for_profession(
     out: list[dict] = []
     for ev in ev_list:
         spans = locate_segments_in_normalized(
-            ev["seg_narrow"], ev["seg_broad"], norm_section, src_index)
+            ev["seg_narrow"], ev["seg_broad"], norm_section, src_index,
+            normalized_quote=ev["norm_whole"])
         if not spans:
             continue
         out.append({
