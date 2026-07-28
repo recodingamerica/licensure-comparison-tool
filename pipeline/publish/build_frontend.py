@@ -16,6 +16,7 @@ import argparse
 import json
 import difflib
 import re
+from collections import Counter
 import sys
 from dataclasses import dataclass
 from pathlib import Path
@@ -89,6 +90,7 @@ from pipeline.scope.merged_scope import merged_scope_by_url
 from pipeline.publish.blob_upload import upload_json
 from pipeline.publish._browse_tree import build_tree as _build_browse_tree
 from pipeline.publish._justia_clean import clean_justia_text
+from pipeline import provenance
 
 
 def _ev_value(node: Any) -> Any:
@@ -1044,6 +1046,27 @@ def build(profession: str, payload_only: bool = False) -> dict:
             misindexed += bad
     if misindexed:
         print(f"  dropped {misindexed:,} span(s) that did not cover their own quote")
+
+    # Freshness: is what we're shipping derived from CURRENT inputs? provenance has been
+    # able to answer this all along — it correctly reports "stale" for a cell whose text/
+    # changed after its clean/ was built — but only for whoever thought to run a report,
+    # which is nobody at the moment it matters. nursing/DE was extracted from a clean/
+    # built six days before its text/ and reported success; measured 2026-07-28, 178 of
+    # 635 published cells were in that state.
+    #
+    # Reported, not yet enforced: switching on a gate while a backlog exists would either
+    # block every publish or need a floor set to accommodate the backlog, which is how a
+    # gate becomes decoration. Clear the backlog, then gate it.
+    try:
+        stale = provenance.stale_cells(profession, [r.get("state") for r in rows])
+        if stale:
+            by_stage = Counter(stage for _, stage in stale)
+            worst = ", ".join(f"{n} from {stage}" for stage, n in by_stage.most_common())
+            print(f"  !! {len(stale)} of {len(rows)} cells shipped from STALE inputs "
+                  f"({worst}) — e.g. "
+                  + ", ".join(f"{s}({st})" for s, st in stale[:4]))
+    except Exception as e:  # never let a reporting nicety break a publish
+        print(f"  (freshness check unavailable: {type(e).__name__}: {e})")
 
     # End-to-end gate: can the UI actually highlight what we shipped? Deliberately AFTER
     # citation normalization — that pass silently invalidated quote_section once already.
