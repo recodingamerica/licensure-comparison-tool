@@ -693,7 +693,12 @@ def _annotate_list_field_tags(rows: list[dict], profession: str, map_prep: dict 
 # citations we don't control. The remaining misses are evidence citing a section the row
 # doesn't ship (AK 08.38.020, IA 147.55) where the quote also isn't uniquely locatable in
 # what we did ship.
-MIN_DISPLAYABLE_QUOTE_SHARE = 0.85
+# Ratcheted 0.85 -> 0.90 on 2026-07-27, once all 13 professions had been measured in one
+# build: the observed range was 93.0% (nursing) to 99.9% (hvac), 96.1% overall. 0.85 was
+# set from dietetics alone when it was the only number we had, and dietetics turned out to
+# be near the BOTTOM of the range, not the middle -- so the floor sat ~8 points below the
+# worst real profession and would have slept through a large regression.
+MIN_DISPLAYABLE_QUOTE_SHARE = 0.90
 
 
 def _displayable_quote_share(rows: list[dict]) -> tuple[int, int, list[str]]:
