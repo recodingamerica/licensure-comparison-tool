@@ -177,8 +177,14 @@ def test_publish_requires_professions():
 def test_publish_runs_build_frontend_per_profession(monkeypatch):
     built = []
     monkeypatch.setattr(run, "run_to", lambda target, prof, **k: built.append((target, prof)) or {"ok": True})
+    # Hermetic: the skip-unchanged gate consults provenance; against the REAL repo it
+    # can find every payload current and build nothing (this test then fails on repo
+    # DATA state, not code). Stub it stale so both professions are due; jobs=1 keeps
+    # the completion order deterministic.
+    monkeypatch.setattr(run.provenance, "check", lambda stage, p, s=None: "stale")
     import argparse
-    run.cmd_publish(argparse.Namespace(professions="dentistry, podiatry", deploy=False, yes=False))
+    run.cmd_publish(argparse.Namespace(professions="dentistry, podiatry", deploy=False,
+                                       yes=False, jobs=1))
     assert built == [("publish", "dentistry"), ("publish", "podiatry")]  # publish adapter, each prof
 
 
@@ -203,8 +209,11 @@ def test_publish_deploy_yes_builds_then_deploys_once(monkeypatch):
     prompted = {"asked": False}
     monkeypatch.setattr(builtins, "input",
                         lambda *_: prompted.__setitem__("asked", True) or "no")
+    # Hermetic: stub the skip-unchanged gate (see test above) + serial workers.
+    monkeypatch.setattr(run.provenance, "check", lambda stage, p, s=None: "stale")
     import argparse
-    run.cmd_publish(argparse.Namespace(professions="dentistry,nursing", deploy=True, yes=True, all=False))
+    run.cmd_publish(argparse.Namespace(professions="dentistry,nursing", deploy=True, yes=True,
+                                       all=False, jobs=1))
     assert prompted["asked"] is False                                    # --yes must not prompt
     assert built == ["dentistry", "nursing"]                             # each profession published, in order
     assert len(deploys) == 1 and "--prod" in " ".join(deploys[0])        # ONE vercel deploy at the end

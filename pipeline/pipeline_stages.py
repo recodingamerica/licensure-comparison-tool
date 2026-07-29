@@ -153,8 +153,13 @@ def _verify(prof: str, unit, opts: dict) -> bool:
     # actually establish the prohibition (a wrong red cell in the comparison grid)
     # is reverted to null. Runs right after extract so mapprep/publish downstream
     # ship the cleaned data. General + automatic — see extract.verify_negatives.
-    return _sh([PY, "-m", "pipeline.extract.verify_negatives", "--profession", prof],
-               f"verify_negatives {prof}")
+    # Stamped AFTER the run: verify rewrites structured/ in place, so the stamp
+    # hashes the post-rewrite tree and stays current until the next re-extraction.
+    ok = _sh([PY, "-m", "pipeline.extract.verify_negatives", "--profession", prof],
+             f"verify_negatives {prof}")
+    if ok:
+        provenance.record("verify", prof)
+    return ok
 
 
 def _mapprep(prof: str, unit, opts: dict) -> bool:
@@ -263,11 +268,10 @@ class Stage:
         if self.scope == "global":
             return "stale"
         if self.name not in ("pull", *provenance.STAGES, *provenance.PROF_STAGES):
-            # verify: no provenance contract (it rewrites structured/ in place — no
-            # artifact of its own to stamp), so it's always due when the chain crosses
-            # it. Before 2026-07-29 this raised KeyError inside provenance.check, which
-            # meant NO chain spanning verify (any clean→publish run) could execute —
-            # the reason cmd_publish jumps straight to start="publish".
+            # A stage outside the provenance vocabulary is always due — never let it
+            # reach provenance.check, which raises KeyError. (verify lived here until
+            # 2026-07-29, which made EVERY chain spanning it crash; it now has a real
+            # contract keyed on structured/. This guard stays for the next new stage.)
             return "stale"
         return provenance.check(self.name, prof, state)
 

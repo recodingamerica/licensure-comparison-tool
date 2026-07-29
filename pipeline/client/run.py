@@ -279,9 +279,18 @@ def cmd_publish(args) -> None:
     if todo:
         workers = max(1, min(getattr(args, "jobs", 4) or 4, len(todo)))
         print(f"building {len(todo)} payload(s) with {workers} worker(s) …")
+        # Normal publish walks verify→mapprep→publish with provenance gating, so a data
+        # change ships CLEANED records and fresh category buckets. (Until 2026-07-29 the
+        # chain crashed at the verify stage, so this jumped to start="publish" and both
+        # were silently skipped — the blank-category-columns bug class.) `--force` still
+        # jumps straight to a forced payload rebuild: that's the frontend-code-change
+        # case, where the data — and therefore verify/mapprep — hasn't moved.
+        forced = getattr(args, "force", False)
         with ThreadPoolExecutor(max_workers=workers) as pool:
             futures = {
-                pool.submit(run_to, "publish", prof, start="publish", force=True, yes=True): prof
+                pool.submit(run_to, "publish", prof,
+                            start="publish" if forced else "verify",
+                            force=forced, yes=True): prof
                 for prof in todo
             }
             for fut in as_completed(futures):

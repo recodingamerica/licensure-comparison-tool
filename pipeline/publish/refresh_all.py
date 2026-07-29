@@ -89,11 +89,13 @@ def main() -> None:
     opts = {"payload_only": args.payload_only, "skip_consistency": args.skip_consistency_check}
     results: list[tuple[str, bool]] = []
 
-    # 1. Per-profession publish — only the changed ones. start="publish" keeps this a pure
-    #    downstream rebuild (never silently re-extracts); the publish adapter runs the
-    #    consistency gate and stamps publish provenance on success.
+    # 1. Per-profession publish — only the changed ones. start="verify" keeps this a pure
+    #    downstream rebuild (cell stages are out of range, so it can never silently
+    #    re-extract) while letting provenance run verify + mapprep when the data actually
+    #    moved. (Until 2026-07-29 this used start="publish" because the chain CRASHED at
+    #    verify — so refreshed data shipped with unverified negatives and stale buckets.)
     for p in changed:
-        res = run_to("publish", p, start="publish", force=True, yes=True, opts=opts)
+        res = run_to("publish", p, start="verify", force=False, yes=True, opts=opts)
         results.append((f"publish:{p}", res["ok"]))
 
     # 2. Cross-profession fan-out (tag sheet, scope, scorecard, browse, analysis) — once.

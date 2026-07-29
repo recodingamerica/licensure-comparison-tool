@@ -45,7 +45,8 @@ STAGES = ("clean", "trim", "extract")
 # change", which the runner decides).
 _SCOPE = {
     "pull": "cell", "clean": "cell", "trim": "cell", "extract": "cell",
-    "schema": "profession", "mapprep": "profession", "publish": "profession",
+    "schema": "profession", "verify": "profession", "mapprep": "profession",
+    "publish": "profession",
 }
 
 # Input/output dirs for the CELL stages (unchanged shape). pull's input is the frozen
@@ -59,6 +60,8 @@ _OUT = {"clean": CLEAN_DIR, "trim": TRIMMED_DIR, "extract": STRUCTURED_DIR}
 _PROMPT_KEYS = {
     "pull": (), "clean": (), "trim": ("trim_state",), "extract": ("extract_state",),
     "schema": ("discover_schema",),
+    "verify": (),   # verify_negatives' prompt is hardcoded in the module — a prompt
+                    # change there is a code change; bump CODE_VERSION["verify"].
     "mapprep": ("map_prep_spec", "map_prep_apply", "map_prep_bucket_text",
                 "map_prep_bucket_text_per_item_design", "map_prep_bucket_text_per_item_assign"),
     "publish": (),
@@ -66,7 +69,8 @@ _PROMPT_KEYS = {
 
 # Stage name -> config/models.yaml key (only the LLM stages; note map_prep's key differs
 # from the stage name "mapprep"). clean/pull/publish use no model.
-_MODEL_KEY = {"trim": "trim", "extract": "extract", "schema": "schema", "mapprep": "map_prep"}
+_MODEL_KEY = {"trim": "trim", "extract": "extract", "schema": "schema",
+              "verify": "verify_negatives", "mapprep": "map_prep"}
 
 
 def _model_for_stage(stage: str) -> str | None:
@@ -86,7 +90,7 @@ def _model_for_stage(stage: str) -> str | None:
 # what the knob is for: skip-unchanged publishing is only safe if a code change to the
 # stage invalidates its old output.
 CODE_VERSION = {"clean": 1, "trim": 1, "extract": 1,
-                "pull": 1, "schema": 1, "mapprep": 1, "publish": 2}
+                "pull": 1, "schema": 1, "verify": 1, "mapprep": 1, "publish": 2}
 
 PROV_DIR = RESULTS_DIR / "provenance"
 
@@ -206,7 +210,10 @@ def input_hash(stage: str, prof: str, state: str | None = None) -> str | None:
         return _sha("|".join([base, *crossed])) if crossed else base
     if stage == "schema":                             # profession: all trimmed states
         return _dir_hash(TRIMMED_DIR / prof)
-    if stage == "mapprep":                            # profession: all structured states
+    if stage in ("verify", "mapprep"):                # profession: all structured states
+        # verify both READS and REWRITES structured/: its stamp is recorded after the
+        # rewrite, so it stays current until an extraction actually changes a record —
+        # then it (correctly) re-runs. Same key as mapprep, same invalidation semantics.
         return _dir_hash(STRUCTURED_DIR / prof)
     if stage == "publish":                            # profession: structured + map_prep
         s, m = _dir_hash(STRUCTURED_DIR / prof), _dir_hash(MAP_PREP_DIR / prof)
@@ -266,6 +273,10 @@ def _out_exists(stage: str, prof: str, state: str | None) -> bool:
         return (_OUT[stage] / prof / f"{state}.json").exists()
     if stage == "schema":
         return (DISCOVERED_DIR / f"{prof}.json").exists()
+    if stage == "verify":
+        # verify rewrites structured/ in place — its "output" is the (verified)
+        # structured tree itself.
+        return (STRUCTURED_DIR / prof).exists()
     if stage == "mapprep":
         return (MAP_PREP_DIR / prof).exists()
     if stage == "publish":
@@ -420,7 +431,7 @@ def _iter_done_professions():
 # Profession-scoped stages, in dependency order (schema ⊂ trimmed, mapprep ⊂ structured,
 # publish ⊂ structured+mapprep). _backfill() deliberately does NOT touch these — it stamps
 # only the per-cell chain — so baselining them is a separate, opt-in assertion.
-PROF_STAGES = ("schema", "mapprep", "publish")
+PROF_STAGES = ("schema", "verify", "mapprep", "publish")
 
 
 def _backfill_professions(professions: set[str] | None = None) -> None:

@@ -474,14 +474,23 @@ def test_no_pull_warning_when_none_running(rec, monkeypatch, capsys):
     assert "corpus pull is RUNNING" not in capsys.readouterr().out
 
 
-def test_verify_freshness_never_hits_provenance(monkeypatch):
-    """verify has no provenance contract; fresh() must answer "stale" (always due)
-    WITHOUT calling provenance.check — which raises KeyError('verify') and, until
-    2026-07-29, made every chain spanning verify (any clean→publish run) crash."""
+def test_contractless_stage_is_always_due_without_provenance(monkeypatch):
+    """A stage outside the provenance vocabulary answers "stale" without ever calling
+    provenance.check (which raises KeyError for unknown stages — the pre-2026-07-29
+    verify crash that broke every clean→publish chain)."""
     def boom(stage, p, s=None):
-        raise AssertionError("provenance.check must not be called for verify")
+        raise AssertionError("provenance.check must not be called for a contract-less stage")
     monkeypatch.setattr(ps.provenance, "check", boom)
-    assert ps._BY_NAME["verify"].fresh("dentistry", None) == "stale"
+    st = ps.Stage("some_future_stage", "profession", lambda *a: True, "x")
+    assert st.fresh("dentistry", None) == "stale"
+
+
+def test_verify_has_a_provenance_contract(monkeypatch):
+    """verify is IN the contract now (keyed on the structured/ tree it audits), so a
+    chain crossing it consults provenance like any other profession stage — it re-runs
+    when an extraction changed a record, and only then."""
+    monkeypatch.setattr(ps.provenance, "check", lambda stage, p, s=None: "current")
+    assert ps._BY_NAME["verify"].fresh("dentistry", None) == "current"
 
 
 def test_live_pull_pids_excludes_self_and_parent(monkeypatch):
