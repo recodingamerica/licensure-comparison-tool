@@ -33,12 +33,12 @@
     },
     "education": {
       "degree_required": {
-        "value": "Graduate of a state board approved nursing or nursing assistant education program recognized by the board which prepares the applicant for the level of licensure or certification being sought",
+        "value": "Graduate of a state board approved nursing or nursing assistant education program",
         "quote": "Be a graduate of a state board approved nursing or nursing assistant education program recognized by the board which prepares the applicant for the level of licensure or certification being sought",
         "citation": "33-21-127"
       },
       "accrediting_body": {
-        "value": "Wyoming State Board of Nursing (board-approved programs)",
+        "value": "Wyoming State Board of Nursing (board approved programs)",
         "quote": "Be a graduate of a state board approved nursing or nursing assistant education program recognized by the board",
         "citation": "33-21-127"
       },
@@ -66,7 +66,7 @@
           "citation": "33-21-120"
         },
         {
-          "license_class": "Registered Nurse (RN) / Licensed Practical Nurse (LPN)",
+          "license_class": "Registered Nurse / Licensed Practical Nurse / Certified Nursing Assistant",
           "degree_level": "none",
           "effective_date": null,
           "quote": "Be a graduate of a state board approved nursing or nursing assistant education program recognized by the board which prepares the applicant for the level of licensure or certification being sought",
@@ -92,11 +92,29 @@
       {
         "name": "NCLEX-RN or NCLEX-PN",
         "required": true,
-        "notes": "Board-approved national nursing licensure examination; also referenced in Nurse Licensure Compact as NCLEX-RN or NCLEX-PN Examination",
+        "notes": "Board may limit number of reexaminations after initial failure",
+        "jurisdiction": "national (NCLEX)",
+        "permitted_attempts": null,
+        "quote": "Has successfully passed the NCLEX-RN or NCLEX-PN Examination or recognized predecessor, as applicable",
+        "citation": "33-21-202"
+      },
+      {
+        "name": "Board approved national nursing licensure or certification examination",
+        "required": true,
+        "notes": "Applies to all license/certification levels; board may limit reexaminations by rule",
         "jurisdiction": "national",
         "permitted_attempts": null,
         "quote": "Pass a board approved national nursing licensure or certification examination",
         "citation": "33-21-127"
+      },
+      {
+        "name": "National certification examination (APRN)",
+        "required": true,
+        "notes": "APRN applicants must have taken and passed a national certification examination in their specialty area",
+        "jurisdiction": "national",
+        "permitted_attempts": null,
+        "quote": "Has taken and passed a national certification examination in the same area and has been granted licensure by the board to practice as an APRN",
+        "citation": "33-21-120"
       }
     ],
     "renewal": {
@@ -139,7 +157,7 @@
         "citation": "33-21-127"
       },
       "requirements": {
-        "value": "Applicant must submit proof of initial licensure or certification by an examination acceptable to the board, that prior requirements were equivalent to Wyoming's, and that the license has not been suspended, revoked or otherwise restricted; or pass a Wyoming examination if the prior exam is not acceptable.",
+        "value": "Submit proof of initial licensure by an examination acceptable to the board, with requirements at the time of initial licensure comparable to Wyoming's, and proof that the license has not been suspended, revoked or otherwise restricted; or pass an examination or meet other requirements as specified by the board.",
         "quote": "Submit proof of initial licensure or certification by an examination acceptable to the board, provided that when the applicant secured his or her initial license or certificate, the requirements for licensure or certification included the requirements then necessary for licensure or certification in this state and have submitted proof that the license or certificate has not been suspended, revoked or otherwise restricted for any reason",
         "citation": "33-21-127"
       }
@@ -154,9 +172,9 @@
       "authority": null
     },
     "national_certification": {
-      "value": "National nursing licensure or certification examination (NCLEX)",
-      "quote": "Pass a board approved national nursing licensure or certification examination",
-      "citation": "33-21-127"
+      "value": "National nursing certification examination (APRN specialty)",
+      "quote": "Has taken and passed a national certification examination in the same area and has been granted licensure by the board to practice as an APRN",
+      "citation": "33-21-120"
     },
     "national_association": null,
     "regulatory_model": {
@@ -187,67 +205,67 @@
     "disciplinary_grounds": [
       {
         "short_label": "substandard_nursing_practice",
-        "description": "Engaging in any act inconsistent with uniform and reasonable standards of nursing practice as defined by board rules",
+        "description": "Engaging in acts inconsistent with uniform and reasonable standards of nursing practice as defined by board rules",
         "quote": "Has engaged in any act inconsistent with uniform and reasonable standards of nursing practice as defined by board rules and regulations",
         "citation": "33-21-146"
       },
       {
         "short_label": "criminal_conviction",
-        "description": "Found guilty, entered an Alford plea, or nolo contendere to a misdemeanor or felony adversely related to nursing practice",
+        "description": "Found guilty, entered Alford plea, or nolo contendere to a misdemeanor or felony adversely related to nursing practice",
         "quote": "Has been found guilty by a court, has entered an Alford plea or has entered a plea of nolo contendere to a misdemeanor or felony that relates adversely to the practice of nursing or to the ability to practice nursing",
         "citation": "33-21-146"
       },
       {
         "short_label": "fraud_or_deceit",
-        "description": "Practiced fraud or deceit in procuring a license, filing health care information, signing reports, representing authority to practice, or submitting information to the board",
+        "description": "Practiced fraud or deceit in procuring a license, filing health care records, signing reports, or submitting information to the board",
         "quote": "Has practiced fraud or deceit: (A) In procuring or attempting to procure a license or certificate to practice nursing or nurse assisting",
         "citation": "33-21-146"
       },
       {
         "short_label": "incompetence_or_negligence",
-        "description": "Unfit or incompetent to practice nursing by reason of negligence, habits, or other causes including inability to practice safely or unsafe nursing practice",
-        "quote": "Is unfit or incompetent to practice nursing by reason of negligence, habits or other causes",
+        "description": "Unfit or incompetent to practice nursing by reason of negligence, physical or mental disability, or unsafe nursing practice",
+        "quote": "Is unfit or incompetent to practice nursing by reason of negligence, habits or other causes including but not limited to: (A) Being unable to practice nursing with reasonable skill and safety to patients by reason of physical or mental disability, or use of drugs, narcotics, chemicals or any other mind-altering material",
         "citation": "33-21-146"
       },
       {
         "short_label": "unauthorized_controlled_substance",
-        "description": "Unauthorized possession or use of a controlled substance",
+        "description": "Unauthorized possession or use of a controlled substance as defined in the Wyoming Controlled Substances Act",
         "quote": "Has engaged in any unauthorized possession or unauthorized use of a controlled substance as defined in the Wyoming Controlled Substances Act",
         "citation": "33-21-146"
       },
       {
-        "short_label": "out_of_state_license_action",
-        "description": "Had a license or certificate in another jurisdiction denied, revoked, suspended or otherwise restricted",
+        "short_label": "license_denied_revoked_elsewhere",
+        "description": "License or certificate to practice nursing or another health care discipline in another jurisdiction denied, revoked, suspended or otherwise restricted",
         "quote": "Has had a license or certificate to practice nursing or nurse assisting or to practice in another health care discipline in another jurisdiction, territory or possession of the United States denied, revoked, suspended or otherwise restricted",
         "citation": "33-21-146"
       },
       {
-        "short_label": "practicing_without_valid_license",
-        "description": "Practiced nursing within Wyoming without a valid current license or temporary permit",
+        "short_label": "practicing_without_license",
+        "description": "Practiced nursing or nurse assisting in this state without a valid current license or temporary permit",
         "quote": "Has practiced nursing or nurse assisting within this state without a valid current license or temporary permit or as otherwise permitted under this act",
         "citation": "33-21-146"
       },
       {
         "short_label": "failure_to_report_violations",
-        "description": "Knowingly and willfully failed to report to the board any violation of this act or board rules",
+        "description": "Knowingly and willfully failed to report to the board any violation of this act or board rules and regulations",
         "quote": "Has knowingly and willfully failed to report to the board any violation of this act or of board rules and regulations",
         "citation": "33-21-146"
       },
       {
         "short_label": "violation_of_act_or_rules",
-        "description": "Found by the board to have violated any provision of this act or board rules",
+        "description": "Found by the board to have violated any provision of this act or board rules and regulations",
         "quote": "Has been found by the board to have violated any of the provisions of this act or of board rules and regulations",
         "citation": "33-21-146"
       },
       {
         "short_label": "practice_beyond_scope",
-        "description": "Knowingly engaged in acts beyond the scope of nursing practice or performed acts without sufficient education or ability",
+        "description": "Knowingly engaged in acts beyond the scope of individual nursing practice or without sufficient education, knowledge or ability",
         "quote": "Has knowingly engaged in an act which the licensee or certificate holder knew was beyond the scope of the individual's nursing or nurse assisting practice prior to committing the act, or performed acts without sufficient education, knowledge or ability to apply nursing principles and skills",
         "citation": "33-21-146"
       },
       {
         "short_label": "failure_to_submit_to_competency_exam",
-        "description": "Failed to submit to a mental, physical or medical competency examination following a proper board request",
+        "description": "Failed to submit to a mental, physical or medical competency examination following a proper request by the board",
         "quote": "Has failed to submit to a mental, physical or medical competency examination following a proper request by the board made pursuant to board rules and regulations and the Wyoming Administrative Procedure Act",
         "citation": "33-21-146"
       },
@@ -258,8 +276,14 @@
         "citation": "33-21-146"
       },
       {
+        "short_label": "violation_of_ws_35_4_1001",
+        "description": "Violated W.S. 35-4-1001 (related to health care fraud/false claims)",
+        "quote": "Has violated W.S. 35-4-1001.",
+        "citation": "33-21-146"
+      },
+      {
         "short_label": "sexual_misconduct",
-        "description": "Committed sexual misconduct as defined by W.S. 33-1-118",
+        "description": "Committed sexual misconduct including offers to exchange services for sexual gratification or sexual contact while patient is under care",
         "quote": "A board which licenses health care providers may refuse to issue or renew, or may suspend or revoke the license, certificate or temporary permit of any licensee or certificate holder, or otherwise discipline a licensee or certificate holder, upon clear and convincing evidence that the licensee or certificate holder has committed sexual misconduct.",
         "citation": "33-1-118"
       }
@@ -323,14 +347,6 @@
         "kind": "disciplinary grounds"
       },
       {
-        "cite": "33-21-147",
-        "kind": "disciplinary procedure"
-      },
-      {
-        "cite": "33-21-153",
-        "kind": "mandatory employer reporting"
-      },
-      {
         "cite": "33-21-154",
         "kind": "exemptions"
       },
@@ -349,22 +365,6 @@
       {
         "cite": "33-21-302",
         "kind": "APRN Compact"
-      },
-      {
-        "cite": "33-22-101",
-        "kind": "nursing home administrator definitions"
-      },
-      {
-        "cite": "33-22-103",
-        "kind": "nursing home administrator license"
-      },
-      {
-        "cite": "33-22-104",
-        "kind": "nursing home administrator renewal"
-      },
-      {
-        "cite": "33-22-110",
-        "kind": "nursing home administrator scope protection"
       }
     ]
   },
@@ -377,7 +377,7 @@
     "methods_authorized": {
       "value": [
         "assessment",
-        "nursing diagnosis",
+        "diagnosis",
         "planning",
         "intervention",
         "evaluation",
@@ -385,13 +385,14 @@
         "teaching",
         "counseling",
         "supervision",
-        "delegation"
+        "delegation",
+        "prescribing (APRN)"
       ],
-      "quote": "Nursing practice includes but is not limited to administration, teaching, counseling, supervision, delegation, evaluation of nursing practice and execution of the medical regimen.",
+      "quote": "Nursing practice includes but is not limited to administration, teaching, counseling, supervision, delegation, evaluation of nursing practice and execution of the medical regimen. The therapeutic plan includes the administration of medications and treatments prescribed by any person authorized by state law to prescribe.",
       "citation": "33-21-120"
     },
     "drug_authority": {
-      "value": "APRNs may prescribe, administer, dispense or provide nonprescriptive and prescriptive medications including prepackaged medications, except schedule I drugs. RNs and LPNs administer medications and treatments prescribed by any person authorized by state law to prescribe.",
+      "value": "APRNs may prescribe, administer, dispense or provide nonprescriptive and prescriptive medications including prepackaged medications, except schedule I drugs. For licensees with prescriptive authority, 3 hours of CE on controlled substance prescribing required biennially.",
       "quote": "May prescribe, administer, dispense or provide nonprescriptive and prescriptive medications including prepackaged medications, except schedule I drugs as defined in W.S. 35-7-1013 and 35-7-1014",
       "citation": "33-21-120"
     },
@@ -399,6 +400,10 @@
       {
         "cite": "33-21-120",
         "kind": "definitions/scope"
+      },
+      {
+        "cite": "33-21-129",
+        "kind": "CE for prescriptive authority"
       },
       {
         "cite": "33-21-158",
@@ -412,11 +417,13 @@
         "Registered Nurse (RN)",
         "Licensed Practical Nurse (LPN)",
         "Advanced Practice Registered Nurse (APRN)",
-        "Certified Nursing Assistant/Nurse Aide",
-        "Nursing Home Administrator"
+        "Certified Nursing Assistant (CNA)",
+        "Temporary Permit to Practice Nursing",
+        "Multistate License (Nurse Licensure Compact)",
+        "Volunteer License"
       ],
-      "quote": "Each applicant who successfully meets the requirements of this section is entitled to licensure or certification as an advanced practice registered nurse, registered nurse, licensed practical nurse or certified nursing assistant, whichever is applicable.",
-      "citation": "33-21-127"
+      "quote": "Examine, license, renew, relicense and reactivate the licenses of duly qualified individuals, may grant individuals a temporary permit to engage in the practice of professional and practical nursing in this state",
+      "citation": "33-21-122"
     },
     "aprn_role_categories": {
       "value": [
@@ -448,8 +455,8 @@
     "full_independent_practice_experience_hours_required": null,
     "prescriptive_authority_certificate_required": {
       "value": false,
-      "quote": "Issuance of an APRN multistate license shall include prescriptive authority for noncontrolled prescription drugs",
-      "citation": "33-21-302"
+      "quote": "May prescribe, administer, dispense or provide nonprescriptive and prescriptive medications including prepackaged medications, except schedule I drugs as defined in W.S. 35-7-1013 and 35-7-1014",
+      "citation": "33-21-120"
     },
     "controlled_substance_schedule_authority": {
       "value": [
@@ -472,14 +479,10 @@
     "medication_assistant_certification_available": null,
     "delegation_to_unlicensed_personnel_authorized": {
       "value": true,
-      "quote": "delegation to appropriate assistive personnel as provided by state law and board rules and regulations",
-      "citation": "33-21-120"
+      "quote": "the board of nursing may discipline anyone licensed pursuant to this act for accepting any delegation that is beyond the person's scope of practice as defined by this act and that presents a danger of harm to a patient",
+      "citation": "33-21-154"
     },
-    "employer_mandatory_reporting_required": {
-      "value": true,
-      "quote": "Hospitals, nursing homes and other employers of advanced practice registered nurses, registered nurses, licensed practical nurses and certified nursing assistants shall report to the board the names of those licensees or certificate holders whose employment has been terminated voluntarily or involuntarily for any reasons stipulated in W.S. 33-21-146.",
-      "citation": "33-21-153"
-    },
+    "employer_mandatory_reporting_required": null,
     "whistleblower_protection_for_delegation_refusal": null,
     "nurse_licensure_compact_member": {
       "value": true,
@@ -573,9 +576,9 @@
       },
       {
         "item": "Nursing Home Administrator License",
-        "status": "present",
-        "quote": "It shall be unlawful and a misdemeanor for any person to act or serve in the capacity of a nursing home administrator unless he is the holder of a license or temporary license as a nursing home administrator",
-        "citation": "33-22-110"
+        "status": "absent",
+        "quote": "",
+        "citation": ""
       },
       {
         "item": "Multistate License (Nurse Licensure Compact)",

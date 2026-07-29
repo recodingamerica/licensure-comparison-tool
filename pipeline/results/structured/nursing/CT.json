@@ -9,19 +9,19 @@
     },
     "issuing_authority": {
       "value": "Department of Public Health",
-      "quote": "The Department of Public Health may issue an advanced practice registered nurse license to a person",
+      "quote": "The Department of Public Health may issue an advanced practice registered nurse license",
       "citation": "20-94a"
     },
     "regulatory_authority": {
       "name": {
         "value": "Department of Public Health",
-        "quote": "The Department of Public Health may issue an advanced practice registered nurse license to a person",
+        "quote": "The Department of Public Health may issue an advanced practice registered nurse license",
         "citation": "20-94a"
       },
       "type": {
         "value": "department",
-        "quote": "The Department of Public Health, with the advice and consent of the board shall prescribe examinations for applicants for licensure as registered nurses and licensed practical nurses",
-        "citation": "20-92"
+        "quote": "The Department of Public Health may issue an advanced practice registered nurse license to a person seeking to perform the activities described in subsection (b) of section 20-87a",
+        "citation": "20-94a"
       },
       "umbrella_agency": null
     },
@@ -35,8 +35,8 @@
       },
       "accrediting_body": {
         "value": "Connecticut State Board of Examiners for Nursing",
-        "quote": "approved by the Connecticut State Board of Examiners for Nursing",
-        "citation": "20-90"
+        "quote": "nursing program approved by said board with the consent of the Commissioner of Public Health",
+        "citation": "20-93"
       },
       "degree_level": {
         "value": "none",
@@ -45,7 +45,7 @@
       },
       "school_approval_basis": {
         "value": "board_approved",
-        "quote": "a nursing program approved by said board with the consent of the Commissioner of Public Health",
+        "quote": "nursing program approved by said board with the consent of the Commissioner of Public Health",
         "citation": "20-93"
       },
       "credential_pegged": {
@@ -55,32 +55,32 @@
       },
       "tiers": [
         {
-          "license_class": "Advanced Practice Registered Nurse",
-          "degree_level": "master",
-          "effective_date": null,
-          "quote": "holds a graduate degree in nursing or in a related field recognized for certification as either a nurse practitioner, a clinical nurse specialist, or a nurse anesthetist",
-          "citation": "20-94a"
-        },
-        {
-          "license_class": "Registered Nurse",
+          "license_class": "Registered Nurse (RN)",
           "degree_level": "none",
           "effective_date": null,
-          "quote": "holds a degree, diploma or certificate from an accredited institution evidencing satisfactory completion of a nursing program approved by said board",
+          "quote": "holds a degree, diploma or certificate from an accredited institution evidencing satisfactory completion of a nursing program approved by said board with the consent of the Commissioner of Public Health",
           "citation": "20-93"
         },
         {
-          "license_class": "Licensed Practical Nurse",
+          "license_class": "Licensed Practical Nurse (LPN)",
           "degree_level": "none",
           "effective_date": null,
           "quote": "holds a certificate from a nursing program approved by said board with the consent of the Commissioner of Public Health, which program consists of not less than twelve months' instruction in the care of the sick",
           "citation": "20-96"
+        },
+        {
+          "license_class": "Advanced Practice Registered Nurse (APRN)",
+          "degree_level": "master",
+          "effective_date": null,
+          "quote": "holds a graduate degree in nursing or in a related field recognized for certification as either a nurse practitioner, a clinical nurse specialist, or a nurse anesthetist",
+          "citation": "20-94a"
         }
       ]
     },
     "post_degree_experience": {
       "required": {
         "value": false,
-        "quote": "holds a degree, diploma or certificate from an accredited institution evidencing satisfactory completion of a nursing program approved by said board with the consent of the Commissioner of Public Health shall be eligible for examination for licensure as a registered nurse",
+        "quote": "holds a degree, diploma or certificate from an accredited institution evidencing satisfactory completion of a nursing program approved by said board",
         "citation": "20-93"
       },
       "experience_source": {
@@ -93,18 +93,27 @@
     },
     "exams": [
       {
-        "name": "National Council Licensure Examination (NCLEX)",
+        "name": "National Council Licensure Examination (NCLEX-RN)",
         "required": true,
-        "notes": "Administered by the Department of Public Health under the supervision of the board; passing scores established by department with consent of board.",
-        "jurisdiction": "national (NCLEX)",
+        "notes": "Required for RN licensure; department prescribes and administers the examination",
+        "jurisdiction": "national (NCSBN)",
         "permitted_attempts": null,
         "quote": "The Department of Public Health, with the advice and consent of the board shall prescribe examinations for applicants for licensure as registered nurses and licensed practical nurses",
         "citation": "20-92"
       },
       {
+        "name": "National Council Licensure Examination for Practical Nurses (NCLEX-PN)",
+        "required": true,
+        "notes": "Required for LPN licensure",
+        "jurisdiction": "national (NCSBN)",
+        "permitted_attempts": null,
+        "quote": "Such examination shall include such subjects as the department, with the advice and consent of the board, determines. If such applicant passes such examination said department shall issue to such applicant a license to practice as a licensed practical nurse",
+        "citation": "20-96"
+      },
+      {
         "name": "National certification examination (APRN)",
         "required": true,
-        "notes": "For APRN licensure; must hold and maintain current certification from an approved national certifying body.",
+        "notes": "National certification from an approved certifying body is required for APRN licensure",
         "jurisdiction": "national",
         "permitted_attempts": null,
         "quote": "holds and maintains current certification as a nurse practitioner, a clinical nurse specialist or a nurse anesthetist from one of the following national certifying bodies",
@@ -114,7 +123,7 @@
     "renewal": {
       "interval_years": {
         "value": 1,
-        "quote": "Registration period\" means the one-year period for which a license has been renewed in accordance with section 19a-88 and is current and valid.",
+        "quote": "\"Registration period\" means the one-year period for which a license has been renewed in accordance with section 19a-88 and is current and valid.",
         "citation": "20-94d"
       }
     },
@@ -132,20 +141,20 @@
       },
       "period_years": {
         "value": 2,
-        "quote": "a minimum of fifty contact hours of continuing education within the preceding twenty-four-month period",
+        "quote": "earn a minimum of fifty contact hours of continuing education within the preceding twenty-four-month period",
         "citation": "20-94d"
       },
       "topical_requirements": {
         "value": [
-          "pharmacotherapeutics (at least 5 contact hours)",
-          "infectious diseases including AIDS/HIV",
-          "risk management",
-          "sexual assault",
-          "domestic violence",
-          "cultural competency",
-          "substance abuse including prescribing controlled substances and pain management",
-          "mental health conditions common to veterans and family members of veterans",
-          "post-traumatic stress disorder screening and suicide prevention (RNs and LPNs)"
+          "at least five contact hours in pharmacotherapeutics",
+          "at least one contact hour in infectious diseases including AIDS/HIV",
+          "at least one contact hour in risk management",
+          "at least one contact hour in sexual assault",
+          "at least one contact hour in domestic violence",
+          "at least one contact hour in cultural competency",
+          "at least one contact hour in substance abuse including prescribing controlled substances and pain management",
+          "not less than two contact hours on mental health conditions common to veterans (first renewal period and not less than once every six years)",
+          "suicide prevention training (RN/LPN: first renewal period and not less than once every six years)"
         ],
         "quote": "include at least five contact hours of training or education in pharmacotherapeutics; (4) include at least one contact hour of training or education in each of the following topics: (A) Infectious diseases, including, but not limited to, acquired immune deficiency syndrome and human immunodeficiency virus, (B) risk management, (C) sexual assault, (D) domestic violence, (E) cultural competency, and (F) substance abuse, including, but not limited to, prescribing controlled substances and pain management",
         "citation": "20-94d"
@@ -158,8 +167,8 @@
         "citation": "20-94"
       },
       "requirements": {
-        "value": "Licensure requirements in other state must be substantially similar to or higher than those of Connecticut; no pending disciplinary action or unresolved complaint; fee of $180.",
-        "quote": "which has licensure requirements that are substantially similar to or higher than those of this state shall be eligible for licensure in this state and entitled to a license without examination upon payment of a fee of one hundred eighty dollars",
+        "value": "Licensure without examination available if licensed in another state/territory with substantially similar or higher requirements; no pending disciplinary action or unresolved complaint; fee of $180.",
+        "quote": "Any registered nurse who is licensed at the time of application in another state of the United States, the District of Columbia or a commonwealth or territory subject to the laws of the United States, which has licensure requirements that are substantially similar to or higher than those of this state shall be eligible for licensure in this state and entitled to a license without examination upon payment of a fee of one hundred eighty dollars.",
         "citation": "20-94"
       }
     },
@@ -185,7 +194,7 @@
     },
     "credential_type": {
       "value": "license",
-      "quote": "said department shall issue to such applicant a license to practice nursing in this state",
+      "quote": "If such applicant passes such examination said department shall issue to such applicant a license to practice nursing in this state.",
       "citation": "20-93"
     },
     "is_mandatory": {
@@ -217,13 +226,13 @@
         "citation": "20-99"
       },
       {
-        "short_label": "physical_illness_or_loss_of_motor_skill",
+        "short_label": "physical_illness_loss_of_motor_skill",
         "description": "Physical illness or loss of motor skill, including deterioration through the aging process",
         "quote": "physical illness or loss of motor skill, including, but not limited to deterioration through the aging process",
         "citation": "20-99"
       },
       {
-        "short_label": "emotional_disorder_or_mental_illness",
+        "short_label": "emotional_disorder_mental_illness",
         "description": "Emotional disorder or mental illness",
         "quote": "emotional disorder or mental illness",
         "citation": "20-99"
@@ -242,7 +251,7 @@
       },
       {
         "short_label": "falsification_of_records",
-        "description": "Wilful falsification of entries in any hospital, patient or other record pertaining to drugs, the results of which are detrimental to the health of a patient",
+        "description": "Wilful falsification of entries in any hospital, patient or other record pertaining to drugs, detrimental to patient health",
         "quote": "wilful falsification of entries in any hospital, patient or other record pertaining to drugs, the results of which are detrimental to the health of a patient",
         "citation": "20-99"
       },
@@ -271,15 +280,15 @@
     "citations": [
       {
         "cite": "20-87a",
-        "kind": "scope of practice"
+        "kind": "scope_of_practice"
       },
       {
         "cite": "20-88",
-        "kind": "board composition"
+        "kind": "board_composition"
       },
       {
         "cite": "20-90",
-        "kind": "board duties"
+        "kind": "board_duties"
       },
       {
         "cite": "20-92",
@@ -287,95 +296,83 @@
       },
       {
         "cite": "20-93",
-        "kind": "RN licensure"
+        "kind": "RN_licensure"
       },
       {
         "cite": "20-94",
-        "kind": "licensure without examination"
+        "kind": "licensure_without_examination"
       },
       {
         "cite": "20-94a",
-        "kind": "APRN licensure"
+        "kind": "APRN_licensure"
       },
       {
         "cite": "20-94b",
-        "kind": "CRNA prescriptive authority"
+        "kind": "CRNA_prescriptive_authority"
       },
       {
         "cite": "20-94c",
-        "kind": "APRN insurance"
+        "kind": "APRN_insurance"
       },
       {
         "cite": "20-94d",
-        "kind": "APRN continuing education"
+        "kind": "APRN_continuing_education"
       },
       {
         "cite": "20-94e",
-        "kind": "RN/LPN training requirements"
+        "kind": "RN_LPN_training_requirement"
       },
       {
         "cite": "20-95",
-        "kind": "RN title protection"
+        "kind": "RN_title_protection"
       },
       {
         "cite": "20-96",
-        "kind": "LPN licensure"
+        "kind": "LPN_licensure"
       },
       {
         "cite": "20-97",
-        "kind": "LPN licensure without examination"
+        "kind": "LPN_licensure_without_examination"
       },
       {
         "cite": "20-98",
-        "kind": "LPN title protection"
+        "kind": "LPN_title_protection"
       },
       {
         "cite": "20-99",
-        "kind": "disciplinary grounds"
+        "kind": "disciplinary_grounds"
       },
       {
         "cite": "20-99b",
-        "kind": "Nurse Licensure Compact"
-      },
-      {
-        "cite": "20-99c",
-        "kind": "multistate license criminal history check"
-      },
-      {
-        "cite": "20-99d",
-        "kind": "converting multistate license"
+        "kind": "nurse_licensure_compact"
       },
       {
         "cite": "20-101",
-        "kind": "permitted practices"
+        "kind": "permitted_practices"
       },
       {
         "cite": "20-101a",
-        "kind": "RN death pronouncement"
+        "kind": "RN_death_pronouncement"
       },
       {
         "cite": "20-102",
-        "kind": "scope protection/penalty"
+        "kind": "penalty_scope_protection"
       },
       {
         "cite": "20-102aa",
-        "kind": "nurse aide registration"
+        "kind": "nurse_aide_definitions"
       },
       {
         "cite": "20-102cc",
-        "kind": "nurse aide registry findings"
+        "kind": "nurse_aide_registry"
       },
       {
         "cite": "20-102dd",
-        "kind": "nurse aide registration denial"
+        "kind": "nurse_aide_registration_denial"
       },
       {
         "cite": "20-102ee",
-        "kind": "nurse aide training requirements"
-      },
-      {
-        "cite": "20-102ff",
-        "kind": "nurse aide practice limitation"
+        "kind": "nurse_aide_training_requirements"
       }
     ]
   },
@@ -392,30 +389,26 @@
         "health counseling and teaching",
         "case finding and referral",
         "collaborating in the implementation of the total health care regimen",
-        "executing the medical regimen under direction of licensed physician, dentist, or APRN",
+        "executing the medical regimen under the direction of a licensed physician, dentist or advanced practice registered nurse",
         "prescribing, dispensing and administering medical therapeutics and corrective measures (APRN)",
-        "making determination and pronouncement of death (APRN and RN in specified settings)"
+        "performing acts of diagnosis and treatment of alterations in health status (APRN)"
       ],
       "quote": "The practice of nursing by a registered nurse is defined as the process of diagnosing human responses to actual or potential health problems, providing supportive and restorative care, health counseling and teaching, case finding and referral, collaborating in the implementation of the total health care regimen, and executing the medical regimen under the direction of a licensed physician, dentist or advanced practice registered nurse.",
       "citation": "20-87a"
     },
     "drug_authority": {
-      "value": "APRNs may prescribe, dispense and administer medical therapeutics and corrective measures including controlled substances in schedules II, III, IV, and V. During first 3 years after licensure, must collaborate with a physician and collaboration re schedule II/III must be in writing. After 3 years and 2,000 hours of collaborative practice, may prescribe independently. CRNAs may prescribe schedules II-V; during surgery, prescribing physician must be physically present.",
+      "value": "APRNs may prescribe, dispense and administer medical therapeutics and corrective measures including controlled substances in schedules II, III, IV, and V. For the first three years after licensure, an APRN must collaborate with a physician; thereafter, an APRN may prescribe independently after meeting the required 3-year/2,000-hour threshold. CRNAs certified by AANA may prescribe, dispense and administer drugs including controlled substances in schedule II, III, IV, or V.",
       "quote": "An advanced practice registered nurse having been issued a license pursuant to section 20-94a shall, for the first three years after having been issued such license, collaborate with a physician licensed to practice medicine in this state. In all settings, such advanced practice registered nurse may, in collaboration with a physician licensed to practice medicine in this state, prescribe, dispense and administer medical therapeutics and corrective measures",
       "citation": "20-87a"
     },
     "citations": [
       {
         "cite": "20-87a",
-        "kind": "scope of practice"
+        "kind": "scope_of_practice"
       },
       {
         "cite": "20-94b",
-        "kind": "CRNA prescriptive authority"
-      },
-      {
-        "cite": "20-101a",
-        "kind": "RN death pronouncement"
+        "kind": "CRNA_drug_authority"
       }
     ]
   },
@@ -426,12 +419,14 @@
         "Licensed Practical Nurse (LPN)",
         "Advanced Practice Registered Nurse (APRN)",
         "Certified Registered Nurse Anesthetist (CRNA)",
+        "Certified Nurse Practitioner (CNP/CRNP/NP)",
+        "Clinical Nurse Specialist (CNS)",
         "Certified Nurse Aide (CNA)",
         "Multistate License (Nurse Licensure Compact)",
         "Temporary Permit to Practice Nursing"
       ],
-      "quote": "No person shall, for remuneration, (1) practice nursing, as defined in subsection (a) of section 20-87a, in this state unless such person has received a certificate as a registered nurse or a license as an advanced practice registered nurse; or (2) practice advanced nursing practice, as defined in subsection (b) of said section, unless such person has received a license as an advanced practice registered nurse; or (3) practice nursing, as defined in subsection (c) of said section, unless such person has been certified as a licensed practical nurse or a registered nurse or licensed as an advanced practice registered nurse.",
-      "citation": "20-102"
+      "quote": "The Department of Public Health may issue an advanced practice registered nurse license to a person seeking to perform the activities described in subsection (b) of section 20-87a, upon receipt of a fee of two hundred dollars, to an applicant who: (1) Maintains a license as a registered nurse in this state",
+      "citation": "20-94a"
     },
     "aprn_role_categories": {
       "value": [
@@ -448,8 +443,9 @@
         "Advanced Practice Registered Nurse",
         "Physician",
         "Physician Assistant",
+        "Podiatrist",
         "Dentist",
-        "Podiatrist"
+        "Optometrist"
       ],
       "quote": "The practice of nursing by a licensed practical nurse is defined as the performing of selected tasks and sharing of responsibility under the direction of a registered nurse or an advanced practice registered nurse and within the framework of supportive and restorative care, health counseling and teaching, case finding and referral, collaborating in the implementation of the total health care regimen and executing the medical regimen under the direction of a licensed physician, physician assistant, podiatrist, optometrist or dentist.",
       "citation": "20-87a"
@@ -471,8 +467,8 @@
     },
     "prescriptive_authority_certificate_required": {
       "value": false,
-      "quote": "An advanced practice registered nurse licensed pursuant to section 20-94a and maintaining current certification from the American Association of Nurse Anesthetists may prescribe, dispense and administer drugs, including controlled substances in schedule II, III, IV, or V.",
-      "citation": "20-94b"
+      "quote": "may, in collaboration with a physician licensed to practice medicine in this state, prescribe, dispense and administer medical therapeutics and corrective measures",
+      "citation": "20-87a"
     },
     "controlled_substance_schedule_authority": {
       "value": [
@@ -541,14 +537,14 @@
       {
         "item": "Registered Nurse (RN)",
         "status": "present",
-        "quote": "No person shall, for remuneration, (1) practice nursing, as defined in subsection (a) of section 20-87a, in this state unless such person has received a certificate as a registered nurse",
-        "citation": "20-102"
+        "quote": "If such applicant passes such examination said department shall issue to such applicant a license to practice nursing in this state.",
+        "citation": "20-93"
       },
       {
         "item": "Licensed Practical Nurse (LPN)",
         "status": "present",
-        "quote": "practice nursing, as defined in subsection (c) of said section, unless such person has been certified as a licensed practical nurse or a registered nurse or licensed as an advanced practice registered nurse",
-        "citation": "20-102"
+        "quote": "If such applicant passes such examination said department shall issue to such applicant a license to practice as a licensed practical nurse in this state.",
+        "citation": "20-96"
       },
       {
         "item": "Advanced Practice Registered Nurse (APRN)",
@@ -570,9 +566,9 @@
       },
       {
         "item": "Certified Nurse Midwife (CNM)",
-        "status": "absent",
-        "quote": "",
-        "citation": ""
+        "status": "present",
+        "quote": "All prescription forms used by advanced practice registered nurses and nurse-midwives shall contain the name, address and telephone number of the advanced practice registered nurse or the nurse-midwife.",
+        "citation": "20-101c"
       },
       {
         "item": "Clinical Nurse Specialist (CNS)",
@@ -583,7 +579,7 @@
       {
         "item": "Certified Nurse Aide (CNA)",
         "status": "present",
-        "quote": "\"registration\" means a document issued by the Department of Public Health to a nurse's aide which certifies that such aide has satisfied the training and competency evaluation requirements prescribed by the commissioner and has been found qualified for employment in a chronic and convalescent nursing home or rest home with nursing supervision",
+        "quote": "\"registration\" means a document issued by the Department of Public Health to a nurse's aide which certifies that such aide has satisfied the training and competency evaluation requirements prescribed by the commissioner",
         "citation": "20-102aa"
       },
       {
@@ -594,9 +590,9 @@
       },
       {
         "item": "Full Independent Practice Authority Certificate",
-        "status": "present",
-        "quote": "Not later than December first, annually, the Commissioner of Public Health shall publish on the department's Internet web site a list of such advanced practice registered nurses who are authorized to practice not in collaboration with a physician.",
-        "citation": "20-87a"
+        "status": "absent",
+        "quote": "",
+        "citation": ""
       },
       {
         "item": "Nursing Home Administrator License",
@@ -613,7 +609,7 @@
       {
         "item": "Temporary Permit to Practice Nursing",
         "status": "present",
-        "quote": "The Department of Public Health may issue a temporary permit to an applicant for licensure without examination or to an applicant previously licensed in Connecticut whose license has become void pursuant to section 19a-88",
+        "quote": "The Department of Public Health may issue a temporary permit to an applicant for licensure without examination",
         "citation": "20-94"
       }
     ],
@@ -627,14 +623,14 @@
       {
         "item": "Certified Registered Nurse Anesthetist",
         "status": "present",
-        "quote": "An advanced practice registered nurse licensed pursuant to section 20-94a and maintaining current certification from the American Association of Nurse Anesthetists may prescribe, dispense and administer drugs",
+        "quote": "An advanced practice registered nurse licensed pursuant to section 20-94a and maintaining current certification from the American Association of Nurse Anesthetists",
         "citation": "20-94b"
       },
       {
         "item": "Certified Nurse Midwife",
-        "status": "absent",
-        "quote": "",
-        "citation": ""
+        "status": "present",
+        "quote": "All prescription forms used by advanced practice registered nurses and nurse-midwives shall contain the name, address and telephone number of the advanced practice registered nurse or the nurse-midwife.",
+        "citation": "20-101c"
       },
       {
         "item": "Clinical Nurse Specialist",

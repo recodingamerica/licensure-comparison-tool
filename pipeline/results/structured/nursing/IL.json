@@ -4,7 +4,7 @@
   "licensure": {
     "license_required": {
       "value": true,
-      "quote": "any person practicing or offering to practice advanced, professional, or practical nursing in Illinois shall submit evidence that he or she is qualified to practice, and shall be licensed as provided under this Act. No person shall practice or offer to practice advanced, professional, or practical nursing in Illinois or use any title, sign, card or device to indicate that such a person is practicing professional or practical nursing unless such person has been licensed under the provisions of this Act.",
+      "quote": "any person practicing or offering to practice advanced, professional, or practical nursing in Illinois shall submit evidence that he or she is qualified to practice, and shall be licensed as provided under this Act.",
       "citation": "225 ILCS 65/50-15"
     },
     "issuing_authority": {
@@ -29,24 +29,24 @@
     "moral_character_required": null,
     "education": {
       "degree_required": {
-        "value": "Graduated from an approved professional or practical nursing education program; APRN requires a graduate degree appropriate for national certification in a clinical advanced practice registered nursing specialty",
+        "value": "Graduated from an approved professional or practical nursing education program; for APRN: a graduate degree appropriate for national certification in a clinical advanced practice registered nursing specialty",
         "quote": "the applicant has obtained a graduate degree appropriate for national certification in a clinical advanced practice registered nursing specialty or a graduate degree or post-master's certificate from a graduate level program in a clinical advanced practice registered nursing specialty",
         "citation": "225 ILCS 65/65-5"
       },
       "accrediting_body": {
-        "value": "Department-approved programs; RN programs must obtain national accreditation by a national accrediting body for nursing education recognized by the U.S. Department of Education and approved by the Department",
+        "value": "Department-approved programs; for RN programs beginning December 31, 2022, national accrediting body recognized by the U.S. Department of Education and approved by the Department",
         "quote": "beginning December 31, 2022, obtaining and maintaining programmatic accreditation by a national accrediting body for nursing education recognized by the United States Department of Education and approved by the Department.",
         "citation": "225 ILCS 65/60-5"
       },
       "degree_level": {
-        "value": "none",
+        "value": "bachelor",
         "quote": "the applicant has graduated from a practical nursing education program approved by the Department",
         "citation": "225 ILCS 65/55-10"
       },
       "school_approval_basis": {
         "value": "board_approved",
-        "quote": "All Illinois practical nurse education programs must be reviewed by the Board and approved by the Department before the successful completion of such a program may be applied toward meeting the requirements for practical nurse licensure under this Act.",
-        "citation": "225 ILCS 65/55-5"
+        "quote": "approved program of professional nursing education\" and \"approved program of practical nursing education\" are programs of professional or practical nursing, respectively, approved by the Department under the provisions of this Act.",
+        "citation": "225 ILCS 65/50-10"
       },
       "credential_pegged": {
         "value": true,
@@ -56,14 +56,14 @@
       "tiers": [
         {
           "license_class": "Licensed Practical Nurse (LPN)",
-          "degree_level": "none",
+          "degree_level": "associate",
           "effective_date": null,
           "quote": "the applicant has graduated from a practical nursing education program approved by the Department",
           "citation": "225 ILCS 65/55-10"
         },
         {
           "license_class": "Registered Professional Nurse (RN)",
-          "degree_level": "none",
+          "degree_level": "bachelor",
           "effective_date": null,
           "quote": "the applicant has graduated from a professional nursing education program approved by the Department",
           "citation": "225 ILCS 65/60-10"
@@ -79,23 +79,31 @@
     },
     "post_degree_experience": {
       "required": {
-        "value": false,
-        "quote": "the applicant has graduated from a professional nursing education program approved by the Department",
-        "citation": "225 ILCS 65/60-10"
+        "value": true,
+        "quote": "an advanced practice registered nurse certified as a nurse midwife, clinical nurse specialist, or nurse practitioner who files with the Department a notarized attestation of completion of at least 250 hours of continuing education or training and at least 4,000 hours of clinical experience after first attaining national certification shall not require a written collaborative agreement.",
+        "citation": "225 ILCS 65/65-43"
       },
       "experience_source": {
-        "value": "none",
-        "quote": "the applicant has graduated from a professional nursing education program approved by the Department",
-        "citation": "225 ILCS 65/60-10"
+        "value": "required_by_statute",
+        "quote": "at least 4,000 hours of clinical experience after first attaining national certification",
+        "citation": "225 ILCS 65/65-43"
       },
-      "duration": null,
-      "kind": null
+      "duration": {
+        "value": "4,000 hours of clinical experience after first attaining national certification (for full practice authority)",
+        "quote": "at least 4,000 hours of clinical experience after first attaining national certification",
+        "citation": "225 ILCS 65/65-43"
+      },
+      "kind": {
+        "value": "Clinical experience in the APRN's area of certification, in collaboration with a physician or physicians",
+        "quote": "The clinical experience must be in the advanced practice registered nurse's area of certification. The clinical experience shall be in collaboration with a physician or physicians.",
+        "citation": "225 ILCS 65/65-43"
+      }
     },
     "exams": [
       {
         "name": "Department-approved licensure examination (LPN)",
         "required": true,
-        "notes": "Applicants have 3 years from date of application to pass; failure within 3 years requires additional education before reapplication.",
+        "notes": "Applicant must pass within 3 years of application date; failure requires additional course of education before reapplication.",
         "jurisdiction": "Department-approved (national NCLEX-PN equivalent)",
         "permitted_attempts": null,
         "quote": "the applicant has successfully completed a licensure examination approved by the Department",
@@ -104,7 +112,7 @@
       {
         "name": "Department-approved licensure examination (RN)",
         "required": true,
-        "notes": "Applicants have 3 years from date of application to pass; failure within 3 years requires additional education before reapplication.",
+        "notes": "Applicant must pass within 3 years of application; failure within 3 years requires additional education before reapplication. Programs with <75% passage rate are not placed on probationary status prior to September 1, 2026.",
         "jurisdiction": "Department-approved (national NCLEX-RN equivalent)",
         "permitted_attempts": null,
         "quote": "the applicant has successfully completed a licensure examination approved by the Department",
@@ -113,8 +121,8 @@
       {
         "name": "National certification examination (APRN)",
         "required": true,
-        "notes": "Must hold and maintain current national certification as CNM, CNP, CRNA, or CNS from appropriate national certifying body as determined by Department rule.",
-        "jurisdiction": "national (appropriate national certifying body)",
+        "notes": "Must hold and maintain current national certification as CNM, CNP, CRNA, or CNS from the appropriate national certifying body as determined by rule.",
+        "jurisdiction": "national (appropriate national certifying body as determined by rule)",
         "permitted_attempts": null,
         "quote": "the applicant has successfully completed requirements to practice as, and holds and maintains current, national certification as, a nurse midwife, clinical nurse specialist, nurse practitioner, or certified registered nurse anesthetist from the appropriate national certifying body as determined by rule of the Department",
         "citation": "225 ILCS 65/65-5"
@@ -142,9 +150,10 @@
       },
       "topical_requirements": {
         "value": [
-          "minimum 50 hours in continuing education programs including no less than 20 hours of pharmacotherapeutics including 10 hours of opioid prescribing or substance abuse education (APRN)",
-          "maximum 30 hours from presentations, publications, research, preceptor hours (APRN)",
-          "20 hours per 2-year cycle (RN/LPN)"
+          "Minimum 50 hours in continuing education programs in APRN's specialty",
+          "No less than 20 hours of pharmacotherapeutics",
+          "10 hours of opioid prescribing or substance abuse education",
+          "Maximum 30 hours from presentations, publications, research, preceptor hours"
         ],
         "quote": "A minimum of 50 hours of the continuing education shall be obtained in continuing education programs as determined by rule that shall include no less than 20 hours of pharmacotherapeutics, including 10 hours of opioid prescribing or substance abuse education.",
         "citation": "225 ILCS 65/65-60"
@@ -157,7 +166,7 @@
         "citation": "225 ILCS 65/55-11"
       },
       "requirements": {
-        "value": "Applicant must have graduated from an approved nursing education program, successfully completed a licensure examination approved by the Department, hold a license from another U.S. or foreign jurisdiction (verified), submit to criminal history records check, and meet all other Department requirements.",
+        "value": "Applicant must have graduated from an approved nursing education program, successfully completed a licensure examination approved by the Department, been issued a license by another U.S. or foreign jurisdiction (verified), submitted to criminal history records check, and met all other requirements by rule. Similar endorsement available for RNs and APRNs.",
         "quote": "the applicant has been issued a licensed practical nurse license by another United States or foreign jurisdiction, which shall be verified, as defined by rule",
         "citation": "225 ILCS 65/55-11"
       }
@@ -165,21 +174,21 @@
     "advisory_board": {
       "exists": {
         "value": false,
-        "quote": "The Secretary shall solicit recommendations from nursing organizations and appoint the Board of Nursing, which shall consist of 13 members",
-        "citation": "225 ILCS 65/50-65"
+        "quote": "\"Board\" means the Board of Nursing appointed by the Secretary.",
+        "citation": "225 ILCS 65/50-10"
       },
       "name": null,
       "authority": null
     },
     "national_certification": {
-      "value": "Appropriate national certifying body (CNM, CNP, CRNA, CNS) as determined by rule; Council on Certification of the American Association of Nurse Anesthetists; Council on Recertification of the American Association of Nurse Anesthetists",
+      "value": "Appropriate national certifying body as determined by rule (e.g., Council on Certification of the American Association of Nurse Anesthetists; Council on Recertification of the American Association of Nurse Anesthetists for CRNAs)",
       "quote": "the applicant has successfully completed requirements to practice as, and holds and maintains current, national certification as, a nurse midwife, clinical nurse specialist, nurse practitioner, or certified registered nurse anesthetist from the appropriate national certifying body as determined by rule of the Department",
       "citation": "225 ILCS 65/65-5"
     },
     "national_association": null,
     "regulatory_model": {
       "value": "license",
-      "quote": "No person shall practice or offer to practice advanced, professional, or practical nursing in Illinois or use any title, sign, card or device to indicate that such a person is practicing professional or practical nursing unless such person has been licensed under the provisions of this Act.",
+      "quote": "any person practicing or offering to practice advanced, professional, or practical nursing in Illinois shall submit evidence that he or she is qualified to practice, and shall be licensed as provided under this Act. No person shall practice or offer to practice advanced, professional, or practical nursing in Illinois or use any title, sign, card or device to indicate that such a person is practicing professional or practical nursing unless such person has been licensed under the provisions of this Act.",
       "citation": "225 ILCS 65/50-15"
     },
     "credential_type": {
@@ -199,206 +208,242 @@
     },
     "scope_protection": {
       "value": true,
-      "quote": "No person shall: Practice as an advanced practice registered nurse without a valid license as an advanced practice registered nurse",
+      "quote": "No person shall: (1) Practice as an advanced practice registered nurse without a valid license as an advanced practice registered nurse... (2) Practice professional nursing without a valid license as a registered professional nurse... (3) Practice practical nursing without a valid license as a licensed practical nurse",
       "citation": "225 ILCS 65/50-50"
     },
     "disciplinary_grounds": [
       {
         "short_label": "material_deception_to_department",
-        "description": "Material deception in furnishing information to the Department",
+        "description": "Material deception in furnishing information to the Department.",
         "quote": "Material deception in furnishing information to the Department.",
         "citation": "225 ILCS 65/70-5"
       },
       {
         "short_label": "violation_of_act_or_rules",
-        "description": "Material violations of any provision of this Act or rules/final administrative action of the Secretary",
+        "description": "Material violations of any provision of this Act or rules/final administrative action of the Secretary.",
         "quote": "Material violations of any provision of this Act or violation of the rules of or final administrative action of the Secretary, after consideration of the recommendation of the Board.",
         "citation": "225 ILCS 65/70-5"
       },
       {
         "short_label": "criminal_conviction",
-        "description": "Conviction of any crime that is a felony or a misdemeanor involving dishonesty or directly related to practice",
+        "description": "Conviction of a felony or a misdemeanor involving dishonesty or directly related to the practice of nursing.",
         "quote": "Conviction by plea of guilty or nolo contendere, finding of guilt, jury verdict, or entry of judgment or by sentencing of any crime, including, but not limited to, convictions, preceding sentences of supervision, conditional discharge, or first offender probation, under the laws of any jurisdiction of the United States: (i) that is a felony; or (ii) that is a misdemeanor, an essential element of which is dishonesty, or that is directly related to the practice of the profession.",
         "citation": "225 ILCS 65/70-5"
       },
       {
-        "short_label": "incapacity_or_incompetence",
-        "description": "Pattern of practice demonstrating incapacity or incompetency to practice",
+        "short_label": "incapacity_or_incompetency",
+        "description": "A pattern of practice or other behavior demonstrating incapacity or incompetency to practice.",
         "quote": "A pattern of practice or other behavior which demonstrates incapacity or incompetency to practice under this Act.",
         "citation": "225 ILCS 65/70-5"
       },
       {
-        "short_label": "aiding_violation_of_act",
-        "description": "Knowingly aiding or assisting another person in violating the Act or rules",
+        "short_label": "aiding_violations",
+        "description": "Knowingly aiding or assisting another person in violating any provision of this Act or rules.",
         "quote": "Knowingly aiding or assisting another person in violating any provision of this Act or rules.",
         "citation": "225 ILCS 65/70-5"
       },
       {
         "short_label": "failure_to_respond_to_department",
-        "description": "Failing within 90 days to provide a response to a written request for information from the Department",
+        "description": "Failing within 90 days to provide a response to a written request for information from the Department.",
         "quote": "Failing, within 90 days, to provide a response to a request for information in response to a written request made by the Department by certified or registered mail or by email to the email address of record.",
         "citation": "225 ILCS 65/70-5"
       },
       {
         "short_label": "dishonorable_unprofessional_conduct",
-        "description": "Engaging in dishonorable, unethical, or unprofessional conduct likely to deceive, defraud, or harm the public",
+        "description": "Engaging in dishonorable, unethical, or unprofessional conduct likely to deceive, defraud, or harm the public.",
         "quote": "Engaging in dishonorable, unethical, or unprofessional conduct of a character likely to deceive, defraud, or harm the public, as defined by rule.",
         "citation": "225 ILCS 65/70-5"
       },
       {
         "short_label": "unlawful_drug_activity",
-        "description": "Unlawful taking, theft, selling, distributing, or manufacturing of any drug, narcotic, or prescription device",
+        "description": "Unlawful taking, theft, selling, distributing, or manufacturing of any drug, narcotic, or prescription device.",
         "quote": "Unlawful taking, theft, selling, distributing, or manufacturing of any drug, narcotic, or prescription device.",
         "citation": "225 ILCS 65/70-5"
       },
       {
-        "short_label": "substance_abuse_addiction",
-        "description": "Habitual or excessive use or addiction to alcohol, narcotics, or other chemical agents that could impair practice",
+        "short_label": "substance_abuse_or_addiction",
+        "description": "Habitual or excessive use or addiction to alcohol, narcotics, stimulants, or other chemical agents or drugs that could result in inability to practice.",
         "quote": "Habitual or excessive use or addiction to alcohol, narcotics, stimulants, or any other chemical agent or drug that could result in a licensee's inability to practice with reasonable judgment, skill, or safety.",
         "citation": "225 ILCS 65/70-5"
       },
       {
         "short_label": "discipline_by_other_jurisdiction",
-        "description": "Discipline by another U.S. jurisdiction or foreign nation on substantially equivalent grounds",
+        "description": "Discipline by another U.S. jurisdiction or foreign nation on substantially equivalent grounds.",
         "quote": "Discipline by another U.S. jurisdiction or foreign nation, if at least one of the grounds for the discipline is the same or substantially equivalent to those set forth in this Section.",
         "citation": "225 ILCS 65/70-5"
       },
       {
         "short_label": "violation_of_probation_terms",
-        "description": "Violation of terms of probation or conditions/restrictions on license",
+        "description": "Violation of the terms of probation or conditions placed on the license.",
         "quote": "A finding that the licensee, after having her or his license placed on probationary status or subject to conditions or restrictions, has violated the terms of probation or failed to comply with such terms or conditions.",
         "citation": "225 ILCS 65/70-5"
       },
       {
-        "short_label": "indicated_child_abuse_report",
-        "description": "Being named as a perpetrator in an indicated child abuse/neglect report with clear and convincing evidence",
-        "quote": "Being named as a perpetrator in an indicated report by the Department of Children and Family Services and under the Abused and Neglected Child Reporting Act, and upon proof by clear and convincing evidence that the licensee has caused a child to be an abused child or neglected child",
+        "short_label": "child_abuse_perpetrator",
+        "description": "Being named as a perpetrator in an indicated report of child abuse or neglect, proven by clear and convincing evidence.",
+        "quote": "Being named as a perpetrator in an indicated report by the Department of Children and Family Services and under the Abused and Neglected Child Reporting Act, and upon proof by clear and convincing evidence that the licensee has caused a child to be an abused child or neglected child as defined in the Abused and Neglected Child Reporting Act.",
         "citation": "225 ILCS 65/70-5"
       },
       {
         "short_label": "failure_to_file_medical_reports",
-        "description": "Willful omission to file or record required medical reports, or impeding such filing",
+        "description": "Willful omission to file or record, or willfully impeding the filing of medical reports as required by law.",
         "quote": "Willful omission to file or record, or willfully impeding the filing or recording or inducing another person to omit to file or record medical reports as required by law.",
         "citation": "225 ILCS 65/70-5"
       },
       {
         "short_label": "failure_to_report_child_abuse",
-        "description": "Willfully failing to report suspected child abuse or neglect as required by the Abused and Neglected Child Reporting Act",
+        "description": "Willfully failing to report an instance of suspected child abuse or neglect as required by law.",
         "quote": "Willfully failing to report an instance of suspected child abuse or neglect as required by the Abused and Neglected Child Reporting Act.",
         "citation": "225 ILCS 65/70-5"
       },
       {
-        "short_label": "gross_negligence_in_practice",
-        "description": "Gross negligence in the practice of practical, professional, or advanced practice registered nursing",
+        "short_label": "gross_negligence",
+        "description": "Gross negligence in the practice of practical, professional, or advanced practice registered nursing.",
         "quote": "Gross negligence in the practice of practical, professional, or advanced practice registered nursing.",
         "citation": "225 ILCS 65/70-5"
       },
       {
-        "short_label": "practicing_under_other_name",
-        "description": "Holding oneself out to be practicing nursing under any name other than one's own",
+        "short_label": "practicing_under_another_name",
+        "description": "Holding oneself out to be practicing nursing under any name other than one's own.",
         "quote": "Holding oneself out to be practicing nursing under any name other than one's own.",
         "citation": "225 ILCS 65/70-5"
       },
       {
         "short_label": "failure_to_report_adverse_action",
-        "description": "Failure to report to the Department any adverse final action taken against the licensee by another licensing or judicial authority",
-        "quote": "Failure of a licensee to report to the Department any adverse final action taken against him or her by another licensing jurisdiction of the United States or any foreign state or country, any peer review body, any health care institution, any professional or nursing society or association, any governmental agency, any law enforcement agency, or any court or a nursing liability claim",
+        "description": "Failure of a licensee to report adverse final actions taken against them by another licensing jurisdiction or authority.",
+        "quote": "Failure of a licensee to report to the Department any adverse final action taken against him or her by another licensing jurisdiction of the United States or any foreign state or country, any peer review body, any health care institution, any professional or nursing society or association, any governmental agency, any law enforcement agency, or any court or a nursing liability claim related to acts or conduct similar to acts or conduct that would constitute grounds for action as defined in this Section.",
         "citation": "225 ILCS 65/70-5"
       },
       {
-        "short_label": "failure_to_report_surrender_of_license",
-        "description": "Failure to report surrender of a license or authorization in another state while under disciplinary investigation",
-        "quote": "Failure of a licensee to report to the Department surrender by the licensee of a license or authorization to practice nursing or advanced practice registered nursing in another state or jurisdiction",
+        "short_label": "failure_to_report_license_surrender",
+        "description": "Failure of a licensee to report surrender of a license or membership on any staff while under disciplinary investigation.",
+        "quote": "Failure of a licensee to report to the Department surrender by the licensee of a license or authorization to practice nursing or advanced practice registered nursing in another state or jurisdiction or current surrender by the licensee of membership on any nursing staff or in any nursing or advanced practice registered nursing or professional association or society while under disciplinary investigation",
         "citation": "225 ILCS 65/70-5"
       },
       {
         "short_label": "failure_to_maintain_patient_records",
-        "description": "Failure to establish and maintain records of patient care and treatment as required by law",
+        "description": "Failure to establish and maintain records of patient care and treatment as required by law.",
         "quote": "Failure to establish and maintain records of patient care and treatment as required by law.",
         "citation": "225 ILCS 65/70-5"
       },
       {
         "short_label": "fraud_in_obtaining_license",
-        "description": "Fraud, deceit, or misrepresentation in applying for or procuring a license or renewal",
+        "description": "Fraud, deceit, or misrepresentation in applying for or procuring a license or in connection with applying for renewal.",
         "quote": "Fraud, deceit, or misrepresentation in applying for or procuring a license under this Act or in connection with applying for renewal of a license under this Act.",
         "citation": "225 ILCS 65/70-5"
       },
       {
-        "short_label": "allowing_use_of_license_to_deceive",
-        "description": "Allowing another person or organization to use the licensee's license to deceive the public",
+        "short_label": "allowing_license_misuse",
+        "description": "Allowing another person or organization to use the licensee's license to deceive the public.",
         "quote": "Allowing another person or organization to use the licensee's license to deceive the public.",
         "citation": "225 ILCS 65/70-5"
       },
       {
         "short_label": "false_records_or_reports",
-        "description": "Willfully making or filing false records or reports in the licensee's practice",
+        "description": "Willfully making or filing false records or reports in the licensee's practice.",
         "quote": "Willfully making or filing false records or reports in the licensee's practice, including, but not limited to, false records to support claims against the medical assistance program",
         "citation": "225 ILCS 65/70-5"
       },
       {
-        "short_label": "cheating_on_licensing_exam",
-        "description": "Attempting to subvert or cheat on a licensing examination",
+        "short_label": "cheating_on_exam",
+        "description": "Attempting to subvert or cheat on a licensing examination administered under this Act.",
         "quote": "Attempting to subvert or cheat on a licensing examination administered under this Act.",
         "citation": "225 ILCS 65/70-5"
       },
       {
-        "short_label": "sexual_misconduct",
-        "description": "Immoral conduct including sexual abuse, sexual misconduct, or sexual exploitation related to practice",
+        "short_label": "immoral_conduct_sexual_abuse",
+        "description": "Immoral conduct in the commission of an act including sexual abuse, sexual misconduct, or sexual exploitation related to the licensee's practice.",
         "quote": "Immoral conduct in the commission of an act, including, but not limited to, sexual abuse, sexual misconduct, or sexual exploitation, related to the licensee's practice.",
         "citation": "225 ILCS 65/70-5"
       },
       {
-        "short_label": "breach_of_patient_confidentiality",
-        "description": "Willfully or negligently violating the confidentiality between nurse and patient except as required by law",
+        "short_label": "violating_nurse_patient_confidentiality",
+        "description": "Willfully or negligently violating the confidentiality between nurse and patient except as required by law.",
         "quote": "Willfully or negligently violating the confidentiality between nurse and patient except as required by law.",
         "citation": "225 ILCS 65/70-5"
       },
       {
         "short_label": "practicing_under_false_name",
-        "description": "Practicing under a false or assumed name except as provided by law",
+        "description": "Practicing under a false or assumed name, except as provided by law.",
         "quote": "Practicing under a false or assumed name, except as provided by law.",
         "citation": "225 ILCS 65/70-5"
       },
       {
-        "short_label": "false_statements_in_practice_documents",
-        "description": "Use of any false, fraudulent, or deceptive statement in any document connected with practice",
+        "short_label": "false_fraudulent_statements_in_practice",
+        "description": "The use of any false, fraudulent, or deceptive statement in any document connected with the licensee's practice.",
         "quote": "The use of any false, fraudulent, or deceptive statement in any document connected with the licensee's practice.",
         "citation": "225 ILCS 65/70-5"
       },
       {
-        "short_label": "illegal_fee_splitting",
-        "description": "Giving or receiving fees or compensation for professional services not actually rendered",
+        "short_label": "improper_compensation",
+        "description": "Directly or indirectly giving or receiving a fee, commission, rebate, or other compensation for professional services not actually or personally rendered.",
         "quote": "Directly or indirectly giving to or receiving from a person, firm, corporation, partnership, or association a fee, commission, rebate, or other form of compensation for professional services not actually or personally rendered.",
         "citation": "225 ILCS 65/70-5"
       },
       {
-        "short_label": "physical_or_mental_disability",
-        "description": "Physical illness, mental illness, or disability resulting in inability to practice with reasonable judgment, skill, or safety",
+        "short_label": "physical_mental_disability",
+        "description": "Physical illness, mental illness, or disability that results in inability to practice with reasonable judgment, skill, or safety.",
         "quote": "Physical illness, mental illness, or disability that results in the inability to practice the profession with reasonable judgment, skill, or safety.",
         "citation": "225 ILCS 65/70-5"
       },
       {
         "short_label": "exceeding_collaborative_agreement",
-        "description": "Exceeding the terms of a collaborative agreement or prescriptive authority delegated by collaborating physician",
+        "description": "Exceeding the terms of a collaborative agreement or prescriptive authority delegated by the collaborating physician.",
         "quote": "Exceeding the terms of a collaborative agreement or the prescriptive authority delegated to a licensee by his or her collaborating physician or podiatric physician in guidelines established under a written collaborative agreement.",
         "citation": "225 ILCS 65/70-5"
       },
       {
-        "short_label": "controlled_substance_misuse",
-        "description": "Prescribing, selling, administering, or distributing controlled substances for non-medically accepted purposes",
+        "short_label": "false_misleading_statements_about_treatment",
+        "description": "Making a false or misleading statement regarding a licensee's skill or the efficacy of medicine, treatment, or remedy prescribed.",
+        "quote": "Making a false or misleading statement regarding a licensee's skill or the efficacy or value of the medicine, treatment, or remedy prescribed by him or her in the course of treatment.",
+        "citation": "225 ILCS 65/70-5"
+      },
+      {
+        "short_label": "improper_controlled_substance_prescribing",
+        "description": "Prescribing, selling, administering, or distributing a controlled substance for other than medically accepted therapeutic purposes.",
         "quote": "Prescribing, selling, administering, distributing, giving, or self-administering a drug classified as a controlled substance (designated product) or narcotic for other than medically accepted therapeutic purposes.",
         "citation": "225 ILCS 65/70-5"
       },
       {
+        "short_label": "exploitative_promotion_of_sales",
+        "description": "Promotion of the sale of drugs, devices, appliances, or goods in a manner to exploit the patient for financial gain.",
+        "quote": "Promotion of the sale of drugs, devices, appliances, or goods provided for a patient in a manner to exploit the patient for financial gain.",
+        "citation": "225 ILCS 65/70-5"
+      },
+      {
         "short_label": "violation_of_controlled_substance_laws",
-        "description": "Violating State or federal laws, rules, or regulations relating to controlled substances",
+        "description": "Violating State or federal laws, rules, or regulations relating to controlled substances.",
         "quote": "Violating State or federal laws, rules, or regulations relating to controlled substances.",
         "citation": "225 ILCS 65/70-5"
       },
       {
-        "short_label": "failure_to_report_elder_abuse",
-        "description": "Willfully failing to report suspected abuse, neglect, or financial exploitation of an eligible adult",
+        "short_label": "aprn_patient_confidentiality_violation",
+        "description": "Willfully or negligently violating the confidentiality between an advanced practice registered nurse, collaborating physician, dentist, or podiatric physician and a patient.",
+        "quote": "Willfully or negligently violating the confidentiality between an advanced practice registered nurse, collaborating physician, dentist, or podiatric physician and a patient, except as required by law.",
+        "citation": "225 ILCS 65/70-5"
+      },
+      {
+        "short_label": "failure_to_report_adult_abuse",
+        "description": "Willfully failing to report an instance of suspected abuse, neglect, financial exploitation, or self-neglect of an eligible adult as required by the Adult Protective Services Act.",
         "quote": "Willfully failing to report an instance of suspected abuse, neglect, financial exploitation, or self-neglect of an eligible adult as defined in and required by the Adult Protective Services Act.",
+        "citation": "225 ILCS 65/70-5"
+      },
+      {
+        "short_label": "adult_abuse_perpetrator",
+        "description": "Being named as an abuser in a verified report under the Adult Protective Services Act, proven by clear and convincing evidence.",
+        "quote": "Being named as an abuser in a verified report by the Department on Aging and under the Adult Protective Services Act, and upon proof by clear and convincing evidence that the licensee abused, neglected, or financially exploited an eligible adult as defined in the Adult Protective Services Act.",
+        "citation": "225 ILCS 65/70-5"
+      },
+      {
+        "short_label": "violation_of_act_or_rules_general",
+        "description": "A violation of any provision of this Act or any rules adopted under this Act.",
+        "quote": "A violation of any provision of this Act or any rules adopted under this Act.",
+        "citation": "225 ILCS 65/70-5"
+      },
+      {
+        "short_label": "violation_of_medical_cannabis_act",
+        "description": "Violating the Compassionate Use of Medical Cannabis Program Act.",
+        "quote": "Violating the Compassionate Use of Medical Cannabis Program Act.",
         "citation": "225 ILCS 65/70-5"
       }
     ],
@@ -422,11 +467,11 @@
       },
       {
         "cite": "225 ILCS 65/50-15",
-        "kind": "policy and application"
+        "kind": "policy; application of act"
       },
       {
         "cite": "225 ILCS 65/50-20",
-        "kind": "unlicensed practice penalty"
+        "kind": "unlicensed practice; civil penalty"
       },
       {
         "cite": "225 ILCS 65/50-50",
@@ -434,15 +479,11 @@
       },
       {
         "cite": "225 ILCS 65/50-55",
-        "kind": "department powers"
+        "kind": "department powers and duties"
       },
       {
         "cite": "225 ILCS 65/50-65",
         "kind": "board"
-      },
-      {
-        "cite": "225 ILCS 65/55-5",
-        "kind": "LPN education requirements"
       },
       {
         "cite": "225 ILCS 65/55-10",
@@ -454,7 +495,7 @@
       },
       {
         "cite": "225 ILCS 65/55-15",
-        "kind": "LPN renewal"
+        "kind": "LPN license expiration; renewal"
       },
       {
         "cite": "225 ILCS 65/55-30",
@@ -462,11 +503,11 @@
       },
       {
         "cite": "225 ILCS 65/55-35",
-        "kind": "LPN continuing education"
+        "kind": "continuing education for LPN licensees"
       },
       {
         "cite": "225 ILCS 65/60-5",
-        "kind": "RN education requirements"
+        "kind": "RN education program requirements"
       },
       {
         "cite": "225 ILCS 65/60-10",
@@ -478,7 +519,7 @@
       },
       {
         "cite": "225 ILCS 65/60-20",
-        "kind": "RN renewal"
+        "kind": "expiration of RN license; renewal"
       },
       {
         "cite": "225 ILCS 65/60-35",
@@ -486,19 +527,15 @@
       },
       {
         "cite": "225 ILCS 65/60-40",
-        "kind": "RN continuing education"
+        "kind": "continuing education for RN licensees"
       },
       {
         "cite": "225 ILCS 65/65-5",
-        "kind": "APRN licensure qualifications"
-      },
-      {
-        "cite": "225 ILCS 65/65-10",
-        "kind": "APRN license-pending status"
+        "kind": "qualifications for APRN licensure"
       },
       {
         "cite": "225 ILCS 65/65-15",
-        "kind": "APRN renewal"
+        "kind": "expiration of APRN license; renewal"
       },
       {
         "cite": "225 ILCS 65/65-30",
@@ -510,35 +547,35 @@
       },
       {
         "cite": "225 ILCS 65/65-40",
-        "kind": "prescriptive authority"
+        "kind": "written collaborative agreement; prescriptive authority"
       },
       {
         "cite": "225 ILCS 65/65-43",
         "kind": "full practice authority"
       },
       {
-        "cite": "225 ILCS 65/65-44",
-        "kind": "CNM out-of-hospital birth"
+        "cite": "225 ILCS 65/65-45",
+        "kind": "APRN in hospitals/hospital affiliates/ambulatory surgical treatment centers"
       },
       {
         "cite": "225 ILCS 65/65-60",
-        "kind": "APRN continuing education"
+        "kind": "continuing education for APRN"
       },
       {
         "cite": "225 ILCS 65/70-5",
-        "kind": "disciplinary grounds"
+        "kind": "grounds for disciplinary action"
       },
       {
         "cite": "225 ILCS 65/70-15",
         "kind": "impaired nurse program"
       },
       {
-        "cite": "225 ILCS 70/10",
-        "kind": "nursing home administrator license requirement"
-      },
-      {
         "cite": "225 ILCS 510/4",
         "kind": "nurse agency licensing"
+      },
+      {
+        "cite": "225 ILCS 510/5",
+        "kind": "nurse agency application for license"
       }
     ]
   },
@@ -550,22 +587,22 @@
     },
     "methods_authorized": {
       "value": [
-        "comprehensive nursing assessment",
-        "developing and implementing nursing plan of care",
-        "nursing interventions",
-        "care coordination",
-        "health education and counseling",
-        "patient advocacy",
-        "delegation of nursing interventions",
-        "ordering diagnostic and therapeutic tests and procedures (APRN)",
-        "prescriptive authority (APRN)",
-        "advanced nursing patient assessment and diagnosis (APRN)"
+        "Comprehensive nursing assessment",
+        "Development and implementation of nursing plan of care",
+        "Nursing interventions",
+        "Care coordination",
+        "Advocacy",
+        "Health education and counseling",
+        "Delegation of nursing interventions",
+        "Ordering diagnostic and therapeutic tests and procedures (APRN)",
+        "Ordering treatments and applying medical devices (APRN)",
+        "Prescriptive authority (APRN)"
       ],
-      "quote": "The scope of practice of an advanced practice registered nurse includes, but is not limited to, each of the following: (1) Advanced nursing patient assessment and diagnosis. (2) Ordering diagnostic and therapeutic tests and procedures... (3) Ordering treatments, ordering or applying appropriate medical devices, and using nursing medical, therapeutic, and corrective measures to treat illness and improve health status. (4) Providing palliative and end-of-life care. (5) Providing advanced counseling, patient education, health education, and patient advocacy. (6) Prescriptive authority as defined in Section 65-40 of this Act.",
+      "quote": "The scope of practice of an advanced practice registered nurse includes, but is not limited to, each of the following: (1) Advanced nursing patient assessment and diagnosis. (2) Ordering diagnostic and therapeutic tests and procedures... (3) Ordering treatments, ordering or applying appropriate medical devices... (6) Prescriptive authority as defined in Section 65-40 of this Act.",
       "citation": "225 ILCS 65/65-30"
     },
     "drug_authority": {
-      "value": "APRNs with collaborative agreement may be delegated authority to prescribe Schedule III-V controlled substances and, under specific conditions, Schedule II. APRNs with full practice authority may prescribe Schedule II-V controlled substances; Schedule II narcotics (opioids) require a consultation relationship with a physician and other conditions. LPNs and RNs have no independent prescriptive authority.",
+      "value": "APRNs with a written collaborative agreement may be delegated authority to prescribe Schedule III-V controlled substances and, under specific conditions, Schedule II by oral/topical/transdermal routes. APRNs with full practice authority may prescribe Schedule II-V controlled substances; Schedule II narcotic drugs (e.g., opioids) only in a consultation relationship with a physician. APRNs in hospitals/hospital affiliates may be privileged to prescribe Schedule II-V controlled substances. CRNAs may select, order, and administer medication including controlled substances for anesthesia services under agreed anesthesia plan.",
       "quote": "authority to prescribe both legend drugs and Schedule II through V controlled substances; this authority includes prescription of, selection of, orders for, administration of, storage of, acceptance of samples of, and dispensing over the counter medications, legend drugs, and controlled substances categorized as any Schedule II through V controlled substances",
       "citation": "225 ILCS 65/65-43"
     },
@@ -576,23 +613,27 @@
       },
       {
         "cite": "225 ILCS 65/55-30",
-        "kind": "LPN scope"
+        "kind": "LPN scope of practice"
       },
       {
         "cite": "225 ILCS 65/60-35",
-        "kind": "RN scope"
+        "kind": "RN scope of practice"
       },
       {
         "cite": "225 ILCS 65/65-30",
-        "kind": "APRN scope"
+        "kind": "APRN scope of practice"
       },
       {
         "cite": "225 ILCS 65/65-40",
-        "kind": "prescriptive authority"
+        "kind": "prescriptive authority under collaborative agreement"
       },
       {
         "cite": "225 ILCS 65/65-43",
         "kind": "full practice authority"
+      },
+      {
+        "cite": "225 ILCS 65/65-45",
+        "kind": "APRN in hospitals/ambulatory surgical treatment centers"
       }
     ]
   },
@@ -601,13 +642,12 @@
       "value": [
         "Licensed Practical Nurse (LPN)",
         "Registered Professional Nurse (RN)",
-        "Advanced Practice Registered Nurse (APRN) - Certified Nurse Midwife (CNM)",
-        "Advanced Practice Registered Nurse (APRN) - Certified Nurse Practitioner (CNP)",
-        "Advanced Practice Registered Nurse (APRN) - Certified Registered Nurse Anesthetist (CRNA)",
-        "Advanced Practice Registered Nurse (APRN) - Clinical Nurse Specialist (CNS)",
-        "Full Practice Authority APRN",
-        "Temporary Permit to Practice Nursing",
-        "Nursing Home Administrator"
+        "Advanced Practice Registered Nurse (APRN)",
+        "Certified Registered Nurse Anesthetist (CRNA)",
+        "Certified Nurse Practitioner (CNP)",
+        "Certified Nurse Midwife (CNM)",
+        "Clinical Nurse Specialist (CNS)",
+        "Full Practice Authority APRN"
       ],
       "quote": "\"Advanced practice registered nurse\" or \"APRN\" means a person who has met the qualifications for a (i) certified nurse midwife (CNM); (ii) certified nurse practitioner (CNP); (iii) certified registered nurse anesthetist (CRNA); or (iv) clinical nurse specialist (CNS) and has been licensed by the Department.",
       "citation": "225 ILCS 65/50-10"
@@ -624,7 +664,7 @@
     },
     "lpn_supervision_requirements": {
       "value": [
-        "Registered Professional Nurse",
+        "Registered Nurse",
         "Advanced Practice Registered Nurse",
         "Physician",
         "Dentist",
@@ -645,13 +685,8 @@
     },
     "full_independent_practice_experience_hours_required": {
       "value": 4000,
-      "quote": "an advanced practice registered nurse certified as a nurse midwife, clinical nurse specialist, or nurse practitioner who files with the Department a notarized attestation of completion of at least 250 hours of continuing education or training in the advanced practice registered nurse's area of certification and at least 4,000 hours of clinical experience after first attaining national certification",
-      "citation": "225 ILCS 65/65-43",
-      "approximate": {
-        "ratio": 0.995,
-        "matched_normalized": " advanced practice registered nurse certified as a nurse midwife clinical nurse specialist or nurse practitioner who files with the department a notarized attestation of completion of at least 250 hours of continuing education or training in the advanced practice registered nurse s area of certification and at least 4 000 hours of clinical experience after first attaining national certification"
-      },
-      "unverified": true
+      "quote": "at least 4,000 hours of clinical experience after first attaining national certification shall not require a written collaborative agreement.",
+      "citation": "225 ILCS 65/65-43"
     },
     "prescriptive_authority_certificate_required": {
       "value": true,
@@ -660,16 +695,16 @@
     },
     "controlled_substance_schedule_authority": {
       "value": [
-        "Schedule II controlled substances (with full practice authority, with physician consultation for opioids)",
-        "Schedule III controlled substances (with collaborative agreement delegation or full practice authority)",
-        "Schedule IV controlled substances (with collaborative agreement delegation or full practice authority)",
-        "Schedule V controlled substances (with collaborative agreement delegation or full practice authority)"
+        "Schedule II controlled substances (with full practice authority, oral/topical/transdermal only for opioids, in consultation with physician)",
+        "Schedule III controlled substances",
+        "Schedule IV controlled substances",
+        "Schedule V controlled substances"
       ],
       "quote": "authority to prescribe both legend drugs and Schedule II through V controlled substances; this authority includes prescription of, selection of, orders for, administration of, storage of, acceptance of samples of, and dispensing over the counter medications, legend drugs, and controlled substances categorized as any Schedule II through V controlled substances",
       "citation": "225 ILCS 65/65-43"
     },
     "opioid_prescribing_limits": {
-      "value": "APRNs with full practice authority may prescribe Schedule II narcotic drugs (opioids) only in a consultation relationship with a physician; this consultation must be recorded in the Prescription Monitoring Program; the specific Schedule II narcotic must be identified by brand or generic name; administration by oral dosage or topical/transdermal application only; delivery by injection or other route not permitted; at least monthly the APRN and physician must discuss the condition of any patients for whom an opioid is prescribed.",
+      "value": "APRNs with full practice authority may prescribe Schedule II narcotic drugs (such as opioids) only in a consultation relationship with a physician; specific drug must be identified by brand or generic name; only by oral dosage or topical/transdermal application (not injection); at least monthly the APRN and physician must discuss patients for whom an opioid is prescribed.",
       "quote": "prescribing Schedule II narcotic drugs, such as opioids, only in a consultation relationship with a physician; this consultation relationship shall be recorded in the Prescription Monitoring Program website... the specific Schedule II narcotic drug, such as an opioid, may be administered by oral dosage or topical or transdermal application; delivery by injection or other route of administration is not permitted; at least monthly, the advanced practice registered nurse and the physician must discuss the condition of any patients for whom an opioid is prescribed",
       "citation": "225 ILCS 65/65-43"
     },
@@ -687,12 +722,12 @@
     "medication_assistant_certification_available": null,
     "delegation_to_unlicensed_personnel_authorized": {
       "value": true,
-      "quote": "This Section authorizes a registered professional nurse to: delegate nursing interventions to other registered professional nurses, licensed practical nurses, and other unlicensed personnel based on the comprehensive nursing assessment",
+      "quote": "This Section authorizes a registered professional nurse to: (1) delegate nursing interventions to other registered professional nurses, licensed practical nurses, and other unlicensed personnel",
       "citation": "225 ILCS 65/50-75"
     },
     "employer_mandatory_reporting_required": {
       "value": true,
-      "quote": "Any nurse who is an administrator or officer in any hospital, nursing home, other health care agency or facility, or nurse agency and has knowledge of any action or condition which reasonably indicates that a registered professional nurse or licensed practical nurse is impaired due to the use of alcohol or mood altering drugs to the extent that such impairment adversely affects such nurse's professional performance... shall promptly report the individual to the Department",
+      "quote": "Any nurse who is an administrator or officer in any hospital, nursing home, other health care agency or facility, or nurse agency and has knowledge of any action or condition which reasonably indicates a registered professional nurse or licensed practical nurse is impaired due to the use of alcohol or mood altering drugs to the extent that such impairment adversely affects such nurse's professional performance... shall promptly report the individual to the Department",
       "citation": "225 ILCS 65/70-10"
     },
     "whistleblower_protection_for_delegation_refusal": {
@@ -710,13 +745,13 @@
     "rn_death_pronouncement_authorized": null,
     "public_health_nurse_certification_available": null,
     "telehealth_prescribing_rules": {
-      "value": "Temporary permit holders (APRN) may practice at the location or locations specified on the permit or via telehealth. Full practice authority APRNs may also practice via telehealth.",
+      "value": "Temporary permits for APRNs from other states authorize practice 'at the location or locations specified on the permit or via telehealth.' Full practice authority APRNs may practice via telehealth under their permit location or telehealth.",
       "quote": "The temporary permit shall only permit the holder to practice as an advanced practice registered nurse with a collaborating physician who provides health care services at the location or locations specified on the permit or via telehealth.",
       "citation": "225 ILCS 65/65-11"
     },
     "nurse_practitioner_transition_to_practice_hours": {
       "value": 4000,
-      "quote": "at least 4,000 hours of clinical experience after first attaining national certification",
+      "quote": "at least 4,000 hours of clinical experience after first attaining national certification shall not require a written collaborative agreement.",
       "citation": "225 ILCS 65/65-43"
     },
     "crna_physician_supervision_model": {
@@ -724,11 +759,7 @@
       "quote": "an anesthesiologist, a physician, a dentist, or a podiatric physician must participate through discussion of and agreement with the anesthesia plan and remain physically present and available on the premises during the delivery of anesthesia services for diagnosis, consultation, and treatment of emergency medical conditions",
       "citation": "225 ILCS 65/65-35"
     },
-    "cnm_out_of_hospital_birth_authorized": {
-      "value": true,
-      "quote": "An advanced practice registered nurse certified as a nurse midwife may provide out-of-hospital birth services in a licensed birth center without a written collaborative agreement if the advanced practice registered nurse certified as a nurse midwife is granted clinical privileges for out-of-hospital birth services by the clinical director of the birth center.",
-      "citation": "225 ILCS 65/65-44"
-    },
+    "cnm_out_of_hospital_birth_authorized": null,
     "aprn_formulary_or_protocol_required": null,
     "nursing_education_program_clinical_hours_minimum": null,
     "implicit_bias_training_required_in_curriculum": null,
@@ -778,9 +809,9 @@
       },
       {
         "item": "Certified Nurse Aide (CNA)",
-        "status": "absent",
-        "quote": "",
-        "citation": ""
+        "status": "present",
+        "quote": "\"Certified nurse aide\" means an individual certified as defined in Section 3-206 of the Nursing Home Care Act",
+        "citation": "225 ILCS 510/3"
       },
       {
         "item": "Certified Medication Assistant",
@@ -796,9 +827,9 @@
       },
       {
         "item": "Nursing Home Administrator License",
-        "status": "present",
-        "quote": "It shall be unlawful for any person to operate or manage a nursing home in the State of Illinois unless he or she is licensed as a nursing home administrator in accordance with this Act.",
-        "citation": "225 ILCS 70/10"
+        "status": "absent",
+        "quote": "",
+        "citation": ""
       },
       {
         "item": "Multistate License (Nurse Licensure Compact)",
@@ -809,8 +840,8 @@
       {
         "item": "Temporary Permit to Practice Nursing",
         "status": "present",
-        "quote": "Pending restoration of a registered professional nurse license under this Section, the Department may grant an applicant a temporary permit to practice as a registered professional nurse",
-        "citation": "225 ILCS 65/60-25"
+        "quote": "\"License-pending advanced practice registered nurse\" means a registered professional nurse who has completed all requirements for licensure as an advanced practice registered nurse except the certification examination and has applied to take the next available certification exam and received a temporary permit from the Department.",
+        "citation": "225 ILCS 65/50-10"
       }
     ],
     "scope__aprn_role_categories": [
@@ -849,32 +880,32 @@
       {
         "item": "Advanced Practice Registered Nurse",
         "status": "present",
-        "quote": "Practice as a licensed practical nurse means a scope of nursing practice, with or without compensation, under the guidance of a registered professional nurse or an advanced practice registered nurse",
+        "quote": "under the guidance of a registered professional nurse or an advanced practice registered nurse, or as directed by a physician assistant, physician, dentist, podiatric physician, or other health care professionals as determined by the Department",
         "citation": "225 ILCS 65/55-30"
       },
       {
         "item": "Physician",
         "status": "present",
-        "quote": "The practical nurse may work under the direction of a licensed physician, dentist, podiatric physician, or other health care professional determined by the Department.",
-        "citation": "225 ILCS 65/50-10"
+        "quote": "as directed by a physician assistant, physician, dentist, podiatric physician, or other health care professionals as determined by the Department",
+        "citation": "225 ILCS 65/55-30"
       },
       {
         "item": "Physician Assistant",
         "status": "present",
-        "quote": "Practice as a licensed practical nurse means a scope of nursing practice, with or without compensation, under the guidance of a registered professional nurse or an advanced practice registered nurse, or as directed by a physician assistant, physician, dentist, podiatric physician, or other health care professionals as determined by the Department",
+        "quote": "under the guidance of a registered professional nurse or an advanced practice registered nurse, or as directed by a physician assistant, physician, dentist, podiatric physician, or other health care professionals as determined by the Department",
         "citation": "225 ILCS 65/55-30"
       },
       {
         "item": "Dentist",
         "status": "present",
-        "quote": "The practical nurse may work under the direction of a licensed physician, dentist, podiatric physician, or other health care professional determined by the Department.",
-        "citation": "225 ILCS 65/50-10"
+        "quote": "as directed by a physician assistant, physician, dentist, podiatric physician, or other health care professionals as determined by the Department",
+        "citation": "225 ILCS 65/55-30"
       },
       {
         "item": "Podiatrist",
         "status": "present",
-        "quote": "The practical nurse may work under the direction of a licensed physician, dentist, podiatric physician, or other health care professional determined by the Department.",
-        "citation": "225 ILCS 65/50-10"
+        "quote": "as directed by a physician assistant, physician, dentist, podiatric physician, or other health care professionals as determined by the Department",
+        "citation": "225 ILCS 65/55-30"
       }
     ],
     "scope__controlled_substance_schedule_authority": [

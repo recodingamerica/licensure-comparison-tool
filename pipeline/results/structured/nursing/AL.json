@@ -14,7 +14,7 @@
     },
     "regulatory_authority": {
       "name": {
-        "value": "Alabama Board of Nursing",
+        "value": "Board of Nursing",
         "quote": "There is created the Board of Nursing, which shall be composed of 13 members",
         "citation": "34-21-2"
       },
@@ -28,13 +28,13 @@
     "age_minimum": null,
     "moral_character_required": {
       "value": true,
-      "quote": "such applicant is of good moral character, holds a diploma from an accredited high school",
+      "quote": "that such applicant is of good moral character",
       "citation": "34-21-21"
     },
     "education": {
       "degree_required": {
-        "value": "has successfully completed an educational program in a school of nursing approved by the board",
-        "quote": "has successfully completed an educational program in a school of nursing approved by the board",
+        "value": "Diploma from an accredited high school and successful completion of an educational program in a board-approved school of nursing (RN); diploma from an accredited high school and completion of at least one year's practical nursing program (LPN)",
+        "quote": "holds a diploma from an accredited high school or, in the opinion of the board, the equivalent thereof, has successfully completed an educational program in a school of nursing approved by the board",
         "citation": "34-21-21"
       },
       "accrediting_body": null,
@@ -88,8 +88,8 @@
       {
         "name": "NCLEX-RN",
         "required": true,
-        "notes": "Required for multistate licensure; also referenced as the examination applicants must pass for RN licensure by examination",
-        "jurisdiction": "national (NCLEX-RN)",
+        "notes": "Required for multistate license applicants; also referenced as the standard exam for RN licensure",
+        "jurisdiction": "national",
         "permitted_attempts": null,
         "quote": "Has successfully passed an NCLEX-RN or NCLEX-PN Examination, or recognized predecessor examination, as applicable.",
         "citation": "34-21-122"
@@ -97,11 +97,20 @@
       {
         "name": "NCLEX-PN",
         "required": true,
-        "notes": "Required for multistate licensure for LPNs",
-        "jurisdiction": "national (NCLEX-PN)",
+        "notes": "Required for multistate license applicants for LPN",
+        "jurisdiction": "national",
         "permitted_attempts": null,
         "quote": "Has successfully passed an NCLEX-RN or NCLEX-PN Examination, or recognized predecessor examination, as applicable.",
         "citation": "34-21-122"
+      },
+      {
+        "name": "Board examination (RN/LPN)",
+        "required": true,
+        "notes": "General examination requirement for licensure by examination",
+        "jurisdiction": "state (board-determined subjects)",
+        "permitted_attempts": null,
+        "quote": "The applicant shall be required to pass an examination on such subjects as the board may determine; and, upon successfully passing such examination, the board shall issue such applicant a license.",
+        "citation": "34-21-21"
       }
     ],
     "renewal": {
@@ -115,7 +124,7 @@
     "continuing_education": {
       "required": {
         "value": true,
-        "quote": "After that date, successful completion of the continuing education requirements shall be a requisite for license renewal.",
+        "quote": "The board shall adopt a continuing education program by October 1, 1991. After that date, successful completion of the continuing education requirements shall be a requisite for license renewal.",
         "citation": "34-21-23"
       },
       "hours_per_period": null,
@@ -129,8 +138,8 @@
         "citation": "34-21-21"
       },
       "requirements": {
-        "value": "Licensure by endorsement available if the applicant meets the qualifications required of registered nurses in Alabama at the time of graduation. Multistate license also available under the Enhanced Nurse Licensure Compact.",
-        "quote": "BY ENDORSEMENT. The board may issue a license to practice professional nursing as a registered nurse to an applicant who has been duly licensed as a registered nurse under the laws of another state, territory, or foreign country, if, in the opinion of the board, such applicant meets the qualifications required of registered nurses in this state at the time of his or her graduation.",
+        "value": "Applicant must meet Alabama qualifications for registered nurses at the time of their graduation; board determines equivalency. Similar endorsement available for LPNs.",
+        "quote": "if, in the opinion of the board, such applicant meets the qualifications required of registered nurses in this state at the time of his or her graduation.",
         "citation": "34-21-21"
       }
     },
@@ -144,11 +153,7 @@
       "authority": null
     },
     "national_certification": null,
-    "national_association": {
-      "value": "Alabama State Nurses Association",
-      "quote": "The Governor shall appoint the seven members of the board who are licensed professional nurses...from a list of nominees who are selected by the Board of Nursing Nomination Committee and furnished to the Governor by the Alabama State Nurses Association",
-      "citation": "34-21-2"
-    },
+    "national_association": null,
     "regulatory_model": {
       "value": "license",
       "quote": "it shall be unlawful for any person not licensed under the provisions hereof to practice or offer to practice professional nursing, for compensation, in this state",
@@ -156,7 +161,7 @@
     },
     "credential_type": {
       "value": "license",
-      "quote": "shall hereafter be required to submit evidence that he or she is qualified so to practice and shall be licensed as hereinafter provided",
+      "quote": "any person practicing or offering to practice professional nursing or practical nursing in this state, for compensation, shall hereafter be required to submit evidence that he or she is qualified so to practice and shall be licensed as hereinafter provided",
       "citation": "34-21-20"
     },
     "is_mandatory": {
@@ -176,56 +181,56 @@
     },
     "disciplinary_grounds": [
       {
-        "short_label": "fraud_in_procuring_license",
-        "description": "Guilty of fraud or deceit in procuring or attempting to procure a license",
+        "short_label": "fraud_in_obtaining_license",
+        "description": "Guilty of fraud or deceit in procuring or attempting to procure a license.",
         "quote": "Is guilty of fraud or deceit in procuring or attempting to procure a license.",
         "citation": "34-21-25"
       },
       {
         "short_label": "felony_conviction",
-        "description": "Has been convicted of a felony",
+        "description": "Has been convicted of a felony.",
         "quote": "Has been convicted of a felony.",
         "citation": "34-21-25"
       },
       {
-        "short_label": "crime_moral_turpitude",
-        "description": "Guilty of a crime involving moral turpitude or gross immorality that would bring reproach upon the nursing profession",
+        "short_label": "moral_turpitude_crime",
+        "description": "Guilty of a crime involving moral turpitude or gross immorality that would bring reproach upon the nursing profession.",
         "quote": "Is guilty of a crime involving moral turpitude or of gross immorality that would tend to bring reproach upon the nursing profession.",
         "citation": "34-21-25"
       },
       {
-        "short_label": "alcohol_drug_impairment",
-        "description": "Unfit or incompetent due to use of alcohol or addiction to habit-forming drugs rendering the licensee unsafe or unreliable",
+        "short_label": "alcohol_drug_unfitness",
+        "description": "Unfit or incompetent due to use of alcohol or addicted to habit-forming drugs rendering the licensee unsafe or unreliable.",
         "quote": "Is unfit or incompetent due to the use of alcohol, or is addicted to the use of habit-forming drugs to an extent as to render him or her unsafe or unreliable as a licensee.",
         "citation": "34-21-25"
       },
       {
         "short_label": "inability_to_practice_safely",
-        "description": "Unable to practice nursing with reasonable skill and safety by reason of illness, inebriation, excessive use of drugs, or mental or physical condition",
+        "description": "Unable to practice nursing with reasonable skill and safety by reason of illness, inebriation, excessive substance use, or mental/physical condition.",
         "quote": "Is unable to practice nursing with reasonable skill and safety to patients by reason of illness, inebriation, excessive use of drugs, narcotics, alcohol, chemicals, or any other substance, or as a result of any mental or physical condition.",
         "citation": "34-21-25"
       },
       {
-        "short_label": "controlled_substance_violation",
-        "description": "Convicted of any violation of a federal or state law relating to controlled substances",
+        "short_label": "controlled_substance_law_violation",
+        "description": "Convicted of any violation of a federal or state law relating to controlled substances.",
         "quote": "Has been convicted of any violation of a federal or state law relating to controlled substances.",
         "citation": "34-21-25"
       },
       {
         "short_label": "unprofessional_conduct",
-        "description": "Guilty of unprofessional conduct likely to deceive, defraud, or injure the public in matters pertaining to health",
+        "description": "Guilty of unprofessional conduct likely to deceive, defraud, or injure the public in matters pertaining to health.",
         "quote": "Is guilty of unprofessional conduct of a character likely to deceive, defraud, or injure the public in matters pertaining to health.",
         "citation": "34-21-25"
       },
       {
-        "short_label": "willful_repeated_violation",
-        "description": "Willfully or repeatedly violated this article as defined by board rules",
+        "short_label": "repeated_violations",
+        "description": "Willfully or repeatedly violated the nursing practice article as defined by board rules.",
         "quote": "Has willfully or repeatedly violated this article, as defined by board rules.",
         "citation": "34-21-25"
       },
       {
         "short_label": "incarceration",
-        "description": "Sentenced to a period of continuous incarceration for commission of a misdemeanor or felony",
+        "description": "Sentenced to a period of continuous incarceration for a misdemeanor or felony.",
         "quote": "Has been sentenced to a period of continuous incarceration serving a penal sentence for the commission of a misdemeanor or felony.",
         "citation": "34-21-25"
       }
@@ -242,11 +247,27 @@
       },
       {
         "cite": "34-21-2",
-        "kind": "board structure"
+        "kind": "board composition and powers"
+      },
+      {
+        "cite": "34-21-5",
+        "kind": "nursing educational programs"
+      },
+      {
+        "cite": "34-21-6",
+        "kind": "exemptions"
+      },
+      {
+        "cite": "34-21-7",
+        "kind": "violations and penalties"
       },
       {
         "cite": "34-21-20",
-        "kind": "license required"
+        "kind": "licensure required"
+      },
+      {
+        "cite": "34-21-20.1",
+        "kind": "fingerprints/background check"
       },
       {
         "cite": "34-21-21",
@@ -258,7 +279,7 @@
       },
       {
         "cite": "34-21-23",
-        "kind": "renewal and CE"
+        "kind": "renewal and continuing education"
       },
       {
         "cite": "34-21-25",
@@ -266,11 +287,15 @@
       },
       {
         "cite": "34-21-26",
-        "kind": "public nuisance / injunction"
+        "kind": "injunctive relief"
       },
       {
         "cite": "34-21-81",
         "kind": "APRN definitions"
+      },
+      {
+        "cite": "34-21-82",
+        "kind": "joint committee"
       },
       {
         "cite": "34-21-84",
@@ -278,33 +303,51 @@
       },
       {
         "cite": "34-21-85",
-        "kind": "APRN collaborative practice"
+        "kind": "APRN practice requirements"
+      },
+      {
+        "cite": "34-21-86",
+        "kind": "prescribing legend drugs"
+      },
+      {
+        "cite": "34-21-90",
+        "kind": "APRN practice requirements"
+      },
+      {
+        "cite": "34-21-121",
+        "kind": "compact definitions"
       },
       {
         "cite": "34-21-122",
-        "kind": "multistate license / compact"
+        "kind": "compact general provisions"
+      },
+      {
+        "cite": "34-21-2.1",
+        "kind": "delegation to non-nurses"
       }
     ]
   },
   "scope": {
     "definition_quote": {
-      "value": "Practice of Professional Nursing. The performance, for compensation, of any act in the care and counselling of persons or in the promotion and maintenance of health and prevention of illness and injury based upon the nursing process which includes systematic data gathering, assessment, appropriate nursing judgment and evaluation of human responses to actual or potential health problems through such services as case finding, health teaching, and health counselling; and provision of care supportive to or restorative of life and well-being, and executing medical regimens including administering medications and treatments prescribed by a licensed or otherwise legally authorized physician or dentist.",
-      "quote": "Practice of Professional Nursing. The performance, for compensation, of any act in the care and counselling of persons or in the promotion and maintenance of health and prevention of illness and injury based upon the nursing process which includes systematic data gathering, assessment, appropriate nursing judgment and evaluation of human responses to actual or potential health problems through such services as case finding, health teaching, and health counselling; and provision of care supportive to or restorative of life and well-being, and executing medical regimens including administering medications and treatments prescribed by a licensed or otherwise legally authorized physician or dentist.",
+      "value": "The performance, for compensation, of any act in the care and counselling of persons or in the promotion and maintenance of health and prevention of illness and injury based upon the nursing process which includes systematic data gathering, assessment, appropriate nursing judgment and evaluation of human responses to actual or potential health problems through such services as case finding, health teaching, and health counselling; and provision of care supportive to or restorative of life and well-being, and executing medical regimens including administering medications and treatments prescribed by a licensed or otherwise legally authorized physician or dentist.",
+      "quote": "The performance, for compensation, of any act in the care and counselling of persons or in the promotion and maintenance of health and prevention of illness and injury based upon the nursing process which includes systematic data gathering, assessment, appropriate nursing judgment and evaluation of human responses to actual or potential health problems through such services as case finding, health teaching, and health counselling; and provision of care supportive to or restorative of life and well-being, and executing medical regimens including administering medications and treatments prescribed by a licensed or otherwise legally authorized physician or dentist.",
       "citation": "34-21-1"
     },
     "methods_authorized": {
       "value": [
         "systematic data gathering and assessment",
+        "nursing judgment and evaluation",
         "case finding",
-        "health teaching and health counselling",
+        "health teaching",
+        "health counselling",
         "provision of care supportive to or restorative of life and well-being",
         "executing medical regimens including administering medications and treatments"
       ],
-      "quote": "systematic data gathering, assessment, appropriate nursing judgment and evaluation of human responses to actual or potential health problems through such services as case finding, health teaching, and health counselling; and provision of care supportive to or restorative of life and well-being, and executing medical regimens including administering medications and treatments prescribed by a licensed or otherwise legally authorized physician or dentist",
+      "quote": "systematic data gathering, assessment, appropriate nursing judgment and evaluation of human responses to actual or potential health problems through such services as case finding, health teaching, and health counselling; and provision of care supportive to or restorative of life and well-being, and executing medical regimens including administering medications and treatments prescribed by a licensed or otherwise legally authorized physician or dentist.",
       "citation": "34-21-1"
     },
     "drug_authority": {
-      "value": "Registered nurses and licensed practical nurses are authorized to administer any legend drug lawfully ordered or prescribed by an authorized practitioner. CRNPs and CNMs may prescribe legend drugs under approved protocols and formulary. CNS may not prescribe drugs of any type. CRNA may perform procedural ordering of anesthesia plan medications.",
+      "value": "RNs and LPNs are authorized to administer legend drugs lawfully ordered or prescribed by an authorized practitioner. CRNPs and CNMs may prescribe legend drugs under approved protocols and formulary with collaborating physician. CRNAs may engage in procedural ordering of medications as part of anesthesia plan. CNS may not prescribe drugs of any type.",
       "quote": "Registered nurses and licensed practical nurses are authorized to administer any legend drug that has been lawfully ordered or prescribed by an authorized practitioner including certified registered nurse practitioners, certified nurse midwives, and/or assistants to physicians.",
       "citation": "34-21-86"
     },
@@ -315,7 +358,7 @@
       },
       {
         "cite": "34-21-81",
-        "kind": "APRN scope"
+        "kind": "APRN scope definitions"
       },
       {
         "cite": "34-21-86",
@@ -330,29 +373,28 @@
         "Licensed Practical Nurse (LPN)",
         "Advanced Practice Registered Nurse (APRN)",
         "Certified Registered Nurse Anesthetist (CRNA)",
-        "Certified Nurse Practitioner (CNP/CRNP/NP)",
+        "Certified Nurse Practitioner (CRNP)",
         "Certified Nurse Midwife (CNM)",
         "Clinical Nurse Specialist (CNS)",
         "Certified Medication Assistant",
-        "Multistate License (Nurse Licensure Compact)",
-        "Temporary Permit to Practice Nursing"
+        "Multistate License"
       ],
       "quote": "Six members of the board shall be licensed professional nurses, one member of the board shall be a licensed professional nurse who is approved to engage in advanced practice nursing in this state, one member of the board shall be a certified registered nurse anesthetist who is approved to engage in advanced practice nursing in this state, four members of the board shall be licensed practical nurses",
       "citation": "34-21-2"
     },
     "aprn_role_categories": {
       "value": [
-        "Certified Nurse Practitioner",
-        "Certified Registered Nurse Anesthetist",
-        "Certified Nurse Midwife",
-        "Clinical Nurse Specialist"
+        "Certified Registered Nurse Practitioner (CRNP)",
+        "Certified Nurse Midwife (CNM)",
+        "Certified Registered Nurse Anesthetist (CRNA)",
+        "Clinical Nurse Specialist (CNS)"
       ],
       "quote": "There shall be four categories of advanced practice nurses: Certified registered nurse practitioners (CRNP), certified nurse midwives (CNM), certified registered nurse anesthetists (CRNA), and clinical nurse specialists (CNS).",
       "citation": "34-21-81"
     },
     "lpn_supervision_requirements": {
       "value": [
-        "Registered Nurse",
+        "Licensed Professional Nurse",
         "Physician",
         "Dentist"
       ],
@@ -366,14 +408,14 @@
     },
     "full_independent_practice_available": {
       "value": false,
-      "quote": "No person shall engage in practice as a certified registered nurse practitioner or certified nurse midwife or in any of the acts or functions described in this article and the regulations adopted under this article in this state unless that person is certified by the Board of Nursing as an advanced practice nurse in a category of certified registered nurse practitioner or certified nurse midwife and is practicing in collaboration with a physician",
+      "quote": "No person shall engage in practice as a certified registered nurse practitioner or certified nurse midwife or in any of the acts or functions described in this article and the regulations adopted under this article in this state unless that person is certified by the Board of Nursing as an advanced practice nurse in a category of certified registered nurse practitioner or certified nurse midwife and is practicing in collaboration with a physician following protocols which have been approved in accordance with this article",
       "citation": "34-21-90"
     },
     "full_independent_practice_experience_hours_required": null,
     "prescriptive_authority_certificate_required": {
       "value": true,
-      "quote": "The Board of Nursing shall recognize the educational qualifications and training of advanced practice nurses by the issuance of a certification of qualification to engage in advanced practice nursing.",
-      "citation": "34-21-84"
+      "quote": "No person may practice as a certified registered nurse practitioner or a certified nurse midwife in this state unless that person possesses a certificate of qualification issued by the Board of Nursing and practices under written protocols approved by the State Board of Medical Examiners and the Board of Nursing",
+      "citation": "34-21-85"
     },
     "controlled_substance_schedule_authority": null,
     "opioid_prescribing_limits": null,
@@ -387,15 +429,15 @@
     },
     "delegation_to_unlicensed_personnel_authorized": {
       "value": true,
-      "quote": "Determine what nursing care tasks may or may not be delegated by licensed nurses who provide nursing care in a residential community health setting to unlicensed health care workers",
+      "quote": "The Alabama Board of Nursing, by rule, may do the following: Determine what nursing care tasks may or may not be delegated by licensed nurses who provide nursing care in a residential community health setting to unlicensed health care workers",
       "citation": "34-21-2.1"
     },
     "employer_mandatory_reporting_required": null,
     "whistleblower_protection_for_delegation_refusal": null,
     "nurse_licensure_compact_member": {
       "value": true,
-      "quote": "The party states hereby create and establish a joint public entity known as the Interstate Commission of Nurse Licensure Compact Administrators.",
-      "citation": "34-21-126"
+      "quote": "The board may issue qualified applicants either a single state license or a multistate license.",
+      "citation": "34-21-2"
     },
     "multistate_license_option_available": {
       "value": true,
@@ -404,7 +446,7 @@
     },
     "impaired_nurse_alternative_program_available": {
       "value": true,
-      "quote": "The board shall establish a voluntary Disciplinary Alternative Program to promote early identification, intervention, treatment, and rehabilitation of any licensed nurse whose competence is found to be impaired or compromised because of the use or abuse of drugs, alcohol, controlled substances, chemicals, or other substances or as a result of a physical or mental condition",
+      "quote": "The board shall establish a voluntary Disciplinary Alternative Program to promote early identification, intervention, treatment, and rehabilitation of any licensed nurse whose competence is found to be impaired or compromised because of the use or abuse of drugs, alcohol, controlled substances, chemicals, or other substances or as a result of a physical or mental condition rendering the licensee unable to meet the standards of the nursing profession.",
       "citation": "34-21-25"
     },
     "rn_death_pronouncement_authorized": null,
@@ -413,13 +455,13 @@
     "nurse_practitioner_transition_to_practice_hours": null,
     "crna_physician_supervision_model": {
       "value": "coordination model",
-      "quote": "functions under the direction of or in coordination with a physician licensed to practice medicine, a podiatrist, or a dentist, who is immediately available",
+      "quote": "functions under the direction of or in coordination with a physician licensed to practice medicine, a podiatrist, or a dentist, who is immediately available.",
       "citation": "34-21-81"
     },
     "cnm_out_of_hospital_birth_authorized": null,
     "aprn_formulary_or_protocol_required": {
       "value": true,
-      "quote": "may prescribe legend drugs to their patients, subject to both of the following conditions: (1) The drug type, dosage, quantity prescribed, and number of refills shall be authorized in an approved protocol signed by the collaborating physician; and (2) The drug shall be on the formulary recommended by the joint committee and adopted by the State Board of Medical Examiners and the Board of Nursing.",
+      "quote": "The drug shall be on the formulary recommended by the joint committee and adopted by the State Board of Medical Examiners and the Board of Nursing.",
       "citation": "34-21-86"
     },
     "nursing_education_program_clinical_hours_minimum": null,
@@ -447,25 +489,25 @@
       {
         "item": "Certified Registered Nurse Anesthetist (CRNA)",
         "status": "present",
-        "quote": "Practice as a certified registered nurse anesthetist (CRNA) means the performance of or the assistance in any act involving the determination, preparation, administration, procedural ordering, or monitoring of any drug used to render an individual insensible to pain",
-        "citation": "34-21-81"
+        "quote": "one member of the board shall be a certified registered nurse anesthetist who is approved to engage in advanced practice nursing in this state",
+        "citation": "34-21-2"
       },
       {
         "item": "Certified Nurse Practitioner (CNP/CRNP/NP)",
         "status": "present",
-        "quote": "Practice as a certified registered nurse practitioner (CRNP) means the performance of nursing skills by a registered nurse who has demonstrated by certification that he or she has advanced knowledge and skills in the delivery of nursing services",
+        "quote": "Certified registered nurse practitioners (CRNP), certified nurse midwives (CNM), certified registered nurse anesthetists (CRNA), and clinical nurse specialists (CNS).",
         "citation": "34-21-81"
       },
       {
         "item": "Certified Nurse Midwife (CNM)",
         "status": "present",
-        "quote": "Practice as a certified nurse midwife (CNM) means the performance of nursing skills by a registered nurse who has demonstrated by certification that he or she has advanced knowledge and skills relative to the management of women's health care",
+        "quote": "Certified registered nurse practitioners (CRNP), certified nurse midwives (CNM), certified registered nurse anesthetists (CRNA), and clinical nurse specialists (CNS).",
         "citation": "34-21-81"
       },
       {
         "item": "Clinical Nurse Specialist (CNS)",
         "status": "present",
-        "quote": "Practice of clinical nurse specialist (CNS) nursing means the performance of nursing skills by a registered nurse who, through study and supervised practice at the graduate level and as evidenced by certification, has advanced knowledge and practice skills in a specialized area of practice",
+        "quote": "Certified registered nurse practitioners (CRNP), certified nurse midwives (CNM), certified registered nurse anesthetists (CRNA), and clinical nurse specialists (CNS).",
         "citation": "34-21-81"
       },
       {
@@ -488,15 +530,15 @@
       },
       {
         "item": "Nursing Home Administrator License",
-        "status": "present",
-        "quote": "No person shall practice or offer to practice nursing home administration in this state or use any title, sign, card, or device to indicate that he or she is a nursing home administrator unless such person shall have been duly licensed as a nursing home administrator or as a provisional nursing home administrator.",
-        "citation": "34-20-2"
+        "status": "absent",
+        "quote": "",
+        "citation": ""
       },
       {
         "item": "Multistate License (Nurse Licensure Compact)",
         "status": "present",
-        "quote": "An applicant for a license to practice professional nursing in Alabama may apply for either a single state license or a multistate license.",
-        "citation": "34-21-21"
+        "quote": "The board may issue qualified applicants either a single state license or a multistate license.",
+        "citation": "34-21-2"
       },
       {
         "item": "Temporary Permit to Practice Nursing",
@@ -509,25 +551,25 @@
       {
         "item": "Certified Nurse Practitioner",
         "status": "present",
-        "quote": "Certified registered nurse practitioners (CRNP), certified nurse midwives (CNM), certified registered nurse anesthetists (CRNA), and clinical nurse specialists (CNS).",
+        "quote": "There shall be four categories of advanced practice nurses: Certified registered nurse practitioners (CRNP)",
         "citation": "34-21-81"
       },
       {
         "item": "Certified Registered Nurse Anesthetist",
         "status": "present",
-        "quote": "Certified registered nurse practitioners (CRNP), certified nurse midwives (CNM), certified registered nurse anesthetists (CRNA), and clinical nurse specialists (CNS).",
+        "quote": "There shall be four categories of advanced practice nurses: Certified registered nurse practitioners (CRNP), certified nurse midwives (CNM), certified registered nurse anesthetists (CRNA), and clinical nurse specialists (CNS).",
         "citation": "34-21-81"
       },
       {
         "item": "Certified Nurse Midwife",
         "status": "present",
-        "quote": "Certified registered nurse practitioners (CRNP), certified nurse midwives (CNM), certified registered nurse anesthetists (CRNA), and clinical nurse specialists (CNS).",
+        "quote": "There shall be four categories of advanced practice nurses: Certified registered nurse practitioners (CRNP), certified nurse midwives (CNM), certified registered nurse anesthetists (CRNA), and clinical nurse specialists (CNS).",
         "citation": "34-21-81"
       },
       {
         "item": "Clinical Nurse Specialist",
         "status": "present",
-        "quote": "Certified registered nurse practitioners (CRNP), certified nurse midwives (CNM), certified registered nurse anesthetists (CRNA), and clinical nurse specialists (CNS).",
+        "quote": "There shall be four categories of advanced practice nurses: Certified registered nurse practitioners (CRNP), certified nurse midwives (CNM), certified registered nurse anesthetists (CRNA), and clinical nurse specialists (CNS).",
         "citation": "34-21-81"
       }
     ],

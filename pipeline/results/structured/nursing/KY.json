@@ -10,13 +10,23 @@
     "issuing_authority": {
       "value": "Kentucky Board of Nursing",
       "quote": "\"Board\" means Kentucky Board of Nursing",
-      "citation": "314.011"
+      "citation": "314.011",
+      "unverified": true,
+      "approximate": {
+        "ratio": 0.865,
+        "matched_normalized": " means kentucky board of nursing"
+      }
     },
     "regulatory_authority": {
       "name": {
         "value": "Kentucky Board of Nursing",
         "quote": "\"Board\" means Kentucky Board of Nursing",
-        "citation": "314.011"
+        "citation": "314.011",
+        "unverified": true,
+        "approximate": {
+          "ratio": 0.865,
+          "matched_normalized": " means kentucky board of nursing"
+        }
       },
       "type": {
         "value": "standalone_board",
@@ -26,31 +36,27 @@
       "umbrella_agency": null
     },
     "age_minimum": null,
-    "moral_character_required": {
-      "value": true,
-      "quote": "He or she provides proof satisfactory to the board that he or she is of good moral character and is otherwise suitable",
-      "citation": "216A.080"
-    },
+    "moral_character_required": null,
     "education": {
       "degree_required": {
-        "value": "Completed the basic curriculum for preparing registered nurses in an approved school of nursing",
+        "value": "Completion of basic curriculum for preparing registered nurses in an approved school of nursing",
         "quote": "Has completed the basic curriculum for preparing registered nurses in an approved school of nursing and has completed requirements for graduation therefrom",
         "citation": "314.041"
       },
       "accrediting_body": {
-        "value": "Board-approved school of nursing; for APRN: nationally accredited program recognized by the U.S. Department of Education",
-        "quote": "Has completed an education program that prepares the registered nurse for one (1) of four (4) APRN roles that has been accredited by a national nursing accrediting body recognized by the United States Department of Education",
-        "citation": "314.042"
+        "value": "Board-approved school of nursing",
+        "quote": "Has completed the basic curriculum for preparing registered nurses in an approved school of nursing",
+        "citation": "314.041"
       },
       "degree_level": {
-        "value": "none",
+        "value": "associate",
         "quote": "Has completed the basic curriculum for preparing registered nurses in an approved school of nursing and has completed requirements for graduation therefrom",
         "citation": "314.041"
       },
       "school_approval_basis": {
         "value": "board_approved",
-        "quote": "An institution desiring to conduct a school of nursing shall apply to the board and submit evidence that it is prepared to carry out the minimum approved basic curriculum in nursing",
-        "citation": "314.111"
+        "quote": "Has completed the basic curriculum for preparing registered nurses in an approved school of nursing",
+        "citation": "314.041"
       },
       "credential_pegged": {
         "value": false,
@@ -75,21 +81,30 @@
     },
     "exams": [
       {
-        "name": "National Council Licensure Examination (NCLEX)",
+        "name": "Licensure examination",
         "required": true,
-        "notes": "Required for RN and LPN licensure; also required for foreign nursing school graduates seeking licensure by endorsement",
-        "jurisdiction": "national",
+        "notes": "Subjects as the board may determine",
+        "jurisdiction": "state (board-determined)",
         "permitted_attempts": null,
-        "quote": "Documentation that the applicant has taken and received a passing score on the National Council Licensure Examination (NCLEX)",
+        "quote": "an applicant shall be required to pass a licensure examination in any subjects as the board may determine",
         "citation": "314.041"
       },
       {
-        "name": "Jurisprudence Examination",
+        "name": "Jurisprudence examination",
         "required": true,
-        "notes": "Prescribed by the board; covers licensing requirements under KRS Chapter 314 and board regulations applicable to the nursing profession in Kentucky",
-        "jurisdiction": "state (in-house)",
+        "notes": "Conducted on licensing requirements under this chapter and board regulations applicable to the nursing profession in Kentucky",
+        "jurisdiction": "state (board-prescribed)",
         "permitted_attempts": null,
         "quote": "Has passed the jurisprudence examination approved by the board as provided by subsection (4) of this section",
+        "citation": "314.041"
+      },
+      {
+        "name": "National Council Licensure Examination (NCLEX)",
+        "required": true,
+        "notes": "Required for foreign nursing school graduates seeking licensure by endorsement",
+        "jurisdiction": "national (NCLEX)",
+        "permitted_attempts": null,
+        "quote": "Documentation that the applicant has taken and received a passing score on the National Council Licensure Examination (NCLEX)",
         "citation": "314.041"
       }
     ],
@@ -107,9 +122,9 @@
       "period_years": null,
       "topical_requirements": {
         "value": [
-          "1.5 hours pediatric abusive head trauma recognition and prevention (one-time)",
-          "1 hour Alzheimer's and other forms of dementia (one-time)",
-          "5 contact hours in pharmacology (for APRNs)"
+          "1.5 hours pediatric abusive head trauma (one-time)",
+          "1 hour Alzheimer's and dementia (one-time)",
+          "5 contact hours pharmacology (for APRNs)"
         ],
         "quote": "the board shall ensure practitioners licensed under KRS Chapter 314 complete a one-time training course of at least one and one-half (1.5) hours covering the recognition and prevention of pediatric abusive head trauma",
         "citation": "314.073"
@@ -122,8 +137,8 @@
         "citation": "314.041"
       },
       "requirements": {
-        "value": "Applicant must have passed the jurisprudence examination or its equivalent, be currently licensed in good standing in each state where worked, and the board accepts the licensure examination of another state as sufficient. Does not apply to those holding a multistate license under the Nurse Licensure Compact.",
-        "quote": "The board shall accept the licensure examination of another state as sufficient for licensure under this subsection.",
+        "value": "Must pass the jurisprudence examination (or equivalent), be currently licensed in good standing in each state/territory where worked, and submit to a background check if required.",
+        "quote": "The board shall issue a license to practice nursing as a registered nurse to any applicant who has passed the jurisprudence examination prescribed by the board or its equivalent and who has been licensed as a registered nurse under the laws of another state or territory if the applicant is a currently licensed registered nurse in good standing in each state or territory in which the applicant has worked.",
         "citation": "314.041"
       }
     },
@@ -137,15 +152,11 @@
       "authority": null
     },
     "national_certification": {
-      "value": "American Nurses' Association; nationally established organizations or agencies recognized by the board",
-      "quote": "certified by the American Nurses' Association or other nationally established organizations or agencies recognized by the board to certify registered nurses for advanced practice registered nursing",
-      "citation": "314.011"
+      "value": "Nationally established organization or agency recognized by the board (for APRN certification)",
+      "quote": "Is certified by a nationally established organization or agency recognized by the board to certify registered nurses for advanced practice registered nursing",
+      "citation": "314.042"
     },
-    "national_association": {
-      "value": "American Nurses' Association",
-      "quote": "which are consistent either with American Nurses' Association Scope and Standards of Practice or with standards of practice established by nationally accepted organizations of registered nurses",
-      "citation": "314.011"
-    },
+    "national_association": null,
     "regulatory_model": {
       "value": "license",
       "quote": "It shall be unlawful for any person to call or hold herself or himself out as or use the title of nurse or to practice or offer to practice as a nurse unless licensed or privileged under the provisions of this chapter.",
@@ -164,7 +175,8 @@
     "title_protection": {
       "value": true,
       "quote": "Any person who holds a license to practice as a registered nurse in this state shall have the right to use the title \"registered nurse\" and the abbreviation \"R.N.\" No other person shall assume the title or use the abbreviation or any other words, letters, signs, or figures to indicate that the person using the same is a registered nurse.",
-      "citation": "314.041"
+      "citation": "314.041",
+      "unverified": true
     },
     "scope_protection": {
       "value": true,
@@ -173,32 +185,32 @@
     },
     "disciplinary_grounds": [
       {
-        "short_label": "fraud_in_procuring_license",
+        "short_label": "fraud_in_obtaining_license",
         "description": "Fraud or deceit in procuring or attempting to procure a license, credential, or privilege to practice nursing",
         "quote": "Is guilty of fraud or deceit in procuring or attempting to procure a license, credential, or privilege to practice nursing",
         "citation": "314.091"
       },
       {
-        "short_label": "felony_or_drug_misdemeanor_conviction",
+        "short_label": "felony_or_relevant_misdemeanor_conviction",
         "description": "Conviction of any felony, or a misdemeanor involving drugs, alcohol, fraud, deceit, falsification of records, breach of trust, physical harm or endangerment to others, or dishonesty",
         "quote": "Has been convicted of any felony, or a misdemeanor involving drugs, alcohol, fraud, deceit, falsification of records, a breach of trust, physical harm or endangerment to others, or dishonesty, under the laws of any state or of the United States",
         "citation": "314.091"
       },
       {
-        "short_label": "sexual_offense_conviction_or_contact_with_patient",
-        "description": "Conviction of certain sexual misdemeanor or felony offenses involving a patient, or sexual contact with a patient while under care",
+        "short_label": "sexual_offense_involving_patient",
+        "description": "Conviction of misdemeanor under KRS Chapter 510 involving a patient, or felony under KRS Chapter 510, or sexual contact with a patient while under the nurse's care",
         "quote": "Has been convicted of a misdemeanor offense under KRS Chapter 510 involving a patient, or a felony offense under KRS Chapter 510, 530.064(1)(a), or 531.310, or has been found by the board to have had sexual contact as defined in KRS 510.010(7) with a patient while the patient was under the care of the nurse",
         "citation": "314.091"
       },
       {
-        "short_label": "negligent_or_willful_act_inconsistent_with_nursing",
-        "description": "Negligently or willfully acting in a manner inconsistent with the practice of nursing",
+        "short_label": "negligent_or_willful_inconsistent_practice",
+        "description": "Negligently or willfully acted in a manner inconsistent with the practice of nursing",
         "quote": "Has negligently or willfully acted in a manner inconsistent with the practice of nursing",
         "citation": "314.091"
       },
       {
         "short_label": "incompetence_or_unfitness",
-        "description": "Unfit or incompetent to practice nursing by reason of negligence or other causes, including inability to practice with reasonable skill or safety",
+        "description": "Unfit or incompetent to practice nursing by reason of negligence or other causes, including being unable to practice with reasonable skill or safety",
         "quote": "Is unfit or incompetent to practice nursing by reason of negligence or other causes, including but not limited to, being unable to practice nursing with reasonable skill or safety",
         "citation": "314.091"
       },
@@ -209,62 +221,62 @@
         "citation": "314.091"
       },
       {
-        "short_label": "misuse_of_drugs_in_custody",
-        "description": "Misuse or misappropriation of drugs placed in the nurse's custody for administration or use of others",
+        "short_label": "drug_misuse_or_misappropriation",
+        "description": "Misused or misappropriated any drugs placed in the custody of the nurse for administration or use of others",
         "quote": "Has misused or misappropriated any drugs placed in the custody of the nurse for administration, or for use of others",
         "citation": "314.091"
       },
       {
         "short_label": "falsification_of_records",
-        "description": "Falsifying or negligently making incorrect entries or failing to make essential entries on essential records",
+        "description": "Falsified or in a negligent manner made incorrect entries or failed to make essential entries on essential records",
         "quote": "Has falsified or in a negligent manner made incorrect entries or failed to make essential entries on essential records",
         "citation": "314.091"
       },
       {
-        "short_label": "out_of_state_discipline",
-        "description": "License, privilege, or credential denied, limited, suspended, probated, revoked, or disciplined in another jurisdiction on grounds sufficient for action in Kentucky",
+        "short_label": "out_of_state_disciplinary_action",
+        "description": "Has a license, privilege, or credential denied, limited, suspended, probated, revoked, or otherwise disciplined in another jurisdiction on sufficient grounds",
         "quote": "Has a license, privilege, or credential to practice as a nurse denied, limited, suspended, probated, revoked, or otherwise disciplined in another jurisdiction on grounds sufficient to cause a license or privilege to be denied, limited, suspended, probated, revoked, or otherwise disciplined in this Commonwealth",
         "citation": "314.091"
       },
       {
-        "short_label": "violation_of_chapter",
-        "description": "Violation of any provision of KRS Chapter 314",
+        "short_label": "violation_of_chapter_provisions",
+        "description": "Violated any of the provisions of KRS Chapter 314",
         "quote": "Has violated any of the provisions of this chapter",
         "citation": "314.091"
       },
       {
         "short_label": "violation_of_board_order",
-        "description": "Violation of any lawful order or directive previously entered by the board",
+        "description": "Violated any lawful order or directive previously entered by the board",
         "quote": "Has violated any lawful order or directive previously entered by the board",
         "citation": "314.091"
       },
       {
         "short_label": "violation_of_administrative_regulation",
-        "description": "Violation of any administrative regulation promulgated by the board",
+        "description": "Violated any administrative regulation promulgated by the board",
         "quote": "Has violated any administrative regulation promulgated by the board",
         "citation": "314.091"
       },
       {
         "short_label": "listed_on_abuse_registry",
-        "description": "Listed on the adult caregiver misconduct registry or nurse aide abuse registry with substantiated finding of abuse, neglect, or misappropriation, or substantiated/judicial finding of child abuse or neglect",
+        "description": "Listed on the adult caregiver misconduct registry or nurse aide abuse registry with a substantiated finding of abuse, neglect, or misappropriation of property, or substantiated finding of child abuse or neglect",
         "quote": "Has been listed on either the adult caregiver misconduct registry or the nurse aide abuse registry with a substantiated finding of abuse, neglect, or misappropriation of property, or has a substantiated finding or judicial finding of the abuse or neglect of a child",
         "citation": "314.091"
       },
       {
-        "short_label": "breach_of_patient_confidentiality",
-        "description": "Violation of the confidentiality of information or knowledge concerning any patient, except as authorized or required by law",
+        "short_label": "confidentiality_violation",
+        "description": "Violated the confidentiality of information or knowledge concerning any patient, except as authorized or required by law",
         "quote": "Has violated the confidentiality of information or knowledge concerning any patient, except as authorized or required by law",
         "citation": "314.091"
       },
       {
-        "short_label": "use_or_possession_of_schedule_i_controlled_substance",
+        "short_label": "schedule_i_substance_use_or_possession",
         "description": "Used or possessed a Schedule I controlled substance",
         "quote": "Used or possessed a Schedule I controlled substance",
         "citation": "314.091"
       },
       {
-        "short_label": "impaired_while_practicing",
-        "description": "Used or was impaired as a consequence of the use of alcohol or drugs while practicing as a nurse",
+        "short_label": "impaired_practice",
+        "description": "Used or been impaired by alcohol or drugs while practicing as a nurse",
         "quote": "Has used or been impaired as a consequence of the use of alcohol or drugs while practicing as a nurse",
         "citation": "314.091"
       }
@@ -289,15 +301,15 @@
       },
       {
         "cite": "314.041",
-        "kind": "RN licensure"
+        "kind": "RN license"
       },
       {
         "cite": "314.042",
-        "kind": "APRN licensure"
+        "kind": "APRN license"
       },
       {
         "cite": "314.051",
-        "kind": "LPN licensure"
+        "kind": "LPN license"
       },
       {
         "cite": "314.071",
@@ -312,10 +324,6 @@
         "kind": "discipline"
       },
       {
-        "cite": "314.101",
-        "kind": "exceptions"
-      },
-      {
         "cite": "314.121",
         "kind": "board composition"
       },
@@ -325,7 +333,7 @@
       },
       {
         "cite": "314.171",
-        "kind": "alternative discipline program"
+        "kind": "alternative to discipline program"
       },
       {
         "cite": "314.181",
@@ -333,35 +341,7 @@
       },
       {
         "cite": "314.475",
-        "kind": "nurse licensure compact"
-      },
-      {
-        "cite": "216A.010",
-        "kind": "nursing home administrator definitions"
-      },
-      {
-        "cite": "216A.030",
-        "kind": "nursing home administrator license required"
-      },
-      {
-        "cite": "216A.040",
-        "kind": "nursing home administrator board"
-      },
-      {
-        "cite": "216A.070",
-        "kind": "nursing home administrator board duties"
-      },
-      {
-        "cite": "216A.080",
-        "kind": "nursing home administrator license requirements"
-      },
-      {
-        "cite": "216A.090",
-        "kind": "nursing home administrator renewal"
-      },
-      {
-        "cite": "216A.130",
-        "kind": "nursing home administrator reciprocity"
+        "kind": "Nurse Licensure Compact"
       }
     ]
   },
@@ -373,24 +353,25 @@
     },
     "methods_authorized": {
       "value": [
-        "care, counsel, and health teaching of the ill, injured, or infirm",
-        "maintenance of health or prevention of illness of others",
+        "nursing process (assessment, diagnosis, planning, implementation, evaluation)",
+        "care, counsel, and health teaching",
+        "maintenance of health or prevention of illness",
         "administration of medication and treatment as prescribed",
-        "supervision, teaching of, and delegation to other personnel in nursing care",
-        "other nursing acts authorized or limited by the board"
+        "supervision, teaching, and delegation to other personnel",
+        "performance of other nursing acts authorized by the board"
       ],
-      "quote": "The care, counsel, and health teaching of the ill, injured, or infirm; The maintenance of health or prevention of illness of others; The administration of medication and treatment as prescribed by a physician, physician assistant, dentist, or advanced practice registered nurse; The supervision, teaching of, and delegation to other personnel in the performance of activities relating to nursing care",
+      "quote": "The care, counsel, and health teaching of the ill, injured, or infirm; The maintenance of health or prevention of illness of others; The administration of medication and treatment as prescribed by a physician, physician assistant, dentist, or advanced practice registered nurse",
       "citation": "314.011"
     },
     "drug_authority": {
-      "value": "APRNs may issue prescriptions for and dispense nonscheduled legend drugs, and issue prescriptions for (but not dispense) Schedules II through V controlled substances under conditions set forth in KRS 314.042. Schedule II prescriptions (except hydrocodone combinations) are limited to 72-hour supply; hydrocodone combinations to 30-day supply; Schedule III to 30-day supply; Schedules IV and V up to 6-month supply including refills.",
+      "value": "APRNs may issue prescriptions for and dispense nonscheduled legend drugs, and issue prescriptions for (but not dispense) Schedules II-V controlled substances under conditions set forth in KRS 314.042, including CAPA-NS and CAPA-CS requirements. CRNAs are exempt from prescriptive authority requirements for anesthesia care.",
       "quote": "Advanced practice registered nurses who engage in these additional acts shall be authorized to issue prescriptions for and dispense nonscheduled legend drugs as defined in KRS 217.905 and to issue prescriptions for but not to dispense Schedules II through V controlled substances",
       "citation": "314.011"
     },
     "citations": [
       {
         "cite": "314.011",
-        "kind": "scope definition"
+        "kind": "definitions/scope"
       },
       {
         "cite": "314.042",
@@ -398,7 +379,7 @@
       },
       {
         "cite": "314.195",
-        "kind": "APRN practitioner status"
+        "kind": "APRN prescriptive authority"
       }
     ]
   },
@@ -412,10 +393,16 @@
         "Certified Nurse Practitioner (CNP)",
         "Certified Nurse Midwife (CNM)",
         "Clinical Nurse Specialist (CNS)",
-        "Nursing Home Administrator"
+        "Medication Aide",
+        "Sexual Assault Nurse Examiner (SANE)"
       ],
-      "quote": "\"Advanced practice registered nurse\" or \"APRN\" means a certified nurse practitioner, certified registered nurse anesthetist, certified nurse midwife, or clinical nurse specialist",
-      "citation": "314.011"
+      "quote": "\"Advanced practice registered nurse\" or \"APRN\" means a certified nurse practitioner, certified registered nurse anesthetist, certified nurse midwife, or clinical nurse specialist, who is licensed to engage in advance practice registered nursing pursuant to KRS 314.042",
+      "citation": "314.011",
+      "unverified": true,
+      "approximate": {
+        "ratio": 0.838,
+        "matched_normalized": " means a certified nurse practitioner certified registered nurse anesthetist certified nurse midwife or clinical nurse specialist who is licensed to engage in advance practice registered nursing pursuant to krs 314 042"
+      }
     },
     "aprn_role_categories": {
       "value": [
@@ -425,7 +412,12 @@
         "Clinical Nurse Specialist"
       ],
       "quote": "\"Advanced practice registered nurse\" or \"APRN\" means a certified nurse practitioner, certified registered nurse anesthetist, certified nurse midwife, or clinical nurse specialist",
-      "citation": "314.011"
+      "citation": "314.011",
+      "unverified": true,
+      "approximate": {
+        "ratio": 0.754,
+        "matched_normalized": " means a certified nurse practitioner certified registered nurse anesthetist certified nurse midwife or clinical nurse specialist"
+      }
     },
     "lpn_supervision_requirements": {
       "value": [
@@ -441,18 +433,19 @@
     "collaborative_practice_agreement_required": {
       "value": true,
       "quote": "before an advanced practice registered nurse engages in the prescribing or dispensing of nonscheduled legend drugs as authorized by KRS 314.011(8), the advanced practice registered nurse shall enter into a written \"Collaborative Agreement for the Advanced Practice Registered Nurse's Prescriptive Authority for Nonscheduled Legend Drugs\" (CAPA-NS) with a physician licensed in Kentucky",
-      "citation": "314.042"
+      "citation": "314.042",
+      "unverified": true
     },
     "full_independent_practice_available": {
       "value": true,
-      "quote": "Before an advanced practice registered nurse may discontinue or be exempt from a CAPA-NS required under subsection (12) of this section, the advanced practice registered nurse shall have completed four (4) years of prescribing as a certified nurse practitioner, clinical nurse specialist, certified nurse midwife, or as a certified registered nurse anesthetist.",
+      "quote": "After four (4) years of prescribing with a CAPA-NS in collaboration with a physician: An advanced practice registered nurse whose license is in good standing at that time with the Kentucky Board of Nursing and who will be prescribing nonscheduled legend drugs without a CAPA-NS shall notify that board that the four (4) year requirement has been met",
       "citation": "314.042"
     },
     "full_independent_practice_experience_hours_required": null,
     "prescriptive_authority_certificate_required": {
-      "value": true,
-      "quote": "before an advanced practice registered nurse engages in the prescribing or dispensing of nonscheduled legend drugs as authorized by KRS 314.011(8), the advanced practice registered nurse shall enter into a written \"Collaborative Agreement for the Advanced Practice Registered Nurse's Prescriptive Authority for Nonscheduled Legend Drugs\" (CAPA-NS) with a physician licensed in Kentucky",
-      "citation": "314.042"
+      "value": false,
+      "quote": "An advanced practice registered nurse shall be considered a practitioner for purposes of KRS Chapters 217 and 218A and shall have the authority granted to a practitioner pursuant to those chapters subject to the conditions set forth in KRS 314.042.",
+      "citation": "314.195"
     },
     "controlled_substance_schedule_authority": {
       "value": [
@@ -465,7 +458,7 @@
       "citation": "314.011"
     },
     "opioid_prescribing_limits": {
-      "value": "Schedule II (except hydrocodone combinations): 72-hour supply without refill; hydrocodone combination products: 30-day supply without refill; psychostimulants: 30-day supply only by APRN certified in psychiatric-mental health nursing in a health facility or regional mental health program. Schedule III: 30-day supply without refill. Schedules IV and V: original prescription plus refills not to exceed 6-month supply.",
+      "value": "Schedule II controlled substances (except hydrocodone combination products) limited to 72-hour supply without refill; hydrocodone combination products limited to 30-day supply without refill; Schedule III limited to 30-day supply without refill; Schedules IV and V limited to original prescription and refills not to exceed 6-month supply.",
       "quote": "Prescriptions issued by advanced practice registered nurses for Schedule II controlled substances classified under KRS 218A.060, except hydrocodone combination products as defined in KRS 218A.010, shall be limited to a seventy-two (72) hour supply without any refill.",
       "citation": "314.011"
     },
@@ -488,7 +481,8 @@
     "delegation_to_unlicensed_personnel_authorized": {
       "value": true,
       "quote": "\"Delegation\" means directing a competent person to perform a selected nursing activity or task in a selected situation under the nurse's supervision and pursuant to administrative regulations promulgated by the board",
-      "citation": "314.011"
+      "citation": "314.011",
+      "unverified": true
     },
     "employer_mandatory_reporting_required": {
       "value": true,
@@ -504,7 +498,12 @@
     "multistate_license_option_available": {
       "value": true,
       "quote": "\"Multistate license\" means a license to practice as a registered or a licensed practical/vocational nurse (LPN/VN) issued by a home state licensing board that authorizes the licensed nurse to practice in all party states under a multistate licensure privilege.",
-      "citation": "314.475"
+      "citation": "314.475",
+      "unverified": true,
+      "approximate": {
+        "ratio": 0.929,
+        "matched_normalized": " means a license to practice as a registered or a licensed practical vocational nurse lpn vn issued by a home state licensing board that authorizes the licensed nurse to practice in all party states under a multistate licensure privilege"
+      }
     },
     "impaired_nurse_alternative_program_available": {
       "value": true,
@@ -518,25 +517,26 @@
     },
     "public_health_nurse_certification_available": null,
     "telehealth_prescribing_rules": {
-      "value": "A treating nurse who provides or facilitates telehealth must ensure patient informed consent before services are provided and must maintain confidentiality. Board may promulgate regulations to prevent abuse, fraud, and fee-splitting through telehealth.",
+      "value": "A treating nurse who provides or facilitates the use of telehealth shall ensure informed consent and confidentiality; the board shall promulgate regulations to prevent abuse, fraud, and fee-splitting through telehealth.",
       "quote": "A treating nurse who provides or facilitates the use of telehealth shall ensure: That the informed consent of the patient, or another appropriate person with authority to make the health care treatment decision for the patient, is obtained before services are provided through telehealth",
       "citation": "314.155"
     },
     "nurse_practitioner_transition_to_practice_hours": null,
     "crna_physician_supervision_model": {
       "value": "coordination model",
-      "quote": "Nothing in this chapter shall be construed as requiring an advanced practice registered nurse designated by the board as a certified registered nurse anesthetist to obtain prescriptive authority pursuant to this chapter or any other provision of law in order to deliver anesthesia care.",
-      "citation": "314.011"
+      "quote": "Nothing in this chapter shall be construed as requiring an advanced practice registered nurse designated by the board as a certified registered nurse anesthetist to enter into a collaborative agreement with a physician, pursuant to this chapter or any other provision of law, in order to deliver anesthesia care.",
+      "citation": "314.042"
     },
     "cnm_out_of_hospital_birth_authorized": {
       "value": true,
-      "quote": "\"Certified professional midwifery services\": Means the provision of care to a person during a low-risk pregnancy, childbirth, and the postpartum period, and the care of a normal newborn immediately following birth",
+      "quote": "\"Licensed certified professional midwife\" means a person who is certified by the North American Registry of Midwives and issued a license by the board to provide certified professional midwifery services in the Commonwealth of Kentucky",
       "citation": "314.400"
     },
     "aprn_formulary_or_protocol_required": {
       "value": false,
-      "quote": "Nothing in this chapter shall be construed as requiring an advanced practice registered nurse designated by the board as a certified registered nurse anesthetist to enter into a collaborative agreement with a physician, pursuant to this chapter or any other provision of law, in order to deliver anesthesia care.",
-      "citation": "314.042"
+      "quote": "the advanced practice registered nurse shall enter into a written \"Collaborative Agreement for the Advanced Practice Registered Nurse's Prescriptive Authority for Nonscheduled Legend Drugs\" (CAPA-NS) with a physician licensed in Kentucky that defines the scope of the prescriptive authority for nonscheduled legend drugs.",
+      "citation": "314.042",
+      "unverified": true
     },
     "nursing_education_program_clinical_hours_minimum": null,
     "implicit_bias_training_required_in_curriculum": null,
@@ -546,7 +546,12 @@
         "item": "Registered Nurse (RN)",
         "status": "present",
         "quote": "\"Registered nurse\" means one who is licensed or holds the privilege under the provisions of this chapter to engage in registered nursing practice",
-        "citation": "314.011"
+        "citation": "314.011",
+        "unverified": true,
+        "approximate": {
+          "ratio": 0.888,
+          "matched_normalized": " means one who is licensed or holds the privilege under the provisions of this chapter to engage in registered nursing practice"
+        }
       },
       {
         "item": "Licensed Practical Nurse (LPN)",
@@ -558,31 +563,51 @@
         "item": "Advanced Practice Registered Nurse (APRN)",
         "status": "present",
         "quote": "\"Advanced practice registered nurse\" or \"APRN\" means a certified nurse practitioner, certified registered nurse anesthetist, certified nurse midwife, or clinical nurse specialist, who is licensed to engage in advance practice registered nursing pursuant to KRS 314.042",
-        "citation": "314.011"
+        "citation": "314.011",
+        "unverified": true,
+        "approximate": {
+          "ratio": 0.838,
+          "matched_normalized": " means a certified nurse practitioner certified registered nurse anesthetist certified nurse midwife or clinical nurse specialist who is licensed to engage in advance practice registered nursing pursuant to krs 314 042"
+        }
       },
       {
         "item": "Certified Registered Nurse Anesthetist (CRNA)",
         "status": "present",
-        "quote": "\"Advanced practice registered nurse\" or \"APRN\" means a certified nurse practitioner, certified registered nurse anesthetist, certified nurse midwife, or clinical nurse specialist",
+        "quote": "Nothing in this chapter shall be construed as requiring an advanced practice registered nurse designated by the board as a certified registered nurse anesthetist to obtain prescriptive authority pursuant to this chapter or any other provision of law in order to deliver anesthesia care.",
         "citation": "314.011"
       },
       {
         "item": "Certified Nurse Practitioner (CNP/CRNP/NP)",
         "status": "present",
         "quote": "\"Advanced practice registered nurse\" or \"APRN\" means a certified nurse practitioner, certified registered nurse anesthetist, certified nurse midwife, or clinical nurse specialist",
-        "citation": "314.011"
+        "citation": "314.011",
+        "unverified": true,
+        "approximate": {
+          "ratio": 0.754,
+          "matched_normalized": " means a certified nurse practitioner certified registered nurse anesthetist certified nurse midwife or clinical nurse specialist"
+        }
       },
       {
         "item": "Certified Nurse Midwife (CNM)",
         "status": "present",
         "quote": "\"Advanced practice registered nurse\" or \"APRN\" means a certified nurse practitioner, certified registered nurse anesthetist, certified nurse midwife, or clinical nurse specialist",
-        "citation": "314.011"
+        "citation": "314.011",
+        "unverified": true,
+        "approximate": {
+          "ratio": 0.754,
+          "matched_normalized": " means a certified nurse practitioner certified registered nurse anesthetist certified nurse midwife or clinical nurse specialist"
+        }
       },
       {
         "item": "Clinical Nurse Specialist (CNS)",
         "status": "present",
         "quote": "\"Advanced practice registered nurse\" or \"APRN\" means a certified nurse practitioner, certified registered nurse anesthetist, certified nurse midwife, or clinical nurse specialist",
-        "citation": "314.011"
+        "citation": "314.011",
+        "unverified": true,
+        "approximate": {
+          "ratio": 0.754,
+          "matched_normalized": " means a certified nurse practitioner certified registered nurse anesthetist certified nurse midwife or clinical nurse specialist"
+        }
       },
       {
         "item": "Certified Nurse Aide (CNA)",
@@ -599,20 +624,25 @@
       {
         "item": "Full Independent Practice Authority Certificate",
         "status": "present",
-        "quote": "Before an advanced practice registered nurse may discontinue or be exempt from a CAPA-NS required under subsection (12) of this section, the advanced practice registered nurse shall have completed four (4) years of prescribing",
+        "quote": "After four (4) years of prescribing with a CAPA-NS in collaboration with a physician: An advanced practice registered nurse whose license is in good standing at that time with the Kentucky Board of Nursing and who will be prescribing nonscheduled legend drugs without a CAPA-NS shall notify that board that the four (4) year requirement has been met",
         "citation": "314.042"
       },
       {
         "item": "Nursing Home Administrator License",
-        "status": "present",
-        "quote": "no person shall be a long-term care administrator unless he or she is the holder of a long-term care administrator's license issued pursuant to this chapter",
-        "citation": "216A.030"
+        "status": "absent",
+        "quote": "",
+        "citation": ""
       },
       {
         "item": "Multistate License (Nurse Licensure Compact)",
         "status": "present",
-        "quote": "The Nurse Licensure Compact is hereby enacted and entered into with all other jurisdictions that legally join in the Compact",
-        "citation": "314.475"
+        "quote": "\"Multistate license\" means a license to practice as a registered or a licensed practical/vocational nurse (LPN/VN) issued by a home state licensing board that authorizes the licensed nurse to practice in all party states under a multistate licensure privilege.",
+        "citation": "314.475",
+        "unverified": true,
+        "approximate": {
+          "ratio": 0.929,
+          "matched_normalized": " means a license to practice as a registered or a licensed practical vocational nurse lpn vn issued by a home state licensing board that authorizes the licensed nurse to practice in all party states under a multistate licensure privilege"
+        }
       },
       {
         "item": "Temporary Permit to Practice Nursing",
@@ -626,25 +656,45 @@
         "item": "Certified Nurse Practitioner",
         "status": "present",
         "quote": "\"Advanced practice registered nurse\" or \"APRN\" means a certified nurse practitioner, certified registered nurse anesthetist, certified nurse midwife, or clinical nurse specialist",
-        "citation": "314.011"
+        "citation": "314.011",
+        "unverified": true,
+        "approximate": {
+          "ratio": 0.754,
+          "matched_normalized": " means a certified nurse practitioner certified registered nurse anesthetist certified nurse midwife or clinical nurse specialist"
+        }
       },
       {
         "item": "Certified Registered Nurse Anesthetist",
         "status": "present",
         "quote": "\"Advanced practice registered nurse\" or \"APRN\" means a certified nurse practitioner, certified registered nurse anesthetist, certified nurse midwife, or clinical nurse specialist",
-        "citation": "314.011"
+        "citation": "314.011",
+        "unverified": true,
+        "approximate": {
+          "ratio": 0.754,
+          "matched_normalized": " means a certified nurse practitioner certified registered nurse anesthetist certified nurse midwife or clinical nurse specialist"
+        }
       },
       {
         "item": "Certified Nurse Midwife",
         "status": "present",
         "quote": "\"Advanced practice registered nurse\" or \"APRN\" means a certified nurse practitioner, certified registered nurse anesthetist, certified nurse midwife, or clinical nurse specialist",
-        "citation": "314.011"
+        "citation": "314.011",
+        "unverified": true,
+        "approximate": {
+          "ratio": 0.754,
+          "matched_normalized": " means a certified nurse practitioner certified registered nurse anesthetist certified nurse midwife or clinical nurse specialist"
+        }
       },
       {
         "item": "Clinical Nurse Specialist",
         "status": "present",
         "quote": "\"Advanced practice registered nurse\" or \"APRN\" means a certified nurse practitioner, certified registered nurse anesthetist, certified nurse midwife, or clinical nurse specialist",
-        "citation": "314.011"
+        "citation": "314.011",
+        "unverified": true,
+        "approximate": {
+          "ratio": 0.754,
+          "matched_normalized": " means a certified nurse practitioner certified registered nurse anesthetist certified nurse midwife or clinical nurse specialist"
+        }
       }
     ],
     "scope__lpn_supervision_requirements": [

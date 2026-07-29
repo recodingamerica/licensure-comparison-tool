@@ -34,10 +34,19 @@
       "quote": "Affirmation that the applicant is beyond the age of majority",
       "citation": "[UMBRELLA / 436B. Uniform Professional and Vocational Licensing Act] 436B-10 Application and requirements for licensure."
     },
-    "moral_character_required": null,
+    "moral_character_required": {
+      "value": true,
+      "quote": "the board shall license qualified applicants by examination or endorsement, including advanced practice registered nurses, and renew, reinstate, reactivate, and restore licenses and shall conduct an investigation of the qualified applicant's background, character, competency, and integrity, as the board deems appropriate.",
+      "citation": "[457-5]",
+      "unverified": true,
+      "approximate": {
+        "ratio": 0.952,
+        "matched_normalized": " license qualified applicants by examination or endorsement including advanced practice registered nurses and renew reinstate reactivate and restore licenses and shall conduct an investigation of the qualified applicant s background character competency and integrity as the board deems appropriate"
+      }
+    },
     "education": {
       "degree_required": {
-        "value": "Completed a nursing program approved by the board",
+        "value": "Completed a nursing program approved by the board (RN); completed a licensed practical nurse program approved by the board (LPN); completed an accredited graduate-level education program (APRN)",
         "quote": "Written evidence that the applicant has completed a nursing program approved by the board.",
         "citation": "[457-7]"
       },
@@ -47,13 +56,13 @@
         "citation": "[457-7]"
       },
       "degree_level": {
-        "value": "associate",
+        "value": "none",
         "quote": "Written evidence that the applicant has completed a nursing program approved by the board.",
         "citation": "[457-7]"
       },
       "school_approval_basis": {
         "value": "board_approved",
-        "quote": "a nursing program approved by the board",
+        "quote": "Written evidence that the applicant has completed a nursing program approved by the board.",
         "citation": "[457-7]"
       },
       "credential_pegged": {
@@ -63,18 +72,18 @@
       },
       "tiers": [
         {
-          "license_class": "Registered Nurse",
-          "degree_level": "associate",
-          "effective_date": null,
-          "quote": "Written evidence that the applicant has completed a nursing program approved by the board.",
-          "citation": "[457-7]"
-        },
-        {
           "license_class": "Licensed Practical Nurse",
           "degree_level": "none",
           "effective_date": null,
           "quote": "Written evidence that the applicant has completed a licensed practical nurse program, or its equivalent, approved by the board, and holds a diploma or certificate therefrom.",
           "citation": "[457-8]"
+        },
+        {
+          "license_class": "Registered Nurse",
+          "degree_level": "none",
+          "effective_date": null,
+          "quote": "Written evidence that the applicant has completed a nursing program approved by the board.",
+          "citation": "[457-7]"
         },
         {
           "license_class": "Advanced Practice Registered Nurse",
@@ -87,7 +96,7 @@
     },
     "post_degree_experience": {
       "required": {
-        "value": false,
+        "value": true,
         "quote": "Acquired clinical experience of sufficient depth and breadth to reflect the intended license",
         "citation": "[457-8.5]"
       },
@@ -97,35 +106,48 @@
         "citation": "[457-8.5]"
       },
       "duration": null,
-      "kind": null
+      "kind": {
+        "value": "clinical experience",
+        "quote": "Acquired clinical experience of sufficient depth and breadth to reflect the intended license",
+        "citation": "[457-8.5]"
+      }
     },
     "exams": [
       {
-        "name": "NCLEX or board-approved examination (Registered Nurse)",
+        "name": "NCLEX-RN (or board-designated national examination)",
         "required": true,
-        "notes": "Board authorizes nationally uniform examination for RN licensure",
+        "notes": "Written examination in nursing subjects as determined by the board; board may employ a nationally uniform examination",
         "jurisdiction": "national",
         "permitted_attempts": null,
         "quote": "The applicant shall be required to pass a written examination in nursing subjects as determined by the board.",
         "citation": "[457-7]"
       },
       {
-        "name": "NCLEX or board-approved examination (Licensed Practical Nurse)",
+        "name": "NCLEX-PN (or board-designated national examination)",
         "required": true,
-        "notes": "Board authorizes nationally uniform examination for LPN licensure",
+        "notes": "Written examination in nursing subjects as determined by the board for licensed practical nurses",
         "jurisdiction": "national",
         "permitted_attempts": null,
         "quote": "The applicant shall be required to pass a written examination in nursing subjects as determined by the board.",
         "citation": "[457-8]"
       },
       {
-        "name": "National certification examination (Advanced Practice Registered Nurse)",
+        "name": "National certification examination (APRN)",
         "required": true,
-        "notes": "Must be recognized by the board; measures role and population-focused competencies",
+        "notes": "Must measure role and population-focused competencies and be recognized by the board",
         "jurisdiction": "national",
         "permitted_attempts": null,
         "quote": "A current, unencumbered certification of having passed a national certification examination that measures role and population-focused competencies and is recognized by the board",
         "citation": "[457-8.5]"
+      },
+      {
+        "name": "Nurse aide examination",
+        "required": true,
+        "notes": "For certified nurse aide certification",
+        "jurisdiction": "state",
+        "permitted_attempts": null,
+        "quote": "A nurse aide examination approved by the director.",
+        "citation": "[457A-7]"
       }
     ],
     "renewal": {
@@ -149,7 +171,7 @@
       },
       "period_years": {
         "value": 2,
-        "quote": "every biennial renewal thereafter",
+        "quote": "every biennial renewal thereafter, each registered nurse and practical nurse licensee shall have completed one of the learning activity options recognized by the board within the two-year period preceding the renewal date",
         "citation": "[457-9.2]"
       },
       "topical_requirements": null
@@ -157,12 +179,12 @@
     "reciprocity": {
       "available": {
         "value": true,
-        "quote": "The board may issue a license to practice nursing as a registered nurse by endorsement to an applicant who has been licensed as a registered nurse under the laws of another state, territory, or foreign country",
+        "quote": "The board may issue a license to practice nursing as a registered nurse by endorsement to an applicant who has been licensed as a registered nurse under the laws of another state, territory, or foreign country if the applicant has an unencumbered license and, in the opinion of the board, the applicant meets the qualifications required of registered nurses in this State at the time of graduation.",
         "citation": "[457-7]"
       },
       "requirements": {
-        "value": "Applicant must have an unencumbered license and meet qualifications required of nurses in Hawaii at time of graduation; temporary permit may be issued pending verification",
-        "quote": "the applicant has an unencumbered license and, in the opinion of the board, the applicant meets the qualifications required of registered nurses in this State at the time of graduation. Pending verification of a valid, unencumbered license from another state, territory, or foreign country, a temporary permit may be issued for employment with a Hawaii employer.",
+        "value": "Unencumbered license from another state, territory, or foreign country; must meet Hawaii qualifications at time of graduation; for APRN endorsement, all licenses and prescriptive authorities must be unencumbered and originating state requirements equal to or greater than Hawaii's.",
+        "quote": "The board may issue a license to practice nursing as a registered nurse by endorsement to an applicant who has been licensed as a registered nurse under the laws of another state, territory, or foreign country if the applicant has an unencumbered license and, in the opinion of the board, the applicant meets the qualifications required of registered nurses in this State at the time of graduation.",
         "citation": "[457-7]"
       }
     },
@@ -176,11 +198,15 @@
       "authority": null
     },
     "national_certification": {
+      "value": "National certifying body recognized by the board (APRN role and population-focused competencies)",
+      "quote": "A current, unencumbered certification of having passed a national certification examination that measures role and population-focused competencies and is recognized by the board",
+      "citation": "[457-8.5]"
+    },
+    "national_association": {
       "value": "National Council of State Boards of Nursing (NCSBN)",
       "quote": "\"NCSBN\" means the National Council of State Boards of Nursing.",
       "citation": "[457-2]"
     },
-    "national_association": null,
     "regulatory_model": {
       "value": "license",
       "quote": "It shall be unlawful for any person not licensed under this chapter to practice or offer to practice nursing as an advanced practice registered nurse, a registered nurse, or a licensed practical nurse",
@@ -188,7 +214,7 @@
     },
     "credential_type": {
       "value": "license",
-      "quote": "any person practicing or offering to practice as an advanced practice registered nurse, a registered nurse, or a licensed practical nurse in this State for compensation shall be required to submit evidence that the person is qualified to so practice, and shall be licensed as provided in this chapter",
+      "quote": "any person practicing or offering to practice as an advanced practice registered nurse, a registered nurse, or a licensed practical nurse in this State for compensation shall be required to submit evidence that the person is qualified to so practice, and shall be licensed as provided in this chapter.",
       "citation": "[457-1]"
     },
     "is_mandatory": {
@@ -244,14 +270,14 @@
         "citation": "[457-12]"
       },
       {
-        "short_label": "violation_of_chapter_or_rules",
-        "description": "Wilful or repeated violation of any provision of this chapter or any board rule",
+        "short_label": "repeated_violation_of_chapter",
+        "description": "Willful or repeated violation of the provisions of this chapter or any rule adopted by the board",
         "quote": "Wilful or repeated violation of any of the provisions of this chapter or any rule adopted by the board",
         "citation": "[457-12]"
       },
       {
         "short_label": "out_of_state_disciplinary_action",
-        "description": "Revocation, suspension, or other disciplinary action by another state of a nursing license",
+        "description": "Revocation, suspension, limitation, or other disciplinary action by another state of a nursing license",
         "quote": "Revocation, suspension, limitation, or other disciplinary action by another state of a nursing license",
         "citation": "[457-12]"
       },
@@ -263,13 +289,13 @@
       },
       {
         "short_label": "failure_to_report_disciplinary_action",
-        "description": "Failure to report to the board any disciplinary action taken in another jurisdiction within 30 days",
+        "description": "Failure to report to the board any disciplinary action taken against the licensee in another jurisdiction within thirty days",
         "quote": "Failure to report to the board any disciplinary action taken against the licensee in another jurisdiction within thirty days after the disciplinary action becomes final",
         "citation": "[457-12]"
       },
       {
-        "short_label": "false_document_submission",
-        "description": "Submitting to the board any notice, statement, or document that is false or contains material misstatement of fact",
+        "short_label": "false_statements_to_board",
+        "description": "Submitting false or untrue statements or documents required under this chapter, including false attestation of compliance with continuing competency requirements",
         "quote": "Submitting to or filing with the board any notice, statement, or other document required under this chapter, which is false or untrue or contains any material misstatement of fact, including a false attestation of compliance with continuing competency requirements",
         "citation": "[457-12]"
       },
@@ -287,87 +313,63 @@
     },
     "citations": [
       {
-        "cite": "HI Rev. Stat. \u00a7 457-1",
+        "cite": "[457-1]",
         "kind": "purpose and prohibition"
       },
       {
-        "cite": "HI Rev. Stat. \u00a7 457-2",
+        "cite": "[457-2]",
         "kind": "definitions"
       },
       {
-        "cite": "HI Rev. Stat. \u00a7 457-2.5",
-        "kind": "RN scope"
+        "cite": "[457-5]",
+        "kind": "board powers and duties"
       },
       {
-        "cite": "HI Rev. Stat. \u00a7 457-2.6",
-        "kind": "LPN scope"
-      },
-      {
-        "cite": "HI Rev. Stat. \u00a7 457-2.7",
-        "kind": "APRN scope"
-      },
-      {
-        "cite": "HI Rev. Stat. \u00a7 457-5",
-        "kind": "board powers"
-      },
-      {
-        "cite": "HI Rev. Stat. \u00a7 457-7",
+        "cite": "[457-7]",
         "kind": "RN qualifications and licensure"
       },
       {
-        "cite": "HI Rev. Stat. \u00a7 457-7.5",
-        "kind": "delegation"
-      },
-      {
-        "cite": "HI Rev. Stat. \u00a7 457-8",
+        "cite": "[457-8]",
         "kind": "LPN qualifications and licensure"
       },
       {
-        "cite": "HI Rev. Stat. \u00a7 457-8.5",
+        "cite": "[457-8.5]",
         "kind": "APRN qualifications and licensure"
       },
       {
-        "cite": "HI Rev. Stat. \u00a7 457-8.6",
+        "cite": "[457-8.6]",
         "kind": "APRN prescriptive authority"
       },
       {
-        "cite": "HI Rev. Stat. \u00a7 457-9",
+        "cite": "[457-9]",
         "kind": "renewal"
       },
       {
-        "cite": "HI Rev. Stat. \u00a7 457-9.2",
-        "kind": "continuing competency"
+        "cite": "[457-9.2]",
+        "kind": "continuing competency requirements"
       },
       {
-        "cite": "HI Rev. Stat. \u00a7 457-9.3",
+        "cite": "[457-9.3]",
         "kind": "learning activity options"
       },
       {
-        "cite": "HI Rev. Stat. \u00a7 457-12",
+        "cite": "[457-12]",
         "kind": "discipline"
       },
       {
-        "cite": "HI Rev. Stat. \u00a7 457-14",
-        "kind": "penalties"
+        "cite": "[457A-2]",
+        "kind": "CNA certification"
       },
       {
-        "cite": "HI Rev. Stat. \u00a7 457A-1.5",
-        "kind": "nurse aide definitions"
-      },
-      {
-        "cite": "HI Rev. Stat. \u00a7 457A-6",
+        "cite": "[457A-6]",
         "kind": "CNA certification required"
       },
       {
-        "cite": "HI Rev. Stat. \u00a7 457A-7",
+        "cite": "[457A-7]",
         "kind": "medicare/medicaid CNA certification"
       },
       {
-        "cite": "HI Rev. Stat. \u00a7 457B-3",
-        "kind": "nursing home administrator license"
-      },
-      {
-        "cite": "HI Rev. Stat. \u00a7 334D-3",
+        "cite": "[334D-3]",
         "kind": "diversion program"
       }
     ]
@@ -380,46 +382,48 @@
     },
     "methods_authorized": {
       "value": [
-        "observation, assessment, development, implementation, and evaluation of a plan of care",
+        "assessment",
+        "diagnosis",
+        "planning",
+        "implementation",
+        "evaluation of care",
         "health counseling",
-        "supervision and teaching of other personnel",
-        "administration, supervision, coordination, delegation, and evaluation of nursing practice",
-        "provision of health care in collaboration with other members of the health care team",
-        "advanced assessment",
-        "diagnosis, prescription, selection, and administration of therapeutic measures including over the counter drugs, legend drugs, and controlled substances (APRN)",
+        "supervision and teaching",
+        "delegation",
+        "prescription and administration of drugs (APRN)",
         "telehealth"
       ],
       "quote": "observation, assessment, development, implementation, and evaluation of a plan of care, health counseling, supervision and teaching of other personnel, and teaching of individuals, families, and groups in any stage of health or illness; administration, supervision, coordination, delegation, and evaluation of nursing practice",
       "citation": "[457-2]"
     },
     "drug_authority": {
-      "value": "APRNs with prescriptive authority may prescribe and administer over the counter drugs, legend drugs, and controlled substances; may prescribe, order, and dispense medical devices and equipment; may not request, receive, or sign for professional controlled substance samples.",
+      "value": "APRNs with prescriptive authority may prescribe and administer over the counter drugs, legend drugs, and controlled substances; prescribe, order, and dispense medical devices and equipment. An exclusionary formulary is determined by the board.",
       "quote": "Prescribe and administer over the counter drugs, legend drugs, and controlled substances pursuant to this chapter and to chapter 329 and request, receive, and dispense manufacturers' prepackaged samples of over the counter drugs, and non-controlled legend drugs to patients under their care; provided that an advanced practice registered nurse shall not request, receive, or sign for professional controlled substance samples",
       "citation": "[457-8.6]"
     },
     "citations": [
       {
-        "cite": "HI Rev. Stat. \u00a7 457-1.5",
+        "cite": "[457-1.5]",
         "kind": "practice of nursing definition"
       },
       {
-        "cite": "HI Rev. Stat. \u00a7 457-2",
-        "kind": "LPN and RN practice definitions"
+        "cite": "[457-2]",
+        "kind": "RN and LPN scope definitions"
       },
       {
-        "cite": "HI Rev. Stat. \u00a7 457-2.5",
-        "kind": "RN scope"
+        "cite": "[457-2.5]",
+        "kind": "RN practice"
       },
       {
-        "cite": "HI Rev. Stat. \u00a7 457-2.6",
-        "kind": "LPN scope"
+        "cite": "[457-2.6]",
+        "kind": "LPN practice"
       },
       {
-        "cite": "HI Rev. Stat. \u00a7 457-2.7",
-        "kind": "APRN scope"
+        "cite": "[457-2.7]",
+        "kind": "APRN practice"
       },
       {
-        "cite": "HI Rev. Stat. \u00a7 457-8.6",
+        "cite": "[457-8.6]",
         "kind": "APRN prescriptive authority"
       }
     ]
@@ -430,10 +434,9 @@
         "Registered Nurse (RN)",
         "Licensed Practical Nurse (LPN)",
         "Advanced Practice Registered Nurse (APRN)",
-        "Certified Nurse Aide (CNA)",
-        "Nursing Home Administrator"
+        "Certified Nurse Aide (CNA)"
       ],
-      "quote": "any person practicing or offering to practice as an advanced practice registered nurse, a registered nurse, or a licensed practical nurse in this State for compensation shall be required to submit evidence that the person is qualified to so practice, and shall be licensed as provided in this chapter",
+      "quote": "any person practicing or offering to practice as an advanced practice registered nurse, a registered nurse, or a licensed practical nurse in this State for compensation shall be required to submit evidence that the person is qualified to so practice, and shall be licensed as provided in this chapter.",
       "citation": "[457-1]"
     },
     "aprn_role_categories": {
@@ -451,10 +454,9 @@
         "Registered Nurse",
         "Advanced Practice Registered Nurse",
         "Physician",
-        "Osteopathic Physician",
+        "Physician Assistant",
         "Dentist",
-        "Podiatrist",
-        "Physician Assistant"
+        "Podiatrist"
       ],
       "quote": "under the direction of a dentist, physician, osteopathic physician, registered nurse, or podiatrist licensed in accordance with chapter 448, 453, 457, or 463E, or under the orders of a physician assistant licensed pursuant to chapter 453",
       "citation": "[457-2]"
@@ -466,8 +468,8 @@
     },
     "full_independent_practice_available": {
       "value": true,
-      "quote": "Practice as an advanced practice registered nurse means the scope of nursing in a category approved by the board, regardless of compensation or personal profit, and includes the registered nurse scope of practice.",
-      "citation": "[457-2.7]"
+      "quote": "The board shall grant prescriptive authority to qualified advanced practice registered nurses and shall designate the requirements for advanced nursing practice related to prescriptive authority.",
+      "citation": "[457-8.6]"
     },
     "full_independent_practice_experience_hours_required": null,
     "prescriptive_authority_certificate_required": {
@@ -477,10 +479,7 @@
     },
     "controlled_substance_schedule_authority": {
       "value": [
-        "Schedule II controlled substances",
-        "Schedule III controlled substances",
-        "Schedule IV controlled substances",
-        "Schedule V controlled substances"
+        "controlled substances"
       ],
       "quote": "Prescribe and administer over the counter drugs, legend drugs, and controlled substances pursuant to this chapter and to chapter 329",
       "citation": "[457-8.6]"
@@ -490,10 +489,14 @@
     "controlled_substance_database_registration_required": null,
     "nurse_aide_registry_maintained": {
       "value": true,
-      "quote": "The director shall issue certificates to qualified nurse aides and shall be responsible for maintenance of an up-to-date nurse aide registry that shall include the names of certified nurse aides, their places of employment, and all information that is reported by the department of health and the department of human services.",
+      "quote": "The director shall issue certificates to qualified nurse aides and shall be responsible for maintenance of an up-to-date nurse aide registry",
       "citation": "[457A-3]"
     },
-    "medication_assistant_certification_available": null,
+    "medication_assistant_certification_available": {
+      "value": false,
+      "quote": "The administration of oral and topical medication and in emergency situations, other premeasured medication, by school health assistants as provided in section 302A-853.",
+      "citation": "[457-13]"
+    },
     "delegation_to_unlicensed_personnel_authorized": {
       "value": true,
       "quote": "A registered nurse may delegate nursing care tasks, functions, and activities to unlicensed assistive personnel in a manner that is appropriate to the level of knowledge and skill of the unlicensed assistive personnel",
@@ -501,8 +504,16 @@
     },
     "employer_mandatory_reporting_required": null,
     "whistleblower_protection_for_delegation_refusal": null,
-    "nurse_licensure_compact_member": null,
-    "multistate_license_option_available": null,
+    "nurse_licensure_compact_member": {
+      "value": false,
+      "quote": "It shall be unlawful for any person not licensed under this chapter to practice or offer to practice nursing as an advanced practice registered nurse, a registered nurse, or a licensed practical nurse",
+      "citation": "[457-1]"
+    },
+    "multistate_license_option_available": {
+      "value": false,
+      "quote": "It shall be unlawful for any person not licensed under this chapter to practice or offer to practice nursing as an advanced practice registered nurse, a registered nurse, or a licensed practical nurse",
+      "citation": "[457-1]"
+    },
     "impaired_nurse_alternative_program_available": {
       "value": true,
       "quote": "There is established a diversion program for chemically dependent nurses which shall be administered and monitored by a professional association or other entity approved by the board.",
@@ -511,7 +522,7 @@
     "rn_death_pronouncement_authorized": null,
     "public_health_nurse_certification_available": null,
     "telehealth_prescribing_rules": {
-      "value": "Nurses may provide telehealth services consistent with all federal and state privacy, security, and confidentiality laws; APRN scope includes telehealth; board shall adopt rules relating to the practice of nursing in telehealth.",
+      "value": "Services relating to the practice of nursing provided by telehealth shall be consistent with all federal and state privacy, security, and confidentiality laws. The board shall develop and adopt rules as necessary relating to the practice of nursing in telehealth.",
       "quote": "Services relating to the practice of nursing provided by telehealth pursuant to this chapter shall be consistent with all federal and state privacy, security, and confidentiality laws.",
       "citation": "[457-17]"
     },
@@ -530,19 +541,19 @@
       {
         "item": "Registered Nurse (RN)",
         "status": "present",
-        "quote": "any person practicing or offering to practice as an advanced practice registered nurse, a registered nurse, or a licensed practical nurse in this State for compensation shall be required to submit evidence that the person is qualified to so practice, and shall be licensed as provided in this chapter",
+        "quote": "any person practicing or offering to practice as an advanced practice registered nurse, a registered nurse, or a licensed practical nurse in this State for compensation shall be required to submit evidence that the person is qualified to so practice, and shall be licensed as provided in this chapter.",
         "citation": "[457-1]"
       },
       {
         "item": "Licensed Practical Nurse (LPN)",
         "status": "present",
-        "quote": "any person practicing or offering to practice as an advanced practice registered nurse, a registered nurse, or a licensed practical nurse in this State for compensation shall be required to submit evidence that the person is qualified to so practice, and shall be licensed as provided in this chapter",
+        "quote": "any person practicing or offering to practice as an advanced practice registered nurse, a registered nurse, or a licensed practical nurse in this State for compensation shall be required to submit evidence that the person is qualified to so practice, and shall be licensed as provided in this chapter.",
         "citation": "[457-1]"
       },
       {
         "item": "Advanced Practice Registered Nurse (APRN)",
         "status": "present",
-        "quote": "any person practicing or offering to practice as an advanced practice registered nurse, a registered nurse, or a licensed practical nurse in this State for compensation shall be required to submit evidence that the person is qualified to so practice, and shall be licensed as provided in this chapter",
+        "quote": "any person practicing or offering to practice as an advanced practice registered nurse, a registered nurse, or a licensed practical nurse in this State for compensation shall be required to submit evidence that the person is qualified to so practice, and shall be licensed as provided in this chapter.",
         "citation": "[457-1]"
       },
       {
@@ -583,15 +594,15 @@
       },
       {
         "item": "Full Independent Practice Authority Certificate",
-        "status": "absent",
-        "quote": "",
-        "citation": ""
+        "status": "present",
+        "quote": "The board shall grant prescriptive authority to qualified advanced practice registered nurses and shall designate the requirements for advanced nursing practice related to prescriptive authority.",
+        "citation": "[457-8.6]"
       },
       {
         "item": "Nursing Home Administrator License",
-        "status": "present",
-        "quote": "No person shall operate a nursing home in the State without having a nursing home administrator's license from the department as hereinafter provided.",
-        "citation": "[457B-3]"
+        "status": "absent",
+        "quote": "",
+        "citation": ""
       },
       {
         "item": "Multistate License (Nurse Licensure Compact)",

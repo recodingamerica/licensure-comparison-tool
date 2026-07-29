@@ -5,66 +5,92 @@
     "license_required": {
       "value": true,
       "quote": "a person practicing or offering to practice professional nursing in this state shall submit evidence that the person is qualified to practice and is licensed as provided in this chapter",
-      "citation": "[37-8-101]"
+      "citation": "37-8-101"
     },
     "issuing_authority": {
       "value": "Board of Nursing",
       "quote": "\"Board\" means the board of nursing provided for in 2-15-1734.",
-      "citation": "[37-8-102]"
+      "citation": "37-8-102"
     },
     "regulatory_authority": {
       "name": {
         "value": "Board of Nursing",
         "quote": "\"Board\" means the board of nursing provided for in 2-15-1734.",
-        "citation": "[37-8-102]"
+        "citation": "37-8-102"
       },
       "type": {
         "value": "standalone_board",
         "quote": "\"Board\" means the board of nursing provided for in 2-15-1734.",
-        "citation": "[37-8-102]"
+        "citation": "37-8-102"
       },
       "umbrella_agency": {
         "value": "Department of Labor and Industry",
         "quote": "\"Department\" means the department of labor and industry provided for in Title 2, chapter 15, part 17.",
-        "citation": "[37-8-102]"
+        "citation": "37-8-102"
       }
     },
     "age_minimum": null,
     "moral_character_required": null,
     "education": {
       "degree_required": {
-        "value": "Completion of basic professional curriculum in an approved school of nursing",
+        "value": "Completion of the basic professional curriculum in an approved school of nursing",
         "quote": "has completed the basic professional curriculum in an approved school of nursing and holds a diploma from that school",
-        "citation": "[37-8-405]"
+        "citation": "37-8-405"
       },
-      "accrediting_body": null,
+      "accrediting_body": {
+        "value": "Board-approved school of nursing",
+        "quote": "prescribe standards for schools preparing persons for registration and licensure under this chapter",
+        "citation": "37-8-202"
+      },
       "degree_level": {
         "value": "associate",
         "quote": "has completed the basic professional curriculum in an approved school of nursing and holds a diploma from that school",
-        "citation": "[37-8-405]"
+        "citation": "37-8-405"
       },
       "school_approval_basis": {
         "value": "board_approved",
-        "quote": "has graduated or is eligible to graduate from a licensing board-approved RN or LPN/VN prelicensure education program",
-        "citation": "[37-8-501]"
+        "quote": "prescribe standards for schools preparing persons for registration and licensure under this chapter",
+        "citation": "37-8-202"
       },
       "credential_pegged": {
         "value": false,
         "quote": "has completed the basic professional curriculum in an approved school of nursing and holds a diploma from that school",
-        "citation": "[37-8-405]"
+        "citation": "37-8-405"
       },
-      "tiers": null
+      "tiers": [
+        {
+          "license_class": "Registered Professional Nurse (RN)",
+          "degree_level": "associate",
+          "effective_date": null,
+          "quote": "has completed the basic professional curriculum in an approved school of nursing and holds a diploma from that school",
+          "citation": "37-8-405"
+        },
+        {
+          "license_class": "Licensed Practical Nurse (LPN)",
+          "degree_level": "high_school",
+          "effective_date": null,
+          "quote": "is a graduate of an approved practical nursing education program that is authorized to prepare persons for licensure as practical nurses",
+          "citation": "37-8-415"
+        },
+        {
+          "license_class": "Advanced Practice Registered Nurse (APRN)",
+          "degree_level": "master",
+          "effective_date": null,
+          "quote": "Advanced practice registered nurses are nurses who must have additional professional education beyond the basic nursing degree required of a registered nurse. Additional education must be obtained in courses offered in a university setting or the equivalent.",
+          "citation": "37-8-202"
+        }
+      ]
     },
     "post_degree_experience": {
       "required": {
         "value": false,
         "quote": "has completed the basic professional curriculum in an approved school of nursing and holds a diploma from that school",
-        "citation": "[37-8-405]"
+        "citation": "37-8-405"
       },
       "experience_source": {
         "value": "none",
         "quote": "has completed the basic professional curriculum in an approved school of nursing and holds a diploma from that school",
-        "citation": "[37-8-405]"
+        "citation": "37-8-405"
       },
       "duration": null,
       "kind": null
@@ -73,20 +99,29 @@
       {
         "name": "NCLEX-RN",
         "required": true,
-        "notes": "Board may use any national standardized examination for professional nurse licensure; passing score set by board rules.",
-        "jurisdiction": "national",
+        "notes": "Board may use any national standardized examination for professional nurse licensure identified in its rules; passing score established by the board.",
+        "jurisdiction": "national (NCLEX-RN)",
         "permitted_attempts": null,
         "quote": "The board may use any national standardized examination for professional nurse licensure identified in its rules.",
-        "citation": "[37-8-406]"
+        "citation": "37-8-406"
       },
       {
         "name": "NCLEX-PN",
         "required": true,
-        "notes": "For licensed practical nurse applicants; board may use any nationally standardized examination for practical nurse licensure.",
-        "jurisdiction": "national",
+        "notes": "Board may use any nationally standardized examination for practical nurse licensure identified by the board in its rules.",
+        "jurisdiction": "national (NCLEX-PN)",
         "permitted_attempts": null,
         "quote": "The board may use any nationally standardized examination for practical nurse licensure identified by the board in its rules.",
-        "citation": "[37-8-416]"
+        "citation": "37-8-416"
+      },
+      {
+        "name": "NCLEX-RN or NCLEX-PN (multistate license)",
+        "required": true,
+        "notes": "Required for multistate licensure under the Enhanced Nurse Licensure Compact.",
+        "jurisdiction": "national (NCLEX-RN / NCLEX-PN)",
+        "permitted_attempts": null,
+        "quote": "has successfully passed an NCLEX-RN® or NCLEX-PN® examination or recognized predecessor, as applicable",
+        "citation": "37-8-501"
       }
     ],
     "renewal": {
@@ -94,105 +129,124 @@
     },
     "renewal_fee_usd": null,
     "continuing_education": {
-      "required": null,
-      "hours_per_period": null,
-      "period_years": null,
-      "topical_requirements": null
+      "required": {
+        "value": true,
+        "quote": "has completed 6 hours of annual continuing education in pharmacology and medication administration.",
+        "citation": "37-8-423"
+      },
+      "hours_per_period": {
+        "value": 6,
+        "quote": "has completed 6 hours of annual continuing education in pharmacology and medication administration.",
+        "citation": "37-8-423"
+      },
+      "period_years": {
+        "value": 1,
+        "quote": "has completed 6 hours of annual continuing education in pharmacology and medication administration.",
+        "citation": "37-8-423"
+      },
+      "topical_requirements": {
+        "value": [
+          "pharmacology",
+          "medication administration"
+        ],
+        "quote": "6 hours of annual continuing education in pharmacology and medication administration",
+        "citation": "37-8-423"
+      }
     },
     "reciprocity": {
       "available": {
         "value": true,
-        "quote": "the board shall issue a license to practice without examination to a person licensed in another state if the board determines that the other state's license standards at the time of application to this state are substantially equivalent to or greater than the standards in this state",
-        "citation": "[UMBRELLA / Chapter 1. General Provisions] 37-1-304"
+        "quote": "The board shall issue a license to practice without examination to a person licensed in another state if the board determines that the other state's license standards at the time of application to this state are substantially equivalent to or greater than the standards in this state",
+        "citation": "37-1-304"
       },
       "requirements": {
-        "value": "License issued without examination if other state's standards are substantially equivalent or greater, and there is no reason to deny under Montana law.",
-        "quote": "the board shall issue a license to practice without examination to a person licensed in another state if the board determines that the other state's license standards at the time of application to this state are substantially equivalent to or greater than the standards in this state",
-        "citation": "[UMBRELLA / Chapter 1. General Provisions] 37-1-304"
+        "value": "Out-of-state licensees may receive a license without examination if the other state's standards are substantially equivalent to Montana's and there is no reason to deny under Montana law. Military members and spouses may also receive reciprocal licensure.",
+        "quote": "Except as provided in Title 37, chapter 39, the board shall issue a license to practice without examination to a person licensed in another state if the board determines that the other state's license standards at the time of application to this state are substantially equivalent to or greater than the standards in this state",
+        "citation": "37-1-304"
       }
     },
     "advisory_board": {
       "exists": {
         "value": false,
         "quote": "\"Board\" means the board of nursing provided for in 2-15-1734.",
-        "citation": "[37-8-102]"
+        "citation": "37-8-102"
       },
       "name": null,
       "authority": null
     },
     "national_certification": {
-      "value": "Board-approved national certifying body (for APRN)",
+      "value": "Board-approved national certifying body for advanced practice registered nursing",
       "quote": "submits written verification of certification by a board-approved national certifying body appropriate to the specific field of advanced practice registered nursing",
-      "citation": "[37-8-409]"
+      "citation": "37-8-409"
     },
     "national_association": null,
     "regulatory_model": {
       "value": "license",
       "quote": "a person practicing or offering to practice professional nursing in this state shall submit evidence that the person is qualified to practice and is licensed as provided in this chapter",
-      "citation": "[37-8-101]"
+      "citation": "37-8-101"
     },
     "credential_type": {
       "value": "license",
       "quote": "a person practicing or offering to practice professional nursing in this state shall submit evidence that the person is qualified to practice and is licensed as provided in this chapter",
-      "citation": "[37-8-101]"
+      "citation": "37-8-101"
     },
     "is_mandatory": {
       "value": true,
       "quote": "a person practicing or offering to practice professional nursing in this state shall submit evidence that the person is qualified to practice and is licensed as provided in this chapter",
-      "citation": "[37-8-101]"
+      "citation": "37-8-101"
     },
     "title_protection": {
       "value": true,
       "quote": "It shall be unlawful for any person to use any title, abbreviation, sign, card, or device to indicate that such person is a registered professional nurse or a licensed practical nurse unless such person has been duly licensed under the provisions of this chapter",
-      "citation": "[37-8-401]"
+      "citation": "37-8-401"
     },
     "scope_protection": {
       "value": true,
       "quote": "a person practicing or offering to practice professional nursing in this state shall submit evidence that the person is qualified to practice and is licensed as provided in this chapter",
-      "citation": "[37-8-101]"
+      "citation": "37-8-101"
     },
     "disciplinary_grounds": [
+      {
+        "short_label": "false_information_in_application",
+        "description": "Filing false information in a license application or renewal is grounds for denial or revocation.",
+        "quote": "Failure to furnish the required information, except pursuant to 37-1-138, or the filing of false information is grounds for denial or revocation of a license.",
+        "citation": "37-1-105"
+      },
       {
         "short_label": "workers_compensation_fraud",
         "description": "Knowingly defrauding, abusing, or aiding in the defrauding or abusing of the workers' compensation system.",
         "quote": "suspend, revoke, or deny a license of a person who the board determines, after a hearing as provided in subsection (1)(b), is guilty of knowingly defrauding, abusing, or aiding in the defrauding or abusing of the workers' compensation system",
-        "citation": "[UMBRELLA / Chapter 1. General Provisions] 37-1-131"
+        "citation": "37-1-131"
       },
       {
         "short_label": "substance_abuse_relapse",
         "description": "Returning to use of a prohibited substance on three separate occasions while in a medical assistance program.",
         "quote": "take disciplinary action against the license of a person in a medical assistance program under chapter 3, 4, 7, or 8 if, in the period under contract, the licensee has on three separate occasions returned to the use of a prohibited or proscribed substance",
-        "citation": "[UMBRELLA / Chapter 1. General Provisions] 37-1-131"
-      },
-      {
-        "short_label": "false_information_on_application",
-        "description": "Failure to furnish required information about legal or disciplinary actions, or filing false information on an application.",
-        "quote": "Failure to furnish the required information, except pursuant to 37-1-138, or the filing of false information is grounds for denial or revocation of a license.",
-        "citation": "[UMBRELLA / Chapter 1. General Provisions] 37-1-105"
+        "citation": "37-1-131"
       },
       {
         "short_label": "unprofessional_conduct",
-        "description": "Unprofessional conduct as defined by board rules.",
+        "description": "Unprofessional conduct as defined under board rules and statute.",
         "quote": "upon a finding of unprofessional conduct by an applicant or license holder, impose a sanction provided by this chapter",
-        "citation": "[UMBRELLA / Chapter 1. General Provisions] 37-1-307"
+        "citation": "37-1-307"
       },
       {
-        "short_label": "unreadable_prescription",
-        "description": "Issuing a written prescription that cannot be read by a licensed pharmacist.",
-        "quote": "A medical practitioner may not issue a written prescription, to be delivered to a patient or pharmacy, in such a manner that the name of the drug, the dosage, the instructions for use... cannot be read by a registered pharmacist",
-        "citation": "[UMBRELLA / Chapter 2. General Provisions Relating to Health Care Practi] 37-2-107"
-      },
-      {
-        "short_label": "sensitive_exam_without_consent",
-        "description": "Performing a sensitive medical examination on an anesthetized or unconscious patient without specific informed consent.",
+        "short_label": "sensitive_examination_without_consent",
+        "description": "Performing sensitive medical examinations on anesthetized or unconscious patient without specific informed consent.",
         "quote": "Violation of subsection (1) constitutes unprofessional conduct.",
-        "citation": "[UMBRELLA / Chapter 2. General Provisions Relating to Health Care Practi] 37-2-306"
+        "citation": "37-2-306"
       },
       {
         "short_label": "minor_medical_transition_violation",
-        "description": "Failure to adhere to 50-4-1004 regarding medical or surgical transition for minors constitutes unprofessional conduct.",
+        "description": "Failure to adhere to statute prohibiting medical or surgical gender transition for minors.",
         "quote": "Failure of a health care professional, mental health professional, or physician to adhere to 50-4-1004 constitutes unprofessional conduct, with a mandatory minimum suspension of the ability to practice the person's profession for 1 year.",
-        "citation": "[UMBRELLA / Chapter 2. General Provisions Relating to Health Care Practi] 37-2-307"
+        "citation": "37-2-307"
+      },
+      {
+        "short_label": "unreadable_prescription",
+        "description": "Issuing a written prescription that cannot be read by a registered pharmacist.",
+        "quote": "A medical practitioner who violates subsection (1) is guilty of a civil offense and may be punished by a civil penalty of not more than $500 for each prescription.",
+        "citation": "37-2-107"
       }
     ],
     "alternative_regulation": {
@@ -203,19 +257,31 @@
     "citations": [
       {
         "cite": "37-8-101",
-        "kind": "purpose/scope protection"
+        "kind": "purpose/licensure requirement"
       },
       {
         "cite": "37-8-102",
         "kind": "definitions"
       },
       {
+        "cite": "37-8-103",
+        "kind": "exemptions"
+      },
+      {
         "cite": "37-8-202",
         "kind": "board powers and duties"
       },
       {
+        "cite": "37-8-204",
+        "kind": "executive director"
+      },
+      {
         "cite": "37-8-301",
         "kind": "nursing education programs"
+      },
+      {
+        "cite": "37-8-302",
+        "kind": "program approval"
       },
       {
         "cite": "37-8-401",
@@ -230,8 +296,16 @@
         "kind": "RN examination"
       },
       {
+        "cite": "37-8-408",
+        "kind": "RN title"
+      },
+      {
         "cite": "37-8-409",
         "kind": "APRN practice"
+      },
+      {
+        "cite": "37-8-410",
+        "kind": "APRN signature authority"
       },
       {
         "cite": "37-8-415",
@@ -242,32 +316,56 @@
         "kind": "LPN examination"
       },
       {
+        "cite": "37-8-419",
+        "kind": "LPN title"
+      },
+      {
         "cite": "37-8-421",
         "kind": "temporary practice permit"
+      },
+      {
+        "cite": "37-8-422",
+        "kind": "medication aide I scope"
+      },
+      {
+        "cite": "37-8-423",
+        "kind": "medication aide II qualifications"
+      },
+      {
+        "cite": "37-8-424",
+        "kind": "medication aide II scope"
+      },
+      {
+        "cite": "37-8-425",
+        "kind": "medication aide title"
+      },
+      {
+        "cite": "37-8-426",
+        "kind": "medication aide II implementation"
+      },
+      {
+        "cite": "37-8-434",
+        "kind": "criminal background check"
       },
       {
         "cite": "37-8-501",
         "kind": "enhanced nurse licensure compact"
       },
       {
-        "cite": "37-9-101",
-        "kind": "nursing home administrator definitions"
-      },
-      {
-        "cite": "37-9-301",
-        "kind": "NHA qualifications"
-      },
-      {
         "cite": "37-1-304",
         "kind": "reciprocity"
+      },
+      {
+        "cite": "37-1-306",
+        "kind": "continuing education"
       }
     ]
   },
   "scope": {
     "definition_quote": {
-      "value": "Practice of professional nursing means the performance of services requiring substantial specialized knowledge of the biological, physical, behavioral, psychological, and sociological sciences and of nursing theory as a basis for the nursing process.",
+      "value": "The practice of professional nursing means the performance of services requiring substantial specialized knowledge of the biological, physical, behavioral, psychological, and sociological sciences and of nursing theory as a basis for the nursing process.",
       "quote": "\"Practice of professional nursing\" means the performance of services requiring substantial specialized knowledge of the biological, physical, behavioral, psychological, and sociological sciences and of nursing theory as a basis for the nursing process.",
-      "citation": "[37-8-102]"
+      "citation": "37-8-102"
     },
     "methods_authorized": {
       "value": [
@@ -276,82 +374,88 @@
         "planning",
         "nursing intervention",
         "evaluation",
-        "administration",
-        "teaching",
-        "counseling",
-        "supervision",
-        "delegation",
+        "promotion and maintenance of health",
+        "prevention, casefinding, and management of illness, injury, or infirmity",
+        "restoration of optimum function",
+        "administration, teaching, counseling, supervision, delegation, and evaluation of nursing practice",
         "administration of medications and treatments"
       ],
       "quote": "The nursing process is the assessment, nursing analysis, planning, nursing intervention, and evaluation in the promotion and maintenance of health, the prevention, casefinding, and management of illness, injury, or infirmity, and the restoration of optimum function. The term also includes administration, teaching, counseling, supervision, delegation, and evaluation of nursing practice and the administration of medications and treatments",
-      "citation": "[37-8-102]"
+      "citation": "37-8-102"
     },
     "drug_authority": {
-      "value": "RNs may administer medications and treatments prescribed by physicians, naturopathic physicians, physician assistants, optometrists, advanced practice registered nurses, dentists, osteopaths, or podiatrists. APRNs may be granted prescriptive authority by the board.",
+      "value": "RNs may administer medications and treatments prescribed by physicians, naturopathic physicians, physician assistants, optometrists, advanced practice registered nurses, dentists, osteopaths, or podiatrists. APRNs may have prescriptive authority upon board approval.",
       "quote": "adopt rules regarding authorization for prescriptive authority of advanced practice registered nurses. If considered appropriate for an advanced practice registered nurse who applies to the board for authorization, prescriptive authority must be granted.",
-      "citation": "[37-8-202]"
+      "citation": "37-8-202"
     },
     "citations": [
       {
         "cite": "37-8-102",
-        "kind": "scope definition"
+        "kind": "scope definitions"
       },
       {
         "cite": "37-8-202",
-        "kind": "prescriptive authority"
+        "kind": "APRN prescriptive authority"
+      },
+      {
+        "cite": "37-8-409",
+        "kind": "APRN practice"
+      },
+      {
+        "cite": "37-8-410",
+        "kind": "APRN signature authority"
       }
     ]
   },
   "profession_specific": {
     "license_tiers": {
       "value": [
-        "Registered Nurse (RN)",
+        "Registered Professional Nurse (RN)",
         "Licensed Practical Nurse (LPN)",
         "Advanced Practice Registered Nurse (APRN)",
         "Medication Aide I",
-        "Medication Aide II",
-        "Temporary Practice Permit"
+        "Medication Aide II"
       ],
-      "quote": "a person practicing or offering to practice: (1) professional nursing in this state shall submit evidence that the person is qualified to practice and is licensed as provided in this chapter; (2) practical nursing in this state shall submit evidence that the person is qualified to practice and is licensed as provided in this chapter; (3) as a medication aide in this state shall submit evidence that the person is qualified to practice and is licensed as provided in this chapter.",
-      "citation": "[37-8-101]"
+      "quote": "a person practicing or offering to practice: professional nursing in this state shall submit evidence that the person is qualified to practice and is licensed as provided in this chapter; practical nursing in this state shall submit evidence that the person is qualified to practice and is licensed as provided in this chapter; as a medication aide in this state shall submit evidence that the person is qualified to practice and is licensed as provided in this chapter.",
+      "citation": "37-8-101"
     },
     "aprn_role_categories": {
       "value": [
-        "nurse practitioners",
-        "nurse-midwives",
-        "nurse anesthetists",
-        "clinical nurse specialists"
+        "Certified Nurse Practitioner",
+        "Certified Nurse Midwife",
+        "Certified Registered Nurse Anesthetist",
+        "Clinical Nurse Specialist"
       ],
       "quote": "Advanced practice registered nurses include nurse practitioners, nurse-midwives, nurse anesthetists, and clinical nurse specialists.",
-      "citation": "[37-8-202]"
+      "citation": "37-8-202"
     },
     "lpn_supervision_requirements": {
       "value": [
-        "registered nurse",
-        "physician",
-        "naturopathic physician",
-        "physician assistant",
-        "optometrist",
-        "dentist",
-        "osteopath",
-        "podiatrist"
+        "Registered Nurse",
+        "Physician",
+        "Naturopathic Physician",
+        "Physician Assistant",
+        "Optometrist",
+        "Dentist",
+        "Osteopath",
+        "Podiatrist"
       ],
       "quote": "These services are performed under the supervision of a registered nurse or a physician, naturopathic physician, physician assistant, optometrist, dentist, osteopath, or podiatrist authorized by state law to prescribe medications and treatments.",
-      "citation": "[37-8-102]"
+      "citation": "37-8-102"
     },
     "collaborative_practice_agreement_required": null,
     "full_independent_practice_available": null,
     "full_independent_practice_experience_hours_required": null,
     "prescriptive_authority_certificate_required": {
       "value": true,
-      "quote": "A person licensed under this chapter who holds a certificate in a field of advanced practice registered nursing may practice in the specified field of advanced practice registered nursing upon approval by the board of an amendment to the person's license granting a certificate in a field of advanced practice registered nursing.",
-      "citation": "[37-8-409]"
+      "quote": "adopt rules regarding authorization for prescriptive authority of advanced practice registered nurses. If considered appropriate for an advanced practice registered nurse who applies to the board for authorization, prescriptive authority must be granted.",
+      "citation": "37-8-202"
     },
     "controlled_substance_schedule_authority": null,
     "opioid_prescribing_limits": {
-      "value": "When an APRN authorized to prescribe an opioid prescribes to an opioid-naive patient on an outpatient basis, the prescription may not be for more than a 7-day supply (with exceptions for chronic pain, cancer, palliative care, or opioid treatment drugs). Note: This provision terminates June 30, 2025.",
+      "value": "When prescribing opioids to opioid-naive patients on an outpatient basis, the prescription may not be for more than a 7-day supply, with exceptions for chronic pain, cancer pain, palliative care, or opioid abuse treatment.",
       "quote": "when a medical practitioner or a naturopathic physician authorized to prescribe an opioid prescribes an opioid to an opioid-naive patient on an outpatient basis, the prescription may not be for more than a 7-day supply.",
-      "citation": "[UMBRELLA / Chapter 2. General Provisions Relating to Health Care Practi] 37-2-108"
+      "citation": "37-2-108"
     },
     "dea_registration_required": null,
     "controlled_substance_database_registration_required": null,
@@ -359,102 +463,106 @@
     "medication_assistant_certification_available": {
       "value": true,
       "quote": "a person practicing or offering to practice as a medication aide in this state shall submit evidence that the person is qualified to practice and is licensed as provided in this chapter.",
-      "citation": "[37-8-101]"
+      "citation": "37-8-101"
     },
     "delegation_to_unlicensed_personnel_authorized": {
       "value": true,
       "quote": "nursing tasks delegated by licensed nurses to unlicensed persons according to rules adopted by the board",
-      "citation": "[37-8-103]"
+      "citation": "37-8-103"
     },
     "employer_mandatory_reporting_required": null,
     "whistleblower_protection_for_delegation_refusal": null,
     "nurse_licensure_compact_member": {
       "value": true,
       "quote": "The Enhanced Nurse Licensure Compact is enacted into law and entered into with all jurisdictions legally joining in the compact",
-      "citation": "[37-8-501]"
+      "citation": "37-8-501"
     },
     "multistate_license_option_available": {
       "value": true,
-      "quote": "\"Single-state license\" means a nurse license issued by a party state that authorizes practice only within the issuing state and does not include a multistate licensure privilege to practice in any other party state.",
-      "citation": "[37-8-501]"
+      "quote": "\"Multistate license\" means a license to practice as a registered or a licensed practical/vocational nurse (LPN/VN) issued by a home state licensing board that authorizes the licensed nurse to practice in all party states under a multistate licensure privilege.",
+      "citation": "37-8-501"
     },
     "impaired_nurse_alternative_program_available": {
       "value": true,
       "quote": "establish a medical assistance program to assist licensees who are found to be physically or mentally impaired by habitual intemperance or the excessive use of addictive drugs, alcohol, or any other drug or substance or by mental illness or chronic physical illness.",
-      "citation": "[37-8-202]"
+      "citation": "37-8-202"
     },
     "rn_death_pronouncement_authorized": null,
     "public_health_nurse_certification_available": null,
     "telehealth_prescribing_rules": {
-      "value": "A licensed health care provider may provide services by means of telehealth when appropriate, meets the standard of care, and complies with board rules. Telehealth includes audio, video, or other telecommunications technology over a secure connection compliant with state and federal privacy laws.",
+      "value": "A person licensed under Title 37 to provide health care may provide services by means of telehealth when appropriate for services being provided, meets standard of care, and complies with board administrative rules for telehealth.",
       "quote": "A person licensed under this title to provide health care in the ordinary course of business or practice of a profession may provide services by means of telehealth when the use of telehealth: (a) is appropriate for the services being provided; (b) meets the standard of care for delivery of services; and (c) complies with any administrative rules for telehealth adopted by the board that licenses the health care provider.",
-      "citation": "[UMBRELLA / Chapter 2. General Provisions Relating to Health Care Practi] 37-2-305"
+      "citation": "37-2-305"
     },
     "nurse_practitioner_transition_to_practice_hours": null,
     "crna_physician_supervision_model": null,
-    "cnm_out_of_hospital_birth_authorized": null,
+    "cnm_out_of_hospital_birth_authorized": {
+      "value": true,
+      "quote": "adopt rules necessary to administer this chapter, including rules describing the circumstances that constitute a low risk of adverse birth outcomes for planned home births attended by a nurse-midwife",
+      "citation": "37-8-202"
+    },
     "aprn_formulary_or_protocol_required": null,
     "nursing_education_program_clinical_hours_minimum": null,
     "implicit_bias_training_required_in_curriculum": null,
     "military_education_credit_required": {
       "value": true,
       "quote": "Each board and program shall, upon presentation of satisfactory evidence by an applicant for certification or licensure, accept relevant education, training, or service completed in the armed forces or reserves of the United States or the national guard, military reserves, or naval militia of a state toward the qualifications to receive the license or certification.",
-      "citation": "[UMBRELLA / Chapter 1. General Provisions] 37-1-145"
+      "citation": "37-1-145"
     },
     "scope__license_tiers": [
       {
         "item": "Registered Nurse (RN)",
         "status": "present",
         "quote": "a person practicing or offering to practice professional nursing in this state shall submit evidence that the person is qualified to practice and is licensed as provided in this chapter",
-        "citation": "[37-8-101]"
+        "citation": "37-8-101"
       },
       {
         "item": "Licensed Practical Nurse (LPN)",
         "status": "present",
         "quote": "a person practicing or offering to practice practical nursing in this state shall submit evidence that the person is qualified to practice and is licensed as provided in this chapter",
-        "citation": "[37-8-101]"
+        "citation": "37-8-101"
       },
       {
         "item": "Advanced Practice Registered Nurse (APRN)",
         "status": "present",
         "quote": "\"Advanced practice registered nurse\" means a registered professional nurse who has completed educational requirements related to the nurse's specific practice role, in addition to basic nursing education, as specified by the board pursuant to 37-8-202.",
-        "citation": "[37-8-102]"
+        "citation": "37-8-102"
       },
       {
         "item": "Certified Registered Nurse Anesthetist (CRNA)",
         "status": "present",
         "quote": "Advanced practice registered nurses include nurse practitioners, nurse-midwives, nurse anesthetists, and clinical nurse specialists.",
-        "citation": "[37-8-202]"
+        "citation": "37-8-202"
       },
       {
         "item": "Certified Nurse Practitioner (CNP/CRNP/NP)",
         "status": "present",
         "quote": "Advanced practice registered nurses include nurse practitioners, nurse-midwives, nurse anesthetists, and clinical nurse specialists.",
-        "citation": "[37-8-202]"
+        "citation": "37-8-202"
       },
       {
         "item": "Certified Nurse Midwife (CNM)",
         "status": "present",
         "quote": "Advanced practice registered nurses include nurse practitioners, nurse-midwives, nurse anesthetists, and clinical nurse specialists.",
-        "citation": "[37-8-202]"
+        "citation": "37-8-202"
       },
       {
         "item": "Clinical Nurse Specialist (CNS)",
         "status": "present",
         "quote": "Advanced practice registered nurses include nurse practitioners, nurse-midwives, nurse anesthetists, and clinical nurse specialists.",
-        "citation": "[37-8-202]"
+        "citation": "37-8-202"
       },
       {
         "item": "Certified Nurse Aide (CNA)",
         "status": "present",
         "quote": "holds a valid certificate from the department of public health and human services as a certified nursing assistant",
-        "citation": "[37-8-423]"
+        "citation": "37-8-423"
       },
       {
         "item": "Certified Medication Assistant",
         "status": "present",
         "quote": "a person practicing or offering to practice as a medication aide in this state shall submit evidence that the person is qualified to practice and is licensed as provided in this chapter.",
-        "citation": "[37-8-101]"
+        "citation": "37-8-101"
       },
       {
         "item": "Full Independent Practice Authority Certificate",
@@ -464,21 +572,21 @@
       },
       {
         "item": "Nursing Home Administrator License",
-        "status": "present",
-        "quote": "\"Nursing home administrator\" means a person who administers, manages, supervises, or is in general administrative charge of a long-term care facility",
-        "citation": "[37-9-101]"
+        "status": "absent",
+        "quote": "",
+        "citation": ""
       },
       {
         "item": "Multistate License (Nurse Licensure Compact)",
         "status": "present",
         "quote": "\"Multistate license\" means a license to practice as a registered or a licensed practical/vocational nurse (LPN/VN) issued by a home state licensing board that authorizes the licensed nurse to practice in all party states under a multistate licensure privilege.",
-        "citation": "[37-8-501]"
+        "citation": "37-8-501"
       },
       {
         "item": "Temporary Permit to Practice Nursing",
         "status": "present",
         "quote": "The board shall issue a temporary practice permit to an individual licensed in another state that has licensing standards substantially equivalent to those of this state",
-        "citation": "[37-8-421]"
+        "citation": "37-8-421"
       }
     ],
     "scope__aprn_role_categories": [
@@ -486,25 +594,25 @@
         "item": "Certified Nurse Practitioner",
         "status": "present",
         "quote": "Advanced practice registered nurses include nurse practitioners, nurse-midwives, nurse anesthetists, and clinical nurse specialists.",
-        "citation": "[37-8-202]"
+        "citation": "37-8-202"
       },
       {
         "item": "Certified Registered Nurse Anesthetist",
         "status": "present",
         "quote": "Advanced practice registered nurses include nurse practitioners, nurse-midwives, nurse anesthetists, and clinical nurse specialists.",
-        "citation": "[37-8-202]"
+        "citation": "37-8-202"
       },
       {
         "item": "Certified Nurse Midwife",
         "status": "present",
         "quote": "Advanced practice registered nurses include nurse practitioners, nurse-midwives, nurse anesthetists, and clinical nurse specialists.",
-        "citation": "[37-8-202]"
+        "citation": "37-8-202"
       },
       {
         "item": "Clinical Nurse Specialist",
         "status": "present",
         "quote": "Advanced practice registered nurses include nurse practitioners, nurse-midwives, nurse anesthetists, and clinical nurse specialists.",
-        "citation": "[37-8-202]"
+        "citation": "37-8-202"
       }
     ],
     "scope__lpn_supervision_requirements": [
@@ -512,7 +620,7 @@
         "item": "Registered Nurse",
         "status": "present",
         "quote": "These services are performed under the supervision of a registered nurse or a physician, naturopathic physician, physician assistant, optometrist, dentist, osteopath, or podiatrist authorized by state law to prescribe medications and treatments.",
-        "citation": "[37-8-102]"
+        "citation": "37-8-102"
       },
       {
         "item": "Advanced Practice Registered Nurse",
@@ -524,25 +632,25 @@
         "item": "Physician",
         "status": "present",
         "quote": "These services are performed under the supervision of a registered nurse or a physician, naturopathic physician, physician assistant, optometrist, dentist, osteopath, or podiatrist authorized by state law to prescribe medications and treatments.",
-        "citation": "[37-8-102]"
+        "citation": "37-8-102"
       },
       {
         "item": "Physician Assistant",
         "status": "present",
         "quote": "These services are performed under the supervision of a registered nurse or a physician, naturopathic physician, physician assistant, optometrist, dentist, osteopath, or podiatrist authorized by state law to prescribe medications and treatments.",
-        "citation": "[37-8-102]"
+        "citation": "37-8-102"
       },
       {
         "item": "Dentist",
         "status": "present",
         "quote": "These services are performed under the supervision of a registered nurse or a physician, naturopathic physician, physician assistant, optometrist, dentist, osteopath, or podiatrist authorized by state law to prescribe medications and treatments.",
-        "citation": "[37-8-102]"
+        "citation": "37-8-102"
       },
       {
         "item": "Podiatrist",
         "status": "present",
         "quote": "These services are performed under the supervision of a registered nurse or a physician, naturopathic physician, physician assistant, optometrist, dentist, osteopath, or podiatrist authorized by state law to prescribe medications and treatments.",
-        "citation": "[37-8-102]"
+        "citation": "37-8-102"
       }
     ],
     "scope__controlled_substance_schedule_authority": [
