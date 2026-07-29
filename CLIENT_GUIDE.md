@@ -139,6 +139,8 @@ Already-finished states are skipped, so re-running any command is always safe.
 | `python3: command not found` / `Python 3.x but 3.11+ required` | Install Python 3.11+ from python.org, re-run `bash setup.sh`. |
 | A command errors that a package is missing | `pipeline/.venv/bin/pip install -r pipeline/requirements.txt`, then re-run. |
 | A paid step can't authenticate | Your API key is missing/wrong — check `.env` (§1). |
+| A paid step errors with "model not found" / "deprecated" | The AI vendor retired a model name. Open `pipeline/config/models.yaml` and change the retired name to the vendor's current equivalent (their deprecation notice names it). Everything reads models from that one file. |
+| A step refuses with `SCHEMA_DIRTY` or `STALE_UPSTREAM` | The safety gate is protecting you: an input changed underneath. For `STALE_UPSTREAM` re-run the earlier steps (clean, then trim) for that occupation; for `SCHEMA_DIRTY` a schema file was modified without being saved to git — ask a maintainer before overriding. |
 | A fetch comes back empty / stuck | The source's bot-wall may have changed; re-fetching needs a maintainer to update the fetch tool. Everyday clean/trim/extract still work on data you already have. |
 | Anything else | Commands are safe to re-run — finished steps are skipped, and paid steps always ask before spending. |
 
