@@ -153,6 +153,10 @@ def submit(queue: dict[str, list[str]], model: str = DEFAULT_MODEL, force: bool 
                 "params": {
                     "model": model,
                     "max_tokens": 32000,
+                    # The sync path extracts at temperature 0.0 (pipeline/_llm.py default);
+                    # unset here meant the API default (1.0), so the same statute sampled
+                    # differently depending on which backend ran it (#62).
+                    "temperature": 0.0,
                     "system": system_blocks,
                     "messages": [{"role": "user", "content": user_msg}],
                 },

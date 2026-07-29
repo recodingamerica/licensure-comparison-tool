@@ -250,7 +250,9 @@ def call_model(model: str, system: str, user: str, schema_cls: type[BaseModel]) 
         user=user,
         schema_cls=schema_cls,
         embed_schema=True,
-        max_tokens=16000,
+        # Same output budget as the batch path (extract_state_batch submits 32000) —
+        # a giant state must not truncate on one backend and succeed on the other (#62).
+        max_tokens=32000,
         max_retries=MAX_RETRIES,
         backoff_base=2.0,
         log_prefix="  ",
