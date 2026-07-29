@@ -927,6 +927,49 @@ def _estimate_seconds(work: list) -> float:
     return sections * 2.5 + len(work) * 4
 
 
+def _drift_lines(items: dict) -> list[str]:
+    """Report cells whose committed corpus carries chapters the index no longer maps.
+
+    The gate above only compares a new pull against the committed one, so it detects
+    CHANGE, not correctness: a corpus that was over-broad from its very first pull never
+    shrinks and is invisible to every refresh. nursing/TX sat that way with 285 of 518
+    sections of nursing-FACILITY and university-administration law until a hand audit
+    found it (2026-07-29). pipeline.eval.corpus_drift already computes exactly this
+    signal — it just was not wired to anything, so nobody saw it.
+
+    Advisory, never blocking: 302 extra chapters already exist across published corpora,
+    so failing the run would only teach people to skip the check. An EXTRA_CHAPTER means
+    the corpus and its mapping disagree — either the corpus is stale (a re-pull drops it)
+    or the INDEX is wrong and needs fixing before the next refresh reproduces the bad pull.
+    """
+    try:
+        from pipeline.eval.corpus_drift import _active_official_sources, audit_one
+    except Exception:
+        return []
+    srcs, flagged = _active_official_sources(), []
+    for i in items.values():
+        prof, state = i.get("profession"), i.get("state")
+        if not prof or not state:
+            continue
+        try:
+            r = audit_one(prof, state, srcs)
+        except Exception:
+            continue
+        extra = (r or {}).get("extra_chapters") or []
+        if extra:
+            flagged.append((prof, state, extra))
+    if not flagged:
+        return []
+    out = [f"  {len(flagged)} cell(s) carry chapters the index no longer maps "
+           f"(corpus vs mapping disagree — NOT blocking):"]
+    for prof, state, extra in sorted(flagged, key=lambda f: -len(f[2]))[:10]:
+        out.append(f"      {prof}/{state}  +{len(extra)} unmapped: {extra[0][:64]}")
+    if len(flagged) > 10:
+        out.append(f"      … and {len(flagged) - 10} more")
+    out.append("   (full list: python -m pipeline.eval.corpus_status gate)")
+    return out
+
+
 def _print_summary(status: dict) -> None:
     """A plain-English end-of-run summary — shown on the terminal AND written to
     pipeline/logs/refresh_<run_id>_summary.txt so it survives closing the terminal
@@ -956,6 +999,7 @@ def _print_summary(status: dict) -> None:
     if status.get("aborted"):
         lines.append(f"  ABORTED: {status['aborted']}")
         lines.append("  (fix the cause, then re-run the SAME command with --resume to continue)")
+    lines.extend(_drift_lines(items))
     if status.get("diff_report"):
         lines.append(f"  full report: {status['diff_report']}")
     lines.append("=" * 64)
