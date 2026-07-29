@@ -393,19 +393,42 @@ def _iter_done_cells():
                 yield pdir.name, f.stem
 
 
+def _stale_reason(stage: str, prof: str, state: str | None) -> str:
+    """WHY check() said stale — the two mean opposite things to an operator:
+    'input' = the DATA changed upstream and this stage hasn't re-run (drift to chase);
+    'recipe' = a prompt/model/code change awaits its planned re-run wave (not drift).
+    'umbrella' = the state's umbrella context changed (extract only)."""
+    p = read_json(_prov_path_for(stage, prof, state), {}).get(stage) or {}
+    if p.get("input_hash") != input_hash(stage, prof, state):
+        return "input"
+    if p.get("recipe_hash") != recipe_hash(stage, prof):
+        return "recipe"
+    return "umbrella"
+
+
 def _report() -> None:
     counts = {"current": 0, "stale": 0, "unstamped": 0}
     stale_by_stage: dict[str, int] = {}
+    stale_by_reason: dict[str, int] = {}
     for prof, state in _iter_done_cells():
         verdict, stage = cell_freshness(prof, state)
         counts[verdict] = counts.get(verdict, 0) + 1
         if verdict == "stale":
             stale_by_stage[stage] = stale_by_stage.get(stage, 0) + 1
+            reason = _stale_reason(stage, prof, state)
+            key = f"{stage}/{reason}"
+            stale_by_reason[key] = stale_by_reason.get(key, 0) + 1
     total = sum(counts.values())
     print(f"structured cells: {total}")
     print(f"  current:   {counts['current']}")
-    print(f"  stale:     {counts['stale']}  {stale_by_stage or ''}")
+    print(f"  stale:     {counts['stale']}  {stale_by_reason or stale_by_stage or ''}")
     print(f"  unstamped: {counts['unstamped']}  (no provenance yet — run backfill to baseline)")
+    if any(k.endswith("/recipe") for k in stale_by_reason):
+        n = sum(v for k, v in stale_by_reason.items() if k.endswith("/recipe"))
+        print(f"\n  note: {n} cells are RECIPE-stale — a prompt/model/code change is awaiting its"
+              " planned re-run\n        (e.g. a stacked prompt fix shipping with the next re-extract"
+              " wave). The underlying data\n        has not drifted; only the */input cells reflect"
+              " changed data.")
     # Context so the numbers aren't misread as breakage. clean-stale is the EXPECTED state
     # during/after an annual refresh: the crawl re-pulls text/ but doesn't re-run clean/, so
     # those cells read stale-at-clean until the post-refresh clean pass — nothing is broken.
