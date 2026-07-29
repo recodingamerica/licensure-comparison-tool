@@ -17,9 +17,26 @@ below is a thin caller of it. It defines the stage order **once** (`STAGES`), so
 nothing else re-encodes "clean before trim".
 
 ```
-STAGES:  pull → clean → trim → schema → extract → mapprep → publish → fanout
-         └── cell ──┘   └cell┘  └prof─┘  └cell──┘  └prof──┘  └prof──┘  └global┘
+STAGES:  pull → clean → trim → schema → extract → verify → mapprep → publish → fanout
+         └── cell ──┘   └cell┘  └prof─┘  └cell──┘  └prof─┘  └prof──┘  └prof──┘  └global┘
 ```
+
+Two stages have special rules (both 2026-07-29):
+
+- **`schema` is derived ONCE.** An existing `discovered/<prof>.json` is a stable contract —
+  the chain never auto-re-derives it (not on staleness, not on `--force`). Re-derivation is
+  LLM churn (~2/3 of fields renamed on identical corpora). It runs only when the file is
+  missing (new profession) or when you explicitly run `--target schema`, and re-deriving
+  means re-extracting ALL of that profession's states.
+- **`verify`** (verify_negatives, ~$0.10/profession) audits explicit-prohibition cells and
+  reverts ones whose quote doesn't establish the prohibition. It rewrites `structured/` in
+  place and stamps provenance keyed on it, so it runs exactly when an extraction changed a
+  record. Any chain from `extract` (or earlier) through `publish` crosses it automatically.
+
+The batch-extract **preflight** gates every extract entrance (batch submit, litellm, and
+the sync CLI): it refuses a dirty (uncommitted-vs-HEAD) schema, stale clean/trim
+(content-hash vs the current corpus), poisoned/empty trims — so a stale or churned input
+can no longer reach a paid extract silently.
 
 **`run_to(target, prof, states, *, start, force, yes, dry_run, opts)`** runs the chain
 from `start` up to and including `target`, for one profession, running only the units
@@ -32,7 +49,8 @@ The **`start=` seam** is the whole trick — it decides how much of the chain a 
 |---|---|---|---|
 | `None` | `pull` (full chain) | full-chain runs, `--start pull` | **hits `pull`, which COMMITS to git** |
 | `"clean"` | `clean` (no-pull) | `add_occupation` | text already on disk |
-| `target` | only the target stage | `refresh_all` (`start="publish"`), `client/run` | treats upstream as a precondition |
+| `"verify"` | `verify` (downstream only) | `refresh_all`, `client/run publish` | can't re-extract; runs verify/mapprep iff stale |
+| `target` | only the target stage | `client/run` per-stage, `client/run publish --force` | treats upstream as a precondition |
 
 **CLI** (this is the ex-`re_extract_queue` — batch re-extract from a `{prof: [states]}` file):
 
@@ -60,9 +78,11 @@ calls it after the per-profession publishes.
 ## Entry paths — pick by what you're doing
 
 ### `publish/refresh_all` — rebuild the site from existing extraction output
-**No LLM. Deterministic reshaping of files already on disk.** Use after any data change
-(re-extract, local corpus transform) to make the whole site consistent again, and to
-deploy.
+**Never re-extracts.** Use after any data change (re-extract, local corpus transform) to
+make the whole site consistent again, and to deploy. When the data actually moved it also
+runs the two small downstream LLM passes where provenance says they're stale — `verify`
+(~$0.10/profession) and `mapprep` (the category buckets); when nothing moved, both skip
+and the rebuild is pure deterministic reshaping.
 
 ```bash
 python -m pipeline.publish.refresh_all                       # incremental: changed professions only
@@ -72,9 +92,9 @@ python -m pipeline.publish.refresh_all --deploy              # ...then redeploy 
 python -m pipeline.publish.refresh_all --dry-run             # print the plan, build nothing
 ```
 
-Internally: `run_to("publish", p, start="publish")` per changed profession + `run_fanout`.
-It **never re-extracts or re-runs map_prep** (those are the LLM stages) — if structured
-data changed, run those first (via `client/run` or `pipeline_stages`), then run this.
+Internally: `run_to("publish", p, start="verify")` per changed profession + `run_fanout`.
+(Until 2026-07-29 this jumped to `start="publish"` — a workaround for the chain crashing
+at `verify`, which silently skipped verify AND mapprep on every refresh.)
 
 - Incremental skip = **publish provenance** (a content hash of `structured/` + `map_prep/`).
   `--force` or an explicit `--professions` list rebuilds regardless of freshness.
@@ -97,8 +117,11 @@ python -m pipeline.client.run extract --professions podiatry             # ~$0.1
 python -m pipeline.client.run publish --professions podiatry             # FREE — build the payload
 ```
 
-Each subcommand calls `run_to(stage, prof, states, start=stage)` — a **single stage** per
-call. Queues + costs come from `pipeline.client.status` (one source of truth). See
+Each stage subcommand calls `run_to(stage, prof, states, start=stage)` — a **single
+stage** per call. The exception is `publish`, which runs `start="verify"` so a data
+change ships verified negatives and fresh category buckets (its `--force` flag jumps
+straight to a forced payload rebuild — the frontend-code-change case). Queues + costs
+come from `pipeline.client.status` (one source of truth). See
 [`CLIENT_GUIDE.md`](../../CLIENT_GUIDE.md).
 
 ### `discover/add_occupation` — a NEW occupation, full no-pull chain
@@ -151,7 +174,7 @@ RC=$(pgrep -f 'refresh_corpus.*annual2026' | head -1); nohup caffeinate -i -s -w
 | Path / stage | Writes | Commits to git? |
 |---|---|---|
 | `pull` stage / `refresh_corpus` / `refresh_item` | `results/text/` + corpus | **YES** (commit-iff-healthy) |
-| clean · trim · schema · extract · mapprep | `results/*/` | no |
+| clean · trim · schema · extract · verify · mapprep | `results/*/` | no |
 | publish · fanout / `refresh_all` | payloads + **Vercel Blob** | no (uploads to Blob) |
 | `--deploy` | — | no (deploys to Vercel prod) |
 
