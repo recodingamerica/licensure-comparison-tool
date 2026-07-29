@@ -40,7 +40,7 @@
     "states_matched": 50,
     "states_total": 50,
     "overrides_used": 10,
-    "mapping_overrides_used": 5
+    "mapping_overrides_used": 7
   },
   "by_state": {
     "AL": {
@@ -516,6 +516,12 @@
           "label": "Chapter 629A - Interstate Medical Licensure Compact",
           "url": "https://law.justia.com/codes/nevada/chapter-629a/",
           "slug": "chapter-629a"
+        },
+        {
+          "url": "https://law.justia.com/codes/nevada/chapter-630/",
+          "label": "Chapter 630 - Physicians, Physician Assistants, Medical Assistants",
+          "slug": "chapter-630",
+          "via": "drift_repair_2026-07-29"
         }
       ]
     },
@@ -536,16 +542,12 @@
     "NJ": {
       "matched": [
         {
-          "url": "https://law.justia.com/codes/new-jersey/title-45/chapter-1/",
-          "label": "",
-          "slug": "",
-          "via": "nj_mapping_repair"
-        },
-        {
-          "url": "https://law.justia.com/codes/new-jersey/title-45/chapter-9/",
-          "label": "",
-          "slug": "",
-          "via": "nj_mapping_repair"
+          "label": "NJ Title 45 Ch 1 (Uniform Enforcement Act) + Ch 9 (Medicine and Surgery)",
+          "url": "https://law.justia.com/codes/new-jersey/title-45/",
+          "slug": "title-45",
+          "via": "state_structure",
+          "note": "",
+          "section_slug_pattern": "^section-45-(1|9)-\\d"
         }
       ]
     },
