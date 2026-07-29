@@ -550,6 +550,17 @@ def main() -> None:
     if not os.environ.get("ANTHROPIC_API_KEY"):
         sys.exit("ANTHROPIC_API_KEY not set")
 
+    # The SAME preflight gate the batch path runs — this sync CLI was the unguarded
+    # side door (2026-07-27: occupational_therapy/UT extracted here against a churned
+    # schema mid-incident). Blockers = dirty schema, stale/poisoned/empty trims.
+    from pipeline.extract.preflight import run_preflight, format_report
+    gate_states = sorted(only) if only else [p.stem for p in record_files(TRIMMED_DIR / profession)]
+    report = run_preflight({profession: gate_states})
+    log.info("preflight:\n%s", format_report(report))
+    if not report["ok"]:
+        sys.exit("preflight FAILED — fix the blockers above (see pipeline.extract.preflight); "
+                 "the batch path's --force override intentionally has no equivalent here.")
+
     discovered_path = DISCOVERED_DIR / f"{profession}.json"
     if not discovered_path.exists():
         sys.exit(f"missing discovered schema: {discovered_path}")

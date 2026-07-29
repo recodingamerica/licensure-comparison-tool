@@ -89,6 +89,21 @@ def test_poll_backcompat_no_recorded_sha_still_writes(env, monkeypatch):
     assert meta["errored"] == []
 
 
+def test_poll_refuses_discarded_batch(env, monkeypatch):
+    # A batch marked discarded (e.g. submitted against a schema that was later
+    # reverted) must never be pollable by accident — its results would overwrite
+    # good re-extractions with known-bad ones.
+    disc, batch_dir, written = env
+    meta = {"batch_id": "x", "model": "m", "queue": {"med": ["UT"]},
+            "discarded": True, "discarded_reason": "churned schema"}
+    (batch_dir / "x.json").write_text(json.dumps(meta))
+    monkeypatch.setattr(b, "_client", lambda: _fake_client([_succeeded("med__UT")]))
+    with pytest.raises(SystemExit) as e:
+        b.poll("x")
+    assert "DISCARDED" in str(e.value)
+    assert written == []
+
+
 def test_submit_records_schema_shas(env, monkeypatch):
     disc, batch_dir, _ = env
     # Trimmed message + preflight stubbed; capture the metadata submit writes.

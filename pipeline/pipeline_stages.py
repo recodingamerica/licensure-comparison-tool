@@ -19,6 +19,7 @@ the orchestrators become thin callers of `run_to`.
 """
 from __future__ import annotations
 
+import os
 import subprocess
 import sys
 from dataclasses import dataclass
@@ -70,8 +71,30 @@ def confirm_if_paid(stage: str, n_units: int, yes: bool) -> None:
     if yes:
         print("  --yes given, proceeding without prompt.")
         return
-    if input('  Type "yes" to run this paid step: ').strip().lower() != "yes":
+    try:
+        answer = input('  Type "yes" to run this paid step: ')
+    except EOFError:
+        # Backgrounded/piped runs have no stdin: a bare input() dies with an ugly
+        # traceback MID-CHAIN, stranding earlier stages half-done (2026-07-29: the
+        # re-extract chain died at the trim prompt this way). Fail clean instead.
+        sys.exit("  aborted — no stdin to confirm a paid stage (non-interactive run). "
+                 "Re-run with --yes.")
+    if answer.strip().lower() != "yes":
         sys.exit("  aborted — no charge incurred.")
+
+
+def _live_pull_pids() -> list[str]:
+    """PIDs of OTHER processes currently running a corpus pull (refresh_corpus /
+    pull_text). Excludes this process and its parent, so the annual-refresh loop —
+    which pulls and then calls run_to in the same process — never flags itself."""
+    try:
+        out = subprocess.run(
+            ["pgrep", "-f", "pipeline[.]ingest[.](refresh_corpus|pull_text)"],
+            capture_output=True, text=True, timeout=5)
+    except Exception:
+        return []
+    own = {str(os.getpid()), str(os.getppid())}
+    return [p for p in out.stdout.split() if p not in own]
 
 
 def drop_current(stage: str, queue: dict[str, list[str]]
@@ -298,6 +321,19 @@ def run_to(target: str, prof: str, states: list[str] | None = None, *,
     # CLAUDE.md calls this the "re-extract gotcha"; prose doesn't fire at 2am, so say it
     # here. A warning rather than an error: replaying one stage over known-good input is
     # legitimate (that is what --start is FOR), we just refuse to be quiet about it.
+    # A pull loop running in ANOTHER process can re-commit text/ underneath this run,
+    # leaving whatever this run produces stale on arrival (the 2026-07-29 race: clean+
+    # trim ran while a re-pull loop was mid-flight; the batch built on them was garbage).
+    # Warn loudly rather than lock: preflight/provenance will still catch the staleness
+    # at the next paid gate, and the annual-refresh loop legitimately pulls in-process.
+    if not dry_run:
+        pids = _live_pull_pids()
+        if pids:
+            print(f"\n!! WARNING: a corpus pull is RUNNING in another process "
+                  f"(pid {', '.join(pids)}). text/ may change underneath this run and "
+                  f"invalidate its outputs — prefer waiting for the pull to finish.\n",
+                  flush=True)
+
     if si > 0 and not dry_run:
         cells = states if states is not None else _states_for(prof)
         behind = [

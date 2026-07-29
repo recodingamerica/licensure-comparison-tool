@@ -197,6 +197,18 @@ def test_confirm_if_paid_aborts_on_empty(monkeypatch):
         ps.confirm_if_paid("trim", 1, yes=False)
 
 
+def test_confirm_if_paid_no_stdin_aborts_cleanly(monkeypatch):
+    """A backgrounded run has no stdin — input() raises EOFError. That must be a clean
+    abort telling the operator to pass --yes, not a traceback that strands the chain
+    half-done (which is how the 2026-07-29 re-extract chain died at the trim prompt)."""
+    def no_stdin(*_):
+        raise EOFError
+    monkeypatch.setattr(builtins, "input", no_stdin)
+    with pytest.raises(SystemExit) as e:
+        ps.confirm_if_paid("trim", 1, yes=False)
+    assert "--yes" in str(e.value)
+
+
 def test_confirm_if_paid_proceeds_on_yes_reply(monkeypatch):
     monkeypatch.setattr(builtins, "input", lambda *_: "  YES  ")   # case/space tolerant
     ps.confirm_if_paid("trim", 1, yes=False)      # no raise
@@ -442,3 +454,30 @@ def test_no_warning_when_starting_from_the_beginning(rec, capsys):
     rec["fresh"][("clean", "med", "UT")] = "stale"
     ps.run_to("extract", "med", ["UT"], yes=True)
     assert "STALE upstream" not in capsys.readouterr().out
+
+
+# --- concurrent-pull warning (2026-07-29) ------------------------------------------
+# A pull loop in another process re-committed text/ while clean+trim ran, so the batch
+# built on those trims was stale on arrival. run_to warns (doesn't lock — the annual
+# refresh legitimately pulls in-process, and provenance still catches the staleness).
+
+def test_warns_when_a_pull_runs_in_another_process(rec, monkeypatch, capsys):
+    monkeypatch.setattr(ps, "_live_pull_pids", lambda: ["4242"])
+    ps.run_to("clean", "med", ["UT"], yes=True)
+    out = capsys.readouterr().out
+    assert "corpus pull is RUNNING" in out and "4242" in out
+
+
+def test_no_pull_warning_when_none_running(rec, monkeypatch, capsys):
+    monkeypatch.setattr(ps, "_live_pull_pids", lambda: [])
+    ps.run_to("clean", "med", ["UT"], yes=True)
+    assert "corpus pull is RUNNING" not in capsys.readouterr().out
+
+
+def test_live_pull_pids_excludes_self_and_parent(monkeypatch):
+    import os
+    from types import SimpleNamespace
+    fake_out = f"{os.getpid()}\n{os.getppid()}\n77777\n"
+    monkeypatch.setattr(ps.subprocess, "run",
+                        lambda *a, **k: SimpleNamespace(stdout=fake_out))
+    assert ps._live_pull_pids() == ["77777"]

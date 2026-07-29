@@ -35,11 +35,11 @@ def _run(monkeypatch, rows, targets_by_url):
 
 
 def test_year_stamped_row_collapses_against_undated_parent(monkeypatch):
-    dated = f"https://law.justia.com/codes/texas/2023/occupations-code/title-3/subtitle-e/chapter-301/"
+    dated = "https://law.justia.com/codes/texas/2023/occupations-code/title-3/subtitle-e/chapter-301/"
     undated = f"{BASE}/"
     targets = {
-        dated: [{"url": f"https://law.justia.com/codes/texas/2023/occupations-code/title-3/"
-                        f"subtitle-e/chapter-301/section-301-001/", "label": "", "slug": "s"}],
+        dated: [{"url": "https://law.justia.com/codes/texas/2023/occupations-code/title-3/"
+                        "subtitle-e/chapter-301/section-301-001/", "label": "", "slug": "s"}],
         undated: [{"url": f"{BASE}/chapter-301/section-301-001/", "label": "", "slug": "s"}],
     }
     corpus = _run(monkeypatch, [_row(dated), _row(undated)], targets)

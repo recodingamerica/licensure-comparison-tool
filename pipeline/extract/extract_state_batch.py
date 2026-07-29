@@ -307,6 +307,11 @@ def poll(batch_id: str, wait: bool = True) -> dict | None:
     batch has ended, or None if called with wait=False before it finished — so a caller
     can report exactly how many cells were written instead of assuming success."""
     metadata = _load_metadata(batch_id)
+    if metadata.get("discarded"):
+        sys.exit(f"batch {batch_id} is marked DISCARDED "
+                 f"({metadata.get('discarded_reason', 'no reason recorded')}) — "
+                 "polling it would overwrite good results with known-bad ones. "
+                 "If you truly want it, delete the 'discarded' key from its metadata file.")
     queue = metadata["queue"]
     batch_model = metadata.get("model")
     # Rebuild the profile classes (so result parsing can validate). If the discovered
@@ -437,7 +442,12 @@ def list_batches() -> None:
         n = d.get("request_count", 0)
         written = len(d.get("written") or [])
         errored = len(d.get("errored") or [])
-        status = f"completed wrote={written} err={errored}" if completed else "pending"
+        if d.get("discarded"):
+            status = f"DISCARDED ({d.get('discarded_reason', '')})"
+        elif completed:
+            status = f"completed wrote={written} err={errored}"
+        else:
+            status = "pending"
         print(f"  {bid}  submitted={submitted}  n={n}  {status}")
 
 
