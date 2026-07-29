@@ -79,8 +79,14 @@ def _model_for_stage(stage: str) -> str | None:
     return model_for(key)
 
 # Manual code-version tags — bump when a stage's logic should invalidate old outputs.
+# publish 1 -> 2 (2026-07-29): build_frontend changed materially — section-citation
+# uniqueness, the unmarked-elision matcher, annotate-AFTER-normalize ordering, the
+# URL-based citation backfill, and dropping spans that don't cover their quote. Payloads
+# built before these differ in content, so they must not be treated as current. This is
+# what the knob is for: skip-unchanged publishing is only safe if a code change to the
+# stage invalidates its old output.
 CODE_VERSION = {"clean": 1, "trim": 1, "extract": 1,
-                "pull": 1, "schema": 1, "mapprep": 1, "publish": 1}
+                "pull": 1, "schema": 1, "mapprep": 1, "publish": 2}
 
 PROV_DIR = RESULTS_DIR / "provenance"
 
