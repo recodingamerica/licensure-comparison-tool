@@ -89,19 +89,54 @@ export function ScopeMatrixView({ professionId }: { professionId: string }) {
   return (
     <div className="space-y-4">
       <div>
-        <h3 className="text-sm font-medium">State-by-state comparison — included / excluded / not addressed</h3>
-        <p className="max-w-3xl text-xs text-muted-foreground">
+        <h3 className="text-base font-medium">State-by-state comparison — included / excluded / not addressed</h3>
+        <p className="max-w-3xl text-sm text-muted-foreground">
           Every attribute where the statute gives a per-state yes/no signal, grouped by category.
-          <span style={{ color: "var(--scope-has)" }}> Teal = included/authorized</span>,
-          <span style={{ color: "var(--scope-prohibited)" }}> red = explicitly excluded/prohibited</span>,
-          grey = not addressed;
-          <span style={{ color: "var(--scope-focus)" }}> amber = a required condition</span>;
-          graded (enum) fields ramp by level and show the value on hover. Utah is highlighted. Built from
-          already-extracted data — no re-extraction.
+          Graded (enum) fields show their value on hover; click a box to open that state&apos;s
+          statute for the field. Built from already-extracted data — no re-extraction.
         </p>
       </div>
 
-      <div className="flex items-center gap-4 text-xs">
+      {/* Color legend — scannable swatch row, not prose (issue #114). */}
+      <div className="flex flex-wrap items-center gap-x-5 gap-y-2 rounded-md border bg-muted/30 px-4 py-2.5 text-sm">
+        <span className="inline-flex items-center gap-1.5">
+          <span className="inline-block h-3.5 w-3.5 rounded-[3px]" style={{ background: TEAL }} />
+          included / authorized
+        </span>
+        <span className="inline-flex items-center gap-1.5">
+          <span className="inline-block h-3.5 w-3.5 rounded-[3px]" style={{ background: RED }} />
+          explicitly excluded / prohibited
+        </span>
+        <span className="inline-flex items-center gap-1.5">
+          <span className="inline-block h-3.5 w-3.5 rounded-[3px]" style={{ background: GREY }} />
+          not addressed
+        </span>
+        <span className="inline-flex items-center gap-1.5">
+          <span className="inline-block h-3.5 w-3.5 rounded-[3px]" style={{ background: AMBER }} />
+          required condition
+        </span>
+        <span className="inline-flex items-center gap-1.5">
+          <span className="inline-flex overflow-hidden rounded-[3px]">
+            {[35, 62, 90].map((pct) => (
+              <span
+                key={pct}
+                className="inline-block h-3.5 w-2"
+                style={{ background: `color-mix(in srgb, ${TEAL} ${pct}%, transparent)` }}
+              />
+            ))}
+          </span>
+          graded — darker = higher level
+        </span>
+        <span className="inline-flex items-center gap-1.5">
+          <span
+            className="inline-block h-3.5 w-3.5 rounded-[3px] border-2"
+            style={{ borderColor: AMBER }}
+          />
+          Utah
+        </span>
+      </div>
+
+      <div className="flex items-center gap-4 text-sm">
         <label className="flex items-center gap-2">
           <input type="checkbox" checked={scopeOnly} onChange={(e) => setScopeOnly(e.target.checked)} />
           Scope-of-practice fields only
@@ -119,30 +154,30 @@ export function ScopeMatrixView({ professionId }: { professionId: string }) {
               onClick={() => setCollapsed((c) => ({ ...c, [g.category]: !c[g.category] }))}
               className="flex w-full items-center justify-between px-4 py-2 text-left"
             >
-              <span className="text-sm font-medium capitalize">
+              <span className="text-base font-medium capitalize">
                 {g.category}
                 {g.anyScope && (
-                  <span className="ml-2 rounded bg-muted px-1.5 py-0.5 text-[10px] font-normal uppercase tracking-wide text-muted-foreground">
+                  <span className="ml-2 rounded bg-muted px-1.5 py-0.5 text-xs font-normal uppercase tracking-wide text-muted-foreground">
                     scope
                   </span>
                 )}
               </span>
-              <span className="font-mono text-[11px] text-muted-foreground">
+              <span className="font-mono text-xs text-muted-foreground">
                 {g.rows.length} · {isCol ? "show" : "hide"}
               </span>
             </button>
             {!isCol && (
               <div className="overflow-x-auto p-2">
-                <table className="border-separate border-spacing-0 text-xs">
+                <table className="border-separate border-spacing-0 text-sm">
                   <thead>
                     <tr>
                       <th className="sticky left-0 z-10 bg-card px-3 text-left align-bottom">
-                        <span className="font-mono text-[10px] text-muted-foreground">attribute · state</span>
+                        <span className="font-mono text-xs text-muted-foreground">attribute · state</span>
                       </th>
                       {STATES.map((s) => (
                         <th key={s} className="h-16 align-bottom text-center">
                           <span
-                            className={"inline-block font-mono text-[10px] " + (s === FOCUS ? "font-bold" : "text-muted-foreground")}
+                            className={"inline-block font-mono text-xs " + (s === FOCUS ? "font-bold" : "text-muted-foreground")}
                             style={{
                               writingMode: "vertical-rl",
                               transform: "rotate(180deg)",
