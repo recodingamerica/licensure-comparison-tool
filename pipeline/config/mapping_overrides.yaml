@@ -7223,6 +7223,11 @@ nurse_midwifery:
       slug: ''
       via: gap_locator
 nursing:
+  # NOTE (2026-07-29): TX's nursing-facility / UT-System pollution is NOT patched here.
+  # It is fixed once for all 50 states by the `nursing facilit` and `nursing unit` entries
+  # in professions.yaml `excludes` — a per-state exclude list here would have left the same
+  # mis-match live in every other state. The 2023-vs-undated duplicate nodes are likewise
+  # handled generically, by the cross-row year dedup in pull_text.pull_state.
   AZ:
     add:
     - label: AZ title-32 — nursing (LLM-mapped v2)

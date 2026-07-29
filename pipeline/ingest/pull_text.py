@@ -1081,6 +1081,9 @@ def pull_state(state: str, profession: str, rows: list[dict], limit_sections: in
     seen_section_urls: set[str] = set()
 
     log.info("[%s] %d matching chapter rows", state, len(rows))
+    # Pass 1 — resolve every row's section targets (chapter-page fetches only, no section
+    # text yet), so pass 2 can de-duplicate ACROSS rows before spending a fetch per section.
+    resolved: list[dict] = []
     for row in rows:
         url = row["chapter_url"]
         corpus.chapter_urls.append(url)
@@ -1097,17 +1100,37 @@ def pull_state(state: str, profession: str, rows: list[dict], limit_sections: in
         section_targets = _resolve_section_targets(corpus, row, url, profession, state)
         if section_targets is None:
             continue
+        resolved.extend(section_targets)
 
-        for sec in section_targets:
-            if sec["url"] in seen_section_urls:
-                continue
-            seen_section_urls.add(sec["url"])
-            if limit_sections and len(corpus.sections) >= limit_sections:
-                break
-            if "_inline_text" in sec:
-                _add_inline_section(corpus, sec, limit_sections)
-            else:
-                _fetch_and_add_section(corpus, sec)
+    # One year-version dedup over the WHOLE state's targets. Previously this ran only
+    # inside a single chapter's walk, while cross-row dedup was the exact-URL set below —
+    # so an index carrying a year-stamped chapter AND its undated parent (or two editions
+    # of one chapter) fetched every section twice, under two URLs that differ only by the
+    # year segment. Both copies landed in the corpus with the SAME citation, and the UI
+    # resolves a section by citation last-wins, so one version became unreachable.
+    # Real case: nursing/TX shipped 378 sections for 195 sections of law from
+    # `/2023/…/chapter-301/` plus `/…/subtitle-e/`; medicine/TX and dentistry/TX had 133
+    # and 100 duplicated citations from the same shape. _dedupe_year_versions prefers the
+    # UNVERSIONED url, so this also stops a stale edition shadowing the current text.
+    # Items sharing one url (IL/PA flat acts, where a whole act is served at a single page)
+    # are unaffected: they group under the same canonical path and are all kept.
+    before = len(resolved)
+    resolved = _dedupe_year_versions(resolved)
+    if len(resolved) != before:
+        log.info("[%s] year-version dedup across rows: %d -> %d section targets",
+                 state, before, len(resolved))
+
+    # Pass 2 — fetch.
+    for sec in resolved:
+        if sec["url"] in seen_section_urls:
+            continue
+        seen_section_urls.add(sec["url"])
+        if limit_sections and len(corpus.sections) >= limit_sections:
+            break
+        if "_inline_text" in sec:
+            _add_inline_section(corpus, sec, limit_sections)
+        else:
+            _fetch_and_add_section(corpus, sec)
 
     return corpus
 
