@@ -25,7 +25,7 @@ from dataclasses import dataclass
 from typing import Callable
 
 from pipeline import provenance
-from pipeline.paths import STRUCTURED_DIR, REPO_ROOT
+from pipeline.paths import STRUCTURED_DIR, REPO_ROOT, DISCOVERED_DIR
 from pipeline.config.loaders import cost_for, load_limits
 
 PY = sys.executable
@@ -336,6 +336,17 @@ def run_to(target: str, prof: str, states: list[str] | None = None, *,
             ok = stage.run_fn(prof, due, opts)
             ran.append((stage.name, prof, due, ok))
         else:                                   # profession-scoped: one unit
+            # An EXISTING discovered schema is a stable contract, not a recomputable
+            # artifact: re-derivation is LLM churn (2026-07-29: nursing renamed 26 of its
+            # 29 fields on a same-corpus re-derive), and every corpus repair flips schema
+            # provenance stale — so freshness must never auto-trigger it, or a routine
+            # re-extract leaves its states on a field set the rest of the profession
+            # doesn't share. Re-derive only when the file is missing (a new profession)
+            # or when schema is the explicit --target.
+            if (stage.name == "schema" and target != "schema"
+                    and (DISCOVERED_DIR / f"{prof}.json").exists()):
+                skipped.append((stage.name, prof, None))
+                continue
             # `--force` means "redo the CELLS I named", not "redo profession-wide
             # artifacts". Forcing a single state used to drag in `schema`, re-deriving
             # the whole profession's schema from a 10-state LLM sample -- so a one-cell

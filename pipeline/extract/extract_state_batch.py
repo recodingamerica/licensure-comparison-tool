@@ -32,6 +32,7 @@ CLI:
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import logging
 import os
@@ -119,6 +120,7 @@ def submit(queue: dict[str, list[str]], model: str = DEFAULT_MODEL, force: bool 
     skipped: list[tuple[str, str, str]] = []
     profile_classes: dict[str, type[BaseModel]] = {}
 
+    schema_shas: dict[str, str] = {}
     for profession, states in queue.items():
         discovered_path = DISCOVERED_DIR / f"{profession}.json"
         if not discovered_path.exists():
@@ -126,7 +128,9 @@ def submit(queue: dict[str, list[str]], model: str = DEFAULT_MODEL, force: bool 
             for s in states:
                 skipped.append((profession, s, "no_discovered_schema"))
             continue
-        discovered = json.loads(discovered_path.read_text())
+        raw_schema = discovered_path.read_bytes()
+        schema_shas[profession] = hashlib.sha256(raw_schema).hexdigest()
+        discovered = json.loads(raw_schema)
         profile_cls = build_profile_model(profession, discovered)
         profile_classes[profession] = profile_cls
         # The cacheable prefix is profession-specific (each profession has
@@ -169,6 +173,10 @@ def submit(queue: dict[str, list[str]], model: str = DEFAULT_MODEL, force: bool 
         "submitted_at": datetime.now().isoformat(),
         "model": model,
         "queue": queue,
+        # sha256 of each discovered schema AS SUBMITTED — the prompts embed it, so poll
+        # refuses to write results if the on-disk schema has changed since (the results
+        # would carry field names the current schema doesn't have).
+        "schema_shas": schema_shas,
         "request_count": len(requests),
         "skipped": [{"profession": p, "state": s, "reason": r} for p, s, r in skipped],
         "custom_ids": [r["custom_id"] for r in requests],
@@ -301,10 +309,24 @@ def poll(batch_id: str, wait: bool = True) -> dict | None:
     metadata = _load_metadata(batch_id)
     queue = metadata["queue"]
     batch_model = metadata.get("model")
-    # Rebuild the profile classes (so result parsing can validate)
+    # Rebuild the profile classes (so result parsing can validate). If the discovered
+    # schema on disk is no longer the one the batch was submitted with, the results
+    # embed a field set the current schema doesn't have — validating them against the
+    # current file would either fail or, worse, silently write mismatched fields
+    # (acupuncture/UT 2026-07-29). Refuse that profession's results instead.
+    submitted_shas = metadata.get("schema_shas") or {}   # absent on pre-guard batches
+    drifted_profs: set[str] = set()
     profile_classes: dict[str, type[BaseModel]] = {}
     for profession in queue:
-        discovered = json.loads((DISCOVERED_DIR / f"{profession}.json").read_text())
+        raw_schema = (DISCOVERED_DIR / f"{profession}.json").read_bytes()
+        want = submitted_shas.get(profession)
+        if want and hashlib.sha256(raw_schema).hexdigest() != want:
+            drifted_profs.add(profession)
+            log.error("[%s] discovered schema CHANGED since this batch was submitted — "
+                      "refusing to write its results. Restore the schema the batch was "
+                      "built with, or re-submit against the current one.", profession)
+            continue
+        discovered = json.loads(raw_schema)
         profile_classes[profession] = build_profile_model(profession, discovered)
 
     client = _client()
@@ -334,6 +356,9 @@ def poll(batch_id: str, wait: bool = True) -> dict | None:
     errored = []
     for result in client.messages.batches.results(batch_id):
         custom_id = result.custom_id
+        if custom_id.split("__", 1)[0] in drifted_profs:
+            errored.append({"custom_id": custom_id, "reason": "schema_changed_since_submit"})
+            continue
         if result.result.type == "succeeded":
             outcome = _parse_and_write(
                 custom_id, result.result.message, profile_classes, model=batch_model,

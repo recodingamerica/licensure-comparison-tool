@@ -92,12 +92,17 @@ committing pull stage; `"clean"`=no-pull; `target`=that stage only). Full guide 
 the "what commits vs what doesn't" + refresh-pause rules:
 [`docs/runbooks/pipeline_run_order.md`](docs/runbooks/pipeline_run_order.md).
 
-**`--force` is CELL-scoped.** When you name states, `--force` re-runs those cells
-only — it will NOT re-derive profession-wide artifacts. This matters because `schema`
-is profession-scoped and LLM-derived from a 10-state sample: forcing a one-cell repair
-used to drag it in, which could leave that one state extracted against a field set the
-other 49 don't share (caught mid-run on nursing/DE, 2026-07-27). Running with no
-`--states` (the whole profession), or naming the stage as `--target`, still forces it.
+**`--force` is CELL-scoped, and `schema` is derived ONCE.** When you name states,
+`--force` re-runs those cells only — it will NOT re-derive profession-wide artifacts.
+`schema` goes further (2026-07-29): an existing `discovered/<prof>.json` is a stable
+contract and the chain will NEVER auto-re-derive it — not on staleness (every corpus
+repair flips schema provenance stale), not on whole-profession `--force`. Re-derivation
+is LLM churn (nursing renamed 26 of 29 fields on a same-corpus re-derive) and briefly
+left 31 states extracted against a field set the repo didn't have. It runs only when
+the file is missing (new profession) or when you explicitly run `--target schema`.
+Two more guards back this up: batch preflight blocks `SCHEMA_DIRTY` (schema modified vs
+git HEAD) and `STALE_UPSTREAM` (clean/trim provenance-stale vs the corpus), and `poll`
+refuses to write a batch whose schema changed since submit (sha recorded in metadata).
 
 ## Publishing: the gate that can fail your build
 

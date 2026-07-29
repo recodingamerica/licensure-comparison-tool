@@ -76,16 +76,56 @@ def test_force_on_named_states_does_not_redo_profession_stages(rec):
 
 
 def test_force_over_whole_profession_still_redoes_profession_stages(rec):
-    """No states named = the whole profession, so profession-wide stages are in scope."""
-    rec["fresh"][("schema", "med", None)] = "current"
-    ps.run_to("extract", "med", yes=True, force=True)
-    assert [c[0] for c in rec["calls"] if c[0] == "schema"] == ["schema"]
+    """No states named = the whole profession, so profession-wide stages are in scope.
+    (schema is the exception — see the derived-once tests below — so assert on verify,
+    which follows the normal profession-scope force rule.)"""
+    rec["fresh"][("verify", "med", None)] = "current"
+    ps.run_to("verify", "med", yes=True, force=True)
+    assert [c[0] for c in rec["calls"] if c[0] == "verify"] == ["verify"]
 
 
 def test_force_with_explicit_schema_target_is_the_escape_hatch(rec):
     """Naming the stage as --target means you asked for it, states notwithstanding."""
     rec["fresh"][("schema", "med", None)] = "current"
     ps.run_to("schema", "med", ["UT"], start="schema", yes=True, force=True)
+    assert [c[0] for c in rec["calls"]] == ["schema"]
+
+
+# --- schema is derived ONCE, never auto-re-derived (2026-07-29) --------------------
+# Re-derivation is LLM churn: nursing renamed 26 of its 29 fields on a same-corpus
+# re-derive, and every corpus repair flips schema provenance stale — so TWO batches in
+# one day extracted against a schema the repo didn't have. An existing schema file must
+# only be re-derived when schema is the explicit --target; staleness and --force must
+# never trigger it.
+
+def test_schema_not_rerun_when_stale_but_file_exists(rec, monkeypatch, tmp_path):
+    (tmp_path / "med.json").write_text("{}")
+    monkeypatch.setattr(ps, "DISCOVERED_DIR", tmp_path)
+    rec["fresh"][("schema", "med", None)] = "stale"     # corpus repair flipped it stale
+    ps.run_to("extract", "med", yes=True)
+    assert [c[0] for c in rec["calls"] if c[0] == "schema"] == []
+    assert "extract" in [c[0] for c in rec["calls"]]    # the chain still reaches extract
+
+
+def test_schema_not_rerun_even_by_whole_profession_force(rec, monkeypatch, tmp_path):
+    (tmp_path / "med.json").write_text("{}")
+    monkeypatch.setattr(ps, "DISCOVERED_DIR", tmp_path)
+    rec["fresh"][("schema", "med", None)] = "stale"
+    ps.run_to("extract", "med", yes=True, force=True)   # no states named = whole profession
+    assert [c[0] for c in rec["calls"] if c[0] == "schema"] == []
+
+
+def test_schema_derived_when_file_missing(rec, monkeypatch, tmp_path):
+    monkeypatch.setattr(ps, "DISCOVERED_DIR", tmp_path)  # empty dir — new profession
+    ps.run_to("extract", "med", yes=True)
+    assert "schema" in [c[0] for c in rec["calls"]]
+
+
+def test_schema_explicit_target_rederives_existing_file(rec, monkeypatch, tmp_path):
+    (tmp_path / "med.json").write_text("{}")
+    monkeypatch.setattr(ps, "DISCOVERED_DIR", tmp_path)
+    rec["fresh"][("schema", "med", None)] = "stale"
+    ps.run_to("schema", "med", start="schema", yes=True)
     assert [c[0] for c in rec["calls"]] == ["schema"]
 
 
