@@ -2,7 +2,7 @@
 
 _Auto-generated from the extraction model (`standard_model.py` + the profession's discovered schema). Do not edit by hand — regenerate with `python -m pipeline.publish.generate_field_dictionary`._
 
-**Reflects extracted data as of 2026-07-24** (latest commit to `professional_engineering` records). Regenerate to refresh.
+**Reflects extracted data as of 2026-07-28** (latest commit to `professional_engineering` records). Regenerate to refresh.
 
 Every field is an **Evidence** object: a `value`, the verbatim `quote` from the statute that supports it, and the `citation` it came from. Each example below is drawn from the first state that has a value for that field; the source state is shown in parentheses.
 

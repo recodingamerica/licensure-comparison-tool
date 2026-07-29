@@ -2,7 +2,7 @@
 
 _Auto-generated from the extraction model (`standard_model.py` + the profession's discovered schema). Do not edit by hand — regenerate with `python -m pipeline.publish.generate_field_dictionary`._
 
-**Reflects extracted data as of 2026-07-27** (latest commit to `optometry` records). Regenerate to refresh.
+**Reflects extracted data as of 2026-07-29** (latest commit to `optometry` records). Regenerate to refresh.
 
 Every field is an **Evidence** object: a `value`, the verbatim `quote` from the statute that supports it, and the `citation` it came from. Each example below is drawn from the first state that has a value for that field; the source state is shown in parentheses.
 
@@ -138,8 +138,8 @@ _Fields discovered specifically for this profession (auto-derived from its statu
 | &nbsp;&nbsp;&nbsp;&nbsp;`scope__controlled_substance_schedule_restrictions[].status` | string |  | "prohibited" (ME) |
 | `scope__tiered_license_types` | list | Scope checklist for 'tiered_license_types'. Return EXACTLY one entry for each of these 14 items, using the item name verbatim: ['Therapeutic Optometrist / Therapeutically Certified Optometrist', 'Optometric Physician', 'Advanced Optometric Care Authorization', 'Diagnostic Pharmaceutical Agent Certificate / Diagnostically Certified Optometrist', 'Topical Therapeutic Pharmaceutical Agent Certificate', 'Nontopical / Oral / Systemic Pharmaceutical Agent Certification', 'Injectable Pharmaceutical Agent Certification', 'Immunization Administration Certificate', 'Certificate of Special Qualification — Without Pharmaceutical Agents', 'Temporary License', 'Limited Teaching License', 'Limited Resident License', 'Retired Volunteer Service License', 'Unrestricted License (converted from diagnostically certified)']. For EACH item, status is `present` if this state's statute provides for it, else `absent`. Quote verbatim for `present`. |  |
 | &nbsp;&nbsp;&nbsp;&nbsp;`scope__tiered_license_types[].item` | string |  | "Therapeutic Optometrist / Therapeutically Certified Optomet (ME) |
-| &nbsp;&nbsp;&nbsp;&nbsp;`scope__tiered_license_types[].status` | string |  | "absent" (ME) |
+| &nbsp;&nbsp;&nbsp;&nbsp;`scope__tiered_license_types[].status` | string |  | "present" (ME) |
 | `scope__specialty_certification_types` | list | Scope checklist for 'specialty_certification_types'. Return EXACTLY one entry for each of these 11 items, using the item name verbatim: ['Topical Diagnostic Pharmaceutical Agent Certification', 'Topical Therapeutic Pharmaceutical Agent Certification', 'Oral Pharmaceutical Agent Certification', 'Glaucoma Treatment Certification', 'Anterior Uveitis Treatment Certification', 'Posterior Uveitis Treatment Certification', 'Laser Procedure Certification', 'Immunization Administration Certification', 'Controlled Substance / Narcotic Analgesic Prescribing Authority', 'Injection Administration Certification', 'Advanced Optometric Care Certification']. For EACH item, status is `present` if this state's statute provides for it, else `absent`. Quote verbatim for `present`. |  |
 | &nbsp;&nbsp;&nbsp;&nbsp;`scope__specialty_certification_types[].item` | string |  | "Topical Diagnostic Pharmaceutical Agent Certification" (ME) |
-| &nbsp;&nbsp;&nbsp;&nbsp;`scope__specialty_certification_types[].status` | string |  | "present" (ME) |
+| &nbsp;&nbsp;&nbsp;&nbsp;`scope__specialty_certification_types[].status` | string |  | "absent" (ME) |
 
