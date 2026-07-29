@@ -2,7 +2,7 @@
 
 _Auto-generated from the extraction model (`standard_model.py` + the profession's discovered schema). Do not edit by hand — regenerate with `python -m pipeline.publish.generate_field_dictionary`._
 
-**Reflects extracted data as of 2026-07-24** (latest commit to `public_accountancy` records). Regenerate to refresh.
+**Reflects extracted data as of 2026-07-29** (latest commit to `public_accountancy` records). Regenerate to refresh.
 
 Every field is an **Evidence** object: a `value`, the verbatim `quote` from the statute that supports it, and the `citation` it came from. Each example below is drawn from the first state that has a value for that field; the source state is shown in parentheses.
 
@@ -121,8 +121,8 @@ _Fields discovered specifically for this profession (auto-derived from its statu
 | `single_act_evidence_sufficient` | boolean | Whether evidence of a single prohibited act is sufficient to justify a penalty, injunction, or conviction without evidence of a general course of conduct. | true (AK) |
 | `firm_corrective_action_period_for_ownership_noncompliance` | boolean | Whether firms that fall out of compliance with ownership requirements due to changes in personnel are granted a reasonable period to take corrective action before facing permit suspension or revocation. | true (AK) |
 | `firm_permit_required_for_attest_services` | boolean | Whether a firm must hold a valid permit or registration to provide attest or compilation services, separate from individual licensure requirements. | true (AK) |
-| `registered_municipal_accountant_designation` | boolean | Whether the state has a specialized 'Registered Municipal Accountant' designation requiring additional examination, limited to auditing municipal or county financial statements. | true (NJ) |
-| `public_school_accountant_designation` | boolean | Whether the state has a specialized 'Public School Accountant' designation required for auditing school district financial statements. | true (NJ) |
+| `registered_municipal_accountant_designation` | boolean | Whether the state has a specialized 'Registered Municipal Accountant' designation requiring additional examination, limited to auditing municipal or county financial statements. | false (ME) |
+| `public_school_accountant_designation` | boolean | Whether the state has a specialized 'Public School Accountant' designation required for auditing school district financial statements. | false (ME) |
 | `accounting_practitioner_tier` | boolean | Whether the state has a separate 'Accounting Practitioner' or 'Licensed Public Accountant' tier below CPA with its own examination, education, and scope-of-practice requirements. | true (AL) |
 | `cpa_emeritus_or_retired_status_available` | boolean | Whether the state provides a formal 'CPA Emeritus' or 'CPA Retired' status for licensees who have permanently ceased practice, with reduced or no fees and no CPE requirement. | true (AL) |
 | `government_audit_cpe_requirement` | boolean | Whether the state imposes additional or specific continuing professional education requirements for CPAs engaged in auditing governmental entities. | true (CA) |
