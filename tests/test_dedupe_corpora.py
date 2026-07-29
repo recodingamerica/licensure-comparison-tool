@@ -66,3 +66,62 @@ def test_cli_dry_run_writes_nothing(tmp_path, monkeypatch):
     monkeypatch.setattr(dc, "TEXT_DIR", td)
     dc.main([])  # dry-run
     assert p.read_text() == original  # untouched
+
+
+# --- same-citation duplicates (dedupe_citation_copies, 2026-07-29) -----------------
+# 140 duplicate-citation copies measured across published corpora; only the two
+# mechanical classes collapse. PA flat acts and Justia subsection pages are LAW,
+# not duplicates — they must survive untouched.
+
+def _sec(url, citation, text):
+    return {"url": url, "citation": citation, "text": text}
+
+
+def test_citation_identical_text_collapsed():
+    c = {"sections": [
+        _sec(f"{BASE}/title-1/section-5/", "1-5", "same body"),
+        _sec(f"{BASE}/title-1/other-path/section-5/", "1-5", "same body"),
+        _sec(f"{BASE}/title-1/section-6/", "1-6", "unique"),
+    ]}
+    nd, removed = dc.dedupe_citation_copies(c)
+    assert removed == {"identical_text": 1, "edition_pair": 0}
+    assert [s["citation"] for s in nd["sections"]] == ["1-5", "1-6"]
+
+
+def test_citation_edition_pair_keeps_newest_year():
+    # podiatry/CO shape: 2022 vs 2023 editions whose paths differ beyond the year,
+    # so the year-normalizing dedupe can't see them. Newest edition wins.
+    c = {"sections": [
+        _sec("https://law.justia.com/codes/colorado/2022/title-12/article-290/part-1/section-12-290-101/",
+             "12-290-101", "old edition text"),
+        _sec("https://law.justia.com/codes/colorado/2023/title-12/health-care-professions-and-occupations/article-290/part-1/section-12-290-101/",
+             "12-290-101", "new edition text"),
+    ]}
+    nd, removed = dc.dedupe_citation_copies(c)
+    assert removed["edition_pair"] == 1
+    assert len(nd["sections"]) == 1
+    assert "/2023/" in nd["sections"][0]["url"]
+
+
+def test_citation_pa_flat_acts_untouched():
+    # "§ 1" of the 1951 act and of the 1955 act are DIFFERENT LAWS sharing a
+    # citation string — deleting either loses statute.
+    c = {"sections": [
+        _sec("https://www.legis.state.pa.us/WU01/LI/LI/US/HTM/1951/0/0069..HTM", "§ 1", "act of 1951"),
+        _sec("https://www.legis.state.pa.us/WU01/LI/LI/US/HTM/1955/0/0376..HTM", "§ 1", "act of 1955"),
+    ]}
+    nd, removed = dc.dedupe_citation_copies(c)
+    assert nd is None and removed == {"identical_text": 0, "edition_pair": 0}
+
+
+def test_citation_subsection_pages_untouched():
+    # public_accountancy/NM shape: section-61-28b-3 vs section-61-28b-3-d-1 both
+    # labeled 61-28B-3 with different text — needs triage/disambiguation, not deletion.
+    c = {"sections": [
+        _sec("https://law.justia.com/codes/new-mexico/chapter-61/article-28b/section-61-28b-3/",
+             "61-28B-3", "full section"),
+        _sec("https://law.justia.com/codes/new-mexico/chapter-61/article-28b/section-61-28b-3-d-1/",
+             "61-28B-3", "subsection page"),
+    ]}
+    nd, removed = dc.dedupe_citation_copies(c)
+    assert nd is None and removed == {"identical_text": 0, "edition_pair": 0}
