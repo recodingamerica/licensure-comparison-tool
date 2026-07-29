@@ -9,19 +9,19 @@
     },
     "issuing_authority": {
       "value": "State Licensing Board for Contractors",
-      "quote": "There is hereby created the State Licensing Board for Contractors within the office of the governor.",
-      "citation": "37:2151"
+      "quote": "\"Board\" means the State Licensing Board for Contractors.",
+      "citation": "37:2150.1"
     },
     "regulatory_authority": {
       "name": {
         "value": "State Licensing Board for Contractors",
-        "quote": "There is hereby created the State Licensing Board for Contractors within the office of the governor.",
-        "citation": "37:2151"
+        "quote": "\"Board\" means the State Licensing Board for Contractors.",
+        "citation": "37:2150.1"
       },
       "type": {
         "value": "shared_board",
-        "quote": "The major classifications are: (1) Building construction. (2) Highway, street, and bridge construction. (3) Heavy construction. (4) Municipal and public works construction. (5) Electrical. (6) Mechanical. (7) Plumbing. (8) Hazardous materials. (9) Residential construction. (10) Mold remediation. (11) Home improvement.",
-        "citation": "37:2156.1"
+        "quote": "There is hereby created the State Licensing Board for Contractors within the office of the governor.",
+        "citation": "37:2151"
       },
       "umbrella_agency": {
         "value": "Office of the Governor",
@@ -30,11 +30,7 @@
       }
     },
     "age_minimum": null,
-    "moral_character_required": {
-      "value": true,
-      "quote": "The applicant, each principal, and each designated qualifying party shall complete an application and pass a background investigation. An applicant shall provide all information or documentation requested by the board, including but not limited to documentation relative to identification, criminal history, and financial history. The board may deny approval of the applicant, any of its principals, or any qualifying party for cause.",
-      "citation": "37:2156.1"
-    },
+    "moral_character_required": null,
     "education": null,
     "post_degree_experience": {
       "required": {
@@ -54,17 +50,17 @@
       {
         "name": "Trade examination (Mechanical classification)",
         "required": true,
-        "notes": "The board may waive the trade portion of the examination for applicants holding a comparable license in another state. The business law requirement shall not be waived.",
-        "jurisdiction": "state (State Licensing Board for Contractors)",
+        "notes": "The board may waive the trade portion for applicants holding a comparable classification license in another state. The business law requirement is not waivable.",
+        "jurisdiction": "state (in-house)",
         "permitted_attempts": null,
         "quote": "An applicant for licensure shall designate a qualifying party for each classification and for the Louisiana business and law requirement. The qualifying party shall meet all application requirements and shall satisfy any examination and credential requirement.",
         "citation": "37:2156.1"
       },
       {
-        "name": "Business and law examination",
+        "name": "Louisiana Business and Law examination",
         "required": true,
-        "notes": "The business law requirement shall not be waived even for out-of-state licensees seeking waiver of the trade exam.",
-        "jurisdiction": "state (State Licensing Board for Contractors)",
+        "notes": "Required for all applicants; cannot be waived even for out-of-state licensees.",
+        "jurisdiction": "state (in-house)",
         "permitted_attempts": null,
         "quote": "Waive the trade portion of the examination requirement for any applicant holding a license in a comparable classification in another state as determined by the board, upon written certification from the licensing state that the applicant passed the examination for the classification and is in good standing. The business law requirement shall not be waived.",
         "citation": "37:2153"
@@ -83,7 +79,11 @@
       "citation": "37:2156"
     },
     "continuing_education": {
-      "required": null,
+      "required": {
+        "value": true,
+        "quote": "To prescribe and adopt regulations and policies for continuing education.",
+        "citation": "37:2155"
+      },
       "hours_per_period": null,
       "period_years": null,
       "topical_requirements": null
@@ -91,12 +91,12 @@
     "reciprocity": {
       "available": {
         "value": true,
-        "quote": "Waive the trade portion of the examination requirement for any applicant holding a license in a comparable classification in another state as determined by the board, upon written certification from the licensing state that the applicant passed the examination for the classification and is in good standing. The business law requirement shall not be waived. Applicants shall comply with all other licensing requirements of this state; however, for good cause, the board may waive any other licensing requirement.",
+        "quote": "Waive the trade portion of the examination requirement for any applicant holding a license in a comparable classification in another state as determined by the board, upon written certification from the licensing state that the applicant passed the examination for the classification and is in good standing.",
         "citation": "37:2153"
       },
       "requirements": {
-        "value": "Applicant must hold a comparable classification license in another state and provide written certification from the licensing state that the applicant passed the examination and is in good standing. The business law requirement shall not be waived.",
-        "quote": "Waive the trade portion of the examination requirement for any applicant holding a license in a comparable classification in another state as determined by the board, upon written certification from the licensing state that the applicant passed the examination for the classification and is in good standing. The business law requirement shall not be waived.",
+        "value": "Board may waive the trade examination for applicants licensed in a comparable classification in another state who are in good standing; business law examination cannot be waived; all other licensing requirements of this state must be met unless waived for good cause.",
+        "quote": "Applicants shall comply with all other licensing requirements of this state; however, for good cause, the board may waive any other licensing requirement.",
         "citation": "37:2153"
       }
     },
@@ -128,8 +128,8 @@
     },
     "title_protection": {
       "value": true,
-      "quote": "It shall be unlawful for any contractor, licensed or unlicensed to publish, transmit, distribute, or otherwise publicly circulate a misleading or false claim related to a person's license or classification in any medium, including but not limited to digital platforms.",
-      "citation": "37:2163"
+      "quote": "No person may engage in the business of contracting, or act as a contractor as defined in this Chapter, unless he holds an active license as a contractor in accordance with the provisions of this Chapter.",
+      "citation": "37:2158"
     },
     "scope_protection": {
       "value": true,
@@ -139,18 +139,18 @@
     "disciplinary_grounds": [
       {
         "short_label": "contracting_without_license",
-        "description": "Undertaking or performing construction work without possessing a required license or without the proper classification.",
-        "quote": "Undertaking, attempting to, or submitting a price or bid; offering to construct, supervise, superintend, oversee, direct, or in any manner assume charge of the construction, alteration, repair, improvement, movement, demolition, putting up, tearing down; furnishing labor or furnishing labor together with material or equipment; or installing material or equipment for any building, highway, road, railroad, sewer grading, excavation, pipeline, public utility structure, project development, housing, or housing development, improvement, or any other construction undertaking without possessing a license for which a license is required or without possessing a license with the proper classification.",
+        "description": "Undertaking or bidding construction work without possessing an active license or the proper classification.",
+        "quote": "Undertaking, attempting to, or submitting a price or bid; offering to construct, supervise, superintend, oversee, direct, or in any manner assume charge of the construction, alteration, repair, improvement, movement, demolition, putting up, tearing down; furnishing labor or furnishing labor together with material or equipment; or installing material or equipment for any building... without possessing a license for which a license is required or without possessing a license with the proper classification.",
         "citation": "37:2158"
       },
       {
-        "short_label": "false_claim_license_status",
-        "description": "Publishing or circulating a misleading or false claim related to a person's license status or classification.",
+        "short_label": "false_license_claim",
+        "description": "Publishing or distributing a misleading or false claim related to a person's license status or classification.",
         "quote": "Publishing, transmitting, distributing, or otherwise publicly circulating a misleading or false claim related to a person's license status or classification in any medium, including but not limited to digital platforms.",
         "citation": "37:2158"
       },
       {
-        "short_label": "dishonest_or_fraudulent_act",
+        "short_label": "dishonest_fraudulent_act",
         "description": "Any dishonest or fraudulent act as a contractor which has caused damage to another, as adjudged by a court of competent jurisdiction.",
         "quote": "Any dishonest or fraudulent act as a contractor which has caused damage to another, as adjudged by a court of competent jurisdiction.",
         "citation": "37:2158"
@@ -163,25 +163,25 @@
       },
       {
         "short_label": "misrepresentation_in_obtaining_license",
-        "description": "Misrepresentation of fact by an applicant in obtaining a license or providing false information to the board.",
+        "description": "Misrepresentation of fact by an applicant in obtaining a license or in providing information to the board; deception by omission; false testimony.",
         "quote": "Misrepresentation of fact by an applicant in obtaining a license; misrepresentation of fact by an applicant or licensee in providing information, statements, or documents to the staff or board; deception by omission; and providing false testimony to the board.",
         "citation": "37:2158"
       },
       {
-        "short_label": "failure_to_comply_chapter",
-        "description": "Failure to comply with the provisions of this Chapter or the rules and regulations promulgated pursuant thereto.",
+        "short_label": "failure_to_comply_with_chapter",
+        "description": "Failure to comply with the provisions of this Chapter or rules and regulations promulgated pursuant thereto.",
         "quote": "Failure to comply with the provisions of this Chapter or the rules and regulations promulgated pursuant thereto.",
         "citation": "37:2158"
       },
       {
         "short_label": "contracting_with_unlicensed_contractor",
-        "description": "Entering into a contract with an unlicensed contractor involving work requiring a license.",
+        "description": "Entering into a contract with an unlicensed contractor involving work for which a license is required.",
         "quote": "Entering into a contract with an unlicensed contractor involving work or activity for the performance of which a license is required by this Chapter.",
         "citation": "37:2158"
       },
       {
-        "short_label": "permitting_license_misuse",
-        "description": "Permitting a license to be used by any person other than the person to whom it was issued, or fraudulent use of a license.",
+        "short_label": "permitting_misuse_of_license",
+        "description": "Permitting a license to be used for any purpose by any person other than the person to whom it was issued, or fraudulent use of the license.",
         "quote": "Permitting a license to be used for any purpose by any person other than the person to whom the license is issued.",
         "citation": "37:2158"
       },
@@ -205,7 +205,7 @@
       },
       {
         "short_label": "failure_to_notify_board_of_changes",
-        "description": "Failure to provide written notification to the board of any change to application information within thirty calendar days.",
+        "description": "Failure to provide written notification to the board of changes to application information or of criminal/civil/administrative actions within 30 days.",
         "quote": "Failure to provide written notification to the board of any change to the information provided in the original application and any amendments thereto within thirty calendar days.",
         "citation": "37:2158"
       },
@@ -216,26 +216,26 @@
         "citation": "37:2158"
       },
       {
-        "short_label": "failure_to_provide_written_info",
-        "description": "Failure of a residential/home improvement/mold remediation contractor to provide in writing their name, license number, classification, and current insurance certificates when requested.",
-        "quote": "Failure of a contractor performing residential construction, home improvement, or mold remediation in accordance with this Chapter to provide, in writing to the party with whom he has contracted to perform services, his name, license number, classification, and current insurance certificates evidencing the amount of liability insurance maintained and proof of workers' compensation coverage when requested by the contracting party for whom the work is to be performed.",
+        "short_label": "failure_to_provide_contractor_information",
+        "description": "Failure of a residential, home improvement, or mold remediation contractor to provide name, license number, classification, and insurance certificates in writing.",
+        "quote": "Failure of a contractor performing residential construction, home improvement, or mold remediation in accordance with this Chapter to provide, in writing to the party with whom he has contracted to perform services, his name, license number, classification, and current insurance certificates evidencing the amount of liability insurance maintained and proof of workers' compensation coverage when requested by the contracting party",
         "citation": "37:2158"
       },
       {
         "short_label": "abandonment_or_failure_to_perform",
-        "description": "Abandoning or failing to perform a contract without justification, or deviating from plans without owner and design professional consent.",
+        "description": "Abandoning or failing to perform, without justification, any contract or project; deviating from plans or specifications without consent.",
         "quote": "Abandoning or failing to perform, without justification, any contract or project engaged in or undertaken by any licensee or deviating from or disregarding plans or specifications in any material respect without the consent of the owner and the design professional.",
         "citation": "37:2158"
       },
       {
-        "short_label": "deceiving_or_defrauding_public",
+        "short_label": "efforts_to_deceive_public",
         "description": "Efforts to deceive or defraud the public.",
         "quote": "Efforts to deceive or defraud the public.",
         "citation": "37:2158"
       },
       {
         "short_label": "failure_to_obtain_permit",
-        "description": "Failure to obtain a permit or beginning work prior to permit issuance, or misrepresenting the value or scope of work.",
+        "description": "Failure to obtain a required permit or beginning work prior to permit issuance, or misrepresenting the value or scope of work.",
         "quote": "Failure to obtain a permit to perform work or beginning work prior to the issuance of a permit in the jurisdiction as required or misrepresenting the value or scope of work.",
         "citation": "37:2158"
       },
@@ -280,11 +280,11 @@
       },
       {
         "cite": "37:2151",
-        "kind": "board_creation"
+        "kind": "board_structure"
       },
       {
         "cite": "37:2153",
-        "kind": "board_powers"
+        "kind": "powers_of_board"
       },
       {
         "cite": "37:2155",
@@ -296,11 +296,11 @@
       },
       {
         "cite": "37:2156.1",
-        "kind": "licensure_requirements"
+        "kind": "requirements_for_licensure"
       },
       {
         "cite": "37:2156.2",
-        "kind": "record_keeping"
+        "kind": "recordkeeping"
       },
       {
         "cite": "37:2157",
@@ -308,11 +308,23 @@
       },
       {
         "cite": "37:2158",
-        "kind": "discipline"
+        "kind": "revocation_and_disciplinary_grounds"
+      },
+      {
+        "cite": "37:2159",
+        "kind": "written_contract"
+      },
+      {
+        "cite": "37:2160",
+        "kind": "local_regulatory_authority"
       },
       {
         "cite": "37:2163",
-        "kind": "unlicensed_contracting_prohibition"
+        "kind": "prohibition_and_penalty"
+      },
+      {
+        "cite": "37:2165",
+        "kind": "bid_procedures"
       }
     ]
   },
@@ -330,7 +342,7 @@
         "testing",
         "repair"
       ],
-      "quote": "the construction, installation, maintenance, testing, and repair of air conditioning, refrigeration, heating systems, and plumbing for all residential, commercial, and industrial applications as well as ventilation systems, mechanical work controls, boilers and other pressure vessels, steam and hot water systems and piping, gas piping and fuel storage, and chilled water and condensing water systems and piping",
+      "quote": "construction, installation, maintenance, testing, and repair of air conditioning, refrigeration, heating systems, and plumbing for all residential, commercial, and industrial applications as well as ventilation systems, mechanical work controls, boilers and other pressure vessels, steam and hot water systems and piping, gas piping and fuel storage, and chilled water and condensing water systems and piping",
       "citation": "37:2150.1"
     },
     "drug_authority": null,
@@ -347,6 +359,7 @@
         "air conditioning",
         "refrigeration",
         "heating systems",
+        "plumbing",
         "ventilation systems",
         "mechanical work controls",
         "boilers and other pressure vessels",
@@ -355,14 +368,10 @@
         "chilled water and condensing water systems and piping",
         "industrial process piping and related valves, fittings, and components"
       ],
-      "quote": "the construction, installation, maintenance, testing, and repair of air conditioning, refrigeration, heating systems, and plumbing for all residential, commercial, and industrial applications as well as ventilation systems, mechanical work controls, boilers and other pressure vessels, steam and hot water systems and piping, gas piping and fuel storage, and chilled water and condensing water systems and piping, including but not limited to any type of industrial process piping and related valves, fittings, and components",
+      "quote": "construction, installation, maintenance, testing, and repair of air conditioning, refrigeration, heating systems, and plumbing for all residential, commercial, and industrial applications as well as ventilation systems, mechanical work controls, boilers and other pressure vessels, steam and hot water systems and piping, gas piping and fuel storage, and chilled water and condensing water systems and piping, including but not limited to any type of industrial process piping and related valves, fittings, and components",
       "citation": "37:2150.1"
     },
-    "hvac_specific_experience_required": {
-      "value": false,
-      "quote": "An applicant for licensure shall designate a qualifying party for each classification and for the Louisiana business and law requirement. The qualifying party shall meet all application requirements and shall satisfy any examination and credential requirement.",
-      "citation": "37:2156.1"
-    },
+    "hvac_specific_experience_required": null,
     "hvac_specific_experience_years": null,
     "prelicensure_course_hours": null,
     "business_law_course_hours": null,
@@ -373,15 +382,15 @@
     },
     "qualifier_license_type_required": {
       "value": [
-        "Mechanical contractor license (classification)"
+        "Mechanical contractor license (Mechanical classification)"
       ],
       "quote": "An applicant for licensure shall designate a qualifying party for each classification and for the Louisiana business and law requirement.",
       "citation": "37:2156.1"
     },
     "qualifier_cessation_notification_days": {
       "value": 30,
-      "quote": "A licensee shall have a continuing duty to provide written notification to the board within thirty calendar days of both of the following: (1) Any change to the information provided in the original application or any amendments thereto.",
-      "citation": "37:2156.2"
+      "quote": "Failure to provide written notification to the board of any change to the information provided in the original application and any amendments thereto within thirty calendar days.",
+      "citation": "37:2158"
     },
     "qualifier_replacement_grace_period_days": null,
     "hvac_continuing_education_topic_hours_minimum": null,
@@ -389,8 +398,8 @@
     "natural_gas_facilities_installation_authorized": null,
     "financial_responsibility_demonstration_methods": {
       "value": [
-        "Net worth of fifty thousand dollars or more",
-        "Irrevocable letter of credit"
+        "net worth of fifty thousand dollars or more",
+        "irrevocable letter of credit"
       ],
       "quote": "Residential and commercial licenses, their subclassifications, and all specialty classifications with the exception of labor only specialty, shall have a net worth of fifty thousand dollars or more. An applicant without the net worth required by this Paragraph may satisfy the net worth requirement for all purposes by submitting an irrevocable letter of credit in the amount of the net worth requirement plus the amount of the applicant's negative net worth if any.",
       "citation": "37:2156.1"
@@ -413,7 +422,7 @@
     "hvac_exempt_from_small_project_exemption": null,
     "license_number_on_permits_required": {
       "value": true,
-      "quote": "All architects, engineers, and awarding authorities shall place in their bid specifications the requirement that a contractor shall certify that he holds an active license in accordance with the provisions of this Chapter by displaying his license number on the bid envelope.",
+      "quote": "all architects, engineers, and awarding authorities shall place in their bid specifications the requirement that a contractor shall certify that he holds an active license in accordance with the provisions of this Chapter by displaying his license number on the bid envelope.",
       "citation": "37:2165"
     },
     "scope_expansion_by_rule_authorized": {
@@ -545,13 +554,13 @@
       {
         "item": "Ventilation systems",
         "status": "present",
-        "quote": "ventilation systems, mechanical work controls, boilers and other pressure vessels",
+        "quote": "ventilation systems, mechanical work controls, boilers and other pressure vessels, steam and hot water systems and piping",
         "citation": "37:2150.1"
       },
       {
         "item": "Piping fixtures, devices, and equipment",
         "status": "present",
-        "quote": "including but not limited to any type of industrial process piping and related valves, fittings, and components",
+        "quote": "industrial process piping and related valves, fittings, and components",
         "citation": "37:2150.1"
       },
       {
@@ -675,7 +684,7 @@
       {
         "item": "Workers' compensation insurance",
         "status": "present",
-        "quote": "submit certificates evidencing workers' compensation coverage in compliance with Title 23 of the Louisiana Revised Statutes of 1950",
+        "quote": "Residential construction and its subclassifications, mold remediation, and home improvement applicants shall be required to submit certificates evidencing workers' compensation coverage in compliance with Title 23 of the Louisiana Revised Statutes of 1950",
         "citation": "37:2156.1"
       },
       {
