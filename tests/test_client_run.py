@@ -245,3 +245,61 @@ def test_cmd_extract_litellm_backend_routes_to_run_litellm(monkeypatch):
     run.cmd_extract({"a": ["UT"]}, _extract_args("litellm", model="gpt-5"))
     assert seen["litellm"] == 1 and seen["submit"] == 0
     assert seen["model"] == "gpt-5"
+
+
+# --- publish: skip-unchanged + parallel (2026-07-29) --------------------------------
+# The build loop passed force=True, so every invocation rebuilt all 13 payloads even when
+# one occupation had moved — ~90 minutes of wall clock, serial, for a one-cell change.
+
+def _ns(**kw):
+    import argparse
+    base = dict(professions="dentistry, podiatry", deploy=False, yes=False,
+                all=False, force=False, jobs=4)
+    base.update(kw)
+    return argparse.Namespace(**base)
+
+
+def test_publish_skips_occupations_provenance_calls_current(monkeypatch):
+    built = []
+    monkeypatch.setattr(run, "run_to", lambda target, prof, **k: built.append(prof) or {"ok": True})
+    monkeypatch.setattr(run.provenance, "check",
+                        lambda stage, prof, state=None: "current" if prof == "dentistry" else "stale")
+    run.cmd_publish(_ns())
+    assert built == ["podiatry"], "an unchanged occupation must not pay for a rebuild"
+
+
+def test_publish_force_rebuilds_everything(monkeypatch):
+    built = []
+    monkeypatch.setattr(run, "run_to", lambda target, prof, **k: built.append(prof) or {"ok": True})
+    monkeypatch.setattr(run.provenance, "check", lambda *a, **k: "current")
+    run.cmd_publish(_ns(force=True))
+    assert sorted(built) == ["dentistry", "podiatry"]
+
+
+def test_publish_builds_in_parallel(monkeypatch):
+    """All payloads are submitted to the pool, not run one-after-another."""
+    import threading
+    seen, lock = [], threading.Lock()
+
+    def fake(target, prof, **k):
+        with lock:
+            seen.append(prof)
+        return {"ok": True}
+
+    monkeypatch.setattr(run, "run_to", fake)
+    monkeypatch.setattr(run.provenance, "check", lambda *a, **k: "stale")
+    run.cmd_publish(_ns(professions="a,b,c,d", jobs=4))
+    assert sorted(seen) == ["a", "b", "c", "d"]
+
+
+def test_publish_does_not_deploy_when_a_payload_fails(monkeypatch):
+    """A partial rebuild must never ship — half the site fresh, half stale is the exact
+    inconsistency this command exists to prevent."""
+    monkeypatch.setattr(run, "run_to",
+                        lambda target, prof, **k: {"ok": prof != "podiatry"})
+    monkeypatch.setattr(run.provenance, "check", lambda *a, **k: "stale")
+    deployed = []
+    monkeypatch.setattr(run, "_sh", lambda *a, **k: deployed.append(a) or True)
+    with pytest.raises(SystemExit):
+        run.cmd_publish(_ns(deploy=True, yes=True))
+    assert deployed == []

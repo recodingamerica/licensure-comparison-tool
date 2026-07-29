@@ -41,6 +41,8 @@ import argparse
 import sys
 
 from pipeline.pipeline_stages import run_to, run_fanout, drop_current, confirm_if_paid, _sh, REPO_ROOT
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from pipeline import provenance
 from pipeline.client.status import COST_TRIM, COST_EXTRACT, COST_SCHEMA, build as build_status
 
 
@@ -254,9 +256,47 @@ def cmd_publish(args) -> None:
     # Build every payload FIRST (via the publish adapter: consistency gate + build_frontend +
     # provenance stamp), then deploy ONCE at the end — deploying per-profession would rebuild
     # the site N times.
-    for prof in profs:
-        if not run_to("publish", prof, start="publish", force=True, yes=True)["ok"]:
-            sys.exit(f"publish failed for {prof} — see the error above.")
+    # SKIP what hasn't changed. This loop used to pass force=True, so every invocation
+    # rebuilt all 13 payloads (~90 min) even when one profession had moved. provenance
+    # already knows: the publish stage's input hash covers the profession's structured
+    # data AND its recipe, so a code change still (correctly) invalidates everything.
+    # `--force` restores the old behaviour when you want it.
+    todo = list(profs)
+    if not getattr(args, "force", False):
+        fresh = [p for p in profs if provenance.check("publish", p) == "current"]
+        todo = [p for p in profs if p not in fresh]
+        if fresh:
+            print(f"skipping {len(fresh)} unchanged occupation(s): {', '.join(fresh)}"
+                  f"   (--force to rebuild anyway)")
+    if not todo:
+        print("every payload is already current — nothing to rebuild.")
+
+    # PARALLEL. Each profession is an independent subprocess with no shared state, so the
+    # only real limits are upload bandwidth and memory (payloads run 25-40MB). Serial, a
+    # full rebuild is ~90 min; the work is entirely wall-clock waiting on subprocesses,
+    # which release the GIL, so threads are enough.
+    failed: list[str] = []
+    if todo:
+        workers = max(1, min(getattr(args, "jobs", 4) or 4, len(todo)))
+        print(f"building {len(todo)} payload(s) with {workers} worker(s) …")
+        with ThreadPoolExecutor(max_workers=workers) as pool:
+            futures = {
+                pool.submit(run_to, "publish", prof, start="publish", force=True, yes=True): prof
+                for prof in todo
+            }
+            for fut in as_completed(futures):
+                prof = futures[fut]
+                try:
+                    ok = fut.result()["ok"]
+                except Exception as e:                      # noqa: BLE001 — report, don't mask
+                    ok, e_msg = False, f"{type(e).__name__}: {e}"
+                    print(f"!! {prof} raised {e_msg}")
+                if not ok:
+                    failed.append(prof)
+    if failed:
+        # Deploying a partial rebuild would ship a site where some occupations are fresh
+        # and others stale — the inconsistency this whole command exists to avoid.
+        sys.exit(f"publish failed for: {', '.join(sorted(failed))} — NOT deploying.")
     if args.deploy:
         # build_frontend above only builds/uploads the per-profession payloads. The
         # CROSS-profession artifacts the live site also serves — scope_matrices (the
@@ -317,6 +357,13 @@ def main() -> None:
     sp.add_argument("--deploy", action="store_true",
                     help="After building, push it live to the website ONCE (asks first)")
     sp.add_argument("--yes", action="store_true", help="Skip the --deploy confirmation prompt")
+    sp.add_argument("--force", action="store_true",
+                    help="Rebuild every payload even if provenance says it's current. Off by "
+                         "default: an unchanged occupation doesn't need a ~7-minute rebuild.")
+    sp.add_argument("--jobs", type=int, default=4,
+                    help="Payloads to build in parallel (default %(default)s). Each is an "
+                         "independent subprocess; the ceiling is upload bandwidth and memory "
+                         "(payloads are 25-40MB), not CPU.")
 
     args = ap.parse_args()
 
