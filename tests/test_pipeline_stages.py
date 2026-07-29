@@ -474,6 +474,16 @@ def test_no_pull_warning_when_none_running(rec, monkeypatch, capsys):
     assert "corpus pull is RUNNING" not in capsys.readouterr().out
 
 
+def test_verify_freshness_never_hits_provenance(monkeypatch):
+    """verify has no provenance contract; fresh() must answer "stale" (always due)
+    WITHOUT calling provenance.check — which raises KeyError('verify') and, until
+    2026-07-29, made every chain spanning verify (any clean→publish run) crash."""
+    def boom(stage, p, s=None):
+        raise AssertionError("provenance.check must not be called for verify")
+    monkeypatch.setattr(ps.provenance, "check", boom)
+    assert ps._BY_NAME["verify"].fresh("dentistry", None) == "stale"
+
+
 def test_live_pull_pids_excludes_self_and_parent(monkeypatch):
     import os
     from types import SimpleNamespace

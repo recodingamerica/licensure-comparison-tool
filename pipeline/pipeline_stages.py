@@ -262,6 +262,13 @@ class Stage:
         always reads not-current and its run is gated by the caller instead."""
         if self.scope == "global":
             return "stale"
+        if self.name not in ("pull", *provenance.STAGES, *provenance.PROF_STAGES):
+            # verify: no provenance contract (it rewrites structured/ in place — no
+            # artifact of its own to stamp), so it's always due when the chain crosses
+            # it. Before 2026-07-29 this raised KeyError inside provenance.check, which
+            # meant NO chain spanning verify (any clean→publish run) could execute —
+            # the reason cmd_publish jumps straight to start="publish".
+            return "stale"
         return provenance.check(self.name, prof, state)
 
 
