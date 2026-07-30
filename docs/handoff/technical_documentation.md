@@ -1,6 +1,6 @@
 # State licensing pipeline — handoff documentation
 
-*Generated 2026-07-22 from repo commit `da6f0ad9`. To get current numbers, run
+*Generated 2026-07-30 from repo commit `f256d345`. To get current numbers, run
 `python -m pipeline.client.handoff_doc` from the repo root (add `--pdf` for a PDF).*
 
 **For engineers:** this document is the plain-English overview. The technical entry
@@ -19,7 +19,7 @@ it's now automated and runs unattended (see section 2) — and we have already d
 broadly. Think of the full scope as a grid:
 every occupation we track (94) crossed with every state (50) —
 4,700 occupation/state cells in all. We've gotten law text saved for
-3,630 of them (77%).
+3,631 of them (77%).
 
 That is not the same as "100% coverage is easy and we're just behind" — finding the
 *right* law for a given occupation and state is often genuinely hard, not a checkbox.
@@ -130,9 +130,9 @@ Current state of the grid, as of generation:
 |---|---|---|
 | Published | 13 occupations | Site data built and ready to serve |
 | Extracted, not published | 72 occupations | Structured data exists for at least some states; publishing is a free command |
-| Ready to process | 2,001 occupation/state cells | Law text on disk; needs only the paid AI steps (~$0.20/cell, ~$390.80 for all of them) |
+| Ready to process | 2,002 occupation/state cells | Law text on disk; needs only the paid AI steps (~$0.20/cell, ~$390.40 for all of them) |
 | New occupation, not set up yet | 0 cells (8 occupations) | Law text on disk, but this occupation has never been processed before — see below |
-| Needs a fetch | 13 cells | Law located but text never pulled — requires the scraping setup |
+| Needs a fetch | 12 cells | Law located but text never pulled — requires the scraping setup |
 
 The 13 published occupations: architecture, construction_trades, dentistry, dietetics, electrician, hvac, medicine, nursing, optometry, plumbing, podiatry, professional_engineering, public_accountancy.
 
@@ -150,8 +150,12 @@ smaller than it used to be.)
 
 In effort terms:
 
-- **Free, minutes:** publish an occupation whose data is already extracted; re-run the
-  deterministic cleanup step.
+- **Free-to-cheap, minutes:** publish an occupation whose data is already extracted;
+  re-run the deterministic cleanup step. (When the underlying data actually changed,
+  publishing also runs two small automatic AI passes — an audit that double-checks
+  every "explicitly prohibited" claim against its quoted statute, and the category
+  bucketing for the site's filter columns — typically well under a dollar per
+  occupation. When nothing changed, they skip and publishing is free.)
 - **Cheap, no code:** run an already-fetched occupation/state through the two paid AI
   steps (about $0.20 per occupation/state cell). "Already fetched" means the
   raw statute text is saved in this repository — the AI steps just haven't been paid
@@ -196,7 +200,9 @@ project's Python environment):
    finished licensing-data viewer for the public.)
 3. **Runner** — `python -m pipeline.client.run …` — executes your picks:
    `clean` (free), `trim` and `extract` (the paid steps — each prints its cost
-   estimate and waits for a typed "yes" before spending anything), `publish` (free).
+   estimate and waits for a typed "yes" before spending anything), `publish`
+   (free when nothing changed; after a data change it also runs the two small
+   automatic AI passes described in section 3).
 
 Nothing in these tools fetches from the web or spends money on its own. The
 plain-English walkthrough, including re-fetching, is `CLIENT_GUIDE.md`.
@@ -219,7 +225,9 @@ Python.
 
 ## 6. What it costs — and what the costs depend on
 
-Three stages call an AI model and cost money; everything else is free:
+Three stages account for essentially all the AI spend (publishing after a data change
+adds the two small automatic passes from section 3 — budget well under a dollar per
+occupation for those; everything else is free):
 
 | Stage | Model used today | Est. cost |
 |---------------------------------------------|---------------------------------|----------|
@@ -274,9 +282,24 @@ Three things to understand about these numbers:
   (the law text) and its recipe (prompt + schema + model + code). The repo stamps
   every output and can tell you whether it's *current*, *stale* (an input or the
   recipe changed since it was built), or *unstamped* (built before tracking existed).
-  Right now: 1629 extracted cells — 985 current,
-  272 stale, 372 unstamped. The dashboard color-codes
+  Right now: 1629 extracted cells — 1 current,
+  1628 stale, 0 unstamped. The dashboard color-codes
   this.
+- **A big "stale" number is not necessarily rot — read the reason before reacting.**
+  Stale comes in two very different flavors, and `python -m pipeline.provenance report`
+  separates them: *input-stale* means the law text changed and the cell hasn't been
+  re-processed (drift worth chasing), while *recipe-stale* means a prompt/model/code
+  improvement was committed and the cells are simply queued for their scheduled
+  re-extraction wave (planned work — the data hasn't moved). A committed prompt
+  upgrade deliberately flips every cell recipe-stale at once; that's the system
+  working, not breaking.
+- **The pipeline refuses unsound runs instead of quietly producing junk.** Paid steps
+  are gated: extraction refuses to run against law text whose cleanup steps are out of
+  date (`STALE_UPSTREAM`), against a modified-but-uncommitted data template
+  (`SCHEMA_DIRTY`), or from a batch whose template changed after submission. Each
+  refusal says what to do in plain English, and `CLIENT_GUIDE.md`'s troubleshooting
+  table covers them — a gate firing means it caught something, not that something is
+  broken.
 - **Some blanks are deliberate.** A hand-verified list
   (`pipeline/config/verified_absences.yaml`) records occupation/state pairs where the
   state genuinely has no license — shown as "not state-regulated (verified)," distinct
@@ -296,7 +319,7 @@ Three things to understand about these numbers:
   replaced, and nobody had noticed because the page still "had text" on it). Both
   exist precisely because a wrong-but-confident-looking record is possible — running
   them, and reading what they flag, is the honest way to answer "how much can we
-  trust this," not the 985-current/272-stale/372-unstamped
+  trust this," not the 1-current/1628-stale/0-unstamped
   counts above on their own.
 
 ## 8. How this was built (Claude Code)

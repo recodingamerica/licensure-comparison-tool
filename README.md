@@ -57,8 +57,8 @@ commands (clean/trim/extract) that hide the stage details. See
 13 professions published end-to-end, all 50 states each: **architecture**, **construction_trades**, **dentistry**, **dietetics**, **electrician**, **hvac**, **medicine**, **nursing**, **optometry**, **plumbing**, **podiatry**, **professional_engineering**, **public_accountancy**.
 Live site: https://utah-licensing.vercel.app (behind HTTP Basic Auth).
 
-Across all 13: ~24,122 Evidence-wrapped claims; 98.6% regex-verified against
-source statute (as of 2026-07-22 — regenerate with `python -m pipeline.client.handoff_doc`,
+Across all 13: ~23,513 Evidence-wrapped claims; 99.2% regex-verified against
+source statute (as of 2026-07-30 — regenerate with `python -m pipeline.client.handoff_doc`,
 which reuses `pipeline.client.status.build()`, the single source of current
 per-profession counts and cost-to-finish).
 
@@ -66,7 +66,7 @@ per-profession counts and cost-to-finish).
 - **94** professions in the registry (`config/professions.yaml`) — every occupation we track.
 - **13** published — have a built site payload (`publish/web/public/data/<name>.json`).
 - **39** "core" — have ≥10 states extracted, so they're eligible to publish (`core_professions()`).
-- **3,218** (occupation, state) statute corpora fetched and committed under `results/text/`.
+- **3,219** (occupation, state) statute corpora fetched and committed under `results/text/`.
 - **50** states, always.
 
 <!-- STATUS:END -->

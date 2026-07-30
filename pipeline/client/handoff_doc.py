@@ -270,8 +270,12 @@ smaller than it used to be.)
 
 In effort terms:
 
-- **Free, minutes:** publish an occupation whose data is already extracted; re-run the
-  deterministic cleanup step.
+- **Free-to-cheap, minutes:** publish an occupation whose data is already extracted;
+  re-run the deterministic cleanup step. (When the underlying data actually changed,
+  publishing also runs two small automatic AI passes — an audit that double-checks
+  every "explicitly prohibited" claim against its quoted statute, and the category
+  bucketing for the site's filter columns — typically well under a dollar per
+  occupation. When nothing changed, they skip and publishing is free.)
 - **Cheap, no code:** run an already-fetched occupation/state through the two paid AI
   steps (about ${per_cell:.2f} per occupation/state cell). "Already fetched" means the
   raw statute text is saved in this repository — the AI steps just haven't been paid
@@ -316,7 +320,9 @@ project's Python environment):
    finished licensing-data viewer for the public.)
 3. **Runner** — `python -m pipeline.client.run …` — executes your picks:
    `clean` (free), `trim` and `extract` (the paid steps — each prints its cost
-   estimate and waits for a typed "yes" before spending anything), `publish` (free).
+   estimate and waits for a typed "yes" before spending anything), `publish`
+   (free when nothing changed; after a data change it also runs the two small
+   automatic AI passes described in section 3).
 
 Nothing in these tools fetches from the web or spends money on its own. The
 plain-English walkthrough, including re-fetching, is `CLIENT_GUIDE.md`.
@@ -339,7 +345,9 @@ Python.
 
 ## 6. What it costs — and what the costs depend on
 
-Three stages call an AI model and cost money; everything else is free:
+Three stages account for essentially all the AI spend (publishing after a data change
+adds the two small automatic passes from section 3 — budget well under a dollar per
+occupation for those; everything else is free):
 
 | Stage | Model used today | Est. cost |
 |---------------------------------------------|---------------------------------|----------|
@@ -397,6 +405,21 @@ Three things to understand about these numbers:
   Right now: {t["cells_done"]} extracted cells — {t["cells_current"]} current,
   {t["cells_stale"]} stale, {t["cells_unstamped"]} unstamped. The dashboard color-codes
   this.
+- **A big "stale" number is not necessarily rot — read the reason before reacting.**
+  Stale comes in two very different flavors, and `python -m pipeline.provenance report`
+  separates them: *input-stale* means the law text changed and the cell hasn't been
+  re-processed (drift worth chasing), while *recipe-stale* means a prompt/model/code
+  improvement was committed and the cells are simply queued for their scheduled
+  re-extraction wave (planned work — the data hasn't moved). A committed prompt
+  upgrade deliberately flips every cell recipe-stale at once; that's the system
+  working, not breaking.
+- **The pipeline refuses unsound runs instead of quietly producing junk.** Paid steps
+  are gated: extraction refuses to run against law text whose cleanup steps are out of
+  date (`STALE_UPSTREAM`), against a modified-but-uncommitted data template
+  (`SCHEMA_DIRTY`), or from a batch whose template changed after submission. Each
+  refusal says what to do in plain English, and `CLIENT_GUIDE.md`'s troubleshooting
+  table covers them — a gate firing means it caught something, not that something is
+  broken.
 - **Some blanks are deliberate.** A hand-verified list
   (`pipeline/config/verified_absences.yaml`) records occupation/state pairs where the
   state genuinely has no license — shown as "not state-regulated (verified)," distinct
