@@ -57,6 +57,7 @@ from pipeline.paths import (
     TEXT_DIR, CLEAN_DIR, TRIMMED_DIR, STRUCTURED_DIR, DISCOVERED_DIR,
     CONFIG_DIR, RESULTS_DIR, published_professions,
 )
+from pipeline import provenance
 from pipeline.config.loaders import load_corpus_overrides
 from pipeline.eval.corpus_drift import (
     audit_one as _drift_one, _active_official_sources, _index_nodes as _drift_index_nodes,
@@ -196,11 +197,19 @@ def audit_sync(idx) -> list[dict]:
             if not cpath:
                 flags.append("NEEDS_CLEAN")
             else:
-                # Real staleness is mtime-based: clean was rebuilt from an OLDER
-                # text (re-pull without re-clean). A plain count drop
-                # (clean_n < text_n) is NORMAL — clean_text dedups year-versions
-                # and drops empty sections — so it is deliberately NOT flagged.
-                if cpath.stat().st_mtime < tpath.stat().st_mtime - 1:
+                # Staleness = clean was built from an OLDER text (re-pull without
+                # re-clean). This USED to compare mtimes, which is not a content
+                # signal: git checkout/clone, a re-commit, any rewrite touches mtime
+                # without changing a byte. It reported 2,750 stale cells — 362 of them
+                # on published professions — while provenance's content hash said
+                # `current` for every one sampled. A gate that cries wolf thousands of
+                # times is a gate nobody runs, which is how a real corpus gap (WV
+                # optometry's missing laser article) survived unnoticed.
+                #
+                # provenance.check compares clean's stamped input_hash against the
+                # text on disk, so it flags only genuine drift. "unstamped" is a
+                # different condition (backfill, not re-clean) and isn't this flag.
+                if provenance.check("clean", prof, state) == "stale":
                     flags.append("STALE_CLEAN")
                 if clean_n == 0 and text_n:
                     flags.append("CLEAN_EMPTY")       # clean dropped everything

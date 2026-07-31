@@ -52,8 +52,7 @@ def _secs(n):
     return {"sections": [{"text": "x"} for _ in range(n)]}
 
 
-def test_sync_flags(tree):
-    import os
+def test_sync_flags(tree, monkeypatch):
     w = tree["write"]
     # healthy: clean newer than text, has structured
     w(tree["text"], "dietetics", "IA", _secs(3))
@@ -62,11 +61,15 @@ def test_sync_flags(tree):
     # NORMAL dedup drop (clean < text) — must NOT be flagged stale
     w(tree["text"], "dietetics", "GA", _secs(10))
     w(tree["clean"], "dietetics", "GA", _secs(7))
-    # truly stale: clean mtime older than text mtime
+    # truly stale: clean was built from an older text. This is now a CONTENT question
+    # (provenance's stamped input_hash vs the text on disk), not an mtime one — mtime
+    # moves on checkout/clone/re-commit without a byte changing, and reported 2,750
+    # stale cells where content said 4. Stub the content verdict for this one cell.
     w(tree["text"], "dietetics", "OH", _secs(5))
     w(tree["clean"], "dietetics", "OH", _secs(5))
-    os.utime(tree["clean"] / "dietetics" / "OH.json", (1, 1))
-    os.utime(tree["text"] / "dietetics" / "OH.json", (10**9, 10**9))
+    monkeypatch.setattr(ac.provenance, "check",
+                        lambda stage, prof, state=None: "stale"
+                        if (stage, prof, state) == ("clean", "dietetics", "OH") else "current")
     # clean dropped everything
     w(tree["text"], "dietetics", "NM", _secs(4))
     w(tree["clean"], "dietetics", "NM", _secs(0))
