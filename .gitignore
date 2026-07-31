@@ -58,7 +58,12 @@ pipeline/results/chapter_maps/
 !pipeline/publish/web/public/**/*.png
 .vercel
 pipeline/results/.refresh_manifest.json
-pipeline/results/.upload_manifest.json
+# .upload_manifest.json is deliberately TRACKED — it is the only record of what the
+# site has actually served. public/data/ is gitignored (build output, refilled from
+# Blob by the prebuild), so without this there is no way to answer "what did we ship
+# in July": when the scope matrix was found wrong in 124 cells, nothing could say how
+# long it had been wrong. 176 KB of content hashes; it changes on publish, which is
+# exactly the history we want.
 
 # CDP grind scratch (ephemeral; the _cdp_* batch drivers were removed — see refresh_corpus)
 pipeline/results/batches/*.log
