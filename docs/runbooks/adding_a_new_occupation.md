@@ -6,7 +6,8 @@ The cheap/deterministic stages are safe to re-run; the **LLM stages** (extract,
 map_prep) cost money and run deliberately.
 
 > TL;DR for a profession that already has a `professions.yaml` entry and pulled
-> corpora (like the 4 trades): **map_prep → edit `build_state_browse.py` → `refresh_all --professions … --deploy`.** Everything earlier is already done.
+> corpora (like the 4 trades): **map_prep → `refresh_all --professions … --deploy`.**
+> Everything earlier is already done, and the browse list now derives itself.
 
 ---
 
@@ -80,8 +81,10 @@ map_prep) cost money and run deliberately.
   the 7 already-published professions.
 
 ## 6. Build payloads + publish (deterministic)
-- **Required edit:** `pipeline/publish/build_state_browse.py` `PROFESSIONS` list —
-  add the new profession (this is the one hardcoded list; per-state browse needs it).
+- **No edit needed for per-state browse.** `build_state_browse.PROFESSIONS` used to be a
+  hand-maintained literal you had to remember to update; it's now derived from
+  `paths.published_professions()` (dietetics shipped without it once and was missing from
+  every browse blob). Guarded by `tests/test_published_professions.py`.
 - **Optional:** `pipeline/publish/web/src/app/reports/scorecard/page.tsx`
   `PROFESSION_LABELS` — add a short label (else the scorecard shows the raw key).
 - `python -m pipeline.publish.refresh_all --professions <P …> [--deploy]`
@@ -111,5 +114,5 @@ map_prep) cost money and run deliberately.
 ### Quick checklist
 1. `professions.yaml` entry exists  2. matched → `profession_index`
 3. text pulled (+ umbrella merged)  4. clean→trim→extract, ≥10 states, consistency clean
-5. `map_prep.run <P>`  6. add to `build_state_browse.py` PROFESSIONS (+ scorecard label)
+5. `map_prep.run <P>`  6. (optional) scorecard label
 7. `refresh_all --professions <P …> --deploy`  8. verify on the live site

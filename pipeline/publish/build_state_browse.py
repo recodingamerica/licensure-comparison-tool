@@ -1,9 +1,9 @@
 """Produce per-state aggregate blobs for the /browse/<state> view.
 
 The per-profession /browse/<state>/<prof> view ships only ONE profession's
-sections. This view aggregates across all six professions: every umbrella
-section for a state PLUS every profession's practice-act sections, all in
-one blob the page can filter client-side.
+sections. This view aggregates across every PUBLISHED profession (see
+PROFESSIONS below): every umbrella section for a state PLUS every profession's
+practice-act sections, all in one blob the page can filter client-side.
 
 Output: pipeline/publish/web/public/data/state/<XX>.json + uploaded to
 Vercel Blob under the same path. One blob per state, ~3-8 MB depending on
@@ -32,6 +32,7 @@ from __future__ import annotations
 import argparse
 import json
 import logging
+import sys
 from pathlib import Path
 from typing import Any
 
@@ -49,7 +50,9 @@ from pipeline.scope.merged_scope import merged_scope_by_url
 from pipeline.publish.blob_upload import upload_json
 from pipeline.publish._browse_tree import build_tree
 from pipeline.publish._justia_clean import clean_justia_text
-from pipeline.paths import RESULTS_DIR, TRIMMED_DIR, STRUCTURED_DIR
+from pipeline.paths import (
+    RESULTS_DIR, TRIMMED_DIR, STRUCTURED_DIR, WEB_DATA_DIR, published_professions,
+)
 from pipeline.config.states import ALL_STATES
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
@@ -57,11 +60,13 @@ log = logging.getLogger("build_state_browse")
 
 UMBRELLA_TEXT_DIR = RESULTS_DIR / "umbrella_text"
 
-PROFESSIONS = [
-    "podiatry", "nursing", "medicine", "dentistry", "optometry", "public_accountancy",
-    "construction_trades", "electrician", "plumbing", "hvac",
-    "architecture", "professional_engineering",
-]
+# Derived, never hand-maintained: the browse view is a companion to the published site,
+# so it tracks exactly the professions that have a built payload. As a literal list this
+# fell a profession behind — dietetics was published but absent from every per-state
+# browse blob, because adding an occupation meant remembering to edit this line.
+# Safe to evaluate at import: run_fanout builds every payload BEFORE build_state_browse
+# runs, so a newly-published profession is already on disk by the time we read it.
+PROFESSIONS = published_professions()
 
 
 def _load_scope_lookup(state: str) -> dict[str, dict]:
@@ -189,8 +194,8 @@ def build_state(state: str) -> dict[str, Any] | None:
                 applies_to = None  # explicit: applies to all
             elif is_enumeration(scope_source):
                 audience = "multi"
-                # Filter applies_to to the professions we actually track
-                # (the scope assigner may emit names beyond our 6).
+                # Filter applies_to to the professions we actually publish
+                # (the scope assigner may emit names beyond that set).
                 if applies_to:
                     applies_to = [p for p in applies_to if p in PROFESSIONS]
                 if not applies_to:
@@ -298,7 +303,7 @@ def build_state(state: str) -> dict[str, Any] | None:
 
 
 def write_and_upload(state: str, payload: dict, *, upload: bool = True) -> None:
-    out_dir = Path(__file__).resolve().parent / "web" / "public" / "data" / "state"
+    out_dir = WEB_DATA_DIR / "state"
     out_dir.mkdir(parents=True, exist_ok=True)
     out_path = out_dir / f"{state}.json"
     body = json.dumps(payload, indent=2)
@@ -336,6 +341,17 @@ def main() -> None:
     ap.add_argument("--skip-index", action="store_true",
                     help="Don't rebuild /states.json (use when running one state)")
     args = ap.parse_args()
+
+    # PROFESSIONS derives from public/data/, which is GITIGNORED — on a fresh clone it's
+    # empty until a publish runs, and an empty list would quietly write 50 blobs with no
+    # practice-act sections at all. Fail loud instead: an empty read here means the
+    # previous stage didn't run (the same contract paths.py states for every stage dir).
+    if not PROFESSIONS:
+        sys.exit(
+            f"no published payloads in {WEB_DATA_DIR} — nothing to build a browse view "
+            "from. Run `python -m pipeline.publish.build_frontend` (or refresh_all, which "
+            "sequences both) first."
+        )
 
     states = [args.state.upper()] if args.state else list(ALL_STATES)
     upload = not args.no_upload

@@ -26,10 +26,10 @@ from pathlib import Path
 
 from openpyxl import Workbook
 
-from pipeline.paths import CLEAN_DIR, STRUCTURED_DIR, PIPELINE_ROOT
+from pipeline.paths import CLEAN_DIR, STRUCTURED_DIR, PIPELINE_ROOT, WEB_DATA_DIR
 from pipeline.config.loaders import all_profession_ids
 
-DATA_DIR = PIPELINE_ROOT / "publish" / "web" / "public" / "data"
+DATA_DIR = WEB_DATA_DIR   # alias kept: tests monkeypatch this module's DATA_DIR
 EXPORT_DIR = PIPELINE_ROOT / "results" / "exports"
 XLSX_CELL_MAX = 32000                       # Excel's hard limit is 32,767 chars/cell
 _ILLEGAL = re.compile(r"[\x00-\x08\x0b\x0c\x0e-\x1f]")   # control chars openpyxl rejects
@@ -73,10 +73,10 @@ def _walk_evidence(node, path: str, out: list[dict]) -> None:
 
 
 def _published_professions() -> list[str]:
-    """Professions with a published payload on disk (registry-intersect, so artifacts like
-    scorecard/tag_sheet are never treated as professions)."""
-    registry = set(all_profession_ids())
-    return sorted(f.stem for f in DATA_DIR.glob("*.json") if f.stem in registry)
+    """Professions with a published payload on disk — see
+    `pipeline.paths.published_professions`, the one implementation."""
+    from pipeline.paths import published_professions
+    return published_professions(DATA_DIR)
 
 
 def _write(sheets: list[tuple[str, list[str], list[dict]]], out_path: Path) -> dict:

@@ -23,8 +23,23 @@ the matcher.
 
 ## Pipeline stages
 
-There are four conceptual stages. Each writes its outputs to a fresh
-directory under `pipeline/results/` and is independently re-runnable.
+Four *conceptual* groups (below), but the executable chain is **nine stages**, declared
+once as the `STAGES` table in `pipeline/pipeline_stages.py` — that table, not this
+document, is the source of truth for order:
+
+```
+pull → clean → trim → schema → extract → verify → mapprep → publish → fanout
+cell    cell    cell    prof     cell      prof      prof      prof     global
+```
+
+`run_to(target, prof, states, *, start=...)` walks the ordered prefix and runs only the
+units provenance reports as not-current, so ordering is correct by construction and a
+re-run after a partial failure never redoes finished work. Every entry path
+(`refresh_all`, `client/run`, `add_occupation`, the `--queue` batch re-extract, the
+`refresh_corpus` annual loop) is a thin caller of it. See
+`docs/runbooks/pipeline_run_order.md`.
+
+Grouped by what they do, and where each writes under `pipeline/results/`:
 
 ```
 discover ── ingest ── extract ── publish
@@ -32,6 +47,7 @@ discover ── ingest ── extract ── publish
    │           │         │          └─ public/data/<profession>.json
    │           │         └─ structured/<profession>/<STATE>.json
    │           └─ text/<profession>/<STATE>.json
+   │             clean/, trimmed/<profession>/<STATE>.json
    │             umbrella_text/<STATE>.json
    └─ hierarchy/<STATE>.json
      licensing_titles/<STATE>.json

@@ -35,14 +35,14 @@ import logging
 from collections import defaultdict
 from pathlib import Path
 
-from pipeline.paths import RESULTS_DIR
+from pipeline.paths import RESULTS_DIR, WEB_DATA_DIR
 from pipeline._records import record_files
 from pipeline.scope.scope_sources import is_universal, is_enumeration
 from pipeline.scope.merged_scope import load_merged_scope
 from pipeline.discover._profession_reverse_index import build_reverse_index
 
 UMBRELLA_TEXT_DIR = RESULTS_DIR / "umbrella_text"
-OUT_DIR = Path(__file__).resolve().parent / "web" / "public" / "data" / "umbrella"
+OUT_DIR = WEB_DATA_DIR / "umbrella"
 # Derived inside main() so test monkeypatching of OUT_DIR flows through.
 
 # Length of section text kept inline for the browse view. Full text is in

@@ -71,7 +71,10 @@ def _extract_compacts(record: dict) -> list[str]:
     return sorted(found)
 
 
-from pipeline.paths import STRUCTURED_DIR, DISCOVERED_DIR, TRIMMED_DIR, RESULTS_DIR, MAP_PREP_DIR, CONFIG_DIR
+from pipeline.paths import (
+    STRUCTURED_DIR, DISCOVERED_DIR, TRIMMED_DIR, RESULTS_DIR, MAP_PREP_DIR, CONFIG_DIR,
+    WEB_DATA_DIR,
+)
 from pipeline._records import record_files
 from pipeline._runlog import record_run
 import yaml  # noqa: E402 — still needed for publish_options.yaml (out-of-scope for R2)
@@ -1311,7 +1314,7 @@ def main() -> None:
     # so the main profile blob stays small. The table view loads the main
     # blob; the /browse route loads only the state it needs. Without this,
     # nursing alone is 67 MB — unacceptable for table-page load.
-    data_dir = Path(__file__).resolve().parent / "web" / "public" / "data"
+    data_dir = WEB_DATA_DIR
     browse_dir = data_dir / profession / "browse"
     browse_dir.mkdir(parents=True, exist_ok=True)
     browse_total = browse_cached = 0

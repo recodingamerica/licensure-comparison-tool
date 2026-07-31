@@ -22,27 +22,24 @@ import shutil
 import subprocess
 from urllib.parse import urlparse
 
-from pipeline.paths import TEXT_DIR, PIPELINE_ROOT
+from pipeline.paths import TEXT_DIR, PIPELINE_ROOT, WEB_DATA_DIR
 from pipeline.client import status
 from pipeline.ingest.trim_state import DEFAULT_MODEL as TRIM_MODEL
 from pipeline.extract.extract_state_batch import DEFAULT_MODEL as EXTRACT_MODEL
 from pipeline.extract.discover_schema import DEFAULT_MODEL as SCHEMA_MODEL
 
 REPO_ROOT = PIPELINE_ROOT.parent
-DATA_DIR = PIPELINE_ROOT / "publish" / "web" / "public" / "data"
+DATA_DIR = WEB_DATA_DIR   # alias kept: tests monkeypatch this module's DATA_DIR
 OUT_DIR = REPO_ROOT / "docs" / "handoff"
 
 
 def _published() -> list[str]:
-    """Professions with a site payload built in the repo. Intersected with the registry
-    (`professions.yaml`) so cross-profession artifacts that also live in data/ — scorecard,
-    tag_sheet, scope_capabilities, and any future one — can never be miscounted as a
-    published profession. An allowlist that auto-corrects, vs. a blocklist that rots (a new
-    artifact once got counted as a profession because it wasn't added to the exclusion set).
-    (The live site shows whatever was last deployed; this is what publish produced locally.)"""
-    from pipeline.config.loaders import all_profession_ids
-    registry = set(all_profession_ids())
-    return sorted(f.stem for f in DATA_DIR.glob("*.json") if f.stem in registry)
+    """Professions with a site payload built in the repo — see
+    `pipeline.paths.published_professions`, the one implementation.
+    (The live site shows whatever was last deployed; this is what publish produced
+    locally.) DATA_DIR is read at call time so tests can point it at a tmp dir."""
+    from pipeline.paths import published_professions
+    return published_professions(DATA_DIR)
 
 
 def _evidence_totals() -> tuple[int, int]:

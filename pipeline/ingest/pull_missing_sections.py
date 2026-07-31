@@ -34,15 +34,13 @@ from pathlib import Path
 from pipeline.extract.locate_quote import locate_quote_in_section
 from pipeline.extract.model_helpers import iter_quote_carriers
 from pipeline.ingest.pull_text import _fetch_section_text, polite_sleep
-from pipeline.paths import RESULTS_DIR
+from pipeline.paths import RESULTS_DIR, WEB_DATA_DIR, published_professions
 
 log = logging.getLogger(__name__)
 
-PUBLISHED_DIR = Path("pipeline/publish/web/public/data")
-NON_PROFESSION = {
-    "tag_sheet", "scope_matrices", "scope_capabilities", "states",
-    "scorecard", "downloads_index", "_skiptest",
-}
+# Was a repo-root-RELATIVE Path, so this module silently found zero payloads (and
+# reported "nothing wanted") whenever it ran from anywhere but the repo root.
+PUBLISHED_DIR = WEB_DATA_DIR
 # Attempts per wanted section. Each is one polite Justia fetch, so this bounds the cost of
 # a target whose siblings all sit under a different sub-path.
 MAX_CANDIDATES = 4
@@ -76,10 +74,11 @@ def wanted_sections(published_dir: Path = PUBLISHED_DIR) -> dict:
     A citation is WANTED when a quote cites it and no shipped section answers to it.
     """
     want: dict = defaultdict(lambda: defaultdict(lambda: {"quotes": [], "siblings": []}))
-    for f in sorted(published_dir.glob("*.json")):
-        prof = f.stem
-        if prof in NON_PROFESSION:
-            continue
+    # Registry-intersect ALLOWLIST, not a hand-kept blocklist of artifact names: a new
+    # cross-profession artifact in data/ used to be treated as a profession until someone
+    # remembered to add it to the blocklist. See paths.published_professions.
+    for prof in published_professions(published_dir):
+        f = published_dir / f"{prof}.json"
         try:
             data = json.loads(f.read_text())
         except Exception:

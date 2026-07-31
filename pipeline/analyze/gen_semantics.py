@@ -27,6 +27,8 @@ from typing import Literal
 import yaml
 from pydantic import BaseModel, Field
 
+from pipeline.paths import WEB_DATA_DIR
+
 REPO = Path(__file__).resolve().parents[2]
 from pipeline._env import load_env
 load_env()
@@ -36,7 +38,7 @@ from pipeline.config.loaders import model_for
 
 log = logging.getLogger(__name__)
 
-DATA_DIR = REPO / "pipeline" / "publish" / "web" / "public" / "data"
+DATA_DIR = WEB_DATA_DIR
 OUT_DIR = REPO / "pipeline" / "config" / "field_semantics"
 MODEL = model_for("semantics")
 

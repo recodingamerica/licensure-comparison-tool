@@ -39,8 +39,10 @@ from pathlib import Path
 
 import yaml
 
+from pipeline.paths import WEB_DATA_DIR
+
 REPO = Path(__file__).resolve().parents[2]
-DATA_DIR = REPO / "pipeline" / "publish" / "web" / "public" / "data"
+DATA_DIR = WEB_DATA_DIR
 SEM_PATH = REPO / "pipeline" / "config" / "field_semantics.yaml"
 SEM_PROF_DIR = REPO / "pipeline" / "config" / "field_semantics"
 OUT_DIR = REPO / "pipeline" / "results" / "analysis"

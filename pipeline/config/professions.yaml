@@ -634,6 +634,9 @@ public_adjuster:
   display: Public Insurance Adjuster
   family:
   - business
+  # Past the >=10-state core threshold on count alone (11/50), but too sparse to sit
+  # beside the published set in the scorecard/tag sheet. Excluded per issue #121.
+  publish: false
   patterns:
   - public adjuster
   - public insurance adjuster

@@ -55,19 +55,18 @@ import yaml
 
 from pipeline.paths import (
     TEXT_DIR, CLEAN_DIR, TRIMMED_DIR, STRUCTURED_DIR, DISCOVERED_DIR,
-    CONFIG_DIR, RESULTS_DIR,
+    CONFIG_DIR, RESULTS_DIR, published_professions,
 )
 from pipeline.config.loaders import load_corpus_overrides
 from pipeline.eval.corpus_drift import (
     audit_one as _drift_one, _active_official_sources, _index_nodes as _drift_index_nodes,
 )
 
-# The 7 professions with published map/blob payloads (per CLAUDE.md). Kept here
-# explicitly because there is no single in-code constant for them.
-PUBLISHED = {
-    "dentistry", "dietetics", "medicine", "nursing",
-    "optometry", "podiatry", "public_accountancy",
-}
+# Professions with a published payload. This WAS a hand-kept set of 7 ("kept here
+# explicitly because there is no single in-code constant for them") — by the time
+# anyone noticed there were 13, so this report filed 6 published professions under
+# OTHER_HELDOUT. There is now a single constant: paths.published_professions().
+PUBLISHED = set(published_professions())
 
 STAGE_DIRS = {
     "text": TEXT_DIR,

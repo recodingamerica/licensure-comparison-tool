@@ -73,10 +73,17 @@ extract_state → results/structured/ (reads trimmed/ — the structured records
 build_frontend → publish/web/public/data/ + Vercel blob (the published payload)
 ```
 
-**Re-extract gotcha:** after re-pulling or locally transforming `text/`, you must
-re-run **clean → trim → extract** in full. Skipping `clean_text` silently leaves
-`clean/` (and therefore `trimmed/`) stale, so the new text never reaches the
-model. Symptom: `text/` section count != `clean/` section count.
+**Re-extract gotcha — now automated; the danger is the BY-HAND path.** After re-pulling
+or locally transforming `text/`, **clean → trim → extract** must all re-run. Skipping
+`clean_text` silently leaves `clean/` (and therefore `trimmed/`) stale, so the new text
+never reaches the model. Symptom: `text/` section count != `clean/` section count.
+
+You do NOT have to sequence this yourself if you use the runner: `run_to` walks the
+ordered `STAGES` prefix and re-runs whatever provenance says is stale, so fresh `text/`
+re-cleans automatically. The gotcha bites in exactly two cases — invoking the stage
+modules **by hand**, or passing `--start` to skip ahead (which is what `--start` is FOR,
+so it warns rather than errors; see the comment at `pipeline_stages.run_to`). Prefer the
+runner and this class of bug can't happen.
 
 Run modules from the repo root with the project venv, e.g.
 `pipeline/.venv/bin/python -m pipeline.ingest.pull_text --profession dietetics --states IA`.

@@ -5,6 +5,7 @@ import json
 import openpyxl
 
 from pipeline.client import export_data as ed
+from pipeline.config import loaders
 
 
 def _setup(tmp_path, monkeypatch):
@@ -24,7 +25,9 @@ def _setup(tmp_path, monkeypatch):
     monkeypatch.setattr(ed, "DATA_DIR", data)
     monkeypatch.setattr(ed, "STRUCTURED_DIR", struct)
     monkeypatch.setattr(ed, "CLEAN_DIR", clean)
-    monkeypatch.setattr(ed, "all_profession_ids", lambda: ["optometry"])
+    # Patch the registry at its source: _published_professions now delegates to
+    # pipeline.paths.published_professions, which imports this lazily at call time.
+    monkeypatch.setattr(loaders, "all_profession_ids", lambda: ["optometry"])
 
 
 def test_export_occupation_three_sheets(tmp_path, monkeypatch):

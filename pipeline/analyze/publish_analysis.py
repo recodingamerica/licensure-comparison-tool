@@ -15,9 +15,11 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
+from pipeline.paths import WEB_DATA_DIR
+
 REPO = Path(__file__).resolve().parents[2]
 SRC = REPO / "pipeline" / "results" / "analysis"
-DST = REPO / "pipeline" / "publish" / "web" / "public" / "data" / "analysis"
+DST = WEB_DATA_DIR / "analysis"
 
 
 def main() -> int:
