@@ -9,7 +9,7 @@
     "states_matched": 50,
     "states_total": 50,
     "overrides_used": 9,
-    "mapping_overrides_used": 3
+    "mapping_overrides_used": 4
   },
   "by_state": {
     "AL": {
@@ -383,28 +383,12 @@
     "NJ": {
       "matched": [
         {
-          "url": "https://law.justia.com/codes/new-jersey/title-45/chapter-1/",
-          "label": "",
-          "slug": "",
-          "via": "nj_mapping_repair"
-        },
-        {
-          "url": "https://law.justia.com/codes/new-jersey/title-45/chapter-12/",
-          "label": "",
-          "slug": "",
-          "via": "nj_mapping_repair"
-        },
-        {
-          "url": "https://law.justia.com/codes/new-jersey/title-45/chapter-12a/",
-          "label": "",
-          "slug": "",
-          "via": "nj_mapping_repair"
-        },
-        {
-          "url": "https://law.justia.com/codes/new-jersey/title-45/chapter-12b/",
-          "label": "",
-          "slug": "",
-          "via": "nj_mapping_repair"
+          "label": "NJ Title 45 Ch 1 (Uniform Enforcement Act) + Ch 12 (incl. 12A) Optometry",
+          "url": "https://law.justia.com/codes/new-jersey/title-45/",
+          "slug": "title-45",
+          "via": "state_structure",
+          "note": "",
+          "section_slug_pattern": "^section-45-(1-\\d|12[a-c]?-\\d)"
         }
       ]
     },
@@ -673,6 +657,13 @@
           "label": "Article 8. Optometrists",
           "url": "https://law.justia.com/codes/west-virginia/chapter-30/article-8/",
           "slug": "article-8"
+        },
+        {
+          "label": "Article 8B. Laser Procedures",
+          "url": "https://law.justia.com/codes/west-virginia/chapter-30/article-8b/",
+          "slug": "article-8b",
+          "via": "sibling_article_xref",
+          "note": "WV 30-8-8 grants laser authority by reference (\"as outlined in section 30-8B-1 et seq.\"), so the optometry act alone reads silent on every laser procedure. Found by scanning corpora for cited sibling articles we don't hold."
         }
       ]
     },
