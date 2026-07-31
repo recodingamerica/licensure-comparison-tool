@@ -41,12 +41,12 @@
     },
     "education": {
       "degree_required": {
-        "value": "Doctor of medicine from an accredited medical school, or doctor of osteopathy from an accredited school of osteopathy",
+        "value": "Doctor of Medicine or Doctor of Osteopathy",
         "quote": "Have a degree of doctor of medicine from a medical school that is accredited by an accrediting organization that the Board recognizes in its regulations",
         "citation": "14-307"
       },
       "accrediting_body": {
-        "value": "Accrediting organization recognized by the Board in its regulations (LCME for MD; AOA-equivalent for DO)",
+        "value": "Accrediting organization recognized by the Board in its regulations",
         "quote": "a medical school that is accredited by an accrediting organization that the Board recognizes in its regulations",
         "citation": "14-307"
       },
@@ -57,7 +57,7 @@
       },
       "school_approval_basis": {
         "value": "board_approved",
-        "quote": "a medical school that is accredited by an accrediting organization that the Board recognizes in its regulations",
+        "quote": "accredited by an accrediting organization that the Board recognizes in its regulations",
         "citation": "14-307"
       },
       "credential_pegged": {
@@ -65,7 +65,29 @@
         "quote": "Have a degree of doctor of medicine from a medical school that is accredited by an accrediting organization that the Board recognizes in its regulations",
         "citation": "14-307"
       },
-      "tiers": null
+      "tiers": [
+        {
+          "license_class": "MD degree (allopathic)",
+          "degree_level": "doctorate",
+          "effective_date": null,
+          "quote": "Have a degree of doctor of medicine from a medical school that is accredited by an accrediting organization that the Board recognizes in its regulations",
+          "citation": "14-307"
+        },
+        {
+          "license_class": "DO degree (osteopathic)",
+          "degree_level": "doctorate",
+          "effective_date": null,
+          "quote": "Have a degree of doctor of osteopathy from a school of osteopathy in the United States, its territories or possessions, Puerto Rico, or Canada that has standards for graduation equivalent to those established by the American Osteopathic Association",
+          "citation": "14-307"
+        },
+        {
+          "license_class": "Foreign medical graduate (alternative pathway)",
+          "degree_level": "doctorate",
+          "effective_date": null,
+          "quote": "Is certified by the Educational Commission for Foreign Medical Graduates or by its successor as approved by the Board",
+          "citation": "14-308"
+        }
+      ]
     },
     "post_degree_experience": {
       "required": {
@@ -93,7 +115,7 @@
       {
         "name": "United States Medical Licensing Examination (USMLE)",
         "required": true,
-        "notes": "Applicant must attain a passing score as set by the Board; alternatively may hold a certificate of proficiency from the National Board of Medical Examiners or equivalent.",
+        "notes": "Applicant must attain a passing score as set by the Board. Applicants who fail 3 or more times face additional requirements.",
         "jurisdiction": "national (USMLE)",
         "permitted_attempts": null,
         "quote": "Attain on the federation licensing examination or the United States Medical Licensing Examination a passing score as set by the Board under its rules and regulations",
@@ -102,16 +124,34 @@
       {
         "name": "National Board of Medical Examiners certificate",
         "required": false,
-        "notes": "Alternative to USMLE passing score; certificate of proficiency and professional standing accepted in lieu of examination.",
+        "notes": "Alternative to passing the USMLE; accepted in lieu of examination if certificate issued",
         "jurisdiction": "national (NBME)",
         "permitted_attempts": null,
         "quote": "Hold a certificate of proficiency and professional standing of: The National Board of Medical Examiners",
+        "citation": "14-311"
+      },
+      {
+        "name": "National Board of Examiners for Osteopathic Physicians and Surgeons certificate",
+        "required": false,
+        "notes": "Alternative to USMLE for osteopathic physicians; must be issued after January 1, 1971",
+        "jurisdiction": "national (NBEO)",
+        "permitted_attempts": null,
+        "quote": "The National Board of Examiners for Osteopathic Physicians and Surgeons, if the certificate is issued after January 1, 1971",
+        "citation": "14-311"
+      },
+      {
+        "name": "Licentiate of the Medical Council of Canada",
+        "required": false,
+        "notes": "Alternative to USMLE for Canadian graduates",
+        "jurisdiction": "national (Medical Council of Canada)",
+        "permitted_attempts": null,
+        "quote": "The Licentiate of the Medical Council of Canada.",
         "citation": "14-311"
       }
     ],
     "renewal": {
       "interval_years": {
-        "value": 3,
+        "value": 2,
         "quote": "The term of a license issued by the Board may not exceed 3 years.",
         "citation": "14-316"
       }
@@ -134,9 +174,10 @@
         "citation": "14-307"
       },
       "requirements": {
-        "value": "Applicant must have been licensed in another jurisdiction under substantially equivalent requirements, be in good standing, submit an application, pay a fee, and the other jurisdiction must offer similar reciprocal licensing for Maryland licensees.",
-        "quote": "Became licensed or certified as a physician in another jurisdiction under requirements that the Board determines are substantially equivalent to the licensing requirements of this title; Is in good standing under the laws of the other jurisdiction",
-        "citation": "14-307"
+        "value": "Applicant must have been licensed in another jurisdiction under substantially equivalent requirements, be in good standing, submit application, pay fee, and the other jurisdiction must offer similar reciprocal licensing for Maryland licensees.",
+        "quote": "Became licensed or certified as a physician in another jurisdiction under requirements that the Board determines are substantially equivalent to the licensing requirements of this title; Is in good standing under the laws of the other jurisdiction; Submits an application to the Board on a form that the Board requires; and Pays to the Board an application fee set by the Board; and the jurisdiction in which the applicant is licensed or certified offers a similar reciprocal licensing process",
+        "citation": "14-307",
+        "unverified": true
       }
     },
     "advisory_board": {
@@ -149,14 +190,14 @@
       "authority": null
     },
     "national_certification": {
-      "value": "National Board of Medical Examiners (NBME); National Board of Examiners for Osteopathic Physicians and Surgeons",
-      "quote": "Hold a certificate of proficiency and professional standing of: The National Board of Medical Examiners",
-      "citation": "14-311"
+      "value": "Educational Commission for Foreign Medical Graduates (ECFMG)",
+      "quote": "Is certified by the Educational Commission for Foreign Medical Graduates or by its successor as approved by the Board",
+      "citation": "14-308"
     },
     "national_association": {
-      "value": "American Board of Medical Specialties; American Osteopathic Association",
-      "quote": "Is: A member of the American Board of Medical Specialties; An American Osteopathic Association certifying board",
-      "citation": "14-101"
+      "value": "American Osteopathic Association",
+      "quote": "standards for graduation equivalent to those established by the American Osteopathic Association",
+      "citation": "14-307"
     },
     "regulatory_model": {
       "value": "license",
@@ -165,17 +206,17 @@
     },
     "credential_type": {
       "value": "license",
-      "quote": "\"License\" means, unless the context requires otherwise, a license issued by the Board to practice medicine.",
+      "quote": "a license issued by the Board to practice medicine",
       "citation": "14-101"
     },
     "is_mandatory": {
       "value": true,
-      "quote": "A person may not practice, attempt to practice, or offer to practice medicine in the State unless licensed by the Board",
+      "quote": "Except as otherwise provided in this title: A person may not practice, attempt to practice, or offer to practice medicine in the State unless licensed by the Board",
       "citation": "14-601"
     },
     "title_protection": {
       "value": true,
-      "quote": "a person may not use the words or terms \"Dr.\", \"doctor\", \"physician\", \"D.O.\", or \"M.D.\" with the intent to represent that the person practices medicine, unless the person is: Licensed to practice medicine under this title",
+      "quote": "Unless authorized to practice medicine under this title, a person may not represent to the public, by description of services, methods, or procedures, or otherwise, that the person is authorized to practice medicine in this State.",
       "citation": "14-602"
     },
     "scope_protection": {
@@ -186,249 +227,273 @@
     "disciplinary_grounds": [
       {
         "short_label": "fraud_in_obtaining_license",
-        "description": "Fraudulently or deceptively obtains or attempts to obtain a license",
+        "description": "Fraudulently or deceptively obtaining or attempting to obtain a license",
         "quote": "Fraudulently or deceptively obtains or attempts to obtain a license for the applicant or licensee or for another",
         "citation": "14-404"
       },
       {
         "short_label": "fraudulent_use_of_license",
-        "description": "Fraudulently or deceptively uses a license",
+        "description": "Fraudulently or deceptively using a license",
         "quote": "Fraudulently or deceptively uses a license",
         "citation": "14-404"
       },
       {
         "short_label": "immoral_or_unprofessional_conduct",
-        "description": "Guilty of immoral or unprofessional conduct in the practice of medicine",
+        "description": "Immoral or unprofessional conduct in the practice of medicine",
         "quote": "Is guilty of: Immoral conduct in the practice of medicine; or Unprofessional conduct in the practice of medicine",
         "citation": "14-404"
       },
       {
         "short_label": "professional_physical_mental_incompetence",
-        "description": "Is professionally, physically, or mentally incompetent",
+        "description": "Professional, physical, or mental incompetence",
         "quote": "Is professionally, physically, or mentally incompetent",
         "citation": "14-404"
       },
       {
+        "short_label": "illegal_solicitation_advertising",
+        "description": "Soliciting or advertising in violation of statute",
+        "quote": "Solicits or advertises in violation of \u00a7 14\u2013503 of this title",
+        "citation": "14-404"
+      },
+      {
         "short_label": "patient_abandonment",
-        "description": "Abandons a patient",
+        "description": "Abandonment of a patient",
         "quote": "Abandons a patient",
         "citation": "14-404"
       },
       {
         "short_label": "habitual_intoxication",
-        "description": "Habitually is intoxicated",
+        "description": "Habitual intoxication",
         "quote": "Habitually is intoxicated",
         "citation": "14-404"
       },
       {
-        "short_label": "narcotic_addiction",
-        "description": "Is addicted to or habitually abuses any narcotic or controlled dangerous substance",
-        "quote": "Is addicted to, or habitually abuses, any narcotic or controlled dangerous substance as defined in § 5–101 of the Criminal Law Article",
+        "short_label": "narcotic_controlled_substance_addiction",
+        "description": "Addiction to or habitual abuse of narcotic or controlled dangerous substance",
+        "quote": "Is addicted to, or habitually abuses, any narcotic or controlled dangerous substance as defined in \u00a7 5\u2013101 of the Criminal Law Article",
         "citation": "14-404"
       },
       {
         "short_label": "practicing_under_influence",
-        "description": "Provides professional services while under the influence of alcohol or drugs",
+        "description": "Providing professional services while under the influence of alcohol or controlled substances",
         "quote": "Provides professional services: While under the influence of alcohol; or While using any narcotic or controlled dangerous substance",
         "citation": "14-404"
       },
       {
         "short_label": "exploiting_patient_for_financial_gain",
-        "description": "Promotes the sale of drugs, devices, or goods to a patient to exploit the patient for financial gain",
+        "description": "Promoting sale of drugs, devices, or goods to a patient to exploit for financial gain",
         "quote": "Promotes the sale of drugs, devices, appliances, or goods to a patient so as to exploit the patient for financial gain",
         "citation": "14-404"
       },
       {
         "short_label": "false_report_or_record",
-        "description": "Willfully makes or files a false report or record in the practice of medicine",
+        "description": "Willfully making or filing a false report or record in the practice of medicine",
         "quote": "Willfully makes or files a false report or record in the practice of medicine",
         "citation": "14-404"
       },
       {
         "short_label": "failure_to_file_medical_report",
-        "description": "Willfully fails to file or record any medical report as required under law",
+        "description": "Willfully failing to file or record a medical report as required by law",
         "quote": "Willfully fails to file or record any medical report as required under law, willfully impedes or obstructs the filing or recording of the report, or induces another to fail to file or record the report",
         "citation": "14-404"
       },
       {
-        "short_label": "failure_to_provide_medical_records",
-        "description": "Fails to provide details of a patient's medical record on proper request",
-        "quote": "On proper request, and in accordance with the provisions of Title 4, Subtitle 3 of the Health – General Article, fails to provide details of a patient's medical record to the patient, another physician, or hospital",
+        "short_label": "failure_to_provide_patient_records",
+        "description": "Failing to provide details of a patient's medical record on proper request",
+        "quote": "On proper request, and in accordance with the provisions of Title 4, Subtitle 3 of the Health \u2013 General Article, fails to provide details of a patient's medical record to the patient, another physician, or hospital",
         "citation": "14-404"
       },
       {
         "short_label": "soliciting_patronage_through_agent",
-        "description": "Solicits professional patronage through an agent or profits from acts of a person represented as an agent",
+        "description": "Soliciting professional patronage through an agent or profiting from acts of a person represented as an agent",
         "quote": "Solicits professional patronage through an agent or other person or profits from the acts of a person who is represented as an agent of the physician",
         "citation": "14-404"
       },
       {
-        "short_label": "fee_splitting_patient_referral",
-        "description": "Pays or accepts any sum for bringing or referring a patient",
+        "short_label": "illegal_patient_referral_payments",
+        "description": "Paying or accepting payment for bringing or referring a patient",
         "quote": "Pays or agrees to pay any sum to any person for bringing or referring a patient or accepts or agrees to accept any sum from any person for bringing or referring a patient",
         "citation": "14-404"
       },
       {
+        "short_label": "undisclosed_laboratory_payment_arrangement",
+        "description": "Agreeing with a clinical laboratory to make payments without required disclosure",
+        "quote": "Agrees with a clinical or bioanalytical laboratory to make payments to the laboratory for a test or test series for a patient, unless the licensed physician discloses on the bill to the patient or third\u2013party payor",
+        "citation": "14-404"
+      },
+      {
         "short_label": "willful_misrepresentation_in_treatment",
-        "description": "Makes a willful misrepresentation in treatment",
+        "description": "Making a willful misrepresentation in treatment",
         "quote": "Makes a willful misrepresentation in treatment",
         "citation": "14-404"
       },
       {
         "short_label": "practicing_with_unauthorized_person",
-        "description": "Practices medicine with an unauthorized person or aids an unauthorized person in the practice of medicine",
+        "description": "Practicing medicine with an unauthorized person or aiding unauthorized practice",
         "quote": "Practices medicine with an unauthorized person or aids an unauthorized person in the practice of medicine",
         "citation": "14-404"
       },
       {
         "short_label": "gross_overutilization",
-        "description": "Grossly overutilizes health care services",
+        "description": "Grossly overutilizing health care services",
         "quote": "Grossly overutilizes health care services",
         "citation": "14-404"
       },
       {
         "short_label": "secret_method_treatment",
-        "description": "Offers, undertakes, or agrees to cure or treat disease by a secret method, treatment, or medicine",
+        "description": "Offering or agreeing to cure or treat disease by a secret method, treatment, or medicine",
         "quote": "Offers, undertakes, or agrees to cure or treat disease by a secret method, treatment, or medicine",
         "citation": "14-404"
       },
       {
-        "short_label": "disciplined_in_other_jurisdiction",
-        "description": "Is disciplined by a licensing or disciplinary authority or convicted in any state or country for an act that would be grounds for discipline",
+        "short_label": "discipline_in_other_jurisdiction",
+        "description": "Disciplined by a licensing authority or court in any state or country for an act that would be grounds for discipline here",
         "quote": "Is disciplined by a licensing or disciplinary authority or convicted or disciplined by a court of any state or country or disciplined by any branch of the United States uniformed services or the Veterans' Administration for an act that would be grounds for disciplinary action under this section",
         "citation": "14-404"
       },
       {
         "short_label": "failure_to_meet_quality_standards",
-        "description": "Fails to meet appropriate standards for the delivery of quality medical and surgical care",
+        "description": "Failing to meet appropriate standards for delivery of quality medical and surgical care",
         "quote": "Fails to meet appropriate standards as determined by appropriate peer review for the delivery of quality medical and surgical care performed in an outpatient surgical facility, office, hospital, or any other location in this State",
         "citation": "14-404"
       },
       {
         "short_label": "false_statements_to_collect_fees",
-        "description": "Willfully submits false statements to collect fees for services not provided",
+        "description": "Willfully submitting false statements to collect fees for services not provided",
         "quote": "Willfully submits false statements to collect fees for which services are not provided",
         "citation": "14-404"
       },
       {
         "short_label": "surrender_of_license_under_investigation",
-        "description": "Was subject to investigation or disciplinary action and surrendered or allowed license to expire",
-        "quote": "Was subject to investigation or disciplinary action by a licensing or disciplinary authority or by a court of any state or country for an act that would be grounds for disciplinary action under this section and the licensee: Surrendered the license issued by the state or country to the state or country; or Allowed the license issued by the state or country to expire or lapse",
+        "description": "Surrendering or allowing a license to expire while under investigation for grounds that would support discipline",
+        "quote": "Was subject to investigation or disciplinary action by a licensing or disciplinary authority or by a court of any state or country for an act that would be grounds for disciplinary action under this section and the licensee: Surrendered the license issued by the state or country; or Allowed the license issued by the state or country to expire or lapse",
         "citation": "14-404"
       },
       {
         "short_label": "failure_to_report_child_abuse",
-        "description": "Knowingly fails to report suspected child abuse",
-        "quote": "Knowingly fails to report suspected child abuse in violation of § 5–704 of the Family Law Article",
+        "description": "Knowingly failing to report suspected child abuse",
+        "quote": "Knowingly fails to report suspected child abuse in violation of \u00a7 5\u2013704 of the Family Law Article",
         "citation": "14-404"
       },
       {
         "short_label": "failure_to_educate_breast_cancer_patient",
-        "description": "Fails to educate a patient being treated for breast cancer of alternative methods of treatment",
-        "quote": "Fails to educate a patient being treated for breast cancer of alternative methods of treatment as required by § 20–113 of the Health – General Article",
+        "description": "Failing to educate a breast cancer patient about alternative methods of treatment",
+        "quote": "Fails to educate a patient being treated for breast cancer of alternative methods of treatment as required by \u00a7 20\u2013113 of the Health \u2013 General Article",
         "citation": "14-404"
       },
       {
-        "short_label": "illegal_drug_prescribing",
-        "description": "Sells, prescribes, gives away, or administers drugs for illegal or illegitimate medical purposes",
+        "short_label": "illegal_prescribing_or_administering_drugs",
+        "description": "Selling, prescribing, giving away, or administering drugs for illegal or illegitimate medical purposes",
         "quote": "Sells, prescribes, gives away, or administers drugs for illegal or illegitimate medical purposes",
         "citation": "14-404"
       },
       {
+        "short_label": "failure_to_comply_dispensing_requirements",
+        "description": "Failing to comply with drug dispensing permit requirements",
+        "quote": "Fails to comply with the provisions of \u00a7 12\u2013102 of this article",
+        "citation": "14-404"
+      },
+      {
         "short_label": "hiv_discrimination",
-        "description": "Refuses or discriminates against an individual in providing professional services because the individual is HIV positive",
+        "description": "Refusing, withholding, denying, or discriminating in professional services because a patient is HIV positive",
         "quote": "Refuses, withholds from, denies, or discriminates against an individual with regard to the provision of professional services for which the licensee is licensed and qualified to render because the individual is HIV positive",
         "citation": "14-404"
       },
       {
-        "short_label": "failure_to_comply_universal_precautions",
-        "description": "Fails to comply with CDC guidelines on universal precautions except in emergency",
-        "quote": "Except in an emergency life–threatening situation where it is not feasible or practicable, fails to comply with the Centers for Disease Control and Prevention's guidelines on universal precautions",
+        "short_label": "pharmacy_partnership_prohibited",
+        "description": "Associating with a pharmacist as partner or co-owner or employing a pharmacist to operate a pharmacy",
+        "quote": "Associates with a pharmacist as a partner or co\u2013owner of a pharmacy for the purpose of operating a pharmacy; Employs a pharmacist for the purpose of operating a pharmacy; or Contracts with a pharmacist for the purpose of operating a pharmacy",
         "citation": "14-404"
       },
       {
-        "short_label": "failure_to_display_notice",
-        "description": "Fails to display the required notice",
-        "quote": "Fails to display the notice required under § 14–415 of this subtitle",
+        "short_label": "failure_to_follow_cdc_universal_precautions",
+        "description": "Failing to comply with CDC guidelines on universal precautions",
+        "quote": "Except in an emergency life\u2013threatening situation where it is not feasible or practicable, fails to comply with the Centers for Disease Control and Prevention's guidelines on universal precautions",
+        "citation": "14-404"
+      },
+      {
+        "short_label": "failure_to_display_required_notice",
+        "description": "Failing to display the required notice in the office",
+        "quote": "Fails to display the notice required under \u00a7 14\u2013415 of this subtitle",
         "citation": "14-404"
       },
       {
         "short_label": "failure_to_cooperate_with_investigation",
-        "description": "Fails to cooperate with a lawful investigation conducted by the Board or a disciplinary panel",
+        "description": "Failing to cooperate with a lawful investigation by the Board or disciplinary panel",
         "quote": "Fails to cooperate with a lawful investigation conducted by the Board or a disciplinary panel",
         "citation": "14-404"
       },
       {
         "short_label": "insurance_fraud_conviction",
-        "description": "Is convicted of insurance fraud",
-        "quote": "Is convicted of insurance fraud as defined in § 27–801 of the Insurance Article",
+        "description": "Conviction of insurance fraud",
+        "quote": "Is convicted of insurance fraud as defined in \u00a7 27\u2013801 of the Insurance Article",
         "citation": "14-404"
       },
       {
         "short_label": "breach_of_service_obligation",
-        "description": "Is in breach of a service obligation resulting from receipt of State or federal funding for medical education",
+        "description": "Breach of service obligation resulting from receipt of state or federal funding for medical education",
         "quote": "Is in breach of a service obligation resulting from the applicant's or licensee's receipt of State or federal funding for the licensee's medical education",
         "citation": "14-404"
       },
       {
         "short_label": "false_representation_in_application",
-        "description": "Willfully makes a false representation when seeking or making application for licensure",
+        "description": "Willfully making a false representation when applying for licensure or other application related to medicine",
         "quote": "Willfully makes a false representation when seeking or making application for licensure or any other application related to the practice of medicine",
         "citation": "14-404"
       },
       {
         "short_label": "intimidation_of_witnesses",
-        "description": "By corrupt means, threats, or force, intimidates or influences any person to withhold or change testimony",
-        "quote": "By corrupt means, threats, or force, intimidates or influences, or attempts to intimidate or influence, for the purpose of causing any person to withhold or change testimony in hearings or proceedings before the Board or a disciplinary panel",
+        "description": "Intimidating or influencing persons to withhold or change testimony before the Board",
+        "quote": "By corrupt means, threats, or force, intimidates or influences, or attempts to intimidate or influence, for the purpose of causing any person to withhold or change testimony in hearings or proceedings before the Board",
         "citation": "14-404"
       },
       {
         "short_label": "hindering_investigation",
-        "description": "By corrupt means, threats, or force, hinders or delays any person from making information available to the Board",
+        "description": "Hindering or preventing any person from making information available to the Board",
         "quote": "By corrupt means, threats, or force, hinders, prevents, or otherwise delays any person from making information available to the Board or a disciplinary panel in furtherance of any investigation",
         "citation": "14-404"
       },
       {
-        "short_label": "misrepresentation_of_credentials_in_testimony",
-        "description": "Intentionally misrepresents credentials for the purpose of testifying or rendering an expert opinion",
+        "short_label": "misrepresentation_of_expert_credentials",
+        "description": "Intentionally misrepresenting credentials when testifying or rendering expert opinion before the Board",
         "quote": "Intentionally misrepresents credentials for the purpose of testifying or rendering an expert opinion in hearings or proceedings before the Board or a disciplinary panel",
         "citation": "14-404"
       },
       {
-        "short_label": "failure_to_keep_adequate_medical_records",
-        "description": "Fails to keep adequate medical records as determined by appropriate peer review",
+        "short_label": "inadequate_medical_records",
+        "description": "Failing to keep adequate medical records as determined by appropriate peer review",
         "quote": "Fails to keep adequate medical records as determined by appropriate peer review",
         "citation": "14-404"
       },
       {
         "short_label": "cosmetic_surgery_in_unaccredited_facility",
-        "description": "Performs a cosmetic surgical procedure in an office or facility not accredited or certified",
+        "description": "Performing a cosmetic surgical procedure in an office or facility that is not accredited or certified for Medicare",
         "quote": "Performs a cosmetic surgical procedure in an office or a facility that is not: Accredited by: The American Association for Accreditation of Ambulatory Surgical Facilities; The Accreditation Association for Ambulatory Health Care; or The Joint Commission on the Accreditation of Healthcare Organizations; or Certified to participate in the Medicare program",
         "citation": "14-404",
         "unverified": true
       },
       {
         "short_label": "failure_to_submit_criminal_history_check",
-        "description": "Fails to submit to a criminal history records check",
-        "quote": "Fails to submit to a criminal history records check under § 14–308.1 of this title",
+        "description": "Failing to submit to a criminal history records check",
+        "quote": "Fails to submit to a criminal history records check under \u00a7 14\u2013308.1 of this title",
         "citation": "14-404"
       },
       {
         "short_label": "violation_of_opioid_prescribing_limits",
-        "description": "Fails to comply with § 1–223 of this article (opioid prescribing limits)",
-        "quote": "Fails to comply with § 1–223 of this article",
+        "description": "Failing to comply with opioid prescribing limit requirements",
+        "quote": "Fails to comply with \u00a7 1\u2013223 of this article",
         "citation": "14-404"
       },
       {
-        "short_label": "violation_of_title_or_regulations",
-        "description": "Violates any provision of this title, any rule or regulation adopted by the Board, or any State or federal law pertaining to the practice of medicine",
+        "short_label": "violation_of_title_rules_or_federal_law",
+        "description": "Violating any provision of this title, any rule or regulation adopted by the Board, or any State or federal law pertaining to the practice of medicine",
         "quote": "Violates any provision of this title, any rule or regulation adopted by the Board, or any State or federal law pertaining to the practice of medicine",
         "citation": "14-404"
       },
       {
-        "short_label": "failure_to_comply_pdmp",
-        "description": "Fails to comply with the requirements of the Prescription Drug Monitoring Program",
-        "quote": "Fails to comply with the requirements of the Prescription Drug Monitoring Program under Title 21, Subtitle 2A of the Health – General Article",
+        "short_label": "failure_to_comply_prescription_drug_monitoring",
+        "description": "Failing to comply with requirements of the Prescription Drug Monitoring Program",
+        "quote": "Fails to comply with the requirements of the Prescription Drug Monitoring Program under Title 21, Subtitle 2A of the Health \u2013 General Article.",
         "citation": "14-404"
       }
     ],
@@ -448,7 +513,7 @@
       },
       {
         "cite": "14-202",
-        "kind": "board membership"
+        "kind": "board composition"
       },
       {
         "cite": "14-301",
@@ -460,7 +525,7 @@
       },
       {
         "cite": "14-307",
-        "kind": "qualifications of applicants"
+        "kind": "qualifications"
       },
       {
         "cite": "14-308",
@@ -468,11 +533,11 @@
       },
       {
         "cite": "14-308.1",
-        "kind": "criminal history records check"
+        "kind": "criminal history check"
       },
       {
         "cite": "14-309",
-        "kind": "applications for licenses"
+        "kind": "application"
       },
       {
         "cite": "14-311",
@@ -480,7 +545,7 @@
       },
       {
         "cite": "14-313",
-        "kind": "issuance of license"
+        "kind": "issuance"
       },
       {
         "cite": "14-314",
@@ -488,15 +553,15 @@
       },
       {
         "cite": "14-316",
-        "kind": "term and renewal of licenses"
+        "kind": "renewal"
       },
       {
         "cite": "14-318",
-        "kind": "limited license for postgraduate teaching"
+        "kind": "limited license"
       },
       {
         "cite": "14-319",
-        "kind": "licensure of eminent physicians"
+        "kind": "eminent physician license"
       },
       {
         "cite": "14-320",
@@ -507,39 +572,27 @@
         "kind": "emeritus status"
       },
       {
-        "cite": "14-322",
-        "kind": "prohibition on requiring specialty certification"
-      },
-      {
-        "cite": "14-3A-01",
-        "kind": "interstate medical licensure compact"
-      },
-      {
-        "cite": "14-401",
-        "kind": "disciplinary panels"
-      },
-      {
-        "cite": "14-402",
-        "kind": "examination of licensed physician"
-      },
-      {
         "cite": "14-404",
         "kind": "disciplinary grounds"
       },
       {
+        "cite": "14-3A-01",
+        "kind": "interstate compact"
+      },
+      {
         "cite": "14-601",
-        "kind": "practicing without license"
+        "kind": "prohibited acts"
       },
       {
         "cite": "14-602",
-        "kind": "misrepresentation as practitioner"
+        "kind": "title protection"
       }
     ]
   },
   "scope": {
     "definition_quote": {
       "value": "'Practice medicine' means to engage, with or without compensation, in medical: Diagnosis; Healing; Treatment; or Surgery.",
-      "quote": "\"Practice medicine\" means to engage, with or without compensation, in medical: Diagnosis; Healing; Treatment; or Surgery.",
+      "quote": "'Practice medicine' means to engage, with or without compensation, in medical: Diagnosis; Healing; Treatment; or Surgery.",
       "citation": "14-101"
     },
     "methods_authorized": {
@@ -549,50 +602,48 @@
         "treatment",
         "surgery",
         "prescribing",
-        "acupuncture (with registration)",
-        "ending of a human pregnancy"
+        "acupuncture (with registration)"
       ],
-      "quote": "\"Practice medicine\" includes doing, undertaking, professing to do, and attempting any of the following: Diagnosing, healing, treating, preventing, prescribing for, or removing any physical, mental, or emotional ailment or supposed ailment of an individual",
+      "quote": "'Practice medicine' means to engage, with or without compensation, in medical: Diagnosis; Healing; Treatment; or Surgery.",
       "citation": "14-101"
     },
     "drug_authority": {
-      "value": "Licensed physicians may prescribe, administer, and dispense drugs; the Board may adopt regulations regarding dispensing of prescription drugs by a licensed physician.",
-      "quote": "After consulting with the State Board of Pharmacy, adopt rules and regulations regarding the dispensing of prescription drugs by a licensed physician",
-      "citation": "14-205"
+      "value": "Licensed physicians may prescribe drugs as part of medical practice; dispensing requires a permit under \u00a7 12-102 except for certain topical medications. Opioid prescribing is subject to statutory limits under \u00a7 1-223.",
+      "quote": "Fails to comply with the provisions of \u00a7 12\u2013102 of this article",
+      "citation": "14-404"
     },
     "citations": [
       {
         "cite": "14-101",
-        "kind": "definition of practice medicine"
+        "kind": "scope definition"
       },
       {
-        "cite": "14-205",
-        "kind": "drug dispensing authority"
+        "cite": "14-314",
+        "kind": "scope of license"
       },
       {
         "cite": "14-504",
         "kind": "acupuncture"
       },
       {
-        "cite": "14-314",
-        "kind": "scope of license"
+        "cite": "1-223",
+        "kind": "opioid prescribing limits"
       }
     ]
   },
   "profession_specific": {
     "license_status_types": {
       "value": [
-        "inactive",
-        "emeritus",
-        "limited (postgraduate teaching)",
-        "eminent physician license"
+        "Inactive License",
+        "Emeritus License",
+        "Limited License (postgraduate teaching)",
+        "Eminent Physician License"
       ],
-      "quote": "The Board may place a licensee on inactive status ... The Board may place a licensee on emeritus status ... the Board may issue to the applicant a limited license to practice medicine for postgraduate teaching",
-      "citation": "14-320",
-      "unverified": true
+      "quote": "The Board may place a licensee on inactive status ... The Board shall place a licensee on emeritus status",
+      "citation": "14-320"
     },
     "foreign_medical_graduate_requirements": {
-      "value": "Foreign medical graduates must be certified by the Educational Commission for Foreign Medical Graduates (ECFMG), pass a qualifying examination for foreign medical school graduates, and complete 2 years of training in an accredited postgraduate medical education program (or complete a fifth pathway program plus 2 years of postgraduate training).",
+      "value": "Foreign medical graduates must be certified by the Educational Commission for Foreign Medical Graduates (ECFMG), pass a qualifying examination for foreign medical graduates required by the Board, and complete either 2 years of postgraduate training in an accredited program or complete a fifth pathway program plus 2 years of postgraduate training.",
       "quote": "Is certified by the Educational Commission for Foreign Medical Graduates or by its successor as approved by the Board; Passes a qualifying examination for foreign medical school graduates required by the Board",
       "citation": "14-308"
     },
@@ -603,13 +654,13 @@
     },
     "pain_management_education_required": null,
     "opioid_prescribing_limits": {
-      "value": "On treatment for pain, a health care provider shall prescribe the lowest effective dose of an opioid and a quantity no greater than needed for the expected duration of pain, unless treating a substance-related disorder, cancer pain, end-of-life/hospice/palliative care, or chronic pain. Dosage, quantity, and duration must be based on evidence-based clinical guidelines.",
+      "value": "On treatment for pain, a health care provider shall prescribe the lowest effective dose of an opioid and a quantity no greater than needed for the expected duration of pain, unless treating substance-related disorder, cancer pain, end-of-life/hospice/palliative care, or chronic pain. Dosage must follow evidence-based clinical guidelines.",
       "quote": "On treatment for pain, a health care provider, based on the clinical judgment of the health care provider, shall prescribe: The lowest effective dose of an opioid; and A quantity that is no greater than the quantity needed for the expected duration of pain severe enough to require an opioid",
       "citation": "1-223"
     },
     "controlled_substance_database_registration_required": {
       "value": true,
-      "quote": "Fails to comply with the requirements of the Prescription Drug Monitoring Program under Title 21, Subtitle 2A of the Health – General Article",
+      "quote": "Fails to comply with the requirements of the Prescription Drug Monitoring Program under Title 21, Subtitle 2A of the Health \u2013 General Article.",
       "citation": "14-404"
     },
     "pain_management_clinic_registration_required": null,
@@ -620,12 +671,16 @@
       "quote": "The Interstate Medical Licensure Compact is enacted into law and entered into with all other states legally joining in it",
       "citation": "14-3A-01"
     },
-    "physician_assistant_supervision_model": null,
+    "physician_assistant_supervision_model": {
+      "value": "collaborative practice agreement",
+      "quote": "to the extent permitted by the rules, regulations, and orders of the Board, an individual to whom duties are delegated by a licensed physician or physician assistant may perform those duties without a license",
+      "citation": "14-306"
+    },
     "physician_assistant_prescriptive_authority": null,
     "max_physician_assistants_per_supervising_physician": null,
     "malpractice_reporting_required": {
       "value": true,
-      "quote": "The number of medical malpractice final court judgments and arbitration awards against the licensee within the most recent 10–year period.",
+      "quote": "The number of medical malpractice final court judgments and arbitration awards against the licensee within the most recent 10\u2013year period.",
       "citation": "14-411.1"
     },
     "hospital_privilege_action_reporting_required": {
@@ -635,7 +690,7 @@
     },
     "impaired_physician_program_authorized": {
       "value": true,
-      "quote": "\"Physician Rehabilitation Program\" means the program of the Board or the nonprofit entity with which the Board contracts under § 14–401.1(g) of this title that evaluates and provides assistance to impaired physicians and other health professionals regulated by the Board who are directed by the Board to receive treatment and rehabilitation for alcoholism, chemical dependency, or other physical, emotional, or mental conditions.",
+      "quote": "'Physician Rehabilitation Program' means the program of the Board or the nonprofit entity with which the Board contracts under \u00a7 14\u2013401.1(g) of this title that evaluates and provides assistance to impaired physicians",
       "citation": "14-101"
     },
     "compelled_mental_physical_exam_authority": {
@@ -656,21 +711,21 @@
       },
       {
         "item": "Retired License",
-        "status": "absent",
-        "quote": "",
-        "citation": ""
+        "status": "present",
+        "quote": "The Board shall place a licensee on emeritus status if the individual ... Attests that the individual is retired and is no longer actively practicing medicine in this State.",
+        "citation": "14-320.1"
       },
       {
         "item": "Temporary License / Permit",
         "status": "present",
-        "quote": "the Board may issue to the applicant a limited license to practice medicine for postgraduate teaching",
+        "quote": "If an applicant is qualified as a postgraduate teacher, the Board may ... Issue to the applicant a limited license to practice medicine for postgraduate teaching.",
         "citation": "14-318"
       },
       {
         "item": "Restricted License",
-        "status": "absent",
-        "quote": "",
-        "citation": ""
+        "status": "present",
+        "quote": "Qualify, restrict, or otherwise limit a license granted under this section",
+        "citation": "14-319"
       },
       {
         "item": "Probationary License",
@@ -681,13 +736,13 @@
       {
         "item": "Suspended License",
         "status": "present",
-        "quote": "a disciplinary panel shall order the suspension of a license if the licensee is convicted of or pleads guilty or nolo contendere with respect to a crime involving moral turpitude",
+        "quote": "a disciplinary panel, on the affirmative vote of a majority of the quorum of the disciplinary panel, may reprimand any licensee, place any licensee on probation, or suspend or revoke a license",
         "citation": "14-404"
       },
       {
         "item": "Revoked License",
         "status": "present",
-        "quote": "a disciplinary panel shall order the revocation of a license on the certification by the Office of the Attorney General.",
+        "quote": "a disciplinary panel, on the affirmative vote of a majority of the quorum of the disciplinary panel, may reprimand any licensee, place any licensee on probation, or suspend or revoke a license",
         "citation": "14-404"
       },
       {
@@ -711,7 +766,7 @@
       {
         "item": "Expedited / Interstate Compact License",
         "status": "present",
-        "quote": "\"Expedited License\" means a full and unrestricted medical license granted by a member state to an eligible physician through the process set forth in the Compact.",
+        "quote": "'Expedited License' means a full and unrestricted medical license granted by a member state to an eligible physician through the process set forth in the Compact.",
         "citation": "14-3A-01"
       },
       {

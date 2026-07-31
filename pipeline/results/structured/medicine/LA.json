@@ -45,7 +45,11 @@
         "quote": "Present to the board a valid diploma from a medical college in good standing with the board",
         "citation": "RS 37:1272"
       },
-      "accrediting_body": null,
+      "accrediting_body": {
+        "value": "board approved (medical college in good standing with the board)",
+        "quote": "a valid diploma from a medical college in good standing with the board",
+        "citation": "RS 37:1272"
+      },
       "degree_level": {
         "value": "doctorate",
         "quote": "\"Physician\" means a natural person who is the holder of an allopathic (M.D.) degree or an osteopathic (D.O.) degree from a medical college in good standing with the board",
@@ -70,9 +74,9 @@
         "citation": "RS 37:1272"
       },
       "experience_source": {
-        "value": "none",
-        "quote": "Present to the board a valid diploma from a medical college in good standing with the board or have been actively engaged in the practice of medicine, in a manner determined by the board to have been satisfactory, for not less than four years under a temporary permit issued pursuant to R.S. 37:1275",
-        "citation": "RS 37:1272"
+        "value": "embedded_in_credential",
+        "quote": "\"Physician\" means a natural person who is the holder of an allopathic (M.D.) degree or an osteopathic (D.O.) degree from a medical college in good standing with the board",
+        "citation": "RS 37:1262"
       },
       "duration": null,
       "kind": null
@@ -81,8 +85,8 @@
       {
         "name": "Medical licensing examination",
         "required": true,
-        "notes": "Board may design or administer its own examination, or use examinations from any national examining agency",
-        "jurisdiction": "state or national (board's discretion)",
+        "notes": "Board may design or administer its own examination, or use examinations from any national examining agency, either public or private",
+        "jurisdiction": "national or state (board's discretion)",
         "permitted_attempts": null,
         "quote": "Pass an examination which the board deems sufficient to test the applicant's fitness to practice medicine in this state. The board may design or administer its own examination, or it may use examinations from any national examining agency, either public or private",
         "citation": "RS 37:1272"
@@ -101,18 +105,18 @@
         "value": true,
         "quote": "The board shall have the authority to establish and determine by rule minimum requirements relative to continuing education for the renewal or reinstatement of any license or permit issued by the board.",
         "citation": "RS 37:1270",
-        "unverified": true,
         "approximate": {
           "ratio": 0.925,
           "matched_normalized": " have the authority to establish and determine by rule minimum requirements relative to continuing education for the renewal or reinstatement of any license or permit issued by the board"
-        }
+        },
+        "unverified": true
       },
       "hours_per_period": null,
       "period_years": null,
       "topical_requirements": {
         "value": [
-          "one-hour continuing education course on the treatment of sickle cell disease (emergency medicine physicians, initial; refresher every 3 years)",
-          "minimum of one hour of continuing education on nutrition and metabolic health every four years (specified specialties)"
+          "sickle cell disease (1 hour initial, refresher every 3 years for emergency medicine physicians)",
+          "nutrition and metabolic health (minimum 1 hour every 4 years for specified specialties)"
         ],
         "quote": "The board shall require physicians and physician assistants practicing emergency medicine to complete an initial one-hour continuing education course on the treatment of sickle cell disease... The board shall require physicians and physician assistants practicing family medicine, internal medicine, pediatrics, psychiatry, endocrinology, gastroenterology, cardiology, oncology, rheumatology, neurology, nephrology, dermatology, pulmonology, surgery, immunology, hematology, obstetrics, and gynecology to complete a minimum of one hour of continuing education on nutrition and metabolic health every four years.",
         "citation": "RS 37:1270"
@@ -125,7 +129,7 @@
         "citation": "RS 37:1276"
       },
       "requirements": {
-        "value": "Applicant must possess a valid, unrestricted license to practice medicine in another U.S. state, and the board must be satisfied that the other state's license is based on an examination and requirements substantially equivalent to Louisiana's requirements.",
+        "value": "Applicant must possess a valid, unrestricted license from another U.S. state, based on an examination and other requirements substantially equivalent to Louisiana's requirements.",
         "quote": "any applicant possessing a valid, unrestricted license to practice medicine, whether allopathic or osteopathic, or osteopathy in any other state of the United States provided the board is satisfied that the license from the other state is based upon an examination and other requirements substantially equivalent to the requirements of this Part.",
         "citation": "RS 37:1276"
       }
@@ -133,7 +137,7 @@
     "advisory_board": {
       "exists": {
         "value": false,
-        "quote": "The Louisiana State Board of Medical Examiners is hereby created within the Louisiana Department of Health",
+        "quote": "The Louisiana State Board of Medical Examiners is hereby created within the Louisiana Department of Health and is subject to the provisions of R.S. 36:803.",
         "citation": "RS 37:1263"
       },
       "name": null,
@@ -169,13 +173,13 @@
     "disciplinary_grounds": [
       {
         "short_label": "felony_conviction",
-        "description": "Conviction of or plea to a felony under Louisiana or federal law",
+        "description": "Conviction of a felony under Louisiana or federal law",
         "quote": "Conviction of a crime or entry of a plea of guilty or nolo contendere to a criminal charge constituting a felony under the laws of Louisiana or of the United States.",
         "citation": "RS 37:1285"
       },
       {
-        "short_label": "crime_related_to_practice",
-        "description": "Conviction of or plea to any criminal charge arising out of or in connection with the practice of medicine",
+        "short_label": "crime_related_to_medicine",
+        "description": "Conviction of a crime arising out of or connected to the practice of medicine",
         "quote": "Conviction of a crime or entry of a plea of guilty or nolo contendere to any criminal charge arising out of or in connection with the practice of medicine.",
         "citation": "RS 37:1285"
       },
@@ -186,7 +190,7 @@
         "citation": "RS 37:1285"
       },
       {
-        "short_label": "false_testimony_to_board",
+        "short_label": "false_testimony",
         "description": "Providing false testimony or false sworn information to the board",
         "quote": "Providing false testimony before the board or providing false sworn information to the board.",
         "citation": "RS 37:1285"
@@ -199,7 +203,7 @@
       },
       {
         "short_label": "improper_prescribing",
-        "description": "Prescribing, dispensing, or administering controlled substances without legitimate medical justification or in an illegal manner",
+        "description": "Prescribing, dispensing, or administering controlled substances without legitimate medical justification",
         "quote": "Prescribing, dispensing, or administering legally controlled substances or any dependency-inducing medication without legitimate medical justification therefor or in other than a legal or legitimate manner.",
         "citation": "RS 37:1285"
       },
@@ -210,27 +214,27 @@
         "citation": "RS 37:1285"
       },
       {
-        "short_label": "deception_of_public",
+        "short_label": "efforts_to_deceive_public",
         "description": "Efforts to deceive or defraud the public",
         "quote": "Efforts to deceive or defraud the public.",
         "citation": "RS 37:1285"
       },
       {
         "short_label": "false_claims_for_economic_value",
-        "description": "Making or submitting false, deceptive, or unfounded claims to obtain anything of economic value",
+        "description": "Making or submitting false, deceptive, or unfounded claims to obtain economic value",
         "quote": "Making or submitting false, deceptive, or unfounded claims, reports, or opinions to any patient, insurance company or indemnity association, company, individual, or governmental authority for the purpose of obtaining anything of economic value.",
         "citation": "RS 37:1285"
       },
       {
         "short_label": "inability_to_practice_safely",
-        "description": "Inability to practice medicine with reasonable skill or safety due to mental illness, physical illness, or drug/alcohol abuse",
+        "description": "Inability to practice medicine with reasonable skill or safety due to mental illness, physical illness, or substance abuse",
         "quote": "An inability to practice medicine with reasonable skill or safety due to mental illness or deficiency, including but not limited to deterioration through the aging process or the loss of motor skills or excessive use or abuse of drugs, including alcohol.",
         "citation": "RS 37:1285"
       },
       {
         "short_label": "unprofessional_conduct",
-        "description": "Unprofessional conduct including sexual misconduct, disruptive behavior, failing to cooperate with the board, and other enumerated acts",
-        "quote": "Unprofessional conduct, including but not limited to, conduct manifested as sexual misconduct, disruptive behavior, failing to cooperate with the board, failing to maintain independent medical judgment, improperly delegating or supervising, exercising undue influence, enabling the unauthorized practice of medicine, practicing or enabling practice by an impaired provider, failing to practice within the scope of education, training, and experience, intentionally falsifying or fraudulently altering records, or failing to create or maintain medical records.",
+        "description": "Unprofessional conduct including sexual misconduct, disruptive behavior, failure to cooperate with board, and other enumerated acts",
+        "quote": "Unprofessional conduct, including but not limited to, conduct manifested as sexual misconduct, disruptive behavior, failing to cooperate with the board, failing to maintain independent medical judgment, improperly delegating or supervising, exercising undue influence, enabling the unauthorized practice of medicine",
         "citation": "RS 37:1285"
       },
       {
@@ -241,7 +245,7 @@
       },
       {
         "short_label": "immoral_conduct",
-        "description": "Immoral conduct in exercising the privileges provided by license or permit",
+        "description": "Immoral conduct in exercising the privileges of a license or permit",
         "quote": "Immoral conduct in exercising the privileges provided for by license or permit issued under this Part.",
         "citation": "RS 37:1285"
       },
@@ -252,20 +256,20 @@
         "citation": "RS 37:1285"
       },
       {
-        "short_label": "patient_abandonment",
+        "short_label": "abandonment_of_patient",
         "description": "Abandonment of a patient",
         "quote": "Abandonment of a patient.",
         "citation": "RS 37:1285"
       },
       {
         "short_label": "assisting_unlicensed_practice",
-        "description": "Knowingly assisting an unlicensed person to practice medicine or having professional connection with an illegal practitioner",
+        "description": "Knowingly assisting an unlicensed person to practice medicine",
         "quote": "Knowingly performing any act which, in any way, assists an unlicensed person to practice medicine, or having professional connection with or lending one's name to an illegal practitioner.",
         "citation": "RS 37:1285"
       },
       {
-        "short_label": "illegal_patient_referral_kickbacks",
-        "description": "Soliciting, accepting, or receiving anything of economic value for patient referrals or prescription of medications or devices",
+        "short_label": "illegal_patient_referral",
+        "description": "Soliciting, accepting, or receiving economic value in return for patient referrals or prescription of medications",
         "quote": "Soliciting, accepting, or receiving anything of economic value in return for and based on the referral of patients to another person, firm, or corporation or in return for the prescription of medications or medical devices.",
         "citation": "RS 37:1285"
       },
@@ -283,19 +287,13 @@
       },
       {
         "short_label": "improper_use_of_physician_assistant",
-        "description": "Utilizing a physician's assistant without required approval or permitting activities outside designated scope",
+        "description": "Utilizing a physician's assistant without approval or permitting conduct outside the designated scope",
         "quote": "Utilizing a physician's assistant without approval and recordation as required by law or permitting a physician's assistant, within his employment, to conduct activities outside of the designated scope of the assistant's approval and registration.",
         "citation": "RS 37:1285"
       },
       {
-        "short_label": "refusal_of_mental_physical_exam",
-        "description": "Refusing to submit to examinations by a board-appointed examining committee regarding fitness to practice",
-        "quote": "Refusing to submit to the examinations and inquiry of an examining committee of physicians appointed or designated by the board to inquire into the physician's physical and mental fitness and ability to practice medicine with reasonable skill and safety to patients.",
-        "citation": "RS 37:1285"
-      },
-      {
-        "short_label": "out_of_state_license_adverse_action",
-        "description": "Refusal, revocation, suspension, or restriction of a license by another state's licensing authority",
+        "short_label": "license_action_in_another_state",
+        "description": "Refusal, revocation, or restriction of a license by another state's licensing authority",
         "quote": "The refusal of a licensing authority of another state to issue or renew a license, permit, or certificate to practice medicine in that state or the revocation, suspension, or other restriction imposed on a license, permit, or certificate issued by such licensing authority which prevents or restricts practice in that state",
         "citation": "RS 37:1285"
       },
@@ -312,7 +310,7 @@
         "citation": "RS 37:1285"
       },
       {
-        "short_label": "false_board_certification_claims",
+        "short_label": "false_board_certification_claim",
         "description": "Holding oneself out as board certified without meeting specified criteria",
         "quote": "Holding oneself out to the public in any manner as being certified by a public or private board including but not limited to a multidisciplinary board or \"board certified\", unless all of the following criteria are satisfied",
         "citation": "RS 37:1285"
@@ -330,11 +328,11 @@
       },
       {
         "cite": "RS 37:1263",
-        "kind": "board creation and membership"
+        "kind": "board composition"
       },
       {
         "cite": "RS 37:1270",
-        "kind": "board duties and powers"
+        "kind": "powers and duties"
       },
       {
         "cite": "RS 37:1271",
@@ -342,7 +340,7 @@
       },
       {
         "cite": "RS 37:1272",
-        "kind": "qualifications of applicants"
+        "kind": "qualifications"
       },
       {
         "cite": "RS 37:1274",
@@ -369,15 +367,19 @@
         "kind": "disciplinary grounds"
       },
       {
+        "cite": "RS 37:1291",
+        "kind": "exemptions"
+      },
+      {
         "cite": "RS 37:1310.1",
-        "kind": "interstate medical licensure compact"
+        "kind": "Interstate Medical Licensure Compact"
       }
     ]
   },
   "scope": {
     "definition_quote": {
-      "value": "the holding out of one's self to the public as being engaged in the business of, or the actual engagement in, the diagnosing, treating, curing, or relieving of any bodily or mental disease, condition, infirmity, deformity, defect, ailment, or injury in any human being, other than himself, whether by the use of any drug, instrument or force, whether physical or psychic, or of what other nature, or any other agency or means",
-      "quote": "the holding out of one's self to the public as being engaged in the business of, or the actual engagement in, the diagnosing, treating, curing, or relieving of any bodily or mental disease, condition, infirmity, deformity, defect, ailment, or injury in any human being, other than himself, whether by the use of any drug, instrument or force, whether physical or psychic, or of what other nature, or any other agency or means",
+      "value": "\"The practice of medicine\", whether allopathic or osteopathic, means the holding out of one's self to the public as being engaged in the business of, or the actual engagement in, the diagnosing, treating, curing, or relieving of any bodily or mental disease, condition, infirmity, deformity, defect, ailment, or injury in any human being, other than himself, whether by the use of any drug, instrument or force, whether physical or psychic, or of what other nature, or any other agency or means",
+      "quote": "\"The practice of medicine\", whether allopathic or osteopathic, means the holding out of one's self to the public as being engaged in the business of, or the actual engagement in, the diagnosing, treating, curing, or relieving of any bodily or mental disease, condition, infirmity, deformity, defect, ailment, or injury in any human being, other than himself, whether by the use of any drug, instrument or force, whether physical or psychic, or of what other nature, or any other agency or means",
       "citation": "RS 37:1262"
     },
     "methods_authorized": {
@@ -387,31 +389,30 @@
         "curing",
         "relieving",
         "use of drugs",
-        "use of instruments",
-        "use of force (physical or psychic)",
-        "examining persons or materials for diagnostic purposes",
+        "use of instruments or force (physical or psychic)",
+        "examining persons or materials from persons",
         "attending a woman in childbirth"
       ],
       "quote": "the diagnosing, treating, curing, or relieving of any bodily or mental disease, condition, infirmity, deformity, defect, ailment, or injury in any human being, other than himself, whether by the use of any drug, instrument or force, whether physical or psychic, or of what other nature, or any other agency or means",
       "citation": "RS 37:1262"
     },
     "drug_authority": {
-      "value": "Licensed physicians may prescribe, dispense, and administer drugs including controlled dangerous substances; telemedicine prescribing of controlled substances generally requires prior in-person examination except in licensed healthcare facilities with DEA registration.",
-      "quote": "Except as authorized by R.S. 37:1271.1 or otherwise by rule promulgated by the board, no physician practicing telemedicine pursuant to this Subsection shall prescribe any controlled dangerous substance prior to conducting an appropriate in-person patient history or physical examination of the patient",
+      "value": "Physicians may prescribe, dispense, and administer drugs including controlled dangerous substances; telehealth prescribing of controlled substances requires prior in-person examination except for patients in licensed healthcare facilities with DEA registration",
+      "quote": "no physician practicing telemedicine pursuant to this Subsection shall prescribe any controlled dangerous substance prior to conducting an appropriate in-person patient history or physical examination of the patient",
       "citation": "RS 37:1271"
     },
     "citations": [
       {
         "cite": "RS 37:1262",
-        "kind": "definition of practice of medicine"
+        "kind": "practice definition"
       },
       {
         "cite": "RS 37:1271",
-        "kind": "license required; telemedicine prescribing"
+        "kind": "telemedicine prescribing"
       },
       {
         "cite": "RS 37:1271.1",
-        "kind": "telehealth prescribing in licensed facilities"
+        "kind": "telehealth in licensed facilities"
       },
       {
         "cite": "RS 37:1274.1",
@@ -434,16 +435,16 @@
         "reduced fee license",
         "visiting physician permit",
         "telemedicine license",
-        "volunteer license",
         "bridge year graduate physician certificate",
-        "inactive (retired from active practice)"
+        "volunteer license",
+        "inactive license (allied professions only, not explicit for physicians)"
       ],
       "quote": "Any initial restricted, provisional, or temporary license, certificate, registration, or permit issued by the board to a physician, including but not limited to an institutional license or permit, graduate education temporary permit, military physician permit, military intern permit, mini-residency preceptorship permit, post graduate training registration or permit, dispensing registration, reduced fee license, or visiting physician permit",
       "citation": "RS 37:1281"
     },
     "foreign_medical_graduate_requirements": {
-      "value": "International medical graduates may be licensed if they: (1) hold a medical doctorate from an international medical program of good standing; (2) are in good standing with their licensing country; (3) completed a residency or practiced as a physician for at least 5 years in their licensing country; (4) are a U.S. or Canadian citizen or legally entitled to work in the U.S. with basic English fluency; and (5) have an offer of employment at a Louisiana-licensed hospital facility. For the first two years, they may only provide services at a facility owned or operated by a licensed hospital.",
-      "quote": "The board may grant a license to practice medicine in this state to an international medical graduate who satisfies all of the following criteria",
+      "value": "International medical graduates must hold a medical doctorate or substantially similar degree from an international medical program of good standing, be in good standing with the medical licensing institution of their country, have completed a residency or practiced as a physician for at least 5 years in their licensing country, be a U.S. or Canadian citizen or legally entitled to live and work in the U.S. with basic English fluency, and have an offer of employment at a licensed hospital facility in Louisiana. They must provide medical services only at a facility owned or operated by a licensed hospital for two years after licensure.",
+      "quote": "The board may grant a license to practice medicine in this state to an international medical graduate who satisfies all of the following criteria: (1) Has been granted a medical doctorate or substantially similar degree by an international medical program of good standing... (3) Has completed a residency or substantially similar post-graduate medical training in the individual's licensing country or practiced as a medical professional performing the duties of a physician in the individual's licensing country for no less than five years.",
       "citation": "RS 37:1275.2"
     },
     "postgraduate_training_years_required": null,
@@ -452,8 +453,8 @@
     "controlled_substance_database_registration_required": null,
     "pain_management_clinic_registration_required": null,
     "telehealth_prescribing_rules": {
-      "value": "A physician practicing telemedicine generally may not prescribe controlled dangerous substances prior to conducting an appropriate in-person patient history or physical examination, except when treating a patient at a licensed healthcare facility that holds a current DEA registration, in which case the physician may prescribe any controlled dangerous substance without an in-person examination.",
-      "quote": "Except as authorized by R.S. 37:1271.1 or otherwise by rule promulgated by the board, no physician practicing telemedicine pursuant to this Subsection shall prescribe any controlled dangerous substance prior to conducting an appropriate in-person patient history or physical examination of the patient as determined by the board.",
+      "value": "A physician practicing telemedicine shall not prescribe any controlled dangerous substance prior to conducting an appropriate in-person patient history or physical examination of the patient, except when the patient is being treated at a licensed healthcare facility with a current DEA registration, in which case the physician may prescribe any controlled dangerous substance without necessity of conducting an in-person examination.",
+      "quote": "no physician practicing telemedicine pursuant to this Subsection shall prescribe any controlled dangerous substance prior to conducting an appropriate in-person patient history or physical examination of the patient as determined by the board.",
       "citation": "RS 37:1271"
     },
     "telemedicine_license_available": {
@@ -498,9 +499,9 @@
       },
       {
         "item": "Retired License",
-        "status": "present",
-        "quote": "The fees established in Subsections B and C of this Section shall not be collected from a licensed physician who has retired from active practice.",
-        "citation": "RS 37:1281"
+        "status": "absent",
+        "quote": "",
+        "citation": ""
       },
       {
         "item": "Temporary License / Permit",
@@ -511,7 +512,7 @@
       {
         "item": "Restricted License",
         "status": "present",
-        "quote": "Any initial restricted, provisional, or temporary license, certificate, registration, or permit issued by the board to a physician",
+        "quote": "Any initial restricted, provisional, or temporary license, certificate, registration, or permit issued by the board to a physician, including but not limited to an institutional license or permit",
         "citation": "RS 37:1281"
       },
       {

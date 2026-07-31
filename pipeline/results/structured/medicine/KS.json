@@ -33,7 +33,7 @@
     "moral_character_required": null,
     "education": {
       "degree_required": {
-        "value": "Graduate of an accredited healing arts school or college (doctor of medicine or doctor of osteopathy degree)",
+        "value": "Graduate of an accredited healing arts school or college (doctor of medicine or doctor of osteopathy)",
         "quote": "present proof that the applicant is a graduate of an accredited healing arts school or college",
         "citation": "65-2873"
       },
@@ -79,19 +79,19 @@
     },
     "exams": [
       {
-        "name": "National Board of Medical Examiners examination (basic sciences)",
+        "name": "National Board of Medical Examiners (NBME) / USMLE or equivalent",
         "required": true,
-        "notes": "Applicant must present evidence of proficiency in basic sciences issued by the national board of medical examiners, the board of examiners of osteopathic physicians and surgeons, or the national board of chiropractic examiners, or pass a board-required examination in basic science subjects.",
-        "jurisdiction": "national (NBME)",
+        "notes": "Applicant must present evidence of proficiency in basic sciences issued by the NBME or other approved examining body, or pass the board's own basic science examination; and pass a clinical examination prescribed by the board.",
+        "jurisdiction": "national (NBME/USMLE) or state-approved equivalent",
         "permitted_attempts": null,
         "quote": "Present to the board evidence of proficiency in the basic sciences issued by the national board of medical examiners, the board of examiners of osteopathic physicians and surgeons or the national board of chiropractic examiners or such other examining body as may be approved by the board or in lieu thereof pass such examination as the board may require in the basic science subjects",
         "citation": "65-2873"
       },
       {
-        "name": "State healing arts examination (clinical sciences)",
+        "name": "Clinical branch examination prescribed by the board",
         "required": true,
-        "notes": "Board designates examinations and passing grades by rule; applicants who fail may retake subject to board criteria.",
-        "jurisdiction": "state (in-house or board-designated)",
+        "notes": "Applicant must pass an examination prescribed and conducted by the board covering subjects incident to the practice of medicine and surgery.",
+        "jurisdiction": "state (board-prescribed)",
         "permitted_attempts": null,
         "quote": "pass an examination prescribed and conducted by the board covering the subjects incident to the practice of the branch of healing arts for which the applicant applies",
         "citation": "65-2873"
@@ -99,15 +99,28 @@
       {
         "name": "Educational Commission for Foreign Medical Graduates (ECFMG) examination",
         "required": true,
-        "notes": "Required only for foreign medical graduates in addition to the standard examination.",
+        "notes": "Required only for foreign medical graduates in addition to other examinations.",
         "jurisdiction": "national (ECFMG)",
         "permitted_attempts": null,
         "quote": "if the applicant is a foreign medical graduate the applicant shall pass an examination given by the educational commission for foreign medical graduates",
         "citation": "65-2873"
+      },
+      {
+        "name": "USMLE (Interstate Medical Licensure Compact expedited license)",
+        "required": true,
+        "notes": "Required for eligibility under the Interstate Medical Licensure Compact; must pass each component within three attempts.",
+        "jurisdiction": "national (USMLE/COMLEX-USA)",
+        "permitted_attempts": 3,
+        "quote": "passed each component of the United States medical licensing examination (USMLE) or the comprehensive osteopathic medical licensing examination (COMLEX-USA) within three attempts",
+        "citation": "65-28,133"
       }
     ],
     "renewal": {
-      "interval_years": null
+      "interval_years": {
+        "value": 1,
+        "quote": "A certificate of authorization shall be renewed annually and accompanied by a fee to be fixed by the state board of healing arts.",
+        "citation": "65-28,134"
+      }
     },
     "renewal_fee_usd": null,
     "continuing_education": {
@@ -123,11 +136,11 @@
     "reciprocity": {
       "available": {
         "value": true,
-        "quote": "The board, without examination, may issue a license to a person who has been in the active practice of a branch of the healing arts in some other state, territory, the District of Columbia or other country upon certificate of the proper licensing authority",
+        "quote": "The board, without examination, may issue a license to a person who has been in the active practice of a branch of the healing arts in some other state, territory, the District of Columbia or other country upon certificate of the proper licensing authority of that state",
         "citation": "65-2833"
       },
       "requirements": {
-        "value": "Applicant must hold a valid license in good standing from another state/territory/DC/country with standards at least equal to Kansas, original license based on equivalent examination, active practice since licensure, and reasonable ability to communicate in English. Individual qualifications must be substantially equivalent to Kansas legal requirements.",
+        "value": "Applicant must hold an active, unrestricted license in another jurisdiction with standards at least equal to Kansas, have an original license based on an equivalent examination, have been actively engaged in practice, and have qualifications substantially equivalent to Kansas legal requirements.",
         "quote": "An applicant for a license by endorsement shall not be licensed unless, as determined by the board, the applicant's individual qualifications are substantially equivalent to the Kansas legal requirements.",
         "citation": "65-2833"
       }
@@ -175,189 +188,195 @@
     "disciplinary_grounds": [
       {
         "short_label": "fraud_in_obtaining_license",
-        "description": "Fraud or misrepresentation in applying for or securing an original, renewal or reinstated license.",
+        "description": "Fraud or misrepresentation in applying for or securing a license",
         "quote": "The licensee has committed fraud or misrepresentation in applying for or securing an original, renewal or reinstated license.",
         "citation": "65-2836"
       },
       {
         "short_label": "unprofessional_or_dishonorable_conduct",
-        "description": "Commission of an act of unprofessional or dishonorable conduct or professional incompetency.",
+        "description": "Commission of an act of unprofessional or dishonorable conduct or professional incompetency",
         "quote": "The licensee has committed an act of unprofessional or dishonorable conduct or professional incompetency",
         "citation": "65-2836"
       },
       {
         "short_label": "felony_or_misdemeanor_conviction",
-        "description": "Conviction of a felony or class A misdemeanor, or substantially similar offense in another jurisdiction, whether or not related to the practice of the healing arts.",
+        "description": "Conviction of a felony or class A misdemeanor, or substantially similar offense in another jurisdiction",
         "quote": "The licensee has been convicted of a felony or class A misdemeanor, or substantially similar offense in another jurisdiction, whether or not related to the practice of the healing arts",
         "citation": "65-2836"
       },
       {
-        "short_label": "false_advertisements",
-        "description": "Use of fraudulent or false advertisements.",
+        "short_label": "false_advertising",
+        "description": "Use of fraudulent or false advertisements",
         "quote": "The licensee has used fraudulent or false advertisements.",
         "citation": "65-2836"
       },
       {
-        "short_label": "addiction_or_unlawful_drug_distribution",
-        "description": "Addiction to or distribution of intoxicating liquors or drugs for other than lawful purposes.",
+        "short_label": "drug_alcohol_addiction_or_distribution",
+        "description": "Addiction to or unlawful distribution of intoxicating liquors or drugs",
         "quote": "The licensee is addicted to or has distributed intoxicating liquors or drugs for any other than lawful purposes.",
         "citation": "65-2836"
       },
       {
         "short_label": "willful_repeated_violation_of_act",
-        "description": "Willful or repeated violation of the healing arts act, pharmacy act, or uniform controlled substances act.",
+        "description": "Willful or repeated violation of the healing arts act, pharmacy act, or controlled substances act",
         "quote": "The licensee has willfully or repeatedly violated this act, the pharmacy act of the state of Kansas or the uniform controlled substances act, or any rules and regulations adopted pursuant thereto",
         "citation": "65-2836"
       },
       {
         "short_label": "unlawful_invasion_of_another_branch",
-        "description": "Unlawful invasion of the field of practice of any branch of the healing arts in which the licensee is not licensed.",
+        "description": "Unlawfully invading the field of practice of a branch for which the licensee is not licensed",
         "quote": "The licensee has unlawfully invaded the field of practice of any branch of the healing arts in which the licensee is not licensed to practice.",
         "citation": "65-2836"
       },
       {
-        "short_label": "false_or_assumed_name_impersonation",
-        "description": "Practice of the healing arts under a false or assumed name, or impersonation of another practitioner.",
+        "short_label": "practice_under_false_or_assumed_name",
+        "description": "Practicing under a false or assumed name, or impersonating another practitioner",
         "quote": "The licensee has engaged in the practice of the healing arts under a false or assumed name, or the impersonation of another practitioner.",
         "citation": "65-2836"
       },
       {
-        "short_label": "impairment",
-        "description": "Ability to practice impaired by reason of physical or mental illness, condition, or use of alcohol, drugs or controlled substances.",
+        "short_label": "impairment_by_illness_or_substance",
+        "description": "Inability to practice with reasonable skill and safety due to physical or mental illness or substance use",
         "quote": "The licensee's ability to practice the healing arts with reasonable skill and safety to patients is impaired by reason of physical or mental illness, or condition or use of alcohol, drugs or controlled substances.",
         "citation": "65-2836"
       },
       {
         "short_label": "out_of_state_disciplinary_action",
-        "description": "License revoked, suspended, or limited, or other disciplinary action taken by another state, territory, DC, or country.",
+        "description": "License revoked, suspended, or limited by another jurisdiction's licensing authority",
         "quote": "The licensee has had a license to practice the healing arts revoked, suspended or limited, has been censured or has had other disciplinary action taken, or an application for a license denied, by the proper licensing authority of another state, territory, District of Columbia, or other country.",
         "citation": "65-2836"
       },
       {
         "short_label": "violation_of_board_rules_or_orders",
-        "description": "Violation of any lawful rule and regulation promulgated by the board or any lawful order or directive of the board.",
+        "description": "Violation of any lawful rule or regulation or order of the board",
         "quote": "The licensee has violated any lawful rule and regulation promulgated by the board or violated any lawful order or directive of the board previously entered by the board.",
         "citation": "65-2836"
       },
       {
         "short_label": "failure_to_report_required_knowledge",
-        "description": "Failure to report or reveal knowledge required to be reported under K.S.A. 65-28,122.",
+        "description": "Failure to report or reveal knowledge required to be reported under K.S.A. 65-28,122",
         "quote": "The licensee has failed to report or reveal the knowledge required to be reported or revealed under K.S.A. 65-28,122, and amendments thereto.",
         "citation": "65-2836"
       },
       {
         "short_label": "failure_to_inform_breast_abnormality_patient",
-        "description": "Failure to inform in writing a patient with breast tissue abnormality of alternative treatment methods.",
+        "description": "Failure to inform a patient with breast abnormality of alternative treatment methods",
         "quote": "The licensee, if licensed to practice medicine and surgery, has failed to inform in writing a patient suffering from any form of abnormality of the breast tissue for which surgery is a recommended form of treatment, of alternative methods of treatment",
         "citation": "65-2836"
       },
       {
         "short_label": "cheating_on_examination",
-        "description": "Cheating on or attempting to subvert the validity of the examination for a license.",
+        "description": "Cheating on or attempting to subvert the validity of the examination for a license",
         "quote": "The licensee has cheated on or attempted to subvert the validity of the examination for a license.",
         "citation": "65-2836"
       },
       {
         "short_label": "found_mentally_ill_or_incompetent",
-        "description": "Found to be mentally ill, disabled, not guilty by reason of insanity, or incompetent to stand trial by a court.",
+        "description": "Found to be mentally ill, disabled, not guilty by reason of insanity, or incompetent by a court",
         "quote": "The licensee has been found to be mentally ill, disabled, not guilty by reason of insanity, not guilty because the licensee suffers from a mental disease or defect or incompetent to stand trial by a court of competent jurisdiction.",
         "citation": "65-2836"
       },
       {
-        "short_label": "improper_controlled_substance_prescribing",
-        "description": "Prescribing, selling, administering, distributing or giving a controlled substance for other than medically accepted or lawful purposes.",
+        "short_label": "unlawful_prescribing_of_controlled_substance",
+        "description": "Prescribing, selling, administering, or distributing a controlled substance for other than medically accepted or lawful purposes",
         "quote": "The licensee has prescribed, sold, administered, distributed or given a controlled substance to any person for other than medically accepted or lawful purposes.",
         "citation": "65-2836"
       },
       {
         "short_label": "violation_of_federal_controlled_substance_law",
-        "description": "Violation of a federal law or regulation relating to controlled substances.",
+        "description": "Violation of a federal law or regulation relating to controlled substances",
         "quote": "The licensee has violated a federal law or regulation relating to controlled substances.",
         "citation": "65-2836"
       },
       {
-        "short_label": "failure_to_furnish_board_information",
-        "description": "Failure to furnish the board, or its investigators or representatives, any information legally requested by the board.",
+        "short_label": "failure_to_furnish_information_to_board",
+        "description": "Failure to furnish the board any information legally requested",
         "quote": "The licensee has failed to furnish the board, or its investigators or representatives, any information legally requested by the board.",
         "citation": "65-2836"
       },
       {
         "short_label": "sanctions_by_peer_review_or_facility",
-        "description": "Sanctions or disciplinary actions taken by a peer review committee, healthcare facility, governmental agency, or professional association for similar conduct.",
+        "description": "Sanctions or disciplinary actions by a peer review committee, healthcare facility, governmental agency, or professional association",
         "quote": "Sanctions or disciplinary actions have been taken against the licensee by a peer review committee, healthcare facility, a governmental agency or department or a professional association or society for acts or conduct similar to acts or conduct that would constitute grounds for disciplinary action under this section.",
         "citation": "65-2836"
       },
       {
         "short_label": "failure_to_report_adverse_action",
-        "description": "Failure to report to the board any adverse action taken against the licensee by another state, licensing jurisdiction, peer review body, healthcare facility, professional association, governmental agency, law enforcement, or court.",
+        "description": "Failure to report adverse action taken against the licensee by another jurisdiction, peer review body, or facility",
         "quote": "The licensee has failed to report to the board any adverse action taken against the licensee by another state or licensing jurisdiction, a peer review body, a healthcare facility, a professional association or society, a governmental agency, by a law enforcement agency or a court",
         "citation": "65-2836"
       },
       {
-        "short_label": "surrender_under_investigation",
-        "description": "Surrendered a license or authorization, agreed to limitation of privileges, or surrendered membership in a professional association while under investigation.",
+        "short_label": "surrender_of_license_under_investigation",
+        "description": "Surrendering a license or privileges in another state while under investigation",
         "quote": "The licensee has surrendered a license or authorization to practice the healing arts in another state or jurisdiction, has surrendered the authority to utilize controlled substances issued by any state or federal agency, has agreed to a limitation to or restriction of privileges at any medical care facility or has surrendered the licensee's membership on any professional staff or in any professional association or society while under investigation",
         "citation": "65-2836"
       },
       {
         "short_label": "failure_to_report_surrender_under_investigation",
-        "description": "Failure to report to the board surrender of license or membership while under investigation.",
+        "description": "Failure to report to the board the surrender of license or professional membership while under investigation",
         "quote": "The licensee has failed to report to the board surrender of the licensee's license or authorization to practice the healing arts in another state or jurisdiction or surrender of the licensee's membership on any professional staff or in any professional association or society while under investigation",
         "citation": "65-2836"
       },
       {
-        "short_label": "adverse_malpractice_judgment",
-        "description": "Adverse judgment, award or settlement resulting from a medical liability claim related to conduct that would constitute grounds for disciplinary action.",
+        "short_label": "adverse_malpractice_judgment_or_settlement",
+        "description": "Adverse judgment, award, or settlement resulting from a medical liability claim",
         "quote": "The licensee has an adverse judgment, award or settlement against the licensee resulting from a medical liability claim related to acts or conduct similar to acts or conduct that would constitute grounds for disciplinary action under this section.",
         "citation": "65-2836"
       },
       {
         "short_label": "failure_to_report_malpractice_judgment",
-        "description": "Failure to report to the board any adverse judgment, settlement or award resulting from a medical malpractice liability claim.",
-        "quote": "The licensee has failed to report to the board any adverse judgment, settlement or award against the licensee resulting from a medical malpractice liability claim related to acts or conduct similar to acts or conduct that would constitute grounds for disciplinary action under this section.",
+        "description": "Failure to report any adverse malpractice judgment or settlement to the board",
+        "quote": "The licensee has failed to report to the board any adverse judgment, settlement or award against the licensee resulting from a medical malpractice liability claim",
         "citation": "65-2836"
       },
       {
         "short_label": "failure_to_maintain_liability_insurance",
-        "description": "Failure to maintain a policy of professional liability insurance as required by K.S.A. 40-3402 or 40-3403a.",
+        "description": "Failure to maintain a policy of professional liability insurance as required",
         "quote": "The licensee has failed to maintain a policy of professional liability insurance as required by K.S.A. 40-3402 or 40-3403a, and amendments thereto.",
         "citation": "65-2836"
       },
       {
         "short_label": "failure_to_pay_premium_surcharges",
-        "description": "Failure to pay the premium surcharges as required by K.S.A. 40-3404.",
+        "description": "Failure to pay required premium surcharges",
         "quote": "The licensee has failed to pay the premium surcharges as required by K.S.A. 40-3404, and amendments thereto.",
         "citation": "65-2836"
       },
       {
-        "short_label": "fraudulent_claim_submission",
-        "description": "Knowingly submitting any misleading, deceptive, untrue or fraudulent representation on a claim form, bill or statement.",
+        "short_label": "fraudulent_billing",
+        "description": "Knowingly submitting misleading, deceptive, untrue, or fraudulent representation on a claim, bill, or statement",
         "quote": "The licensee has knowingly submitted any misleading, deceptive, untrue or fraudulent representation on a claim form, bill or statement.",
         "citation": "65-2836"
       },
       {
         "short_label": "failure_to_supervise_physician_assistant",
-        "description": "As supervising physician for a physician assistant, failure to adequately direct and supervise the physician assistant.",
+        "description": "As supervising physician, failing to adequately direct and supervise a physician assistant",
         "quote": "The licensee as the supervising physician for a physician assistant has failed to adequately direct and supervise the physician assistant in accordance with the physician assistant licensure act or rules and regulations adopted under such act.",
         "citation": "65-2836"
       },
       {
         "short_label": "assisted_suicide",
-        "description": "Assisted suicide in violation of K.S.A. 21-5407.",
+        "description": "Assisting suicide in violation of K.S.A. 21-5407",
         "quote": "The licensee has assisted suicide in violation of K.S.A. 21-3406, prior to its repeal, or K.S.A. 21-5407, and amendments thereto",
         "citation": "65-2836"
       },
       {
         "short_label": "worthless_check_or_stopped_payment",
-        "description": "Giving a worthless check or stopping payment on a debit or credit card for fees or moneys legally due to the board.",
+        "description": "Giving a worthless check or stopping payment on fees legally due to the board",
         "quote": "The licensee has given a worthless check or stopped payment on a debit or credit card for fees or moneys legally due to the board.",
         "citation": "65-2836"
       },
       {
         "short_label": "abandonment_of_medical_records",
-        "description": "Knowingly or negligently abandoning medical records.",
+        "description": "Knowingly or negligently abandoning medical records",
         "quote": "The licensee has knowingly or negligently abandoned medical records.",
         "citation": "65-2836"
+      },
+      {
+        "short_label": "violation_of_help_not_harm_act",
+        "description": "Violating the Help Not Harm Act (K.S.A. 65-28,137 through 65-28,142)",
+        "quote": "Violating the help not harm act, K.S.A. 2025 Supp. 65-28,137 through 65-28,142, and amendments thereto.",
+        "citation": "65-2837"
       }
     ],
     "alternative_regulation": {
@@ -376,119 +395,87 @@
       },
       {
         "cite": "65-2803",
-        "kind": "scope_protection/license_required"
+        "kind": "license requirement and penalties"
       },
       {
         "cite": "65-2804",
-        "kind": "age_minimum"
+        "kind": "age requirement"
       },
       {
         "cite": "65-2806",
-        "kind": "credential_type"
+        "kind": "form of license"
       },
       {
         "cite": "65-2807",
-        "kind": "license_effect"
+        "kind": "license as presumptive evidence"
       },
       {
         "cite": "65-2809",
-        "kind": "renewal/CE/insurance"
+        "kind": "renewal and continuing education"
       },
       {
         "cite": "65-2811",
-        "kind": "temporary_permits"
+        "kind": "temporary and postgraduate permits"
       },
       {
         "cite": "65-2811a",
-        "kind": "special_permits"
+        "kind": "special permits"
       },
       {
         "cite": "65-2824",
-        "kind": "examination_application"
+        "kind": "examination application"
       },
       {
         "cite": "65-2825",
-        "kind": "accredited_schools"
+        "kind": "accredited schools list"
       },
       {
         "cite": "65-2828",
-        "kind": "exam_rules"
+        "kind": "examination rules and reexamination"
       },
       {
         "cite": "65-2833",
-        "kind": "endorsement/reciprocity"
+        "kind": "endorsement licensure"
       },
       {
         "cite": "65-2836",
-        "kind": "disciplinary_grounds"
+        "kind": "disciplinary grounds"
       },
       {
         "cite": "65-2837",
-        "kind": "disciplinary_definitions"
+        "kind": "disciplinary definitions"
       },
       {
         "cite": "65-2838",
-        "kind": "disciplinary_procedure"
-      },
-      {
-        "cite": "65-2842",
-        "kind": "compelled_exam"
-      },
-      {
-        "cite": "65-2844",
-        "kind": "reinstatement"
-      },
-      {
-        "cite": "65-2867",
-        "kind": "title_protection"
+        "kind": "disciplinary procedure"
       },
       {
         "cite": "65-2873",
-        "kind": "licensure_by_examination"
+        "kind": "licensure by examination prerequisites"
       },
       {
         "cite": "65-2873b",
-        "kind": "resident_active_license"
+        "kind": "resident active license"
       },
       {
         "cite": "65-2874",
-        "kind": "accredited_school_of_medicine"
+        "kind": "accredited medical school definition"
       },
       {
         "cite": "65-2875",
-        "kind": "accredited_school_of_osteopathy"
+        "kind": "accredited osteopathic school definition"
       },
       {
         "cite": "65-2895",
-        "kind": "institutional_license"
-      },
-      {
-        "cite": "65-28,100",
-        "kind": "visiting_professor_license"
-      },
-      {
-        "cite": "65-28,123",
-        "kind": "temporary_education_license"
-      },
-      {
-        "cite": "65-28,124",
-        "kind": "visiting_clinical_professor_license"
-      },
-      {
-        "cite": "65-28,125",
-        "kind": "limited_permit"
+        "kind": "institutional license"
       },
       {
         "cite": "65-28,133",
-        "kind": "interstate_medical_licensure_compact"
+        "kind": "interstate medical licensure compact"
       },
       {
         "cite": "65-28,135",
-        "kind": "telemedicine_waiver"
-      },
-      {
-        "cite": "65-28,136",
-        "kind": "sports_waiver"
+        "kind": "telemedicine waiver"
       }
     ]
   },
@@ -510,62 +497,65 @@
       "citation": "65-2869"
     },
     "drug_authority": {
-      "value": "Persons licensed to practice medicine and surgery may prescribe, order, dispense, administer, sell, supply or give drugs, including controlled substances, subject to restrictions under the uniform controlled substances act and board rules. Amphetamines and sympathomimetic amines in schedules II-IV are restricted to specified indications.",
-      "quote": "It shall be unlawful for any person licensed to practice medicine and surgery to prescribe, order, dispense, administer, sell, supply or give or for a mid-level practitioner as defined in K.S.A. 65-1626, and amendments thereto, to prescribe, administer, supply or give any amphetamine or sympathomimetic amine designated in schedule II, III or IV under the uniform controlled substances act, except as provided in this section.",
-      "citation": "65-2837a"
+      "value": "Physicians licensed to practice medicine and surgery may prescribe and dispense drugs, including controlled substances for medically accepted purposes. A special permit holder may prescribe drugs but not controlled substances.",
+      "quote": "The board shall promulgate all necessary rules and regulations, not inconsistent herewith, for carrying out the provisions of any practice act administered by the board, which rules and regulations shall include standards for the dispensing of drugs by persons licensed to practice medicine and surgery.",
+      "citation": "65-2865"
     },
     "citations": [
       {
         "cite": "65-2802",
-        "kind": "definition"
+        "kind": "definition of healing arts"
       },
       {
         "cite": "65-2869",
-        "kind": "practice_of_medicine_and_surgery"
-      },
-      {
-        "cite": "65-2837a",
-        "kind": "drug_authority_restrictions"
+        "kind": "persons deemed to practice medicine and surgery"
       },
       {
         "cite": "65-2865",
-        "kind": "drug_dispensing_standards"
+        "kind": "drug dispensing authority"
+      },
+      {
+        "cite": "65-2837a",
+        "kind": "amphetamine prescribing restrictions"
       }
     ]
   },
   "profession_specific": {
     "license_status_types": {
       "value": [
-        "active",
-        "exempt",
-        "inactive",
-        "federally active",
-        "reentry active",
-        "resident active",
-        "institutional",
-        "visiting professor temporary",
-        "temporary education",
-        "visiting clinical professor",
-        "limited permit",
+        "active license",
+        "exempt license",
+        "inactive license",
+        "federally active license",
+        "reentry active license",
+        "institutional license",
+        "resident active license",
         "postgraduate permit",
+        "temporary permit",
         "special permit",
-        "telemedicine waiver",
-        "sports waiver"
+        "visiting professor temporary license",
+        "visiting clinical professor license",
+        "limited permit",
+        "temporary education license"
       ],
       "quote": "There is hereby created a designation of an active license... There is hereby created a designation of exempt license... There is hereby created a designation of inactive license... There is hereby created a designation of federally active license... There is hereby created the designation of reentry active license.",
       "citation": "65-2809"
     },
     "foreign_medical_graduate_requirements": {
-      "value": "Foreign medical graduates must pass an examination given by the Educational Commission for Foreign Medical Graduates (ECFMG) in addition to all other licensure requirements. For a postgraduate permit, foreign medical graduates must also have passed the ECFMG examination.",
+      "value": "Foreign medical graduates must pass an examination given by the Educational Commission for Foreign Medical Graduates (ECFMG) in addition to other required examinations. For a postgraduate permit, a foreign medical school graduate must also have passed the ECFMG examination.",
       "quote": "if the applicant is a foreign medical graduate the applicant shall pass an examination given by the educational commission for foreign medical graduates",
       "citation": "65-2873"
     },
-    "postgraduate_training_years_required": null,
+    "postgraduate_training_years_required": {
+      "value": 1,
+      "quote": "has successfully completed at least one year of approved postgraduate training",
+      "citation": "65-2873b"
+    },
     "pain_management_education_required": null,
     "opioid_prescribing_limits": {
-      "value": "Amphetamines and sympathomimetic amines in schedules II-IV may only be prescribed for specified indications (narcolepsy, drug-induced brain dysfunction, ADHD, depression evaluation, treatment-resistant depression, clinical investigation, obesity, binge eating disorder, or other board-approved conditions). The board adopts guidelines for use of controlled substances for treatment of pain.",
-      "quote": "The board shall adopt guidelines for the use of controlled substances for the treatment of pain.",
-      "citation": "65-2838"
+      "value": "Licensees may prescribe amphetamines and sympathomimetic amines designated in Schedule II, III, or IV only for specified medical purposes including narcolepsy, drug-induced brain dysfunction, ADHD, depression, obesity, binge eating disorder, and other board-approved conditions. Prescribing for other than lawful or medically accepted purposes is a disciplinary ground.",
+      "quote": "It shall be unlawful for any person licensed to practice medicine and surgery to prescribe, order, dispense, administer, sell, supply or give or for a mid-level practitioner as defined in K.S.A. 65-1626, and amendments thereto, to prescribe, administer, supply or give any amphetamine or sympathomimetic amine designated in schedule II, III or IV under the uniform controlled substances act, except as provided in this section.",
+      "citation": "65-2837a"
     },
     "controlled_substance_database_registration_required": null,
     "pain_management_clinic_registration_required": null,
@@ -576,7 +566,7 @@
     },
     "telemedicine_license_available": {
       "value": true,
-      "quote": "a physician holding a license issued by the applicable licensing agency of another state or who otherwise meets the requirements of this section may practice telemedicine to treat patients located in the state of Kansas, if such physician receives a telemedicine waiver issued by the state board of healing arts",
+      "quote": "a physician holding a license issued by the applicable licensing agency of another state or who otherwise meets the requirements of this section may practice telemedicine to treat patients located in the state of Kansas, if such physician receives a telemedicine waiver issued by the state board of healing arts.",
       "citation": "65-28,135"
     },
     "interstate_medical_licensure_compact_member": {
@@ -607,7 +597,11 @@
       "quote": "Upon reasonable suspicion that a person's ability to practice such person's profession with reasonable skill and safety to patients is impaired by reason of physical or mental illness, or condition or use of alcohol, drugs or controlled substances, the board shall have authority to compel the person to submit to a mental or physical examination, substance abuse evaluation or drug screen or any combination thereof",
       "citation": "65-2842"
     },
-    "administrative_medicine_license_available": null,
+    "administrative_medicine_license_available": {
+      "value": true,
+      "quote": "Performing administrative functions, including peer review, disability determinations, utilization review and expert opinions",
+      "citation": "65-2809"
+    },
     "locum_tenens_permit_available": null,
     "sexual_misconduct_training_required": null,
     "investigational_drug_protection": null,
@@ -615,7 +609,7 @@
       {
         "item": "Inactive License",
         "status": "present",
-        "quote": "There is hereby created a designation of inactive license. The board is authorized to issue an inactive license to any licensee who makes written application for such license on a form provided by the board",
+        "quote": "There is hereby created a designation of inactive license. The board is authorized to issue an inactive license to any licensee who makes written application for such license on a form provided by the board and remits the fee for an inactive license established pursuant to K.S.A. 65-2852",
         "citation": "65-2809"
       },
       {
@@ -627,31 +621,31 @@
       {
         "item": "Temporary License / Permit",
         "status": "present",
-        "quote": "The board may issue a temporary permit to practice the appropriate branch of the healing arts to any person who has made proper application for a license by endorsement",
+        "quote": "The board may issue a temporary permit to practice the appropriate branch of the healing arts to any person who has made proper application for a license by endorsement, has the required qualifications for such license and has paid the prescribed fees",
         "citation": "65-2811"
       },
       {
         "item": "Restricted License",
-        "status": "absent",
-        "quote": "",
-        "citation": ""
-      },
-      {
-        "item": "Probationary License",
-        "status": "absent",
-        "quote": "",
-        "citation": ""
-      },
-      {
-        "item": "Suspended License",
         "status": "present",
         "quote": "A licensee's license may be revoked, suspended or limited, or the licensee may be publicly censured or placed under probationary conditions",
         "citation": "65-2836"
       },
       {
+        "item": "Probationary License",
+        "status": "present",
+        "quote": "placed under probationary conditions",
+        "citation": "65-2836"
+      },
+      {
+        "item": "Suspended License",
+        "status": "present",
+        "quote": "A licensee's license may be revoked, suspended or limited",
+        "citation": "65-2836"
+      },
+      {
         "item": "Revoked License",
         "status": "present",
-        "quote": "A licensee's license may be revoked, suspended or limited, or the licensee may be publicly censured or placed under probationary conditions",
+        "quote": "A licensee's license may be revoked, suspended or limited",
         "citation": "65-2836"
       },
       {
@@ -663,13 +657,13 @@
       {
         "item": "Academic License",
         "status": "present",
-        "quote": "There is hereby created a designation of visiting professor temporary license which may be issued by the board to a person who holds a degree from an accredited school of medicine or an accredited school of osteopathy; is licensed to practice medicine and surgery in another state, territory, the District of Columbia or another country; and is employed by the university of Kansas school of medicine",
-        "citation": "65-28,100"
+        "quote": "There is hereby created a designation of visiting clinical professor license which may be issued by the board to a person who is qualified for a license for the practice of medicine and surgery on an active basis under the Kansas healing arts act.",
+        "citation": "65-28,124"
       },
       {
         "item": "Volunteer / Charitable License",
         "status": "present",
-        "quote": "There is hereby created a designation of limited permit to practice a branch of the healing arts which may be issued by the board to a person who holds a degree from a healing arts school; is duly licensed and in good standing to practice the same branch of the healing arts in another state, territory, or the District of Columbia... and will provide professional services in this state only as a charitable health care provider",
+        "quote": "There is hereby created a designation of limited permit to practice a branch of the healing arts which may be issued by the board to a person who holds a degree from a healing arts school; is duly licensed and in good standing to practice the same branch of the healing arts in another state, territory, or the District of Columbia...and will provide professional services in this state only as a charitable health care provider",
         "citation": "65-28,125"
       },
       {
@@ -686,9 +680,9 @@
       },
       {
         "item": "Graduate Registered Physician License",
-        "status": "present",
-        "quote": "There is hereby created a resident active license, which may be issued by the board to a person who... has successfully completed at least one year of approved postgraduate training; is engaged in a full-time, approved postgraduate training program",
-        "citation": "65-2873b"
+        "status": "absent",
+        "quote": "",
+        "citation": ""
       },
       {
         "item": "Locum Tenens Permit",
