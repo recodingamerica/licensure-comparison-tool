@@ -48,7 +48,7 @@ STAGE_MODULES = {
 PINNED = {
     "clean":   "646739b0fdf57776",
     "trim":    "95942b5c84784332",
-    "extract": "74062120f6906f39",
+    "extract": "d99a47cb0a096ba5",
     "schema":  "ce3a4fff44437a13",
     "verify":  "023b289280b002a8",
     "mapprep": "9d15d2bb31cc0e10",

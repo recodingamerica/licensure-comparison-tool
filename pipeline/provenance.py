@@ -89,7 +89,7 @@ def _model_for_stage(stage: str) -> str | None:
 # built before these differ in content, so they must not be treated as current. This is
 # what the knob is for: skip-unchanged publishing is only safe if a code change to the
 # stage invalidates its old output.
-CODE_VERSION = {"clean": 1, "trim": 1, "extract": 1,
+CODE_VERSION = {"clean": 1, "trim": 1, "extract": 2,
                 "pull": 1, "schema": 1, "verify": 1, "mapprep": 1, "publish": 2}
 
 PROV_DIR = RESULTS_DIR / "provenance"

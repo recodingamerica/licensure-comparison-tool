@@ -139,10 +139,22 @@ def _scope_field_description(dim: dict) -> str:
         rule = ("For EACH item, status is `present` if this state's statute provides for it, "
                 "else `absent`. Quote verbatim for `present`.")
     else:
-        rule = ("For EACH item, status is `authorized` if the statute permits it, `prohibited` "
-                "if the statute forbids it (including via a broad exclusion/prohibition that covers "
-                "it), or `not_addressed` if the statute is genuinely silent. Quote verbatim for "
-                "`authorized` and `prohibited`.")
+        # Two passes, on purpose. Classifying item-by-item made the model notice a
+        # covering clause ad hoc: re-running the SAME state on the SAME corpus flipped
+        # 45% of not_addressed cells, nearly all of them to authorized/prohibited once it
+        # happened to spot a clause it had missed (issue #123). Finding the category
+        # clauses ONCE, before touching the checklist, is what makes the answer repeatable
+        # — the point is consistency, not permissiveness.
+        rule = ("Work in two passes. FIRST, read the statute for every clause that grants or "
+                "excludes a CATEGORY covering this checklist's subject (e.g. 'surgery', "
+                "'injections', 'the use of lasers', 'controlled substances in schedules ...'). "
+                "THEN classify each item against BOTH the item-level text and those clauses: "
+                "status is `authorized` if the statute names it as permitted or it falls inside a "
+                "category grant you found; `prohibited` if the statute names it as forbidden or it "
+                "falls inside a category exclusion you found; `not_addressed` ONLY if no text names "
+                "it AND none of the clauses from pass one covers it. Quote verbatim for "
+                "`authorized` and `prohibited` — the item's own words where it is named, otherwise "
+                "the exact category clause you relied on.")
     return (f"Scope checklist for '{dim['source_field']}'. Return EXACTLY one entry for each of "
             f"these {n} items, using the item name verbatim: {dim['vocab']}. {rule}")
 
