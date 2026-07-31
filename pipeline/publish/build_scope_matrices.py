@@ -169,12 +169,18 @@ def _list_rows(profession: str, field_name: str, recs: list[tuple[str, dict]]) -
         # covering nine procedures); a quote used for exactly one item named that item.
         # That is a structural fact about the record, not a guess about its wording.
         #
-        # It matters because the two kinds are not equally reliable. Scored against
-        # OPLR's optometry scans, item-specific answers agreed 22/22 (100%) while
-        # category-derived ones agreed 28/43 (65%) — every disagreement we have with
-        # their benchmark is a category answer. A lexical check ("does the quote name
-        # the item") independently found the same split, 100% vs 62%, which is why we
-        # trust the finding even though that first instrument was noisy.
+        # It matters because it predicts DIVERGENCE. Scored against OPLR's optometry
+        # scans, named cells agree 32/32 (100%); category cells agree 14/18 — and all
+        # four disagreements are category reads.
+        #
+        # Be careful what that means. Reading those four, none is an extraction error:
+        # three are Montana, where our quote is Justia's current text and Justia has not
+        # published the 2025 amendment OPLR is reading, and the fourth is Kentucky, where
+        # the statute grants "laser surgery procedures, excluding retina, LASIK, and PRK"
+        # and LPI is simply not on that exclusion list. So this flags where we and a
+        # benchmark are likely to DIFFER — because a category read is where source
+        # currency and literalism bite — not where we are likely to be WRONG. The UI
+        # says "inferred", which is a fact about the quote, and claims nothing further.
         #
         # 76% of optometry's coloured cells are category-derived and today they render
         # identically to statutory fact. The UI needs to be able to say which is which.
