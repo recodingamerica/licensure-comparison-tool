@@ -30,7 +30,13 @@ type Row = {
   // Per-item rows carry the statute behind THAT item, per state. Only states with a
   // quote appear, so a missing key means "no statute" — which is exactly what a grey
   // cell claims. Absent on rows that aren't per-item.
-  evidence?: Record<string, { quote: string; citation: string }>;
+  //
+  // `basis` says HOW we got the answer: "named" = the statute names this procedure,
+  // "category" = it falls under a broader clause we quoted. They are not equally
+  // reliable — against OPLR's benchmark, named answers agreed 100% and category ones
+  // 65% — and 76% of coloured cells are category. Rendering them identically presents
+  // an inference as a statutory fact.
+  evidence?: Record<string, { quote: string; citation: string; basis?: "named" | "category" }>;
 };
 type Data = Record<string, { display: string; rows: Row[] }>;
 
@@ -66,7 +72,11 @@ function cellTitle(state: string, row: Row, value: string | undefined): string {
   const ev = row.evidence?.[state];
   if (ev) {
     const cite = ev.citation ? `${ev.citation} — ` : "";
-    return `${head}\n${cite}“${ev.quote}”`;
+    const how =
+      ev.basis === "category"
+        ? "\n(inferred: this clause covers several procedures, and doesn't name this one)"
+        : "";
+    return `${head}\n${cite}“${ev.quote}”${how}`;
   }
   if (row.evidence) return `${head}\nno statute addresses this`;
   return head;
@@ -125,6 +135,14 @@ export function ScopeMatrixView({ professionId }: { professionId: string }) {
         <span className="inline-flex items-center gap-1.5">
           <span className="inline-block h-3.5 w-3.5 rounded-[3px]" style={{ background: GREY }} />
           not addressed
+        </span>
+        {/* A new visual convention nobody explains is worse than none (#114, #122). */}
+        <span className="inline-flex items-center gap-1.5">
+          <span
+            className="inline-block h-3.5 w-3.5 rounded-[3px]"
+            style={{ background: "transparent", boxShadow: `inset 0 0 0 2px ${TEAL}` }}
+          />
+          hollow = inferred from a broader clause, not named in the statute
         </span>
         <span className="inline-flex items-center gap-1.5">
           <span className="inline-block h-3.5 w-3.5 rounded-[3px]" style={{ background: AMBER }} />
@@ -258,14 +276,25 @@ export function ScopeMatrixView({ professionId }: { professionId: string }) {
                                   : undefined
                               }
                             >
-                              <span
-                                className="mx-auto my-0.5 block h-[15px] w-[15px] rounded-[3px]"
-                                style={{
-                                  background: cellColor(r, v),
-                                  outline: s === FOCUS ? "1.5px solid var(--scope-focus)" : undefined,
-                                  outlineOffset: -1,
-                                }}
-                              />
+                              {(() => {
+                                // Solid = the statute names this procedure. Hollow = we
+                                // read it out of a broader clause. Deliberately NOT a new
+                                // hue — the colour still carries allowed/prohibited, and
+                                // fill-vs-outline survives colourblindness and greyscale.
+                                const inferred = r.evidence?.[s]?.basis === "category";
+                                const c = cellColor(r, v);
+                                return (
+                                  <span
+                                    className="mx-auto my-0.5 block h-[15px] w-[15px] rounded-[3px]"
+                                    style={{
+                                      background: inferred ? "transparent" : c,
+                                      boxShadow: inferred ? `inset 0 0 0 2px ${c}` : undefined,
+                                      outline: s === FOCUS ? "1.5px solid var(--scope-focus)" : undefined,
+                                      outlineOffset: -1,
+                                    }}
+                                  />
+                                );
+                              })()}
                             </td>
                           );
                         })}

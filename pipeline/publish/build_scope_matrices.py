@@ -164,6 +164,50 @@ def _list_rows(profession: str, field_name: str, recs: list[tuple[str, dict]]) -
     lbl = _label(field_name)
 
     if reextracted:
+        # How many items in this state share each quote? A quote attached to several
+        # items IS a category clause ("Surgery of any kind is expressly prohibited"
+        # covering nine procedures); a quote used for exactly one item named that item.
+        # That is a structural fact about the record, not a guess about its wording.
+        #
+        # It matters because the two kinds are not equally reliable. Scored against
+        # OPLR's optometry scans, item-specific answers agreed 22/22 (100%) while
+        # category-derived ones agreed 28/43 (65%) — every disagreement we have with
+        # their benchmark is a category answer. A lexical check ("does the quote name
+        # the item") independently found the same split, 100% vs 62%, which is why we
+        # trust the finding even though that first instrument was noisy.
+        #
+        # 76% of optometry's coloured cells are category-derived and today they render
+        # identically to statutory fact. The UI needs to be able to say which is which.
+        # Reuse ALONE is not enough. An ENUMERATED grant — "Laser capsulotomy, laser
+        # peripheral iridotomy, and laser trabeculoplasty" (CO) — is one quote answering
+        # three items while naming every one of them. Reuse would call that inferred; it
+        # is the opposite, the most explicit form a grant takes.
+        # So a shared quote only counts as a category read when it ALSO fails to name the
+        # item. Neither signal is sufficient by itself: reuse misreads enumerations, and
+        # name-matching alone misreads ranges ("Schedule III through V" covers Schedule IV
+        # without naming it) and compound wording ("pterygium surgery" vs "Pterygium
+        # removal").
+        shared: dict[str, set[str]] = {}
+        for st, rec in recs:
+            counts: dict[str, int] = {}
+            for it in ((rec.get("profession_specific") or {}).get(mf) or []):
+                q = (it.get("quote") or "").strip() if isinstance(it, dict) else ""
+                if q:
+                    counts[q] = counts.get(q, 0) + 1
+            shared[st] = {q for q, n in counts.items() if n > 1}
+
+        aliases = dim.get("aliases") or {}
+
+        def _quote_names(quote: str, item: str) -> bool:
+            """Does this quote name the item, by the vocabulary's own alias list?"""
+            q = quote.lower()
+            for name in [item, *aliases.get(item, [])]:
+                bare = re.sub(r"\(.*?\)", " ", name)          # drop "(PRK)"-style asides
+                toks = [t for t in re.split(r"[^a-z0-9]+", bare.lower()) if len(t) > 3]
+                if toks and all(t in q for t in toks):
+                    return True
+            return False
+
         rows = []
         for item in vocab:
             cells = {}
@@ -182,7 +226,19 @@ def _list_rows(profession: str, field_name: str, recs: list[tuple[str, dict]]) -
                 cells[st] = {"authorized": "included", "prohibited": "excluded"}.get(status, "not_addressed")
                 quote = ((hit or {}).get("quote") or "").strip()
                 if quote:
-                    ev[st] = {"quote": quote, "citation": ((hit or {}).get("citation") or "").strip()}
+                    ev[st] = {
+                        "quote": quote,
+                        "citation": ((hit or {}).get("citation") or "").strip(),
+                        # "category" = the quote answers OTHER items too AND doesn't name
+                        # this one, so we read it as covering rather than naming. Anything
+                        # else — a quote cited for this item alone, or a shared quote that
+                        # does name it (an enumerated grant) — is "named".
+                        "basis": (
+                            "category"
+                            if quote in shared.get(st, ()) and not _quote_names(quote, item)
+                            else "named"
+                        ),
+                    }
             row = {"label": f"{lbl}: {item}", "field": field_name,
                    "kind": "included_excluded", "cells": cells}
             if ev:
