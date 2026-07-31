@@ -1,5 +1,10 @@
 # Re-extract wave — readiness plan (as of 2026-07-31 EOD)
 
+> **OUTCOME (2026-07-31 evening): the full wave was deliberately NOT run.**
+> 136 cells re-extracted for $21.6 of a projected ~$120; the rest left recipe-stale
+> on purpose. Preflight blocker resolved. Read "What actually happened" at the
+> bottom before acting on anything above it — several numbers in this plan are wrong.
+
 Written as a handoff. Everything below is committed; the working tree is clean and
 944 tests pass. Start here, not in the old conversation.
 
@@ -167,3 +172,92 @@ looking worse or bigger than reality:
 **No derived number gets acted on until it has been checked against a case whose answer
 you already know.** Loose mappings and lexical proxies consistently made our data look
 worse than it is; on every occasion the extraction itself held up.
+
+
+---
+
+# What actually happened (2026-07-31 evening)
+
+## The blocker was mis-diagnosed
+
+All 22 NO_TRIMMED cells are hand-verified absences (`config/verified_absences.yaml`,
+shipped Jul 1 in `ad846429`). They already carry the provenance marker this plan
+proposes as new work — `source: verified_absence` + `basis` + `note` — and
+`build_frontend.py:598` / `state-detail-dialog.tsx:402` already badge them. Nothing
+to design.
+
+Group A was the dangerous half, not the mechanical one. 8 of the 22 HAVE a corpus,
+and every one is a non-licensing chapter: KS electrician/hvac/plumbing on chapter-12
+art. 15 (Cities and Municipalities), electrician/NY on labor art. 23 (apprenticeship),
+hvac/NY on GBS art. 36-B (new-home warranty), plumbing/NY on county art. 5,
+plumbing/WY on public-works contracts, and hvac/SD on **Title 36 ch. 26, the Board of
+Social Work Examiners**. Extracting them would have overwritten hand-verified records
+with claims from statutes that do not license the profession — one-way, since
+`apply_verified_absences` never clobbers an extracted record.
+
+Fixed in `c1830dac`: non-blocking `SKIP_ABSENCE` + `drop_skipped()` at both
+`extract_state_batch` gate sites + a skip in `build_state_browse` (that blob ships
+section TEXT, so a trimmed absence cell would file municipal law under the
+profession's name). hvac/SD's corpus deleted in `8bf89912`.
+
+## The cost estimate was wrong — the batch discount was applied twice
+
+`costs.yaml` `extract: 0.15` IS already the batch rate. 648 x 0.15 = $97 is the
+BATCH figure this plan labelled "sync", then halved again to reach "~$49 batch".
+Corroborated by `results/batches/*.json`: the **2026-07-24 full wave ran 577 cells
+across all 13 professions for $86.61 = $0.1501/cell**. Same model
+(`claude-sonnet-4-6`) on all 58 recorded batches.
+
+Runtime was also wrong: ~5-6 min per 50-cell profession, so the whole wave is ~1 h,
+not "2-6 h, tail risk overnight."
+
+## The wave's value is concentrated in ~29 cells, not spread over 626
+
+Free check first — across 127 re-trimmed cells, **2397 new sections exist and only 6%
+are cited by the current extraction**: 2245 sections of law present in the corpus and
+invisible in the published data.
+
+Then measured, not assumed. Gain tracks corpus-growth RATIO, not sections added:
+
+| cell | growth | quote-backed claims |
+|---|---|---|
+| electrician/NV | 145x | 0 -> 43 |
+| plumbing/VA | 44x | 21 -> 36 |
+| professional_engineering/MS | 31x | 13 -> 54 |
+| public_accountancy/WA | 3.3x | 65 -> 69 |
+| podiatry/WA | 3.4x | 36 -> 36 (citations 14 -> 12) |
+| dentistry/WA | 1.5x | 51 -> 53 |
+
+Cells that gained 50 sections at ~3x gained nothing measurable.
+
+## What was run ($21.57 total)
+
+| batch | cells | cost | result |
+|---|---|---|---|
+| optometry (pilot) | 50 | $9.02 | 320 scope cells not_addressed -> determinate vs 18 back; +305 net quote-backed |
+| medicine (calibration) | 50 | $10.45 | net **+8** quote-backed; 416/517 changes are rephrasing |
+| growth-range probe | 10 | $2.10 | established the ratio rule |
+| **starved cells (#118)** | 26 | $3.69 | **claims 302 -> 1136 (+276%), citations 45 -> 386 (+758%)** |
+
+0 errored across all 136. 0 consistency violations in any of them.
+
+## What was deliberately left stale
+
+~470 cells. `CODE_VERSION["extract"]` is 2, so they report stale indefinitely — **by
+choice, not oversight.** Medicine is the evidence: for a profession with no
+`three_state` scope dims, a re-run buys net +8 quote-backed claims per 50 cells while
+416 of 517 value changes are rephrasings ("LCME or COCA" -> "LCME; COCA"). That is
+issue #123's churn as the dominant effect.
+
+Re-running them buys a clean freshness ledger, not better data. If someone wants it
+later it is ~$100 and ~1 h, and preflight now passes on the naive queue unaided.
+
+Still worth doing if revisited: the 3 professions WITH scope dims (nursing,
+electrician; optometry is done) — those get the two-pass rule's real gains.
+
+## Not published
+
+136 cells of improved data are committed but NOT deployed, so
+`test_global_artifacts_fresh` fails on `scope_matrices` / `scorecard` / the cell-by-cell
+check. That failure is accurate — the site is serving pre-re-extract data. It clears on
+`refresh_all --deploy`.
