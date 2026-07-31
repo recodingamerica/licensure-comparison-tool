@@ -313,8 +313,14 @@ function ProfSectionDetail({
             <span className={`w-1.5 h-1.5 rounded-full ${LAYER_DOT[layer]}`} />
             {LAYER_LABEL[layer]}
           </Badge>
+          {/* The base badge is a single-line pill (h-5 / shrink-0 / nowrap). This one
+              carries a full profession list, which ran off the right edge of the page
+              (#120) — let it wrap instead of overflowing. */}
           {section.applies_to && section.applies_to.length > 0 && (
-            <Badge variant="secondary" className="font-mono text-[10px]">
+            <Badge
+              variant="secondary"
+              className="font-mono text-[10px] h-auto max-w-full shrink whitespace-normal text-left"
+            >
               applies to {section.applies_to.map((p) => p.replace(/_/g, " ")).join(", ")}
             </Badge>
           )}

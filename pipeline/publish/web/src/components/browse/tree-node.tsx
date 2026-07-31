@@ -98,8 +98,12 @@ export function TreeNodeView({
             {leaf.applies_to!.map((p) => {
               const s = professionStyle(p);
               return (
+                // Per-badge title: the abbreviation alone ("DEN") doesn't say which
+                // occupation it is, and the container's combined title only appears
+                // when you hover the gap between badges (#120).
                 <span
                   key={p}
+                  title={s.display}
                   className={`text-[9px] font-mono font-semibold px-1.5 py-0.5 rounded ${s.bg} ${s.text} border ${s.border}`}
                 >
                   {s.abbr}

@@ -4,6 +4,7 @@ import { BackLink } from "@/components/ui/back-link";
 import { Eyebrow } from "@/components/ui/eyebrow";
 import { ErrorBanner } from "@/components/ui/error-banner";
 import { useJsonData } from "@/lib/use-json-data";
+import { humanize } from "@/lib/format";
 import { SEMANTIC_CLASSES as SC } from "@/lib/web-colors";
 
 // Shape of `public/data/scorecard.json` — produced by
@@ -16,7 +17,11 @@ type Payload = {
 };
 
 // Display name overrides so the header row reads like Atharv's PDF table
-// rather than our internal snake_case profession keys.
+// rather than our internal snake_case profession keys. This is an OVERRIDE map,
+// not a registry: a profession missing from it falls back to a title-cased key
+// (see professionLabel), so publishing a new one never leaks raw snake_case into
+// the header. It had gone 3 professions stale — architecture, dietetics, and
+// professional_engineering were rendering as literal keys.
 const PROFESSION_LABELS: Record<string, string> = {
   podiatry: "Podiatry",
   nursing: "Nursing",
@@ -28,7 +33,15 @@ const PROFESSION_LABELS: Record<string, string> = {
   electrician: "Electricians",
   plumbing: "Plumbers",
   hvac: "HVAC",
+  architecture: "Architecture",
+  dietetics: "Dietetics",
+  professional_engineering: "Engineers",
 };
+
+/** Override if we have one, else a readable title-cased key — never raw snake_case. */
+function professionLabel(p: string): string {
+  return PROFESSION_LABELS[p] ?? humanize(p).replace(/\b\w/g, (c) => c.toUpperCase());
+}
 
 const SYMBOL_CLASS: Record<string, string> = {
   "✓": SC.permissive.text,
@@ -80,7 +93,7 @@ export default function ScorecardPage() {
                   </th>
                   {data.professions.map((p) => (
                     <th key={p} className="text-center px-4 py-3 font-medium whitespace-nowrap">
-                      {PROFESSION_LABELS[p] ?? p}
+                      {professionLabel(p)}
                     </th>
                   ))}
                 </tr>

@@ -326,7 +326,11 @@ function StateSectionDetail({
             {AUDIENCE_LABEL[audienceKind]}
           </Badge>
           {section.audience === "multi" && section.applies_to && (
-            <Badge variant="secondary" className="font-mono text-[10px]">
+            /* Wraps rather than overflowing — see the same fix in browse-client (#120). */
+            <Badge
+              variant="secondary"
+              className="font-mono text-[10px] h-auto max-w-full shrink whitespace-normal text-left"
+            >
               applies to {section.applies_to.map((p) => p.replace(/_/g, " ")).join(", ")}
             </Badge>
           )}

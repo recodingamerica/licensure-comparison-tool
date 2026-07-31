@@ -95,7 +95,11 @@ export function professionStyle(key: string): ProfessionStyle {
   return {
     ...classes,
     abbr: meta?.abbrev ?? key.slice(0, 3).toUpperCase(),
-    display: meta?.display ?? key.replace(/_/g, " "),
+    // Registry display name when we have one; otherwise a title-cased key. The old
+    // bare replace() produced a lowercase "funeral services" sitting beside a proper
+    // "Dentistry & Dental Hygiene" in the same tooltip row (#120). Professions outside
+    // the published set have no registry entry, so this fallback is common, not rare.
+    display: meta?.display ?? key.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()),
     family: meta?.family ?? null,
     family_label: meta?.family_label ?? null,
   };
