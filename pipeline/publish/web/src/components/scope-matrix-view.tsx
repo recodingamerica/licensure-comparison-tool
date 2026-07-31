@@ -27,6 +27,10 @@ type Row = {
   is_scope: boolean;
   order?: string[];
   excluded_values?: string[];
+  // Per-item rows carry the statute behind THAT item, per state. Only states with a
+  // quote appear, so a missing key means "no statute" — which is exactly what a grey
+  // cell claims. Absent on rows that aren't per-item.
+  evidence?: Record<string, { quote: string; citation: string }>;
 };
 type Data = Record<string, { display: string; rows: Row[] }>;
 
@@ -54,7 +58,18 @@ function cellColor(row: Row, value: string | undefined): string {
 
 function cellTitle(state: string, row: Row, value: string | undefined): string {
   const v = value && value !== "not_addressed" ? value.replace(/_/g, " ") : "not addressed";
-  return `${state} · ${row.label}: ${v}`;
+  const head = `${state} · ${row.label}: ${v}`;
+  // Show the statute behind THIS item, not the parent field's. A grey cell used to
+  // display a neighbouring prohibition quote and a green one showed nothing relevant,
+  // so the panel contradicted the colour (#122). Saying "no statute" out loud is also
+  // the honest reading of grey — silence in the statute, not missing data.
+  const ev = row.evidence?.[state];
+  if (ev) {
+    const cite = ev.citation ? `${ev.citation} — ` : "";
+    return `${head}\n${cite}“${ev.quote}”`;
+  }
+  if (row.evidence) return `${head}\nno statute addresses this`;
+  return head;
 }
 
 export function ScopeMatrixView({ professionId }: { professionId: string }) {

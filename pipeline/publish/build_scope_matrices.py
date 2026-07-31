@@ -167,11 +167,27 @@ def _list_rows(profession: str, field_name: str, recs: list[tuple[str, dict]]) -
         rows = []
         for item in vocab:
             cells = {}
+            # Per-cell evidence. The status is decided per ITEM, but the row only named
+            # its parent field, so the UI had nothing item-level to show and fell back to
+            # the parent's Evidence — which is why a not-addressed cell displayed a
+            # neighbouring prohibition quote and an authorized cell showed nothing
+            # relevant (#122). Carry the item's own quote/citation. Only cells that
+            # actually have a quote get an entry, so "no key" IS "no statute" — the
+            # invariant the Scope view's colours claim (see tests/test_scope_matrix_evidence).
+            ev: dict[str, dict] = {}
             for st, rec in recs:
                 items = (rec.get("profession_specific") or {}).get(mf) or []
-                status = next((it.get("status") for it in items if isinstance(it, dict) and it.get("item") == item), None)
+                hit = next((it for it in items if isinstance(it, dict) and it.get("item") == item), None)
+                status = hit.get("status") if hit else None
                 cells[st] = {"authorized": "included", "prohibited": "excluded"}.get(status, "not_addressed")
-            rows.append({"label": f"{lbl}: {item}", "field": field_name, "kind": "included_excluded", "cells": cells})
+                quote = ((hit or {}).get("quote") or "").strip()
+                if quote:
+                    ev[st] = {"quote": quote, "citation": ((hit or {}).get("citation") or "").strip()}
+            row = {"label": f"{lbl}: {item}", "field": field_name,
+                   "kind": "included_excluded", "cells": cells}
+            if ev:
+                row["evidence"] = ev
+            rows.append(row)
         return rows
 
     # Present/absent against the canonical vocab (no re-extraction needed).
