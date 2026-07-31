@@ -31,12 +31,12 @@
     "post_degree_experience": {
       "required": {
         "value": false,
-        "quote": "Each applicant shall be examined to determine the applicant's (1) ability to understand plans, design specifications, and engineering terms commonly used in the electrical field; (2) knowledge of electrical installations and wiring",
+        "quote": "Each applicant shall be examined to determine the applicant's ability to understand plans, design specifications, and engineering terms commonly used in the electrical field",
         "citation": "08.40.120"
       },
       "experience_source": {
         "value": "none",
-        "quote": "Each applicant shall be examined to determine the applicant's (1) ability to understand plans, design specifications, and engineering terms commonly used in the electrical field",
+        "quote": "Each applicant shall be examined to determine the applicant's ability to understand plans, design specifications, and engineering terms commonly used in the electrical field",
         "citation": "08.40.120"
       },
       "duration": null,
@@ -46,7 +46,7 @@
       {
         "name": "Electrical Administrator Licensing Examination",
         "required": true,
-        "notes": "Tests knowledge of plans, design specifications, electrical installations and wiring, National Electrical Code, National Electrical Safety Code, and other ANSI-approved standards. May be waived if applicant holds equivalent out-of-state license and has passed equivalent examination.",
+        "notes": "Tests ability to understand plans/specs, knowledge of electrical installations, familiarity with National Electrical Code and National Electrical Safety Code, and personal skill. May be waived if applicant holds equivalent license from another state/territory.",
         "jurisdiction": "state (department-administered)",
         "permitted_attempts": null,
         "quote": "A licensing examination shall be offered by the department at least twice during each year at appropriate places in the state.",
@@ -64,7 +64,7 @@
     "continuing_education": {
       "required": {
         "value": true,
-        "quote": "relating to the examination and licensing of electrical administrators and the establishing of the continued competency of an applicant for license renewal and reinstatement.",
+        "quote": "the department shall adopt regulations subject to AS 44.62 (Administrative Procedure Act), relating to the examination and licensing of electrical administrators and the establishing of the continued competency of an applicant for license renewal and reinstatement.",
         "citation": "08.40.050"
       },
       "hours_per_period": null,
@@ -78,7 +78,7 @@
         "citation": "08.40.120"
       },
       "requirements": {
-        "value": "Applicant must hold equivalent license from another state or territory, meet Alaska qualification standards, and have passed an equivalent examination; upon proof, the department waives the Alaska examination.",
+        "value": "Applicant must hold equivalent license from another state or territory, meet qualifications established by the department, and have passed an equivalent examination. Examination is waived upon proof of these conditions.",
         "quote": "the department shall waive all of the examination required under (a) of this section.",
         "citation": "08.40.120"
       }
@@ -115,7 +115,7 @@
     },
     "title_protection": {
       "value": true,
-      "quote": "A person may not act as an electrical administrator in the state without a license issued by the department",
+      "quote": "A person may not act as an electrical administrator in the state without a license issued by the department unless the person is covered by an exclusion under AS 08.40.190.",
       "citation": "08.40.090"
     },
     "scope_protection": {
@@ -125,20 +125,26 @@
     },
     "disciplinary_grounds": [
       {
-        "short_label": "fraudulent_or_misleading_application",
+        "short_label": "fraudulent_license_application",
         "description": "The license application is fraudulent or misleading.",
         "quote": "the license application is fraudulent or misleading",
         "citation": "08.40.170"
       },
       {
-        "short_label": "knowing_violation_of_law_or_regulations",
-        "description": "The licensee has knowingly violated AS 08.40.005\u201308.40.200, minimum electrical standards, or a lawful order or regulation of the department.",
+        "short_label": "knowing_violation_of_statute_or_regulations",
+        "description": "The licensee has knowingly violated the electrical administrator statutes, minimum electrical standards, or a lawful order or regulation of the department.",
         "quote": "the licensee has knowingly violated AS 08.40.005 - 08.40.200, the minimum electrical standards established under AS 18.60.580 - 18.60.590, or a lawful order or regulation of the department",
         "citation": "08.40.170"
       },
       {
-        "short_label": "incompetence_or_fraudulent_practices",
-        "description": "The licensee is incompetent or has engaged in fraudulent practices.",
+        "short_label": "incompetence",
+        "description": "The licensee is incompetent.",
+        "quote": "the licensee is incompetent, or has engaged in fraudulent practices",
+        "citation": "08.40.170"
+      },
+      {
+        "short_label": "fraudulent_practices",
+        "description": "The licensee has engaged in fraudulent practices.",
         "quote": "the licensee is incompetent, or has engaged in fraudulent practices",
         "citation": "08.40.170"
       }
@@ -151,51 +157,63 @@
     "citations": [
       {
         "cite": "08.40.045",
-        "kind": null
+        "kind": "categories of licenses"
       },
       {
         "cite": "08.40.050",
-        "kind": null
+        "kind": "regulations"
       },
       {
         "cite": "08.40.060",
-        "kind": null
+        "kind": "examinations"
       },
       {
         "cite": "08.40.090",
-        "kind": null
+        "kind": "license required"
       },
       {
         "cite": "08.40.120",
-        "kind": null
+        "kind": "examination of applicant"
       },
       {
         "cite": "08.40.130",
-        "kind": null
+        "kind": "administrator limited to one registered contractor"
       },
       {
         "cite": "08.40.135",
-        "kind": null
+        "kind": "renewal and reinstatement"
+      },
+      {
+        "cite": "08.40.140",
+        "kind": "issuance and possession of license"
       },
       {
         "cite": "08.40.170",
-        "kind": null
+        "kind": "disciplinary actions"
       },
       {
         "cite": "08.40.175",
-        "kind": null
+        "kind": "cease and desist order"
+      },
+      {
+        "cite": "08.40.178",
+        "kind": "injunctive relief"
+      },
+      {
+        "cite": "08.40.180",
+        "kind": "violation penalties"
       },
       {
         "cite": "08.40.190",
-        "kind": null
+        "kind": "exclusions"
       },
       {
         "cite": "08.40.195",
-        "kind": null
+        "kind": "personal supervision"
       },
       {
         "cite": "08.40.200",
-        "kind": null
+        "kind": "definitions"
       }
     ]
   },
@@ -207,8 +225,9 @@
     },
     "methods_authorized": {
       "value": [
-        "installing or repairing electrical wiring, conduits, devices, fixtures, equipment, or other electrical materials",
-        "certifying that installation or repair complies with applicable electrical codes"
+        "installing electrical wiring, conduits, devices, fixtures, equipment",
+        "repairing electrical wiring, conduits, devices, fixtures, equipment",
+        "certifying compliance with applicable electrical codes"
       ],
       "quote": "installing or repairing electrical wiring, conduits, devices, fixtures, equipment, or other electrical materials for transmitting, using, or consuming electrical energy",
       "citation": "08.40.200"
@@ -217,11 +236,15 @@
     "citations": [
       {
         "cite": "08.40.200",
-        "kind": null
+        "kind": "definitions"
+      },
+      {
+        "cite": "08.40.090",
+        "kind": "license required"
       },
       {
         "cite": "08.40.195",
-        "kind": null
+        "kind": "personal supervision"
       }
     ]
   },
@@ -238,19 +261,21 @@
     "voltage_limit_residential": null,
     "scope_exclusions": {
       "value": [
-        "Electric utility generation, transmission, and distribution work",
-        "Telephone, signal, and communications system work by utility employees",
-        "Manufacture and repair of electrical apparatus or equipment",
-        "Low-voltage signaling, fire alarm, and intrusion alarm systems",
-        "Television and radio broadcasting system operation, maintenance, and installation",
-        "Elevator control system installation, maintenance, and repair",
-        "Diesel electric engine maintenance and repair on heavy construction equipment",
-        "Water well submersible pump motor and wiring installation",
-        "Homeowner electrical work on owner-occupied residential property",
-        "In-house electrical maintenance and repair by employees of commercial property owner or tenant",
-        "Minor electrical work in small or remote communities below $5,000"
+        "Utility or municipality electrical construction and maintenance for generation and distribution of electrical current (integral part of owned/operated system)",
+        "Installation, operation, maintenance, or repair of telephone, signal, or communication systems by utility employees",
+        "Manufacture, maintenance, or repair of electrical apparatus or equipment",
+        "Electrical work costing not more than $5,000 in communities under 500 population or over 50 miles from licensed electrical administrator",
+        "Electrical installation on residential property owned by installer or immediate family member not intended for sale",
+        "Operation, maintenance, or repair of television or radio broadcasting system and installation of radio broadcasting system under 500 watts input power (except AC power supply and wiring)",
+        "Installation, maintenance, and repair of elevators confined to elevator control system (not including power supply, wiring, and motor connection)",
+        "Operation, maintenance, and repair of telephone and intercommunication facilities",
+        "Installation, maintenance, and repair of fire alarm, intrusion alarm, or other low voltage signaling systems of 48 volts to ground or less",
+        "Maintenance or repair of diesel electric engines on heavy construction equipment",
+        "Installation in a commercial water well of submersible pump motor and wiring to well pump system controls (controls outside building or structure)",
+        "Installation in a noncommercial water well of submersible pump motor and wiring to well pump system controls",
+        "Electrical maintenance or repair work by employee of owner or tenant of commercial property as part of work duties (not offered or performed as service to public)"
       ],
-      "quote": "AS 08.40.005 - 08.40.200 do not apply to a person engaged in (1) the manufacture, maintenance, or repair of electrical apparatus or equipment; (2) electrical work, the cost of which does not exceed $5,000, involving residences or small commercial establishments in communities",
+      "quote": "AS 08.40.005 - 08.40.200 do not apply to any utility or municipality engaged in (1) electrical construction and maintenance of electrical wiring for the generation and distribution of electrical current where the wiring is an integral part of a system owned and operated by that utility or municipal light and power department",
       "citation": "08.40.190"
     },
     "minor_electrical_work_amperage_limit": null,
@@ -292,7 +317,7 @@
     "gas_appliance_work_certification_required": null,
     "small_project_dollar_threshold_exemption": {
       "value": 5000,
-      "quote": "electrical work, the cost of which does not exceed $5,000, involving residences or small commercial establishments in communities",
+      "quote": "electrical work, the cost of which does not exceed $5,000, involving residences or small commercial establishments in communities that (A) have a population of under 500",
       "citation": "08.40.190"
     },
     "solar_panel_electrical_work_exemption": null,
@@ -419,7 +444,7 @@
       {
         "item": "Elevator control system installation, maintenance, and repair",
         "status": "present",
-        "quote": "the installation, maintenance, and repair of elevators so long as the work is performed by an agent or employee of the elevator industry and is confined to the elevator control system",
+        "quote": "the installation, maintenance, and repair of elevators so long as the work is performed by an agent or employee of the elevator industry and is confined to the elevator control system, which system does not include the power supply, wiring, and motor connection",
         "citation": "08.40.190"
       },
       {
@@ -503,7 +528,7 @@
       {
         "item": "Minor or casual work below a monetary threshold",
         "status": "present",
-        "quote": "electrical work, the cost of which does not exceed $5,000, involving residences or small commercial establishments in communities that (A) have a population of under 500 according to the latest available federal or state census or other census approved by the department; or (B) are over 50 miles by air or water transportation from the business place of an electrical administrator",
+        "quote": "electrical work, the cost of which does not exceed $5,000, involving residences or small commercial establishments in communities that (A) have a population of under 500 according to the latest available federal or state census or other census approved by the department; or (B) are over 50 miles by air or water transportation from the business place of an electrical administrator licensed under AS 08.40.005 - 08.40.200",
         "citation": "08.40.190"
       },
       {
